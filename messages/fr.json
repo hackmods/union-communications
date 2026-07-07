@@ -1,0 +1,97 @@
+{
+  "metadata": {
+    "title": "Boîte à outils médias sociaux OPSEU local",
+    "description": "Guides, modèles et outils d'image pour les médias sociaux des sections locales OPSEU"
+  },
+  "nav": {
+    "home": "Accueil",
+    "guide": "Le Plan directeur",
+    "crisis": "Guide de crise",
+    "examples": "Tableau d'affichage",
+    "captions": "Légendes",
+    "assets": "Actifs CAAT",
+    "brandKit": "Trousse de marque",
+    "tools": "Outils",
+    "logoBuilder": "Créateur de logo",
+    "graphicMaker": "Créateur graphique",
+    "resizer": "Redimensionneur",
+    "quoteCard": "Carte de citation",
+    "flyerMaker": "Créateur d'affiche",
+    "altText": "Assistant texte alt",
+    "privacy": "Confidentialité",
+    "accessibility": "Accessibilité"
+  },
+  "common": {
+    "download": "Télécharger",
+    "downloadPng": "Télécharger PNG",
+    "downloadSvg": "Télécharger SVG",
+    "downloadPdf": "Télécharger PDF",
+    "downloadZip": "Télécharger ZIP",
+    "copy": "Copier",
+    "copied": "Copié!",
+    "undo": "Annuler",
+    "redo": "Rétablir",
+    "reset": "Réinitialiser",
+    "next": "Suivant",
+    "back": "Retour",
+    "skip": "Passer pour l'instant",
+    "save": "Enregistrer",
+    "export": "Exporter",
+    "upload": "Téléverser une image",
+    "remove": "Supprimer",
+    "preview": "Aperçu",
+    "learnMore": "En savoir plus",
+    "getStarted": "Commencer",
+    "loading": "Chargement..."
+  },
+  "home": {
+    "title": "Boîte à outils médias sociaux OPSEU local",
+    "subtitle": "Guides professionnels et outils d'image pour les communicateurs bénévoles des sections",
+    "heroCta": "Configurer la marque de votre section",
+    "educationTitle": "Apprendre",
+    "toolsTitle": "Créer",
+    "privacyNote": "Tout le traitement se fait sur votre appareil. Aucune donnée n'est envoyée à un serveur."
+  },
+  "onboarding": {
+    "title": "Configurer la marque de votre section",
+    "step1": "Détails de la section",
+    "step2": "Couleurs",
+    "step3": "Logo",
+    "localNumber": "Numéro de section",
+    "localNumberPlaceholder": "p. ex. 110",
+    "subText": "Sous-texte",
+    "subTextPlaceholder": "p. ex. Personnel de soutien",
+    "division": "Division",
+    "primaryColor": "Couleur principale",
+    "secondaryColor": "Couleur secondaire",
+    "useOfficialLogo": "Utiliser le logo officiel CAAT OPSEU",
+    "uploadCustomLogo": "Téléverser un logo personnalisé",
+    "complete": "Terminer la configuration"
+  },
+  "brandKit": {
+    "title": "Gestionnaire de trousse de marque",
+    "description": "Gérer, exporter et importer les paramètres de marque de votre section",
+    "export": "Exporter la trousse de marque",
+    "import": "Importer la trousse de marque",
+    "importSuccess": "Trousse de marque importée avec succès",
+    "importError": "Fichier de trousse de marque invalide"
+  },
+  "consent": {
+    "title": "Consentement photo du membre",
+    "description": "Avant d'utiliser la photo d'un membre dans des graphiques de médias sociaux, confirmez :",
+    "item1": "Vous avez le consentement écrit ou verbal du membre",
+    "item2": "Le membre comprend que la photo sera publiée publiquement",
+    "item3": "La photo ne contient pas d'informations confidentielles sur le lieu de travail",
+    "confirm": "Je confirme que le consentement a été obtenu",
+    "cancel": "Annuler"
+  },
+  "contrast": {
+    "pass": "Respecte le contraste WCAG AA",
+    "fail": "Ne respecte pas le contraste WCAG AA — ajustez les couleurs pour l'accessibilité",
+    "ratio": "Ratio de contraste : {ratio}:1"
+  },
+  "footer": {
+    "madeBy": "Conçu pour les sections OPSEU par des bénévoles syndicaux",
+    "privacy": "Vos données restent sur votre appareil"
+  }
+}

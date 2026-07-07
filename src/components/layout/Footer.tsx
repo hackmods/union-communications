@@ -1,0 +1,28 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+
+export function Footer() {
+  const t = useTranslations("footer");
+  const nav = useTranslations("nav");
+
+  return (
+    <footer className="mt-auto border-t border-gray-200 bg-white py-8">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 text-sm text-gray-600 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p>{t("madeBy")}</p>
+          <p className="text-opseu-blue">{t("privacy")}</p>
+        </div>
+        <nav className="flex gap-4" aria-label="Footer">
+          <Link href="/privacy" className="hover:text-opseu-blue">
+            {nav("privacy")}
+          </Link>
+          <Link href="/accessibility" className="hover:text-opseu-blue">
+            {nav("accessibility")}
+          </Link>
+        </nav>
+      </div>
+    </footer>
+  );
+}

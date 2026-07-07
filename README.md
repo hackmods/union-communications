@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OPSEU Local Social Media Toolbox
 
-## Getting Started
+A privacy-first web platform for volunteer union executives and communicators. Provides guides, templates, and automated image-generation tools to help OPSEU locals run professional social media accounts.
 
-First, run the development server:
+**Default audience:** CAAT OPSEU Support Staff locals (customizable for other divisions).
+
+## Features
+
+- **Education:** The Blueprint guide, Crisis Comms Playbook, Notice Board examples, Caption library
+- **Tools:** Logo Builder, Graphic Maker, Omnichannel Resizer, Quote Card, Flyer Maker, Alt-Text Assistant
+- **Brand Kit:** Export/import local branding as JSON
+- **CAAT OPSEU Assets:** Official logos, colour swatches, usage guidelines
+- **Bilingual:** Full English and French UI
+- **Privacy:** All processing on-device — no data sent to servers
+
+## Quick start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # static export to out/
+npm run test:unit  # Vitest unit tests
+npm run test:smoke # Playwright smoke tests
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Static export deployable to Vercel, Netlify, or GitHub Pages:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+# Output in out/ directory
+```
 
-## Learn More
+Security headers configured in `vercel.json`.
 
-To learn more about Next.js, take a look at the following resources:
+## Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+  app/[locale]/     # Pages with i18n routing
+  components/       # UI, layout, tools, providers
+  lib/              # Constants, data adapter, export, utils
+  store/            # Zustand brand store
+  hooks/            # useUndoRedo, etc.
+  types/            # Entity types (Local, Division, BrandKit)
+messages/           # en.json, fr.json
+docs/               # PROGRESS.md, DECISIONS.md
+e2e/                # Playwright tests
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built for OPSEU locals by union volunteers.

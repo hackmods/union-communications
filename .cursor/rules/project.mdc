@@ -1,0 +1,41 @@
+---
+description: OPSEU Local Social Media Toolbox project conventions
+globs:
+alwaysApply: true
+---
+
+# OPSEU Social Media Toolbox
+
+## Stack
+- Next.js 16 App Router, TypeScript, Tailwind CSS v4
+- Static export (`output: 'export'`) — no backend in v1
+- next-intl for EN/FR i18n with `[locale]` routing
+- Zustand + localStorage for brand state
+- html-to-image, JSZip, jsPDF for client-side exports
+
+## Architecture
+- All image processing is client-side only (privacy by design)
+- Data access via `DataAdapter` interface — v1 uses `LocalStorageAdapter`
+- Brand kit JSON schema version `1.0`
+- CAAT OPSEU is the default division; brand colours in `src/lib/constants/brand.ts`
+
+## Conventions
+- Use `@/` import alias
+- Client components marked `"use client"`
+- Tool pages use `useUndoRedo` hook for edit history
+- Member photo uploads require `ConsentModal` confirmation
+- Colour pickers must show `ContrastChecker` warnings
+- Commit at end of each milestone with conventional commits
+- Update `docs/PROGRESS.md` after major work
+
+## Testing
+- Unit: Vitest in `src/**/*.test.ts`
+- E2E/Smoke: Playwright in `e2e/` with `@smoke` tag
+- Run `npm run test:unit` and `npm run test:smoke` after major changes
+- axe-core a11y checks in Playwright smoke suite
+
+## Do not
+- Add backend APIs, analytics, or third-party tracking
+- Use `dangerouslySetInnerHTML`
+- Skip consent flow for member photo tools
+- Commit secrets or `.env` files

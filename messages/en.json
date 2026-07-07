@@ -1,0 +1,97 @@
+{
+  "metadata": {
+    "title": "OPSEU Local Social Media Toolbox",
+    "description": "Guides, templates, and image tools for OPSEU local union social media"
+  },
+  "nav": {
+    "home": "Home",
+    "guide": "The Blueprint",
+    "crisis": "Crisis Playbook",
+    "examples": "Notice Board",
+    "captions": "Captions",
+    "assets": "CAAT Assets",
+    "brandKit": "Brand Kit",
+    "tools": "Tools",
+    "logoBuilder": "Logo Builder",
+    "graphicMaker": "Graphic Maker",
+    "resizer": "Resizer",
+    "quoteCard": "Quote Card",
+    "flyerMaker": "Flyer Maker",
+    "altText": "Alt-Text Assistant",
+    "privacy": "Privacy",
+    "accessibility": "Accessibility"
+  },
+  "common": {
+    "download": "Download",
+    "downloadPng": "Download PNG",
+    "downloadSvg": "Download SVG",
+    "downloadPdf": "Download PDF",
+    "downloadZip": "Download ZIP",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "undo": "Undo",
+    "redo": "Redo",
+    "reset": "Reset",
+    "next": "Next",
+    "back": "Back",
+    "skip": "Skip for now",
+    "save": "Save",
+    "export": "Export",
+    "upload": "Upload image",
+    "remove": "Remove",
+    "preview": "Preview",
+    "learnMore": "Learn more",
+    "getStarted": "Get started",
+    "loading": "Loading..."
+  },
+  "home": {
+    "title": "OPSEU Local Social Media Toolbox",
+    "subtitle": "Professional guides and image tools for volunteer union communicators",
+    "heroCta": "Set up your local brand",
+    "educationTitle": "Learn",
+    "toolsTitle": "Create",
+    "privacyNote": "All processing happens on your device. No data is sent to any server."
+  },
+  "onboarding": {
+    "title": "Set up your local brand",
+    "step1": "Local details",
+    "step2": "Colours",
+    "step3": "Logo",
+    "localNumber": "Local number",
+    "localNumberPlaceholder": "e.g. 110",
+    "subText": "Sub-text",
+    "subTextPlaceholder": "e.g. Support Staff",
+    "division": "Division",
+    "primaryColor": "Primary colour",
+    "secondaryColor": "Secondary colour",
+    "useOfficialLogo": "Use CAAT OPSEU official logo",
+    "uploadCustomLogo": "Upload custom logo",
+    "complete": "Finish setup"
+  },
+  "brandKit": {
+    "title": "Brand Kit Manager",
+    "description": "Manage, export, and import your local branding settings",
+    "export": "Export brand kit",
+    "import": "Import brand kit",
+    "importSuccess": "Brand kit imported successfully",
+    "importError": "Invalid brand kit file"
+  },
+  "consent": {
+    "title": "Member photo consent",
+    "description": "Before using a member's photo in social media graphics, confirm:",
+    "item1": "You have written or verbal consent from the member",
+    "item2": "The member understands the photo will be posted publicly",
+    "item3": "The photo does not contain confidential workplace information",
+    "confirm": "I confirm consent has been obtained",
+    "cancel": "Cancel"
+  },
+  "contrast": {
+    "pass": "Passes WCAG AA contrast",
+    "fail": "Fails WCAG AA contrast — adjust colours for accessibility",
+    "ratio": "Contrast ratio: {ratio}:1"
+  },
+  "footer": {
+    "madeBy": "Built for OPSEU locals by union volunteers",
+    "privacy": "Your data stays on your device"
+  }
+}
