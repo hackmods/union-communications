@@ -1,6 +1,6 @@
 "use client";
 
-import { CAAT_OPSEU_COLORS } from "@/lib/constants/brand";
+import { BRAND_COLORS } from "@/lib/constants/brand";
 import { Input } from "@/components/ui/Input";
 import { ContrastChecker } from "./ContrastChecker";
 
@@ -47,11 +47,11 @@ export function ThemePicker({
         type="button"
         className="text-sm text-opseu-blue underline"
         onClick={() => {
-          onPrimaryChange(CAAT_OPSEU_COLORS.primary);
-          onSecondaryChange(CAAT_OPSEU_COLORS.secondary);
+          onPrimaryChange(BRAND_COLORS.primary);
+          onSecondaryChange(BRAND_COLORS.secondary);
         }}
       >
-        Reset to CAAT OPSEU defaults
+        Reset to tenant defaults
       </button>
     </div>
   );

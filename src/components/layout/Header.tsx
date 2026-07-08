@@ -25,6 +25,7 @@ const toolLinks = [
 
 export function Header() {
   const t = useTranslations("nav");
+  const th = useTranslations("hub");
   const pathname = usePathname();
 
   return (
@@ -32,12 +33,21 @@ export function Header() {
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-3">
         <Link href="/" className="flex items-center gap-2 font-bold text-opseu-blue">
           <span className="flex h-8 w-8 items-center justify-center rounded bg-opseu-yellow text-sm text-opseu-dark">
-            OP
+            LU
           </span>
-          <span className="hidden sm:inline">OPSEU Social Toolbox</span>
+          <span className="hidden sm:inline">{th("platformName")}</span>
         </Link>
 
         <nav className="flex flex-wrap items-center gap-1 text-sm" aria-label="Main">
+          <Link
+            href="/app"
+            className={cn(
+              "rounded-md px-2 py-1 font-medium hover:bg-opseu-blue/5",
+              pathname.startsWith("/app") && "bg-opseu-blue/10 text-opseu-blue",
+            )}
+          >
+            {th("hubLink")}
+          </Link>
           {navLinks.map(({ href, key }) => (
             <Link
               key={href}

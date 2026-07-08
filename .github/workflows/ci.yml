@@ -26,8 +26,8 @@ jobs:
       - run: npm run test:unit
 
       - run: npm run build
-
-      - run: npm install -g serve
+        env:
+          AUTH_SECRET: ci-build-secret-not-for-production
 
       - run: npx playwright install --with-deps chromium
 

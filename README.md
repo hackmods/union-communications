@@ -14,11 +14,28 @@ A **multi-union** platform empowering any local union with professional comms to
 
 ```bash
 npm install
+cp .env.example .env.local   # or set AUTH_SECRET manually
 npm run dev        # http://localhost:3000/en
 npm run build
 npm run test:unit
 npm run test:smoke
 ```
+
+Set `AUTH_SECRET` (required for Auth.js in production):
+
+```bash
+openssl rand -base64 32
+```
+
+### Officer Hub (Phase 1)
+
+- `/en/app/login` — demo credentials:
+  - `president@local243.ca` / `demo123` (MFA required)
+  - `stability@local243.ca` / `demo123` (stability committee, MFA required)
+  - `steward@local243.ca` / `demo123` (read-only bumping, MFA required)
+  - `solo@example.ca` / `demo123` (no MFA)
+- `/en/app` — dashboard with module cards
+- `/en/app/mfa` — enter any 6-digit code in dev mode
 
 ## Documentation
 

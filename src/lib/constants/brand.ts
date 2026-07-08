@@ -1,12 +1,22 @@
-/** CAAT OPSEU official brand palette defaults */
-export const CAAT_OPSEU_COLORS = {
-  primary: "#003DA5",
-  secondary: "#FFD200",
-  accent: "#002868",
+import { getDefaultBrandDefaults } from "@/lib/tenant/loader";
+import { DEFAULT_LOCAL_NUMBER } from "@/lib/utils/local";
+
+const defaults = getDefaultBrandDefaults();
+
+/** Platform-neutral brand palette — sourced from active tenant config */
+export const BRAND_COLORS = {
+  primary: defaults.primaryColor,
+  secondary: defaults.secondaryColor,
+  accent: defaults.accentColor,
   white: "#FFFFFF",
   black: "#1A1A1A",
   gray: "#6B7280",
 } as const;
+
+/** @deprecated Use BRAND_COLORS — kept for gradual migration */
+export const CAAT_OPSEU_COLORS = BRAND_COLORS;
+
+export const DEFAULT_ASSET_PACK_PATH = defaults.assetPackPath;
 
 export const DEFAULT_BRAND_KIT = {
   version: "1.0" as const,
@@ -14,13 +24,13 @@ export const DEFAULT_BRAND_KIT = {
     id: "local-default",
     localNumber: "",
     subText: "Support Staff",
-    divisionId: "caat",
+    divisionId: defaults.assetPackPath.includes("caat") ? "caat" : undefined,
   },
-  primaryColor: CAAT_OPSEU_COLORS.primary,
-  secondaryColor: CAAT_OPSEU_COLORS.secondary,
-  accentColor: CAAT_OPSEU_COLORS.accent,
-  useOfficialLogo: true,
-  divisionId: "caat",
+  primaryColor: BRAND_COLORS.primary,
+  secondaryColor: BRAND_COLORS.secondary,
+  accentColor: BRAND_COLORS.accent,
+  useOfficialLogo: defaults.useOfficialLogo,
+  divisionId: defaults.assetPackPath.includes("caat") ? "caat" : undefined,
   updatedAt: new Date().toISOString(),
 };
 
@@ -39,3 +49,5 @@ export const ALLOWED_IMAGE_TYPES = [
   "image/webp",
   "image/svg+xml",
 ] as const;
+
+export { DEFAULT_LOCAL_NUMBER };

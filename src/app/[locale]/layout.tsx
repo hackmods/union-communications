@@ -5,6 +5,7 @@ import { routing } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BrandProvider } from "@/components/providers/BrandProvider";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -30,11 +31,13 @@ export default async function LocaleLayout({
     <html lang={locale} className="h-full">
       <body className="flex min-h-full flex-col antialiased">
         <NextIntlClientProvider messages={messages}>
-          <BrandProvider>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </BrandProvider>
+          <AuthProvider>
+            <BrandProvider>
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </BrandProvider>
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

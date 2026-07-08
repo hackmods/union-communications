@@ -1,6 +1,6 @@
 # Grievance Module
 
-## Status: Phase 2 (planned)
+## Status: Phase 2 MVP (shipped)
 
 Union-agnostic grievance tracking. CA steps and deadlines configured per union/local.
 

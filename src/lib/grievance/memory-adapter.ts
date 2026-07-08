@@ -1,0 +1,218 @@
+import type { GrievanceAdapter } from "./adapter";
+import type {
+  CreateEventInput,
+  CreateGrievanceInput,
+  CreateNoteInput,
+  Grievance,
+  GrievanceEvent,
+  GrievanceListFilters,
+  GrievanceNote,
+  GrievanceWithRelations,
+  UpdateGrievanceInput,
+} from "@/types/grievance";
+
+const grievances: Grievance[] = [
+  {
+    id: "grev-001",
+    unionId: "union-opseu",
+    localId: "local-243",
+    memberPseudonym: "Member A",
+    category: "Contract interpretation",
+    status: "in_progress",
+    currentStep: 1,
+    filedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    assignedStewardId: "user-steward-243",
+    createdById: "user-president-243",
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: "grev-002",
+    unionId: "union-opseu",
+    localId: "local-243",
+    memberPseudonym: "Member B",
+    category: "Discipline",
+    status: "open",
+    currentStep: 2,
+    filedAt: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString(),
+    assignedStewardId: "user-steward-243",
+    createdById: "user-president-243",
+    updatedAt: new Date().toISOString(),
+  },
+];
+
+const events: GrievanceEvent[] = [
+  {
+    id: "evt-001",
+    grievanceId: "grev-001",
+    type: "step_filed",
+    stepNumber: 1,
+    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "evt-002",
+    grievanceId: "grev-002",
+    type: "step_filed",
+    stepNumber: 1,
+    completedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+    createdAt: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "evt-003",
+    grievanceId: "grev-002",
+    type: "escalation",
+    stepNumber: 2,
+    createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+];
+
+const notes: GrievanceNote[] = [
+  {
+    id: "note-001",
+    grievanceId: "grev-001",
+    authorId: "user-steward-243",
+    authorName: "Local 243 Steward",
+    body: "Initial meeting scheduled with member. Awaiting management response.",
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+];
+
+function id(prefix: string): string {
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+export class MemoryGrievanceAdapter implements GrievanceAdapter {
+  async list(filters: GrievanceListFilters): Promise<Grievance[]> {
+    let results = grievances.filter((g) => g.unionId === filters.unionId);
+    if (filters.localId) {
+      results = results.filter((g) => g.localId === filters.localId);
+    }
+    if (filters.assignedStewardId) {
+      results = results.filter(
+        (g) => g.assignedStewardId === filters.assignedStewardId,
+      );
+    }
+    if (filters.status) {
+      results = results.filter((g) => g.status === filters.status);
+    }
+    return results.sort(
+      (a, b) => new Date(b.filedAt).getTime() - new Date(a.filedAt).getTime(),
+    );
+  }
+
+  async getById(id: string): Promise<GrievanceWithRelations | null> {
+    const grievance = grievances.find((g) => g.id === id);
+    if (!grievance) return null;
+    return {
+      grievance,
+      events: events
+        .filter((e) => e.grievanceId === id)
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        ),
+      notes: notes
+        .filter((n) => n.grievanceId === id)
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        ),
+    };
+  }
+
+  async create(
+    input: CreateGrievanceInput,
+    meta: {
+      unionId: string;
+      localId: string;
+      createdById: string;
+      assignedStewardId: string;
+    },
+  ): Promise<GrievanceWithRelations> {
+    const now = new Date().toISOString();
+    const grievance: Grievance = {
+      id: id("grev"),
+      unionId: meta.unionId,
+      localId: meta.localId,
+      memberPseudonym: input.memberPseudonym,
+      category: input.category,
+      status: "open",
+      currentStep: 1,
+      filedAt: input.filedAt,
+      assignedStewardId: meta.assignedStewardId,
+      createdById: meta.createdById,
+      updatedAt: now,
+    };
+    grievances.push(grievance);
+
+    const event: GrievanceEvent = {
+      id: id("evt"),
+      grievanceId: grievance.id,
+      type: "step_filed",
+      stepNumber: 1,
+      createdAt: now,
+    };
+    events.push(event);
+
+    return { grievance, events: [event], notes: [] };
+  }
+
+  async update(
+    grievanceId: string,
+    input: UpdateGrievanceInput,
+  ): Promise<Grievance | null> {
+    const idx = grievances.findIndex((g) => g.id === grievanceId);
+    if (idx === -1) return null;
+
+    const existing = grievances[idx];
+    const updated: Grievance = {
+      ...existing,
+      ...input,
+      resolvedAt:
+        input.resolvedAt === null
+          ? undefined
+          : (input.resolvedAt ?? existing.resolvedAt),
+      updatedAt: new Date().toISOString(),
+    };
+    grievances[idx] = updated;
+    return updated;
+  }
+
+  async addNote(
+    grievanceId: string,
+    input: CreateNoteInput,
+    meta: { authorId: string; authorName: string },
+  ): Promise<GrievanceNote | null> {
+    if (!grievances.some((g) => g.id === grievanceId)) return null;
+    const note: GrievanceNote = {
+      id: id("note"),
+      grievanceId,
+      authorId: meta.authorId,
+      authorName: meta.authorName,
+      body: input.body,
+      createdAt: new Date().toISOString(),
+    };
+    notes.push(note);
+    return note;
+  }
+
+  async addEvent(
+    grievanceId: string,
+    input: CreateEventInput,
+  ): Promise<GrievanceEvent | null> {
+    if (!grievances.some((g) => g.id === grievanceId)) return null;
+    const event: GrievanceEvent = {
+      id: id("evt"),
+      grievanceId,
+      type: input.type,
+      stepNumber: input.stepNumber,
+      dueAt: input.dueAt,
+      completedAt: input.completedAt,
+      note: input.note,
+      createdAt: new Date().toISOString(),
+    };
+    events.push(event);
+    return event;
+  }
+}
+
+export const grievanceStore: GrievanceAdapter = new MemoryGrievanceAdapter();

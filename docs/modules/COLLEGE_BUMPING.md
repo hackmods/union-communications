@@ -1,6 +1,6 @@
 # College Bumping Module
 
-## Status: Phase 3 (planned)
+## Status: Phase 3 MVP (shipped)
 
 **Sector-optional** — enabled per union/division (`enabledModules: ["bumping"]`). Post-secondary colleges only; other unions never see this module.
 

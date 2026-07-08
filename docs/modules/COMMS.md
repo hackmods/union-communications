@@ -2,7 +2,7 @@
 
 ## Status: v1 Shipped
 
-Public-facing social media toolbox. Static export, client-side image generation.
+Public-facing social media toolbox. Server mode (Phase 1+); client-side image generation.
 
 ## Routes
 
@@ -21,11 +21,11 @@ Public-facing social media toolbox. Static export, client-side image generation.
 ## Multi-Union Migration Checklist (Phase 1)
 
 - [ ] Replace hardcoded "OPSEU" / "CAAT" strings with `UnionConfig.name`
-- [ ] Move `CAAT_OPSEU_COLORS` to per-union `brandDefaults`
+- [x] Move `CAAT_OPSEU_COLORS` to per-union `brandDefaults` (`BRAND_COLORS` from tenant loader)
 - [ ] Rename asset pack to `UnionAssetPack` pattern; CAAT pack = reference seed
 - [ ] Extend Brand Kit schema v2: `unionId`, `unionName`, `divisionName`
 - [x] Default local number fallback via `resolveLocalNumber()` (easter egg: 243)
-- [ ] Platform-neutral metadata titles in `messages/*.json`
+- [x] Platform-neutral metadata titles in `messages/*.json`
 
 ## Public vs Authenticated
 

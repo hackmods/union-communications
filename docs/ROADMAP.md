@@ -16,13 +16,13 @@
 - Refactor OPSEU/CAAT strings to tenant config
 - Repo rename: `local-union-hub`
 
-## Phase 2 — Grievance MVP
+## Phase 2 — Grievance MVP — COMPLETE
 - CRUD, timeline, notes, deadlines
 - CAConfig per union
 - Email draft templates
 - Export grievance bundle
 
-## Phase 3 — College Bumping MVP
+## Phase 3 — College Bumping MVP — COMPLETE
 - PDF upload and compare view
 - Committee sessions and notes
 - Sector module flag per union
