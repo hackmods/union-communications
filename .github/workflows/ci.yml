@@ -1,13 +1,16 @@
 name: CI
 
 on:
+  pull_request:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test:
+  test-and-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,21 +20,56 @@ jobs:
           node-version: "20"
           cache: "npm"
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-      - run: npm run lint
+      - name: Lint
+        run: npm run lint
 
-      - run: npm run typecheck
+      - name: Typecheck
+        run: npm run typecheck
 
-      - run: npm run test:unit
+      - name: Unit tests
+        run: npm run test:unit
 
-      - run: npm run build
+      - name: Build
         env:
           AUTH_SECRET: ci-build-secret-not-for-production
+        run: npm run build
 
-      - run: npx playwright install --with-deps chromium
+      - name: Install Playwright browsers
+        run: |
+          # ubuntu-latest ships Microsoft apt feeds that can break `apt update` (NOSPLIT / unsigned).
+          sudo rm -f /etc/apt/sources.list.d/microsoft*.list \
+            /etc/apt/sources.list.d/microsoft*.sources \
+            /etc/apt/sources.list.d/azure-cli* 2>/dev/null || true
+          npx playwright install chromium --with-deps
 
-      - run: npm run test:smoke
+      - name: E2E smoke
+        env:
+          CI: "true"
+          AUTH_SECRET: ci-build-secret-not-for-production
+        run: npm run test:smoke
 
-      - run: npm audit --audit-level=high
+      - name: Docker build smoke
+        run: docker build -f docker/Dockerfile -t union-communications:ci .
+
+      - name: Dependency audit
+        run: npm audit --audit-level=high
         continue-on-error: true
+
+  deploy:
+    needs: test-and-build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger CapRover build
+        env:
+          CAPROVER_WEBHOOK_URL: ${{ secrets.CAPROVER_WEBHOOK_URL }}
+        run: |
+          if [ -z "$CAPROVER_WEBHOOK_URL" ]; then
+            echo "::warning::CAPROVER_WEBHOOK_URL not set — skipping deploy trigger. Set it once the CapRover app exists."
+            exit 0
+          fi
+          curl -fsS -X POST "$CAPROVER_WEBHOOK_URL"
+          echo "CapRover build triggered."
