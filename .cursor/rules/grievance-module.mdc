@@ -1,0 +1,29 @@
+---
+description: Grievance module rules — Phase 2+ only, highly confidential
+globs: src/**/grievance/**
+alwaysApply: false
+---
+
+# Grievance Module (Phase 2+)
+
+**Do not implement until Phase 1 auth shell, MFA, and audit log exist.**
+
+## Confidentiality
+- MFA required for all grievance access
+- Immutable audit log on every view and edit
+- No PII in application logs or error trackers
+- Member identity: pseudonym option; encrypt real names at rest
+
+## Data Rules
+- Every query scoped by `unionId` + `localId`
+- Stewards see only assigned cases unless elevated role
+- CA steps and deadlines from `CAConfig` — never hardcoded OPSEU steps
+- Email drafts only — never auto-send without steward review
+
+## Features Reference
+See `docs/modules/GRIEVANCE.md` and `docs/COMPLIANCE.md`.
+
+## Do Not
+- Build grievance CRUD in Phase 0 or without auth
+- Cross-local or cross-union grievance queries
+- Store attachments without virus scan (Phase 2+)

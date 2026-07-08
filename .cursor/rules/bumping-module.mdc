@@ -1,0 +1,30 @@
+---
+description: College bumping module rules — sector-optional, Phase 3+
+globs: src/**/bumping/**
+alwaysApply: false
+---
+
+# College Bumping Module (Phase 3+)
+
+**Sector-optional** — only enabled when `UnionConfig.enabledModules` includes `"bumping"`.
+
+## Access
+- MFA required
+- `stability_member` and `local_president` — full write
+- `local_steward` — read committee only
+- Hide module entirely for unions without college bumping needs
+
+## PDF Handling
+- Client-side parse where possible for privacy
+- Server store for committee persistence; virus scan on upload
+- Decision log exportable for local records
+
+## Disclaimer
+Comparison checklists assist committee process — not legal advice.
+
+See `docs/modules/COLLEGE_BUMPING.md`.
+
+## Do Not
+- Show bumping nav to non-college unions
+- Mix grievance and bumping data access without separate permissions
+- Auto-decide bumping outcomes in software

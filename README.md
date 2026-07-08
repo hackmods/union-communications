@@ -24,10 +24,11 @@ npm run test:smoke
 
 - [Vision](docs/VISION.md) — multi-union product scope
 - [Architecture](docs/ARCHITECTURE.md) — technical design
-- [Roadmap](docs/ROADMAP.md) — phased delivery
+- [Roadmap](docs/ROADMAP.md) — phased delivery (Phase 0 complete)
 - [RBAC](docs/RBAC.md) — roles and tenancy
 - [Compliance](docs/COMPLIANCE.md) — privacy and AODA
 - [AGENTS.md](AGENTS.md) — Cursor agent guide
+- [Reference tenant seed](seed/reference-tenant-opseu-caat.json) — OPSEU/CAAT first adopter
 
 ## Privacy
 

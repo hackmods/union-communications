@@ -24,12 +24,12 @@ Public-facing social media toolbox. Static export, client-side image generation.
 - [ ] Move `CAAT_OPSEU_COLORS` to per-union `brandDefaults`
 - [ ] Rename asset pack to `UnionAssetPack` pattern; CAAT pack = reference seed
 - [ ] Extend Brand Kit schema v2: `unionId`, `unionName`, `divisionName`
-- [ ] Default local number fallback via `resolveLocalNumber()` (easter egg: 243)
+- [x] Default local number fallback via `resolveLocalNumber()` (easter egg: 243)
 - [ ] Platform-neutral metadata titles in `messages/*.json`
 
 ## Public vs Authenticated
 
-v1:全部 public. Phase 1+: optional premium templates behind login; core tools stay public.
+v1: all public. Phase 1+: optional premium templates behind login; core tools stay public.
 
 ## Key Components
 

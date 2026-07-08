@@ -26,4 +26,34 @@ Separation of duties, immutable audit trail, 7-year retention default, member ph
 
 ## Security Controls
 
-CSP headers, upload validation, Auth.js + MFA (v2), Postgres RLS, `npm audit` in CI, no `dangerouslySetInnerHTML`.
+| Control | v1 | v2+ |
+|---------|----|----|
+| CSP headers | Yes (`vercel.json`) | Yes |
+| File upload validation | Type + size limits | + virus scan |
+| Auth | None (public comms) | Auth.js + MFA |
+| RLS | N/A | Postgres policies |
+| Dependency audit | CI `npm audit` | CI `npm audit` |
+| `dangerouslySetInnerHTML` | Prohibited | Prohibited |
+
+## Breach Response Playbook
+
+1. Detect and contain (revoke tokens, isolate affected tenant)
+2. Assess scope within 24 hours
+3. Notify platform admin immediately
+4. Notify affected union/local within 72 hours (PIPEDA)
+5. Document in audit log; post-mortem within 14 days
+
+## Legal Disclaimer (display in app)
+
+> This tool helps track union processes. It does not provide legal advice. Locals should consult their national representative or legal counsel for grievance and arbitration matters.
+
+## Union Body Standards Reference
+
+| Standard | Module | Requirement |
+|----------|--------|-------------|
+| Ontario LRA | Grievance | Step tracking, timelines, confidentiality |
+| Collective agreement | Grievance | Configurable per-union CA templates |
+| PIPEDA / FIPPA | All with PII | Classification, retention, breach response |
+| AODA WCAG 2.1 AA | All UI | EN/FR, keyboard, contrast, axe-core |
+| Union governance | RBAC | Separation of duties, audit trail |
+| Records retention | Grievance, bumping | 7-year default, configurable export |

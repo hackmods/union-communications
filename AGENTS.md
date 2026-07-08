@@ -10,6 +10,7 @@ Read this first. Multi-union platform; OPSEU/CAAT is reference tenant #1 only.
 4. [`docs/COMPLIANCE.md`](docs/COMPLIANCE.md) — privacy, AODA
 5. [`docs/ROADMAP.md`](docs/ROADMAP.md) — what phase we're in
 6. Module spec for your task: [`docs/modules/`](docs/modules/)
+7. Cursor rules: [`.cursor/rules/platform.mdc`](.cursor/rules/platform.mdc) + per-module rules
 
 ## Phase Constraints
 

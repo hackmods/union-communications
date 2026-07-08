@@ -1,9 +1,11 @@
 # Roadmap
 
-## Phase 0 — Platform Documentation (current)
+## Phase 0 — Platform Documentation — COMPLETE
 - [x] VISION, ARCHITECTURE, RBAC, COMPLIANCE
 - [x] Module specs (COMMS, GRIEVANCE, COLLEGE_BUMPING)
-- [x] DATA_MODELS, AGENTS.md, Cursor rules
+- [x] DATA_MODELS, AGENTS.md
+- [x] Cursor rules split (platform, comms, grievance, bumping)
+- [x] `seed/reference-tenant-opseu-caat.json`
 - [x] ADRs 007–012
 
 ## Phase 1 — Platform Shell

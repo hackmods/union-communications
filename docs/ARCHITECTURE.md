@@ -35,11 +35,21 @@ flowchart LR
 - html-to-image, JSZip, jsPDF (client-side)
 
 ### v2+ (planned)
-- Next.js with API routes (or separate service — TBD)
+- Next.js with API routes (recommended over separate service for solo host)
 - PostgreSQL with Row-Level Security (RLS)
-- Auth.js + credentials/OAuth; MFA for confidential modules
-- S3-compatible object storage for attachments/PDFs
-- Transactional email for follow-up reminders only
+- **Auth.js** + credentials/OAuth for union officer emails; MFA for confidential modules
+- S3-compatible object storage for attachments/PDFs; virus scan on upload
+- Transactional email for follow-up reminders only — no marketing email
+
+### Auth Options (documented for Phase 1 decision)
+
+| Option | Pros | Cons |
+|--------|------|------|
+| Auth.js | Self-hosted, flexible, Next.js native | More setup |
+| Clerk | Fast MFA, org support | Third-party, cost |
+| Supabase Auth | Auth + DB combined | Vendor lock-in |
+
+**Recommendation:** Auth.js + credentials/OAuth for union officer emails.
 
 ## DataAdapter Pattern
 
@@ -80,7 +90,7 @@ Every authenticated row includes:
 }
 ```
 
-Reference seed: OPSEU/CAAT in `seed/reference-tenant-opseu-caat.json` (Phase 1).
+Reference seed: [`seed/reference-tenant-opseu-caat.json`](../seed/reference-tenant-opseu-caat.json) — OPSEU/CAAT example for dev/demo, not runtime default for new signups.
 
 ## Module Registry
 

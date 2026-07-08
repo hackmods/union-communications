@@ -6,6 +6,43 @@ alwaysApply: true
 
 # Local Union Support Hub — Platform Rules
 
-Multi-union by design. Read AGENTS.md and docs/VISION.md first.
-OPSEU/CAAT is reference tenant #1, not a code default.
-Local number fallback: resolveLocalNumber() returns 243 when empty.
+## Product
+Multi-union by design. Read `AGENTS.md` and `docs/VISION.md` before any work.
+OPSEU/CAAT is reference tenant #1 (`seed/reference-tenant-opseu-caat.json`), not a code default.
+
+## Stack (v1)
+- Next.js 16 App Router, TypeScript, Tailwind CSS v4
+- Static export for public comms; API + Postgres in Phase 1+ for hub
+- next-intl EN/FR with `[locale]` routing
+- Zustand + `DataAdapter` (`LocalStorageAdapter` now, `ApiAdapter` later)
+- html-to-image, JSZip, jsPDF for client-side exports
+
+## Multi-Union Principles
+1. No union names in core code — tenant config and seed data only
+2. Every DB query scoped by `unionId`; RLS in Phase 1+
+3. Modules opt-in per union (`enabledModules`)
+4. CA/grievance steps from `CAConfig`, not hardcoded
+5. Brand per-local via Brand Kit; `resolveLocalNumber()` returns 243 when empty
+
+## Phase Gates
+- Phase 0: docs only — no auth, DB, grievance API
+- Phase 1: platform shell — auth, tenant onboarding, module registry
+- Phase 2+: grievance requires MFA + audit log
+
+## Conventions
+- `@/` import alias; `"use client"` where needed
+- Data via `DataAdapter` only — never direct localStorage in tools
+- Commit at milestone end; update `docs/PROGRESS.md`
+- i18n: both `messages/en.json` and `messages/fr.json`
+
+## Testing
+- `npm run test:unit` — Vitest
+- `npm run test:smoke` — Playwright `@smoke`
+- axe-core a11y in smoke suite
+
+## Do Not
+- Cross-union data access
+- Analytics or third-party tracking
+- `dangerouslySetInnerHTML`
+- Build grievance without auth + MFA + audit (Phase 2+)
+- Hardcode OPSEU/CAAT as default for new tenant signups

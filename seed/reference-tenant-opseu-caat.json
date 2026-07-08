@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "description": "Reference tenant seed for OPSEU CAAT division — first adopter, not platform default",
+  "union": {
+    "id": "union-opseu",
+    "name": "OPSEU",
+    "slug": "opseu",
+    "defaultLocale": "en",
+    "enabledModules": ["comms", "grievance", "bumping"]
+  },
+  "division": {
+    "id": "division-caat",
+    "unionId": "union-opseu",
+    "name": "CAAT",
+    "code": "caat",
+    "enabledModules": ["comms", "grievance", "bumping"]
+  },
+  "local": {
+    "id": "local-243",
+    "unionId": "union-opseu",
+    "divisionId": "division-caat",
+    "localNumber": "243",
+    "subText": "Support Staff"
+  },
+  "brandDefaults": {
+    "primaryColor": "#003DA5",
+    "secondaryColor": "#FFD200",
+    "accentColor": "#002868",
+    "useOfficialLogo": true,
+    "assetPackPath": "/assets/caat-opseu/"
+  },
+  "grievanceConfig": {
+    "steps": [
+      { "number": 1, "name": "Step 1", "responseDays": 5 },
+      { "number": 2, "name": "Step 2", "responseDays": 10 },
+      { "number": 3, "name": "Step 3", "responseDays": 15 },
+      { "number": 4, "name": "Arbitration", "responseDays": null }
+    ]
+  },
+  "moduleConfig": {
+    "bumping": {
+      "enabled": true,
+      "label": "College Bumping / Stability Committee"
+    }
+  }
+}

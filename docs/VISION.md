@@ -8,7 +8,7 @@
 
 ## Multi-Union by Design
 
-The platform is **not** built for one union. OPSEU/CAAT is the **first adopter and reference tenant** (see `seed/reference-tenant-opseu-caat.json` when added in Phase 1). Any union can onboard with their own:
+The platform is **not** built for one union. OPSEU/CAAT is the **first adopter and reference tenant** (see [`seed/reference-tenant-opseu-caat.json`](../seed/reference-tenant-opseu-caat.json)). Any union can onboard with their own:
 
 - Branding (colours, logo, local number)
 - Collective agreement grievance step configuration
@@ -66,3 +66,18 @@ This hub fills the gap without replacing national union systems.
 - Zero cross-union data leakage
 - WCAG 2.1 AA + PIPEDA/FIPPA compliance for confidential modules
 - Bilingual EN/FR UI across all modules
+
+## Repo / Naming
+
+- **Recommended rename (Phase 1):** `union-communications` → `local-union-hub`
+- **UI branding:** Platform name is neutral; union name from tenant config after login
+- **v1 code debt:** OPSEU/CAAT strings migrate to tenant config in Phase 1 — see `docs/modules/COMMS.md`
+
+## Multi-Union Design Principles
+
+1. No union names in core code — seed data and tenant config only
+2. Every query tenant-scoped by `unionId`
+3. Modules opt-in per union
+4. CA/grievance steps configurable per union
+5. Brand per-local (Brand Kit)
+6. OPSEU is reference tenant #1 — not privileged in code paths

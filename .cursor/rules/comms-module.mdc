@@ -1,0 +1,27 @@
+---
+description: Comms module conventions (public social media toolbox)
+globs: src/app/**/tools/**,src/components/tools/**,src/lib/export/**
+alwaysApply: false
+---
+
+# Comms Module
+
+## Scope
+Public-facing guides and image generation tools. v1 shipped as static export.
+
+## Rules
+- All image processing client-side (html-to-image, JSZip, jsPDF)
+- Member photo uploads require `ConsentModal` confirmation
+- Colour pickers must show `ContrastChecker` warnings
+- Tool pages use `useUndoRedo` for edit history
+- Display/export local number via `resolveLocalNumber()` from `@/lib/utils/local`
+- Brand state via `useBrandStore` / `DataAdapter`
+
+## Multi-Union Migration (Phase 1)
+Replace hardcoded OPSEU/CAAT strings with tenant `UnionConfig`.
+See `docs/modules/COMMS.md` for migration checklist.
+
+## Do Not
+- Send user data to servers in v1
+- Skip consent flow for member spotlight graphics
+- Hardcode union-specific branding in new components

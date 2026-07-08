@@ -26,12 +26,34 @@ solo_account (parallel — no local required)
 
 ## Hard Rules
 
-1. **No cross-union reads** — ever
-2. **No cross-local reads** except elevated roles with scope
-3. **Module visibility** — API + UI hide disabled modules
-4. **Server-side enforcement** on every route
-5. **MFA required** for grievance and bumping (Phase 2+)
+1. **No cross-union reads** — ever, including `platform_admin` viewing content (requires audited break-glass)
+2. **No cross-local reads** within a union except `local_president`, `union_admin`, `division_admin` with scope
+3. **Grievance assignment** — stewards see only assigned cases unless elevated
+4. **Module visibility** — College Bumping only when `modules.bumping = true` in union/division config
+5. **Server-side enforcement** on every route; UI hiding is secondary
+6. **MFA required** for grievance and bumping modules (Phase 2+)
+
+## Solo Accounts
+
+Small one-off accounts for individual stewards without full local setup:
+
+- Create grievances tagged to `solo_account` user
+- No local branding unless they join a local later
+- Can export data; migrate to local on invite
+
+## Invitation Flow (Phase 1)
+
+1. `union_admin` creates union (or platform admin onboards)
+2. Invites `division_admin` or `local_president` via email
+3. Local president invites stewards and exec
+4. Users accept → role assigned → MFA setup for confidential modules
 
 ## Audit Log
 
-Immutable log on every grievance/bumping access: `userId`, `action`, `resourceId`, `unionId`, `localId`, `timestamp`.
+Immutable log on every grievance/bumping access:
+
+```typescript
+{ userId, action, resourceType, resourceId, unionId, localId, timestamp, ipHash }
+```
+
+No deletes. Retained per `docs/COMPLIANCE.md` retention policy.
