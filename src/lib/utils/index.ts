@@ -1,5 +1,8 @@
-import { clsx, type ClassValue } from "clsx";
+﻿import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { resolveLocalNumber } from "./local";
+
+export { resolveLocalNumber, DEFAULT_LOCAL_NUMBER } from "./local";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -17,8 +20,8 @@ export function formatFilename(
   localNumber: string,
   ext: string,
 ): string {
-  const num = localNumber ? `local-${localNumber}` : "opseu-local";
-  return `${slugify(prefix)}-${num}.${ext}`;
+  const num = resolveLocalNumber(localNumber);
+  return `${slugify(prefix)}-local-${num}.${ext}`;
 }
 
 export async function copyToClipboard(text: string): Promise<boolean> {

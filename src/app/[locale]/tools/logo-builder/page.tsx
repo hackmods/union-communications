@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng, exportNodeAsSvg } from "@/lib/export/image-export";
-import { formatFilename } from "@/lib/utils";
+import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -26,7 +26,7 @@ export default function LogoBuilderPage() {
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const initial: LogoState = {
-    localNumber: brandKit.local.localNumber || "110",
+    localNumber: brandKit.local.localNumber,
     subText: brandKit.local.subText || "Support Staff",
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
@@ -114,7 +114,7 @@ export default function LogoBuilderPage() {
               className="text-4xl font-bold"
               style={{ color: state.secondaryColor }}
             >
-              Local {state.localNumber}
+              Local {resolveLocalNumber(state.localNumber)}
             </p>
             <p className="mt-1 text-lg text-white">{state.subText}</p>
           </div>

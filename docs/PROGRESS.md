@@ -1,53 +1,28 @@
 # Progress Log
 
-## Milestone 1 — Scaffold (2026-07-07)
-- [x] Next.js 16 + TypeScript + Tailwind v4 scaffold
-- [x] next-intl EN/FR routing with `[locale]` segment
-- [x] Zustand brand store with localStorage persistence
-- [x] DataAdapter interface + LocalStorageAdapter
-- [x] Base layout, header, footer, language toggle
-- [x] CAAT OPSEU theme tokens and globals.css
-- [x] .cursor/rules/project.mdc
+## Milestone 1–10 — Comms v1 (2026-07-07)
+See earlier entries: scaffold through testing/CI — all complete.
 
-## Milestone 2 — Onboarding & Brand Kit
-- [x] 3-step onboarding wizard
-- [x] Brand Kit Manager with JSON export/import
+## Phase 0 — Platform Documentation (2026-07-08)
 
-## Milestone 3 — Education
-- [x] The Blueprint guide (5 chapters)
-- [x] Crisis Comms Playbook
-- [x] Notice Board filterable gallery
-- [x] Caption & Hashtag library with copy-to-clipboard
+- [x] `docs/VISION.md` — multi-union vision, tenancy hierarchy
+- [x] `docs/ARCHITECTURE.md` — stack evolution, DataAdapter, RLS
+- [x] `docs/RBAC.md` — roles matrix, hard rules
+- [x] `docs/COMPLIANCE.md` — PIPEDA, FIPPA, AODA, security
+- [x] `docs/ROADMAP.md` — phases 0–5
+- [x] `docs/DATA_MODELS.md` — entity reference
+- [x] `docs/modules/COMMS.md`, `GRIEVANCE.md`, `COLLEGE_BUMPING.md`
+- [x] `AGENTS.md` — Cursor agent entry point
+- [x] ADRs 007–012 in `docs/DECISIONS.md`
+- [x] Local 243 easter egg — `resolveLocalNumber()` in `src/lib/utils/local.ts`
 
-## Milestone 4 — Tool Infrastructure
-- [x] html-to-image export engine
-- [x] Image upload with validation
-- [x] Theme picker with WCAG contrast checker
-- [x] Consent modal for member photos
-- [x] Tool presets
-- [x] Undo/redo hook and toolbar
+## Phase 1 — Platform Shell (next)
+- [ ] Auth (Auth.js), MFA scaffold
+- [ ] Multi-union tenant onboarding
+- [ ] Module registry, hub nav
+- [ ] Refactor OPSEU/CAAT to tenant config
+- [ ] Split `.cursor/rules/` (platform, comms, grievance, bumping)
+- [ ] Repo rename: `local-union-hub`
 
-## Milestone 5 — Logo Builder & Assets
-- [x] Local Logo Builder (PNG/SVG export)
-- [x] CAAT OPSEU asset pack page with logo and swatches
-
-## Milestone 6 — Graphic Maker
-- [x] News & Event Graphic Maker with presets, pan/zoom, consent flow
-
-## Milestone 7 — Resizer
-- [x] Omnichannel Resizer with 5 formats and safe-zone overlays
-
-## Milestone 8 — Additional Tools
-- [x] Quote Card Generator
-- [x] Flyer Maker (PNG + PDF)
-- [x] Alt-Text Assistant
-
-## Milestone 9 — Compliance
-- [x] Privacy policy (PIPEDA/FIPPA)
-- [x] AODA accessibility statement
-- [x] Security headers via vercel.json
-
-## Milestone 10 — Testing & CI
-- [x] Vitest unit tests (contrast, validation, utils)
-- [x] Playwright smoke suite with axe-core
-- [x] GitHub Actions CI workflow
+## Phase 2 — Grievance MVP (planned)
+## Phase 3 — College Bumping MVP (planned)

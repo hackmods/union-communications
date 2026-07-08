@@ -1,0 +1,11 @@
+---
+description: Platform-wide conventions for Local Union Support Hub
+globs:
+alwaysApply: true
+---
+
+# Local Union Support Hub — Platform Rules
+
+Multi-union by design. Read AGENTS.md and docs/VISION.md first.
+OPSEU/CAAT is reference tenant #1, not a code default.
+Local number fallback: resolveLocalNumber() returns 243 when empty.

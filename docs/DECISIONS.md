@@ -12,11 +12,11 @@
 **Decision:** Abstract all persistence behind `DataAdapter`. v1 = `LocalStorageAdapter`, v2 = `ApiAdapter`.  
 **Consequences:** Slight indirection now; avoids rewrite when adding backend.
 
-## ADR-003: CAAT OPSEU as default division
-**Status:** Accepted  
+## ADR-003: CAAT OPSEU as reference tenant (updated)
+**Status:** Superseded by ADR-012  
 **Context:** Target audience defaults to OPSEU Support Staff (CAAT division).  
 **Decision:** Default branding, assets, and copy reference CAAT OPSEU. Locals can customize.  
-**Consequences:** Asset pack is CAAT-specific; other divisions customize via Brand Kit.
+**Consequences:** Asset pack is CAAT-specific; migrates to tenant config in Phase 1.
 
 ## ADR-004: html-to-image for graphics export
 **Status:** Accepted  
@@ -35,3 +35,39 @@
 **Context:** Member photos and local branding are sensitive. Ontario privacy law applies.  
 **Decision:** No analytics, cookies, third-party scripts, or network calls for user data.  
 **Consequences:** No usage metrics unless self-hosted opt-in analytics added in v2.
+
+## ADR-007: Central multi-tenant hub with hybrid escape hatch
+**Status:** Accepted  
+**Context:** Long-term hub for locals with optional paranoid-local data mode.  
+**Decision:** Central hosted platform with hybrid encrypted export for sensitive modules.  
+**Consequences:** Comms can stay public; grievance/bumping require auth.
+
+## ADR-008: Postgres + RLS for tenant isolation
+**Status:** Proposed (Phase 1+)  
+**Context:** Multi-union tenancy requires strict data isolation.  
+**Decision:** PostgreSQL with Row-Level Security on `unionId` / `localId`.  
+**Consequences:** Requires backend; static export only for public comms.
+
+## ADR-009: Grievance data highly confidential — MFA + audit mandatory
+**Status:** Proposed (Phase 2+)  
+**Context:** Grievance records contain sensitive member and workplace data.  
+**Decision:** MFA required; immutable audit log on all access.  
+**Consequences:** No grievance module before auth shell ships.
+
+## ADR-010: PDF comparison client-first where possible
+**Status:** Proposed (Phase 3+)  
+**Context:** College bumping module needs PDF compare with privacy.  
+**Decision:** Client-side parse when possible; server store for committee persistence.  
+**Consequences:** Virus scan on server uploads.
+
+## ADR-011: Supersede ADR-001 for authenticated modules
+**Status:** Proposed (Phase 1+)  
+**Context:** Grievance and bumping cannot use static export only.  
+**Decision:** Public comms remains static; authenticated routes use API + DB.  
+**Consequences:** Dual deployment pattern or drop static export for hub routes.
+
+## ADR-012: Multi-union by design
+**Status:** Accepted  
+**Context:** Platform must empower any local, any union — not only OPSEU.  
+**Decision:** Union-agnostic core; OPSEU/CAAT is reference tenant #1 in seed data only.  
+**Consequences:** No union names in core code; `UnionConfig` drives branding and modules.

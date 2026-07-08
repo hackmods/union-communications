@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { contrastRatio, meetsWcagAA, checkContrast } from "@/lib/utils/contrast";
 import { validateImageFile } from "@/lib/utils/validation";
-import { formatFilename, slugify } from "@/lib/utils";
+import { formatFilename, slugify, resolveLocalNumber } from "@/lib/utils";
 
 describe("contrast utilities", () => {
   it("calculates contrast ratio between black and white", () => {
@@ -41,5 +41,15 @@ describe("format utilities", () => {
 
   it("formats filenames with local number", () => {
     expect(formatFilename("logo", "110", "png")).toBe("logo-local-110.png");
+  });
+
+  it("defaults empty local number to 243", () => {
+    expect(resolveLocalNumber("")).toBe("243");
+    expect(resolveLocalNumber("  ")).toBe("243");
+    expect(resolveLocalNumber("110")).toBe("110");
+  });
+
+  it("formats filenames with 243 fallback", () => {
+    expect(formatFilename("logo", "", "png")).toBe("logo-local-243.png");
   });
 });

@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng } from "@/lib/export/image-export";
-import { formatFilename } from "@/lib/utils";
+import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { TOOL_PRESETS, type ToolPresetKey } from "@/lib/constants/presets";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -146,7 +146,7 @@ export default function GraphicMakerPage() {
             <h2 className="text-3xl font-bold text-white">{state.headline}</h2>
             <p className="mt-2 text-lg text-white/90">{state.subheadline}</p>
             <p className="mt-4 text-sm text-white/70">
-              Local {brandKit.local.localNumber} — {brandKit.local.subText}
+              Local {resolveLocalNumber(brandKit.local.localNumber)} — {brandKit.local.subText}
             </p>
           </div>
         </div>

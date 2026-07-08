@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng } from "@/lib/export/image-export";
-import { formatFilename } from "@/lib/utils";
+import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -95,7 +95,7 @@ export default function QuoteCardPage() {
             — {state.author}
           </p>
           <p className="mt-4 text-sm text-white/70">
-            Local {brandKit.local.localNumber}
+            Local {resolveLocalNumber(brandKit.local.localNumber)}
           </p>
         </div>
       </div>

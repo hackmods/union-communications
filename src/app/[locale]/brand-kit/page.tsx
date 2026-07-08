@@ -8,6 +8,7 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import type { BrandKit } from "@/types/entities";
+import { resolveLocalNumber } from "@/lib/utils";
 
 export default function BrandKitPage() {
   const t = useTranslations("brandKit");
@@ -22,7 +23,7 @@ export default function BrandKitPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `brand-kit-local-${brandKit.local.localNumber || "opseu"}.json`;
+    a.download = `brand-kit-local-${resolveLocalNumber(brandKit.local.localNumber)}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };

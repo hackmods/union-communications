@@ -1,54 +1,38 @@
-# OPSEU Local Social Media Toolbox
+# Local Union Support Hub
 
-A privacy-first web platform for volunteer union executives and communicators. Provides guides, templates, and automated image-generation tools to help OPSEU locals run professional social media accounts.
+A **multi-union** platform empowering any local union with professional comms tools, grievance tracking, and sector-specific workflows. OPSEU/CAAT is the first adopter — not a platform default.
 
-**Default audience:** CAAT OPSEU Support Staff locals (customizable for other divisions).
+## Modules
 
-## Features
-
-- **Education:** The Blueprint guide, Crisis Comms Playbook, Notice Board examples, Caption library
-- **Tools:** Logo Builder, Graphic Maker, Omnichannel Resizer, Quote Card, Flyer Maker, Alt-Text Assistant
-- **Brand Kit:** Export/import local branding as JSON
-- **CAAT OPSEU Assets:** Official logos, colour swatches, usage guidelines
-- **Bilingual:** Full English and French UI
-- **Privacy:** All processing on-device — no data sent to servers
+| Module | Status | Description |
+|--------|--------|-------------|
+| **Comms** | v1 shipped | Guides, templates, image generation (static, client-side) |
+| **Grievance** | Phase 2 | Dates, notes, follow-up emails, CA-configurable steps |
+| **College Bumping** | Phase 3 | PDF compare, stability committee notes (sector-optional) |
 
 ## Quick start
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
-npm run build      # static export to out/
-npm run test:unit  # Vitest unit tests
-npm run test:smoke # Playwright smoke tests
-```
-
-## Deployment
-
-Static export deployable to Vercel, Netlify, or GitHub Pages:
-
-```bash
+npm run dev        # http://localhost:3000/en
 npm run build
-# Output in out/ directory
+npm run test:unit
+npm run test:smoke
 ```
 
-Security headers configured in `vercel.json`.
+## Documentation
 
-## Project structure
+- [Vision](docs/VISION.md) — multi-union product scope
+- [Architecture](docs/ARCHITECTURE.md) — technical design
+- [Roadmap](docs/ROADMAP.md) — phased delivery
+- [RBAC](docs/RBAC.md) — roles and tenancy
+- [Compliance](docs/COMPLIANCE.md) — privacy and AODA
+- [AGENTS.md](AGENTS.md) — Cursor agent guide
 
-```
-src/
-  app/[locale]/     # Pages with i18n routing
-  components/       # UI, layout, tools, providers
-  lib/              # Constants, data adapter, export, utils
-  store/            # Zustand brand store
-  hooks/            # useUndoRedo, etc.
-  types/            # Entity types (Local, Division, BrandKit)
-messages/           # en.json, fr.json
-docs/               # PROGRESS.md, DECISIONS.md
-e2e/                # Playwright tests
-```
+## Privacy
 
-## License
+v1 comms: all processing on-device, no data sent to servers. v2+ confidential modules: Canadian hosting, encryption, MFA, audit logs.
 
-Built for OPSEU locals by union volunteers.
+## First adopter
+
+CAAT OPSEU Support Staff — reference tenant seed. Any union can onboard with their own branding and CA configuration.
