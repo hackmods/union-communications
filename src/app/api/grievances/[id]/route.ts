@@ -7,7 +7,7 @@ import {
 } from "@/lib/auth/grievance-session";
 import { grievanceStore } from "@/lib/grievance/memory-adapter";
 import { getTenantContext } from "@/lib/tenant/loader";
-import { getCurrentStepDueDate } from "@/lib/grievance/deadlines";
+import { getCurrentStepDueDate, isOverdue } from "@/lib/grievance/deadlines";
 import type { GrievanceConfig } from "@/types/tenant";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -54,6 +54,10 @@ export async function GET(_request: Request, context: RouteContext) {
   return NextResponse.json({
     ...data,
     dueAt: due?.toISOString() ?? null,
+    isOverdue:
+      due != null &&
+      data.grievance.status !== "resolved" &&
+      isOverdue(due),
     grievanceConfig: config ?? null,
     localNumber: tenant?.local?.localNumber,
   });

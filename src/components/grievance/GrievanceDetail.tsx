@@ -26,6 +26,7 @@ interface GrievanceDetailData {
   events: GrievanceEvent[];
   notes: GrievanceNote[];
   dueAt: string | null;
+  isOverdue: boolean;
   grievanceConfig: GrievanceConfig | null;
   localNumber?: string;
 }
@@ -42,19 +43,36 @@ export function GrievanceDetail({ id }: { id: string }) {
     useState<EmailTemplateId>("step1_meeting");
   const [copied, setCopied] = useState(false);
 
-  const load = useCallback(async () => {
+  const applyDetailData = useCallback((json: GrievanceDetailData) => {
+    setData(json);
+    setLoading(false);
+  }, []);
+
+  const reload = useCallback(async () => {
     const res = await fetch(`/api/grievances/${id}`);
     if (!res.ok) {
       setLoading(false);
       return;
     }
-    setData(await res.json());
-    setLoading(false);
-  }, [id]);
+    applyDetailData(await res.json());
+  }, [applyDetailData, id]);
 
   useEffect(() => {
-    void load();
-  }, [load]);
+    let cancelled = false;
+    fetch(`/api/grievances/${id}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json: GrievanceDetailData | null) => {
+        if (cancelled) return;
+        if (!json) {
+          setLoading(false);
+          return;
+        }
+        applyDetailData(json);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [applyDetailData, id]);
 
   async function addNote(e: React.FormEvent) {
     e.preventDefault();
@@ -67,7 +85,7 @@ export function GrievanceDetail({ id }: { id: string }) {
     });
     if (res.ok) {
       setNoteBody("");
-      await load();
+      await reload();
     }
     setSavingNote(false);
   }
@@ -100,7 +118,7 @@ export function GrievanceDetail({ id }: { id: string }) {
         resolvedAt: status === "resolved" ? new Date().toISOString() : null,
       }),
     });
-    await load();
+    await reload();
   }
 
   async function escalateStep(step: number) {
@@ -109,7 +127,7 @@ export function GrievanceDetail({ id }: { id: string }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ currentStep: step, status: "escalated" }),
     });
-    await load();
+    await reload();
   }
 
   async function exportBundle() {
@@ -146,9 +164,7 @@ export function GrievanceDetail({ id }: { id: string }) {
   if (loading) return <p className="text-gray-600">{t("loading")}</p>;
   if (!data) return <p className="text-red-600">{t("notFound")}</p>;
 
-  const { grievance, events, notes, dueAt, grievanceConfig } = data;
-  const isOverdue =
-    dueAt && new Date(dueAt).getTime() < Date.now() && grievance.status !== "resolved";
+  const { grievance, events, notes, dueAt, isOverdue, grievanceConfig } = data;
 
   return (
     <div>

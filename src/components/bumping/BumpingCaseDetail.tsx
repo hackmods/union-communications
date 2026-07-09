@@ -39,13 +39,7 @@ export function BumpingCaseDetail({
   const [decisionRationale, setDecisionRationale] = useState("");
   const [decisionDissent, setDecisionDissent] = useState("");
 
-  const load = useCallback(async () => {
-    const res = await fetch(`/api/bumping/cases/${id}`);
-    if (!res.ok) {
-      setLoading(false);
-      return;
-    }
-    const json = await res.json();
+  const applyCaseData = useCallback((json: BumpingCaseWithRelations) => {
     setData(json);
     if (json.decision) {
       setDecisionOutcome(json.decision.outcome);
@@ -53,11 +47,33 @@ export function BumpingCaseDetail({
       setDecisionDissent(json.decision.dissentNotes ?? "");
     }
     setLoading(false);
-  }, [id]);
+  }, []);
+
+  const reload = useCallback(async () => {
+    const res = await fetch(`/api/bumping/cases/${id}`);
+    if (!res.ok) {
+      setLoading(false);
+      return;
+    }
+    applyCaseData(await res.json());
+  }, [applyCaseData, id]);
 
   useEffect(() => {
-    void load();
-  }, [load]);
+    let cancelled = false;
+    fetch(`/api/bumping/cases/${id}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json: BumpingCaseWithRelations | null) => {
+        if (cancelled) return;
+        if (!json) {
+          setLoading(false);
+          return;
+        }
+        applyCaseData(json);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [applyCaseData, id]);
 
   async function updateChecklist(itemId: string, value: boolean) {
     if (!data || !canWrite) return;
@@ -70,7 +86,7 @@ export function BumpingCaseDetail({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ checklist, status: "in_review" }),
     });
-    await load();
+    await reload();
   }
 
   async function addNote(e: React.FormEvent) {
@@ -82,7 +98,7 @@ export function BumpingCaseDetail({
       body: JSON.stringify({ body: noteBody }),
     });
     setNoteBody("");
-    await load();
+    await reload();
   }
 
   async function addSession(e: React.FormEvent) {
@@ -103,7 +119,7 @@ export function BumpingCaseDetail({
     setSessionDate("");
     setSessionAgenda("");
     setSessionAttendees("");
-    await load();
+    await reload();
   }
 
   async function recordDecision(e: React.FormEvent) {
@@ -117,7 +133,7 @@ export function BumpingCaseDetail({
         dissentNotes: decisionDissent || undefined,
       }),
     });
-    await load();
+    await reload();
   }
 
   async function exportBundle() {
