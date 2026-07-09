@@ -62,7 +62,16 @@ jobs:
     needs: test-and-build
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sync main branch for CapRover
+        run: git push origin HEAD:main
+
       - name: Trigger CapRover build
         env:
           CAPROVER_WEBHOOK_URL: ${{ secrets.CAPROVER_WEBHOOK_URL }}
