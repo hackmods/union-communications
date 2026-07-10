@@ -6,7 +6,7 @@
   "nav": {
     "home": "Home",
     "guide": "The Blueprint",
-    "crisis": "Crisis Playbook",
+    "strikeGuide": "Strike Guide",
     "examples": "Notice Board",
     "captions": "Captions",
     "assets": "CAAT Assets",
@@ -101,9 +101,131 @@
     "fail": "Fails WCAG AA contrast — adjust colours for accessibility",
     "ratio": "Contrast ratio: {ratio}:1"
   },
+  "crisisGuide": {
+    "title": "Strike & Crisis Comms Guide",
+    "subtitle": "High-level guidance for CAAT OPSEU locals during strikes, bargaining, and workplace crises",
+    "backToGuide": "Back to The Blueprint",
+    "intro": "OPSEU/SEFPO provides sector-level bargaining support, but locals run their own member communications — especially on social media. This guide helps volunteer comms leads stay coordinated, lawful, and member-centred when stakes are high. Always defer to your local executive, OPSEU servicing rep, and any active strike or bargaining protocols.",
+    "scenarios": {
+      "strike": {
+        "title": "Strike action",
+        "items": [
+          "Confirm all public messaging with your local president and OPSEU servicing rep before posting",
+          "Designate one or two spokespersons — members and media should hear one consistent local voice",
+          "Post daily picket schedules, gate locations, and safety reminders using branded graphics from this toolbox",
+          "Share solidarity and member stories with consent — never post photos without permission",
+          "Use OPSEU blue branding; follow CAAT Support campaign materials when coordinating with division",
+          "Do not share negotiation details, member home addresses, or internal strategy on public channels",
+          "Direct questions about pay, duties, and return-to-work to the local strike committee — not comment threads"
+        ]
+      },
+      "bargaining": {
+        "title": "Bargaining and countdown",
+        "items": [
+          "Build momentum with factual updates — job security, workload, wages, and member priorities",
+          "Use consistent hashtags and graphics so members recognize official local posts",
+          "Encourage members to wear OPSEU blue and attend information meetings — post times and locations early",
+          "Share only what the bargaining team has approved for public release",
+          "Remind members to avoid debating management claims in public comment sections",
+          "Link to OPSEU/CAAT bargaining pages when available rather than paraphrasing from memory"
+        ]
+      },
+      "layoffs": {
+        "title": "Layoffs and restructuring",
+        "items": [
+          "Acknowledge member anxiety — be empathetic, factual, and calm",
+          "Direct affected members to stewards, OPSEU servicing reps, and EAP resources",
+          "Do not speculate about outcomes — share only confirmed local and employer statements",
+          "Use quote cards from elected leaders to show a unified local voice",
+          "Document management communications offline for grievance and consultation records",
+          "Avoid naming individuals at risk unless they have asked to be identified publicly"
+        ]
+      },
+      "management": {
+        "title": "Management pushback and misinformation",
+        "items": [
+          "Respond with facts and collective agreement language — never personal attacks",
+          "If management posts misinformation, publish one brief correction and pin it if needed",
+          "Escalate harassment, threats, or surveillance concerns to your OPSEU rep immediately",
+          "Do not engage in prolonged public arguments with management accounts",
+          "Keep sensitive member issues in steward channels, not public posts",
+          "Screenshot problematic employer posts for the local executive and servicing rep"
+        ]
+      }
+    },
+    "escalation": {
+      "title": "When to escalate",
+      "items": [
+        "Media inquiries — route to your designated spokesperson or OPSEU communications",
+        "Legal threats, injunctions, or employer letters about conduct — executive and servicing rep immediately",
+        "Member safety incidents on the line or in the workplace — follow local emergency protocols first",
+        "Leaked confidential documents or suspected bad-faith bargaining — do not post; alert leadership",
+        "Viral misinformation about your local — coordinate a single correction rather than multiple replies"
+      ]
+    },
+    "tools": {
+      "title": "Toolbox resources for crisis comms",
+      "description": "Use these on-device tools to keep visuals consistent when your local is under pressure:",
+      "items": [
+        "Brand Kit — local number, colours, and logo ready for fast graphics",
+        "Flyer Maker and Quote Card — leadership statements and picket updates",
+        "Graphic Maker — member spotlights with consent flow",
+        "Captions library — pre-written solidarity and bargaining posts"
+      ]
+    }
+  },
   "footer": {
     "madeBy": "Built for union locals by union volunteers",
     "privacy": "Your data stays on your device"
+  },
+  "accessibility": {
+    "title": "Accessibility Statement",
+    "subtitle": "AODA / WCAG 2.1 Level AA commitment",
+    "skipLink": "Skip to main content",
+    "commitment": {
+      "title": "Our commitment",
+      "body": "The Local Union Support Hub is committed to ensuring digital accessibility for all members, including those with disabilities. We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA and the Accessibility for Ontarians with Disabilities Act (AODA)."
+    },
+    "features": {
+      "title": "Accessibility features",
+      "semanticHtml": "Semantic HTML with proper heading hierarchy",
+      "keyboardNav": "Keyboard navigation support throughout",
+      "focusIndicators": "Visible focus indicators on all interactive elements",
+      "contrast": "Colour contrast checked against WCAG AA standards",
+      "altText": "Alt-text on all informational images",
+      "reducedMotion": "Reduced motion support via system settings and user preference",
+      "bilingual": "English and French language options",
+      "displaySettings": "Adjustable font size, high contrast, and reduced motion settings",
+      "skipLink": "Skip link to jump directly to main content",
+      "altTextTool": "Alt-Text Assistant tool to help create accessible social media posts"
+    },
+    "limitations": {
+      "title": "Known limitations",
+      "body": "Canvas-based image preview areas may not be fully accessible to screen reader users and may not reflect high-contrast display settings. All inputs that control the preview are accessible via standard form controls. Exported images should include alt-text added via the Alt-Text Assistant."
+    },
+    "feedback": {
+      "title": "Feedback",
+      "body": "If you encounter accessibility barriers while using this hub, please contact your local communications chair. We welcome feedback and are committed to continuous improvement."
+    },
+    "display": {
+      "title": "Display settings",
+      "intro": "Customize how the site looks and moves. Your choices are saved on this device.",
+      "menuLabel": "Display",
+      "fontSizeLabel": "Text size",
+      "fontSizeDescription": "Choose a comfortable reading size. All text scales proportionally.",
+      "fontSize": {
+        "default": "Default (16px)",
+        "large": "Large (18px)",
+        "larger": "Larger (20px)",
+        "maximum": "Maximum (24px)"
+      },
+      "highContrastLabel": "High contrast",
+      "highContrastDescription": "Stronger text and border contrast for easier reading.",
+      "reducedMotionLabel": "Reduce motion",
+      "reducedMotionDescription": "Minimize animations and transitions, regardless of system settings.",
+      "previewLabel": "Preview",
+      "previewText": "The quick brown fox jumps over the lazy dog. Your local union deserves tools that work for everyone."
+    }
   },
   "hub": {
     "platformName": "Local Union Support Hub",

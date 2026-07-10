@@ -127,10 +127,12 @@ export default function GraphicMakerPage() {
           style={{ backgroundColor: brandKit.primaryColor }}
         >
           {state.photoUrl && (
-            <img
+            <Image
               src={state.photoUrl}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover opacity-40"
+              fill
+              unoptimized
+              className="object-cover opacity-40"
               style={{ transform: `scale(${state.photoScale})` }}
             />
           )}

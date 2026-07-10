@@ -1,5 +1,6 @@
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Card, CardTitle } from "@/components/ui/Card";
+import { DisplaySettings } from "@/components/accessibility/DisplaySettings";
 
 export default async function AccessibilityPage({
   params,
@@ -8,53 +9,51 @@ export default async function AccessibilityPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("accessibility");
+
+  const features = [
+    t("features.semanticHtml"),
+    t("features.keyboardNav"),
+    t("features.focusIndicators"),
+    t("features.contrast"),
+    t("features.altText"),
+    t("features.reducedMotion"),
+    t("features.bilingual"),
+    t("features.displaySettings"),
+    t("features.skipLink"),
+    t("features.altTextTool"),
+  ];
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">Accessibility Statement</h1>
-      <p className="mt-2 text-sm text-gray-500">AODA / WCAG 2.1 Level AA commitment</p>
+      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
+      <p className="mt-2 text-base text-gray-500">{t("subtitle")}</p>
 
       <div className="mt-8 space-y-6">
+        <DisplaySettings />
+
         <Card>
-          <CardTitle>Our commitment</CardTitle>
-          <p className="mt-3 text-gray-700">
-            The OPSEU Local Social Media Toolbox is committed to ensuring digital accessibility
-            for all members, including those with disabilities. We aim to conform to the
-            Web Content Accessibility Guidelines (WCAG) 2.1 Level AA and the Accessibility
-            for Ontarians with Disabilities Act (AODA).
-          </p>
+          <CardTitle>{t("commitment.title")}</CardTitle>
+          <p className="mt-3 text-gray-700">{t("commitment.body")}</p>
         </Card>
 
         <Card>
-          <CardTitle>Accessibility features</CardTitle>
+          <CardTitle>{t("features.title")}</CardTitle>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-            <li>Semantic HTML with proper heading hierarchy</li>
-            <li>Keyboard navigation support throughout</li>
-            <li>Visible focus indicators on all interactive elements</li>
-            <li>Colour contrast checked against WCAG AA standards</li>
-            <li>Alt-text on all informational images</li>
-            <li>Reduced motion support via prefers-reduced-motion</li>
-            <li>English and French language options</li>
-            <li>Alt-Text Assistant tool to help create accessible social media posts</li>
+            {features.map((feature) => (
+              <li key={feature}>{feature}</li>
+            ))}
           </ul>
         </Card>
 
         <Card>
-          <CardTitle>Known limitations</CardTitle>
-          <p className="mt-3 text-gray-700">
-            Canvas-based image preview areas may not be fully accessible to screen reader
-            users. All inputs that control the preview are accessible via standard form
-            controls. Exported images should include alt-text added via the Alt-Text Assistant.
-          </p>
+          <CardTitle>{t("limitations.title")}</CardTitle>
+          <p className="mt-3 text-gray-700">{t("limitations.body")}</p>
         </Card>
 
         <Card>
-          <CardTitle>Feedback</CardTitle>
-          <p className="mt-3 text-gray-700">
-            If you encounter accessibility barriers while using this toolbox, please contact
-            your local communications chair. We welcome feedback and are committed to
-            continuous improvement.
-          </p>
+          <CardTitle>{t("feedback.title")}</CardTitle>
+          <p className="mt-3 text-gray-700">{t("feedback.body")}</p>
         </Card>
       </div>
     </div>

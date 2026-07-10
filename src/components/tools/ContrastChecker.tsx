@@ -24,15 +24,13 @@ export function ContrastChecker({
     <div
       className={cn(
         "rounded-lg px-3 py-2 text-sm",
-        result.passesAA ? "bg-green-50 text-green-800" : "bg-amber-50 text-amber-900",
+        result.passesAA ? "bg-green-50 text-green-900" : "bg-amber-50 text-amber-950",
         className,
       )}
       role="status"
     >
       <p>{result.passesAA ? t("pass") : t("fail")}</p>
-      <p className="text-xs opacity-80">
-        {t("ratio", { ratio: result.ratio.toFixed(2) })}
-      </p>
+      <p>{t("ratio", { ratio: result.ratio.toFixed(2) })}</p>
     </div>
   );
 }

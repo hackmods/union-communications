@@ -67,3 +67,15 @@ Scaffold through testing/CI — all complete.
 - [ ] Persistent DB storage (memory adapter for MVP)
 
 ## Phase 4 — Hybrid Mode (next)
+
+## Accessibility & Display Settings (2026-07-09) — COMPLETE
+
+- [x] Root `rem` font scaling via `--text-scale` and `data-font-size` attributes
+- [x] User display preferences: font size (4 tiers), high contrast, reduced motion
+- [x] Preferences persisted via DataAdapter (`lunion-user-preferences` key)
+- [x] `PreferencesProvider` + FOUC-prevention inline script
+- [x] Display settings panel on `/accessibility` + header quick-access menu
+- [x] Baseline typography bump: header, footer, language toggle to `text-base`
+- [x] Skip link to `#main-content`; accessibility page i18n (EN/FR, tenant-neutral)
+- [x] Expanded axe smoke coverage (home, guide, accessibility, brand-kit — serious+critical)
+- [x] Unit tests for preferences store and `applyPreferencesToDocument`

@@ -1,3 +1,6 @@
+"use client";
+
+import { useId } from "react";
 import { cn } from "@/lib/utils";
 
 export function Input({
@@ -6,7 +9,8 @@ export function Input({
   id,
   ...props
 }: React.InputHTMLAttributes<HTMLInputElement> & { label?: string }) {
-  const inputId = id ?? props.name;
+  const generatedId = useId();
+  const inputId = id ?? props.name ?? (label ? generatedId : undefined);
   return (
     <div className="space-y-1">
       {label && (
@@ -16,6 +20,7 @@ export function Input({
       )}
       <input
         id={inputId}
+        aria-label={!label ? props["aria-label"] : undefined}
         className={cn(
           "w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-opseu-blue focus:ring-2 focus:ring-opseu-blue/20",
           className,
@@ -32,7 +37,8 @@ export function Textarea({
   id,
   ...props
 }: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label?: string }) {
-  const inputId = id ?? props.name;
+  const generatedId = useId();
+  const inputId = id ?? props.name ?? (label ? generatedId : undefined);
   return (
     <div className="space-y-1">
       {label && (

@@ -12,7 +12,7 @@ export function HomeContent() {
 
   const education = [
     { href: "/guide", title: nav("guide"), desc: "Step-by-step handbook for local social media" },
-    { href: "/guide/crisis", title: nav("crisis"), desc: "Strike, layoffs, and management pushback guidance" },
+    { href: "/guide/crisis", title: nav("strikeGuide"), desc: "OPSEU local strike, bargaining, and crisis comms" },
     { href: "/examples", title: nav("examples"), desc: "Real examples of excellent local union posts" },
     { href: "/captions", title: nav("captions"), desc: "Reusable captions and hashtags" },
     { href: "/assets", title: nav("assets"), desc: "CAAT OPSEU official logos and colours" },

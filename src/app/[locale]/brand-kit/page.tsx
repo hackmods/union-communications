@@ -102,6 +102,7 @@ export default function BrandKitPage() {
           type="file"
           accept="application/json"
           className="sr-only"
+          aria-label={t("import")}
           onChange={handleImport}
         />
         <Button variant="ghost" onClick={resetBrandKit}>

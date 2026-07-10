@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { validateImageFile } from "@/lib/utils/validation";
 import { fileToDataUrl } from "@/lib/utils";
@@ -67,11 +68,15 @@ export function ImageUpload({
         )}
       </div>
       {preview && (
-        <img
-          src={preview}
-          alt=""
-          className="max-h-32 rounded-lg border object-contain"
-        />
+        <div className="relative h-32 w-full max-w-xs">
+          <Image
+            src={preview}
+            alt=""
+            fill
+            unoptimized
+            className="rounded-lg border object-contain"
+          />
+        </div>
       )}
       {error && (
         <p className="text-sm text-red-600" role="alert">

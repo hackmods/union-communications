@@ -3,12 +3,12 @@
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { LanguageToggle } from "./LanguageToggle";
+import { DisplaySettingsMenu } from "./DisplaySettingsMenu";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/guide", key: "guide" },
-  { href: "/guide/crisis", key: "crisis" },
   { href: "/examples", key: "examples" },
   { href: "/captions", key: "captions" },
   { href: "/assets", key: "assets" },
@@ -37,7 +37,7 @@ export function Header() {
           <span className="hidden sm:inline">{th("platformName")}</span>
         </Link>
 
-        <nav className="flex flex-wrap items-center gap-1 text-sm" aria-label="Main">
+        <nav className="flex flex-wrap items-center gap-1 text-base" aria-label="Main">
           <Link
             href="/app"
             className={cn(
@@ -77,6 +77,7 @@ export function Header() {
           </details>
         </nav>
 
+        <DisplaySettingsMenu />
         <LanguageToggle />
       </div>
     </header>

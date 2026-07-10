@@ -6,7 +6,7 @@
   "nav": {
     "home": "Accueil",
     "guide": "Le Plan directeur",
-    "crisis": "Guide de crise",
+    "strikeGuide": "Guide de grève",
     "examples": "Tableau d'affichage",
     "captions": "Légendes",
     "assets": "Actifs CAAT",
@@ -101,9 +101,131 @@
     "fail": "Ne respecte pas le contraste WCAG AA — ajustez les couleurs pour l'accessibilité",
     "ratio": "Ratio de contraste : {ratio}:1"
   },
+  "crisisGuide": {
+    "title": "Guide de communication — grève et crise",
+    "subtitle": "Conseils de haut niveau pour les sections CAAT OPSEU pendant les grèves, la négociation et les crises en milieu de travail",
+    "backToGuide": "Retour au plan directeur",
+    "intro": "Le SEFPO offre un soutien sectoriel à la négociation, mais les sections gèrent leurs propres communications aux membres — surtout sur les médias sociaux. Ce guide aide les responsables bénévoles des communications à rester coordonnés, conformes et centrés sur les membres dans les périodes critiques. Suivez toujours votre exécutif local, votre représentant du SEFPO et les protocoles de grève ou de négociation en vigueur.",
+    "scenarios": {
+      "strike": {
+        "title": "Grève",
+        "items": [
+          "Confirmez tout message public avec votre président(e) de section et votre représentant du SEFPO avant de publier",
+          "Désignez un ou deux porte-parole — les membres et les médias doivent entendre une seule voix locale cohérente",
+          "Publiez quotidiennement les horaires de piquetage, les entrées et les rappels de sécurité avec les graphiques de cette trousse",
+          "Partagez la solidarité et les témoignages des membres avec consentement — ne publiez jamais de photos sans permission",
+          "Utilisez le bleu OPSEU; suivez les matériels de campagne du soutien collégial lors d'une coordination divisionnelle",
+          "Ne partagez pas les détails de négociation, les adresses des membres ni la stratégie interne sur les canaux publics",
+          "Orientez les questions sur la paie, les tâches et le retour au travail vers le comité de grève — pas les fils de commentaires"
+        ]
+      },
+      "bargaining": {
+        "title": "Négociation et compte à rebours",
+        "items": [
+          "Créez de l'élan avec des mises à jour factuelles — sécurité d'emploi, charge de travail, salaires et priorités des membres",
+          "Utilisez des mots-clics et graphiques cohérents pour que les membres reconnaissent les publications officielles",
+          "Encouragez les membres à porter le bleu OPSEU et à assister aux assemblées d'information — publiez les horaires tôt",
+          "Partagez seulement ce que l'équipe de négociation a autorisé pour diffusion publique",
+          "Rappelez aux membres d'éviter de débattre des allégations de l'employeur dans les commentaires publics",
+          "Liez aux pages de négociation OPSEU/CAAT lorsqu'elles existent plutôt que de paraphraser de mémoire"
+        ]
+      },
+      "layoffs": {
+        "title": "Mises à pied et restructuration",
+        "items": [
+          "Reconnaissez l'anxiété des membres — soyez empathique, factuel et calme",
+          "Orientez les membres touchés vers les délégués, les représentants du SEFPO et le PAE",
+          "Ne spéculez pas sur les résultats — partagez seulement les déclarations confirmées",
+          "Utilisez des cartes de citation des dirigeants élus pour montrer une voix locale unifiée",
+          "Documentez hors ligne les communications de la direction pour les griefs et la consultation",
+          "Évitez de nommer des personnes à risque sauf si elles ont demandé à être identifiées publiquement"
+        ]
+      },
+      "management": {
+        "title": "Réaction de la direction et désinformation",
+        "items": [
+          "Répondez avec des faits et le langage de la convention collective — jamais d'attaques personnelles",
+          "Si la direction publie de la désinformation, publiez une brève correction et épinglez-la au besoin",
+          "Escaladez immédiatement le harcèlement, les menaces ou la surveillance à votre représentant du SEFPO",
+          "N'engagez pas de longs débats publics avec les comptes de la direction",
+          "Gardez les dossiers sensibles des membres dans les canaux des délégués, pas en public",
+          "Capturez les publications problématiques de l'employeur pour l'exécutif local et le représentant"
+        ]
+      }
+    },
+    "escalation": {
+      "title": "Quand escalader",
+      "items": [
+        "Demandes des médias — orientez vers le porte-parole désigné ou les communications du SEFPO",
+        "Menaces juridiques, injonctions ou lettres de l'employeur sur la conduite — exécutif et représentant immédiatement",
+        "Incidents de sécurité des membres sur la ligne ou au travail — suivez d'abord les protocoles d'urgence locaux",
+        "Documents confidentiels divulgués ou mauvaise foi suspectée — ne publiez pas; alertez la direction",
+        "Désinformation virale sur votre section — coordonnez une seule correction plutôt que plusieurs réponses"
+      ]
+    },
+    "tools": {
+      "title": "Ressources de la trousse pour les communications de crise",
+      "description": "Utilisez ces outils locaux pour garder des visuels cohérents quand votre section est sous pression :",
+      "items": [
+        "Trousse de marque — numéro de section, couleurs et logo prêts pour des graphiques rapides",
+        "Créateur de dépliants et carte de citation — déclarations des dirigeants et mises à jour de piquetage",
+        "Créateur de graphiques — mise en vedette des membres avec flux de consentement",
+        "Bibliothèque de légendes — publications de solidarité et de négociation réutilisables"
+      ]
+    }
+  },
   "footer": {
     "madeBy": "Conçu pour les sections syndicales par des bénévoles",
     "privacy": "Vos données restent sur votre appareil"
+  },
+  "accessibility": {
+    "title": "Déclaration d'accessibilité",
+    "subtitle": "Engagement AODA / WCAG 2.1 niveau AA",
+    "skipLink": "Aller au contenu principal",
+    "commitment": {
+      "title": "Notre engagement",
+      "body": "Le Centre de soutien syndical local s'engage à assurer l'accessibilité numérique pour tous les membres, y compris les personnes en situation de handicap. Nous visons la conformité aux Règles pour l'accessibilité des contenus Web (WCAG) 2.1 niveau AA et à la Loi sur l'accessibilité pour les personnes handicapées de l'Ontario (LAPHO)."
+    },
+    "features": {
+      "title": "Fonctionnalités d'accessibilité",
+      "semanticHtml": "HTML sémantique avec hiérarchie de titres appropriée",
+      "keyboardNav": "Navigation au clavier sur tout le site",
+      "focusIndicators": "Indicateurs de focus visibles sur tous les éléments interactifs",
+      "contrast": "Contraste des couleurs vérifié selon les normes WCAG AA",
+      "altText": "Texte alternatif sur toutes les images informatives",
+      "reducedMotion": "Réduction des animations via les paramètres système et les préférences utilisateur",
+      "bilingual": "Options de langue anglais et français",
+      "displaySettings": "Taille de texte, contraste élevé et réduction des animations configurables",
+      "skipLink": "Lien d'évitement pour accéder directement au contenu principal",
+      "altTextTool": "Assistant texte alt pour créer des publications accessibles"
+    },
+    "limitations": {
+      "title": "Limites connues",
+      "body": "Les zones d'aperçu d'images basées sur canvas peuvent ne pas être entièrement accessibles aux lecteurs d'écran et peuvent ne pas refléter le mode contraste élevé. Tous les champs qui contrôlent l'aperçu sont accessibles via des contrôles de formulaire standard. Les images exportées doivent inclure un texte alt via l'assistant."
+    },
+    "feedback": {
+      "title": "Commentaires",
+      "body": "Si vous rencontrez des obstacles d'accessibilité en utilisant ce centre, contactez le responsable des communications de votre section. Nous accueillons vos commentaires et nous engageons à nous améliorer continuellement."
+    },
+    "display": {
+      "title": "Paramètres d'affichage",
+      "intro": "Personnalisez l'apparence et les animations du site. Vos choix sont enregistrés sur cet appareil.",
+      "menuLabel": "Affichage",
+      "fontSizeLabel": "Taille du texte",
+      "fontSizeDescription": "Choisissez une taille de lecture confortable. Tout le texte s'ajuste proportionnellement.",
+      "fontSize": {
+        "default": "Par défaut (16 px)",
+        "large": "Grand (18 px)",
+        "larger": "Plus grand (20 px)",
+        "maximum": "Maximum (24 px)"
+      },
+      "highContrastLabel": "Contraste élevé",
+      "highContrastDescription": "Contraste renforcé du texte et des bordures pour une lecture plus facile.",
+      "reducedMotionLabel": "Réduire les animations",
+      "reducedMotionDescription": "Minimiser les animations et transitions, indépendamment des paramètres système.",
+      "previewLabel": "Aperçu",
+      "previewText": "Voix ambiguë d'un cœur qui au zéphyr préfère les jattes de kiwis. Votre section syndicale mérite des outils accessibles à tous."
+    }
   },
   "hub": {
     "platformName": "Centre de soutien syndical local",

@@ -1,7 +1,9 @@
 import type { BrandKit } from "@/types/entities";
+import type { UserPreferences } from "@/types/preferences";
 import {
   BRAND_KIT_KEY,
   ONBOARDING_KEY,
+  USER_PREFERENCES_KEY,
   type DataAdapter,
 } from "./adapter";
 
@@ -35,6 +37,22 @@ export class LocalStorageAdapter implements DataAdapter {
   async setOnboardingComplete(complete: boolean): Promise<void> {
     if (typeof window === "undefined") return;
     localStorage.setItem(ONBOARDING_KEY, complete ? "true" : "false");
+  }
+
+  async getUserPreferences(): Promise<UserPreferences | null> {
+    if (typeof window === "undefined") return null;
+    const raw = localStorage.getItem(USER_PREFERENCES_KEY);
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw) as UserPreferences;
+    } catch {
+      return null;
+    }
+  }
+
+  async saveUserPreferences(prefs: UserPreferences): Promise<void> {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(USER_PREFERENCES_KEY, JSON.stringify(prefs));
   }
 }
 

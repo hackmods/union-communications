@@ -17,22 +17,11 @@ const sizeMap = {
 } as const;
 
 export function BrandLogo({ size = "sm", className }: BrandLogoProps) {
+  const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
   const px = sizeMap[size];
 
-  if (!brandKit.useOfficialLogo && brandKit.customLogoDataUrl) {
-    return (
-      <img
-        src={brandKit.customLogoDataUrl}
-        alt=""
-        width={px}
-        height={px}
-        className={cn("object-contain", className)}
-      />
-    );
-  }
-
-  if (brandKit.useOfficialLogo) {
+  if (!hydrated || brandKit.useOfficialLogo) {
     return (
       <Image
         src={`${DEFAULT_ASSET_PACK_PATH}logo-primary.svg`}
@@ -40,6 +29,19 @@ export function BrandLogo({ size = "sm", className }: BrandLogoProps) {
         width={px}
         height={px}
         className={className}
+      />
+    );
+  }
+
+  if (brandKit.customLogoDataUrl) {
+    return (
+      <Image
+        src={brandKit.customLogoDataUrl}
+        alt=""
+        width={px}
+        height={px}
+        unoptimized
+        className={cn("object-contain", className)}
       />
     );
   }

@@ -5,7 +5,10 @@ import { routing } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BrandProvider } from "@/components/providers/BrandProvider";
+import { PreferencesProvider } from "@/components/providers/PreferencesProvider";
+import { PreferencesInitScript } from "@/components/providers/PreferencesInitScript";
 import { AuthProvider } from "@/components/providers/AuthProvider";
+import { SkipLink } from "@/components/layout/SkipLink";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -29,13 +32,21 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className="h-full">
+      <head>
+        <PreferencesInitScript />
+      </head>
       <body className="flex min-h-full flex-col antialiased">
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <BrandProvider>
-              <Header />
-              <main className="flex-1">{children}</main>
-              <Footer />
+              <PreferencesProvider>
+                <SkipLink />
+                <Header />
+                <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+                  {children}
+                </main>
+                <Footer />
+              </PreferencesProvider>
             </BrandProvider>
           </AuthProvider>
         </NextIntlClientProvider>

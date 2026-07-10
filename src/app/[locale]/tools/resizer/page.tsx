@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { useBrandStore } from "@/store/brand-store";
 import { exportNodeAsBlob, downloadZip } from "@/lib/export/image-export";
@@ -90,10 +91,12 @@ export default function ResizerPage() {
               style={{ aspectRatio: `${format.width}/${format.height}` }}
             >
               {imageUrl && (
-                <img
+                <Image
                   src={imageUrl}
                   alt=""
-                  className="absolute inset-0 h-full w-full object-cover"
+                  fill
+                  unoptimized
+                  className="object-cover"
                 />
               )}
               {overlayText && (

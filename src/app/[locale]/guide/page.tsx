@@ -1,4 +1,4 @@
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Card, CardTitle } from "@/components/ui/Card";
 
 const chapters = [
@@ -36,6 +36,8 @@ export default async function GuidePage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const nav = await getTranslations("nav");
+  const crisis = await getTranslations("crisisGuide");
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
@@ -43,6 +45,17 @@ export default async function GuidePage({
       <p className="mt-2 text-lg text-gray-600">
         A step-by-step handbook for starting and running your local&apos;s social media.
       </p>
+
+      <Card className="mt-8 border-opseu-blue/20 bg-opseu-blue/5">
+        <CardTitle>{crisis("title")}</CardTitle>
+        <p className="mt-2 text-sm text-gray-700">{crisis("subtitle")}</p>
+        <a
+          href={`/${locale}/guide/crisis/`}
+          className="mt-3 inline-block text-sm font-medium text-opseu-blue underline"
+        >
+          {nav("strikeGuide")} →
+        </a>
+      </Card>
 
       <div className="mt-10 space-y-6">
         {chapters.map((chapter, i) => (
