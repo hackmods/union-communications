@@ -8,6 +8,7 @@ import { getTenantContext } from "@/lib/tenant/loader";
 import type { HubModule } from "@/types/tenant";
 import type { UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
+import { Emoji } from "@/components/ui/Emoji";
 
 export function HubNav() {
   const { data: session } = useSession();
@@ -49,7 +50,7 @@ export function HubNav() {
                 "opacity-60",
             )}
           >
-            {mod.icon} {t(`modules.${mod.nameKey}`)}
+            <Emoji id={mod.emojiId} /> {t(`modules.${mod.nameKey}`)}
           </Link>
         ))}
         <Link href="/app/mfa" className="rounded-md px-2 py-1 text-opseu-blue hover:bg-white">

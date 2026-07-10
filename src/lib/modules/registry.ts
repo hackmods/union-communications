@@ -1,12 +1,13 @@
 import type { HubModule } from "@/types/tenant";
 import type { UserRole } from "@/types/tenant";
+import type { EmojiId } from "@/lib/constants/emoji";
 
 export interface HubModuleDefinition {
   id: HubModule;
   nameKey: string;
   descriptionKey: string;
   href: string;
-  icon: string;
+  emojiId: EmojiId;
   requiredRoles?: UserRole[];
   requiresMfa?: boolean;
   enabledCheck: (enabledModules: HubModule[]) => boolean;
@@ -18,7 +19,7 @@ export const MODULE_REGISTRY: HubModuleDefinition[] = [
     nameKey: "comms",
     descriptionKey: "commsDesc",
     href: "/",
-    icon: "📢",
+    emojiId: "megaphone",
     enabledCheck: (m) => m.includes("comms"),
   },
   {
@@ -26,7 +27,7 @@ export const MODULE_REGISTRY: HubModuleDefinition[] = [
     nameKey: "grievance",
     descriptionKey: "grievanceDesc",
     href: "/app/grievances",
-    icon: "📋",
+    emojiId: "clipboard",
     requiredRoles: [
       "local_president",
       "local_steward",
@@ -42,7 +43,7 @@ export const MODULE_REGISTRY: HubModuleDefinition[] = [
     nameKey: "bumping",
     descriptionKey: "bumpingDesc",
     href: "/app/bumping",
-    icon: "📄",
+    emojiId: "document",
     requiredRoles: [
       "local_president",
       "stability_member",

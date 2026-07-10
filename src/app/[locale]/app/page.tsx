@@ -7,6 +7,7 @@ import { getTenantContext } from "@/lib/tenant/loader";
 import { getVisibleModules } from "@/lib/modules/registry";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { Emoji } from "@/components/ui/Emoji";
 import type { HubModule, UserRole } from "@/types/tenant";
 
 export default function HubDashboardPage() {
@@ -75,7 +76,7 @@ export default function HubDashboardPage() {
           return (
             <Card key={mod.id} className={locked ? "opacity-60" : ""}>
               <CardTitle>
-                {mod.icon} {t(`modules.${mod.nameKey}`)}
+                <Emoji id={mod.emojiId} /> {t(`modules.${mod.nameKey}`)}
               </CardTitle>
               <p className="mt-2 text-sm text-gray-600">
                 {t(`modules.${mod.descriptionKey}`)}
