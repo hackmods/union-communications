@@ -53,7 +53,7 @@ export const EXAMPLE_POSTS: ExamplePost[] = [
     title: "Town hall thank-you graphic",
     description: "Event photo with thank-you headline and member turnout stats.",
     platform: "Facebook",
-    accentColor: "#FFD200",
+    accentColor: "#FFFFFF",
   },
   {
     id: "6",

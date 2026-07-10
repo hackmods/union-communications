@@ -20,7 +20,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     category: "branding",
     label: "OPSEU/SEFPO graphics, logos & letterhead",
     url: "https://opseu.org/information/opseu-graphics-logos-and-letterhead-templates/12263",
-    note: "Official OPSEU blue (#003DA5, Pantone 285) and logo usage rules. CAAT yellow is a campaign accent, not the primary union brand colour.",
+    note: "Official OPSEU blue (#003DA5, Pantone 285) and logo usage rules. White is the graphics accent on blue/dark backgrounds.",
   },
   "opseu-member-portal": {
     id: "opseu-member-portal",

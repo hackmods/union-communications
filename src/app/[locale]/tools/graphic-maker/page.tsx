@@ -139,11 +139,11 @@ export default function GraphicMakerPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-8">
             <Image
-              src="/assets/caat-opseu/logo-primary.svg"
+              src="/assets/caat-opseu/logo-primary.png"
               alt=""
-              width={60}
+              width={150}
               height={60}
-              className="mb-4"
+              className="mb-4 object-contain"
             />
             <h2 className="text-3xl font-bold text-white">{state.headline}</h2>
             <p className="mt-2 text-lg text-white/90">{state.subheadline}</p>

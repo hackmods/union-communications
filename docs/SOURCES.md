@@ -8,7 +8,7 @@ External resources cited across guides, tools, and exported materials. Canonical
 |--------|-----|---------|
 | OPSEU/SEFPO graphics, logos & letterhead | https://opseu.org/information/opseu-graphics-logos-and-letterhead-templates/12263 | Asset pack, Brand Kit defaults, all graphic tools |
 
-**Notes:** OPSEU blue `#003DA5` (Pantone 285). CAAT yellow `#FFD200` is a campaign accent for graphics, not the primary union brand colour. See `.cursor/rules/opseu-branding.mdc`.
+**Notes:** OPSEU blue `#003DA5` (Pantone 285). White `#FFFFFF` is the graphics accent on blue/dark backgrounds. See `.cursor/rules/opseu-branding.mdc`.
 
 ## Website template
 

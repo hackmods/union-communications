@@ -10,25 +10,26 @@ interface BrandLogoProps {
   className?: string;
 }
 
+/** Official OPSEU/SEFPO lockup is wide (~2.5:1), not square */
 const sizeMap = {
-  sm: 32,
-  md: 48,
-  lg: 96,
+  sm: { width: 80, height: 32 },
+  md: { width: 120, height: 48 },
+  lg: { width: 200, height: 80 },
 } as const;
 
 export function BrandLogo({ size = "sm", className }: BrandLogoProps) {
   const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
-  const px = sizeMap[size];
+  const { width, height } = sizeMap[size];
 
   if (!hydrated || brandKit.useOfficialLogo) {
     return (
       <Image
-        src={`${DEFAULT_ASSET_PACK_PATH}logo-primary.svg`}
+        src={`${DEFAULT_ASSET_PACK_PATH}logo-primary.png`}
         alt=""
-        width={px}
-        height={px}
-        className={className}
+        width={width}
+        height={height}
+        className={cn("object-contain", className)}
       />
     );
   }
@@ -38,8 +39,8 @@ export function BrandLogo({ size = "sm", className }: BrandLogoProps) {
       <Image
         src={brandKit.customLogoDataUrl}
         alt=""
-        width={px}
-        height={px}
+        width={width}
+        height={height}
         unoptimized
         className={cn("object-contain", className)}
       />

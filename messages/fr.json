@@ -322,7 +322,7 @@
       "title": "De quoi est faite cette boîte à outils",
       "items": [
         "Modèle de site Web — simplifié à partir de local243.org (site GitHub Pages bénévole de la section 243)",
-        "Couleurs de marque — directives officielles OPSEU/SEFPO (bleu Pantone 285, accent jaune CAAT)",
+        "Couleurs de marque — directives officielles OPSEU/SEFPO (bleu Pantone 285, accent blanc pour graphiques)",
         "Chapitres du Plan directeur — bonnes pratiques bénévoles pour les sections du personnel de soutien CAAT",
         "Guide de crise — orientation générale alignée sur les protocoles de grève et de négociation OPSEU",
         "Accessibilité — engagements WCAG 2.1 AA et LSAO dans la déclaration d'accessibilité du hub"
@@ -344,7 +344,7 @@
     "subTextPlaceholder": "p. ex. Personnel de soutien",
     "division": "Division",
     "primaryColor": "Bleu OPSEU (principal)",
-    "secondaryColor": "Jaune d'accent CAAT (graphiques)",
+    "secondaryColor": "Blanc (accent graphique)",
     "useOfficialLogo": "Utiliser le logo officiel CAAT OPSEU",
     "uploadCustomLogo": "Téléverser un logo personnalisé",
     "complete": "Terminer la configuration"
@@ -358,7 +358,7 @@
     "importError": "Fichier de trousse de marque invalide",
     "colors": {
       "primary": "Bleu OPSEU (principal)",
-      "secondary": "Jaune d'accent CAAT (graphiques)"
+      "secondary": "Blanc (accent graphique)"
     },
     "logo": {
       "title": "Logo",

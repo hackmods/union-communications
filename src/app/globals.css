@@ -5,11 +5,11 @@
   --foreground: #1a1a1a;
   /* OPSEU Pantone 285 — official union brand */
   --opseu-blue: #003da5;
-  /* CAAT Support campaign accent — graphics tools only, not UI chrome */
-  --opseu-yellow: #ffd200;
   --opseu-dark: #002868;
+  /* White — graphics accent on blue/dark backgrounds (replaces CAAT campaign yellow) */
+  --opseu-white: #ffffff;
   --brand-primary: var(--opseu-blue);
-  --brand-secondary: var(--opseu-yellow);
+  --brand-secondary: var(--opseu-white);
   --brand-accent: var(--opseu-dark);
   --text-scale: 1;
 }
@@ -18,8 +18,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-opseu-blue: var(--opseu-blue);
-  --color-opseu-yellow: var(--opseu-yellow);
   --color-opseu-dark: var(--opseu-dark);
+  --color-opseu-white: var(--opseu-white);
   --color-brand-primary: var(--brand-primary);
   --color-brand-secondary: var(--brand-secondary);
   --color-brand-accent: var(--brand-accent);

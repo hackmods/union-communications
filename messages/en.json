@@ -322,7 +322,7 @@
       "title": "What this toolbox is built from",
       "items": [
         "Website template — simplified from local243.org (GitHub Pages static site by Local 243 volunteers)",
-        "Brand colours — OPSEU/SEFPO official graphics guidelines (Pantone 285 blue, CAAT campaign yellow accent)",
+        "Brand colours — OPSEU/SEFPO official graphics guidelines (Pantone 285 blue, white graphics accent)",
         "Blueprint chapters — volunteer comms best practices for CAAT Support Staff locals",
         "Crisis guide — high-level guidance aligned with OPSEU local strike and bargaining protocols",
         "Accessibility — WCAG 2.1 AA and AODA commitments in the hub accessibility statement"
@@ -344,7 +344,7 @@
     "subTextPlaceholder": "e.g. Support Staff",
     "division": "Division",
     "primaryColor": "OPSEU blue (primary)",
-    "secondaryColor": "CAAT accent yellow (graphics)",
+    "secondaryColor": "White (graphics accent)",
     "useOfficialLogo": "Use CAAT OPSEU official logo",
     "uploadCustomLogo": "Upload custom logo",
     "complete": "Finish setup"
@@ -358,7 +358,7 @@
     "importError": "Invalid brand kit file",
     "colors": {
       "primary": "OPSEU blue (primary)",
-      "secondary": "CAAT accent yellow (graphics)"
+      "secondary": "White (graphics accent)"
     },
     "logo": {
       "title": "Logo",

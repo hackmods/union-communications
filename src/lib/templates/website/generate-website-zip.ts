@@ -2,8 +2,8 @@ import type { WebsiteTemplateData } from "@/types/website-template";
 
 const OPSEU_HEADER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" role="img" aria-label="OPSEU SEFPO">
   <rect width="400" height="80" fill="#003DA5"/>
-  <text x="200" y="38" text-anchor="middle" fill="#FFD200" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold">OPSEU / SEFPO</text>
-  <text x="200" y="62" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="14">Ontario Public Service Employees Union</text>
+  <text x="200" y="38" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold">OPSEU / SEFPO</text>
+  <text x="200" y="62" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="14" opacity="0.85">Ontario Public Service Employees Union</text>
 </svg>`;
 
 function escapeHtml(text: string): string {

@@ -31,7 +31,7 @@ export function getDefaultBrandDefaults() {
   const seed = SEEDS[0];
   return seed?.brandDefaults ?? {
     primaryColor: "#003DA5",
-    secondaryColor: "#FFD200",
+    secondaryColor: "#FFFFFF",
     accentColor: "#002868",
     useOfficialLogo: true,
     assetPackPath: "/assets/caat-opseu/",

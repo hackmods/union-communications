@@ -17,7 +17,7 @@ const sampleData: WebsiteTemplateData = {
   facebookUrl: "https://facebook.com/groups/example",
   officeAddress: "Room S206",
   primaryColor: "#003DA5",
-  secondaryColor: "#FFD200",
+  secondaryColor: "#FFFFFF",
   officers: [
     { name: "Jane Doe", role: "President", location: "WC-101" },
   ],
@@ -42,9 +42,9 @@ describe("generate-website-zip", () => {
   });
 
   it("applies brand colours to CSS", () => {
-    const css = buildWebsiteCss("#003DA5", "#FFD200");
+    const css = buildWebsiteCss("#003DA5", "#FFFFFF");
     expect(css).toContain("--color-primary: #003DA5");
-    expect(css).toContain("--color-secondary: #FFD200");
+    expect(css).toContain("--color-secondary: #FFFFFF");
   });
 
   it("builds preview HTML with inline styles", () => {
