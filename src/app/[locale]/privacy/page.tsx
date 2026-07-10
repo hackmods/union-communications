@@ -18,7 +18,7 @@ export default async function PrivacyPage({
         <Card>
           <CardTitle>Privacy by design</CardTitle>
           <p className="mt-3 text-gray-700">
-            The OPSEU Local Social Media Toolbox is designed so that all image processing,
+            The Local Union Support Hub is designed so that all image processing,
             branding configuration, and file uploads happen entirely on your device. We do
             not collect, store, or transmit any personal information, member photos, or local
             branding data to any server.
@@ -59,8 +59,8 @@ export default async function PrivacyPage({
         <Card>
           <CardTitle>Contact</CardTitle>
           <p className="mt-3 text-gray-700">
-            For questions about this privacy policy or the toolbox, contact your local
-            communications chair or CAAT division representative.
+            For questions about this privacy policy or the hub, contact your local
+            communications chair or union representative.
           </p>
         </Card>
       </div>

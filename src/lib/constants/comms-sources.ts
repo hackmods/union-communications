@@ -83,7 +83,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     category: "platform",
     label: "Facebook Groups (local comms channel)",
     url: "https://www.facebook.com/help/groups",
-    note: "Many CAAT Support Staff locals use a closed Facebook group as their primary member channel.",
+    note: "Many locals use a closed Facebook group as their primary member channel.",
   },
   "ofl": {
     id: "ofl",

@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "Boîte à outils médias sociaux OPSEU local",
-    "description": "Guides, modèles et outils d'image pour les médias sociaux des sections locales OPSEU"
+    "title": "Centre de soutien syndical local",
+    "description": "Outils professionnels pour toute section locale — communications, griefs et plus"
   },
   "nav": {
     "home": "Accueil",
@@ -9,7 +9,7 @@
     "strikeGuide": "Guide de grève",
     "examples": "Exemples sociaux",
     "captions": "Légendes",
-    "assets": "Actifs CAAT",
+    "assets": "Actifs de marque",
     "brandKit": "Trousse de marque",
     "tools": "Outils",
     "logoBuilder": "Créateur de logo",
@@ -53,8 +53,8 @@
     "loading": "Chargement..."
   },
   "home": {
-    "title": "Boîte à outils communications locales",
-    "subtitle": "Boîte à outils professionnelle pour les communicateurs bénévoles — toute section, tout syndicat",
+    "title": "Centre de soutien syndical local",
+    "subtitle": "Outils professionnels pour les communicateurs bénévoles — bâtis dans la solidarité pour toute section, tout syndicat",
     "heroCta": "Configurer la marque de votre section",
     "socialMediaPlanCta": "Commencer le plan médias sociaux",
     "socialMediaPlanDesc": "Feuille de route rapide : logo, tableaux syndicaux, médias sociaux et site Web simple — dans l'ordre.",
@@ -137,7 +137,7 @@
     "chapters": {
       "platforms": {
         "title": "Quelles plateformes choisir",
-        "content": "Facebook touche un large public et permet des publications plus longues. Instagram convient aux récits visuels et aux membres plus jeunes. Commencez par une plateforme, faites-le bien, puis élargissez. Pour les sections du personnel de soutien CAAT, Facebook est souvent le canal principal."
+        "content": "Facebook rejoint un large public et permet des publications plus longues. Instagram convient aux récits visuels et aux membres plus jeunes. Commencez par une plateforme, faites-le bien, puis élargissez. Pour bien des sections, un groupe Facebook fermé est le canal principal."
       },
       "tone": {
         "title": "Ton de voix",
@@ -218,7 +218,7 @@
       },
       "pages": {
         "title": "Quoi inclure",
-        "content": "Commencez simple : à propos de la section, dirigeants et coordonnées. Ajoutez des mises à jour de négociation pendant les rondes actives. Liez votre groupe Facebook et les ressources OPSEU."
+        "content": "Commencez simple : à propos de la section, dirigeants et coordonnées. Ajoutez des mises à jour de négociation pendant les rondes actives. Liez votre groupe Facebook et les ressources membres de votre syndicat."
       },
       "deploy": {
         "title": "GitHub Pages en 5 étapes",
@@ -233,7 +233,7 @@
   },
   "examples": {
     "title": "Exemples sociaux",
-    "subtitle": "Exemples d'excellentes publications sur les médias sociaux des sections locales."
+    "subtitle": "Exemples d'excellentes publications de solidarité des sections locales."
   },
   "boardNotice": {
     "title": "Avis pour tableau syndical",
@@ -272,11 +272,11 @@
     "removeOfficer": "Supprimer",
     "preview": "Aperçu en direct",
     "downloadZip": "Télécharger le ZIP du site",
-    "referenceNote": "Ce modèle est basé sur le site en direct local243.org — un site GitHub Pages bénévole pour la section OPSEU SEFPO 243. Le ZIP exporté utilise une bannière d'en-tête OPSEU au lieu d'un logo local dans la barre de navigation."
+    "referenceNote": "Ce modèle est basé sur le site en direct local243.org — un site GitHub Pages bénévole utilisé comme référence. Le ZIP exporté utilise une bannière d'en-tête syndicale au lieu d'un logo local dans la barre de navigation."
   },
   "sources": {
     "title": "Sources et références",
-    "intro": "Ressources externes citées dans ce guide. Reportez-vous toujours à votre exécutif de section et à votre représentant de service OPSEU pour les directives officielles.",
+    "intro": "Ressources externes citées dans ce guide. Reportez-vous toujours à votre exécutif de section et à votre représentant de service syndical pour les directives officielles.",
     "categories": {
       "branding": "Image de marque",
       "website": "Site Web",
@@ -321,11 +321,11 @@
     "builtFrom": {
       "title": "De quoi est faite cette boîte à outils",
       "items": [
-        "Modèle de site Web — simplifié à partir de local243.org (site GitHub Pages bénévole de la section 243)",
-        "Couleurs de marque — directives officielles OPSEU/SEFPO (bleu Pantone 285, accent blanc pour graphiques)",
-        "Chapitres du Plan directeur — bonnes pratiques bénévoles pour les sections du personnel de soutien CAAT",
-        "Guide de crise — orientation générale alignée sur les protocoles de grève et de négociation OPSEU",
-        "Accessibilité — engagements WCAG 2.1 AA et LSAO dans la déclaration d'accessibilité du hub"
+        "Modèle de site Web — simplifié à partir d'un site GitHub Pages bénévole (référence : local243.org)",
+        "Couleurs de marque — valeurs par défaut du locataire de référence (personnalisez dans la trousse de marque)",
+        "Chapitres du Plan directeur — bonnes pratiques bénévoles pour les communications locales de solidarité",
+        "Guide de crise — orientation générale pour les communications de grève et de négociation locales",
+        "Accessibilité — engagements WCAG 2.1 AA et AODA dans l'énoncé d'accessibilité du centre"
       ]
     },
     "allSources": {
@@ -342,28 +342,29 @@
     "localNumberPlaceholder": "e.g. 243",
     "subText": "Sous-texte",
     "subTextPlaceholder": "p. ex. Personnel de soutien",
-    "division": "Division",
-    "primaryColor": "Bleu OPSEU (principal)",
-    "secondaryColor": "Blanc (accent graphique)",
-    "useOfficialLogo": "Utiliser le logo officiel CAAT OPSEU",
+    "division": "Division ou secteur (facultatif)",
+    "primaryColor": "Couleur de marque principale",
+    "secondaryColor": "Accent graphique",
+    "useOfficialLogo": "Utiliser le logo de marque par défaut",
     "uploadCustomLogo": "Téléverser un logo personnalisé",
-    "complete": "Terminer la configuration"
+    "complete": "Terminer la configuration",
+    "divisionPlaceholder": "p. ex. Soutien collégial"
   },
   "brandKit": {
     "title": "Gestionnaire de trousse de marque",
-    "description": "Gérer, exporter et importer les paramètres de marque de votre section",
+    "description": "Gérer, exporter et importer l'image de marque de votre section — couleurs et logo prêts pour des graphiques de solidarité",
     "export": "Exporter la trousse de marque",
     "import": "Importer la trousse de marque",
     "importSuccess": "Trousse de marque importée avec succès",
     "importError": "Fichier de trousse de marque invalide",
     "colors": {
-      "primary": "Bleu OPSEU (principal)",
-      "secondary": "Blanc (accent graphique)"
+      "primary": "Couleur de marque principale",
+      "secondary": "Accent graphique"
     },
     "logo": {
       "title": "Logo",
-      "description": "Utilisez le logo officiel CAAT OPSEU ou téléversez le logo de votre section (PNG, JPEG, WebP ou SVG).",
-      "useOfficialLogo": "Utiliser le logo officiel CAAT OPSEU",
+      "description": "Utilisez le logo de marque par défaut ou téléversez le logo de votre section (PNG, JPEG, WebP ou SVG).",
+      "useOfficialLogo": "Utiliser le logo de marque par défaut",
       "uploadCustomLogo": "Téléverser le logo de la section",
       "uploadHint": "Accepte PNG, JPEG, WebP ou SVG jusqu'à 10 Mo."
     }
@@ -384,18 +385,18 @@
   },
   "crisisGuide": {
     "title": "Guide de communication — grève et crise",
-    "subtitle": "Conseils de haut niveau pour les sections CAAT OPSEU pendant les grèves, la négociation et les crises en milieu de travail",
+    "subtitle": "Orientation de haut niveau pour les sections locales pendant les grèves, la négociation et les crises en milieu de travail",
     "backToGuide": "Retour au plan directeur",
-    "intro": "Le SEFPO offre un soutien sectoriel à la négociation, mais les sections gèrent leurs propres communications aux membres — surtout sur les médias sociaux. Ce guide aide les responsables bénévoles des communications à rester coordonnés, conformes et centrés sur les membres dans les périodes critiques. Suivez toujours votre exécutif local, votre représentant du SEFPO et les protocoles de grève ou de négociation en vigueur.",
+    "intro": "Les syndicats centraux offrent souvent un soutien sectoriel à la négociation, mais les sections gèrent leurs propres communications membres — surtout sur les médias sociaux. Ce guide aide les responsables bénévoles à rester coordonnés, conformes et centrés sur les membres. Reportez-vous toujours à votre exécutif local, à votre représentant de service et aux protocoles de grève ou de négociation en vigueur.",
     "scenarios": {
       "strike": {
         "title": "Grève",
         "items": [
-          "Confirmez tout message public avec votre président(e) de section et votre représentant du SEFPO avant de publier",
+          "Confirmez tout message public avec votre président(e) de section et votre représentant de service syndical avant de publier",
           "Désignez un ou deux porte-parole — les membres et les médias doivent entendre une seule voix locale cohérente",
           "Publiez quotidiennement les horaires de piquetage, les entrées et les rappels de sécurité avec les graphiques de cette trousse",
           "Partagez la solidarité et les témoignages des membres avec consentement — ne publiez jamais de photos sans permission",
-          "Utilisez le bleu OPSEU; suivez les matériels de campagne du soutien collégial lors d'une coordination divisionnelle",
+          "Utilisez les couleurs de votre trousse de marque; suivez les matériels de campagne de division ou de secteur lors d'une coordination divisionnelle",
           "Ne partagez pas les détails de négociation, les adresses des membres ni la stratégie interne sur les canaux publics",
           "Orientez les questions sur la paie, les tâches et le retour au travail vers le comité de grève — pas les fils de commentaires"
         ]
@@ -405,17 +406,17 @@
         "items": [
           "Créez de l'élan avec des mises à jour factuelles — sécurité d'emploi, charge de travail, salaires et priorités des membres",
           "Utilisez des mots-clics et graphiques cohérents pour que les membres reconnaissent les publications officielles",
-          "Encouragez les membres à porter le bleu OPSEU et à assister aux assemblées d'information — publiez les horaires tôt",
+          "Encouragez les membres à porter les couleurs de votre trousse de marque et à assister aux assemblées d'information — publiez les horaires tôt",
           "Partagez seulement ce que l'équipe de négociation a autorisé pour diffusion publique",
           "Rappelez aux membres d'éviter de débattre des allégations de l'employeur dans les commentaires publics",
-          "Liez aux pages de négociation OPSEU/CAAT lorsqu'elles existent plutôt que de paraphraser de mémoire"
+          "Liez aux pages de négociation officielles du syndicat lorsqu'elles existent plutôt que de paraphraser de mémoire"
         ]
       },
       "layoffs": {
         "title": "Mises à pied et restructuration",
         "items": [
           "Reconnaissez l'anxiété des membres — soyez empathique, factuel et calme",
-          "Orientez les membres touchés vers les délégués, les représentants du SEFPO et le PAE",
+          "Orientez les membres touchés vers les délégués, les représentants de service syndicaux et le PAE",
           "Ne spéculez pas sur les résultats — partagez seulement les déclarations confirmées",
           "Utilisez des cartes de citation des dirigeants élus pour montrer une voix locale unifiée",
           "Documentez hors ligne les communications de la direction pour les griefs et la consultation",
@@ -427,7 +428,7 @@
         "items": [
           "Répondez avec des faits et le langage de la convention collective — jamais d'attaques personnelles",
           "Si la direction publie de la désinformation, publiez une brève correction et épinglez-la au besoin",
-          "Escaladez immédiatement le harcèlement, les menaces ou la surveillance à votre représentant du SEFPO",
+          "Escaladez immédiatement le harcèlement, les menaces ou la surveillance à votre représentant de service syndical",
           "N'engagez pas de longs débats publics avec les comptes de la direction",
           "Gardez les dossiers sensibles des membres dans les canaux des délégués, pas en public",
           "Capturez les publications problématiques de l'employeur pour l'exécutif local et le représentant"
@@ -437,7 +438,7 @@
     "escalation": {
       "title": "Quand escalader",
       "items": [
-        "Demandes des médias — orientez vers le porte-parole désigné ou les communications du SEFPO",
+        "Demandes des médias — orientez vers le porte-parole désigné ou les communications syndicales",
         "Menaces juridiques, injonctions ou lettres de l'employeur sur la conduite — exécutif et représentant immédiatement",
         "Incidents de sécurité des membres sur la ligne ou au travail — suivez d'abord les protocoles d'urgence locaux",
         "Documents confidentiels divulgués ou mauvaise foi suspectée — ne publiez pas; alertez la direction",
@@ -458,7 +459,7 @@
     }
   },
   "footer": {
-    "madeBy": "Conçu pour les sections syndicales par des bénévoles",
+    "madeBy": "Bâti dans la solidarité pour les sections locales par des bénévoles syndicaux",
     "privacy": "Vos données restent sur votre appareil"
   },
   "accessibility": {
@@ -687,6 +688,29 @@
       "caArticleCited": "Article de convention cité",
       "memberNotified": "Membre qui bump avisé",
       "incumbentNotified": "Occupant avisé (si applicable)"
+    }
+  },
+  "assets": {
+    "title": "Trousse d'actifs de marque",
+    "description": "Couleurs, logos et directives d'usage pour les communications locales de solidarité — personnalisez tout dans votre trousse de marque pour qu'elle convienne à votre syndicat.",
+    "primaryLogo": "Logo principal",
+    "downloadPng": "Télécharger PNG",
+    "logoAlt": "Logo de marque par défaut",
+    "swatchesTitle": "Nuancier",
+    "swatchPrimary": "Principale",
+    "swatchAccent": "Accent",
+    "swatchSecondary": "Accent graphique",
+    "swatchBlack": "Noir",
+    "guidelinesTitle": "Directives d'usage",
+    "guidelines": {
+      "clearSpace": "Maintenez toujours un espace libre autour du logo égal à la hauteur du mot-symbole",
+      "noDistort": "Ne pas étirer, faire pivoter ou recolorer le logo officiel",
+      "primary": "Utilisez votre couleur de marque principale sur les fonds clairs",
+      "secondary": "Utilisez l'accent graphique pour le texte et les surbrillances sur fonds de marque ou foncés",
+      "contrast": "Utilisez un traitement de logo clair ou blanc sur les fonds foncés",
+      "localMark": "Les numéros de section et sous-textes peuvent être ajoutés sous le logo avec les polices approuvées",
+      "questions": "Pour toute question sur l'usage de la marque, contactez le responsable des communications de votre section ou division",
+      "sourceLabel": "Source de référence (valeurs actuelles) :"
     }
   }
 }

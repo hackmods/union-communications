@@ -23,7 +23,7 @@ export default function CaptionsPage() {
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">Caption & Hashtag Library</h1>
       <p className="mt-2 text-gray-600">
-        Reusable post templates with OPSEU-appropriate tone. Click copy and customize.
+        Reusable post templates with a solidarity-first tone. Click copy and customize.
       </p>
 
       <div className="mt-8 space-y-4">

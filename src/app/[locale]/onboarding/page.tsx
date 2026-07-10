@@ -16,6 +16,7 @@ export default function OnboardingPage() {
   const router = useRouter();
   const { brandKit, setBrandKit, setOnboardingComplete } = useBrandStore();
   const [step, setStep] = useState(1);
+  const [division, setDivision] = useState("");
 
   const finish = () => {
     setOnboardingComplete(true);
@@ -61,9 +62,9 @@ export default function OnboardingPage() {
             />
             <Input
               label={t("division")}
-              value="CAAT"
-              readOnly
-              className="bg-gray-50"
+              placeholder={t("divisionPlaceholder")}
+              value={division}
+              onChange={(e) => setDivision(e.target.value)}
             />
           </div>
         )}

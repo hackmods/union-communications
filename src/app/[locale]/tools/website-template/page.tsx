@@ -26,15 +26,15 @@ export default function WebsiteTemplatePage() {
   const brandKit = useBrandStore((s) => s.brandKit);
   const localNumber = resolveLocalNumber(brandKit.local.localNumber);
 
-  const [unionName, setUnionName] = useState(`OPSEU SEFPO Local ${localNumber}`);
+  const [unionName, setUnionName] = useState(`Local ${localNumber}`);
   const [heroText, setHeroText] = useState(
-    "Support staff stands united for quality public education, fairness, and respect. Get the latest updates and find out how to connect with your Local.",
+    "Members stand united in solidarity for fairness, respect, and quality public services. Get the latest updates and find out how to connect with your Local.",
   );
   const [about1, setAbout1] = useState(
-    `OPSEU SEFPO Local ${localNumber} represents full-time and part-time support staff. We are dedicated to protecting our members' rights, ensuring fair and safe working conditions, and strengthening the campus community.`,
+    `Local ${localNumber} represents full-time and part-time members. We are dedicated to protecting our members' rights, ensuring fair and safe working conditions, and strengthening our community.`,
   );
   const [about2, setAbout2] = useState(
-    "As part of OPSEU SEFPO's College Support division, our collective efforts ensure that the essential work performed by support staff is recognized and respected.",
+    "Through collective action and solidarity, we work to ensure the essential work our members perform is recognized and respected.",
   );
   const [contactEmail, setContactEmail] = useState(`local${localNumber}@example.com`);
   const [facebookUrl, setFacebookUrl] = useState("");
@@ -45,7 +45,7 @@ export default function WebsiteTemplatePage() {
   const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
-    setUnionName(`OPSEU SEFPO Local ${localNumber}`);
+    setUnionName(`Local ${localNumber}`);
   }, [localNumber]);
 
   const templateData: WebsiteTemplateData = useMemo(

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OPSEU Local Social Media Toolbox",
+  title: "Local Union Support Hub",
   description:
-    "Guides, templates, and image tools for OPSEU local union social media",
+    "Professional tools for any local union — communications, grievances, and more",
 };
 
 export default function RootLayout({

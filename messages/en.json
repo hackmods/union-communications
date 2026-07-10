@@ -9,7 +9,7 @@
     "strikeGuide": "Strike Guide",
     "examples": "Social Examples",
     "captions": "Captions",
-    "assets": "CAAT Assets",
+    "assets": "Brand Assets",
     "brandKit": "Brand Kit",
     "tools": "Tools",
     "logoBuilder": "Logo Builder",
@@ -54,7 +54,7 @@
   },
   "home": {
     "title": "Local Union Support Hub",
-    "subtitle": "Professional communications toolbox for volunteer union communicators — any local, any union",
+    "subtitle": "Professional tools for volunteer communicators — built in solidarity for any local, any union",
     "heroCta": "Set up your local brand",
     "socialMediaPlanCta": "Start the Social Media Plan",
     "socialMediaPlanDesc": "A quick roadmap: logo, union boards, socials, and a simple website — in order.",
@@ -137,7 +137,7 @@
     "chapters": {
       "platforms": {
         "title": "Which platforms to choose",
-        "content": "Facebook reaches a broad member demographic and supports longer posts and event pages. Instagram works well for visual storytelling and younger members. Start with one platform, do it well, then expand. For CAAT Support Staff locals, Facebook is often the primary channel."
+        "content": "Facebook reaches a broad member demographic and supports longer posts and event pages. Instagram works well for visual storytelling and younger members. Start with one platform, do it well, then expand. Many support-staff and workplace locals find a closed Facebook group is the primary member channel."
       },
       "tone": {
         "title": "Tone of voice",
@@ -218,7 +218,7 @@
       },
       "pages": {
         "title": "What to include",
-        "content": "Start simple: about your local, executive officers, and contact info. Add bargaining updates during active rounds. Link to your Facebook group and OPSEU member resources."
+        "content": "Start simple: about your local, executive officers, and contact info. Add bargaining updates during active rounds. Link to your Facebook group and your union's member resources."
       },
       "deploy": {
         "title": "GitHub Pages in 5 steps",
@@ -233,7 +233,7 @@
   },
   "examples": {
     "title": "Social Examples",
-    "subtitle": "Examples of excellent local union social media posts."
+    "subtitle": "Examples of excellent local solidarity posts and graphics."
   },
   "boardNotice": {
     "title": "Board Notice Maker",
@@ -272,11 +272,11 @@
     "removeOfficer": "Remove",
     "preview": "Live preview",
     "downloadZip": "Download site ZIP",
-    "referenceNote": "This template is based on the live site at local243.org — a volunteer-built GitHub Pages site for OPSEU SEFPO Local 243. The exported ZIP uses an OPSEU header banner instead of a local logo in the navigation bar."
+    "referenceNote": "This template is based on the live site at local243.org — a volunteer-built GitHub Pages site used as a reference. The exported ZIP uses a union header banner instead of a local logo in the navigation bar."
   },
   "sources": {
     "title": "Sources & references",
-    "intro": "External resources cited in this guide. Always defer to your local executive and OPSEU servicing rep for official direction.",
+    "intro": "External resources cited in this guide. Always defer to your local executive and union servicing rep for official direction.",
     "categories": {
       "branding": "Branding",
       "website": "Website",
@@ -321,10 +321,10 @@
     "builtFrom": {
       "title": "What this toolbox is built from",
       "items": [
-        "Website template — simplified from local243.org (GitHub Pages static site by Local 243 volunteers)",
-        "Brand colours — OPSEU/SEFPO official graphics guidelines (Pantone 285 blue, white graphics accent)",
-        "Blueprint chapters — volunteer comms best practices for CAAT Support Staff locals",
-        "Crisis guide — high-level guidance aligned with OPSEU local strike and bargaining protocols",
+        "Website template — simplified from a volunteer local GitHub Pages site (reference: local243.org)",
+        "Brand colours — reference tenant defaults from official union graphics guidelines (customise in Brand Kit)",
+        "Blueprint chapters — volunteer comms best practices for local solidarity communications",
+        "Crisis guide — high-level guidance for local strike and bargaining communications",
         "Accessibility — WCAG 2.1 AA and AODA commitments in the hub accessibility statement"
       ]
     },
@@ -342,30 +342,54 @@
     "localNumberPlaceholder": "e.g. 243",
     "subText": "Sub-text",
     "subTextPlaceholder": "e.g. Support Staff",
-    "division": "Division",
-    "primaryColor": "OPSEU blue (primary)",
-    "secondaryColor": "White (graphics accent)",
-    "useOfficialLogo": "Use CAAT OPSEU official logo",
+    "division": "Division or sector (optional)",
+    "divisionPlaceholder": "e.g. College Support",
+    "primaryColor": "Primary brand colour",
+    "secondaryColor": "Graphics accent",
+    "useOfficialLogo": "Use default brand logo",
     "uploadCustomLogo": "Upload custom logo",
     "complete": "Finish setup"
   },
   "brandKit": {
     "title": "Brand Kit Manager",
-    "description": "Manage, export, and import your local branding settings",
+    "description": "Manage, export, and import your local branding — colours and logo ready for solidarity graphics",
     "export": "Export brand kit",
     "import": "Import brand kit",
     "importSuccess": "Brand kit imported successfully",
     "importError": "Invalid brand kit file",
     "colors": {
-      "primary": "OPSEU blue (primary)",
-      "secondary": "White (graphics accent)"
+      "primary": "Primary brand colour",
+      "secondary": "Graphics accent"
     },
     "logo": {
       "title": "Logo",
-      "description": "Use the official CAAT OPSEU logo or upload your local union logo (PNG, JPEG, WebP, or SVG).",
-      "useOfficialLogo": "Use CAAT OPSEU official logo",
+      "description": "Use the default brand logo or upload your local union logo (PNG, JPEG, WebP, or SVG).",
+      "useOfficialLogo": "Use default brand logo",
       "uploadCustomLogo": "Upload local union logo",
       "uploadHint": "Accepts PNG, JPEG, WebP, or SVG up to 10 MB."
+    }
+  },
+  "assets": {
+    "title": "Brand Asset Pack",
+    "description": "Colours, logos, and usage guidelines for local solidarity communications — customise everything in your Brand Kit so it fits your union.",
+    "primaryLogo": "Primary logo",
+    "downloadPng": "Download PNG",
+    "logoAlt": "Default brand logo",
+    "swatchesTitle": "Colour swatches",
+    "swatchPrimary": "Primary",
+    "swatchAccent": "Accent",
+    "swatchSecondary": "Graphics accent",
+    "swatchBlack": "Black",
+    "guidelinesTitle": "Usage guidelines",
+    "guidelines": {
+      "clearSpace": "Always maintain clear space around the logo equal to the height of the wordmark",
+      "noDistort": "Do not stretch, rotate, or recolour the official logo",
+      "primary": "Lead with your primary brand colour on light backgrounds",
+      "secondary": "Use the graphics accent for text and highlights on brand-coloured or dark backgrounds",
+      "contrast": "Use a light or white logo treatment on dark backgrounds",
+      "localMark": "Local numbers and sub-text may be added below the logo using approved fonts",
+      "questions": "For questions about brand usage, contact your local or division communications chair",
+      "sourceLabel": "Reference source (current defaults):"
     }
   },
   "consent": {
@@ -384,18 +408,18 @@
   },
   "crisisGuide": {
     "title": "Strike & Crisis Comms Guide",
-    "subtitle": "High-level guidance for CAAT OPSEU locals during strikes, bargaining, and workplace crises",
+    "subtitle": "High-level guidance for local unions during strikes, bargaining, and workplace crises",
     "backToGuide": "Back to The Blueprint",
-    "intro": "OPSEU/SEFPO provides sector-level bargaining support, but locals run their own member communications — especially on social media. This guide helps volunteer comms leads stay coordinated, lawful, and member-centred when stakes are high. Always defer to your local executive, OPSEU servicing rep, and any active strike or bargaining protocols.",
+    "intro": "Central unions often provide sector-level bargaining support, but locals run their own member communications — especially on social media. This guide helps volunteer comms leads stay coordinated, lawful, and member-centred when stakes are high. Always defer to your local executive, union servicing rep, and any active strike or bargaining protocols.",
     "scenarios": {
       "strike": {
         "title": "Strike action",
         "items": [
-          "Confirm all public messaging with your local president and OPSEU servicing rep before posting",
+          "Confirm all public messaging with your local president and union servicing rep before posting",
           "Designate one or two spokespersons — members and media should hear one consistent local voice",
           "Post daily picket schedules, gate locations, and safety reminders using branded graphics from this toolbox",
           "Share solidarity and member stories with consent — never post photos without permission",
-          "Use OPSEU blue branding; follow CAAT Support campaign materials when coordinating with division",
+          "Use your Brand Kit colours; follow division or sector campaign materials when coordinating beyond the local",
           "Do not share negotiation details, member home addresses, or internal strategy on public channels",
           "Direct questions about pay, duties, and return-to-work to the local strike committee — not comment threads"
         ]
@@ -405,17 +429,17 @@
         "items": [
           "Build momentum with factual updates — job security, workload, wages, and member priorities",
           "Use consistent hashtags and graphics so members recognize official local posts",
-          "Encourage members to wear OPSEU blue and attend information meetings — post times and locations early",
+          "Encourage members to wear union colours and attend information meetings — post times and locations early",
           "Share only what the bargaining team has approved for public release",
           "Remind members to avoid debating management claims in public comment sections",
-          "Link to OPSEU/CAAT bargaining pages when available rather than paraphrasing from memory"
+          "Link to official union bargaining pages when available rather than paraphrasing from memory"
         ]
       },
       "layoffs": {
         "title": "Layoffs and restructuring",
         "items": [
           "Acknowledge member anxiety — be empathetic, factual, and calm",
-          "Direct affected members to stewards, OPSEU servicing reps, and EAP resources",
+          "Direct affected members to stewards, union servicing reps, and EAP resources",
           "Do not speculate about outcomes — share only confirmed local and employer statements",
           "Use quote cards from elected leaders to show a unified local voice",
           "Document management communications offline for grievance and consultation records",
@@ -427,7 +451,7 @@
         "items": [
           "Respond with facts and collective agreement language — never personal attacks",
           "If management posts misinformation, publish one brief correction and pin it if needed",
-          "Escalate harassment, threats, or surveillance concerns to your OPSEU rep immediately",
+          "Escalate harassment, threats, or surveillance concerns to your union servicing rep immediately",
           "Do not engage in prolonged public arguments with management accounts",
           "Keep sensitive member issues in steward channels, not public posts",
           "Screenshot problematic employer posts for the local executive and servicing rep"
@@ -437,7 +461,7 @@
     "escalation": {
       "title": "When to escalate",
       "items": [
-        "Media inquiries — route to your designated spokesperson or OPSEU communications",
+        "Media inquiries — route to your designated spokesperson or union communications",
         "Legal threats, injunctions, or employer letters about conduct — executive and servicing rep immediately",
         "Member safety incidents on the line or in the workplace — follow local emergency protocols first",
         "Leaked confidential documents or suspected bad-faith bargaining — do not post; alert leadership",
@@ -458,7 +482,7 @@
     }
   },
   "footer": {
-    "madeBy": "Built for union locals by union volunteers",
+    "madeBy": "Built in solidarity for union locals by union volunteers",
     "privacy": "Your data stays on your device"
   },
   "accessibility": {
