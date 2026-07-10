@@ -337,7 +337,7 @@
     "title": "Configurer la marque de votre section",
     "step1": "Détails de la section",
     "step2": "Couleurs",
-    "step3": "Logo",
+    "step3": "Choisissez votre logo",
     "localNumber": "Numéro de section",
     "localNumberPlaceholder": "e.g. 243",
     "subText": "Sous-texte",
@@ -345,10 +345,11 @@
     "division": "Division ou secteur (facultatif)",
     "primaryColor": "Couleur de marque principale",
     "secondaryColor": "Accent graphique",
-    "useOfficialLogo": "Utiliser le logo de marque par défaut",
+    "useOfficialLogo": "Utiliser le logo OPSEU",
     "uploadCustomLogo": "Téléverser un logo personnalisé",
     "complete": "Terminer la configuration",
-    "divisionPlaceholder": "p. ex. Soutien collégial"
+    "divisionPlaceholder": "p. ex. Soutien collégial",
+    "step3Description": "Choisissez comment votre section apparaît dans l'en-tête et sur les graphiques. L'en-tête se met à jour au fur et à mesure."
   },
   "brandKit": {
     "title": "Gestionnaire de trousse de marque",
@@ -363,10 +364,16 @@
     },
     "logo": {
       "title": "Logo",
-      "description": "Utilisez le logo de marque par défaut ou téléversez le logo de votre section (PNG, JPEG, WebP ou SVG).",
-      "useOfficialLogo": "Utiliser le logo de marque par défaut",
-      "uploadCustomLogo": "Téléverser le logo de la section",
-      "uploadHint": "Accepte PNG, JPEG, WebP ou SVG jusqu'à 10 Mo."
+      "description": "Choisissez le logo OPSEU, téléversez le logo de votre section, ou utilisez un monogramme texte.",
+      "useOfficialLogo": "Utiliser le logo OPSEU",
+      "uploadCustomLogo": "Téléverser un logo",
+      "uploadHint": "PNG, JPEG, WebP ou SVG jusqu'à 10 Mo.",
+      "useOfficialLogoHint": "Lockup officiel OPSEU/SEFPO — choix recommandé pour configurer votre marque.",
+      "noImage": "Aucune image",
+      "noImageHint": "Utilisez un monogramme texte dans l'en-tête au lieu d'un logo.",
+      "logoText": "Monogramme d'en-tête",
+      "logoTextHint": "Jusqu'à 4 caractères — p. ex. LU ou votre numéro de section.",
+      "preview": "Aperçu"
     }
   },
   "consent": {

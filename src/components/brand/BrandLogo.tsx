@@ -17,12 +17,35 @@ const sizeMap = {
   lg: { width: 200, height: 80 },
 } as const;
 
+const textSizeClass = {
+  sm: "h-8 w-8 text-sm",
+  md: "h-12 w-12 text-base",
+  lg: "h-24 w-24 text-2xl",
+} as const;
+
 export function BrandLogo({ size = "sm", className }: BrandLogoProps) {
   const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
   const { width, height } = sizeMap[size];
+  const mark = (brandKit.logoText?.trim() || "LU").slice(0, 4);
 
-  if (!hydrated || brandKit.useOfficialLogo) {
+  // First visit / before hydrate: keep the compact LU mark
+  if (!hydrated) {
+    return (
+      <span
+        className={cn(
+          "flex items-center justify-center rounded bg-opseu-blue font-bold text-white",
+          textSizeClass[size],
+          className,
+        )}
+        aria-hidden
+      >
+        LU
+      </span>
+    );
+  }
+
+  if (brandKit.useOfficialLogo) {
     return (
       <Image
         src={`${DEFAULT_ASSET_PACK_PATH}logo-primary.png`}
@@ -51,14 +74,12 @@ export function BrandLogo({ size = "sm", className }: BrandLogoProps) {
     <span
       className={cn(
         "flex items-center justify-center rounded bg-opseu-blue font-bold text-white",
-        size === "sm" && "h-8 w-8 text-sm",
-        size === "md" && "h-12 w-12 text-base",
-        size === "lg" && "h-24 w-24 text-2xl",
+        textSizeClass[size],
         className,
       )}
       aria-hidden
     >
-      LU
+      {mark}
     </span>
   );
 }

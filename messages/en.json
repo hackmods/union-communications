@@ -337,7 +337,7 @@
     "title": "Set up your local brand",
     "step1": "Local details",
     "step2": "Colours",
-    "step3": "Logo",
+    "step3": "Choose your logo",
     "localNumber": "Local number",
     "localNumberPlaceholder": "e.g. 243",
     "subText": "Sub-text",
@@ -346,9 +346,10 @@
     "divisionPlaceholder": "e.g. College Support",
     "primaryColor": "Primary brand colour",
     "secondaryColor": "Graphics accent",
-    "useOfficialLogo": "Use default brand logo",
+    "useOfficialLogo": "Use OPSEU logo",
     "uploadCustomLogo": "Upload custom logo",
-    "complete": "Finish setup"
+    "complete": "Finish setup",
+    "step3Description": "Pick how your local appears in the header and on graphics. The header updates as you choose."
   },
   "brandKit": {
     "title": "Brand Kit Manager",
@@ -363,10 +364,16 @@
     },
     "logo": {
       "title": "Logo",
-      "description": "Use the default brand logo or upload your local union logo (PNG, JPEG, WebP, or SVG).",
-      "useOfficialLogo": "Use default brand logo",
-      "uploadCustomLogo": "Upload local union logo",
-      "uploadHint": "Accepts PNG, JPEG, WebP, or SVG up to 10 MB."
+      "description": "Choose the OPSEU logo, upload your local logo, or use a short text mark.",
+      "useOfficialLogo": "Use OPSEU logo",
+      "uploadCustomLogo": "Upload logo",
+      "uploadHint": "PNG, JPEG, WebP, or SVG up to 10 MB.",
+      "useOfficialLogoHint": "Official OPSEU/SEFPO lockup — recommended default when building your brand.",
+      "noImage": "No image",
+      "noImageHint": "Use a short text mark in the header instead of a logo image.",
+      "logoText": "Header text mark",
+      "logoTextHint": "Up to 4 characters — e.g. LU or your local number.",
+      "preview": "Preview"
     }
   },
   "assets": {

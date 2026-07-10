@@ -26,6 +26,8 @@ export interface BrandKit {
   accentColor: string;
   useOfficialLogo: boolean;
   customLogoDataUrl?: string;
+  /** Short monogram when no logo image is used (e.g. LU, 243) */
+  logoText?: string;
   divisionId?: string;
   updatedAt: string;
 }

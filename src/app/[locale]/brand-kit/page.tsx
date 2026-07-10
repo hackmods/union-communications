@@ -82,13 +82,32 @@ export default function BrandKitPage() {
         <LogoSettings
           useOfficialLogo={brandKit.useOfficialLogo}
           customLogoDataUrl={brandKit.customLogoDataUrl}
-          onUseOfficialLogoChange={(value) =>
-            setBrandKit({ useOfficialLogo: value })
+          logoText={brandKit.logoText}
+          onModeChange={(mode) => {
+            if (mode === "official") {
+              setBrandKit({
+                useOfficialLogo: true,
+                customLogoDataUrl: undefined,
+              });
+              return;
+            }
+            if (mode === "custom") {
+              setBrandKit({ useOfficialLogo: false });
+              return;
+            }
+            setBrandKit({
+              useOfficialLogo: false,
+              customLogoDataUrl: undefined,
+              logoText: brandKit.logoText?.trim() || "LU",
+            });
+          }}
+          onCustomLogoUpload={(url) =>
+            setBrandKit({ useOfficialLogo: false, customLogoDataUrl: url })
           }
-          onCustomLogoUpload={(url) => setBrandKit({ customLogoDataUrl: url })}
           onCustomLogoClear={() =>
             setBrandKit({ customLogoDataUrl: undefined })
           }
+          onLogoTextChange={(text) => setBrandKit({ logoText: text })}
         />
       </Card>
 

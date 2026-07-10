@@ -29,7 +29,9 @@ export const DEFAULT_BRAND_KIT = {
   primaryColor: BRAND_COLORS.primary,
   secondaryColor: BRAND_COLORS.secondary,
   accentColor: BRAND_COLORS.accent,
-  useOfficialLogo: defaults.useOfficialLogo,
+  // First visit shows LU in the header; onboarding/brand kit default to OPSEU
+  useOfficialLogo: false,
+  logoText: "LU",
   divisionId: defaults.assetPackPath.includes("caat") ? "caat" : undefined,
   updatedAt: new Date().toISOString(),
 };

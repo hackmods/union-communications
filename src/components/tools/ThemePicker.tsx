@@ -1,7 +1,7 @@
 "use client";
 
 import { BRAND_COLORS } from "@/lib/constants/brand";
-import { Input } from "@/components/ui/Input";
+import { ColorField } from "./ColorField";
 import { ContrastChecker } from "./ContrastChecker";
 
 interface ThemePickerProps {
@@ -24,22 +24,16 @@ export function ThemePicker({
   return (
     <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <Input
-            type="color"
-            label={primaryLabel}
-            value={primaryColor}
-            onChange={(e) => onPrimaryChange(e.target.value)}
-          />
-        </div>
-        <div>
-          <Input
-            type="color"
-            label={secondaryLabel}
-            value={secondaryColor}
-            onChange={(e) => onSecondaryChange(e.target.value)}
-          />
-        </div>
+        <ColorField
+          label={primaryLabel}
+          value={primaryColor}
+          onChange={onPrimaryChange}
+        />
+        <ColorField
+          label={secondaryLabel}
+          value={secondaryColor}
+          onChange={onSecondaryChange}
+        />
       </div>
       <ContrastChecker foreground="#FFFFFF" background={primaryColor} />
       <ContrastChecker foreground={primaryColor} background="#FFFFFF" />

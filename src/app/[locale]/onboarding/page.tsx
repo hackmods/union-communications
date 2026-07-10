@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
-import { LogoSettings } from "@/components/brand/LogoSettings";
+import { LogoSettings, type LogoMode } from "@/components/brand/LogoSettings";
 
 export default function OnboardingPage() {
   const t = useTranslations("onboarding");
@@ -18,9 +18,33 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [division, setDivision] = useState("");
 
+  // Building a brand defaults to the OPSEU logo (header updates live)
+  useEffect(() => {
+    if (!brandKit.customLogoDataUrl) {
+      setBrandKit({ useOfficialLogo: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on enter
+  }, []);
+
   const finish = () => {
     setOnboardingComplete(true);
     router.push("/brand-kit");
+  };
+
+  const handleLogoModeChange = (mode: LogoMode) => {
+    if (mode === "official") {
+      setBrandKit({ useOfficialLogo: true, customLogoDataUrl: undefined });
+      return;
+    }
+    if (mode === "custom") {
+      setBrandKit({ useOfficialLogo: false });
+      return;
+    }
+    setBrandKit({
+      useOfficialLogo: false,
+      customLogoDataUrl: undefined,
+      logoText: brandKit.logoText?.trim() || "LU",
+    });
   };
 
   return (
@@ -86,18 +110,22 @@ export default function OnboardingPage() {
         {step === 3 && (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">{t("step3")}</h2>
+            <p className="text-sm text-gray-600">{t("step3Description")}</p>
             <LogoSettings
               useOfficialLogo={brandKit.useOfficialLogo}
               customLogoDataUrl={brandKit.customLogoDataUrl}
-              onUseOfficialLogoChange={(value) =>
-                setBrandKit({ useOfficialLogo: value })
-              }
+              logoText={brandKit.logoText}
+              onModeChange={handleLogoModeChange}
               onCustomLogoUpload={(url) =>
-                setBrandKit({ customLogoDataUrl: url })
+                setBrandKit({
+                  useOfficialLogo: false,
+                  customLogoDataUrl: url,
+                })
               }
               onCustomLogoClear={() =>
                 setBrandKit({ customLogoDataUrl: undefined })
               }
+              onLogoTextChange={(text) => setBrandKit({ logoText: text })}
             />
           </div>
         )}
