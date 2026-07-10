@@ -1,0 +1,33 @@
+---
+description: OPSEU/CAAT reference tenant branding — colours, logos, complementary tool rationale
+globs: src/components/brand/**,src/app/**/brand-kit/**,src/app/**/onboarding/**,src/app/**/assets/**,src/lib/constants/brand.ts,seed/reference-tenant-opseu-caat.json
+alwaysApply: false
+---
+
+# OPSEU / CAAT Branding (Reference Tenant #1)
+
+## Product context
+This comms toolbox is a **complementary volunteer tool** for local union communicators. OPSEU/SEFPO does not provide basic local-level social media branding, logo export, or graphic generation — locals fill that gap themselves. This hub exists to make that work easier while respecting official brand guidelines.
+
+## Official OPSEU colours
+Source: [OPSEU graphics & letterhead templates](https://opseu.org/information/opseu-graphics-logos-and-letterhead-templates/12263)
+
+| Token | Hex | Use |
+|-------|-----|-----|
+| OPSEU Blue | `#003DA5` | Pantone 285 — primary union brand colour |
+| OPSEU Dark | `#002868` | Depth, hover states, accent text on light backgrounds |
+| CAAT Yellow | `#FFD200` | CAAT Support campaign accent (Support4Success), **not** the main OPSEU brand colour |
+
+**UI shell** (header, buttons, focus rings) should lead with OPSEU blue. Reserve yellow for graphic-tool accents (quote cards, flyers, logo builder text) — never as the default chrome colour.
+
+## Logo sources
+1. **Official pack** — `public/assets/caat-opseu/logo-primary.svg` via `DEFAULT_ASSET_PACK_PATH`
+2. **Custom upload** — PNG, JPEG, WebP, or SVG stored as `customLogoDataUrl` in `BrandKit` (localStorage via `DataAdapter`)
+
+Use `BrandLogo` for display; use `LogoSettings` for the official/custom toggle + upload UI.
+
+## Defaults
+Sourced from `seed/reference-tenant-opseu-caat.json` → `getDefaultBrandDefaults()` → `BRAND_COLORS` / `DEFAULT_BRAND_KIT`. OPSEU is reference tenant #1, not a platform-wide hardcoded default for new tenant signups.
+
+## Multi-union rule
+No OPSEU names or hex values in new core components. Reference tenant seed + cursor rules only. Other unions supply their own `brandDefaults` and asset packs in Phase 1+.

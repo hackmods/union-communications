@@ -11,6 +11,7 @@ interface ImageUploadProps {
   onClear?: () => void;
   preview?: string;
   label?: string;
+  hint?: string;
 }
 
 export function ImageUpload({
@@ -18,6 +19,7 @@ export function ImageUpload({
   onClear,
   preview,
   label,
+  hint,
 }: ImageUploadProps) {
   const t = useTranslations("common");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -41,6 +43,7 @@ export function ImageUpload({
   return (
     <div className="space-y-2">
       {label && <p className="text-sm font-medium text-gray-700">{label}</p>}
+      {hint && <p className="text-xs text-gray-500">{hint}</p>}
       <input
         ref={inputRef}
         type="file"

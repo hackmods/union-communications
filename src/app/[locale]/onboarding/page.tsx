@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
-import { ImageUpload } from "@/components/tools/ImageUpload";
+import { LogoSettings } from "@/components/brand/LogoSettings";
 
 export default function OnboardingPage() {
   const t = useTranslations("onboarding");
@@ -85,24 +85,19 @@ export default function OnboardingPage() {
         {step === 3 && (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold">{t("step3")}</h2>
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={brandKit.useOfficialLogo}
-                onChange={(e) =>
-                  setBrandKit({ useOfficialLogo: e.target.checked })
-                }
-              />
-              {t("useOfficialLogo")}
-            </label>
-            {!brandKit.useOfficialLogo && (
-              <ImageUpload
-                label={t("uploadCustomLogo")}
-                preview={brandKit.customLogoDataUrl}
-                onUpload={(url) => setBrandKit({ customLogoDataUrl: url })}
-                onClear={() => setBrandKit({ customLogoDataUrl: undefined })}
-              />
-            )}
+            <LogoSettings
+              useOfficialLogo={brandKit.useOfficialLogo}
+              customLogoDataUrl={brandKit.customLogoDataUrl}
+              onUseOfficialLogoChange={(value) =>
+                setBrandKit({ useOfficialLogo: value })
+              }
+              onCustomLogoUpload={(url) =>
+                setBrandKit({ customLogoDataUrl: url })
+              }
+              onCustomLogoClear={() =>
+                setBrandKit({ customLogoDataUrl: undefined })
+              }
+            />
           </div>
         )}
 

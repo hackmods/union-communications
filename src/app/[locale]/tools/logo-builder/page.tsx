@@ -10,8 +10,8 @@ import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 
 interface LogoState {
   localNumber: string;
@@ -95,21 +95,7 @@ export default function LogoBuilderPage() {
             className="flex h-80 w-80 flex-col items-center justify-center rounded-full shadow-lg"
             style={{ backgroundColor: state.primaryColor }}
           >
-            {brandKit.useOfficialLogo ? (
-              <Image
-                src="/assets/caat-opseu/logo-primary.svg"
-                alt=""
-                width={100}
-                height={100}
-                className="mb-2"
-              />
-            ) : brandKit.customLogoDataUrl ? (
-              <img
-                src={brandKit.customLogoDataUrl}
-                alt=""
-                className="mb-2 h-24 w-24 object-contain"
-              />
-            ) : null}
+            <BrandLogo size="lg" className="mb-2" />
             <p
               className="text-4xl font-bold"
               style={{ color: state.secondaryColor }}

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { ThemePicker } from "@/components/tools/ThemePicker";
+import { LogoSettings } from "@/components/brand/LogoSettings";
 import type { BrandKit } from "@/types/entities";
 import { resolveLocalNumber } from "@/lib/utils";
 
@@ -70,6 +71,24 @@ export default function BrandKitPage() {
           secondaryColor={brandKit.secondaryColor}
           onPrimaryChange={(c) => setBrandKit({ primaryColor: c })}
           onSecondaryChange={(c) => setBrandKit({ secondaryColor: c })}
+          primaryLabel={t("colors.primary")}
+          secondaryLabel={t("colors.secondary")}
+        />
+      </Card>
+
+      <Card className="mt-6 space-y-4">
+        <CardTitle>{t("logo.title")}</CardTitle>
+        <p className="text-sm text-gray-600">{t("logo.description")}</p>
+        <LogoSettings
+          useOfficialLogo={brandKit.useOfficialLogo}
+          customLogoDataUrl={brandKit.customLogoDataUrl}
+          onUseOfficialLogoChange={(value) =>
+            setBrandKit({ useOfficialLogo: value })
+          }
+          onCustomLogoUpload={(url) => setBrandKit({ customLogoDataUrl: url })}
+          onCustomLogoClear={() =>
+            setBrandKit({ customLogoDataUrl: undefined })
+          }
         />
       </Card>
 

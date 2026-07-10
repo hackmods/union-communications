@@ -62,8 +62,8 @@
     "subText": "Sous-texte",
     "subTextPlaceholder": "p. ex. Personnel de soutien",
     "division": "Division",
-    "primaryColor": "Couleur principale",
-    "secondaryColor": "Couleur secondaire",
+    "primaryColor": "Bleu OPSEU (principal)",
+    "secondaryColor": "Jaune d'accent CAAT (graphiques)",
     "useOfficialLogo": "Utiliser le logo officiel CAAT OPSEU",
     "uploadCustomLogo": "Téléverser un logo personnalisé",
     "complete": "Terminer la configuration"
@@ -74,7 +74,18 @@
     "export": "Exporter la trousse de marque",
     "import": "Importer la trousse de marque",
     "importSuccess": "Trousse de marque importée avec succès",
-    "importError": "Fichier de trousse de marque invalide"
+    "importError": "Fichier de trousse de marque invalide",
+    "colors": {
+      "primary": "Bleu OPSEU (principal)",
+      "secondary": "Jaune d'accent CAAT (graphiques)"
+    },
+    "logo": {
+      "title": "Logo",
+      "description": "Utilisez le logo officiel CAAT OPSEU ou téléversez le logo de votre section (PNG, JPEG, WebP ou SVG).",
+      "useOfficialLogo": "Utiliser le logo officiel CAAT OPSEU",
+      "uploadCustomLogo": "Téléverser le logo de la section",
+      "uploadHint": "Accepte PNG, JPEG, WebP ou SVG jusqu'à 10 Mo."
+    }
   },
   "consent": {
     "title": "Consentement photo du membre",

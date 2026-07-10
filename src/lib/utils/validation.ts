@@ -5,11 +5,15 @@ export type ValidationResult =
   | { valid: false; error: string };
 
 export function validateImageFile(file: File): ValidationResult {
-  if (
-    !ALLOWED_IMAGE_TYPES.includes(
+  const isSvg =
+    file.type === "image/svg+xml" || file.name.toLowerCase().endsWith(".svg");
+  const isAllowedType =
+    isSvg ||
+    ALLOWED_IMAGE_TYPES.includes(
       file.type as (typeof ALLOWED_IMAGE_TYPES)[number],
-    )
-  ) {
+    );
+
+  if (!isAllowedType) {
     return {
       valid: false,
       error: "Invalid file type. Use JPEG, PNG, WebP, or SVG.",

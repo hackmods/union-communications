@@ -3,7 +3,9 @@
 :root {
   --background: #f8fafc;
   --foreground: #1a1a1a;
+  /* OPSEU Pantone 285 — official union brand */
   --opseu-blue: #003da5;
+  /* CAAT Support campaign accent — graphics tools only, not UI chrome */
   --opseu-yellow: #ffd200;
   --opseu-dark: #002868;
   --brand-primary: var(--opseu-blue);

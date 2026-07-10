@@ -62,8 +62,8 @@
     "subText": "Sub-text",
     "subTextPlaceholder": "e.g. Support Staff",
     "division": "Division",
-    "primaryColor": "Primary colour",
-    "secondaryColor": "Secondary colour",
+    "primaryColor": "OPSEU blue (primary)",
+    "secondaryColor": "CAAT accent yellow (graphics)",
     "useOfficialLogo": "Use CAAT OPSEU official logo",
     "uploadCustomLogo": "Upload custom logo",
     "complete": "Finish setup"
@@ -74,7 +74,18 @@
     "export": "Export brand kit",
     "import": "Import brand kit",
     "importSuccess": "Brand kit imported successfully",
-    "importError": "Invalid brand kit file"
+    "importError": "Invalid brand kit file",
+    "colors": {
+      "primary": "OPSEU blue (primary)",
+      "secondary": "CAAT accent yellow (graphics)"
+    },
+    "logo": {
+      "title": "Logo",
+      "description": "Use the official CAAT OPSEU logo or upload your local union logo (PNG, JPEG, WebP, or SVG).",
+      "useOfficialLogo": "Use CAAT OPSEU official logo",
+      "uploadCustomLogo": "Upload local union logo",
+      "uploadHint": "Accepts PNG, JPEG, WebP, or SVG up to 10 MB."
+    }
   },
   "consent": {
     "title": "Member photo consent",

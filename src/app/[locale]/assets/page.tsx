@@ -12,9 +12,9 @@ export default async function AssetsPage({
   setRequestLocale(locale);
 
   const swatches = [
-    { name: "Primary Blue", hex: CAAT_OPSEU_COLORS.primary },
-    { name: "Secondary Yellow", hex: CAAT_OPSEU_COLORS.secondary },
-    { name: "Accent Dark Blue", hex: CAAT_OPSEU_COLORS.accent },
+    { name: "OPSEU Blue (Pantone 285)", hex: CAAT_OPSEU_COLORS.primary },
+    { name: "CAAT Accent Yellow", hex: CAAT_OPSEU_COLORS.secondary },
+    { name: "OPSEU Dark Blue", hex: CAAT_OPSEU_COLORS.accent },
     { name: "White", hex: CAAT_OPSEU_COLORS.white },
     { name: "Black", hex: CAAT_OPSEU_COLORS.black },
   ];
@@ -23,7 +23,8 @@ export default async function AssetsPage({
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">CAAT OPSEU Asset Pack</h1>
       <p className="mt-2 text-gray-600">
-        Official CAAT OPSEU logos, colour swatches, and usage guidelines for local social media.
+        Official OPSEU and CAAT Support brand colours, logos, and usage guidelines for local social media.
+        This toolbox complements OPSEU&apos;s own resources — locals manage their own comms branding.
       </p>
 
       <Card className="mt-8">
@@ -66,7 +67,9 @@ export default async function AssetsPage({
         <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
           <li>Always maintain clear space around the logo equal to the height of the &quot;CAAT&quot; text</li>
           <li>Do not stretch, rotate, or recolour the official logo</li>
-          <li>Use primary blue (#003DA5) on light backgrounds; white logo on dark backgrounds</li>
+          <li>Primary blue (#003DA5) is OPSEU Pantone 285 — the official union brand colour</li>
+          <li>Yellow (#FFD200) is a CAAT Support campaign accent for graphics, not the main OPSEU brand colour</li>
+          <li>Use primary blue on light backgrounds; white logo on dark backgrounds</li>
           <li>Local numbers and sub-text may be added below the logo using approved fonts</li>
           <li>For questions about brand usage, contact your division communications chair</li>
         </ul>
