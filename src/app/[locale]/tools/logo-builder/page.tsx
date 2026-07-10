@@ -11,6 +11,10 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import {
+  LogoSettings,
+  brandKitPatchForLogoMode,
+} from "@/components/brand/LogoSettings";
 import { useTranslations } from "next-intl";
 
 interface LogoState {
@@ -22,7 +26,9 @@ interface LogoState {
 
 export default function LogoBuilderPage() {
   const t = useTranslations("common");
+  const tLogo = useTranslations("brandKit.logo");
   const brandKit = useBrandStore((s) => s.brandKit);
+  const setBrandKit = useBrandStore((s) => s.setBrandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const initial: LogoState = {
@@ -74,6 +80,26 @@ export default function LogoBuilderPage() {
             onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
             onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
           />
+          <div className="space-y-2 border-t border-gray-100 pt-4">
+            <h2 className="font-semibold text-opseu-dark">{tLogo("title")}</h2>
+            <p className="text-sm text-gray-600">{tLogo("description")}</p>
+            <LogoSettings
+              useOfficialLogo={brandKit.useOfficialLogo}
+              officialLogoVariant={brandKit.officialLogoVariant}
+              customLogoDataUrl={brandKit.customLogoDataUrl}
+              logoText={brandKit.logoText}
+              onModeChange={(mode) => {
+                setBrandKit(brandKitPatchForLogoMode(mode, brandKit.logoText));
+              }}
+              onCustomLogoUpload={(url) =>
+                setBrandKit({ useOfficialLogo: false, customLogoDataUrl: url })
+              }
+              onCustomLogoClear={() =>
+                setBrandKit({ customLogoDataUrl: undefined })
+              }
+              onLogoTextChange={(text) => setBrandKit({ logoText: text })}
+            />
+          </div>
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}

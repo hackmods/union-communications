@@ -377,7 +377,11 @@
       "useLockup": "OPSEU wordmark",
       "useLockupHint": "Full OPSEU/SEFPO lockup — recommended default when building your brand.",
       "useMark": "OPSEU emblem",
-      "useMarkHint": "Bars and trillium mark — compact for headers and circular logos."
+      "useMarkHint": "Bars and trillium mark — compact for headers and circular logos.",
+      "useSlitBlue": "OPSEU slit mark (blue)",
+      "useSlitBlueHint": "Bars and trillium with OPSEU/SEFPO cut through — for light backgrounds.",
+      "useSlitWhite": "OPSEU slit mark (white)",
+      "useSlitWhiteHint": "Same slit mark in white — for dark or brand-coloured backgrounds."
     }
   },
   "assets": {

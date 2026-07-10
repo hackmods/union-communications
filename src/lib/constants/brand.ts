@@ -32,9 +32,27 @@ export const OFFICIAL_LOGOS = {
     srcOnDark: `${defaults.assetPackPath}logo-mark-white.png`,
     aspect: "square" as const,
   },
+  slitBlue: {
+    id: "slitBlue" as const,
+    src: `${defaults.assetPackPath}opseu-mark-slit-blue.svg`,
+    aspect: "square" as const,
+  },
+  slitWhite: {
+    id: "slitWhite" as const,
+    src: `${defaults.assetPackPath}opseu-mark-slit-white.svg`,
+    aspect: "square" as const,
+    /** Preview / use on dark backgrounds */
+    onDark: true as const,
+  },
 } as const;
 
 export type OfficialLogoVariant = keyof typeof OFFICIAL_LOGOS;
+
+export function isOfficialLogoVariant(
+  value: string | undefined,
+): value is OfficialLogoVariant {
+  return !!value && value in OFFICIAL_LOGOS;
+}
 
 export const DEFAULT_BRAND_KIT = {
   version: "1.0" as const,

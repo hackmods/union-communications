@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
-import { LogoSettings, type LogoMode } from "@/components/brand/LogoSettings";
+import { LogoSettings, brandKitPatchForLogoMode, type LogoMode } from "@/components/brand/LogoSettings";
 
 export default function OnboardingPage() {
   const t = useTranslations("onboarding");
@@ -32,31 +32,7 @@ export default function OnboardingPage() {
   };
 
   const handleLogoModeChange = (mode: LogoMode) => {
-    if (mode === "lockup") {
-      setBrandKit({
-        useOfficialLogo: true,
-        officialLogoVariant: "lockup",
-        customLogoDataUrl: undefined,
-      });
-      return;
-    }
-    if (mode === "mark") {
-      setBrandKit({
-        useOfficialLogo: true,
-        officialLogoVariant: "mark",
-        customLogoDataUrl: undefined,
-      });
-      return;
-    }
-    if (mode === "custom") {
-      setBrandKit({ useOfficialLogo: false });
-      return;
-    }
-    setBrandKit({
-      useOfficialLogo: false,
-      customLogoDataUrl: undefined,
-      logoText: brandKit.logoText?.trim() || "LU",
-    });
+    setBrandKit(brandKitPatchForLogoMode(mode, brandKit.logoText));
   };
 
   return (

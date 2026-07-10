@@ -4,10 +4,15 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { Input } from "@/components/ui/Input";
-import { OFFICIAL_LOGOS, type OfficialLogoVariant } from "@/lib/constants/brand";
+import {
+  OFFICIAL_LOGOS,
+  isOfficialLogoVariant,
+  type OfficialLogoVariant,
+} from "@/lib/constants/brand";
 import { cn } from "@/lib/utils";
+import type { BrandKit } from "@/types/entities";
 
-export type LogoMode = "lockup" | "mark" | "custom" | "none";
+export type LogoMode = OfficialLogoVariant | "custom" | "none";
 
 export function resolveLogoMode(
   useOfficialLogo: boolean,
@@ -15,10 +20,34 @@ export function resolveLogoMode(
   customLogoDataUrl?: string,
 ): LogoMode {
   if (useOfficialLogo) {
-    return officialLogoVariant === "mark" ? "mark" : "lockup";
+    return isOfficialLogoVariant(officialLogoVariant)
+      ? officialLogoVariant
+      : "lockup";
   }
   if (customLogoDataUrl) return "custom";
   return "none";
+}
+
+/** Brand kit patch when the user picks a logo mode */
+export function brandKitPatchForLogoMode(
+  mode: LogoMode,
+  currentLogoText?: string,
+): Partial<BrandKit> {
+  if (isOfficialLogoVariant(mode)) {
+    return {
+      useOfficialLogo: true,
+      officialLogoVariant: mode,
+      customLogoDataUrl: undefined,
+    };
+  }
+  if (mode === "custom") {
+    return { useOfficialLogo: false };
+  }
+  return {
+    useOfficialLogo: false,
+    customLogoDataUrl: undefined,
+    logoText: currentLogoText?.trim() || "LU",
+  };
 }
 
 interface LogoSettingsProps {
@@ -53,7 +82,13 @@ export function LogoSettings({
     id: LogoMode;
     title: string;
     description: string;
-    preview?: { src: string; width: number; height: number; onDark?: boolean };
+    preview?: {
+      src: string;
+      width: number;
+      height: number;
+      onDark?: boolean;
+      unoptimized?: boolean;
+    };
   }[] = [
     {
       id: "lockup",
@@ -73,6 +108,29 @@ export function LogoSettings({
         src: OFFICIAL_LOGOS.mark.src,
         width: 56,
         height: 56,
+      },
+    },
+    {
+      id: "slitBlue",
+      title: t("useSlitBlue"),
+      description: t("useSlitBlueHint"),
+      preview: {
+        src: OFFICIAL_LOGOS.slitBlue.src,
+        width: 56,
+        height: 56,
+        unoptimized: true,
+      },
+    },
+    {
+      id: "slitWhite",
+      title: t("useSlitWhite"),
+      description: t("useSlitWhiteHint"),
+      preview: {
+        src: OFFICIAL_LOGOS.slitWhite.src,
+        width: 56,
+        height: 56,
+        onDark: true,
+        unoptimized: true,
       },
     },
     {
@@ -128,16 +186,27 @@ export function LogoSettings({
                   <span
                     className={cn(
                       "mt-3 inline-flex items-center justify-center rounded-lg p-2",
-                      option.id === "mark" ? "bg-white" : "bg-transparent",
+                      option.preview.onDark ? "bg-opseu-dark" : "bg-white",
                     )}
                   >
-                    <Image
-                      src={option.preview.src}
-                      alt=""
-                      width={option.preview.width}
-                      height={option.preview.height}
-                      className="object-contain"
-                    />
+                    {/* eslint-disable-next-line @next/next/no-img-element -- SVG previews need raw img */}
+                    {option.preview.unoptimized ? (
+                      <img
+                        src={option.preview.src}
+                        alt=""
+                        width={option.preview.width}
+                        height={option.preview.height}
+                        className="object-contain"
+                      />
+                    ) : (
+                      <Image
+                        src={option.preview.src}
+                        alt=""
+                        width={option.preview.width}
+                        height={option.preview.height}
+                        className="object-contain"
+                      />
+                    )}
                   </span>
                 )}
               </span>

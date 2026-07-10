@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { ThemePicker } from "@/components/tools/ThemePicker";
-import { LogoSettings } from "@/components/brand/LogoSettings";
+import { LogoSettings, brandKitPatchForLogoMode } from "@/components/brand/LogoSettings";
 import type { BrandKit } from "@/types/entities";
 import { resolveLocalNumber } from "@/lib/utils";
 
@@ -85,31 +85,7 @@ export default function BrandKitPage() {
           customLogoDataUrl={brandKit.customLogoDataUrl}
           logoText={brandKit.logoText}
           onModeChange={(mode) => {
-            if (mode === "lockup") {
-              setBrandKit({
-                useOfficialLogo: true,
-                officialLogoVariant: "lockup",
-                customLogoDataUrl: undefined,
-              });
-              return;
-            }
-            if (mode === "mark") {
-              setBrandKit({
-                useOfficialLogo: true,
-                officialLogoVariant: "mark",
-                customLogoDataUrl: undefined,
-              });
-              return;
-            }
-            if (mode === "custom") {
-              setBrandKit({ useOfficialLogo: false });
-              return;
-            }
-            setBrandKit({
-              useOfficialLogo: false,
-              customLogoDataUrl: undefined,
-              logoText: brandKit.logoText?.trim() || "LU",
-            });
+            setBrandKit(brandKitPatchForLogoMode(mode, brandKit.logoText));
           }}
           onCustomLogoUpload={(url) =>
             setBrandKit({ useOfficialLogo: false, customLogoDataUrl: url })

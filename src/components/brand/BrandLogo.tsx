@@ -2,7 +2,11 @@
 
 import Image from "next/image";
 import { useBrandStore } from "@/store/brand-store";
-import { OFFICIAL_LOGOS } from "@/lib/constants/brand";
+import {
+  OFFICIAL_LOGOS,
+  isOfficialLogoVariant,
+  type OfficialLogoVariant,
+} from "@/lib/constants/brand";
 import { cn } from "@/lib/utils";
 
 interface BrandLogoProps {
@@ -30,6 +34,24 @@ const textSizeClass = {
   lg: "h-24 w-24 text-2xl",
 } as const;
 
+function resolveOfficialSrc(
+  variant: OfficialLogoVariant,
+  onDark: boolean,
+): { src: string; size: "lockup" | "mark"; isSvg: boolean } {
+  if (variant === "lockup") {
+    return { src: OFFICIAL_LOGOS.lockup.src, size: "lockup", isSvg: false };
+  }
+  if (variant === "slitBlue") {
+    return { src: OFFICIAL_LOGOS.slitBlue.src, size: "mark", isSvg: true };
+  }
+  if (variant === "slitWhite") {
+    return { src: OFFICIAL_LOGOS.slitWhite.src, size: "mark", isSvg: true };
+  }
+  // mark — swap to white on dark backgrounds
+  const src = onDark ? OFFICIAL_LOGOS.mark.srcOnDark : OFFICIAL_LOGOS.mark.src;
+  return { src, size: "mark", isSvg: false };
+}
+
 export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoProps) {
   const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
@@ -52,27 +74,31 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
   }
 
   if (brandKit.useOfficialLogo) {
-    const variant = brandKit.officialLogoVariant === "mark" ? "mark" : "lockup";
-    if (variant === "mark") {
-      const { width, height } = markSize[size];
-      const src = onDark ? OFFICIAL_LOGOS.mark.srcOnDark : OFFICIAL_LOGOS.mark.src;
+    const variant = isOfficialLogoVariant(brandKit.officialLogoVariant)
+      ? brandKit.officialLogoVariant
+      : "lockup";
+    const resolved = resolveOfficialSrc(variant, onDark);
+    const dims = resolved.size === "lockup" ? lockupSize[size] : markSize[size];
+
+    if (resolved.isSvg) {
       return (
-        <Image
-          src={src}
+        // eslint-disable-next-line @next/next/no-img-element -- bundled SVG logos
+        <img
+          src={resolved.src}
           alt=""
-          width={width}
-          height={height}
+          width={dims.width}
+          height={dims.height}
           className={cn("object-contain", className)}
         />
       );
     }
-    const { width, height } = lockupSize[size];
+
     return (
       <Image
-        src={OFFICIAL_LOGOS.lockup.src}
+        src={resolved.src}
         alt=""
-        width={width}
-        height={height}
+        width={dims.width}
+        height={dims.height}
         className={cn("object-contain", className)}
       />
     );

@@ -377,7 +377,11 @@
       "useLockup": "Mot-symbole OPSEU",
       "useLockupHint": "Lockup complet OPSEU/SEFPO — choix recommandé pour configurer votre marque.",
       "useMark": "Emblème OPSEU",
-      "useMarkHint": "Barres et trille — compact pour les en-têtes et logos circulaires."
+      "useMarkHint": "Barres et trille — compact pour les en-têtes et logos circulaires.",
+      "useSlitBlue": "Emblème fendu OPSEU (bleu)",
+      "useSlitBlueHint": "Barres et trille avec OPSEU/SEFPO découpés — pour fonds clairs.",
+      "useSlitWhite": "Emblème fendu OPSEU (blanc)",
+      "useSlitWhiteHint": "Même emblème fendu en blanc — pour fonds foncés ou couleur de marque."
     }
   },
   "consent": {
