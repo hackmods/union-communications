@@ -2,19 +2,26 @@
 
 import Image from "next/image";
 import { useBrandStore } from "@/store/brand-store";
-import { DEFAULT_ASSET_PACK_PATH } from "@/lib/constants/brand";
+import { OFFICIAL_LOGOS } from "@/lib/constants/brand";
 import { cn } from "@/lib/utils";
 
 interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
   className?: string;
+  /** Prefer white mark when rendering on dark / brand-coloured backgrounds */
+  onDark?: boolean;
 }
 
-/** Official OPSEU/SEFPO lockup is wide (~2.5:1), not square */
-const sizeMap = {
+const lockupSize = {
   sm: { width: 80, height: 32 },
   md: { width: 120, height: 48 },
   lg: { width: 200, height: 80 },
+} as const;
+
+const markSize = {
+  sm: { width: 32, height: 32 },
+  md: { width: 48, height: 48 },
+  lg: { width: 96, height: 96 },
 } as const;
 
 const textSizeClass = {
@@ -23,10 +30,9 @@ const textSizeClass = {
   lg: "h-24 w-24 text-2xl",
 } as const;
 
-export function BrandLogo({ size = "sm", className }: BrandLogoProps) {
+export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoProps) {
   const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
-  const { width, height } = sizeMap[size];
   const mark = (brandKit.logoText?.trim() || "LU").slice(0, 4);
 
   // First visit / before hydrate: keep the compact LU mark
@@ -46,9 +52,24 @@ export function BrandLogo({ size = "sm", className }: BrandLogoProps) {
   }
 
   if (brandKit.useOfficialLogo) {
+    const variant = brandKit.officialLogoVariant === "mark" ? "mark" : "lockup";
+    if (variant === "mark") {
+      const { width, height } = markSize[size];
+      const src = onDark ? OFFICIAL_LOGOS.mark.srcOnDark : OFFICIAL_LOGOS.mark.src;
+      return (
+        <Image
+          src={src}
+          alt=""
+          width={width}
+          height={height}
+          className={cn("object-contain", className)}
+        />
+      );
+    }
+    const { width, height } = lockupSize[size];
     return (
       <Image
-        src={`${DEFAULT_ASSET_PACK_PATH}logo-primary.png`}
+        src={OFFICIAL_LOGOS.lockup.src}
         alt=""
         width={width}
         height={height}
@@ -58,6 +79,7 @@ export function BrandLogo({ size = "sm", className }: BrandLogoProps) {
   }
 
   if (brandKit.customLogoDataUrl) {
+    const { width, height } = markSize[size];
     return (
       <Image
         src={brandKit.customLogoDataUrl}

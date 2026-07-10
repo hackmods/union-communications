@@ -38,21 +38,39 @@ export default async function AssetsPage({
 
       <Card className="mt-8">
         <CardTitle>{t("primaryLogo")}</CardTitle>
-        <div className="mt-4 flex items-center gap-6">
-          <Image
-            src="/assets/caat-opseu/logo-primary.png"
-            alt={t("logoAlt")}
-            width={200}
-            height={80}
-            className="object-contain"
-          />
-          <a
-            href="/assets/caat-opseu/logo-primary.png"
-            download
-            className="text-opseu-blue underline"
-          >
-            {t("downloadPng")}
-          </a>
+        <div className="mt-4 flex flex-wrap items-center gap-8">
+          <div className="flex items-center gap-4">
+            <Image
+              src="/assets/caat-opseu/logo-primary.png"
+              alt={t("logoAlt")}
+              width={200}
+              height={80}
+              className="object-contain"
+            />
+            <a
+              href="/assets/caat-opseu/logo-primary.png"
+              download
+              className="text-opseu-blue underline"
+            >
+              {t("downloadPng")}
+            </a>
+          </div>
+          <div className="flex items-center gap-4">
+            <Image
+              src="/assets/caat-opseu/logo-mark.png"
+              alt={t("markAlt")}
+              width={72}
+              height={72}
+              className="object-contain"
+            />
+            <a
+              href="/assets/caat-opseu/logo-mark.png"
+              download
+              className="text-opseu-blue underline"
+            >
+              {t("downloadMark")}
+            </a>
+          </div>
         </div>
       </Card>
 

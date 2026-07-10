@@ -364,7 +364,7 @@
     },
     "logo": {
       "title": "Logo",
-      "description": "Choose the OPSEU logo, upload your local logo, or use a short text mark.",
+      "description": "Choose an OPSEU logo, upload your local logo, or use a short text mark.",
       "useOfficialLogo": "Use OPSEU logo",
       "uploadCustomLogo": "Upload logo",
       "uploadHint": "PNG, JPEG, WebP, or SVG up to 10 MB.",
@@ -373,7 +373,11 @@
       "noImageHint": "Use a short text mark in the header instead of a logo image.",
       "logoText": "Header text mark",
       "logoTextHint": "Up to 4 characters — e.g. LU or your local number.",
-      "preview": "Preview"
+      "preview": "Preview",
+      "useLockup": "OPSEU wordmark",
+      "useLockupHint": "Full OPSEU/SEFPO lockup — recommended default when building your brand.",
+      "useMark": "OPSEU emblem",
+      "useMarkHint": "Bars and trillium mark — compact for headers and circular logos."
     }
   },
   "assets": {
@@ -397,7 +401,9 @@
       "localMark": "Local numbers and sub-text may be added below the logo using approved fonts",
       "questions": "For questions about brand usage, contact your local or division communications chair",
       "sourceLabel": "Reference source (current defaults):"
-    }
+    },
+    "markAlt": "OPSEU emblem (bars and trillium)",
+    "downloadMark": "Download emblem PNG"
   },
   "consent": {
     "title": "Member photo consent",

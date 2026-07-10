@@ -81,12 +81,22 @@ export default function BrandKitPage() {
         <p className="text-sm text-gray-600">{t("logo.description")}</p>
         <LogoSettings
           useOfficialLogo={brandKit.useOfficialLogo}
+          officialLogoVariant={brandKit.officialLogoVariant}
           customLogoDataUrl={brandKit.customLogoDataUrl}
           logoText={brandKit.logoText}
           onModeChange={(mode) => {
-            if (mode === "official") {
+            if (mode === "lockup") {
               setBrandKit({
                 useOfficialLogo: true,
+                officialLogoVariant: "lockup",
+                customLogoDataUrl: undefined,
+              });
+              return;
+            }
+            if (mode === "mark") {
+              setBrandKit({
+                useOfficialLogo: true,
+                officialLogoVariant: "mark",
                 customLogoDataUrl: undefined,
               });
               return;

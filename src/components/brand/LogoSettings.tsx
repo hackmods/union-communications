@@ -4,22 +4,26 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { Input } from "@/components/ui/Input";
-import { DEFAULT_ASSET_PACK_PATH } from "@/lib/constants/brand";
+import { OFFICIAL_LOGOS, type OfficialLogoVariant } from "@/lib/constants/brand";
 import { cn } from "@/lib/utils";
 
-export type LogoMode = "official" | "custom" | "none";
+export type LogoMode = "lockup" | "mark" | "custom" | "none";
 
 export function resolveLogoMode(
   useOfficialLogo: boolean,
+  officialLogoVariant: OfficialLogoVariant | undefined,
   customLogoDataUrl?: string,
 ): LogoMode {
-  if (useOfficialLogo) return "official";
+  if (useOfficialLogo) {
+    return officialLogoVariant === "mark" ? "mark" : "lockup";
+  }
   if (customLogoDataUrl) return "custom";
   return "none";
 }
 
 interface LogoSettingsProps {
   useOfficialLogo: boolean;
+  officialLogoVariant?: OfficialLogoVariant;
   customLogoDataUrl?: string;
   logoText?: string;
   onModeChange: (mode: LogoMode) => void;
@@ -30,6 +34,7 @@ interface LogoSettingsProps {
 
 export function LogoSettings({
   useOfficialLogo,
+  officialLogoVariant = "lockup",
   customLogoDataUrl,
   logoText = "LU",
   onModeChange,
@@ -38,13 +43,37 @@ export function LogoSettings({
   onLogoTextChange,
 }: LogoSettingsProps) {
   const t = useTranslations("brandKit.logo");
-  const mode = resolveLogoMode(useOfficialLogo, customLogoDataUrl);
+  const mode = resolveLogoMode(
+    useOfficialLogo,
+    officialLogoVariant,
+    customLogoDataUrl,
+  );
 
-  const options: { id: LogoMode; title: string; description: string }[] = [
+  const options: {
+    id: LogoMode;
+    title: string;
+    description: string;
+    preview?: { src: string; width: number; height: number; onDark?: boolean };
+  }[] = [
     {
-      id: "official",
-      title: t("useOfficialLogo"),
-      description: t("useOfficialLogoHint"),
+      id: "lockup",
+      title: t("useLockup"),
+      description: t("useLockupHint"),
+      preview: {
+        src: OFFICIAL_LOGOS.lockup.src,
+        width: 160,
+        height: 64,
+      },
+    },
+    {
+      id: "mark",
+      title: t("useMark"),
+      description: t("useMarkHint"),
+      preview: {
+        src: OFFICIAL_LOGOS.mark.src,
+        width: 56,
+        height: 56,
+      },
     },
     {
       id: "custom",
@@ -60,11 +89,7 @@ export function LogoSettings({
 
   return (
     <div className="space-y-4">
-      <div
-        className="grid gap-3"
-        role="radiogroup"
-        aria-label={t("title")}
-      >
+      <div className="grid gap-3" role="radiogroup" aria-label={t("title")}>
         {options.map((option) => {
           const selected = mode === option.id;
           return (
@@ -99,13 +124,18 @@ export function LogoSettings({
                 <span className="mt-0.5 block text-sm text-gray-600">
                   {option.description}
                 </span>
-                {option.id === "official" && selected && (
-                  <span className="mt-3 block">
+                {option.preview && (
+                  <span
+                    className={cn(
+                      "mt-3 inline-flex items-center justify-center rounded-lg p-2",
+                      option.id === "mark" ? "bg-white" : "bg-transparent",
+                    )}
+                  >
                     <Image
-                      src={`${DEFAULT_ASSET_PACK_PATH}logo-primary.png`}
+                      src={option.preview.src}
                       alt=""
-                      width={160}
-                      height={64}
+                      width={option.preview.width}
+                      height={option.preview.height}
                       className="object-contain"
                     />
                   </span>

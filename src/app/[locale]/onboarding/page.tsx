@@ -18,10 +18,10 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [division, setDivision] = useState("");
 
-  // Building a brand defaults to the OPSEU logo (header updates live)
+  // Building a brand defaults to the OPSEU lockup (header updates live)
   useEffect(() => {
     if (!brandKit.customLogoDataUrl) {
-      setBrandKit({ useOfficialLogo: true });
+      setBrandKit({ useOfficialLogo: true, officialLogoVariant: "lockup" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on enter
   }, []);
@@ -32,8 +32,20 @@ export default function OnboardingPage() {
   };
 
   const handleLogoModeChange = (mode: LogoMode) => {
-    if (mode === "official") {
-      setBrandKit({ useOfficialLogo: true, customLogoDataUrl: undefined });
+    if (mode === "lockup") {
+      setBrandKit({
+        useOfficialLogo: true,
+        officialLogoVariant: "lockup",
+        customLogoDataUrl: undefined,
+      });
+      return;
+    }
+    if (mode === "mark") {
+      setBrandKit({
+        useOfficialLogo: true,
+        officialLogoVariant: "mark",
+        customLogoDataUrl: undefined,
+      });
       return;
     }
     if (mode === "custom") {
@@ -113,6 +125,7 @@ export default function OnboardingPage() {
             <p className="text-sm text-gray-600">{t("step3Description")}</p>
             <LogoSettings
               useOfficialLogo={brandKit.useOfficialLogo}
+              officialLogoVariant={brandKit.officialLogoVariant}
               customLogoDataUrl={brandKit.customLogoDataUrl}
               logoText={brandKit.logoText}
               onModeChange={handleLogoModeChange}

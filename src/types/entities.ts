@@ -25,6 +25,8 @@ export interface BrandKit {
   secondaryColor: string;
   accentColor: string;
   useOfficialLogo: boolean;
+  /** Which bundled official logo to use when useOfficialLogo is true */
+  officialLogoVariant?: "lockup" | "mark";
   customLogoDataUrl?: string;
   /** Short monogram when no logo image is used (e.g. LU, 243) */
   logoText?: string;

@@ -364,7 +364,7 @@
     },
     "logo": {
       "title": "Logo",
-      "description": "Choisissez le logo OPSEU, téléversez le logo de votre section, ou utilisez un monogramme texte.",
+      "description": "Choisissez un logo OPSEU, téléversez le logo de votre section, ou utilisez un monogramme texte.",
       "useOfficialLogo": "Utiliser le logo OPSEU",
       "uploadCustomLogo": "Téléverser un logo",
       "uploadHint": "PNG, JPEG, WebP ou SVG jusqu'à 10 Mo.",
@@ -373,7 +373,11 @@
       "noImageHint": "Utilisez un monogramme texte dans l'en-tête au lieu d'un logo.",
       "logoText": "Monogramme d'en-tête",
       "logoTextHint": "Jusqu'à 4 caractères — p. ex. LU ou votre numéro de section.",
-      "preview": "Aperçu"
+      "preview": "Aperçu",
+      "useLockup": "Mot-symbole OPSEU",
+      "useLockupHint": "Lockup complet OPSEU/SEFPO — choix recommandé pour configurer votre marque.",
+      "useMark": "Emblème OPSEU",
+      "useMarkHint": "Barres et trille — compact pour les en-têtes et logos circulaires."
     }
   },
   "consent": {
@@ -718,6 +722,8 @@
       "localMark": "Les numéros de section et sous-textes peuvent être ajoutés sous le logo avec les polices approuvées",
       "questions": "Pour toute question sur l'usage de la marque, contactez le responsable des communications de votre section ou division",
       "sourceLabel": "Source de référence (valeurs actuelles) :"
-    }
+    },
+    "markAlt": "Emblème OPSEU (barres et trille)",
+    "downloadMark": "Télécharger l'emblème PNG"
   }
 }

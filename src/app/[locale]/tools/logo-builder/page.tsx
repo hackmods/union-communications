@@ -95,7 +95,7 @@ export default function LogoBuilderPage() {
             className="flex h-80 w-80 flex-col items-center justify-center rounded-full shadow-lg"
             style={{ backgroundColor: state.primaryColor }}
           >
-            <BrandLogo size="lg" className="mb-2" />
+            <BrandLogo size="lg" className="mb-2" onDark />
             <p
               className="text-4xl font-bold"
               style={{ color: state.secondaryColor }}

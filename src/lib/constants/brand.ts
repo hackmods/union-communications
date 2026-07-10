@@ -18,6 +18,24 @@ export const CAAT_OPSEU_COLORS = BRAND_COLORS;
 
 export const DEFAULT_ASSET_PACK_PATH = defaults.assetPackPath;
 
+/** Bundled official logos for the reference tenant asset pack */
+export const OFFICIAL_LOGOS = {
+  lockup: {
+    id: "lockup" as const,
+    src: `${defaults.assetPackPath}logo-primary.png`,
+    aspect: "wide" as const,
+  },
+  mark: {
+    id: "mark" as const,
+    src: `${defaults.assetPackPath}logo-mark.png`,
+    /** White mark for dark / brand-coloured backgrounds */
+    srcOnDark: `${defaults.assetPackPath}logo-mark-white.png`,
+    aspect: "square" as const,
+  },
+} as const;
+
+export type OfficialLogoVariant = keyof typeof OFFICIAL_LOGOS;
+
 export const DEFAULT_BRAND_KIT = {
   version: "1.0" as const,
   local: {
@@ -31,6 +49,7 @@ export const DEFAULT_BRAND_KIT = {
   accentColor: BRAND_COLORS.accent,
   // First visit shows LU in the header; onboarding/brand kit default to OPSEU
   useOfficialLogo: false,
+  officialLogoVariant: "lockup" as OfficialLogoVariant,
   logoText: "LU",
   divisionId: defaults.assetPackPath.includes("caat") ? "caat" : undefined,
   updatedAt: new Date().toISOString(),
