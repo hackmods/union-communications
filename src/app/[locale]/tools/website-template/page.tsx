@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { Button } from "@/components/ui/Button";
@@ -43,10 +43,6 @@ export default function WebsiteTemplatePage() {
   );
   const [officers, setOfficers] = useState<WebsiteOfficer[]>(DEFAULT_WEBSITE_OFFICERS);
   const [downloading, setDownloading] = useState(false);
-
-  useEffect(() => {
-    setUnionName(`Local ${localNumber}`);
-  }, [localNumber]);
 
   const templateData: WebsiteTemplateData = useMemo(
     () => ({
