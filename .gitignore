@@ -26,6 +26,9 @@
 .DS_Store
 *.pem
 
+# Local reference clones (e.g. local243.github.io) — ignore for now
+/reference/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
