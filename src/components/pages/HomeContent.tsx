@@ -5,27 +5,42 @@ import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
+type ChannelId = "social" | "print" | "boards" | "website";
+
+const channelItems: Record<
+  ChannelId,
+  { href: string; titleKey: string; guideHref?: string }[]
+> = {
+  social: [
+    { href: "/guide", titleKey: "guide" },
+    { href: "/guide/crisis", titleKey: "strikeGuide" },
+    { href: "/examples", titleKey: "socialExamples" },
+    { href: "/captions", titleKey: "captions" },
+    { href: "/tools/graphic-maker", titleKey: "graphicMaker" },
+    { href: "/tools/resizer", titleKey: "resizer" },
+    { href: "/tools/quote-card", titleKey: "quoteCard" },
+    { href: "/tools/alt-text", titleKey: "altText" },
+  ],
+  print: [
+    { href: "/tools/flyer-maker", titleKey: "flyerMaker" },
+    { href: "/guide/print", titleKey: "printGuide" },
+  ],
+  boards: [
+    { href: "/tools/board-notice", titleKey: "boardNotice" },
+    { href: "/guide/union-boards", titleKey: "unionBoardsGuide" },
+  ],
+  website: [
+    { href: "/tools/website-template", titleKey: "websiteTemplate" },
+    { href: "/guide/website", titleKey: "websiteGuide" },
+  ],
+};
+
+const channelOrder: ChannelId[] = ["social", "print", "boards", "website"];
+
 export function HomeContent() {
   const t = useTranslations("home");
   const nav = useTranslations("nav");
   const common = useTranslations("common");
-
-  const education = [
-    { href: "/guide", title: nav("guide"), desc: "Step-by-step handbook for local social media" },
-    { href: "/guide/crisis", title: nav("strikeGuide"), desc: "OPSEU local strike, bargaining, and crisis comms" },
-    { href: "/examples", title: nav("examples"), desc: "Real examples of excellent local union posts" },
-    { href: "/captions", title: nav("captions"), desc: "Reusable captions and hashtags" },
-    { href: "/assets", title: nav("assets"), desc: "CAAT OPSEU official logos and colours" },
-  ];
-
-  const tools = [
-    { href: "/tools/logo-builder", title: nav("logoBuilder") },
-    { href: "/tools/graphic-maker", title: nav("graphicMaker") },
-    { href: "/tools/resizer", title: nav("resizer") },
-    { href: "/tools/quote-card", title: nav("quoteCard") },
-    { href: "/tools/flyer-maker", title: nav("flyerMaker") },
-    { href: "/tools/alt-text", title: nav("altText") },
-  ];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12">
@@ -36,38 +51,54 @@ export function HomeContent() {
           <Link href="/onboarding">
             <Button size="lg">{t("heroCta")}</Button>
           </Link>
-          <Link href="/guide">
-            <Button variant="outline" size="lg">{common("learnMore")}</Button>
+          <Link href="/guide/social-media-plan">
+            <Button variant="outline" size="lg">{t("socialMediaPlanCta")}</Button>
           </Link>
         </div>
-        <p className="mt-6 text-sm text-opseu-blue">{t("privacyNote")}</p>
+        <p className="mt-4 text-sm text-gray-500">{t("socialMediaPlanDesc")}</p>
+        <p className="mt-4 text-sm text-opseu-blue">{t("privacyNote")}</p>
       </section>
 
-      <section className="mb-16">
-        <h2 className="mb-6 text-2xl font-bold text-opseu-dark">{t("educationTitle")}</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {education.map((item) => (
-            <Link key={item.href} href={item.href}>
-              <Card className="h-full transition-shadow hover:shadow-md">
-                <CardTitle>{item.title}</CardTitle>
-                <p className="mt-2 text-sm text-gray-600">{item.desc}</p>
-              </Card>
-            </Link>
-          ))}
-        </div>
+      <section className="mb-8">
+        <Link href="/brand-kit">
+          <Card className="border-opseu-blue/20 bg-opseu-blue/5 transition-shadow hover:shadow-md">
+            <CardTitle>{nav("brandKit")}</CardTitle>
+            <p className="mt-2 text-sm text-gray-600">
+              {nav("logoBuilder")} · {nav("assets")}
+            </p>
+          </Card>
+        </Link>
       </section>
 
       <section>
-        <h2 className="mb-6 text-2xl font-bold text-opseu-dark">{t("toolsTitle")}</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {tools.map((item) => (
-            <Link key={item.href} href={item.href}>
-              <Card className="h-full transition-shadow hover:shadow-md">
-                <CardTitle>{item.title}</CardTitle>
-              </Card>
-            </Link>
+        <h2 className="mb-6 text-2xl font-bold text-opseu-dark">{t("channelsTitle")}</h2>
+        <div className="grid gap-6 lg:grid-cols-2">
+          {channelOrder.map((channel) => (
+            <div key={channel}>
+              <h3 className="mb-3 text-lg font-semibold text-opseu-dark">
+                {t(`channels.${channel}.title`)}
+              </h3>
+              <p className="mb-3 text-sm text-gray-600">
+                {t(`channels.${channel}.description`)}
+              </p>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {channelItems[channel].map((item) => (
+                  <Link key={item.href} href={item.href}>
+                    <Card className="h-full transition-shadow hover:shadow-md">
+                      <CardTitle className="text-base">{nav(item.titleKey)}</CardTitle>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
+      </section>
+
+      <section className="mt-12 text-center">
+        <Link href="/guide">
+          <Button variant="outline">{common("learnMore")}</Button>
+        </Link>
       </section>
     </div>
   );

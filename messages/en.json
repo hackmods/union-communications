@@ -7,7 +7,7 @@
     "home": "Home",
     "guide": "The Blueprint",
     "strikeGuide": "Strike Guide",
-    "examples": "Notice Board",
+    "examples": "Social Examples",
     "captions": "Captions",
     "assets": "CAAT Assets",
     "brandKit": "Brand Kit",
@@ -18,6 +18,13 @@
     "quoteCard": "Quote Card",
     "flyerMaker": "Flyer Maker",
     "altText": "Alt-Text Assistant",
+    "boardNotice": "Board Notice Maker",
+    "websiteTemplate": "Website Template",
+    "socialMediaPlan": "Social Media Plan",
+    "socialExamples": "Social Examples",
+    "unionBoardsGuide": "Union Boards Guide",
+    "printGuide": "Print Guide",
+    "websiteGuide": "Website Guide",
     "privacy": "Privacy",
     "accessibility": "Accessibility"
   },
@@ -46,11 +53,224 @@
   },
   "home": {
     "title": "Local Union Support Hub",
-    "subtitle": "Professional guides and tools for volunteer union communicators — any local, any union",
+    "subtitle": "Professional communications toolbox for volunteer union communicators — any local, any union",
     "heroCta": "Set up your local brand",
-    "educationTitle": "Learn",
-    "toolsTitle": "Create",
-    "privacyNote": "All processing happens on your device. No data is sent to any server."
+    "socialMediaPlanCta": "Start the Social Media Plan",
+    "socialMediaPlanDesc": "A quick roadmap: logo, union boards, socials, and a simple website — in order.",
+    "channelsTitle": "The Toolbox",
+    "privacyNote": "All processing happens on your device. No data is sent to any server.",
+    "channels": {
+      "social": {
+        "title": "Social Media",
+        "description": "Guides, captions, and graphics for Facebook, Instagram, and more."
+      },
+      "print": {
+        "title": "Print",
+        "description": "Flyers and printable materials for rallies, meetings, and events."
+      },
+      "boards": {
+        "title": "Union Boards",
+        "description": "Workplace bulletin notices members can read from across the room."
+      },
+      "website": {
+        "title": "Website",
+        "description": "A simple local website template you can host on GitHub Pages."
+      }
+    }
+  },
+  "socialMediaPlan": {
+    "title": "Social Media Plan",
+    "subtitle": "A quick roadmap for locals starting or improving their communications",
+    "intro": "Follow these four steps in order. Each builds on the last — brand first, then reach members where they are: on the board, on social, and online.",
+    "steps": {
+      "logo": {
+        "title": "1. Make a logo",
+        "description": "Set up your Brand Kit with local number, colours, and logo. Consistent branding makes every post and notice look professional.",
+        "checklist": [
+          "Complete onboarding or open Brand Kit",
+          "Set local number and sub-text",
+          "Export your circular local logo"
+        ],
+        "cta": "Logo Builder",
+        "secondaryCta": "Brand Kit"
+      },
+      "boards": {
+        "title": "2. Union boards",
+        "description": "Post a high-contrast notice on workplace bulletin boards. Members who are not on social still need to see meeting times and updates.",
+        "checklist": [
+          "Choose a notice type and fill in date, time, and location",
+          "Print letter or tabloid size",
+          "Post in approved union board locations"
+        ],
+        "cta": "Board Notice Maker",
+        "secondaryCta": "Union Boards Guide"
+      },
+      "socials": {
+        "title": "3. Socials",
+        "description": "Share the same message on Facebook and Instagram. Use the Blueprint for tone and frequency, and pre-written captions to save time.",
+        "checklist": [
+          "Read The Blueprint for platform and posting tips",
+          "Create a graphic with Graphic Maker or Resizer",
+          "Copy a caption from the library and add alt-text"
+        ],
+        "cta": "Graphic Maker",
+        "secondaryCta": "The Blueprint"
+      },
+      "website": {
+        "title": "4. A website",
+        "description": "Give members one link for contact info, officers, and about your local. Download a ready-made template and host it free on GitHub Pages.",
+        "checklist": [
+          "Fill in about text, officers, and contact email",
+          "Preview and download the site ZIP",
+          "Follow the deploy guide to publish"
+        ],
+        "cta": "Website Template",
+        "secondaryCta": "Website Guide"
+      }
+    }
+  },
+  "guide": {
+    "title": "The Blueprint",
+    "subtitle": "A step-by-step handbook for starting and running your local's social media.",
+    "socialMediaPlanLink": "New to comms? Start with the Social Media Plan →",
+    "chapters": {
+      "platforms": {
+        "title": "Which platforms to choose",
+        "content": "Facebook reaches a broad member demographic and supports longer posts and event pages. Instagram works well for visual storytelling and younger members. Start with one platform, do it well, then expand. For CAAT Support Staff locals, Facebook is often the primary channel."
+      },
+      "tone": {
+        "title": "Tone of voice",
+        "content": "Be professional but human. Speak as a collective ('we', 'our members') not as management. Celebrate wins, explain setbacks honestly, and always centre member voices. Avoid jargon — write for members reading on their phone during a break."
+      },
+      "frequency": {
+        "title": "Posting frequency",
+        "content": "Aim for 2–3 posts per week minimum during normal times. Increase during bargaining or strike action. Consistency beats volume — a steady rhythm builds trust. Use a simple content mix: 40% updates, 30% member stories, 20% education, 10% solidarity/culture."
+      },
+      "trolls": {
+        "title": "Dealing with trolls and management",
+        "content": "Do not engage with bad-faith comments. Hide or delete spam, harassment, and misinformation. For management pushback, stick to facts, cite the collective agreement, and escalate to your communications chair or national rep. Never post confidential bargaining details."
+      },
+      "accessibility": {
+        "title": "Accessibility — alt-text",
+        "content": "Every image post needs alt-text describing what's in the image for visually impaired members. Use the Alt-Text Assistant tool in this toolbox. Keep descriptions concise but complete: who, what, where, and any text shown in the graphic."
+      }
+    },
+    "channelGuides": {
+      "title": "More guides by channel",
+      "unionBoards": "Union Boards",
+      "print": "Print",
+      "website": "Website"
+    }
+  },
+  "unionBoardsGuide": {
+    "title": "Union Boards Guide",
+    "subtitle": "Workplace bulletin boards reach members who are not on social media",
+    "sections": {
+      "where": {
+        "title": "Where to post",
+        "content": "Use union-designated bulletin boards in break rooms, steward offices, and other agreed locations. Never post on management-controlled boards without permission. Check your collective agreement for posting rights."
+      },
+      "howLong": {
+        "title": "How long to leave notices up",
+        "content": "Remove outdated notices promptly — a cluttered board loses impact. Meeting notices: post 1–2 weeks ahead, remove after the event. Bargaining updates: refresh weekly during active rounds. Strike notices: update daily during action."
+      },
+      "whatNot": {
+        "title": "What not to post",
+        "content": "Never post confidential bargaining positions, member home addresses, or internal strategy. Do not name individuals in grievances. If in doubt, ask your local president before printing."
+      },
+      "pairing": {
+        "title": "Pair with social media",
+        "content": "Use the same headline on your board notice and social graphic so members recognize the message. Post the board notice first for workplace visibility, then share on social with a photo of the posted notice (with consent from anyone visible)."
+      }
+    },
+    "toolCta": "Create a board notice"
+  },
+  "printGuide": {
+    "title": "Print Communications Guide",
+    "subtitle": "When to print and how to pair print with digital channels",
+    "sections": {
+      "when": {
+        "title": "When to print",
+        "content": "Print when members may not see social posts: shift workers, members without smartphones, and high-traffic workplace areas. Flyers work for rallies and picket lines; board notices work for ongoing visibility."
+      },
+      "flyers": {
+        "title": "Flyers and handouts",
+        "content": "Use the Flyer Maker for picket lines and rallies. Export PDF for letter-size printing at home or a copy shop. Keep text large and high-contrast for outdoor visibility."
+      },
+      "boards": {
+        "title": "Board notices",
+        "content": "Use the Board Notice Maker for workplace bulletin boards. Tabloid (11×17) size is easier to read from a distance. Letter size fits standard union boards."
+      },
+      "digital": {
+        "title": "Print plus digital",
+        "content": "Share the same date, time, and location across board notice, flyer, social graphic, and website. One message, four channels — less confusion for members."
+      }
+    }
+  },
+  "websiteGuide": {
+    "title": "Local Website Guide",
+    "subtitle": "Why your local needs a simple website and how to publish one for free",
+    "sections": {
+      "why": {
+        "title": "Why a local website",
+        "content": "Social algorithms change; a website gives members a stable link for contact info, officers, and updates. Employers and media often search for your local online — a professional page builds credibility."
+      },
+      "pages": {
+        "title": "What to include",
+        "content": "Start simple: about your local, executive officers, and contact info. Add bargaining updates during active rounds. Link to your Facebook group and OPSEU member resources."
+      },
+      "deploy": {
+        "title": "GitHub Pages in 5 steps",
+        "content": "1. Create a free GitHub account. 2. Create a new repository (e.g. local243.github.io). 3. Upload the ZIP from the Website Template tool. 4. Go to Settings → Pages → deploy from main branch. 5. Your site will be live at username.github.io within a few minutes."
+      },
+      "domain": {
+        "title": "Custom domain (optional)",
+        "content": "You can point a custom domain (e.g. local243.org) to GitHub Pages. Add a CNAME file with your domain and configure DNS with your registrar. GitHub provides step-by-step instructions in repository Settings."
+      }
+    },
+    "toolCta": "Build your website template"
+  },
+  "examples": {
+    "title": "Social Examples",
+    "subtitle": "Examples of excellent local union social media posts."
+  },
+  "boardNotice": {
+    "title": "Board Notice Maker",
+    "subtitle": "High-contrast workplace bulletin notices — readable from across the room",
+    "noticeType": "Notice type",
+    "types": {
+      "meeting": "General membership meeting",
+      "bargaining": "Bargaining update",
+      "event": "Event",
+      "general": "General notice"
+    },
+    "headline": "Headline",
+    "body": "Details",
+    "date": "Date",
+    "time": "Time",
+    "location": "Location",
+    "contact": "Contact line",
+    "formatLetter": "Letter (8.5×11)",
+    "formatTabloid": "Tabloid (11×17)"
+  },
+  "websiteTemplate": {
+    "title": "Website Template",
+    "subtitle": "Download a simple local website based on the Local 243 model — ready for GitHub Pages",
+    "unionName": "Union name",
+    "heroText": "Hero tagline",
+    "about1": "About paragraph 1",
+    "about2": "About paragraph 2",
+    "contactEmail": "Contact email",
+    "facebookUrl": "Facebook group URL",
+    "officeAddress": "Office address",
+    "officers": "Executive officers",
+    "officerName": "Name",
+    "officerRole": "Role",
+    "officerLocation": "Location (optional)",
+    "addOfficer": "Add officer",
+    "removeOfficer": "Remove",
+    "preview": "Live preview",
+    "downloadZip": "Download site ZIP"
   },
   "onboarding": {
     "title": "Set up your local brand",
@@ -168,8 +388,10 @@
       "description": "Use these on-device tools to keep visuals consistent when your local is under pressure:",
       "items": [
         "Brand Kit — local number, colours, and logo ready for fast graphics",
+        "Board Notice Maker — workplace bulletin updates during strikes",
         "Flyer Maker and Quote Card — leadership statements and picket updates",
         "Graphic Maker — member spotlights with consent flow",
+        "Website Template — one stable link for members and media",
         "Captions library — pre-written solidarity and bargaining posts"
       ]
     }

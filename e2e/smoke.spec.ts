@@ -32,6 +32,30 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page).toHaveURL(/\/en\/guide/);
   });
 
+  test("social media plan page renders", async ({ page }) => {
+    await page.goto("/en/guide/social-media-plan/");
+    await expect(page.getByRole("heading", { name: "Social Media Plan" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Logo Builder" }).first()).toBeVisible();
+  });
+
+  test("board notice maker page renders", async ({ page }) => {
+    await page.goto("/en/tools/board-notice/");
+    await expect(page.getByRole("heading", { name: "Board Notice Maker" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Download PNG" })).toBeVisible();
+  });
+
+  test("website template page renders with preview", async ({ page }) => {
+    await page.goto("/en/tools/website-template/");
+    await expect(page.getByRole("heading", { name: "Website Template" })).toBeVisible();
+    await expect(page.getByTitle("Live preview")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Download site ZIP" })).toBeVisible();
+  });
+
+  test("union boards guide renders", async ({ page }) => {
+    await page.goto("/en/guide/union-boards/");
+    await expect(page.getByRole("heading", { name: "Union Boards Guide" })).toBeVisible();
+  });
+
   test("skip link moves focus to main content", async ({ page }) => {
     await page.goto("/en/");
     await page.keyboard.press("Tab");

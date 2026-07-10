@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   EXAMPLE_POSTS,
   CATEGORY_LABELS,
@@ -19,6 +20,7 @@ const categories: (ExampleCategory | "all")[] = [
 ];
 
 export default function ExamplesPage() {
+  const t = useTranslations("examples");
   const [filter, setFilter] = useState<ExampleCategory | "all">("all");
 
   const filtered =
@@ -28,10 +30,8 @@ export default function ExamplesPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">The Notice Board</h1>
-      <p className="mt-2 text-gray-600">
-        Examples of excellent local union social media posts.
-      </p>
+      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
+      <p className="mt-2 text-gray-600">{t("subtitle")}</p>
 
       <div className="mt-6 flex flex-wrap gap-2" role="tablist">
         {categories.map((cat) => (

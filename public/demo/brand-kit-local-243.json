@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "local": {
+    "id": "local-243",
+    "localNumber": "243",
+    "subText": "Support Staff"
+  },
+  "primaryColor": "#003DA5",
+  "secondaryColor": "#FFD200",
+  "accentColor": "#FFD200",
+  "useOfficialLogo": true,
+  "updatedAt": "2026-07-10T00:00:00.000Z"
+}

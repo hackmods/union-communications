@@ -8,8 +8,9 @@ import { BrandLogo } from "@/components/brand/BrandLogo";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
+  { href: "/guide/social-media-plan", key: "socialMediaPlan" },
   { href: "/guide", key: "guide" },
-  { href: "/examples", key: "examples" },
+  { href: "/examples", key: "socialExamples" },
   { href: "/captions", key: "captions" },
   { href: "/assets", key: "assets" },
   { href: "/brand-kit", key: "brandKit" },
@@ -17,10 +18,12 @@ const navLinks = [
 
 const toolLinks = [
   { href: "/tools/logo-builder", key: "logoBuilder" },
+  { href: "/tools/board-notice", key: "boardNotice" },
   { href: "/tools/graphic-maker", key: "graphicMaker" },
   { href: "/tools/resizer", key: "resizer" },
   { href: "/tools/quote-card", key: "quoteCard" },
   { href: "/tools/flyer-maker", key: "flyerMaker" },
+  { href: "/tools/website-template", key: "websiteTemplate" },
   { href: "/tools/alt-text", key: "altText" },
 ] as const;
 
@@ -63,7 +66,7 @@ export function Header() {
             <summary className="cursor-pointer list-none rounded-md px-2 py-1 hover:bg-opseu-blue/5">
               {t("tools")} ▾
             </summary>
-            <div className="absolute right-0 mt-1 min-w-[180px] rounded-lg border bg-white py-1 shadow-lg">
+            <div className="absolute right-0 mt-1 min-w-[200px] rounded-lg border bg-white py-1 shadow-lg">
               {toolLinks.map(({ href, key }) => (
                 <Link
                   key={href}

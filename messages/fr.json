@@ -7,7 +7,7 @@
     "home": "Accueil",
     "guide": "Le Plan directeur",
     "strikeGuide": "Guide de grève",
-    "examples": "Tableau d'affichage",
+    "examples": "Exemples sociaux",
     "captions": "Légendes",
     "assets": "Actifs CAAT",
     "brandKit": "Trousse de marque",
@@ -18,6 +18,13 @@
     "quoteCard": "Carte de citation",
     "flyerMaker": "Créateur d'affiche",
     "altText": "Assistant texte alt",
+    "boardNotice": "Avis pour tableau syndical",
+    "websiteTemplate": "Modèle de site Web",
+    "socialMediaPlan": "Plan médias sociaux",
+    "socialExamples": "Exemples sociaux",
+    "unionBoardsGuide": "Guide tableaux syndicaux",
+    "printGuide": "Guide impression",
+    "websiteGuide": "Guide site Web",
     "privacy": "Confidentialité",
     "accessibility": "Accessibilité"
   },
@@ -45,12 +52,225 @@
     "loading": "Chargement..."
   },
   "home": {
-    "title": "Boîte à outils médias sociaux OPSEU local",
-    "subtitle": "Guides professionnels et outils d'image pour les communicateurs bénévoles des sections",
+    "title": "Boîte à outils communications locales",
+    "subtitle": "Boîte à outils professionnelle pour les communicateurs bénévoles — toute section, tout syndicat",
     "heroCta": "Configurer la marque de votre section",
-    "educationTitle": "Apprendre",
-    "toolsTitle": "Créer",
-    "privacyNote": "Tout le traitement se fait sur votre appareil. Aucune donnée n'est envoyée à un serveur."
+    "socialMediaPlanCta": "Commencer le plan médias sociaux",
+    "socialMediaPlanDesc": "Feuille de route rapide : logo, tableaux syndicaux, médias sociaux et site Web simple — dans l'ordre.",
+    "channelsTitle": "La boîte à outils",
+    "privacyNote": "Tout le traitement se fait sur votre appareil. Aucune donnée n'est envoyée à un serveur.",
+    "channels": {
+      "social": {
+        "title": "Médias sociaux",
+        "description": "Guides, légendes et graphiques pour Facebook, Instagram et plus."
+      },
+      "print": {
+        "title": "Impression",
+        "description": "Affiches et documents imprimables pour rassemblements, réunions et événements."
+      },
+      "boards": {
+        "title": "Tableaux syndicaux",
+        "description": "Avis pour les tableaux d'affichage au travail, lisibles de loin."
+      },
+      "website": {
+        "title": "Site Web",
+        "description": "Un modèle de site simple à héberger gratuitement sur GitHub Pages."
+      }
+    }
+  },
+  "socialMediaPlan": {
+    "title": "Plan médias sociaux",
+    "subtitle": "Feuille de route rapide pour les sections qui débutent ou améliorent leurs communications",
+    "intro": "Suivez ces quatre étapes dans l'ordre. Chacune s'appuie sur la précédente — la marque d'abord, puis rejoindre les membres là où ils sont : au tableau, sur les réseaux et en ligne.",
+    "steps": {
+      "logo": {
+        "title": "1. Créer un logo",
+        "description": "Configurez votre trousse de marque avec le numéro de section, les couleurs et le logo. Une image de marque cohérente rend chaque publication professionnelle.",
+        "checklist": [
+          "Compléter l'intégration ou ouvrir la trousse de marque",
+          "Définir le numéro et le sous-texte de la section",
+          "Exporter votre logo circulaire local"
+        ],
+        "cta": "Créateur de logo",
+        "secondaryCta": "Trousse de marque"
+      },
+      "boards": {
+        "title": "2. Tableaux syndicaux",
+        "description": "Affichez un avis à fort contraste sur les tableaux d'affichage au travail. Les membres qui ne sont pas sur les réseaux doivent quand même voir les réunions et mises à jour.",
+        "checklist": [
+          "Choisir un type d'avis et remplir date, heure et lieu",
+          "Imprimer format lettre ou tabloïde",
+          "Afficher aux emplacements approuvés"
+        ],
+        "cta": "Avis pour tableau syndical",
+        "secondaryCta": "Guide tableaux syndicaux"
+      },
+      "socials": {
+        "title": "3. Médias sociaux",
+        "description": "Partagez le même message sur Facebook et Instagram. Utilisez le Plan directeur pour le ton et la fréquence, et les légendes préécrites pour gagner du temps.",
+        "checklist": [
+          "Lire le Plan directeur pour les plateformes et la fréquence",
+          "Créer un graphique avec le Créateur graphique ou le Redimensionneur",
+          "Copier une légende et ajouter le texte alternatif"
+        ],
+        "cta": "Créateur graphique",
+        "secondaryCta": "Le Plan directeur"
+      },
+      "website": {
+        "title": "4. Un site Web",
+        "description": "Donnez aux membres un lien unique pour les coordonnées, les dirigeants et la présentation de la section. Téléchargez un modèle prêt à l'emploi et hébergez-le gratuitement.",
+        "checklist": [
+          "Remplir le texte, les dirigeants et le courriel de contact",
+          "Prévisualiser et télécharger le ZIP du site",
+          "Suivre le guide de déploiement pour publier"
+        ],
+        "cta": "Modèle de site Web",
+        "secondaryCta": "Guide site Web"
+      }
+    }
+  },
+  "guide": {
+    "title": "Le Plan directeur",
+    "subtitle": "Manuel étape par étape pour démarrer et gérer les médias sociaux de votre section.",
+    "socialMediaPlanLink": "Nouveau en communications? Commencez par le plan médias sociaux →",
+    "chapters": {
+      "platforms": {
+        "title": "Quelles plateformes choisir",
+        "content": "Facebook touche un large public et permet des publications plus longues. Instagram convient aux récits visuels et aux membres plus jeunes. Commencez par une plateforme, faites-le bien, puis élargissez. Pour les sections du personnel de soutien CAAT, Facebook est souvent le canal principal."
+      },
+      "tone": {
+        "title": "Ton de voix",
+        "content": "Soyez professionnel mais humain. Parlez au nom du collectif (« nous », « nos membres »), pas de la direction. Célébrez les victoires, expliquez les revers honnêtement et mettez toujours les voix des membres au centre."
+      },
+      "frequency": {
+        "title": "Fréquence de publication",
+        "content": "Visez au moins 2 à 3 publications par semaine en période normale. Augmentez pendant la négociation ou la grève. La régularité prime sur le volume. Mélange simple : 40 % mises à jour, 30 % histoires de membres, 20 % éducation, 10 % solidarité."
+      },
+      "trolls": {
+        "title": "Gérer les trolls et la direction",
+        "content": "Ne vous engagez pas avec les commentaires de mauvaise foi. Masquez ou supprimez le spam et le harcèlement. Pour les réponses de la direction, restez factuel et citez la convention collective. Ne publiez jamais de détails confidentiels de négociation."
+      },
+      "accessibility": {
+        "title": "Accessibilité — texte alternatif",
+        "content": "Chaque image publiée a besoin d'un texte alternatif pour les membres malvoyants. Utilisez l'assistant texte alt de cette boîte à outils. Soyez concis mais complet : qui, quoi, où et tout texte visible dans le graphique."
+      }
+    },
+    "channelGuides": {
+      "title": "Plus de guides par canal",
+      "unionBoards": "Tableaux syndicaux",
+      "print": "Impression",
+      "website": "Site Web"
+    }
+  },
+  "unionBoardsGuide": {
+    "title": "Guide des tableaux syndicaux",
+    "subtitle": "Les tableaux d'affichage au travail rejoignent les membres qui ne sont pas sur les réseaux sociaux",
+    "sections": {
+      "where": {
+        "title": "Où afficher",
+        "content": "Utilisez les tableaux désignés dans les salles de pause, bureaux des délégués et autres emplacements convenus. Ne publiez jamais sur les tableaux de la direction sans permission. Consultez votre convention collective."
+      },
+      "howLong": {
+        "title": "Combien de temps laisser les avis",
+        "content": "Retirez les avis périmés rapidement. Avis de réunion : 1 à 2 semaines avant, retirer après l'événement. Mises à jour de négociation : rafraîchir chaque semaine. Avis de grève : mettre à jour quotidiennement."
+      },
+      "whatNot": {
+        "title": "Ce qu'il ne faut pas afficher",
+        "content": "Ne publiez jamais de positions de négociation confidentielles, d'adresses de membres ou de stratégie interne. Ne nommez pas les individus dans les griefs. En cas de doute, demandez à votre président de section."
+      },
+      "pairing": {
+        "title": "Combiner avec les médias sociaux",
+        "content": "Utilisez le même titre sur l'avis au tableau et le graphique social. Affichez d'abord au tableau, puis partagez sur les réseaux avec une photo de l'avis affiché (avec consentement)."
+      }
+    },
+    "toolCta": "Créer un avis pour tableau"
+  },
+  "printGuide": {
+    "title": "Guide des communications imprimées",
+    "subtitle": "Quand imprimer et comment combiner l'impression avec le numérique",
+    "sections": {
+      "when": {
+        "title": "Quand imprimer",
+        "content": "Imprimez quand les membres peuvent ne pas voir les publications sociales : travailleurs de quart, membres sans téléphone intelligent, zones à fort passage au travail."
+      },
+      "flyers": {
+        "title": "Affiches et dépliants",
+        "content": "Utilisez le Créateur d'affiche pour les piquets de grève et rassemblements. Exportez en PDF format lettre pour impression à domicile ou en boutique."
+      },
+      "boards": {
+        "title": "Avis pour tableaux",
+        "content": "Utilisez l'outil Avis pour tableau syndical. Le format tabloïde (11×17) est plus lisible de loin. Le format lettre convient aux tableaux standard."
+      },
+      "digital": {
+        "title": "Impression plus numérique",
+        "content": "Partagez la même date, heure et lieu sur l'avis au tableau, l'affiche, le graphique social et le site Web. Un message, quatre canaux."
+      }
+    }
+  },
+  "websiteGuide": {
+    "title": "Guide du site Web local",
+    "subtitle": "Pourquoi votre section a besoin d'un site simple et comment le publier gratuitement",
+    "sections": {
+      "why": {
+        "title": "Pourquoi un site local",
+        "content": "Les algorithmes changent; un site Web donne aux membres un lien stable pour les coordonnées et les dirigeants. Les employeurs et les médias cherchent souvent votre section en ligne."
+      },
+      "pages": {
+        "title": "Quoi inclure",
+        "content": "Commencez simple : à propos de la section, dirigeants et coordonnées. Ajoutez des mises à jour de négociation pendant les rondes actives. Liez votre groupe Facebook et les ressources OPSEU."
+      },
+      "deploy": {
+        "title": "GitHub Pages en 5 étapes",
+        "content": "1. Créez un compte GitHub gratuit. 2. Créez un dépôt (ex. section243.github.io). 3. Téléversez le ZIP de l'outil Modèle de site Web. 4. Paramètres → Pages → déployer depuis la branche main. 5. Votre site sera en ligne en quelques minutes."
+      },
+      "domain": {
+        "title": "Domaine personnalisé (optionnel)",
+        "content": "Vous pouvez pointer un domaine personnalisé (ex. section243.org) vers GitHub Pages. Ajoutez un fichier CNAME et configurez le DNS chez votre registraire."
+      }
+    },
+    "toolCta": "Créer votre modèle de site Web"
+  },
+  "examples": {
+    "title": "Exemples sociaux",
+    "subtitle": "Exemples d'excellentes publications sur les médias sociaux des sections locales."
+  },
+  "boardNotice": {
+    "title": "Avis pour tableau syndical",
+    "subtitle": "Avis pour tableaux d'affichage au travail — lisibles de loin",
+    "noticeType": "Type d'avis",
+    "types": {
+      "meeting": "Assemblée générale",
+      "bargaining": "Mise à jour de négociation",
+      "event": "Événement",
+      "general": "Avis général"
+    },
+    "headline": "Titre",
+    "body": "Détails",
+    "date": "Date",
+    "time": "Heure",
+    "location": "Lieu",
+    "contact": "Ligne de contact",
+    "formatLetter": "Lettre (8,5×11)",
+    "formatTabloid": "Tabloïde (11×17)"
+  },
+  "websiteTemplate": {
+    "title": "Modèle de site Web",
+    "subtitle": "Téléchargez un site local simple basé sur le modèle Section 243 — prêt pour GitHub Pages",
+    "unionName": "Nom du syndicat",
+    "heroText": "Slogan d'accueil",
+    "about1": "Paragraphe à propos 1",
+    "about2": "Paragraphe à propos 2",
+    "contactEmail": "Courriel de contact",
+    "facebookUrl": "URL du groupe Facebook",
+    "officeAddress": "Adresse du bureau",
+    "officers": "Dirigeants exécutifs",
+    "officerName": "Nom",
+    "officerRole": "Rôle",
+    "officerLocation": "Lieu (optionnel)",
+    "addOfficer": "Ajouter un dirigeant",
+    "removeOfficer": "Supprimer",
+    "preview": "Aperçu en direct",
+    "downloadZip": "Télécharger le ZIP du site"
   },
   "onboarding": {
     "title": "Configurer la marque de votre section",
@@ -168,8 +388,10 @@
       "description": "Utilisez ces outils locaux pour garder des visuels cohérents quand votre section est sous pression :",
       "items": [
         "Trousse de marque — numéro de section, couleurs et logo prêts pour des graphiques rapides",
+        "Avis pour tableau syndical — mises à jour sur les tableaux d'affichage pendant les grèves",
         "Créateur de dépliants et carte de citation — déclarations des dirigeants et mises à jour de piquetage",
         "Créateur de graphiques — mise en vedette des membres avec flux de consentement",
+        "Modèle de site Web — un lien stable pour les membres et les médias",
         "Bibliothèque de légendes — publications de solidarité et de négociation réutilisables"
       ]
     }

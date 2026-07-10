@@ -1,0 +1,215 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useBrandStore } from "@/store/brand-store";
+import { Button } from "@/components/ui/Button";
+import { Input, Textarea } from "@/components/ui/Input";
+import { Card } from "@/components/ui/Card";
+import { resolveLocalNumber } from "@/lib/utils";
+import {
+  buildPreviewHtml,
+  generateWebsiteZip,
+} from "@/lib/templates/website/generate-website-zip";
+import {
+  DEFAULT_WEBSITE_OFFICERS,
+  type WebsiteOfficer,
+  type WebsiteTemplateData,
+} from "@/types/website-template";
+import { saveAs } from "file-saver";
+
+export default function WebsiteTemplatePage() {
+  const t = useTranslations("websiteTemplate");
+  const tc = useTranslations("common");
+  const brandKit = useBrandStore((s) => s.brandKit);
+  const localNumber = resolveLocalNumber(brandKit.local.localNumber);
+
+  const [unionName, setUnionName] = useState(`OPSEU SEFPO Local ${localNumber}`);
+  const [heroText, setHeroText] = useState(
+    "Support staff stands united for quality public education, fairness, and respect. Get the latest updates and find out how to connect with your Local.",
+  );
+  const [about1, setAbout1] = useState(
+    `OPSEU SEFPO Local ${localNumber} represents full-time and part-time support staff. We are dedicated to protecting our members' rights, ensuring fair and safe working conditions, and strengthening the campus community.`,
+  );
+  const [about2, setAbout2] = useState(
+    "As part of OPSEU SEFPO's College Support division, our collective efforts ensure that the essential work performed by support staff is recognized and respected.",
+  );
+  const [contactEmail, setContactEmail] = useState(`local${localNumber}@example.com`);
+  const [facebookUrl, setFacebookUrl] = useState("");
+  const [officeAddress, setOfficeAddress] = useState(
+    "Union office address — edit before publishing",
+  );
+  const [officers, setOfficers] = useState<WebsiteOfficer[]>(DEFAULT_WEBSITE_OFFICERS);
+  const [downloading, setDownloading] = useState(false);
+
+  useEffect(() => {
+    setUnionName(`OPSEU SEFPO Local ${localNumber}`);
+  }, [localNumber]);
+
+  const templateData: WebsiteTemplateData = useMemo(
+    () => ({
+      localNumber,
+      unionName,
+      heroText,
+      about1,
+      about2,
+      contactEmail,
+      facebookUrl,
+      officeAddress,
+      primaryColor: brandKit.primaryColor,
+      secondaryColor: brandKit.secondaryColor,
+      officers,
+    }),
+    [
+      localNumber,
+      unionName,
+      heroText,
+      about1,
+      about2,
+      contactEmail,
+      facebookUrl,
+      officeAddress,
+      brandKit.primaryColor,
+      brandKit.secondaryColor,
+      officers,
+    ],
+  );
+
+  const previewHtml = useMemo(
+    () => buildPreviewHtml(templateData),
+    [templateData],
+  );
+
+  const updateOfficer = (index: number, field: keyof WebsiteOfficer, value: string) => {
+    setOfficers((prev) =>
+      prev.map((o, i) => (i === index ? { ...o, [field]: value } : o)),
+    );
+  };
+
+  const addOfficer = () => {
+    if (officers.length >= 12) return;
+    setOfficers((prev) => [...prev, { name: "", role: "", location: "" }]);
+  };
+
+  const removeOfficer = (index: number) => {
+    if (officers.length <= 1) return;
+    setOfficers((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleDownload = async () => {
+    setDownloading(true);
+    try {
+      const blob = await generateWebsiteZip(templateData);
+      saveAs(blob, `local-${localNumber}-website.zip`);
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-12">
+      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
+      <p className="mt-2 text-gray-600">{t("subtitle")}</p>
+
+      <div className="mt-8 grid gap-8 lg:grid-cols-2">
+        <Card className="space-y-4">
+          <Input
+            label={t("unionName")}
+            value={unionName}
+            onChange={(e) => setUnionName(e.target.value)}
+          />
+          <Textarea
+            label={t("heroText")}
+            value={heroText}
+            onChange={(e) => setHeroText(e.target.value)}
+            rows={2}
+          />
+          <Textarea
+            label={t("about1")}
+            value={about1}
+            onChange={(e) => setAbout1(e.target.value)}
+            rows={3}
+          />
+          <Textarea
+            label={t("about2")}
+            value={about2}
+            onChange={(e) => setAbout2(e.target.value)}
+            rows={2}
+          />
+          <Input
+            label={t("contactEmail")}
+            type="email"
+            value={contactEmail}
+            onChange={(e) => setContactEmail(e.target.value)}
+          />
+          <Input
+            label={t("facebookUrl")}
+            value={facebookUrl}
+            onChange={(e) => setFacebookUrl(e.target.value)}
+          />
+          <Textarea
+            label={t("officeAddress")}
+            value={officeAddress}
+            onChange={(e) => setOfficeAddress(e.target.value)}
+            rows={2}
+          />
+
+          <div>
+            <p className="mb-2 text-sm font-medium">{t("officers")}</p>
+            <div className="space-y-3">
+              {officers.map((officer, index) => (
+                <div key={index} className="rounded-md border border-gray-200 p-3">
+                  <Input
+                    label={t("officerName")}
+                    value={officer.name}
+                    onChange={(e) => updateOfficer(index, "name", e.target.value)}
+                  />
+                  <Input
+                    label={t("officerRole")}
+                    value={officer.role}
+                    onChange={(e) => updateOfficer(index, "role", e.target.value)}
+                  />
+                  <Input
+                    label={t("officerLocation")}
+                    value={officer.location}
+                    onChange={(e) => updateOfficer(index, "location", e.target.value)}
+                  />
+                  {officers.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="mt-2"
+                      onClick={() => removeOfficer(index)}
+                    >
+                      {t("removeOfficer")}
+                    </Button>
+                  )}
+                </div>
+              ))}
+            </div>
+            {officers.length < 12 && (
+              <Button type="button" variant="outline" size="sm" className="mt-2" onClick={addOfficer}>
+                {t("addOfficer")}
+              </Button>
+            )}
+          </div>
+
+          <Button onClick={handleDownload} disabled={downloading}>
+            {downloading ? tc("loading") : t("downloadZip")}
+          </Button>
+        </Card>
+
+        <div>
+          <p className="mb-2 text-sm font-medium text-gray-700">{t("preview")}</p>
+          <iframe
+            title={t("preview")}
+            srcDoc={previewHtml}
+            className="h-[600px] w-full rounded-lg border border-gray-200 bg-white shadow-lg"
+            sandbox="allow-scripts"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}

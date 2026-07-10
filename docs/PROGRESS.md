@@ -79,3 +79,16 @@ Scaffold through testing/CI — all complete.
 - [x] Skip link to `#main-content`; accessibility page i18n (EN/FR, tenant-neutral)
 - [x] Expanded axe smoke coverage (home, guide, accessibility, brand-kit — serious+critical)
 - [x] Unit tests for preferences store and `applyPreferencesToDocument`
+
+## Comms Toolbox Aug 18 Expansion (2026-07-10) — COMPLETE
+
+- [x] Social Media Plan roadmap at `/guide/social-media-plan`
+- [x] Home page restructured by four channels (social, print, union boards, website)
+- [x] Board Notice Maker — letter + tabloid PNG/PDF export
+- [x] Union boards, print, and website guides
+- [x] Website Template tool — local243.org-based static site ZIP with OPSEU header
+- [x] Blueprint chapters moved to i18n; channel guide links added
+- [x] Nav renamed: Social Examples; new tools in header dropdown
+- [x] Demo Brand Kit seed at `public/demo/brand-kit-local-243.json`
+- [x] Facilitator script at `docs/workshop/aug-18-comms-toolbox.md`
+- [x] COMMS.md updated for four-channel coverage
