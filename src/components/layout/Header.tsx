@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/guide/social-media-plan", key: "socialMediaPlan" },
+  { href: "/guide/materials", key: "materials" },
   { href: "/guide", key: "guide" },
   { href: "/examples", key: "socialExamples" },
   { href: "/captions", key: "captions" },

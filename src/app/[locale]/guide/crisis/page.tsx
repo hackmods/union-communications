@@ -1,5 +1,6 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Card, CardTitle } from "@/components/ui/Card";
+import { SourcesBlock } from "@/components/comms/SourcesBlock";
 
 const scenarioKeys = ["strike", "bargaining", "layoffs", "management"] as const;
 
@@ -11,6 +12,7 @@ export default async function CrisisPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("crisisGuide");
+  const ts = await getTranslations("sources");
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
@@ -55,6 +57,8 @@ export default async function CrisisPage({
           </ul>
         </Card>
       </div>
+
+      <SourcesBlock pageId="crisis" title={ts("title")} intro={ts("intro")} />
     </div>
   );
 }

@@ -56,6 +56,13 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("heading", { name: "Union Boards Guide" })).toBeVisible();
   });
 
+  test("workshop materials page renders with sources", async ({ page }) => {
+    await page.goto("/en/guide/materials/");
+    await expect(page.getByRole("heading", { name: "Workshop Materials" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Full source bibliography" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "OPSEU/SEFPO graphics, logos & letterhead" })).toBeVisible();
+  });
+
   test("skip link moves focus to main content", async ({ page }) => {
     await page.goto("/en/");
     await page.keyboard.press("Tab");

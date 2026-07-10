@@ -2,6 +2,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { SourcesBlock } from "@/components/comms/SourcesBlock";
 
 const sectionKeys = ["when", "flyers", "boards", "digital"] as const;
 
@@ -14,6 +15,7 @@ export default async function PrintGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("printGuide");
   const nav = await getTranslations("nav");
+  const ts = await getTranslations("sources");
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
@@ -39,6 +41,8 @@ export default async function PrintGuidePage({
           <Button variant="outline">{nav("boardNotice")}</Button>
         </Link>
       </div>
+
+      <SourcesBlock pageId="print" title={ts("title")} intro={ts("intro")} />
     </div>
   );
 }

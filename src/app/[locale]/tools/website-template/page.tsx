@@ -17,10 +17,12 @@ import {
   type WebsiteTemplateData,
 } from "@/types/website-template";
 import { saveAs } from "file-saver";
+import { SourcesBlock } from "@/components/comms/SourcesBlock";
 
 export default function WebsiteTemplatePage() {
   const t = useTranslations("websiteTemplate");
   const tc = useTranslations("common");
+  const ts = useTranslations("sources");
   const brandKit = useBrandStore((s) => s.brandKit);
   const localNumber = resolveLocalNumber(brandKit.local.localNumber);
 
@@ -110,6 +112,9 @@ export default function WebsiteTemplatePage() {
     <div className="mx-auto max-w-6xl px-4 py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 text-gray-600">{t("subtitle")}</p>
+      <p className="mt-3 rounded-md border border-opseu-blue/20 bg-opseu-blue/5 px-4 py-3 text-sm text-gray-700">
+        {t("referenceNote")}
+      </p>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <Card className="space-y-4">
@@ -210,6 +215,8 @@ export default function WebsiteTemplatePage() {
           />
         </div>
       </div>
+
+      <SourcesBlock pageId="websiteTemplate" title={ts("title")} intro={ts("intro")} />
     </div>
   );
 }

@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
+import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { cn } from "@/lib/utils";
 
 type NoticeType = "meeting" | "bargaining" | "event" | "general";
@@ -37,6 +38,7 @@ const FORMAT_DIMENSIONS: Record<
 export default function BoardNoticePage() {
   const t = useTranslations("boardNotice");
   const tc = useTranslations("common");
+  const ts = useTranslations("sources");
   const brandKit = useBrandStore((s) => s.brandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [format, setFormat] = useState<PageFormat>("letter");
@@ -209,6 +211,8 @@ export default function BoardNoticePage() {
           </div>
         </div>
       </div>
+
+      <SourcesBlock pageId="boardNotice" title={ts("title")} intro={ts("intro")} />
     </div>
   );
 }

@@ -77,3 +77,13 @@ Attendees complete the four steps on their devices. Facilitators circulate.
 ## Privacy reminder
 
 Close with: "Everything runs on your device. No accounts, no tracking, no uploads to our servers."
+
+## Sources & references
+
+Full bibliography: `/en/guide/materials` (also in [`docs/SOURCES.md`](../SOURCES.md)).
+
+Key references for facilitators:
+- **Branding:** [OPSEU graphics & letterhead](https://opseu.org/information/opseu-graphics-logos-and-letterhead-templates/12263)
+- **Website example:** [local243.org](https://local243.org)
+- **Hosting:** [GitHub Pages docs](https://docs.github.com/en/pages)
+- **Accessibility:** [WCAG 2.1](https://www.w3.org/TR/WCAG21/), [AODA](https://www.ontario.ca/page/accessibility-laws)

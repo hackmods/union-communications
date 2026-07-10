@@ -13,6 +13,7 @@ Public-facing communications toolbox covering social media, print, union boards,
 | `/[locale]/brand-kit` | Export/import branding JSON |
 | `/[locale]/guide` | The Blueprint handbook |
 | `/[locale]/guide/social-media-plan` | Quick roadmap: logo → boards → socials → website |
+| `/[locale]/guide/materials` | Workshop handouts, checklist, source bibliography |
 | `/[locale]/guide/crisis` | Crisis comms playbook |
 | `/[locale]/guide/union-boards` | Workplace bulletin board guide |
 | `/[locale]/guide/print` | Print communications guide |

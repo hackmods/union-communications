@@ -1,6 +1,7 @@
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { CAAT_OPSEU_COLORS } from "@/lib/constants/brand";
+import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import Image from "next/image";
 
 export default async function AssetsPage({
@@ -10,6 +11,7 @@ export default async function AssetsPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const ts = await getTranslations("sources");
 
   const swatches = [
     { name: "OPSEU Blue (Pantone 285)", hex: CAAT_OPSEU_COLORS.primary },
@@ -72,8 +74,21 @@ export default async function AssetsPage({
           <li>Use primary blue on light backgrounds; white logo on dark backgrounds</li>
           <li>Local numbers and sub-text may be added below the logo using approved fonts</li>
           <li>For questions about brand usage, contact your division communications chair</li>
+          <li>
+            Official source:{" "}
+            <a
+              href="https://opseu.org/information/opseu-graphics-logos-and-letterhead-templates/12263"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-opseu-blue underline"
+            >
+              OPSEU/SEFPO graphics, logos &amp; letterhead
+            </a>
+          </li>
         </ul>
       </Card>
+
+      <SourcesBlock pageId="assets" title={ts("title")} intro={ts("intro")} />
     </div>
   );
 }

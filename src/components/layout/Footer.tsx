@@ -15,6 +15,9 @@ export function Footer() {
           <p className="text-opseu-blue">{t("privacy")}</p>
         </div>
         <nav className="flex gap-4" aria-label="Footer">
+          <Link href="/guide/materials" className="hover:text-opseu-blue">
+            {nav("materials")}
+          </Link>
           <Link href="/privacy" className="hover:text-opseu-blue">
             {nav("privacy")}
           </Link>

@@ -25,6 +25,7 @@
     "unionBoardsGuide": "Union Boards Guide",
     "printGuide": "Print Guide",
     "websiteGuide": "Website Guide",
+    "materials": "Workshop Materials",
     "privacy": "Privacy",
     "accessibility": "Accessibility"
   },
@@ -270,7 +271,67 @@
     "addOfficer": "Add officer",
     "removeOfficer": "Remove",
     "preview": "Live preview",
-    "downloadZip": "Download site ZIP"
+    "downloadZip": "Download site ZIP",
+    "referenceNote": "This template is based on the live site at local243.org — a volunteer-built GitHub Pages site for OPSEU SEFPO Local 243. The exported ZIP uses an OPSEU header banner instead of a local logo in the navigation bar."
+  },
+  "sources": {
+    "title": "Sources & references",
+    "intro": "External resources cited in this guide. Always defer to your local executive and OPSEU servicing rep for official direction.",
+    "categories": {
+      "branding": "Branding",
+      "website": "Website",
+      "accessibility": "Accessibility",
+      "union": "Union resources",
+      "platform": "Platforms & hosting"
+    }
+  },
+  "materials": {
+    "title": "Workshop Materials",
+    "subtitle": "Everything you need for the Aug 18 session and ongoing local communications",
+    "session": {
+      "title": "Aug 18 session — The Toolbox in 60 minutes",
+      "when": "August 18, 12:00–1:00 PM",
+      "format": "Pitch, live walkthrough, and hands-on — attendees leave with logo, board notice, social graphic, and website ZIP.",
+      "cta": "Start the Social Media Plan"
+    },
+    "checklist": {
+      "title": "Attendee checklist",
+      "items": [
+        "Import demo Brand Kit or complete onboarding",
+        "Export circular local logo (PNG)",
+        "Create and download a board notice (PDF)",
+        "Create one social graphic with Graphic Maker",
+        "Download website ZIP and read the included README"
+      ]
+    },
+    "demoKit": {
+      "title": "Demo Brand Kit",
+      "description": "Pre-filled Local 243 brand settings for workshop attendees. Import on the Brand Kit page.",
+      "download": "Download demo Brand Kit JSON"
+    },
+    "quickLinks": {
+      "title": "Session quick links",
+      "onboarding": "Brand setup wizard",
+      "logo": "Logo Builder",
+      "board": "Board Notice Maker",
+      "graphic": "Graphic Maker",
+      "website": "Website Template",
+      "crisis": "Crisis comms guide"
+    },
+    "builtFrom": {
+      "title": "What this toolbox is built from",
+      "items": [
+        "Website template — simplified from local243.org (GitHub Pages static site by Local 243 volunteers)",
+        "Brand colours — OPSEU/SEFPO official graphics guidelines (Pantone 285 blue, CAAT campaign yellow accent)",
+        "Blueprint chapters — volunteer comms best practices for CAAT Support Staff locals",
+        "Crisis guide — high-level guidance aligned with OPSEU local strike and bargaining protocols",
+        "Accessibility — WCAG 2.1 AA and AODA commitments in the hub accessibility statement"
+      ]
+    },
+    "allSources": {
+      "title": "Full source bibliography",
+      "intro": "All external references used across guides, tools, and exported materials."
+    }
   },
   "onboarding": {
     "title": "Set up your local brand",

@@ -92,3 +92,5 @@ Scaffold through testing/CI — all complete.
 - [x] Demo Brand Kit seed at `public/demo/brand-kit-local-243.json`
 - [x] Facilitator script at `docs/workshop/aug-18-comms-toolbox.md`
 - [x] COMMS.md updated for four-channel coverage
+- [x] Workshop materials hub at `/guide/materials` with attendee checklist and source bibliography
+- [x] `SourcesBlock` on all guides and tools; `docs/SOURCES.md` reference registry

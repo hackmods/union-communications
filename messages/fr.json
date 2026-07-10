@@ -25,6 +25,7 @@
     "unionBoardsGuide": "Guide tableaux syndicaux",
     "printGuide": "Guide impression",
     "websiteGuide": "Guide site Web",
+    "materials": "Matériel d'atelier",
     "privacy": "Confidentialité",
     "accessibility": "Accessibilité"
   },
@@ -270,7 +271,67 @@
     "addOfficer": "Ajouter un dirigeant",
     "removeOfficer": "Supprimer",
     "preview": "Aperçu en direct",
-    "downloadZip": "Télécharger le ZIP du site"
+    "downloadZip": "Télécharger le ZIP du site",
+    "referenceNote": "Ce modèle est basé sur le site en direct local243.org — un site GitHub Pages bénévole pour la section OPSEU SEFPO 243. Le ZIP exporté utilise une bannière d'en-tête OPSEU au lieu d'un logo local dans la barre de navigation."
+  },
+  "sources": {
+    "title": "Sources et références",
+    "intro": "Ressources externes citées dans ce guide. Reportez-vous toujours à votre exécutif de section et à votre représentant de service OPSEU pour les directives officielles.",
+    "categories": {
+      "branding": "Image de marque",
+      "website": "Site Web",
+      "accessibility": "Accessibilité",
+      "union": "Ressources syndicales",
+      "platform": "Plateformes et hébergement"
+    }
+  },
+  "materials": {
+    "title": "Matériel d'atelier",
+    "subtitle": "Tout ce dont vous avez besoin pour la session du 18 août et les communications continues de la section",
+    "session": {
+      "title": "Session du 18 août — La boîte à outils en 60 minutes",
+      "when": "18 août, 12 h à 13 h",
+      "format": "Présentation, démonstration en direct et atelier pratique — les participants repartent avec logo, avis pour tableau, graphique social et ZIP du site Web.",
+      "cta": "Commencer le plan médias sociaux"
+    },
+    "checklist": {
+      "title": "Liste de contrôle des participants",
+      "items": [
+        "Importer la trousse de marque de démo ou compléter l'intégration",
+        "Exporter le logo circulaire local (PNG)",
+        "Créer et télécharger un avis pour tableau (PDF)",
+        "Créer un graphique social avec le Créateur graphique",
+        "Télécharger le ZIP du site Web et lire le README inclus"
+      ]
+    },
+    "demoKit": {
+      "title": "Trousse de marque de démo",
+      "description": "Paramètres de marque préremplis pour la section 243. Importer sur la page Trousse de marque.",
+      "download": "Télécharger la trousse de marque JSON de démo"
+    },
+    "quickLinks": {
+      "title": "Liens rapides de la session",
+      "onboarding": "Assistant de configuration de marque",
+      "logo": "Créateur de logo",
+      "board": "Avis pour tableau syndical",
+      "graphic": "Créateur graphique",
+      "website": "Modèle de site Web",
+      "crisis": "Guide de communications de crise"
+    },
+    "builtFrom": {
+      "title": "De quoi est faite cette boîte à outils",
+      "items": [
+        "Modèle de site Web — simplifié à partir de local243.org (site GitHub Pages bénévole de la section 243)",
+        "Couleurs de marque — directives officielles OPSEU/SEFPO (bleu Pantone 285, accent jaune CAAT)",
+        "Chapitres du Plan directeur — bonnes pratiques bénévoles pour les sections du personnel de soutien CAAT",
+        "Guide de crise — orientation générale alignée sur les protocoles de grève et de négociation OPSEU",
+        "Accessibilité — engagements WCAG 2.1 AA et LSAO dans la déclaration d'accessibilité du hub"
+      ]
+    },
+    "allSources": {
+      "title": "Bibliographie complète des sources",
+      "intro": "Toutes les références externes utilisées dans les guides, outils et documents exportés."
+    }
   },
   "onboarding": {
     "title": "Configurer la marque de votre section",
