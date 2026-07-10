@@ -5,6 +5,13 @@
   "engines": {
     "node": ">=22.13.0"
   },
+  "allowScripts": {
+    "@parcel/watcher@2.5.6": true,
+    "@swc/core@1.15.43": true,
+    "core-js@3.49.0": true,
+    "sharp@0.34.5": true,
+    "unrs-resolver@1.12.2": true
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

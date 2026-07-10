@@ -5,14 +5,19 @@ WORKDIR /app
 
 # ---- deps: install with a frozen lockfile ----
 FROM base AS deps
+ENV NPM_CONFIG_UPDATE_NOTIFIER=false
 COPY package.json package-lock.json ./
 RUN npm ci
 
 # ---- builder: compile the Next.js standalone output ----
 FROM base AS builder
+# CapRover injects these as build-args; declare them to avoid unconsumed warnings.
+ARG AUTH_URL
+ARG CAPROVER_GIT_COMMIT_SHA=unknown
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NPM_CONFIG_UPDATE_NOTIFIER=false
 # CapRover often builds on 1 GB droplets; cap Node heap during next build.
 ENV NODE_OPTIONS="--max-old-space-size=768"
 # AUTH_SECRET is only needed at runtime; a build-time placeholder keeps
@@ -23,9 +28,11 @@ RUN npm run build
 
 # ---- runner: minimal production image ----
 FROM base AS runner
+ARG CAPROVER_GIT_COMMIT_SHA=unknown
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV BUILD_COMMIT_SHA=${CAPROVER_GIT_COMMIT_SHA}
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
