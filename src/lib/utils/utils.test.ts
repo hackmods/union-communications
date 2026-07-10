@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { contrastRatio, meetsWcagAA, checkContrast } from "@/lib/utils/contrast";
+import {
+  contrastRatio,
+  meetsWcagAA,
+  checkContrast,
+  hexToRgba,
+} from "@/lib/utils/contrast";
 import { validateImageFile } from "@/lib/utils/validation";
 import { formatFilename, slugify, resolveLocalNumber } from "@/lib/utils";
 
@@ -17,6 +22,11 @@ describe("contrast utilities", () => {
     const result = checkContrast("#003DA5", "#FFFFFF");
     expect(result.passesAA).toBe(true);
     expect(result.ratio).toBeGreaterThan(4.5);
+  });
+
+  it("converts hex to rgba for gradients", () => {
+    expect(hexToRgba("#003DA5", 0.7)).toBe("rgba(0, 61, 165, 0.7)");
+    expect(hexToRgba("bad", 0.5)).toBeNull();
   });
 });
 

@@ -409,6 +409,20 @@
     "markAlt": "OPSEU emblem (bars and trillium)",
     "downloadMark": "Download emblem PNG"
   },
+  "graphicMaker": {
+    "title": "News & Event Graphic Maker",
+    "headline": "Headline",
+    "subheadline": "Subheadline",
+    "photo": "Photo",
+    "photoZoom": "Photo zoom",
+    "fillMode": "Background fill",
+    "fillSolid": "Solid",
+    "fillGradient": "Gradient",
+    "backgroundColor": "Background colour",
+    "gradientColor": "Gradient fade colour",
+    "gradientFrom": "Gradient start",
+    "gradientTo": "Gradient end"
+  },
   "consent": {
     "title": "Member photo consent",
     "description": "Before using a member's photo in social media graphics, confirm:",

@@ -5,34 +5,56 @@ import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { hexToRgba } from "@/lib/utils/contrast";
 import { TOOL_PRESETS, type ToolPresetKey } from "@/lib/constants/presets";
+import { BRAND_COLORS } from "@/lib/constants/brand";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { ConsentModal } from "@/components/tools/ConsentModal";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
+import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
+import { ContrastChecker } from "@/components/tools/ContrastChecker";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+
+type FillMode = "solid" | "gradient";
 
 interface GraphicState {
   headline: string;
   subheadline: string;
   photoUrl?: string;
   photoScale: number;
+  fillMode: FillMode;
+  /** Solid fill, or gradient start */
+  backgroundColor: string;
+  /** Gradient end, and bottom fade colour in solid mode */
+  gradientColor: string;
 }
 
 export default function GraphicMakerPage() {
   const t = useTranslations("common");
+  const tg = useTranslations("graphicMaker");
   const brandKit = useBrandStore((s) => s.brandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingPhoto, setPendingPhoto] = useState<string | null>(null);
 
+  const brandColors = {
+    primary: brandKit.primaryColor,
+    accent: brandKit.accentColor,
+    secondary: brandKit.secondaryColor,
+  };
+
   const initial: GraphicState = {
     headline: "Member Spotlight",
     subheadline: "Celebrating our union family",
     photoScale: 1,
+    fillMode: "solid",
+    backgroundColor: brandKit.primaryColor,
+    gradientColor: BRAND_COLORS.black,
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -69,9 +91,20 @@ export default function GraphicMakerPage() {
     );
   };
 
+  // Solid mode: gradient swatch drives the bottom fade. Gradient fill keeps a dark fade for text.
+  const fadeHex =
+    state.fillMode === "solid" ? state.gradientColor : BRAND_COLORS.black;
+  const fade = hexToRgba(fadeHex, 0.7) ?? "rgba(0,0,0,0.7)";
+  const canvasStyle =
+    state.fillMode === "solid"
+      ? { backgroundColor: state.backgroundColor }
+      : {
+          backgroundImage: `linear-gradient(135deg, ${state.backgroundColor}, ${state.gradientColor})`,
+        };
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">News & Event Graphic Maker</h1>
+      <h1 className="text-3xl font-bold text-opseu-dark">{tg("title")}</h1>
 
       <div className="mt-4 flex flex-wrap gap-2">
         {(Object.keys(TOOL_PRESETS) as ToolPresetKey[]).map((key) => (
@@ -84,24 +117,24 @@ export default function GraphicMakerPage() {
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <Card className="space-y-4">
           <Input
-            label="Headline"
+            label={tg("headline")}
             value={state.headline}
             onChange={(e) => setState({ ...state, headline: e.target.value })}
           />
           <Textarea
-            label="Subheadline"
+            label={tg("subheadline")}
             value={state.subheadline}
             onChange={(e) => setState({ ...state, subheadline: e.target.value })}
             rows={2}
           />
           <ImageUpload
-            label="Photo"
+            label={tg("photo")}
             preview={state.photoUrl}
             onUpload={handlePhotoUpload}
             onClear={() => setState({ ...state, photoUrl: undefined })}
           />
           <Input
-            label="Photo zoom"
+            label={tg("photoZoom")}
             type="range"
             min="0.5"
             max="2"
@@ -111,6 +144,45 @@ export default function GraphicMakerPage() {
               setState({ ...state, photoScale: parseFloat(e.target.value) })
             }
           />
+
+          <fieldset className="space-y-2">
+            <legend className="text-sm font-medium text-gray-700">{tg("fillMode")}</legend>
+            <div className="flex flex-wrap gap-2">
+              {(["solid", "gradient"] as const).map((mode) => (
+                <Button
+                  key={mode}
+                  size="sm"
+                  variant={state.fillMode === mode ? "primary" : "outline"}
+                  onClick={() => setState({ ...state, fillMode: mode })}
+                >
+                  {tg(mode === "solid" ? "fillSolid" : "fillGradient")}
+                </Button>
+              ))}
+            </div>
+          </fieldset>
+
+          <BrandSwatchPicker
+            label={
+              state.fillMode === "solid"
+                ? tg("backgroundColor")
+                : tg("gradientFrom")
+            }
+            value={state.backgroundColor}
+            onChange={(c) => setState({ ...state, backgroundColor: c })}
+            colors={brandColors}
+          />
+          <BrandSwatchPicker
+            label={
+              state.fillMode === "solid"
+                ? tg("gradientColor")
+                : tg("gradientTo")
+            }
+            value={state.gradientColor}
+            onChange={(c) => setState({ ...state, gradientColor: c })}
+            colors={brandColors}
+          />
+          <ContrastChecker foreground="#FFFFFF" background={state.backgroundColor} />
+
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}
@@ -124,7 +196,7 @@ export default function GraphicMakerPage() {
         <div
           ref={canvasRef}
           className="relative aspect-[1200/630] w-full overflow-hidden rounded-lg shadow-lg"
-          style={{ backgroundColor: brandKit.primaryColor }}
+          style={canvasStyle}
         >
           {state.photoUrl && (
             <Image
@@ -136,15 +208,14 @@ export default function GraphicMakerPage() {
               style={{ transform: `scale(${state.photoScale})` }}
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `linear-gradient(to top, ${fade}, transparent)`,
+            }}
+          />
           <div className="absolute bottom-0 left-0 right-0 p-8">
-            <Image
-              src="/assets/caat-opseu/logo-primary.png"
-              alt=""
-              width={150}
-              height={60}
-              className="mb-4 object-contain"
-            />
+            <BrandLogo size="md" onDark className="mb-4" />
             <h2 className="text-3xl font-bold text-white">{state.headline}</h2>
             <p className="mt-2 text-lg text-white/90">{state.subheadline}</p>
             <p className="mt-4 text-sm text-white/70">

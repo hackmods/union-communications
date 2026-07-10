@@ -1,4 +1,4 @@
-function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+export function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
   const normalized = hex.replace("#", "");
   if (normalized.length !== 6) return null;
   const r = parseInt(normalized.slice(0, 2), 16);
@@ -6,6 +6,13 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
   const b = parseInt(normalized.slice(4, 6), 16);
   if ([r, g, b].some((v) => Number.isNaN(v))) return null;
   return { r, g, b };
+}
+
+/** Convert `#RRGGBB` to `rgba(r,g,b,a)` for dynamic gradients. */
+export function hexToRgba(hex: string, alpha: number): string | null {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return null;
+  return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
 }
 
 function relativeLuminance(r: number, g: number, b: number): number {

@@ -384,6 +384,20 @@
       "useSlitWhiteHint": "Même emblème fendu en blanc — pour fonds foncés ou couleur de marque."
     }
   },
+  "graphicMaker": {
+    "title": "Créateur de graphiques nouvelles et événements",
+    "headline": "Titre",
+    "subheadline": "Sous-titre",
+    "photo": "Photo",
+    "photoZoom": "Zoom photo",
+    "fillMode": "Remplissage du fond",
+    "fillSolid": "Uni",
+    "fillGradient": "Dégradé",
+    "backgroundColor": "Couleur de fond",
+    "gradientColor": "Couleur du dégradé",
+    "gradientFrom": "Début du dégradé",
+    "gradientTo": "Fin du dégradé"
+  },
   "consent": {
     "title": "Consentement photo du membre",
     "description": "Avant d'utiliser la photo d'un membre dans des graphiques de médias sociaux, confirmez :",
