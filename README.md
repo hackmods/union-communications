@@ -27,6 +27,19 @@ Set `AUTH_SECRET` (required for Auth.js in production):
 openssl rand -base64 32
 ```
 
+### CapRover deploy
+
+In the app **HTTP Settings**, set **Container HTTP Port** to `3000` (Next.js listens on 3000, not 80). A wrong port causes CapRover's NGINX 502 page even when container logs show "Ready".
+
+In **App Configs**, set at minimum:
+
+| Variable | Example |
+|----------|---------|
+| `AUTH_SECRET` | output of `openssl rand -base64 32` |
+| `AUTH_URL` | `https://union-communications.behind7proxies.com` |
+
+Health check: `GET /api/health` → `{"status":"ok"}`
+
 ### Officer Hub (Phase 1)
 
 - `/en/app/login` — demo credentials:
