@@ -53,7 +53,14 @@ export function MarketplacePanel() {
   }
 
   useEffect(() => {
-    void load();
+    void fetch("/api/marketplace")
+      .then(async (res) => {
+        if (res.ok) {
+          const data = await res.json();
+          setTemplates(data.templates);
+        }
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   async function handleShare(e: React.FormEvent) {
