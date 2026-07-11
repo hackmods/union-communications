@@ -521,6 +521,7 @@
     },
     "quickLinks": {
       "title": "Session quick links",
+      "cta": "Social Media Plan",
       "onboarding": "Brand setup wizard",
       "logo": "Logo Builder",
       "board": "Board Notice Maker",

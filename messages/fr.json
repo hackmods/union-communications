@@ -521,6 +521,7 @@
     },
     "quickLinks": {
       "title": "Liens rapides de la session",
+      "cta": "Plan médias sociaux",
       "onboarding": "Assistant de configuration de marque",
       "logo": "Créateur de logo",
       "board": "Avis pour tableau syndical",

@@ -57,7 +57,7 @@ export function HomeContent() {
         <div className="flex flex-col rounded-xl border border-opseu-blue/20 bg-opseu-blue/5 p-6 text-left">
           <h2 className="text-xl font-bold text-opseu-dark">{t("pathCommsTitle")}</h2>
           <p className="mt-3 flex-1 text-base text-gray-600">{t("pathCommsDesc")}</p>
-          <p className="mt-3 text-sm text-gray-500">{t("pathCommsHint")}</p>
+          <p className="mt-3 text-sm text-gray-600">{t("pathCommsHint")}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/guide/social-media-plan">
               <Button size="lg">{t("pathCommsCta")}</Button>
