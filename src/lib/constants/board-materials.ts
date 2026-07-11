@@ -110,6 +110,22 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     zone: "healthSafety",
   },
   {
+    id: "board-l33",
+    kind: "examplePhoto",
+    titleKey: "boardL33",
+    descriptionKey: "boardL33Desc",
+    href: "/demo/union-boards/board-l33-sectioned.png",
+    zone: "header",
+  },
+  {
+    id: "board-w010",
+    kind: "examplePhoto",
+    titleKey: "boardW010",
+    descriptionKey: "boardW010Desc",
+    href: "/demo/union-boards/board-w010-branded.png",
+    zone: "header",
+  },
+  {
     id: "dense-board-photo",
     kind: "examplePhoto",
     titleKey: "denseBoardPhoto",

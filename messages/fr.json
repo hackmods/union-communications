@@ -225,6 +225,9 @@
     "layouts": {
       "title": "Mises en page de référence (locaux réels)",
       "intro": "Modèles adaptés de tableaux que des sections locales utilisent vraiment — zones génériques, sans campagne de marque. Choisissez une forme adaptée à votre tableau et gardez-la pour que les membres sachent où regarder.",
+      "photosHeading": "Vrais tableaux (références photo)",
+      "photosIntro": "Photos de tableaux de campus actifs — voyez comment listes d'exécutif, CSS, affiches ministérielles et QR cohabitent sur le terrain.",
+      "schematicsHeading": "Schémas à reproduire",
       "fourQuadrant": "Classique en quatre zones",
       "fourQuadrantDesc": "En-tête en haut, réseaux et santé-sécurité côte à côte, bande exécutif pleine largeur, événements en bas. La mise en page la plus courante en salle de pause.",
       "fourQuadrantBest": "Idéal pour : tableaux en liège standards en salle à manger",
@@ -234,6 +237,9 @@
       "corridorTall": "Pile étroite de corridor",
       "corridorTallDesc": "Colonne unique pour tableaux d'allée : en-tête, réseaux, S&S, exécutif, événements, puis remplissage solidarité en bas pour éviter le liège vide.",
       "corridorTallBest": "Idéal pour : tableaux étroits en corridor ou près d'une porte",
+      "labeledColumns": "Colonnes étiquetées (tableau d'info)",
+      "labeledColumnsDesc": "En-têtes imprimés en haut — Affichages | Mises à jour / exécutif | Santé-sécurité + QR | Affiches de droits. Correspond à un tableau de campus bien tenu avec LNE, formule 82 et affiche harcèlement à droite.",
+      "labeledColumnsBest": "Idéal pour : grands tableaux que vous pouvez garder nets avec des étiquettes",
       "stewardDesk": "Tableau du bureau des délégués",
       "stewardDeskDesc": "Grand bloc contacts exécutif / délégués à côté de cartes compactes réseaux et S&S; bande du bas pour la prochaine réunion ou action. Courant dans les bureaux où les membres s'arrêtent pour poser des questions.",
       "stewardDeskBest": "Idéal pour : bureau des délégués ou local syndical"
@@ -270,8 +276,14 @@
         "jhscSampleDesc": "Courte liste anonymisée du comité santé-sécurité pour la zone S&S.",
         "ohsaQrTip": "Astuce accès LSST par téléphone / QR",
         "ohsaQrTipDesc": "Fiche d'une page pour scanner un QR vers la loi à jour depuis un téléphone.",
-        "denseBoardPhoto": "Exemple de tableau densément affiché",
-        "denseBoardPhotoDesc": "Tableau réel bien rempli : grandes affiches de campagne, feuille QR, cartes de contact et remplissage solidarité — inspiration visuelle, pas un modèle de marque.",
+        "boardL33": "Tableau d'info de campus en colonnes",
+        "boardL33Desc": "Colonnes étiquetées : affichages, mises à jour/exécutif, liste CSS, affiches LNE + santé-sécurité, formule 82, affiche harcèlement, et grand QR. Le modèle « minimum + droits » bien rangé.",
+        "boardL33Alt": "Photo d'un tableau d'info syndical en colonnes étiquetées pour affichages, exécutif, santé-sécurité et affiches de droits",
+        "boardW010": "Tableau de corridor avec image de marque",
+        "boardW010Desc": "Bannières du syndicat parent en haut, formule 82 et harcèlement à hauteur des yeux, liste d'exécutif, affiche santé-sécurité, lien QR, plus un coin notes des membres — plus dense mais encore lisible.",
+        "boardW010Alt": "Photo d'un tableau syndical avec image de marque, affiches de sécurité, liste d'exécutif, code QR et notes de membres",
+        "denseBoardPhoto": "Tableau dense de campagne",
+        "denseBoardPhotoDesc": "Grandes affiches de campagne avec feuille QR et cartes de contact — utile quand il faut du remplissage solidarité autour des zones permanentes.",
         "denseBoardPhotoAlt": "Photo d'un tableau d'affichage syndical densément garni d'affiches de campagne, codes QR et cartes de contact"
       }
     },

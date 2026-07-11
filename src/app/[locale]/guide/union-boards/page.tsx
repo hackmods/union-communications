@@ -10,7 +10,6 @@ import {
 } from "@/components/comms/BoardLayoutDiagrams";
 import { BOARD_LAYOUT_REFERENCES } from "@/lib/constants/board-layouts";
 import {
-  BOARD_MATERIALS,
   materialsByKind,
 } from "@/lib/constants/board-materials";
 
@@ -48,7 +47,7 @@ export default async function UnionBoardsGuidePage({
     ...materialsByKind("ministryLink"),
   ];
   const templates = materialsByKind("localTemplate");
-  const photo = BOARD_MATERIALS.find((m) => m.kind === "examplePhoto");
+  const photos = materialsByKind("examplePhoto");
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
@@ -195,22 +194,40 @@ export default async function UnionBoardsGuidePage({
           {t("layouts.intro")}
         </p>
 
-        {photo ? (
-          <figure className="mt-6 overflow-hidden rounded-lg border border-gray-200">
-            <Image
-              src={photo.href}
-              alt={t("materials.items.denseBoardPhotoAlt")}
-              width={1200}
-              height={900}
-              className="h-auto w-full object-cover"
-            />
-            <figcaption className="bg-gray-50 px-4 py-3 text-sm text-gray-600">
-              {t(`materials.items.${photo.descriptionKey}`)}
-            </figcaption>
-          </figure>
-        ) : null}
+        <h3 className="mt-6 text-lg font-bold text-opseu-dark">
+          {t("layouts.photosHeading")}
+        </h3>
+        <p className="mt-1 text-sm text-gray-600">{t("layouts.photosIntro")}</p>
 
-        <div className="mt-6 space-y-6">
+        <div className="mt-4 space-y-6">
+          {photos.map((photo) => (
+            <figure
+              key={photo.id}
+              className="overflow-hidden rounded-lg border border-gray-200"
+            >
+              <Image
+                src={photo.href}
+                alt={t(`materials.items.${photo.titleKey}Alt`)}
+                width={1200}
+                height={900}
+                className="h-auto w-full object-cover"
+              />
+              <figcaption className="bg-gray-50 px-4 py-3">
+                <p className="font-semibold text-opseu-dark">
+                  {t(`materials.items.${photo.titleKey}`)}
+                </p>
+                <p className="mt-1 text-sm text-gray-600">
+                  {t(`materials.items.${photo.descriptionKey}`)}
+                </p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        <h3 className="mt-10 text-lg font-bold text-opseu-dark">
+          {t("layouts.schematicsHeading")}
+        </h3>
+        <div className="mt-4 space-y-6">
           {BOARD_LAYOUT_REFERENCES.map((layout) => (
             <Card key={layout.id}>
               <CardTitle>{t(`layouts.${layout.titleKey}`)}</CardTitle>

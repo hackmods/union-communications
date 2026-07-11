@@ -92,6 +92,25 @@ export const BOARD_LAYOUT_REFERENCES: readonly BoardLayoutReference[] = [
     ],
   },
   {
+    id: "labeled-columns",
+    titleKey: "labeledColumns",
+    descriptionKey: "labeledColumnsDesc",
+    bestForKey: "labeledColumnsBest",
+    areas: [
+      "header header header header",
+      "events lec health socials",
+      "events lec health filler",
+    ],
+    zones: [
+      { id: "header", area: "header" },
+      { id: "events", area: "events" },
+      { id: "lec", area: "lec" },
+      { id: "healthSafety", area: "health" },
+      { id: "socials", area: "socials" },
+      { id: "filler", area: "filler" },
+    ],
+  },
+  {
     id: "steward-desk",
     titleKey: "stewardDesk",
     descriptionKey: "stewardDeskDesc",

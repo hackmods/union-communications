@@ -152,3 +152,4 @@ Scaffold through testing/CI — all complete.
 - [x] Official Ontario posters (ESA, Form 82) + e-Laws OHSA links to feed empty boards
 - [x] Anonymized sample checklist / board tracker / JHSC CSV (fake names, no college PII)
 - [x] Example dense-board photo for visual reference
+- [x] Campus board photos (sectioned L33 + branded W010) + labeled-columns schematic

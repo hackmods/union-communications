@@ -24,7 +24,8 @@ describe("board-materials", () => {
 
   it("includes an example dense-board photo", () => {
     const photos = materialsByKind("examplePhoto");
-    expect(photos).toHaveLength(1);
-    expect(photos[0].href).toContain("example-dense-board");
+    expect(photos.length).toBeGreaterThanOrEqual(3);
+    expect(photos.some((p) => p.href.includes("board-l33"))).toBe(true);
+    expect(photos.some((p) => p.href.includes("board-w010"))).toBe(true);
   });
 });

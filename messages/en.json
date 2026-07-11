@@ -225,6 +225,9 @@
     "layouts": {
       "title": "Reference layouts from real locals",
       "intro": "Patterns adapted from workplace boards locals actually run — generic zones, no branded campaign art. Pick one that fits your board shape and stick to it so members learn where to look.",
+      "photosHeading": "Real boards (photo references)",
+      "photosIntro": "Photos from active campus boards — use them to see how LEC lists, JHSC, ministry posters, and QR codes sit together in the wild.",
+      "schematicsHeading": "Schematic patterns to copy",
       "fourQuadrant": "Four-zone classic",
       "fourQuadrantDesc": "Header across the top, socials and health & safety side by side, full-width LEC strip, events along the bottom. The most common break-room layout.",
       "fourQuadrantBest": "Best for: standard cork boards in lunch rooms",
@@ -234,6 +237,9 @@
       "corridorTall": "Corridor tall stack",
       "corridorTallDesc": "Single-column stack for narrow hallway boards: header, socials, H&S, LEC, events, then solidarity filler at the bottom so the board never ends in blank cork.",
       "corridorTallBest": "Best for: narrow corridor or door-side boards",
+      "labeledColumns": "Labeled columns (info board)",
+      "labeledColumnsDesc": "Printed section headers across the top — Postings | Updates / LEC | Health & safety + QR | Rights posters. Matches a well-kept campus info board with ministry ESA, Form 82, and bullying/harassment posters on the right.",
+      "labeledColumnsBest": "Best for: wide boards you can keep tidy with paper labels",
       "stewardDesk": "Steward desk board",
       "stewardDeskDesc": "Large LEC / steward contact block beside compact socials and H&S cards; bottom strip for the next meeting or action. Common in steward offices where members stop to ask questions.",
       "stewardDeskBest": "Best for: steward office or union room boards"
@@ -270,8 +276,14 @@
         "jhscSampleDesc": "Short anonymized health & safety committee roster for the H&S zone.",
         "ohsaQrTip": "OHSA phone / QR access tip",
         "ohsaQrTipDesc": "One-page tip for members scanning a QR to the live Act from their phone.",
-        "denseBoardPhoto": "Example dense workplace board",
-        "denseBoardPhotoDesc": "Real-world packed board: large campaign anchors, QR resource sheet, contact cards, and solidarity filler — use as visual inspiration, not a brand template.",
+        "boardL33": "Sectioned campus info board",
+        "boardL33Desc": "Labeled columns: Postings, updates/LEC list, JHSC roster, ESA + Health & Safety posters, Form 82, bullying/harassment poster, and a large QR. The tidy “bare minimum plus rights” pattern.",
+        "boardL33Alt": "Photograph of a sectioned union info board with labeled columns for postings, LEC, health and safety, and rights posters",
+        "boardW010": "Branded corridor board",
+        "boardW010Desc": "Parent-union banners across the top, Form 82 and bullying/harassment at eye level, LEC list, Health & Safety poster, QR link, plus a small member notes corner — denser but still scannable.",
+        "boardW010Alt": "Photograph of a branded union bulletin board with safety posters, LEC list, QR code, and member notes",
+        "denseBoardPhoto": "Campaign-dense board",
+        "denseBoardPhotoDesc": "High-energy campaign anchors with QR resource sheet and contact cards — use when you need solidarity filler around the standing zones.",
         "denseBoardPhotoAlt": "Photograph of a densely posted union bulletin board with campaign posters, QR codes, and contact cards"
       }
     },

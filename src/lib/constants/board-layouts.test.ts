@@ -16,7 +16,7 @@ describe("board-layouts", () => {
   });
 
   it("ships four IRL-inspired reference layouts covering core zones", () => {
-    expect(BOARD_LAYOUT_REFERENCES).toHaveLength(4);
+    expect(BOARD_LAYOUT_REFERENCES.length).toBeGreaterThanOrEqual(4);
     for (const layout of BOARD_LAYOUT_REFERENCES) {
       const ids = new Set(layout.zones.map((z) => z.id));
       expect(ids.has("socials")).toBe(true);
