@@ -41,26 +41,25 @@ export function Header() {
   const t = useTranslations("nav");
   const th = useTranslations("hub");
   const pathname = usePathname();
-  const [menu, setMenu] = useState<{ id: NavMenuId; atPath: string } | null>(
-    null,
-  );
+  const [menu, setMenu] = useState<{ id: NavMenuId; path: string } | null>(null);
   const learnRef = useRef<HTMLDivElement>(null);
   const toolsRef = useRef<HTMLDivElement>(null);
   const learnMenuId = useId();
   const toolsMenuId = useId();
+
+  // Hide when the route changes — do not unmount links in onClick (that aborts Next navigation)
+  const openMenu = menu?.path === pathname ? menu.id : null;
 
   const getStartedHref = "/guide/social-media-plan";
   const learnActive =
     learnHrefs.has(pathname) ||
     (pathname.startsWith("/guide/") && pathname !== getStartedHref);
   const toolsActive = pathname.startsWith("/tools/");
-  const openMenu =
-    menu && menu.atPath === pathname ? menu.id : null;
 
   useEffect(() => {
     if (!openMenu) return;
 
-    const onPointerDown = (event: MouseEvent) => {
+    const onPointerDown = (event: PointerEvent) => {
       const target = event.target as Node;
       const inLearn = learnRef.current?.contains(target);
       const inTools = toolsRef.current?.contains(target);
@@ -71,20 +70,19 @@ export function Header() {
       if (event.key === "Escape") setMenu(null);
     };
 
-    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("pointerdown", onPointerDown);
     document.addEventListener("keydown", onKeyDown);
     return () => {
-      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [openMenu]);
 
-  const closeMenus = () => setMenu(null);
   const toggleMenu = (id: NavMenuId) => {
     setMenu((prev) =>
-      prev?.id === id && prev.atPath === pathname
+      prev?.id === id && prev.path === pathname
         ? null
-        : { id, atPath: pathname },
+        : { id, path: pathname },
     );
   };
 
@@ -113,9 +111,12 @@ export function Header() {
               type="button"
               className={cn(
                 "rounded-md px-2 py-1 hover:bg-opseu-blue/5",
-                learnActive && "bg-opseu-blue/10 font-semibold text-opseu-blue",
+                openMenu === "learn"
+                  ? "bg-opseu-blue/10 font-semibold text-opseu-blue"
+                  : learnActive && "font-semibold text-opseu-blue",
               )}
               aria-expanded={openMenu === "learn"}
+              aria-haspopup="menu"
               aria-controls={learnMenuId}
               onClick={() => toggleMenu("learn")}
             >
@@ -125,14 +126,17 @@ export function Header() {
               <div
                 id={learnMenuId}
                 role="menu"
-                className="absolute left-0 z-20 mt-1 min-w-[200px] rounded-lg border bg-white py-1 shadow-lg"
+                className="absolute left-0 z-50 mt-1 min-w-[220px] rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
               >
                 {learnLinks.map(({ href, key }) => (
                   <Link
                     key={href}
                     href={href}
                     role="menuitem"
-                    onClick={closeMenus}
+                    onClick={() => {
+                      // Close after Link has handled the click — sync close unmounts and aborts navigation
+                      requestAnimationFrame(() => setMenu(null));
+                    }}
                     className={cn(
                       "block px-3 py-2 hover:bg-opseu-blue/5",
                       pathname === href &&
@@ -162,9 +166,12 @@ export function Header() {
               type="button"
               className={cn(
                 "rounded-md px-2 py-1 hover:bg-opseu-blue/5",
-                toolsActive && "bg-opseu-blue/10 font-semibold text-opseu-blue",
+                openMenu === "tools"
+                  ? "bg-opseu-blue/10 font-semibold text-opseu-blue"
+                  : toolsActive && "font-semibold text-opseu-blue",
               )}
               aria-expanded={openMenu === "tools"}
+              aria-haspopup="menu"
               aria-controls={toolsMenuId}
               onClick={() => toggleMenu("tools")}
             >
@@ -174,17 +181,19 @@ export function Header() {
               <div
                 id={toolsMenuId}
                 role="menu"
-                className="absolute right-0 z-20 mt-1 min-w-[200px] rounded-lg border bg-white py-1 shadow-lg"
+                className="absolute right-0 z-50 mt-1 min-w-[220px] rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
               >
                 {toolLinks.map(({ href, key }) => (
                   <Link
                     key={href}
                     href={href}
                     role="menuitem"
-                    onClick={closeMenus}
+                    onClick={() => {
+                      requestAnimationFrame(() => setMenu(null));
+                    }}
                     className={cn(
                       "block px-3 py-2 hover:bg-opseu-blue/5",
-                      pathname === href &&
+                      linkActive(pathname, href) &&
                         "bg-opseu-blue/10 font-semibold text-opseu-blue",
                     )}
                   >
