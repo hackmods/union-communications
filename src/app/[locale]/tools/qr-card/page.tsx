@@ -141,9 +141,7 @@ export default function QrCardPage() {
 
   const canvasStyle: CSSProperties = (() => {
     const box: CSSProperties = {
-      width: size.previewWidthPx,
       aspectRatio: `${size.widthInches} / ${size.heightInches}`,
-      maxWidth: "100%",
     };
     if (state.bgMode === "gradient") {
       return {
@@ -158,6 +156,18 @@ export default function QrCardPage() {
       color: "#FFFFFF",
     };
   })();
+
+  /** QR plate as % of card width — smaller cards keep more room for copy */
+  const qrPlatePercent =
+    state.sizeId === "square4"
+      ? 34
+      : state.sizeId === "square5"
+        ? 36
+        : state.sizeId === "quarter"
+          ? 38
+          : state.sizeId === "half"
+            ? 42
+            : 34;
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
@@ -184,19 +194,13 @@ export default function QrCardPage() {
 
   const titleSize = isSquare
     ? state.sizeId === "square4"
-      ? "text-xl"
-      : "text-2xl"
+      ? "text-lg"
+      : "text-xl"
     : state.sizeId === "letter"
       ? "text-4xl"
       : state.sizeId === "half"
         ? "text-3xl"
         : "text-2xl";
-
-  const qrDisplayClass = isCompact
-    ? "h-auto w-[46%] min-w-[5.5rem] max-w-[8rem]"
-    : state.sizeId === "letter"
-      ? "h-auto w-[40%] min-w-[8rem] max-w-[11rem]"
-      : "h-auto w-[44%] min-w-[6.5rem] max-w-[9.5rem]";
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -377,111 +381,114 @@ export default function QrCardPage() {
         </Card>
 
         <div className="lg:sticky lg:top-6">
-          <div className="flex flex-col items-center rounded-lg border border-gray-200 bg-gray-100/80 p-4 sm:p-6">
-            <div
-              ref={canvasRef}
-              className="relative flex flex-col overflow-hidden shadow-lg transition-[width] duration-200"
-              style={canvasStyle}
-            >
-              {state.bgMode === "accentBar" ? (
-                <div
-                  className={cn("w-full shrink-0", isCompact ? "h-2" : "h-3")}
-                  style={{ backgroundColor: state.secondaryColor }}
-                />
-              ) : null}
-
+          <div className="mx-auto w-fit max-w-full">
+            <div className="rounded-lg border border-gray-200 bg-gray-100/80 p-4 sm:p-6">
               <div
-                className={cn(
-                  "flex min-h-0 flex-1 flex-col items-center justify-between text-center",
-                  isCompact ? "gap-2 p-3" : "gap-3 p-4 sm:p-5",
-                )}
+                className="min-w-0"
+                style={{ width: size.previewWidthPx, maxWidth: "100%" }}
               >
-                <div className="w-full shrink-0">
-                  {state.includeBranding ? (
-                    <div className={cn("flex justify-center", isCompact ? "mb-1.5" : "mb-2")}>
-                      <BrandLogo size="sm" onDark />
-                    </div>
+                <div
+                  ref={canvasRef}
+                  className="relative flex w-full min-w-0 flex-col overflow-hidden shadow-lg"
+                  style={canvasStyle}
+                >
+                  {state.bgMode === "accentBar" ? (
+                    <div
+                      className={cn("w-full shrink-0", isCompact ? "h-2" : "h-3")}
+                      style={{ backgroundColor: state.secondaryColor }}
+                    />
                   ) : null}
-                  <h2
-                    className={cn(
-                      "font-black uppercase leading-tight tracking-tight",
-                      titleSize,
-                    )}
-                  >
-                    {state.title}
-                  </h2>
-                  {state.description.trim() ? (
-                    <p
-                      className={cn(
-                        "mt-1.5 leading-snug opacity-90",
-                        isCompact ? "text-xs" : "text-sm",
-                      )}
-                    >
-                      {state.description}
-                    </p>
-                  ) : null}
-                </div>
 
-                <div className="flex shrink-0 flex-col items-center">
                   <div
                     className={cn(
-                      "rounded-md bg-white shadow-sm",
-                      isCompact ? "p-1.5" : "p-2",
+                      "flex min-h-0 min-w-0 flex-1 flex-col items-center justify-between text-center",
+                      isCompact ? "gap-1.5 p-2.5" : isSquare ? "gap-2 p-3" : "gap-3 p-4 sm:p-5",
                     )}
                   >
-                    {qrSrc ? (
-                      // eslint-disable-next-line @next/next/no-img-element -- data URL from client QR
-                      <img
-                        src={qrSrc}
-                        alt=""
-                        width={size.qrPixels}
-                        height={size.qrPixels}
-                        className={qrDisplayClass}
-                      />
-                    ) : (
-                      <div
+                    <div className="w-full min-w-0 shrink-0">
+                      {state.includeBranding ? (
+                        <div className={cn("flex justify-center", isCompact ? "mb-1" : "mb-2")}>
+                          <BrandLogo size="sm" onDark />
+                        </div>
+                      ) : null}
+                      <h2
                         className={cn(
-                          "flex items-center justify-center bg-gray-100 text-xs text-gray-500",
-                          isCompact ? "h-20 w-20" : "h-28 w-28",
+                          "font-black uppercase leading-tight tracking-tight",
+                          titleSize,
                         )}
                       >
-                        {t("qrPlaceholder")}
+                        {state.title}
+                      </h2>
+                      {state.description.trim() ? (
+                        <p
+                          className={cn(
+                            "mt-1 leading-snug opacity-90",
+                            isCompact || isSquare ? "text-xs" : "text-sm",
+                          )}
+                        >
+                          {state.description}
+                        </p>
+                      ) : null}
+                    </div>
+
+                    <div className="flex min-h-0 w-full min-w-0 flex-col items-center justify-center">
+                      <div
+                        className={cn(
+                          "rounded-md bg-white shadow-sm",
+                          isCompact || isSquare ? "p-1.5" : "p-2",
+                        )}
+                        style={{ width: `${qrPlatePercent}%` }}
+                      >
+                        {qrSrc ? (
+                          // eslint-disable-next-line @next/next/no-img-element -- data URL from client QR
+                          <img
+                            src={qrSrc}
+                            alt=""
+                            className="aspect-square h-auto w-full"
+                          />
+                        ) : (
+                          <div
+                            className="flex aspect-square w-full items-center justify-center bg-gray-100 text-[0.65rem] text-gray-500"
+                          >
+                            {t("qrPlaceholder")}
+                          </div>
+                        )}
                       </div>
+                      {state.tagline.trim() ? (
+                        <p
+                          className={cn(
+                            "mt-1.5 font-bold uppercase tracking-wide",
+                            isCompact || isSquare ? "text-[10px]" : "text-sm",
+                          )}
+                          style={{
+                            color:
+                              state.bgMode === "plain" ? state.secondaryColor : "#FFFFFF",
+                          }}
+                        >
+                          {state.tagline}
+                        </p>
+                      ) : null}
+                      {state.showUrl && state.destination.trim() ? (
+                        <p className="mt-1 max-w-full truncate text-[10px] opacity-80">
+                          {state.destination}
+                        </p>
+                      ) : null}
+                    </div>
+
+                    {state.includeBranding ? (
+                      <p
+                        className={cn(
+                          "shrink-0 font-semibold opacity-90",
+                          isCompact || isSquare ? "text-[10px]" : "text-xs",
+                        )}
+                      >
+                        {localLabel}
+                      </p>
+                    ) : (
+                      <span className="h-2 shrink-0" aria-hidden />
                     )}
                   </div>
-                  {state.tagline.trim() ? (
-                    <p
-                      className={cn(
-                        "mt-2 font-bold uppercase tracking-wide",
-                        isCompact ? "text-xs" : "text-sm",
-                      )}
-                      style={{
-                        color:
-                          state.bgMode === "plain" ? state.secondaryColor : "#FFFFFF",
-                      }}
-                    >
-                      {state.tagline}
-                    </p>
-                  ) : null}
-                  {state.showUrl && state.destination.trim() ? (
-                    <p className="mt-1 max-w-full truncate text-[10px] opacity-80">
-                      {state.destination}
-                    </p>
-                  ) : null}
                 </div>
-
-                {state.includeBranding ? (
-                  <p
-                    className={cn(
-                      "shrink-0 font-semibold opacity-90",
-                      isCompact ? "text-[10px]" : "text-xs",
-                    )}
-                  >
-                    {localLabel}
-                  </p>
-                ) : (
-                  <span className="h-3 shrink-0" aria-hidden />
-                )}
               </div>
             </div>
             <p className="mt-3 text-center text-xs text-gray-500">
