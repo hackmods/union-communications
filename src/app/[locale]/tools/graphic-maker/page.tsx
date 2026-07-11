@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
@@ -39,7 +39,7 @@ interface GraphicState {
   gradientColor: string;
 }
 
-export default function GraphicMakerPage() {
+function GraphicMakerPageContent() {
   const t = useTranslations("common");
   const tg = useTranslations("graphicMaker");
   const searchParams = useSearchParams();
@@ -254,5 +254,19 @@ export default function GraphicMakerPage() {
         }}
       />
     </div>
+  );
+}
+
+export default function GraphicMakerPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-5xl px-4 py-12">
+          <h1 className="text-3xl font-bold text-opseu-dark">Graphic Maker</h1>
+        </div>
+      }
+    >
+      <GraphicMakerPageContent />
+    </Suspense>
   );
 }

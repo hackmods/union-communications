@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CAPTION_TEMPLATES } from "@/lib/constants/captions";
 import { copyToClipboard, cn } from "@/lib/utils";
@@ -14,7 +14,7 @@ function resolveCaptionId(searchParams: URLSearchParams): string | null {
   return CAPTION_TEMPLATES.some((tpl) => tpl.id === id) ? id : null;
 }
 
-export default function CaptionsPage() {
+function CaptionsPageContent() {
   const t = useTranslations("common");
   const searchParams = useSearchParams();
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -90,5 +90,19 @@ export default function CaptionsPage() {
         })}
       </div>
     </div>
+  );
+}
+
+export default function CaptionsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-3xl px-4 py-12">
+          <h1 className="text-3xl font-bold text-opseu-dark">Caption & Hashtag Library</h1>
+        </div>
+      }
+    >
+      <CaptionsPageContent />
+    </Suspense>
   );
 }
