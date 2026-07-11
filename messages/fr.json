@@ -20,6 +20,7 @@
     "altText": "Assistant texte alt",
     "boardNotice": "Avis pour tableau syndical",
     "solidarityPoster": "Affiches solidarité",
+    "qrCard": "Cartes lien QR",
     "websiteTemplate": "Modèle de site Web",
     "socialMediaPlan": "Plan médias sociaux",
     "socialExamples": "Exemples sociaux",
@@ -398,6 +399,55 @@
     "cta": "Obtenir du soutien →",
     "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les affiches avec le logo de votre section locale.",
     "setupBrandLink": "Commencer l'intégration"
+  },
+  "qrCard": {
+    "title": "Créateur de cartes lien QR",
+    "subtitle": "Cartes nettes pour les liens du tableau — titre, description optionnelle, slogan sous le QR, et formats d'impression de la lettre entière au quart de feuille",
+    "preset": "Préréglage",
+    "destination": "Lien ou texte à encoder",
+    "cardTitle": "Titre",
+    "description": "Description (optionnelle)",
+    "tagline": "Slogan sous le QR",
+    "bgMode": "Arrière-plan",
+    "bgModes": {
+      "plain": "Uni",
+      "gradient": "Dégradé",
+      "accentBar": "Barre d'accent"
+    },
+    "size": "Format d'impression",
+    "sizes": {
+      "quarter": "Quart (4,25×5,5)",
+      "half": "Demi (5,5×8,5)",
+      "letter": "Lettre (8,5×11)",
+      "square5": "Carré 5×5",
+      "square4": "Carré 4×4"
+    },
+    "sizeTip": "Quart = 4 par feuille lettre; Demi = 2 par feuille. Imprimez plusieurs copies de la même carte pour remplir une page.",
+    "showUrl": "Afficher l'URL sous le slogan",
+    "includeBranding": "Inclure l'image de marque locale",
+    "qrPlaceholder": "Entrez un lien",
+    "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les cartes avec le logo de votre section.",
+    "setupBrandLink": "Commencer l'intégration",
+    "presets": {
+      "getSupportTitle": "Obtenir du soutien",
+      "getSupportDesc": "Scannez pour de l'aide, des ressources et le carrefour de votre section.",
+      "getSupportTagline": "Scannez pour du soutien →",
+      "esaTitle": "Connaissez vos droits",
+      "esaDesc": "Normes d'emploi en Ontario — heures, congés, vacances et plus.",
+      "esaTagline": "Scannez le guide LNE",
+      "ohsaTitle": "Santé et sécurité",
+      "ohsaDesc": "Vos droits de savoir, de participer et de refuser un travail dangereux.",
+      "ohsaTagline": "Scannez le guide LSST",
+      "healthSafetyTitle": "CSS et sécurité",
+      "healthSafetyDesc": "Contacts du comité et comment signaler un danger.",
+      "healthSafetyTagline": "Scannez pour les contacts S&S",
+      "followUsTitle": "Restez branchés",
+      "followUsDesc": "Mises à jour, réunions et solidarité — suivez votre section en ligne.",
+      "followUsTagline": "Scannez pour nous suivre",
+      "localWebsiteTitle": "Visitez notre site",
+      "localWebsiteDesc": "Nouvelles, contacts et ressources pour les membres.",
+      "localWebsiteTagline": "Scannez pour notre site"
+    }
   },
   "websiteTemplate": {
     "title": "Modèle de site Web",

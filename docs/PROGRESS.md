@@ -153,3 +153,10 @@ Scaffold through testing/CI — all complete.
 - [x] Anonymized sample checklist / board tracker / JHSC CSV (fake names, no college PII)
 - [x] Example dense-board photo for visual reference
 - [x] Campus board photos (sectioned L33 + branded W010) + labeled-columns schematic
+
+## QR Link Card Maker (2026-07-11)
+
+- [x] `/tools/qr-card` — title, optional description, tagline under QR
+- [x] Background modes: plain, gradient, accent bar; Brand Kit colours
+- [x] Print sizes: quarter / half / letter / 5×5 / 4×4; PNG + PDF
+- [x] Presets for support, ESA, OHSA, H&S, socials, website

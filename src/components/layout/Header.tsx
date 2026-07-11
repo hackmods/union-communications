@@ -21,6 +21,7 @@ const toolLinks = [
   { href: "/tools/logo-builder", key: "logoBuilder" },
   { href: "/tools/board-notice", key: "boardNotice" },
   { href: "/tools/solidarity-poster", key: "solidarityPoster" },
+  { href: "/tools/qr-card", key: "qrCard" },
   { href: "/tools/graphic-maker", key: "graphicMaker" },
   { href: "/tools/resizer", key: "resizer" },
   { href: "/tools/quote-card", key: "quoteCard" },

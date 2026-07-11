@@ -274,6 +274,9 @@ export default async function UnionBoardsGuidePage({
         <Link href="/tools/solidarity-poster">
           <Button variant="outline">{nav("solidarityPoster")}</Button>
         </Link>
+        <Link href="/tools/qr-card">
+          <Button variant="outline">{nav("qrCard")}</Button>
+        </Link>
       </div>
 
       <SourcesBlock pageId="unionBoards" title={ts("title")} intro={ts("intro")} />

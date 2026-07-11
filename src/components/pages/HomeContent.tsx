@@ -29,6 +29,7 @@ const channelItems: Record<
   boards: [
     { href: "/tools/board-notice", titleKey: "boardNotice" },
     { href: "/tools/solidarity-poster", titleKey: "solidarityPoster" },
+    { href: "/tools/qr-card", titleKey: "qrCard" },
     { href: "/guide/union-boards", titleKey: "unionBoardsGuide" },
   ],
   website: [

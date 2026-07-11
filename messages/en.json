@@ -20,6 +20,7 @@
     "altText": "Alt-Text Assistant",
     "boardNotice": "Board Notice Maker",
     "solidarityPoster": "Solidarity Posters",
+    "qrCard": "QR Link Cards",
     "websiteTemplate": "Website Template",
     "socialMediaPlan": "Social Media Plan",
     "socialExamples": "Social Examples",
@@ -398,6 +399,55 @@
     "cta": "Get support →",
     "setupBrandPrompt": "Set up your Brand Kit to stamp posters with your local lockup.",
     "setupBrandLink": "Start onboarding"
+  },
+  "qrCard": {
+    "title": "QR Link Card Maker",
+    "subtitle": "Clean attention-grabbing cards for board links — title, optional description, tagline under the QR, and print sizes from full letter down to quarter-sheet",
+    "preset": "Preset",
+    "destination": "Link or text to encode",
+    "cardTitle": "Title",
+    "description": "Description (optional)",
+    "tagline": "Tagline under QR",
+    "bgMode": "Background",
+    "bgModes": {
+      "plain": "Plain",
+      "gradient": "Gradient",
+      "accentBar": "Accent bar"
+    },
+    "size": "Print size",
+    "sizes": {
+      "quarter": "Quarter (4.25×5.5)",
+      "half": "Half (5.5×8.5)",
+      "letter": "Letter (8.5×11)",
+      "square5": "Square 5×5",
+      "square4": "Square 4×4"
+    },
+    "sizeTip": "Quarter = 4 per letter sheet; Half = 2 per sheet. Print multiple copies of the same card to fill a page.",
+    "showUrl": "Show URL under tagline",
+    "includeBranding": "Include local branding",
+    "qrPlaceholder": "Enter a link",
+    "setupBrandPrompt": "Set up your Brand Kit to stamp cards with your local lockup.",
+    "setupBrandLink": "Start onboarding",
+    "presets": {
+      "getSupportTitle": "Get support",
+      "getSupportDesc": "Scan for help, resources, and your local hub.",
+      "getSupportTagline": "Scan for support →",
+      "esaTitle": "Know your rights",
+      "esaDesc": "Employment standards in Ontario — hours, leaves, vacation, and more.",
+      "esaTagline": "Scan the ESA guide",
+      "ohsaTitle": "Health & safety",
+      "ohsaDesc": "Your rights to know, participate, and refuse unsafe work.",
+      "ohsaTagline": "Scan the OHSA guide",
+      "healthSafetyTitle": "JHSC & safety",
+      "healthSafetyDesc": "Committee contacts and how to report a hazard.",
+      "healthSafetyTagline": "Scan for H&S contacts",
+      "followUsTitle": "Stay connected",
+      "followUsDesc": "Updates, meetings, and solidarity — follow your local online.",
+      "followUsTagline": "Scan to follow us",
+      "localWebsiteTitle": "Visit our site",
+      "localWebsiteDesc": "News, contacts, and resources for members.",
+      "localWebsiteTagline": "Scan for our website"
+    }
   },
   "websiteTemplate": {
     "title": "Website Template",
