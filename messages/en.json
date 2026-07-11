@@ -74,6 +74,7 @@
     "channelsTitle": "The Toolbox",
     "privacyNote": "All processing happens on your device. No data is sent to any server.",
     "trustBanner": "Local-First Privacy: UnionOps processes everything in your browser. We have no servers, and your grievance/member data never leaves your device.",
+    "trustManifestoLink": "Our promise",
     "channels": {
       "social": {
         "title": "Social Media",

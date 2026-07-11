@@ -68,7 +68,10 @@ export function HomeContent() {
           <span className="mr-1" aria-hidden="true">
             🔒
           </span>
-          {t("trustBanner")}
+          {t("trustBanner")}{" "}
+          <Link href="/manifesto" className="font-medium underline underline-offset-2 hover:text-opseu-blue">
+            {t("trustManifestoLink")}
+          </Link>
         </p>
       </aside>
 

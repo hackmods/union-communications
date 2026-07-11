@@ -74,6 +74,7 @@
     "channelsTitle": "La boîte à outils",
     "privacyNote": "Tout le traitement se fait sur votre appareil. Aucune donnée n'est envoyée à un serveur.",
     "trustBanner": "Confidentialité locale d'abord : UnionOps traite tout dans votre navigateur. Nous n'avons pas de serveurs, et vos données de griefs/membres ne quittent jamais votre appareil.",
+    "trustManifestoLink": "Notre promesse",
     "channels": {
       "social": {
         "title": "Médias sociaux",
