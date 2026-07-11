@@ -7,48 +7,55 @@ export type QrCardSizeId =
 
 export interface QrCardSize {
   id: QrCardSizeId;
-  /** Tailwind aspect utility */
-  aspect: string;
   widthInches: number;
   heightInches: number;
+  /** Screen preview width (px) — scaled to physical width so sizes look different */
+  previewWidthPx: number;
   /** Suggested QR pixel width for export clarity */
   qrPixels: number;
+}
+
+/** ~48 CSS px per inch keeps letter readable and makes quarter/half visibly smaller */
+const PREVIEW_PX_PER_INCH = 48;
+
+function previewWidth(widthInches: number): number {
+  return Math.round(widthInches * PREVIEW_PX_PER_INCH);
 }
 
 export const QR_CARD_SIZES: Record<QrCardSizeId, QrCardSize> = {
   letter: {
     id: "letter",
-    aspect: "aspect-[8.5/11]",
     widthInches: 8.5,
     heightInches: 11,
+    previewWidthPx: previewWidth(8.5),
     qrPixels: 280,
   },
   half: {
     id: "half",
-    aspect: "aspect-[5.5/8.5]",
     widthInches: 5.5,
     heightInches: 8.5,
+    previewWidthPx: previewWidth(5.5),
     qrPixels: 220,
   },
   quarter: {
     id: "quarter",
-    aspect: "aspect-[4.25/5.5]",
     widthInches: 4.25,
     heightInches: 5.5,
+    previewWidthPx: previewWidth(4.25),
     qrPixels: 180,
   },
   square5: {
     id: "square5",
-    aspect: "aspect-square",
     widthInches: 5,
     heightInches: 5,
+    previewWidthPx: previewWidth(5),
     qrPixels: 200,
   },
   square4: {
     id: "square4",
-    aspect: "aspect-square",
     widthInches: 4,
     heightInches: 4,
+    previewWidthPx: previewWidth(4),
     qrPixels: 160,
   },
 } as const;
@@ -62,3 +69,9 @@ export const QR_CARD_SIZE_ORDER: readonly QrCardSizeId[] = [
 ] as const;
 
 export const DEFAULT_QR_CARD_SIZE: QrCardSizeId = "quarter";
+
+/** Capture density so PDF/PNG stay sharp even when the on-screen preview is small */
+export function qrCardExportPixelRatio(size: QrCardSize): number {
+  const targetPx = size.widthInches * 200;
+  return Math.max(2, Math.min(4, targetPx / size.previewWidthPx));
+}

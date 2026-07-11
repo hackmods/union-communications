@@ -579,6 +579,7 @@
       "square4": "Square 4×4"
     },
     "sizeTip": "Quarter = 4 per letter sheet; Half = 2 per sheet. Print multiple copies of the same card to fill a page.",
+    "previewSize": "Preview at {label} — {width}×{height} in",
     "showUrl": "Show URL under tagline",
     "includeBranding": "Include local branding",
     "qrPlaceholder": "Enter a link",

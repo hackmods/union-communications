@@ -579,6 +579,7 @@
       "square4": "Carré 4×4"
     },
     "sizeTip": "Quart = 4 par feuille lettre; Demi = 2 par feuille. Imprimez plusieurs copies de la même carte pour remplir une page.",
+    "previewSize": "Aperçu {label} — {width}×{height} po",
     "showUrl": "Afficher l'URL sous le slogan",
     "includeBranding": "Inclure l'image de marque locale",
     "qrPlaceholder": "Entrez un lien",

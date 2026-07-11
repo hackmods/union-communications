@@ -23,8 +23,9 @@ export async function nodeToPdf(
   filename: string,
   widthInches = 8.5,
   heightInches = 11,
+  pixelRatio = 2,
 ): Promise<void> {
   const { toPng } = await import("html-to-image");
-  const dataUrl = await toPng(node, { pixelRatio: 2, cacheBust: true });
+  const dataUrl = await toPng(node, { pixelRatio, cacheBust: true });
   await exportFlyerPdf(dataUrl, filename, widthInches, heightInches);
 }

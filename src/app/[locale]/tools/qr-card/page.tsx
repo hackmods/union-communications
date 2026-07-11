@@ -18,6 +18,7 @@ import {
   DEFAULT_QR_CARD_SIZE,
   QR_CARD_SIZE_ORDER,
   QR_CARD_SIZES,
+  qrCardExportPixelRatio,
   type QrCardSizeId,
 } from "@/lib/constants/qr-card-sizes";
 import {
@@ -97,6 +98,7 @@ export default function QrCardPage() {
   }, [hydrated, themeEstablished]);
 
   const size = QR_CARD_SIZES[state.sizeId];
+  const exportPixelRatio = qrCardExportPixelRatio(size);
   const savedLinks = listSavedLinks(brandKit, {
     website: t("savedWebsite"),
     facebook: t("savedFacebook"),
@@ -138,13 +140,20 @@ export default function QrCardPage() {
     : `Local ${resolveLocalNumber(brandKit.local.localNumber)}`;
 
   const canvasStyle: CSSProperties = (() => {
+    const box: CSSProperties = {
+      width: size.previewWidthPx,
+      aspectRatio: `${size.widthInches} / ${size.heightInches}`,
+      maxWidth: "100%",
+    };
     if (state.bgMode === "gradient") {
       return {
+        ...box,
         backgroundImage: `linear-gradient(160deg, ${state.primaryColor} 0%, ${state.secondaryColor} 100%)`,
         color: "#FFFFFF",
       };
     }
     return {
+      ...box,
       backgroundColor: state.primaryColor,
       color: "#FFFFFF",
     };
@@ -155,7 +164,7 @@ export default function QrCardPage() {
     await exportNodeAsPng(
       canvasRef.current,
       formatFilename(`qr-card-${state.sizeId}`, brandKit.local.localNumber, "png"),
-      { pixelRatio: 2 },
+      { pixelRatio: exportPixelRatio },
     );
   };
 
@@ -166,17 +175,28 @@ export default function QrCardPage() {
       formatFilename(`qr-card-${state.sizeId}`, brandKit.local.localNumber, "pdf"),
       size.widthInches,
       size.heightInches,
+      exportPixelRatio,
     );
   };
 
-  const titleSize =
-    state.sizeId === "letter"
-      ? "text-4xl md:text-5xl"
+  const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
+  const isSquare = state.sizeId === "square4" || state.sizeId === "square5";
+
+  const titleSize = isSquare
+    ? state.sizeId === "square4"
+      ? "text-xl"
+      : "text-2xl"
+    : state.sizeId === "letter"
+      ? "text-4xl"
       : state.sizeId === "half"
-        ? "text-3xl md:text-4xl"
-        : state.sizeId === "square4"
-          ? "text-xl md:text-2xl"
-          : "text-2xl md:text-3xl";
+        ? "text-3xl"
+        : "text-2xl";
+
+  const qrDisplayClass = isCompact
+    ? "h-auto w-[46%] min-w-[5.5rem] max-w-[8rem]"
+    : state.sizeId === "letter"
+      ? "h-auto w-[40%] min-w-[8rem] max-w-[11rem]"
+      : "h-auto w-[44%] min-w-[6.5rem] max-w-[9.5rem]";
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -192,7 +212,7 @@ export default function QrCardPage() {
         </p>
       ) : null}
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-2">
+      <div className="mt-8 grid items-start gap-8 lg:grid-cols-2">
         <Card className="space-y-4">
           <div>
             <label htmlFor="qr-preset" className="mb-1 block text-sm font-medium">
@@ -356,77 +376,121 @@ export default function QrCardPage() {
           </div>
         </Card>
 
-        <div className="flex justify-center lg:justify-start">
-          <div
-            ref={canvasRef}
-            className={cn(
-              "relative flex w-full max-w-md flex-col overflow-hidden shadow-lg",
-              size.aspect,
-            )}
-            style={canvasStyle}
-          >
-            {state.bgMode === "accentBar" ? (
+        <div className="lg:sticky lg:top-6">
+          <div className="flex flex-col items-center rounded-lg border border-gray-200 bg-gray-100/80 p-4 sm:p-6">
+            <div
+              ref={canvasRef}
+              className="relative flex flex-col overflow-hidden shadow-lg transition-[width] duration-200"
+              style={canvasStyle}
+            >
+              {state.bgMode === "accentBar" ? (
+                <div
+                  className={cn("w-full shrink-0", isCompact ? "h-2" : "h-3")}
+                  style={{ backgroundColor: state.secondaryColor }}
+                />
+              ) : null}
+
               <div
-                className="h-3 w-full shrink-0 sm:h-4"
-                style={{ backgroundColor: state.secondaryColor }}
-              />
-            ) : null}
-
-            <div className="flex flex-1 flex-col items-center justify-between p-4 text-center sm:p-6">
-              <div className="w-full">
-                {state.includeBranding ? (
-                  <div className="mb-3 flex justify-center">
-                    <BrandLogo size="sm" onDark />
-                  </div>
-                ) : null}
-                <h2 className={cn("font-black uppercase leading-tight tracking-tight", titleSize)}>
-                  {state.title}
-                </h2>
-                {state.description.trim() ? (
-                  <p className="mt-2 text-sm leading-snug opacity-90 sm:text-base">
-                    {state.description}
-                  </p>
-                ) : null}
-              </div>
-
-              <div className="my-3 flex flex-col items-center">
-                <div className="rounded-md bg-white p-2 shadow-sm sm:p-3">
-                  {qrSrc ? (
-                    // eslint-disable-next-line @next/next/no-img-element -- data URL from client QR
-                    <img
-                      src={qrSrc}
-                      alt=""
-                      width={size.qrPixels}
-                      height={size.qrPixels}
-                      className="h-auto w-[42%] min-w-[7rem] max-w-[11rem] sm:w-[48%]"
-                    />
-                  ) : (
-                    <div className="flex h-28 w-28 items-center justify-center bg-gray-100 text-xs text-gray-500">
-                      {t("qrPlaceholder")}
+                className={cn(
+                  "flex min-h-0 flex-1 flex-col items-center justify-between text-center",
+                  isCompact ? "gap-2 p-3" : "gap-3 p-4 sm:p-5",
+                )}
+              >
+                <div className="w-full shrink-0">
+                  {state.includeBranding ? (
+                    <div className={cn("flex justify-center", isCompact ? "mb-1.5" : "mb-2")}>
+                      <BrandLogo size="sm" onDark />
                     </div>
-                  )}
-                </div>
-                {state.tagline.trim() ? (
-                  <p
-                    className="mt-3 text-sm font-bold uppercase tracking-wide sm:text-base"
-                    style={{ color: state.bgMode === "plain" ? state.secondaryColor : "#FFFFFF" }}
+                  ) : null}
+                  <h2
+                    className={cn(
+                      "font-black uppercase leading-tight tracking-tight",
+                      titleSize,
+                    )}
                   >
-                    {state.tagline}
-                  </p>
-                ) : null}
-                {state.showUrl && state.destination.trim() ? (
-                  <p className="mt-1 max-w-full truncate text-[10px] opacity-80 sm:text-xs">
-                    {state.destination}
-                  </p>
-                ) : null}
-              </div>
+                    {state.title}
+                  </h2>
+                  {state.description.trim() ? (
+                    <p
+                      className={cn(
+                        "mt-1.5 leading-snug opacity-90",
+                        isCompact ? "text-xs" : "text-sm",
+                      )}
+                    >
+                      {state.description}
+                    </p>
+                  ) : null}
+                </div>
 
-              {state.includeBranding ? (
-                <p className="text-xs font-semibold opacity-90">{localLabel}</p>
-              ) : (
-                <span className="h-4" />
-              )}
+                <div className="flex shrink-0 flex-col items-center">
+                  <div
+                    className={cn(
+                      "rounded-md bg-white shadow-sm",
+                      isCompact ? "p-1.5" : "p-2",
+                    )}
+                  >
+                    {qrSrc ? (
+                      // eslint-disable-next-line @next/next/no-img-element -- data URL from client QR
+                      <img
+                        src={qrSrc}
+                        alt=""
+                        width={size.qrPixels}
+                        height={size.qrPixels}
+                        className={qrDisplayClass}
+                      />
+                    ) : (
+                      <div
+                        className={cn(
+                          "flex items-center justify-center bg-gray-100 text-xs text-gray-500",
+                          isCompact ? "h-20 w-20" : "h-28 w-28",
+                        )}
+                      >
+                        {t("qrPlaceholder")}
+                      </div>
+                    )}
+                  </div>
+                  {state.tagline.trim() ? (
+                    <p
+                      className={cn(
+                        "mt-2 font-bold uppercase tracking-wide",
+                        isCompact ? "text-xs" : "text-sm",
+                      )}
+                      style={{
+                        color:
+                          state.bgMode === "plain" ? state.secondaryColor : "#FFFFFF",
+                      }}
+                    >
+                      {state.tagline}
+                    </p>
+                  ) : null}
+                  {state.showUrl && state.destination.trim() ? (
+                    <p className="mt-1 max-w-full truncate text-[10px] opacity-80">
+                      {state.destination}
+                    </p>
+                  ) : null}
+                </div>
+
+                {state.includeBranding ? (
+                  <p
+                    className={cn(
+                      "shrink-0 font-semibold opacity-90",
+                      isCompact ? "text-[10px]" : "text-xs",
+                    )}
+                  >
+                    {localLabel}
+                  </p>
+                ) : (
+                  <span className="h-3 shrink-0" aria-hidden />
+                )}
+              </div>
             </div>
+            <p className="mt-3 text-center text-xs text-gray-500">
+              {t("previewSize", {
+                label: t(`sizes.${state.sizeId}`),
+                width: size.widthInches,
+                height: size.heightInches,
+              })}
+            </p>
           </div>
         </div>
       </div>
