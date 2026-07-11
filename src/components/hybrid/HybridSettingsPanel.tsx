@@ -340,6 +340,7 @@ export function HybridSettingsPanel() {
             {t("dataMode")}
           </legend>
           <p className="text-sm text-gray-600">{t("dataModeDesc")}</p>
+          <p className="text-sm text-amber-800">{t("dataModeHonest")}</p>
           <label className="flex items-center gap-2 text-sm">
             <input
               type="radio"

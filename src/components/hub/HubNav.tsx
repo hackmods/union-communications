@@ -5,8 +5,9 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { getVisibleModules } from "@/lib/modules/registry";
 import { getTenantContext } from "@/lib/tenant/loader";
-import type { HubModule } from "@/types/tenant";
-import type { UserRole } from "@/types/tenant";
+import { canInitiateHandoff } from "@/lib/handoff/package";
+import { canAccessGrievanceModule } from "@/lib/grievance/access";
+import type { HubModule, UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
 import { Emoji } from "@/components/ui/Emoji";
 
@@ -23,6 +24,32 @@ export function HubNav() {
     tenant?.union.enabledModules ?? ["comms"];
   const roles = (session.user.roles ?? []) as UserRole[];
   const modules = getVisibleModules(enabledModules, roles);
+  const mfaOk = !!session.user.mfaVerified;
+  const hasGrievance = canAccessGrievanceModule(roles);
+  const showHandoff = canInitiateHandoff(roles);
+
+  const toolLinks = [
+    hasGrievance && {
+      href: "/app/overdue",
+      label: t("overdueLink"),
+    },
+    hasGrievance && {
+      href: "/app/snippets",
+      label: t("snippetsLink"),
+    },
+    hasGrievance && {
+      href: "/app/marketplace",
+      label: t("marketplaceLink"),
+    },
+    showHandoff && {
+      href: "/app/handoff",
+      label: t("handoffLink"),
+    },
+    hasGrievance && {
+      href: "/app/hybrid",
+      label: t("hybridLink"),
+    },
+  ].filter(Boolean) as { href: string; label: string }[];
 
   return (
     <nav
@@ -30,7 +57,12 @@ export function HubNav() {
       aria-label={t("navLabel")}
     >
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-4 py-2 text-sm">
-        <span className="font-semibold text-opseu-dark">{t("title")}</span>
+        <Link
+          href="/app"
+          className="font-semibold text-opseu-dark hover:underline"
+        >
+          {t("title")}
+        </Link>
         <span className="text-gray-400">|</span>
         {tenant && (
           <span className="text-gray-600">
@@ -45,61 +77,45 @@ export function HubNav() {
             href={mod.href.startsWith("/app") ? mod.href : "/"}
             className={cn(
               "rounded-md px-2 py-1 hover:bg-white",
-              mod.requiresMfa &&
-                !session.user.mfaVerified &&
-                "opacity-60",
+              mod.requiresMfa && !mfaOk && "opacity-60",
             )}
           >
             <Emoji id={mod.emojiId} /> {t(`modules.${mod.nameKey}`)}
           </Link>
         ))}
+        {toolLinks.length > 0 && (
+          <details className="relative">
+            <summary
+              className={cn(
+                "cursor-pointer list-none rounded-md px-2 py-1 hover:bg-white [&::-webkit-details-marker]:hidden",
+                !mfaOk && "opacity-60",
+              )}
+            >
+              {t("toolsMenu")} ▾
+            </summary>
+            <div
+              className="absolute right-0 z-20 mt-1 min-w-[12rem] rounded-lg border border-gray-200 bg-white py-1 shadow-md"
+              role="menu"
+              aria-label={t("toolsMenu")}
+            >
+              {toolLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  role="menuitem"
+                  className="block px-3 py-2 text-sm hover:bg-gray-50"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </details>
+        )}
         <Link
-          href="/app/overdue"
-          className={cn(
-            "rounded-md px-2 py-1 hover:bg-white",
-            !session.user.mfaVerified && "opacity-60",
-          )}
+          href="/app/mfa"
+          className="rounded-md px-2 py-1 text-opseu-blue hover:bg-white"
         >
-          {t("overdueLink")}
-        </Link>
-        <Link
-          href="/app/snippets"
-          className={cn(
-            "rounded-md px-2 py-1 hover:bg-white",
-            !session.user.mfaVerified && "opacity-60",
-          )}
-        >
-          {t("snippetsLink")}
-        </Link>
-        <Link
-          href="/app/marketplace"
-          className={cn(
-            "rounded-md px-2 py-1 hover:bg-white",
-            !session.user.mfaVerified && "opacity-60",
-          )}
-        >
-          {t("marketplaceLink")}
-        </Link>
-        <Link
-          href="/app/handoff"
-          className={cn(
-            "rounded-md px-2 py-1 hover:bg-white",
-            !session.user.mfaVerified && "opacity-60",
-          )}
-        >
-          {t("handoffLink")}
-        </Link>
-        <Link
-          href="/app/hybrid"
-          className={cn(
-            "rounded-md px-2 py-1 hover:bg-white",
-            !session.user.mfaVerified && "opacity-60",
-          )}
-        >
-          {t("hybridLink")}
-        </Link>
-        <Link href="/app/mfa" className="rounded-md px-2 py-1 text-opseu-blue hover:bg-white">
-          {session.user.mfaVerified ? t("mfaOk") : t("mfaRequired")}
+          {mfaOk ? t("mfaOk") : t("mfaRequired")}
         </Link>
       </div>
     </nav>

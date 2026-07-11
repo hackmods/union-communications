@@ -583,6 +583,7 @@
     "snippetsLink": "Extraits CA",
     "marketplaceLink": "Modèles",
     "handoffLink": "Passation",
+    "toolsMenu": "Outils",
     "qolCardTitle": "Outils QOL dirigeants",
     "qolCardDesc": "Tableau des retards, extraits de convention, modèles internes et passation de dossiers.",
     "modules": {
@@ -621,10 +622,11 @@
     "localSaveSuccess": "Copie chiffrée enregistrée dans ce navigateur.",
     "localCleared": "Copie locale effacée. Mode de données défini sur central.",
     "dataMode": "Mode de données préféré",
-    "dataModeDesc": "Indique si cet appareil préfère le stockage central du hub ou une copie locale chiffrée. L'export/import synchronise toujours avec le hub.",
+    "dataModeDesc": "Indique si cet appareil préfère le hub central ou un rappel de copie locale chiffrée.",
+    "dataModeHonest": "Note : les écrans de griefs/bumpage utilisent toujours le magasin central. Utilisez Enregistrer/Restaurer pour synchroniser une sauvegarde chiffrée — le mode local ne change pas encore la source de données active.",
     "modeCentral": "Hub central (par défaut)",
-    "modeLocal": "Copie locale chiffrée",
-    "modeLocalOn": "Préférer la copie locale chiffrée sur cet appareil.",
+    "modeLocal": "Préférer la sauvegarde locale chiffrée",
+    "modeLocalOn": "Préférence marquée pour la sauvegarde locale chiffrée sur cet appareil.",
     "modeCentralOn": "Préférer le stockage central du hub sur cet appareil.",
     "working": "Traitement…",
     "errors": {
@@ -690,6 +692,7 @@
       "description": "Description",
       "body": "Contenu du modèle",
       "publish": "Publier au syndicat",
+      "publishError": "Impossible de publier ou de retirer le modèle.",
       "loading": "Chargement…",
       "empty": "Aucun modèle partagé.",
       "copy": "Copier",
@@ -755,7 +758,8 @@
       "ends": "Fin",
       "location": "Lieu (optionnel)",
       "schedule": "Planifier et télécharger ICS",
-      "deadlineIcs": "ICS échéance"
+      "deadlineIcs": "ICS échéance",
+      "downloadIcs": "Télécharger ICS"
     },
     "mobile": {
       "toggle": "Mode mobile steward (lecture seule)",

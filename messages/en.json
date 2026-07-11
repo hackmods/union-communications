@@ -608,6 +608,7 @@
     "snippetsLink": "CA snippets",
     "marketplaceLink": "Templates",
     "handoffLink": "Handoff",
+    "toolsMenu": "Tools",
     "qolCardTitle": "Officer QOL tools",
     "qolCardDesc": "Overdue dashboard, CA snippets, within-union templates, and officer handoff.",
     "modules": {
@@ -646,10 +647,11 @@
     "localSaveSuccess": "Encrypted slice saved in this browser.",
     "localCleared": "Local slice cleared. Data mode set to central.",
     "dataMode": "Preferred data mode",
-    "dataModeDesc": "Marks whether this device prefers central hub storage or a local encrypted slice. Export/import still syncs with the hub store.",
+    "dataModeDesc": "Marks whether this device prefers central hub storage or a local encrypted slice reminder.",
+    "dataModeHonest": "Note: hub grievance/bumping screens still use the central store. Use Save/Restore below to sync an encrypted browser backup — local mode does not switch the live data path yet.",
     "modeCentral": "Central hub (default)",
-    "modeLocal": "Local encrypted slice",
-    "modeLocalOn": "Prefer local encrypted slice on this device.",
+    "modeLocal": "Prefer local encrypted backup",
+    "modeLocalOn": "Marked preference for local encrypted backup on this device.",
     "modeCentralOn": "Prefer central hub storage on this device.",
     "working": "Working…",
     "errors": {
@@ -715,6 +717,7 @@
       "description": "Description",
       "body": "Template body",
       "publish": "Publish to union",
+      "publishError": "Could not publish or remove template.",
       "loading": "Loading templates…",
       "empty": "No shared templates yet.",
       "copy": "Copy",
@@ -780,7 +783,8 @@
       "ends": "Ends",
       "location": "Location (optional)",
       "schedule": "Schedule & download ICS",
-      "deadlineIcs": "Deadline ICS"
+      "deadlineIcs": "Deadline ICS",
+      "downloadIcs": "Download ICS"
     },
     "mobile": {
       "toggle": "Mobile steward read-only mode",

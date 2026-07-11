@@ -497,13 +497,36 @@ export function GrievanceDetail({ id }: { id: string }) {
         {meetings.length > 0 && (
           <ul className="mt-3 space-y-2">
             {meetings.map((m) => (
-              <li key={m.id} className="rounded-lg bg-gray-50 p-3 text-sm">
-                <p className="font-medium">{m.title}</p>
-                <p className="text-gray-600">
-                  {new Date(m.startsAt).toLocaleString()} –{" "}
-                  {new Date(m.endsAt).toLocaleString()}
-                  {m.location ? ` · ${m.location}` : ""}
-                </p>
+              <li
+                key={m.id}
+                className="flex flex-wrap items-start justify-between gap-2 rounded-lg bg-gray-50 p-3 text-sm"
+              >
+                <div>
+                  <p className="font-medium">{m.title}</p>
+                  <p className="text-gray-600">
+                    {new Date(m.startsAt).toLocaleString()} –{" "}
+                    {new Date(m.endsAt).toLocaleString()}
+                    {m.location ? ` · ${m.location}` : ""}
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => {
+                    const ics = buildIcsEvent({
+                      uid: `${m.id}@local-union-hub`,
+                      title: m.title,
+                      description: m.description,
+                      location: m.location,
+                      startsAt: m.startsAt,
+                      endsAt: m.endsAt,
+                    });
+                    downloadIcs(`meeting-${m.id}.ics`, ics);
+                  }}
+                >
+                  {tq("meetings.downloadIcs")}
+                </Button>
               </li>
             ))}
           </ul>
@@ -602,19 +625,23 @@ export function GrievanceDetail({ id }: { id: string }) {
         <CardTitle>{t("emailDrafts")}</CardTitle>
         <p className="mt-1 text-sm text-gray-500">{t("emailDraftWarning")}</p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <select
-            value={selectedTemplate}
-            onChange={(e) =>
-              setSelectedTemplate(e.target.value as EmailTemplateId)
-            }
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
-          >
-            {EMAIL_TEMPLATE_IDS.map((tid) => (
-              <option key={tid} value={tid}>
-                {t(`emailTemplates.${tid}`)}
-              </option>
-            ))}
-          </select>
+          <label className="text-sm font-medium text-gray-700">
+            <span className="sr-only">{t("emailDrafts")}</span>
+            <select
+              value={selectedTemplate}
+              onChange={(e) =>
+                setSelectedTemplate(e.target.value as EmailTemplateId)
+              }
+              className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              aria-label={t("emailDrafts")}
+            >
+              {EMAIL_TEMPLATE_IDS.map((tid) => (
+                <option key={tid} value={tid}>
+                  {t(`emailTemplates.${tid}`)}
+                </option>
+              ))}
+            </select>
+          </label>
           <Button size="sm" variant="outline" onClick={() => loadEmailDraft()}>
             {t("generateDraft")}
           </Button>

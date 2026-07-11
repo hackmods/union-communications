@@ -1,14 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
+import { useStewardReadOnly } from "@/hooks/use-steward-read-only";
+import {
+  canDeleteSharedContent,
+  canManageQolContent,
+} from "@/lib/qol/access";
 import type { CaSnippet } from "@/types/qol";
+import type { UserRole } from "@/types/tenant";
 
 export function SnippetLibrary() {
   const t = useTranslations("qol");
+  const { data: session } = useSession();
+  const { readOnly } = useStewardReadOnly();
+  const roles = (session?.user?.roles ?? []) as UserRole[];
+  const canWrite = canManageQolContent(roles) && !readOnly;
+  const userId = session?.user?.id ?? "";
+
   const [snippets, setSnippets] = useState<CaSnippet[]>([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
@@ -19,6 +32,7 @@ export function SnippetLibrary() {
   const [tags, setTags] = useState("");
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   async function load(q?: string) {
     setLoading(true);
@@ -33,18 +47,13 @@ export function SnippetLibrary() {
   }
 
   useEffect(() => {
-    void fetch("/api/snippets")
-      .then(async (res) => {
-        if (res.ok) {
-          const data = await res.json();
-          setSnippets(data.snippets);
-        }
-      })
-      .finally(() => setLoading(false));
+    void load();
   }, []);
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
+    if (!canWrite) return;
+    setError(null);
     const res = await fetch("/api/snippets", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -67,7 +76,7 @@ export function SnippetLibrary() {
       setMessage(t("snippets.created"));
       await load(query);
     } else {
-      setMessage(t("snippets.createError"));
+      setError(t("snippets.createError"));
     }
   }
 
@@ -80,20 +89,32 @@ export function SnippetLibrary() {
   }
 
   async function removeSnippet(id: string) {
+    if (readOnly) return;
     const res = await fetch(`/api/snippets/${id}`, { method: "DELETE" });
     if (res.ok) await load(query);
+    else setError(t("snippets.createError"));
   }
 
   return (
     <div>
+      {readOnly && (
+        <p
+          className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
+          role="status"
+        >
+          {t("mobile.readOnlyBanner")}
+        </p>
+      )}
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-opseu-dark">{t("snippets.title")}</h1>
           <p className="mt-1 text-gray-600">{t("snippets.subtitle")}</p>
         </div>
-        <Button onClick={() => setShowForm((v) => !v)}>
-          {showForm ? t("snippets.cancel") : t("snippets.add")}
-        </Button>
+        {canWrite && (
+          <Button onClick={() => setShowForm((v) => !v)}>
+            {showForm ? t("snippets.cancel") : t("snippets.add")}
+          </Button>
+        )}
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
@@ -110,7 +131,7 @@ export function SnippetLibrary() {
         </div>
       </div>
 
-      {showForm && (
+      {showForm && canWrite && (
         <Card className="mt-6 space-y-3">
           <CardTitle>{t("snippets.add")}</CardTitle>
           <form onSubmit={handleCreate} className="space-y-3">
@@ -149,6 +170,11 @@ export function SnippetLibrary() {
           {message}
         </p>
       )}
+      {error && (
+        <p className="mt-4 text-sm text-red-700" role="alert">
+          {error}
+        </p>
+      )}
 
       {loading ? (
         <p className="mt-6 text-gray-600">{t("snippets.loading")}</p>
@@ -178,13 +204,16 @@ export function SnippetLibrary() {
                         ? t("snippets.copied")
                         : t("snippets.copy")}
                     </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => void removeSnippet(s.id)}
-                    >
-                      {t("snippets.delete")}
-                    </Button>
+                    {!readOnly &&
+                      canDeleteSharedContent(roles, s.createdById, userId) && (
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => void removeSnippet(s.id)}
+                        >
+                          {t("snippets.delete")}
+                        </Button>
+                      )}
                   </div>
                 </div>
                 <p className="mt-3 whitespace-pre-wrap text-sm text-gray-700">

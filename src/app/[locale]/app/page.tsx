@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { getVisibleModules } from "@/lib/modules/registry";
+import { canInitiateHandoff } from "@/lib/handoff/package";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Emoji } from "@/components/ui/Emoji";
@@ -23,6 +24,7 @@ export default function HubDashboardPage() {
     tenant?.union.enabledModules ?? ["comms"];
   const roles = (session.user.roles ?? []) as UserRole[];
   const modules = getVisibleModules(enabledModules, roles);
+  const showHandoff = canInitiateHandoff(roles);
 
   return (
     <div>
@@ -30,7 +32,9 @@ export default function HubDashboardPage() {
         <div>
           <h1 className="text-3xl font-bold text-opseu-dark">{t("dashboard")}</h1>
           <p className="mt-1 text-gray-600">
-            {t("welcome", { name: session.user.name ?? session.user.email ?? "" })}
+            {t("welcome", {
+              name: session.user.name ?? session.user.email ?? "",
+            })}
           </p>
         </div>
         <Button variant="outline" onClick={() => signOut({ callbackUrl: "/" })}>
@@ -68,7 +72,9 @@ export default function HubDashboardPage() {
         </Card>
       )}
 
-      <h2 className="mt-8 text-xl font-bold text-opseu-dark">{t("yourModules")}</h2>
+      <h2 className="mt-8 text-xl font-bold text-opseu-dark">
+        {t("yourModules")}
+      </h2>
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {modules.map((mod) => {
           const locked = mod.requiresMfa && !session.user.mfaVerified;
@@ -82,11 +88,17 @@ export default function HubDashboardPage() {
                 {t(`modules.${mod.descriptionKey}`)}
               </p>
               {locked ? (
-                <Link href="/app/mfa" className="mt-4 inline-block text-sm text-opseu-blue underline">
+                <Link
+                  href="/app/mfa"
+                  className="mt-4 inline-block text-sm text-opseu-blue underline"
+                >
                   {t("mfaRequired")}
                 </Link>
               ) : (
-                <Link href={href} className="mt-4 inline-block text-sm text-opseu-blue underline">
+                <Link
+                  href={href}
+                  className="mt-4 inline-block text-sm text-opseu-blue underline"
+                >
                   {t("openModule")}
                 </Link>
               )}
@@ -109,12 +121,17 @@ export default function HubDashboardPage() {
             <Link href="/app/marketplace" className="text-opseu-blue underline">
               {t("marketplaceLink")}
             </Link>
-            <Link href="/app/handoff" className="text-opseu-blue underline">
-              {t("handoffLink")}
-            </Link>
+            {showHandoff && (
+              <Link href="/app/handoff" className="text-opseu-blue underline">
+                {t("handoffLink")}
+              </Link>
+            )}
           </div>
         ) : (
-          <Link href="/app/mfa" className="mt-4 inline-block text-sm text-opseu-blue underline">
+          <Link
+            href="/app/mfa"
+            className="mt-4 inline-block text-sm text-opseu-blue underline"
+          >
             {t("mfaRequired")}
           </Link>
         )}
@@ -124,11 +141,17 @@ export default function HubDashboardPage() {
         <CardTitle>{t("hybridCardTitle")}</CardTitle>
         <p className="mt-2 text-sm text-gray-600">{t("hybridCardDesc")}</p>
         {session.user.mfaVerified ? (
-          <Link href="/app/hybrid" className="mt-4 inline-block text-sm text-opseu-blue underline">
+          <Link
+            href="/app/hybrid"
+            className="mt-4 inline-block text-sm text-opseu-blue underline"
+          >
             {t("hybridLink")}
           </Link>
         ) : (
-          <Link href="/app/mfa" className="mt-4 inline-block text-sm text-opseu-blue underline">
+          <Link
+            href="/app/mfa"
+            className="mt-4 inline-block text-sm text-opseu-blue underline"
+          >
             {t("mfaRequired")}
           </Link>
         )}

@@ -19,7 +19,7 @@ solo_account (parallel — no local required)
 | `union_admin` | Union | R/W templates | Configure divisions | Enable modules |
 | `division_admin` | Division | R/W templates | Configure locals | Configure committee |
 | `local_president` | Local | R/W brand | Full local | Full local |
-| `local_steward` | Local | R | Assigned only | Read committee |
+| `local_steward` | Local | R | Assigned R/W | Read committee |
 | `local_exec` | Local | R/W | Read summary | Read |
 | `stability_member` | Committee | — | — | R/W committee |
 | `solo_account` | User | R/W | Own cases | Own workspace |
@@ -28,7 +28,7 @@ solo_account (parallel — no local required)
 
 1. **No cross-union reads** — ever, including `platform_admin` viewing content (requires audited break-glass)
 2. **No cross-local reads** within a union except `local_president`, `union_admin`, `division_admin` with scope
-3. **Grievance assignment** — stewards see only assigned cases unless elevated
+3. **Grievance assignment** — stewards see and edit only assigned cases unless elevated; they may create new cases (assigned to themselves)
 4. **Module visibility** — College Bumping only when `modules.bumping = true` in union/division config
 5. **Server-side enforcement** on every route; UI hiding is secondary
 6. **MFA required** for grievance and bumping modules (Phase 2+)

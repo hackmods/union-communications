@@ -35,7 +35,7 @@ Scaffold through testing/CI — all complete.
 - [x] Playwright uses `npm run dev` web server
 - [x] Unit tests for tenant loader + module registry
 - [ ] Multi-union onboarding UI (deferred — seed-only for now)
-- [ ] `.env.example` (blocked by gitignore — document in README)
+- [x] `.env.example` (AUTH_SECRET, AUTH_URL)
 
 ## Phase 2 — Grievance MVP (2026-07-08) — COMPLETE
 
@@ -89,6 +89,24 @@ Scaffold through testing/CI — all complete.
 - [x] Mobile steward read-only mode (preference + compact UI)
 - [x] Hub nav + dashboard links; EN/FR i18n
 - [x] Unit tests for ICS builder and handoff package
+
+## Post–Phase 5 Polish (2026-07-10) — COMPLETE
+
+- [x] Role-gated hub Tools menu (handoff hidden for non-presidents)
+- [x] Snippet/marketplace write CTAs respect RBAC + steward mobile read-only
+- [x] Hybrid data-mode copy clarified (preference ≠ live data path)
+- [x] Meeting ICS re-download; email draft select labeled
+- [x] Adapter unit tests (snippets, marketplace, communications, meetings)
+- [x] Hub smoke: unauthenticated redirect, login→MFA, login axe
+- [x] `.env.example` committed (`!.env.example` in gitignore)
+- [x] Removed unused `HubDashboard.tsx` duplicate
+- [x] RBAC docs: steward assigned R/W clarified
+
+## Deferred (future)
+
+- [ ] Multi-union onboarding UI
+- [ ] Persistent Postgres + RLS
+- [ ] Document/PDF attachments with virus scan
 
 ## Accessibility & Display Settings (2026-07-09) — COMPLETE
 

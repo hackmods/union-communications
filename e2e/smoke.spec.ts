@@ -139,4 +139,35 @@ test.describe("Smoke tests @smoke", () => {
     await page.goto("/en/privacy/");
     await expect(page.getByRole("heading", { name: "Privacy Policy" })).toBeVisible();
   });
+
+  test("unauthenticated hub redirects to login", async ({ page }) => {
+    await page.goto("/en/app");
+    await expect(page).toHaveURL(/\/en\/app\/login/);
+    await expect(page.getByRole("heading", { name: /Officer login|Connexion/i })).toBeVisible();
+  });
+
+  test("hub login page has no serious or critical a11y violations", async ({ page }) => {
+    await page.goto("/en/app/login");
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(seriousOrCriticalViolations(results.violations)).toEqual([]);
+  });
+
+  test("officer can sign in and reach MFA", async ({ page }) => {
+    await page.goto("/en/app/login");
+    await page.getByLabel(/Email|Courriel/i).fill("president@local243.ca");
+    await page.getByLabel(/Password|Mot de passe/i).fill("demo123");
+    await page.getByRole("button", { name: /Sign in|Connexion/i }).click();
+    await expect(page).toHaveURL(/\/en\/app(\/mfa)?/);
+    // President requires MFA — land on MFA or dashboard after prior session
+    const onMfa = page.url().includes("/mfa");
+    if (onMfa) {
+      await expect(
+        page.getByRole("heading", { name: /Verify|Vérifiez/i }),
+      ).toBeVisible();
+      await page.getByLabel(/Verification code|Code de vérification/i).fill("000000");
+      await page.getByRole("button", { name: /Verify|Vérifier/i }).click();
+      await expect(page).toHaveURL(/\/en\/app\/?$/);
+    }
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  });
 });

@@ -7,8 +7,9 @@ A **multi-union** platform empowering any local union with professional comms to
 | Module | Status | Description |
 |--------|--------|-------------|
 | **Comms** | v1 shipped | Guides, templates, image generation (static, client-side) |
-| **Grievance** | Phase 2 | Dates, notes, follow-up emails, CA-configurable steps |
+| **Grievance** | Phase 2+5 | Dates, notes, follow-ups, CA steps, QOL tools |
 | **College Bumping** | Phase 3 | PDF compare, stability committee notes (sector-optional) |
+| **Hybrid** | Phase 4 | Encrypted local export/import |
 
 ## Quick start
 
@@ -54,7 +55,7 @@ Health check: `GET /api/health` → `{"status":"ok"}`
 
 - [Vision](docs/VISION.md) — multi-union product scope
 - [Architecture](docs/ARCHITECTURE.md) — technical design
-- [Roadmap](docs/ROADMAP.md) — phased delivery (Phase 0 complete)
+- [Roadmap](docs/ROADMAP.md) — phased delivery (Phases 0–5 complete)
 - [RBAC](docs/RBAC.md) — roles and tenancy
 - [Compliance](docs/COMPLIANCE.md) — privacy and AODA
 - [AGENTS.md](AGENTS.md) — Cursor agent guide
