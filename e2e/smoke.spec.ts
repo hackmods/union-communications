@@ -51,7 +51,7 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("heading", { name: "Social Examples" })).toBeVisible();
     await expect(
       page.getByRole("link", { name: "Make this graphic" }).first(),
-    ).toHaveAttribute("href", /graphic-maker/);
+    ).toHaveAttribute("href", /graphic-maker\?example=/);
   });
 
   test("board notice maker page renders", async ({ page }) => {

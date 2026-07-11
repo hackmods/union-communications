@@ -1,38 +1,67 @@
 "use client";
 
-import { useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { getExamplePost } from "@/lib/constants/examples";
+import { QuoteLayout } from "@/components/tools/graphic-layouts";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
-import { useTranslations } from "next-intl";
 
 interface QuoteState {
   quote: string;
   author: string;
+  role: string;
   primaryColor: string;
-  secondaryColor: string;
+  accentColor: string;
 }
 
-export default function QuoteCardPage() {
+function QuoteCardPageContent() {
   const t = useTranslations("common");
+  const tq = useTranslations("quoteCard");
+  const te = useTranslations("examples");
   const brandKit = useBrandStore((s) => s.brandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const seedApplied = useRef(false);
 
   const initial: QuoteState = {
     quote: "We will not accept anything less than a fair deal for our members.",
     author: "Local President",
+    role: "",
     primaryColor: brandKit.primaryColor,
-    secondaryColor: brandKit.secondaryColor,
+    accentColor: brandKit.accentColor,
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<QuoteState>(initial);
+
+  useEffect(() => {
+    if (seedApplied.current) return;
+    const exampleId = searchParams.get("example");
+    if (!exampleId) return;
+    const post = getExamplePost(exampleId);
+    if (!post || post.primaryTool !== "quote-card") return;
+    seedApplied.current = true;
+    const role = te.has(`posts.${post.id}.mockup.detail`)
+      ? te(`posts.${post.id}.mockup.detail`)
+      : "";
+    setState((prev) => ({
+      ...prev,
+      quote: te(`posts.${post.id}.mockup.body`),
+      author: te(`posts.${post.id}.mockup.headline`),
+      role,
+      primaryColor: brandKit.primaryColor,
+      accentColor: brandKit.accentColor,
+    }));
+  }, [searchParams, setState, te, brandKit]);
 
   const handleExport = async () => {
     if (!canvasRef.current) return;
@@ -45,60 +74,81 @@ export default function QuoteCardPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">Quote Card Generator</h1>
+      <h1 className="text-3xl font-bold text-opseu-dark">{tq("title")}</h1>
+      <p className="mt-2 text-gray-600">{tq("subtitle")}</p>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <Card className="space-y-4">
           <Textarea
-            label="Quote"
+            label={tq("quote")}
             value={state.quote}
             onChange={(e) => setState({ ...state, quote: e.target.value })}
             rows={4}
           />
           <Input
-            label="Author"
+            label={tq("author")}
             value={state.author}
             onChange={(e) => setState({ ...state, author: e.target.value })}
           />
+          <Input
+            label={tq("role")}
+            value={state.role}
+            onChange={(e) => setState({ ...state, role: e.target.value })}
+          />
           <ThemePicker
             primaryColor={state.primaryColor}
-            secondaryColor={state.secondaryColor}
+            secondaryColor={state.accentColor}
             onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
-            onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
+            onSecondaryChange={(c) => setState({ ...state, accentColor: c })}
           />
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}
             onUndo={undo}
             onRedo={redo}
-            onReset={() => reset(initial)}
+            onReset={() =>
+              reset({
+                ...initial,
+                primaryColor: brandKit.primaryColor,
+                accentColor: brandKit.accentColor,
+              })
+            }
           />
           <Button onClick={handleExport}>{t("downloadPng")}</Button>
         </Card>
 
         <div
           ref={canvasRef}
-          className="flex aspect-square w-full flex-col items-center justify-center p-12 text-center shadow-lg"
-          style={{ backgroundColor: state.primaryColor }}
+          className="relative aspect-square w-full overflow-hidden shadow-lg"
         >
-          <span
-            className="text-6xl leading-none"
-            style={{ color: state.secondaryColor }}
-            aria-hidden="true"
-          >
-            &ldquo;
-          </span>
-          <p className="mt-4 text-xl font-medium leading-relaxed text-white">
-            {state.quote}
-          </p>
-          <p className="mt-6 text-lg font-bold" style={{ color: state.secondaryColor }}>
-            — {state.author}
-          </p>
-          <p className="mt-4 text-sm text-white/70">
-            Local {resolveLocalNumber(brandKit.local.localNumber)}
-          </p>
+          <QuoteLayout
+            primary={state.primaryColor}
+            accent={state.accentColor}
+            copy={{
+              headline: state.author,
+              body: state.quote,
+              detail: state.role || undefined,
+            }}
+            localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+            subText={brandKit.local.subText}
+            size="export"
+          />
         </div>
       </div>
     </div>
+  );
+}
+
+export default function QuoteCardPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-5xl px-4 py-12">
+          <h1 className="text-3xl font-bold text-opseu-dark">Quote Card</h1>
+        </div>
+      }
+    >
+      <QuoteCardPageContent />
+    </Suspense>
   );
 }

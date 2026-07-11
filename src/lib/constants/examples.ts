@@ -30,7 +30,7 @@ export interface ExamplePost {
   platform: ExamplePlatform;
   layout: ExampleLayout;
   aspect: ExampleAspect;
-  /** Graphic Maker preset to preload via ?preset= */
+  /** Graphic Maker preset to preload via ?preset= (legacy fallback) */
   presetKey?: ToolPresetKey;
   /** Captions template id to highlight via ?caption= */
   captionId?: string;
@@ -134,17 +134,28 @@ export const EXAMPLE_POSTS: ExamplePost[] = [
   },
 ];
 
+export function getExamplePost(id: string): ExamplePost | undefined {
+  return EXAMPLE_POSTS.find((p) => p.id === id);
+}
+
 export function primaryToolHref(post: ExamplePost): string {
+  const q = `example=${encodeURIComponent(post.id)}`;
   if (post.primaryTool === "quote-card") {
-    return "/tools/quote-card";
+    return `/tools/quote-card?${q}`;
   }
   if (post.primaryTool === "flyer-maker") {
-    return "/tools/flyer-maker";
+    return `/tools/flyer-maker?${q}`;
   }
-  const base = "/tools/graphic-maker";
-  return post.presetKey ? `${base}?preset=${post.presetKey}` : base;
+  return `/tools/graphic-maker?${q}`;
 }
 
 export function captionHref(captionId: string): string {
   return `/captions?caption=${captionId}`;
+}
+
+/** Layouts where a member photo strengthens the design */
+export function layoutSupportsPhoto(
+  layout: ExampleLayout,
+): layout is "solidarity" | "spotlight" | "thanks" {
+  return layout === "solidarity" || layout === "spotlight" || layout === "thanks";
 }

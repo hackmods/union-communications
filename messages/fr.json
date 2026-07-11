@@ -752,10 +752,29 @@
   },
   "graphicMaker": {
     "title": "Créateur de graphiques nouvelles et événements",
+    "subtitle": "Mises en page comme les exemples sociaux — solidarité, avis, résultats, projecteurs et remerciements.",
+    "layout": "Mise en page",
+    "layouts": {
+      "solidarity": "Solidarité",
+      "thanks": "Remerciement",
+      "spotlight": "Projecteur",
+      "notice": "Avis",
+      "results": "Résultats"
+    },
+    "aspect": "Format",
+    "aspects": {
+      "landscape": "Paysage (FB)",
+      "square": "Carré (IG)"
+    },
     "headline": "Titre",
     "subheadline": "Sous-titre",
+    "detail": "Badge / ligne de détail",
+    "initials": "Initiales (sans photo)",
     "photo": "Photo",
     "photoZoom": "Zoom photo",
+    "primaryColor": "Couleur primaire",
+    "accentColor": "Couleur d'accent",
+    "secondaryColor": "Couleur secondaire",
     "fillMode": "Remplissage du fond",
     "fillSolid": "Uni",
     "fillGradient": "Dégradé",
@@ -763,6 +782,21 @@
     "gradientColor": "Couleur du dégradé",
     "gradientFrom": "Début du dégradé",
     "gradientTo": "Fin du dégradé"
+  },
+  "quoteCard": {
+    "title": "Générateur de carte citation",
+    "subtitle": "Courtes citations de leadership avec image de marque locale — prêtes pour Instagram.",
+    "quote": "Citation",
+    "author": "Attribution",
+    "role": "Rôle ou comité (optionnel)"
+  },
+  "flyerMaker": {
+    "title": "Créateur d'affiche piquet / rassemblement",
+    "subtitle": "Modèles à fort contraste pour les médias sociaux et l'impression.",
+    "message": "Message principal",
+    "date": "Date",
+    "time": "Heure",
+    "location": "Lieu"
   },
   "consent": {
     "title": "Consentement photo du membre",

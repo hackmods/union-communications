@@ -2,13 +2,22 @@
 
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng } from "@/lib/export/image-export";
-import { formatFilename, resolveLocalNumber } from "@/lib/utils";
-import { hexToRgba } from "@/lib/utils/contrast";
+import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { TOOL_PRESETS, type ToolPresetKey } from "@/lib/constants/presets";
-import { BRAND_COLORS } from "@/lib/constants/brand";
+import {
+  getExamplePost,
+  layoutSupportsPhoto,
+  type ExampleAspect,
+} from "@/lib/constants/examples";
+import {
+  GRAPHIC_LAYOUT_ORDER,
+  GraphicLayoutCanvas,
+  type GraphicLayoutId,
+} from "@/components/tools/graphic-layouts";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -17,37 +26,39 @@ import { ConsentModal } from "@/components/tools/ConsentModal";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
-import { BrandLogo } from "@/components/brand/BrandLogo";
-import { useTranslations } from "next-intl";
-import Image from "next/image";
 
 function isToolPresetKey(value: string): value is ToolPresetKey {
   return value in TOOL_PRESETS;
 }
 
-type FillMode = "solid" | "gradient";
+function isGraphicLayoutId(value: string): value is GraphicLayoutId {
+  return (GRAPHIC_LAYOUT_ORDER as readonly string[]).includes(value);
+}
 
 interface GraphicState {
+  layout: GraphicLayoutId;
+  aspect: ExampleAspect;
   headline: string;
   subheadline: string;
+  detail: string;
+  initials: string;
   photoUrl?: string;
   photoScale: number;
-  fillMode: FillMode;
-  /** Solid fill, or gradient start */
-  backgroundColor: string;
-  /** Gradient end, and bottom fade colour in solid mode */
-  gradientColor: string;
+  primaryColor: string;
+  accentColor: string;
+  secondaryColor: string;
 }
 
 function GraphicMakerPageContent() {
   const t = useTranslations("common");
   const tg = useTranslations("graphicMaker");
+  const te = useTranslations("examples");
   const searchParams = useSearchParams();
   const brandKit = useBrandStore((s) => s.brandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingPhoto, setPendingPhoto] = useState<string | null>(null);
-  const presetApplied = useRef(false);
+  const seedApplied = useRef(false);
 
   const brandColors = {
     primary: brandKit.primaryColor,
@@ -56,12 +67,16 @@ function GraphicMakerPageContent() {
   };
 
   const initial: GraphicState = {
+    layout: "solidarity",
+    aspect: "landscape",
     headline: "Member Spotlight",
     subheadline: "Celebrating our union family",
+    detail: "",
+    initials: "M",
     photoScale: 1,
-    fillMode: "solid",
-    backgroundColor: brandKit.primaryColor,
-    gradientColor: BRAND_COLORS.black,
+    primaryColor: brandKit.primaryColor,
+    accentColor: brandKit.accentColor,
+    secondaryColor: brandKit.secondaryColor,
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -69,25 +84,86 @@ function GraphicMakerPageContent() {
 
   const applyPreset = (key: ToolPresetKey) => {
     const preset = TOOL_PRESETS[key];
+    const layout: GraphicLayoutId =
+      key === "memberSpotlight"
+        ? "spotlight"
+        : key === "agmNotice" || key === "bargainingUpdate"
+          ? "notice"
+          : "solidarity";
     setState({
       ...state,
+      layout,
+      aspect: key === "memberSpotlight" ? "square" : "landscape",
       headline: preset.headline,
       subheadline: preset.subheadline,
+      detail:
+        key === "agmNotice"
+          ? "AGM"
+          : key === "bargainingUpdate"
+            ? "Update"
+            : key === "strikeAction"
+              ? "Strike"
+              : "",
     });
   };
 
   useEffect(() => {
-    if (presetApplied.current) return;
-    const raw = searchParams.get("preset");
-    if (!raw || !isToolPresetKey(raw)) return;
-    presetApplied.current = true;
-    const preset = TOOL_PRESETS[raw];
-    setState((prev) => ({
-      ...prev,
-      headline: preset.headline,
-      subheadline: preset.subheadline,
-    }));
-  }, [searchParams, setState]);
+    if (seedApplied.current) return;
+    const exampleId = searchParams.get("example");
+    const presetRaw = searchParams.get("preset");
+
+    if (exampleId) {
+      const post = getExamplePost(exampleId);
+      if (!post || post.primaryTool !== "graphic-maker") return;
+      if (!isGraphicLayoutId(post.layout)) return;
+      seedApplied.current = true;
+      const detail = te.has(`posts.${post.id}.mockup.detail`)
+        ? te(`posts.${post.id}.mockup.detail`)
+        : "";
+      const initials = te.has(`posts.${post.id}.mockup.initials`)
+        ? te(`posts.${post.id}.mockup.initials`)
+        : "M";
+      setState((prev) => ({
+        ...prev,
+        layout: post.layout as GraphicLayoutId,
+        aspect: post.aspect,
+        headline: te(`posts.${post.id}.mockup.headline`),
+        subheadline: te(`posts.${post.id}.mockup.body`),
+        detail,
+        initials,
+        primaryColor: brandKit.primaryColor,
+        accentColor: brandKit.accentColor,
+        secondaryColor: brandKit.secondaryColor,
+      }));
+      return;
+    }
+
+    if (presetRaw && isToolPresetKey(presetRaw)) {
+      seedApplied.current = true;
+      const preset = TOOL_PRESETS[presetRaw];
+      const layout: GraphicLayoutId =
+        presetRaw === "memberSpotlight"
+          ? "spotlight"
+          : presetRaw === "agmNotice" || presetRaw === "bargainingUpdate"
+            ? "notice"
+            : "solidarity";
+      setState((prev) => ({
+        ...prev,
+        layout,
+        aspect: presetRaw === "memberSpotlight" ? "square" : "landscape",
+        headline: preset.headline,
+        subheadline: preset.subheadline,
+        detail:
+          presetRaw === "agmNotice"
+            ? "AGM"
+            : presetRaw === "bargainingUpdate"
+              ? "Update"
+              : presetRaw === "strikeAction"
+                ? "Strike"
+                : "",
+      }));
+    }
+  }, [searchParams, setState, te, brandKit]);
 
   const handlePhotoUpload = (url: string) => {
     setPendingPhoto(url);
@@ -111,20 +187,18 @@ function GraphicMakerPageContent() {
     );
   };
 
-  // Solid mode: gradient swatch drives the bottom fade. Gradient fill keeps a dark fade for text.
-  const fadeHex =
-    state.fillMode === "solid" ? state.gradientColor : BRAND_COLORS.black;
-  const fade = hexToRgba(fadeHex, 0.7) ?? "rgba(0,0,0,0.7)";
-  const canvasStyle =
-    state.fillMode === "solid"
-      ? { backgroundColor: state.backgroundColor }
-      : {
-          backgroundImage: `linear-gradient(135deg, ${state.backgroundColor}, ${state.gradientColor})`,
-        };
+  const showPhoto = layoutSupportsPhoto(state.layout);
+  const showDetail =
+    state.layout === "notice" ||
+    state.layout === "results" ||
+    state.layout === "solidarity" ||
+    state.layout === "thanks";
+  const showInitials = state.layout === "spotlight" && !state.photoUrl;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{tg("title")}</h1>
+      <p className="mt-2 text-gray-600">{tg("subtitle")}</p>
 
       <div className="mt-4 flex flex-wrap gap-2">
         {(Object.keys(TOOL_PRESETS) as ToolPresetKey[]).map((key) => (
@@ -136,6 +210,57 @@ function GraphicMakerPageContent() {
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <Card className="space-y-4">
+          <div>
+            <p className="mb-2 text-sm font-medium">{tg("layout")}</p>
+            <div className="flex flex-wrap gap-2">
+              {GRAPHIC_LAYOUT_ORDER.map((id) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() =>
+                    setState({
+                      ...state,
+                      layout: id,
+                      aspect:
+                        id === "spotlight" || id === "results"
+                          ? "square"
+                          : state.aspect,
+                    })
+                  }
+                  className={cn(
+                    "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                    state.layout === id
+                      ? "bg-opseu-blue text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+                  )}
+                >
+                  {tg(`layouts.${id}`)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="mb-2 text-sm font-medium">{tg("aspect")}</p>
+            <div className="flex flex-wrap gap-2">
+              {(["landscape", "square"] as const).map((aspect) => (
+                <button
+                  key={aspect}
+                  type="button"
+                  onClick={() => setState({ ...state, aspect })}
+                  className={cn(
+                    "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                    state.aspect === aspect
+                      ? "bg-opseu-blue text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+                  )}
+                >
+                  {tg(`aspects.${aspect}`)}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <Input
             label={tg("headline")}
             value={state.headline}
@@ -147,101 +272,102 @@ function GraphicMakerPageContent() {
             onChange={(e) => setState({ ...state, subheadline: e.target.value })}
             rows={2}
           />
-          <ImageUpload
-            label={tg("photo")}
-            preview={state.photoUrl}
-            onUpload={handlePhotoUpload}
-            onClear={() => setState({ ...state, photoUrl: undefined })}
-          />
-          <Input
-            label={tg("photoZoom")}
-            type="range"
-            min="0.5"
-            max="2"
-            step="0.1"
-            value={state.photoScale}
-            onChange={(e) =>
-              setState({ ...state, photoScale: parseFloat(e.target.value) })
-            }
-          />
+          {showDetail ? (
+            <Input
+              label={tg("detail")}
+              value={state.detail}
+              onChange={(e) => setState({ ...state, detail: e.target.value })}
+            />
+          ) : null}
+          {showInitials ? (
+            <Input
+              label={tg("initials")}
+              value={state.initials}
+              onChange={(e) => setState({ ...state, initials: e.target.value })}
+              maxLength={3}
+            />
+          ) : null}
 
-          <fieldset className="space-y-2">
-            <legend className="text-sm font-medium text-gray-700">{tg("fillMode")}</legend>
-            <div className="flex flex-wrap gap-2">
-              {(["solid", "gradient"] as const).map((mode) => (
-                <Button
-                  key={mode}
-                  size="sm"
-                  variant={state.fillMode === mode ? "primary" : "outline"}
-                  onClick={() => setState({ ...state, fillMode: mode })}
-                >
-                  {tg(mode === "solid" ? "fillSolid" : "fillGradient")}
-                </Button>
-              ))}
-            </div>
-          </fieldset>
+          {showPhoto ? (
+            <>
+              <ImageUpload
+                label={tg("photo")}
+                preview={state.photoUrl}
+                onUpload={handlePhotoUpload}
+                onClear={() => setState({ ...state, photoUrl: undefined })}
+              />
+              <Input
+                label={tg("photoZoom")}
+                type="range"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value={state.photoScale}
+                onChange={(e) =>
+                  setState({ ...state, photoScale: parseFloat(e.target.value) })
+                }
+              />
+            </>
+          ) : null}
 
           <BrandSwatchPicker
-            label={
-              state.fillMode === "solid"
-                ? tg("backgroundColor")
-                : tg("gradientFrom")
-            }
-            value={state.backgroundColor}
-            onChange={(c) => setState({ ...state, backgroundColor: c })}
+            label={tg("primaryColor")}
+            value={state.primaryColor}
+            onChange={(c) => setState({ ...state, primaryColor: c })}
             colors={brandColors}
           />
           <BrandSwatchPicker
-            label={
-              state.fillMode === "solid"
-                ? tg("gradientColor")
-                : tg("gradientTo")
-            }
-            value={state.gradientColor}
-            onChange={(c) => setState({ ...state, gradientColor: c })}
+            label={tg("accentColor")}
+            value={state.accentColor}
+            onChange={(c) => setState({ ...state, accentColor: c })}
             colors={brandColors}
           />
-          <ContrastChecker foreground="#FFFFFF" background={state.backgroundColor} />
+          <BrandSwatchPicker
+            label={tg("secondaryColor")}
+            value={state.secondaryColor}
+            onChange={(c) => setState({ ...state, secondaryColor: c })}
+            colors={brandColors}
+          />
+          <ContrastChecker foreground="#FFFFFF" background={state.primaryColor} />
 
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}
             onUndo={undo}
             onRedo={redo}
-            onReset={() => reset(initial)}
+            onReset={() =>
+              reset({
+                ...initial,
+                primaryColor: brandKit.primaryColor,
+                accentColor: brandKit.accentColor,
+                secondaryColor: brandKit.secondaryColor,
+              })
+            }
           />
           <Button onClick={handleExport}>{t("downloadPng")}</Button>
         </Card>
 
-        <div
-          ref={canvasRef}
-          className="relative aspect-[1200/630] w-full overflow-hidden rounded-lg shadow-lg"
-          style={canvasStyle}
-        >
-          {state.photoUrl && (
-            <Image
-              src={state.photoUrl}
-              alt=""
-              fill
-              unoptimized
-              className="object-cover opacity-40"
-              style={{ transform: `scale(${state.photoScale})` }}
-            />
-          )}
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `linear-gradient(to top, ${fade}, transparent)`,
+        <div ref={canvasRef} className="overflow-hidden rounded-lg shadow-lg">
+          <GraphicLayoutCanvas
+            layout={state.layout}
+            aspect={state.aspect}
+            copy={{
+              headline: state.headline,
+              body: state.subheadline,
+              detail: state.detail || undefined,
+              initials: state.initials,
             }}
+            colors={{
+              primary: state.primaryColor,
+              accent: state.accentColor,
+              secondary: state.secondaryColor,
+            }}
+            localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+            subText={brandKit.local.subText}
+            photoUrl={showPhoto ? state.photoUrl : undefined}
+            photoScale={state.photoScale}
+            size="export"
           />
-          <div className="absolute bottom-0 left-0 right-0 p-8">
-            <BrandLogo size="md" onDark className="mb-4" />
-            <h2 className="text-3xl font-bold text-white">{state.headline}</h2>
-            <p className="mt-2 text-lg text-white/90">{state.subheadline}</p>
-            <p className="mt-4 text-sm text-white/70">
-              Local {resolveLocalNumber(brandKit.local.localNumber)} — {brandKit.local.subText}
-            </p>
-          </div>
         </div>
       </div>
 

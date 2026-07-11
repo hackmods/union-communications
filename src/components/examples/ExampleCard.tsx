@@ -43,12 +43,18 @@ export function ExampleCard({ post }: ExampleCardProps) {
 
   return (
     <Card className="mb-4 flex break-inside-avoid flex-col">
-      <ExamplePostMockup
-        layout={post.layout}
-        aspect={post.aspect}
-        platformLabel={t(`platforms.${post.platform}`)}
-        copy={{ headline, body, detail, initials }}
-      />
+      <Link
+        href={toolHref}
+        className="block rounded-lg outline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-opseu-blue"
+        aria-label={toolLabel}
+      >
+        <ExamplePostMockup
+          layout={post.layout}
+          aspect={post.aspect}
+          platformLabel={t(`platforms.${post.platform}`)}
+          copy={{ headline, body, detail, initials }}
+        />
+      </Link>
       <CardTitle className="mt-3">{title}</CardTitle>
       <p className="mt-2 text-sm text-gray-600">{description}</p>
 

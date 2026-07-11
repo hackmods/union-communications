@@ -777,10 +777,29 @@
   },
   "graphicMaker": {
     "title": "News & Event Graphic Maker",
+    "subtitle": "Layouts that match Social Examples — solidarity, notices, results, spotlights, and thank-yous.",
+    "layout": "Layout",
+    "layouts": {
+      "solidarity": "Solidarity",
+      "thanks": "Thank you",
+      "spotlight": "Spotlight",
+      "notice": "Notice",
+      "results": "Results"
+    },
+    "aspect": "Format",
+    "aspects": {
+      "landscape": "Landscape (FB)",
+      "square": "Square (IG)"
+    },
     "headline": "Headline",
     "subheadline": "Subheadline",
+    "detail": "Badge / detail line",
+    "initials": "Photo initials (if no photo)",
     "photo": "Photo",
     "photoZoom": "Photo zoom",
+    "primaryColor": "Primary colour",
+    "accentColor": "Accent colour",
+    "secondaryColor": "Secondary colour",
     "fillMode": "Background fill",
     "fillSolid": "Solid",
     "fillGradient": "Gradient",
@@ -788,6 +807,21 @@
     "gradientColor": "Gradient fade colour",
     "gradientFrom": "Gradient start",
     "gradientTo": "Gradient end"
+  },
+  "quoteCard": {
+    "title": "Quote Card Generator",
+    "subtitle": "Short leadership quotes with local branding — ready for Instagram.",
+    "quote": "Quote",
+    "author": "Attribution",
+    "role": "Role or committee (optional)"
+  },
+  "flyerMaker": {
+    "title": "Picket / Rally Flyer Maker",
+    "subtitle": "High-contrast templates for social media and printing.",
+    "message": "Main message",
+    "date": "Date",
+    "time": "Time",
+    "location": "Location"
   },
   "consent": {
     "title": "Member photo consent",

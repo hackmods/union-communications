@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useId, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { LanguageToggle } from "./LanguageToggle";
@@ -34,15 +35,58 @@ function linkActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+type NavMenuId = "learn" | "tools";
+
 export function Header() {
   const t = useTranslations("nav");
   const th = useTranslations("hub");
   const pathname = usePathname();
+  const [menu, setMenu] = useState<{ id: NavMenuId; atPath: string } | null>(
+    null,
+  );
+  const learnRef = useRef<HTMLDivElement>(null);
+  const toolsRef = useRef<HTMLDivElement>(null);
+  const learnMenuId = useId();
+  const toolsMenuId = useId();
+
   const getStartedHref = "/guide/social-media-plan";
   const learnActive =
     learnHrefs.has(pathname) ||
     (pathname.startsWith("/guide/") && pathname !== getStartedHref);
   const toolsActive = pathname.startsWith("/tools/");
+  const openMenu =
+    menu && menu.atPath === pathname ? menu.id : null;
+
+  useEffect(() => {
+    if (!openMenu) return;
+
+    const onPointerDown = (event: MouseEvent) => {
+      const target = event.target as Node;
+      const inLearn = learnRef.current?.contains(target);
+      const inTools = toolsRef.current?.contains(target);
+      if (!inLearn && !inTools) setMenu(null);
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenu(null);
+    };
+
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [openMenu]);
+
+  const closeMenus = () => setMenu(null);
+  const toggleMenu = (id: NavMenuId) => {
+    setMenu((prev) =>
+      prev?.id === id && prev.atPath === pathname
+        ? null
+        : { id, atPath: pathname },
+    );
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur">
@@ -64,30 +108,43 @@ export function Header() {
             {t("getStarted")}
           </Link>
 
-          <details className="relative">
-            <summary
+          <div className="relative" ref={learnRef}>
+            <button
+              type="button"
               className={cn(
-                "cursor-pointer list-none rounded-md px-2 py-1 hover:bg-opseu-blue/5 [&::-webkit-details-marker]:hidden",
+                "rounded-md px-2 py-1 hover:bg-opseu-blue/5",
                 learnActive && "bg-opseu-blue/10 font-semibold text-opseu-blue",
               )}
+              aria-expanded={openMenu === "learn"}
+              aria-controls={learnMenuId}
+              onClick={() => toggleMenu("learn")}
             >
               {t("learn")} ▾
-            </summary>
-            <div className="absolute left-0 z-20 mt-1 min-w-[200px] rounded-lg border bg-white py-1 shadow-lg">
-              {learnLinks.map(({ href, key }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className={cn(
-                    "block px-3 py-2 hover:bg-opseu-blue/5",
-                    pathname === href && "bg-opseu-blue/10 font-semibold text-opseu-blue",
-                  )}
-                >
-                  {t(key)}
-                </Link>
-              ))}
-            </div>
-          </details>
+            </button>
+            {openMenu === "learn" ? (
+              <div
+                id={learnMenuId}
+                role="menu"
+                className="absolute left-0 z-20 mt-1 min-w-[200px] rounded-lg border bg-white py-1 shadow-lg"
+              >
+                {learnLinks.map(({ href, key }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    role="menuitem"
+                    onClick={closeMenus}
+                    className={cn(
+                      "block px-3 py-2 hover:bg-opseu-blue/5",
+                      pathname === href &&
+                        "bg-opseu-blue/10 font-semibold text-opseu-blue",
+                    )}
+                  >
+                    {t(key)}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
 
           <Link
             href="/brand-kit"
@@ -100,30 +157,43 @@ export function Header() {
             {t("brandKit")}
           </Link>
 
-          <details className="relative">
-            <summary
+          <div className="relative" ref={toolsRef}>
+            <button
+              type="button"
               className={cn(
-                "cursor-pointer list-none rounded-md px-2 py-1 hover:bg-opseu-blue/5 [&::-webkit-details-marker]:hidden",
+                "rounded-md px-2 py-1 hover:bg-opseu-blue/5",
                 toolsActive && "bg-opseu-blue/10 font-semibold text-opseu-blue",
               )}
+              aria-expanded={openMenu === "tools"}
+              aria-controls={toolsMenuId}
+              onClick={() => toggleMenu("tools")}
             >
               {t("tools")} ▾
-            </summary>
-            <div className="absolute right-0 z-20 mt-1 min-w-[200px] rounded-lg border bg-white py-1 shadow-lg">
-              {toolLinks.map(({ href, key }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className={cn(
-                    "block px-3 py-2 hover:bg-opseu-blue/5",
-                    pathname === href && "bg-opseu-blue/10 font-semibold text-opseu-blue",
-                  )}
-                >
-                  {t(key)}
-                </Link>
-              ))}
-            </div>
-          </details>
+            </button>
+            {openMenu === "tools" ? (
+              <div
+                id={toolsMenuId}
+                role="menu"
+                className="absolute right-0 z-20 mt-1 min-w-[200px] rounded-lg border bg-white py-1 shadow-lg"
+              >
+                {toolLinks.map(({ href, key }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    role="menuitem"
+                    onClick={closeMenus}
+                    className={cn(
+                      "block px-3 py-2 hover:bg-opseu-blue/5",
+                      pathname === href &&
+                        "bg-opseu-blue/10 font-semibold text-opseu-blue",
+                    )}
+                  >
+                    {t(key)}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
 
           <Link
             href="/app"
