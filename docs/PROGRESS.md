@@ -111,6 +111,13 @@ Scaffold through testing/CI — all complete.
 - [x] Social Media Plan step 3 links Captions / Examples / Blueprint
 - [x] `docs/modules/COMMS.md` sitemap updated
 
+## Social Examples uplift (2026-07-11) — COMPLETE
+
+- [x] Brand-aware post mockups (layouts: solidarity, spotlight, notice, quote, results, thanks)
+- [x] Why-it-works notes + CTAs into Graphic Maker (`?preset=`), Captions (`?caption=`), Quote Card, Flyer Maker
+- [x] Nine themed examples; full EN/FR copy; Social Media Plan footer link
+- [x] Smoke: `/examples` asserts Graphic Maker CTA
+
 ## Deferred (future)
 
 - [ ] Multi-union onboarding UI → **Phase 6**

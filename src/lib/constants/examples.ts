@@ -1,3 +1,5 @@
+import type { ToolPresetKey } from "@/lib/constants/presets";
+
 export type ExampleCategory =
   | "strike"
   | "spotlight"
@@ -5,70 +7,144 @@ export type ExampleCategory =
   | "bargaining"
   | "events";
 
+export type ExampleLayout =
+  | "solidarity"
+  | "spotlight"
+  | "notice"
+  | "quote"
+  | "results"
+  | "thanks";
+
+export type ExamplePrimaryTool =
+  | "graphic-maker"
+  | "quote-card"
+  | "flyer-maker";
+
+export type ExamplePlatform = "facebook" | "instagram" | "both";
+
+export type ExampleAspect = "landscape" | "square";
+
 export interface ExamplePost {
   id: string;
   category: ExampleCategory;
-  title: string;
-  description: string;
-  platform: "Facebook" | "Instagram" | "Both";
-  accentColor: string;
+  platform: ExamplePlatform;
+  layout: ExampleLayout;
+  aspect: ExampleAspect;
+  /** Graphic Maker preset to preload via ?preset= */
+  presetKey?: ToolPresetKey;
+  /** Captions template id to highlight via ?caption= */
+  captionId?: string;
+  primaryTool: ExamplePrimaryTool;
 }
+
+export const EXAMPLE_CATEGORIES: ExampleCategory[] = [
+  "strike",
+  "spotlight",
+  "agm",
+  "bargaining",
+  "events",
+];
 
 export const EXAMPLE_POSTS: ExamplePost[] = [
   {
-    id: "1",
+    id: "picket-solidarity",
     category: "strike",
-    title: "Picket line solidarity post",
-    description: "High-contrast graphic with date, time, and location. Clear call to action.",
-    platform: "Both",
-    accentColor: "#DC2626",
+    platform: "both",
+    layout: "solidarity",
+    aspect: "landscape",
+    presetKey: "strikeAction",
+    captionId: "strike",
+    primaryTool: "graphic-maker",
   },
   {
-    id: "2",
+    id: "strike-vote-results",
+    category: "strike",
+    platform: "both",
+    layout: "results",
+    aspect: "square",
+    presetKey: "strikeAction",
+    captionId: "strike",
+    primaryTool: "graphic-maker",
+  },
+  {
+    id: "picket-flyer",
+    category: "strike",
+    platform: "facebook",
+    layout: "solidarity",
+    aspect: "landscape",
+    captionId: "strike",
+    primaryTool: "flyer-maker",
+  },
+  {
+    id: "member-spotlight",
     category: "spotlight",
-    title: "Member spotlight — 20 years of service",
-    description: "Photo with name overlay, warm quote, and local branding.",
-    platform: "Instagram",
-    accentColor: "#003DA5",
+    platform: "instagram",
+    layout: "spotlight",
+    aspect: "square",
+    presetKey: "memberSpotlight",
+    captionId: "spotlight",
+    primaryTool: "graphic-maker",
   },
   {
-    id: "3",
+    id: "agm-notice",
     category: "agm",
-    title: "AGM notice with agenda highlights",
-    description: "Clean layout with date, virtual link, and key agenda items.",
-    platform: "Facebook",
-    accentColor: "#002868",
+    platform: "facebook",
+    layout: "notice",
+    aspect: "landscape",
+    presetKey: "agmNotice",
+    captionId: "agm",
+    primaryTool: "graphic-maker",
   },
   {
-    id: "4",
+    id: "bargaining-update",
     category: "bargaining",
-    title: "Bargaining table update",
-    description: "Quote card from bargaining team with professional tone.",
-    platform: "Both",
-    accentColor: "#003DA5",
+    platform: "both",
+    layout: "notice",
+    aspect: "landscape",
+    presetKey: "bargainingUpdate",
+    captionId: "bargaining",
+    primaryTool: "graphic-maker",
   },
   {
-    id: "5",
+    id: "bargaining-quote",
+    category: "bargaining",
+    platform: "instagram",
+    layout: "quote",
+    aspect: "square",
+    captionId: "bargaining",
+    primaryTool: "quote-card",
+  },
+  {
+    id: "town-hall-thanks",
     category: "events",
-    title: "Town hall thank-you graphic",
-    description: "Event photo with thank-you headline and member turnout stats.",
-    platform: "Facebook",
-    accentColor: "#FFFFFF",
+    platform: "facebook",
+    layout: "thanks",
+    aspect: "landscape",
+    captionId: "event-thanks",
+    primaryTool: "graphic-maker",
   },
   {
-    id: "6",
-    category: "strike",
-    title: "Strike vote results",
-    description: "Bold numbers, clear outcome, next steps for members.",
-    platform: "Both",
-    accentColor: "#DC2626",
+    id: "welcome-members",
+    category: "events",
+    platform: "both",
+    layout: "thanks",
+    aspect: "square",
+    captionId: "welcome",
+    primaryTool: "graphic-maker",
   },
 ];
 
-export const CATEGORY_LABELS: Record<ExampleCategory, string> = {
-  strike: "Strike action",
-  spotlight: "Member spotlights",
-  agm: "AGM notices",
-  bargaining: "Bargaining updates",
-  events: "Events",
-};
+export function primaryToolHref(post: ExamplePost): string {
+  if (post.primaryTool === "quote-card") {
+    return "/tools/quote-card";
+  }
+  if (post.primaryTool === "flyer-maker") {
+    return "/tools/flyer-maker";
+  }
+  const base = "/tools/graphic-maker";
+  return post.presetKey ? `${base}?preset=${post.presetKey}` : base;
+}
+
+export function captionHref(captionId: string): string {
+  return `/captions?caption=${captionId}`;
+}

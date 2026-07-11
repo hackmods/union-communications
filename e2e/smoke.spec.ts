@@ -46,6 +46,14 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("link", { name: "Logo Builder" }).first()).toBeVisible();
   });
 
+  test("social examples page renders with tool handoff", async ({ page }) => {
+    await page.goto("/en/examples/");
+    await expect(page.getByRole("heading", { name: "Social Examples" })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Make this graphic" }).first(),
+    ).toHaveAttribute("href", /graphic-maker/);
+  });
+
   test("board notice maker page renders", async ({ page }) => {
     await page.goto("/en/tools/board-notice/");
     await expect(page.getByRole("heading", { name: "Board Notice Maker" })).toBeVisible();

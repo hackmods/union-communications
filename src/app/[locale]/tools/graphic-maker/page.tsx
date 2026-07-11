@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng } from "@/lib/export/image-export";
@@ -20,6 +21,10 @@ import { BrandLogo } from "@/components/brand/BrandLogo";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
+function isToolPresetKey(value: string): value is ToolPresetKey {
+  return value in TOOL_PRESETS;
+}
+
 type FillMode = "solid" | "gradient";
 
 interface GraphicState {
@@ -37,10 +42,12 @@ interface GraphicState {
 export default function GraphicMakerPage() {
   const t = useTranslations("common");
   const tg = useTranslations("graphicMaker");
+  const searchParams = useSearchParams();
   const brandKit = useBrandStore((s) => s.brandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingPhoto, setPendingPhoto] = useState<string | null>(null);
+  const presetApplied = useRef(false);
 
   const brandColors = {
     primary: brandKit.primaryColor,
@@ -68,6 +75,19 @@ export default function GraphicMakerPage() {
       subheadline: preset.subheadline,
     });
   };
+
+  useEffect(() => {
+    if (presetApplied.current) return;
+    const raw = searchParams.get("preset");
+    if (!raw || !isToolPresetKey(raw)) return;
+    presetApplied.current = true;
+    const preset = TOOL_PRESETS[raw];
+    setState((prev) => ({
+      ...prev,
+      headline: preset.headline,
+      subheadline: preset.subheadline,
+    }));
+  }, [searchParams, setState]);
 
   const handlePhotoUpload = (url: string) => {
     setPendingPhoto(url);

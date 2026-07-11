@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { CAPTION_TEMPLATES } from "@/lib/constants/captions";
-import { copyToClipboard } from "@/lib/utils";
+import { copyToClipboard, cn } from "@/lib/utils";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useTranslations } from "next-intl";
 
 export default function CaptionsPage() {
   const t = useTranslations("common");
+  const searchParams = useSearchParams();
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [highlightId, setHighlightId] = useState<string | null>(null);
 
   const handleCopy = async (id: string, text: string) => {
     const ok = await copyToClipboard(text);
@@ -18,6 +21,18 @@ export default function CaptionsPage() {
       setTimeout(() => setCopiedId(null), 2000);
     }
   };
+
+  useEffect(() => {
+    const id = searchParams.get("caption");
+    if (!id) return;
+    const match = CAPTION_TEMPLATES.some((tpl) => tpl.id === id);
+    if (!match) return;
+    setHighlightId(id);
+    const el = document.getElementById(`caption-${id}`);
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    const timer = window.setTimeout(() => setHighlightId(null), 2500);
+    return () => window.clearTimeout(timer);
+  }, [searchParams]);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
@@ -29,8 +44,16 @@ export default function CaptionsPage() {
       <div className="mt-8 space-y-4">
         {CAPTION_TEMPLATES.map((template) => {
           const fullText = `${template.caption}\n\n${template.hashtags.join(" ")}`;
+          const highlighted = highlightId === template.id;
           return (
-            <Card key={template.id}>
+            <Card
+              key={template.id}
+              id={`caption-${template.id}`}
+              className={cn(
+                "scroll-mt-24 transition-shadow",
+                highlighted && "ring-2 ring-opseu-blue shadow-md",
+              )}
+            >
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <span className="text-xs font-medium uppercase text-opseu-blue">

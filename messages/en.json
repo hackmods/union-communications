@@ -367,7 +367,148 @@
   },
   "examples": {
     "title": "Social Examples",
-    "subtitle": "Examples of excellent local solidarity posts and graphics."
+    "subtitle": "Browse strong local post patterns, see why they work, then make your own with the tools.",
+    "filterLabel": "Filter by category",
+    "whyHeading": "Why it works",
+    "planPrompt": "Need the full posting checklist?",
+    "planLink": "Open the Social Media Plan",
+    "categories": {
+      "all": "All",
+      "strike": "Strike action",
+      "spotlight": "Member spotlights",
+      "agm": "AGM notices",
+      "bargaining": "Bargaining updates",
+      "events": "Events"
+    },
+    "platforms": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "both": "Facebook & Instagram"
+    },
+    "cta": {
+      "graphic": "Make this graphic",
+      "quoteCard": "Make a quote card",
+      "flyer": "Make a flyer",
+      "caption": "Use matching caption"
+    },
+    "posts": {
+      "picket-solidarity": {
+        "title": "Picket line solidarity post",
+        "description": "High-contrast graphic with date, time, and location — a clear call to show up.",
+        "why": {
+          "0": "Lead with when and where so members can act without reading a long caption.",
+          "1": "High contrast and a single CTA keep the post readable in a busy feed."
+        },
+        "mockup": {
+          "headline": "Picket line tomorrow",
+          "body": "Stand with your coworkers. Bring water, signs, and solidarity.",
+          "detail": "7:00 a.m. — Main Gate"
+        }
+      },
+      "strike-vote-results": {
+        "title": "Strike vote results",
+        "description": "Bold numbers, clear outcome, and the next step for members.",
+        "why": {
+          "0": "One big number communicates the mandate faster than a paragraph.",
+          "1": "Pair the result with a short next-step line so members know what follows."
+        },
+        "mockup": {
+          "headline": "94%",
+          "body": "Members voted yes. Stay ready — updates coming.",
+          "detail": "Strike vote result"
+        }
+      },
+      "picket-flyer": {
+        "title": "Picket / rally flyer",
+        "description": "Print-ready handout energy adapted for a social share — location first.",
+        "why": {
+          "0": "Flyer layouts force hierarchy: event name, place, time.",
+          "1": "Same asset can print for the board and post online."
+        },
+        "mockup": {
+          "headline": "Rally & picket",
+          "body": "Join us at the main gate. Signs provided.",
+          "detail": "Sat 10:00 a.m."
+        }
+      },
+      "member-spotlight": {
+        "title": "Member spotlight — years of service",
+        "description": "Warm quote, name treatment, and local branding on an Instagram square.",
+        "why": {
+          "0": "Faces and short quotes outperform generic announcements for engagement.",
+          "1": "Square crop matches Instagram; keep logo and local ID readable."
+        },
+        "mockup": {
+          "headline": "Member spotlight",
+          "body": "Twenty years of showing up for our members.",
+          "initials": "AJ"
+        }
+      },
+      "agm-notice": {
+        "title": "AGM notice with agenda highlights",
+        "description": "Clean layout with date, link or venue, and why attendance matters.",
+        "why": {
+          "0": "Date and access info sit above persuasion copy.",
+          "1": "A badge (AGM / Notice) signals urgency without shouting."
+        },
+        "mockup": {
+          "headline": "Annual General Meeting",
+          "body": "All members welcome — your voice shapes our local.",
+          "detail": "AGM"
+        }
+      },
+      "bargaining-update": {
+        "title": "Bargaining table update",
+        "description": "Professional tone: what happened, what we still need, how to stay informed.",
+        "why": {
+          "0": "Members want status, not spin — lead with the update.",
+          "1": "Brand colours keep official updates distinct from personal posts."
+        },
+        "mockup": {
+          "headline": "Bargaining update",
+          "body": "Standing strong for fair wages and safe workplaces.",
+          "detail": "Update"
+        }
+      },
+      "bargaining-quote": {
+        "title": "Bargaining quote card",
+        "description": "A short leadership quote that carries the room’s resolve into the feed.",
+        "why": {
+          "0": "Quotes travel well when they are one idea, not a speech.",
+          "1": "Attribution and local mark build trust that it is an official message."
+        },
+        "mockup": {
+          "headline": "Bargaining team",
+          "body": "We remain at the table for every member — fair wages, safe workplaces, respect.",
+          "detail": "Local bargaining committee"
+        }
+      },
+      "town-hall-thanks": {
+        "title": "Town hall thank-you graphic",
+        "description": "Celebrate turnout with a warm thank-you and one memorable stat.",
+        "why": {
+          "0": "Thanking members publicly reinforces participation next time.",
+          "1": "One turnout number is enough — skip the full agenda recap."
+        },
+        "mockup": {
+          "headline": "Thank you",
+          "body": "80 members showed up. Together we make the difference.",
+          "detail": "Town hall"
+        }
+      },
+      "welcome-members": {
+        "title": "Welcome new members",
+        "description": "Warm onboarding post that points people to stewards and the local page.",
+        "why": {
+          "0": "New members need belonging first, then logistics.",
+          "1": "Invite a next action: talk to a steward or visit the page."
+        },
+        "mockup": {
+          "headline": "Welcome to the family",
+          "body": "Together we're stronger. Reach out to your steward anytime."
+        }
+      }
+    }
   },
   "boardNotice": {
     "title": "Board Notice Maker",

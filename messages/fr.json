@@ -367,7 +367,148 @@
   },
   "examples": {
     "title": "Exemples sociaux",
-    "subtitle": "Exemples d'excellentes publications de solidarité des sections locales."
+    "subtitle": "Parcourez des modèles de publications locales, comprenez pourquoi ils fonctionnent, puis créez les vôtres avec les outils.",
+    "filterLabel": "Filtrer par catégorie",
+    "whyHeading": "Pourquoi ça fonctionne",
+    "planPrompt": "Besoin de la liste complète de publication?",
+    "planLink": "Ouvrir le plan médias sociaux",
+    "categories": {
+      "all": "Tous",
+      "strike": "Action de grève",
+      "spotlight": "Portraits de membres",
+      "agm": "Avis d'AGA",
+      "bargaining": "Mises à jour de négociation",
+      "events": "Événements"
+    },
+    "platforms": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "both": "Facebook et Instagram"
+    },
+    "cta": {
+      "graphic": "Créer ce graphique",
+      "quoteCard": "Créer une carte citation",
+      "flyer": "Créer un tract",
+      "caption": "Utiliser la légende correspondante"
+    },
+    "posts": {
+      "picket-solidarity": {
+        "title": "Publication de solidarité sur la ligne de piquetage",
+        "description": "Graphique à fort contraste avec date, heure et lieu — un appel clair à se présenter.",
+        "why": {
+          "0": "Mettez le quand et le où en avant pour que les membres agissent sans lire une longue légende.",
+          "1": "Le contraste élevé et un seul appel à l'action restent lisibles dans un fil chargé."
+        },
+        "mockup": {
+          "headline": "Ligne de piquetage demain",
+          "body": "Soutenez vos collègues. Apportez de l'eau, des pancartes et de la solidarité.",
+          "detail": "7 h — Entrée principale"
+        }
+      },
+      "strike-vote-results": {
+        "title": "Résultats du vote de grève",
+        "description": "Chiffres audacieux, résultat clair et prochaine étape pour les membres.",
+        "why": {
+          "0": "Un grand chiffre communique le mandat plus vite qu'un paragraphe.",
+          "1": "Associez le résultat à une courte prochaine étape."
+        },
+        "mockup": {
+          "headline": "94 %",
+          "body": "Les membres ont voté oui. Restez prêts — mises à jour à venir.",
+          "detail": "Résultat du vote de grève"
+        }
+      },
+      "picket-flyer": {
+        "title": "Tract de piquetage / rassemblement",
+        "description": "Énergie d'un tract imprimable adaptée au partage social — le lieu d'abord.",
+        "why": {
+          "0": "Les tracts imposent une hiérarchie : nom, lieu, heure.",
+          "1": "Le même actif sert au tableau syndical et en ligne."
+        },
+        "mockup": {
+          "headline": "Rassemblement et piquetage",
+          "body": "Rejoignez-nous à l'entrée principale. Pancartes fournies.",
+          "detail": "Sam 10 h"
+        }
+      },
+      "member-spotlight": {
+        "title": "Portrait de membre — années de service",
+        "description": "Citation chaleureuse, nom mis en valeur et identité locale en format carré Instagram.",
+        "why": {
+          "0": "Les visages et courtes citations engagent plus que les annonces génériques.",
+          "1": "Le format carré convient à Instagram; gardez le logo lisible."
+        },
+        "mockup": {
+          "headline": "Portrait de membre",
+          "body": "Vingt ans à se présenter pour nos membres.",
+          "initials": "AJ"
+        }
+      },
+      "agm-notice": {
+        "title": "Avis d'AGA avec points à l'ordre du jour",
+        "description": "Mise en page claire avec date, lien ou lieu, et pourquoi y assister compte.",
+        "why": {
+          "0": "La date et l'accès viennent avant le texte persuasif.",
+          "1": "Un badge (AGA / Avis) signale l'urgence sans crier."
+        },
+        "mockup": {
+          "headline": "Assemblée générale annuelle",
+          "body": "Tous les membres sont les bienvenus — votre voix façonne notre section.",
+          "detail": "AGA"
+        }
+      },
+      "bargaining-update": {
+        "title": "Mise à jour de la table de négociation",
+        "description": "Ton professionnel : ce qui s'est passé, ce qu'il reste, comment rester informé.",
+        "why": {
+          "0": "Les membres veulent le statut, pas du spin — commencez par la mise à jour.",
+          "1": "Les couleurs de marque distinguent les messages officiels."
+        },
+        "mockup": {
+          "headline": "Mise à jour de négociation",
+          "body": "Debout pour des salaires justes et des milieux de travail sécuritaires.",
+          "detail": "Mise à jour"
+        }
+      },
+      "bargaining-quote": {
+        "title": "Carte citation de négociation",
+        "description": "Une courte citation de leadership qui porte la détermination dans le fil.",
+        "why": {
+          "0": "Les citations voyagent bien quand elles portent une seule idée.",
+          "1": "L'attribution et la marque locale instaurent la confiance."
+        },
+        "mockup": {
+          "headline": "Équipe de négociation",
+          "body": "Nous restons à la table pour chaque membre — salaires justes, milieux sécuritaires, respect.",
+          "detail": "Comité de négociation local"
+        }
+      },
+      "town-hall-thanks": {
+        "title": "Graphique de remerciement — assemblée",
+        "description": "Célébrez la participation avec un remerciement chaleureux et une statistique mémorable.",
+        "why": {
+          "0": "Remercier publiquement renforce la participation la prochaine fois.",
+          "1": "Un chiffre de participation suffit — évitez le compte rendu complet."
+        },
+        "mockup": {
+          "headline": "Merci",
+          "body": "80 membres étaient présents. Ensemble, nous faisons la différence.",
+          "detail": "Assemblée"
+        }
+      },
+      "welcome-members": {
+        "title": "Bienvenue aux nouveaux membres",
+        "description": "Publication d'accueil chaleureuse qui oriente vers les délégués et la page locale.",
+        "why": {
+          "0": "Les nouveaux membres ont d'abord besoin d'appartenance, puis de logistique.",
+          "1": "Proposez une prochaine action : parler à un délégué ou visiter la page."
+        },
+        "mockup": {
+          "headline": "Bienvenue dans la famille",
+          "body": "Ensemble, nous sommes plus forts. Contactez votre délégué en tout temps."
+        }
+      }
+    }
   },
   "boardNotice": {
     "title": "Avis pour tableau syndical",
