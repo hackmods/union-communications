@@ -27,6 +27,9 @@ export function Footer() {
           <Link href="/guide/materials" className="hover:text-opseu-blue">
             {nav("materials")}
           </Link>
+          <Link href="/manifesto" className="hover:text-opseu-blue">
+            {nav("manifesto")}
+          </Link>
           <Link href="/privacy" className="hover:text-opseu-blue">
             {nav("privacy")}
           </Link>

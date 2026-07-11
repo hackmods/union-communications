@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "Local Union Support Hub",
-    "description": "Professional tools for any local union — comms, grievances, and more"
+    "title": "UnionOps | Free Tools & Officer Hub for Union Locals",
+    "description": "Free, privacy-first communication tools and grievance tracking for union stewards and officers. All data stays securely on your device."
   },
   "nav": {
     "home": "Home",
@@ -30,6 +30,7 @@
     "printGuide": "Print Guide",
     "websiteGuide": "Website Guide",
     "materials": "Workshop Materials",
+    "manifesto": "Why it's free",
     "privacy": "Privacy",
     "accessibility": "Accessibility"
   },
@@ -57,7 +58,8 @@
     "loading": "Loading..."
   },
   "home": {
-    "title": "Local Union Support Hub",
+    "title": "UnionOps: The Toolkit for Local Unions",
+    "slogan": "Solidarity.",
     "subtitle": "Comms tools for volunteers and officer workflows for presidents and stewards — built in solidarity for any local, any union",
     "heroCta": "Set up your local brand",
     "socialMediaPlanCta": "Start the Social Media Plan",
@@ -71,6 +73,7 @@
     "pathOfficerCta": "Open Officer Hub",
     "channelsTitle": "The Toolbox",
     "privacyNote": "All processing happens on your device. No data is sent to any server.",
+    "trustBanner": "Local-First Privacy: UnionOps processes everything in your browser. We have no servers, and your grievance/member data never leaves your device.",
     "channels": {
       "social": {
         "title": "Social Media",
@@ -984,8 +987,30 @@
       ]
     }
   },
+  "share": {
+    "button": "Share this Tool",
+    "copied": "Link copied!",
+    "shared": "Thanks for sharing!",
+    "error": "Couldn’t share — copy the link from your address bar"
+  },
+  "manifesto": {
+    "title": "Why UnionOps is Free (And Always Will Be)",
+    "p1": "Most modern software follows a predictable, exhausting cycle: offer a useful tool, lock users in, and then squeeze them for monthly subscription fees.",
+    "p2": "We hate that. Union dues should go toward fighting for workers, not paying endless software subscriptions just to do basic organizing.",
+    "promiseLead": "UnionOps was built out of solidarity, not for profit.",
+    "promiseIntro": "Here is our promise to you:",
+    "noSubsTitle": "No Subscriptions:",
+    "noSubsBody": "This tool is free. There are no premium tiers, no paywalls, and no hidden fees.",
+    "noDataTitle": "No Data Harvesting:",
+    "noDataBody": "We don't want your data. In fact, we couldn't see it even if we wanted to. UnionOps is \"local-first.\" Everything you type—grievances, member lists, strategy—stays entirely on your device. We have no servers, which means no server costs to pass on to you, and no databases for anyone to subpoena.",
+    "noAdsTitle": "No Ads, No Tracking:",
+    "noAdsBody": "We aren't selling your attention.",
+    "closing": "UnionOps is built by union volunteers who just wanted to build a good tool for people doing the hard work on the ground.",
+    "slogan": "Solidarity.",
+    "backHome": "← Back to UnionOps"
+  },
   "footer": {
-    "madeBy": "Built in solidarity for union locals by union volunteers",
+    "madeBy": "UnionOps — Built in solidarity for union locals by union volunteers.",
     "privacy": "Your data stays on your device"
   },
   "accessibility": {
@@ -994,7 +1019,7 @@
     "skipLink": "Skip to main content",
     "commitment": {
       "title": "Our commitment",
-      "body": "The Local Union Support Hub is committed to ensuring digital accessibility for all members, including those with disabilities. We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA and the Accessibility for Ontarians with Disabilities Act (AODA)."
+      "body": "UnionOps is committed to ensuring digital accessibility for all members, including those with disabilities. We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA and the Accessibility for Ontarians with Disabilities Act (AODA)."
     },
     "features": {
       "title": "Accessibility features",
@@ -1038,7 +1063,7 @@
     }
   },
   "hub": {
-    "platformName": "Local Union Support Hub",
+    "platformName": "UnionOps",
     "hubLink": "Officer Hub",
     "title": "Officer Hub",
     "navLabel": "Hub navigation",

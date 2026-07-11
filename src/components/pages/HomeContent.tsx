@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { ShareThisTool } from "@/components/share/ShareThisTool";
 
 type ChannelId = "social" | "print" | "boards" | "website";
 
@@ -47,11 +48,29 @@ export function HomeContent() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12">
-      <section className="mb-16 text-center">
+      <section className="mb-10 text-center">
         <h1 className="text-4xl font-bold text-opseu-dark md:text-5xl">{t("title")}</h1>
+        <p className="mt-3 text-2xl font-semibold tracking-wide text-opseu-blue md:text-3xl">
+          {t("slogan")}
+        </p>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">{t("subtitle")}</p>
         <p className="mt-4 text-sm text-opseu-blue">{t("privacyNote")}</p>
+        <div className="mt-6 flex justify-center">
+          <ShareThisTool />
+        </div>
       </section>
+
+      <aside
+        className="mb-12 rounded-lg border-l-4 border-opseu-blue bg-opseu-blue/5 px-4 py-3 text-left text-sm text-opseu-dark md:px-5 md:py-4 md:text-base"
+        role="note"
+      >
+        <p>
+          <span className="mr-1" aria-hidden="true">
+            🔒
+          </span>
+          {t("trustBanner")}
+        </p>
+      </aside>
 
       <section className="mb-16 grid gap-8 md:grid-cols-2">
         <div className="flex flex-col rounded-xl border border-opseu-blue/20 bg-opseu-blue/5 p-6 text-left">

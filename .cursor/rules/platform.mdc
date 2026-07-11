@@ -1,12 +1,13 @@
 ---
-description: Platform-wide conventions for Local Union Support Hub
+description: Platform-wide conventions for UnionOps
 alwaysApply: true
 ---
 
-# Local Union Support Hub — Platform Rules
+# UnionOps — Platform Rules
 
 ## Product
 Multi-union by design. Read `AGENTS.md` and `docs/VISION.md` before any work.
+Public brand: **UnionOps** (https://unionops.org). Slogan: **Solidarity.**
 OPSEU/CAAT is reference tenant #1 (`seed/reference-tenant-opseu-caat.json`), not a code default.
 
 ## Current status

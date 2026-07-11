@@ -205,6 +205,17 @@ export function Header() {
           </div>
 
           <Link
+            href="/manifesto"
+            className={cn(
+              "rounded-md px-2 py-1 hover:bg-opseu-blue/5",
+              linkActive(pathname, "/manifesto") &&
+                "bg-opseu-blue/10 font-semibold text-opseu-blue",
+            )}
+          >
+            {t("manifesto")}
+          </Link>
+
+          <Link
             href="/app"
             className={cn(
               "ml-1 rounded-lg bg-opseu-blue px-3 py-1.5 font-semibold text-white hover:bg-opseu-dark",

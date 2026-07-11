@@ -187,3 +187,12 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Normalize 1.0 → 1.1 on hydrate/import
 - [x] `LocalLinksEditor` on onboarding + Brand Kit
 - [x] QR cards / solidarity posters / website template consume saved links
+
+## UnionOps public launch rebrand (2026-07-11)
+
+- [x] Global rebrand: Local Union Support Hub → **UnionOps**; slogan **Solidarity.**
+- [x] Homepage hero, trust banner, footer copy, Share this Tool
+- [x] SEO/metadata for https://unionops.org (title template, description, keywords, canonical)
+- [x] Open Graph + Twitter cards; per-tool OG titles; `/og-image.png`
+- [x] PWA manifest + offline shell service worker stub
+- [x] `/manifesto` (“Why it’s free”) linked from header and footer

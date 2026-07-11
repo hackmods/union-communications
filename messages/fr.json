@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "Centre de soutien syndical local",
-    "description": "Outils professionnels pour toute section locale — communications, griefs et plus"
+    "title": "UnionOps | Outils gratuits et hub pour sections locales",
+    "description": "Outils de communication et suivi des griefs gratuits et axés sur la vie privée pour délégués et dirigeants. Toutes les données restent sur votre appareil."
   },
   "nav": {
     "home": "Accueil",
@@ -30,6 +30,7 @@
     "printGuide": "Guide impression",
     "websiteGuide": "Guide site Web",
     "materials": "Matériel d'atelier",
+    "manifesto": "Pourquoi c'est gratuit",
     "privacy": "Confidentialité",
     "accessibility": "Accessibilité"
   },
@@ -57,7 +58,8 @@
     "loading": "Chargement..."
   },
   "home": {
-    "title": "Centre de soutien syndical local",
+    "title": "UnionOps: La boîte à outils pour les sections locales",
+    "slogan": "Solidarity.",
     "subtitle": "Outils de communication pour les bénévoles et flux de travail pour présidents et délégués — bâtis dans la solidarité pour toute section, tout syndicat",
     "heroCta": "Configurer la marque de votre section",
     "socialMediaPlanCta": "Commencer le plan médias sociaux",
@@ -71,6 +73,7 @@
     "pathOfficerCta": "Ouvrir le Hub des dirigeants",
     "channelsTitle": "La boîte à outils",
     "privacyNote": "Tout le traitement se fait sur votre appareil. Aucune donnée n'est envoyée à un serveur.",
+    "trustBanner": "Confidentialité locale d'abord : UnionOps traite tout dans votre navigateur. Nous n'avons pas de serveurs, et vos données de griefs/membres ne quittent jamais votre appareil.",
     "channels": {
       "social": {
         "title": "Médias sociaux",
@@ -959,8 +962,30 @@
       ]
     }
   },
+  "share": {
+    "button": "Partager cet outil",
+    "copied": "Lien copié!",
+    "shared": "Merci d'avoir partagé!",
+    "error": "Partage impossible — copiez le lien depuis la barre d'adresse"
+  },
+  "manifesto": {
+    "title": "Pourquoi UnionOps est gratuit (et le restera)",
+    "p1": "La plupart des logiciels modernes suivent un cycle prévisible et épuisant : offrir un outil utile, enfermer les utilisateurs, puis les pressurer avec des abonnements mensuels.",
+    "p2": "On déteste ça. Les cotisations syndicales devraient servir à défendre les travailleurs, pas à payer d'interminables abonnements logiciels juste pour organiser le travail de base.",
+    "promiseLead": "UnionOps a été bâti par solidarité, pas pour le profit.",
+    "promiseIntro": "Voici notre promesse :",
+    "noSubsTitle": "Pas d'abonnements :",
+    "noSubsBody": "Cet outil est gratuit. Pas de forfaits premium, pas de paywalls, pas de frais cachés.",
+    "noDataTitle": "Pas de collecte de données :",
+    "noDataBody": "Nous ne voulons pas vos données. En fait, on ne pourrait pas les voir même si on le voulait. UnionOps est « local-first ». Tout ce que vous tapez — griefs, listes de membres, stratégie — reste entièrement sur votre appareil. Nous n'avons pas de serveurs, donc pas de coûts de serveur à vous refiler, et pas de bases de données à assigner.",
+    "noAdsTitle": "Pas de pubs, pas de pistage :",
+    "noAdsBody": "Nous ne vendons pas votre attention.",
+    "closing": "UnionOps est bâti par des bénévoles syndicaux qui voulaient simplement un bon outil pour les gens qui font le vrai travail sur le terrain.",
+    "slogan": "Solidarity.",
+    "backHome": "← Retour à UnionOps"
+  },
   "footer": {
-    "madeBy": "Bâti dans la solidarité pour les sections locales par des bénévoles syndicaux",
+    "madeBy": "UnionOps — Built in solidarity for union locals by union volunteers.",
     "privacy": "Vos données restent sur votre appareil"
   },
   "accessibility": {
@@ -969,7 +994,7 @@
     "skipLink": "Aller au contenu principal",
     "commitment": {
       "title": "Notre engagement",
-      "body": "Le Centre de soutien syndical local s'engage à assurer l'accessibilité numérique pour tous les membres, y compris les personnes en situation de handicap. Nous visons la conformité aux Règles pour l'accessibilité des contenus Web (WCAG) 2.1 niveau AA et à la Loi sur l'accessibilité pour les personnes handicapées de l'Ontario (LAPHO)."
+      "body": "UnionOps s'engage à assurer l'accessibilité numérique pour tous les membres, y compris les personnes en situation de handicap. Nous visons la conformité aux Règles pour l'accessibilité des contenus Web (WCAG) 2.1 niveau AA et à la Loi sur l'accessibilité pour les personnes handicapées de l'Ontario (LAPHO)."
     },
     "features": {
       "title": "Fonctionnalités d'accessibilité",
@@ -1013,7 +1038,7 @@
     }
   },
   "hub": {
-    "platformName": "Centre de soutien syndical local",
+    "platformName": "UnionOps",
     "hubLink": "Hub des dirigeants",
     "title": "Hub des dirigeants",
     "navLabel": "Navigation du hub",

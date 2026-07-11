@@ -1,6 +1,7 @@
-# Agent Guide — Local Union Support Hub
+# Agent Guide — UnionOps
 
 Read this first. Multi-union platform; OPSEU/CAAT is reference tenant #1 only.
+Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Solidarity.**
 
 ## Read Order
 

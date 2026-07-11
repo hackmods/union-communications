@@ -18,7 +18,7 @@ export default async function PrivacyPage({
         <Card>
           <CardTitle>Privacy by design</CardTitle>
           <p className="mt-3 text-gray-700">
-            The Local Union Support Hub is designed so that all image processing,
+            UnionOps is designed so that all image processing,
             branding configuration, and file uploads happen entirely on your device. We do
             not collect, store, or transmit any personal information, member photos, or local
             branding data to any server.

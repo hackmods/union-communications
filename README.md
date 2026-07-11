@@ -1,6 +1,8 @@
-# Local Union Support Hub
+# UnionOps
 
-A **multi-union** platform empowering any local union with professional comms tools, grievance tracking, and sector-specific workflows. OPSEU/CAAT is the first adopter — not a platform default.
+A **multi-union** platform empowering any local union with professional comms tools, grievance tracking, and sector-specific workflows. OPSEU/CAAT is the first adopter — not a platform default. Slogan: **Solidarity.**
+
+Public site: [https://unionops.org](https://unionops.org)
 
 ## Modules
 

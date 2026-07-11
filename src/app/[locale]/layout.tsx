@@ -9,6 +9,7 @@ import { PreferencesProvider } from "@/components/providers/PreferencesProvider"
 import { PreferencesInitScript } from "@/components/providers/PreferencesInitScript";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -46,6 +47,7 @@ export default async function LocaleLayout({
                   {children}
                 </main>
                 <Footer />
+                <ServiceWorkerRegister />
               </PreferencesProvider>
             </BrandProvider>
           </AuthProvider>

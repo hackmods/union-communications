@@ -1,10 +1,12 @@
-# Local Union Support Hub — Vision
+# UnionOps — Vision
 
 ## Product
 
-**Local Union Support Hub** is a union-agnostic platform that empowers any local union to run professional communications, track grievances, and manage sector-specific workflows — without waiting on weak central comms.
+**UnionOps** is a union-agnostic platform that empowers any local union to run professional communications, track grievances, and manage sector-specific workflows — without waiting on weak central comms.
 
-**Tagline:** Professional tools for any local.
+**Slogan:** Solidarity.  
+**Public domain:** https://unionops.org
+
 
 ## Multi-Union by Design
 
@@ -69,8 +71,8 @@ This hub fills the gap without replacing national union systems.
 
 ## Repo / Naming
 
-- **Recommended rename (Phase 1):** `union-communications` → `local-union-hub`
-- **UI branding:** Platform name is neutral; union name from tenant config after login
+- **Public brand:** UnionOps (https://unionops.org); package name remains `local-union-hub`
+- **UI branding:** Platform name is UnionOps; union name from tenant config after login
 - **v1 code debt:** OPSEU/CAAT strings migrate to tenant config in Phase 1 — see `docs/modules/COMMS.md`
 
 ## Multi-Union Design Principles
