@@ -36,7 +36,8 @@ test.describe("Smoke tests @smoke", () => {
     await page.goto("/en/");
     const main = page.getByRole("navigation", { name: "Main" });
     await main.getByRole("button", { name: /Learn/ }).click();
-    await main.getByRole("link", { name: "The Blueprint" }).click();
+    // Dropdown anchors use role="menuitem" (not link) while the menu is open.
+    await main.getByRole("menuitem", { name: "The Blueprint" }).click();
     await expect(page).toHaveURL(/\/en\/guide\/?$/);
   });
 
