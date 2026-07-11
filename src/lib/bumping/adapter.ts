@@ -35,4 +35,10 @@ export interface BumpingAdapter {
     input: CreateDecisionInput,
     meta: { recordedById: string },
   ): Promise<DecisionRecord | null>;
+  importLocalSlice(
+    unionId: string,
+    localId: string,
+    items: BumpingCaseWithRelations[],
+    mode: "merge" | "replace",
+  ): Promise<{ imported: number; removed: number }>;
 }

@@ -66,7 +66,19 @@ Scaffold through testing/CI — all complete.
 - [ ] Server-side PDF storage + virus scan (deferred)
 - [ ] Persistent DB storage (memory adapter for MVP)
 
-## Phase 4 — Hybrid Mode (next)
+## Phase 4 — Hybrid Mode (2026-07-10) — COMPLETE
+
+- [x] Web Crypto passphrase encryption (PBKDF2 + AES-GCM)
+- [x] Hybrid data slice format for grievance + bumping (`lunion-hybrid-v1`)
+- [x] MFA-gated API: `GET/POST /api/hybrid/slice` with audit (`hybrid.export` / `hybrid.import`)
+- [x] Encrypted file export/import UI at `/app/hybrid` (passphrase stays client-side)
+- [x] Optional browser local encrypted slice (save / restore / clear)
+- [x] Data mode preference (`central` | `local`) via LocalStorage adapter
+- [x] Memory adapter `importLocalSlice` (merge / replace) for grievance + bumping
+- [x] Hub nav link + EN/FR i18n
+- [x] Unit tests for encrypt round-trip, wrong passphrase, tenant scope
+
+## Phase 5 — QOL (next)
 
 ## Accessibility & Display Settings (2026-07-09) — COMPLETE
 

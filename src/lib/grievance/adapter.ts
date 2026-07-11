@@ -32,4 +32,10 @@ export interface GrievanceAdapter {
     grievanceId: string,
     input: CreateEventInput,
   ): Promise<GrievanceEvent | null>;
+  importLocalSlice(
+    unionId: string,
+    localId: string,
+    items: GrievanceWithRelations[],
+    mode: "merge" | "replace",
+  ): Promise<{ imported: number; removed: number }>;
 }

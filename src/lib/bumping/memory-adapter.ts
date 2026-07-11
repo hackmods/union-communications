@@ -231,6 +231,66 @@ export class MemoryBumpingAdapter implements BumpingAdapter {
 
     return record;
   }
+
+  async importLocalSlice(
+    unionId: string,
+    localId: string,
+    items: BumpingCaseWithRelations[],
+    mode: "merge" | "replace",
+  ): Promise<{ imported: number; removed: number }> {
+    let removed = 0;
+
+    if (mode === "replace") {
+      const removeIds = new Set(
+        cases
+          .filter((c) => c.unionId === unionId && c.localId === localId)
+          .map((c) => c.id),
+      );
+      removed = removeIds.size;
+      for (let i = cases.length - 1; i >= 0; i--) {
+        if (removeIds.has(cases[i].id)) cases.splice(i, 1);
+      }
+      for (let i = sessions.length - 1; i >= 0; i--) {
+        if (removeIds.has(sessions[i].bumpingCaseId)) sessions.splice(i, 1);
+      }
+      for (let i = notes.length - 1; i >= 0; i--) {
+        if (removeIds.has(notes[i].bumpingCaseId)) notes.splice(i, 1);
+      }
+      for (let i = decisions.length - 1; i >= 0; i--) {
+        if (removeIds.has(decisions[i].bumpingCaseId)) decisions.splice(i, 1);
+      }
+    }
+
+    let imported = 0;
+    for (const item of items) {
+      const c = item.bumpingCase;
+      if (c.unionId !== unionId || c.localId !== localId) continue;
+
+      const idx = cases.findIndex((x) => x.id === c.id);
+      if (idx >= 0) {
+        cases[idx] = { ...c };
+        for (let i = sessions.length - 1; i >= 0; i--) {
+          if (sessions[i].bumpingCaseId === c.id) sessions.splice(i, 1);
+        }
+        for (let i = notes.length - 1; i >= 0; i--) {
+          if (notes[i].bumpingCaseId === c.id) notes.splice(i, 1);
+        }
+        for (let i = decisions.length - 1; i >= 0; i--) {
+          if (decisions[i].bumpingCaseId === c.id) decisions.splice(i, 1);
+        }
+      } else {
+        cases.push({ ...c });
+      }
+      sessions.push(...item.sessions.map((s) => ({ ...s })));
+      notes.push(...item.notes.map((n) => ({ ...n })));
+      if (item.decision) {
+        decisions.push({ ...item.decision });
+      }
+      imported += 1;
+    }
+
+    return { imported, removed };
+  }
 }
 
 export const bumpingStore: BumpingAdapter = new MemoryBumpingAdapter();

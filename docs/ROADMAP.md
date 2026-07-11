@@ -27,9 +27,10 @@
 - Committee sessions and notes
 - Sector module flag per union
 
-## Phase 4 — Hybrid Mode
-- Encrypted local export/import for grievance data
-- Optional self-hosted data slice
+## Phase 4 — Hybrid Mode — COMPLETE
+- [x] Encrypted local export/import for grievance data
+- [x] Optional self-hosted data slice (browser encrypted localStorage)
+- [x] Bumping cases included in hybrid slice when module enabled
 
 ## Phase 5 — QOL
 - Officer handoff wizard

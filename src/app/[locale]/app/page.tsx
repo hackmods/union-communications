@@ -94,6 +94,20 @@ export default function HubDashboardPage() {
           );
         })}
       </div>
+
+      <Card className="mt-8">
+        <CardTitle>{t("hybridCardTitle")}</CardTitle>
+        <p className="mt-2 text-sm text-gray-600">{t("hybridCardDesc")}</p>
+        {session.user.mfaVerified ? (
+          <Link href="/app/hybrid" className="mt-4 inline-block text-sm text-opseu-blue underline">
+            {t("hybridLink")}
+          </Link>
+        ) : (
+          <Link href="/app/mfa" className="mt-4 inline-block text-sm text-opseu-blue underline">
+            {t("mfaRequired")}
+          </Link>
+        )}
+      </Card>
     </div>
   );
 }

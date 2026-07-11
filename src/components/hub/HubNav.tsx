@@ -53,6 +53,15 @@ export function HubNav() {
             <Emoji id={mod.emojiId} /> {t(`modules.${mod.nameKey}`)}
           </Link>
         ))}
+        <Link
+          href="/app/hybrid"
+          className={cn(
+            "rounded-md px-2 py-1 hover:bg-white",
+            !session.user.mfaVerified && "opacity-60",
+          )}
+        >
+          {t("hybridLink")}
+        </Link>
         <Link href="/app/mfa" className="rounded-md px-2 py-1 text-opseu-blue hover:bg-white">
           {session.user.mfaVerified ? t("mfaOk") : t("mfaRequired")}
         </Link>

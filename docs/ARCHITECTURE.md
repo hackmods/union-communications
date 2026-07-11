@@ -58,6 +58,7 @@ All persistence goes through [`src/lib/data/adapter.ts`](../src/lib/data/adapter
 | Adapter | Use case |
 |---------|----------|
 | `LocalStorageAdapter` | v1 comms, hybrid mode local slice |
+| `LocalHybridSliceAdapter` | Encrypted grievance/bumping slice in browser (Phase 4) |
 | `ApiAdapter` | Central hub (Phase 1+) |
 
 Tools never call `localStorage` or fetch directly — always via adapter.

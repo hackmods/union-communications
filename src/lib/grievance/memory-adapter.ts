@@ -213,6 +213,57 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
     events.push(event);
     return event;
   }
+
+  async importLocalSlice(
+    unionId: string,
+    localId: string,
+    items: GrievanceWithRelations[],
+    mode: "merge" | "replace",
+  ): Promise<{ imported: number; removed: number }> {
+    let removed = 0;
+
+    if (mode === "replace") {
+      const removeIds = new Set(
+        grievances
+          .filter((g) => g.unionId === unionId && g.localId === localId)
+          .map((g) => g.id),
+      );
+      removed = removeIds.size;
+      for (let i = grievances.length - 1; i >= 0; i--) {
+        if (removeIds.has(grievances[i].id)) grievances.splice(i, 1);
+      }
+      for (let i = events.length - 1; i >= 0; i--) {
+        if (removeIds.has(events[i].grievanceId)) events.splice(i, 1);
+      }
+      for (let i = notes.length - 1; i >= 0; i--) {
+        if (removeIds.has(notes[i].grievanceId)) notes.splice(i, 1);
+      }
+    }
+
+    let imported = 0;
+    for (const item of items) {
+      const g = item.grievance;
+      if (g.unionId !== unionId || g.localId !== localId) continue;
+
+      const idx = grievances.findIndex((x) => x.id === g.id);
+      if (idx >= 0) {
+        grievances[idx] = { ...g };
+        for (let i = events.length - 1; i >= 0; i--) {
+          if (events[i].grievanceId === g.id) events.splice(i, 1);
+        }
+        for (let i = notes.length - 1; i >= 0; i--) {
+          if (notes[i].grievanceId === g.id) notes.splice(i, 1);
+        }
+      } else {
+        grievances.push({ ...g });
+      }
+      events.push(...item.events.map((e) => ({ ...e })));
+      notes.push(...item.notes.map((n) => ({ ...n })));
+      imported += 1;
+    }
+
+    return { imported, removed };
+  }
 }
 
 export const grievanceStore: GrievanceAdapter = new MemoryGrievanceAdapter();

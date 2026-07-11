@@ -1,8 +1,14 @@
 # Grievance Module
 
-## Status: Phase 2 MVP (shipped)
+## Status: Phase 2 MVP (shipped) · Hybrid export Phase 4
 
 Union-agnostic grievance tracking. CA steps and deadlines configured per union/local.
+
+## Hybrid mode (Phase 4)
+
+Encrypted bulk export/import of all accessible grievances for a local lives at `/app/hybrid`.
+Passphrase encryption is client-side (Web Crypto); the hub API exchanges plaintext slices only over MFA sessions.
+See `docs/PROGRESS.md` Phase 4.
 
 ## Entities
 
