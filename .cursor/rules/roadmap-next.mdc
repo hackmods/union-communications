@@ -32,3 +32,4 @@ Phases **0–5 are complete** (docs → shell → grievance → bumping → hybr
 - Steward mobile read-only: `useStewardReadOnly` + `stewardMobileMode` preference
 - Hub Tools menu in `HubNav` — do not re-flatten into a long link bar
 - Update `docs/PROGRESS.md` + `docs/ROADMAP.md` when closing a milestone
+- Before committing large or multi-file changes: run `npm run lint` and relevant tests (`npm run test:unit`; smoke when UI/routes change). Fix lint/test failures before push.

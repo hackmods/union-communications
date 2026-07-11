@@ -38,6 +38,7 @@ Phases **0–5 complete**. Next: Postgres+RLS, onboarding UI, attachments — see `.
 - `npm run test:unit` — Vitest
 - `npm run test:smoke` — Playwright `@smoke` (includes hub login)
 - axe-core a11y in smoke suite
+- Before committing large / multi-file changes: run `npm run lint` and the relevant test suite(s); fix failures before push
 
 ## Do Not
 - Cross-union data access

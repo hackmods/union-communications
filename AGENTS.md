@@ -41,6 +41,7 @@ Read this first. Multi-union platform; OPSEU/CAAT is reference tenant #1 only.
 - i18n: both `messages/en.json` and `messages/fr.json`
 - Role-gate UI write actions to match API
 - Tests: `npm run test:unit` + `npm run test:smoke` after major changes
+- Before committing large / multi-file changes: run `npm run lint` and the relevant test suite(s); fix failures before push
 - Update `docs/PROGRESS.md` at milestone end; conventional commits
 
 ## Do Not

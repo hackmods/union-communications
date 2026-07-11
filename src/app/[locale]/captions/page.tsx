@@ -8,11 +8,25 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useTranslations } from "next-intl";
 
+function resolveCaptionId(searchParams: URLSearchParams): string | null {
+  const id = searchParams.get("caption");
+  if (!id) return null;
+  return CAPTION_TEMPLATES.some((tpl) => tpl.id === id) ? id : null;
+}
+
 export default function CaptionsPage() {
   const t = useTranslations("common");
   const searchParams = useSearchParams();
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [highlightId, setHighlightId] = useState<string | null>(null);
+
+  const targetId = resolveCaptionId(searchParams);
+  const [faded, setFaded] = useState(false);
+  const [prevTarget, setPrevTarget] = useState(targetId);
+  if (targetId !== prevTarget) {
+    setPrevTarget(targetId);
+    setFaded(false);
+  }
+  const highlightId = targetId && !faded ? targetId : null;
 
   const handleCopy = async (id: string, text: string) => {
     const ok = await copyToClipboard(text);
@@ -23,16 +37,12 @@ export default function CaptionsPage() {
   };
 
   useEffect(() => {
-    const id = searchParams.get("caption");
-    if (!id) return;
-    const match = CAPTION_TEMPLATES.some((tpl) => tpl.id === id);
-    if (!match) return;
-    setHighlightId(id);
-    const el = document.getElementById(`caption-${id}`);
+    if (!targetId) return;
+    const el = document.getElementById(`caption-${targetId}`);
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
-    const timer = window.setTimeout(() => setHighlightId(null), 2500);
+    const timer = window.setTimeout(() => setFaded(true), 2500);
     return () => window.clearTimeout(timer);
-  }, [searchParams]);
+  }, [targetId]);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
