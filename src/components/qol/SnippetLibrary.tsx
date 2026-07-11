@@ -33,7 +33,14 @@ export function SnippetLibrary() {
   }
 
   useEffect(() => {
-    void load();
+    void fetch("/api/snippets")
+      .then(async (res) => {
+        if (res.ok) {
+          const data = await res.json();
+          setSnippets(data.snippets);
+        }
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   async function handleCreate(e: React.FormEvent) {

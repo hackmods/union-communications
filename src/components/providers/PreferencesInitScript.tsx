@@ -23,6 +23,8 @@ const preferencesInitScript = `
 
 export function PreferencesInitScript() {
   return (
+    // App Router root layout: beforeInteractive applies prefs before paint (FOUC).
+    // eslint-disable-next-line @next/next/no-before-interactive-script-outside-document
     <Script
       id="preferences-init"
       strategy="beforeInteractive"

@@ -189,8 +189,8 @@ export function LogoSettings({
                       option.preview.onDark ? "bg-opseu-dark" : "bg-white",
                     )}
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element -- SVG previews need raw img */}
                     {option.preview.unoptimized ? (
+                      // eslint-disable-next-line @next/next/no-img-element -- SVG previews need raw img
                       <img
                         src={option.preview.src}
                         alt=""
