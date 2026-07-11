@@ -5,6 +5,7 @@ import { useBrandStore } from "@/store/brand-store";
 import {
   OFFICIAL_LOGOS,
   isOfficialLogoVariant,
+  isSelectableOfficialLogoVariant,
   type OfficialLogoVariant,
 } from "@/lib/constants/brand";
 import { cn } from "@/lib/utils";
@@ -38,13 +39,20 @@ function resolveOfficialSrc(
   variant: OfficialLogoVariant,
   onDark: boolean,
 ): { src: string; size: "lockup" | "mark"; isSvg: boolean } {
-  if (variant === "lockup") {
+  // Non-selectable variants stay in storage for re-enable; display falls back to mark
+  const effective: OfficialLogoVariant = isSelectableOfficialLogoVariant(
+    variant,
+  )
+    ? variant
+    : "mark";
+
+  if (effective === "lockup") {
     return { src: OFFICIAL_LOGOS.lockup.src, size: "lockup", isSvg: false };
   }
-  if (variant === "slitBlue") {
+  if (effective === "slitBlue") {
     return { src: OFFICIAL_LOGOS.slitBlue.src, size: "mark", isSvg: true };
   }
-  if (variant === "slitWhite") {
+  if (effective === "slitWhite") {
     return { src: OFFICIAL_LOGOS.slitWhite.src, size: "mark", isSvg: true };
   }
   // mark — swap to white on dark backgrounds

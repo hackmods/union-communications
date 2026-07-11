@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/Input";
 import {
   OFFICIAL_LOGOS,
   isOfficialLogoVariant,
+  isSelectableOfficialLogoVariant,
   type OfficialLogoVariant,
 } from "@/lib/constants/brand";
 import { cn } from "@/lib/utils";
@@ -26,6 +27,23 @@ export function resolveLogoMode(
   }
   if (customLogoDataUrl) return "custom";
   return "none";
+}
+
+/** Picker mode: non-selectable official variants fall back so the radio group stays valid */
+export function resolveSelectableLogoMode(
+  useOfficialLogo: boolean,
+  officialLogoVariant: OfficialLogoVariant | undefined,
+  customLogoDataUrl?: string,
+): LogoMode {
+  const mode = resolveLogoMode(
+    useOfficialLogo,
+    officialLogoVariant,
+    customLogoDataUrl,
+  );
+  if (isOfficialLogoVariant(mode) && !isSelectableOfficialLogoVariant(mode)) {
+    return "lockup";
+  }
+  return mode;
 }
 
 /** Brand kit patch when the user picks a logo mode */
@@ -72,17 +90,17 @@ export function LogoSettings({
   onLogoTextChange,
 }: LogoSettingsProps) {
   const t = useTranslations("brandKit.logo");
-  const mode = resolveLogoMode(
+  const mode = resolveSelectableLogoMode(
     useOfficialLogo,
     officialLogoVariant,
     customLogoDataUrl,
   );
 
-  const options: {
-    id: LogoMode;
+  const officialOptions: {
+    id: OfficialLogoVariant;
     title: string;
     description: string;
-    preview?: {
+    preview: {
       src: string;
       width: number;
       height: number;
@@ -133,6 +151,23 @@ export function LogoSettings({
         unoptimized: true,
       },
     },
+  ];
+
+  const options: {
+    id: LogoMode;
+    title: string;
+    description: string;
+    preview?: {
+      src: string;
+      width: number;
+      height: number;
+      onDark?: boolean;
+      unoptimized?: boolean;
+    };
+  }[] = [
+    ...officialOptions.filter((option) =>
+      isSelectableOfficialLogoVariant(option.id),
+    ),
     {
       id: "custom",
       title: t("uploadCustomLogo"),

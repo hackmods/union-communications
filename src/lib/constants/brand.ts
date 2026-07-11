@@ -24,6 +24,7 @@ export const OFFICIAL_LOGOS = {
     id: "lockup" as const,
     src: `${defaults.assetPackPath}logo-primary.png`,
     aspect: "wide" as const,
+    selectable: true as const,
   },
   mark: {
     id: "mark" as const,
@@ -31,18 +32,23 @@ export const OFFICIAL_LOGOS = {
     /** White mark for dark / brand-coloured backgrounds */
     srcOnDark: `${defaults.assetPackPath}logo-mark-white.png`,
     aspect: "square" as const,
+    selectable: true as const,
   },
+  /** Flip `selectable` to true when updated slit-mark graphics are ready */
   slitBlue: {
     id: "slitBlue" as const,
     src: `${defaults.assetPackPath}opseu-mark-slit-blue.svg`,
     aspect: "square" as const,
+    selectable: false as const,
   },
+  /** Flip `selectable` to true when updated slit-mark graphics are ready */
   slitWhite: {
     id: "slitWhite" as const,
     src: `${defaults.assetPackPath}opseu-mark-slit-white.svg`,
     aspect: "square" as const,
     /** Preview / use on dark backgrounds */
     onDark: true as const,
+    selectable: false as const,
   },
 } as const;
 
@@ -52,6 +58,15 @@ export function isOfficialLogoVariant(
   value: string | undefined,
 ): value is OfficialLogoVariant {
   return !!value && value in OFFICIAL_LOGOS;
+}
+
+/** Variants offered in Brand Kit / Logo Builder pickers */
+export function isSelectableOfficialLogoVariant(
+  value: string | undefined,
+): value is OfficialLogoVariant {
+  return (
+    isOfficialLogoVariant(value) && OFFICIAL_LOGOS[value].selectable === true
+  );
 }
 
 export const DEFAULT_BRAND_KIT = {
