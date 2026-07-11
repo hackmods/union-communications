@@ -11,6 +11,10 @@ import { qrDataUrl } from "@/lib/export/qr";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import {
+  listSavedLinks,
+  resolvePresetDestination,
+} from "@/lib/utils/local-links";
+import {
   DEFAULT_QR_CARD_SIZE,
   QR_CARD_SIZE_ORDER,
   QR_CARD_SIZES,
@@ -78,7 +82,7 @@ export default function QrCardPage() {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     reset({
       presetId: first.id,
-      destination: origin,
+      destination: resolvePresetDestination(first.id, brandKit, origin),
       title: t(`presets.${first.titleKey}`),
       description: t(`presets.${first.descriptionKey}`),
       tagline: t(`presets.${first.taglineKey}`),
@@ -93,6 +97,10 @@ export default function QrCardPage() {
   }, [hydrated, themeEstablished]);
 
   const size = QR_CARD_SIZES[state.sizeId];
+  const savedLinks = listSavedLinks(brandKit, {
+    website: t("savedWebsite"),
+    facebook: t("savedFacebook"),
+  });
 
   useEffect(() => {
     let cancelled = false;
@@ -112,10 +120,12 @@ export default function QrCardPage() {
     const preset = getQrCardPreset(id);
     if (!preset) return;
     const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const fromPreset = preset.defaultUrl.trim();
     setState({
       ...state,
       presetId: preset.id,
-      destination: preset.defaultUrl || origin,
+      destination:
+        fromPreset || resolvePresetDestination(preset.id, brandKit, origin),
       title: t(`presets.${preset.titleKey}`),
       description: t(`presets.${preset.descriptionKey}`),
       tagline: t(`presets.${preset.taglineKey}`),
@@ -208,6 +218,29 @@ export default function QrCardPage() {
             onChange={(e) => setState({ ...state, destination: e.target.value })}
             placeholder="https://"
           />
+          {savedLinks.length > 0 ? (
+            <div>
+              <label htmlFor="qr-saved-link" className="mb-1 block text-sm font-medium">
+                {t("savedLinks")}
+              </label>
+              <select
+                id="qr-saved-link"
+                value=""
+                onChange={(e) => {
+                  const url = e.target.value;
+                  if (url) setState({ ...state, destination: url });
+                }}
+                className="w-full rounded-md border border-gray-300 px-3 py-2"
+              >
+                <option value="">{t("savedLinksPlaceholder")}</option>
+                {savedLinks.map((link) => (
+                  <option key={link.id} value={link.url}>
+                    {link.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
           <Input
             label={t("cardTitle")}
             value={state.title}
@@ -305,7 +338,7 @@ export default function QrCardPage() {
                 typeof window !== "undefined" ? window.location.origin : "";
               reset({
                 ...initial,
-                destination: origin,
+                destination: resolvePresetDestination(first.id, brandKit, origin),
                 title: t(`presets.${first.titleKey}`),
                 description: t(`presets.${first.descriptionKey}`),
                 tagline: t(`presets.${first.taglineKey}`),

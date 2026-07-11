@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "local": {
     "id": "local-243",
     "localNumber": "243",
@@ -9,5 +9,8 @@
   "secondaryColor": "#FFFFFF",
   "accentColor": "#002868",
   "useOfficialLogo": true,
+  "websiteUrl": "https://local243.org",
+  "facebookUrl": "",
+  "customLinks": [],
   "updatedAt": "2026-07-10T00:00:00.000Z"
 }

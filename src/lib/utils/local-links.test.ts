@@ -1,0 +1,94 @@
+import { describe, expect, it } from "vitest";
+import {
+  listSavedLinks,
+  normalizeBrandKit,
+  resolveLocalWebsiteUrl,
+  resolvePresetDestination,
+} from "./local-links";
+
+describe("normalizeBrandKit", () => {
+  it("upgrades a 1.0 kit to 1.1 with empty links", () => {
+    const kit = normalizeBrandKit({
+      version: "1.0",
+      local: { id: "x", localNumber: "100", subText: "Staff" },
+      primaryColor: "#003DA5",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#002868",
+      useOfficialLogo: true,
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    });
+    expect(kit.version).toBe("1.1");
+    expect(kit.local.localNumber).toBe("100");
+    expect(kit.customLinks).toEqual([]);
+    expect(kit.websiteUrl).toBeUndefined();
+  });
+
+  it("keeps website, facebook, and custom links", () => {
+    const kit = normalizeBrandKit({
+      version: "1.1",
+      local: { id: "x", localNumber: "243", subText: "Support" },
+      primaryColor: "#003DA5",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#002868",
+      useOfficialLogo: false,
+      websiteUrl: " https://local243.org ",
+      facebookUrl: "https://facebook.com/groups/example",
+      customLinks: [
+        { id: "ig", label: "Instagram", url: "https://instagram.com/example" },
+        { id: "bad", label: "Empty", url: "  " },
+      ],
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    });
+    expect(kit.websiteUrl).toBe("https://local243.org");
+    expect(kit.facebookUrl).toBe("https://facebook.com/groups/example");
+    expect(kit.customLinks).toHaveLength(1);
+    expect(kit.customLinks?.[0].label).toBe("Instagram");
+  });
+});
+
+describe("listSavedLinks / resolve helpers", () => {
+  const kit = normalizeBrandKit({
+    version: "1.1",
+    local: { id: "x", localNumber: "243", subText: "Support" },
+    primaryColor: "#003DA5",
+    secondaryColor: "#FFFFFF",
+    accentColor: "#002868",
+    useOfficialLogo: false,
+    websiteUrl: "https://local243.org",
+    facebookUrl: "https://facebook.com/groups/example",
+    customLinks: [{ id: "c1", label: "Campaign", url: "https://example.com/promo" }],
+    updatedAt: "2026-01-01T00:00:00.000Z",
+  });
+
+  it("lists website, facebook, and custom", () => {
+    const links = listSavedLinks(kit);
+    expect(links.map((l) => l.kind)).toEqual(["website", "facebook", "custom"]);
+  });
+
+  it("resolves website with origin fallback", () => {
+    expect(resolveLocalWebsiteUrl(kit, "https://hub.example")).toBe(
+      "https://local243.org",
+    );
+    const empty = normalizeBrandKit({
+      version: "1.0",
+      local: { id: "x", localNumber: "", subText: "" },
+      primaryColor: "#000",
+      secondaryColor: "#fff",
+      accentColor: "#000",
+      useOfficialLogo: false,
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    });
+    expect(resolveLocalWebsiteUrl(empty, "https://hub.example")).toBe(
+      "https://hub.example",
+    );
+  });
+
+  it("resolves follow-us to facebook when set", () => {
+    expect(resolvePresetDestination("followUs", kit, "https://hub")).toBe(
+      "https://facebook.com/groups/example",
+    );
+    expect(resolvePresetDestination("localWebsite", kit, "https://hub")).toBe(
+      "https://local243.org",
+    );
+  });
+});

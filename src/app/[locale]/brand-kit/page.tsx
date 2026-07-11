@@ -8,7 +8,7 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { LogoSettings, brandKitPatchForLogoMode } from "@/components/brand/LogoSettings";
-import type { BrandKit } from "@/types/entities";
+import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import { resolveLocalNumber } from "@/lib/utils";
 
 export default function BrandKitPage() {
@@ -34,8 +34,11 @@ export default function BrandKitPage() {
     if (!file) return;
     try {
       const text = await file.text();
-      const parsed = JSON.parse(text) as BrandKit;
-      if (parsed.version !== "1.0" || !parsed.local) {
+      const parsed = JSON.parse(text) as { version?: string; local?: unknown };
+      if (
+        (parsed.version !== "1.0" && parsed.version !== "1.1") ||
+        !parsed.local
+      ) {
         throw new Error("Invalid schema");
       }
       importBrandKit(parsed);
@@ -73,6 +76,17 @@ export default function BrandKitPage() {
           onSecondaryChange={(c) => setBrandKit({ secondaryColor: c })}
           primaryLabel={t("colors.primary")}
           secondaryLabel={t("colors.secondary")}
+        />
+      </Card>
+
+      <Card className="mt-6 space-y-4">
+        <LocalLinksEditor
+          websiteUrl={brandKit.websiteUrl ?? ""}
+          facebookUrl={brandKit.facebookUrl ?? ""}
+          customLinks={brandKit.customLinks ?? []}
+          onWebsiteChange={(url) => setBrandKit({ websiteUrl: url })}
+          onFacebookChange={(url) => setBrandKit({ facebookUrl: url })}
+          onCustomLinksChange={(links) => setBrandKit({ customLinks: links })}
         />
       </Card>
 

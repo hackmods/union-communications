@@ -38,7 +38,19 @@ erDiagram
 
 ## Comms
 
-### BrandKit (v2)
+### BrandKit (v1.1 — client)
+```typescript
+{
+  version: "1.1",
+  local: { id, localNumber, subText },
+  primaryColor, secondaryColor, accentColor,
+  useOfficialLogo, officialLogoVariant?, customLogoDataUrl?, logoText?,
+  websiteUrl?, facebookUrl?, customLinks?: { id, label, url }[],
+  updatedAt
+}
+```
+
+### BrandKit (v2 — planned multi-union)
 ```typescript
 {
   version: "2.0",
@@ -46,6 +58,7 @@ erDiagram
   local: { id, localNumber, subText },
   primaryColor, secondaryColor, accentColor,
   useOfficialLogo, customLogoDataUrl?,
+  websiteUrl?, facebookUrl?, customLinks?,
   updatedAt
 }
 ```

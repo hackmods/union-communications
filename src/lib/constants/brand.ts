@@ -55,7 +55,7 @@ export function isOfficialLogoVariant(
 }
 
 export const DEFAULT_BRAND_KIT = {
-  version: "1.0" as const,
+  version: "1.1" as const,
   local: {
     id: "local-default",
     localNumber: "",
@@ -70,6 +70,9 @@ export const DEFAULT_BRAND_KIT = {
   officialLogoVariant: "lockup" as OfficialLogoVariant,
   logoText: "LU",
   divisionId: defaults.assetPackPath.includes("caat") ? "caat" : undefined,
+  websiteUrl: undefined as string | undefined,
+  facebookUrl: undefined as string | undefined,
+  customLinks: [] as { id: string; label: string; url: string }[],
   updatedAt: new Date().toISOString(),
 };
 

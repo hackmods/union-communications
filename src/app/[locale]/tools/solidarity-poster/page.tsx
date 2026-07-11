@@ -10,6 +10,7 @@ import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
+import { resolveLocalWebsiteUrl } from "@/lib/utils/local-links";
 import {
   SOLIDARITY_SLOGANS,
   getSloganById,
@@ -95,7 +96,7 @@ export default function SolidarityPosterPage() {
       headline: first.headline,
       closer: first.closer,
       layout: first.layout,
-      supportUrl: origin,
+      supportUrl: resolveLocalWebsiteUrl(brandKit, origin),
       showQr: true,
       includeBranding: themeEstablished,
       primaryColor: brandKit.primaryColor,
@@ -329,7 +330,10 @@ export default function SolidarityPosterPage() {
                 includeBranding: themeEstablished,
                 supportUrl:
                   state.supportUrl ||
-                  (typeof window !== "undefined" ? window.location.origin : ""),
+                  resolveLocalWebsiteUrl(
+                    brandKit,
+                    typeof window !== "undefined" ? window.location.origin : "",
+                  ),
               })
             }
           />

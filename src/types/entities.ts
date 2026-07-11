@@ -18,8 +18,15 @@ export interface Officer {
   localId: string;
 }
 
+/** Freeform social / promo / resource link on Brand Kit */
+export interface LocalLink {
+  id: string;
+  label: string;
+  url: string;
+}
+
 export interface BrandKit {
-  version: "1.0";
+  version: "1.1";
   local: Local;
   primaryColor: string;
   secondaryColor: string;
@@ -31,5 +38,11 @@ export interface BrandKit {
   /** Short monogram when no logo image is used (e.g. LU, 243) */
   logoText?: string;
   divisionId?: string;
+  /** Local website (optional) — used by QR cards, posters, website template */
+  websiteUrl?: string;
+  /** Facebook group or page (optional) */
+  facebookUrl?: string;
+  /** Additional social / promo / resource links */
+  customLinks?: LocalLink[];
   updatedAt: string;
 }

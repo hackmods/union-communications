@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { Button } from "@/components/ui/Button";
@@ -24,7 +24,9 @@ export default function WebsiteTemplatePage() {
   const tc = useTranslations("common");
   const ts = useTranslations("sources");
   const brandKit = useBrandStore((s) => s.brandKit);
+  const hydrated = useBrandStore((s) => s.hydrated);
   const localNumber = resolveLocalNumber(brandKit.local.localNumber);
+  const facebookPrefillDone = useRef(false);
 
   const [unionName, setUnionName] = useState(`Local ${localNumber}`);
   const [heroText, setHeroText] = useState(
@@ -43,6 +45,14 @@ export default function WebsiteTemplatePage() {
   );
   const [officers, setOfficers] = useState<WebsiteOfficer[]>(DEFAULT_WEBSITE_OFFICERS);
   const [downloading, setDownloading] = useState(false);
+
+  useEffect(() => {
+    if (!hydrated || facebookPrefillDone.current) return;
+    facebookPrefillDone.current = true;
+    if (brandKit.facebookUrl?.trim()) {
+      setFacebookUrl(brandKit.facebookUrl.trim());
+    }
+  }, [hydrated, brandKit.facebookUrl]);
 
   const templateData: WebsiteTemplateData = useMemo(
     () => ({

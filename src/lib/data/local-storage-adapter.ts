@@ -6,6 +6,7 @@ import {
   USER_PREFERENCES_KEY,
   type DataAdapter,
 } from "./adapter";
+import { normalizeBrandKit } from "@/lib/utils/local-links";
 
 export class LocalStorageAdapter implements DataAdapter {
   async getBrandKit(): Promise<BrandKit | null> {
@@ -13,7 +14,7 @@ export class LocalStorageAdapter implements DataAdapter {
     const raw = localStorage.getItem(BRAND_KIT_KEY);
     if (!raw) return null;
     try {
-      return JSON.parse(raw) as BrandKit;
+      return normalizeBrandKit(JSON.parse(raw));
     } catch {
       return null;
     }
@@ -21,7 +22,10 @@ export class LocalStorageAdapter implements DataAdapter {
 
   async saveBrandKit(kit: BrandKit): Promise<void> {
     if (typeof window === "undefined") return;
-    localStorage.setItem(BRAND_KIT_KEY, JSON.stringify(kit));
+    localStorage.setItem(
+      BRAND_KIT_KEY,
+      JSON.stringify(normalizeBrandKit(kit)),
+    );
   }
 
   async clearBrandKit(): Promise<void> {

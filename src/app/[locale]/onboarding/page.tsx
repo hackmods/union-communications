@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { LogoSettings, brandKitPatchForLogoMode, type LogoMode } from "@/components/brand/LogoSettings";
+import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 
 export default function OnboardingPage() {
   const t = useTranslations("onboarding");
@@ -77,6 +78,15 @@ export default function OnboardingPage() {
               placeholder={t("divisionPlaceholder")}
               value={division}
               onChange={(e) => setDivision(e.target.value)}
+            />
+            <LocalLinksEditor
+              compact
+              websiteUrl={brandKit.websiteUrl ?? ""}
+              facebookUrl={brandKit.facebookUrl ?? ""}
+              customLinks={brandKit.customLinks ?? []}
+              onWebsiteChange={(url) => setBrandKit({ websiteUrl: url })}
+              onFacebookChange={(url) => setBrandKit({ facebookUrl: url })}
+              onCustomLinksChange={(links) => setBrandKit({ customLinks: links })}
             />
           </div>
         )}

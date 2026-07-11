@@ -10,7 +10,7 @@ Public-facing communications toolbox covering social media, print, union boards,
 |-------|-------------|
 | `/[locale]/` | Landing — channel-organized toolbox |
 | `/[locale]/onboarding` | Brand setup wizard |
-| `/[locale]/brand-kit` | Export/import branding JSON |
+| `/[locale]/brand-kit` | Export/import branding JSON (colours, logo, website & key links) |
 | `/[locale]/guide` | The Blueprint handbook |
 | `/[locale]/guide/social-media-plan` | Quick roadmap: logo → boards → socials → website |
 | `/[locale]/guide/materials` | Workshop handouts, checklist, source bibliography |

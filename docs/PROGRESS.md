@@ -160,3 +160,10 @@ Scaffold through testing/CI — all complete.
 - [x] Background modes: plain, gradient, accent bar; Brand Kit colours
 - [x] Print sizes: quarter / half / letter / 5×5 / 4×4; PNG + PDF
 - [x] Presets for support, ESA, OHSA, H&S, socials, website
+
+## Brand Kit Local Links (2026-07-11)
+
+- [x] BrandKit v1.1: optional `websiteUrl`, `facebookUrl`, `customLinks[]`
+- [x] Normalize 1.0 → 1.1 on hydrate/import
+- [x] `LocalLinksEditor` on onboarding + Brand Kit
+- [x] QR cards / solidarity posters / website template consume saved links

@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { dataAdapter } from "@/lib/data/local-storage-adapter";
+import { normalizeBrandKit } from "@/lib/utils/local-links";
 import type { BrandKit } from "@/types/entities";
 
 interface BrandState {
@@ -11,7 +12,7 @@ interface BrandState {
   hydrated: boolean;
   setBrandKit: (kit: Partial<BrandKit>) => void;
   resetBrandKit: () => void;
-  importBrandKit: (kit: BrandKit) => void;
+  importBrandKit: (kit: BrandKit | unknown) => void;
   setOnboardingComplete: (complete: boolean) => void;
   hydrate: () => Promise<void>;
 }
@@ -22,24 +23,35 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
   hydrated: false,
 
   setBrandKit: (partial) => {
-    const updated = {
-      ...get().brandKit,
+    const current = get().brandKit;
+    const updated = normalizeBrandKit({
+      ...current,
       ...partial,
-      local: { ...get().brandKit.local, ...partial.local },
+      local: { ...current.local, ...partial.local },
+      customLinks:
+        partial.customLinks !== undefined
+          ? partial.customLinks
+          : current.customLinks,
       updatedAt: new Date().toISOString(),
-    };
+    });
     set({ brandKit: updated });
     void dataAdapter.saveBrandKit(updated);
   },
 
   resetBrandKit: () => {
-    const reset = { ...DEFAULT_BRAND_KIT, updatedAt: new Date().toISOString() };
+    const reset = normalizeBrandKit({
+      ...DEFAULT_BRAND_KIT,
+      updatedAt: new Date().toISOString(),
+    });
     set({ brandKit: reset });
     void dataAdapter.clearBrandKit();
   },
 
   importBrandKit: (kit) => {
-    const updated = { ...kit, updatedAt: new Date().toISOString() };
+    const updated = normalizeBrandKit({
+      ...(kit as object),
+      updatedAt: new Date().toISOString(),
+    });
     set({ brandKit: updated });
     void dataAdapter.saveBrandKit(updated);
   },
