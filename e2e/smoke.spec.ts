@@ -61,6 +61,10 @@ test.describe("Smoke tests @smoke", () => {
   test("union boards guide renders", async ({ page }) => {
     await page.goto("/en/guide/union-boards/");
     await expect(page.getByRole("heading", { name: "Union Boards Guide" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Bare-minimum board" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Reference layouts from real locals" }),
+    ).toBeVisible();
   });
 
   test("workshop materials page renders with sources", async ({ page }) => {

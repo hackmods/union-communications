@@ -15,7 +15,7 @@ Public-facing communications toolbox covering social media, print, union boards,
 | `/[locale]/guide/social-media-plan` | Quick roadmap: logo → boards → socials → website |
 | `/[locale]/guide/materials` | Workshop handouts, checklist, source bibliography |
 | `/[locale]/guide/crisis` | Crisis comms playbook |
-| `/[locale]/guide/union-boards` | Workplace bulletin board guide |
+| `/[locale]/guide/union-boards` | Workplace bulletin board guide (bare-minimum layout, IRL reference patterns, print checklist) |
 | `/[locale]/guide/print` | Print communications guide |
 | `/[locale]/guide/website` | Local website deploy guide |
 | `/[locale]/examples` | Social media example gallery |
@@ -37,7 +37,7 @@ Public-facing communications toolbox covering social media, print, union boards,
 |---------|----------------|
 | **Social** | Blueprint, crisis guide, captions, examples, graphic maker, resizer, quote card, alt-text |
 | **Print** | Flyer maker, print guide |
-| **Union boards** | Board notice maker, solidarity poster maker, union boards guide |
+| **Union boards** | Board notice maker, solidarity poster maker, union boards guide (bare-minimum + reference layouts) |
 | **Website** | Website template (based on local243.org model), website guide |
 
 ## Multi-Union Migration Checklist (Phase 1)

@@ -142,3 +142,10 @@ Scaffold through testing/CI — all complete.
 - [x] Generic solidarity slogan presets (`SOLIDARITY_SLOGANS`)
 - [x] Optional QR + support URL footer; local Brand Kit lockup when theme established
 - [x] PNG/PDF export; EN/FR i18n; home boards channel + header nav
+
+## Union Boards Guide Expansion (2026-07-11)
+
+- [x] Bare-minimum board zones: header, socials/QR, health & safety, LEC list, events/rotating
+- [x] What-to-print checklist (always / rotate / optional / sizes)
+- [x] IRL-inspired reference layouts (four-quadrant, priority strip, corridor tall, steward desk)
+- [x] Schematic diagrams + CTAs to board notice and solidarity poster tools

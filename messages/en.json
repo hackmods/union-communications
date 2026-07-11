@@ -72,7 +72,7 @@
       },
       "boards": {
         "title": "Union Boards",
-        "description": "Workplace bulletin notices members can read from across the room."
+        "description": "Bare-minimum layouts, print checklists, board notices, and solidarity posters for the workplace."
       },
       "website": {
         "title": "Website",
@@ -166,7 +166,79 @@
   },
   "unionBoardsGuide": {
     "title": "Union Boards Guide",
-    "subtitle": "Workplace bulletin boards reach members who are not on social media",
+    "subtitle": "Workplace bulletin boards reach members who are not on social media — start with a bare-minimum layout, then fill the rest with notices and solidarity posters",
+    "zones": {
+      "header": "Local header",
+      "socials": "Socials / QR",
+      "healthSafety": "Health & safety",
+      "lec": "LEC / contacts",
+      "events": "Events / rotating",
+      "filler": "Solidarity / filler"
+    },
+    "bareMinimum": {
+      "title": "Bare-minimum board",
+      "intro": "Every local board should answer four questions at a glance: How do I find you online? Who do I call for health and safety? Who is on the Local Executive Committee? What is happening next? Everything else is optional filler.",
+      "tip": "Print the always-on pieces once on sturdy stock; refresh only the events / rotating zone. Use solidarity posters to fill empty space so the board never looks abandoned.",
+      "items": {
+        "header": {
+          "title": "Local header",
+          "content": "Local number, short name or division line, and logo from your Brand Kit. Members should recognize the board from across the room."
+        },
+        "socials": {
+          "title": "Socials and digital link",
+          "content": "QR code or short URL to this hub, your local website, or Facebook group. One clear CTA — “Get support” or “Follow us” — beats a wall of icons."
+        },
+        "healthSafety": {
+          "title": "Health and safety",
+          "content": "JHSC / health & safety contacts, how to report a hazard, and where to find the latest safety bulletin. Keep phone numbers large and current."
+        },
+        "lec": {
+          "title": "LEC and steward list",
+          "content": "Local Executive Committee roles with names and work contacts (or steward office hours). Update after elections — outdated lists erode trust."
+        },
+        "events": {
+          "title": "Events or rotating spot",
+          "content": "Membership meetings, bargaining updates, workshops, or a solidarity poster. This is the only zone that should change weekly."
+        }
+      }
+    },
+    "whatToPrint": {
+      "title": "What to print",
+      "intro": "Think in layers: permanent identity, standing resources, and a rotating slot.",
+      "always": {
+        "label": "Always on the board",
+        "content": "Header/logo, socials QR or URL, health & safety contacts, LEC / steward list."
+      },
+      "rotate": {
+        "label": "Rotate often",
+        "content": "Meeting notices, bargaining updates, event flyers, and high-energy solidarity posters for empty space."
+      },
+      "optional": {
+        "label": "Optional extras",
+        "content": "Member spotlight (with consent), contract highlight one-pagers, how-to-file-a-grievance tear-offs."
+      },
+      "sizes": {
+        "label": "Sizes that work",
+        "content": "Letter (8.5×11) for dense contact lists; tabloid (11×17) for notices and posters readable from across the room."
+      }
+    },
+    "layouts": {
+      "title": "Reference layouts from real locals",
+      "intro": "Patterns adapted from workplace boards locals actually run — generic zones, no branded campaign art. Pick one that fits your board shape and stick to it so members learn where to look.",
+      "fourQuadrant": "Four-zone classic",
+      "fourQuadrantDesc": "Header across the top, socials and health & safety side by side, full-width LEC strip, events along the bottom. The most common break-room layout.",
+      "fourQuadrantBest": "Best for: standard cork boards in lunch rooms",
+      "priorityStrip": "Priority strip + big events",
+      "priorityStripDesc": "Narrow left column keeps socials, H&S, and LEC always visible; the large right panel is reserved for the current campaign, meeting, or solidarity poster.",
+      "priorityStripBest": "Best for: wide boards near time clocks",
+      "corridorTall": "Corridor tall stack",
+      "corridorTallDesc": "Single-column stack for narrow hallway boards: header, socials, H&S, LEC, events, then solidarity filler at the bottom so the board never ends in blank cork.",
+      "corridorTallBest": "Best for: narrow corridor or door-side boards",
+      "stewardDesk": "Steward desk board",
+      "stewardDeskDesc": "Large LEC / steward contact block beside compact socials and H&S cards; bottom strip for the next meeting or action. Common in steward offices where members stop to ask questions.",
+      "stewardDeskBest": "Best for: steward office or union room boards"
+    },
+    "practiceTitle": "Board practice",
     "sections": {
       "where": {
         "title": "Where to post",
@@ -174,7 +246,7 @@
       },
       "howLong": {
         "title": "How long to leave notices up",
-        "content": "Remove outdated notices promptly — a cluttered board loses impact. Meeting notices: post 1–2 weeks ahead, remove after the event. Bargaining updates: refresh weekly during active rounds. Strike notices: update daily during action."
+        "content": "Remove outdated notices promptly — a cluttered board loses impact. Meeting notices: post 1–2 weeks ahead, remove after the event. Bargaining updates: refresh weekly during active rounds. Strike notices: update daily during action. Keep the bare-minimum zones current even when the events slot is empty."
       },
       "whatNot": {
         "title": "What not to post",
