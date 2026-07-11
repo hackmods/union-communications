@@ -46,7 +46,7 @@ Home page offers two entry paths: comms roadmap (Get started) vs Officer Hub (gr
 | `/[locale]/tools/quote-card` | Leadership quote cards |
 | `/[locale]/tools/flyer-maker` | Picket/rally flyers |
 | `/[locale]/tools/website-template` | GitHub Pages site ZIP export |
-| `/[locale]/tools/alt-text` | Alt-text assistant |
+| `/[locale]/tools/alt-text` | Alt-text draft helper (starters, platform limits, checklist) |
 
 ## Channels
 

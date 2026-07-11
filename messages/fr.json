@@ -166,7 +166,7 @@
       },
       "accessibility": {
         "title": "Accessibilité — texte alternatif",
-        "content": "Chaque image publiée a besoin d'un texte alternatif pour les membres malvoyants. Utilisez l'assistant texte alt de cette boîte à outils. Soyez concis mais complet : qui, quoi, où et tout texte visible dans le graphique."
+        "content": "Chaque image publiée a besoin d'un texte alternatif pour les membres malvoyants. Utilisez l'assistant texte alt pour rédiger cette description, puis collez-la dans le champ texte alternatif de la plateforme (pas dans la légende). Soyez concis mais complet : qui, quoi, où et tout texte visible dans le graphique."
       }
     },
     "channelGuides": {
@@ -798,6 +798,78 @@
     "time": "Heure",
     "location": "Lieu"
   },
+  "altTextAssistant": {
+    "title": "Assistant texte alt",
+    "subtitle": "Rédigez des descriptions d'images pour vos publications, puis collez-les dans le champ texte alternatif de chaque plateforme. Cet outil n'analyse pas les images — c'est vous qui écrivez la description.",
+    "starterLabel": "Partir d'un type de graphique courant",
+    "altLabel": "Texte alt (pour le champ d'accessibilité de l'image)",
+    "altPlaceholder": "Décrivez qui ou ce qui est montré, le contexte, et tout texte sur le graphique…",
+    "platformLabel": "Vérifier la limite pour",
+    "charCount": "{count} / {limit} caractères",
+    "captionLabel": "Légende du billet (facultatif, pour votre référence)",
+    "captionPlaceholder": "Collez la légende que vous publierez séparément…",
+    "captionHint": "Le texte alt et la légende sont des champs distincts sur la plupart des plateformes. N'insérez pas toute la légende dans le champ alt.",
+    "copyAlt": "Copier le texte alt",
+    "copyBoth": "Copier alt + légende",
+    "draftLooksGood": "Le brouillon semble solide — aucun problème courant détecté. Vérifiez quand même la liste avant de publier.",
+    "howTitle": "Comment l'utiliser",
+    "how": {
+      "step1": "Exportez ou capturez votre graphique depuis le créateur de graphiques, la carte citation, l'affiche ou un autre outil.",
+      "step2": "Rédigez ici un texte alt qui décrit le contenu visuel (pas la légende).",
+      "step3": "Copiez le texte alt et collez-le dans le champ « Modifier le texte alt » / accessibilité d'Instagram, Facebook, X ou LinkedIn au moment de publier.",
+      "step4": "Gardez votre légende habituelle dans le champ de publication normal."
+    },
+    "checklistTitle": "Avant de publier",
+    "checklist": {
+      "visual": "Décrit ce qui est visuellement dans l'image (personnes, pancartes, lieu)",
+      "onImageText": "Inclut le texte important qui apparaît sur le graphique",
+      "localIdentity": "Mentionne le numéro de section locale ou le nom du syndicat s'ils sont visibles",
+      "concise": "Reste concis — 1 ou 2 phrases suffisent en général",
+      "noImageOf": "Ne commence pas par « Image de » ou « Photo de »"
+    },
+    "examplesTitle": "Mauvais vs bon",
+    "examples": {
+      "badLabel": "Trop vague",
+      "bad": "« Graphique syndical » ou « Photo d'une réunion »",
+      "goodLabel": "Utile",
+      "good": "« Graphique bleu Local 243 : assemblée des membres jeudi 17 h, salle 204. Logo syndical en haut à gauche ; date et lieu en texte blanc. »"
+    },
+    "platforms": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "x": "X (Twitter)",
+      "linkedin": "LinkedIn"
+    },
+    "starters": {
+      "meetingNotice": {
+        "label": "Avis de réunion",
+        "draft": "Graphique annonçant une assemblée des membres : [date], [heure], [lieu]. Logo de la section locale [numéro] et détails clés en grand texte."
+      },
+      "picketRally": {
+        "label": "Piquet / rassemblement",
+        "draft": "Graphique de solidarité pour un piquet ou un rassemblement : [date], [heure], [lieu]. Titre en gras « [message principal] » avec l'identité visuelle de la section locale [numéro]."
+      },
+      "quoteCard": {
+        "label": "Carte citation",
+        "draft": "Carte citation avec l'identité visuelle de la section locale [numéro]. Citation : « [texte] ». Attribution : [nom / rôle]."
+      },
+      "memberSpotlight": {
+        "label": "Mise en lumière d'un membre",
+        "draft": "Graphique mettant en lumière [nom / rôle]. Photo de [brève description visuelle]. Texte : « [titre]. » Identité visuelle de la section locale [numéro]."
+      },
+      "textHeavyGraphic": {
+        "label": "Graphique très textuel",
+        "draft": "Graphique informatif de la section locale [numéro]. Texte sur l'image : « [transcrire les lignes principales]. » Mise en page : [couleurs / emplacement du logo]."
+      }
+    },
+    "issues": {
+      "empty": "Ajoutez une description avant de copier.",
+      "startsWithImageOf": "Évitez de commencer par « Image de » ou « Photo de » — les lecteurs d'écran annoncent déjà qu'il s'agit d'une image.",
+      "tooShort": "C'est trop court. Ajoutez qui/quoi est montré et tout texte important sur l'image.",
+      "sameAsCaption": "Le texte alt reprend la légende. Décrivez l'image elle-même ; gardez la légende dans le champ de publication.",
+      "placeholderLeft": "Remplacez les espaces réservés entre crochets par les vrais détails de votre graphique."
+    }
+  },
   "consent": {
     "title": "Consentement photo du membre",
     "description": "Avant d'utiliser la photo d'un membre dans des graphiques de médias sociaux, confirmez :",
@@ -910,11 +982,11 @@
       "bilingual": "Options de langue anglais et français",
       "displaySettings": "Taille de texte, contraste élevé et réduction des animations configurables",
       "skipLink": "Lien d'évitement pour accéder directement au contenu principal",
-      "altTextTool": "Assistant texte alt pour créer des publications accessibles"
+      "altTextTool": "Assistant texte alt pour rédiger des descriptions d'images pour les publications"
     },
     "limitations": {
       "title": "Limites connues",
-      "body": "Les zones d'aperçu d'images basées sur canvas peuvent ne pas être entièrement accessibles aux lecteurs d'écran et peuvent ne pas refléter le mode contraste élevé. Tous les champs qui contrôlent l'aperçu sont accessibles via des contrôles de formulaire standard. Les images exportées doivent inclure un texte alt via l'assistant."
+      "body": "Les zones d'aperçu d'images basées sur canvas peuvent ne pas être entièrement accessibles aux lecteurs d'écran et peuvent ne pas refléter le mode contraste élevé. Tous les champs qui contrôlent l'aperçu sont accessibles via des contrôles de formulaire standard. Les fichiers PNG/PDF exportés n'intègrent pas de texte alt — ajoutez des descriptions dans le champ texte alternatif de chaque plateforme lors de la publication (l'assistant texte alt vous aide à les rédiger)."
     },
     "feedback": {
       "title": "Commentaires",

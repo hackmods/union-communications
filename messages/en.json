@@ -166,7 +166,7 @@
       },
       "accessibility": {
         "title": "Accessibility — alt-text",
-        "content": "Every image post needs alt-text describing what's in the image for visually impaired members. Use the Alt-Text Assistant tool in this toolbox. Keep descriptions concise but complete: who, what, where, and any text shown in the graphic."
+        "content": "Every image post needs alt-text describing what's in the image for visually impaired members. Use the Alt-Text Assistant to draft that description, then paste it into the platform’s alt-text field (not the caption). Keep descriptions concise but complete: who, what, where, and any text shown in the graphic."
       }
     },
     "channelGuides": {
@@ -823,6 +823,78 @@
     "time": "Time",
     "location": "Location"
   },
+  "altTextAssistant": {
+    "title": "Alt-Text Assistant",
+    "subtitle": "Draft image descriptions for social posts, then paste them into each platform’s alt-text field. This tool does not analyze images — you write the description.",
+    "starterLabel": "Start from a common graphic type",
+    "altLabel": "Alt text (for the image accessibility field)",
+    "altPlaceholder": "Describe who or what is shown, the setting, and any text on the graphic…",
+    "platformLabel": "Check limit for",
+    "charCount": "{count} / {limit} characters",
+    "captionLabel": "Post caption (optional, for your own reference)",
+    "captionPlaceholder": "Paste the caption you will post separately…",
+    "captionHint": "Alt text and caption are different fields on most platforms. Do not put the full caption in the alt field.",
+    "copyAlt": "Copy alt text",
+    "copyBoth": "Copy alt + caption",
+    "draftLooksGood": "Draft looks solid — no common issues detected. Still review the checklist before posting.",
+    "howTitle": "How to use this",
+    "how": {
+      "step1": "Export or screenshot your graphic from Graphic Maker, Quote Card, Flyer, or another tool.",
+      "step2": "Write alt text here that describes the visual content (not the caption).",
+      "step3": "Copy the alt text and paste it into Instagram, Facebook, X, or LinkedIn’s “Edit alt text” / accessibility field when you post.",
+      "step4": "Keep your usual caption in the normal post field."
+    },
+    "checklistTitle": "Before you post",
+    "checklist": {
+      "visual": "Describes what is visually in the image (people, signs, setting)",
+      "onImageText": "Includes important text that appears in the graphic",
+      "localIdentity": "Mentions the local number or union name if shown",
+      "concise": "Stays concise — usually 1–2 sentences is enough",
+      "noImageOf": "Does not start with “Image of” or “Photo of”"
+    },
+    "examplesTitle": "Bad vs good",
+    "examples": {
+      "badLabel": "Too vague",
+      "bad": "“Union graphic” or “Photo of a meeting”",
+      "goodLabel": "Useful",
+      "good": "“Blue Local 243 graphic: membership meeting Thursday 5pm, Room 204. Union logo top left; date and location in white text.”"
+    },
+    "platforms": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "x": "X (Twitter)",
+      "linkedin": "LinkedIn"
+    },
+    "starters": {
+      "meetingNotice": {
+        "label": "Meeting notice",
+        "draft": "Graphic announcing a membership meeting: [date], [time], [location]. Local [number] logo and key details in large text."
+      },
+      "picketRally": {
+        "label": "Picket / rally",
+        "draft": "Solidarity graphic for a picket or rally: [date], [time], [location]. Bold headline “[main message]” with Local [number] branding."
+      },
+      "quoteCard": {
+        "label": "Quote card",
+        "draft": "Quote card with Local [number] branding. Quote: “[quote text]”. Attribution: [name / role]."
+      },
+      "memberSpotlight": {
+        "label": "Member spotlight",
+        "draft": "Member spotlight graphic featuring [name / role]. Photo of [brief visual description]. Text: “[headline or title].” Local [number] branding."
+      },
+      "textHeavyGraphic": {
+        "label": "Text-heavy graphic",
+        "draft": "Informational Local [number] graphic. On-image text: “[transcribe the main lines].” Layout: [colours / logo placement]."
+      }
+    },
+    "issues": {
+      "empty": "Add a description before copying.",
+      "startsWithImageOf": "Avoid starting with “Image of” or “Photo of” — screen readers already announce it as an image.",
+      "tooShort": "This looks too short. Add who/what is shown and any important on-image text.",
+      "sameAsCaption": "Alt text matches the caption. Describe the image itself; keep the caption in the post field.",
+      "placeholderLeft": "Replace the starter placeholders (brackets) with real details from your graphic."
+    }
+  },
   "consent": {
     "title": "Member photo consent",
     "description": "Before using a member's photo in social media graphics, confirm:",
@@ -935,11 +1007,11 @@
       "bilingual": "English and French language options",
       "displaySettings": "Adjustable font size, high contrast, and reduced motion settings",
       "skipLink": "Skip link to jump directly to main content",
-      "altTextTool": "Alt-Text Assistant tool to help create accessible social media posts"
+      "altTextTool": "Alt-Text Assistant to draft image descriptions for social posts"
     },
     "limitations": {
       "title": "Known limitations",
-      "body": "Canvas-based image preview areas may not be fully accessible to screen reader users and may not reflect high-contrast display settings. All inputs that control the preview are accessible via standard form controls. Exported images should include alt-text added via the Alt-Text Assistant."
+      "body": "Canvas-based image preview areas may not be fully accessible to screen reader users and may not reflect high-contrast display settings. All inputs that control the preview are accessible via standard form controls. Exported PNG/PDF files do not embed alt text — add descriptions in each platform’s alt-text field when posting (the Alt-Text Assistant helps you draft them)."
     },
     "feedback": {
       "title": "Feedback",
