@@ -33,7 +33,13 @@ export default function OnboardingPage() {
   };
 
   const handleLogoModeChange = (mode: LogoMode) => {
-    setBrandKit(brandKitPatchForLogoMode(mode, brandKit.logoText));
+    setBrandKit(
+      brandKitPatchForLogoMode(
+        mode,
+        brandKit.logoText,
+        brandKit.customLogoDataUrl,
+      ),
+    );
   };
 
   return (
@@ -122,7 +128,7 @@ export default function OnboardingPage() {
                 })
               }
               onCustomLogoClear={() =>
-                setBrandKit({ customLogoDataUrl: undefined })
+                setBrandKit({ customLogoDataUrl: "" })
               }
               onLogoTextChange={(text) => setBrandKit({ logoText: text })}
             />

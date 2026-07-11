@@ -89,13 +89,19 @@ export default function LogoBuilderPage() {
               customLogoDataUrl={brandKit.customLogoDataUrl}
               logoText={brandKit.logoText}
               onModeChange={(mode) => {
-                setBrandKit(brandKitPatchForLogoMode(mode, brandKit.logoText));
+                setBrandKit(
+                  brandKitPatchForLogoMode(
+                    mode,
+                    brandKit.logoText,
+                    brandKit.customLogoDataUrl,
+                  ),
+                );
               }}
               onCustomLogoUpload={(url) =>
                 setBrandKit({ useOfficialLogo: false, customLogoDataUrl: url })
               }
               onCustomLogoClear={() =>
-                setBrandKit({ customLogoDataUrl: undefined })
+                setBrandKit({ customLogoDataUrl: "" })
               }
               onLogoTextChange={(text) => setBrandKit({ logoText: text })}
             />

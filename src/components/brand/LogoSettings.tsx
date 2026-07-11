@@ -25,7 +25,8 @@ export function resolveLogoMode(
       ? officialLogoVariant
       : "lockup";
   }
-  if (customLogoDataUrl) return "custom";
+  // undefined = "no image"; "" = custom selected (awaiting upload); data URL = uploaded
+  if (customLogoDataUrl !== undefined) return "custom";
   return "none";
 }
 
@@ -50,6 +51,7 @@ export function resolveSelectableLogoMode(
 export function brandKitPatchForLogoMode(
   mode: LogoMode,
   currentLogoText?: string,
+  currentCustomLogoDataUrl?: string,
 ): Partial<BrandKit> {
   if (isOfficialLogoVariant(mode)) {
     return {
@@ -59,7 +61,11 @@ export function brandKitPatchForLogoMode(
     };
   }
   if (mode === "custom") {
-    return { useOfficialLogo: false };
+    return {
+      useOfficialLogo: false,
+      // Keep an existing upload, or "" so mode stays "custom" until a file is chosen
+      customLogoDataUrl: currentCustomLogoDataUrl ?? "",
+    };
   }
   return {
     useOfficialLogo: false,
@@ -254,7 +260,7 @@ export function LogoSettings({
         <ImageUpload
           label={t("uploadCustomLogo")}
           hint={t("uploadHint")}
-          preview={customLogoDataUrl}
+          preview={customLogoDataUrl?.trim() ? customLogoDataUrl : undefined}
           onUpload={onCustomLogoUpload}
           onClear={onCustomLogoClear}
         />

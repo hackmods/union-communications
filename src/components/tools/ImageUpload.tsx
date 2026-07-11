@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { validateImageFile } from "@/lib/utils/validation";
 import { fileToDataUrl } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
@@ -24,6 +24,7 @@ export function ImageUpload({
 }: ImageUploadProps) {
   const t = useTranslations("common");
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputId = useId();
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,44 +34,53 @@ export function ImageUpload({
     const result = validateImageFile(file);
     if (!result.valid) {
       setError(result.error);
+      e.target.value = "";
       return;
     }
 
     setError(null);
     const dataUrl = await fileToDataUrl(result.file);
     onUpload(dataUrl);
+    // Allow re-selecting the same file after clear/replace
+    e.target.value = "";
   };
+
+  const openPicker = () => {
+    inputRef.current?.click();
+  };
+
+  const hasPreview = Boolean(preview?.trim());
 
   return (
     <div className="space-y-2">
-      {label && <p className="text-sm font-medium text-gray-700">{label}</p>}
+      {label && (
+        <label htmlFor={inputId} className="block text-sm font-medium text-gray-700">
+          {label}
+        </label>
+      )}
       {hint && <p className="text-xs text-gray-500">{hint}</p>}
       <input
         ref={inputRef}
+        id={inputId}
         type="file"
         accept="image/jpeg,image/png,image/webp,image/svg+xml"
         onChange={handleChange}
         className="sr-only"
-        id="image-upload"
       />
       <div className="flex flex-wrap gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => inputRef.current?.click()}
-        >
+        <Button type="button" variant="outline" onClick={openPicker}>
           {t("upload")}
         </Button>
-        {preview && onClear && (
+        {hasPreview && onClear && (
           <Button type="button" variant="ghost" onClick={onClear}>
             {t("remove")}
           </Button>
         )}
       </div>
-      {preview && (
+      {hasPreview && (
         <div className="relative h-32 w-full max-w-xs">
           <Image
-            src={preview}
+            src={preview!}
             alt=""
             fill
             unoptimized
