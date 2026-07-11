@@ -92,6 +92,27 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     url: "https://ofl.ca/",
     note: "Provincial labour federation — solidarity links on local sites.",
   },
+  "ontario-required-posters": {
+    id: "ontario-required-posters",
+    category: "union",
+    label: "Posters required in the workplace (Ontario)",
+    url: "https://www.ontario.ca/page/posters-required-workplace",
+    note: "Ministry hub for ESA and other workplace posters locals can print when a board needs content.",
+  },
+  "ontario-esa-poster": {
+    id: "ontario-esa-poster",
+    category: "union",
+    label: "Employment Standards Act — mandatory information",
+    url: "https://www.ontario.ca/document/your-guide-employment-standards-act-0/mandatory-information-employees",
+    note: "Official ESA poster distribution rules; printable PDF mirrored under public/assets/ontario-board-posters/.",
+  },
+  "ontario-ohsa": {
+    id: "ontario-ohsa",
+    category: "union",
+    label: "Occupational Health and Safety Act (e-Laws)",
+    url: "https://www.ontario.ca/laws/statute/90o01",
+    note: "Live OHSA statute — prefer QR to e-Laws over outdated paper copies on union boards.",
+  },
 };
 
 /** Which sources to cite on each guide or tool page. */
@@ -103,7 +124,13 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "github-pages",
     "facebook-groups",
   ],
-  unionBoards: ["opseu-collective-agreements", "opseu-branding"],
+  unionBoards: [
+    "opseu-collective-agreements",
+    "opseu-branding",
+    "ontario-required-posters",
+    "ontario-esa-poster",
+    "ontario-ohsa",
+  ],
   print: ["opseu-branding"],
   website: ["local243-website", "github-pages", "github-pages-custom-domain"],
   crisis: [

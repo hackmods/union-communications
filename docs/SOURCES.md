@@ -28,6 +28,11 @@ External resources cited across guides, tools, and exported materials. Canonical
 | Collective agreements | https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/ | Union boards guide, crisis guide |
 | Forms and documents | https://opseu.org/about-opseu-sefpo/forms-documents/ | Crisis guide, exported site footer |
 | Ontario Federation of Labour | https://ofl.ca/ | Exported site footer (optional) |
+| Posters required in the workplace | https://www.ontario.ca/page/posters-required-workplace | Union boards guide — feed empty boards |
+| ESA mandatory information | https://www.ontario.ca/document/your-guide-employment-standards-act-0/mandatory-information-employees | Union boards guide + printable PDF mirror |
+| OHSA (e-Laws) | https://www.ontario.ca/laws/statute/90o01 | Union boards guide — QR to live statute |
+
+**Printable mirrors:** `public/assets/ontario-board-posters/` (ESA posters, Form 82). Anonymized local demos: `public/demo/union-boards/`.
 
 ## Accessibility
 

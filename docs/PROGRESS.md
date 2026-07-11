@@ -149,3 +149,6 @@ Scaffold through testing/CI — all complete.
 - [x] What-to-print checklist (always / rotate / optional / sizes)
 - [x] IRL-inspired reference layouts (four-quadrant, priority strip, corridor tall, steward desk)
 - [x] Schematic diagrams + CTAs to board notice and solidarity poster tools
+- [x] Official Ontario posters (ESA, Form 82) + e-Laws OHSA links to feed empty boards
+- [x] Anonymized sample checklist / board tracker / JHSC CSV (fake names, no college PII)
+- [x] Example dense-board photo for visual reference

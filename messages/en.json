@@ -238,6 +238,43 @@
       "stewardDeskDesc": "Large LEC / steward contact block beside compact socials and H&S cards; bottom strip for the next meeting or action. Common in steward offices where members stop to ask questions.",
       "stewardDeskBest": "Best for: steward office or union room boards"
     },
+    "materials": {
+      "title": "Feed the board — posters and templates",
+      "intro": "When a board looks empty, start with official Ontario posters and a short contact list. Locals do not need to invent content from scratch — print the ministry pieces, then layer local notices and solidarity posters.",
+      "ministryHeading": "Official Ontario posters and statutes",
+      "ministryNote": "PDFs below are for printing. Prefer the official ministry page when checking for newer versions.",
+      "templatesHeading": "Sample local templates (anonymized)",
+      "templatesNote": "Trimmed demos with fake names and campuses — replace with your real LEC, JHSC, and board locations.",
+      "downloadPdf": "Download PDF",
+      "openLink": "Open official page",
+      "officialSource": "Ministry source",
+      "downloadTemplate": "Download sample",
+      "items": {
+        "esaPoster": "Employment Standards in Ontario poster",
+        "esaPosterDesc": "ESA rights overview — hours, leaves, vacation, termination. Strong default for the health & safety / rights zone.",
+        "esaPosterAlt": "ESA poster (alternate ministry file)",
+        "esaPosterAltDesc": "Additional ESA poster file for boards that already use an older print run — verify against the current ministry version.",
+        "form82": "In case of injury at work (Form 82)",
+        "form82Desc": "WSIB-style injury reporting poster commonly required beside first-aid information.",
+        "ohsa": "Occupational Health and Safety Act (e-Laws)",
+        "ohsaDesc": "Live statute — link via QR instead of pinning an outdated paper copy of the full Act.",
+        "ohsaGuide": "Guide to the OHSA",
+        "ohsaGuideDesc": "Plain-language worker rights: know, participate, refuse unsafe work.",
+        "requiredPostersHub": "Posters required in the workplace",
+        "requiredPostersHubDesc": "Ontario hub listing what employers must distribute or post — use this when you are unsure what belongs on the board.",
+        "boardChecklist": "Board print checklist",
+        "boardChecklistDesc": "Bare-minimum print list plus QR targets for ESA, OHSA, human rights, and local documents.",
+        "boardTracker": "Board location tracker (CSV)",
+        "boardTrackerDesc": "Sample multi-campus tracker with fake monitors — track which boards are verified and who checks them.",
+        "jhscSample": "JHSC member list (CSV)",
+        "jhscSampleDesc": "Short anonymized health & safety committee roster for the H&S zone.",
+        "ohsaQrTip": "OHSA phone / QR access tip",
+        "ohsaQrTipDesc": "One-page tip for members scanning a QR to the live Act from their phone.",
+        "denseBoardPhoto": "Example dense workplace board",
+        "denseBoardPhotoDesc": "Real-world packed board: large campaign anchors, QR resource sheet, contact cards, and solidarity filler — use as visual inspiration, not a brand template.",
+        "denseBoardPhotoAlt": "Photograph of a densely posted union bulletin board with campaign posters, QR codes, and contact cards"
+      }
+    },
     "practiceTitle": "Board practice",
     "sections": {
       "where": {

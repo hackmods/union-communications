@@ -238,6 +238,43 @@
       "stewardDeskDesc": "Grand bloc contacts exécutif / délégués à côté de cartes compactes réseaux et S&S; bande du bas pour la prochaine réunion ou action. Courant dans les bureaux où les membres s'arrêtent pour poser des questions.",
       "stewardDeskBest": "Idéal pour : bureau des délégués ou local syndical"
     },
+    "materials": {
+      "title": "Alimenter le tableau — affiches et modèles",
+      "intro": "Quand un tableau est vide, commencez par les affiches officielles de l'Ontario et une courte liste de contacts. Les sections n'ont pas à inventer le contenu — imprimez les documents ministériels, puis ajoutez avis locaux et affiches de solidarité.",
+      "ministryHeading": "Affiches et lois officielles de l'Ontario",
+      "ministryNote": "Les PDF ci-dessous sont à imprimer. Vérifiez la page ministérielle officielle pour les versions plus récentes.",
+      "templatesHeading": "Modèles locaux d'exemple (anonymisés)",
+      "templatesNote": "Démos réduites avec noms et campus fictifs — remplacez par votre exécutif, CSS et emplacements réels.",
+      "downloadPdf": "Télécharger le PDF",
+      "openLink": "Ouvrir la page officielle",
+      "officialSource": "Source ministérielle",
+      "downloadTemplate": "Télécharger l'exemple",
+      "items": {
+        "esaPoster": "Affiche Normes d'emploi en Ontario",
+        "esaPosterDesc": "Aperçu des droits selon la LNE — heures, congés, vacances, cessation. Excellent défaut pour la zone santé-sécurité / droits.",
+        "esaPosterAlt": "Affiche LNE (fichier ministériel alternatif)",
+        "esaPosterAltDesc": "Fichier LNE supplémentaire pour les tableaux qui utilisent encore une ancienne impression — vérifiez la version ministérielle actuelle.",
+        "form82": "En cas de blessure au travail (formule 82)",
+        "form82Desc": "Affiche de déclaration de blessure (style WSIB) souvent requise près des infos de premiers soins.",
+        "ohsa": "Loi sur la santé et la sécurité au travail (Lois-en-ligne)",
+        "ohsaDesc": "Texte de loi à jour — liez par QR plutôt que d'épingler une photocopie périmée de toute la loi.",
+        "ohsaGuide": "Guide de la LSST",
+        "ohsaGuideDesc": "Droits des travailleurs en langage clair : savoir, participer, refuser un travail dangereux.",
+        "requiredPostersHub": "Affiches obligatoires au travail",
+        "requiredPostersHubDesc": "Carrefour ontarien listant ce que les employeurs doivent distribuer ou afficher — utile en cas de doute.",
+        "boardChecklist": "Liste d'impression pour tableau",
+        "boardChecklistDesc": "Liste minimale plus cibles QR pour LNE, LSST, droits de la personne et documents locaux.",
+        "boardTracker": "Suivi des emplacements (CSV)",
+        "boardTrackerDesc": "Exemple multi-campus avec surveillants fictifs — suivez quels tableaux sont vérifiés et qui les contrôle.",
+        "jhscSample": "Liste des membres du CSS (CSV)",
+        "jhscSampleDesc": "Courte liste anonymisée du comité santé-sécurité pour la zone S&S.",
+        "ohsaQrTip": "Astuce accès LSST par téléphone / QR",
+        "ohsaQrTipDesc": "Fiche d'une page pour scanner un QR vers la loi à jour depuis un téléphone.",
+        "denseBoardPhoto": "Exemple de tableau densément affiché",
+        "denseBoardPhotoDesc": "Tableau réel bien rempli : grandes affiches de campagne, feuille QR, cartes de contact et remplissage solidarité — inspiration visuelle, pas un modèle de marque.",
+        "denseBoardPhotoAlt": "Photo d'un tableau d'affichage syndical densément garni d'affiches de campagne, codes QR et cartes de contact"
+      }
+    },
     "practiceTitle": "Bonnes pratiques",
     "sections": {
       "where": {

@@ -15,7 +15,7 @@ Public-facing communications toolbox covering social media, print, union boards,
 | `/[locale]/guide/social-media-plan` | Quick roadmap: logo → boards → socials → website |
 | `/[locale]/guide/materials` | Workshop handouts, checklist, source bibliography |
 | `/[locale]/guide/crisis` | Crisis comms playbook |
-| `/[locale]/guide/union-boards` | Workplace bulletin board guide (bare-minimum layout, IRL reference patterns, print checklist) |
+| `/[locale]/guide/union-boards` | Workplace bulletin board guide (bare-minimum layout, ministry posters, anonymized templates, IRL reference patterns) |
 | `/[locale]/guide/print` | Print communications guide |
 | `/[locale]/guide/website` | Local website deploy guide |
 | `/[locale]/examples` | Social media example gallery |
