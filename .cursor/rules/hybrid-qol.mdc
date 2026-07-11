@@ -1,0 +1,28 @@
+---
+description: Hybrid mode and Phase 5 QOL conventions
+globs: src/**/{hybrid,qol,handoff,snippets,marketplace,calendar}/**
+alwaysApply: false
+---
+
+# Hybrid & QOL Modules
+
+## Hybrid (Phase 4)
+- Format: `lunion-hybrid-v1` — PBKDF2 + AES-GCM via Web Crypto (`src/lib/crypto/passphrase.ts`)
+- Passphrase **never** sent to the server; API exchanges plaintext slices over MFA only
+- Routes: `GET/POST /api/hybrid/slice`; UI `/app/hybrid`
+- Audit: `hybrid.export` / `hybrid.import`
+- Local slice in `localStorage` (`LocalHybridSliceAdapter`) is a **backup**, not the live store — do not pretend otherwise in UI copy
+
+## QOL (Phase 5)
+- Types: `src/types/qol.ts`
+- Access helpers: `src/lib/qol/access.ts`
+- ICS: `src/lib/calendar/ics.ts` (client download)
+- Handoff: presidents/admins only (`canInitiateHandoff`)
+- Marketplace: same `unionId` only — never cross-union
+- Stewards: assigned grievance R/W; bumping read-only; mobile read-only hides write CTAs
+
+## Do Not
+- Auto-send email drafts or member communications
+- Show handoff/share/delete CTAs the API will 403
+- Cross-union marketplace or snippet reads
+- Treat hybrid “local mode” as offline source of truth until live path ships

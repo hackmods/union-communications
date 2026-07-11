@@ -1,29 +1,31 @@
 ---
-description: Grievance module rules — Phase 2+ only, highly confidential
+description: Grievance module — MFA, audit, QOL extensions
 globs: src/**/grievance/**
 alwaysApply: false
 ---
 
-# Grievance Module (Phase 2+)
-
-**Do not implement until Phase 1 auth shell, MFA, and audit log exist.**
+# Grievance Module (Phase 2+ shipped)
 
 ## Confidentiality
 - MFA required for all grievance access
-- Immutable audit log on every view and edit
-- No PII in application logs or error trackers
-- Member identity: pseudonym option; encrypt real names at rest
+- Immutable audit log on every view/edit/export-related action
+- No PII in application logs
+- Pseudonym option for member identity
 
 ## Data Rules
-- Every query scoped by `unionId` + `localId`
-- Stewards see only assigned cases unless elevated role
-- CA steps and deadlines from `CAConfig` — never hardcoded OPSEU steps
-- Email drafts only — never auto-send without steward review
+- Scope every query by `unionId` + `localId`
+- Stewards: assigned cases only (R/W); may create (self-assigned)
+- `local_exec`: read elevated, no create/edit
+- CA steps/deadlines from tenant `grievanceConfig` — never hardcoded
 
-## Features Reference
-See `docs/modules/GRIEVANCE.md` and `docs/COMPLIANCE.md`.
+## Shipped QOL on detail/list
+- Member communication log (`/api/grievances/[id]/communications`)
+- Meeting scheduler + ICS (`/api/grievances/[id]/meetings`)
+- CA snippet insert into notes; overdue board at `/app/overdue`
+- Steward mobile read-only via `useStewardReadOnly`
 
 ## Do Not
-- Build grievance CRUD in Phase 0 or without auth
-- Cross-local or cross-union grievance queries
-- Store attachments without virus scan (Phase 2+)
+- Auto-send email drafts or logged communications
+- Cross-local/cross-union queries
+- Store attachments without virus scan (deferred)
+- Skip MFA or audit

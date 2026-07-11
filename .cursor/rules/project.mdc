@@ -1,16 +1,9 @@
 ---
-description: Legacy pointer — see platform.mdc and AGENTS.md
-globs:
+description: Legacy pointer — see platform.mdc, roadmap-next.mdc, and AGENTS.md
 alwaysApply: false
 ---
 
-# Deprecated — use platform.mdc
+# Deprecated
 
-This project is now **Local Union Support Hub** (multi-union).
-
-Read:
-- [`AGENTS.md`](../../AGENTS.md)
-- [`.cursor/rules/platform.mdc`](platform.mdc)
-- [`docs/VISION.md`](../../docs/VISION.md)
-
-Module-specific rules: `comms-module.mdc`, `grievance-module.mdc`, `bumping-module.mdc`.
+Use [`.cursor/rules/platform.mdc`](platform.mdc) and [`.cursor/rules/roadmap-next.mdc`](roadmap-next.mdc).
+Entry point for agents: [`AGENTS.md`](../../AGENTS.md).

@@ -16,8 +16,8 @@ alwaysApply: false
 
 ## PDF Handling
 - Client-side parse where possible for privacy
-- Server store for committee persistence; virus scan on upload
-- Decision log exportable for local records
+- Server store + virus scan deferred to Phase 7 — memory adapter for MVP
+- Decision log exportable for local records; included in hybrid slice (Phase 4)
 
 ## Disclaimer
 Comparison checklists assist committee process — not legal advice.

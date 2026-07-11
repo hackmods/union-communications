@@ -1,0 +1,34 @@
+---
+description: Current phase status and planned next enhancements
+alwaysApply: true
+---
+
+# Roadmap Status & Next Work
+
+Phases **0–5 are complete** (docs → shell → grievance → bumping → hybrid → QOL). See `docs/PROGRESS.md`.
+
+## Next planned work (in order)
+
+1. **Postgres + RLS** — replace memory adapters; every table scoped by `unionId`/`localId`; ADR-008
+2. **Multi-union onboarding UI** — tenant signup/invite (seed-only today); never hardcode OPSEU as default
+3. **Attachments + virus scan** — grievance docs + bumping PDFs via object storage
+4. **Hybrid live local path** — today “local mode” is a preference + encrypted backup only; hub still reads central memory/API
+5. **ApiAdapter** — swap `LocalStorageAdapter` / memory stores for authenticated API persistence
+
+## Shipped hub surfaces (do not rebuild)
+
+| Path | Purpose |
+|------|---------|
+| `/app/hybrid` | Encrypted export/import; passphrase client-only |
+| `/app/overdue` | Overdue/upcoming board |
+| `/app/snippets` | CA clause library |
+| `/app/marketplace` | Within-union templates only |
+| `/app/handoff` | President/admin reassignment wizard |
+
+## Agent habits
+
+- Prefer extending memory adapters + APIs first; Postgres is a dedicated milestone
+- Gate write CTAs by role (`src/lib/qol/access.ts`, `canInitiateHandoff`)
+- Steward mobile read-only: `useStewardReadOnly` + `stewardMobileMode` preference
+- Hub Tools menu in `HubNav` — do not re-flatten into a long link bar
+- Update `docs/PROGRESS.md` + `docs/ROADMAP.md` when closing a milestone

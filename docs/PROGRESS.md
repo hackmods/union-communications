@@ -104,9 +104,13 @@ Scaffold through testing/CI — all complete.
 
 ## Deferred (future)
 
-- [ ] Multi-union onboarding UI
-- [ ] Persistent Postgres + RLS
-- [ ] Document/PDF attachments with virus scan
+- [ ] Multi-union onboarding UI → **Phase 6**
+- [ ] Persistent Postgres + RLS → **Phase 6**
+- [ ] Document/PDF attachments with virus scan → **Phase 7**
+- [ ] Hybrid live local data path → **Phase 6**
+- [ ] Stronger MFA + audit log UI → **Phase 7**
+
+Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, refreshed `platform.mdc` / `grievance-module.mdc` / `AGENTS.md`.
 
 ## Accessibility & Display Settings (2026-07-09) — COMPLETE
 
