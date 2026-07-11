@@ -19,6 +19,7 @@
     "flyerMaker": "Créateur d'affiche",
     "altText": "Assistant texte alt",
     "boardNotice": "Avis pour tableau syndical",
+    "solidarityPoster": "Affiches solidarité",
     "websiteTemplate": "Modèle de site Web",
     "socialMediaPlan": "Plan médias sociaux",
     "socialExamples": "Exemples sociaux",
@@ -253,6 +254,29 @@
     "contact": "Ligne de contact",
     "formatLetter": "Lettre (8,5×11)",
     "formatTabloid": "Tabloïde (11×17)"
+  },
+  "solidarityPoster": {
+    "title": "Créateur d'affiches solidarité",
+    "subtitle": "Affiches énergiques pour tableaux syndicaux — grands textes, slogans de solidarité, lien vers ce site pour du soutien",
+    "preset": "Slogan prédéfini",
+    "leadIn": "Amorce",
+    "headline": "Titre",
+    "headlineHint": "Utilisez une nouvelle ligne pour empiler les mots",
+    "closer": "Clôture",
+    "layout": "Mise en page",
+    "layouts": {
+      "stack": "Empilé — texte centré plein fond",
+      "split": "Partagé — bloc couleur + texte",
+      "banner": "Bannière — barre d'accent + grand mot"
+    },
+    "formatLetter": "Lettre (8,5×11)",
+    "formatTabloid": "Tabloïde (11×17)",
+    "supportUrl": "URL de soutien",
+    "showQr": "Afficher le code QR",
+    "includeBranding": "Inclure l'image de marque locale",
+    "cta": "Obtenir du soutien →",
+    "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les affiches avec le logo de votre section locale.",
+    "setupBrandLink": "Commencer l'intégration"
   },
   "websiteTemplate": {
     "title": "Modèle de site Web",

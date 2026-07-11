@@ -1,0 +1,33 @@
+---
+description: Solidarity poster maker — high-energy board filler design brief
+globs: src/app/**/tools/solidarity-poster/**,src/lib/constants/solidarity-slogans.ts,src/lib/utils/brand-theme.ts,src/lib/export/qr.ts
+alwaysApply: false
+---
+
+# Solidarity Posters
+
+High-energy union-board filler posters (Keep-Calm structure, not pastiche). Route: `/tools/solidarity-poster`.
+
+## Visual direction
+- Structure: small lead-in → **huge stacked headline** → short closer
+- Colours: Brand Kit primary / secondary / accent only
+- Avoid: purple gradients, cream+terracotta, broadsheet/newspaper layouts
+- Formats: letter (8.5×11) and tabloid (11×17); PNG + PDF via existing export helpers
+- Footer: CTA (“Get support →”), support URL, optional QR (on by default)
+- No member photos → no ConsentModal
+- No union names in slogans or core UI — Brand Kit / seed only
+
+## Layouts
+1. **Stack** — full-bleed primary, centered type; BrandLogo + local label when branding on
+2. **Split** — colour block + type; colours only (no lockup) so type stays dominant
+3. **Banner** — thick accent bar + oversized word + CTA strip; BrandLogo in bar when branding on
+
+## Local branding
+Theme established when: onboarding complete, OR official/custom logo set, OR local number non-empty (`isBrandThemeEstablished`).
+
+- Established → “Include local branding” defaults ON; Stack/Banner show prominent `BrandLogo` + local label
+- Not established → toggle OFF; soft link to `/onboarding`; user may force branding on
+- Always seed canvas colours from Brand Kit
+
+## Slogan tone
+Generic, punchy, solidarity-first. See `SOLIDARITY_SLOGANS` in `src/lib/constants/solidarity-slogans.ts`.

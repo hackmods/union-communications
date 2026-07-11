@@ -19,6 +19,7 @@
     "flyerMaker": "Flyer Maker",
     "altText": "Alt-Text Assistant",
     "boardNotice": "Board Notice Maker",
+    "solidarityPoster": "Solidarity Posters",
     "websiteTemplate": "Website Template",
     "socialMediaPlan": "Social Media Plan",
     "socialExamples": "Social Examples",
@@ -253,6 +254,29 @@
     "contact": "Contact line",
     "formatLetter": "Letter (8.5×11)",
     "formatTabloid": "Tabloid (11×17)"
+  },
+  "solidarityPoster": {
+    "title": "Solidarity Poster Maker",
+    "subtitle": "High-energy board fillers with big type and solidarity slogans — link members back to this hub for support",
+    "preset": "Slogan preset",
+    "leadIn": "Lead-in",
+    "headline": "Headline",
+    "headlineHint": "Use a new line to stack words",
+    "closer": "Closer",
+    "layout": "Layout",
+    "layouts": {
+      "stack": "Stack — full-bleed centred type",
+      "split": "Split — colour block + type",
+      "banner": "Banner — accent bar + oversized word"
+    },
+    "formatLetter": "Letter (8.5×11)",
+    "formatTabloid": "Tabloid (11×17)",
+    "supportUrl": "Support URL",
+    "showQr": "Show QR code",
+    "includeBranding": "Include local branding",
+    "cta": "Get support →",
+    "setupBrandPrompt": "Set up your Brand Kit to stamp posters with your local lockup.",
+    "setupBrandLink": "Start onboarding"
   },
   "websiteTemplate": {
     "title": "Website Template",

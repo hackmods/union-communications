@@ -23,6 +23,7 @@ Public-facing communications toolbox covering social media, print, union boards,
 | `/[locale]/assets` | Union asset pack (CAAT OPSEU reference) |
 | `/[locale]/tools/logo-builder` | Circular local logo |
 | `/[locale]/tools/board-notice` | Workplace bulletin notices (letter + tabloid) |
+| `/[locale]/tools/solidarity-poster` | High-energy solidarity board posters (slogan presets, QR) |
 | `/[locale]/tools/graphic-maker` | Social graphics |
 | `/[locale]/tools/resizer` | Platform image resizer |
 | `/[locale]/tools/quote-card` | Leadership quote cards |
@@ -36,7 +37,7 @@ Public-facing communications toolbox covering social media, print, union boards,
 |---------|----------------|
 | **Social** | Blueprint, crisis guide, captions, examples, graphic maker, resizer, quote card, alt-text |
 | **Print** | Flyer maker, print guide |
-| **Union boards** | Board notice maker, union boards guide |
+| **Union boards** | Board notice maker, solidarity poster maker, union boards guide |
 | **Website** | Website template (based on local243.org model), website guide |
 
 ## Multi-Union Migration Checklist (Phase 1)

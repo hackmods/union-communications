@@ -18,6 +18,7 @@ Public-facing guides and image generation tools. v1 shipped as static export.
 - Brand state via `useBrandStore` / `DataAdapter`
 - Logo: `BrandLogo` for display; `LogoSettings` for official/custom upload (PNG/JPEG/WebP/SVG)
 - See `.cursor/rules/opseu-branding.mdc` for OPSEU/CAAT colour rationale
+- Solidarity board posters: `.cursor/rules/solidarity-posters.mdc` (`/tools/solidarity-poster`)
 
 ## Multi-Union Migration (Phase 1)
 Replace hardcoded OPSEU/CAAT strings with tenant `UnionConfig`.

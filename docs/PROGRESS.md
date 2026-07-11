@@ -134,3 +134,11 @@ Scaffold through testing/CI — all complete.
 - [x] COMMS.md updated for four-channel coverage
 - [x] Workshop materials hub at `/guide/materials` with attendee checklist and source bibliography
 - [x] `SourcesBlock` on all guides and tools; `docs/SOURCES.md` reference registry
+
+## Solidarity Poster Maker (2026-07-11)
+
+- [x] Cursor design brief: `.cursor/rules/solidarity-posters.mdc`
+- [x] `/tools/solidarity-poster` — stack / split / banner layouts, letter + tabloid
+- [x] Generic solidarity slogan presets (`SOLIDARITY_SLOGANS`)
+- [x] Optional QR + support URL footer; local Brand Kit lockup when theme established
+- [x] PNG/PDF export; EN/FR i18n; home boards channel + header nav
