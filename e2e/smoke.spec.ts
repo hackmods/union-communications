@@ -35,7 +35,7 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page).toHaveURL(/\/en\/guide\/social-media-plan/);
     await page.goto("/en/");
     const main = page.getByRole("navigation", { name: "Main" });
-    await main.locator("summary").filter({ hasText: "Learn" }).click();
+    await main.getByRole("button", { name: /Learn/ }).click();
     await main.getByRole("link", { name: "The Blueprint" }).click();
     await expect(page).toHaveURL(/\/en\/guide\/?$/);
   });
@@ -51,7 +51,7 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("heading", { name: "Social Examples" })).toBeVisible();
     await expect(
       page.getByRole("link", { name: "Make this graphic" }).first(),
-    ).toHaveAttribute("href", /graphic-maker\?example=/);
+    ).toHaveAttribute("href", /graphic-maker\/?\?example=/);
   });
 
   test("board notice maker page renders", async ({ page }) => {
