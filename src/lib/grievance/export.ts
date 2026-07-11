@@ -58,7 +58,7 @@ export function bundleToPdfLines(
   ];
   for (const evt of [...bundle.events].reverse()) {
     lines.push(
-      `- ${evt.type}${evt.stepNumber ? ` (step ${evt.stepNumber})` : ""} — ${evt.createdAt}${evt.note ? `: ${evt.note}` : ""}`,
+      `- ${evt.type}${evt.stepNumber ? ` (step ${evt.stepNumber})` : ""} - ${evt.createdAt}${evt.note ? `: ${evt.note}` : ""}`,
     );
   }
   lines.push("", "OFFICER NOTES", "-------------");

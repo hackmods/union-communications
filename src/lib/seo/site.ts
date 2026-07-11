@@ -6,7 +6,7 @@ export const SITE_TITLE =
   "UnionOps | Free Tools & Officer Hub for Union Locals";
 
 export const SITE_DESCRIPTION =
-  "Free, privacy-first communication tools and grievance tracking for union stewards and officers. All data stays securely on your device.";
+  "Free tools for union stewards and officers: flyers, boards, and grievance tracking. Your data stays on your device.";
 
 export const SITE_KEYWORDS = [
   "union grievance tracker",
@@ -18,4 +18,4 @@ export const SITE_KEYWORDS = [
 export const OG_IMAGE_PATH = "/og-image.png";
 
 export const SHARE_BLURB =
-  "UnionOps is a free, privacy-first toolkit for union locals — flyer makers, steward tools, and grievance tracking that stays on your device. No ads, no subscriptions, no data harvesting. Solidarity.";
+  "UnionOps is a free toolkit for union locals. Flyer makers, steward tools, and grievance tracking that stays on your device. No ads, no subscriptions, no data harvesting. Solidarity.";

@@ -1,4 +1,4 @@
-/** Client-side PDF text extraction — runs in browser only, no server upload */
+/** Client-side PDF text extraction - runs in browser only, no server upload */
 
 export async function extractTextFromPdf(file: File): Promise<string> {
   const pdfjs = await import("pdfjs-dist");

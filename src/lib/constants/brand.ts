@@ -3,7 +3,7 @@ import { DEFAULT_LOCAL_NUMBER } from "@/lib/utils/local";
 
 const defaults = getDefaultBrandDefaults();
 
-/** Platform-neutral brand palette — sourced from active tenant config */
+/** Platform-neutral brand palette - sourced from active tenant config */
 export const BRAND_COLORS = {
   primary: defaults.primaryColor,
   secondary: defaults.secondaryColor,
@@ -13,7 +13,7 @@ export const BRAND_COLORS = {
   gray: "#6B7280",
 } as const;
 
-/** @deprecated Use BRAND_COLORS — kept for gradual migration */
+/** @deprecated Use BRAND_COLORS - kept for gradual migration */
 export const CAAT_OPSEU_COLORS = BRAND_COLORS;
 
 export const DEFAULT_ASSET_PACK_PATH = defaults.assetPackPath;

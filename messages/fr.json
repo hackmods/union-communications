@@ -60,20 +60,20 @@
   "home": {
     "title": "UnionOps: La boîte à outils pour les sections locales",
     "slogan": "Solidarity.",
-    "subtitle": "Outils de communication pour les bénévoles et flux de travail pour présidents et délégués — bâtis dans la solidarité pour toute section, tout syndicat",
+    "subtitle": "Outils de communication pour les bénévoles. Flux de travail pour présidents et délégués. Pour toute section, tout syndicat.",
     "heroCta": "Configurer la marque de votre section",
     "socialMediaPlanCta": "Commencer le plan médias sociaux",
-    "socialMediaPlanDesc": "Feuille de route rapide : logo, tableaux syndicaux, médias sociaux et site Web simple — dans l'ordre.",
+    "socialMediaPlanDesc": "Feuille de route rapide : logo, tableaux syndicaux, médias sociaux et site Web simple, dans cet ordre.",
     "pathCommsTitle": "Nouveau aux communications de votre section ?",
-    "pathCommsDesc": "Une courte feuille de route : marque, tableaux, médias sociaux, puis un site simple — dans l'ordre.",
+    "pathCommsDesc": "Une courte feuille de route : marque, tableaux, médias sociaux, puis un site simple.",
     "pathCommsCta": "Commencer",
     "pathCommsHint": "Besoin de textes plus tard ? Les exemples sociaux et les légendes sont sous Apprendre.",
     "pathOfficerTitle": "Président ou délégué qui gère des dossiers ?",
     "pathOfficerDesc": "Suivez les griefs, le bumpage collégial, les retards et les passations dans le Hub des dirigeants.",
     "pathOfficerCta": "Ouvrir le Hub des dirigeants",
     "channelsTitle": "La boîte à outils",
-    "privacyNote": "Tout le traitement se fait sur votre appareil. Aucune donnée n'est envoyée à un serveur.",
-    "trustBanner": "Confidentialité locale d'abord : UnionOps traite tout dans votre navigateur. Nous n'avons pas de serveurs, et vos données de griefs/membres ne quittent jamais votre appareil.",
+    "privacyNote": "Tout tourne sur votre appareil. Rien n'est envoyé à un serveur.",
+    "trustBanner": "Confidentialité locale : UnionOps tourne dans votre navigateur. Les données de griefs et de membres restent sur votre appareil.",
     "trustManifestoLink": "Notre promesse",
     "channels": {
       "social": {
@@ -97,7 +97,7 @@
   "socialMediaPlan": {
     "title": "Plan médias sociaux",
     "subtitle": "Feuille de route rapide pour les sections qui débutent ou améliorent leurs communications",
-    "intro": "Suivez ces quatre étapes dans l'ordre. Chacune s'appuie sur la précédente — la marque d'abord, puis rejoindre les membres là où ils sont : au tableau, sur les réseaux et en ligne.",
+    "intro": "Suivez ces quatre étapes dans l'ordre. Chacune s'appuie sur la précédente - la marque d'abord, puis rejoindre les membres là où ils sont : au tableau, sur les réseaux et en ligne.",
     "steps": {
       "logo": {
         "title": "1. Créer un logo",
@@ -169,7 +169,7 @@
         "content": "Ne vous engagez pas avec les commentaires de mauvaise foi. Masquez ou supprimez le spam et le harcèlement. Pour les réponses de la direction, restez factuel et citez la convention collective. Ne publiez jamais de détails confidentiels de négociation."
       },
       "accessibility": {
-        "title": "Accessibilité — texte alternatif",
+        "title": "Accessibilité - texte alternatif",
         "content": "Chaque image publiée a besoin d'un texte alternatif pour les membres malvoyants. Utilisez l'assistant texte alt pour rédiger cette description, puis collez-la dans le champ texte alternatif de la plateforme (pas dans la légende). Soyez concis mais complet : qui, quoi, où et tout texte visible dans le graphique."
       }
     },
@@ -182,7 +182,7 @@
   },
   "unionBoardsGuide": {
     "title": "Guide des tableaux syndicaux",
-    "subtitle": "Les tableaux d'affichage rejoignent les membres hors réseaux sociaux — commencez par une mise en page minimale, puis complétez avec avis et affiches de solidarité",
+    "subtitle": "Les tableaux d'affichage rejoignent les membres hors réseaux sociaux - commencez par une mise en page minimale, puis complétez avec avis et affiches de solidarité",
     "zones": {
       "header": "En-tête local",
       "socials": "Réseaux / QR",
@@ -202,7 +202,7 @@
         },
         "socials": {
           "title": "Réseaux et lien numérique",
-          "content": "Code QR ou URL courte vers ce carrefour, le site de la section ou le groupe Facebook. Un seul appel à l'action clair — « Obtenir du soutien » ou « Suivez-nous » — vaut mieux qu'un mur d'icônes."
+          "content": "Code QR ou URL courte vers ce carrefour, le site de la section ou le groupe Facebook. Un seul appel à l'action clair - « Obtenir du soutien » ou « Suivez-nous » - vaut mieux qu'un mur d'icônes."
         },
         "healthSafety": {
           "title": "Santé et sécurité",
@@ -210,7 +210,7 @@
         },
         "lec": {
           "title": "Liste de l'exécutif et des délégués",
-          "content": "Rôles de l'exécutif local avec noms et contacts au travail (ou heures de bureau des délégués). Mettez à jour après les élections — une liste périmée mine la confiance."
+          "content": "Rôles de l'exécutif local avec noms et contacts au travail (ou heures de bureau des délégués). Mettez à jour après les élections - une liste périmée mine la confiance."
         },
         "events": {
           "title": "Événements ou zone rotative",
@@ -240,9 +240,9 @@
     },
     "layouts": {
       "title": "Mises en page de référence (locaux réels)",
-      "intro": "Modèles adaptés de tableaux que des sections locales utilisent vraiment — zones génériques, sans campagne de marque. Choisissez une forme adaptée à votre tableau et gardez-la pour que les membres sachent où regarder.",
+      "intro": "Modèles adaptés de tableaux que des sections locales utilisent vraiment - zones génériques, sans campagne de marque. Choisissez une forme adaptée à votre tableau et gardez-la pour que les membres sachent où regarder.",
       "photosHeading": "Vrais tableaux (références photo)",
-      "photosIntro": "Photos de tableaux de campus actifs — voyez comment listes d'exécutif, CSS, affiches ministérielles et QR cohabitent sur le terrain.",
+      "photosIntro": "Photos de tableaux de campus actifs - voyez comment listes d'exécutif, CSS, affiches ministérielles et QR cohabitent sur le terrain.",
       "schematicsHeading": "Schémas à reproduire",
       "fourQuadrant": "Classique en quatre zones",
       "fourQuadrantDesc": "En-tête en haut, réseaux et santé-sécurité côte à côte, bande exécutif pleine largeur, événements en bas. La mise en page la plus courante en salle de pause.",
@@ -254,40 +254,40 @@
       "corridorTallDesc": "Colonne unique pour tableaux d'allée : en-tête, réseaux, S&S, exécutif, événements, puis remplissage solidarité en bas pour éviter le liège vide.",
       "corridorTallBest": "Idéal pour : tableaux étroits en corridor ou près d'une porte",
       "labeledColumns": "Colonnes étiquetées (tableau d'info)",
-      "labeledColumnsDesc": "En-têtes imprimés en haut — Affichages | Mises à jour / exécutif | Santé-sécurité + QR | Affiches de droits. Correspond à un tableau de campus bien tenu avec LNE, formule 82 et affiche harcèlement à droite.",
+      "labeledColumnsDesc": "En-têtes imprimés en haut - Affichages | Mises à jour / exécutif | Santé-sécurité + QR | Affiches de droits. Correspond à un tableau de campus bien tenu avec LNE, formule 82 et affiche harcèlement à droite.",
       "labeledColumnsBest": "Idéal pour : grands tableaux que vous pouvez garder nets avec des étiquettes",
       "stewardDesk": "Tableau du bureau des délégués",
       "stewardDeskDesc": "Grand bloc contacts exécutif / délégués à côté de cartes compactes réseaux et S&S; bande du bas pour la prochaine réunion ou action. Courant dans les bureaux où les membres s'arrêtent pour poser des questions.",
       "stewardDeskBest": "Idéal pour : bureau des délégués ou local syndical"
     },
     "materials": {
-      "title": "Alimenter le tableau — affiches et modèles",
-      "intro": "Quand un tableau est vide, commencez par les affiches officielles de l'Ontario et une courte liste de contacts. Les sections n'ont pas à inventer le contenu — imprimez les documents ministériels, puis ajoutez avis locaux et affiches de solidarité.",
+      "title": "Alimenter le tableau - affiches et modèles",
+      "intro": "Quand un tableau est vide, commencez par les affiches officielles de l'Ontario et une courte liste de contacts. Les sections n'ont pas à inventer le contenu - imprimez les documents ministériels, puis ajoutez avis locaux et affiches de solidarité.",
       "ministryHeading": "Affiches et lois officielles de l'Ontario",
       "ministryNote": "Les PDF ci-dessous sont à imprimer. Vérifiez la page ministérielle officielle pour les versions plus récentes.",
       "templatesHeading": "Modèles locaux d'exemple (anonymisés)",
-      "templatesNote": "Démos réduites avec noms et campus fictifs — remplacez par votre exécutif, CSS et emplacements réels.",
+      "templatesNote": "Démos réduites avec noms et campus fictifs - remplacez par votre exécutif, CSS et emplacements réels.",
       "downloadPdf": "Télécharger le PDF",
       "openLink": "Ouvrir la page officielle",
       "officialSource": "Source ministérielle",
       "downloadTemplate": "Télécharger l'exemple",
       "items": {
         "esaPoster": "Affiche Normes d'emploi en Ontario",
-        "esaPosterDesc": "Aperçu des droits selon la LNE — heures, congés, vacances, cessation. Excellent défaut pour la zone santé-sécurité / droits.",
+        "esaPosterDesc": "Aperçu des droits selon la LNE - heures, congés, vacances, cessation. Excellent défaut pour la zone santé-sécurité / droits.",
         "esaPosterAlt": "Affiche LNE (fichier ministériel alternatif)",
-        "esaPosterAltDesc": "Fichier LNE supplémentaire pour les tableaux qui utilisent encore une ancienne impression — vérifiez la version ministérielle actuelle.",
+        "esaPosterAltDesc": "Fichier LNE supplémentaire pour les tableaux qui utilisent encore une ancienne impression - vérifiez la version ministérielle actuelle.",
         "form82": "En cas de blessure au travail (formule 82)",
         "form82Desc": "Affiche de déclaration de blessure (style WSIB) souvent requise près des infos de premiers soins.",
         "ohsa": "Loi sur la santé et la sécurité au travail (Lois-en-ligne)",
-        "ohsaDesc": "Texte de loi à jour — liez par QR plutôt que d'épingler une photocopie périmée de toute la loi.",
+        "ohsaDesc": "Texte de loi à jour - liez par QR plutôt que d'épingler une photocopie périmée de toute la loi.",
         "ohsaGuide": "Guide de la LSST",
         "ohsaGuideDesc": "Droits des travailleurs en langage clair : savoir, participer, refuser un travail dangereux.",
         "requiredPostersHub": "Affiches obligatoires au travail",
-        "requiredPostersHubDesc": "Carrefour ontarien listant ce que les employeurs doivent distribuer ou afficher — utile en cas de doute.",
+        "requiredPostersHubDesc": "Carrefour ontarien listant ce que les employeurs doivent distribuer ou afficher - utile en cas de doute.",
         "boardChecklist": "Liste d'impression pour tableau",
         "boardChecklistDesc": "Liste minimale plus cibles QR pour LNE, LSST, droits de la personne et documents locaux.",
         "boardTracker": "Suivi des emplacements (CSV)",
-        "boardTrackerDesc": "Exemple multi-campus avec surveillants fictifs — suivez quels tableaux sont vérifiés et qui les contrôle.",
+        "boardTrackerDesc": "Exemple multi-campus avec surveillants fictifs - suivez quels tableaux sont vérifiés et qui les contrôle.",
         "jhscSample": "Liste des membres du CSS (CSV)",
         "jhscSampleDesc": "Courte liste anonymisée du comité santé-sécurité pour la zone S&S.",
         "ohsaQrTip": "Astuce accès LSST par téléphone / QR",
@@ -296,10 +296,10 @@
         "boardL33Desc": "Colonnes étiquetées : affichages, mises à jour/exécutif, liste CSS, affiches LNE + santé-sécurité, formule 82, affiche harcèlement, et grand QR. Le modèle « minimum + droits » bien rangé.",
         "boardL33Alt": "Photo d'un tableau d'info syndical en colonnes étiquetées pour affichages, exécutif, santé-sécurité et affiches de droits",
         "boardW010": "Tableau de corridor avec image de marque",
-        "boardW010Desc": "Bannières du syndicat parent en haut, formule 82 et harcèlement à hauteur des yeux, liste d'exécutif, affiche santé-sécurité, lien QR, plus un coin notes des membres — plus dense mais encore lisible.",
+        "boardW010Desc": "Bannières du syndicat parent en haut, formule 82 et harcèlement à hauteur des yeux, liste d'exécutif, affiche santé-sécurité, lien QR, plus un coin notes des membres - plus dense mais encore lisible.",
         "boardW010Alt": "Photo d'un tableau syndical avec image de marque, affiches de sécurité, liste d'exécutif, code QR et notes de membres",
         "denseBoardPhoto": "Tableau dense de campagne",
-        "denseBoardPhotoDesc": "Grandes affiches de campagne avec feuille QR et cartes de contact — utile quand il faut du remplissage solidarité autour des zones permanentes.",
+        "denseBoardPhotoDesc": "Grandes affiches de campagne avec feuille QR et cartes de contact - utile quand il faut du remplissage solidarité autour des zones permanentes.",
         "denseBoardPhotoAlt": "Photo d'un tableau d'affichage syndical densément garni d'affiches de campagne, codes QR et cartes de contact"
       }
     },
@@ -398,7 +398,7 @@
     "posts": {
       "picket-solidarity": {
         "title": "Publication de solidarité sur la ligne de piquetage",
-        "description": "Graphique à fort contraste avec date, heure et lieu — un appel clair à se présenter.",
+        "description": "Graphique à fort contraste avec date, heure et lieu - un appel clair à se présenter.",
         "why": {
           "0": "Mettez le quand et le où en avant pour que les membres agissent sans lire une longue légende.",
           "1": "Le contraste élevé et un seul appel à l'action restent lisibles dans un fil chargé."
@@ -406,7 +406,7 @@
         "mockup": {
           "headline": "Ligne de piquetage demain",
           "body": "Soutenez vos collègues. Apportez de l'eau, des pancartes et de la solidarité.",
-          "detail": "7 h — Entrée principale"
+          "detail": "7 h - Entrée principale"
         }
       },
       "strike-vote-results": {
@@ -418,13 +418,13 @@
         },
         "mockup": {
           "headline": "94 %",
-          "body": "Les membres ont voté oui. Restez prêts — mises à jour à venir.",
+          "body": "Les membres ont voté oui. Restez prêts - mises à jour à venir.",
           "detail": "Résultat du vote de grève"
         }
       },
       "picket-flyer": {
         "title": "Tract de piquetage / rassemblement",
-        "description": "Énergie d'un tract imprimable adaptée au partage social — le lieu d'abord.",
+        "description": "Énergie d'un tract imprimable adaptée au partage social - le lieu d'abord.",
         "why": {
           "0": "Les tracts imposent une hiérarchie : nom, lieu, heure.",
           "1": "Le même actif sert au tableau syndical et en ligne."
@@ -436,7 +436,7 @@
         }
       },
       "member-spotlight": {
-        "title": "Portrait de membre — années de service",
+        "title": "Portrait de membre - années de service",
         "description": "Citation chaleureuse, nom mis en valeur et identité locale en format carré Instagram.",
         "why": {
           "0": "Les visages et courtes citations engagent plus que les annonces génériques.",
@@ -457,7 +457,7 @@
         },
         "mockup": {
           "headline": "Assemblée générale annuelle",
-          "body": "Tous les membres sont les bienvenus — votre voix façonne notre section.",
+          "body": "Tous les membres sont les bienvenus - votre voix façonne notre section.",
           "detail": "AGA"
         }
       },
@@ -465,7 +465,7 @@
         "title": "Mise à jour de la table de négociation",
         "description": "Ton professionnel : ce qui s'est passé, ce qu'il reste, comment rester informé.",
         "why": {
-          "0": "Les membres veulent le statut, pas du spin — commencez par la mise à jour.",
+          "0": "Les membres veulent le statut, pas du spin - commencez par la mise à jour.",
           "1": "Les couleurs de marque distinguent les messages officiels."
         },
         "mockup": {
@@ -483,16 +483,16 @@
         },
         "mockup": {
           "headline": "Équipe de négociation",
-          "body": "Nous restons à la table pour chaque membre — salaires justes, milieux sécuritaires, respect.",
+          "body": "Nous restons à la table pour chaque membre - salaires justes, milieux sécuritaires, respect.",
           "detail": "Comité de négociation local"
         }
       },
       "town-hall-thanks": {
-        "title": "Graphique de remerciement — assemblée",
+        "title": "Graphique de remerciement - assemblée",
         "description": "Célébrez la participation avec un remerciement chaleureux et une statistique mémorable.",
         "why": {
           "0": "Remercier publiquement renforce la participation la prochaine fois.",
-          "1": "Un chiffre de participation suffit — évitez le compte rendu complet."
+          "1": "Un chiffre de participation suffit - évitez le compte rendu complet."
         },
         "mockup": {
           "headline": "Merci",
@@ -516,7 +516,7 @@
   },
   "boardNotice": {
     "title": "Avis pour tableau syndical",
-    "subtitle": "Avis pour tableaux d'affichage au travail — lisibles de loin",
+    "subtitle": "Avis pour tableaux d'affichage au travail - lisibles de loin",
     "noticeType": "Type d'avis",
     "types": {
       "meeting": "Assemblée générale",
@@ -535,7 +535,7 @@
   },
   "solidarityPoster": {
     "title": "Créateur d'affiches solidarité",
-    "subtitle": "Affiches énergiques pour tableaux syndicaux — grands textes, slogans de solidarité, lien vers ce site pour du soutien",
+    "subtitle": "Affiches énergiques pour tableaux syndicaux - grands textes, slogans de solidarité, lien vers ce site pour du soutien",
     "preset": "Slogan prédéfini",
     "leadIn": "Amorce",
     "headline": "Titre",
@@ -543,9 +543,9 @@
     "closer": "Clôture",
     "layout": "Mise en page",
     "layouts": {
-      "stack": "Empilé — texte centré plein fond",
-      "split": "Partagé — bloc couleur + texte",
-      "banner": "Bannière — barre d'accent + grand mot"
+      "stack": "Empilé - texte centré plein fond",
+      "split": "Partagé - bloc couleur + texte",
+      "banner": "Bannière - barre d'accent + grand mot"
     },
     "formatLetter": "Lettre (8,5×11)",
     "formatTabloid": "Tabloïde (11×17)",
@@ -558,7 +558,7 @@
   },
   "qrCard": {
     "title": "Créateur de cartes lien QR",
-    "subtitle": "Cartes nettes pour les liens du tableau — titre, description optionnelle, slogan sous le QR, et formats d'impression de la lettre entière au quart de feuille",
+    "subtitle": "Cartes nettes pour les liens du tableau - titre, description optionnelle, slogan sous le QR, et formats d'impression de la lettre entière au quart de feuille",
     "preset": "Préréglage",
     "destination": "Lien ou texte à encoder",
     "savedLinks": "Utiliser un lien enregistré de la trousse",
@@ -583,7 +583,7 @@
       "square4": "Carré 4×4"
     },
     "sizeTip": "Quart = 4 par feuille lettre; Demi = 2 par feuille. Imprimez plusieurs copies de la même carte pour remplir une page.",
-    "previewSize": "Aperçu {label} — {width}×{height} po",
+    "previewSize": "Aperçu {label} - {width}×{height} po",
     "showUrl": "Afficher l'URL sous le slogan",
     "includeBranding": "Inclure l'image de marque locale",
     "qrPlaceholder": "Entrez un lien",
@@ -594,7 +594,7 @@
       "getSupportDesc": "Scannez pour de l'aide, des ressources et le carrefour de votre section.",
       "getSupportTagline": "Scannez pour du soutien →",
       "esaTitle": "Connaissez vos droits",
-      "esaDesc": "Normes d'emploi en Ontario — heures, congés, vacances et plus.",
+      "esaDesc": "Normes d'emploi en Ontario - heures, congés, vacances et plus.",
       "esaTagline": "Scannez le guide LNE",
       "ohsaTitle": "Santé et sécurité",
       "ohsaDesc": "Vos droits de savoir, de participer et de refuser un travail dangereux.",
@@ -603,7 +603,7 @@
       "healthSafetyDesc": "Contacts du comité et comment signaler un danger.",
       "healthSafetyTagline": "Scannez pour les contacts S&S",
       "followUsTitle": "Restez branchés",
-      "followUsDesc": "Mises à jour, réunions et solidarité — suivez votre section en ligne.",
+      "followUsDesc": "Mises à jour, réunions et solidarité - suivez votre section en ligne.",
       "followUsTagline": "Scannez pour nous suivre",
       "localWebsiteTitle": "Visitez notre site",
       "localWebsiteDesc": "Nouvelles, contacts et ressources pour les membres.",
@@ -612,7 +612,7 @@
   },
   "websiteTemplate": {
     "title": "Modèle de site Web",
-    "subtitle": "Téléchargez un site local simple basé sur le modèle Section 243 — prêt pour GitHub Pages",
+    "subtitle": "Téléchargez un site local simple basé sur le modèle Section 243 - prêt pour GitHub Pages",
     "unionName": "Nom du syndicat",
     "heroText": "Slogan d'accueil",
     "about1": "Paragraphe à propos 1",
@@ -628,7 +628,7 @@
     "removeOfficer": "Supprimer",
     "preview": "Aperçu en direct",
     "downloadZip": "Télécharger le ZIP du site",
-    "referenceNote": "Ce modèle est basé sur le site en direct local243.org — un site GitHub Pages bénévole utilisé comme référence. Le ZIP exporté utilise une bannière d'en-tête syndicale au lieu d'un logo local dans la barre de navigation."
+    "referenceNote": "Ce modèle est basé sur le site en direct local243.org - un site GitHub Pages bénévole utilisé comme référence. Le ZIP exporté utilise une bannière d'en-tête syndicale au lieu d'un logo local dans la barre de navigation."
   },
   "sources": {
     "title": "Sources et références",
@@ -645,9 +645,9 @@
     "title": "Matériel d'atelier",
     "subtitle": "Tout ce dont vous avez besoin pour la session du 18 août et les communications continues de la section",
     "session": {
-      "title": "Session du 18 août — La boîte à outils en 60 minutes",
+      "title": "Session du 18 août - La boîte à outils en 60 minutes",
       "when": "18 août, 12 h à 13 h",
-      "format": "Présentation, démonstration en direct et atelier pratique — les participants repartent avec logo, avis pour tableau, graphique social et ZIP du site Web.",
+      "format": "Présentation, démonstration en direct et atelier pratique - les participants repartent avec logo, avis pour tableau, graphique social et ZIP du site Web.",
       "cta": "Commencer le plan médias sociaux"
     },
     "checklist": {
@@ -678,11 +678,11 @@
     "builtFrom": {
       "title": "De quoi est faite cette boîte à outils",
       "items": [
-        "Modèle de site Web — simplifié à partir d'un site GitHub Pages bénévole (référence : local243.org)",
-        "Couleurs de marque — valeurs par défaut du locataire de référence (personnalisez dans la trousse de marque)",
-        "Chapitres du Plan directeur — bonnes pratiques bénévoles pour les communications locales de solidarité",
-        "Guide de crise — orientation générale pour les communications de grève et de négociation locales",
-        "Accessibilité — engagements WCAG 2.1 AA et AODA dans l'énoncé d'accessibilité du centre"
+        "Modèle de site Web - simplifié à partir d'un site GitHub Pages bénévole (référence : local243.org)",
+        "Couleurs de marque - valeurs par défaut du locataire de référence (personnalisez dans la trousse de marque)",
+        "Chapitres du Plan directeur - bonnes pratiques bénévoles pour les communications locales de solidarité",
+        "Guide de crise - orientation générale pour les communications de grève et de négociation locales",
+        "Accessibilité - engagements WCAG 2.1 AA et AODA dans l'énoncé d'accessibilité du centre"
       ]
     },
     "allSources": {
@@ -711,7 +711,7 @@
   "localLinks": {
     "title": "Site Web et liens clés",
     "description": "URL facultatives utilisées pour les cartes QR, affiches et modèle de site. Ajoutez réseaux sociaux ou campagnes en tout temps.",
-    "optionalHint": "Facultatif — ajoutez votre site et vos réseaux pour que les affiches et cartes QR les réutilisent.",
+    "optionalHint": "Facultatif - ajoutez votre site et vos réseaux pour que les affiches et cartes QR les réutilisent.",
     "websiteUrl": "URL du site de la section (facultatif)",
     "facebookUrl": "Groupe ou page Facebook (facultatif)",
     "customHeading": "Autres liens (Instagram, TikTok, campagnes, etc.)",
@@ -723,7 +723,7 @@
   },
   "brandKit": {
     "title": "Gestionnaire de trousse de marque",
-    "description": "Gérer, exporter et importer l'image de marque de votre section — couleurs, logo et liens clés prêts pour des graphiques de solidarité",
+    "description": "Gérer, exporter et importer l'image de marque de votre section - couleurs, logo et liens clés prêts pour des graphiques de solidarité",
     "export": "Exporter la trousse de marque",
     "import": "Importer la trousse de marque",
     "importSuccess": "Trousse de marque importée avec succès",
@@ -738,25 +738,25 @@
       "useOfficialLogo": "Utiliser le logo OPSEU",
       "uploadCustomLogo": "Téléverser un logo",
       "uploadHint": "PNG, JPEG, WebP ou SVG jusqu'à 10 Mo.",
-      "useOfficialLogoHint": "Lockup officiel OPSEU/SEFPO — choix recommandé pour configurer votre marque.",
+      "useOfficialLogoHint": "Lockup officiel OPSEU/SEFPO - choix recommandé pour configurer votre marque.",
       "noImage": "Aucune image",
       "noImageHint": "Utilisez un monogramme texte dans l'en-tête au lieu d'un logo.",
       "logoText": "Monogramme d'en-tête",
-      "logoTextHint": "Jusqu'à 4 caractères — p. ex. LU ou votre numéro de section.",
+      "logoTextHint": "Jusqu'à 4 caractères - p. ex. LU ou votre numéro de section.",
       "preview": "Aperçu",
       "useLockup": "Mot-symbole OPSEU",
-      "useLockupHint": "Lockup complet OPSEU/SEFPO — choix recommandé pour configurer votre marque.",
+      "useLockupHint": "Lockup complet OPSEU/SEFPO - choix recommandé pour configurer votre marque.",
       "useMark": "Emblème OPSEU",
-      "useMarkHint": "Barres et trille — compact pour les en-têtes et logos circulaires.",
+      "useMarkHint": "Barres et trille - compact pour les en-têtes et logos circulaires.",
       "useSlitBlue": "Emblème fendu OPSEU (bleu)",
-      "useSlitBlueHint": "Barres et trille avec OPSEU/SEFPO découpés — pour fonds clairs.",
+      "useSlitBlueHint": "Barres et trille avec OPSEU/SEFPO découpés - pour fonds clairs.",
       "useSlitWhite": "Emblème fendu OPSEU (blanc)",
-      "useSlitWhiteHint": "Même emblème fendu en blanc — pour fonds foncés ou couleur de marque."
+      "useSlitWhiteHint": "Même emblème fendu en blanc - pour fonds foncés ou couleur de marque."
     }
   },
   "graphicMaker": {
     "title": "Créateur de graphiques nouvelles et événements",
-    "subtitle": "Mises en page comme les exemples sociaux — solidarité, avis, résultats, projecteurs et remerciements.",
+    "subtitle": "Mises en page comme les exemples sociaux - solidarité, avis, résultats, projecteurs et remerciements.",
     "layout": "Mise en page",
     "layouts": {
       "solidarity": "Solidarité",
@@ -789,7 +789,7 @@
   },
   "quoteCard": {
     "title": "Générateur de carte citation",
-    "subtitle": "Courtes citations de leadership avec image de marque locale — prêtes pour Instagram.",
+    "subtitle": "Courtes citations de leadership avec image de marque locale - prêtes pour Instagram.",
     "quote": "Citation",
     "author": "Attribution",
     "role": "Rôle ou comité (optionnel)"
@@ -804,7 +804,7 @@
   },
   "altTextAssistant": {
     "title": "Assistant texte alt",
-    "subtitle": "Rédigez des descriptions d'images pour vos publications, puis collez-les dans le champ texte alternatif de chaque plateforme. Cet outil n'analyse pas les images — c'est vous qui écrivez la description.",
+    "subtitle": "Rédigez des descriptions d'images pour vos publications, puis collez-les dans le champ texte alternatif de chaque plateforme. Cet outil n'analyse pas les images - c'est vous qui écrivez la description.",
     "starterLabel": "Partir d'un type de graphique courant",
     "altLabel": "Texte alt (pour le champ d'accessibilité de l'image)",
     "altPlaceholder": "Décrivez qui ou ce qui est montré, le contexte, et tout texte sur le graphique…",
@@ -815,7 +815,7 @@
     "captionHint": "Le texte alt et la légende sont des champs distincts sur la plupart des plateformes. N'insérez pas toute la légende dans le champ alt.",
     "copyAlt": "Copier le texte alt",
     "copyBoth": "Copier alt + légende",
-    "draftLooksGood": "Le brouillon semble solide — aucun problème courant détecté. Vérifiez quand même la liste avant de publier.",
+    "draftLooksGood": "Le brouillon semble solide - aucun problème courant détecté. Vérifiez quand même la liste avant de publier.",
     "howTitle": "Comment l'utiliser",
     "how": {
       "step1": "Exportez ou capturez votre graphique depuis le créateur de graphiques, la carte citation, l'affiche ou un autre outil.",
@@ -828,7 +828,7 @@
       "visual": "Décrit ce qui est visuellement dans l'image (personnes, pancartes, lieu)",
       "onImageText": "Inclut le texte important qui apparaît sur le graphique",
       "localIdentity": "Mentionne le numéro de section locale ou le nom du syndicat s'ils sont visibles",
-      "concise": "Reste concis — 1 ou 2 phrases suffisent en général",
+      "concise": "Reste concis - 1 ou 2 phrases suffisent en général",
       "noImageOf": "Ne commence pas par « Image de » ou « Photo de »"
     },
     "examplesTitle": "Mauvais vs bon",
@@ -868,7 +868,7 @@
     },
     "issues": {
       "empty": "Ajoutez une description avant de copier.",
-      "startsWithImageOf": "Évitez de commencer par « Image de » ou « Photo de » — les lecteurs d'écran annoncent déjà qu'il s'agit d'une image.",
+      "startsWithImageOf": "Évitez de commencer par « Image de » ou « Photo de » - les lecteurs d'écran annoncent déjà qu'il s'agit d'une image.",
       "tooShort": "C'est trop court. Ajoutez qui/quoi est montré et tout texte important sur l'image.",
       "sameAsCaption": "Le texte alt reprend la légende. Décrivez l'image elle-même ; gardez la légende dans le champ de publication.",
       "placeholderLeft": "Remplacez les espaces réservés entre crochets par les vrais détails de votre graphique."
@@ -885,33 +885,33 @@
   },
   "contrast": {
     "pass": "Respecte le contraste WCAG AA",
-    "fail": "Ne respecte pas le contraste WCAG AA — ajustez les couleurs pour l'accessibilité",
+    "fail": "Ne respecte pas le contraste WCAG AA - ajustez les couleurs pour l'accessibilité",
     "ratio": "Ratio de contraste : {ratio}:1"
   },
   "crisisGuide": {
-    "title": "Guide de communication — grève et crise",
+    "title": "Guide de communication - grève et crise",
     "subtitle": "Orientation de haut niveau pour les sections locales pendant les grèves, la négociation et les crises en milieu de travail",
     "backToGuide": "Retour au plan directeur",
-    "intro": "Les syndicats centraux offrent souvent un soutien sectoriel à la négociation, mais les sections gèrent leurs propres communications membres — surtout sur les médias sociaux. Ce guide aide les responsables bénévoles à rester coordonnés, conformes et centrés sur les membres. Reportez-vous toujours à votre exécutif local, à votre représentant de service et aux protocoles de grève ou de négociation en vigueur.",
+    "intro": "Les syndicats centraux offrent souvent un soutien sectoriel à la négociation, mais les sections gèrent leurs propres communications membres - surtout sur les médias sociaux. Ce guide aide les responsables bénévoles à rester coordonnés, conformes et centrés sur les membres. Reportez-vous toujours à votre exécutif local, à votre représentant de service et aux protocoles de grève ou de négociation en vigueur.",
     "scenarios": {
       "strike": {
         "title": "Grève",
         "items": [
           "Confirmez tout message public avec votre président(e) de section et votre représentant de service syndical avant de publier",
-          "Désignez un ou deux porte-parole — les membres et les médias doivent entendre une seule voix locale cohérente",
+          "Désignez un ou deux porte-parole - les membres et les médias doivent entendre une seule voix locale cohérente",
           "Publiez quotidiennement les horaires de piquetage, les entrées et les rappels de sécurité avec les graphiques de cette trousse",
-          "Partagez la solidarité et les témoignages des membres avec consentement — ne publiez jamais de photos sans permission",
+          "Partagez la solidarité et les témoignages des membres avec consentement - ne publiez jamais de photos sans permission",
           "Utilisez les couleurs de votre trousse de marque; suivez les matériels de campagne de division ou de secteur lors d'une coordination divisionnelle",
           "Ne partagez pas les détails de négociation, les adresses des membres ni la stratégie interne sur les canaux publics",
-          "Orientez les questions sur la paie, les tâches et le retour au travail vers le comité de grève — pas les fils de commentaires"
+          "Orientez les questions sur la paie, les tâches et le retour au travail vers le comité de grève - pas les fils de commentaires"
         ]
       },
       "bargaining": {
         "title": "Négociation et compte à rebours",
         "items": [
-          "Créez de l'élan avec des mises à jour factuelles — sécurité d'emploi, charge de travail, salaires et priorités des membres",
+          "Créez de l'élan avec des mises à jour factuelles - sécurité d'emploi, charge de travail, salaires et priorités des membres",
           "Utilisez des mots-clics et graphiques cohérents pour que les membres reconnaissent les publications officielles",
-          "Encouragez les membres à porter les couleurs de votre trousse de marque et à assister aux assemblées d'information — publiez les horaires tôt",
+          "Encouragez les membres à porter les couleurs de votre trousse de marque et à assister aux assemblées d'information - publiez les horaires tôt",
           "Partagez seulement ce que l'équipe de négociation a autorisé pour diffusion publique",
           "Rappelez aux membres d'éviter de débattre des allégations de l'employeur dans les commentaires publics",
           "Liez aux pages de négociation officielles du syndicat lorsqu'elles existent plutôt que de paraphraser de mémoire"
@@ -920,9 +920,9 @@
       "layoffs": {
         "title": "Mises à pied et restructuration",
         "items": [
-          "Reconnaissez l'anxiété des membres — soyez empathique, factuel et calme",
+          "Reconnaissez l'anxiété des membres - soyez empathique, factuel et calme",
           "Orientez les membres touchés vers les délégués, les représentants de service syndicaux et le PAE",
-          "Ne spéculez pas sur les résultats — partagez seulement les déclarations confirmées",
+          "Ne spéculez pas sur les résultats - partagez seulement les déclarations confirmées",
           "Utilisez des cartes de citation des dirigeants élus pour montrer une voix locale unifiée",
           "Documentez hors ligne les communications de la direction pour les griefs et la consultation",
           "Évitez de nommer des personnes à risque sauf si elles ont demandé à être identifiées publiquement"
@@ -931,7 +931,7 @@
       "management": {
         "title": "Réaction de la direction et désinformation",
         "items": [
-          "Répondez avec des faits et le langage de la convention collective — jamais d'attaques personnelles",
+          "Répondez avec des faits et le langage de la convention collective - jamais d'attaques personnelles",
           "Si la direction publie de la désinformation, publiez une brève correction et épinglez-la au besoin",
           "Escaladez immédiatement le harcèlement, les menaces ou la surveillance à votre représentant de service syndical",
           "N'engagez pas de longs débats publics avec les comptes de la direction",
@@ -943,23 +943,23 @@
     "escalation": {
       "title": "Quand escalader",
       "items": [
-        "Demandes des médias — orientez vers le porte-parole désigné ou les communications syndicales",
-        "Menaces juridiques, injonctions ou lettres de l'employeur sur la conduite — exécutif et représentant immédiatement",
-        "Incidents de sécurité des membres sur la ligne ou au travail — suivez d'abord les protocoles d'urgence locaux",
-        "Documents confidentiels divulgués ou mauvaise foi suspectée — ne publiez pas; alertez la direction",
-        "Désinformation virale sur votre section — coordonnez une seule correction plutôt que plusieurs réponses"
+        "Demandes des médias - orientez vers le porte-parole désigné ou les communications syndicales",
+        "Menaces juridiques, injonctions ou lettres de l'employeur sur la conduite - exécutif et représentant immédiatement",
+        "Incidents de sécurité des membres sur la ligne ou au travail - suivez d'abord les protocoles d'urgence locaux",
+        "Documents confidentiels divulgués ou mauvaise foi suspectée - ne publiez pas; alertez la direction",
+        "Désinformation virale sur votre section - coordonnez une seule correction plutôt que plusieurs réponses"
       ]
     },
     "tools": {
       "title": "Ressources de la trousse pour les communications de crise",
       "description": "Utilisez ces outils locaux pour garder des visuels cohérents quand votre section est sous pression :",
       "items": [
-        "Trousse de marque — numéro de section, couleurs et logo prêts pour des graphiques rapides",
-        "Avis pour tableau syndical — mises à jour sur les tableaux d'affichage pendant les grèves",
-        "Créateur de dépliants et carte de citation — déclarations des dirigeants et mises à jour de piquetage",
-        "Créateur de graphiques — mise en vedette des membres avec flux de consentement",
-        "Modèle de site Web — un lien stable pour les membres et les médias",
-        "Bibliothèque de légendes — publications de solidarité et de négociation réutilisables"
+        "Trousse de marque - numéro de section, couleurs et logo prêts pour des graphiques rapides",
+        "Avis pour tableau syndical - mises à jour sur les tableaux d'affichage pendant les grèves",
+        "Créateur de dépliants et carte de citation - déclarations des dirigeants et mises à jour de piquetage",
+        "Créateur de graphiques - mise en vedette des membres avec flux de consentement",
+        "Modèle de site Web - un lien stable pour les membres et les médias",
+        "Bibliothèque de légendes - publications de solidarité et de négociation réutilisables"
       ]
     }
   },
@@ -967,26 +967,26 @@
     "button": "Partager cet outil",
     "copied": "Lien copié!",
     "shared": "Merci d'avoir partagé!",
-    "error": "Partage impossible — copiez le lien depuis la barre d'adresse"
+    "error": "Partage impossible. Copiez le lien depuis la barre d'adresse."
   },
   "manifesto": {
     "title": "Pourquoi UnionOps est gratuit (et le restera)",
-    "p1": "La plupart des logiciels modernes suivent un cycle prévisible et épuisant : offrir un outil utile, enfermer les utilisateurs, puis les pressurer avec des abonnements mensuels.",
-    "p2": "On déteste ça. Les cotisations syndicales devraient servir à défendre les travailleurs, pas à payer d'interminables abonnements logiciels juste pour organiser le travail de base.",
+    "p1": "La plupart des logiciels suivent le même schéma usé : offrir quelque chose d'utile, vous enfermer, puis sortir l'abonnement mensuel.",
+    "p2": "On déteste ça. Les cotisations devraient défendre les travailleurs, pas payer des abonnements logiciels juste pour organiser le travail de base.",
     "promiseLead": "UnionOps a été bâti par solidarité, pas pour le profit.",
-    "promiseIntro": "Voici notre promesse :",
+    "promiseIntro": "Notre promesse :",
     "noSubsTitle": "Pas d'abonnements :",
     "noSubsBody": "Cet outil est gratuit. Pas de forfaits premium, pas de paywalls, pas de frais cachés.",
     "noDataTitle": "Pas de collecte de données :",
-    "noDataBody": "Nous ne voulons pas vos données. En fait, on ne pourrait pas les voir même si on le voulait. UnionOps est « local-first ». Tout ce que vous tapez — griefs, listes de membres, stratégie — reste entièrement sur votre appareil. Nous n'avons pas de serveurs, donc pas de coûts de serveur à vous refiler, et pas de bases de données à assigner.",
+    "noDataBody": "On ne veut pas vos données. On ne pourrait pas les voir même si on le voulait. UnionOps est local-first. Griefs, listes de membres, notes de stratégie : tout reste sur votre appareil. Pas de serveurs, donc pas de facture serveur à vous refiler, et pas de base de données qui attend une assignation.",
     "noAdsTitle": "Pas de pubs, pas de pistage :",
-    "noAdsBody": "Nous ne vendons pas votre attention.",
-    "closing": "UnionOps est bâti par des bénévoles syndicaux qui voulaient simplement un bon outil pour les gens qui font le vrai travail sur le terrain.",
+    "noAdsBody": "On ne vend pas votre attention.",
+    "closing": "UnionOps est bâti par des bénévoles syndicaux qui voulaient un bon outil pour les gens qui font le vrai travail sur le terrain.",
     "slogan": "Solidarity.",
     "backHome": "← Retour à UnionOps"
   },
   "footer": {
-    "madeBy": "UnionOps — Built in solidarity for union locals by union volunteers.",
+    "madeBy": "UnionOps. Built in solidarity for union locals by union volunteers.",
     "privacy": "Vos données restent sur votre appareil"
   },
   "accessibility": {
@@ -1012,7 +1012,7 @@
     },
     "limitations": {
       "title": "Limites connues",
-      "body": "Les zones d'aperçu d'images basées sur canvas peuvent ne pas être entièrement accessibles aux lecteurs d'écran et peuvent ne pas refléter le mode contraste élevé. Tous les champs qui contrôlent l'aperçu sont accessibles via des contrôles de formulaire standard. Les fichiers PNG/PDF exportés n'intègrent pas de texte alt — ajoutez des descriptions dans le champ texte alternatif de chaque plateforme lors de la publication (l'assistant texte alt vous aide à les rédiger)."
+      "body": "Les zones d'aperçu d'images basées sur canvas peuvent ne pas être entièrement accessibles aux lecteurs d'écran et peuvent ne pas refléter le mode contraste élevé. Tous les champs qui contrôlent l'aperçu sont accessibles via des contrôles de formulaire standard. Les fichiers PNG/PDF exportés n'intègrent pas de texte alt - ajoutez des descriptions dans le champ texte alternatif de chaque plateforme lors de la publication (l'assistant texte alt vous aide à les rédiger)."
     },
     "feedback": {
       "title": "Commentaires",
@@ -1067,7 +1067,7 @@
     "mfaCode": "Code de vérification",
     "verifyMfa": "Vérifier",
     "verifying": "Vérification...",
-    "mfaError": "Code invalide — entrez 6 chiffres en mode dev",
+    "mfaError": "Code invalide - entrez 6 chiffres en mode dev",
     "mfaDevHint": "Mode dev : entrez 6 chiffres (ex. 000000)",
     "mfaRequired": "AMF requise",
     "mfaOk": "AMF vérifiée",
@@ -1107,8 +1107,8 @@
     "importTitle": "Import chiffré",
     "importDesc": "Déchiffrez un fichier de sauvegarde et chargez-le dans le hub. Dirigeants seulement.",
     "importMode": "Mode d'import",
-    "modeMerge": "Fusionner — mettre à jour les ID correspondants, conserver les autres dossiers",
-    "modeReplace": "Remplacer — supprimer les dossiers de cette section, puis importer",
+    "modeMerge": "Fusionner - mettre à jour les ID correspondants, conserver les autres dossiers",
+    "modeReplace": "Remplacer - supprimer les dossiers de cette section, puis importer",
     "importEncrypted": "Importer un fichier chiffré",
     "importSuccess": "Import de {grievances} grief(s) et {bumping} dossier(s) de bumpage ({removed} supprimés).",
     "localSliceTitle": "Copie de données locale",
@@ -1121,7 +1121,7 @@
     "localCleared": "Copie locale effacée. Mode de données défini sur central.",
     "dataMode": "Mode de données préféré",
     "dataModeDesc": "Indique si cet appareil préfère le hub central ou un rappel de copie locale chiffrée.",
-    "dataModeHonest": "Note : les écrans de griefs/bumpage utilisent toujours le magasin central. Utilisez Enregistrer/Restaurer pour synchroniser une sauvegarde chiffrée — le mode local ne change pas encore la source de données active.",
+    "dataModeHonest": "Note : les écrans de griefs/bumpage utilisent toujours le magasin central. Utilisez Enregistrer/Restaurer pour synchroniser une sauvegarde chiffrée - le mode local ne change pas encore la source de données active.",
     "modeCentral": "Hub central (par défaut)",
     "modeLocal": "Préférer la sauvegarde locale chiffrée",
     "modeLocalOn": "Préférence marquée pour la sauvegarde locale chiffrée sur cet appareil.",
@@ -1151,13 +1151,13 @@
       "upcomingCount": "À venir (10 prochains)",
       "sectionOverdue": "Dossiers en retard",
       "sectionUpcoming": "Échéances à venir",
-      "none": "Aucun grief en retard — bravo.",
+      "none": "Aucun grief en retard - bravo.",
       "daysOverdue": "{days} j de retard",
       "daysUntil": "Dans {days} j"
     },
     "snippets": {
       "title": "Extraits de clauses CA",
-      "subtitle": "Bibliothèque de clauses pour notes et brouillons. Copie seulement — jamais d'envoi automatique.",
+      "subtitle": "Bibliothèque de clauses pour notes et brouillons. Copie seulement - jamais d'envoi automatique.",
       "add": "Ajouter un extrait",
       "cancel": "Annuler",
       "search": "Rechercher",
@@ -1290,14 +1290,14 @@
     "saveNote": "Enregistrer",
     "saving": "Enregistrement...",
     "emailDrafts": "Brouillons de courriel",
-    "emailDraftWarning": "Brouillons seulement — réviser et envoyer manuellement.",
+    "emailDraftWarning": "Brouillons seulement - réviser et envoyer manuellement.",
     "generateDraft": "Générer le brouillon",
     "copyDraft": "Copier",
     "copied": "Copié!",
     "exportBundle": "Exporter (ZIP)",
     "markResolved": "Marquer résolu",
     "memberPseudonym": "Pseudonyme du membre",
-    "memberPseudonymHint": "Optionnel — utiliser un pseudonyme",
+    "memberPseudonymHint": "Optionnel - utiliser un pseudonyme",
     "category": "Catégorie",
     "filedAt": "Date de dépôt",
     "create": "Créer le grief",
@@ -1333,7 +1333,7 @@
   "bumping": {
     "title": "Bumpage collégial",
     "subtitle": "Comparaison de postes et registre du comité de stabilité",
-    "disclaimer": "Les listes aident le processus — pas un avis juridique. Suivez votre convention collective.",
+    "disclaimer": "Les listes aident le processus - pas un avis juridique. Suivez votre convention collective.",
     "loading": "Chargement...",
     "loadError": "Impossible de charger les dossiers",
     "newCase": "Nouveau dossier",
@@ -1355,11 +1355,11 @@
     "bumpingPosition": "Poste du membre qui bump",
     "uploadPdf": "Téléverser PDF ou fichier texte",
     "extractingPdf": "Extraction du texte PDF...",
-    "pdfError": "Impossible de lire le PDF — collez le texte manuellement",
+    "pdfError": "Impossible de lire le PDF - collez le texte manuellement",
     "loadedFile": "Chargé : {name}",
     "pastePositionText": "Ou collez la description du poste",
     "positionCompare": "Comparaison côte à côte",
-    "compareHint": "Différences en surbrillance — tâches, qualifications, ancienneté",
+    "compareHint": "Différences en surbrillance - tâches, qualifications, ancienneté",
     "checklist": "Liste de vérification",
     "yes": "Oui",
     "no": "Non",
@@ -1374,7 +1374,7 @@
     "addNote": "Ajouter une note",
     "saveNote": "Enregistrer",
     "decision": "Décision",
-    "decisionHint": "Enregistrer pour les dossiers locaux — le comité décide",
+    "decisionHint": "Enregistrer pour les dossiers locaux - le comité décide",
     "outcome": "Résultat",
     "rationale": "Justification",
     "dissent": "Notes de dissidence (optionnel)",
@@ -1401,7 +1401,7 @@
   },
   "assets": {
     "title": "Trousse d'actifs de marque",
-    "description": "Couleurs, logos et directives d'usage pour les communications locales de solidarité — personnalisez tout dans votre trousse de marque pour qu'elle convienne à votre syndicat.",
+    "description": "Couleurs, logos et directives d'usage pour les communications locales de solidarité - personnalisez tout dans votre trousse de marque pour qu'elle convienne à votre syndicat.",
     "primaryLogo": "Logo principal",
     "downloadPng": "Télécharger PNG",
     "logoAlt": "Logo de marque par défaut",

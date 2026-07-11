@@ -38,7 +38,7 @@ function canImportHybridSlice(roles: UserRole[]): boolean {
 }
 
 /**
- * GET /api/hybrid/slice — plaintext confidential slice for the caller's local.
+ * GET /api/hybrid/slice - plaintext confidential slice for the caller's local.
  * Client encrypts with a passphrase before download; passphrase never hits the server.
  */
 export async function GET() {
@@ -109,7 +109,7 @@ export async function GET() {
 }
 
 /**
- * POST /api/hybrid/slice — import a decrypted hybrid data slice into the hub store.
+ * POST /api/hybrid/slice - import a decrypted hybrid data slice into the hub store.
  * Body: { slice: HybridDataSlice, mode?: "merge" | "replace" }
  */
 export async function POST(request: Request) {

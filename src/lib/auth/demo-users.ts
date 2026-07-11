@@ -1,6 +1,6 @@
 import type { DemoUser } from "@/types/auth";
 
-/** Dev-only demo accounts — replace with DB in production */
+/** Dev-only demo accounts - replace with DB in production */
 export const DEMO_USERS: DemoUser[] = [
   {
     id: "user-president-243",

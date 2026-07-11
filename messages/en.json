@@ -60,20 +60,20 @@
   "home": {
     "title": "UnionOps: The Toolkit for Local Unions",
     "slogan": "Solidarity.",
-    "subtitle": "Comms tools for volunteers and officer workflows for presidents and stewards — built in solidarity for any local, any union",
+    "subtitle": "Comms tools for volunteers. Officer workflows for presidents and stewards. Built for any local, any union.",
     "heroCta": "Set up your local brand",
     "socialMediaPlanCta": "Start the Social Media Plan",
-    "socialMediaPlanDesc": "A quick roadmap: logo, union boards, socials, and a simple website — in order.",
+    "socialMediaPlanDesc": "A quick roadmap: logo, union boards, socials, and a simple website, in that order.",
     "pathCommsTitle": "New to running a local’s communications?",
-    "pathCommsDesc": "A short roadmap: brand, boards, socials, then a simple website — in order.",
+    "pathCommsDesc": "A short roadmap: brand, boards, socials, then a simple website.",
     "pathCommsCta": "Get started",
     "pathCommsHint": "Need copy later? Social Examples and Captions are under Learn.",
     "pathOfficerTitle": "President or steward managing cases?",
     "pathOfficerDesc": "Track grievances, college bumping, overdue work, and handoffs in the Officer Hub.",
     "pathOfficerCta": "Open Officer Hub",
     "channelsTitle": "The Toolbox",
-    "privacyNote": "All processing happens on your device. No data is sent to any server.",
-    "trustBanner": "Local-First Privacy: UnionOps processes everything in your browser. We have no servers, and your grievance/member data never leaves your device.",
+    "privacyNote": "Everything runs on your device. Nothing gets sent to a server.",
+    "trustBanner": "Local-first privacy: UnionOps runs in your browser. Grievance and member data stays on your device.",
     "trustManifestoLink": "Our promise",
     "channels": {
       "social": {
@@ -97,7 +97,7 @@
   "socialMediaPlan": {
     "title": "Social Media Plan",
     "subtitle": "A quick roadmap for locals starting or improving their communications",
-    "intro": "Follow these four steps in order. Each builds on the last — brand first, then reach members where they are: on the board, on social, and online.",
+    "intro": "Follow these four steps in order. Each builds on the last - brand first, then reach members where they are: on the board, on social, and online.",
     "steps": {
       "logo": {
         "title": "1. Make a logo",
@@ -158,18 +158,18 @@
       },
       "tone": {
         "title": "Tone of voice",
-        "content": "Be professional but human. Speak as a collective ('we', 'our members') not as management. Celebrate wins, explain setbacks honestly, and always centre member voices. Avoid jargon — write for members reading on their phone during a break."
+        "content": "Be professional but human. Speak as a collective ('we', 'our members') not as management. Celebrate wins, explain setbacks honestly, and always centre member voices. Avoid jargon - write for members reading on their phone during a break."
       },
       "frequency": {
         "title": "Posting frequency",
-        "content": "Aim for 2–3 posts per week minimum during normal times. Increase during bargaining or strike action. Consistency beats volume — a steady rhythm builds trust. Use a simple content mix: 40% updates, 30% member stories, 20% education, 10% solidarity/culture."
+        "content": "Aim for 2–3 posts per week minimum during normal times. Increase during bargaining or strike action. Consistency beats volume - a steady rhythm builds trust. Use a simple content mix: 40% updates, 30% member stories, 20% education, 10% solidarity/culture."
       },
       "trolls": {
         "title": "Dealing with trolls and management",
         "content": "Do not engage with bad-faith comments. Hide or delete spam, harassment, and misinformation. For management pushback, stick to facts, cite the collective agreement, and escalate to your communications chair or national rep. Never post confidential bargaining details."
       },
       "accessibility": {
-        "title": "Accessibility — alt-text",
+        "title": "Accessibility - alt-text",
         "content": "Every image post needs alt-text describing what's in the image for visually impaired members. Use the Alt-Text Assistant to draft that description, then paste it into the platform’s alt-text field (not the caption). Keep descriptions concise but complete: who, what, where, and any text shown in the graphic."
       }
     },
@@ -182,7 +182,7 @@
   },
   "unionBoardsGuide": {
     "title": "Union Boards Guide",
-    "subtitle": "Workplace bulletin boards reach members who are not on social media — start with a bare-minimum layout, then fill the rest with notices and solidarity posters",
+    "subtitle": "Workplace bulletin boards reach members who are not on social media - start with a bare-minimum layout, then fill the rest with notices and solidarity posters",
     "zones": {
       "header": "Local header",
       "socials": "Socials / QR",
@@ -202,7 +202,7 @@
         },
         "socials": {
           "title": "Socials and digital link",
-          "content": "QR code or short URL to this hub, your local website, or Facebook group. One clear CTA — “Get support” or “Follow us” — beats a wall of icons."
+          "content": "QR code or short URL to this hub, your local website, or Facebook group. One clear CTA - “Get support” or “Follow us” - beats a wall of icons."
         },
         "healthSafety": {
           "title": "Health and safety",
@@ -210,7 +210,7 @@
         },
         "lec": {
           "title": "LEC and steward list",
-          "content": "Local Executive Committee roles with names and work contacts (or steward office hours). Update after elections — outdated lists erode trust."
+          "content": "Local Executive Committee roles with names and work contacts (or steward office hours). Update after elections - outdated lists erode trust."
         },
         "events": {
           "title": "Events or rotating spot",
@@ -240,9 +240,9 @@
     },
     "layouts": {
       "title": "Reference layouts from real locals",
-      "intro": "Patterns adapted from workplace boards locals actually run — generic zones, no branded campaign art. Pick one that fits your board shape and stick to it so members learn where to look.",
+      "intro": "Patterns adapted from workplace boards locals actually run - generic zones, no branded campaign art. Pick one that fits your board shape and stick to it so members learn where to look.",
       "photosHeading": "Real boards (photo references)",
-      "photosIntro": "Photos from active campus boards — use them to see how LEC lists, JHSC, ministry posters, and QR codes sit together in the wild.",
+      "photosIntro": "Photos from active campus boards - use them to see how LEC lists, JHSC, ministry posters, and QR codes sit together in the wild.",
       "schematicsHeading": "Schematic patterns to copy",
       "fourQuadrant": "Four-zone classic",
       "fourQuadrantDesc": "Header across the top, socials and health & safety side by side, full-width LEC strip, events along the bottom. The most common break-room layout.",
@@ -254,40 +254,40 @@
       "corridorTallDesc": "Single-column stack for narrow hallway boards: header, socials, H&S, LEC, events, then solidarity filler at the bottom so the board never ends in blank cork.",
       "corridorTallBest": "Best for: narrow corridor or door-side boards",
       "labeledColumns": "Labeled columns (info board)",
-      "labeledColumnsDesc": "Printed section headers across the top — Postings | Updates / LEC | Health & safety + QR | Rights posters. Matches a well-kept campus info board with ministry ESA, Form 82, and bullying/harassment posters on the right.",
+      "labeledColumnsDesc": "Printed section headers across the top - Postings | Updates / LEC | Health & safety + QR | Rights posters. Matches a well-kept campus info board with ministry ESA, Form 82, and bullying/harassment posters on the right.",
       "labeledColumnsBest": "Best for: wide boards you can keep tidy with paper labels",
       "stewardDesk": "Steward desk board",
       "stewardDeskDesc": "Large LEC / steward contact block beside compact socials and H&S cards; bottom strip for the next meeting or action. Common in steward offices where members stop to ask questions.",
       "stewardDeskBest": "Best for: steward office or union room boards"
     },
     "materials": {
-      "title": "Feed the board — posters and templates",
-      "intro": "When a board looks empty, start with official Ontario posters and a short contact list. Locals do not need to invent content from scratch — print the ministry pieces, then layer local notices and solidarity posters.",
+      "title": "Feed the board - posters and templates",
+      "intro": "When a board looks empty, start with official Ontario posters and a short contact list. Locals do not need to invent content from scratch - print the ministry pieces, then layer local notices and solidarity posters.",
       "ministryHeading": "Official Ontario posters and statutes",
       "ministryNote": "PDFs below are for printing. Prefer the official ministry page when checking for newer versions.",
       "templatesHeading": "Sample local templates (anonymized)",
-      "templatesNote": "Trimmed demos with fake names and campuses — replace with your real LEC, JHSC, and board locations.",
+      "templatesNote": "Trimmed demos with fake names and campuses - replace with your real LEC, JHSC, and board locations.",
       "downloadPdf": "Download PDF",
       "openLink": "Open official page",
       "officialSource": "Ministry source",
       "downloadTemplate": "Download sample",
       "items": {
         "esaPoster": "Employment Standards in Ontario poster",
-        "esaPosterDesc": "ESA rights overview — hours, leaves, vacation, termination. Strong default for the health & safety / rights zone.",
+        "esaPosterDesc": "ESA rights overview - hours, leaves, vacation, termination. Strong default for the health & safety / rights zone.",
         "esaPosterAlt": "ESA poster (alternate ministry file)",
-        "esaPosterAltDesc": "Additional ESA poster file for boards that already use an older print run — verify against the current ministry version.",
+        "esaPosterAltDesc": "Additional ESA poster file for boards that already use an older print run - verify against the current ministry version.",
         "form82": "In case of injury at work (Form 82)",
         "form82Desc": "WSIB-style injury reporting poster commonly required beside first-aid information.",
         "ohsa": "Occupational Health and Safety Act (e-Laws)",
-        "ohsaDesc": "Live statute — link via QR instead of pinning an outdated paper copy of the full Act.",
+        "ohsaDesc": "Live statute - link via QR instead of pinning an outdated paper copy of the full Act.",
         "ohsaGuide": "Guide to the OHSA",
         "ohsaGuideDesc": "Plain-language worker rights: know, participate, refuse unsafe work.",
         "requiredPostersHub": "Posters required in the workplace",
-        "requiredPostersHubDesc": "Ontario hub listing what employers must distribute or post — use this when you are unsure what belongs on the board.",
+        "requiredPostersHubDesc": "Ontario hub listing what employers must distribute or post - use this when you are unsure what belongs on the board.",
         "boardChecklist": "Board print checklist",
         "boardChecklistDesc": "Bare-minimum print list plus QR targets for ESA, OHSA, human rights, and local documents.",
         "boardTracker": "Board location tracker (CSV)",
-        "boardTrackerDesc": "Sample multi-campus tracker with fake monitors — track which boards are verified and who checks them.",
+        "boardTrackerDesc": "Sample multi-campus tracker with fake monitors - track which boards are verified and who checks them.",
         "jhscSample": "JHSC member list (CSV)",
         "jhscSampleDesc": "Short anonymized health & safety committee roster for the H&S zone.",
         "ohsaQrTip": "OHSA phone / QR access tip",
@@ -296,10 +296,10 @@
         "boardL33Desc": "Labeled columns: Postings, updates/LEC list, JHSC roster, ESA + Health & Safety posters, Form 82, bullying/harassment poster, and a large QR. The tidy “bare minimum plus rights” pattern.",
         "boardL33Alt": "Photograph of a sectioned union info board with labeled columns for postings, LEC, health and safety, and rights posters",
         "boardW010": "Branded corridor board",
-        "boardW010Desc": "Parent-union banners across the top, Form 82 and bullying/harassment at eye level, LEC list, Health & Safety poster, QR link, plus a small member notes corner — denser but still scannable.",
+        "boardW010Desc": "Parent-union banners across the top, Form 82 and bullying/harassment at eye level, LEC list, Health & Safety poster, QR link, plus a small member notes corner - denser but still scannable.",
         "boardW010Alt": "Photograph of a branded union bulletin board with safety posters, LEC list, QR code, and member notes",
         "denseBoardPhoto": "Campaign-dense board",
-        "denseBoardPhotoDesc": "High-energy campaign anchors with QR resource sheet and contact cards — use when you need solidarity filler around the standing zones.",
+        "denseBoardPhotoDesc": "High-energy campaign anchors with QR resource sheet and contact cards - use when you need solidarity filler around the standing zones.",
         "denseBoardPhotoAlt": "Photograph of a densely posted union bulletin board with campaign posters, QR codes, and contact cards"
       }
     },
@@ -311,7 +311,7 @@
       },
       "howLong": {
         "title": "How long to leave notices up",
-        "content": "Remove outdated notices promptly — a cluttered board loses impact. Meeting notices: post 1–2 weeks ahead, remove after the event. Bargaining updates: refresh weekly during active rounds. Strike notices: update daily during action. Keep the bare-minimum zones current even when the events slot is empty."
+        "content": "Remove outdated notices promptly - a cluttered board loses impact. Meeting notices: post 1–2 weeks ahead, remove after the event. Bargaining updates: refresh weekly during active rounds. Strike notices: update daily during action. Keep the bare-minimum zones current even when the events slot is empty."
       },
       "whatNot": {
         "title": "What not to post",
@@ -342,7 +342,7 @@
       },
       "digital": {
         "title": "Print plus digital",
-        "content": "Share the same date, time, and location across board notice, flyer, social graphic, and website. One message, four channels — less confusion for members."
+        "content": "Share the same date, time, and location across board notice, flyer, social graphic, and website. One message, four channels - less confusion for members."
       }
     }
   },
@@ -352,7 +352,7 @@
     "sections": {
       "why": {
         "title": "Why a local website",
-        "content": "Social algorithms change; a website gives members a stable link for contact info, officers, and updates. Employers and media often search for your local online — a professional page builds credibility."
+        "content": "Social algorithms change; a website gives members a stable link for contact info, officers, and updates. Employers and media often search for your local online - a professional page builds credibility."
       },
       "pages": {
         "title": "What to include",
@@ -398,7 +398,7 @@
     "posts": {
       "picket-solidarity": {
         "title": "Picket line solidarity post",
-        "description": "High-contrast graphic with date, time, and location — a clear call to show up.",
+        "description": "High-contrast graphic with date, time, and location - a clear call to show up.",
         "why": {
           "0": "Lead with when and where so members can act without reading a long caption.",
           "1": "High contrast and a single CTA keep the post readable in a busy feed."
@@ -406,7 +406,7 @@
         "mockup": {
           "headline": "Picket line tomorrow",
           "body": "Stand with your coworkers. Bring water, signs, and solidarity.",
-          "detail": "7:00 a.m. — Main Gate"
+          "detail": "7:00 a.m. - Main Gate"
         }
       },
       "strike-vote-results": {
@@ -418,13 +418,13 @@
         },
         "mockup": {
           "headline": "94%",
-          "body": "Members voted yes. Stay ready — updates coming.",
+          "body": "Members voted yes. Stay ready - updates coming.",
           "detail": "Strike vote result"
         }
       },
       "picket-flyer": {
         "title": "Picket / rally flyer",
-        "description": "Print-ready handout energy adapted for a social share — location first.",
+        "description": "Print-ready handout energy adapted for a social share - location first.",
         "why": {
           "0": "Flyer layouts force hierarchy: event name, place, time.",
           "1": "Same asset can print for the board and post online."
@@ -436,7 +436,7 @@
         }
       },
       "member-spotlight": {
-        "title": "Member spotlight — years of service",
+        "title": "Member spotlight - years of service",
         "description": "Warm quote, name treatment, and local branding on an Instagram square.",
         "why": {
           "0": "Faces and short quotes outperform generic announcements for engagement.",
@@ -457,7 +457,7 @@
         },
         "mockup": {
           "headline": "Annual General Meeting",
-          "body": "All members welcome — your voice shapes our local.",
+          "body": "All members welcome - your voice shapes our local.",
           "detail": "AGM"
         }
       },
@@ -465,7 +465,7 @@
         "title": "Bargaining table update",
         "description": "Professional tone: what happened, what we still need, how to stay informed.",
         "why": {
-          "0": "Members want status, not spin — lead with the update.",
+          "0": "Members want status, not spin - lead with the update.",
           "1": "Brand colours keep official updates distinct from personal posts."
         },
         "mockup": {
@@ -483,7 +483,7 @@
         },
         "mockup": {
           "headline": "Bargaining team",
-          "body": "We remain at the table for every member — fair wages, safe workplaces, respect.",
+          "body": "We remain at the table for every member - fair wages, safe workplaces, respect.",
           "detail": "Local bargaining committee"
         }
       },
@@ -492,7 +492,7 @@
         "description": "Celebrate turnout with a warm thank-you and one memorable stat.",
         "why": {
           "0": "Thanking members publicly reinforces participation next time.",
-          "1": "One turnout number is enough — skip the full agenda recap."
+          "1": "One turnout number is enough - skip the full agenda recap."
         },
         "mockup": {
           "headline": "Thank you",
@@ -516,7 +516,7 @@
   },
   "boardNotice": {
     "title": "Board Notice Maker",
-    "subtitle": "High-contrast workplace bulletin notices — readable from across the room",
+    "subtitle": "High-contrast workplace bulletin notices - readable from across the room",
     "noticeType": "Notice type",
     "types": {
       "meeting": "General membership meeting",
@@ -535,7 +535,7 @@
   },
   "solidarityPoster": {
     "title": "Solidarity Poster Maker",
-    "subtitle": "High-energy board fillers with big type and solidarity slogans — link members back to this hub for support",
+    "subtitle": "High-energy board fillers with big type and solidarity slogans - link members back to this hub for support",
     "preset": "Slogan preset",
     "leadIn": "Lead-in",
     "headline": "Headline",
@@ -543,9 +543,9 @@
     "closer": "Closer",
     "layout": "Layout",
     "layouts": {
-      "stack": "Stack — full-bleed centred type",
-      "split": "Split — colour block + type",
-      "banner": "Banner — accent bar + oversized word"
+      "stack": "Stack - full-bleed centred type",
+      "split": "Split - colour block + type",
+      "banner": "Banner - accent bar + oversized word"
     },
     "formatLetter": "Letter (8.5×11)",
     "formatTabloid": "Tabloid (11×17)",
@@ -558,7 +558,7 @@
   },
   "qrCard": {
     "title": "QR Link Card Maker",
-    "subtitle": "Clean attention-grabbing cards for board links — title, optional description, tagline under the QR, and print sizes from full letter down to quarter-sheet",
+    "subtitle": "Clean attention-grabbing cards for board links - title, optional description, tagline under the QR, and print sizes from full letter down to quarter-sheet",
     "preset": "Preset",
     "destination": "Link or text to encode",
     "savedLinks": "Use a saved Brand Kit link",
@@ -583,7 +583,7 @@
       "square4": "Square 4×4"
     },
     "sizeTip": "Quarter = 4 per letter sheet; Half = 2 per sheet. Print multiple copies of the same card to fill a page.",
-    "previewSize": "Preview at {label} — {width}×{height} in",
+    "previewSize": "Preview at {label} - {width}×{height} in",
     "showUrl": "Show URL under tagline",
     "includeBranding": "Include local branding",
     "qrPlaceholder": "Enter a link",
@@ -594,7 +594,7 @@
       "getSupportDesc": "Scan for help, resources, and your local hub.",
       "getSupportTagline": "Scan for support →",
       "esaTitle": "Know your rights",
-      "esaDesc": "Employment standards in Ontario — hours, leaves, vacation, and more.",
+      "esaDesc": "Employment standards in Ontario - hours, leaves, vacation, and more.",
       "esaTagline": "Scan the ESA guide",
       "ohsaTitle": "Health & safety",
       "ohsaDesc": "Your rights to know, participate, and refuse unsafe work.",
@@ -603,7 +603,7 @@
       "healthSafetyDesc": "Committee contacts and how to report a hazard.",
       "healthSafetyTagline": "Scan for H&S contacts",
       "followUsTitle": "Stay connected",
-      "followUsDesc": "Updates, meetings, and solidarity — follow your local online.",
+      "followUsDesc": "Updates, meetings, and solidarity - follow your local online.",
       "followUsTagline": "Scan to follow us",
       "localWebsiteTitle": "Visit our site",
       "localWebsiteDesc": "News, contacts, and resources for members.",
@@ -612,7 +612,7 @@
   },
   "websiteTemplate": {
     "title": "Website Template",
-    "subtitle": "Download a simple local website based on the Local 243 model — ready for GitHub Pages",
+    "subtitle": "Download a simple local website based on the Local 243 model - ready for GitHub Pages",
     "unionName": "Union name",
     "heroText": "Hero tagline",
     "about1": "About paragraph 1",
@@ -628,7 +628,7 @@
     "removeOfficer": "Remove",
     "preview": "Live preview",
     "downloadZip": "Download site ZIP",
-    "referenceNote": "This template is based on the live site at local243.org — a volunteer-built GitHub Pages site used as a reference. The exported ZIP uses a union header banner instead of a local logo in the navigation bar."
+    "referenceNote": "This template is based on the live site at local243.org - a volunteer-built GitHub Pages site used as a reference. The exported ZIP uses a union header banner instead of a local logo in the navigation bar."
   },
   "sources": {
     "title": "Sources & references",
@@ -645,9 +645,9 @@
     "title": "Workshop Materials",
     "subtitle": "Everything you need for the Aug 18 session and ongoing local communications",
     "session": {
-      "title": "Aug 18 session — The Toolbox in 60 minutes",
+      "title": "Aug 18 session - The Toolbox in 60 minutes",
       "when": "August 18, 12:00–1:00 PM",
-      "format": "Pitch, live walkthrough, and hands-on — attendees leave with logo, board notice, social graphic, and website ZIP.",
+      "format": "Pitch, live walkthrough, and hands-on - attendees leave with logo, board notice, social graphic, and website ZIP.",
       "cta": "Start the Social Media Plan"
     },
     "checklist": {
@@ -678,11 +678,11 @@
     "builtFrom": {
       "title": "What this toolbox is built from",
       "items": [
-        "Website template — simplified from a volunteer local GitHub Pages site (reference: local243.org)",
-        "Brand colours — reference tenant defaults from official union graphics guidelines (customise in Brand Kit)",
-        "Blueprint chapters — volunteer comms best practices for local solidarity communications",
-        "Crisis guide — high-level guidance for local strike and bargaining communications",
-        "Accessibility — WCAG 2.1 AA and AODA commitments in the hub accessibility statement"
+        "Website template - simplified from a volunteer local GitHub Pages site (reference: local243.org)",
+        "Brand colours - reference tenant defaults from official union graphics guidelines (customise in Brand Kit)",
+        "Blueprint chapters - volunteer comms best practices for local solidarity communications",
+        "Crisis guide - high-level guidance for local strike and bargaining communications",
+        "Accessibility - WCAG 2.1 AA and AODA commitments in the hub accessibility statement"
       ]
     },
     "allSources": {
@@ -711,7 +711,7 @@
   "localLinks": {
     "title": "Website & key links",
     "description": "Optional URLs used across QR cards, posters, and the website template. Add socials or campaign links anytime.",
-    "optionalHint": "Optional — add your website and socials so posters and QR cards can reuse them.",
+    "optionalHint": "Optional - add your website and socials so posters and QR cards can reuse them.",
     "websiteUrl": "Local website URL (optional)",
     "facebookUrl": "Facebook group or page (optional)",
     "customHeading": "Other links (Instagram, TikTok, campaigns, etc.)",
@@ -723,7 +723,7 @@
   },
   "brandKit": {
     "title": "Brand Kit Manager",
-    "description": "Manage, export, and import your local branding — colours, logo, and key links ready for solidarity graphics",
+    "description": "Manage, export, and import your local branding - colours, logo, and key links ready for solidarity graphics",
     "export": "Export brand kit",
     "import": "Import brand kit",
     "importSuccess": "Brand kit imported successfully",
@@ -738,25 +738,25 @@
       "useOfficialLogo": "Use OPSEU logo",
       "uploadCustomLogo": "Upload logo",
       "uploadHint": "PNG, JPEG, WebP, or SVG up to 10 MB.",
-      "useOfficialLogoHint": "Official OPSEU/SEFPO lockup — recommended default when building your brand.",
+      "useOfficialLogoHint": "Official OPSEU/SEFPO lockup - recommended default when building your brand.",
       "noImage": "No image",
       "noImageHint": "Use a short text mark in the header instead of a logo image.",
       "logoText": "Header text mark",
-      "logoTextHint": "Up to 4 characters — e.g. LU or your local number.",
+      "logoTextHint": "Up to 4 characters - e.g. LU or your local number.",
       "preview": "Preview",
       "useLockup": "OPSEU wordmark",
-      "useLockupHint": "Full OPSEU/SEFPO lockup — recommended default when building your brand.",
+      "useLockupHint": "Full OPSEU/SEFPO lockup - recommended default when building your brand.",
       "useMark": "OPSEU emblem",
-      "useMarkHint": "Bars and trillium mark — compact for headers and circular logos.",
+      "useMarkHint": "Bars and trillium mark - compact for headers and circular logos.",
       "useSlitBlue": "OPSEU slit mark (blue)",
-      "useSlitBlueHint": "Bars and trillium with OPSEU/SEFPO cut through — for light backgrounds.",
+      "useSlitBlueHint": "Bars and trillium with OPSEU/SEFPO cut through - for light backgrounds.",
       "useSlitWhite": "OPSEU slit mark (white)",
-      "useSlitWhiteHint": "Same slit mark in white — for dark or brand-coloured backgrounds."
+      "useSlitWhiteHint": "Same slit mark in white - for dark or brand-coloured backgrounds."
     }
   },
   "assets": {
     "title": "Brand Asset Pack",
-    "description": "Colours, logos, and usage guidelines for local solidarity communications — customise everything in your Brand Kit so it fits your union.",
+    "description": "Colours, logos, and usage guidelines for local solidarity communications - customise everything in your Brand Kit so it fits your union.",
     "primaryLogo": "Primary logo",
     "downloadPng": "Download PNG",
     "logoAlt": "Default brand logo",
@@ -781,7 +781,7 @@
   },
   "graphicMaker": {
     "title": "News & Event Graphic Maker",
-    "subtitle": "Layouts that match Social Examples — solidarity, notices, results, spotlights, and thank-yous.",
+    "subtitle": "Layouts that match Social Examples - solidarity, notices, results, spotlights, and thank-yous.",
     "layout": "Layout",
     "layouts": {
       "solidarity": "Solidarity",
@@ -814,7 +814,7 @@
   },
   "quoteCard": {
     "title": "Quote Card Generator",
-    "subtitle": "Short leadership quotes with local branding — ready for Instagram.",
+    "subtitle": "Short leadership quotes with local branding - ready for Instagram.",
     "quote": "Quote",
     "author": "Attribution",
     "role": "Role or committee (optional)"
@@ -829,7 +829,7 @@
   },
   "altTextAssistant": {
     "title": "Alt-Text Assistant",
-    "subtitle": "Draft image descriptions for social posts, then paste them into each platform’s alt-text field. This tool does not analyze images — you write the description.",
+    "subtitle": "Draft image descriptions for social posts, then paste them into each platform’s alt-text field. This tool does not analyze images - you write the description.",
     "starterLabel": "Start from a common graphic type",
     "altLabel": "Alt text (for the image accessibility field)",
     "altPlaceholder": "Describe who or what is shown, the setting, and any text on the graphic…",
@@ -840,7 +840,7 @@
     "captionHint": "Alt text and caption are different fields on most platforms. Do not put the full caption in the alt field.",
     "copyAlt": "Copy alt text",
     "copyBoth": "Copy alt + caption",
-    "draftLooksGood": "Draft looks solid — no common issues detected. Still review the checklist before posting.",
+    "draftLooksGood": "Draft looks solid - no common issues detected. Still review the checklist before posting.",
     "howTitle": "How to use this",
     "how": {
       "step1": "Export or screenshot your graphic from Graphic Maker, Quote Card, Flyer, or another tool.",
@@ -853,7 +853,7 @@
       "visual": "Describes what is visually in the image (people, signs, setting)",
       "onImageText": "Includes important text that appears in the graphic",
       "localIdentity": "Mentions the local number or union name if shown",
-      "concise": "Stays concise — usually 1–2 sentences is enough",
+      "concise": "Stays concise - usually 1–2 sentences is enough",
       "noImageOf": "Does not start with “Image of” or “Photo of”"
     },
     "examplesTitle": "Bad vs good",
@@ -893,7 +893,7 @@
     },
     "issues": {
       "empty": "Add a description before copying.",
-      "startsWithImageOf": "Avoid starting with “Image of” or “Photo of” — screen readers already announce it as an image.",
+      "startsWithImageOf": "Avoid starting with “Image of” or “Photo of” - screen readers already announce it as an image.",
       "tooShort": "This looks too short. Add who/what is shown and any important on-image text.",
       "sameAsCaption": "Alt text matches the caption. Describe the image itself; keep the caption in the post field.",
       "placeholderLeft": "Replace the starter placeholders (brackets) with real details from your graphic."
@@ -910,33 +910,33 @@
   },
   "contrast": {
     "pass": "Passes WCAG AA contrast",
-    "fail": "Fails WCAG AA contrast — adjust colours for accessibility",
+    "fail": "Fails WCAG AA contrast - adjust colours for accessibility",
     "ratio": "Contrast ratio: {ratio}:1"
   },
   "crisisGuide": {
     "title": "Strike & Crisis Comms Guide",
     "subtitle": "High-level guidance for local unions during strikes, bargaining, and workplace crises",
     "backToGuide": "Back to The Blueprint",
-    "intro": "Central unions often provide sector-level bargaining support, but locals run their own member communications — especially on social media. This guide helps volunteer comms leads stay coordinated, lawful, and member-centred when stakes are high. Always defer to your local executive, union servicing rep, and any active strike or bargaining protocols.",
+    "intro": "Central unions often provide sector-level bargaining support, but locals run their own member communications - especially on social media. This guide helps volunteer comms leads stay coordinated, lawful, and member-centred when stakes are high. Always defer to your local executive, union servicing rep, and any active strike or bargaining protocols.",
     "scenarios": {
       "strike": {
         "title": "Strike action",
         "items": [
           "Confirm all public messaging with your local president and union servicing rep before posting",
-          "Designate one or two spokespersons — members and media should hear one consistent local voice",
+          "Designate one or two spokespersons - members and media should hear one consistent local voice",
           "Post daily picket schedules, gate locations, and safety reminders using branded graphics from this toolbox",
-          "Share solidarity and member stories with consent — never post photos without permission",
+          "Share solidarity and member stories with consent - never post photos without permission",
           "Use your Brand Kit colours; follow division or sector campaign materials when coordinating beyond the local",
           "Do not share negotiation details, member home addresses, or internal strategy on public channels",
-          "Direct questions about pay, duties, and return-to-work to the local strike committee — not comment threads"
+          "Direct questions about pay, duties, and return-to-work to the local strike committee - not comment threads"
         ]
       },
       "bargaining": {
         "title": "Bargaining and countdown",
         "items": [
-          "Build momentum with factual updates — job security, workload, wages, and member priorities",
+          "Build momentum with factual updates - job security, workload, wages, and member priorities",
           "Use consistent hashtags and graphics so members recognize official local posts",
-          "Encourage members to wear union colours and attend information meetings — post times and locations early",
+          "Encourage members to wear union colours and attend information meetings - post times and locations early",
           "Share only what the bargaining team has approved for public release",
           "Remind members to avoid debating management claims in public comment sections",
           "Link to official union bargaining pages when available rather than paraphrasing from memory"
@@ -945,9 +945,9 @@
       "layoffs": {
         "title": "Layoffs and restructuring",
         "items": [
-          "Acknowledge member anxiety — be empathetic, factual, and calm",
+          "Acknowledge member anxiety - be empathetic, factual, and calm",
           "Direct affected members to stewards, union servicing reps, and EAP resources",
-          "Do not speculate about outcomes — share only confirmed local and employer statements",
+          "Do not speculate about outcomes - share only confirmed local and employer statements",
           "Use quote cards from elected leaders to show a unified local voice",
           "Document management communications offline for grievance and consultation records",
           "Avoid naming individuals at risk unless they have asked to be identified publicly"
@@ -956,7 +956,7 @@
       "management": {
         "title": "Management pushback and misinformation",
         "items": [
-          "Respond with facts and collective agreement language — never personal attacks",
+          "Respond with facts and collective agreement language - never personal attacks",
           "If management posts misinformation, publish one brief correction and pin it if needed",
           "Escalate harassment, threats, or surveillance concerns to your union servicing rep immediately",
           "Do not engage in prolonged public arguments with management accounts",
@@ -968,50 +968,50 @@
     "escalation": {
       "title": "When to escalate",
       "items": [
-        "Media inquiries — route to your designated spokesperson or union communications",
-        "Legal threats, injunctions, or employer letters about conduct — executive and servicing rep immediately",
-        "Member safety incidents on the line or in the workplace — follow local emergency protocols first",
-        "Leaked confidential documents or suspected bad-faith bargaining — do not post; alert leadership",
-        "Viral misinformation about your local — coordinate a single correction rather than multiple replies"
+        "Media inquiries - route to your designated spokesperson or union communications",
+        "Legal threats, injunctions, or employer letters about conduct - executive and servicing rep immediately",
+        "Member safety incidents on the line or in the workplace - follow local emergency protocols first",
+        "Leaked confidential documents or suspected bad-faith bargaining - do not post; alert leadership",
+        "Viral misinformation about your local - coordinate a single correction rather than multiple replies"
       ]
     },
     "tools": {
       "title": "Toolbox resources for crisis comms",
       "description": "Use these on-device tools to keep visuals consistent when your local is under pressure:",
       "items": [
-        "Brand Kit — local number, colours, and logo ready for fast graphics",
-        "Board Notice Maker — workplace bulletin updates during strikes",
-        "Flyer Maker and Quote Card — leadership statements and picket updates",
-        "Graphic Maker — member spotlights with consent flow",
-        "Website Template — one stable link for members and media",
-        "Captions library — pre-written solidarity and bargaining posts"
+        "Brand Kit - local number, colours, and logo ready for fast graphics",
+        "Board Notice Maker - workplace bulletin updates during strikes",
+        "Flyer Maker and Quote Card - leadership statements and picket updates",
+        "Graphic Maker - member spotlights with consent flow",
+        "Website Template - one stable link for members and media",
+        "Captions library - pre-written solidarity and bargaining posts"
       ]
     }
   },
   "share": {
-    "button": "Share this Tool",
+    "button": "Share this tool",
     "copied": "Link copied!",
     "shared": "Thanks for sharing!",
-    "error": "Couldn’t share — copy the link from your address bar"
+    "error": "Couldn’t share. Copy the link from your address bar."
   },
   "manifesto": {
-    "title": "Why UnionOps is Free (And Always Will Be)",
-    "p1": "Most modern software follows a predictable, exhausting cycle: offer a useful tool, lock users in, and then squeeze them for monthly subscription fees.",
-    "p2": "We hate that. Union dues should go toward fighting for workers, not paying endless software subscriptions just to do basic organizing.",
+    "title": "Why UnionOps is free (and always will be)",
+    "p1": "Most software follows the same tired pattern: give you something useful, lock you in, then hit you with a monthly fee.",
+    "p2": "We hate that. Union dues should go to fighting for workers, not software subscriptions just to do basic organizing.",
     "promiseLead": "UnionOps was built out of solidarity, not for profit.",
-    "promiseIntro": "Here is our promise to you:",
-    "noSubsTitle": "No Subscriptions:",
-    "noSubsBody": "This tool is free. There are no premium tiers, no paywalls, and no hidden fees.",
-    "noDataTitle": "No Data Harvesting:",
-    "noDataBody": "We don't want your data. In fact, we couldn't see it even if we wanted to. UnionOps is \"local-first.\" Everything you type—grievances, member lists, strategy—stays entirely on your device. We have no servers, which means no server costs to pass on to you, and no databases for anyone to subpoena.",
-    "noAdsTitle": "No Ads, No Tracking:",
+    "promiseIntro": "Our promise:",
+    "noSubsTitle": "No subscriptions:",
+    "noSubsBody": "This tool is free. No premium tiers, no paywalls, no hidden fees.",
+    "noDataTitle": "No data harvesting:",
+    "noDataBody": "We don't want your data. We couldn't see it even if we did. UnionOps is local-first. Grievances, member lists, strategy notes: all of it stays on your device. No servers means no server bill to pass on, and no database waiting for a subpoena.",
+    "noAdsTitle": "No ads, no tracking:",
     "noAdsBody": "We aren't selling your attention.",
-    "closing": "UnionOps is built by union volunteers who just wanted to build a good tool for people doing the hard work on the ground.",
+    "closing": "UnionOps is built by union volunteers who wanted a solid tool for people doing the hard work on the ground.",
     "slogan": "Solidarity.",
     "backHome": "← Back to UnionOps"
   },
   "footer": {
-    "madeBy": "UnionOps — Built in solidarity for union locals by union volunteers.",
+    "madeBy": "UnionOps. Built in solidarity for union locals by union volunteers.",
     "privacy": "Your data stays on your device"
   },
   "accessibility": {
@@ -1037,7 +1037,7 @@
     },
     "limitations": {
       "title": "Known limitations",
-      "body": "Canvas-based image preview areas may not be fully accessible to screen reader users and may not reflect high-contrast display settings. All inputs that control the preview are accessible via standard form controls. Exported PNG/PDF files do not embed alt text — add descriptions in each platform’s alt-text field when posting (the Alt-Text Assistant helps you draft them)."
+      "body": "Canvas-based image preview areas may not be fully accessible to screen reader users and may not reflect high-contrast display settings. All inputs that control the preview are accessible via standard form controls. Exported PNG/PDF files do not embed alt text - add descriptions in each platform’s alt-text field when posting (the Alt-Text Assistant helps you draft them)."
     },
     "feedback": {
       "title": "Feedback",
@@ -1092,7 +1092,7 @@
     "mfaCode": "Verification code",
     "verifyMfa": "Verify",
     "verifying": "Verifying...",
-    "mfaError": "Invalid code — enter any 6 digits in dev mode",
+    "mfaError": "Invalid code - enter any 6 digits in dev mode",
     "mfaDevHint": "Dev mode: enter any 6-digit code (e.g. 000000)",
     "mfaRequired": "MFA required",
     "mfaOk": "MFA verified",
@@ -1132,8 +1132,8 @@
     "importTitle": "Encrypted import",
     "importDesc": "Decrypt a backup file and load it into the hub. Officers only.",
     "importMode": "Import mode",
-    "modeMerge": "Merge — update matching IDs, keep other local records",
-    "modeReplace": "Replace — remove this local’s records, then import",
+    "modeMerge": "Merge - update matching IDs, keep other local records",
+    "modeReplace": "Replace - remove this local’s records, then import",
     "importEncrypted": "Import encrypted file",
     "importSuccess": "Imported {grievances} grievance(s) and {bumping} bumping case(s) ({removed} removed).",
     "localSliceTitle": "Local data slice",
@@ -1146,7 +1146,7 @@
     "localCleared": "Local slice cleared. Data mode set to central.",
     "dataMode": "Preferred data mode",
     "dataModeDesc": "Marks whether this device prefers central hub storage or a local encrypted slice reminder.",
-    "dataModeHonest": "Note: hub grievance/bumping screens still use the central store. Use Save/Restore below to sync an encrypted browser backup — local mode does not switch the live data path yet.",
+    "dataModeHonest": "Note: hub grievance/bumping screens still use the central store. Use Save/Restore below to sync an encrypted browser backup - local mode does not switch the live data path yet.",
     "modeCentral": "Central hub (default)",
     "modeLocal": "Prefer local encrypted backup",
     "modeLocalOn": "Marked preference for local encrypted backup on this device.",
@@ -1176,13 +1176,13 @@
       "upcomingCount": "Upcoming (next 10)",
       "sectionOverdue": "Overdue cases",
       "sectionUpcoming": "Upcoming deadlines",
-      "none": "No overdue grievances — nice work.",
+      "none": "No overdue grievances - nice work.",
       "daysOverdue": "{days}d overdue",
       "daysUntil": "Due in {days}d"
     },
     "snippets": {
       "title": "CA clause snippets",
-      "subtitle": "Union-scoped clause library for notes and drafts. Copy only — never auto-insert into member emails.",
+      "subtitle": "Union-scoped clause library for notes and drafts. Copy only - never auto-insert into member emails.",
       "add": "Add snippet",
       "cancel": "Cancel",
       "search": "Search snippets",
@@ -1204,7 +1204,7 @@
     },
     "marketplace": {
       "title": "Union template marketplace",
-      "subtitle": "Share reusable templates within your union only — never across unions.",
+      "subtitle": "Share reusable templates within your union only - never across unions.",
       "scopeNote": "Within-union sharing only. Cross-union access is blocked.",
       "share": "Share template",
       "cancel": "Cancel",
@@ -1244,7 +1244,7 @@
       "selectSteward": "Choose incoming steward",
       "notes": "Handoff notes (optional)",
       "checklist": "Handoff checklist",
-      "checklistHint": "Confirm these steps before completing (advisory — not blocking).",
+      "checklistHint": "Confirm these steps before completing (advisory - not blocking).",
       "next": "Next",
       "back": "Back",
       "complete": "Complete handoff",
@@ -1287,7 +1287,7 @@
     "mobile": {
       "toggle": "Mobile steward read-only mode",
       "toggleHint": "Hides create/edit actions for a compact phone-friendly view. Turn off to edit assigned cases.",
-      "readOnlyBanner": "Read-only mode is on. Viewing assigned cases only — turn off mobile steward mode to edit."
+      "readOnlyBanner": "Read-only mode is on. Viewing assigned cases only - turn off mobile steward mode to edit."
     }
   },
   "grievance": {
@@ -1315,14 +1315,14 @@
     "saveNote": "Save note",
     "saving": "Saving...",
     "emailDrafts": "Email drafts",
-    "emailDraftWarning": "Drafts only — review and send manually. Never auto-send.",
+    "emailDraftWarning": "Drafts only - review and send manually. Never auto-send.",
     "generateDraft": "Generate draft",
     "copyDraft": "Copy to clipboard",
     "copied": "Copied!",
     "exportBundle": "Export bundle (ZIP)",
     "markResolved": "Mark resolved",
     "memberPseudonym": "Member pseudonym",
-    "memberPseudonymHint": "Optional — use a pseudonym instead of real name",
+    "memberPseudonymHint": "Optional - use a pseudonym instead of real name",
     "category": "Category",
     "filedAt": "Date filed",
     "create": "Create grievance",
@@ -1358,7 +1358,7 @@
   "bumping": {
     "title": "College Bumping",
     "subtitle": "Stability committee position comparison and decision log",
-    "disclaimer": "Checklists assist committee process — not legal advice. Follow your collective agreement.",
+    "disclaimer": "Checklists assist committee process - not legal advice. Follow your collective agreement.",
     "loading": "Loading cases...",
     "loadError": "Could not load bumping cases",
     "newCase": "New case",
@@ -1380,11 +1380,11 @@
     "bumpingPosition": "Bumping member's position",
     "uploadPdf": "Upload PDF or text file",
     "extractingPdf": "Extracting text from PDF...",
-    "pdfError": "Could not read PDF — paste text manually",
+    "pdfError": "Could not read PDF - paste text manually",
     "loadedFile": "Loaded: {name}",
     "pastePositionText": "Or paste position description text",
     "positionCompare": "Side-by-side comparison",
-    "compareHint": "Differences highlighted — duties, qualifications, seniority markers",
+    "compareHint": "Differences highlighted - duties, qualifications, seniority markers",
     "checklist": "Comparison checklist",
     "yes": "Yes",
     "no": "No",
@@ -1399,7 +1399,7 @@
     "addNote": "Add committee note",
     "saveNote": "Save note",
     "decision": "Decision record",
-    "decisionHint": "Record outcome for local records — committee decides, not software",
+    "decisionHint": "Record outcome for local records - committee decides, not software",
     "outcome": "Outcome",
     "rationale": "Rationale",
     "dissent": "Dissent notes (optional)",

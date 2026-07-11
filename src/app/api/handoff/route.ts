@@ -12,7 +12,7 @@ import { grievanceStore } from "@/lib/grievance/memory-adapter";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import type { UserRole } from "@/types/tenant";
 
-/** GET — preview grievances eligible for handoff + steward candidates */
+/** GET - preview grievances eligible for handoff + steward candidates */
 export async function GET() {
   const authResult = await requireGrievanceSession();
   if (!authResult.ok) {
@@ -45,7 +45,7 @@ export async function GET() {
   return NextResponse.json({ grievances: open, stewards });
 }
 
-/** POST — reassign selected grievances and return handoff package */
+/** POST - reassign selected grievances and return handoff package */
 export async function POST(request: Request) {
   const authResult = await requireGrievanceSession();
   if (!authResult.ok) {

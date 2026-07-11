@@ -34,7 +34,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     category: "union",
     label: "OPSEU/SEFPO collective agreements",
     url: "https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/",
-    note: "Public CA documents for citing contract language in comms — never post confidential bargaining details.",
+    note: "Public CA documents for citing contract language in comms - never post confidential bargaining details.",
   },
   "opseu-forms": {
     id: "opseu-forms",
@@ -69,7 +69,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     category: "accessibility",
     label: "WCAG 2.1 (W3C)",
     url: "https://www.w3.org/TR/WCAG21/",
-    note: "Web Content Accessibility Guidelines — contrast checker and alt-text guidance in this toolbox target Level AA.",
+    note: "Web Content Accessibility Guidelines - contrast checker and alt-text guidance in this toolbox target Level AA.",
   },
   "aoda": {
     id: "aoda",
@@ -90,7 +90,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     category: "union",
     label: "Ontario Federation of Labour",
     url: "https://ofl.ca/",
-    note: "Provincial labour federation — solidarity links on local sites.",
+    note: "Provincial labour federation - solidarity links on local sites.",
   },
   "ontario-required-posters": {
     id: "ontario-required-posters",
@@ -102,7 +102,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
   "ontario-esa-poster": {
     id: "ontario-esa-poster",
     category: "union",
-    label: "Employment Standards Act — mandatory information",
+    label: "Employment Standards Act - mandatory information",
     url: "https://www.ontario.ca/document/your-guide-employment-standards-act-0/mandatory-information-employees",
     note: "Official ESA poster distribution rules; printable PDF mirrored under public/assets/ontario-board-posters/.",
   },
@@ -111,7 +111,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     category: "union",
     label: "Occupational Health and Safety Act (e-Laws)",
     url: "https://www.ontario.ca/laws/statute/90o01",
-    note: "Live OHSA statute — prefer QR to e-Laws over outdated paper copies on union boards.",
+    note: "Live OHSA statute - prefer QR to e-Laws over outdated paper copies on union boards.",
   },
 };
 

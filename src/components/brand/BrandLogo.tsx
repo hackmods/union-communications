@@ -55,7 +55,7 @@ function resolveOfficialSrc(
   if (effective === "slitWhite") {
     return { src: OFFICIAL_LOGOS.slitWhite.src, size: "mark", isSvg: true };
   }
-  // mark — swap to white on dark backgrounds
+  // mark - swap to white on dark backgrounds
   const src = onDark ? OFFICIAL_LOGOS.mark.srcOnDark : OFFICIAL_LOGOS.mark.src;
   return { src, size: "mark", isSvg: false };
 }

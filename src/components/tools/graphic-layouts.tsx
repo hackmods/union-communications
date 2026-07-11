@@ -62,7 +62,7 @@ function LocalFooter({
       )}
     >
       Local {localNumber}
-      {subText ? ` — ${subText}` : ""}
+      {subText ? ` - ${subText}` : ""}
     </p>
   );
 }

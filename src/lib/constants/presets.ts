@@ -2,7 +2,7 @@ export const TOOL_PRESETS = {
   agmNotice: {
     id: "agm-notice",
     headline: "Annual General Meeting",
-    subheadline: "All members welcome — your voice matters",
+    subheadline: "All members welcome - your voice matters",
     theme: "formal",
   },
   bargainingUpdate: {
@@ -14,7 +14,7 @@ export const TOOL_PRESETS = {
   strikeAction: {
     id: "strike-action",
     headline: "Strike Action",
-    subheadline: "United we stand — solidarity forever",
+    subheadline: "United we stand - solidarity forever",
     theme: "strike",
   },
   memberSpotlight: {

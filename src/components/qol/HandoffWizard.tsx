@@ -139,7 +139,7 @@ export function HandoffWizard() {
               />
               <span>
                 <span className="font-medium">
-                  {g.memberPseudonym ?? tg("anonymousMember")} — {g.category}
+                  {g.memberPseudonym ?? tg("anonymousMember")} - {g.category}
                 </span>
                 <span className="block text-gray-500">
                   {tg("step", { step: g.currentStep })} ·{" "}

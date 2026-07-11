@@ -1,16 +1,16 @@
-# Agent Guide — UnionOps
+# Agent Guide - UnionOps
 
 Read this first. Multi-union platform; OPSEU/CAAT is reference tenant #1 only.
 Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Solidarity.**
 
 ## Read Order
 
-1. [`docs/VISION.md`](docs/VISION.md) — product scope, multi-union principle
-2. [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — stack, tenancy, DataAdapter
-3. [`docs/RBAC.md`](docs/RBAC.md) — roles; never cross-union data
-4. [`docs/COMPLIANCE.md`](docs/COMPLIANCE.md) — privacy, AODA
-5. [`docs/ROADMAP.md`](docs/ROADMAP.md) — phase status + next work
-6. [`docs/PROGRESS.md`](docs/PROGRESS.md) — what shipped
+1. [`docs/VISION.md`](docs/VISION.md) - product scope, multi-union principle
+2. [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) - stack, tenancy, DataAdapter
+3. [`docs/RBAC.md`](docs/RBAC.md) - roles; never cross-union data
+4. [`docs/COMPLIANCE.md`](docs/COMPLIANCE.md) - privacy, AODA
+5. [`docs/ROADMAP.md`](docs/ROADMAP.md) - phase status + next work
+6. [`docs/PROGRESS.md`](docs/PROGRESS.md) - what shipped
 7. Module spec: [`docs/modules/`](docs/modules/)
 8. Cursor rules: [`.cursor/rules/platform.mdc`](.cursor/rules/platform.mdc), [`roadmap-next.mdc`](.cursor/rules/roadmap-next.mdc), per-module rules
 
@@ -28,11 +28,11 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 
 ## Multi-Union Rules
 
-1. **No union names in core code** — tenant config and seed data only
+1. **No union names in core code** - tenant config and seed data only
 2. **Every DB query scoped by `unionId`**
-3. **Modules opt-in per union** — check `enabledModules`
-4. **CA/grievance steps from CAConfig** — not hardcoded
-5. **OPSEU is reference tenant** — not privileged in code paths
+3. **Modules opt-in per union** - check `enabledModules`
+4. **CA/grievance steps from CAConfig** - not hardcoded
+5. **OPSEU is reference tenant** - not privileged in code paths
 
 ## Code Conventions
 

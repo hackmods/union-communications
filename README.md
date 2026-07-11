@@ -1,6 +1,6 @@
 # UnionOps
 
-A **multi-union** platform empowering any local union with professional comms tools, grievance tracking, and sector-specific workflows. OPSEU/CAAT is the first adopter — not a platform default. Slogan: **Solidarity.**
+A **multi-union** platform with professional comms tools, grievance tracking, and sector-specific workflows. OPSEU/CAAT is the first adopter, not a platform default. Slogan: **Solidarity.**
 
 Public site: [https://unionops.org](https://unionops.org)
 
@@ -45,23 +45,23 @@ Health check: `GET /api/health` → `{"status":"ok"}`
 
 ### Officer Hub (Phase 1)
 
-- `/en/app/login` — demo credentials:
+- `/en/app/login` - demo credentials:
   - `president@local243.ca` / `demo123` (MFA required)
   - `stability@local243.ca` / `demo123` (stability committee, MFA required)
   - `steward@local243.ca` / `demo123` (read-only bumping, MFA required)
   - `solo@example.ca` / `demo123` (no MFA)
-- `/en/app` — dashboard with module cards
-- `/en/app/mfa` — enter any 6-digit code in dev mode
+- `/en/app` - dashboard with module cards
+- `/en/app/mfa` - enter any 6-digit code in dev mode
 
 ## Documentation
 
-- [Vision](docs/VISION.md) — multi-union product scope
-- [Architecture](docs/ARCHITECTURE.md) — technical design
-- [Roadmap](docs/ROADMAP.md) — phased delivery (Phases 0–5 complete)
-- [RBAC](docs/RBAC.md) — roles and tenancy
-- [Compliance](docs/COMPLIANCE.md) — privacy and AODA
-- [AGENTS.md](AGENTS.md) — Cursor agent guide
-- [Reference tenant seed](seed/reference-tenant-opseu-caat.json) — OPSEU/CAAT first adopter
+- [Vision](docs/VISION.md) - multi-union product scope
+- [Architecture](docs/ARCHITECTURE.md) - technical design
+- [Roadmap](docs/ROADMAP.md) - phased delivery (Phases 0–5 complete)
+- [RBAC](docs/RBAC.md) - roles and tenancy
+- [Compliance](docs/COMPLIANCE.md) - privacy and AODA
+- [AGENTS.md](AGENTS.md) - Cursor agent guide
+- [Reference tenant seed](seed/reference-tenant-opseu-caat.json) - OPSEU/CAAT first adopter
 
 ## Privacy
 
@@ -69,4 +69,4 @@ v1 comms: all processing on-device, no data sent to servers. v2+ confidential mo
 
 ## First adopter
 
-CAAT OPSEU Support Staff — reference tenant seed. Any union can onboard with their own branding and CA configuration.
+CAAT OPSEU Support Staff - reference tenant seed. Any union can onboard with their own branding and CA configuration.

@@ -136,7 +136,7 @@ export default function QrCardPage() {
   };
 
   const localLabel = brandKit.local.subText
-    ? `Local ${resolveLocalNumber(brandKit.local.localNumber)} — ${brandKit.local.subText}`
+    ? `Local ${resolveLocalNumber(brandKit.local.localNumber)} - ${brandKit.local.subText}`
     : `Local ${resolveLocalNumber(brandKit.local.localNumber)}`;
 
   const canvasStyle: CSSProperties = (() => {
@@ -157,7 +157,7 @@ export default function QrCardPage() {
     };
   })();
 
-  /** QR plate as % of card width — smaller cards keep more room for copy */
+  /** QR plate as % of card width - smaller cards keep more room for copy */
   const qrPlatePercent =
     state.sizeId === "square4"
       ? 34

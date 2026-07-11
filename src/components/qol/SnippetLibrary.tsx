@@ -89,7 +89,7 @@ export function SnippetLibrary() {
 
   async function copySnippet(snippet: CaSnippet) {
     await navigator.clipboard.writeText(
-      `${snippet.clauseRef} — ${snippet.title}\n\n${snippet.body}`,
+      `${snippet.clauseRef} - ${snippet.title}\n\n${snippet.body}`,
     );
     setCopiedId(snippet.id);
     setTimeout(() => setCopiedId(null), 2000);

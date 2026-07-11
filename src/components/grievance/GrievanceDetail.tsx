@@ -255,7 +255,7 @@ export function GrievanceDetail({ id }: { id: string }) {
     const end = new Date(start.getTime() + 60 * 60 * 1000);
     const ics = buildIcsEvent({
       uid: `deadline-${data.grievance.id}@local-union-hub`,
-      title: `Grievance deadline — ${data.grievance.category}`,
+      title: `Grievance deadline - ${data.grievance.category}`,
       description: `Step ${data.grievance.currentStep} response deadline`,
       startsAt: start.toISOString(),
       endsAt: end.toISOString(),
@@ -267,7 +267,7 @@ export function GrievanceDetail({ id }: { id: string }) {
     if (readOnly) return;
     setNoteBody(
       (prev) =>
-        `${prev}${prev ? "\n\n" : ""}${snippet.clauseRef} — ${snippet.title}\n${snippet.body}`,
+        `${prev}${prev ? "\n\n" : ""}${snippet.clauseRef} - ${snippet.title}\n${snippet.body}`,
     );
   }
 

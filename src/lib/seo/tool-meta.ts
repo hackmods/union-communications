@@ -6,12 +6,12 @@ export const TOOL_SEO: Record<
   "flyer-maker": {
     title: "Free Union Flyer Maker",
     description:
-      "Create high-contrast picket and rally flyers for your local — free, private, and on-device.",
+      "Make high-contrast picket and rally flyers for your local. Free, private, and on your device.",
   },
   "graphic-maker": {
     title: "Free Union Graphic Maker",
     description:
-      "Design member spotlights and social graphics with your local brand — processed entirely in your browser.",
+      "Make member spotlights and social graphics with your local brand. Runs in your browser.",
   },
   "logo-builder": {
     title: "Free Union Logo Builder",
@@ -21,17 +21,17 @@ export const TOOL_SEO: Record<
   "quote-card": {
     title: "Free Union Quote Card Maker",
     description:
-      "Turn leadership quotes into shareable cards for Facebook, Instagram, and boards.",
+      "Turn leadership quotes into cards for Facebook, Instagram, and boards.",
   },
   resizer: {
     title: "Free Union Image Resizer",
     description:
-      "Resize graphics for Facebook, Instagram, and print — all on your device.",
+      "Resize graphics for Facebook, Instagram, and print. All on your device.",
   },
   "alt-text": {
     title: "Free Union Alt-Text Assistant",
     description:
-      "Draft accessible alt text for union graphics and social posts.",
+      "Draft alt text for union graphics and social posts.",
   },
   "board-notice": {
     title: "Free Union Board Notice Maker",
@@ -41,7 +41,7 @@ export const TOOL_SEO: Record<
   "solidarity-poster": {
     title: "Free Solidarity Poster Maker",
     description:
-      "Fill empty union boards with bold solidarity posters — free and on-device.",
+      "Fill empty union boards with bold solidarity posters. Free and on your device.",
   },
   "qr-card": {
     title: "Free Union QR Link Card Maker",
@@ -51,6 +51,6 @@ export const TOOL_SEO: Record<
   "website-template": {
     title: "Free Union Website Template",
     description:
-      "Download a simple static website for your local — ready for GitHub Pages.",
+      "Download a simple static website for your local, ready for GitHub Pages.",
   },
 };

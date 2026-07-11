@@ -47,7 +47,7 @@ const TEMPLATES: Record<
     const local = ctx.localNumber ? `Local ${ctx.localNumber}` : "the local union";
     if (ctx.locale === "fr") {
       return {
-        subject: `Demande de rencontre — grief ${stepName(ctx)}`,
+        subject: `Demande de rencontre - grief ${stepName(ctx)}`,
         body: `Bonjour,
 
 Je vous écris au nom de ${local} pour demander une rencontre concernant un grief déposé le ${formatDate(ctx.grievance.filedAt, "fr")} (${ctx.grievance.category}).
@@ -63,11 +63,11 @@ Cordialement,
 [Contact information]
 
 ---
-BROUILLON — réviser avant envoi. Ne pas envoyer automatiquement.`,
+BROUILLON - réviser avant envoi. Ne pas envoyer automatiquement.`,
       };
     }
     return {
-      subject: `Meeting request — ${stepName(ctx)} grievance`,
+      subject: `Meeting request - ${stepName(ctx)} grievance`,
       body: `Hello,
 
 I am writing on behalf of ${local} to request a meeting regarding a grievance filed on ${formatDate(ctx.grievance.filedAt, "en")} (${ctx.grievance.category}).
@@ -83,13 +83,13 @@ Regards,
 [Contact information]
 
 ---
-DRAFT — review before sending. Do not auto-send.`,
+DRAFT - review before sending. Do not auto-send.`,
     };
   },
   extension_request: (ctx) => {
     if (ctx.locale === "fr") {
       return {
-        subject: `Demande de prolongation — grief ${ctx.grievance.id}`,
+        subject: `Demande de prolongation - grief ${ctx.grievance.id}`,
         body: `Bonjour,
 
 Je demande une prolongation du délai de réponse pour le grief déposé le ${formatDate(ctx.grievance.filedAt, "fr")}.
@@ -103,11 +103,11 @@ Cordialement,
 [Steward name]
 
 ---
-BROUILLON — réviser avant envoi.`,
+BROUILLON - réviser avant envoi.`,
       };
     }
     return {
-      subject: `Extension request — grievance ${ctx.grievance.id}`,
+      subject: `Extension request - grievance ${ctx.grievance.id}`,
       body: `Hello,
 
 I am requesting an extension to the response deadline for the grievance filed on ${formatDate(ctx.grievance.filedAt, "en")}.
@@ -121,7 +121,7 @@ Regards,
 [Steward name]
 
 ---
-DRAFT — review before sending.`,
+DRAFT - review before sending.`,
     };
   },
   member_update: (ctx) => {
@@ -143,7 +143,7 @@ Cordialement,
 [Steward name]
 
 ---
-BROUILLON — réviser avant envoi.`,
+BROUILLON - réviser avant envoi.`,
       };
     }
     return {
@@ -162,7 +162,7 @@ Regards,
 [Steward name]
 
 ---
-DRAFT — review before sending.`,
+DRAFT - review before sending.`,
     };
   },
 };

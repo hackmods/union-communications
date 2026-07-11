@@ -1,8 +1,8 @@
-# UnionOps — Vision
+# UnionOps - Vision
 
 ## Product
 
-**UnionOps** is a union-agnostic platform that empowers any local union to run professional communications, track grievances, and manage sector-specific workflows — without waiting on weak central comms.
+**UnionOps** is a multi-union platform for local communications, grievance tracking, and sector workflows. Locals should not have to wait on weak central comms.
 
 **Slogan:** Solidarity.  
 **Public domain:** https://unionops.org
@@ -22,7 +22,7 @@ The platform is **not** built for one union. OPSEU/CAAT is the **first adopter a
 ```
 Platform (you host)
   └── Union (e.g. OPSEU, CUPE, UNIFOR)
-        └── Division / Sector (optional — e.g. CAAT, colleges)
+        └── Division / Sector (optional - e.g. CAAT, colleges)
               └── Local (e.g. Local 243)
                     └── Users (officers, stewards, solo accounts)
 ```
@@ -31,9 +31,9 @@ Platform (you host)
 
 Union central communications are often under-resourced. Local executives and volunteer communicators need:
 
-1. **Self-serve media tools** — guides, templates, image generation (shipped in v1 Comms)
-2. **Grievance tracking** — dates, notes, follow-up emails, deadline awareness
-3. **Sector workflows** — e.g. college bumping / stability committee PDF comparison
+1. **Self-serve media tools** - guides, templates, image generation (shipped in v1 Comms)
+2. **Grievance tracking** - dates, notes, follow-up emails, deadline awareness
+3. **Sector workflows** - e.g. college bumping / stability committee PDF comparison
 
 This hub fills the gap without replacing national union systems.
 
@@ -47,9 +47,9 @@ This hub fills the gap without replacing national union systems.
 
 ## Deployment Models
 
-1. **Central hub** (default) — You host; unions/locals log in; multi-tier RBAC
-2. **Solo accounts** — Individual stewards without full local setup
-3. **Hybrid** (Phase 4) — Paranoid locals: encrypted export + optional self-hosted data slice for grievance/bumping data while using central comms
+1. **Central hub** (default) - You host; unions/locals log in; multi-tier RBAC
+2. **Solo accounts** - Individual stewards without full local setup
+3. **Hybrid** (Phase 4) - Paranoid locals: encrypted export + optional self-hosted data slice for grievance/bumping data while using central comms
 
 ## Non-Goals
 
@@ -60,7 +60,7 @@ This hub fills the gap without replacing national union systems.
 
 ## First Adopter
 
-**CAAT OPSEU** (Support Staff) — your division launches first. Reference branding and assets live in `public/assets/caat-opseu/` and seed config; new signups choose their union during onboarding (Phase 1).
+**CAAT OPSEU** (Support Staff) - your division launches first. Reference branding and assets live in `public/assets/caat-opseu/` and seed config; new signups choose their union during onboarding (Phase 1).
 
 ## Success Criteria
 
@@ -73,13 +73,13 @@ This hub fills the gap without replacing national union systems.
 
 - **Public brand:** UnionOps (https://unionops.org); package name remains `local-union-hub`
 - **UI branding:** Platform name is UnionOps; union name from tenant config after login
-- **v1 code debt:** OPSEU/CAAT strings migrate to tenant config in Phase 1 — see `docs/modules/COMMS.md`
+- **v1 code debt:** OPSEU/CAAT strings migrate to tenant config in Phase 1 - see `docs/modules/COMMS.md`
 
 ## Multi-Union Design Principles
 
-1. No union names in core code — seed data and tenant config only
+1. No union names in core code - seed data and tenant config only
 2. Every query tenant-scoped by `unionId`
 3. Modules opt-in per union
 4. CA/grievance steps configurable per union
 5. Brand per-local (Brand Kit)
-6. OPSEU is reference tenant #1 — not privileged in code paths
+6. OPSEU is reference tenant #1 - not privileged in code paths

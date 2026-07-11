@@ -1,4 +1,4 @@
-/** IRL-inspired union board layout patterns — generic, no union names. */
+/** IRL-inspired union board layout patterns - generic, no union names. */
 
 export type BoardZoneId =
   | "header"

@@ -36,7 +36,7 @@ describe("alt-text draft helpers", () => {
   it("flags leftover placeholders and caption duplicates", () => {
     expect(
       analyzeAltText(
-        "[Image description: Describe the visual content here — who is pictured.]",
+        "[Image description: Describe the visual content here - who is pictured.]",
       ).issues,
     ).toContain("placeholderLeft");
 

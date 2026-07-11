@@ -38,7 +38,7 @@ export interface BrandKit {
   /** Short monogram when no logo image is used (e.g. LU, 243) */
   logoText?: string;
   divisionId?: string;
-  /** Local website (optional) — used by QR cards, posters, website template */
+  /** Local website (optional) - used by QR cards, posters, website template */
   websiteUrl?: string;
   /** Facebook group or page (optional) */
   facebookUrl?: string;

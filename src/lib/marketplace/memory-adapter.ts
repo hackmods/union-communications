@@ -36,7 +36,7 @@ const templates: SharedTemplate[] = [
     kind: "caption",
     title: "Bargaining update social caption",
     description: "Within-union shared social caption",
-    body: "Bargaining update: Your bargaining team met today. We are fighting for fair wages, job security, and respect at work. Stay tuned — and talk to your steward if you have questions. #Solidarity",
+    body: "Bargaining update: Your bargaining team met today. We are fighting for fair wages, job security, and respect at work. Stay tuned - and talk to your steward if you have questions. #Solidarity",
     sharedById: "user-steward-243",
     sharedByName: "Local 243 Steward",
     createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),

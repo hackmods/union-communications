@@ -10,7 +10,7 @@ export type QrCardBgMode = "plain" | "gradient" | "accentBar";
 
 export interface QrCardPreset {
   id: QrCardPresetId;
-  /** Default destination — empty means use window.origin at runtime */
+  /** Default destination - empty means use window.origin at runtime */
   defaultUrl: string;
   /** i18n keys under qrCard.presets.* */
   titleKey: string;

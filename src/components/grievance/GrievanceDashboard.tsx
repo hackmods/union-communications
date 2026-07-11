@@ -172,7 +172,7 @@ function GrievanceRow({
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <CardTitle className="text-base">
-              {grievance.memberPseudonym ?? t("anonymousMember")} —{" "}
+              {grievance.memberPseudonym ?? t("anonymousMember")}  - {" "}
               {grievance.category}
             </CardTitle>
             <p className="mt-1 text-sm text-gray-600">

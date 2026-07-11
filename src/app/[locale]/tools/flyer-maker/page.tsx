@@ -34,7 +34,7 @@ function FlyerMakerPageContent() {
   const seedApplied = useRef(false);
 
   const initial: FlyerState = {
-    message: "PICKET LINE — ALL MEMBERS WELCOME",
+    message: "PICKET LINE - ALL MEMBERS WELCOME",
     date: "Monday, March 15",
     time: "7:00 AM – 4:00 PM",
     location: "123 Main Street, Toronto",
@@ -146,7 +146,7 @@ function FlyerMakerPageContent() {
               className="text-sm font-bold uppercase tracking-widest"
               style={{ color: state.accentColor }}
             >
-              Local {resolveLocalNumber(brandKit.local.localNumber)} —{" "}
+              Local {resolveLocalNumber(brandKit.local.localNumber)}  - {" "}
               {brandKit.local.subText}
             </p>
           </div>

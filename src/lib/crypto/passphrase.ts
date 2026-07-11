@@ -1,6 +1,6 @@
 /**
  * Passphrase-based encryption via Web Crypto (PBKDF2 + AES-GCM).
- * Used for hybrid-mode local export/import — passphrase never leaves the client.
+ * Used for hybrid-mode local export/import - passphrase never leaves the client.
  */
 
 const PBKDF2_ITERATIONS = 310_000;
@@ -124,7 +124,7 @@ export async function decryptJson<T = unknown>(
     );
     return JSON.parse(new TextDecoder().decode(plainBuf)) as T;
   } catch {
-    throw new Error("Decryption failed — wrong passphrase or corrupt file");
+    throw new Error("Decryption failed - wrong passphrase or corrupt file");
   }
 }
 

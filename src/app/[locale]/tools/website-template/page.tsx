@@ -41,7 +41,7 @@ export default function WebsiteTemplatePage() {
   const [facebookUrl, setFacebookUrl] = useState("");
   const [facebookSeeded, setFacebookSeeded] = useState(false);
   const [officeAddress, setOfficeAddress] = useState(
-    "Union office address — edit before publishing",
+    "Union office address - edit before publishing",
   );
   const [officers, setOfficers] = useState<WebsiteOfficer[]>(DEFAULT_WEBSITE_OFFICERS);
   const [downloading, setDownloading] = useState(false);

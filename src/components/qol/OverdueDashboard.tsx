@@ -96,7 +96,7 @@ export function OverdueDashboard() {
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <div>
                         <CardTitle className="text-base">
-                          {g.memberPseudonym ?? tg("anonymousMember")} — {g.category}
+                          {g.memberPseudonym ?? tg("anonymousMember")} - {g.category}
                         </CardTitle>
                         <p className="mt-1 text-sm text-gray-600">
                           {tg("step", { step: g.currentStep })} · {tg(`status.${g.status}`)}
@@ -126,7 +126,7 @@ export function OverdueDashboard() {
                 <Card className="transition hover:border-opseu-blue/40">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <CardTitle className="text-base">
-                      {g.memberPseudonym ?? tg("anonymousMember")} — {g.category}
+                      {g.memberPseudonym ?? tg("anonymousMember")} - {g.category}
                     </CardTitle>
                     <span className="text-sm text-gray-600">
                       {days != null

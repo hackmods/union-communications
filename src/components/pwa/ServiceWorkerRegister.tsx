@@ -10,7 +10,7 @@ export function ServiceWorkerRegister() {
       return;
     }
 
-    // Never register on localhost/CI — SW fetch interception can hang Playwright navigations.
+    // Never register on localhost/CI - SW fetch interception can hang Playwright navigations.
     if (!PRODUCTION_HOSTS.has(window.location.hostname)) {
       void navigator.serviceWorker.getRegistrations().then((regs) => {
         for (const reg of regs) {

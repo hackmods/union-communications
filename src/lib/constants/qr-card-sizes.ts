@@ -9,7 +9,7 @@ export interface QrCardSize {
   id: QrCardSizeId;
   widthInches: number;
   heightInches: number;
-  /** Screen preview width (px) — scaled to physical width so sizes look different */
+  /** Screen preview width (px) - scaled to physical width so sizes look different */
   previewWidthPx: number;
   /** Suggested QR pixel width for export clarity */
   qrPixels: number;

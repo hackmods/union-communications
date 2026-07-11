@@ -57,7 +57,7 @@ export default function BoardNoticePage() {
     useUndoRedo<BoardNoticeState>(initial);
 
   const dims = FORMAT_DIMENSIONS[format];
-  const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)} — ${brandKit.local.subText}`;
+  const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)} - ${brandKit.local.subText}`;
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;

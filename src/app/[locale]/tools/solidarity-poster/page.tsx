@@ -124,7 +124,7 @@ export default function SolidarityPosterPage() {
   const dims = FORMAT_DIMENSIONS[format];
   const localNum = resolveLocalNumber(brandKit.local.localNumber);
   const localLabel = brandKit.local.subText
-    ? `Local ${localNum} — ${brandKit.local.subText}`
+    ? `Local ${localNum} - ${brandKit.local.subText}`
     : `Local ${localNum}`;
   const showLockup =
     state.includeBranding &&

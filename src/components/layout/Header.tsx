@@ -47,7 +47,7 @@ export function Header() {
   const learnMenuId = useId();
   const toolsMenuId = useId();
 
-  // Hide when the route changes — do not unmount links in onClick (that aborts Next navigation)
+  // Hide when the route changes - do not unmount links in onClick (that aborts Next navigation)
   const openMenu = menu?.path === pathname ? menu.id : null;
 
   const getStartedHref = "/guide/social-media-plan";
@@ -134,7 +134,7 @@ export function Header() {
                     href={href}
                     role="menuitem"
                     onClick={() => {
-                      // Close after Link has handled the click — sync close unmounts and aborts navigation
+                      // Close after Link has handled the click - sync close unmounts and aborts navigation
                       requestAnimationFrame(() => setMenu(null));
                     }}
                     className={cn(

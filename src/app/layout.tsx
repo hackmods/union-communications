@@ -36,7 +36,7 @@ export const metadata: Metadata = {
         url: OG_IMAGE_PATH,
         width: 1200,
         height: 630,
-        alt: `${SITE_NAME} — Solidarity.`,
+        alt: `${SITE_NAME} - Solidarity.`,
       },
     ],
   },

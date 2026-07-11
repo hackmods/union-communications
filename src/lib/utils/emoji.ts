@@ -4,7 +4,7 @@ const supportCache = new Map<string, boolean>();
 
 /**
  * Canvas probe: returns false when the glyph renders blank (missing font support).
- * Does not detect monochrome text-presentation symbols — use `preferFallback` for those.
+ * Does not detect monochrome text-presentation symbols - use `preferFallback` for those.
  */
 export function isEmojiGlyphSupported(emoji: string): boolean {
   if (typeof document === "undefined") return true;

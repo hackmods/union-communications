@@ -75,6 +75,6 @@ export function bundleToPdfLines(bundle: BumpingExportBundle): string[] {
   }
 
   lines.push("", `Exported: ${bundle.exportedAt}`);
-  lines.push("", "DISCLAIMER: This log assists committee process — not legal advice.");
+  lines.push("", "DISCLAIMER: This log assists committee process - not legal advice.");
   return lines;
 }

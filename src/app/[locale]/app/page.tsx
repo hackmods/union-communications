@@ -60,7 +60,7 @@ export default function HubDashboardPage() {
               <div>
                 <dt className="font-medium text-gray-500">{t("local")}</dt>
                 <dd>
-                  Local {tenant.local.localNumber} — {tenant.local.subText}
+                  Local {tenant.local.localNumber} - {tenant.local.subText}
                 </dd>
               </div>
             )}

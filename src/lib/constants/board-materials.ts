@@ -1,5 +1,5 @@
 /**
- * Union board feed materials — official Ontario posters locals can print
+ * Union board feed materials - official Ontario posters locals can print
  * when they lack content, plus anonymized local demo templates.
  * No real member names or college-specific identifiers.
  */

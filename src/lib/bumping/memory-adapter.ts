@@ -23,7 +23,7 @@ const cases: BumpingCase[] = [
     seniorityDate: "2018-09-01",
     currentPosition: "Administrative Assistant II",
     targetPosition: "Administrative Assistant I (vacant)",
-    scenario: "Layoff bump — member exercises seniority into lower classification",
+    scenario: "Layoff bump - member exercises seniority into lower classification",
     status: "in_review",
     incumbentPosition: {
       title: "Administrative Assistant I",
@@ -77,7 +77,7 @@ const notes: CommitteeNote[] = [
     sessionId: "sess-001",
     authorId: "user-president-243",
     authorName: "Local 243 President",
-    body: "Committee reviewed PDF position descriptions. Duties differ on budget/supervisory tasks — need HR clarification.",
+    body: "Committee reviewed PDF position descriptions. Duties differ on budget/supervisory tasks - need HR clarification.",
     createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
   },
 ];

@@ -53,7 +53,7 @@ export function strictestPlatformLimit(): number {
 }
 
 /**
- * Lightweight draft checks — education aids, not WCAG validators.
+ * Lightweight draft checks - education aids, not WCAG validators.
  * Callers map issue ids to translated strings.
  */
 export function analyzeAltText(

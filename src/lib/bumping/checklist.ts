@@ -1,6 +1,6 @@
 import type { ChecklistItem } from "@/types/bumping";
 
-/** Default stability committee checklist — not legal advice */
+/** Default stability committee checklist - not legal advice */
 export const DEFAULT_BUMPING_CHECKLIST: ChecklistItem[] = [
   { id: "seniority_verified", labelKey: "seniorityVerified" },
   { id: "duties_compared", labelKey: "dutiesCompared" },

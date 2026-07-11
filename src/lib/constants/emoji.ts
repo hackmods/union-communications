@@ -77,7 +77,7 @@ export function getEmoji(id: EmojiId): EmojiDef {
   return EMOJIS[id];
 }
 
-/** Resolved emoji for static copy (captions, exports) — uses fallback when required */
+/** Resolved emoji for static copy (captions, exports) - uses fallback when required */
 export function emojiChar(id: EmojiId): string {
   const def = EMOJIS[id];
   return def.preferFallback ? def.fallback : def.primary;

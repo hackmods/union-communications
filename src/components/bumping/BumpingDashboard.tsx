@@ -68,7 +68,7 @@ export function BumpingDashboard({ canWrite }: { canWrite: boolean }) {
               <Link key={c.id} href={`/app/bumping/${c.id}`}>
                 <Card className="transition hover:border-opseu-blue/40">
                   <CardTitle className="text-base">
-                    {c.memberRef} — {c.currentPosition}
+                    {c.memberRef} - {c.currentPosition}
                   </CardTitle>
                   <p className="mt-1 text-sm text-gray-600">{c.scenario}</p>
                   <p className="mt-1 text-xs text-gray-500">
