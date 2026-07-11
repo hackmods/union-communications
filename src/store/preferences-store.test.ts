@@ -22,7 +22,7 @@ describe("applyPreferencesToDocument", () => {
 
   it("applies high contrast and reduced motion attributes", () => {
     applyPreferencesToDocument({
-      fontSize: "default",
+      ...DEFAULT_USER_PREFERENCES,
       highContrast: true,
       reducedMotion: true,
     });
@@ -84,6 +84,7 @@ describe("preferences store", () => {
       fontSize: "default",
       highContrast: true,
       reducedMotion: true,
+      stewardMobileMode: false,
     });
     expect(document.documentElement.hasAttribute("data-high-contrast")).toBe(true);
     expect(document.documentElement.hasAttribute("data-reduced-motion")).toBe(true);

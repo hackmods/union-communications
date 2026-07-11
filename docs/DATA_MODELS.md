@@ -72,6 +72,26 @@ erDiagram
 { unionId, localId?, steps: { number, name, responseDays }[] }
 ```
 
+### MemberCommunication (Phase 5)
+```typescript
+{ id, grievanceId, unionId, localId, channel, direction, summary, occurredAt, loggedById }
+```
+
+### ScheduledMeeting (Phase 5)
+```typescript
+{ id, grievanceId, unionId, localId, title, startsAt, endsAt, location?, description? }
+```
+
+### CaSnippet (Phase 5)
+```typescript
+{ id, unionId, localId?, title, clauseRef, body, tags[], createdById }
+```
+
+### SharedTemplate (Phase 5 — within-union only)
+```typescript
+{ id, unionId, localId, kind, title, description, body, sharedById }
+```
+
 ## Bumping
 
 ### BumpingCase

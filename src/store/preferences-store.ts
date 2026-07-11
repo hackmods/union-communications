@@ -15,6 +15,7 @@ interface PreferencesState {
   setFontSize: (fontSize: FontSize) => void;
   setHighContrast: (highContrast: boolean) => void;
   setReducedMotion: (reducedMotion: boolean) => void;
+  setStewardMobileMode: (stewardMobileMode: boolean) => void;
   setPreferences: (partial: Partial<UserPreferences>) => void;
   hydrate: () => Promise<void>;
 }
@@ -46,6 +47,12 @@ export const usePreferencesStore = create<PreferencesState>()((set, get) => ({
     persistAndApply(updated);
   },
 
+  setStewardMobileMode: (stewardMobileMode) => {
+    const updated = { ...get().preferences, stewardMobileMode };
+    set({ preferences: updated });
+    persistAndApply(updated);
+  },
+
   setPreferences: (partial) => {
     const updated = { ...get().preferences, ...partial };
     set({ preferences: updated });
@@ -54,7 +61,10 @@ export const usePreferencesStore = create<PreferencesState>()((set, get) => ({
 
   hydrate: async () => {
     const stored = await dataAdapter.getUserPreferences();
-    const preferences = stored ?? DEFAULT_USER_PREFERENCES;
+    const preferences = {
+      ...DEFAULT_USER_PREFERENCES,
+      ...(stored ?? {}),
+    };
     set({ preferences, hydrated: true });
     applyPreferencesToDocument(preferences);
   },

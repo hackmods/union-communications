@@ -57,6 +57,8 @@ export interface GrievanceWithRelations {
   grievance: Grievance;
   events: GrievanceEvent[];
   notes: GrievanceNote[];
+  communications?: import("@/types/qol").MemberCommunication[];
+  meetings?: import("@/types/qol").ScheduledMeeting[];
 }
 
 export interface CreateGrievanceInput {

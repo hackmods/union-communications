@@ -10,6 +10,13 @@ Encrypted bulk export/import of all accessible grievances for a local lives at `
 Passphrase encryption is client-side (Web Crypto); the hub API exchanges plaintext slices only over MFA sessions.
 See `docs/PROGRESS.md` Phase 4.
 
+## QOL (Phase 5)
+
+- Member communication log and meeting scheduler (ICS) on grievance detail
+- CA snippet insert into officer notes
+- Overdue board at `/app/overdue`
+- Officer handoff at `/app/handoff`
+
 ## Entities
 
 ### Grievance

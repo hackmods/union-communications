@@ -96,6 +96,31 @@ export default function HubDashboardPage() {
       </div>
 
       <Card className="mt-8">
+        <CardTitle>{t("qolCardTitle")}</CardTitle>
+        <p className="mt-2 text-sm text-gray-600">{t("qolCardDesc")}</p>
+        {session.user.mfaVerified ? (
+          <div className="mt-4 flex flex-wrap gap-4 text-sm">
+            <Link href="/app/overdue" className="text-opseu-blue underline">
+              {t("overdueLink")}
+            </Link>
+            <Link href="/app/snippets" className="text-opseu-blue underline">
+              {t("snippetsLink")}
+            </Link>
+            <Link href="/app/marketplace" className="text-opseu-blue underline">
+              {t("marketplaceLink")}
+            </Link>
+            <Link href="/app/handoff" className="text-opseu-blue underline">
+              {t("handoffLink")}
+            </Link>
+          </div>
+        ) : (
+          <Link href="/app/mfa" className="mt-4 inline-block text-sm text-opseu-blue underline">
+            {t("mfaRequired")}
+          </Link>
+        )}
+      </Card>
+
+      <Card className="mt-8">
         <CardTitle>{t("hybridCardTitle")}</CardTitle>
         <p className="mt-2 text-sm text-gray-600">{t("hybridCardDesc")}</p>
         {session.user.mfaVerified ? (

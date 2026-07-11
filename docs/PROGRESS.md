@@ -78,7 +78,17 @@ Scaffold through testing/CI — all complete.
 - [x] Hub nav link + EN/FR i18n
 - [x] Unit tests for encrypt round-trip, wrong passphrase, tenant scope
 
-## Phase 5 — QOL (next)
+## Phase 5 — QOL (2026-07-10) — COMPLETE
+
+- [x] Officer handoff wizard (`/app/handoff`) — reassign cases + download package
+- [x] CA clause snippet library (`/app/snippets`) — union-scoped CRUD + insert into notes
+- [x] Meeting scheduler with ICS export on grievance detail + deadline ICS
+- [x] Member communication log (channel/direction/summary) on grievance detail
+- [x] Dedicated overdue dashboard (`/app/overdue`) with days-overdue sorting
+- [x] Within-union template marketplace (`/app/marketplace`) — never cross-union
+- [x] Mobile steward read-only mode (preference + compact UI)
+- [x] Hub nav + dashboard links; EN/FR i18n
+- [x] Unit tests for ICS builder and handoff package
 
 ## Accessibility & Display Settings (2026-07-09) — COMPLETE
 

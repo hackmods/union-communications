@@ -54,6 +54,42 @@ export function HubNav() {
           </Link>
         ))}
         <Link
+          href="/app/overdue"
+          className={cn(
+            "rounded-md px-2 py-1 hover:bg-white",
+            !session.user.mfaVerified && "opacity-60",
+          )}
+        >
+          {t("overdueLink")}
+        </Link>
+        <Link
+          href="/app/snippets"
+          className={cn(
+            "rounded-md px-2 py-1 hover:bg-white",
+            !session.user.mfaVerified && "opacity-60",
+          )}
+        >
+          {t("snippetsLink")}
+        </Link>
+        <Link
+          href="/app/marketplace"
+          className={cn(
+            "rounded-md px-2 py-1 hover:bg-white",
+            !session.user.mfaVerified && "opacity-60",
+          )}
+        >
+          {t("marketplaceLink")}
+        </Link>
+        <Link
+          href="/app/handoff"
+          className={cn(
+            "rounded-md px-2 py-1 hover:bg-white",
+            !session.user.mfaVerified && "opacity-60",
+          )}
+        >
+          {t("handoffLink")}
+        </Link>
+        <Link
           href="/app/hybrid"
           className={cn(
             "rounded-md px-2 py-1 hover:bg-white",

@@ -10,6 +10,12 @@ import type {
   GrievanceWithRelations,
   UpdateGrievanceInput,
 } from "@/types/grievance";
+import type {
+  CreateCommunicationInput,
+  CreateMeetingInput,
+  MemberCommunication,
+  ScheduledMeeting,
+} from "@/types/qol";
 
 const grievances: Grievance[] = [
   {
@@ -76,6 +82,24 @@ const notes: GrievanceNote[] = [
   },
 ];
 
+const communications: MemberCommunication[] = [
+  {
+    id: "comm-001",
+    grievanceId: "grev-001",
+    unionId: "union-opseu",
+    localId: "local-243",
+    channel: "phone",
+    direction: "outbound",
+    summary: "Called member to confirm facts and next steps for Step 1.",
+    occurredAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    loggedById: "user-steward-243",
+    loggedByName: "Local 243 Steward",
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+];
+
+const meetings: ScheduledMeeting[] = [];
+
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
@@ -99,22 +123,34 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
     );
   }
 
-  async getById(id: string): Promise<GrievanceWithRelations | null> {
-    const grievance = grievances.find((g) => g.id === id);
+  async getById(grievanceId: string): Promise<GrievanceWithRelations | null> {
+    const grievance = grievances.find((g) => g.id === grievanceId);
     if (!grievance) return null;
     return {
       grievance,
       events: events
-        .filter((e) => e.grievanceId === id)
+        .filter((e) => e.grievanceId === grievanceId)
         .sort(
           (a, b) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         ),
       notes: notes
-        .filter((n) => n.grievanceId === id)
+        .filter((n) => n.grievanceId === grievanceId)
         .sort(
           (a, b) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        ),
+      communications: communications
+        .filter((c) => c.grievanceId === grievanceId)
+        .sort(
+          (a, b) =>
+            new Date(b.occurredAt).getTime() - new Date(a.occurredAt).getTime(),
+        ),
+      meetings: meetings
+        .filter((m) => m.grievanceId === grievanceId)
+        .sort(
+          (a, b) =>
+            new Date(b.startsAt).getTime() - new Date(a.startsAt).getTime(),
         ),
     };
   }
@@ -153,7 +189,13 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
     };
     events.push(event);
 
-    return { grievance, events: [event], notes: [] };
+    return {
+      grievance,
+      events: [event],
+      notes: [],
+      communications: [],
+      meetings: [],
+    };
   }
 
   async update(
@@ -214,6 +256,86 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
     return event;
   }
 
+  async addCommunication(
+    grievanceId: string,
+    input: CreateCommunicationInput,
+    meta: {
+      unionId: string;
+      localId: string;
+      loggedById: string;
+      loggedByName: string;
+    },
+  ): Promise<MemberCommunication | null> {
+    if (!grievances.some((g) => g.id === grievanceId)) return null;
+    const entry: MemberCommunication = {
+      id: id("comm"),
+      grievanceId,
+      unionId: meta.unionId,
+      localId: meta.localId,
+      channel: input.channel,
+      direction: input.direction,
+      summary: input.summary,
+      occurredAt: input.occurredAt,
+      loggedById: meta.loggedById,
+      loggedByName: meta.loggedByName,
+      createdAt: new Date().toISOString(),
+    };
+    communications.push(entry);
+    return entry;
+  }
+
+  async listCommunications(
+    grievanceId: string,
+  ): Promise<MemberCommunication[]> {
+    return communications
+      .filter((c) => c.grievanceId === grievanceId)
+      .sort(
+        (a, b) =>
+          new Date(b.occurredAt).getTime() - new Date(a.occurredAt).getTime(),
+      );
+  }
+
+  async addMeeting(
+    grievanceId: string,
+    input: CreateMeetingInput,
+    meta: {
+      unionId: string;
+      localId: string;
+      createdById: string;
+    },
+  ): Promise<ScheduledMeeting | null> {
+    if (!grievances.some((g) => g.id === grievanceId)) return null;
+    const meeting: ScheduledMeeting = {
+      id: id("meet"),
+      grievanceId,
+      unionId: meta.unionId,
+      localId: meta.localId,
+      title: input.title,
+      startsAt: input.startsAt,
+      endsAt: input.endsAt,
+      location: input.location,
+      description: input.description,
+      createdById: meta.createdById,
+      createdAt: new Date().toISOString(),
+    };
+    meetings.push(meeting);
+    await this.addEvent(grievanceId, {
+      type: "meeting_scheduled",
+      dueAt: input.startsAt,
+      note: `${input.title}${input.location ? ` @ ${input.location}` : ""}`,
+    });
+    return meeting;
+  }
+
+  async listMeetings(grievanceId: string): Promise<ScheduledMeeting[]> {
+    return meetings
+      .filter((m) => m.grievanceId === grievanceId)
+      .sort(
+        (a, b) =>
+          new Date(b.startsAt).getTime() - new Date(a.startsAt).getTime(),
+      );
+  }
+
   async importLocalSlice(
     unionId: string,
     localId: string,
@@ -238,6 +360,14 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
       for (let i = notes.length - 1; i >= 0; i--) {
         if (removeIds.has(notes[i].grievanceId)) notes.splice(i, 1);
       }
+      for (let i = communications.length - 1; i >= 0; i--) {
+        if (removeIds.has(communications[i].grievanceId)) {
+          communications.splice(i, 1);
+        }
+      }
+      for (let i = meetings.length - 1; i >= 0; i--) {
+        if (removeIds.has(meetings[i].grievanceId)) meetings.splice(i, 1);
+      }
     }
 
     let imported = 0;
@@ -254,11 +384,25 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
         for (let i = notes.length - 1; i >= 0; i--) {
           if (notes[i].grievanceId === g.id) notes.splice(i, 1);
         }
+        for (let i = communications.length - 1; i >= 0; i--) {
+          if (communications[i].grievanceId === g.id) {
+            communications.splice(i, 1);
+          }
+        }
+        for (let i = meetings.length - 1; i >= 0; i--) {
+          if (meetings[i].grievanceId === g.id) meetings.splice(i, 1);
+        }
       } else {
         grievances.push({ ...g });
       }
       events.push(...item.events.map((e) => ({ ...e })));
       notes.push(...item.notes.map((n) => ({ ...n })));
+      if (item.communications) {
+        communications.push(...item.communications.map((c) => ({ ...c })));
+      }
+      if (item.meetings) {
+        meetings.push(...item.meetings.map((m) => ({ ...m })));
+      }
       imported += 1;
     }
 

@@ -604,6 +604,12 @@
     "hybridLink": "Hybrid data",
     "hybridCardTitle": "Hybrid / offline data",
     "hybridCardDesc": "Encrypt grievance and bumping backups, or keep a local encrypted slice on this device.",
+    "overdueLink": "Overdue",
+    "snippetsLink": "CA snippets",
+    "marketplaceLink": "Templates",
+    "handoffLink": "Handoff",
+    "qolCardTitle": "Officer QOL tools",
+    "qolCardDesc": "Overdue dashboard, CA snippets, within-union templates, and officer handoff.",
     "modules": {
       "comms": "Comms",
       "commsDesc": "Public social media tools and guides",
@@ -658,6 +664,128 @@
       "noLocalSlice": "No local slice found in this browser.",
       "localRestoreFailed": "Could not restore local slice.",
       "needLocalSlice": "Save a local slice before switching to local mode."
+    }
+  },
+  "qol": {
+    "overdue": {
+      "title": "Overdue dashboard",
+      "subtitle": "Prioritize late and upcoming grievance deadlines for your local.",
+      "nav": "Overdue board",
+      "viewAll": "Full overdue board",
+      "count": "Overdue now",
+      "upcomingCount": "Upcoming (next 10)",
+      "sectionOverdue": "Overdue cases",
+      "sectionUpcoming": "Upcoming deadlines",
+      "none": "No overdue grievances — nice work.",
+      "daysOverdue": "{days}d overdue",
+      "daysUntil": "Due in {days}d"
+    },
+    "snippets": {
+      "title": "CA clause snippets",
+      "subtitle": "Union-scoped clause library for notes and drafts. Copy only — never auto-insert into member emails.",
+      "add": "Add snippet",
+      "cancel": "Cancel",
+      "search": "Search snippets",
+      "searchBtn": "Search",
+      "fieldTitle": "Title",
+      "clauseRef": "Clause reference",
+      "body": "Clause text",
+      "tags": "Tags",
+      "tagsHint": "Comma-separated, e.g. discipline, timeline",
+      "save": "Save snippet",
+      "loading": "Loading snippets…",
+      "empty": "No snippets yet.",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "delete": "Delete",
+      "created": "Snippet saved.",
+      "createError": "Could not save snippet.",
+      "insert": "Insert CA snippet into note"
+    },
+    "marketplace": {
+      "title": "Union template marketplace",
+      "subtitle": "Share reusable templates within your union only — never across unions.",
+      "scopeNote": "Within-union sharing only. Cross-union access is blocked.",
+      "share": "Share template",
+      "cancel": "Cancel",
+      "filterKind": "Filter by kind",
+      "allKinds": "All kinds",
+      "kind": "Kind",
+      "fieldTitle": "Title",
+      "description": "Description",
+      "body": "Template body",
+      "publish": "Publish to union",
+      "loading": "Loading templates…",
+      "empty": "No shared templates yet.",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "delete": "Remove",
+      "sharedBy": "Shared by {name} · {date}",
+      "kinds": {
+        "ca_snippet": "CA snippet",
+        "email": "Email",
+        "caption": "Caption",
+        "checklist": "Checklist",
+        "other": "Other"
+      }
+    },
+    "handoff": {
+      "title": "Officer handoff wizard",
+      "subtitle": "Reassign open grievances and generate a handoff package for the incoming steward.",
+      "forbidden": "Only local presidents and admins can run a handoff.",
+      "loadError": "Could not load handoff data.",
+      "completeError": "Handoff failed.",
+      "step1": "1. Cases",
+      "step2": "2. Steward",
+      "step3": "3. Checklist",
+      "step4": "4. Done",
+      "selectCases": "Select grievances to reassign",
+      "selectSteward": "Choose incoming steward",
+      "notes": "Handoff notes (optional)",
+      "checklist": "Handoff checklist",
+      "checklistHint": "Confirm these steps before completing (advisory — not blocking).",
+      "next": "Next",
+      "back": "Back",
+      "complete": "Complete handoff",
+      "working": "Reassigning…",
+      "done": "Handoff complete",
+      "doneDesc": "Reassigned {count} grievance(s) to {name}. Download the package for your records.",
+      "download": "Download handoff package"
+    },
+    "comms": {
+      "title": "Member communication log",
+      "hint": "Record contacts with the member. Separate from internal officer notes. Never auto-send.",
+      "channelLabel": "Channel",
+      "directionLabel": "Direction",
+      "when": "When",
+      "summary": "Summary",
+      "log": "Log communication",
+      "channel": {
+        "email": "Email",
+        "phone": "Phone",
+        "in_person": "In person",
+        "letter": "Letter",
+        "other": "Other"
+      },
+      "direction": {
+        "outbound": "Outbound",
+        "inbound": "Inbound"
+      }
+    },
+    "meetings": {
+      "title": "Meeting scheduler",
+      "hint": "Schedule a meeting and download an ICS calendar invite.",
+      "fieldTitle": "Meeting title",
+      "starts": "Starts",
+      "ends": "Ends",
+      "location": "Location (optional)",
+      "schedule": "Schedule & download ICS",
+      "deadlineIcs": "Deadline ICS"
+    },
+    "mobile": {
+      "toggle": "Mobile steward read-only mode",
+      "toggleHint": "Hides create/edit actions for a compact phone-friendly view. Turn off to edit assigned cases.",
+      "readOnlyBanner": "Read-only mode is on. Viewing assigned cases only — turn off mobile steward mode to edit."
     }
   },
   "grievance": {

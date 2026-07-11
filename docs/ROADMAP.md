@@ -32,14 +32,14 @@
 - [x] Optional self-hosted data slice (browser encrypted localStorage)
 - [x] Bumping cases included in hybrid slice when module enabled
 
-## Phase 5 — QOL
-- Officer handoff wizard
-- CA clause snippet library (union-uploaded)
-- Meeting scheduler (ICS export)
-- Member communication log
-- Overdue dashboard
-- Union template marketplace (within-union sharing)
-- Mobile steward read-only mode
+## Phase 5 — QOL — COMPLETE
+- [x] Officer handoff wizard
+- [x] CA clause snippet library (union-uploaded)
+- [x] Meeting scheduler (ICS export)
+- [x] Member communication log
+- [x] Overdue dashboard
+- [x] Union template marketplace (within-union sharing)
+- [x] Mobile steward read-only mode
 
 ## Reference Tenant
 

@@ -579,6 +579,12 @@
     "hybridLink": "Données hybrides",
     "hybridCardTitle": "Données hybrides / hors ligne",
     "hybridCardDesc": "Chiffrez les sauvegardes de griefs et de bumpage, ou conservez une copie locale chiffrée sur cet appareil.",
+    "overdueLink": "En retard",
+    "snippetsLink": "Extraits CA",
+    "marketplaceLink": "Modèles",
+    "handoffLink": "Passation",
+    "qolCardTitle": "Outils QOL dirigeants",
+    "qolCardDesc": "Tableau des retards, extraits de convention, modèles internes et passation de dossiers.",
     "modules": {
       "comms": "Communications",
       "commsDesc": "Outils publics de médias sociaux",
@@ -633,6 +639,128 @@
       "noLocalSlice": "Aucune copie locale trouvée dans ce navigateur.",
       "localRestoreFailed": "Impossible de restaurer la copie locale.",
       "needLocalSlice": "Enregistrez une copie locale avant de passer en mode local."
+    }
+  },
+  "qol": {
+    "overdue": {
+      "title": "Tableau des retards",
+      "subtitle": "Priorisez les échéances de griefs en retard et à venir pour votre section.",
+      "nav": "Tableau des retards",
+      "viewAll": "Tableau complet",
+      "count": "En retard maintenant",
+      "upcomingCount": "À venir (10 prochains)",
+      "sectionOverdue": "Dossiers en retard",
+      "sectionUpcoming": "Échéances à venir",
+      "none": "Aucun grief en retard — bravo.",
+      "daysOverdue": "{days} j de retard",
+      "daysUntil": "Dans {days} j"
+    },
+    "snippets": {
+      "title": "Extraits de clauses CA",
+      "subtitle": "Bibliothèque de clauses pour notes et brouillons. Copie seulement — jamais d'envoi automatique.",
+      "add": "Ajouter un extrait",
+      "cancel": "Annuler",
+      "search": "Rechercher",
+      "searchBtn": "Chercher",
+      "fieldTitle": "Titre",
+      "clauseRef": "Référence de clause",
+      "body": "Texte de la clause",
+      "tags": "Étiquettes",
+      "tagsHint": "Séparées par des virgules",
+      "save": "Enregistrer",
+      "loading": "Chargement…",
+      "empty": "Aucun extrait pour l'instant.",
+      "copy": "Copier",
+      "copied": "Copié!",
+      "delete": "Supprimer",
+      "created": "Extrait enregistré.",
+      "createError": "Impossible d'enregistrer l'extrait.",
+      "insert": "Insérer un extrait CA dans la note"
+    },
+    "marketplace": {
+      "title": "Marché de modèles syndicaux",
+      "subtitle": "Partagez des modèles réutilisables au sein de votre syndicat seulement.",
+      "scopeNote": "Partage intra-syndicat seulement. Aucun accès inter-syndicat.",
+      "share": "Partager un modèle",
+      "cancel": "Annuler",
+      "filterKind": "Filtrer par type",
+      "allKinds": "Tous les types",
+      "kind": "Type",
+      "fieldTitle": "Titre",
+      "description": "Description",
+      "body": "Contenu du modèle",
+      "publish": "Publier au syndicat",
+      "loading": "Chargement…",
+      "empty": "Aucun modèle partagé.",
+      "copy": "Copier",
+      "copied": "Copié!",
+      "delete": "Retirer",
+      "sharedBy": "Partagé par {name} · {date}",
+      "kinds": {
+        "ca_snippet": "Extrait CA",
+        "email": "Courriel",
+        "caption": "Légende",
+        "checklist": "Liste de contrôle",
+        "other": "Autre"
+      }
+    },
+    "handoff": {
+      "title": "Assistant de passation",
+      "subtitle": "Réassignez les griefs ouverts et générez un dossier de passation.",
+      "forbidden": "Seuls les présidents locaux et administrateurs peuvent faire une passation.",
+      "loadError": "Impossible de charger les données de passation.",
+      "completeError": "Échec de la passation.",
+      "step1": "1. Dossiers",
+      "step2": "2. Steward",
+      "step3": "3. Liste",
+      "step4": "4. Terminé",
+      "selectCases": "Sélectionnez les griefs à réassigner",
+      "selectSteward": "Choisir le steward entrant",
+      "notes": "Notes de passation (optionnel)",
+      "checklist": "Liste de contrôle",
+      "checklistHint": "Confirmez ces étapes avant de terminer (indicatif).",
+      "next": "Suivant",
+      "back": "Retour",
+      "complete": "Terminer la passation",
+      "working": "Réaffectation…",
+      "done": "Passation terminée",
+      "doneDesc": "{count} grief(s) réassigné(s) à {name}. Téléchargez le dossier pour vos archives.",
+      "download": "Télécharger le dossier de passation"
+    },
+    "comms": {
+      "title": "Journal de communication membre",
+      "hint": "Enregistrez les contacts avec le membre. Distinct des notes internes. Jamais d'envoi automatique.",
+      "channelLabel": "Canal",
+      "directionLabel": "Direction",
+      "when": "Quand",
+      "summary": "Résumé",
+      "log": "Enregistrer",
+      "channel": {
+        "email": "Courriel",
+        "phone": "Téléphone",
+        "in_person": "En personne",
+        "letter": "Lettre",
+        "other": "Autre"
+      },
+      "direction": {
+        "outbound": "Sortant",
+        "inbound": "Entrant"
+      }
+    },
+    "meetings": {
+      "title": "Planificateur de réunions",
+      "hint": "Planifiez une réunion et téléchargez une invitation ICS.",
+      "fieldTitle": "Titre de la réunion",
+      "starts": "Début",
+      "ends": "Fin",
+      "location": "Lieu (optionnel)",
+      "schedule": "Planifier et télécharger ICS",
+      "deadlineIcs": "ICS échéance"
+    },
+    "mobile": {
+      "toggle": "Mode mobile steward (lecture seule)",
+      "toggleHint": "Masque les actions de création/édition pour une vue téléphone. Désactivez pour modifier vos dossiers.",
+      "readOnlyBanner": "Mode lecture seule activé. Affichage des dossiers assignés seulement."
     }
   },
   "grievance": {

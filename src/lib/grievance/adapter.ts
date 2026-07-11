@@ -1,4 +1,10 @@
 import type {
+  CreateCommunicationInput,
+  CreateMeetingInput,
+  MemberCommunication,
+  ScheduledMeeting,
+} from "@/types/qol";
+import type {
   CreateEventInput,
   CreateGrievanceInput,
   CreateNoteInput,
@@ -32,6 +38,27 @@ export interface GrievanceAdapter {
     grievanceId: string,
     input: CreateEventInput,
   ): Promise<GrievanceEvent | null>;
+  addCommunication(
+    grievanceId: string,
+    input: CreateCommunicationInput,
+    meta: {
+      unionId: string;
+      localId: string;
+      loggedById: string;
+      loggedByName: string;
+    },
+  ): Promise<MemberCommunication | null>;
+  listCommunications(grievanceId: string): Promise<MemberCommunication[]>;
+  addMeeting(
+    grievanceId: string,
+    input: CreateMeetingInput,
+    meta: {
+      unionId: string;
+      localId: string;
+      createdById: string;
+    },
+  ): Promise<ScheduledMeeting | null>;
+  listMeetings(grievanceId: string): Promise<ScheduledMeeting[]>;
   importLocalSlice(
     unionId: string,
     localId: string,
