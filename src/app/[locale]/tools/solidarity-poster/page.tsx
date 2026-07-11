@@ -108,11 +108,12 @@ export default function SolidarityPosterPage() {
 
   useEffect(() => {
     let cancelled = false;
-    if (!state.showQr || !state.supportUrl.trim()) {
-      setQrSrc(null);
-      return;
-    }
-    void qrDataUrl(state.supportUrl, { width: 140 }).then((url) => {
+    const supportUrl =
+      state.showQr && state.supportUrl.trim() ? state.supportUrl.trim() : "";
+    const task = supportUrl
+      ? qrDataUrl(supportUrl, { width: 140 })
+      : Promise.resolve(null);
+    void task.then((url) => {
       if (!cancelled) setQrSrc(url);
     });
     return () => {

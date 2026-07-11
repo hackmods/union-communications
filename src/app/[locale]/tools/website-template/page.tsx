@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { Button } from "@/components/ui/Button";
@@ -26,7 +26,6 @@ export default function WebsiteTemplatePage() {
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
   const localNumber = resolveLocalNumber(brandKit.local.localNumber);
-  const facebookPrefillDone = useRef(false);
 
   const [unionName, setUnionName] = useState(`Local ${localNumber}`);
   const [heroText, setHeroText] = useState(
@@ -40,19 +39,21 @@ export default function WebsiteTemplatePage() {
   );
   const [contactEmail, setContactEmail] = useState(`local${localNumber}@example.com`);
   const [facebookUrl, setFacebookUrl] = useState("");
+  const [facebookSeeded, setFacebookSeeded] = useState(false);
   const [officeAddress, setOfficeAddress] = useState(
     "Union office address — edit before publishing",
   );
   const [officers, setOfficers] = useState<WebsiteOfficer[]>(DEFAULT_WEBSITE_OFFICERS);
   const [downloading, setDownloading] = useState(false);
 
-  useEffect(() => {
-    if (!hydrated || facebookPrefillDone.current) return;
-    facebookPrefillDone.current = true;
-    if (brandKit.facebookUrl?.trim()) {
-      setFacebookUrl(brandKit.facebookUrl.trim());
+  // One-shot prefill after brand kit hydrates (adjust state during render).
+  if (hydrated && !facebookSeeded) {
+    setFacebookSeeded(true);
+    const fromBrand = brandKit.facebookUrl?.trim();
+    if (fromBrand) {
+      setFacebookUrl(fromBrand);
     }
-  }, [hydrated, brandKit.facebookUrl]);
+  }
 
   const templateData: WebsiteTemplateData = useMemo(
     () => ({

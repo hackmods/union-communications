@@ -104,11 +104,11 @@ export default function QrCardPage() {
 
   useEffect(() => {
     let cancelled = false;
-    if (!state.destination.trim()) {
-      setQrSrc(null);
-      return;
-    }
-    void qrDataUrl(state.destination, { width: size.qrPixels }).then((url) => {
+    const destination = state.destination.trim();
+    const task = destination
+      ? qrDataUrl(destination, { width: size.qrPixels })
+      : Promise.resolve(null);
+    void task.then((url) => {
       if (!cancelled) setQrSrc(url);
     });
     return () => {
