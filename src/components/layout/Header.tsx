@@ -28,7 +28,7 @@ const toolLinks = [
   { href: "/tools/alt-text", key: "altText" },
 ] as const;
 
-const learnHrefs = new Set(learnLinks.map((l) => l.href));
+const learnHrefs: Set<string> = new Set(learnLinks.map((l) => l.href));
 
 function linkActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
