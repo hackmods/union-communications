@@ -8,7 +8,7 @@ const stepKeys = ["logo", "boards", "socials", "website"] as const;
 
 const stepLinks: Record<
   (typeof stepKeys)[number],
-  { primary: string; secondary: string }
+  { primary: string; secondary: string; tertiary?: { href: string; labelKey: string }[] }
 > = {
   logo: {
     primary: "/tools/logo-builder",
@@ -20,7 +20,11 @@ const stepLinks: Record<
   },
   socials: {
     primary: "/tools/graphic-maker",
-    secondary: "/guide",
+    secondary: "/captions",
+    tertiary: [
+      { href: "/examples", labelKey: "tertiaryExamples" },
+      { href: "/guide", labelKey: "tertiaryBlueprint" },
+    ],
   },
   website: {
     primary: "/tools/website-template",
@@ -65,6 +69,13 @@ export default async function SocialMediaPlanPage({
                   {t(`steps.${key}.secondaryCta`)}
                 </Button>
               </Link>
+              {stepLinks[key].tertiary?.map((link) => (
+                <Link key={link.href} href={link.href}>
+                  <Button variant="ghost" size="sm">
+                    {t(`steps.${key}.${link.labelKey}`)}
+                  </Button>
+                </Link>
+              ))}
             </div>
           </Card>
         ))}

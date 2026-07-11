@@ -5,6 +5,8 @@
   },
   "nav": {
     "home": "Home",
+    "getStarted": "Get started",
+    "learn": "Learn",
     "guide": "The Blueprint",
     "strikeGuide": "Strike Guide",
     "examples": "Social Examples",
@@ -56,10 +58,17 @@
   },
   "home": {
     "title": "Local Union Support Hub",
-    "subtitle": "Professional tools for volunteer communicators — built in solidarity for any local, any union",
+    "subtitle": "Comms tools for volunteers and officer workflows for presidents and stewards — built in solidarity for any local, any union",
     "heroCta": "Set up your local brand",
     "socialMediaPlanCta": "Start the Social Media Plan",
     "socialMediaPlanDesc": "A quick roadmap: logo, union boards, socials, and a simple website — in order.",
+    "pathCommsTitle": "New to running a local’s communications?",
+    "pathCommsDesc": "A short roadmap: brand, boards, socials, then a simple website — in order.",
+    "pathCommsCta": "Get started",
+    "pathCommsHint": "Need copy later? Social Examples and Captions are under Learn.",
+    "pathOfficerTitle": "President or steward managing cases?",
+    "pathOfficerDesc": "Track grievances, college bumping, overdue work, and handoffs in the Officer Hub.",
+    "pathOfficerCta": "Open Officer Hub",
     "channelsTitle": "The Toolbox",
     "privacyNote": "All processing happens on your device. No data is sent to any server.",
     "channels": {
@@ -117,7 +126,9 @@
           "Copy a caption from the library and add alt-text"
         ],
         "cta": "Graphic Maker",
-        "secondaryCta": "The Blueprint"
+        "secondaryCta": "Captions",
+        "tertiaryExamples": "Social Examples",
+        "tertiaryBlueprint": "The Blueprint"
       },
       "website": {
         "title": "4. A website",
@@ -779,7 +790,7 @@
   },
   "hub": {
     "platformName": "Local Union Support Hub",
-    "hubLink": "Hub",
+    "hubLink": "Officer Hub",
     "title": "Officer Hub",
     "navLabel": "Hub navigation",
     "dashboard": "Dashboard",
@@ -820,11 +831,11 @@
     "snippetsLink": "CA snippets",
     "marketplaceLink": "Templates",
     "handoffLink": "Handoff",
-    "toolsMenu": "Tools",
+    "toolsMenu": "Officer tools",
     "qolCardTitle": "Officer QOL tools",
     "qolCardDesc": "Overdue dashboard, CA snippets, within-union templates, and officer handoff.",
     "modules": {
-      "comms": "Comms",
+      "comms": "Comms toolbox",
       "commsDesc": "Public social media tools and guides",
       "grievance": "Grievances",
       "grievanceDesc": "Track grievances, deadlines, and notes",

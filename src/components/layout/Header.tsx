@@ -7,14 +7,12 @@ import { DisplaySettingsMenu } from "./DisplaySettingsMenu";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { cn } from "@/lib/utils";
 
-const navLinks = [
-  { href: "/guide/social-media-plan", key: "socialMediaPlan" },
-  { href: "/guide/materials", key: "materials" },
+const learnLinks = [
   { href: "/guide", key: "guide" },
+  { href: "/guide/materials", key: "materials" },
   { href: "/examples", key: "socialExamples" },
   { href: "/captions", key: "captions" },
-  { href: "/assets", key: "assets" },
-  { href: "/brand-kit", key: "brandKit" },
+  { href: "/guide/crisis", key: "strikeGuide" },
 ] as const;
 
 const toolLinks = [
@@ -30,10 +28,21 @@ const toolLinks = [
   { href: "/tools/alt-text", key: "altText" },
 ] as const;
 
+const learnHrefs = new Set(learnLinks.map((l) => l.href));
+
+function linkActive(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export function Header() {
   const t = useTranslations("nav");
   const th = useTranslations("hub");
   const pathname = usePathname();
+  const getStartedHref = "/guide/social-media-plan";
+  const learnActive =
+    learnHrefs.has(pathname) ||
+    (pathname.startsWith("/guide/") && pathname !== getStartedHref);
+  const toolsActive = pathname.startsWith("/tools/");
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur">
@@ -45,42 +54,86 @@ export function Header() {
 
         <nav className="flex flex-wrap items-center gap-1 text-base" aria-label="Main">
           <Link
-            href="/app"
+            href={getStartedHref}
             className={cn(
-              "rounded-md px-2 py-1 font-medium hover:bg-opseu-blue/5",
-              pathname.startsWith("/app") && "bg-opseu-blue/10 text-opseu-blue",
+              "rounded-md px-2 py-1 hover:bg-opseu-blue/5",
+              linkActive(pathname, getStartedHref) &&
+                "bg-opseu-blue/10 font-semibold text-opseu-blue",
             )}
           >
-            {th("hubLink")}
+            {t("getStarted")}
           </Link>
-          {navLinks.map(({ href, key }) => (
-            <Link
-              key={href}
-              href={href}
+
+          <details className="relative">
+            <summary
               className={cn(
-                "rounded-md px-2 py-1 hover:bg-opseu-blue/5",
-                pathname === href && "bg-opseu-blue/10 font-semibold text-opseu-blue",
+                "cursor-pointer list-none rounded-md px-2 py-1 hover:bg-opseu-blue/5 [&::-webkit-details-marker]:hidden",
+                learnActive && "bg-opseu-blue/10 font-semibold text-opseu-blue",
               )}
             >
-              {t(key)}
-            </Link>
-          ))}
-          <details className="relative">
-            <summary className="cursor-pointer list-none rounded-md px-2 py-1 hover:bg-opseu-blue/5">
-              {t("tools")} ▾
+              {t("learn")} ▾
             </summary>
-            <div className="absolute right-0 mt-1 min-w-[200px] rounded-lg border bg-white py-1 shadow-lg">
-              {toolLinks.map(({ href, key }) => (
+            <div className="absolute left-0 z-20 mt-1 min-w-[200px] rounded-lg border bg-white py-1 shadow-lg">
+              {learnLinks.map(({ href, key }) => (
                 <Link
                   key={href}
                   href={href}
-                  className="block px-3 py-2 hover:bg-opseu-blue/5"
+                  className={cn(
+                    "block px-3 py-2 hover:bg-opseu-blue/5",
+                    pathname === href && "bg-opseu-blue/10 font-semibold text-opseu-blue",
+                  )}
                 >
                   {t(key)}
                 </Link>
               ))}
             </div>
           </details>
+
+          <Link
+            href="/brand-kit"
+            className={cn(
+              "rounded-md px-2 py-1 hover:bg-opseu-blue/5",
+              linkActive(pathname, "/brand-kit") &&
+                "bg-opseu-blue/10 font-semibold text-opseu-blue",
+            )}
+          >
+            {t("brandKit")}
+          </Link>
+
+          <details className="relative">
+            <summary
+              className={cn(
+                "cursor-pointer list-none rounded-md px-2 py-1 hover:bg-opseu-blue/5 [&::-webkit-details-marker]:hidden",
+                toolsActive && "bg-opseu-blue/10 font-semibold text-opseu-blue",
+              )}
+            >
+              {t("tools")} ▾
+            </summary>
+            <div className="absolute right-0 z-20 mt-1 min-w-[200px] rounded-lg border bg-white py-1 shadow-lg">
+              {toolLinks.map(({ href, key }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={cn(
+                    "block px-3 py-2 hover:bg-opseu-blue/5",
+                    pathname === href && "bg-opseu-blue/10 font-semibold text-opseu-blue",
+                  )}
+                >
+                  {t(key)}
+                </Link>
+              ))}
+            </div>
+          </details>
+
+          <Link
+            href="/app"
+            className={cn(
+              "ml-1 rounded-lg bg-opseu-blue px-3 py-1.5 font-semibold text-white hover:bg-opseu-dark",
+              pathname.startsWith("/app") && "bg-opseu-dark",
+            )}
+          >
+            {th("hubLink")}
+          </Link>
         </nav>
 
         <DisplaySettingsMenu />

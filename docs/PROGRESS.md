@@ -102,6 +102,15 @@ Scaffold through testing/CI — all complete.
 - [x] Removed unused `HubDashboard.tsx` duplicate
 - [x] RBAC docs: steward assigned R/W clarified
 
+## Nav & dual-audience IA (2026-07-11) — COMPLETE
+
+- [x] Slim public header: Get started · Learn ▾ · Brand Kit · Tools ▾ · Officer Hub CTA
+- [x] Social Examples / Captions demoted to Learn + footer + Social channel
+- [x] Home dual paths (comms roadmap vs Officer Hub); broader subtitle
+- [x] Hub labels: Officer tools menu; Comms toolbox module name
+- [x] Social Media Plan step 3 links Captions / Examples / Blueprint
+- [x] `docs/modules/COMMS.md` sitemap updated
+
 ## Deferred (future)
 
 - [ ] Multi-union onboarding UI → **Phase 6**

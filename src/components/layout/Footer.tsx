@@ -14,7 +14,16 @@ export function Footer() {
           <p>{t("madeBy")}</p>
           <p className="text-opseu-blue">{t("privacy")}</p>
         </div>
-        <nav className="flex gap-4" aria-label="Footer">
+        <nav className="flex flex-wrap gap-4" aria-label="Footer">
+          <Link href="/guide" className="hover:text-opseu-blue">
+            {nav("guide")}
+          </Link>
+          <Link href="/examples" className="hover:text-opseu-blue">
+            {nav("socialExamples")}
+          </Link>
+          <Link href="/captions" className="hover:text-opseu-blue">
+            {nav("captions")}
+          </Link>
           <Link href="/guide/materials" className="hover:text-opseu-blue">
             {nav("materials")}
           </Link>

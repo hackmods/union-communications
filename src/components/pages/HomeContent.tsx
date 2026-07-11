@@ -50,16 +50,35 @@ export function HomeContent() {
       <section className="mb-16 text-center">
         <h1 className="text-4xl font-bold text-opseu-dark md:text-5xl">{t("title")}</h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">{t("subtitle")}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <Link href="/onboarding">
-            <Button size="lg">{t("heroCta")}</Button>
-          </Link>
-          <Link href="/guide/social-media-plan">
-            <Button variant="outline" size="lg">{t("socialMediaPlanCta")}</Button>
-          </Link>
-        </div>
-        <p className="mt-4 text-sm text-gray-500">{t("socialMediaPlanDesc")}</p>
         <p className="mt-4 text-sm text-opseu-blue">{t("privacyNote")}</p>
+      </section>
+
+      <section className="mb-16 grid gap-8 md:grid-cols-2">
+        <div className="flex flex-col rounded-xl border border-opseu-blue/20 bg-opseu-blue/5 p-6 text-left">
+          <h2 className="text-xl font-bold text-opseu-dark">{t("pathCommsTitle")}</h2>
+          <p className="mt-3 flex-1 text-base text-gray-600">{t("pathCommsDesc")}</p>
+          <p className="mt-3 text-sm text-gray-500">{t("pathCommsHint")}</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/guide/social-media-plan">
+              <Button size="lg">{t("pathCommsCta")}</Button>
+            </Link>
+            <Link href="/onboarding">
+              <Button variant="outline" size="lg">
+                {t("heroCta")}
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        <div className="flex flex-col rounded-xl border border-gray-200 bg-white p-6 text-left">
+          <h2 className="text-xl font-bold text-opseu-dark">{t("pathOfficerTitle")}</h2>
+          <p className="mt-3 flex-1 text-base text-gray-600">{t("pathOfficerDesc")}</p>
+          <div className="mt-6">
+            <Link href="/app">
+              <Button size="lg">{t("pathOfficerCta")}</Button>
+            </Link>
+          </div>
+        </div>
       </section>
 
       <section className="mb-8">

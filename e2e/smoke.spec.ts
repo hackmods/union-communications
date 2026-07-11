@@ -28,8 +28,16 @@ test.describe("Smoke tests @smoke", () => {
 
   test("navigation links work", async ({ page }) => {
     await page.goto("/en/");
-    await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "The Blueprint" }).click();
-    await expect(page).toHaveURL(/\/en\/guide/);
+    await page
+      .getByRole("navigation", { name: "Main" })
+      .getByRole("link", { name: "Get started" })
+      .click();
+    await expect(page).toHaveURL(/\/en\/guide\/social-media-plan/);
+    await page.goto("/en/");
+    const main = page.getByRole("navigation", { name: "Main" });
+    await main.locator("summary").filter({ hasText: "Learn" }).click();
+    await main.getByRole("link", { name: "The Blueprint" }).click();
+    await expect(page).toHaveURL(/\/en\/guide\/?$/);
   });
 
   test("social media plan page renders", async ({ page }) => {

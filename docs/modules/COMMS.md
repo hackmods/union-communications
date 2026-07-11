@@ -4,11 +4,27 @@
 
 Public-facing communications toolbox covering social media, print, union boards, and local websites. Client-side image generation and static site export.
 
+## Public navigation (IA)
+
+Top bar is slim and dual-audience oriented:
+
+| Item | Route / contents |
+|------|------------------|
+| **Get started** | `/guide/social-media-plan` |
+| **Learn ▾** | Blueprint, Workshop Materials, Social Examples, Captions, Strike Guide |
+| **Brand Kit** | `/brand-kit` |
+| **Tools ▾** | Logo, boards, graphics, flyer, website, alt-text makers |
+| **Officer Hub** | `/app` (auth) — visually distinct CTA |
+
+Social Examples and Captions are **not** top-level nav items. They remain under Learn, the home Social channel, footer links, and Social Media Plan step 3.
+
+Home page offers two entry paths: comms roadmap (Get started) vs Officer Hub (grievances / bumping / QOL).
+
 ## Routes
 
 | Route | Description |
 |-------|-------------|
-| `/[locale]/` | Landing — channel-organized toolbox |
+| `/[locale]/` | Landing — dual paths + channel-organized toolbox |
 | `/[locale]/onboarding` | Brand setup wizard |
 | `/[locale]/brand-kit` | Export/import branding JSON (colours, logo, website & key links) |
 | `/[locale]/guide` | The Blueprint handbook |

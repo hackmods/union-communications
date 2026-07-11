@@ -5,6 +5,8 @@
   },
   "nav": {
     "home": "Accueil",
+    "getStarted": "Commencer",
+    "learn": "Apprendre",
     "guide": "Le Plan directeur",
     "strikeGuide": "Guide de grève",
     "examples": "Exemples sociaux",
@@ -56,10 +58,17 @@
   },
   "home": {
     "title": "Centre de soutien syndical local",
-    "subtitle": "Outils professionnels pour les communicateurs bénévoles — bâtis dans la solidarité pour toute section, tout syndicat",
+    "subtitle": "Outils de communication pour les bénévoles et flux de travail pour présidents et délégués — bâtis dans la solidarité pour toute section, tout syndicat",
     "heroCta": "Configurer la marque de votre section",
     "socialMediaPlanCta": "Commencer le plan médias sociaux",
     "socialMediaPlanDesc": "Feuille de route rapide : logo, tableaux syndicaux, médias sociaux et site Web simple — dans l'ordre.",
+    "pathCommsTitle": "Nouveau aux communications de votre section ?",
+    "pathCommsDesc": "Une courte feuille de route : marque, tableaux, médias sociaux, puis un site simple — dans l'ordre.",
+    "pathCommsCta": "Commencer",
+    "pathCommsHint": "Besoin de textes plus tard ? Les exemples sociaux et les légendes sont sous Apprendre.",
+    "pathOfficerTitle": "Président ou délégué qui gère des dossiers ?",
+    "pathOfficerDesc": "Suivez les griefs, le bumpage collégial, les retards et les passations dans le Hub des dirigeants.",
+    "pathOfficerCta": "Ouvrir le Hub des dirigeants",
     "channelsTitle": "La boîte à outils",
     "privacyNote": "Tout le traitement se fait sur votre appareil. Aucune donnée n'est envoyée à un serveur.",
     "channels": {
@@ -117,7 +126,9 @@
           "Copier une légende et ajouter le texte alternatif"
         ],
         "cta": "Créateur graphique",
-        "secondaryCta": "Le Plan directeur"
+        "secondaryCta": "Légendes",
+        "tertiaryExamples": "Exemples sociaux",
+        "tertiaryBlueprint": "Le Plan directeur"
       },
       "website": {
         "title": "4. Un site Web",
@@ -754,7 +765,7 @@
   },
   "hub": {
     "platformName": "Centre de soutien syndical local",
-    "hubLink": "Hub",
+    "hubLink": "Hub des dirigeants",
     "title": "Hub des dirigeants",
     "navLabel": "Navigation du hub",
     "dashboard": "Tableau de bord",
@@ -795,11 +806,11 @@
     "snippetsLink": "Extraits CA",
     "marketplaceLink": "Modèles",
     "handoffLink": "Passation",
-    "toolsMenu": "Outils",
+    "toolsMenu": "Outils dirigeants",
     "qolCardTitle": "Outils QOL dirigeants",
     "qolCardDesc": "Tableau des retards, extraits de convention, modèles internes et passation de dossiers.",
     "modules": {
-      "comms": "Communications",
+      "comms": "Boîte à outils comms",
       "commsDesc": "Outils publics de médias sociaux",
       "grievance": "Griefs",
       "grievanceDesc": "Suivi des griefs et échéances",
