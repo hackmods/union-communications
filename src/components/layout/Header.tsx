@@ -215,8 +215,10 @@ export function Header() {
           </Link>
         </nav>
 
-        <DisplaySettingsMenu />
-        <LanguageToggle />
+        <div className="flex items-center gap-2">
+          <DisplaySettingsMenu />
+          <LanguageToggle />
+        </div>
       </div>
     </header>
   );
