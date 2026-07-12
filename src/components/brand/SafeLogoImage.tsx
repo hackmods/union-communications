@@ -33,7 +33,8 @@ export function SafeLogoImage({
   const isUnionOps =
     current === UNIONOPS_LOGOS.mark ||
     current === UNIONOPS_LOGOS.markOnDark ||
-    current === UNIONOPS_LOGOS.lockup;
+    current === UNIONOPS_LOGOS.lockup ||
+    current === UNIONOPS_LOGOS.markInterlock;
 
   return (
     // eslint-disable-next-line @next/next/no-img-element -- asset logos need load-error fallback

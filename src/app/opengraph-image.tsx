@@ -1,17 +1,13 @@
 import { ImageResponse } from "next/og";
 import { PLATFORM_UNION_ORANGE } from "@/lib/constants/unionPresets";
-import { SITE_NAME } from "@/lib/seo/site";
-import {
-  UNIONOPS_O,
-  UNIONOPS_U_OPACITY,
-  UNIONOPS_U_PATH,
-  UNIONOPS_U_STROKE_WIDTH,
-} from "@/lib/brand/unionops-mark-geometry";
+import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
 
 export const runtime = "edge";
 export const alt = `${SITE_NAME} - Solidarity.`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+const MARK_SRC = `${SITE_URL}/assets/unionops/logo-mark-interlock.png`;
 
 export default function OpenGraphImage() {
   const primary = PLATFORM_UNION_ORANGE.primary;
@@ -33,26 +29,27 @@ export default function OpenGraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-          <svg width="96" height="96" viewBox="0 0 64 64">
-            <rect width="64" height="64" rx="14" fill="#FFFFFF" />
-            <circle
-              cx={UNIONOPS_O.cx}
-              cy={UNIONOPS_O.cy}
-              r={UNIONOPS_O.r}
-              fill="none"
-              stroke={primary}
-              strokeWidth={UNIONOPS_O.strokeWidth}
+          <div
+            style={{
+              display: "flex",
+              width: 96,
+              height: 96,
+              borderRadius: 21,
+              backgroundColor: "#FFFFFF",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {/* ImageResponse requires a plain img; next/image is unsupported here */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={MARK_SRC}
+              width={72}
+              height={72}
+              alt=""
+              style={{ objectFit: "contain" }}
             />
-            <path
-              d={UNIONOPS_U_PATH}
-              fill="none"
-              stroke={primary}
-              strokeWidth={UNIONOPS_U_STROKE_WIDTH}
-              strokeLinecap="butt"
-              strokeLinejoin="round"
-              opacity={UNIONOPS_U_OPACITY}
-            />
-          </svg>
+          </div>
           <div
             style={{
               display: "flex",

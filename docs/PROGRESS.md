@@ -232,3 +232,5 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Brand Kit primary → o / plate; graphics accent (secondary) → u (ignore photo charcoal)
 - [x] Live tint via `UnionOpsMark` + static `public/assets/unionops/*.svg`; source PNGs in `source/`
 - [x] Favicon `src/app/icon.svg` + OG/Twitter mark in `opengraph-image.tsx`
+- [x] Canonical monochrome PNG `logo-mark-interlock.png` — CSS-mask overlay (not live SVG paths); `onDark` white back plate
+- [x] Favicon `src/app/icon.png`; OG embeds interlock PNG on white plate

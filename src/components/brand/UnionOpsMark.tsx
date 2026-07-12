@@ -2,13 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { BRAND_COLORS } from "@/lib/constants/brand";
-import {
-  UNIONOPS_MARK_VIEWBOX,
-  UNIONOPS_O,
-  UNIONOPS_U_OPACITY,
-  UNIONOPS_U_PATH,
-  UNIONOPS_U_STROKE_WIDTH,
-} from "@/lib/brand/unionops-mark-geometry";
+import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
 
 const sizePx = {
   sm: 32,
@@ -18,19 +12,21 @@ const sizePx = {
 
 interface UnionOpsMarkProps {
   primaryColor?: string;
-  /** Graphics accent — colours the interlocking u (and plated glyphs). */
+  /** Graphics accent — glyph colour on the primary plate (light chrome). */
   secondaryColor?: string;
   size?: "sm" | "md" | "lg";
   className?: string;
-  /** Flat two-tone mark for dark / brand-coloured backgrounds (no plate). */
+  /**
+   * Dark / brand backgrounds: white back plate + primary glyph.
+   * Light chrome: primary plate + graphics-accent glyph.
+   */
   onDark?: boolean;
   title?: string;
 }
 
 /**
- * Inline UnionOps interlocking u+o mark.
- * Primary → o; graphics accent (secondary) → u.
- * Light chrome uses a primary plate so a light accent stays legible.
+ * UnionOps interlocking u+o mark — PNG base with CSS-mask colour overlay.
+ * Asset: `UNIONOPS_LOGOS.markInterlock` (kept alongside the SVG set).
  */
 export function UnionOpsMark({
   primaryColor = BRAND_COLORS.primary,
@@ -41,40 +37,36 @@ export function UnionOpsMark({
   title = "UnionOps",
 }: UnionOpsMarkProps) {
   const px = sizePx[size];
-  const uColor = secondaryColor;
-  const oColor = onDark ? primaryColor : secondaryColor;
+  // Swap back to white when on dark / Brand Kit dark preview
+  const plate = onDark ? "#FFFFFF" : primaryColor;
+  const glyph = onDark ? primaryColor : secondaryColor;
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox={UNIONOPS_MARK_VIEWBOX}
-      width={px}
-      height={px}
+    <span
       role="img"
       aria-label={title}
-      className={cn("shrink-0", className)}
+      title={title}
+      className={cn(
+        "inline-flex shrink-0 overflow-hidden rounded-[22%]",
+        className,
+      )}
+      style={{ width: px, height: px, backgroundColor: plate }}
     >
-      <title>{title}</title>
-      {!onDark ? (
-        <rect width="64" height="64" rx="14" fill={primaryColor} />
-      ) : null}
-      <circle
-        cx={UNIONOPS_O.cx}
-        cy={UNIONOPS_O.cy}
-        r={UNIONOPS_O.r}
-        fill="none"
-        stroke={oColor}
-        strokeWidth={UNIONOPS_O.strokeWidth}
+      <span
+        aria-hidden
+        className="block size-full"
+        style={{
+          backgroundColor: glyph,
+          WebkitMaskImage: `url(${UNIONOPS_LOGOS.markInterlock})`,
+          maskImage: `url(${UNIONOPS_LOGOS.markInterlock})`,
+          WebkitMaskSize: "78%",
+          maskSize: "78%",
+          WebkitMaskRepeat: "no-repeat",
+          maskRepeat: "no-repeat",
+          WebkitMaskPosition: "center",
+          maskPosition: "center",
+        }}
       />
-      <path
-        d={UNIONOPS_U_PATH}
-        fill="none"
-        stroke={uColor}
-        strokeWidth={UNIONOPS_U_STROKE_WIDTH}
-        strokeLinecap="butt"
-        strokeLinejoin="round"
-        opacity={UNIONOPS_U_OPACITY}
-      />
-    </svg>
+    </span>
   );
 }

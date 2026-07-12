@@ -51,6 +51,8 @@ export const UNIONOPS_LOGOS = {
   lockup: "/assets/unionops/logo-lockup.svg",
   mark: "/assets/unionops/logo-mark.svg",
   markOnDark: "/assets/unionops/logo-mark-on-dark.svg",
+  /** Monochrome interlocking u+o PNG — live chrome via CSS mask in UnionOpsMark */
+  markInterlock: "/assets/unionops/logo-mark-interlock.png",
 } as const;
 
 export function isUnionOpsLogoSrc(src?: string | null): boolean {
@@ -59,7 +61,8 @@ export function isUnionOpsLogoSrc(src?: string | null): boolean {
   return (
     value === UNIONOPS_LOGOS.mark ||
     value === UNIONOPS_LOGOS.lockup ||
-    value === UNIONOPS_LOGOS.markOnDark
+    value === UNIONOPS_LOGOS.markOnDark ||
+    value === UNIONOPS_LOGOS.markInterlock
   );
 }
 
@@ -73,6 +76,22 @@ export type ResolvedUnionLogoPack = {
 function nonEmpty(src: string | undefined): string | undefined {
   const trimmed = src?.trim();
   return trimmed ? trimmed : undefined;
+}
+
+/**
+ * True when the preset declares its own lockup + mark assets (not UnionOps fallbacks).
+ * Brand Kit only offers union-specific wordmark/mark radios when this is true.
+ * Today only OPSEU ships attached logos; other presets omit `logos` until assets land.
+ */
+export function hasAttachedUnionLogos(
+  logos?: UnionLogoPack | null,
+): boolean {
+  if (!logos) return false;
+  const lockup = nonEmpty(logos.lockup);
+  const mark = nonEmpty(logos.mark);
+  if (!lockup || !mark) return false;
+  if (isUnionOpsLogoSrc(lockup) || isUnionOpsLogoSrc(mark)) return false;
+  return true;
 }
 
 /** Fill missing logo paths with UnionOps so UI never points at empty srcs. */
@@ -121,10 +140,7 @@ export const UNION_PRESETS: UnionBranding[] = [
     primaryColor: "#E5007D",
     secondaryColor: "#FFFFFF",
     defaultSlogans: ["On the front line."],
-    logos: {
-      lockup: "/assets/unions/cupe/logo.svg",
-      mark: "/assets/unions/cupe/logo-mark.svg",
-    },
+    // No attached logos yet — Brand Kit shows UnionOps mark + upload only
   },
   {
     id: "unifor",
@@ -132,10 +148,6 @@ export const UNION_PRESETS: UnionBranding[] = [
     primaryColor: "#ED1B2F",
     secondaryColor: "#FFFFFF",
     defaultSlogans: ["A union for everyone."],
-    logos: {
-      lockup: "/assets/unions/unifor/logo.svg",
-      mark: "/assets/unions/unifor/logo-mark.svg",
-    },
   },
   {
     id: "usw",
@@ -143,10 +155,6 @@ export const UNION_PRESETS: UnionBranding[] = [
     primaryColor: "#002A5C",
     secondaryColor: "#FFC72C",
     defaultSlogans: ["Unity and Strength for Workers."],
-    logos: {
-      lockup: "/assets/unions/usw/logo.svg",
-      mark: "/assets/unions/usw/logo-mark.svg",
-    },
   },
   {
     id: "ona",
@@ -154,10 +162,6 @@ export const UNION_PRESETS: UnionBranding[] = [
     primaryColor: "#003865",
     secondaryColor: "#FFD100",
     defaultSlogans: ["Stand up, speak out."],
-    logos: {
-      lockup: "/assets/unions/ona/logo.svg",
-      mark: "/assets/unions/ona/logo-mark.svg",
-    },
   },
   {
     id: "psac",
@@ -165,10 +169,6 @@ export const UNION_PRESETS: UnionBranding[] = [
     primaryColor: "#E31837",
     secondaryColor: "#FFFFFF",
     defaultSlogans: ["Here for Canada."],
-    logos: {
-      lockup: "/assets/unions/psac/logo.svg",
-      mark: "/assets/unions/psac/logo-mark.svg",
-    },
   },
   {
     id: "other",
@@ -235,8 +235,7 @@ export function brandFieldsFromUnionPreset(
   return {
     ...colors,
     useOfficialLogo: false,
-    // Platform mark — BrandLogo / UnionOpsMark tints interlocking u+o
-    // (primary → o / plate; secondary → u)
+    // Platform mark — BrandLogo / UnionOpsMark CSS-masks logo-mark-interlock.png
     customLogoDataUrl: UNIONOPS_LOGOS.mark,
     logoText,
     unionPresetId: preset.id,

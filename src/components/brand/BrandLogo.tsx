@@ -63,7 +63,7 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
   const secondaryColor = brandKit.secondaryColor || BRAND_COLORS.secondary;
   const dims = markSize[size];
 
-  // Platform interlocking u+o — primary → o / plate; graphics accent → u
+  // Platform interlocking PNG — BrandLogo / UnionOpsMark masks + tints it
   const platformMark = (
     <UnionOpsMark
       primaryColor={primaryColor}

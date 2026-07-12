@@ -304,12 +304,21 @@ export function LogoSettings({
                     )}
                   >
                     {option.preview.platformMark ? (
-                      <UnionOpsMark
-                        primaryColor={primaryColor}
-                        secondaryColor={secondaryColor}
-                        size="md"
-                        onDark={option.preview.onDark}
-                      />
+                      <span className="flex flex-wrap items-center gap-3">
+                        <UnionOpsMark
+                          primaryColor={primaryColor}
+                          secondaryColor={secondaryColor}
+                          size="md"
+                        />
+                        <span className="inline-flex items-center justify-center rounded-lg bg-opseu-dark p-2">
+                          <UnionOpsMark
+                            primaryColor={primaryColor}
+                            secondaryColor={secondaryColor}
+                            size="md"
+                            onDark
+                          />
+                        </span>
+                      </span>
                     ) : (
                       <SafeLogoImage
                         src={option.preview.src!}

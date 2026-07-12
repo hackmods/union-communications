@@ -1,16 +1,16 @@
 # UnionOps platform logo sources
 
-Reference rasters for the interlocking **u** + **o** mark (not used at runtime):
+| File | Role |
+|------|------|
+| `uo-mark-interlock.png` | **Canonical** monochrome interlocking u+o (runtime base) |
+| `uo-mark.png` | Earlier two-tone photo reference |
+| `uo-lockup.png` | Mark + `unionops` wordmark photo reference |
+
+Live assets under `../`:
 
 | File | Role |
 |------|------|
-| `uo-mark.png` | Square mark (photo reference) |
-| `uo-lockup.png` | Mark + `unionops` wordmark (photo reference) |
+| `logo-mark-interlock.png` | PNG base for `UnionOpsMark` (CSS-mask tint) |
+| `logo-mark.svg` / `logo-mark-on-dark.svg` / `logo-lockup.svg` | Fallback SVG set (kept alongside) |
 
-Live assets (Brand Kit colours applied in `UnionOpsMark`):
-
-- `../logo-mark.svg` — primary plate + graphics-accent glyphs
-- `../logo-mark-on-dark.svg` — flat two-tone (accent u, primary o)
-- `../logo-lockup.svg` — plated mark + split wordmark
-
-Colour mapping: **primary** → o / ops / plate; **graphics accent (secondary)** → u / union. Ignore charcoal from these photos.
+**Brand Kit:** primary plate + graphics-accent glyph; `onDark` swaps the back plate to **white** and tints the mark with primary.
