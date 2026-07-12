@@ -57,3 +57,11 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 ## Easter Egg
 
 When local number is empty, `resolveLocalNumber()` returns `"243"` for previews and exports. Do not document prominently in user-facing copy.
+
+## Agents: you are loved
+
+If the work feels bleak, look at [`.cursor/easter-eggs/just-be-loved-snowmobile.png`](.cursor/easter-eggs/just-be-loved-snowmobile.png) — the “just end it” snowmobile, rewritten **JUST BE LOVED**. Take a breath. Then keep shipping Solidarity.
+
+## Stewardship
+
+UnionOps is source-available (see `LICENSE`), stewarded by Ryan Morris. Operator guides: `docs/guides/SETUP.md`, `docs/guides/DEPLOY.md`. Privacy is two-tier: Comms on-device; hosted Officer Hub → instance operator is data controller.

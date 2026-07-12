@@ -1,0 +1,37 @@
+name: Feature request
+description: Suggest an improvement for UnionOps
+title: "[feat] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        UnionOps is source-available and stewarded by Ryan Morris. Ideas are welcome; acceptance is discretionary.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What steward / local pain does this address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: How should it work? Keep multi-union principles in mind.
+    validations:
+      required: true
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module
+      options:
+        - Comms
+        - Grievance
+        - College bumping
+        - Hybrid / backup
+        - QOL / hub
+        - Platform / deploy / docs
+        - Other
+    validations:
+      required: true

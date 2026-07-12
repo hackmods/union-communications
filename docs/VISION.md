@@ -72,7 +72,9 @@ This hub fills the gap without replacing national union systems.
 ## Repo / Naming
 
 - **Public brand:** UnionOps (https://unionops.org); package name remains `local-union-hub`
+- **Stewardship:** UnionOps — stewarded by Ryan Morris (source-available; see `LICENSE`)
 - **UI branding:** Platform name is UnionOps; union name from tenant config after login
+- **Operator docs:** [`docs/guides/SETUP.md`](guides/SETUP.md), [`docs/guides/DEPLOY.md`](guides/DEPLOY.md)
 - **v1 code debt:** OPSEU/CAAT strings migrate to tenant config in Phase 1 - see `docs/modules/COMMS.md`
 
 ## Multi-Union Design Principles

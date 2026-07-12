@@ -13,8 +13,9 @@
 
 - **PIPEDA** — consent, breach notification (72h), access rights
 - **FIPPA** — public-sector members; data minimization, pseudonym option
-- **Privacy by design** — v1 comms: no analytics, client-side processing
-- **Canadian data residency** — preferred for v2+ hosting
+- **Privacy by design** — Comms tools: no analytics, client-side processing, brand kit in browser storage
+- **Hosted Officer Hub** — the **instance operator** is the data controller for sessions and hub records on that host; prefer Canadian data residency
+- **Evaluation builds** — may use in-memory stores and demo accounts; not for real member case files without production hardening
 
 ## AODA / WCAG 2.1 AA
 
@@ -26,14 +27,15 @@ Separation of duties, immutable audit trail, 7-year retention default, member ph
 
 ## Security Controls
 
-| Control | v1 | v2+ |
-|---------|----|----|
+| Control | Comms | Officer Hub |
+|---------|-------|-------------|
 | CSP headers | Yes (`vercel.json`) | Yes |
-| File upload validation | Type + size limits | + virus scan |
-| Auth | None (public comms) | Auth.js + MFA |
-| RLS | N/A | Postgres policies |
+| File upload validation | Type + size limits | + virus scan (planned) |
+| Auth | None (public comms) | Auth.js + MFA (harden before real casework) |
+| RLS | N/A | Postgres policies (planned) |
 | Dependency audit | CI `npm audit` | CI `npm audit` |
 | `dangerouslySetInnerHTML` | Prohibited | Prohibited |
+| Operator duty | N/A (on-device) | Host sets `AUTH_SECRET`; Canadian hosting preferred |
 
 ## Breach Response Playbook
 

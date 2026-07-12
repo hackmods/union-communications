@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "UnionOps | Free Tools & Officer Hub for Union Locals",
-    "description": "Free, privacy-first communication tools and grievance tracking for union stewards and officers. All data stays securely on your device."
+    "description": "Free, privacy-first tools for union stewards and officers. Comms stay on your device; if you host an Officer Hub, you control that instance."
   },
   "nav": {
     "home": "Home",
@@ -72,8 +72,8 @@
     "pathOfficerDesc": "Track grievances, college bumping, overdue work, and handoffs in the Officer Hub.",
     "pathOfficerCta": "Open Officer Hub",
     "channelsTitle": "The Toolbox",
-    "privacyNote": "Everything runs on your device. Nothing gets sent to a server.",
-    "trustBanner": "Local-first privacy: UnionOps runs in your browser. Grievance and member data stays on your device.",
+    "privacyNote": "Comms tools run in your browser. Host an Officer Hub and you control that instance.",
+    "trustBanner": "Local-first Comms: graphics stay in your browser. Host the Officer Hub yourself and you are the data controller for that instance.",
     "trustManifestoLink": "Our promise",
     "channels": {
       "social": {
@@ -1003,7 +1003,7 @@
     "noSubsTitle": "No subscriptions:",
     "noSubsBody": "This tool is free. No premium tiers, no paywalls, no hidden fees.",
     "noDataTitle": "No data harvesting:",
-    "noDataBody": "We don't want your data. We couldn't see it even if we did. UnionOps is local-first. Grievances, member lists, strategy notes: all of it stays on your device. No servers means no server bill to pass on, and no database waiting for a subpoena.",
+    "noDataBody": "We don't harvest your data or sell ads. Comms tools are local-first: graphics and brand kit stay in your browser. If you (or your local) host an Officer Hub, that instance holds hub records — and the operator of that host is the data controller. Prefer Canadian hosting for confidential work. No venture landlords, no surveillance business model.",
     "noAdsTitle": "No ads, no tracking:",
     "noAdsBody": "We aren't selling your attention.",
     "closing": "UnionOps is built by union volunteers who wanted a solid tool for people doing the hard work on the ground.",
@@ -1012,7 +1012,7 @@
   },
   "footer": {
     "madeBy": "UnionOps. Built in solidarity for union locals by union volunteers.",
-    "privacy": "Your data stays on your device"
+    "privacy": "Comms on-device; you control your hub"
   },
   "accessibility": {
     "title": "Accessibility Statement",

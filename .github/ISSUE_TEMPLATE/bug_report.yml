@@ -1,0 +1,36 @@
+name: Bug report
+description: Something is broken or unexpected
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping UnionOps. **Do not** paste real member names, grievance files, or credentials.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Expected vs actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: "e.g. local npm run dev, CapRover, GHCR tag v0.1.0"
+  - type: textarea
+    id: extra
+    attributes:
+      label: Extra context
+      description: Screenshots, logs (redacted), browser

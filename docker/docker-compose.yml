@@ -1,5 +1,7 @@
 services:
   web:
+    # Prefer a release image when available:
+    # image: ghcr.io/hackmods/union-communications:v0.1.0
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -7,5 +9,6 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: production
+      # Replace before any shared or production deploy
       AUTH_SECRET: local-docker-auth-secret-change-me
       AUTH_URL: http://localhost:3000

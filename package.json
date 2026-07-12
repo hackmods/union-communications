@@ -2,6 +2,9 @@
   "name": "local-union-hub",
   "version": "0.1.0",
   "private": true,
+  "description": "UnionOps — multi-union steward tools. Comms on-device; self-host the Officer Hub. Stewarded by Ryan Morris. Solidarity.",
+  "author": "Ryan Morris",
+  "license": "SEE LICENSE IN LICENSE",
   "engines": {
     "node": ">=22.13.0"
   },

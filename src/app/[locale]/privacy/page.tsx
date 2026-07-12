@@ -16,51 +16,81 @@ export default async function PrivacyPage({
 
       <div className="mt-8 space-y-6">
         <Card>
-          <CardTitle>Privacy by design</CardTitle>
+          <CardTitle>Two surfaces, two rules</CardTitle>
           <p className="mt-3 text-gray-700">
-            UnionOps is designed so that all image processing,
-            branding configuration, and file uploads happen entirely on your device. We do
-            not collect, store, or transmit any personal information, member photos, or local
-            branding data to any server.
+            UnionOps separates public communications tools from the Officer Hub. Comms
+            graphics and brand settings are designed to stay on your device. The Officer
+            Hub runs on whatever host operates that instance — and that operator becomes
+            responsible for the data it holds.
           </p>
         </Card>
 
         <Card>
-          <CardTitle>No data collection</CardTitle>
+          <CardTitle>Comms tools (on your device)</CardTitle>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-            <li>No user accounts or login required</li>
-            <li>No analytics, tracking cookies, or third-party scripts</li>
-            <li>No member photos or branding data sent over the network</li>
-            <li>Brand kit settings stored only in your browser&apos;s local storage</li>
+            <li>Image processing, templates, and file preparation happen in your browser</li>
+            <li>Brand kit settings are stored in browser local storage</li>
+            <li>No analytics, tracking cookies, or third-party ad scripts</li>
+            <li>Member photos used in graphics are not uploaded to UnionOps servers by the Comms tools</li>
+          </ul>
+        </Card>
+
+        <Card>
+          <CardTitle>Officer Hub (hosted instance)</CardTitle>
+          <p className="mt-3 text-gray-700">
+            Signing in to an Officer Hub means that instance processes account sessions and
+            any grievance, bumping, or related records it stores. Today&apos;s evaluation
+            builds may use in-memory stores for demos; a production host should configure
+            secure secrets and, when available, a proper database with tenant isolation.
+          </p>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+            <li>
+              <strong>If you self-host or operate CapRover / Docker:</strong> you are the
+              data controller for that instance. Prefer Canadian hosting for confidential
+              modules. Set a unique <code>AUTH_SECRET</code>. Do not use demo passwords for
+              real member casework.
+            </li>
+            <li>
+              <strong>Encrypted hybrid export:</strong> backup passphrases are entered in
+              the browser and are not sent to the server as part of the hybrid encrypt flow.
+            </li>
+            <li>
+              Demo accounts exist for workshops and CI only — not for live confidential
+              files.
+            </li>
           </ul>
         </Card>
 
         <Card>
           <CardTitle>Ontario privacy legislation</CardTitle>
           <p className="mt-3 text-gray-700">
-            This tool is designed to comply with the principles of Ontario&apos;s privacy
-            framework, including the Personal Information Protection and Electronic Documents
-            Act (PIPEDA) and, where applicable, the Freedom of Information and Protection of
-            Privacy Act (FIPPA) for public-sector members. Because no personal information
-            is collected by this application, the risk of privacy breaches through the tool
-            itself is eliminated.
+            UnionOps is designed around the principles of Canada&apos;s privacy framework,
+            including PIPEDA and, where applicable, FIPPA for public-sector members. Comms
+            tools minimize collection by keeping work on-device. Hosted Officer Hub operators
+            must apply access control, retention, and breach practices appropriate to
+            confidential labour records.
           </p>
         </Card>
 
         <Card>
           <CardTitle>Your responsibilities</CardTitle>
           <p className="mt-3 text-gray-700">
-            While this tool protects your data, you remain responsible for obtaining member
-            consent before using photos in social media graphics, and for ensuring posts comply
-            with your local&apos;s communications policies and the collective agreement.
+            You remain responsible for obtaining member consent before using photos in
+            social media graphics, and for ensuring posts and case handling comply with your
+            local&apos;s policies and collective agreement. This tool does not provide legal
+            advice.
           </p>
         </Card>
 
         <Card>
           <CardTitle>Contact</CardTitle>
           <p className="mt-3 text-gray-700">
-            For questions about this privacy policy or the hub, contact your local
-            communications chair or union representative.
+            UnionOps is stewarded by Ryan Morris. For questions about this privacy policy,
+            contact your local communications chair or use the contact path on{" "}
+            <a className="text-opseu-blue underline" href="https://unionops.org">
+              unionops.org
+            </a>
+            .
           </p>
         </Card>
       </div>

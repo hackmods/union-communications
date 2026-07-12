@@ -1,0 +1,45 @@
+UnionOps Source-Available License
+Copyright (c) 2026 Ryan Morris. All rights reserved.
+
+UnionOps is stewarded by Ryan Morris. The software in this repository is
+provided as source-available software. It is not open source.
+
+PERMISSIONS
+
+Subject to the conditions below, you may:
+
+  1. View and study the source code.
+  2. Run the software for evaluation, local development, workshops, and
+     self-hosting for your own union local or affiliated labour organization.
+  3. Modify the software for your own internal use on instances you operate.
+
+RESTRICTIONS
+
+You may not, without prior written permission from Ryan Morris:
+
+  1. Redistribute the source code or binaries (modified or unmodified).
+  2. Sublicense, sell, or commercially host UnionOps as a competing
+     multi-tenant platform or paid service.
+  3. Remove or alter copyright, stewardship, or license notices.
+  4. Use the UnionOps name or branding in a way that implies endorsement
+     of a fork or competing product.
+
+CONTRIBUTIONS
+
+By submitting a contribution (pull request, patch, or other material), you
+assign copyright in that contribution to Ryan Morris, and you represent that
+you have the right to do so. Acceptance of contributions is at the sole
+discretion of the steward.
+
+NO WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING
+FROM USE OF THE SOFTWARE.
+
+CONTACT
+
+Permissions and stewardship: Ryan Morris — https://unionops.org
+Security reports: see SECURITY.md

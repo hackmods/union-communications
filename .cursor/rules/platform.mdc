@@ -34,6 +34,9 @@ Phases **0–5 complete**. Next: Postgres+RLS, onboarding UI, attachments — see `.
 - Role-gate write UI to match API (`src/lib/qol/access.ts`, grievance/bumping access)
 - i18n: both `messages/en.json` and `messages/fr.json`
 - Commit at milestone end; update `docs/PROGRESS.md`
+- Source-available (`LICENSE`); stewarded by Ryan Morris
+- Privacy copy: Comms on-device; hosted Officer Hub ? operator is data controller
+- Operator guides: `docs/guides/SETUP.md`, `docs/guides/DEPLOY.md`
 
 ## Testing
 - `npm run test:unit` — Vitest

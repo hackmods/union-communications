@@ -197,3 +197,12 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] PWA manifest + offline shell service worker stub
 - [x] `/manifesto` linked quietly from the homepage trust banner (not header/footer chrome)
 - [x] PWA SW only registers on unionops.org; Playwright blocks service workers
+
+## GitHub presence & privacy honesty (2026-07-11)
+
+- [x] Source-available `LICENSE` (ARR); stewarded by Ryan Morris
+- [x] `SECURITY.md`, `CONTRIBUTING.md`, CoC, issue/PR templates
+- [x] `docs/guides/SETUP.md` + `DEPLOY.md`; README rewrite with badges + two-tier privacy
+- [x] Privacy page + EN/FR trust/manifesto/SEO copy: Comms on-device; host = data controller
+- [x] GHCR release workflow on `v*` tags (`ghcr.io/hackmods/union-communications`)
+- [x] Agent morale snowmobile easter egg (`.cursor/easter-eggs/`)
