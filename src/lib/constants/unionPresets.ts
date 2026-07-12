@@ -210,7 +210,7 @@ export function colorsFromUnionPreset(preset: UnionBranding): {
 
 /** Brand Kit colour + logo + sub-text fields when applying a union preset.
  * OPSEU uses the official pack; others default to the UnionOps mark
- * tinted with the preset primary (starter logos remain optional in Logo Settings).
+ * tinted with the preset primary (upload your own logo in Logo Settings).
  */
 export function brandFieldsFromUnionPreset(
   preset: UnionBranding,

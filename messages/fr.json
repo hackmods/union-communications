@@ -789,11 +789,11 @@
     "importError": "Fichier de trousse de marque invalide",
     "unionPreset": {
       "title": "Préréglage syndical",
-      "description": "Partez d'une palette et d'un slogan de syndicat canadien courant. OPSEU utilise le lockup officiel; les autres utilisent par défaut le monogramme UnionOps dans votre couleur de marque — vous pouvez encore choisir un wordmark de départ ou téléverser le logo de votre section.",
+      "description": "Partez d'une palette et d'un slogan de syndicat canadien courant. OPSEU utilise le lockup officiel; les autres utilisent par défaut le monogramme UnionOps dans votre couleur de marque — téléversez le logo de votre section au besoin.",
       "label": "Préréglage syndical",
       "placeholder": "Choisir un syndicat…",
       "slogans": "Slogans suggérés",
-      "logoNote": "Le logo par défaut est le monogramme UnionOps teinté de la couleur principale du préréglage. Les wordmarks de départ sous /assets/unions restent optionnels dans Logo (pas des marques officielles, sauf le lot de référence OPSEU)."
+      "logoNote": "Le logo par défaut est le monogramme UnionOps teinté de la couleur principale du préréglage. Les wordmarks syndicaux n'apparaissent dans Logo que lorsque des assets sont rattachés (lot de référence OPSEU pour l'instant)."
     },
     "colors": {
       "primary": "Couleur de marque principale",
@@ -801,7 +801,7 @@
     },
     "logo": {
       "title": "Logo",
-      "description": "Choisissez un logo syndical fourni pour votre préréglage, le monogramme UnionOps (teinté de votre couleur de marque), ou téléversez le vôtre.",
+      "description": "Lorsque votre préréglage inclut des logos fournis, choisissez-en un ici. Sinon, utilisez le monogramme UnionOps (teinté de votre couleur de marque) ou téléversez le vôtre.",
       "useOfficialLogo": "Utiliser le logo OPSEU",
       "uploadCustomLogo": "Téléverser un logo",
       "uploadHint": "PNG, JPEG, WebP ou SVG jusqu'à 10 Mo.",

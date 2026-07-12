@@ -14,6 +14,7 @@ import {
 import {
   UNIONOPS_LOGOS,
   getUnionPreset,
+  hasAttachedUnionLogos,
   isUnionOpsLogoSrc,
   resolvePresetLogos,
   type ResolvedUnionLogoPack,
@@ -50,8 +51,17 @@ export function resolveLogoMode(
   const src = customLogoDataUrl.trim();
   if (isUnionOpsLogoSrc(src)) return "platform";
   if (presetLogos && !presetLogos.useOfficialPack) {
-    if (src === presetLogos.lockup) return "union-lockup";
-    if (src === presetLogos.mark || src === presetLogos.markOnDark) {
+    // Only treat as union modes when paths are distinct from UnionOps fallbacks
+    if (
+      src === presetLogos.lockup &&
+      !isUnionOpsLogoSrc(presetLogos.lockup)
+    ) {
+      return "union-lockup";
+    }
+    if (
+      (src === presetLogos.mark || src === presetLogos.markOnDark) &&
+      !isUnionOpsLogoSrc(presetLogos.mark)
+    ) {
       return "union-mark";
     }
   }
@@ -97,16 +107,21 @@ export function brandKitPatchForLogoMode(
   presetLogos?: ResolvedUnionLogoPack | null,
 ): BrandKitPatch {
   if (mode === "union-lockup" && presetLogos && !presetLogos.useOfficialPack) {
-    return {
-      useOfficialLogo: false,
-      customLogoDataUrl: presetLogos.lockup,
-    };
+    // Guard: never persist UnionOps fallbacks as a "union" selection
+    if (!isUnionOpsLogoSrc(presetLogos.lockup)) {
+      return {
+        useOfficialLogo: false,
+        customLogoDataUrl: presetLogos.lockup,
+      };
+    }
   }
   if (mode === "union-mark" && presetLogos && !presetLogos.useOfficialPack) {
-    return {
-      useOfficialLogo: false,
-      customLogoDataUrl: presetLogos.mark,
-    };
+    if (!isUnionOpsLogoSrc(presetLogos.mark)) {
+      return {
+        useOfficialLogo: false,
+        customLogoDataUrl: presetLogos.mark,
+      };
+    }
   }
   if (mode === "platform") {
     return {
@@ -165,8 +180,13 @@ export function LogoSettings({
   const preset = unionPresetId ? getUnionPreset(unionPresetId) : undefined;
   const presetLogos = preset ? resolvePresetLogos(preset.logos) : null;
   const showOpseuPack = Boolean(presetLogos?.useOfficialPack);
+  // Only offer union wordmark/mark when the preset has real assets attached.
+  // Otherwise those radios pointed at UnionOps fallbacks and couldn't stay selected.
   const showUnionPack = Boolean(
-    preset && presetLogos && !presetLogos.useOfficialPack,
+    preset &&
+      hasAttachedUnionLogos(preset.logos) &&
+      presetLogos &&
+      !presetLogos.useOfficialPack,
   );
 
   const mode = resolveSelectableLogoMode(

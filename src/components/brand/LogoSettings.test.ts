@@ -69,6 +69,31 @@ describe("resolveSelectableLogoMode", () => {
       resolveSelectableLogoMode(true, "lockup", undefined, cupeLogos),
     ).toBe("platform");
   });
+
+  it("keeps custom selectable when preset has no attached logos", () => {
+    const otherLogos = resolvePresetLogos(undefined);
+    expect(resolveSelectableLogoMode(false, "lockup", "", otherLogos)).toBe(
+      "custom",
+    );
+    expect(
+      resolveSelectableLogoMode(
+        false,
+        "lockup",
+        "data:image/png;base64,abc",
+        otherLogos,
+      ),
+    ).toBe("custom");
+  });
+
+  it("does not treat UnionOps fallback paths as union modes", () => {
+    const otherLogos = resolvePresetLogos(undefined);
+    expect(
+      resolveLogoMode(false, "lockup", UNIONOPS_LOGOS.lockup, otherLogos),
+    ).toBe("platform");
+    expect(
+      resolveLogoMode(false, "lockup", UNIONOPS_LOGOS.mark, otherLogos),
+    ).toBe("platform");
+  });
 });
 
 describe("brandKitPatchForLogoMode", () => {

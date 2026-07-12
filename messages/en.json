@@ -789,11 +789,11 @@
     "importError": "Invalid brand kit file",
     "unionPreset": {
       "title": "Union preset",
-      "description": "Start from a common Canadian union colour palette and tagline. OPSEU uses the official lockup; other unions default to the UnionOps mark in your brand colour — you can still pick a starter wordmark or upload your local’s logo.",
+      "description": "Start from a common Canadian union colour palette and tagline. OPSEU uses the official lockup; other unions default to the UnionOps mark in your brand colour — upload your local’s logo when you have one.",
       "label": "Union preset",
       "placeholder": "Choose a union…",
       "slogans": "Suggested slogans",
-      "logoNote": "Default logo is the UnionOps mark tinted to this preset’s primary colour. Starter wordmarks under /assets/unions remain optional in Logo settings (not official trademarks, except OPSEU’s reference pack)."
+      "logoNote": "Default logo is the UnionOps mark tinted to this preset’s primary colour. Bundled union wordmarks appear in Logo settings only when assets are attached (OPSEU’s reference pack today)."
     },
     "colors": {
       "primary": "Primary brand colour",
@@ -801,7 +801,7 @@
     },
     "logo": {
       "title": "Logo",
-      "description": "Pick a bundled union logo for your selected preset, the UnionOps mark (tinted to your brand colour), or upload your own.",
+      "description": "When your union preset includes bundled logos, pick one here. Otherwise use the UnionOps mark (tinted to your brand colour) or upload your own.",
       "useOfficialLogo": "Use OPSEU logo",
       "uploadCustomLogo": "Upload logo",
       "uploadHint": "PNG, JPEG, WebP, or SVG up to 10 MB.",

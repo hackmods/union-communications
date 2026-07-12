@@ -234,3 +234,9 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Favicon `src/app/icon.svg` + OG/Twitter mark in `opengraph-image.tsx`
 - [x] Canonical monochrome PNG `logo-mark-interlock.png` — CSS-mask overlay (not live SVG paths); `onDark` white back plate
 - [x] Favicon `src/app/icon.png`; OG embeds interlock PNG on white plate
+
+## Brand Kit logo options by attached assets (2026-07-12)
+
+- [x] Hide union-specific wordmark/mark radios unless the preset has attached logos (`hasAttachedUnionLogos`) — only OPSEU today
+- [x] Non-OPSEU presets omit `logos`; Brand Kit shows UnionOps mark + upload (Other/CUPE/etc. selections stay selectable)
+- [x] Guard against treating UnionOps fallback paths as union logo modes

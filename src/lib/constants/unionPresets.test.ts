@@ -6,6 +6,7 @@ import {
   colorsFromUnionPreset,
   deriveAccentFromPrimary,
   getUnionPreset,
+  hasAttachedUnionLogos,
   resolvePresetLogos,
   type UnionBranding,
 } from "./unionPresets";
@@ -33,15 +34,17 @@ describe("unionPresets", () => {
     }
   });
 
-  it("keeps OPSEU on the official pack and others on starter wordmarks", () => {
+  it("keeps OPSEU on the official pack and leaves other presets without attached logos", () => {
     const opseu = getUnionPreset("opseu")!;
     expect(opseu.logos?.useOfficialPack).toBe(true);
     expect(opseu.logos?.lockup).toContain("caat-opseu");
     expect(opseu.logos?.mark).toContain("caat-opseu");
+    expect(hasAttachedUnionLogos(opseu.logos)).toBe(true);
 
     const cupe = getUnionPreset("cupe")!;
-    expect(cupe.logos?.useOfficialPack).toBeFalsy();
-    expect(cupe.logos?.lockup).toContain("/unions/cupe/");
+    expect(cupe.logos).toBeUndefined();
+    expect(hasAttachedUnionLogos(cupe.logos)).toBe(false);
+    expect(hasAttachedUnionLogos(getUnionPreset("other")?.logos)).toBe(false);
   });
 
   it("looks up presets by id", () => {
@@ -119,6 +122,23 @@ describe("unionPresets", () => {
     expect(fields.logoText).toBe("UO");
     expect(fields.unionPresetId).toBe("other");
     expect(fields.local?.subText).toBe("Solidarity.");
+  });
+
+  it("detects attached logo packs vs UnionOps fallbacks", () => {
+    expect(
+      hasAttachedUnionLogos({
+        lockup: "/assets/unions/cupe/logo.svg",
+        mark: "/assets/unions/cupe/logo-mark.svg",
+      }),
+    ).toBe(true);
+    expect(
+      hasAttachedUnionLogos({
+        lockup: UNIONOPS_LOGOS.lockup,
+        mark: UNIONOPS_LOGOS.mark,
+      }),
+    ).toBe(false);
+    expect(hasAttachedUnionLogos({ lockup: "/only-lockup.svg" })).toBe(false);
+    expect(hasAttachedUnionLogos(undefined)).toBe(false);
   });
 
   it("falls back to UnionOps when logos are missing or empty", () => {

@@ -16,6 +16,6 @@ Original UnionOps marks in [`../unionops/`](../unionops/).
 
 ## Other union presets
 
-Files under `cupe/`, `unifor/`, `usw/`, `ona/`, and `psac/` are **original starter wordmarks** for local graphics mockups. They are **not** official trademarks and must not be presented as endorsed by those unions.
+Folders under `cupe/`, `unifor/`, `usw/`, `ona/`, and `psac/` hold optional starter assets for future Brand Kit packs. They are **not** wired into presets until real logos are attached — Brand Kit then shows only the UnionOps mark plus custom upload for those unions.
 
-Locals should replace starters with their official brand assets via Brand Kit upload when publishing.
+When adding a pack, set `logos.lockup` + `logos.mark` on the preset in `src/lib/constants/unionPresets.ts`. Starters must not be presented as official trademarks.
