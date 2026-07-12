@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { ImageUpload } from "@/components/tools/ImageUpload";
-import { Input } from "@/components/ui/Input";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import {
@@ -45,7 +44,7 @@ export function resolveLogoMode(
     }
   }
 
-  if (customLogoDataUrl === undefined) return "none";
+  if (customLogoDataUrl === undefined) return "platform";
   if (customLogoDataUrl === "") return "custom";
 
   const src = customLogoDataUrl.trim();
@@ -128,9 +127,10 @@ export function brandKitPatchForLogoMode(
       customLogoDataUrl: currentCustomLogoDataUrl ?? "",
     };
   }
+  // No logo selected → UnionOps mark tinted to Brand Kit primary
   return {
     useOfficialLogo: false,
-    customLogoDataUrl: undefined,
+    customLogoDataUrl: UNIONOPS_LOGOS.mark,
     logoText: currentLogoText?.trim() || "UO",
   };
 }
@@ -153,13 +153,11 @@ export function LogoSettings({
   useOfficialLogo,
   officialLogoVariant = "lockup",
   customLogoDataUrl,
-  logoText = "UO",
   unionPresetId,
   primaryColor = BRAND_COLORS.primary,
   onModeChange,
   onCustomLogoUpload,
   onCustomLogoClear,
-  onLogoTextChange,
 }: LogoSettingsProps) {
   const t = useTranslations("brandKit.logo");
   const preset = unionPresetId ? getUnionPreset(unionPresetId) : undefined;
@@ -257,11 +255,6 @@ export function LogoSettings({
       title: t("uploadCustomLogo"),
       description: t("uploadHint"),
     },
-    {
-      id: "none",
-      title: t("noImage"),
-      description: t("noImageHint"),
-    },
   );
 
   return (
@@ -337,27 +330,6 @@ export function LogoSettings({
           onUpload={onCustomLogoUpload}
           onClear={onCustomLogoClear}
         />
-      )}
-
-      {mode === "none" && onLogoTextChange && (
-        <div className="space-y-3 rounded-xl border border-gray-200 bg-gray-50 p-4">
-          <Input
-            label={t("logoText")}
-            value={logoText}
-            maxLength={4}
-            onChange={(e) => onLogoTextChange(e.target.value.slice(0, 4))}
-          />
-          <p className="text-sm text-gray-600">{t("logoTextHint")}</p>
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-500">{t("preview")}</span>
-            <span
-              className="flex h-12 w-12 items-center justify-center rounded bg-opseu-blue text-sm font-bold text-white"
-              aria-hidden
-            >
-              {logoText.trim() || "UO"}
-            </span>
-          </div>
-        </div>
       )}
     </div>
   );

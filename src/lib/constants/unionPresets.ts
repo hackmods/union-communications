@@ -101,11 +101,7 @@ export const UNION_PRESETS: UnionBranding[] = [
     name: "OPSEU",
     primaryColor: "#003DA5",
     secondaryColor: "#FFFFFF",
-    defaultSlogans: [
-      "Members first",
-      "Stronger together",
-      "Solidarity forever",
-    ],
+    defaultSlogans: ["Educate. Advocate. Organize."],
     logos: {
       useOfficialPack: true,
       lockup: "/assets/caat-opseu/logo-primary.png",
@@ -116,13 +112,9 @@ export const UNION_PRESETS: UnionBranding[] = [
   {
     id: "cupe",
     name: "CUPE",
-    primaryColor: "#CE1126",
+    primaryColor: "#E5007D",
     secondaryColor: "#FFFFFF",
-    defaultSlogans: [
-      "Public services for all",
-      "Workers united",
-      "Fighting for fairness",
-    ],
+    defaultSlogans: ["On the front line."],
     logos: {
       lockup: "/assets/unions/cupe/logo.svg",
       mark: "/assets/unions/cupe/logo-mark.svg",
@@ -131,13 +123,9 @@ export const UNION_PRESETS: UnionBranding[] = [
   {
     id: "unifor",
     name: "Unifor",
-    primaryColor: "#007A33",
+    primaryColor: "#ED1B2F",
     secondaryColor: "#FFFFFF",
-    defaultSlogans: [
-      "Moving forward together",
-      "Good jobs for all",
-      "Union strong",
-    ],
+    defaultSlogans: ["A union for everyone."],
     logos: {
       lockup: "/assets/unions/unifor/logo.svg",
       mark: "/assets/unions/unifor/logo-mark.svg",
@@ -146,13 +134,9 @@ export const UNION_PRESETS: UnionBranding[] = [
   {
     id: "usw",
     name: "USW",
-    primaryColor: "#003366",
-    secondaryColor: "#FFD100",
-    defaultSlogans: [
-      "One day longer",
-      "Steel strong",
-      "Stand up for workers",
-    ],
+    primaryColor: "#002A5C",
+    secondaryColor: "#FFC72C",
+    defaultSlogans: ["Unity and Strength for Workers."],
     logos: {
       lockup: "/assets/unions/usw/logo.svg",
       mark: "/assets/unions/usw/logo-mark.svg",
@@ -161,13 +145,9 @@ export const UNION_PRESETS: UnionBranding[] = [
   {
     id: "ona",
     name: "ONA",
-    primaryColor: "#0055A4",
-    secondaryColor: "#FFFFFF",
-    defaultSlogans: [
-      "Nurses care",
-      "Patients over profits",
-      "Safe staffing now",
-    ],
+    primaryColor: "#003865",
+    secondaryColor: "#FFD100",
+    defaultSlogans: ["Stand up, speak out."],
     logos: {
       lockup: "/assets/unions/ona/logo.svg",
       mark: "/assets/unions/ona/logo-mark.svg",
@@ -177,12 +157,8 @@ export const UNION_PRESETS: UnionBranding[] = [
     id: "psac",
     name: "PSAC",
     primaryColor: "#E31837",
-    secondaryColor: "#003366",
-    defaultSlogans: [
-      "Proud to serve",
-      "Fairness for public workers",
-      "Solidarity across Canada",
-    ],
+    secondaryColor: "#FFFFFF",
+    defaultSlogans: ["Here for Canada."],
     logos: {
       lockup: "/assets/unions/psac/logo.svg",
       mark: "/assets/unions/psac/logo-mark.svg",
@@ -216,8 +192,9 @@ export function colorsFromUnionPreset(preset: UnionBranding): {
   };
 }
 
-/** Brand Kit colour + logo fields when applying a union preset.
- * Applies palette + that union’s bundled lockup (OPSEU uses the official pack).
+/** Brand Kit colour + logo + sub-text fields when applying a union preset.
+ * OPSEU uses the official pack; others default to the UnionOps mark
+ * tinted with the preset primary (starter logos remain optional in Logo Settings).
  */
 export function brandFieldsFromUnionPreset(preset: UnionBranding): {
   primaryColor: string;
@@ -228,10 +205,12 @@ export function brandFieldsFromUnionPreset(preset: UnionBranding): {
   customLogoDataUrl?: string;
   logoText: string;
   unionPresetId: string;
+  local: { subText: string };
 } {
   const colors = colorsFromUnionPreset(preset);
   const logos = resolvePresetLogos(preset.logos);
   const logoText = preset.name.slice(0, 4).toUpperCase();
+  const subText = preset.defaultSlogans[0] ?? "";
 
   if (logos.useOfficialPack) {
     return {
@@ -241,14 +220,17 @@ export function brandFieldsFromUnionPreset(preset: UnionBranding): {
       customLogoDataUrl: undefined,
       logoText,
       unionPresetId: preset.id,
+      local: { subText },
     };
   }
 
   return {
     ...colors,
     useOfficialLogo: false,
-    customLogoDataUrl: logos.lockup,
+    // Platform U mark — BrandLogo tints it to primaryColor
+    customLogoDataUrl: UNIONOPS_LOGOS.mark,
     logoText,
     unionPresetId: preset.id,
+    local: { subText },
   };
 }

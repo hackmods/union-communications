@@ -35,8 +35,10 @@ describe("resolveLogoMode", () => {
     expect(resolveLogoMode(false, "lockup", "", cupeLogos)).toBe("custom");
   });
 
-  it("returns none when neither official nor custom is selected", () => {
-    expect(resolveLogoMode(false, "lockup", undefined, cupeLogos)).toBe("none");
+  it("returns platform when neither official nor custom is selected", () => {
+    expect(resolveLogoMode(false, "lockup", undefined, cupeLogos)).toBe(
+      "platform",
+    );
   });
 
   it("returns platform for UnionOps mark paths", () => {
@@ -86,10 +88,10 @@ describe("brandKitPatchForLogoMode", () => {
     });
   });
 
-  it("selecting none clears custom logo", () => {
+  it("selecting none falls back to the UnionOps mark", () => {
     expect(brandKitPatchForLogoMode("none", "243")).toEqual({
       useOfficialLogo: false,
-      customLogoDataUrl: undefined,
+      customLogoDataUrl: UNIONOPS_LOGOS.mark,
       logoText: "243",
     });
   });

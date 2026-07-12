@@ -64,12 +64,40 @@ describe("unionPresets", () => {
     expect(fields.customLogoDataUrl).toBeUndefined();
   });
 
-  it("maps other presets to bundled starter logos plus palette colours", () => {
+  it("maps other presets to UnionOps mark plus palette colours and sub-text", () => {
     const fields = brandFieldsFromUnionPreset(getUnionPreset("unifor")!);
     expect(fields.useOfficialLogo).toBe(false);
-    expect(fields.customLogoDataUrl).toBe("/assets/unions/unifor/logo.svg");
-    expect(fields.primaryColor).toBe("#007A33");
+    expect(fields.customLogoDataUrl).toBe(UNIONOPS_LOGOS.mark);
+    expect(fields.primaryColor).toBe("#ED1B2F");
+    expect(fields.secondaryColor).toBe("#FFFFFF");
     expect(fields.unionPresetId).toBe("unifor");
+    expect(fields.local.subText).toBe("A union for everyone.");
+  });
+
+  it("applies published preset colours and taglines", () => {
+    expect(getUnionPreset("cupe")).toMatchObject({
+      primaryColor: "#E5007D",
+      secondaryColor: "#FFFFFF",
+      defaultSlogans: ["On the front line."],
+    });
+    expect(getUnionPreset("usw")).toMatchObject({
+      primaryColor: "#002A5C",
+      secondaryColor: "#FFC72C",
+      defaultSlogans: ["Unity and Strength for Workers."],
+    });
+    expect(getUnionPreset("ona")).toMatchObject({
+      primaryColor: "#003865",
+      secondaryColor: "#FFD100",
+      defaultSlogans: ["Stand up, speak out."],
+    });
+    expect(getUnionPreset("psac")).toMatchObject({
+      primaryColor: "#E31837",
+      secondaryColor: "#FFFFFF",
+      defaultSlogans: ["Here for Canada."],
+    });
+    expect(getUnionPreset("opseu")?.defaultSlogans).toEqual([
+      "Educate. Advocate. Organize.",
+    ]);
   });
 
   it("falls back to UnionOps when logos are missing or empty", () => {
@@ -101,8 +129,9 @@ describe("unionPresets", () => {
 
     const fields = brandFieldsFromUnionPreset(bare);
     expect(fields.useOfficialLogo).toBe(false);
-    expect(fields.customLogoDataUrl).toBe(UNIONOPS_LOGOS.lockup);
+    expect(fields.customLogoDataUrl).toBe(UNIONOPS_LOGOS.mark);
     expect(fields.unionPresetId).toBe("bare");
+    expect(fields.local.subText).toBe("Hello");
   });
 
   it("fills partial logo packs with UnionOps for missing slots", () => {

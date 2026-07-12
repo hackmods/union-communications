@@ -789,11 +789,11 @@
     "importError": "Invalid brand kit file",
     "unionPreset": {
       "title": "Union preset",
-      "description": "Start from a common Canadian union colour palette and its bundled starter logos. OPSEU uses the official lockup and mark; other unions ship original wordmarks you can keep or replace.",
+      "description": "Start from a common Canadian union colour palette and tagline. OPSEU uses the official lockup; other unions default to the UnionOps mark in your brand colour — you can still pick a starter wordmark or upload your local’s logo.",
       "label": "Union preset",
       "placeholder": "Choose a union…",
       "slogans": "Suggested slogans",
-      "logoNote": "Starter logos are bundled under /assets/unions for each preset (not official trademarks, except OPSEU’s reference pack). Choose them in the Logo section below, or upload your local’s real logo."
+      "logoNote": "Default logo is the UnionOps mark tinted to this preset’s primary colour. Starter wordmarks under /assets/unions remain optional in Logo settings (not official trademarks, except OPSEU’s reference pack)."
     },
     "colors": {
       "primary": "Primary brand colour",
@@ -801,13 +801,13 @@
     },
     "logo": {
       "title": "Logo",
-      "description": "Pick a bundled union logo for your selected preset, the UnionOps mark, an upload, or a short text mark.",
+      "description": "Pick a bundled union logo for your selected preset, the UnionOps mark (tinted to your brand colour), or upload your own.",
       "useOfficialLogo": "Use OPSEU logo",
       "uploadCustomLogo": "Upload logo",
       "uploadHint": "PNG, JPEG, WebP, or SVG up to 10 MB.",
       "useOfficialLogoHint": "Official OPSEU/SEFPO lockup - recommended when OPSEU is your union.",
       "noImage": "No image",
-      "noImageHint": "Use a short text mark in the header instead of a logo image.",
+      "noImageHint": "Falls back to the UnionOps mark tinted to your primary brand colour.",
       "logoText": "Header text mark",
       "logoTextHint": "Up to 4 characters - e.g. LU or your local number.",
       "preview": "Preview",
@@ -824,7 +824,7 @@
       "useUnionMark": "{union} mark",
       "useUnionMarkHint": "Bundled starter mark for {union}. Compact for headers and circular crops.",
       "usePlatform": "UnionOps mark",
-      "usePlatformHint": "Platform U mark that tints to your primary brand colour."
+      "usePlatformHint": "Platform U mark that tints to your primary brand colour. Used by default when no other logo is selected."
     }
   },
   "assets": {

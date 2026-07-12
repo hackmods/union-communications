@@ -20,6 +20,7 @@ import {
   type UnionBranding,
 } from "@/lib/constants/unionPresets";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
+import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import { resolveLocalNumber } from "@/lib/utils";
 
 export default function BrandKitPage() {
@@ -86,18 +87,27 @@ export default function BrandKitPage() {
         {selectedPreset && selectedLogos ? (
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-4">
-              <SafeLogoImage
-                src={selectedLogos.lockup}
-                width={200}
-                height={48}
-                className="h-12 max-w-[200px]"
-              />
-              <SafeLogoImage
-                src={selectedLogos.mark}
-                width={48}
-                height={48}
-                className="h-12 w-12"
-              />
+              {selectedLogos.useOfficialPack ? (
+                <>
+                  <SafeLogoImage
+                    src={selectedLogos.lockup}
+                    width={200}
+                    height={48}
+                    className="h-12 max-w-[200px]"
+                  />
+                  <SafeLogoImage
+                    src={selectedLogos.mark}
+                    width={48}
+                    height={48}
+                    className="h-12 w-12"
+                  />
+                </>
+              ) : (
+                <UnionOpsMark
+                  primaryColor={selectedPreset.primaryColor}
+                  size="md"
+                />
+              )}
             </div>
             <p className="text-xs text-gray-500">{t("unionPreset.logoNote")}</p>
             <div>
