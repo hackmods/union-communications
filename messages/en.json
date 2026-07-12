@@ -739,11 +739,11 @@
     "importError": "Invalid brand kit file",
     "unionPreset": {
       "title": "Union preset",
-      "description": "Start from a common Canadian union colour palette and starter logo. OPSEU uses the bundled official lockup and mark; other unions use original starter wordmarks you can replace with your official assets.",
+      "description": "Start from a common Canadian union colour palette. The UnionOps U mark tints to that primary colour so site chrome stays branded. OPSEU can also use the bundled official lockup and mark; other unions show starter wordmark previews you can replace with official assets.",
       "label": "Union preset",
       "placeholder": "Choose a union…",
       "slogans": "Suggested slogans",
-      "logoNote": "OPSEU logos are the official pack already in this app. Other presets use starter wordmarks — not official trademarks. Upload your local’s real logo below when publishing."
+      "logoNote": "Applying a preset updates colours (and tints the UnionOps U). OPSEU can switch to the official pack. Other presets keep the U mark — upload your local’s real logo below when publishing."
     },
     "colors": {
       "primary": "Primary brand colour",

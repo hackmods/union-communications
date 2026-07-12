@@ -1,14 +1,8 @@
 import type { BrandKit } from "@/types/entities";
-import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
+import { isUnionOpsLogoSrc } from "@/lib/constants/unionPresets";
 
 function isPlatformDefaultLogo(src?: string): boolean {
-  const value = src?.trim();
-  if (!value) return false;
-  return (
-    value === UNIONOPS_LOGOS.mark ||
-    value === UNIONOPS_LOGOS.lockup ||
-    value === UNIONOPS_LOGOS.markOnDark
-  );
+  return isUnionOpsLogoSrc(src);
 }
 
 /**

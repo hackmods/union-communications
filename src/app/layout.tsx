@@ -7,6 +7,7 @@ import {
   SITE_NAME,
   SITE_TITLE,
   SITE_URL,
+  TWITTER_IMAGE_PATH,
 } from "@/lib/seo/site";
 
 export const metadata: Metadata = {
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: [OG_IMAGE_PATH],
+    images: [TWITTER_IMAGE_PATH],
   },
   robots: {
     index: true,

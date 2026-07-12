@@ -739,11 +739,11 @@
     "importError": "Fichier de trousse de marque invalide",
     "unionPreset": {
       "title": "Préréglage syndical",
-      "description": "Partez d'une palette et d'un logo de départ pour un syndicat canadien courant. OPSEU utilise le lockup et l'emblème officiels fournis; les autres utilisent des wordmarks originaux que vous pouvez remplacer par vos actifs officiels.",
+      "description": "Partez d'une palette de couleurs d'un syndicat canadien courant. Le monogramme U de UnionOps prend la couleur principale pour garder le chrome du site cohérent. OPSEU peut aussi utiliser le lockup et l'emblème officiels; les autres montrent des wordmarks de départ à remplacer par vos actifs officiels.",
       "label": "Préréglage syndical",
       "placeholder": "Choisir un syndicat…",
       "slogans": "Slogans suggérés",
-      "logoNote": "Les logos OPSEU sont le lot officiel déjà inclus. Les autres préréglages utilisent des wordmarks de départ — pas des marques officielles. Téléversez le vrai logo de votre section ci-dessous avant de publier."
+      "logoNote": "Appliquer un préréglage met à jour les couleurs (et teinte le U UnionOps). OPSEU peut passer au lot officiel. Les autres gardent le monogramme U — téléversez le vrai logo de votre section ci-dessous avant de publier."
     },
     "colors": {
       "primary": "Couleur de marque principale",

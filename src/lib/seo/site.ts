@@ -15,7 +15,10 @@ export const SITE_KEYWORDS = [
   "local union website template",
 ] as const;
 
-export const OG_IMAGE_PATH = "/og-image.png";
+export const OG_IMAGE_PATH = "/opengraph-image";
+export const TWITTER_IMAGE_PATH = "/twitter-image";
+/** Static fallback for PWA / service worker (kept in sync with platform brand) */
+export const OG_IMAGE_STATIC_PATH = "/og-image.png";
 
 export const SHARE_BLURB =
   "UnionOps is a free toolkit for union locals — stewarded by Ryan Morris. Flyer makers and steward tools on-device; host your own Officer Hub and you control that instance. No ads, no subscriptions, no data harvesting business. Solidarity.";

@@ -47,6 +47,16 @@ export const UNIONOPS_LOGOS = {
   markOnDark: "/assets/unionops/logo-mark-on-dark.svg",
 } as const;
 
+export function isUnionOpsLogoSrc(src?: string | null): boolean {
+  const value = src?.trim();
+  if (!value) return false;
+  return (
+    value === UNIONOPS_LOGOS.mark ||
+    value === UNIONOPS_LOGOS.lockup ||
+    value === UNIONOPS_LOGOS.markOnDark
+  );
+}
+
 export type ResolvedUnionLogoPack = {
   lockup: string;
   mark: string;
@@ -206,7 +216,10 @@ export function colorsFromUnionPreset(preset: UnionBranding): {
   };
 }
 
-/** Brand Kit colour + logo fields when applying a union preset. */
+/** Brand Kit colour + logo fields when applying a union preset.
+ * Keeps the UnionOps mark so the header U can tint to the preset primary;
+ * OPSEU still opts into the official pack. Starter wordmarks stay preview-only.
+ */
 export function brandFieldsFromUnionPreset(preset: UnionBranding): {
   primaryColor: string;
   secondaryColor: string;
@@ -233,7 +246,8 @@ export function brandFieldsFromUnionPreset(preset: UnionBranding): {
   return {
     ...colors,
     useOfficialLogo: false,
-    customLogoDataUrl: logos.lockup,
+    // Keep platform mark so BrandLogo can recolor it with primaryColor
+    customLogoDataUrl: UNIONOPS_LOGOS.mark,
     logoText,
   };
 }

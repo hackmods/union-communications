@@ -3,12 +3,16 @@
 import { useBrandStore } from "@/store/brand-store";
 import {
   OFFICIAL_LOGOS,
+  BRAND_COLORS,
   isOfficialLogoVariant,
   isSelectableOfficialLogoVariant,
   type OfficialLogoVariant,
 } from "@/lib/constants/brand";
-import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
+import {
+  isUnionOpsLogoSrc,
+} from "@/lib/constants/unionPresets";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
+import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 
 interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
@@ -33,7 +37,6 @@ function resolveOfficialSrc(
   variant: OfficialLogoVariant,
   onDark: boolean,
 ): { src: string; size: "lockup" | "mark" } {
-  // Non-selectable variants stay in storage for re-enable; display falls back to mark
   const effective: OfficialLogoVariant = isSelectableOfficialLogoVariant(
     variant,
   )
@@ -56,19 +59,21 @@ function resolveOfficialSrc(
 export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoProps) {
   const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
+  const primaryColor = brandKit.primaryColor || BRAND_COLORS.primary;
   const dims = markSize[size];
 
-  // First visit / before hydrate: UnionOps platform mark
+  // Platform U mark — tint to active Brand Kit primary (union preset / custom colours)
+  const platformMark = (
+    <UnionOpsMark
+      primaryColor={primaryColor}
+      size={size}
+      className={className}
+      onDark={onDark}
+    />
+  );
+
   if (!hydrated) {
-    return (
-      <SafeLogoImage
-        src={onDark ? UNIONOPS_LOGOS.markOnDark : UNIONOPS_LOGOS.mark}
-        width={dims.width}
-        height={dims.height}
-        className={className}
-        onDark={onDark}
-      />
-    );
+    return platformMark;
   }
 
   if (brandKit.useOfficialLogo) {
@@ -92,22 +97,19 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
 
   const customSrc = brandKit.customLogoDataUrl?.trim();
   if (customSrc) {
-    let src = customSrc;
-    if (
-      onDark &&
-      (src === UNIONOPS_LOGOS.mark || src === UNIONOPS_LOGOS.lockup)
-    ) {
-      src = UNIONOPS_LOGOS.markOnDark;
+    if (isUnionOpsLogoSrc(customSrc)) {
+      return platformMark;
     }
+
     const isLockup =
-      src.includes("logo-lockup") ||
-      src.includes("logo-primary") ||
-      (src.endsWith("/logo.svg") && !src.includes("logo-mark"));
-    const customDims = isLockup ? lockupSize[size] : markSize[size];
+      customSrc.includes("logo-lockup") ||
+      customSrc.includes("logo-primary") ||
+      (customSrc.endsWith("/logo.svg") && !customSrc.includes("logo-mark"));
+    const customDims = isLockup ? lockupSize[size] : dims;
 
     return (
       <SafeLogoImage
-        src={src}
+        src={customSrc}
         width={customDims.width}
         height={customDims.height}
         className={className}
@@ -116,15 +118,5 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
     );
   }
 
-  // No logo configured — UnionOps, not a broken image
-  return (
-    <SafeLogoImage
-      src={onDark ? UNIONOPS_LOGOS.markOnDark : UNIONOPS_LOGOS.mark}
-      width={dims.width}
-      height={dims.height}
-      className={className}
-      onDark={onDark}
-    />
-  );
+  return platformMark;
 }
-
