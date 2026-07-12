@@ -4,13 +4,13 @@ import { create } from "zustand";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { dataAdapter } from "@/lib/data/local-storage-adapter";
 import { normalizeBrandKit } from "@/lib/utils/local-links";
-import type { BrandKit } from "@/types/entities";
+import type { BrandKit, BrandKitPatch } from "@/types/entities";
 
 interface BrandState {
   brandKit: BrandKit;
   onboardingComplete: boolean;
   hydrated: boolean;
-  setBrandKit: (kit: Partial<BrandKit>) => void;
+  setBrandKit: (kit: BrandKitPatch) => void;
   resetBrandKit: () => void;
   importBrandKit: (kit: BrandKit | unknown) => void;
   setOnboardingComplete: (complete: boolean) => void;

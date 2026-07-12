@@ -19,7 +19,7 @@ import {
   type ResolvedUnionLogoPack,
 } from "@/lib/constants/unionPresets";
 import { cn } from "@/lib/utils";
-import type { BrandKit } from "@/types/entities";
+import type { BrandKitPatch } from "@/types/entities";
 
 export type LogoMode =
   | OfficialLogoVariant
@@ -95,7 +95,7 @@ export function brandKitPatchForLogoMode(
   currentLogoText?: string,
   currentCustomLogoDataUrl?: string,
   presetLogos?: ResolvedUnionLogoPack | null,
-): Partial<BrandKit> {
+): BrandKitPatch {
   if (mode === "union-lockup" && presetLogos && !presetLogos.useOfficialPack) {
     return {
       useOfficialLogo: false,

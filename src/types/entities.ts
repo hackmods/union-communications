@@ -48,3 +48,8 @@ export interface BrandKit {
   customLinks?: LocalLink[];
   updatedAt: string;
 }
+
+/** Partial Brand Kit update — `local` is deep-partial (store merges onto current). */
+export type BrandKitPatch = Omit<Partial<BrandKit>, "local"> & {
+  local?: Partial<Local>;
+};

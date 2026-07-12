@@ -5,6 +5,8 @@
  * Missing / empty logo packs fall back to UnionOps platform marks.
  */
 
+import type { BrandKitPatch } from "@/types/entities";
+
 export interface UnionLogoPack {
   /** Wide wordmark / lockup */
   lockup?: string;
@@ -196,17 +198,9 @@ export function colorsFromUnionPreset(preset: UnionBranding): {
  * OPSEU uses the official pack; others default to the UnionOps mark
  * tinted with the preset primary (starter logos remain optional in Logo Settings).
  */
-export function brandFieldsFromUnionPreset(preset: UnionBranding): {
-  primaryColor: string;
-  secondaryColor: string;
-  accentColor: string;
-  useOfficialLogo: boolean;
-  officialLogoVariant?: "lockup" | "mark";
-  customLogoDataUrl?: string;
-  logoText: string;
-  unionPresetId: string;
-  local: { subText: string };
-} {
+export function brandFieldsFromUnionPreset(
+  preset: UnionBranding,
+): BrandKitPatch {
   const colors = colorsFromUnionPreset(preset);
   const logos = resolvePresetLogos(preset.logos);
   const logoText = preset.name.slice(0, 4).toUpperCase();
@@ -227,7 +221,7 @@ export function brandFieldsFromUnionPreset(preset: UnionBranding): {
   return {
     ...colors,
     useOfficialLogo: false,
-    // Platform U mark — BrandLogo tints it to primaryColor
+    // Platform mark — BrandLogo / UnionOpsMark tints it to primaryColor
     customLogoDataUrl: UNIONOPS_LOGOS.mark,
     logoText,
     unionPresetId: preset.id,

@@ -71,7 +71,7 @@ describe("unionPresets", () => {
     expect(fields.primaryColor).toBe("#ED1B2F");
     expect(fields.secondaryColor).toBe("#FFFFFF");
     expect(fields.unionPresetId).toBe("unifor");
-    expect(fields.local.subText).toBe("A union for everyone.");
+    expect(fields.local?.subText).toBe("A union for everyone.");
   });
 
   it("applies published preset colours and taglines", () => {
@@ -131,7 +131,7 @@ describe("unionPresets", () => {
     expect(fields.useOfficialLogo).toBe(false);
     expect(fields.customLogoDataUrl).toBe(UNIONOPS_LOGOS.mark);
     expect(fields.unionPresetId).toBe("bare");
-    expect(fields.local.subText).toBe("Hello");
+    expect(fields.local?.subText).toBe("Hello");
   });
 
   it("fills partial logo packs with UnionOps for missing slots", () => {
