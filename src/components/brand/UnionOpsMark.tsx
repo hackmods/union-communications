@@ -2,10 +2,13 @@
 
 import { cn } from "@/lib/utils";
 import { BRAND_COLORS } from "@/lib/constants/brand";
-
-/** Condensed U. */
-const U_PATH =
-  "M11 14h7v19c0 3.8 2.5 6.2 6 6.2s6-2.4 6-6.2V14h7v19c0 8-5.4 13.5-13 13.5S11 41 11 33V14z";
+import {
+  UNIONOPS_MARK_VIEWBOX,
+  UNIONOPS_O,
+  UNIONOPS_U_OPACITY,
+  UNIONOPS_U_PATH,
+  UNIONOPS_U_STROKE_WIDTH,
+} from "@/lib/brand/unionops-mark-geometry";
 
 const sizePx = {
   sm: 32,
@@ -15,29 +18,36 @@ const sizePx = {
 
 interface UnionOpsMarkProps {
   primaryColor?: string;
+  /** Graphics accent — colours the interlocking u (and plated glyphs). */
+  secondaryColor?: string;
   size?: "sm" | "md" | "lg";
   className?: string;
-  /** Invert: white tile + brand-coloured UO (for dark / brand backgrounds) */
+  /** Flat two-tone mark for dark / brand-coloured backgrounds (no plate). */
   onDark?: boolean;
   title?: string;
 }
 
-/** Inline UnionOps UO mark — square fill tracks Brand Kit primary. */
+/**
+ * Inline UnionOps interlocking u+o mark.
+ * Primary → o; graphics accent (secondary) → u.
+ * Light chrome uses a primary plate so a light accent stays legible.
+ */
 export function UnionOpsMark({
   primaryColor = BRAND_COLORS.primary,
+  secondaryColor = BRAND_COLORS.secondary,
   size = "sm",
   className,
   onDark = false,
   title = "UnionOps",
 }: UnionOpsMarkProps) {
   const px = sizePx[size];
-  const tile = onDark ? "#FFFFFF" : primaryColor;
-  const glyph = onDark ? primaryColor : "#FFFFFF";
+  const uColor = secondaryColor;
+  const oColor = onDark ? primaryColor : secondaryColor;
 
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
+      viewBox={UNIONOPS_MARK_VIEWBOX}
       width={px}
       height={px}
       role="img"
@@ -45,15 +55,25 @@ export function UnionOpsMark({
       className={cn("shrink-0", className)}
     >
       <title>{title}</title>
-      <rect width="64" height="64" rx="14" fill={tile} />
-      <path fill={glyph} d={U_PATH} />
+      {!onDark ? (
+        <rect width="64" height="64" rx="14" fill={primaryColor} />
+      ) : null}
       <circle
-        cx={47}
-        cy={32}
-        r={11.25}
+        cx={UNIONOPS_O.cx}
+        cy={UNIONOPS_O.cy}
+        r={UNIONOPS_O.r}
         fill="none"
-        stroke={glyph}
-        strokeWidth={7.5}
+        stroke={oColor}
+        strokeWidth={UNIONOPS_O.strokeWidth}
+      />
+      <path
+        d={UNIONOPS_U_PATH}
+        fill="none"
+        stroke={uColor}
+        strokeWidth={UNIONOPS_U_STROKE_WIDTH}
+        strokeLinecap="butt"
+        strokeLinejoin="round"
+        opacity={UNIONOPS_U_OPACITY}
       />
     </svg>
   );

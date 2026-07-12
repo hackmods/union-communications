@@ -225,3 +225,10 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 
 - [x] `/support` — optional Buy Me a Coffee tip jar (`buymeacoffee.com/ryanmorris`)
 - [x] Linked from manifesto + muted footer link (not header nav)
+
+## UnionOps interlocking logo (2026-07-12)
+
+- [x] Platform mark: interlocking lowercase u+o (replaces condensed U monogram)
+- [x] Brand Kit primary → o / plate; graphics accent (secondary) → u (ignore photo charcoal)
+- [x] Live tint via `UnionOpsMark` + static `public/assets/unionops/*.svg`; source PNGs in `source/`
+- [x] Favicon `src/app/icon.svg` + OG/Twitter mark in `opengraph-image.tsx`

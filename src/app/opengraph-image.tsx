@@ -1,14 +1,17 @@
 import { ImageResponse } from "next/og";
 import { PLATFORM_UNION_ORANGE } from "@/lib/constants/unionPresets";
 import { SITE_NAME } from "@/lib/seo/site";
+import {
+  UNIONOPS_O,
+  UNIONOPS_U_OPACITY,
+  UNIONOPS_U_PATH,
+  UNIONOPS_U_STROKE_WIDTH,
+} from "@/lib/brand/unionops-mark-geometry";
 
 export const runtime = "edge";
 export const alt = `${SITE_NAME} - Solidarity.`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-
-const U_PATH =
-  "M18 16c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v18.5c0 4.1 2.7 6.5 6 6.5s6-2.4 6-6.5V16c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v18.5c0 8.3-5.8 13.5-14 13.5s-14-5.2-14-13.5V16z";
 
 export default function OpenGraphImage() {
   const primary = PLATFORM_UNION_ORANGE.primary;
@@ -32,7 +35,23 @@ export default function OpenGraphImage() {
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
           <svg width="96" height="96" viewBox="0 0 64 64">
             <rect width="64" height="64" rx="14" fill="#FFFFFF" />
-            <path fill={primary} d={U_PATH} />
+            <circle
+              cx={UNIONOPS_O.cx}
+              cy={UNIONOPS_O.cy}
+              r={UNIONOPS_O.r}
+              fill="none"
+              stroke={primary}
+              strokeWidth={UNIONOPS_O.strokeWidth}
+            />
+            <path
+              d={UNIONOPS_U_PATH}
+              fill="none"
+              stroke={primary}
+              strokeWidth={UNIONOPS_U_STROKE_WIDTH}
+              strokeLinecap="butt"
+              strokeLinejoin="round"
+              opacity={UNIONOPS_U_OPACITY}
+            />
           </svg>
           <div
             style={{

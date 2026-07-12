@@ -127,7 +127,7 @@ export function brandKitPatchForLogoMode(
       customLogoDataUrl: currentCustomLogoDataUrl ?? "",
     };
   }
-  // No logo selected → UnionOps mark tinted to Brand Kit primary
+  // No logo selected → UnionOps mark tinted to Brand Kit colours
   return {
     useOfficialLogo: false,
     customLogoDataUrl: UNIONOPS_LOGOS.mark,
@@ -143,6 +143,7 @@ interface LogoSettingsProps {
   /** Drives which bundled union logos appear (OPSEU pack vs starter wordmarks) */
   unionPresetId?: string;
   primaryColor?: string;
+  secondaryColor?: string;
   onModeChange: (mode: LogoMode) => void;
   onCustomLogoUpload: (dataUrl: string) => void;
   onCustomLogoClear: () => void;
@@ -155,6 +156,7 @@ export function LogoSettings({
   customLogoDataUrl,
   unionPresetId,
   primaryColor = BRAND_COLORS.primary,
+  secondaryColor = BRAND_COLORS.secondary,
   onModeChange,
   onCustomLogoUpload,
   onCustomLogoClear,
@@ -304,7 +306,9 @@ export function LogoSettings({
                     {option.preview.platformMark ? (
                       <UnionOpsMark
                         primaryColor={primaryColor}
+                        secondaryColor={secondaryColor}
                         size="md"
+                        onDark={option.preview.onDark}
                       />
                     ) : (
                       <SafeLogoImage

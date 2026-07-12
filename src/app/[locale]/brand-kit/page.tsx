@@ -105,6 +105,7 @@ export default function BrandKitPage() {
               ) : (
                 <UnionOpsMark
                   primaryColor={selectedPreset.primaryColor}
+                  secondaryColor={selectedPreset.secondaryColor}
                   size="md"
                 />
               )}
@@ -160,6 +161,7 @@ export default function BrandKitPage() {
           logoText={brandKit.logoText}
           unionPresetId={brandKit.unionPresetId}
           primaryColor={brandKit.primaryColor}
+          secondaryColor={brandKit.secondaryColor}
           onModeChange={(mode) => {
             setBrandKit(
               brandKitPatchForLogoMode(

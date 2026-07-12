@@ -235,7 +235,8 @@ export function brandFieldsFromUnionPreset(
   return {
     ...colors,
     useOfficialLogo: false,
-    // Platform mark — BrandLogo / UnionOpsMark tints it to primaryColor
+    // Platform mark — BrandLogo / UnionOpsMark tints interlocking u+o
+    // (primary → o / plate; secondary → u)
     customLogoDataUrl: UNIONOPS_LOGOS.mark,
     logoText,
     unionPresetId: preset.id,

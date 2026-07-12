@@ -1,17 +1,23 @@
 ﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UnionOps">
   <title>UnionOps (on dark)</title>
-  <desc>Simple UO monogram for UnionOps on dark backgrounds.</desc>
-  <rect width="64" height="64" rx="14" fill="#FFFFFF"/>
-  <path
-    fill="#C2410C"
-    d="M11 14h7v19c0 3.8 2.5 6.2 6 6.2s6-2.4 6-6.2V14h7v19c0 8-5.4 13.5-13 13.5S11 41 11 33V14z"
-  />
+  <desc>Interlocking u and o — graphics accent u, primary o — for dark backgrounds.</desc>
+  <!-- O (behind) -->
   <circle
-    cx="47"
-    cy="32"
-    r="11.25"
+    cx="44"
+    cy="34"
+    r="14"
     fill="none"
     stroke="#C2410C"
-    stroke-width="7.5"
+    stroke-width="10"
+  />
+  <!-- U (overlap) -->
+  <path
+    d="M12 14v20a14 14 0 0 0 28 0V14"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="10"
+    stroke-linecap="butt"
+    stroke-linejoin="round"
+    opacity="0.88"
   />
 </svg>

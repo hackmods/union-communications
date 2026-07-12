@@ -111,6 +111,7 @@ export default function LogoBuilderPage() {
               logoText={brandKit.logoText}
               unionPresetId={brandKit.unionPresetId}
               primaryColor={state.primaryColor}
+              secondaryColor={state.secondaryColor}
               onModeChange={(mode) => {
                 setBrandKit(
                   brandKitPatchForLogoMode(

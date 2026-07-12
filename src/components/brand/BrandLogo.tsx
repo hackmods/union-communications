@@ -60,12 +60,14 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
   const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
   const primaryColor = brandKit.primaryColor || BRAND_COLORS.primary;
+  const secondaryColor = brandKit.secondaryColor || BRAND_COLORS.secondary;
   const dims = markSize[size];
 
-  // Platform U mark — tint to active Brand Kit primary (union preset / custom colours)
+  // Platform interlocking u+o — primary → o / plate; graphics accent → u
   const platformMark = (
     <UnionOpsMark
       primaryColor={primaryColor}
+      secondaryColor={secondaryColor}
       size={size}
       className={className}
       onDark={onDark}

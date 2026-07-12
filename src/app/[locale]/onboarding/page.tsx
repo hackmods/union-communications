@@ -134,6 +134,7 @@ export default function OnboardingPage() {
               logoText={brandKit.logoText}
               unionPresetId={brandKit.unionPresetId}
               primaryColor={brandKit.primaryColor}
+              secondaryColor={brandKit.secondaryColor}
               onModeChange={handleLogoModeChange}
               onCustomLogoUpload={(url) =>
                 setBrandKit({
