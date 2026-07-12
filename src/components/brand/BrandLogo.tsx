@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useBrandStore } from "@/store/brand-store";
 import {
   OFFICIAL_LOGOS,
@@ -9,7 +8,7 @@ import {
   type OfficialLogoVariant,
 } from "@/lib/constants/brand";
 import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
-import { cn } from "@/lib/utils";
+import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 
 interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
@@ -30,18 +29,10 @@ const markSize = {
   lg: { width: 96, height: 96 },
 } as const;
 
-function isSvgSrc(src: string): boolean {
-  return (
-    src.endsWith(".svg") ||
-    src.startsWith("data:image/svg") ||
-    src.includes("image/svg")
-  );
-}
-
 function resolveOfficialSrc(
   variant: OfficialLogoVariant,
   onDark: boolean,
-): { src: string; size: "lockup" | "mark"; isSvg: boolean } {
+): { src: string; size: "lockup" | "mark" } {
   // Non-selectable variants stay in storage for re-enable; display falls back to mark
   const effective: OfficialLogoVariant = isSelectableOfficialLogoVariant(
     variant,
@@ -50,53 +41,16 @@ function resolveOfficialSrc(
     : "mark";
 
   if (effective === "lockup") {
-    return { src: OFFICIAL_LOGOS.lockup.src, size: "lockup", isSvg: false };
+    return { src: OFFICIAL_LOGOS.lockup.src, size: "lockup" };
   }
   if (effective === "slitBlue") {
-    return { src: OFFICIAL_LOGOS.slitBlue.src, size: "mark", isSvg: true };
+    return { src: OFFICIAL_LOGOS.slitBlue.src, size: "mark" };
   }
   if (effective === "slitWhite") {
-    return { src: OFFICIAL_LOGOS.slitWhite.src, size: "mark", isSvg: true };
+    return { src: OFFICIAL_LOGOS.slitWhite.src, size: "mark" };
   }
-  // mark - swap to white on dark backgrounds
   const src = onDark ? OFFICIAL_LOGOS.mark.srcOnDark : OFFICIAL_LOGOS.mark.src;
-  return { src, size: "mark", isSvg: false };
-}
-
-function LogoImage({
-  src,
-  width,
-  height,
-  className,
-}: {
-  src: string;
-  width: number;
-  height: number;
-  className?: string;
-}) {
-  if (isSvgSrc(src)) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element -- SVG marks / wordmarks
-      <img
-        src={src}
-        alt=""
-        width={width}
-        height={height}
-        className={cn("object-contain", className)}
-      />
-    );
-  }
-
-  return (
-    <Image
-      src={src}
-      alt=""
-      width={width}
-      height={height}
-      unoptimized={src.startsWith("data:")}
-      className={cn("object-contain", className)}
-    />
-  );
+  return { src, size: "mark" };
 }
 
 export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoProps) {
@@ -107,11 +61,12 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
   // First visit / before hydrate: UnionOps platform mark
   if (!hydrated) {
     return (
-      <LogoImage
+      <SafeLogoImage
         src={onDark ? UNIONOPS_LOGOS.markOnDark : UNIONOPS_LOGOS.mark}
         width={dims.width}
         height={dims.height}
         className={className}
+        onDark={onDark}
       />
     );
   }
@@ -125,18 +80,19 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
       resolved.size === "lockup" ? lockupSize[size] : markSize[size];
 
     return (
-      <LogoImage
+      <SafeLogoImage
         src={resolved.src}
         width={officialDims.width}
         height={officialDims.height}
         className={className}
+        onDark={onDark}
       />
     );
   }
 
-  if (brandKit.customLogoDataUrl?.trim()) {
-    let src = brandKit.customLogoDataUrl.trim();
-    // Prefer on-dark variant for UnionOps / known mark paths when available
+  const customSrc = brandKit.customLogoDataUrl?.trim();
+  if (customSrc) {
+    let src = customSrc;
     if (
       onDark &&
       (src === UNIONOPS_LOGOS.mark || src === UNIONOPS_LOGOS.lockup)
@@ -150,28 +106,25 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
     const customDims = isLockup ? lockupSize[size] : markSize[size];
 
     return (
-      <LogoImage
+      <SafeLogoImage
         src={src}
         width={customDims.width}
         height={customDims.height}
         className={className}
+        onDark={onDark}
       />
     );
   }
 
-  const mark = (brandKit.logoText?.trim() || "UO").slice(0, 4);
+  // No logo configured — UnionOps, not a broken image
   return (
-    <span
-      className={cn(
-        "flex items-center justify-center rounded bg-opseu-blue font-bold text-white",
-        size === "sm" && "h-8 w-8 text-sm",
-        size === "md" && "h-12 w-12 text-base",
-        size === "lg" && "h-24 w-24 text-2xl",
-        className,
-      )}
-      aria-hidden
-    >
-      {mark}
-    </span>
+    <SafeLogoImage
+      src={onDark ? UNIONOPS_LOGOS.markOnDark : UNIONOPS_LOGOS.mark}
+      width={dims.width}
+      height={dims.height}
+      className={className}
+      onDark={onDark}
+    />
   );
 }
+

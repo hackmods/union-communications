@@ -2,18 +2,19 @@
  * Starter branding presets for common Canadian unions.
  * Colours and non-OPSEU logos are generic starters — not official trademarked assets.
  * OPSEU lockup/mark use the bundled reference tenant pack.
+ * Missing / empty logo packs fall back to UnionOps platform marks.
  */
 
 export interface UnionLogoPack {
   /** Wide wordmark / lockup */
-  lockup: string;
+  lockup?: string;
   /** Square mark */
-  mark: string;
+  mark?: string;
   /** Mark for dark / brand-coloured backgrounds */
   markOnDark?: string;
   /**
    * When true, Brand Kit uses the OPSEU official pack (`OFFICIAL_LOGOS`)
-   * instead of treating paths as custom uploads.
+   * instead of treating paths as custom uploads — only when lockup/mark paths exist.
    */
   useOfficialPack?: boolean;
 }
@@ -24,7 +25,8 @@ export interface UnionBranding {
   primaryColor: string;
   secondaryColor: string;
   defaultSlogans: string[];
-  logos: UnionLogoPack;
+  /** Optional; omitted or empty → UnionOps platform logos */
+  logos?: UnionLogoPack;
 }
 
 /**
@@ -38,12 +40,50 @@ export const PLATFORM_UNION_ORANGE = {
   accent: "#9A3412",
 } as const;
 
-/** Platform site logo (UnionOps) */
+/** Platform site logo (UnionOps) — always present under public/assets/unionops/ */
 export const UNIONOPS_LOGOS = {
   lockup: "/assets/unionops/logo-lockup.svg",
   mark: "/assets/unionops/logo-mark.svg",
   markOnDark: "/assets/unionops/logo-mark-on-dark.svg",
 } as const;
+
+export type ResolvedUnionLogoPack = {
+  lockup: string;
+  mark: string;
+  markOnDark: string;
+  useOfficialPack: boolean;
+};
+
+function nonEmpty(src: string | undefined): string | undefined {
+  const trimmed = src?.trim();
+  return trimmed ? trimmed : undefined;
+}
+
+/** Fill missing logo paths with UnionOps so UI never points at empty srcs. */
+export function resolvePresetLogos(
+  logos?: UnionLogoPack | null,
+): ResolvedUnionLogoPack {
+  const lockup = nonEmpty(logos?.lockup) ?? UNIONOPS_LOGOS.lockup;
+  const mark = nonEmpty(logos?.mark) ?? UNIONOPS_LOGOS.mark;
+  const markOnDark =
+    nonEmpty(logos?.markOnDark) ??
+    (mark === UNIONOPS_LOGOS.mark
+      ? UNIONOPS_LOGOS.markOnDark
+      : mark);
+
+  // Official pack only when explicitly requested AND both assets are populated
+  const useOfficialPack = Boolean(
+    logos?.useOfficialPack &&
+      nonEmpty(logos.lockup) &&
+      nonEmpty(logos.mark),
+  );
+
+  return { lockup, mark, markOnDark, useOfficialPack };
+}
+
+export function unionOpsLogoSrc(onDark = false): string {
+  return onDark ? UNIONOPS_LOGOS.markOnDark : UNIONOPS_LOGOS.mark;
+}
 
 export const UNION_PRESETS: UnionBranding[] = [
   {
@@ -177,19 +217,23 @@ export function brandFieldsFromUnionPreset(preset: UnionBranding): {
   logoText: string;
 } {
   const colors = colorsFromUnionPreset(preset);
-  if (preset.logos.useOfficialPack) {
+  const logos = resolvePresetLogos(preset.logos);
+  const logoText = preset.name.slice(0, 4).toUpperCase();
+
+  if (logos.useOfficialPack) {
     return {
       ...colors,
       useOfficialLogo: true,
       officialLogoVariant: "lockup",
       customLogoDataUrl: undefined,
-      logoText: preset.name.slice(0, 4).toUpperCase(),
+      logoText,
     };
   }
+
   return {
     ...colors,
     useOfficialLogo: false,
-    customLogoDataUrl: preset.logos.lockup,
-    logoText: preset.name.slice(0, 4).toUpperCase(),
+    customLogoDataUrl: logos.lockup,
+    logoText,
   };
 }

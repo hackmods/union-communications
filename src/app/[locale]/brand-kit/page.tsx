@@ -13,8 +13,10 @@ import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import {
   brandFieldsFromUnionPreset,
   getUnionPreset,
+  resolvePresetLogos,
   type UnionBranding,
 } from "@/lib/constants/unionPresets";
+import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { resolveLocalNumber } from "@/lib/utils";
 
 export default function BrandKitPage() {
@@ -24,6 +26,9 @@ export default function BrandKitPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [unionPresetId, setUnionPresetId] = useState("");
   const selectedPreset = getUnionPreset(unionPresetId);
+  const selectedLogos = selectedPreset
+    ? resolvePresetLogos(selectedPreset.logos)
+    : null;
 
   const applyUnionPreset = (preset: UnionBranding) => {
     setUnionPresetId(preset.id);
@@ -75,20 +80,20 @@ export default function BrandKitPage() {
           placeholder={t("unionPreset.placeholder")}
           onSelect={applyUnionPreset}
         />
-        {selectedPreset ? (
+        {selectedPreset && selectedLogos ? (
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-4">
-              {/* eslint-disable-next-line @next/next/no-img-element -- preset logo preview */}
-              <img
-                src={selectedPreset.logos.lockup}
-                alt=""
-                className="h-12 max-w-[200px] object-contain"
+              <SafeLogoImage
+                src={selectedLogos.lockup}
+                width={200}
+                height={48}
+                className="h-12 max-w-[200px]"
               />
-              {/* eslint-disable-next-line @next/next/no-img-element -- preset logo preview */}
-              <img
-                src={selectedPreset.logos.mark}
-                alt=""
-                className="h-12 w-12 object-contain"
+              <SafeLogoImage
+                src={selectedLogos.mark}
+                width={48}
+                height={48}
+                className="h-12 w-12"
               />
             </div>
             <p className="text-xs text-gray-500">{t("unionPreset.logoNote")}</p>

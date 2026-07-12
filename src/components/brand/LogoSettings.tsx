@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { Input } from "@/components/ui/Input";
+import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import {
   OFFICIAL_LOGOS,
   isOfficialLogoVariant,
@@ -111,7 +111,6 @@ export function LogoSettings({
       width: number;
       height: number;
       onDark?: boolean;
-      unoptimized?: boolean;
     };
   }[] = [
     {
@@ -142,7 +141,6 @@ export function LogoSettings({
         src: OFFICIAL_LOGOS.slitBlue.src,
         width: 56,
         height: 56,
-        unoptimized: true,
       },
     },
     {
@@ -154,7 +152,6 @@ export function LogoSettings({
         width: 56,
         height: 56,
         onDark: true,
-        unoptimized: true,
       },
     },
   ];
@@ -168,7 +165,6 @@ export function LogoSettings({
       width: number;
       height: number;
       onDark?: boolean;
-      unoptimized?: boolean;
     };
   }[] = [
     ...officialOptions.filter((option) =>
@@ -230,24 +226,12 @@ export function LogoSettings({
                       option.preview.onDark ? "bg-opseu-dark" : "bg-white",
                     )}
                   >
-                    {option.preview.unoptimized ? (
-                      // eslint-disable-next-line @next/next/no-img-element -- SVG previews need raw img
-                      <img
-                        src={option.preview.src}
-                        alt=""
-                        width={option.preview.width}
-                        height={option.preview.height}
-                        className="object-contain"
-                      />
-                    ) : (
-                      <Image
-                        src={option.preview.src}
-                        alt=""
-                        width={option.preview.width}
-                        height={option.preview.height}
-                        className="object-contain"
-                      />
-                    )}
+                    <SafeLogoImage
+                      src={option.preview.src}
+                      width={option.preview.width}
+                      height={option.preview.height}
+                      onDark={option.preview.onDark}
+                    />
                   </span>
                 )}
               </span>

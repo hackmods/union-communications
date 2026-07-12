@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useId, useRef, useState } from "react";
 import { validateImageFile } from "@/lib/utils/validation";
 import { fileToDataUrl } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
+import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { useTranslations } from "next-intl";
 
 interface ImageUploadProps {
@@ -78,24 +78,13 @@ export function ImageUpload({
         )}
       </div>
       {hasPreview && (
-        <div className="relative h-32 w-full max-w-xs">
-          {preview!.endsWith(".svg") ||
-          preview!.startsWith("data:image/svg") ? (
-            // eslint-disable-next-line @next/next/no-img-element -- SVG previews
-            <img
-              src={preview!}
-              alt=""
-              className="h-32 w-full rounded-lg border object-contain"
-            />
-          ) : (
-            <Image
-              src={preview!}
-              alt=""
-              fill
-              unoptimized
-              className="rounded-lg border object-contain"
-            />
-          )}
+        <div className="relative flex h-32 w-full max-w-xs items-center justify-center rounded-lg border bg-white p-2">
+          <SafeLogoImage
+            src={preview!}
+            width={280}
+            height={120}
+            className="max-h-28 max-w-full"
+          />
         </div>
       )}
       {error && (
