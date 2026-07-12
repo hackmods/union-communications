@@ -3,10 +3,9 @@
 import { cn } from "@/lib/utils";
 import { BRAND_COLORS } from "@/lib/constants/brand";
 
-/** Twin solidarity arcs + center bridge (stroke paths — crisp at any size). */
-const ARC_LEFT = "M26.5 15A17 17 0 0 0 26.5 49";
-const ARC_RIGHT = "M37.5 15A17 17 0 0 1 37.5 49";
-const BRIDGE = "M23 32h18";
+/** Condensed U. */
+const U_PATH =
+  "M11 14h7v19c0 3.8 2.5 6.2 6 6.2s6-2.4 6-6.2V14h7v19c0 8-5.4 13.5-13 13.5S11 41 11 33V14z";
 
 const sizePx = {
   sm: 32,
@@ -18,12 +17,12 @@ interface UnionOpsMarkProps {
   primaryColor?: string;
   size?: "sm" | "md" | "lg";
   className?: string;
-  /** Invert: white tile + brand-coloured mark (for dark / brand backgrounds) */
+  /** Invert: white tile + brand-coloured UO (for dark / brand backgrounds) */
   onDark?: boolean;
   title?: string;
 }
 
-/** Inline UnionOps mark — square fill tracks Brand Kit primary. */
+/** Inline UnionOps UO mark — square fill tracks Brand Kit primary. */
 export function UnionOpsMark({
   primaryColor = BRAND_COLORS.primary,
   size = "sm",
@@ -47,17 +46,15 @@ export function UnionOpsMark({
     >
       <title>{title}</title>
       <rect width="64" height="64" rx="14" fill={tile} />
-      <g
+      <path fill={glyph} d={U_PATH} />
+      <circle
+        cx={47}
+        cy={32}
+        r={11.25}
         fill="none"
         stroke={glyph}
-        strokeWidth={6.5}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d={ARC_LEFT} />
-        <path d={ARC_RIGHT} />
-        <path d={BRIDGE} />
-      </g>
+        strokeWidth={7.5}
+      />
     </svg>
   );
 }

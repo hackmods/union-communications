@@ -1,17 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UnionOps">
   <title>UnionOps</title>
-  <desc>Twin arcs joined at the center — Solidarity mark for UnionOps.</desc>
+  <desc>Simple UO monogram for UnionOps.</desc>
   <rect width="64" height="64" rx="14" fill="#C2410C"/>
-  <g
+  <!-- U -->
+  <path
+    fill="#FFFFFF"
+    d="M11 14h7v19c0 3.8 2.5 6.2 6 6.2s6-2.4 6-6.2V14h7v19c0 8-5.4 13.5-13 13.5S11 41 11 33V14z"
+  />
+  <!-- O -->
+  <circle
+    cx="47"
+    cy="32"
+    r="11.25"
     fill="none"
     stroke="#FFFFFF"
-    stroke-width="6.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <!-- Left / right arcs kept apart so round caps do not fuse into a closed ring -->
-    <path d="M26.5 15A17 17 0 0 0 26.5 49"/>
-    <path d="M37.5 15A17 17 0 0 1 37.5 49"/>
-    <path d="M23 32h18"/>
-  </g>
+    stroke-width="7.5"
+  />
 </svg>

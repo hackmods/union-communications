@@ -1,10 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UnionOps UO concept">
-  <title>UnionOps — UO monogram (alternate)</title>
-  <desc>Geometric UO monogram — alternate lettermark concept.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UnionOps UO">
+  <title>UnionOps — UO monogram</title>
   <rect width="64" height="64" rx="14" fill="#C2410C"/>
   <path
     fill="#FFFFFF"
-    d="M9 13h6.5v20c0 3.8 2.4 6.2 6 6.2s6-2.4 6-6.2V13H34v20c0 8.1-5.4 13.5-12.5 13.5S9 41.1 9 33V13z"
+    d="M11 14h7v19c0 3.8 2.5 6.2 6 6.2s6-2.4 6-6.2V14h7v19c0 8-5.4 13.5-13 13.5S11 41 11 33V14z"
   />
-  <circle cx="46" cy="32" r="11.75" fill="none" stroke="#FFFFFF" stroke-width="8.5"/>
+  <circle cx="47" cy="32" r="11.25" fill="none" stroke="#FFFFFF" stroke-width="7.5"/>
 </svg>
