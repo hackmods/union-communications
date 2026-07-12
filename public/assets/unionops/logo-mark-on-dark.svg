@@ -1,8 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UnionOps">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UnionOps">
   <title>UnionOps (on dark)</title>
+  <desc>Interlocking links — Solidarity mark for UnionOps on dark backgrounds.</desc>
   <rect width="64" height="64" rx="14" fill="#FFFFFF"/>
   <path
     fill="#C2410C"
-    d="M18 16c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v18.5c0 4.1 2.7 6.5 6 6.5s6-2.4 6-6.5V16c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v18.5c0 8.3-5.8 13.5-14 13.5s-14-5.2-14-13.5V16z"
+    fill-rule="evenodd"
+    d="
+      M24.5 12.5c-7.46 0-13.5 6.04-13.5 13.5v12c0 7.46 6.04 13.5 13.5 13.5h3.5v-7h-3.5c-3.58 0-6.5-2.92-6.5-6.5v-12c0-3.58 2.92-6.5 6.5-6.5h11c3.58 0 6.5 2.92 6.5 6.5v3.5h7V26c0-7.46-6.04-13.5-13.5-13.5h-11z
+      M36 24.5c-3.58 0-6.5 2.92-6.5 6.5v3.5h-7V31c0-7.46 6.04-13.5 13.5-13.5h11c7.46 0 13.5 6.04 13.5 13.5v8c0 7.46-6.04 13.5-13.5 13.5h-11c-7.46 0-13.5-6.04-13.5-13.5v-3.5h7v3.5c0 3.58 2.92 6.5 6.5 6.5h11c3.58 0 6.5-2.92 6.5-6.5v-8c0-3.58-2.92-6.5-6.5-6.5H36z
+    "
   />
 </svg>

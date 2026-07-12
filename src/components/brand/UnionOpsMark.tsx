@@ -3,8 +3,9 @@
 import { cn } from "@/lib/utils";
 import { BRAND_COLORS } from "@/lib/constants/brand";
 
-const U_PATH =
-  "M18 16c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v18.5c0 4.1 2.7 6.5 6 6.5s6-2.4 6-6.5V16c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v18.5c0 8.3-5.8 13.5-14 13.5s-14-5.2-14-13.5V16z";
+/** Interlocking links — Solidarity / multi-union mark (single evenodd path). */
+const LINK_PATH =
+  "M24.5 12.5c-7.46 0-13.5 6.04-13.5 13.5v12c0 7.46 6.04 13.5 13.5 13.5h3.5v-7h-3.5c-3.58 0-6.5-2.92-6.5-6.5v-12c0-3.58 2.92-6.5 6.5-6.5h11c3.58 0 6.5 2.92 6.5 6.5v3.5h7V26c0-7.46-6.04-13.5-13.5-13.5h-11zM36 24.5c-3.58 0-6.5 2.92-6.5 6.5v3.5h-7V31c0-7.46 6.04-13.5 13.5-13.5h11c7.46 0 13.5 6.04 13.5 13.5v8c0 7.46-6.04 13.5-13.5 13.5h-11c-7.46 0-13.5-6.04-13.5-13.5v-3.5h7v3.5c0 3.58 2.92 6.5 6.5 6.5h11c3.58 0 6.5-2.92 6.5-6.5v-8c0-3.58-2.92-6.5-6.5-6.5H36z";
 
 const sizePx = {
   sm: 32,
@@ -16,12 +17,12 @@ interface UnionOpsMarkProps {
   primaryColor?: string;
   size?: "sm" | "md" | "lg";
   className?: string;
-  /** Invert: white tile + brand-coloured U (for dark / brand backgrounds) */
+  /** Invert: white tile + brand-coloured mark (for dark / brand backgrounds) */
   onDark?: boolean;
   title?: string;
 }
 
-/** Inline UnionOps “U” mark — square fill tracks Brand Kit primary. */
+/** Inline UnionOps mark — square fill tracks Brand Kit primary. */
 export function UnionOpsMark({
   primaryColor = BRAND_COLORS.primary,
   size = "sm",
@@ -45,7 +46,7 @@ export function UnionOpsMark({
     >
       <title>{title}</title>
       <rect width="64" height="64" rx="14" fill={tile} />
-      <path fill={glyph} d={U_PATH} />
+      <path fill={glyph} fillRule="evenodd" d={LINK_PATH} />
     </svg>
   );
 }

@@ -32,7 +32,7 @@ export interface UnionBranding {
 /**
  * Platform chrome orange — generic, not affiliated with any union brand.
  * Primary/accent meet WCAG AA (≥4.5:1) with white and light tinted backgrounds.
- * Bright #FF6B00 remains in UnionOps logo SVGs only.
+ * Bright #FF6B00 may appear in legacy assets; platform marks use #C2410C.
  */
 export const PLATFORM_UNION_ORANGE = {
   primary: "#C2410C",
