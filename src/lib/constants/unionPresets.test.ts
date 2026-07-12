@@ -11,7 +11,7 @@ import {
 } from "./unionPresets";
 
 describe("unionPresets", () => {
-  it("exports the six expected unions", () => {
+  it("exports the expected union presets including Other", () => {
     expect(UNION_PRESETS.map((p) => p.id)).toEqual([
       "opseu",
       "cupe",
@@ -19,6 +19,7 @@ describe("unionPresets", () => {
       "usw",
       "ona",
       "psac",
+      "other",
     ]);
   });
 
@@ -98,6 +99,26 @@ describe("unionPresets", () => {
     expect(getUnionPreset("opseu")?.defaultSlogans).toEqual([
       "Educate. Advocate. Organize.",
     ]);
+    expect(getUnionPreset("other")).toMatchObject({
+      name: "Other",
+      primaryColor: "#C2410C",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#9A3412",
+      logoText: "UO",
+      defaultSlogans: ["Solidarity."],
+    });
+  });
+
+  it("maps Other preset to UnionOps palette and mark", () => {
+    const fields = brandFieldsFromUnionPreset(getUnionPreset("other")!);
+    expect(fields.useOfficialLogo).toBe(false);
+    expect(fields.customLogoDataUrl).toBe(UNIONOPS_LOGOS.mark);
+    expect(fields.primaryColor).toBe("#C2410C");
+    expect(fields.secondaryColor).toBe("#FFFFFF");
+    expect(fields.accentColor).toBe("#9A3412");
+    expect(fields.logoText).toBe("UO");
+    expect(fields.unionPresetId).toBe("other");
+    expect(fields.local?.subText).toBe("Solidarity.");
   });
 
   it("falls back to UnionOps when logos are missing or empty", () => {

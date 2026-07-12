@@ -26,6 +26,10 @@ export interface UnionBranding {
   name: string;
   primaryColor: string;
   secondaryColor: string;
+  /** When set, used instead of deriving accent from primary */
+  accentColor?: string;
+  /** Header mark text; defaults to first 4 characters of name */
+  logoText?: string;
   defaultSlogans: string[];
   /** Optional; omitted or empty → UnionOps platform logos */
   logos?: UnionLogoPack;
@@ -166,6 +170,15 @@ export const UNION_PRESETS: UnionBranding[] = [
       mark: "/assets/unions/psac/logo-mark.svg",
     },
   },
+  {
+    id: "other",
+    name: "Other",
+    primaryColor: PLATFORM_UNION_ORANGE.primary,
+    secondaryColor: PLATFORM_UNION_ORANGE.secondary,
+    accentColor: PLATFORM_UNION_ORANGE.accent,
+    logoText: "UO",
+    defaultSlogans: ["Solidarity."],
+  },
 ];
 
 export function getUnionPreset(id: string): UnionBranding | undefined {
@@ -190,7 +203,8 @@ export function colorsFromUnionPreset(preset: UnionBranding): {
   return {
     primaryColor: preset.primaryColor,
     secondaryColor: preset.secondaryColor,
-    accentColor: deriveAccentFromPrimary(preset.primaryColor),
+    accentColor:
+      preset.accentColor ?? deriveAccentFromPrimary(preset.primaryColor),
   };
 }
 
@@ -203,7 +217,7 @@ export function brandFieldsFromUnionPreset(
 ): BrandKitPatch {
   const colors = colorsFromUnionPreset(preset);
   const logos = resolvePresetLogos(preset.logos);
-  const logoText = preset.name.slice(0, 4).toUpperCase();
+  const logoText = (preset.logoText ?? preset.name.slice(0, 4)).toUpperCase();
   const subText = preset.defaultSlogans[0] ?? "";
 
   if (logos.useOfficialPack) {
