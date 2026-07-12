@@ -728,6 +728,13 @@
     "import": "Import brand kit",
     "importSuccess": "Brand kit imported successfully",
     "importError": "Invalid brand kit file",
+    "unionPreset": {
+      "title": "Union preset",
+      "description": "Start from a common Canadian union colour palette. Colours are generic starters for local graphics — not official trademarked brands. You can fine-tune anything below.",
+      "label": "Union preset",
+      "placeholder": "Choose a union…",
+      "slogans": "Suggested slogans"
+    },
     "colors": {
       "primary": "Primary brand colour",
       "secondary": "Graphics accent"
@@ -804,6 +811,8 @@
     "primaryColor": "Primary colour",
     "accentColor": "Accent colour",
     "secondaryColor": "Secondary colour",
+    "unionPreset": "Union preset",
+    "unionPresetPlaceholder": "Choose a union…",
     "fillMode": "Background fill",
     "fillSolid": "Solid",
     "fillGradient": "Gradient",
@@ -825,7 +834,11 @@
     "message": "Main message",
     "date": "Date",
     "time": "Time",
-    "location": "Location"
+    "location": "Location",
+    "primaryColor": "Primary colour",
+    "accentColor": "Accent colour",
+    "unionPreset": "Union preset",
+    "unionPresetPlaceholder": "Choose a union…"
   },
   "altTextAssistant": {
     "title": "Alt-Text Assistant",

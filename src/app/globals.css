@@ -3,10 +3,10 @@
 :root {
   --background: #f8fafc;
   --foreground: #1a1a1a;
-  /* OPSEU Pantone 285 — official union brand */
-  --opseu-blue: #003da5;
-  --opseu-dark: #002868;
-  /* White — graphics accent on blue/dark backgrounds (replaces CAAT campaign yellow) */
+  /* Platform generic orange — not affiliated with any union trademark */
+  --opseu-blue: #ff6b00;
+  --opseu-dark: #c2410c;
+  /* White — graphics accent on brand-coloured backgrounds */
   --opseu-white: #ffffff;
   --brand-primary: var(--opseu-blue);
   --brand-secondary: var(--opseu-white);

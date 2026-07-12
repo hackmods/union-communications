@@ -728,6 +728,13 @@
     "import": "Importer la trousse de marque",
     "importSuccess": "Trousse de marque importée avec succès",
     "importError": "Fichier de trousse de marque invalide",
+    "unionPreset": {
+      "title": "Préréglage syndical",
+      "description": "Partez d'une palette courante de syndicats canadiens. Les couleurs sont des points de départ génériques pour vos graphiques locaux — pas des marques officielles. Vous pouvez tout ajuster ci-dessous.",
+      "label": "Préréglage syndical",
+      "placeholder": "Choisir un syndicat…",
+      "slogans": "Slogans suggérés"
+    },
     "colors": {
       "primary": "Couleur de marque principale",
       "secondary": "Accent graphique"
@@ -779,6 +786,8 @@
     "primaryColor": "Couleur primaire",
     "accentColor": "Couleur d'accent",
     "secondaryColor": "Couleur secondaire",
+    "unionPreset": "Préréglage syndical",
+    "unionPresetPlaceholder": "Choisir un syndicat…",
     "fillMode": "Remplissage du fond",
     "fillSolid": "Uni",
     "fillGradient": "Dégradé",
@@ -800,7 +809,11 @@
     "message": "Message principal",
     "date": "Date",
     "time": "Heure",
-    "location": "Lieu"
+    "location": "Lieu",
+    "primaryColor": "Couleur primaire",
+    "accentColor": "Couleur d'accent",
+    "unionPreset": "Préréglage syndical",
+    "unionPresetPlaceholder": "Choisir un syndicat…"
   },
   "altTextAssistant": {
     "title": "Assistant texte alt",

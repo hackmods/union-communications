@@ -1,13 +1,17 @@
 import { getDefaultBrandDefaults } from "@/lib/tenant/loader";
+import { PLATFORM_UNION_ORANGE } from "@/lib/constants/unionPresets";
 import { DEFAULT_LOCAL_NUMBER } from "@/lib/utils/local";
 
 const defaults = getDefaultBrandDefaults();
 
-/** Platform-neutral brand palette - sourced from active tenant config */
+/**
+ * Platform-neutral brand palette (generic bright orange).
+ * Tenant-specific colours (e.g. OPSEU) live in seed data and `UNION_PRESETS`.
+ */
 export const BRAND_COLORS = {
-  primary: defaults.primaryColor,
-  secondary: defaults.secondaryColor,
-  accent: defaults.accentColor,
+  primary: PLATFORM_UNION_ORANGE.primary,
+  secondary: PLATFORM_UNION_ORANGE.secondary,
+  accent: PLATFORM_UNION_ORANGE.accent,
   white: "#FFFFFF",
   black: "#1A1A1A",
   gray: "#6B7280",
@@ -80,7 +84,7 @@ export const DEFAULT_BRAND_KIT = {
   primaryColor: BRAND_COLORS.primary,
   secondaryColor: BRAND_COLORS.secondary,
   accentColor: BRAND_COLORS.accent,
-  // First visit shows LU in the header; onboarding/brand kit default to OPSEU
+  // First visit shows LU in the header; official lockup is opt-in via Brand Kit
   useOfficialLogo: false,
   officialLogoVariant: "lockup" as OfficialLogoVariant,
   logoText: "LU",

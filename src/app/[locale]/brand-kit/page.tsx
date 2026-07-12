@@ -7,8 +7,14 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { ThemePicker } from "@/components/tools/ThemePicker";
+import { UnionPresetSelect } from "@/components/tools/UnionPresetSelect";
 import { LogoSettings, brandKitPatchForLogoMode } from "@/components/brand/LogoSettings";
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
+import {
+  colorsFromUnionPreset,
+  getUnionPreset,
+  type UnionBranding,
+} from "@/lib/constants/unionPresets";
 import { resolveLocalNumber } from "@/lib/utils";
 
 export default function BrandKitPage() {
@@ -16,6 +22,13 @@ export default function BrandKitPage() {
   const { brandKit, setBrandKit, importBrandKit, resetBrandKit } = useBrandStore();
   const fileRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [unionPresetId, setUnionPresetId] = useState("");
+  const selectedPreset = getUnionPreset(unionPresetId);
+
+  const applyUnionPreset = (preset: UnionBranding) => {
+    setUnionPresetId(preset.id);
+    setBrandKit(colorsFromUnionPreset(preset));
+  };
 
   const handleExport = () => {
     const blob = new Blob([JSON.stringify(brandKit, null, 2)], {
@@ -54,6 +67,29 @@ export default function BrandKitPage() {
       <p className="mt-2 text-gray-600">{t("description")}</p>
 
       <Card className="mt-8 space-y-4">
+        <CardTitle>{t("unionPreset.title")}</CardTitle>
+        <p className="text-sm text-gray-600">{t("unionPreset.description")}</p>
+        <UnionPresetSelect
+          label={t("unionPreset.label")}
+          value={unionPresetId}
+          placeholder={t("unionPreset.placeholder")}
+          onSelect={applyUnionPreset}
+        />
+        {selectedPreset ? (
+          <div>
+            <p className="text-sm font-medium text-gray-700">
+              {t("unionPreset.slogans")}
+            </p>
+            <ul className="mt-1 list-inside list-disc text-sm text-gray-600">
+              {selectedPreset.defaultSlogans.map((slogan) => (
+                <li key={slogan}>{slogan}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+      </Card>
+
+      <Card className="mt-6 space-y-4">
         <CardTitle>Current settings</CardTitle>
         <Input
           label="Local number"

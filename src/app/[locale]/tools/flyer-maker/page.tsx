@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
@@ -9,11 +9,18 @@ import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { getExamplePost } from "@/lib/constants/examples";
+import {
+  colorsFromUnionPreset,
+  type UnionBranding,
+} from "@/lib/constants/unionPresets";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
+import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
+import { ContrastChecker } from "@/components/tools/ContrastChecker";
+import { UnionPresetSelect } from "@/components/tools/UnionPresetSelect";
 
 interface FlyerState {
   message: string;
@@ -32,6 +39,14 @@ function FlyerMakerPageContent() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const seedApplied = useRef(false);
+  const [unionPresetId, setUnionPresetId] = useState("");
+  const [swatchColors, setSwatchColors] = useState({
+    primary: brandKit.primaryColor,
+    accent: brandKit.accentColor,
+    secondary: brandKit.secondaryColor,
+  });
+
+  const brandColors = swatchColors;
 
   const initial: FlyerState = {
     message: "PICKET LINE - ALL MEMBERS WELCOME",
@@ -44,6 +59,22 @@ function FlyerMakerPageContent() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<FlyerState>(initial);
+
+  const applyUnionPreset = (preset: UnionBranding) => {
+    setUnionPresetId(preset.id);
+    const colors = colorsFromUnionPreset(preset);
+    setSwatchColors({
+      primary: colors.primaryColor,
+      accent: colors.accentColor,
+      secondary: colors.secondaryColor,
+    });
+    setState({
+      ...state,
+      primaryColor: colors.primaryColor,
+      accentColor: colors.secondaryColor,
+      message: (preset.defaultSlogans[0] ?? state.message).toUpperCase(),
+    });
+  };
 
   useEffect(() => {
     if (seedApplied.current) return;
@@ -90,6 +121,12 @@ function FlyerMakerPageContent() {
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <Card className="space-y-4">
+          <UnionPresetSelect
+            label={tf("unionPreset")}
+            value={unionPresetId}
+            placeholder={tf("unionPresetPlaceholder")}
+            onSelect={applyUnionPreset}
+          />
           <Textarea
             label={tf("message")}
             value={state.message}
@@ -111,6 +148,19 @@ function FlyerMakerPageContent() {
             value={state.location}
             onChange={(e) => setState({ ...state, location: e.target.value })}
           />
+          <BrandSwatchPicker
+            label={tf("primaryColor")}
+            value={state.primaryColor}
+            onChange={(c) => setState({ ...state, primaryColor: c })}
+            colors={brandColors}
+          />
+          <BrandSwatchPicker
+            label={tf("accentColor")}
+            value={state.accentColor}
+            onChange={(c) => setState({ ...state, accentColor: c })}
+            colors={brandColors}
+          />
+          <ContrastChecker foreground="#FFFFFF" background={state.primaryColor} />
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}
