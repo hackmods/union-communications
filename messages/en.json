@@ -1114,6 +1114,7 @@
     "signOut": "Sign out",
     "signIn": "Sign in",
     "signingIn": "Signing in...",
+    "sessionLoading": "Loading your hub…",
     "login": "Officer login",
     "loginSubtitle": "Sign in to access grievance tracking and local tools",
     "loginError": "Invalid email or password",

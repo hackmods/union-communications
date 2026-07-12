@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Card } from "@/components/ui/Card";
@@ -12,6 +12,7 @@ import { Link } from "@/i18n/navigation";
 export default function LoginPage() {
   const t = useTranslations("hub");
   const router = useRouter();
+  const { update } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -28,14 +29,18 @@ export default function LoginPage() {
       redirect: false,
     });
 
-    setLoading(false);
-
     if (result?.error) {
       setError(t("loginError"));
+      setLoading(false);
       return;
     }
 
+    // Credentials sign-in with redirect:false sets the cookie but leaves
+    // SessionProvider on a stale unauthenticated session. Refetch before
+    // soft-navigating so the hub dashboard does not render blank.
+    await update();
     router.push("/app");
+    router.refresh();
   };
 
   return (

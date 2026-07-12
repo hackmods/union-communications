@@ -1089,6 +1089,7 @@
     "signOut": "Déconnexion",
     "signIn": "Connexion",
     "signingIn": "Connexion...",
+    "sessionLoading": "Chargement de votre hub…",
     "login": "Connexion dirigeant",
     "loginSubtitle": "Connectez-vous pour accéder aux outils confidentiels",
     "loginError": "Courriel ou mot de passe invalide",

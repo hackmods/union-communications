@@ -12,10 +12,11 @@ import { cn } from "@/lib/utils";
 import { Emoji } from "@/components/ui/Emoji";
 
 export function HubNav() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const t = useTranslations("hub");
 
-  if (!session?.user) return null;
+  // Login sits under /app; hide hub chrome until the session is ready.
+  if (status !== "authenticated" || !session?.user) return null;
 
   const tenant = session.user.unionId
     ? getTenantContext(session.user.unionId)

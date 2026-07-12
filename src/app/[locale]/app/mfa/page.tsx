@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
@@ -10,13 +10,25 @@ import { Button } from "@/components/ui/Button";
 
 export default function MfaPage() {
   const t = useTranslations("hub");
-  const { data: session, update } = useSession();
+  const { data: session, status, update } = useSession();
   const router = useRouter();
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  if (!session?.user) return null;
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/app/login");
+    }
+  }, [status, router]);
+
+  if (status === "loading" || !session?.user) {
+    return (
+      <p className="text-gray-600" aria-live="polite">
+        {t("sessionLoading")}
+      </p>
+    );
+  }
 
   if (session.user.mfaVerified) {
     return (

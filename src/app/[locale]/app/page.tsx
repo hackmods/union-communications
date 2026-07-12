@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { getVisibleModules } from "@/lib/modules/registry";
 import { canInitiateHandoff } from "@/lib/handoff/package";
@@ -12,10 +13,23 @@ import { Emoji } from "@/components/ui/Emoji";
 import type { HubModule, UserRole } from "@/types/tenant";
 
 export default function HubDashboardPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const t = useTranslations("hub");
+  const router = useRouter();
 
-  if (!session?.user) return null;
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/app/login");
+    }
+  }, [status, router]);
+
+  if (status === "loading" || !session?.user) {
+    return (
+      <p className="text-gray-600" aria-live="polite">
+        {t("sessionLoading")}
+      </p>
+    );
+  }
 
   const tenant = session.user.unionId
     ? getTenantContext(session.user.unionId)
