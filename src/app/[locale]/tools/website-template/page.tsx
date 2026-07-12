@@ -41,7 +41,7 @@ export default function WebsiteTemplatePage() {
   const [facebookUrl, setFacebookUrl] = useState("");
   const [facebookSeeded, setFacebookSeeded] = useState(false);
   const [officeAddress, setOfficeAddress] = useState(
-    "Union office address - edit before publishing",
+    "North Pole, Arctic Circle\n1 Santa Claus Lane\nH0H 0H0, Canada",
   );
   const [officers, setOfficers] = useState<WebsiteOfficer[]>(DEFAULT_WEBSITE_OFFICERS);
   const [downloading, setDownloading] = useState(false);

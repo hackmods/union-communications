@@ -1,10 +1,12 @@
 import type { WebsiteTemplateData } from "@/types/website-template";
 
-const OPSEU_HEADER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" role="img" aria-label="OPSEU SEFPO">
-  <rect width="400" height="80" fill="#003DA5"/>
+function buildOpseuHeaderSvg(primaryColor: string): string {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" role="img" aria-label="OPSEU SEFPO">
+  <rect width="400" height="80" fill="${primaryColor}"/>
   <text x="200" y="38" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold">OPSEU / SEFPO</text>
   <text x="200" y="62" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="14" opacity="0.85">Ontario Public Service Employees Union</text>
 </svg>`;
+}
 
 function escapeHtml(text: string): string {
   return text
@@ -32,12 +34,22 @@ function buildAboutHtml(about1: string, about2: string): string {
   return parts.map((p) => `            <p class="mb-5 text-left">${escapeHtml(p)}</p>`).join("\n");
 }
 
+function buildOfficeAddressHtml(unionName: string, officeAddress: string): string {
+  const lines = officeAddress.split(/\n/).map((line) => line.trim()).filter(Boolean);
+  if (!lines.length) return "";
+  return `        <ul class="office-address-list">
+          <li><strong>${escapeHtml(unionName)}</strong></li>
+${lines.map((line) => `          <li>${escapeHtml(line)}</li>`).join("\n")}
+        </ul>`;
+}
+
 export function buildWebsiteHtml(data: WebsiteTemplateData): string {
   const officersHtml = buildOfficersHtml(data.officers);
   const aboutHtml = buildAboutHtml(data.about1, data.about2);
   const facebookBlock = data.facebookUrl.trim()
     ? `          <li><a href="${escapeHtml(data.facebookUrl)}" target="_blank" rel="noopener noreferrer">Facebook group</a></li>`
     : "";
+  const officeAddressHtml = buildOfficeAddressHtml(data.unionName, data.officeAddress);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -105,17 +117,34 @@ ${officersHtml}
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-col">
+        <h3>Union Office</h3>
+${officeAddressHtml}
         <h3>Contact</h3>
         <ul>
-          <li><a href="mailto:${escapeHtml(data.contactEmail)}">${escapeHtml(data.contactEmail)}</a></li>
 ${facebookBlock}
+          <li><a href="mailto:${escapeHtml(data.contactEmail)}">${escapeHtml(data.contactEmail)}</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h3>Resources</h3>
+        <h3>Union Resources</h3>
         <ul>
+          <li><a href="https://opseu.org" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO</a></li>
           <li><a href="https://members.opseu.org/" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO Member Portal</a></li>
-          <li><a href="https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/" target="_blank" rel="noopener noreferrer">Collective Agreements</a></li>
+          <li><a href="https://opseu.org/about-opseu-sefpo/forms-documents/" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO Forms and Documents</a></li>
+          <li><a href="https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO Collective Agreements</a></li>
+          <li><a href="https://opseu.org/contact/" target="_blank" rel="noopener noreferrer">OPSEU Head Office</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Rights &amp; Partners</h3>
+        <ul>
+          <li><a href="https://www.ontario.ca/document/your-guide-employment-standards-act-0" target="_blank" rel="noopener noreferrer">Employment Standards Act Guide</a></li>
+          <li><a href="https://www.ontario.ca/laws/statute/90h19" target="_blank" rel="noopener noreferrer">Ontario Human Rights Code</a></li>
+          <li><a href="https://www.ontario.ca/laws/statute/90o01" target="_blank" rel="noopener noreferrer">Occupational Health &amp; Safety</a></li>
+          <li><a href="https://www.wsib.ca/en" target="_blank" rel="noopener noreferrer">WSIB - Ontario</a></li>
+          <li><a href="https://ofl.ca" target="_blank" rel="noopener noreferrer">Ontario Federation of Labour</a></li>
+          <li><a href="https://nupge.ca/" target="_blank" rel="noopener noreferrer">NUPGE</a></li>
+          <li><a href="https://canadianlabour.ca/" target="_blank" rel="noopener noreferrer">Canadian Labour Congress</a></li>
         </ul>
       </div>
     </div>
@@ -167,7 +196,7 @@ h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 1rem; }
 .mb-5 { margin-bottom: var(--spacing-5); }
 
 .site-header {
-  background: #003DA5;
+  background: var(--color-primary);
   padding: var(--spacing-3) var(--spacing-4);
 }
 
@@ -303,7 +332,7 @@ h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 1rem; }
 .office-address { margin-top: var(--spacing-3); }
 
 .footer {
-  background: var(--color-dark);
+  background: var(--color-primary);
   color: var(--color-white);
   padding: var(--spacing-5) var(--spacing-4);
 }
@@ -317,9 +346,13 @@ h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 1rem; }
 }
 
 .footer-col { flex: 1; min-width: 200px; }
-.footer-col h3 { color: var(--color-white); }
-.footer-col ul { list-style: none; padding: 0; }
-.footer-col a { color: #ccc; }
+.footer-col h3 { color: var(--color-white); margin-top: var(--spacing-4); }
+.footer-col h3:first-child { margin-top: 0; }
+.footer-col ul { list-style: none; padding: 0; margin: 0 0 var(--spacing-3); }
+.footer-col li { margin-bottom: 0.5rem; }
+.footer-col a { color: rgba(255, 255, 255, 0.85); }
+.footer-col a:hover { color: var(--color-white); }
+.office-address-list { margin-bottom: var(--spacing-3); }
 
 .copyright {
   text-align: center;
@@ -380,8 +413,8 @@ This is a static site - no database, no hosting fees. Contact links use mailto: 
 `;
 }
 
-export function getOpseuHeaderSvg(): string {
-  return OPSEU_HEADER_SVG;
+export function getOpseuHeaderSvg(primaryColor = "#003DA5"): string {
+  return buildOpseuHeaderSvg(primaryColor);
 }
 
 export async function generateWebsiteZip(
@@ -393,7 +426,7 @@ export async function generateWebsiteZip(
   zip.file("index.html", buildWebsiteHtml(data));
   zip.file("css/style.css", buildWebsiteCss(data.primaryColor, data.secondaryColor));
   zip.file("js/site.js", buildWebsiteJs());
-  zip.file("assets/opseu-header.svg", getOpseuHeaderSvg());
+  zip.file("assets/opseu-header.svg", getOpseuHeaderSvg(data.primaryColor));
   zip.file("README.md", buildWebsiteReadme(data.localNumber));
   zip.file(
     "CNAME.example",
@@ -407,7 +440,7 @@ export function buildPreviewHtml(data: WebsiteTemplateData): string {
   const css = buildWebsiteCss(data.primaryColor, data.secondaryColor);
   const body = buildWebsiteHtml(data)
     .replace('<link rel="stylesheet" href="./css/style.css">', `<style>${css}</style>`)
-    .replace('src="./assets/opseu-header.svg"', `src="data:image/svg+xml,${encodeURIComponent(getOpseuHeaderSvg())}"`)
+    .replace('src="./assets/opseu-header.svg"', `src="data:image/svg+xml,${encodeURIComponent(getOpseuHeaderSvg(data.primaryColor))}"`)
     .replace('<script src="./js/site.js"></script>', "");
   return body;
 }

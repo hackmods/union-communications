@@ -15,7 +15,7 @@ const sampleData: WebsiteTemplateData = {
   about2: "About paragraph two.",
   contactEmail: "local243@example.com",
   facebookUrl: "https://facebook.com/groups/example",
-  officeAddress: "Room S206",
+  officeAddress: "North Pole, Arctic Circle\n1 Santa Claus Lane\nH0H 0H0, Canada",
   primaryColor: "#003DA5",
   secondaryColor: "#FFFFFF",
   officers: [
@@ -30,6 +30,11 @@ describe("generate-website-zip", () => {
     expect(html).toContain("OPSEU SEFPO Local 243");
     expect(html).toContain("Jane Doe");
     expect(html).toContain("mailto:local243@example.com");
+    expect(html).toContain("Rights &amp; Partners");
+    expect(html).toContain("Ontario Human Rights Code");
+    expect(html).toContain("Union Resources");
+    expect(html).toContain('href="https://opseu.org"');
+    expect(html).toContain("North Pole, Arctic Circle");
   });
 
   it("escapes HTML in user content", () => {
@@ -45,6 +50,8 @@ describe("generate-website-zip", () => {
     const css = buildWebsiteCss("#003DA5", "#FFFFFF");
     expect(css).toContain("--color-primary: #003DA5");
     expect(css).toContain("--color-secondary: #FFFFFF");
+    expect(css).toContain(".site-header {\n  background: var(--color-primary);");
+    expect(css).toContain(".footer {\n  background: var(--color-primary);");
   });
 
   it("builds preview HTML with inline styles", () => {
@@ -53,9 +60,9 @@ describe("generate-website-zip", () => {
     expect(preview).not.toContain('href="./css/style.css"');
   });
 
-  it("exports OPSEU header SVG", () => {
-    const svg = getOpseuHeaderSvg();
+  it("exports OPSEU header SVG with brand colour", () => {
+    const svg = getOpseuHeaderSvg("#C8102E");
     expect(svg).toContain("OPSEU / SEFPO");
-    expect(svg).toContain("#003DA5");
+    expect(svg).toContain('fill="#C8102E"');
   });
 });
