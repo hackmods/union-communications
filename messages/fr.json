@@ -62,11 +62,19 @@
   },
   "logoBuilder": {
     "title": "Créateur de logo local",
-    "description": "Définissez les couleurs, les détails de la section et le logo. Enregistrez dans la trousse de marque pour les appliquer au site et aux autres outils.",
+    "description": "Définissez les couleurs, les détails de la section, la forme et le logo. Exportez en cercle, carré ou rectangle pour les avatars, profils sociaux et bannières. Enregistrez dans la trousse de marque pour appliquer couleurs et détails au site.",
     "localNumber": "Numéro de section",
     "subText": "Sous-texte",
+    "shape": "Forme",
+    "shapeCircle": "Cercle",
+    "shapeSquare": "Carré",
+    "shapeRectangle": "Rectangle",
+    "shapeCircleHint": "Idéal pour les photos de profil et les avatars",
+    "shapeSquareHint": "Idéal pour les profils sociaux et les icônes",
+    "shapeRectangleHint": "Idéal pour les bannières, signatures courriel et en-têtes",
     "save": "Enregistrer dans la trousse de marque",
-    "saveSuccess": "Enregistré. Les couleurs du site et la trousse de marque utilisent maintenant cette palette et ces détails."
+    "saveSuccess": "Enregistré. Les couleurs du site et la trousse de marque utilisent maintenant cette palette et ces détails.",
+    "exportError": "Impossible d'exporter le logo. Réessayez, ou changez de navigateur si le problème continue."
   },
   "home": {
     "title": "UnionOps: La boîte à outils pour les sections locales",

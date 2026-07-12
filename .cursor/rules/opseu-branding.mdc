@@ -25,7 +25,7 @@ Source: [OPSEU graphics & letterhead templates](https://opseu.org/information/op
 ## Logo sources
 1. **Official pack** — `public/assets/caat-opseu/logo-primary.png` via `DEFAULT_ASSET_PACK_PATH` (default OPSEU/SEFPO lockup, Pantone 285)
 2. **Custom upload** — PNG, JPEG, WebP, or SVG stored as `customLogoDataUrl` in `BrandKit` (localStorage via `DataAdapter`)
-3. **Platform UnionOps mark** — interlocking lowercase **u** + **o**. Live chrome uses the monochrome PNG (`public/assets/unionops/logo-mark-interlock.png`) via CSS mask in `UnionOpsMark`: **primary** plate + **graphics accent** glyph; `onDark` / Brand Kit dark preview swaps the back plate to **white** and the glyph to primary. SVG fallbacks remain under `public/assets/unionops/*.svg`. Source rasters: `public/assets/unionops/source/`.
+3. **Platform UnionOps mark** — interlocking lowercase **u** + **o**. Live chrome uses inline SVG in `UnionOpsMark`: **primary** plate + **graphics accent** glyph; `onDark` / Brand Kit dark preview swaps the back plate to **white** and the glyph to primary. Static assets remain under `public/assets/unionops/*.svg` (and `logo-mark-interlock.png` for reference). Source rasters: `public/assets/unionops/source/`.
 
 Use `BrandLogo` for display; use `LogoSettings` for the official/custom toggle + upload UI. Favicon: `src/app/icon.png`. Twitter/OG: `src/app/opengraph-image.tsx` / `twitter-image.tsx`.
 

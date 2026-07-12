@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng, exportNodeAsSvg } from "@/lib/export/image-export";
-import { formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { deriveAccentFromPrimary, getUnionPreset, resolvePresetLogos } from "@/lib/constants/unionPresets";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -18,12 +18,17 @@ import {
 } from "@/components/brand/LogoSettings";
 import { useTranslations } from "next-intl";
 
+export type LogoShape = "circle" | "square" | "rectangle";
+
 interface LogoState {
   localNumber: string;
   subText: string;
   primaryColor: string;
   secondaryColor: string;
+  shape: LogoShape;
 }
+
+const SHAPES: LogoShape[] = ["circle", "square", "rectangle"];
 
 export default function LogoBuilderPage() {
   const t = useTranslations("common");
@@ -33,6 +38,7 @@ export default function LogoBuilderPage() {
   const setBrandKit = useBrandStore((s) => s.setBrandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [exportError, setExportError] = useState<string | null>(null);
   const presetLogos = brandKit.unionPresetId
     ? resolvePresetLogos(getUnionPreset(brandKit.unionPresetId)?.logos)
     : null;
@@ -42,6 +48,7 @@ export default function LogoBuilderPage() {
     subText: brandKit.local.subText || "Support Staff",
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
+    shape: "circle",
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -63,20 +70,37 @@ export default function LogoBuilderPage() {
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
-    await exportNodeAsPng(
-      canvasRef.current,
-      formatFilename("local-logo", state.localNumber, "png"),
-      { pixelRatio: 3 },
-    );
+    setExportError(null);
+    try {
+      await exportNodeAsPng(
+        canvasRef.current,
+        formatFilename(`local-logo-${state.shape}`, state.localNumber, "png"),
+        {
+          pixelRatio: 3,
+          // Transparent so circle corners stay clear (white fill made PNGs look wrong vs SVG)
+          backgroundColor: null,
+        },
+      );
+    } catch {
+      setExportError(tBuilder("exportError"));
+    }
   };
 
   const handleExportSvg = async () => {
     if (!canvasRef.current) return;
-    await exportNodeAsSvg(
-      canvasRef.current,
-      formatFilename("local-logo", state.localNumber, "svg"),
-    );
+    setExportError(null);
+    try {
+      await exportNodeAsSvg(
+        canvasRef.current,
+        formatFilename(`local-logo-${state.shape}`, state.localNumber, "svg"),
+      );
+    } catch {
+      setExportError(tBuilder("exportError"));
+    }
   };
+
+  const isRectangle = state.shape === "rectangle";
+  const localLabel = `Local ${resolveLocalNumber(state.localNumber)}`;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -101,6 +125,48 @@ export default function LogoBuilderPage() {
             onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
             onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
           />
+
+          <div className="space-y-2">
+            <p className="text-sm font-medium text-opseu-dark">{tBuilder("shape")}</p>
+            <div
+              className="flex flex-wrap gap-2"
+              role="radiogroup"
+              aria-label={tBuilder("shape")}
+            >
+              {SHAPES.map((shape) => {
+                const selected = state.shape === shape;
+                return (
+                  <Button
+                    key={shape}
+                    type="button"
+                    size="sm"
+                    role="radio"
+                    aria-checked={selected}
+                    variant={selected ? "primary" : "outline"}
+                    onClick={() => setState({ ...state, shape })}
+                  >
+                    {tBuilder(
+                      shape === "circle"
+                        ? "shapeCircle"
+                        : shape === "square"
+                          ? "shapeSquare"
+                          : "shapeRectangle",
+                    )}
+                  </Button>
+                );
+              })}
+            </div>
+            <p className="text-sm text-gray-600">
+              {tBuilder(
+                state.shape === "circle"
+                  ? "shapeCircleHint"
+                  : state.shape === "square"
+                    ? "shapeSquareHint"
+                    : "shapeRectangleHint",
+              )}
+            </p>
+          </div>
+
           <div className="space-y-2 border-t border-gray-100 pt-4">
             <h2 className="font-semibold text-opseu-dark">{tLogo("title")}</h2>
             <p className="text-sm text-gray-600">{tLogo("description")}</p>
@@ -143,6 +209,11 @@ export default function LogoBuilderPage() {
               {saveMessage}
             </p>
           ) : null}
+          {exportError ? (
+            <p className="text-sm text-red-700" role="alert">
+              {exportError}
+            </p>
+          ) : null}
           <div className="flex flex-wrap gap-3">
             <Button onClick={handleSaveToBrandKit}>{tBuilder("save")}</Button>
             <Button variant="outline" onClick={handleExportPng}>
@@ -155,19 +226,55 @@ export default function LogoBuilderPage() {
         </Card>
 
         <div className="flex items-center justify-center">
+          {/* Shadow lives on the wrapper so it is not baked into exports */}
           <div
-            ref={canvasRef}
-            className="flex h-80 w-80 flex-col items-center justify-center rounded-full shadow-lg"
-            style={{ backgroundColor: state.primaryColor }}
+            className={cn(
+              "shadow-lg",
+              state.shape === "circle" && "rounded-full",
+            )}
           >
-            <BrandLogo size="lg" className="mb-2" onDark />
-            <p
-              className="text-4xl font-bold"
-              style={{ color: state.secondaryColor }}
+            <div
+              ref={canvasRef}
+              className={cn(
+                "flex items-center justify-center overflow-hidden",
+                state.shape === "circle" &&
+                  "h-80 w-80 flex-col rounded-full",
+                state.shape === "square" && "h-80 w-80 flex-col",
+                state.shape === "rectangle" &&
+                  "h-44 w-[28rem] max-w-full flex-row gap-5 px-8",
+              )}
+              style={{ backgroundColor: state.primaryColor }}
             >
-              Local {resolveLocalNumber(state.localNumber)}
-            </p>
-            <p className="mt-1 text-lg text-white">{state.subText}</p>
+              <BrandLogo
+                size={isRectangle ? "md" : "lg"}
+                className={isRectangle ? "shrink-0" : "mb-2"}
+                onDark
+              />
+              <div
+                className={cn(
+                  "text-center",
+                  isRectangle && "min-w-0 flex-1 text-left",
+                )}
+              >
+                <p
+                  className={cn(
+                    "font-bold",
+                    isRectangle ? "text-2xl leading-tight" : "text-4xl",
+                  )}
+                  style={{ color: state.secondaryColor }}
+                >
+                  {localLabel}
+                </p>
+                <p
+                  className={cn(
+                    "text-white",
+                    isRectangle ? "mt-0.5 text-base" : "mt-1 text-lg",
+                  )}
+                >
+                  {state.subText}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

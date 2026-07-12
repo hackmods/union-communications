@@ -17,7 +17,7 @@ Public-facing guides and image generation tools. v1 shipped as static export.
 - Display/export local number via `resolveLocalNumber()` from `@/lib/utils/local`
 - Brand state via `useBrandStore` / `DataAdapter`
 - Logo: `BrandLogo` for display; `LogoSettings` for official/custom upload (PNG/JPEG/WebP/SVG)
-- Platform UnionOps mark: interlocking u+o PNG (`logo-mark-interlock.png`) via CSS mask in `UnionOpsMark` — primary plate + accent glyph; `onDark` → white back
+- Platform UnionOps mark: interlocking u+o inline SVG in `UnionOpsMark` — primary plate + accent glyph; `onDark` → white back (inline SVG so PNG export works)
 - See `.cursor/rules/opseu-branding.mdc` for OPSEU/CAAT colour rationale
 - Solidarity board posters: `.cursor/rules/solidarity-posters.mdc` (`/tools/solidarity-poster`)
 - QR link cards: `/tools/qr-card` (client `qrDataUrl`, multi-size print)

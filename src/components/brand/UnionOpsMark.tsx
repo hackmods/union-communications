@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils";
 import { BRAND_COLORS } from "@/lib/constants/brand";
-import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
 
 const sizePx = {
   sm: 32,
@@ -25,8 +24,8 @@ interface UnionOpsMarkProps {
 }
 
 /**
- * UnionOps interlocking u+o mark — PNG base with CSS-mask colour overlay.
- * Asset: `UNIONOPS_LOGOS.markInterlock` (kept alongside the SVG set).
+ * UnionOps interlocking u+o mark — inline SVG so html-to-image PNG export
+ * captures brand colours (CSS mask-image does not survive canvas rasterization).
  */
 export function UnionOpsMark({
   primaryColor = BRAND_COLORS.primary,
@@ -46,27 +45,38 @@ export function UnionOpsMark({
       role="img"
       aria-label={title}
       title={title}
-      className={cn(
-        "inline-flex shrink-0 overflow-hidden rounded-[22%]",
-        className,
-      )}
-      style={{ width: px, height: px, backgroundColor: plate }}
+      className={cn("inline-flex shrink-0 overflow-hidden rounded-[22%]", className)}
+      style={{ width: px, height: px }}
     >
-      <span
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 64 64"
+        width={px}
+        height={px}
         aria-hidden
         className="block size-full"
-        style={{
-          backgroundColor: glyph,
-          WebkitMaskImage: `url(${UNIONOPS_LOGOS.markInterlock})`,
-          maskImage: `url(${UNIONOPS_LOGOS.markInterlock})`,
-          WebkitMaskSize: "78%",
-          maskSize: "78%",
-          WebkitMaskRepeat: "no-repeat",
-          maskRepeat: "no-repeat",
-          WebkitMaskPosition: "center",
-          maskPosition: "center",
-        }}
-      />
+      >
+        <rect width="64" height="64" rx="14" fill={plate} />
+        {/* O (behind) */}
+        <circle
+          cx="44"
+          cy="34"
+          r="14"
+          fill="none"
+          stroke={glyph}
+          strokeWidth="10"
+        />
+        {/* U (overlap) */}
+        <path
+          d="M12 14v20a14 14 0 0 0 28 0V14"
+          fill="none"
+          stroke={glyph}
+          strokeWidth="10"
+          strokeLinecap="butt"
+          strokeLinejoin="round"
+          opacity="0.88"
+        />
+      </svg>
     </span>
   );
 }

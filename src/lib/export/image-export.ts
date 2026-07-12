@@ -5,7 +5,35 @@ export type ExportFormat = "png" | "svg";
 
 export interface ExportOptions {
   pixelRatio?: number;
-  backgroundColor?: string;
+  /**
+   * Canvas fill behind the node. Omit / undefined → white (most graphics tools).
+   * Pass `null` for a transparent PNG (logos with rounded shapes).
+   */
+  backgroundColor?: string | null;
+}
+
+function pngOptions(options: ExportOptions) {
+  const opts: {
+    pixelRatio: number;
+    cacheBust: boolean;
+    backgroundColor?: string;
+  } = {
+    pixelRatio: options.pixelRatio ?? 2,
+    cacheBust: true,
+  };
+  if (options.backgroundColor !== null) {
+    opts.backgroundColor = options.backgroundColor ?? "#ffffff";
+  }
+  return opts;
+}
+
+async function downloadDataUrl(dataUrl: string, filename: string): Promise<void> {
+  if (!dataUrl || dataUrl === "data:,") {
+    throw new Error("Export produced an empty image");
+  }
+  const res = await fetch(dataUrl);
+  const blob = await res.blob();
+  saveAs(blob, filename);
 }
 
 export async function exportNodeAsPng(
@@ -13,15 +41,8 @@ export async function exportNodeAsPng(
   filename: string,
   options: ExportOptions = {},
 ): Promise<void> {
-  const dataUrl = await toPng(node, {
-    pixelRatio: options.pixelRatio ?? 2,
-    backgroundColor: options.backgroundColor ?? "#ffffff",
-    cacheBust: true,
-  });
-  const link = document.createElement("a");
-  link.download = filename;
-  link.href = dataUrl;
-  link.click();
+  const dataUrl = await toPng(node, pngOptions(options));
+  await downloadDataUrl(dataUrl, filename);
 }
 
 export async function exportNodeAsSvg(
@@ -29,10 +50,7 @@ export async function exportNodeAsSvg(
   filename: string,
 ): Promise<void> {
   const dataUrl = await toSvg(node, { cacheBust: true });
-  const link = document.createElement("a");
-  link.download = filename;
-  link.href = dataUrl;
-  link.click();
+  await downloadDataUrl(dataUrl, filename);
 }
 
 export async function exportNodeAsBlob(
@@ -40,10 +58,12 @@ export async function exportNodeAsBlob(
   options: ExportOptions = {},
 ): Promise<Blob> {
   const dataUrl = await toPng(node, {
+    ...pngOptions(options),
     pixelRatio: options.pixelRatio ?? 1,
-    backgroundColor: options.backgroundColor ?? "#ffffff",
-    cacheBust: true,
   });
+  if (!dataUrl || dataUrl === "data:,") {
+    throw new Error("Export produced an empty image");
+  }
   const res = await fetch(dataUrl);
   return res.blob();
 }

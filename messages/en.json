@@ -62,11 +62,19 @@
   },
   "logoBuilder": {
     "title": "Local Logo Builder",
-    "description": "Set colours, local details, and logo. Save to Brand Kit to apply them across the site and other tools.",
+    "description": "Set colours, local details, shape, and logo. Export circle, square, or rectangle for avatars, social profiles, and banners. Save to Brand Kit to apply colours and local details across the site.",
     "localNumber": "Local number",
     "subText": "Sub-text",
+    "shape": "Shape",
+    "shapeCircle": "Circle",
+    "shapeSquare": "Square",
+    "shapeRectangle": "Rectangle",
+    "shapeCircleHint": "Best for profile photos and avatars",
+    "shapeSquareHint": "Best for social profiles and app-style icons",
+    "shapeRectangleHint": "Best for banners, email signatures, and letterheads",
     "save": "Save to Brand Kit",
-    "saveSuccess": "Saved. Site colours and Brand Kit now use this palette and local details."
+    "saveSuccess": "Saved. Site colours and Brand Kit now use this palette and local details.",
+    "exportError": "Could not export the logo. Try again, or switch browser if the problem continues."
   },
   "home": {
     "title": "UnionOps: The Toolkit for Local Unions",
