@@ -59,6 +59,13 @@ export default async function ManifestoPage({
         <p className="text-2xl font-bold text-opseu-blue">{t("slogan")}</p>
       </div>
 
+      <p className="mt-10 text-base text-gray-600">
+        {t("supportLead")}{" "}
+        <Link href="/support" className="font-semibold text-opseu-blue hover:underline">
+          {t("supportLink")}
+        </Link>
+      </p>
+
       <p className="mt-12">
         <Link href="/" className="font-semibold text-opseu-blue hover:underline">
           {t("backHome")}

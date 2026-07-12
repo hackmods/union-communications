@@ -31,6 +31,7 @@
     "websiteGuide": "Website Guide",
     "materials": "Workshop Materials",
     "manifesto": "Why it's free",
+    "support": "Support",
     "privacy": "Privacy",
     "accessibility": "Accessibility"
   },
@@ -1030,6 +1031,18 @@
     "noAdsBody": "We aren't selling your attention.",
     "closing": "UnionOps is built by union volunteers who wanted a solid tool for people doing the hard work on the ground.",
     "slogan": "Solidarity.",
+    "supportLead": "If the tools helped and you want to chip in for coffee or hosting,",
+    "supportLink": "there’s a quiet Support page.",
+    "backHome": "← Back to UnionOps"
+  },
+  "supportPage": {
+    "title": "Support the builder",
+    "p1": "UnionOps stays free — no subscriptions, no paywalls, no ads. That’s the promise on the manifesto page.",
+    "p2": "Hosting, domains, and spare evenings still cost something. If this hub saved you time and you’d like to tip the steward who built it, you can buy Ryan a coffee. Totally optional. Never required.",
+    "p3": "Locals keep using the tools either way. Solidarity isn’t a checkout flow.",
+    "cta": "Buy me a coffee",
+    "ctaHint": "Opens buymeacoffee.com in a new tab.",
+    "toManifesto": "Why it’s free →",
     "backHome": "← Back to UnionOps"
   },
   "footer": {

@@ -33,6 +33,12 @@ export function Footer() {
           <Link href="/accessibility" className="hover:text-opseu-blue">
             {nav("accessibility")}
           </Link>
+          <Link
+            href="/support"
+            className="text-gray-400 hover:text-opseu-blue"
+          >
+            {nav("support")}
+          </Link>
         </nav>
       </div>
     </footer>

@@ -177,6 +177,14 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("heading", { name: "Privacy Policy" })).toBeVisible();
   });
 
+  test("support page renders", async ({ page }) => {
+    await page.goto("/en/support/");
+    await expect(page.getByRole("heading", { name: "Support the builder" })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Buy me a coffee" }),
+    ).toHaveAttribute("href", "https://buymeacoffee.com/ryanmorris");
+  });
+
   test("unauthenticated hub redirects to login", async ({ page }) => {
     await page.goto("/en/app");
     await expect(page).toHaveURL(/\/en\/app\/login/);
