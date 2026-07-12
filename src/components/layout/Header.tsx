@@ -8,12 +8,22 @@ import { DisplaySettingsMenu } from "./DisplaySettingsMenu";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { cn } from "@/lib/utils";
 
-const learnLinks = [
-  { href: "/guide", key: "guide" },
-  { href: "/guide/materials", key: "materials" },
-  { href: "/examples", key: "socialExamples" },
-  { href: "/captions", key: "captions" },
-  { href: "/guide/crisis", key: "strikeGuide" },
+const learnGroups = [
+  {
+    labelKey: "learnGroupGuides" as const,
+    links: [
+      { href: "/guide/resources", key: "resources" as const },
+      { href: "/guide", key: "guide" as const },
+      { href: "/guide/crisis", key: "strikeGuide" as const },
+    ],
+  },
+  {
+    labelKey: "learnGroupLibraries" as const,
+    links: [
+      { href: "/examples", key: "socialExamples" as const },
+      { href: "/captions", key: "captions" as const },
+    ],
+  },
 ] as const;
 
 const toolLinks = [
@@ -29,7 +39,9 @@ const toolLinks = [
   { href: "/tools/alt-text", key: "altText" },
 ] as const;
 
-const learnHrefs: Set<string> = new Set(learnLinks.map((l) => l.href));
+const learnHrefs: Set<string> = new Set(
+  learnGroups.flatMap((g) => g.links.map((l) => l.href)),
+);
 
 function linkActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -128,23 +140,32 @@ export function Header() {
                 role="menu"
                 className="absolute left-0 z-50 mt-1 min-w-[220px] rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
               >
-                {learnLinks.map(({ href, key }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    role="menuitem"
-                    onClick={() => {
-                      // Close after Link has handled the click - sync close unmounts and aborts navigation
-                      requestAnimationFrame(() => setMenu(null));
-                    }}
-                    className={cn(
-                      "block px-3 py-2 hover:bg-opseu-blue/5",
-                      pathname === href &&
-                        "bg-opseu-blue/10 font-semibold text-opseu-dark",
-                    )}
+                {learnGroups.map((group, groupIndex) => (
+                  <div
+                    key={group.labelKey}
+                    className={cn(groupIndex > 0 && "mt-1 border-t border-gray-100 pt-1")}
                   >
-                    {t(key)}
-                  </Link>
+                    <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                      {t(group.labelKey)}
+                    </p>
+                    {group.links.map(({ href, key }) => (
+                      <Link
+                        key={href}
+                        href={href}
+                        role="menuitem"
+                        onClick={() => {
+                          requestAnimationFrame(() => setMenu(null));
+                        }}
+                        className={cn(
+                          "block px-3 py-2 hover:bg-opseu-blue/5",
+                          pathname === href &&
+                            "bg-opseu-blue/10 font-semibold text-opseu-dark",
+                        )}
+                      >
+                        {t(key)}
+                      </Link>
+                    ))}
+                  </div>
                 ))}
               </div>
             ) : null}

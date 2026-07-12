@@ -29,7 +29,9 @@
     "unionBoardsGuide": "Guide tableaux syndicaux",
     "printGuide": "Guide impression",
     "websiteGuide": "Guide site Web",
-    "materials": "Matériel d'atelier",
+    "resources": "Ressources de communication",
+    "learnGroupGuides": "Guides",
+    "learnGroupLibraries": "Bibliothèques",
     "manifesto": "Pourquoi c'est gratuit",
     "support": "Soutien",
     "privacy": "Confidentialité",
@@ -105,8 +107,12 @@
   },
   "socialMediaPlan": {
     "title": "Plan médias sociaux",
-    "subtitle": "Feuille de route rapide pour les sections qui débutent ou améliorent leurs communications",
-    "intro": "Suivez ces quatre étapes dans l'ordre. Chacune s'appuie sur la précédente - la marque d'abord, puis rejoindre les membres là où ils sont : au tableau, sur les réseaux et en ligne.",
+    "subtitle": "Faites ces quatre étapes dans l'ordre - la feuille de route opérationnelle pour bâtir vos communications",
+    "intro": "Ceci est le parcours d'action : la marque d'abord, puis rejoindre les membres au tableau, sur les réseaux et en ligne. Pour les pratiques (ton, plateformes, trolls), utilisez le Plan directeur. Pour une vue d'ensemble du centre, une liste de pratique et les sources, voir Ressources de communication.",
+    "pathLinks": {
+      "resources": "Ressources de communication - orientation, liste de pratique, sources",
+      "blueprint": "Le Plan directeur - ton, plateformes et habitudes de publication"
+    },
     "steps": {
       "logo": {
         "title": "1. Créer un logo",
@@ -158,8 +164,14 @@
   },
   "guide": {
     "title": "Le Plan directeur",
-    "subtitle": "Manuel étape par étape pour démarrer et gérer les médias sociaux de votre section.",
-    "socialMediaPlanLink": "Nouveau en communications? Commencez par le plan médias sociaux →",
+    "subtitle": "Un manuel pour la pratique continue des communications locales - plateformes, ton, rythme et accessibilité.",
+    "intro": "Utilisez ce guide une fois la marque en place et un premier message en circulation. Nouveau au centre? Commencez par le plan médias sociaux. Besoin de la carte, de la liste de pratique ou des sources? Ouvrez Ressources de communication.",
+    "path": {
+      "title": "Parcours connexes",
+      "plan": "Commencer - Plan médias sociaux (les quatre étapes)",
+      "resources": "Ressources de communication - orientation, pratique, sources",
+      "crisis": "Guide de grève - communications de négociation et de grève"
+    },
     "chapters": {
       "platforms": {
         "title": "Quelles plateformes choisir",
@@ -650,20 +662,47 @@
       "platform": "Plateformes et hébergement"
     }
   },
-  "materials": {
-    "title": "Matériel d'atelier",
-    "subtitle": "Tout ce dont vous avez besoin pour la session du 18 août et les communications continues de la section",
-    "session": {
-      "title": "Session du 18 août - La boîte à outils en 60 minutes",
-      "when": "18 août, 12 h à 13 h",
-      "format": "Présentation, démonstration en direct et atelier pratique - les participants repartent avec logo, avis pour tableau, graphique social et ZIP du site Web.",
+  "resources": {
+    "title": "Ressources de communication",
+    "subtitle": "Orientation, pratique et sources pour les sections qui bâtissent des communications solidaires",
+    "intro": "Cette page explique le rôle du centre, permet de pratiquer les outils essentiels et regroupe les guides par canal. Utilisez-la à votre rythme avec votre section, ou comme atelier pour les dirigeants et communicateurs bénévoles.",
+    "purpose": {
+      "title": "À quoi sert ce centre",
+      "body": "Les communications centrales sont souvent sous-ressourcées. Les sections ont quand même besoin de communications professionnelles maintenant - sur les réseaux, en impression, sur les tableaux au travail et sur un site simple. Un message, quatre endroits, marque d'abord.",
+      "pillars": [
+        "Quatre canaux : réseaux, impression, tableaux syndicaux et site Web",
+        "Trousse de marque d'abord pour que chaque graphique et avis ressemble à votre section",
+        "Les outils de communication tournent sur votre appareil - pas de compte ni de suivi pour les outils publics",
+        "Conçu pour toute section ou groupe syndical qui apprend les pratiques de communication"
+      ],
       "cta": "Commencer le plan médias sociaux"
     },
+    "path": {
+      "title": "Comment apprendre ce centre",
+      "intro": "Choisissez un parcours selon ce dont vous avez besoin aujourd'hui.",
+      "links": {
+        "plan": "Plan médias sociaux",
+        "blueprint": "Le Plan directeur",
+        "boards": "Guide tableaux syndicaux",
+        "print": "Guide impression",
+        "website": "Guide site Web",
+        "crisis": "Guide de grève"
+      },
+      "blurb": {
+        "plan": "Faites les quatre étapes dans l'ordre - logo, tableaux, réseaux, site.",
+        "blueprint": "Pratique continue : plateformes, ton, fréquence, trolls, texte alt.",
+        "boards": "Tableaux minimaux au travail et quoi imprimer.",
+        "print": "Affiches et habitudes d'impression pour réunions et actions.",
+        "website": "Publier un site local simple sur GitHub Pages.",
+        "crisis": "Communications de négociation et de grève à enjeux élevés."
+      }
+    },
     "checklist": {
-      "title": "Liste de contrôle des participants",
+      "title": "Liste de pratique",
+      "intro": "Complétez ces étapes une fois - à votre rythme ou en atelier - pour produire de vrais matériaux.",
       "items": [
-        "Importer la trousse de marque de démo ou compléter l'intégration",
-        "Exporter le logo circulaire local (PNG)",
+        "Importer la trousse de marque de démo ou compléter l'intégration de votre section",
+        "Exporter un logo circulaire local (PNG)",
         "Créer et télécharger un avis pour tableau (PDF)",
         "Créer un graphique social avec le Créateur graphique",
         "Télécharger le ZIP du site Web et lire le README inclus"
@@ -671,18 +710,29 @@
     },
     "demoKit": {
       "title": "Trousse de marque de démo",
-      "description": "Paramètres de marque préremplis pour la section 243. Importer sur la page Trousse de marque.",
+      "description": "Paramètres de marque d'exemple pour essayer les outils avant de finaliser votre propre trousse. Importer sur la page Trousse de marque.",
       "download": "Télécharger la trousse de marque JSON de démo"
     },
-    "quickLinks": {
-      "title": "Liens rapides de la session",
+    "explore": {
+      "title": "Explorer le centre",
       "cta": "Plan médias sociaux",
       "onboarding": "Assistant de configuration de marque",
       "logo": "Créateur de logo",
       "board": "Avis pour tableau syndical",
       "graphic": "Créateur graphique",
       "website": "Modèle de site Web",
-      "crisis": "Guide de communications de crise"
+      "crisis": "Guide de grève"
+    },
+    "facilitators": {
+      "title": "Animer un atelier",
+      "body": "Session réutilisable de 60 minutes pour dirigeants et communicateurs bénévoles. Les participants repartent avec un logo, un avis pour tableau, un graphique social et un ZIP de site - et comprennent la feuille de route à quatre canaux.",
+      "outline": [
+        "Présentation (environ 8 min) : problème, boîte à outils, quatre canaux",
+        "Démonstration en direct (environ 10 min) : étapes du plan médias sociaux",
+        "Pratique (environ 30 min) : liste ci-dessus",
+        "Déploiement et questions (environ 10 min) : README du ZIP, rétroaction"
+      ],
+      "note": "Les feuilles de route datées pour animateurs restent dans la documentation du projet. Cette page est le guide public durable."
     },
     "builtFrom": {
       "title": "De quoi est faite cette boîte à outils",

@@ -11,6 +11,12 @@ const chapterKeys = [
   "accessibility",
 ] as const;
 
+const pathLinks = [
+  { href: "/guide/social-media-plan", key: "plan" as const },
+  { href: "/guide/resources", key: "resources" as const },
+  { href: "/guide/crisis", key: "crisis" as const },
+];
+
 export default async function GuidePage({
   params,
 }: {
@@ -27,14 +33,22 @@ export default async function GuidePage({
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 text-lg text-gray-600">{t("subtitle")}</p>
+      <p className="mt-4 leading-relaxed text-gray-700">{t("intro")}</p>
 
       <Card className="mt-6 border-opseu-blue/20 bg-opseu-blue/5">
-        <Link
-          href="/guide/social-media-plan"
-          className="text-sm font-medium text-opseu-blue underline"
-        >
-          {t("socialMediaPlanLink")}
-        </Link>
+        <CardTitle>{t("path.title")}</CardTitle>
+        <ul className="mt-3 space-y-2">
+          {pathLinks.map(({ href, key }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                className="text-sm font-medium text-opseu-blue underline"
+              >
+                {t(`path.${key}`)}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </Card>
 
       <Card className="mt-6 border-opseu-blue/20 bg-opseu-blue/5">

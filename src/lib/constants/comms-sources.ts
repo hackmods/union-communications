@@ -141,7 +141,7 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
   assets: ["opseu-branding"],
   websiteTemplate: ["local243-website", "github-pages", "opseu-branding"],
   boardNotice: ["opseu-branding"],
-  materials: Object.keys(COMMS_SOURCES),
+  resources: Object.keys(COMMS_SOURCES),
 };
 
 export function getSourcesForPage(pageId: string): CommsSource[] {

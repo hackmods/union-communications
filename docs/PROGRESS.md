@@ -142,6 +142,8 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 
 ## Comms Toolbox Aug 18 Expansion (2026-07-10) — COMPLETE
 
+(Historical) Workshop hub shipped at `/guide/materials`. Later reworked into **Comms Resources** at `/guide/resources` (2026-07-12); legacy URL redirects.
+
 - [x] Social Media Plan roadmap at `/guide/social-media-plan`
 - [x] Home page restructured by four channels (social, print, union boards, website)
 - [x] Board Notice Maker — letter + tabloid PNG/PDF export
@@ -152,10 +154,15 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Demo Brand Kit seed at `public/demo/brand-kit-local-243.json`
 - [x] Facilitator script at `docs/workshop/aug-18-comms-toolbox.md`
 - [x] COMMS.md updated for four-channel coverage
-- [x] Workshop materials hub at `/guide/materials` with attendee checklist and source bibliography
+- [x] Workshop materials hub at `/guide/materials` with attendee checklist and source bibliography (later → Comms Resources)
 - [x] `SourcesBlock` on all guides and tools; `docs/SOURCES.md` reference registry
 
-## Solidarity Poster Maker (2026-07-11)
+## Comms Resources + Learn IA (2026-07-12)
+
+- [x] Rework Workshop Materials into **Comms Resources** at `/guide/resources` (orientation, practice, facilitators, bibliography)
+- [x] Permanent redirect `/guide/materials` → `/guide/resources`
+- [x] Learn menu grouped (Guides / Libraries); Plan + Blueprint intros aligned to clear roles
+- [x] Aug 18 date framing moved to facilitator doc only
 
 - [x] Cursor design brief: `.cursor/rules/solidarity-posters.mdc`
 - [x] `/tools/solidarity-poster` — stack / split / banner layouts, letter + tabloid

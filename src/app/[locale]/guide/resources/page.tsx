@@ -16,7 +16,16 @@ const categoryOrder: CommsSourceCategory[] = [
   "accessibility",
 ];
 
-const quickLinks = [
+const pathLinks = [
+  { href: "/guide/social-media-plan", key: "plan" as const },
+  { href: "/guide", key: "blueprint" as const },
+  { href: "/guide/union-boards", key: "boards" as const },
+  { href: "/guide/print", key: "print" as const },
+  { href: "/guide/website", key: "website" as const },
+  { href: "/guide/crisis", key: "crisis" as const },
+];
+
+const exploreLinks = [
   { href: "/guide/social-media-plan", key: "cta" as const },
   { href: "/onboarding", key: "onboarding" as const },
   { href: "/tools/logo-builder", key: "logo" as const },
@@ -26,14 +35,14 @@ const quickLinks = [
   { href: "/guide/crisis", key: "crisis" as const },
 ];
 
-export default async function MaterialsPage({
+export default async function ResourcesPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("materials");
+  const t = await getTranslations("resources");
   const ts = await getTranslations("sources");
   const allSources = Object.values(COMMS_SOURCES);
   const byCategory = getSourcesByCategory(allSources);
@@ -42,18 +51,44 @@ export default async function MaterialsPage({
     <div className="mx-auto max-w-3xl px-4 py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 text-lg text-gray-600">{t("subtitle")}</p>
+      <p className="mt-4 leading-relaxed text-gray-700">{t("intro")}</p>
 
       <Card className="mt-8 border-opseu-blue/20 bg-opseu-blue/5">
-        <CardTitle>{t("session.title")}</CardTitle>
-        <p className="mt-2 font-medium text-opseu-dark">{t("session.when")}</p>
-        <p className="mt-2 text-gray-700">{t("session.format")}</p>
+        <CardTitle>{t("purpose.title")}</CardTitle>
+        <p className="mt-3 leading-relaxed text-gray-700">{t("purpose.body")}</p>
+        <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+          {(t.raw("purpose.pillars") as string[]).map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
         <Link href="/guide/social-media-plan" className="mt-4 inline-block">
-          <Button size="sm">{t("session.cta")}</Button>
+          <Button size="sm">{t("purpose.cta")}</Button>
         </Link>
       </Card>
 
       <Card className="mt-6">
+        <CardTitle>{t("path.title")}</CardTitle>
+        <p className="mt-2 text-gray-700">{t("path.intro")}</p>
+        <ul className="mt-4 space-y-3">
+          {pathLinks.map(({ href, key }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                className="font-medium text-opseu-blue underline"
+              >
+                {t(`path.links.${key}`)}
+              </Link>
+              <p className="mt-0.5 text-sm text-gray-600">
+                {t(`path.blurb.${key}`)}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </Card>
+
+      <Card className="mt-6">
         <CardTitle>{t("checklist.title")}</CardTitle>
+        <p className="mt-2 text-gray-700">{t("checklist.intro")}</p>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
           {(t.raw("checklist.items") as string[]).map((item) => (
             <li key={item}>{item}</li>
@@ -74,16 +109,29 @@ export default async function MaterialsPage({
       </Card>
 
       <Card className="mt-6">
-        <CardTitle>{t("quickLinks.title")}</CardTitle>
+        <CardTitle>{t("explore.title")}</CardTitle>
         <ul className="mt-3 space-y-2">
-          {quickLinks.map(({ href, key }) => (
+          {exploreLinks.map(({ href, key }) => (
             <li key={href}>
               <Link href={href} className="text-opseu-blue underline">
-                {t(`quickLinks.${key}`)}
+                {t(`explore.${key}`)}
               </Link>
             </li>
           ))}
         </ul>
+      </Card>
+
+      <Card className="mt-6 border-opseu-blue/20 bg-opseu-blue/5">
+        <CardTitle>{t("facilitators.title")}</CardTitle>
+        <p className="mt-2 leading-relaxed text-gray-700">
+          {t("facilitators.body")}
+        </p>
+        <ol className="mt-3 list-decimal space-y-2 pl-5 text-gray-700">
+          {(t.raw("facilitators.outline") as string[]).map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ol>
+        <p className="mt-3 text-sm text-gray-600">{t("facilitators.note")}</p>
       </Card>
 
       <Card className="mt-6">
@@ -96,7 +144,9 @@ export default async function MaterialsPage({
       </Card>
 
       <div className="mt-10">
-        <h2 className="text-xl font-bold text-opseu-dark">{t("allSources.title")}</h2>
+        <h2 className="text-xl font-bold text-opseu-dark">
+          {t("allSources.title")}
+        </h2>
         <p className="mt-2 text-gray-600">{t("allSources.intro")}</p>
 
         <div className="mt-6 space-y-6">

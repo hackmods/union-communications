@@ -29,7 +29,9 @@
     "unionBoardsGuide": "Union Boards Guide",
     "printGuide": "Print Guide",
     "websiteGuide": "Website Guide",
-    "materials": "Workshop Materials",
+    "resources": "Comms Resources",
+    "learnGroupGuides": "Guides",
+    "learnGroupLibraries": "Libraries",
     "manifesto": "Why it's free",
     "support": "Support",
     "privacy": "Privacy",
@@ -105,8 +107,12 @@
   },
   "socialMediaPlan": {
     "title": "Social Media Plan",
-    "subtitle": "A quick roadmap for locals starting or improving their communications",
-    "intro": "Follow these four steps in order. Each builds on the last - brand first, then reach members where they are: on the board, on social, and online.",
+    "subtitle": "Do these four steps in order - the operational roadmap for locals building communications",
+    "intro": "This is the action path: brand first, then reach members on the board, on social, and online. For practice guidance (tone, platforms, trolls), use The Blueprint. For an overview of the hub, checklist, and sources, see Comms Resources.",
+    "pathLinks": {
+      "resources": "Comms Resources - orientation, practice checklist, sources",
+      "blueprint": "The Blueprint - tone, platforms, and posting habits"
+    },
     "steps": {
       "logo": {
         "title": "1. Make a logo",
@@ -158,8 +164,14 @@
   },
   "guide": {
     "title": "The Blueprint",
-    "subtitle": "A step-by-step handbook for starting and running your local's social media.",
-    "socialMediaPlanLink": "New to comms? Start with the Social Media Plan →",
+    "subtitle": "A handbook for ongoing local communications practice - platforms, tone, rhythm, and accessibility.",
+    "intro": "Use this after you have a brand and a first message in motion. New to the hub? Start with the Social Media Plan. Need the map, checklist, or sources? Open Comms Resources.",
+    "path": {
+      "title": "Related paths",
+      "plan": "Get started - Social Media Plan (do the four steps)",
+      "resources": "Comms Resources - orientation, practice, sources",
+      "crisis": "Strike Guide - high-stakes bargaining and strike communications"
+    },
     "chapters": {
       "platforms": {
         "title": "Which platforms to choose",
@@ -650,39 +662,77 @@
       "platform": "Platforms & hosting"
     }
   },
-  "materials": {
-    "title": "Workshop Materials",
-    "subtitle": "Everything you need for the Aug 18 session and ongoing local communications",
-    "session": {
-      "title": "Aug 18 session - The Toolbox in 60 minutes",
-      "when": "August 18, 12:00–1:00 PM",
-      "format": "Pitch, live walkthrough, and hands-on - attendees leave with logo, board notice, social graphic, and website ZIP.",
+  "resources": {
+    "title": "Comms Resources",
+    "subtitle": "Orientation, practice, and sources for union locals building solidary communications",
+    "intro": "Use this page to understand what the hub is for, practice the core tools, and find the guides behind every channel. Run it self-paced with your local, or as a workshop for officers and volunteer communicators.",
+    "purpose": {
+      "title": "What this hub is for",
+      "body": "Central union communications are often under-resourced. Locals still need professional member communications now - on social, in print, on workplace boards, and on a simple website. One message, four places, with brand first.",
+      "pillars": [
+        "Four channels: social, print, union boards, and website",
+        "Brand Kit first so every graphic and notice looks like your local",
+        "Comms tools run on your device - no accounts or tracking for public tools",
+        "Built for any local or union group learning communications practice"
+      ],
       "cta": "Start the Social Media Plan"
     },
+    "path": {
+      "title": "How to learn this hub",
+      "intro": "Pick a path based on what you need today.",
+      "links": {
+        "plan": "Social Media Plan",
+        "blueprint": "The Blueprint",
+        "boards": "Union Boards Guide",
+        "print": "Print Guide",
+        "website": "Website Guide",
+        "crisis": "Strike Guide"
+      },
+      "blurb": {
+        "plan": "Do the four steps in order - logo, boards, socials, website.",
+        "blueprint": "Ongoing practice: platforms, tone, frequency, trolls, alt-text.",
+        "boards": "Bare-minimum workplace boards and what to print.",
+        "print": "Flyers and print habits for meetings and actions.",
+        "website": "Deploy a simple local site on GitHub Pages.",
+        "crisis": "High-stakes bargaining and strike communications."
+      }
+    },
     "checklist": {
-      "title": "Attendee checklist",
+      "title": "Practice checklist",
+      "intro": "Complete these once - self-paced or in a workshop - so your local can ship real materials.",
       "items": [
-        "Import demo Brand Kit or complete onboarding",
-        "Export circular local logo (PNG)",
+        "Import the demo Brand Kit or complete onboarding for your local",
+        "Export a circular local logo (PNG)",
         "Create and download a board notice (PDF)",
         "Create one social graphic with Graphic Maker",
-        "Download website ZIP and read the included README"
+        "Download the website ZIP and read the included README"
       ]
     },
     "demoKit": {
       "title": "Demo Brand Kit",
-      "description": "Pre-filled Local 243 brand settings for workshop attendees. Import on the Brand Kit page.",
+      "description": "Sample local brand settings so you can try tools before finishing your own Brand Kit. Import on the Brand Kit page.",
       "download": "Download demo Brand Kit JSON"
     },
-    "quickLinks": {
-      "title": "Session quick links",
+    "explore": {
+      "title": "Explore the hub",
       "cta": "Social Media Plan",
       "onboarding": "Brand setup wizard",
       "logo": "Logo Builder",
       "board": "Board Notice Maker",
       "graphic": "Graphic Maker",
       "website": "Website Template",
-      "crisis": "Crisis comms guide"
+      "crisis": "Strike Guide"
+    },
+    "facilitators": {
+      "title": "Running a workshop",
+      "body": "A reusable 60-minute session for officers and volunteer communicators. Attendees leave with a logo, board notice, social graphic, and website ZIP - and understand the four-channel roadmap.",
+      "outline": [
+        "Pitch (about 8 min): problem, toolbox, four channels",
+        "Live walkthrough (about 10 min): Social Media Plan steps",
+        "Hands-on practice (about 30 min): checklist above",
+        "Deploy and Q&A (about 10 min): website ZIP README, feedback"
+      ],
+      "note": "Dated session run sheets live in the project docs for facilitators. This page stays the lasting public guide."
     },
     "builtFrom": {
       "title": "What this toolbox is built from",

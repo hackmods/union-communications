@@ -58,7 +58,7 @@ External resources cited across guides, tools, and exported materials. Canonical
 
 ## User-facing pages
 
-- **Workshop materials:** `/[locale]/guide/materials` — Aug 18 handouts, checklist, full bibliography
+- **Comms Resources:** `/[locale]/guide/resources` — orientation, practice checklist, full bibliography (legacy `/guide/materials` redirects here)
 - **Per-page sources:** `SourcesBlock` component at bottom of guides and tools
 
 ## Facilitator doc

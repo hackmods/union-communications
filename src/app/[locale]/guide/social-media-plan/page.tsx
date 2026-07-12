@@ -48,6 +48,24 @@ export default async function SocialMediaPlanPage({
       <p className="mt-2 text-lg text-gray-600">{t("subtitle")}</p>
       <p className="mt-4 leading-relaxed text-gray-700">{t("intro")}</p>
 
+      <Card className="mt-6 border-opseu-blue/20 bg-opseu-blue/5">
+        <ul className="space-y-2 text-sm">
+          <li>
+            <Link
+              href="/guide/resources"
+              className="font-medium text-opseu-blue underline"
+            >
+              {t("pathLinks.resources")}
+            </Link>
+          </li>
+          <li>
+            <Link href="/guide" className="font-medium text-opseu-blue underline">
+              {t("pathLinks.blueprint")}
+            </Link>
+          </li>
+        </ul>
+      </Card>
+
       <div className="mt-10 space-y-6">
         {stepKeys.map((key) => (
           <Card key={key}>

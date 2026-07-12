@@ -14,7 +14,7 @@ const channelItems: Record<
 > = {
   social: [
     { href: "/guide", titleKey: "guide" },
-    { href: "/guide/materials", titleKey: "materials" },
+    { href: "/guide/resources", titleKey: "resources" },
     { href: "/guide/crisis", titleKey: "strikeGuide" },
     { href: "/examples", titleKey: "socialExamples" },
     { href: "/captions", titleKey: "captions" },

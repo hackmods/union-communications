@@ -11,7 +11,7 @@ Top bar is slim and dual-audience oriented:
 | Item | Route / contents |
 |------|------------------|
 | **Get started** | `/guide/social-media-plan` |
-| **Learn ▾** | Blueprint, Workshop Materials, Social Examples, Captions, Strike Guide |
+| **Learn ▾** | Comms Resources, Blueprint, Strike Guide · Social Examples, Captions |
 | **Brand Kit** | `/brand-kit` |
 | **Tools ▾** | Logo, boards, graphics, flyer, website, alt-text makers |
 | **Officer Hub** | `/app` (auth) — visually distinct CTA |
@@ -29,7 +29,7 @@ Home page offers two entry paths: comms roadmap (Get started) vs Officer Hub (gr
 | `/[locale]/brand-kit` | Export/import branding JSON (colours, logo, website & key links) |
 | `/[locale]/guide` | The Blueprint handbook |
 | `/[locale]/guide/social-media-plan` | Quick roadmap: logo → boards → socials → website |
-| `/[locale]/guide/materials` | Workshop handouts, checklist, source bibliography |
+| `/[locale]/guide/resources` | Comms Resources — orientation, practice checklist, bibliography (`/guide/materials` redirects here) |
 | `/[locale]/guide/crisis` | Crisis comms playbook |
 | `/[locale]/guide/union-boards` | Workplace bulletin board guide (bare-minimum layout, ministry posters, anonymized templates, IRL reference patterns) |
 | `/[locale]/guide/print` | Print communications guide |

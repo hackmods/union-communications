@@ -1,5 +1,7 @@
 # Aug 18 Workshop — The Toolbox: Professional Local Communications in 60 Minutes
 
+> **Public guide:** attendees and locals should use **Comms Resources** at `/[locale]/guide/resources`. This file is the dated Aug 18 facilitator run sheet only.
+
 **When:** August 18, 12:00–1:00 PM  
 **Format:** Pitch + live walkthrough + hands-on  
 **Audience:** Local officers and volunteer communicators
@@ -65,6 +67,7 @@ Attendees complete the four steps on their devices. Facilitators circulate.
 ## Facilitator URLs (quick reference)
 
 ```
+/en/guide/resources
 /en/guide/social-media-plan
 /en/onboarding
 /en/tools/logo-builder
@@ -80,7 +83,7 @@ Close with: "Everything runs on your device. No accounts, no tracking, no upload
 
 ## Sources & references
 
-Full bibliography: `/en/guide/materials` (also in [`docs/SOURCES.md`](../SOURCES.md)).
+Full bibliography: `/en/guide/resources` (also in [`docs/SOURCES.md`](../SOURCES.md)).
 
 Key references for facilitators:
 - **Branding:** [OPSEU graphics & letterhead](https://opseu.org/information/opseu-graphics-logos-and-letterhead-templates/12263)
