@@ -1,13 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UnionOps Link concept">
-  <title>UnionOps — Link mark</title>
-  <desc>Interlocking links — same as active platform mark.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UnionOps">
+  <title>UnionOps</title>
+  <desc>Twin arcs joined at the center — Solidarity mark for UnionOps.</desc>
   <rect width="64" height="64" rx="14" fill="#C2410C"/>
-  <path
-    fill="#FFFFFF"
-    fill-rule="evenodd"
-    d="
-      M24.5 12.5c-7.46 0-13.5 6.04-13.5 13.5v12c0 7.46 6.04 13.5 13.5 13.5h3.5v-7h-3.5c-3.58 0-6.5-2.92-6.5-6.5v-12c0-3.58 2.92-6.5 6.5-6.5h11c3.58 0 6.5 2.92 6.5 6.5v3.5h7V26c0-7.46-6.04-13.5-13.5-13.5h-11z
-      M36 24.5c-3.58 0-6.5 2.92-6.5 6.5v3.5h-7V31c0-7.46 6.04-13.5 13.5-13.5h11c7.46 0 13.5 6.04 13.5 13.5v8c0 7.46-6.04 13.5-13.5 13.5h-11c-7.46 0-13.5-6.04-13.5-13.5v-3.5h7v3.5c0 3.58 2.92 6.5 6.5 6.5h11c3.58 0 6.5-2.92 6.5-6.5v-8c0-3.58-2.92-6.5-6.5-6.5H36z
-    "
-  />
+  <g
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="6.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <!-- Left / right arcs kept apart so round caps do not fuse into a closed ring -->
+    <path d="M26.5 15A17 17 0 0 0 26.5 49"/>
+    <path d="M37.5 15A17 17 0 0 1 37.5 49"/>
+    <path d="M23 32h18"/>
+  </g>
 </svg>
