@@ -24,6 +24,28 @@ openssl rand -base64 32
 
 Put the value in `.env.local` as `AUTH_SECRET`. Set `AUTH_URL=http://localhost:3000` for local runs.
 
+## Default brand (self-host / union-agnostic)
+
+First-visit Brand Kit colours and local details come from **host defaults**, not from any one union:
+
+1. Edit [`config/host-brand.json`](../../config/host-brand.json), or copy the OPSEU-oriented example:
+
+   ```bash
+   npm run brand:set -- --from=config/host-brand.example.json
+   ```
+
+2. Or set colours/local in one command:
+
+   ```bash
+   npm run brand:set -- --primary=#CE1126 --secondary=#FFFFFF --local=79 --sub="Hospital Workers"
+   ```
+
+3. Or set `NEXT_PUBLIC_BRAND_*` / `NEXT_PUBLIC_DEFAULT_*` in `.env.local` (see [`.env.example`](../../.env.example)). Env wins over the JSON file.
+
+Restart `npm run dev` after changing the JSON file. Browsers that already saved a Brand Kit keep it until reset or import.
+
+Logo Builder (`/tools/logo-builder`) has **Save to Brand Kit** so colours, local number, and logo choice apply across the site chrome and other tools.
+
 ## Run
 
 ```bash

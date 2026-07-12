@@ -1,0 +1,9 @@
+{
+  "$schema": "./host-brand.schema.json",
+  "primaryColor": "#003DA5",
+  "secondaryColor": "#FFFFFF",
+  "accentColor": "#002868",
+  "localNumber": "243",
+  "subText": "Support Staff",
+  "divisionId": "caat"
+}

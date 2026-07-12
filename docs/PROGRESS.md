@@ -206,3 +206,10 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Privacy page + EN/FR trust/manifesto/SEO copy: Comms on-device; host = data controller
 - [x] GHCR release workflow on `v*` tags (`ghcr.io/hackmods/union-communications`)
 - [x] Agent morale snowmobile easter egg (`.cursor/easter-eggs/`)
+
+## Host brand defaults + Logo Builder save (2026-07-12)
+
+- [x] Logo Builder **Save to Brand Kit** — colours, local #, sub-text apply site-wide (chrome via `--opseu-*` + `--brand-*`)
+- [x] `config/host-brand.json` + schema/example for self-host default palette and local details
+- [x] `npm run brand:set` CLI; `NEXT_PUBLIC_BRAND_*` / `NEXT_PUBLIC_DEFAULT_*` env overrides
+- [x] `DEFAULT_BRAND_KIT` / `BRAND_COLORS` resolve from host defaults (platform orange), not OPSEU seed

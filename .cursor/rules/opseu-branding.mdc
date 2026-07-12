@@ -29,7 +29,7 @@ Source: [OPSEU graphics & letterhead templates](https://opseu.org/information/op
 Use `BrandLogo` for display; use `LogoSettings` for the official/custom toggle + upload UI.
 
 ## Defaults
-Sourced from `seed/reference-tenant-opseu-caat.json` → `getDefaultBrandDefaults()` → `BRAND_COLORS` / `DEFAULT_BRAND_KIT`. OPSEU is reference tenant #1, not a platform-wide hardcoded default for new tenant signups.
+First-visit Brand Kit colours come from `config/host-brand.json` / `NEXT_PUBLIC_BRAND_*` via `resolveHostBrandDefaults()` → `BRAND_COLORS` / `DEFAULT_BRAND_KIT`. OPSEU blue lives in the reference tenant seed and the OPSEU union preset — not as the platform default for new hosts.
 
 ## Multi-union rule
 No OPSEU names or hex values in new core components. Reference tenant seed + cursor rules only. Other unions supply their own `brandDefaults` and asset packs in Phase 1+.

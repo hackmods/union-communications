@@ -8,9 +8,13 @@ If **you** host an instance, **you** are the data controller for data that insta
 
 1. Set a unique `AUTH_SECRET` (`openssl rand -base64 32`) — never use the repo placeholders.
 2. Set `AUTH_URL` to your public HTTPS origin (no trailing slash).
-3. Do **not** rely on demo accounts (`demo123`) for real grievances or member files.
-4. Confirm health: `GET /api/health` → `{"status":"ok"}`.
-5. Read the two-tier privacy model in the site Privacy page and [`docs/COMPLIANCE.md`](../COMPLIANCE.md).
+3. Set your union’s default brand (optional but recommended for a white-label host):
+   - Edit `config/host-brand.json` before build, or
+   - `npm run brand:set -- --primary=#… --secondary=#… --local=… --sub="…"`, or
+   - Pass `NEXT_PUBLIC_BRAND_PRIMARY` / `SECONDARY` / `ACCENT` and `NEXT_PUBLIC_DEFAULT_LOCAL_NUMBER` / `SUB_TEXT` as container env (see `.env.example`).
+4. Do **not** rely on demo accounts (`demo123`) for real grievances or member files.
+5. Confirm health: `GET /api/health` → `{"status":"ok"}`.
+6. Read the two-tier privacy model in the site Privacy page and [`docs/COMPLIANCE.md`](../COMPLIANCE.md).
 
 ## GHCR release image
 
@@ -57,6 +61,16 @@ This repo includes [`captain-definition`](../../captain-definition) pointing at 
 |----------|---------|
 | `AUTH_SECRET` | output of `openssl rand -base64 32` |
 | `AUTH_URL` | `https://your-app.example.com` |
+
+Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_*` is inlined by Next.js). Prefer editing `config/host-brand.json` (or `npm run brand:set`) before `docker build` when you want a white-label host without env sprawl:
+
+| Variable | Example |
+|----------|---------|
+| `NEXT_PUBLIC_BRAND_PRIMARY` | `#CE1126` |
+| `NEXT_PUBLIC_BRAND_SECONDARY` | `#FFFFFF` |
+| `NEXT_PUBLIC_BRAND_ACCENT` | `#9B0D1C` |
+| `NEXT_PUBLIC_DEFAULT_LOCAL_NUMBER` | `79` |
+| `NEXT_PUBLIC_DEFAULT_SUB_TEXT` | `Hospital Workers` |
 
 3. Deploy via CapRover git push / webhook, or pull the GHCR tag if your CapRover setup uses a registry image.
 4. Health check: `GET /api/health`.

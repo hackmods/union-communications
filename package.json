@@ -24,7 +24,8 @@
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "test:e2e": "playwright test",
-    "test:smoke": "playwright test --grep @smoke"
+    "test:smoke": "playwright test --grep @smoke",
+    "brand:set": "node scripts/set-host-brand.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

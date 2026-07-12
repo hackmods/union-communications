@@ -1,0 +1,8 @@
+{
+  "$schema": "./host-brand.schema.json",
+  "primaryColor": "#FF6B00",
+  "secondaryColor": "#FFFFFF",
+  "accentColor": "#C2410C",
+  "localNumber": "",
+  "subText": "Support Staff"
+}

@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng, exportNodeAsSvg } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { deriveAccentFromPrimary } from "@/lib/constants/unionPresets";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -27,9 +28,11 @@ interface LogoState {
 export default function LogoBuilderPage() {
   const t = useTranslations("common");
   const tLogo = useTranslations("brandKit.logo");
+  const tBuilder = useTranslations("logoBuilder");
   const brandKit = useBrandStore((s) => s.brandKit);
   const setBrandKit = useBrandStore((s) => s.setBrandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
 
   const initial: LogoState = {
     localNumber: brandKit.local.localNumber,
@@ -40,6 +43,20 @@ export default function LogoBuilderPage() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<LogoState>(initial);
+
+  const handleSaveToBrandKit = () => {
+    setBrandKit({
+      local: {
+        ...brandKit.local,
+        localNumber: state.localNumber,
+        subText: state.subText,
+      },
+      primaryColor: state.primaryColor,
+      secondaryColor: state.secondaryColor,
+      accentColor: deriveAccentFromPrimary(state.primaryColor),
+    });
+    setSaveMessage(tBuilder("saveSuccess"));
+  };
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
@@ -60,17 +77,18 @@ export default function LogoBuilderPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">Local Logo Builder</h1>
+      <h1 className="text-3xl font-bold text-opseu-dark">{tBuilder("title")}</h1>
+      <p className="mt-2 text-gray-600">{tBuilder("description")}</p>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <Card className="space-y-4">
           <Input
-            label="Local number"
+            label={tBuilder("localNumber")}
             value={state.localNumber}
             onChange={(e) => setState({ ...state, localNumber: e.target.value })}
           />
           <Input
-            label="Sub-text"
+            label={tBuilder("subText")}
             value={state.subText}
             onChange={(e) => setState({ ...state, subText: e.target.value })}
           />
@@ -113,8 +131,16 @@ export default function LogoBuilderPage() {
             onRedo={redo}
             onReset={() => reset(initial)}
           />
-          <div className="flex gap-3">
-            <Button onClick={handleExportPng}>{t("downloadPng")}</Button>
+          {saveMessage ? (
+            <p className="text-sm text-green-700" role="status">
+              {saveMessage}
+            </p>
+          ) : null}
+          <div className="flex flex-wrap gap-3">
+            <Button onClick={handleSaveToBrandKit}>{tBuilder("save")}</Button>
+            <Button variant="outline" onClick={handleExportPng}>
+              {t("downloadPng")}
+            </Button>
             <Button variant="outline" onClick={handleExportSvg}>
               {t("downloadSvg")}
             </Button>

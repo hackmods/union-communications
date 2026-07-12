@@ -1,20 +1,19 @@
 import { getDefaultBrandDefaults } from "@/lib/tenant/loader";
-import {
-  PLATFORM_UNION_ORANGE,
-  UNIONOPS_LOGOS,
-} from "@/lib/constants/unionPresets";
+import { resolveHostBrandDefaults } from "@/lib/constants/host-brand";
+import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
 import { DEFAULT_LOCAL_NUMBER } from "@/lib/utils/local";
 
-const defaults = getDefaultBrandDefaults();
+const assetDefaults = getDefaultBrandDefaults();
+const hostDefaults = resolveHostBrandDefaults();
 
 /**
- * Platform-neutral brand palette (generic bright orange).
+ * Instance brand palette from `config/host-brand.json` / `NEXT_PUBLIC_BRAND_*`.
  * Tenant-specific colours (e.g. OPSEU) live in seed data and `UNION_PRESETS`.
  */
 export const BRAND_COLORS = {
-  primary: PLATFORM_UNION_ORANGE.primary,
-  secondary: PLATFORM_UNION_ORANGE.secondary,
-  accent: PLATFORM_UNION_ORANGE.accent,
+  primary: hostDefaults.primaryColor,
+  secondary: hostDefaults.secondaryColor,
+  accent: hostDefaults.accentColor,
   white: "#FFFFFF",
   black: "#1A1A1A",
   gray: "#6B7280",
@@ -23,35 +22,35 @@ export const BRAND_COLORS = {
 /** @deprecated Use BRAND_COLORS - kept for gradual migration */
 export const CAAT_OPSEU_COLORS = BRAND_COLORS;
 
-export const DEFAULT_ASSET_PACK_PATH = defaults.assetPackPath;
+export const DEFAULT_ASSET_PACK_PATH = assetDefaults.assetPackPath;
 
 /** Bundled official logos for the reference tenant asset pack */
 export const OFFICIAL_LOGOS = {
   lockup: {
     id: "lockup" as const,
-    src: `${defaults.assetPackPath}logo-primary.png`,
+    src: `${assetDefaults.assetPackPath}logo-primary.png`,
     aspect: "wide" as const,
     selectable: true as const,
   },
   mark: {
     id: "mark" as const,
-    src: `${defaults.assetPackPath}logo-mark.png`,
+    src: `${assetDefaults.assetPackPath}logo-mark.png`,
     /** White mark for dark / brand-coloured backgrounds */
-    srcOnDark: `${defaults.assetPackPath}logo-mark-white.png`,
+    srcOnDark: `${assetDefaults.assetPackPath}logo-mark-white.png`,
     aspect: "square" as const,
     selectable: true as const,
   },
   /** Flip `selectable` to true when updated slit-mark graphics are ready */
   slitBlue: {
     id: "slitBlue" as const,
-    src: `${defaults.assetPackPath}opseu-mark-slit-blue.svg`,
+    src: `${assetDefaults.assetPackPath}opseu-mark-slit-blue.svg`,
     aspect: "square" as const,
     selectable: false as const,
   },
   /** Flip `selectable` to true when updated slit-mark graphics are ready */
   slitWhite: {
     id: "slitWhite" as const,
-    src: `${defaults.assetPackPath}opseu-mark-slit-white.svg`,
+    src: `${assetDefaults.assetPackPath}opseu-mark-slit-white.svg`,
     aspect: "square" as const,
     /** Preview / use on dark backgrounds */
     onDark: true as const,
@@ -80,9 +79,9 @@ export const DEFAULT_BRAND_KIT = {
   version: "1.1" as const,
   local: {
     id: "local-default",
-    localNumber: "",
-    subText: "Support Staff",
-    divisionId: defaults.assetPackPath.includes("caat") ? "caat" : undefined,
+    localNumber: hostDefaults.localNumber,
+    subText: hostDefaults.subText,
+    divisionId: hostDefaults.divisionId,
   },
   primaryColor: BRAND_COLORS.primary,
   secondaryColor: BRAND_COLORS.secondary,
@@ -92,7 +91,7 @@ export const DEFAULT_BRAND_KIT = {
   officialLogoVariant: "lockup" as OfficialLogoVariant,
   customLogoDataUrl: UNIONOPS_LOGOS.mark,
   logoText: "UO",
-  divisionId: defaults.assetPackPath.includes("caat") ? "caat" : undefined,
+  divisionId: hostDefaults.divisionId,
   websiteUrl: undefined as string | undefined,
   facebookUrl: undefined as string | undefined,
   customLinks: [] as { id: string; label: string; url: string }[],

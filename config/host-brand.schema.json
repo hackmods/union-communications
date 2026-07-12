@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unionops.org/schemas/host-brand.json",
+  "title": "Host brand defaults",
+  "description": "Default Brand Kit colours and local details for a self-hosted UnionOps instance. Env vars NEXT_PUBLIC_BRAND_* override these values.",
+  "type": "object",
+  "properties": {
+    "primaryColor": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "description": "Primary brand colour (site chrome + graphics)"
+    },
+    "secondaryColor": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "description": "Graphics accent on brand-coloured backgrounds"
+    },
+    "accentColor": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$",
+      "description": "Darker accent for hover / depth"
+    },
+    "localNumber": {
+      "type": "string",
+      "description": "Default local number shown in tools when Brand Kit is empty"
+    },
+    "subText": {
+      "type": "string",
+      "description": "Default sub-text under the local number (e.g. Support Staff)"
+    },
+    "divisionId": {
+      "type": "string",
+      "description": "Optional division id for the default Brand Kit"
+    }
+  },
+  "required": ["primaryColor", "secondaryColor", "accentColor"],
+  "additionalProperties": true
+}

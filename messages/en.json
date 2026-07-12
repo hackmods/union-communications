@@ -57,6 +57,14 @@
     "getStarted": "Get started",
     "loading": "Loading..."
   },
+  "logoBuilder": {
+    "title": "Local Logo Builder",
+    "description": "Set colours, local details, and logo. Save to Brand Kit to apply them across the site and other tools.",
+    "localNumber": "Local number",
+    "subText": "Sub-text",
+    "save": "Save to Brand Kit",
+    "saveSuccess": "Saved. Site colours and Brand Kit now use this palette and local details."
+  },
   "home": {
     "title": "UnionOps: The Toolkit for Local Unions",
     "slogan": "Solidarity.",

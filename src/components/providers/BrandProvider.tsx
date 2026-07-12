@@ -13,18 +13,16 @@ export function BrandProvider({ children }: { children: React.ReactNode }) {
   }, [hydrate]);
 
   useEffect(() => {
-    document.documentElement.style.setProperty(
-      "--brand-primary",
-      brandKit.primaryColor || BRAND_COLORS.primary,
-    );
-    document.documentElement.style.setProperty(
-      "--brand-secondary",
-      brandKit.secondaryColor || BRAND_COLORS.secondary,
-    );
-    document.documentElement.style.setProperty(
-      "--brand-accent",
-      brandKit.accentColor || BRAND_COLORS.accent,
-    );
+    const primary = brandKit.primaryColor || BRAND_COLORS.primary;
+    const secondary = brandKit.secondaryColor || BRAND_COLORS.secondary;
+    const accent = brandKit.accentColor || BRAND_COLORS.accent;
+    const root = document.documentElement;
+    root.style.setProperty("--brand-primary", primary);
+    root.style.setProperty("--brand-secondary", secondary);
+    root.style.setProperty("--brand-accent", accent);
+    // Legacy chrome tokens (text-opseu-blue, bg-opseu-dark, focus rings) follow Brand Kit
+    root.style.setProperty("--opseu-blue", primary);
+    root.style.setProperty("--opseu-dark", accent);
   }, [brandKit.primaryColor, brandKit.secondaryColor, brandKit.accentColor]);
 
   return <>{children}</>;
