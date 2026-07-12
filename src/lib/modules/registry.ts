@@ -53,6 +53,23 @@ export const MODULE_REGISTRY: HubModuleDefinition[] = [
     requiresMfa: true,
     enabledCheck: (m) => m.includes("bumping"),
   },
+  {
+    id: "time",
+    nameKey: "time",
+    descriptionKey: "timeDesc",
+    href: "/app/time",
+    emojiId: "clock",
+    requiredRoles: [
+      "local_president",
+      "local_steward",
+      "local_exec",
+      "union_admin",
+      "division_admin",
+      "solo_account",
+    ],
+    requiresMfa: true,
+    enabledCheck: (m) => m.includes("time"),
+  },
 ];
 
 export function getVisibleModules(

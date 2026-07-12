@@ -14,11 +14,13 @@ Phases **0–5 are complete** (docs → shell → grievance → bumping → hybr
 3. **Attachments + virus scan** — grievance docs + bumping PDFs via object storage
 4. **Hybrid live local path** — today “local mode” is a preference + encrypted backup only; hub still reads central memory/API
 5. **ApiAdapter** — swap `LocalStorageAdapter` / memory stores for authenticated API persistence
+6. **Workforce Time (full)** — Postgres persistence, scheduling, PTO, union rollup (8-lite shipped at `/app/time`)
 
 ## Shipped hub surfaces (do not rebuild)
 
 | Path | Purpose |
 |------|---------|
+| `/app/time` | Workforce time clock + admin board (8-lite) |
 | `/app/hybrid` | Encrypted export/import; passphrase client-only |
 | `/app/overdue` | Overdue/upcoming board |
 | `/app/snippets` | CA clause library |

@@ -122,6 +122,19 @@ Scaffold through testing/CI — all complete.
 
 - [ ] Multi-union onboarding UI → **Phase 6**
 - [ ] Persistent Postgres + RLS → **Phase 6**
+- [ ] Workforce Time full (scheduling, PTO, union rollup) → **Phase 8** (8-lite shipped)
+
+## Phase 8-lite — Workforce Time (2026-07-12) — COMPLETE
+
+- [x] Module `"time"` in `HubModule`, registry, reference seed, cursor rule
+- [x] Types, memory adapter, RBAC (`access.ts`), MFA session gate
+- [x] APIs: entries list, clock-in/out, submit/approve/reject, job codes, CSV export
+- [x] Hub pages: `/app/time`, `/app/time/admin`
+- [x] Optional GPS punch tagging (client checkbox; geofence helper server-side)
+- [x] Categories: staff, release, duty_bank, action, volunteer
+- [x] EN/FR i18n; unit tests for access + geofence
+- [x] Spec: `docs/modules/WORKFORCE_TIME.md`; plan in `.cursor/plans/`
+
 - [ ] Document/PDF attachments with virus scan → **Phase 7**
 - [ ] Hybrid live local data path → **Phase 6**
 - [ ] Stronger MFA + audit log UI → **Phase 7**

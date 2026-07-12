@@ -1215,7 +1215,9 @@
       "grievance": "Grievances",
       "grievanceDesc": "Track grievances, deadlines, and notes",
       "bumping": "College Bumping",
-      "bumpingDesc": "Stability committee PDF comparison"
+      "bumpingDesc": "Stability committee PDF comparison",
+      "time": "Workforce Time",
+      "timeDesc": "Clock hours for staff, release, and solidarity work"
     }
   },
   "hybrid": {
@@ -1522,6 +1524,50 @@
       "caArticleCited": "CA article cited",
       "memberNotified": "Bumping member notified",
       "incumbentNotified": "Incumbent notified (if applicable)"
+    }
+  },
+  "time": {
+    "title": "Workforce Time",
+    "subtitle": "Clock in for staff hours, steward release, duty bank, or solidarity work",
+    "adminTitle": "Time administration",
+    "adminSubtitle": "Review local clock events, approve timesheets, and export records",
+    "adminLink": "Admin board",
+    "workerLink": "My clock",
+    "exportCsv": "Export CSV",
+    "loading": "Loading time records...",
+    "loadError": "Could not load time records",
+    "clockPanel": "Clock in",
+    "clockedIn": "Currently clocked in",
+    "clockIn": "Clock in",
+    "clockOut": "Clock out",
+    "clockInError": "Could not clock in",
+    "clockOutError": "Could not clock out",
+    "actionError": "Could not update entry",
+    "category": "Category",
+    "jobCode": "Job code",
+    "notes": "Notes (optional)",
+    "gpsOptional": "Tag punch with GPS (optional)",
+    "activeSince": "{category} · {code} · {duration} so far",
+    "recentEntries": "Recent entries",
+    "localBoard": "Local time board",
+    "noEntries": "No time entries yet.",
+    "submit": "Submit for approval",
+    "approve": "Approve",
+    "reject": "Reject",
+    "disclaimer": "Helps locals track union hours. Does not process payroll or provide legal advice.",
+    "categories": {
+      "staff": "Staff",
+      "release": "Release time",
+      "duty_bank": "Duty bank",
+      "action": "Action / picket",
+      "volunteer": "Volunteer / solidarity"
+    },
+    "status": {
+      "active": "Active",
+      "completed": "Completed",
+      "submitted": "Submitted",
+      "approved": "Approved",
+      "rejected": "Rejected"
     }
   }
 }

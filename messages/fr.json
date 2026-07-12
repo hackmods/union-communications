@@ -1190,7 +1190,9 @@
       "grievance": "Griefs",
       "grievanceDesc": "Suivi des griefs et échéances",
       "bumping": "Bumpage collégial",
-      "bumpingDesc": "Comparaison PDF du comité de stabilité"
+      "bumpingDesc": "Comparaison PDF du comité de stabilité",
+      "time": "Temps de travail",
+      "timeDesc": "Pointage pour le personnel, la décharge, et le travail de solidarité"
     }
   },
   "hybrid": {
@@ -1497,6 +1499,50 @@
       "caArticleCited": "Article de convention cité",
       "memberNotified": "Membre qui bump avisé",
       "incumbentNotified": "Occupant avisé (si applicable)"
+    }
+  },
+  "time": {
+    "title": "Temps de travail",
+    "subtitle": "Pointez pour le personnel, la décharge, la banque de tâches ou la solidarité",
+    "adminTitle": "Administration du temps",
+    "adminSubtitle": "Consultez les pointages locaux, approuvez les feuilles de temps et exportez",
+    "adminLink": "Tableau admin",
+    "workerLink": "Mon pointage",
+    "exportCsv": "Exporter CSV",
+    "loading": "Chargement des enregistrements...",
+    "loadError": "Impossible de charger les enregistrements",
+    "clockPanel": "Pointer l'entrée",
+    "clockedIn": "Actuellement pointé",
+    "clockIn": "Pointer l'entrée",
+    "clockOut": "Pointer la sortie",
+    "clockInError": "Impossible de pointer l'entrée",
+    "clockOutError": "Impossible de pointer la sortie",
+    "actionError": "Impossible de mettre à jour l'entrée",
+    "category": "Catégorie",
+    "jobCode": "Code de tâche",
+    "notes": "Notes (facultatif)",
+    "gpsOptional": "Marquer le pointage avec GPS (facultatif)",
+    "activeSince": "{category} · {code} · {duration} jusqu'ici",
+    "recentEntries": "Entrées récentes",
+    "localBoard": "Tableau local",
+    "noEntries": "Aucune entrée de temps.",
+    "submit": "Soumettre pour approbation",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "disclaimer": "Aide les sections à suivre les heures syndicales. Ne traite pas la paie ni ne fournit de conseils juridiques.",
+    "categories": {
+      "staff": "Personnel",
+      "release": "Temps de décharge",
+      "duty_bank": "Banque de tâches",
+      "action": "Action / piquet",
+      "volunteer": "Bénévolat / solidarité"
+    },
+    "status": {
+      "active": "Actif",
+      "completed": "Terminé",
+      "submitted": "Soumis",
+      "approved": "Approuvé",
+      "rejected": "Rejeté"
     }
   },
   "assets": {

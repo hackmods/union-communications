@@ -6,14 +6,14 @@
     "name": "OPSEU",
     "slug": "opseu",
     "defaultLocale": "en",
-    "enabledModules": ["comms", "grievance", "bumping"]
+    "enabledModules": ["comms", "grievance", "bumping", "time"]
   },
   "division": {
     "id": "division-caat",
     "unionId": "union-opseu",
     "name": "CAAT",
     "code": "caat",
-    "enabledModules": ["comms", "grievance", "bumping"]
+    "enabledModules": ["comms", "grievance", "bumping", "time"]
   },
   "local": {
     "id": "local-243",
@@ -41,6 +41,11 @@
     "bumping": {
       "enabled": true,
       "label": "College Bumping / Stability Committee"
+    },
+    "time": {
+      "enabled": true,
+      "label": "Workforce Time",
+      "gpsPolicy": "tag_optional"
     }
   }
 }

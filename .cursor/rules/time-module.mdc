@@ -1,0 +1,37 @@
+---
+description: Workforce Time module (Phase 8-lite+)
+globs:
+  - src/lib/time/**
+  - src/types/time.ts
+  - src/app/**/time/**
+  - src/app/api/time/**
+  - src/components/time/**
+---
+
+# Workforce Time Module
+
+## Scope
+VeriClock-class hub module for staff hours, steward release/duty-bank, and action/volunteer solidarity time. **Not** employer payroll.
+
+## Access
+- MFA required; module gated by `enabledModules.includes("time")`
+- Scope every query by `unionId` + `localId`
+- Stewards clock/view own; presidents approve and configure job codes
+- Audit every list/create/mutate via `auditLog`
+
+## v1-lite (memory adapter)
+- Clock in/out, job codes, submit/approve, CSV export
+- Optional GPS punch tags when `gpsPolicy` is `tag_optional` — never required for punch
+- No continuous GPS, no native apps, no payroll integrations
+
+## Data
+- Use `timeStore` from `src/lib/time/memory-adapter.ts` until Phase 6 Postgres
+- Categories: `staff` | `release` | `duty_bank` | `action` | `volunteer`
+
+## Do Not
+- Cross-union or cross-local reads without elevated role checks
+- Require GPS for clock-in when policy is `off` or `tag_optional`
+- Store attachments without virus scan (deferred Phase 7)
+- Hardcode OPSEU as default — seed tenant config only
+
+See `docs/modules/WORKFORCE_TIME.md`.
