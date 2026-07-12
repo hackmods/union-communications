@@ -30,9 +30,9 @@ export function getTenantContext(unionId: string): TenantContext | null {
 export function getDefaultBrandDefaults() {
   const seed = SEEDS[0];
   return seed?.brandDefaults ?? {
-    primaryColor: "#FF6B00",
+    primaryColor: "#C2410C",
     secondaryColor: "#FFFFFF",
-    accentColor: "#C2410C",
+    accentColor: "#9A3412",
     useOfficialLogo: false,
     assetPackPath: "/assets/caat-opseu/",
   };

@@ -26,7 +26,7 @@ export function ColorField({ label, value, onChange, className }: ColorFieldProp
   const pickerId = `${id}-picker`;
   const hexId = `${id}-hex`;
   const hex = normalizeHex(value);
-  const pickerValue = /^#[0-9A-Fa-f]{6}$/.test(hex) ? hex : "#FF6B00";
+  const pickerValue = /^#[0-9A-Fa-f]{6}$/.test(hex) ? hex : "#C2410C";
 
   return (
     <div className={cn("space-y-1", className)}>

@@ -24,7 +24,8 @@ export function LanguageToggle() {
           className={cn(
             "rounded-md px-2 py-1 text-base font-medium uppercase transition-colors",
             "hover:bg-opseu-blue/10",
-            currentLocale === locale && "bg-opseu-blue/10 font-semibold text-opseu-blue",
+            currentLocale === locale &&
+              "bg-opseu-blue/10 font-semibold text-opseu-dark",
           )}
           aria-label={locale === "en" ? "English" : "Français"}
           aria-current={currentLocale === locale ? "true" : undefined}

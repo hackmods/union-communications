@@ -3,9 +3,9 @@
 :root {
   --background: #f8fafc;
   --foreground: #1a1a1a;
-  /* Platform generic orange — not affiliated with any union trademark */
-  --opseu-blue: #ff6b00;
-  --opseu-dark: #c2410c;
+  /* Platform chrome orange (AA) — not affiliated with any union trademark */
+  --opseu-blue: #c2410c;
+  --opseu-dark: #9a3412;
   /* White — graphics accent on brand-coloured backgrounds */
   --opseu-white: #ffffff;
   --brand-primary: var(--opseu-blue);

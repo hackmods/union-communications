@@ -53,7 +53,7 @@ export function DisplaySettingsMenu() {
         className={cn(
           "rounded-lg border border-gray-200 px-3 py-1.5 text-base font-medium transition-colors",
           "hover:bg-opseu-blue/10",
-          open && "bg-opseu-blue/10 text-opseu-blue",
+          open && "bg-opseu-blue/10 text-opseu-dark",
         )}
       >
         {t("menuLabel")}

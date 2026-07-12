@@ -100,7 +100,7 @@ export function Header() {
             className={cn(
               "rounded-md px-2 py-1 hover:bg-opseu-blue/5",
               linkActive(pathname, getStartedHref) &&
-                "bg-opseu-blue/10 font-semibold text-opseu-blue",
+                "bg-opseu-blue/10 font-semibold text-opseu-dark",
             )}
           >
             {t("getStarted")}
@@ -112,7 +112,7 @@ export function Header() {
               className={cn(
                 "rounded-md px-2 py-1 hover:bg-opseu-blue/5",
                 openMenu === "learn"
-                  ? "bg-opseu-blue/10 font-semibold text-opseu-blue"
+                  ? "bg-opseu-blue/10 font-semibold text-opseu-dark"
                   : learnActive && "font-semibold text-opseu-blue",
               )}
               aria-expanded={openMenu === "learn"}
@@ -140,7 +140,7 @@ export function Header() {
                     className={cn(
                       "block px-3 py-2 hover:bg-opseu-blue/5",
                       pathname === href &&
-                        "bg-opseu-blue/10 font-semibold text-opseu-blue",
+                        "bg-opseu-blue/10 font-semibold text-opseu-dark",
                     )}
                   >
                     {t(key)}
@@ -155,7 +155,7 @@ export function Header() {
             className={cn(
               "rounded-md px-2 py-1 hover:bg-opseu-blue/5",
               linkActive(pathname, "/brand-kit") &&
-                "bg-opseu-blue/10 font-semibold text-opseu-blue",
+                "bg-opseu-blue/10 font-semibold text-opseu-dark",
             )}
           >
             {t("brandKit")}
@@ -167,7 +167,7 @@ export function Header() {
               className={cn(
                 "rounded-md px-2 py-1 hover:bg-opseu-blue/5",
                 openMenu === "tools"
-                  ? "bg-opseu-blue/10 font-semibold text-opseu-blue"
+                  ? "bg-opseu-blue/10 font-semibold text-opseu-dark"
                   : toolsActive && "font-semibold text-opseu-blue",
               )}
               aria-expanded={openMenu === "tools"}
@@ -194,7 +194,7 @@ export function Header() {
                     className={cn(
                       "block px-3 py-2 hover:bg-opseu-blue/5",
                       linkActive(pathname, href) &&
-                        "bg-opseu-blue/10 font-semibold text-opseu-blue",
+                        "bg-opseu-blue/10 font-semibold text-opseu-dark",
                     )}
                   >
                     {t(key)}

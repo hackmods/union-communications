@@ -27,11 +27,15 @@ export interface UnionBranding {
   logos: UnionLogoPack;
 }
 
-/** Bright orange platform default — generic, not affiliated with any union brand. */
+/**
+ * Platform chrome orange — generic, not affiliated with any union brand.
+ * Primary/accent meet WCAG AA (≥4.5:1) with white and light tinted backgrounds.
+ * Bright #FF6B00 remains in UnionOps logo SVGs only.
+ */
 export const PLATFORM_UNION_ORANGE = {
-  primary: "#FF6B00",
+  primary: "#C2410C",
   secondary: "#FFFFFF",
-  accent: "#C2410C",
+  accent: "#9A3412",
 } as const;
 
 /** Platform site logo (UnionOps) */
