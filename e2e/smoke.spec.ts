@@ -86,7 +86,7 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("heading", { name: "Union Boards Guide" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Bare-minimum board" })).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Feed the board — posters and templates" }),
+      page.getByRole("heading", { name: "Feed the board - posters and templates" }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { name: "Reference layouts from real locals" }),
