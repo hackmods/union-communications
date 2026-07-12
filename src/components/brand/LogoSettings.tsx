@@ -4,30 +4,59 @@ import { useTranslations } from "next-intl";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { Input } from "@/components/ui/Input";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
+import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import {
   OFFICIAL_LOGOS,
+  BRAND_COLORS,
   isOfficialLogoVariant,
   isSelectableOfficialLogoVariant,
   type OfficialLogoVariant,
 } from "@/lib/constants/brand";
+import {
+  UNIONOPS_LOGOS,
+  getUnionPreset,
+  isUnionOpsLogoSrc,
+  resolvePresetLogos,
+  type ResolvedUnionLogoPack,
+} from "@/lib/constants/unionPresets";
 import { cn } from "@/lib/utils";
 import type { BrandKit } from "@/types/entities";
 
-export type LogoMode = OfficialLogoVariant | "custom" | "none";
+export type LogoMode =
+  | OfficialLogoVariant
+  | "union-lockup"
+  | "union-mark"
+  | "platform"
+  | "custom"
+  | "none";
 
 export function resolveLogoMode(
   useOfficialLogo: boolean,
   officialLogoVariant: OfficialLogoVariant | undefined,
   customLogoDataUrl?: string,
+  presetLogos?: ResolvedUnionLogoPack | null,
 ): LogoMode {
   if (useOfficialLogo) {
-    return isOfficialLogoVariant(officialLogoVariant)
-      ? officialLogoVariant
-      : "lockup";
+    // Official OPSEU pack only when this preset owns it
+    if (!presetLogos || presetLogos.useOfficialPack) {
+      return isOfficialLogoVariant(officialLogoVariant)
+        ? officialLogoVariant
+        : "lockup";
+    }
   }
-  // undefined = "no image"; "" = custom selected (awaiting upload); data URL = uploaded
-  if (customLogoDataUrl !== undefined) return "custom";
-  return "none";
+
+  if (customLogoDataUrl === undefined) return "none";
+  if (customLogoDataUrl === "") return "custom";
+
+  const src = customLogoDataUrl.trim();
+  if (isUnionOpsLogoSrc(src)) return "platform";
+  if (presetLogos && !presetLogos.useOfficialPack) {
+    if (src === presetLogos.lockup) return "union-lockup";
+    if (src === presetLogos.mark || src === presetLogos.markOnDark) {
+      return "union-mark";
+    }
+  }
+  return "custom";
 }
 
 /** Picker mode: non-selectable official variants fall back so the radio group stays valid */
@@ -35,24 +64,57 @@ export function resolveSelectableLogoMode(
   useOfficialLogo: boolean,
   officialLogoVariant: OfficialLogoVariant | undefined,
   customLogoDataUrl?: string,
+  presetLogos?: ResolvedUnionLogoPack | null,
 ): LogoMode {
-  const mode = resolveLogoMode(
+  let mode = resolveLogoMode(
     useOfficialLogo,
     officialLogoVariant,
     customLogoDataUrl,
+    presetLogos,
   );
   if (isOfficialLogoVariant(mode) && !isSelectableOfficialLogoVariant(mode)) {
-    return "lockup";
+    mode = "lockup";
+  }
+  // OPSEU options aren't offered for other unions — remount onto platform/union paths
+  if (
+    presetLogos &&
+    !presetLogos.useOfficialPack &&
+    (useOfficialLogo || isOfficialLogoVariant(mode))
+  ) {
+    return resolveLogoMode(
+      false,
+      officialLogoVariant,
+      customLogoDataUrl ?? UNIONOPS_LOGOS.mark,
+      presetLogos,
+    );
   }
   return mode;
 }
 
-/** Brand kit patch when the user picks a logo mode */
 export function brandKitPatchForLogoMode(
   mode: LogoMode,
   currentLogoText?: string,
   currentCustomLogoDataUrl?: string,
+  presetLogos?: ResolvedUnionLogoPack | null,
 ): Partial<BrandKit> {
+  if (mode === "union-lockup" && presetLogos && !presetLogos.useOfficialPack) {
+    return {
+      useOfficialLogo: false,
+      customLogoDataUrl: presetLogos.lockup,
+    };
+  }
+  if (mode === "union-mark" && presetLogos && !presetLogos.useOfficialPack) {
+    return {
+      useOfficialLogo: false,
+      customLogoDataUrl: presetLogos.mark,
+    };
+  }
+  if (mode === "platform") {
+    return {
+      useOfficialLogo: false,
+      customLogoDataUrl: UNIONOPS_LOGOS.mark,
+    };
+  }
   if (isOfficialLogoVariant(mode)) {
     return {
       useOfficialLogo: true,
@@ -63,7 +125,6 @@ export function brandKitPatchForLogoMode(
   if (mode === "custom") {
     return {
       useOfficialLogo: false,
-      // Keep an existing upload, or "" so mode stays "custom" until a file is chosen
       customLogoDataUrl: currentCustomLogoDataUrl ?? "",
     };
   }
@@ -79,6 +140,9 @@ interface LogoSettingsProps {
   officialLogoVariant?: OfficialLogoVariant;
   customLogoDataUrl?: string;
   logoText?: string;
+  /** Drives which bundled union logos appear (OPSEU pack vs starter wordmarks) */
+  unionPresetId?: string;
+  primaryColor?: string;
   onModeChange: (mode: LogoMode) => void;
   onCustomLogoUpload: (dataUrl: string) => void;
   onCustomLogoClear: () => void;
@@ -90,86 +154,104 @@ export function LogoSettings({
   officialLogoVariant = "lockup",
   customLogoDataUrl,
   logoText = "UO",
+  unionPresetId,
+  primaryColor = BRAND_COLORS.primary,
   onModeChange,
   onCustomLogoUpload,
   onCustomLogoClear,
   onLogoTextChange,
 }: LogoSettingsProps) {
   const t = useTranslations("brandKit.logo");
+  const preset = unionPresetId ? getUnionPreset(unionPresetId) : undefined;
+  const presetLogos = preset ? resolvePresetLogos(preset.logos) : null;
+  const showOpseuPack = Boolean(presetLogos?.useOfficialPack);
+  const showUnionPack = Boolean(
+    preset && presetLogos && !presetLogos.useOfficialPack,
+  );
+
   const mode = resolveSelectableLogoMode(
     useOfficialLogo,
     officialLogoVariant,
     customLogoDataUrl,
+    presetLogos,
   );
 
-  const officialOptions: {
-    id: OfficialLogoVariant;
-    title: string;
-    description: string;
-    preview: {
-      src: string;
-      width: number;
-      height: number;
-      onDark?: boolean;
-    };
-  }[] = [
-    {
-      id: "lockup",
-      title: t("useLockup"),
-      description: t("useLockupHint"),
-      preview: {
-        src: OFFICIAL_LOGOS.lockup.src,
-        width: 160,
-        height: 64,
-      },
-    },
-    {
-      id: "mark",
-      title: t("useMark"),
-      description: t("useMarkHint"),
-      preview: {
-        src: OFFICIAL_LOGOS.mark.src,
-        width: 56,
-        height: 56,
-      },
-    },
-    {
-      id: "slitBlue",
-      title: t("useSlitBlue"),
-      description: t("useSlitBlueHint"),
-      preview: {
-        src: OFFICIAL_LOGOS.slitBlue.src,
-        width: 56,
-        height: 56,
-      },
-    },
-    {
-      id: "slitWhite",
-      title: t("useSlitWhite"),
-      description: t("useSlitWhiteHint"),
-      preview: {
-        src: OFFICIAL_LOGOS.slitWhite.src,
-        width: 56,
-        height: 56,
-        onDark: true,
-      },
-    },
-  ];
-
-  const options: {
+  type Option = {
     id: LogoMode;
     title: string;
     description: string;
     preview?: {
-      src: string;
+      src?: string;
       width: number;
       height: number;
       onDark?: boolean;
+      platformMark?: boolean;
     };
-  }[] = [
-    ...officialOptions.filter((option) =>
-      isSelectableOfficialLogoVariant(option.id),
-    ),
+  };
+
+  const options: Option[] = [];
+
+  if (showOpseuPack) {
+    options.push(
+      {
+        id: "lockup",
+        title: t("useLockup"),
+        description: t("useLockupHint"),
+        preview: {
+          src: OFFICIAL_LOGOS.lockup.src,
+          width: 160,
+          height: 64,
+        },
+      },
+      {
+        id: "mark",
+        title: t("useMark"),
+        description: t("useMarkHint"),
+        preview: {
+          src: OFFICIAL_LOGOS.mark.src,
+          width: 56,
+          height: 56,
+        },
+      },
+    );
+  }
+
+  if (showUnionPack && preset && presetLogos) {
+    options.push(
+      {
+        id: "union-lockup",
+        title: t("useUnionLockup", { union: preset.name }),
+        description: t("useUnionLockupHint", { union: preset.name }),
+        preview: {
+          src: presetLogos.lockup,
+          width: 160,
+          height: 64,
+        },
+      },
+      {
+        id: "union-mark",
+        title: t("useUnionMark", { union: preset.name }),
+        description: t("useUnionMarkHint", { union: preset.name }),
+        preview: {
+          src: presetLogos.mark,
+          width: 56,
+          height: 56,
+        },
+      },
+    );
+  }
+
+  options.push(
+    {
+      id: "platform",
+      title: t("usePlatform"),
+      description: t("usePlatformHint"),
+      preview: {
+        platformMark: true,
+        width: 48,
+        height: 48,
+      },
+    },
     {
       id: "custom",
       title: t("uploadCustomLogo"),
@@ -180,7 +262,7 @@ export function LogoSettings({
       title: t("noImage"),
       description: t("noImageHint"),
     },
-  ];
+  );
 
   return (
     <div className="space-y-4">
@@ -226,12 +308,19 @@ export function LogoSettings({
                       option.preview.onDark ? "bg-opseu-dark" : "bg-white",
                     )}
                   >
-                    <SafeLogoImage
-                      src={option.preview.src}
-                      width={option.preview.width}
-                      height={option.preview.height}
-                      onDark={option.preview.onDark}
-                    />
+                    {option.preview.platformMark ? (
+                      <UnionOpsMark
+                        primaryColor={primaryColor}
+                        size="md"
+                      />
+                    ) : (
+                      <SafeLogoImage
+                        src={option.preview.src!}
+                        width={option.preview.width}
+                        height={option.preview.height}
+                        onDark={option.preview.onDark}
+                      />
+                    )}
                   </span>
                 )}
               </span>

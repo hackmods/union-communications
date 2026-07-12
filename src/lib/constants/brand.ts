@@ -91,6 +91,7 @@ export const DEFAULT_BRAND_KIT = {
   officialLogoVariant: "lockup" as OfficialLogoVariant,
   customLogoDataUrl: UNIONOPS_LOGOS.mark,
   logoText: "UO",
+  unionPresetId: undefined as string | undefined,
   divisionId: hostDefaults.divisionId,
   websiteUrl: undefined as string | undefined,
   facebookUrl: undefined as string | undefined,

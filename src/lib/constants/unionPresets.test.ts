@@ -64,11 +64,12 @@ describe("unionPresets", () => {
     expect(fields.customLogoDataUrl).toBeUndefined();
   });
 
-  it("maps other presets to UnionOps mark plus palette colours", () => {
+  it("maps other presets to bundled starter logos plus palette colours", () => {
     const fields = brandFieldsFromUnionPreset(getUnionPreset("unifor")!);
     expect(fields.useOfficialLogo).toBe(false);
-    expect(fields.customLogoDataUrl).toBe(UNIONOPS_LOGOS.mark);
+    expect(fields.customLogoDataUrl).toBe("/assets/unions/unifor/logo.svg");
     expect(fields.primaryColor).toBe("#007A33");
+    expect(fields.unionPresetId).toBe("unifor");
   });
 
   it("falls back to UnionOps when logos are missing or empty", () => {
@@ -100,7 +101,8 @@ describe("unionPresets", () => {
 
     const fields = brandFieldsFromUnionPreset(bare);
     expect(fields.useOfficialLogo).toBe(false);
-    expect(fields.customLogoDataUrl).toBe(UNIONOPS_LOGOS.mark);
+    expect(fields.customLogoDataUrl).toBe(UNIONOPS_LOGOS.lockup);
+    expect(fields.unionPresetId).toBe("bare");
   });
 
   it("fills partial logo packs with UnionOps for missing slots", () => {

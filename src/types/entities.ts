@@ -37,6 +37,8 @@ export interface BrandKit {
   customLogoDataUrl?: string;
   /** Short monogram when no logo image is used (e.g. LU, 243) */
   logoText?: string;
+  /** Active union preset id from Brand Kit (drives logo picker options) */
+  unionPresetId?: string;
   divisionId?: string;
   /** Local website (optional) - used by QR cards, posters, website template */
   websiteUrl?: string;

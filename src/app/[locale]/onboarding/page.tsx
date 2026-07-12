@@ -10,6 +10,11 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { LogoSettings, brandKitPatchForLogoMode, type LogoMode } from "@/components/brand/LogoSettings";
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
+import {
+  getUnionPreset,
+  resolvePresetLogos,
+  UNIONOPS_LOGOS,
+} from "@/lib/constants/unionPresets";
 
 export default function OnboardingPage() {
   const t = useTranslations("onboarding");
@@ -18,11 +23,17 @@ export default function OnboardingPage() {
   const { brandKit, setBrandKit, setOnboardingComplete } = useBrandStore();
   const [step, setStep] = useState(1);
   const [division, setDivision] = useState("");
+  const presetLogos = brandKit.unionPresetId
+    ? resolvePresetLogos(getUnionPreset(brandKit.unionPresetId)?.logos)
+    : null;
 
-  // Prefer keeping an existing upload / UnionOps mark; otherwise default to OPSEU lockup
+  // Default to UnionOps mark — never force OPSEU unless that preset is chosen
   useEffect(() => {
     if (!brandKit.customLogoDataUrl && !brandKit.useOfficialLogo) {
-      setBrandKit({ useOfficialLogo: true, officialLogoVariant: "lockup" });
+      setBrandKit({
+        useOfficialLogo: false,
+        customLogoDataUrl: UNIONOPS_LOGOS.mark,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on enter
   }, []);
@@ -38,6 +49,7 @@ export default function OnboardingPage() {
         mode,
         brandKit.logoText,
         brandKit.customLogoDataUrl,
+        presetLogos,
       ),
     );
   };
@@ -120,6 +132,8 @@ export default function OnboardingPage() {
               officialLogoVariant={brandKit.officialLogoVariant}
               customLogoDataUrl={brandKit.customLogoDataUrl}
               logoText={brandKit.logoText}
+              unionPresetId={brandKit.unionPresetId}
+              primaryColor={brandKit.primaryColor}
               onModeChange={handleLogoModeChange}
               onCustomLogoUpload={(url) =>
                 setBrandKit({

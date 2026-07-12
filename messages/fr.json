@@ -739,11 +739,11 @@
     "importError": "Fichier de trousse de marque invalide",
     "unionPreset": {
       "title": "Préréglage syndical",
-      "description": "Partez d'une palette de couleurs d'un syndicat canadien courant. Le monogramme U de UnionOps prend la couleur principale pour garder le chrome du site cohérent. OPSEU peut aussi utiliser le lockup et l'emblème officiels; les autres montrent des wordmarks de départ à remplacer par vos actifs officiels.",
+      "description": "Partez d'une palette et des logos de départ d'un syndicat canadien courant. OPSEU utilise le lockup et l'emblème officiels; les autres livrent des wordmarks originaux à conserver ou remplacer.",
       "label": "Préréglage syndical",
       "placeholder": "Choisir un syndicat…",
       "slogans": "Slogans suggérés",
-      "logoNote": "Appliquer un préréglage met à jour les couleurs (et teinte le U UnionOps). OPSEU peut passer au lot officiel. Les autres gardent le monogramme U — téléversez le vrai logo de votre section ci-dessous avant de publier."
+      "logoNote": "Des logos de départ sont fournis sous /assets/unions pour chaque préréglage (pas des marques officielles, sauf le lot de référence OPSEU). Choisissez-les dans la section Logo ci-dessous, ou téléversez le vrai logo de votre section."
     },
     "colors": {
       "primary": "Couleur de marque principale",
@@ -751,24 +751,30 @@
     },
     "logo": {
       "title": "Logo",
-      "description": "Choisissez un logo OPSEU, téléversez le logo de votre section, ou utilisez un monogramme texte.",
+      "description": "Choisissez un logo syndical fourni pour votre préréglage, le monogramme UnionOps, un téléversement, ou un monogramme texte.",
       "useOfficialLogo": "Utiliser le logo OPSEU",
       "uploadCustomLogo": "Téléverser un logo",
       "uploadHint": "PNG, JPEG, WebP ou SVG jusqu'à 10 Mo.",
-      "useOfficialLogoHint": "Lockup officiel OPSEU/SEFPO - choix recommandé pour configurer votre marque.",
+      "useOfficialLogoHint": "Lockup officiel OPSEU/SEFPO - recommandé lorsque OPSEU est votre syndicat.",
       "noImage": "Aucune image",
       "noImageHint": "Utilisez un monogramme texte dans l'en-tête au lieu d'un logo.",
       "logoText": "Monogramme d'en-tête",
       "logoTextHint": "Jusqu'à 4 caractères - p. ex. LU ou votre numéro de section.",
       "preview": "Aperçu",
       "useLockup": "Mot-symbole OPSEU",
-      "useLockupHint": "Lockup complet OPSEU/SEFPO - choix recommandé pour configurer votre marque.",
+      "useLockupHint": "Lockup complet OPSEU/SEFPO du lot d'actifs de référence.",
       "useMark": "Emblème OPSEU",
       "useMarkHint": "Barres et trille - compact pour les en-têtes et logos circulaires.",
       "useSlitBlue": "Emblème fendu OPSEU (bleu)",
       "useSlitBlueHint": "Barres et trille avec OPSEU/SEFPO découpés - pour fonds clairs.",
       "useSlitWhite": "Emblème fendu OPSEU (blanc)",
-      "useSlitWhiteHint": "Même emblème fendu en blanc - pour fonds foncés ou couleur de marque."
+      "useSlitWhiteHint": "Même emblème fendu en blanc - pour fonds foncés ou couleur de marque.",
+      "useUnionLockup": "Mot-symbole {union}",
+      "useUnionLockupHint": "Wordmark de départ fourni pour {union}. Remplacez-le par votre logo officiel avant de publier.",
+      "useUnionMark": "Emblème {union}",
+      "useUnionMarkHint": "Emblème de départ fourni pour {union}. Compact pour en-têtes et formats circulaires.",
+      "usePlatform": "Monogramme UnionOps",
+      "usePlatformHint": "Monogramme U de la plateforme qui prend la couleur de marque principale."
     }
   },
   "graphicMaker": {

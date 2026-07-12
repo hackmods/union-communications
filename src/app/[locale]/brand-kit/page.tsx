@@ -8,7 +8,10 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UnionPresetSelect } from "@/components/tools/UnionPresetSelect";
-import { LogoSettings, brandKitPatchForLogoMode } from "@/components/brand/LogoSettings";
+import {
+  LogoSettings,
+  brandKitPatchForLogoMode,
+} from "@/components/brand/LogoSettings";
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import {
   brandFieldsFromUnionPreset,
@@ -24,14 +27,14 @@ export default function BrandKitPage() {
   const { brandKit, setBrandKit, importBrandKit, resetBrandKit } = useBrandStore();
   const fileRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const [unionPresetId, setUnionPresetId] = useState("");
+
+  const unionPresetId = brandKit.unionPresetId ?? "";
   const selectedPreset = getUnionPreset(unionPresetId);
   const selectedLogos = selectedPreset
     ? resolvePresetLogos(selectedPreset.logos)
     : null;
 
   const applyUnionPreset = (preset: UnionBranding) => {
-    setUnionPresetId(preset.id);
     setBrandKit(brandFieldsFromUnionPreset(preset));
   };
 
@@ -138,17 +141,6 @@ export default function BrandKitPage() {
       </Card>
 
       <Card className="mt-6 space-y-4">
-        <LocalLinksEditor
-          websiteUrl={brandKit.websiteUrl ?? ""}
-          facebookUrl={brandKit.facebookUrl ?? ""}
-          customLinks={brandKit.customLinks ?? []}
-          onWebsiteChange={(url) => setBrandKit({ websiteUrl: url })}
-          onFacebookChange={(url) => setBrandKit({ facebookUrl: url })}
-          onCustomLinksChange={(links) => setBrandKit({ customLinks: links })}
-        />
-      </Card>
-
-      <Card className="mt-6 space-y-4">
         <CardTitle>{t("logo.title")}</CardTitle>
         <p className="text-sm text-gray-600">{t("logo.description")}</p>
         <LogoSettings
@@ -156,12 +148,15 @@ export default function BrandKitPage() {
           officialLogoVariant={brandKit.officialLogoVariant}
           customLogoDataUrl={brandKit.customLogoDataUrl}
           logoText={brandKit.logoText}
+          unionPresetId={brandKit.unionPresetId}
+          primaryColor={brandKit.primaryColor}
           onModeChange={(mode) => {
             setBrandKit(
               brandKitPatchForLogoMode(
                 mode,
                 brandKit.logoText,
                 brandKit.customLogoDataUrl,
+                selectedLogos,
               ),
             );
           }}
@@ -169,10 +164,20 @@ export default function BrandKitPage() {
             setBrandKit({ useOfficialLogo: false, customLogoDataUrl: url })
           }
           onCustomLogoClear={() =>
-            // Keep custom mode selected so the upload control stays visible
             setBrandKit({ customLogoDataUrl: "" })
           }
           onLogoTextChange={(text) => setBrandKit({ logoText: text })}
+        />
+      </Card>
+
+      <Card className="mt-6 space-y-4">
+        <LocalLinksEditor
+          websiteUrl={brandKit.websiteUrl ?? ""}
+          facebookUrl={brandKit.facebookUrl ?? ""}
+          customLinks={brandKit.customLinks ?? []}
+          onWebsiteChange={(url) => setBrandKit({ websiteUrl: url })}
+          onFacebookChange={(url) => setBrandKit({ facebookUrl: url })}
+          onCustomLinksChange={(links) => setBrandKit({ customLinks: links })}
         />
       </Card>
 

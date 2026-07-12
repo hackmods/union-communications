@@ -5,7 +5,7 @@ import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng, exportNodeAsSvg } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
-import { deriveAccentFromPrimary } from "@/lib/constants/unionPresets";
+import { deriveAccentFromPrimary, getUnionPreset, resolvePresetLogos } from "@/lib/constants/unionPresets";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -33,6 +33,9 @@ export default function LogoBuilderPage() {
   const setBrandKit = useBrandStore((s) => s.setBrandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const presetLogos = brandKit.unionPresetId
+    ? resolvePresetLogos(getUnionPreset(brandKit.unionPresetId)?.logos)
+    : null;
 
   const initial: LogoState = {
     localNumber: brandKit.local.localNumber,
@@ -106,12 +109,15 @@ export default function LogoBuilderPage() {
               officialLogoVariant={brandKit.officialLogoVariant}
               customLogoDataUrl={brandKit.customLogoDataUrl}
               logoText={brandKit.logoText}
+              unionPresetId={brandKit.unionPresetId}
+              primaryColor={state.primaryColor}
               onModeChange={(mode) => {
                 setBrandKit(
                   brandKitPatchForLogoMode(
                     mode,
                     brandKit.logoText,
                     brandKit.customLogoDataUrl,
+                    presetLogos,
                   ),
                 );
               }}

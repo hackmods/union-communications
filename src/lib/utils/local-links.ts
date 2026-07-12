@@ -82,6 +82,10 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
       typeof input.useOfficialLogo === "boolean"
         ? input.useOfficialLogo
         : base.useOfficialLogo,
+    unionPresetId:
+      typeof input.unionPresetId === "string" && input.unionPresetId.trim()
+        ? input.unionPresetId.trim()
+        : undefined,
     websiteUrl: trimUrl(input.websiteUrl),
     facebookUrl: trimUrl(input.facebookUrl),
     customLinks: normalizeCustomLinks(input.customLinks),

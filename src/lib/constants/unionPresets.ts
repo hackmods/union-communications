@@ -217,8 +217,7 @@ export function colorsFromUnionPreset(preset: UnionBranding): {
 }
 
 /** Brand Kit colour + logo fields when applying a union preset.
- * Keeps the UnionOps mark so the header U can tint to the preset primary;
- * OPSEU still opts into the official pack. Starter wordmarks stay preview-only.
+ * Applies palette + that union’s bundled lockup (OPSEU uses the official pack).
  */
 export function brandFieldsFromUnionPreset(preset: UnionBranding): {
   primaryColor: string;
@@ -228,6 +227,7 @@ export function brandFieldsFromUnionPreset(preset: UnionBranding): {
   officialLogoVariant?: "lockup" | "mark";
   customLogoDataUrl?: string;
   logoText: string;
+  unionPresetId: string;
 } {
   const colors = colorsFromUnionPreset(preset);
   const logos = resolvePresetLogos(preset.logos);
@@ -240,14 +240,15 @@ export function brandFieldsFromUnionPreset(preset: UnionBranding): {
       officialLogoVariant: "lockup",
       customLogoDataUrl: undefined,
       logoText,
+      unionPresetId: preset.id,
     };
   }
 
   return {
     ...colors,
     useOfficialLogo: false,
-    // Keep platform mark so BrandLogo can recolor it with primaryColor
-    customLogoDataUrl: UNIONOPS_LOGOS.mark,
+    customLogoDataUrl: logos.lockup,
     logoText,
+    unionPresetId: preset.id,
   };
 }
