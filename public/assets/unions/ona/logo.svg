@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 64" role="img" aria-label="ONA starter wordmark">
+  <title>ONA  starter wordmark</title>
+  <desc>Original starter lettermark for local graphics. Not an official ONA trademark.</desc>
+  <rect width="180" height="64" rx="8" fill="#0055A4"/>
+  <circle cx="32" cy="32" r="18" fill="none" stroke="#FFFFFF" stroke-width="4"/>
+  <text
+    x="32"
+    y="38"
+    text-anchor="middle"
+    fill="#FFFFFF"
+    font-family="Segoe UI, Helvetica Neue, Arial, sans-serif"
+    font-size="14"
+    font-weight="800"
+  >ONA</text>
+  <text
+    x="64"
+    y="42"
+    fill="#FFFFFF"
+    font-family="Segoe UI, Helvetica Neue, Arial, sans-serif"
+    font-size="28"
+    font-weight="800"
+    letter-spacing="2"
+  >ONA</text>
+</svg>

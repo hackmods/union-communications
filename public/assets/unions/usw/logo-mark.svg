@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="USW starter mark">
+  <title>USW  starter mark</title>
+  <desc>Original starter lettermark. Not an official USW trademark.</desc>
+  <rect width="64" height="64" rx="10" fill="#003366"/>
+  <rect x="10" y="10" width="44" height="44" rx="6" fill="#FFD100"/>
+  <text
+    x="32"
+    y="40"
+    text-anchor="middle"
+    fill="#003366"
+    font-family="Arial Black, Helvetica Neue, Arial, sans-serif"
+    font-size="16"
+    font-weight="900"
+  >USW</text>
+</svg>

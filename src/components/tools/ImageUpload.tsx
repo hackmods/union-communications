@@ -79,13 +79,23 @@ export function ImageUpload({
       </div>
       {hasPreview && (
         <div className="relative h-32 w-full max-w-xs">
-          <Image
-            src={preview!}
-            alt=""
-            fill
-            unoptimized
-            className="rounded-lg border object-contain"
-          />
+          {preview!.endsWith(".svg") ||
+          preview!.startsWith("data:image/svg") ? (
+            // eslint-disable-next-line @next/next/no-img-element -- SVG previews
+            <img
+              src={preview!}
+              alt=""
+              className="h-32 w-full rounded-lg border object-contain"
+            />
+          ) : (
+            <Image
+              src={preview!}
+              alt=""
+              fill
+              unoptimized
+              className="rounded-lg border object-contain"
+            />
+          )}
         </div>
       )}
       {error && (

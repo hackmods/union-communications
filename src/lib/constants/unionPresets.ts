@@ -1,7 +1,22 @@
 /**
  * Starter branding presets for common Canadian unions.
- * Colours are generic approximations for local graphics — not official trademarked palettes.
+ * Colours and non-OPSEU logos are generic starters — not official trademarked assets.
+ * OPSEU lockup/mark use the bundled reference tenant pack.
  */
+
+export interface UnionLogoPack {
+  /** Wide wordmark / lockup */
+  lockup: string;
+  /** Square mark */
+  mark: string;
+  /** Mark for dark / brand-coloured backgrounds */
+  markOnDark?: string;
+  /**
+   * When true, Brand Kit uses the OPSEU official pack (`OFFICIAL_LOGOS`)
+   * instead of treating paths as custom uploads.
+   */
+  useOfficialPack?: boolean;
+}
 
 export interface UnionBranding {
   id: string;
@@ -9,6 +24,7 @@ export interface UnionBranding {
   primaryColor: string;
   secondaryColor: string;
   defaultSlogans: string[];
+  logos: UnionLogoPack;
 }
 
 /** Bright orange platform default — generic, not affiliated with any union brand. */
@@ -16,6 +32,13 @@ export const PLATFORM_UNION_ORANGE = {
   primary: "#FF6B00",
   secondary: "#FFFFFF",
   accent: "#C2410C",
+} as const;
+
+/** Platform site logo (UnionOps) */
+export const UNIONOPS_LOGOS = {
+  lockup: "/assets/unionops/logo-lockup.svg",
+  mark: "/assets/unionops/logo-mark.svg",
+  markOnDark: "/assets/unionops/logo-mark-on-dark.svg",
 } as const;
 
 export const UNION_PRESETS: UnionBranding[] = [
@@ -29,6 +52,12 @@ export const UNION_PRESETS: UnionBranding[] = [
       "Stronger together",
       "Solidarity forever",
     ],
+    logos: {
+      useOfficialPack: true,
+      lockup: "/assets/caat-opseu/logo-primary.png",
+      mark: "/assets/caat-opseu/logo-mark.png",
+      markOnDark: "/assets/caat-opseu/logo-mark-white.png",
+    },
   },
   {
     id: "cupe",
@@ -40,6 +69,10 @@ export const UNION_PRESETS: UnionBranding[] = [
       "Workers united",
       "Fighting for fairness",
     ],
+    logos: {
+      lockup: "/assets/unions/cupe/logo.svg",
+      mark: "/assets/unions/cupe/logo-mark.svg",
+    },
   },
   {
     id: "unifor",
@@ -51,6 +84,10 @@ export const UNION_PRESETS: UnionBranding[] = [
       "Good jobs for all",
       "Union strong",
     ],
+    logos: {
+      lockup: "/assets/unions/unifor/logo.svg",
+      mark: "/assets/unions/unifor/logo-mark.svg",
+    },
   },
   {
     id: "usw",
@@ -62,6 +99,10 @@ export const UNION_PRESETS: UnionBranding[] = [
       "Steel strong",
       "Stand up for workers",
     ],
+    logos: {
+      lockup: "/assets/unions/usw/logo.svg",
+      mark: "/assets/unions/usw/logo-mark.svg",
+    },
   },
   {
     id: "ona",
@@ -73,6 +114,10 @@ export const UNION_PRESETS: UnionBranding[] = [
       "Patients over profits",
       "Safe staffing now",
     ],
+    logos: {
+      lockup: "/assets/unions/ona/logo.svg",
+      mark: "/assets/unions/ona/logo-mark.svg",
+    },
   },
   {
     id: "psac",
@@ -84,6 +129,10 @@ export const UNION_PRESETS: UnionBranding[] = [
       "Fairness for public workers",
       "Solidarity across Canada",
     ],
+    logos: {
+      lockup: "/assets/unions/psac/logo.svg",
+      mark: "/assets/unions/psac/logo-mark.svg",
+    },
   },
 ];
 
@@ -110,5 +159,33 @@ export function colorsFromUnionPreset(preset: UnionBranding): {
     primaryColor: preset.primaryColor,
     secondaryColor: preset.secondaryColor,
     accentColor: deriveAccentFromPrimary(preset.primaryColor),
+  };
+}
+
+/** Brand Kit colour + logo fields when applying a union preset. */
+export function brandFieldsFromUnionPreset(preset: UnionBranding): {
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  useOfficialLogo: boolean;
+  officialLogoVariant?: "lockup" | "mark";
+  customLogoDataUrl?: string;
+  logoText: string;
+} {
+  const colors = colorsFromUnionPreset(preset);
+  if (preset.logos.useOfficialPack) {
+    return {
+      ...colors,
+      useOfficialLogo: true,
+      officialLogoVariant: "lockup",
+      customLogoDataUrl: undefined,
+      logoText: preset.name.slice(0, 4).toUpperCase(),
+    };
+  }
+  return {
+    ...colors,
+    useOfficialLogo: false,
+    customLogoDataUrl: preset.logos.lockup,
+    logoText: preset.name.slice(0, 4).toUpperCase(),
   };
 }

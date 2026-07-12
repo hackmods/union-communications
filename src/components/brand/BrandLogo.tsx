@@ -8,6 +8,7 @@ import {
   isSelectableOfficialLogoVariant,
   type OfficialLogoVariant,
 } from "@/lib/constants/brand";
+import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
 import { cn } from "@/lib/utils";
 
 interface BrandLogoProps {
@@ -29,11 +30,13 @@ const markSize = {
   lg: { width: 96, height: 96 },
 } as const;
 
-const textSizeClass = {
-  sm: "h-8 w-8 text-sm",
-  md: "h-12 w-12 text-base",
-  lg: "h-24 w-24 text-2xl",
-} as const;
+function isSvgSrc(src: string): boolean {
+  return (
+    src.endsWith(".svg") ||
+    src.startsWith("data:image/svg") ||
+    src.includes("image/svg")
+  );
+}
 
 function resolveOfficialSrc(
   variant: OfficialLogoVariant,
@@ -60,24 +63,56 @@ function resolveOfficialSrc(
   return { src, size: "mark", isSvg: false };
 }
 
+function LogoImage({
+  src,
+  width,
+  height,
+  className,
+}: {
+  src: string;
+  width: number;
+  height: number;
+  className?: string;
+}) {
+  if (isSvgSrc(src)) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- SVG marks / wordmarks
+      <img
+        src={src}
+        alt=""
+        width={width}
+        height={height}
+        className={cn("object-contain", className)}
+      />
+    );
+  }
+
+  return (
+    <Image
+      src={src}
+      alt=""
+      width={width}
+      height={height}
+      unoptimized={src.startsWith("data:")}
+      className={cn("object-contain", className)}
+    />
+  );
+}
+
 export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoProps) {
   const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
-  const mark = (brandKit.logoText?.trim() || "LU").slice(0, 4);
+  const dims = markSize[size];
 
-  // First visit / before hydrate: keep the compact LU mark
+  // First visit / before hydrate: UnionOps platform mark
   if (!hydrated) {
     return (
-      <span
-        className={cn(
-          "flex items-center justify-center rounded bg-opseu-blue font-bold text-white",
-          textSizeClass[size],
-          className,
-        )}
-        aria-hidden
-      >
-        LU
-      </span>
+      <LogoImage
+        src={onDark ? UNIONOPS_LOGOS.markOnDark : UNIONOPS_LOGOS.mark}
+        width={dims.width}
+        height={dims.height}
+        className={className}
+      />
     );
   }
 
@@ -86,51 +121,52 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
       ? brandKit.officialLogoVariant
       : "lockup";
     const resolved = resolveOfficialSrc(variant, onDark);
-    const dims = resolved.size === "lockup" ? lockupSize[size] : markSize[size];
-
-    if (resolved.isSvg) {
-      return (
-        // eslint-disable-next-line @next/next/no-img-element -- bundled SVG logos
-        <img
-          src={resolved.src}
-          alt=""
-          width={dims.width}
-          height={dims.height}
-          className={cn("object-contain", className)}
-        />
-      );
-    }
+    const officialDims =
+      resolved.size === "lockup" ? lockupSize[size] : markSize[size];
 
     return (
-      <Image
+      <LogoImage
         src={resolved.src}
-        alt=""
-        width={dims.width}
-        height={dims.height}
-        className={cn("object-contain", className)}
+        width={officialDims.width}
+        height={officialDims.height}
+        className={className}
       />
     );
   }
 
-  if (brandKit.customLogoDataUrl) {
-    const { width, height } = markSize[size];
+  if (brandKit.customLogoDataUrl?.trim()) {
+    let src = brandKit.customLogoDataUrl.trim();
+    // Prefer on-dark variant for UnionOps / known mark paths when available
+    if (
+      onDark &&
+      (src === UNIONOPS_LOGOS.mark || src === UNIONOPS_LOGOS.lockup)
+    ) {
+      src = UNIONOPS_LOGOS.markOnDark;
+    }
+    const isLockup =
+      src.includes("logo-lockup") ||
+      src.includes("logo-primary") ||
+      (src.endsWith("/logo.svg") && !src.includes("logo-mark"));
+    const customDims = isLockup ? lockupSize[size] : markSize[size];
+
     return (
-      <Image
-        src={brandKit.customLogoDataUrl}
-        alt=""
-        width={width}
-        height={height}
-        unoptimized
-        className={cn("object-contain", className)}
+      <LogoImage
+        src={src}
+        width={customDims.width}
+        height={customDims.height}
+        className={className}
       />
     );
   }
 
+  const mark = (brandKit.logoText?.trim() || "UO").slice(0, 4);
   return (
     <span
       className={cn(
         "flex items-center justify-center rounded bg-opseu-blue font-bold text-white",
-        textSizeClass[size],
+        size === "sm" && "h-8 w-8 text-sm",
+        size === "md" && "h-12 w-12 text-base",
+        size === "lg" && "h-24 w-24 text-2xl",
         className,
       )}
       aria-hidden

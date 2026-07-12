@@ -19,9 +19,9 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [division, setDivision] = useState("");
 
-  // Building a brand defaults to the OPSEU lockup (header updates live)
+  // Prefer keeping an existing upload / UnionOps mark; otherwise default to OPSEU lockup
   useEffect(() => {
-    if (!brandKit.customLogoDataUrl) {
+    if (!brandKit.customLogoDataUrl && !brandKit.useOfficialLogo) {
       setBrandKit({ useOfficialLogo: true, officialLogoVariant: "lockup" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on enter

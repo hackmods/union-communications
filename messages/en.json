@@ -730,10 +730,11 @@
     "importError": "Invalid brand kit file",
     "unionPreset": {
       "title": "Union preset",
-      "description": "Start from a common Canadian union colour palette. Colours are generic starters for local graphics — not official trademarked brands. You can fine-tune anything below.",
+      "description": "Start from a common Canadian union colour palette and starter logo. OPSEU uses the bundled official lockup and mark; other unions use original starter wordmarks you can replace with your official assets.",
       "label": "Union preset",
       "placeholder": "Choose a union…",
-      "slogans": "Suggested slogans"
+      "slogans": "Suggested slogans",
+      "logoNote": "OPSEU logos are the official pack already in this app. Other presets use starter wordmarks — not official trademarks. Upload your local’s real logo below when publishing."
     },
     "colors": {
       "primary": "Primary brand colour",

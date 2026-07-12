@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="PSAC starter mark">
+  <title>PSAC  starter mark</title>
+  <desc>Original starter lettermark. Not an official PSAC trademark.</desc>
+  <rect width="64" height="64" rx="10" fill="#E31837"/>
+  <rect x="0" y="0" width="10" height="64" fill="#003366"/>
+  <text
+    x="36"
+    y="40"
+    text-anchor="middle"
+    fill="#FFFFFF"
+    font-family="Arial Black, Helvetica Neue, Arial, sans-serif"
+    font-size="16"
+    font-weight="900"
+  >PSAC</text>
+</svg>

@@ -1,5 +1,8 @@
 import { getDefaultBrandDefaults } from "@/lib/tenant/loader";
-import { PLATFORM_UNION_ORANGE } from "@/lib/constants/unionPresets";
+import {
+  PLATFORM_UNION_ORANGE,
+  UNIONOPS_LOGOS,
+} from "@/lib/constants/unionPresets";
 import { DEFAULT_LOCAL_NUMBER } from "@/lib/utils/local";
 
 const defaults = getDefaultBrandDefaults();
@@ -84,10 +87,11 @@ export const DEFAULT_BRAND_KIT = {
   primaryColor: BRAND_COLORS.primary,
   secondaryColor: BRAND_COLORS.secondary,
   accentColor: BRAND_COLORS.accent,
-  // First visit shows LU in the header; official lockup is opt-in via Brand Kit
+  // First visit uses UnionOps mark; pick a union preset or upload for local branding
   useOfficialLogo: false,
   officialLogoVariant: "lockup" as OfficialLogoVariant,
-  logoText: "LU",
+  customLogoDataUrl: UNIONOPS_LOGOS.mark,
+  logoText: "UO",
   divisionId: defaults.assetPackPath.includes("caat") ? "caat" : undefined,
   websiteUrl: undefined as string | undefined,
   facebookUrl: undefined as string | undefined,

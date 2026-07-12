@@ -11,7 +11,7 @@ import { UnionPresetSelect } from "@/components/tools/UnionPresetSelect";
 import { LogoSettings, brandKitPatchForLogoMode } from "@/components/brand/LogoSettings";
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import {
-  colorsFromUnionPreset,
+  brandFieldsFromUnionPreset,
   getUnionPreset,
   type UnionBranding,
 } from "@/lib/constants/unionPresets";
@@ -27,7 +27,7 @@ export default function BrandKitPage() {
 
   const applyUnionPreset = (preset: UnionBranding) => {
     setUnionPresetId(preset.id);
-    setBrandKit(colorsFromUnionPreset(preset));
+    setBrandKit(brandFieldsFromUnionPreset(preset));
   };
 
   const handleExport = () => {
@@ -76,15 +76,32 @@ export default function BrandKitPage() {
           onSelect={applyUnionPreset}
         />
         {selectedPreset ? (
-          <div>
-            <p className="text-sm font-medium text-gray-700">
-              {t("unionPreset.slogans")}
-            </p>
-            <ul className="mt-1 list-inside list-disc text-sm text-gray-600">
-              {selectedPreset.defaultSlogans.map((slogan) => (
-                <li key={slogan}>{slogan}</li>
-              ))}
-            </ul>
+          <div className="space-y-3">
+            <div className="flex flex-wrap items-center gap-4">
+              {/* eslint-disable-next-line @next/next/no-img-element -- preset logo preview */}
+              <img
+                src={selectedPreset.logos.lockup}
+                alt=""
+                className="h-12 max-w-[200px] object-contain"
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element -- preset logo preview */}
+              <img
+                src={selectedPreset.logos.mark}
+                alt=""
+                className="h-12 w-12 object-contain"
+              />
+            </div>
+            <p className="text-xs text-gray-500">{t("unionPreset.logoNote")}</p>
+            <div>
+              <p className="text-sm font-medium text-gray-700">
+                {t("unionPreset.slogans")}
+              </p>
+              <ul className="mt-1 list-inside list-disc text-sm text-gray-600">
+                {selectedPreset.defaultSlogans.map((slogan) => (
+                  <li key={slogan}>{slogan}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         ) : null}
       </Card>

@@ -70,7 +70,7 @@ export function brandKitPatchForLogoMode(
   return {
     useOfficialLogo: false,
     customLogoDataUrl: undefined,
-    logoText: currentLogoText?.trim() || "LU",
+    logoText: currentLogoText?.trim() || "UO",
   };
 }
 
@@ -89,7 +89,7 @@ export function LogoSettings({
   useOfficialLogo,
   officialLogoVariant = "lockup",
   customLogoDataUrl,
-  logoText = "LU",
+  logoText = "UO",
   onModeChange,
   onCustomLogoUpload,
   onCustomLogoClear,
@@ -281,7 +281,7 @@ export function LogoSettings({
               className="flex h-12 w-12 items-center justify-center rounded bg-opseu-blue text-sm font-bold text-white"
               aria-hidden
             >
-              {logoText.trim() || "LU"}
+              {logoText.trim() || "UO"}
             </span>
           </div>
         </div>
