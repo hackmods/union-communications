@@ -5,6 +5,9 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
+      args:
+        NEXT_PUBLIC_OFFICER_HUB_PUBLIC: "true"
+        NEXT_PUBLIC_DEMO_SITE: "true"
     ports:
       - "3000:3000"
     environment:

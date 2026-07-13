@@ -1189,6 +1189,8 @@
     "email": "Email",
     "password": "Password",
     "demoHint": "Demo: president@local243.ca / demo123 or solo@example.ca / demo123",
+    "demoBannerLabel": "Demo",
+    "demoBannerBody": "This Officer Hub is a demonstration site with sample data — not live production. Do not enter real member or grievance information; nothing here is confidential casework.",
     "backToPublic": "Back to public tools",
     "tenantInfo": "Your organization",
     "union": "Union",

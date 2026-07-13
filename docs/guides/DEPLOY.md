@@ -12,7 +12,7 @@ If **you** host an instance, **you** are the data controller for data that insta
    - Edit `config/host-brand.json` before build, or
    - `npm run brand:set -- --primary=#… --secondary=#… --local=… --sub="…"`, or
    - Pass `NEXT_PUBLIC_BRAND_PRIMARY` / `SECONDARY` / `ACCENT` and `NEXT_PUBLIC_DEFAULT_LOCAL_NUMBER` / `SUB_TEXT` as container env (see `.env.example`).
-4. Do **not** rely on demo accounts (`demo123`) for real grievances or member files.
+4. Do **not** rely on demo accounts (`demo123`) for real grievances or member files. On workshop/demo hosts, set `NEXT_PUBLIC_DEMO_SITE=true` so the authenticated hub shows a Demo banner; turn that off for real tenant instances.
 5. Confirm health: `GET /api/health` → `{"status":"ok"}`.
 6. Read the two-tier privacy model in the site Privacy page and [`docs/COMPLIANCE.md`](../COMPLIANCE.md).
 
@@ -71,6 +71,8 @@ Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_
 | `NEXT_PUBLIC_BRAND_ACCENT` | `#9B0D1C` |
 | `NEXT_PUBLIC_DEFAULT_LOCAL_NUMBER` | `79` |
 | `NEXT_PUBLIC_DEFAULT_SUB_TEXT` | `Hospital Workers` |
+| `NEXT_PUBLIC_OFFICER_HUB_PUBLIC` | `true` (Docker soft-launch default) |
+| `NEXT_PUBLIC_DEMO_SITE` | `true` on demo hosts; `false` for live tenants |
 
 3. Deploy via CapRover git push / webhook, or pull the GHCR tag if your CapRover setup uses a registry image.
 4. Health check: `GET /api/health`.

@@ -24,6 +24,12 @@ ENV NODE_OPTIONS="--max-old-space-size=768"
 # Auth.js route collection happy during `next build`.
 ARG AUTH_SECRET=build-time-placeholder-not-used-at-runtime
 ENV AUTH_SECRET=$AUTH_SECRET
+# Soft-launch defaults for the public demo host. Override at build time for a
+# production white-label: NEXT_PUBLIC_OFFICER_HUB_PUBLIC=false NEXT_PUBLIC_DEMO_SITE=false
+ARG NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true
+ENV NEXT_PUBLIC_OFFICER_HUB_PUBLIC=$NEXT_PUBLIC_OFFICER_HUB_PUBLIC
+ARG NEXT_PUBLIC_DEMO_SITE=true
+ENV NEXT_PUBLIC_DEMO_SITE=$NEXT_PUBLIC_DEMO_SITE
 RUN npm run build
 
 # ---- runner: minimal production image ----

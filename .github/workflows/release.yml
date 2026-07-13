@@ -46,3 +46,5 @@ jobs:
           build-args: |
             AUTH_SECRET=build-time-placeholder-not-used-at-runtime
             CAPROVER_GIT_COMMIT_SHA=${{ github.sha }}
+            NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true
+            NEXT_PUBLIC_DEMO_SITE=true
