@@ -66,6 +66,8 @@ npm run test:smoke   # Playwright; needs browsers installed once
 
 Demo accounts (password `demo123`) exist for local CI and workshops. They are documented in the README.
 
+**Public launch toggle:** set `NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true` in `.env.local` to show the Officer Hub header CTA and hub-forward marketing copy. When unset (default), the public site stays Comms-focused; `/app` remains reachable for demos and CI.
+
 **Do not** use demo passwords for real member casework on a public host. MFA in development accepts any 6-digit code — that is not production MFA.
 
 ## Project docs

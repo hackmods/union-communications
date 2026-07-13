@@ -7,6 +7,7 @@ import { LanguageToggle } from "./LanguageToggle";
 import { DisplaySettingsMenu } from "./DisplaySettingsMenu";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { cn } from "@/lib/utils";
+import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
 const learnGroups = [
   {
@@ -225,15 +226,17 @@ export function Header() {
             ) : null}
           </div>
 
-          <Link
-            href="/app"
-            className={cn(
-              "ml-1 rounded-lg bg-opseu-blue px-3 py-1.5 font-semibold text-white hover:bg-opseu-dark",
-              pathname.startsWith("/app") && "bg-opseu-dark",
-            )}
-          >
-            {th("hubLink")}
-          </Link>
+          {isOfficerHubPublic() ? (
+            <Link
+              href="/app"
+              className={cn(
+                "ml-1 rounded-lg bg-opseu-blue px-3 py-1.5 font-semibold text-white hover:bg-opseu-dark",
+                pathname.startsWith("/app") && "bg-opseu-dark",
+              )}
+            >
+              {th("hubLink")}
+            </Link>
+          ) : null}
         </nav>
 
         <div className="flex items-center gap-2">

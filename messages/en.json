@@ -1,7 +1,9 @@
 {
   "metadata": {
     "title": "UnionOps | Free Tools & Officer Hub for Union Locals",
-    "description": "Free, privacy-first tools for union stewards and officers. Comms stay on your device; if you host an Officer Hub, you control that instance."
+    "titleCommsOnly": "UnionOps | Free Tools for Union Locals",
+    "description": "Free, privacy-first tools for union stewards and officers. Comms stay on your device; if you host an Officer Hub, you control that instance.",
+    "descriptionCommsOnly": "Free, privacy-first tools for union stewards and officers. Comms stay on your device — no ads, no subscriptions, no data harvesting."
   },
   "nav": {
     "home": "Home",
@@ -80,6 +82,7 @@
     "title": "UnionOps: The Toolkit for Local Unions",
     "slogan": "Solidarity.",
     "subtitle": "Comms tools for volunteers. Officer workflows for presidents and stewards. Built for any local, any union.",
+    "subtitleCommsOnly": "Comms tools for volunteers running a local. Built for any local, any union.",
     "heroCta": "Set up your local brand",
     "socialMediaPlanCta": "Start the Social Media Plan",
     "socialMediaPlanDesc": "A quick roadmap: logo, union boards, socials, and a simple website, in that order.",
@@ -90,9 +93,14 @@
     "pathOfficerTitle": "President or steward managing cases?",
     "pathOfficerDesc": "Track grievances, college bumping, overdue work, and handoffs in the Officer Hub.",
     "pathOfficerCta": "Open Officer Hub",
+    "pathOfficerTitleComingSoon": "Officer workflows on the way",
+    "pathOfficerDescComingSoon": "Grievance tracking, college bumping, overdue boards, and handoffs are in progress. Comms tools are ready today.",
+    "pathOfficerCtaComingSoon": "Officer Hub — coming soon",
     "channelsTitle": "The Toolbox",
     "privacyNote": "Comms tools run in your browser. Host an Officer Hub and you control that instance.",
+    "privacyNoteCommsOnly": "Comms tools run in your browser. Graphics and brand kit stay on your device.",
     "trustBanner": "Local-first Comms: graphics stay in your browser. Host the Officer Hub yourself and you are the data controller for that instance.",
+    "trustBannerCommsOnly": "Local-first Comms: graphics and brand kit stay in your browser. No analytics, no ad scripts, no data harvesting business.",
     "trustManifestoLink": "Our promise",
     "channels": {
       "social": {
@@ -1091,6 +1099,7 @@
     "noSubsBody": "This tool is free. No premium tiers, no paywalls, no hidden fees.",
     "noDataTitle": "No data harvesting:",
     "noDataBody": "We don't harvest your data or sell ads. Comms tools are local-first: graphics and brand kit stay in your browser. If you (or your local) host an Officer Hub, that instance holds hub records — and the operator of that host is the data controller. Prefer Canadian hosting for confidential work. No venture landlords, no surveillance business model.",
+    "noDataBodyCommsOnly": "We don't harvest your data or sell ads. Comms tools are local-first: graphics and brand kit stay in your browser. No venture landlords, no surveillance business model.",
     "noAdsTitle": "No ads, no tracking:",
     "noAdsBody": "We aren't selling your attention.",
     "closing": "UnionOps is built by union volunteers who wanted a solid tool for people doing the hard work on the ground.",
@@ -1111,7 +1120,8 @@
   },
   "footer": {
     "madeBy": "UnionOps. Built in solidarity for union locals by union volunteers.",
-    "privacy": "Comms on-device; you control your hub"
+    "privacy": "Comms on-device; you control your hub",
+    "privacyCommsOnly": "Comms on-device — graphics stay in your browser"
   },
   "accessibility": {
     "title": "Accessibility Statement",

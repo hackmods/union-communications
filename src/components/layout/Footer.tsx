@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
 export function Footer() {
   const t = useTranslations("footer");
@@ -12,7 +13,9 @@ export function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 text-base text-gray-600 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p>{t("madeBy")}</p>
-          <p className="text-opseu-blue">{t("privacy")}</p>
+          <p className="text-opseu-blue">
+            {t(isOfficerHubPublic() ? "privacy" : "privacyCommsOnly")}
+          </p>
         </div>
         <nav className="flex flex-wrap gap-4" aria-label="Footer">
           <Link href="/guide" className="hover:text-opseu-blue">

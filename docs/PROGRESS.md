@@ -253,3 +253,9 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Hide union-specific wordmark/mark radios unless the preset has attached logos (`hasAttachedUnionLogos`) — only OPSEU today
 - [x] Non-OPSEU presets omit `logos`; Brand Kit shows UnionOps mark + upload (Other/CUPE/etc. selections stay selectable)
 - [x] Guard against treating UnionOps fallback paths as union logo modes
+
+## Officer Hub public launch toggle (2026-07-13)
+
+- [x] `NEXT_PUBLIC_OFFICER_HUB_PUBLIC` — when unset/false, hide header hub CTA; home shows Comms-focused copy + “coming soon” officer card
+- [x] SEO/share blurb, footer, manifesto, privacy, and PWA `start_url` adjust for soft launch
+- [x] `/app` remains reachable for demos and CI

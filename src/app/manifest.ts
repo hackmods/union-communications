@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { BRAND_COLORS } from "@/lib/constants/brand";
+import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { OG_IMAGE_STATIC_PATH, SITE_DESCRIPTION, SITE_NAME } from "@/lib/seo/site";
 
 export default function manifest(): MetadataRoute.Manifest {
@@ -7,7 +8,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: SITE_NAME,
     short_name: SITE_NAME,
     description: SITE_DESCRIPTION,
-    start_url: "/en/app/",
+    start_url: isOfficerHubPublic() ? "/en/app/" : "/en/",
     scope: "/",
     display: "standalone",
     background_color: "#ffffff",

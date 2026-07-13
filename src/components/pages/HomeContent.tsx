@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { ShareThisTool } from "@/components/share/ShareThisTool";
+import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
 type ChannelId = "social" | "print" | "boards" | "website";
 
@@ -45,6 +46,7 @@ export function HomeContent() {
   const t = useTranslations("home");
   const nav = useTranslations("nav");
   const common = useTranslations("common");
+  const hubPublic = isOfficerHubPublic();
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12">
@@ -53,8 +55,12 @@ export function HomeContent() {
         <p className="mt-3 text-2xl font-semibold tracking-wide text-opseu-blue md:text-3xl">
           {t("slogan")}
         </p>
-        <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">{t("subtitle")}</p>
-        <p className="mt-4 text-sm text-opseu-blue">{t("privacyNote")}</p>
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
+          {t(hubPublic ? "subtitle" : "subtitleCommsOnly")}
+        </p>
+        <p className="mt-4 text-sm text-opseu-blue">
+          {t(hubPublic ? "privacyNote" : "privacyNoteCommsOnly")}
+        </p>
         <div className="mt-6 flex justify-center">
           <ShareThisTool />
         </div>
@@ -68,14 +74,20 @@ export function HomeContent() {
           <span className="mr-1" aria-hidden="true">
             🔒
           </span>
-          {t("trustBanner")}{" "}
+          {t(hubPublic ? "trustBanner" : "trustBannerCommsOnly")}{" "}
           <Link href="/manifesto" className="font-medium underline underline-offset-2 hover:text-opseu-blue">
             {t("trustManifestoLink")}
           </Link>
         </p>
       </aside>
 
-      <section className="mb-16 grid gap-8 md:grid-cols-2">
+      <section
+        className={
+          hubPublic
+            ? "mb-16 grid gap-8 md:grid-cols-2"
+            : "mb-16 grid gap-8"
+        }
+      >
         <div className="flex flex-col rounded-xl border border-opseu-blue/20 bg-opseu-blue/5 p-6 text-left">
           <h2 className="text-xl font-bold text-opseu-dark">{t("pathCommsTitle")}</h2>
           <p className="mt-3 flex-1 text-base text-gray-600">{t("pathCommsDesc")}</p>
@@ -92,15 +104,29 @@ export function HomeContent() {
           </div>
         </div>
 
-        <div className="flex flex-col rounded-xl border border-gray-200 bg-white p-6 text-left">
-          <h2 className="text-xl font-bold text-opseu-dark">{t("pathOfficerTitle")}</h2>
-          <p className="mt-3 flex-1 text-base text-gray-600">{t("pathOfficerDesc")}</p>
-          <div className="mt-6">
-            <Link href="/app">
-              <Button size="lg">{t("pathOfficerCta")}</Button>
-            </Link>
+        {hubPublic ? (
+          <div className="flex flex-col rounded-xl border border-gray-200 bg-white p-6 text-left">
+            <h2 className="text-xl font-bold text-opseu-dark">{t("pathOfficerTitle")}</h2>
+            <p className="mt-3 flex-1 text-base text-gray-600">{t("pathOfficerDesc")}</p>
+            <div className="mt-6">
+              <Link href="/app">
+                <Button size="lg">{t("pathOfficerCta")}</Button>
+              </Link>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex flex-col rounded-xl border border-dashed border-gray-300 bg-white p-6 text-left">
+            <h2 className="text-xl font-bold text-opseu-dark">
+              {t("pathOfficerTitleComingSoon")}
+            </h2>
+            <p className="mt-3 flex-1 text-base text-gray-600">
+              {t("pathOfficerDescComingSoon")}
+            </p>
+            <p className="mt-6 text-sm font-semibold text-gray-500">
+              {t("pathOfficerCtaComingSoon")}
+            </p>
+          </div>
+        )}
       </section>
 
       <section className="mb-8">

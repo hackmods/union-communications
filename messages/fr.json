@@ -1,7 +1,9 @@
 {
   "metadata": {
     "title": "UnionOps | Outils gratuits et hub pour sections locales",
-    "description": "Outils gratuits et axés sur la vie privée pour délégués et dirigeants. Les outils de communication restent sur votre appareil ; si vous hébergez un hub, vous contrôlez cette instance."
+    "titleCommsOnly": "UnionOps | Outils gratuits pour sections locales",
+    "description": "Outils gratuits et axés sur la vie privée pour délégués et dirigeants. Les outils de communication restent sur votre appareil ; si vous hébergez un hub, vous contrôlez cette instance.",
+    "descriptionCommsOnly": "Outils gratuits et axés sur la vie privée pour délégués et dirigeants. Les outils de communication restent sur votre appareil — pas de pubs, pas d'abonnements, pas de collecte de données."
   },
   "nav": {
     "home": "Accueil",
@@ -80,6 +82,7 @@
     "title": "UnionOps: La boîte à outils pour les sections locales",
     "slogan": "Solidarity.",
     "subtitle": "Outils de communication pour les bénévoles. Flux de travail pour présidents et délégués. Pour toute section, tout syndicat.",
+    "subtitleCommsOnly": "Outils de communication pour les bénévoles qui font vivre une section. Pour toute section, tout syndicat.",
     "heroCta": "Configurer la marque de votre section",
     "socialMediaPlanCta": "Commencer le plan médias sociaux",
     "socialMediaPlanDesc": "Feuille de route rapide : logo, tableaux syndicaux, médias sociaux et site Web simple, dans cet ordre.",
@@ -90,9 +93,14 @@
     "pathOfficerTitle": "Président ou délégué qui gère des dossiers ?",
     "pathOfficerDesc": "Suivez les griefs, le bumpage collégial, les retards et les passations dans le Hub des dirigeants.",
     "pathOfficerCta": "Ouvrir le Hub des dirigeants",
+    "pathOfficerTitleComingSoon": "Flux de travail dirigeants à venir",
+    "pathOfficerDescComingSoon": "Le suivi des griefs, le bumpage collégial, les tableaux de retards et les passations sont en cours. Les outils de communication sont prêts dès maintenant.",
+    "pathOfficerCtaComingSoon": "Hub des dirigeants — bientôt disponible",
     "channelsTitle": "La boîte à outils",
     "privacyNote": "Les outils de communication tournent dans votre navigateur. Hébergez un hub et vous contrôlez cette instance.",
+    "privacyNoteCommsOnly": "Les outils de communication tournent dans votre navigateur. Graphiques et trousse de marque restent sur votre appareil.",
     "trustBanner": "Communication locale d'abord : les graphiques restent dans votre navigateur. Hébergez le hub Officer vous-même et vous êtes le responsable des données de cette instance.",
+    "trustBannerCommsOnly": "Communication locale d'abord : graphiques et trousse de marque restent dans votre navigateur. Pas d'analytique, pas de scripts pub, pas de modèle de collecte de données.",
     "trustManifestoLink": "Notre promesse",
     "channels": {
       "social": {
@@ -1066,6 +1074,7 @@
     "noSubsBody": "Cet outil est gratuit. Pas de forfaits premium, pas de paywalls, pas de frais cachés.",
     "noDataTitle": "Pas de collecte de données :",
     "noDataBody": "On ne récolte pas vos données et on ne vend pas de pubs. Les outils de communication sont local-first : graphiques et trousse de marque restent dans votre navigateur. Si vous (ou votre section) hébergez un hub Officer, cette instance détient les dossiers du hub — et l'opérateur de cet hôte est le responsable des données. Préférez un hébergement canadien pour le travail confidentiel. Pas de propriétaires de capital-risque, pas de modèle de surveillance.",
+    "noDataBodyCommsOnly": "On ne récolte pas vos données et on ne vend pas de pubs. Les outils de communication sont local-first : graphiques et trousse de marque restent dans votre navigateur. Pas de propriétaires de capital-risque, pas de modèle de surveillance.",
     "noAdsTitle": "Pas de pubs, pas de pistage :",
     "noAdsBody": "On ne vend pas votre attention.",
     "closing": "UnionOps est bâti par des bénévoles syndicaux qui voulaient un bon outil pour les gens qui font le vrai travail sur le terrain.",
@@ -1086,7 +1095,8 @@
   },
   "footer": {
     "madeBy": "UnionOps. Built in solidarity for union locals by union volunteers.",
-    "privacy": "Comms sur l'appareil ; vous contrôlez votre hub"
+    "privacy": "Comms sur l'appareil ; vous contrôlez votre hub",
+    "privacyCommsOnly": "Comms sur l'appareil — les graphiques restent dans votre navigateur"
   },
   "accessibility": {
     "title": "Déclaration d'accessibilité",

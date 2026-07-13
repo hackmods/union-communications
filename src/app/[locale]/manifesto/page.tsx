@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
 export const metadata: Metadata = {
   title: "Why UnionOps is Free",
@@ -27,6 +28,7 @@ export default async function ManifestoPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("manifesto");
+  const hubPublic = isOfficerHubPublic();
 
   return (
     <article className="mx-auto max-w-2xl px-4 py-12">
@@ -47,7 +49,7 @@ export default async function ManifestoPage({
           </li>
           <li>
             <strong className="text-opseu-dark">{t("noDataTitle")}</strong>{" "}
-            {t("noDataBody")}
+            {t(hubPublic ? "noDataBody" : "noDataBodyCommsOnly")}
           </li>
           <li>
             <strong className="text-opseu-dark">{t("noAdsTitle")}</strong>{" "}
