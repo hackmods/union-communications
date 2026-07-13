@@ -6,7 +6,7 @@
  * Default: off (not officially launched).
  */
 export function isOfficerHubPublic(
-  env: NodeJS.ProcessEnv = process.env,
+  env: Partial<NodeJS.ProcessEnv> = process.env,
 ): boolean {
   const raw = env.NEXT_PUBLIC_OFFICER_HUB_PUBLIC?.trim().toLowerCase();
   return raw === "1" || raw === "true" || raw === "yes";
