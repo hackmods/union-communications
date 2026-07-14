@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
@@ -55,42 +55,62 @@ function headlineLines(headline: string): string[] {
     .filter(Boolean);
 }
 
-/** Decorative device chrome outside the export canvas. */
-function PosterPreviewFrame({
-  medium,
-  formatId,
-  children,
-}: {
-  medium: OutputMedium;
-  formatId: PosterFormatId;
-  children: ReactNode;
-}) {
-  if (medium === "print") {
-    return <>{children}</>;
-  }
-
+/** Spacing / type density keyed to print vs wallpaper aspect. */
+function layoutChrome(formatId: PosterFormatId) {
   if (formatId === "horizontal") {
-    return (
-      <div className="flex w-full flex-col items-center">
-        <div className="w-full rounded-lg bg-gray-800 p-2 shadow-md">
-          <div className="overflow-hidden rounded-sm">{children}</div>
-        </div>
-        <div className="mt-1 h-2 w-16 rounded-b-md bg-gray-700" aria-hidden />
-        <div className="h-1 w-28 rounded-b bg-gray-600" aria-hidden />
-      </div>
-    );
+    return {
+      padStack: "px-10 py-5 md:px-14 md:py-6",
+      padSplitSide: "p-5 md:p-6",
+      padSplitType: "px-8 py-5 md:px-10",
+      padBannerBar: "px-8 py-2.5",
+      padBannerBody: "px-10 py-4 md:px-14",
+      padFooterOuter: "px-8 pb-4 md:px-10",
+      headlineStack:
+        "text-3xl font-black uppercase leading-[0.92] tracking-tight md:text-4xl lg:text-5xl",
+      headlineSplit:
+        "text-2xl font-black uppercase leading-[0.92] tracking-tight md:text-3xl lg:text-4xl",
+      closerStack: "mt-3 text-base font-medium tracking-wide md:text-lg",
+      closerBanner: "mt-3 text-sm font-medium opacity-90 md:text-base",
+      qrPx: 56,
+      footerGap: "gap-3 border-t border-white/30 pt-2",
+    } as const;
   }
 
-  return (
-    <div className="mx-auto w-full max-w-[220px]">
-      <div className="rounded-[1.75rem] bg-gray-800 p-2.5 shadow-md">
-        <div className="mb-2 flex justify-center" aria-hidden>
-          <div className="h-1.5 w-16 rounded-full bg-gray-600" />
-        </div>
-        <div className="overflow-hidden rounded-[1.25rem]">{children}</div>
-      </div>
-    </div>
-  );
+  if (formatId === "vertical") {
+    return {
+      padStack: "px-6 py-10 md:px-8 md:py-12",
+      padSplitSide: "p-5 md:p-6",
+      padSplitType: "px-5 py-8 md:px-6",
+      padBannerBar: "px-5 py-3.5",
+      padBannerBody: "px-6 py-8 md:px-8",
+      padFooterOuter: "px-5 pb-6 md:px-6",
+      headlineStack:
+        "text-4xl font-black uppercase leading-[0.95] tracking-tight md:text-5xl",
+      headlineSplit:
+        "text-3xl font-black uppercase leading-[0.95] tracking-tight md:text-4xl",
+      closerStack: "mt-5 text-base font-medium tracking-wide md:text-lg",
+      closerBanner: "mt-4 text-sm font-medium opacity-90 md:text-base",
+      qrPx: 64,
+      footerGap: "gap-3 border-t border-white/30 pt-3",
+    } as const;
+  }
+
+  return {
+    padStack: "p-8 md:p-10",
+    padSplitSide: "p-6",
+    padSplitType: "px-6 py-8",
+    padBannerBar: "px-6 py-4",
+    padBannerBody: "px-8 py-6",
+    padFooterOuter: "px-6 pb-6",
+    headlineStack:
+      "text-4xl font-black uppercase leading-[0.95] tracking-tight md:text-5xl lg:text-6xl",
+    headlineSplit:
+      "text-3xl font-black uppercase leading-[0.95] tracking-tight md:text-4xl lg:text-5xl",
+    closerStack: "mt-6 text-lg font-medium tracking-wide",
+    closerBanner: "mt-5 text-base font-medium opacity-90",
+    qrPx: 72,
+    footerGap: "gap-3 border-t border-white/30 pt-3",
+  } as const;
 }
 
 export default function SolidarityPosterPage() {
@@ -177,6 +197,8 @@ export default function SolidarityPosterPage() {
     state.includeBranding &&
     (state.layout === "stack" || state.layout === "banner");
   const lines = headlineLines(state.headline);
+  const chrome = layoutChrome(formatId);
+  const isLandscape = formatId === "horizontal";
 
   const selectMedium = (next: OutputMedium) => {
     if (next === medium) return;
@@ -224,7 +246,7 @@ export default function SolidarityPosterPage() {
   };
 
   const footer = (
-    <div className="flex items-end justify-between gap-3 border-t border-white/30 pt-3">
+    <div className={cn("flex items-end justify-between", chrome.footerGap)}>
       <div className="min-w-0 text-left">
         <p className="text-sm font-bold uppercase tracking-wide">{t("cta")}</p>
         {state.supportUrl.trim() ? (
@@ -239,9 +261,10 @@ export default function SolidarityPosterPage() {
         <img
           src={qrSrc}
           alt=""
-          width={72}
-          height={72}
-          className="h-[72px] w-[72px] shrink-0 rounded-sm bg-white p-1"
+          width={chrome.qrPx}
+          height={chrome.qrPx}
+          className="shrink-0 rounded-sm bg-white p-1"
+          style={{ width: chrome.qrPx, height: chrome.qrPx }}
         />
       ) : null}
     </div>
@@ -449,113 +472,124 @@ export default function SolidarityPosterPage() {
           </div>
         </Card>
 
-        <PosterPreviewFrame medium={medium} formatId={formatId}>
-          <div
-            ref={canvasRef}
-            className={cn(
-              "flex w-full flex-col overflow-hidden",
-              medium === "print" && "shadow-lg",
-              format.aspect,
-            )}
-            style={{
-              backgroundColor: state.primaryColor,
-              color: "#FFFFFF",
-            }}
-          >
-            {state.layout === "stack" ? (
-              <div className="flex h-full flex-col justify-between p-8 md:p-10">
-                <div className="flex items-start justify-between gap-3">
-                  <p
-                    className="text-sm font-semibold uppercase tracking-[0.2em]"
-                    style={{ color: state.secondaryColor }}
-                  >
-                    {state.leadIn}
-                  </p>
-                  {showLockup ? <BrandLogo size="md" onDark className="shrink-0" /> : null}
-                </div>
-                <div className="text-center">
-                  {lines.map((line, i) => (
-                    <p
-                      key={`${i}-${line}`}
-                      className="text-4xl font-black uppercase leading-[0.95] tracking-tight md:text-5xl lg:text-6xl"
-                    >
-                      {line}
-                    </p>
-                  ))}
-                  <p
-                    className="mt-6 text-lg font-medium tracking-wide"
-                    style={{ color: state.secondaryColor }}
-                  >
-                    {state.closer}
-                  </p>
-                  {showLockup ? (
-                    <p className="mt-3 text-sm font-semibold opacity-90">{localLabel}</p>
-                  ) : null}
-                </div>
-                {footer}
-              </div>
-            ) : null}
-
-            {state.layout === "split" ? (
-              <div className="flex h-full flex-col">
-                <div className="grid min-h-0 flex-1 grid-cols-5">
-                  <div
-                    className="col-span-2 flex flex-col justify-between p-6"
-                    style={{
-                      backgroundColor: state.secondaryColor,
-                      color: state.primaryColor,
-                    }}
-                  >
-                    <p className="text-xs font-bold uppercase tracking-[0.25em]">
-                      {state.leadIn}
-                    </p>
-                    <p className="text-sm font-semibold leading-snug">{state.closer}</p>
-                  </div>
-                  <div className="col-span-3 flex flex-col justify-center px-6 py-8">
-                    {lines.map((line, i) => (
-                      <p
-                        key={`${i}-${line}`}
-                        className="text-3xl font-black uppercase leading-[0.95] tracking-tight md:text-4xl lg:text-5xl"
-                      >
-                        {line}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-                <div className="px-6 pb-6">{footer}</div>
-              </div>
-            ) : null}
-
-            {state.layout === "banner" ? (
-              <div className="flex h-full flex-col">
-                <div
-                  className="flex items-center justify-between gap-3 px-6 py-4"
-                  style={{ backgroundColor: state.accentColor || state.secondaryColor }}
+        <div
+          ref={canvasRef}
+          className={cn("flex w-full flex-col overflow-hidden shadow-lg", format.aspect)}
+          style={{
+            backgroundColor: state.primaryColor,
+            color: "#FFFFFF",
+          }}
+        >
+          {state.layout === "stack" ? (
+            <div
+              className={cn(
+                "flex h-full flex-col",
+                chrome.padStack,
+                isLandscape ? "justify-center gap-4" : "justify-between",
+              )}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <p
+                  className="text-sm font-semibold uppercase tracking-[0.2em]"
+                  style={{ color: state.secondaryColor }}
                 >
-                  {showLockup ? <BrandLogo size="sm" onDark /> : <span />}
-                  <p className="text-xs font-bold uppercase tracking-[0.3em] text-white">
+                  {state.leadIn}
+                </p>
+                {showLockup ? <BrandLogo size="md" onDark className="shrink-0" /> : null}
+              </div>
+              <div className={cn("text-center", isLandscape && "flex flex-1 flex-col justify-center")}>
+                {lines.map((line, i) => (
+                  <p key={`${i}-${line}`} className={chrome.headlineStack}>
+                    {line}
+                  </p>
+                ))}
+                <p className={chrome.closerStack} style={{ color: state.secondaryColor }}>
+                  {state.closer}
+                </p>
+                {showLockup ? (
+                  <p className="mt-2 text-sm font-semibold opacity-90 md:mt-3">{localLabel}</p>
+                ) : null}
+              </div>
+              {footer}
+            </div>
+          ) : null}
+
+          {state.layout === "split" ? (
+            <div className="flex h-full flex-col">
+              <div
+                className={cn(
+                  "grid min-h-0 flex-1",
+                  isLandscape ? "grid-cols-2" : "grid-cols-5",
+                )}
+              >
+                <div
+                  className={cn(
+                    "flex flex-col justify-between",
+                    chrome.padSplitSide,
+                    !isLandscape && "col-span-2",
+                  )}
+                  style={{
+                    backgroundColor: state.secondaryColor,
+                    color: state.primaryColor,
+                  }}
+                >
+                  <p className="text-xs font-bold uppercase tracking-[0.25em]">
                     {state.leadIn}
                   </p>
+                  <p className="text-sm font-semibold leading-snug">{state.closer}</p>
                 </div>
-                <div className="flex flex-1 flex-col justify-center px-8 py-6 text-center">
+                <div
+                  className={cn(
+                    "flex flex-col justify-center",
+                    chrome.padSplitType,
+                    !isLandscape && "col-span-3",
+                  )}
+                >
                   {lines.map((line, i) => (
-                    <p
-                      key={`${i}-${line}`}
-                      className="text-4xl font-black uppercase leading-[0.92] tracking-tight md:text-5xl lg:text-6xl"
-                    >
+                    <p key={`${i}-${line}`} className={chrome.headlineSplit}>
                       {line}
                     </p>
                   ))}
-                  <p className="mt-5 text-base font-medium opacity-90">{state.closer}</p>
-                  {showLockup ? (
-                    <p className="mt-2 text-sm font-semibold opacity-90">{localLabel}</p>
-                  ) : null}
                 </div>
-                <div className="px-6 pb-6">{footer}</div>
               </div>
-            ) : null}
-          </div>
-        </PosterPreviewFrame>
+              <div className={chrome.padFooterOuter}>{footer}</div>
+            </div>
+          ) : null}
+
+          {state.layout === "banner" ? (
+            <div className="flex h-full flex-col">
+              <div
+                className={cn(
+                  "flex items-center justify-between gap-3",
+                  chrome.padBannerBar,
+                )}
+                style={{ backgroundColor: state.accentColor || state.secondaryColor }}
+              >
+                {showLockup ? <BrandLogo size="sm" onDark /> : <span />}
+                <p className="text-xs font-bold uppercase tracking-[0.3em] text-white">
+                  {state.leadIn}
+                </p>
+              </div>
+              <div
+                className={cn(
+                  "flex flex-1 flex-col justify-center text-center",
+                  chrome.padBannerBody,
+                )}
+              >
+                {lines.map((line, i) => (
+                  <p key={`${i}-${line}`} className={chrome.headlineStack}>
+                    {line}
+                  </p>
+                ))}
+                <p className={chrome.closerBanner}>{state.closer}</p>
+                {showLockup ? (
+                  <p className="mt-2 text-sm font-semibold opacity-90">{localLabel}</p>
+                ) : null}
+              </div>
+              <div className={chrome.padFooterOuter}>{footer}</div>
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
   );
