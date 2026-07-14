@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
@@ -16,14 +16,23 @@ import {
   getSloganById,
   type PosterLayout,
 } from "@/lib/constants/solidarity-slogans";
+import {
+  DEFAULT_DIGITAL_FORMAT,
+  DEFAULT_PRINT_FORMAT,
+  SOLIDARITY_POSTER_FORMATS,
+  defaultFormatForMedium,
+  exportPixelRatio,
+  formatsForMedium,
+  supportsPdf,
+  type OutputMedium,
+  type PosterFormatId,
+} from "@/lib/constants/solidarity-poster-formats";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
-
-type PageFormat = "letter" | "tabloid" | "desktop";
 
 interface PosterState {
   sloganId: string;
@@ -39,42 +48,49 @@ interface PosterState {
   accentColor: string;
 }
 
-const FORMAT_ORDER: readonly PageFormat[] = ["letter", "tabloid", "desktop"];
-
-const FORMAT_LABEL_KEYS: Record<
-  PageFormat,
-  "formatLetter" | "formatTabloid" | "formatDesktop"
-> = {
-  letter: "formatLetter",
-  tabloid: "formatTabloid",
-  desktop: "formatDesktop",
-};
-
-const FORMAT_DIMENSIONS: Record<
-  PageFormat,
-  {
-    aspect: string;
-    widthInches: number;
-    heightInches: number;
-    /** When set, PNG/PDF scale so captured width matches this (4K wallpaper). */
-    exportWidthPx?: number;
-  }
-> = {
-  letter: { aspect: "aspect-[8.5/11]", widthInches: 8.5, heightInches: 11 },
-  tabloid: { aspect: "aspect-[11/17]", widthInches: 11, heightInches: 17 },
-  desktop: {
-    aspect: "aspect-[16/9]",
-    widthInches: 16,
-    heightInches: 9,
-    exportWidthPx: 3840,
-  },
-};
-
 function headlineLines(headline: string): string[] {
   return headline
     .split("\n")
     .map((l) => l.trim())
     .filter(Boolean);
+}
+
+/** Decorative device chrome outside the export canvas. */
+function PosterPreviewFrame({
+  medium,
+  formatId,
+  children,
+}: {
+  medium: OutputMedium;
+  formatId: PosterFormatId;
+  children: ReactNode;
+}) {
+  if (medium === "print") {
+    return <>{children}</>;
+  }
+
+  if (formatId === "horizontal") {
+    return (
+      <div className="flex w-full flex-col items-center">
+        <div className="w-full rounded-lg bg-gray-800 p-2 shadow-md">
+          <div className="overflow-hidden rounded-sm">{children}</div>
+        </div>
+        <div className="mt-1 h-2 w-16 rounded-b-md bg-gray-700" aria-hidden />
+        <div className="h-1 w-28 rounded-b bg-gray-600" aria-hidden />
+      </div>
+    );
+  }
+
+  return (
+    <div className="mx-auto w-full max-w-[220px]">
+      <div className="rounded-[1.75rem] bg-gray-800 p-2.5 shadow-md">
+        <div className="mb-2 flex justify-center" aria-hidden>
+          <div className="h-1.5 w-16 rounded-full bg-gray-600" />
+        </div>
+        <div className="overflow-hidden rounded-[1.25rem]">{children}</div>
+      </div>
+    </div>
+  );
 }
 
 export default function SolidarityPosterPage() {
@@ -84,12 +100,21 @@ export default function SolidarityPosterPage() {
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const [format, setFormat] = useState<PageFormat>("letter");
+  const [medium, setMedium] = useState<OutputMedium>("print");
+  const [formatId, setFormatId] = useState<PosterFormatId>(DEFAULT_PRINT_FORMAT);
+  const [lastFormatByMedium, setLastFormatByMedium] = useState<
+    Record<OutputMedium, PosterFormatId>
+  >({
+    print: DEFAULT_PRINT_FORMAT,
+    digital: DEFAULT_DIGITAL_FORMAT,
+  });
   const [qrSrc, setQrSrc] = useState<string | null>(null);
   const brandingDefaultApplied = useRef(false);
 
   const first = SOLIDARITY_SLOGANS[0];
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
+  const format = SOLIDARITY_POSTER_FORMATS[formatId];
+  const mediumFormats = formatsForMedium(medium);
 
   const initial: PosterState = {
     sloganId: first.id,
@@ -144,7 +169,6 @@ export default function SolidarityPosterPage() {
     };
   }, [state.showQr, state.supportUrl]);
 
-  const dims = FORMAT_DIMENSIONS[format];
   const localNum = resolveLocalNumber(brandKit.local.localNumber);
   const localLabel = brandKit.local.subText
     ? `Local ${localNum} - ${brandKit.local.subText}`
@@ -153,6 +177,18 @@ export default function SolidarityPosterPage() {
     state.includeBranding &&
     (state.layout === "stack" || state.layout === "banner");
   const lines = headlineLines(state.headline);
+
+  const selectMedium = (next: OutputMedium) => {
+    if (next === medium) return;
+    const restored = lastFormatByMedium[next] ?? defaultFormatForMedium(next);
+    setMedium(next);
+    setFormatId(restored);
+  };
+
+  const selectFormat = (id: PosterFormatId) => {
+    setFormatId(id);
+    setLastFormatByMedium((prev) => ({ ...prev, [medium]: id }));
+  };
 
   const applyPreset = (id: string) => {
     const slogan = getSloganById(id);
@@ -167,30 +203,23 @@ export default function SolidarityPosterPage() {
     });
   };
 
-  const exportPixelRatio = () => {
-    const target = dims.exportWidthPx;
-    const width = canvasRef.current?.offsetWidth ?? 0;
-    if (target && width > 0) return target / width;
-    return 2;
-  };
-
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
     await exportNodeAsPng(
       canvasRef.current,
-      formatFilename(`solidarity-poster-${format}`, brandKit.local.localNumber, "png"),
-      { pixelRatio: exportPixelRatio() },
+      formatFilename(format.filenameStem, brandKit.local.localNumber, "png"),
+      { pixelRatio: exportPixelRatio(canvasRef.current, format) },
     );
   };
 
   const handleExportPdf = async () => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current || !supportsPdf(format)) return;
     await nodeToPdf(
       canvasRef.current,
-      formatFilename(`solidarity-poster-${format}`, brandKit.local.localNumber, "pdf"),
-      dims.widthInches,
-      dims.heightInches,
-      exportPixelRatio(),
+      formatFilename(format.filenameStem, brandKit.local.localNumber, "pdf"),
+      format.widthInches!,
+      format.heightInches!,
+      exportPixelRatio(canvasRef.current, format),
     );
   };
 
@@ -296,22 +325,61 @@ export default function SolidarityPosterPage() {
             </select>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            {FORMAT_ORDER.map((f) => (
-              <button
-                key={f}
-                type="button"
-                onClick={() => setFormat(f)}
-                className={cn(
-                  "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
-                  format === f
-                    ? "bg-opseu-blue text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                )}
-              >
-                {t(FORMAT_LABEL_KEYS[f])}
-              </button>
-            ))}
+          <div>
+            <p className="mb-1 text-sm font-medium" id="output-medium-label">
+              {t("outputMedium")}
+            </p>
+            <div
+              className="flex flex-wrap gap-2"
+              role="group"
+              aria-labelledby="output-medium-label"
+            >
+              {(["print", "digital"] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => selectMedium(m)}
+                  className={cn(
+                    "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
+                    medium === m
+                      ? "bg-opseu-blue text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+                  )}
+                >
+                  {t(m === "print" ? "mediumPrint" : "mediumDigital")}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="mb-1 text-sm font-medium" id="output-size-label">
+              {t("outputSize")}
+            </p>
+            <div
+              className="flex flex-wrap gap-2"
+              role="group"
+              aria-labelledby="output-size-label"
+            >
+              {mediumFormats.map((f) => (
+                <button
+                  key={f.id}
+                  type="button"
+                  onClick={() => selectFormat(f.id)}
+                  className={cn(
+                    "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
+                    formatId === f.id
+                      ? "bg-opseu-blue text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+                  )}
+                >
+                  {t(f.labelKey)}
+                </button>
+              ))}
+            </div>
+            {medium === "digital" ? (
+              <p className="mt-2 text-xs text-gray-500">{t("digitalHint")}</p>
+            ) : null}
           </div>
 
           <Input
@@ -370,112 +438,124 @@ export default function SolidarityPosterPage() {
             }
           />
           <div className="flex gap-3">
-            <Button onClick={handleExportPng}>{tc("downloadPng")}</Button>
-            <Button variant="outline" onClick={handleExportPdf}>
-              {tc("downloadPdf")}
+            <Button onClick={handleExportPng}>
+              {medium === "digital" ? t("downloadWallpaper") : tc("downloadPng")}
             </Button>
+            {supportsPdf(format) ? (
+              <Button variant="outline" onClick={handleExportPdf}>
+                {tc("downloadPdf")}
+              </Button>
+            ) : null}
           </div>
         </Card>
 
-        {/* Live canvas */}
-        <div
-          ref={canvasRef}
-          className={cn("flex w-full flex-col overflow-hidden shadow-lg", dims.aspect)}
-          style={{
-            backgroundColor: state.primaryColor,
-            color: "#FFFFFF",
-          }}
-        >
-          {state.layout === "stack" ? (
-            <div className="flex h-full flex-col justify-between p-8 md:p-10">
-              <div className="flex items-start justify-between gap-3">
-                <p
-                  className="text-sm font-semibold uppercase tracking-[0.2em]"
-                  style={{ color: state.secondaryColor }}
-                >
-                  {state.leadIn}
-                </p>
-                {showLockup ? <BrandLogo size="md" onDark className="shrink-0" /> : null}
-              </div>
-              <div className="text-center">
-                {lines.map((line, i) => (
+        <PosterPreviewFrame medium={medium} formatId={formatId}>
+          <div
+            ref={canvasRef}
+            className={cn(
+              "flex w-full flex-col overflow-hidden",
+              medium === "print" && "shadow-lg",
+              format.aspect,
+            )}
+            style={{
+              backgroundColor: state.primaryColor,
+              color: "#FFFFFF",
+            }}
+          >
+            {state.layout === "stack" ? (
+              <div className="flex h-full flex-col justify-between p-8 md:p-10">
+                <div className="flex items-start justify-between gap-3">
                   <p
-                    key={`${i}-${line}`}
-                    className="text-4xl font-black uppercase leading-[0.95] tracking-tight md:text-5xl lg:text-6xl"
+                    className="text-sm font-semibold uppercase tracking-[0.2em]"
+                    style={{ color: state.secondaryColor }}
                   >
-                    {line}
-                  </p>
-                ))}
-                <p
-                  className="mt-6 text-lg font-medium tracking-wide"
-                  style={{ color: state.secondaryColor }}
-                >
-                  {state.closer}
-                </p>
-                {showLockup ? (
-                  <p className="mt-3 text-sm font-semibold opacity-90">{localLabel}</p>
-                ) : null}
-              </div>
-              {footer}
-            </div>
-          ) : null}
-
-          {state.layout === "split" ? (
-            <div className="flex h-full flex-col">
-              <div className="grid min-h-0 flex-1 grid-cols-5">
-                <div
-                  className="col-span-2 flex flex-col justify-between p-6"
-                  style={{ backgroundColor: state.secondaryColor, color: state.primaryColor }}
-                >
-                  <p className="text-xs font-bold uppercase tracking-[0.25em]">
                     {state.leadIn}
                   </p>
-                  <p className="text-sm font-semibold leading-snug">{state.closer}</p>
+                  {showLockup ? <BrandLogo size="md" onDark className="shrink-0" /> : null}
                 </div>
-                <div className="col-span-3 flex flex-col justify-center px-6 py-8">
+                <div className="text-center">
                   {lines.map((line, i) => (
                     <p
                       key={`${i}-${line}`}
-                      className="text-3xl font-black uppercase leading-[0.95] tracking-tight md:text-4xl lg:text-5xl"
+                      className="text-4xl font-black uppercase leading-[0.95] tracking-tight md:text-5xl lg:text-6xl"
                     >
                       {line}
                     </p>
                   ))}
-                </div>
-              </div>
-              <div className="px-6 pb-6">{footer}</div>
-            </div>
-          ) : null}
-
-          {state.layout === "banner" ? (
-            <div className="flex h-full flex-col">
-              <div
-                className="flex items-center justify-between gap-3 px-6 py-4"
-                style={{ backgroundColor: state.accentColor || state.secondaryColor }}
-              >
-                {showLockup ? <BrandLogo size="sm" onDark /> : <span />}
-                <p className="text-xs font-bold uppercase tracking-[0.3em] text-white">
-                  {state.leadIn}
-                </p>
-              </div>
-              <div className="flex flex-1 flex-col justify-center px-8 py-6 text-center">
-                {lines.map((line, i) => (
                   <p
-                    key={`${i}-${line}`}
-                    className="text-4xl font-black uppercase leading-[0.92] tracking-tight md:text-5xl lg:text-6xl"
+                    className="mt-6 text-lg font-medium tracking-wide"
+                    style={{ color: state.secondaryColor }}
                   >
-                    {line}
+                    {state.closer}
                   </p>
-                ))}
-                <p className="mt-5 text-base font-medium opacity-90">{state.closer}</p>
-                {showLockup ? (
-                  <p className="mt-2 text-sm font-semibold opacity-90">{localLabel}</p>
-                ) : null}
+                  {showLockup ? (
+                    <p className="mt-3 text-sm font-semibold opacity-90">{localLabel}</p>
+                  ) : null}
+                </div>
+                {footer}
               </div>
-              <div className="px-6 pb-6">{footer}</div>
-            </div>
-          ) : null}
-        </div>
+            ) : null}
+
+            {state.layout === "split" ? (
+              <div className="flex h-full flex-col">
+                <div className="grid min-h-0 flex-1 grid-cols-5">
+                  <div
+                    className="col-span-2 flex flex-col justify-between p-6"
+                    style={{
+                      backgroundColor: state.secondaryColor,
+                      color: state.primaryColor,
+                    }}
+                  >
+                    <p className="text-xs font-bold uppercase tracking-[0.25em]">
+                      {state.leadIn}
+                    </p>
+                    <p className="text-sm font-semibold leading-snug">{state.closer}</p>
+                  </div>
+                  <div className="col-span-3 flex flex-col justify-center px-6 py-8">
+                    {lines.map((line, i) => (
+                      <p
+                        key={`${i}-${line}`}
+                        className="text-3xl font-black uppercase leading-[0.95] tracking-tight md:text-4xl lg:text-5xl"
+                      >
+                        {line}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+                <div className="px-6 pb-6">{footer}</div>
+              </div>
+            ) : null}
+
+            {state.layout === "banner" ? (
+              <div className="flex h-full flex-col">
+                <div
+                  className="flex items-center justify-between gap-3 px-6 py-4"
+                  style={{ backgroundColor: state.accentColor || state.secondaryColor }}
+                >
+                  {showLockup ? <BrandLogo size="sm" onDark /> : <span />}
+                  <p className="text-xs font-bold uppercase tracking-[0.3em] text-white">
+                    {state.leadIn}
+                  </p>
+                </div>
+                <div className="flex flex-1 flex-col justify-center px-8 py-6 text-center">
+                  {lines.map((line, i) => (
+                    <p
+                      key={`${i}-${line}`}
+                      className="text-4xl font-black uppercase leading-[0.92] tracking-tight md:text-5xl lg:text-6xl"
+                    >
+                      {line}
+                    </p>
+                  ))}
+                  <p className="mt-5 text-base font-medium opacity-90">{state.closer}</p>
+                  {showLockup ? (
+                    <p className="mt-2 text-sm font-semibold opacity-90">{localLabel}</p>
+                  ) : null}
+                </div>
+                <div className="px-6 pb-6">{footer}</div>
+              </div>
+            ) : null}
+          </div>
+        </PosterPreviewFrame>
       </div>
     </div>
   );

@@ -39,7 +39,7 @@ Home page offers two entry paths: comms roadmap (Get started) vs Officer Hub (gr
 | `/[locale]/assets` | Union asset pack (CAAT OPSEU reference) |
 | `/[locale]/tools/logo-builder` | Local logo (circle, square, rectangle) |
 | `/[locale]/tools/board-notice` | Workplace bulletin notices (letter + tabloid) |
-| `/[locale]/tools/solidarity-poster` | High-energy solidarity board posters (slogan presets, QR; letter / tabloid / 4K desktop) |
+| `/[locale]/tools/solidarity-poster` | Solidarity board posters + wallpapers (Print letter/tabloid; Digital horizontal/vertical PNG) |
 | `/[locale]/tools/qr-card` | QR link cards (title, tagline, multi-size print) |
 | `/[locale]/tools/graphic-maker` | Social graphics |
 | `/[locale]/tools/resizer` | Platform image resizer |
