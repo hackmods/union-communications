@@ -12,7 +12,7 @@ High-energy union-board filler posters (Keep-Calm structure, not pastiche). Rout
 - Structure: small lead-in → **huge stacked headline** → short closer
 - Colours: Brand Kit primary / secondary / accent only
 - Avoid: purple gradients, cream+terracotta, broadsheet/newspaper layouts
-- Formats: letter (8.5×11) and tabloid (11×17); PNG + PDF via existing export helpers
+- Formats: letter (8.5×11), tabloid (11×17), and desktop wallpaper (3840×2160 / 16:9); PNG + PDF via existing export helpers
 - Footer: CTA (“Get support →”), support URL, optional QR (on by default)
 - No member photos → no ConsentModal
 - No union names in slogans or core UI — Brand Kit / seed only

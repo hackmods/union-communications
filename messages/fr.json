@@ -586,6 +586,7 @@
     },
     "formatLetter": "Lettre (8,5×11)",
     "formatTabloid": "Tabloïde (11×17)",
+    "formatDesktop": "Bureau (3840×2160)",
     "supportUrl": "URL de soutien",
     "showQr": "Afficher le code QR",
     "includeBranding": "Inclure l'image de marque locale",

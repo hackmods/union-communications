@@ -178,7 +178,7 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Aug 18 date framing moved to facilitator doc only
 
 - [x] Cursor design brief: `.cursor/rules/solidarity-posters.mdc`
-- [x] `/tools/solidarity-poster` — stack / split / banner layouts, letter + tabloid
+- [x] `/tools/solidarity-poster` — stack / split / banner layouts, letter + tabloid + 4K desktop (3840×2160)
 - [x] Generic solidarity slogan presets (`SOLIDARITY_SLOGANS`)
 - [x] Optional QR + support URL footer; local Brand Kit lockup when theme established
 - [x] PNG/PDF export; EN/FR i18n; home boards channel + header nav

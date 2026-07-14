@@ -23,7 +23,7 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 
-type PageFormat = "letter" | "tabloid";
+type PageFormat = "letter" | "tabloid" | "desktop";
 
 interface PosterState {
   sloganId: string;
@@ -39,12 +39,35 @@ interface PosterState {
   accentColor: string;
 }
 
+const FORMAT_ORDER: readonly PageFormat[] = ["letter", "tabloid", "desktop"];
+
+const FORMAT_LABEL_KEYS: Record<
+  PageFormat,
+  "formatLetter" | "formatTabloid" | "formatDesktop"
+> = {
+  letter: "formatLetter",
+  tabloid: "formatTabloid",
+  desktop: "formatDesktop",
+};
+
 const FORMAT_DIMENSIONS: Record<
   PageFormat,
-  { aspect: string; widthInches: number; heightInches: number }
+  {
+    aspect: string;
+    widthInches: number;
+    heightInches: number;
+    /** When set, PNG/PDF scale so captured width matches this (4K wallpaper). */
+    exportWidthPx?: number;
+  }
 > = {
   letter: { aspect: "aspect-[8.5/11]", widthInches: 8.5, heightInches: 11 },
   tabloid: { aspect: "aspect-[11/17]", widthInches: 11, heightInches: 17 },
+  desktop: {
+    aspect: "aspect-[16/9]",
+    widthInches: 16,
+    heightInches: 9,
+    exportWidthPx: 3840,
+  },
 };
 
 function headlineLines(headline: string): string[] {
@@ -144,12 +167,19 @@ export default function SolidarityPosterPage() {
     });
   };
 
+  const exportPixelRatio = () => {
+    const target = dims.exportWidthPx;
+    const width = canvasRef.current?.offsetWidth ?? 0;
+    if (target && width > 0) return target / width;
+    return 2;
+  };
+
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
     await exportNodeAsPng(
       canvasRef.current,
       formatFilename(`solidarity-poster-${format}`, brandKit.local.localNumber, "png"),
-      { pixelRatio: 2 },
+      { pixelRatio: exportPixelRatio() },
     );
   };
 
@@ -160,6 +190,7 @@ export default function SolidarityPosterPage() {
       formatFilename(`solidarity-poster-${format}`, brandKit.local.localNumber, "pdf"),
       dims.widthInches,
       dims.heightInches,
+      exportPixelRatio(),
     );
   };
 
@@ -266,7 +297,7 @@ export default function SolidarityPosterPage() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {(["letter", "tabloid"] as const).map((f) => (
+            {FORMAT_ORDER.map((f) => (
               <button
                 key={f}
                 type="button"
@@ -278,7 +309,7 @@ export default function SolidarityPosterPage() {
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200",
                 )}
               >
-                {t(f === "letter" ? "formatLetter" : "formatTabloid")}
+                {t(FORMAT_LABEL_KEYS[f])}
               </button>
             ))}
           </div>
