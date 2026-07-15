@@ -138,6 +138,7 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "opseu-forms",
     "opseu-member-portal",
   ],
+  photoConsent: ["wcag-21", "aoda", "opseu-collective-agreements"],
   assets: ["opseu-branding"],
   websiteTemplate: ["local243-website", "github-pages", "opseu-branding"],
   boardNotice: ["opseu-branding"],

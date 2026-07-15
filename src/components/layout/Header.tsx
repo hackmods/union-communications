@@ -16,6 +16,7 @@ const learnGroups = [
       { href: "/guide/resources", key: "resources" as const },
       { href: "/guide", key: "guide" as const },
       { href: "/guide/crisis", key: "strikeGuide" as const },
+      { href: "/guide/photo-consent", key: "photoConsent" as const },
     ],
   },
   {

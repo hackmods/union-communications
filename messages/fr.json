@@ -32,6 +32,7 @@
     "printGuide": "Guide impression",
     "websiteGuide": "Guide site Web",
     "resources": "Ressources de communication",
+    "photoConsent": "Consentement photo",
     "learnGroupGuides": "Guides",
     "learnGroupChannels": "Par canal",
     "learnGroupLibraries": "Bibliothèques",
@@ -390,6 +391,36 @@
       }
     }
   },
+  "photoConsentGuide": {
+    "title": "Consentement photo et médias des membres",
+    "subtitle": "Une courte liste pour délégués et sections avant de publier des photos de membres",
+    "intro": "Le consentement est déjà demandé dans le Créateur graphique quand vous téléversez une photo de membre. Cette page aide les ateliers et les sections à définir une pratique commune — ce n'est pas un avis juridique.",
+    "backToGuide": "Retour au Plan directeur",
+    "why": {
+      "title": "Pourquoi c'est important",
+      "content": "Une fois publiée, une photo peut être copiée et republiciée hors de votre contrôle. Les sections ont besoin d'une pratique claire pour savoir quand demander, quoi dire et ce qui ne doit jamais apparaître dans un graphique. La boîte à outils ne remplace pas les politiques de votre section ni les conseils de votre représentante ou représentant de service."
+    },
+    "checklist": {
+      "title": "Avant de publier",
+      "intro": "Confirmez chaque point avant d'utiliser la photo d'un membre dans un graphique social, une affiche mettant des personnes en avant, ou une photo d'un avis affiché où des visages sont visibles.",
+      "items": {
+        "consent": "Vous avez le consentement écrit ou verbal du membre",
+        "public": "Le membre comprend que la photo sera publiée publiquement (ou sait quel public la verra)",
+        "confidential": "La photo et la légende ne contiennent pas de renseignements confidentiels sur le lieu de travail, un grief, la santé ou la négociation",
+        "group": "Pour les photos de groupe, chaque personne clairement identifiable a donné son accord — sinon recadrez, floutez ou choisissez une autre image",
+        "minors": "Les photos de mineurs ou de personnes à charge suivent la politique de la direction locale et du syndicat avant publication",
+        "withdrawal": "Vous savez qui contacter si un membre demande plus tard le retrait de la photo"
+      }
+    },
+    "toolbox": {
+      "title": "Dans la boîte à outils",
+      "content": "Le Créateur graphique vous demande de confirmer le consentement avant d'appliquer une photo de membre. Le traitement reste sur votre appareil — les photos ne sont pas téléversées vers les serveurs d'UnionOps. Les logos de marque ne sont pas des médias de membres. Le Redimensionneur n'a pas de fenêtre de consentement ; si vous redimensionnez une photo de membre, cette liste s'applique quand même."
+    },
+    "workshop": {
+      "title": "Conseil pour atelier",
+      "content": "En session, pausez sur la boîte de dialogue de consentement du Créateur graphique, parcourez cette liste une fois, puis orientez les dirigeants vers les Ressources de communication et la page Confidentialité. Convenez qui consigne le consentement pour votre section et où vont les demandes de retrait."
+    }
+  },
   "websiteGuide": {
     "title": "Guide du site Web local",
     "subtitle": "Pourquoi votre section a besoin d'un site simple et comment le publier gratuitement",
@@ -719,7 +750,8 @@
         "boards": "Guide tableaux syndicaux",
         "print": "Guide impression",
         "website": "Guide site Web",
-        "crisis": "Guide de grève"
+        "crisis": "Guide de grève",
+        "photoConsent": "Consentement photo"
       },
       "blurb": {
         "plan": "Faites les quatre étapes dans l'ordre - logo, tableaux, réseaux, site.",
@@ -727,7 +759,8 @@
         "boards": "Tableaux minimaux au travail et quoi imprimer.",
         "print": "Affiches et habitudes d'impression pour réunions et actions.",
         "website": "Publier un site local simple sur GitHub Pages.",
-        "crisis": "Communications de négociation et de grève à enjeux élevés."
+        "crisis": "Communications de négociation et de grève à enjeux élevés.",
+        "photoConsent": "Liste photo membre pour délégués et ateliers."
       }
     },
     "checklist": {
@@ -883,6 +916,7 @@
     "initials": "Initiales (sans photo)",
     "photo": "Photo",
     "photoZoom": "Zoom photo",
+    "photoConsentLink": "Liste de consentement photo",
     "primaryColor": "Couleur primaire",
     "accentColor": "Couleur d'accent",
     "secondaryColor": "Couleur secondaire",

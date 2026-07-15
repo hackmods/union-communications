@@ -11,7 +11,7 @@ Top bar is slim and dual-audience oriented:
 | Item | Route / contents |
 |------|------------------|
 | **Get started** | `/guide/social-media-plan` |
-| **Learn ▾** | **Guides:** Comms Resources, Blueprint, Strike Guide · **By channel:** Print, Union Boards, Website · **Libraries:** Social Examples, Captions |
+| **Learn ▾** | **Guides:** Comms Resources, Blueprint, Strike Guide, Photo Consent · **By channel:** Print, Union Boards, Website · **Libraries:** Social Examples, Captions |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Asset Pack) |
 | **Tools ▾** | Logo, boards, graphics, flyer, website, alt-text makers |
 | **Officer Hub** | `/app` (auth) — visually distinct CTA |
@@ -33,6 +33,7 @@ Home landing (`HomeContent`): desktop hero band with CTAs + trust aside; dual-pa
 | `/[locale]/guide/social-media-plan` | Quick roadmap: logo → boards → socials → website |
 | `/[locale]/guide/resources` | Comms Resources — orientation, practice checklist, bibliography (`/guide/materials` redirects here) |
 | `/[locale]/guide/crisis` | Crisis comms playbook |
+| `/[locale]/guide/photo-consent` | Photo consent & member media checklist for stewards and workshops |
 | `/[locale]/guide/union-boards` | Workplace bulletin board guide (bare-minimum layout, ministry posters, anonymized templates, IRL reference patterns) |
 | `/[locale]/guide/print` | Print communications guide |
 | `/[locale]/guide/website` | Local website deploy guide |

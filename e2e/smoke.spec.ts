@@ -100,6 +100,14 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("link", { name: "OPSEU/SEFPO graphics, logos & letterhead" })).toBeVisible();
   });
 
+  test("photo consent guide renders", async ({ page }) => {
+    await page.goto("/en/guide/photo-consent/");
+    await expect(
+      page.getByRole("heading", { name: "Photo Consent & Member Media" }),
+    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Before you post" })).toBeVisible();
+  });
+
   test("legacy materials URL redirects to resources", async ({ page }) => {
     await page.goto("/en/guide/materials/");
     await expect(page).toHaveURL(/\/en\/guide\/resources\/?/);

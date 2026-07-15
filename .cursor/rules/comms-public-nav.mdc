@@ -10,7 +10,7 @@ alwaysApply: false
 
 Three groups in [`Header.tsx`](src/components/layout/Header.tsx) `learnGroups`:
 
-1. **Guides** — Comms Resources, The Blueprint, Strike Guide
+1. **Guides** — Comms Resources, The Blueprint, Strike Guide, Photo Consent (`/guide/photo-consent`)
 2. **By channel** — Print Guide (`/guide/print`), Union Boards Guide, Website Guide
 3. **Libraries** — Social Examples, Captions
 

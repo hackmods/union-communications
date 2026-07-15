@@ -75,11 +75,14 @@ Attendees complete the four steps on their devices. Facilitators circulate.
 /en/tools/graphic-maker
 /en/tools/website-template
 /en/guide/crisis
+/en/guide/photo-consent
 ```
 
 ## Privacy reminder
 
 Close with: "Everything runs on your device. No accounts, no tracking, no uploads to our servers."
+
+When Graphic Maker asks for photo consent, pause and point to `/guide/photo-consent` for the steward checklist (verbal/written consent, public post, no confidential detail in frame).
 
 ## Sources & references
 

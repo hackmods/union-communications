@@ -12,12 +12,6 @@ Implementation surface today: [`HomeContent.tsx`](../../src/components/pages/Hom
 - **Defer until:** Product expands past social / print / boards / website, or we intentionally add a fifth channel.
 - **Do not:** Add a nav stub with no page.
 
-### Photo consent / member media checklist
-
-- **Why:** Consent is already tool-gated (`ConsentModal` on member photo uploads). A short Learn article would help workshops and stewards who are writing policy, not only using Graphic Maker.
-- **Related:** Facilitator run sheet in [`docs/workshop/aug-18-comms-toolbox.md`](../workshop/aug-18-comms-toolbox.md); consent copy in tools.
-- **Shape if built:** Short `/guide/…` page (EN/FR) under Learn → Guides; link from Resources and workshop doc. Not a top-level Header item.
-
 ### Get started beyond social (rename + Print step)
 
 - **Reality check (already shipped):** `/guide/social-media-plan` is already a multi-channel roadmap — **logo → union boards → socials → website**. Home path copy (“brand, boards, socials, then website”) matches the steps. Boards are not missing from the plan.
@@ -42,3 +36,4 @@ Implemented on `/` via `HomeContent.tsx` (hero band, path layout, Brand Kit rail
 - Brand Kit → Brand Asset Pack (`/assets`) on-page link
 - Spec + agent rules: [`COMMS.md`](COMMS.md), `.cursor/rules/comms-public-nav.mdc`
 - Landing page desktop layout + channel IA alignment (`HomeContent`)
+- Photo consent / member media checklist at `/guide/photo-consent` (Learn → Guides; Resources + workshop links)

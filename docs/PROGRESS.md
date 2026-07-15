@@ -123,7 +123,8 @@ Scaffold through testing/CI — all complete.
 - [ ] Multi-union onboarding UI → **Phase 6**
 - [ ] Persistent Postgres + RLS → **Phase 6**
 - [ ] Workforce Time full (scheduling, PTO, union rollup) → **Phase 8** (8-lite shipped)
-- [ ] Comms content backlog (email/broadcast guide, photo-consent checklist, Get started beyond social rename + Print step) → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
+- [ ] Comms content backlog (email/broadcast guide, Get started beyond social rename + Print step) → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
+- [x] Photo consent / member media checklist → `/guide/photo-consent` (Learn → Guides)
 
 ## Public nav — channel guides in Learn (2026-07-14) — COMPLETE
 

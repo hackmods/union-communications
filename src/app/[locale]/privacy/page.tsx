@@ -1,4 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
@@ -102,7 +103,11 @@ export default async function PrivacyPage({
             You remain responsible for obtaining member consent before using photos in
             social media graphics, and for ensuring posts and case handling comply with your
             local&apos;s policies and collective agreement. This tool does not provide legal
-            advice.
+            advice. See the{" "}
+            <Link href="/guide/photo-consent" className="text-opseu-blue underline">
+              photo consent checklist
+            </Link>{" "}
+            for a short steward practice guide.
           </p>
         </Card>
 

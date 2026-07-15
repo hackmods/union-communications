@@ -32,6 +32,7 @@
     "printGuide": "Print Guide",
     "websiteGuide": "Website Guide",
     "resources": "Comms Resources",
+    "photoConsent": "Photo Consent",
     "learnGroupGuides": "Guides",
     "learnGroupChannels": "By channel",
     "learnGroupLibraries": "Libraries",
@@ -390,6 +391,36 @@
       }
     }
   },
+  "photoConsentGuide": {
+    "title": "Photo Consent & Member Media",
+    "subtitle": "A short checklist for stewards and locals before posting member photos",
+    "intro": "Consent is already gated in Graphic Maker when you upload a member photo. This page helps workshops and locals write a shared practice — not legal advice.",
+    "backToGuide": "Back to The Blueprint",
+    "why": {
+      "title": "Why it matters",
+      "content": "Once a photo is posted publicly, it can be copied and reshared outside your control. Locals need a clear practice so officers and volunteers know when to ask, what to say, and what never belongs in a graphic. The Toolbox does not replace your local's policies or advice from your servicing representative."
+    },
+    "checklist": {
+      "title": "Before you post",
+      "intro": "Confirm each item before using a member's photo in social graphics, flyers that feature people, or a photo of a posted board notice where faces are visible.",
+      "items": {
+        "consent": "You have written or verbal consent from the member",
+        "public": "The member understands the photo will be posted publicly (or knows which audience will see it)",
+        "confidential": "The photo and caption do not contain confidential workplace, grievance, medical, or bargaining information",
+        "group": "For group photos, everyone who is clearly identifiable has been covered — or crop, blur, or choose a different image",
+        "minors": "Photos of minors or dependents follow your local executive and union policy before publish",
+        "withdrawal": "You know who to contact if a member later asks for the photo to be taken down"
+      }
+    },
+    "toolbox": {
+      "title": "In the Toolbox",
+      "content": "Graphic Maker asks you to confirm consent before a member photo is applied to the layout. Processing stays on your device — photos are not uploaded to UnionOps servers. Brand logos are not member media. Resizer has no consent modal; if you resize a member photo, the same checklist still applies."
+    },
+    "workshop": {
+      "title": "Workshop tip",
+      "content": "In a session, pause on Graphic Maker's consent dialog, walk this checklist once, then point officers to Comms Resources and the Privacy page. Agree who records consent for your local and where take-down requests go."
+    }
+  },
   "websiteGuide": {
     "title": "Local Website Guide",
     "subtitle": "Why your local needs a simple website and how to publish one for free",
@@ -719,7 +750,8 @@
         "boards": "Union Boards Guide",
         "print": "Print Guide",
         "website": "Website Guide",
-        "crisis": "Strike Guide"
+        "crisis": "Strike Guide",
+        "photoConsent": "Photo Consent"
       },
       "blurb": {
         "plan": "Do the four steps in order - logo, boards, socials, website.",
@@ -727,7 +759,8 @@
         "boards": "Bare-minimum workplace boards and what to print.",
         "print": "Flyers and print habits for meetings and actions.",
         "website": "Deploy a simple local site on GitHub Pages.",
-        "crisis": "High-stakes bargaining and strike communications."
+        "crisis": "High-stakes bargaining and strike communications.",
+        "photoConsent": "Member photo checklist for stewards and workshops."
       }
     },
     "checklist": {
@@ -908,6 +941,7 @@
     "initials": "Photo initials (if no photo)",
     "photo": "Photo",
     "photoZoom": "Photo zoom",
+    "photoConsentLink": "Photo consent checklist",
     "primaryColor": "Primary colour",
     "accentColor": "Accent colour",
     "secondaryColor": "Secondary colour",

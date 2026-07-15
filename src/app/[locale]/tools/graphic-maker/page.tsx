@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng } from "@/lib/export/image-export";
@@ -326,6 +327,14 @@ function GraphicMakerPageContent() {
                 onUpload={handlePhotoUpload}
                 onClear={() => setState({ ...state, photoUrl: undefined })}
               />
+              <p className="text-sm text-gray-600">
+                <Link
+                  href="/guide/photo-consent"
+                  className="text-opseu-blue underline"
+                >
+                  {tg("photoConsentLink")}
+                </Link>
+              </p>
               <Input
                 label={tg("photoZoom")}
                 type="range"
