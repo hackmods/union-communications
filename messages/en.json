@@ -971,8 +971,7 @@
     "location": "Location",
     "primaryColor": "Primary colour",
     "accentColor": "Accent colour",
-    "unionPreset": "Union preset",
-    "unionPresetPlaceholder": "Choose a union…"
+    "secondaryColor": "Secondary colour"
   },
   "altTextAssistant": {
     "title": "Alt-Text Assistant",

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
@@ -9,10 +9,6 @@ import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { getExamplePost } from "@/lib/constants/examples";
-import {
-  colorsFromUnionPreset,
-  type UnionBranding,
-} from "@/lib/constants/unionPresets";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -20,7 +16,6 @@ import { Card } from "@/components/ui/Card";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
-import { UnionPresetSelect } from "@/components/tools/UnionPresetSelect";
 
 interface FlyerState {
   message: string;
@@ -29,6 +24,7 @@ interface FlyerState {
   location: string;
   primaryColor: string;
   accentColor: string;
+  secondaryColor: string;
 }
 
 function FlyerMakerPageContent() {
@@ -39,14 +35,12 @@ function FlyerMakerPageContent() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const seedApplied = useRef(false);
-  const [unionPresetId, setUnionPresetId] = useState("");
-  const [swatchColors, setSwatchColors] = useState({
+
+  const brandColors = {
     primary: brandKit.primaryColor,
     accent: brandKit.accentColor,
     secondary: brandKit.secondaryColor,
-  });
-
-  const brandColors = swatchColors;
+  };
 
   const initial: FlyerState = {
     message: "PICKET LINE - ALL MEMBERS WELCOME",
@@ -55,26 +49,11 @@ function FlyerMakerPageContent() {
     location: "123 Main Street, Toronto",
     primaryColor: brandKit.primaryColor,
     accentColor: brandKit.accentColor,
+    secondaryColor: brandKit.secondaryColor,
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<FlyerState>(initial);
-
-  const applyUnionPreset = (preset: UnionBranding) => {
-    setUnionPresetId(preset.id);
-    const colors = colorsFromUnionPreset(preset);
-    setSwatchColors({
-      primary: colors.primaryColor,
-      accent: colors.accentColor,
-      secondary: colors.secondaryColor,
-    });
-    setState({
-      ...state,
-      primaryColor: colors.primaryColor,
-      accentColor: colors.secondaryColor,
-      message: (preset.defaultSlogans[0] ?? state.message).toUpperCase(),
-    });
-  };
 
   useEffect(() => {
     if (seedApplied.current) return;
@@ -94,6 +73,7 @@ function FlyerMakerPageContent() {
       time: prev.time,
       primaryColor: brandKit.primaryColor,
       accentColor: brandKit.accentColor,
+      secondaryColor: brandKit.secondaryColor,
     }));
   }, [searchParams, setState, te, brandKit]);
 
@@ -125,12 +105,6 @@ function FlyerMakerPageContent() {
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <Card className="space-y-4">
-          <UnionPresetSelect
-            label={tf("unionPreset")}
-            value={unionPresetId}
-            placeholder={tf("unionPresetPlaceholder")}
-            onSelect={applyUnionPreset}
-          />
           <Textarea
             label={tf("message")}
             value={state.message}
@@ -164,6 +138,12 @@ function FlyerMakerPageContent() {
             onChange={(c) => setState({ ...state, accentColor: c })}
             colors={brandColors}
           />
+          <BrandSwatchPicker
+            label={tf("secondaryColor")}
+            value={state.secondaryColor}
+            onChange={(c) => setState({ ...state, secondaryColor: c })}
+            colors={brandColors}
+          />
           <ContrastChecker foreground="#FFFFFF" background={state.primaryColor} />
           <UndoRedoBar
             canUndo={canUndo}
@@ -175,6 +155,7 @@ function FlyerMakerPageContent() {
                 ...initial,
                 primaryColor: brandKit.primaryColor,
                 accentColor: brandKit.accentColor,
+                secondaryColor: brandKit.secondaryColor,
               })
             }
           />
@@ -210,6 +191,13 @@ function FlyerMakerPageContent() {
               <h2 className="text-3xl font-black uppercase leading-tight">
                 {state.message}
               </h2>
+              {state.secondaryColor !== state.primaryColor ? (
+                <div
+                  className="mx-auto mt-4 h-1 w-24"
+                  style={{ backgroundColor: state.secondaryColor }}
+                  aria-hidden
+                />
+              ) : null}
             </div>
             <div className="space-y-2 text-lg">
               <p>

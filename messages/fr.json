@@ -946,8 +946,7 @@
     "location": "Lieu",
     "primaryColor": "Couleur primaire",
     "accentColor": "Couleur d'accent",
-    "unionPreset": "Préréglage syndical",
-    "unionPresetPlaceholder": "Choisir un syndicat…"
+    "secondaryColor": "Couleur secondaire"
   },
   "altTextAssistant": {
     "title": "Assistant texte alt",
