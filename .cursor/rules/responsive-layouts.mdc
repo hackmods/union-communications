@@ -1,0 +1,53 @@
+---
+description: Thoughtful responsive layouts — no stretched mobile shells on desktop
+globs: src/app/**/*.tsx,src/components/**/*.tsx,src/app/globals.css
+alwaysApply: false
+---
+
+# Responsive layouts (no half-ass breakpoints)
+
+UI must be **designed per breakpoint**, not a phone stack stretched until it looks sparse. If a wide viewport could belong to an unfinished mock, the layout failed.
+
+## Hard rejects (fix before shipping)
+
+- **Stretched mobile shell** — same single column, same left-pinned blocks, growing empty space on the right as the viewport widens
+- **Orphan empty containers** — full-width cards/boxes whose content is a short left-aligned list or sentence with a dead zone filling the rest
+- **Unbounded measure** — body copy running >~65–75ch without a readable `max-w-*` / prose constraint
+- **Chrome vs content mismatch** — header/footer edge-to-edge while main content is a narrow island with no shared align/grid rhythm
+- **Breakpoint blindness** — only `px-4` + `max-w-*` and no intentional change at `sm` / `md` / `lg` (columns, split intro, CTA placement, density)
+- **CTA row as afterthought** — primary/secondary buttons left-dumped with no wrap, stack, or alignment plan across widths
+
+## Do this instead
+
+1. **Compose for desktop, stack for mobile** — at `md+`, use real structure: two-column intro + aside, step grid, linked resource row, split title/actions — not one endless vertical strip
+2. **Fill or constrain** — either content uses the width (grid/columns/sidebar) or the surface shrinks to the content; never a wide empty card
+3. **Shared horizontal system** — page shell, nav inner, and main share the same max-width + horizontal padding so edges align
+4. **Readable type** — titles can span; body and lists stay on a readable measure (`max-w-prose` / `max-w-2xl` / `max-w-3xl` as fits the page type)
+5. **Verify three widths** — ~375, ~768, ~1280: each must look intentional, not “scaled empty”
+
+## Guide / long-read pages
+
+Prefer a clear reading column; if you keep a wide shell, put density in a planned second column or resource rail — do not leave gray/white boxes mostly empty.
+
+```tsx
+// ❌ BAD — mobile stack scaled up; card is mostly void
+<div className="mx-auto max-w-5xl px-4">
+  <Card><ul><li>One link</li><li>Two link</li></ul></Card>
+</div>
+
+// ✅ GOOD — measure for copy; adjacent density when width allows
+<div className="mx-auto max-w-3xl px-4 md:max-w-5xl">
+  <div className="md:grid md:grid-cols-[1fr_14rem] md:gap-8">
+    <div className="max-w-prose">…</div>
+    <aside>…related links…</aside>
+  </div>
+</div>
+```
+
+## Checklist (any new/changed page or major layout)
+
+- [ ] Desktop is not just mobile with more margin
+- [ ] No full-bleed empty regions inside bordered/filled surfaces
+- [ ] Body measure stays readable
+- [ ] Nav/content horizontal rhythm aligns
+- [ ] Spot-checked phone / tablet / desktop
