@@ -23,6 +23,7 @@
     "flyerMaker": "Flyer Maker",
     "altText": "Alt-Text Assistant",
     "boardNotice": "Board Notice Maker",
+    "boardBanner": "Board Banner & Trim",
     "solidarityPoster": "Solidarity Posters",
     "qrCard": "QR Link Cards",
     "qrBoard": "QR Board Posters",
@@ -254,7 +255,7 @@
       "items": {
         "header": {
           "title": "Local header",
-          "content": "Local number, short name or division line, and logo from your Brand Kit. Members should recognize the board from across the room."
+          "content": "Local number, short name or division line, and logo from your Brand Kit. Print a Board Banner strip for the top of the cork so the board reads as yours from across the room — even when the rest is parent-union posters."
         },
         "socials": {
           "title": "Socials and digital link",
@@ -618,6 +619,32 @@
     "contact": "Contact line",
     "formatLetter": "Letter (8.5×11)",
     "formatTabloid": "Tabloid (11×17)"
+  },
+  "boardBanner": {
+    "title": "Board Banner & Trim",
+    "subtitle": "Print a polished header strip for the top of your union board, or matching trim tiles for the frame — Brand Kit colours and logo, letter or tabloid landscape.",
+    "mode": "What to print",
+    "modeBanner": "Header banner",
+    "modeTrim": "Border trim",
+    "layout": "Banner layout",
+    "layoutSlantCallout": "Slant callout",
+    "layoutCenteredLockup": "Centered lockup",
+    "layoutMinimalStripe": "Minimal stripe",
+    "trimPiece": "Trim piece",
+    "trimSide": "Side strip",
+    "trimBottom": "Bottom strip",
+    "trimCorner": "Corner",
+    "callout": "Callout text",
+    "includeLogo": "Include Brand Kit logo",
+    "accentColor": "Accent colour",
+    "format": "Print size (landscape)",
+    "formatLetter": "Letter (11×8.5)",
+    "formatTabloid": "Tabloid (17×11)",
+    "tileHint": "For wider boards, print 2–3 copies and butt-join along the chevron or stripe edge so seams look intentional.",
+    "preview": "Preview",
+    "cutGuideHint": "Dashed border is a cut guide — not printed. Trim to your cork board after printing.",
+    "setupBrandPrompt": "Set up your Brand Kit so banners use your local lockup and colours.",
+    "setupBrandLink": "Start onboarding"
   },
   "resizer": {
     "title": "Omnichannel Resizer",

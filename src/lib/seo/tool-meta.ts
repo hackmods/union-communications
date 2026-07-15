@@ -38,6 +38,11 @@ export const TOOL_SEO: Record<
     description:
       "Print workplace bulletin board notices with clear date, time, and location.",
   },
+  "board-banner": {
+    title: "Free Union Board Banner & Trim Maker",
+    description:
+      "Print Brand Kit header banners and border trim tiles for physical union boards. Free and on your device.",
+  },
   "solidarity-poster": {
     title: "Free Solidarity Poster Maker",
     description:

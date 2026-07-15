@@ -142,6 +142,7 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
   assets: ["opseu-branding"],
   websiteTemplate: ["local243-website", "github-pages", "opseu-branding"],
   boardNotice: ["opseu-branding"],
+  boardBanner: ["opseu-branding"],
   resources: Object.keys(COMMS_SOURCES),
 };
 

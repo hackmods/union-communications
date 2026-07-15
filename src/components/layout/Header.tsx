@@ -40,6 +40,7 @@ const learnGroups = [
 const toolLinks = [
   { href: "/tools/logo-builder", key: "logoBuilder" },
   { href: "/tools/board-notice", key: "boardNotice" },
+  { href: "/tools/board-banner", key: "boardBanner" },
   { href: "/tools/solidarity-poster", key: "solidarityPoster" },
   { href: "/tools/qr-card", key: "qrCard" },
   { href: "/tools/qr-board", key: "qrBoard" },

@@ -61,6 +61,13 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("button", { name: "Download PNG" })).toBeVisible();
   });
 
+  test("board banner and trim maker page renders", async ({ page }) => {
+    await page.goto("/en/tools/board-banner/");
+    await expect(page.getByRole("heading", { name: "Board Banner & Trim" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Download PNG" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Download PDF" })).toBeVisible();
+  });
+
   test("solidarity poster maker page renders", async ({ page }) => {
     await page.goto("/en/tools/solidarity-poster/");
     await expect(page.getByRole("heading", { name: "Solidarity Poster Maker" })).toBeVisible();

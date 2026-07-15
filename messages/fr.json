@@ -23,6 +23,7 @@
     "flyerMaker": "Créateur d'affiche",
     "altText": "Assistant texte alt",
     "boardNotice": "Avis pour tableau syndical",
+    "boardBanner": "Bandeau et bordure de tableau",
     "solidarityPoster": "Affiches solidarité",
     "qrCard": "Cartes lien QR",
     "qrBoard": "Affiches QR tableau",
@@ -254,7 +255,7 @@
       "items": {
         "header": {
           "title": "En-tête local",
-          "content": "Numéro de section locale, courte désignation ou division, et logo de votre trousse de marque. Les membres doivent reconnaître le tableau de loin."
+          "content": "Numéro de section locale, courte désignation ou division, et logo de votre trousse de marque. Imprimez un bandeau pour le haut du liège afin que le tableau se reconnaisse de loin — même si le reste est des affiches du syndicat parent."
         },
         "socials": {
           "title": "Réseaux et lien numérique",
@@ -618,6 +619,32 @@
     "contact": "Ligne de contact",
     "formatLetter": "Lettre (8,5×11)",
     "formatTabloid": "Tabloïde (11×17)"
+  },
+  "boardBanner": {
+    "title": "Bandeau et bordure de tableau",
+    "subtitle": "Imprimez une bande d'en-tête soignée pour le haut de votre tableau syndical, ou des carreaux de bordure assortis — couleurs et logo de la trousse de marque, lettre ou tabloïde paysage.",
+    "mode": "Quoi imprimer",
+    "modeBanner": "Bandeau d'en-tête",
+    "modeTrim": "Bordure",
+    "layout": "Mise en page du bandeau",
+    "layoutSlantCallout": "Appel en biais",
+    "layoutCenteredLockup": "Logo centré",
+    "layoutMinimalStripe": "Bande minimale",
+    "trimPiece": "Pièce de bordure",
+    "trimSide": "Bande latérale",
+    "trimBottom": "Bande bas",
+    "trimCorner": "Coin",
+    "callout": "Texte d'appel",
+    "includeLogo": "Inclure le logo de la trousse de marque",
+    "accentColor": "Couleur d'accent",
+    "format": "Format d'impression (paysage)",
+    "formatLetter": "Lettre (11×8,5)",
+    "formatTabloid": "Tabloïde (17×11)",
+    "tileHint": "Pour un tableau plus large, imprimez 2 ou 3 copies et joignez-les le long du motif chevron ou rayures pour que les joints paraissent volontaires.",
+    "preview": "Aperçu",
+    "cutGuideHint": "La bordure en pointillés est un guide de coupe — non imprimée. Coupez après impression selon votre tableau de liège.",
+    "setupBrandPrompt": "Configurez votre trousse de marque pour que les bandeaux utilisent votre logo et vos couleurs.",
+    "setupBrandLink": "Commencer l'intégration"
   },
   "resizer": {
     "title": "Redimensionneur omnicanal",

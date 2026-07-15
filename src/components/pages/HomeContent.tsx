@@ -17,6 +17,7 @@ const channelItems: Record<
   { href: string; titleKey: string }[]
 > = {
   boards: [
+    { href: "/tools/board-banner", titleKey: "boardBanner" },
     { href: "/tools/board-notice", titleKey: "boardNotice" },
     { href: "/tools/solidarity-poster", titleKey: "solidarityPoster" },
     { href: "/guide/union-boards", titleKey: "unionBoardsGuide" },

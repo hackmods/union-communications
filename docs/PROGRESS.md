@@ -232,6 +232,12 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Example dense-board photo for visual reference
 - [x] Campus board photos (sectioned L33 + branded W010) + labeled-columns schematic
 
+## Board Banner & Trim Maker (2026-07-15)
+
+- [x] `/tools/board-banner` — Brand Kit header banners (slant / centered / minimal) + side/bottom/corner trim tiles
+- [x] Landscape letter (11×8.5) and tabloid (17×11); PNG + PDF; tile-join copy for wider boards
+- [x] Cross-linked from Union Boards Guide header zone + CTAs
+
 ## QR Board Poster Maker (2026-07-15)
 
 - [x] `/tools/qr-board` — multi-QR union board posters (title above QR, URL under)

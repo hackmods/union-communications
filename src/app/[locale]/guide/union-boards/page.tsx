@@ -272,8 +272,11 @@ export default async function UnionBoardsGuidePage({
       </section>
 
       <div className="button-row mt-8">
+        <Link href="/tools/board-banner">
+          <Button>{nav("boardBanner")}</Button>
+        </Link>
         <Link href="/tools/board-notice">
-          <Button>{t("toolCta")}</Button>
+          <Button variant="outline">{t("toolCta")}</Button>
         </Link>
         <Link href="/tools/solidarity-poster">
           <Button variant="outline">{nav("solidarityPoster")}</Button>

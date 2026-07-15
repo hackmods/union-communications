@@ -42,6 +42,7 @@ Home landing (`HomeContent`): desktop hero band with CTAs + trust aside; dual-pa
 | `/[locale]/assets` | Union asset pack (CAAT OPSEU reference) |
 | `/[locale]/tools/logo-builder` | Local logo (circle, square, rectangle) |
 | `/[locale]/tools/board-notice` | Workplace bulletin notices (letter + tabloid) |
+| `/[locale]/tools/board-banner` | Board header banners + border trim tiles (landscape letter/tabloid; PNG + PDF) |
 | `/[locale]/tools/solidarity-poster` | Solidarity board posters + wallpapers (Print; Digital 16:9 / 19.5:9 / 9:16 PNG; CTA + QR toggles) |
 | `/[locale]/tools/qr-card` | QR link cards (title, tagline, multi-size print) |
 | `/[locale]/tools/qr-board` | Multi-QR board posters (2–8 links; letter/tabloid; PNG + PDF) |

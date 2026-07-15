@@ -4,7 +4,7 @@ Revised for demo use. Replace “Sample Local” with your local number. No real
 
 ## Always print (bare minimum)
 
-- [ ] Local header / logo (Brand Kit)
+- [ ] Local header / logo (Brand Kit) — or print a Board Banner strip from the Board Banner & Trim tool
 - [ ] Socials flyer with QR to this hub or your local site
 - [ ] Health & safety contacts (JHSC / steward H&S)
 - [ ] LEC / steward contact list
