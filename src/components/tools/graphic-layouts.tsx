@@ -5,6 +5,10 @@ import Image from "next/image";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { cn } from "@/lib/utils";
 import type { ExampleAspect, ExampleLayout } from "@/lib/constants/examples";
+import {
+  inkWithAlpha,
+  pickContrastingInk,
+} from "@/lib/utils/ink";
 
 export type GraphicLayoutId = Exclude<ExampleLayout, "quote">;
 
@@ -46,28 +50,36 @@ export interface GraphicLayoutCanvasProps {
 }
 
 /** Inline hex/rgba only — Tailwind v4 oklch utilities wash out html-to-image PNGs */
-const WHITE = "#FFFFFF";
-const WHITE_90 = "rgba(255,255,255,0.9)";
-const WHITE_80 = "rgba(255,255,255,0.8)";
-const WHITE_70 = "rgba(255,255,255,0.7)";
-const WHITE_60 = "rgba(255,255,255,0.6)";
-const WHITE_30 = "rgba(255,255,255,0.3)";
+function inkPalette(background: string) {
+  const ink = pickContrastingInk(background);
+  return {
+    ink,
+    full: ink,
+    a90: inkWithAlpha(ink, 0.9),
+    a80: inkWithAlpha(ink, 0.8),
+    a70: inkWithAlpha(ink, 0.7),
+    a60: inkWithAlpha(ink, 0.6),
+    a30: inkWithAlpha(ink, 0.3),
+  };
+}
 
 function LocalFooter({
   localNumber,
   subText,
   size,
+  color,
 }: {
   localNumber: string;
   subText: string;
   size: "preview" | "export";
+  color: string;
 }) {
   return (
     <p
       className={cn(
         size === "export" ? "mt-3 text-sm" : "mt-2 text-[10px] sm:text-xs",
       )}
-      style={{ color: WHITE_70 }}
+      style={{ color }}
     >
       Local {localNumber}
       {subText ? ` - ${subText}` : ""}
@@ -205,6 +217,9 @@ function SolidarityLayout({
   size: "preview" | "export";
 }) {
   const exportMode = size === "export";
+  // Dark photo overlay → ink against the scrim, not raw primary
+  const footerBg = photoUrl ? "#1A1A1A" : primary;
+  const ink = inkPalette(footerBg);
   return (
     <>
       <div
@@ -229,19 +244,23 @@ function SolidarityLayout({
           exportMode ? "p-8" : "p-4 sm:p-5",
         )}
       >
-        <BrandLogo size={exportMode ? "md" : "sm"} onDark className="mb-2" />
+        <BrandLogo
+          size={exportMode ? "md" : "sm"}
+          backgroundColor={footerBg}
+          className="mb-2"
+        />
         <h3
           className={cn(
             "font-bold leading-tight",
             exportMode ? "text-3xl" : "text-base sm:text-lg",
           )}
-          style={{ color: WHITE }}
+          style={{ color: ink.full }}
         >
           {copy.headline}
         </h3>
         <p
           className={cn("mt-1", exportMode ? "text-lg" : "text-xs sm:text-sm")}
-          style={{ color: WHITE_90 }}
+          style={{ color: ink.a90 }}
         >
           {copy.body}
         </p>
@@ -251,12 +270,17 @@ function SolidarityLayout({
               "mt-2 font-semibold uppercase tracking-wide",
               exportMode ? "text-sm" : "text-[10px]",
             )}
-            style={{ color: WHITE_80 }}
+            style={{ color: ink.a80 }}
           >
             {copy.detail}
           </p>
         ) : null}
-        <LocalFooter localNumber={localNumber} subText={subText} size={size} />
+        <LocalFooter
+          localNumber={localNumber}
+          subText={subText}
+          size={size}
+          color={ink.a70}
+        />
       </div>
     </>
   );
@@ -285,6 +309,9 @@ function SpotlightLayout({
 }) {
   const initials = copy.initials ?? "M";
   const exportMode = size === "export";
+  const footerBg = photoUrl ? "#1A1A1A" : primary;
+  const ink = inkPalette(footerBg);
+  const badgeInk = pickContrastingInk(accent);
   return (
     <>
       <div
@@ -303,7 +330,7 @@ function SpotlightLayout({
                 ? "h-36 w-36 text-5xl"
                 : "h-24 w-24 text-3xl sm:h-28 sm:w-28 sm:text-4xl",
             )}
-            style={{ backgroundColor: accent, color: WHITE }}
+            style={{ backgroundColor: accent, color: badgeInk }}
             aria-hidden
           >
             {initials}
@@ -323,13 +350,17 @@ function SpotlightLayout({
           exportMode ? "p-8" : "p-4 sm:p-5",
         )}
       >
-        <BrandLogo size={exportMode ? "md" : "sm"} onDark className="mb-2" />
+        <BrandLogo
+          size={exportMode ? "md" : "sm"}
+          backgroundColor={footerBg}
+          className="mb-2"
+        />
         <h3
           className={cn(
             "font-bold",
             exportMode ? "text-3xl" : "text-base sm:text-lg",
           )}
-          style={{ color: WHITE }}
+          style={{ color: ink.full }}
         >
           {copy.headline}
         </h3>
@@ -338,11 +369,16 @@ function SpotlightLayout({
             "mt-1 italic",
             exportMode ? "text-lg" : "text-xs sm:text-sm",
           )}
-          style={{ color: WHITE_90 }}
+          style={{ color: ink.a90 }}
         >
           &ldquo;{copy.body}&rdquo;
         </p>
-        <LocalFooter localNumber={localNumber} subText={subText} size={size} />
+        <LocalFooter
+          localNumber={localNumber}
+          subText={subText}
+          size={size}
+          color={ink.a70}
+        />
       </div>
     </>
   );
@@ -366,6 +402,8 @@ function NoticeLayout({
   size: "preview" | "export";
 }) {
   const exportMode = size === "export";
+  const ink = inkPalette(primary);
+  const badgeInk = pickContrastingInk(accent);
   return (
     <>
       <div className="absolute inset-0" style={{ backgroundColor: primary }} />
@@ -380,13 +418,13 @@ function NoticeLayout({
         )}
       >
         <div className="flex items-start justify-between gap-2">
-          <BrandLogo size={exportMode ? "md" : "sm"} onDark />
+          <BrandLogo size={exportMode ? "md" : "sm"} backgroundColor={primary} />
           <span
             className={cn(
               "rounded font-bold uppercase tracking-wide",
               exportMode ? "px-3 py-1 text-xs" : "px-2 py-0.5 text-[10px]",
             )}
-            style={{ backgroundColor: accent, color: WHITE }}
+            style={{ backgroundColor: accent, color: badgeInk }}
           >
             {copy.detail ?? "Notice"}
           </span>
@@ -397,7 +435,7 @@ function NoticeLayout({
               "font-bold",
               exportMode ? "text-4xl" : "text-base sm:text-xl",
             )}
-            style={{ color: WHITE }}
+            style={{ color: ink.full }}
           >
             {copy.headline}
           </h3>
@@ -406,11 +444,16 @@ function NoticeLayout({
               "mt-2",
               exportMode ? "text-lg" : "text-xs sm:text-sm",
             )}
-            style={{ color: WHITE_90 }}
+            style={{ color: ink.a90 }}
           >
             {copy.body}
           </p>
-          <LocalFooter localNumber={localNumber} subText={subText} size={size} />
+          <LocalFooter
+            localNumber={localNumber}
+            subText={subText}
+            size={size}
+            color={ink.a70}
+          />
         </div>
         <div
           className={cn(
@@ -443,6 +486,7 @@ export function QuoteLayout({
   size?: "preview" | "export";
 }) {
   const exportMode = size === "export";
+  const ink = inkPalette(primary);
   return (
     <>
       <div className="absolute inset-0" style={{ backgroundColor: primary }} />
@@ -464,7 +508,7 @@ export function QuoteLayout({
             "font-bold leading-none",
             exportMode ? "text-6xl" : "text-3xl",
           )}
-          style={{ color: WHITE_30 }}
+          style={{ color: ink.a30 }}
           aria-hidden
         >
           &ldquo;
@@ -474,7 +518,7 @@ export function QuoteLayout({
             "font-medium leading-snug",
             exportMode ? "text-xl" : "text-sm sm:text-base",
           )}
-          style={{ color: WHITE }}
+          style={{ color: ink.full }}
         >
           {copy.body}
         </p>
@@ -483,7 +527,7 @@ export function QuoteLayout({
             "mt-3 font-semibold",
             exportMode ? "text-base" : "text-xs",
           )}
-          style={{ color: WHITE_80 }}
+          style={{ color: ink.a80 }}
         >
           {copy.headline}
         </p>
@@ -493,14 +537,19 @@ export function QuoteLayout({
               "uppercase tracking-wide",
               exportMode ? "text-xs" : "text-[10px]",
             )}
-            style={{ color: WHITE_60 }}
+            style={{ color: ink.a60 }}
           >
             {copy.detail}
           </p>
         ) : null}
         <div className={exportMode ? "mt-6" : "mt-4"}>
-          <BrandLogo size={exportMode ? "md" : "sm"} onDark />
-          <LocalFooter localNumber={localNumber} subText={subText} size={size} />
+          <BrandLogo size={exportMode ? "md" : "sm"} backgroundColor={primary} />
+          <LocalFooter
+            localNumber={localNumber}
+            subText={subText}
+            size={size}
+            color={ink.a70}
+          />
         </div>
       </div>
     </>
@@ -523,6 +572,7 @@ function ResultsLayout({
   size: "preview" | "export";
 }) {
   const exportMode = size === "export";
+  const ink = inkPalette(primary);
   return (
     <>
       <div
@@ -539,7 +589,7 @@ function ResultsLayout({
       >
         <BrandLogo
           size={exportMode ? "md" : "sm"}
-          onDark
+          backgroundColor={primary}
           className={exportMode ? "mb-4" : "mb-3"}
         />
         <p
@@ -547,7 +597,7 @@ function ResultsLayout({
             "font-semibold uppercase tracking-widest",
             exportMode ? "text-sm" : "text-[10px]",
           )}
-          style={{ color: WHITE_80 }}
+          style={{ color: ink.a80 }}
         >
           {copy.detail}
         </p>
@@ -556,7 +606,7 @@ function ResultsLayout({
             "font-black",
             exportMode ? "mt-2 text-6xl" : "mt-1 text-4xl sm:text-5xl",
           )}
-          style={{ color: WHITE }}
+          style={{ color: ink.full }}
         >
           {copy.headline}
         </p>
@@ -565,11 +615,16 @@ function ResultsLayout({
             "max-w-[14rem]",
             exportMode ? "mt-3 max-w-md text-lg" : "mt-2 text-xs sm:text-sm",
           )}
-          style={{ color: WHITE_90 }}
+          style={{ color: ink.a90 }}
         >
           {copy.body}
         </p>
-        <LocalFooter localNumber={localNumber} subText={subText} size={size} />
+        <LocalFooter
+          localNumber={localNumber}
+          subText={subText}
+          size={size}
+          color={ink.a70}
+        />
       </div>
     </>
   );

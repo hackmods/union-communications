@@ -13,6 +13,8 @@ import { Card } from "@/components/ui/Card";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { cn } from "@/lib/utils";
+import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
+import { meetsWcagAA } from "@/lib/utils/contrast";
 
 type NoticeType = "meeting" | "bargaining" | "event" | "general";
 type PageFormat = "letter" | "tabloid";
@@ -58,6 +60,14 @@ export default function BoardNoticePage() {
 
   const dims = FORMAT_DIMENSIONS[format];
   const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)} - ${brandKit.local.subText}`;
+  const canvasInk = pickContrastingInk(brandKit.primaryColor);
+  const leadColor = meetsWcagAA(
+    brandKit.secondaryColor,
+    brandKit.primaryColor,
+    true,
+  )
+    ? brandKit.secondaryColor
+    : canvasInk;
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
@@ -181,25 +191,28 @@ export default function BoardNoticePage() {
             )}
             style={{
               backgroundColor: brandKit.primaryColor,
-              color: "#FFFFFF",
+              color: canvasInk,
             }}
           >
             <div>
               <p
                 className="text-sm font-bold uppercase tracking-widest"
-                style={{ color: brandKit.secondaryColor }}
+                style={{ color: leadColor }}
               >
                 {localLabel}
               </p>
               <p
                 className="mt-2 text-xs uppercase"
-                style={{ color: "rgba(255,255,255,0.8)" }}
+                style={{ color: inkWithAlpha(canvasInk, 0.8) }}
               >
                 {t(`types.${state.noticeType}`)}
               </p>
             </div>
             <div className="text-center">
-              <h2 className="text-4xl font-black uppercase leading-tight md:text-5xl">
+              <h2
+                className="text-4xl font-black uppercase leading-tight md:text-5xl"
+                style={{ color: canvasInk }}
+              >
                 {state.headline}
               </h2>
               <p className="mt-4 text-xl leading-relaxed">{state.body}</p>
@@ -216,7 +229,7 @@ export default function BoardNoticePage() {
               </p>
               <p
                 className="mt-4 text-base"
-                style={{ color: "rgba(255,255,255,0.9)" }}
+                style={{ color: inkWithAlpha(canvasInk, 0.9) }}
               >
                 {state.contact}
               </p>

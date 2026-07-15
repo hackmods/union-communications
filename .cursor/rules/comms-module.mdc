@@ -15,6 +15,8 @@ Learn menu must keep **By channel** (Print, Union Boards, Website guides) — se
 ## Rules
 - All image/document processing client-side (html-to-image, JSZip, jsPDF, docxtemplater, ExcelJS)
 - PNG capture (`exportNodeAsPng`): keep `shadow-*` outside `canvasRef`; pass explicit hex `backgroundColor`; inside the capture node use inline hex/`rgba` only — no Tailwind `text-white*`, `opacity-*`, or `bg-white` (oklch washout). See solidarity-poster / `graphic-layouts.tsx`.
+- **Auto contrasting ink** (required on export canvases): use `pickContrastingInk(background)` from `@/lib/utils/ink` for titles, body, and footer copy. Prefer `BrandLogo` + `backgroundColor={canvasHex}` over hardcoding `onDark` / `#FFFFFF` — ink auto-swaps to black on pale primaries and white on dark/brand fields. Use `inkWithAlpha(ink, a)` for muted copy. Never force white text/logos on a light primary.
+- **Logo monochrome**: when ink is forced, `BrandLogo` uses official white mark assets or CSS `filter` (`logoRasterFilter`) for lockups/custom uploads. Prefer filter over `mask-image` — masks do not survive html-to-image capture.
 - Office exports via `src/lib/export/office-export.ts` + `OfficeExportButton` — lazy-import heavy libs on click; static templates in `public/templates/office/`
 - Member photo uploads require `ConsentModal` confirmation
 - Colour pickers must show `ContrastChecker` warnings
@@ -22,7 +24,7 @@ Learn menu must keep **By channel** (Print, Union Boards, Website guides) — se
 - Display/export local number via `resolveLocalNumber()` from `@/lib/utils/local`
 - Brand state via `useBrandStore` / `DataAdapter`
 - Logo: `BrandLogo` for display; `LogoSettings` for official/custom upload (PNG/JPEG/WebP/SVG)
-- Platform UnionOps mark: interlocking u+o inline SVG in `UnionOpsMark` — primary plate + accent glyph; `onDark` → white back (inline SVG so PNG export works)
+- Platform UnionOps mark: interlocking u+o inline SVG in `UnionOpsMark` — primary plate + accent glyph; light ink → white plate; dark ink → black plate + white glyph (inline SVG so PNG export works)
 - See `.cursor/rules/opseu-branding.mdc` for OPSEU/CAAT colour rationale
 - Solidarity board posters: `.cursor/rules/solidarity-posters.mdc` (`/tools/solidarity-poster`)
 - QR link cards: `/tools/qr-card` (client `qrDataUrl`, multi-size print)
@@ -35,3 +37,5 @@ See `docs/modules/COMMS.md` for migration checklist.
 - Send user data to servers in v1
 - Skip consent flow for member spotlight graphics
 - Hardcode union-specific branding in new components
+- Hardcode `#FFFFFF` / `onDark` on brand-coloured export canvases when the canvas hex is known — use `pickContrastingInk` / `backgroundColor`
+- Use CSS `mask-image` inside PNG capture nodes for logo tinting

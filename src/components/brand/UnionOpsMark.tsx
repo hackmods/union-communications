@@ -2,6 +2,11 @@
 
 import { cn } from "@/lib/utils";
 import { BRAND_COLORS } from "@/lib/constants/brand";
+import {
+  INK_WHITE,
+  isLightInk,
+  type InkTone,
+} from "@/lib/utils/ink";
 
 const sizePx = {
   sm: 32,
@@ -17,9 +22,11 @@ interface UnionOpsMarkProps {
   className?: string;
   /**
    * Dark / brand backgrounds: white back plate + primary glyph.
-   * Light chrome: primary plate + graphics-accent glyph.
+   * Prefer `ink` when the canvas hex is known (auto black on pale fields).
    */
   onDark?: boolean;
+  /** Auto/manual ink tone for export canvases */
+  ink?: InkTone;
   title?: string;
 }
 
@@ -33,12 +40,27 @@ export function UnionOpsMark({
   size = "sm",
   className,
   onDark = false,
+  ink,
   title = "UnionOps",
 }: UnionOpsMarkProps) {
   const px = sizePx[size];
-  // Swap back to white when on dark / Brand Kit dark preview
-  const plate = onDark ? "#FFFFFF" : primaryColor;
-  const glyph = onDark ? primaryColor : secondaryColor;
+  const effectiveInk: InkTone | null =
+    ink ?? (onDark ? INK_WHITE : null);
+
+  let plate: string;
+  let glyph: string;
+  if (effectiveInk) {
+    if (isLightInk(effectiveInk)) {
+      plate = INK_WHITE;
+      glyph = primaryColor;
+    } else {
+      plate = BRAND_COLORS.black;
+      glyph = INK_WHITE;
+    }
+  } else {
+    plate = primaryColor;
+    glyph = secondaryColor;
+  }
 
   return (
     <span

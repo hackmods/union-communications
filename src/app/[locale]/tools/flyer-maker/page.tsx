@@ -16,6 +16,8 @@ import { Card } from "@/components/ui/Card";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
+import { pickContrastingInk } from "@/lib/utils/ink";
+import { meetsWcagAA } from "@/lib/utils/contrast";
 
 interface FlyerState {
   message: string;
@@ -174,21 +176,36 @@ function FlyerMakerPageContent() {
             className="flex aspect-[8.5/11] w-full flex-col justify-between p-10"
             style={{
               backgroundColor: state.primaryColor,
-              color: "#FFFFFF",
+              color: pickContrastingInk(state.primaryColor),
             }}
           >
             <div>
-              <BrandLogo size="md" onDark className="mb-3" />
+              <BrandLogo
+                size="md"
+                backgroundColor={state.primaryColor}
+                className="mb-3"
+              />
               <p
                 className="text-sm font-bold uppercase tracking-widest"
-                style={{ color: state.accentColor }}
+                style={{
+                  color: meetsWcagAA(
+                    state.accentColor,
+                    state.primaryColor,
+                    true,
+                  )
+                    ? state.accentColor
+                    : pickContrastingInk(state.primaryColor),
+                }}
               >
                 Local {resolveLocalNumber(brandKit.local.localNumber)}  - {" "}
                 {brandKit.local.subText}
               </p>
             </div>
             <div className="text-center">
-              <h2 className="text-3xl font-black uppercase leading-tight">
+              <h2
+                className="text-3xl font-black uppercase leading-tight"
+                style={{ color: pickContrastingInk(state.primaryColor) }}
+              >
                 {state.message}
               </h2>
               {state.secondaryColor !== state.primaryColor ? (

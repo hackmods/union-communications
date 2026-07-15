@@ -13,12 +13,24 @@ import {
 } from "@/lib/constants/unionPresets";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
+import {
+  INK_WHITE,
+  isLightInk,
+  logoRasterFilter,
+  pickContrastingInk,
+  type InkTone,
+} from "@/lib/utils/ink";
 
 interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
   className?: string;
-  /** Prefer white mark when rendering on dark / brand-coloured backgrounds */
+  /**
+   * Force light (white) ink. Prefer `backgroundColor` so ink auto-swaps
+   * to black on pale fields.
+   */
   onDark?: boolean;
+  /** Canvas fill hex — drives auto white/black ink for mark + raster logos */
+  backgroundColor?: string;
 }
 
 const lockupSize = {
@@ -33,10 +45,19 @@ const markSize = {
   lg: { width: 96, height: 96 },
 } as const;
 
+function resolveInk(
+  backgroundColor: string | undefined,
+  onDark: boolean,
+): InkTone | null {
+  if (backgroundColor) return pickContrastingInk(backgroundColor);
+  if (onDark) return INK_WHITE;
+  return null;
+}
+
 function resolveOfficialSrc(
   variant: OfficialLogoVariant,
-  onDark: boolean,
-): { src: string; size: "lockup" | "mark" } {
+  ink: InkTone | null,
+): { src: string; size: "lockup" | "mark"; useFilter: boolean } {
   const effective: OfficialLogoVariant = isSelectableOfficialLogoVariant(
     variant,
   )
@@ -44,33 +65,65 @@ function resolveOfficialSrc(
     : "mark";
 
   if (effective === "lockup") {
-    return { src: OFFICIAL_LOGOS.lockup.src, size: "lockup" };
+    return {
+      src: OFFICIAL_LOGOS.lockup.src,
+      size: "lockup",
+      useFilter: ink !== null,
+    };
   }
   if (effective === "slitBlue") {
-    return { src: OFFICIAL_LOGOS.slitBlue.src, size: "mark" };
+    return {
+      src: OFFICIAL_LOGOS.slitBlue.src,
+      size: "mark",
+      useFilter: ink !== null,
+    };
   }
   if (effective === "slitWhite") {
-    return { src: OFFICIAL_LOGOS.slitWhite.src, size: "mark" };
+    return {
+      src: OFFICIAL_LOGOS.slitWhite.src,
+      size: "mark",
+      // Already white — only filter when forcing black
+      useFilter: ink !== null && !isLightInk(ink),
+    };
   }
-  const src = onDark ? OFFICIAL_LOGOS.mark.srcOnDark : OFFICIAL_LOGOS.mark.src;
-  return { src, size: "mark" };
+
+  if (ink && isLightInk(ink)) {
+    return {
+      src: OFFICIAL_LOGOS.mark.srcOnDark,
+      size: "mark",
+      useFilter: false,
+    };
+  }
+  return {
+    src: OFFICIAL_LOGOS.mark.src,
+    size: "mark",
+    useFilter: ink !== null,
+  };
 }
 
-export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoProps) {
+export function BrandLogo({
+  size = "sm",
+  className,
+  onDark = false,
+  backgroundColor,
+}: BrandLogoProps) {
   const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
   const primaryColor = brandKit.primaryColor || BRAND_COLORS.primary;
   const secondaryColor = brandKit.secondaryColor || BRAND_COLORS.secondary;
   const dims = markSize[size];
+  const ink = resolveInk(backgroundColor, onDark);
+  const rasterFilter = ink ? logoRasterFilter(ink) : undefined;
 
-  // Platform interlocking PNG — BrandLogo / UnionOpsMark masks + tints it
+  // Platform interlocking SVG — BrandLogo / UnionOpsMark tints via fill
   const platformMark = (
     <UnionOpsMark
       primaryColor={primaryColor}
       secondaryColor={secondaryColor}
       size={size}
       className={className}
-      onDark={onDark}
+      ink={ink ?? undefined}
+      onDark={onDark && !backgroundColor}
     />
   );
 
@@ -82,7 +135,7 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
     const variant = isOfficialLogoVariant(brandKit.officialLogoVariant)
       ? brandKit.officialLogoVariant
       : "lockup";
-    const resolved = resolveOfficialSrc(variant, onDark);
+    const resolved = resolveOfficialSrc(variant, ink);
     const officialDims =
       resolved.size === "lockup" ? lockupSize[size] : markSize[size];
 
@@ -92,7 +145,12 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
         width={officialDims.width}
         height={officialDims.height}
         className={className}
-        onDark={onDark}
+        onDark={ink ? isLightInk(ink) : onDark}
+        style={
+          resolved.useFilter && rasterFilter
+            ? { filter: rasterFilter }
+            : undefined
+        }
       />
     );
   }
@@ -108,6 +166,12 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
       customSrc.includes("logo-primary") ||
       (customSrc.endsWith("/logo.svg") && !customSrc.includes("logo-mark"));
     const customDims = isLockup ? lockupSize[size] : dims;
+    const looksLikeWhiteMark =
+      customSrc.includes("logo-mark-white") ||
+      customSrc.includes("mark-on-dark") ||
+      customSrc.includes("on-dark");
+    const useFilter =
+      ink !== null && !(ink && isLightInk(ink) && looksLikeWhiteMark);
 
     return (
       <SafeLogoImage
@@ -115,7 +179,8 @@ export function BrandLogo({ size = "sm", className, onDark = false }: BrandLogoP
         width={customDims.width}
         height={customDims.height}
         className={className}
-        onDark={onDark}
+        onDark={ink ? isLightInk(ink) : onDark}
+        style={useFilter && rasterFilter ? { filter: rasterFilter } : undefined}
       />
     );
   }

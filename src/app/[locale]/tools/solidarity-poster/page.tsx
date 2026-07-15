@@ -36,6 +36,8 @@ import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
+import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
+import { meetsWcagAA } from "@/lib/utils/contrast";
 
 interface PosterState {
   sloganId: string;
@@ -227,6 +229,20 @@ export default function SolidarityPosterPage() {
     state.includeBranding || state.layout === "split";
   const showFooter =
     state.showCta || state.showQr || showLocalInFooter;
+  const canvasInk = pickContrastingInk(state.primaryColor);
+  const mutedInk90 = inkWithAlpha(canvasInk, 0.9);
+  const mutedInk80 = inkWithAlpha(canvasInk, 0.8);
+  const mutedInk30 = inkWithAlpha(canvasInk, 0.3);
+  const secondaryOnPrimary = meetsWcagAA(
+    state.secondaryColor,
+    state.primaryColor,
+    true,
+  )
+    ? state.secondaryColor
+    : canvasInk;
+  const bannerBarBg = state.accentColor || state.secondaryColor;
+  const bannerBarInk = pickContrastingInk(bannerBarBg);
+  const splitSideInk = pickContrastingInk(state.secondaryColor);
 
   const selectMedium = (next: OutputMedium) => {
     if (next === medium) return;
@@ -284,15 +300,15 @@ export default function SolidarityPosterPage() {
         "flex shrink-0 items-center justify-between",
         chrome.footerGap,
       )}
-      style={{ borderTop: "1px solid rgba(255,255,255,0.3)" }}
+      style={{ borderTop: `1px solid ${mutedInk30}` }}
     >
       <div className="min-w-0 flex-1 pr-2 text-left">
         {state.showCta ? (
           <>
-            <p className={chrome.ctaClass} style={{ color: "#FFFFFF" }}>
+            <p className={chrome.ctaClass} style={{ color: canvasInk }}>
               {t("cta")}
             </p>
-            <p className={chrome.urlClass} style={{ color: "rgba(255,255,255,0.9)" }}>
+            <p className={chrome.urlClass} style={{ color: mutedInk90 }}>
               {displayUrl}
             </p>
           </>
@@ -300,7 +316,7 @@ export default function SolidarityPosterPage() {
         {showLocalInFooter ? (
           <p
             className={cn("text-[10px] md:text-xs", state.showCta && "mt-0.5")}
-            style={{ color: "rgba(255,255,255,0.8)" }}
+            style={{ color: mutedInk80 }}
           >
             {localLabel}
           </p>
@@ -543,7 +559,7 @@ export default function SolidarityPosterPage() {
             className={cn("flex w-full flex-col overflow-hidden", format.aspect)}
             style={{
               backgroundColor: state.primaryColor,
-              color: "#FFFFFF",
+              color: canvasInk,
             }}
           >
             {state.layout === "stack" ? (
@@ -559,14 +575,14 @@ export default function SolidarityPosterPage() {
                       "font-semibold uppercase tracking-[0.2em]",
                       isLandscape ? "text-xs" : "text-sm",
                     )}
-                    style={{ color: state.secondaryColor }}
+                    style={{ color: secondaryOnPrimary }}
                   >
                     {state.leadIn}
                   </p>
                   {showLockup ? (
                     <BrandLogo
                       size={isLandscape ? "sm" : "md"}
-                      onDark
+                      backgroundColor={state.primaryColor}
                       className="shrink-0"
                     />
                   ) : null}
@@ -576,19 +592,22 @@ export default function SolidarityPosterPage() {
                     <p
                       key={`${i}-${line}`}
                       className={chrome.headlineStack}
-                      style={{ color: "#FFFFFF" }}
+                      style={{ color: canvasInk }}
                     >
                       {line}
                     </p>
                   ))}
-                  <p className={chrome.closerStack} style={{ color: state.secondaryColor }}>
+                  <p
+                    className={chrome.closerStack}
+                    style={{ color: secondaryOnPrimary }}
+                  >
                     {state.closer}
                   </p>
                   {/* Landscape: local stays in footer only so headline doesn't get crushed */}
                   {showLockup && !isLandscape ? (
                     <p
                       className="mt-2 text-sm font-semibold md:mt-3"
-                      style={{ color: "rgba(255,255,255,0.9)" }}
+                      style={{ color: mutedInk90 }}
                     >
                       {localLabel}
                     </p>
@@ -614,12 +633,12 @@ export default function SolidarityPosterPage() {
                     )}
                     style={{
                       backgroundColor: state.secondaryColor,
-                      color: state.primaryColor,
+                      color: splitSideInk,
                     }}
                   >
                     <p
                       className="text-xs font-bold uppercase tracking-[0.25em]"
-                      style={{ color: state.primaryColor }}
+                      style={{ color: splitSideInk }}
                     >
                       {state.leadIn}
                     </p>
@@ -628,7 +647,7 @@ export default function SolidarityPosterPage() {
                         "font-semibold leading-snug",
                         isLandscape ? "text-xs" : "text-sm",
                       )}
-                      style={{ color: state.primaryColor }}
+                      style={{ color: splitSideInk }}
                     >
                       {state.closer}
                     </p>
@@ -644,7 +663,7 @@ export default function SolidarityPosterPage() {
                       <p
                         key={`${i}-${line}`}
                         className={chrome.headlineSplit}
-                        style={{ color: "#FFFFFF" }}
+                        style={{ color: canvasInk }}
                       >
                         {line}
                       </p>
@@ -665,13 +684,17 @@ export default function SolidarityPosterPage() {
                     chrome.padBannerBar,
                   )}
                   style={{
-                    backgroundColor: state.accentColor || state.secondaryColor,
+                    backgroundColor: bannerBarBg,
                   }}
                 >
-                  {showLockup ? <BrandLogo size="sm" onDark /> : <span />}
+                  {showLockup ? (
+                    <BrandLogo size="sm" backgroundColor={bannerBarBg} />
+                  ) : (
+                    <span />
+                  )}
                   <p
                     className="text-xs font-bold uppercase tracking-[0.3em]"
-                    style={{ color: "#FFFFFF" }}
+                    style={{ color: bannerBarInk }}
                   >
                     {state.leadIn}
                   </p>
@@ -686,21 +709,21 @@ export default function SolidarityPosterPage() {
                     <p
                       key={`${i}-${line}`}
                       className={chrome.headlineStack}
-                      style={{ color: "#FFFFFF" }}
+                      style={{ color: canvasInk }}
                     >
                       {line}
                     </p>
                   ))}
                   <p
                     className={chrome.closerBanner}
-                    style={{ color: "rgba(255,255,255,0.9)" }}
+                    style={{ color: mutedInk90 }}
                   >
                     {state.closer}
                   </p>
                   {showLockup && !isLandscape ? (
                     <p
                       className="mt-2 text-sm font-semibold"
-                      style={{ color: "rgba(255,255,255,0.9)" }}
+                      style={{ color: mutedInk90 }}
                     >
                       {localLabel}
                     </p>

@@ -16,6 +16,7 @@ High-energy union-board filler posters and device wallpapers (Keep-Calm structur
 - **Digital** (PNG only): Desktop 16:9 (3840×2160), Wide 19.5:9 (2340×1080), Phone 9:16 (1080×1920)
 - Preview matches print: flat shadow card outside `canvasRef` (shadow oklch breaks capture); landscape footers use `shrink-0` + wrapping URL so QR is not clipped
 - **Export-safe colours**: inside `canvasRef` use inline hex/`rgba` only — no Tailwind `border-white/30`, `text-white`, `opacity-*`, or `bg-white` (Tailwind v4 oklch/`color-mix` washes out PNGs via html-to-image)
+- **Auto ink**: derive title/logo colour with `pickContrastingInk(primary)` (and panel hexes for banner/split). Pass `backgroundColor` to `BrandLogo` — never hardcode `#FFFFFF` / `onDark` when the canvas hex is known
 - Footer toggles: Show CTA + URL (defaults on; falls back to unionops.org), Show QR (defaults on; tip suggests off for wallpapers)
 - No member photos → no ConsentModal
 - No union names in slogans or core UI — Brand Kit / seed only

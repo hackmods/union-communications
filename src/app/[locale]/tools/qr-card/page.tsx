@@ -32,6 +32,8 @@ import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
+import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
+import { meetsWcagAA } from "@/lib/utils/contrast";
 
 interface QrCardState {
   presetId: string;
@@ -143,19 +145,29 @@ export default function QrCardPage() {
     const box: CSSProperties = {
       aspectRatio: `${size.widthInches} / ${size.heightInches}`,
     };
+    const ink = pickContrastingInk(state.primaryColor);
     if (state.bgMode === "gradient") {
       return {
         ...box,
         backgroundImage: `linear-gradient(160deg, ${state.primaryColor} 0%, ${state.secondaryColor} 100%)`,
-        color: "#FFFFFF",
+        color: ink,
       };
     }
     return {
       ...box,
       backgroundColor: state.primaryColor,
-      color: "#FFFFFF",
+      color: ink,
     };
   })();
+
+  const canvasInk = pickContrastingInk(state.primaryColor);
+  const mutedInk = inkWithAlpha(canvasInk, 0.9);
+  const mutedInk80 = inkWithAlpha(canvasInk, 0.8);
+  const taglineColor =
+    state.bgMode === "plain" &&
+    meetsWcagAA(state.secondaryColor, state.primaryColor, true)
+      ? state.secondaryColor
+      : canvasInk;
 
   /** QR plate as % of card width - smaller cards keep more room for copy */
   const qrPlatePercent =
@@ -423,7 +435,10 @@ export default function QrCardPage() {
                               isCompact ? "mb-1" : "mb-2",
                             )}
                           >
-                            <BrandLogo size="sm" onDark />
+                            <BrandLogo
+                              size="sm"
+                              backgroundColor={state.primaryColor}
+                            />
                           </div>
                         ) : null}
                         <h2
@@ -431,6 +446,7 @@ export default function QrCardPage() {
                             "font-black uppercase leading-tight tracking-tight",
                             titleSize,
                           )}
+                          style={{ color: canvasInk }}
                         >
                           {state.title}
                         </h2>
@@ -440,7 +456,7 @@ export default function QrCardPage() {
                               "mt-1 leading-snug",
                               isCompact || isSquare ? "text-xs" : "text-sm",
                             )}
-                            style={{ color: "rgba(255,255,255,0.9)" }}
+                            style={{ color: mutedInk }}
                           >
                             {state.description}
                           </p>
@@ -484,10 +500,7 @@ export default function QrCardPage() {
                               isCompact || isSquare ? "text-[10px]" : "text-sm",
                             )}
                             style={{
-                              color:
-                                state.bgMode === "plain"
-                                  ? state.secondaryColor
-                                  : "#FFFFFF",
+                              color: taglineColor,
                             }}
                           >
                             {state.tagline}
@@ -496,7 +509,7 @@ export default function QrCardPage() {
                         {state.showUrl && state.destination.trim() ? (
                           <p
                             className="mt-1 max-w-full truncate text-[10px]"
-                            style={{ color: "rgba(255,255,255,0.8)" }}
+                            style={{ color: mutedInk80 }}
                           >
                             {state.destination}
                           </p>
@@ -509,7 +522,7 @@ export default function QrCardPage() {
                             "shrink-0 font-semibold",
                             isCompact || isSquare ? "text-[10px]" : "text-xs",
                           )}
-                          style={{ color: "rgba(255,255,255,0.9)" }}
+                          style={{ color: mutedInk }}
                         >
                           {localLabel}
                         </p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { UNIONOPS_LOGOS, unionOpsLogoSrc } from "@/lib/constants/unionPresets";
 import { cn } from "@/lib/utils";
 
@@ -12,6 +12,8 @@ interface SafeLogoImageProps {
   /** Prefer on-dark UnionOps mark when falling back */
   onDark?: boolean;
   alt?: string;
+  /** Export-safe logo tint (e.g. brightness/invert) — not mask-image */
+  style?: CSSProperties;
 }
 
 /**
@@ -25,6 +27,7 @@ export function SafeLogoImage({
   className,
   onDark = false,
   alt = "",
+  style,
 }: SafeLogoImageProps) {
   const fallback = unionOpsLogoSrc(onDark);
   const requested = src.trim() || fallback;
@@ -44,6 +47,7 @@ export function SafeLogoImage({
       width={width}
       height={height}
       className={cn("object-contain", className)}
+      style={style}
       onError={() => {
         if (requested !== fallback) {
           setFailedFor(requested);

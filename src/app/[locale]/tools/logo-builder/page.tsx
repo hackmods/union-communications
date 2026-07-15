@@ -17,6 +17,8 @@ import {
   brandKitPatchForLogoMode,
 } from "@/components/brand/LogoSettings";
 import { useTranslations } from "next-intl";
+import { pickContrastingInk } from "@/lib/utils/ink";
+import { meetsWcagAA } from "@/lib/utils/contrast";
 
 export type LogoShape = "circle" | "square" | "rectangle";
 
@@ -101,6 +103,14 @@ export default function LogoBuilderPage() {
 
   const isRectangle = state.shape === "rectangle";
   const localLabel = `Local ${resolveLocalNumber(state.localNumber)}`;
+  const canvasInk = pickContrastingInk(state.primaryColor);
+  const localColor = meetsWcagAA(
+    state.secondaryColor,
+    state.primaryColor,
+    true,
+  )
+    ? state.secondaryColor
+    : canvasInk;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -248,7 +258,7 @@ export default function LogoBuilderPage() {
               <BrandLogo
                 size={isRectangle ? "md" : "lg"}
                 className={isRectangle ? "shrink-0" : "mb-2"}
-                onDark
+                backgroundColor={state.primaryColor}
               />
               <div
                 className={cn(
@@ -261,7 +271,7 @@ export default function LogoBuilderPage() {
                     "font-bold",
                     isRectangle ? "text-2xl leading-tight" : "text-4xl",
                   )}
-                  style={{ color: state.secondaryColor }}
+                  style={{ color: localColor }}
                 >
                   {localLabel}
                 </p>
@@ -269,7 +279,7 @@ export default function LogoBuilderPage() {
                   className={cn(
                     isRectangle ? "mt-0.5 text-base" : "mt-1 text-lg",
                   )}
-                  style={{ color: "#FFFFFF" }}
+                  style={{ color: canvasInk }}
                 >
                   {state.subText}
                 </p>

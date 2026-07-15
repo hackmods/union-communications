@@ -19,13 +19,18 @@ Source: [OPSEU graphics & letterhead templates](https://opseu.org/information/op
 | OPSEU Blue | `#003DA5` | Pantone 285 — primary union brand colour |
 | OPSEU Dark | `#002868` | Depth, hover states, accent text on light backgrounds |
 | White | `#FFFFFF` | Graphics accent on blue/dark backgrounds (quote cards, flyers, logo builder) |
+| Near-black | `#1A1A1A` | Auto ink on pale primaries via `pickContrastingInk` |
 
 **UI shell** (header, buttons, focus rings) should lead with OPSEU blue. Reserve white for graphic-tool accents on brand-coloured backgrounds — never as the default chrome colour.
+
+**Export canvases**: OPSEU blue mark on `#003DA5` must resolve to **white** ink automatically (`pickContrastingInk` / `BrandLogo backgroundColor`). Pale or near-white primaries resolve to **black** ink for titles and logos — do not hardcode white.
 
 ## Logo sources
 1. **Official pack** — `public/assets/caat-opseu/logo-primary.png` via `DEFAULT_ASSET_PACK_PATH` (default OPSEU/SEFPO lockup, Pantone 285)
 2. **Custom upload** — PNG, JPEG, WebP, or SVG stored as `customLogoDataUrl` in `BrandKit` (localStorage via `DataAdapter`)
-3. **Platform UnionOps mark** — interlocking lowercase **u** + **o**. Live chrome uses inline SVG in `UnionOpsMark`: **primary** plate + **graphics accent** glyph; `onDark` / Brand Kit dark preview swaps the back plate to **white** and the glyph to primary. Static assets remain under `public/assets/unionops/*.svg` (and `logo-mark-interlock.png` for reference). Source rasters: `public/assets/unionops/source/`.
+3. **Platform UnionOps mark** — interlocking lowercase **u** + **o**. Live chrome uses inline SVG in `UnionOpsMark`: **primary** plate + **graphics accent** glyph; light ink → white plate + primary glyph; dark ink → black plate + white glyph. Static assets remain under `public/assets/unionops/*.svg` (and `logo-mark-interlock.png` for reference). Source rasters: `public/assets/unionops/source/`.
+
+White mark asset: `logo-mark-white.png`. Black ink uses CSS `brightness(0)` filter on the colour mark (no separate black PNG). Lockups/custom uploads use `logoRasterFilter` when ink is forced.
 
 Use `BrandLogo` for display; use `LogoSettings` for the official/custom toggle + upload UI. Favicon: `src/app/icon.png`. Twitter/OG: `src/app/opengraph-image.tsx` / `twitter-image.tsx`.
 
