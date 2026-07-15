@@ -1,6 +1,7 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
+import { GuideLayout } from "@/components/comms/GuideLayout";
 
 const scenarioKeys = ["strike", "bargaining", "layoffs", "management"] as const;
 
@@ -15,18 +16,16 @@ export default async function CrisisPage({
   const ts = await getTranslations("sources");
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <p className="text-sm text-opseu-blue">
-        <a href={`/${locale}/guide/`} className="underline">
-          {t("backToGuide")}
-        </a>
-      </p>
-
-      <h1 className="mt-4 text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-lg text-gray-600">{t("subtitle")}</p>
-      <p className="mt-4 leading-relaxed text-gray-700">{t("intro")}</p>
-
-      <div className="mt-10 space-y-6">
+    <GuideLayout
+      title={t("title")}
+      subtitle={t("subtitle")}
+      intro={t("intro")}
+      relatedLinks={[{ href: "/guide", label: t("backToGuide") }]}
+      footer={
+        <SourcesBlock pageId="crisis" title={ts("title")} intro={ts("intro")} />
+      }
+    >
+      <div className="space-y-6">
         {scenarioKeys.map((key) => (
           <Card key={key}>
             <CardTitle>{t(`scenarios.${key}.title`)}</CardTitle>
@@ -57,8 +56,6 @@ export default async function CrisisPage({
           </ul>
         </Card>
       </div>
-
-      <SourcesBlock pageId="crisis" title={ts("title")} intro={ts("intro")} />
-    </div>
+    </GuideLayout>
   );
 }

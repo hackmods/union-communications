@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
+import { GuideLayout } from "@/components/comms/GuideLayout";
 import {
   BareMinimumBoardDiagram,
   LayoutReferenceDiagram,
@@ -50,11 +51,14 @@ export default async function UnionBoardsGuidePage({
   const photos = materialsByKind("examplePhoto");
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-lg text-gray-600">{t("subtitle")}</p>
-
-      <section className="mt-10" aria-labelledby="bare-minimum-heading">
+    <GuideLayout
+      title={t("title")}
+      subtitle={t("subtitle")}
+      footer={
+        <SourcesBlock pageId="unionBoards" title={ts("title")} intro={ts("intro")} />
+      }
+    >
+      <section aria-labelledby="bare-minimum-heading">
         <h2
           id="bare-minimum-heading"
           className="text-2xl font-bold text-opseu-dark"
@@ -277,9 +281,10 @@ export default async function UnionBoardsGuidePage({
         <Link href="/tools/qr-card">
           <Button variant="outline">{nav("qrCard")}</Button>
         </Link>
+        <Link href="/tools/qr-board">
+          <Button variant="outline">{nav("qrBoard")}</Button>
+        </Link>
       </div>
-
-      <SourcesBlock pageId="unionBoards" title={ts("title")} intro={ts("intro")} />
-    </div>
+    </GuideLayout>
   );
 }

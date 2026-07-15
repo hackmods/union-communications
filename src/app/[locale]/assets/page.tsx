@@ -2,6 +2,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { BRAND_COLORS } from "@/lib/constants/brand";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
+import { GuideLayout } from "@/components/comms/GuideLayout";
 import Image from "next/image";
 
 export default async function AssetsPage({
@@ -32,11 +33,14 @@ export default async function AssetsPage({
   ] as const;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-gray-600">{t("description")}</p>
-
-      <Card className="mt-8">
+    <GuideLayout
+      title={t("title")}
+      intro={t("description")}
+      footer={
+        <SourcesBlock pageId="assets" title={ts("title")} intro={ts("intro")} />
+      }
+    >
+      <Card>
         <CardTitle>{t("primaryLogo")}</CardTitle>
         <div className="mt-4 flex flex-wrap items-center gap-8">
           <div className="flex items-center gap-4">
@@ -109,8 +113,6 @@ export default async function AssetsPage({
           </li>
         </ul>
       </Card>
-
-      <SourcesBlock pageId="assets" title={ts("title")} intro={ts("intro")} />
-    </div>
+    </GuideLayout>
   );
 }

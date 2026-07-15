@@ -6,6 +6,7 @@ import { CAPTION_TEMPLATES } from "@/lib/constants/captions";
 import { copyToClipboard, cn } from "@/lib/utils";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { PageShell } from "@/components/layout/PageShell";
 import { useTranslations } from "next-intl";
 
 function resolveCaptionId(searchParams: URLSearchParams): string | null {
@@ -45,7 +46,7 @@ function CaptionsPageContent() {
   }, [targetId]);
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
+    <PageShell size="read" className="py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">Caption & Hashtag Library</h1>
       <p className="mt-2 text-gray-600">
         Reusable post templates with a solidarity-first tone. Click copy and customize.
@@ -89,7 +90,7 @@ function CaptionsPageContent() {
           );
         })}
       </div>
-    </div>
+    </PageShell>
   );
 }
 
@@ -97,9 +98,9 @@ export default function CaptionsPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-3xl px-4 py-12">
+        <PageShell size="read" className="py-12">
           <h1 className="text-3xl font-bold text-opseu-dark">Caption & Hashtag Library</h1>
-        </div>
+        </PageShell>
       }
     >
       <CaptionsPageContent />

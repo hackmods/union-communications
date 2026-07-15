@@ -1,6 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
+import { GuideLayout } from "@/components/comms/GuideLayout";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
 export default async function PrivacyPage({
@@ -13,11 +14,8 @@ export default async function PrivacyPage({
   const hubPublic = isOfficerHubPublic();
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">Privacy Policy</h1>
-      <p className="mt-2 text-sm text-gray-500">Last updated: July 2026</p>
-
-      <div className="mt-8 space-y-6">
+    <GuideLayout title="Privacy Policy" subtitle="Last updated: July 2026">
+      <div className="space-y-6">
         <Card>
           <CardTitle>{hubPublic ? "Two surfaces, two rules" : "On-device Comms"}</CardTitle>
           <p className="mt-3 text-gray-700">
@@ -123,6 +121,6 @@ export default async function PrivacyPage({
           </p>
         </Card>
       </div>
-    </div>
+    </GuideLayout>
   );
 }

@@ -2,6 +2,8 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { GuideLayout } from "@/components/comms/GuideLayout";
+import { Callout } from "@/components/ui/Callout";
 import {
   COMMS_SOURCES,
   getSourcesByCategory,
@@ -49,12 +51,12 @@ export default async function ResourcesPage({
   const byCategory = getSourcesByCategory(allSources);
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-lg text-gray-600">{t("subtitle")}</p>
-      <p className="mt-4 leading-relaxed text-gray-700">{t("intro")}</p>
-
-      <Card className="mt-8 border-opseu-blue/20 bg-opseu-blue/5">
+    <GuideLayout
+      title={t("title")}
+      subtitle={t("subtitle")}
+      intro={t("intro")}
+    >
+      <Card className="border-opseu-blue/20 bg-opseu-blue/5">
         <CardTitle>{t("purpose.title")}</CardTitle>
         <p className="mt-3 leading-relaxed text-gray-700">{t("purpose.body")}</p>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
@@ -109,18 +111,29 @@ export default async function ResourcesPage({
         </a>
       </Card>
 
-      <Card className="mt-6">
-        <CardTitle>{t("explore.title")}</CardTitle>
-        <ul className="mt-3 space-y-2">
-          {exploreLinks.map(({ href, key }) => (
-            <li key={href}>
-              <Link href={href} className="text-opseu-blue underline">
+      <Callout tone="muted" className="mt-6">
+        <p className="font-semibold text-opseu-dark">{t("explore.title")}</p>
+        <nav
+          className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
+          aria-label={t("explore.title")}
+        >
+          {exploreLinks.map(({ href, key }, i) => (
+            <span key={`${href}-${key}`} className="inline-flex items-baseline gap-x-3">
+              {i > 0 && (
+                <span className="text-gray-300" aria-hidden="true">
+                  ·
+                </span>
+              )}
+              <Link
+                href={href}
+                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+              >
                 {t(`explore.${key}`)}
               </Link>
-            </li>
+            </span>
           ))}
-        </ul>
-      </Card>
+        </nav>
+      </Callout>
 
       <Card className="mt-6 border-opseu-blue/20 bg-opseu-blue/5">
         <CardTitle>{t("facilitators.title")}</CardTitle>
@@ -182,6 +195,6 @@ export default async function ResourcesPage({
           })}
         </div>
       </div>
-    </div>
+    </GuideLayout>
   );
 }

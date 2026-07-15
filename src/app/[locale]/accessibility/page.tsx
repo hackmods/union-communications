@@ -1,5 +1,6 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Card, CardTitle } from "@/components/ui/Card";
+import { GuideLayout } from "@/components/comms/GuideLayout";
 import { DisplaySettings } from "@/components/accessibility/DisplaySettings";
 
 export default async function AccessibilityPage({
@@ -25,11 +26,8 @@ export default async function AccessibilityPage({
   ];
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-base text-gray-500">{t("subtitle")}</p>
-
-      <div className="mt-8 space-y-6">
+    <GuideLayout title={t("title")} subtitle={t("subtitle")}>
+      <div className="space-y-6">
         <DisplaySettings />
 
         <Card>
@@ -56,6 +54,6 @@ export default async function AccessibilityPage({
           <p className="mt-3 text-gray-700">{t("feedback.body")}</p>
         </Card>
       </div>
-    </div>
+    </GuideLayout>
   );
 }

@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
+import { GuideLayout } from "@/components/comms/GuideLayout";
 
 const sectionKeys = ["when", "flyers", "boards", "digital"] as const;
 
@@ -18,11 +19,14 @@ export default async function PrintGuidePage({
   const ts = await getTranslations("sources");
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-lg text-gray-600">{t("subtitle")}</p>
-
-      <div className="mt-10 space-y-6">
+    <GuideLayout
+      title={t("title")}
+      subtitle={t("subtitle")}
+      footer={
+        <SourcesBlock pageId="print" title={ts("title")} intro={ts("intro")} />
+      }
+    >
+      <div className="space-y-6">
         {sectionKeys.map((key) => (
           <Card key={key}>
             <CardTitle>{t(`sections.${key}.title`)}</CardTitle>
@@ -41,8 +45,6 @@ export default async function PrintGuidePage({
           <Button variant="outline">{nav("boardNotice")}</Button>
         </Link>
       </div>
-
-      <SourcesBlock pageId="print" title={ts("title")} intro={ts("intro")} />
-    </div>
+    </GuideLayout>
   );
 }

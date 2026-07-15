@@ -2,6 +2,8 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
+import { GuideLayout } from "@/components/comms/GuideLayout";
+import { Callout } from "@/components/ui/Callout";
 
 const chapterKeys = [
   "platforms",
@@ -30,39 +32,31 @@ export default async function GuidePage({
   const ts = await getTranslations("sources");
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-lg text-gray-600">{t("subtitle")}</p>
-      <p className="mt-4 leading-relaxed text-gray-700">{t("intro")}</p>
-
-      <Card className="mt-6 border-opseu-blue/20 bg-opseu-blue/5">
-        <CardTitle>{t("path.title")}</CardTitle>
-        <ul className="mt-3 space-y-2">
-          {pathLinks.map(({ href, key }) => (
-            <li key={href}>
-              <Link
-                href={href}
-                className="text-sm font-medium text-opseu-blue underline"
-              >
-                {t(`path.${key}`)}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Card>
-
-      <Card className="mt-6 border-opseu-blue/20 bg-opseu-blue/5">
-        <CardTitle>{crisis("title")}</CardTitle>
-        <p className="mt-2 text-sm text-gray-700">{crisis("subtitle")}</p>
+    <GuideLayout
+      title={t("title")}
+      subtitle={t("subtitle")}
+      intro={t("intro")}
+      relatedLabel={t("path.title")}
+      relatedLinks={pathLinks.map(({ href, key }) => ({
+        href,
+        label: t(`path.${key}`),
+      }))}
+      footer={
+        <SourcesBlock pageId="blueprint" title={ts("title")} intro={ts("intro")} />
+      }
+    >
+      <Callout className="mb-6">
+        <p className="font-semibold text-opseu-dark">{crisis("title")}</p>
+        <p className="mt-1">{crisis("subtitle")}</p>
         <Link
           href="/guide/crisis"
-          className="mt-3 inline-block text-sm font-medium text-opseu-blue underline"
+          className="mt-2 inline-block font-medium text-opseu-blue underline"
         >
           {nav("strikeGuide")} →
         </Link>
-      </Card>
+      </Callout>
 
-      <div className="mt-10 space-y-6">
+      <div className="space-y-6">
         {chapterKeys.map((key, i) => (
           <Card key={key}>
             <CardTitle>
@@ -75,28 +69,35 @@ export default async function GuidePage({
         ))}
       </div>
 
-      <Card className="mt-10">
-        <CardTitle>{t("channelGuides.title")}</CardTitle>
-        <ul className="mt-3 space-y-2">
-          <li>
-            <Link href="/guide/union-boards" className="text-opseu-blue underline">
-              {t("channelGuides.unionBoards")}
-            </Link>
-          </li>
-          <li>
-            <Link href="/guide/print" className="text-opseu-blue underline">
-              {t("channelGuides.print")}
-            </Link>
-          </li>
-          <li>
-            <Link href="/guide/website" className="text-opseu-blue underline">
-              {t("channelGuides.website")}
-            </Link>
-          </li>
-        </ul>
-      </Card>
-
-      <SourcesBlock pageId="blueprint" title={ts("title")} intro={ts("intro")} />
-    </div>
+      <Callout tone="muted" className="mt-10">
+        <p className="font-semibold text-opseu-dark">{t("channelGuides.title")}</p>
+        <nav
+          className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
+          aria-label={t("channelGuides.title")}
+        >
+          {(
+            [
+              { href: "/guide/union-boards", key: "unionBoards" as const },
+              { href: "/guide/print", key: "print" as const },
+              { href: "/guide/website", key: "website" as const },
+            ] as const
+          ).map((link, i) => (
+            <span key={link.href} className="inline-flex items-baseline gap-x-3">
+              {i > 0 && (
+                <span className="text-gray-300" aria-hidden="true">
+                  ·
+                </span>
+              )}
+              <Link
+                href={link.href}
+                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+              >
+                {t(`channelGuides.${link.key}`)}
+              </Link>
+            </span>
+          ))}
+        </nav>
+      </Callout>
+    </GuideLayout>
   );
 }
