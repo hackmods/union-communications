@@ -267,9 +267,9 @@ export default function LogoBuilderPage() {
                 </p>
                 <p
                   className={cn(
-                    "text-white",
                     isRectangle ? "mt-0.5 text-base" : "mt-1 text-lg",
                   )}
+                  style={{ color: "#FFFFFF" }}
                 >
                   {state.subText}
                 </p>

@@ -208,7 +208,7 @@ function GraphicMakerPageContent() {
     await exportNodeAsPng(
       canvasRef.current,
       formatFilename("graphic", brandKit.local.localNumber, "png"),
-      { pixelRatio: 2 },
+      { pixelRatio: 2, backgroundColor: state.primaryColor },
     );
   };
 
@@ -386,27 +386,30 @@ function GraphicMakerPageContent() {
           <Button onClick={handleExport}>{t("downloadPng")}</Button>
         </Card>
 
-        <div ref={canvasRef} className="overflow-hidden rounded-lg shadow-lg">
-          <GraphicLayoutCanvas
-            layout={state.layout}
-            aspect={state.aspect}
-            copy={{
-              headline: state.headline,
-              body: state.subheadline,
-              detail: state.detail || undefined,
-              initials: state.initials,
-            }}
-            colors={{
-              primary: state.primaryColor,
-              accent: state.accentColor,
-              secondary: state.secondaryColor,
-            }}
-            localNumber={resolveLocalNumber(brandKit.local.localNumber)}
-            subText={brandKit.local.subText}
-            photoUrl={showPhoto ? state.photoUrl : undefined}
-            photoScale={state.photoScale}
-            size="export"
-          />
+        {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
+        <div className="overflow-hidden rounded-lg shadow-lg">
+          <div ref={canvasRef}>
+            <GraphicLayoutCanvas
+              layout={state.layout}
+              aspect={state.aspect}
+              copy={{
+                headline: state.headline,
+                body: state.subheadline,
+                detail: state.detail || undefined,
+                initials: state.initials,
+              }}
+              colors={{
+                primary: state.primaryColor,
+                accent: state.accentColor,
+                secondary: state.secondaryColor,
+              }}
+              localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+              subText={brandKit.local.subText}
+              photoUrl={showPhoto ? state.photoUrl : undefined}
+              photoScale={state.photoScale}
+              size="export"
+            />
+          </div>
         </div>
       </div>
 

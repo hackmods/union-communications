@@ -102,7 +102,7 @@ function FlyerMakerPageContent() {
     await exportNodeAsPng(
       canvasRef.current,
       formatFilename("flyer", brandKit.local.localNumber, "png"),
-      { pixelRatio: 2 },
+      { pixelRatio: 2, backgroundColor: state.primaryColor },
     );
   };
 
@@ -111,6 +111,10 @@ function FlyerMakerPageContent() {
     await nodeToPdf(
       canvasRef.current,
       formatFilename("flyer", brandKit.local.localNumber, "pdf"),
+      8.5,
+      11,
+      2,
+      state.primaryColor,
     );
   };
 
@@ -182,39 +186,42 @@ function FlyerMakerPageContent() {
           </div>
         </Card>
 
-        <div
-          ref={canvasRef}
-          className="flex aspect-[8.5/11] w-full flex-col justify-between p-10 shadow-lg"
-          style={{
-            backgroundColor: state.primaryColor,
-            color: "#FFFFFF",
-          }}
-        >
-          <div>
-            <BrandLogo size="md" onDark className="mb-3" />
-            <p
-              className="text-sm font-bold uppercase tracking-widest"
-              style={{ color: state.accentColor }}
-            >
-              Local {resolveLocalNumber(brandKit.local.localNumber)}  - {" "}
-              {brandKit.local.subText}
-            </p>
-          </div>
-          <div className="text-center">
-            <h2 className="text-3xl font-black uppercase leading-tight">
-              {state.message}
-            </h2>
-          </div>
-          <div className="space-y-2 text-lg">
-            <p>
-              <strong>{tf("date")}:</strong> {state.date}
-            </p>
-            <p>
-              <strong>{tf("time")}:</strong> {state.time}
-            </p>
-            <p>
-              <strong>{tf("location")}:</strong> {state.location}
-            </p>
+        {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
+        <div className="shadow-lg">
+          <div
+            ref={canvasRef}
+            className="flex aspect-[8.5/11] w-full flex-col justify-between p-10"
+            style={{
+              backgroundColor: state.primaryColor,
+              color: "#FFFFFF",
+            }}
+          >
+            <div>
+              <BrandLogo size="md" onDark className="mb-3" />
+              <p
+                className="text-sm font-bold uppercase tracking-widest"
+                style={{ color: state.accentColor }}
+              >
+                Local {resolveLocalNumber(brandKit.local.localNumber)}  - {" "}
+                {brandKit.local.subText}
+              </p>
+            </div>
+            <div className="text-center">
+              <h2 className="text-3xl font-black uppercase leading-tight">
+                {state.message}
+              </h2>
+            </div>
+            <div className="space-y-2 text-lg">
+              <p>
+                <strong>{tf("date")}:</strong> {state.date}
+              </p>
+              <p>
+                <strong>{tf("time")}:</strong> {state.time}
+              </p>
+              <p>
+                <strong>{tf("location")}:</strong> {state.location}
+              </p>
+            </div>
           </div>
         </div>
       </div>

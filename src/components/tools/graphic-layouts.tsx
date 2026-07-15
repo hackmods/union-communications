@@ -45,6 +45,14 @@ export interface GraphicLayoutCanvasProps {
   style?: CSSProperties;
 }
 
+/** Inline hex/rgba only — Tailwind v4 oklch utilities wash out html-to-image PNGs */
+const WHITE = "#FFFFFF";
+const WHITE_90 = "rgba(255,255,255,0.9)";
+const WHITE_80 = "rgba(255,255,255,0.8)";
+const WHITE_70 = "rgba(255,255,255,0.7)";
+const WHITE_60 = "rgba(255,255,255,0.6)";
+const WHITE_30 = "rgba(255,255,255,0.3)";
+
 function LocalFooter({
   localNumber,
   subText,
@@ -57,9 +65,9 @@ function LocalFooter({
   return (
     <p
       className={cn(
-        "text-white/70",
         size === "export" ? "mt-3 text-sm" : "mt-2 text-[10px] sm:text-xs",
       )}
+      style={{ color: WHITE_70 }}
     >
       Local {localNumber}
       {subText ? ` - ${subText}` : ""}
@@ -81,8 +89,8 @@ function PhotoLayer({
       alt=""
       fill
       unoptimized
-      className="object-cover opacity-35"
-      style={{ transform: `scale(${photoScale})` }}
+      className="object-cover"
+      style={{ transform: `scale(${photoScale})`, opacity: 0.35 }}
     />
   );
 }
@@ -224,26 +232,26 @@ function SolidarityLayout({
         <BrandLogo size={exportMode ? "md" : "sm"} onDark className="mb-2" />
         <h3
           className={cn(
-            "font-bold leading-tight text-white",
+            "font-bold leading-tight",
             exportMode ? "text-3xl" : "text-base sm:text-lg",
           )}
+          style={{ color: WHITE }}
         >
           {copy.headline}
         </h3>
         <p
-          className={cn(
-            "mt-1 text-white/90",
-            exportMode ? "text-lg" : "text-xs sm:text-sm",
-          )}
+          className={cn("mt-1", exportMode ? "text-lg" : "text-xs sm:text-sm")}
+          style={{ color: WHITE_90 }}
         >
           {copy.body}
         </p>
         {copy.detail ? (
           <p
             className={cn(
-              "mt-2 font-semibold uppercase tracking-wide text-white/80",
+              "mt-2 font-semibold uppercase tracking-wide",
               exportMode ? "text-sm" : "text-[10px]",
             )}
+            style={{ color: WHITE_80 }}
           >
             {copy.detail}
           </p>
@@ -290,12 +298,12 @@ function SpotlightLayout({
         <div className="absolute inset-0 flex items-center justify-center">
           <div
             className={cn(
-              "flex items-center justify-center rounded-full font-bold text-white shadow-lg",
+              "flex items-center justify-center rounded-full font-bold",
               exportMode
                 ? "h-36 w-36 text-5xl"
                 : "h-24 w-24 text-3xl sm:h-28 sm:w-28 sm:text-4xl",
             )}
-            style={{ backgroundColor: accent }}
+            style={{ backgroundColor: accent, color: WHITE }}
             aria-hidden
           >
             {initials}
@@ -318,17 +326,19 @@ function SpotlightLayout({
         <BrandLogo size={exportMode ? "md" : "sm"} onDark className="mb-2" />
         <h3
           className={cn(
-            "font-bold text-white",
+            "font-bold",
             exportMode ? "text-3xl" : "text-base sm:text-lg",
           )}
+          style={{ color: WHITE }}
         >
           {copy.headline}
         </h3>
         <p
           className={cn(
-            "mt-1 italic text-white/90",
+            "mt-1 italic",
             exportMode ? "text-lg" : "text-xs sm:text-sm",
           )}
+          style={{ color: WHITE_90 }}
         >
           &ldquo;{copy.body}&rdquo;
         </p>
@@ -373,10 +383,10 @@ function NoticeLayout({
           <BrandLogo size={exportMode ? "md" : "sm"} onDark />
           <span
             className={cn(
-              "rounded font-bold uppercase tracking-wide text-white",
+              "rounded font-bold uppercase tracking-wide",
               exportMode ? "px-3 py-1 text-xs" : "px-2 py-0.5 text-[10px]",
             )}
-            style={{ backgroundColor: accent }}
+            style={{ backgroundColor: accent, color: WHITE }}
           >
             {copy.detail ?? "Notice"}
           </span>
@@ -384,17 +394,19 @@ function NoticeLayout({
         <div>
           <h3
             className={cn(
-              "font-bold text-white",
+              "font-bold",
               exportMode ? "text-4xl" : "text-base sm:text-xl",
             )}
+            style={{ color: WHITE }}
           >
             {copy.headline}
           </h3>
           <p
             className={cn(
-              "mt-2 text-white/90",
+              "mt-2",
               exportMode ? "text-lg" : "text-xs sm:text-sm",
             )}
+            style={{ color: WHITE_90 }}
           >
             {copy.body}
           </p>
@@ -402,11 +414,11 @@ function NoticeLayout({
         </div>
         <div
           className={cn(
-            "absolute bottom-0 right-0 opacity-20",
+            "absolute bottom-0 right-0",
             exportMode ? "h-24 w-24" : "h-16 w-16",
           )}
           style={{
-            background: `radial-gradient(circle at bottom right, ${secondary}, transparent 70%)`,
+            background: `radial-gradient(circle at bottom right, ${secondary}33, transparent 70%)`,
           }}
           aria-hidden
         />
@@ -449,35 +461,39 @@ export function QuoteLayout({
       >
         <p
           className={cn(
-            "font-bold leading-none text-white/30",
+            "font-bold leading-none",
             exportMode ? "text-6xl" : "text-3xl",
           )}
+          style={{ color: WHITE_30 }}
           aria-hidden
         >
           &ldquo;
         </p>
         <p
           className={cn(
-            "font-medium leading-snug text-white",
+            "font-medium leading-snug",
             exportMode ? "text-xl" : "text-sm sm:text-base",
           )}
+          style={{ color: WHITE }}
         >
           {copy.body}
         </p>
         <p
           className={cn(
-            "mt-3 font-semibold text-white/80",
+            "mt-3 font-semibold",
             exportMode ? "text-base" : "text-xs",
           )}
+          style={{ color: WHITE_80 }}
         >
           {copy.headline}
         </p>
         {copy.detail ? (
           <p
             className={cn(
-              "uppercase tracking-wide text-white/60",
+              "uppercase tracking-wide",
               exportMode ? "text-xs" : "text-[10px]",
             )}
+            style={{ color: WHITE_60 }}
           >
             {copy.detail}
           </p>
@@ -528,25 +544,28 @@ function ResultsLayout({
         />
         <p
           className={cn(
-            "font-semibold uppercase tracking-widest text-white/80",
+            "font-semibold uppercase tracking-widest",
             exportMode ? "text-sm" : "text-[10px]",
           )}
+          style={{ color: WHITE_80 }}
         >
           {copy.detail}
         </p>
         <p
           className={cn(
-            "font-black text-white",
+            "font-black",
             exportMode ? "mt-2 text-6xl" : "mt-1 text-4xl sm:text-5xl",
           )}
+          style={{ color: WHITE }}
         >
           {copy.headline}
         </p>
         <p
           className={cn(
-            "max-w-[14rem] text-white/90",
+            "max-w-[14rem]",
             exportMode ? "mt-3 max-w-md text-lg" : "mt-2 text-xs sm:text-sm",
           )}
+          style={{ color: WHITE_90 }}
         >
           {copy.body}
         </p>

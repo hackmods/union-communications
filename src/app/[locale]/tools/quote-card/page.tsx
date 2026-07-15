@@ -68,7 +68,7 @@ function QuoteCardPageContent() {
     await exportNodeAsPng(
       canvasRef.current,
       formatFilename("quote-card", brandKit.local.localNumber, "png"),
-      { pixelRatio: 2 },
+      { pixelRatio: 2, backgroundColor: state.primaryColor },
     );
   };
 
@@ -117,22 +117,26 @@ function QuoteCardPageContent() {
           <Button onClick={handleExport}>{t("downloadPng")}</Button>
         </Card>
 
-        <div
-          ref={canvasRef}
-          className="relative aspect-square w-full overflow-hidden shadow-lg"
-        >
-          <QuoteLayout
-            primary={state.primaryColor}
-            accent={state.accentColor}
-            copy={{
-              headline: state.author,
-              body: state.quote,
-              detail: state.role || undefined,
-            }}
-            localNumber={resolveLocalNumber(brandKit.local.localNumber)}
-            subText={brandKit.local.subText}
-            size="export"
-          />
+        {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
+        <div className="shadow-lg">
+          <div
+            ref={canvasRef}
+            className="relative aspect-square w-full overflow-hidden"
+            style={{ backgroundColor: state.primaryColor }}
+          >
+            <QuoteLayout
+              primary={state.primaryColor}
+              accent={state.accentColor}
+              copy={{
+                headline: state.author,
+                body: state.quote,
+                detail: state.role || undefined,
+              }}
+              localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+              subText={brandKit.local.subText}
+              size="export"
+            />
+          </div>
         </div>
       </div>
     </div>

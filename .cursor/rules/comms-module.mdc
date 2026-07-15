@@ -14,6 +14,7 @@ Learn menu must keep **By channel** (Print, Union Boards, Website guides) — se
 
 ## Rules
 - All image/document processing client-side (html-to-image, JSZip, jsPDF, docxtemplater, ExcelJS)
+- PNG capture (`exportNodeAsPng`): keep `shadow-*` outside `canvasRef`; pass explicit hex `backgroundColor`; inside the capture node use inline hex/`rgba` only — no Tailwind `text-white*`, `opacity-*`, or `bg-white` (oklch washout). See solidarity-poster / `graphic-layouts.tsx`.
 - Office exports via `src/lib/export/office-export.ts` + `OfficeExportButton` — lazy-import heavy libs on click; static templates in `public/templates/office/`
 - Member photo uploads require `ConsentModal` confirmation
 - Colour pickers must show `ContrastChecker` warnings

@@ -64,7 +64,7 @@ export default function BoardNoticePage() {
     await exportNodeAsPng(
       canvasRef.current,
       formatFilename(`board-notice-${format}`, brandKit.local.localNumber, "png"),
-      { pixelRatio: 2 },
+      { pixelRatio: 2, backgroundColor: brandKit.primaryColor },
     );
   };
 
@@ -75,6 +75,8 @@ export default function BoardNoticePage() {
       formatFilename(`board-notice-${format}`, brandKit.local.localNumber, "pdf"),
       dims.widthInches,
       dims.heightInches,
+      2,
+      brandKit.primaryColor,
     );
   };
 
@@ -169,45 +171,56 @@ export default function BoardNoticePage() {
           </div>
         </Card>
 
-        <div
-          ref={canvasRef}
-          className={cn(
-            "flex w-full flex-col justify-between p-10 shadow-lg",
-            dims.aspect,
-          )}
-          style={{
-            backgroundColor: brandKit.primaryColor,
-            color: "#FFFFFF",
-          }}
-        >
-          <div>
-            <p
-              className="text-sm font-bold uppercase tracking-widest"
-              style={{ color: brandKit.secondaryColor }}
-            >
-              {localLabel}
-            </p>
-            <p className="mt-2 text-xs uppercase opacity-80">
-              {t(`types.${state.noticeType}`)}
-            </p>
-          </div>
-          <div className="text-center">
-            <h2 className="text-4xl font-black uppercase leading-tight md:text-5xl">
-              {state.headline}
-            </h2>
-            <p className="mt-4 text-xl leading-relaxed">{state.body}</p>
-          </div>
-          <div className="space-y-2 text-xl">
-            <p>
-              <strong>{t("date")}:</strong> {state.date}
-            </p>
-            <p>
-              <strong>{t("time")}:</strong> {state.time}
-            </p>
-            <p>
-              <strong>{t("location")}:</strong> {state.location}
-            </p>
-            <p className="mt-4 text-base opacity-90">{state.contact}</p>
+        {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
+        <div className="shadow-lg">
+          <div
+            ref={canvasRef}
+            className={cn(
+              "flex w-full flex-col justify-between p-10",
+              dims.aspect,
+            )}
+            style={{
+              backgroundColor: brandKit.primaryColor,
+              color: "#FFFFFF",
+            }}
+          >
+            <div>
+              <p
+                className="text-sm font-bold uppercase tracking-widest"
+                style={{ color: brandKit.secondaryColor }}
+              >
+                {localLabel}
+              </p>
+              <p
+                className="mt-2 text-xs uppercase"
+                style={{ color: "rgba(255,255,255,0.8)" }}
+              >
+                {t(`types.${state.noticeType}`)}
+              </p>
+            </div>
+            <div className="text-center">
+              <h2 className="text-4xl font-black uppercase leading-tight md:text-5xl">
+                {state.headline}
+              </h2>
+              <p className="mt-4 text-xl leading-relaxed">{state.body}</p>
+            </div>
+            <div className="space-y-2 text-xl">
+              <p>
+                <strong>{t("date")}:</strong> {state.date}
+              </p>
+              <p>
+                <strong>{t("time")}:</strong> {state.time}
+              </p>
+              <p>
+                <strong>{t("location")}:</strong> {state.location}
+              </p>
+              <p
+                className="mt-4 text-base"
+                style={{ color: "rgba(255,255,255,0.9)" }}
+              >
+                {state.contact}
+              </p>
+            </div>
           </div>
         </div>
       </div>
