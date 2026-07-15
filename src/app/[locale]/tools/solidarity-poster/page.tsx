@@ -11,6 +11,7 @@ import { qrDataUrl } from "@/lib/export/qr";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { resolveLocalWebsiteUrl } from "@/lib/utils/local-links";
+import { SITE_URL } from "@/lib/seo/site";
 import {
   SOLIDARITY_SLOGANS,
   getSloganById,
@@ -23,9 +24,11 @@ import {
   defaultFormatForMedium,
   exportPixelRatio,
   formatsForMedium,
+  isLandscapeFormat,
   supportsPdf,
   type OutputMedium,
   type PosterFormatId,
+  type SolidarityPosterFormat,
 } from "@/lib/constants/solidarity-poster-formats";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
@@ -41,6 +44,7 @@ interface PosterState {
   closer: string;
   layout: PosterLayout;
   supportUrl: string;
+  showCta: boolean;
   showQr: boolean;
   includeBranding: boolean;
   primaryColor: string;
@@ -56,27 +60,42 @@ function headlineLines(headline: string): string[] {
 }
 
 /** Spacing / type density keyed to print vs wallpaper aspect. */
-function layoutChrome(formatId: PosterFormatId) {
-  if (formatId === "horizontal") {
+function layoutChrome(format: SolidarityPosterFormat) {
+  if (isLandscapeFormat(format)) {
+    const ultraWide = format.id === "wide";
     return {
-      padStack: "px-10 py-5 md:px-14 md:py-6",
-      padSplitSide: "p-5 md:p-6",
-      padSplitType: "px-8 py-5 md:px-10",
-      padBannerBar: "px-8 py-2.5",
-      padBannerBody: "px-10 py-4 md:px-14",
-      padFooterOuter: "px-8 pb-4 md:px-10",
-      headlineStack:
-        "text-3xl font-black uppercase leading-[0.92] tracking-tight md:text-4xl lg:text-5xl",
-      headlineSplit:
-        "text-2xl font-black uppercase leading-[0.92] tracking-tight md:text-3xl lg:text-4xl",
-      closerStack: "mt-3 text-base font-medium tracking-wide md:text-lg",
-      closerBanner: "mt-3 text-sm font-medium opacity-90 md:text-base",
-      qrPx: 56,
-      footerGap: "gap-3 border-t border-white/30 pt-2",
-    } as const;
+      padStack: ultraWide
+        ? "px-8 pt-4 pb-3 md:px-10 md:pt-5 md:pb-4"
+        : "px-10 pt-5 pb-4 md:px-14 md:pt-6 md:pb-5",
+      padSplitSide: ultraWide ? "p-4 md:p-5" : "p-5 md:p-6",
+      padSplitType: ultraWide ? "px-6 py-4 md:px-8" : "px-8 py-5 md:px-10",
+      padBannerBar: ultraWide ? "px-6 py-2" : "px-8 py-2.5",
+      padBannerBody: ultraWide
+        ? "px-8 py-3 md:px-10"
+        : "px-10 py-4 md:px-14",
+      padFooterOuter: ultraWide
+        ? "px-6 pb-3 pt-1 md:px-8"
+        : "px-8 pb-4 pt-1 md:px-10",
+      headlineStack: ultraWide
+        ? "text-2xl font-black uppercase leading-[0.9] tracking-tight md:text-3xl lg:text-4xl"
+        : "text-3xl font-black uppercase leading-[0.92] tracking-tight md:text-4xl lg:text-5xl",
+      headlineSplit: ultraWide
+        ? "text-xl font-black uppercase leading-[0.9] tracking-tight md:text-2xl lg:text-3xl"
+        : "text-2xl font-black uppercase leading-[0.92] tracking-tight md:text-3xl lg:text-4xl",
+      closerStack: ultraWide
+        ? "mt-2 text-sm font-medium tracking-wide md:text-base"
+        : "mt-3 text-base font-medium tracking-wide md:text-lg",
+      closerBanner: ultraWide
+        ? "mt-2 text-xs font-medium opacity-90 md:text-sm"
+        : "mt-3 text-sm font-medium opacity-90 md:text-base",
+      qrPx: ultraWide ? 44 : 52,
+      footerGap: "gap-2 border-t border-white/30 pt-2",
+      urlClass: "mt-0.5 break-all text-[11px] leading-snug opacity-90",
+      isLandscape: true as const,
+    };
   }
 
-  if (formatId === "vertical") {
+  if (format.id === "vertical") {
     return {
       padStack: "px-6 py-10 md:px-8 md:py-12",
       padSplitSide: "p-5 md:p-6",
@@ -92,7 +111,9 @@ function layoutChrome(formatId: PosterFormatId) {
       closerBanner: "mt-4 text-sm font-medium opacity-90 md:text-base",
       qrPx: 64,
       footerGap: "gap-3 border-t border-white/30 pt-3",
-    } as const;
+      urlClass: "mt-0.5 break-all text-xs leading-snug opacity-90",
+      isLandscape: false as const,
+    };
   }
 
   return {
@@ -110,7 +131,9 @@ function layoutChrome(formatId: PosterFormatId) {
     closerBanner: "mt-5 text-base font-medium opacity-90",
     qrPx: 72,
     footerGap: "gap-3 border-t border-white/30 pt-3",
-  } as const;
+    urlClass: "mt-0.5 break-all text-xs leading-snug opacity-90",
+    isLandscape: false as const,
+  };
 }
 
 export default function SolidarityPosterPage() {
@@ -143,6 +166,7 @@ export default function SolidarityPosterPage() {
     closer: first.closer,
     layout: first.layout,
     supportUrl: "",
+    showCta: true,
     showQr: true,
     includeBranding: false,
     primaryColor: brandKit.primaryColor,
@@ -164,7 +188,8 @@ export default function SolidarityPosterPage() {
       headline: first.headline,
       closer: first.closer,
       layout: first.layout,
-      supportUrl: resolveLocalWebsiteUrl(brandKit, origin),
+      supportUrl: resolveLocalWebsiteUrl(brandKit, origin) || SITE_URL,
+      showCta: true,
       showQr: true,
       includeBranding: themeEstablished,
       primaryColor: brandKit.primaryColor,
@@ -174,12 +199,12 @@ export default function SolidarityPosterPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot after hydrate
   }, [hydrated, themeEstablished]);
 
+  const supportUrlForQr = state.supportUrl.trim() || SITE_URL;
+
   useEffect(() => {
     let cancelled = false;
-    const supportUrl =
-      state.showQr && state.supportUrl.trim() ? state.supportUrl.trim() : "";
-    const task = supportUrl
-      ? qrDataUrl(supportUrl, { width: 140 })
+    const task = state.showQr
+      ? qrDataUrl(supportUrlForQr, { width: 140 })
       : Promise.resolve(null);
     void task.then((url) => {
       if (!cancelled) setQrSrc(url);
@@ -187,7 +212,7 @@ export default function SolidarityPosterPage() {
     return () => {
       cancelled = true;
     };
-  }, [state.showQr, state.supportUrl]);
+  }, [state.showQr, supportUrlForQr]);
 
   const localNum = resolveLocalNumber(brandKit.local.localNumber);
   const localLabel = brandKit.local.subText
@@ -197,8 +222,13 @@ export default function SolidarityPosterPage() {
     state.includeBranding &&
     (state.layout === "stack" || state.layout === "banner");
   const lines = headlineLines(state.headline);
-  const chrome = layoutChrome(formatId);
-  const isLandscape = formatId === "horizontal";
+  const chrome = layoutChrome(format);
+  const isLandscape = chrome.isLandscape;
+  const displayUrl = state.supportUrl.trim() || SITE_URL;
+  const showLocalInFooter =
+    state.includeBranding || state.layout === "split";
+  const showFooter =
+    state.showCta || state.showQr || showLocalInFooter;
 
   const selectMedium = (next: OutputMedium) => {
     if (next === medium) return;
@@ -245,15 +275,24 @@ export default function SolidarityPosterPage() {
     );
   };
 
-  const footer = (
-    <div className={cn("flex items-end justify-between", chrome.footerGap)}>
-      <div className="min-w-0 text-left">
-        <p className="text-sm font-bold uppercase tracking-wide">{t("cta")}</p>
-        {state.supportUrl.trim() ? (
-          <p className="mt-0.5 truncate text-xs opacity-90">{state.supportUrl}</p>
+  const footer = showFooter ? (
+    <div
+      className={cn(
+        "flex shrink-0 items-end justify-between",
+        chrome.footerGap,
+      )}
+    >
+      <div className="min-w-0 flex-1 text-left">
+        {state.showCta ? (
+          <>
+            <p className="text-sm font-bold uppercase tracking-wide">{t("cta")}</p>
+            <p className={chrome.urlClass}>{displayUrl}</p>
+          </>
         ) : null}
-        {state.includeBranding || state.layout === "split" ? (
-          <p className="mt-1 text-xs opacity-80">{localLabel}</p>
+        {showLocalInFooter ? (
+          <p className={cn("text-xs opacity-80", state.showCta && "mt-1")}>
+            {localLabel}
+          </p>
         ) : null}
       </div>
       {state.showQr && qrSrc ? (
@@ -268,7 +307,7 @@ export default function SolidarityPosterPage() {
         />
       ) : null}
     </div>
-  );
+  ) : null;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -409,8 +448,17 @@ export default function SolidarityPosterPage() {
             label={t("supportUrl")}
             value={state.supportUrl}
             onChange={(e) => setState({ ...state, supportUrl: e.target.value })}
-            placeholder="https://"
+            placeholder={SITE_URL}
           />
+
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={state.showCta}
+              onChange={(e) => setState({ ...state, showCta: e.target.checked })}
+            />
+            {t("showCta")}
+          </label>
 
           <label className="flex items-center gap-2 text-sm">
             <input
@@ -456,7 +504,8 @@ export default function SolidarityPosterPage() {
                   resolveLocalWebsiteUrl(
                     brandKit,
                     typeof window !== "undefined" ? window.location.origin : "",
-                  ),
+                  ) ||
+                  SITE_URL,
               })
             }
           />
@@ -483,12 +532,11 @@ export default function SolidarityPosterPage() {
           {state.layout === "stack" ? (
             <div
               className={cn(
-                "flex h-full flex-col",
+                "flex h-full min-h-0 flex-col",
                 chrome.padStack,
-                isLandscape ? "justify-center gap-4" : "justify-between",
               )}
             >
-              <div className="flex items-start justify-between gap-3">
+              <div className="flex shrink-0 items-start justify-between gap-3">
                 <p
                   className="text-sm font-semibold uppercase tracking-[0.2em]"
                   style={{ color: state.secondaryColor }}
@@ -497,7 +545,12 @@ export default function SolidarityPosterPage() {
                 </p>
                 {showLockup ? <BrandLogo size="md" onDark className="shrink-0" /> : null}
               </div>
-              <div className={cn("text-center", isLandscape && "flex flex-1 flex-col justify-center")}>
+              <div
+                className={cn(
+                  "flex min-h-0 flex-1 flex-col justify-center overflow-hidden text-center",
+                  isLandscape ? "py-2" : "py-4",
+                )}
+              >
                 {lines.map((line, i) => (
                   <p key={`${i}-${line}`} className={chrome.headlineStack}>
                     {line}
@@ -515,7 +568,7 @@ export default function SolidarityPosterPage() {
           ) : null}
 
           {state.layout === "split" ? (
-            <div className="flex h-full flex-col">
+            <div className="flex h-full min-h-0 flex-col">
               <div
                 className={cn(
                   "grid min-h-0 flex-1",
@@ -524,7 +577,7 @@ export default function SolidarityPosterPage() {
               >
                 <div
                   className={cn(
-                    "flex flex-col justify-between",
+                    "flex min-h-0 flex-col justify-between overflow-hidden",
                     chrome.padSplitSide,
                     !isLandscape && "col-span-2",
                   )}
@@ -540,7 +593,7 @@ export default function SolidarityPosterPage() {
                 </div>
                 <div
                   className={cn(
-                    "flex flex-col justify-center",
+                    "flex min-h-0 flex-col justify-center overflow-hidden",
                     chrome.padSplitType,
                     !isLandscape && "col-span-3",
                   )}
@@ -552,15 +605,17 @@ export default function SolidarityPosterPage() {
                   ))}
                 </div>
               </div>
-              <div className={chrome.padFooterOuter}>{footer}</div>
+              {footer ? (
+                <div className={cn("shrink-0", chrome.padFooterOuter)}>{footer}</div>
+              ) : null}
             </div>
           ) : null}
 
           {state.layout === "banner" ? (
-            <div className="flex h-full flex-col">
+            <div className="flex h-full min-h-0 flex-col">
               <div
                 className={cn(
-                  "flex items-center justify-between gap-3",
+                  "flex shrink-0 items-center justify-between gap-3",
                   chrome.padBannerBar,
                 )}
                 style={{ backgroundColor: state.accentColor || state.secondaryColor }}
@@ -572,7 +627,7 @@ export default function SolidarityPosterPage() {
               </div>
               <div
                 className={cn(
-                  "flex flex-1 flex-col justify-center text-center",
+                  "flex min-h-0 flex-1 flex-col justify-center overflow-hidden text-center",
                   chrome.padBannerBody,
                 )}
               >
@@ -586,7 +641,9 @@ export default function SolidarityPosterPage() {
                   <p className="mt-2 text-sm font-semibold opacity-90">{localLabel}</p>
                 ) : null}
               </div>
-              <div className={chrome.padFooterOuter}>{footer}</div>
+              {footer ? (
+                <div className={cn("shrink-0", chrome.padFooterOuter)}>{footer}</div>
+              ) : null}
             </div>
           ) : null}
         </div>

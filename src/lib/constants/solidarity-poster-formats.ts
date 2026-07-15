@@ -1,11 +1,17 @@
 export type OutputMedium = "print" | "digital";
 
-export type PosterFormatId = "letter" | "tabloid" | "horizontal" | "vertical";
+export type PosterFormatId =
+  | "letter"
+  | "tabloid"
+  | "horizontal"
+  | "wide"
+  | "vertical";
 
 export type PosterFormatLabelKey =
   | "formatLetter"
   | "formatTabloid"
   | "formatHorizontal"
+  | "formatWide"
   | "formatVertical";
 
 export interface SolidarityPosterFormat {
@@ -52,6 +58,7 @@ export const SOLIDARITY_POSTER_FORMATS: Record<
     heightInches: 17,
     filenameStem: "solidarity-poster-tabloid",
   },
+  /** Desktop / monitor wallpaper */
   horizontal: {
     id: "horizontal",
     medium: "digital",
@@ -59,8 +66,19 @@ export const SOLIDARITY_POSTER_FORMATS: Record<
     labelKey: "formatHorizontal",
     exportWidthPx: 3840,
     exportHeightPx: 2160,
-    filenameStem: "solidarity-wallpaper-horizontal",
+    filenameStem: "solidarity-wallpaper-desktop",
   },
+  /** Modern phone landscape (~19.5:9), FHD+ */
+  wide: {
+    id: "wide",
+    medium: "digital",
+    aspect: "aspect-[19.5/9]",
+    labelKey: "formatWide",
+    exportWidthPx: 2340,
+    exportHeightPx: 1080,
+    filenameStem: "solidarity-wallpaper-wide",
+  },
+  /** Generic phone portrait wallpaper */
   vertical: {
     id: "vertical",
     medium: "digital",
@@ -68,12 +86,16 @@ export const SOLIDARITY_POSTER_FORMATS: Record<
     labelKey: "formatVertical",
     exportWidthPx: 1080,
     exportHeightPx: 1920,
-    filenameStem: "solidarity-wallpaper-vertical",
+    filenameStem: "solidarity-wallpaper-phone",
   },
 };
 
 const PRINT_ORDER: readonly PosterFormatId[] = ["letter", "tabloid"];
-const DIGITAL_ORDER: readonly PosterFormatId[] = ["horizontal", "vertical"];
+const DIGITAL_ORDER: readonly PosterFormatId[] = [
+  "horizontal",
+  "wide",
+  "vertical",
+];
 
 export function formatsForMedium(
   medium: OutputMedium,
@@ -92,6 +114,16 @@ export function supportsPdf(format: SolidarityPosterFormat): boolean {
     typeof format.widthInches === "number" &&
     typeof format.heightInches === "number"
   );
+}
+
+export function isLandscapeFormat(format: SolidarityPosterFormat): boolean {
+  if (format.exportWidthPx && format.exportHeightPx) {
+    return format.exportWidthPx > format.exportHeightPx;
+  }
+  if (format.widthInches && format.heightInches) {
+    return format.widthInches > format.heightInches;
+  }
+  return false;
 }
 
 /** Scale live preview width so captured PNG matches target wallpaper pixels. */
