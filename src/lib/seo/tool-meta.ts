@@ -41,7 +41,7 @@ export const TOOL_SEO: Record<
   "board-banner": {
     title: "Free Union Board Banner & Trim Maker",
     description:
-      "Print Brand Kit header banners and border trim tiles for physical union boards. Free and on your device.",
+      "Print packed sheets of Brand Kit header strips and frame trim for cork boards. Cut on the dashed lines — free and on your device.",
   },
   "solidarity-poster": {
     title: "Free Solidarity Poster Maker",

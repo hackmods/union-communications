@@ -245,6 +245,11 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Landscape letter (11×8.5) and tabloid (17×11); PNG + PDF; tile-join copy for wider boards
 - [x] Cross-linked from Union Boards Guide header zone + CTAs
 
+## Board Banner strip pack QoL (2026-07-15)
+
+- [x] Portrait letter/tabloid **pack sheets** with multiple short strips (2.5 / 3.5 / 4.5″) and cut marks
+- [x] Vertical side columns + corner grid; SVG slant (no logo clip-path); Solidarity-grade editor UX
+
 ## QR Board Poster Maker (2026-07-15)
 
 - [x] `/tools/qr-board` — multi-QR union board posters (title above QR, URL under)

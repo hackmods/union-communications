@@ -1,9 +1,18 @@
 import { describe, expect, it } from "vitest";
 import {
-  BOARD_BANNER_FORMATS,
-  DEFAULT_BOARD_BANNER_FORMAT,
-  boardBannerFormats,
-  trimFilenameStem,
+  BOARD_SHEET_FORMATS,
+  DEFAULT_BOARD_SHEET,
+  DEFAULT_EDGE_WIDTH,
+  DEFAULT_STRIP_HEIGHT,
+  EDGE_WIDTH_PRESETS,
+  PACK_GAP_INCHES,
+  STRIP_HEIGHT_PRESETS,
+  bannersPerSheet,
+  boardSheetFormats,
+  cornersPerSheet,
+  packCountForMode,
+  sideColumnsPerSheet,
+  usableSheetSize,
 } from "./board-banner-formats";
 import {
   BANNER_LAYOUTS,
@@ -13,27 +22,145 @@ import {
   bannerLayoutUsesCallout,
 } from "./board-banner-layouts";
 
-describe("board-banner-formats", () => {
-  it("defaults to letter landscape", () => {
-    expect(DEFAULT_BOARD_BANNER_FORMAT).toBe("letter");
-    expect(BOARD_BANNER_FORMATS.letter.widthInches).toBe(11);
-    expect(BOARD_BANNER_FORMATS.letter.heightInches).toBe(8.5);
+describe("board-banner-formats sheets", () => {
+  it("defaults to portrait letter", () => {
+    expect(DEFAULT_BOARD_SHEET).toBe("letter");
+    expect(BOARD_SHEET_FORMATS.letter.widthInches).toBe(8.5);
+    expect(BOARD_SHEET_FORMATS.letter.heightInches).toBe(11);
   });
 
   it("lists letter then tabloid", () => {
-    expect(boardBannerFormats().map((f) => f.id)).toEqual([
+    expect(boardSheetFormats().map((f) => f.id)).toEqual([
       "letter",
       "tabloid",
     ]);
   });
 
-  it("builds trim filename stems per piece and format", () => {
-    expect(trimFilenameStem(BOARD_BANNER_FORMATS.letter, "side")).toBe(
-      "board-trim-side-letter",
+  it("defaults strip height 3.5 and edge 2", () => {
+    expect(DEFAULT_STRIP_HEIGHT).toBe("standard");
+    expect(STRIP_HEIGHT_PRESETS.standard.heightInches).toBe(3.5);
+    expect(DEFAULT_EDGE_WIDTH).toBe("standard");
+    expect(EDGE_WIDTH_PRESETS.standard.widthInches).toBe(2);
+  });
+});
+
+describe("pack math", () => {
+  const letter = BOARD_SHEET_FORMATS.letter;
+
+  it("packs ~2–3 banner strips on letter at 3.5\"", () => {
+    const n = bannersPerSheet(
+      letter.heightInches,
+      3.5,
+      PACK_GAP_INCHES,
+      letter.marginInches,
     );
-    expect(trimFilenameStem(BOARD_BANNER_FORMATS.tabloid, "corner")).toBe(
-      "board-trim-corner-tabloid",
+    expect(n).toBeGreaterThanOrEqual(2);
+    expect(n).toBeLessThanOrEqual(3);
+  });
+
+  it("packs more compact strips than tall ones", () => {
+    const compact = bannersPerSheet(
+      letter.heightInches,
+      STRIP_HEIGHT_PRESETS.compact.heightInches,
+      PACK_GAP_INCHES,
+      letter.marginInches,
     );
+    const tall = bannersPerSheet(
+      letter.heightInches,
+      STRIP_HEIGHT_PRESETS.tall.heightInches,
+      PACK_GAP_INCHES,
+      letter.marginInches,
+    );
+    expect(compact).toBeGreaterThan(tall);
+  });
+
+  it("always returns at least one strip", () => {
+    expect(bannersPerSheet(11, 20, PACK_GAP_INCHES, 0.35)).toBe(1);
+    expect(sideColumnsPerSheet(8.5, 20, PACK_GAP_INCHES, 0.35)).toBe(1);
+  });
+
+  it("fits multiple 2\" side columns on letter", () => {
+    const cols = sideColumnsPerSheet(
+      letter.widthInches,
+      2,
+      PACK_GAP_INCHES,
+      letter.marginInches,
+    );
+    expect(cols).toBeGreaterThanOrEqual(3);
+    expect(cols).toBeLessThanOrEqual(5);
+  });
+
+  it("grids corner tiles on usable letter area", () => {
+    const grid = cornersPerSheet(
+      letter.widthInches,
+      letter.heightInches,
+      2,
+      PACK_GAP_INCHES,
+      letter.marginInches,
+    );
+    expect(grid.cols).toBeGreaterThanOrEqual(3);
+    expect(grid.rows).toBeGreaterThanOrEqual(4);
+    expect(grid.total).toBe(grid.cols * grid.rows);
+  });
+
+  it("packCountForMode matches helpers", () => {
+    expect(
+      packCountForMode({
+        mode: "banner",
+        trimPiece: "side",
+        sheet: letter,
+        stripHeightInches: 3.5,
+        edgeWidthInches: 2,
+      }),
+    ).toBe(
+      bannersPerSheet(
+        letter.heightInches,
+        3.5,
+        PACK_GAP_INCHES,
+        letter.marginInches,
+      ),
+    );
+
+    expect(
+      packCountForMode({
+        mode: "trim",
+        trimPiece: "side",
+        sheet: letter,
+        stripHeightInches: 3.5,
+        edgeWidthInches: 2,
+      }),
+    ).toBe(
+      sideColumnsPerSheet(
+        letter.widthInches,
+        2,
+        PACK_GAP_INCHES,
+        letter.marginInches,
+      ),
+    );
+
+    expect(
+      packCountForMode({
+        mode: "trim",
+        trimPiece: "corner",
+        sheet: letter,
+        stripHeightInches: 3.5,
+        edgeWidthInches: 2,
+      }),
+    ).toBe(
+      cornersPerSheet(
+        letter.widthInches,
+        letter.heightInches,
+        2,
+        PACK_GAP_INCHES,
+        letter.marginInches,
+      ).total,
+    );
+  });
+
+  it("usableSheetSize subtracts margins", () => {
+    const u = usableSheetSize(letter);
+    expect(u.widthInches).toBeCloseTo(8.5 - 0.7, 5);
+    expect(u.heightInches).toBeCloseTo(11 - 0.7, 5);
   });
 });
 

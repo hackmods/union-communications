@@ -11,14 +11,25 @@ export type BannerLayoutLabelKey =
   | "layoutCenteredLockup"
   | "layoutMinimalStripe";
 
+export type BannerLayoutHintKey =
+  | "layoutSlantCalloutHint"
+  | "layoutCenteredLockupHint"
+  | "layoutMinimalStripeHint";
+
 export type TrimPieceLabelKey =
   | "trimSide"
   | "trimBottom"
   | "trimCorner";
 
+export type TrimPieceHintKey =
+  | "trimSideHint"
+  | "trimBottomHint"
+  | "trimCornerHint";
+
 export interface BannerLayoutDef {
   id: BannerLayoutId;
   labelKey: BannerLayoutLabelKey;
+  hintKey: BannerLayoutHintKey;
   /** Whether the callout / slogan field applies */
   usesCallout: boolean;
 }
@@ -26,6 +37,7 @@ export interface BannerLayoutDef {
 export interface TrimPieceDef {
   id: TrimPieceId;
   labelKey: TrimPieceLabelKey;
+  hintKey: TrimPieceHintKey;
 }
 
 export const DEFAULT_BANNER_LAYOUT: BannerLayoutId = "slantCallout";
@@ -36,24 +48,27 @@ export const BANNER_LAYOUTS: readonly BannerLayoutDef[] = [
   {
     id: "slantCallout",
     labelKey: "layoutSlantCallout",
+    hintKey: "layoutSlantCalloutHint",
     usesCallout: true,
   },
   {
     id: "centeredLockup",
     labelKey: "layoutCenteredLockup",
+    hintKey: "layoutCenteredLockupHint",
     usesCallout: false,
   },
   {
     id: "minimalStripe",
     labelKey: "layoutMinimalStripe",
+    hintKey: "layoutMinimalStripeHint",
     usesCallout: false,
   },
 ] as const;
 
 export const TRIM_PIECES: readonly TrimPieceDef[] = [
-  { id: "side", labelKey: "trimSide" },
-  { id: "bottom", labelKey: "trimBottom" },
-  { id: "corner", labelKey: "trimCorner" },
+  { id: "side", labelKey: "trimSide", hintKey: "trimSideHint" },
+  { id: "bottom", labelKey: "trimBottom", hintKey: "trimBottomHint" },
+  { id: "corner", labelKey: "trimCorner", hintKey: "trimCornerHint" },
 ] as const;
 
 export function bannerLayoutById(id: BannerLayoutId): BannerLayoutDef {

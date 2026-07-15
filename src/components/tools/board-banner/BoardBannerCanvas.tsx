@@ -2,7 +2,7 @@
 
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import type { BannerLayoutId } from "@/lib/constants/board-banner-layouts";
-import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
+import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 
 export interface BoardBannerCanvasProps {
@@ -17,7 +17,6 @@ export interface BoardBannerCanvasProps {
   className?: string;
 }
 
-/** Repeating chevron marks for join-friendly edges (inline SVG, capture-safe). */
 function ChevronRow({
   color,
   count = 3,
@@ -25,9 +24,10 @@ function ChevronRow({
   color: string;
   count?: number;
 }) {
+  const w = count * 28;
   return (
     <svg
-      viewBox={`0 0 ${count * 28} 40`}
+      viewBox={`0 0 ${w} 36`}
       width="100%"
       height="100%"
       preserveAspectRatio="xMidYMid meet"
@@ -37,7 +37,7 @@ function ChevronRow({
       {Array.from({ length: count }, (_, i) => (
         <path
           key={i}
-          d={`M${4 + i * 28} 6 L${22 + i * 28} 20 L${4 + i * 28} 34`}
+          d={`M${6 + i * 28} 4 L${22 + i * 28} 18 L${6 + i * 28} 32`}
           fill="none"
           stroke={color}
           strokeWidth="5"
@@ -49,6 +49,10 @@ function ChevronRow({
   );
 }
 
+/**
+ * Fixed-aspect header strip. Parent sets width + height (or aspect box).
+ * SVG slant keeps BrandLogo outside clipped ancestors for clean PNG capture.
+ */
 export function BoardBannerCanvas({
   layout,
   callout,
@@ -61,12 +65,13 @@ export function BoardBannerCanvas({
   className,
 }: BoardBannerCanvasProps) {
   const ink = pickContrastingInk(primaryColor);
-  const accentInk = pickContrastingInk(accentColor);
+  const accent = accentColor || secondaryColor;
+  const accentInk = pickContrastingInk(accent);
   const secondaryOnPrimary = meetsWcagAA(secondaryColor, primaryColor, true)
     ? secondaryColor
     : ink;
-  const mutedInk = inkWithAlpha(ink, 0.85);
   const localDisplay = `LOCAL ${localNumber}`;
+  const calloutText = callout.trim() || "Did you know?";
 
   if (layout === "slantCallout") {
     return (
@@ -74,108 +79,122 @@ export function BoardBannerCanvas({
         className={className}
         style={{
           boxSizing: "border-box",
+          position: "relative",
           width: "100%",
           height: "100%",
-          backgroundColor: "#FFFFFF",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "stretch",
           overflow: "hidden",
+          backgroundColor: "#FFFFFF",
           fontFamily: "Arial, Helvetica, sans-serif",
         }}
       >
-        {/* Slanted callout panel */}
+        {/* Full-bleed SVG geometry — no CSS clip-path on logo ancestors */}
+        <svg
+          viewBox="0 0 1000 200"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            display: "block",
+          }}
+        >
+          <rect width="1000" height="200" fill="#FFFFFF" />
+          <polygon points="0,0 340,0 400,200 0,200" fill={primaryColor} />
+          <polygon points="340,0 400,0 430,200 400,200" fill={accent} />
+        </svg>
+
         <div
           style={{
             position: "relative",
-            flex: "0 0 32%",
-            minWidth: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0 8% 0 4%",
-            backgroundColor: primaryColor,
-            clipPath: "polygon(0 0, 88% 0, 100% 100%, 0 100%)",
-          }}
-        >
-          <p
-            style={{
-              margin: 0,
-              color: ink,
-              fontSize: "clamp(0.85rem, 2.8vw, 1.75rem)",
-              fontWeight: 800,
-              lineHeight: 1.15,
-              textAlign: "center",
-            }}
-          >
-            {callout.trim() || "Did you know?"}
-          </p>
-          {/* Accent wedge along the slant */}
-          <div
-            aria-hidden="true"
-            style={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              width: "14%",
-              height: "100%",
-              backgroundColor: accentColor || secondaryColor,
-              clipPath: "polygon(0 0, 100% 0, 100% 100%, 40% 100%)",
-              opacity: 0.95,
-            }}
-          />
-        </div>
-
-        {/* Logo + chevrons + local */}
-        <div
-          style={{
-            flex: 1,
-            minWidth: 0,
+            zIndex: 1,
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "space-between",
-            gap: "2%",
-            padding: "4% 5% 4% 3%",
-            backgroundColor: "#FFFFFF",
+            height: "100%",
+            width: "100%",
+            boxSizing: "border-box",
+            padding: "0 2.5% 0 0",
           }}
         >
-          {includeLogo ? (
-            <div
-              style={{
-                flex: "0 0 auto",
-                maxWidth: "28%",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <BrandLogo size="lg" backgroundColor="#FFFFFF" />
-            </div>
-          ) : (
-            <div style={{ flex: "0 0 8%" }} />
-          )}
           <div
             style={{
-              flex: "0 0 18%",
-              height: "42%",
-              minHeight: 28,
+              flex: "0 0 34%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "0 4% 0 3%",
+              boxSizing: "border-box",
             }}
           >
-            <ChevronRow color={secondaryOnPrimary} count={3} />
+            <p
+              style={{
+                margin: 0,
+                color: ink,
+                fontSize: "clamp(0.75rem, 2.4vmin, 1.35rem)",
+                fontWeight: 800,
+                lineHeight: 1.15,
+                textAlign: "center",
+              }}
+            >
+              {calloutText}
+            </p>
           </div>
-          <p
+
+          <div
             style={{
-              margin: 0,
-              flex: "0 1 auto",
-              color: secondaryOnPrimary,
-              fontSize: "clamp(1rem, 3.5vw, 2.25rem)",
-              fontWeight: 900,
-              letterSpacing: "0.04em",
-              whiteSpace: "nowrap",
+              flex: 1,
+              minWidth: 0,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "3%",
+              paddingLeft: "2%",
+              height: "100%",
+              boxSizing: "border-box",
             }}
           >
-            {localDisplay}
-          </p>
+            {includeLogo ? (
+              <div
+                style={{
+                  flex: "0 1 auto",
+                  maxWidth: "32%",
+                  maxHeight: "70%",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <BrandLogo size="md" backgroundColor="#FFFFFF" />
+              </div>
+            ) : (
+              <span style={{ flex: "0 0 8%" }} />
+            )}
+            <div
+              style={{
+                flex: "0 0 16%",
+                height: "38%",
+                minHeight: 20,
+                maxHeight: 40,
+              }}
+            >
+              <ChevronRow color={secondaryOnPrimary} count={3} />
+            </div>
+            <p
+              style={{
+                margin: 0,
+                flex: "0 0 auto",
+                color: secondaryOnPrimary,
+                fontSize: "clamp(0.9rem, 3.2vmin, 1.85rem)",
+                fontWeight: 900,
+                letterSpacing: "0.04em",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {localDisplay}
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -189,58 +208,63 @@ export function BoardBannerCanvas({
           boxSizing: "border-box",
           width: "100%",
           height: "100%",
+          overflow: "hidden",
           backgroundColor: primaryColor,
           display: "flex",
           flexDirection: "column",
-          alignItems: "stretch",
-          overflow: "hidden",
           fontFamily: "Arial, Helvetica, sans-serif",
         }}
       >
         <div
           aria-hidden="true"
-          style={{
-            height: "10%",
-            backgroundColor: accentColor || secondaryColor,
-          }}
+          style={{ height: "12%", backgroundColor: accent, flexShrink: 0 }}
         />
         <div
           style={{
             flex: 1,
+            minHeight: 0,
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
-            padding: "3% 6%",
-            gap: "4%",
+            padding: "0 4%",
+            gap: "3%",
           }}
         >
           <p
             style={{
               margin: 0,
               color: ink,
-              fontSize: "clamp(0.9rem, 2.5vw, 1.5rem)",
+              fontSize: "clamp(0.65rem, 2vmin, 1rem)",
               fontWeight: 700,
               letterSpacing: "0.06em",
               textTransform: "uppercase",
-              opacity: 0.95,
+              maxWidth: "28%",
             }}
           >
             {localLabel}
           </p>
           {includeLogo ? (
-            <div style={{ flex: "0 0 auto", maxWidth: "30%" }}>
-              <BrandLogo size="lg" backgroundColor={primaryColor} />
+            <div
+              style={{
+                flex: "0 1 auto",
+                maxHeight: "72%",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <BrandLogo size="md" backgroundColor={primaryColor} />
             </div>
           ) : null}
           <p
             style={{
               margin: 0,
               color: ink,
-              fontSize: "clamp(1.1rem, 3.2vw, 2rem)",
+              fontSize: "clamp(0.95rem, 3vmin, 1.75rem)",
               fontWeight: 900,
               letterSpacing: "0.05em",
               textAlign: "right",
+              whiteSpace: "nowrap",
             }}
           >
             {localDisplay}
@@ -248,16 +272,13 @@ export function BoardBannerCanvas({
         </div>
         <div
           aria-hidden="true"
-          style={{
-            height: "10%",
-            backgroundColor: secondaryColor,
-          }}
+          style={{ height: "12%", backgroundColor: secondaryColor, flexShrink: 0 }}
         />
       </div>
     );
   }
 
-  // minimalStripe — dual-tone bar + local number for boards that already have parent-union art behind
+  // minimalStripe
   return (
     <div
       className={className}
@@ -265,29 +286,38 @@ export function BoardBannerCanvas({
         boxSizing: "border-box",
         width: "100%",
         height: "100%",
-        backgroundColor: "#FFFFFF",
+        overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-        overflow: "hidden",
+        backgroundColor: "#FFFFFF",
         fontFamily: "Arial, Helvetica, sans-serif",
       }}
     >
       <div
         style={{
-          flex: "0 0 55%",
+          flex: "0 0 58%",
           backgroundColor: primaryColor,
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "0 5%",
+          padding: "0 4%",
           gap: "3%",
+          minHeight: 0,
         }}
       >
         {includeLogo ? (
-          <BrandLogo size="md" backgroundColor={primaryColor} />
+          <div style={{ maxHeight: "75%", display: "flex", alignItems: "center" }}>
+            <BrandLogo size="sm" backgroundColor={primaryColor} />
+          </div>
         ) : (
-          <span style={{ color: mutedInk, fontWeight: 700, fontSize: "1rem" }}>
+          <span
+            style={{
+              color: ink,
+              fontWeight: 700,
+              fontSize: "clamp(0.65rem, 1.8vmin, 0.95rem)",
+            }}
+          >
             {localLabel}
           </span>
         )}
@@ -295,9 +325,10 @@ export function BoardBannerCanvas({
           style={{
             margin: 0,
             color: ink,
-            fontSize: "clamp(1.2rem, 4vw, 2.5rem)",
+            fontSize: "clamp(1rem, 3.5vmin, 2rem)",
             fontWeight: 900,
             letterSpacing: "0.06em",
+            whiteSpace: "nowrap",
           }}
         >
           {localDisplay}
@@ -306,15 +337,16 @@ export function BoardBannerCanvas({
       <div
         style={{
           flex: 1,
-          backgroundColor: accentColor || secondaryColor,
+          minHeight: 0,
+          backgroundColor: accent,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: "0 4%",
+          padding: "0 6%",
         }}
       >
-        <div style={{ width: "70%", height: "55%" }}>
-          <ChevronRow color={accentInk} count={8} />
+        <div style={{ width: "80%", height: "55%" }}>
+          <ChevronRow color={accentInk} count={10} />
         </div>
       </div>
     </div>

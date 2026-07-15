@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
@@ -10,11 +10,20 @@ import { nodeToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import {
-  BOARD_BANNER_FORMATS,
-  DEFAULT_BOARD_BANNER_FORMAT,
-  boardBannerFormats,
-  trimFilenameStem,
-  type BoardBannerFormatId,
+  BOARD_SHEET_FORMATS,
+  DEFAULT_BOARD_SHEET,
+  DEFAULT_EDGE_WIDTH,
+  DEFAULT_STRIP_HEIGHT,
+  EDGE_WIDTH_PRESETS,
+  STRIP_HEIGHT_PRESETS,
+  boardSheetFormats,
+  edgeWidthPresets,
+  packCountForMode,
+  sheetFilenameStem,
+  stripHeightPresets,
+  type BoardSheetId,
+  type EdgeWidthId,
+  type StripHeightId,
 } from "@/lib/constants/board-banner-formats";
 import {
   BANNER_LAYOUTS,
@@ -22,13 +31,16 @@ import {
   DEFAULT_BOARD_BANNER_MODE,
   DEFAULT_TRIM_PIECE,
   TRIM_PIECES,
+  bannerLayoutById,
   bannerLayoutUsesCallout,
+  trimPieceById,
   type BannerLayoutId,
   type BoardBannerMode,
   type TrimPieceId,
 } from "@/lib/constants/board-banner-layouts";
 import { BoardBannerCanvas } from "@/components/tools/board-banner/BoardBannerCanvas";
 import { BoardTrimCanvas } from "@/components/tools/board-banner/BoardTrimCanvas";
+import { BoardBannerSheet } from "@/components/tools/board-banner/BoardBannerSheet";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -43,9 +55,37 @@ interface BoardBannerState {
   trimPiece: TrimPieceId;
   callout: string;
   includeLogo: boolean;
+  stripHeightId: StripHeightId;
+  edgeWidthId: EdgeWidthId;
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
+}
+
+function SegButton({
+  pressed,
+  onClick,
+  children,
+}: {
+  pressed: boolean;
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={pressed}
+      onClick={onClick}
+      className={cn(
+        "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
+        pressed
+          ? "bg-opseu-blue text-white"
+          : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+      )}
+    >
+      {children}
+    </button>
+  );
 }
 
 export default function BoardBannerPage() {
@@ -56,13 +96,11 @@ export default function BoardBannerPage() {
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const [formatId, setFormatId] = useState<BoardBannerFormatId>(
-    DEFAULT_BOARD_BANNER_FORMAT,
-  );
+  const [sheetId, setSheetId] = useState<BoardSheetId>(DEFAULT_BOARD_SHEET);
   const brandingDefaultApplied = useRef(false);
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
-  const format = BOARD_BANNER_FORMATS[formatId];
+  const sheet = BOARD_SHEET_FORMATS[sheetId];
 
   const initial: BoardBannerState = {
     mode: DEFAULT_BOARD_BANNER_MODE,
@@ -70,6 +108,8 @@ export default function BoardBannerPage() {
     trimPiece: DEFAULT_TRIM_PIECE,
     callout: "Did you know?",
     includeLogo: false,
+    stripHeightId: DEFAULT_STRIP_HEIGHT,
+    edgeWidthId: DEFAULT_EDGE_WIDTH,
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
     accentColor: brandKit.accentColor,
@@ -96,127 +136,173 @@ export default function BoardBannerPage() {
     ? `Local ${localNum} - ${brandKit.local.subText}`
     : `Local ${localNum}`;
   const usesCallout = bannerLayoutUsesCallout(state.layout);
+  const stripHeightInches =
+    STRIP_HEIGHT_PRESETS[state.stripHeightId].heightInches;
+  const edgeWidthInches = EDGE_WIDTH_PRESETS[state.edgeWidthId].widthInches;
+  const packCount = packCountForMode({
+    mode: state.mode,
+    trimPiece: state.trimPiece,
+    sheet,
+    stripHeightInches,
+    edgeWidthInches,
+  });
 
-  const exportBackground =
-    state.mode === "banner" && state.layout === "slantCallout"
-      ? "#FFFFFF"
-      : state.primaryColor;
+  const activeHint =
+    state.mode === "banner"
+      ? t(bannerLayoutById(state.layout).hintKey)
+      : t(trimPieceById(state.trimPiece).hintKey);
+
+  const renderPiece = () =>
+    state.mode === "banner" ? (
+      <BoardBannerCanvas
+        layout={state.layout}
+        callout={state.callout}
+        localLabel={localLabel}
+        localNumber={localNum}
+        includeLogo={state.includeLogo}
+        primaryColor={state.primaryColor}
+        secondaryColor={state.secondaryColor}
+        accentColor={state.accentColor}
+      />
+    ) : (
+      <BoardTrimCanvas
+        piece={state.trimPiece}
+        primaryColor={state.primaryColor}
+        secondaryColor={state.secondaryColor}
+        accentColor={state.accentColor}
+        localNumber={localNum}
+      />
+    );
+
+  const designPreviewStyle: CSSProperties =
+    state.mode === "trim" && state.trimPiece === "side"
+      ? {
+          aspectRatio: `${edgeWidthInches} / ${sheet.heightInches - sheet.marginInches * 2}`,
+          maxWidth: "5.5rem",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }
+      : state.mode === "trim" && state.trimPiece === "corner"
+        ? {
+            aspectRatio: "1 / 1",
+            maxWidth: "9rem",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }
+        : {
+            aspectRatio: `${sheet.widthInches - sheet.marginInches * 2} / ${stripHeightInches}`,
+          };
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
-    const stem =
-      state.mode === "banner"
-        ? format.filenameStem
-        : trimFilenameStem(format, state.trimPiece);
+    const stem = sheetFilenameStem(
+      sheet,
+      state.mode,
+      state.mode === "trim" ? state.trimPiece : undefined,
+    );
     await exportNodeAsPng(
       canvasRef.current,
       formatFilename(stem, brandKit.local.localNumber, "png"),
-      { pixelRatio: 2, backgroundColor: exportBackground },
+      { pixelRatio: 2, backgroundColor: "#FFFFFF" },
     );
   };
 
   const handleExportPdf = async () => {
     if (!canvasRef.current) return;
-    const stem =
-      state.mode === "banner"
-        ? format.filenameStem
-        : trimFilenameStem(format, state.trimPiece);
+    const stem = sheetFilenameStem(
+      sheet,
+      state.mode,
+      state.mode === "trim" ? state.trimPiece : undefined,
+    );
     await nodeToPdf(
       canvasRef.current,
       formatFilename(stem, brandKit.local.localNumber, "pdf"),
-      format.widthInches,
-      format.heightInches,
+      sheet.widthInches,
+      sheet.heightInches,
       2,
-      exportBackground,
+      "#FFFFFF",
     );
   };
 
   return (
     <PageShell className="py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-gray-600">{t("subtitle")}</p>
+      <p className="mt-2 max-w-2xl text-gray-600">{t("subtitle")}</p>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
-        <Card className="space-y-4">
-          <fieldset>
-            <legend className="mb-2 text-sm font-medium">{t("mode")}</legend>
-            <div className="flex flex-wrap gap-2">
+        <Card className="space-y-5">
+          <div>
+            <p className="mb-1 text-sm font-medium" id="mode-label">
+              {t("mode")}
+            </p>
+            <div
+              className="flex flex-wrap gap-2"
+              role="group"
+              aria-labelledby="mode-label"
+            >
               {(["banner", "trim"] as const).map((mode) => (
-                <button
+                <SegButton
                   key={mode}
-                  type="button"
-                  aria-pressed={state.mode === mode}
+                  pressed={state.mode === mode}
                   onClick={() => setState({ ...state, mode })}
-                  className={cn(
-                    "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-                    state.mode === mode
-                      ? "bg-opseu-blue text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                  )}
                 >
                   {t(mode === "banner" ? "modeBanner" : "modeTrim")}
-                </button>
+                </SegButton>
               ))}
             </div>
-          </fieldset>
+          </div>
 
           {state.mode === "banner" ? (
-            <fieldset>
-              <legend className="mb-2 text-sm font-medium">{t("layout")}</legend>
-              <div className="flex flex-wrap gap-2">
+            <div>
+              <p className="mb-1 text-sm font-medium" id="layout-label">
+                {t("layout")}
+              </p>
+              <div
+                className="flex flex-wrap gap-2"
+                role="group"
+                aria-labelledby="layout-label"
+              >
                 {BANNER_LAYOUTS.map((layout) => (
-                  <button
+                  <SegButton
                     key={layout.id}
-                    type="button"
-                    aria-pressed={state.layout === layout.id}
-                    onClick={() =>
-                      setState({ ...state, layout: layout.id })
-                    }
-                    className={cn(
-                      "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-                      state.layout === layout.id
-                        ? "bg-opseu-blue text-white"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                    )}
+                    pressed={state.layout === layout.id}
+                    onClick={() => setState({ ...state, layout: layout.id })}
                   >
                     {t(layout.labelKey)}
-                  </button>
+                  </SegButton>
                 ))}
               </div>
-            </fieldset>
+              <p className="mt-2 text-xs text-gray-500">{activeHint}</p>
+            </div>
           ) : (
-            <fieldset>
-              <legend className="mb-2 text-sm font-medium">{t("trimPiece")}</legend>
-              <div className="flex flex-wrap gap-2">
+            <div>
+              <p className="mb-1 text-sm font-medium" id="trim-label">
+                {t("trimPiece")}
+              </p>
+              <div
+                className="flex flex-wrap gap-2"
+                role="group"
+                aria-labelledby="trim-label"
+              >
                 {TRIM_PIECES.map((piece) => (
-                  <button
+                  <SegButton
                     key={piece.id}
-                    type="button"
-                    aria-pressed={state.trimPiece === piece.id}
-                    onClick={() =>
-                      setState({ ...state, trimPiece: piece.id })
-                    }
-                    className={cn(
-                      "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-                      state.trimPiece === piece.id
-                        ? "bg-opseu-blue text-white"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                    )}
+                    pressed={state.trimPiece === piece.id}
+                    onClick={() => setState({ ...state, trimPiece: piece.id })}
                   >
                     {t(piece.labelKey)}
-                  </button>
+                  </SegButton>
                 ))}
               </div>
-            </fieldset>
+              <p className="mt-2 text-xs text-gray-500">{activeHint}</p>
+            </div>
           )}
 
           {state.mode === "banner" && usesCallout ? (
             <Input
               label={t("callout")}
               value={state.callout}
-              onChange={(e) =>
-                setState({ ...state, callout: e.target.value })
-              }
+              onChange={(e) => setState({ ...state, callout: e.target.value })}
             />
           ) : null}
 
@@ -228,7 +314,6 @@ export default function BoardBannerPage() {
                 onChange={(e) =>
                   setState({ ...state, includeLogo: e.target.checked })
                 }
-                className="rounded border-gray-300"
               />
               {t("includeLogo")}
             </label>
@@ -242,6 +327,79 @@ export default function BoardBannerPage() {
               </Link>
             </p>
           ) : null}
+
+          {(state.mode === "banner" || state.trimPiece === "bottom") && (
+            <div>
+              <p className="mb-1 text-sm font-medium" id="strip-label">
+                {t("stripHeight")}
+              </p>
+              <div
+                className="flex flex-wrap gap-2"
+                role="group"
+                aria-labelledby="strip-label"
+              >
+                {stripHeightPresets().map((p) => (
+                  <SegButton
+                    key={p.id}
+                    pressed={state.stripHeightId === p.id}
+                    onClick={() =>
+                      setState({ ...state, stripHeightId: p.id })
+                    }
+                  >
+                    {t(p.labelKey)}
+                  </SegButton>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {state.mode === "trim" &&
+            (state.trimPiece === "side" || state.trimPiece === "corner") && (
+              <div>
+                <p className="mb-1 text-sm font-medium" id="edge-label">
+                  {t("edgeWidth")}
+                </p>
+                <div
+                  className="flex flex-wrap gap-2"
+                  role="group"
+                  aria-labelledby="edge-label"
+                >
+                  {edgeWidthPresets().map((p) => (
+                    <SegButton
+                      key={p.id}
+                      pressed={state.edgeWidthId === p.id}
+                      onClick={() =>
+                        setState({ ...state, edgeWidthId: p.id })
+                      }
+                    >
+                      {t(p.labelKey)}
+                    </SegButton>
+                  ))}
+                </div>
+              </div>
+            )}
+
+          <div>
+            <p className="mb-1 text-sm font-medium" id="sheet-label">
+              {t("sheetSize")}
+            </p>
+            <div
+              className="flex flex-wrap gap-2"
+              role="group"
+              aria-labelledby="sheet-label"
+            >
+              {boardSheetFormats().map((f) => (
+                <SegButton
+                  key={f.id}
+                  pressed={sheetId === f.id}
+                  onClick={() => setSheetId(f.id)}
+                >
+                  {t(f.labelKey)}
+                </SegButton>
+              ))}
+            </div>
+            <p className="mt-2 text-xs text-gray-500">{t("packHint")}</p>
+          </div>
 
           <ThemePicker
             primaryColor={state.primaryColor}
@@ -272,29 +430,6 @@ export default function BoardBannerPage() {
             />
           </div>
 
-          <fieldset>
-            <legend className="mb-2 text-sm font-medium">{t("format")}</legend>
-            <div className="flex flex-wrap gap-2">
-              {boardBannerFormats().map((f) => (
-                <button
-                  key={f.id}
-                  type="button"
-                  aria-pressed={formatId === f.id}
-                  onClick={() => setFormatId(f.id)}
-                  className={cn(
-                    "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-                    formatId === f.id
-                      ? "bg-opseu-blue text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                  )}
-                >
-                  {t(f.labelKey)}
-                </button>
-              ))}
-            </div>
-            <p className="mt-2 text-xs text-gray-600">{t("tileHint")}</p>
-          </fieldset>
-
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}
@@ -318,45 +453,55 @@ export default function BoardBannerPage() {
           </div>
         </Card>
 
-        <div>
-          <p className="mb-2 text-sm font-medium text-gray-700">
-            {t("preview")}
-          </p>
-          {/* Cut guide dash outside canvasRef — not captured */}
-          <div
-            className="rounded-md border border-dashed border-gray-300 p-2"
-            title={t("cutGuideHint")}
-          >
+        <div className="space-y-6">
+          <div>
+            <p className="mb-1 text-sm font-medium text-gray-700">
+              {t("designPreview")}
+            </p>
+            <p className="mb-2 text-xs text-gray-500">{t("designPreviewHint")}</p>
             <div className="shadow-lg">
-              <div ref={canvasRef} className={cn("w-full", format.aspect)}>
-                {state.mode === "banner" ? (
-                  <BoardBannerCanvas
-                    layout={state.layout}
-                    callout={state.callout}
-                    localLabel={localLabel}
-                    localNumber={localNum}
-                    includeLogo={state.includeLogo}
-                    primaryColor={state.primaryColor}
-                    secondaryColor={state.secondaryColor}
-                    accentColor={state.accentColor}
-                  />
-                ) : (
-                  <BoardTrimCanvas
-                    piece={state.trimPiece}
-                    primaryColor={state.primaryColor}
-                    secondaryColor={state.secondaryColor}
-                    accentColor={state.accentColor}
-                    localNumber={localNum}
-                  />
-                )}
+              <div
+                className="w-full overflow-hidden bg-white"
+                style={designPreviewStyle}
+              >
+                {renderPiece()}
               </div>
             </div>
           </div>
-          <p className="mt-2 text-xs text-gray-500">{t("cutGuideHint")}</p>
+
+          <div>
+            <p className="mb-1 text-sm font-medium text-gray-700">
+              {t("printSheet")}
+            </p>
+            <p className="mb-2 text-xs text-gray-500">
+              {t("packSummary", { count: packCount })}
+            </p>
+            <div className="shadow-lg">
+              <div
+                ref={canvasRef}
+                className={cn("w-full", sheet.aspect)}
+                style={{ backgroundColor: "#FFFFFF" }}
+              >
+                <BoardBannerSheet
+                  sheet={sheet}
+                  mode={state.mode}
+                  trimPiece={state.trimPiece}
+                  stripHeightInches={stripHeightInches}
+                  edgeWidthInches={edgeWidthInches}
+                  renderPiece={renderPiece}
+                />
+              </div>
+            </div>
+            <p className="mt-2 text-xs text-gray-500">{t("cutGuideHint")}</p>
+          </div>
         </div>
       </div>
 
-      <SourcesBlock pageId="boardBanner" title={ts("title")} intro={ts("intro")} />
+      <SourcesBlock
+        pageId="boardBanner"
+        title={ts("title")}
+        intro={ts("intro")}
+      />
     </PageShell>
   );
 }
