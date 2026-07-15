@@ -18,6 +18,7 @@ import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
+import { PageShell } from "@/components/layout/PageShell";
 
 interface FlyerState {
   message: string;
@@ -101,7 +102,7 @@ function FlyerMakerPageContent() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12">
+    <PageShell className="py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{tf("title")}</h1>
       <p className="mt-2 text-gray-600">{tf("subtitle")}</p>
 
@@ -230,7 +231,7 @@ function FlyerMakerPageContent() {
           </div>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }
 
@@ -238,9 +239,9 @@ export default function FlyerMakerPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-5xl px-4 py-12">
+        <PageShell className="py-12">
           <h1 className="text-3xl font-bold text-opseu-dark">Flyer Maker</h1>
-        </div>
+        </PageShell>
       }
     >
       <FlyerMakerPageContent />

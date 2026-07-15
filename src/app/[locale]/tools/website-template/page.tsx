@@ -19,6 +19,7 @@ import {
 import { saveAs } from "file-saver";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { PageShell } from "@/components/layout/PageShell";
+import { Callout } from "@/components/ui/Callout";
 
 export default function WebsiteTemplatePage() {
   const t = useTranslations("websiteTemplate");
@@ -120,9 +121,9 @@ export default function WebsiteTemplatePage() {
     <PageShell className="py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 text-gray-600">{t("subtitle")}</p>
-      <p className="mt-3 rounded-md border border-opseu-blue/20 bg-opseu-blue/5 px-4 py-3 text-sm text-gray-700">
+      <Callout tone="brand" className="mt-3">
         {t("referenceNote")}
-      </p>
+      </Callout>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <Card className="space-y-4">

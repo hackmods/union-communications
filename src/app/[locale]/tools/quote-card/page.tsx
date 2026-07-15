@@ -14,6 +14,7 @@ import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
+import { PageShell } from "@/components/layout/PageShell";
 
 interface QuoteState {
   quote: string;
@@ -73,7 +74,7 @@ function QuoteCardPageContent() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12">
+    <PageShell className="py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{tq("title")}</h1>
       <p className="mt-2 text-gray-600">{tq("subtitle")}</p>
 
@@ -139,7 +140,7 @@ function QuoteCardPageContent() {
           </div>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }
 
@@ -147,9 +148,9 @@ export default function QuoteCardPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-5xl px-4 py-12">
+        <PageShell className="py-12">
           <h1 className="text-3xl font-bold text-opseu-dark">Quote Card</h1>
-        </div>
+        </PageShell>
       }
     >
       <QuoteCardPageContent />

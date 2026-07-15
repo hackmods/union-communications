@@ -23,6 +23,7 @@ import {
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import { resolveLocalNumber } from "@/lib/utils";
+import { PageShell } from "@/components/layout/PageShell";
 
 export default function BrandKitPage() {
   const t = useTranslations("brandKit");
@@ -72,7 +73,7 @@ export default function BrandKitPage() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
+    <PageShell size="focus" className="py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 text-gray-600">{t("description")}</p>
       <p className="mt-3">
@@ -224,6 +225,6 @@ export default function BrandKitPage() {
           {message}
         </p>
       )}
-    </div>
+    </PageShell>
   );
 }

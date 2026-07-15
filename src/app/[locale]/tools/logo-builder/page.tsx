@@ -20,6 +20,7 @@ import {
   brandKitPatchForLogoMode,
 } from "@/components/brand/LogoSettings";
 import { useTranslations } from "next-intl";
+import { PageShell } from "@/components/layout/PageShell";
 
 export type { LogoShape };
 
@@ -103,7 +104,7 @@ export default function LogoBuilderPage() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12">
+    <PageShell className="py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{tBuilder("title")}</h1>
       <p className="mt-2 text-gray-600">{tBuilder("description")}</p>
 
@@ -244,6 +245,6 @@ export default function LogoBuilderPage() {
           </div>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }

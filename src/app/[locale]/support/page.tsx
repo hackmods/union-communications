@@ -3,6 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { BUY_ME_A_COFFEE_URL } from "@/lib/constants/support";
+import { PageShell } from "@/components/layout/PageShell";
 
 export const metadata: Metadata = {
   title: "Support UnionOps",
@@ -34,7 +35,7 @@ export default async function SupportPage({
   const t = await getTranslations("supportPage");
 
   return (
-    <article className="mx-auto max-w-2xl px-4 py-12">
+    <PageShell size="focus" className="py-12" as="article">
       <h1 className="text-3xl font-bold leading-tight text-opseu-dark md:text-4xl">
         {t("title")}
       </h1>
@@ -65,6 +66,6 @@ export default async function SupportPage({
           {t("backHome")}
         </Link>
       </p>
-    </article>
+    </PageShell>
   );
 }

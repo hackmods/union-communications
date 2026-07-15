@@ -35,6 +35,7 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ImageUpload } from "@/components/tools/ImageUpload";
+import { PageShell } from "@/components/layout/PageShell";
 
 type SourceMode = "logo" | "upload";
 type FitMode = "contain" | "cover";
@@ -359,7 +360,7 @@ export default function ResizerPage() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12">
+    <PageShell className="py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 text-gray-600">{t("subtitle")}</p>
 
@@ -676,6 +677,6 @@ export default function ResizerPage() {
           ))}
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }

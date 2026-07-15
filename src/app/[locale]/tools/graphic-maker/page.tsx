@@ -27,6 +27,7 @@ import { ConsentModal } from "@/components/tools/ConsentModal";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
+import { PageShell } from "@/components/layout/PageShell";
 
 function isToolPresetKey(value: string): value is ToolPresetKey {
   return value in TOOL_PRESETS;
@@ -197,7 +198,7 @@ function GraphicMakerPageContent() {
   const showInitials = state.layout === "spotlight" && !state.photoUrl;
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12">
+    <PageShell className="py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{tg("title")}</h1>
       <p className="mt-2 text-gray-600">{tg("subtitle")}</p>
 
@@ -391,7 +392,7 @@ function GraphicMakerPageContent() {
           setConsentOpen(false);
         }}
       />
-    </div>
+    </PageShell>
   );
 }
 
@@ -399,9 +400,9 @@ export default function GraphicMakerPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-5xl px-4 py-12">
+        <PageShell className="py-12">
           <h1 className="text-3xl font-bold text-opseu-dark">Graphic Maker</h1>
-        </div>
+        </PageShell>
       }
     >
       <GraphicMakerPageContent />

@@ -3,6 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { PageShell } from "@/components/layout/PageShell";
 
 export const metadata: Metadata = {
   title: "Why UnionOps is Free",
@@ -31,7 +32,7 @@ export default async function ManifestoPage({
   const hubPublic = isOfficerHubPublic();
 
   return (
-    <article className="mx-auto max-w-2xl px-4 py-12">
+    <PageShell size="focus" className="py-12" as="article">
       <h1 className="text-3xl font-bold leading-tight text-opseu-dark md:text-4xl">
         {t("title")}
       </h1>
@@ -73,6 +74,6 @@ export default async function ManifestoPage({
           {t("backHome")}
         </Link>
       </p>
-    </article>
+    </PageShell>
   );
 }

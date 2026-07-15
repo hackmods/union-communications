@@ -38,6 +38,7 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
+import { PageShell } from "@/components/layout/PageShell";
 
 interface PosterState {
   sloganId: string;
@@ -341,7 +342,7 @@ export default function SolidarityPosterPage() {
   ) : null;
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12">
+    <PageShell className="py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 text-gray-600">{t("subtitle")}</p>
 
@@ -737,6 +738,6 @@ export default function SolidarityPosterPage() {
           </div>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }
