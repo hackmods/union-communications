@@ -46,7 +46,7 @@ More detail: [`docs/guides/SETUP.md`](docs/guides/SETUP.md)
 
 ## Deploy
 
-- **GHCR image:** `ghcr.io/hackmods/union-communications:vX.Y.Z` (published on version tags)
+- **GHCR image:** `ghcr.io/hackmods/union-communications:main` (after CI on `main`); `:vX.Y.Z` / `:latest` on version tags
 - **CapRover:** container port **3000**; set `AUTH_SECRET` and `AUTH_URL`
 - **Health:** `GET /api/health` → `{"status":"ok"}`
 

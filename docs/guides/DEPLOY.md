@@ -16,14 +16,25 @@ If **you** host an instance, **you** are the data controller for data that insta
 5. Confirm health: `GET /api/health` → `{"status":"ok"}`.
 6. Read the two-tier privacy model in the site Privacy page and [`docs/COMPLIANCE.md`](../COMPLIANCE.md).
 
-## GHCR release image
+## GHCR images
 
-Tagged releases publish a container to GitHub Container Registry:
+Containers publish to GitHub Container Registry from [`docker/Dockerfile`](../../docker/Dockerfile).
+
+**Main tip** (after successful CI on `main` — see [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml)):
+
+```text
+ghcr.io/hackmods/union-communications:main
+ghcr.io/hackmods/union-communications:sha-<short>
+```
+
+**Tagged releases** (`v*` — see [`.github/workflows/release.yml`](../../.github/workflows/release.yml)):
 
 ```text
 ghcr.io/hackmods/union-communications:v0.1.0
 ghcr.io/hackmods/union-communications:latest
 ```
+
+`:latest` is only updated on version tags, not on every `main` push.
 
 Pull and run:
 
@@ -34,8 +45,6 @@ docker run --rm -p 3000:3000 \
   -e AUTH_URL="https://your.domain.example" \
   ghcr.io/hackmods/union-communications:v0.1.0
 ```
-
-Images are built from [`docker/Dockerfile`](../../docker/Dockerfile) on git tags matching `v*` (see [`.github/workflows/release.yml`](../../.github/workflows/release.yml)).
 
 ### Docker Compose (image)
 
