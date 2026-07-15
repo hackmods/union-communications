@@ -16,13 +16,18 @@ Ideas from the 2026-07 public nav review. Not scheduled for a phase; pick up whe
 - **Related:** Facilitator run sheet in [`docs/workshop/aug-18-comms-toolbox.md`](../workshop/aug-18-comms-toolbox.md); consent copy in tools.
 - **Shape if built:** Short `/guide/…` page (EN/FR) under Learn → Guides; link from Resources and workshop doc. Not a top-level Header item.
 
-### Get started beyond social
+### Get started beyond social (rename + Print step)
 
-- **Problem:** Header **Get started** → `/guide/social-media-plan`, which underweights print and union boards for print-first locals.
-- **Directions (pick one later):**
-  1. Reframe Social Media Plan as a four-channel “first week” plan (content + title change; keep the route or redirect).
-  2. Add a Print-first (or boards-first) CTA sibling on the home path card — content/IA change, not only a nav link.
-- **Do not:** Point Get started at Print alone without updating the plan page — that would strand social-first locals.
+- **Reality check (already shipped):** `/guide/social-media-plan` is already a multi-channel roadmap — **logo → union boards → socials → website**. Home path copy (“brand, boards, socials, then website”) matches the steps. Boards are not missing from the plan.
+- **Real gaps:**
+  1. **Naming:** Page title / nav / workshop language still say **Social Media Plan**, so Get started reads as social-only even though steps 2 and 4 are offline / web.
+  2. **Print channel:** Flyers and the Print Guide are outside the four steps (boards only mentions printing a notice). Print-first locals still feel under-served after Learn → By channel shipped.
+- **Preferred work (when picked up):**
+  1. Rename/reframe to a **First week** / **Comms roadmap** (EN/FR titles, intro, cross-links from Blueprint / Resources / workshop). Keep `/guide/social-media-plan` as the route (or add a redirect) so bookmarks and “Get started” stay stable.
+  2. Insert an explicit **Print** step or checkpoint (Flyer Maker + `/guide/print`) — e.g. after boards, before socials: same message on paper for members who never see the board or the feed. Do not balloon past ~5 steps.
+  3. Align Header/home labels so “Get started” and the H1 describe the same four/five-channel first week, not “social media” alone.
+- **Not preferred as the main fix:** A separate print-first CTA sibling on the home card while leaving the plan titled Social Media Plan — that splits the path without fixing the name/content mismatch.
+- **Do not:** Retarget Get started at `/guide/print` alone, or drop the socials/website steps.
 
 ## Shipped from the same review (2026-07)
 
