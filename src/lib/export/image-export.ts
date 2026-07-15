@@ -12,14 +12,19 @@ export interface ExportOptions {
   backgroundColor?: string | null;
 }
 
-function pngOptions(options: ExportOptions) {
+function pngOptions(node: HTMLElement, options: ExportOptions) {
   const opts: {
     pixelRatio: number;
     cacheBust: boolean;
     backgroundColor?: string;
+    width: number;
+    height: number;
   } = {
     pixelRatio: options.pixelRatio ?? 2,
     cacheBust: true,
+    // Pin layout box so aspect-ratio / flex clones don't collapse during capture
+    width: Math.max(1, Math.round(node.offsetWidth)),
+    height: Math.max(1, Math.round(node.offsetHeight)),
   };
   if (options.backgroundColor !== null) {
     opts.backgroundColor = options.backgroundColor ?? "#ffffff";
@@ -60,11 +65,12 @@ export async function exportNodeAsPng(
   filename: string,
   options: ExportOptions = {},
 ): Promise<void> {
+  const opts = pngOptions(node, options);
   // Prefer toBlob — avoids giant data URLs and CSP-blocked fetch(data:)
-  const blob = await toBlob(node, pngOptions(options));
+  const blob = await toBlob(node, opts);
   if (!blob || blob.size === 0) {
     // Fallback when toBlob returns null (some older WebKit paths)
-    const dataUrl = await toPng(node, pngOptions(options));
+    const dataUrl = await toPng(node, opts);
     saveAs(dataUrlToBlob(dataUrl), filename);
     return;
   }
@@ -83,16 +89,14 @@ export async function exportNodeAsBlob(
   node: HTMLElement,
   options: ExportOptions = {},
 ): Promise<Blob> {
-  const blob = await toBlob(node, {
-    ...pngOptions(options),
+  const opts = {
+    ...pngOptions(node, options),
     pixelRatio: options.pixelRatio ?? 1,
-  });
+  };
+  const blob = await toBlob(node, opts);
   if (blob && blob.size > 0) return blob;
 
-  const dataUrl = await toPng(node, {
-    ...pngOptions(options),
-    pixelRatio: options.pixelRatio ?? 1,
-  });
+  const dataUrl = await toPng(node, opts);
   return dataUrlToBlob(dataUrl);
 }
 

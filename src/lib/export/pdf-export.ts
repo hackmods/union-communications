@@ -24,8 +24,22 @@ export async function nodeToPdf(
   widthInches = 8.5,
   heightInches = 11,
   pixelRatio = 2,
+  backgroundColor?: string,
 ): Promise<void> {
   const { toPng } = await import("html-to-image");
-  const dataUrl = await toPng(node, { pixelRatio, cacheBust: true });
+  const dataUrl = await toPng(node, {
+    pixelRatio,
+    cacheBust: true,
+    width: Math.max(1, Math.round(node.offsetWidth)),
+    height: Math.max(1, Math.round(node.offsetHeight)),
+    backgroundColor:
+      backgroundColor ??
+      (() => {
+        const computed = getComputedStyle(node).backgroundColor;
+        return !computed || computed === "rgba(0, 0, 0, 0)" || computed === "transparent"
+          ? "#ffffff"
+          : computed;
+      })(),
+  });
   await exportFlyerPdf(dataUrl, filename, widthInches, heightInches);
 }
