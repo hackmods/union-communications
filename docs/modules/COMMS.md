@@ -73,6 +73,8 @@ v1: all public. Phase 1+: optional premium templates behind login; core tools st
 ## Key Components
 
 - `src/lib/export/image-export.ts` — PNG/SVG/ZIP export
+- `src/lib/export/office-export.ts` — client-side DOCX (docxtemplater) / XLSX (ExcelJS); lazy-loaded on export click; templates under `public/templates/office/`
+- `src/components/tools/OfficeExportButton.tsx` — shared Word/Excel download control
 - `src/lib/templates/website/generate-website-zip.ts` — static site ZIP generator
-- `src/components/tools/*` — upload, contrast, consent, undo/redo
+- `src/components/tools/*` — upload, contrast, consent, undo/redo, office export
 - `src/store/brand-store.ts` — brand state via DataAdapter

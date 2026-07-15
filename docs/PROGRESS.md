@@ -183,6 +183,13 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Optional QR + support URL footer; local Brand Kit lockup when theme established
 - [x] PNG/PDF export; EN/FR i18n; home boards channel + header nav
 
+## Client Office Export (DOCX/XLSX) (2026-07-14)
+
+- [x] `src/lib/export/office-export.ts` — browser-only DOCX (docxtemplater + pizzip) and XLSX (ExcelJS); dynamic import on export click
+- [x] Sample templates at `public/templates/office/{docx,xlsx}/`
+- [x] `OfficeExportButton` + EN/FR download labels; reuses `downloadBlob` / `formatFilename`
+- [x] Unit tests for template cache + render/download path
+
 ## Union Boards Guide Expansion (2026-07-11)
 
 - [x] Bare-minimum board zones: header, socials/QR, health & safety, LEC list, events/rotating

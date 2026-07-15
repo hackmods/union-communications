@@ -10,7 +10,8 @@ alwaysApply: false
 Public-facing guides and image generation tools. v1 shipped as static export.
 
 ## Rules
-- All image processing client-side (html-to-image, JSZip, jsPDF)
+- All image/document processing client-side (html-to-image, JSZip, jsPDF, docxtemplater, ExcelJS)
+- Office exports via `src/lib/export/office-export.ts` + `OfficeExportButton` — lazy-import heavy libs on click; static templates in `public/templates/office/`
 - Member photo uploads require `ConsentModal` confirmation
 - Colour pickers must show `ContrastChecker` warnings
 - Tool pages use `useUndoRedo` for edit history
