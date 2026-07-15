@@ -18,6 +18,7 @@ import {
 } from "@/types/website-template";
 import { saveAs } from "file-saver";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
+import { PageShell } from "@/components/layout/PageShell";
 
 export default function WebsiteTemplatePage() {
   const t = useTranslations("websiteTemplate");
@@ -116,7 +117,7 @@ export default function WebsiteTemplatePage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
+    <PageShell className="py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 text-gray-600">{t("subtitle")}</p>
       <p className="mt-3 rounded-md border border-opseu-blue/20 bg-opseu-blue/5 px-4 py-3 text-sm text-gray-700">
@@ -224,6 +225,6 @@ export default function WebsiteTemplatePage() {
       </div>
 
       <SourcesBlock pageId="websiteTemplate" title={ts("title")} intro={ts("intro")} />
-    </div>
+    </PageShell>
   );
 }

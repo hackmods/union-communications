@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
+import { PageShell } from "@/components/layout/PageShell";
 import { ShareThisTool } from "@/components/share/ShareThisTool";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { cn } from "@/lib/utils";
@@ -76,7 +77,7 @@ export function HomeContent() {
   const hubPublic = isOfficerHubPublic();
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 md:py-12">
+    <PageShell className="py-8 md:py-12">
       <section
         className={cn(
           "home-enter relative mb-10 overflow-hidden rounded-2xl border border-opseu-blue/15",
@@ -202,7 +203,7 @@ export function HomeContent() {
             <p className="mb-6 max-w-2xl text-base text-gray-600">
               {t("channelsIntro")}
             </p>
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="grid gap-6 sm:grid-cols-2">
               {channelOrder.map((channel) => (
                 <div
                   key={channel}
@@ -248,6 +249,6 @@ export function HomeContent() {
           </Button>
         </Link>
       </section>
-    </div>
+    </PageShell>
   );
 }

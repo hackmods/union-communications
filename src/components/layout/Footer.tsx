@@ -3,6 +3,8 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { PAGE_SHELL } from "@/lib/constants/page-shell";
+import { cn } from "@/lib/utils";
 
 export function Footer() {
   const t = useTranslations("footer");
@@ -10,8 +12,12 @@ export function Footer() {
 
   return (
     <footer className="mt-auto border-t border-gray-200 bg-white py-8">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 text-base text-gray-600 sm:flex-row sm:items-center sm:justify-between">
-        <div>
+      <div
+        className={cn(
+          PAGE_SHELL.chrome,
+          "flex flex-col gap-4 text-base text-gray-600 sm:flex-row sm:items-center sm:justify-between",
+        )}
+      >        <div>
           <p>{t("madeBy")}</p>
           <p className="text-opseu-blue">
             {t(isOfficerHubPublic() ? "privacy" : "privacyCommsOnly")}

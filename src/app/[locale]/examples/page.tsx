@@ -9,6 +9,7 @@ import {
   type ExampleCategory,
 } from "@/lib/constants/examples";
 import { ExampleCard } from "@/components/examples/ExampleCard";
+import { PageShell } from "@/components/layout/PageShell";
 import { cn } from "@/lib/utils";
 
 export default function ExamplesPage() {
@@ -21,7 +22,7 @@ export default function ExamplesPage() {
       : EXAMPLE_POSTS.filter((p) => p.category === filter);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12">
+    <PageShell className="py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 max-w-2xl text-gray-600">{t("subtitle")}</p>
 
@@ -74,6 +75,6 @@ export default function ExamplesPage() {
           {t("planLink")}
         </Link>
       </p>
-    </div>
+    </PageShell>
   );
 }

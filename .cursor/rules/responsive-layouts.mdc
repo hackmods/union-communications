@@ -1,6 +1,6 @@
 ---
-description: Thoughtful responsive layouts — no stretched mobile shells on desktop
-globs: src/app/**/*.tsx,src/components/**/*.tsx,src/app/globals.css
+description: Thoughtful responsive layouts — consistent shells, no stretched mobile
+globs: src/app/**/*.tsx,src/components/**/*.tsx,src/app/globals.css,src/lib/constants/page-shell.ts
 alwaysApply: false
 ---
 
@@ -8,46 +8,50 @@ alwaysApply: false
 
 UI must be **designed per breakpoint**, not a phone stack stretched until it looks sparse. If a wide viewport could belong to an unfinished mock, the layout failed.
 
+Home and tools must feel like the **same product width** when navigating — do not let `/` be a stray wider canvas than guides/tools.
+
+## Page shell scale (required)
+
+Use [`PageShell`](src/components/layout/PageShell.tsx) / [`PAGE_SHELL`](src/lib/constants/page-shell.ts) — do not invent one-off `max-w-*` for page frames.
+
+| Tier | Class | Use |
+|------|--------|-----|
+| `chrome` | `max-w-7xl` | Header, footer, hub nav/banner only |
+| `wide` | `max-w-5xl` | Home, examples, multi-panel tools (default) |
+| `read` | `max-w-3xl` | Guides, privacy, long-form |
+| `focus` | `max-w-2xl` | Brand kit, manifesto, forms |
+
+Within a shell, still constrain body copy (`max-w-prose` / `max-w-xl`) when needed. Adapt grids at `sm`/`md`/`lg` so `wide` does not become four cramped columns — prefer intentional density (e.g. home channels: 2×2, not 4 skinny cols).
+
 ## Hard rejects (fix before shipping)
 
-- **Stretched mobile shell** — same single column, same left-pinned blocks, growing empty space on the right as the viewport widens
-- **Orphan empty containers** — full-width cards/boxes whose content is a short left-aligned list or sentence with a dead zone filling the rest
-- **Unbounded measure** — body copy running >~65–75ch without a readable `max-w-*` / prose constraint
-- **Chrome vs content mismatch** — header/footer edge-to-edge while main content is a narrow island with no shared align/grid rhythm
-- **Breakpoint blindness** — only `px-4` + `max-w-*` and no intentional change at `sm` / `md` / `lg` (columns, split intro, CTA placement, density)
-- **CTA row as afterthought** — primary/secondary buttons left-dumped with no wrap, stack, or alignment plan across widths
+- **Stray wide home** — marketing/home at `max-w-7xl` while tools/guides sit at `5xl`/`3xl`
+- **Stretched mobile shell** — same single column, left-pinned blocks, growing empty space as the viewport widens
+- **Orphan empty containers** — full-width cards whose content is a short left-aligned list with a dead zone filling the rest
+- **Unbounded measure** — body copy running >~65–75ch without a readable constraint
+- **Breakpoint blindness** — only `px-4` + `max-w-*` and no intentional change at `sm` / `md` / `lg`
+- **CTA row as afterthought** — buttons left-dumped with no wrap/stack plan across widths
 
 ## Do this instead
 
-1. **Compose for desktop, stack for mobile** — at `md+`, use real structure: two-column intro + aside, step grid, linked resource row, split title/actions — not one endless vertical strip
-2. **Fill or constrain** — either content uses the width (grid/columns/sidebar) or the surface shrinks to the content; never a wide empty card
-3. **Shared horizontal system** — page shell, nav inner, and main share the same max-width + horizontal padding so edges align
-4. **Readable type** — titles can span; body and lists stay on a readable measure (`max-w-prose` / `max-w-2xl` / `max-w-3xl` as fits the page type)
-5. **Verify three widths** — ~375, ~768, ~1280: each must look intentional, not “scaled empty”
-
-## Guide / long-read pages
-
-Prefer a clear reading column; if you keep a wide shell, put density in a planned second column or resource rail — do not leave gray/white boxes mostly empty.
+1. **Pick a shell tier first**, then compose for desktop / stack for mobile
+2. **Fill or constrain** — use the width (grid/columns/rail) or shrink the surface; never a wide empty card
+3. **Chrome vs body** — chrome may be `7xl`; page body uses `wide`/`read`/`focus`. Edges share `px-4`; do not mix random max-widths for the same page type
+4. **Verify three widths** — ~375, ~768, ~1280: each must look intentional
 
 ```tsx
-// ❌ BAD — mobile stack scaled up; card is mostly void
-<div className="mx-auto max-w-5xl px-4">
-  <Card><ul><li>One link</li><li>Two link</li></ul></Card>
-</div>
+// ❌ BAD — home wider than every other public page
+<div className="mx-auto max-w-7xl px-4">…
 
-// ✅ GOOD — measure for copy; adjacent density when width allows
-<div className="mx-auto max-w-3xl px-4 md:max-w-5xl">
-  <div className="md:grid md:grid-cols-[1fr_14rem] md:gap-8">
-    <div className="max-w-prose">…</div>
-    <aside>…related links…</aside>
-  </div>
-</div>
+// ✅ GOOD
+<PageShell className="py-8 md:py-12">…
+<PageShell size="read" className="py-12">… // guides
 ```
 
 ## Checklist (any new/changed page or major layout)
 
+- [ ] Shell tier matches page type (`wide` / `read` / `focus`)
 - [ ] Desktop is not just mobile with more margin
 - [ ] No full-bleed empty regions inside bordered/filled surfaces
 - [ ] Body measure stays readable
-- [ ] Nav/content horizontal rhythm aligns
 - [ ] Spot-checked phone / tablet / desktop

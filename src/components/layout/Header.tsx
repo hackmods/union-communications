@@ -6,6 +6,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { LanguageToggle } from "./LanguageToggle";
 import { DisplaySettingsMenu } from "./DisplaySettingsMenu";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
@@ -110,8 +111,12 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-3">
-        <Link href="/" className="flex items-center gap-2 font-bold text-opseu-blue">
+      <div
+        className={cn(
+          PAGE_SHELL.chrome,
+          "flex flex-wrap items-center justify-between gap-4 py-3",
+        )}
+      >        <Link href="/" className="flex items-center gap-2 font-bold text-opseu-blue">
           <BrandLogo size="sm" />
           <span className="hidden sm:inline">{th("platformName")}</span>
         </Link>

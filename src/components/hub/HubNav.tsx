@@ -9,6 +9,7 @@ import { canInitiateHandoff } from "@/lib/handoff/package";
 import { canAccessGrievanceModule } from "@/lib/grievance/access";
 import type { HubModule, UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
+import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { Emoji } from "@/components/ui/Emoji";
 
 export function HubNav() {
@@ -57,8 +58,12 @@ export function HubNav() {
       className="border-b border-gray-200 bg-gray-50"
       aria-label={t("navLabel")}
     >
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-4 py-2 text-sm">
-        <Link
+      <div
+        className={cn(
+          PAGE_SHELL.chrome,
+          "flex flex-wrap items-center gap-2 py-2 text-sm",
+        )}
+      >        <Link
           href="/app"
           className="font-semibold text-opseu-dark hover:underline"
         >

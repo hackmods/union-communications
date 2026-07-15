@@ -1,5 +1,7 @@
 import { DemoSiteBanner } from "@/components/hub/DemoSiteBanner";
 import { HubNav } from "@/components/hub/HubNav";
+import { PAGE_SHELL } from "@/lib/constants/page-shell";
+import { cn } from "@/lib/utils";
 
 export default function AppLayout({
   children,
@@ -10,7 +12,7 @@ export default function AppLayout({
     <>
       <DemoSiteBanner />
       <HubNav />
-      <div className="mx-auto max-w-7xl px-4 py-8">{children}</div>
+      <div className={cn(PAGE_SHELL.chrome, "py-8")}>{children}</div>
     </>
   );
 }
