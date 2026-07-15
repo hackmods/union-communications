@@ -156,3 +156,24 @@ html[data-reduced-motion] *::after {
 .home-enter-delay-3 {
   animation-delay: 0.24s;
 }
+
+/* Equal-width CTA pairs (guide steps, tool footers, etc.) */
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.button-row > * {
+  flex: 1 1 calc(50% - 0.375rem);
+  min-width: 8rem;
+}
+
+.button-row > a {
+  display: flex;
+}
+
+.button-row > a > button,
+.button-row > button {
+  width: 100%;
+}

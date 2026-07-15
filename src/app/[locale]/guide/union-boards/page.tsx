@@ -267,7 +267,7 @@ export default async function UnionBoardsGuidePage({
         </div>
       </section>
 
-      <div className="mt-8 flex flex-wrap gap-3">
+      <div className="button-row mt-8">
         <Link href="/tools/board-notice">
           <Button>{t("toolCta")}</Button>
         </Link>

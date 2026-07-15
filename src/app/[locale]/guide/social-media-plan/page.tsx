@@ -78,7 +78,7 @@ export default async function SocialMediaPlanPage({
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <div className="mt-4 flex flex-wrap gap-3">
+            <div className="button-row mt-4">
               <Link href={stepLinks[key].primary}>
                 <Button size="sm">{t(`steps.${key}.cta`)}</Button>
               </Link>

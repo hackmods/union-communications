@@ -33,7 +33,7 @@ export default async function PrintGuidePage({
         ))}
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-3">
+      <div className="button-row mt-8">
         <Link href="/tools/flyer-maker">
           <Button variant="outline">{nav("flyerMaker")}</Button>
         </Link>

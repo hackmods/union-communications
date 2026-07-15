@@ -67,7 +67,7 @@ export default async function PhotoConsentGuidePage({
         </Card>
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-3">
+      <div className="button-row mt-8">
         <Link href="/tools/graphic-maker">
           <Button variant="outline">{nav("graphicMaker")}</Button>
         </Link>
