@@ -130,13 +130,12 @@ html[data-reduced-motion] *::after {
   }
 }
 
+/* Transform-only — opacity fades make axe/color-contrast fail mid-animation */
 @keyframes home-enter {
   from {
-    opacity: 0;
     transform: translateY(0.75rem);
   }
   to {
-    opacity: 1;
     transform: translateY(0);
   }
 }
@@ -155,6 +154,12 @@ html[data-reduced-motion] *::after {
 
 .home-enter-delay-3 {
   animation-delay: 0.24s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-enter {
+    animation: none;
+  }
 }
 
 /* Equal-width CTA pairs (guide steps, tool footers, etc.) */

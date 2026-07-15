@@ -125,7 +125,7 @@ export function HomeContent() {
                 {t("pathOfficerDescComingSoon")}
               </p>
             </div>
-            <p className="shrink-0 text-xs font-semibold uppercase tracking-wide text-gray-500">
+            <p className="shrink-0 text-xs font-semibold uppercase tracking-wide text-gray-700">
               {t("pathOfficerCtaComingSoon")}
             </p>
           </Callout>
