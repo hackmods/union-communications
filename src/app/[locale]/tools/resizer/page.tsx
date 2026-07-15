@@ -26,6 +26,13 @@ import {
   type ResizerFormatId,
 } from "@/lib/constants/resizer-formats";
 import {
+  logoContainPlacementBox,
+  placementToFlexClass,
+  placementToObjectPosition,
+  RESIZER_PLACEMENTS,
+  type ResizerPlacement,
+} from "@/lib/utils/resizer-layout";
+import {
   LocalLogoPlate,
   type LogoShape,
 } from "@/components/brand/LocalLogoPlate";
@@ -44,6 +51,7 @@ interface ResizerState {
   sourceMode: SourceMode;
   shape: LogoShape;
   fit: FitMode;
+  placement: ResizerPlacement;
   overlayText: string;
   showSafeZones: boolean;
   primaryColor: string;
@@ -63,54 +71,110 @@ const PRESET_IDS: ResizerFormatId[] = [
   "custom",
 ];
 
+const PLACEMENT_LABEL_KEY: Record<
+  ResizerPlacement,
+  | "placementTopLeft"
+  | "placementTopCenter"
+  | "placementTopRight"
+  | "placementMiddleLeft"
+  | "placementCenter"
+  | "placementMiddleRight"
+  | "placementBottomLeft"
+  | "placementBottomCenter"
+  | "placementBottomRight"
+> = {
+  "top-left": "placementTopLeft",
+  "top-center": "placementTopCenter",
+  "top-right": "placementTopRight",
+  "middle-left": "placementMiddleLeft",
+  center: "placementCenter",
+  "middle-right": "placementMiddleRight",
+  "bottom-left": "placementBottomLeft",
+  "bottom-center": "placementBottomCenter",
+  "bottom-right": "placementBottomRight",
+};
+
 function FormatCanvasContent({
   state,
+  format,
   imageUrl,
   localNumber,
   subText,
   uploadPrompt,
 }: {
   state: ResizerState;
+  format: ResizerFormat;
   imageUrl?: string;
   localNumber: string;
   subText: string;
   uploadPrompt?: string;
 }) {
   const overlayBg = "rgba(0,0,0,0.6)";
+  const objectPosition = placementToObjectPosition(state.placement);
+  const coverFlex = placementToFlexClass(state.placement);
+  const containBox =
+    state.sourceMode === "logo" && state.fit === "contain"
+      ? logoContainPlacementBox(
+          format.width,
+          format.height,
+          state.shape,
+          state.placement,
+        )
+      : null;
 
   return (
     <>
       {state.sourceMode === "logo" ? (
-        <div
-          className={cn(
-            "absolute inset-0 flex items-center justify-center overflow-hidden",
-            state.fit === "cover" && "p-0",
-            state.fit === "contain" && "p-[8%]",
-          )}
-          style={{ backgroundColor: state.primaryColor }}
-        >
+        state.fit === "contain" && containBox ? (
+          <div
+            className="absolute inset-0 overflow-hidden"
+            style={{ backgroundColor: state.primaryColor }}
+          >
+            <div
+              className="absolute overflow-hidden"
+              style={{
+                left: `${containBox.leftPct}%`,
+                top: `${containBox.topPct}%`,
+                width: `${containBox.widthPct}%`,
+                height: `${containBox.heightPct}%`,
+              }}
+            >
+              <LocalLogoPlate
+                size="fluid"
+                shape={state.shape}
+                primaryColor={state.primaryColor}
+                secondaryColor={state.secondaryColor}
+                localNumber={localNumber}
+                subText={subText}
+                className="!h-full !w-full !max-h-none !max-w-none"
+              />
+            </div>
+          </div>
+        ) : (
           <div
             className={cn(
-              state.fit === "cover" && "min-h-full min-w-full",
-              state.fit === "contain" && "max-h-full max-w-full",
+              "absolute inset-0 flex overflow-hidden",
+              coverFlex,
             )}
+            style={{ backgroundColor: state.primaryColor }}
           >
-            <LocalLogoPlate
-              size="fluid"
-              shape={state.shape}
-              primaryColor={state.primaryColor}
-              secondaryColor={state.secondaryColor}
-              localNumber={localNumber}
-              subText={subText}
-              className={cn(
-                state.fit === "cover" &&
-                  (state.shape === "rectangle"
+            <div className="min-h-full min-w-full">
+              <LocalLogoPlate
+                size="fluid"
+                shape={state.shape}
+                primaryColor={state.primaryColor}
+                secondaryColor={state.secondaryColor}
+                localNumber={localNumber}
+                subText={subText}
+                className={cn(
+                  state.shape === "rectangle"
                     ? "!max-h-none !max-w-none h-full min-h-full w-auto min-w-full"
-                    : "!max-h-none !max-w-none min-h-full min-w-full"),
-              )}
-            />
+                    : "!max-h-none !max-w-none min-h-full min-w-full",
+                )}
+              />
+            </div>
           </div>
-        </div>
+        )
       ) : imageUrl ? (
         <div
           className="absolute inset-0 overflow-hidden"
@@ -124,6 +188,7 @@ function FormatCanvasContent({
             className={
               state.fit === "cover" ? "object-cover" : "object-contain"
             }
+            style={{ objectPosition }}
           />
         </div>
       ) : (
@@ -195,6 +260,7 @@ function FormatFrame({
     >
       <FormatCanvasContent
         state={state}
+        format={format}
         imageUrl={imageUrl}
         localNumber={localNumber}
         subText={subText}
@@ -225,6 +291,7 @@ export default function ResizerPage() {
     sourceMode: "logo",
     shape: "square",
     fit: "contain",
+    placement: "center",
     overlayText: "",
     showSafeZones: true,
     primaryColor: brandKit.primaryColor,
@@ -245,6 +312,7 @@ export default function ResizerPage() {
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
       fit: "contain",
+      placement: "center",
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot after hydrate
   }, [hydrated]);
@@ -476,6 +544,50 @@ export default function ResizerPage() {
                 );
               })}
             </div>
+            <p className="text-sm text-gray-600">
+              {state.fit === "contain" ? t("fitContainHint") : t("fitCoverHint")}
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <p className="text-sm font-medium text-opseu-dark">
+              {t("placement")}
+            </p>
+            <div
+              className="grid w-fit grid-cols-3 gap-1.5"
+              role="radiogroup"
+              aria-label={t("placement")}
+            >
+              {RESIZER_PLACEMENTS.map((placement) => {
+                const selected = state.placement === placement;
+                return (
+                  <button
+                    key={placement}
+                    type="button"
+                    role="radio"
+                    aria-checked={selected}
+                    aria-label={t(PLACEMENT_LABEL_KEY[placement])}
+                    title={t(PLACEMENT_LABEL_KEY[placement])}
+                    onClick={() => setState({ ...state, placement })}
+                    className={cn(
+                      "flex h-9 w-9 items-center justify-center rounded border transition-colors",
+                      selected
+                        ? "border-opseu-blue bg-opseu-blue text-white"
+                        : "border-gray-300 bg-white text-gray-500 hover:border-opseu-blue/60",
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "h-2 w-2 rounded-sm",
+                        selected ? "bg-white" : "bg-current",
+                      )}
+                      aria-hidden="true"
+                    />
+                  </button>
+                );
+              })}
+            </div>
+            <p className="text-sm text-gray-600">{t("placementHint")}</p>
           </div>
 
           <Input
