@@ -4,13 +4,18 @@ import {
   getPreset,
   OFFICE_PRESETS,
   paletteForColorKey,
+  presetsByTier,
   resolveOfficeTemplateUrls,
 } from "./office-templates";
 
 describe("office-templates", () => {
-  it("lists three recommended presets", () => {
-    expect(OFFICE_PRESETS).toHaveLength(3);
-    expect(OFFICE_PRESETS.every((p) => p.recommended)).toBe(true);
+  it("lists quick starts and campaign packs", () => {
+    expect(presetsByTier("quick").map((p) => p.id)).toEqual([
+      "letterhead",
+      "simple-letter",
+    ]);
+    expect(presetsByTier("pack")).toHaveLength(3);
+    expect(OFFICE_PRESETS).toHaveLength(5);
   });
 
   it("resolves color-variant template URLs", () => {
@@ -21,10 +26,15 @@ describe("office-templates", () => {
     });
   });
 
-  it("omits xlsx when preset has no spreadsheet", () => {
-    const preset = getPreset("poster-announcement");
-    expect(resolveOfficeTemplateUrls(preset, "blue")).toEqual({
-      docx: "/templates/office/docx/poster-announcement_blue.docx",
+  it("omits xlsx for letterhead and simple-letter", () => {
+    expect(resolveOfficeTemplateUrls(getPreset("letterhead"), "brand")).toEqual({
+      docx: "/templates/office/docx/letterhead_brand.docx",
+      xlsx: undefined,
+    });
+    expect(
+      resolveOfficeTemplateUrls(getPreset("simple-letter"), "blue"),
+    ).toEqual({
+      docx: "/templates/office/docx/simple-letter_blue.docx",
       xlsx: undefined,
     });
   });

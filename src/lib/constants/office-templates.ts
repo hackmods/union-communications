@@ -6,9 +6,13 @@
 export type OfficeColorKey = "brand" | "red" | "blue";
 
 export type OfficePresetId =
+  | "letterhead"
+  | "simple-letter"
   | "formal-grievance"
   | "quick-event"
   | "poster-announcement";
+
+export type OfficePresetTier = "quick" | "pack";
 
 export type FieldDef = {
   key: string;
@@ -21,11 +25,14 @@ export type OfficePreset = {
   id: OfficePresetId;
   titleKey: string;
   blurbKey: string;
+  tier: OfficePresetTier;
   recommended?: boolean;
   fields: FieldDef[];
   outputs: { docx: boolean; xlsx: boolean; pptx: boolean };
   /** Filename stem before _{color}.{ext} */
   fileStem: string;
+  /** Short structure lines for the preview panel (i18n keys) */
+  structureKeys: string[];
 };
 
 export type BrandPalette = {
@@ -63,12 +70,86 @@ export const OFFICE_COLOR_KEYS: OfficeColorKey[] = ["brand", "red", "blue"];
 
 export const OFFICE_PRESETS: OfficePreset[] = [
   {
+    id: "letterhead",
+    titleKey: "presets.letterhead.title",
+    blurbKey: "presets.letterhead.blurb",
+    tier: "quick",
+    recommended: true,
+    fileStem: "letterhead",
+    outputs: { docx: true, xlsx: false, pptx: true },
+    structureKeys: [
+      "structure.letterheadDocx",
+      "structure.letterheadPptx",
+    ],
+    fields: [
+      {
+        key: "contactName",
+        labelKey: "fields.contactName",
+        defaultValue: "Local executive committee",
+      },
+      {
+        key: "body",
+        labelKey: "fields.body",
+        multiline: true,
+        defaultValue: "Write your notice or leave blank for blank stationery.",
+      },
+    ],
+  },
+  {
+    id: "simple-letter",
+    titleKey: "presets.simpleLetter.title",
+    blurbKey: "presets.simpleLetter.blurb",
+    tier: "quick",
+    recommended: true,
+    fileStem: "simple-letter",
+    outputs: { docx: true, xlsx: false, pptx: true },
+    structureKeys: [
+      "structure.simpleLetterDocx",
+      "structure.simpleLetterPptx",
+    ],
+    fields: [
+      {
+        key: "date",
+        labelKey: "fields.date",
+        defaultValue: "July 15, 2026",
+      },
+      {
+        key: "memberName",
+        labelKey: "fields.memberName",
+        defaultValue: "Member name",
+      },
+      {
+        key: "body",
+        labelKey: "fields.body",
+        multiline: true,
+        defaultValue:
+          "Thank you for speaking with your steward. Here is a short written follow-up.",
+      },
+      {
+        key: "stewardName",
+        labelKey: "fields.stewardName",
+        defaultValue: "Steward name",
+      },
+      {
+        key: "contactName",
+        labelKey: "fields.contactName",
+        defaultValue: "Chief steward",
+      },
+    ],
+  },
+  {
     id: "formal-grievance",
     titleKey: "presets.formalGrievance.title",
     blurbKey: "presets.formalGrievance.blurb",
+    tier: "pack",
     recommended: true,
     fileStem: "formal-grievance",
     outputs: { docx: true, xlsx: true, pptx: true },
+    structureKeys: [
+      "structure.formalDocx",
+      "structure.formalXlsx",
+      "structure.formalPptx",
+    ],
     fields: [
       {
         key: "title",
@@ -108,9 +189,15 @@ export const OFFICE_PRESETS: OfficePreset[] = [
     id: "quick-event",
     titleKey: "presets.quickEvent.title",
     blurbKey: "presets.quickEvent.blurb",
+    tier: "pack",
     recommended: true,
     fileStem: "quick-event",
     outputs: { docx: true, xlsx: true, pptx: true },
+    structureKeys: [
+      "structure.eventDocx",
+      "structure.eventXlsx",
+      "structure.eventPptx",
+    ],
     fields: [
       {
         key: "title",
@@ -154,9 +241,14 @@ export const OFFICE_PRESETS: OfficePreset[] = [
     id: "poster-announcement",
     titleKey: "presets.posterAnnouncement.title",
     blurbKey: "presets.posterAnnouncement.blurb",
+    tier: "pack",
     recommended: true,
     fileStem: "poster-announcement",
     outputs: { docx: true, xlsx: false, pptx: true },
+    structureKeys: [
+      "structure.posterDocx",
+      "structure.posterPptx",
+    ],
     fields: [
       {
         key: "title",
@@ -194,6 +286,10 @@ export function getPreset(id: OfficePresetId): OfficePreset {
     throw new Error(`Unknown office preset: ${id}`);
   }
   return found;
+}
+
+export function presetsByTier(tier: OfficePresetTier): OfficePreset[] {
+  return OFFICE_PRESETS.filter((p) => p.tier === tier);
 }
 
 export function defaultFieldsForPreset(

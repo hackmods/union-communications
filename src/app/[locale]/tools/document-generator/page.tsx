@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -13,8 +14,8 @@ import {
   defaultFieldsForPreset,
   getPreset,
   OFFICE_COLOR_KEYS,
-  OFFICE_PRESETS,
   paletteForColorKey,
+  presetsByTier,
   resolveOfficeTemplateUrls,
   type OfficeColorKey,
   type OfficePresetId,
@@ -29,7 +30,10 @@ import {
   renderXlsx,
 } from "@/lib/export/office-export";
 import { fillForPreset } from "@/lib/export/office-fills";
+import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { cn, formatFilename, resolveLocalNumber } from "@/lib/utils";
+import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 
 export interface GeneratorState {
   presetId: OfficePresetId;
@@ -37,11 +41,13 @@ export interface GeneratorState {
   includeDocx: boolean;
   includeXlsx: boolean;
   includePptx: boolean;
+  includeLogo: boolean;
   fields: Record<string, string>;
 }
 
 function initialState(
-  presetId: OfficePresetId = "quick-event",
+  presetId: OfficePresetId = "simple-letter",
+  includeLogo = false,
 ): GeneratorState {
   const preset = getPreset(presetId);
   return {
@@ -50,18 +56,89 @@ function initialState(
     includeDocx: true,
     includeXlsx: preset.outputs.xlsx,
     includePptx: true,
+    includeLogo,
     fields: defaultFieldsForPreset(preset),
   };
+}
+
+function GalleryGrid({
+  ids,
+  selected,
+  onSelect,
+  t,
+}: {
+  ids: OfficePresetId[];
+  selected: OfficePresetId;
+  onSelect: (id: OfficePresetId) => void;
+  t: ReturnType<typeof useTranslations>;
+}) {
+  return (
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {ids.map((id) => {
+        const p = getPreset(id);
+        const isSelected = selected === id;
+        return (
+          <button
+            key={id}
+            type="button"
+            onClick={() => onSelect(id)}
+            className={cn(
+              "rounded-xl border p-4 text-left transition-colors",
+              isSelected
+                ? "border-opseu-blue bg-opseu-blue/5 ring-2 ring-opseu-blue/30"
+                : "border-gray-200 bg-white hover:border-opseu-blue/40",
+            )}
+            aria-pressed={isSelected}
+          >
+            <p className="font-semibold text-opseu-dark">{t(p.titleKey)}</p>
+            <p className="mt-1 text-sm text-gray-600">{t(p.blurbKey)}</p>
+          </button>
+        );
+      })}
+    </div>
+  );
 }
 
 export default function DocumentGeneratorPage() {
   const t = useTranslations("documentGenerator");
   const tc = useTranslations("common");
   const brandKit = useBrandStore((s) => s.brandKit);
+  const hydrated = useBrandStore((s) => s.hydrated);
+  const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
+  const themeEstablished = isBrandThemeEstablished(
+    brandKit,
+    onboardingComplete,
+  );
+  const logoDefaultApplied = useRef(false);
+
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<GeneratorState>(initialState());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [logoPreviewSrc, setLogoPreviewSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!hydrated || logoDefaultApplied.current) return;
+    logoDefaultApplied.current = true;
+    if (themeEstablished) {
+      setState((prev) => ({ ...prev, includeLogo: true }));
+    }
+  }, [hydrated, themeEstablished, setState]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      if (!state.includeLogo) {
+        setLogoPreviewSrc(null);
+        return;
+      }
+      const logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });
+      if (!cancelled) setLogoPreviewSrc(logo?.src ?? null);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [brandKit, state.includeLogo]);
 
   const preset = getPreset(state.presetId);
   const urls = resolveOfficeTemplateUrls(preset, state.colorKey);
@@ -75,6 +152,7 @@ export default function DocumentGeneratorPage() {
 
   const tagData: Record<string, string> = {
     localNumber: resolveLocalNumber(localNumber),
+    contactName: state.fields.contactName ?? "",
     ...state.fields,
   };
 
@@ -109,24 +187,36 @@ export default function DocumentGeneratorPage() {
     }
   }
 
-  const pptxOpts = {
-    title: state.fields.title ?? "",
-    subtitle: state.fields.subtitle ?? state.fields.headline,
-    body: state.fields.body,
-    localLabel,
-    palette,
-    fields: tagData,
-  };
+  async function resolveLogo(): Promise<BrandLogoBytes | null> {
+    return resolveBrandLogoBytes(brandKit, {
+      includeLogo: state.includeLogo,
+    });
+  }
+
+  function pptxOpts(logo: BrandLogoBytes | null) {
+    return {
+      presetId: state.presetId,
+      title: state.fields.title ?? "",
+      subtitle: state.fields.subtitle ?? state.fields.headline,
+      body: state.fields.body,
+      localLabel,
+      palette,
+      fields: tagData,
+      logo,
+    };
+  }
 
   function handleDownloadDocx() {
     if (!urls.docx) return;
-    void run(() =>
-      exportDocx({
+    void run(async () => {
+      const logo = await resolveLogo();
+      await exportDocx({
         templateUrl: urls.docx!,
         data: tagData,
         filename: formatFilename(preset.fileStem, localNumber, "docx"),
-      }),
-    );
+        logo,
+      });
+    });
   }
 
   function handleDownloadXlsx() {
@@ -141,21 +231,27 @@ export default function DocumentGeneratorPage() {
   }
 
   function handleDownloadPptx() {
-    void run(() =>
-      exportPptx({
-        ...pptxOpts,
+    void run(async () => {
+      const logo = await resolveLogo();
+      await exportPptx({
+        ...pptxOpts(logo),
         filename: formatFilename(preset.fileStem, localNumber, "pptx"),
-      }),
-    );
+      });
+    });
   }
 
   function handleDownloadZip() {
     void run(async () => {
+      const logo = await resolveLogo();
       const files: { name: string; blob: Promise<Blob> | Blob }[] = [];
       if (state.includeDocx && urls.docx) {
         files.push({
           name: formatFilename(preset.fileStem, localNumber, "docx"),
-          blob: renderDocx({ templateUrl: urls.docx, data: tagData }),
+          blob: renderDocx({
+            templateUrl: urls.docx,
+            data: tagData,
+            logo,
+          }),
         });
       }
       if (state.includeXlsx && urls.xlsx) {
@@ -170,7 +266,7 @@ export default function DocumentGeneratorPage() {
       if (state.includePptx) {
         files.push({
           name: formatFilename(preset.fileStem, localNumber, "pptx"),
-          blob: renderPptx(pptxOpts),
+          blob: renderPptx(pptxOpts(logo)),
         });
       }
       if (files.length === 0) {
@@ -187,6 +283,9 @@ export default function DocumentGeneratorPage() {
     });
   }
 
+  const quick = presetsByTier("quick");
+  const packs = presetsByTier("pack");
+
   return (
     <PageShell className="py-8 md:py-12">
       <div className="mb-8 max-w-prose">
@@ -196,37 +295,34 @@ export default function DocumentGeneratorPage() {
         <p className="mt-2 text-gray-600">{t("subtitle")}</p>
       </div>
 
-      <section className="mb-8" aria-labelledby="recommended-heading">
+      <section className="mb-8" aria-labelledby="quick-heading">
         <h2
-          id="recommended-heading"
+          id="quick-heading"
           className="mb-3 text-lg font-semibold text-opseu-dark"
         >
-          {t("recommended")}
+          {t("quickStarts")}
         </h2>
-        <div className="grid gap-3 sm:grid-cols-3">
-          {OFFICE_PRESETS.map((p) => {
-            const selected = state.presetId === p.id;
-            return (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => applyPreset(p.id)}
-                className={cn(
-                  "rounded-xl border p-4 text-left transition-colors",
-                  selected
-                    ? "border-opseu-blue bg-opseu-blue/5 ring-2 ring-opseu-blue/30"
-                    : "border-gray-200 bg-white hover:border-opseu-blue/40",
-                )}
-                aria-pressed={selected}
-              >
-                <p className="font-semibold text-opseu-dark">
-                  {t(p.titleKey)}
-                </p>
-                <p className="mt-1 text-sm text-gray-600">{t(p.blurbKey)}</p>
-              </button>
-            );
-          })}
-        </div>
+        <GalleryGrid
+          ids={quick.map((p) => p.id)}
+          selected={state.presetId}
+          onSelect={applyPreset}
+          t={t}
+        />
+      </section>
+
+      <section className="mb-8" aria-labelledby="packs-heading">
+        <h2
+          id="packs-heading"
+          className="mb-3 text-lg font-semibold text-opseu-dark"
+        >
+          {t("campaignPacks")}
+        </h2>
+        <GalleryGrid
+          ids={packs.map((p) => p.id)}
+          selected={state.presetId}
+          onSelect={applyPreset}
+          t={t}
+        />
       </section>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -238,7 +334,9 @@ export default function DocumentGeneratorPage() {
               canRedo={canRedo}
               onUndo={undo}
               onRedo={redo}
-              onReset={() => reset(initialState(state.presetId))}
+              onReset={() =>
+                reset(initialState(state.presetId, state.includeLogo))
+              }
             />
           </div>
 
@@ -255,7 +353,7 @@ export default function DocumentGeneratorPage() {
               value={state.presetId}
               onChange={(e) => applyPreset(e.target.value as OfficePresetId)}
             >
-              {OFFICE_PRESETS.map((p) => (
+              {[...quick, ...packs].map((p) => (
                 <option key={p.id} value={p.id}>
                   {t(p.titleKey)}
                 </option>
@@ -300,6 +398,30 @@ export default function DocumentGeneratorPage() {
               })}
             </div>
           </fieldset>
+
+          <div className="space-y-2">
+            <label className="inline-flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={state.includeLogo}
+                onChange={(e) =>
+                  setState({ ...state, includeLogo: e.target.checked })
+                }
+              />
+              {t("includeLogo")}
+            </label>
+            {!themeEstablished ? (
+              <p className="text-xs text-gray-500">
+                {t("setupBrandPrompt")}{" "}
+                <Link
+                  href="/brand-kit"
+                  className="font-medium text-opseu-blue underline"
+                >
+                  {t("setupBrandLink")}
+                </Link>
+              </p>
+            ) : null}
+          </div>
 
           <fieldset>
             <legend className="mb-2 text-sm font-medium text-gray-700">
@@ -346,7 +468,9 @@ export default function DocumentGeneratorPage() {
           </fieldset>
 
           <div className="space-y-3 border-t border-gray-100 pt-4">
-            <p className="text-sm font-medium text-gray-700">{t("fieldsHeading")}</p>
+            <p className="text-sm font-medium text-gray-700">
+              {t("fieldsHeading")}
+            </p>
             {preset.fields.map((field) =>
               field.multiline ? (
                 <Textarea
@@ -418,47 +542,81 @@ export default function DocumentGeneratorPage() {
           <CardTitle>{t("preview")}</CardTitle>
           <p className="text-sm text-gray-600">{t("previewHint")}</p>
 
-          <div
-            className="overflow-hidden rounded-lg border border-gray-200"
-            style={{ backgroundColor: palette.primary }}
-          >
-            <div
-              className="px-4 py-3 text-sm font-semibold text-white"
-              style={{ backgroundColor: palette.secondary }}
-            >
-              {localLabel}
-            </div>
-            <div className="space-y-2 p-5 text-white">
-              <p className="text-xs uppercase tracking-wide opacity-90">
-                {t(preset.titleKey)}
-              </p>
-              <p className="text-2xl font-bold leading-tight">
-                {state.fields.title || t("previewEmptyTitle")}
-              </p>
-              {(state.fields.subtitle || state.fields.headline) && (
-                <p className="text-lg opacity-95">
-                  {state.fields.subtitle || state.fields.headline}
-                </p>
-              )}
-              {state.fields.body ? (
-                <p className="text-sm opacity-90 whitespace-pre-wrap">
-                  {state.fields.body}
-                </p>
-              ) : null}
-              <div
-                className="mt-4 h-1.5 w-16 rounded"
-                style={{ backgroundColor: palette.accent }}
-              />
-            </div>
+          <div className="flex flex-wrap items-center gap-3">
+            {OFFICE_COLOR_KEYS.map((key) => {
+              const swatch = paletteForColorKey(key, {
+                primary: brandKit.primaryColor,
+                secondary: brandKit.secondaryColor,
+                accent: brandKit.accentColor,
+              });
+              return (
+                <span
+                  key={key}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 text-xs",
+                    key === state.colorKey
+                      ? "font-semibold text-opseu-dark"
+                      : "text-gray-500",
+                  )}
+                >
+                  <span
+                    className="h-3 w-3 rounded-sm border border-black/10"
+                    style={{ backgroundColor: swatch.primary }}
+                  />
+                  {t(`colors.${key}`)}
+                </span>
+              );
+            })}
           </div>
 
-          <dl className="grid grid-cols-2 gap-2 text-sm">
-            <div>
-              <dt className="text-gray-500">{t("previewColor")}</dt>
-              <dd className="font-medium text-opseu-dark">
-                {t(`colors.${state.colorKey}`)}
-              </dd>
-            </div>
+          {state.includeLogo && logoPreviewSrc ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={logoPreviewSrc}
+              alt=""
+              className="h-12 w-auto max-w-[180px] object-contain"
+            />
+          ) : null}
+
+          <div>
+            <p className="mb-2 text-sm font-medium text-gray-700">
+              {t("whatYouGet")}
+            </p>
+            <ul className="list-disc space-y-1 pl-5 text-sm text-gray-700">
+              {preset.structureKeys.map((key) => (
+                <li key={key}>{t(key)}</li>
+              ))}
+              {state.includeLogo ? <li>{t("structure.logo")}</li> : null}
+            </ul>
+          </div>
+
+          <dl className="space-y-2 border-t border-gray-100 pt-3 text-sm">
+            {state.fields.title ? (
+              <div>
+                <dt className="text-gray-500">{t("fields.title")}</dt>
+                <dd className="font-medium text-opseu-dark">
+                  {state.fields.title}
+                </dd>
+              </div>
+            ) : null}
+            {state.fields.memberName ? (
+              <div>
+                <dt className="text-gray-500">{t("fields.memberName")}</dt>
+                <dd className="font-medium text-opseu-dark">
+                  Dear {state.fields.memberName},
+                </dd>
+              </div>
+            ) : null}
+            {(state.fields.date || state.fields.location) && (
+              <div>
+                <dt className="text-gray-500">{t("previewWhenWhere")}</dt>
+                <dd className="font-medium text-opseu-dark">
+                  {[state.fields.date, state.fields.time, state.fields.location]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </dd>
+              </div>
+            )}
             <div>
               <dt className="text-gray-500">{t("previewFiles")}</dt>
               <dd className="font-medium text-opseu-dark">
@@ -472,11 +630,6 @@ export default function DocumentGeneratorPage() {
               </dd>
             </div>
           </dl>
-          {urls.docx ? (
-            <p className="break-all font-mono text-xs text-gray-500">
-              {urls.docx}
-            </p>
-          ) : null}
         </Card>
       </div>
     </PageShell>

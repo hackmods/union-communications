@@ -672,7 +672,9 @@
   },
   "documentGenerator": {
     "title": "Générateur de documents et diapositives",
-    "subtitle": "Fichiers Word, Excel et PowerPoint à l'image de votre marque — les thèmes de couleur changent le modèle de base; le texte remplit les {balises}. Tout reste sur votre appareil.",
+    "subtitle": "Lettres Word prêtes à l'emploi, suivis Excel et présentations PowerPoint. Les thèmes de couleur changent le modèle de base; le logo de la trousse de marque peut s'imprimer en en-tête. Tout reste sur votre appareil.",
+    "quickStarts": "Démarrages rapides",
+    "campaignPacks": "Trousses de campagne",
     "recommended": "Modèles recommandés",
     "settings": "Réglages",
     "designPreset": "Préréglage de conception",
@@ -683,6 +685,9 @@
       "red": "Rouge",
       "blue": "Bleu"
     },
+    "includeLogo": "Inclure le logo de la trousse de marque dans Word et PowerPoint",
+    "setupBrandPrompt": "Configurez votre trousse de marque pour l'en-tête.",
+    "setupBrandLink": "Ouvrir la trousse de marque",
     "outputs": "Inclure dans le ZIP",
     "outputDocx": "Word (.docx)",
     "outputXlsx": "Excel (.xlsx)",
@@ -690,24 +695,49 @@
     "fieldsHeading": "Texte du modèle",
     "downloadZip": "Télécharger en ZIP",
     "selectOutput": "Sélectionnez au moins un format.",
-    "preview": "Aperçu",
-    "previewHint": "Aperçu des couleurs du thème choisi. Les fichiers Office utilisent le chrome du modèle et les couleurs de thème PPT.",
+    "preview": "Ce que vous téléchargerez",
+    "previewHint": "Structure de la trousse choisie. Word/Excel utilisent le modèle de couleur; PowerPoint utilise les couleurs de thème (et la trousse pour le thème Marque).",
+    "whatYouGet": "Fichiers inclus",
+    "previewWhenWhere": "Quand / où",
     "previewEmptyTitle": "Votre titre",
     "previewColor": "Thème",
     "previewFiles": "Contenu du ZIP",
     "previewNone": "Aucun sélectionné",
+    "structure": {
+      "letterheadDocx": "Papier à en-tête Word avec barre de couleur et zone de corps",
+      "letterheadPptx": "2 diapositives PowerPoint (en-tête + message)",
+      "simpleLetterDocx": "Lettre de solidarité Word (date, formule, corps, signature)",
+      "simpleLetterPptx": "2 diapositives PowerPoint (en-tête + lettre)",
+      "formalDocx": "Correspondance de grief Word avec objet et signature",
+      "formalXlsx": "Suivi Excel des étapes (date, action, responsable, statut)",
+      "formalPptx": "3 diapositives PowerPoint (titre, faits, prochaines étapes)",
+      "eventDocx": "Affiche d'événement Word avec Quand/Où",
+      "eventXlsx": "Feuille RSVP Excel avec méta de l'événement",
+      "eventPptx": "3 diapositives PowerPoint (titre, détails, clôture)",
+      "posterDocx": "Page d'annonce style affiche Word",
+      "posterPptx": "2 diapositives PowerPoint (manchette + appel à l'action)",
+      "logo": "Logo de la trousse de marque intégré à l'en-tête Word et aux diapositives"
+    },
     "presets": {
+      "letterhead": {
+        "title": "Papier à en-tête",
+        "blurb": "Papeterie avec barre locale — logo de marque en option."
+      },
+      "simpleLetter": {
+        "title": "Lettre simple",
+        "blurb": "Cher… / corps / En solidarité — prêt à envoyer."
+      },
       "formalGrievance": {
         "title": "Grief formel",
-        "blurb": "Lettre de résumé d'étape, feuille de suivi et courte présentation."
+        "blurb": "Lettre, feuille de suivi des étapes et brève présentation."
       },
       "quickEvent": {
         "title": "Événement rapide",
-        "blurb": "Avis de réunion ou d'action avec date, heure et lieu."
+        "blurb": "Affiche Word, feuille RSVP et diapositives."
       },
       "posterAnnouncement": {
         "title": "Annonce style affiche",
-        "blurb": "Titre percutant pour Word et diapositives (sans tableur)."
+        "blurb": "Grande manchette Word et diapositives percutantes (sans tableur)."
       }
     },
     "fields": {

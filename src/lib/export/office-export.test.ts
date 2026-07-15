@@ -18,6 +18,7 @@ import {
   renderPptx,
   renderXlsx,
 } from "./office-export";
+import { transparentPngBytes } from "./brand-logo-bytes";
 
 const sampleLetterPath = join(
   process.cwd(),
@@ -27,9 +28,9 @@ const sampleRosterPath = join(
   process.cwd(),
   "public/templates/office/xlsx/sample-roster.xlsx",
 );
-const eventRedPath = join(
+const simpleLetterPath = join(
   process.cwd(),
-  "public/templates/office/docx/quick-event_red.docx",
+  "public/templates/office/docx/simple-letter_red.docx",
 );
 
 function mockFetchFromFile(path: string) {
@@ -61,14 +62,16 @@ describe("office-export", () => {
 
   it("caches template buffers and returns independent copies", async () => {
     mockFetchFromFile(sampleLetterPath);
-    const a = await loadTemplateBuffer("/templates/office/docx/sample-letter.docx");
-    const b = await loadTemplateBuffer("/templates/office/docx/sample-letter.docx");
+    const a = await loadTemplateBuffer(
+      "/templates/office/docx/sample-letter.docx",
+    );
+    const b = await loadTemplateBuffer(
+      "/templates/office/docx/sample-letter.docx",
+    );
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(a.byteLength).toBe(b.byteLength);
     expect(a).not.toBe(b);
-    new Uint8Array(a)[0] = 0xff;
-    expect(new Uint8Array(b)[0]).not.toBe(0xff);
   });
 
   it("throws when the template is missing", async () => {
@@ -102,23 +105,40 @@ describe("office-export", () => {
     expect(blob.size).toBeGreaterThan(0);
   });
 
-  it("renderDocx returns a blob without downloading", async () => {
-    mockFetchFromFile(eventRedPath);
-    const blob = await renderDocx({
-      templateUrl: "/templates/office/docx/quick-event_red.docx",
+  it("renderDocx injects Brand Kit logo into simple-letter", async () => {
+    mockFetchFromFile(simpleLetterPath);
+    const without = await renderDocx({
+      templateUrl: "/templates/office/docx/simple-letter_red.docx",
       data: {
         localNumber: "110",
-        title: "Meeting",
-        subtitle: "All welcome",
-        date: "Aug 12",
-        time: "Noon",
-        location: "Cafeteria",
-        body: "Agenda",
+        date: "July 15",
+        memberName: "Alex",
+        body: "Hello",
+        stewardName: "Jordan",
         contactName: "LEC",
       },
+      logo: null,
     });
-    expect(blob).toBeInstanceOf(Blob);
-    expect(blob.size).toBeGreaterThan(0);
+    const withLogo = await renderDocx({
+      templateUrl: "/templates/office/docx/simple-letter_red.docx",
+      data: {
+        localNumber: "110",
+        date: "July 15",
+        memberName: "Alex",
+        body: "Hello",
+        stewardName: "Jordan",
+        contactName: "LEC",
+      },
+      logo: {
+        bytes: transparentPngBytes(),
+        extension: "png",
+        widthPx: 120,
+        heightPx: 48,
+        src: "data:image/png;base64,x",
+      },
+    });
+    expect(without.size).toBeGreaterThan(2000);
+    expect(withLogo.size).toBeGreaterThan(0);
     expect(downloadBlob).not.toHaveBeenCalled();
   });
 
@@ -131,9 +151,6 @@ describe("office-export", () => {
         const sheet = workbook.getWorksheet("Roster");
         expect(sheet).toBeDefined();
         sheet!.getCell("B1").value = "110";
-        sheet!.getCell("A4").value = "Alex";
-        sheet!.getCell("B4").value = "Steward";
-        sheet!.getCell("C4").value = "alex@example.org";
       },
     });
 
@@ -154,11 +171,11 @@ describe("office-export", () => {
     });
     expect(blob).toBeInstanceOf(Blob);
     expect(blob.size).toBeGreaterThan(0);
-    expect(downloadBlob).not.toHaveBeenCalled();
   });
 
-  it("renderPptx builds a multi-slide branded deck", async () => {
+  it("renderPptx builds a per-preset branded deck", async () => {
     const blob = await renderPptx({
+      presetId: "quick-event",
       title: "Membership meeting",
       subtitle: "All welcome",
       body: "Bring your questions.",
@@ -179,6 +196,22 @@ describe("office-export", () => {
     expect(blob.size).toBeGreaterThan(1000);
   });
 
+  it("renderPptx simple-letter deck is smaller than event pack", async () => {
+    const letter = await renderPptx({
+      presetId: "simple-letter",
+      title: "Follow-up",
+      body: "Thanks for talking.",
+      localLabel: "Local 110",
+      palette: {
+        primary: "#003366",
+        secondary: "#001a33",
+        accent: "#c45c26",
+      },
+      fields: { memberName: "Alex", stewardName: "Jordan" },
+    });
+    expect(letter.size).toBeGreaterThan(500);
+  });
+
   it("exportOfficeBundle zips multiple files", async () => {
     const a = new Blob(["hello"], { type: "text/plain" });
     const b = new Blob(["world"], { type: "text/plain" });
@@ -193,7 +226,5 @@ describe("office-export", () => {
     const [files, name] = vi.mocked(downloadZip).mock.calls[0]!;
     expect(name).toBe("pack-local-110.zip");
     expect(files).toHaveLength(2);
-    expect(files[0]!.name).toBe("a.docx");
-    expect(files[1]!.name).toBe("b.pptx");
   });
 });

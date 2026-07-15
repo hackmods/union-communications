@@ -214,6 +214,13 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Color-variant templates under `public/templates/office/` (+ `scripts/generate-office-sample-templates.mjs`)
 - [x] EN/FR, Header Tools, COMMS module notes
 
+## Pristine Office Templates + Brand Kit Logos (2026-07-15)
+
+- [x] Ready-to-use letterhead / simple letter quick starts + upgraded grievance / event / poster packs
+- [x] DOCX letterhead `{%logo}` via `docxtemplater-image-module-free` + `resolveBrandLogoBytes` (Brand Kit)
+- [x] Per-preset PPTX decks with optional logo; Steps / RSVP Excel sheets; structure preview UI
+- [x] Plan: `.cursor/plans/pristine_office_templates.plan.md`
+
 ## Union Boards Guide Expansion (2026-07-11)
 
 - [x] Bare-minimum board zones: header, socials/QR, health & safety, LEC list, events/rotating

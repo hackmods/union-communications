@@ -31,6 +31,7 @@
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "docxtemplater": "^3.69.0",
+    "docxtemplater-image-module-free": "^1.1.1",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "html-to-image": "^1.11.13",
