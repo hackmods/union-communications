@@ -215,15 +215,18 @@ function FormatCanvasContent({
           {state.overlayText}
         </div>
       ) : null}
-
-      {state.showSafeZones ? (
-        <div
-          className="pointer-events-none absolute inset-[10%] border-2 border-dashed"
-          style={{ borderColor: "rgba(250, 204, 21, 0.8)" }}
-          aria-hidden="true"
-        />
-      ) : null}
     </>
+  );
+}
+
+/** Preview-only — must stay outside capture nodes (canvasRef / ZIP frames). */
+function SafeZoneOverlay() {
+  return (
+    <div
+      className="pointer-events-none absolute inset-[10%] border-2 border-dashed"
+      style={{ borderColor: "rgba(250, 204, 21, 0.8)" }}
+      aria-hidden="true"
+    />
   );
 }
 
@@ -736,13 +739,14 @@ export default function ResizerPage() {
           <p className="text-sm font-medium text-opseu-dark">
             {t("preview")} ({format.width}×{format.height})
           </p>
-          {/* Shadow outside capture node */}
-          <div className="shadow-lg">
+          {/* Shadow + safe-zone overlay outside capture node */}
+          <div className="relative shadow-lg">
             <FormatFrame
               format={format}
               frameRef={canvasRef}
               {...sharedFrameProps}
             />
+            {state.showSafeZones ? <SafeZoneOverlay /> : null}
           </div>
         </div>
       </div>
@@ -782,8 +786,9 @@ export default function ResizerPage() {
               <p className="mb-2 text-sm font-medium">
                 {t(preset.labelKey)} ({preset.width}×{preset.height})
               </p>
-              <div className="overflow-hidden rounded-lg border bg-gray-100 shadow-sm">
+              <div className="relative overflow-hidden rounded-lg border bg-gray-100 shadow-sm">
                 <FormatFrame format={preset} {...sharedFrameProps} />
+                {state.showSafeZones ? <SafeZoneOverlay /> : null}
               </div>
             </button>
           ))}
