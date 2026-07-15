@@ -166,7 +166,8 @@ export default function BoardBannerPage() {
       : t(trimPieceById(state.trimPiece).hintKey);
 
   const chevronToggleDisabled =
-    state.mode === "trim" && state.trimPiece === "side";
+    state.mode === "trim" &&
+    (state.trimPiece === "side" || state.trimPiece === "bottom");
 
   const ornamentProps = {
     showChevrons: state.showChevrons,

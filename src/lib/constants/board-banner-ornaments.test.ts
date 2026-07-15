@@ -5,14 +5,16 @@ import {
 } from "./board-banner-ornaments";
 
 describe("board-banner-ornaments", () => {
-  it("never enables chevrons on side pieces", () => {
+  it("never enables chevrons on side or bottom frame rails", () => {
     expect(pieceUsesChevrons("side", true)).toBe(false);
     expect(pieceUsesChevrons("side", false)).toBe(false);
+    expect(pieceUsesChevrons("bottom", true)).toBe(false);
+    expect(pieceUsesChevrons("bottom", false)).toBe(false);
   });
 
-  it("passes chevron toggle for banner bottom and corner", () => {
+  it("passes chevron toggle for banner and corner", () => {
     expect(pieceUsesChevrons("banner", true)).toBe(true);
-    expect(pieceUsesChevrons("bottom", false)).toBe(false);
+    expect(pieceUsesChevrons("corner", false)).toBe(false);
     expect(pieceUsesChevrons("corner", true)).toBe(true);
   });
 

@@ -25,40 +25,6 @@ export interface BoardTrimCanvasProps {
   className?: string;
 }
 
-function HorizontalChevrons({
-  color,
-  bg,
-}: {
-  color: string;
-  bg: string;
-}) {
-  const cols = 14;
-  const vbW = cols * 28;
-  return (
-    <svg
-      viewBox={`0 0 ${vbW} 40`}
-      width="100%"
-      height="100%"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-      style={{ display: "block" }}
-    >
-      <rect width={vbW} height="40" fill={bg} />
-      {Array.from({ length: cols }, (_, x) => (
-        <path
-          key={x}
-          d={`M${4 + x * 28} 6 L${22 + x * 28} 20 L${4 + x * 28} 34`}
-          fill="none"
-          stroke={color}
-          strokeWidth="4"
-          strokeLinecap="square"
-          strokeLinejoin="miter"
-        />
-      ))}
-    </svg>
-  );
-}
-
 function CornerChevrons({ color }: { color: string }) {
   return (
     <>
@@ -89,8 +55,8 @@ function CornerChevrons({ color }: { color: string }) {
 
 /**
  * Trim pieces sized by parent:
- * - side: dual-tone rail + end caps (no chevrons)
- * - bottom: horizontal strip
+ * - side: dual-tone vertical rail + end caps (no chevrons)
+ * - bottom: dual-tone horizontal rail + end caps (no chevrons) — side motif rotated
  * - corner: square L-miter
  */
 export function BoardTrimCanvas({
@@ -257,11 +223,13 @@ export function BoardTrimCanvas({
   }
 
   if (piece === "bottom") {
-    const footText = showLocal
-      ? localDisplay
-      : showByline && bylineText
-        ? bylineText
-        : null;
+    const leftLabel = showLocal ? localDisplay : null;
+    const rightLabel =
+      showLocal
+        ? localDisplay
+        : showByline && bylineText
+          ? bylineText
+          : null;
 
     return (
       <div
@@ -272,104 +240,119 @@ export function BoardTrimCanvas({
           height: "100%",
           overflow: "hidden",
           display: "flex",
-          flexDirection: "column",
-          backgroundColor: "#FFFFFF",
+          flexDirection: "row",
+          backgroundColor: primaryColor,
           fontFamily: "Arial, Helvetica, sans-serif",
         }}
       >
-        <div style={{ flex: "0 0 42%", minHeight: 0 }}>
-          {showChev ? (
-            <HorizontalChevrons color={ink} bg={primaryColor} />
-          ) : (
-            <div
+        {/* Left cap — accent (mirrors side top cap) */}
+        <div
+          style={{
+            flex: "0 0 14%",
+            backgroundColor: accent,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "2% 3%",
+            boxSizing: "border-box",
+          }}
+        >
+          {leftLabel ? (
+            <p
               style={{
-                width: "100%",
-                height: "100%",
-                backgroundColor: primaryColor,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "4%",
-                padding: "0 4%",
-                boxSizing: "border-box",
+                margin: 0,
+                color: accentInk,
+                fontWeight: 900,
+                fontSize: "clamp(0.55rem, 1.8vmin, 0.95rem)",
+                letterSpacing: "0.08em",
+                textAlign: "center",
+                lineHeight: 1.1,
               }}
             >
-              {showLogo ? (
+              {leftLabel}
+            </p>
+          ) : null}
+        </div>
+
+        {/* Dual-tone body — primary band + accent rail (mirrors side 70/30) */}
+        <div
+          style={{
+            flex: 1,
+            minWidth: 0,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div
+            style={{
+              flex: "0 0 70%",
+              backgroundColor: primaryColor,
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "4%",
+              padding: "2% 3%",
+              boxSizing: "border-box",
+              minHeight: 0,
+            }}
+          >
+            {showLogo ? (
+              <div style={{ maxHeight: "85%", display: "flex", alignItems: "center" }}>
                 <BrandLogo
                   size="sm"
                   backgroundColor={primaryColor}
                   variantOverride={logoVariant}
                 />
-              ) : null}
-            </div>
-          )}
-        </div>
-        <div
-          style={{
-            flex: 1,
-            minHeight: 0,
-            display: "flex",
-            backgroundColor: accent,
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "0 3%",
-            boxSizing: "border-box",
-          }}
-        >
-          <div style={{ flex: "0 0 18%", backgroundColor: secondaryColor, height: "100%" }} />
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "3%",
-            }}
-          >
-            {showChev && showLogo ? (
-              <BrandLogo
-                size="sm"
-                backgroundColor={accent}
-                variantOverride={logoVariant}
-              />
+              </div>
             ) : null}
-            {showByline && bylineText && showLocal ? (
+            {showByline && bylineText ? (
               <p
                 style={{
                   margin: 0,
-                  color: accentInk,
+                  color: ink,
                   fontWeight: 700,
-                  fontSize: "clamp(0.55rem, 1.6vmin, 0.85rem)",
+                  fontSize: "clamp(0.5rem, 1.5vmin, 0.8rem)",
                   letterSpacing: "0.04em",
                   textAlign: "center",
+                  lineHeight: 1.25,
                 }}
               >
                 {bylineText}
               </p>
             ) : null}
           </div>
-          <div style={{ flex: "0 0 18%", backgroundColor: primaryColor, height: "100%" }} />
+          <div
+            aria-hidden="true"
+            style={{ flex: "0 0 30%", backgroundColor: accent }}
+          />
         </div>
+
+        {/* Right cap — secondary (mirrors side bottom cap) */}
         <div
           style={{
-            flex: "0 0 22%",
+            flex: "0 0 14%",
             backgroundColor: secondaryColor,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            padding: "2% 3%",
+            boxSizing: "border-box",
           }}
         >
-          {footText ? (
+          {rightLabel ? (
             <p
               style={{
                 margin: 0,
                 color: secondaryInk,
-                fontWeight: 800,
-                fontSize: "clamp(0.65rem, 2vmin, 1.1rem)",
-                letterSpacing: "0.1em",
+                fontWeight: 900,
+                fontSize: "clamp(0.55rem, 1.8vmin, 0.95rem)",
+                letterSpacing: "0.08em",
+                textAlign: "center",
+                lineHeight: 1.1,
               }}
             >
-              {footText}
+              {rightLabel}
             </p>
           ) : null}
         </div>

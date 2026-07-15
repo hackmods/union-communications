@@ -14,14 +14,16 @@ Route: `/tools/board-banner`. Printable cork-board **hardware polish** (header s
 - Banner strip heights: 2.5″ / 3.5″ / 4.5″; side/corner edge widths: 1.5″ / 2″ / 2.5″
 - Export captures the pack sheet only (PNG + PDF)
 
-## Side strips (locked)
-- Side = **dual-tone vertical rail** (primary body + accent stripe) with **solid end caps** for LOCAL
-- **Chevrons are never drawn on side pieces** — they fought rotated LOCAL text and mismatched bottom/corner geometry
-- Staple columns vertically along the board frame
+## Frame rails (locked)
+- **Side** = dual-tone **vertical** rail (primary body + accent stripe) with solid end caps for LOCAL
+- **Bottom** = same motif **rotated** — dual-tone horizontal rail with left/right end caps; no chevrons
+- **Chevrons are never drawn on side or bottom** — they fought text and mismatched the rail language
+- Side columns staple vertically; bottom strips along the frame base
+- Corner tiles may still use optional chevron marks with the L-miter
 
 ## Shared ornaments (banner + trim)
 One Ornaments section applies to both modes:
-- Show chevrons (banner / bottom / corner only; ignored on side)
+- Show chevrons (banner / corner only; ignored on side and bottom rails)
 - Show local number
 - Logo: `none` | `lockup` | `mark` via `BrandLogo variantOverride`
 - Show byline + editable byline text (seed from Brand Kit `subText` once; **never** hardcode a union slogan)

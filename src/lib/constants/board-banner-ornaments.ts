@@ -18,12 +18,12 @@ export const DEFAULT_ORNAMENTS: BoardOrnaments = {
   byline: "",
 };
 
-/** Chevrons are never drawn on vertical side rails. */
+/** Chevrons are never drawn on frame rails (side or bottom). */
 export function pieceUsesChevrons(
   piece: "banner" | "side" | "bottom" | "corner",
   showChevrons: boolean,
 ): boolean {
-  if (piece === "side") return false;
+  if (piece === "side" || piece === "bottom") return false;
   return showChevrons;
 }
 
