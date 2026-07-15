@@ -1,6 +1,6 @@
 ---
 description: Thoughtful responsive layouts — consistent shells, no stretched mobile
-globs: src/app/**/*.tsx,src/components/**/*.tsx,src/app/globals.css,src/lib/constants/page-shell.ts
+globs: src/app/**/*.tsx,src/components/**/*.tsx,src/app/globals.css,src/lib/constants/page-shell.ts,src/components/comms/GuideLayout.tsx
 alwaysApply: false
 ---
 
@@ -18,10 +18,17 @@ Use [`PageShell`](src/components/layout/PageShell.tsx) / [`PAGE_SHELL`](src/lib/
 |------|--------|-----|
 | `chrome` | `max-w-7xl` | Header, footer, hub nav/banner only |
 | `wide` | `max-w-5xl` | Home, examples, multi-panel tools (default) |
-| `read` | `max-w-3xl` | Guides, privacy, long-form |
+| `read` | `max-w-3xl` | Guides, privacy, long-form → prefer [`GuideLayout`](src/components/comms/GuideLayout.tsx) |
 | `focus` | `max-w-2xl` | Brand kit, manifesto, forms |
 
-Within a shell, still constrain body copy (`max-w-prose` / `max-w-xl`) when needed. Adapt grids at `sm`/`md`/`lg` so `wide` does not become four cramped columns — prefer intentional density (e.g. home channels: 2×2, not 4 skinny cols).
+## Reference compositions
+
+- **Home** — hero + trust `Callout`; Brand Kit as a compact link row above Toolbox; denser channel link lists (no sticky empty rail, no sparse flex cards)
+- **Guides** — `GuideLayout`: related links as a compact nav row (never a fat empty tinted card); steps/sections with left accent or markers; optional horizontal step progress (see social-media-plan)
+- **Tools** — `PageShell` wide + `lg:grid-cols-2` editor | preview
+- **Short notes** — [`Callout`](src/components/ui/Callout.tsx), not default `Card`
+
+Within a shell, still constrain body copy (`max-w-prose` / `max-w-xl`) when needed.
 
 ## Hard rejects (fix before shipping)
 
@@ -31,21 +38,23 @@ Within a shell, still constrain body copy (`max-w-prose` / `max-w-xl`) when need
 - **Unbounded measure** — body copy running >~65–75ch without a readable constraint
 - **Breakpoint blindness** — only `px-4` + `max-w-*` and no intentional change at `sm` / `md` / `lg`
 - **CTA row as afterthought** — buttons left-dumped with no wrap/stack plan across widths
+- **Repeated hero CTAs** — same primary action three times down the page
 
 ## Do this instead
 
 1. **Pick a shell tier first**, then compose for desktop / stack for mobile
 2. **Fill or constrain** — use the width (grid/columns/rail) or shrink the surface; never a wide empty card
-3. **Chrome vs body** — chrome may be `7xl`; page body uses `wide`/`read`/`focus`. Edges share `px-4`; do not mix random max-widths for the same page type
+3. **Chrome vs body** — chrome may be `7xl`; page body uses `wide`/`read`/`focus`
 4. **Verify three widths** — ~375, ~768, ~1280: each must look intentional
 
 ```tsx
-// ❌ BAD — home wider than every other public page
+// ❌ BAD — home wider than every other public page / orphan path card
 <div className="mx-auto max-w-7xl px-4">…
+<Card><ul><li>One link</li></ul></Card>
 
 // ✅ GOOD
 <PageShell className="py-8 md:py-12">…
-<PageShell size="read" className="py-12">… // guides
+<GuideLayout title="…" relatedLinks={[…]} relatedLabel="Also see">…
 ```
 
 ## Checklist (any new/changed page or major layout)

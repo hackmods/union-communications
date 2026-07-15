@@ -23,20 +23,28 @@ export default function ExamplesPage() {
 
   return (
     <PageShell className="py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 max-w-2xl text-gray-600">{t("subtitle")}</p>
+      <header className="max-w-2xl">
+        <h1 className="text-3xl font-bold tracking-tight text-opseu-dark">
+          {t("title")}
+        </h1>
+        <p className="mt-2 text-gray-600">{t("subtitle")}</p>
+      </header>
 
-      <div className="mt-6 flex flex-wrap gap-2" role="tablist" aria-label={t("filterLabel")}>
+      <div
+        className="mt-6 flex flex-wrap gap-x-1 gap-y-2 border-b border-gray-200"
+        role="tablist"
+        aria-label={t("filterLabel")}
+      >
         <button
           type="button"
           role="tab"
           aria-selected={filter === "all"}
           onClick={() => setFilter("all")}
           className={cn(
-            "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
+            "-mb-px border-b-2 px-3 py-2 text-sm font-medium transition-colors",
             filter === "all"
-              ? "bg-opseu-blue text-white"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+              ? "border-opseu-blue text-opseu-dark"
+              : "border-transparent text-gray-600 hover:text-opseu-dark",
           )}
         >
           {t("categories.all")}
@@ -49,10 +57,10 @@ export default function ExamplesPage() {
             aria-selected={filter === cat}
             onClick={() => setFilter(cat)}
             className={cn(
-              "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
+              "-mb-px border-b-2 px-3 py-2 text-sm font-medium transition-colors",
               filter === cat
-                ? "bg-opseu-blue text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+                ? "border-opseu-blue text-opseu-dark"
+                : "border-transparent text-gray-600 hover:text-opseu-dark",
             )}
           >
             {t(`categories.${cat}`)}
@@ -60,7 +68,7 @@ export default function ExamplesPage() {
         ))}
       </div>
 
-      <div className="mt-8 columns-1 gap-4 sm:columns-2 lg:columns-3">
+      <div className="mt-8 columns-1 gap-5 sm:columns-2">
         {filtered.map((post) => (
           <ExampleCard key={post.id} post={post} />
         ))}
@@ -70,7 +78,7 @@ export default function ExamplesPage() {
         {t("planPrompt")}{" "}
         <Link
           href="/guide/social-media-plan"
-          className="font-medium text-opseu-blue underline hover:text-opseu-dark"
+          className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
         >
           {t("planLink")}
         </Link>

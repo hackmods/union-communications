@@ -1,8 +1,8 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Card, CardTitle } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+import { GuideLayout } from "@/components/comms/GuideLayout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
+import { Button } from "@/components/ui/Button";
 
 const stepKeys = ["logo", "boards", "socials", "website"] as const;
 
@@ -43,34 +43,63 @@ export default async function SocialMediaPlanPage({
   const ts = await getTranslations("sources");
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-lg text-gray-600">{t("subtitle")}</p>
-      <p className="mt-4 leading-relaxed text-gray-700">{t("intro")}</p>
-
-      <Card className="mt-6 border-opseu-blue/20 bg-opseu-blue/5">
-        <ul className="space-y-2 text-sm">
-          <li>
-            <Link
-              href="/guide/resources"
-              className="font-medium text-opseu-blue underline"
+    <GuideLayout
+      title={t("title")}
+      subtitle={t("subtitle")}
+      intro={t("intro")}
+      relatedLabel={t("relatedLabel")}
+      relatedLinks={[
+        { href: "/guide/resources", label: t("pathLinks.resourcesShort") },
+        { href: "/guide", label: t("pathLinks.blueprintShort") },
+      ]}
+      footer={
+        <SourcesBlock
+          pageId="socialMediaPlan"
+          title={ts("title")}
+          intro={ts("intro")}
+        />
+      }
+    >
+      <nav
+        className="mb-8 flex flex-wrap gap-2"
+        aria-label={t("stepsNavLabel")}
+      >
+        {stepKeys.map((key, index) => (
+          <a
+            key={key}
+            href={`#step-${key}`}
+            className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
+          >
+            <span
+              className="flex h-6 w-6 items-center justify-center rounded-md bg-opseu-blue text-xs font-bold text-white"
+              aria-hidden="true"
             >
-              {t("pathLinks.resources")}
-            </Link>
-          </li>
-          <li>
-            <Link href="/guide" className="font-medium text-opseu-blue underline">
-              {t("pathLinks.blueprint")}
-            </Link>
-          </li>
-        </ul>
-      </Card>
+              {index + 1}
+            </span>
+            {t(`steps.${key}.navLabel`)}
+          </a>
+        ))}
+      </nav>
 
-      <div className="mt-10 space-y-6">
-        {stepKeys.map((key) => (
-          <Card key={key}>
-            <CardTitle>{t(`steps.${key}.title`)}</CardTitle>
-            <p className="mt-3 leading-relaxed text-gray-700">
+      <ol className="space-y-8">
+        {stepKeys.map((key, index) => (
+          <li
+            key={key}
+            id={`step-${key}`}
+            className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+          >
+            <div className="flex items-baseline gap-3">
+              <span
+                className="text-sm font-bold tabular-nums text-opseu-blue"
+                aria-hidden="true"
+              >
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h2 className="text-xl font-bold text-opseu-dark">
+                {t(`steps.${key}.title`)}
+              </h2>
+            </div>
+            <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
               {t(`steps.${key}.description`)}
             </p>
             <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-600">
@@ -78,7 +107,7 @@ export default async function SocialMediaPlanPage({
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <div className="button-row mt-4">
+            <div className="button-row mt-4 max-w-lg">
               <Link href={stepLinks[key].primary}>
                 <Button size="sm">{t(`steps.${key}.cta`)}</Button>
               </Link>
@@ -95,15 +124,9 @@ export default async function SocialMediaPlanPage({
                 </Link>
               ))}
             </div>
-          </Card>
+          </li>
         ))}
-      </div>
-
-      <SourcesBlock
-        pageId="socialMediaPlan"
-        title={ts("title")}
-        intro={ts("intro")}
-      />
-    </div>
+      </ol>
+    </GuideLayout>
   );
 }

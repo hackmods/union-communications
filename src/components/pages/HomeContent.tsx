@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
+import { Callout } from "@/components/ui/Callout";
 import { PageShell } from "@/components/layout/PageShell";
 import { ShareThisTool } from "@/components/share/ShareThisTool";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
@@ -39,37 +40,6 @@ const channelItems: Record<
 /** Matches Get started roadmap emphasis: boards → print → social → website */
 const channelOrder: ChannelId[] = ["boards", "print", "social", "website"];
 
-function CommsPathCard({
-  className,
-}: {
-  className?: string;
-}) {
-  const t = useTranslations("home");
-
-  return (
-    <div
-      className={cn(
-        "flex flex-col rounded-xl border border-opseu-blue/20 bg-opseu-blue/5 p-6 text-left",
-        className,
-      )}
-    >
-      <h2 className="text-xl font-bold text-opseu-dark">{t("pathCommsTitle")}</h2>
-      <p className="mt-3 flex-1 text-base text-gray-600">{t("pathCommsDesc")}</p>
-      <p className="mt-3 text-sm text-gray-600">{t("pathCommsHint")}</p>
-      <div className="mt-6 flex flex-wrap gap-3">
-        <Link href="/guide/social-media-plan">
-          <Button size="lg">{t("pathCommsCta")}</Button>
-        </Link>
-        <Link href="/onboarding">
-          <Button variant="outline" size="lg">
-            {t("heroCta")}
-          </Button>
-        </Link>
-      </div>
-    </div>
-  );
-}
-
 export function HomeContent() {
   const t = useTranslations("home");
   const nav = useTranslations("nav");
@@ -80,173 +50,170 @@ export function HomeContent() {
     <PageShell className="py-8 md:py-12">
       <section
         className={cn(
-          "home-enter relative mb-10 overflow-hidden rounded-2xl border border-opseu-blue/15",
+          "home-enter relative mb-12 overflow-hidden rounded-2xl border border-opseu-blue/15",
           "bg-gradient-to-br from-opseu-blue/[0.07] via-white to-opseu-dark/[0.04]",
-          "px-5 py-8 md:px-8 md:py-10 lg:px-10 lg:py-12",
+          "px-5 py-8 md:px-8 md:py-10",
         )}
       >
-        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] lg:gap-12">
-          <div className="text-left">
-            <h1 className="text-4xl font-bold tracking-tight text-opseu-dark md:text-5xl lg:text-[3.25rem] lg:leading-tight">
-              {t("title")}
-            </h1>
-            <p className="mt-3 text-2xl font-semibold tracking-wide text-opseu-blue md:text-3xl">
-              {t("slogan")}
-            </p>
-            <p className="mt-4 max-w-xl text-lg text-gray-600">
-              {t(hubPublic ? "subtitle" : "subtitleCommsOnly")}
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/guide/social-media-plan">
-                <Button size="lg">{t("pathCommsCta")}</Button>
-              </Link>
-              <Link href="/onboarding">
-                <Button variant="outline" size="lg">
-                  {t("heroCta")}
-                </Button>
-              </Link>
-            </div>
-            <p className="mt-4 text-sm text-opseu-blue">
-              {t(hubPublic ? "privacyNote" : "privacyNoteCommsOnly")}
-            </p>
-            <div className="mt-4">
-              <ShareThisTool />
-            </div>
+        <div className="max-w-2xl text-left">
+          <h1 className="text-4xl font-bold tracking-tight text-opseu-dark md:text-5xl md:leading-tight">
+            {t("title")}
+          </h1>
+          <p className="mt-3 text-2xl font-semibold tracking-wide text-opseu-blue md:text-3xl">
+            {t("slogan")}
+          </p>
+          <p className="mt-4 text-lg text-gray-600">
+            {t(hubPublic ? "subtitle" : "subtitleCommsOnly")}
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Link href="/guide/social-media-plan">
+              <Button size="lg">{t("pathCommsCta")}</Button>
+            </Link>
+            <Link href="/onboarding">
+              <Button variant="outline" size="lg">
+                {t("heroCta")}
+              </Button>
+            </Link>
           </div>
-
-          <aside
-            className="rounded-xl border border-opseu-blue/20 bg-white/80 px-5 py-4 text-left text-sm text-opseu-dark shadow-sm backdrop-blur-sm md:text-base lg:self-stretch lg:flex lg:flex-col lg:justify-center"
-            role="note"
-          >
-            <p>
-              <span className="mr-1" aria-hidden="true">
-                🔒
-              </span>
-              {t(hubPublic ? "trustBanner" : "trustBannerCommsOnly")}{" "}
-              <Link
-                href="/manifesto"
-                className="font-medium underline underline-offset-2 hover:text-opseu-blue"
-              >
-                {t("trustManifestoLink")}
-              </Link>
-            </p>
-          </aside>
+          <Callout tone="plain" className="mt-6 bg-white/70" role="note">
+            {t(hubPublic ? "trustBanner" : "trustBannerCommsOnly")}{" "}
+            <Link
+              href="/manifesto"
+              className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+            >
+              {t("trustManifestoLink")}
+            </Link>
+          </Callout>
+          <p className="mt-3 text-sm text-gray-600">
+            {t(hubPublic ? "privacyNote" : "privacyNoteCommsOnly")}
+          </p>
+          <div className="mt-4">
+            <ShareThisTool />
+          </div>
         </div>
       </section>
 
       {hubPublic ? (
-        <section className="home-enter home-enter-delay-1 mb-14 grid gap-6 md:grid-cols-2">
-          <CommsPathCard />
-          <div className="flex flex-col rounded-xl border border-gray-200 bg-white p-6 text-left">
-            <h2 className="text-xl font-bold text-opseu-dark">
+        <section className="home-enter home-enter-delay-1 mb-12 grid gap-4 md:grid-cols-2">
+          <div className="rounded-xl border border-opseu-blue/20 bg-opseu-blue/5 p-5 text-left">
+            <h2 className="text-lg font-bold text-opseu-dark">
+              {t("pathCommsTitle")}
+            </h2>
+            <p className="mt-2 text-sm text-gray-600">{t("pathCommsDesc")}</p>
+            <p className="mt-2 text-sm text-gray-600">{t("pathCommsHint")}</p>
+          </div>
+          <div className="rounded-xl border border-gray-200 bg-white p-5 text-left">
+            <h2 className="text-lg font-bold text-opseu-dark">
               {t("pathOfficerTitle")}
             </h2>
-            <p className="mt-3 flex-1 text-base text-gray-600">
-              {t("pathOfficerDesc")}
-            </p>
-            <div className="mt-6">
+            <p className="mt-2 text-sm text-gray-600">{t("pathOfficerDesc")}</p>
+            <div className="mt-4">
               <Link href="/app">
-                <Button size="lg">{t("pathOfficerCta")}</Button>
+                <Button size="md">{t("pathOfficerCta")}</Button>
               </Link>
             </div>
           </div>
         </section>
       ) : (
-        <section className="home-enter home-enter-delay-1 mb-14 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(16rem,20rem)]">
-          <CommsPathCard />
-          <aside className="flex flex-col justify-center rounded-xl border border-dashed border-gray-300 bg-white px-5 py-5 text-left lg:py-6">
-            <h2 className="text-base font-bold text-opseu-dark">
-              {t("pathOfficerTitleComingSoon")}
-            </h2>
-            <p className="mt-2 text-sm text-gray-600">
-              {t("pathOfficerDescComingSoon")}
-            </p>
-            <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-gray-500">
+        <section className="home-enter home-enter-delay-1 mb-12">
+          <Callout tone="muted" className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+            <div>
+              <p className="font-semibold text-opseu-dark">
+                {t("pathOfficerTitleComingSoon")}
+              </p>
+              <p className="mt-1 text-sm text-gray-600">
+                {t("pathOfficerDescComingSoon")}
+              </p>
+            </div>
+            <p className="shrink-0 text-xs font-semibold uppercase tracking-wide text-gray-500">
               {t("pathOfficerCtaComingSoon")}
             </p>
-          </aside>
+          </Callout>
         </section>
       )}
 
       <section className="home-enter home-enter-delay-2">
-        <div className="grid gap-8 lg:grid-cols-[minmax(14rem,17.5rem)_minmax(0,1fr)] lg:items-start xl:gap-10">
-          <aside className="rounded-xl border border-opseu-blue/20 bg-opseu-blue/5 p-5 lg:sticky lg:top-24">
-            <h2 className="text-lg font-bold text-opseu-dark">
-              {nav("brandKit")}
-            </h2>
-            <p className="mt-2 text-sm text-gray-600">{t("brandRailDesc")}</p>
-            <div className="mt-4 flex flex-col gap-2">
-              <Link href="/brand-kit">
-                <Button className="w-full" size="lg">
-                  {nav("brandKit")}
-                </Button>
-              </Link>
-              <Link
-                href="/tools/logo-builder"
-                className="text-center text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-              >
-                {nav("logoBuilder")}
-              </Link>
-              <Link
-                href="/assets"
-                className="text-center text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-              >
-                {nav("assets")}
-              </Link>
-            </div>
-          </aside>
-
+        <div className="flex flex-col gap-4 border-b border-gray-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="mb-2 text-2xl font-bold text-opseu-dark">
+            <h2 className="text-2xl font-bold text-opseu-dark">
               {t("channelsTitle")}
             </h2>
-            <p className="mb-6 max-w-2xl text-base text-gray-600">
+            <p className="mt-2 max-w-2xl text-base text-gray-600">
               {t("channelsIntro")}
             </p>
-            <div className="grid gap-6 sm:grid-cols-2">
-              {channelOrder.map((channel) => (
-                <div
-                  key={channel}
-                  className="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
-                >
-                  <h3 className="text-lg font-semibold text-opseu-dark">
-                    {t(`channels.${channel}.title`)}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm text-gray-600">
-                    {t(`channels.${channel}.description`)}
-                  </p>
-                  <ul className="mt-4 space-y-2">
-                    {channelItems[channel].map((item) => (
-                      <li key={item.href}>
-                        <Link
-                          href={item.href}
-                          className="block rounded-lg border border-gray-100 bg-gray-50 px-3 py-2 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/30 hover:bg-opseu-blue/5"
-                        >
-                          {nav(item.titleKey)}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
           </div>
+          <nav
+            className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm"
+            aria-label={nav("brandKit")}
+          >
+            <Link
+              href="/brand-kit"
+              className="font-semibold text-opseu-dark underline underline-offset-2 hover:text-opseu-blue"
+            >
+              {nav("brandKit")}
+            </Link>
+            <span className="text-gray-300" aria-hidden="true">
+              ·
+            </span>
+            <Link
+              href="/tools/logo-builder"
+              className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+            >
+              {nav("logoBuilder")}
+            </Link>
+            <span className="text-gray-300" aria-hidden="true">
+              ·
+            </span>
+            <Link
+              href="/assets"
+              className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+            >
+              {nav("assets")}
+            </Link>
+          </nav>
+        </div>
+
+        <div className="mt-8 grid gap-8 sm:grid-cols-2">
+          {channelOrder.map((channel) => (
+            <div key={channel} className="text-left">
+              <h3 className="text-lg font-semibold text-opseu-dark">
+                {t(`channels.${channel}.title`)}
+              </h3>
+              <p className="mt-1 text-sm text-gray-600">
+                {t(`channels.${channel}.description`)}
+              </p>
+              <ul className="mt-3 space-y-1.5 border-l-2 border-opseu-blue/25 pl-3">
+                {channelItems[channel].map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-sm font-medium text-opseu-dark underline-offset-2 hover:text-opseu-blue hover:underline"
+                    >
+                      {nav(item.titleKey)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section className="home-enter home-enter-delay-3 mt-12 flex flex-wrap items-center justify-center gap-3">
-        <Link href="/guide/social-media-plan">
-          <Button size="lg">{t("pathCommsCta")}</Button>
+      <section className="home-enter home-enter-delay-3 mt-12 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
+        <Link
+          href="/guide/resources"
+          className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+        >
+          {nav("resources")}
         </Link>
-        <Link href="/guide/resources">
-          <Button variant="outline" size="lg">
-            {nav("resources")}
-          </Button>
-        </Link>
-        <Link href="/guide">
-          <Button variant="ghost" size="lg">
-            {common("learnMore")}
-          </Button>
+        <span className="text-gray-300" aria-hidden="true">
+          ·
+        </span>
+        <Link
+          href="/guide"
+          className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+        >
+          {common("learnMore")}
         </Link>
       </section>
     </PageShell>
