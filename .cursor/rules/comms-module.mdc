@@ -28,6 +28,7 @@ Learn menu must keep **By channel** (Print, Union Boards, Website guides) — se
 - See `.cursor/rules/opseu-branding.mdc` for OPSEU/CAAT colour rationale
 - Solidarity board posters: `.cursor/rules/solidarity-posters.mdc` (`/tools/solidarity-poster`)
 - QR link cards: `/tools/qr-card` (client `qrDataUrl`, multi-size print)
+- QR board posters: `/tools/qr-board` (multi-QR letter/tabloid board sheets)
 
 ## Multi-Union Migration (Phase 1)
 Replace hardcoded OPSEU/CAAT strings with tenant `UnionConfig`.

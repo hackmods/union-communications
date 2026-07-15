@@ -218,6 +218,13 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Example dense-board photo for visual reference
 - [x] Campus board photos (sectioned L33 + branded W010) + labeled-columns schematic
 
+## QR Board Poster Maker (2026-07-15)
+
+- [x] `/tools/qr-board` — multi-QR union board posters (title above QR, URL under)
+- [x] Board presets: two campaigns (2), core links (4), full board kit (6); add/remove to 2–8
+- [x] Letter + tabloid print; PNG + PDF; Brand Kit colours, saved links, local branding
+- [x] EN/FR, Header Tools, union-boards guide CTA, unit tests for grid/presets
+
 ## QR Link Card Maker (2026-07-11)
 
 - [x] `/tools/qr-card` — title, optional description, tagline under QR

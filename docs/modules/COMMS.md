@@ -44,6 +44,7 @@ Home landing (`HomeContent`): desktop hero band with CTAs + trust aside; dual-pa
 | `/[locale]/tools/board-notice` | Workplace bulletin notices (letter + tabloid) |
 | `/[locale]/tools/solidarity-poster` | Solidarity board posters + wallpapers (Print; Digital 16:9 / 19.5:9 / 9:16 PNG; CTA + QR toggles) |
 | `/[locale]/tools/qr-card` | QR link cards (title, tagline, multi-size print) |
+| `/[locale]/tools/qr-board` | Multi-QR board posters (2–8 links; letter/tabloid; PNG + PDF) |
 | `/[locale]/tools/graphic-maker` | Social graphics |
 | `/[locale]/tools/resizer` | Omnichannel resizer — Logo Builder plate (circle/square/rectangle) or upload; social + custom sizes at true pixels; ZIP/PNG |
 | `/[locale]/tools/quote-card` | Leadership quote cards |
@@ -57,7 +58,7 @@ Home landing (`HomeContent`): desktop hero band with CTAs + trust aside; dual-pa
 |---------|----------------|
 | **Social** | Blueprint, crisis guide, captions, examples, graphic maker, resizer, quote card, alt-text |
 | **Print** | Flyer maker, print guide |
-| **Union boards** | Board notice maker, solidarity poster maker, QR link cards, union boards guide (bare-minimum + reference layouts) |
+| **Union boards** | Board notice maker, solidarity poster maker, QR link cards, QR board posters, union boards guide (bare-minimum + reference layouts) |
 | **Website** | Website template (based on local243.org model), website guide |
 
 ## Multi-Union Migration Checklist (Phase 1)

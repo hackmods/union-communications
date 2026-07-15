@@ -48,6 +48,11 @@ export const TOOL_SEO: Record<
     description:
       "Print QR link cards so members can find your group, website, or support line.",
   },
+  "qr-board": {
+    title: "Free Union QR Board Poster Maker",
+    description:
+      "Print multi-QR posters for union boards — two campaigns or a full set of core links, on your device.",
+  },
   "website-template": {
     title: "Free Union Website Template",
     description:

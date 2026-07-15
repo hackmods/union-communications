@@ -25,6 +25,7 @@
     "boardNotice": "Board Notice Maker",
     "solidarityPoster": "Solidarity Posters",
     "qrCard": "QR Link Cards",
+    "qrBoard": "QR Board Posters",
     "websiteTemplate": "Website Template",
     "socialMediaPlan": "Social Media Plan",
     "socialExamples": "Social Examples",
@@ -133,13 +134,18 @@
     "title": "Social Media Plan",
     "subtitle": "Do these four steps in order - the operational roadmap for locals building communications",
     "intro": "This is the action path: brand first, then reach members on the board, on social, and online. For practice guidance (tone, platforms, trolls), use The Blueprint. For an overview of the hub, checklist, and sources, see Comms Resources.",
+    "relatedLabel": "Also see",
+    "stepsNavLabel": "Roadmap steps",
     "pathLinks": {
       "resources": "Comms Resources - orientation, practice checklist, sources",
-      "blueprint": "The Blueprint - tone, platforms, and posting habits"
+      "blueprint": "The Blueprint - tone, platforms, and posting habits",
+      "resourcesShort": "Comms Resources",
+      "blueprintShort": "The Blueprint"
     },
     "steps": {
       "logo": {
-        "title": "1. Make a logo",
+        "title": "Make a logo",
+        "navLabel": "Logo",
         "description": "Set up your Brand Kit with local number, colours, and logo. Consistent branding makes every post and notice look professional.",
         "checklist": [
           "Complete onboarding or open Brand Kit",
@@ -150,7 +156,8 @@
         "secondaryCta": "Brand Kit"
       },
       "boards": {
-        "title": "2. Union boards",
+        "title": "Union boards",
+        "navLabel": "Boards",
         "description": "Post a high-contrast notice on workplace bulletin boards. Members who are not on social still need to see meeting times and updates.",
         "checklist": [
           "Choose a notice type and fill in date, time, and location",
@@ -161,7 +168,8 @@
         "secondaryCta": "Union Boards Guide"
       },
       "socials": {
-        "title": "3. Socials",
+        "title": "Socials",
+        "navLabel": "Socials",
         "description": "Share the same message on Facebook and Instagram. Use the Blueprint for tone and frequency, and pre-written captions to save time.",
         "checklist": [
           "Read The Blueprint for platform and posting tips",
@@ -174,7 +182,8 @@
         "tertiaryBlueprint": "The Blueprint"
       },
       "website": {
-        "title": "4. A website",
+        "title": "A website",
+        "navLabel": "Website",
         "description": "Give members one link for contact info, officers, and about your local. Download a ready-made template and host it free on GitHub Pages.",
         "checklist": [
           "Fill in about text, officers, and contact email",
@@ -731,6 +740,56 @@
       "localWebsiteTitle": "Visit our site",
       "localWebsiteDesc": "News, contacts, and resources for members.",
       "localWebsiteTagline": "Scan for our website"
+    }
+  },
+  "qrBoard": {
+    "title": "QR Board Poster Maker",
+    "subtitle": "Multi-QR posters for union boards — dual campaigns or a full set of core links, with a title above each code and the URL underneath",
+    "preset": "Board preset",
+    "posterTitle": "Poster title",
+    "posterSubtitle": "Subtitle (optional)",
+    "format": "Print size",
+    "formatLetter": "Letter (8.5×11)",
+    "formatTabloid": "Tabloid (11×17)",
+    "formatTip": "Use letter for most boards; tabloid when you need six or more large codes.",
+    "slots": "QR links",
+    "slotsHint": "{count} links (min {min}, max {max})",
+    "slotLabel": "Link {n}",
+    "slotTitle": "Title above QR",
+    "destination": "Link or text to encode",
+    "addSlot": "Add link",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "savedLinks": "Use a saved Brand Kit link",
+    "savedLinksPlaceholder": "Choose a saved link…",
+    "savedWebsite": "Local website",
+    "savedFacebook": "Facebook",
+    "showUrl": "Show URL under each QR",
+    "includeBranding": "Include local branding",
+    "qrPlaceholder": "Enter a link",
+    "previewSize": "Preview at {label} - {width}×{height} in",
+    "setupBrandPrompt": "Set up your Brand Kit to stamp posters with your local lockup.",
+    "setupBrandLink": "Start onboarding",
+    "presets": {
+      "twoCampaignsLabel": "Two campaigns (2)",
+      "twoCampaignsTitle": "Scan to take action",
+      "twoCampaignsSubtitle": "Two ways to sign and stay involved",
+      "coreLinksLabel": "Core board links (4)",
+      "coreLinksTitle": "Scan for your local",
+      "coreLinksSubtitle": "Support, website, socials, and health & safety",
+      "fullBoardLabel": "Full board kit (6)",
+      "fullBoardTitle": "Know your rights — get connected",
+      "fullBoardSubtitle": "Core links plus employment standards and OHSA guides"
+    },
+    "slotTitles": {
+      "unionCard": "Sign a union card",
+      "collectiveAgreement": "Collective agreement",
+      "getSupport": "Get support",
+      "localWebsite": "Visit our site",
+      "followUs": "Stay connected",
+      "healthSafety": "Health & safety",
+      "esa": "Know your rights (ESA)",
+      "ohsa": "OHSA guide"
     }
   },
   "websiteTemplate": {

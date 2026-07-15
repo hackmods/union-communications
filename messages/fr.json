@@ -25,6 +25,7 @@
     "boardNotice": "Avis pour tableau syndical",
     "solidarityPoster": "Affiches solidarité",
     "qrCard": "Cartes lien QR",
+    "qrBoard": "Affiches QR tableau",
     "websiteTemplate": "Modèle de site Web",
     "socialMediaPlan": "Plan médias sociaux",
     "socialExamples": "Exemples sociaux",
@@ -133,13 +134,18 @@
     "title": "Plan médias sociaux",
     "subtitle": "Faites ces quatre étapes dans l'ordre - la feuille de route opérationnelle pour bâtir vos communications",
     "intro": "Ceci est le parcours d'action : la marque d'abord, puis rejoindre les membres au tableau, sur les réseaux et en ligne. Pour les pratiques (ton, plateformes, trolls), utilisez le Plan directeur. Pour une vue d'ensemble du centre, une liste de pratique et les sources, voir Ressources de communication.",
+    "relatedLabel": "Voir aussi",
+    "stepsNavLabel": "Étapes de la feuille de route",
     "pathLinks": {
       "resources": "Ressources de communication - orientation, liste de pratique, sources",
-      "blueprint": "Le Plan directeur - ton, plateformes et habitudes de publication"
+      "blueprint": "Le Plan directeur - ton, plateformes et habitudes de publication",
+      "resourcesShort": "Ressources de communication",
+      "blueprintShort": "Le Plan directeur"
     },
     "steps": {
       "logo": {
-        "title": "1. Créer un logo",
+        "title": "Créer un logo",
+        "navLabel": "Logo",
         "description": "Configurez votre trousse de marque avec le numéro de section, les couleurs et le logo. Une image de marque cohérente rend chaque publication professionnelle.",
         "checklist": [
           "Compléter l'intégration ou ouvrir la trousse de marque",
@@ -150,7 +156,8 @@
         "secondaryCta": "Trousse de marque"
       },
       "boards": {
-        "title": "2. Tableaux syndicaux",
+        "title": "Tableaux syndicaux",
+        "navLabel": "Tableaux",
         "description": "Affichez un avis à fort contraste sur les tableaux d'affichage au travail. Les membres qui ne sont pas sur les réseaux doivent quand même voir les réunions et mises à jour.",
         "checklist": [
           "Choisir un type d'avis et remplir date, heure et lieu",
@@ -161,7 +168,8 @@
         "secondaryCta": "Guide tableaux syndicaux"
       },
       "socials": {
-        "title": "3. Médias sociaux",
+        "title": "Médias sociaux",
+        "navLabel": "Réseaux",
         "description": "Partagez le même message sur Facebook et Instagram. Utilisez le Plan directeur pour le ton et la fréquence, et les légendes préécrites pour gagner du temps.",
         "checklist": [
           "Lire le Plan directeur pour les plateformes et la fréquence",
@@ -174,7 +182,8 @@
         "tertiaryBlueprint": "Le Plan directeur"
       },
       "website": {
-        "title": "4. Un site Web",
+        "title": "Un site Web",
+        "navLabel": "Site Web",
         "description": "Donnez aux membres un lien unique pour les coordonnées, les dirigeants et la présentation de la section. Téléchargez un modèle prêt à l'emploi et hébergez-le gratuitement.",
         "checklist": [
           "Remplir le texte, les dirigeants et le courriel de contact",
@@ -731,6 +740,56 @@
       "localWebsiteTitle": "Visitez notre site",
       "localWebsiteDesc": "Nouvelles, contacts et ressources pour les membres.",
       "localWebsiteTagline": "Scannez pour notre site"
+    }
+  },
+  "qrBoard": {
+    "title": "Créateur d'affiches QR pour tableau",
+    "subtitle": "Affiches multi-QR pour tableaux syndicaux — deux campagnes ou un ensemble de liens essentiels, titre au-dessus du code et URL en dessous",
+    "preset": "Préréglage tableau",
+    "posterTitle": "Titre de l'affiche",
+    "posterSubtitle": "Sous-titre (optionnel)",
+    "format": "Format d'impression",
+    "formatLetter": "Lettre (8,5×11)",
+    "formatTabloid": "Tabloïd (11×17)",
+    "formatTip": "Utilisez la lettre pour la plupart des tableaux; le tabloïd quand vous avez six codes ou plus.",
+    "slots": "Liens QR",
+    "slotsHint": "{count} liens (min {min}, max {max})",
+    "slotLabel": "Lien {n}",
+    "slotTitle": "Titre au-dessus du QR",
+    "destination": "Lien ou texte à encoder",
+    "addSlot": "Ajouter un lien",
+    "moveUp": "Monter",
+    "moveDown": "Descendre",
+    "savedLinks": "Utiliser un lien enregistré de la trousse",
+    "savedLinksPlaceholder": "Choisir un lien enregistré…",
+    "savedWebsite": "Site local",
+    "savedFacebook": "Facebook",
+    "showUrl": "Afficher l'URL sous chaque QR",
+    "includeBranding": "Inclure l'identité locale",
+    "qrPlaceholder": "Entrez un lien",
+    "previewSize": "Aperçu {label} - {width}×{height} po",
+    "setupBrandPrompt": "Configurez votre trousse de marque pour tamponner les affiches avec le logo de votre section.",
+    "setupBrandLink": "Commencer l'intégration",
+    "presets": {
+      "twoCampaignsLabel": "Deux campagnes (2)",
+      "twoCampaignsTitle": "Scannez pour agir",
+      "twoCampaignsSubtitle": "Deux façons de s'engager",
+      "coreLinksLabel": "Liens essentiels (4)",
+      "coreLinksTitle": "Scannez pour votre section",
+      "coreLinksSubtitle": "Soutien, site, réseaux et santé-sécurité",
+      "fullBoardLabel": "Trousse complète (6)",
+      "fullBoardTitle": "Connaissez vos droits — restez branchés",
+      "fullBoardSubtitle": "Liens essentiels plus guides des normes d'emploi et de la LSST"
+    },
+    "slotTitles": {
+      "unionCard": "Signer une carte syndicale",
+      "collectiveAgreement": "Convention collective",
+      "getSupport": "Obtenir du soutien",
+      "localWebsite": "Visitez notre site",
+      "followUs": "Restez branchés",
+      "healthSafety": "Santé et sécurité",
+      "esa": "Vos droits (ESA)",
+      "ohsa": "Guide OHSA / LSST"
     }
   },
   "websiteTemplate": {

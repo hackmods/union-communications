@@ -74,6 +74,13 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("button", { name: "Download PNG" })).toBeVisible();
   });
 
+  test("qr board poster maker page renders", async ({ page }) => {
+    await page.goto("/en/tools/qr-board/");
+    await expect(page.getByRole("heading", { name: "QR Board Poster Maker" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Download PNG" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Download PDF" })).toBeVisible();
+  });
+
   test("website template page renders with preview", async ({ page }) => {
     await page.goto("/en/tools/website-template/");
     await expect(page.getByRole("heading", { name: "Website Template" })).toBeVisible();
