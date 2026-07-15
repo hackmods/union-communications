@@ -13,7 +13,7 @@ Top bar is slim and dual-audience oriented:
 | **Get started** | `/guide/social-media-plan` |
 | **Learn ▾** | **Guides:** Comms Resources, Blueprint, Strike Guide, Photo Consent · **By channel:** Print, Union Boards, Website · **Libraries:** Social Examples, Captions |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Asset Pack) |
-| **Tools ▾** | Logo, boards, graphics, flyer, website, alt-text makers |
+| **Tools ▾** | Logo, boards, graphics, flyer, website, documents, alt-text makers |
 | **Officer Hub** | `/app` (auth) — visually distinct CTA |
 
 Footer includes Blueprint, Print Guide, Social Examples, Captions, Comms Resources, Privacy, Accessibility, Support.
@@ -50,6 +50,7 @@ Home landing (`HomeContent`): desktop hero band with CTAs + trust aside; dual-pa
 | `/[locale]/tools/quote-card` | Leadership quote cards |
 | `/[locale]/tools/flyer-maker` | Picket/rally flyers |
 | `/[locale]/tools/website-template` | GitHub Pages site ZIP export |
+| `/[locale]/tools/document-generator` | Branded Word / Excel / PowerPoint + ZIP (presets + colour baselines) |
 | `/[locale]/tools/alt-text` | Alt-text draft helper (starters, platform limits, checklist) |
 
 ## Channels
@@ -77,8 +78,9 @@ v1: all public. Phase 1+: optional premium templates behind login; core tools st
 ## Key Components
 
 - `src/lib/export/image-export.ts` — PNG/SVG/ZIP export
-- `src/lib/export/office-export.ts` — client-side DOCX (docxtemplater) / XLSX (ExcelJS); lazy-loaded on export click; templates under `public/templates/office/`
+- `src/lib/export/office-export.ts` — client-side DOCX (docxtemplater) / XLSX (ExcelJS) / PPTX (pptxgenjs); blob + ZIP bundle APIs; lazy-loaded on export click; templates under `public/templates/office/`
 - `src/components/tools/OfficeExportButton.tsx` — shared Word/Excel download control
+- `src/lib/constants/office-templates.ts` — Document & Slide Generator presets / colour → template URLs
 - `src/lib/templates/website/generate-website-zip.ts` — static site ZIP generator
 - `src/components/tools/*` — upload, contrast, consent, undo/redo, office export
 - `src/store/brand-store.ts` — brand state via DataAdapter

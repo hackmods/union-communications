@@ -58,4 +58,9 @@ export const TOOL_SEO: Record<
     description:
       "Download a simple static website for your local, ready for GitHub Pages.",
   },
+  "document-generator": {
+    title: "Free Document & Slide Generator",
+    description:
+      "Make branded Word, Excel, and PowerPoint files for your local. Presets, colour themes, and ZIP download — on your device.",
+  },
 };

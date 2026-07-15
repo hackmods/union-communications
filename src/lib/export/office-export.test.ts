@@ -1,17 +1,22 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@/lib/export/image-export", () => ({
   downloadBlob: vi.fn(),
+  downloadZip: vi.fn(),
 }));
 
-import { downloadBlob } from "@/lib/export/image-export";
+import { downloadBlob, downloadZip } from "@/lib/export/image-export";
 import {
   clearOfficeTemplateCache,
   exportDocx,
+  exportOfficeBundle,
   exportXlsx,
   loadTemplateBuffer,
+  renderDocx,
+  renderPptx,
+  renderXlsx,
 } from "./office-export";
 
 const sampleLetterPath = join(
@@ -21,6 +26,10 @@ const sampleLetterPath = join(
 const sampleRosterPath = join(
   process.cwd(),
   "public/templates/office/xlsx/sample-roster.xlsx",
+);
+const eventRedPath = join(
+  process.cwd(),
+  "public/templates/office/docx/quick-event_red.docx",
 );
 
 function mockFetchFromFile(path: string) {
@@ -42,6 +51,7 @@ describe("office-export", () => {
   beforeEach(() => {
     clearOfficeTemplateCache();
     vi.mocked(downloadBlob).mockReset();
+    vi.mocked(downloadZip).mockReset();
   });
 
   afterEach(() => {
@@ -92,6 +102,26 @@ describe("office-export", () => {
     expect(blob.size).toBeGreaterThan(0);
   });
 
+  it("renderDocx returns a blob without downloading", async () => {
+    mockFetchFromFile(eventRedPath);
+    const blob = await renderDocx({
+      templateUrl: "/templates/office/docx/quick-event_red.docx",
+      data: {
+        localNumber: "110",
+        title: "Meeting",
+        subtitle: "All welcome",
+        date: "Aug 12",
+        time: "Noon",
+        location: "Cafeteria",
+        body: "Agenda",
+        contactName: "LEC",
+      },
+    });
+    expect(blob).toBeInstanceOf(Blob);
+    expect(blob.size).toBeGreaterThan(0);
+    expect(downloadBlob).not.toHaveBeenCalled();
+  });
+
   it("fills an xlsx template and downloads a blob", async () => {
     mockFetchFromFile(sampleRosterPath);
     await exportXlsx({
@@ -112,5 +142,58 @@ describe("office-export", () => {
     expect(filename).toBe("roster-local-110.xlsx");
     expect(blob).toBeInstanceOf(Blob);
     expect(blob.size).toBeGreaterThan(0);
+  });
+
+  it("renderXlsx returns a blob without downloading", async () => {
+    mockFetchFromFile(sampleRosterPath);
+    const blob = await renderXlsx({
+      templateUrl: "/templates/office/xlsx/sample-roster.xlsx",
+      fill: (workbook) => {
+        workbook.getWorksheet("Roster")!.getCell("B1").value = "110";
+      },
+    });
+    expect(blob).toBeInstanceOf(Blob);
+    expect(blob.size).toBeGreaterThan(0);
+    expect(downloadBlob).not.toHaveBeenCalled();
+  });
+
+  it("renderPptx builds a multi-slide branded deck", async () => {
+    const blob = await renderPptx({
+      title: "Membership meeting",
+      subtitle: "All welcome",
+      body: "Bring your questions.",
+      localLabel: "Local 110",
+      palette: {
+        primary: "#9E1B32",
+        secondary: "#5C0A1A",
+        accent: "#C45C26",
+      },
+      fields: {
+        date: "Aug 12",
+        time: "Noon",
+        location: "Cafeteria",
+        contactName: "LEC",
+      },
+    });
+    expect(blob).toBeInstanceOf(Blob);
+    expect(blob.size).toBeGreaterThan(1000);
+  });
+
+  it("exportOfficeBundle zips multiple files", async () => {
+    const a = new Blob(["hello"], { type: "text/plain" });
+    const b = new Blob(["world"], { type: "text/plain" });
+    await exportOfficeBundle({
+      zipFilename: "pack-local-110.zip",
+      files: [
+        { name: "a.docx", blob: a },
+        { name: "b.pptx", blob: Promise.resolve(b) },
+      ],
+    });
+    expect(downloadZip).toHaveBeenCalledTimes(1);
+    const [files, name] = vi.mocked(downloadZip).mock.calls[0]!;
+    expect(name).toBe("pack-local-110.zip");
+    expect(files).toHaveLength(2);
+    expect(files[0]!.name).toBe("a.docx");
+    expect(files[1]!.name).toBe("b.pptx");
   });
 });

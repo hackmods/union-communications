@@ -27,6 +27,7 @@
     "qrCard": "QR Link Cards",
     "qrBoard": "QR Board Posters",
     "websiteTemplate": "Website Template",
+    "documentGenerator": "Document & Slide Generator",
     "socialMediaPlan": "Social Media Plan",
     "socialExamples": "Social Examples",
     "unionBoardsGuide": "Union Boards Guide",
@@ -50,6 +51,7 @@
     "downloadZip": "Download ZIP",
     "downloadDocx": "Download Word",
     "downloadXlsx": "Download Excel",
+    "downloadPptx": "Download PowerPoint",
     "copy": "Copy",
     "copied": "Copied!",
     "undo": "Undo",
@@ -654,6 +656,60 @@
     "setupBrandPrompt": "Set up your Brand Kit so the default logo plate uses your local number and colours.",
     "setupBrandLink": "Start onboarding",
     "exportError": "Export failed. Try again."
+  },
+  "documentGenerator": {
+    "title": "Document & Slide Generator",
+    "subtitle": "Branded Word, Excel, and PowerPoint files from design presets — colour themes switch baseline templates; text maps to {tags}. Everything runs on your device.",
+    "recommended": "Recommended templates",
+    "settings": "Settings",
+    "designPreset": "Design preset",
+    "colorTheme": "Colour theme",
+    "colorHint": "Each colour loads a different baseline Office file (for example _red vs _blue).",
+    "colors": {
+      "brand": "Brand Kit",
+      "red": "Red",
+      "blue": "Blue"
+    },
+    "outputs": "Include in ZIP",
+    "outputDocx": "Word (.docx)",
+    "outputXlsx": "Excel (.xlsx)",
+    "outputPptx": "PowerPoint (.pptx)",
+    "fieldsHeading": "Template text",
+    "downloadZip": "Download as ZIP",
+    "selectOutput": "Select at least one output format.",
+    "preview": "Preview",
+    "previewHint": "Live colour preview for the selected theme. Office files use baked-in template chrome plus PPT theme colours.",
+    "previewEmptyTitle": "Your title",
+    "previewColor": "Theme",
+    "previewFiles": "ZIP contents",
+    "previewNone": "None selected",
+    "presets": {
+      "formalGrievance": {
+        "title": "Formal grievance",
+        "blurb": "Step summary letter, tracking sheet, and brief deck."
+      },
+      "quickEvent": {
+        "title": "Quick event flyer",
+        "blurb": "Meeting or action notice with date, time, and location."
+      },
+      "posterAnnouncement": {
+        "title": "Poster-like announcement",
+        "blurb": "Bold headline copy for Word and slides (no spreadsheet)."
+      }
+    },
+    "fields": {
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "headline": "Headline",
+      "memberName": "Member name",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "body": "Body",
+      "stewardName": "Steward name",
+      "contactName": "Contact name",
+      "cta": "Call to action"
+    }
   },
   "solidarityPoster": {
     "title": "Solidarity Poster Maker",

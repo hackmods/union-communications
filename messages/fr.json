@@ -27,6 +27,7 @@
     "qrCard": "Cartes lien QR",
     "qrBoard": "Affiches QR tableau",
     "websiteTemplate": "Modèle de site Web",
+    "documentGenerator": "Documents et diapositives",
     "socialMediaPlan": "Plan médias sociaux",
     "socialExamples": "Exemples sociaux",
     "unionBoardsGuide": "Guide tableaux syndicaux",
@@ -50,6 +51,7 @@
     "downloadZip": "Télécharger ZIP",
     "downloadDocx": "Télécharger Word",
     "downloadXlsx": "Télécharger Excel",
+    "downloadPptx": "Télécharger PowerPoint",
     "copy": "Copier",
     "copied": "Copié!",
     "undo": "Annuler",
@@ -654,6 +656,60 @@
     "setupBrandPrompt": "Configurez votre trousse de marque pour que la plaque logo utilise le numéro et les couleurs de votre section locale.",
     "setupBrandLink": "Commencer l'intégration",
     "exportError": "Échec de l'export. Réessayez."
+  },
+  "documentGenerator": {
+    "title": "Générateur de documents et diapositives",
+    "subtitle": "Fichiers Word, Excel et PowerPoint à l'image de votre marque — les thèmes de couleur changent le modèle de base; le texte remplit les {balises}. Tout reste sur votre appareil.",
+    "recommended": "Modèles recommandés",
+    "settings": "Réglages",
+    "designPreset": "Préréglage de conception",
+    "colorTheme": "Thème de couleur",
+    "colorHint": "Chaque couleur charge un fichier Office de base différent (par ex. _red vs _blue).",
+    "colors": {
+      "brand": "Trousse de marque",
+      "red": "Rouge",
+      "blue": "Bleu"
+    },
+    "outputs": "Inclure dans le ZIP",
+    "outputDocx": "Word (.docx)",
+    "outputXlsx": "Excel (.xlsx)",
+    "outputPptx": "PowerPoint (.pptx)",
+    "fieldsHeading": "Texte du modèle",
+    "downloadZip": "Télécharger en ZIP",
+    "selectOutput": "Sélectionnez au moins un format.",
+    "preview": "Aperçu",
+    "previewHint": "Aperçu des couleurs du thème choisi. Les fichiers Office utilisent le chrome du modèle et les couleurs de thème PPT.",
+    "previewEmptyTitle": "Votre titre",
+    "previewColor": "Thème",
+    "previewFiles": "Contenu du ZIP",
+    "previewNone": "Aucun sélectionné",
+    "presets": {
+      "formalGrievance": {
+        "title": "Grief formel",
+        "blurb": "Lettre de résumé d'étape, feuille de suivi et courte présentation."
+      },
+      "quickEvent": {
+        "title": "Événement rapide",
+        "blurb": "Avis de réunion ou d'action avec date, heure et lieu."
+      },
+      "posterAnnouncement": {
+        "title": "Annonce style affiche",
+        "blurb": "Titre percutant pour Word et diapositives (sans tableur)."
+      }
+    },
+    "fields": {
+      "title": "Titre",
+      "subtitle": "Sous-titre",
+      "headline": "Manchette",
+      "memberName": "Nom du membre",
+      "date": "Date",
+      "time": "Heure",
+      "location": "Lieu",
+      "body": "Corps",
+      "stewardName": "Nom du délégué",
+      "contactName": "Nom du contact",
+      "cta": "Appel à l'action"
+    }
   },
   "solidarityPoster": {
     "title": "Créateur d'affiches solidarité",

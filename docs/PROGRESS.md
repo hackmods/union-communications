@@ -207,6 +207,13 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `OfficeExportButton` + EN/FR download labels; reuses `downloadBlob` / `formatFilename`
 - [x] Unit tests for template cache + render/download path
 
+## Document & Slide Generator (2026-07-15)
+
+- [x] `/tools/document-generator` — recommended presets, colour themes → discrete baseline templates, tag-mapped fields
+- [x] PPTX via pptxgenjs (4 demo slides + embedded palette); ZIP bundle of selected formats
+- [x] Color-variant templates under `public/templates/office/` (+ `scripts/generate-office-sample-templates.mjs`)
+- [x] EN/FR, Header Tools, COMMS module notes
+
 ## Union Boards Guide Expansion (2026-07-11)
 
 - [x] Bare-minimum board zones: header, socials/QR, health & safety, LEC list, events/rotating

@@ -13,11 +13,11 @@ Public-facing guides and image generation tools. v1 shipped as static export.
 Learn menu must keep **By channel** (Print, Union Boards, Website guides) — see `.cursor/rules/comms-public-nav.mdc` and `docs/modules/COMMS.md`. Backlog ideas (email guide, consent checklist, Get started beyond social): `docs/modules/COMMS_BACKLOG.md`.
 
 ## Rules
-- All image/document processing client-side (html-to-image, JSZip, jsPDF, docxtemplater, ExcelJS)
+- All image/document processing client-side (html-to-image, JSZip, jsPDF, docxtemplater, ExcelJS, pptxgenjs)
 - PNG capture (`exportNodeAsPng`): keep `shadow-*` outside `canvasRef`; pass explicit hex `backgroundColor`; inside the capture node use inline hex/`rgba` only — no Tailwind `text-white*`, `opacity-*`, or `bg-white` (oklch washout). See solidarity-poster / `graphic-layouts.tsx`.
 - **Auto contrasting ink** (required on export canvases): use `pickContrastingInk(background)` from `@/lib/utils/ink` for titles, body, and footer copy. Prefer `BrandLogo` + `backgroundColor={canvasHex}` over hardcoding `onDark` / `#FFFFFF` — ink auto-swaps to black on pale primaries and white on dark/brand fields. Use `inkWithAlpha(ink, a)` for muted copy. Never force white text/logos on a light primary.
 - **Logo monochrome**: when ink is forced, `BrandLogo` uses official white mark assets or CSS `filter` (`logoRasterFilter`) for lockups/custom uploads. Prefer filter over `mask-image` — masks do not survive html-to-image capture.
-- Office exports via `src/lib/export/office-export.ts` + `OfficeExportButton` — lazy-import heavy libs on click; static templates in `public/templates/office/`
+- Office exports via `src/lib/export/office-export.ts` + `OfficeExportButton` — lazy-import heavy libs on click; static templates in `public/templates/office/`; Document Generator at `/tools/document-generator` (DOCX/XLSX colour baselines + pptxgenjs demo decks + ZIP)
 - Member photo uploads require `ConsentModal` confirmation
 - Colour pickers must show `ContrastChecker` warnings
 - Tool pages use `useUndoRedo` for edit history

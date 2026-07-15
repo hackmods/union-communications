@@ -48,6 +48,7 @@ const toolLinks = [
   { href: "/tools/quote-card", key: "quoteCard" },
   { href: "/tools/flyer-maker", key: "flyerMaker" },
   { href: "/tools/website-template", key: "websiteTemplate" },
+  { href: "/tools/document-generator", key: "documentGenerator" },
   { href: "/tools/alt-text", key: "altText" },
 ] as const;
 
