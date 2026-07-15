@@ -19,6 +19,14 @@ const learnGroups = [
     ],
   },
   {
+    labelKey: "learnGroupChannels" as const,
+    links: [
+      { href: "/guide/print", key: "printGuide" as const },
+      { href: "/guide/union-boards", key: "unionBoardsGuide" as const },
+      { href: "/guide/website", key: "websiteGuide" as const },
+    ],
+  },
+  {
     labelKey: "learnGroupLibraries" as const,
     links: [
       { href: "/examples", key: "socialExamples" as const },

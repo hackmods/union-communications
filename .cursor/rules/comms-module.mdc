@@ -9,6 +9,9 @@ alwaysApply: false
 ## Scope
 Public-facing guides and image generation tools. v1 shipped as static export.
 
+## Public nav
+Learn menu must keep **By channel** (Print, Union Boards, Website guides) — see `.cursor/rules/comms-public-nav.mdc` and `docs/modules/COMMS.md`. Backlog ideas (email guide, consent checklist, Get started beyond social): `docs/modules/COMMS_BACKLOG.md`.
+
 ## Rules
 - All image/document processing client-side (html-to-image, JSZip, jsPDF, docxtemplater, ExcelJS)
 - Office exports via `src/lib/export/office-export.ts` + `OfficeExportButton` — lazy-import heavy libs on click; static templates in `public/templates/office/`

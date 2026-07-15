@@ -33,6 +33,7 @@
     "websiteGuide": "Guide site Web",
     "resources": "Ressources de communication",
     "learnGroupGuides": "Guides",
+    "learnGroupChannels": "Par canal",
     "learnGroupLibraries": "Bibliothèques",
     "manifesto": "Pourquoi c'est gratuit",
     "support": "Soutien",
@@ -813,6 +814,7 @@
   "brandKit": {
     "title": "Gestionnaire de trousse de marque",
     "description": "Gérer, exporter et importer l'image de marque de votre section - couleurs, logo et liens clés prêts pour des graphiques de solidarité",
+    "assetsLink": "Voir le pack d'actifs de marque",
     "export": "Exporter la trousse de marque",
     "import": "Importer la trousse de marque",
     "importSuccess": "Trousse de marque importée avec succès",

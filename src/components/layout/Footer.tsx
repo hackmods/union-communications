@@ -21,6 +21,9 @@ export function Footer() {
           <Link href="/guide" className="hover:text-opseu-blue">
             {nav("guide")}
           </Link>
+          <Link href="/guide/print" className="hover:text-opseu-blue">
+            {nav("printGuide")}
+          </Link>
           <Link href="/examples" className="hover:text-opseu-blue">
             {nav("socialExamples")}
           </Link>

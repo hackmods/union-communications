@@ -1,0 +1,36 @@
+---
+description: Public Comms navigation IA (Header Learn / Footer)
+globs: src/components/layout/Header.tsx,src/components/layout/Footer.tsx,src/app/**/guide/**,docs/modules/COMMS.md
+alwaysApply: false
+---
+
+# Comms public navigation
+
+## Header Learn menu (keep this shape)
+
+Three groups in [`Header.tsx`](src/components/layout/Header.tsx) `learnGroups`:
+
+1. **Guides** — Comms Resources, The Blueprint, Strike Guide
+2. **By channel** — Print Guide (`/guide/print`), Union Boards Guide, Website Guide
+3. **Libraries** — Social Examples, Captions
+
+Do not re-flatten channel guides into a long top-level link bar. Do not promote `/manifesto` into Header (quiet home trust link by design).
+
+## Footer
+
+Include Print Guide alongside Blueprint / Examples / Captions / Resources so print-first locals are not chrome-orphaned. Privacy, Accessibility, Support stay in footer.
+
+## Brand Assets
+
+`/assets` is not a Header top-level item. Link from Brand Kit (`brandKit.assetsLink`). Home Brand Kit card may mention assets in copy; prefer a real route link on Brand Kit.
+
+## Keep out of public chrome
+
+- Operator docs (`docs/guides/SETUP.md`, `DEPLOY.md`)
+- Hub modules (use `HubNav`)
+- Invented marketing routes (`/about`, `/pricing`, `/blog`) unless product expands
+
+## Spec & backlog
+
+- IA source of truth: [`docs/modules/COMMS.md`](docs/modules/COMMS.md)
+- Deferred content ideas: [`docs/modules/COMMS_BACKLOG.md`](docs/modules/COMMS_BACKLOG.md)

@@ -11,14 +11,18 @@ Top bar is slim and dual-audience oriented:
 | Item | Route / contents |
 |------|------------------|
 | **Get started** | `/guide/social-media-plan` |
-| **Learn ▾** | Comms Resources, Blueprint, Strike Guide · Social Examples, Captions |
-| **Brand Kit** | `/brand-kit` |
+| **Learn ▾** | **Guides:** Comms Resources, Blueprint, Strike Guide · **By channel:** Print, Union Boards, Website · **Libraries:** Social Examples, Captions |
+| **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Asset Pack) |
 | **Tools ▾** | Logo, boards, graphics, flyer, website, alt-text makers |
 | **Officer Hub** | `/app` (auth) — visually distinct CTA |
 
-Social Examples and Captions are **not** top-level nav items. They remain under Learn, the home Social channel, footer links, and Social Media Plan step 3.
+Footer includes Blueprint, Print Guide, Social Examples, Captions, Comms Resources, Privacy, Accessibility, Support.
+
+Social Examples and Captions are **not** top-level nav items. They remain under Learn, the home Social channel, footer links, and Social Media Plan step 3. Channel guides (print / boards / website) live under Learn → By channel so the four-channel model is discoverable without flattening Learn into a long link bar.
 
 Home page offers two entry paths: comms roadmap (Get started) vs Officer Hub (grievances / bumping / QOL).
+
+Deferred content ideas: [`COMMS_BACKLOG.md`](COMMS_BACKLOG.md). Agent nav conventions: `.cursor/rules/comms-public-nav.mdc`.
 
 ## Routes
 

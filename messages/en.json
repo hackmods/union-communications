@@ -33,6 +33,7 @@
     "websiteGuide": "Website Guide",
     "resources": "Comms Resources",
     "learnGroupGuides": "Guides",
+    "learnGroupChannels": "By channel",
     "learnGroupLibraries": "Libraries",
     "manifesto": "Why it's free",
     "support": "Support",
@@ -813,6 +814,7 @@
   "brandKit": {
     "title": "Brand Kit Manager",
     "description": "Manage, export, and import your local branding - colours, logo, and key links ready for solidarity graphics",
+    "assetsLink": "Browse Brand Asset Pack",
     "export": "Export brand kit",
     "import": "Import brand kit",
     "importSuccess": "Brand kit imported successfully",

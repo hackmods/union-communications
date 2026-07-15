@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
@@ -74,6 +75,14 @@ export default function BrandKitPage() {
     <div className="mx-auto max-w-2xl px-4 py-12">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 text-gray-600">{t("description")}</p>
+      <p className="mt-3">
+        <Link
+          href="/assets"
+          className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+        >
+          {t("assetsLink")}
+        </Link>
+      </p>
 
       <Card className="mt-8 space-y-4">
         <CardTitle>{t("unionPreset.title")}</CardTitle>
