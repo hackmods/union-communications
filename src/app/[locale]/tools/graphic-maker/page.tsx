@@ -27,11 +27,6 @@ import { ConsentModal } from "@/components/tools/ConsentModal";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
-import { UnionPresetSelect } from "@/components/tools/UnionPresetSelect";
-import {
-  colorsFromUnionPreset,
-  type UnionBranding,
-} from "@/lib/constants/unionPresets";
 
 function isToolPresetKey(value: string): value is ToolPresetKey {
   return value in TOOL_PRESETS;
@@ -64,15 +59,13 @@ function GraphicMakerPageContent() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingPhoto, setPendingPhoto] = useState<string | null>(null);
-  const [unionPresetId, setUnionPresetId] = useState("");
-  const [swatchColors, setSwatchColors] = useState({
+  const seedApplied = useRef(false);
+
+  const brandColors = {
     primary: brandKit.primaryColor,
     accent: brandKit.accentColor,
     secondary: brandKit.secondaryColor,
-  });
-  const seedApplied = useRef(false);
-
-  const brandColors = swatchColors;
+  };
 
   const initial: GraphicState = {
     layout: "solidarity",
@@ -112,23 +105,6 @@ function GraphicMakerPageContent() {
             : key === "strikeAction"
               ? "Strike"
               : "",
-    });
-  };
-
-  const applyUnionPreset = (preset: UnionBranding) => {
-    setUnionPresetId(preset.id);
-    const colors = colorsFromUnionPreset(preset);
-    setSwatchColors({
-      primary: colors.primaryColor,
-      accent: colors.accentColor,
-      secondary: colors.secondaryColor,
-    });
-    setState({
-      ...state,
-      ...colors,
-      headline: preset.defaultSlogans[0] ?? state.headline,
-      subheadline: preset.defaultSlogans[1] ?? state.subheadline,
-      detail: preset.defaultSlogans[2] ?? state.detail,
     });
   };
 
@@ -235,12 +211,6 @@ function GraphicMakerPageContent() {
 
       <div className="mt-8 grid gap-8 lg:grid-cols-2">
         <Card className="space-y-4">
-          <UnionPresetSelect
-            label={tg("unionPreset")}
-            value={unionPresetId}
-            placeholder={tg("unionPresetPlaceholder")}
-            onSelect={applyUnionPreset}
-          />
           <div>
             <p className="mb-2 text-sm font-medium">{tg("layout")}</p>
             <div className="flex flex-wrap gap-2">

@@ -945,8 +945,6 @@
     "primaryColor": "Primary colour",
     "accentColor": "Accent colour",
     "secondaryColor": "Secondary colour",
-    "unionPreset": "Union preset",
-    "unionPresetPlaceholder": "Choose a union…",
     "fillMode": "Background fill",
     "fillSolid": "Solid",
     "fillGradient": "Gradient",

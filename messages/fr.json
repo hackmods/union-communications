@@ -920,8 +920,6 @@
     "primaryColor": "Couleur primaire",
     "accentColor": "Couleur d'accent",
     "secondaryColor": "Couleur secondaire",
-    "unionPreset": "Préréglage syndical",
-    "unionPresetPlaceholder": "Choisir un syndicat…",
     "fillMode": "Remplissage du fond",
     "fillSolid": "Uni",
     "fillGradient": "Dégradé",
