@@ -99,13 +99,8 @@ export const DEFAULT_BRAND_KIT = {
   updatedAt: new Date().toISOString(),
 };
 
-export const PLATFORM_FORMATS = {
-  facebookCover: { width: 820, height: 312, label: "Facebook Cover" },
-  facebookPost: { width: 1200, height: 630, label: "Facebook Post" },
-  instagramSquare: { width: 1080, height: 1080, label: "Instagram Square" },
-  instagramStory: { width: 1080, height: 1920, label: "Instagram Story" },
-  youtubeBanner: { width: 2560, height: 1440, label: "YouTube Banner" },
-} as const;
+/** @deprecated Prefer `@/lib/constants/resizer-formats`. Re-exported for compatibility. */
+export { PLATFORM_FORMATS } from "@/lib/constants/resizer-formats";
 
 export const MAX_UPLOAD_SIZE_MB = 10;
 export const ALLOWED_IMAGE_TYPES = [

@@ -45,7 +45,7 @@ Home landing (`HomeContent`): desktop hero band with CTAs + trust aside; dual-pa
 | `/[locale]/tools/solidarity-poster` | Solidarity board posters + wallpapers (Print; Digital 16:9 / 19.5:9 / 9:16 PNG; CTA + QR toggles) |
 | `/[locale]/tools/qr-card` | QR link cards (title, tagline, multi-size print) |
 | `/[locale]/tools/graphic-maker` | Social graphics |
-| `/[locale]/tools/resizer` | Platform image resizer |
+| `/[locale]/tools/resizer` | Omnichannel resizer — Logo Builder plate (circle/square/rectangle) or upload; social + custom sizes at true pixels; ZIP/PNG |
 | `/[locale]/tools/quote-card` | Leadership quote cards |
 | `/[locale]/tools/flyer-maker` | Picket/rally flyers |
 | `/[locale]/tools/website-template` | GitHub Pages site ZIP export |

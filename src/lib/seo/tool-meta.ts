@@ -26,7 +26,7 @@ export const TOOL_SEO: Record<
   resizer: {
     title: "Free Union Image Resizer",
     description:
-      "Resize graphics for Facebook, Instagram, and print. All on your device.",
+      "Crop local logo plates or uploads to Facebook, Instagram, YouTube, and custom sizes — true-pixel PNG and ZIP, on your device.",
   },
   "alt-text": {
     title: "Free Union Alt-Text Assistant",

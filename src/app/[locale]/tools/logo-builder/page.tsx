@@ -4,23 +4,24 @@ import { useRef, useState } from "react";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng, exportNodeAsSvg } from "@/lib/export/image-export";
-import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
+import { formatFilename, cn } from "@/lib/utils";
 import { deriveAccentFromPrimary, getUnionPreset, resolvePresetLogos } from "@/lib/constants/unionPresets";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
-import { BrandLogo } from "@/components/brand/BrandLogo";
+import {
+  LocalLogoPlate,
+  type LogoShape,
+} from "@/components/brand/LocalLogoPlate";
 import {
   LogoSettings,
   brandKitPatchForLogoMode,
 } from "@/components/brand/LogoSettings";
 import { useTranslations } from "next-intl";
-import { pickContrastingInk } from "@/lib/utils/ink";
-import { meetsWcagAA } from "@/lib/utils/contrast";
 
-export type LogoShape = "circle" | "square" | "rectangle";
+export type { LogoShape };
 
 interface LogoState {
   localNumber: string;
@@ -100,17 +101,6 @@ export default function LogoBuilderPage() {
       setExportError(tBuilder("exportError"));
     }
   };
-
-  const isRectangle = state.shape === "rectangle";
-  const localLabel = `Local ${resolveLocalNumber(state.localNumber)}`;
-  const canvasInk = pickContrastingInk(state.primaryColor);
-  const localColor = meetsWcagAA(
-    state.secondaryColor,
-    state.primaryColor,
-    true,
-  )
-    ? state.secondaryColor
-    : canvasInk;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -243,48 +233,14 @@ export default function LogoBuilderPage() {
               state.shape === "circle" && "rounded-full",
             )}
           >
-            <div
+            <LocalLogoPlate
               ref={canvasRef}
-              className={cn(
-                "flex items-center justify-center overflow-hidden",
-                state.shape === "circle" &&
-                  "h-80 w-80 flex-col rounded-full",
-                state.shape === "square" && "h-80 w-80 flex-col",
-                state.shape === "rectangle" &&
-                  "h-44 w-[28rem] max-w-full flex-row gap-5 px-8",
-              )}
-              style={{ backgroundColor: state.primaryColor }}
-            >
-              <BrandLogo
-                size={isRectangle ? "md" : "lg"}
-                className={isRectangle ? "shrink-0" : "mb-2"}
-                backgroundColor={state.primaryColor}
-              />
-              <div
-                className={cn(
-                  "text-center",
-                  isRectangle && "min-w-0 flex-1 text-left",
-                )}
-              >
-                <p
-                  className={cn(
-                    "font-bold",
-                    isRectangle ? "text-2xl leading-tight" : "text-4xl",
-                  )}
-                  style={{ color: localColor }}
-                >
-                  {localLabel}
-                </p>
-                <p
-                  className={cn(
-                    isRectangle ? "mt-0.5 text-base" : "mt-1 text-lg",
-                  )}
-                  style={{ color: canvasInk }}
-                >
-                  {state.subText}
-                </p>
-              </div>
-            </div>
+              shape={state.shape}
+              primaryColor={state.primaryColor}
+              secondaryColor={state.secondaryColor}
+              localNumber={state.localNumber}
+              subText={state.subText}
+            />
           </div>
         </div>
       </div>
