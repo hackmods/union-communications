@@ -1,16 +1,20 @@
 /**
  * Client-side Office export (DOCX / XLSX / PPTX).
+ * Word presets are built with the `docx` library + Brand Kit (no colour stubs).
  * Heavy libs are dynamic-import()ed only on export.
- * Templates are fetched same-origin from /public — form data never leaves the device.
  */
 
 import { downloadBlob } from "@/lib/export/image-export";
-import type { BrandPalette, OfficePresetId } from "@/lib/constants/office-templates";
+import type {
+  BrandPalette,
+  OfficePresetId,
+} from "@/lib/constants/office-templates";
+import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import {
-  logoDisplaySizePx,
-  transparentPngBytes,
-  type BrandLogoBytes,
-} from "@/lib/export/brand-logo-bytes";
+  buildEventNoticeDocx,
+  buildLetterheadDocx,
+  buildSimpleLetterDocx,
+} from "@/lib/export/office-docx-builders";
 import { pickContrastingInk } from "@/lib/utils/ink";
 
 export type DocxData = Record<string, unknown>;
@@ -21,76 +25,84 @@ export type XlsxFillFn = (
 
 const templateCache = new Map<string, ArrayBuffer>();
 
-/**
- * Fetch a static template as ArrayBuffer, caching the original bytes.
- * Returns a copy so PizZip / ExcelJS mutations never poison the cache.
- */
+const XLSX_MIME =
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+const PPTX_MIME =
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+
+/** Fetch/cache static templates (sample fixtures / legacy). */
 export async function loadTemplateBuffer(
   templateUrl: string,
 ): Promise<ArrayBuffer> {
   const cached = templateCache.get(templateUrl);
-  if (cached) {
-    return cached.slice(0);
-  }
+  if (cached) return cached.slice(0);
 
   const res = await fetch(templateUrl);
-  if (!res.ok) {
-    throw new Error(`Template not found: ${templateUrl}`);
-  }
+  if (!res.ok) throw new Error(`Template not found: ${templateUrl}`);
   const buffer = await res.arrayBuffer();
   templateCache.set(templateUrl, buffer);
   return buffer.slice(0);
 }
 
-/** Clear cached templates (tests / hot-reload). */
 export function clearOfficeTemplateCache(): void {
   templateCache.clear();
 }
 
+export type DocxPresetOpts = {
+  presetId: OfficePresetId;
+  palette: BrandPalette;
+  localLabel: string;
+  fields: Record<string, string>;
+  logo?: BrandLogoBytes | null;
+};
+
+/** Build a pristine Word file for a shipped preset (Brand Kit driven). */
+export async function renderDocxFromPreset(
+  opts: DocxPresetOpts,
+): Promise<Blob> {
+  const input = {
+    palette: opts.palette,
+    localLabel: opts.localLabel,
+    fields: opts.fields,
+    logo: opts.logo,
+  };
+  switch (opts.presetId) {
+    case "simple-letter":
+      return buildSimpleLetterDocx(input);
+    case "letterhead":
+      return buildLetterheadDocx(input);
+    case "quick-event":
+      return buildEventNoticeDocx(input);
+  }
+}
+
+export async function exportDocxFromPreset(
+  opts: DocxPresetOpts & { filename: string },
+): Promise<void> {
+  const { filename, ...rest } = opts;
+  downloadBlob(await renderDocxFromPreset(rest), filename);
+}
+
+/** Legacy templated DOCX (unit tests / sample-letter only). */
 export async function renderDocx(opts: {
   templateUrl: string;
   data: DocxData;
-  /** When set, injects into {%logo}; when null/omitted, embeds 1×1 transparent PNG */
-  logo?: BrandLogoBytes | null;
 }): Promise<Blob> {
-  const [pizzipMod, docxtemplaterMod, imageMod] = await Promise.all([
+  const [pizzipMod, docxtemplaterMod] = await Promise.all([
     import("pizzip"),
     import("docxtemplater"),
-    import("docxtemplater-image-module-free"),
   ]);
-
   const PizZip = pizzipMod.default;
   const Docxtemplater = docxtemplaterMod.default;
-  const ImageModule = imageMod.default ?? imageMod;
-
-  const logoBytes = opts.logo?.bytes ?? transparentPngBytes();
-  const size = opts.logo ? logoDisplaySizePx(opts.logo) : ([1, 1] as [number, number]);
-
-  // Image module treats object tag values as pre-resolved {rId,sizePixel}.
-  // Pass a string sentinel; getImage returns bytes from this closure.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const imageModule = new (ImageModule as any)({
-    centered: false,
-    getImage() {
-      return logoBytes;
-    },
-    getSize() {
-      return size;
-    },
-  });
-
   const content = await loadTemplateBuffer(opts.templateUrl);
   const zip = new PizZip(content);
   const doc = new Docxtemplater(zip, {
     paragraphLoop: true,
     linebreaks: true,
     nullGetter: () => "",
-    modules: [imageModule],
   });
-  doc.render({
-    ...opts.data,
-    logo: opts.logo ? "brand-kit" : "",
-  });
+  doc.render(opts.data);
   return doc.toBlob();
 }
 
@@ -98,17 +110,77 @@ export async function exportDocx(opts: {
   templateUrl: string;
   data: DocxData;
   filename: string;
-  logo?: BrandLogoBytes | null;
 }): Promise<void> {
   downloadBlob(await renderDocx(opts), opts.filename);
 }
 
-const XLSX_MIME =
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+/** Event RSVP sheet built from scratch with Brand Kit header fill. */
+export async function renderEventRsvpXlsx(opts: {
+  palette: BrandPalette;
+  localNumber: string;
+  fields: Record<string, string>;
+}): Promise<Blob> {
+  const excelMod = await import("exceljs");
+  const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
+  const workbook = new ExcelNS.Workbook();
+  const ws = workbook.addWorksheet("RSVP");
+  const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
 
-const PPTX_MIME =
-  "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+  ws.getCell("A1").value = "Event";
+  ws.getCell("B1").value = opts.fields.title ?? "";
+  ws.getCell("A2").value = "Local";
+  ws.getCell("B2").value = opts.localNumber;
+  ws.getCell("A3").value = "When";
+  ws.getCell("B3").value = [opts.fields.date, opts.fields.time]
+    .filter(Boolean)
+    .join(" · ");
+  ws.getCell("A4").value = "Where";
+  ws.getCell("B4").value = opts.fields.location ?? "";
+  ws.getCell("A5").value = "Contact";
+  ws.getCell("B5").value = opts.fields.contactName ?? "";
 
+  for (let r = 1; r <= 5; r++) {
+    ws.getCell(`A${r}`).font = { bold: true, color: { argb: "FFFFFFFF" } };
+    ws.getCell(`A${r}`).fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: `FF${fill}` },
+    };
+  }
+
+  ["Name", "Email", "Phone", "Notes"].forEach((h, i) => {
+    const cell = ws.getCell(7, i + 1);
+    cell.value = h;
+    cell.font = { bold: true };
+    cell.fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "FFE8EEF4" },
+    };
+  });
+
+  ws.getColumn(1).width = 22;
+  ws.getColumn(2).width = 28;
+  ws.getColumn(3).width = 16;
+  ws.getColumn(4).width = 28;
+
+  const out = await workbook.xlsx.writeBuffer();
+  return new Blob([new Uint8Array(out)], { type: XLSX_MIME });
+}
+
+export async function exportEventRsvpXlsx(
+  opts: {
+    palette: BrandPalette;
+    localNumber: string;
+    fields: Record<string, string>;
+    filename: string;
+  },
+): Promise<void> {
+  const { filename, ...rest } = opts;
+  downloadBlob(await renderEventRsvpXlsx(rest), filename);
+}
+
+/** Legacy XLSX template fill (sample-roster tests). */
 export async function renderXlsx(opts: {
   templateUrl: string;
   fill: XlsxFillFn;
@@ -119,7 +191,6 @@ export async function renderXlsx(opts: {
   const buffer = await loadTemplateBuffer(opts.templateUrl);
   await workbook.xlsx.load(new Uint8Array(buffer) as never);
   await opts.fill(workbook);
-
   const out = await workbook.xlsx.writeBuffer();
   return new Blob([new Uint8Array(out)], { type: XLSX_MIME });
 }
@@ -170,13 +241,7 @@ function addLogo(
   h = 0.64,
 ) {
   if (!logo) return;
-  slide.addImage({
-    data: logo.bytes,
-    x,
-    y,
-    w,
-    h,
-  });
+  slide.addImage({ data: logo.bytes, x, y, w, h });
 }
 
 function buildLetterheadOrSimple(
@@ -187,7 +252,10 @@ function buildLetterheadOrSimple(
   accent: string,
   ink: string,
 ) {
-  const title = opts.fields.title || opts.title || "Local correspondence";
+  const title =
+    opts.presetId === "letterhead"
+      ? "Letterhead"
+      : opts.fields.title || "Local correspondence";
   const body = opts.body || opts.fields.body || "";
 
   {
@@ -277,116 +345,6 @@ function buildLetterheadOrSimple(
         fontFace: "Arial",
       },
     );
-  }
-}
-
-function buildFormal(
-  pptx: PptxLike,
-  opts: PptxDemoOpts,
-  primary: string,
-  secondary: string,
-  accent: string,
-  ink: string,
-) {
-  const title = opts.title || opts.fields.title || "Grievance summary";
-  const body = opts.body || opts.fields.body || "";
-
-  {
-    const s = pptx.addSlide();
-    s.background = { color: primary };
-    addLogo(s, opts.logo, 0.6, 0.45);
-    s.addText(title, {
-      x: 0.6,
-      y: 2.4,
-      w: 12,
-      h: 1.2,
-      fontSize: 34,
-      bold: true,
-      color: ink,
-      fontFace: "Arial",
-    });
-    s.addText(opts.localLabel, {
-      x: 0.6,
-      y: 6.6,
-      w: 12,
-      h: 0.4,
-      fontSize: 14,
-      color: ink,
-      fontFace: "Arial",
-    });
-  }
-
-  {
-    const s = pptx.addSlide();
-    s.background = { color: "FFFFFF" };
-    s.addText("Facts", {
-      x: 0.8,
-      y: 0.5,
-      w: 11.5,
-      h: 0.5,
-      fontSize: 24,
-      bold: true,
-      color: secondary,
-      fontFace: "Arial",
-    });
-    const facts = [
-      opts.fields.memberName && `Member: ${opts.fields.memberName}`,
-      opts.fields.date && `Date: ${opts.fields.date}`,
-      opts.fields.stewardName && `Steward: ${opts.fields.stewardName}`,
-      opts.fields.contactName && `Contact: ${opts.fields.contactName}`,
-    ].filter(Boolean) as string[];
-    s.addText(facts.join("\n"), {
-      x: 0.8,
-      y: 1.3,
-      w: 11.5,
-      h: 2,
-      fontSize: 18,
-      color: "1A1A1A",
-      fontFace: "Arial",
-    });
-    s.addText(body, {
-      x: 0.8,
-      y: 3.5,
-      w: 11.5,
-      h: 3,
-      fontSize: 16,
-      color: "1A1A1A",
-      fontFace: "Arial",
-      valign: "top",
-    });
-  }
-
-  {
-    const s = pptx.addSlide();
-    s.background = { color: secondary };
-    s.addText("Next steps", {
-      x: 0.8,
-      y: 2.2,
-      w: 11.5,
-      h: 0.6,
-      fontSize: 28,
-      bold: true,
-      color: inkHex(`#${secondary}`),
-      fontFace: "Arial",
-      align: "center",
-    });
-    s.addText(opts.fields.contactName || "Follow up with your steward.", {
-      x: 0.8,
-      y: 3.2,
-      w: 11.5,
-      h: 0.6,
-      fontSize: 18,
-      color: inkHex(`#${secondary}`),
-      fontFace: "Arial",
-      align: "center",
-    });
-    s.addShape(pptx.ShapeType.rect, {
-      x: 5.5,
-      y: 4.2,
-      w: 2.3,
-      h: 0.1,
-      fill: { color: accent },
-    });
   }
 }
 
@@ -487,15 +445,6 @@ function buildEvent(
       fontFace: "Arial",
       valign: "top",
     });
-    s.addText(opts.fields.contactName || "", {
-      x: 0.8,
-      y: 6.4,
-      w: 11.5,
-      h: 0.4,
-      fontSize: 14,
-      color: "666666",
-      fontFace: "Arial",
-    });
   }
 
   {
@@ -525,91 +474,6 @@ function buildEvent(
   }
 }
 
-function buildPoster(
-  pptx: PptxLike,
-  opts: PptxDemoOpts,
-  primary: string,
-  secondary: string,
-  accent: string,
-  ink: string,
-) {
-  const headline = opts.fields.headline || opts.title || "Stand together";
-  const title = opts.fields.title || "";
-  const body = opts.body || opts.fields.body || "";
-  const cta = opts.fields.cta || "Talk to your steward →";
-
-  {
-    const s = pptx.addSlide();
-    s.background = { color: primary };
-    addLogo(s, opts.logo, 0.5, 0.4, 1.4, 0.56);
-    s.addText(headline, {
-      x: 0.6,
-      y: 2.2,
-      w: 12,
-      h: 1.5,
-      fontSize: 44,
-      bold: true,
-      color: ink,
-      fontFace: "Arial",
-    });
-    if (title) {
-      s.addText(title, {
-        x: 0.6,
-        y: 3.9,
-        w: 12,
-        h: 0.6,
-        fontSize: 22,
-        color: ink,
-        fontFace: "Arial",
-      });
-    }
-  }
-
-  {
-    const s = pptx.addSlide();
-    s.background = { color: secondary };
-    s.addText(body || cta, {
-      x: 0.8,
-      y: 2,
-      w: 11.5,
-      h: 2,
-      fontSize: 24,
-      color: inkHex(`#${secondary}`),
-      fontFace: "Arial",
-      align: "center",
-    });
-    s.addShape(pptx.ShapeType.rect, {
-      x: 3.5,
-      y: 4.4,
-      w: 6.3,
-      h: 0.9,
-      fill: { color: accent },
-    });
-    s.addText(cta, {
-      x: 3.5,
-      y: 4.55,
-      w: 6.3,
-      h: 0.6,
-      fontSize: 18,
-      bold: true,
-      color: inkHex(`#${accent}`),
-      fontFace: "Arial",
-      align: "center",
-    });
-    s.addText(opts.localLabel, {
-      x: 0.6,
-      y: 6.6,
-      w: 12,
-      h: 0.4,
-      fontSize: 14,
-      color: inkHex(`#${secondary}`),
-      fontFace: "Arial",
-      align: "center",
-    });
-  }
-}
-
-/** Branded slides per preset; theme colours + optional Brand Kit logo. */
 export async function renderPptx(opts: PptxDemoOpts): Promise<Blob> {
   const PptxGenJS = (await import("pptxgenjs")).default;
   const pptx = new PptxGenJS() as unknown as PptxLike & {
@@ -631,20 +495,10 @@ export async function renderPptx(opts: PptxDemoOpts): Promise<Blob> {
   const accent = stripHash(opts.palette.accent);
   const ink = inkHex(opts.palette.primary);
 
-  switch (opts.presetId) {
-    case "letterhead":
-    case "simple-letter":
-      buildLetterheadOrSimple(pptx, opts, primary, secondary, accent, ink);
-      break;
-    case "formal-grievance":
-      buildFormal(pptx, opts, primary, secondary, accent, ink);
-      break;
-    case "quick-event":
-      buildEvent(pptx, opts, primary, secondary, accent, ink);
-      break;
-    case "poster-announcement":
-      buildPoster(pptx, opts, primary, secondary, accent, ink);
-      break;
+  if (opts.presetId === "quick-event") {
+    buildEvent(pptx, opts, primary, secondary, accent, ink);
+  } else {
+    buildLetterheadOrSimple(pptx, opts, primary, secondary, accent, ink);
   }
 
   const out = await pptx.write({ outputType: "blob" });

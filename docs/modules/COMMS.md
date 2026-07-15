@@ -79,10 +79,12 @@ v1: all public. Phase 1+: optional premium templates behind login; core tools st
 ## Key Components
 
 - `src/lib/export/image-export.ts` — PNG/SVG/ZIP export
-- `src/lib/export/office-export.ts` — client-side DOCX (docxtemplater + image module) / XLSX (ExcelJS) / PPTX (pptxgenjs); blob + ZIP bundle APIs; lazy-loaded on export click; templates under `public/templates/office/`
-- `src/lib/export/brand-logo-bytes.ts` — Brand Kit → raster bytes for Word/PPT logo injection
-- `src/components/tools/OfficeExportButton.tsx` — shared Word/Excel download control
-- `src/lib/constants/office-templates.ts` — Document & Slide Generator presets / colour → template URLs
+- `src/lib/export/office-export.ts` — DOCX via `docx` builders + Brand Kit; XLSX (ExcelJS); PPTX (pptxgenjs); ZIP bundles
+- `src/lib/export/office-docx-builders.ts` — simple letter / letterhead / event notice Word layouts
+- `src/lib/export/brand-logo-bytes.ts` — Brand Kit → PNG bytes for Word/PPT
+- `src/components/tools/OfficePresetMock.tsx` — live CSS document preview + example tiles
+- `src/components/tools/OfficeExportButton.tsx` — shared Word/Excel download control (legacy templates)
+- `src/lib/constants/office-templates.ts` — three Document Generator presets
 - `src/lib/templates/website/generate-website-zip.ts` — static site ZIP generator
 - `src/components/tools/*` — upload, contrast, consent, undo/redo, office export
 - `src/store/brand-store.ts` — brand state via DataAdapter

@@ -221,6 +221,13 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Per-preset PPTX decks with optional logo; Steps / RSVP Excel sheets; structure preview UI
 - [x] Plan: `.cursor/plans/pristine_office_templates.plan.md`
 
+## Document Generator Quality Redo (2026-07-15)
+
+- [x] Three examples only (simple letter, letterhead, event notice) — Brand Kit colours, no red/blue stubs
+- [x] Word built with `docx` library (header logo + live palette); Excel RSVP from scratch; pptxgenjs decks
+- [x] Page UX: example tiles + editor | live `OfficePresetMock` preview
+- [x] Plan: Doc Gen Quality Redo
+
 ## Union Boards Guide Expansion (2026-07-11)
 
 - [x] Bare-minimum board zones: header, socials/QR, health & safety, LEC list, events/rotating

@@ -699,72 +699,44 @@
   },
   "documentGenerator": {
     "title": "Document & Slide Generator",
-    "subtitle": "Ready-to-use Word letters, Excel trackers, and PowerPoint decks. Colour themes switch baseline templates; Brand Kit logo can stamp letterheads. Everything runs on your device.",
-    "quickStarts": "Quick starts",
-    "campaignPacks": "Campaign packs",
-    "recommended": "Recommended templates",
-    "settings": "Settings",
-    "designPreset": "Design preset",
-    "colorTheme": "Colour theme",
-    "colorHint": "Each colour loads a different baseline Office file (for example _red vs _blue).",
-    "colors": {
-      "brand": "Brand Kit",
-      "red": "Red",
-      "blue": "Blue"
-    },
-    "includeLogo": "Include Brand Kit logo in Word and PowerPoint",
+    "subtitle": "Three ready-to-use documents built from your Brand Kit colours and logo. Edit the text, preview live, download Word — and Excel or PowerPoint when the example includes them.",
+    "examples": "Examples",
+    "settings": "Edit & download",
+    "designPreset": "Example",
+    "includeLogo": "Include Brand Kit logo",
+    "logoResolveFailed": "Could not load your Brand Kit logo as PNG. Try a PNG upload in Brand Kit, or turn off the logo.",
     "setupBrandPrompt": "Set up your Brand Kit so the letterhead can use your local logo.",
     "setupBrandLink": "Open Brand Kit",
     "outputs": "Include in ZIP",
     "outputDocx": "Word (.docx)",
     "outputXlsx": "Excel (.xlsx)",
     "outputPptx": "PowerPoint (.pptx)",
-    "fieldsHeading": "Template text",
+    "fieldsHeading": "Text",
     "downloadZip": "Download as ZIP",
     "selectOutput": "Select at least one output format.",
-    "preview": "What you will download",
-    "previewHint": "Structure of the selected pack. Word/Excel use the chosen colour baseline; PowerPoint uses theme colours (and Brand Kit colours for the Brand theme).",
-    "whatYouGet": "Included files",
-    "previewWhenWhere": "When / where",
-    "previewEmptyTitle": "Your title",
-    "previewColor": "Theme",
-    "previewFiles": "ZIP contents",
-    "previewNone": "None selected",
+    "preview": "Preview",
+    "previewHint": "Live mock of the selected example. Downloads use the same Brand Kit colours, logo, and text.",
     "structure": {
-      "letterheadDocx": "Word letterhead stationery with coloured bar and body area",
-      "letterheadPptx": "2 PowerPoint slides (letterhead + message)",
-      "simpleLetterDocx": "Word solidarity letter (date, greeting, body, signature)",
-      "simpleLetterPptx": "2 PowerPoint slides (letterhead + letter body)",
-      "formalDocx": "Word grievance correspondence with subject and signature block",
-      "formalXlsx": "Excel Steps tracker (date, action, owner, status)",
-      "formalPptx": "3 PowerPoint slides (title, facts, next steps)",
-      "eventDocx": "Word event flyer with When/Where hierarchy",
-      "eventXlsx": "Excel RSVP sheet with event meta row",
-      "eventPptx": "3 PowerPoint slides (title, details, close)",
-      "posterDocx": "Word poster-style announcement page",
-      "posterPptx": "2 PowerPoint slides (headline + CTA)",
-      "logo": "Brand Kit logo embedded in Word letterhead and slide headers"
+      "letterheadDocx": "Word stationery with Brand Kit letterhead",
+      "letterheadPptx": "2 PowerPoint slides",
+      "simpleLetterDocx": "Word letter ready to send",
+      "simpleLetterPptx": "2 PowerPoint slides",
+      "eventDocx": "Word event notice with When/Where",
+      "eventXlsx": "Excel RSVP sheet",
+      "eventPptx": "3 PowerPoint slides"
     },
     "presets": {
-      "letterhead": {
-        "title": "Letterhead",
-        "blurb": "Blank stationery with your local bar — optional Brand Kit logo."
-      },
       "simpleLetter": {
         "title": "Simple letter",
-        "blurb": "Dear… / body / In solidarity — ready to send."
+        "blurb": "A solidarity letter with letterhead, greeting, body, and signature."
       },
-      "formalGrievance": {
-        "title": "Formal grievance",
-        "blurb": "Correspondence letter, Steps tracker sheet, and briefing deck."
+      "letterhead": {
+        "title": "Letterhead",
+        "blurb": "Blank branded stationery — add a note or leave the body empty."
       },
       "quickEvent": {
-        "title": "Quick event",
-        "blurb": "Event flyer Word doc, RSVP spreadsheet, and slide set."
-      },
-      "posterAnnouncement": {
-        "title": "Poster announcement",
-        "blurb": "Large-headline Word page plus punchy slides (no spreadsheet)."
+        "title": "Event notice",
+        "blurb": "When/where flyer, RSVP spreadsheet, and a short slide deck."
       }
     },
     "fields": {

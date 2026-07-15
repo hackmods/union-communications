@@ -8,36 +8,35 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
+import {
+  OfficeExampleTile,
+  OfficePresetMock,
+} from "@/components/tools/OfficePresetMock";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useBrandStore } from "@/store/brand-store";
 import {
+  OFFICE_PRESETS,
+  brandPalette,
   defaultFieldsForPreset,
   getPreset,
-  OFFICE_COLOR_KEYS,
-  paletteForColorKey,
-  presetsByTier,
-  resolveOfficeTemplateUrls,
-  type OfficeColorKey,
   type OfficePresetId,
 } from "@/lib/constants/office-templates";
 import {
-  exportDocx,
+  exportDocxFromPreset,
+  exportEventRsvpXlsx,
   exportOfficeBundle,
   exportPptx,
-  exportXlsx,
-  renderDocx,
+  renderDocxFromPreset,
+  renderEventRsvpXlsx,
   renderPptx,
-  renderXlsx,
 } from "@/lib/export/office-export";
-import { fillForPreset } from "@/lib/export/office-fills";
 import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { cn, formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 
 export interface GeneratorState {
   presetId: OfficePresetId;
-  colorKey: OfficeColorKey;
   includeDocx: boolean;
   includeXlsx: boolean;
   includePptx: boolean;
@@ -52,51 +51,12 @@ function initialState(
   const preset = getPreset(presetId);
   return {
     presetId,
-    colorKey: "brand",
     includeDocx: true,
     includeXlsx: preset.outputs.xlsx,
     includePptx: true,
     includeLogo,
     fields: defaultFieldsForPreset(preset),
   };
-}
-
-function GalleryGrid({
-  ids,
-  selected,
-  onSelect,
-  t,
-}: {
-  ids: OfficePresetId[];
-  selected: OfficePresetId;
-  onSelect: (id: OfficePresetId) => void;
-  t: ReturnType<typeof useTranslations>;
-}) {
-  return (
-    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {ids.map((id) => {
-        const p = getPreset(id);
-        const isSelected = selected === id;
-        return (
-          <button
-            key={id}
-            type="button"
-            onClick={() => onSelect(id)}
-            className={cn(
-              "rounded-xl border p-4 text-left transition-colors",
-              isSelected
-                ? "border-opseu-blue bg-opseu-blue/5 ring-2 ring-opseu-blue/30"
-                : "border-gray-200 bg-white hover:border-opseu-blue/40",
-            )}
-            aria-pressed={isSelected}
-          >
-            <p className="font-semibold text-opseu-dark">{t(p.titleKey)}</p>
-            <p className="mt-1 text-sm text-gray-600">{t(p.blurbKey)}</p>
-          </button>
-        );
-      })}
-    </div>
-  );
 }
 
 export default function DocumentGeneratorPage() {
@@ -141,19 +101,13 @@ export default function DocumentGeneratorPage() {
   }, [brandKit, state.includeLogo]);
 
   const preset = getPreset(state.presetId);
-  const urls = resolveOfficeTemplateUrls(preset, state.colorKey);
-  const palette = paletteForColorKey(state.colorKey, {
-    primary: brandKit.primaryColor,
-    secondary: brandKit.secondaryColor,
-    accent: brandKit.accentColor,
-  });
+  const palette = brandPalette(brandKit);
   const localNumber = brandKit.local.localNumber;
   const localLabel = `Local ${resolveLocalNumber(localNumber)}`;
 
-  const tagData: Record<string, string> = {
-    localNumber: resolveLocalNumber(localNumber),
-    contactName: state.fields.contactName ?? "",
+  const fields: Record<string, string> = {
     ...state.fields,
+    contactName: state.fields.contactName ?? "",
   };
 
   function applyPreset(id: OfficePresetId) {
@@ -163,7 +117,7 @@ export default function DocumentGeneratorPage() {
       presetId: id,
       includeDocx: next.outputs.docx,
       includeXlsx: next.outputs.xlsx,
-      includePptx: next.outputs.pptx,
+      includePptx: true,
       fields: defaultFieldsForPreset(next),
     });
   }
@@ -188,53 +142,63 @@ export default function DocumentGeneratorPage() {
   }
 
   async function resolveLogo(): Promise<BrandLogoBytes | null> {
-    return resolveBrandLogoBytes(brandKit, {
-      includeLogo: state.includeLogo,
-    });
+    if (!state.includeLogo) return null;
+    const logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });
+    if (!logo) {
+      throw new Error(t("logoResolveFailed"));
+    }
+    return logo;
   }
 
-  function pptxOpts(logo: BrandLogoBytes | null) {
+  function pptOpts(logo: BrandLogoBytes | null) {
     return {
       presetId: state.presetId,
-      title: state.fields.title ?? "",
-      subtitle: state.fields.subtitle ?? state.fields.headline,
-      body: state.fields.body,
+      title: fields.title ?? "",
+      subtitle: fields.subtitle,
+      body: fields.body,
       localLabel,
       palette,
-      fields: tagData,
+      fields,
       logo,
     };
   }
 
   function handleDownloadDocx() {
-    if (!urls.docx) return;
     void run(async () => {
-      const logo = await resolveLogo();
-      await exportDocx({
-        templateUrl: urls.docx!,
-        data: tagData,
-        filename: formatFilename(preset.fileStem, localNumber, "docx"),
+      const logo = await resolveLogo().catch((e) => {
+        if (state.includeLogo) throw e;
+        return null;
+      });
+      await exportDocxFromPreset({
+        presetId: state.presetId,
+        palette,
+        localLabel,
+        fields,
         logo,
+        filename: formatFilename(preset.fileStem, localNumber, "docx"),
       });
     });
   }
 
   function handleDownloadXlsx() {
-    if (!urls.xlsx) return;
+    if (!preset.outputs.xlsx) return;
     void run(() =>
-      exportXlsx({
-        templateUrl: urls.xlsx!,
+      exportEventRsvpXlsx({
+        palette,
+        localNumber: resolveLocalNumber(localNumber),
+        fields,
         filename: formatFilename(preset.fileStem, localNumber, "xlsx"),
-        fill: fillForPreset(preset.id, tagData),
       }),
     );
   }
 
   function handleDownloadPptx() {
     void run(async () => {
-      const logo = await resolveLogo();
+      const logo = state.includeLogo
+        ? await resolveBrandLogoBytes(brandKit, { includeLogo: true })
+        : null;
       await exportPptx({
-        ...pptxOpts(logo),
+        ...pptOpts(logo),
         filename: formatFilename(preset.fileStem, localNumber, "pptx"),
       });
     });
@@ -242,36 +206,43 @@ export default function DocumentGeneratorPage() {
 
   function handleDownloadZip() {
     void run(async () => {
-      const logo = await resolveLogo();
+      let logo: BrandLogoBytes | null = null;
+      if (state.includeLogo) {
+        logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });
+        if (!logo) throw new Error(t("logoResolveFailed"));
+      }
+
       const files: { name: string; blob: Promise<Blob> | Blob }[] = [];
-      if (state.includeDocx && urls.docx) {
+      if (state.includeDocx) {
         files.push({
           name: formatFilename(preset.fileStem, localNumber, "docx"),
-          blob: renderDocx({
-            templateUrl: urls.docx,
-            data: tagData,
+          blob: renderDocxFromPreset({
+            presetId: state.presetId,
+            palette,
+            localLabel,
+            fields,
             logo,
           }),
         });
       }
-      if (state.includeXlsx && urls.xlsx) {
+      if (state.includeXlsx && preset.outputs.xlsx) {
         files.push({
           name: formatFilename(preset.fileStem, localNumber, "xlsx"),
-          blob: renderXlsx({
-            templateUrl: urls.xlsx,
-            fill: fillForPreset(preset.id, tagData),
+          blob: renderEventRsvpXlsx({
+            palette,
+            localNumber: resolveLocalNumber(localNumber),
+            fields,
           }),
         });
       }
       if (state.includePptx) {
         files.push({
           name: formatFilename(preset.fileStem, localNumber, "pptx"),
-          blob: renderPptx(pptxOpts(logo)),
+          blob: renderPptx(pptOpts(logo)),
         });
       }
-      if (files.length === 0) {
-        throw new Error(t("selectOutput"));
-      }
+      if (files.length === 0) throw new Error(t("selectOutput"));
+
       await exportOfficeBundle({
         zipFilename: formatFilename(
           `${preset.fileStem}-pack`,
@@ -283,47 +254,31 @@ export default function DocumentGeneratorPage() {
     });
   }
 
-  const quick = presetsByTier("quick");
-  const packs = presetsByTier("pack");
-
   return (
     <PageShell className="py-8 md:py-12">
-      <div className="mb-8 max-w-prose">
+      <div className="mb-6 max-w-prose">
         <h1 className="text-3xl font-bold text-opseu-dark md:text-4xl">
           {t("title")}
         </h1>
         <p className="mt-2 text-gray-600">{t("subtitle")}</p>
       </div>
 
-      <section className="mb-8" aria-labelledby="quick-heading">
-        <h2
-          id="quick-heading"
-          className="mb-3 text-lg font-semibold text-opseu-dark"
-        >
-          {t("quickStarts")}
-        </h2>
-        <GalleryGrid
-          ids={quick.map((p) => p.id)}
-          selected={state.presetId}
-          onSelect={applyPreset}
-          t={t}
-        />
-      </section>
-
-      <section className="mb-8" aria-labelledby="packs-heading">
-        <h2
-          id="packs-heading"
-          className="mb-3 text-lg font-semibold text-opseu-dark"
-        >
-          {t("campaignPacks")}
-        </h2>
-        <GalleryGrid
-          ids={packs.map((p) => p.id)}
-          selected={state.presetId}
-          onSelect={applyPreset}
-          t={t}
-        />
-      </section>
+      <div
+        className="mb-6 grid gap-3 sm:grid-cols-3"
+        role="listbox"
+        aria-label={t("examples")}
+      >
+        {OFFICE_PRESETS.map((p) => (
+          <OfficeExampleTile
+            key={p.id}
+            presetId={p.id}
+            title={t(p.titleKey)}
+            selected={state.presetId === p.id}
+            palette={palette}
+            onSelect={() => applyPreset(p.id)}
+          />
+        ))}
+      </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card className="space-y-5">
@@ -340,7 +295,10 @@ export default function DocumentGeneratorPage() {
             />
           </div>
 
-          <div>
+          <p className="text-sm text-gray-600">{t(preset.blurbKey)}</p>
+
+          {/* Mobile a11y preset select */}
+          <div className="sm:hidden">
             <label
               htmlFor="design-preset"
               className="mb-1 block text-sm font-medium text-gray-700"
@@ -349,55 +307,17 @@ export default function DocumentGeneratorPage() {
             </label>
             <select
               id="design-preset"
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-opseu-blue focus:ring-2 focus:ring-opseu-blue/20"
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base"
               value={state.presetId}
               onChange={(e) => applyPreset(e.target.value as OfficePresetId)}
             >
-              {[...quick, ...packs].map((p) => (
+              {OFFICE_PRESETS.map((p) => (
                 <option key={p.id} value={p.id}>
                   {t(p.titleKey)}
                 </option>
               ))}
             </select>
           </div>
-
-          <fieldset>
-            <legend className="mb-2 text-sm font-medium text-gray-700">
-              {t("colorTheme")}
-            </legend>
-            <p className="mb-2 text-xs text-gray-500">{t("colorHint")}</p>
-            <div className="flex flex-wrap gap-2">
-              {OFFICE_COLOR_KEYS.map((key) => {
-                const swatch = paletteForColorKey(key, {
-                  primary: brandKit.primaryColor,
-                  secondary: brandKit.secondaryColor,
-                  accent: brandKit.accentColor,
-                });
-                const selected = state.colorKey === key;
-                return (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => setState({ ...state, colorKey: key })}
-                    className={cn(
-                      "inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium",
-                      selected
-                        ? "border-opseu-blue ring-2 ring-opseu-blue/30"
-                        : "border-gray-200",
-                    )}
-                    aria-pressed={selected}
-                  >
-                    <span
-                      className="h-4 w-4 rounded-full border border-black/10"
-                      style={{ backgroundColor: swatch.primary }}
-                      aria-hidden
-                    />
-                    {t(`colors.${key}`)}
-                  </button>
-                );
-              })}
-            </div>
-          </fieldset>
 
           <div className="space-y-2">
             <label className="inline-flex items-center gap-2 text-sm">
@@ -428,18 +348,16 @@ export default function DocumentGeneratorPage() {
               {t("outputs")}
             </legend>
             <div className="flex flex-col gap-2">
-              {preset.outputs.docx ? (
-                <label className="inline-flex items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={state.includeDocx}
-                    onChange={(e) =>
-                      setState({ ...state, includeDocx: e.target.checked })
-                    }
-                  />
-                  {t("outputDocx")}
-                </label>
-              ) : null}
+              <label className="inline-flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={state.includeDocx}
+                  onChange={(e) =>
+                    setState({ ...state, includeDocx: e.target.checked })
+                  }
+                />
+                {t("outputDocx")}
+              </label>
               {preset.outputs.xlsx ? (
                 <label className="inline-flex items-center gap-2 text-sm">
                   <input
@@ -452,18 +370,16 @@ export default function DocumentGeneratorPage() {
                   {t("outputXlsx")}
                 </label>
               ) : null}
-              {preset.outputs.pptx ? (
-                <label className="inline-flex items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={state.includePptx}
-                    onChange={(e) =>
-                      setState({ ...state, includePptx: e.target.checked })
-                    }
-                  />
-                  {t("outputPptx")}
-                </label>
-              ) : null}
+              <label className="inline-flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={state.includePptx}
+                  onChange={(e) =>
+                    setState({ ...state, includePptx: e.target.checked })
+                  }
+                />
+                {t("outputPptx")}
+              </label>
             </div>
           </fieldset>
 
@@ -492,36 +408,32 @@ export default function DocumentGeneratorPage() {
           </div>
 
           <div className="flex flex-wrap gap-2 border-t border-gray-100 pt-4">
-            {preset.outputs.docx ? (
-              <Button
-                type="button"
-                variant="outline"
-                disabled={busy || !urls.docx}
-                onClick={handleDownloadDocx}
-              >
-                {tc("downloadDocx")}
-              </Button>
-            ) : null}
+            <Button
+              type="button"
+              variant="outline"
+              disabled={busy}
+              onClick={handleDownloadDocx}
+            >
+              {tc("downloadDocx")}
+            </Button>
             {preset.outputs.xlsx ? (
               <Button
                 type="button"
                 variant="outline"
-                disabled={busy || !urls.xlsx}
+                disabled={busy}
                 onClick={handleDownloadXlsx}
               >
                 {tc("downloadXlsx")}
               </Button>
             ) : null}
-            {preset.outputs.pptx ? (
-              <Button
-                type="button"
-                variant="outline"
-                disabled={busy}
-                onClick={handleDownloadPptx}
-              >
-                {tc("downloadPptx")}
-              </Button>
-            ) : null}
+            <Button
+              type="button"
+              variant="outline"
+              disabled={busy}
+              onClick={handleDownloadPptx}
+            >
+              {tc("downloadPptx")}
+            </Button>
             <Button
               type="button"
               disabled={busy}
@@ -538,99 +450,27 @@ export default function DocumentGeneratorPage() {
           ) : null}
         </Card>
 
-        <Card className="space-y-4">
-          <CardTitle>{t("preview")}</CardTitle>
+        <div className="space-y-3">
+          <h2 className="text-lg font-semibold text-opseu-dark">
+            {t("preview")}
+          </h2>
           <p className="text-sm text-gray-600">{t("previewHint")}</p>
-
-          <div className="flex flex-wrap items-center gap-3">
-            {OFFICE_COLOR_KEYS.map((key) => {
-              const swatch = paletteForColorKey(key, {
-                primary: brandKit.primaryColor,
-                secondary: brandKit.secondaryColor,
-                accent: brandKit.accentColor,
-              });
-              return (
-                <span
-                  key={key}
-                  className={cn(
-                    "inline-flex items-center gap-1.5 text-xs",
-                    key === state.colorKey
-                      ? "font-semibold text-opseu-dark"
-                      : "text-gray-500",
-                  )}
-                >
-                  <span
-                    className="h-3 w-3 rounded-sm border border-black/10"
-                    style={{ backgroundColor: swatch.primary }}
-                  />
-                  {t(`colors.${key}`)}
-                </span>
-              );
-            })}
-          </div>
-
-          {state.includeLogo && logoPreviewSrc ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={logoPreviewSrc}
-              alt=""
-              className="h-12 w-auto max-w-[180px] object-contain"
-            />
-          ) : null}
-
-          <div>
-            <p className="mb-2 text-sm font-medium text-gray-700">
-              {t("whatYouGet")}
-            </p>
-            <ul className="list-disc space-y-1 pl-5 text-sm text-gray-700">
-              {preset.structureKeys.map((key) => (
-                <li key={key}>{t(key)}</li>
-              ))}
-              {state.includeLogo ? <li>{t("structure.logo")}</li> : null}
-            </ul>
-          </div>
-
-          <dl className="space-y-2 border-t border-gray-100 pt-3 text-sm">
-            {state.fields.title ? (
-              <div>
-                <dt className="text-gray-500">{t("fields.title")}</dt>
-                <dd className="font-medium text-opseu-dark">
-                  {state.fields.title}
-                </dd>
-              </div>
-            ) : null}
-            {state.fields.memberName ? (
-              <div>
-                <dt className="text-gray-500">{t("fields.memberName")}</dt>
-                <dd className="font-medium text-opseu-dark">
-                  Dear {state.fields.memberName},
-                </dd>
-              </div>
-            ) : null}
-            {(state.fields.date || state.fields.location) && (
-              <div>
-                <dt className="text-gray-500">{t("previewWhenWhere")}</dt>
-                <dd className="font-medium text-opseu-dark">
-                  {[state.fields.date, state.fields.time, state.fields.location]
-                    .filter(Boolean)
-                    .join(" · ")}
-                </dd>
-              </div>
-            )}
-            <div>
-              <dt className="text-gray-500">{t("previewFiles")}</dt>
-              <dd className="font-medium text-opseu-dark">
-                {[
-                  state.includeDocx && preset.outputs.docx && "DOCX",
-                  state.includeXlsx && preset.outputs.xlsx && "XLSX",
-                  state.includePptx && preset.outputs.pptx && "PPTX",
-                ]
-                  .filter(Boolean)
-                  .join(", ") || t("previewNone")}
-              </dd>
-            </div>
-          </dl>
-        </Card>
+          <OfficePresetMock
+            presetId={state.presetId}
+            palette={palette}
+            localLabel={localLabel}
+            fields={fields}
+            logoSrc={state.includeLogo ? logoPreviewSrc : null}
+            includeDocx={state.includeDocx}
+            includeXlsx={state.includeXlsx && preset.outputs.xlsx}
+            includePptx={state.includePptx}
+          />
+          <ul className="list-disc space-y-1 pl-5 text-xs text-gray-500">
+            {preset.structureKeys.map((key) => (
+              <li key={key}>{t(key)}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </PageShell>
   );

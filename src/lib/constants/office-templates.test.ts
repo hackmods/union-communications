@@ -1,65 +1,44 @@
 import { describe, expect, it } from "vitest";
 import {
+  OFFICE_PRESETS,
+  brandPalette,
   defaultFieldsForPreset,
   getPreset,
-  OFFICE_PRESETS,
-  paletteForColorKey,
-  presetsByTier,
-  resolveOfficeTemplateUrls,
 } from "./office-templates";
+import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 
 describe("office-templates", () => {
-  it("lists quick starts and campaign packs", () => {
-    expect(presetsByTier("quick").map((p) => p.id)).toEqual([
-      "letterhead",
+  it("ships exactly three high-quality presets", () => {
+    expect(OFFICE_PRESETS.map((p) => p.id)).toEqual([
       "simple-letter",
+      "letterhead",
+      "quick-event",
     ]);
-    expect(presetsByTier("pack")).toHaveLength(3);
-    expect(OFFICE_PRESETS).toHaveLength(5);
   });
 
-  it("resolves color-variant template URLs", () => {
-    const preset = getPreset("quick-event");
-    expect(resolveOfficeTemplateUrls(preset, "red")).toEqual({
-      docx: "/templates/office/docx/quick-event_red.docx",
-      xlsx: "/templates/office/xlsx/quick-event_red.xlsx",
-    });
-  });
-
-  it("omits xlsx for letterhead and simple-letter", () => {
-    expect(resolveOfficeTemplateUrls(getPreset("letterhead"), "brand")).toEqual({
-      docx: "/templates/office/docx/letterhead_brand.docx",
-      xlsx: undefined,
-    });
+  it("maps Brand Kit to palette", () => {
     expect(
-      resolveOfficeTemplateUrls(getPreset("simple-letter"), "blue"),
+      brandPalette({
+        ...DEFAULT_BRAND_KIT,
+        primaryColor: "#112233",
+        secondaryColor: "#445566",
+        accentColor: "#778899",
+      }),
     ).toEqual({
-      docx: "/templates/office/docx/simple-letter_blue.docx",
-      xlsx: undefined,
+      primary: "#112233",
+      secondary: "#445566",
+      accent: "#778899",
     });
   });
 
-  it("builds default field map from preset", () => {
-    const fields = defaultFieldsForPreset(getPreset("formal-grievance"));
+  it("builds default fields", () => {
+    const fields = defaultFieldsForPreset(getPreset("simple-letter"));
     expect(fields.memberName).toBeTruthy();
     expect(fields.body).toBeTruthy();
   });
 
-  it("uses Brand Kit for brand colour key", () => {
-    const palette = paletteForColorKey("brand", {
-      primary: "#111111",
-      secondary: "#222222",
-      accent: "#333333",
-    });
-    expect(palette.primary).toBe("#111111");
-  });
-
-  it("uses fixed chrome for red/blue", () => {
-    const red = paletteForColorKey("red", {
-      primary: "#000",
-      secondary: "#000",
-      accent: "#000",
-    });
-    expect(red.primary).toBe("#9E1B32");
+  it("event preset includes xlsx", () => {
+    expect(getPreset("quick-event").outputs.xlsx).toBe(true);
+    expect(getPreset("simple-letter").outputs.xlsx).toBe(false);
   });
 });
