@@ -89,12 +89,12 @@
     "subtitle": "Outils de communication pour les bénévoles. Flux de travail pour présidents et délégués. Pour toute section, tout syndicat.",
     "subtitleCommsOnly": "Outils de communication pour les bénévoles qui font vivre une section. Pour toute section, tout syndicat.",
     "heroCta": "Configurer la marque de votre section",
-    "socialMediaPlanCta": "Commencer le plan médias sociaux",
-    "socialMediaPlanDesc": "Feuille de route rapide : logo, tableaux syndicaux, médias sociaux et site Web simple, dans cet ordre.",
+    "socialMediaPlanCta": "Commencer la feuille de route de la première semaine",
+    "socialMediaPlanDesc": "Feuille de route rapide : marque, tableaux, impression, médias sociaux et site Web simple.",
     "pathCommsTitle": "Nouveau aux communications de votre section ?",
-    "pathCommsDesc": "Une courte feuille de route : marque, tableaux, médias sociaux, puis un site simple.",
+    "pathCommsDesc": "Une courte feuille de route pour la première semaine : marque, tableaux, impression, médias sociaux, puis un site simple.",
     "pathCommsCta": "Commencer",
-    "pathCommsHint": "Besoin de textes plus tard ? Les exemples sociaux et les légendes sont sous Apprendre.",
+    "pathCommsHint": "Les guides par canal (impression, tableaux, site Web) sont sous Apprendre, avec les exemples sociaux et les légendes.",
     "pathOfficerTitle": "Président ou délégué qui gère des dossiers ?",
     "pathOfficerDesc": "Suivez les griefs, le bumpage collégial, les retards et les passations dans le Hub des dirigeants.",
     "pathOfficerCta": "Ouvrir le Hub des dirigeants",
@@ -102,6 +102,8 @@
     "pathOfficerDescComingSoon": "Le suivi des griefs, le bumpage collégial, les tableaux de retards et les passations sont en cours. Les outils de communication sont prêts dès maintenant.",
     "pathOfficerCtaComingSoon": "Hub des dirigeants — bientôt disponible",
     "channelsTitle": "La boîte à outils",
+    "channelsIntro": "Quatre canaux, poids égal. Ouvrez un outil ou un guide ci-dessous — le reste reste sous Apprendre et Outils dans l'en-tête.",
+    "brandRailDesc": "Couleurs, logo et liens clés pour chaque graphique. Consultez le pack d'actifs de référence pour des fichiers de départ.",
     "privacyNote": "Les outils de communication tournent dans votre navigateur. Hébergez un hub et vous contrôlez cette instance.",
     "privacyNoteCommsOnly": "Les outils de communication tournent dans votre navigateur. Graphiques et trousse de marque restent sur votre appareil.",
     "trustBanner": "Communication locale d'abord : les graphiques restent dans votre navigateur. Hébergez le hub Officer vous-même et vous êtes le responsable des données de cette instance.",
@@ -110,7 +112,7 @@
     "channels": {
       "social": {
         "title": "Médias sociaux",
-        "description": "Guides, légendes et graphiques pour Facebook, Instagram et plus."
+        "description": "Graphiques, exemples et légendes pour Facebook, Instagram et plus."
       },
       "print": {
         "title": "Impression",
@@ -118,7 +120,7 @@
       },
       "boards": {
         "title": "Tableaux syndicaux",
-        "description": "Mises en page minimales, listes d'impression, avis et affiches de solidarité pour le lieu de travail."
+        "description": "Avis et affiches de solidarité pour le lieu de travail."
       },
       "website": {
         "title": "Site Web",

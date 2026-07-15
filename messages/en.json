@@ -89,12 +89,12 @@
     "subtitle": "Comms tools for volunteers. Officer workflows for presidents and stewards. Built for any local, any union.",
     "subtitleCommsOnly": "Comms tools for volunteers running a local. Built for any local, any union.",
     "heroCta": "Set up your local brand",
-    "socialMediaPlanCta": "Start the Social Media Plan",
-    "socialMediaPlanDesc": "A quick roadmap: logo, union boards, socials, and a simple website, in that order.",
+    "socialMediaPlanCta": "Start your first-week roadmap",
+    "socialMediaPlanDesc": "A quick roadmap: brand, boards, print, socials, and a simple website.",
     "pathCommsTitle": "New to running a local’s communications?",
-    "pathCommsDesc": "A short roadmap: brand, boards, socials, then a simple website.",
+    "pathCommsDesc": "A short first-week roadmap: brand, boards, print, socials, then a simple website.",
     "pathCommsCta": "Get started",
-    "pathCommsHint": "Need copy later? Social Examples and Captions are under Learn.",
+    "pathCommsHint": "Channel guides for print, boards, and website live under Learn. Social Examples and Captions are there too.",
     "pathOfficerTitle": "President or steward managing cases?",
     "pathOfficerDesc": "Track grievances, college bumping, overdue work, and handoffs in the Officer Hub.",
     "pathOfficerCta": "Open Officer Hub",
@@ -102,6 +102,8 @@
     "pathOfficerDescComingSoon": "Grievance tracking, college bumping, overdue boards, and handoffs are in progress. Comms tools are ready today.",
     "pathOfficerCtaComingSoon": "Officer Hub — coming soon",
     "channelsTitle": "The Toolbox",
+    "channelsIntro": "Four channels, equal weight. Open a tool or guide below — everything else stays in Learn and Tools in the header.",
+    "brandRailDesc": "Colours, logo, and key links for every graphic. Browse the reference asset pack when you need starter files.",
     "privacyNote": "Comms tools run in your browser. Host an Officer Hub and you control that instance.",
     "privacyNoteCommsOnly": "Comms tools run in your browser. Graphics and brand kit stay on your device.",
     "trustBanner": "Local-first Comms: graphics stay in your browser. Host the Officer Hub yourself and you are the data controller for that instance.",
@@ -110,7 +112,7 @@
     "channels": {
       "social": {
         "title": "Social Media",
-        "description": "Guides, captions, and graphics for Facebook, Instagram, and more."
+        "description": "Graphics, examples, and captions for Facebook, Instagram, and more."
       },
       "print": {
         "title": "Print",
@@ -118,7 +120,7 @@
       },
       "boards": {
         "title": "Union Boards",
-        "description": "Bare-minimum layouts, print checklists, board notices, and solidarity posters for the workplace."
+        "description": "Board notices and solidarity posters for the workplace."
       },
       "website": {
         "title": "Website",

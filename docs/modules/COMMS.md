@@ -20,9 +20,7 @@ Footer includes Blueprint, Print Guide, Social Examples, Captions, Comms Resourc
 
 Social Examples and Captions are **not** top-level nav items. They remain under Learn, the home Social channel, footer links, and Social Media Plan step 3. Channel guides (print / boards / website) live under Learn → By channel so the four-channel model is discoverable without flattening Learn into a long link bar.
 
-Home page offers two entry paths: comms roadmap (Get started) vs Officer Hub (grievances / bumping / QOL).
-
-Deferred content ideas: [`COMMS_BACKLOG.md`](COMMS_BACKLOG.md). Agent nav conventions: `.cursor/rules/comms-public-nav.mdc`.
+Home landing (`HomeContent`): desktop hero band with CTAs + trust aside; dual-path cards (comms vs Officer Hub, or compact “coming soon” rail when hub is off); Brand Kit sticky rail beside a four-column toolbox (boards → print → social → website, capped tiles). Deferred content ideas: [`COMMS_BACKLOG.md`](COMMS_BACKLOG.md). Agent nav conventions: `.cursor/rules/comms-public-nav.mdc`.
 
 ## Routes
 
