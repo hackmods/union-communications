@@ -250,6 +250,12 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Portrait letter/tabloid **pack sheets** with multiple short strips (2.5 / 3.5 / 4.5″) and cut marks
 - [x] Vertical side columns + corner grid; SVG slant (no logo clip-path); Solidarity-grade editor UX
 
+## Board trim ornaments + side rail (2026-07-15)
+
+- [x] Shared Ornaments: chevrons / LOCAL / logo lockup|mark|none / byline (banner + trim)
+- [x] Side redesigned as dual-tone rail + end caps — chevrons never drawn on sides
+- [x] Cursor rule `.cursor/rules/board-banner.mdc`
+
 ## QR Board Poster Maker (2026-07-15)
 
 - [x] `/tools/qr-board` — multi-QR union board posters (title above QR, URL under)

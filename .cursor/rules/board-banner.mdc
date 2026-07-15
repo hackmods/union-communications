@@ -1,0 +1,34 @@
+---
+description: Board Banner & Trim — strip packs, side rail, shared ornaments
+globs: src/app/**/tools/board-banner/**,src/components/tools/board-banner/**,src/lib/constants/board-banner-*.ts
+alwaysApply: false
+---
+
+# Board Banner & Trim
+
+Route: `/tools/board-banner`. Printable cork-board **hardware polish** (header strips + frame trim), not content posters.
+
+## Print model
+- Portrait **pack sheets**: letter 8.5×11 (default) or tabloid 11×17
+- Multiple short pieces per sheet with **printed** dashed cut marks inside the capture node
+- Banner strip heights: 2.5″ / 3.5″ / 4.5″; side/corner edge widths: 1.5″ / 2″ / 2.5″
+- Export captures the pack sheet only (PNG + PDF)
+
+## Side strips (locked)
+- Side = **dual-tone vertical rail** (primary body + accent stripe) with **solid end caps** for LOCAL
+- **Chevrons are never drawn on side pieces** — they fought rotated LOCAL text and mismatched bottom/corner geometry
+- Staple columns vertically along the board frame
+
+## Shared ornaments (banner + trim)
+One Ornaments section applies to both modes:
+- Show chevrons (banner / bottom / corner only; ignored on side)
+- Show local number
+- Logo: `none` | `lockup` | `mark` via `BrandLogo variantOverride`
+- Show byline + editable byline text (seed from Brand Kit `subText` once; **never** hardcode a union slogan)
+
+## Multi-union
+- No union names or slogans in core layout code — Brand Kit / user copy only
+- Colours from Brand Kit / ThemePicker; logo from Brand Kit
+
+## Capture-safe colours
+Follow `.cursor/rules/comms-module.mdc`: inline hex inside capture nodes; `pickContrastingInk` / `BrandLogo backgroundColor={…}`; keep UI shadows outside `canvasRef`.

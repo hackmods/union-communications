@@ -31,6 +31,11 @@ interface BrandLogoProps {
   onDark?: boolean;
   /** Canvas fill hex — drives auto white/black ink for mark + raster logos */
   backgroundColor?: string;
+  /**
+   * Force lockup vs compact mark without mutating Brand Kit.
+   * Custom uploads: mark → smaller plate; lockup → full custom dims.
+   */
+  variantOverride?: "lockup" | "mark";
 }
 
 const lockupSize = {
@@ -106,6 +111,7 @@ export function BrandLogo({
   className,
   onDark = false,
   backgroundColor,
+  variantOverride,
 }: BrandLogoProps) {
   const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
@@ -132,9 +138,13 @@ export function BrandLogo({
   }
 
   if (brandKit.useOfficialLogo) {
-    const variant = isOfficialLogoVariant(brandKit.officialLogoVariant)
+    const kitVariant = isOfficialLogoVariant(brandKit.officialLogoVariant)
       ? brandKit.officialLogoVariant
       : "lockup";
+    const variant: OfficialLogoVariant =
+      variantOverride === "lockup" || variantOverride === "mark"
+        ? variantOverride
+        : kitVariant;
     const resolved = resolveOfficialSrc(variant, ink);
     const officialDims =
       resolved.size === "lockup" ? lockupSize[size] : markSize[size];
@@ -161,11 +171,17 @@ export function BrandLogo({
       return platformMark;
     }
 
-    const isLockup =
+    const pathLooksLockup =
       customSrc.includes("logo-lockup") ||
       customSrc.includes("logo-primary") ||
       (customSrc.endsWith("/logo.svg") && !customSrc.includes("logo-mark"));
-    const customDims = isLockup ? lockupSize[size] : dims;
+    const preferLockup =
+      variantOverride === "lockup"
+        ? true
+        : variantOverride === "mark"
+          ? false
+          : pathLooksLockup;
+    const customDims = preferLockup ? lockupSize[size] : dims;
     const looksLikeWhiteMark =
       customSrc.includes("logo-mark-white") ||
       customSrc.includes("mark-on-dark") ||

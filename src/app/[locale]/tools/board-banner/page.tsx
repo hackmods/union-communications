@@ -38,6 +38,9 @@ import {
   type BoardBannerMode,
   type TrimPieceId,
 } from "@/lib/constants/board-banner-layouts";
+import {
+  type BoardLogoMode,
+} from "@/lib/constants/board-banner-ornaments";
 import { BoardBannerCanvas } from "@/components/tools/board-banner/BoardBannerCanvas";
 import { BoardTrimCanvas } from "@/components/tools/board-banner/BoardTrimCanvas";
 import { BoardBannerSheet } from "@/components/tools/board-banner/BoardBannerSheet";
@@ -54,7 +57,11 @@ interface BoardBannerState {
   layout: BannerLayoutId;
   trimPiece: TrimPieceId;
   callout: string;
-  includeLogo: boolean;
+  showChevrons: boolean;
+  showLocal: boolean;
+  logoMode: BoardLogoMode;
+  showByline: boolean;
+  byline: string;
   stripHeightId: StripHeightId;
   edgeWidthId: EdgeWidthId;
   primaryColor: string;
@@ -107,7 +114,11 @@ export default function BoardBannerPage() {
     layout: DEFAULT_BANNER_LAYOUT,
     trimPiece: DEFAULT_TRIM_PIECE,
     callout: "Did you know?",
-    includeLogo: false,
+    showChevrons: true,
+    showLocal: true,
+    logoMode: "none",
+    showByline: false,
+    byline: "",
     stripHeightId: DEFAULT_STRIP_HEIGHT,
     edgeWidthId: DEFAULT_EDGE_WIDTH,
     primaryColor: brandKit.primaryColor,
@@ -121,9 +132,11 @@ export default function BoardBannerPage() {
   useEffect(() => {
     if (!hydrated || brandingDefaultApplied.current) return;
     brandingDefaultApplied.current = true;
+    const sub = brandKit.local.subText?.trim() ?? "";
     reset({
       ...initial,
-      includeLogo: themeEstablished,
+      logoMode: themeEstablished ? "lockup" : "none",
+      byline: sub,
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
       accentColor: brandKit.accentColor,
@@ -152,6 +165,17 @@ export default function BoardBannerPage() {
       ? t(bannerLayoutById(state.layout).hintKey)
       : t(trimPieceById(state.trimPiece).hintKey);
 
+  const chevronToggleDisabled =
+    state.mode === "trim" && state.trimPiece === "side";
+
+  const ornamentProps = {
+    showChevrons: state.showChevrons,
+    showLocal: state.showLocal,
+    logoMode: state.logoMode,
+    showByline: state.showByline,
+    byline: state.byline,
+  };
+
   const renderPiece = () =>
     state.mode === "banner" ? (
       <BoardBannerCanvas
@@ -159,10 +183,10 @@ export default function BoardBannerPage() {
         callout={state.callout}
         localLabel={localLabel}
         localNumber={localNum}
-        includeLogo={state.includeLogo}
         primaryColor={state.primaryColor}
         secondaryColor={state.secondaryColor}
         accentColor={state.accentColor}
+        {...ornamentProps}
       />
     ) : (
       <BoardTrimCanvas
@@ -171,6 +195,8 @@ export default function BoardBannerPage() {
         secondaryColor={state.secondaryColor}
         accentColor={state.accentColor}
         localNumber={localNum}
+        edgeWidthInches={edgeWidthInches}
+        {...ornamentProps}
       />
     );
 
@@ -222,6 +248,18 @@ export default function BoardBannerPage() {
       2,
       "#FFFFFF",
     );
+  };
+
+  const resetState = () => {
+    const sub = brandKit.local.subText?.trim() ?? "";
+    reset({
+      ...initial,
+      logoMode: themeEstablished ? "lockup" : "none",
+      byline: sub,
+      primaryColor: brandKit.primaryColor,
+      secondaryColor: brandKit.secondaryColor,
+      accentColor: brandKit.accentColor,
+    });
   };
 
   return (
@@ -306,18 +344,92 @@ export default function BoardBannerPage() {
             />
           ) : null}
 
-          {state.mode === "banner" ? (
+          {/* Shared ornaments — banner + trim */}
+          <fieldset className="space-y-3 border-t border-gray-100 pt-4">
+            <legend className="text-sm font-medium text-opseu-dark">
+              {t("ornaments")}
+            </legend>
+            <p className="text-xs text-gray-500">{t("ornamentsHint")}</p>
+
+            <label
+              className={cn(
+                "flex items-center gap-2 text-sm",
+                chevronToggleDisabled && "opacity-50",
+              )}
+            >
+              <input
+                type="checkbox"
+                checked={state.showChevrons && !chevronToggleDisabled}
+                disabled={chevronToggleDisabled}
+                onChange={(e) =>
+                  setState({ ...state, showChevrons: e.target.checked })
+                }
+              />
+              {t("showChevrons")}
+            </label>
+            {chevronToggleDisabled ? (
+              <p className="text-xs text-gray-500">{t("chevronsSideNote")}</p>
+            ) : null}
+
             <label className="flex items-center gap-2 text-sm">
               <input
                 type="checkbox"
-                checked={state.includeLogo}
+                checked={state.showLocal}
                 onChange={(e) =>
-                  setState({ ...state, includeLogo: e.target.checked })
+                  setState({ ...state, showLocal: e.target.checked })
                 }
               />
-              {t("includeLogo")}
+              {t("showLocal")}
             </label>
-          ) : null}
+
+            <div>
+              <p className="mb-1 text-sm font-medium" id="logo-mode-label">
+                {t("logoMode")}
+              </p>
+              <div
+                className="flex flex-wrap gap-2"
+                role="group"
+                aria-labelledby="logo-mode-label"
+              >
+                {(
+                  [
+                    ["none", "logoNone"],
+                    ["lockup", "logoLockup"],
+                    ["mark", "logoMark"],
+                  ] as const
+                ).map(([id, key]) => (
+                  <SegButton
+                    key={id}
+                    pressed={state.logoMode === id}
+                    onClick={() => setState({ ...state, logoMode: id })}
+                  >
+                    {t(key)}
+                  </SegButton>
+                ))}
+              </div>
+            </div>
+
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={state.showByline}
+                onChange={(e) =>
+                  setState({ ...state, showByline: e.target.checked })
+                }
+              />
+              {t("showByline")}
+            </label>
+            {state.showByline ? (
+              <Input
+                label={t("byline")}
+                value={state.byline}
+                onChange={(e) =>
+                  setState({ ...state, byline: e.target.value })
+                }
+                placeholder={t("bylinePlaceholder")}
+              />
+            ) : null}
+          </fieldset>
 
           {!themeEstablished ? (
             <p className="text-sm text-gray-600">
@@ -435,15 +547,7 @@ export default function BoardBannerPage() {
             canRedo={canRedo}
             onUndo={undo}
             onRedo={redo}
-            onReset={() =>
-              reset({
-                ...initial,
-                includeLogo: themeEstablished,
-                primaryColor: brandKit.primaryColor,
-                secondaryColor: brandKit.secondaryColor,
-                accentColor: brandKit.accentColor,
-              })
-            }
+            onReset={resetState}
           />
           <div className="flex gap-3">
             <Button onClick={handleExportPng}>{tc("downloadPng")}</Button>
@@ -458,7 +562,11 @@ export default function BoardBannerPage() {
             <p className="mb-1 text-sm font-medium text-gray-700">
               {t("designPreview")}
             </p>
-            <p className="mb-2 text-xs text-gray-500">{t("designPreviewHint")}</p>
+            <p className="mb-2 text-xs text-gray-500">
+              {state.mode === "trim" && state.trimPiece === "side"
+                ? t("sideDesignHint")
+                : t("designPreviewHint")}
+            </p>
             <div className="shadow-lg">
               <div
                 className="w-full overflow-hidden bg-white"
