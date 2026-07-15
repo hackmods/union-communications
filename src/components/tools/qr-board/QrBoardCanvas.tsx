@@ -102,7 +102,7 @@ export function QrBoardCanvas({
           {includeBranding ? (
             <div style={{ marginBottom: isTabloid ? 12 : 8 }}>
               <BrandLogo
-                size={isTabloid ? 56 : 44}
+                size={isTabloid ? "md" : "sm"}
                 backgroundColor={primaryColor}
               />
             </div>
