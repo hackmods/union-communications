@@ -7,7 +7,7 @@ export type ServiceWorkerRegistrationLike = {
 
 export type ServiceWorkerContainerLike = {
   register: (scriptURL: string) => Promise<unknown>;
-  getRegistrations: () => Promise<ServiceWorkerRegistrationLike[]>;
+  getRegistrations: () => Promise<readonly ServiceWorkerRegistrationLike[]>;
 };
 
 export type SyncServiceWorkerResult =
