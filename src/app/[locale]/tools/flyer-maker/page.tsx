@@ -20,6 +20,7 @@ import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import { PageShell } from "@/components/layout/PageShell";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import type { BrandKit } from "@/types/entities";
 
 interface FlyerState {
@@ -120,11 +121,10 @@ function FlyerMakerPageContent() {
   };
 
   return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <h1 className="text-3xl font-bold text-opseu-dark">{tf("title")}</h1>
-      <p className="mt-2 text-gray-600">{tf("subtitle")}</p>
-
-      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6">
+    <ToolEditorLayout
+      title={tf("title")}
+      description={tf("subtitle")}
+      form={
         <Card density="compact" className="space-y-3">
           <Textarea
             label={tf("message")}
@@ -188,8 +188,9 @@ function FlyerMakerPageContent() {
             </Button>
           </div>
         </Card>
-
-        {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
+      }
+      preview={
+        /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
         <div className="shadow-lg">
           <div
             ref={canvasRef}
@@ -249,8 +250,8 @@ function FlyerMakerPageContent() {
             </div>
           </div>
         </div>
-      </div>
-    </PageShell>
+      }
+    />
   );
 }
 

@@ -15,6 +15,7 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { PageShell } from "@/components/layout/PageShell";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 
 interface QuoteState {
   quote: string;
@@ -74,11 +75,10 @@ function QuoteCardPageContent() {
   };
 
   return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <h1 className="text-3xl font-bold text-opseu-dark">{tq("title")}</h1>
-      <p className="mt-2 text-gray-600">{tq("subtitle")}</p>
-
-      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6">
+    <ToolEditorLayout
+      title={tq("title")}
+      description={tq("subtitle")}
+      form={
         <Card density="compact" className="space-y-3">
           <Textarea
             label={tq("quote")}
@@ -117,8 +117,9 @@ function QuoteCardPageContent() {
           />
           <Button onClick={handleExport}>{t("downloadPng")}</Button>
         </Card>
-
-        {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
+      }
+      preview={
+        /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
         <div className="shadow-lg">
           <div
             ref={canvasRef}
@@ -139,8 +140,8 @@ function QuoteCardPageContent() {
             />
           </div>
         </div>
-      </div>
-    </PageShell>
+      }
+    />
   );
 }
 

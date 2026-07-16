@@ -8,7 +8,7 @@ import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
-import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
+import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { listSavedLinks } from "@/lib/utils/local-links";
 import {
@@ -30,9 +30,10 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
-import { PageShell } from "@/components/layout/PageShell";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { SegControl } from "@/components/tools/SegControl";
 import { QrBoardCanvas } from "@/components/tools/qr-board/QrBoardCanvas";
 import { QrBoardSlotEditor } from "@/components/tools/qr-board/QrBoardSlotEditor";
 
@@ -212,30 +213,30 @@ export default function QrBoardPage() {
   }));
 
   return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-gray-600">{t("subtitle")}</p>
-
-      {!themeEstablished && hydrated ? (
-        <p className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-          {t("setupBrandPrompt")}{" "}
-          <Link href="/onboarding" className="font-medium text-opseu-blue underline">
-            {t("setupBrandLink")}
-          </Link>
-        </p>
-      ) : null}
-
-      <div className="mt-8 grid items-start gap-8 lg:grid-cols-2">
+    <ToolEditorLayout
+      title={t("title")}
+      description={t("subtitle")}
+      toolbar={
+        !themeEstablished && hydrated ? (
+          <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+            {t("setupBrandPrompt")}{" "}
+            <Link href="/onboarding" className="font-medium text-opseu-blue underline">
+              {t("setupBrandLink")}
+            </Link>
+          </p>
+        ) : null
+      }
+      form={
         <Card density="compact" className="space-y-3">
           <div>
-            <label htmlFor="qr-board-preset" className="mb-1 block text-sm font-medium">
+            <label htmlFor="qr-board-preset" className="mb-1.5 block text-sm font-medium text-gray-700">
               {t("preset")}
             </label>
             <select
               id="qr-board-preset"
               value={state.presetId}
               onChange={(e) => applyPreset(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2"
+              className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
             >
               {QR_BOARD_PRESETS.map((p) => (
                 <option key={p.id} value={p.id}>
@@ -261,30 +262,21 @@ export default function QrBoardPage() {
           />
 
           <div>
-            <p className="mb-2 text-sm font-medium">{t("format")}</p>
-            <div className="flex flex-wrap gap-2">
-              {QR_BOARD_FORMAT_ORDER.map((id) => (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => setState({ ...state, formatId: id })}
-                  className={cn(
-                    "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-                    state.formatId === id
-                      ? "bg-opseu-blue text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                  )}
-                >
-                  {t(QR_BOARD_FORMATS[id].labelKey)}
-                </button>
-              ))}
-            </div>
+            <SegControl
+              label={t("format")}
+              value={state.formatId}
+              options={QR_BOARD_FORMAT_ORDER.map((id) => ({
+                value: id,
+                label: t(QR_BOARD_FORMATS[id].labelKey),
+              }))}
+              onChange={(formatId) => setState({ ...state, formatId })}
+            />
             <p className="mt-2 text-xs text-gray-500">{t("formatTip")}</p>
           </div>
 
           <div className="space-y-3">
             <div className="flex items-center justify-between gap-2">
-              <p className="text-sm font-medium">{t("slots")}</p>
+              <p className="text-sm font-medium text-gray-700">{t("slots")}</p>
               <Button
                 type="button"
                 variant="outline"
@@ -343,7 +335,7 @@ export default function QrBoardPage() {
             ))}
           </div>
 
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex min-h-11 items-center gap-2 text-sm">
             <input
               type="checkbox"
               checked={state.showUrl}
@@ -353,7 +345,7 @@ export default function QrBoardPage() {
             />
             {t("showUrl")}
           </label>
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex min-h-11 items-center gap-2 text-sm">
             <input
               type="checkbox"
               checked={state.includeBranding}
@@ -414,8 +406,9 @@ export default function QrBoardPage() {
             </Button>
           </div>
         </Card>
-
-        <div className="lg:sticky lg:top-8">
+      }
+      preview={
+        <>
           <div className="inline-block rounded-lg shadow-lg">
             <QrBoardCanvas
               canvasRef={canvasRef}
@@ -438,8 +431,8 @@ export default function QrBoardPage() {
               height: format.heightInches,
             })}
           </p>
-        </div>
-      </div>
-    </PageShell>
+        </>
+      }
+    />
   );
 }

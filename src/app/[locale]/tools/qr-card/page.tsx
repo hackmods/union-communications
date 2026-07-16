@@ -32,9 +32,10 @@ import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { SegControl } from "@/components/tools/SegControl";
 import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
-import { PageShell } from "@/components/layout/PageShell";
 
 interface QrCardState {
   presetId: string;
@@ -217,30 +218,30 @@ export default function QrCardPage() {
         : "text-2xl";
 
   return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-gray-600">{t("subtitle")}</p>
-
-      {!themeEstablished && hydrated ? (
-        <p className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-          {t("setupBrandPrompt")}{" "}
-          <Link href="/onboarding" className="font-medium text-opseu-blue underline">
-            {t("setupBrandLink")}
-          </Link>
-        </p>
-      ) : null}
-
-      <div className="mt-8 grid items-start gap-8 lg:grid-cols-2">
+    <ToolEditorLayout
+      title={t("title")}
+      description={t("subtitle")}
+      toolbar={
+        !themeEstablished && hydrated ? (
+          <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+            {t("setupBrandPrompt")}{" "}
+            <Link href="/onboarding" className="font-medium text-opseu-blue underline">
+              {t("setupBrandLink")}
+            </Link>
+          </p>
+        ) : null
+      }
+      form={
         <Card density="compact" className="space-y-3">
           <div>
-            <label htmlFor="qr-preset" className="mb-1 block text-sm font-medium">
+            <label htmlFor="qr-preset" className="mb-1.5 block text-sm font-medium text-gray-700">
               {t("preset")}
             </label>
             <select
               id="qr-preset"
               value={state.presetId}
               onChange={(e) => applyPreset(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2"
+              className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
             >
               {QR_CARD_PRESETS.map((p) => (
                 <option key={p.id} value={p.id}>
@@ -258,7 +259,7 @@ export default function QrCardPage() {
           />
           {savedLinks.length > 0 ? (
             <div>
-              <label htmlFor="qr-saved-link" className="mb-1 block text-sm font-medium">
+              <label htmlFor="qr-saved-link" className="mb-1.5 block text-sm font-medium text-gray-700">
                 {t("savedLinks")}
               </label>
               <select
@@ -268,7 +269,7 @@ export default function QrCardPage() {
                   const url = e.target.value;
                   if (url) setState({ ...state, destination: url });
                 }}
-                className="w-full rounded-md border border-gray-300 px-3 py-2"
+                className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
               >
                 <option value="">{t("savedLinksPlaceholder")}</option>
                 {savedLinks.map((link) => (
@@ -296,50 +297,30 @@ export default function QrCardPage() {
             onChange={(e) => setState({ ...state, tagline: e.target.value })}
           />
 
-          <div>
-            <p className="mb-2 text-sm font-medium">{t("bgMode")}</p>
-            <div className="flex flex-wrap gap-2">
-              {(["plain", "gradient", "accentBar"] as const).map((mode) => (
-                <button
-                  key={mode}
-                  type="button"
-                  onClick={() => setState({ ...state, bgMode: mode })}
-                  className={cn(
-                    "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-                    state.bgMode === mode
-                      ? "bg-opseu-blue text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                  )}
-                >
-                  {t(`bgModes.${mode}`)}
-                </button>
-              ))}
-            </div>
-          </div>
+          <SegControl
+            label={t("bgMode")}
+            value={state.bgMode}
+            options={(["plain", "gradient", "accentBar"] as const).map((mode) => ({
+              value: mode,
+              label: t(`bgModes.${mode}`),
+            }))}
+            onChange={(bgMode) => setState({ ...state, bgMode })}
+          />
 
           <div>
-            <p className="mb-2 text-sm font-medium">{t("size")}</p>
-            <div className="flex flex-wrap gap-2">
-              {QR_CARD_SIZE_ORDER.map((id) => (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => setState({ ...state, sizeId: id })}
-                  className={cn(
-                    "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-                    state.sizeId === id
-                      ? "bg-opseu-blue text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                  )}
-                >
-                  {t(`sizes.${id}`)}
-                </button>
-              ))}
-            </div>
+            <SegControl
+              label={t("size")}
+              value={state.sizeId}
+              options={QR_CARD_SIZE_ORDER.map((id) => ({
+                value: id,
+                label: t(`sizes.${id}`),
+              }))}
+              onChange={(sizeId) => setState({ ...state, sizeId })}
+            />
             <p className="mt-2 text-xs text-gray-500">{t("sizeTip")}</p>
           </div>
 
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex min-h-11 items-center gap-2 text-sm">
             <input
               type="checkbox"
               checked={state.showUrl}
@@ -348,7 +329,7 @@ export default function QrCardPage() {
             {t("showUrl")}
           </label>
 
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex min-h-11 items-center gap-2 text-sm">
             <input
               type="checkbox"
               checked={state.includeBranding}
@@ -393,158 +374,157 @@ export default function QrCardPage() {
             </Button>
           </div>
         </Card>
-
-        <div className="lg:sticky lg:top-6">
-          <div className="mx-auto w-fit max-w-full">
-            <div className="rounded-lg border border-gray-200 bg-gray-100/80 p-4 sm:p-6">
-              <div
-                className="min-w-0"
-                style={{ width: size.previewWidthPx, maxWidth: "100%" }}
-              >
-                {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
-                <div className="shadow-lg">
-                  <div
-                    ref={canvasRef}
-                    className="relative flex w-full min-w-0 flex-col overflow-hidden"
-                    style={canvasStyle}
-                  >
-                    {state.bgMode === "accentBar" ? (
-                      <div
-                        className={cn(
-                          "w-full shrink-0",
-                          isCompact ? "h-2" : "h-3",
-                        )}
-                        style={{ backgroundColor: state.secondaryColor }}
-                      />
-                    ) : null}
-
+      }
+      preview={
+        <div className="mx-auto w-fit max-w-full">
+          <div className="rounded-lg border border-gray-200 bg-gray-100/80 p-4 md:p-6">
+            <div
+              className="min-w-0"
+              style={{ width: size.previewWidthPx, maxWidth: "100%" }}
+            >
+              {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
+              <div className="shadow-lg">
+                <div
+                  ref={canvasRef}
+                  className="relative flex w-full min-w-0 flex-col overflow-hidden"
+                  style={canvasStyle}
+                >
+                  {state.bgMode === "accentBar" ? (
                     <div
                       className={cn(
-                        "flex min-h-0 min-w-0 flex-1 flex-col items-center justify-between text-center",
-                        isCompact
-                          ? "gap-1.5 p-2.5"
-                          : isSquare
-                            ? "gap-2 p-3"
-                            : "gap-3 p-4 sm:p-5",
+                        "w-full shrink-0",
+                        isCompact ? "h-2" : "h-3",
                       )}
-                    >
-                      <div className="w-full min-w-0 shrink-0">
-                        {state.includeBranding ? (
-                          <div
-                            className={cn(
-                              "flex justify-center",
-                              isCompact ? "mb-1" : "mb-2",
-                            )}
-                          >
-                            <BrandLogo
-                              size="sm"
-                              backgroundColor={state.primaryColor}
-                            />
-                          </div>
-                        ) : null}
-                        <h2
-                          className={cn(
-                            "font-black uppercase leading-tight tracking-tight",
-                            titleSize,
-                          )}
-                          style={{ color: canvasInk }}
-                        >
-                          {state.title}
-                        </h2>
-                        {state.description.trim() ? (
-                          <p
-                            className={cn(
-                              "mt-1 leading-snug",
-                              isCompact || isSquare ? "text-xs" : "text-sm",
-                            )}
-                            style={{ color: mutedInk }}
-                          >
-                            {state.description}
-                          </p>
-                        ) : null}
-                      </div>
+                      style={{ backgroundColor: state.secondaryColor }}
+                    />
+                  ) : null}
 
-                      <div className="flex min-h-0 w-full min-w-0 flex-col items-center justify-center">
+                  <div
+                    className={cn(
+                      "flex min-h-0 min-w-0 flex-1 flex-col items-center justify-between text-center",
+                      isCompact
+                        ? "gap-1.5 p-2.5"
+                        : isSquare
+                          ? "gap-2 p-3"
+                          : "gap-3 p-4 sm:p-5",
+                    )}
+                  >
+                    <div className="w-full min-w-0 shrink-0">
+                      {state.includeBranding ? (
                         <div
                           className={cn(
-                            "rounded-md",
-                            isCompact || isSquare ? "p-1.5" : "p-2",
+                            "flex justify-center",
+                            isCompact ? "mb-1" : "mb-2",
                           )}
-                          style={{
-                            width: `${qrPlatePercent}%`,
-                            backgroundColor: "#FFFFFF",
-                          }}
                         >
-                          {qrSrc ? (
-                            // eslint-disable-next-line @next/next/no-img-element -- data URL from client QR
-                            <img
-                              src={qrSrc}
-                              alt=""
-                              className="aspect-square h-auto w-full"
-                            />
-                          ) : (
-                            <div
-                              className="flex aspect-square w-full items-center justify-center text-[0.65rem]"
-                              style={{
-                                backgroundColor: "#F3F4F6",
-                                color: "#6B7280",
-                              }}
-                            >
-                              {t("qrPlaceholder")}
-                            </div>
-                          )}
+                          <BrandLogo
+                            size="sm"
+                            backgroundColor={state.primaryColor}
+                          />
                         </div>
-                        {state.tagline.trim() ? (
-                          <p
-                            className={cn(
-                              "mt-1.5 font-bold uppercase tracking-wide",
-                              isCompact || isSquare ? "text-[10px]" : "text-sm",
-                            )}
-                            style={{
-                              color: taglineColor,
-                            }}
-                          >
-                            {state.tagline}
-                          </p>
-                        ) : null}
-                        {state.showUrl && state.destination.trim() ? (
-                          <p
-                            className="mt-1 max-w-full truncate text-[10px]"
-                            style={{ color: mutedInk80 }}
-                          >
-                            {state.destination}
-                          </p>
-                        ) : null}
-                      </div>
-
-                      {state.includeBranding ? (
+                      ) : null}
+                      <h2
+                        className={cn(
+                          "font-black uppercase leading-tight tracking-tight",
+                          titleSize,
+                        )}
+                        style={{ color: canvasInk }}
+                      >
+                        {state.title}
+                      </h2>
+                      {state.description.trim() ? (
                         <p
                           className={cn(
-                            "shrink-0 font-semibold",
-                            isCompact || isSquare ? "text-[10px]" : "text-xs",
+                            "mt-1 leading-snug",
+                            isCompact || isSquare ? "text-xs" : "text-sm",
                           )}
                           style={{ color: mutedInk }}
                         >
-                          {localLabel}
+                          {state.description}
                         </p>
-                      ) : (
-                        <span className="h-2 shrink-0" aria-hidden />
-                      )}
+                      ) : null}
                     </div>
+
+                    <div className="flex min-h-0 w-full min-w-0 flex-col items-center justify-center">
+                      <div
+                        className={cn(
+                          "rounded-md",
+                          isCompact || isSquare ? "p-1.5" : "p-2",
+                        )}
+                        style={{
+                          width: `${qrPlatePercent}%`,
+                          backgroundColor: "#FFFFFF",
+                        }}
+                      >
+                        {qrSrc ? (
+                          // eslint-disable-next-line @next/next/no-img-element -- data URL from client QR
+                          <img
+                            src={qrSrc}
+                            alt=""
+                            className="aspect-square h-auto w-full"
+                          />
+                        ) : (
+                          <div
+                            className="flex aspect-square w-full items-center justify-center text-[0.65rem]"
+                            style={{
+                              backgroundColor: "#F3F4F6",
+                              color: "#6B7280",
+                            }}
+                          >
+                            {t("qrPlaceholder")}
+                          </div>
+                        )}
+                      </div>
+                      {state.tagline.trim() ? (
+                        <p
+                          className={cn(
+                            "mt-1.5 font-bold uppercase tracking-wide",
+                            isCompact || isSquare ? "text-[10px]" : "text-sm",
+                          )}
+                          style={{
+                            color: taglineColor,
+                          }}
+                        >
+                          {state.tagline}
+                        </p>
+                      ) : null}
+                      {state.showUrl && state.destination.trim() ? (
+                        <p
+                          className="mt-1 max-w-full truncate text-[10px]"
+                          style={{ color: mutedInk80 }}
+                        >
+                          {state.destination}
+                        </p>
+                      ) : null}
+                    </div>
+
+                    {state.includeBranding ? (
+                      <p
+                        className={cn(
+                          "shrink-0 font-semibold",
+                          isCompact || isSquare ? "text-[10px]" : "text-xs",
+                        )}
+                        style={{ color: mutedInk }}
+                      >
+                        {localLabel}
+                      </p>
+                    ) : (
+                      <span className="h-2 shrink-0" aria-hidden />
+                    )}
                   </div>
                 </div>
               </div>
             </div>
-            <p className="mt-3 text-center text-xs text-gray-500">
-              {t("previewSize", {
-                label: t(`sizes.${state.sizeId}`),
-                width: size.widthInches,
-                height: size.heightInches,
-              })}
-            </p>
           </div>
+          <p className="mt-3 text-center text-xs text-gray-500">
+            {t("previewSize", {
+              label: t(`sizes.${state.sizeId}`),
+              width: size.widthInches,
+              height: size.heightInches,
+            })}
+          </p>
         </div>
-      </div>
-    </PageShell>
+      }
+    />
   );
 }
