@@ -26,6 +26,14 @@ export function Footer() {
           <p className="text-opseu-blue">
             {t(isOfficerHubPublic() ? "privacy" : "privacyCommsOnly")}
           </p>
+          <p className="mt-2">
+            <Link
+              href="/install"
+              className="text-sm text-gray-500 underline-offset-2 hover:text-opseu-blue hover:underline"
+            >
+              {t("installApp")}
+            </Link>
+          </p>
         </div>
         <nav
           className="flex min-w-0 flex-wrap gap-x-4 gap-y-1 sm:max-w-xl sm:justify-end md:max-w-2xl"

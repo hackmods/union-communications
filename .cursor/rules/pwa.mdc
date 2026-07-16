@@ -1,0 +1,33 @@
+---
+description: PWA installability, offline shell, and required test coverage
+globs: src/lib/pwa/**,src/components/pwa/**,src/app/manifest.ts,public/sw.js,src/app/**/install/**
+alwaysApply: false
+---
+
+# PWA / desktop install (web prompt)
+
+UnionOps offers desktop/app install via the **browser-native** Chromium “Install app” prompt (and Safari Add to Dock / Home Screen). There is **no** custom `beforeinstallprompt` UI.
+
+## Surfaces
+
+| Piece | Location |
+|-------|----------|
+| Manifest builder | `src/lib/pwa/manifest.ts` → `src/app/manifest.ts` |
+| Host gate | `src/lib/pwa/hosts.ts` — only `unionops.org` / `www` |
+| SW sync | `src/lib/pwa/register.ts` → `ServiceWorkerRegister` |
+| Offline stub | `public/sw.js` — keep `CACHE`/`PRECACHE` in sync with `src/lib/pwa/shell.ts` |
+| Quiet user guide | `/install` — footer muted link + support/privacy cross-links; **not** Header/Learn/Tools |
+
+## When changing PWA or related features
+
+1. Update `src/lib/pwa/*` first; keep `public/sw.js` string-identical for cache/precache.
+2. Run `npm run test:unit` — must include `src/lib/pwa/*.test.ts` (hosts, register, manifest installability, shell↔sw sync, i18n).
+3. If you touch `/install` or footer/support/privacy links, keep the page **out of** Header menus (see `comms-public-nav.mdc`).
+4. Do **not** register the SW on localhost/CI; Playwright uses `serviceWorkers: "block"`.
+5. Preserve installability: `name`/`short_name`, `start_url`, `display: standalone` (or fullscreen/minimal-ui), 192 + 512 icons.
+
+## Do not
+
+- Add an App Store / Microsoft Store wrapper without an explicit product decision
+- Promote `/install` into main nav or Learn/Tools dropdowns
+- Drop unit coverage when refactoring manifest, hosts, or `sw.js`

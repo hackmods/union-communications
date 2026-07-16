@@ -227,6 +227,22 @@ test.describe("Smoke tests @smoke", () => {
     ).toHaveAttribute("href", "https://buymeacoffee.com/ryanmorris");
   });
 
+  test("install page renders and stays out of header nav", async ({ page }) => {
+    await page.goto("/en/install/");
+    await expect(
+      page.getByRole("heading", { name: "Install UnionOps on your desktop" }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Privacy →" })).toBeVisible();
+    // Quiet page: not promoted into header chrome (footer muted link only).
+    await expect(
+      page.locator("header").getByRole("link", { name: /install/i }),
+    ).toHaveCount(0);
+    await page.goto("/en/");
+    await expect(
+      page.getByRole("contentinfo").getByRole("link", { name: "Install as an app" }),
+    ).toBeVisible();
+  });
+
   test("unauthenticated hub redirects to login", async ({ page }) => {
     await page.goto("/en/app");
     await expect(page).toHaveURL(/\/en\/app\/login/);

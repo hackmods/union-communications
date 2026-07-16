@@ -1454,12 +1454,14 @@
     "cta": "Buy me a coffee",
     "ctaHint": "Opens buymeacoffee.com in a new tab.",
     "toManifesto": "Why it’s free →",
-    "backHome": "← Back to UnionOps"
+    "backHome": "← Back to UnionOps",
+    "toInstall": "Install as an app →"
   },
   "footer": {
     "madeBy": "UnionOps. Built in solidarity for union locals by union volunteers.",
     "privacy": "Comms on-device; you control your hub",
-    "privacyCommsOnly": "Comms on-device — graphics stay in your browser"
+    "privacyCommsOnly": "Comms on-device — graphics stay in your browser",
+    "installApp": "Install as an app"
   },
   "accessibility": {
     "title": "Accessibility Statement",
@@ -1919,5 +1921,24 @@
       "approved": "Approved",
       "rejected": "Rejected"
     }
+  },
+  "installPage": {
+    "title": "Install UnionOps on your desktop",
+    "intro": "On supported browsers you can install UnionOps as a local app window — no app store, no extra download. Your Brand Kit and Comms drafts stay on this device; Officer Hub case work still needs a network when you are live.",
+    "whereTitle": "Where install works",
+    "whereBody": "Chromium browsers (Chrome, Edge, Brave, and similar) on desktop and Android can show an Install app control. Safari on macOS and iOS uses Add to Dock / Add to Home Screen. Install prompts only appear on the production host (unionops.org), not on localhost.",
+    "chromeTitle": "Chrome, Edge, and friends",
+    "chromeStep1": "Open unionops.org in your browser.",
+    "chromeStep2": "Look for Install in the address bar, or open the browser menu and choose Install app / Install UnionOps.",
+    "chromeStep3": "Confirm. UnionOps opens in its own window with the offline shell available for the public pages you last loaded.",
+    "safariTitle": "Safari (Mac and iPhone)",
+    "safariBody": "Use File → Add to Dock on Mac, or Share → Add to Home Screen on iPhone/iPad. Safari does not use the same Install app prompt as Chromium.",
+    "limitsTitle": "What install does not change",
+    "limitsOffline": "The service worker keeps a thin offline shell for public Comms pages — not a full offline Officer Hub.",
+    "limitsNetwork": "Grievance, bumping, and other hub modules still need a signed-in session and network when you work live.",
+    "limitsNoStore": "There is no App Store or Microsoft Store listing; install is the browser’s own progressive web app flow.",
+    "toPrivacy": "Privacy →",
+    "toSupport": "Support the builder →",
+    "backHome": "← Back to UnionOps"
   }
 }

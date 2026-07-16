@@ -1,5 +1,6 @@
 /* UnionOps offline stub — caches a minimal shell so Officer Hub UI can load without cell service.
-   Hub API data still requires a network when live; encrypted hybrid backup covers offline case data. */
+   Hub API data still requires a network when live; encrypted hybrid backup covers offline case data.
+   Keep CACHE / PRECACHE in sync with src/lib/pwa/shell.ts (enforced by unit tests). */
 const CACHE = "unionops-shell-v2";
 const PRECACHE = ["/en/", "/manifest.webmanifest", "/og-image.png"];
 

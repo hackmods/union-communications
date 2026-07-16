@@ -14,7 +14,7 @@ Three groups in [`Header.tsx`](src/components/layout/Header.tsx) `learnGroups`:
 2. **By channel** — Print Guide (`/guide/print`), Union Boards Guide, Website Guide
 3. **Libraries** — Social Examples, Captions
 
-Do not re-flatten channel guides into a long top-level link bar. Do not promote `/manifesto` into Header (quiet home trust link by design).
+Do not re-flatten channel guides into a long top-level link bar. Do not promote `/manifesto` into Header (quiet home trust link by design). Do not promote `/install` into Header (muted footer + support/privacy cross-links only — see `.cursor/rules/pwa.mdc`).
 
 ## Header Tools menu (keep this shape)
 
@@ -29,7 +29,7 @@ Do not re-flatten Tools into a single ungrouped list. Keep one **Tools ▾** tri
 
 ## Footer
 
-Include Print Guide alongside Blueprint / Examples / Captions / Resources so print-first locals are not chrome-orphaned. Privacy, Accessibility, Support stay in footer.
+Include Print Guide alongside Blueprint / Examples / Captions / Resources so print-first locals are not chrome-orphaned. Privacy, Accessibility, Support stay in footer. **Install as an app** (`/install`) is a muted text link under the footer blurb — not a peer of Privacy/Support in the footer nav row.
 
 ## Brand Assets
 
@@ -40,6 +40,7 @@ Include Print Guide alongside Blueprint / Examples / Captions / Resources so pri
 - Operator docs (`docs/guides/SETUP.md`, `DEPLOY.md`)
 - Hub modules (use `HubNav`)
 - Invented marketing routes (`/about`, `/pricing`, `/blog`) unless product expands
+- PWA install guide (`/install`) — quiet only; never Learn/Tools/Header
 
 ## Spec & backlog
 

@@ -24,7 +24,7 @@ export const SITE_KEYWORDS = [
 
 export const OG_IMAGE_PATH = "/opengraph-image";
 export const TWITTER_IMAGE_PATH = "/twitter-image";
-/** Static fallback for PWA / service worker (kept in sync with platform brand) */
+/** Static fallback for PWA / service worker (kept in sync with `src/lib/pwa/shell.ts`) */
 export const OG_IMAGE_STATIC_PATH = "/og-image.png";
 
 export const FAVICON_ICO_PATH = "/favicon.ico";

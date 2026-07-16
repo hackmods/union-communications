@@ -16,7 +16,7 @@ Top bar is slim and dual-audience oriented:
 | **Tools ▾** | **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, QR Cards · **Print:** Flyer · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text |
 | **Officer Hub** | `/app` (auth) — visually distinct CTA |
 
-Footer includes Blueprint, Print Guide, Social Examples, Captions, Comms Resources, Privacy, Accessibility, Support.
+Footer includes Blueprint, Print Guide, Social Examples, Captions, Comms Resources, Privacy, Accessibility, Support. PWA install (`/install`) is a muted footer blurb link only — not Header/Learn/Tools.
 
 Social Examples and Captions are **not** top-level nav items. They remain under Learn, the home Social channel, footer links, and Social Media Plan step 3. Channel guides (print / boards / website) live under Learn → By channel so the four-channel model is discoverable without flattening Learn into a long link bar.
 
@@ -37,6 +37,7 @@ Home landing (`HomeContent`): desktop hero band with CTAs + trust aside; dual-pa
 | `/[locale]/guide/union-boards` | Workplace bulletin board guide (bare-minimum layout, ministry posters, anonymized templates, IRL reference patterns) |
 | `/[locale]/guide/print` | Print communications guide |
 | `/[locale]/guide/website` | Local website deploy guide |
+| `/[locale]/install` | Quiet PWA / desktop install guide (browser install prompt; not in Header) |
 | `/[locale]/examples` | Social examples gallery — brand-aware mockups, why-it-works notes, handoff to Graphic Maker / Captions / Quote Card / Flyer |
 | `/[locale]/captions` | Caption & hashtag library |
 | `/[locale]/assets` | Union asset pack (CAAT OPSEU reference) |

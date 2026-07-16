@@ -1429,12 +1429,14 @@
     "cta": "M'offrir un café",
     "ctaHint": "Ouvre buymeacoffee.com dans un nouvel onglet.",
     "toManifesto": "Pourquoi c'est gratuit →",
-    "backHome": "← Retour à UnionOps"
+    "backHome": "← Retour à UnionOps",
+    "toInstall": "Installer comme application →"
   },
   "footer": {
     "madeBy": "UnionOps. Built in solidarity for union locals by union volunteers.",
     "privacy": "Comms sur l'appareil ; vous contrôlez votre hub",
-    "privacyCommsOnly": "Comms sur l'appareil — les graphiques restent dans votre navigateur"
+    "privacyCommsOnly": "Comms sur l'appareil — les graphiques restent dans votre navigateur",
+    "installApp": "Installer comme application"
   },
   "accessibility": {
     "title": "Déclaration d'accessibilité",
@@ -1919,5 +1921,24 @@
     },
     "markAlt": "Emblème OPSEU (barres et trille)",
     "downloadMark": "Télécharger l'emblème PNG"
+  },
+  "installPage": {
+    "title": "Installer UnionOps sur le bureau",
+    "intro": "Sur les navigateurs pris en charge, vous pouvez installer UnionOps comme fenêtre d'application locale — sans magasin d'applications, sans téléchargement supplémentaire. Votre trousse de marque et vos brouillons Comms restent sur cet appareil; le travail de dossiers du Hub des officiers exige toujours un réseau lorsque vous êtes en ligne.",
+    "whereTitle": "Où l'installation fonctionne",
+    "whereBody": "Les navigateurs Chromium (Chrome, Edge, Brave et similaires) sur ordinateur et Android peuvent afficher Installer l'application. Safari sur macOS et iOS utilise Ajouter au Dock / Ajouter à l'écran d'accueil. Les invites n'apparaissent que sur l'hôte de production (unionops.org), pas en local.",
+    "chromeTitle": "Chrome, Edge et assimilés",
+    "chromeStep1": "Ouvrez unionops.org dans votre navigateur.",
+    "chromeStep2": "Cherchez Installer dans la barre d'adresse, ou ouvrez le menu du navigateur et choisissez Installer l'application / Installer UnionOps.",
+    "chromeStep3": "Confirmez. UnionOps s'ouvre dans sa propre fenêtre avec la coquille hors ligne pour les pages publiques déjà chargées.",
+    "safariTitle": "Safari (Mac et iPhone)",
+    "safariBody": "Utilisez Fichier → Ajouter au Dock sur Mac, ou Partager → Ajouter à l'écran d'accueil sur iPhone/iPad. Safari n'utilise pas la même invite Installer que Chromium.",
+    "limitsTitle": "Ce que l'installation ne change pas",
+    "limitsOffline": "Le service worker conserve une coquille hors ligne mince pour les pages Comms publiques — pas un Hub des officiers hors ligne complet.",
+    "limitsNetwork": "Griefs, bumping et autres modules du hub exigent toujours une session connectée et un réseau lorsque vous travaillez en direct.",
+    "limitsNoStore": "Il n'y a pas de fiche App Store ni Microsoft Store; l'installation suit le flux d'application web progressive du navigateur.",
+    "toPrivacy": "Confidentialité →",
+    "toSupport": "Soutenir le bâtisseur →",
+    "backHome": "← Retour à UnionOps"
   }
 }

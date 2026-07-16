@@ -356,4 +356,20 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `robots.ts` + bilingual `sitemap.ts`; hub `/app` noindex
 - [x] Brand-first full-bleed home hero (UnionOps mark + headline budget); trust/share below fold
 - [x] `ToolEditorLayout` (sticky preview, mobile Edit/Preview); denser Card/Input; SegControl; Logo/Notice/Graphic migrated
-- [x] Playwright: SEO helpers, builder coverage, mobile project (`@mobile`); 48 `@smoke` passing
+- [x] Playwright: SEO helpers, builder coverage, mobile project (`@mobile`)
+
+## PWA install guide + coverage (2026-07-16)
+
+- [x] Quiet `/install` page (EN/FR) — Chrome/Edge install steps, Safari Add to Dock/Home Screen, offline-shell limits
+- [x] Muted footer link + support/privacy cross-links; kept out of Header/Learn/Tools (`comms-public-nav.mdc`, `pwa.mdc`)
+- [x] Extracted `src/lib/pwa/*` (hosts, register, manifest builder, shell constants) for testable installability
+- [x] Unit tests: host gate, SW sync register/unregister, Chromium manifest criteria, `sw.js`↔`shell.ts` sync, icon files, i18n keys
+- [x] Cursor rule `.cursor/rules/pwa.mdc` — keep coverage when touching PWA surfaces
+
+## Sitewide tool + secondary UX alignment (2026-07-16)
+
+- [x] All canvas builders on `ToolEditorLayout` (sticky preview; mobile Edit/Preview); board-banner dual preview + SegControl
+- [x] Alt-text + document-generator densified (no fake tabs); Card/Input/Button focus polish
+- [x] Header mobile drawer; Footer wrap/tap targets; HubNav scroll; app shell vertical rhythm
+- [x] Guide/library/legal/auth Callout face uplift; `.cursor/rules/tool-editor-ux.mdc` status register complete
+- [x] Playwright: secondary pages, all canvas Edit/Preview `@mobile`, mobile nav + overflow checks

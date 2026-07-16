@@ -9,6 +9,7 @@ const PUBLIC_PATHS = [
   "/",
   "/manifesto",
   "/support",
+  "/install",
   "/privacy",
   "/accessibility",
   "/onboarding",
