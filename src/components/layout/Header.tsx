@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { LanguageToggle } from "./LanguageToggle";
@@ -138,13 +139,32 @@ export function Header() {
   useEffect(() => {
     if (!drawerOpen) return;
 
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    // iOS Safari ignores overflow:hidden on body; lock with position:fixed instead.
+    const scrollY = window.scrollY;
+    const { body } = document;
+    const prev = {
+      overflow: body.style.overflow,
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+      paddingRight: body.style.paddingRight,
+    };
+    const scrollbarGap = window.innerWidth - document.documentElement.clientWidth;
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+    if (scrollbarGap > 0) {
+      body.style.paddingRight = `${scrollbarGap}px`;
+    }
 
     const panel = drawerRef.current;
     const toggleButton = toggleRef.current;
-    const focusable = panel ? getFocusable(panel) : [];
-    focusable[0]?.focus();
+    // Defer focus until after portal paint (iOS otherwise skips it).
+    const focusTimer = window.setTimeout(() => {
+      const focusable = panel ? getFocusable(panel) : [];
+      focusable[0]?.focus();
+    }, 0);
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -171,7 +191,13 @@ export function Header() {
 
     document.addEventListener("keydown", onKeyDown);
     return () => {
-      document.body.style.overflow = prevOverflow;
+      window.clearTimeout(focusTimer);
+      body.style.overflow = prev.overflow;
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.width = prev.width;
+      body.style.paddingRight = prev.paddingRight;
+      window.scrollTo(0, scrollY);
       document.removeEventListener("keydown", onKeyDown);
       toggleButton?.focus();
     };
@@ -186,6 +212,10 @@ export function Header() {
   };
 
   const closeDrawer = () => setDrawer(null);
+  /** Delay unmount so Next.js Link navigation is not aborted (esp. iOS Safari). */
+  const closeDrawerAfterNav = () => {
+    requestAnimationFrame(() => setDrawer(null));
+  };
   const toggleDrawer = () =>
     setDrawer((prev) => (prev?.path === pathname ? null : { path: pathname }));
 
@@ -202,7 +232,12 @@ export function Header() {
     );
 
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur">
+    <header
+      className={cn(
+        "sticky top-0 border-b border-gray-200 bg-white/95 backdrop-blur",
+        drawerOpen ? "z-[80]" : "z-50",
+      )}
+    >
       <div
         className={cn(
           PAGE_SHELL.chrome,
@@ -362,7 +397,7 @@ export function Header() {
         <button
           ref={toggleRef}
           type="button"
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-gray-200 text-opseu-dark hover:bg-opseu-blue/5 lg:hidden"
+          className="relative z-[80] inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-gray-200 text-opseu-dark hover:bg-opseu-blue/5 lg:hidden"
           aria-expanded={drawerOpen}
           aria-controls={drawerId}
           aria-label={drawerOpen ? t("closeMenu") : t("openMenu")}
@@ -383,124 +418,136 @@ export function Header() {
         </button>
       </div>
 
-      {drawerOpen ? (
-        <div className="lg:hidden" role="presentation">
-          <button
-            type="button"
-            className="fixed inset-0 z-40 bg-black/40"
-            aria-label={t("closeMenu")}
-            onClick={closeDrawer}
-          />
-          <div
-            ref={drawerRef}
-            id={drawerId}
-            role="dialog"
-            aria-modal="true"
-            aria-label={t("openMenu")}
-            data-testid="mobile-nav-drawer"
-            className="fixed inset-y-0 right-0 z-50 flex w-[min(100vw,20rem)] flex-col border-l border-gray-200 bg-white shadow-xl"
-          >
-            <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-              <p className="font-semibold text-opseu-dark">{th("platformName")}</p>
+      {drawerOpen && typeof document !== "undefined"
+        ? createPortal(
+            <div className="lg:hidden" role="presentation">
               <button
                 type="button"
-                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md hover:bg-opseu-blue/5"
+                className="fixed inset-0 z-[60] bg-black/40"
                 aria-label={t("closeMenu")}
                 onClick={closeDrawer}
+              />
+              <div
+                ref={drawerRef}
+                id={drawerId}
+                role="dialog"
+                aria-modal="true"
+                aria-label={t("openMenu")}
+                data-testid="mobile-nav-drawer"
+                className="fixed inset-y-0 right-0 z-[70] flex w-[min(100vw,20rem)] max-w-full flex-col border-l border-gray-200 bg-white shadow-xl pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
               >
-                <span aria-hidden="true" className="text-xl leading-none">
-                  ×
-                </span>
-              </button>
-            </div>
+                <div className="flex shrink-0 items-center justify-between border-b border-gray-200 px-4 py-3">
+                  <p className="font-semibold text-opseu-dark">
+                    {th("platformName")}
+                  </p>
+                  <button
+                    type="button"
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md hover:bg-opseu-blue/5"
+                    aria-label={t("closeMenu")}
+                    onClick={closeDrawer}
+                  >
+                    <span aria-hidden="true" className="text-xl leading-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
 
-            <nav
-              className="flex-1 overflow-y-auto px-3 py-4 text-base"
-              aria-label={t("mobileNav")}
-            >
-              <Link
-                href={getStartedHref}
-                onClick={closeDrawer}
-                className={drawerLinkClass(linkActive(pathname, getStartedHref))}
-              >
-                {t("getStarted")}
-              </Link>
-
-              <div className="mt-4">
-                <p className="px-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  {t("learn")}
-                </p>
-                {learnGroups.map((group) => (
-                  <div key={group.labelKey} className="mt-2">
-                    <p className="px-3 py-1 text-xs font-medium text-gray-500">
-                      {t(group.labelKey)}
-                    </p>
-                    {group.links.map(({ href, key }) => (
-                      <Link
-                        key={href}
-                        href={href}
-                        onClick={closeDrawer}
-                        className={drawerLinkClass(pathname === href)}
-                      >
-                        {t(key)}
-                      </Link>
-                    ))}
-                  </div>
-                ))}
-              </div>
-
-              <Link
-                href="/brand-kit"
-                onClick={closeDrawer}
-                className={cn("mt-4", drawerLinkClass(linkActive(pathname, "/brand-kit")))}
-              >
-                {t("brandKit")}
-              </Link>
-
-              <div className="mt-4">
-                <p className="px-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  {t("tools")}
-                </p>
-                {toolGroups.map((group) => (
-                  <div key={group.labelKey} className="mt-2">
-                    <p className="px-3 py-1 text-xs font-medium text-gray-500">
-                      {t(group.labelKey)}
-                    </p>
-                    {group.links.map(({ href, key }) => (
-                      <Link
-                        key={href}
-                        href={href}
-                        onClick={closeDrawer}
-                        className={drawerLinkClass(linkActive(pathname, href))}
-                      >
-                        {t(key)}
-                      </Link>
-                    ))}
-                  </div>
-                ))}
-              </div>
-
-              {isOfficerHubPublic() ? (
-                <Link
-                  href="/app"
-                  onClick={closeDrawer}
-                  className={cn(
-                    "mt-4 flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-3 py-2 font-semibold text-white hover:bg-opseu-dark",
-                    pathname.startsWith("/app") && "bg-opseu-dark",
-                  )}
+                <nav
+                  className="min-h-0 flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-3 py-4 text-base"
+                  aria-label={t("mobileNav")}
                 >
-                  {th("hubLink")}
-                </Link>
-              ) : null}
+                  <Link
+                    href={getStartedHref}
+                    onClick={closeDrawerAfterNav}
+                    className={drawerLinkClass(
+                      linkActive(pathname, getStartedHref),
+                    )}
+                  >
+                    {t("getStarted")}
+                  </Link>
 
-              <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-gray-100 px-1 pt-4">
-                <DisplaySettingsMenu />
-                <LanguageToggle />
+                  <div className="mt-4">
+                    <p className="px-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                      {t("learn")}
+                    </p>
+                    {learnGroups.map((group) => (
+                      <div key={group.labelKey} className="mt-2">
+                        <p className="px-3 py-1 text-xs font-medium text-gray-500">
+                          {t(group.labelKey)}
+                        </p>
+                        {group.links.map(({ href, key }) => (
+                          <Link
+                            key={href}
+                            href={href}
+                            onClick={closeDrawerAfterNav}
+                            className={drawerLinkClass(pathname === href)}
+                          >
+                            {t(key)}
+                          </Link>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link
+                    href="/brand-kit"
+                    onClick={closeDrawerAfterNav}
+                    className={cn(
+                      "mt-4",
+                      drawerLinkClass(linkActive(pathname, "/brand-kit")),
+                    )}
+                  >
+                    {t("brandKit")}
+                  </Link>
+
+                  <div className="mt-4">
+                    <p className="px-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                      {t("tools")}
+                    </p>
+                    {toolGroups.map((group) => (
+                      <div key={group.labelKey} className="mt-2">
+                        <p className="px-3 py-1 text-xs font-medium text-gray-500">
+                          {t(group.labelKey)}
+                        </p>
+                        {group.links.map(({ href, key }) => (
+                          <Link
+                            key={href}
+                            href={href}
+                            onClick={closeDrawerAfterNav}
+                            className={drawerLinkClass(
+                              linkActive(pathname, href),
+                            )}
+                          >
+                            {t(key)}
+                          </Link>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+
+                  {isOfficerHubPublic() ? (
+                    <Link
+                      href="/app"
+                      onClick={closeDrawerAfterNav}
+                      className={cn(
+                        "mt-4 flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-3 py-2 font-semibold text-white hover:bg-opseu-dark",
+                        pathname.startsWith("/app") && "bg-opseu-dark",
+                      )}
+                    >
+                      {th("hubLink")}
+                    </Link>
+                  ) : null}
+
+                  <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-gray-100 px-1 pt-4">
+                    <DisplaySettingsMenu />
+                    <LanguageToggle />
+                  </div>
+                </nav>
               </div>
-            </nav>
-          </div>
-        </div>
-      ) : null}
+            </div>,
+            document.body,
+          )
+        : null}
     </header>
   );
 }
