@@ -200,6 +200,12 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Optional QR + support URL footer; local Brand Kit lockup when theme established
 - [x] PNG/PDF export; EN/FR i18n; home boards channel + header nav
 
+## From Scratch to Solidarity presentation (2026-07-15)
+
+- [x] Comms Resources card: presentation outline with interleaved Q&A + remote tinker note (EN/FR)
+- [x] Facilitator run sheet at `docs/workshop/from-scratch-to-solidarity.md`
+- [x] Existing hands-on workshop card retained; SOURCES.md points at both run sheets
+
 ## Client Office Export (DOCX/XLSX) (2026-07-14)
 
 - [x] `src/lib/export/office-export.ts` — browser-only DOCX (docxtemplater + pizzip) and XLSX (ExcelJS); dynamic import on export click

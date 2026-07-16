@@ -958,7 +958,7 @@
   "resources": {
     "title": "Comms Resources",
     "subtitle": "Orientation, practice, and sources for union locals building solidary communications",
-    "intro": "Use this page to understand what the hub is for, practice the core tools, and find the guides behind every channel. Run it self-paced with your local, or as a workshop for officers and volunteer communicators.",
+    "intro": "Use this page to understand what the hub is for, practice the core tools, and find the guides behind every channel. Run it self-paced with your local, as a presentation lunch-and-learn, or as a hands-on workshop for officers and volunteer communicators.",
     "purpose": {
       "title": "What this hub is for",
       "body": "Central union communications are often under-resourced. Locals still need professional member communications now - on social, in print, on workplace boards, and on a simple website. One message, four places, with brand first.",
@@ -1017,6 +1017,19 @@
       "graphic": "Graphic Maker",
       "website": "Website Template",
       "crisis": "Strike Guide"
+    },
+    "presentation": {
+      "title": "From Scratch to Solidarity: Launching Your Local's Social Media",
+      "body": "A beginner-friendly presentation for busy volunteer executives - high-level social strategy paired with live UnionOps demos (logo, notice board, media tools). Best for remote lunch-and-learns where full hands-on facilitation is hard; encourage attendees to tinker afterward.",
+      "outline": [
+        "Strategy essentials (about 10-12 min) + short Q&A: platforms, secure accounts, sustainable posting rhythm",
+        "Identity - Logo Builder live demo (about 8 min) + Q&A",
+        "Inspiration - Notice Board / Union Boards tour (about 8 min) + Q&A",
+        "Generating media - Graphic Maker live demo (about 10-12 min) + Q&A",
+        "Close: leave with a plan; point to the practice checklist and tools; optional open floor"
+      ],
+      "tinker": "Remote tip: you bring lunch; UnionOps brings the tools. After the session, work through the practice checklist above at your own pace - Logo Builder, Board Notice, and Graphic Maker are linked under Explore the hub.",
+      "note": "Dated session run sheets live in the project docs for facilitators. This page stays the lasting public guide."
     },
     "facilitators": {
       "title": "Running a workshop",

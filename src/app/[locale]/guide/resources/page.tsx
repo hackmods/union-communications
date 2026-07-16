@@ -136,6 +136,20 @@ export default async function ResourcesPage({
       </Callout>
 
       <Card className="mt-6 border-opseu-blue/20 bg-opseu-blue/5">
+        <CardTitle>{t("presentation.title")}</CardTitle>
+        <p className="mt-2 leading-relaxed text-gray-700">
+          {t("presentation.body")}
+        </p>
+        <ol className="mt-3 list-decimal space-y-2 pl-5 text-gray-700">
+          {(t.raw("presentation.outline") as string[]).map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ol>
+        <p className="mt-3 leading-relaxed text-gray-700">{t("presentation.tinker")}</p>
+        <p className="mt-3 text-sm text-gray-600">{t("presentation.note")}</p>
+      </Card>
+
+      <Card className="mt-6 border-opseu-blue/20 bg-opseu-blue/5">
         <CardTitle>{t("facilitators.title")}</CardTitle>
         <p className="mt-2 leading-relaxed text-gray-700">
           {t("facilitators.body")}

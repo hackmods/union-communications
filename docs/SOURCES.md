@@ -61,6 +61,7 @@ External resources cited across guides, tools, and exported materials. Canonical
 - **Comms Resources:** `/[locale]/guide/resources` — orientation, practice checklist, full bibliography (legacy `/guide/materials` redirects here)
 - **Per-page sources:** `SourcesBlock` component at bottom of guides and tools
 
-## Facilitator doc
+## Facilitator docs
 
-See [`docs/workshop/aug-18-comms-toolbox.md`](../workshop/aug-18-comms-toolbox.md) for session run sheet.
+- Presentation (remote lunch-and-learn): [`docs/workshop/from-scratch-to-solidarity.md`](../workshop/from-scratch-to-solidarity.md)
+- Hands-on 60-minute workshop: [`docs/workshop/aug-18-comms-toolbox.md`](../workshop/aug-18-comms-toolbox.md)

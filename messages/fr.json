@@ -958,7 +958,7 @@
   "resources": {
     "title": "Ressources de communication",
     "subtitle": "Orientation, pratique et sources pour les sections qui bâtissent des communications solidaires",
-    "intro": "Cette page explique le rôle du centre, permet de pratiquer les outils essentiels et regroupe les guides par canal. Utilisez-la à votre rythme avec votre section, ou comme atelier pour les dirigeants et communicateurs bénévoles.",
+    "intro": "Cette page explique le rôle du centre, permet de pratiquer les outils essentiels et regroupe les guides par canal. Utilisez-la à votre rythme avec votre section, comme présentation midi-causerie, ou comme atelier pratique pour les dirigeants et communicateurs bénévoles.",
     "purpose": {
       "title": "À quoi sert ce centre",
       "body": "Les communications centrales sont souvent sous-ressourcées. Les sections ont quand même besoin de communications professionnelles maintenant - sur les réseaux, en impression, sur les tableaux au travail et sur un site simple. Un message, quatre endroits, marque d'abord.",
@@ -1017,6 +1017,19 @@
       "graphic": "Créateur graphique",
       "website": "Modèle de site Web",
       "crisis": "Guide de grève"
+    },
+    "presentation": {
+      "title": "De zéro à la solidarité : lancer les médias sociaux de votre section",
+      "body": "Présentation pour dirigeants bénévoles pressés - stratégie sociale de haut niveau et démonstrations UnionOps en direct (logo, tableau d'avis, outils médias). Idéale pour les midi-causeries à distance où l'atelier pratique complet est difficile; encouragez les participants à expérimenter ensuite.",
+      "outline": [
+        "Essentiels de stratégie (environ 10-12 min) + courte période de questions : plateformes, comptes sécurisés, rythme de publication durable",
+        "Identité - démonstration du Créateur de logo (environ 8 min) + questions",
+        "Inspiration - visite du tableau d'avis / tableaux syndicaux (environ 8 min) + questions",
+        "Produire des médias - démonstration du Créateur graphique (environ 10-12 min) + questions",
+        "Clôture : repartir avec un plan; pointer la liste de pratique et les outils; questions ouvertes optionnelles"
+      ],
+      "tinker": "Conseil à distance : vous apportez le lunch; UnionOps apporte les outils. Après la séance, parcourez la liste de pratique ci-dessus à votre rythme - Créateur de logo, Avis pour tableau et Créateur graphique sont liés sous Explorer le centre.",
+      "note": "Les feuilles de route datées pour animateurs restent dans la documentation du projet. Cette page est le guide public durable."
     },
     "facilitators": {
       "title": "Animer un atelier",

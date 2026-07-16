@@ -110,6 +110,12 @@ test.describe("Smoke tests @smoke", () => {
   test("comms resources page renders with sources", async ({ page }) => {
     await page.goto("/en/guide/resources/");
     await expect(page.getByRole("heading", { name: "Comms Resources" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "From Scratch to Solidarity: Launching Your Local's Social Media",
+      }),
+    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Running a workshop" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Full source bibliography" })).toBeVisible();
     await expect(page.getByRole("link", { name: "OPSEU/SEFPO graphics, logos & letterhead" })).toBeVisible();
   });
