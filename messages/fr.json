@@ -1222,7 +1222,10 @@
     "subtitle": "Courtes citations de leadership avec image de marque locale - prêtes pour Instagram.",
     "quote": "Citation",
     "author": "Attribution",
-    "role": "Rôle ou comité (optionnel)"
+    "role": "Rôle ou comité (optionnel)",
+    "primaryColor": "Couleur primaire",
+    "accentColor": "Barre d'accent",
+    "textColor": "Couleur du texte d'accent"
   },
   "flyerMaker": {
     "title": "Créateur d'affiche piquet / rassemblement",

@@ -12,10 +12,13 @@ import { QuoteLayout } from "@/components/tools/graphic-layouts";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
+import { ColorField } from "@/components/tools/ColorField";
+import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { pickContrastingInk } from "@/lib/utils/ink";
 
 interface QuoteState {
   quote: string;
@@ -23,6 +26,7 @@ interface QuoteState {
   role: string;
   primaryColor: string;
   accentColor: string;
+  textColor: string;
 }
 
 function QuoteCardPageContent() {
@@ -40,6 +44,7 @@ function QuoteCardPageContent() {
     role: "",
     primaryColor: brandKit.primaryColor,
     accentColor: brandKit.accentColor,
+    textColor: pickContrastingInk(brandKit.primaryColor),
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -62,6 +67,7 @@ function QuoteCardPageContent() {
       role,
       primaryColor: brandKit.primaryColor,
       accentColor: brandKit.accentColor,
+      textColor: pickContrastingInk(brandKit.primaryColor),
     }));
   }, [searchParams, setState, te, brandKit]);
 
@@ -99,8 +105,25 @@ function QuoteCardPageContent() {
           <ThemePicker
             primaryColor={state.primaryColor}
             secondaryColor={state.accentColor}
-            onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
+            onPrimaryChange={(c) =>
+              setState({
+                ...state,
+                primaryColor: c,
+                textColor: pickContrastingInk(c),
+              })
+            }
             onSecondaryChange={(c) => setState({ ...state, accentColor: c })}
+            primaryLabel={tq("primaryColor")}
+            secondaryLabel={tq("accentColor")}
+          />
+          <ColorField
+            label={tq("textColor")}
+            value={state.textColor}
+            onChange={(c) => setState({ ...state, textColor: c })}
+          />
+          <ContrastChecker
+            foreground={state.textColor}
+            background={state.primaryColor}
           />
           <UndoRedoBar
             canUndo={canUndo}
@@ -112,6 +135,7 @@ function QuoteCardPageContent() {
                 ...initial,
                 primaryColor: brandKit.primaryColor,
                 accentColor: brandKit.accentColor,
+                textColor: pickContrastingInk(brandKit.primaryColor),
               })
             }
           />
@@ -129,6 +153,7 @@ function QuoteCardPageContent() {
             <QuoteLayout
               primary={state.primaryColor}
               accent={state.accentColor}
+              textColor={state.textColor}
               copy={{
                 headline: state.author,
                 body: state.quote,

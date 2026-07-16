@@ -5,6 +5,7 @@ import Image from "next/image";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { cn } from "@/lib/utils";
 import type { ExampleAspect, ExampleLayout } from "@/lib/constants/examples";
+import { hexToRgba } from "@/lib/utils/contrast";
 import {
   inkWithAlpha,
   pickContrastingInk,
@@ -60,6 +61,18 @@ function inkPalette(background: string) {
     a70: inkWithAlpha(ink, 0.7),
     a60: inkWithAlpha(ink, 0.6),
     a30: inkWithAlpha(ink, 0.3),
+  };
+}
+
+/** Foreground palette from an explicit text colour (any hex). */
+function textPalette(color: string) {
+  return {
+    full: color,
+    a90: hexToRgba(color, 0.9) ?? color,
+    a80: hexToRgba(color, 0.8) ?? color,
+    a70: hexToRgba(color, 0.7) ?? color,
+    a60: hexToRgba(color, 0.6) ?? color,
+    a30: hexToRgba(color, 0.3) ?? color,
   };
 }
 
@@ -473,6 +486,7 @@ function NoticeLayout({
 export function QuoteLayout({
   primary,
   accent,
+  textColor,
   copy,
   localNumber,
   subText,
@@ -480,13 +494,16 @@ export function QuoteLayout({
 }: {
   primary: string;
   accent: string;
+  /** Attribution, role, and footer ink. Defaults to auto-contrast on primary. */
+  textColor?: string;
   copy: GraphicLayoutCopy;
   localNumber: string;
   subText: string;
   size?: "preview" | "export";
 }) {
   const exportMode = size === "export";
-  const ink = inkPalette(primary);
+  const quoteInk = inkPalette(primary);
+  const accentInk = textColor ? textPalette(textColor) : quoteInk;
   return (
     <>
       <div className="absolute inset-0" style={{ backgroundColor: primary }} />
@@ -508,7 +525,7 @@ export function QuoteLayout({
             "font-bold leading-none",
             exportMode ? "text-6xl" : "text-3xl",
           )}
-          style={{ color: ink.a30 }}
+          style={{ color: quoteInk.a30 }}
           aria-hidden
         >
           &ldquo;
@@ -518,7 +535,7 @@ export function QuoteLayout({
             "font-medium leading-snug",
             exportMode ? "text-xl" : "text-sm sm:text-base",
           )}
-          style={{ color: ink.full }}
+          style={{ color: quoteInk.full }}
         >
           {copy.body}
         </p>
@@ -527,7 +544,7 @@ export function QuoteLayout({
             "mt-3 font-semibold",
             exportMode ? "text-base" : "text-xs",
           )}
-          style={{ color: ink.a80 }}
+          style={{ color: accentInk.full }}
         >
           {copy.headline}
         </p>
@@ -537,7 +554,7 @@ export function QuoteLayout({
               "uppercase tracking-wide",
               exportMode ? "text-xs" : "text-[10px]",
             )}
-            style={{ color: ink.a60 }}
+            style={{ color: accentInk.a80 }}
           >
             {copy.detail}
           </p>
@@ -548,7 +565,7 @@ export function QuoteLayout({
             localNumber={localNumber}
             subText={subText}
             size={size}
-            color={ink.a70}
+            color={accentInk.a90}
           />
         </div>
       </div>

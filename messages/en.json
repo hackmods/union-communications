@@ -1247,7 +1247,10 @@
     "subtitle": "Short leadership quotes with local branding - ready for Instagram.",
     "quote": "Quote",
     "author": "Attribution",
-    "role": "Role or committee (optional)"
+    "role": "Role or committee (optional)",
+    "primaryColor": "Primary colour",
+    "accentColor": "Accent bar",
+    "textColor": "Accent text colour"
   },
   "flyerMaker": {
     "title": "Picket / Rally Flyer Maker",
