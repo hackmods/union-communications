@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -98,11 +98,13 @@ export function Header() {
   const [drawer, setDrawer] = useState<{ path: string } | null>(null);
   const learnRef = useRef<HTMLDivElement>(null);
   const toolsRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const learnMenuId = useId();
   const toolsMenuId = useId();
   const drawerId = useId();
+  const [headerHeight, setHeaderHeight] = useState(0);
 
   // Hide when the route changes - do not unmount links in onClick (that aborts Next navigation)
   const openMenu = menu?.path === pathname ? menu.id : null;
@@ -113,6 +115,20 @@ export function Header() {
     learnHrefs.has(pathname) ||
     (pathname.startsWith("/guide/") && pathname !== getStartedHref);
   const toolsActive = pathname.startsWith("/tools/");
+
+  useLayoutEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+
+    const update = () => {
+      setHeaderHeight(Math.ceil(el.getBoundingClientRect().height));
+    };
+    update();
+    if (typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [drawerOpen]);
 
   useEffect(() => {
     if (!openMenu) return;
@@ -233,6 +249,7 @@ export function Header() {
 
   return (
     <header
+      ref={headerRef}
       className={cn(
         "sticky top-0 border-b border-gray-200 bg-white/95 backdrop-blur",
         drawerOpen ? "z-[80]" : "z-50",
@@ -423,7 +440,8 @@ export function Header() {
             <div className="lg:hidden" role="presentation">
               <button
                 type="button"
-                className="fixed inset-0 z-[60] bg-black/40"
+                className="fixed inset-x-0 bottom-0 z-[60] bg-black/40"
+                style={{ top: headerHeight }}
                 aria-label={t("closeMenu")}
                 onClick={closeDrawer}
               />
@@ -434,26 +452,11 @@ export function Header() {
                 aria-modal="true"
                 aria-label={t("openMenu")}
                 data-testid="mobile-nav-drawer"
-                className="fixed inset-y-0 right-0 z-[70] flex w-[min(100vw,20rem)] max-w-full flex-col border-l border-gray-200 bg-white shadow-xl pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
+                style={{ top: headerHeight }}
+                className="fixed bottom-0 right-0 z-[70] flex w-[min(100vw,20rem)] max-w-full flex-col border-l border-gray-200 bg-white shadow-xl pb-[env(safe-area-inset-bottom)]"
               >
-                <div className="flex shrink-0 items-center justify-between border-b border-gray-200 px-4 py-3">
-                  <p className="font-semibold text-opseu-dark">
-                    {th("platformName")}
-                  </p>
-                  <button
-                    type="button"
-                    className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md hover:bg-opseu-blue/5"
-                    aria-label={t("closeMenu")}
-                    onClick={closeDrawer}
-                  >
-                    <span aria-hidden="true" className="text-xl leading-none">
-                      ×
-                    </span>
-                  </button>
-                </div>
-
                 <nav
-                  className="min-h-0 flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-3 py-4 text-base"
+                  className="min-h-0 flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-3 py-3 text-base"
                   aria-label={t("mobileNav")}
                 >
                   <Link
