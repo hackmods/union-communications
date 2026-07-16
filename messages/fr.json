@@ -827,22 +827,24 @@
   },
   "meetingBackground": {
     "title": "Créateur de fonds de réunion",
-    "subtitle": "Fonds virtuels discrets pour Zoom et Teams — champs de marque doux qui restent dégagés derrière votre visage",
-    "preset": "Préréglage",
-    "headline": "Ligne de texte",
-    "closer": "Clôture (optionnelle)",
+    "subtitle": "Fonds virtuels Zoom et Teams percutants — énergie des affiches solidarité, mises en page dégagées pour le visage, interrupteurs pour chaque couche",
+    "preset": "Slogan prédéfini",
+    "leadIn": "Amorce",
+    "headline": "Titre",
+    "headlineHint": "Utilisez une nouvelle ligne pour empiler les mots",
+    "closer": "Clôture",
     "layout": "Mise en page",
     "layouts": {
-      "corner": "Coin — image de marque discrète",
-      "lower-third": "Tiers inférieur — barre discrète en bas",
-      "side-panel": "Panneau latéral — bande étroite",
-      "watermark": "Filigrane — marque centrale très légère"
+      "corner": "Coin — texte empilé hors du visage",
+      "lower-third": "Tiers inférieur — barre d'accent épaisse",
+      "side-panel": "Panneau latéral — bande couleur partagée",
+      "bands": "Bandes — barres haut et bas"
     },
-    "intensity": "Intensité",
-    "intensities": {
-      "subtle": "Subtil — lavis doux",
-      "balanced": "Équilibré — un peu plus de marque"
-    },
+    "toggles": "Afficher / masquer",
+    "togglesHint": "Désactivez des couches et la mise en page se resserre autour de ce qui reste.",
+    "showLeadIn": "Afficher l'amorce",
+    "showHeadline": "Afficher le titre",
+    "showCloser": "Afficher la clôture",
     "outputSize": "Format",
     "formatHd": "HD 16:9 (1920×1080)",
     "formatUhd": "UHD 16:9 (3840×2160)",

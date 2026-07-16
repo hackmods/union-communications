@@ -8,8 +8,8 @@ import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { hexToRgb } from "@/lib/utils/contrast";
 import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
+import { meetsWcagAA } from "@/lib/utils/contrast";
 import {
   DEFAULT_MEETING_BACKGROUND_FORMAT,
   MEETING_BACKGROUND_FORMATS,
@@ -20,7 +20,7 @@ import {
 import {
   MEETING_BACKGROUND_PRESETS,
   getMeetingPresetById,
-  type MeetingIntensity,
+  headlineLines,
   type MeetingLayout,
 } from "@/lib/constants/meeting-background-presets";
 import { BrandLogo } from "@/components/brand/BrandLogo";
@@ -33,38 +33,17 @@ import { PageShell } from "@/components/layout/PageShell";
 
 interface BackgroundState {
   presetId: string;
+  leadIn: string;
   headline: string;
   closer: string;
   layout: MeetingLayout;
-  intensity: MeetingIntensity;
+  showLeadIn: boolean;
+  showHeadline: boolean;
+  showCloser: boolean;
   includeBranding: boolean;
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
-}
-
-/** Soften a brand hex toward white for low-key meeting fields (export-safe solid hex). */
-function mixTowardWhite(hex: string, amount: number): string {
-  const rgb = hexToRgb(hex);
-  if (!rgb) return hex;
-  const t = Math.min(1, Math.max(0, amount));
-  const r = Math.round(rgb.r + (255 - rgb.r) * t);
-  const g = Math.round(rgb.g + (255 - rgb.g) * t);
-  const b = Math.round(rgb.b + (255 - rgb.b) * t);
-  return `#${[r, g, b].map((c) => c.toString(16).padStart(2, "0")).join("")}`;
-}
-
-function fieldHex(primary: string, intensity: MeetingIntensity): string {
-  return mixTowardWhite(primary, intensity === "subtle" ? 0.78 : 0.52);
-}
-
-function panelHex(
-  secondary: string,
-  primary: string,
-  intensity: MeetingIntensity,
-): string {
-  const base = secondary || primary;
-  return mixTowardWhite(base, intensity === "subtle" ? 0.35 : 0.12);
 }
 
 /** Preview-only webcam silhouette — never inside canvasRef. */
@@ -76,7 +55,8 @@ function FacePreviewOverlay() {
     >
       <svg
         viewBox="0 0 200 220"
-        className="h-[72%] w-auto max-w-[42%] opacity-35"
+        className="h-[72%] w-auto max-w-[42%]"
+        style={{ opacity: 0.32 }}
         role="img"
       >
         <ellipse cx="100" cy="72" rx="42" ry="48" fill="#1a1a1a" />
@@ -86,8 +66,8 @@ function FacePreviewOverlay() {
         />
       </svg>
       <div
-        className="absolute inset-[8%] rounded-[50%] border-2 border-dashed opacity-40"
-        style={{ borderColor: "#1a1a1a" }}
+        className="absolute inset-[8%] rounded-[50%] border-2 border-dashed"
+        style={{ borderColor: "#1a1a1a", opacity: 0.35 }}
       />
     </div>
   );
@@ -113,10 +93,13 @@ export default function MeetingBackgroundPage() {
 
   const initial: BackgroundState = {
     presetId: first.id,
+    leadIn: first.leadIn,
     headline: first.headline,
     closer: first.closer,
     layout: first.layout,
-    intensity: first.intensity,
+    showLeadIn: true,
+    showHeadline: true,
+    showCloser: true,
     includeBranding: false,
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
@@ -144,18 +127,24 @@ export default function MeetingBackgroundPage() {
     ? `Local ${localNum} — ${brandKit.local.subText}`
     : `Local ${localNum}`;
 
-  const wash = fieldHex(state.primaryColor, state.intensity);
-  const panel = panelHex(state.secondaryColor, state.primaryColor, state.intensity);
-  const barBg =
-    state.intensity === "subtle"
-      ? mixTowardWhite(state.accentColor || state.secondaryColor || state.primaryColor, 0.55)
-      : mixTowardWhite(state.accentColor || state.secondaryColor || state.primaryColor, 0.28);
-  const washInk = pickContrastingInk(wash);
-  const panelInk = pickContrastingInk(panel);
-  const barInk = pickContrastingInk(barBg);
-  const watermarkInk = inkWithAlpha(washInk, state.intensity === "subtle" ? 0.14 : 0.22);
-  const mutedWash = inkWithAlpha(washInk, 0.55);
-  const mutedPanel = inkWithAlpha(panelInk, 0.7);
+  const primary = state.primaryColor;
+  const secondary = state.secondaryColor || primary;
+  const accent = state.accentColor || secondary;
+  const canvasInk = pickContrastingInk(primary);
+  const secondaryInk = pickContrastingInk(secondary);
+  const accentInk = pickContrastingInk(accent);
+  const mutedPrimary = inkWithAlpha(canvasInk, 0.85);
+  const mutedSecondary = inkWithAlpha(secondaryInk, 0.85);
+  const mutedAccent = inkWithAlpha(accentInk, 0.85);
+  const secondaryOnPrimary = meetsWcagAA(secondary, primary, true)
+    ? secondary
+    : canvasInk;
+  const lines = headlineLines(state.headline);
+  const showLead = state.showLeadIn && Boolean(state.leadIn.trim());
+  const showHead = state.showHeadline && lines.length > 0;
+  const showClose = state.showCloser && Boolean(state.closer.trim());
+  const showCopy = showLead || showHead || showClose;
+  const showBrand = state.includeBranding;
 
   const applyPreset = (id: string) => {
     const preset = getMeetingPresetById(id);
@@ -163,10 +152,13 @@ export default function MeetingBackgroundPage() {
     setState({
       ...state,
       presetId: preset.id,
+      leadIn: preset.leadIn,
       headline: preset.headline,
       closer: preset.closer,
       layout: preset.layout,
-      intensity: preset.intensity,
+      showLeadIn: true,
+      showHeadline: true,
+      showCloser: true,
     });
   };
 
@@ -177,17 +169,77 @@ export default function MeetingBackgroundPage() {
       formatFilename(format.filenameStem, brandKit.local.localNumber, "png"),
       {
         pixelRatio: exportPixelRatio(canvasRef.current, format),
-        backgroundColor: wash,
+        backgroundColor: primary,
       },
     );
   };
 
-  const brandingBlock = (bg: string, ink: string, compact = false) =>
-    state.includeBranding ? (
-      <div className={cn("flex items-center gap-2", compact && "scale-90")}>
-        <BrandLogo size={compact ? "sm" : "md"} backgroundColor={bg} />
+  const stackedHeadline = (
+    ink: string,
+    size: "md" | "lg" | "xl",
+    align: "left" | "right" | "center" = "left",
+  ) =>
+    showHead ? (
+      <div
+        className={cn(
+          align === "center" && "text-center",
+          align === "right" && "text-right",
+        )}
+      >
+        {lines.map((line, i) => (
+          <p
+            key={`${i}-${line}`}
+            className={cn(
+              "font-black uppercase leading-[0.92] tracking-tight",
+              size === "xl" && "text-2xl md:text-4xl",
+              size === "lg" && "text-xl md:text-3xl",
+              size === "md" && "text-lg md:text-2xl",
+            )}
+            style={{ color: ink }}
+          >
+            {line}
+          </p>
+        ))}
+      </div>
+    ) : null;
+
+  const leadLine = (ink: string, align: "left" | "right" | "center" = "left") =>
+    showLead ? (
+      <p
+        className={cn(
+          "text-[10px] font-semibold uppercase tracking-[0.2em] md:text-xs",
+          align === "center" && "text-center",
+          align === "right" && "text-right",
+        )}
+        style={{ color: ink }}
+      >
+        {state.leadIn}
+      </p>
+    ) : null;
+
+  const closerLine = (
+    ink: string,
+    align: "left" | "right" | "center" = "left",
+  ) =>
+    showClose ? (
+      <p
+        className={cn(
+          "text-[10px] font-medium tracking-wide md:text-xs",
+          align === "center" && "text-center",
+          align === "right" && "text-right",
+        )}
+        style={{ color: ink }}
+      >
+        {state.closer}
+      </p>
+    ) : null;
+
+  const brandLockup = (bg: string, ink: string, size: "sm" | "md" = "sm") =>
+    showBrand ? (
+      <div className="flex shrink-0 items-center gap-2">
+        <BrandLogo size={size} backgroundColor={bg} className="shrink-0" />
         <p
-          className="text-[10px] font-medium tracking-wide md:text-xs"
+          className="text-[9px] font-medium tracking-wide md:text-[10px]"
           style={{ color: ink }}
         >
           {localLabel}
@@ -195,177 +247,153 @@ export default function MeetingBackgroundPage() {
       </div>
     ) : null;
 
-  const textBlock = (
-    ink: string,
-    muted: string,
-    align: "left" | "center" | "right" = "left",
-  ) => (
-    <div
-      className={cn(
-        "max-w-[40%]",
-        align === "center" && "mx-auto text-center",
-        align === "right" && "ml-auto text-right",
-      )}
-    >
-      {state.headline ? (
-        <p
-          className="text-sm font-semibold tracking-wide md:text-base"
-          style={{ color: ink }}
-        >
-          {state.headline}
-        </p>
-      ) : null}
-      {state.closer ? (
-        <p
-          className="mt-0.5 text-[10px] font-medium md:text-xs"
-          style={{ color: muted }}
-        >
-          {state.closer}
-        </p>
-      ) : null}
-    </div>
-  );
-
   let canvasBody: ReactElement | null = null;
 
   if (state.layout === "corner") {
+    // Full primary field; punchy stack bottom-right; logo top-left when branding on
     canvasBody = (
       <div
-        className="relative box-border flex h-full w-full flex-col justify-end p-5 md:p-7"
-        style={{ backgroundColor: wash }}
+        className="relative box-border flex h-full w-full flex-col justify-between p-5 md:p-7"
+        style={{ backgroundColor: primary }}
       >
-        <div className="flex items-end justify-end gap-4">
-          <div className="text-right">
-            {textBlock(washInk, mutedWash, "right")}
-            <div className="mt-2 flex justify-end">
-              {brandingBlock(wash, mutedWash, true)}
-            </div>
+        <div className="flex shrink-0 items-start justify-between gap-3">
+          {showBrand ? brandLockup(primary, mutedPrimary, "md") : <span />}
+          {!showBrand && showLead ? leadLine(secondaryOnPrimary, "right") : null}
+        </div>
+        <div className="flex min-h-0 flex-1" />
+        <div className="ml-auto max-w-[48%] text-right">
+          {showBrand && showLead ? leadLine(secondaryOnPrimary, "right") : null}
+          <div className={cn(showLead && showBrand && "mt-1.5")}>
+            {stackedHeadline(canvasInk, "xl", "right")}
           </div>
+          {showClose ? (
+            <div className="mt-2">{closerLine(mutedPrimary, "right")}</div>
+          ) : null}
         </div>
       </div>
     );
   } else if (state.layout === "lower-third") {
+    // Full primary; thick accent bar with type — bar height collapses when copy/brand off
+    const barHasContent = showCopy || showBrand;
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full flex-col"
-        style={{ backgroundColor: wash }}
+        style={{ backgroundColor: primary }}
       >
-        <div className="flex-1" />
-        <div
-          className="flex shrink-0 items-center justify-between gap-3 px-5 py-3 md:px-7 md:py-3.5"
-          style={{ backgroundColor: barBg }}
-        >
-          <div className="min-w-0 flex-1">
-            {state.headline ? (
-              <p
-                className="text-sm font-semibold tracking-wide md:text-base"
-                style={{ color: barInk }}
-              >
-                {state.headline}
-              </p>
-            ) : null}
-            {state.closer ? (
-              <p
-                className="mt-0.5 text-[10px] font-medium md:text-xs"
-                style={{ color: inkWithAlpha(barInk, 0.75) }}
-              >
-                {state.closer}
-              </p>
-            ) : null}
-          </div>
-          {state.includeBranding ? (
-            <div className="flex shrink-0 items-center gap-2">
-              <BrandLogo size="sm" backgroundColor={barBg} />
-              <p
-                className="hidden text-[10px] font-medium sm:block md:text-xs"
-                style={{ color: inkWithAlpha(barInk, 0.85) }}
-              >
-                {localLabel}
-              </p>
-            </div>
-          ) : null}
+        <div className="flex min-h-0 flex-1 items-start justify-end p-5 md:p-7">
+          {!barHasContent && showBrand
+            ? brandLockup(primary, mutedPrimary, "md")
+            : null}
         </div>
+        {barHasContent ? (
+          <div
+            className="flex shrink-0 items-end justify-between gap-4 px-5 py-3.5 md:px-7 md:py-4"
+            style={{ backgroundColor: accent }}
+          >
+            <div className="min-w-0 flex-1">
+              {leadLine(meetsWcagAA(secondary, accent, true) ? secondary : mutedAccent)}
+              <div className={cn(showLead && "mt-1")}>
+                {stackedHeadline(accentInk, "lg")}
+              </div>
+              {showClose ? (
+                <div className="mt-1.5">{closerLine(mutedAccent)}</div>
+              ) : null}
+            </div>
+            {brandLockup(accent, mutedAccent, "md")}
+          </div>
+        ) : null}
       </div>
     );
   } else if (state.layout === "side-panel") {
+    // Split energy: secondary edge strip + open primary face zone
+    const panelHasContent = showCopy || showBrand;
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full"
-        style={{ backgroundColor: wash }}
+        style={{ backgroundColor: primary }}
       >
-        <div
-          className="box-border flex h-full w-[22%] min-w-[5.5rem] flex-col justify-between p-3 md:p-4"
-          style={{ backgroundColor: panel }}
-        >
-          <div>
-            {state.headline ? (
-              <p
-                className="text-xs font-semibold leading-snug tracking-wide md:text-sm"
-                style={{ color: panelInk }}
-              >
-                {state.headline}
-              </p>
-            ) : null}
-            {state.closer ? (
-              <p
-                className="mt-2 text-[10px] font-medium leading-snug md:text-xs"
-                style={{ color: mutedPanel }}
-              >
-                {state.closer}
-              </p>
+        {panelHasContent ? (
+          <div
+            className="box-border flex h-full w-[28%] min-w-[7rem] max-w-[12rem] flex-col justify-between p-3 md:p-4"
+            style={{ backgroundColor: secondary }}
+          >
+            <div className="min-w-0">
+              {leadLine(meetsWcagAA(accent, secondary, true) ? accent : mutedSecondary)}
+              <div className={cn(showLead && "mt-2")}>
+                {stackedHeadline(secondaryInk, "md")}
+              </div>
+              {showClose ? (
+                <div className="mt-3">{closerLine(mutedSecondary)}</div>
+              ) : null}
+            </div>
+            {showBrand ? (
+              <div className="mt-4">
+                <BrandLogo size="sm" backgroundColor={secondary} />
+                <p
+                  className="mt-1.5 text-[9px] font-medium leading-tight md:text-[10px]"
+                  style={{ color: mutedSecondary }}
+                >
+                  {localLabel}
+                </p>
+              </div>
             ) : null}
           </div>
-          {state.includeBranding ? (
-            <div className="mt-auto">
-              <BrandLogo size="sm" backgroundColor={panel} />
-              <p
-                className="mt-1.5 text-[9px] font-medium leading-tight md:text-[10px]"
-                style={{ color: mutedPanel }}
-              >
-                {localLabel}
-              </p>
-            </div>
-          ) : null}
+        ) : null}
+        <div className="flex min-h-0 flex-1 flex-col justify-between p-5 md:p-7">
+          {!panelHasContent && showBrand
+            ? brandLockup(primary, mutedPrimary, "md")
+            : null}
         </div>
-        <div className="flex-1" />
       </div>
     );
   } else {
-    // watermark
+    // bands — top accent + bottom secondary strips; centre stays clear
+    const showTop = showLead || (showBrand && !showHead && !showClose);
+    const showBottom = showHead || showClose || showBrand;
     canvasBody = (
       <div
-        className="relative box-border flex h-full w-full flex-col justify-between p-5 md:p-7"
-        style={{ backgroundColor: wash }}
+        className="relative box-border flex h-full w-full flex-col"
+        style={{ backgroundColor: primary }}
       >
-        <div className="flex justify-end">
-          {brandingBlock(wash, mutedWash, true)}
-        </div>
-        <div className="flex flex-1 items-center justify-center px-8">
-          {state.headline ? (
-            <p
-              className="text-center text-2xl font-semibold uppercase tracking-[0.12em] md:text-3xl"
-              style={{ color: watermarkInk }}
-            >
-              {state.headline}
-            </p>
-          ) : state.includeBranding ? (
-            <div style={{ opacity: 0.4 }}>
-              <BrandLogo size="lg" backgroundColor={wash} />
+        {showTop ? (
+          <div
+            className="flex shrink-0 items-center justify-between gap-3 px-5 py-2.5 md:px-7 md:py-3"
+            style={{ backgroundColor: accent }}
+          >
+            <div className="min-w-0 flex-1">
+              {leadLine(
+                meetsWcagAA(secondary, accent, true) ? secondary : mutedAccent,
+              )}
             </div>
-          ) : null}
-        </div>
-        <div className="flex justify-start">
-          {state.closer ? (
-            <p
-              className="text-[10px] font-medium md:text-xs"
-              style={{ color: mutedWash }}
-            >
-              {state.closer}
-            </p>
-          ) : (
-            <span />
-          )}
-        </div>
+            {!showBottom ? brandLockup(accent, mutedAccent, "sm") : null}
+          </div>
+        ) : null}
+        <div className="min-h-0 flex-1" />
+        {showBottom ? (
+          <div
+            className="flex shrink-0 items-end justify-between gap-4 px-5 py-3.5 md:px-7 md:py-4"
+            style={{ backgroundColor: secondary }}
+          >
+            <div className="min-w-0 flex-1">
+              {!showTop && showLead
+                ? leadLine(
+                    meetsWcagAA(accent, secondary, true)
+                      ? accent
+                      : mutedSecondary,
+                  )
+                : null}
+              <div className={cn(!showTop && showLead && "mt-1")}>
+                {stackedHeadline(secondaryInk, "lg")}
+              </div>
+              {showClose ? (
+                <div className={cn(showHead && "mt-1.5")}>
+                  {closerLine(mutedSecondary)}
+                </div>
+              ) : null}
+            </div>
+            {brandLockup(secondary, mutedSecondary, "md")}
+          </div>
+        ) : null}
       </div>
     );
   }
@@ -411,10 +439,26 @@ export default function MeetingBackgroundPage() {
           </div>
 
           <Input
-            label={t("headline")}
-            value={state.headline}
-            onChange={(e) => setState({ ...state, headline: e.target.value })}
+            label={t("leadIn")}
+            value={state.leadIn}
+            onChange={(e) => setState({ ...state, leadIn: e.target.value })}
           />
+          <div>
+            <label
+              htmlFor="meeting-headline"
+              className="mb-1 block text-sm font-medium"
+            >
+              {t("headline")}
+            </label>
+            <textarea
+              id="meeting-headline"
+              value={state.headline}
+              onChange={(e) => setState({ ...state, headline: e.target.value })}
+              rows={3}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 font-semibold uppercase"
+            />
+            <p className="mt-1 text-xs text-gray-500">{t("headlineHint")}</p>
+          </div>
           <Input
             label={t("closer")}
             value={state.closer}
@@ -440,12 +484,7 @@ export default function MeetingBackgroundPage() {
               className="w-full rounded-md border border-gray-300 px-3 py-2"
             >
               {(
-                [
-                  "corner",
-                  "lower-third",
-                  "side-panel",
-                  "watermark",
-                ] as const
+                ["corner", "lower-third", "side-panel", "bands"] as const
               ).map((id) => (
                 <option key={id} value={id}>
                   {t(`layouts.${id}`)}
@@ -455,49 +494,83 @@ export default function MeetingBackgroundPage() {
           </div>
 
           <div>
-            <label
-              htmlFor="meeting-intensity"
-              className="mb-1 block text-sm font-medium"
+            <p className="mb-1 text-sm font-medium" id="meeting-toggles-label">
+              {t("toggles")}
+            </p>
+            <div
+              className="space-y-2"
+              role="group"
+              aria-labelledby="meeting-toggles-label"
             >
-              {t("intensity")}
-            </label>
-            <select
-              id="meeting-intensity"
-              value={state.intensity}
-              onChange={(e) =>
-                setState({
-                  ...state,
-                  intensity: e.target.value as MeetingIntensity,
-                })
-              }
-              className="w-full rounded-md border border-gray-300 px-3 py-2"
-            >
-              <option value="subtle">{t("intensities.subtle")}</option>
-              <option value="balanced">{t("intensities.balanced")}</option>
-            </select>
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={state.showLeadIn}
+                  onChange={(e) =>
+                    setState({ ...state, showLeadIn: e.target.checked })
+                  }
+                />
+                {t("showLeadIn")}
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={state.showHeadline}
+                  onChange={(e) =>
+                    setState({ ...state, showHeadline: e.target.checked })
+                  }
+                />
+                {t("showHeadline")}
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={state.showCloser}
+                  onChange={(e) =>
+                    setState({ ...state, showCloser: e.target.checked })
+                  }
+                />
+                {t("showCloser")}
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={state.includeBranding}
+                  onChange={(e) =>
+                    setState({ ...state, includeBranding: e.target.checked })
+                  }
+                />
+                {t("includeBranding")}
+              </label>
+            </div>
+            <p className="mt-1 text-xs text-gray-500">{t("togglesHint")}</p>
           </div>
 
           <div>
-            <label
-              htmlFor="meeting-format"
-              className="mb-1 block text-sm font-medium"
-            >
+            <p className="mb-1 text-sm font-medium" id="meeting-size-label">
               {t("outputSize")}
-            </label>
-            <select
-              id="meeting-format"
-              value={formatId}
-              onChange={(e) =>
-                setFormatId(e.target.value as MeetingBackgroundFormatId)
-              }
-              className="w-full rounded-md border border-gray-300 px-3 py-2"
+            </p>
+            <div
+              className="flex flex-wrap gap-2"
+              role="group"
+              aria-labelledby="meeting-size-label"
             >
               {formats.map((f) => (
-                <option key={f.id} value={f.id}>
+                <button
+                  key={f.id}
+                  type="button"
+                  onClick={() => setFormatId(f.id)}
+                  className={cn(
+                    "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
+                    formatId === f.id
+                      ? "bg-opseu-blue text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+                  )}
+                >
                   {t(f.labelKey)}
-                </option>
+                </button>
               ))}
-            </select>
+            </div>
             <p className="mt-1 text-xs text-gray-500">{t("sizeHint")}</p>
           </div>
 
@@ -509,17 +582,6 @@ export default function MeetingBackgroundPage() {
               setState({ ...state, secondaryColor: c })
             }
           />
-
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={state.includeBranding}
-              onChange={(e) =>
-                setState({ ...state, includeBranding: e.target.checked })
-              }
-            />
-            {t("includeBranding")}
-          </label>
 
           <label className="flex items-center gap-2 text-sm">
             <input
@@ -561,6 +623,7 @@ export default function MeetingBackgroundPage() {
               <div
                 ref={canvasRef}
                 className={cn("w-full overflow-hidden", format.aspect)}
+                style={{ backgroundColor: primary, color: canvasInk }}
               >
                 {canvasBody}
               </div>

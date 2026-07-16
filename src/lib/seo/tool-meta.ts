@@ -51,7 +51,7 @@ export const TOOL_SEO: Record<
   "meeting-background": {
     title: "Free Zoom & Teams Meeting Background Maker",
     description:
-      "Make low-key virtual backgrounds for union meetings with face-safe layouts. Free and on your device.",
+      "Bold solidarity-style virtual backgrounds for Zoom and Teams — face-safe layouts, on your device.",
   },
   "qr-card": {
     title: "Free Union QR Link Card Maker",

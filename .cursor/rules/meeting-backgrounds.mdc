@@ -1,40 +1,39 @@
 ---
-description: Meeting background maker — low-key Zoom/Teams virtual backgrounds
+description: Meeting background maker — solidarity-energy Zoom/Teams virtual backgrounds
 globs: src/app/**/tools/meeting-background/**,src/lib/constants/meeting-background-formats.ts,src/lib/constants/meeting-background-presets.ts
 alwaysApply: false
 ---
 
 # Meeting Backgrounds
 
-Low-key virtual backgrounds for Zoom / Teams union meetings. Route: `/tools/meeting-background`.
+Solidarity-poster energy for Zoom / Teams virtual backgrounds. Route: `/tools/meeting-background`.
 
-Distinct from solidarity posters (high-energy board fillers). Keep the centre ~40–50% visually quiet so a webcam face is not fighting type or logos.
+Same visual language as `/tools/solidarity-poster` (full brand fields, huge stacked type, lead-in → headline → closer) — **realigned** so the webcam centre stays clear. Toggles show/hide layers; bars and panels collapse when empty.
 
 ## Visual direction
-- Soft brand washes (mix primary toward white) — intensity `subtle` | `balanced`
-- Colours: Brand Kit primary / secondary / accent only
-- Avoid: purple gradients, cream+terracotta, broadsheet layouts, huge centred headlines
+- Full Brand Kit primary / secondary / accent — **not** washed toward white
+- Structure: small lead-in → **huge stacked headline** → short closer (edge-anchored)
+- Avoid: soft pastel washes, faint watermarks, purple gradients, cream+terracotta
 - **Export**: PNG only — HD 1920×1080 (default), UHD 3840×2160
 - Preview matches export aspect (16:9); flat shadow outside `canvasRef`
-- **Export-safe colours**: inside `canvasRef` use inline hex/`rgba` only — no Tailwind colour utilities (oklch washout via html-to-image)
-- **Auto ink**: `pickContrastingInk` on wash / panel / bar; pass `backgroundColor` to `BrandLogo`
-- No QR / CTA (scanability + clutter behind a face)
+- **Export-safe colours**: inside `canvasRef` use inline hex/`rgba` only — no Tailwind colour utilities
+- **Auto ink**: `pickContrastingInk` on each panel; pass `backgroundColor` to `BrandLogo`
+- No QR / CTA by default
 - Face silhouette overlay is **preview-only** — never inside `canvasRef`
 - No member photos → no ConsentModal
 - No union names in presets or core UI — Brand Kit / seed only
 
-## Layouts (face-safe)
-1. **Corner** — soft wash; short line + branding bottom-right
-2. **Lower third** — quiet bar at bottom; open centre field
-3. **Side panel** — narrow left strip (~22%); centre open
-4. **Watermark** — very light centred phrase; branding tucked to an edge
+## Layouts (face-safe, bold)
+1. **Corner** — full primary; stacked type bottom-right; branding top-left
+2. **Lower third** — full primary; thick accent bar with type + branding (bar collapses if all toggles off)
+3. **Side panel** — secondary strip (~28%) with stacked type; open primary face zone
+4. **Bands** — accent top + secondary bottom bars; centre clear
+
+## Toggles
+`showLeadIn` / `showHeadline` / `showCloser` / `includeBranding` — when off, remaining content reflows and empty bars/panels disappear.
 
 ## Local branding
 Theme established when: onboarding complete, OR official/custom logo set, OR local number non-empty (`isBrandThemeEstablished`).
 
-- Established → “Include local branding” defaults ON
-- Not established → toggle OFF; soft link to `/onboarding`
-- Always seed canvas colours from Brand Kit
-
 ## Presets
-Low-key meeting copy in `MEETING_BACKGROUND_PRESETS` (`meeting-background-presets.ts`). Formats in `meeting-background-formats.ts`.
+Punchy slogans in `MEETING_BACKGROUND_PRESETS` (same tone as `SOLIDARITY_SLOGANS`). Formats in `meeting-background-formats.ts`.

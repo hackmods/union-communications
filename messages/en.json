@@ -827,22 +827,24 @@
   },
   "meetingBackground": {
     "title": "Meeting Background Maker",
-    "subtitle": "Low-key Zoom and Teams virtual backgrounds — soft brand fields that stay clear behind your face",
-    "preset": "Preset",
-    "headline": "Line of text",
-    "closer": "Closer (optional)",
+    "subtitle": "Bold Zoom and Teams virtual backgrounds — solidarity poster energy, face-safe layouts, toggles for every layer",
+    "preset": "Slogan preset",
+    "leadIn": "Lead-in",
+    "headline": "Headline",
+    "headlineHint": "Use a new line to stack words",
+    "closer": "Closer",
     "layout": "Layout",
     "layouts": {
-      "corner": "Corner — branding tucked away",
-      "lower-third": "Lower third — quiet bar at the bottom",
-      "side-panel": "Side panel — narrow edge strip",
-      "watermark": "Watermark — very light centre mark"
+      "corner": "Corner — stacked type clear of your face",
+      "lower-third": "Lower third — thick accent bar",
+      "side-panel": "Side panel — split colour strip",
+      "bands": "Bands — top and bottom bars"
     },
-    "intensity": "Intensity",
-    "intensities": {
-      "subtle": "Subtle — soft wash",
-      "balanced": "Balanced — a bit more brand"
-    },
+    "toggles": "Show / hide",
+    "togglesHint": "Turn layers off and the layout collapses around what is left.",
+    "showLeadIn": "Show lead-in",
+    "showHeadline": "Show headline",
+    "showCloser": "Show closer",
     "outputSize": "Size",
     "formatHd": "HD 16:9 (1920×1080)",
     "formatUhd": "UHD 16:9 (3840×2160)",
