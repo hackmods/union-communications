@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { BUY_ME_A_COFFEE_URL } from "@/lib/constants/support";
+import {
+  BUY_ME_A_COFFEE_URL,
+  GITHUB_ISSUES_URL,
+} from "@/lib/constants/support";
 import { PageShell } from "@/components/layout/PageShell";
 import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
 
@@ -57,6 +60,24 @@ export default async function SupportPage({
         </a>
       </p>
       <p className="mt-3 max-w-prose text-sm text-gray-500">{t("ctaHint")}</p>
+
+      <div className="mt-12 max-w-prose border-t border-gray-200 pt-10">
+        <h2 className="text-lg font-semibold text-opseu-dark">{t("contactTitle")}</h2>
+        <p className="mt-3 text-base leading-relaxed text-gray-800">
+          {t("contactBody")}
+        </p>
+        <p className="mt-6">
+          <a
+            href={GITHUB_ISSUES_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center justify-center rounded-md border border-opseu-blue px-5 py-3 text-base font-semibold text-opseu-blue hover:bg-opseu-blue/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-opseu-blue"
+          >
+            {t("contactCta")}
+          </a>
+        </p>
+        <p className="mt-3 text-sm text-gray-500">{t("contactHint")}</p>
+      </div>
 
       <p className="mt-12 flex flex-wrap gap-x-4 gap-y-2 text-base">
         <Link href="/manifesto" className="font-semibold text-opseu-blue hover:underline">

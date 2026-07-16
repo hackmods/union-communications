@@ -1428,6 +1428,10 @@
     "p3": "Les sections locales utilisent les outils de toute façon. La solidarité n'est pas un panier d'achat.",
     "cta": "M'offrir un café",
     "ctaHint": "Ouvre buymeacoffee.com dans un nouvel onglet.",
+    "contactTitle": "Problèmes et contact",
+    "contactBody": "Bogues, correctifs, améliorations ou autres préoccupations — ouvrez une issue GitHub. C'est la meilleure façon de rejoindre le steward.",
+    "contactCta": "Ouvrir les issues GitHub",
+    "contactHint": "Ouvre github.com dans un nouvel onglet.",
     "toManifesto": "Pourquoi c'est gratuit →",
     "backHome": "← Retour à UnionOps",
     "toInstall": "Installer comme application →"
