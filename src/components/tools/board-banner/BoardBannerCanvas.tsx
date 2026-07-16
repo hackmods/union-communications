@@ -2,10 +2,7 @@
 
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import type { BannerLayoutId } from "@/lib/constants/board-banner-layouts";
-import {
-  pieceUsesChevrons,
-  type BoardLogoMode,
-} from "@/lib/constants/board-banner-ornaments";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 
@@ -14,7 +11,6 @@ export interface BoardBannerCanvasProps {
   callout: string;
   localLabel: string;
   localNumber: string;
-  showChevrons: boolean;
   showLocal: boolean;
   logoMode: BoardLogoMode;
   showByline: boolean;
@@ -25,48 +21,16 @@ export interface BoardBannerCanvasProps {
   className?: string;
 }
 
-function ChevronRow({
-  color,
-  count = 3,
-}: {
-  color: string;
-  count?: number;
-}) {
-  const w = count * 28;
-  return (
-    <svg
-      viewBox={`0 0 ${w} 36`}
-      width="100%"
-      height="100%"
-      preserveAspectRatio="xMidYMid meet"
-      aria-hidden="true"
-      style={{ display: "block" }}
-    >
-      {Array.from({ length: count }, (_, i) => (
-        <path
-          key={i}
-          d={`M${6 + i * 28} 4 L${22 + i * 28} 18 L${6 + i * 28} 32`}
-          fill="none"
-          stroke={color}
-          strokeWidth="5"
-          strokeLinecap="square"
-          strokeLinejoin="miter"
-        />
-      ))}
-    </svg>
-  );
-}
-
 /**
  * Fixed-aspect header strip. Parent sets width + height (or aspect box).
  * SVG slant keeps BrandLogo outside clipped ancestors for clean PNG capture.
+ * No chevron ornaments — dual-tone geometry + type/logo only.
  */
 export function BoardBannerCanvas({
   layout,
   callout,
   localLabel,
   localNumber,
-  showChevrons,
   showLocal,
   logoMode,
   showByline,
@@ -78,14 +42,12 @@ export function BoardBannerCanvas({
 }: BoardBannerCanvasProps) {
   const ink = pickContrastingInk(primaryColor);
   const accent = accentColor || secondaryColor;
-  const accentInk = pickContrastingInk(accent);
   const secondaryOnPrimary = meetsWcagAA(secondaryColor, primaryColor, true)
     ? secondaryColor
     : ink;
   const localDisplay = `LOCAL ${localNumber}`;
   const calloutText = callout.trim() || "Did you know?";
   const bylineText = byline.trim();
-  const showChev = pieceUsesChevrons("banner", showChevrons);
   const showLogo = logoMode !== "none";
   const logoVariant = logoMode === "mark" ? "mark" : "lockup";
 
@@ -192,7 +154,7 @@ export function BoardBannerCanvas({
               <div
                 style={{
                   flex: "0 1 auto",
-                  maxWidth: "32%",
+                  maxWidth: "36%",
                   maxHeight: "70%",
                   display: "flex",
                   alignItems: "center",
@@ -206,20 +168,6 @@ export function BoardBannerCanvas({
               </div>
             ) : (
               <span style={{ flex: "0 0 8%" }} />
-            )}
-            {showChev ? (
-              <div
-                style={{
-                  flex: "0 0 16%",
-                  height: "38%",
-                  minHeight: 20,
-                  maxHeight: 40,
-                }}
-              >
-                <ChevronRow color={secondaryOnPrimary} count={3} />
-              </div>
-            ) : (
-              <span style={{ flex: "0 0 4%" }} />
             )}
             {showLocal ? (
               <p
@@ -337,36 +285,14 @@ export function BoardBannerCanvas({
             <span />
           )}
         </div>
-        {showChev ? (
-          <div
-            style={{
-              height: "12%",
-              backgroundColor: secondaryColor,
-              flexShrink: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "0 10%",
-              boxSizing: "border-box",
-            }}
-          >
-            <div style={{ width: "40%", height: "70%" }}>
-              <ChevronRow
-                color={pickContrastingInk(secondaryColor)}
-                count={6}
-              />
-            </div>
-          </div>
-        ) : (
-          <div
-            aria-hidden="true"
-            style={{
-              height: "12%",
-              backgroundColor: secondaryColor,
-              flexShrink: 0,
-            }}
-          />
-        )}
+        <div
+          aria-hidden="true"
+          style={{
+            height: "12%",
+            backgroundColor: secondaryColor,
+            flexShrink: 0,
+          }}
+        />
       </div>
     );
   }
@@ -388,7 +314,7 @@ export function BoardBannerCanvas({
     >
       <div
         style={{
-          flex: "0 0 58%",
+          flex: "0 0 70%",
           backgroundColor: primaryColor,
           display: "flex",
           flexDirection: "row",
@@ -449,22 +375,13 @@ export function BoardBannerCanvas({
         ) : null}
       </div>
       <div
+        aria-hidden="true"
         style={{
           flex: 1,
           minHeight: 0,
           backgroundColor: accent,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "0 6%",
         }}
-      >
-        {showChev ? (
-          <div style={{ width: "80%", height: "55%" }}>
-            <ChevronRow color={accentInk} count={10} />
-          </div>
-        ) : null}
-      </div>
+      />
     </div>
   );
 }

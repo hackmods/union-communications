@@ -3,7 +3,6 @@
 export type BoardLogoMode = "none" | "lockup" | "mark";
 
 export interface BoardOrnaments {
-  showChevrons: boolean;
   showLocal: boolean;
   logoMode: BoardLogoMode;
   showByline: boolean;
@@ -11,21 +10,11 @@ export interface BoardOrnaments {
 }
 
 export const DEFAULT_ORNAMENTS: BoardOrnaments = {
-  showChevrons: true,
   showLocal: true,
   logoMode: "none",
   showByline: false,
   byline: "",
 };
-
-/** Chevrons are never drawn on frame rails (side or bottom). */
-export function pieceUsesChevrons(
-  piece: "banner" | "side" | "bottom" | "corner",
-  showChevrons: boolean,
-): boolean {
-  if (piece === "side" || piece === "bottom") return false;
-  return showChevrons;
-}
 
 /** Corner byline only when the tile is wide enough to read. */
 export function cornerAllowsByline(

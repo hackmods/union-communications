@@ -66,7 +66,6 @@ interface BoardBannerState {
   /** Which kit piece is shown in the design / print preview */
   trimFocus: TrimPieceId;
   callout: string;
-  showChevrons: boolean;
   showLocal: boolean;
   logoMode: BoardLogoMode;
   showByline: boolean;
@@ -130,7 +129,6 @@ export default function BoardBannerPage() {
     trimKit: DEFAULT_TRIM_KIT,
     trimFocus: "side",
     callout: "Did you know?",
-    showChevrons: true,
     showLocal: true,
     logoMode: "none",
     showByline: false,
@@ -199,12 +197,7 @@ export default function BoardBannerPage() {
       ? t(bannerLayoutById(state.layout).hintKey)
       : t(trimPieceById(trimFocus).hintKey);
 
-  const chevronToggleDisabled =
-    state.mode === "trim" &&
-    (trimFocus === "side" || trimFocus === "bottom");
-
   const ornamentProps = {
-    showChevrons: state.showChevrons,
     showLocal: state.showLocal,
     logoMode: state.logoMode,
     showByline: state.showByline,
@@ -527,26 +520,6 @@ export default function BoardBannerPage() {
               {t("ornaments")}
             </legend>
             <p className="text-xs text-gray-500">{t("ornamentsHint")}</p>
-
-            <label
-              className={cn(
-                "flex items-center gap-2 text-sm",
-                chevronToggleDisabled && "opacity-50",
-              )}
-            >
-              <input
-                type="checkbox"
-                checked={state.showChevrons && !chevronToggleDisabled}
-                disabled={chevronToggleDisabled}
-                onChange={(e) =>
-                  setState({ ...state, showChevrons: e.target.checked })
-                }
-              />
-              {t("showChevrons")}
-            </label>
-            {chevronToggleDisabled ? (
-              <p className="text-xs text-gray-500">{t("chevronsSideNote")}</p>
-            ) : null}
 
             <label className="flex items-center gap-2 text-sm">
               <input

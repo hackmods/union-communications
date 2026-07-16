@@ -3,7 +3,6 @@
 import type { TrimPieceId } from "@/lib/constants/board-banner-layouts";
 import {
   cornerAllowsByline,
-  pieceUsesChevrons,
   type BoardLogoMode,
 } from "@/lib/constants/board-banner-ornaments";
 import { BrandLogo } from "@/components/brand/BrandLogo";
@@ -15,7 +14,6 @@ export interface BoardTrimCanvasProps {
   secondaryColor: string;
   accentColor: string;
   localNumber: string;
-  showChevrons: boolean;
   showLocal: boolean;
   logoMode: BoardLogoMode;
   showByline: boolean;
@@ -25,39 +23,11 @@ export interface BoardTrimCanvasProps {
   className?: string;
 }
 
-function CornerChevrons({ color }: { color: string }) {
-  return (
-    <>
-      <path
-        d="M48 48 L62 55 L48 62"
-        fill="none"
-        stroke={color}
-        strokeWidth="3"
-        strokeLinecap="square"
-      />
-      <path
-        d="M68 48 L82 55 L68 62"
-        fill="none"
-        stroke={color}
-        strokeWidth="3"
-        strokeLinecap="square"
-      />
-      <path
-        d="M48 68 L62 75 L48 82"
-        fill="none"
-        stroke={color}
-        strokeWidth="3"
-        strokeLinecap="square"
-      />
-    </>
-  );
-}
-
 /**
  * Trim pieces sized by parent:
- * - side: dual-tone vertical rail + end caps (no chevrons)
- * - bottom: dual-tone horizontal rail + end caps (no chevrons) — side motif rotated
- * - corner: square L-miter
+ * - side: dual-tone vertical rail + end caps
+ * - bottom: dual-tone horizontal rail + end caps — side motif rotated
+ * - corner: square L-miter (no chevron marks)
  */
 export function BoardTrimCanvas({
   piece,
@@ -65,7 +35,6 @@ export function BoardTrimCanvas({
   secondaryColor,
   accentColor,
   localNumber,
-  showChevrons,
   showLocal,
   logoMode,
   showByline,
@@ -79,7 +48,6 @@ export function BoardTrimCanvas({
   const secondaryInk = pickContrastingInk(secondaryColor);
   const localDisplay = `LOCAL ${localNumber}`;
   const bylineText = byline.trim();
-  const showChev = pieceUsesChevrons(piece, showChevrons);
   const showLogo = logoMode !== "none";
   const logoVariant = logoMode === "mark" ? "mark" : "lockup";
 
@@ -397,7 +365,6 @@ export function BoardTrimCanvas({
           points="0,0 100,0 100,14 14,14 14,100 0,100"
           fill={accent}
         />
-        {showChev ? <CornerChevrons color={secondaryColor} /> : null}
       </svg>
       {showLocal ? (
         <p

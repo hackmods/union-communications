@@ -19,12 +19,16 @@ Route: `/tools/board-banner`. Printable cork-board **hardware polish** (header s
 - At least one rail must stay on (cannot clear both)
 - Header banner is independent — kit works without a banner
 - Export: one pack sheet per selected piece type (multi-page PDF / ZIP of PNGs)
-- Side/bottom = dual-tone rails with end caps; no chevrons on those rails
-- Corner tiles may still use optional chevron marks with the L-miter
+- Side/bottom = dual-tone rails with end caps; corner = L-miter tiles
+
+## Chevrons — deferred (do not reintroduce casually)
+- **No chevrons** in current banner or trim art
+- Chevron *geometry* can look strong later as pure motif (Local 124–style)
+- What failed: forcing chevrons **with** LOCAL / byline type on narrow rails — cramped font + overlay looked bad
+- If revived: treat as optional **decoration only**, never under/over body copy on thin strips; keep type on solid end caps
 
 ## Shared ornaments (banner + trim)
 One Ornaments section applies to both modes:
-- Show chevrons (banner / corner only; ignored on side and bottom rails)
 - Show local number
 - Logo: `none` | `lockup` | `mark` via `BrandLogo variantOverride`
 - Show byline + editable byline text (seed from Brand Kit `subText` once; **never** hardcode a union slogan)
