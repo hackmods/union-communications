@@ -13,7 +13,7 @@ Top bar is slim and dual-audience oriented:
 | **Get started** | `/guide/social-media-plan` |
 | **Learn ▾** | **Guides:** Comms Resources, Blueprint, Strike Guide, Photo Consent · **By channel:** Print, Union Boards, Website · **Libraries:** Social Examples, Captions |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Asset Pack) |
-| **Tools ▾** | Logo, boards, graphics, flyer, website, documents, alt-text makers |
+| **Tools ▾** | **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, QR Cards · **Print:** Flyer · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text |
 | **Officer Hub** | `/app` (auth) — visually distinct CTA |
 
 Footer includes Blueprint, Print Guide, Social Examples, Captions, Comms Resources, Privacy, Accessibility, Support.

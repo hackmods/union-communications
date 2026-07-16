@@ -16,6 +16,17 @@ Three groups in [`Header.tsx`](src/components/layout/Header.tsx) `learnGroups`:
 
 Do not re-flatten channel guides into a long top-level link bar. Do not promote `/manifesto` into Header (quiet home trust link by design).
 
+## Header Tools menu (keep this shape)
+
+Four groups in `Header.tsx` `toolGroups` (same sectioned dropdown pattern as Learn):
+
+1. **Brand** — Logo Builder, Resizer, Document & Slide Generator
+2. **Union boards** — Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board Posters, QR Link Cards
+3. **Print** — Flyer Maker
+4. **Social & web** — Graphic Maker, Quote Card, Meeting Backgrounds, Website Template, Alt-Text Assistant
+
+Do not re-flatten Tools into a single ungrouped list. Keep one **Tools ▾** trigger — do not add extra top-level tool links.
+
 ## Footer
 
 Include Print Guide alongside Blueprint / Examples / Captions / Resources so print-first locals are not chrome-orphaned. Privacy, Accessibility, Support stay in footer.

@@ -37,21 +37,39 @@ const learnGroups = [
   },
 ] as const;
 
-const toolLinks = [
-  { href: "/tools/logo-builder", key: "logoBuilder" },
-  { href: "/tools/board-notice", key: "boardNotice" },
-  { href: "/tools/board-banner", key: "boardBanner" },
-  { href: "/tools/solidarity-poster", key: "solidarityPoster" },
-  { href: "/tools/meeting-background", key: "meetingBackground" },
-  { href: "/tools/qr-card", key: "qrCard" },
-  { href: "/tools/qr-board", key: "qrBoard" },
-  { href: "/tools/graphic-maker", key: "graphicMaker" },
-  { href: "/tools/resizer", key: "resizer" },
-  { href: "/tools/quote-card", key: "quoteCard" },
-  { href: "/tools/flyer-maker", key: "flyerMaker" },
-  { href: "/tools/website-template", key: "websiteTemplate" },
-  { href: "/tools/document-generator", key: "documentGenerator" },
-  { href: "/tools/alt-text", key: "altText" },
+const toolGroups = [
+  {
+    labelKey: "toolsGroupBrand" as const,
+    links: [
+      { href: "/tools/logo-builder", key: "logoBuilder" as const },
+      { href: "/tools/resizer", key: "resizer" as const },
+      { href: "/tools/document-generator", key: "documentGenerator" as const },
+    ],
+  },
+  {
+    labelKey: "toolsGroupBoards" as const,
+    links: [
+      { href: "/tools/board-banner", key: "boardBanner" as const },
+      { href: "/tools/board-notice", key: "boardNotice" as const },
+      { href: "/tools/solidarity-poster", key: "solidarityPoster" as const },
+      { href: "/tools/qr-board", key: "qrBoard" as const },
+      { href: "/tools/qr-card", key: "qrCard" as const },
+    ],
+  },
+  {
+    labelKey: "toolsGroupPrint" as const,
+    links: [{ href: "/tools/flyer-maker", key: "flyerMaker" as const }],
+  },
+  {
+    labelKey: "toolsGroupSocialWeb" as const,
+    links: [
+      { href: "/tools/graphic-maker", key: "graphicMaker" as const },
+      { href: "/tools/quote-card", key: "quoteCard" as const },
+      { href: "/tools/meeting-background", key: "meetingBackground" as const },
+      { href: "/tools/website-template", key: "websiteTemplate" as const },
+      { href: "/tools/alt-text", key: "altText" as const },
+    ],
+  },
 ] as const;
 
 const learnHrefs: Set<string> = new Set(
@@ -221,24 +239,36 @@ export function Header() {
               <div
                 id={toolsMenuId}
                 role="menu"
-                className="absolute right-0 z-50 mt-1 min-w-[220px] rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
+                className="absolute right-0 z-50 mt-1 max-h-[min(80vh,36rem)] min-w-[240px] overflow-y-auto rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
               >
-                {toolLinks.map(({ href, key }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    role="menuitem"
-                    onClick={() => {
-                      requestAnimationFrame(() => setMenu(null));
-                    }}
+                {toolGroups.map((group, groupIndex) => (
+                  <div
+                    key={group.labelKey}
                     className={cn(
-                      "block px-3 py-2 hover:bg-opseu-blue/5",
-                      linkActive(pathname, href) &&
-                        "bg-opseu-blue/10 font-semibold text-opseu-dark",
+                      groupIndex > 0 && "mt-1 border-t border-gray-100 pt-1",
                     )}
                   >
-                    {t(key)}
-                  </Link>
+                    <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                      {t(group.labelKey)}
+                    </p>
+                    {group.links.map(({ href, key }) => (
+                      <Link
+                        key={href}
+                        href={href}
+                        role="menuitem"
+                        onClick={() => {
+                          requestAnimationFrame(() => setMenu(null));
+                        }}
+                        className={cn(
+                          "block px-3 py-2 hover:bg-opseu-blue/5",
+                          linkActive(pathname, href) &&
+                            "bg-opseu-blue/10 font-semibold text-opseu-dark",
+                        )}
+                      >
+                        {t(key)}
+                      </Link>
+                    ))}
+                  </div>
                 ))}
               </div>
             ) : null}
