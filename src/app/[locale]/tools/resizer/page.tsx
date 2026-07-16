@@ -43,6 +43,7 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { SocialAssetsGallery } from "@/components/tools/resizer/SocialAssetsGallery";
 
 type SourceMode = "logo" | "upload";
 type FitMode = "contain" | "cover";
@@ -753,33 +754,16 @@ export default function ResizerPage() {
           </div>
         }
         belowGrid={
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-opseu-dark">
-              {t("allFormats")}
-            </h2>
-            <div className="grid gap-6 sm:grid-cols-2">
-              {platformResizerFormats().map((preset) => (
-                <button
-                  key={preset.id}
-                  type="button"
-                  className={cn(
-                    "text-left",
-                    state.formatId === preset.id &&
-                      "ring-2 ring-opseu-blue ring-offset-2",
-                  )}
-                  onClick={() => setFormatId(preset.id)}
-                >
-                  <p className="mb-2 text-sm font-medium">
-                    {t(preset.labelKey)} ({preset.width}×{preset.height})
-                  </p>
-                  <div className="relative overflow-hidden rounded-lg border bg-gray-100 shadow-sm">
-                    <FormatFrame format={preset} {...sharedFrameProps} />
-                    {state.showSafeZones ? <SafeZoneOverlay /> : null}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
+          <SocialAssetsGallery
+            selectedId={state.formatId}
+            onSelect={setFormatId}
+            renderFrame={(preset) => (
+              <FormatFrame format={preset} {...sharedFrameProps} />
+            )}
+            safeZoneOverlay={
+              state.showSafeZones ? <SafeZoneOverlay /> : null
+            }
+          />
         }
       />
 

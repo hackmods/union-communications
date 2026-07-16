@@ -102,17 +102,7 @@ export function ToolEditorLayout({
         </div>
       </div>
 
-      {belowGrid ? (
-        <div
-          className={cn(
-            "mt-6",
-            pane === "edit" ? "block" : "hidden",
-            "lg:block",
-          )}
-        >
-          {belowGrid}
-        </div>
-      ) : null}
+      {belowGrid ? <div className="mt-6 lg:mt-8">{belowGrid}</div> : null}
 
       {footer ? <div className="mt-8">{footer}</div> : null}
     </PageShell>

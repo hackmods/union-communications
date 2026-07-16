@@ -744,7 +744,12 @@
     "customHeight": "Hauteur (px)",
     "preview": "Aperçu",
     "previewSize": "{label} — export à {width}×{height} px",
-    "allFormats": "Tous les formats de plateforme",
+    "allFormats": "Ressources médias sociaux",
+    "allFormatsHint": "Cliquez une taille pour la modifier dans l’aperçu ci-dessus. Le ZIP télécharge tous les formats de plateforme d’un coup.",
+    "groupFacebook": "Facebook",
+    "groupInstagram": "Instagram",
+    "groupYoutube": "YouTube",
+    "formatEditing": "En cours",
     "setupBrandPrompt": "Configurez votre trousse de marque pour que la plaque logo utilise le numéro et les couleurs de votre section locale.",
     "setupBrandLink": "Commencer l'intégration",
     "exportError": "Échec de l'export. Réessayez."

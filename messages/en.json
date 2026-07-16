@@ -744,7 +744,12 @@
     "customHeight": "Height (px)",
     "preview": "Preview",
     "previewSize": "{label} — exports at {width}×{height} px",
-    "allFormats": "All platform formats",
+    "allFormats": "Social media assets",
+    "allFormatsHint": "Click a size to edit it in the preview above. Download ZIP exports every platform format at once.",
+    "groupFacebook": "Facebook",
+    "groupInstagram": "Instagram",
+    "groupYoutube": "YouTube",
+    "formatEditing": "Editing",
     "setupBrandPrompt": "Set up your Brand Kit so the default logo plate uses your local number and colours.",
     "setupBrandLink": "Start onboarding",
     "exportError": "Export failed. Try again."
