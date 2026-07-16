@@ -72,12 +72,14 @@ export default function AltTextPage() {
 
   return (
     <PageShell size="focus" className="py-6 md:py-8 lg:py-10">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-gray-600">{t("subtitle")}</p>
+      <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
+        {t("title")}
+      </h1>
+      <p className="mt-1 text-gray-600">{t("subtitle")}</p>
 
-      <Card className="mt-8 space-y-4">
+      <Card density="compact" className="mt-6 space-y-3">
         <div>
-          <p className="mb-2 text-sm font-medium text-gray-700">
+          <p className="mb-1.5 text-sm font-medium text-gray-700">
             {t("starterLabel")}
           </p>
           <div className="flex flex-wrap gap-2">
@@ -99,7 +101,7 @@ export default function AltTextPage() {
           label={t("altLabel")}
           value={altText}
           onChange={(e) => setAltText(e.target.value)}
-          rows={5}
+          rows={4}
           placeholder={t("altPlaceholder")}
           aria-describedby="alt-char-count alt-feedback"
         />
@@ -108,7 +110,7 @@ export default function AltTextPage() {
           <label className="flex items-center gap-2 text-sm text-gray-700">
             <span className="font-medium">{t("platformLabel")}</span>
             <select
-              className="rounded-lg border border-gray-300 px-2 py-1.5 text-base focus:border-opseu-blue focus:ring-2 focus:ring-opseu-blue/20"
+              className="min-h-11 rounded-lg border border-gray-300 px-2 py-1.5 text-base focus:border-opseu-blue focus:ring-2 focus:ring-opseu-blue/20"
               value={platform}
               onChange={(e) => setPlatform(e.target.value as PlatformId)}
             >
@@ -130,7 +132,7 @@ export default function AltTextPage() {
         {analysis.issues.length > 0 && (
           <ul
             id="alt-feedback"
-            className="list-disc space-y-1 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-950"
+            className="list-disc space-y-1 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-950"
             aria-live="polite"
           >
             {analysis.issues.map((issue: AltTextIssueId) => (
@@ -141,7 +143,7 @@ export default function AltTextPage() {
         {analysis.ok && altText.trim() && (
           <p
             id="alt-feedback"
-            className="rounded-lg bg-green-50 px-4 py-3 text-sm text-green-900"
+            className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-900"
             aria-live="polite"
           >
             {t("draftLooksGood")}
@@ -152,10 +154,10 @@ export default function AltTextPage() {
           label={t("captionLabel")}
           value={caption}
           onChange={(e) => setCaption(e.target.value)}
-          rows={3}
+          rows={2}
           placeholder={t("captionPlaceholder")}
         />
-        <p className="text-sm text-gray-600">{t("captionHint")}</p>
+        <p className="text-xs text-gray-500">{t("captionHint")}</p>
 
         <div className="flex flex-wrap gap-2">
           <Button
@@ -176,9 +178,9 @@ export default function AltTextPage() {
         </div>
       </Card>
 
-      <Card className="mt-6">
-        <CardTitle>{t("howTitle")}</CardTitle>
-        <ol className="mt-3 list-decimal space-y-2 pl-5 text-gray-700">
+      <Card density="compact" className="mt-4">
+        <CardTitle className="text-base">{t("howTitle")}</CardTitle>
+        <ol className="mt-2 list-decimal space-y-1.5 pl-5 text-sm text-gray-700">
           <li>{t("how.step1")}</li>
           <li>{t("how.step2")}</li>
           <li>{t("how.step3")}</li>
@@ -186,12 +188,12 @@ export default function AltTextPage() {
         </ol>
       </Card>
 
-      <Card className="mt-6">
-        <CardTitle>{t("checklistTitle")}</CardTitle>
-        <ul className="mt-3 space-y-2">
+      <Card density="compact" className="mt-4">
+        <CardTitle className="text-base">{t("checklistTitle")}</CardTitle>
+        <ul className="mt-2 space-y-1.5">
           {CHECKLIST_IDS.map((id) => (
             <li key={id}>
-              <label className="flex cursor-pointer items-start gap-2 text-gray-700">
+              <label className="flex min-h-11 cursor-pointer items-start gap-2 text-sm text-gray-700">
                 <input
                   type="checkbox"
                   className="mt-1"
@@ -205,17 +207,19 @@ export default function AltTextPage() {
         </ul>
       </Card>
 
-      <Card className="mt-6 space-y-4">
-        <CardTitle>{t("examplesTitle")}</CardTitle>
+      <Card density="compact" className="mt-4 space-y-3">
+        <CardTitle className="text-base">{t("examplesTitle")}</CardTitle>
         <div>
-          <p className="text-sm font-medium text-red-800">{t("examples.badLabel")}</p>
-          <p className="mt-1 text-sm text-gray-700">{t("examples.bad")}</p>
+          <p className="text-sm font-medium text-red-800">
+            {t("examples.badLabel")}
+          </p>
+          <p className="mt-0.5 text-sm text-gray-700">{t("examples.bad")}</p>
         </div>
         <div>
           <p className="text-sm font-medium text-green-800">
             {t("examples.goodLabel")}
           </p>
-          <p className="mt-1 text-sm text-gray-700">{t("examples.good")}</p>
+          <p className="mt-0.5 text-sm text-gray-700">{t("examples.good")}</p>
         </div>
       </Card>
     </PageShell>

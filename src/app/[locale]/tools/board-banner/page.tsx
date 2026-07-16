@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type ReactNode,
-} from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
@@ -57,7 +51,8 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { PageShell } from "@/components/layout/PageShell";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { SegControl } from "@/components/tools/SegControl";
 
 interface BoardBannerState {
   mode: BoardBannerMode;
@@ -77,29 +72,26 @@ interface BoardBannerState {
   accentColor: string;
 }
 
-function SegButton({
+/** Multi-select pill (kit toggles) — SegControl is single-select only. */
+function TogglePill({
   pressed,
   onClick,
   children,
-  disabled,
 }: {
   pressed: boolean;
   onClick: () => void;
-  children: ReactNode;
-  disabled?: boolean;
+  children: string;
 }) {
   return (
     <button
       type="button"
       aria-pressed={pressed}
-      disabled={disabled}
       onClick={onClick}
       className={cn(
-        "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
+        "min-h-11 rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
         pressed
           ? "bg-opseu-blue text-white"
-          : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-        disabled && "cursor-default opacity-90",
+          : "border border-gray-300 bg-white text-opseu-dark hover:bg-gray-50",
       )}
     >
       {children}
@@ -399,324 +391,266 @@ export default function BoardBannerPage() {
       : null;
 
   return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 max-w-2xl text-gray-600">{t("subtitle")}</p>
-
-      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6">
-        <Card density="compact" className="space-y-3">
-          <div>
-            <p className="mb-1 text-sm font-medium" id="mode-label">
-              {t("mode")}
-            </p>
-            <div
-              className="flex flex-wrap gap-2"
-              role="group"
-              aria-labelledby="mode-label"
-            >
-              {(["banner", "trim"] as const).map((mode) => (
-                <SegButton
-                  key={mode}
-                  pressed={state.mode === mode}
-                  onClick={() => setState({ ...state, mode })}
-                >
-                  {t(mode === "banner" ? "modeBanner" : "modeTrim")}
-                </SegButton>
-              ))}
+    <>
+      <ToolEditorLayout
+        title={t("title")}
+        description={t("subtitle")}
+        form={
+          <Card density="compact" className="space-y-3">
+            <div>
+              <SegControl
+                label={t("mode")}
+                value={state.mode}
+                options={(
+                  [
+                    ["banner", "modeBanner"],
+                    ["trim", "modeTrim"],
+                  ] as const
+                ).map(([value, key]) => ({
+                  value,
+                  label: t(key),
+                }))}
+                onChange={(mode) => setState({ ...state, mode })}
+              />
+              {state.mode === "trim" ? (
+                <p className="mt-2 text-xs text-gray-500">{t("trimModeHint")}</p>
+              ) : null}
             </div>
+
             {state.mode === "trim" ? (
-              <p className="mt-2 text-xs text-gray-500">{t("trimModeHint")}</p>
-            ) : null}
-          </div>
-
-          {state.mode === "trim" ? (
-            <div>
-              <p className="mb-1 text-sm font-medium" id="trim-label">
-                {t("frameKit")}
-              </p>
-              <div
-                className="flex flex-wrap gap-2"
-                role="group"
-                aria-labelledby="trim-label"
-              >
-                {(
-                  ["top", "side", "bottom", "corner"] as const
-                ).map((piece) => (
-                  <SegButton
-                    key={piece}
-                    pressed={state.trimKit[piece]}
-                    onClick={() => onKitPieceClick(piece)}
-                  >
-                    {t(trimPieceById(piece).labelKey)}
-                  </SegButton>
-                ))}
-              </div>
-              <p className="mt-2 text-xs text-gray-500">{t("frameKitHint")}</p>
-
-              <p className="mb-1 mt-4 text-sm font-medium" id="focus-label">
-                {t("previewPiece")}
-              </p>
-              <div
-                className="flex flex-wrap gap-2"
-                role="group"
-                aria-labelledby="focus-label"
-              >
-                {kitPieces.map((piece) => (
-                  <SegButton
-                    key={piece}
-                    pressed={trimFocus === piece}
-                    onClick={() => setState({ ...state, trimFocus: piece })}
-                  >
-                    {t(trimPieceById(piece).labelKey)}
-                  </SegButton>
-                ))}
-              </div>
-              <p className="mt-2 text-xs text-gray-500">{activeHint}</p>
-              {kitSummary ? (
-                <p className="mt-1 text-xs font-medium text-opseu-dark">
-                  {kitSummary}
+              <div>
+                <p className="mb-1.5 text-sm font-medium text-gray-700" id="trim-label">
+                  {t("frameKit")}
                 </p>
-              ) : null}
-            </div>
-          ) : null}
+                <div
+                  className="flex flex-wrap gap-2"
+                  role="group"
+                  aria-labelledby="trim-label"
+                >
+                  {(
+                    ["top", "side", "bottom", "corner"] as const
+                  ).map((piece) => (
+                    <TogglePill
+                      key={piece}
+                      pressed={state.trimKit[piece]}
+                      onClick={() => onKitPieceClick(piece)}
+                    >
+                      {t(trimPieceById(piece).labelKey)}
+                    </TogglePill>
+                  ))}
+                </div>
+                <p className="mt-2 text-xs text-gray-500">{t("frameKitHint")}</p>
 
-          {showBannerArt ? (
-            <div>
-              <p className="mb-1 text-sm font-medium" id="layout-label">
-                {t("layout")}
-              </p>
-              <div
-                className="flex flex-wrap gap-2"
-                role="group"
-                aria-labelledby="layout-label"
-              >
-                {BANNER_LAYOUTS.map((layout) => (
-                  <SegButton
-                    key={layout.id}
-                    pressed={state.layout === layout.id}
-                    onClick={() => setState({ ...state, layout: layout.id })}
-                  >
-                    {t(layout.labelKey)}
-                  </SegButton>
-                ))}
-              </div>
-              {state.mode === "banner" ? (
+                <div className="mt-4">
+                  <SegControl
+                    label={t("previewPiece")}
+                    value={trimFocus}
+                    options={kitPieces.map((piece) => ({
+                      value: piece,
+                      label: t(trimPieceById(piece).labelKey),
+                    }))}
+                    onChange={(piece) =>
+                      setState({ ...state, trimFocus: piece })
+                    }
+                  />
+                </div>
                 <p className="mt-2 text-xs text-gray-500">{activeHint}</p>
-              ) : null}
-            </div>
-          ) : null}
+                {kitSummary ? (
+                  <p className="mt-1 text-xs font-medium text-opseu-dark">
+                    {kitSummary}
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
 
-          {showBannerArt && usesCallout ? (
-            <Input
-              label={t("callout")}
-              value={state.callout}
-              onChange={(e) => setState({ ...state, callout: e.target.value })}
-            />
-          ) : null}
+            {showBannerArt ? (
+              <div>
+                <SegControl
+                  label={t("layout")}
+                  value={state.layout}
+                  options={BANNER_LAYOUTS.map((layout) => ({
+                    value: layout.id,
+                    label: t(layout.labelKey),
+                  }))}
+                  onChange={(layout) => setState({ ...state, layout })}
+                />
+                {state.mode === "banner" ? (
+                  <p className="mt-2 text-xs text-gray-500">{activeHint}</p>
+                ) : null}
+              </div>
+            ) : null}
 
-          <fieldset className="space-y-3 border-t border-gray-100 pt-4">
-            <legend className="text-sm font-medium text-opseu-dark">
-              {t("ornaments")}
-            </legend>
-            <p className="text-xs text-gray-500">{t("ornamentsHint")}</p>
-
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={state.showLocal}
+            {showBannerArt && usesCallout ? (
+              <Input
+                label={t("callout")}
+                value={state.callout}
                 onChange={(e) =>
-                  setState({ ...state, showLocal: e.target.checked })
+                  setState({ ...state, callout: e.target.value })
                 }
               />
-              {t("showLocal")}
-            </label>
+            ) : null}
 
-            <div>
-              <p className="mb-1 text-sm font-medium" id="logo-mode-label">
-                {t("logoMode")}
-              </p>
-              <div
-                className="flex flex-wrap gap-2"
-                role="group"
-                aria-labelledby="logo-mode-label"
-              >
-                {(
+            <fieldset className="space-y-3 border-t border-gray-100 pt-4">
+              <legend className="text-sm font-medium text-opseu-dark">
+                {t("ornaments")}
+              </legend>
+              <p className="text-xs text-gray-500">{t("ornamentsHint")}</p>
+
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={state.showLocal}
+                  onChange={(e) =>
+                    setState({ ...state, showLocal: e.target.checked })
+                  }
+                />
+                {t("showLocal")}
+              </label>
+
+              <SegControl
+                label={t("logoMode")}
+                value={state.logoMode}
+                options={(
                   [
                     ["none", "logoNone"],
                     ["lockup", "logoLockup"],
                     ["mark", "logoMark"],
                   ] as const
-                ).map(([id, key]) => (
-                  <SegButton
-                    key={id}
-                    pressed={state.logoMode === id}
-                    onClick={() => setState({ ...state, logoMode: id })}
-                  >
-                    {t(key)}
-                  </SegButton>
-                ))}
-              </div>
-            </div>
-
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={state.showByline}
-                onChange={(e) =>
-                  setState({ ...state, showByline: e.target.checked })
-                }
+                ).map(([value, key]) => ({
+                  value,
+                  label: t(key),
+                }))}
+                onChange={(logoMode) => setState({ ...state, logoMode })}
               />
-              {t("showByline")}
-            </label>
-            {state.showByline ? (
-              <Input
-                label={t("byline")}
-                value={state.byline}
-                onChange={(e) =>
-                  setState({ ...state, byline: e.target.value })
-                }
-                placeholder={t("bylinePlaceholder")}
-              />
-            ) : null}
-          </fieldset>
 
-          {!themeEstablished ? (
-            <p className="text-sm text-gray-600">
-              {t("setupBrandPrompt")}{" "}
-              <Link href="/onboarding" className="text-opseu-blue underline">
-                {t("setupBrandLink")}
-              </Link>
-            </p>
-          ) : null}
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={state.showByline}
+                  onChange={(e) =>
+                    setState({ ...state, showByline: e.target.checked })
+                  }
+                />
+                {t("showByline")}
+              </label>
+              {state.showByline ? (
+                <Input
+                  label={t("byline")}
+                  value={state.byline}
+                  onChange={(e) =>
+                    setState({ ...state, byline: e.target.value })
+                  }
+                  placeholder={t("bylinePlaceholder")}
+                />
+              ) : null}
+            </fieldset>
 
-          {(state.mode === "banner" ||
-            state.trimKit.top ||
-            state.trimKit.bottom) && (
-            <div>
-              <p className="mb-1 text-sm font-medium" id="strip-label">
-                {t("stripHeight")}
+            {!themeEstablished ? (
+              <p className="text-sm text-gray-600">
+                {t("setupBrandPrompt")}{" "}
+                <Link href="/onboarding" className="text-opseu-blue underline">
+                  {t("setupBrandLink")}
+                </Link>
               </p>
-              <div
-                className="flex flex-wrap gap-2"
-                role="group"
-                aria-labelledby="strip-label"
-              >
-                {stripHeightPresets().map((p) => (
-                  <SegButton
-                    key={p.id}
-                    pressed={state.stripHeightId === p.id}
-                    onClick={() =>
-                      setState({ ...state, stripHeightId: p.id })
-                    }
-                  >
-                    {t(p.labelKey)}
-                  </SegButton>
-                ))}
-              </div>
-            </div>
-          )}
+            ) : null}
 
-          {state.mode === "trim" &&
-            (state.trimKit.side || state.trimKit.corner) && (
-              <div>
-                <p className="mb-1 text-sm font-medium" id="edge-label">
-                  {t("edgeWidth")}
-                </p>
-                <div
-                  className="flex flex-wrap gap-2"
-                  role="group"
-                  aria-labelledby="edge-label"
-                >
-                  {edgeWidthPresets().map((p) => (
-                    <SegButton
-                      key={p.id}
-                      pressed={state.edgeWidthId === p.id}
-                      onClick={() =>
-                        setState({ ...state, edgeWidthId: p.id })
-                      }
-                    >
-                      {t(p.labelKey)}
-                    </SegButton>
-                  ))}
-                </div>
-              </div>
+            {(state.mode === "banner" ||
+              state.trimKit.top ||
+              state.trimKit.bottom) && (
+              <SegControl
+                label={t("stripHeight")}
+                value={state.stripHeightId}
+                options={stripHeightPresets().map((p) => ({
+                  value: p.id,
+                  label: t(p.labelKey),
+                }))}
+                onChange={(stripHeightId) =>
+                  setState({ ...state, stripHeightId })
+                }
+              />
             )}
 
-          <div>
-            <p className="mb-1 text-sm font-medium" id="sheet-label">
-              {t("sheetSize")}
-            </p>
-            <div
-              className="flex flex-wrap gap-2"
-              role="group"
-              aria-labelledby="sheet-label"
-            >
-              {boardSheetFormats().map((f) => (
-                <SegButton
-                  key={f.id}
-                  pressed={sheetId === f.id}
-                  onClick={() => setSheetId(f.id)}
-                >
-                  {t(f.labelKey)}
-                </SegButton>
-              ))}
+            {state.mode === "trim" &&
+              (state.trimKit.side || state.trimKit.corner) && (
+                <SegControl
+                  label={t("edgeWidth")}
+                  value={state.edgeWidthId}
+                  options={edgeWidthPresets().map((p) => ({
+                    value: p.id,
+                    label: t(p.labelKey),
+                  }))}
+                  onChange={(edgeWidthId) =>
+                    setState({ ...state, edgeWidthId })
+                  }
+                />
+              )}
+
+            <div>
+              <SegControl
+                label={t("sheetSize")}
+                value={sheetId}
+                options={boardSheetFormats().map((f) => ({
+                  value: f.id,
+                  label: t(f.labelKey),
+                }))}
+                onChange={setSheetId}
+              />
+              <p className="mt-2 text-xs text-gray-500">{t("packHint")}</p>
             </div>
-            <p className="mt-2 text-xs text-gray-500">{t("packHint")}</p>
-          </div>
 
-          <ThemePicker
-            primaryColor={state.primaryColor}
-            secondaryColor={state.secondaryColor}
-            onPrimaryChange={(primaryColor) =>
-              setState({ ...state, primaryColor })
-            }
-            onSecondaryChange={(secondaryColor) =>
-              setState({ ...state, secondaryColor })
-            }
-          />
-
-          <div>
-            <label
-              htmlFor="banner-accent"
-              className="mb-1 block text-sm font-medium"
-            >
-              {t("accentColor")}
-            </label>
-            <input
-              id="banner-accent"
-              type="color"
-              value={state.accentColor}
-              onChange={(e) =>
-                setState({ ...state, accentColor: e.target.value })
+            <ThemePicker
+              primaryColor={state.primaryColor}
+              secondaryColor={state.secondaryColor}
+              onPrimaryChange={(primaryColor) =>
+                setState({ ...state, primaryColor })
               }
-              className="h-10 w-full cursor-pointer rounded-md border border-gray-300"
+              onSecondaryChange={(secondaryColor) =>
+                setState({ ...state, secondaryColor })
+              }
             />
-          </div>
 
-          <UndoRedoBar
-            canUndo={canUndo}
-            canRedo={canRedo}
-            onUndo={undo}
-            onRedo={redo}
-            onReset={resetState}
-          />
-          <div className="flex gap-3">
-            <Button onClick={handleExportPng} disabled={exporting}>
-              {state.mode === "trim" && kitPieces.length > 1
-                ? tc("downloadZip")
-                : tc("downloadPng")}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={handleExportPdf}
-              disabled={exporting}
-            >
-              {tc("downloadPdf")}
-            </Button>
-          </div>
-        </Card>
+            <div>
+              <label
+                htmlFor="banner-accent"
+                className="mb-1 block text-sm font-medium text-gray-700"
+              >
+                {t("accentColor")}
+              </label>
+              <input
+                id="banner-accent"
+                type="color"
+                value={state.accentColor}
+                onChange={(e) =>
+                  setState({ ...state, accentColor: e.target.value })
+                }
+                className="h-10 w-full cursor-pointer rounded-md border border-gray-300"
+              />
+            </div>
 
-        <div className="space-y-6">
+            <UndoRedoBar
+              canUndo={canUndo}
+              canRedo={canRedo}
+              onUndo={undo}
+              onRedo={redo}
+              onReset={resetState}
+            />
+            <div className="flex gap-3">
+              <Button onClick={handleExportPng} disabled={exporting}>
+                {state.mode === "trim" && kitPieces.length > 1
+                  ? tc("downloadZip")
+                  : tc("downloadPng")}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleExportPdf}
+                disabled={exporting}
+              >
+                {tc("downloadPdf")}
+              </Button>
+            </div>
+          </Card>
+        }
+        preview={
           <div>
             <p className="mb-1 text-sm font-medium text-gray-700">
               {t("designPreview")}
@@ -741,7 +675,8 @@ export default function BoardBannerPage() {
               </div>
             </div>
           </div>
-
+        }
+        previewSecondary={
           <div>
             <p className="mb-1 text-sm font-medium text-gray-700">
               {t("printSheet")}
@@ -774,8 +709,15 @@ export default function BoardBannerPage() {
             </div>
             <p className="mt-2 text-xs text-gray-500">{t("cutGuideHint")}</p>
           </div>
-        </div>
-      </div>
+        }
+        footer={
+          <SourcesBlock
+            pageId="boardBanner"
+            title={ts("title")}
+            intro={ts("intro")}
+          />
+        }
+      />
 
       {/* Off-screen pack sheets for multi-piece kit export */}
       {state.mode === "trim" ? (
@@ -803,12 +745,6 @@ export default function BoardBannerPage() {
           ))}
         </div>
       ) : null}
-
-      <SourcesBlock
-        pageId="boardBanner"
-        title={ts("title")}
-        intro={ts("intro")}
-      />
-    </PageShell>
+    </>
   );
 }

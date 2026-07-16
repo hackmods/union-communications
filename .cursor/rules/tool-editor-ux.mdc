@@ -67,9 +67,9 @@ Update when a surface ships.
 | solidarity-poster | done |
 | resizer | done |
 | website-template | done |
-| board-banner | pending |
-| alt-text | pending (densify) |
-| document-generator | pending (densify) |
+| board-banner | done |
+| alt-text | done |
+| document-generator | done |
 
 ### Public secondary
 
@@ -95,6 +95,6 @@ Update when a surface ships.
 | support | pending |
 | app/login | pending |
 | app/mfa | pending |
-| Header mobile drawer | pending |
-| Footer rhythm | pending |
-| HubNav / app shell | pending (light) |
+| Header mobile drawer | done |
+| Footer rhythm | done |
+| HubNav / app shell | done (light) |

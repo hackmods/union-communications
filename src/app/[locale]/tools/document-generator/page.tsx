@@ -255,16 +255,16 @@ export default function DocumentGeneratorPage() {
   }
 
   return (
-    <PageShell className="py-8 md:py-12">
-      <div className="mb-6 max-w-prose">
-        <h1 className="text-3xl font-bold text-opseu-dark md:text-4xl">
+    <PageShell className="py-6 md:py-8 lg:py-10">
+      <div className="mb-4 max-w-prose">
+        <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
           {t("title")}
         </h1>
-        <p className="mt-2 text-gray-600">{t("subtitle")}</p>
+        <p className="mt-1 text-gray-600">{t("subtitle")}</p>
       </div>
 
       <div
-        className="mb-6 grid gap-3 sm:grid-cols-3"
+        className="mb-4 grid gap-3 sm:grid-cols-3"
         role="listbox"
         aria-label={t("examples")}
       >
@@ -280,10 +280,10 @@ export default function DocumentGeneratorPage() {
         ))}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid items-start gap-4 lg:grid-cols-2 lg:gap-6">
         <Card density="compact" className="space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <CardTitle>{t("settings")}</CardTitle>
+            <CardTitle className="text-base">{t("settings")}</CardTitle>
             <UndoRedoBar
               canUndo={canUndo}
               canRedo={canRedo}
@@ -307,7 +307,7 @@ export default function DocumentGeneratorPage() {
             </label>
             <select
               id="design-preset"
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-base"
+              className="min-h-11 w-full rounded-lg border border-gray-300 px-3 py-2 text-base"
               value={state.presetId}
               onChange={(e) => applyPreset(e.target.value as OfficePresetId)}
             >
@@ -344,11 +344,11 @@ export default function DocumentGeneratorPage() {
           </div>
 
           <fieldset>
-            <legend className="mb-2 text-sm font-medium text-gray-700">
+            <legend className="mb-1.5 text-sm font-medium text-gray-700">
               {t("outputs")}
             </legend>
-            <div className="flex flex-col gap-2">
-              <label className="inline-flex items-center gap-2 text-sm">
+            <div className="flex flex-col gap-1.5">
+              <label className="inline-flex min-h-11 items-center gap-2 text-sm">
                 <input
                   type="checkbox"
                   checked={state.includeDocx}
@@ -359,7 +359,7 @@ export default function DocumentGeneratorPage() {
                 {t("outputDocx")}
               </label>
               {preset.outputs.xlsx ? (
-                <label className="inline-flex items-center gap-2 text-sm">
+                <label className="inline-flex min-h-11 items-center gap-2 text-sm">
                   <input
                     type="checkbox"
                     checked={state.includeXlsx}
@@ -370,7 +370,7 @@ export default function DocumentGeneratorPage() {
                   {t("outputXlsx")}
                 </label>
               ) : null}
-              <label className="inline-flex items-center gap-2 text-sm">
+              <label className="inline-flex min-h-11 items-center gap-2 text-sm">
                 <input
                   type="checkbox"
                   checked={state.includePptx}
@@ -383,7 +383,7 @@ export default function DocumentGeneratorPage() {
             </div>
           </fieldset>
 
-          <div className="space-y-3 border-t border-gray-100 pt-4">
+          <div className="space-y-3 border-t border-gray-100 pt-3">
             <p className="text-sm font-medium text-gray-700">
               {t("fieldsHeading")}
             </p>
@@ -392,7 +392,7 @@ export default function DocumentGeneratorPage() {
                 <Textarea
                   key={field.key}
                   label={t(field.labelKey)}
-                  rows={4}
+                  rows={3}
                   value={state.fields[field.key] ?? ""}
                   onChange={(e) => setField(field.key, e.target.value)}
                 />
@@ -407,7 +407,7 @@ export default function DocumentGeneratorPage() {
             )}
           </div>
 
-          <div className="flex flex-wrap gap-2 border-t border-gray-100 pt-4">
+          <div className="flex flex-wrap gap-2 border-t border-gray-100 pt-3">
             <Button
               type="button"
               variant="outline"
@@ -450,8 +450,8 @@ export default function DocumentGeneratorPage() {
           ) : null}
         </Card>
 
-        <div className="space-y-3">
-          <h2 className="text-lg font-semibold text-opseu-dark">
+        <div className="space-y-3 lg:sticky lg:top-4">
+          <h2 className="text-base font-semibold text-opseu-dark">
             {t("preview")}
           </h2>
           <p className="text-sm text-gray-600">{t("previewHint")}</p>
