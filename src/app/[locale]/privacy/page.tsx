@@ -134,10 +134,10 @@ export default async function PrivacyPage({
           <p className="font-semibold text-opseu-dark">Contact</p>
           <p className="mt-2 text-gray-700">
             UnionOps is stewarded by Ryan Morris. For questions about this privacy policy,
-            contact your local communications chair or use the contact path on{" "}
-            <a className="text-opseu-blue underline" href="https://unionops.org">
-              unionops.org
-            </a>
+            contact your local communications chair or see{" "}
+            <Link href="/support" className="text-opseu-blue underline">
+              Support
+            </Link>
             .
           </p>
         </Callout>
