@@ -25,8 +25,11 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "npm run dev",
+    // CI already runs `npm run build`; start the prod server so minified
+    // hydration throws (#418) surface the same way users see them.
+    command: process.env.CI ? "npm run start" : "npm run dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
+    timeout: 120_000,
   },
 });
