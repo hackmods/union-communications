@@ -1,6 +1,6 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { Card, CardTitle } from "@/components/ui/Card";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { Callout } from "@/components/ui/Callout";
 import { DisplaySettings } from "@/components/accessibility/DisplaySettings";
 
 export default async function AccessibilityPage({
@@ -27,32 +27,34 @@ export default async function AccessibilityPage({
 
   return (
     <GuideLayout title={t("title")} subtitle={t("subtitle")}>
-      <div className="space-y-6">
+      <div className="space-y-8">
         <DisplaySettings />
 
-        <Card>
-          <CardTitle>{t("commitment.title")}</CardTitle>
-          <p className="mt-3 text-gray-700">{t("commitment.body")}</p>
-        </Card>
+        <Callout>
+          <p className="font-semibold text-opseu-dark">{t("commitment.title")}</p>
+          <p className="mt-2 text-gray-700">{t("commitment.body")}</p>
+        </Callout>
 
-        <Card>
-          <CardTitle>{t("features.title")}</CardTitle>
+        <section className="border-l-2 border-opseu-blue/30 pl-5">
+          <h2 className="text-xl font-bold text-opseu-dark">
+            {t("features.title")}
+          </h2>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
             {features.map((feature) => (
               <li key={feature}>{feature}</li>
             ))}
           </ul>
-        </Card>
+        </section>
 
-        <Card>
-          <CardTitle>{t("limitations.title")}</CardTitle>
-          <p className="mt-3 text-gray-700">{t("limitations.body")}</p>
-        </Card>
+        <Callout tone="muted">
+          <p className="font-semibold text-opseu-dark">{t("limitations.title")}</p>
+          <p className="mt-2 text-gray-700">{t("limitations.body")}</p>
+        </Callout>
 
-        <Card>
-          <CardTitle>{t("feedback.title")}</CardTitle>
-          <p className="mt-3 text-gray-700">{t("feedback.body")}</p>
-        </Card>
+        <Callout tone="plain">
+          <p className="font-semibold text-opseu-dark">{t("feedback.title")}</p>
+          <p className="mt-2 text-gray-700">{t("feedback.body")}</p>
+        </Callout>
       </div>
     </GuideLayout>
   );

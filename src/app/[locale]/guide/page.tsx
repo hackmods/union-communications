@@ -1,6 +1,5 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Card, CardTitle } from "@/components/ui/Card";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
@@ -45,7 +44,7 @@ export default async function GuidePage({
         <SourcesBlock pageId="blueprint" title={ts("title")} intro={ts("intro")} />
       }
     >
-      <Callout className="mb-6">
+      <Callout className="mb-8">
         <p className="font-semibold text-opseu-dark">{crisis("title")}</p>
         <p className="mt-1">{crisis("subtitle")}</p>
         <Link
@@ -56,18 +55,29 @@ export default async function GuidePage({
         </Link>
       </Callout>
 
-      <div className="space-y-6">
+      <ol className="space-y-8">
         {chapterKeys.map((key, i) => (
-          <Card key={key}>
-            <CardTitle>
-              {i + 1}. {t(`chapters.${key}.title`)}
-            </CardTitle>
-            <p className="mt-3 leading-relaxed text-gray-700">
+          <li
+            key={key}
+            className="border-l-2 border-opseu-blue/30 pl-5"
+          >
+            <div className="flex items-baseline gap-3">
+              <span
+                className="text-sm font-bold tabular-nums text-opseu-blue"
+                aria-hidden="true"
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h2 className="text-xl font-bold text-opseu-dark">
+                {t(`chapters.${key}.title`)}
+              </h2>
+            </div>
+            <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
               {t(`chapters.${key}.content`)}
             </p>
-          </Card>
+          </li>
         ))}
-      </div>
+      </ol>
 
       <Callout tone="muted" className="mt-10">
         <p className="font-semibold text-opseu-dark">{t("channelGuides.title")}</p>

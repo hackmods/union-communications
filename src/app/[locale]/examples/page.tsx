@@ -22,16 +22,16 @@ export default function ExamplesPage() {
       : EXAMPLE_POSTS.filter((p) => p.category === filter);
 
   return (
-    <PageShell className="py-12">
+    <PageShell className="py-8 md:py-12">
       <header className="max-w-2xl">
-        <h1 className="text-3xl font-bold tracking-tight text-opseu-dark">
+        <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
           {t("title")}
         </h1>
         <p className="mt-2 text-gray-600">{t("subtitle")}</p>
       </header>
 
       <div
-        className="mt-6 flex flex-wrap gap-x-1 gap-y-2 border-b border-gray-200"
+        className="mt-6 flex flex-wrap gap-2"
         role="tablist"
         aria-label={t("filterLabel")}
       >
@@ -41,10 +41,10 @@ export default function ExamplesPage() {
           aria-selected={filter === "all"}
           onClick={() => setFilter("all")}
           className={cn(
-            "-mb-px border-b-2 px-3 py-2 text-sm font-medium transition-colors",
+            "inline-flex min-h-11 items-center rounded-lg border px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
             filter === "all"
-              ? "border-opseu-blue text-opseu-dark"
-              : "border-transparent text-gray-600 hover:text-opseu-dark",
+              ? "border-opseu-blue bg-opseu-blue/5 text-opseu-dark"
+              : "border-gray-200 bg-white text-gray-600 hover:border-opseu-blue/40 hover:text-opseu-dark",
           )}
         >
           {t("categories.all")}
@@ -57,10 +57,10 @@ export default function ExamplesPage() {
             aria-selected={filter === cat}
             onClick={() => setFilter(cat)}
             className={cn(
-              "-mb-px border-b-2 px-3 py-2 text-sm font-medium transition-colors",
+              "inline-flex min-h-11 items-center rounded-lg border px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
               filter === cat
-                ? "border-opseu-blue text-opseu-dark"
-                : "border-transparent text-gray-600 hover:text-opseu-dark",
+                ? "border-opseu-blue bg-opseu-blue/5 text-opseu-dark"
+                : "border-gray-200 bg-white text-gray-600 hover:border-opseu-blue/40 hover:text-opseu-dark",
             )}
           >
             {t(`categories.${cat}`)}
@@ -68,13 +68,13 @@ export default function ExamplesPage() {
         ))}
       </div>
 
-      <div className="mt-8 columns-1 gap-5 sm:columns-2">
+      <div className="mt-8 columns-1 gap-5 sm:columns-2 lg:columns-3">
         {filtered.map((post) => (
           <ExampleCard key={post.id} post={post} />
         ))}
       </div>
 
-      <p className="mt-10 text-sm text-gray-600">
+      <p className="mt-10 max-w-prose text-sm text-gray-600">
         {t("planPrompt")}{" "}
         <Link
           href="/guide/social-media-plan"

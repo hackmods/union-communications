@@ -1,7 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Card, CardTitle } from "@/components/ui/Card";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { Callout } from "@/components/ui/Callout";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
 export default async function PrivacyPage({
@@ -15,10 +15,12 @@ export default async function PrivacyPage({
 
   return (
     <GuideLayout title="Privacy Policy" subtitle="Last updated: July 2026">
-      <div className="space-y-6">
-        <Card>
-          <CardTitle>{hubPublic ? "Two surfaces, two rules" : "On-device Comms"}</CardTitle>
-          <p className="mt-3 text-gray-700">
+      <div className="space-y-8">
+        <Callout>
+          <p className="font-semibold text-opseu-dark">
+            {hubPublic ? "Two surfaces, two rules" : "On-device Comms"}
+          </p>
+          <p className="mt-2 text-gray-700">
             {hubPublic ? (
               <>
                 UnionOps separates public communications tools from the Officer Hub. Comms
@@ -34,22 +36,26 @@ export default async function PrivacyPage({
               </>
             )}
           </p>
-        </Card>
+        </Callout>
 
-        <Card>
-          <CardTitle>Comms tools (on your device)</CardTitle>
+        <section className="border-l-2 border-opseu-blue/30 pl-5">
+          <h2 className="text-xl font-bold text-opseu-dark">
+            Comms tools (on your device)
+          </h2>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
             <li>Image processing, templates, and file preparation happen in your browser</li>
             <li>Brand kit settings are stored in browser local storage</li>
             <li>No analytics, tracking cookies, or third-party ad scripts</li>
             <li>Member photos used in graphics are not uploaded to UnionOps servers by the Comms tools</li>
           </ul>
-        </Card>
+        </section>
 
         {hubPublic ? (
-          <Card>
-            <CardTitle>Officer Hub (hosted instance)</CardTitle>
-            <p className="mt-3 text-gray-700">
+          <section className="border-l-2 border-opseu-blue/30 pl-5">
+            <h2 className="text-xl font-bold text-opseu-dark">
+              Officer Hub (hosted instance)
+            </h2>
+            <p className="mt-3 max-w-prose text-gray-700">
               Signing in to an Officer Hub means that instance processes account sessions and
               any grievance, bumping, or related records it stores. Today&apos;s evaluation
               builds may use in-memory stores for demos; a production host should configure
@@ -71,12 +77,14 @@ export default async function PrivacyPage({
                 files.
               </li>
             </ul>
-          </Card>
+          </section>
         ) : null}
 
-        <Card>
-          <CardTitle>Ontario privacy legislation</CardTitle>
-          <p className="mt-3 text-gray-700">
+        <section className="border-l-2 border-opseu-blue/30 pl-5">
+          <h2 className="text-xl font-bold text-opseu-dark">
+            Ontario privacy legislation
+          </h2>
+          <p className="mt-3 max-w-prose text-gray-700">
             {hubPublic ? (
               <>
                 UnionOps is designed around the principles of Canada&apos;s privacy framework,
@@ -93,11 +101,11 @@ export default async function PrivacyPage({
               </>
             )}
           </p>
-        </Card>
+        </section>
 
-        <Card>
-          <CardTitle>Your responsibilities</CardTitle>
-          <p className="mt-3 text-gray-700">
+        <Callout tone="muted">
+          <p className="font-semibold text-opseu-dark">Your responsibilities</p>
+          <p className="mt-2 text-gray-700">
             You remain responsible for obtaining member consent before using photos in
             social media graphics, and for ensuring posts and case handling comply with your
             local&apos;s policies and collective agreement. This tool does not provide legal
@@ -107,11 +115,24 @@ export default async function PrivacyPage({
             </Link>{" "}
             for a short steward practice guide.
           </p>
-        </Card>
+        </Callout>
 
-        <Card>
-          <CardTitle>Contact</CardTitle>
-          <p className="mt-3 text-gray-700">
+        <Callout tone="muted">
+          <p className="font-semibold text-opseu-dark">Desktop / install as an app</p>
+          <p className="mt-2 text-gray-700">
+            On unionops.org, supported browsers can install UnionOps as a local app window
+            (progressive web app). The offline shell stays on-device; hub case data still
+            needs a network when live. See the quiet{" "}
+            <Link href="/install" className="text-opseu-blue underline">
+              install guide
+            </Link>
+            .
+          </p>
+        </Callout>
+
+        <Callout tone="plain">
+          <p className="font-semibold text-opseu-dark">Contact</p>
+          <p className="mt-2 text-gray-700">
             UnionOps is stewarded by Ryan Morris. For questions about this privacy policy,
             contact your local communications chair or use the contact path on{" "}
             <a className="text-opseu-blue underline" href="https://unionops.org">
@@ -119,7 +140,7 @@ export default async function PrivacyPage({
             </a>
             .
           </p>
-        </Card>
+        </Callout>
       </div>
     </GuideLayout>
   );

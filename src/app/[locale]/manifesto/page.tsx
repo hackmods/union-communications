@@ -37,12 +37,12 @@ export default async function ManifestoPage({
   const hubPublic = isOfficerHubPublic();
 
   return (
-    <PageShell size="focus" className="py-12" as="article">
-      <h1 className="text-3xl font-bold leading-tight text-opseu-dark md:text-4xl">
+    <PageShell size="focus" className="py-8 md:py-12" as="article">
+      <h1 className="text-2xl font-bold leading-tight text-opseu-dark md:text-4xl">
         {t("title")}
       </h1>
 
-      <div className="mt-8 space-y-6 text-lg leading-relaxed text-gray-800">
+      <div className="mt-8 max-w-prose space-y-6 text-lg leading-relaxed text-gray-800">
         <p>{t("p1")}</p>
         <p>{t("p2")}</p>
         <p className="text-xl font-semibold text-opseu-dark">{t("promiseLead")}</p>
@@ -67,7 +67,7 @@ export default async function ManifestoPage({
         <p className="text-2xl font-bold text-opseu-blue">{t("slogan")}</p>
       </div>
 
-      <p className="mt-10 text-base text-gray-600">
+      <p className="mt-10 max-w-prose text-base text-gray-600">
         {t("supportLead")}{" "}
         <Link href="/support" className="font-semibold text-opseu-blue hover:underline">
           {t("supportLink")}

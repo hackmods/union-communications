@@ -44,12 +44,14 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="mx-auto max-w-md py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("login")}</h1>
+    <div className="mx-auto max-w-md px-4 py-8 md:py-12">
+      <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
+        {t("login")}
+      </h1>
       <p className="mt-2 text-gray-600">{t("loginSubtitle")}</p>
 
-      <Card className="mt-8">
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <Card density="compact" className="mt-6">
+        <form onSubmit={handleSubmit} className="space-y-3">
           <Input
             label={t("email")}
             type="email"
@@ -71,12 +73,12 @@ export default function LoginPage() {
               {error}
             </p>
           )}
-          <Button type="submit" disabled={loading} className="w-full">
+          <Button type="submit" disabled={loading} className="min-h-11 w-full">
             {loading ? t("signingIn") : t("signIn")}
           </Button>
         </form>
 
-        <p className="mt-6 text-xs text-gray-500">{t("demoHint")}</p>
+        <p className="mt-4 text-xs text-gray-500">{t("demoHint")}</p>
       </Card>
 
       <p className="mt-4 text-center text-sm">

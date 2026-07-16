@@ -24,21 +24,25 @@ export default function MfaPage() {
 
   if (status === "loading" || !session?.user) {
     return (
-      <p className="text-gray-600" aria-live="polite">
-        {t("sessionLoading")}
-      </p>
+      <div className="mx-auto max-w-md px-4 py-8 md:py-12">
+        <p className="text-gray-600" aria-live="polite">
+          {t("sessionLoading")}
+        </p>
+      </div>
     );
   }
 
   if (session.user.mfaVerified) {
     return (
-      <Card>
-        <CardTitle>{t("mfaVerified")}</CardTitle>
-        <p className="mt-2 text-gray-600">{t("mfaVerifiedDesc")}</p>
-        <Button className="mt-4" onClick={() => router.push("/app")}>
-          {t("backToDashboard")}
-        </Button>
-      </Card>
+      <div className="mx-auto max-w-md px-4 py-8 md:py-12">
+        <Card density="compact">
+          <CardTitle className="text-base">{t("mfaVerified")}</CardTitle>
+          <p className="mt-2 text-gray-600">{t("mfaVerifiedDesc")}</p>
+          <Button className="mt-4 min-h-11" onClick={() => router.push("/app")}>
+            {t("backToDashboard")}
+          </Button>
+        </Card>
+      </div>
     );
   }
 
@@ -65,12 +69,14 @@ export default function MfaPage() {
   };
 
   return (
-    <div className="mx-auto max-w-md">
-      <h1 className="text-2xl font-bold text-opseu-dark">{t("mfaTitle")}</h1>
+    <div className="mx-auto max-w-md px-4 py-8 md:py-12">
+      <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
+        {t("mfaTitle")}
+      </h1>
       <p className="mt-2 text-gray-600">{t("mfaSubtitle")}</p>
 
-      <Card className="mt-6">
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <Card density="compact" className="mt-6">
+        <form onSubmit={handleSubmit} className="space-y-3">
           <Input
             label={t("mfaCode")}
             value={code}
@@ -84,7 +90,7 @@ export default function MfaPage() {
               {error}
             </p>
           )}
-          <Button type="submit" disabled={loading} className="w-full">
+          <Button type="submit" disabled={loading} className="min-h-11 w-full">
             {loading ? t("verifying") : t("verifyMfa")}
           </Button>
         </form>

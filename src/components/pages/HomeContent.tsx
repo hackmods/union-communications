@@ -167,24 +167,43 @@ export function HomeContent() {
 
         {hubPublic ? (
           <section className="home-enter home-enter-delay-2 mb-12 grid gap-4 md:grid-cols-2">
-            <div className="rounded-xl border border-opseu-blue/20 bg-opseu-blue/5 p-5 text-left">
-              <h2 className="text-lg font-bold text-opseu-dark">
-                {t("pathCommsTitle")}
-              </h2>
-              <p className="mt-2 text-sm text-gray-600">{t("pathCommsDesc")}</p>
-              <p className="mt-2 text-sm text-gray-600">{t("pathCommsHint")}</p>
-            </div>
-            <div className="rounded-xl border border-gray-200 bg-white p-5 text-left">
-              <h2 className="text-lg font-bold text-opseu-dark">
-                {t("pathOfficerTitle")}
-              </h2>
-              <p className="mt-2 text-sm text-gray-600">{t("pathOfficerDesc")}</p>
-              <div className="mt-4">
-                <Link href="/app">
-                  <Button size="md">{t("pathOfficerCta")}</Button>
+            <Callout
+              tone="brand"
+              className="flex flex-col gap-3 p-5"
+            >
+              <div>
+                <h2 className="text-lg font-bold text-opseu-dark">
+                  {t("pathCommsTitle")}
+                </h2>
+                <p className="mt-2 text-sm text-gray-600">{t("pathCommsDesc")}</p>
+                <p className="mt-2 text-sm text-gray-600">{t("pathCommsHint")}</p>
+              </div>
+              <div>
+                <Link href="/guide/social-media-plan">
+                  <Button size="md" className="min-h-11">
+                    {t("pathCommsCta")}
+                  </Button>
                 </Link>
               </div>
-            </div>
+            </Callout>
+            <Callout
+              tone="plain"
+              className="flex flex-col gap-3 p-5"
+            >
+              <div>
+                <h2 className="text-lg font-bold text-opseu-dark">
+                  {t("pathOfficerTitle")}
+                </h2>
+                <p className="mt-2 text-sm text-gray-600">{t("pathOfficerDesc")}</p>
+              </div>
+              <div>
+                <Link href="/app">
+                  <Button size="md" className="min-h-11">
+                    {t("pathOfficerCta")}
+                  </Button>
+                </Link>
+              </div>
+            </Callout>
           </section>
         ) : (
           <section className="home-enter home-enter-delay-2 mb-12">

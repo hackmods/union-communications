@@ -8,10 +8,10 @@ export function DisplaySettings() {
   const t = useTranslations("accessibility.display");
 
   return (
-    <Card>
-      <CardTitle>{t("title")}</CardTitle>
-      <p className="mt-2 text-base text-gray-600">{t("intro")}</p>
-      <div className="mt-4">
+    <Card density="compact">
+      <CardTitle className="text-base">{t("title")}</CardTitle>
+      <p className="mt-1 text-sm text-gray-600">{t("intro")}</p>
+      <div className="mt-3">
         <DisplaySettingsControls variant="panel" />
       </div>
     </Card>

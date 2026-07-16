@@ -1,5 +1,5 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { Card, CardTitle } from "@/components/ui/Card";
+import { Callout } from "@/components/ui/Callout";
 import { BRAND_COLORS } from "@/lib/constants/brand";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
@@ -40,10 +40,10 @@ export default async function AssetsPage({
         <SourcesBlock pageId="assets" title={ts("title")} intro={ts("intro")} />
       }
     >
-      <Card>
-        <CardTitle>{t("primaryLogo")}</CardTitle>
-        <div className="mt-4 flex flex-wrap items-center gap-8">
-          <div className="flex items-center gap-4">
+      <section className="border-l-2 border-opseu-blue/30 pl-5">
+        <h2 className="text-xl font-bold text-opseu-dark">{t("primaryLogo")}</h2>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white px-4 py-3">
             <Image
               src="/assets/caat-opseu/logo-primary.png"
               alt={t("logoAlt")}
@@ -54,12 +54,12 @@ export default async function AssetsPage({
             <a
               href="/assets/caat-opseu/logo-primary.png"
               download
-              className="text-opseu-blue underline"
+              className="text-sm font-medium text-opseu-blue underline"
             >
               {t("downloadPng")}
             </a>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white px-4 py-3">
             <Image
               src="/assets/caat-opseu/logo-mark.png"
               alt={t("markAlt")}
@@ -70,21 +70,21 @@ export default async function AssetsPage({
             <a
               href="/assets/caat-opseu/logo-mark.png"
               download
-              className="text-opseu-blue underline"
+              className="text-sm font-medium text-opseu-blue underline"
             >
               {t("downloadMark")}
             </a>
           </div>
         </div>
-      </Card>
+      </section>
 
-      <Card className="mt-6">
-        <CardTitle>{t("swatchesTitle")}</CardTitle>
-        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
+        <h2 className="text-xl font-bold text-opseu-dark">{t("swatchesTitle")}</h2>
+        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {swatches.map((s) => (
             <div key={s.name} className="text-center">
               <div
-                className="mx-auto h-16 w-16 rounded-lg border border-gray-200"
+                className="mx-auto h-14 w-14 rounded-lg border border-gray-200"
                 style={{ backgroundColor: s.hex }}
               />
               <p className="mt-2 text-sm font-medium">{s.name}</p>
@@ -92,10 +92,10 @@ export default async function AssetsPage({
             </div>
           ))}
         </div>
-      </Card>
+      </section>
 
-      <Card className="mt-6">
-        <CardTitle>{t("guidelinesTitle")}</CardTitle>
+      <Callout tone="muted" className="mt-8">
+        <p className="font-semibold text-opseu-dark">{t("guidelinesTitle")}</p>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
           {guidelineKeys.map((key) => (
             <li key={key}>{t(`guidelines.${key}`)}</li>
@@ -112,7 +112,7 @@ export default async function AssetsPage({
             </a>
           </li>
         </ul>
-      </Card>
+      </Callout>
     </GuideLayout>
   );
 }

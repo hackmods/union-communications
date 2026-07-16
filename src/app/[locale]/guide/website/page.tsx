@@ -1,6 +1,5 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
@@ -25,14 +24,19 @@ export default async function WebsiteGuidePage({
         <SourcesBlock pageId="website" title={ts("title")} intro={ts("intro")} />
       }
     >
-      <div className="space-y-6">
+      <div className="space-y-8">
         {sectionKeys.map((key) => (
-          <Card key={key}>
-            <CardTitle>{t(`sections.${key}.title`)}</CardTitle>
-            <p className="mt-3 leading-relaxed text-gray-700">
+          <section
+            key={key}
+            className="border-l-2 border-opseu-blue/30 pl-5"
+          >
+            <h2 className="text-xl font-bold text-opseu-dark">
+              {t(`sections.${key}.title`)}
+            </h2>
+            <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
               {t(`sections.${key}.content`)}
             </p>
-          </Card>
+          </section>
         ))}
       </div>
 

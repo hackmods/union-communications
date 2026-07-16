@@ -56,8 +56,10 @@ export default function OnboardingPage() {
   };
 
   return (
-    <PageShell size="focus" className="py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
+    <PageShell size="focus" className="py-8 md:py-12">
+      <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
+        {t("title")}
+      </h1>
 
       <div className="mt-4 flex gap-2" aria-label="Progress">
         {[1, 2, 3].map((s) => (
@@ -68,10 +70,10 @@ export default function OnboardingPage() {
         ))}
       </div>
 
-      <Card className="mt-8">
+      <Card density="compact" className="mt-6">
         {step === 1 && (
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold">{t("step1")}</h2>
+          <div className="space-y-3">
+            <h2 className="text-lg font-semibold text-opseu-dark">{t("step1")}</h2>
             <Input
               label={t("localNumber")}
               placeholder={t("localNumberPlaceholder")}
@@ -111,8 +113,8 @@ export default function OnboardingPage() {
         )}
 
         {step === 2 && (
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold">{t("step2")}</h2>
+          <div className="space-y-3">
+            <h2 className="text-lg font-semibold text-opseu-dark">{t("step2")}</h2>
             <ThemePicker
               primaryColor={brandKit.primaryColor}
               secondaryColor={brandKit.secondaryColor}
@@ -125,8 +127,8 @@ export default function OnboardingPage() {
         )}
 
         {step === 3 && (
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold">{t("step3")}</h2>
+          <div className="space-y-3">
+            <h2 className="text-lg font-semibold text-opseu-dark">{t("step3")}</h2>
             <p className="text-sm text-gray-600">{t("step3Description")}</p>
             <LogoSettings
               useOfficialLogo={brandKit.useOfficialLogo}
@@ -151,7 +153,7 @@ export default function OnboardingPage() {
           </div>
         )}
 
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="button-row mt-6">
           {step > 1 && (
             <Button variant="outline" onClick={() => setStep(step - 1)}>
               {common("back")}

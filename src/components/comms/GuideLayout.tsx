@@ -34,9 +34,9 @@ export function GuideLayout({
   className,
 }: GuideLayoutProps) {
   return (
-    <PageShell size="read" className={cn("py-12", className)}>
+    <PageShell size="read" className={cn("py-8 md:py-12", className)}>
       <header>
-        <h1 className="text-3xl font-bold tracking-tight text-opseu-dark">
+        <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
           {title}
         </h1>
         {subtitle && (

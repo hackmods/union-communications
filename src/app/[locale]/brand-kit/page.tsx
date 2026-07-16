@@ -73,8 +73,10 @@ export default function BrandKitPage() {
   };
 
   return (
-    <PageShell size="focus" className="py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
+    <PageShell size="focus" className="py-8 md:py-12">
+      <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
+        {t("title")}
+      </h1>
       <p className="mt-2 text-gray-600">{t("description")}</p>
       <p className="mt-3">
         <Link
@@ -85,8 +87,8 @@ export default function BrandKitPage() {
         </Link>
       </p>
 
-      <Card className="mt-8 space-y-4">
-        <CardTitle>{t("unionPreset.title")}</CardTitle>
+      <Card density="compact" className="mt-6 space-y-3">
+        <CardTitle className="text-base">{t("unionPreset.title")}</CardTitle>
         <p className="text-sm text-gray-600">{t("unionPreset.description")}</p>
         <UnionPresetSelect
           label={t("unionPreset.label")}
@@ -135,64 +137,66 @@ export default function BrandKitPage() {
         ) : null}
       </Card>
 
-      <Card className="mt-6 space-y-4">
-        <CardTitle>Current settings</CardTitle>
-        <Input
-          label="Local number"
-          value={brandKit.local.localNumber}
-          onChange={(e) =>
-            setBrandKit({ local: { ...brandKit.local, localNumber: e.target.value } })
-          }
-        />
-        <Input
-          label="Sub-text"
-          value={brandKit.local.subText}
-          onChange={(e) =>
-            setBrandKit({ local: { ...brandKit.local, subText: e.target.value } })
-          }
-        />
-        <ThemePicker
-          primaryColor={brandKit.primaryColor}
-          secondaryColor={brandKit.secondaryColor}
-          onPrimaryChange={(c) => setBrandKit({ primaryColor: c })}
-          onSecondaryChange={(c) => setBrandKit({ secondaryColor: c })}
-          primaryLabel={t("colors.primary")}
-          secondaryLabel={t("colors.secondary")}
-        />
-      </Card>
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <Card density="compact" className="space-y-3">
+          <CardTitle className="text-base">Current settings</CardTitle>
+          <Input
+            label="Local number"
+            value={brandKit.local.localNumber}
+            onChange={(e) =>
+              setBrandKit({ local: { ...brandKit.local, localNumber: e.target.value } })
+            }
+          />
+          <Input
+            label="Sub-text"
+            value={brandKit.local.subText}
+            onChange={(e) =>
+              setBrandKit({ local: { ...brandKit.local, subText: e.target.value } })
+            }
+          />
+          <ThemePicker
+            primaryColor={brandKit.primaryColor}
+            secondaryColor={brandKit.secondaryColor}
+            onPrimaryChange={(c) => setBrandKit({ primaryColor: c })}
+            onSecondaryChange={(c) => setBrandKit({ secondaryColor: c })}
+            primaryLabel={t("colors.primary")}
+            secondaryLabel={t("colors.secondary")}
+          />
+        </Card>
 
-      <Card className="mt-6 space-y-4">
-        <CardTitle>{t("logo.title")}</CardTitle>
-        <p className="text-sm text-gray-600">{t("logo.description")}</p>
-        <LogoSettings
-          useOfficialLogo={brandKit.useOfficialLogo}
-          officialLogoVariant={brandKit.officialLogoVariant}
-          customLogoDataUrl={brandKit.customLogoDataUrl}
-          logoText={brandKit.logoText}
-          unionPresetId={brandKit.unionPresetId}
-          primaryColor={brandKit.primaryColor}
-          secondaryColor={brandKit.secondaryColor}
-          onModeChange={(mode) => {
-            setBrandKit(
-              brandKitPatchForLogoMode(
-                mode,
-                brandKit.logoText,
-                brandKit.customLogoDataUrl,
-                selectedLogos,
-              ),
-            );
-          }}
-          onCustomLogoUpload={(url) =>
-            setBrandKit({ useOfficialLogo: false, customLogoDataUrl: url })
-          }
-          onCustomLogoClear={() =>
-            setBrandKit({ customLogoDataUrl: "" })
-          }
-          onLogoTextChange={(text) => setBrandKit({ logoText: text })}
-        />
-      </Card>
+        <Card density="compact" className="space-y-3">
+          <CardTitle className="text-base">{t("logo.title")}</CardTitle>
+          <p className="text-sm text-gray-600">{t("logo.description")}</p>
+          <LogoSettings
+            useOfficialLogo={brandKit.useOfficialLogo}
+            officialLogoVariant={brandKit.officialLogoVariant}
+            customLogoDataUrl={brandKit.customLogoDataUrl}
+            logoText={brandKit.logoText}
+            unionPresetId={brandKit.unionPresetId}
+            primaryColor={brandKit.primaryColor}
+            secondaryColor={brandKit.secondaryColor}
+            onModeChange={(mode) => {
+              setBrandKit(
+                brandKitPatchForLogoMode(
+                  mode,
+                  brandKit.logoText,
+                  brandKit.customLogoDataUrl,
+                  selectedLogos,
+                ),
+              );
+            }}
+            onCustomLogoUpload={(url) =>
+              setBrandKit({ useOfficialLogo: false, customLogoDataUrl: url })
+            }
+            onCustomLogoClear={() =>
+              setBrandKit({ customLogoDataUrl: "" })
+            }
+            onLogoTextChange={(text) => setBrandKit({ logoText: text })}
+          />
+        </Card>
+      </div>
 
-      <Card className="mt-6 space-y-4">
+      <Card density="compact" className="mt-4 space-y-3">
         <LocalLinksEditor
           websiteUrl={brandKit.websiteUrl ?? ""}
           facebookUrl={brandKit.facebookUrl ?? ""}
@@ -203,7 +207,7 @@ export default function BrandKitPage() {
         />
       </Card>
 
-      <div className="mt-6 flex flex-wrap gap-3">
+      <div className="button-row mt-6">
         <Button onClick={handleExport}>{t("export")}</Button>
         <Button variant="outline" onClick={() => fileRef.current?.click()}>
           {t("import")}

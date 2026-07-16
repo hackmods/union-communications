@@ -1,6 +1,5 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
@@ -56,9 +55,9 @@ export default async function ResourcesPage({
       subtitle={t("subtitle")}
       intro={t("intro")}
     >
-      <Card className="border-opseu-blue/20 bg-opseu-blue/5">
-        <CardTitle>{t("purpose.title")}</CardTitle>
-        <p className="mt-3 leading-relaxed text-gray-700">{t("purpose.body")}</p>
+      <Callout className="mb-8">
+        <p className="font-semibold text-opseu-dark">{t("purpose.title")}</p>
+        <p className="mt-2 leading-relaxed text-gray-700">{t("purpose.body")}</p>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
           {(t.raw("purpose.pillars") as string[]).map((item) => (
             <li key={item}>{item}</li>
@@ -67,10 +66,10 @@ export default async function ResourcesPage({
         <Link href="/guide/social-media-plan" className="mt-4 inline-block">
           <Button size="sm">{t("purpose.cta")}</Button>
         </Link>
-      </Card>
+      </Callout>
 
-      <Card className="mt-6">
-        <CardTitle>{t("path.title")}</CardTitle>
+      <section className="border-l-2 border-opseu-blue/30 pl-5">
+        <h2 className="text-xl font-bold text-opseu-dark">{t("path.title")}</h2>
         <p className="mt-2 text-gray-700">{t("path.intro")}</p>
         <ul className="mt-4 space-y-3">
           {pathLinks.map(({ href, key }) => (
@@ -87,20 +86,22 @@ export default async function ResourcesPage({
             </li>
           ))}
         </ul>
-      </Card>
+      </section>
 
-      <Card className="mt-6">
-        <CardTitle>{t("checklist.title")}</CardTitle>
+      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
+        <h2 className="text-xl font-bold text-opseu-dark">
+          {t("checklist.title")}
+        </h2>
         <p className="mt-2 text-gray-700">{t("checklist.intro")}</p>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
           {(t.raw("checklist.items") as string[]).map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
-      </Card>
+      </section>
 
-      <Card className="mt-6">
-        <CardTitle>{t("demoKit.title")}</CardTitle>
+      <Callout tone="muted" className="mt-8">
+        <p className="font-semibold text-opseu-dark">{t("demoKit.title")}</p>
         <p className="mt-2 text-gray-700">{t("demoKit.description")}</p>
         <a
           href="/demo/brand-kit-local-243.json"
@@ -109,7 +110,7 @@ export default async function ResourcesPage({
         >
           {t("demoKit.download")}
         </a>
-      </Card>
+      </Callout>
 
       <Callout tone="muted" className="mt-6">
         <p className="font-semibold text-opseu-dark">{t("explore.title")}</p>
@@ -135,9 +136,11 @@ export default async function ResourcesPage({
         </nav>
       </Callout>
 
-      <Card className="mt-6 border-opseu-blue/20 bg-opseu-blue/5">
-        <CardTitle>{t("presentation.title")}</CardTitle>
-        <p className="mt-2 leading-relaxed text-gray-700">
+      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
+        <h2 className="text-xl font-bold text-opseu-dark">
+          {t("presentation.title")}
+        </h2>
+        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
           {t("presentation.body")}
         </p>
         <ol className="mt-3 list-decimal space-y-2 pl-5 text-gray-700">
@@ -145,13 +148,17 @@ export default async function ResourcesPage({
             <li key={item}>{item}</li>
           ))}
         </ol>
-        <p className="mt-3 leading-relaxed text-gray-700">{t("presentation.tinker")}</p>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("presentation.tinker")}
+        </p>
         <p className="mt-3 text-sm text-gray-600">{t("presentation.note")}</p>
-      </Card>
+      </section>
 
-      <Card className="mt-6 border-opseu-blue/20 bg-opseu-blue/5">
-        <CardTitle>{t("facilitators.title")}</CardTitle>
-        <p className="mt-2 leading-relaxed text-gray-700">
+      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
+        <h2 className="text-xl font-bold text-opseu-dark">
+          {t("facilitators.title")}
+        </h2>
+        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
           {t("facilitators.body")}
         </p>
         <ol className="mt-3 list-decimal space-y-2 pl-5 text-gray-700">
@@ -160,16 +167,18 @@ export default async function ResourcesPage({
           ))}
         </ol>
         <p className="mt-3 text-sm text-gray-600">{t("facilitators.note")}</p>
-      </Card>
+      </section>
 
-      <Card className="mt-6">
-        <CardTitle>{t("builtFrom.title")}</CardTitle>
+      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
+        <h2 className="text-xl font-bold text-opseu-dark">
+          {t("builtFrom.title")}
+        </h2>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
           {(t.raw("builtFrom.items") as string[]).map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
-      </Card>
+      </section>
 
       <div className="mt-10">
         <h2 className="text-xl font-bold text-opseu-dark">
@@ -177,15 +186,18 @@ export default async function ResourcesPage({
         </h2>
         <p className="mt-2 text-gray-600">{t("allSources.intro")}</p>
 
-        <div className="mt-6 space-y-6">
+        <div className="mt-6 space-y-8">
           {categoryOrder.map((category) => {
             const sources = byCategory[category];
             if (sources.length === 0) return null;
             return (
-              <Card key={category}>
-                <CardTitle className="text-base">
+              <section
+                key={category}
+                className="border-l-2 border-opseu-blue/30 pl-5"
+              >
+                <h3 className="text-base font-bold text-opseu-dark">
                   {ts(`categories.${category}`)}
-                </CardTitle>
+                </h3>
                 <ul className="mt-3 space-y-3">
                   {sources.map((source) => (
                     <li
@@ -204,7 +216,7 @@ export default async function ResourcesPage({
                     </li>
                   ))}
                 </ul>
-              </Card>
+              </section>
             );
           })}
         </div>

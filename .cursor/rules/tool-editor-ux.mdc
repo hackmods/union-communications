@@ -75,26 +75,26 @@ Update when a surface ships.
 
 | Surface | Status |
 |---------|--------|
-| home hub path cards | pending |
-| guide (blueprint) | pending |
+| home hub path cards | done |
+| guide (blueprint) | done |
 | guide/social-media-plan | reference |
-| guide/print | pending |
-| guide/website | pending |
-| guide/union-boards | pending |
-| guide/crisis | pending |
-| guide/photo-consent | pending |
-| guide/resources | pending |
-| examples | pending |
-| captions | pending |
-| assets | pending |
-| brand-kit | pending |
-| onboarding | pending |
-| privacy | pending |
-| accessibility | pending |
-| manifesto | pending |
-| support | pending |
-| app/login | pending |
-| app/mfa | pending |
+| guide/print | done |
+| guide/website | done |
+| guide/union-boards | done |
+| guide/crisis | done |
+| guide/photo-consent | done |
+| guide/resources | done |
+| examples | done |
+| captions | done |
+| assets | done |
+| brand-kit | done |
+| onboarding | done |
+| privacy | done |
+| accessibility | done |
+| manifesto | done |
+| support | done |
+| app/login | done |
+| app/mfa | done |
 | Header mobile drawer | done |
 | Footer rhythm | done |
 | HubNav / app shell | done (light) |

@@ -46,13 +46,15 @@ function CaptionsPageContent() {
   }, [targetId]);
 
   return (
-    <PageShell size="read" className="py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">Caption & Hashtag Library</h1>
-      <p className="mt-2 text-gray-600">
+    <PageShell size="read" className="py-8 md:py-12">
+      <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
+        Caption & Hashtag Library
+      </h1>
+      <p className="mt-2 max-w-prose text-gray-600">
         Reusable post templates with a solidarity-first tone. Click copy and customize.
       </p>
 
-      <div className="mt-8 space-y-4">
+      <div className="mt-6 space-y-3">
         {CAPTION_TEMPLATES.map((template) => {
           const fullText = `${template.caption}\n\n${template.hashtags.join(" ")}`;
           const highlighted = highlightId === template.id;
@@ -60,30 +62,32 @@ function CaptionsPageContent() {
             <Card
               key={template.id}
               id={`caption-${template.id}`}
+              density="compact"
               className={cn(
                 "scroll-mt-24 transition-shadow",
                 highlighted && "ring-2 ring-opseu-blue shadow-md",
               )}
             >
-              <div className="flex items-start justify-between gap-4">
-                <div>
+              <div className="flex items-start justify-between gap-3 sm:gap-4">
+                <div className="min-w-0">
                   <span className="text-xs font-medium uppercase text-opseu-blue">
                     {template.category}
                   </span>
-                  <CardTitle className="mt-1">{template.title}</CardTitle>
+                  <CardTitle className="mt-0.5 text-base">{template.title}</CardTitle>
                 </div>
                 <Button
                   size="sm"
                   variant="outline"
+                  className="min-h-11 shrink-0"
                   onClick={() => handleCopy(template.id, fullText)}
                 >
                   {copiedId === template.id ? t("copied") : t("copy")}
                 </Button>
               </div>
-              <pre className="mt-3 whitespace-pre-wrap font-sans text-sm text-gray-700">
+              <pre className="mt-2 whitespace-pre-wrap font-sans text-sm text-gray-700">
                 {template.caption}
               </pre>
-              <p className="mt-2 text-sm text-opseu-blue">
+              <p className="mt-1.5 text-sm text-opseu-blue">
                 {template.hashtags.join(" ")}
               </p>
             </Card>
@@ -98,8 +102,10 @@ export default function CaptionsPage() {
   return (
     <Suspense
       fallback={
-        <PageShell size="read" className="py-12">
-          <h1 className="text-3xl font-bold text-opseu-dark">Caption & Hashtag Library</h1>
+        <PageShell size="read" className="py-8 md:py-12">
+          <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
+            Caption & Hashtag Library
+          </h1>
         </PageShell>
       }
     >

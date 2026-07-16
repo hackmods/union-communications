@@ -1,8 +1,8 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import {
@@ -84,7 +84,9 @@ export default async function UnionBoardsGuidePage({
           ))}
         </ol>
 
-        <p className="mt-4 text-sm text-gray-600">{t("bareMinimum.tip")}</p>
+        <Callout tone="muted" className="mt-4">
+          {t("bareMinimum.tip")}
+        </Callout>
       </section>
 
       <section className="mt-12" aria-labelledby="what-to-print-heading">
@@ -121,7 +123,7 @@ export default async function UnionBoardsGuidePage({
           {t("materials.ministryHeading")}
         </h3>
         <p className="mt-1 text-sm text-gray-600">{t("materials.ministryNote")}</p>
-        <ul className="mt-4 space-y-3">
+        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
           {ministry.map((item) => (
             <li
               key={item.id}
@@ -166,7 +168,7 @@ export default async function UnionBoardsGuidePage({
           {t("materials.templatesHeading")}
         </h3>
         <p className="mt-1 text-sm text-gray-600">{t("materials.templatesNote")}</p>
-        <ul className="mt-4 space-y-3">
+        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
           {templates.map((item) => (
             <li
               key={item.id}
@@ -231,11 +233,16 @@ export default async function UnionBoardsGuidePage({
         <h3 className="mt-10 text-lg font-bold text-opseu-dark">
           {t("layouts.schematicsHeading")}
         </h3>
-        <div className="mt-4 space-y-6">
+        <div className="mt-4 space-y-8">
           {BOARD_LAYOUT_REFERENCES.map((layout) => (
-            <Card key={layout.id}>
-              <CardTitle>{t(`layouts.${layout.titleKey}`)}</CardTitle>
-              <p className="mt-2 text-sm leading-relaxed text-gray-700">
+            <section
+              key={layout.id}
+              className="border-l-2 border-opseu-blue/30 pl-5"
+            >
+              <h4 className="text-lg font-bold text-opseu-dark">
+                {t(`layouts.${layout.titleKey}`)}
+              </h4>
+              <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-700">
                 {t(`layouts.${layout.descriptionKey}`)}
               </p>
               <p className="mt-1 text-xs font-medium uppercase tracking-wide text-opseu-blue">
@@ -247,7 +254,7 @@ export default async function UnionBoardsGuidePage({
                 labels={zoneLabels}
                 className="mt-4"
               />
-            </Card>
+            </section>
           ))}
         </div>
       </section>
@@ -259,14 +266,19 @@ export default async function UnionBoardsGuidePage({
         >
           {t("practiceTitle")}
         </h2>
-        <div className="mt-6 space-y-6">
+        <div className="mt-6 space-y-8">
           {practiceKeys.map((key) => (
-            <Card key={key}>
-              <CardTitle>{t(`sections.${key}.title`)}</CardTitle>
-              <p className="mt-3 leading-relaxed text-gray-700">
+            <section
+              key={key}
+              className="border-l-2 border-opseu-blue/30 pl-5"
+            >
+              <h3 className="text-xl font-bold text-opseu-dark">
+                {t(`sections.${key}.title`)}
+              </h3>
+              <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
                 {t(`sections.${key}.content`)}
               </p>
-            </Card>
+            </section>
           ))}
         </div>
       </section>
