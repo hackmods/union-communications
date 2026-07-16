@@ -12,13 +12,15 @@ const sizePx = {
   sm: 32,
   md: 48,
   lg: 96,
+  /** Landing / marketing hero */
+  xl: 128,
 } as const;
 
 interface UnionOpsMarkProps {
   primaryColor?: string;
   /** Graphics accent — glyph colour on the primary plate (light chrome). */
   secondaryColor?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   className?: string;
   /**
    * Dark / brand backgrounds: white back plate + primary glyph.

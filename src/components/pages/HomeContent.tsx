@@ -6,7 +6,10 @@ import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { PageShell } from "@/components/layout/PageShell";
 import { ShareThisTool } from "@/components/share/ShareThisTool";
+import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
+import { useBrandStore } from "@/store/brand-store";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { inkWithAlpha, isLightInk, pickContrastingInk } from "@/lib/utils/ink";
 import { cn } from "@/lib/utils";
 
 type ChannelId = "boards" | "print" | "social" | "website";
@@ -46,21 +49,29 @@ export function HomeContent() {
   const nav = useTranslations("nav");
   const common = useTranslations("common");
   const hubPublic = isOfficerHubPublic();
+  const brandKit = useBrandStore((s) => s.brandKit);
+
+  const primary = brandKit.primaryColor;
+  const secondary = brandKit.secondaryColor;
+  const accent = brandKit.accentColor;
+  const ink = pickContrastingInk(primary);
+  const inkMuted = inkWithAlpha(ink, 0.82);
+  const inkSoft = inkWithAlpha(ink, 0.7);
+  const lightInk = isLightInk(ink);
 
   return (
     <>
       <section
-        className={cn(
-          "home-hero relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-hidden",
-          "bg-gradient-to-br from-[#1A1A1A] via-[#3d1f0f] to-[#C2410C]",
-        )}
+        className="home-hero relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(135deg, ${accent} 0%, ${primary} 48%, ${secondary} 100%)`,
+        }}
         aria-labelledby="home-hero-heading"
       >
         <div
-          className="pointer-events-none absolute inset-0 opacity-30"
+          className="pointer-events-none absolute inset-0"
           style={{
-            backgroundImage:
-              "radial-gradient(ellipse 80% 60% at 70% 40%, rgba(255,255,255,0.18), transparent 55%)",
+            backgroundImage: `radial-gradient(ellipse 80% 60% at 72% 38%, ${inkWithAlpha(ink, 0.14)}, transparent 55%)`,
           }}
           aria-hidden
         />
@@ -68,38 +79,52 @@ export function HomeContent() {
           <div className="home-enter flex flex-col items-start gap-8 md:flex-row md:items-center md:gap-12 lg:gap-16">
             <div
               data-testid="home-hero-brand"
-              className="home-enter shrink-0"
+              className="home-enter shrink-0 rounded-[28%] bg-white/95 p-3 shadow-lg ring-1 ring-black/5"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG; sized for hero */}
-              <img
-                src="/assets/unionops/logo-mark.svg"
-                alt="UnionOps"
-                width={128}
-                height={128}
-                className="h-24 w-24 drop-shadow-lg sm:h-28 sm:w-28 md:h-32 md:w-32"
+              {/* Live interlocking mark — plate/glyph follow Brand Kit primary + secondary */}
+              <UnionOpsMark
+                size="xl"
+                primaryColor={primary}
+                secondaryColor={secondary}
+                title="UnionOps"
               />
             </div>
             <div className="home-enter home-enter-delay-1 min-w-0 max-w-xl text-left">
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/80">
+              <p
+                className="text-sm font-semibold uppercase tracking-[0.2em]"
+                style={{ color: inkSoft }}
+              >
                 UnionOps
               </p>
               <h1
                 id="home-hero-heading"
-                className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl md:leading-tight"
+                className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl md:leading-tight"
+                style={{ color: ink }}
               >
                 {t("headline")}
               </h1>
-              <p className="mt-3 text-xl font-semibold tracking-wide text-white/95 md:text-2xl">
+              <p
+                className="mt-3 text-xl font-semibold tracking-wide md:text-2xl"
+                style={{ color: inkMuted }}
+              >
                 {t("slogan")}
               </p>
-              <p className="mt-4 text-base text-white/80 sm:text-lg">
+              <p
+                className="mt-4 text-base sm:text-lg"
+                style={{ color: inkSoft }}
+              >
                 {t(hubPublic ? "subtitle" : "subtitleCommsOnly")}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href="/guide/social-media-plan">
                   <Button
                     size="lg"
-                    className="min-h-11 bg-white text-opseu-dark hover:bg-white/90"
+                    className={cn(
+                      "min-h-11",
+                      lightInk
+                        ? "bg-white text-opseu-dark hover:bg-white/90"
+                        : "bg-opseu-dark text-white hover:bg-opseu-dark/90",
+                    )}
                   >
                     {t("pathCommsCta")}
                   </Button>
@@ -108,7 +133,11 @@ export function HomeContent() {
                   <Button
                     variant="outline"
                     size="lg"
-                    className="min-h-11 border-2 border-white text-white hover:bg-white/10"
+                    className="min-h-11 border-2 bg-transparent hover:bg-black/5"
+                    style={{
+                      borderColor: ink,
+                      color: ink,
+                    }}
                   >
                     {t("heroCta")}
                   </Button>
