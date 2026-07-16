@@ -30,6 +30,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
+import { PageShell } from "@/components/layout/PageShell";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { QrBoardCanvas } from "@/components/tools/qr-board/QrBoardCanvas";
@@ -211,7 +212,7 @@ export default function QrBoardPage() {
   }));
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12">
+    <PageShell className="py-6 md:py-8 lg:py-10">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 text-gray-600">{t("subtitle")}</p>
 
@@ -225,7 +226,7 @@ export default function QrBoardPage() {
       ) : null}
 
       <div className="mt-8 grid items-start gap-8 lg:grid-cols-2">
-        <Card className="space-y-4">
+        <Card density="compact" className="space-y-3">
           <div>
             <label htmlFor="qr-board-preset" className="mb-1 block text-sm font-medium">
               {t("preset")}
@@ -439,6 +440,6 @@ export default function QrBoardPage() {
           </p>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }

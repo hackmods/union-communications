@@ -281,7 +281,7 @@ export default function DocumentGeneratorPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card className="space-y-5">
+        <Card density="compact" className="space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <CardTitle>{t("settings")}</CardTitle>
             <UndoRedoBar

@@ -1,14 +1,20 @@
 import { cn } from "@/lib/utils";
 
+type CardProps = React.HTMLAttributes<HTMLDivElement> & {
+  density?: "default" | "compact";
+};
+
 export function Card({
   className,
+  density = "default",
   children,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+}: CardProps) {
   return (
     <div
       className={cn(
-        "rounded-xl border border-gray-200 bg-white p-6 shadow-sm",
+        "rounded-xl border border-gray-200 bg-white shadow-sm",
+        density === "compact" ? "p-4 md:p-5" : "p-6",
         className,
       )}
       {...props}

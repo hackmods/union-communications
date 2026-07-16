@@ -201,6 +201,7 @@ test.describe("Smoke tests @smoke", () => {
   test("logo builder page renders", async ({ page }) => {
     await page.goto("/en/tools/logo-builder/");
     await expect(page.getByRole("heading", { name: "Local Logo Builder" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Download PNG" })).toBeVisible();
   });
 
   test("captions page has copy buttons", async ({ page }) => {

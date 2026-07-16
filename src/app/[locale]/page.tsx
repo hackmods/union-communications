@@ -1,14 +1,26 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { HomeContent } from "@/components/pages/HomeContent";
-import { SITE_DESCRIPTION, SITE_TITLE } from "@/lib/seo/site";
+import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
+import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: SITE_TITLE,
-  },
-  description: SITE_DESCRIPTION,
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata" });
+  const hubPublic = isOfficerHubPublic();
+  return buildPageMetadata({
+    locale,
+    path: "/",
+    title: hubPublic ? t("title") : t("titleCommsOnly"),
+    description: hubPublic ? t("description") : t("descriptionCommsOnly"),
+    absoluteTitle: true,
+  });
+}
 
 export default async function HomePage({
   params,

@@ -12,6 +12,8 @@ import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { SegControl } from "@/components/tools/SegControl";
 import { cn } from "@/lib/utils";
 import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
@@ -92,154 +94,160 @@ export default function BoardNoticePage() {
   };
 
   return (
-    <PageShell className="py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-gray-600">{t("subtitle")}</p>
-
-      <div className="mt-8 grid gap-8 lg:grid-cols-2">
-        <Card className="space-y-4">
-          <div>
-            <label htmlFor="notice-type" className="mb-1 block text-sm font-medium">
-              {t("noticeType")}
-            </label>
-            <select
-              id="notice-type"
-              value={state.noticeType}
-              onChange={(e) =>
-                setState({ ...state, noticeType: e.target.value as NoticeType })
-              }
-              className="w-full rounded-md border border-gray-300 px-3 py-2"
-            >
-              {(["meeting", "bargaining", "event", "general"] as const).map((type) => (
-                <option key={type} value={type}>
-                  {t(`types.${type}`)}
-                </option>
-              ))}
-            </select>
-          </div>
-          <Input
-            label={t("headline")}
-            value={state.headline}
-            onChange={(e) => setState({ ...state, headline: e.target.value })}
-          />
-          <Textarea
-            label={t("body")}
-            value={state.body}
-            onChange={(e) => setState({ ...state, body: e.target.value })}
-            rows={3}
-          />
-          <Input
-            label={t("date")}
-            value={state.date}
-            onChange={(e) => setState({ ...state, date: e.target.value })}
-          />
-          <Input
-            label={t("time")}
-            value={state.time}
-            onChange={(e) => setState({ ...state, time: e.target.value })}
-          />
-          <Input
-            label={t("location")}
-            value={state.location}
-            onChange={(e) => setState({ ...state, location: e.target.value })}
-          />
-          <Input
-            label={t("contact")}
-            value={state.contact}
-            onChange={(e) => setState({ ...state, contact: e.target.value })}
-          />
-
-          <div className="flex gap-2">
-            {(["letter", "tabloid"] as const).map((f) => (
-              <button
-                key={f}
-                type="button"
-                onClick={() => setFormat(f)}
-                className={cn(
-                  "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-                  format === f
-                    ? "bg-opseu-blue text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                )}
-              >
-                {t(f === "letter" ? "formatLetter" : "formatTabloid")}
-              </button>
-            ))}
-          </div>
-
-          <UndoRedoBar
-            canUndo={canUndo}
-            canRedo={canRedo}
-            onUndo={undo}
-            onRedo={redo}
-            onReset={() => reset(initial)}
-          />
-          <div className="flex gap-3">
-            <Button onClick={handleExportPng}>{tc("downloadPng")}</Button>
-            <Button variant="outline" onClick={handleExportPdf}>
-              {tc("downloadPdf")}
-            </Button>
-          </div>
-        </Card>
-
-        {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
-        <div className="shadow-lg">
-          <div
-            ref={canvasRef}
-            className={cn(
-              "flex w-full flex-col justify-between p-10",
-              dims.aspect,
-            )}
-            style={{
-              backgroundColor: brandKit.primaryColor,
-              color: canvasInk,
-            }}
-          >
+    <>
+      <ToolEditorLayout
+        title={t("title")}
+        description={t("subtitle")}
+        form={
+          <Card density="compact" className="space-y-3">
             <div>
-              <p
-                className="text-sm font-bold uppercase tracking-widest"
-                style={{ color: leadColor }}
+              <label
+                htmlFor="notice-type"
+                className="mb-1 block text-sm font-medium"
               >
-                {localLabel}
-              </p>
-              <p
-                className="mt-2 text-xs uppercase"
-                style={{ color: inkWithAlpha(canvasInk, 0.8) }}
+                {t("noticeType")}
+              </label>
+              <select
+                id="notice-type"
+                value={state.noticeType}
+                onChange={(e) =>
+                  setState({
+                    ...state,
+                    noticeType: e.target.value as NoticeType,
+                  })
+                }
+                className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
               >
-                {t(`types.${state.noticeType}`)}
-              </p>
+                {(
+                  ["meeting", "bargaining", "event", "general"] as const
+                ).map((type) => (
+                  <option key={type} value={type}>
+                    {t(`types.${type}`)}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="text-center">
-              <h2
-                className="text-4xl font-black uppercase leading-tight md:text-5xl"
-                style={{ color: canvasInk }}
-              >
-                {state.headline}
-              </h2>
-              <p className="mt-4 text-xl leading-relaxed">{state.body}</p>
+            <Input
+              label={t("headline")}
+              value={state.headline}
+              onChange={(e) => setState({ ...state, headline: e.target.value })}
+            />
+            <Textarea
+              label={t("body")}
+              value={state.body}
+              onChange={(e) => setState({ ...state, body: e.target.value })}
+              rows={3}
+            />
+            <Input
+              label={t("date")}
+              value={state.date}
+              onChange={(e) => setState({ ...state, date: e.target.value })}
+            />
+            <Input
+              label={t("time")}
+              value={state.time}
+              onChange={(e) => setState({ ...state, time: e.target.value })}
+            />
+            <Input
+              label={t("location")}
+              value={state.location}
+              onChange={(e) => setState({ ...state, location: e.target.value })}
+            />
+            <Input
+              label={t("contact")}
+              value={state.contact}
+              onChange={(e) => setState({ ...state, contact: e.target.value })}
+            />
+
+            <SegControl
+              label={t("format")}
+              value={format}
+              options={[
+                { value: "letter" as const, label: t("formatLetter") },
+                { value: "tabloid" as const, label: t("formatTabloid") },
+              ]}
+              onChange={setFormat}
+            />
+
+            <UndoRedoBar
+              canUndo={canUndo}
+              canRedo={canRedo}
+              onUndo={undo}
+              onRedo={redo}
+              onReset={() => reset(initial)}
+            />
+            <div className="flex gap-3">
+              <Button onClick={handleExportPng}>{tc("downloadPng")}</Button>
+              <Button variant="outline" onClick={handleExportPdf}>
+                {tc("downloadPdf")}
+              </Button>
             </div>
-            <div className="space-y-2 text-xl">
-              <p>
-                <strong>{t("date")}:</strong> {state.date}
-              </p>
-              <p>
-                <strong>{t("time")}:</strong> {state.time}
-              </p>
-              <p>
-                <strong>{t("location")}:</strong> {state.location}
-              </p>
-              <p
-                className="mt-4 text-base"
-                style={{ color: inkWithAlpha(canvasInk, 0.9) }}
-              >
-                {state.contact}
-              </p>
+          </Card>
+        }
+        preview={
+          <div className="shadow-lg">
+            <div
+              ref={canvasRef}
+              className={cn(
+                "flex w-full flex-col justify-between p-4 md:p-6",
+                dims.aspect,
+              )}
+              style={{
+                backgroundColor: brandKit.primaryColor,
+                color: canvasInk,
+              }}
+            >
+              <div>
+                <p
+                  className="text-sm font-bold uppercase tracking-widest"
+                  style={{ color: leadColor }}
+                >
+                  {localLabel}
+                </p>
+                <p
+                  className="mt-2 text-xs uppercase"
+                  style={{ color: inkWithAlpha(canvasInk, 0.8) }}
+                >
+                  {t(`types.${state.noticeType}`)}
+                </p>
+              </div>
+              <div className="text-center">
+                <h2
+                  className="text-4xl font-black uppercase leading-tight md:text-5xl"
+                  style={{ color: canvasInk }}
+                >
+                  {state.headline}
+                </h2>
+                <p className="mt-4 text-xl leading-relaxed">{state.body}</p>
+              </div>
+              <div className="space-y-2 text-xl">
+                <p>
+                  <strong>{t("date")}:</strong> {state.date}
+                </p>
+                <p>
+                  <strong>{t("time")}:</strong> {state.time}
+                </p>
+                <p>
+                  <strong>{t("location")}:</strong> {state.location}
+                </p>
+                <p
+                  className="mt-4 text-base"
+                  style={{ color: inkWithAlpha(canvasInk, 0.9) }}
+                >
+                  {state.contact}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <SourcesBlock pageId="boardNotice" title={ts("title")} intro={ts("intro")} />
-    </PageShell>
+        }
+      />
+      <PageShell className="pb-8">
+        <SourcesBlock
+          pageId="boardNotice"
+          title={ts("title")}
+          intro={ts("intro")}
+        />
+      </PageShell>
+    </>
   );
 }

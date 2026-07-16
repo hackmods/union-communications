@@ -347,3 +347,12 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `/tools/meeting-background` — corner / lower-third / side-panel / bands; HD 1920×1080 + UHD 3840×2160 PNG
 - [x] Solidarity-energy presets + lead-in/headline/closer toggles that collapse empty bars; fluid headline sizing for narrow panels
 - [x] Header Tools + home Social channel; EN/FR i18n; smoke visit
+
+## SEO architecture + builder compactness + home hero (2026-07-16)
+
+- [x] Favicon suite: `favicon.ico` / `.svg`, Apple touch, PWA 192/512, Safari pinned tab; manifest icons updated
+- [x] Locale-aware `generateMetadata` + hreflang/canonical/OG/Twitter; bilingual `TOOL_SEO`; JSON-LD Organization + WebApplication
+- [x] `robots.ts` + bilingual `sitemap.ts`; hub `/app` noindex
+- [x] Brand-first full-bleed home hero (UnionOps mark + headline budget); trust/share below fold
+- [x] `ToolEditorLayout` (sticky preview, mobile Edit/Preview); denser Card/Input; SegControl; Logo/Notice/Graphic migrated
+- [x] Playwright: SEO helpers, builder coverage, mobile project (`@mobile`); 48 `@smoke` passing

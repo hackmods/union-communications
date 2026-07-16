@@ -12,7 +12,7 @@ export function Input({
   const generatedId = useId();
   const inputId = id ?? props.name ?? (label ? generatedId : undefined);
   return (
-    <div className="space-y-1">
+    <div className="space-y-0.5">
       {label && (
         <label htmlFor={inputId} className="block text-sm font-medium text-gray-700">
           {label}
@@ -22,7 +22,7 @@ export function Input({
         id={inputId}
         aria-label={!label ? props["aria-label"] : undefined}
         className={cn(
-          "w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-opseu-blue focus:ring-2 focus:ring-opseu-blue/20",
+          "min-h-11 w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-opseu-blue focus:ring-2 focus:ring-opseu-blue/20",
           className,
         )}
         {...props}
@@ -40,7 +40,7 @@ export function Textarea({
   const generatedId = useId();
   const inputId = id ?? props.name ?? (label ? generatedId : undefined);
   return (
-    <div className="space-y-1">
+    <div className="space-y-0.5">
       {label && (
         <label htmlFor={inputId} className="block text-sm font-medium text-gray-700">
           {label}
@@ -49,7 +49,7 @@ export function Textarea({
       <textarea
         id={inputId}
         className={cn(
-          "w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-opseu-blue focus:ring-2 focus:ring-opseu-blue/20",
+          "min-h-11 w-full rounded-lg border border-gray-300 px-3 py-2 text-base focus:border-opseu-blue focus:ring-2 focus:ring-opseu-blue/20",
           className,
         )}
         {...props}

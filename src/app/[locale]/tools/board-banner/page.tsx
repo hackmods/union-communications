@@ -399,12 +399,12 @@ export default function BoardBannerPage() {
       : null;
 
   return (
-    <PageShell className="py-12">
+    <PageShell className="py-6 md:py-8 lg:py-10">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 max-w-2xl text-gray-600">{t("subtitle")}</p>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-2">
-        <Card className="space-y-5">
+      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6">
+        <Card density="compact" className="space-y-3">
           <div>
             <p className="mb-1 text-sm font-medium" id="mode-label">
               {t("mode")}

@@ -75,6 +75,10 @@
     "preview": "Preview",
     "learnMore": "Learn more",
     "getStarted": "Get started",
+    "edit": "Edit",
+    "preview": "Preview",
+    "toolEditorPanes": "Editor panels",
+    "editHistory": "Edit history",
     "loading": "Loading..."
   },
   "logoBuilder": {
@@ -95,6 +99,7 @@
   },
   "home": {
     "title": "UnionOps: The Toolkit for Local Unions",
+    "headline": "The toolkit for local unions",
     "slogan": "Solidarity.",
     "subtitle": "Comms tools for volunteers. Officer workflows for presidents and stewards. Built for any local, any union.",
     "subtitleCommsOnly": "Comms tools for volunteers running a local. Built for any local, any union.",
@@ -622,6 +627,7 @@
     "time": "Time",
     "location": "Location",
     "contact": "Contact line",
+    "format": "Print size",
     "formatLetter": "Letter (8.5×11)",
     "formatTabloid": "Tabloid (11×17)"
   },

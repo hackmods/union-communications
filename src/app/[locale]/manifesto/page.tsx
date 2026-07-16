@@ -4,22 +4,27 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { PageShell } from "@/components/layout/PageShell";
+import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
 
-export const metadata: Metadata = {
-  title: "Why UnionOps is Free",
-  description:
-    "UnionOps was built out of solidarity, not for profit. No subscriptions, no data harvesting, no ads.",
-  openGraph: {
-    title: "Why UnionOps is Free | UnionOps",
-    description:
-      "UnionOps was built out of solidarity, not for profit. No subscriptions, no data harvesting, no ads.",
-  },
-  twitter: {
-    title: "Why UnionOps is Free | UnionOps",
-    description:
-      "UnionOps was built out of solidarity, not for profit. No subscriptions, no data harvesting, no ads.",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const title =
+    locale === "fr" ? "Pourquoi UnionOps est gratuit" : "Why UnionOps is Free";
+  const description =
+    locale === "fr"
+      ? "UnionOps a été bâti par solidarité, pas pour le profit. Pas d'abonnements, pas de collecte de données, pas de pubs."
+      : "UnionOps was built out of solidarity, not for profit. No subscriptions, no data harvesting, no ads.";
+  return buildPageMetadata({
+    locale,
+    path: "/manifesto",
+    title,
+    description,
+  });
+}
 
 export default async function ManifestoPage({
   params,

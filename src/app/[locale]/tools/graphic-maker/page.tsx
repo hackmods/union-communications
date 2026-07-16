@@ -7,7 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng } from "@/lib/export/image-export";
-import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
+import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { TOOL_PRESETS, type ToolPresetKey } from "@/lib/constants/presets";
 import {
   getExamplePost,
@@ -27,6 +27,8 @@ import { ConsentModal } from "@/components/tools/ConsentModal";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { SegControl } from "@/components/tools/SegControl";
 import { PageShell } from "@/components/layout/PageShell";
 
 function isToolPresetKey(value: string): value is ToolPresetKey {
@@ -60,6 +62,7 @@ function GraphicMakerPageContent() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingPhoto, setPendingPhoto] = useState<string | null>(null);
+  const [canvasSize, setCanvasSize] = useState<"preview" | "export">("preview");
   const seedApplied = useRef(false);
 
   const brandColors = {
@@ -182,11 +185,19 @@ function GraphicMakerPageContent() {
 
   const handleExport = async () => {
     if (!canvasRef.current) return;
-    await exportNodeAsPng(
-      canvasRef.current,
-      formatFilename("graphic", brandKit.local.localNumber, "png"),
-      { pixelRatio: 2, backgroundColor: state.primaryColor },
-    );
+    setCanvasSize("export");
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    });
+    try {
+      await exportNodeAsPng(
+        canvasRef.current,
+        formatFilename("graphic", brandKit.local.localNumber, "png"),
+        { pixelRatio: 2, backgroundColor: state.primaryColor },
+      );
+    } finally {
+      setCanvasSize("preview");
+    }
   };
 
   const showPhoto = layoutSupportsPhoto(state.layout);
@@ -198,192 +209,186 @@ function GraphicMakerPageContent() {
   const showInitials = state.layout === "spotlight" && !state.photoUrl;
 
   return (
-    <PageShell className="py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{tg("title")}</h1>
-      <p className="mt-2 text-gray-600">{tg("subtitle")}</p>
+    <>
+      <ToolEditorLayout
+        title={tg("title")}
+        description={tg("subtitle")}
+        toolbar={
+          <div className="flex flex-wrap gap-2">
+            {(Object.keys(TOOL_PRESETS) as ToolPresetKey[]).map((key) => (
+              <Button
+                key={key}
+                size="sm"
+                variant="outline"
+                onClick={() => applyPreset(key)}
+              >
+                {TOOL_PRESETS[key].headline}
+              </Button>
+            ))}
+          </div>
+        }
+        form={
+          <Card density="compact" className="space-y-3">
+            <SegControl
+              label={tg("layout")}
+              value={state.layout}
+              options={GRAPHIC_LAYOUT_ORDER.map((id) => ({
+                value: id,
+                label: tg(`layouts.${id}`),
+              }))}
+              onChange={(id) =>
+                setState({
+                  ...state,
+                  layout: id,
+                  aspect:
+                    id === "spotlight" || id === "results"
+                      ? "square"
+                      : state.aspect,
+                })
+              }
+            />
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        {(Object.keys(TOOL_PRESETS) as ToolPresetKey[]).map((key) => (
-          <Button key={key} size="sm" variant="outline" onClick={() => applyPreset(key)}>
-            {TOOL_PRESETS[key].headline}
-          </Button>
-        ))}
-      </div>
+            <SegControl
+              label={tg("aspect")}
+              value={state.aspect}
+              options={(["landscape", "square"] as const).map((aspect) => ({
+                value: aspect,
+                label: tg(`aspects.${aspect}`),
+              }))}
+              onChange={(aspect) => setState({ ...state, aspect })}
+            />
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-2">
-        <Card className="space-y-4">
-          <div>
-            <p className="mb-2 text-sm font-medium">{tg("layout")}</p>
-            <div className="flex flex-wrap gap-2">
-              {GRAPHIC_LAYOUT_ORDER.map((id) => (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() =>
+            <Input
+              label={tg("headline")}
+              value={state.headline}
+              onChange={(e) => setState({ ...state, headline: e.target.value })}
+            />
+            <Textarea
+              label={tg("subheadline")}
+              value={state.subheadline}
+              onChange={(e) =>
+                setState({ ...state, subheadline: e.target.value })
+              }
+              rows={2}
+            />
+            {showDetail ? (
+              <Input
+                label={tg("detail")}
+                value={state.detail}
+                onChange={(e) => setState({ ...state, detail: e.target.value })}
+              />
+            ) : null}
+            {showInitials ? (
+              <Input
+                label={tg("initials")}
+                value={state.initials}
+                onChange={(e) =>
+                  setState({ ...state, initials: e.target.value })
+                }
+                maxLength={3}
+              />
+            ) : null}
+
+            {showPhoto ? (
+              <>
+                <ImageUpload
+                  label={tg("photo")}
+                  preview={state.photoUrl}
+                  onUpload={handlePhotoUpload}
+                  onClear={() => setState({ ...state, photoUrl: undefined })}
+                />
+                <p className="text-sm text-gray-600">
+                  <Link
+                    href="/guide/photo-consent"
+                    className="text-opseu-blue underline"
+                  >
+                    {tg("photoConsentLink")}
+                  </Link>
+                </p>
+                <Input
+                  label={tg("photoZoom")}
+                  type="range"
+                  min="0.5"
+                  max="2"
+                  step="0.1"
+                  value={state.photoScale}
+                  onChange={(e) =>
                     setState({
                       ...state,
-                      layout: id,
-                      aspect:
-                        id === "spotlight" || id === "results"
-                          ? "square"
-                          : state.aspect,
+                      photoScale: parseFloat(e.target.value),
                     })
                   }
-                  className={cn(
-                    "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-                    state.layout === id
-                      ? "bg-opseu-blue text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                  )}
-                >
-                  {tg(`layouts.${id}`)}
-                </button>
-              ))}
+                />
+              </>
+            ) : null}
+
+            <BrandSwatchPicker
+              label={tg("primaryColor")}
+              value={state.primaryColor}
+              onChange={(c) => setState({ ...state, primaryColor: c })}
+              colors={brandColors}
+            />
+            <BrandSwatchPicker
+              label={tg("accentColor")}
+              value={state.accentColor}
+              onChange={(c) => setState({ ...state, accentColor: c })}
+              colors={brandColors}
+            />
+            <BrandSwatchPicker
+              label={tg("secondaryColor")}
+              value={state.secondaryColor}
+              onChange={(c) => setState({ ...state, secondaryColor: c })}
+              colors={brandColors}
+            />
+            <ContrastChecker
+              foreground="#FFFFFF"
+              background={state.primaryColor}
+            />
+
+            <UndoRedoBar
+              canUndo={canUndo}
+              canRedo={canRedo}
+              onUndo={undo}
+              onRedo={redo}
+              onReset={() =>
+                reset({
+                  ...initial,
+                  primaryColor: brandKit.primaryColor,
+                  accentColor: brandKit.accentColor,
+                  secondaryColor: brandKit.secondaryColor,
+                })
+              }
+            />
+            <Button onClick={handleExport}>{t("downloadPng")}</Button>
+          </Card>
+        }
+        preview={
+          <div className="overflow-hidden rounded-lg shadow-lg">
+            <div ref={canvasRef}>
+              <GraphicLayoutCanvas
+                layout={state.layout}
+                aspect={state.aspect}
+                copy={{
+                  headline: state.headline,
+                  body: state.subheadline,
+                  detail: state.detail || undefined,
+                  initials: state.initials,
+                }}
+                colors={{
+                  primary: state.primaryColor,
+                  accent: state.accentColor,
+                  secondary: state.secondaryColor,
+                }}
+                localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+                subText={brandKit.local.subText}
+                photoUrl={showPhoto ? state.photoUrl : undefined}
+                photoScale={state.photoScale}
+                size={canvasSize}
+              />
             </div>
           </div>
-
-          <div>
-            <p className="mb-2 text-sm font-medium">{tg("aspect")}</p>
-            <div className="flex flex-wrap gap-2">
-              {(["landscape", "square"] as const).map((aspect) => (
-                <button
-                  key={aspect}
-                  type="button"
-                  onClick={() => setState({ ...state, aspect })}
-                  className={cn(
-                    "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-                    state.aspect === aspect
-                      ? "bg-opseu-blue text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                  )}
-                >
-                  {tg(`aspects.${aspect}`)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <Input
-            label={tg("headline")}
-            value={state.headline}
-            onChange={(e) => setState({ ...state, headline: e.target.value })}
-          />
-          <Textarea
-            label={tg("subheadline")}
-            value={state.subheadline}
-            onChange={(e) => setState({ ...state, subheadline: e.target.value })}
-            rows={2}
-          />
-          {showDetail ? (
-            <Input
-              label={tg("detail")}
-              value={state.detail}
-              onChange={(e) => setState({ ...state, detail: e.target.value })}
-            />
-          ) : null}
-          {showInitials ? (
-            <Input
-              label={tg("initials")}
-              value={state.initials}
-              onChange={(e) => setState({ ...state, initials: e.target.value })}
-              maxLength={3}
-            />
-          ) : null}
-
-          {showPhoto ? (
-            <>
-              <ImageUpload
-                label={tg("photo")}
-                preview={state.photoUrl}
-                onUpload={handlePhotoUpload}
-                onClear={() => setState({ ...state, photoUrl: undefined })}
-              />
-              <p className="text-sm text-gray-600">
-                <Link
-                  href="/guide/photo-consent"
-                  className="text-opseu-blue underline"
-                >
-                  {tg("photoConsentLink")}
-                </Link>
-              </p>
-              <Input
-                label={tg("photoZoom")}
-                type="range"
-                min="0.5"
-                max="2"
-                step="0.1"
-                value={state.photoScale}
-                onChange={(e) =>
-                  setState({ ...state, photoScale: parseFloat(e.target.value) })
-                }
-              />
-            </>
-          ) : null}
-
-          <BrandSwatchPicker
-            label={tg("primaryColor")}
-            value={state.primaryColor}
-            onChange={(c) => setState({ ...state, primaryColor: c })}
-            colors={brandColors}
-          />
-          <BrandSwatchPicker
-            label={tg("accentColor")}
-            value={state.accentColor}
-            onChange={(c) => setState({ ...state, accentColor: c })}
-            colors={brandColors}
-          />
-          <BrandSwatchPicker
-            label={tg("secondaryColor")}
-            value={state.secondaryColor}
-            onChange={(c) => setState({ ...state, secondaryColor: c })}
-            colors={brandColors}
-          />
-          <ContrastChecker foreground="#FFFFFF" background={state.primaryColor} />
-
-          <UndoRedoBar
-            canUndo={canUndo}
-            canRedo={canRedo}
-            onUndo={undo}
-            onRedo={redo}
-            onReset={() =>
-              reset({
-                ...initial,
-                primaryColor: brandKit.primaryColor,
-                accentColor: brandKit.accentColor,
-                secondaryColor: brandKit.secondaryColor,
-              })
-            }
-          />
-          <Button onClick={handleExport}>{t("downloadPng")}</Button>
-        </Card>
-
-        {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
-        <div className="overflow-hidden rounded-lg shadow-lg">
-          <div ref={canvasRef}>
-            <GraphicLayoutCanvas
-              layout={state.layout}
-              aspect={state.aspect}
-              copy={{
-                headline: state.headline,
-                body: state.subheadline,
-                detail: state.detail || undefined,
-                initials: state.initials,
-              }}
-              colors={{
-                primary: state.primaryColor,
-                accent: state.accentColor,
-                secondary: state.secondaryColor,
-              }}
-              localNumber={resolveLocalNumber(brandKit.local.localNumber)}
-              subText={brandKit.local.subText}
-              photoUrl={showPhoto ? state.photoUrl : undefined}
-              photoScale={state.photoScale}
-              size="export"
-            />
-          </div>
-        </div>
-      </div>
-
+        }
+      />
       <ConsentModal
         open={consentOpen}
         onConfirm={handleConsent}
@@ -392,7 +397,7 @@ function GraphicMakerPageContent() {
           setConsentOpen(false);
         }}
       />
-    </PageShell>
+    </>
   );
 }
 

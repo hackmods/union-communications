@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import {
+  APPLE_TOUCH_ICON_PATH,
+  FAVICON_ICO_PATH,
+  FAVICON_SVG_PATH,
+  ICON_192_PATH,
+  ICON_512_PATH,
   OG_IMAGE_PATH,
   SITE_DESCRIPTION,
   SITE_KEYWORDS,
@@ -22,10 +27,16 @@ export const metadata: Metadata = {
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   publisher: SITE_NAME,
-  alternates: {
-    canonical: SITE_URL,
-  },
   manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [
+      { url: FAVICON_ICO_PATH, sizes: "32x32", type: "image/x-icon" },
+      { url: FAVICON_SVG_PATH, type: "image/svg+xml" },
+      { url: ICON_192_PATH, sizes: "192x192", type: "image/png" },
+      { url: ICON_512_PATH, sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: APPLE_TOUCH_ICON_PATH, sizes: "180x180", type: "image/png" }],
+  },
   openGraph: {
     type: "website",
     url: SITE_URL,

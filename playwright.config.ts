@@ -13,7 +13,16 @@ export default defineConfig({
     serviceWorkers: "block",
   },
   projects: [
-    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
+      grepInvert: /@mobile\b/,
+    },
+    {
+      name: "chromium-mobile",
+      use: { ...devices["Pixel 5"] },
+      grep: /@mobile\b/,
+    },
   ],
   webServer: {
     command: "npm run dev",

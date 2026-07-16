@@ -71,7 +71,7 @@ export default function AltTextPage() {
   };
 
   return (
-    <PageShell size="focus" className="py-12">
+    <PageShell size="focus" className="py-6 md:py-8 lg:py-10">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 text-gray-600">{t("subtitle")}</p>
 

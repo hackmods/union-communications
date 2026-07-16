@@ -1,7 +1,12 @@
+import type { Metadata } from "next";
 import { DemoSiteBanner } from "@/components/hub/DemoSiteBanner";
 import { HubNav } from "@/components/hub/HubNav";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default function AppLayout({
   children,

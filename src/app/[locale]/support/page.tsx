@@ -4,26 +4,26 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { BUY_ME_A_COFFEE_URL } from "@/lib/constants/support";
 import { PageShell } from "@/components/layout/PageShell";
+import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
 
-export const metadata: Metadata = {
-  title: "Support UnionOps",
-  description:
-    "UnionOps is free and always will be. Optional coffee tips help cover hosting and keep the tools going.",
-  openGraph: {
-    title: "Support UnionOps | UnionOps",
-    description:
-      "UnionOps is free and always will be. Optional coffee tips help cover hosting and keep the tools going.",
-  },
-  twitter: {
-    title: "Support UnionOps | UnionOps",
-    description:
-      "UnionOps is free and always will be. Optional coffee tips help cover hosting and keep the tools going.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const title = locale === "fr" ? "Soutenir UnionOps" : "Support UnionOps";
+  const description =
+    locale === "fr"
+      ? "UnionOps est gratuit et le restera. Des pourboires café optionnels aident à couvrir l'hébergement."
+      : "UnionOps is free and always will be. Optional coffee tips help cover hosting and keep the tools going.";
+  return buildPageMetadata({
+    locale,
+    path: "/support",
+    title,
+    description,
+  });
+}
 
 export default async function SupportPage({
   params,

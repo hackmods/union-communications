@@ -20,7 +20,8 @@ import {
   brandKitPatchForLogoMode,
 } from "@/components/brand/LogoSettings";
 import { useTranslations } from "next-intl";
-import { PageShell } from "@/components/layout/PageShell";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { SegControl } from "@/components/tools/SegControl";
 
 export type { LogoShape };
 
@@ -104,12 +105,11 @@ export default function LogoBuilderPage() {
   };
 
   return (
-    <PageShell className="py-12">
-      <h1 className="text-3xl font-bold text-opseu-dark">{tBuilder("title")}</h1>
-      <p className="mt-2 text-gray-600">{tBuilder("description")}</p>
-
-      <div className="mt-8 grid gap-8 lg:grid-cols-2">
-        <Card className="space-y-4">
+    <ToolEditorLayout
+      title={tBuilder("title")}
+      description={tBuilder("description")}
+      form={
+        <Card density="compact" className="space-y-3">
           <Input
             label={tBuilder("localNumber")}
             value={state.localNumber}
@@ -127,48 +127,32 @@ export default function LogoBuilderPage() {
             onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
           />
 
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-opseu-dark">{tBuilder("shape")}</p>
-            <div
-              className="flex flex-wrap gap-2"
-              role="radiogroup"
-              aria-label={tBuilder("shape")}
-            >
-              {SHAPES.map((shape) => {
-                const selected = state.shape === shape;
-                return (
-                  <Button
-                    key={shape}
-                    type="button"
-                    size="sm"
-                    role="radio"
-                    aria-checked={selected}
-                    variant={selected ? "primary" : "outline"}
-                    onClick={() => setState({ ...state, shape })}
-                  >
-                    {tBuilder(
-                      shape === "circle"
-                        ? "shapeCircle"
-                        : shape === "square"
-                          ? "shapeSquare"
-                          : "shapeRectangle",
-                    )}
-                  </Button>
-                );
-              })}
-            </div>
-            <p className="text-sm text-gray-600">
-              {tBuilder(
-                state.shape === "circle"
-                  ? "shapeCircleHint"
-                  : state.shape === "square"
-                    ? "shapeSquareHint"
-                    : "shapeRectangleHint",
-              )}
-            </p>
-          </div>
+          <SegControl
+            label={tBuilder("shape")}
+            value={state.shape}
+            options={SHAPES.map((shape) => ({
+              value: shape,
+              label: tBuilder(
+                shape === "circle"
+                  ? "shapeCircle"
+                  : shape === "square"
+                    ? "shapeSquare"
+                    : "shapeRectangle",
+              ),
+            }))}
+            onChange={(shape) => setState({ ...state, shape })}
+          />
+          <p className="text-sm text-gray-600">
+            {tBuilder(
+              state.shape === "circle"
+                ? "shapeCircleHint"
+                : state.shape === "square"
+                  ? "shapeSquareHint"
+                  : "shapeRectangleHint",
+            )}
+          </p>
 
-          <div className="space-y-2 border-t border-gray-100 pt-4">
+          <div className="space-y-2 border-t border-gray-100 pt-3">
             <h2 className="font-semibold text-opseu-dark">{tLogo("title")}</h2>
             <p className="text-sm text-gray-600">{tLogo("description")}</p>
             <LogoSettings
@@ -225,9 +209,9 @@ export default function LogoBuilderPage() {
             </Button>
           </div>
         </Card>
-
+      }
+      preview={
         <div className="flex items-center justify-center">
-          {/* Shadow lives on the wrapper so it is not baked into exports */}
           <div
             className={cn(
               "shadow-lg",
@@ -244,7 +228,7 @@ export default function LogoBuilderPage() {
             />
           </div>
         </div>
-      </div>
-    </PageShell>
+      }
+    />
   );
 }

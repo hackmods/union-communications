@@ -21,7 +21,7 @@ export function UndoRedoBar({
   const t = useTranslations("common");
 
   return (
-    <div className="flex flex-wrap gap-2" role="toolbar" aria-label="Edit history">
+    <div className="flex flex-wrap gap-2" role="toolbar" aria-label={t("editHistory")}>
       <Button
         type="button"
         variant="outline"

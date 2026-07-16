@@ -217,7 +217,7 @@ export default function QrCardPage() {
         : "text-2xl";
 
   return (
-    <PageShell className="py-12">
+    <PageShell className="py-6 md:py-8 lg:py-10">
       <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
       <p className="mt-2 text-gray-600">{t("subtitle")}</p>
 
@@ -231,7 +231,7 @@ export default function QrCardPage() {
       ) : null}
 
       <div className="mt-8 grid items-start gap-8 lg:grid-cols-2">
-        <Card className="space-y-4">
+        <Card density="compact" className="space-y-3">
           <div>
             <label htmlFor="qr-preset" className="mb-1 block text-sm font-medium">
               {t("preset")}

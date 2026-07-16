@@ -75,6 +75,10 @@
     "preview": "Aperçu",
     "learnMore": "En savoir plus",
     "getStarted": "Commencer",
+    "edit": "Modifier",
+    "preview": "Aperçu",
+    "toolEditorPanes": "Panneaux de l'éditeur",
+    "editHistory": "Historique des modifications",
     "loading": "Chargement..."
   },
   "logoBuilder": {
@@ -95,6 +99,7 @@
   },
   "home": {
     "title": "UnionOps: La boîte à outils pour les sections locales",
+    "headline": "La boîte à outils pour les sections locales",
     "slogan": "Solidarity.",
     "subtitle": "Outils de communication pour les bénévoles. Flux de travail pour présidents et délégués. Pour toute section, tout syndicat.",
     "subtitleCommsOnly": "Outils de communication pour les bénévoles qui font vivre une section. Pour toute section, tout syndicat.",
@@ -622,6 +627,7 @@
     "time": "Heure",
     "location": "Lieu",
     "contact": "Ligne de contact",
+    "format": "Format d'impression",
     "formatLetter": "Lettre (8,5×11)",
     "formatTabloid": "Tabloïde (11×17)"
   },
