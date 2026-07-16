@@ -405,7 +405,7 @@ export default function GraphicMakerPage() {
   return (
     <Suspense
       fallback={
-        <PageShell className="py-12">
+        <PageShell className="py-6 md:py-8 lg:py-10">
           <h1 className="text-3xl font-bold text-opseu-dark">Graphic Maker</h1>
         </PageShell>
       }

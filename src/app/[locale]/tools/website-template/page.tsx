@@ -18,7 +18,7 @@ import {
 } from "@/types/website-template";
 import { saveAs } from "file-saver";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
-import { PageShell } from "@/components/layout/PageShell";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { Callout } from "@/components/ui/Callout";
 
 export default function WebsiteTemplatePage() {
@@ -118,14 +118,11 @@ export default function WebsiteTemplatePage() {
   };
 
   return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-gray-600">{t("subtitle")}</p>
-      <Callout tone="brand" className="mt-3">
-        {t("referenceNote")}
-      </Callout>
-
-      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6">
+    <ToolEditorLayout
+      title={t("title")}
+      description={t("subtitle")}
+      toolbar={<Callout tone="brand">{t("referenceNote")}</Callout>}
+      form={
         <Card density="compact" className="space-y-3">
           <Input
             label={t("unionName")}
@@ -213,7 +210,8 @@ export default function WebsiteTemplatePage() {
             {downloading ? tc("loading") : t("downloadZip")}
           </Button>
         </Card>
-
+      }
+      preview={
         <div>
           <p className="mb-2 text-sm font-medium text-gray-700">{t("preview")}</p>
           <iframe
@@ -223,9 +221,14 @@ export default function WebsiteTemplatePage() {
             sandbox="allow-scripts"
           />
         </div>
-      </div>
-
-      <SourcesBlock pageId="websiteTemplate" title={ts("title")} intro={ts("intro")} />
-    </PageShell>
+      }
+      footer={
+        <SourcesBlock
+          pageId="websiteTemplate"
+          title={ts("title")}
+          intro={ts("intro")}
+        />
+      }
+    />
   );
 }

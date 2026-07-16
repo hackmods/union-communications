@@ -1,0 +1,100 @@
+---
+description: Tool editor chrome + sitewide face-uplift UX contract — no tag-only refactors
+globs: src/app/**/*.tsx,src/components/tools/**/*.tsx,src/components/layout/**/*.tsx,src/components/comms/GuideLayout.tsx,src/components/hub/**/*.tsx
+alwaysApply: false
+---
+
+# Tool editor UX & sitewide face uplift
+
+Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc) (shell tiers). This rule owns **editor chrome**, **face uplift**, and the **public-page register**.
+
+## Hard rule: no tag-only refactors
+
+Reject changes that only swap `py-12` → `py-8 md:py-12` without changing composition. Spot-check **375 / 768 / 1280 / 1536** — each must look intentional (columns, measure, CTA wrap, no page-level horizontal scroll).
+
+## Layout contracts
+
+| Kind | Contract |
+|------|----------|
+| Canvas tools | [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx): title `text-2xl md:text-3xl`, subtitle `mt-1`, form `Card density="compact"`, sticky preview `lg:sticky lg:top-4`, mobile Edit/Preview tabs ≥44px |
+| Dual preview | `preview` + `previewSecondary` (board-banner) |
+| Galleries | `belowGrid` (resizer all-formats) |
+| Sources | `footer` slot — not a sibling ad-hoc PageShell |
+| Non-canvas tools | densify only; no fake Edit/Preview |
+| Guides | `GuideLayout` `py-8 md:py-12`; left-accent sections; Callout for notes; related-links row |
+| Focus prose | `PageShell focus`; section dividers / Callout — not nested Cards for short prose |
+| Header | `<lg` drawer; `lg+` existing Learn/Tools dropdowns (keep groups — see `comms-public-nav.mdc`) |
+| Footer | wrap/stack; tap targets ≥44px |
+| Auth | centered `max-w-md`; dense form; calm shell |
+| Hub chrome | HubNav collapses under `md`; list pages dense; table scroll inside wrappers only |
+
+## Face-uplift checklist (every page)
+
+1. **Hierarchy** — one H1; section labels `text-sm font-medium text-gray-700`
+2. **Controls** — `SegControl` for pill groups (`min-h-11`); selects share Input border/`min-h-11`
+3. **Density** — Card `density="compact"`; form `space-y-3`; tool padding `py-6 md:py-8 lg:py-10`
+4. **Touch** — primary actions and tabs ≥44×44; icon-only → Tooltip / aria-label
+5. **Focus** — `focus-visible:ring-2 focus-visible:ring-opseu-blue/40`
+6. **Preview chrome** — screen `p-4 md:p-6` (not export `p-10`); sticky while editing
+7. **Brand** — Brand Kit colours where chrome shows brand; no new OPSEU hex in core UI
+8. **A11y** — radiogroup/`aria-checked` or `aria-pressed`; UndoRedoBar uses i18n `editHistory`
+9. **Overflow** — no page horizontal scroll at 375
+10. **Empty surfaces** — no orphan Cards; prefer Callout for short notes
+
+## Shared primitives
+
+- [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx)
+- [`SegControl`](src/components/tools/SegControl.tsx)
+- [`Tooltip`](src/components/tools/Tooltip.tsx)
+- Card `density="compact"` | `"default"`
+
+## Migration status register
+
+Update when a surface ships.
+
+### Tools
+
+| Surface | Status |
+|---------|--------|
+| logo-builder | done |
+| board-notice | done |
+| graphic-maker | done |
+| flyer-maker | done |
+| quote-card | done |
+| qr-card | done |
+| qr-board | done |
+| meeting-background | done |
+| solidarity-poster | done |
+| resizer | done |
+| website-template | done |
+| board-banner | pending |
+| alt-text | pending (densify) |
+| document-generator | pending (densify) |
+
+### Public secondary
+
+| Surface | Status |
+|---------|--------|
+| home hub path cards | pending |
+| guide (blueprint) | pending |
+| guide/social-media-plan | reference |
+| guide/print | pending |
+| guide/website | pending |
+| guide/union-boards | pending |
+| guide/crisis | pending |
+| guide/photo-consent | pending |
+| guide/resources | pending |
+| examples | pending |
+| captions | pending |
+| assets | pending |
+| brand-kit | pending |
+| onboarding | pending |
+| privacy | pending |
+| accessibility | pending |
+| manifesto | pending |
+| support | pending |
+| app/login | pending |
+| app/mfa | pending |
+| Header mobile drawer | pending |
+| Footer rhythm | pending |
+| HubNav / app shell | pending (light) |

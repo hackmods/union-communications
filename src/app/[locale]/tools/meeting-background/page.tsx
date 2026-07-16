@@ -29,7 +29,8 @@ import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
-import { PageShell } from "@/components/layout/PageShell";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { SegControl } from "@/components/tools/SegControl";
 
 interface BackgroundState {
   presetId: string;
@@ -399,23 +400,23 @@ export default function MeetingBackgroundPage() {
   }
 
   return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-gray-600">{t("subtitle")}</p>
-
-      {!themeEstablished && hydrated ? (
-        <p className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-          {t("setupBrandPrompt")}{" "}
-          <Link
-            href="/onboarding"
-            className="font-medium text-opseu-blue underline"
-          >
-            {t("setupBrandLink")}
-          </Link>
-        </p>
-      ) : null}
-
-      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6">
+    <ToolEditorLayout
+      title={t("title")}
+      description={t("subtitle")}
+      toolbar={
+        !themeEstablished && hydrated ? (
+          <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+            {t("setupBrandPrompt")}{" "}
+            <Link
+              href="/onboarding"
+              className="font-medium text-opseu-blue underline"
+            >
+              {t("setupBrandLink")}
+            </Link>
+          </p>
+        ) : null
+      }
+      form={
         <Card density="compact" className="space-y-3">
           <div>
             <label
@@ -428,7 +429,7 @@ export default function MeetingBackgroundPage() {
               id="meeting-preset"
               value={state.presetId}
               onChange={(e) => applyPreset(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2"
+              className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
             >
               {MEETING_BACKGROUND_PRESETS.map((p) => (
                 <option key={p.id} value={p.id}>
@@ -465,33 +466,17 @@ export default function MeetingBackgroundPage() {
             onChange={(e) => setState({ ...state, closer: e.target.value })}
           />
 
-          <div>
-            <label
-              htmlFor="meeting-layout"
-              className="mb-1 block text-sm font-medium"
-            >
-              {t("layout")}
-            </label>
-            <select
-              id="meeting-layout"
-              value={state.layout}
-              onChange={(e) =>
-                setState({
-                  ...state,
-                  layout: e.target.value as MeetingLayout,
-                })
-              }
-              className="w-full rounded-md border border-gray-300 px-3 py-2"
-            >
-              {(
-                ["corner", "lower-third", "side-panel", "bands"] as const
-              ).map((id) => (
-                <option key={id} value={id}>
-                  {t(`layouts.${id}`)}
-                </option>
-              ))}
-            </select>
-          </div>
+          <SegControl
+            label={t("layout")}
+            value={state.layout}
+            options={(
+              ["corner", "lower-third", "side-panel", "bands"] as const
+            ).map((id) => ({
+              value: id,
+              label: t(`layouts.${id}`),
+            }))}
+            onChange={(layout) => setState({ ...state, layout })}
+          />
 
           <div>
             <p className="mb-1 text-sm font-medium" id="meeting-toggles-label">
@@ -546,33 +531,16 @@ export default function MeetingBackgroundPage() {
             <p className="mt-1 text-xs text-gray-500">{t("togglesHint")}</p>
           </div>
 
-          <div>
-            <p className="mb-1 text-sm font-medium" id="meeting-size-label">
-              {t("outputSize")}
-            </p>
-            <div
-              className="flex flex-wrap gap-2"
-              role="group"
-              aria-labelledby="meeting-size-label"
-            >
-              {formats.map((f) => (
-                <button
-                  key={f.id}
-                  type="button"
-                  onClick={() => setFormatId(f.id)}
-                  className={cn(
-                    "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
-                    formatId === f.id
-                      ? "bg-opseu-blue text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                  )}
-                >
-                  {t(f.labelKey)}
-                </button>
-              ))}
-            </div>
-            <p className="mt-1 text-xs text-gray-500">{t("sizeHint")}</p>
-          </div>
+          <SegControl
+            label={t("outputSize")}
+            value={formatId}
+            options={formats.map((f) => ({
+              value: f.id,
+              label: t(f.labelKey),
+            }))}
+            onChange={setFormatId}
+          />
+          <p className="text-xs text-gray-500">{t("sizeHint")}</p>
 
           <ThemePicker
             primaryColor={state.primaryColor}
@@ -603,7 +571,8 @@ export default function MeetingBackgroundPage() {
             {tc("downloadPng")}
           </Button>
         </Card>
-
+      }
+      preview={
         <div>
           <p className="mb-2 text-sm font-medium text-gray-700">
             {t("preview")}
@@ -618,7 +587,7 @@ export default function MeetingBackgroundPage() {
             </div>
           </div>
         </div>
-      </div>
-    </PageShell>
+      }
+    />
   );
 }

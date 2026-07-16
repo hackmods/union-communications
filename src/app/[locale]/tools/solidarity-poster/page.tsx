@@ -36,9 +36,10 @@ import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { SegControl } from "@/components/tools/SegControl";
 import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
-import { PageShell } from "@/components/layout/PageShell";
 
 interface PosterState {
   sloganId: string;
@@ -342,20 +343,20 @@ export default function SolidarityPosterPage() {
   ) : null;
 
   return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-gray-600">{t("subtitle")}</p>
-
-      {!themeEstablished && hydrated ? (
-        <p className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-          {t("setupBrandPrompt")}{" "}
-          <Link href="/onboarding" className="font-medium text-opseu-blue underline">
-            {t("setupBrandLink")}
-          </Link>
-        </p>
-      ) : null}
-
-      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6">
+    <ToolEditorLayout
+      title={t("title")}
+      description={t("subtitle")}
+      toolbar={
+        !themeEstablished && hydrated ? (
+          <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+            {t("setupBrandPrompt")}{" "}
+            <Link href="/onboarding" className="font-medium text-opseu-blue underline">
+              {t("setupBrandLink")}
+            </Link>
+          </p>
+        ) : null
+      }
+      form={
         <Card density="compact" className="space-y-3">
           <div>
             <label htmlFor="slogan-preset" className="mb-1 block text-sm font-medium">
@@ -365,7 +366,7 @@ export default function SolidarityPosterPage() {
               id="slogan-preset"
               value={state.sloganId}
               onChange={(e) => applyPreset(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2"
+              className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
             >
               {SOLIDARITY_SLOGANS.map((s) => (
                 <option key={s.id} value={s.id}>
@@ -409,7 +410,7 @@ export default function SolidarityPosterPage() {
               onChange={(e) =>
                 setState({ ...state, layout: e.target.value as PosterLayout })
               }
-              className="w-full rounded-md border border-gray-300 px-3 py-2"
+              className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
             >
               {(["stack", "split", "banner"] as const).map((layout) => (
                 <option key={layout} value={layout}>
@@ -419,62 +420,28 @@ export default function SolidarityPosterPage() {
             </select>
           </div>
 
-          <div>
-            <p className="mb-1 text-sm font-medium" id="output-medium-label">
-              {t("outputMedium")}
-            </p>
-            <div
-              className="flex flex-wrap gap-2"
-              role="group"
-              aria-labelledby="output-medium-label"
-            >
-              {(["print", "digital"] as const).map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  onClick={() => selectMedium(m)}
-                  className={cn(
-                    "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
-                    medium === m
-                      ? "bg-opseu-blue text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                  )}
-                >
-                  {t(m === "print" ? "mediumPrint" : "mediumDigital")}
-                </button>
-              ))}
-            </div>
-          </div>
+          <SegControl
+            label={t("outputMedium")}
+            value={medium}
+            options={(["print", "digital"] as const).map((m) => ({
+              value: m,
+              label: t(m === "print" ? "mediumPrint" : "mediumDigital"),
+            }))}
+            onChange={selectMedium}
+          />
 
-          <div>
-            <p className="mb-1 text-sm font-medium" id="output-size-label">
-              {t("outputSize")}
-            </p>
-            <div
-              className="flex flex-wrap gap-2"
-              role="group"
-              aria-labelledby="output-size-label"
-            >
-              {mediumFormats.map((f) => (
-                <button
-                  key={f.id}
-                  type="button"
-                  onClick={() => selectFormat(f.id)}
-                  className={cn(
-                    "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
-                    formatId === f.id
-                      ? "bg-opseu-blue text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                  )}
-                >
-                  {t(f.labelKey)}
-                </button>
-              ))}
-            </div>
-            {medium === "digital" ? (
-              <p className="mt-2 text-xs text-gray-500">{t("digitalHint")}</p>
-            ) : null}
-          </div>
+          <SegControl
+            label={t("outputSize")}
+            value={formatId}
+            options={mediumFormats.map((f) => ({
+              value: f.id,
+              label: t(f.labelKey),
+            }))}
+            onChange={selectFormat}
+          />
+          {medium === "digital" ? (
+            <p className="text-xs text-gray-500">{t("digitalHint")}</p>
+          ) : null}
 
           <Input
             label={t("supportUrl")}
@@ -552,8 +519,9 @@ export default function SolidarityPosterPage() {
             ) : null}
           </div>
         </Card>
-
-        {/* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */}
+      }
+      preview={
+        /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
         <div className="shadow-lg">
           <div
             ref={canvasRef}
@@ -737,7 +705,7 @@ export default function SolidarityPosterPage() {
             ) : null}
           </div>
         </div>
-      </div>
-    </PageShell>
+      }
+    />
   );
 }

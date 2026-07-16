@@ -10,8 +10,14 @@ type ToolEditorLayoutProps = {
   description?: ReactNode;
   form: ReactNode;
   preview: ReactNode;
+  /** Optional second sticky preview (e.g. board-banner print sheet). */
+  previewSecondary?: ReactNode;
   /** Optional row above the editor grid (e.g. presets). */
   toolbar?: ReactNode;
+  /** Content below the editor grid (e.g. resizer all-formats gallery). */
+  belowGrid?: ReactNode;
+  /** Sources / notes below the tool chrome. */
+  footer?: ReactNode;
   className?: string;
 };
 
@@ -24,7 +30,10 @@ export function ToolEditorLayout({
   description,
   form,
   preview,
+  previewSecondary,
   toolbar,
+  belowGrid,
+  footer,
   className,
 }: ToolEditorLayoutProps) {
   const t = useTranslations("common");
@@ -84,13 +93,28 @@ export function ToolEditorLayout({
         <div
           className={cn(
             pane === "preview" ? "block" : "hidden",
-            "lg:sticky lg:top-4 lg:block",
+            "space-y-4 lg:sticky lg:top-4 lg:block",
           )}
           role="tabpanel"
         >
           {preview}
+          {previewSecondary}
         </div>
       </div>
+
+      {belowGrid ? (
+        <div
+          className={cn(
+            "mt-6",
+            pane === "edit" ? "block" : "hidden",
+            "lg:block",
+          )}
+        >
+          {belowGrid}
+        </div>
+      ) : null}
+
+      {footer ? <div className="mt-8">{footer}</div> : null}
     </PageShell>
   );
 }

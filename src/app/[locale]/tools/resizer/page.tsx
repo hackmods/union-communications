@@ -42,7 +42,7 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ImageUpload } from "@/components/tools/ImageUpload";
-import { PageShell } from "@/components/layout/PageShell";
+import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 
 type SourceMode = "logo" | "upload";
 type FitMode = "contain" | "cover";
@@ -431,325 +431,357 @@ export default function ResizerPage() {
   };
 
   return (
-    <PageShell className="py-6 md:py-8 lg:py-10">
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-2 text-gray-600">{t("subtitle")}</p>
-
-      {!themeEstablished ? (
-        <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-          {t("setupBrandPrompt")}{" "}
-          <Link href="/onboarding" className="font-medium underline">
-            {t("setupBrandLink")}
-          </Link>
-        </p>
-      ) : null}
-
-      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6">
-        <Card density="compact" className="space-y-3">
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-opseu-dark">{t("source")}</p>
-            <div
-              className="flex flex-wrap gap-2"
-              role="radiogroup"
-              aria-label={t("source")}
-            >
-              {(["logo", "upload"] as const).map((mode) => {
-                const selected = state.sourceMode === mode;
-                return (
-                  <Button
-                    key={mode}
-                    type="button"
-                    size="sm"
-                    role="radio"
-                    aria-checked={selected}
-                    variant={selected ? "primary" : "outline"}
-                    onClick={() =>
-                      setState({
-                        ...state,
-                        sourceMode: mode,
-                        fit: mode === "logo" ? "contain" : "cover",
-                      })
-                    }
-                  >
-                    {mode === "logo" ? t("sourceLogo") : t("sourceUpload")}
-                  </Button>
-                );
-              })}
-            </div>
-          </div>
-
-          {state.sourceMode === "logo" ? (
+    <>
+      <ToolEditorLayout
+        title={t("title")}
+        description={t("subtitle")}
+        toolbar={
+          !themeEstablished ? (
+            <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+              {t("setupBrandPrompt")}{" "}
+              <Link href="/onboarding" className="font-medium underline">
+                {t("setupBrandLink")}
+              </Link>
+            </p>
+          ) : null
+        }
+        form={
+          <Card density="compact" className="space-y-3">
             <div className="space-y-2">
-              <p className="text-sm font-medium text-opseu-dark">{t("shape")}</p>
+              <p className="text-sm font-medium text-opseu-dark">{t("source")}</p>
               <div
                 className="flex flex-wrap gap-2"
                 role="radiogroup"
-                aria-label={t("shape")}
+                aria-label={t("source")}
               >
-                {SHAPES.map((shape) => {
-                  const selected = state.shape === shape;
+                {(["logo", "upload"] as const).map((mode) => {
+                  const selected = state.sourceMode === mode;
                   return (
                     <Button
-                      key={shape}
+                      key={mode}
                       type="button"
                       size="sm"
                       role="radio"
                       aria-checked={selected}
                       variant={selected ? "primary" : "outline"}
-                      onClick={() => setState({ ...state, shape })}
+                      onClick={() =>
+                        setState({
+                          ...state,
+                          sourceMode: mode,
+                          fit: mode === "logo" ? "contain" : "cover",
+                        })
+                      }
                     >
-                      {shapeLabel(shape)}
+                      {mode === "logo" ? t("sourceLogo") : t("sourceUpload")}
+                    </Button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {state.sourceMode === "logo" ? (
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-opseu-dark">{t("shape")}</p>
+                <div
+                  className="flex flex-wrap gap-2"
+                  role="radiogroup"
+                  aria-label={t("shape")}
+                >
+                  {SHAPES.map((shape) => {
+                    const selected = state.shape === shape;
+                    return (
+                      <Button
+                        key={shape}
+                        type="button"
+                        size="sm"
+                        role="radio"
+                        aria-checked={selected}
+                        variant={selected ? "primary" : "outline"}
+                        onClick={() => setState({ ...state, shape })}
+                      >
+                        {shapeLabel(shape)}
+                      </Button>
+                    );
+                  })}
+                </div>
+                <p className="text-sm text-gray-600">
+                  {t(
+                    state.shape === "circle"
+                      ? "shapeCircleHint"
+                      : state.shape === "square"
+                        ? "shapeSquareHint"
+                        : "shapeRectangleHint",
+                  )}
+                </p>
+              </div>
+            ) : (
+              <ImageUpload
+                label={t("uploadLabel")}
+                hint={t("uploadHint")}
+                preview={imageUrl}
+                onUpload={setImageUrl}
+                onClear={() => setImageUrl(undefined)}
+              />
+            )}
+
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-opseu-dark">{t("fit")}</p>
+              <div
+                className="flex flex-wrap gap-2"
+                role="radiogroup"
+                aria-label={t("fit")}
+              >
+                {(["contain", "cover"] as const).map((fit) => {
+                  const selected = state.fit === fit;
+                  return (
+                    <Button
+                      key={fit}
+                      type="button"
+                      size="sm"
+                      role="radio"
+                      aria-checked={selected}
+                      variant={selected ? "primary" : "outline"}
+                      onClick={() => setState({ ...state, fit })}
+                    >
+                      {fit === "contain" ? t("fitContain") : t("fitCover")}
                     </Button>
                   );
                 })}
               </div>
               <p className="text-sm text-gray-600">
-                {t(
-                  state.shape === "circle"
-                    ? "shapeCircleHint"
-                    : state.shape === "square"
-                      ? "shapeSquareHint"
-                      : "shapeRectangleHint",
-                )}
+                {state.fit === "contain" ? t("fitContainHint") : t("fitCoverHint")}
               </p>
             </div>
-          ) : (
-            <ImageUpload
-              label={t("uploadLabel")}
-              hint={t("uploadHint")}
-              preview={imageUrl}
-              onUpload={setImageUrl}
-              onClear={() => setImageUrl(undefined)}
-            />
-          )}
 
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-opseu-dark">{t("fit")}</p>
-            <div
-              className="flex flex-wrap gap-2"
-              role="radiogroup"
-              aria-label={t("fit")}
-            >
-              {(["contain", "cover"] as const).map((fit) => {
-                const selected = state.fit === fit;
-                return (
-                  <Button
-                    key={fit}
-                    type="button"
-                    size="sm"
-                    role="radio"
-                    aria-checked={selected}
-                    variant={selected ? "primary" : "outline"}
-                    onClick={() => setState({ ...state, fit })}
-                  >
-                    {fit === "contain" ? t("fitContain") : t("fitCover")}
-                  </Button>
-                );
-              })}
-            </div>
-            <p className="text-sm text-gray-600">
-              {state.fit === "contain" ? t("fitContainHint") : t("fitCoverHint")}
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-opseu-dark">
-              {t("placement")}
-            </p>
-            <div
-              className="grid w-fit grid-cols-3 gap-1.5"
-              role="radiogroup"
-              aria-label={t("placement")}
-            >
-              {RESIZER_PLACEMENTS.map((placement) => {
-                const selected = state.placement === placement;
-                return (
-                  <button
-                    key={placement}
-                    type="button"
-                    role="radio"
-                    aria-checked={selected}
-                    aria-label={t(PLACEMENT_LABEL_KEY[placement])}
-                    title={t(PLACEMENT_LABEL_KEY[placement])}
-                    onClick={() => setState({ ...state, placement })}
-                    className={cn(
-                      "flex h-9 w-9 items-center justify-center rounded border transition-colors",
-                      selected
-                        ? "border-opseu-blue bg-opseu-blue text-white"
-                        : "border-gray-300 bg-white text-gray-500 hover:border-opseu-blue/60",
-                    )}
-                  >
-                    <span
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-opseu-dark">
+                {t("placement")}
+              </p>
+              <div
+                className="grid w-fit grid-cols-3 gap-1.5"
+                role="radiogroup"
+                aria-label={t("placement")}
+              >
+                {RESIZER_PLACEMENTS.map((placement) => {
+                  const selected = state.placement === placement;
+                  return (
+                    <button
+                      key={placement}
+                      type="button"
+                      role="radio"
+                      aria-checked={selected}
+                      aria-label={t(PLACEMENT_LABEL_KEY[placement])}
+                      title={t(PLACEMENT_LABEL_KEY[placement])}
+                      onClick={() => setState({ ...state, placement })}
                       className={cn(
-                        "h-2 w-2 rounded-sm",
-                        selected ? "bg-white" : "bg-current",
+                        "flex h-9 w-9 items-center justify-center rounded border transition-colors",
+                        selected
+                          ? "border-opseu-blue bg-opseu-blue text-white"
+                          : "border-gray-300 bg-white text-gray-500 hover:border-opseu-blue/60",
                       )}
-                      aria-hidden="true"
-                    />
-                  </button>
-                );
-              })}
+                    >
+                      <span
+                        className={cn(
+                          "h-2 w-2 rounded-sm",
+                          selected ? "bg-white" : "bg-current",
+                        )}
+                        aria-hidden="true"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="text-sm text-gray-600">{t("placementHint")}</p>
             </div>
-            <p className="text-sm text-gray-600">{t("placementHint")}</p>
-          </div>
 
-          <Input
-            label={t("overlayText")}
-            value={state.overlayText}
-            onChange={(e) =>
-              setState({ ...state, overlayText: e.target.value })
-            }
-          />
-
-          <label className="flex items-center gap-2 text-sm text-gray-700">
-            <input
-              type="checkbox"
-              checked={state.showSafeZones}
+            <Input
+              label={t("overlayText")}
+              value={state.overlayText}
               onChange={(e) =>
-                setState({ ...state, showSafeZones: e.target.checked })
+                setState({ ...state, overlayText: e.target.value })
               }
             />
-            {t("showSafeZones")}
-          </label>
 
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-opseu-dark">{t("outputSize")}</p>
-            <div
-              className="flex flex-wrap gap-2"
-              role="radiogroup"
-              aria-label={t("outputSize")}
-            >
-              {PRESET_IDS.map((id) => {
-                const selected = state.formatId === id;
-                const label =
-                  id === "custom"
-                    ? t("formatCustom")
-                    : t(
-                        resolveResizerFormat(id, 0, 0)
-                          .labelKey as
-                          | "formatFacebookCover"
-                          | "formatFacebookPost"
-                          | "formatInstagramSquare"
-                          | "formatInstagramStory"
-                          | "formatYoutubeBanner",
-                      );
-                return (
-                  <Button
-                    key={id}
-                    type="button"
-                    size="sm"
-                    role="radio"
-                    aria-checked={selected}
-                    variant={selected ? "primary" : "outline"}
-                    onClick={() => setFormatId(id)}
-                  >
-                    {label}
-                  </Button>
-                );
+            <label className="flex items-center gap-2 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                checked={state.showSafeZones}
+                onChange={(e) =>
+                  setState({ ...state, showSafeZones: e.target.checked })
+                }
+              />
+              {t("showSafeZones")}
+            </label>
+
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-opseu-dark">{t("outputSize")}</p>
+              <div
+                className="flex flex-wrap gap-2"
+                role="radiogroup"
+                aria-label={t("outputSize")}
+              >
+                {PRESET_IDS.map((id) => {
+                  const selected = state.formatId === id;
+                  const label =
+                    id === "custom"
+                      ? t("formatCustom")
+                      : t(
+                          resolveResizerFormat(id, 0, 0)
+                            .labelKey as
+                            | "formatFacebookCover"
+                            | "formatFacebookPost"
+                            | "formatInstagramSquare"
+                            | "formatInstagramStory"
+                            | "formatYoutubeBanner",
+                        );
+                  return (
+                    <Button
+                      key={id}
+                      type="button"
+                      size="sm"
+                      role="radio"
+                      aria-checked={selected}
+                      variant={selected ? "primary" : "outline"}
+                      onClick={() => setFormatId(id)}
+                    >
+                      {label}
+                    </Button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {state.formatId === "custom" ? (
+              <div className="grid grid-cols-2 gap-3">
+                <Input
+                  label={t("customWidth")}
+                  type="number"
+                  min={64}
+                  max={4096}
+                  value={String(state.customWidth)}
+                  onChange={(e) =>
+                    setState({
+                      ...state,
+                      customWidth: clampCustomSize(Number(e.target.value)),
+                    })
+                  }
+                />
+                <Input
+                  label={t("customHeight")}
+                  type="number"
+                  min={64}
+                  max={4096}
+                  value={String(state.customHeight)}
+                  onChange={(e) =>
+                    setState({
+                      ...state,
+                      customHeight: clampCustomSize(Number(e.target.value)),
+                    })
+                  }
+                />
+              </div>
+            ) : null}
+
+            <p className="text-sm text-gray-600">
+              {t("previewSize", {
+                label: t(format.labelKey),
+                width: format.width,
+                height: format.height,
               })}
-            </div>
-          </div>
-
-          {state.formatId === "custom" ? (
-            <div className="grid grid-cols-2 gap-3">
-              <Input
-                label={t("customWidth")}
-                type="number"
-                min={64}
-                max={4096}
-                value={String(state.customWidth)}
-                onChange={(e) =>
-                  setState({
-                    ...state,
-                    customWidth: clampCustomSize(Number(e.target.value)),
-                  })
-                }
-              />
-              <Input
-                label={t("customHeight")}
-                type="number"
-                min={64}
-                max={4096}
-                value={String(state.customHeight)}
-                onChange={(e) =>
-                  setState({
-                    ...state,
-                    customHeight: clampCustomSize(Number(e.target.value)),
-                  })
-                }
-              />
-            </div>
-          ) : null}
-
-          <p className="text-sm text-gray-600">
-            {t("previewSize", {
-              label: t(format.labelKey),
-              width: format.width,
-              height: format.height,
-            })}
-          </p>
-
-          <ThemePicker
-            primaryColor={state.primaryColor}
-            secondaryColor={state.secondaryColor}
-            onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
-            onSecondaryChange={(c) =>
-              setState({ ...state, secondaryColor: c })
-            }
-          />
-
-          <UndoRedoBar
-            canUndo={canUndo}
-            canRedo={canRedo}
-            onUndo={undo}
-            onRedo={redo}
-            onReset={() =>
-              reset({
-                ...initial,
-                primaryColor: brandKit.primaryColor,
-                secondaryColor: brandKit.secondaryColor,
-              })
-            }
-          />
-
-          {exportError ? (
-            <p className="text-sm text-red-700" role="alert">
-              {exportError}
             </p>
-          ) : null}
 
-          <div className="flex flex-wrap gap-3">
-            <Button
-              onClick={handleExportPng}
-              disabled={!canExport || exporting}
-            >
-              {exporting ? tc("loading") : tc("downloadPng")}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={handleExportZip}
-              disabled={!canExport || exporting}
-            >
-              {exporting ? tc("loading") : tc("downloadZip")}
-            </Button>
-          </div>
-        </Card>
-
-        <div className="space-y-3">
-          <p className="text-sm font-medium text-opseu-dark">
-            {t("preview")} ({format.width}×{format.height})
-          </p>
-          {/* Shadow + safe-zone overlay outside capture node */}
-          <div className="relative shadow-lg">
-            <FormatFrame
-              format={format}
-              frameRef={canvasRef}
-              {...sharedFrameProps}
+            <ThemePicker
+              primaryColor={state.primaryColor}
+              secondaryColor={state.secondaryColor}
+              onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
+              onSecondaryChange={(c) =>
+                setState({ ...state, secondaryColor: c })
+              }
             />
-            {state.showSafeZones ? <SafeZoneOverlay /> : null}
+
+            <UndoRedoBar
+              canUndo={canUndo}
+              canRedo={canRedo}
+              onUndo={undo}
+              onRedo={redo}
+              onReset={() =>
+                reset({
+                  ...initial,
+                  primaryColor: brandKit.primaryColor,
+                  secondaryColor: brandKit.secondaryColor,
+                })
+              }
+            />
+
+            {exportError ? (
+              <p className="text-sm text-red-700" role="alert">
+                {exportError}
+              </p>
+            ) : null}
+
+            <div className="flex flex-wrap gap-3">
+              <Button
+                onClick={handleExportPng}
+                disabled={!canExport || exporting}
+              >
+                {exporting ? tc("loading") : tc("downloadPng")}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleExportZip}
+                disabled={!canExport || exporting}
+              >
+                {exporting ? tc("loading") : tc("downloadZip")}
+              </Button>
+            </div>
+          </Card>
+        }
+        preview={
+          <div className="space-y-3">
+            <p className="text-sm font-medium text-opseu-dark">
+              {t("preview")} ({format.width}×{format.height})
+            </p>
+            {/* Shadow + safe-zone overlay outside capture node */}
+            <div className="relative shadow-lg">
+              <FormatFrame
+                format={format}
+                frameRef={canvasRef}
+                {...sharedFrameProps}
+              />
+              {state.showSafeZones ? <SafeZoneOverlay /> : null}
+            </div>
           </div>
-        </div>
-      </div>
+        }
+        belowGrid={
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold text-opseu-dark">
+              {t("allFormats")}
+            </h2>
+            <div className="grid gap-6 sm:grid-cols-2">
+              {platformResizerFormats().map((preset) => (
+                <button
+                  key={preset.id}
+                  type="button"
+                  className={cn(
+                    "text-left",
+                    state.formatId === preset.id &&
+                      "ring-2 ring-opseu-blue ring-offset-2",
+                  )}
+                  onClick={() => setFormatId(preset.id)}
+                >
+                  <p className="mb-2 text-sm font-medium">
+                    {t(preset.labelKey)} ({preset.width}×{preset.height})
+                  </p>
+                  <div className="relative overflow-hidden rounded-lg border bg-gray-100 shadow-sm">
+                    <FormatFrame format={preset} {...sharedFrameProps} />
+                    {state.showSafeZones ? <SafeZoneOverlay /> : null}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        }
+      />
 
       {/* Offscreen platform frames for true-pixel ZIP export */}
       <div
@@ -766,34 +798,6 @@ export default function ResizerPage() {
           />
         ))}
       </div>
-
-      <div className="mt-10 space-y-4">
-        <h2 className="text-lg font-semibold text-opseu-dark">
-          {t("allFormats")}
-        </h2>
-        <div className="grid gap-6 sm:grid-cols-2">
-          {platformResizerFormats().map((preset) => (
-            <button
-              key={preset.id}
-              type="button"
-              className={cn(
-                "text-left",
-                state.formatId === preset.id &&
-                  "ring-2 ring-opseu-blue ring-offset-2",
-              )}
-              onClick={() => setFormatId(preset.id)}
-            >
-              <p className="mb-2 text-sm font-medium">
-                {t(preset.labelKey)} ({preset.width}×{preset.height})
-              </p>
-              <div className="relative overflow-hidden rounded-lg border bg-gray-100 shadow-sm">
-                <FormatFrame format={preset} {...sharedFrameProps} />
-                {state.showSafeZones ? <SafeZoneOverlay /> : null}
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-    </PageShell>
+    </>
   );
 }

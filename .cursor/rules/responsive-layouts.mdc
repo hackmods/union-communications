@@ -25,7 +25,7 @@ Use [`PageShell`](src/components/layout/PageShell.tsx) / [`PAGE_SHELL`](src/lib/
 
 - **Home** — hero + trust `Callout`; Brand Kit as a compact link row above Toolbox; denser channel link lists (no sticky empty rail, no sparse flex cards)
 - **Guides** — `GuideLayout`: related links as a compact nav row (never a fat empty tinted card); steps/sections with left accent or markers; optional horizontal step progress (see social-media-plan)
-- **Tools** — `PageShell` wide + `lg:grid-cols-2` editor | preview
+- **Tools** — canvas tools use [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) — see [`tool-editor-ux.mdc`](tool-editor-ux.mdc) for editor chrome + face uplift
 - **Short notes** — [`Callout`](src/components/ui/Callout.tsx), not default `Card`
 
 Within a shell, still constrain body copy (`max-w-prose` / `max-w-xl`) when needed.
