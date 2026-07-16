@@ -19,7 +19,8 @@ Same visual language as `/tools/solidarity-poster` (full brand fields, huge stac
 - **Export-safe colours**: inside `canvasRef` use inline hex/`rgba` only — no Tailwind colour utilities
 - **Auto ink**: `pickContrastingInk` on each panel; pass `backgroundColor` to `BrandLogo`
 - No QR / CTA by default
-- Face silhouette overlay is **preview-only** — never inside `canvasRef`
+- No face silhouette / camera oval overlay in preview
+- Headlines use fluid rem sizing from longest line length + `overflow-wrap` so type stays inside panels
 - No member photos → no ConsentModal
 - No union names in presets or core UI — Brand Kit / seed only
 

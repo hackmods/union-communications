@@ -46,31 +46,18 @@ interface BackgroundState {
   accentColor: string;
 }
 
-/** Preview-only webcam silhouette — never inside canvasRef. */
-function FacePreviewOverlay() {
-  return (
-    <div
-      className="pointer-events-none absolute inset-0 z-10 flex items-end justify-center"
-      aria-hidden
-    >
-      <svg
-        viewBox="0 0 200 220"
-        className="h-[72%] w-auto max-w-[42%]"
-        style={{ opacity: 0.32 }}
-        role="img"
-      >
-        <ellipse cx="100" cy="72" rx="42" ry="48" fill="#1a1a1a" />
-        <path
-          d="M40 210 C40 150 70 128 100 128 C130 128 160 150 160 210 Z"
-          fill="#1a1a1a"
-        />
-      </svg>
-      <div
-        className="absolute inset-[8%] rounded-[50%] border-2 border-dashed"
-        style={{ borderColor: "#1a1a1a", opacity: 0.35 }}
-      />
-    </div>
-  );
+type HeadlineDensity = "panel" | "bar" | "corner";
+
+/** Scale stacked headlines so long words fit their container instead of spilling. */
+function fluidHeadlineRem(lines: string[], density: HeadlineDensity): number {
+  const longest = lines.reduce((m, l) => Math.max(m, l.length), 0) || 1;
+  const caps =
+    density === "panel"
+      ? { min: 0.8, max: 1.35, fitAt: 9 }
+      : density === "bar"
+        ? { min: 1.05, max: 1.85, fitAt: 14 }
+        : { min: 1.15, max: 2.15, fitAt: 12 };
+  return Math.max(caps.min, Math.min(caps.max, (caps.fitAt / longest) * caps.max));
 }
 
 export default function MeetingBackgroundPage() {
@@ -84,7 +71,6 @@ export default function MeetingBackgroundPage() {
   const [formatId, setFormatId] = useState<MeetingBackgroundFormatId>(
     DEFAULT_MEETING_BACKGROUND_FORMAT,
   );
-  const [showFacePreview, setShowFacePreview] = useState(true);
 
   const first = MEETING_BACKGROUND_PRESETS[0];
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
@@ -176,12 +162,13 @@ export default function MeetingBackgroundPage() {
 
   const stackedHeadline = (
     ink: string,
-    size: "md" | "lg" | "xl",
+    density: HeadlineDensity,
     align: "left" | "right" | "center" = "left",
   ) =>
     showHead ? (
       <div
         className={cn(
+          "min-w-0 w-full max-w-full overflow-hidden",
           align === "center" && "text-center",
           align === "right" && "text-right",
         )}
@@ -189,13 +176,14 @@ export default function MeetingBackgroundPage() {
         {lines.map((line, i) => (
           <p
             key={`${i}-${line}`}
-            className={cn(
-              "font-black uppercase leading-[0.92] tracking-tight",
-              size === "xl" && "text-2xl md:text-4xl",
-              size === "lg" && "text-xl md:text-3xl",
-              size === "md" && "text-lg md:text-2xl",
-            )}
-            style={{ color: ink }}
+            className="font-black uppercase leading-[0.92] tracking-tight"
+            style={{
+              color: ink,
+              fontSize: `${fluidHeadlineRem(lines, density)}rem`,
+              overflowWrap: "anywhere",
+              wordBreak: "break-word",
+              hyphens: "manual",
+            }}
           >
             {line}
           </p>
@@ -207,11 +195,15 @@ export default function MeetingBackgroundPage() {
     showLead ? (
       <p
         className={cn(
-          "text-[10px] font-semibold uppercase tracking-[0.2em] md:text-xs",
+          "min-w-0 max-w-full text-[10px] font-semibold uppercase tracking-[0.18em] md:text-xs",
           align === "center" && "text-center",
           align === "right" && "text-right",
         )}
-        style={{ color: ink }}
+        style={{
+          color: ink,
+          overflowWrap: "anywhere",
+          wordBreak: "break-word",
+        }}
       >
         {state.leadIn}
       </p>
@@ -224,11 +216,15 @@ export default function MeetingBackgroundPage() {
     showClose ? (
       <p
         className={cn(
-          "text-[10px] font-medium tracking-wide md:text-xs",
+          "min-w-0 max-w-full text-[10px] font-medium tracking-wide md:text-xs",
           align === "center" && "text-center",
           align === "right" && "text-right",
         )}
-        style={{ color: ink }}
+        style={{
+          color: ink,
+          overflowWrap: "anywhere",
+          wordBreak: "break-word",
+        }}
       >
         {state.closer}
       </p>
@@ -261,10 +257,10 @@ export default function MeetingBackgroundPage() {
           {!showBrand && showLead ? leadLine(secondaryOnPrimary, "right") : null}
         </div>
         <div className="flex min-h-0 flex-1" />
-        <div className="ml-auto max-w-[48%] text-right">
+        <div className="ml-auto w-full max-w-[46%] min-w-0 overflow-hidden text-right">
           {showBrand && showLead ? leadLine(secondaryOnPrimary, "right") : null}
           <div className={cn(showLead && showBrand && "mt-1.5")}>
-            {stackedHeadline(canvasInk, "xl", "right")}
+            {stackedHeadline(canvasInk, "corner", "right")}
           </div>
           {showClose ? (
             <div className="mt-2">{closerLine(mutedPrimary, "right")}</div>
@@ -290,10 +286,10 @@ export default function MeetingBackgroundPage() {
             className="flex shrink-0 items-end justify-between gap-4 px-5 py-3.5 md:px-7 md:py-4"
             style={{ backgroundColor: accent }}
           >
-            <div className="min-w-0 flex-1">
+            <div className="min-w-0 flex-1 overflow-hidden">
               {leadLine(meetsWcagAA(secondary, accent, true) ? secondary : mutedAccent)}
               <div className={cn(showLead && "mt-1")}>
-                {stackedHeadline(accentInk, "lg")}
+                {stackedHeadline(accentInk, "bar")}
               </div>
               {showClose ? (
                 <div className="mt-1.5">{closerLine(mutedAccent)}</div>
@@ -314,24 +310,28 @@ export default function MeetingBackgroundPage() {
       >
         {panelHasContent ? (
           <div
-            className="box-border flex h-full w-[28%] min-w-[7rem] max-w-[12rem] flex-col justify-between p-3 md:p-4"
+            className="box-border flex h-full w-[34%] min-w-0 max-w-[40%] shrink-0 flex-col justify-between overflow-hidden p-3 md:p-4"
             style={{ backgroundColor: secondary }}
           >
-            <div className="min-w-0">
+            <div className="min-w-0 w-full max-w-full overflow-hidden">
               {leadLine(meetsWcagAA(accent, secondary, true) ? accent : mutedSecondary)}
               <div className={cn(showLead && "mt-2")}>
-                {stackedHeadline(secondaryInk, "md")}
+                {stackedHeadline(secondaryInk, "panel")}
               </div>
               {showClose ? (
                 <div className="mt-3">{closerLine(mutedSecondary)}</div>
               ) : null}
             </div>
             {showBrand ? (
-              <div className="mt-4">
+              <div className="mt-4 min-w-0 max-w-full overflow-hidden">
                 <BrandLogo size="sm" backgroundColor={secondary} />
                 <p
                   className="mt-1.5 text-[9px] font-medium leading-tight md:text-[10px]"
-                  style={{ color: mutedSecondary }}
+                  style={{
+                    color: mutedSecondary,
+                    overflowWrap: "anywhere",
+                    wordBreak: "break-word",
+                  }}
                 >
                   {localLabel}
                 </p>
@@ -374,7 +374,7 @@ export default function MeetingBackgroundPage() {
             className="flex shrink-0 items-end justify-between gap-4 px-5 py-3.5 md:px-7 md:py-4"
             style={{ backgroundColor: secondary }}
           >
-            <div className="min-w-0 flex-1">
+            <div className="min-w-0 flex-1 overflow-hidden">
               {!showTop && showLead
                 ? leadLine(
                     meetsWcagAA(accent, secondary, true)
@@ -383,7 +383,7 @@ export default function MeetingBackgroundPage() {
                   )
                 : null}
               <div className={cn(!showTop && showLead && "mt-1")}>
-                {stackedHeadline(secondaryInk, "lg")}
+                {stackedHeadline(secondaryInk, "bar")}
               </div>
               {showClose ? (
                 <div className={cn(showHead && "mt-1.5")}>
@@ -583,16 +583,6 @@ export default function MeetingBackgroundPage() {
             }
           />
 
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={showFacePreview}
-              onChange={(e) => setShowFacePreview(e.target.checked)}
-            />
-            {t("showFacePreview")}
-          </label>
-          <p className="text-xs text-gray-500">{t("facePreviewHint")}</p>
-
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}
@@ -619,15 +609,12 @@ export default function MeetingBackgroundPage() {
             {t("preview")}
           </p>
           <div className="overflow-hidden rounded-lg shadow-lg shadow-black/20">
-            <div className="relative w-full">
-              <div
-                ref={canvasRef}
-                className={cn("w-full overflow-hidden", format.aspect)}
-                style={{ backgroundColor: primary, color: canvasInk }}
-              >
-                {canvasBody}
-              </div>
-              {showFacePreview ? <FacePreviewOverlay /> : null}
+            <div
+              ref={canvasRef}
+              className={cn("w-full overflow-hidden", format.aspect)}
+              style={{ backgroundColor: primary, color: canvasInk }}
+            >
+              {canvasBody}
             </div>
           </div>
         </div>

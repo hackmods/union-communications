@@ -344,6 +344,6 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 ## Meeting Background Maker (2026-07-15)
 
 - [x] Cursor design brief: `.cursor/rules/meeting-backgrounds.mdc`
-- [x] `/tools/meeting-background` — corner / lower-third / side-panel / bands; HD 1920×1080 + UHD 3840×2160 PNG; face silhouette preview (not exported)
-- [x] Solidarity-energy presets + lead-in/headline/closer toggles that collapse empty bars
+- [x] `/tools/meeting-background` — corner / lower-third / side-panel / bands; HD 1920×1080 + UHD 3840×2160 PNG
+- [x] Solidarity-energy presets + lead-in/headline/closer toggles that collapse empty bars; fluid headline sizing for narrow panels
 - [x] Header Tools + home Social channel; EN/FR i18n; smoke visit
