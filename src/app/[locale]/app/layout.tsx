@@ -17,7 +17,7 @@ export default function AppLayout({
     <>
       <DemoSiteBanner />
       <HubNav />
-      <div className={cn(PAGE_SHELL.chrome, "py-8")}>{children}</div>
+      <div className={cn(PAGE_SHELL.chrome, "py-6 md:py-8")}>{children}</div>
     </>
   );
 }

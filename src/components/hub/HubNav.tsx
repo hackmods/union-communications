@@ -53,6 +53,12 @@ export function HubNav() {
     },
   ].filter(Boolean) as { href: string; label: string }[];
 
+  const linkClass = (extra?: string) =>
+    cn(
+      "inline-flex shrink-0 items-center whitespace-nowrap rounded-md px-2 py-1 hover:bg-white",
+      extra,
+    );
+
   return (
     <nav
       className="border-b border-gray-200 bg-gray-50"
@@ -61,39 +67,41 @@ export function HubNav() {
       <div
         className={cn(
           PAGE_SHELL.chrome,
-          "flex flex-wrap items-center gap-2 py-2 text-sm",
+          "flex min-w-0 items-center gap-2 overflow-x-auto py-2 text-sm [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         )}
-      >        <Link
+      >
+        <Link
           href="/app"
-          className="font-semibold text-opseu-dark hover:underline"
+          className="shrink-0 font-semibold whitespace-nowrap text-opseu-dark hover:underline"
         >
           {t("title")}
         </Link>
-        <span className="text-gray-400">|</span>
+        <span className="shrink-0 text-gray-400" aria-hidden="true">
+          |
+        </span>
         {tenant && (
-          <span className="text-gray-600">
+          <span className="shrink-0 whitespace-nowrap text-gray-600">
             {tenant.union.name}
             {tenant.local && ` · Local ${tenant.local.localNumber}`}
           </span>
         )}
-        <span className="flex-1" />
+        <span className="hidden min-w-2 flex-1 md:block" />
         {modules.map((mod) => (
           <Link
             key={mod.id}
             href={mod.href.startsWith("/app") ? mod.href : "/"}
-            className={cn(
-              "rounded-md px-2 py-1 hover:bg-white",
-              mod.requiresMfa && !mfaOk && "opacity-60",
+            className={linkClass(
+              mod.requiresMfa && !mfaOk ? "opacity-60" : undefined,
             )}
           >
             <Emoji id={mod.emojiId} /> {t(`modules.${mod.nameKey}`)}
           </Link>
         ))}
         {toolLinks.length > 0 && (
-          <details className="relative">
+          <details className="relative shrink-0">
             <summary
               className={cn(
-                "cursor-pointer list-none rounded-md px-2 py-1 hover:bg-white [&::-webkit-details-marker]:hidden",
+                "cursor-pointer list-none whitespace-nowrap rounded-md px-2 py-1 hover:bg-white [&::-webkit-details-marker]:hidden",
                 !mfaOk && "opacity-60",
               )}
             >
@@ -119,7 +127,7 @@ export function HubNav() {
         )}
         <Link
           href="/app/mfa"
-          className="rounded-md px-2 py-1 text-opseu-blue hover:bg-white"
+          className={linkClass("text-opseu-blue")}
         >
           {mfaOk ? t("mfaOk") : t("mfaRequired")}
         </Link>

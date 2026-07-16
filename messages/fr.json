@@ -47,7 +47,10 @@
     "manifesto": "Pourquoi c'est gratuit",
     "support": "Soutien",
     "privacy": "Confidentialité",
-    "accessibility": "Accessibilité"
+    "accessibility": "Accessibilité",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "mobileNav": "Mobile"
   },
   "common": {
     "download": "Télécharger",
