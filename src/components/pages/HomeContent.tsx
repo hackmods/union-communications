@@ -28,9 +28,9 @@ const channelItems: Record<
   ],
   social: [
     { href: "/tools/graphic-maker", titleKey: "graphicMaker" },
+    { href: "/tools/meeting-background", titleKey: "meetingBackground" },
     { href: "/examples", titleKey: "socialExamples" },
     { href: "/captions", titleKey: "captions" },
-    { href: "/guide", titleKey: "guide" },
   ],
   website: [
     { href: "/tools/website-template", titleKey: "websiteTemplate" },

@@ -42,6 +42,7 @@ const toolLinks = [
   { href: "/tools/board-notice", key: "boardNotice" },
   { href: "/tools/board-banner", key: "boardBanner" },
   { href: "/tools/solidarity-poster", key: "solidarityPoster" },
+  { href: "/tools/meeting-background", key: "meetingBackground" },
   { href: "/tools/qr-card", key: "qrCard" },
   { href: "/tools/qr-board", key: "qrBoard" },
   { href: "/tools/graphic-maker", key: "graphicMaker" },

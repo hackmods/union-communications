@@ -340,3 +340,10 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `NEXT_PUBLIC_DEMO_SITE` — authenticated hub Demo banner on workshop/demo hosts (sample data notice)
 - [x] SEO/share blurb, footer, manifesto, privacy, and PWA `start_url` adjust for soft launch
 - [x] `/app` remains reachable for demos and CI
+
+## Meeting Background Maker (2026-07-15)
+
+- [x] Cursor design brief: `.cursor/rules/meeting-backgrounds.mdc`
+- [x] `/tools/meeting-background` — corner / lower-third / side-panel / watermark; HD 1920×1080 + UHD 3840×2160 PNG; face silhouette preview (not exported)
+- [x] Low-key presets (`MEETING_BACKGROUND_PRESETS`); subtle/balanced intensity washes
+- [x] Header Tools + home Social channel; EN/FR i18n; smoke visit

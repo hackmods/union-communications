@@ -25,6 +25,7 @@
     "boardNotice": "Board Notice Maker",
     "boardBanner": "Board Banner & Trim",
     "solidarityPoster": "Solidarity Posters",
+    "meetingBackground": "Meeting Backgrounds",
     "qrCard": "QR Link Cards",
     "qrBoard": "QR Board Posters",
     "websiteTemplate": "Website Template",
@@ -822,6 +823,35 @@
     "includeBranding": "Include local branding",
     "cta": "Get support →",
     "setupBrandPrompt": "Set up your Brand Kit to stamp posters with your local lockup.",
+    "setupBrandLink": "Start onboarding"
+  },
+  "meetingBackground": {
+    "title": "Meeting Background Maker",
+    "subtitle": "Low-key Zoom and Teams virtual backgrounds — soft brand fields that stay clear behind your face",
+    "preset": "Preset",
+    "headline": "Line of text",
+    "closer": "Closer (optional)",
+    "layout": "Layout",
+    "layouts": {
+      "corner": "Corner — branding tucked away",
+      "lower-third": "Lower third — quiet bar at the bottom",
+      "side-panel": "Side panel — narrow edge strip",
+      "watermark": "Watermark — very light centre mark"
+    },
+    "intensity": "Intensity",
+    "intensities": {
+      "subtle": "Subtle — soft wash",
+      "balanced": "Balanced — a bit more brand"
+    },
+    "outputSize": "Size",
+    "formatHd": "HD 16:9 (1920×1080)",
+    "formatUhd": "UHD 16:9 (3840×2160)",
+    "sizeHint": "HD matches typical Zoom and Teams recommendations. Use UHD for large or high-DPI displays.",
+    "includeBranding": "Include local branding",
+    "showFacePreview": "Show face preview",
+    "facePreviewHint": "The silhouette is preview-only — it will not appear in your download.",
+    "preview": "Preview",
+    "setupBrandPrompt": "Set up your Brand Kit to stamp backgrounds with your local lockup.",
     "setupBrandLink": "Start onboarding"
   },
   "qrCard": {

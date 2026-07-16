@@ -76,6 +76,12 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("button", { name: "Download PDF" })).toBeVisible();
   });
 
+  test("meeting background maker page renders", async ({ page }) => {
+    await page.goto("/en/tools/meeting-background/");
+    await expect(page.getByRole("heading", { name: "Meeting Background Maker" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Download PNG" })).toBeVisible();
+  });
+
   test("qr link card maker page renders", async ({ page }) => {
     await page.goto("/en/tools/qr-card/");
     await expect(page.getByRole("heading", { name: "QR Link Card Maker" })).toBeVisible();

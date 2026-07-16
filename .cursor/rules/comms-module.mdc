@@ -27,6 +27,7 @@ Learn menu must keep **By channel** (Print, Union Boards, Website guides) — se
 - Platform UnionOps mark: interlocking u+o inline SVG in `UnionOpsMark` — primary plate + accent glyph; light ink → white plate; dark ink → black plate + white glyph (inline SVG so PNG export works)
 - See `.cursor/rules/opseu-branding.mdc` for OPSEU/CAAT colour rationale
 - Solidarity board posters: `.cursor/rules/solidarity-posters.mdc` (`/tools/solidarity-poster`)
+- Meeting backgrounds (Zoom/Teams): `.cursor/rules/meeting-backgrounds.mdc` (`/tools/meeting-background`)
 - QR link cards: `/tools/qr-card` (client `qrDataUrl`, multi-size print)
 - QR board posters: `/tools/qr-board` (multi-QR letter/tabloid board sheets)
 

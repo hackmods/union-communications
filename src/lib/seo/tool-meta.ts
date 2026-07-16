@@ -48,6 +48,11 @@ export const TOOL_SEO: Record<
     description:
       "Fill empty union boards with bold solidarity posters. Free and on your device.",
   },
+  "meeting-background": {
+    title: "Free Zoom & Teams Meeting Background Maker",
+    description:
+      "Make low-key virtual backgrounds for union meetings with face-safe layouts. Free and on your device.",
+  },
   "qr-card": {
     title: "Free Union QR Link Card Maker",
     description:

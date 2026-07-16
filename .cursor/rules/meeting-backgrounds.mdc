@@ -1,0 +1,40 @@
+---
+description: Meeting background maker — low-key Zoom/Teams virtual backgrounds
+globs: src/app/**/tools/meeting-background/**,src/lib/constants/meeting-background-formats.ts,src/lib/constants/meeting-background-presets.ts
+alwaysApply: false
+---
+
+# Meeting Backgrounds
+
+Low-key virtual backgrounds for Zoom / Teams union meetings. Route: `/tools/meeting-background`.
+
+Distinct from solidarity posters (high-energy board fillers). Keep the centre ~40–50% visually quiet so a webcam face is not fighting type or logos.
+
+## Visual direction
+- Soft brand washes (mix primary toward white) — intensity `subtle` | `balanced`
+- Colours: Brand Kit primary / secondary / accent only
+- Avoid: purple gradients, cream+terracotta, broadsheet layouts, huge centred headlines
+- **Export**: PNG only — HD 1920×1080 (default), UHD 3840×2160
+- Preview matches export aspect (16:9); flat shadow outside `canvasRef`
+- **Export-safe colours**: inside `canvasRef` use inline hex/`rgba` only — no Tailwind colour utilities (oklch washout via html-to-image)
+- **Auto ink**: `pickContrastingInk` on wash / panel / bar; pass `backgroundColor` to `BrandLogo`
+- No QR / CTA (scanability + clutter behind a face)
+- Face silhouette overlay is **preview-only** — never inside `canvasRef`
+- No member photos → no ConsentModal
+- No union names in presets or core UI — Brand Kit / seed only
+
+## Layouts (face-safe)
+1. **Corner** — soft wash; short line + branding bottom-right
+2. **Lower third** — quiet bar at bottom; open centre field
+3. **Side panel** — narrow left strip (~22%); centre open
+4. **Watermark** — very light centred phrase; branding tucked to an edge
+
+## Local branding
+Theme established when: onboarding complete, OR official/custom logo set, OR local number non-empty (`isBrandThemeEstablished`).
+
+- Established → “Include local branding” defaults ON
+- Not established → toggle OFF; soft link to `/onboarding`
+- Always seed canvas colours from Brand Kit
+
+## Presets
+Low-key meeting copy in `MEETING_BACKGROUND_PRESETS` (`meeting-background-presets.ts`). Formats in `meeting-background-formats.ts`.

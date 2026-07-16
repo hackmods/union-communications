@@ -25,6 +25,7 @@
     "boardNotice": "Avis pour tableau syndical",
     "boardBanner": "Bandeau et bordure de tableau",
     "solidarityPoster": "Affiches solidarité",
+    "meetingBackground": "Fonds de réunion",
     "qrCard": "Cartes lien QR",
     "qrBoard": "Affiches QR tableau",
     "websiteTemplate": "Modèle de site Web",
@@ -822,6 +823,35 @@
     "includeBranding": "Inclure l'image de marque locale",
     "cta": "Obtenir du soutien →",
     "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les affiches avec le logo de votre section locale.",
+    "setupBrandLink": "Commencer l'intégration"
+  },
+  "meetingBackground": {
+    "title": "Créateur de fonds de réunion",
+    "subtitle": "Fonds virtuels discrets pour Zoom et Teams — champs de marque doux qui restent dégagés derrière votre visage",
+    "preset": "Préréglage",
+    "headline": "Ligne de texte",
+    "closer": "Clôture (optionnelle)",
+    "layout": "Mise en page",
+    "layouts": {
+      "corner": "Coin — image de marque discrète",
+      "lower-third": "Tiers inférieur — barre discrète en bas",
+      "side-panel": "Panneau latéral — bande étroite",
+      "watermark": "Filigrane — marque centrale très légère"
+    },
+    "intensity": "Intensité",
+    "intensities": {
+      "subtle": "Subtil — lavis doux",
+      "balanced": "Équilibré — un peu plus de marque"
+    },
+    "outputSize": "Format",
+    "formatHd": "HD 16:9 (1920×1080)",
+    "formatUhd": "UHD 16:9 (3840×2160)",
+    "sizeHint": "Le HD correspond aux recommandations typiques de Zoom et Teams. Utilisez l'UHD pour les grands écrans ou haute densité.",
+    "includeBranding": "Inclure l'image de marque locale",
+    "showFacePreview": "Afficher l'aperçu visage",
+    "facePreviewHint": "La silhouette est un aperçu seulement — elle n'apparaîtra pas dans le téléchargement.",
+    "preview": "Aperçu",
+    "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les fonds avec le logo de votre section locale.",
     "setupBrandLink": "Commencer l'intégration"
   },
   "qrCard": {
