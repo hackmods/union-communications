@@ -439,7 +439,8 @@ export function Header() {
         </button>
       </div>
 
-      {drawerOpen && typeof document !== "undefined"
+      {/* drawerOpen is always false on SSR; portal only after client open */}
+      {drawerOpen
         ? createPortal(
             <div className="lg:hidden" role="presentation">
               <button

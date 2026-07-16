@@ -64,8 +64,9 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const messages = await getMessages();
 
+  // PreferencesInitScript may set data-* prefs on <html> before hydrate (FOUC).
   return (
-    <html lang={locale} className="h-full">
+    <html lang={locale} className="h-full" suppressHydrationWarning>
       <head>
         <PreferencesInitScript />
         <link
