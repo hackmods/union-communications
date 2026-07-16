@@ -49,16 +49,104 @@ interface BackgroundState {
 
 type HeadlineDensity = "panel" | "bar" | "corner";
 
-/** Scale stacked headlines so long words fit their container instead of spilling. */
-function fluidHeadlineRem(lines: string[], density: HeadlineDensity): number {
+/** Starting rem before measure-to-fit shrinks to keep each line intact. */
+function headlineStartRem(lines: string[], density: HeadlineDensity): number {
   const longest = lines.reduce((m, l) => Math.max(m, l.length), 0) || 1;
   const caps =
     density === "panel"
-      ? { min: 0.8, max: 1.35, fitAt: 9 }
+      ? { min: 0.75, max: 1.35, fitAt: 8 }
       : density === "bar"
-        ? { min: 1.05, max: 1.85, fitAt: 14 }
-        : { min: 1.15, max: 2.15, fitAt: 12 };
-  return Math.max(caps.min, Math.min(caps.max, (caps.fitAt / longest) * caps.max));
+        ? { min: 0.95, max: 1.85, fitAt: 14 }
+        : { min: 1.0, max: 2.0, fitAt: 10 };
+  return Math.max(
+    caps.min,
+    Math.min(caps.max, (caps.fitAt / longest) * caps.max),
+  );
+}
+
+function headlineMinRem(density: HeadlineDensity): number {
+  return density === "panel" ? 0.65 : density === "bar" ? 0.85 : 0.9;
+}
+
+/**
+ * Stacked headline that never breaks mid-word — shrinks font until each
+ * nowrap line fits the container width.
+ */
+function FitStackedHeadline({
+  lines,
+  ink,
+  density,
+  align = "left",
+}: {
+  lines: string[];
+  ink: string;
+  density: HeadlineDensity;
+  align?: "left" | "right" | "center";
+}) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const linesKey = lines.join("\n");
+  const [fontSizeRem, setFontSizeRem] = useState(() =>
+    headlineStartRem(lines, density),
+  );
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const currentLines = linesKey.split("\n").filter(Boolean);
+
+    const fit = () => {
+      const min = headlineMinRem(density);
+      let size = headlineStartRem(currentLines, density);
+      const apply = (rem: number) => {
+        for (const node of el.querySelectorAll<HTMLElement>("[data-headline-line]")) {
+          node.style.fontSize = `${rem}rem`;
+        }
+      };
+      apply(size);
+      // Shrink until every line fits (or floor). Step in rem for export stability.
+      for (let i = 0; i < 48; i++) {
+        const overflowing = Array.from(
+          el.querySelectorAll<HTMLElement>("[data-headline-line]"),
+        ).some((line) => line.scrollWidth > el.clientWidth + 0.5);
+        if (!overflowing || size <= min) break;
+        size = Math.max(min, size - 0.05);
+        apply(size);
+      }
+      setFontSizeRem(size);
+    };
+
+    fit();
+    const ro = new ResizeObserver(() => fit());
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [linesKey, density]);
+
+  return (
+    <div
+      ref={wrapRef}
+      className={cn(
+        "min-w-0 w-full max-w-full overflow-hidden",
+        align === "center" && "text-center",
+        align === "right" && "text-right",
+      )}
+    >
+      {lines.map((line, i) => (
+        <p
+          key={`${i}-${line}`}
+          data-headline-line
+          className="font-black uppercase leading-[0.92] tracking-tight"
+          style={{
+            color: ink,
+            fontSize: `${fontSizeRem}rem`,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+          }}
+        >
+          {line}
+        </p>
+      ))}
+    </div>
+  );
 }
 
 export default function MeetingBackgroundPage() {
@@ -167,29 +255,12 @@ export default function MeetingBackgroundPage() {
     align: "left" | "right" | "center" = "left",
   ) =>
     showHead ? (
-      <div
-        className={cn(
-          "min-w-0 w-full max-w-full overflow-hidden",
-          align === "center" && "text-center",
-          align === "right" && "text-right",
-        )}
-      >
-        {lines.map((line, i) => (
-          <p
-            key={`${i}-${line}`}
-            className="font-black uppercase leading-[0.92] tracking-tight"
-            style={{
-              color: ink,
-              fontSize: `${fluidHeadlineRem(lines, density)}rem`,
-              overflowWrap: "anywhere",
-              wordBreak: "break-word",
-              hyphens: "manual",
-            }}
-          >
-            {line}
-          </p>
-        ))}
-      </div>
+      <FitStackedHeadline
+        lines={lines}
+        ink={ink}
+        density={density}
+        align={align}
+      />
     ) : null;
 
   const leadLine = (ink: string, align: "left" | "right" | "center" = "left") =>
@@ -200,11 +271,7 @@ export default function MeetingBackgroundPage() {
           align === "center" && "text-center",
           align === "right" && "text-right",
         )}
-        style={{
-          color: ink,
-          overflowWrap: "anywhere",
-          wordBreak: "break-word",
-        }}
+        style={{ color: ink }}
       >
         {state.leadIn}
       </p>
@@ -221,11 +288,7 @@ export default function MeetingBackgroundPage() {
           align === "center" && "text-center",
           align === "right" && "text-right",
         )}
-        style={{
-          color: ink,
-          overflowWrap: "anywhere",
-          wordBreak: "break-word",
-        }}
+        style={{ color: ink }}
       >
         {state.closer}
       </p>
