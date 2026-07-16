@@ -14,6 +14,16 @@ function trimUrl(value: unknown): string | undefined {
   return t || undefined;
 }
 
+const BRAND_HEX = /^#[0-9A-Fa-f]{6}$/;
+
+/** Keep a valid `#RRGGBB` colour; empty/invalid strings fall back to defaults. */
+function asBrandHex(value: unknown, fallback: string): string {
+  if (typeof value !== "string") return fallback;
+  const trimmed = value.trim();
+  if (!trimmed) return fallback;
+  return BRAND_HEX.test(trimmed) ? trimmed.toUpperCase() : fallback;
+}
+
 function normalizeCustomLinks(raw: unknown): LocalLink[] {
   if (!Array.isArray(raw)) return [];
   return raw
@@ -66,18 +76,9 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
           ? localIn.subText
           : base.local.subText,
     },
-    primaryColor:
-      typeof input.primaryColor === "string"
-        ? input.primaryColor
-        : base.primaryColor,
-    secondaryColor:
-      typeof input.secondaryColor === "string"
-        ? input.secondaryColor
-        : base.secondaryColor,
-    accentColor:
-      typeof input.accentColor === "string"
-        ? input.accentColor
-        : base.accentColor,
+    primaryColor: asBrandHex(input.primaryColor, base.primaryColor),
+    secondaryColor: asBrandHex(input.secondaryColor, base.secondaryColor),
+    accentColor: asBrandHex(input.accentColor, base.accentColor),
     useOfficialLogo:
       typeof input.useOfficialLogo === "boolean"
         ? input.useOfficialLogo

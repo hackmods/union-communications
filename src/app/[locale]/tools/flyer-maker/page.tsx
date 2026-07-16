@@ -9,6 +9,7 @@ import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { getExamplePost } from "@/lib/constants/examples";
+import { BRAND_COLORS } from "@/lib/constants/brand";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -19,6 +20,7 @@ import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import { PageShell } from "@/components/layout/PageShell";
+import type { BrandKit } from "@/types/entities";
 
 interface FlyerState {
   message: string;
@@ -30,55 +32,71 @@ interface FlyerState {
   secondaryColor: string;
 }
 
+function coloursFromBrandKit(brandKit: BrandKit) {
+  return {
+    primary: brandKit.primaryColor || BRAND_COLORS.primary,
+    accent: brandKit.accentColor || BRAND_COLORS.accent,
+    secondary: brandKit.secondaryColor || BRAND_COLORS.secondary,
+  };
+}
+
 function FlyerMakerPageContent() {
   const t = useTranslations("common");
   const tf = useTranslations("flyerMaker");
   const te = useTranslations("examples");
   const brandKit = useBrandStore((s) => s.brandKit);
+  const hydrated = useBrandStore((s) => s.hydrated);
   const canvasRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
-  const seedApplied = useRef(false);
+  const brandingDefaultApplied = useRef(false);
 
-  const brandColors = {
-    primary: brandKit.primaryColor,
-    accent: brandKit.accentColor,
-    secondary: brandKit.secondaryColor,
-  };
+  const brandColors = coloursFromBrandKit(brandKit);
 
   const initial: FlyerState = {
     message: "PICKET LINE - ALL MEMBERS WELCOME",
     date: "Monday, March 15",
     time: "7:00 AM – 4:00 PM",
     location: "123 Main Street, Toronto",
-    primaryColor: brandKit.primaryColor,
-    accentColor: brandKit.accentColor,
-    secondaryColor: brandKit.secondaryColor,
+    primaryColor: brandColors.primary,
+    accentColor: brandColors.accent,
+    secondaryColor: brandColors.secondary,
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<FlyerState>(initial);
 
+  // Seed Brand Kit colours (and optional example copy) once after hydrate
   useEffect(() => {
-    if (seedApplied.current) return;
+    if (!hydrated || brandingDefaultApplied.current) return;
+    brandingDefaultApplied.current = true;
+    const colours = coloursFromBrandKit(brandKit);
+
     const exampleId = searchParams.get("example");
-    if (!exampleId) return;
-    const post = getExamplePost(exampleId);
-    if (!post || post.primaryTool !== "flyer-maker") return;
-    seedApplied.current = true;
-    const detail = te.has(`posts.${post.id}.mockup.detail`)
-      ? te(`posts.${post.id}.mockup.detail`)
-      : "";
-    setState((prev) => ({
-      ...prev,
-      message: te(`posts.${post.id}.mockup.headline`).toUpperCase(),
-      location: te(`posts.${post.id}.mockup.body`),
-      date: detail || prev.date,
-      time: prev.time,
-      primaryColor: brandKit.primaryColor,
-      accentColor: brandKit.accentColor,
-      secondaryColor: brandKit.secondaryColor,
-    }));
-  }, [searchParams, setState, te, brandKit]);
+    const post = exampleId ? getExamplePost(exampleId) : undefined;
+    if (post && post.primaryTool === "flyer-maker") {
+      const detail = te.has(`posts.${post.id}.mockup.detail`)
+        ? te(`posts.${post.id}.mockup.detail`)
+        : "";
+      reset({
+        ...initial,
+        message: te(`posts.${post.id}.mockup.headline`).toUpperCase(),
+        location: te(`posts.${post.id}.mockup.body`),
+        date: detail || initial.date,
+        primaryColor: colours.primary,
+        accentColor: colours.accent,
+        secondaryColor: colours.secondary,
+      });
+      return;
+    }
+
+    reset({
+      ...initial,
+      primaryColor: colours.primary,
+      accentColor: colours.accent,
+      secondaryColor: colours.secondary,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot after hydrate
+  }, [hydrated]);
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
@@ -153,14 +171,15 @@ function FlyerMakerPageContent() {
             canRedo={canRedo}
             onUndo={undo}
             onRedo={redo}
-            onReset={() =>
+            onReset={() => {
+              const colours = coloursFromBrandKit(brandKit);
               reset({
                 ...initial,
-                primaryColor: brandKit.primaryColor,
-                accentColor: brandKit.accentColor,
-                secondaryColor: brandKit.secondaryColor,
-              })
-            }
+                primaryColor: colours.primary,
+                accentColor: colours.accent,
+                secondaryColor: colours.secondary,
+              });
+            }}
           />
           <div className="flex gap-3">
             <Button onClick={handleExportPng}>{t("downloadPng")}</Button>

@@ -44,6 +44,21 @@ describe("normalizeBrandKit", () => {
     expect(kit.customLinks).toHaveLength(1);
     expect(kit.customLinks?.[0].label).toBe("Instagram");
   });
+
+  it("falls back empty or invalid colours to host defaults", () => {
+    const kit = normalizeBrandKit({
+      version: "1.0",
+      local: { id: "x", localNumber: "100", subText: "Staff" },
+      primaryColor: "",
+      secondaryColor: "not-a-colour",
+      accentColor: "  ",
+      useOfficialLogo: true,
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    });
+    expect(kit.primaryColor).toMatch(/^#[0-9A-F]{6}$/);
+    expect(kit.secondaryColor).toMatch(/^#[0-9A-F]{6}$/);
+    expect(kit.accentColor).toMatch(/^#[0-9A-F]{6}$/);
+  });
 });
 
 describe("listSavedLinks / resolve helpers", () => {
