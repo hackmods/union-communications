@@ -149,9 +149,10 @@ test.describe("Mobile tool chrome @smoke @mobile", () => {
   test("mobile nav drawer opens and navigates", async ({ page }) => {
     await page.goto("/en/");
     await page.getByTestId("mobile-nav-toggle").click();
-    await expect(page.getByTestId("mobile-nav-drawer")).toBeVisible();
-    await page
-      .getByTestId("mobile-nav-drawer")
+    const drawer = page.getByTestId("mobile-nav-drawer");
+    await expect(drawer).toBeVisible();
+    await expect(drawer.getByRole("img", { name: "UnionOps" })).toBeVisible();
+    await drawer
       .getByRole("link", { name: /Logo Builder|Créateur de logo/i })
       .click();
     await expect(page).toHaveURL(/\/en\/tools\/logo-builder/);

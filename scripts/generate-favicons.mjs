@@ -160,10 +160,10 @@ async function main() {
   entry.writeUInt16LE(32, 6);
   entry.writeUInt32LE(png32.length, 8);
   entry.writeUInt32LE(22, 12);
-  fs.writeFileSync(
-    path.join(publicDir, "favicon.ico"),
-    Buffer.concat([header, entry, png32]),
-  );
+  const icoBuf = Buffer.concat([header, entry, png32]);
+  // public/ for metadata icons; src/app/ so App Router never serves a stale Create-Next-App ico
+  fs.writeFileSync(path.join(publicDir, "favicon.ico"), icoBuf);
+  fs.writeFileSync(path.join(root, "src", "app", "favicon.ico"), icoBuf);
 
   console.log(`Favicon suite generated (primary ${primary}, glyph ${pickContrastingInk(primary)}).`);
 }

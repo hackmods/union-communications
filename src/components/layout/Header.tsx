@@ -261,9 +261,13 @@ export function Header() {
           "flex items-center justify-between gap-4 py-3",
         )}
       >
-        <Link href="/" className="flex items-center gap-2 font-bold text-opseu-blue">
+        <Link
+          href="/"
+          className="flex min-w-0 items-center gap-2 font-bold text-opseu-blue"
+          onClick={drawerOpen ? closeDrawerAfterNav : undefined}
+        >
           <BrandLogo size="sm" />
-          <span className="hidden sm:inline">{th("platformName")}</span>
+          <span className="truncate">{th("platformName")}</span>
         </Link>
 
         {/* Desktop nav — lg+ (smoke tests target aria-label="Main") */}
@@ -459,6 +463,15 @@ export function Header() {
                   className="min-h-0 flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] px-3 py-3 text-base"
                   aria-label={t("mobileNav")}
                 >
+                  <Link
+                    href="/"
+                    onClick={closeDrawerAfterNav}
+                    className="mb-4 flex items-center gap-2 rounded-md px-3 py-2 font-bold text-opseu-blue hover:bg-opseu-blue/5"
+                  >
+                    <BrandLogo size="sm" />
+                    <span>{th("platformName")}</span>
+                  </Link>
+
                   <Link
                     href={getStartedHref}
                     onClick={closeDrawerAfterNav}
