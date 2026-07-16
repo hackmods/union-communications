@@ -372,4 +372,4 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Alt-text + document-generator densified (no fake tabs); Card/Input/Button focus polish
 - [x] Header mobile drawer; Footer wrap/tap targets; HubNav scroll; app shell vertical rhythm
 - [x] Guide/library/legal/auth Callout face uplift; `.cursor/rules/tool-editor-ux.mdc` status register complete
-- [x] Playwright: secondary pages, all canvas Edit/Preview `@mobile`, mobile nav + overflow checks
+- [x] Playwright: secondary pages, all canvas Edit/Preview `@mobile`, mobile nav + overflow checks; 71 `@smoke` passing
