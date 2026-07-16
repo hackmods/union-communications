@@ -1,7 +1,13 @@
-/* UnionOps offline stub — caches a minimal shell so Officer Hub UI can load without cell service.
+/* UnionOps offline stub — caches a minimal shell so Comms can open without cell service.
    Hub API data still requires a network when live; encrypted hybrid backup covers offline case data.
-   Keep CACHE / PRECACHE in sync with src/lib/pwa/shell.ts (enforced by unit tests). */
-const CACHE = "unionops-shell-v2";
+   Keep CACHE / PRECACHE in sync with src/lib/pwa/shell.ts (enforced by unit tests).
+
+   Safety (PC / Edge installed PWA):
+   - Intercept navigations only. Never cache-first RSC, JS, or API — that poisoned
+     Next.js App Router payloads and looked like a homescreen reload loop.
+   - skipWaiting so updates activate, but never claim existing clients mid-load —
+     that made Chromium/Edge installed apps flash-reload the start_url. */
+const CACHE = "unionops-shell-v3";
 const PRECACHE = ["/en/", "/manifest.webmanifest", "/og-image.png"];
 
 self.addEventListener("install", (event) => {
@@ -16,14 +22,11 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches
-      .keys()
-      .then((keys) =>
-        Promise.all(
-          keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)),
-        ),
-      )
-      .then(() => self.clients.claim()),
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)),
+      ),
+    ),
   );
 });
 
@@ -31,28 +34,12 @@ self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET") return;
 
-  // Navigations stay network-first so pages never hang waiting on a stale shell.
-  if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request).catch(() =>
-        caches.match("/en/").then((r) => r || Response.error()),
-      ),
-    );
-    return;
-  }
+  // Navigations only — assets / RSC / API go straight to the network (no respondWith).
+  if (request.mode !== "navigate") return;
 
   event.respondWith(
-    caches.match(request).then((cached) => {
-      if (cached) return cached;
-      return fetch(request)
-        .then((response) => {
-          if (response.ok && request.url.startsWith(self.location.origin)) {
-            const copy = response.clone();
-            caches.open(CACHE).then((cache) => cache.put(request, copy));
-          }
-          return response;
-        })
-        .catch(() => cached || Response.error());
-    }),
+    fetch(request).catch(() =>
+      caches.match("/en/").then((r) => r || Response.error()),
+    ),
   );
 });

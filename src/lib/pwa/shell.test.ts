@@ -5,6 +5,7 @@ import {
   PWA_SERVICE_WORKER_URL,
   PWA_SHELL_CACHE,
   PWA_SHELL_PRECACHE,
+  PWA_SW_POLICY,
 } from "./shell";
 
 const repoRoot = path.resolve(__dirname, "../../..");
@@ -19,6 +20,13 @@ describe("PWA offline shell constants", () => {
     expect(PWA_SERVICE_WORKER_URL).toBe("/sw.js");
   });
 
+  it("documents the PC-safe SW policy", () => {
+    expect(PWA_SW_POLICY.skipWaiting).toBe(true);
+    expect(PWA_SW_POLICY.clientsClaim).toBe(false);
+    expect(PWA_SW_POLICY.navigateOnly).toBe(true);
+    expect(PWA_SW_POLICY.navigateNetworkFirst).toBe(true);
+  });
+
   it("keeps public/sw.js in sync with shell.ts (installability + offline stub)", () => {
     expect(fs.existsSync(swPath), "public/sw.js must exist").toBe(true);
     const source = fs.readFileSync(swPath, "utf8");
@@ -31,10 +39,28 @@ describe("PWA offline shell constants", () => {
     expect(source).toMatch(/addEventListener\(\s*["']activate["']/);
     expect(source).toMatch(/addEventListener\(\s*["']fetch["']/);
     expect(source).toContain("skipWaiting");
-    expect(source).toContain("clients.claim");
     // Navigations must stay network-first so Playwright/local never hang on a stale shell.
-    expect(source).toContain('request.mode === "navigate"');
+    expect(source).toContain('request.mode !== "navigate"');
     expect(source).toContain("fetch(request)");
+  });
+
+  it("does not claim clients or cache-first non-navigation GETs (PC reload glitch)", () => {
+    const raw = fs.readFileSync(swPath, "utf8");
+    // Strip comments so policy notes do not false-positive on banned APIs.
+    const source = raw
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/.*$/gm, "");
+
+    // Mid-load claim + cache-first RSC/assets caused Edge installed PWAs to
+    // flash-reload the homescreen. Keep both out of the worker.
+    expect(source).not.toMatch(/clients\.claim\s*\(/);
+    expect(source).not.toContain("cache.put");
+    expect(source).not.toMatch(/caches\.match\(\s*request\s*\)/);
+
+    // Non-navigations must fall through (no respondWith) — early return.
+    expect(source).toMatch(
+      /if\s*\(\s*request\.mode\s*!==\s*["']navigate["']\s*\)\s*return/,
+    );
   });
 
   it("precaches assets that exist under public/", () => {

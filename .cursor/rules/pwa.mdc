@@ -20,14 +20,21 @@ UnionOps offers desktop/app install via the **browser-native** Chromium “Insta
 
 ## When changing PWA or related features
 
-1. Update `src/lib/pwa/*` first; keep `public/sw.js` string-identical for cache/precache.
-2. Run `npm run test:unit` — must include `src/lib/pwa/*.test.ts` (hosts, register, manifest installability, shell↔sw sync, i18n).
+1. Update `src/lib/pwa/*` first; keep `public/sw.js` string-identical for cache/precache; bump `PWA_SHELL_CACHE` on policy changes.
+2. Run `npm run test:unit` — must include `src/lib/pwa/*.test.ts` (hosts, register, manifest installability, shell↔sw sync, PC-safe policy, i18n).
 3. If you touch `/install` or footer/support/privacy links, keep the page **out of** Header menus (see `comms-public-nav.mdc`).
 4. Do **not** register the SW on localhost/CI; Playwright uses `serviceWorkers: "block"`.
 5. Preserve installability: `name`/`short_name`, `start_url`, `display: standalone` (or fullscreen/minimal-ui), 192 + 512 icons.
+
+## SW safety (PC / Edge installed app)
+
+- **Navigate-only** `fetch` interception — never cache-first RSC/JS/API
+- **`skipWaiting` yes, `clients.claim` no** — claim mid-load caused homescreen flash-reloads
+- Serve `/sw.js` with `Cache-Control: no-cache` (`next.config.ts` / `vercel.json`)
 
 ## Do not
 
 - Add an App Store / Microsoft Store wrapper without an explicit product decision
 - Promote `/install` into main nav or Learn/Tools dropdowns
 - Drop unit coverage when refactoring manifest, hosts, or `sw.js`
+- Reintroduce `clients.claim()` or blanket `cache.put` without an explicit product decision
