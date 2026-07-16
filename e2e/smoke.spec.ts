@@ -64,7 +64,8 @@ test.describe("Smoke tests @smoke", () => {
   test("board banner and trim maker page renders", async ({ page }) => {
     await page.goto("/en/tools/board-banner/");
     await expect(page.getByRole("heading", { name: "Board Banner & Trim" })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Download PNG" })).toBeVisible();
+    // Default frame kit (top+side+bottom) exports a multi-sheet ZIP, not a single PNG.
+    await expect(page.getByRole("button", { name: "Download ZIP" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Download PDF" })).toBeVisible();
   });
 
