@@ -1,5 +1,5 @@
 ---
-description: Board Banner & Trim — strip packs, side rail, shared ornaments
+description: Board Banner & Trim — strip packs, frame kit loop, shared ornaments
 globs: src/app/**/tools/board-banner/**,src/components/tools/board-banner/**,src/lib/constants/board-banner-*.ts
 alwaysApply: false
 ---
@@ -11,13 +11,16 @@ Route: `/tools/board-banner`. Printable cork-board **hardware polish** (header s
 ## Print model
 - Portrait **pack sheets**: letter 8.5×11 (default) or tabloid 11×17
 - Multiple short pieces per sheet with **printed** dashed cut marks inside the capture node
-- Banner strip heights: 2.5″ / 3.5″ / 4.5″; side/corner edge widths: 1.5″ / 2″ / 2.5″
+- Banner / top / bottom strip heights: 2.5″ / 3.5″ / 4.5″; side/corner edge widths: 1.5″ / 2″ / 2.5″
 - Export captures the pack sheet only (PNG + PDF)
 
 ## Frame kit (locked)
-- Frame trim is a **kit**, not a single exclusive piece: toggle **Side** and/or **Bottom** rails; **Corner is always included**
-- At least one rail must stay on (cannot clear both)
-- Header banner is independent — kit works without a banner
+- Kit pieces: **Top**, **Side**, **Bottom**, **Corner** — all optional toggles
+- Default: top + side + bottom, **corners off** (continuous full-edge rails that butt together)
+- Corners on = L-miter tiles for joints; corners off = border runs the whole distance
+- At least one piece must stay on (cannot clear the kit)
+- **Top** uses header banner layouts (`BoardBannerCanvas`) so the loop includes banner art inside trim
+- Standalone **Header banner** mode still exists for banner-only packs
 - Export: one pack sheet per selected piece type (multi-page PDF / ZIP of PNGs)
 - Side/bottom = dual-tone rails with end caps; corner = L-miter tiles
 

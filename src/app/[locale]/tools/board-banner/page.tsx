@@ -40,7 +40,7 @@ import {
   bannerLayoutUsesCallout,
   resolveTrimFocus,
   selectedTrimPieces,
-  toggleTrimRail,
+  toggleTrimPiece,
   trimPieceById,
   type BannerLayoutId,
   type BoardBannerMode,
@@ -127,7 +127,7 @@ export default function BoardBannerPage() {
     mode: DEFAULT_BOARD_BANNER_MODE,
     layout: DEFAULT_BANNER_LAYOUT,
     trimKit: DEFAULT_TRIM_KIT,
-    trimFocus: "side",
+    trimFocus: "top",
     callout: "Did you know?",
     showLocal: true,
     logoMode: "none",
@@ -204,33 +204,40 @@ export default function BoardBannerPage() {
     byline: state.byline,
   };
 
-  const renderTrimPiece = (piece: TrimPieceId) => (
-    <BoardTrimCanvas
-      piece={piece}
+  const renderBannerPiece = () => (
+    <BoardBannerCanvas
+      layout={state.layout}
+      callout={state.callout}
+      localLabel={localLabel}
+      localNumber={localNum}
       primaryColor={state.primaryColor}
       secondaryColor={state.secondaryColor}
       accentColor={state.accentColor}
-      localNumber={localNum}
-      edgeWidthInches={edgeWidthInches}
       {...ornamentProps}
     />
   );
 
-  const renderFocusedPiece = () =>
-    state.mode === "banner" ? (
-      <BoardBannerCanvas
-        layout={state.layout}
-        callout={state.callout}
-        localLabel={localLabel}
-        localNumber={localNum}
+  const renderTrimPiece = (piece: TrimPieceId) =>
+    piece === "top" ? (
+      renderBannerPiece()
+    ) : (
+      <BoardTrimCanvas
+        piece={piece}
         primaryColor={state.primaryColor}
         secondaryColor={state.secondaryColor}
         accentColor={state.accentColor}
+        localNumber={localNum}
+        edgeWidthInches={edgeWidthInches}
         {...ornamentProps}
       />
-    ) : (
-      renderTrimPiece(trimFocus)
     );
+
+  const showBannerArt =
+    state.mode === "banner" ||
+    (state.mode === "trim" && trimFocus === "top");
+
+  const renderFocusedPiece = () =>
+    showBannerArt ? renderBannerPiece() : renderTrimPiece(trimFocus);
 
   const designPreviewStyle: CSSProperties =
     state.mode === "trim" && trimFocus === "side"
@@ -370,14 +377,14 @@ export default function BoardBannerPage() {
     });
   };
 
-  const onRailClick = (rail: "side" | "bottom") => {
-    const nextKit = toggleTrimRail(state.trimKit, rail);
-    const turningOn = !state.trimKit[rail] && nextKit[rail];
+  const onKitPieceClick = (piece: TrimPieceId) => {
+    const nextKit = toggleTrimPiece(state.trimKit, piece);
+    const turningOn = !state.trimKit[piece] && nextKit[piece];
     setState({
       ...state,
       trimKit: nextKit,
       trimFocus: turningOn
-        ? rail
+        ? piece
         : resolveTrimFocus(nextKit, state.trimFocus),
     });
   };
@@ -385,11 +392,8 @@ export default function BoardBannerPage() {
   const kitSummary =
     state.mode === "trim"
       ? t("kitSummary", {
-          rails: [
-            state.trimKit.side ? t("trimSide") : null,
-            state.trimKit.bottom ? t("trimBottom") : null,
-          ]
-            .filter(Boolean)
+          pieces: kitPieces
+            .map((piece) => t(trimPieceById(piece).labelKey))
             .join(" · "),
         })
       : null;
@@ -425,29 +429,7 @@ export default function BoardBannerPage() {
             ) : null}
           </div>
 
-          {state.mode === "banner" ? (
-            <div>
-              <p className="mb-1 text-sm font-medium" id="layout-label">
-                {t("layout")}
-              </p>
-              <div
-                className="flex flex-wrap gap-2"
-                role="group"
-                aria-labelledby="layout-label"
-              >
-                {BANNER_LAYOUTS.map((layout) => (
-                  <SegButton
-                    key={layout.id}
-                    pressed={state.layout === layout.id}
-                    onClick={() => setState({ ...state, layout: layout.id })}
-                  >
-                    {t(layout.labelKey)}
-                  </SegButton>
-                ))}
-              </div>
-              <p className="mt-2 text-xs text-gray-500">{activeHint}</p>
-            </div>
-          ) : (
+          {state.mode === "trim" ? (
             <div>
               <p className="mb-1 text-sm font-medium" id="trim-label">
                 {t("frameKit")}
@@ -457,26 +439,17 @@ export default function BoardBannerPage() {
                 role="group"
                 aria-labelledby="trim-label"
               >
-                <SegButton
-                  pressed={state.trimKit.side}
-                  onClick={() => onRailClick("side")}
-                >
-                  {t("trimSide")}
-                </SegButton>
-                <SegButton
-                  pressed={state.trimKit.bottom}
-                  onClick={() => onRailClick("bottom")}
-                >
-                  {t("trimBottom")}
-                </SegButton>
-                <SegButton
-                  pressed
-                  onClick={() =>
-                    setState({ ...state, trimFocus: "corner" })
-                  }
-                >
-                  {t("trimCorner")}
-                </SegButton>
+                {(
+                  ["top", "side", "bottom", "corner"] as const
+                ).map((piece) => (
+                  <SegButton
+                    key={piece}
+                    pressed={state.trimKit[piece]}
+                    onClick={() => onKitPieceClick(piece)}
+                  >
+                    {t(trimPieceById(piece).labelKey)}
+                  </SegButton>
+                ))}
               </div>
               <p className="mt-2 text-xs text-gray-500">{t("frameKitHint")}</p>
 
@@ -505,9 +478,35 @@ export default function BoardBannerPage() {
                 </p>
               ) : null}
             </div>
-          )}
+          ) : null}
 
-          {state.mode === "banner" && usesCallout ? (
+          {showBannerArt ? (
+            <div>
+              <p className="mb-1 text-sm font-medium" id="layout-label">
+                {t("layout")}
+              </p>
+              <div
+                className="flex flex-wrap gap-2"
+                role="group"
+                aria-labelledby="layout-label"
+              >
+                {BANNER_LAYOUTS.map((layout) => (
+                  <SegButton
+                    key={layout.id}
+                    pressed={state.layout === layout.id}
+                    onClick={() => setState({ ...state, layout: layout.id })}
+                  >
+                    {t(layout.labelKey)}
+                  </SegButton>
+                ))}
+              </div>
+              {state.mode === "banner" ? (
+                <p className="mt-2 text-xs text-gray-500">{activeHint}</p>
+              ) : null}
+            </div>
+          ) : null}
+
+          {showBannerArt && usesCallout ? (
             <Input
               label={t("callout")}
               value={state.callout}
@@ -590,7 +589,9 @@ export default function BoardBannerPage() {
             </p>
           ) : null}
 
-          {(state.mode === "banner" || state.trimKit.bottom) && (
+          {(state.mode === "banner" ||
+            state.trimKit.top ||
+            state.trimKit.bottom) && (
             <div>
               <p className="mb-1 text-sm font-medium" id="strip-label">
                 {t("stripHeight")}
@@ -721,11 +722,15 @@ export default function BoardBannerPage() {
               {t("designPreview")}
             </p>
             <p className="mb-2 text-xs text-gray-500">
-              {state.mode === "trim" && trimFocus === "side"
-                ? t("sideDesignHint")
-                : state.mode === "trim" && trimFocus === "bottom"
-                  ? t("bottomDesignHint")
-                  : t("designPreviewHint")}
+              {state.mode === "trim" && trimFocus === "top"
+                ? t("topDesignHint")
+                : state.mode === "trim" && trimFocus === "side"
+                  ? t("sideDesignHint")
+                  : state.mode === "trim" && trimFocus === "bottom"
+                    ? t("bottomDesignHint")
+                    : state.mode === "trim" && trimFocus === "corner"
+                      ? t("cornerDesignHint")
+                      : t("designPreviewHint")}
             </p>
             <div className="shadow-lg">
               <div

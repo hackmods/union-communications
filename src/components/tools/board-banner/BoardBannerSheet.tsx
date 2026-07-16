@@ -60,7 +60,8 @@ export function BoardBannerSheet({
   const usableWPct = 100 - marginPctX * 2;
   const usableHPct = 100 - marginPctY * 2;
 
-  const isBannerStack = mode === "banner" || trimPiece === "bottom";
+  const isBannerStack =
+    mode === "banner" || trimPiece === "bottom" || trimPiece === "top";
   const isSide = mode === "trim" && trimPiece === "side";
   const isCorner = mode === "trim" && trimPiece === "corner";
 

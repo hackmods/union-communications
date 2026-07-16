@@ -206,13 +206,13 @@ export function cornersPerSheet(
 
 export function packCountForMode(args: {
   mode: "banner" | "trim";
-  trimPiece: "side" | "bottom" | "corner";
+  trimPiece: "top" | "side" | "bottom" | "corner";
   sheet: BoardSheetFormat;
   stripHeightInches: number;
   edgeWidthInches: number;
 }): number {
   const { mode, trimPiece, sheet, stripHeightInches, edgeWidthInches } = args;
-  if (mode === "banner" || trimPiece === "bottom") {
+  if (mode === "banner" || trimPiece === "bottom" || trimPiece === "top") {
     return bannersPerSheet(
       sheet.heightInches,
       stripHeightInches,

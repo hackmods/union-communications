@@ -141,6 +141,23 @@ describe("pack math", () => {
     expect(
       packCountForMode({
         mode: "trim",
+        trimPiece: "top",
+        sheet: letter,
+        stripHeightInches: 3.5,
+        edgeWidthInches: 2,
+      }),
+    ).toBe(
+      bannersPerSheet(
+        letter.heightInches,
+        3.5,
+        PACK_GAP_INCHES,
+        letter.marginInches,
+      ),
+    );
+
+    expect(
+      packCountForMode({
+        mode: "trim",
         trimPiece: "corner",
         sheet: letter,
         stripHeightInches: 3.5,
@@ -165,9 +182,9 @@ describe("pack math", () => {
 });
 
 describe("board-banner-layouts", () => {
-  it("defaults to slant callout banner and side trim", () => {
+  it("defaults to slant callout banner and top trim focus", () => {
     expect(DEFAULT_BANNER_LAYOUT).toBe("slantCallout");
-    expect(DEFAULT_TRIM_PIECE).toBe("side");
+    expect(DEFAULT_TRIM_PIECE).toBe("top");
   });
 
   it("only slant callout uses the slogan field", () => {
@@ -176,12 +193,17 @@ describe("board-banner-layouts", () => {
     expect(bannerLayoutUsesCallout("minimalStripe")).toBe(false);
   });
 
-  it("exposes three banner layouts and three trim pieces", () => {
+  it("exposes three banner layouts and four trim pieces", () => {
     expect(BANNER_LAYOUTS.map((l) => l.id)).toEqual([
       "slantCallout",
       "centeredLockup",
       "minimalStripe",
     ]);
-    expect(TRIM_PIECES.map((p) => p.id)).toEqual(["side", "bottom", "corner"]);
+    expect(TRIM_PIECES.map((p) => p.id)).toEqual([
+      "top",
+      "side",
+      "bottom",
+      "corner",
+    ]);
   });
 });

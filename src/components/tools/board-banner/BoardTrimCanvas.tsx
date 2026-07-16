@@ -1,6 +1,5 @@
 "use client";
 
-import type { TrimPieceId } from "@/lib/constants/board-banner-layouts";
 import {
   cornerAllowsByline,
   type BoardLogoMode,
@@ -8,8 +7,11 @@ import {
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { pickContrastingInk } from "@/lib/utils/ink";
 
+/** Rail / corner art only — top header strips use BoardBannerCanvas. */
+export type TrimRailPieceId = "side" | "bottom" | "corner";
+
 export interface BoardTrimCanvasProps {
-  piece: TrimPieceId;
+  piece: TrimRailPieceId;
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
@@ -27,7 +29,7 @@ export interface BoardTrimCanvasProps {
  * Trim pieces sized by parent:
  * - side: dual-tone vertical rail + end caps
  * - bottom: dual-tone horizontal rail + end caps — side motif rotated
- * - corner: square L-miter (no chevron marks)
+ * - corner: optional square L-miter (omit for continuous full-edge rails)
  */
 export function BoardTrimCanvas({
   piece,
