@@ -1,38 +1,111 @@
-# UnionOps
+<p align="center">
+  <img src="public/assets/unionops/logo-lockup.svg" alt="UnionOps" width="280" />
+</p>
 
-**Solidarity.**
+<h1 align="center">UnionOps</h1>
 
-Free tools for union stewards and officers — comms graphics, grievance tracking, and sector workflows. Multi-union by design. OPSEU/CAAT is the first adopter, not a platform default.
+<p align="center"><strong>Solidarity.</strong></p>
+
+<p align="center">
+  Free tools for union stewards and officers — on-device communications,<br />
+  grievance tracking, sector workflows, and workforce time.<br />
+  Multi-union by design. Self-host the Officer Hub.
+</p>
+
+<p align="center">
+  <a href="https://unionops.org"><strong>unionops.org</strong></a>
+  ·
+  <a href="https://unionops.org/en">Try Comms</a>
+  ·
+  <a href="docs/guides/SETUP.md">Self-host</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/hackmods/union-communications/actions/workflows/ci.yml"><img src="https://github.com/hackmods/union-communications/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Source--Available-blue" alt="License" /></a>
+  <a href="https://github.com/hackmods/union-communications/pkgs/container/union-communications"><img src="https://img.shields.io/badge/image-ghcr.io%2Fhackmods%2Funion--communications-black" alt="GHCR" /></a>
+  <img src="https://img.shields.io/badge/EN%2FFR-bilingual-brightgreen" alt="Bilingual EN/FR" />
+  <img src="https://img.shields.io/badge/node-%3E%3D22.13-brightgreen" alt="Node" />
+</p>
+
+<p align="center">
+  <img src="public/og-image.png" alt="UnionOps — Solidarity." width="640" />
+</p>
 
 **Stewarded by Ryan Morris.** Source-available · all rights reserved · [LICENSE](LICENSE)
 
-[![CI](https://github.com/hackmods/union-communications/actions/workflows/ci.yml/badge.svg)](https://github.com/hackmods/union-communications/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/license-Source--Available-blue)](LICENSE)
-[![GHCR](https://img.shields.io/badge/image-ghcr.io%2Fhackmods%2Funion--communications-black)](https://github.com/hackmods/union-communications/pkgs/container/union-communications)
-[![Node](https://img.shields.io/badge/node-%3E%3D22.13-brightgreen)](package.json)
+OPSEU/CAAT is the **first adopter** (reference tenant seed), not a platform default. Any union can run with their own branding, CA steps, and enabled modules.
 
-Public site: [https://unionops.org](https://unionops.org)
+---
 
-## What it is
+## Two surfaces, one platform
 
-| Module | Status | Description |
-|--------|--------|-------------|
-| **Comms** | Shipped | Guides, templates, image generation (browser-side) |
-| **Grievance** | Shipped | Dates, notes, follow-ups, CA steps, QOL tools |
-| **College Bumping** | Shipped | PDF compare, stability committee notes (sector-optional) |
-| **Hybrid** | Shipped | Encrypted local export/import (passphrase stays in-browser) |
+| | **Comms toolbox** | **Officer Hub** |
+|---|---|---|
+| **Who** | Stewards, communicators, any local | Officers, stewards, stability committees |
+| **Where** | Public site — no account required | Authenticated `/app` (Auth.js + MFA) |
+| **Data** | Browser-side; Brand Kit in `localStorage` | Hosted by **you**; you are the data controller |
+| **Try it** | [unionops.org](https://unionops.org/en) | Self-host or local demo logins below |
 
-## Privacy and data (read this)
+---
+
+## Comms toolbox — four channels
+
+Guides and generators for **social, print, union boards, and websites**. Everything runs in the browser — no analytics, no upload of member photos to our servers.
+
+| Channel | What you get |
+|---------|----------------|
+| **Brand** | Brand Kit, Logo Builder, Resizer, Document & Slide Generator (Word / Excel / PowerPoint) |
+| **Union boards** | Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board / Link Cards |
+| **Print & social** | Flyer Maker, Graphic Maker, Quote Cards, Meeting Backgrounds, Alt-text helper |
+| **Website** | Static site ZIP (GitHub Pages–ready) + deploy guide |
+| **Learn** | Social Media Plan, Blueprint, Strike Guide, Photo Consent, Comms Resources, channel guides, captions & examples |
+
+Accessibility: font scaling, high contrast, reduced motion — EN/FR throughout.
+
+---
+
+## Officer Hub — what's shipped
+
+Phases **0–5 complete**, plus Workforce Time 8-lite. Memory adapters today; Postgres + RLS is next.
+
+### Casework & deadlines
+
+- **Grievance tracker** — CA-configurable steps, timeline, immutable notes, email drafts (copy only), bundle export (JSON + PDF)
+- **Overdue board** — upcoming / overdue sorted by days late
+- **Meetings & ICS** — schedule on a grievance; download calendar files
+- **Member communication log** — channel, direction, summary
+
+### Sector & time
+
+- **College bumping** — PDF/text compare, stability committee sessions, decision record (committee decides — never auto-decided)
+- **Workforce Time (8-lite)** — clock in/out, job codes, approvals, CSV export, optional GPS punch tagging (`/app/time`)
+
+### Officer QOL
+
+- **CA clause snippets** — union-scoped library; insert into notes
+- **Within-union marketplace** — share templates with your local only (never cross-union)
+- **Officer handoff** — reassign cases + download package (president/admin)
+- **Hybrid backup** — passphrase-encrypted export/import; passphrase stays in-browser
+- **Steward mobile** — optional read-only compact mode
+
+Role-gated write actions match the API. Confidential modules sit behind MFA.
+
+---
+
+## Privacy (read this)
 
 UnionOps is **local-first for Comms**, not “no servers ever.”
 
 | Surface | What happens to data |
 |---------|----------------------|
-| **Comms tools** | Graphics, brand kit, and uploads are processed in your browser. Brand kit lives in `localStorage`. No analytics. |
-| **Officer Hub on a host you run** | Login sessions and hub records are handled by **that instance**. If you host it, **you** are the data controller. Prefer Canadian hosting for confidential modules. |
-| **Evaluation / demo hub** | Demo accounts exist for workshops and CI. They are not for real member case files. |
+| **Comms tools** | Graphics, brand kit, and uploads stay in your browser. No analytics. |
+| **Officer Hub you host** | Sessions and hub records live on **that instance**. You are the data controller. Prefer Canadian hosting for confidential modules. |
+| **Demo / CI accounts** | Workshop and test only — not for real member case files. |
 
-Full policy: site Privacy page · [`docs/COMPLIANCE.md`](docs/COMPLIANCE.md) · [`SECURITY.md`](SECURITY.md)
+Full policy: [Privacy](https://unionops.org/en/privacy) · [`docs/COMPLIANCE.md`](docs/COMPLIANCE.md) · [`SECURITY.md`](SECURITY.md)
+
+---
 
 ## Quick start
 
@@ -44,50 +117,62 @@ npm run dev                  # http://localhost:3000/en
 
 More detail: [`docs/guides/SETUP.md`](docs/guides/SETUP.md)
 
+### Demo Officer Hub logins (dev / CI only)
+
+Password `demo123`:
+
+| Account | Notes |
+|---------|--------|
+| `president@local243.ca` | MFA gate (dev accepts any 6-digit code) |
+| `stability@local243.ca` | Bumping / stability |
+| `steward@local243.ca` | Steward |
+| `solo@example.ca` | Solo account — no MFA |
+
+Routes: `/en/app/login` · `/en/app` · `/en/app/mfa`
+
+---
+
 ## Deploy
 
-- **GHCR image:** `ghcr.io/hackmods/union-communications:main` (after CI on `main`); `:vX.Y.Z` / `:latest` on version tags
+- **Image:** `ghcr.io/hackmods/union-communications:main` (CI on `main`); `:vX.Y.Z` / `:latest` on tags
 - **CapRover:** container port **3000**; set `AUTH_SECRET` and `AUTH_URL`
 - **Health:** `GET /api/health` → `{"status":"ok"}`
 
-Full guide: [`docs/guides/DEPLOY.md`](docs/guides/DEPLOY.md)
+Guide: [`docs/guides/DEPLOY.md`](docs/guides/DEPLOY.md)
 
-### Production checklist (short)
+**Before production:** unique `AUTH_SECRET`, correct HTTPS `AUTH_URL` (no trailing slash), never use `demo123` for real grievances — if you host it, compliance is on you.
 
-1. Unique `AUTH_SECRET` — never ship the repo placeholders
-2. Correct public `AUTH_URL` (HTTPS, no trailing slash)
-3. Do **not** use demo passwords (`demo123`) for real grievances
-4. You host it → you own the compliance duty for that instance
+---
 
-## Officer Hub (development only)
+## What's next
 
-Demo logins for local/CI (password `demo123`):
+1. **Postgres + RLS** — every table scoped by `unionId` / `localId`
+2. **Multi-union onboarding UI** — tenant signup/invite (seed-only today)
+3. **Attachments + virus scan** — grievance docs & bumping PDFs
+4. **ApiAdapter** — authenticated API persistence for hub clients
+5. **Workforce Time (full)** — scheduling, PTO, union rollup
 
-- `president@local243.ca` — MFA gate (dev accepts any 6-digit code)
-- `stability@local243.ca`
-- `steward@local243.ca`
-- `solo@example.ca` — no MFA
+See [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
-Routes: `/en/app/login` · `/en/app` · `/en/app/mfa`
+---
 
 ## Documentation
 
 | Doc | Purpose |
 |-----|---------|
-| [Setup guide](docs/guides/SETUP.md) | Local install and tests |
-| [Deploy guide](docs/guides/DEPLOY.md) | CapRover, Docker, GHCR |
 | [Vision](docs/VISION.md) | Multi-union product scope |
-| [Architecture](docs/ARCHITECTURE.md) | Stack and tenancy |
-| [Roadmap](docs/ROADMAP.md) | Phases 0–5 complete; next work |
-| [RBAC](docs/RBAC.md) | Roles |
-| [Compliance](docs/COMPLIANCE.md) | Privacy and AODA |
+| [Architecture](docs/ARCHITECTURE.md) | Stack, tenancy, DataAdapter |
+| [Setup](docs/guides/SETUP.md) / [Deploy](docs/guides/DEPLOY.md) | Operator guides |
+| [RBAC](docs/RBAC.md) | Roles — never cross-union data |
+| [Compliance](docs/COMPLIANCE.md) | Privacy, AODA |
+| [Roadmap](docs/ROADMAP.md) / [Progress](docs/PROGRESS.md) | Phase status |
 | [Contributing](CONTRIBUTING.md) | Source-available contribution rules |
 | [Security](SECURITY.md) | Vulnerability reporting |
-| [Reference tenant seed](seed/reference-tenant-opseu-caat.json) | OPSEU/CAAT first adopter |
+| [Reference tenant](seed/reference-tenant-opseu-caat.json) | OPSEU/CAAT first adopter seed |
 
-## First adopter
+Agent entry point: [`AGENTS.md`](AGENTS.md)
 
-CAAT OPSEU Support Staff — reference tenant seed only. Any union can onboard with their own branding and CA configuration.
+---
 
 ## Stewardship
 
