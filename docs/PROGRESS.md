@@ -256,6 +256,11 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Side redesigned as dual-tone rail + end caps — chevrons never drawn on sides
 - [x] Cursor rule `.cursor/rules/board-banner.mdc`
 
+## Board frame kit multi-select (2026-07-15)
+
+- [x] Frame trim kit: Side and/or Bottom rails + Corner always included
+- [x] Multi-page PDF / ZIP export per piece type; works without header banner
+
 ## QR Board Poster Maker (2026-07-15)
 
 - [x] `/tools/qr-board` — multi-QR union board posters (title above QR, URL under)

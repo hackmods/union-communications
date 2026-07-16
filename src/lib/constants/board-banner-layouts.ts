@@ -44,6 +44,20 @@ export const DEFAULT_BANNER_LAYOUT: BannerLayoutId = "slantCallout";
 export const DEFAULT_TRIM_PIECE: TrimPieceId = "side";
 export const DEFAULT_BOARD_BANNER_MODE: BoardBannerMode = "banner";
 
+/** Frame kit: rails + corners. Corner is always part of a trim print. */
+export interface TrimKit {
+  side: boolean;
+  bottom: boolean;
+  /** Always true when printing frame trim — miter joints for rails */
+  corner: true;
+}
+
+export const DEFAULT_TRIM_KIT: TrimKit = {
+  side: true,
+  bottom: false,
+  corner: true,
+};
+
 export const BANNER_LAYOUTS: readonly BannerLayoutDef[] = [
   {
     id: "slantCallout",
@@ -81,4 +95,38 @@ export function trimPieceById(id: TrimPieceId): TrimPieceDef {
 
 export function bannerLayoutUsesCallout(id: BannerLayoutId): boolean {
   return bannerLayoutById(id).usesCallout;
+}
+
+/** Ordered list of piece types included in the frame kit export. */
+export function selectedTrimPieces(kit: TrimKit): TrimPieceId[] {
+  const pieces: TrimPieceId[] = [];
+  if (kit.side) pieces.push("side");
+  if (kit.bottom) pieces.push("bottom");
+  pieces.push("corner");
+  return pieces;
+}
+
+/**
+ * Toggle a rail on/off. Corner stays on. Refuses to clear the last rail
+ * (frame always needs at least one side or bottom strip).
+ */
+export function toggleTrimRail(
+  kit: TrimKit,
+  rail: "side" | "bottom",
+): TrimKit {
+  const nextOn = !kit[rail];
+  if (!nextOn && !kit[rail === "side" ? "bottom" : "side"]) {
+    return { ...kit, corner: true };
+  }
+  return { ...kit, [rail]: nextOn, corner: true };
+}
+
+/** Keep focus on a piece that is still in the kit. */
+export function resolveTrimFocus(
+  kit: TrimKit,
+  focus: TrimPieceId,
+): TrimPieceId {
+  const selected = selectedTrimPieces(kit);
+  if (selected.includes(focus)) return focus;
+  return selected[0] ?? "side";
 }

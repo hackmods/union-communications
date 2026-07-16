@@ -1,12 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
-import { exportNodeAsPng } from "@/lib/export/image-export";
-import { nodeToPdf } from "@/lib/export/pdf-export";
+import { downloadZip, exportNodeAsPng } from "@/lib/export/image-export";
+import { nodesToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import {
@@ -29,18 +35,19 @@ import {
   BANNER_LAYOUTS,
   DEFAULT_BANNER_LAYOUT,
   DEFAULT_BOARD_BANNER_MODE,
-  DEFAULT_TRIM_PIECE,
-  TRIM_PIECES,
+  DEFAULT_TRIM_KIT,
   bannerLayoutById,
   bannerLayoutUsesCallout,
+  resolveTrimFocus,
+  selectedTrimPieces,
+  toggleTrimRail,
   trimPieceById,
   type BannerLayoutId,
   type BoardBannerMode,
+  type TrimKit,
   type TrimPieceId,
 } from "@/lib/constants/board-banner-layouts";
-import {
-  type BoardLogoMode,
-} from "@/lib/constants/board-banner-ornaments";
+import { type BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import { BoardBannerCanvas } from "@/components/tools/board-banner/BoardBannerCanvas";
 import { BoardTrimCanvas } from "@/components/tools/board-banner/BoardTrimCanvas";
 import { BoardBannerSheet } from "@/components/tools/board-banner/BoardBannerSheet";
@@ -55,7 +62,9 @@ import { PageShell } from "@/components/layout/PageShell";
 interface BoardBannerState {
   mode: BoardBannerMode;
   layout: BannerLayoutId;
-  trimPiece: TrimPieceId;
+  trimKit: TrimKit;
+  /** Which kit piece is shown in the design / print preview */
+  trimFocus: TrimPieceId;
   callout: string;
   showChevrons: boolean;
   showLocal: boolean;
@@ -73,21 +82,25 @@ function SegButton({
   pressed,
   onClick,
   children,
+  disabled,
 }: {
   pressed: boolean;
   onClick: () => void;
   children: ReactNode;
+  disabled?: boolean;
 }) {
   return (
     <button
       type="button"
       aria-pressed={pressed}
+      disabled={disabled}
       onClick={onClick}
       className={cn(
         "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
         pressed
           ? "bg-opseu-blue text-white"
           : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+        disabled && "cursor-default opacity-90",
       )}
     >
       {children}
@@ -103,7 +116,9 @@ export default function BoardBannerPage() {
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const exportHostRef = useRef<HTMLDivElement>(null);
   const [sheetId, setSheetId] = useState<BoardSheetId>(DEFAULT_BOARD_SHEET);
+  const [exporting, setExporting] = useState(false);
   const brandingDefaultApplied = useRef(false);
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
@@ -112,7 +127,8 @@ export default function BoardBannerPage() {
   const initial: BoardBannerState = {
     mode: DEFAULT_BOARD_BANNER_MODE,
     layout: DEFAULT_BANNER_LAYOUT,
-    trimPiece: DEFAULT_TRIM_PIECE,
+    trimKit: DEFAULT_TRIM_KIT,
+    trimFocus: "side",
     callout: "Did you know?",
     showChevrons: true,
     showLocal: true,
@@ -152,22 +168,40 @@ export default function BoardBannerPage() {
   const stripHeightInches =
     STRIP_HEIGHT_PRESETS[state.stripHeightId].heightInches;
   const edgeWidthInches = EDGE_WIDTH_PRESETS[state.edgeWidthId].widthInches;
-  const packCount = packCountForMode({
-    mode: state.mode,
-    trimPiece: state.trimPiece,
-    sheet,
-    stripHeightInches,
-    edgeWidthInches,
-  });
+
+  const kitPieces = selectedTrimPieces(state.trimKit);
+  const trimFocus = resolveTrimFocus(state.trimKit, state.trimFocus);
+
+  const packCount =
+    state.mode === "banner"
+      ? packCountForMode({
+          mode: "banner",
+          trimPiece: "side",
+          sheet,
+          stripHeightInches,
+          edgeWidthInches,
+        })
+      : kitPieces.reduce(
+          (sum, piece) =>
+            sum +
+            packCountForMode({
+              mode: "trim",
+              trimPiece: piece,
+              sheet,
+              stripHeightInches,
+              edgeWidthInches,
+            }),
+          0,
+        );
 
   const activeHint =
     state.mode === "banner"
       ? t(bannerLayoutById(state.layout).hintKey)
-      : t(trimPieceById(state.trimPiece).hintKey);
+      : t(trimPieceById(trimFocus).hintKey);
 
   const chevronToggleDisabled =
     state.mode === "trim" &&
-    (state.trimPiece === "side" || state.trimPiece === "bottom");
+    (trimFocus === "side" || trimFocus === "bottom");
 
   const ornamentProps = {
     showChevrons: state.showChevrons,
@@ -177,7 +211,19 @@ export default function BoardBannerPage() {
     byline: state.byline,
   };
 
-  const renderPiece = () =>
+  const renderTrimPiece = (piece: TrimPieceId) => (
+    <BoardTrimCanvas
+      piece={piece}
+      primaryColor={state.primaryColor}
+      secondaryColor={state.secondaryColor}
+      accentColor={state.accentColor}
+      localNumber={localNum}
+      edgeWidthInches={edgeWidthInches}
+      {...ornamentProps}
+    />
+  );
+
+  const renderFocusedPiece = () =>
     state.mode === "banner" ? (
       <BoardBannerCanvas
         layout={state.layout}
@@ -190,26 +236,18 @@ export default function BoardBannerPage() {
         {...ornamentProps}
       />
     ) : (
-      <BoardTrimCanvas
-        piece={state.trimPiece}
-        primaryColor={state.primaryColor}
-        secondaryColor={state.secondaryColor}
-        accentColor={state.accentColor}
-        localNumber={localNum}
-        edgeWidthInches={edgeWidthInches}
-        {...ornamentProps}
-      />
+      renderTrimPiece(trimFocus)
     );
 
   const designPreviewStyle: CSSProperties =
-    state.mode === "trim" && state.trimPiece === "side"
+    state.mode === "trim" && trimFocus === "side"
       ? {
           aspectRatio: `${edgeWidthInches} / ${sheet.heightInches - sheet.marginInches * 2}`,
           maxWidth: "5.5rem",
           marginLeft: "auto",
           marginRight: "auto",
         }
-      : state.mode === "trim" && state.trimPiece === "corner"
+      : state.mode === "trim" && trimFocus === "corner"
         ? {
             aspectRatio: "1 / 1",
             maxWidth: "9rem",
@@ -220,35 +258,111 @@ export default function BoardBannerPage() {
             aspectRatio: `${sheet.widthInches - sheet.marginInches * 2} / ${stripHeightInches}`,
           };
 
-  const handleExportPng = async () => {
-    if (!canvasRef.current) return;
-    const stem = sheetFilenameStem(
-      sheet,
-      state.mode,
-      state.mode === "trim" ? state.trimPiece : undefined,
-    );
-    await exportNodeAsPng(
-      canvasRef.current,
-      formatFilename(stem, brandKit.local.localNumber, "png"),
-      { pixelRatio: 2, backgroundColor: "#FFFFFF" },
+  const collectExportNodes = (): HTMLElement[] => {
+    if (state.mode === "banner") {
+      return canvasRef.current ? [canvasRef.current] : [];
+    }
+    const host = exportHostRef.current;
+    if (!host) return canvasRef.current ? [canvasRef.current] : [];
+    return Array.from(
+      host.querySelectorAll<HTMLElement>("[data-export-sheet]"),
     );
   };
 
+  const handleExportPng = async () => {
+    if (exporting) return;
+    setExporting(true);
+    try {
+      if (state.mode === "banner") {
+        if (!canvasRef.current) return;
+        await exportNodeAsPng(
+          canvasRef.current,
+          formatFilename(
+            sheetFilenameStem(sheet, "banner"),
+            brandKit.local.localNumber,
+            "png",
+          ),
+          { pixelRatio: 2, backgroundColor: "#FFFFFF" },
+        );
+        return;
+      }
+
+      const nodes = collectExportNodes();
+      if (nodes.length === 0) return;
+      if (nodes.length === 1) {
+        const piece = kitPieces[0];
+        await exportNodeAsPng(
+          nodes[0],
+          formatFilename(
+            sheetFilenameStem(sheet, "trim", piece),
+            brandKit.local.localNumber,
+            "png",
+          ),
+          { pixelRatio: 2, backgroundColor: "#FFFFFF" },
+        );
+        return;
+      }
+
+      const { toBlob } = await import("html-to-image");
+      const files: { name: string; blob: Blob }[] = [];
+      for (let i = 0; i < nodes.length; i++) {
+        const piece = kitPieces[i];
+        const blob = await toBlob(nodes[i], {
+          pixelRatio: 2,
+          cacheBust: true,
+          backgroundColor: "#FFFFFF",
+          width: Math.max(1, Math.round(nodes[i].offsetWidth)),
+          height: Math.max(1, Math.round(nodes[i].offsetHeight)),
+        });
+        if (!blob) continue;
+        files.push({
+          name: formatFilename(
+            sheetFilenameStem(sheet, "trim", piece),
+            brandKit.local.localNumber,
+            "png",
+          ),
+          blob,
+        });
+      }
+      if (files.length === 1) {
+        const { downloadBlob } = await import("@/lib/export/image-export");
+        downloadBlob(files[0].blob, files[0].name);
+      } else if (files.length > 1) {
+        await downloadZip(
+          files,
+          formatFilename(
+            `board-frame-kit-${sheet.id}`,
+            brandKit.local.localNumber,
+            "zip",
+          ),
+        );
+      }
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const handleExportPdf = async () => {
-    if (!canvasRef.current) return;
-    const stem = sheetFilenameStem(
-      sheet,
-      state.mode,
-      state.mode === "trim" ? state.trimPiece : undefined,
-    );
-    await nodeToPdf(
-      canvasRef.current,
-      formatFilename(stem, brandKit.local.localNumber, "pdf"),
-      sheet.widthInches,
-      sheet.heightInches,
-      2,
-      "#FFFFFF",
-    );
+    if (exporting) return;
+    setExporting(true);
+    try {
+      const nodes = collectExportNodes();
+      if (nodes.length === 0) return;
+      const stem =
+        state.mode === "banner"
+          ? sheetFilenameStem(sheet, "banner")
+          : `board-frame-kit-${sheet.id}`;
+      await nodesToPdf(
+        nodes,
+        formatFilename(stem, brandKit.local.localNumber, "pdf"),
+        sheet.widthInches,
+        sheet.heightInches,
+        2,
+        "#FFFFFF",
+      );
+    } finally {
+      setExporting(false);
+    }
   };
 
   const resetState = () => {
@@ -262,6 +376,30 @@ export default function BoardBannerPage() {
       accentColor: brandKit.accentColor,
     });
   };
+
+  const onRailClick = (rail: "side" | "bottom") => {
+    const nextKit = toggleTrimRail(state.trimKit, rail);
+    const turningOn = !state.trimKit[rail] && nextKit[rail];
+    setState({
+      ...state,
+      trimKit: nextKit,
+      trimFocus: turningOn
+        ? rail
+        : resolveTrimFocus(nextKit, state.trimFocus),
+    });
+  };
+
+  const kitSummary =
+    state.mode === "trim"
+      ? t("kitSummary", {
+          rails: [
+            state.trimKit.side ? t("trimSide") : null,
+            state.trimKit.bottom ? t("trimBottom") : null,
+          ]
+            .filter(Boolean)
+            .join(" · "),
+        })
+      : null;
 
   return (
     <PageShell className="py-12">
@@ -289,6 +427,9 @@ export default function BoardBannerPage() {
                 </SegButton>
               ))}
             </div>
+            {state.mode === "trim" ? (
+              <p className="mt-2 text-xs text-gray-500">{t("trimModeHint")}</p>
+            ) : null}
           </div>
 
           {state.mode === "banner" ? (
@@ -316,24 +457,60 @@ export default function BoardBannerPage() {
           ) : (
             <div>
               <p className="mb-1 text-sm font-medium" id="trim-label">
-                {t("trimPiece")}
+                {t("frameKit")}
               </p>
               <div
                 className="flex flex-wrap gap-2"
                 role="group"
                 aria-labelledby="trim-label"
               >
-                {TRIM_PIECES.map((piece) => (
+                <SegButton
+                  pressed={state.trimKit.side}
+                  onClick={() => onRailClick("side")}
+                >
+                  {t("trimSide")}
+                </SegButton>
+                <SegButton
+                  pressed={state.trimKit.bottom}
+                  onClick={() => onRailClick("bottom")}
+                >
+                  {t("trimBottom")}
+                </SegButton>
+                <SegButton
+                  pressed
+                  onClick={() =>
+                    setState({ ...state, trimFocus: "corner" })
+                  }
+                >
+                  {t("trimCorner")}
+                </SegButton>
+              </div>
+              <p className="mt-2 text-xs text-gray-500">{t("frameKitHint")}</p>
+
+              <p className="mb-1 mt-4 text-sm font-medium" id="focus-label">
+                {t("previewPiece")}
+              </p>
+              <div
+                className="flex flex-wrap gap-2"
+                role="group"
+                aria-labelledby="focus-label"
+              >
+                {kitPieces.map((piece) => (
                   <SegButton
-                    key={piece.id}
-                    pressed={state.trimPiece === piece.id}
-                    onClick={() => setState({ ...state, trimPiece: piece.id })}
+                    key={piece}
+                    pressed={trimFocus === piece}
+                    onClick={() => setState({ ...state, trimFocus: piece })}
                   >
-                    {t(piece.labelKey)}
+                    {t(trimPieceById(piece).labelKey)}
                   </SegButton>
                 ))}
               </div>
               <p className="mt-2 text-xs text-gray-500">{activeHint}</p>
+              {kitSummary ? (
+                <p className="mt-1 text-xs font-medium text-opseu-dark">
+                  {kitSummary}
+                </p>
+              ) : null}
             </div>
           )}
 
@@ -345,7 +522,6 @@ export default function BoardBannerPage() {
             />
           ) : null}
 
-          {/* Shared ornaments — banner + trim */}
           <fieldset className="space-y-3 border-t border-gray-100 pt-4">
             <legend className="text-sm font-medium text-opseu-dark">
               {t("ornaments")}
@@ -441,7 +617,7 @@ export default function BoardBannerPage() {
             </p>
           ) : null}
 
-          {(state.mode === "banner" || state.trimPiece === "bottom") && (
+          {(state.mode === "banner" || state.trimKit.bottom) && (
             <div>
               <p className="mb-1 text-sm font-medium" id="strip-label">
                 {t("stripHeight")}
@@ -467,7 +643,7 @@ export default function BoardBannerPage() {
           )}
 
           {state.mode === "trim" &&
-            (state.trimPiece === "side" || state.trimPiece === "corner") && (
+            (state.trimKit.side || state.trimKit.corner) && (
               <div>
                 <p className="mb-1 text-sm font-medium" id="edge-label">
                   {t("edgeWidth")}
@@ -551,8 +727,16 @@ export default function BoardBannerPage() {
             onReset={resetState}
           />
           <div className="flex gap-3">
-            <Button onClick={handleExportPng}>{tc("downloadPng")}</Button>
-            <Button variant="outline" onClick={handleExportPdf}>
+            <Button onClick={handleExportPng} disabled={exporting}>
+              {state.mode === "trim" && kitPieces.length > 1
+                ? tc("downloadZip")
+                : tc("downloadPng")}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleExportPdf}
+              disabled={exporting}
+            >
               {tc("downloadPdf")}
             </Button>
           </div>
@@ -564,16 +748,18 @@ export default function BoardBannerPage() {
               {t("designPreview")}
             </p>
             <p className="mb-2 text-xs text-gray-500">
-              {state.mode === "trim" && state.trimPiece === "side"
+              {state.mode === "trim" && trimFocus === "side"
                 ? t("sideDesignHint")
-                : t("designPreviewHint")}
+                : state.mode === "trim" && trimFocus === "bottom"
+                  ? t("bottomDesignHint")
+                  : t("designPreviewHint")}
             </p>
             <div className="shadow-lg">
               <div
                 className="w-full overflow-hidden bg-white"
                 style={designPreviewStyle}
               >
-                {renderPiece()}
+                {renderFocusedPiece()}
               </div>
             </div>
           </div>
@@ -583,7 +769,12 @@ export default function BoardBannerPage() {
               {t("printSheet")}
             </p>
             <p className="mb-2 text-xs text-gray-500">
-              {t("packSummary", { count: packCount })}
+              {state.mode === "trim" && kitPieces.length > 1
+                ? t("kitPackSummary", {
+                    count: packCount,
+                    sheets: kitPieces.length,
+                  })
+                : t("packSummary", { count: packCount })}
             </p>
             <div className="shadow-lg">
               <div
@@ -593,11 +784,13 @@ export default function BoardBannerPage() {
               >
                 <BoardBannerSheet
                   sheet={sheet}
-                  mode={state.mode}
-                  trimPiece={state.trimPiece}
+                  mode={state.mode === "banner" ? "banner" : "trim"}
+                  trimPiece={
+                    state.mode === "banner" ? "side" : trimFocus
+                  }
                   stripHeightInches={stripHeightInches}
                   edgeWidthInches={edgeWidthInches}
-                  renderPiece={renderPiece}
+                  renderPiece={renderFocusedPiece}
                 />
               </div>
             </div>
@@ -605,6 +798,33 @@ export default function BoardBannerPage() {
           </div>
         </div>
       </div>
+
+      {/* Off-screen pack sheets for multi-piece kit export */}
+      {state.mode === "trim" ? (
+        <div
+          ref={exportHostRef}
+          aria-hidden
+          className="pointer-events-none fixed left-[-10000px] top-0 w-[420px]"
+        >
+          {kitPieces.map((piece) => (
+            <div
+              key={piece}
+              data-export-sheet={piece}
+              className={cn("w-full", sheet.aspect)}
+              style={{ backgroundColor: "#FFFFFF" }}
+            >
+              <BoardBannerSheet
+                sheet={sheet}
+                mode="trim"
+                trimPiece={piece}
+                stripHeightInches={stripHeightInches}
+                edgeWidthInches={edgeWidthInches}
+                renderPiece={() => renderTrimPiece(piece)}
+              />
+            </div>
+          ))}
+        </div>
+      ) : null}
 
       <SourcesBlock
         pageId="boardBanner"

@@ -14,11 +14,12 @@ Route: `/tools/board-banner`. Printable cork-board **hardware polish** (header s
 - Banner strip heights: 2.5″ / 3.5″ / 4.5″; side/corner edge widths: 1.5″ / 2″ / 2.5″
 - Export captures the pack sheet only (PNG + PDF)
 
-## Frame rails (locked)
-- **Side** = dual-tone **vertical** rail (primary body + accent stripe) with solid end caps for LOCAL
-- **Bottom** = same motif **rotated** — dual-tone horizontal rail with left/right end caps; no chevrons
-- **Chevrons are never drawn on side or bottom** — they fought text and mismatched the rail language
-- Side columns staple vertically; bottom strips along the frame base
+## Frame kit (locked)
+- Frame trim is a **kit**, not a single exclusive piece: toggle **Side** and/or **Bottom** rails; **Corner is always included**
+- At least one rail must stay on (cannot clear both)
+- Header banner is independent — kit works without a banner
+- Export: one pack sheet per selected piece type (multi-page PDF / ZIP of PNGs)
+- Side/bottom = dual-tone rails with end caps; no chevrons on those rails
 - Corner tiles may still use optional chevron marks with the L-miter
 
 ## Shared ornaments (banner + trim)
