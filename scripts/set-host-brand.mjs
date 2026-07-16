@@ -12,6 +12,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
@@ -132,6 +133,19 @@ function main() {
   fs.writeFileSync(targetPath, `${JSON.stringify(out, null, 2)}\n`, "utf8");
   console.log(`Wrote ${path.relative(root, targetPath)}`);
   console.log(JSON.stringify(out, null, 2));
+
+  // Keep favicon suite aligned with the new host primary
+  const faviconResult = spawnSync(
+    process.execPath,
+    [path.join(root, "scripts", "generate-favicons.mjs")],
+    { cwd: root, stdio: "inherit" },
+  );
+  if (faviconResult.status !== 0) {
+    console.warn(
+      "Warning: favicon regeneration failed; run npm run brand:favicons",
+    );
+  }
+
   console.log(
     "\nRebuild or restart `npm run dev` so the new defaults load. Existing browser Brand Kits are unchanged until reset.",
   );

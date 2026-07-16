@@ -351,6 +351,7 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 ## SEO architecture + builder compactness + home hero (2026-07-16)
 
 - [x] Favicon suite: `favicon.ico` / `.svg`, Apple touch, PWA 192/512, Safari pinned tab; manifest icons updated
+- [x] Adaptive favicon: host brand primary plate + auto black/white glyph (`pickContrastingInk`); SVG `prefers-color-scheme` for dark tab chrome; `npm run brand:favicons`
 - [x] Locale-aware `generateMetadata` + hreflang/canonical/OG/Twitter; bilingual `TOOL_SEO`; JSON-LD Organization + WebApplication
 - [x] `robots.ts` + bilingual `sitemap.ts`; hub `/app` noindex
 - [x] Brand-first full-bleed home hero (UnionOps mark + headline budget); trust/share below fold

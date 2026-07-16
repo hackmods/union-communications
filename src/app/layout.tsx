@@ -30,8 +30,9 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
-      { url: FAVICON_ICO_PATH, sizes: "32x32", type: "image/x-icon" },
+      // SVG first — supports prefers-color-scheme black/white contrast
       { url: FAVICON_SVG_PATH, type: "image/svg+xml" },
+      { url: FAVICON_ICO_PATH, sizes: "32x32", type: "image/x-icon" },
       { url: ICON_192_PATH, sizes: "192x192", type: "image/png" },
       { url: ICON_512_PATH, sizes: "512x512", type: "image/png" },
     ],

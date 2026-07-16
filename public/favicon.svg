@@ -1,24 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UnionOps">
   <title>UnionOps</title>
-  <desc>Interlocking u and o mark for UnionOps (primary plate, graphics-accent glyphs).</desc>
-  <rect width="64" height="64" rx="14" fill="#C2410C"/>
-  <!-- O (behind) -->
-  <circle
-    cx="44"
-    cy="34"
-    r="14"
-    fill="none"
-    stroke="#FFFFFF"
-    stroke-width="10"
-  />
-  <!-- U (overlap) -->
-  <path
-    d="M12 14v20a14 14 0 0 0 28 0V14"
-    fill="none"
-    stroke="#FFFFFF"
-    stroke-width="10"
-    stroke-linecap="butt"
-    stroke-linejoin="round"
-    opacity="0.88"
-  />
+  <desc>Interlocking u and o mark — brand layout colours with automatic black/white contrast.</desc>
+  <style>
+    .plate { fill: #C2410C; }
+    .glyph { stroke: #FFFFFF; }
+    @media (prefers-color-scheme: dark) {
+      .plate { fill: #FFFFFF; }
+      .glyph { stroke: #C2410C; }
+    }
+  </style>
+  <rect class="plate" width="64" height="64" rx="14"/>
+  <circle class="glyph" cx="44" cy="34" r="14" fill="none" stroke-width="10"/>
+  <path class="glyph" d="M12 14v20a14 14 0 0 0 28 0V14" fill="none" stroke-width="10" stroke-linecap="butt" stroke-linejoin="round" opacity="0.88"/>
 </svg>
