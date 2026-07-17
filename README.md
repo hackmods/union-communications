@@ -25,7 +25,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Source--Available-blue" alt="License" /></a>
   <a href="https://github.com/hackmods/union-communications/pkgs/container/union-communications"><img src="https://img.shields.io/badge/image-ghcr.io%2Fhackmods%2Funion--communications-black" alt="GHCR" /></a>
   <img src="https://img.shields.io/badge/EN%2FFR-bilingual-brightgreen" alt="Bilingual EN/FR" />
-  <img src="https://img.shields.io/badge/node-%3E%3D22.13-brightgreen" alt="Node" />
+  <img src="https://img.shields.io/badge/node-%3E%3D24-brightgreen" alt="Node" />
 </p>
 
 <p align="center">

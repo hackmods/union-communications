@@ -4,7 +4,7 @@ UnionOps — stewarded by Ryan Morris. Source-available; see [`LICENSE`](../../L
 
 ## Requirements
 
-- Node.js **22.13+** (see `package.json` `engines`)
+- Node.js **24+** (see `package.json` `engines`)
 - npm (lockfile is committed)
 
 ## Install

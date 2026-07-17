@@ -6,7 +6,7 @@
   "author": "Ryan Morris",
   "license": "SEE LICENSE IN LICENSE",
   "engines": {
-    "node": ">=22.13.0"
+    "node": ">=24.0.0"
   },
   "allowScripts": {
     "@parcel/watcher@2.5.6": true,
@@ -59,7 +59,7 @@
     "@testing-library/react": "^16.3.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/file-saver": "^2.0.7",
-    "@types/node": "^20",
+    "@types/node": "^24.13.3",
     "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
