@@ -65,6 +65,7 @@ type ObjectUrlStore = {
   manifestUrl: string | null;
   icon192Url: string | null;
   icon512Url: string | null;
+  icon32Url: string | null;
   faviconUrl: string | null;
 };
 
@@ -72,8 +73,12 @@ const objectUrls: ObjectUrlStore = {
   manifestUrl: null,
   icon192Url: null,
   icon512Url: null,
+  icon32Url: null,
   faviconUrl: null,
 };
+
+/** Ignore stale async results when Brand Kit colours change quickly. */
+let syncGeneration = 0;
 
 function revoke(url: string | null): void {
   if (url) URL.revokeObjectURL(url);
@@ -126,6 +131,50 @@ function ensureLink(
 }
 
 /**
+ * Browsers keep the first matching `rel=icon` / shortcut icon and cache hard.
+ * Next metadata also injects SVG + PNG + ICO, so mutating one href leaves the
+ * tab on `/favicon.ico`. Strip competitors and insert a fresh link so the
+ * branded blob wins.
+ */
+export function replaceDocumentFavicons(
+  icons: Array<{ href: string; type?: string; sizes?: string }>,
+  doc: Document = document,
+): void {
+  doc
+    .querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]')
+    .forEach((el) => el.remove());
+
+  for (const icon of icons) {
+    const link = doc.createElement("link");
+    link.rel = "icon";
+    if (icon.type) link.setAttribute("type", icon.type);
+    if (icon.sizes) link.setAttribute("sizes", icon.sizes);
+    // Assign href last so the browser treats this as a new icon fetch.
+    link.href = icon.href;
+    doc.head.appendChild(link);
+  }
+}
+
+function replaceAppleTouchIcon(
+  href: string,
+  doc: Document,
+): void {
+  doc.querySelectorAll('link[rel="apple-touch-icon"]').forEach((el) => el.remove());
+  const link = doc.createElement("link");
+  link.rel = "apple-touch-icon";
+  link.setAttribute("sizes", "180x180");
+  link.setAttribute("type", "image/png");
+  link.href = href;
+  doc.head.appendChild(link);
+}
+
+function setSafariMaskIconColor(primaryColor: string, doc: Document): void {
+  const color = normalizePwaThemeColor(primaryColor);
+  const mask = doc.querySelector('link[rel="mask-icon"]') as HTMLLinkElement | null;
+  if (mask) mask.setAttribute("color", color);
+}
+
+/**
  * Build a Brand Kit–colored install manifest (icons still host paths until
  * client blob URLs are attached).
  */
@@ -145,10 +194,11 @@ export function buildBrandKitManifest(options: {
 
 /**
  * Apply Brand Kit primary to PWA chrome: theme-color meta, theme cookie,
- * generated 192/512 icons, and a blob `link[rel=manifest]` for Install.
+ * generated 32/192/512 icons, tab favicon (replacing static icon links), and
+ * a blob `link[rel=manifest]` for Install.
  *
  * Brand bytes stay on-device (blob URLs + cookie hex only). Host static icons
- * remain the crawler/fallback defaults.
+ * remain the crawler/fallback defaults until the client sync runs.
  */
 export async function syncPwaBrandChrome(options: {
   primaryColor: string;
@@ -165,10 +215,21 @@ export async function syncPwaBrandChrome(options: {
   setPwaThemeCookie(primary, doc);
 
   const svg = buildPwaIconSvg({ primary });
-  const [icon192Url, icon512Url] = await Promise.all([
+  // Generation token: rapid Brand Kit colour changes can overlap; only the
+  // latest sync may mutate head / revoke prior blob URLs.
+  const generation = ++syncGeneration;
+  const [icon32Url, icon192Url, icon512Url] = await Promise.all([
+    svgToPngObjectUrl(svg, 32),
     svgToPngObjectUrl(svg, 192),
     svgToPngObjectUrl(svg, 512),
   ]);
+
+  if (generation !== syncGeneration) {
+    revoke(icon32Url);
+    revoke(icon192Url);
+    revoke(icon512Url);
+    return "skipped";
+  }
 
   const faviconSvg = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
   const faviconUrl = URL.createObjectURL(faviconSvg);
@@ -188,22 +249,24 @@ export async function syncPwaBrandChrome(options: {
   revoke(objectUrls.icon192Url);
   revoke(objectUrls.icon512Url);
   revoke(objectUrls.faviconUrl);
+  revoke(objectUrls.icon32Url);
   objectUrls.manifestUrl = manifestUrl;
   objectUrls.icon192Url = icon192Url;
   objectUrls.icon512Url = icon512Url;
   objectUrls.faviconUrl = faviconUrl;
+  objectUrls.icon32Url = icon32Url;
 
   ensureLink("manifest", { href: manifestUrl }, doc);
-  ensureLink(
-    "icon",
-    { href: faviconUrl, type: "image/svg+xml", sizes: "any" },
+  // SVG + 32 PNG: Chrome often prefers a sized PNG; SVG covers modern tabs.
+  replaceDocumentFavicons(
+    [
+      { href: faviconUrl, type: "image/svg+xml", sizes: "any" },
+      { href: icon32Url, type: "image/png", sizes: "32x32" },
+    ],
     doc,
   );
-  ensureLink(
-    "apple-touch-icon",
-    { href: icon192Url, sizes: "180x180", type: "image/png" },
-    doc,
-  );
+  replaceAppleTouchIcon(icon192Url, doc);
+  setSafariMaskIconColor(primary, doc);
 
   return "synced";
 }

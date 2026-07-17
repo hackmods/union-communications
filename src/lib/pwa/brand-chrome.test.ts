@@ -11,6 +11,7 @@ import {
   parsePwaThemeCookie,
   pwaThemeCookieValue,
   PWA_THEME_COOKIE,
+  replaceDocumentFavicons,
   setThemeColorMeta,
 } from "@/lib/pwa/brand-chrome";
 
@@ -68,6 +69,48 @@ describe("setThemeColorMeta", () => {
     expect(
       doc.querySelector('meta[name="theme-color"]')?.getAttribute("content"),
     ).toBe("#112233");
+  });
+});
+
+describe("replaceDocumentFavicons", () => {
+  it("removes static icon / shortcut-icon links and inserts branded ones", () => {
+    const doc = document.implementation.createHTMLDocument("t");
+    const staleSvg = doc.createElement("link");
+    staleSvg.rel = "icon";
+    staleSvg.type = "image/svg+xml";
+    staleSvg.href = "/favicon.svg";
+    doc.head.appendChild(staleSvg);
+    const staleIco = doc.createElement("link");
+    staleIco.rel = "icon";
+    staleIco.href = "/favicon.ico";
+    doc.head.appendChild(staleIco);
+    const shortcut = doc.createElement("link");
+    shortcut.rel = "shortcut icon";
+    shortcut.href = "/favicon.ico";
+    doc.head.appendChild(shortcut);
+    const keep = doc.createElement("link");
+    keep.rel = "manifest";
+    keep.href = "/manifest.webmanifest";
+    doc.head.appendChild(keep);
+
+    replaceDocumentFavicons(
+      [
+        { href: "blob:brand-svg", type: "image/svg+xml", sizes: "any" },
+        { href: "blob:brand-png", type: "image/png", sizes: "32x32" },
+      ],
+      doc,
+    );
+
+    const icons = [...doc.querySelectorAll('link[rel="icon"]')];
+    expect(icons).toHaveLength(2);
+    expect(icons[0]?.getAttribute("href")).toBe("blob:brand-svg");
+    expect(icons[0]?.getAttribute("type")).toBe("image/svg+xml");
+    expect(icons[1]?.getAttribute("href")).toBe("blob:brand-png");
+    expect(icons[1]?.getAttribute("sizes")).toBe("32x32");
+    expect(doc.querySelector('link[rel="shortcut icon"]')).toBeNull();
+    expect(
+      doc.querySelector('link[rel="manifest"]')?.getAttribute("href"),
+    ).toBe("/manifest.webmanifest");
   });
 });
 

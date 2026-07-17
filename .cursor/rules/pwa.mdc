@@ -13,7 +13,7 @@ UnionOps offers desktop/app install via the **browser-native** Chromium “Insta
 | Piece | Location |
 |-------|----------|
 | Manifest builder | `src/lib/pwa/manifest.ts` → `src/app/manifest.ts` (host defaults; cookie `uo_pwa_theme` can override `theme_color`) |
-| Brand Kit → PWA chrome | `src/lib/pwa/brand-chrome.ts` via `BrandProvider` — live `theme-color` meta, blob manifest + generated 192/512 icons |
+| Brand Kit → PWA chrome | `src/lib/pwa/brand-chrome.ts` via `BrandProvider` — live `theme-color` meta, replaces static `rel=icon` with branded SVG+32 PNG blobs, blob manifest + 192/512 icons |
 | Host gate | `src/lib/pwa/hosts.ts` — apex `unionops.org` only (www stub is not installable until it redirects) |
 | SW sync | `src/lib/pwa/register.ts` → `ServiceWorkerRegister` |
 | Offline stub | `public/sw.js` — keep `CACHE`/`PRECACHE` in sync with `src/lib/pwa/shell.ts` |
