@@ -261,7 +261,10 @@ test.describe("Smoke tests @smoke", () => {
     await expect(
       page.getByRole("heading", { name: "Install UnionOps on your desktop" }),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: "Privacy" })).toBeVisible();
+    // Body + footer both link Privacy; assert the in-page related link.
+    await expect(
+      page.locator("#main-content").getByRole("link", { name: "Privacy" }),
+    ).toBeVisible();
     await expect(page.getByRole("link", { name: "Support the builder" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Back to UnionOps" })).toBeVisible();
     // Quiet page: not promoted into header chrome (footer muted link only).

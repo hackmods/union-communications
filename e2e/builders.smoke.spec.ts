@@ -30,8 +30,11 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await page.goto("/en/");
     await expect(page.getByTestId("home-hero-brand")).toBeVisible();
     await expect(page.getByText("Solidarity.")).toBeVisible();
+    // Hero + Comms path share the same label when Officer Hub is public.
     await expect(
-      page.getByRole("link", { name: "Set up your local brand" }),
+      page
+        .getByRole("region", { name: /toolkit for local unions/i })
+        .getByRole("link", { name: "Set up your local brand" }),
     ).toBeVisible();
     await expect(
       page.getByRole("link", { name: "What’s next" }).first(),
