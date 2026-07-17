@@ -122,7 +122,7 @@ Scaffold through testing/CI — all complete.
 
 - [ ] Multi-union onboarding UI → **Phase 6**
 - [ ] Persistent Postgres + RLS → **Phase 6**
-- [ ] Workforce Time full (scheduling, PTO, union rollup) → **Phase 8** (8-lite shipped)
+- [ ] Workforce Time full (scheduling, PTO, union rollup) → **Phase 8** (8-lite + 8-lite+ shipped)
 - [ ] Comms content backlog (email/broadcast guide, Get started beyond social rename + Print step) → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
 - [x] Photo consent / member media checklist → `/guide/photo-consent` (Learn → Guides)
 
@@ -151,6 +151,14 @@ Scaffold through testing/CI — all complete.
 - [x] Categories: staff, release, duty_bank, action, volunteer
 - [x] EN/FR i18n; unit tests for access + geofence
 - [x] Spec: `docs/modules/WORKFORCE_TIME.md`; plan in `.cursor/plans/`
+
+## Phase 8-lite+ — Time ranges & entry needed (2026-07-16) — COMPLETE
+
+- [x] Manual/retro time ranges (`manual_range`) for self-entry after events
+- [x] Bulk union-business events: one range → ad-hoc multi-worker group (`bulk_event`)
+- [x] Lite worker roster + expected windows; needed tracking (window miss + weekday gaps)
+- [x] Union-business report JSON + CSV export with `from`/`to` and event columns
+- [x] EN/FR i18n; unit tests for overlap + needed computation
 
 - [ ] Document/PDF attachments with virus scan → **Phase 7**
 - [ ] Hybrid live local data path → **Phase 6**

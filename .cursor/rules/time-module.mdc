@@ -16,17 +16,21 @@ VeriClock-class hub module for staff hours, steward release/duty-bank, and actio
 ## Access
 - MFA required; module gated by `enabledModules.includes("time")`
 - Scope every query by `unionId` + `localId`
-- Stewards clock/view own; presidents approve and configure job codes
+- Stewards clock/view own and enter past ranges; presidents approve, bulk events, windows, roster, reports
 - Audit every list/create/mutate via `auditLog`
 
-## v1-lite (memory adapter)
-- Clock in/out, job codes, submit/approve, CSV export
+## 8-lite+ (memory adapter)
+- Clock in/out, manual/retro ranges, bulk event groups, job codes, submit/approve
+- Expected windows + weekday gap entry-needed tracking
+- CSV date-range export + union-business report
 - Optional GPS punch tags when `gpsPolicy` is `tag_optional` — never required for punch
 - No continuous GPS, no native apps, no payroll integrations
 
 ## Data
 - Use `timeStore` from `src/lib/time/memory-adapter.ts` until Phase 6 Postgres
 - Categories: `staff` | `release` | `duty_bank` | `action` | `volunteer`
+- Entry sources: `clock` | `manual_range` | `bulk_event`
+- Reject overlapping non-rejected ranges for the same worker
 
 ## Do Not
 - Cross-union or cross-local reads without elevated role checks

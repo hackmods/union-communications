@@ -56,14 +56,16 @@
 
 ## Phase 8 — Workforce Time (VeriClock-class)
 
-**8-lite shipped** — memory adapter; clock in/out, job codes, approvals, CSV export at `/app/time`.
+**8-lite + 8-lite+ shipped** — memory adapter; clock in/out, manual/retro ranges, bulk event groups, expected windows, entry-needed tracking, approvals, CSV + union-business report at `/app/time`.
 
 - [x] Module `"time"` in registry + reference seed
 - [x] Clock in/out for staff, release, duty bank, action, volunteer categories
-- [x] Submit/approve workflow + admin board + CSV export
+- [x] Manual past ranges + admin bulk union-business entries
+- [x] Expected windows + weekday gap “entry needed” board
+- [x] Submit/approve workflow + admin board + date-scoped CSV / union-business report
 - [x] Optional GPS punch tagging (client consent checkbox)
 - [ ] Postgres + RLS persistence (requires Phase 6)
-- [ ] Scheduling, PTO, OT policies, union rollup
+- [ ] Full workers/sites, scheduling, PTO, OT policies, PDF/XLSX union rollup
 - [ ] Geofence admin UI + punch photo attachments (Phase 7)
 
 Spec: [`docs/modules/WORKFORCE_TIME.md`](modules/WORKFORCE_TIME.md)

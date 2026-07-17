@@ -11,7 +11,7 @@ import type { UserRole } from "@/types/tenant";
 
 function toCsv(rows: TimeEntry[]): string {
   const header =
-    "id,worker,category,job_code,status,clock_in,clock_out,duration_hours,notes";
+    "id,worker,category,job_code,status,entry_source,event_id,event_label,clock_in,clock_out,duration_hours,notes";
   const lines = rows.map((e) => {
     const durationMs = e.clockOutAt
       ? new Date(e.clockOutAt).getTime() - new Date(e.clockInAt).getTime()
@@ -23,6 +23,9 @@ function toCsv(rows: TimeEntry[]): string {
       e.category,
       e.jobCodeLabel,
       e.status,
+      e.entrySource,
+      e.eventId ?? "",
+      e.eventLabel ?? "",
       e.clockInAt,
       e.clockOutAt ?? "",
       durationHours,
@@ -50,10 +53,14 @@ export async function GET(request: Request) {
 
   const url = new URL(request.url);
   const category = url.searchParams.get("category") ?? undefined;
+  const from = url.searchParams.get("from") ?? undefined;
+  const to = url.searchParams.get("to") ?? undefined;
   const filters = {
     ...listFiltersForTimeSession(session),
     workerId: undefined,
     category: category as TimeEntry["category"] | undefined,
+    from,
+    to,
   };
   const entries = await timeStore.listEntries(filters);
   const csv = toCsv(entries);

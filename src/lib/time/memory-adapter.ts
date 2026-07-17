@@ -1,16 +1,28 @@
 import type { TimeAdapter } from "./adapter";
 import { checkGeofence } from "./geofence";
+import { computeNeededEntries, hasOverlappingEntry } from "./needed";
 import type {
+  BulkEventInput,
   ClockInInput,
+  CreateExpectedWindowInput,
   CreateJobCodeInput,
   JobCode,
+  ManualEntryInput,
+  NeededEntriesFilters,
   TimeEntry,
+  TimeExpectedWindow,
   TimeListFilters,
+  TimeNeededRow,
+  TimeWorker,
+  UpsertWorkerInput,
   WorkSite,
 } from "@/types/time";
 
 let entrySeq = 1;
 let codeSeq = 10;
+let workerSeq = 1;
+let windowSeq = 1;
+let eventSeq = 1;
 
 const entries: TimeEntry[] = [];
 const jobCodes: JobCode[] = [
@@ -63,6 +75,38 @@ const jobCodes: JobCode[] = [
 
 const sites: WorkSite[] = [];
 
+const workers: TimeWorker[] = [
+  {
+    id: "tw-president-243",
+    unionId: "union-opseu",
+    localId: "local-243",
+    displayName: "Local 243 President",
+    userId: "user-president-243",
+    trackGaps: true,
+    active: true,
+  },
+  {
+    id: "tw-steward-243",
+    unionId: "union-opseu",
+    localId: "local-243",
+    displayName: "Local 243 Steward",
+    userId: "user-steward-243",
+    trackGaps: true,
+    active: true,
+  },
+  {
+    id: "tw-stability-243",
+    unionId: "union-opseu",
+    localId: "local-243",
+    displayName: "Stability Committee Rep",
+    userId: "user-stability-243",
+    trackGaps: false,
+    active: true,
+  },
+];
+
+const expectedWindows: TimeExpectedWindow[] = [];
+
 function now() {
   return new Date().toISOString();
 }
@@ -73,6 +117,29 @@ function nextEntryId() {
 
 function nextCodeId() {
   return `code-${String(codeSeq++).padStart(4, "0")}`;
+}
+
+function nextWorkerId() {
+  return `tw-${String(workerSeq++).padStart(4, "0")}`;
+}
+
+function nextWindowId() {
+  return `twin-${String(windowSeq++).padStart(4, "0")}`;
+}
+
+function nextEventId() {
+  return `tev-${String(eventSeq++).padStart(4, "0")}`;
+}
+
+function assertValidRange(clockInAt: string, clockOutAt: string) {
+  const start = new Date(clockInAt).getTime();
+  const end = new Date(clockOutAt).getTime();
+  if (Number.isNaN(start) || Number.isNaN(end)) {
+    throw new Error("Invalid time range");
+  }
+  if (end <= start) {
+    throw new Error("clockOutAt must be after clockInAt");
+  }
 }
 
 export const timeStore: TimeAdapter = {
@@ -89,6 +156,19 @@ export const timeStore: TimeAdapter = {
     }
     if (filters.status) {
       results = results.filter((e) => e.status === filters.status);
+    }
+    if (filters.eventId) {
+      results = results.filter((e) => e.eventId === filters.eventId);
+    }
+    if (filters.from) {
+      const fromMs = new Date(filters.from).getTime();
+      results = results.filter(
+        (e) => new Date(e.clockOutAt ?? e.clockInAt).getTime() >= fromMs,
+      );
+    }
+    if (filters.to) {
+      const toMs = new Date(filters.to).getTime();
+      results = results.filter((e) => new Date(e.clockInAt).getTime() <= toMs);
     }
     return results.sort(
       (a, b) =>
@@ -150,6 +230,7 @@ export const timeStore: TimeAdapter = {
       jobCodeId: input.jobCodeId,
       jobCodeLabel: meta.jobCodeLabel,
       status: "active",
+      entrySource: "clock",
       clockInAt: ts,
       notes: input.notes,
       clockInGps: input.clockInGps,
@@ -200,6 +281,92 @@ export const timeStore: TimeAdapter = {
     return entries[idx];
   },
 
+  async createManualEntry(
+    input: ManualEntryInput,
+    meta: {
+      unionId: string;
+      localId: string;
+      jobCodeLabel: string;
+    },
+  ): Promise<TimeEntry> {
+    assertValidRange(input.clockInAt, input.clockOutAt);
+    if (
+      hasOverlappingEntry(
+        entries.filter(
+          (e) => e.unionId === meta.unionId && e.localId === meta.localId,
+        ),
+        input.workerId,
+        input.clockInAt,
+        input.clockOutAt,
+      )
+    ) {
+      throw new Error("Overlapping time entry");
+    }
+
+    const ts = now();
+    const entry: TimeEntry = {
+      id: nextEntryId(),
+      unionId: meta.unionId,
+      localId: meta.localId,
+      workerId: input.workerId,
+      workerName: input.workerName,
+      category: input.category,
+      jobCodeId: input.jobCodeId,
+      jobCodeLabel: meta.jobCodeLabel,
+      status: input.status,
+      entrySource: input.entrySource,
+      clockInAt: input.clockInAt,
+      clockOutAt: input.clockOutAt,
+      notes: input.notes,
+      eventId: input.eventId,
+      eventLabel: input.eventLabel,
+      createdAt: ts,
+      updatedAt: ts,
+    };
+    entries.push(entry);
+    return entry;
+  },
+
+  async createBulkEventEntries(
+    input: BulkEventInput,
+    meta: {
+      unionId: string;
+      localId: string;
+      jobCodeLabel: string;
+    },
+  ): Promise<TimeEntry[]> {
+    assertValidRange(input.clockInAt, input.clockOutAt);
+    if (!input.workers.length) {
+      throw new Error("At least one worker is required");
+    }
+    if (!input.eventLabel.trim()) {
+      throw new Error("eventLabel is required");
+    }
+
+    const eventId = nextEventId();
+    const created: TimeEntry[] = [];
+    for (const worker of input.workers) {
+      const entry = await this.createManualEntry(
+        {
+          category: input.category,
+          jobCodeId: input.jobCodeId,
+          clockInAt: input.clockInAt,
+          clockOutAt: input.clockOutAt,
+          notes: input.notes,
+          eventLabel: input.eventLabel,
+          workerId: worker.workerId,
+          workerName: worker.workerName,
+          status: "submitted",
+          entrySource: "bulk_event",
+          eventId,
+        },
+        meta,
+      );
+      created.push(entry);
+    }
+    return created;
+  },
+
   async listJobCodes(unionId: string, localId: string): Promise<JobCode[]> {
     return jobCodes.filter(
       (c) => c.unionId === unionId && c.localId === localId && c.active,
@@ -227,5 +394,108 @@ export const timeStore: TimeAdapter = {
     return sites.filter(
       (s) => s.unionId === unionId && s.localId === localId && s.active,
     );
+  },
+
+  async listWorkers(unionId: string, localId: string): Promise<TimeWorker[]> {
+    return workers.filter(
+      (w) => w.unionId === unionId && w.localId === localId && w.active,
+    );
+  },
+
+  async upsertWorker(
+    input: UpsertWorkerInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<TimeWorker> {
+    if (input.id) {
+      const idx = workers.findIndex(
+        (w) =>
+          w.id === input.id &&
+          w.unionId === meta.unionId &&
+          w.localId === meta.localId,
+      );
+      if (idx >= 0) {
+        workers[idx] = {
+          ...workers[idx],
+          displayName: input.displayName,
+          userId: input.userId ?? workers[idx].userId,
+          trackGaps: input.trackGaps ?? workers[idx].trackGaps,
+          active: input.active ?? workers[idx].active,
+        };
+        return workers[idx];
+      }
+    }
+
+    const worker: TimeWorker = {
+      id: nextWorkerId(),
+      unionId: meta.unionId,
+      localId: meta.localId,
+      displayName: input.displayName,
+      userId: input.userId,
+      trackGaps: input.trackGaps ?? true,
+      active: input.active ?? true,
+    };
+    workers.push(worker);
+    return worker;
+  },
+
+  async listExpectedWindows(
+    unionId: string,
+    localId: string,
+  ): Promise<TimeExpectedWindow[]> {
+    return expectedWindows
+      .filter((w) => w.unionId === unionId && w.localId === localId)
+      .sort(
+        (a, b) =>
+          new Date(b.startsAt).getTime() - new Date(a.startsAt).getTime(),
+      );
+  },
+
+  async createExpectedWindow(
+    input: CreateExpectedWindowInput,
+    meta: { unionId: string; localId: string; createdById: string },
+  ): Promise<TimeExpectedWindow> {
+    assertValidRange(input.startsAt, input.endsAt);
+    const window: TimeExpectedWindow = {
+      id: nextWindowId(),
+      unionId: meta.unionId,
+      localId: meta.localId,
+      label: input.label,
+      startsAt: input.startsAt,
+      endsAt: input.endsAt,
+      category: input.category,
+      jobCodeId: input.jobCodeId,
+      attendeeWorkerIds: input.attendeeWorkerIds,
+      createdById: meta.createdById,
+      createdAt: now(),
+    };
+    expectedWindows.push(window);
+    return window;
+  },
+
+  async listNeededEntries(
+    filters: NeededEntriesFilters,
+  ): Promise<TimeNeededRow[]> {
+    const localWorkers = await this.listWorkers(
+      filters.unionId,
+      filters.localId,
+    );
+    const windows = await this.listExpectedWindows(
+      filters.unionId,
+      filters.localId,
+    );
+    const localEntries = await this.listEntries({
+      unionId: filters.unionId,
+      localId: filters.localId,
+      from: filters.from,
+      to: filters.to,
+    });
+    return computeNeededEntries({
+      workers: localWorkers,
+      windows,
+      entries: localEntries,
+      from: filters.from,
+      to: filters.to,
+      workerId: filters.workerId,
+    });
   },
 };
