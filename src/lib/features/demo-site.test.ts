@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { isDemoSite } from "./demo-site";
 
 describe("isDemoSite", () => {
@@ -17,5 +19,12 @@ describe("isDemoSite", () => {
     expect(isDemoSite({ NEXT_PUBLIC_DEMO_SITE: "false" })).toBe(false);
     expect(isDemoSite({ NEXT_PUBLIC_DEMO_SITE: "0" })).toBe(false);
     expect(isDemoSite({ NEXT_PUBLIC_DEMO_SITE: "no" })).toBe(false);
+  });
+
+  it("statically reads process.env.NEXT_PUBLIC_DEMO_SITE for Next inlining", () => {
+    const source = readFileSync(join(__dirname, "demo-site.ts"), "utf8");
+    expect(source).toMatch(
+      /NEXT_PUBLIC_DEMO_SITE:\s*process\.env\.NEXT_PUBLIC_DEMO_SITE/,
+    );
   });
 });

@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { isOfficerHubPublic } from "./officer-hub-public";
 
 describe("isOfficerHubPublic", () => {
@@ -30,6 +32,13 @@ describe("isOfficerHubPublic", () => {
     );
     expect(isOfficerHubPublic({ NEXT_PUBLIC_OFFICER_HUB_PUBLIC: "no" })).toBe(
       false,
+    );
+  });
+
+  it("statically reads process.env.NEXT_PUBLIC_OFFICER_HUB_PUBLIC for Next inlining", () => {
+    const source = readFileSync(join(__dirname, "officer-hub-public.ts"), "utf8");
+    expect(source).toMatch(
+      /NEXT_PUBLIC_OFFICER_HUB_PUBLIC:\s*process\.env\.NEXT_PUBLIC_OFFICER_HUB_PUBLIC/,
     );
   });
 });
