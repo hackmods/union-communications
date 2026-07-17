@@ -5,6 +5,18 @@ import { routing } from "@/i18n/routing";
 
 const intlMiddleware = createIntlMiddleware(routing);
 
+/** File-convention OG/Twitter images — must not get locale-prefixed by next-intl. */
+function isMetadataImagePath(pathname: string): boolean {
+  return (
+    pathname === "/opengraph-image" ||
+    pathname === "/opengraph-image/" ||
+    pathname.startsWith("/opengraph-image/") ||
+    pathname === "/twitter-image" ||
+    pathname === "/twitter-image/" ||
+    pathname.startsWith("/twitter-image/")
+  );
+}
+
 function localeFromPath(pathname: string): string {
   const locale = pathname.split("/")[1];
   return routing.locales.includes(locale as "en" | "fr") ? locale : routing.defaultLocale;
@@ -12,6 +24,11 @@ function localeFromPath(pathname: string): string {
 
 export default auth((req) => {
   const pathname = req.nextUrl.pathname;
+
+  if (isMetadataImagePath(pathname)) {
+    return NextResponse.next();
+  }
+
   const locale = localeFromPath(pathname);
   const isLogin = pathname.includes("/app/login");
   const isAppRoute =
@@ -29,5 +46,8 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  // Skip static files (.*\\..*) and App Router OG/Twitter image routes (no extension).
+  matcher: [
+    "/((?!api|_next|_vercel|opengraph-image|twitter-image|.*\\..*).*)",
+  ],
 };

@@ -4,6 +4,7 @@ import {
   APPLE_TOUCH_ICON_PATH,
   FAVICON_ICO_PATH,
   FAVICON_SVG_PATH,
+  ICON_48_PATH,
   ICON_192_PATH,
   ICON_512_PATH,
   OG_IMAGE_PATH,
@@ -32,6 +33,8 @@ export const metadata: Metadata = {
     icon: [
       // SVG first — supports prefers-color-scheme black/white contrast
       { url: FAVICON_SVG_PATH, type: "image/svg+xml" },
+      // 48×48 satisfies Google Search’s multiple-of-48 requirement
+      { url: ICON_48_PATH, sizes: "48x48", type: "image/png" },
       { url: FAVICON_ICO_PATH, sizes: "32x32", type: "image/x-icon" },
       { url: ICON_192_PATH, sizes: "192x192", type: "image/png" },
       { url: ICON_512_PATH, sizes: "512x512", type: "image/png" },

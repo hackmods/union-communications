@@ -1,13 +1,17 @@
 import { ImageResponse } from "next/og";
 import { PLATFORM_UNION_ORANGE } from "@/lib/constants/unionPresets";
-import { SITE_NAME, SITE_URL } from "@/lib/seo/site";
+import { SITE_NAME } from "@/lib/seo/site";
 
 export const runtime = "edge";
 export const alt = `${SITE_NAME} - Solidarity.`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const MARK_SRC = `${SITE_URL}/assets/unionops/logo-mark-interlock.png`;
+/** Inline UO mark (black on transparent) — avoids remote fetch failures in OG render. */
+const MARK_SRC = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <circle cx="44" cy="34" r="14" fill="none" stroke="#1A1A1A" stroke-width="10"/>
+  <path d="M12 14v20a14 14 0 0 0 28 0V14" fill="none" stroke="#1A1A1A" stroke-width="10" stroke-linecap="butt" stroke-linejoin="round" opacity="0.88"/>
+</svg>`)}`;
 
 export default function OpenGraphImage() {
   const primary = PLATFORM_UNION_ORANGE.primary;

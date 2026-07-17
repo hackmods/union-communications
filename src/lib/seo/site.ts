@@ -22,14 +22,21 @@ export const SITE_KEYWORDS = [
   "local union website template",
 ] as const;
 
-export const OG_IMAGE_PATH = "/opengraph-image";
-export const TWITTER_IMAGE_PATH = "/twitter-image";
-/** Static fallback for PWA / service worker (kept in sync with `src/lib/pwa/shell.ts`) */
+/**
+ * Static share card — file extension bypasses i18n middleware and trailingSlash
+ * redirects that break `/opengraph-image` for Twitter/Facebook crawlers.
+ * Keep in sync with `src/lib/pwa/shell.ts` / `public/sw.js`.
+ */
+export const OG_IMAGE_PATH = "/og-image.png";
+export const TWITTER_IMAGE_PATH = "/og-image.png";
+/** @deprecated Prefer OG_IMAGE_PATH — same static asset. */
 export const OG_IMAGE_STATIC_PATH = "/og-image.png";
 
 export const FAVICON_ICO_PATH = "/favicon.ico";
 export const FAVICON_SVG_PATH = "/favicon.svg";
 export const APPLE_TOUCH_ICON_PATH = "/apple-touch-icon.png";
+/** Google Search wants a square icon that is a multiple of 48px. */
+export const ICON_48_PATH = "/icons/icon-48.png";
 export const ICON_192_PATH = "/icons/icon-192.png";
 export const ICON_512_PATH = "/icons/icon-512.png";
 export const SAFARI_PINNED_TAB_PATH = "/safari-pinned-tab.svg";
