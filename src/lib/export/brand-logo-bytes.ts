@@ -136,6 +136,23 @@ function resolveOfficialSrc(variant: OfficialLogoVariant): string {
 }
 
 /**
+ * Sync Brand Kit logo URL for preview / HTML embeds (path or data URL).
+ */
+export function resolveBrandLogoSrc(brandKit: BrandKit): string {
+  if (brandKit.useOfficialLogo) {
+    const variant = isOfficialLogoVariant(brandKit.officialLogoVariant)
+      ? brandKit.officialLogoVariant
+      : "lockup";
+    return resolveOfficialSrc(variant);
+  }
+  const custom = brandKit.customLogoDataUrl?.trim();
+  if (custom && !isUnionOpsLogoSrc(custom)) {
+    return custom;
+  }
+  return UNIONOPS_LOGOS.markInterlock;
+}
+
+/**
  * Resolve Brand Kit logo to PNG bytes for DOCX/PPTX.
  * JPEG/WebP/SVG are re-encoded to PNG when canvas is available.
  */
@@ -145,22 +162,7 @@ export async function resolveBrandLogoBytes(
 ): Promise<BrandLogoBytes | null> {
   if (opts?.includeLogo === false) return null;
 
-  let src: string | null = null;
-
-  if (brandKit.useOfficialLogo) {
-    const variant = isOfficialLogoVariant(brandKit.officialLogoVariant)
-      ? brandKit.officialLogoVariant
-      : "lockup";
-    src = resolveOfficialSrc(variant);
-  } else {
-    const custom = brandKit.customLogoDataUrl?.trim();
-    if (custom && !isUnionOpsLogoSrc(custom)) {
-      src = custom;
-    } else {
-      src = UNIONOPS_LOGOS.markInterlock;
-    }
-  }
-
+  const src = resolveBrandLogoSrc(brandKit);
   if (!src) return null;
 
   // Fast path: PNG data URLs need no canvas (and avoid jsdom Image hangs)

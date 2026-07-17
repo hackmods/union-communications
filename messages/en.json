@@ -536,7 +536,7 @@
       "intro": "Five minutes of prep saves a broken-looking site. Gather these from your Brand Kit and local executive.",
       "tip": "Save your website URL in Brand Kit once it is live. QR cards, board posters, and other tools can reuse that link without retyping.",
       "items": {
-        "brand": "Brand Kit set: local number, colours, and logo (the template picks up colours automatically).",
+        "brand": "Brand Kit set: local number, colours, and logo (the template picks up colours and logo automatically).",
         "email": "A monitored contact email the local actually checks.",
         "officers": "Current officer names and roles approved for the public site.",
         "facebook": "Facebook group URL (or leave blank until you have one)."
@@ -550,7 +550,7 @@
       "steps": {
         "open": {
           "title": "Open the tool",
-          "content": "Go to Website Template. Confirm Brand Kit colours look right in the live preview."
+          "content": "Go to Website Template. Confirm Brand Kit colours and logo look right in the live preview."
         },
         "fill": {
           "title": "Fill the fields",
@@ -1203,7 +1203,7 @@
     "removeOfficer": "Remove",
     "preview": "Live preview",
     "downloadZip": "Download site ZIP",
-    "referenceNote": "This template is based on the live site at local243.org - a volunteer-built GitHub Pages site used as a reference. The exported ZIP uses a union header banner instead of a local logo in the navigation bar."
+    "referenceNote": "This template is based on the live site at local243.org - a volunteer-built GitHub Pages site used as a reference. The exported ZIP uses your Brand Kit logo in the navigation bar. OPSEU resource links appear in the footer only when your Brand Kit design theme is OPSEU."
   },
   "sources": {
     "title": "Sources & references",

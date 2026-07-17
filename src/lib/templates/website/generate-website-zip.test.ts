@@ -3,7 +3,6 @@ import {
   buildWebsiteHtml,
   buildWebsiteCss,
   buildPreviewHtml,
-  getOpseuHeaderSvg,
 } from "@/lib/templates/website/generate-website-zip";
 import type { WebsiteTemplateData } from "@/types/website-template";
 
@@ -21,12 +20,18 @@ const sampleData: WebsiteTemplateData = {
   officers: [
     { name: "Jane Doe", role: "President", location: "WC-101" },
   ],
+  logoFileName: "logo.png",
+  logoPreviewSrc: "/assets/caat-opseu/logo-primary.png",
+  logoAlt: "OPSEU SEFPO Local 243",
+  includeOpseuResources: true,
 };
 
 describe("generate-website-zip", () => {
-  it("includes OPSEU header SVG reference in HTML", () => {
+  it("includes Brand Kit logo and OPSEU resources when theme is OPSEU", () => {
     const html = buildWebsiteHtml(sampleData);
-    expect(html).toContain("opseu-header.svg");
+    expect(html).toContain('src="./assets/logo.png"');
+    expect(html).toContain('alt="OPSEU SEFPO Local 243"');
+    expect(html).not.toContain("opseu-header.svg");
     expect(html).toContain("OPSEU SEFPO Local 243");
     expect(html).toContain("Jane Doe");
     expect(html).toContain("mailto:local243@example.com");
@@ -37,10 +42,35 @@ describe("generate-website-zip", () => {
     expect(html).toContain("North Pole, Arctic Circle");
   });
 
+  it("omits OPSEU resource links when theme is not OPSEU", () => {
+    const html = buildWebsiteHtml({
+      ...sampleData,
+      unionName: "CUPE Local 123",
+      logoAlt: "CUPE Local 123",
+      includeOpseuResources: false,
+    });
+    expect(html).not.toContain("Union Resources");
+    expect(html).not.toContain("opseu.org");
+    expect(html).not.toContain("members.opseu.org");
+    expect(html).toContain("Rights &amp; Partners");
+    expect(html).toContain('src="./assets/logo.png"');
+  });
+
+  it("falls back to text brand when logo filename is empty", () => {
+    const html = buildWebsiteHtml({
+      ...sampleData,
+      logoFileName: "",
+      logoPreviewSrc: "",
+    });
+    expect(html).toContain('class="header-brand-text"');
+    expect(html).not.toContain('class="header-logo"');
+  });
+
   it("escapes HTML in user content", () => {
     const html = buildWebsiteHtml({
       ...sampleData,
       unionName: "<script>alert(1)</script>",
+      logoAlt: "<script>alert(1)</script>",
     });
     expect(html).not.toContain("<script>alert(1)</script>");
     expect(html).toContain("&lt;script&gt;");
@@ -54,15 +84,11 @@ describe("generate-website-zip", () => {
     expect(css).toContain(".footer {\n  background: var(--color-primary);");
   });
 
-  it("builds preview HTML with inline styles", () => {
+  it("builds preview HTML with inline styles and logo preview src", () => {
     const preview = buildPreviewHtml(sampleData);
     expect(preview).toContain("<style>");
     expect(preview).not.toContain('href="./css/style.css"');
-  });
-
-  it("exports OPSEU header SVG with brand colour", () => {
-    const svg = getOpseuHeaderSvg("#C8102E");
-    expect(svg).toContain("OPSEU / SEFPO");
-    expect(svg).toContain('fill="#C8102E"');
+    expect(preview).toContain('src="/assets/caat-opseu/logo-primary.png"');
+    expect(preview).not.toContain('src="./assets/logo.png"');
   });
 });

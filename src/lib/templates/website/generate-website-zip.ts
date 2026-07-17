@@ -1,13 +1,5 @@
 import type { WebsiteTemplateData } from "@/types/website-template";
 
-function buildOpseuHeaderSvg(primaryColor: string): string {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" role="img" aria-label="OPSEU SEFPO">
-  <rect width="400" height="80" fill="${primaryColor}"/>
-  <text x="200" y="38" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold">OPSEU / SEFPO</text>
-  <text x="200" y="62" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="14" opacity="0.85">Ontario Public Service Employees Union</text>
-</svg>`;
-}
-
 function escapeHtml(text: string): string {
   return text
     .replace(/&/g, "&amp;")
@@ -50,6 +42,22 @@ export function buildWebsiteHtml(data: WebsiteTemplateData): string {
     ? `          <li><a href="${escapeHtml(data.facebookUrl)}" target="_blank" rel="noopener noreferrer">Facebook group</a></li>`
     : "";
   const officeAddressHtml = buildOfficeAddressHtml(data.unionName, data.officeAddress);
+  const logoHtml = data.logoFileName.trim()
+    ? `<img src="./assets/${escapeHtml(data.logoFileName)}" alt="${escapeHtml(data.logoAlt)}" class="header-logo">`
+    : `<span class="header-brand-text">${escapeHtml(data.unionName)}</span>`;
+  const opseuResourcesHtml = data.includeOpseuResources
+    ? `      <div class="footer-col">
+        <h3>Union Resources</h3>
+        <ul>
+          <li><a href="https://opseu.org" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO</a></li>
+          <li><a href="https://members.opseu.org/" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO Member Portal</a></li>
+          <li><a href="https://opseu.org/about-opseu-sefpo/forms-documents/" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO Forms and Documents</a></li>
+          <li><a href="https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO Collective Agreements</a></li>
+          <li><a href="https://opseu.org/contact/" target="_blank" rel="noopener noreferrer">OPSEU Head Office</a></li>
+        </ul>
+      </div>
+`
+    : "";
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -64,7 +72,7 @@ export function buildWebsiteHtml(data: WebsiteTemplateData): string {
   <header class="site-header">
     <nav class="nav-bar">
       <div class="header-brand">
-        <img src="./assets/opseu-header.svg" alt="OPSEU SEFPO" class="header-logo">
+        ${logoHtml}
       </div>
       <button type="button" class="hamburger" aria-label="Toggle menu" onclick="toggleMenu()">
         <span></span><span></span><span></span>
@@ -125,17 +133,7 @@ ${facebookBlock}
           <li><a href="mailto:${escapeHtml(data.contactEmail)}">${escapeHtml(data.contactEmail)}</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h3>Union Resources</h3>
-        <ul>
-          <li><a href="https://opseu.org" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO</a></li>
-          <li><a href="https://members.opseu.org/" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO Member Portal</a></li>
-          <li><a href="https://opseu.org/about-opseu-sefpo/forms-documents/" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO Forms and Documents</a></li>
-          <li><a href="https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO Collective Agreements</a></li>
-          <li><a href="https://opseu.org/contact/" target="_blank" rel="noopener noreferrer">OPSEU Head Office</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
+${opseuResourcesHtml}      <div class="footer-col">
         <h3>Rights &amp; Partners</h3>
         <ul>
           <li><a href="https://www.ontario.ca/document/your-guide-employment-standards-act-0" target="_blank" rel="noopener noreferrer">Employment Standards Act Guide</a></li>
@@ -212,10 +210,20 @@ h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 1rem; }
 .header-brand { flex: 1; }
 
 .header-logo {
-  max-width: 320px;
-  width: 100%;
+  max-height: 56px;
+  width: auto;
+  max-width: 240px;
   height: auto;
   display: block;
+  background: #fff;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+}
+
+.header-brand-text {
+  color: var(--color-white);
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
 .nav-links {
@@ -413,20 +421,28 @@ This is a static site - no database, no hosting fees. Contact links use mailto: 
 `;
 }
 
-export function getOpseuHeaderSvg(primaryColor = "#003DA5"): string {
-  return buildOpseuHeaderSvg(primaryColor);
-}
+export type WebsiteZipLogo = {
+  fileName: string;
+  bytes: Uint8Array;
+};
 
 export async function generateWebsiteZip(
   data: WebsiteTemplateData,
+  logo?: WebsiteZipLogo | null,
 ): Promise<Blob> {
   const JSZip = (await import("jszip")).default;
   const zip = new JSZip();
 
-  zip.file("index.html", buildWebsiteHtml(data));
+  const exportData: WebsiteTemplateData = logo
+    ? { ...data, logoFileName: logo.fileName }
+    : { ...data, logoFileName: "" };
+
+  zip.file("index.html", buildWebsiteHtml(exportData));
   zip.file("css/style.css", buildWebsiteCss(data.primaryColor, data.secondaryColor));
   zip.file("js/site.js", buildWebsiteJs());
-  zip.file("assets/opseu-header.svg", getOpseuHeaderSvg(data.primaryColor));
+  if (logo) {
+    zip.file(`assets/${logo.fileName}`, logo.bytes);
+  }
   zip.file("README.md", buildWebsiteReadme(data.localNumber));
   zip.file(
     "CNAME.example",
@@ -438,9 +454,14 @@ export async function generateWebsiteZip(
 
 export function buildPreviewHtml(data: WebsiteTemplateData): string {
   const css = buildWebsiteCss(data.primaryColor, data.secondaryColor);
-  const body = buildWebsiteHtml(data)
+  let body = buildWebsiteHtml(data)
     .replace('<link rel="stylesheet" href="./css/style.css">', `<style>${css}</style>`)
-    .replace('src="./assets/opseu-header.svg"', `src="data:image/svg+xml,${encodeURIComponent(getOpseuHeaderSvg(data.primaryColor))}"`)
     .replace('<script src="./js/site.js"></script>', "");
+  if (data.logoFileName.trim() && data.logoPreviewSrc.trim()) {
+    body = body.replace(
+      `src="./assets/${data.logoFileName}"`,
+      `src="${data.logoPreviewSrc}"`,
+    );
+  }
   return body;
 }

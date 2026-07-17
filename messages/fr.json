@@ -536,7 +536,7 @@
       "intro": "Cinq minutes de préparation évitent un site qui a l'air cassé. Rassemblez ceci depuis la trousse de marque et l'exécutif local.",
       "tip": "Enregistrez l'URL du site dans la trousse de marque une fois qu'il est en ligne. Les cartes QR, affiches de tableau et autres outils peuvent réutiliser ce lien sans le retaper.",
       "items": {
-        "brand": "Trousse de marque prête : numéro de section, couleurs et logo (le modèle reprend les couleurs automatiquement).",
+        "brand": "Trousse de marque prête : numéro de section, couleurs et logo (le modèle reprend les couleurs et le logo automatiquement).",
         "email": "Un courriel de contact réellement surveillé par la section.",
         "officers": "Noms et rôles des dirigeants approuvés pour le site public.",
         "facebook": "URL du groupe Facebook (ou laissez vide jusqu'à en avoir un)."
@@ -550,7 +550,7 @@
       "steps": {
         "open": {
           "title": "Ouvrir l'outil",
-          "content": "Allez au Modèle de site Web. Vérifiez que les couleurs de la trousse de marque sont correctes dans l'aperçu en direct."
+          "content": "Allez au Modèle de site Web. Vérifiez que les couleurs et le logo de la trousse de marque sont corrects dans l'aperçu en direct."
         },
         "fill": {
           "title": "Remplir les champs",
@@ -1203,7 +1203,7 @@
     "removeOfficer": "Supprimer",
     "preview": "Aperçu en direct",
     "downloadZip": "Télécharger le ZIP du site",
-    "referenceNote": "Ce modèle est basé sur le site en direct local243.org - un site GitHub Pages bénévole utilisé comme référence. Le ZIP exporté utilise une bannière d'en-tête syndicale au lieu d'un logo local dans la barre de navigation."
+    "referenceNote": "Ce modèle est basé sur le site en direct local243.org - un site GitHub Pages bénévole utilisé comme référence. Le ZIP exporté utilise le logo de votre trousse de marque dans la barre de navigation. Les liens vers les ressources OPSEU n'apparaissent dans le pied de page que lorsque le thème de conception de votre trousse de marque est OPSEU."
   },
   "sources": {
     "title": "Sources et références",

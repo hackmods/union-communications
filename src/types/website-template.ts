@@ -16,6 +16,13 @@ export interface WebsiteTemplateData {
   primaryColor: string;
   secondaryColor: string;
   officers: WebsiteOfficer[];
+  /** Relative asset filename for ZIP HTML (e.g. logo.png). Empty = text-only brand. */
+  logoFileName: string;
+  /** Preview iframe src (data URL or same-origin path). */
+  logoPreviewSrc: string;
+  logoAlt: string;
+  /** OPSEU.org footer links — only when Brand Kit design theme is OPSEU. */
+  includeOpseuResources: boolean;
 }
 
 export const DEFAULT_WEBSITE_OFFICERS: WebsiteOfficer[] = [

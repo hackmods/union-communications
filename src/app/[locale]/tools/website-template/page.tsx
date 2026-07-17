@@ -8,6 +8,10 @@ import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { resolveLocalNumber } from "@/lib/utils";
 import {
+  resolveBrandLogoBytes,
+  resolveBrandLogoSrc,
+} from "@/lib/export/brand-logo-bytes";
+import {
   buildPreviewHtml,
   generateWebsiteZip,
 } from "@/lib/templates/website/generate-website-zip";
@@ -20,6 +24,8 @@ import { saveAs } from "file-saver";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { Callout } from "@/components/ui/Callout";
+
+const LOGO_FILE_NAME = "logo.png";
 
 export default function WebsiteTemplatePage() {
   const t = useTranslations("websiteTemplate");
@@ -57,6 +63,9 @@ export default function WebsiteTemplatePage() {
     }
   }
 
+  const logoPreviewSrc = resolveBrandLogoSrc(brandKit);
+  const includeOpseuResources = brandKit.unionPresetId === "opseu";
+
   const templateData: WebsiteTemplateData = useMemo(
     () => ({
       localNumber,
@@ -70,6 +79,10 @@ export default function WebsiteTemplatePage() {
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
       officers,
+      logoFileName: LOGO_FILE_NAME,
+      logoPreviewSrc,
+      logoAlt: unionName,
+      includeOpseuResources,
     }),
     [
       localNumber,
@@ -83,6 +96,8 @@ export default function WebsiteTemplatePage() {
       brandKit.primaryColor,
       brandKit.secondaryColor,
       officers,
+      logoPreviewSrc,
+      includeOpseuResources,
     ],
   );
 
@@ -110,7 +125,13 @@ export default function WebsiteTemplatePage() {
   const handleDownload = async () => {
     setDownloading(true);
     try {
-      const blob = await generateWebsiteZip(templateData);
+      const logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });
+      const blob = await generateWebsiteZip(
+        templateData,
+        logo
+          ? { fileName: LOGO_FILE_NAME, bytes: logo.bytes }
+          : null,
+      );
       saveAs(blob, `local-${localNumber}-website.zip`);
     } finally {
       setDownloading(false);
