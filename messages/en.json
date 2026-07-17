@@ -50,7 +50,9 @@
     "accessibility": "Accessibility",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "mobileNav": "Mobile"
+    "mobileNav": "Mobile",
+    "firstWeek": "First week",
+    "allTools": "All tools"
   },
   "common": {
     "download": "Download",
@@ -79,7 +81,6 @@
     "learnMore": "Learn more",
     "getStarted": "Get started",
     "edit": "Edit",
-    "preview": "Preview",
     "toolEditorPanes": "Editor panels",
     "miniPreviewLabel": "Live preview — tap to enlarge",
     "expandPreview": "Enlarge preview",
@@ -154,7 +155,7 @@
     }
   },
   "socialMediaPlan": {
-    "title": "Social Media Plan",
+    "title": "First week",
     "subtitle": "After Brand Kit: four steps to reach members on boards, social, and a simple website",
     "intro": "Do not skip identity. Set union, colours, local number, and logo in Brand Kit first — then use this roadmap. For practice guidance (tone, platforms, trolls), use The Blueprint. For an overview of the hub, checklist, and sources, see Comms Resources.",
     "relatedLabel": "Also see",
@@ -2220,5 +2221,10 @@
     "relatedSupport": "Support the builder",
     "relatedEnd": ".",
     "backHome": "Back to UnionOps"
+  },
+  "toolsIndex": {
+    "title": "Tools",
+    "subtitle": "Makers for brand, union boards, print, social, and web — all run on your device.",
+    "hint": "Set colours and logo first in"
   }
 }

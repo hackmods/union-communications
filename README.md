@@ -59,7 +59,7 @@ Guides and generators for **social, print, union boards, and websites**. Everyth
 | **Union boards** | Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board / Link Cards |
 | **Print & social** | Flyer Maker, Graphic Maker, Quote Cards, Meeting Backgrounds, Alt-text helper |
 | **Website** | Static site ZIP (GitHub Pages–ready) + deploy guide |
-| **Learn** | Social Media Plan, Blueprint, Strike Guide, Photo Consent, Comms Resources, channel guides, captions & examples |
+| **Learn** | First week, Blueprint, Strike Guide, Photo Consent, Comms Resources, channel guides, captions & examples |
 
 Accessibility: font scaling, high contrast, reduced motion — EN/FR throughout.
 

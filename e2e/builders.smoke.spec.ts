@@ -152,10 +152,12 @@ test.describe("Mobile tool chrome @smoke @mobile", () => {
     const drawer = page.getByTestId("mobile-nav-drawer");
     await expect(drawer).toBeVisible();
     await expect(drawer.getByRole("img", { name: "UnionOps" })).toBeVisible();
+    await drawer.getByRole("button", { name: /Tools|Outils/i }).click();
     await drawer
       .getByRole("link", { name: /Logo Builder|Créateur de logo/i })
       .click();
     await expect(page).toHaveURL(/\/en\/tools\/logo-builder/);
+    await expect(page.getByTestId("mobile-nav-drawer")).toHaveCount(0);
     await assertNoHorizontalOverflow(page);
   });
 

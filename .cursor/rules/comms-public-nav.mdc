@@ -1,22 +1,22 @@
 ---
 description: Public Comms navigation IA (Header Learn / Footer)
-globs: src/components/layout/Header.tsx,src/components/layout/Footer.tsx,src/app/**/guide/**,docs/modules/COMMS.md
+globs: src/components/layout/Header.tsx,src/components/layout/Footer.tsx,src/components/layout/nav/**,src/app/**/guide/**,docs/modules/COMMS.md
 alwaysApply: false
 ---
 
 # Comms public navigation
 
-## Get started (Brand Kit step 0)
+## Get started (progressive CTA)
 
-**Get started** in Header resolves to `/onboarding` when Brand Kit is not established, otherwise `/brand-kit`. Do not point Get started at `/guide/social-media-plan` — that roadmap is “what’s next” after identity.
+**Get started** in Header resolves to `/onboarding` when Brand Kit is not established, otherwise `/guide/social-media-plan` (First week roadmap). Do **not** retarget Get started at `/brand-kit` once identity exists — Brand Kit stays its own top-level link.
 
-Brand Kit is the Comms home base (colours, logo, local number, links). Social Media Plan stays under Learn / home secondary CTA as the first-week channel roadmap.
+Brand Kit is the Comms home base (colours, logo, local number, links). First week (`/guide/social-media-plan`) is the channel roadmap after identity — also listed under Learn → Guides and the home “What’s next” CTA.
 
 ## Header Learn menu (keep this shape)
 
-Three groups in [`Header.tsx`](src/components/layout/Header.tsx) `learnGroups`:
+Three groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups`:
 
-1. **Guides** — Comms Resources, The Blueprint, Strike Guide, Photo Consent (`/guide/photo-consent`)
+1. **Guides** — Comms Resources, The Blueprint, First week (`/guide/social-media-plan`), Strike Guide, Photo Consent (`/guide/photo-consent`)
 2. **By channel** — Print Guide (`/guide/print`), Union Boards Guide, Website Guide
 3. **Libraries** — Social Examples, Captions
 
@@ -24,18 +24,18 @@ Do not re-flatten channel guides into a long top-level link bar. Do not promote 
 
 ## Header Tools menu (keep this shape)
 
-Four groups in `Header.tsx` `toolGroups` (same sectioned dropdown pattern as Learn):
+Four groups in `nav-config.ts` `toolGroups` (mega-menu columns):
 
 1. **Brand** — Logo Builder, Resizer, Document & Slide Generator
 2. **Union boards** — Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board Posters, QR Link Cards
 3. **Print** — Flyer Maker
 4. **Social & web** — Graphic Maker, Quote Card, Meeting Backgrounds, Website Template, Alt-Text Assistant
 
-Do not re-flatten Tools into a single ungrouped list. Keep one **Tools ▾** trigger — do not add extra top-level tool links.
+Footer row in the mega-menu: **All tools** → `/tools` index. Do not re-flatten Tools into a single ungrouped list. Keep one **Tools ▾** trigger — do not add extra top-level tool links.
 
 ## Footer
 
-Include Print Guide alongside Blueprint / Examples / Captions / Resources so print-first locals are not chrome-orphaned. Privacy, Accessibility, Support stay in footer. **Install as an app** (`/install`) is a muted text link under the footer blurb — not a peer of Privacy/Support in the footer nav row.
+Include Tools (`/tools`) and Print Guide alongside Blueprint / Examples / Captions / Resources so print-first locals are not chrome-orphaned. Privacy, Accessibility, Support stay in footer. **Install as an app** (`/install`) is a muted text link under the footer blurb — not a peer of Privacy/Support in the footer nav row.
 
 ## Brand Assets
 

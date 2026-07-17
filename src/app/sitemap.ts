@@ -17,6 +17,7 @@ const PUBLIC_PATHS = [
   "/examples",
   "/captions",
   "/assets",
+  "/tools",
   "/guide/social-media-plan",
   "/guide/union-boards",
   "/guide/print",

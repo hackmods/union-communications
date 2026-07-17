@@ -50,7 +50,9 @@
     "accessibility": "Accessibilité",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu",
-    "mobileNav": "Mobile"
+    "mobileNav": "Mobile",
+    "firstWeek": "Première semaine",
+    "allTools": "Tous les outils"
   },
   "common": {
     "download": "Télécharger",
@@ -79,7 +81,6 @@
     "learnMore": "En savoir plus",
     "getStarted": "Commencer",
     "edit": "Modifier",
-    "preview": "Aperçu",
     "toolEditorPanes": "Panneaux de l'éditeur",
     "miniPreviewLabel": "Aperçu en direct — toucher pour agrandir",
     "expandPreview": "Agrandir l'aperçu",
@@ -154,7 +155,7 @@
     }
   },
   "socialMediaPlan": {
-    "title": "Plan médias sociaux",
+    "title": "Première semaine",
     "subtitle": "Après la trousse de marque : quatre étapes pour rejoindre les membres aux tableaux, sur les réseaux et via un site simple",
     "intro": "Ne sautez pas l'identité. Définissez d'abord le syndicat, les couleurs, le numéro de section et le logo dans la trousse de marque — puis suivez cette feuille de route. Pour les pratiques (ton, plateformes, trolls), utilisez le Plan directeur. Pour une vue d'ensemble, une liste de pratique et les sources, voir Ressources de communication.",
     "relatedLabel": "Voir aussi",
@@ -2220,5 +2221,10 @@
     "relatedSupport": "Soutenir le bâtisseur",
     "relatedEnd": ".",
     "backHome": "Retour à UnionOps"
+  },
+  "toolsIndex": {
+    "title": "Outils",
+    "subtitle": "Créateurs pour la marque, les tableaux syndicaux, l'impression, le social et le web — tout reste sur votre appareil.",
+    "hint": "Définissez d'abord les couleurs et le logo dans"
   }
 }

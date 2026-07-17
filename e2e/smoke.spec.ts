@@ -43,9 +43,18 @@ test.describe("Smoke tests @smoke", () => {
 
   test("social media plan page renders", async ({ page }) => {
     await page.goto("/en/guide/social-media-plan/");
-    await expect(page.getByRole("heading", { name: "Social Media Plan" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "First week" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Brand Kit" }).first()).toBeVisible();
     await expect(page.getByRole("link", { name: "Logo Builder" }).first()).toBeVisible();
+  });
+
+  test("tools index and mega-menu all tools", async ({ page }) => {
+    await page.goto("/en/");
+    const main = page.getByRole("navigation", { name: "Main" });
+    await main.getByRole("button", { name: /Tools/ }).click();
+    await main.getByRole("menuitem", { name: "All tools" }).click();
+    await expect(page).toHaveURL(/\/en\/tools\/?$/);
+    await expect(page.getByRole("heading", { name: "Tools" })).toBeVisible();
   });
 
   test("social examples page renders with tool handoff", async ({ page }) => {
