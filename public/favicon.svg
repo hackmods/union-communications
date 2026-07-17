@@ -9,7 +9,9 @@
       .glyph { stroke: #C2410C; }
     }
   </style>
-  <rect class="plate" width="64" height="64" rx="14"/>
-  <circle class="glyph" cx="44" cy="34" r="14" fill="none" stroke-width="10"/>
-  <path class="glyph" d="M12 14v20a14 14 0 0 0 28 0V14" fill="none" stroke-width="10" stroke-linecap="butt" stroke-linejoin="round" opacity="0.88"/>
+  <rect class="plate" width="64" height="64" rx="12"/>
+  <g transform="translate(32 32) scale(1.06 1.32) translate(-34.5 -32)" class="glyph">
+  <circle cx="44" cy="34" r="14" fill="none" stroke-width="8.75"/>
+  <path d="M12 12v22a14 14 0 0 0 28 0V12" fill="none" stroke-width="8.75" stroke-linecap="butt" stroke-linejoin="round"/>
+</g>
 </svg>

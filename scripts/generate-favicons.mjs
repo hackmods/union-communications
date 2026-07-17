@@ -66,6 +66,10 @@ function resolvePaint(primary, ink = null) {
   return { plate: primary, glyph: pickContrastingInk(primary) };
 }
 
+/**
+ * UI / lockup mark — slightly looser padding for readable chrome at larger sizes.
+ * Favicons use buildFaviconGlyph() instead (tighter optical fill).
+ */
 function buildStaticMarkSvg(primary) {
   const { plate, glyph } = resolvePaint(primary);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UnionOps">
@@ -74,6 +78,29 @@ function buildStaticMarkSvg(primary) {
   <rect width="64" height="64" rx="14" fill="${plate}"/>
   <circle cx="44" cy="34" r="14" fill="none" stroke="${glyph}" stroke-width="10"/>
   <path d="M12 14v20a14 14 0 0 0 28 0V14" fill="none" stroke="${glyph}" stroke-width="10" stroke-linecap="butt" stroke-linejoin="round" opacity="0.88"/>
+</svg>
+`;
+}
+
+/**
+ * Favicon glyph — fills more of the plate, opaque strokes, open counters at 16px.
+ * Slight Y-bias scale so the wider UO mark doesn’t leave tall empty bands.
+ */
+function buildFaviconGlyph(glyphAttr) {
+  // stroke 9 keeps O/U counters open after downscale to 16–32px.
+  return `<g transform="translate(32 32) scale(1.06 1.32) translate(-34.5 -32)" ${glyphAttr}>
+  <circle cx="44" cy="34" r="14" fill="none" stroke-width="8.75"/>
+  <path d="M12 12v22a14 14 0 0 0 28 0V12" fill="none" stroke-width="8.75" stroke-linecap="butt" stroke-linejoin="round"/>
+</g>`;
+}
+
+function buildFaviconMarkSvg(primary) {
+  const { plate, glyph } = resolvePaint(primary);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UnionOps">
+  <title>UnionOps</title>
+  <desc>Favicon mark — tightened interlocking u and o on brand plate.</desc>
+  <rect width="64" height="64" rx="12" fill="${plate}"/>
+  ${buildFaviconGlyph(`stroke="${glyph}"`)}
 </svg>
 `;
 }
@@ -93,9 +120,8 @@ function buildAdaptiveFaviconSvg(primary) {
       .glyph { stroke: ${dark.glyph}; }
     }
   </style>
-  <rect class="plate" width="64" height="64" rx="14"/>
-  <circle class="glyph" cx="44" cy="34" r="14" fill="none" stroke-width="10"/>
-  <path class="glyph" d="M12 14v20a14 14 0 0 0 28 0V14" fill="none" stroke-width="10" stroke-linecap="butt" stroke-linejoin="round" opacity="0.88"/>
+  <rect class="plate" width="64" height="64" rx="12"/>
+  ${buildFaviconGlyph('class="glyph"')}
 </svg>
 `;
 }
@@ -174,26 +200,32 @@ async function main() {
   fs.mkdirSync(iconsDir, { recursive: true });
 
   const adaptiveSvg = buildAdaptiveFaviconSvg(primary);
-  const staticSvg = buildStaticMarkSvg(primary);
-  const staticBuf = Buffer.from(staticSvg);
+  const faviconSvg = buildFaviconMarkSvg(primary);
+  const uiMarkSvg = buildStaticMarkSvg(primary);
+  // Render favicons from a large raster then downscale — cleaner 16/32/48 edges
+  const faviconMaster = await sharp(Buffer.from(faviconSvg))
+    .resize(512, 512)
+    .png()
+    .toBuffer();
 
   fs.writeFileSync(path.join(publicDir, "favicon.svg"), adaptiveSvg);
 
-  // Keep platform logo-mark.svg in sync with contrast-safe static mark
+  // UI chrome mark stays at the looser display proportions
   fs.writeFileSync(
     path.join(publicDir, "assets", "unionops", "logo-mark.svg"),
-    staticSvg,
+    uiMarkSvg,
   );
 
   const pinned = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <circle cx="44" cy="34" r="14" fill="none" stroke="#000" stroke-width="10"/>
-  <path d="M12 14v20a14 14 0 0 0 28 0V14" fill="none" stroke="#000" stroke-width="10" stroke-linecap="butt" stroke-linejoin="round"/>
+  ${buildFaviconGlyph('stroke="#000"')}
 </svg>
 `;
   fs.writeFileSync(path.join(publicDir, "safari-pinned-tab.svg"), pinned);
 
   const sizes = [
     { file: path.join(publicDir, "apple-touch-icon.png"), size: 180 },
+    { file: path.join(iconsDir, "icon-16.png"), size: 16 },
+    { file: path.join(iconsDir, "icon-32.png"), size: 32 },
     { file: path.join(iconsDir, "icon-48.png"), size: 48 },
     { file: path.join(iconsDir, "icon-192.png"), size: 192 },
     { file: path.join(iconsDir, "icon-512.png"), size: 512 },
@@ -201,16 +233,17 @@ async function main() {
   ];
 
   for (const { file, size } of sizes) {
-    await sharp(staticBuf).resize(size, size).png().toFile(file);
+    await sharp(faviconMaster).resize(size, size).png().toFile(file);
   }
 
-  // Multi-size ICO: 48 (Google Search) + 32 (tabs)
-  const png48 = await sharp(staticBuf).resize(48, 48).png().toBuffer();
-  const png32 = await sharp(staticBuf).resize(32, 32).png().toBuffer();
-  const icoBuf = buildIco([
-    { size: 48, buffer: png48 },
-    { size: 32, buffer: png32 },
-  ]);
+  // Multi-size ICO: 48 (Google Search) + 32 + 16 (tabs)
+  const icoSizes = [48, 32, 16];
+  const icoPngs = [];
+  for (const size of icoSizes) {
+    const buffer = await sharp(faviconMaster).resize(size, size).png().toBuffer();
+    icoPngs.push({ size, buffer });
+  }
+  const icoBuf = buildIco(icoPngs);
   // public/ for metadata icons; src/app/ so App Router never serves a stale Create-Next-App ico
   fs.writeFileSync(path.join(publicDir, "favicon.ico"), icoBuf);
   fs.writeFileSync(path.join(root, "src", "app", "favicon.ico"), icoBuf);
@@ -220,7 +253,7 @@ async function main() {
   await sharp(Buffer.from(ogSvg)).png().toFile(path.join(publicDir, "og-image.png"));
 
   console.log(
-    `Favicon + OG suite generated (primary ${primary}, accent ${accent}, glyph ${pickContrastingInk(primary)}).`,
+    `Favicon + OG suite generated (primary ${primary}, accent ${accent}, glyph ${pickContrastingInk(primary)}, tight optical fill).`,
   );
 }
 

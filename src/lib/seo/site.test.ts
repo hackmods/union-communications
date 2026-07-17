@@ -2,6 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  ICON_16_PATH,
+  ICON_32_PATH,
   ICON_48_PATH,
   ICON_192_PATH,
   ICON_512_PATH,
@@ -17,9 +19,11 @@ describe("SEO share + favicon paths", () => {
     expect(OG_IMAGE_STATIC_PATH).toBe("/og-image.png");
   });
 
-  it("ships Google-sized 48px icon plus PWA icons and OG card on disk", () => {
+  it("ships tab, Google, and PWA icon sizes plus OG card on disk", () => {
     const root = path.resolve(__dirname, "../../..");
     for (const iconPath of [
+      ICON_16_PATH,
+      ICON_32_PATH,
       ICON_48_PATH,
       ICON_192_PATH,
       ICON_512_PATH,

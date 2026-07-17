@@ -35,6 +35,8 @@ export const OG_IMAGE_STATIC_PATH = "/og-image.png";
 export const FAVICON_ICO_PATH = "/favicon.ico";
 export const FAVICON_SVG_PATH = "/favicon.svg";
 export const APPLE_TOUCH_ICON_PATH = "/apple-touch-icon.png";
+export const ICON_16_PATH = "/icons/icon-16.png";
+export const ICON_32_PATH = "/icons/icon-32.png";
 /** Google Search wants a square icon that is a multiple of 48px. */
 export const ICON_48_PATH = "/icons/icon-48.png";
 export const ICON_192_PATH = "/icons/icon-192.png";

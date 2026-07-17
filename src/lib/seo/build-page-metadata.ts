@@ -3,6 +3,8 @@ import {
   APPLE_TOUCH_ICON_PATH,
   FAVICON_ICO_PATH,
   FAVICON_SVG_PATH,
+  ICON_16_PATH,
+  ICON_32_PATH,
   ICON_48_PATH,
   ICON_192_PATH,
   ICON_512_PATH,
@@ -86,8 +88,14 @@ export function buildPageMetadata({
       icon: [
         // SVG first — supports prefers-color-scheme black/white contrast
         { url: FAVICON_SVG_PATH, type: "image/svg+xml" },
+        { url: ICON_16_PATH, sizes: "16x16", type: "image/png" },
+        { url: ICON_32_PATH, sizes: "32x32", type: "image/png" },
         { url: ICON_48_PATH, sizes: "48x48", type: "image/png" },
-        { url: FAVICON_ICO_PATH, sizes: "32x32", type: "image/x-icon" },
+        {
+          url: FAVICON_ICO_PATH,
+          sizes: "16x16 32x32 48x48",
+          type: "image/x-icon",
+        },
         { url: ICON_192_PATH, sizes: "192x192", type: "image/png" },
         { url: ICON_512_PATH, sizes: "512x512", type: "image/png" },
       ],
