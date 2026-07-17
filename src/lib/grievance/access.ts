@@ -9,6 +9,12 @@ const ELEVATED_ROLES: UserRole[] = [
   "local_exec",
 ];
 
+const CROSS_LOCAL_ROLES: UserRole[] = [
+  "platform_admin",
+  "union_admin",
+  "division_admin",
+];
+
 const GRIEVANCE_ROLES: UserRole[] = [
   "platform_admin",
   "union_admin",
@@ -25,6 +31,10 @@ export function canAccessGrievanceModule(roles: UserRole[]): boolean {
 
 export function isElevatedGrievanceRole(roles: UserRole[]): boolean {
   return roles.some((r) => ELEVATED_ROLES.includes(r));
+}
+
+export function canCrossLocalGrievance(roles: UserRole[]): boolean {
+  return roles.some((r) => CROSS_LOCAL_ROLES.includes(r));
 }
 
 export function canViewGrievance(
@@ -44,7 +54,11 @@ export function canViewGrievance(
     );
   }
 
-  if (localId && grievance.localId !== localId) return false;
+  // Union/division admins may read across locals. Local officers stay pinned to
+  // active session localId (Hub context switcher updates that for multi-local).
+  if (localId && grievance.localId !== localId) {
+    if (!canCrossLocalGrievance(roles)) return false;
+  }
 
   if (isElevatedGrievanceRole(roles)) return true;
 

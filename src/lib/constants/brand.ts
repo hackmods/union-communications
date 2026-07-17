@@ -76,13 +76,34 @@ export function isSelectableOfficialLogoVariant(
 }
 
 export const DEFAULT_BRAND_KIT = {
-  version: "1.1" as const,
+  version: "2.0" as const,
+  unionId: undefined as string | undefined,
+  unionName: undefined as string | undefined,
+  divisionName: undefined as string | undefined,
   local: {
     id: "local-default",
     localNumber: hostDefaults.localNumber,
     subText: hostDefaults.subText,
     divisionId: hostDefaults.divisionId,
+    bargainingUnitCode: undefined as string | undefined,
   },
+  profiles: [
+    {
+      id: "profile-ft",
+      label: "Full-time Support Staff",
+      localNumber: hostDefaults.localNumber,
+      subText: "Full-time Support Staff",
+      bargainingUnitCode: "ft",
+    },
+    {
+      id: "profile-pt",
+      label: "Part-time Support Staff",
+      localNumber: hostDefaults.localNumber,
+      subText: "Part-time Support Staff",
+      bargainingUnitCode: "pt",
+    },
+  ],
+  activeProfileId: "profile-ft" as string | undefined,
   primaryColor: BRAND_COLORS.primary,
   secondaryColor: BRAND_COLORS.secondary,
   accentColor: BRAND_COLORS.accent,

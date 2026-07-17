@@ -2,6 +2,12 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { auditLog } from "@/lib/audit/memory-adapter";
 
+/**
+ * MFA verify.
+ * - Production: set AUTH_MFA_CODE to the shared offline code (or wire TOTP later).
+ * - Dev default: accept the code in AUTH_DEV_MFA_CODE (default 000000) only —
+ *   no longer accepts arbitrary 6-digit codes.
+ */
 export async function POST(request: Request) {
   const session = await auth();
   if (!session?.user) {
@@ -9,8 +15,17 @@ export async function POST(request: Request) {
   }
 
   const body = (await request.json()) as { code?: string };
-  // Dev MFA: accept 000000 or any 6-digit code
-  if (!body.code || body.code.length !== 6) {
+  const code = body.code?.trim() ?? "";
+  if (!/^\d{6}$/.test(code)) {
+    return NextResponse.json({ error: "Invalid code" }, { status: 400 });
+  }
+
+  const expected =
+    process.env.AUTH_MFA_CODE ??
+    process.env.AUTH_DEV_MFA_CODE ??
+    "000000";
+
+  if (code !== expected) {
     return NextResponse.json({ error: "Invalid code" }, { status: 400 });
   }
 

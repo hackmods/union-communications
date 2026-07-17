@@ -3,6 +3,8 @@ export interface Local {
   localNumber: string;
   subText: string;
   divisionId?: string;
+  /** Active collection code when set (ft / pt) */
+  bargainingUnitCode?: string;
 }
 
 export interface Division {
@@ -25,9 +27,25 @@ export interface LocalLink {
   url: string;
 }
 
+/** Saved local / collection identity for multi-profile Brand Kits */
+export interface BrandKitProfile {
+  id: string;
+  label: string;
+  localNumber: string;
+  subText: string;
+  bargainingUnitCode?: string;
+}
+
 export interface BrandKit {
-  version: "1.1";
+  version: "1.1" | "2.0";
+  /** Multi-union fields (Brand Kit v2) */
+  unionId?: string;
+  unionName?: string;
+  divisionName?: string;
   local: Local;
+  /** Optional profiles for FT/PT or multi-local communicators */
+  profiles?: BrandKitProfile[];
+  activeProfileId?: string;
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
@@ -50,6 +68,7 @@ export interface BrandKit {
 }
 
 /** Partial Brand Kit update — `local` is deep-partial (store merges onto current). */
-export type BrandKitPatch = Omit<Partial<BrandKit>, "local"> & {
+export type BrandKitPatch = Omit<Partial<BrandKit>, "local" | "profiles"> & {
   local?: Partial<Local>;
+  profiles?: BrandKitProfile[];
 };

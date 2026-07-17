@@ -5,16 +5,28 @@ alwaysApply: true
 
 # Roadmap Status & Next Work
 
-Phases **0–5 are complete** (docs → shell → grievance → bumping → hybrid → QOL). See `docs/PROGRESS.md`.
+Phases **0–5 are complete**. Phase **6 multi-scope (memory)** + Phase **7 scaffolds** shipped — Postgres + real attachments remain. See `docs/PROGRESS.md`, ADR-013.
+
+## Tenancy scopes (do not collapse)
+
+```
+Union → Division? → Local → Collection/BargainingUnit? → data
+```
+
+- **Collection** = CA group (FT/PT Support Staff). Code: `BargainingUnit`. UI: Collection.
+- Hub JWT: `localId` + `bargainingUnitId` + optional `accessibleLocalIds`
+- CA steps: `resolveGrievanceConfig(unionId, { bargainingUnitId, localId })`
+- Brand Kit v2 profiles mirror FT/PT for Comms (not a member portal)
 
 ## Next planned work (in order)
 
-1. **Postgres + RLS** — replace memory adapters; every table scoped by `unionId`/`localId`; ADR-008
-2. **Multi-union onboarding UI** — tenant signup/invite (seed-only today); never hardcode OPSEU as default
-3. **Attachments + virus scan** — grievance docs + bumping PDFs via object storage
-4. **Hybrid live local path** — today “local mode” is a preference + encrypted backup only; hub still reads central memory/API
-5. **ApiAdapter** — swap `LocalStorageAdapter` / memory stores for authenticated API persistence
-6. **Workforce Time (full)** — Postgres persistence, scheduling, PTO, union rollup (8-lite shipped at `/app/time`)
+1. **Postgres + RLS** — `unionId` / `localId` / optional `bargainingUnitId`; replace memory adapters; ADR-008 + ADR-013
+2. **Multi-union onboarding UI** — create locals + collections; invite; never hardcode OPSEU as default
+3. **Attachments production path** — object storage + real virus scan (stub exists)
+4. **Hybrid live local path** — today backup preference only
+5. **ApiAdapter** — authenticated API persistence for Brand Kit / prefs
+6. **Workforce Time (full)** — Postgres, scheduling, PTO, union rollup
+7. **TOTP MFA** — replace shared `AUTH_MFA_CODE`
 
 ## Shipped hub surfaces (do not rebuild)
 
@@ -23,15 +35,18 @@ Phases **0–5 are complete** (docs → shell → grievance → bumping → hybr
 | `/app/time` | Workforce time clock + admin board (8-lite) |
 | `/app/hybrid` | Encrypted export/import; passphrase client-only |
 | `/app/overdue` | Overdue/upcoming board |
-| `/app/snippets` | CA clause library |
+| `/app/snippets` | CA clause library (collection-aware filter) |
 | `/app/marketplace` | Within-union templates only |
 | `/app/handoff` | President/admin reassignment wizard |
+| `/app/audit` | Audit log query (elevated officers) |
 
 ## Agent habits
 
 - Prefer extending memory adapters + APIs first; Postgres is a dedicated milestone
 - Gate write CTAs by role (`src/lib/qol/access.ts`, `canInitiateHandoff`)
 - Steward mobile read-only: `useStewardReadOnly` + `stewardMobileMode` preference
-- Hub Tools menu in `HubNav` — do not re-flatten into a long link bar
+- Hub Tools menu in `HubNav` — do not re-flatten; include Audit when elevated
+- Cross-local grievance reads: only `union_admin` / `division_admin` / `platform_admin` without switcher; presidents use Hub context switcher
+- No first-party `/member` portal — keep grievance notes internal
 - Update `docs/PROGRESS.md` + `docs/ROADMAP.md` when closing a milestone
 - Before committing large or multi-file changes: run `npm run lint` and relevant tests (`npm run test:unit`; smoke when UI/routes change). Fix lint/test failures before push.

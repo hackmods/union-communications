@@ -8,10 +8,12 @@ import { getVisibleModules } from "@/lib/modules/registry";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canInitiateHandoff } from "@/lib/handoff/package";
 import { canAccessGrievanceModule } from "@/lib/grievance/access";
+import { canCrossLocalGrievance } from "@/lib/grievance/access";
 import type { HubModule, UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { Emoji } from "@/components/ui/Emoji";
+import { HubContextSwitcher } from "@/components/hub/HubContextSwitcher";
 import { getMenuItems } from "@/components/layout/nav/focusables";
 
 export function HubNav() {
@@ -32,6 +34,10 @@ export function HubNav() {
   const mfaOk = !!session.user.mfaVerified;
   const hasGrievance = canAccessGrievanceModule(roles);
   const showHandoff = canInitiateHandoff(roles);
+  const showAudit =
+    canCrossLocalGrievance(roles) ||
+    roles.includes("local_president") ||
+    roles.includes("local_exec");
 
   const toolLinks = [
     hasGrievance && {
@@ -53,6 +59,10 @@ export function HubNav() {
     hasGrievance && {
       href: "/app/hybrid",
       label: t("hybridLink"),
+    },
+    showAudit && {
+      href: "/app/audit",
+      label: t("auditLink"),
     },
   ].filter(Boolean) as { href: string; label: string }[];
 
@@ -83,12 +93,7 @@ export function HubNav() {
         <span className="shrink-0 text-gray-400" aria-hidden="true">
           |
         </span>
-        {tenant && (
-          <span className="shrink-0 whitespace-nowrap text-gray-600">
-            {tenant.union.name}
-            {tenant.local && ` · Local ${tenant.local.localNumber}`}
-          </span>
-        )}
+        <HubContextSwitcher />
         <span className="hidden min-w-2 flex-1 md:block" />
         {modules.map((mod) => {
           const href = mod.href.startsWith("/app") ? mod.href : "/";

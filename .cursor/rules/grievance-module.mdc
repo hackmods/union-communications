@@ -11,21 +11,24 @@ alwaysApply: false
 - Immutable audit log on every view/edit/export-related action
 - No PII in application logs
 - Pseudonym option for member identity
+- Notes never shown to a member portal (none ships in UnionOps)
 
 ## Data Rules
-- Scope every query by `unionId` + `localId`
-- Stewards: assigned cases only (R/W); may create (self-assigned)
+- Scope every query by `unionId` + `localId`; optional `bargainingUnitId` (Collection)
+- CA steps from `resolveGrievanceConfig` (collection → union) — never hardcoded
+- Stewards: assigned cases only (R/W); may create (self-assigned); collection from session
 - `local_exec`: read elevated, no create/edit
-- CA steps/deadlines from tenant `grievanceConfig` — never hardcoded
+- Cross-local without switcher: only `union_admin` / `division_admin` / `platform_admin`
 
 ## Shipped QOL on detail/list
 - Member communication log (`/api/grievances/[id]/communications`)
 - Meeting scheduler + ICS (`/api/grievances/[id]/meetings`)
 - CA snippet insert into notes; overdue board at `/app/overdue`
 - Steward mobile read-only via `useStewardReadOnly`
+- Attachments API scaffold (`/api/grievances/[id]/attachments`) — scan stub until object storage
 
 ## Do Not
 - Auto-send email drafts or logged communications
-- Cross-local/cross-union queries
-- Store attachments without virus scan (deferred)
+- Cross-union queries; local presidents must switch context for other locals
+- Mark attachments `clean` without a real scanner in production
 - Skip MFA or audit

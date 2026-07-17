@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import type { Session } from "next-auth";
 import {
   canAccessGrievanceModule,
+  canCrossLocalGrievance,
   canEditGrievance,
   canViewGrievance,
 } from "@/lib/grievance/access";
@@ -57,11 +58,22 @@ export function listFiltersForSession(session: Session) {
   const roles = (session.user.roles ?? []) as UserRole[];
   const unionId = session.user.unionId;
   if (!unionId) {
-    return { unionId: "__none__", localId: undefined, assignedStewardId: session.user.id };
+    return {
+      unionId: "__none__",
+      localId: undefined,
+      bargainingUnitId: undefined,
+      assignedStewardId: session.user.id,
+    };
   }
 
   const elevated = roles.some((r) =>
-    ["local_president", "local_exec", "union_admin", "division_admin", "platform_admin"].includes(r),
+    [
+      "local_president",
+      "local_exec",
+      "union_admin",
+      "division_admin",
+      "platform_admin",
+    ].includes(r),
   );
 
   if (roles.includes("solo_account")) {
@@ -75,12 +87,20 @@ export function listFiltersForSession(session: Session) {
     return {
       unionId,
       localId: session.user.localId,
+      bargainingUnitId: session.user.bargainingUnitId,
       assignedStewardId: session.user.id,
     };
   }
 
+  // Cross-local admins: omit localId when cleared ("all locals"); otherwise
+  // filter to active Hub context.
+  const crossLocal = canCrossLocalGrievance(roles);
   return {
     unionId,
     localId: session.user.localId,
+    bargainingUnitId: session.user.bargainingUnitId,
+    ...(crossLocal && !session.user.localId
+      ? { localId: undefined, bargainingUnitId: undefined }
+      : {}),
   };
 }

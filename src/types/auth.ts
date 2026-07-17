@@ -7,6 +7,9 @@ declare module "next-auth" {
     unionId?: string;
     divisionId?: string;
     localId?: string;
+    bargainingUnitId?: string;
+    /** Locals this user may switch into (elevated multi-local) */
+    accessibleLocalIds?: string[];
     roles: UserRole[];
     mfaVerified: boolean;
   }
@@ -20,6 +23,8 @@ declare module "next-auth" {
       unionId?: string;
       divisionId?: string;
       localId?: string;
+      bargainingUnitId?: string;
+      accessibleLocalIds?: string[];
       roles: UserRole[];
       mfaVerified: boolean;
     };
@@ -31,6 +36,8 @@ declare module "next-auth/jwt" {
     unionId?: string;
     divisionId?: string;
     localId?: string;
+    bargainingUnitId?: string;
+    accessibleLocalIds?: string[];
     roles?: UserRole[];
     mfaVerified?: boolean;
   }
@@ -44,6 +51,8 @@ export interface DemoUser {
   unionId?: string;
   divisionId?: string;
   localId?: string;
+  bargainingUnitId?: string;
+  accessibleLocalIds?: string[];
   roles: UserRole[];
   requiresMfa: boolean;
 }

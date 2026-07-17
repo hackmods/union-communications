@@ -7,7 +7,7 @@ import {
 } from "./local-links";
 
 describe("normalizeBrandKit", () => {
-  it("upgrades a 1.0 kit to 1.1 with empty links", () => {
+  it("upgrades a 1.0 kit to 2.0 with empty links", () => {
     const kit = normalizeBrandKit({
       version: "1.0",
       local: { id: "x", localNumber: "100", subText: "Staff" },
@@ -17,10 +17,11 @@ describe("normalizeBrandKit", () => {
       useOfficialLogo: true,
       updatedAt: "2026-01-01T00:00:00.000Z",
     });
-    expect(kit.version).toBe("1.1");
+    expect(kit.version).toBe("2.0");
     expect(kit.local.localNumber).toBe("100");
     expect(kit.customLinks).toEqual([]);
     expect(kit.websiteUrl).toBeUndefined();
+    expect(kit.profiles?.length).toBeGreaterThan(0);
   });
 
   it("keeps website, facebook, and custom links", () => {

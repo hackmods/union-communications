@@ -6,7 +6,9 @@ describe("tenant loader", () => {
   it("loads reference tenant by slug", () => {
     const tenant = getTenantByUnionSlug("opseu");
     expect(tenant?.union.name).toBe("OPSEU");
-    expect(tenant?.local?.localNumber).toBe("243");
+    expect(tenant?.locals?.[0]?.localNumber).toBe("243");
+    expect(tenant?.locals).toHaveLength(2);
+    expect(tenant?.bargainingUnits?.length).toBeGreaterThanOrEqual(2);
   });
 
   it("returns tenant context with brand defaults", () => {

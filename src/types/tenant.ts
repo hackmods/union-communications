@@ -34,6 +34,16 @@ export interface TenantLocal {
   subText: string;
 }
 
+/** CA group under a local (e.g. FT / PT Support Staff). UI label: Collection. */
+export interface BargainingUnit {
+  id: string;
+  unionId: string;
+  localId: string;
+  code: string;
+  name: string;
+  grievanceConfig?: GrievanceConfig;
+}
+
 export interface BrandDefaults {
   primaryColor: string;
   secondaryColor: string;
@@ -57,16 +67,32 @@ export interface TenantSeed {
   description?: string;
   union: Union;
   division?: Division;
+  /** @deprecated Prefer `locals` — kept for older single-local seeds */
   local?: TenantLocal;
+  locals?: TenantLocal[];
+  bargainingUnits?: BargainingUnit[];
   brandDefaults: BrandDefaults;
+  /** Union-level fallback CA steps when no collection/local config applies */
   grievanceConfig?: GrievanceConfig;
-  moduleConfig?: Record<string, { enabled: boolean; label: string }>;
+  moduleConfig?: Record<
+    string,
+    { enabled: boolean; label: string; gpsPolicy?: string }
+  >;
 }
 
 export interface TenantContext {
   union: Union;
   division?: Division;
+  /** Primary / default local (first in seed or legacy `local`) */
   local?: TenantLocal;
+  locals: TenantLocal[];
+  bargainingUnits: BargainingUnit[];
   brandDefaults: BrandDefaults;
   grievanceConfig?: GrievanceConfig;
+}
+
+/** Active Hub scope for elevated switchers */
+export interface HubActiveContext {
+  localId?: string;
+  bargainingUnitId?: string;
 }

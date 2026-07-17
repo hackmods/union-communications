@@ -10,6 +10,8 @@ export const DEMO_USERS: DemoUser[] = [
     unionId: "union-opseu",
     divisionId: "division-caat",
     localId: "local-243",
+    bargainingUnitId: "bu-243-ft",
+    accessibleLocalIds: ["local-243"],
     roles: ["local_president"],
     requiresMfa: true,
   },
@@ -17,11 +19,39 @@ export const DEMO_USERS: DemoUser[] = [
     id: "user-steward-243",
     email: "steward@local243.ca",
     password: "demo123",
-    name: "Local 243 Steward",
+    name: "Local 243 Steward (FT)",
     unionId: "union-opseu",
     divisionId: "division-caat",
     localId: "local-243",
+    bargainingUnitId: "bu-243-ft",
+    accessibleLocalIds: ["local-243"],
     roles: ["local_steward"],
+    requiresMfa: true,
+  },
+  {
+    id: "user-steward-243-pt",
+    email: "steward-pt@local243.ca",
+    password: "demo123",
+    name: "Local 243 Steward (PT)",
+    unionId: "union-opseu",
+    divisionId: "division-caat",
+    localId: "local-243",
+    bargainingUnitId: "bu-243-pt",
+    accessibleLocalIds: ["local-243"],
+    roles: ["local_steward"],
+    requiresMfa: true,
+  },
+  {
+    id: "user-division-admin",
+    email: "caat-admin@opseu.org",
+    password: "demo123",
+    name: "CAAT Division Admin",
+    unionId: "union-opseu",
+    divisionId: "division-caat",
+    localId: "local-243",
+    bargainingUnitId: "bu-243-ft",
+    accessibleLocalIds: ["local-243", "local-560"],
+    roles: ["division_admin"],
     requiresMfa: true,
   },
   {
@@ -32,6 +62,7 @@ export const DEMO_USERS: DemoUser[] = [
     unionId: "union-opseu",
     divisionId: "division-caat",
     localId: "local-243",
+    accessibleLocalIds: ["local-243"],
     roles: ["stability_member"],
     requiresMfa: true,
   },
@@ -47,7 +78,8 @@ export const DEMO_USERS: DemoUser[] = [
 
 export function findDemoUser(email: string, password: string): DemoUser | null {
   const user = DEMO_USERS.find(
-    (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password,
+    (u) =>
+      u.email.toLowerCase() === email.toLowerCase() && u.password === password,
   );
   return user ?? null;
 }

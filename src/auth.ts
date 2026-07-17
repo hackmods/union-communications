@@ -38,6 +38,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           unionId: demo.unionId,
           divisionId: demo.divisionId,
           localId: demo.localId,
+          bargainingUnitId: demo.bargainingUnitId,
+          accessibleLocalIds: demo.accessibleLocalIds,
           roles: demo.roles,
           mfaVerified: !demo.requiresMfa,
         };

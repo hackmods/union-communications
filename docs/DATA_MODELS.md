@@ -7,6 +7,7 @@ erDiagram
     Union ||--o{ Division : has
     Division ||--o{ Local : has
     Union ||--o{ Local : has_direct
+    Local ||--o{ BargainingUnit : has
     Local ||--o{ User : employs
     User }o--o{ Role : has
 ```
@@ -26,9 +27,14 @@ erDiagram
 { id, unionId, divisionId?, localNumber, subText, brandKitId }
 ```
 
+### BargainingUnit (optional Collection under Local)
+```typescript
+{ id, unionId, localId, code, name, grievanceConfig? }
+```
+
 ### User
 ```typescript
-{ id, email, name, mfaEnabled, unionId, localId?, roles[] }
+{ id, email, name, mfaEnabled, unionId, localId?, bargainingUnitId?, accessibleLocalIds?, roles[] }
 ```
 
 ### UnionConfig
@@ -38,24 +44,14 @@ erDiagram
 
 ## Comms
 
-### BrandKit (v1.1 — client)
-```typescript
-{
-  version: "1.1",
-  local: { id, localNumber, subText },
-  primaryColor, secondaryColor, accentColor,
-  useOfficialLogo, officialLogoVariant?, customLogoDataUrl?, logoText?,
-  websiteUrl?, facebookUrl?, customLinks?: { id, label, url }[],
-  updatedAt
-}
-```
-
-### BrandKit (v2 — planned multi-union)
+### BrandKit (v2 — multi-union + profiles)
 ```typescript
 {
   version: "2.0",
-  unionId, unionName, divisionName?,
-  local: { id, localNumber, subText },
+  unionId?, unionName?, divisionName?,
+  local: { id, localNumber, subText, bargainingUnitCode? },
+  profiles?: { id, label, localNumber, subText, bargainingUnitCode? }[],
+  activeProfileId?,
   primaryColor, secondaryColor, accentColor,
   useOfficialLogo, customLogoDataUrl?,
   websiteUrl?, facebookUrl?, customLinks?,
@@ -63,69 +59,32 @@ erDiagram
 }
 ```
 
+Legacy v1.1 kits normalize to v2 via `normalizeBrandKit`.
+
 ## Grievance
 
 ### Grievance
 ```typescript
-{ id, unionId, localId, memberPseudonym?, category, status, currentStep, filedAt, resolvedAt?, assignedStewardId }
+{ id, unionId, localId, bargainingUnitId?, memberPseudonym?, category, status, currentStep, filedAt, resolvedAt?, assignedStewardId }
 ```
 
-### GrievanceEvent
+### CAConfig resolution
+Collection `grievanceConfig` → union fallback (`resolveGrievanceConfig`).
+
+### MemberCommunication / ScheduledMeeting / CaSnippet / SharedTemplate
+Carry `unionId` + `localId`; snippets and marketplace may include optional `bargainingUnitId`.
+
+## Attachments (Phase 7 scaffold)
+
 ```typescript
-{ id, grievanceId, type, stepNumber?, dueAt?, completedAt?, note? }
+{ id, unionId, localId, bargainingUnitId?, grievanceId?, fileName, mimeType, sizeBytes, storageKey, scanStatus, uploadedById }
 ```
 
-### GrievanceNote
-```typescript
-{ id, grievanceId, authorId, body, createdAt }  // immutable
-```
-
-### CAConfig
-```typescript
-{ unionId, localId?, steps: { number, name, responseDays }[] }
-```
-
-### MemberCommunication (Phase 5)
-```typescript
-{ id, grievanceId, unionId, localId, channel, direction, summary, occurredAt, loggedById }
-```
-
-### ScheduledMeeting (Phase 5)
-```typescript
-{ id, grievanceId, unionId, localId, title, startsAt, endsAt, location?, description? }
-```
-
-### CaSnippet (Phase 5)
-```typescript
-{ id, unionId, localId?, title, clauseRef, body, tags[], createdById }
-```
-
-### SharedTemplate (Phase 5 — within-union only)
-```typescript
-{ id, unionId, localId, kind, title, description, body, sharedById }
-```
-
-## Bumping
-
-### BumpingCase
-```typescript
-{ id, unionId, localId, memberRef, seniorityDate, currentPosition, scenario, status }
-```
-
-### CommitteeSession
-```typescript
-{ id, bumpingCaseId, date, attendees[], agenda, decisionId? }
-```
-
-## Platform
-
-### AuditLog
-```typescript
-{ id, userId, action, resourceType, resourceId, unionId, localId, timestamp, metadata? }
-```
+`scanStatus`: `pending` | `clean` | `infected` | `skipped_dev`
 
 ## Notes
 
 - Every query filters by `unionId` minimum
-- `localId` required for local-scoped entities
-- OPSEU/CAAT v1 code maps to reference seed, not schema defaults
+- `localId` required for local-scoped entities; `bargainingUnitId` optional
+- OPSEU/CAAT maps to reference seed only — not schema defaults
+- Active Hub context (JWT): `localId` + `bargainingUnitId` drive list filters

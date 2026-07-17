@@ -7,6 +7,7 @@ import type {
 export interface SnippetListFilters {
   unionId: string;
   localId?: string;
+  bargainingUnitId?: string;
   query?: string;
 }
 

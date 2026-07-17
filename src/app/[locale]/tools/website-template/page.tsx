@@ -40,7 +40,7 @@ export default function WebsiteTemplatePage() {
     "Members stand united in solidarity for fairness, respect, and quality public services. Get the latest updates and find out how to connect with your Local.",
   );
   const [about1, setAbout1] = useState(
-    `Local ${localNumber} represents full-time and part-time members. We are dedicated to protecting our members' rights, ensuring fair and safe working conditions, and strengthening our community.`,
+    `Local ${localNumber} represents full-time and part-time support staff. We are dedicated to protecting our members' rights, ensuring fair and safe working conditions, and strengthening our community.`,
   );
   const [about2, setAbout2] = useState(
     "Through collective action and solidarity, we work to ensure the essential work our members perform is recognized and respected.",

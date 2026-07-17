@@ -68,12 +68,12 @@ Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “
 
 ## Multi-Union Migration Checklist (Phase 1)
 
-- [ ] Replace hardcoded "OPSEU" / "CAAT" strings with `UnionConfig.name`
 - [x] Move `CAAT_OPSEU_COLORS` to per-union `brandDefaults` (`BRAND_COLORS` from tenant loader)
-- [ ] Rename asset pack to `UnionAssetPack` pattern; CAAT pack = reference seed
-- [ ] Extend Brand Kit schema v2: `unionId`, `unionName`, `divisionName`
+- [x] Extend Brand Kit schema v2: `unionId`, `unionName`, `divisionName`, FT/PT profiles
 - [x] Default local number fallback via `resolveLocalNumber()` (easter egg: 243)
 - [x] Platform-neutral metadata titles in `messages/*.json`
+- [ ] Rename asset pack to `UnionAssetPack` pattern; CAAT pack = reference seed
+- [ ] Replace remaining hardcoded "OPSEU" / "CAAT" strings with `UnionConfig.name` where still present
 
 ## Public vs Authenticated
 

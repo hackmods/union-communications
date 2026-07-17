@@ -22,6 +22,7 @@ const grievances: Grievance[] = [
     id: "grev-001",
     unionId: "union-opseu",
     localId: "local-243",
+    bargainingUnitId: "bu-243-ft",
     memberPseudonym: "Member A",
     category: "Contract interpretation",
     status: "in_progress",
@@ -35,13 +36,28 @@ const grievances: Grievance[] = [
     id: "grev-002",
     unionId: "union-opseu",
     localId: "local-243",
+    bargainingUnitId: "bu-243-pt",
     memberPseudonym: "Member B",
     category: "Discipline",
     status: "open",
     currentStep: 2,
     filedAt: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString(),
-    assignedStewardId: "user-steward-243",
+    assignedStewardId: "user-steward-243-pt",
     createdById: "user-president-243",
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: "grev-003",
+    unionId: "union-opseu",
+    localId: "local-560",
+    bargainingUnitId: "bu-560-ft",
+    memberPseudonym: "Member C",
+    category: "Hours of work",
+    status: "open",
+    currentStep: 1,
+    filedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    assignedStewardId: "user-division-admin",
+    createdById: "user-division-admin",
     updatedAt: new Date().toISOString(),
   },
 ];
@@ -110,6 +126,13 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
     if (filters.localId) {
       results = results.filter((g) => g.localId === filters.localId);
     }
+    if (filters.bargainingUnitId) {
+      results = results.filter(
+        (g) =>
+          !g.bargainingUnitId ||
+          g.bargainingUnitId === filters.bargainingUnitId,
+      );
+    }
     if (filters.assignedStewardId) {
       results = results.filter(
         (g) => g.assignedStewardId === filters.assignedStewardId,
@@ -160,6 +183,7 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
     meta: {
       unionId: string;
       localId: string;
+      bargainingUnitId?: string;
       createdById: string;
       assignedStewardId: string;
     },
@@ -169,6 +193,7 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
       id: id("grev"),
       unionId: meta.unionId,
       localId: meta.localId,
+      bargainingUnitId: input.bargainingUnitId ?? meta.bargainingUnitId,
       memberPseudonym: input.memberPseudonym,
       category: input.category,
       status: "open",

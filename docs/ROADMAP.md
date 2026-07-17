@@ -41,18 +41,32 @@
 - [x] Union template marketplace (within-union sharing)
 - [x] Mobile steward read-only mode
 
-## Phase 6 — Persistence & Onboarding (next)
-- [ ] PostgreSQL + Row-Level Security (`unionId` / `localId`)
+## Phase 6 — Persistence, multi-scope & Onboarding (in progress)
+
+### Shipped (memory-backed)
+- [x] ADR-013 Collection / BargainingUnit under Local
+- [x] Multi-local + FT/PT reference seed (`locals`, `bargainingUnits`)
+- [x] `resolveGrievanceConfig` (collection → union)
+- [x] Hub context switcher (local + collection) + elevated cross-local access fix
+- [x] Brand Kit v2 profiles (FT/PT) + Comms copy
+- [x] Phase 7 scaffolds: audit UI, attachment API + scan stub, MFA fixed-code verify
+
+### Remaining
+- [ ] PostgreSQL + Row-Level Security (`unionId` / `localId` / optional `bargainingUnitId`)
 - [ ] Replace memory adapters with DB-backed stores
 - [ ] `ApiAdapter` for hub clients
-- [ ] Multi-union tenant onboarding / invite UI
+- [ ] Multi-union tenant onboarding / invite UI (create locals + collections)
 - [ ] Hybrid live local data path (optional offline source of truth)
 
-## Phase 7 — Attachments & Hardening
-- [ ] Grievance document attachments + virus scan
+## Phase 7 — Attachments & Hardening (partial)
+
+- [x] Attachment metadata API + memory adapter + scan stub (`skipped_dev`)
+- [x] Audit log query UI (`/app/audit`) for elevated officers
+- [x] MFA no longer accepts arbitrary 6-digit codes — `AUTH_DEV_MFA_CODE` / `AUTH_MFA_CODE` (default `000000`)
+- [ ] Object storage + real virus scanner (ClamAV / cloud)
+- [ ] Grievance detail UI for attachments
 - [ ] Server-side bumping PDF storage + virus scan
-- [ ] Stronger MFA (replace dev 6-digit accept)
-- [ ] Audit log query UI for officers
+- [ ] TOTP / stronger MFA (replace shared offline code)
 
 ## Phase 8 — Workforce Time (VeriClock-class)
 

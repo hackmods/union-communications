@@ -22,6 +22,8 @@ export interface Grievance {
   id: string;
   unionId: string;
   localId: string;
+  /** Optional CA collection (FT/PT Support Staff, etc.) */
+  bargainingUnitId?: string;
   memberPseudonym?: string;
   category: string;
   status: GrievanceStatus;
@@ -66,6 +68,7 @@ export interface CreateGrievanceInput {
   category: string;
   filedAt: string;
   assignedStewardId?: string;
+  bargainingUnitId?: string;
 }
 
 export interface UpdateGrievanceInput {
@@ -74,6 +77,7 @@ export interface UpdateGrievanceInput {
   memberPseudonym?: string;
   category?: string;
   assignedStewardId?: string;
+  bargainingUnitId?: string | null;
   resolvedAt?: string | null;
 }
 
@@ -92,6 +96,7 @@ export interface CreateEventInput {
 export interface GrievanceListFilters {
   unionId: string;
   localId?: string;
+  bargainingUnitId?: string;
   assignedStewardId?: string;
   status?: GrievanceStatus;
 }

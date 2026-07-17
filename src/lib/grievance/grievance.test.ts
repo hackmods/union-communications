@@ -103,14 +103,26 @@ describe("grievance access control", () => {
     ).toBe(true);
   });
 
-  it("blocks local_exec from editing", () => {
+  it("allows division_admin to view another local grievance", () => {
     expect(
-      canEditGrievance(
-        sampleGrievance,
-        "user-exec",
+      canViewGrievance(
+        { ...sampleGrievance, localId: "local-560" },
+        "user-division-admin",
         "union-opseu",
         "local-243",
-        ["local_exec"],
+        ["division_admin"],
+      ),
+    ).toBe(true);
+  });
+
+  it("blocks local_president from another local without switch", () => {
+    expect(
+      canViewGrievance(
+        { ...sampleGrievance, localId: "local-560" },
+        "user-president-243",
+        "union-opseu",
+        "local-243",
+        ["local_president"],
       ),
     ).toBe(false);
   });

@@ -24,6 +24,7 @@ export interface GrievanceAdapter {
     meta: {
       unionId: string;
       localId: string;
+      bargainingUnitId?: string;
       createdById: string;
       assignedStewardId: string;
     },

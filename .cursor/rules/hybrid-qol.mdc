@@ -13,16 +13,18 @@ alwaysApply: false
 - Audit: `hybrid.export` / `hybrid.import`
 - Local slice in `localStorage` (`LocalHybridSliceAdapter`) is a **backup**, not the live store — do not pretend otherwise in UI copy
 
-## QOL (Phase 5)
-- Types: `src/types/qol.ts`
+## QOL (Phase 5+)
+- Types: `src/types/qol.ts` — optional `bargainingUnitId` on snippets / marketplace
 - Access helpers: `src/lib/qol/access.ts`
 - ICS: `src/lib/calendar/ics.ts` (client download)
-- Handoff: presidents/admins only (`canInitiateHandoff`)
+- Handoff: presidents/admins only (`canInitiateHandoff`); stamp active local (+ collection when set)
 - Marketplace: same `unionId` only — never cross-union
 - Stewards: assigned grievance R/W; bumping read-only; mobile read-only hides write CTAs
+- Hub context switcher filters lists by active local/collection
 
 ## Do Not
 - Auto-send email drafts or member communications
 - Show handoff/share/delete CTAs the API will 403
 - Cross-union marketplace or snippet reads
 - Treat hybrid “local mode” as offline source of truth until live path ships
+- Build a first-party member self-service portal under QOL

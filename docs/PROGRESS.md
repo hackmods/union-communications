@@ -130,10 +130,21 @@ Scaffold through testing/CI — all complete.
 ## Deferred (future)
 
 - [ ] Multi-union onboarding UI → **Phase 6**
-- [ ] Persistent Postgres + RLS → **Phase 6**
+- [ ] Persistent Postgres + RLS (`unionId` / `localId` / `bargainingUnitId`) → **Phase 6**
 - [ ] Workforce Time full (scheduling, PTO, union rollup) → **Phase 8** (8-lite + 8-lite+ shipped)
 - [ ] Comms content backlog (email/broadcast guide; First week Print step + remaining copy sweep) → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
 - [x] Photo consent / member media checklist → `/guide/photo-consent` (Learn → Guides)
+
+## Phase 6.0–6.4 multi-scope + Phase 7 scaffolds (2026-07-17) — COMPLETE (memory)
+
+- [x] ADR-013 Collection / BargainingUnit; VISION / DATA_MODELS / RBAC / ROADMAP updated
+- [x] Reference seed: Local 243 + 560; FT/PT collections with distinct CA deadlines
+- [x] Hub context switcher; elevated cross-local grievance access; demo division admin + PT steward
+- [x] Grievance / snippet filters by `bargainingUnitId`; `resolveGrievanceConfig`
+- [x] Brand Kit v2 profiles (FT/PT); website about copy FT+PT Support Staff
+- [x] `/app/audit` query UI; attachment API + scan stub; MFA fixed-code (`AUTH_DEV_MFA_CODE`)
+- [x] Unit tests: tenant loader + cross-local grievance access
+
 
 ## Public nav — channel guides in Learn (2026-07-14) — COMPLETE
 

@@ -42,10 +42,16 @@
 **Decision:** Central hosted platform with hybrid encrypted export for sensitive modules.  
 **Consequences:** Comms can stay public; grievance/bumping require auth.
 
+## ADR-013: Collection (BargainingUnit) under Local
+**Status:** Accepted (Phase 6.0+)  
+**Context:** CAAT Support Staff locals often have distinct FT and PT collective agreements; multi-local division admins need an active scope switcher. “Collection” is not a tenancy root — it sits under Local.  
+**Decision:** Optional `BargainingUnit` (`id`, `unionId`, `localId`, `code`, `name`, optional `grievanceConfig`). UI label **Collection**. CA steps resolve collection → union fallback. Hub JWT carries `localId` + `bargainingUnitId` for list filters; Brand Kit v2 profiles mirror FT/PT identity for Comms.  
+**Consequences:** RLS (when Postgres lands) keys `unionId` / `localId` / optional `bargainingUnitId`. No first-party member portal; officer Hub + public Comms remain the dual surface.
+
 ## ADR-008: Postgres + RLS for tenant isolation
-**Status:** Proposed (Phase 1+)  
+**Status:** Proposed (Phase 6)  
 **Context:** Multi-union tenancy requires strict data isolation.  
-**Decision:** PostgreSQL with Row-Level Security on `unionId` / `localId`.  
+**Decision:** PostgreSQL with Row-Level Security on `unionId` / `localId` / optional `bargainingUnitId` (ADR-013).  
 **Consequences:** Requires backend; static export only for public comms.
 
 ## ADR-009: Grievance data highly confidential — MFA + audit mandatory

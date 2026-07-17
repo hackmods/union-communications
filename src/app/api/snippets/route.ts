@@ -26,6 +26,7 @@ export async function GET(request: Request) {
   const snippets = await snippetStore.list({
     unionId,
     localId: session.user.localId,
+    bargainingUnitId: session.user.bargainingUnitId,
     query,
   });
 
@@ -62,7 +63,14 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { title, clauseRef, body: snippetBody, tags, localId } = body;
+  const {
+    title,
+    clauseRef,
+    body: snippetBody,
+    tags,
+    localId,
+    bargainingUnitId,
+  } = body;
   if (!title || !clauseRef || !snippetBody) {
     return NextResponse.json(
       { error: "title, clauseRef, and body are required" },
@@ -77,6 +85,7 @@ export async function POST(request: Request) {
       body: snippetBody,
       tags: Array.isArray(tags) ? tags : [],
       localId: localId ?? session.user.localId,
+      bargainingUnitId: bargainingUnitId ?? session.user.bargainingUnitId,
     },
     {
       unionId,

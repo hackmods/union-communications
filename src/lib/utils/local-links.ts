@@ -45,7 +45,7 @@ function normalizeCustomLinks(raw: unknown): LocalLink[] {
     .filter((x): x is LocalLink => x !== null);
 }
 
-/** Upgrade legacy 1.0 (or partial) kits to BrandKit 1.1 with link fields. */
+/** Upgrade legacy kits to BrandKit 2.0 with multi-union + profile fields. */
 export function normalizeBrandKit(raw: unknown): BrandKit {
   const base = { ...DEFAULT_BRAND_KIT, updatedAt: new Date().toISOString() };
   if (!raw || typeof raw !== "object") return base;
@@ -56,26 +56,54 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
       ? (input.local as Record<string, unknown>)
       : {};
 
+  const profiles = Array.isArray(input.profiles)
+    ? (input.profiles as BrandKit["profiles"])
+    : base.profiles;
+
+  const activeProfileId =
+    typeof input.activeProfileId === "string"
+      ? input.activeProfileId
+      : base.activeProfileId;
+
+  const activeProfile = profiles?.find((p) => p.id === activeProfileId);
+
+  const local = {
+    ...base.local,
+    ...localIn,
+    id:
+      typeof localIn.id === "string" && localIn.id
+        ? localIn.id
+        : base.local.id,
+    localNumber:
+      typeof localIn.localNumber === "string"
+        ? localIn.localNumber
+        : (activeProfile?.localNumber ?? base.local.localNumber),
+    subText:
+      typeof localIn.subText === "string"
+        ? localIn.subText
+        : (activeProfile?.subText ?? base.local.subText),
+    bargainingUnitCode:
+      typeof localIn.bargainingUnitCode === "string"
+        ? localIn.bargainingUnitCode
+        : (activeProfile?.bargainingUnitCode ??
+          base.local.bargainingUnitCode),
+  };
+
   return {
     ...base,
     ...input,
-    version: "1.1",
-    local: {
-      ...base.local,
-      ...localIn,
-      id:
-        typeof localIn.id === "string" && localIn.id
-          ? localIn.id
-          : base.local.id,
-      localNumber:
-        typeof localIn.localNumber === "string"
-          ? localIn.localNumber
-          : base.local.localNumber,
-      subText:
-        typeof localIn.subText === "string"
-          ? localIn.subText
-          : base.local.subText,
-    },
+    version: "2.0",
+    unionId:
+      typeof input.unionId === "string" ? input.unionId : base.unionId,
+    unionName:
+      typeof input.unionName === "string" ? input.unionName : base.unionName,
+    divisionName:
+      typeof input.divisionName === "string"
+        ? input.divisionName
+        : base.divisionName,
+    local,
+    profiles,
+    activeProfileId,
     primaryColor: asBrandHex(input.primaryColor, base.primaryColor),
     secondaryColor: asBrandHex(input.secondaryColor, base.secondaryColor),
     accentColor: asBrandHex(input.accentColor, base.accentColor),
@@ -95,6 +123,25 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
         ? input.updatedAt
         : base.updatedAt,
   };
+}
+
+/** Apply a saved profile onto local identity fields. */
+export function applyBrandKitProfile(
+  kit: BrandKit,
+  profileId: string,
+): BrandKit {
+  const profile = kit.profiles?.find((p) => p.id === profileId);
+  if (!profile) return kit;
+  return normalizeBrandKit({
+    ...kit,
+    activeProfileId: profileId,
+    local: {
+      ...kit.local,
+      localNumber: profile.localNumber,
+      subText: profile.subText,
+      bargainingUnitCode: profile.bargainingUnitCode,
+    },
+  });
 }
 
 /** Client-side: local website, else current origin (or empty on server). */

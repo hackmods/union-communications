@@ -10,10 +10,11 @@ const snippets: CaSnippet[] = [
     id: "snip-001",
     unionId: "union-opseu",
     localId: "local-243",
+    bargainingUnitId: "bu-243-ft",
     title: "Just cause for discipline",
     clauseRef: "Article 7.01",
     body: "No employee shall be disciplined or discharged without just cause. The Employer shall provide written reasons upon request.",
-    tags: ["discipline", "just-cause"],
+    tags: ["discipline", "just-cause", "ft"],
     createdById: "user-president-243",
     createdByName: "Local 243 President",
     createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -23,10 +24,11 @@ const snippets: CaSnippet[] = [
     id: "snip-002",
     unionId: "union-opseu",
     localId: "local-243",
-    title: "Step 1 meeting timeline",
+    bargainingUnitId: "bu-243-pt",
+    title: "Step 1 meeting timeline (PT)",
     clauseRef: "Article 12.02",
-    body: "A Step 1 meeting shall be held within five (5) working days of the grievance being filed, unless the parties agree to an extension in writing.",
-    tags: ["grievance", "timeline", "step-1"],
+    body: "A Step 1 meeting shall be held within seven (7) working days of the grievance being filed for part-time Support Staff, unless the parties agree to an extension in writing.",
+    tags: ["grievance", "timeline", "step-1", "pt"],
     createdById: "user-president-243",
     createdByName: "Local 243 President",
     createdAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
@@ -56,6 +58,13 @@ export class MemorySnippetAdapter implements SnippetAdapter {
     if (filters.localId) {
       results = results.filter(
         (s) => !s.localId || s.localId === filters.localId,
+      );
+    }
+    if (filters.bargainingUnitId) {
+      results = results.filter(
+        (s) =>
+          !s.bargainingUnitId ||
+          s.bargainingUnitId === filters.bargainingUnitId,
       );
     }
     if (filters.query) {
@@ -91,6 +100,7 @@ export class MemorySnippetAdapter implements SnippetAdapter {
       id: id("snip"),
       unionId: meta.unionId,
       localId: input.localId,
+      bargainingUnitId: input.bargainingUnitId,
       title: input.title,
       clauseRef: input.clauseRef,
       body: input.body,
@@ -109,7 +119,7 @@ export class MemorySnippetAdapter implements SnippetAdapter {
     input: UpdateCaSnippetInput,
   ): Promise<CaSnippet | null> {
     const idx = snippets.findIndex((s) => s.id === snippetId);
-    if (idx === -1) return null;
+    if (idx < 0) return null;
     snippets[idx] = {
       ...snippets[idx],
       ...input,
@@ -120,7 +130,7 @@ export class MemorySnippetAdapter implements SnippetAdapter {
 
   async remove(snippetId: string): Promise<boolean> {
     const idx = snippets.findIndex((s) => s.id === snippetId);
-    if (idx === -1) return false;
+    if (idx < 0) return false;
     snippets.splice(idx, 1);
     return true;
   }

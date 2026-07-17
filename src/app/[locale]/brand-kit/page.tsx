@@ -15,6 +15,7 @@ import {
   brandKitPatchForLogoMode,
 } from "@/components/brand/LogoSettings";
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
+import { BrandProfileSwitcher } from "@/components/brand/BrandProfileSwitcher";
 import {
   brandFieldsFromUnionPreset,
   getUnionPreset,
@@ -72,7 +73,9 @@ export default function BrandKitPage() {
       const text = await file.text();
       const parsed = JSON.parse(text) as { version?: string; local?: unknown };
       if (
-        (parsed.version !== "1.0" && parsed.version !== "1.1") ||
+        (parsed.version !== "1.0" &&
+          parsed.version !== "1.1" &&
+          parsed.version !== "2.0") ||
         !parsed.local
       ) {
         throw new Error("Invalid schema");
@@ -176,6 +179,7 @@ export default function BrandKitPage() {
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         <Card density="compact" className="space-y-3">
           <CardTitle className="text-base">{t("currentSettings")}</CardTitle>
+          <BrandProfileSwitcher />
           <Input
             label={t("localNumber")}
             value={brandKit.local.localNumber}

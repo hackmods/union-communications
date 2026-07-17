@@ -24,8 +24,11 @@ Platform (you host)
   └── Union (e.g. OPSEU, CUPE, UNIFOR)
         └── Division / Sector (optional - e.g. CAAT, colleges)
               └── Local (e.g. Local 243)
-                    └── Users (officers, stewards, solo accounts)
+                    └── Collection / BargainingUnit (optional - e.g. FT / PT Support Staff)
+                          └── Users (officers, stewards, solo accounts)
 ```
+
+**Collection** = CA group under a local (product UI label). Code type: `BargainingUnit`. Used when one local has distinct CAs (full-time vs part-time Support Staff). Omit when a local has a single CA.
 
 ## Problem Statement
 

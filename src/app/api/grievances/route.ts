@@ -5,11 +5,10 @@ import {
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
 import { grievanceStore } from "@/lib/grievance/memory-adapter";
-import { getTenantContext } from "@/lib/tenant/loader";
+import { resolveGrievanceConfig } from "@/lib/tenant/loader";
 import { getCurrentStepDueDate } from "@/lib/grievance/deadlines";
 import { isElevatedGrievanceRole } from "@/lib/grievance/access";
 import type { UserRole } from "@/types/tenant";
-import type { GrievanceConfig } from "@/types/tenant";
 
 export async function GET() {
   const authResult = await requireGrievanceSession();
@@ -25,17 +24,29 @@ export async function GET() {
   const items = await grievanceStore.list(filters);
 
   const config = session.user.unionId
-    ? getTenantContext(session.user.unionId)?.grievanceConfig
+    ? resolveGrievanceConfig(session.user.unionId, {
+        bargainingUnitId: session.user.bargainingUnitId,
+        localId: session.user.localId,
+      })
     : undefined;
 
   const enriched = items.map((g) => {
+    const dueConfig =
+      (session.user.unionId &&
+        resolveGrievanceConfig(session.user.unionId, {
+          bargainingUnitId: g.bargainingUnitId,
+          localId: g.localId,
+        })) ||
+      config;
     const due =
-      config &&
-      getCurrentStepDueDate(g.filedAt, g.currentStep, config as GrievanceConfig);
+      dueConfig &&
+      getCurrentStepDueDate(g.filedAt, g.currentStep, dueConfig);
     return {
       ...g,
       dueAt: due?.toISOString() ?? null,
-      isOverdue: due ? due.getTime() < Date.now() && g.status !== "resolved" : false,
+      isOverdue: due
+        ? due.getTime() < Date.now() && g.status !== "resolved"
+        : false,
     };
   });
 
@@ -67,7 +78,13 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { memberPseudonym, category, filedAt, assignedStewardId } = body;
+  const {
+    memberPseudonym,
+    category,
+    filedAt,
+    assignedStewardId,
+    bargainingUnitId,
+  } = body;
 
   if (!category || !filedAt) {
     return NextResponse.json(
@@ -80,6 +97,9 @@ export async function POST(request: Request) {
     session.user.unionId ?? `solo-union-${session.user.id}`;
   const localId =
     session.user.localId ?? `solo-local-${session.user.id}`;
+  const collectionId =
+    (typeof bargainingUnitId === "string" && bargainingUnitId) ||
+    session.user.bargainingUnitId;
 
   const stewardId =
     assignedStewardId && isElevatedGrievanceRole(roles)
@@ -87,10 +107,17 @@ export async function POST(request: Request) {
       : session.user.id;
 
   const created = await grievanceStore.create(
-    { memberPseudonym, category, filedAt, assignedStewardId: stewardId },
+    {
+      memberPseudonym,
+      category,
+      filedAt,
+      assignedStewardId: stewardId,
+      bargainingUnitId: collectionId,
+    },
     {
       unionId,
       localId,
+      bargainingUnitId: collectionId,
       createdById: session.user.id,
       assignedStewardId: stewardId,
     },

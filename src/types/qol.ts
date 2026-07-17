@@ -34,6 +34,7 @@ export interface CaSnippet {
   id: string;
   unionId: string;
   localId?: string;
+  bargainingUnitId?: string;
   title: string;
   clauseRef: string;
   body: string;
@@ -50,6 +51,7 @@ export interface CreateCaSnippetInput {
   body: string;
   tags?: string[];
   localId?: string;
+  bargainingUnitId?: string;
 }
 
 export interface UpdateCaSnippetInput {
@@ -70,6 +72,7 @@ export interface SharedTemplate {
   id: string;
   unionId: string;
   localId: string;
+  bargainingUnitId?: string;
   kind: MarketplaceTemplateKind;
   title: string;
   description: string;
@@ -84,6 +87,7 @@ export interface CreateSharedTemplateInput {
   title: string;
   description: string;
   body: string;
+  bargainingUnitId?: string;
 }
 
 export interface ScheduledMeeting {
@@ -131,6 +135,7 @@ export interface HandoffPackage {
   exportedAt: string;
   unionId: string;
   localId: string;
+  bargainingUnitId?: string;
   fromOfficerId: string;
   toStewardId: string;
   toStewardName: string;

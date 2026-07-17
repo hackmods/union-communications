@@ -1,6 +1,6 @@
 {
-  "version": "1.0",
-  "description": "Reference tenant seed for OPSEU CAAT division — first adopter, not platform default",
+  "version": "1.1",
+  "description": "Reference tenant seed for OPSEU CAAT division — multi-local + FT/PT collections; first adopter, not platform default",
   "union": {
     "id": "union-opseu",
     "name": "OPSEU",
@@ -15,13 +15,69 @@
     "code": "caat",
     "enabledModules": ["comms", "grievance", "bumping", "time"]
   },
-  "local": {
-    "id": "local-243",
-    "unionId": "union-opseu",
-    "divisionId": "division-caat",
-    "localNumber": "243",
-    "subText": "Support Staff"
-  },
+  "locals": [
+    {
+      "id": "local-243",
+      "unionId": "union-opseu",
+      "divisionId": "division-caat",
+      "localNumber": "243",
+      "subText": "Support Staff"
+    },
+    {
+      "id": "local-560",
+      "unionId": "union-opseu",
+      "divisionId": "division-caat",
+      "localNumber": "560",
+      "subText": "Support Staff"
+    }
+  ],
+  "bargainingUnits": [
+    {
+      "id": "bu-243-ft",
+      "unionId": "union-opseu",
+      "localId": "local-243",
+      "code": "ft",
+      "name": "Full-time Support Staff",
+      "grievanceConfig": {
+        "steps": [
+          { "number": 1, "name": "Step 1", "responseDays": 5 },
+          { "number": 2, "name": "Step 2", "responseDays": 10 },
+          { "number": 3, "name": "Step 3", "responseDays": 15 },
+          { "number": 4, "name": "Arbitration", "responseDays": null }
+        ]
+      }
+    },
+    {
+      "id": "bu-243-pt",
+      "unionId": "union-opseu",
+      "localId": "local-243",
+      "code": "pt",
+      "name": "Part-time Support Staff",
+      "grievanceConfig": {
+        "steps": [
+          { "number": 1, "name": "Step 1", "responseDays": 7 },
+          { "number": 2, "name": "Step 2", "responseDays": 14 },
+          { "number": 3, "name": "Step 3", "responseDays": 21 },
+          { "number": 4, "name": "Arbitration", "responseDays": null }
+        ]
+      }
+    },
+    {
+      "id": "bu-560-ft",
+      "unionId": "union-opseu",
+      "localId": "local-560",
+      "code": "ft",
+      "name": "Full-time Support Staff",
+      "grievanceConfig": {
+        "steps": [
+          { "number": 1, "name": "Step 1", "responseDays": 5 },
+          { "number": 2, "name": "Step 2", "responseDays": 10 },
+          { "number": 3, "name": "Step 3", "responseDays": 15 },
+          { "number": 4, "name": "Arbitration", "responseDays": null }
+        ]
+      }
+    }
+  ],
   "brandDefaults": {
     "primaryColor": "#003DA5",
     "secondaryColor": "#FFFFFF",
