@@ -234,6 +234,10 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
     const updated: Grievance = {
       ...existing,
       ...input,
+      bargainingUnitId:
+        input.bargainingUnitId === null
+          ? undefined
+          : (input.bargainingUnitId ?? existing.bargainingUnitId),
       resolvedAt:
         input.resolvedAt === null
           ? undefined

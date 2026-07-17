@@ -48,7 +48,7 @@ export default function AuditPage() {
   }, []);
 
   return (
-    <PageShell tier="wide" className="py-6 md:py-8">
+    <PageShell size="wide" className="py-6 md:py-8">
       <h1 className="text-2xl font-semibold text-opseu-dark">{t("auditTitle")}</h1>
       <p className="mt-1 text-sm text-gray-600">{t("auditSubtitle")}</p>
       {loading && <p className="mt-6 text-sm text-gray-500">…</p>}
