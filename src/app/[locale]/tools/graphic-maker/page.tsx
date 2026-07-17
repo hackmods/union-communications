@@ -362,6 +362,9 @@ function GraphicMakerPageContent() {
             <Button onClick={handleExport}>{t("downloadPng")}</Button>
           </Card>
         }
+        previewActions={
+          <Button onClick={handleExport}>{t("downloadPng")}</Button>
+        }
         preview={
           <div className="overflow-hidden rounded-lg shadow-lg">
             <div ref={canvasRef}>

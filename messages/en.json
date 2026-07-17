@@ -81,6 +81,11 @@
     "edit": "Edit",
     "preview": "Preview",
     "toolEditorPanes": "Editor panels",
+    "miniPreviewLabel": "Live preview — tap to enlarge",
+    "expandPreview": "Enlarge preview",
+    "collapsePreview": "Hide preview",
+    "showPreview": "Show preview",
+    "backToEdit": "Back to edit",
     "editHistory": "Edit history",
     "loading": "Loading..."
   },

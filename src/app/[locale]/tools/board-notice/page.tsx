@@ -184,6 +184,14 @@ export default function BoardNoticePage() {
             </div>
           </Card>
         }
+        previewActions={
+          <>
+            <Button onClick={handleExportPng}>{tc("downloadPng")}</Button>
+            <Button variant="outline" onClick={handleExportPdf}>
+              {tc("downloadPdf")}
+            </Button>
+          </>
+        }
         preview={
           <div className="shadow-lg">
             <div

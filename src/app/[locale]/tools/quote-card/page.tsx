@@ -142,6 +142,9 @@ function QuoteCardPageContent() {
           <Button onClick={handleExport}>{t("downloadPng")}</Button>
         </Card>
       }
+      previewActions={
+        <Button onClick={handleExport}>{t("downloadPng")}</Button>
+      }
       preview={
         /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
         <div className="shadow-lg">

@@ -189,6 +189,14 @@ function FlyerMakerPageContent() {
           </div>
         </Card>
       }
+      previewActions={
+        <>
+          <Button onClick={handleExportPng}>{t("downloadPng")}</Button>
+          <Button variant="outline" onClick={handleExportPdf}>
+            {t("downloadPdf")}
+          </Button>
+        </>
+      }
       preview={
         /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
         <div className="shadow-lg">

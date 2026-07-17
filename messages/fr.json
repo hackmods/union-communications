@@ -81,6 +81,11 @@
     "edit": "Modifier",
     "preview": "Aperçu",
     "toolEditorPanes": "Panneaux de l'éditeur",
+    "miniPreviewLabel": "Aperçu en direct — toucher pour agrandir",
+    "expandPreview": "Agrandir l'aperçu",
+    "collapsePreview": "Masquer l'aperçu",
+    "showPreview": "Afficher l'aperçu",
+    "backToEdit": "Retour à la modification",
     "editHistory": "Historique des modifications",
     "loading": "Chargement..."
   },

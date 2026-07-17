@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { PageShell } from "@/components/layout/PageShell";
+import { MobilePreviewStage } from "@/components/tools/MobilePreviewStage";
 import { cn } from "@/lib/utils";
 
 type ToolEditorLayoutProps = {
@@ -12,6 +13,10 @@ type ToolEditorLayoutProps = {
   preview: ReactNode;
   /** Optional second sticky preview (e.g. board-banner print sheet). */
   previewSecondary?: ReactNode;
+  /** Export / actions shown on the mobile full-preview pane. */
+  previewActions?: ReactNode;
+  /** When false, skips the sticky mini preview rail on mobile. Default true. */
+  miniPreview?: boolean;
   /** Optional row above the editor grid (e.g. presets). */
   toolbar?: ReactNode;
   /** Content below the editor grid (e.g. resizer all-formats gallery). */
@@ -21,9 +26,24 @@ type ToolEditorLayoutProps = {
   className?: string;
 };
 
+function useIsLg() {
+  const [isLg, setIsLg] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsLg(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return isLg;
+}
+
 /**
  * Shared editor | preview chrome for canvas tools.
- * Desktop: sticky preview. Mobile: Edit | Preview toggle.
+ * Desktop: sticky two-column preview.
+ * Mobile: Edit + sticky mini live preview (tap to expand) | full Preview pane.
  */
 export function ToolEditorLayout({
   title,
@@ -31,13 +51,26 @@ export function ToolEditorLayout({
   form,
   preview,
   previewSecondary,
+  previewActions,
+  miniPreview = true,
   toolbar,
   belowGrid,
   footer,
   className,
 }: ToolEditorLayoutProps) {
   const t = useTranslations("common");
+  const isLg = useIsLg();
   const [pane, setPane] = useState<"edit" | "preview">("edit");
+  const [miniCollapsed, setMiniCollapsed] = useState(false);
+
+  const showMini = miniPreview && !isLg && pane === "edit" && !miniCollapsed;
+  const stageMode = isLg
+    ? "passthrough"
+    : pane === "preview"
+      ? "full"
+      : showMini
+        ? "mini"
+        : "passthrough";
 
   return (
     <PageShell className={cn("py-6 md:py-8 lg:py-10", className)}>
@@ -72,7 +105,7 @@ export function ToolEditorLayout({
           role="tab"
           aria-selected={pane === "preview"}
           className={cn(
-            "min-h-11 min-w-[5.5rem] flex-1 rounded-lg px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+            "relative min-h-11 min-w-[5.5rem] flex-1 rounded-lg px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
             pane === "preview"
               ? "bg-opseu-blue text-white"
               : "border border-gray-300 bg-white text-opseu-dark",
@@ -80,25 +113,103 @@ export function ToolEditorLayout({
           onClick={() => setPane("preview")}
         >
           {t("preview")}
+          {showMini ? (
+            <span
+              className="absolute right-2 top-2 size-1.5 rounded-full bg-opseu-gold"
+              aria-hidden
+            />
+          ) : null}
         </button>
       </div>
 
+      {miniPreview && !isLg && pane === "edit" && miniCollapsed ? (
+        <div className="mt-3">
+          <button
+            type="button"
+            className="min-h-11 w-full rounded-lg border border-dashed border-gray-300 bg-white px-3 text-sm font-semibold text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+            onClick={() => setMiniCollapsed(false)}
+          >
+            {t("showPreview")}
+          </button>
+        </div>
+      ) : null}
+
       <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6">
         <div
-          className={cn(pane === "edit" ? "block" : "hidden", "lg:block")}
+          className={cn(
+            "order-2 lg:order-1",
+            pane === "edit" || isLg ? "block" : "hidden",
+            "lg:block",
+          )}
           role="tabpanel"
         >
           {form}
         </div>
+
         <div
           className={cn(
-            pane === "preview" ? "block" : "hidden",
-            "space-y-4 lg:sticky lg:top-4 lg:block",
+            "order-1 space-y-3 lg:order-2 lg:space-y-4",
+            // Always mounted so canvasRef stays exportable.
+            "block",
+            // Edit + collapsed (mobile): keep sized offscreen for export.
+            !isLg &&
+              pane === "edit" &&
+              miniCollapsed &&
+              "fixed left-0 top-0 z-[-1] w-[min(100vw,36rem)] -translate-x-[150%] opacity-0 pointer-events-none",
+            // Edit + mini: sticky under header while scrolling the form.
+            showMini && "sticky top-16 z-20",
+            "lg:sticky lg:top-4",
           )}
           role="tabpanel"
+          aria-label={t("preview")}
         >
-          {preview}
-          {previewSecondary}
+          {!isLg && pane === "preview" ? (
+            <div className="flex items-center justify-between gap-2">
+              <button
+                type="button"
+                className="min-h-11 rounded-lg border border-gray-300 bg-white px-3 text-sm font-semibold text-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+                onClick={() => setPane("edit")}
+              >
+                {t("backToEdit")}
+              </button>
+            </div>
+          ) : null}
+
+          {showMini ? (
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-xs font-medium text-gray-600">
+                {t("miniPreviewLabel")}
+              </p>
+              <button
+                type="button"
+                className="min-h-11 shrink-0 rounded-lg px-3 text-sm font-semibold text-gray-700 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+                onClick={() => setMiniCollapsed(true)}
+                aria-label={t("collapsePreview")}
+              >
+                {t("collapsePreview")}
+              </button>
+            </div>
+          ) : null}
+
+          <MobilePreviewStage
+            mode={stageMode}
+            onExpand={
+              showMini
+                ? () => {
+                    setPane("preview");
+                  }
+                : undefined
+            }
+            expandLabel={t("expandPreview")}
+          >
+            {preview}
+          </MobilePreviewStage>
+
+          {isLg || pane === "preview" ? previewSecondary : null}
+
+          {!isLg && pane === "preview" && previewActions ? (
+            <div className="flex flex-wrap gap-3">{previewActions}</div>
+          ) : null}
         </div>
       </div>
 

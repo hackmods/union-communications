@@ -900,6 +900,11 @@ export default function MeetingBackgroundPage() {
           </Button>
         </Card>
       }
+      previewActions={
+        <Button type="button" onClick={() => void handleExportPng()}>
+          {tc("downloadPng")}
+        </Button>
+      }
       preview={
         <div>
           <p className="mb-2 text-sm font-medium text-gray-700">
