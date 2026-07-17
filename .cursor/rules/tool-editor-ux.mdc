@@ -16,8 +16,8 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 
 | Kind | Contract |
 |------|----------|
-| Canvas tools | [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx): title `text-2xl md:text-3xl`, subtitle `mt-1`, form `Card density="compact"`, sticky preview `lg:sticky lg:top-4`, mobile Edit + sticky mini live preview (tap to enlarge) → full Preview pane; tabs ≥44px; optional `previewActions` on full Preview |
-| Dual preview | `preview` + `previewSecondary` (board-banner); mini rail shows primary only |
+| Canvas tools | [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx): title `text-2xl md:text-3xl`, subtitle `mt-1`, form `Card density="compact"`, sticky preview `lg:sticky lg:top-4`, mobile Edit + **opaque sticky mini dock** (fixed ~96px centered thumbnail, tap to enlarge) → full Preview pane; tabs ≥44px; **all canvas tools pass `previewActions`** for export on full Preview |
+| Dual preview | `preview` + `previewSecondary` (board-banner); mini dock shows primary only |
 | Galleries | `belowGrid` (resizer all-formats) |
 | Sources | `footer` slot — not a sibling ad-hoc PageShell |
 | Non-canvas tools | densify only; no fake Edit/Preview |
@@ -35,7 +35,7 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 3. **Density** — Card `density="compact"`; form `space-y-3`; tool padding `py-6 md:py-8 lg:py-10`
 4. **Touch** — primary actions and tabs ≥44×44; icon-only → Tooltip / aria-label
 5. **Focus** — `focus-visible:ring-2 focus-visible:ring-opseu-blue/40`
-6. **Preview chrome** — screen `p-4 md:p-6` (not export `p-10`); sticky while editing; mobile mini rail scales to ~120px, full preview ≤~70vh
+6. **Preview chrome** — screen `p-4 md:p-6` (not export `p-10`); sticky while editing; mobile mini dock is opaque (`bg-white/95`) under header, fixed `h-24` centered scale; full preview ≤~70vh
 7. **Brand** — Brand Kit colours where chrome shows brand; no new OPSEU hex in core UI
 8. **A11y** — radiogroup/`aria-checked` or `aria-pressed`; UndoRedoBar uses i18n `editHistory`
 9. **Overflow** — no page horizontal scroll at 375
@@ -44,7 +44,7 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 ## Shared primitives
 
 - [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx)
-- [`MobilePreviewStage`](src/components/tools/MobilePreviewStage.tsx) — mobile mini / full scale-to-fit; desktop passthrough
+- [`MobilePreviewStage`](src/components/tools/MobilePreviewStage.tsx) — mobile mini (fixed viewport, centered) / full scale-to-fit; desktop passthrough
 - [`SegControl`](src/components/tools/SegControl.tsx)
 - [`Tooltip`](src/components/tools/Tooltip.tsx)
 - Card `density="compact"` | `"default"`

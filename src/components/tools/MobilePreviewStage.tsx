@@ -9,7 +9,7 @@ import {
 import { computePreviewScale } from "@/lib/utils/preview-scale";
 import { cn } from "@/lib/utils";
 
-const MINI_MAX_HEIGHT_PX = 120;
+const MINI_VIEWPORT_PX = 96;
 const FULL_MAX_HEIGHT_VH = 0.7;
 
 type MobilePreviewStageProps = {
@@ -43,17 +43,22 @@ export function MobilePreviewStage({
     const content = contentRef.current;
     if (!frame || !content) return;
 
+    let raf = 0;
     const measure = () => {
-      const width = content.scrollWidth;
-      const height = content.scrollHeight;
-      const maxHeight =
-        mode === "mini"
-          ? MINI_MAX_HEIGHT_PX
-          : Math.round(window.innerHeight * FULL_MAX_HEIGHT_VH);
-      setNaturalHeight(height);
-      setScale(
-        computePreviewScale(width, height, frame.clientWidth, maxHeight),
-      );
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        // Measure unscaled layout size (transform does not affect scroll size).
+        const width = content.scrollWidth;
+        const height = content.scrollHeight;
+        const maxHeight =
+          mode === "mini"
+            ? MINI_VIEWPORT_PX
+            : Math.round(window.innerHeight * FULL_MAX_HEIGHT_VH);
+        setNaturalHeight(height);
+        setScale(
+          computePreviewScale(width, height, frame.clientWidth, maxHeight),
+        );
+      });
     };
 
     const ro = new ResizeObserver(measure);
@@ -61,6 +66,7 @@ export function MobilePreviewStage({
     ro.observe(frame);
     window.addEventListener("resize", measure);
     return () => {
+      cancelAnimationFrame(raf);
       ro.disconnect();
       window.removeEventListener("resize", measure);
     };
@@ -70,19 +76,21 @@ export function MobilePreviewStage({
     return <div className={className}>{children}</div>;
   }
 
-  const scaledHeight =
-    naturalHeight > 0 ? Math.ceil(naturalHeight * scale) : undefined;
   const isMini = mode === "mini";
+  const fullHeight =
+    naturalHeight > 0 ? Math.ceil(naturalHeight * scale) : undefined;
 
   return (
     <div
       ref={frameRef}
       className={cn(
-        "relative w-full overflow-hidden rounded-lg",
-        isMini && "border border-gray-200 bg-gray-50 shadow-sm",
+        "relative w-full overflow-hidden",
+        isMini
+          ? "flex h-24 items-start justify-center rounded-md bg-gray-100"
+          : "rounded-lg",
         className,
       )}
-      style={{ height: scaledHeight }}
+      style={isMini ? undefined : { height: fullHeight }}
     >
       <div
         ref={contentRef}
@@ -99,8 +107,9 @@ export function MobilePreviewStage({
       {isMini && onExpand ? (
         <button
           type="button"
-          className="absolute inset-0 z-10 min-h-11 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+          className="absolute inset-0 z-10 min-h-11 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
           aria-label={expandLabel}
+          title={expandLabel}
           onClick={onExpand}
         />
       ) : null}

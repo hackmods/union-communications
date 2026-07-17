@@ -737,6 +737,23 @@ export default function ResizerPage() {
             </div>
           </Card>
         }
+        previewActions={
+          <>
+            <Button
+              onClick={handleExportPng}
+              disabled={!canExport || exporting}
+            >
+              {exporting ? tc("loading") : tc("downloadPng")}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleExportZip}
+              disabled={!canExport || exporting}
+            >
+              {exporting ? tc("loading") : tc("downloadZip")}
+            </Button>
+          </>
+        }
         preview={
           <div className="space-y-3">
             <p className="text-sm font-medium text-opseu-dark">

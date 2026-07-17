@@ -43,7 +43,7 @@ function useIsLg() {
 /**
  * Shared editor | preview chrome for canvas tools.
  * Desktop: sticky two-column preview.
- * Mobile: Edit + sticky mini live preview (tap to expand) | full Preview pane.
+ * Mobile: Edit + opaque sticky mini dock (tap to expand) | full Preview pane.
  */
 export function ToolEditorLayout({
   title,
@@ -105,7 +105,7 @@ export function ToolEditorLayout({
           role="tab"
           aria-selected={pane === "preview"}
           className={cn(
-            "relative min-h-11 min-w-[5.5rem] flex-1 rounded-lg px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+            "min-h-11 min-w-[5.5rem] flex-1 rounded-lg px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
             pane === "preview"
               ? "bg-opseu-blue text-white"
               : "border border-gray-300 bg-white text-opseu-dark",
@@ -113,12 +113,6 @@ export function ToolEditorLayout({
           onClick={() => setPane("preview")}
         >
           {t("preview")}
-          {showMini ? (
-            <span
-              className="absolute right-2 top-2 size-1.5 rounded-full bg-opseu-gold"
-              aria-hidden
-            />
-          ) : null}
         </button>
       </div>
 
@@ -148,7 +142,7 @@ export function ToolEditorLayout({
 
         <div
           className={cn(
-            "order-1 space-y-3 lg:order-2 lg:space-y-4",
+            "order-1 lg:order-2",
             // Always mounted so canvasRef stays exportable.
             "block",
             // Edit + collapsed (mobile): keep sized offscreen for export.
@@ -156,9 +150,12 @@ export function ToolEditorLayout({
               pane === "edit" &&
               miniCollapsed &&
               "fixed left-0 top-0 z-[-1] w-[min(100vw,36rem)] -translate-x-[150%] opacity-0 pointer-events-none",
-            // Edit + mini: sticky under header while scrolling the form.
-            showMini && "sticky top-16 z-20",
-            "lg:sticky lg:top-4",
+            // Edit + mini: opaque sticky dock under header (prevents form bleed-through).
+            showMini &&
+              "-mx-4 sticky top-14 z-20 border-b border-gray-200 bg-white/95 px-4 py-2 shadow-sm backdrop-blur-sm sm:-mx-6 sm:px-6",
+            !showMini && "space-y-3 lg:space-y-4",
+            // Desktop: clear mobile dock chrome, keep sticky preview column.
+            "lg:top-4 lg:z-auto lg:mx-0 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none lg:backdrop-blur-none lg:sticky",
           )}
           role="tabpanel"
           aria-label={t("preview")}
@@ -175,35 +172,34 @@ export function ToolEditorLayout({
             </div>
           ) : null}
 
-          {showMini ? (
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-xs font-medium text-gray-600">
-                {t("miniPreviewLabel")}
-              </p>
+          <div className={cn(showMini && "flex items-start gap-2")}>
+            <div className={cn(showMini && "min-w-0 flex-1")}>
+              <MobilePreviewStage
+                mode={stageMode}
+                onExpand={
+                  showMini
+                    ? () => {
+                        setPane("preview");
+                      }
+                    : undefined
+                }
+                expandLabel={t("expandPreview")}
+              >
+                {preview}
+              </MobilePreviewStage>
+            </div>
+            {showMini ? (
               <button
                 type="button"
-                className="min-h-11 shrink-0 rounded-lg px-3 text-sm font-semibold text-gray-700 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+                className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg text-lg leading-none text-gray-600 hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
                 onClick={() => setMiniCollapsed(true)}
                 aria-label={t("collapsePreview")}
+                title={t("collapsePreview")}
               >
-                {t("collapsePreview")}
+                <span aria-hidden>×</span>
               </button>
-            </div>
-          ) : null}
-
-          <MobilePreviewStage
-            mode={stageMode}
-            onExpand={
-              showMini
-                ? () => {
-                    setPane("preview");
-                  }
-                : undefined
-            }
-            expandLabel={t("expandPreview")}
-          >
-            {preview}
-          </MobilePreviewStage>
+            ) : null}
+          </div>
 
           {isLg || pane === "preview" ? previewSecondary : null}
 

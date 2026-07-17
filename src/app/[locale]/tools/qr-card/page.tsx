@@ -375,6 +375,14 @@ export default function QrCardPage() {
           </div>
         </Card>
       }
+      previewActions={
+        <>
+          <Button onClick={handleExportPng}>{tc("downloadPng")}</Button>
+          <Button variant="outline" onClick={handleExportPdf}>
+            {tc("downloadPdf")}
+          </Button>
+        </>
+      }
       preview={
         <div className="mx-auto w-fit max-w-full">
           <div className="rounded-lg border border-gray-200 bg-gray-100/80 p-4 md:p-6">

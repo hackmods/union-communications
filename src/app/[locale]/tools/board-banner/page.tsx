@@ -650,6 +650,22 @@ export default function BoardBannerPage() {
             </div>
           </Card>
         }
+        previewActions={
+          <>
+            <Button onClick={handleExportPng} disabled={exporting}>
+              {state.mode === "trim" && kitPieces.length > 1
+                ? tc("downloadZip")
+                : tc("downloadPng")}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleExportPdf}
+              disabled={exporting}
+            >
+              {tc("downloadPdf")}
+            </Button>
+          </>
+        }
         preview={
           <div>
             <p className="mb-1 text-sm font-medium text-gray-700">

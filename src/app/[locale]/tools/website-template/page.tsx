@@ -211,6 +211,11 @@ export default function WebsiteTemplatePage() {
           </Button>
         </Card>
       }
+      previewActions={
+        <Button onClick={handleDownload} disabled={downloading}>
+          {downloading ? tc("loading") : t("downloadZip")}
+        </Button>
+      }
       preview={
         <div>
           <p className="mb-2 text-sm font-medium text-gray-700">{t("preview")}</p>

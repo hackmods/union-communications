@@ -210,6 +210,16 @@ export default function LogoBuilderPage() {
           </div>
         </Card>
       }
+      previewActions={
+        <>
+          <Button variant="outline" onClick={handleExportPng}>
+            {t("downloadPng")}
+          </Button>
+          <Button variant="outline" onClick={handleExportSvg}>
+            {t("downloadSvg")}
+          </Button>
+        </>
+      }
       preview={
         <div className="flex items-center justify-center">
           <div

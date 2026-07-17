@@ -407,6 +407,20 @@ export default function QrBoardPage() {
           </div>
         </Card>
       }
+      previewActions={
+        <>
+          <Button type="button" onClick={() => void handleExportPng()}>
+            {tc("downloadPng")}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => void handleExportPdf()}
+          >
+            {tc("downloadPdf")}
+          </Button>
+        </>
+      }
       preview={
         <>
           <div className="inline-block rounded-lg shadow-lg">
