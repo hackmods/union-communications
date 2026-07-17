@@ -49,16 +49,29 @@ describe("syncServiceWorkerRegistration", () => {
     expect(sw.getRegistrations).not.toHaveBeenCalled();
   });
 
-  it("registers on www production host with a custom script URL", async () => {
+  it("registers on apex with a custom script URL", async () => {
     const sw = mockContainer();
     await expect(
       syncServiceWorkerRegistration({
-        hostname: "www.unionops.org",
+        hostname: "unionops.org",
         serviceWorker: sw,
         scriptURL: "/custom-sw.js",
       }),
     ).resolves.toBe("registered");
     expect(sw.register).toHaveBeenCalledWith("/custom-sw.js");
+  });
+
+  it("unregisters on www until that host serves the app", async () => {
+    const unregister = vi.fn(async () => true);
+    const sw = mockContainer({ registrations: [{ unregister }] });
+    await expect(
+      syncServiceWorkerRegistration({
+        hostname: "www.unionops.org",
+        serviceWorker: sw,
+      }),
+    ).resolves.toBe("unregistered");
+    expect(sw.register).not.toHaveBeenCalled();
+    expect(unregister).toHaveBeenCalledOnce();
   });
 
   it("unregisters existing SWs on non-production hosts", async () => {

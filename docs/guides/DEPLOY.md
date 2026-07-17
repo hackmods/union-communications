@@ -85,6 +85,7 @@ Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_
 
 3. Deploy via CapRover git push / webhook, or pull the GHCR tag if your CapRover setup uses a registry image.
 4. Health check: `GET /api/health`.
+5. **Public `unionops.org` host:** point the installable origin at apex `https://unionops.org`. Until `www` serves this app (or 301s to apex) with a trusted certificate, leave `www` off the PWA service-worker allowlist (`src/lib/pwa/hosts.ts`).
 
 CI on `main` can POST `CAPROVER_WEBHOOK_URL` (GitHub Actions secret) after tests pass.
 

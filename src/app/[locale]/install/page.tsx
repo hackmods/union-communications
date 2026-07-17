@@ -61,6 +61,11 @@ export default async function InstallPage({
         </section>
 
         <section>
+          <h2 className="text-xl font-bold text-opseu-dark">{t("androidTitle")}</h2>
+          <p className="mt-3 text-base text-gray-800">{t("androidBody")}</p>
+        </section>
+
+        <section>
           <h2 className="text-xl font-bold text-opseu-dark">{t("safariTitle")}</h2>
           <p className="mt-3 text-base text-gray-800">{t("safariBody")}</p>
         </section>

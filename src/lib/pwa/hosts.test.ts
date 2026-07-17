@@ -5,18 +5,17 @@ import {
 } from "./hosts";
 
 describe("shouldRegisterServiceWorker", () => {
-  it("allows production UnionOps hosts", () => {
+  it("allows the apex UnionOps host", () => {
     expect(shouldRegisterServiceWorker("unionops.org")).toBe(true);
-    expect(shouldRegisterServiceWorker("www.unionops.org")).toBe(true);
   });
 
   it("is case-insensitive and trims whitespace", () => {
     expect(shouldRegisterServiceWorker(" UnionOps.org ")).toBe(true);
-    expect(shouldRegisterServiceWorker("WWW.UNIONOPS.ORG")).toBe(true);
   });
 
-  it("rejects localhost, IPs, and preview hosts", () => {
+  it("rejects www stub, localhost, IPs, and preview hosts", () => {
     for (const host of [
+      "www.unionops.org",
       "localhost",
       "127.0.0.1",
       "0.0.0.0",
@@ -30,10 +29,7 @@ describe("shouldRegisterServiceWorker", () => {
     }
   });
 
-  it("keeps the production host allowlist tight", () => {
-    expect([...PWA_PRODUCTION_HOSTS].sort()).toEqual([
-      "unionops.org",
-      "www.unionops.org",
-    ]);
+  it("keeps the production host allowlist apex-only", () => {
+    expect([...PWA_PRODUCTION_HOSTS]).toEqual(["unionops.org"]);
   });
 });

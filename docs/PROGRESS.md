@@ -380,6 +380,13 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Unit tests: host gate, SW sync register/unregister, Chromium manifest criteria, `sw.js`↔`shell.ts` sync, icon files, i18n keys
 - [x] Cursor rule `.cursor/rules/pwa.mdc` — keep coverage when touching PWA surfaces
 
+## PWA installability harden (2026-07-16)
+
+- [x] Apex-only SW host gate (`unionops.org`) — drop `www` until CapRover stub redirects with trusted TLS
+- [x] `appleWebApp.capable` metadata for standalone iOS home-screen launches
+- [x] `/install` EN/FR: PC omnibox Install, Android Install vs shortcut, Safari never auto-prompts
+- [x] Verified production apex: manifest, `/sw.js` + `Service-Worker-Allowed`, 192/512 + apple-touch icons
+
 ## Sitewide tool + secondary UX alignment (2026-07-16)
 
 - [x] All canvas builders on `ToolEditorLayout` (sticky preview; mobile Edit/Preview); board-banner dual preview + SegControl

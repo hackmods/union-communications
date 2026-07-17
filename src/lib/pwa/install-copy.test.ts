@@ -11,6 +11,8 @@ const REQUIRED_INSTALL_KEYS = [
   "chromeStep1",
   "chromeStep2",
   "chromeStep3",
+  "androidTitle",
+  "androidBody",
   "safariTitle",
   "safariBody",
   "limitsTitle",
@@ -37,5 +39,16 @@ describe("install page i18n", () => {
     expect(fr.footer.installApp.length).toBeGreaterThan(0);
     expect(en.supportPage.toInstall).toMatch(/install/i);
     expect(fr.supportPage.toInstall.length).toBeGreaterThan(0);
+  });
+
+  it("documents apex-only install and platform differences", () => {
+    expect(en.installPage.whereBody).toMatch(/unionops\.org/i);
+    expect(en.installPage.whereBody).toMatch(/www/i);
+    expect(en.installPage.chromeStep2).toMatch(/address bar|omnibox/i);
+    expect(en.installPage.androidBody).toMatch(/Install app/i);
+    expect(en.installPage.androidBody).toMatch(/shortcut/i);
+    expect(en.installPage.safariBody).toMatch(/does not show|never|automatic/i);
+    expect(fr.installPage.androidTitle.length).toBeGreaterThan(0);
+    expect(fr.installPage.safariBody).toMatch(/automatique|manuel/i);
   });
 });
