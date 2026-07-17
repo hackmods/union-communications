@@ -396,6 +396,12 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `/install` EN/FR: PC omnibox Install, Android Install vs shortcut, Safari never auto-prompts
 - [x] Verified production apex: manifest, `/sw.js` + `Service-Worker-Allowed`, 192/512 + apple-touch icons
 
+## PWA Brand Kit chrome (2026-07-17)
+
+- [x] Client `syncPwaBrandChrome`: Brand Kit primary → `theme-color` meta, theme cookie, blob manifest, generated 192/512 icons
+- [x] Server `/manifest.webmanifest` reads `uo_pwa_theme` cookie for `theme_color` (hex only; no Brand Kit payload stored server-side)
+- [x] `/install` notes OS may need reopen/reinstall after colour changes
+
 ## Sitewide tool + secondary UX alignment (2026-07-16)
 
 - [x] All canvas builders on `ToolEditorLayout` (sticky preview; mobile Edit/Preview); board-banner dual preview + SegControl

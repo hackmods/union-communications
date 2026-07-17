@@ -75,6 +75,7 @@ export default async function InstallPage({
           <ul className="mt-3 list-disc space-y-2 pl-6 text-base text-gray-800">
             <li>{t("limitsOffline")}</li>
             <li>{t("limitsNetwork")}</li>
+            <li>{t("limitsBrand")}</li>
             <li>{t("limitsNoStore")}</li>
           </ul>
         </section>

@@ -3,9 +3,12 @@
 import { useEffect } from "react";
 import { useBrandStore } from "@/store/brand-store";
 import { BRAND_COLORS } from "@/lib/constants/brand";
+import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { syncPwaBrandChrome } from "@/lib/pwa/brand-chrome";
 
 export function BrandProvider({ children }: { children: React.ReactNode }) {
   const hydrate = useBrandStore((s) => s.hydrate);
+  const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
 
   useEffect(() => {
@@ -24,6 +27,17 @@ export function BrandProvider({ children }: { children: React.ReactNode }) {
     root.style.setProperty("--opseu-blue", primary);
     root.style.setProperty("--opseu-dark", accent);
   }, [brandKit.primaryColor, brandKit.secondaryColor, brandKit.accentColor]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const primary = brandKit.primaryColor || BRAND_COLORS.primary;
+    void syncPwaBrandChrome({
+      primaryColor: primary,
+      officerHubPublic: isOfficerHubPublic(),
+    }).catch(() => {
+      // PWA chrome is best-effort (canvas / blob may fail in odd environments).
+    });
+  }, [hydrated, brandKit.primaryColor]);
 
   return <>{children}</>;
 }

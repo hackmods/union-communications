@@ -71,6 +71,25 @@ export function buildUnionOpsMarkSvg(colors: UnionOpsMarkSvgColors): string {
 }
 
 /**
+ * Favicon / PWA icon SVG — tighter glyph fill for small OS chrome (16–512).
+ * Same paint rules as `resolveUnionOpsMarkPaint` (primary plate + contrast glyph).
+ */
+export function buildPwaIconSvg(colors: UnionOpsMarkSvgColors): string {
+  const { plate, glyph } = resolveUnionOpsMarkPaint(colors.primary);
+  // stroke ~8.75 + slight scale matches scripts/generate-favicons.mjs favicon glyph
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="UnionOps">
+  <title>UnionOps</title>
+  <desc>Interlocking u and o mark for UnionOps PWA / home-screen icons.</desc>
+  <rect width="64" height="64" rx="14" fill="${plate}"/>
+  <g transform="translate(32 32) scale(1.06 1.32) translate(-34.5 -32)" fill="none" stroke="${glyph}" stroke-linecap="butt" stroke-linejoin="round">
+    <circle cx="44" cy="34" r="14" stroke-width="8.75"/>
+    <path d="M12 12v22a14 14 0 0 0 28 0V12" stroke-width="8.75"/>
+  </g>
+</svg>
+`;
+}
+
+/**
  * Favicon SVG with host brand plate and automatic black/white contrast.
  *
  * Light scheme: primary plate + black or white glyph (`pickContrastingInk`).

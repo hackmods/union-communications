@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { BRAND_COLORS } from "@/lib/constants/brand";
 import {
   APPLE_TOUCH_ICON_PATH,
   FAVICON_ICO_PATH,
@@ -31,6 +32,7 @@ export const metadata: Metadata = {
   creator: SITE_NAME,
   publisher: SITE_NAME,
   manifest: "/manifest.webmanifest",
+  themeColor: BRAND_COLORS.primary,
   appleWebApp: {
     capable: true,
     title: SITE_NAME,

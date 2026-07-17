@@ -18,6 +18,7 @@ const REQUIRED_INSTALL_KEYS = [
   "limitsTitle",
   "limitsOffline",
   "limitsNetwork",
+  "limitsBrand",
   "limitsNoStore",
   "relatedLead",
   "relatedPrivacy",

@@ -2217,6 +2217,7 @@
     "limitsTitle": "What install does not change",
     "limitsOffline": "The service worker keeps a thin offline shell for public Comms pages — not a full offline Officer Hub.",
     "limitsNetwork": "Grievance, bumping, and other hub modules still need a signed-in session and network when you work live.",
+    "limitsBrand": "Window chrome and install icons follow your Brand Kit primary on this device. After you change colours, reopen the installed app (or reinstall once) if the OS still shows the old icon or title-bar colour.",
     "limitsNoStore": "There is no App Store or Microsoft Store listing; install is the browser’s own progressive web app flow.",
     "relatedLead": "For what stays on this device, see",
     "relatedPrivacy": "Privacy",

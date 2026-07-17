@@ -2217,6 +2217,7 @@
     "limitsTitle": "Ce que l'installation ne change pas",
     "limitsOffline": "Le service worker conserve une coquille hors ligne mince pour les pages Comms publiques — pas un Hub des officiers hors ligne complet.",
     "limitsNetwork": "Griefs, bumping et autres modules du hub exigent toujours une session connectée et un réseau lorsque vous travaillez en direct.",
+    "limitsBrand": "Le chrome de la fenêtre et les icônes d'installation suivent la couleur primaire de votre trousse de marque sur cet appareil. Après un changement de couleurs, rouvrez l'application installée (ou réinstallez une fois) si le système affiche encore l'ancienne icône ou barre de titre.",
     "limitsNoStore": "Il n'y a pas de fiche App Store ni Microsoft Store; l'installation suit le flux d'application web progressive du navigateur.",
     "relatedLead": "Pour ce qui reste sur cet appareil, voir",
     "relatedPrivacy": "Confidentialité",
