@@ -1,12 +1,8 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { applyPreferencesToDocument } from "./apply-preferences";
-import type { UserPreferences } from "@/types/preferences";
+import { DEFAULT_USER_PREFERENCES } from "@/types/preferences";
 
-const base: UserPreferences = {
-  fontSize: "default",
-  highContrast: false,
-  reducedMotion: false,
-};
+const base = DEFAULT_USER_PREFERENCES;
 
 afterEach(() => {
   const root = document.documentElement;
