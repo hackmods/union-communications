@@ -175,7 +175,7 @@ export function MobileNavDrawer({
           </Link>
 
           <AccordionSection
-            label={t("learn")}
+            label={t("guides")}
             open={accordion === "learn"}
             panelId={learnPanelId}
             active={learnActive}

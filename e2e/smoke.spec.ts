@@ -35,10 +35,29 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page).toHaveURL(/\/en\/onboarding/);
     await page.goto("/en/");
     const main = page.getByRole("navigation", { name: "Main" });
-    await main.getByRole("button", { name: /Learn/ }).click();
+    await main.getByRole("button", { name: /Guides/ }).click();
     // Dropdown anchors use role="menuitem" (not link) while the menu is open.
     await main.getByRole("menuitem", { name: "The Blueprint" }).click();
     await expect(page).toHaveURL(/\/en\/guide\/?$/);
+  });
+
+  test("guides about links include assets manifesto install", async ({
+    page,
+  }) => {
+    await page.goto("/en/");
+    const main = page.getByRole("navigation", { name: "Main" });
+    await main.getByRole("button", { name: /Guides/ }).click();
+    await expect(
+      main.getByRole("menuitem", { name: "Brand Assets" }),
+    ).toBeVisible();
+    await expect(
+      main.getByRole("menuitem", { name: "Why it's free" }),
+    ).toBeVisible();
+    await expect(
+      main.getByRole("menuitem", { name: "Install as an app" }),
+    ).toBeVisible();
+    await main.getByRole("menuitem", { name: "Brand Assets" }).click();
+    await expect(page).toHaveURL(/\/en\/assets\/?/);
   });
 
   test("social media plan page renders", async ({ page }) => {

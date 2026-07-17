@@ -108,6 +108,8 @@ Scaffold through testing/CI — all complete.
 - [x] Get started → onboarding or First week roadmap (no Brand Kit duplicate); outline CTA vs filled Officer Hub
 - [x] First week H1 EN/FR; Learn → Guides includes First week; `/tools` catalog + All tools + footer Tools
 - [x] `aria-current="page"`, keyboard menu arrows, Escape/outside close; COMMS + nav rules updated
+- [x] Rename Learn → **Guides**; About group promotes Assets / Manifesto / Install; footer peers
+- [x] HubNav Officer tools: Escape/outside-click, aria-expanded, arrow keys, aria-current
 
 ## Nav & dual-audience IA (2026-07-11) — COMPLETE
 

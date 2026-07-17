@@ -9,6 +9,9 @@ export type NavLinkKey =
   | "websiteGuide"
   | "socialExamples"
   | "captions"
+  | "assets"
+  | "manifesto"
+  | "install"
   | "logoBuilder"
   | "resizer"
   | "documentGenerator"
@@ -28,6 +31,7 @@ export type NavGroupLabelKey =
   | "learnGroupGuides"
   | "learnGroupChannels"
   | "learnGroupLibraries"
+  | "learnGroupAbout"
   | "toolsGroupBrand"
   | "toolsGroupBoards"
   | "toolsGroupPrint"
@@ -42,6 +46,9 @@ export type NavGroup = {
   labelKey: NavGroupLabelKey;
   links: readonly NavLink[];
 };
+
+/** Top-level label key for the Guides disclosure (was Learn). */
+export const guidesMenuLabelKey = "guides" as const;
 
 export const learnGroups: readonly NavGroup[] = [
   {
@@ -67,6 +74,14 @@ export const learnGroups: readonly NavGroup[] = [
     links: [
       { href: "/examples", key: "socialExamples" },
       { href: "/captions", key: "captions" },
+    ],
+  },
+  {
+    labelKey: "learnGroupAbout",
+    links: [
+      { href: "/assets", key: "assets" },
+      { href: "/manifesto", key: "manifesto" },
+      { href: "/install", key: "install" },
     ],
   },
 ] as const;

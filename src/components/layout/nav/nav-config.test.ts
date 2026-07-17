@@ -33,17 +33,29 @@ describe("path helpers", () => {
   it("detects learn and tools paths", () => {
     expect(isLearnPath("/guide/resources")).toBe(true);
     expect(isLearnPath("/examples")).toBe(true);
+    expect(isLearnPath("/assets")).toBe(true);
+    expect(isLearnPath("/manifesto")).toBe(true);
+    expect(isLearnPath("/install")).toBe(true);
     expect(isLearnPath("/tools/logo-builder")).toBe(false);
     expect(isToolsPath("/tools")).toBe(true);
     expect(isToolsPath("/tools/flyer-maker")).toBe(true);
     expect(isToolsPath("/guide")).toBe(false);
   });
 
-  it("includes First week under Guides", () => {
+  it("includes First week under Start here", () => {
     const guides = learnGroups.find((g) => g.labelKey === "learnGroupGuides");
-    expect(guides?.links.some((l) => l.href === "/guide/social-media-plan")).toBe(
-      true,
-    );
+    expect(
+      guides?.links.some((l) => l.href === "/guide/social-media-plan"),
+    ).toBe(true);
+  });
+
+  it("includes About group with assets manifesto install", () => {
+    const about = learnGroups.find((g) => g.labelKey === "learnGroupAbout");
+    expect(about?.links.map((l) => l.href)).toEqual([
+      "/assets",
+      "/manifesto",
+      "/install",
+    ]);
   });
 
   it("keeps four tool groups", () => {

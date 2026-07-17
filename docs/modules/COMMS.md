@@ -11,14 +11,14 @@ Top bar is slim and dual-audience oriented:
 | Item | Route / contents |
 |------|------------------|
 | **Get started** | `/onboarding` when Brand Kit is not established; `/guide/social-media-plan` (First week) when it is — Brand Kit stays a separate link |
-| **Learn ▾** | **Guides:** Comms Resources, Blueprint, First week, Strike Guide, Photo Consent · **By channel:** Print, Union Boards, Website · **Libraries:** Social Examples, Captions |
+| **Guides ▾** | **Start here:** Comms Resources, Blueprint, First week, Strike Guide, Photo Consent · **By channel:** Print, Union Boards, Website · **Libraries:** Social Examples, Captions · **About:** Brand Assets, Why it's free, Install as an app |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Asset Pack) |
 | **Tools ▾** | Mega-menu columns — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, QR Cards · **Print:** Flyer · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · footer **All tools** → `/tools` |
 | **Officer Hub** | `/app` (auth) — filled primary CTA |
 
-Footer includes Blueprint, Tools, Print Guide, Social Examples, Captions, Comms Resources, Privacy, Accessibility, Support. PWA install (`/install`) is a muted footer blurb link only — not Header/Learn/Tools.
+Footer includes Blueprint, Tools, Print Guide, Social Examples, Captions, Comms Resources, Brand Assets, Why it's free, Install, Privacy, Accessibility, Support.
 
-Social Examples and Captions are **not** top-level nav items. They remain under Learn, the home Social channel, footer links, and First week step 3. Channel guides (print / boards / website) live under Learn → By channel so the four-channel model is discoverable without flattening Learn into a long link bar.
+Social Examples and Captions are **not** top-level nav items. They remain under Guides, the home Social channel, footer links, and First week step 3. Channel guides (print / boards / website) live under Guides → By channel so the four-channel model is discoverable without flattening Guides into a long link bar.
 
 Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “What’s next” roadmap secondary; dual-path cards (comms vs Officer Hub, or compact “coming soon” rail when hub is off); Brand Kit link row above a four-column toolbox (boards → print → social → website). First week (`/guide/social-media-plan`) is the channel roadmap **after** Brand Kit. Deferred content ideas: [`COMMS_BACKLOG.md`](COMMS_BACKLOG.md). Agent nav conventions: `.cursor/rules/comms-public-nav.mdc`.
 
@@ -38,7 +38,7 @@ Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “
 | `/[locale]/guide/union-boards` | Workplace bulletin board guide (bare-minimum layout, ministry posters, anonymized templates, IRL reference patterns) |
 | `/[locale]/guide/print` | Print communications guide |
 | `/[locale]/guide/website` | Local website deploy guide |
-| `/[locale]/install` | Quiet PWA / desktop install guide (browser install prompt; not in Header) |
+| `/[locale]/install` | PWA / desktop install guide — Guides → About + footer |
 | `/[locale]/examples` | Social examples gallery — brand-aware mockups, why-it-works notes, handoff to Graphic Maker / Captions / Quote Card / Flyer |
 | `/[locale]/captions` | Caption & hashtag library |
 | `/[locale]/assets` | Union asset pack (CAAT OPSEU reference) |

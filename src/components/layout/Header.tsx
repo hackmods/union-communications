@@ -130,7 +130,7 @@ export function Header() {
           </Link>
 
           <NavDropdown
-            label={t("learn")}
+            label={t("guides")}
             open={openMenu === "learn"}
             active={learnActive}
             onToggle={() => toggleMenu("learn")}

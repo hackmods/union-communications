@@ -16,13 +16,13 @@ UnionOps offers desktop/app install via the **browser-native** Chromium “Insta
 | Host gate | `src/lib/pwa/hosts.ts` — apex `unionops.org` only (www stub is not installable until it redirects) |
 | SW sync | `src/lib/pwa/register.ts` → `ServiceWorkerRegister` |
 | Offline stub | `public/sw.js` — keep `CACHE`/`PRECACHE` in sync with `src/lib/pwa/shell.ts` |
-| Quiet user guide | `/install` — footer muted link + support/privacy cross-links; **not** Header/Learn/Tools |
+| Quiet user guide | `/install` — Guides → About, footer nav peer, support/privacy cross-links |
 
 ## When changing PWA or related features
 
 1. Update `src/lib/pwa/*` first; keep `public/sw.js` string-identical for cache/precache; bump `PWA_SHELL_CACHE` on policy changes.
 2. Run `npm run test:unit` — must include `src/lib/pwa/*.test.ts` (hosts, register, manifest installability, shell↔sw sync, PC-safe policy, i18n).
-3. If you touch `/install` or footer/support/privacy links, keep the page **out of** Header menus (see `comms-public-nav.mdc`).
+3. If you touch `/install` chrome, keep it under Guides → About and/or footer (see `comms-public-nav.mdc`) — not a top-level Header peer of Tools.
 4. Do **not** register the SW on localhost/CI; Playwright uses `serviceWorkers: "block"`.
 5. Preserve installability: `name`/`short_name`, `start_url`, `display: standalone` (or fullscreen/minimal-ui), 192 + 512 icons.
 
@@ -35,6 +35,6 @@ UnionOps offers desktop/app install via the **browser-native** Chromium “Insta
 ## Do not
 
 - Add an App Store / Microsoft Store wrapper without an explicit product decision
-- Promote `/install` into main nav or Learn/Tools dropdowns
+- Promote `/install` to a top-level Header link beside Tools (About group / footer only)
 - Drop unit coverage when refactoring manifest, hosts, or `sw.js`
 - Reintroduce `clients.claim()` or blanket `cache.put` without an explicit product decision

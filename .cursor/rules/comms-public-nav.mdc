@@ -1,5 +1,5 @@
 ---
-description: Public Comms navigation IA (Header Learn / Footer)
+description: Public Comms navigation IA (Header Guides / Footer)
 globs: src/components/layout/Header.tsx,src/components/layout/Footer.tsx,src/components/layout/nav/**,src/app/**/guide/**,docs/modules/COMMS.md
 alwaysApply: false
 ---
@@ -10,17 +10,18 @@ alwaysApply: false
 
 **Get started** in Header resolves to `/onboarding` when Brand Kit is not established, otherwise `/guide/social-media-plan` (First week roadmap). Do **not** retarget Get started at `/brand-kit` once identity exists — Brand Kit stays its own top-level link.
 
-Brand Kit is the Comms home base (colours, logo, local number, links). First week (`/guide/social-media-plan`) is the channel roadmap after identity — also listed under Learn → Guides and the home “What’s next” CTA.
+Brand Kit is the Comms home base (colours, logo, local number, links). First week (`/guide/social-media-plan`) is the channel roadmap after identity — also listed under Guides → Start here and the home “What’s next” CTA.
 
-## Header Learn menu (keep this shape)
+## Header Guides menu (keep this shape)
 
-Three groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups`:
+Four groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups` (trigger label **Guides**):
 
-1. **Guides** — Comms Resources, The Blueprint, First week (`/guide/social-media-plan`), Strike Guide, Photo Consent (`/guide/photo-consent`)
+1. **Start here** — Comms Resources, The Blueprint, First week (`/guide/social-media-plan`), Strike Guide, Photo Consent (`/guide/photo-consent`)
 2. **By channel** — Print Guide (`/guide/print`), Union Boards Guide, Website Guide
 3. **Libraries** — Social Examples, Captions
+4. **About** — Brand Assets (`/assets`), Why it's free (`/manifesto`), Install as an app (`/install`)
 
-Do not re-flatten channel guides into a long top-level link bar. Do not promote `/manifesto` into Header (quiet home trust link by design). Do not promote `/install` into Header (muted footer + support/privacy cross-links only — see `.cursor/rules/pwa.mdc`).
+Do not re-flatten channel guides into a long top-level link bar. Do not invent marketing routes (`/about`, `/pricing`, `/blog`) unless product expands.
 
 ## Header Tools menu (keep this shape)
 
@@ -35,18 +36,17 @@ Footer row in the mega-menu: **All tools** → `/tools` index. Do not re-flatten
 
 ## Footer
 
-Include Tools (`/tools`) and Print Guide alongside Blueprint / Examples / Captions / Resources so print-first locals are not chrome-orphaned. Privacy, Accessibility, Support stay in footer. **Install as an app** (`/install`) is a muted text link under the footer blurb — not a peer of Privacy/Support in the footer nav row.
+Include Tools (`/tools`), Print Guide, Blueprint / Examples / Captions / Resources, **Brand Assets**, **Why it's free**, **Install as an app**, Privacy, Accessibility, Support.
 
 ## Brand Assets
 
-`/assets` is not a Header top-level item. Link from Brand Kit (`brandKit.assetsLink`). Home Brand Kit card may mention assets in copy; prefer a real route link on Brand Kit.
+`/assets` lives under Guides → About and in the footer. Brand Kit may still link the Brand Asset Pack on-page.
 
 ## Keep out of public chrome
 
 - Operator docs (`docs/guides/SETUP.md`, `DEPLOY.md`)
 - Hub modules (use `HubNav`)
 - Invented marketing routes (`/about`, `/pricing`, `/blog`) unless product expands
-- PWA install guide (`/install`) — quiet only; never Learn/Tools/Header
 
 ## Spec & backlog
 

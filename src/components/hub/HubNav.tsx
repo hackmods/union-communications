@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { getVisibleModules } from "@/lib/modules/registry";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canInitiateHandoff } from "@/lib/handoff/package";
@@ -11,10 +12,12 @@ import type { HubModule, UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { Emoji } from "@/components/ui/Emoji";
+import { getMenuItems } from "@/components/layout/nav/focusables";
 
 export function HubNav() {
   const { data: session, status } = useSession();
   const t = useTranslations("hub");
+  const pathname = usePathname();
 
   // Login sits under /app; hide hub chrome until the session is ready.
   if (status !== "authenticated" || !session?.user) return null;
@@ -72,6 +75,7 @@ export function HubNav() {
       >
         <Link
           href="/app"
+          aria-current={pathname === "/app" ? "page" : undefined}
           className="shrink-0 font-semibold whitespace-nowrap text-opseu-dark hover:underline"
         >
           {t("title")}
@@ -86,52 +90,184 @@ export function HubNav() {
           </span>
         )}
         <span className="hidden min-w-2 flex-1 md:block" />
-        {modules.map((mod) => (
-          <Link
-            key={mod.id}
-            href={mod.href.startsWith("/app") ? mod.href : "/"}
-            className={linkClass(
-              mod.requiresMfa && !mfaOk ? "opacity-60" : undefined,
-            )}
-          >
-            <Emoji id={mod.emojiId} /> {t(`modules.${mod.nameKey}`)}
-          </Link>
-        ))}
-        {toolLinks.length > 0 && (
-          <details className="relative shrink-0">
-            <summary
-              className={cn(
-                "cursor-pointer list-none whitespace-nowrap rounded-md px-2 py-1 hover:bg-white [&::-webkit-details-marker]:hidden",
-                !mfaOk && "opacity-60",
+        {modules.map((mod) => {
+          const href = mod.href.startsWith("/app") ? mod.href : "/";
+          const active =
+            pathname === href || pathname.startsWith(`${href}/`);
+          return (
+            <Link
+              key={mod.id}
+              href={href}
+              aria-current={active ? "page" : undefined}
+              className={linkClass(
+                cn(
+                  mod.requiresMfa && !mfaOk ? "opacity-60" : undefined,
+                  active && "bg-white font-semibold text-opseu-dark",
+                ),
               )}
             >
-              {t("toolsMenu")} ▾
-            </summary>
-            <div
-              className="absolute right-0 z-20 mt-1 min-w-[12rem] rounded-lg border border-gray-200 bg-white py-1 shadow-md"
-              role="menu"
-              aria-label={t("toolsMenu")}
-            >
-              {toolLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  role="menuitem"
-                  className="block px-3 py-2 text-sm hover:bg-gray-50"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </details>
+              <Emoji id={mod.emojiId} /> {t(`modules.${mod.nameKey}`)}
+            </Link>
+          );
+        })}
+        {toolLinks.length > 0 && (
+          <HubToolsMenu
+            label={t("toolsMenu")}
+            links={toolLinks}
+            pathname={pathname}
+            dimmed={!mfaOk}
+          />
         )}
         <Link
           href="/app/mfa"
+          aria-current={pathname.startsWith("/app/mfa") ? "page" : undefined}
           className={linkClass("text-opseu-blue")}
         >
           {mfaOk ? t("mfaOk") : t("mfaRequired")}
         </Link>
       </div>
     </nav>
+  );
+}
+
+function HubToolsMenu({
+  label,
+  links,
+  pathname,
+  dimmed,
+}: {
+  label: string;
+  links: { href: string; label: string }[];
+  pathname: string;
+  dimmed: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuId = useId();
+  const toolsActive = links.some(
+    (l) => pathname === l.href || pathname.startsWith(`${l.href}/`),
+  );
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open || !menuRef.current) return;
+    getMenuItems(menuRef.current)[0]?.focus();
+  }, [open]);
+
+  const onPanelKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    const panel = menuRef.current;
+    if (!panel) return;
+    const items = getMenuItems(panel);
+    if (items.length === 0) return;
+    const index = items.indexOf(document.activeElement as HTMLElement);
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      items[(index < 0 ? 0 : index + 1) % items.length]?.focus();
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      items[index <= 0 ? items.length - 1 : index - 1]?.focus();
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      items[0]?.focus();
+    } else if (event.key === "End") {
+      event.preventDefault();
+      items[items.length - 1]?.focus();
+    } else if (event.key === "Tab") {
+      setOpen(false);
+    }
+  };
+
+  return (
+    <div className="relative shrink-0" ref={rootRef}>
+      <button
+        ref={triggerRef}
+        type="button"
+        className={cn(
+          "inline-flex items-center gap-1 whitespace-nowrap rounded-md px-2 py-1 hover:bg-white",
+          dimmed && "opacity-60",
+          (open || toolsActive) && "bg-white font-semibold text-opseu-dark",
+        )}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        aria-controls={menuId}
+        onClick={() => setOpen((v) => !v)}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowDown") {
+            event.preventDefault();
+            setOpen(true);
+          }
+        }}
+      >
+        {label}
+        <span
+          aria-hidden="true"
+          className={cn(
+            "text-[0.65em] transition-transform duration-150",
+            open && "rotate-180",
+          )}
+        >
+          ▾
+        </span>
+      </button>
+      {open ? (
+        <div
+          ref={menuRef}
+          id={menuId}
+          role="menu"
+          aria-label={label}
+          onKeyDown={onPanelKeyDown}
+          className="absolute right-0 z-20 mt-1 min-w-[12rem] rounded-lg border border-gray-200 bg-white py-1 shadow-md"
+        >
+          {links.map((link) => {
+            const active =
+              pathname === link.href ||
+              pathname.startsWith(`${link.href}/`);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                role="menuitem"
+                tabIndex={-1}
+                aria-current={active ? "page" : undefined}
+                onClick={() => {
+                  requestAnimationFrame(() => setOpen(false));
+                }}
+                className={cn(
+                  "block px-3 py-2 text-sm outline-none hover:bg-gray-50 focus-visible:bg-opseu-blue/10 focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+                  active && "bg-opseu-blue/10 font-semibold text-opseu-dark",
+                )}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+        </div>
+      ) : null}
+    </div>
   );
 }
