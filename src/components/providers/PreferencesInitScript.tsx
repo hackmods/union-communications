@@ -3,7 +3,7 @@ import { USER_PREFERENCES_KEY } from "@/lib/data/adapter";
 /**
  * Inline blocking script (not next/script): runs while the parser is still in
  * <head>, so display prefs apply before first paint without the head/script
- * tree mismatch that next/script beforeInteractive caused (React #418).
+ * tree mismatch that next/script previously caused (React #418).
  */
 const preferencesInitScript = `
 (function () {

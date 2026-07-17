@@ -5,8 +5,7 @@ import { describe, expect, it } from "vitest";
 /**
  * PreferencesInitScript mutates <html> data-* attrs before hydrate.
  * Losing suppressHydrationWarning reintroduces production React #418.
- * next/script beforeInteractive also caused head tree mismatches — keep a
- * blocking inline <script> instead.
+ * Prefer a blocking inline <script> over next/script for the FOUC boot.
  */
 describe("locale layout hydration contract", () => {
   it("suppresses hydration warnings on <html>", () => {
@@ -15,13 +14,17 @@ describe("locale layout hydration contract", () => {
   });
 
   it("uses a blocking inline script (not next/script) for prefs FOUC", () => {
-    const source = readFileSync(
+    const raw = readFileSync(
       join(
         __dirname,
         "../../components/providers/PreferencesInitScript.tsx",
       ),
       "utf8",
     );
+    const source = raw
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/.*$/gm, "");
+
     expect(source).not.toMatch(/from ["']next\/script["']/);
     expect(source).not.toContain("beforeInteractive");
     expect(source).toMatch(/<script\b/);
