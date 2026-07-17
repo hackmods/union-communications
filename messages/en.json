@@ -1488,11 +1488,13 @@
     "slogan": "Solidarity.",
     "supportLead": "If the tools helped and you want to chip in for coffee or hosting,",
     "supportLink": "there’s a quiet Support page.",
-    "backHome": "← Back to UnionOps"
+    "backHome": "Back to UnionOps"
   },
   "supportPage": {
     "title": "Support the builder",
-    "p1": "UnionOps stays free — no subscriptions, no paywalls, no ads. That’s the promise on the manifesto page.",
+    "p1Lead": "UnionOps stays free — no subscriptions, no paywalls, no ads. That’s the promise on the",
+    "p1ManifestoLink": "manifesto page",
+    "p1End": ".",
     "p2": "Hosting, domains, and spare evenings still cost something. If this hub saved you time and you’d like to tip the steward who built it, you can buy Ryan a coffee. Totally optional. Never required.",
     "p3": "Locals keep using the tools either way. Solidarity isn’t a checkout flow.",
     "cta": "Buy me a coffee",
@@ -1501,9 +1503,7 @@
     "contactBody": "Bugs, fixes, enhancements, or other concerns — open a GitHub issue. That is the best way to reach the steward.",
     "contactCta": "Open GitHub issues",
     "contactHint": "Opens github.com in a new tab.",
-    "toManifesto": "Why it’s free →",
-    "backHome": "← Back to UnionOps",
-    "toInstall": "Install as an app →"
+    "backHome": "Back to UnionOps"
   },
   "footer": {
     "madeBy": "UnionOps. Built in solidarity for union locals by union volunteers.",
@@ -2030,8 +2030,11 @@
     "limitsOffline": "The service worker keeps a thin offline shell for public Comms pages — not a full offline Officer Hub.",
     "limitsNetwork": "Grievance, bumping, and other hub modules still need a signed-in session and network when you work live.",
     "limitsNoStore": "There is no App Store or Microsoft Store listing; install is the browser’s own progressive web app flow.",
-    "toPrivacy": "Privacy →",
-    "toSupport": "Support the builder →",
-    "backHome": "← Back to UnionOps"
+    "relatedLead": "For what stays on this device, see",
+    "relatedPrivacy": "Privacy",
+    "relatedMid": ". Optional tips live on",
+    "relatedSupport": "Support the builder",
+    "relatedEnd": ".",
+    "backHome": "Back to UnionOps"
   }
 }

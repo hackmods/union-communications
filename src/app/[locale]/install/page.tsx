@@ -80,13 +80,19 @@ export default async function InstallPage({
         </section>
       </div>
 
-      <p className="mt-12 flex flex-wrap gap-x-4 gap-y-2 text-base">
+      <p className="mt-10 max-w-prose text-base text-gray-600">
+        {t("relatedLead")}{" "}
         <Link href="/privacy" className="font-semibold text-opseu-blue hover:underline">
-          {t("toPrivacy")}
+          {t("relatedPrivacy")}
         </Link>
+        {t("relatedMid")}{" "}
         <Link href="/support" className="font-semibold text-opseu-blue hover:underline">
-          {t("toSupport")}
+          {t("relatedSupport")}
         </Link>
+        {t("relatedEnd")}
+      </p>
+
+      <p className="mt-12">
         <Link href="/" className="font-semibold text-opseu-blue hover:underline">
           {t("backHome")}
         </Link>

@@ -19,8 +19,11 @@ const REQUIRED_INSTALL_KEYS = [
   "limitsOffline",
   "limitsNetwork",
   "limitsNoStore",
-  "toPrivacy",
-  "toSupport",
+  "relatedLead",
+  "relatedPrivacy",
+  "relatedMid",
+  "relatedSupport",
+  "relatedEnd",
   "backHome",
 ] as const;
 
@@ -37,8 +40,15 @@ describe("install page i18n", () => {
   it("exposes a quiet footer install label in both locales", () => {
     expect(en.footer.installApp).toMatch(/install/i);
     expect(fr.footer.installApp.length).toBeGreaterThan(0);
-    expect(en.supportPage.toInstall).toMatch(/install/i);
-    expect(fr.supportPage.toInstall.length).toBeGreaterThan(0);
+  });
+
+  it("keeps support and manifesto cross-links without arrow footers", () => {
+    expect(en.supportPage.p1ManifestoLink).toMatch(/manifesto/i);
+    expect(fr.supportPage.p1ManifestoLink.length).toBeGreaterThan(0);
+    expect(en.supportPage.backHome).not.toMatch(/[←→]/);
+    expect(fr.supportPage.backHome).not.toMatch(/[←→]/);
+    expect(en.installPage.backHome).not.toMatch(/[←→]/);
+    expect(en.manifesto.backHome).not.toMatch(/[←→]/);
   });
 
   it("documents apex-only install and platform differences", () => {

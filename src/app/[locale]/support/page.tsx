@@ -44,7 +44,13 @@ export default async function SupportPage({
       </h1>
 
       <div className="mt-8 max-w-prose space-y-6 text-lg leading-relaxed text-gray-800">
-        <p>{t("p1")}</p>
+        <p>
+          {t("p1Lead")}{" "}
+          <Link href="/manifesto" className="font-semibold text-opseu-blue hover:underline">
+            {t("p1ManifestoLink")}
+          </Link>
+          {t("p1End")}
+        </p>
         <p>{t("p2")}</p>
         <p>{t("p3")}</p>
       </div>
@@ -79,13 +85,7 @@ export default async function SupportPage({
         <p className="mt-3 text-sm text-gray-500">{t("contactHint")}</p>
       </div>
 
-      <p className="mt-12 flex flex-wrap gap-x-4 gap-y-2 text-base">
-        <Link href="/manifesto" className="font-semibold text-opseu-blue hover:underline">
-          {t("toManifesto")}
-        </Link>
-        <Link href="/install" className="font-semibold text-opseu-blue hover:underline">
-          {t("toInstall")}
-        </Link>
+      <p className="mt-12">
         <Link href="/" className="font-semibold text-opseu-blue hover:underline">
           {t("backHome")}
         </Link>

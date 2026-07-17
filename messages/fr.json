@@ -1463,11 +1463,13 @@
     "slogan": "Solidarity.",
     "supportLead": "Si les outils vous ont aidé et que vous voulez contribuer pour un café ou l'hébergement,",
     "supportLink": "il y a une page Soutien discrète.",
-    "backHome": "← Retour à UnionOps"
+    "backHome": "Retour à UnionOps"
   },
   "supportPage": {
     "title": "Soutenir le bâtisseur",
-    "p1": "UnionOps reste gratuit — pas d'abonnements, pas de paywalls, pas de pubs. C'est la promesse de la page manifeste.",
+    "p1Lead": "UnionOps reste gratuit — pas d'abonnements, pas de paywalls, pas de pubs. C'est la promesse de la",
+    "p1ManifestoLink": "page manifeste",
+    "p1End": ".",
     "p2": "L'hébergement, les domaines et les soirées libres coûtent quand même quelque chose. Si ce hub vous a fait gagner du temps et que vous voulez offrir un café à Ryan, qui l'a bâti, vous pouvez. Totalement optionnel. Jamais obligatoire.",
     "p3": "Les sections locales utilisent les outils de toute façon. La solidarité n'est pas un panier d'achat.",
     "cta": "M'offrir un café",
@@ -1476,9 +1478,7 @@
     "contactBody": "Bogues, correctifs, améliorations ou autres préoccupations — ouvrez une issue GitHub. C'est la meilleure façon de rejoindre le steward.",
     "contactCta": "Ouvrir les issues GitHub",
     "contactHint": "Ouvre github.com dans un nouvel onglet.",
-    "toManifesto": "Pourquoi c'est gratuit →",
-    "backHome": "← Retour à UnionOps",
-    "toInstall": "Installer comme application →"
+    "backHome": "Retour à UnionOps"
   },
   "footer": {
     "madeBy": "UnionOps. Built in solidarity for union locals by union volunteers.",
@@ -2030,8 +2030,11 @@
     "limitsOffline": "Le service worker conserve une coquille hors ligne mince pour les pages Comms publiques — pas un Hub des officiers hors ligne complet.",
     "limitsNetwork": "Griefs, bumping et autres modules du hub exigent toujours une session connectée et un réseau lorsque vous travaillez en direct.",
     "limitsNoStore": "Il n'y a pas de fiche App Store ni Microsoft Store; l'installation suit le flux d'application web progressive du navigateur.",
-    "toPrivacy": "Confidentialité →",
-    "toSupport": "Soutenir le bâtisseur →",
-    "backHome": "← Retour à UnionOps"
+    "relatedLead": "Pour ce qui reste sur cet appareil, voir",
+    "relatedPrivacy": "Confidentialité",
+    "relatedMid": ". Les pourboires optionnels sont sur",
+    "relatedSupport": "Soutenir le bâtisseur",
+    "relatedEnd": ".",
+    "backHome": "Retour à UnionOps"
   }
 }
