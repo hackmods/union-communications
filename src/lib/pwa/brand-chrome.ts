@@ -61,8 +61,10 @@ export function setPwaThemeCookie(
   doc.cookie = pwaThemeCookieValue(primaryColor);
 }
 
+/** Marks head nodes we own — never remove Next/React metadata links. */
+export const BRAND_CHROME_ATTR = "data-uo-brand-chrome";
+
 type ObjectUrlStore = {
-  manifestUrl: string | null;
   icon192Url: string | null;
   icon512Url: string | null;
   icon32Url: string | null;
@@ -70,7 +72,6 @@ type ObjectUrlStore = {
 };
 
 const objectUrls: ObjectUrlStore = {
-  manifestUrl: null,
   icon192Url: null,
   icon512Url: null,
   icon32Url: null,
@@ -113,59 +114,51 @@ async function svgToPngObjectUrl(svg: string, size: number): Promise<string> {
   }
 }
 
-function ensureLink(
-  rel: string,
-  attrs: Record<string, string>,
-  doc: Document,
-): HTMLLinkElement {
-  let link = doc.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null;
-  if (!link) {
-    link = doc.createElement("link");
-    link.rel = rel;
-    doc.head.appendChild(link);
-  }
-  for (const [key, value] of Object.entries(attrs)) {
-    link.setAttribute(key, value);
-  }
-  return link;
+function removeOwnedBrandChromeLinks(doc: Document): void {
+  doc
+    .querySelectorAll(`link[${BRAND_CHROME_ATTR}]`)
+    .forEach((el) => el.remove());
 }
 
 /**
- * Browsers keep the first matching `rel=icon` / shortcut icon and cache hard.
- * Next metadata also injects SVG + PNG + ICO, so mutating one href leaves the
- * tab on `/favicon.ico`. Strip competitors and insert a fresh link so the
- * branded blob wins.
+ * Prefers Brand Kit tab icons without deleting Next metadata `<link>` nodes.
+ * Removing React-owned head links caused `removeChild` crashes on soft nav
+ * (especially to/from heavy tool pages like Website Template).
+ *
+ * We only remove/replace links we previously inserted (`data-uo-brand-chrome`),
+ * and prepend them so browsers prefer the branded SVG/PNG.
  */
 export function replaceDocumentFavicons(
   icons: Array<{ href: string; type?: string; sizes?: string }>,
   doc: Document = document,
 ): void {
-  doc
-    .querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]')
-    .forEach((el) => el.remove());
+  removeOwnedBrandChromeLinks(doc);
 
-  for (const icon of icons) {
+  // Insert in reverse so the first icon in `icons` ends up first in <head>.
+  for (let i = icons.length - 1; i >= 0; i--) {
+    const icon = icons[i]!;
     const link = doc.createElement("link");
     link.rel = "icon";
+    link.setAttribute(BRAND_CHROME_ATTR, "icon");
     if (icon.type) link.setAttribute("type", icon.type);
     if (icon.sizes) link.setAttribute("sizes", icon.sizes);
     // Assign href last so the browser treats this as a new icon fetch.
     link.href = icon.href;
-    doc.head.appendChild(link);
+    doc.head.prepend(link);
   }
 }
 
-function replaceAppleTouchIcon(
-  href: string,
-  doc: Document,
-): void {
-  doc.querySelectorAll('link[rel="apple-touch-icon"]').forEach((el) => el.remove());
+function replaceAppleTouchIcon(href: string, doc: Document): void {
+  doc
+    .querySelectorAll(`link[rel="apple-touch-icon"][${BRAND_CHROME_ATTR}]`)
+    .forEach((el) => el.remove());
   const link = doc.createElement("link");
   link.rel = "apple-touch-icon";
+  link.setAttribute(BRAND_CHROME_ATTR, "apple-touch-icon");
   link.setAttribute("sizes", "180x180");
   link.setAttribute("type", "image/png");
   link.href = href;
-  doc.head.appendChild(link);
+  doc.head.prepend(link);
 }
 
 function setSafariMaskIconColor(primaryColor: string, doc: Document): void {
@@ -193,18 +186,24 @@ export function buildBrandKitManifest(options: {
 }
 
 /**
- * Apply Brand Kit primary to PWA chrome: theme-color meta, theme cookie,
- * generated 32/192/512 icons, tab favicon (replacing static icon links), and
- * a blob `link[rel=manifest]` for Install.
+ * Apply Brand Kit primary to PWA chrome: theme-color meta, theme cookie, and
+ * branded tab / apple-touch icons (owned `data-uo-brand-chrome` links only).
  *
- * Brand bytes stay on-device (blob URLs + cookie hex only). Host static icons
- * remain the crawler/fallback defaults until the client sync runs.
+ * Install manifest stays on `/manifest.webmanifest` (theme via cookie). Blob
+ * manifests break Chromium (`start_url`/`scope` relative to `blob:`; `blob:`
+ * icon src rejected) and swapping the React-managed manifest link caused
+ * soft-nav `removeChild` crashes.
+ *
+ * Brand bytes stay on-device (blob favicon URLs + cookie hex only). Host static
+ * icons remain crawler/fallback defaults.
  */
 export async function syncPwaBrandChrome(options: {
   primaryColor: string;
+  /** Kept for call-site compatibility; install manifest is server-side only. */
   officerHubPublic?: boolean;
   doc?: Document;
 }): Promise<"synced" | "skipped"> {
+  void options.officerHubPublic;
   if (typeof window === "undefined" || typeof document === "undefined") {
     return "skipped";
   }
@@ -218,45 +217,29 @@ export async function syncPwaBrandChrome(options: {
   // Generation token: rapid Brand Kit colour changes can overlap; only the
   // latest sync may mutate head / revoke prior blob URLs.
   const generation = ++syncGeneration;
-  const [icon32Url, icon192Url, icon512Url] = await Promise.all([
+  const [icon32Url, icon192Url] = await Promise.all([
     svgToPngObjectUrl(svg, 32),
     svgToPngObjectUrl(svg, 192),
-    svgToPngObjectUrl(svg, 512),
   ]);
 
   if (generation !== syncGeneration) {
     revoke(icon32Url);
     revoke(icon192Url);
-    revoke(icon512Url);
     return "skipped";
   }
 
   const faviconSvg = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
   const faviconUrl = URL.createObjectURL(faviconSvg);
 
-  const manifest = buildBrandKitManifest({
-    primaryColor: primary,
-    officerHubPublic: options.officerHubPublic,
-    icon192: icon192Url,
-    icon512: icon512Url,
-  });
-  const manifestBlob = new Blob([JSON.stringify(manifest)], {
-    type: "application/manifest+json",
-  });
-  const manifestUrl = URL.createObjectURL(manifestBlob);
-
-  revoke(objectUrls.manifestUrl);
   revoke(objectUrls.icon192Url);
   revoke(objectUrls.icon512Url);
   revoke(objectUrls.faviconUrl);
   revoke(objectUrls.icon32Url);
-  objectUrls.manifestUrl = manifestUrl;
   objectUrls.icon192Url = icon192Url;
-  objectUrls.icon512Url = icon512Url;
+  objectUrls.icon512Url = null;
   objectUrls.faviconUrl = faviconUrl;
   objectUrls.icon32Url = icon32Url;
 
-  ensureLink("manifest", { href: manifestUrl }, doc);
   // SVG + 32 PNG: Chrome often prefers a sized PNG; SVG covers modern tabs.
   replaceDocumentFavicons(
     [

@@ -23,6 +23,7 @@ import {
 import { saveAs } from "file-saver";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { WebsitePreviewFrame } from "@/components/tools/WebsitePreviewFrame";
 import { Callout } from "@/components/ui/Callout";
 
 const LOGO_FILE_NAME = "logo.png";
@@ -240,12 +241,7 @@ export default function WebsiteTemplatePage() {
       preview={
         <div>
           <p className="mb-2 text-sm font-medium text-gray-700">{t("preview")}</p>
-          <iframe
-            title={t("preview")}
-            srcDoc={previewHtml}
-            className="h-[600px] w-full rounded-lg border border-gray-200 bg-white shadow-lg"
-            sandbox="allow-scripts"
-          />
+          <WebsitePreviewFrame title={t("preview")} html={previewHtml} />
         </div>
       }
       footer={

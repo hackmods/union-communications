@@ -73,7 +73,7 @@ describe("setThemeColorMeta", () => {
 });
 
 describe("replaceDocumentFavicons", () => {
-  it("removes static icon / shortcut-icon links and inserts branded ones", () => {
+  it("prepends owned brand icons without deleting Next/static links", () => {
     const doc = document.implementation.createHTMLDocument("t");
     const staleSvg = doc.createElement("link");
     staleSvg.rel = "icon";
@@ -102,15 +102,28 @@ describe("replaceDocumentFavicons", () => {
     );
 
     const icons = [...doc.querySelectorAll('link[rel="icon"]')];
-    expect(icons).toHaveLength(2);
+    expect(icons).toHaveLength(4);
     expect(icons[0]?.getAttribute("href")).toBe("blob:brand-svg");
     expect(icons[0]?.getAttribute("type")).toBe("image/svg+xml");
+    expect(icons[0]?.getAttribute("data-uo-brand-chrome")).toBe("icon");
     expect(icons[1]?.getAttribute("href")).toBe("blob:brand-png");
     expect(icons[1]?.getAttribute("sizes")).toBe("32x32");
-    expect(doc.querySelector('link[rel="shortcut icon"]')).toBeNull();
+    expect(doc.querySelector('link[rel="shortcut icon"]')).not.toBeNull();
     expect(
       doc.querySelector('link[rel="manifest"]')?.getAttribute("href"),
     ).toBe("/manifest.webmanifest");
+
+    replaceDocumentFavicons(
+      [{ href: "blob:brand-svg-2", type: "image/svg+xml", sizes: "any" }],
+      doc,
+    );
+    const after = [...doc.querySelectorAll('link[rel="icon"]')];
+    expect(after.filter((el) => el.hasAttribute("data-uo-brand-chrome"))).toHaveLength(
+      1,
+    );
+    expect(after.some((el) => el.getAttribute("href") === "/favicon.svg")).toBe(
+      true,
+    );
   });
 });
 

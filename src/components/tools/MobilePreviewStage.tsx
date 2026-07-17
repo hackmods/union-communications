@@ -23,6 +23,9 @@ type MobilePreviewStageProps = {
 /**
  * Scales live preview content to fit a mini rail or a capped full preview.
  * Passthrough leaves children unscaled (desktop / lg+).
+ *
+ * Always keeps the same wrapper tree so mode changes do not remount children
+ * (iframes / canvases remounting mid-nav caused React removeChild crashes).
  */
 export function MobilePreviewStage({
   mode,
@@ -36,8 +39,13 @@ export function MobilePreviewStage({
   const [scale, setScale] = useState(1);
   const [naturalHeight, setNaturalHeight] = useState(0);
 
+  const isPassthrough = mode === "passthrough";
+  const isMini = mode === "mini";
+  const displayScale = isPassthrough ? 1 : scale;
+  const displayNaturalHeight = isPassthrough ? 0 : naturalHeight;
+
   useLayoutEffect(() => {
-    if (mode === "passthrough") return;
+    if (isPassthrough) return;
 
     const frame = frameRef.current;
     const content = contentRef.current;
@@ -65,39 +73,41 @@ export function MobilePreviewStage({
     ro.observe(content);
     ro.observe(frame);
     window.addEventListener("resize", measure);
+    measure();
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
       window.removeEventListener("resize", measure);
     };
-  }, [mode]);
+  }, [mode, isPassthrough]);
 
-  if (mode === "passthrough") {
-    return <div className={className}>{children}</div>;
-  }
-
-  const isMini = mode === "mini";
   const fullHeight =
-    naturalHeight > 0 ? Math.ceil(naturalHeight * scale) : undefined;
+    !isPassthrough && !isMini && displayNaturalHeight > 0
+      ? Math.ceil(displayNaturalHeight * displayScale)
+      : undefined;
 
   return (
     <div
       ref={frameRef}
       className={cn(
-        "relative w-full overflow-hidden",
-        isMini
-          ? "flex h-24 items-start justify-center rounded-md bg-gray-100"
-          : "rounded-lg",
+        "relative w-full",
+        !isPassthrough && "overflow-hidden",
+        isMini &&
+          "flex h-24 items-start justify-center rounded-md bg-gray-100",
+        !isPassthrough && !isMini && "rounded-lg",
         className,
       )}
-      style={isMini ? undefined : { height: fullHeight }}
+      style={fullHeight ? { height: fullHeight } : undefined}
     >
       <div
         ref={contentRef}
-        className="origin-top will-change-transform"
+        className={cn(!isPassthrough && "origin-top will-change-transform")}
         style={{
           width: "100%",
-          transform: scale === 1 ? undefined : `scale(${scale})`,
+          transform:
+            !isPassthrough && displayScale !== 1
+              ? `scale(${displayScale})`
+              : undefined,
         }}
         // Peek mode: block nested controls; expand is the overlay button.
         inert={isMini ? true : undefined}
