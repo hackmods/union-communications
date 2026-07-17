@@ -10,6 +10,8 @@ import { BrandLogo } from "@/components/brand/BrandLogo";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { useBrandStore } from "@/store/brand-store";
+import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 
 const learnGroups = [
   {
@@ -110,10 +112,12 @@ export function Header() {
   const openMenu = menu?.path === pathname ? menu.id : null;
   const drawerOpen = drawer?.path === pathname;
 
-  const getStartedHref = "/guide/social-media-plan";
+  const brandKit = useBrandStore((s) => s.brandKit);
+  const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
+  const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
+  const getStartedHref = themeEstablished ? "/brand-kit" : "/onboarding";
   const learnActive =
-    learnHrefs.has(pathname) ||
-    (pathname.startsWith("/guide/") && pathname !== getStartedHref);
+    learnHrefs.has(pathname) || pathname.startsWith("/guide/");
   const toolsActive = pathname.startsWith("/tools/");
 
   useLayoutEffect(() => {

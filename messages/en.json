@@ -112,10 +112,12 @@
     "subtitle": "Comms tools for volunteers. Officer workflows for presidents and stewards. Built for any local, any union.",
     "subtitleCommsOnly": "Comms tools for volunteers running a local. Built for any local, any union.",
     "heroCta": "Set up your local brand",
-    "socialMediaPlanCta": "Start your first-week roadmap",
-    "socialMediaPlanDesc": "A quick roadmap: brand, boards, print, socials, and a simple website.",
+    "openBrandKitCta": "Open Brand Kit",
+    "whatsNextCta": "What’s next",
+    "socialMediaPlanCta": "Continue the first-week roadmap",
+    "socialMediaPlanDesc": "After Brand Kit: boards, print, socials, and a simple website.",
     "pathCommsTitle": "New to running a local’s communications?",
-    "pathCommsDesc": "A short first-week roadmap: brand, boards, print, socials, then a simple website.",
+    "pathCommsDesc": "Start with Brand Kit — union, colours, local number, and logo. Then follow the first-week roadmap for boards, print, socials, and a website.",
     "pathCommsCta": "Get started",
     "pathCommsHint": "Channel guides for print, boards, and website live under Learn. Social Examples and Captions are there too.",
     "pathOfficerTitle": "President or steward managing cases?",
@@ -153,8 +155,8 @@
   },
   "socialMediaPlan": {
     "title": "Social Media Plan",
-    "subtitle": "Do these four steps in order - the operational roadmap for locals building communications",
-    "intro": "This is the action path: brand first, then reach members on the board, on social, and online. For practice guidance (tone, platforms, trolls), use The Blueprint. For an overview of the hub, checklist, and sources, see Comms Resources.",
+    "subtitle": "After Brand Kit: four steps to reach members on boards, social, and a simple website",
+    "intro": "Do not skip identity. Set union, colours, local number, and logo in Brand Kit first — then use this roadmap. For practice guidance (tone, platforms, trolls), use The Blueprint. For an overview of the hub, checklist, and sources, see Comms Resources.",
     "relatedLabel": "Also see",
     "stepsNavLabel": "Roadmap steps",
     "pathLinks": {
@@ -165,16 +167,17 @@
     },
     "steps": {
       "logo": {
-        "title": "Make a logo",
-        "navLabel": "Logo",
-        "description": "Set up your Brand Kit with local number, colours, and logo. Consistent branding makes every post and notice look professional.",
+        "title": "Brand Kit first",
+        "navLabel": "Brand",
+        "description": "Your Brand Kit is step 0. Every graphic, board notice, and site template uses these colours, logo, and links. Set your union preset, local number, colours, and logo before the rest of the roadmap.",
         "checklist": [
-          "Complete onboarding or open Brand Kit",
+          "Choose your union preset (or Other to set colours yourself)",
           "Set local number and sub-text",
-          "Export your circular local logo"
+          "Confirm colours, then choose or upload your logo",
+          "Optional: export a circular local logo from Logo Builder"
         ],
-        "cta": "Logo Builder",
-        "secondaryCta": "Brand Kit"
+        "cta": "Brand Kit",
+        "secondaryCta": "Logo Builder"
       },
       "boards": {
         "title": "Union boards",
@@ -219,10 +222,10 @@
   "guide": {
     "title": "The Blueprint",
     "subtitle": "A handbook for ongoing local communications practice - platforms, tone, rhythm, and accessibility.",
-    "intro": "Use this after you have a brand and a first message in motion. New to the hub? Start with the Social Media Plan. Need the map, checklist, or sources? Open Comms Resources.",
+    "intro": "Use this after you have a Brand Kit and a first message in motion. New to the hub? Get started with Brand Kit, then the Social Media Plan. Need the map, checklist, or sources? Open Comms Resources.",
     "path": {
       "title": "Related paths",
-      "plan": "Get started - Social Media Plan (do the four steps)",
+      "plan": "Get started - Brand Kit first, then the Social Media Plan roadmap",
       "resources": "Comms Resources - orientation, practice, sources",
       "crisis": "Strike Guide - high-stakes bargaining and strike communications"
     },
@@ -1042,7 +1045,7 @@
         "Comms tools run on your device - no accounts or tracking for public tools",
         "Built for any local or union group learning communications practice"
       ],
-      "cta": "Start the Social Media Plan"
+      "cta": "Set up Brand Kit"
     },
     "path": {
       "title": "How to learn this hub",
@@ -1057,7 +1060,7 @@
         "photoConsent": "Photo Consent"
       },
       "blurb": {
-        "plan": "Do the four steps in order - logo, boards, socials, website.",
+        "plan": "After Brand Kit: boards, socials, and website in order.",
         "blueprint": "Ongoing practice: platforms, tone, frequency, trolls, alt-text.",
         "boards": "Bare-minimum workplace boards and what to print.",
         "print": "Flyers and print habits for meetings and actions.",
@@ -1084,7 +1087,7 @@
     },
     "explore": {
       "title": "Explore the hub",
-      "cta": "Social Media Plan",
+      "cta": "First-week roadmap",
       "onboarding": "Brand setup wizard",
       "logo": "Logo Builder",
       "board": "Board Notice Maker",
@@ -1136,12 +1139,13 @@
     "step1": "Local details",
     "step2": "Colours",
     "step3": "Choose your logo",
+    "unionPreset": "Union",
+    "unionPresetHint": "Starts colours and logo options. Choose Other to set colours yourself.",
+    "unionPresetPlaceholder": "Choose a union…",
     "localNumber": "Local number",
     "localNumberPlaceholder": "e.g. 243",
     "subText": "Sub-text",
     "subTextPlaceholder": "e.g. Support Staff",
-    "division": "Division or sector (optional)",
-    "divisionPlaceholder": "e.g. College Support",
     "primaryColor": "Primary brand colour",
     "secondaryColor": "Graphics accent",
     "useOfficialLogo": "Use OPSEU logo",
@@ -1163,13 +1167,23 @@
     "removeLink": "Remove"
   },
   "brandKit": {
-    "title": "Brand Kit Manager",
-    "description": "Manage, export, and import your local branding - colours, logo, and key links ready for solidarity graphics",
+    "title": "Your local Brand Kit",
+    "description": "Step 0 for every Comms tool. Colours, logo, local number, and key links here drive boards, print, social graphics, and the website template.",
+    "purposeSets": "What you set here",
+    "purposeSetsBody": "Union preset, local number and sub-text, brand colours, logo, and optional website or social links.",
+    "purposeUnlocks": "What it unlocks",
+    "purposeUnlocksBody": "Board notices, flyers, social graphics, QR materials, and the local website template — all stamped with your identity.",
+    "startSetup": "Start setup",
+    "continueRoadmap": "Continue the first-week roadmap",
     "assetsLink": "Browse Brand Asset Pack",
     "export": "Export brand kit",
     "import": "Import brand kit",
     "importSuccess": "Brand kit imported successfully",
     "importError": "Invalid brand kit file",
+    "currentSettings": "Current settings",
+    "localNumber": "Local number",
+    "subText": "Sub-text",
+    "resetDefaults": "Reset to defaults",
     "unionPreset": {
       "title": "Union preset",
       "description": "Start from a common Canadian union colour palette and tagline. OPSEU uses the official lockup; other unions default to the UnionOps mark in your brand colour — upload your local’s logo when you have one.",
@@ -1941,6 +1955,44 @@
     "approve": "Approve",
     "reject": "Reject",
     "disclaimer": "Helps locals track union hours. Does not process payroll or provide legal advice.",
+    "manualTitle": "Enter past time",
+    "manualHint": "Log a time range for an event you already worked — then submit it for approval.",
+    "manualSubmit": "Save past time",
+    "manualError": "Could not save past time",
+    "eventLabelOptional": "Event label (optional)",
+    "eventLabel": "Event label",
+    "start": "Start",
+    "end": "End",
+    "from": "From",
+    "to": "To",
+    "neededTitle": "Entries needed",
+    "neededWindow": "{worker}: missing entry for “{label}”",
+    "neededGap": "{worker}: no entry on {date}",
+    "neededMore": "+{count} more",
+    "bulkTitle": "Bulk union business",
+    "bulkHint": "Enter one time range for a meeting or local event and apply it to several workers. Entries land as submitted for approval.",
+    "bulkSubmit": "Create group entries",
+    "bulkError": "Could not create group entries",
+    "workers": "Workers",
+    "windowsTitle": "Expected windows",
+    "windowsHint": "Define a window when attendees should log time. Missing attendees show up under Entries needed.",
+    "windowLabel": "Window label",
+    "attendees": "Attendees",
+    "attendeeCount": "{count} attendees",
+    "windowSubmit": "Create window",
+    "windowError": "Could not create window",
+    "rosterTitle": "Worker roster",
+    "workerNamePlaceholder": "Add guest or staff name",
+    "addWorker": "Add worker",
+    "workerError": "Could not add worker",
+    "tracksGaps": "gap tracking on",
+    "reportTitle": "Union business report",
+    "reportHint": "Totals by worker and event for the selected range, plus who still needs an entry.",
+    "runReport": "Run report",
+    "reportError": "Could not run report",
+    "reportSummary": "{hours} hours across {entries} entries · {needed} still needed",
+    "byWorker": "By worker",
+    "byEvent": "By event",
     "categories": {
       "staff": "Staff",
       "release": "Release time",
@@ -1954,6 +2006,11 @@
       "submitted": "Submitted",
       "approved": "Approved",
       "rejected": "Rejected"
+    },
+    "sources": {
+      "clock": "Clock",
+      "manual_range": "Past range",
+      "bulk_event": "Group event"
     }
   },
   "installPage": {

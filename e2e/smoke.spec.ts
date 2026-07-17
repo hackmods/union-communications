@@ -32,7 +32,7 @@ test.describe("Smoke tests @smoke", () => {
       .getByRole("navigation", { name: "Main" })
       .getByRole("link", { name: "Get started" })
       .click();
-    await expect(page).toHaveURL(/\/en\/guide\/social-media-plan/);
+    await expect(page).toHaveURL(/\/en\/onboarding/);
     await page.goto("/en/");
     const main = page.getByRole("navigation", { name: "Main" });
     await main.getByRole("button", { name: /Learn/ }).click();
@@ -44,6 +44,7 @@ test.describe("Smoke tests @smoke", () => {
   test("social media plan page renders", async ({ page }) => {
     await page.goto("/en/guide/social-media-plan/");
     await expect(page.getByRole("heading", { name: "Social Media Plan" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Brand Kit" }).first()).toBeVisible();
     await expect(page.getByRole("link", { name: "Logo Builder" }).first()).toBeVisible();
   });
 
@@ -211,7 +212,7 @@ test.describe("Smoke tests @smoke", () => {
 
   test("brand kit page renders", async ({ page }) => {
     await page.goto("/en/brand-kit/");
-    await expect(page.getByRole("heading", { name: "Brand Kit Manager" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Your local Brand Kit" })).toBeVisible();
   });
 
   test("privacy page renders", async ({ page }) => {

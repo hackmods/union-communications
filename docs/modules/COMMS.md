@@ -10,7 +10,7 @@ Top bar is slim and dual-audience oriented:
 
 | Item | Route / contents |
 |------|------------------|
-| **Get started** | `/guide/social-media-plan` |
+| **Get started** | `/onboarding` when Brand Kit is not established; `/brand-kit` when it is (Brand Kit = step 0) |
 | **Learn ▾** | **Guides:** Comms Resources, Blueprint, Strike Guide, Photo Consent · **By channel:** Print, Union Boards, Website · **Libraries:** Social Examples, Captions |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Asset Pack) |
 | **Tools ▾** | **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, QR Cards · **Print:** Flyer · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text |
@@ -20,17 +20,17 @@ Footer includes Blueprint, Print Guide, Social Examples, Captions, Comms Resourc
 
 Social Examples and Captions are **not** top-level nav items. They remain under Learn, the home Social channel, footer links, and Social Media Plan step 3. Channel guides (print / boards / website) live under Learn → By channel so the four-channel model is discoverable without flattening Learn into a long link bar.
 
-Home landing (`HomeContent`): desktop hero band with CTAs + trust aside; dual-path cards (comms vs Officer Hub, or compact “coming soon” rail when hub is off); Brand Kit sticky rail beside a four-column toolbox (boards → print → social → website, capped tiles). Deferred content ideas: [`COMMS_BACKLOG.md`](COMMS_BACKLOG.md). Agent nav conventions: `.cursor/rules/comms-public-nav.mdc`.
+Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “What’s next” roadmap secondary; dual-path cards (comms vs Officer Hub, or compact “coming soon” rail when hub is off); Brand Kit link row above a four-column toolbox (boards → print → social → website). Social Media Plan (`/guide/social-media-plan`) is the first-week roadmap **after** Brand Kit. Deferred content ideas: [`COMMS_BACKLOG.md`](COMMS_BACKLOG.md). Agent nav conventions: `.cursor/rules/comms-public-nav.mdc`.
 
 ## Routes
 
 | Route | Description |
 |-------|-------------|
-| `/[locale]/` | Landing — dual paths + channel-organized toolbox |
-| `/[locale]/onboarding` | Brand setup wizard |
-| `/[locale]/brand-kit` | Export/import branding JSON (colours, logo, website & key links) |
+| `/[locale]/` | Landing — Brand Kit step 0 CTA + channel toolbox |
+| `/[locale]/onboarding` | Brand setup wizard (union preset, local details, colours, logo) |
+| `/[locale]/brand-kit` | Brand Kit home base — purpose + export/import branding JSON (colours, logo, website & key links) |
 | `/[locale]/guide` | The Blueprint handbook |
-| `/[locale]/guide/social-media-plan` | Quick roadmap: logo → boards → socials → website |
+| `/[locale]/guide/social-media-plan` | First-week roadmap after Brand Kit: brand → boards → socials → website |
 | `/[locale]/guide/resources` | Comms Resources — orientation, practice checklist, presentation + workshop outlines, bibliography (`/guide/materials` redirects here) |
 | `/[locale]/guide/crisis` | Crisis comms playbook |
 | `/[locale]/guide/photo-consent` | Photo consent & member media checklist for stewards and workshops |

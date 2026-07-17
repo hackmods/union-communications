@@ -63,7 +63,7 @@ export default async function ResourcesPage({
             <li key={item}>{item}</li>
           ))}
         </ul>
-        <Link href="/guide/social-media-plan" className="mt-4 inline-block">
+        <Link href="/brand-kit" className="mt-4 inline-block">
           <Button size="sm">{t("purpose.cta")}</Button>
         </Link>
       </Callout>

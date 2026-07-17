@@ -112,10 +112,12 @@
     "subtitle": "Outils de communication pour les bénévoles. Flux de travail pour présidents et délégués. Pour toute section, tout syndicat.",
     "subtitleCommsOnly": "Outils de communication pour les bénévoles qui font vivre une section. Pour toute section, tout syndicat.",
     "heroCta": "Configurer la marque de votre section",
-    "socialMediaPlanCta": "Commencer la feuille de route de la première semaine",
-    "socialMediaPlanDesc": "Feuille de route rapide : marque, tableaux, impression, médias sociaux et site Web simple.",
+    "openBrandKitCta": "Ouvrir la trousse de marque",
+    "whatsNextCta": "Et ensuite",
+    "socialMediaPlanCta": "Continuer la feuille de route de la première semaine",
+    "socialMediaPlanDesc": "Après la trousse de marque : tableaux, impression, médias sociaux et site Web simple.",
     "pathCommsTitle": "Nouveau aux communications de votre section ?",
-    "pathCommsDesc": "Une courte feuille de route pour la première semaine : marque, tableaux, impression, médias sociaux, puis un site simple.",
+    "pathCommsDesc": "Commencez par la trousse de marque — syndicat, couleurs, numéro de section et logo. Ensuite, suivez la feuille de route pour tableaux, impression, médias sociaux et site Web.",
     "pathCommsCta": "Commencer",
     "pathCommsHint": "Les guides par canal (impression, tableaux, site Web) sont sous Apprendre, avec les exemples sociaux et les légendes.",
     "pathOfficerTitle": "Président ou délégué qui gère des dossiers ?",
@@ -153,8 +155,8 @@
   },
   "socialMediaPlan": {
     "title": "Plan médias sociaux",
-    "subtitle": "Faites ces quatre étapes dans l'ordre - la feuille de route opérationnelle pour bâtir vos communications",
-    "intro": "Ceci est le parcours d'action : la marque d'abord, puis rejoindre les membres au tableau, sur les réseaux et en ligne. Pour les pratiques (ton, plateformes, trolls), utilisez le Plan directeur. Pour une vue d'ensemble du centre, une liste de pratique et les sources, voir Ressources de communication.",
+    "subtitle": "Après la trousse de marque : quatre étapes pour rejoindre les membres aux tableaux, sur les réseaux et via un site simple",
+    "intro": "Ne sautez pas l'identité. Définissez d'abord le syndicat, les couleurs, le numéro de section et le logo dans la trousse de marque — puis suivez cette feuille de route. Pour les pratiques (ton, plateformes, trolls), utilisez le Plan directeur. Pour une vue d'ensemble, une liste de pratique et les sources, voir Ressources de communication.",
     "relatedLabel": "Voir aussi",
     "stepsNavLabel": "Étapes de la feuille de route",
     "pathLinks": {
@@ -165,16 +167,17 @@
     },
     "steps": {
       "logo": {
-        "title": "Créer un logo",
-        "navLabel": "Logo",
-        "description": "Configurez votre trousse de marque avec le numéro de section, les couleurs et le logo. Une image de marque cohérente rend chaque publication professionnelle.",
+        "title": "Trousse de marque d'abord",
+        "navLabel": "Marque",
+        "description": "La trousse de marque est l'étape 0. Chaque graphique, avis de tableau et modèle de site utilise ces couleurs, logo et liens. Configurez le préréglage syndical, le numéro de section, les couleurs et le logo avant le reste de la feuille de route.",
         "checklist": [
-          "Compléter l'intégration ou ouvrir la trousse de marque",
+          "Choisir votre préréglage syndical (ou Autre pour définir les couleurs vous-même)",
           "Définir le numéro et le sous-texte de la section",
-          "Exporter votre logo circulaire local"
+          "Confirmer les couleurs, puis choisir ou téléverser votre logo",
+          "Facultatif : exporter un logo circulaire depuis le Créateur de logo"
         ],
-        "cta": "Créateur de logo",
-        "secondaryCta": "Trousse de marque"
+        "cta": "Trousse de marque",
+        "secondaryCta": "Créateur de logo"
       },
       "boards": {
         "title": "Tableaux syndicaux",
@@ -219,10 +222,10 @@
   "guide": {
     "title": "Le Plan directeur",
     "subtitle": "Un manuel pour la pratique continue des communications locales - plateformes, ton, rythme et accessibilité.",
-    "intro": "Utilisez ce guide une fois la marque en place et un premier message en circulation. Nouveau au centre? Commencez par le plan médias sociaux. Besoin de la carte, de la liste de pratique ou des sources? Ouvrez Ressources de communication.",
+    "intro": "Utilisez ce guide une fois la trousse de marque en place et un premier message en circulation. Nouveau au centre? Commencez par la trousse de marque, puis le plan médias sociaux. Besoin de la carte, de la liste de pratique ou des sources? Ouvrez Ressources de communication.",
     "path": {
       "title": "Parcours connexes",
-      "plan": "Commencer - Plan médias sociaux (les quatre étapes)",
+      "plan": "Commencer - Trousse de marque d'abord, puis la feuille de route du plan médias sociaux",
       "resources": "Ressources de communication - orientation, pratique, sources",
       "crisis": "Guide de grève - communications de négociation et de grève"
     },
@@ -1042,7 +1045,7 @@
         "Les outils de communication tournent sur votre appareil - pas de compte ni de suivi pour les outils publics",
         "Conçu pour toute section ou groupe syndical qui apprend les pratiques de communication"
       ],
-      "cta": "Commencer le plan médias sociaux"
+      "cta": "Configurer la trousse de marque"
     },
     "path": {
       "title": "Comment apprendre ce centre",
@@ -1057,7 +1060,7 @@
         "photoConsent": "Consentement photo"
       },
       "blurb": {
-        "plan": "Faites les quatre étapes dans l'ordre - logo, tableaux, réseaux, site.",
+        "plan": "Après la trousse de marque : tableaux, réseaux et site dans l'ordre.",
         "blueprint": "Pratique continue : plateformes, ton, fréquence, trolls, texte alt.",
         "boards": "Tableaux minimaux au travail et quoi imprimer.",
         "print": "Affiches et habitudes d'impression pour réunions et actions.",
@@ -1084,7 +1087,7 @@
     },
     "explore": {
       "title": "Explorer le centre",
-      "cta": "Plan médias sociaux",
+      "cta": "Feuille de route de la première semaine",
       "onboarding": "Assistant de configuration de marque",
       "logo": "Créateur de logo",
       "board": "Avis pour tableau syndical",
@@ -1136,17 +1139,18 @@
     "step1": "Détails de la section",
     "step2": "Couleurs",
     "step3": "Choisissez votre logo",
+    "unionPreset": "Syndicat",
+    "unionPresetHint": "Démarre les couleurs et options de logo. Choisissez Autre pour définir les couleurs vous-même.",
+    "unionPresetPlaceholder": "Choisir un syndicat…",
     "localNumber": "Numéro de section",
     "localNumberPlaceholder": "e.g. 243",
     "subText": "Sous-texte",
     "subTextPlaceholder": "p. ex. Personnel de soutien",
-    "division": "Division ou secteur (facultatif)",
     "primaryColor": "Couleur de marque principale",
     "secondaryColor": "Accent graphique",
     "useOfficialLogo": "Utiliser le logo OPSEU",
     "uploadCustomLogo": "Téléverser un logo personnalisé",
     "complete": "Terminer la configuration",
-    "divisionPlaceholder": "p. ex. Soutien collégial",
     "step3Description": "Choisissez comment votre section apparaît dans l'en-tête et sur les graphiques. L'en-tête se met à jour au fur et à mesure."
   },
   "localLinks": {
@@ -1163,13 +1167,23 @@
     "removeLink": "Retirer"
   },
   "brandKit": {
-    "title": "Gestionnaire de trousse de marque",
-    "description": "Gérer, exporter et importer l'image de marque de votre section - couleurs, logo et liens clés prêts pour des graphiques de solidarité",
+    "title": "Trousse de marque de votre section",
+    "description": "Étape 0 pour chaque outil de communication. Couleurs, logo, numéro de section et liens clés pilotent ici les tableaux, l'impression, les graphiques sociaux et le modèle de site.",
+    "purposeSets": "Ce que vous définissez ici",
+    "purposeSetsBody": "Préréglage syndical, numéro et sous-texte de section, couleurs de marque, logo, et liens de site ou réseaux facultatifs.",
+    "purposeUnlocks": "Ce que cela débloque",
+    "purposeUnlocksBody": "Avis de tableau, affiches, graphiques sociaux, matériel QR et modèle de site local — tous estampillés de votre identité.",
+    "startSetup": "Commencer la configuration",
+    "continueRoadmap": "Continuer la feuille de route de la première semaine",
     "assetsLink": "Voir le pack d'actifs de marque",
     "export": "Exporter la trousse de marque",
     "import": "Importer la trousse de marque",
     "importSuccess": "Trousse de marque importée avec succès",
     "importError": "Fichier de trousse de marque invalide",
+    "currentSettings": "Paramètres actuels",
+    "localNumber": "Numéro de section",
+    "subText": "Sous-texte",
+    "resetDefaults": "Réinitialiser aux valeurs par défaut",
     "unionPreset": {
       "title": "Préréglage syndical",
       "description": "Partez d'une palette et d'un slogan de syndicat canadien courant. OPSEU utilise le lockup officiel; les autres utilisent par défaut le monogramme UnionOps dans votre couleur de marque — téléversez le logo de votre section au besoin.",
@@ -1916,6 +1930,44 @@
     "approve": "Approuver",
     "reject": "Rejeter",
     "disclaimer": "Aide les sections à suivre les heures syndicales. Ne traite pas la paie ni ne fournit de conseils juridiques.",
+    "manualTitle": "Saisir un temps passé",
+    "manualHint": "Enregistrez une plage pour un événement déjà travaillé — puis soumettez-la pour approbation.",
+    "manualSubmit": "Enregistrer le temps passé",
+    "manualError": "Impossible d'enregistrer le temps passé",
+    "eventLabelOptional": "Libellé d'événement (facultatif)",
+    "eventLabel": "Libellé d'événement",
+    "start": "Début",
+    "end": "Fin",
+    "from": "Du",
+    "to": "Au",
+    "neededTitle": "Entrées requises",
+    "neededWindow": "{worker} : entrée manquante pour « {label} »",
+    "neededGap": "{worker} : aucune entrée le {date}",
+    "neededMore": "+{count} de plus",
+    "bulkTitle": "Affaires syndicales en groupe",
+    "bulkHint": "Saisissez une plage pour une réunion ou un événement local et appliquez-la à plusieurs travailleurs. Les entrées sont soumises pour approbation.",
+    "bulkSubmit": "Créer les entrées de groupe",
+    "bulkError": "Impossible de créer les entrées de groupe",
+    "workers": "Travailleurs",
+    "windowsTitle": "Fenêtres attendues",
+    "windowsHint": "Définissez une fenêtre où les participants doivent journaliser du temps. Les absents apparaissent sous Entrées requises.",
+    "windowLabel": "Libellé de fenêtre",
+    "attendees": "Participants",
+    "attendeeCount": "{count} participants",
+    "windowSubmit": "Créer la fenêtre",
+    "windowError": "Impossible de créer la fenêtre",
+    "rosterTitle": "Liste des travailleurs",
+    "workerNamePlaceholder": "Ajouter un invité ou un nom",
+    "addWorker": "Ajouter",
+    "workerError": "Impossible d'ajouter le travailleur",
+    "tracksGaps": "suivi des écarts activé",
+    "reportTitle": "Rapport affaires syndicales",
+    "reportHint": "Totaux par travailleur et événement pour la plage choisie, plus qui doit encore saisir une entrée.",
+    "runReport": "Générer le rapport",
+    "reportError": "Impossible de générer le rapport",
+    "reportSummary": "{hours} heures sur {entries} entrées · {needed} encore requises",
+    "byWorker": "Par travailleur",
+    "byEvent": "Par événement",
     "categories": {
       "staff": "Personnel",
       "release": "Temps de décharge",
@@ -1929,6 +1981,11 @@
       "submitted": "Soumis",
       "approved": "Approuvé",
       "rejected": "Rejeté"
+    },
+    "sources": {
+      "clock": "Pointage",
+      "manual_range": "Plage passée",
+      "bulk_event": "Événement de groupe"
     }
   },
   "assets": {

@@ -9,6 +9,7 @@ import { ShareThisTool } from "@/components/share/ShareThisTool";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import { useBrandStore } from "@/store/brand-store";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { inkWithAlpha, isLightInk, pickContrastingInk } from "@/lib/utils/ink";
 import { cn } from "@/lib/utils";
 
@@ -41,7 +42,7 @@ const channelItems: Record<
   ],
 };
 
-/** Matches Get started roadmap emphasis: boards → print → social → website */
+/** Matches first-week roadmap emphasis: boards → print → social → website */
 const channelOrder: ChannelId[] = ["boards", "print", "social", "website"];
 
 export function HomeContent() {
@@ -50,6 +51,9 @@ export function HomeContent() {
   const common = useTranslations("common");
   const hubPublic = isOfficerHubPublic();
   const brandKit = useBrandStore((s) => s.brandKit);
+  const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
+  const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
+  const brandHref = themeEstablished ? "/brand-kit" : "/onboarding";
 
   const primary = brandKit.primaryColor;
   const secondary = brandKit.secondaryColor;
@@ -116,7 +120,7 @@ export function HomeContent() {
                 {t(hubPublic ? "subtitle" : "subtitleCommsOnly")}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/guide/social-media-plan">
+                <Link href={brandHref}>
                   <Button
                     size="lg"
                     className={cn(
@@ -126,10 +130,10 @@ export function HomeContent() {
                         : "bg-opseu-dark text-white hover:bg-opseu-dark/90",
                     )}
                   >
-                    {t("pathCommsCta")}
+                    {themeEstablished ? t("openBrandKitCta") : t("heroCta")}
                   </Button>
                 </Link>
-                <Link href="/onboarding">
+                <Link href="/guide/social-media-plan">
                   <Button
                     variant="outline"
                     size="lg"
@@ -139,7 +143,7 @@ export function HomeContent() {
                       color: ink,
                     }}
                   >
-                    {t("heroCta")}
+                    {t("whatsNextCta")}
                   </Button>
                 </Link>
               </div>
@@ -178,10 +182,15 @@ export function HomeContent() {
                 <p className="mt-2 text-sm text-gray-600">{t("pathCommsDesc")}</p>
                 <p className="mt-2 text-sm text-gray-600">{t("pathCommsHint")}</p>
               </div>
-              <div>
-                <Link href="/guide/social-media-plan">
+              <div className="flex flex-wrap gap-2">
+                <Link href={brandHref}>
                   <Button size="md" className="min-h-11">
-                    {t("pathCommsCta")}
+                    {themeEstablished ? t("openBrandKitCta") : t("heroCta")}
+                  </Button>
+                </Link>
+                <Link href="/guide/social-media-plan">
+                  <Button variant="outline" size="md" className="min-h-11">
+                    {t("whatsNextCta")}
                   </Button>
                 </Link>
               </div>

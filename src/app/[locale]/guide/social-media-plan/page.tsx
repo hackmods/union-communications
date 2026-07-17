@@ -11,8 +11,8 @@ const stepLinks: Record<
   { primary: string; secondary: string; tertiary?: { href: string; labelKey: string }[] }
 > = {
   logo: {
-    primary: "/tools/logo-builder",
-    secondary: "/brand-kit",
+    primary: "/brand-kit",
+    secondary: "/tools/logo-builder",
   },
   boards: {
     primary: "/tools/board-notice",

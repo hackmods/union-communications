@@ -31,10 +31,10 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(page.getByTestId("home-hero-brand")).toBeVisible();
     await expect(page.getByText("Solidarity.")).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Get started" }).first(),
+      page.getByRole("link", { name: "Set up your local brand" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "Set up your local brand" }),
+      page.getByRole("link", { name: "What’s next" }).first(),
     ).toBeVisible();
     await expect(page.getByText(/Local-first Comms/i)).toBeVisible();
   });

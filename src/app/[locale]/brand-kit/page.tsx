@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
+import { Callout } from "@/components/ui/Callout";
 import { Input } from "@/components/ui/Input";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UnionPresetSelect } from "@/components/tools/UnionPresetSelect";
@@ -23,13 +24,24 @@ import {
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import { resolveLocalNumber } from "@/lib/utils";
+import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { PageShell } from "@/components/layout/PageShell";
 
 export default function BrandKitPage() {
   const t = useTranslations("brandKit");
-  const { brandKit, setBrandKit, importBrandKit, resetBrandKit } = useBrandStore();
+  const {
+    brandKit,
+    setBrandKit,
+    importBrandKit,
+    resetBrandKit,
+    onboardingComplete,
+  } = useBrandStore();
   const fileRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const themeEstablished = isBrandThemeEstablished(
+    brandKit,
+    onboardingComplete,
+  );
 
   const unionPresetId = brandKit.unionPresetId ?? "";
   const selectedPreset = getUnionPreset(unionPresetId);
@@ -77,15 +89,39 @@ export default function BrandKitPage() {
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("title")}
       </h1>
-      <p className="mt-2 text-gray-600">{t("description")}</p>
-      <p className="mt-3">
-        <Link
-          href="/assets"
-          className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-        >
-          {t("assetsLink")}
-        </Link>
-      </p>
+      <p className="mt-2 max-w-prose text-gray-600">{t("description")}</p>
+
+      <Callout tone="brand" className="mt-6 space-y-3">
+        <div>
+          <p className="text-sm font-semibold text-opseu-dark">
+            {t("purposeSets")}
+          </p>
+          <p className="mt-1 text-sm text-gray-700">{t("purposeSetsBody")}</p>
+        </div>
+        <div>
+          <p className="text-sm font-semibold text-opseu-dark">
+            {t("purposeUnlocks")}
+          </p>
+          <p className="mt-1 text-sm text-gray-700">{t("purposeUnlocksBody")}</p>
+        </div>
+        <div className="button-row">
+          {themeEstablished ? (
+            <Link href="/guide/social-media-plan">
+              <Button size="sm">{t("continueRoadmap")}</Button>
+            </Link>
+          ) : (
+            <Link href="/onboarding">
+              <Button size="sm">{t("startSetup")}</Button>
+            </Link>
+          )}
+          <Link
+            href="/assets"
+            className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+          >
+            {t("assetsLink")}
+          </Link>
+        </div>
+      </Callout>
 
       <Card density="compact" className="mt-6 space-y-3">
         <CardTitle className="text-base">{t("unionPreset.title")}</CardTitle>
@@ -139,19 +175,23 @@ export default function BrandKitPage() {
 
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         <Card density="compact" className="space-y-3">
-          <CardTitle className="text-base">Current settings</CardTitle>
+          <CardTitle className="text-base">{t("currentSettings")}</CardTitle>
           <Input
-            label="Local number"
+            label={t("localNumber")}
             value={brandKit.local.localNumber}
             onChange={(e) =>
-              setBrandKit({ local: { ...brandKit.local, localNumber: e.target.value } })
+              setBrandKit({
+                local: { ...brandKit.local, localNumber: e.target.value },
+              })
             }
           />
           <Input
-            label="Sub-text"
+            label={t("subText")}
             value={brandKit.local.subText}
             onChange={(e) =>
-              setBrandKit({ local: { ...brandKit.local, subText: e.target.value } })
+              setBrandKit({
+                local: { ...brandKit.local, subText: e.target.value },
+              })
             }
           />
           <ThemePicker
@@ -188,9 +228,7 @@ export default function BrandKitPage() {
             onCustomLogoUpload={(url) =>
               setBrandKit({ useOfficialLogo: false, customLogoDataUrl: url })
             }
-            onCustomLogoClear={() =>
-              setBrandKit({ customLogoDataUrl: "" })
-            }
+            onCustomLogoClear={() => setBrandKit({ customLogoDataUrl: "" })}
             onLogoTextChange={(text) => setBrandKit({ logoText: text })}
           />
         </Card>
@@ -221,7 +259,7 @@ export default function BrandKitPage() {
           onChange={handleImport}
         />
         <Button variant="ghost" onClick={resetBrandKit}>
-          Reset to defaults
+          {t("resetDefaults")}
         </Button>
       </div>
       {message && (

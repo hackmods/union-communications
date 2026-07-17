@@ -8,12 +8,19 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
-import { LogoSettings, brandKitPatchForLogoMode, type LogoMode } from "@/components/brand/LogoSettings";
+import { UnionPresetSelect } from "@/components/tools/UnionPresetSelect";
+import {
+  LogoSettings,
+  brandKitPatchForLogoMode,
+  type LogoMode,
+} from "@/components/brand/LogoSettings";
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import {
+  brandFieldsFromUnionPreset,
   getUnionPreset,
   resolvePresetLogos,
   UNIONOPS_LOGOS,
+  type UnionBranding,
 } from "@/lib/constants/unionPresets";
 import { PageShell } from "@/components/layout/PageShell";
 
@@ -23,7 +30,6 @@ export default function OnboardingPage() {
   const router = useRouter();
   const { brandKit, setBrandKit, setOnboardingComplete } = useBrandStore();
   const [step, setStep] = useState(1);
-  const [division, setDivision] = useState("");
   const presetLogos = brandKit.unionPresetId
     ? resolvePresetLogos(getUnionPreset(brandKit.unionPresetId)?.logos)
     : null;
@@ -42,6 +48,10 @@ export default function OnboardingPage() {
   const finish = () => {
     setOnboardingComplete(true);
     router.push("/brand-kit");
+  };
+
+  const applyUnionPreset = (preset: UnionBranding) => {
+    setBrandKit(brandFieldsFromUnionPreset(preset));
   };
 
   const handleLogoModeChange = (mode: LogoMode) => {
@@ -74,6 +84,13 @@ export default function OnboardingPage() {
         {step === 1 && (
           <div className="space-y-3">
             <h2 className="text-lg font-semibold text-opseu-dark">{t("step1")}</h2>
+            <UnionPresetSelect
+              label={t("unionPreset")}
+              value={brandKit.unionPresetId ?? ""}
+              placeholder={t("unionPresetPlaceholder")}
+              onSelect={applyUnionPreset}
+            />
+            <p className="text-sm text-gray-600">{t("unionPresetHint")}</p>
             <Input
               label={t("localNumber")}
               placeholder={t("localNumberPlaceholder")}
@@ -93,12 +110,6 @@ export default function OnboardingPage() {
                   local: { ...brandKit.local, subText: e.target.value },
                 })
               }
-            />
-            <Input
-              label={t("division")}
-              placeholder={t("divisionPlaceholder")}
-              value={division}
-              onChange={(e) => setDivision(e.target.value)}
             />
             <LocalLinksEditor
               compact

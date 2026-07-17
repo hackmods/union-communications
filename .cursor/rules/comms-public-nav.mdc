@@ -6,6 +6,12 @@ alwaysApply: false
 
 # Comms public navigation
 
+## Get started (Brand Kit step 0)
+
+**Get started** in Header resolves to `/onboarding` when Brand Kit is not established, otherwise `/brand-kit`. Do not point Get started at `/guide/social-media-plan` — that roadmap is “what’s next” after identity.
+
+Brand Kit is the Comms home base (colours, logo, local number, links). Social Media Plan stays under Learn / home secondary CTA as the first-week channel roadmap.
+
 ## Header Learn menu (keep this shape)
 
 Three groups in [`Header.tsx`](src/components/layout/Header.tsx) `learnGroups`:
