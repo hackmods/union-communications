@@ -76,7 +76,7 @@ export default async function LocaleLayout({
         />
         <JsonLd data={buildSiteJsonLdGraph(locale)} />
       </head>
-      <body className="flex min-h-full flex-col antialiased">
+      <body className="flex min-h-full flex-col antialiased" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <BrandProvider>

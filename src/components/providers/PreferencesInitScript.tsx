@@ -1,10 +1,14 @@
-import Script from "next/script";
 import { USER_PREFERENCES_KEY } from "@/lib/data/adapter";
 
+/**
+ * Inline blocking script (not next/script): runs while the parser is still in
+ * <head>, so display prefs apply before first paint without the head/script
+ * tree mismatch that next/script beforeInteractive caused (React #418).
+ */
 const preferencesInitScript = `
 (function () {
   try {
-    var raw = localStorage.getItem("${USER_PREFERENCES_KEY}");
+    var raw = localStorage.getItem(${JSON.stringify(USER_PREFERENCES_KEY)});
     if (!raw) return;
     var prefs = JSON.parse(raw);
     var root = document.documentElement;
@@ -23,11 +27,9 @@ const preferencesInitScript = `
 
 export function PreferencesInitScript() {
   return (
-    // App Router root layout: beforeInteractive applies prefs before paint (FOUC).
-    // eslint-disable-next-line @next/next/no-before-interactive-script-outside-document
-    <Script
+    <script
       id="preferences-init"
-      strategy="beforeInteractive"
+      // Trusted FOUC boot only — not user HTML. Required for display prefs.
       dangerouslySetInnerHTML={{ __html: preferencesInitScript }}
     />
   );
