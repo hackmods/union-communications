@@ -456,26 +456,210 @@
   },
   "websiteGuide": {
     "title": "Local Website Guide",
-    "subtitle": "Why your local needs a simple website and how to publish one for free",
-    "sections": {
-      "why": {
-        "title": "Why a local website",
-        "content": "Social algorithms change; a website gives members a stable link for contact info, officers, and updates. Employers and media often search for your local online - a professional page builds credibility."
-      },
-      "pages": {
-        "title": "What to include",
-        "content": "Start simple: about your local, executive officers, and contact info. Add bargaining updates during active rounds. Link to your Facebook group and your union's member resources."
-      },
-      "deploy": {
-        "title": "GitHub Pages in 5 steps",
-        "content": "1. Create a free GitHub account. 2. Create a new repository (e.g. local243.github.io). 3. Upload the ZIP from the Website Template tool. 4. Go to Settings → Pages → deploy from main branch. 5. Your site will be live at username.github.io within a few minutes."
-      },
-      "domain": {
-        "title": "Custom domain (optional)",
-        "content": "You can point a custom domain (e.g. local243.org) to GitHub Pages. Add a CNAME file with your domain and configure DNS with your registrar. GitHub provides step-by-step instructions in repository Settings."
+    "subtitle": "Give members one stable link for who you are, who to contact, and how to find you — then publish it free on GitHub Pages",
+    "intro": "A local website is not a newsroom. It is the quiet home base behind your boards and social posts: contact info, officers, and a short about section that still works when algorithms bury your last post. Use Brand Kit first, fill the Website Template, download the ZIP, and follow the deploy steps below.",
+    "relatedLabel": "Also see",
+    "related": {
+      "template": "Website Template",
+      "brandKit": "Brand Kit",
+      "plan": "Social Media Plan",
+      "qr": "QR Link Cards"
+    },
+    "tocLabel": "Guide sections",
+    "toolCta": "Build your website template",
+    "why": {
+      "navLabel": "Why a site",
+      "title": "Why a local website",
+      "intro": "Boards and socials move messages; a website holds the answers members search for months later. Keep it short, accurate, and easy to update after elections.",
+      "tip": "One clear URL beats a pile of outdated Google Docs and Facebook posts. Put that URL on boards, QR cards, email signatures, and event graphics.",
+      "items": {
+        "stable": {
+          "label": "Stable link",
+          "content": "Social feeds change and posts scroll away. A website stays put for contact email, officer names, and meeting basics."
+        },
+        "search": {
+          "label": "Search and credibility",
+          "content": "Members, media, and employers often search for your local online. A simple public page looks more professional than a sparse Facebook profile alone."
+        },
+        "control": {
+          "label": "Your copy, your timeline",
+          "content": "You decide what stays live. No algorithm, no third-party form service — the template uses mailto: so messages go straight to your inbox."
+        }
       }
     },
-    "toolCta": "Build your website template"
+    "bareMinimum": {
+      "navLabel": "What to include",
+      "title": "Bare-minimum local site",
+      "intro": "Every local site should answer four questions in under a minute: Who are you? Who runs the local? How do I reach you? Where do I follow updates? Everything else can wait.",
+      "items": {
+        "about": {
+          "title": "About your local",
+          "content": "Two short paragraphs: who you represent, where you work, and what you stand for. Skip jargon and long history — members need orientation, not a novel."
+        },
+        "officers": {
+          "title": "Executive officers",
+          "content": "Names and roles (president, steward coordinator, treasurer, and so on). Update after every election. Outdated lists erode trust faster than a missing logo."
+        },
+        "contact": {
+          "title": "Contact path",
+          "content": "A monitored local email and, if you have one, office address or steward hours. Prefer one inbox over five personal addresses that go stale when people leave."
+        },
+        "social": {
+          "title": "Social or member channel",
+          "content": "Link your Facebook group or other member channel. The site points people there; social posts can point back to the site for officers and email."
+        }
+      }
+    },
+    "include": {
+      "title": "What belongs — and what does not",
+      "intro": "Think in layers: always-on identity, campaign updates when active, and a short list of things that belong elsewhere.",
+      "always": {
+        "label": "Always on the site",
+        "content": "About text, current officers, contact email, and your main social or group link."
+      },
+      "whenActive": {
+        "label": "Add during active rounds",
+        "content": "A short bargaining or strike update paragraph, plus links to official parent-union resources — not blow-by-blow chat logs."
+      },
+      "optional": {
+        "label": "Optional later",
+        "content": "Meeting calendar, how to file a grievance overview, or links to CA highlights — only if someone will keep them current."
+      },
+      "skip": {
+        "label": "Keep off the public site",
+        "content": "Member personal data, confidential strategy, unconsented photos, and anything your executive has not approved for public posting."
+      }
+    },
+    "before": {
+      "navLabel": "Before you start",
+      "title": "Before you open the template",
+      "intro": "Five minutes of prep saves a broken-looking site. Gather these from your Brand Kit and local executive.",
+      "tip": "Save your website URL in Brand Kit once it is live. QR cards, board posters, and other tools can reuse that link without retyping.",
+      "items": {
+        "brand": "Brand Kit set: local number, colours, and logo (the template picks up colours automatically).",
+        "email": "A monitored contact email the local actually checks.",
+        "officers": "Current officer names and roles approved for the public site.",
+        "facebook": "Facebook group URL (or leave blank until you have one)."
+      }
+    },
+    "build": {
+      "navLabel": "Build the ZIP",
+      "title": "Build with Website Template",
+      "intro": "The Website Template tool fills a static site modelled on a real volunteer GitHub Pages local site. Preview in the browser, then download a ZIP — no hosting account required until you are ready to publish.",
+      "cta": "Open Website Template",
+      "steps": {
+        "open": {
+          "title": "Open the tool",
+          "content": "Go to Website Template. Confirm Brand Kit colours look right in the live preview."
+        },
+        "fill": {
+          "title": "Fill the fields",
+          "content": "Union or local name, hero tagline, about paragraphs, contact email, Facebook URL, office address, and officers. Replace every placeholder — example emails and North Pole addresses should not ship."
+        },
+        "preview": {
+          "title": "Check the preview",
+          "content": "Read it like a new member: can you find who to email and who the president is without scrolling forever?"
+        },
+        "download": {
+          "title": "Download the ZIP",
+          "content": "Download the site ZIP. Inside you will find index.html, css/, js/, assets/, a README with deploy notes, and a CNAME.example for custom domains."
+        }
+      }
+    },
+    "deploy": {
+      "navLabel": "Publish free",
+      "title": "Publish on GitHub Pages (free)",
+      "intro": "GitHub Pages hosts static sites at no cost. You do not need to be a developer — you need a free GitHub account and about fifteen minutes the first time. The ZIP README repeats these steps for offline use.",
+      "tip": "Project sites live at https://yourusername.github.io/repository-name/. If you create a GitHub organization for the local, you can use a cleaner org URL later. Either path works for members.",
+      "steps": {
+        "account": {
+          "title": "Create a GitHub account",
+          "content": "Sign up at github.com with an email the local can keep long-term (a shared officer account is better than one person's personal login alone)."
+        },
+        "repo": {
+          "title": "Create a repository",
+          "content": "Click New repository. Name it something clear (for example local-website or local243-site). Keep it Public so Pages can serve it on a free plan. Skip adding a README if you will upload the ZIP files next."
+        },
+        "upload": {
+          "title": "Upload the ZIP contents",
+          "content": "Unzip on your computer. In the empty repository, use Add file → Upload files and drag index.html, css/, js/, assets/, and README.md to the root (not nested inside an extra folder). Commit the upload."
+        },
+        "pages": {
+          "title": "Turn on Pages",
+          "content": "Open Settings → Pages. Under Build and deployment → Source, choose Deploy from a branch. Select main (or master) and / (root), then Save."
+        },
+        "wait": {
+          "title": "Wait for the green check",
+          "content": "GitHub builds the site in a few minutes. Refresh Settings → Pages for the live URL, then open it in a private window to confirm contact and officer links work."
+        }
+      }
+    },
+    "domain": {
+      "navLabel": "Custom domain",
+      "title": "Custom domain (optional)",
+      "intro": "A short domain such as local243.org is easier to say out loud and print on boards. Buy the domain from any registrar, then point it at GitHub Pages. Skip this until the free github.io URL is working.",
+      "tip": "The ZIP includes CNAME.example — rename it to CNAME (no extension) and put only your domain on the first line before you configure DNS.",
+      "steps": {
+        "cname": {
+          "title": "Add a CNAME file",
+          "content": "In the repository root, add a file named CNAME containing only your domain (for example local243.org). Commit it."
+        },
+        "dns": {
+          "title": "Configure DNS at your registrar",
+          "content": "Follow GitHub’s custom-domain docs for A records or a CNAME to your Pages host. DNS changes can take from minutes to a day."
+        },
+        "enable": {
+          "title": "Enable the domain in Pages settings",
+          "content": "In Settings → Pages, enter the custom domain, save, and wait for DNS check / HTTPS to finish. Then save the final URL in Brand Kit."
+        }
+      }
+    },
+    "maintain": {
+      "navLabel": "Keep it current",
+      "title": "Keep the site current",
+      "intro": "A stale officer list is worse than no site. Assign ownership and a light refresh rhythm so the page stays trustworthy.",
+      "items": {
+        "who": {
+          "title": "Who owns it",
+          "content": "Name one officer or volunteer as site steward. Share the GitHub login (or add a second trusted account) so updates do not die when one person leaves."
+        },
+        "when": {
+          "title": "When to update",
+          "content": "After elections, when the contact email changes, at the start of bargaining, and whenever a strike or major campaign needs a short public note."
+        },
+        "how": {
+          "title": "How to edit",
+          "content": "Easiest path: change fields in Website Template and upload a fresh ZIP over the old files. Or edit index.html in GitHub’s web editor for small text fixes."
+        },
+        "archive": {
+          "title": "What to remove",
+          "content": "Delete expired campaign blurbs and old meeting dates. Linking to a year-old “urgent” update teaches members to ignore the site."
+        }
+      }
+    },
+    "pair": {
+      "navLabel": "Pair channels",
+      "title": "Pair the site with other channels",
+      "intro": "The website is the fourth channel in the Social Media Plan — not a replacement for boards or social. Use the same Brand Kit everywhere so members recognize you.",
+      "items": {
+        "boards": {
+          "label": "Union boards",
+          "content": "Put a QR to the site in the socials zone of the bare-minimum board so members without social still reach officers and email."
+        },
+        "qr": {
+          "label": "QR link cards",
+          "content": "Print wallet or letter cards that open the live URL. Save the website link in Brand Kit first so the card tool can pull it."
+        },
+        "social": {
+          "label": "Social posts",
+          "content": "In bios and pinned posts, link the site for “who we are / contact.” Use social for timely updates; use the site for the stable facts."
+        },
+        "brand": {
+          "label": "Brand Kit",
+          "content": "Keep colours and the website URL in Brand Kit so regenerating the template or printing new QR materials stays consistent."
+        }
+      }
+    }
   },
   "examples": {
     "title": "Social Examples",
@@ -1064,7 +1248,7 @@
         "blueprint": "Ongoing practice: platforms, tone, frequency, trolls, alt-text.",
         "boards": "Bare-minimum workplace boards and what to print.",
         "print": "Flyers and print habits for meetings and actions.",
-        "website": "Deploy a simple local site on GitHub Pages.",
+        "website": "What to put on a local site, build the ZIP, and publish on GitHub Pages.",
         "crisis": "High-stakes bargaining and strike communications.",
         "photoConsent": "Member photo checklist for stewards and workshops."
       }

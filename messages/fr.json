@@ -456,26 +456,210 @@
   },
   "websiteGuide": {
     "title": "Guide du site Web local",
-    "subtitle": "Pourquoi votre section a besoin d'un site simple et comment le publier gratuitement",
-    "sections": {
-      "why": {
-        "title": "Pourquoi un site local",
-        "content": "Les algorithmes changent; un site Web donne aux membres un lien stable pour les coordonnées et les dirigeants. Les employeurs et les médias cherchent souvent votre section en ligne."
-      },
-      "pages": {
-        "title": "Quoi inclure",
-        "content": "Commencez simple : à propos de la section, dirigeants et coordonnées. Ajoutez des mises à jour de négociation pendant les rondes actives. Liez votre groupe Facebook et les ressources membres de votre syndicat."
-      },
-      "deploy": {
-        "title": "GitHub Pages en 5 étapes",
-        "content": "1. Créez un compte GitHub gratuit. 2. Créez un dépôt (ex. section243.github.io). 3. Téléversez le ZIP de l'outil Modèle de site Web. 4. Paramètres → Pages → déployer depuis la branche main. 5. Votre site sera en ligne en quelques minutes."
-      },
-      "domain": {
-        "title": "Domaine personnalisé (optionnel)",
-        "content": "Vous pouvez pointer un domaine personnalisé (ex. section243.org) vers GitHub Pages. Ajoutez un fichier CNAME et configurez le DNS chez votre registraire."
+    "subtitle": "Donnez aux membres un lien stable pour savoir qui vous êtes, qui contacter et où vous trouver — puis publiez gratuitement sur GitHub Pages",
+    "intro": "Un site local n'est pas une salle de presse. C'est la base calme derrière vos tableaux et publications : coordonnées, dirigeants et un court texte À propos qui fonctionne encore quand les algorithmes enterrent votre dernier post. Commencez par la trousse de marque, remplissez le modèle de site, téléchargez le ZIP, puis suivez les étapes de déploiement ci-dessous.",
+    "relatedLabel": "Voir aussi",
+    "related": {
+      "template": "Modèle de site Web",
+      "brandKit": "Trousse de marque",
+      "plan": "Plan médias sociaux",
+      "qr": "Cartes lien QR"
+    },
+    "tocLabel": "Sections du guide",
+    "toolCta": "Créer votre modèle de site Web",
+    "why": {
+      "navLabel": "Pourquoi un site",
+      "title": "Pourquoi un site local",
+      "intro": "Les tableaux et les réseaux font circuler les messages; un site garde les réponses que les membres cherchent des mois plus tard. Gardez-le court, exact et facile à mettre à jour après les élections.",
+      "tip": "Une URL claire vaut mieux qu'une pile de Google Docs et de publications Facebook périmés. Mettez cette URL sur les tableaux, les cartes QR, les signatures courriel et les graphiques d'événements.",
+      "items": {
+        "stable": {
+          "label": "Lien stable",
+          "content": "Les fils sociaux changent et les publications défilent. Un site reste en place pour le courriel, les noms des dirigeants et les bases des réunions."
+        },
+        "search": {
+          "label": "Recherche et crédibilité",
+          "content": "Membres, médias et employeurs cherchent souvent votre section en ligne. Une page publique simple paraît plus professionnelle qu'un profil Facebook seul."
+        },
+        "control": {
+          "label": "Votre texte, votre rythme",
+          "content": "Vous décidez ce qui reste en ligne. Pas d'algorithme, pas de formulaire tiers — le modèle utilise mailto: pour que les messages arrivent directement dans votre boîte."
+        }
       }
     },
-    "toolCta": "Créer votre modèle de site Web"
+    "bareMinimum": {
+      "navLabel": "Quoi inclure",
+      "title": "Site local minimal",
+      "intro": "Chaque site local devrait répondre à quatre questions en moins d'une minute : Qui êtes-vous? Qui dirige la section? Comment vous joindre? Où suivre les mises à jour? Le reste peut attendre.",
+      "items": {
+        "about": {
+          "title": "À propos de la section",
+          "content": "Deux courts paragraphes : qui vous représentez, où vous travaillez et pour quoi vous vous battez. Évitez le jargon et la longue histoire — les membres ont besoin d'orientation, pas d'un roman."
+        },
+        "officers": {
+          "title": "Dirigeants de l'exécutif",
+          "content": "Noms et rôles (président, coordination des délégués, trésorier, etc.). Mettez à jour après chaque élection. Une liste périmée érode la confiance plus vite qu'un logo manquant."
+        },
+        "contact": {
+          "title": "Chemin de contact",
+          "content": "Un courriel local surveillé et, si vous en avez un, l'adresse du bureau ou les heures des délégués. Préférez une boîte partagée à cinq adresses personnelles qui deviennent obsolètes quand les gens partent."
+        },
+        "social": {
+          "title": "Canal social ou membres",
+          "content": "Liez votre groupe Facebook ou un autre canal membres. Le site y pointe les gens; les publications sociales peuvent renvoyer au site pour les dirigeants et le courriel."
+        }
+      }
+    },
+    "include": {
+      "title": "Ce qui a sa place — et ce qui n'en a pas",
+      "intro": "Pensez en couches : identité permanente, mises à jour de campagne quand c'est actif, et une courte liste de choses qui appartiennent ailleurs.",
+      "always": {
+        "label": "Toujours sur le site",
+        "content": "Texte À propos, dirigeants actuels, courriel de contact et lien principal vers le groupe ou le réseau social."
+      },
+      "whenActive": {
+        "label": "Ajouter pendant les rondes actives",
+        "content": "Un court paragraphe sur la négociation ou la grève, plus des liens vers les ressources officielles du syndicat parent — pas le journal de bord des discussions."
+      },
+      "optional": {
+        "label": "Optionnel plus tard",
+        "content": "Calendrier de réunions, aperçu comment déposer un grief, ou liens vers des faits saillants de la convention — seulement si quelqu'un les tiendra à jour."
+      },
+      "skip": {
+        "label": "À garder hors du site public",
+        "content": "Données personnelles des membres, stratégie confidentielle, photos sans consentement, et tout ce que l'exécutif n'a pas approuvé pour publication."
+      }
+    },
+    "before": {
+      "navLabel": "Avant de commencer",
+      "title": "Avant d'ouvrir le modèle",
+      "intro": "Cinq minutes de préparation évitent un site qui a l'air cassé. Rassemblez ceci depuis la trousse de marque et l'exécutif local.",
+      "tip": "Enregistrez l'URL du site dans la trousse de marque une fois qu'il est en ligne. Les cartes QR, affiches de tableau et autres outils peuvent réutiliser ce lien sans le retaper.",
+      "items": {
+        "brand": "Trousse de marque prête : numéro de section, couleurs et logo (le modèle reprend les couleurs automatiquement).",
+        "email": "Un courriel de contact réellement surveillé par la section.",
+        "officers": "Noms et rôles des dirigeants approuvés pour le site public.",
+        "facebook": "URL du groupe Facebook (ou laissez vide jusqu'à en avoir un)."
+      }
+    },
+    "build": {
+      "navLabel": "Créer le ZIP",
+      "title": "Créer avec le modèle de site Web",
+      "intro": "L'outil Modèle de site Web remplit un site statique inspiré d'un vrai site local bénévole sur GitHub Pages. Prévisualisez dans le navigateur, puis téléchargez un ZIP — aucun compte d'hébergement tant que vous n'êtes pas prêts à publier.",
+      "cta": "Ouvrir le modèle de site Web",
+      "steps": {
+        "open": {
+          "title": "Ouvrir l'outil",
+          "content": "Allez au Modèle de site Web. Vérifiez que les couleurs de la trousse de marque sont correctes dans l'aperçu en direct."
+        },
+        "fill": {
+          "title": "Remplir les champs",
+          "content": "Nom du syndicat ou de la section, accroche, paragraphes À propos, courriel, URL Facebook, adresse du bureau et dirigeants. Remplacez chaque espace réservé — les courriels d'exemple et l'adresse du pôle Nord ne doivent pas être publiés."
+        },
+        "preview": {
+          "title": "Vérifier l'aperçu",
+          "content": "Lisez-le comme un nouveau membre : pouvez-vous trouver qui écrire et qui est président sans faire défiler indéfiniment?"
+        },
+        "download": {
+          "title": "Télécharger le ZIP",
+          "content": "Téléchargez le ZIP du site. À l'intérieur : index.html, css/, js/, assets/, un README avec les notes de déploiement, et CNAME.example pour un domaine personnalisé."
+        }
+      }
+    },
+    "deploy": {
+      "navLabel": "Publier gratuitement",
+      "title": "Publier sur GitHub Pages (gratuit)",
+      "intro": "GitHub Pages héberge des sites statiques sans frais. Pas besoin d'être développeur — un compte GitHub gratuit et une quinzaine de minutes la première fois suffisent. Le README du ZIP reprend ces étapes pour un usage hors ligne.",
+      "tip": "Les sites de projet vivent à https://votrepseudo.github.io/nom-du-depot/. Si vous créez une organisation GitHub pour la section, vous pourrez utiliser une URL d'organisation plus claire plus tard. Les deux chemins conviennent aux membres.",
+      "steps": {
+        "account": {
+          "title": "Créer un compte GitHub",
+          "content": "Inscrivez-vous sur github.com avec un courriel que la section peut garder à long terme (un compte partagé d'officier vaut mieux qu'un seul compte personnel)."
+        },
+        "repo": {
+          "title": "Créer un dépôt",
+          "content": "Cliquez Nouveau dépôt. Donnez un nom clair (par ex. site-local ou section243-site). Gardez-le Public pour que Pages puisse le servir sur un forfait gratuit. N'ajoutez pas de README si vous allez téléverser les fichiers du ZIP ensuite."
+        },
+        "upload": {
+          "title": "Téléverser le contenu du ZIP",
+          "content": "Décompressez sur votre ordinateur. Dans le dépôt vide, utilisez Ajouter un fichier → Téléverser des fichiers et glissez index.html, css/, js/, assets/ et README.md à la racine (pas dans un dossier supplémentaire). Validez le commit."
+        },
+        "pages": {
+          "title": "Activer Pages",
+          "content": "Ouvrez Paramètres → Pages. Sous Build and deployment → Source, choisissez Deploy from a branch. Sélectionnez main (ou master) et / (root), puis Enregistrer."
+        },
+        "wait": {
+          "title": "Attendre la coche verte",
+          "content": "GitHub construit le site en quelques minutes. Actualisez Paramètres → Pages pour l'URL en direct, puis ouvrez-la en navigation privée pour confirmer que les liens de contact et de dirigeants fonctionnent."
+        }
+      }
+    },
+    "domain": {
+      "navLabel": "Domaine personnalisé",
+      "title": "Domaine personnalisé (optionnel)",
+      "intro": "Un domaine court comme section243.org est plus facile à dire à voix haute et à imprimer sur les tableaux. Achetez le domaine chez n'importe quel registraire, puis pointez-le vers GitHub Pages. Passez cette étape tant que l'URL gratuite github.io ne fonctionne pas.",
+      "tip": "Le ZIP inclut CNAME.example — renommez-le en CNAME (sans extension) et mettez seulement votre domaine sur la première ligne avant de configurer le DNS.",
+      "steps": {
+        "cname": {
+          "title": "Ajouter un fichier CNAME",
+          "content": "À la racine du dépôt, ajoutez un fichier nommé CNAME contenant seulement votre domaine (par ex. section243.org). Validez le commit."
+        },
+        "dns": {
+          "title": "Configurer le DNS chez le registraire",
+          "content": "Suivez la documentation GitHub sur les domaines personnalisés pour les enregistrements A ou un CNAME vers votre hôte Pages. Les changements DNS peuvent prendre de quelques minutes à une journée."
+        },
+        "enable": {
+          "title": "Activer le domaine dans les paramètres Pages",
+          "content": "Dans Paramètres → Pages, entrez le domaine personnalisé, enregistrez, et attendez la vérification DNS / HTTPS. Puis enregistrez l'URL finale dans la trousse de marque."
+        }
+      }
+    },
+    "maintain": {
+      "navLabel": "Le tenir à jour",
+      "title": "Garder le site à jour",
+      "intro": "Une liste de dirigeants périmée est pire que pas de site. Nommez un responsable et un rythme léger de mise à jour pour que la page reste digne de confiance.",
+      "items": {
+        "who": {
+          "title": "Qui en est responsable",
+          "content": "Nommez un officier ou un bénévole comme steward du site. Partagez le compte GitHub (ou ajoutez un second compte de confiance) pour que les mises à jour ne meurent pas quand une personne part."
+        },
+        "when": {
+          "title": "Quand mettre à jour",
+          "content": "Après les élections, quand le courriel de contact change, au début d'une négociation, et chaque fois qu'une grève ou une campagne majeure a besoin d'une courte note publique."
+        },
+        "how": {
+          "title": "Comment modifier",
+          "content": "Chemin le plus simple : changez les champs dans le Modèle de site Web et téléversez un nouveau ZIP par-dessus les anciens fichiers. Ou modifiez index.html dans l'éditeur Web de GitHub pour de petites corrections."
+        },
+        "archive": {
+          "title": "Quoi retirer",
+          "content": "Supprimez les textes de campagne expirés et les anciennes dates de réunion. Un lien vers une mise à jour « urgente » d'il y a un an apprend aux membres à ignorer le site."
+        }
+      }
+    },
+    "pair": {
+      "navLabel": "Relier les canaux",
+      "title": "Relier le site aux autres canaux",
+      "intro": "Le site est le quatrième canal du Plan médias sociaux — pas un remplacement des tableaux ou du social. Utilisez la même trousse de marque partout pour que les membres vous reconnaissent.",
+      "items": {
+        "boards": {
+          "label": "Tableaux syndicaux",
+          "content": "Mettez un QR vers le site dans la zone socials du tableau minimal pour que les membres hors réseaux joignent quand même dirigeants et courriel."
+        },
+        "qr": {
+          "label": "Cartes lien QR",
+          "content": "Imprimez des cartes portefeuille ou lettre qui ouvrent l'URL en direct. Enregistrez d'abord le lien du site dans la trousse de marque pour que l'outil de carte le récupère."
+        },
+        "social": {
+          "label": "Publications sociales",
+          "content": "Dans les bios et publications épinglées, liez le site pour « qui nous sommes / contact ». Utilisez le social pour l'actualité; le site pour les faits stables."
+        },
+        "brand": {
+          "label": "Trousse de marque",
+          "content": "Gardez couleurs et URL du site dans la trousse de marque pour que régénérer le modèle ou imprimer de nouveaux QR reste cohérent."
+        }
+      }
+    }
   },
   "examples": {
     "title": "Exemples sociaux",
@@ -1064,7 +1248,7 @@
         "blueprint": "Pratique continue : plateformes, ton, fréquence, trolls, texte alt.",
         "boards": "Tableaux minimaux au travail et quoi imprimer.",
         "print": "Affiches et habitudes d'impression pour réunions et actions.",
-        "website": "Publier un site local simple sur GitHub Pages.",
+        "website": "Quoi mettre sur un site local, créer le ZIP et publier sur GitHub Pages.",
         "crisis": "Communications de négociation et de grève à enjeux élevés.",
         "photoConsent": "Liste photo membre pour délégués et ateliers."
       }
