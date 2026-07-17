@@ -348,6 +348,12 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Solidarity-energy presets + lead-in/headline/closer toggles that collapse empty bars; fluid headline sizing for narrow panels
 - [x] Header Tools + home Social channel; EN/FR i18n; smoke visit
 
+## Meeting Background Minimal + Portrait (2026-07-16)
+
+- [x] Design sets: Bold (existing landscape layouts unchanged) + Minimal (`masthead` / `footer` / `rails` / `upper-stack`)
+- [x] Portrait orientation: 9:16 HD 1080×1920 + UHD 2160×3840; Portrait forces Minimal
+- [x] Same route `/tools/meeting-background` — Design / Orientation / Layout / Size SegControls
+
 ## SEO architecture + builder compactness + home hero (2026-07-16)
 
 - [x] Favicon suite: `favicon.ico` / `.svg`, Apple touch, PWA 192/512, Safari pinned tab; manifest icons updated

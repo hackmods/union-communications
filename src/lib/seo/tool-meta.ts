@@ -50,7 +50,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "meeting-background": {
       title: "Free Zoom & Teams Meeting Background Maker",
       description:
-        "Bold solidarity-style virtual backgrounds for Zoom and Teams — face-safe layouts, on your device.",
+        "Bold and minimal virtual backgrounds for Zoom and Teams — face-safe layouts, landscape and portrait, on your device.",
     },
     "qr-card": {
       title: "Free Union QR Link Card Maker",
@@ -122,7 +122,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "meeting-background": {
       title: "Arrière-plans Zoom et Teams gratuits",
       description:
-        "Arrière-plans virtuels style solidarité pour Zoom et Teams — mises en page sûres pour le visage, sur votre appareil.",
+        "Fonds virtuels audacieux ou minimalistes pour Zoom et Teams — mises en page sûres pour le visage, paysage et portrait, sur votre appareil.",
     },
     "qr-card": {
       title: "Créateur de cartes QR gratuit",

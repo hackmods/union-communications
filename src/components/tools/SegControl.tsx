@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 type SegOption<T extends string> = {
   value: T;
   label: string;
+  disabled?: boolean;
 };
 
 type SegControlProps<T extends string> = {
@@ -33,19 +34,26 @@ export function SegControl<T extends string>({
       >
         {options.map((opt) => {
           const selected = opt.value === value;
+          const disabled = Boolean(opt.disabled);
           return (
             <button
               key={opt.value}
               type="button"
               role="radio"
               aria-checked={selected}
+              aria-disabled={disabled || undefined}
+              disabled={disabled}
               className={cn(
                 "min-h-11 rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+                disabled && "cursor-not-allowed opacity-45",
                 selected
                   ? "bg-opseu-blue text-white"
                   : "border border-gray-300 bg-white text-opseu-dark hover:bg-gray-50",
+                disabled && !selected && "hover:bg-white",
               )}
-              onClick={() => onChange(opt.value)}
+              onClick={() => {
+                if (!disabled) onChange(opt.value);
+              }}
             >
               {opt.label}
             </button>

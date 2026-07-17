@@ -14,13 +14,20 @@ import {
   DEFAULT_MEETING_BACKGROUND_FORMAT,
   MEETING_BACKGROUND_FORMATS,
   exportPixelRatio,
-  meetingBackgroundFormats,
+  formatsForOrientation,
+  matchingFormatForOrientation,
+  orientationOf,
   type MeetingBackgroundFormatId,
+  type MeetingBackgroundOrientation,
 } from "@/lib/constants/meeting-background-formats";
 import {
   MEETING_BACKGROUND_PRESETS,
+  designSetForLayout,
   getMeetingPresetById,
   headlineLines,
+  layoutForDesignSet,
+  layoutsForDesignSet,
+  type MeetingDesignSet,
   type MeetingLayout,
 } from "@/lib/constants/meeting-background-presets";
 import { BrandLogo } from "@/components/brand/BrandLogo";
@@ -47,7 +54,7 @@ interface BackgroundState {
   accentColor: string;
 }
 
-type HeadlineDensity = "panel" | "bar" | "corner";
+type HeadlineDensity = "panel" | "bar" | "corner" | "readable";
 
 /** Starting rem before measure-to-fit shrinks to keep each line intact. */
 function headlineStartRem(lines: string[], density: HeadlineDensity): number {
@@ -57,7 +64,9 @@ function headlineStartRem(lines: string[], density: HeadlineDensity): number {
       ? { min: 0.75, max: 1.35, fitAt: 8 }
       : density === "bar"
         ? { min: 0.95, max: 1.85, fitAt: 14 }
-        : { min: 1.0, max: 2.0, fitAt: 10 };
+        : density === "readable"
+          ? { min: 0.7, max: 1.25, fitAt: 12 }
+          : { min: 1.0, max: 2.0, fitAt: 10 };
   return Math.max(
     caps.min,
     Math.min(caps.max, (caps.fitAt / longest) * caps.max),
@@ -65,7 +74,10 @@ function headlineStartRem(lines: string[], density: HeadlineDensity): number {
 }
 
 function headlineMinRem(density: HeadlineDensity): number {
-  return density === "panel" ? 0.65 : density === "bar" ? 0.85 : 0.9;
+  if (density === "panel") return 0.65;
+  if (density === "bar") return 0.85;
+  if (density === "readable") return 0.6;
+  return 0.9;
 }
 
 /**
@@ -134,7 +146,12 @@ function FitStackedHeadline({
         <p
           key={`${i}-${line}`}
           data-headline-line
-          className="font-black uppercase leading-[0.92] tracking-tight"
+          className={cn(
+            "uppercase leading-[0.95]",
+            density === "readable"
+              ? "font-bold tracking-wide"
+              : "font-black leading-[0.92] tracking-tight",
+          )}
           style={{
             color: ink,
             fontSize: `${fontSizeRem}rem`,
@@ -157,6 +174,7 @@ export default function MeetingBackgroundPage() {
   const hydrated = useBrandStore((s) => s.hydrated);
   const canvasRef = useRef<HTMLDivElement>(null);
   const brandingDefaultApplied = useRef(false);
+  const lastLandscapeDesign = useRef<MeetingDesignSet>("bold");
   const [formatId, setFormatId] = useState<MeetingBackgroundFormatId>(
     DEFAULT_MEETING_BACKGROUND_FORMAT,
   );
@@ -164,7 +182,9 @@ export default function MeetingBackgroundPage() {
   const first = MEETING_BACKGROUND_PRESETS[0];
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const format = MEETING_BACKGROUND_FORMATS[formatId];
-  const formats = meetingBackgroundFormats();
+  const orientation = orientationOf(format);
+  const isPortrait = orientation === "portrait";
+  const sizeFormats = formatsForOrientation(orientation);
 
   const initial: BackgroundState = {
     presetId: first.id,
@@ -183,6 +203,17 @@ export default function MeetingBackgroundPage() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<BackgroundState>(initial);
+
+  // Design set is derived from the active layout (undo/redo stays consistent)
+  const designSet = designSetForLayout(state.layout);
+  const layoutOptions = layoutsForDesignSet(
+    isPortrait ? "minimal" : designSet,
+  );
+
+  // Bold layouts are landscape-only — fix format if history lands on Bold + portrait
+  if (designSet === "bold" && isPortrait) {
+    setFormatId(matchingFormatForOrientation(formatId, "landscape"));
+  }
 
   useEffect(() => {
     if (!hydrated || brandingDefaultApplied.current) return;
@@ -230,11 +261,70 @@ export default function MeetingBackgroundPage() {
       leadIn: preset.leadIn,
       headline: preset.headline,
       closer: preset.closer,
-      layout: preset.layout,
+      layout: layoutForDesignSet(preset, designSet),
       showLeadIn: true,
       showHeadline: true,
       showCloser: true,
     });
+  };
+
+  const snapLayoutForDesign = (
+    nextDesign: MeetingDesignSet,
+    currentLayout: MeetingLayout,
+    presetId: string,
+  ): MeetingLayout => {
+    const allowed = layoutsForDesignSet(nextDesign);
+    if ((allowed as readonly string[]).includes(currentLayout)) {
+      return currentLayout;
+    }
+    const preset = getMeetingPresetById(presetId);
+    if (preset) return layoutForDesignSet(preset, nextDesign);
+    return allowed[0];
+  };
+
+  const handleDesignChange = (next: MeetingDesignSet) => {
+    if (next === designSet && !(next === "bold" && isPortrait)) return;
+    // Bold is landscape-only — leaving Minimal+Portrait for Bold flips orientation
+    if (next === "bold" && isPortrait) {
+      setFormatId(matchingFormatForOrientation(formatId, "landscape"));
+    }
+    if (!isPortrait || next === "bold") {
+      lastLandscapeDesign.current = next;
+    }
+    const nextLayout = snapLayoutForDesign(next, state.layout, state.presetId);
+    if (nextLayout !== state.layout) {
+      setState({ ...state, layout: nextLayout });
+    }
+  };
+
+  const handleOrientationChange = (next: MeetingBackgroundOrientation) => {
+    if (next === orientation) return;
+    const nextFormat = matchingFormatForOrientation(formatId, next);
+    setFormatId(nextFormat);
+
+    if (next === "portrait") {
+      lastLandscapeDesign.current = designSet;
+      const nextLayout = snapLayoutForDesign(
+        "minimal",
+        state.layout,
+        state.presetId,
+      );
+      if (nextLayout !== state.layout) {
+        setState({ ...state, layout: nextLayout });
+      }
+      return;
+    }
+
+    // Back to landscape — restore last landscape design preference
+    const restored = lastLandscapeDesign.current;
+    const nextLayout = snapLayoutForDesign(
+      restored,
+      state.layout,
+      state.presetId,
+    );
+    if (nextLayout !== state.layout) {
+      setState({ ...state, layout: nextLayout });
+    }
   };
 
   const handleExportPng = async () => {
@@ -306,6 +396,12 @@ export default function MeetingBackgroundPage() {
         </p>
       </div>
     ) : null;
+
+  const bandPad = isPortrait
+    ? "px-4 py-2.5 md:px-5 md:py-3"
+    : "px-5 py-2 md:px-7 md:py-2.5";
+  const fieldPad = isPortrait ? "p-4 md:p-5" : "p-5 md:p-7";
+  const railWidth = isPortrait ? "w-[7%] min-w-[10px] max-w-[28px]" : "w-[4%] min-w-[8px] max-w-[20px]";
 
   let canvasBody: ReactElement | null = null;
 
@@ -410,7 +506,7 @@ export default function MeetingBackgroundPage() {
         </div>
       </div>
     );
-  } else {
+  } else if (state.layout === "bands") {
     // bands — top accent + bottom secondary strips; centre stays clear
     const showTop = showLead || (showBrand && !showHead && !showClose);
     const showBottom = showHead || showClose || showBrand;
@@ -458,6 +554,149 @@ export default function MeetingBackgroundPage() {
             {brandLockup(secondary, mutedSecondary, "md")}
           </div>
         ) : null}
+      </div>
+    );
+  } else if (state.layout === "masthead") {
+    const bandHasContent = showCopy || showBrand;
+    canvasBody = (
+      <div
+        className="relative box-border flex h-full w-full flex-col"
+        style={{ backgroundColor: primary }}
+      >
+        {bandHasContent ? (
+          <div
+            className={cn(
+              "flex shrink-0 items-center justify-between gap-3",
+              bandPad,
+            )}
+            style={{ backgroundColor: secondary }}
+          >
+            <div className="min-w-0 flex-1 overflow-hidden">
+              {leadLine(
+                meetsWcagAA(accent, secondary, true) ? accent : mutedSecondary,
+              )}
+              <div className={cn(showLead && "mt-1")}>
+                {stackedHeadline(secondaryInk, "readable")}
+              </div>
+              {showClose ? (
+                <div className="mt-1">{closerLine(mutedSecondary)}</div>
+              ) : null}
+            </div>
+            {brandLockup(secondary, mutedSecondary, "sm")}
+          </div>
+        ) : null}
+        <div className="min-h-0 flex-1" />
+      </div>
+    );
+  } else if (state.layout === "footer") {
+    const bandHasContent = showCopy || showBrand;
+    canvasBody = (
+      <div
+        className="relative box-border flex h-full w-full flex-col"
+        style={{ backgroundColor: primary }}
+      >
+        <div className="min-h-0 flex-1" />
+        {bandHasContent ? (
+          <div
+            className={cn(
+              "flex shrink-0 items-center justify-between gap-3",
+              bandPad,
+            )}
+            style={{ backgroundColor: accent }}
+          >
+            <div className="min-w-0 flex-1 overflow-hidden">
+              {leadLine(
+                meetsWcagAA(secondary, accent, true) ? secondary : mutedAccent,
+              )}
+              <div className={cn(showLead && "mt-1")}>
+                {stackedHeadline(accentInk, "readable")}
+              </div>
+              {showClose ? (
+                <div className="mt-1">{closerLine(mutedAccent)}</div>
+              ) : null}
+            </div>
+            {brandLockup(accent, mutedAccent, "sm")}
+          </div>
+        ) : null}
+      </div>
+    );
+  } else if (state.layout === "rails") {
+    const hasType = showCopy;
+    canvasBody = (
+      <div
+        className="relative box-border flex h-full w-full"
+        style={{ backgroundColor: primary }}
+      >
+        <div
+          className={cn("h-full shrink-0", railWidth)}
+          style={{ backgroundColor: accent }}
+        />
+        <div
+          className={cn(
+            "flex min-h-0 min-w-0 flex-1 flex-col justify-between",
+            fieldPad,
+          )}
+        >
+          <div className="mx-auto w-full max-w-[88%] min-w-0 overflow-hidden text-center">
+            {hasType ? (
+              <>
+                {leadLine(secondaryOnPrimary, "center")}
+                <div className={cn(showLead && "mt-1.5")}>
+                  {stackedHeadline(canvasInk, "readable", "center")}
+                </div>
+                {showClose ? (
+                  <div className="mt-1.5">
+                    {closerLine(mutedPrimary, "center")}
+                  </div>
+                ) : null}
+              </>
+            ) : null}
+          </div>
+          {showBrand ? (
+            <div className="flex justify-center">
+              {brandLockup(primary, mutedPrimary, "sm")}
+            </div>
+          ) : (
+            <span />
+          )}
+        </div>
+        <div
+          className={cn("h-full shrink-0", railWidth)}
+          style={{ backgroundColor: accent }}
+        />
+      </div>
+    );
+  } else {
+    // upper-stack — readable type in upper ~28%; open field below
+    const stackHasContent = showCopy || showBrand;
+    canvasBody = (
+      <div
+        className="relative box-border flex h-full w-full flex-col"
+        style={{ backgroundColor: primary }}
+      >
+        {stackHasContent ? (
+          <div
+            className={cn(
+              "flex shrink-0 flex-col justify-start",
+              fieldPad,
+              isPortrait ? "max-h-[30%]" : "max-h-[28%]",
+            )}
+          >
+            <div className="min-w-0 w-full max-w-[92%] overflow-hidden">
+              {leadLine(secondaryOnPrimary)}
+              <div className={cn(showLead && "mt-1.5")}>
+                {stackedHeadline(canvasInk, "readable")}
+              </div>
+              {showClose ? (
+                <div className="mt-1.5">{closerLine(mutedPrimary)}</div>
+              ) : null}
+            </div>
+            {showBrand ? (
+              <div className="mt-3">{brandLockup(primary, mutedPrimary, "sm")}</div>
+            ) : null}
+          </div>
+        ) : null}
+        <div className="min-h-0 flex-1" />
       </div>
     );
   }
@@ -530,11 +769,33 @@ export default function MeetingBackgroundPage() {
           />
 
           <SegControl
+            label={t("design")}
+            value={isPortrait ? "minimal" : designSet}
+            options={[
+              {
+                value: "bold" as const,
+                label: t("designs.bold"),
+                disabled: isPortrait,
+              },
+              { value: "minimal" as const, label: t("designs.minimal") },
+            ]}
+            onChange={handleDesignChange}
+          />
+
+          <SegControl
+            label={t("orientation")}
+            value={orientation}
+            options={[
+              { value: "landscape" as const, label: t("orientations.landscape") },
+              { value: "portrait" as const, label: t("orientations.portrait") },
+            ]}
+            onChange={handleOrientationChange}
+          />
+
+          <SegControl
             label={t("layout")}
             value={state.layout}
-            options={(
-              ["corner", "lower-third", "side-panel", "bands"] as const
-            ).map((id) => ({
+            options={layoutOptions.map((id) => ({
               value: id,
               label: t(`layouts.${id}`),
             }))}
@@ -597,13 +858,15 @@ export default function MeetingBackgroundPage() {
           <SegControl
             label={t("outputSize")}
             value={formatId}
-            options={formats.map((f) => ({
+            options={sizeFormats.map((f) => ({
               value: f.id,
               label: t(f.labelKey),
             }))}
             onChange={setFormatId}
           />
-          <p className="text-xs text-gray-500">{t("sizeHint")}</p>
+          <p className="text-xs text-gray-500">
+            {isPortrait ? t("sizeHintPortrait") : t("sizeHint")}
+          </p>
 
           <ThemePicker
             primaryColor={state.primaryColor}
@@ -619,15 +882,17 @@ export default function MeetingBackgroundPage() {
             canRedo={canRedo}
             onUndo={undo}
             onRedo={redo}
-            onReset={() =>
+            onReset={() => {
+              setFormatId(DEFAULT_MEETING_BACKGROUND_FORMAT);
+              lastLandscapeDesign.current = "bold";
               reset({
                 ...initial,
                 includeBranding: themeEstablished,
                 primaryColor: brandKit.primaryColor,
                 secondaryColor: brandKit.secondaryColor,
                 accentColor: brandKit.accentColor,
-              })
-            }
+              });
+            }}
           />
 
           <Button type="button" onClick={() => void handleExportPng()}>
@@ -640,7 +905,12 @@ export default function MeetingBackgroundPage() {
           <p className="mb-2 text-sm font-medium text-gray-700">
             {t("preview")}
           </p>
-          <div className="overflow-hidden rounded-lg shadow-lg shadow-black/20">
+          <div
+            className={cn(
+              "overflow-hidden rounded-lg shadow-lg shadow-black/20",
+              isPortrait && "mx-auto max-w-[280px] sm:max-w-[320px]",
+            )}
+          >
             <div
               ref={canvasRef}
               className={cn("w-full overflow-hidden", format.aspect)}

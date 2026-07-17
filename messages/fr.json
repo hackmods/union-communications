@@ -845,18 +845,32 @@
   },
   "meetingBackground": {
     "title": "Créateur de fonds de réunion",
-    "subtitle": "Fonds virtuels Zoom et Teams percutants — énergie des affiches solidarité, mises en page dégagées pour le visage, interrupteurs pour chaque couche",
+    "subtitle": "Fonds virtuels Zoom et Teams — mises en page audacieuses dégagées pour le visage, designs minimalistes plus lisibles, et formats portrait pour téléphones et écrans verticaux",
     "preset": "Slogan prédéfini",
     "leadIn": "Amorce",
     "headline": "Titre",
     "headlineHint": "Utilisez une nouvelle ligne pour empiler les mots",
     "closer": "Clôture",
+    "design": "Style",
+    "designs": {
+      "bold": "Audacieux",
+      "minimal": "Minimal"
+    },
+    "orientation": "Orientation",
+    "orientations": {
+      "landscape": "Paysage",
+      "portrait": "Portrait"
+    },
     "layout": "Mise en page",
     "layouts": {
       "corner": "Coin — texte empilé hors du visage",
       "lower-third": "Tiers inférieur — barre d'accent épaisse",
       "side-panel": "Panneau latéral — bande couleur partagée",
-      "bands": "Bandes — barres haut et bas"
+      "bands": "Bandes — barres haut et bas",
+      "masthead": "En-tête — fine légende en haut",
+      "footer": "Pied — fine légende en bas",
+      "rails": "Rails — fins bords latéraux",
+      "upper-stack": "Haut — texte au-dessus du champ ouvert"
     },
     "toggles": "Afficher / masquer",
     "togglesHint": "Désactivez des couches et la mise en page se resserre autour de ce qui reste.",
@@ -866,7 +880,10 @@
     "outputSize": "Format",
     "formatHd": "HD 16:9 (1920×1080)",
     "formatUhd": "UHD 16:9 (3840×2160)",
+    "formatPortraitHd": "HD 9:16 (1080×1920)",
+    "formatPortraitUhd": "UHD 9:16 (2160×3840)",
     "sizeHint": "Le HD correspond aux recommandations typiques de Zoom et Teams. Utilisez l'UHD pour les grands écrans ou haute densité.",
+    "sizeHintPortrait": "Le HD convient aux téléphones et à la plupart des webcams portrait. Utilisez l'UHD pour les moniteurs verticaux ou haute densité.",
     "includeBranding": "Inclure l'image de marque locale",
     "preview": "Aperçu",
     "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les fonds avec le logo de votre section locale.",

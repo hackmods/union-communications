@@ -45,7 +45,7 @@ Home landing (`HomeContent`): desktop hero band with CTAs + trust aside; dual-pa
 | `/[locale]/tools/board-notice` | Workplace bulletin notices (letter + tabloid) |
 | `/[locale]/tools/board-banner` | Board header banners + frame trim on packed letter/tabloid sheets (strip heights + side columns; PNG + PDF) |
 | `/[locale]/tools/solidarity-poster` | Solidarity board posters + wallpapers (Print; Digital 16:9 / 19.5:9 / 9:16 PNG; CTA + QR toggles) |
-| `/[locale]/tools/meeting-background` | Zoom/Teams virtual backgrounds (HD/UHD 16:9 PNG; solidarity-energy face-safe layouts + layer toggles) |
+| `/[locale]/tools/meeting-background` | Zoom/Teams virtual backgrounds (Bold + Minimal design sets; landscape 16:9 HD/UHD + portrait 9:16; face-safe layouts + layer toggles) |
 | `/[locale]/tools/qr-card` | QR link cards (title, tagline, multi-size print) |
 | `/[locale]/tools/qr-board` | Multi-QR board posters (2–8 links; letter/tabloid; PNG + PDF) |
 | `/[locale]/tools/graphic-maker` | Social graphics |

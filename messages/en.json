@@ -845,18 +845,32 @@
   },
   "meetingBackground": {
     "title": "Meeting Background Maker",
-    "subtitle": "Bold Zoom and Teams virtual backgrounds — solidarity poster energy, face-safe layouts, toggles for every layer",
+    "subtitle": "Zoom and Teams virtual backgrounds — bold face-safe layouts, quieter minimal designs, and portrait sizes for phones and tall monitors",
     "preset": "Slogan preset",
     "leadIn": "Lead-in",
     "headline": "Headline",
     "headlineHint": "Use a new line to stack words",
     "closer": "Closer",
+    "design": "Design",
+    "designs": {
+      "bold": "Bold",
+      "minimal": "Minimal"
+    },
+    "orientation": "Orientation",
+    "orientations": {
+      "landscape": "Landscape",
+      "portrait": "Portrait"
+    },
     "layout": "Layout",
     "layouts": {
       "corner": "Corner — stacked type clear of your face",
       "lower-third": "Lower third — thick accent bar",
       "side-panel": "Side panel — split colour strip",
-      "bands": "Bands — top and bottom bars"
+      "bands": "Bands — top and bottom bars",
+      "masthead": "Masthead — slim top caption",
+      "footer": "Footer — slim bottom caption",
+      "rails": "Rails — thin side edges",
+      "upper-stack": "Upper stack — type above open field"
     },
     "toggles": "Show / hide",
     "togglesHint": "Turn layers off and the layout collapses around what is left.",
@@ -866,7 +880,10 @@
     "outputSize": "Size",
     "formatHd": "HD 16:9 (1920×1080)",
     "formatUhd": "UHD 16:9 (3840×2160)",
+    "formatPortraitHd": "HD 9:16 (1080×1920)",
+    "formatPortraitUhd": "UHD 9:16 (2160×3840)",
     "sizeHint": "HD matches typical Zoom and Teams recommendations. Use UHD for large or high-DPI displays.",
+    "sizeHintPortrait": "HD suits phones and most portrait webcam setups. Use UHD for tall monitors or high-DPI screens.",
     "includeBranding": "Include local branding",
     "preview": "Preview",
     "setupBrandPrompt": "Set up your Brand Kit to stamp backgrounds with your local lockup.",
