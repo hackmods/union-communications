@@ -962,10 +962,13 @@
     "setupBrandLink": "Open Brand Kit",
     "outputs": "Include in ZIP",
     "outputDocx": "Word (.docx)",
-    "outputXlsx": "Excel (.xlsx)",
+    "outputXlsx": "Excel RSVP (.xlsx)",
+    "outputIcs": "Calendar (.ics)",
     "outputPptx": "PowerPoint (.pptx)",
     "fieldsHeading": "Text",
     "downloadZip": "Download as ZIP",
+    "downloadIcs": "Download calendar (.ics)",
+    "icsNeedsCalendar": "Set Calendar start (and optionally Calendar end) so the .ics file has a real date/time.",
     "selectOutput": "Select at least one output format.",
     "preview": "Preview",
     "previewHint": "Live mock of the selected example. Downloads use the same Brand Kit colours, logo, and text.",
@@ -975,7 +978,8 @@
       "simpleLetterDocx": "Word letter ready to send",
       "simpleLetterPptx": "2 PowerPoint slides",
       "eventDocx": "Word event notice with When/Where",
-      "eventXlsx": "Excel RSVP sheet",
+      "eventXlsx": "Excel RSVP with Yes/No/Maybe, guests, and accessibility",
+      "eventIcs": "Calendar invite (.ics) from Calendar start/end",
       "eventPptx": "3 PowerPoint slides"
     },
     "presets": {
@@ -989,7 +993,7 @@
       },
       "quickEvent": {
         "title": "Event notice",
-        "blurb": "When/where flyer, RSVP spreadsheet, and a short slide deck."
+        "blurb": "When/where flyer, RSVP spreadsheet with response tracking, calendar file, and a short slide deck."
       }
     },
     "fields": {
@@ -997,8 +1001,10 @@
       "subtitle": "Subtitle",
       "headline": "Headline",
       "memberName": "Member name",
-      "date": "Date",
-      "time": "Time",
+      "date": "Date (printed)",
+      "time": "Time (printed)",
+      "calendarStart": "Calendar start (for .ics)",
+      "calendarEnd": "Calendar end (for .ics)",
       "location": "Location",
       "body": "Body",
       "stewardName": "Steward name",

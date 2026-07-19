@@ -16,7 +16,7 @@ alwaysApply: false
 ## QOL (Phase 5+)
 - Types: `src/types/qol.ts` — optional `bargainingUnitId` on snippets / marketplace
 - Access helpers: `src/lib/qol/access.ts`
-- ICS: `src/lib/calendar/ics.ts` (client download)
+- ICS: `src/lib/calendar/ics.ts` (client download, grievance-scoped today) — see `.cursor/rules/calendar-meetings.mdc` for membership meeting scope
 - Handoff: presidents/admins only (`canInitiateHandoff`); stamp active local (+ collection when set)
 - Marketplace: same `unionId` only — never cross-union
 - Stewards: assigned grievance R/W; bumping read-only; mobile read-only hides write CTAs

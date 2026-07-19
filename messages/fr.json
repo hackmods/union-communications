@@ -962,10 +962,13 @@
     "setupBrandLink": "Ouvrir la trousse de marque",
     "outputs": "Inclure dans le ZIP",
     "outputDocx": "Word (.docx)",
-    "outputXlsx": "Excel (.xlsx)",
+    "outputXlsx": "RSVP Excel (.xlsx)",
+    "outputIcs": "Calendrier (.ics)",
     "outputPptx": "PowerPoint (.pptx)",
     "fieldsHeading": "Texte",
     "downloadZip": "Télécharger en ZIP",
+    "downloadIcs": "Télécharger le calendrier (.ics)",
+    "icsNeedsCalendar": "Indiquez le début du calendrier (et éventuellement la fin) pour que le fichier .ics ait une vraie date/heure.",
     "selectOutput": "Sélectionnez au moins un format.",
     "preview": "Aperçu",
     "previewHint": "Maquette en direct de l'exemple choisi. Les téléchargements utilisent les mêmes couleurs, logo et texte.",
@@ -975,7 +978,8 @@
       "simpleLetterDocx": "Lettre Word prête à envoyer",
       "simpleLetterPptx": "2 diapositives PowerPoint",
       "eventDocx": "Avis d'événement Word avec Quand/Où",
-      "eventXlsx": "Feuille RSVP Excel",
+      "eventXlsx": "Feuille RSVP Excel avec Oui/Non/Peut-être, invités et accessibilité",
+      "eventIcs": "Invitation calendrier (.ics) à partir du début/fin",
       "eventPptx": "3 diapositives PowerPoint"
     },
     "presets": {
@@ -989,7 +993,7 @@
       },
       "quickEvent": {
         "title": "Avis d'événement",
-        "blurb": "Affiche Quand/Où, feuille RSVP et courte présentation."
+        "blurb": "Affiche Quand/Où, feuille RSVP avec suivi des réponses, fichier calendrier et courte présentation."
       }
     },
     "fields": {
@@ -997,8 +1001,10 @@
       "subtitle": "Sous-titre",
       "headline": "Manchette",
       "memberName": "Nom du membre",
-      "date": "Date",
-      "time": "Heure",
+      "date": "Date (imprimée)",
+      "time": "Heure (imprimée)",
+      "calendarStart": "Début calendrier (pour .ics)",
+      "calendarEnd": "Fin calendrier (pour .ics)",
       "location": "Lieu",
       "body": "Corps",
       "stewardName": "Nom du délégué",

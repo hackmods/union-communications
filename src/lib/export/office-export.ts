@@ -114,7 +114,12 @@ export async function exportDocx(opts: {
   downloadBlob(await renderDocx(opts), opts.filename);
 }
 
-/** Event RSVP sheet built from scratch with Brand Kit header fill. */
+const RSVP_HEADER_ROW = 9;
+const RSVP_FIRST_DATA_ROW = 10;
+const RSVP_ROW_COUNT = 25;
+const RSVP_LAST_DATA_ROW = RSVP_FIRST_DATA_ROW + RSVP_ROW_COUNT - 1;
+
+/** Event RSVP sheet: response tracking, guest counts, and accessibility notes. */
 export async function renderEventRsvpXlsx(opts: {
   palette: BrandPalette;
   localNumber: string;
@@ -148,8 +153,37 @@ export async function renderEventRsvpXlsx(opts: {
     };
   }
 
-  ["Name", "Email", "Phone", "Notes"].forEach((h, i) => {
-    const cell = ws.getCell(7, i + 1);
+  ws.getCell("A7").value = "Totals (auto)";
+  ws.getCell("A7").font = { bold: true };
+  ws.getCell("B7").value = "Yes";
+  ws.getCell("C7").value = {
+    formula: `COUNTIF(D${RSVP_FIRST_DATA_ROW}:D${RSVP_LAST_DATA_ROW},"Yes")`,
+  };
+  ws.getCell("D7").value = "No";
+  ws.getCell("E7").value = {
+    formula: `COUNTIF(D${RSVP_FIRST_DATA_ROW}:D${RSVP_LAST_DATA_ROW},"No")`,
+  };
+  ws.getCell("F7").value = "Maybe";
+  ws.getCell("G7").value = {
+    formula: `COUNTIF(D${RSVP_FIRST_DATA_ROW}:D${RSVP_LAST_DATA_ROW},"Maybe")`,
+  };
+  ws.getCell("A8").value = "Guest seats";
+  ws.getCell("A8").font = { bold: true };
+  ws.getCell("B8").value = {
+    formula: `SUM(E${RSVP_FIRST_DATA_ROW}:E${RSVP_LAST_DATA_ROW})`,
+  };
+
+  const headers = [
+    "Name",
+    "Email",
+    "Phone",
+    "Response",
+    "Guests",
+    "Accessibility",
+    "Notes",
+  ];
+  headers.forEach((h, i) => {
+    const cell = ws.getCell(RSVP_HEADER_ROW, i + 1);
     cell.value = h;
     cell.font = { bold: true };
     cell.fill = {
@@ -159,10 +193,33 @@ export async function renderEventRsvpXlsx(opts: {
     };
   });
 
+  for (let r = RSVP_FIRST_DATA_ROW; r <= RSVP_LAST_DATA_ROW; r++) {
+    ws.getCell(r, 4).dataValidation = {
+      type: "list",
+      allowBlank: true,
+      formulae: ['"Yes,No,Maybe"'],
+      showErrorMessage: true,
+      errorTitle: "Response",
+      error: "Choose Yes, No, or Maybe.",
+    };
+    ws.getCell(r, 5).dataValidation = {
+      type: "whole",
+      operator: "greaterThanOrEqual",
+      formulae: [0],
+      allowBlank: true,
+      showErrorMessage: true,
+      errorTitle: "Guests",
+      error: "Enter 0 or a whole number.",
+    };
+  }
+
   ws.getColumn(1).width = 22;
   ws.getColumn(2).width = 28;
   ws.getColumn(3).width = 16;
-  ws.getColumn(4).width = 28;
+  ws.getColumn(4).width = 12;
+  ws.getColumn(5).width = 10;
+  ws.getColumn(6).width = 22;
+  ws.getColumn(7).width = 28;
 
   const out = await workbook.xlsx.writeBuffer();
   return new Blob([new Uint8Array(out)], { type: XLSX_MIME });

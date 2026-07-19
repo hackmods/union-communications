@@ -18,7 +18,7 @@ export type OfficePreset = {
   titleKey: string;
   blurbKey: string;
   fields: FieldDef[];
-  outputs: { docx: boolean; xlsx: boolean; pptx: boolean };
+  outputs: { docx: boolean; xlsx: boolean; pptx: boolean; ics?: boolean };
   fileStem: string;
   structureKeys: string[];
 };
@@ -35,7 +35,7 @@ export const OFFICE_PRESETS: OfficePreset[] = [
     titleKey: "presets.simpleLetter.title",
     blurbKey: "presets.simpleLetter.blurb",
     fileStem: "simple-letter",
-    outputs: { docx: true, xlsx: false, pptx: true },
+    outputs: { docx: true, xlsx: false, pptx: true, ics: false },
     structureKeys: ["structure.simpleLetterDocx", "structure.simpleLetterPptx"],
     fields: [
       {
@@ -72,7 +72,7 @@ export const OFFICE_PRESETS: OfficePreset[] = [
     titleKey: "presets.letterhead.title",
     blurbKey: "presets.letterhead.blurb",
     fileStem: "letterhead",
-    outputs: { docx: true, xlsx: false, pptx: true },
+    outputs: { docx: true, xlsx: false, pptx: true, ics: false },
     structureKeys: ["structure.letterheadDocx", "structure.letterheadPptx"],
     fields: [
       {
@@ -93,10 +93,11 @@ export const OFFICE_PRESETS: OfficePreset[] = [
     titleKey: "presets.quickEvent.title",
     blurbKey: "presets.quickEvent.blurb",
     fileStem: "quick-event",
-    outputs: { docx: true, xlsx: true, pptx: true },
+    outputs: { docx: true, xlsx: true, pptx: true, ics: true },
     structureKeys: [
       "structure.eventDocx",
       "structure.eventXlsx",
+      "structure.eventIcs",
       "structure.eventPptx",
     ],
     fields: [
@@ -121,6 +122,16 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         defaultValue: "12:00–1:00 pm",
       },
       {
+        key: "calendarStart",
+        labelKey: "fields.calendarStart",
+        defaultValue: "2026-08-12T12:00",
+      },
+      {
+        key: "calendarEnd",
+        labelKey: "fields.calendarEnd",
+        defaultValue: "2026-08-12T13:00",
+      },
+      {
         key: "location",
         labelKey: "fields.location",
         defaultValue: "Main cafeteria",
@@ -129,7 +140,8 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         key: "body",
         labelKey: "fields.body",
         multiline: true,
-        defaultValue: "Agenda highlights and how to RSVP with your steward.",
+        defaultValue:
+          "Agenda highlights. RSVP on the Excel sheet (Yes / No / Maybe) or with your steward.",
       },
       {
         key: "contactName",

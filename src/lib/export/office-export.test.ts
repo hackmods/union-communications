@@ -106,20 +106,41 @@ describe("office-export", () => {
     expect(blob.size).toBeGreaterThan(8000);
   });
 
-  it("renderEventRsvpXlsx builds a Brand Kit workbook", async () => {
-    const blob = await renderEventRsvpXlsx({
-      palette: { primary: "#003366", secondary: "#001a33", accent: "#c45c26" },
-      localNumber: "110",
-      fields: {
-        title: "Meeting",
-        date: "Aug 12",
-        time: "Noon",
-        location: "Hall",
-        contactName: "LEC",
-      },
-    });
-    expect(blob.size).toBeGreaterThan(1000);
-  });
+  it(
+    "renderEventRsvpXlsx builds a Brand Kit workbook with response columns",
+    async () => {
+      const blob = await renderEventRsvpXlsx({
+        palette: { primary: "#003366", secondary: "#001a33", accent: "#c45c26" },
+        localNumber: "110",
+        fields: {
+          title: "Meeting",
+          date: "Aug 12",
+          time: "Noon",
+          location: "Hall",
+          contactName: "LEC",
+        },
+      });
+      expect(blob.size).toBeGreaterThan(1000);
+
+      const excelMod = await import("exceljs");
+      const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
+      const wb = new ExcelNS.Workbook();
+      await wb.xlsx.load(await blob.arrayBuffer());
+      const ws = wb.getWorksheet("RSVP");
+      expect(ws).toBeTruthy();
+      expect(ws!.getCell("A9").value).toBe("Name");
+      expect(ws!.getCell("D9").value).toBe("Response");
+      expect(ws!.getCell("E9").value).toBe("Guests");
+      expect(ws!.getCell("F9").value).toBe("Accessibility");
+      const yesTotal = ws!.getCell("C7").value;
+      const yesFormula =
+        typeof yesTotal === "object" && yesTotal && "formula" in yesTotal
+          ? String((yesTotal as { formula: string }).formula)
+          : String(yesTotal);
+      expect(yesFormula).toContain("COUNTIF");
+    },
+    20_000,
+  );
 
   it("fills sample roster xlsx", async () => {
     mockFetchFromFile(sampleRosterPath);

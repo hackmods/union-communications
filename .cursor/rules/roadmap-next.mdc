@@ -28,6 +28,10 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 6. **Workforce Time (full)** — Postgres, scheduling, PTO, union rollup
 7. **TOTP MFA** — replace shared `AUTH_MFA_CODE`
 
+## Deferred (post-Postgres, post-transactional email)
+
+8. **Local membership meeting config + reminders** — recurring schedule, public "next meeting" snippet, officer in-app banner; auto-send only after ARCHITECTURE v2+ email infra. Spec: `docs/modules/CALENDAR_MEETINGS.md`, `.cursor/rules/calendar-meetings.mdc`
+
 ## Shipped hub surfaces (do not rebuild)
 
 | Path | Purpose |

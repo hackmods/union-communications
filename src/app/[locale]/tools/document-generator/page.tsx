@@ -30,6 +30,8 @@ import {
   renderEventRsvpXlsx,
   renderPptx,
 } from "@/lib/export/office-export";
+import { renderEventIcsBlob } from "@/lib/calendar/event-ics";
+import { downloadBlob } from "@/lib/export/image-export";
 import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
@@ -40,6 +42,7 @@ export interface GeneratorState {
   includeDocx: boolean;
   includeXlsx: boolean;
   includePptx: boolean;
+  includeIcs: boolean;
   includeLogo: boolean;
   fields: Record<string, string>;
 }
@@ -54,6 +57,7 @@ function initialState(
     includeDocx: true,
     includeXlsx: preset.outputs.xlsx,
     includePptx: true,
+    includeIcs: Boolean(preset.outputs.ics),
     includeLogo,
     fields: defaultFieldsForPreset(preset),
   };
@@ -118,6 +122,7 @@ export default function DocumentGeneratorPage() {
       includeDocx: next.outputs.docx,
       includeXlsx: next.outputs.xlsx,
       includePptx: true,
+      includeIcs: Boolean(next.outputs.ics),
       fields: defaultFieldsForPreset(next),
     });
   }
@@ -204,6 +209,20 @@ export default function DocumentGeneratorPage() {
     });
   }
 
+  function handleDownloadIcs() {
+    if (!preset.outputs.ics) return;
+    void run(async () => {
+      const blob = renderEventIcsBlob(fields, {
+        localNumber: resolveLocalNumber(localNumber),
+      });
+      if (!blob) throw new Error(t("icsNeedsCalendar"));
+      downloadBlob(
+        blob,
+        formatFilename(preset.fileStem, localNumber, "ics"),
+      );
+    });
+  }
+
   function handleDownloadZip() {
     void run(async () => {
       let logo: BrandLogoBytes | null = null;
@@ -233,6 +252,16 @@ export default function DocumentGeneratorPage() {
             localNumber: resolveLocalNumber(localNumber),
             fields,
           }),
+        });
+      }
+      if (state.includeIcs && preset.outputs.ics) {
+        const icsBlob = renderEventIcsBlob(fields, {
+          localNumber: resolveLocalNumber(localNumber),
+        });
+        if (!icsBlob) throw new Error(t("icsNeedsCalendar"));
+        files.push({
+          name: formatFilename(preset.fileStem, localNumber, "ics"),
+          blob: icsBlob,
         });
       }
       if (state.includePptx) {
@@ -370,6 +399,18 @@ export default function DocumentGeneratorPage() {
                   {t("outputXlsx")}
                 </label>
               ) : null}
+              {preset.outputs.ics ? (
+                <label className="inline-flex min-h-11 items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={state.includeIcs}
+                    onChange={(e) =>
+                      setState({ ...state, includeIcs: e.target.checked })
+                    }
+                  />
+                  {t("outputIcs")}
+                </label>
+              ) : null}
               <label className="inline-flex min-h-11 items-center gap-2 text-sm">
                 <input
                   type="checkbox"
@@ -424,6 +465,16 @@ export default function DocumentGeneratorPage() {
                 onClick={handleDownloadXlsx}
               >
                 {tc("downloadXlsx")}
+              </Button>
+            ) : null}
+            {preset.outputs.ics ? (
+              <Button
+                type="button"
+                variant="outline"
+                disabled={busy}
+                onClick={handleDownloadIcs}
+              >
+                {t("downloadIcs")}
               </Button>
             ) : null}
             <Button

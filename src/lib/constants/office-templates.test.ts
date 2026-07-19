@@ -37,8 +37,12 @@ describe("office-templates", () => {
     expect(fields.body).toBeTruthy();
   });
 
-  it("event preset includes xlsx", () => {
-    expect(getPreset("quick-event").outputs.xlsx).toBe(true);
+  it("event preset includes xlsx and ics", () => {
+    const event = getPreset("quick-event");
+    expect(event.outputs.xlsx).toBe(true);
+    expect(event.outputs.ics).toBe(true);
+    expect(event.fields.some((f) => f.key === "calendarStart")).toBe(true);
     expect(getPreset("simple-letter").outputs.xlsx).toBe(false);
+    expect(getPreset("simple-letter").outputs.ics).toBe(false);
   });
 });

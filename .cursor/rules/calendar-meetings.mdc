@@ -1,0 +1,104 @@
+---
+description: Calendar, meeting, RSVP, and reminder scope — grievance ICS vs membership meetings; no auto-send
+globs: src/lib/calendar/**,src/app/**/meetings/**,src/app/**/r/**,src/app/**/tools/board-notice/**,src/app/**/tools/meeting-background/**,src/app/**/tools/document-generator/**,src/lib/grievance/email-templates.ts,src/lib/export/office-export.ts,src/components/qol/OverdueDashboard.tsx
+alwaysApply: false
+---
+
+# Calendar & Meeting Reminders
+
+## Product truth
+
+- **No union-wide calendar module** — no `/app/calendar`, `/events`, or `/meetings` hub route (until Phase A/R1 ships a real page)
+- **No automated email, push, SMS, or cron reminders** — no SMTP provider, no `/api/notifications`, no scheduled jobs
+- **`/app/overdue`** tracks **grievance CA step deadlines only** — not membership meetings or scheduled grievance meetings
+- **No `/member` portal** — live RSVP (when built) is a **public token form** `/r/[token]`, not member self-service
+
+Full spec: [`docs/modules/CALENDAR_MEETINGS.md`](../../docs/modules/CALENDAR_MEETINGS.md)
+
+## Two surfaces (do not conflate)
+
+| Surface | Auth | Meeting scope | Persistence |
+|---------|------|---------------|-------------|
+| **Officer Hub** | Login + MFA + grievance RBAC | Grievance `ScheduledMeeting` per case | Memory adapter (`src/types/qol.ts`) |
+| **Public Comms** | None (client-only) | Announcement + offline RSVP exports | None — export PNG/PDF/doc/xlsx/ics only |
+
+**Terminology guard:** "Meeting scheduler" in the codebase = **grievance meetings**, not monthly membership / local executive meetings.
+
+## Shipped today
+
+### Officer Hub (grievance-scoped)
+- Meeting scheduler + ICS: `GrievanceDetail`, `POST /api/grievances/[id]/meetings`
+- Deadline ICS: 1-hour block around CA step `dueAt` on grievance detail
+- Email drafts (copy-only): `step1_meeting`, `extension_request`, `member_update` via `/api/grievances/[id]/email-draft`
+- Overdue board: `/app/overdue` — grievance deadlines from `deadlines.ts`
+
+### Public Comms (announcement + offline RSVP)
+- Board Notice (`/tools/board-notice`) — `noticeType: "meeting"`; PNG/PDF export
+- Document Generator `quick-event` — DOCX notice, **RSVP Excel** (Yes/No/Maybe + guests + accessibility + totals), **`.ics`** from calendar start/end, PPTX
+- Event ICS helper: `src/lib/calendar/event-ics.ts`
+- Graphic Maker `meetingNotice` starter; Meeting Backgrounds (Zoom/Teams branding)
+- Website Template — static ZIP with `mailto:`; no embedded calendar widget
+
+### ICS utility (`src/lib/calendar/ics.ts`)
+- `buildIcsEvent()`, `downloadIcs()` — export-only, generated on demand
+- **Limitations:** UTC only; no `VTIMEZONE`, `RRULE`, `VALARM`, or `ATTENDEE`; placeholder organizer `noreply@local-union-hub.local`
+- Extend here if recurrence or calendar-native alarms ship — do not duplicate elsewhere
+
+## RSVP phases (see full spec)
+
+| Phase | What | When |
+|-------|------|------|
+| **R0** | Offline Excel RSVP + event `.ics` in Comms | Shipped |
+| **R1** | `UnionMeeting` + `RsvpResponse` + Hub UI + `/r/[token]` | After Postgres + RLS |
+| **R2** | Officer banner + copy-only reminder with RSVP link | After R1 |
+| **R3** | Transactional officer (and optional confirm) email | ARCHITECTURE v2+ |
+
+## Auth matrix
+
+| Action | Requires |
+|--------|----------|
+| Public Comms meeting tools / offline RSVP export | None |
+| List grievance meetings / download ICS / email drafts | Session + MFA + `assertGrievanceView` |
+| Schedule grievance meeting / log comms | Session + MFA + `assertGrievanceEdit` |
+| Steward mobile read-only | Hides schedule form; **still allows** ICS download + email drafts |
+| Future public token RSVP POST | Valid token only — no session; rate-limit |
+
+## Realistic near-term (if stakeholder approves)
+
+1. **`LocalMeetingSchedule` in tenant config** — recurring membership meeting (title, RRULE, location, public vs internal description)
+2. **Public "next meeting" snippet** — date/time/location only; no member lists or strategy
+3. **Extend `ics.ts`** — `RRULE:FREQ=MONTHLY`, optional `VALARM`
+4. **Hub in-app banner** + copy-only `membership_meeting_reminder` draft template
+5. **Phase R1 RSVP** — separate `UnionMeeting` / token form (not grievance `ScheduledMeeting`)
+
+## Explicitly deferred (do not build without milestone)
+
+- Union calendar grid / month view
+- Member email lists or subscription management
+- Auto-send email (blocked on ARCHITECTURE v2+ transactional email)
+- Cron / workers / `vercel.json` scheduled functions
+- Browser push / web notifications
+- `/member` portal (token RSVP ≠ portal)
+- ICS import or public subscribe feed (Phase D — after Postgres + compliance review)
+- Memory-only `UnionMeeting` store before Postgres
+
+**Dependencies:** Postgres + RLS (roadmap #1) before persisting schedules/RSVPs; transactional email before auto-send; TOTP MFA (roadmap #7) before expanding notification surfaces.
+
+## Agent alignment principles
+
+1. **Meet need with existing tools first** — Board Notice + Document Generator RSVP pack + personal/event `.ics` is the supported workflow today
+2. **No auto-send without v2 email** — copy-only drafts are intentional (`grievance-module.mdc`)
+3. **Grievance ≠ membership** — do not reuse `ScheduledMeeting` for local monthly meetings or RSVPs; use `LocalMeetingSchedule` / `UnionMeeting` scoped by `unionId` + `localId`
+4. **Public = less detail** — non-logged-in surfaces show date/time/location (+ RSVP response fields only)
+5. **Postgres before persistence** — no new memory-only meeting/RSVP store; tenant seed JSON for static config only until DB lands
+6. **Roadmap order** — Postgres → onboarding → attachments → then meeting config / live RSVP
+
+## Do Not
+
+- Auto-send email drafts or member communications
+- Conflate grievance meetings with membership/monthly local meetings in UI copy or data models
+- Add nav stubs for calendar/meetings without a shipped page
+- Build marketing broadcast or member email collection without PIPEDA review (`docs/COMPLIANCE.md`)
+- Treat Comms meeting tools as live scheduling or reminder systems — they are announcement / offline-tracking exports
+- Add SMTP, cron, or push as a side quest when asked for "monthly meeting reminders" — document gaps and phased plan first
+- Build a first-party `/member` portal for RSVP — use public token form instead
