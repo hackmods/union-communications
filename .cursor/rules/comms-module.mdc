@@ -10,7 +10,11 @@ alwaysApply: false
 Public-facing guides and image generation tools. v1 shipped as static export.
 
 ## Public nav
-Learn menu must keep **By channel** (Print, Union Boards, Website guides) — see `.cursor/rules/comms-public-nav.mdc` and `docs/modules/COMMS.md`. Backlog ideas (email guide, consent checklist, Get started beyond social): `docs/modules/COMMS_BACKLOG.md`.
+Learn menu must keep **By channel** (Print, Union Boards, Website guides) — see `.cursor/rules/comms-public-nav.mdc` and `docs/modules/COMMS.md`. Backlog ideas (email guide, consent checklist, Get started beyond social): `docs/modules/COMMS_BACKLOG.md`. Calendar/meeting scope: `docs/modules/CALENDAR_MEETINGS.md`, `.cursor/rules/calendar-meetings.mdc`.
+
+## Meeting announcement tools (not scheduling or reminders)
+
+Board Notice (`noticeType: "meeting"`), Document Generator `quick-event`, Graphic Maker `meetingNotice`, and Meeting Backgrounds help locals **communicate about** meetings via PNG/PDF/doc export. They do not store events, send email, or push reminders. Officers re-enter details each month.
 
 ## Rules
 - All image/document processing client-side (html-to-image, JSZip, jsPDF, docx, ExcelJS, pptxgenjs)
