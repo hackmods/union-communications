@@ -14,6 +14,7 @@ import {
   buildEventNoticeDocx,
   buildLetterheadDocx,
   buildSimpleLetterDocx,
+  buildWelcomeLetterDocx,
 } from "@/lib/export/office-docx-builders";
 import { pickContrastingInk } from "@/lib/utils/ink";
 
@@ -70,6 +71,8 @@ export async function renderDocxFromPreset(
   switch (opts.presetId) {
     case "simple-letter":
       return buildSimpleLetterDocx(input);
+    case "welcome-letter":
+      return buildWelcomeLetterDocx(input);
     case "letterhead":
       return buildLetterheadDocx(input);
     case "quick-event":

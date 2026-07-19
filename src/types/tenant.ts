@@ -50,6 +50,14 @@ export interface BrandDefaults {
   accentColor: string;
   useOfficialLogo: boolean;
   assetPackPath: string;
+  /** Optional seed membership application URLs (hydrated into Brand Kit defaults) */
+  membershipUrls?: Array<{
+    id: string;
+    label: string;
+    url: string;
+    audience: "all" | "full_time" | "part_time";
+    primary?: boolean;
+  }>;
 }
 
 export interface GrievanceStep {

@@ -255,6 +255,127 @@ export async function buildSimpleLetterDocx(
   return Packer.toBlob(baseDocument(opts, children));
 }
 
+export async function buildWelcomeLetterDocx(
+  opts: DocxBuildInput,
+): Promise<Blob> {
+  const date = opts.fields.date || "";
+  const member = opts.fields.memberName || "Member";
+  const collection = opts.fields.collection || "";
+  const president = opts.fields.presidentName || "";
+  const stewardContact = opts.fields.stewardContact || "";
+  const membershipUrl = opts.fields.membershipUrl?.trim() || "";
+
+  const children: Paragraph[] = [
+    new Paragraph({
+      spacing: { after: 280 },
+      children: [
+        new TextRun({ text: date, font: "Calibri", size: 22 }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 120 },
+      children: [
+        new TextRun({
+          text: `Dear ${member},`,
+          font: "Calibri",
+          size: 22,
+        }),
+      ],
+    }),
+    ...(collection
+      ? [
+          new Paragraph({
+            spacing: { after: 200 },
+            children: [
+              new TextRun({
+                text: collection,
+                italics: true,
+                color: "555555",
+                font: "Calibri",
+                size: 20,
+              }),
+            ],
+          }),
+        ]
+      : []),
+    ...bodyParagraphs(opts.fields.body || ""),
+    ...(membershipUrl
+      ? [
+          new Paragraph({
+            spacing: { before: 120, after: 80 },
+            children: [
+              new TextRun({
+                text: "Membership application / update:",
+                bold: true,
+                font: "Calibri",
+                size: 20,
+              }),
+            ],
+          }),
+          new Paragraph({
+            spacing: { after: 200 },
+            children: [
+              new TextRun({
+                text: membershipUrl,
+                color: hexNoHash(opts.palette.primary),
+                font: "Calibri",
+                size: 20,
+              }),
+            ],
+          }),
+        ]
+      : []),
+    ...(stewardContact
+      ? [
+          new Paragraph({
+            spacing: { after: 200 },
+            children: [
+              new TextRun({
+                text: `Questions? Contact your steward: ${stewardContact}`,
+                font: "Calibri",
+                size: 20,
+                color: "555555",
+              }),
+            ],
+          }),
+        ]
+      : []),
+    new Paragraph({
+      spacing: { before: 200, after: 80 },
+      children: [
+        new TextRun({
+          text: "In solidarity,",
+          font: "Calibri",
+          size: 22,
+        }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 40 },
+      children: [
+        new TextRun({
+          text: president,
+          bold: true,
+          font: "Calibri",
+          size: 22,
+        }),
+      ],
+    }),
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: `Local president · ${opts.localLabel}`,
+          color: "666666",
+          font: "Calibri",
+          size: 18,
+        }),
+      ],
+    }),
+  ];
+
+  return Packer.toBlob(baseDocument(opts, children));
+}
+
 export async function buildLetterheadDocx(
   opts: DocxBuildInput,
 ): Promise<Blob> {

@@ -299,6 +299,9 @@ export default async function UnionBoardsGuidePage({
         <Link href="/tools/qr-board">
           <Button variant="outline">{nav("qrBoard")}</Button>
         </Link>
+        <Link href="/guide/membership-signup">
+          <Button variant="outline">{nav("membershipSignupGuide")}</Button>
+        </Link>
       </div>
     </GuideLayout>
   );

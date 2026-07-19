@@ -21,6 +21,7 @@ import {
   getPreset,
   type OfficePresetId,
 } from "@/lib/constants/office-templates";
+import { resolvePresetDestination } from "@/lib/utils/local-links";
 import {
   exportDocxFromPreset,
   exportEventRsvpXlsx,
@@ -140,6 +141,16 @@ export default function DocumentGeneratorPage() {
 
   function applyPreset(id: OfficePresetId) {
     const next = getPreset(id);
+    const fields = defaultFieldsForPreset(next);
+    if (id === "welcome-letter") {
+      const origin =
+        typeof window !== "undefined" ? window.location.origin : "";
+      fields.collection =
+        brandKit.local.subText?.trim() || fields.collection;
+      fields.membershipUrl =
+        resolvePresetDestination("membership-primary", brandKit, origin) ||
+        fields.membershipUrl;
+    }
     setState({
       ...state,
       presetId: id,
@@ -147,7 +158,7 @@ export default function DocumentGeneratorPage() {
       includeXlsx: next.outputs.xlsx,
       includePptx: true,
       includeIcs: Boolean(next.outputs.ics),
-      fields: defaultFieldsForPreset(next),
+      fields,
     });
   }
 

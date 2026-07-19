@@ -117,6 +117,13 @@ export const DEFAULT_BRAND_KIT = {
   websiteUrl: undefined as string | undefined,
   facebookUrl: undefined as string | undefined,
   customLinks: [] as { id: string; label: string; url: string }[],
+  membershipUrls: (assetDefaults.membershipUrls ?? []).map((row) => ({
+    id: row.id,
+    label: row.label,
+    url: row.url,
+    audience: row.audience,
+    primary: row.primary,
+  })),
   updatedAt: new Date().toISOString(),
 };
 

@@ -151,17 +151,30 @@ export function OfficePresetMock({
           </div>
         </div>
         <div className="space-y-3 p-5 text-sm text-gray-800">
-          {presetId === "simple-letter" ? (
+          {presetId === "simple-letter" || presetId === "welcome-letter" ? (
             <>
               {fields.date ? (
                 <p className="text-gray-600">{fields.date}</p>
               ) : null}
               <p>Dear {fields.memberName || "Member"},</p>
+              {presetId === "welcome-letter" && fields.collection ? (
+                <p className="italic text-gray-600">{fields.collection}</p>
+              ) : null}
               <p className="whitespace-pre-wrap leading-relaxed">
                 {fields.body || "…"}
               </p>
+              {presetId === "welcome-letter" && fields.membershipUrl ? (
+                <p className="text-sm">
+                  <span className="font-semibold">Membership: </span>
+                  <span className="break-all">{fields.membershipUrl}</span>
+                </p>
+              ) : null}
               <p className="pt-2">In solidarity,</p>
-              <p className="font-semibold">{fields.stewardName || "Steward"}</p>
+              <p className="font-semibold">
+                {presetId === "welcome-letter"
+                  ? fields.presidentName || "Local president"
+                  : fields.stewardName || "Steward"}
+              </p>
             </>
           ) : (
             <>

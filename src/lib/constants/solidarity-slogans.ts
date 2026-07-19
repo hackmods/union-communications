@@ -79,6 +79,27 @@ export const SOLIDARITY_SLOGANS: readonly SolidaritySlogan[] = [
     closer: "Members first",
     layout: "banner",
   },
+  {
+    id: "join-today",
+    leadIn: "Your union. Your voice.",
+    headline: "JOIN\nTODAY",
+    closer: "Scan to sign your membership card",
+    layout: "stack",
+  },
+  {
+    id: "stronger-together-join",
+    leadIn: "Stronger together",
+    headline: "SIGN UP\nTODAY",
+    closer: "Membership builds power",
+    layout: "split",
+  },
+  {
+    id: "card-in-hand",
+    leadIn: "Covered by the CA?",
+    headline: "GET YOUR\nUNION CARD",
+    closer: "Sign up — it only takes a minute",
+    layout: "banner",
+  },
 ] as const;
 
 export type SolidaritySloganId = (typeof SOLIDARITY_SLOGANS)[number]["id"];

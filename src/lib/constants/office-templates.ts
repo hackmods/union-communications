@@ -4,7 +4,11 @@
 
 import type { BrandKit } from "@/types/entities";
 
-export type OfficePresetId = "simple-letter" | "letterhead" | "quick-event";
+export type OfficePresetId =
+  | "simple-letter"
+  | "letterhead"
+  | "quick-event"
+  | "welcome-letter";
 
 export type FieldDef = {
   key: string;
@@ -159,6 +163,61 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         key: "contactName",
         labelKey: "fields.contactName",
         defaultValue: "Local executive",
+      },
+    ],
+  },
+  {
+    id: "welcome-letter",
+    titleKey: "presets.welcomeLetter.title",
+    blurbKey: "presets.welcomeLetter.blurb",
+    fileStem: "welcome-letter",
+    outputs: { docx: true, xlsx: false, pptx: true, ics: false },
+    structureKeys: [
+      "structure.welcomeLetterDocx",
+      "structure.welcomeLetterPptx",
+    ],
+    fields: [
+      {
+        key: "date",
+        labelKey: "fields.date",
+        defaultValue: "July 18, 2026",
+      },
+      {
+        key: "memberName",
+        labelKey: "fields.memberName",
+        defaultValue: "New member",
+      },
+      {
+        key: "collection",
+        labelKey: "fields.collection",
+        defaultValue: "Support Staff",
+      },
+      {
+        key: "body",
+        labelKey: "fields.body",
+        multiline: true,
+        defaultValue:
+          "Welcome to your local. Signing your membership card makes you a member in good standing — eligible to vote, run for office, and access union supports.\n\nKeep this letter handy. Your steward and local executive are here when you have questions about your collective agreement, workplace rights, or how to get involved.\n\nIf you have not finished your membership application yet, use the link below or ask a steward for help.",
+      },
+      {
+        key: "membershipUrl",
+        labelKey: "fields.membershipUrl",
+        defaultValue: "",
+      },
+      {
+        key: "presidentName",
+        labelKey: "fields.presidentName",
+        defaultValue: "Local president",
+      },
+      {
+        key: "stewardContact",
+        labelKey: "fields.stewardContact",
+        defaultValue: "steward@example.org",
+      },
+      {
+        key: "contactName",
+        labelKey: "fields.contactName",
+        defaultValue: "Local executive committee",
       },
     ],
   },

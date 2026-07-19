@@ -15,6 +15,7 @@ import {
   brandKitPatchForLogoMode,
 } from "@/components/brand/LogoSettings";
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
+import { MembershipUrlsEditor } from "@/components/brand/MembershipUrlsEditor";
 import { BrandProfileSwitcher } from "@/components/brand/BrandProfileSwitcher";
 import {
   brandFieldsFromUnionPreset,
@@ -246,6 +247,13 @@ export default function BrandKitPage() {
           onWebsiteChange={(url) => setBrandKit({ websiteUrl: url })}
           onFacebookChange={(url) => setBrandKit({ facebookUrl: url })}
           onCustomLinksChange={(links) => setBrandKit({ customLinks: links })}
+        />
+      </Card>
+
+      <Card density="compact" className="mt-4 space-y-3">
+        <MembershipUrlsEditor
+          membershipUrls={brandKit.membershipUrls ?? []}
+          onChange={(urls) => setBrandKit({ membershipUrls: urls })}
         />
       </Card>
 

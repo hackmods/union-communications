@@ -4,7 +4,10 @@ export type QrCardPresetId =
   | "ohsa"
   | "healthSafety"
   | "followUs"
-  | "localWebsite";
+  | "localWebsite"
+  | "joinUnion"
+  | "joinFullTime"
+  | "joinPartTime";
 
 export type QrCardBgMode = "plain" | "gradient" | "accentBar";
 
@@ -27,6 +30,30 @@ export const QR_CARD_PRESETS: readonly QrCardPreset[] = [
     descriptionKey: "getSupportDesc",
     taglineKey: "getSupportTagline",
     bgMode: "gradient",
+  },
+  {
+    id: "joinUnion",
+    defaultUrl: "",
+    titleKey: "joinUnionTitle",
+    descriptionKey: "joinUnionDesc",
+    taglineKey: "joinUnionTagline",
+    bgMode: "accentBar",
+  },
+  {
+    id: "joinFullTime",
+    defaultUrl: "",
+    titleKey: "joinFullTimeTitle",
+    descriptionKey: "joinFullTimeDesc",
+    taglineKey: "joinFullTimeTagline",
+    bgMode: "plain",
+  },
+  {
+    id: "joinPartTime",
+    defaultUrl: "",
+    titleKey: "joinPartTimeTitle",
+    descriptionKey: "joinPartTimeDesc",
+    taglineKey: "joinPartTimeTagline",
+    bgMode: "plain",
   },
   {
     id: "esa",

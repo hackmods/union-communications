@@ -429,3 +429,11 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Header mobile drawer; Footer wrap/tap targets; HubNav scroll; app shell vertical rhythm
 - [x] Guide/library/legal/auth Callout face uplift; `.cursor/rules/tool-editor-ux.mdc` status register complete
 - [x] Playwright: secondary pages, all canvas Edit/Preview `@mobile`, mobile nav + overflow checks; 71 `@smoke` passing
+
+## Membership signup materials (2026-07-18)
+
+- [x] Brand Kit `membershipUrls[]` (audience FT/PT/all + primary) with seed defaults for OPSEU/CAAT EMA
+- [x] QR Card join presets, QR Board FT+PT dual sheet, Solidarity Poster membership slogans + URL picker
+- [x] Document Generator Welcome letter preset (generic onboarding copy + membership URL token)
+- [x] Guide `/guide/membership-signup` + nav / sitemap / Blueprint channel link
+- [x] Unit tests for membership resolve + welcome letter docx

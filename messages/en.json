@@ -38,6 +38,7 @@
     "websiteGuide": "Website Guide",
     "resources": "Comms Resources",
     "photoConsent": "Photo Consent",
+    "membershipSignupGuide": "Membership signup",
     "learnGroupGuides": "Start here",
     "learnGroupChannels": "By channel",
     "learnGroupLibraries": "Libraries",
@@ -259,7 +260,8 @@
       "title": "More guides by channel",
       "unionBoards": "Union Boards",
       "print": "Print",
-      "website": "Website"
+      "website": "Website",
+      "membershipSignup": "Membership signup"
     }
   },
   "unionBoardsGuide": {
@@ -952,7 +954,7 @@
   },
   "documentGenerator": {
     "title": "Document & Slide Generator",
-    "subtitle": "Three ready-to-use documents built from your Brand Kit colours and logo. Edit the text, preview live, download Word — and Excel or PowerPoint when the example includes them.",
+    "subtitle": "Ready-to-use documents built from your Brand Kit colours and logo. Edit the text, preview live, download Word — and Excel or PowerPoint when the example includes them.",
     "examples": "Examples",
     "settings": "Edit & download",
     "designPreset": "Example",
@@ -977,6 +979,8 @@
       "letterheadPptx": "2 PowerPoint slides",
       "simpleLetterDocx": "Word letter ready to send",
       "simpleLetterPptx": "2 PowerPoint slides",
+      "welcomeLetterDocx": "Word welcome letter for new members",
+      "welcomeLetterPptx": "2 PowerPoint slides",
       "eventDocx": "Word event notice with When/Where",
       "eventXlsx": "Hybrid RSVP Excel — quorum board + on-site food heads",
       "eventIcs": "Calendar invite (.ics) from Calendar start/end",
@@ -1002,6 +1006,10 @@
         "title": "Letterhead",
         "blurb": "Blank branded stationery — add a note or leave the body empty."
       },
+      "welcomeLetter": {
+        "title": "Welcome letter",
+        "blurb": "Handout for new members — greeting, how to finish membership signup, steward contact, and local president sign-off."
+      },
       "quickEvent": {
         "title": "Event notice",
         "blurb": "Hybrid LEC / meeting pack: notice, RSVP with on-site vs remote + food/quorum tallies, calendar file, and slides."
@@ -1021,7 +1029,11 @@
       "body": "Body",
       "stewardName": "Steward name",
       "contactName": "Contact name",
-      "cta": "Call to action"
+      "cta": "Call to action",
+      "collection": "Collection / bargaining unit",
+      "membershipUrl": "Membership application URL",
+      "presidentName": "Local president name",
+      "stewardContact": "Steward contact"
     }
   },
   "solidarityPoster": {
@@ -1050,6 +1062,8 @@
     "digitalHint": "QR codes are hard to scan on lock screens - consider turning the QR off for wallpapers.",
     "downloadWallpaper": "Download wallpaper",
     "supportUrl": "Support URL",
+    "membershipLink": "Use a membership application link",
+    "membershipLinkPlaceholder": "Choose a membership URL…",
     "showCta": "Show “Get support →” and URL",
     "showQr": "Show QR code",
     "includeBranding": "Include local branding",
@@ -1140,6 +1154,15 @@
       "getSupportTitle": "Get support",
       "getSupportDesc": "Scan for help, resources, and your local hub.",
       "getSupportTagline": "Scan for support →",
+      "joinUnionTitle": "Join your union",
+      "joinUnionDesc": "Scan to complete your membership application or update.",
+      "joinUnionTagline": "Scan to sign up →",
+      "joinFullTimeTitle": "Full-time membership",
+      "joinFullTimeDesc": "Membership application / update for full-time support staff.",
+      "joinFullTimeTagline": "Scan — full-time →",
+      "joinPartTimeTitle": "Part-time membership",
+      "joinPartTimeDesc": "Membership application / update for part-time support staff.",
+      "joinPartTimeTagline": "Scan — part-time →",
       "esaTitle": "Know your rights",
       "esaDesc": "Employment standards in Ontario - hours, leaves, vacation, and more.",
       "esaTagline": "Scan the ESA guide",
@@ -1186,6 +1209,9 @@
     "setupBrandPrompt": "Set up your Brand Kit to stamp posters with your local lockup.",
     "setupBrandLink": "Start onboarding",
     "presets": {
+      "membershipFtPtLabel": "Membership FT + PT (2)",
+      "membershipFtPtTitle": "Membership application / update",
+      "membershipFtPtSubtitle": "Full-time and part-time signup links side by side",
       "twoCampaignsLabel": "Two campaigns (2)",
       "twoCampaignsTitle": "Scan to take action",
       "twoCampaignsSubtitle": "Two ways to sign and stay involved",
@@ -1204,7 +1230,9 @@
       "followUs": "Stay connected",
       "healthSafety": "Health & safety",
       "esa": "Know your rights (ESA)",
-      "ohsa": "OHSA guide"
+      "ohsa": "OHSA guide",
+      "membershipFullTime": "Full-time membership",
+      "membershipPartTime": "Part-time membership"
     }
   },
   "websiteTemplate": {
@@ -1372,11 +1400,57 @@
     "addLink": "Add another link",
     "removeLink": "Remove"
   },
+  "membershipUrls": {
+    "title": "Membership application links",
+    "description": "Typed signup URLs for QR cards, board posters, and the welcome letter. Add separate full-time and part-time links when your union uses different forms.",
+    "optionalHint": "Optional — add membership application URLs so join presets and welcome letters can reuse them.",
+    "linkLabel": "Label",
+    "linkLabelPlaceholder": "e.g. Full-time membership",
+    "linkUrl": "Application URL",
+    "audience": "Audience",
+    "audiences": {
+      "all": "All members",
+      "full_time": "Full-time",
+      "part_time": "Part-time"
+    },
+    "primary": "Primary link",
+    "addLink": "Add membership link",
+    "removeLink": "Remove"
+  },
+  "membershipSignupGuide": {
+    "title": "Grow membership with scan-to-sign materials",
+    "subtitle": "Posters, wallet cards, and a welcome letter for hard-to-reach members — especially part-time staff.",
+    "intro": "Coverage under a collective agreement is not the same as being a signed member. Use Brand Kit membership links, print QR materials for boards and walkabouts, then hand out a welcome letter when someone signs.",
+    "relatedLabel": "Tools & related guides",
+    "whyTitle": "Why this matters",
+    "whyBody": "Part-time and dispersed workplaces are hard to contact in person. A poster or card with a clear QR link lets people finish membership on their phone — and every signed card strengthens the local.",
+    "steps": {
+      "brandKit": {
+        "title": "Save membership URLs in Brand Kit",
+        "body": "Open Brand Kit and add full-time and part-time application links (or one shared link). Mark a primary URL for single-QR tools. Seed defaults are editable — paste the exact forms your local already uses on printed sheets.",
+        "cta": "Open Brand Kit"
+      },
+      "printMaterials": {
+        "title": "Print posters and cards",
+        "body": "Use the Membership FT + PT QR Board preset for a two-up sheet, QR Link Card join presets for handouts, and Solidarity Poster join slogans when you want a louder board filler with a signup QR.",
+        "qrBoard": "QR Board — FT + PT",
+        "qrCard": "QR Link Cards",
+        "poster": "Solidarity Posters"
+      },
+      "welcome": {
+        "title": "Hand out a welcome letter",
+        "body": "Document Generator includes a Welcome letter preset. It pulls your Brand Kit membership URL and collection label so you can print or email a short onboarding note after someone signs.",
+        "cta": "Open Document Generator"
+      }
+    },
+    "tipTitle": "Board tip",
+    "tipBody": "Pair membership QR materials with your Union Boards bare-minimum layout so the signup path sits next to steward contacts — not buried under parent-union posters."
+  },
   "brandKit": {
     "title": "Your local Brand Kit",
     "description": "Step 0 for every Comms tool. Colours, logo, local number, and key links here drive boards, print, social graphics, and the website template.",
     "purposeSets": "What you set here",
-    "purposeSetsBody": "Union preset, local number and sub-text, brand colours, logo, and optional website or social links.",
+    "purposeSetsBody": "Union preset, local number and sub-text, brand colours, logo, optional website or social links, and membership application URLs.",
     "purposeUnlocks": "What it unlocks",
     "purposeUnlocksBody": "Board notices, flyers, social graphics, QR materials, and the local website template — all stamped with your identity.",
     "startSetup": "Start setup",

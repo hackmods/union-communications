@@ -8,11 +8,12 @@ import {
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 
 describe("office-templates", () => {
-  it("ships exactly three high-quality presets", () => {
+  it("ships four high-quality presets including welcome letter", () => {
     expect(OFFICE_PRESETS.map((p) => p.id)).toEqual([
       "simple-letter",
       "letterhead",
       "quick-event",
+      "welcome-letter",
     ]);
   });
 
@@ -35,6 +36,15 @@ describe("office-templates", () => {
     const fields = defaultFieldsForPreset(getPreset("simple-letter"));
     expect(fields.memberName).toBeTruthy();
     expect(fields.body).toBeTruthy();
+  });
+
+  it("welcome letter includes membership and president fields", () => {
+    const welcome = getPreset("welcome-letter");
+    expect(welcome.outputs.docx).toBe(true);
+    expect(welcome.outputs.xlsx).toBe(false);
+    expect(welcome.fields.some((f) => f.key === "membershipUrl")).toBe(true);
+    expect(welcome.fields.some((f) => f.key === "presidentName")).toBe(true);
+    expect(welcome.fields.some((f) => f.key === "collection")).toBe(true);
   });
 
   it("event preset includes xlsx, ics, and hybrid LEC fields", () => {

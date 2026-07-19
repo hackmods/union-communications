@@ -3,6 +3,7 @@ import {
   buildEventNoticeDocx,
   buildLetterheadDocx,
   buildSimpleLetterDocx,
+  buildWelcomeLetterDocx,
 } from "./office-docx-builders";
 import { transparentPngBytes } from "./brand-logo-bytes";
 
@@ -63,6 +64,25 @@ describe("office-docx-builders", () => {
         contactName: "LEC",
       },
     });
+    expect(blob.size).toBeGreaterThan(8000);
+  });
+
+  it("builds welcome letter with membership URL", async () => {
+    const blob = await buildWelcomeLetterDocx({
+      palette,
+      localLabel: "Local 110",
+      logo,
+      fields: {
+        date: "July 18, 2026",
+        memberName: "Alex",
+        collection: "Part-time Support Staff",
+        body: "Welcome to your local.",
+        membershipUrl: "https://example.com/join",
+        presidentName: "Jordan",
+        stewardContact: "steward@example.org",
+      },
+    });
+    expect(blob).toBeInstanceOf(Blob);
     expect(blob.size).toBeGreaterThan(8000);
   });
 });
