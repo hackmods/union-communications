@@ -103,20 +103,45 @@ Steward read-only → hides schedule form; ICS + drafts still available
 Stay aligned with multi-union + privacy rules: **no `/member` portal**, minimize PII, never hang membership RSVP off grievance APIs, Postgres before persistence.
 
 ```text
-R0 offline sheet (shipped) → R1 Hub event + token form → R2 officer prompts → R3 transactional mail
+R0 Document Generator pack (shipped)
+  → R0.5 matching invite email on Board Notice / printables (planned)
+  → R1 Hub event + token form
+  → R2 officer prompts
+  → R3 transactional mail
 ```
+
+Buildable agent plan: [`.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`](../../.cursor/plans/hybrid_lec_rsvp_outreach.plan.md)
 
 ### Phase R0 — Offline RSVP pack (Comms) ✅
 
 | Piece | Detail |
 |-------|--------|
-| Surface | Document Generator `quick-event` only |
+| Surface | Document Generator `quick-event` |
 | Persistence | None (browser export) |
 | Schema | Name, Email, Phone, Role/office, Attending, How joining (On site/Remote), Guests, Dietary, Accessibility, Notes |
 | Tallies | Quorum Yes (+ shortfall); Food heads = on-site Yes + guests |
 | Calendar | `.ics` from `calendarStart` / `calendarEnd` |
 | Invite email | Copy-only subject/body + `mailto:` asking Attending + On site/Remote |
 | Why first | Zero new privacy surface; matches LEC hybrid + food-order workflow today |
+
+### Phase R0.5 — Matching invite email on printable / board tools (planned)
+
+**Why:** Officers often start on **Board Notice** (print for the corridor board), not Document Generator. They still need the same RSVP ask (Attending + On site / Remote) without losing the hybrid quorum/food workflow.
+
+| Piece | Detail |
+|-------|--------|
+| Primary surface | `/tools/board-notice` when `noticeType` is `meeting` (optionally `event`) |
+| Secondary | Graphic Maker `meetingNotice` starter — only if it has date/time/location fields |
+| Builder | **Reuse** `src/lib/comms/event-email.ts` — do not fork |
+| UI | Extract shared `InviteEmailPanel` from Document Generator; mount on both pages |
+| Field map | `headline→title`, `date`, `time`, `location`, `contact→contactName`; optional `quorumNeeded` input on meeting notices |
+| Out of scope | Hub, auto-send, canvas QR, Meeting Backgrounds, `/r/[token]` |
+
+**Insights to preserve when building**
+
+1. Printable poster ≠ reply collector — keep invite email as an **adjacent step**, not burned into the PNG by default
+2. Calendar `.ics` remains best on Document Generator (has `calendarStart`/`calendarEnd`); Board Notice can deep-link “Need the RSVP sheet + calendar pack? Open Event notice” rather than duplicating Excel/ICS
+3. Public tool only — same privacy line as Document Generator
 
 ### Phase R1 — Hub event + public token form (after Postgres + RLS)
 

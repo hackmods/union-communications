@@ -12,7 +12,7 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 5. [`docs/ROADMAP.md`](docs/ROADMAP.md) - phase status + next work
 6. [`docs/PROGRESS.md`](docs/PROGRESS.md) - what shipped
 7. Module spec: [`docs/modules/`](docs/modules/) — calendar/meetings: [`docs/modules/CALENDAR_MEETINGS.md`](docs/modules/CALENDAR_MEETINGS.md)
-8. Cursor rules: [`.cursor/rules/platform.mdc`](.cursor/rules/platform.mdc), [`roadmap-next.mdc`](.cursor/rules/roadmap-next.mdc), per-module rules — calendar/meetings: [`.cursor/rules/calendar-meetings.mdc`](.cursor/rules/calendar-meetings.mdc)
+8. Cursor rules: [`.cursor/rules/platform.mdc`](.cursor/rules/platform.mdc), [`roadmap-next.mdc`](.cursor/rules/roadmap-next.mdc), per-module rules — calendar/meetings: [`.cursor/rules/calendar-meetings.mdc`](.cursor/rules/calendar-meetings.mdc); RSVP outreach: [`.cursor/rules/event-rsvp-outreach.mdc`](.cursor/rules/event-rsvp-outreach.mdc), plan [`.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`](.cursor/plans/hybrid_lec_rsvp_outreach.plan.md)
 
 ## Phase Status
 

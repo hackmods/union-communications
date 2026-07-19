@@ -269,6 +269,7 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Event `.ics` from Calendar start/end (`src/lib/calendar/event-ics.ts`) in Document Generator ZIP
 - [x] Copy-only RSVP invite email (`src/lib/comms/event-email.ts`) — public tool, no auto-send
 - [x] Phased live RSVP design (R1 Hub + `/r/[token]` with `joinMode`) — no member portal
+- [ ] **R0.5 (planned):** matching invite-email on Board Notice / printables — `.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`
 
 ## Union Boards Guide Expansion (2026-07-11)
 

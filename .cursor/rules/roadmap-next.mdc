@@ -31,6 +31,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 ## Deferred (post-Postgres, post-transactional email)
 
 8. **Local membership meeting config + reminders** — recurring schedule, public "next meeting" snippet, officer in-app banner; auto-send only after ARCHITECTURE v2+ email infra. Spec: `docs/modules/CALENDAR_MEETINGS.md`, `.cursor/rules/calendar-meetings.mdc`
+9. **Comms R0.5 (can ship before Postgres):** matching RSVP invite-email step on Board Notice / printables — reuse `src/lib/comms/event-email.ts`. Plan: `.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`, rule: `.cursor/rules/event-rsvp-outreach.mdc`
 
 ## Shipped hub surfaces (do not rebuild)
 

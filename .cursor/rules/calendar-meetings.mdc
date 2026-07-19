@@ -1,6 +1,6 @@
 ---
 description: Calendar, meeting, RSVP, and reminder scope — grievance ICS vs membership meetings; no auto-send
-globs: src/lib/calendar/**,src/app/**/meetings/**,src/app/**/r/**,src/app/**/tools/board-notice/**,src/app/**/tools/meeting-background/**,src/app/**/tools/document-generator/**,src/lib/grievance/email-templates.ts,src/lib/export/office-export.ts,src/components/qol/OverdueDashboard.tsx
+globs: src/lib/calendar/**,src/lib/comms/event-email*.ts,src/app/**/meetings/**,src/app/**/r/**,src/app/**/tools/board-notice/**,src/app/**/tools/meeting-background/**,src/app/**/tools/document-generator/**,src/lib/grievance/email-templates.ts,src/lib/export/office-export.ts,src/components/qol/OverdueDashboard.tsx,src/components/tools/InviteEmailPanel.tsx
 alwaysApply: false
 ---
 
@@ -40,7 +40,8 @@ Full spec: [`docs/modules/CALENDAR_MEETINGS.md`](../../docs/modules/CALENDAR_MEE
 - Website Template — static ZIP with `mailto:`; no embedded calendar widget
 
 ### Sample email placement (decided)
-- **Event RSVP invite email = public Comms** (Document Generator) — announcement class, no PII, copy-only / `mailto:`
+- **Event RSVP invite email = public Comms** — announcement class, no PII, copy-only / `mailto:`
+- Shipped on Document Generator; **planned R0.5** on Board Notice (+ optional Graphic Maker) — see `.cursor/plans/hybrid_lec_rsvp_outreach.plan.md` and `.cursor/rules/event-rsvp-outreach.mdc`
 - **Grievance email drafts = Hub** (`/api/grievances/[id]/email-draft`) — confidential, MFA + audit
 - Do not move the event invite into the Hub or reuse the grievance draft API for it
 
@@ -53,10 +54,16 @@ Full spec: [`docs/modules/CALENDAR_MEETINGS.md`](../../docs/modules/CALENDAR_MEE
 
 | Phase | What | When |
 |-------|------|------|
-| **R0** | Offline hybrid LEC RSVP (quorum + on-site food) + `.ics` + copy-only invite email | Shipped |
+| **R0** | Offline hybrid LEC RSVP (quorum + on-site food) + `.ics` + copy-only invite email (Document Generator) | Shipped |
+| **R0.5** | Matching invite-email step on Board Notice / printables (reuse `event-email.ts`) | **Next build** — plan linked above |
 | **R1** | `UnionMeeting` + `joinMode` RSVP + Hub tallies + `/r/[token]` | After Postgres + RLS |
 | **R2** | Officer banner + copy-only reminder with RSVP link | After R1 |
 | **R3** | Transactional officer (and optional confirm) email | ARCHITECTURE v2+ |
+
+## Realistic near-term build order (Comms)
+
+1. **R0.5** — shared `InviteEmailPanel` + Board Notice meeting type (see plan file)
+2. Then roadmap Postgres before any live RSVP store
 
 ## Auth matrix
 
@@ -68,7 +75,7 @@ Full spec: [`docs/modules/CALENDAR_MEETINGS.md`](../../docs/modules/CALENDAR_MEE
 | Steward mobile read-only | Hides schedule form; **still allows** ICS download + email drafts |
 | Future public token RSVP POST | Valid token only — no session; rate-limit |
 
-## Realistic near-term (if stakeholder approves)
+## Longer-term (if stakeholder approves — after R0.5 / Postgres)
 
 1. **`LocalMeetingSchedule` in tenant config** — recurring membership meeting (title, RRULE, location, public vs internal description)
 2. **Public "next meeting" snippet** — date/time/location only; no member lists or strategy
@@ -96,7 +103,8 @@ Full spec: [`docs/modules/CALENDAR_MEETINGS.md`](../../docs/modules/CALENDAR_MEE
 3. **Grievance ≠ membership** — do not reuse `ScheduledMeeting` for local monthly meetings or RSVPs; use `LocalMeetingSchedule` / `UnionMeeting` scoped by `unionId` + `localId`
 4. **Public = less detail** — non-logged-in surfaces show date/time/location (+ RSVP response fields only)
 5. **Postgres before persistence** — no new memory-only meeting/RSVP store; tenant seed JSON for static config only until DB lands
-6. **Roadmap order** — Postgres → onboarding → attachments → then meeting config / live RSVP
+6. **Roadmap order** — Postgres → onboarding → attachments → then meeting config / live RSVP; **exception:** Comms R0.5 (Board Notice invite email) can ship anytime — client-only
+7. **Reuse invite builder** — one `event-email.ts` for Document Generator + Board Notice; extract `InviteEmailPanel` rather than copy-paste UI
 
 ## Do Not
 
@@ -107,3 +115,4 @@ Full spec: [`docs/modules/CALENDAR_MEETINGS.md`](../../docs/modules/CALENDAR_MEE
 - Treat Comms meeting tools as live scheduling or reminder systems — they are announcement / offline-tracking exports
 - Add SMTP, cron, or push as a side quest when asked for "monthly meeting reminders" — document gaps and phased plan first
 - Build a first-party `/member` portal for RSVP — use public token form instead
+- Put event RSVP invite email in the Hub or call grievance email-draft APIs for it

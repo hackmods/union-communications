@@ -14,7 +14,9 @@ Learn menu must keep **By channel** (Print, Union Boards, Website guides) — se
 
 ## Meeting announcement tools (not scheduling or reminders)
 
-Board Notice (`noticeType: "meeting"`), Document Generator `quick-event`, Graphic Maker `meetingNotice`, and Meeting Backgrounds help locals **communicate about** meetings via PNG/PDF/doc export. They do not store events, send email, or push reminders. Officers re-enter details each month.
+Board Notice (`noticeType: "meeting"`), Document Generator `quick-event`, Graphic Maker `meetingNotice`, and Meeting Backgrounds help locals **communicate about** meetings via PNG/PDF/doc export. They do not store events, **auto-send** email, or push reminders. Officers re-enter details each month.
+
+**RSVP outreach (public):** Document Generator Event notice ships copy-only invite email + hybrid RSVP Excel + `.ics`. **Next:** matching invite-email step on Board Notice — reuse `src/lib/comms/event-email.ts`. See `.cursor/rules/event-rsvp-outreach.mdc` and `.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`. Do not put this in the Hub.
 
 ## Rules
 - All image/document processing client-side (html-to-image, JSZip, jsPDF, docx, ExcelJS, pptxgenjs)
