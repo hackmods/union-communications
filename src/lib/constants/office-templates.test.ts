@@ -37,11 +37,12 @@ describe("office-templates", () => {
     expect(fields.body).toBeTruthy();
   });
 
-  it("event preset includes xlsx and ics", () => {
+  it("event preset includes xlsx, ics, and hybrid LEC fields", () => {
     const event = getPreset("quick-event");
     expect(event.outputs.xlsx).toBe(true);
     expect(event.outputs.ics).toBe(true);
     expect(event.fields.some((f) => f.key === "calendarStart")).toBe(true);
+    expect(event.fields.some((f) => f.key === "quorumNeeded")).toBe(true);
     expect(getPreset("simple-letter").outputs.xlsx).toBe(false);
     expect(getPreset("simple-letter").outputs.ics).toBe(false);
   });

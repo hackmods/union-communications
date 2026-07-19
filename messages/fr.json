@@ -978,7 +978,7 @@
       "simpleLetterDocx": "Lettre Word prête à envoyer",
       "simpleLetterPptx": "2 diapositives PowerPoint",
       "eventDocx": "Avis d'événement Word avec Quand/Où",
-      "eventXlsx": "Feuille RSVP Excel avec Oui/Non/Peut-être, invités et accessibilité",
+      "eventXlsx": "RSVP hybride Excel — quorum et repas sur place",
       "eventIcs": "Invitation calendrier (.ics) à partir du début/fin",
       "eventPptx": "3 diapositives PowerPoint"
     },
@@ -993,7 +993,7 @@
       },
       "quickEvent": {
         "title": "Avis d'événement",
-        "blurb": "Affiche Quand/Où, feuille RSVP avec suivi des réponses, fichier calendrier et courte présentation."
+        "blurb": "Trousse LEC hybride : avis, RSVP sur place/à distance + totaux quorum/repas, calendrier et diapositives."
       }
     },
     "fields": {
@@ -1006,6 +1006,7 @@
       "calendarStart": "Début calendrier (pour .ics)",
       "calendarEnd": "Fin calendrier (pour .ics)",
       "location": "Lieu",
+      "quorumNeeded": "Quorum requis (nombre)",
       "body": "Corps",
       "stewardName": "Nom du délégué",
       "contactName": "Nom du contact",

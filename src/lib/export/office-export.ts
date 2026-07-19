@@ -114,12 +114,20 @@ export async function exportDocx(opts: {
   downloadBlob(await renderDocx(opts), opts.filename);
 }
 
-const RSVP_HEADER_ROW = 9;
-const RSVP_FIRST_DATA_ROW = 10;
+const RSVP_HEADER_ROW = 11;
+const RSVP_FIRST_DATA_ROW = 12;
 const RSVP_ROW_COUNT = 25;
 const RSVP_LAST_DATA_ROW = RSVP_FIRST_DATA_ROW + RSVP_ROW_COUNT - 1;
 
-/** Event RSVP sheet: response tracking, guest counts, and accessibility notes. */
+/** Column letters for hybrid LEC RSVP tallies (Attending=E, Mode=F, Guests=G). */
+const RSVP_ATTENDING = "E";
+const RSVP_MODE = "F";
+const RSVP_GUESTS = "G";
+
+/**
+ * Hybrid LEC / membership RSVP sheet.
+ * Tallies quorum (Yes) separately from on-site heads for the food order.
+ */
 export async function renderEventRsvpXlsx(opts: {
   palette: BrandPalette;
   localNumber: string;
@@ -130,6 +138,9 @@ export async function renderEventRsvpXlsx(opts: {
   const workbook = new ExcelNS.Workbook();
   const ws = workbook.addWorksheet("RSVP");
   const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
+  const attendingRange = `${RSVP_ATTENDING}${RSVP_FIRST_DATA_ROW}:${RSVP_ATTENDING}${RSVP_LAST_DATA_ROW}`;
+  const modeRange = `${RSVP_MODE}${RSVP_FIRST_DATA_ROW}:${RSVP_MODE}${RSVP_LAST_DATA_ROW}`;
+  const guestsRange = `${RSVP_GUESTS}${RSVP_FIRST_DATA_ROW}:${RSVP_GUESTS}${RSVP_LAST_DATA_ROW}`;
 
   ws.getCell("A1").value = "Event";
   ws.getCell("B1").value = opts.fields.title ?? "";
@@ -143,8 +154,10 @@ export async function renderEventRsvpXlsx(opts: {
   ws.getCell("B4").value = opts.fields.location ?? "";
   ws.getCell("A5").value = "Contact";
   ws.getCell("B5").value = opts.fields.contactName ?? "";
+  ws.getCell("A6").value = "Quorum needed";
+  ws.getCell("B6").value = opts.fields.quorumNeeded?.trim() || "";
 
-  for (let r = 1; r <= 5; r++) {
+  for (let r = 1; r <= 6; r++) {
     ws.getCell(`A${r}`).font = { bold: true, color: { argb: "FFFFFFFF" } };
     ws.getCell(`A${r}`).fill = {
       type: "pattern",
@@ -153,32 +166,62 @@ export async function renderEventRsvpXlsx(opts: {
     };
   }
 
-  ws.getCell("A7").value = "Totals (auto)";
-  ws.getCell("A7").font = { bold: true };
-  ws.getCell("B7").value = "Yes";
-  ws.getCell("C7").value = {
-    formula: `COUNTIF(D${RSVP_FIRST_DATA_ROW}:D${RSVP_LAST_DATA_ROW},"Yes")`,
-  };
-  ws.getCell("D7").value = "No";
-  ws.getCell("E7").value = {
-    formula: `COUNTIF(D${RSVP_FIRST_DATA_ROW}:D${RSVP_LAST_DATA_ROW},"No")`,
-  };
-  ws.getCell("F7").value = "Maybe";
-  ws.getCell("G7").value = {
-    formula: `COUNTIF(D${RSVP_FIRST_DATA_ROW}:D${RSVP_LAST_DATA_ROW},"Maybe")`,
-  };
-  ws.getCell("A8").value = "Guest seats";
+  // Quorum board — Yes counts toward quorum whether on site or remote
+  ws.getCell("A8").value = "Quorum board";
   ws.getCell("A8").font = { bold: true };
-  ws.getCell("B8").value = {
-    formula: `SUM(E${RSVP_FIRST_DATA_ROW}:E${RSVP_LAST_DATA_ROW})`,
+  ws.getCell("B8").value = "Yes (quorum)";
+  ws.getCell("C8").value = {
+    formula: `COUNTIF(${attendingRange},"Yes")`,
   };
+  ws.getCell("D8").value = "Maybe";
+  ws.getCell("E8").value = {
+    formula: `COUNTIF(${attendingRange},"Maybe")`,
+  };
+  ws.getCell("F8").value = "No";
+  ws.getCell("G8").value = {
+    formula: `COUNTIF(${attendingRange},"No")`,
+  };
+  ws.getCell("H8").value = "Still short";
+  ws.getCell("I8").value = {
+    formula: `IF(B6="","" ,MAX(0,VALUE(B6)-C8))`,
+  };
+
+  // Food board — on-site Yes only (+ their guests)
+  ws.getCell("A9").value = "Food order (on site)";
+  ws.getCell("A9").font = { bold: true };
+  ws.getCell("B9").value = "On site Yes";
+  ws.getCell("C9").value = {
+    formula: `COUNTIFS(${attendingRange},"Yes",${modeRange},"On site")`,
+  };
+  ws.getCell("D9").value = "Remote Yes";
+  ws.getCell("E9").value = {
+    formula: `COUNTIFS(${attendingRange},"Yes",${modeRange},"Remote")`,
+  };
+  ws.getCell("F9").value = "Food heads";
+  ws.getCell("G9").value = {
+    formula:
+      `COUNTIFS(${attendingRange},"Yes",${modeRange},"On site")` +
+      `+SUMIFS(${guestsRange},${attendingRange},"Yes",${modeRange},"On site")`,
+  };
+  ws.getCell("H9").value = "Maybe on site";
+  ws.getCell("I9").value = {
+    formula: `COUNTIFS(${attendingRange},"Maybe",${modeRange},"On site")`,
+  };
+
+  ws.getCell("A10").value =
+    "Tip: set How joining to On site or Remote when Attending is Yes/Maybe. Food heads = on-site Yes + their guests.";
+  ws.getCell("A10").font = { italic: true, color: { argb: "FF4B5563" } };
+  ws.mergeCells("A10:I10");
 
   const headers = [
     "Name",
     "Email",
     "Phone",
-    "Response",
-    "Guests",
+    "Role / office",
+    "Attending",
+    "How joining",
+    "Guests (on site)",
+    "Dietary",
     "Accessibility",
     "Notes",
   ];
@@ -194,32 +237,43 @@ export async function renderEventRsvpXlsx(opts: {
   });
 
   for (let r = RSVP_FIRST_DATA_ROW; r <= RSVP_LAST_DATA_ROW; r++) {
-    ws.getCell(r, 4).dataValidation = {
+    ws.getCell(r, 5).dataValidation = {
       type: "list",
       allowBlank: true,
       formulae: ['"Yes,No,Maybe"'],
       showErrorMessage: true,
-      errorTitle: "Response",
+      errorTitle: "Attending",
       error: "Choose Yes, No, or Maybe.",
     };
-    ws.getCell(r, 5).dataValidation = {
+    ws.getCell(r, 6).dataValidation = {
+      type: "list",
+      allowBlank: true,
+      formulae: ['"On site,Remote"'],
+      showErrorMessage: true,
+      errorTitle: "How joining",
+      error: "Choose On site or Remote.",
+    };
+    ws.getCell(r, 7).dataValidation = {
       type: "whole",
       operator: "greaterThanOrEqual",
       formulae: [0],
       allowBlank: true,
       showErrorMessage: true,
       errorTitle: "Guests",
-      error: "Enter 0 or a whole number.",
+      error: "Enter 0 or a whole number of on-site guests.",
     };
   }
 
-  ws.getColumn(1).width = 22;
-  ws.getColumn(2).width = 28;
-  ws.getColumn(3).width = 16;
-  ws.getColumn(4).width = 12;
-  ws.getColumn(5).width = 10;
-  ws.getColumn(6).width = 22;
-  ws.getColumn(7).width = 28;
+  ws.getColumn(1).width = 20;
+  ws.getColumn(2).width = 26;
+  ws.getColumn(3).width = 14;
+  ws.getColumn(4).width = 14;
+  ws.getColumn(5).width = 12;
+  ws.getColumn(6).width = 12;
+  ws.getColumn(7).width = 14;
+  ws.getColumn(8).width = 16;
+  ws.getColumn(9).width = 18;
+  ws.getColumn(10).width = 22;
 
   const out = await workbook.xlsx.writeBuffer();
   return new Blob([new Uint8Array(out)], { type: XLSX_MIME });

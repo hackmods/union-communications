@@ -42,13 +42,18 @@ All Comms meeting tools are **announcement / offline-tracking exports**. Nothing
 
 ### RSVP today (offline — Phase R0)
 
-Document Generator → **Event notice** (`quick-event`):
+Document Generator → **Event notice** (`quick-event`), tuned for **hybrid LEC meetings** (on site + remote):
 
-- Excel sheet with event header, **Yes / No / Maybe** dropdowns, guest counts, accessibility column, and auto totals (`COUNTIF` / `SUM`)
-- Optional calendar file from **Calendar start / end** fields (`src/lib/calendar/event-ics.ts` → `buildIcsEvent`)
+- Excel sheet with event header + **Quorum needed**
+- Per person: Attending (Yes/No/Maybe), **How joining** (On site / Remote), Role/office, Guests (on site), Dietary, Accessibility, Notes
+- **Quorum board:** Yes / Maybe / No + “Still short” vs quorum needed (Yes counts whether on site or remote)
+- **Food order board:** On site Yes, Remote Yes, **Food heads** (= on-site Yes + their guests), Maybe on site
+- Optional calendar file from **Calendar start / end** (`src/lib/calendar/event-ics.ts` → `buildIcsEvent`)
 - ZIP can include DOCX + XLSX + ICS + PPTX
 
-This is a **clipboard / clipboard-adjacent steward workflow**: print the notice, fill the sheet at the door or collect replies by hand/email, keep PII on the officer’s device. It is **not** live attendance sync.
+This is a **clipboard / clipboard-adjacent steward workflow**: print the notice, fill the sheet from email replies or at the door, keep PII on the officer’s device. It is **not** live attendance sync.
+
+**Primary real-life job:** know if the LEC will make quorum, and how many meals to order for people in the room — without counting remote attendees in the food total.
 
 ### ICS limitations (`src/lib/calendar/ics.ts`)
 
@@ -95,9 +100,10 @@ R0 offline sheet (shipped) → R1 Hub event + token form → R2 officer prompts 
 |-------|--------|
 | Surface | Document Generator `quick-event` only |
 | Persistence | None (browser export) |
-| Schema | Name, Email, Phone, Response (Yes/No/Maybe), Guests, Accessibility, Notes |
+| Schema | Name, Email, Phone, Role/office, Attending, How joining (On site/Remote), Guests, Dietary, Accessibility, Notes |
+| Tallies | Quorum Yes (+ shortfall); Food heads = on-site Yes + guests |
 | Calendar | `.ics` from `calendarStart` / `calendarEnd` |
-| Why first | Zero new privacy surface; matches how locals already track door lists |
+| Why first | Zero new privacy surface; matches LEC hybrid + food-order workflow today |
 
 ### Phase R1 — Hub event + public token form (after Postgres + RLS)
 
@@ -105,14 +111,24 @@ Do **not** reuse `ScheduledMeeting` (grievance-scoped, Confidential).
 
 | Entity | Scope | Fields (minimal) |
 |--------|-------|------------------|
-| `UnionMeeting` | `unionId` + `localId` (+ optional `bargainingUnitId`) | title, startsAt, endsAt, location, publicBlurb, capacity?, createdBy |
+| `UnionMeeting` | `unionId` + `localId` (+ optional `bargainingUnitId`) | title, startsAt, endsAt, location, publicBlurb, `quorumNeeded?`, `hybrid: true`, createdBy |
 | `RsvpToken` | meeting id | opaque token, expiresAt, revoked |
-| `RsvpResponse` | meeting id | response enum, displayName, optional email/phone, guests, accessibilityNote, createdAt, source (`public_form` \| `officer_entry`) |
+| `RsvpResponse` | meeting id | `attending` (yes/no/maybe), **`joinMode` (on_site \| remote)** required when yes/maybe, displayName, optional email/phone, guestsOnSite, dietaryNote, accessibilityNote, roleOrOffice?, createdAt, source (`public_form` \| `officer_entry`) |
+
+**Hub tallies (must match R0 meaning)**
+
+| Metric | Formula |
+|--------|---------|
+| Quorum count | `attending = yes` (on site **or** remote) |
+| Quorum shortfall | `max(0, quorumNeeded − quorum count)` |
+| On-site Yes | `attending = yes` ∧ `joinMode = on_site` |
+| Remote Yes | `attending = yes` ∧ `joinMode = remote` |
+| Food heads | on-site Yes + sum(`guestsOnSite` for those rows) |
 
 **Surfaces**
 
-1. **Hub** `/app/meetings` (or settings subsection) — officers create the meeting, copy share link, see tallies, export CSV/Excel, enter walk-ins
-2. **Public form** `/r/[token]` — **not** a member portal: date/time/location + name + Yes/No/Maybe (+ optional guests / accessibility). No login, no grievance data, no strategy notes
+1. **Hub** `/app/meetings` (or settings subsection) — officers create the meeting, set quorum needed, copy share link, see **quorum + food** tallies, export CSV/Excel, enter walk-ins
+2. **Public form** `/r/[token]` — **not** a member portal: date/time/location + name + Attending + **On site / Remote** (+ dietary when on site). No login, no grievance data, no strategy notes
 3. **Comms bridge** — QR on board notice / event flyer pointing at the token URL (generate in Hub, paste into Comms tools)
 
 **Access**
@@ -128,7 +144,7 @@ Do **not** reuse `ScheduledMeeting` (grievance-scoped, Confidential).
 
 ### Phase R2 — Officer reminders (logged-in)
 
-- Hub banner: “Membership meeting in 3 days — N Yes / M Maybe”
+- Hub banner: “LEC in 3 days — quorum N/Need · food heads F (on site)”
 - Optional ICS `VALARM` on membership meeting export
 - Copy-only `membership_meeting_reminder` draft that includes the public RSVP link
 

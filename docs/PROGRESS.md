@@ -265,9 +265,9 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 ## Calendar meetings scope + RSVP R0 (2026-07-18)
 
 - [x] Spec + agent rule: `docs/modules/CALENDAR_MEETINGS.md`, `.cursor/rules/calendar-meetings.mdc`
-- [x] Offline RSVP Excel: Yes/No/Maybe, guests, accessibility, auto totals
+- [x] Hybrid LEC RSVP Excel: Attending + On site/Remote, quorum board, food heads, dietary
 - [x] Event `.ics` from Calendar start/end (`src/lib/calendar/event-ics.ts`) in Document Generator ZIP
-- [x] Phased live RSVP design (R1 Hub + `/r/[token]` after Postgres) — no member portal
+- [x] Phased live RSVP design (R1 Hub + `/r/[token]` with `joinMode`) — no member portal
 
 ## Union Boards Guide Expansion (2026-07-11)
 

@@ -41,6 +41,6 @@ Implemented on `/` via `HomeContent.tsx` (hero band, path layout, Brand Kit rail
 - **Why:** Locals need monthly meeting awareness; UnionOps today only supports grievance ICS and manual Comms announcement exports.
 - **Defer until:** Postgres + RLS (roadmap #1) for persisted schedules; transactional email (ARCHITECTURE v2+) before auto-send.
 - **Spec:** [`CALENDAR_MEETINGS.md`](CALENDAR_MEETINGS.md), `.cursor/rules/calendar-meetings.mdc`
-- **Shipped (R0):** Document Generator Event notice — richer offline RSVP Excel + optional `.ics` from calendar start/end.
-- **Next RSVP (R1):** Hub `UnionMeeting` + public `/r/[token]` form after Postgres — not a `/member` portal.
+- **Shipped (R0):** Document Generator Event notice — hybrid LEC RSVP (quorum + on-site/remote food heads) + optional `.ics`.
+- **Next RSVP (R1):** Hub `UnionMeeting` + `joinMode` + public `/r/[token]` after Postgres — not a `/member` portal.
 - **Do not:** Treat the email/broadcast guide above as implying a calendar ships with it; do not add `/app/calendar` nav stub without a page.

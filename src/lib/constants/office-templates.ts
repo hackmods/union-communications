@@ -104,12 +104,12 @@ export const OFFICE_PRESETS: OfficePreset[] = [
       {
         key: "title",
         labelKey: "fields.title",
-        defaultValue: "Membership meeting",
+        defaultValue: "LEC meeting",
       },
       {
         key: "subtitle",
         labelKey: "fields.subtitle",
-        defaultValue: "All members welcome",
+        defaultValue: "Hybrid — on site and remote",
       },
       {
         key: "date",
@@ -134,14 +134,19 @@ export const OFFICE_PRESETS: OfficePreset[] = [
       {
         key: "location",
         labelKey: "fields.location",
-        defaultValue: "Main cafeteria",
+        defaultValue: "Boardroom + video link",
+      },
+      {
+        key: "quorumNeeded",
+        labelKey: "fields.quorumNeeded",
+        defaultValue: "8",
       },
       {
         key: "body",
         labelKey: "fields.body",
         multiline: true,
         defaultValue:
-          "Agenda highlights. RSVP on the Excel sheet (Yes / No / Maybe) or with your steward.",
+          "Please RSVP on the sheet: Attending (Yes/No/Maybe) and How joining (On site or Remote). On-site numbers drive the food order; Yes counts toward quorum whether you join on site or remote.",
       },
       {
         key: "contactName",

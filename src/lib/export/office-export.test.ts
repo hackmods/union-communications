@@ -128,16 +128,20 @@ describe("office-export", () => {
       await wb.xlsx.load(await blob.arrayBuffer());
       const ws = wb.getWorksheet("RSVP");
       expect(ws).toBeTruthy();
-      expect(ws!.getCell("A9").value).toBe("Name");
-      expect(ws!.getCell("D9").value).toBe("Response");
-      expect(ws!.getCell("E9").value).toBe("Guests");
-      expect(ws!.getCell("F9").value).toBe("Accessibility");
-      const yesTotal = ws!.getCell("C7").value;
-      const yesFormula =
-        typeof yesTotal === "object" && yesTotal && "formula" in yesTotal
-          ? String((yesTotal as { formula: string }).formula)
-          : String(yesTotal);
-      expect(yesFormula).toContain("COUNTIF");
+      expect(ws!.getCell("A8").value).toBe("Quorum board");
+      expect(ws!.getCell("A9").value).toBe("Food order (on site)");
+      expect(ws!.getCell("A11").value).toBe("Name");
+      expect(ws!.getCell("E11").value).toBe("Attending");
+      expect(ws!.getCell("F11").value).toBe("How joining");
+      expect(ws!.getCell("G11").value).toBe("Guests (on site)");
+      expect(ws!.getCell("H11").value).toBe("Dietary");
+      const foodHeads = ws!.getCell("G9").value;
+      const foodFormula =
+        typeof foodHeads === "object" && foodHeads && "formula" in foodHeads
+          ? String((foodHeads as { formula: string }).formula)
+          : String(foodHeads);
+      expect(foodFormula).toContain("COUNTIFS");
+      expect(foodFormula).toContain("On site");
     },
     20_000,
   );

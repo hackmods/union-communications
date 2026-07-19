@@ -34,7 +34,7 @@ Full spec: [`docs/modules/CALENDAR_MEETINGS.md`](../../docs/modules/CALENDAR_MEE
 
 ### Public Comms (announcement + offline RSVP)
 - Board Notice (`/tools/board-notice`) — `noticeType: "meeting"`; PNG/PDF export
-- Document Generator `quick-event` — DOCX notice, **RSVP Excel** (Yes/No/Maybe + guests + accessibility + totals), **`.ics`** from calendar start/end, PPTX
+- Document Generator `quick-event` — hybrid **LEC RSVP Excel**: Attending + **On site/Remote**, quorum board, **food heads** (on-site only), dietary; **`.ics`** from calendar start/end; PPTX
 - Event ICS helper: `src/lib/calendar/event-ics.ts`
 - Graphic Maker `meetingNotice` starter; Meeting Backgrounds (Zoom/Teams branding)
 - Website Template — static ZIP with `mailto:`; no embedded calendar widget
@@ -48,8 +48,8 @@ Full spec: [`docs/modules/CALENDAR_MEETINGS.md`](../../docs/modules/CALENDAR_MEE
 
 | Phase | What | When |
 |-------|------|------|
-| **R0** | Offline Excel RSVP + event `.ics` in Comms | Shipped |
-| **R1** | `UnionMeeting` + `RsvpResponse` + Hub UI + `/r/[token]` | After Postgres + RLS |
+| **R0** | Offline hybrid LEC RSVP (quorum + on-site food) + `.ics` | Shipped |
+| **R1** | `UnionMeeting` + `joinMode` RSVP + Hub tallies + `/r/[token]` | After Postgres + RLS |
 | **R2** | Officer banner + copy-only reminder with RSVP link | After R1 |
 | **R3** | Transactional officer (and optional confirm) email | ARCHITECTURE v2+ |
 

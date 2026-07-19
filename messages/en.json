@@ -978,7 +978,7 @@
       "simpleLetterDocx": "Word letter ready to send",
       "simpleLetterPptx": "2 PowerPoint slides",
       "eventDocx": "Word event notice with When/Where",
-      "eventXlsx": "Excel RSVP with Yes/No/Maybe, guests, and accessibility",
+      "eventXlsx": "Hybrid RSVP Excel — quorum board + on-site food heads",
       "eventIcs": "Calendar invite (.ics) from Calendar start/end",
       "eventPptx": "3 PowerPoint slides"
     },
@@ -993,7 +993,7 @@
       },
       "quickEvent": {
         "title": "Event notice",
-        "blurb": "When/where flyer, RSVP spreadsheet with response tracking, calendar file, and a short slide deck."
+        "blurb": "Hybrid LEC / meeting pack: notice, RSVP with on-site vs remote + food/quorum tallies, calendar file, and slides."
       }
     },
     "fields": {
@@ -1006,6 +1006,7 @@
       "calendarStart": "Calendar start (for .ics)",
       "calendarEnd": "Calendar end (for .ics)",
       "location": "Location",
+      "quorumNeeded": "Quorum needed (number)",
       "body": "Body",
       "stewardName": "Steward name",
       "contactName": "Contact name",
