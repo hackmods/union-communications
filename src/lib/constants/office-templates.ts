@@ -18,7 +18,13 @@ export type OfficePreset = {
   titleKey: string;
   blurbKey: string;
   fields: FieldDef[];
-  outputs: { docx: boolean; xlsx: boolean; pptx: boolean; ics?: boolean };
+  outputs: {
+    docx: boolean;
+    xlsx: boolean;
+    pptx: boolean;
+    ics?: boolean;
+    email?: boolean;
+  };
   fileStem: string;
   structureKeys: string[];
 };
@@ -93,11 +99,12 @@ export const OFFICE_PRESETS: OfficePreset[] = [
     titleKey: "presets.quickEvent.title",
     blurbKey: "presets.quickEvent.blurb",
     fileStem: "quick-event",
-    outputs: { docx: true, xlsx: true, pptx: true, ics: true },
+    outputs: { docx: true, xlsx: true, pptx: true, ics: true, email: true },
     structureKeys: [
       "structure.eventDocx",
       "structure.eventXlsx",
       "structure.eventIcs",
+      "structure.eventEmail",
       "structure.eventPptx",
     ],
     fields: [

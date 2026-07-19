@@ -49,9 +49,21 @@ Document Generator → **Event notice** (`quick-event`), tuned for **hybrid LEC 
 - **Quorum board:** Yes / Maybe / No + “Still short” vs quorum needed (Yes counts whether on site or remote)
 - **Food order board:** On site Yes, Remote Yes, **Food heads** (= on-site Yes + their guests), Maybe on site
 - Optional calendar file from **Calendar start / end** (`src/lib/calendar/event-ics.ts` → `buildIcsEvent`)
+- **Copy-only RSVP invite email** (`src/lib/comms/event-email.ts`) — subject + body asking for Attending and On site / Remote (+ guests/dietary); Copy buttons + `mailto:` open-in-app. No auto-send, no reply collection
 - ZIP can include DOCX + XLSX + ICS + PPTX
 
-This is a **clipboard / clipboard-adjacent steward workflow**: print the notice, fill the sheet from email replies or at the door, keep PII on the officer’s device. It is **not** live attendance sync.
+This is a **clipboard / clipboard-adjacent steward workflow**: send the invite from the officer’s own mail, fill the sheet from replies or at the door, keep PII on the officer’s device. It is **not** live attendance sync.
+
+### Why the sample email is a public tool (not the Hub)
+
+| Factor | Verdict |
+|--------|---------|
+| Data class | Announcement — no member PII, no case data |
+| Auth | None needed; same class as the RSVP Excel / notice |
+| Send | Copy-only / `mailto:` — no server, no auto-send |
+| Home | Lives with the rest of the event pack in Document Generator |
+
+The **grievance** email drafts stay in the Hub (`/api/grievances/[id]/email-draft`) because they carry confidential case context and require MFA + audit. The **event RSVP** invite is public because it carries none of that. Do not duplicate the grievance draft API for public event email.
 
 **Primary real-life job:** know if the LEC will make quorum, and how many meals to order for people in the room — without counting remote attendees in the food total.
 
@@ -103,6 +115,7 @@ R0 offline sheet (shipped) → R1 Hub event + token form → R2 officer prompts 
 | Schema | Name, Email, Phone, Role/office, Attending, How joining (On site/Remote), Guests, Dietary, Accessibility, Notes |
 | Tallies | Quorum Yes (+ shortfall); Food heads = on-site Yes + guests |
 | Calendar | `.ics` from `calendarStart` / `calendarEnd` |
+| Invite email | Copy-only subject/body + `mailto:` asking Attending + On site/Remote |
 | Why first | Zero new privacy surface; matches LEC hybrid + food-order workflow today |
 
 ### Phase R1 — Hub event + public token form (after Postgres + RLS)
@@ -217,6 +230,7 @@ Current roadmap priority remains: **Postgres+RLS → onboarding UI → attachmen
 | ICS utility | `src/lib/calendar/ics.ts` |
 | Event ICS from Comms fields | `src/lib/calendar/event-ics.ts` |
 | RSVP Excel | `src/lib/export/office-export.ts` (`renderEventRsvpXlsx`) |
+| RSVP invite email (copy-only) | `src/lib/comms/event-email.ts` |
 | Grievance meetings API | `src/app/api/grievances/[id]/meetings/route.ts` |
 | Meeting UI | `src/components/grievance/GrievanceDetail.tsx` |
 | Email drafts | `src/lib/grievance/email-templates.ts` |

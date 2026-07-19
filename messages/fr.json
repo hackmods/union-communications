@@ -980,7 +980,18 @@
       "eventDocx": "Avis d'événement Word avec Quand/Où",
       "eventXlsx": "RSVP hybride Excel — quorum et repas sur place",
       "eventIcs": "Invitation calendrier (.ics) à partir du début/fin",
+      "eventEmail": "Courriel d'invitation RSVP (copie seulement)",
       "eventPptx": "3 diapositives PowerPoint"
+    },
+    "inviteEmail": {
+      "title": "Courriel d'invitation RSVP",
+      "hint": "Copiez ce texte dans votre propre application de courriel. Il demande de répondre avec Présence et Sur place / À distance, pour suivre le quorum et la commande de repas sur place. Joignez le calendrier (.ics) au besoin.",
+      "subjectLabel": "Objet",
+      "bodyLabel": "Message",
+      "copySubject": "Copier l'objet",
+      "copyBody": "Copier le message",
+      "openMail": "Ouvrir dans l'application courriel",
+      "privacy": "Tout se fait sur votre appareil. Rien n'est envoyé et aucune réponse n'est collectée ici — collez les réponses dans la feuille RSVP."
     },
     "presets": {
       "simpleLetter": {

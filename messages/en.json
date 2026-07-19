@@ -980,7 +980,18 @@
       "eventDocx": "Word event notice with When/Where",
       "eventXlsx": "Hybrid RSVP Excel — quorum board + on-site food heads",
       "eventIcs": "Calendar invite (.ics) from Calendar start/end",
+      "eventEmail": "Copy-only RSVP invite email (on site / remote)",
       "eventPptx": "3 PowerPoint slides"
+    },
+    "inviteEmail": {
+      "title": "RSVP invite email",
+      "hint": "Copy this into your own email app. It asks people to reply with Attending and On site / Remote so you can track quorum and the on-site food order. Attach the calendar (.ics) if you like.",
+      "subjectLabel": "Subject",
+      "bodyLabel": "Message",
+      "copySubject": "Copy subject",
+      "copyBody": "Copy message",
+      "openMail": "Open in email app",
+      "privacy": "This runs on your device. Nothing is sent and no replies are collected here — paste responses into the RSVP sheet."
     },
     "presets": {
       "simpleLetter": {
