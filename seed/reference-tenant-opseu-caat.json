@@ -83,7 +83,22 @@
     "secondaryColor": "#FFFFFF",
     "accentColor": "#002868",
     "useOfficialLogo": true,
-    "assetPackPath": "/assets/caat-opseu/"
+    "assetPackPath": "/assets/caat-opseu/",
+    "membershipUrls": [
+      {
+        "id": "membership-ft",
+        "label": "CAAT Support Full-Time",
+        "url": "https://hub03.opseu.org/Forms/emaweb",
+        "audience": "full_time",
+        "primary": true
+      },
+      {
+        "id": "membership-pt",
+        "label": "CAAT Support Part-Time",
+        "url": "https://hub03.opseu.org/Forms/emaweb",
+        "audience": "part_time"
+      }
+    ]
   },
   "grievanceConfig": {
     "steps": [

@@ -38,6 +38,7 @@
     "websiteGuide": "Guide site Web",
     "resources": "Ressources de communication",
     "photoConsent": "Consentement photo",
+    "membershipSignupGuide": "Adhésion",
     "learnGroupGuides": "Pour commencer",
     "learnGroupChannels": "Par canal",
     "learnGroupLibraries": "Bibliothèques",
@@ -259,7 +260,8 @@
       "title": "Plus de guides par canal",
       "unionBoards": "Tableaux syndicaux",
       "print": "Impression",
-      "website": "Site Web"
+      "website": "Site Web",
+      "membershipSignup": "Adhésion"
     }
   },
   "unionBoardsGuide": {
@@ -952,7 +954,7 @@
   },
   "documentGenerator": {
     "title": "Générateur de documents et diapositives",
-    "subtitle": "Trois documents prêts à l'emploi à partir des couleurs et du logo de votre trousse de marque. Modifiez le texte, prévisualisez, téléchargez Word — plus Excel ou PowerPoint selon l'exemple.",
+    "subtitle": "Documents prêts à l'emploi à partir des couleurs et du logo de votre trousse de marque. Modifiez le texte, prévisualisez, téléchargez Word — plus Excel ou PowerPoint selon l'exemple.",
     "examples": "Exemples",
     "settings": "Modifier et télécharger",
     "designPreset": "Exemple",
@@ -962,10 +964,13 @@
     "setupBrandLink": "Ouvrir la trousse de marque",
     "outputs": "Inclure dans le ZIP",
     "outputDocx": "Word (.docx)",
-    "outputXlsx": "Excel (.xlsx)",
+    "outputXlsx": "RSVP Excel (.xlsx)",
+    "outputIcs": "Calendrier (.ics)",
     "outputPptx": "PowerPoint (.pptx)",
     "fieldsHeading": "Texte",
     "downloadZip": "Télécharger en ZIP",
+    "downloadIcs": "Télécharger le calendrier (.ics)",
+    "icsNeedsCalendar": "Indiquez le début du calendrier (et éventuellement la fin) pour que le fichier .ics ait une vraie date/heure.",
     "selectOutput": "Sélectionnez au moins un format.",
     "preview": "Aperçu",
     "previewHint": "Maquette en direct de l'exemple choisi. Les téléchargements utilisent les mêmes couleurs, logo et texte.",
@@ -974,9 +979,23 @@
       "letterheadPptx": "2 diapositives PowerPoint",
       "simpleLetterDocx": "Lettre Word prête à envoyer",
       "simpleLetterPptx": "2 diapositives PowerPoint",
+      "welcomeLetterDocx": "Lettre de bienvenue Word pour nouveaux membres",
+      "welcomeLetterPptx": "2 diapositives PowerPoint",
       "eventDocx": "Avis d'événement Word avec Quand/Où",
-      "eventXlsx": "Feuille RSVP Excel",
+      "eventXlsx": "RSVP hybride Excel — quorum et repas sur place",
+      "eventIcs": "Invitation calendrier (.ics) à partir du début/fin",
+      "eventEmail": "Courriel d'invitation RSVP (copie seulement)",
       "eventPptx": "3 diapositives PowerPoint"
+    },
+    "inviteEmail": {
+      "title": "Courriel d'invitation RSVP",
+      "hint": "Copiez ce texte dans votre propre application de courriel. Il demande de répondre avec Présence et Sur place / À distance, pour suivre le quorum et la commande de repas sur place. Joignez le calendrier (.ics) au besoin.",
+      "subjectLabel": "Objet",
+      "bodyLabel": "Message",
+      "copySubject": "Copier l'objet",
+      "copyBody": "Copier le message",
+      "openMail": "Ouvrir dans l'application courriel",
+      "privacy": "Tout se fait sur votre appareil. Rien n'est envoyé et aucune réponse n'est collectée ici — collez les réponses dans la feuille RSVP."
     },
     "presets": {
       "simpleLetter": {
@@ -987,9 +1006,13 @@
         "title": "Papier à en-tête",
         "blurb": "Papeterie de marque — ajoutez une note ou laissez le corps vide."
       },
+      "welcomeLetter": {
+        "title": "Lettre de bienvenue",
+        "blurb": "Document à remettre aux nouveaux membres — salutation, lien d'adhésion, contact du délégué et signature du président."
+      },
       "quickEvent": {
         "title": "Avis d'événement",
-        "blurb": "Affiche Quand/Où, feuille RSVP et courte présentation."
+        "blurb": "Trousse LEC hybride : avis, RSVP sur place/à distance + totaux quorum/repas, calendrier et diapositives."
       }
     },
     "fields": {
@@ -997,13 +1020,20 @@
       "subtitle": "Sous-titre",
       "headline": "Manchette",
       "memberName": "Nom du membre",
-      "date": "Date",
-      "time": "Heure",
+      "date": "Date (imprimée)",
+      "time": "Heure (imprimée)",
+      "calendarStart": "Début calendrier (pour .ics)",
+      "calendarEnd": "Fin calendrier (pour .ics)",
       "location": "Lieu",
+      "quorumNeeded": "Quorum requis (nombre)",
       "body": "Corps",
       "stewardName": "Nom du délégué",
       "contactName": "Nom du contact",
-      "cta": "Appel à l'action"
+      "cta": "Appel à l'action",
+      "collection": "Collection / unité de négociation",
+      "membershipUrl": "URL de demande d'adhésion",
+      "presidentName": "Nom du président de section",
+      "stewardContact": "Contact du délégué"
     }
   },
   "solidarityPoster": {
@@ -1032,6 +1062,8 @@
     "digitalHint": "Les codes QR sont difficiles à balayer sur un écran de verrouillage - pensez à désactiver le QR pour les fonds d'écran.",
     "downloadWallpaper": "Télécharger le fond d'écran",
     "supportUrl": "URL de soutien",
+    "membershipLink": "Utiliser un lien d'adhésion",
+    "membershipLinkPlaceholder": "Choisir une URL d'adhésion…",
     "showCta": "Afficher « Obtenir du soutien → » et l'URL",
     "showQr": "Afficher le code QR",
     "includeBranding": "Inclure l'image de marque locale",
@@ -1122,6 +1154,15 @@
       "getSupportTitle": "Obtenir du soutien",
       "getSupportDesc": "Scannez pour de l'aide, des ressources et le carrefour de votre section.",
       "getSupportTagline": "Scannez pour du soutien →",
+      "joinUnionTitle": "Joignez votre syndicat",
+      "joinUnionDesc": "Scannez pour remplir ou mettre à jour votre demande d'adhésion.",
+      "joinUnionTagline": "Scannez pour adhérer →",
+      "joinFullTimeTitle": "Adhésion temps plein",
+      "joinFullTimeDesc": "Demande / mise à jour d'adhésion pour le personnel de soutien à temps plein.",
+      "joinFullTimeTagline": "Scannez — temps plein →",
+      "joinPartTimeTitle": "Adhésion temps partiel",
+      "joinPartTimeDesc": "Demande / mise à jour d'adhésion pour le personnel de soutien à temps partiel.",
+      "joinPartTimeTagline": "Scannez — temps partiel →",
       "esaTitle": "Connaissez vos droits",
       "esaDesc": "Normes d'emploi en Ontario - heures, congés, vacances et plus.",
       "esaTagline": "Scannez le guide LNE",
@@ -1168,6 +1209,9 @@
     "setupBrandPrompt": "Configurez votre trousse de marque pour tamponner les affiches avec le logo de votre section.",
     "setupBrandLink": "Commencer l'intégration",
     "presets": {
+      "membershipFtPtLabel": "Adhésion TP + TPa (2)",
+      "membershipFtPtTitle": "Demande / mise à jour d'adhésion",
+      "membershipFtPtSubtitle": "Liens temps plein et temps partiel côte à côte",
       "twoCampaignsLabel": "Deux campagnes (2)",
       "twoCampaignsTitle": "Scannez pour agir",
       "twoCampaignsSubtitle": "Deux façons de s'engager",
@@ -1186,7 +1230,9 @@
       "followUs": "Restez branchés",
       "healthSafety": "Santé et sécurité",
       "esa": "Vos droits (ESA)",
-      "ohsa": "Guide OHSA / LSST"
+      "ohsa": "Guide OHSA / LSST",
+      "membershipFullTime": "Adhésion temps plein",
+      "membershipPartTime": "Adhésion temps partiel"
     }
   },
   "websiteTemplate": {
@@ -1354,11 +1400,57 @@
     "addLink": "Ajouter un autre lien",
     "removeLink": "Retirer"
   },
+  "membershipUrls": {
+    "title": "Liens de demande d'adhésion",
+    "description": "URL d'inscription typées pour les cartes QR, affiches de tableau et lettre de bienvenue. Ajoutez des liens distincts temps plein et temps partiel si votre syndicat utilise des formulaires différents.",
+    "optionalHint": "Facultatif — ajoutez les URL d'adhésion pour que les préréglages et la lettre de bienvenue les réutilisent.",
+    "linkLabel": "Libellé",
+    "linkLabelPlaceholder": "p. ex. Adhésion temps plein",
+    "linkUrl": "URL de demande",
+    "audience": "Public",
+    "audiences": {
+      "all": "Tous les membres",
+      "full_time": "Temps plein",
+      "part_time": "Temps partiel"
+    },
+    "primary": "Lien principal",
+    "addLink": "Ajouter un lien d'adhésion",
+    "removeLink": "Retirer"
+  },
+  "membershipSignupGuide": {
+    "title": "Faire croître l'adhésion avec du matériel à scanner",
+    "subtitle": "Affiches, cartes de poche et lettre de bienvenue pour les membres difficiles à joindre — surtout le personnel à temps partiel.",
+    "intro": "Être couvert par une convention n'équivaut pas à être membre signé. Enregistrez les liens d'adhésion dans la trousse de marque, imprimez du matériel QR, puis remettez une lettre de bienvenue après la signature.",
+    "relatedLabel": "Outils et guides connexes",
+    "whyTitle": "Pourquoi c'est important",
+    "whyBody": "Les milieux à temps partiel ou dispersés sont difficiles à joindre en personne. Une affiche ou carte avec un QR clair permet de terminer l'adhésion sur le téléphone — et chaque carte signée renforce la section.",
+    "steps": {
+      "brandKit": {
+        "title": "Enregistrer les URL d'adhésion",
+        "body": "Ouvrez la trousse de marque et ajoutez les liens temps plein et temps partiel (ou un lien commun). Marquez une URL principale pour les outils à un seul QR. Les valeurs par défaut sont modifiables — collez les formulaires exacts déjà utilisés sur vos feuilles imprimées.",
+        "cta": "Ouvrir la trousse de marque"
+      },
+      "printMaterials": {
+        "title": "Imprimer affiches et cartes",
+        "body": "Utilisez le préréglage Adhésion TP + TPa du tableau QR pour une feuille à deux codes, les préréglages d'adhésion des cartes QR pour les dépliants, et les slogans d'adhésion des affiches de solidarité pour un filler plus percutant.",
+        "qrBoard": "Tableau QR — TP + TPa",
+        "qrCard": "Cartes lien QR",
+        "poster": "Affiches solidarité"
+      },
+      "welcome": {
+        "title": "Remettre une lettre de bienvenue",
+        "body": "Le générateur de documents inclut un préréglage Lettre de bienvenue. Il reprend l'URL d'adhésion et le libellé de collection de votre trousse pour imprimer ou courrieler une courte note d'accueil.",
+        "cta": "Ouvrir le générateur de documents"
+      }
+    },
+    "tipTitle": "Conseil tableau",
+    "tipBody": "Placez le matériel QR d'adhésion près des contacts de délégués dans la mise en page minimale des tableaux syndicaux — pas enfoui sous les affiches du syndicat parent."
+  },
   "brandKit": {
     "title": "Trousse de marque de votre section",
     "description": "Étape 0 pour chaque outil de communication. Couleurs, logo, numéro de section et liens clés pilotent ici les tableaux, l'impression, les graphiques sociaux et le modèle de site.",
     "purposeSets": "Ce que vous définissez ici",
-    "purposeSetsBody": "Préréglage syndical, numéro et sous-texte de section, couleurs de marque, logo, et liens de site ou réseaux facultatifs.",
+    "purposeSetsBody": "Préréglage syndical, numéro et sous-texte de section, couleurs de marque, logo, liens de site ou réseaux facultatifs, et URL de demande d'adhésion.",
     "purposeUnlocks": "Ce que cela débloque",
     "purposeUnlocksBody": "Avis de tableau, affiches, graphiques sociaux, matériel QR et modèle de site local — tous estampillés de votre identité.",
     "startSetup": "Commencer la configuration",

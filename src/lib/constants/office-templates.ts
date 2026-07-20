@@ -4,7 +4,11 @@
 
 import type { BrandKit } from "@/types/entities";
 
-export type OfficePresetId = "simple-letter" | "letterhead" | "quick-event";
+export type OfficePresetId =
+  | "simple-letter"
+  | "letterhead"
+  | "quick-event"
+  | "welcome-letter";
 
 export type FieldDef = {
   key: string;
@@ -18,7 +22,13 @@ export type OfficePreset = {
   titleKey: string;
   blurbKey: string;
   fields: FieldDef[];
-  outputs: { docx: boolean; xlsx: boolean; pptx: boolean };
+  outputs: {
+    docx: boolean;
+    xlsx: boolean;
+    pptx: boolean;
+    ics?: boolean;
+    email?: boolean;
+  };
   fileStem: string;
   structureKeys: string[];
 };
@@ -35,7 +45,7 @@ export const OFFICE_PRESETS: OfficePreset[] = [
     titleKey: "presets.simpleLetter.title",
     blurbKey: "presets.simpleLetter.blurb",
     fileStem: "simple-letter",
-    outputs: { docx: true, xlsx: false, pptx: true },
+    outputs: { docx: true, xlsx: false, pptx: true, ics: false },
     structureKeys: ["structure.simpleLetterDocx", "structure.simpleLetterPptx"],
     fields: [
       {
@@ -72,7 +82,7 @@ export const OFFICE_PRESETS: OfficePreset[] = [
     titleKey: "presets.letterhead.title",
     blurbKey: "presets.letterhead.blurb",
     fileStem: "letterhead",
-    outputs: { docx: true, xlsx: false, pptx: true },
+    outputs: { docx: true, xlsx: false, pptx: true, ics: false },
     structureKeys: ["structure.letterheadDocx", "structure.letterheadPptx"],
     fields: [
       {
@@ -93,22 +103,24 @@ export const OFFICE_PRESETS: OfficePreset[] = [
     titleKey: "presets.quickEvent.title",
     blurbKey: "presets.quickEvent.blurb",
     fileStem: "quick-event",
-    outputs: { docx: true, xlsx: true, pptx: true },
+    outputs: { docx: true, xlsx: true, pptx: true, ics: true, email: true },
     structureKeys: [
       "structure.eventDocx",
       "structure.eventXlsx",
+      "structure.eventIcs",
+      "structure.eventEmail",
       "structure.eventPptx",
     ],
     fields: [
       {
         key: "title",
         labelKey: "fields.title",
-        defaultValue: "Membership meeting",
+        defaultValue: "LEC meeting",
       },
       {
         key: "subtitle",
         labelKey: "fields.subtitle",
-        defaultValue: "All members welcome",
+        defaultValue: "Hybrid — on site and remote",
       },
       {
         key: "date",
@@ -121,20 +133,91 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         defaultValue: "12:00–1:00 pm",
       },
       {
+        key: "calendarStart",
+        labelKey: "fields.calendarStart",
+        defaultValue: "2026-08-12T12:00",
+      },
+      {
+        key: "calendarEnd",
+        labelKey: "fields.calendarEnd",
+        defaultValue: "2026-08-12T13:00",
+      },
+      {
         key: "location",
         labelKey: "fields.location",
-        defaultValue: "Main cafeteria",
+        defaultValue: "Boardroom + video link",
+      },
+      {
+        key: "quorumNeeded",
+        labelKey: "fields.quorumNeeded",
+        defaultValue: "8",
       },
       {
         key: "body",
         labelKey: "fields.body",
         multiline: true,
-        defaultValue: "Agenda highlights and how to RSVP with your steward.",
+        defaultValue:
+          "Please RSVP on the sheet: Attending (Yes/No/Maybe) and How joining (On site or Remote). On-site numbers drive the food order; Yes counts toward quorum whether you join on site or remote.",
       },
       {
         key: "contactName",
         labelKey: "fields.contactName",
         defaultValue: "Local executive",
+      },
+    ],
+  },
+  {
+    id: "welcome-letter",
+    titleKey: "presets.welcomeLetter.title",
+    blurbKey: "presets.welcomeLetter.blurb",
+    fileStem: "welcome-letter",
+    outputs: { docx: true, xlsx: false, pptx: true, ics: false },
+    structureKeys: [
+      "structure.welcomeLetterDocx",
+      "structure.welcomeLetterPptx",
+    ],
+    fields: [
+      {
+        key: "date",
+        labelKey: "fields.date",
+        defaultValue: "July 18, 2026",
+      },
+      {
+        key: "memberName",
+        labelKey: "fields.memberName",
+        defaultValue: "New member",
+      },
+      {
+        key: "collection",
+        labelKey: "fields.collection",
+        defaultValue: "Support Staff",
+      },
+      {
+        key: "body",
+        labelKey: "fields.body",
+        multiline: true,
+        defaultValue:
+          "Welcome to your local. Signing your membership card makes you a member in good standing — eligible to vote, run for office, and access union supports.\n\nKeep this letter handy. Your steward and local executive are here when you have questions about your collective agreement, workplace rights, or how to get involved.\n\nIf you have not finished your membership application yet, use the link below or ask a steward for help.",
+      },
+      {
+        key: "membershipUrl",
+        labelKey: "fields.membershipUrl",
+        defaultValue: "",
+      },
+      {
+        key: "presidentName",
+        labelKey: "fields.presidentName",
+        defaultValue: "Local president",
+      },
+      {
+        key: "stewardContact",
+        labelKey: "fields.stewardContact",
+        defaultValue: "steward@example.org",
+      },
+      {
+        key: "contactName",
+        labelKey: "fields.contactName",
+        defaultValue: "Local executive committee",
       },
     ],
   },

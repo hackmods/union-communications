@@ -2,6 +2,7 @@ import { getDefaultBrandDefaults } from "@/lib/tenant/loader";
 import { resolveHostBrandDefaults } from "@/lib/constants/host-brand";
 import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
 import { DEFAULT_LOCAL_NUMBER } from "@/lib/utils/local";
+import type { MembershipUrl } from "@/types/entities";
 
 const assetDefaults = getDefaultBrandDefaults();
 const hostDefaults = resolveHostBrandDefaults();
@@ -117,6 +118,8 @@ export const DEFAULT_BRAND_KIT = {
   websiteUrl: undefined as string | undefined,
   facebookUrl: undefined as string | undefined,
   customLinks: [] as { id: string; label: string; url: string }[],
+  // Empty by default — OPSEU EMA URLs live in reference seed / OPSEU preset only
+  membershipUrls: [] as MembershipUrl[],
   updatedAt: new Date().toISOString(),
 };
 

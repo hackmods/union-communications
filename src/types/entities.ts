@@ -27,6 +27,19 @@ export interface LocalLink {
   url: string;
 }
 
+/** Who a membership application link is for (FT / PT / all) */
+export type MembershipUrlAudience = "all" | "full_time" | "part_time";
+
+/** Typed membership application / update URL on Brand Kit */
+export interface MembershipUrl {
+  id: string;
+  label: string;
+  url: string;
+  audience: MembershipUrlAudience;
+  /** Prefer this link when a tool asks for a single membership destination */
+  primary?: boolean;
+}
+
 /** Saved local / collection identity for multi-profile Brand Kits */
 export interface BrandKitProfile {
   id: string;
@@ -64,6 +77,8 @@ export interface BrandKit {
   facebookUrl?: string;
   /** Additional social / promo / resource links */
   customLinks?: LocalLink[];
+  /** Membership application / update URLs (FT, PT, or shared) */
+  membershipUrls?: MembershipUrl[];
   updatedAt: string;
 }
 

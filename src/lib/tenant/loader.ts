@@ -1,6 +1,7 @@
 import referenceTenant from "../../../seed/reference-tenant-opseu-caat.json";
 import type {
   BargainingUnit,
+  BrandDefaults,
   GrievanceConfig,
   TenantContext,
   TenantLocal,
@@ -113,4 +114,24 @@ export function getDefaultBrandDefaults() {
       assetPackPath: "/assets/caat-opseu/",
     }
   );
+}
+
+/**
+ * Membership application URLs from a tenant seed matched by union slug
+ * (same id as Comms union presets, e.g. `"opseu"`). Empty when no seed
+ * or the seed has no `brandDefaults.membershipUrls` — never used as a
+ * platform-wide Brand Kit default.
+ */
+export function getSeedMembershipUrlsForPreset(presetId: string): NonNullable<
+  BrandDefaults["membershipUrls"]
+> {
+  const seed = getTenantByUnionSlug(presetId);
+  const rows = seed?.brandDefaults?.membershipUrls ?? [];
+  return rows.map((row) => ({
+    id: row.id,
+    label: row.label,
+    url: row.url,
+    audience: row.audience,
+    primary: row.primary,
+  }));
 }

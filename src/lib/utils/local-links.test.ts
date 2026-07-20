@@ -21,7 +21,16 @@ describe("normalizeBrandKit", () => {
     expect(kit.local.localNumber).toBe("100");
     expect(kit.customLinks).toEqual([]);
     expect(kit.websiteUrl).toBeUndefined();
+    expect(kit.membershipUrls).toEqual([]);
     expect(kit.profiles?.length).toBeGreaterThan(0);
+  });
+
+  it("does not default membershipUrls to OPSEU seed forms", () => {
+    const kit = normalizeBrandKit(undefined);
+    expect(kit.membershipUrls).toEqual([]);
+    expect(
+      JSON.stringify(kit.membershipUrls).toLowerCase(),
+    ).not.toContain("opseu");
   });
 
   it("keeps website, facebook, and custom links", () => {
@@ -38,12 +47,24 @@ describe("normalizeBrandKit", () => {
         { id: "ig", label: "Instagram", url: "https://instagram.com/example" },
         { id: "bad", label: "Empty", url: "  " },
       ],
+      membershipUrls: [
+        {
+          id: "ft",
+          label: "FT",
+          url: " https://example.com/ft ",
+          audience: "full_time",
+          primary: true,
+        },
+        { id: "bad", label: "Empty", url: " ", audience: "all" },
+      ],
       updatedAt: "2026-01-01T00:00:00.000Z",
     });
     expect(kit.websiteUrl).toBe("https://local243.org");
     expect(kit.facebookUrl).toBe("https://facebook.com/groups/example");
     expect(kit.customLinks).toHaveLength(1);
     expect(kit.customLinks?.[0].label).toBe("Instagram");
+    expect(kit.membershipUrls).toHaveLength(1);
+    expect(kit.membershipUrls?.[0].url).toBe("https://example.com/ft");
   });
 
   it("falls back empty or invalid colours to host defaults", () => {
@@ -106,5 +127,36 @@ describe("listSavedLinks / resolve helpers", () => {
     expect(resolvePresetDestination("localWebsite", kit, "https://hub")).toBe(
       "https://local243.org",
     );
+  });
+
+  it("resolves membership presets from typed membershipUrls", () => {
+    const withMembership = normalizeBrandKit({
+      ...kit,
+      membershipUrls: [
+        {
+          id: "ft",
+          label: "Full-time",
+          url: "https://example.com/join-ft",
+          audience: "full_time",
+          primary: true,
+        },
+        {
+          id: "pt",
+          label: "Part-time",
+          url: "https://example.com/join-pt",
+          audience: "part_time",
+        },
+      ],
+    });
+    expect(
+      resolvePresetDestination("joinUnion", withMembership, "https://hub"),
+    ).toBe("https://example.com/join-ft");
+    expect(
+      resolvePresetDestination(
+        "membership-part-time",
+        withMembership,
+        "https://hub",
+      ),
+    ).toBe("https://example.com/join-pt");
   });
 });

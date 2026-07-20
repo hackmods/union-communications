@@ -32,6 +32,10 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
         partial.customLinks !== undefined
           ? partial.customLinks
           : current.customLinks,
+      membershipUrls:
+        partial.membershipUrls !== undefined
+          ? partial.membershipUrls
+          : current.membershipUrls,
       updatedAt: new Date().toISOString(),
     });
     set({ brandKit: updated });

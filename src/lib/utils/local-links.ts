@@ -1,11 +1,24 @@
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
-import type { BrandKit, LocalLink } from "@/types/entities";
+import type {
+  BrandKit,
+  LocalLink,
+  MembershipUrl,
+  MembershipUrlAudience,
+} from "@/types/entities";
 
 export interface SavedLink {
   id: string;
   label: string;
   url: string;
-  kind: "website" | "facebook" | "custom";
+  kind: "website" | "facebook" | "custom" | "membership";
+}
+
+export interface MembershipDestination {
+  id: string;
+  label: string;
+  url: string;
+  audience: MembershipUrlAudience;
+  primary?: boolean;
 }
 
 function trimUrl(value: unknown): string | undefined {
@@ -43,6 +56,47 @@ function normalizeCustomLinks(raw: unknown): LocalLink[] {
       return { id, label, url } satisfies LocalLink;
     })
     .filter((x): x is LocalLink => x !== null);
+}
+
+const AUDIENCES: readonly MembershipUrlAudience[] = [
+  "all",
+  "full_time",
+  "part_time",
+];
+
+function asAudience(value: unknown): MembershipUrlAudience {
+  if (typeof value === "string" && AUDIENCES.includes(value as MembershipUrlAudience)) {
+    return value as MembershipUrlAudience;
+  }
+  return "all";
+}
+
+function normalizeMembershipUrls(raw: unknown): MembershipUrl[] {
+  if (!Array.isArray(raw)) return [];
+  const out: MembershipUrl[] = [];
+  for (let i = 0; i < raw.length; i++) {
+    const item = raw[i];
+    if (!item || typeof item !== "object") continue;
+    const row = item as Record<string, unknown>;
+    const url = trimUrl(row.url);
+    if (!url) continue;
+    const label =
+      typeof row.label === "string" && row.label.trim()
+        ? row.label.trim()
+        : "Membership application";
+    const id =
+      typeof row.id === "string" && row.id.trim()
+        ? row.id.trim()
+        : `membership-${i}-${Date.now()}`;
+    out.push({
+      id,
+      label,
+      url,
+      audience: asAudience(row.audience),
+      primary: row.primary === true ? true : undefined,
+    });
+  }
+  return out;
 }
 
 /** Upgrade legacy kits to BrandKit 2.0 with multi-union + profile fields. */
@@ -89,6 +143,11 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
           base.local.bargainingUnitCode),
   };
 
+  const membershipUrls =
+    input.membershipUrls !== undefined
+      ? normalizeMembershipUrls(input.membershipUrls)
+      : (base.membershipUrls ?? []);
+
   return {
     ...base,
     ...input,
@@ -118,6 +177,7 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
     websiteUrl: trimUrl(input.websiteUrl),
     facebookUrl: trimUrl(input.facebookUrl),
     customLinks: normalizeCustomLinks(input.customLinks),
+    membershipUrls,
     updatedAt:
       typeof input.updatedAt === "string"
         ? input.updatedAt
@@ -189,6 +249,39 @@ export function listSavedLinks(
   return out;
 }
 
+/** Membership application destinations from Brand Kit. */
+export function listMembershipDestinations(
+  kit: BrandKit,
+): MembershipDestination[] {
+  const out: MembershipDestination[] = [];
+  for (const row of kit.membershipUrls ?? []) {
+    const url = trimUrl(row.url);
+    if (!url) continue;
+    out.push({
+      id: row.id,
+      label: row.label.trim() || "Membership application",
+      url,
+      audience: row.audience,
+      primary: row.primary,
+    });
+  }
+  return out;
+}
+
+function resolveMembershipUrl(
+  kit: BrandKit,
+  audience?: MembershipUrlAudience,
+): string | undefined {
+  const rows = listMembershipDestinations(kit);
+  if (rows.length === 0) return undefined;
+  if (audience && audience !== "all") {
+    const match = rows.find((r) => r.audience === audience);
+    if (match) return match.url;
+  }
+  const primary = rows.find((r) => r.primary);
+  return primary?.url ?? rows[0]?.url;
+}
+
 /** Resolve QR / poster destination for a named preset. */
 export function resolvePresetDestination(
   presetId: string,
@@ -197,21 +290,35 @@ export function resolvePresetDestination(
 ): string {
   const website = resolveLocalWebsiteUrl(kit, originFallback);
   const facebook = trimUrl(kit.facebookUrl);
+  const softFallback = website || originFallback;
 
   switch (presetId) {
     case "getSupport":
-      return website || originFallback;
+      return softFallback;
     case "followUs":
-      return facebook || website || originFallback;
+      return facebook || softFallback;
     case "localWebsite":
-      return website || originFallback;
+      return softFallback;
     case "healthSafety":
-      return website || originFallback;
+      return softFallback;
+    case "joinUnion":
+    case "membership-primary":
+      return resolveMembershipUrl(kit) || softFallback;
+    case "joinFullTime":
+    case "membership-full-time":
+      return resolveMembershipUrl(kit, "full_time") || softFallback;
+    case "joinPartTime":
+    case "membership-part-time":
+      return resolveMembershipUrl(kit, "part_time") || softFallback;
     default:
-      return website || originFallback;
+      return softFallback;
   }
 }
 
 export function newLocalLinkId(): string {
   return `link-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+export function newMembershipUrlId(): string {
+  return `membership-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }

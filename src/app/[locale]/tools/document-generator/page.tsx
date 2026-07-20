@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
@@ -21,6 +21,7 @@ import {
   getPreset,
   type OfficePresetId,
 } from "@/lib/constants/office-templates";
+import { resolvePresetDestination } from "@/lib/utils/local-links";
 import {
   exportDocxFromPreset,
   exportEventRsvpXlsx,
@@ -30,9 +31,15 @@ import {
   renderEventRsvpXlsx,
   renderPptx,
 } from "@/lib/export/office-export";
+import { renderEventIcsBlob } from "@/lib/calendar/event-ics";
+import {
+  buildEventInviteEmail,
+  buildMailto,
+} from "@/lib/comms/event-email";
+import { downloadBlob } from "@/lib/export/image-export";
 import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { copyToClipboard, formatFilename, resolveLocalNumber } from "@/lib/utils";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 
 export interface GeneratorState {
@@ -40,6 +47,7 @@ export interface GeneratorState {
   includeDocx: boolean;
   includeXlsx: boolean;
   includePptx: boolean;
+  includeIcs: boolean;
   includeLogo: boolean;
   fields: Record<string, string>;
 }
@@ -54,6 +62,7 @@ function initialState(
     includeDocx: true,
     includeXlsx: preset.outputs.xlsx,
     includePptx: true,
+    includeIcs: Boolean(preset.outputs.ics),
     includeLogo,
     fields: defaultFieldsForPreset(preset),
   };
@@ -62,6 +71,7 @@ function initialState(
 export default function DocumentGeneratorPage() {
   const t = useTranslations("documentGenerator");
   const tc = useTranslations("common");
+  const locale = useLocale() as "en" | "fr";
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
@@ -76,6 +86,7 @@ export default function DocumentGeneratorPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [logoPreviewSrc, setLogoPreviewSrc] = useState<string | null>(null);
+  const [copied, setCopied] = useState<"subject" | "body" | null>(null);
 
   useEffect(() => {
     if (!hydrated || logoDefaultApplied.current) return;
@@ -110,15 +121,44 @@ export default function DocumentGeneratorPage() {
     contactName: state.fields.contactName ?? "",
   };
 
+  const inviteEmail = preset.outputs.email
+    ? buildEventInviteEmail(fields, {
+        locale,
+        localNumber: resolveLocalNumber(localNumber),
+      })
+    : null;
+
+  async function copyEmailPart(part: "subject" | "body") {
+    if (!inviteEmail) return;
+    const ok = await copyToClipboard(
+      part === "subject" ? inviteEmail.subject : inviteEmail.body,
+    );
+    if (ok) {
+      setCopied(part);
+      window.setTimeout(() => setCopied(null), 1500);
+    }
+  }
+
   function applyPreset(id: OfficePresetId) {
     const next = getPreset(id);
+    const fields = defaultFieldsForPreset(next);
+    if (id === "welcome-letter") {
+      const origin =
+        typeof window !== "undefined" ? window.location.origin : "";
+      fields.collection =
+        brandKit.local.subText?.trim() || fields.collection;
+      fields.membershipUrl =
+        resolvePresetDestination("membership-primary", brandKit, origin) ||
+        fields.membershipUrl;
+    }
     setState({
       ...state,
       presetId: id,
       includeDocx: next.outputs.docx,
       includeXlsx: next.outputs.xlsx,
       includePptx: true,
-      fields: defaultFieldsForPreset(next),
+      includeIcs: Boolean(next.outputs.ics),
+      fields,
     });
   }
 
@@ -204,6 +244,20 @@ export default function DocumentGeneratorPage() {
     });
   }
 
+  function handleDownloadIcs() {
+    if (!preset.outputs.ics) return;
+    void run(async () => {
+      const blob = renderEventIcsBlob(fields, {
+        localNumber: resolveLocalNumber(localNumber),
+      });
+      if (!blob) throw new Error(t("icsNeedsCalendar"));
+      downloadBlob(
+        blob,
+        formatFilename(preset.fileStem, localNumber, "ics"),
+      );
+    });
+  }
+
   function handleDownloadZip() {
     void run(async () => {
       let logo: BrandLogoBytes | null = null;
@@ -233,6 +287,16 @@ export default function DocumentGeneratorPage() {
             localNumber: resolveLocalNumber(localNumber),
             fields,
           }),
+        });
+      }
+      if (state.includeIcs && preset.outputs.ics) {
+        const icsBlob = renderEventIcsBlob(fields, {
+          localNumber: resolveLocalNumber(localNumber),
+        });
+        if (!icsBlob) throw new Error(t("icsNeedsCalendar"));
+        files.push({
+          name: formatFilename(preset.fileStem, localNumber, "ics"),
+          blob: icsBlob,
         });
       }
       if (state.includePptx) {
@@ -370,6 +434,18 @@ export default function DocumentGeneratorPage() {
                   {t("outputXlsx")}
                 </label>
               ) : null}
+              {preset.outputs.ics ? (
+                <label className="inline-flex min-h-11 items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={state.includeIcs}
+                    onChange={(e) =>
+                      setState({ ...state, includeIcs: e.target.checked })
+                    }
+                  />
+                  {t("outputIcs")}
+                </label>
+              ) : null}
               <label className="inline-flex min-h-11 items-center gap-2 text-sm">
                 <input
                   type="checkbox"
@@ -426,6 +502,16 @@ export default function DocumentGeneratorPage() {
                 {tc("downloadXlsx")}
               </Button>
             ) : null}
+            {preset.outputs.ics ? (
+              <Button
+                type="button"
+                variant="outline"
+                disabled={busy}
+                onClick={handleDownloadIcs}
+              >
+                {t("downloadIcs")}
+              </Button>
+            ) : null}
             <Button
               type="button"
               variant="outline"
@@ -472,6 +558,75 @@ export default function DocumentGeneratorPage() {
           </ul>
         </div>
       </div>
+
+      {inviteEmail ? (
+        <Card density="compact" className="mt-4 space-y-3">
+          <div>
+            <CardTitle className="text-base">{t("inviteEmail.title")}</CardTitle>
+            <p className="mt-1 text-sm text-gray-600">
+              {t("inviteEmail.hint")}
+            </p>
+          </div>
+
+          <div className="space-y-1">
+            <label
+              htmlFor="invite-subject"
+              className="text-sm font-medium text-gray-700"
+            >
+              {t("inviteEmail.subjectLabel")}
+            </label>
+            <Input
+              id="invite-subject"
+              readOnly
+              value={inviteEmail.subject}
+              onFocus={(e) => e.currentTarget.select()}
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label
+              htmlFor="invite-body"
+              className="text-sm font-medium text-gray-700"
+            >
+              {t("inviteEmail.bodyLabel")}
+            </label>
+            <Textarea
+              id="invite-body"
+              readOnly
+              rows={12}
+              value={inviteEmail.body}
+              onFocus={(e) => e.currentTarget.select()}
+            />
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => void copyEmailPart("subject")}
+            >
+              {copied === "subject"
+                ? tc("copied")
+                : t("inviteEmail.copySubject")}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => void copyEmailPart("body")}
+            >
+              {copied === "body" ? tc("copied") : t("inviteEmail.copyBody")}
+            </Button>
+            <a
+              href={buildMailto(inviteEmail)}
+              className="inline-flex items-center justify-center rounded-lg border-2 border-opseu-blue px-4 py-2 text-base font-semibold text-opseu-blue transition-colors hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+            >
+              {t("inviteEmail.openMail")}
+            </a>
+          </div>
+
+          <p className="text-xs text-gray-500">{t("inviteEmail.privacy")}</p>
+        </Card>
+      ) : null}
     </PageShell>
   );
 }

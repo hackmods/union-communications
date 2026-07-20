@@ -11,7 +11,7 @@ Top bar is slim and dual-audience oriented:
 | Item | Route / contents |
 |------|------------------|
 | **Get started** | `/onboarding` when Brand Kit is not established; `/guide/social-media-plan` (First week) when it is — Brand Kit stays a separate link |
-| **Guides ▾** | **Start here:** Comms Resources, Blueprint, First week, Strike Guide, Photo Consent · **By channel:** Print, Union Boards, Website · **Libraries:** Social Examples, Captions · **About:** Brand Assets, Why it's free, Install as an app |
+| **Guides ▾** | **Start here:** Comms Resources, Blueprint, First week, Strike Guide, Photo Consent, Membership signup · **By channel:** Print, Union Boards, Website · **Libraries:** Social Examples, Captions · **About:** Brand Assets, Why it's free, Install as an app |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Asset Pack) |
 | **Tools ▾** | Mega-menu columns — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, QR Cards · **Print:** Flyer · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · footer **All tools** → `/tools` |
 | **Officer Hub** | `/app` (auth) — filled primary CTA |
@@ -47,14 +47,15 @@ Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “
 | `/[locale]/tools/board-banner` | Board header banners + frame trim on packed letter/tabloid sheets (strip heights + side columns; PNG + PDF) |
 | `/[locale]/tools/solidarity-poster` | Solidarity board posters + wallpapers (Print; Digital 16:9 / 19.5:9 / 9:16 PNG; CTA + QR toggles) |
 | `/[locale]/tools/meeting-background` | Zoom/Teams virtual backgrounds (Bold + Minimal design sets; landscape 16:9 HD/UHD + portrait 9:16; face-safe layouts + layer toggles) |
-| `/[locale]/tools/qr-card` | QR link cards (title, tagline, multi-size print) |
-| `/[locale]/tools/qr-board` | Multi-QR board posters (2–8 links; letter/tabloid; PNG + PDF) |
+| `/[locale]/tools/qr-card` | QR link cards (title, tagline, multi-size print; join / FT / PT membership presets) |
+| `/[locale]/tools/qr-board` | Multi-QR board posters (2–8 links; letter/tabloid; PNG + PDF; Membership FT+PT preset) |
+| `/[locale]/guide/membership-signup` | Membership growth guide — Brand Kit links → QR materials → welcome letter |
 | `/[locale]/tools/graphic-maker` | Social graphics |
 | `/[locale]/tools/resizer` | Omnichannel resizer — Logo Builder plate (circle/square/rectangle) or upload; social + custom sizes at true pixels; ZIP/PNG |
 | `/[locale]/tools/quote-card` | Leadership quote cards |
 | `/[locale]/tools/flyer-maker` | Picket/rally flyers |
 | `/[locale]/tools/website-template` | GitHub Pages site ZIP export |
-| `/[locale]/tools/document-generator` | Branded Word / Excel / PowerPoint + ZIP (presets + colour baselines) |
+| `/[locale]/tools/document-generator` | Branded Word / Excel / PowerPoint + ZIP (simple letter, letterhead, welcome letter, event notice) |
 | `/[locale]/tools/alt-text` | Alt-text draft helper (starters, platform limits, checklist) |
 
 ## Channels
@@ -83,11 +84,13 @@ v1: all public. Phase 1+: optional premium templates behind login; core tools st
 
 - `src/lib/export/image-export.ts` — PNG/SVG/ZIP export
 - `src/lib/export/office-export.ts` — DOCX via `docx` builders + Brand Kit; XLSX (ExcelJS); PPTX (pptxgenjs); ZIP bundles
-- `src/lib/export/office-docx-builders.ts` — simple letter / letterhead / event notice Word layouts
+- `src/lib/export/office-docx-builders.ts` — simple / welcome letter / letterhead / event notice Word layouts
 - `src/lib/export/brand-logo-bytes.ts` — Brand Kit → PNG bytes for Word/PPT
 - `src/components/tools/OfficePresetMock.tsx` — live CSS document preview + example tiles
 - `src/components/tools/OfficeExportButton.tsx` — shared Word/Excel download control (legacy templates)
-- `src/lib/constants/office-templates.ts` — three Document Generator presets
+- `src/lib/constants/office-templates.ts` — Document Generator presets (incl. welcome letter)
+- `src/components/brand/MembershipUrlsEditor.tsx` — typed FT/PT membership application URLs on Brand Kit
+- `src/lib/utils/local-links.ts` — Brand Kit link normalize + membership preset destination resolve
 - `src/lib/templates/website/generate-website-zip.ts` — static site ZIP generator
 - `src/components/tools/*` — upload, contrast, consent, undo/redo, office export
 - `src/store/brand-store.ts` — brand state via DataAdapter

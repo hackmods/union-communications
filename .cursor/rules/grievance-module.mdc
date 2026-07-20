@@ -22,7 +22,7 @@ alwaysApply: false
 
 ## Shipped QOL on detail/list
 - Member communication log (`/api/grievances/[id]/communications`)
-- Meeting scheduler + ICS (`/api/grievances/[id]/meetings`)
+- Meeting scheduler + ICS (`/api/grievances/[id]/meetings`) — **grievance meetings only**, not local membership calendar; see `.cursor/rules/calendar-meetings.mdc`
 - CA snippet insert into notes; overdue board at `/app/overdue`
 - Steward mobile read-only via `useStewardReadOnly`
 - Attachments API scaffold (`/api/grievances/[id]/attachments`) — scan stub until object storage

@@ -90,6 +90,10 @@ export default async function GuidePage({
               { href: "/guide/union-boards", key: "unionBoards" as const },
               { href: "/guide/print", key: "print" as const },
               { href: "/guide/website", key: "website" as const },
+              {
+                href: "/guide/membership-signup",
+                key: "membershipSignup" as const,
+              },
             ] as const
           ).map((link, i) => (
             <span key={link.href} className="inline-flex items-baseline gap-x-3">

@@ -10,7 +10,11 @@ import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { resolveLocalWebsiteUrl } from "@/lib/utils/local-links";
+import {
+  listMembershipDestinations,
+  resolveLocalWebsiteUrl,
+  resolvePresetDestination,
+} from "@/lib/utils/local-links";
 import { SITE_URL } from "@/lib/seo/site";
 import {
   SOLIDARITY_SLOGANS,
@@ -449,6 +453,40 @@ export default function SolidarityPosterPage() {
             onChange={(e) => setState({ ...state, supportUrl: e.target.value })}
             placeholder={SITE_URL}
           />
+          {listMembershipDestinations(brandKit).length > 0 ? (
+            <div>
+              <label
+                htmlFor="solidarity-membership-link"
+                className="mb-1 block text-sm font-medium text-gray-700"
+              >
+                {t("membershipLink")}
+              </label>
+              <select
+                id="solidarity-membership-link"
+                className="min-h-11 w-full rounded-md border border-gray-300 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+                defaultValue=""
+                onChange={(e) => {
+                  const id = e.target.value;
+                  if (!id) return;
+                  const origin =
+                    typeof window !== "undefined" ? window.location.origin : "";
+                  const url =
+                    listMembershipDestinations(brandKit).find((d) => d.id === id)
+                      ?.url ||
+                    resolvePresetDestination("membership-primary", brandKit, origin);
+                  if (url) setState({ ...state, supportUrl: url });
+                  e.target.value = "";
+                }}
+              >
+                <option value="">{t("membershipLinkPlaceholder")}</option>
+                {listMembershipDestinations(brandKit).map((d) => (
+                  <option key={d.id} value={d.id}>
+                    {d.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
 
           <label className="flex items-center gap-2 text-sm">
             <input

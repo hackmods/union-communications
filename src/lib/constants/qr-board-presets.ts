@@ -1,7 +1,11 @@
 import type { BrandKit } from "@/types/entities";
 import { resolvePresetDestination } from "@/lib/utils/local-links";
 
-export type QrBoardPresetId = "twoCampaigns" | "coreLinks" | "fullBoard";
+export type QrBoardPresetId =
+  | "membershipFtPt"
+  | "twoCampaigns"
+  | "coreLinks"
+  | "fullBoard";
 
 export const QR_BOARD_MIN_SLOTS = 2;
 export const QR_BOARD_MAX_SLOTS = 8;
@@ -36,6 +40,16 @@ export interface QrBoardSlotDraft {
 }
 
 export const QR_BOARD_PRESETS: readonly QrBoardPreset[] = [
+  {
+    id: "membershipFtPt",
+    labelKey: "membershipFtPtLabel",
+    titleKey: "membershipFtPtTitle",
+    subtitleKey: "membershipFtPtSubtitle",
+    slots: [
+      { titleKey: "membershipFullTime", resolveId: "membership-full-time" },
+      { titleKey: "membershipPartTime", resolveId: "membership-part-time" },
+    ],
+  },
   {
     id: "twoCampaigns",
     labelKey: "twoCampaignsLabel",

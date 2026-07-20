@@ -106,20 +106,45 @@ describe("office-export", () => {
     expect(blob.size).toBeGreaterThan(8000);
   });
 
-  it("renderEventRsvpXlsx builds a Brand Kit workbook", async () => {
-    const blob = await renderEventRsvpXlsx({
-      palette: { primary: "#003366", secondary: "#001a33", accent: "#c45c26" },
-      localNumber: "110",
-      fields: {
-        title: "Meeting",
-        date: "Aug 12",
-        time: "Noon",
-        location: "Hall",
-        contactName: "LEC",
-      },
-    });
-    expect(blob.size).toBeGreaterThan(1000);
-  });
+  it(
+    "renderEventRsvpXlsx builds a Brand Kit workbook with response columns",
+    async () => {
+      const blob = await renderEventRsvpXlsx({
+        palette: { primary: "#003366", secondary: "#001a33", accent: "#c45c26" },
+        localNumber: "110",
+        fields: {
+          title: "Meeting",
+          date: "Aug 12",
+          time: "Noon",
+          location: "Hall",
+          contactName: "LEC",
+        },
+      });
+      expect(blob.size).toBeGreaterThan(1000);
+
+      const excelMod = await import("exceljs");
+      const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
+      const wb = new ExcelNS.Workbook();
+      await wb.xlsx.load(await blob.arrayBuffer());
+      const ws = wb.getWorksheet("RSVP");
+      expect(ws).toBeTruthy();
+      expect(ws!.getCell("A8").value).toBe("Quorum board");
+      expect(ws!.getCell("A9").value).toBe("Food order (on site)");
+      expect(ws!.getCell("A11").value).toBe("Name");
+      expect(ws!.getCell("E11").value).toBe("Attending");
+      expect(ws!.getCell("F11").value).toBe("How joining");
+      expect(ws!.getCell("G11").value).toBe("Guests (on site)");
+      expect(ws!.getCell("H11").value).toBe("Dietary");
+      const foodHeads = ws!.getCell("G9").value;
+      const foodFormula =
+        typeof foodHeads === "object" && foodHeads && "formula" in foodHeads
+          ? String((foodHeads as { formula: string }).formula)
+          : String(foodHeads);
+      expect(foodFormula).toContain("COUNTIFS");
+      expect(foodFormula).toContain("On site");
+    },
+    20_000,
+  );
 
   it("fills sample roster xlsx", async () => {
     mockFetchFromFile(sampleRosterPath);
