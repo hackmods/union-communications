@@ -73,29 +73,30 @@ function asAudience(value: unknown): MembershipUrlAudience {
 
 function normalizeMembershipUrls(raw: unknown): MembershipUrl[] {
   if (!Array.isArray(raw)) return [];
-  return raw
-    .map((item, i) => {
-      if (!item || typeof item !== "object") return null;
-      const row = item as Record<string, unknown>;
-      const url = trimUrl(row.url);
-      if (!url) return null;
-      const label =
-        typeof row.label === "string" && row.label.trim()
-          ? row.label.trim()
-          : "Membership application";
-      const id =
-        typeof row.id === "string" && row.id.trim()
-          ? row.id.trim()
-          : `membership-${i}-${Date.now()}`;
-      return {
-        id,
-        label,
-        url,
-        audience: asAudience(row.audience),
-        primary: row.primary === true,
-      } satisfies MembershipUrl;
-    })
-    .filter((x): x is MembershipUrl => x !== null);
+  const out: MembershipUrl[] = [];
+  for (let i = 0; i < raw.length; i++) {
+    const item = raw[i];
+    if (!item || typeof item !== "object") continue;
+    const row = item as Record<string, unknown>;
+    const url = trimUrl(row.url);
+    if (!url) continue;
+    const label =
+      typeof row.label === "string" && row.label.trim()
+        ? row.label.trim()
+        : "Membership application";
+    const id =
+      typeof row.id === "string" && row.id.trim()
+        ? row.id.trim()
+        : `membership-${i}-${Date.now()}`;
+    out.push({
+      id,
+      label,
+      url,
+      audience: asAudience(row.audience),
+      primary: row.primary === true ? true : undefined,
+    });
+  }
+  return out;
 }
 
 /** Upgrade legacy kits to BrandKit 2.0 with multi-union + profile fields. */

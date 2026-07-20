@@ -50,7 +50,7 @@ export interface BrandDefaults {
   accentColor: string;
   useOfficialLogo: boolean;
   assetPackPath: string;
-  /** Optional seed membership application URLs (hydrated into Brand Kit defaults) */
+  /** Optional seed membership URLs — applied when selecting that union's Comms preset only */
   membershipUrls?: Array<{
     id: string;
     label: string;

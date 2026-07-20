@@ -5,6 +5,7 @@
  * Missing / empty logo packs fall back to UnionOps platform marks.
  */
 
+import { getSeedMembershipUrlsForPreset } from "@/lib/tenant/loader";
 import type { BrandKitPatch } from "@/types/entities";
 
 export interface UnionLogoPack {
@@ -211,6 +212,8 @@ export function colorsFromUnionPreset(preset: UnionBranding): {
 /** Brand Kit colour + logo + sub-text fields when applying a union preset.
  * OPSEU uses the official pack; others default to the UnionOps mark
  * tinted with the preset primary (upload your own logo in Logo Settings).
+ * Always sets `membershipUrls` from the matching tenant seed (or `[]`) so
+ * switching presets cannot leave another union's join forms behind.
  */
 export function brandFieldsFromUnionPreset(
   preset: UnionBranding,
@@ -219,6 +222,7 @@ export function brandFieldsFromUnionPreset(
   const logos = resolvePresetLogos(preset.logos);
   const logoText = (preset.logoText ?? preset.name.slice(0, 4)).toUpperCase();
   const subText = preset.defaultSlogans[0] ?? "";
+  const membershipUrls = getSeedMembershipUrlsForPreset(preset.id);
 
   if (logos.useOfficialPack) {
     return {
@@ -228,6 +232,7 @@ export function brandFieldsFromUnionPreset(
       customLogoDataUrl: undefined,
       logoText,
       unionPresetId: preset.id,
+      membershipUrls,
       local: { subText },
     };
   }
@@ -239,6 +244,7 @@ export function brandFieldsFromUnionPreset(
     customLogoDataUrl: UNIONOPS_LOGOS.mark,
     logoText,
     unionPresetId: preset.id,
+    membershipUrls,
     local: { subText },
   };
 }

@@ -21,8 +21,16 @@ describe("normalizeBrandKit", () => {
     expect(kit.local.localNumber).toBe("100");
     expect(kit.customLinks).toEqual([]);
     expect(kit.websiteUrl).toBeUndefined();
-    expect(kit.membershipUrls?.length).toBeGreaterThanOrEqual(0);
+    expect(kit.membershipUrls).toEqual([]);
     expect(kit.profiles?.length).toBeGreaterThan(0);
+  });
+
+  it("does not default membershipUrls to OPSEU seed forms", () => {
+    const kit = normalizeBrandKit(undefined);
+    expect(kit.membershipUrls).toEqual([]);
+    expect(
+      JSON.stringify(kit.membershipUrls).toLowerCase(),
+    ).not.toContain("opseu");
   });
 
   it("keeps website, facebook, and custom links", () => {

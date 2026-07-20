@@ -66,6 +66,8 @@ describe("unionPresets", () => {
     expect(fields.useOfficialLogo).toBe(true);
     expect(fields.officialLogoVariant).toBe("lockup");
     expect(fields.customLogoDataUrl).toBeUndefined();
+    expect(fields.membershipUrls?.length).toBeGreaterThan(0);
+    expect(fields.membershipUrls?.[0].url).toContain("opseu.org");
   });
 
   it("maps other presets to UnionOps mark plus palette colours and sub-text", () => {
@@ -76,6 +78,14 @@ describe("unionPresets", () => {
     expect(fields.secondaryColor).toBe("#FFFFFF");
     expect(fields.unionPresetId).toBe("unifor");
     expect(fields.local?.subText).toBe("A union for everyone.");
+    expect(fields.membershipUrls).toEqual([]);
+  });
+
+  it("clears OPSEU membership URLs when switching to a non-seed preset", () => {
+    const unifor = brandFieldsFromUnionPreset(getUnionPreset("unifor")!);
+    expect(JSON.stringify(unifor.membershipUrls ?? []).toLowerCase()).not.toContain(
+      "opseu",
+    );
   });
 
   it("applies published preset colours and taglines", () => {
