@@ -33,7 +33,7 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 ### [SEC-003] 🟡 PARTIAL (2026-07-23)
 **Category:** Security
 **Severity/Priority:** Critical
-**Status:** Partial — Drizzle schemas + migrations (incl. RLS SQL), docker Postgres service, memory-data banner, grievance/bumping/audit Drizzle adapters behind `*_DB_BACKEND` flags. Default remains memory. Remaining: time/attachments adapters, seed script, enforce RLS with non-owner DB role, durability smoke test.
+**Status:** Partial — Drizzle schemas + migrations (incl. RLS through `0007`), docker Postgres, memory-data banner, grievance/bumping/audit/time/attachments/discussions Drizzle adapters behind `*_DB_BACKEND` flags (default remains memory). Remaining: seed script, enforce RLS with non-owner DB role, container durability smoke test, flip production defaults once proven.
 **Problem/Gap Statement:** All confidential union casework (grievances, bumping cases, time entries, attachment metadata, audit log) lives only in module-scoped in-memory JS arrays with zero disk/DB persistence. `docker/docker-compose.yml` has no database service. Every process restart, redeploy, or crash silently discards all case data, with no warning surfaced to officers using the product.
 **Affected Architecture/Files:** `src/lib/grievance/memory-adapter.ts`, `src/lib/bumping/memory-adapter.ts`, `src/lib/time/memory-adapter.ts`, `src/lib/attachments/memory-adapter.ts`, `src/lib/audit/memory-adapter.ts`, `docker/docker-compose.yml`, `docker/entrypoint.sh`
 **Implementation Blueprint:**
