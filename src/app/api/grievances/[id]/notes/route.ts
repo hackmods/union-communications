@@ -4,7 +4,7 @@ import {
   assertGrievanceEdit,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
-import { grievanceStore } from "@/lib/grievance/memory-adapter";
+import { grievanceStore } from "@/lib/grievance/store";
 
 type RouteContext = { params: Promise<{ id: string }> };
 

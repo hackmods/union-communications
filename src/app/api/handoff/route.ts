@@ -8,7 +8,7 @@ import {
   buildHandoffPackage,
   canInitiateHandoff,
 } from "@/lib/handoff/package";
-import { grievanceStore } from "@/lib/grievance/memory-adapter";
+import { grievanceStore } from "@/lib/grievance/store";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import type { UserRole } from "@/types/tenant";
 

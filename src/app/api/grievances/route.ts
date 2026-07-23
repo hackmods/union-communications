@@ -4,7 +4,7 @@ import {
   listFiltersForSession,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
-import { grievanceStore } from "@/lib/grievance/memory-adapter";
+import { grievanceStore } from "@/lib/grievance/store";
 import { resolveGrievanceConfig } from "@/lib/tenant/loader";
 import { getCurrentStepDueDate } from "@/lib/grievance/deadlines";
 import { isElevatedGrievanceRole } from "@/lib/grievance/access";

@@ -6,7 +6,7 @@ import {
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
 import { attachmentStore } from "@/lib/attachments/memory-adapter";
-import { grievanceStore } from "@/lib/grievance/memory-adapter";
+import { grievanceStore } from "@/lib/grievance/store";
 
 type Params = { params: Promise<{ id: string }> };
 

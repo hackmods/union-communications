@@ -5,7 +5,7 @@ import {
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
 import { buildEmailDraft } from "@/lib/grievance/email-templates";
-import { grievanceStore } from "@/lib/grievance/memory-adapter";
+import { grievanceStore } from "@/lib/grievance/store";
 import { getTenantContext } from "@/lib/tenant/loader";
 import type { EmailTemplateId } from "@/types/grievance";
 

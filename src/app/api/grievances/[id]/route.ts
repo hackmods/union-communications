@@ -5,7 +5,7 @@ import {
   assertGrievanceView,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
-import { grievanceStore } from "@/lib/grievance/memory-adapter";
+import { grievanceStore } from "@/lib/grievance/store";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { getCurrentStepDueDate, isOverdue } from "@/lib/grievance/deadlines";
 import { parseJsonBody } from "@/lib/validation/parse";

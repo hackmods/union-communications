@@ -450,4 +450,8 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
   }
 }
 
-export const grievanceStore: GrievanceAdapter = new MemoryGrievanceAdapter();
+export const memoryGrievanceStore: GrievanceAdapter =
+  new MemoryGrievanceAdapter();
+
+/** @deprecated Prefer `@/lib/grievance/store` — kept for test seed access. */
+export const grievanceStore = memoryGrievanceStore;

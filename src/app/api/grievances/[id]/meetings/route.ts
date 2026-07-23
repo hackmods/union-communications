@@ -6,7 +6,7 @@ import {
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
 import { buildIcsEvent } from "@/lib/calendar/ics";
-import { grievanceStore } from "@/lib/grievance/memory-adapter";
+import { grievanceStore } from "@/lib/grievance/store";
 
 type RouteContext = { params: Promise<{ id: string }> };
 

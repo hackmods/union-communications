@@ -11,7 +11,7 @@ import {
 } from "@/lib/auth/bumping-session";
 import { canViewBumpingCase } from "@/lib/bumping/access";
 import { bumpingStore } from "@/lib/bumping/memory-adapter";
-import { grievanceStore } from "@/lib/grievance/memory-adapter";
+import { grievanceStore } from "@/lib/grievance/store";
 import {
   assertSliceTenantScope,
   buildHybridSlice,
