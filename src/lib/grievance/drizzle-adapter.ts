@@ -3,6 +3,7 @@ import { getDb } from "@/lib/db/client";
 import {
   grievanceEvents,
   grievanceNotes,
+  grievanceOutcomes,
   grievances,
   memberCommunications,
   scheduledMeetings,
@@ -11,11 +12,14 @@ import type { GrievanceAdapter } from "./adapter";
 import type {
   CreateEventInput,
   CreateGrievanceInput,
+  CreateGrievanceOutcomeInput,
   CreateNoteInput,
   Grievance,
   GrievanceEvent,
   GrievanceListFilters,
   GrievanceNote,
+  GrievanceOutcome,
+  GrievanceOutcomeType,
   GrievanceStatus,
   GrievanceWithRelations,
   UpdateGrievanceInput,
@@ -76,6 +80,22 @@ function mapNote(row: typeof grievanceNotes.$inferSelect): GrievanceNote {
     authorName: row.authorName,
     body: row.body,
     createdAt: toIso(row.createdAt)!,
+  };
+}
+
+function mapOutcome(
+  row: typeof grievanceOutcomes.$inferSelect,
+): GrievanceOutcome {
+  return {
+    id: row.id,
+    grievanceId: row.grievanceId,
+    outcomeType: row.outcomeType as GrievanceOutcomeType,
+    remedy: row.remedy ?? undefined,
+    settlementTerms: row.settlementTerms ?? undefined,
+    arbitratorName: row.arbitratorName ?? undefined,
+    hearingDate: toIso(row.hearingDate),
+    decidedAt: toIso(row.decidedAt)!,
+    recordedById: row.recordedById,
   };
 }
 
@@ -331,6 +351,72 @@ export class DrizzleGrievanceAdapter implements GrievanceAdapter {
       completedAt: input.completedAt,
       note: input.note,
       createdAt: createdAt.toISOString(),
+    };
+  }
+
+  async getOutcome(grievanceId: string): Promise<GrievanceOutcome | null> {
+    const db = getDb();
+    const [row] = await db
+      .select()
+      .from(grievanceOutcomes)
+      .where(eq(grievanceOutcomes.grievanceId, grievanceId))
+      .limit(1);
+    return row ? mapOutcome(row) : null;
+  }
+
+  async recordOutcome(
+    grievanceId: string,
+    input: CreateGrievanceOutcomeInput,
+    meta: { recordedById: string },
+  ): Promise<GrievanceOutcome | null> {
+    const db = getDb();
+    const existing = await this.getById(grievanceId);
+    if (!existing) return null;
+
+    const prior = await this.getOutcome(grievanceId);
+    const recordId = prior?.id ?? newId("gout");
+    const hearingDate = input.hearingDate
+      ? new Date(input.hearingDate)
+      : null;
+    const decidedAt = new Date(input.decidedAt);
+
+    if (prior) {
+      await db
+        .update(grievanceOutcomes)
+        .set({
+          outcomeType: input.outcomeType,
+          remedy: input.remedy,
+          settlementTerms: input.settlementTerms,
+          arbitratorName: input.arbitratorName,
+          hearingDate,
+          decidedAt,
+          recordedById: meta.recordedById,
+        })
+        .where(eq(grievanceOutcomes.grievanceId, grievanceId));
+    } else {
+      await db.insert(grievanceOutcomes).values({
+        id: recordId,
+        grievanceId,
+        outcomeType: input.outcomeType,
+        remedy: input.remedy,
+        settlementTerms: input.settlementTerms,
+        arbitratorName: input.arbitratorName,
+        hearingDate,
+        decidedAt,
+        recordedById: meta.recordedById,
+      });
+    }
+
+    return {
+      id: recordId,
+      grievanceId,
+      outcomeType: input.outcomeType,
+      remedy: input.remedy,
+      settlementTerms: input.settlementTerms,
+      arbitratorName: input.arbitratorName,
+      hearingDate: input.hearingDate,
+      decidedAt: input.decidedAt,
+      recordedById: meta.recordedById,
     };
   }
 

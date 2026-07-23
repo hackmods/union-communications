@@ -37,6 +37,8 @@ export default function BrandKitPage() {
     importBrandKit,
     resetBrandKit,
     onboardingComplete,
+    storageBlocked,
+    dismissStorageBlocked,
   } = useBrandStore();
   const fileRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -94,6 +96,25 @@ export default function BrandKitPage() {
         {t("title")}
       </h1>
       <p className="mt-2 max-w-prose text-gray-600">{t("description")}</p>
+
+      {storageBlocked ? (
+        <Callout
+          tone="muted"
+          className="mt-6 flex flex-col gap-3 border-amber-300 bg-amber-50 sm:flex-row sm:items-start sm:justify-between"
+          role="alert"
+        >
+          <p className="text-sm text-amber-950">{t("storageBlocked")}</p>
+          <Button
+            type="button"
+            size="sm"
+            variant="secondary"
+            className="shrink-0"
+            onClick={dismissStorageBlocked}
+          >
+            {t("storageBlockedDismiss")}
+          </Button>
+        </Callout>
+      ) : null}
 
       <Callout tone="brand" className="mt-6 space-y-3">
         <div>

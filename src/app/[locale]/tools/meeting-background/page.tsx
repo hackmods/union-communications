@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
+import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
@@ -203,6 +204,7 @@ export default function MeetingBackgroundPage() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<BackgroundState>(initial);
+  const { exportError, exporting, runExport } = useExportHandler();
 
   // Design set is derived from the active layout (undo/redo stays consistent)
   const designSet = designSetForLayout(state.layout);
@@ -329,14 +331,16 @@ export default function MeetingBackgroundPage() {
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
-    await exportNodeAsPng(
-      canvasRef.current,
-      formatFilename(format.filenameStem, brandKit.local.localNumber, "png"),
-      {
-        pixelRatio: exportPixelRatio(canvasRef.current, format),
-        backgroundColor: primary,
-      },
-    );
+    await runExport(async () => {
+      await exportNodeAsPng(
+        canvasRef.current!,
+        formatFilename(format.filenameStem, brandKit.local.localNumber, "png"),
+        {
+          pixelRatio: exportPixelRatio(canvasRef.current!, format),
+          backgroundColor: primary,
+        },
+      );
+    });
   };
 
   const stackedHeadline = (
@@ -705,6 +709,7 @@ export default function MeetingBackgroundPage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      exportError={exportError}
       toolbar={
         !themeEstablished && hydrated ? (
           <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
@@ -895,14 +900,22 @@ export default function MeetingBackgroundPage() {
             }}
           />
 
-          <Button type="button" onClick={() => void handleExportPng()}>
-            {tc("downloadPng")}
+          <Button
+            type="button"
+            onClick={() => void handleExportPng()}
+            disabled={exporting}
+          >
+            {exporting ? tc("exporting") : tc("downloadPng")}
           </Button>
         </Card>
       }
       previewActions={
-        <Button type="button" onClick={() => void handleExportPng()}>
-          {tc("downloadPng")}
+        <Button
+          type="button"
+          onClick={() => void handleExportPng()}
+          disabled={exporting}
+        >
+          {exporting ? tc("exporting") : tc("downloadPng")}
         </Button>
       }
       preview={

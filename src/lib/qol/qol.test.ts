@@ -2,7 +2,7 @@
  * @vitest-environment node
  */
 import { describe, it, expect } from "vitest";
-import { buildIcsEvent, toIcsUtc } from "@/lib/calendar/ics";
+import { buildIcsEvent, buildIcsCalendar, toIcsUtc } from "@/lib/calendar/ics";
 import {
   buildHandoffPackage,
   canInitiateHandoff,
@@ -32,6 +32,24 @@ describe("ICS calendar", () => {
     expect(ics).toContain("LOCATION:Room A\\, Building 1");
     expect(ics).toContain("DTSTART:20260715T140000Z");
     expect(ics).toContain("END:VEVENT");
+  });
+
+  it("builds a multi-event VCALENDAR", () => {
+    const ics = buildIcsCalendar([
+      {
+        uid: "a@local",
+        title: "A",
+        startsAt: "2026-07-15T14:00:00.000Z",
+        endsAt: "2026-07-15T15:00:00.000Z",
+      },
+      {
+        uid: "b@local",
+        title: "B",
+        startsAt: "2026-07-16T14:00:00.000Z",
+        endsAt: "2026-07-16T15:00:00.000Z",
+      },
+    ]);
+    expect(ics.match(/BEGIN:VEVENT/g)?.length).toBe(2);
   });
 });
 

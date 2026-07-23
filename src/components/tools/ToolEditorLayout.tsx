@@ -4,6 +4,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { PageShell } from "@/components/layout/PageShell";
 import { MobilePreviewStage } from "@/components/tools/MobilePreviewStage";
+import { Callout } from "@/components/ui/Callout";
 import { cn } from "@/lib/utils";
 
 type ToolEditorLayoutProps = {
@@ -23,6 +24,8 @@ type ToolEditorLayoutProps = {
   belowGrid?: ReactNode;
   /** Sources / notes below the tool chrome. */
   footer?: ReactNode;
+  /** User-visible export failure (TOOL-002); shown as a danger Callout. */
+  exportError?: ReactNode;
   className?: string;
 };
 
@@ -56,6 +59,7 @@ export function ToolEditorLayout({
   toolbar,
   belowGrid,
   footer,
+  exportError,
   className,
 }: ToolEditorLayoutProps) {
   const t = useTranslations("common");
@@ -77,6 +81,12 @@ export function ToolEditorLayout({
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">{title}</h1>
       {description ? (
         <p className="mt-1 text-gray-600">{description}</p>
+      ) : null}
+
+      {exportError ? (
+        <Callout tone="danger" role="alert" className="mt-4">
+          {exportError}
+        </Callout>
       ) : null}
 
       {toolbar ? <div className="mt-4">{toolbar}</div> : null}

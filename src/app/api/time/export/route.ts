@@ -5,7 +5,7 @@ import {
   requireTimeSession,
 } from "@/lib/auth/time-session";
 import { canAdminTime } from "@/lib/time/access";
-import { timeStore } from "@/lib/time/memory-adapter";
+import { timeStore } from "@/lib/time/store";
 import type { TimeEntry } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
 

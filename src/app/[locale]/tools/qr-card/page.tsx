@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
+import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
@@ -80,6 +81,7 @@ export default function QrCardPage() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<QrCardState>(initial);
+  const { exportError, exporting, runExport } = useExportHandler();
 
   useEffect(() => {
     if (!hydrated || seeded.current) return;
@@ -185,23 +187,27 @@ export default function QrCardPage() {
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
-    await exportNodeAsPng(
-      canvasRef.current,
-      formatFilename(`qr-card-${state.sizeId}`, brandKit.local.localNumber, "png"),
-      { pixelRatio: exportPixelRatio, backgroundColor: state.primaryColor },
-    );
+    await runExport(async () => {
+      await exportNodeAsPng(
+        canvasRef.current!,
+        formatFilename(`qr-card-${state.sizeId}`, brandKit.local.localNumber, "png"),
+        { pixelRatio: exportPixelRatio, backgroundColor: state.primaryColor },
+      );
+    });
   };
 
   const handleExportPdf = async () => {
     if (!canvasRef.current) return;
-    await nodeToPdf(
-      canvasRef.current,
-      formatFilename(`qr-card-${state.sizeId}`, brandKit.local.localNumber, "pdf"),
-      size.widthInches,
-      size.heightInches,
-      exportPixelRatio,
-      state.primaryColor,
-    );
+    await runExport(async () => {
+      await nodeToPdf(
+        canvasRef.current!,
+        formatFilename(`qr-card-${state.sizeId}`, brandKit.local.localNumber, "pdf"),
+        size.widthInches,
+        size.heightInches,
+        exportPixelRatio,
+        state.primaryColor,
+      );
+    });
   };
 
   const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
@@ -221,6 +227,7 @@ export default function QrCardPage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      exportError={exportError}
       toolbar={
         !themeEstablished && hydrated ? (
           <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
@@ -368,8 +375,14 @@ export default function QrCardPage() {
             }}
           />
           <div className="flex gap-3">
-            <Button onClick={handleExportPng}>{tc("downloadPng")}</Button>
-            <Button variant="outline" onClick={handleExportPdf}>
+            <Button onClick={handleExportPng} disabled={exporting}>
+              {exporting ? tc("exporting") : tc("downloadPng")}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleExportPdf}
+              disabled={exporting}
+            >
               {tc("downloadPdf")}
             </Button>
           </div>
@@ -377,8 +390,14 @@ export default function QrCardPage() {
       }
       previewActions={
         <>
-          <Button onClick={handleExportPng}>{tc("downloadPng")}</Button>
-          <Button variant="outline" onClick={handleExportPdf}>
+          <Button onClick={handleExportPng} disabled={exporting}>
+            {exporting ? tc("exporting") : tc("downloadPng")}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handleExportPdf}
+            disabled={exporting}
+          >
             {tc("downloadPdf")}
           </Button>
         </>

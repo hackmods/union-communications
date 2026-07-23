@@ -117,3 +117,18 @@ export interface DiffLine {
   left?: string;
   right?: string;
 }
+
+/**
+ * Local seniority roster row — used by the advisory bumping aid only.
+ * Does not bind committee decisions; DecisionRecord remains authoritative.
+ */
+export interface MemberSeniorityRecord {
+  id: string;
+  unionId: string;
+  localId: string;
+  memberRef: string;
+  /** ISO date string (YYYY-MM-DD). Earlier date = more senior. */
+  seniorityDate: string;
+  classification: string;
+  active: boolean;
+}

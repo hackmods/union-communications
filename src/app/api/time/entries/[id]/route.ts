@@ -6,7 +6,7 @@ import {
   requireTimeSession,
 } from "@/lib/auth/time-session";
 import { canSubmitTimeEntry } from "@/lib/time/access";
-import { timeStore } from "@/lib/time/memory-adapter";
+import { timeStore } from "@/lib/time/store";
 import type { TimeEntryStatus } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
 

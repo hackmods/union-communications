@@ -457,5 +457,11 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `SEC-003` (bumping + audit adapters) — Drizzle adapters + store proxies; RLS migration `0002_rls_policies.sql` + `rls-context.ts`
 - [x] `SEC-009` — hybrid slice `Cache-Control: no-store` + COMPLIANCE/UI residual-risk copy
 - [x] `RBAC-003` — cross-module `rbac-matrix.test.ts`
-- [ ] `SEC-007` — real accounts / invite flow (next after durable users)
-- [ ] Time module Drizzle adapter (still memory)
+- [x] `FEAT-004` — `GrievanceOutcome` entity (type, Zod, Drizzle table, memory/drizzle adapters, `/api/grievances/[id]/outcome`); UI/export/appeal-deadline follow-ups remain
+- [x] `FEAT-005` — advisory seniority aid (`compareSeniority` / `rankEligibleBumpers`, seed roster, `GET /api/bumping/seniority`); not a binding decision engine
+- [x] `FEAT-006` — Hub calendar aggregation (`/app/calendar`, `GET /api/calendar`) of grievance meetings + bumping sessions; MFA/role gated; multi-event ICS export; HubNav link
+- [x] `UX-001` — App Router `error.tsx` / `loading.tsx` / `not-found.tsx` for `[locale]` + Hub `/app`; shared `Skeleton`; EN/FR `routeUi` copy
+- [x] `SEC-007` — bcrypt auth path; demo roster production-gated; Postgres users via `AUTH_USERS_BACKEND`; invite create/accept APIs (email + password-reset deferred)
+- [x] Time module Drizzle adapter + store (`TIME_DB_BACKEND`); migrations `0004_time_tables` / `0005_time_rls`
+- [x] `TOOL-001` / `TOOL-006` / `TOOL-007` — LocalStorage try/catch + session fallback; Brand Kit v2 write-back; `opseu-*` → `unionops-*` keys
+- [x] `TOOL-002` — `useExportHandler` + danger Callout on canvas tool exports

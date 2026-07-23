@@ -55,6 +55,25 @@ export interface GrievanceNote {
   createdAt: string;
 }
 
+export type GrievanceOutcomeType =
+  | "upheld"
+  | "denied"
+  | "settled"
+  | "withdrawn";
+
+/** Optional 1:1 arbitration / settlement outcome for a grievance (FEAT-004). */
+export interface GrievanceOutcome {
+  id: string;
+  grievanceId: string;
+  outcomeType: GrievanceOutcomeType;
+  remedy?: string;
+  settlementTerms?: string;
+  arbitratorName?: string;
+  hearingDate?: string;
+  decidedAt: string;
+  recordedById: string;
+}
+
 export interface GrievanceWithRelations {
   grievance: Grievance;
   events: GrievanceEvent[];
@@ -83,6 +102,15 @@ export interface UpdateGrievanceInput {
 
 export interface CreateNoteInput {
   body: string;
+}
+
+export interface CreateGrievanceOutcomeInput {
+  outcomeType: GrievanceOutcomeType;
+  remedy?: string;
+  settlementTerms?: string;
+  arbitratorName?: string;
+  hearingDate?: string;
+  decidedAt: string;
 }
 
 export interface CreateEventInput {

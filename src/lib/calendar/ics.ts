@@ -29,13 +29,8 @@ function escapeIcsText(text: string): string {
     .replace(/\n/g, "\\n");
 }
 
-export function buildIcsEvent(event: IcsEventInput): string {
+function veventLines(event: IcsEventInput): string[] {
   const lines = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Local Union Hub//EN",
-    "CALSCALE:GREGORIAN",
-    "METHOD:PUBLISH",
     "BEGIN:VEVENT",
     `UID:${escapeIcsText(event.uid)}`,
     `DTSTAMP:${toIcsUtc(new Date().toISOString())}`,
@@ -54,8 +49,28 @@ export function buildIcsEvent(event: IcsEventInput): string {
       `ORGANIZER;CN=${escapeIcsText(event.organizerName)}:MAILTO:noreply@local-union-hub.local`,
     );
   }
-  lines.push("END:VEVENT", "END:VCALENDAR");
+  lines.push("END:VEVENT");
+  return lines;
+}
+
+/** Build a multi-event VCALENDAR (Hub aggregated export). */
+export function buildIcsCalendar(events: IcsEventInput[]): string {
+  const lines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Local Union Hub//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+  ];
+  for (const event of events) {
+    lines.push(...veventLines(event));
+  }
+  lines.push("END:VCALENDAR");
   return lines.join("\r\n") + "\r\n";
+}
+
+export function buildIcsEvent(event: IcsEventInput): string {
+  return buildIcsCalendar([event]);
 }
 
 export function downloadIcs(filename: string, icsContent: string): void {

@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
+import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
@@ -65,6 +66,7 @@ function FlyerMakerPageContent() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<FlyerState>(initial);
+  const { exportError, exporting, runExport } = useExportHandler();
 
   // Seed Brand Kit colours (and optional example copy) once after hydrate
   useEffect(() => {
@@ -101,29 +103,34 @@ function FlyerMakerPageContent() {
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
-    await exportNodeAsPng(
-      canvasRef.current,
-      formatFilename("flyer", brandKit.local.localNumber, "png"),
-      { pixelRatio: 2, backgroundColor: state.primaryColor },
-    );
+    await runExport(async () => {
+      await exportNodeAsPng(
+        canvasRef.current!,
+        formatFilename("flyer", brandKit.local.localNumber, "png"),
+        { pixelRatio: 2, backgroundColor: state.primaryColor },
+      );
+    });
   };
 
   const handleExportPdf = async () => {
     if (!canvasRef.current) return;
-    await nodeToPdf(
-      canvasRef.current,
-      formatFilename("flyer", brandKit.local.localNumber, "pdf"),
-      8.5,
-      11,
-      2,
-      state.primaryColor,
-    );
+    await runExport(async () => {
+      await nodeToPdf(
+        canvasRef.current!,
+        formatFilename("flyer", brandKit.local.localNumber, "pdf"),
+        8.5,
+        11,
+        2,
+        state.primaryColor,
+      );
+    });
   };
 
   return (
     <ToolEditorLayout
       title={tf("title")}
       description={tf("subtitle")}
+      exportError={exportError}
       form={
         <Card density="compact" className="space-y-3">
           <Textarea
@@ -182,8 +189,14 @@ function FlyerMakerPageContent() {
             }}
           />
           <div className="flex gap-3">
-            <Button onClick={handleExportPng}>{t("downloadPng")}</Button>
-            <Button variant="outline" onClick={handleExportPdf}>
+            <Button onClick={handleExportPng} disabled={exporting}>
+              {exporting ? t("exporting") : t("downloadPng")}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleExportPdf}
+              disabled={exporting}
+            >
               {t("downloadPdf")}
             </Button>
           </div>
@@ -191,8 +204,14 @@ function FlyerMakerPageContent() {
       }
       previewActions={
         <>
-          <Button onClick={handleExportPng}>{t("downloadPng")}</Button>
-          <Button variant="outline" onClick={handleExportPdf}>
+          <Button onClick={handleExportPng} disabled={exporting}>
+            {exporting ? t("exporting") : t("downloadPng")}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handleExportPdf}
+            disabled={exporting}
+          >
             {t("downloadPdf")}
           </Button>
         </>

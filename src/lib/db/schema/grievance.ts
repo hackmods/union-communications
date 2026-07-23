@@ -66,3 +66,19 @@ export const grievanceNotes = pgTable("grievance_notes", {
     .notNull()
     .defaultNow(),
 });
+
+/** Optional 1:1 arbitration / settlement outcome (FEAT-004). */
+export const grievanceOutcomes = pgTable("grievance_outcomes", {
+  id: text("id").primaryKey(),
+  grievanceId: text("grievance_id")
+    .notNull()
+    .unique()
+    .references(() => grievances.id, { onDelete: "cascade" }),
+  outcomeType: text("outcome_type").notNull(),
+  remedy: text("remedy"),
+  settlementTerms: text("settlement_terms"),
+  arbitratorName: text("arbitrator_name"),
+  hearingDate: timestamp("hearing_date", { withTimezone: true }),
+  decidedAt: timestamp("decided_at", { withTimezone: true }).notNull(),
+  recordedById: text("recorded_by_id").notNull(),
+});

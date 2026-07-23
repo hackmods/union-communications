@@ -3,6 +3,8 @@ import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/auth.config";
 import { resolveAuthSecret } from "@/lib/auth/auth-secret";
 import { findDemoUser } from "@/lib/auth/demo-users";
+import { findDbUser } from "@/lib/auth/find-db-user";
+import { findInvitedUser } from "@/lib/auth/invites";
 import { auditLog } from "@/lib/audit/store";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -20,29 +22,36 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const password = credentials?.password as string | undefined;
         if (!email || !password) return null;
 
-        const demo = findDemoUser(email, password);
-        if (!demo) return null;
+        // Prefer durable users, then accepted invites, then gated demo roster (SEC-007).
+        const account =
+          (await findDbUser(email, password)) ??
+          (await findInvitedUser(email, password)) ??
+          (await findDemoUser(email, password));
+        if (!account) return null;
 
         await auditLog.log({
-          userId: demo.id,
+          userId: account.id,
           action: "auth.login",
           resourceType: "session",
-          resourceId: demo.id,
-          unionId: demo.unionId,
-          localId: demo.localId,
+          resourceId: account.id,
+          unionId: account.unionId,
+          localId: account.localId,
         });
 
         return {
-          id: demo.id,
-          name: demo.name,
-          email: demo.email,
-          unionId: demo.unionId,
-          divisionId: demo.divisionId,
-          localId: demo.localId,
-          bargainingUnitId: demo.bargainingUnitId,
-          accessibleLocalIds: demo.accessibleLocalIds,
-          roles: demo.roles,
-          mfaVerified: !demo.requiresMfa,
+          id: account.id,
+          name: account.name,
+          email: account.email,
+          unionId: account.unionId,
+          divisionId: account.divisionId,
+          localId: account.localId,
+          bargainingUnitId: account.bargainingUnitId,
+          accessibleLocalIds:
+            "accessibleLocalIds" in account
+              ? account.accessibleLocalIds
+              : undefined,
+          roles: account.roles,
+          mfaVerified: !account.requiresMfa,
         };
       },
     }),

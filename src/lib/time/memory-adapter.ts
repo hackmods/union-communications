@@ -142,7 +142,7 @@ function assertValidRange(clockInAt: string, clockOutAt: string) {
   }
 }
 
-export const timeStore: TimeAdapter = {
+export const memoryTimeStore: TimeAdapter = {
   async listEntries(filters: TimeListFilters): Promise<TimeEntry[]> {
     let results = entries.filter((e) => e.unionId === filters.unionId);
     if (filters.localId) {

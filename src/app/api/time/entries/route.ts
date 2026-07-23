@@ -4,7 +4,7 @@ import {
   listFiltersForTimeSession,
   requireTimeSession,
 } from "@/lib/auth/time-session";
-import { timeStore } from "@/lib/time/memory-adapter";
+import { timeStore } from "@/lib/time/store";
 
 export async function GET() {
   const authResult = await requireTimeSession();

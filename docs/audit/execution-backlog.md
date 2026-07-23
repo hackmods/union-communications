@@ -77,9 +77,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. In the adapter update functions, explicitly whitelist the mutable fields rather than spreading the entire input object onto the existing record.
 4. Add unit tests asserting a PATCH body containing `{ unionId: "other-union" }` does not change the stored record's `unionId`.
 
-### [SEC-007]
+### [SEC-007] ✅ CLOSED (2026-07-23)
 **Category:** Security
 **Severity/Priority:** High
+**Status:** Closed — bcrypt (`hashPassword`/`verifyPassword`) on demo + invitee auth; demo roster gated (`NEXT_PUBLIC_DEMO_SITE` / `AUTH_ALLOW_DEMO_USERS`, off by default in production); `AUTH_USERS_BACKEND=postgres` path via `users` table; invite create/accept APIs (`POST /api/invites`, `GET`/`POST /api/invites/[token]`). Transactional email + password-reset deferred until email infra.
 **Problem/Gap Statement:** Login is only possible via a hardcoded demo roster with plaintext password comparison (`demo123` for every account). There is no real signup, invite-acceptance, or password-reset flow, despite `docs/RBAC.md`'s "Invitation Flow (Phase 6 onboarding)" describing one. `bcryptjs` is a declared dependency but is never imported/called anywhere in the live auth path.
 **Affected Architecture/Files:** `src/lib/auth/demo-users.ts`, `src/auth.ts`, `package.json` (`bcryptjs` dependency)
 **Implementation Blueprint:**
@@ -193,9 +194,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Allow tasks to optionally attach to a grievance/bumping case (surfaced on the case detail page) or stand alone for general local business.
 4. RBAC: any hub role can create/self-assign; only assignee or elevated roles can mark complete/reassign — mirror the `canEditGrievance` local_exec-can-view-but-not-edit pattern.
 
-### [FEAT-004]
+### [FEAT-004] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Medium
+**Status:** Closed — `GrievanceOutcome` type, Zod create schema, Drizzle `grievance_outcomes` table + migration, memory/drizzle adapter `getOutcome`/`recordOutcome`, and `GET`/`POST /api/grievances/[id]/outcome`. Detail UI + export bundle + appeal-deadline CAConfig still open follow-ups.
 **Problem/Gap Statement:** The Grievance module has no structured arbitration outcome, settlement-terms, or appeal-deadline entity. Step 4 ("Arbitration") in the reference CAConfig seed has `responseDays: null`, meaning no deadline is ever computed for it, and there is no way to record the arbitrator's decision, remedy granted, or settlement terms in a queryable field — only free-text notes.
 **Affected Architecture/Files:** `src/types/grievance.ts`, `seed/reference-tenant-opseu-caat.json`, `src/lib/grievance/deadlines.ts`
 **Implementation Blueprint:**
@@ -204,9 +206,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Surface outcome recording in the grievance detail UI, gated by the same edit ACL as other grievance mutations.
 4. Include the outcome in the export bundle (`src/lib/grievance/export.ts`) for arbitration-ready packages.
 
-### [FEAT-005]
+### [FEAT-005] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Medium
+**Status:** Closed — advisory seniority aid only (`MemberSeniorityRecord`, `compareSeniority` / `rankEligibleBumpers`, memory seed roster, `GET /api/bumping/seniority`). Explicitly not a binding decision engine; `DecisionRecord` remains authoritative. `VacancyPosting` entity deferred.
 **Problem/Gap Statement:** The College Bumping module cannot compute seniority-based bumping eligibility or cascading displacement chains — `seniorityDate` is a stored string with no comparison logic, and there is no member seniority roster or vacancy/posting entity. The module is effectively a committee note-taking + PDF-diff aid, not a bumping *calculator*, despite the module name implying otherwise.
 **Affected Architecture/Files:** `src/types/bumping.ts`, `src/lib/bumping/memory-adapter.ts`, `src/lib/bumping/diff.ts`
 **Implementation Blueprint:**
@@ -215,9 +218,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Implement a pure, testable seniority-comparison function (`compareSeniority(a, b): -1|0|1` and `rankEligibleBumpers(vacancy, roster): MemberSeniorityRecord[]`) that surfaces a **suggested** eligibility order in the UI — explicitly labeled as an aid, not a binding decision, consistent with the existing "not legal advice" disclaimer in `docs/modules/COLLEGE_BUMPING.md`.
 4. Keep `DecisionRecord` as the final, human-entered record of what the committee actually decided — the calculator informs, it does not replace, committee judgment.
 
-### [FEAT-006]
+### [FEAT-006] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Low
+**Status:** Closed — authenticated Hub read-only calendar at `/app/calendar` aggregates `ScheduledMeeting` + `CommitteeSession` via `GET /api/calendar` (session MFA + grievance/bumping role gates; union/local filters from existing session helpers). HubNav link when grievance or bumping access is enabled; multi-event ICS export via `buildIcsCalendar`. Public meeting-reminder / subscribe feed remains deferred (`docs/modules/CALENDAR_MEETINGS.md`).
 **Problem/Gap Statement:** There is no shared org-wide calendar/schedule feature — only per-grievance `ScheduledMeeting` (+ ICS export) and public-facing Comms event ICS exist. Officers cannot see a unified view of upcoming grievance meetings, bumping committee sessions, and general local events in one place.
 **Affected Architecture/Files:** `src/types/qol.ts` (`ScheduledMeeting`), `src/lib/calendar/event-ics.ts`, `src/types/bumping.ts` (`CommitteeSession`)
 **Implementation Blueprint:**
@@ -229,9 +233,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 
 ## UX (`UX-`)
 
-### [UX-001]
+### [UX-001] ✅ CLOSED (2026-07-23)
 **Category:** UX
 **Severity/Priority:** High
+**Status:** Closed — App Router `error.tsx` / `loading.tsx` / `not-found.tsx` at `[locale]` and `[locale]/app`; shared `Skeleton` primitive; EN/FR `routeUi` copy. Hub error offers try-again + sign-out; public error/404 link to tools/home.
 **Problem/Gap Statement:** There are zero Next.js `error.tsx`, `loading.tsx`, or `not-found.tsx` files anywhere under `src/app/` (confirmed via full-repo search), and no shared `<ErrorBoundary>` component exists. An unhandled exception in any Hub route (grievances, bumping, time, audit) falls through to Next.js's generic error UI with no union-branded messaging, no "what to do next" guidance, and no automatic error reporting hook.
 **Affected Architecture/Files:** `src/app/[locale]/app/**` (all Hub routes), `src/app/[locale]/layout.tsx`
 **Implementation Blueprint:**
@@ -338,9 +343,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 
 ## COMMS TOOLS (`TOOL-`)
 
-### [TOOL-001]
+### [TOOL-001] ✅ CLOSED (2026-07-23)
 **Category:** Comms Tools
 **Severity/Priority:** High
+**Status:** Closed — `LocalStorageAdapter` wraps get/set/remove in try/catch with in-memory session fallback; Brand Kit shows dismissible storage-blocked banner via `storageBlocked` on `brand-store`. See `src/lib/data/local-storage-adapter.ts`, `src/lib/data/local-storage-adapter.test.ts`.
 **Problem/Gap Statement:** `src/lib/data/local-storage-adapter.ts` does not wrap `localStorage.getItem`/`setItem` calls in try/catch. In Safari private browsing (which throws on `setItem`) or when the browser's storage quota is exceeded, saving or loading the Brand Kit throws an unhandled exception rather than failing gracefully — a volunteer communicator using a locked-down or low-storage device could lose their in-progress Brand Kit edits with a crashed UI and no error message.
 **Affected Architecture/Files:** `src/lib/data/local-storage-adapter.ts`, `src/store/brand-store.ts`
 **Implementation Blueprint:**
@@ -349,9 +355,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Surface a one-time, dismissible toast/banner in the Brand Kit UI when a save fails ("Your browser blocked saving — changes will be lost when you close this tab") instead of the current silent/crash behavior.
 4. Add unit tests that mock `localStorage.setItem` to throw `QuotaExceededError`/`SecurityError` and assert the adapter degrades gracefully rather than throwing out of `saveBrandKit()`.
 
-### [TOOL-002]
+### [TOOL-002] ✅ CLOSED (2026-07-23)
 **Category:** Comms Tools
 **Severity/Priority:** High
+**Status:** Closed — shared `useExportHandler` hook + `ToolEditorLayout` `exportError` Callout (`tone="danger"`); adopted on solidarity-poster, flyer-maker, board-notice, quote-card, qr-card, qr-board, board-banner, meeting-background, and graphic-maker. Board-banner multi-sheet PNG kits report partial failures via `common.exportPartial` (EN/FR). logo-builder / resizer / document-generator already had local try/catch error UI (left as-is).
 **Problem/Gap Statement:** Export failures are silent on most canvas tools. `solidarity-poster/page.tsx`, `flyer-maker/page.tsx`, and others call the PNG/PDF export helpers with no try/catch around the async export call — if `html-to-image` throws (e.g. a cross-origin image in the composition, or a WebKit rendering quirk), the user sees no error, no loading indicator resolution, and no explanation for why nothing downloaded. `board-banner/page.tsx`'s multi-sheet export additionally has a `continue`-on-null-blob path that silently drops failed sheets from a multi-page kit without warning the user a sheet is missing.
 **Affected Architecture/Files:** `src/app/[locale]/tools/solidarity-poster/page.tsx`, `src/app/[locale]/tools/flyer-maker/page.tsx`, `src/app/[locale]/tools/board-banner/page.tsx`, `src/lib/export/image-export.ts`, `src/lib/export/pdf-export.ts`
 **Implementation Blueprint:**
@@ -390,18 +397,20 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Add component-level tests (Vitest + `@testing-library/react`, already a dependency) for at least the shared `ToolEditorLayout.tsx` and one representative canvas component (`BoardTrimCanvas.tsx`) covering prop-driven rendering and the mobile Edit/Preview tab behavior.
 3. Treat this as an incremental backlog item, not a one-shot rewrite — prioritize the tools most recently touched or most complex (board-banner, solidarity-poster) first.
 
-### [TOOL-006]
+### [TOOL-006] ✅ CLOSED (2026-07-23)
 **Category:** Comms Tools
 **Severity/Priority:** Low
+**Status:** Closed — `getBrandKit()` write-backs normalized `"2.0"` when stored version ≠ 2.0. Covered in `local-storage-adapter.test.ts`.
 **Problem/Gap Statement:** Brand Kit's v1.1 → v2.0 migration (`normalizeBrandKit` in `src/lib/utils/local-links.ts`) happens only in memory on read — the underlying `localStorage` payload is not rewritten to v2 until the next explicit save. A kit that is only ever read (never edited/saved) stays tagged `"1.1"` in storage indefinitely, which is harmless today but is exactly the kind of latent inconsistency that causes bugs when a future migration (v2 → v3) needs to detect "already migrated" state reliably.
 **Affected Architecture/Files:** `src/lib/data/local-storage-adapter.ts`, `src/lib/utils/local-links.ts`
 **Implementation Blueprint:**
 1. In the adapter's `getBrandKit()`, after calling `normalizeBrandKit()`, write the normalized (now v2) result back to `localStorage` immediately rather than waiting for the next explicit save.
 2. Add a unit test: load a v1.1 fixture, call `getBrandKit()`, then read the raw `localStorage` value directly and assert it is now tagged `"2.0"`.
 
-### [TOOL-007]
+### [TOOL-007] ✅ CLOSED (2026-07-23)
 **Category:** Comms Tools
 **Severity/Priority:** Low
+**Status:** Closed — keys renamed to `unionops-brand-kit` / `unionops-onboarding-complete` with one-time read-migration from `opseu-*`. Covered in `local-storage-adapter.test.ts`.
 **Problem/Gap Statement:** The Brand Kit / onboarding / preferences `localStorage` keys retain legacy `opseu-*` naming (`opseu-brand-kit`, `opseu-onboarding-complete` in `src/lib/data/adapter.ts`) despite the platform's multi-union, union-agnostic rebrand (ADR-012, the UnionOps rebrand). This is cosmetic/internal-only (not user-visible) but is exactly the kind of "OPSEU/CAAT migrates to tenant config" debt `docs/VISION.md` §"v1 code debt" flags as outstanding.
 **Affected Architecture/Files:** `src/lib/data/adapter.ts` (`BRAND_KIT_KEY`, `ONBOARDING_KEY` constants)
 **Implementation Blueprint:**

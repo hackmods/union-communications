@@ -7,6 +7,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { getVisibleModules } from "@/lib/modules/registry";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canInitiateHandoff } from "@/lib/handoff/package";
+import { canAccessBumpingModule } from "@/lib/bumping/access";
 import { canAccessGrievanceModule } from "@/lib/grievance/access";
 import { canCrossLocalGrievance } from "@/lib/grievance/access";
 import type { HubModule, UserRole } from "@/types/tenant";
@@ -33,6 +34,9 @@ export function HubNav() {
   const modules = getVisibleModules(enabledModules, roles);
   const mfaOk = !!session.user.mfaVerified;
   const hasGrievance = canAccessGrievanceModule(roles);
+  const hasBumping =
+    canAccessBumpingModule(roles) && enabledModules.includes("bumping");
+  const showCalendar = hasGrievance || hasBumping;
   const showHandoff = canInitiateHandoff(roles);
   const showAudit =
     canCrossLocalGrievance(roles) ||
@@ -40,6 +44,10 @@ export function HubNav() {
     roles.includes("local_exec");
 
   const toolLinks = [
+    showCalendar && {
+      href: "/app/calendar",
+      label: t("calendarLink"),
+    },
     hasGrievance && {
       href: "/app/overdue",
       label: t("overdueLink"),

@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
+import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
@@ -60,6 +61,7 @@ export default function BoardNoticePage() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<BoardNoticeState>(initial);
+  const { exportError, exporting, runExport } = useExportHandler();
 
   const dims = FORMAT_DIMENSIONS[format];
   const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)} - ${brandKit.local.subText}`;
@@ -74,23 +76,27 @@ export default function BoardNoticePage() {
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
-    await exportNodeAsPng(
-      canvasRef.current,
-      formatFilename(`board-notice-${format}`, brandKit.local.localNumber, "png"),
-      { pixelRatio: 2, backgroundColor: brandKit.primaryColor },
-    );
+    await runExport(async () => {
+      await exportNodeAsPng(
+        canvasRef.current!,
+        formatFilename(`board-notice-${format}`, brandKit.local.localNumber, "png"),
+        { pixelRatio: 2, backgroundColor: brandKit.primaryColor },
+      );
+    });
   };
 
   const handleExportPdf = async () => {
     if (!canvasRef.current) return;
-    await nodeToPdf(
-      canvasRef.current,
-      formatFilename(`board-notice-${format}`, brandKit.local.localNumber, "pdf"),
-      dims.widthInches,
-      dims.heightInches,
-      2,
-      brandKit.primaryColor,
-    );
+    await runExport(async () => {
+      await nodeToPdf(
+        canvasRef.current!,
+        formatFilename(`board-notice-${format}`, brandKit.local.localNumber, "pdf"),
+        dims.widthInches,
+        dims.heightInches,
+        2,
+        brandKit.primaryColor,
+      );
+    });
   };
 
   return (
@@ -98,6 +104,7 @@ export default function BoardNoticePage() {
       <ToolEditorLayout
         title={t("title")}
         description={t("subtitle")}
+        exportError={exportError}
         form={
           <Card density="compact" className="space-y-3">
             <div>
@@ -177,8 +184,14 @@ export default function BoardNoticePage() {
               onReset={() => reset(initial)}
             />
             <div className="flex gap-3">
-              <Button onClick={handleExportPng}>{tc("downloadPng")}</Button>
-              <Button variant="outline" onClick={handleExportPdf}>
+              <Button onClick={handleExportPng} disabled={exporting}>
+                {exporting ? tc("exporting") : tc("downloadPng")}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleExportPdf}
+                disabled={exporting}
+              >
                 {tc("downloadPdf")}
               </Button>
             </div>
@@ -186,8 +199,14 @@ export default function BoardNoticePage() {
         }
         previewActions={
           <>
-            <Button onClick={handleExportPng}>{tc("downloadPng")}</Button>
-            <Button variant="outline" onClick={handleExportPdf}>
+            <Button onClick={handleExportPng} disabled={exporting}>
+              {exporting ? tc("exporting") : tc("downloadPng")}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleExportPdf}
+              disabled={exporting}
+            >
               {tc("downloadPdf")}
             </Button>
           </>

@@ -1,11 +1,20 @@
 import type { DemoUser } from "@/types/auth";
+import { isDemoAuthEnabled } from "@/lib/auth/demo-auth-gate";
+import { verifyPassword } from "@/lib/auth/password";
 
-/** Dev-only demo accounts - replace with DB in production */
+/**
+ * bcrypt hash of plaintext `demo123` (cost 10).
+ * Used only when demo auth is enabled — never compare plaintext in authorize().
+ */
+export const DEMO_PASSWORD_HASH =
+  "$2b$10$f09Lh9HIYNa/jyqKg1XVku27IJ4amiXw/ypJeL2SATVlXpn0l3jTW";
+
+/** Dev/demo roster — passwords are bcrypt hashes only (SEC-007). */
 export const DEMO_USERS: DemoUser[] = [
   {
     id: "user-president-243",
     email: "president@local243.ca",
-    password: "demo123",
+    passwordHash: DEMO_PASSWORD_HASH,
     name: "Local 243 President",
     unionId: "union-opseu",
     divisionId: "division-caat",
@@ -20,7 +29,7 @@ export const DEMO_USERS: DemoUser[] = [
   {
     id: "user-steward-243",
     email: "steward@local243.ca",
-    password: "demo123",
+    passwordHash: DEMO_PASSWORD_HASH,
     name: "Local 243 Steward (FT)",
     unionId: "union-opseu",
     divisionId: "division-caat",
@@ -34,7 +43,7 @@ export const DEMO_USERS: DemoUser[] = [
   {
     id: "user-steward-243-pt",
     email: "steward-pt@local243.ca",
-    password: "demo123",
+    passwordHash: DEMO_PASSWORD_HASH,
     name: "Local 243 Steward (PT)",
     unionId: "union-opseu",
     divisionId: "division-caat",
@@ -48,7 +57,7 @@ export const DEMO_USERS: DemoUser[] = [
   {
     id: "user-division-admin",
     email: "caat-admin@opseu.org",
-    password: "demo123",
+    passwordHash: DEMO_PASSWORD_HASH,
     name: "CAAT Division Admin",
     unionId: "union-opseu",
     divisionId: "division-caat",
@@ -62,7 +71,7 @@ export const DEMO_USERS: DemoUser[] = [
   {
     id: "user-stability-243",
     email: "stability@local243.ca",
-    password: "demo123",
+    passwordHash: DEMO_PASSWORD_HASH,
     name: "Stability Committee Rep",
     unionId: "union-opseu",
     divisionId: "division-caat",
@@ -75,17 +84,23 @@ export const DEMO_USERS: DemoUser[] = [
   {
     id: "user-solo",
     email: "solo@example.ca",
-    password: "demo123",
+    passwordHash: DEMO_PASSWORD_HASH,
     name: "Solo Steward",
     roles: ["solo_account"],
     requiresMfa: false,
   },
 ];
 
-export function findDemoUser(email: string, password: string): DemoUser | null {
+export async function findDemoUser(
+  email: string,
+  password: string,
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): Promise<DemoUser | null> {
+  if (!isDemoAuthEnabled(env)) return null;
   const user = DEMO_USERS.find(
-    (u) =>
-      u.email.toLowerCase() === email.toLowerCase() && u.password === password,
+    (u) => u.email.toLowerCase() === email.toLowerCase(),
   );
-  return user ?? null;
+  if (!user) return null;
+  const ok = await verifyPassword(password, user.passwordHash);
+  return ok ? user : null;
 }

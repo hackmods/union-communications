@@ -8,6 +8,8 @@ const API_ROOT = join(process.cwd(), "src", "app", "api");
 const PUBLIC_API_ROUTES = new Set([
   "auth/[...nextauth]/route.ts",
   "health/route.ts",
+  // Invite accept uses the token as the capability secret (SEC-007).
+  "invites/[token]/route.ts",
 ]);
 
 function walkRouteFiles(dir: string): string[] {

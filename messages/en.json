@@ -79,6 +79,7 @@
     "export": "Export",
     "exporting": "Exporting…",
     "exportFailed": "Export failed. Try again.",
+    "exportPartial": "{exported} of {total} sheets exported — {failed} failed. Try again.",
     "upload": "Upload image",
     "remove": "Remove",
     "preview": "Preview",
@@ -93,6 +94,20 @@
     "backToEdit": "Back to edit",
     "editHistory": "Edit history",
     "loading": "Loading..."
+  },
+  "routeUi": {
+    "errorTitle": "Something went wrong",
+    "errorBody": "This page hit an unexpected error. You can try again, or go back to a safe page.",
+    "hubErrorBody": "The Officer Hub hit an unexpected error. Try again, or sign out and sign back in.",
+    "tryAgain": "Try again",
+    "signOut": "Sign out",
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "That page doesn’t exist or may have moved.",
+    "hubNotFoundBody": "That Hub page doesn’t exist or may have moved.",
+    "backToTools": "Browse tools",
+    "backToHub": "Back to dashboard",
+    "backHome": "Back to home",
+    "loading": "Loading…"
   },
   "logoBuilder": {
     "title": "Local Logo Builder",
@@ -1460,6 +1475,8 @@
     "import": "Import brand kit",
     "importSuccess": "Brand kit imported successfully",
     "importError": "Invalid brand kit file",
+    "storageBlocked": "Your browser blocked saving — changes will be lost when you close this tab.",
+    "storageBlockedDismiss": "Dismiss",
     "currentSettings": "Current settings",
     "localNumber": "Local number",
     "subText": "Sub-text",
@@ -1899,13 +1916,14 @@
     "hybridLink": "Hybrid data",
     "hybridCardTitle": "Hybrid / offline data",
     "hybridCardDesc": "Encrypt grievance and bumping backups, or keep a local encrypted slice on this device. Export travels as plaintext over TLS until your browser encrypts it — passphrase never leaves this device.",
+    "calendarLink": "Calendar",
     "overdueLink": "Overdue",
     "snippetsLink": "CA snippets",
     "marketplaceLink": "Templates",
     "handoffLink": "Handoff",
     "toolsMenu": "Officer tools",
     "qolCardTitle": "Officer QOL tools",
-    "qolCardDesc": "Overdue dashboard, CA snippets, within-union templates, and officer handoff.",
+    "qolCardDesc": "Calendar, overdue board, CA snippets, within-union templates, and officer handoff.",
     "modules": {
       "comms": "Comms toolbox",
       "commsDesc": "Public social media tools and guides",
@@ -1966,6 +1984,22 @@
     }
   },
   "qol": {
+    "calendar": {
+      "title": "Officer calendar",
+      "subtitle": "Upcoming grievance meetings and bumping committee sessions for your local scope.",
+      "loading": "Loading calendar…",
+      "loadError": "Could not load calendar events.",
+      "exportIcs": "Download ICS",
+      "countMeetings": "Grievance meetings",
+      "countSessions": "Committee sessions",
+      "countUpcoming": "Upcoming",
+      "sectionUpcoming": "Upcoming",
+      "sectionPast": "Past",
+      "emptyUpcoming": "No upcoming meetings or sessions in your scope.",
+      "emptyPast": "No past meetings or sessions yet.",
+      "kindMeeting": "Grievance meeting",
+      "kindSession": "Bumping committee"
+    },
     "overdue": {
       "title": "Overdue dashboard",
       "subtitle": "Prioritize late and upcoming grievance deadlines for your local.",

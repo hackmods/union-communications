@@ -5,7 +5,7 @@ import {
   tenantIdsForTimeSession,
 } from "@/lib/auth/time-session";
 import { canAdminTime, canClockTime } from "@/lib/time/access";
-import { timeStore } from "@/lib/time/memory-adapter";
+import { timeStore } from "@/lib/time/store";
 import type { TimeCategory } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
 

@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
+import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { TOOL_PRESETS, type ToolPresetKey } from "@/lib/constants/presets";
@@ -86,6 +87,7 @@ function GraphicMakerPageContent() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<GraphicState>(initial);
+  const { exportError, exporting, runExport } = useExportHandler();
 
   const applyPreset = (key: ToolPresetKey) => {
     const preset = TOOL_PRESETS[key];
@@ -190,11 +192,13 @@ function GraphicMakerPageContent() {
       requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
     });
     try {
-      await exportNodeAsPng(
-        canvasRef.current,
-        formatFilename("graphic", brandKit.local.localNumber, "png"),
-        { pixelRatio: 2, backgroundColor: state.primaryColor },
-      );
+      await runExport(async () => {
+        await exportNodeAsPng(
+          canvasRef.current!,
+          formatFilename("graphic", brandKit.local.localNumber, "png"),
+          { pixelRatio: 2, backgroundColor: state.primaryColor },
+        );
+      });
     } finally {
       setCanvasSize("preview");
     }
@@ -213,6 +217,7 @@ function GraphicMakerPageContent() {
       <ToolEditorLayout
         title={tg("title")}
         description={tg("subtitle")}
+        exportError={exportError}
         toolbar={
           <div className="flex flex-wrap gap-2">
             {(Object.keys(TOOL_PRESETS) as ToolPresetKey[]).map((key) => (
@@ -359,11 +364,15 @@ function GraphicMakerPageContent() {
                 })
               }
             />
-            <Button onClick={handleExport}>{t("downloadPng")}</Button>
+            <Button onClick={handleExport} disabled={exporting}>
+              {exporting ? t("exporting") : t("downloadPng")}
+            </Button>
           </Card>
         }
         previewActions={
-          <Button onClick={handleExport}>{t("downloadPng")}</Button>
+          <Button onClick={handleExport} disabled={exporting}>
+            {exporting ? t("exporting") : t("downloadPng")}
+          </Button>
         }
         preview={
           <div className="overflow-hidden rounded-lg shadow-lg">

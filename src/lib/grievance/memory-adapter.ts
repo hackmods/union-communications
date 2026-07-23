@@ -2,11 +2,13 @@ import type { GrievanceAdapter } from "./adapter";
 import type {
   CreateEventInput,
   CreateGrievanceInput,
+  CreateGrievanceOutcomeInput,
   CreateNoteInput,
   Grievance,
   GrievanceEvent,
   GrievanceListFilters,
   GrievanceNote,
+  GrievanceOutcome,
   GrievanceWithRelations,
   UpdateGrievanceInput,
 } from "@/types/grievance";
@@ -114,7 +116,25 @@ const communications: MemberCommunication[] = [
   },
 ];
 
-const meetings: ScheduledMeeting[] = [];
+const meetings: ScheduledMeeting[] = [
+  {
+    id: "meet-001",
+    grievanceId: "grev-001",
+    unionId: "union-opseu",
+    localId: "local-243",
+    title: "Step 1 meeting — Member A",
+    startsAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+    endsAt: new Date(
+      Date.now() + 3 * 24 * 60 * 60 * 1000 + 60 * 60 * 1000,
+    ).toISOString(),
+    location: "College boardroom",
+    description: "Initial step meeting with employer representative.",
+    createdById: "user-steward-243",
+    createdAt: new Date().toISOString(),
+  },
+];
+
+const outcomes: GrievanceOutcome[] = [];
 
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -296,6 +316,38 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
     return event;
   }
 
+  async getOutcome(grievanceId: string): Promise<GrievanceOutcome | null> {
+    return outcomes.find((o) => o.grievanceId === grievanceId) ?? null;
+  }
+
+  async recordOutcome(
+    grievanceId: string,
+    input: CreateGrievanceOutcomeInput,
+    meta: { recordedById: string },
+  ): Promise<GrievanceOutcome | null> {
+    if (!grievances.some((g) => g.id === grievanceId)) return null;
+
+    const existingIdx = outcomes.findIndex((o) => o.grievanceId === grievanceId);
+    const record: GrievanceOutcome = {
+      id: existingIdx >= 0 ? outcomes[existingIdx].id : id("gout"),
+      grievanceId,
+      outcomeType: input.outcomeType,
+      remedy: input.remedy,
+      settlementTerms: input.settlementTerms,
+      arbitratorName: input.arbitratorName,
+      hearingDate: input.hearingDate,
+      decidedAt: input.decidedAt,
+      recordedById: meta.recordedById,
+    };
+
+    if (existingIdx >= 0) {
+      outcomes[existingIdx] = record;
+    } else {
+      outcomes.push(record);
+    }
+    return record;
+  }
+
   async addCommunication(
     grievanceId: string,
     input: CreateCommunicationInput,
@@ -408,6 +460,9 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
       for (let i = meetings.length - 1; i >= 0; i--) {
         if (removeIds.has(meetings[i].grievanceId)) meetings.splice(i, 1);
       }
+      for (let i = outcomes.length - 1; i >= 0; i--) {
+        if (removeIds.has(outcomes[i].grievanceId)) outcomes.splice(i, 1);
+      }
     }
 
     let imported = 0;
@@ -431,6 +486,9 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
         }
         for (let i = meetings.length - 1; i >= 0; i--) {
           if (meetings[i].grievanceId === g.id) meetings.splice(i, 1);
+        }
+        for (let i = outcomes.length - 1; i >= 0; i--) {
+          if (outcomes[i].grievanceId === g.id) outcomes.splice(i, 1);
         }
       } else {
         grievances.push({ ...g });

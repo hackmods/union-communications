@@ -46,7 +46,8 @@ declare module "next-auth/jwt" {
 export interface DemoUser {
   id: string;
   email: string;
-  password: string;
+  /** bcrypt hash — never store or compare plaintext (SEC-007). */
+  passwordHash: string;
   name: string;
   unionId?: string;
   divisionId?: string;

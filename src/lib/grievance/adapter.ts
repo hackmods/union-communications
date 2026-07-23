@@ -7,11 +7,13 @@ import type {
 import type {
   CreateEventInput,
   CreateGrievanceInput,
+  CreateGrievanceOutcomeInput,
   CreateNoteInput,
   Grievance,
   GrievanceEvent,
   GrievanceListFilters,
   GrievanceNote,
+  GrievanceOutcome,
   GrievanceWithRelations,
   UpdateGrievanceInput,
 } from "@/types/grievance";
@@ -39,6 +41,12 @@ export interface GrievanceAdapter {
     grievanceId: string,
     input: CreateEventInput,
   ): Promise<GrievanceEvent | null>;
+  getOutcome(grievanceId: string): Promise<GrievanceOutcome | null>;
+  recordOutcome(
+    grievanceId: string,
+    input: CreateGrievanceOutcomeInput,
+    meta: { recordedById: string },
+  ): Promise<GrievanceOutcome | null>;
   addCommunication(
     grievanceId: string,
     input: CreateCommunicationInput,

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
+import { useExportHandler } from "@/hooks/use-export-handler";
 import { downloadZip, exportNodeAsPng } from "@/lib/export/image-export";
 import { nodesToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
@@ -109,8 +110,9 @@ export default function BoardBannerPage() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const exportHostRef = useRef<HTMLDivElement>(null);
   const [sheetId, setSheetId] = useState<BoardSheetId>(DEFAULT_BOARD_SHEET);
-  const [exporting, setExporting] = useState(false);
   const brandingDefaultApplied = useRef(false);
+  const { exportError, setExportError, exporting, runExport } =
+    useExportHandler();
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const sheet = BOARD_SHEET_FORMATS[sheetId];
@@ -263,8 +265,7 @@ export default function BoardBannerPage() {
 
   const handleExportPng = async () => {
     if (exporting) return;
-    setExporting(true);
-    try {
+    await runExport(async () => {
       if (state.mode === "banner") {
         if (!canvasRef.current) return;
         await exportNodeAsPng(
@@ -297,25 +298,35 @@ export default function BoardBannerPage() {
 
       const { toBlob } = await import("html-to-image");
       const files: { name: string; blob: Blob }[] = [];
+      const failedLabels: string[] = [];
       for (let i = 0; i < nodes.length; i++) {
         const piece = kitPieces[i];
-        const blob = await toBlob(nodes[i], {
-          pixelRatio: 2,
-          cacheBust: true,
-          backgroundColor: "#FFFFFF",
-          width: Math.max(1, Math.round(nodes[i].offsetWidth)),
-          height: Math.max(1, Math.round(nodes[i].offsetHeight)),
-        });
-        if (!blob) continue;
-        files.push({
-          name: formatFilename(
-            sheetFilenameStem(sheet, "trim", piece),
-            brandKit.local.localNumber,
-            "png",
-          ),
-          blob,
-        });
+        const label = t(trimPieceById(piece).labelKey);
+        try {
+          const blob = await toBlob(nodes[i], {
+            pixelRatio: 2,
+            cacheBust: true,
+            backgroundColor: "#FFFFFF",
+            width: Math.max(1, Math.round(nodes[i].offsetWidth)),
+            height: Math.max(1, Math.round(nodes[i].offsetHeight)),
+          });
+          if (!blob) {
+            failedLabels.push(label);
+            continue;
+          }
+          files.push({
+            name: formatFilename(
+              sheetFilenameStem(sheet, "trim", piece),
+              brandKit.local.localNumber,
+              "png",
+            ),
+            blob,
+          });
+        } catch {
+          failedLabels.push(label);
+        }
       }
+
       if (files.length === 1) {
         const { downloadBlob } = await import("@/lib/export/image-export");
         downloadBlob(files[0].blob, files[0].name);
@@ -329,15 +340,22 @@ export default function BoardBannerPage() {
           ),
         );
       }
-    } finally {
-      setExporting(false);
-    }
+
+      if (failedLabels.length > 0) {
+        setExportError(
+          tc("exportPartial", {
+            exported: files.length,
+            total: nodes.length,
+            failed: failedLabels.join(", "),
+          }),
+        );
+      }
+    });
   };
 
   const handleExportPdf = async () => {
     if (exporting) return;
-    setExporting(true);
-    try {
+    await runExport(async () => {
       const nodes = collectExportNodes();
       if (nodes.length === 0) return;
       const stem =
@@ -352,9 +370,7 @@ export default function BoardBannerPage() {
         2,
         "#FFFFFF",
       );
-    } finally {
-      setExporting(false);
-    }
+    });
   };
 
   const resetState = () => {
@@ -395,6 +411,7 @@ export default function BoardBannerPage() {
       <ToolEditorLayout
         title={t("title")}
         description={t("subtitle")}
+        exportError={exportError}
         form={
           <Card density="compact" className="space-y-3">
             <div>

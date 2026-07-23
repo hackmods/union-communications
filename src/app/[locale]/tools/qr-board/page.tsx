@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
+import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
@@ -92,6 +93,7 @@ export default function QrBoardPage() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<QrBoardState>(initial);
+  const { exportError, exporting, runExport } = useExportHandler();
 
   const applyPreset = (id: string) => {
     const preset = getQrBoardPreset(id);
@@ -188,23 +190,27 @@ export default function QrBoardPage() {
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
-    await exportNodeAsPng(
-      canvasRef.current,
-      formatFilename(format.filenameStem, brandKit.local.localNumber, "png"),
-      { pixelRatio: exportPixelRatio, backgroundColor: state.primaryColor },
-    );
+    await runExport(async () => {
+      await exportNodeAsPng(
+        canvasRef.current!,
+        formatFilename(format.filenameStem, brandKit.local.localNumber, "png"),
+        { pixelRatio: exportPixelRatio, backgroundColor: state.primaryColor },
+      );
+    });
   };
 
   const handleExportPdf = async () => {
     if (!canvasRef.current) return;
-    await nodeToPdf(
-      canvasRef.current,
-      formatFilename(format.filenameStem, brandKit.local.localNumber, "pdf"),
-      format.widthInches,
-      format.heightInches,
-      exportPixelRatio,
-      state.primaryColor,
-    );
+    await runExport(async () => {
+      await nodeToPdf(
+        canvasRef.current!,
+        formatFilename(format.filenameStem, brandKit.local.localNumber, "pdf"),
+        format.widthInches,
+        format.heightInches,
+        exportPixelRatio,
+        state.primaryColor,
+      );
+    });
   };
 
   const canvasSlots = state.slots.map((slot) => ({
@@ -216,6 +222,7 @@ export default function QrBoardPage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      exportError={exportError}
       toolbar={
         !themeEstablished && hydrated ? (
           <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
@@ -394,13 +401,18 @@ export default function QrBoardPage() {
           />
 
           <div className="flex flex-wrap gap-3">
-            <Button type="button" onClick={() => void handleExportPng()}>
-              {tc("downloadPng")}
+            <Button
+              type="button"
+              onClick={() => void handleExportPng()}
+              disabled={exporting}
+            >
+              {exporting ? tc("exporting") : tc("downloadPng")}
             </Button>
             <Button
               type="button"
               variant="outline"
               onClick={() => void handleExportPdf()}
+              disabled={exporting}
             >
               {tc("downloadPdf")}
             </Button>
@@ -409,13 +421,18 @@ export default function QrBoardPage() {
       }
       previewActions={
         <>
-          <Button type="button" onClick={() => void handleExportPng()}>
-            {tc("downloadPng")}
+          <Button
+            type="button"
+            onClick={() => void handleExportPng()}
+            disabled={exporting}
+          >
+            {exporting ? tc("exporting") : tc("downloadPng")}
           </Button>
           <Button
             type="button"
             variant="outline"
             onClick={() => void handleExportPdf()}
+            disabled={exporting}
           >
             {tc("downloadPdf")}
           </Button>

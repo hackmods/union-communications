@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
+import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { getExamplePost } from "@/lib/constants/examples";
@@ -49,6 +50,7 @@ function QuoteCardPageContent() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<QuoteState>(initial);
+  const { exportError, exporting, runExport } = useExportHandler();
 
   useEffect(() => {
     if (seedApplied.current) return;
@@ -73,17 +75,20 @@ function QuoteCardPageContent() {
 
   const handleExport = async () => {
     if (!canvasRef.current) return;
-    await exportNodeAsPng(
-      canvasRef.current,
-      formatFilename("quote-card", brandKit.local.localNumber, "png"),
-      { pixelRatio: 2, backgroundColor: state.primaryColor },
-    );
+    await runExport(async () => {
+      await exportNodeAsPng(
+        canvasRef.current!,
+        formatFilename("quote-card", brandKit.local.localNumber, "png"),
+        { pixelRatio: 2, backgroundColor: state.primaryColor },
+      );
+    });
   };
 
   return (
     <ToolEditorLayout
       title={tq("title")}
       description={tq("subtitle")}
+      exportError={exportError}
       form={
         <Card density="compact" className="space-y-3">
           <Textarea
@@ -139,11 +144,15 @@ function QuoteCardPageContent() {
               })
             }
           />
-          <Button onClick={handleExport}>{t("downloadPng")}</Button>
+          <Button onClick={handleExport} disabled={exporting}>
+            {exporting ? t("exporting") : t("downloadPng")}
+          </Button>
         </Card>
       }
       previewActions={
-        <Button onClick={handleExport}>{t("downloadPng")}</Button>
+        <Button onClick={handleExport} disabled={exporting}>
+          {exporting ? t("exporting") : t("downloadPng")}
+        </Button>
       }
       preview={
         /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */

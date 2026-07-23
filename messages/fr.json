@@ -79,6 +79,7 @@
     "export": "Exporter",
     "exporting": "Exportation…",
     "exportFailed": "Échec de l'export. Réessayez.",
+    "exportPartial": "{exported} sur {total} feuilles exportées — échec : {failed}. Réessayez.",
     "upload": "Téléverser une image",
     "remove": "Supprimer",
     "preview": "Aperçu",
@@ -93,6 +94,20 @@
     "backToEdit": "Retour à la modification",
     "editHistory": "Historique des modifications",
     "loading": "Chargement..."
+  },
+  "routeUi": {
+    "errorTitle": "Une erreur s’est produite",
+    "errorBody": "Cette page a rencontré une erreur inattendue. Vous pouvez réessayer ou revenir à une page sûre.",
+    "hubErrorBody": "Le Hub des dirigeants a rencontré une erreur inattendue. Réessayez, ou déconnectez-vous puis reconnectez-vous.",
+    "tryAgain": "Réessayer",
+    "signOut": "Déconnexion",
+    "notFoundTitle": "Page introuvable",
+    "notFoundBody": "Cette page n’existe pas ou a peut-être été déplacée.",
+    "hubNotFoundBody": "Cette page du Hub n’existe pas ou a peut-être été déplacée.",
+    "backToTools": "Parcourir les outils",
+    "backToHub": "Retour au tableau de bord",
+    "backHome": "Retour à l’accueil",
+    "loading": "Chargement…"
   },
   "logoBuilder": {
     "title": "Créateur de logo local",
@@ -1460,6 +1475,8 @@
     "import": "Importer la trousse de marque",
     "importSuccess": "Trousse de marque importée avec succès",
     "importError": "Fichier de trousse de marque invalide",
+    "storageBlocked": "Votre navigateur a bloqué l'enregistrement — les modifications seront perdues à la fermeture de cet onglet.",
+    "storageBlockedDismiss": "Fermer",
     "currentSettings": "Paramètres actuels",
     "localNumber": "Numéro de section",
     "subText": "Sous-texte",
@@ -1874,13 +1891,14 @@
     "hybridLink": "Données hybrides",
     "hybridCardTitle": "Données hybrides / hors ligne",
     "hybridCardDesc": "Chiffrez les sauvegardes de griefs et de bumpage, ou conservez une copie locale chiffrée sur cet appareil. L’export circule en clair sur TLS jusqu’au chiffrement dans le navigateur — la phrase secrète ne quitte jamais cet appareil.",
+    "calendarLink": "Calendrier",
     "overdueLink": "En retard",
     "snippetsLink": "Extraits CA",
     "marketplaceLink": "Modèles",
     "handoffLink": "Passation",
     "toolsMenu": "Outils dirigeants",
     "qolCardTitle": "Outils QOL dirigeants",
-    "qolCardDesc": "Tableau des retards, extraits de convention, modèles internes et passation de dossiers.",
+    "qolCardDesc": "Calendrier, tableau des retards, extraits de convention, modèles internes et passation de dossiers.",
     "modules": {
       "comms": "Boîte à outils comms",
       "commsDesc": "Outils publics de médias sociaux",
@@ -1941,6 +1959,22 @@
     }
   },
   "qol": {
+    "calendar": {
+      "title": "Calendrier des dirigeants",
+      "subtitle": "Réunions de griefs et séances du comité de bumpage dans votre portée locale.",
+      "loading": "Chargement du calendrier…",
+      "loadError": "Impossible de charger les événements du calendrier.",
+      "exportIcs": "Télécharger ICS",
+      "countMeetings": "Réunions de grief",
+      "countSessions": "Séances du comité",
+      "countUpcoming": "À venir",
+      "sectionUpcoming": "À venir",
+      "sectionPast": "Passés",
+      "emptyUpcoming": "Aucune réunion ou séance à venir dans votre portée.",
+      "emptyPast": "Aucune réunion ou séance passée pour le moment.",
+      "kindMeeting": "Réunion de grief",
+      "kindSession": "Comité de bumpage"
+    },
     "overdue": {
       "title": "Tableau des retards",
       "subtitle": "Priorisez les échéances de griefs en retard et à venir pour votre section.",

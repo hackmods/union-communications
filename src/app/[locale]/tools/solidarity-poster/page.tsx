@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
+import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
@@ -182,6 +183,7 @@ export default function SolidarityPosterPage() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<PosterState>(initial);
+  const { exportError, exporting, runExport } = useExportHandler();
 
   // Seed support URL + branding default once after Brand Kit hydrate
   useEffect(() => {
@@ -277,27 +279,31 @@ export default function SolidarityPosterPage() {
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
-    await exportNodeAsPng(
-      canvasRef.current,
-      formatFilename(format.filenameStem, brandKit.local.localNumber, "png"),
-      {
-        pixelRatio: exportPixelRatio(canvasRef.current, format),
-        // Hex fill — Tailwind oklch utilities break html-to-image capture
-        backgroundColor: state.primaryColor,
-      },
-    );
+    await runExport(async () => {
+      await exportNodeAsPng(
+        canvasRef.current!,
+        formatFilename(format.filenameStem, brandKit.local.localNumber, "png"),
+        {
+          pixelRatio: exportPixelRatio(canvasRef.current!, format),
+          // Hex fill — Tailwind oklch utilities break html-to-image capture
+          backgroundColor: state.primaryColor,
+        },
+      );
+    });
   };
 
   const handleExportPdf = async () => {
     if (!canvasRef.current || !supportsPdf(format)) return;
-    await nodeToPdf(
-      canvasRef.current,
-      formatFilename(format.filenameStem, brandKit.local.localNumber, "pdf"),
-      format.widthInches!,
-      format.heightInches!,
-      exportPixelRatio(canvasRef.current, format),
-      state.primaryColor,
-    );
+    await runExport(async () => {
+      await nodeToPdf(
+        canvasRef.current!,
+        formatFilename(format.filenameStem, brandKit.local.localNumber, "pdf"),
+        format.widthInches!,
+        format.heightInches!,
+        exportPixelRatio(canvasRef.current!, format),
+        state.primaryColor,
+      );
+    });
   };
 
   const footer = showFooter ? (
@@ -350,6 +356,7 @@ export default function SolidarityPosterPage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      exportError={exportError}
       toolbar={
         !themeEstablished && hydrated ? (
           <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
@@ -547,11 +554,19 @@ export default function SolidarityPosterPage() {
             }
           />
           <div className="flex gap-3">
-            <Button onClick={handleExportPng}>
-              {medium === "digital" ? t("downloadWallpaper") : tc("downloadPng")}
+            <Button onClick={handleExportPng} disabled={exporting}>
+              {exporting
+                ? tc("exporting")
+                : medium === "digital"
+                  ? t("downloadWallpaper")
+                  : tc("downloadPng")}
             </Button>
             {supportsPdf(format) ? (
-              <Button variant="outline" onClick={handleExportPdf}>
+              <Button
+                variant="outline"
+                onClick={handleExportPdf}
+                disabled={exporting}
+              >
                 {tc("downloadPdf")}
               </Button>
             ) : null}
@@ -560,11 +575,19 @@ export default function SolidarityPosterPage() {
       }
       previewActions={
         <>
-          <Button onClick={handleExportPng}>
-            {medium === "digital" ? t("downloadWallpaper") : tc("downloadPng")}
+          <Button onClick={handleExportPng} disabled={exporting}>
+            {exporting
+              ? tc("exporting")
+              : medium === "digital"
+                ? t("downloadWallpaper")
+                : tc("downloadPng")}
           </Button>
           {supportsPdf(format) ? (
-            <Button variant="outline" onClick={handleExportPdf}>
+            <Button
+              variant="outline"
+              onClick={handleExportPdf}
+              disabled={exporting}
+            >
               {tc("downloadPdf")}
             </Button>
           ) : null}

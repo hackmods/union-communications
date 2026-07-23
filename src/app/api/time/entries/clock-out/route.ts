@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/store";
 import { requireTimeSession } from "@/lib/auth/time-session";
 import { assertTimeView } from "@/lib/auth/time-session";
-import { timeStore } from "@/lib/time/memory-adapter";
+import { timeStore } from "@/lib/time/store";
 
 export async function POST(request: Request) {
   const authResult = await requireTimeSession();

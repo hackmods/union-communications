@@ -58,3 +58,25 @@ export const createEventSchema = z
     note: z.string().max(2000).optional(),
   })
   .strict();
+
+export const grievanceOutcomeTypeSchema = z.enum([
+  "upheld",
+  "denied",
+  "settled",
+  "withdrawn",
+]);
+
+/**
+ * POST /api/grievances/[id]/outcome — tenant ids / recordedById come from
+ * the session and route params, never the body.
+ */
+export const createGrievanceOutcomeSchema = z
+  .object({
+    outcomeType: grievanceOutcomeTypeSchema,
+    remedy: z.string().max(10_000).optional(),
+    settlementTerms: z.string().max(10_000).optional(),
+    arbitratorName: z.string().max(200).optional(),
+    hearingDate: isoDateTimeSchema.optional(),
+    decidedAt: isoDateTimeSchema,
+  })
+  .strict();
