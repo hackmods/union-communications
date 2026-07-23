@@ -46,6 +46,18 @@ export function timeDbBackend(
   return resolveBackend("TIME_DB_BACKEND", env);
 }
 
+export function attachmentsDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("ATTACHMENTS_DB_BACKEND", env);
+}
+
+export function discussionsDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("DISCUSSIONS_DB_BACKEND", env);
+}
+
 /** True when any confidential module still uses the in-memory store. */
 export function isMemoryCaseDataActive(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -54,6 +66,8 @@ export function isMemoryCaseDataActive(
     grievanceDbBackend(env) === "memory" ||
     bumpingDbBackend(env) === "memory" ||
     auditDbBackend(env) === "memory" ||
-    timeDbBackend(env) === "memory"
+    timeDbBackend(env) === "memory" ||
+    attachmentsDbBackend(env) === "memory" ||
+    discussionsDbBackend(env) === "memory"
   );
 }

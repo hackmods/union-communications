@@ -172,7 +172,10 @@ function FlyerMakerPageContent() {
             onChange={(c) => setState({ ...state, secondaryColor: c })}
             colors={brandColors}
           />
-          <ContrastChecker foreground="#FFFFFF" background={state.primaryColor} />
+          <ContrastChecker
+            foreground={pickContrastingInk(state.primaryColor)}
+            background={state.primaryColor}
+          />
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}

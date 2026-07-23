@@ -6,14 +6,14 @@
     "name": "OPSEU",
     "slug": "opseu",
     "defaultLocale": "en",
-    "enabledModules": ["comms", "grievance", "bumping", "time"]
+    "enabledModules": ["comms", "grievance", "bumping", "time", "discussions", "tasks"]
   },
   "division": {
     "id": "division-caat",
     "unionId": "union-opseu",
     "name": "CAAT",
     "code": "caat",
-    "enabledModules": ["comms", "grievance", "bumping", "time"]
+    "enabledModules": ["comms", "grievance", "bumping", "time", "discussions", "tasks"]
   },
   "locals": [
     {

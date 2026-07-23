@@ -5,7 +5,7 @@ import {
   assertGrievanceView,
   requireGrievanceSession,
 } from "@/lib/auth/grievance-session";
-import { attachmentStore } from "@/lib/attachments/memory-adapter";
+import { attachmentStore } from "@/lib/attachments/store";
 import { grievanceStore } from "@/lib/grievance/store";
 
 type Params = { params: Promise<{ id: string }> };
@@ -50,6 +50,12 @@ export async function POST(request: Request, { params }: Params) {
   if (!body.fileName || !body.mimeType || typeof body.sizeBytes !== "number") {
     return NextResponse.json(
       { error: "fileName, mimeType, and sizeBytes are required" },
+      { status: 400 },
+    );
+  }
+  if (!body.contentBase64) {
+    return NextResponse.json(
+      { error: "contentBase64 is required" },
       { status: 400 },
     );
   }

@@ -12,7 +12,8 @@ export type EmojiId =
   | "warning"
   | "star"
   | "strength"
-  | "clock";
+  | "clock"
+  | "chat";
 
 export interface EmojiDef {
   id: EmojiId;
@@ -77,6 +78,13 @@ export const EMOJIS: Record<EmojiId, EmojiDef> = {
     primary: "🕐",
     fallback: "⏱",
     label: "Clock",
+    preferFallback: false,
+  },
+  chat: {
+    id: "chat",
+    primary: "💬",
+    fallback: "🗨",
+    label: "Discussion",
     preferFallback: false,
   },
 };

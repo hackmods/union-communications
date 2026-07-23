@@ -10,12 +10,6 @@ import type {
   OfficePresetId,
 } from "@/lib/constants/office-templates";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
-import {
-  buildEventNoticeDocx,
-  buildLetterheadDocx,
-  buildSimpleLetterDocx,
-  buildWelcomeLetterDocx,
-} from "@/lib/export/office-docx-builders";
 import { pickContrastingInk } from "@/lib/utils/ink";
 
 export type DocxData = Record<string, unknown>;
@@ -62,6 +56,13 @@ export type DocxPresetOpts = {
 export async function renderDocxFromPreset(
   opts: DocxPresetOpts,
 ): Promise<Blob> {
+  // Dynamic so `docx` stays out of tool-route bundles until Word export runs.
+  const {
+    buildEventNoticeDocx,
+    buildLetterheadDocx,
+    buildSimpleLetterDocx,
+    buildWelcomeLetterDocx,
+  } = await import("@/lib/export/office-docx-builders");
   const input = {
     palette: opts.palette,
     localLabel: opts.localLabel,

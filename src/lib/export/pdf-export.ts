@@ -1,12 +1,14 @@
-import { jsPDF } from "jspdf";
-import { saveAs } from "file-saver";
-
 export async function exportFlyerPdf(
   imageDataUrl: string,
   filename: string,
   widthInches = 8.5,
   heightInches = 11,
 ): Promise<void> {
+  const [{ jsPDF }, { saveAs }] = await Promise.all([
+    import("jspdf"),
+    import("file-saver"),
+  ]);
+
   const pdf = new jsPDF({
     orientation: heightInches > widthInches ? "portrait" : "landscape",
     unit: "in",
@@ -66,9 +68,11 @@ export async function nodesToPdf(
     return;
   }
 
-  const { toPng } = await import("html-to-image");
-  const { jsPDF } = await import("jspdf");
-  const { saveAs } = await import("file-saver");
+  const [{ toPng }, { jsPDF }, { saveAs }] = await Promise.all([
+    import("html-to-image"),
+    import("jspdf"),
+    import("file-saver"),
+  ]);
 
   const pdf = new jsPDF({
     orientation: heightInches > widthInches ? "portrait" : "landscape",

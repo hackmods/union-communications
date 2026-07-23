@@ -1,4 +1,4 @@
-/** Phase 7 — grievance / bumping attachment metadata (memory until object storage). */
+/** Grievance / bumping attachment metadata + Local Documents vault types. */
 
 export type AttachmentScanStatus =
   | "pending"
@@ -16,7 +16,7 @@ export interface AttachmentMeta {
   fileName: string;
   mimeType: string;
   sizeBytes: number;
-  /** Memory-only placeholder; replace with object-storage key in Phase 7 full */
+  /** Object-storage key (local path segment or future S3 key) — never a memory:// stub */
   storageKey: string;
   scanStatus: AttachmentScanStatus;
   uploadedById: string;
@@ -27,6 +27,36 @@ export interface CreateAttachmentInput {
   fileName: string;
   mimeType: string;
   sizeBytes: number;
-  /** Base64 payload for memory adapter only — never log */
+  /** Base64 payload — required for durable storage; never log */
   contentBase64?: string;
+}
+
+/** Local Documents vault — CBAs, minutes, scanned evidence not tied to a case. */
+export interface DocumentRecord {
+  id: string;
+  unionId: string;
+  localId: string;
+  bargainingUnitId?: string;
+  title: string;
+  category?: string;
+  description?: string;
+  fileName: string;
+  mimeType: string;
+  sizeBytes: number;
+  storageKey: string;
+  scanStatus: AttachmentScanStatus;
+  uploadedById: string;
+  createdAt: string;
+}
+
+export interface CreateDocumentInput {
+  title: string;
+  category?: string;
+  description?: string;
+  fileName: string;
+  mimeType: string;
+  sizeBytes: number;
+  contentBase64?: string;
+  localId?: string;
+  bargainingUnitId?: string;
 }

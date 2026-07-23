@@ -26,6 +26,9 @@
 .DS_Store
 *.pem
 
+# Local attachment / document object storage (FEAT-001)
+.data/
+
 # Local reference clones (e.g. local243.github.io) — ignore for now
 /reference/
 

@@ -60,6 +60,10 @@ export function HubNav() {
       href: "/app/marketplace",
       label: t("marketplaceLink"),
     },
+    hasGrievance && {
+      href: "/app/documents",
+      label: t("documentsLink"),
+    },
     showHandoff && {
       href: "/app/handoff",
       label: t("handoffLink"),

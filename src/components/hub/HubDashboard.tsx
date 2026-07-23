@@ -9,6 +9,7 @@ import { canInitiateHandoff } from "@/lib/handoff/package";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Emoji } from "@/components/ui/Emoji";
+import { MyTasksWidget } from "@/components/hub/MyTasksWidget";
 import type { HubModule, UserRole } from "@/types/tenant";
 
 export function HubDashboard() {
@@ -112,6 +113,8 @@ export function HubDashboard() {
           );
         })}
       </div>
+
+      <MyTasksWidget />
 
       <Card className="mt-8">
         <CardTitle>{t("qolCardTitle")}</CardTitle>

@@ -1,4 +1,3 @@
-import { toBlob, toPng, toSvg } from "html-to-image";
 import { saveAs } from "file-saver";
 
 export type ExportFormat = "png" | "svg";
@@ -65,6 +64,7 @@ export async function exportNodeAsPng(
   filename: string,
   options: ExportOptions = {},
 ): Promise<void> {
+  const { toBlob, toPng } = await import("html-to-image");
   const opts = pngOptions(node, options);
   // Prefer toBlob — avoids giant data URLs and CSP-blocked fetch(data:)
   const blob = await toBlob(node, opts);
@@ -81,6 +81,7 @@ export async function exportNodeAsSvg(
   node: HTMLElement,
   filename: string,
 ): Promise<void> {
+  const { toSvg } = await import("html-to-image");
   const dataUrl = await toSvg(node, { cacheBust: true });
   saveAs(dataUrlToBlob(dataUrl), filename);
 }
@@ -89,6 +90,7 @@ export async function exportNodeAsBlob(
   node: HTMLElement,
   options: ExportOptions = {},
 ): Promise<Blob> {
+  const { toBlob, toPng } = await import("html-to-image");
   const opts = {
     ...pngOptions(node, options),
     pixelRatio: options.pixelRatio ?? 1,

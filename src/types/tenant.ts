@@ -1,4 +1,10 @@
-export type HubModule = "comms" | "grievance" | "bumping" | "time";
+export type HubModule =
+  | "comms"
+  | "grievance"
+  | "bumping"
+  | "time"
+  | "discussions"
+  | "tasks";
 
 export type UserRole =
   | "platform_admin"

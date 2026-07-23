@@ -161,20 +161,24 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 
 ## FEATURE PARITY (`FEAT-`)
 
-### [FEAT-001]
+### [FEAT-001] ⚠ PARTIAL (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** High
+**Status:** Partial — durable local path shipped; S3/ClamAV/SSE still deferred.
+**Shipped:** Drizzle `attachment_meta` + `documents` tables (migration `0006_attachments`); `ATTACHMENT_STORAGE=local` filesystem object store (real `storageKey` paths under `ATTACHMENT_LOCAL_DIR` / `.data/attachments`); `DrizzleAttachmentAdapter` + `attachmentStore` proxy (`ATTACHMENTS_DB_BACKEND`); grievance attachment API uses store; `GET .../attachments/[attachmentId]/download` streams bytes after auth + `scanStatus` clean/skipped_dev; scan stub documents missing ClamAV → `skipped_dev`; Local Documents vault (`DocumentRecord`, `/api/documents`, `/app/documents`, HubNav, EN/FR); unit tests for storage key + local adapter happy path.
+**Still open:** S3-compatible object storage (MinIO/R2/AWS) behind `ATTACHMENT_STORAGE=s3` stub; real ClamAV client via `ATTACHMENT_SCANNER_URL`; encryption-at-rest (SSE-S3 / CMEK).
 **Problem/Gap Statement:** There is no shared document/file vault anywhere in the platform. `AttachmentMeta` (`src/types/attachments.ts`) is metadata-only with `storageKey` set to a `memory://` placeholder — file bytes are never durably stored. Locals have nowhere to keep CBAs, meeting minutes, or scanned grievance evidence beyond ad-hoc external tools, despite this being a headline "Basecamp parity" expectation.
-**Affected Architecture/Files:** `src/types/attachments.ts`, `src/lib/attachments/memory-adapter.ts`, `src/lib/attachments/scan.ts`, `src/app/api/grievances/[id]/attachments/route.ts`
+**Affected Architecture/Files:** `src/types/attachments.ts`, `src/lib/attachments/*`, `src/lib/documents/*`, `src/lib/db/schema/attachments.ts`, `src/app/api/grievances/[id]/attachments/**`, `src/app/api/documents/**`, `src/app/[locale]/app/documents/page.tsx`
 **Implementation Blueprint:**
 1. Add S3-compatible object storage integration (MinIO for self-host, S3/R2 for cloud) behind the existing `AttachmentMeta.storageKey` field — swap the memory adapter for a real upload/download-URL flow (signed PUT/GET URLs).
 2. Wire a real virus scanner (ClamAV via a sidecar container is the most self-host-friendly option) into `src/lib/attachments/scan.ts`, replacing the EICAR-sniff stub; keep `skipped_dev` only for local dev without the scanner running.
 3. Build a general-purpose "Documents" area per Local/Collection (not just grievance-attached files) so CBAs and meeting minutes have a home independent of a specific grievance — this is new UI + a new `unionId`/`localId`-scoped entity, not just an extension of `AttachmentMeta`.
 4. Add encryption-at-rest for the object storage bucket/volume (SSE-S3 minimum, customer-managed keys as a stretch goal) given the "highly confidential" classification in `docs/COMPLIANCE.md`.
 
-### [FEAT-002]
+### [FEAT-002] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** High
+**Status:** Closed — v1 `DiscussionThread` / `DiscussionPost` (types, memory + optional Drizzle via `DISCUSSIONS_DB_BACKEND`, migration `0007_discussions`), HubModule `"discussions"`, APIs under `/api/discussions`, Hub UI `/app/discussions` + thread detail, EN/FR. Linked threads inherit grievance/bumping ACL. No reactions/mentions/realtime.
 **Problem/Gap Statement:** No message-board / threaded-discussion feature exists anywhere. `CaSnippet` and `SharedTemplate` are content libraries (create/list/delete), not discussions — no replies, no threading, no @mentions, no notifications. Officers have no in-product way to discuss a grievance, a bumping case, or general local business asynchronously.
 **Affected Architecture/Files:** `src/lib/snippets/memory-adapter.ts`, `src/lib/marketplace/memory-adapter.ts` (nearest existing analogues), `src/types/qol.ts`
 **Implementation Blueprint:**
@@ -183,9 +187,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Reuse the existing RBAC pattern (`requireGrievanceSession`-style gate) scoped to the new module; grievance-attached threads should inherit grievance view/edit ACL via `canViewGrievance`/`canEditGrievance`.
 4. Defer real-time (websocket) delivery — poll-on-load is acceptable for v1 given the platform's existing "no third-party services" posture.
 
-### [FEAT-003]
+### [FEAT-003] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Medium
+**Status:** Closed — `Task` entity + memory adapter/store, Zod create/update, `requireTaskSession`, CRUD `/api/tasks` (+ `[id]`), Hub module `"tasks"`, `/app/tasks` board + dashboard `MyTasksWidget`, EN/FR, seed enabled. **Memory-only** (no Drizzle migration — deferred to avoid conflicting with parallel FEAT-001/002 on journal index 0006+). Case-detail surfaces remain a follow-up.
 **Problem/Gap Statement:** There is no general to-do/task list feature. The only task-like structures are the static handoff checklist (`src/lib/handoff/package.ts`) and per-grievance `GrievanceEvent` timeline entries — neither supports assigning an arbitrary task to an officer with a due date outside the grievance/handoff context.
 **Affected Architecture/Files:** `src/lib/handoff/package.ts`, `src/types/qol.ts`
 **Implementation Blueprint:**
@@ -255,9 +260,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Replace every ad-hoc `{loading && <p>...</p>}` / gray-text empty block across grievance/bumping/time/audit/snippets/marketplace/handoff components with the new shared primitives.
 3. Add Storybook-less visual smoke coverage (a Playwright screenshot or simple render test) to prevent regressions to bespoke one-off patterns going forward.
 
-### [UX-003]
+### [UX-003] ✅ CLOSED (2026-07-23)
 **Category:** UX
 **Severity/Priority:** Medium
+**Status:** Closed — Flyer Maker and Graphic Maker pass `pickContrastingInk(primary)` into `ContrastChecker` (same ink as the live canvas), matching quote-card. Unit test covers pass/fail vs WCAG for brand-colour pairs and regresses hardcoded white on light primaries.
 **Problem/Gap Statement:** The `ContrastChecker` widget shown on Flyer Maker and Graphic Maker hardcodes a `#FFFFFF` comparison background regardless of the tool's actual computed ink color (which is correctly auto-picked via `pickContrastingInk` elsewhere in the same tools). This can show a misleading pass/fail relative to what will actually render and export, undermining user trust in the accessibility tooling.
 **Affected Architecture/Files:** `src/app/[locale]/tools/flyer-maker/page.tsx`, `src/app/[locale]/tools/graphic-maker/page.tsx`, `src/components/tools/ContrastChecker.tsx`
 **Implementation Blueprint:**
@@ -377,9 +383,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Make `src/app/manifest.ts`'s `start_url` locale-aware — derive it from the request's `Accept-Language`/cookie rather than a fixed `/en/`.
 3. Add a unit test (extending the existing `shell.test.ts` pattern) asserting both locale shells are present in the precache list and that the fallback picks the correct one for `/fr/...` navigation failures.
 
-### [TOOL-004]
+### [TOOL-004] ✅ CLOSED (2026-07-23)
 **Category:** Comms Tools
 **Severity/Priority:** Medium
+**Status:** Closed — `html-to-image` / `jspdf` (and `docx` builders via `office-export`) are dynamic-imported inside export functions; `image-export.test.ts` extended; `pdf-export.test.ts` added.
 **Problem/Gap Statement:** `html-to-image` is statically imported at the top of `src/lib/export/image-export.ts` (and `jsPDF` similarly in `pdf-export.ts`), unlike the office-export libraries (`pizzip`, `exceljs`, `pptxgenjs`) which are correctly dynamic-imported. Every route that imports `image-export.ts` — i.e. nearly every canvas tool page — pulls the full `html-to-image` library into its client bundle even if the user never clicks export.
 **Affected Architecture/Files:** `src/lib/export/image-export.ts`, `src/lib/export/pdf-export.ts`
 **Implementation Blueprint:**

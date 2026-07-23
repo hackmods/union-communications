@@ -48,7 +48,7 @@ Scaffold through testing/CI — all complete.
 - [x] CA step escalation checklist
 - [x] Email draft templates (EN/FR) — copy only, never auto-send
 - [x] Export grievance bundle (JSON + PDF in ZIP)
-- [ ] Document attachments with virus scan (deferred)
+- [x] Document attachments — durable local object storage + metadata (FEAT-001 partial; S3/ClamAV deferred)
 - [ ] Persistent DB storage (memory adapter for MVP)
 
 ## Phase 3 — College Bumping MVP (2026-07-08) — COMPLETE
@@ -459,9 +459,14 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `RBAC-003` — cross-module `rbac-matrix.test.ts`
 - [x] `FEAT-004` — `GrievanceOutcome` entity (type, Zod, Drizzle table, memory/drizzle adapters, `/api/grievances/[id]/outcome`); UI/export/appeal-deadline follow-ups remain
 - [x] `FEAT-005` — advisory seniority aid (`compareSeniority` / `rankEligibleBumpers`, seed roster, `GET /api/bumping/seniority`); not a binding decision engine
+- [x] `FEAT-002` — Discussions v1 (`DiscussionThread`/`DiscussionPost`, memory + `DISCUSSIONS_DB_BACKEND`, migration `0007`, Hub module + `/app/discussions` + APIs; linked-case ACL)
 - [x] `FEAT-006` — Hub calendar aggregation (`/app/calendar`, `GET /api/calendar`) of grievance meetings + bumping sessions; MFA/role gated; multi-event ICS export; HubNav link
 - [x] `UX-001` — App Router `error.tsx` / `loading.tsx` / `not-found.tsx` for `[locale]` + Hub `/app`; shared `Skeleton`; EN/FR `routeUi` copy
 - [x] `SEC-007` — bcrypt auth path; demo roster production-gated; Postgres users via `AUTH_USERS_BACKEND`; invite create/accept APIs (email + password-reset deferred)
 - [x] Time module Drizzle adapter + store (`TIME_DB_BACKEND`); migrations `0004_time_tables` / `0005_time_rls`
+- [x] `FEAT-001` (partial) — durable local attachments: `attachment_meta` + `documents` (`0006_attachments`), filesystem object store (`ATTACHMENT_STORAGE=local`), store proxies (`ATTACHMENTS_DB_BACKEND`), grievance download route, Local Documents vault (`/app/documents`); S3 / ClamAV / SSE deferred
 - [x] `TOOL-001` / `TOOL-006` / `TOOL-007` — LocalStorage try/catch + session fallback; Brand Kit v2 write-back; `opseu-*` → `unionops-*` keys
 - [x] `TOOL-002` — `useExportHandler` + danger Callout on canvas tool exports
+- [x] `FEAT-003` — Task entity + Hub board (`/app/tasks`, `MyTasksWidget`, CRUD `/api/tasks`, `"tasks"` HubModule); memory-only (Drizzle deferred vs FEAT-001/002 migration conflict)
+- [x] `UX-003` — Flyer/Graphic Maker `ContrastChecker` uses `pickContrastingInk(primary)` (not hardcoded `#FFFFFF`); unit test for WCAG pass/fail vs canvas ink
+- [x] `TOOL-004` — dynamic `import()` for `html-to-image` / `jspdf` / `docx` in export helpers (no static module-scope pulls)

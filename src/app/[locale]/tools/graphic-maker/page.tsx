@@ -31,6 +31,7 @@ import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
 import { PageShell } from "@/components/layout/PageShell";
+import { pickContrastingInk } from "@/lib/utils/ink";
 
 function isToolPresetKey(value: string): value is ToolPresetKey {
   return value in TOOL_PRESETS;
@@ -346,7 +347,7 @@ function GraphicMakerPageContent() {
               colors={brandColors}
             />
             <ContrastChecker
-              foreground="#FFFFFF"
+              foreground={pickContrastingInk(state.primaryColor)}
               background={state.primaryColor}
             />
 
