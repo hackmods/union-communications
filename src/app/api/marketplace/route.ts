@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auditLog } from "@/lib/audit/memory-adapter";
+import { auditLog } from "@/lib/audit/store";
 import { requireGrievanceSession } from "@/lib/auth/grievance-session";
 import { canPublishMarketplace } from "@/lib/qol/access";
 import { marketplaceStore } from "@/lib/marketplace/memory-adapter";

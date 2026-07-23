@@ -454,6 +454,8 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `RBAC-001` — snippet/marketplace DELETE uses `canDeleteSharedContent` (includes `division_admin`)
 - [x] `SEC-003` (scaffold) — Drizzle schemas + migration, `DATABASE_URL` client, docker `db` service, backend flags, memory-data Hub banner
 - [x] `SEC-003` (grievance adapter) — `DrizzleGrievanceAdapter` + `grievanceStore` proxy; flip with `GRIEVANCE_DB_BACKEND=postgres`
-- [ ] `SEC-003` (remaining adapters) — bumping/time/audit/attachments + RLS policies
-- [ ] `SEC-007` — real accounts / invite flow (blocked on SEC-003 adapters)
-- [ ] `RBAC-003` / `SEC-009` — remaining Phase 2 tickets
+- [x] `SEC-003` (bumping + audit adapters) — Drizzle adapters + store proxies; RLS migration `0002_rls_policies.sql` + `rls-context.ts`
+- [x] `SEC-009` — hybrid slice `Cache-Control: no-store` + COMPLIANCE/UI residual-risk copy
+- [x] `RBAC-003` — cross-module `rbac-matrix.test.ts`
+- [ ] `SEC-007` — real accounts / invite flow (next after durable users)
+- [ ] Time module Drizzle adapter (still memory)

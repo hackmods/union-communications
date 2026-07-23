@@ -295,4 +295,7 @@ export class MemoryBumpingAdapter implements BumpingAdapter {
   }
 }
 
-export const bumpingStore: BumpingAdapter = new MemoryBumpingAdapter();
+export const memoryBumpingStore: BumpingAdapter = new MemoryBumpingAdapter();
+
+/** @deprecated Prefer `@/lib/bumping/store` */
+export const bumpingStore = memoryBumpingStore;

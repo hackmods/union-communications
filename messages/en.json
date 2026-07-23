@@ -1898,7 +1898,7 @@
     "backToDashboard": "Back to dashboard",
     "hybridLink": "Hybrid data",
     "hybridCardTitle": "Hybrid / offline data",
-    "hybridCardDesc": "Encrypt grievance and bumping backups, or keep a local encrypted slice on this device.",
+    "hybridCardDesc": "Encrypt grievance and bumping backups, or keep a local encrypted slice on this device. Export travels as plaintext over TLS until your browser encrypts it — passphrase never leaves this device.",
     "overdueLink": "Overdue",
     "snippetsLink": "CA snippets",
     "marketplaceLink": "Templates",

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { updateGrievanceSchema } from "@/lib/validation/grievance";
 import { updateBumpingCaseSchema } from "@/lib/validation/bumping";
 import { grievanceStore } from "@/lib/grievance/memory-adapter";
-import { bumpingStore } from "@/lib/bumping/memory-adapter";
+import { bumpingStore } from "@/lib/bumping/store";
 
 describe("SEC-006 mass-assignment guards", () => {
   it("rejects unknown keys on updateGrievanceSchema (including unionId)", () => {

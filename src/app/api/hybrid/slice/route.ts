@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auditLog } from "@/lib/audit/memory-adapter";
+import { auditLog } from "@/lib/audit/store";
 import {
   assertGrievanceView,
   listFiltersForSession,
@@ -10,7 +10,7 @@ import {
   listFiltersForBumpingSession,
 } from "@/lib/auth/bumping-session";
 import { canViewBumpingCase } from "@/lib/bumping/access";
-import { bumpingStore } from "@/lib/bumping/memory-adapter";
+import { bumpingStore } from "@/lib/bumping/store";
 import { grievanceStore } from "@/lib/grievance/store";
 import {
   assertSliceTenantScope,
@@ -40,6 +40,7 @@ function canImportHybridSlice(roles: UserRole[]): boolean {
 /**
  * GET /api/hybrid/slice - plaintext confidential slice for the caller's local.
  * Client encrypts with a passphrase before download; passphrase never hits the server.
+ * Residual risk (SEC-009): payload is plaintext over TLS until the browser encrypts it.
  */
 export async function GET() {
   const authResult = await requireGrievanceSession();
@@ -105,7 +106,12 @@ export async function GET() {
     },
   });
 
-  return NextResponse.json(slice);
+  return NextResponse.json(slice, {
+    headers: {
+      "Cache-Control": "no-store, no-cache, must-revalidate, private",
+      Pragma: "no-cache",
+    },
+  });
 }
 
 /**

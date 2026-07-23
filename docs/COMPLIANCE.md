@@ -29,13 +29,17 @@ Separation of duties, immutable audit trail, 7-year retention default, member ph
 
 | Control | Comms | Officer Hub |
 |---------|-------|-------------|
-| CSP headers | Yes (`vercel.json`) | Yes |
+| CSP headers | Yes (`next.config.ts`) | Yes (`next.config.ts`) |
 | File upload validation | Type + size limits | + virus scan (planned) |
-| Auth | None (public comms) | Auth.js + MFA (harden before real casework) |
-| RLS | N/A | Postgres policies (planned) |
+| Auth | None (public comms) | Auth.js + MFA (grant-hardened; TOTP preferred in prod) |
+| RLS | N/A | Postgres policies in migrations (enable with `DATABASE_URL`) |
 | Dependency audit | CI `npm audit` | CI `npm audit` |
 | `dangerouslySetInnerHTML` | Prohibited | Prohibited |
 | Operator duty | N/A (on-device) | Host sets `AUTH_SECRET`; Canadian hosting preferred |
+
+## Hybrid export residual risk
+
+Hybrid backup export (`GET /api/hybrid/slice`) returns **plaintext JSON** over the authenticated TLS session. The browser encrypts with a client-only passphrase afterward — the server never learns the passphrase. Treat this as intentional: protect the TLS path (HTTPS in production via `AUTH_URL`), do not log response bodies, and responses set `Cache-Control: no-store`.
 
 ## Breach Response Playbook
 

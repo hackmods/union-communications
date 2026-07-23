@@ -30,9 +30,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Fail closed in production (`NODE_ENV=production`) if MFA mode is unset — refuse to enable grievance/bumping/time modules rather than silently defaulting to `"000000"`.
 4. Document the new variable(s) in `.env.example` and update `docs/guides/SETUP.md`'s stale "MFA accepts any 6-digit code" line (see UX-013 / doc-drift note).
 
-### [SEC-003]
+### [SEC-003] 🟡 PARTIAL (2026-07-23)
 **Category:** Security
 **Severity/Priority:** Critical
+**Status:** Partial — Drizzle schemas + migrations (incl. RLS SQL), docker Postgres service, memory-data banner, grievance/bumping/audit Drizzle adapters behind `*_DB_BACKEND` flags. Default remains memory. Remaining: time/attachments adapters, seed script, enforce RLS with non-owner DB role, durability smoke test.
 **Problem/Gap Statement:** All confidential union casework (grievances, bumping cases, time entries, attachment metadata, audit log) lives only in module-scoped in-memory JS arrays with zero disk/DB persistence. `docker/docker-compose.yml` has no database service. Every process restart, redeploy, or crash silently discards all case data, with no warning surfaced to officers using the product.
 **Affected Architecture/Files:** `src/lib/grievance/memory-adapter.ts`, `src/lib/bumping/memory-adapter.ts`, `src/lib/time/memory-adapter.ts`, `src/lib/attachments/memory-adapter.ts`, `src/lib/audit/memory-adapter.ts`, `docker/docker-compose.yml`, `docker/entrypoint.sh`
 **Implementation Blueprint:**
@@ -98,9 +99,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Tighten the existing CSP: remove `'unsafe-inline'`/`'unsafe-eval'` from `script-src` where possible (audit inline scripts — the preferences FOUC script noted in `active-context.md` §10 is a likely offender and would need a nonce or hash), and add missing directives (`object-src 'none'`, `base-uri 'self'`, `form-action 'self'`, `worker-src 'self'`).
 3. Add a note in `docs/guides/DEPLOY.md` confirming CSP is application-level (works on CapRover/Docker/Vercel identically) once this ships.
 
-### [SEC-009]
+### [SEC-009] ✅ CLOSED (2026-07-23)
 **Category:** Security
 **Severity/Priority:** Medium
+**Status:** Closed — `Cache-Control: no-store` on hybrid GET; residual risk documented in `docs/COMPLIANCE.md` and Hub hybrid card copy (EN/FR).
 **Problem/Gap Statement:** The Hybrid export/import API (`GET /api/hybrid/slice`) returns **plaintext** JSON over the authenticated MFA session; the client encrypts it afterward before saving to disk. This is documented/intentional (server never stores the passphrase), but it means the plaintext grievance/bumping slice transits the network and briefly exists unencrypted in browser memory/JS heap — worth explicitly documenting as a residual risk rather than leaving implicit.
 **Affected Architecture/Files:** `src/app/api/hybrid/slice/route.ts`, `src/lib/hybrid/encrypt.ts`, `docs/modules/GRIEVANCE.md` (Hybrid mode section)
 **Implementation Blueprint:**
@@ -144,9 +146,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Write an architecture test (e.g. a small script or ESLint rule) that fails CI if a new file under `src/app/[locale]/app/**/page.tsx` is added without either a server-side `auth()` call or an explicit documented exception.
 3. Update `docs/ARCHITECTURE.md` to describe `src/proxy.ts`'s actual matcher/behavior instead of the stale "Middleware protects `/app/*`" line.
 
-### [RBAC-003]
+### [RBAC-003] ✅ CLOSED (2026-07-23)
 **Category:** RBAC
 **Severity/Priority:** Low
+**Status:** Closed — `src/lib/rbac-matrix.test.ts` encodes the docs/RBAC.md matrix against grievance/bumping/time/qol access helpers.
 **Problem/Gap Statement:** `docs/RBAC.md`'s permissions matrix and hard rules are well-specified, but there is no automated test suite that asserts the matrix against the actual `access.ts` functions across all modules in one place — today's tests (`src/lib/grievance/grievance.test.ts`, `src/lib/bumping/bumping.test.ts`, `src/lib/time/time.test.ts`) cover each module individually but not as a single cross-module contract.
 **Affected Architecture/Files:** `docs/RBAC.md`, `src/lib/grievance/access.ts`, `src/lib/bumping/access.ts`, `src/lib/time/access.ts`, `src/lib/qol/access.ts`
 **Implementation Blueprint:**

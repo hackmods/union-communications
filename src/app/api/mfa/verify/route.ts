@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { auditLog } from "@/lib/audit/memory-adapter";
+import { auditLog } from "@/lib/audit/store";
 import { issueMfaGrant } from "@/lib/auth/mfa-grants";
 import { verifyMfaCode } from "@/lib/auth/mfa-policy";
 

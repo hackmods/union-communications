@@ -1873,7 +1873,7 @@
     "backToDashboard": "Retour au tableau de bord",
     "hybridLink": "Données hybrides",
     "hybridCardTitle": "Données hybrides / hors ligne",
-    "hybridCardDesc": "Chiffrez les sauvegardes de griefs et de bumpage, ou conservez une copie locale chiffrée sur cet appareil.",
+    "hybridCardDesc": "Chiffrez les sauvegardes de griefs et de bumpage, ou conservez une copie locale chiffrée sur cet appareil. L’export circule en clair sur TLS jusqu’au chiffrement dans le navigateur — la phrase secrète ne quitte jamais cet appareil.",
     "overdueLink": "En retard",
     "snippetsLink": "Extraits CA",
     "marketplaceLink": "Modèles",

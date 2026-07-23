@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { auditLog } from "@/lib/audit/memory-adapter";
+import { auditLog } from "@/lib/audit/store";
 import {
   assertBumpingEdit,
   requireBumpingSession,
 } from "@/lib/auth/bumping-session";
-import { bumpingStore } from "@/lib/bumping/memory-adapter";
+import { bumpingStore } from "@/lib/bumping/store";
 
 type RouteContext = { params: Promise<{ id: string }> };
 

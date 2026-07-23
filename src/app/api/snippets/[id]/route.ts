@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auditLog } from "@/lib/audit/memory-adapter";
+import { auditLog } from "@/lib/audit/store";
 import { requireGrievanceSession } from "@/lib/auth/grievance-session";
 import { canDeleteSharedContent, canManageQolContent } from "@/lib/qol/access";
 import { snippetStore } from "@/lib/snippets/memory-adapter";

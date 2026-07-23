@@ -36,4 +36,7 @@ export class MemoryAuditLogAdapter implements AuditLogAdapter {
   }
 }
 
-export const auditLog: AuditLogAdapter = new MemoryAuditLogAdapter();
+export const memoryAuditLog: AuditLogAdapter = new MemoryAuditLogAdapter();
+
+/** @deprecated Prefer `@/lib/audit/store` */
+export const auditLog = memoryAuditLog;

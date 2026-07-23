@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/auth.config";
 import { resolveAuthSecret } from "@/lib/auth/auth-secret";
 import { findDemoUser } from "@/lib/auth/demo-users";
-import { auditLog } from "@/lib/audit/memory-adapter";
+import { auditLog } from "@/lib/audit/store";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,

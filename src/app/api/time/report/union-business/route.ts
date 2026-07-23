@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auditLog } from "@/lib/audit/memory-adapter";
+import { auditLog } from "@/lib/audit/store";
 import {
   listFiltersForTimeSession,
   requireTimeSession,

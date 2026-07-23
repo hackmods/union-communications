@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { auditLog } from "@/lib/audit/memory-adapter";
+import { auditLog } from "@/lib/audit/store";
 import {
   assertBumpingEdit,
   assertBumpingView,
   requireBumpingSession,
 } from "@/lib/auth/bumping-session";
-import { bumpingStore } from "@/lib/bumping/memory-adapter";
+import { bumpingStore } from "@/lib/bumping/store";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { updateBumpingCaseSchema } from "@/lib/validation/bumping";
 
