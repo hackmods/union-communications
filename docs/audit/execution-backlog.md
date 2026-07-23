@@ -64,9 +64,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Add a matching server-side check (not just UI hiding) on every route that reads `session.user.localId` for list-scoping, confirming the value is still consistent with `accessibleLocalIds`.
 3. Add a regression test: attempt to switch to a `localId` outside `accessibleLocalIds` and assert the session is unchanged / the request is rejected.
 
-### [SEC-006]
+### [SEC-006] ✅ CLOSED (2026-07-23)
 **Category:** Security
 **Severity/Priority:** High
+**Status:** Closed — Zod schemas + `.strict()` on grievance/bumping create/update; memory adapters use field allowlists (no raw spread).
 **Problem/Gap Statement:** PATCH routes on grievances and bumping cases spread the raw parsed request body directly onto the stored record (`{...existing, ...input}` pattern in the memory adapters) with no field allowlist and no schema validator (no `zod`/`yup`/etc. dependency exists in the repo). A client that includes extra JSON keys in a PATCH body risks overwriting tenant-identity fields (`unionId`, `id`, `localId`) at the adapter layer, even though the RBAC/ACL check happens before the update call.
 **Affected Architecture/Files:** `src/lib/grievance/memory-adapter.ts` (update path), `src/lib/bumping/memory-adapter.ts` (update path), `src/app/api/grievances/[id]/route.ts`, `src/app/api/bumping/cases/[id]/route.ts`
 **Implementation Blueprint:**
@@ -121,9 +122,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 
 ## RBAC (`RBAC-`)
 
-### [RBAC-001]
+### [RBAC-001] ✅ CLOSED (2026-07-23)
 **Category:** RBAC
 **Severity/Priority:** High
+**Status:** Closed — snippet and marketplace DELETE both use `canDeleteSharedContent` (owner or elevated, including `division_admin`).
 **Problem/Gap Statement:** `canDeleteSharedContent(roles, ownerId, userId)` in `src/lib/qol/access.ts` correctly implements "owner or elevated officer" logic, but the CA-snippet delete route does not call it — any user who passes `canManageQolContent` (which includes every `local_steward`) can delete **any** union's snippets, not just their own. The marketplace delete route has its own separate inline check that omits `division_admin`, diverging from the shared helper.
 **Affected Architecture/Files:** `src/app/api/snippets/[id]/route.ts` (DELETE), `src/app/api/marketplace/[id]/route.ts` (DELETE), `src/lib/qol/access.ts`
 **Implementation Blueprint:**

@@ -231,9 +231,20 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
     if (idx === -1) return null;
 
     const existing = grievances[idx];
+    // Explicit allowlist — never spread raw input (SEC-006).
     const updated: Grievance = {
       ...existing,
-      ...input,
+      ...(input.status !== undefined ? { status: input.status } : {}),
+      ...(input.currentStep !== undefined
+        ? { currentStep: input.currentStep }
+        : {}),
+      ...(input.memberPseudonym !== undefined
+        ? { memberPseudonym: input.memberPseudonym }
+        : {}),
+      ...(input.category !== undefined ? { category: input.category } : {}),
+      ...(input.assignedStewardId !== undefined
+        ? { assignedStewardId: input.assignedStewardId }
+        : {}),
       bargainingUnitId:
         input.bargainingUnitId === null
           ? undefined

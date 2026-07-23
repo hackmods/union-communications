@@ -149,12 +149,14 @@ export class MemoryBumpingAdapter implements BumpingAdapter {
   ): Promise<BumpingCase | null> {
     const idx = cases.findIndex((c) => c.id === caseId);
     if (idx === -1) return null;
+    const existing = cases[idx];
+    // Explicit allowlist — never spread raw input (SEC-006).
     cases[idx] = {
-      ...cases[idx],
-      ...input,
-      incumbentPosition: input.incumbentPosition ?? cases[idx].incumbentPosition,
-      bumpingPosition: input.bumpingPosition ?? cases[idx].bumpingPosition,
-      checklist: input.checklist ?? cases[idx].checklist,
+      ...existing,
+      ...(input.status !== undefined ? { status: input.status } : {}),
+      incumbentPosition: input.incumbentPosition ?? existing.incumbentPosition,
+      bumpingPosition: input.bumpingPosition ?? existing.bumpingPosition,
+      checklist: input.checklist ?? existing.checklist,
       updatedAt: new Date().toISOString(),
     };
     return cases[idx];

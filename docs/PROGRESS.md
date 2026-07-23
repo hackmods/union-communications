@@ -447,3 +447,11 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `SEC-010` — `env.example` deprecated; `.env.example` is canonical
 - [x] `RBAC-002` — `/app` and `/app/audit` server `auth()` gates
 - [x] API route auth coverage test; unit regression suite for session update / MFA policy
+
+## Audit Phase 2 (partial) — Validation & RBAC (2026-07-23)
+
+- [x] `SEC-006` — Zod schemas for grievance/bumping create/update; adapter field allowlists; mass-assignment tests
+- [x] `RBAC-001` — snippet/marketplace DELETE uses `canDeleteSharedContent` (includes `division_admin`)
+- [ ] `SEC-003` — Postgres + RLS (in progress)
+- [ ] `SEC-007` — real accounts / invite flow (blocked on SEC-003)
+- [ ] `RBAC-003` / `SEC-009` — remaining Phase 2 tickets

@@ -6,6 +6,8 @@ import {
   requireBumpingSession,
 } from "@/lib/auth/bumping-session";
 import { bumpingStore } from "@/lib/bumping/memory-adapter";
+import { parseJsonBody } from "@/lib/validation/parse";
+import { updateBumpingCaseSchema } from "@/lib/validation/bumping";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -62,7 +64,15 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   const body = await request.json();
-  const updated = await bumpingStore.update(id, body);
+  const parsed = parseJsonBody(updateBumpingCaseSchema, body);
+  if (!parsed.ok) {
+    return NextResponse.json(
+      { error: "Invalid request body", issues: parsed.issues },
+      { status: 400 },
+    );
+  }
+
+  const updated = await bumpingStore.update(id, parsed.data);
 
   await auditLog.log({
     userId: session.user.id,

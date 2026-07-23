@@ -8,6 +8,8 @@ import { grievanceStore } from "@/lib/grievance/memory-adapter";
 import { resolveGrievanceConfig } from "@/lib/tenant/loader";
 import { getCurrentStepDueDate } from "@/lib/grievance/deadlines";
 import { isElevatedGrievanceRole } from "@/lib/grievance/access";
+import { parseJsonBody } from "@/lib/validation/parse";
+import { createGrievanceSchema } from "@/lib/validation/grievance";
 import type { UserRole } from "@/types/tenant";
 
 export async function GET() {
@@ -78,28 +80,23 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const {
-    memberPseudonym,
-    category,
-    filedAt,
-    assignedStewardId,
-    bargainingUnitId,
-  } = body;
-
-  if (!category || !filedAt) {
+  const parsed = parseJsonBody(createGrievanceSchema, body);
+  if (!parsed.ok) {
     return NextResponse.json(
-      { error: "category and filedAt are required" },
+      { error: "Invalid request body", issues: parsed.issues },
       { status: 400 },
     );
   }
+
+  const { memberPseudonym, category, filedAt, assignedStewardId, bargainingUnitId } =
+    parsed.data;
 
   const unionId =
     session.user.unionId ?? `solo-union-${session.user.id}`;
   const localId =
     session.user.localId ?? `solo-local-${session.user.id}`;
   const collectionId =
-    (typeof bargainingUnitId === "string" && bargainingUnitId) ||
-    session.user.bargainingUnitId;
+    bargainingUnitId || session.user.bargainingUnitId;
 
   const stewardId =
     assignedStewardId && isElevatedGrievanceRole(roles)

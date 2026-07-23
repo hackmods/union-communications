@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/memory-adapter";
 import { requireGrievanceSession } from "@/lib/auth/grievance-session";
-import { canManageQolContent } from "@/lib/qol/access";
+import { canDeleteSharedContent, canManageQolContent } from "@/lib/qol/access";
 import { snippetStore } from "@/lib/snippets/memory-adapter";
 import type { UserRole } from "@/types/tenant";
 
@@ -85,6 +85,15 @@ export async function DELETE(_request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
   if (existing.unionId !== authResult.session.user.unionId) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+  if (
+    !canDeleteSharedContent(
+      roles,
+      existing.createdById,
+      authResult.session.user.id,
+    )
+  ) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

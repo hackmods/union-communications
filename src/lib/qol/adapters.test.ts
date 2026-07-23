@@ -140,5 +140,8 @@ describe("qol access helpers", () => {
     expect(
       canDeleteSharedContent(["local_president"], "owner", "other"),
     ).toBe(true);
+    expect(
+      canDeleteSharedContent(["division_admin"], "owner", "other"),
+    ).toBe(true);
   });
 });

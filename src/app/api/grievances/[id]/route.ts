@@ -8,6 +8,8 @@ import {
 import { grievanceStore } from "@/lib/grievance/memory-adapter";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { getCurrentStepDueDate, isOverdue } from "@/lib/grievance/deadlines";
+import { parseJsonBody } from "@/lib/validation/parse";
+import { updateGrievanceSchema } from "@/lib/validation/grievance";
 import type { GrievanceConfig } from "@/types/tenant";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -84,19 +86,33 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   const body = await request.json();
-  const updated = await grievanceStore.update(id, body);
+  const parsed = parseJsonBody(updateGrievanceSchema, body);
+  if (!parsed.ok) {
+    return NextResponse.json(
+      { error: "Invalid request body", issues: parsed.issues },
+      { status: 400 },
+    );
+  }
+
+  const updated = await grievanceStore.update(id, parsed.data);
   if (!updated) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  if (body.currentStep && body.currentStep !== existing.grievance.currentStep) {
+  if (
+    parsed.data.currentStep &&
+    parsed.data.currentStep !== existing.grievance.currentStep
+  ) {
     await grievanceStore.addEvent(id, {
       type: "escalation",
-      stepNumber: body.currentStep,
+      stepNumber: parsed.data.currentStep,
     });
   }
 
-  if (body.status === "resolved" && existing.grievance.status !== "resolved") {
+  if (
+    parsed.data.status === "resolved" &&
+    existing.grievance.status !== "resolved"
+  ) {
     await grievanceStore.addEvent(id, {
       type: "resolution",
       completedAt: new Date().toISOString(),

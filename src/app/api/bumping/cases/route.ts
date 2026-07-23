@@ -6,6 +6,8 @@ import {
 } from "@/lib/auth/bumping-session";
 import { canWriteBumping } from "@/lib/bumping/access";
 import { bumpingStore } from "@/lib/bumping/memory-adapter";
+import { parseJsonBody } from "@/lib/validation/parse";
+import { createBumpingCaseSchema } from "@/lib/validation/bumping";
 import type { UserRole } from "@/types/tenant";
 
 export async function GET() {
@@ -49,24 +51,12 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const {
-    memberRef,
-    seniorityDate,
-    currentPosition,
-    targetPosition,
-    scenario,
-    incumbentPosition,
-    bumpingPosition,
-  } = body;
-
-  if (
-    !memberRef ||
-    !seniorityDate ||
-    !currentPosition ||
-    !targetPosition ||
-    !scenario
-  ) {
-    return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+  const parsed = parseJsonBody(createBumpingCaseSchema, body);
+  if (!parsed.ok) {
+    return NextResponse.json(
+      { error: "Invalid request body", issues: parsed.issues },
+      { status: 400 },
+    );
   }
 
   const unionId = session.user.unionId;
@@ -78,25 +68,18 @@ export async function POST(request: Request) {
     );
   }
 
+  const emptyPosition = {
+    title: "",
+    duties: "",
+    qualifications: "",
+    seniorityNotes: "",
+  };
+
   const created = await bumpingStore.create(
     {
-      memberRef,
-      seniorityDate,
-      currentPosition,
-      targetPosition,
-      scenario,
-      incumbentPosition: incumbentPosition ?? {
-        title: "",
-        duties: "",
-        qualifications: "",
-        seniorityNotes: "",
-      },
-      bumpingPosition: bumpingPosition ?? {
-        title: "",
-        duties: "",
-        qualifications: "",
-        seniorityNotes: "",
-      },
+      ...parsed.data,
+      incumbentPosition: parsed.data.incumbentPosition ?? emptyPosition,
+      bumpingPosition: parsed.data.bumpingPosition ?? emptyPosition,
     },
     {
       unionId,

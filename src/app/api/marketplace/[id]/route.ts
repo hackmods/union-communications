@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { auditLog } from "@/lib/audit/memory-adapter";
 import { requireGrievanceSession } from "@/lib/auth/grievance-session";
-import { canPublishMarketplace } from "@/lib/qol/access";
+import {
+  canDeleteSharedContent,
+  canPublishMarketplace,
+} from "@/lib/qol/access";
 import { marketplaceStore } from "@/lib/marketplace/memory-adapter";
 import type { UserRole } from "@/types/tenant";
 
@@ -60,11 +63,13 @@ export async function DELETE(_request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const isOwner = existing.sharedById === authResult.session.user.id;
-  const isPresident = roles.some((r) =>
-    ["local_president", "union_admin", "platform_admin"].includes(r),
-  );
-  if (!isOwner && !isPresident) {
+  if (
+    !canDeleteSharedContent(
+      roles,
+      existing.sharedById,
+      authResult.session.user.id,
+    )
+  ) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
