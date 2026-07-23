@@ -32,7 +32,7 @@ Separation of duties, immutable audit trail, 7-year retention default, member ph
 | CSP headers | Yes (`next.config.ts`) | Yes (`next.config.ts`) |
 | File upload validation | Type + size limits | + virus scan (planned) |
 | Auth | None (public comms) | Auth.js + MFA (grant-hardened; TOTP preferred in prod) |
-| RLS | N/A | Postgres policies in migrations (enable with `DATABASE_URL`) |
+| RLS | N/A | Postgres policies in migrations; runtime must use `unionops_app` (not table owner). Contract: `src/lib/db/rls-contract.ts`; live: `npm run db:rls-smoke` |
 | Dependency audit | CI `npm audit` | CI `npm audit` |
 | `dangerouslySetInnerHTML` | Prohibited | Prohibited |
 | Operator duty | N/A (on-device) | Host sets `AUTH_SECRET`; Canadian hosting preferred |
@@ -48,6 +48,10 @@ Hybrid backup export (`GET /api/hybrid/slice`) returns **plaintext JSON** over t
 3. Notify platform admin immediately
 4. Notify affected union/local within 72 hours (PIPEDA)
 5. Document in audit log; post-mortem within 14 days
+
+## Postgres durability (SEC-003)
+
+With `DATABASE_URL` + `GRIEVANCE_DB_BACKEND=postgres` (and peer flags for other modules), case rows survive process restart. Verify with `npm run db:durability-smoke` after `npm run db:migrate` and `npm run db:seed`. Compose demo defaults remain `memory` until an operator flips backends. See [`docs/guides/SETUP.md`](guides/SETUP.md).
 
 ## Legal Disclaimer (display in app)
 

@@ -30,10 +30,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Fail closed in production (`NODE_ENV=production`) if MFA mode is unset — refuse to enable grievance/bumping/time modules rather than silently defaulting to `"000000"`.
 4. Document the new variable(s) in `.env.example` and update `docs/guides/SETUP.md`'s stale "MFA accepts any 6-digit code" line (see UX-013 / doc-drift note).
 
-### [SEC-003] 🟡 PARTIAL (2026-07-23)
+### [SEC-003] ✅ CLOSED (2026-07-23)
 **Category:** Security
 **Severity/Priority:** Critical
-**Status:** Partial — Drizzle schemas + migrations (incl. RLS through `0007`), docker Postgres, memory-data banner, grievance/bumping/audit/time/attachments/discussions Drizzle adapters behind `*_DB_BACKEND` flags (default remains memory). Remaining: seed script, enforce RLS with non-owner DB role, container durability smoke test, flip production defaults once proven.
+**Status:** Closed — Drizzle schemas + migrations through `0009` (RLS + `0008_app_role` non-owner `unionops_app`), docker Postgres + init password sync, memory-data Hub banner, grievance/bumping/audit/time/attachments/discussions(/tasks) Drizzle adapters behind `*_DB_BACKEND` flags (defaults remain **memory** for safe demo compose), idempotent `npm run db:seed`, RLS contract unit test + `npm run db:rls-smoke`, `npm run db:durability-smoke`. Operators flip backends + app-role `DATABASE_URL` per host; production default flip is an ops choice, not a code gap.
 **Problem/Gap Statement:** All confidential union casework (grievances, bumping cases, time entries, attachment metadata, audit log) lives only in module-scoped in-memory JS arrays with zero disk/DB persistence. `docker/docker-compose.yml` has no database service. Every process restart, redeploy, or crash silently discards all case data, with no warning surfaced to officers using the product.
 **Affected Architecture/Files:** `src/lib/grievance/memory-adapter.ts`, `src/lib/bumping/memory-adapter.ts`, `src/lib/time/memory-adapter.ts`, `src/lib/attachments/memory-adapter.ts`, `src/lib/audit/memory-adapter.ts`, `docker/docker-compose.yml`, `docker/entrypoint.sh`
 **Implementation Blueprint:**
@@ -190,7 +190,7 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 ### [FEAT-003] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Medium
-**Status:** Closed — `Task` entity + memory adapter/store, Zod create/update, `requireTaskSession`, CRUD `/api/tasks` (+ `[id]`), Hub module `"tasks"`, `/app/tasks` board + dashboard `MyTasksWidget`, EN/FR, seed enabled. **Memory-only** (no Drizzle migration — deferred to avoid conflicting with parallel FEAT-001/002 on journal index 0006+). Case-detail surfaces remain a follow-up.
+**Status:** Closed — `Task` entity + memory adapter/store, Zod create/update, `requireTaskSession`, CRUD `/api/tasks` (+ `[id]`), Hub module `"tasks"`, `/app/tasks` board + dashboard `MyTasksWidget`, EN/FR, seed enabled. **Follow-up (2026-07-23):** `tasks` Drizzle table + RLS migration `0009_tasks` (skipped `0008` for parallel SEC-003), `DrizzleTaskAdapter`, `TASKS_DB_BACKEND` store proxy (memory default). Case-detail surfaces remain a follow-up.
 **Problem/Gap Statement:** There is no general to-do/task list feature. The only task-like structures are the static handoff checklist (`src/lib/handoff/package.ts`) and per-grievance `GrievanceEvent` timeline entries — neither supports assigning an arbitrary task to an officer with a due date outside the grievance/handoff context.
 **Affected Architecture/Files:** `src/lib/handoff/package.ts`, `src/types/qol.ts`
 **Implementation Blueprint:**
@@ -449,16 +449,17 @@ Added 2026-07-23 from a follow-up feasibility review (not part of the original f
 
 **Priority order of these six, cheapest/highest-value first:**
 
-1. `FUTURE-002` DFR guide, `FUTURE-003` seniority playbook, `FUTURE-004` right-to-refuse guide — pure content, near-zero architectural risk, ship any time.
-2. `FUTURE-001` Steward Quick-Log — high domain value, ~80% pattern reuse, no new persistence risk beyond what already exists (i.e. no worse than today's `SEC-003` exposure).
-3. `FUTURE-005` Action Card / QR petition builder (MVP scope only) — same effort class as an existing tool (`qr-card`), but see the scope-guard in its ticket before building the "full" version.
+1. ~~`FUTURE-002` DFR guide, `FUTURE-003` seniority playbook, `FUTURE-004` right-to-refuse guide~~ — **CLOSED 2026-07-23**.
+2. ~~`FUTURE-001` Steward Quick-Log~~ — **CLOSED 2026-07-23**.
+3. `FUTURE-005` Action Card / QR petition builder — ✅ CLOSED (MVP); full in-product petition collection still requires a separate ADR + compliance pass.
 4. `FUTURE-006` Pulse Poll Creator — hold until `SEC-003` (Postgres) lands; this is the only one of the six that requires genuinely new public-facing data collection infrastructure.
 
-### [FUTURE-001]
+### [FUTURE-001] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Medium (high value, low architectural risk)
+**Status:** Closed — `InformalLogEntry` (not overloading `MemberCommunication`); Hub module `"informalLog"`; memory + optional `INFORMAL_LOG_DB_BACKEND=postgres` (`0010_informal_log` + RLS); `/app/informal-log` + `/api/informal-log` (`canManageQolContent`); convert-to-grievance stamps `convertedToGrievanceId` + seeds note/communication.
 **Problem/Gap Statement:** Many CBAs require (or strongly reward) documenting an informal discussion/attempt-to-resolve *before* a Step 1 grievance is filed — "Steward Quick-Log." Today the closest entity, `MemberCommunication` (`src/types/qol.ts`), hard-requires a `grievanceId`, so nothing can be logged until a grievance formally exists. There is no pre-filing capture mechanism anywhere in the codebase.
-**Affected Architecture/Files:** `src/types/qol.ts` (`MemberCommunication`), `src/lib/qol/access.ts`, new `src/lib/informal-log/memory-adapter.ts`, new `src/app/api/informal-log/**`, new `src/app/[locale]/app/informal-log/page.tsx`
+**Affected Architecture/Files:** `src/types/informal-log.ts`, `src/lib/informal-log/*`, `src/app/api/informal-log/**`, `src/app/[locale]/app/informal-log/page.tsx`
 **Implementation Blueprint:**
 1. Do **not** overload `MemberCommunication` — add a sibling entity `InformalLogEntry: { id, unionId, localId, bargainingUnitId?, memberPseudonym?, topic, channel, summary, occurredAt, loggedById, loggedByName, convertedToGrievanceId?, createdAt }`, deliberately shaped like `MemberCommunication` so a later "promote to grievance" action can copy fields 1:1 into the new `Grievance` + first `GrievanceEvent`/`MemberCommunication` records.
 2. Follow the exact existing module-scaffolding pattern: memory adapter → API routes → list/detail Hub page, mirroring `src/lib/snippets/memory-adapter.ts` and `src/app/[locale]/app/snippets/page.tsx` as the nearest-shape precedent (simple create/list/delete, no step machine).
@@ -466,9 +467,10 @@ Added 2026-07-23 from a follow-up feasibility review (not part of the original f
 4. Ship the "convert to grievance" action last (v1 can be log-only); when built, it should pre-fill `CreateGrievanceInput` from the log entry and stamp `convertedToGrievanceId` on the source log row so the pre-filing history stays visible from the grievance detail page.
 5. Register as a new entry in `src/lib/modules/registry.ts`'s `HubModule` set (opt-in per union, per the multi-union `enabledModules` rule) rather than bundling it into the existing `grievance` module.
 
-### [FUTURE-002]
+### [FUTURE-002] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity (content)
 **Severity/Priority:** Low (effort) / High (trust value)
+**Status:** Closed — `/guide/dfr` (`dfrGuide.*` EN/FR), GuideLayout + SourcesBlock + not-legal-advice Callout; linked from Blueprint related paths + labour guides strip; sitemap.
 **Problem/Gap Statement:** No Duty of Fair Representation (DFR) guide exists. This is a foundational literacy gap for exactly the audience (stewards, local officers) this platform targets, and it's a natural companion to the grievance module given `SEC-001`'s finding that missed deadlines are a DFR exposure vector.
 **Affected Architecture/Files:** new `src/app/[locale]/guide/dfr/page.tsx`, `messages/en.json` + `messages/fr.json` (`dfrGuide.*` namespace)
 **Implementation Blueprint:**
@@ -477,9 +479,10 @@ Added 2026-07-23 from a follow-up feasibility review (not part of the original f
 3. Add the required "not legal advice, confirm with your CBA/national union legal department" disclaimer `Callout`, matching the tone already used in `docs/COMPLIANCE.md` and `docs/modules/COLLEGE_BUMPING.md`.
 4. Add the route to `src/app/[locale]/guide/page.tsx`'s related-links list and to `src/app/sitemap.ts`.
 
-### [FUTURE-003]
+### [FUTURE-003] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity (content)
 **Severity/Priority:** Low (effort) / Medium (trust value)
+**Status:** Closed — `/guide/seniority-bumping` (`seniorityGuide.*` EN/FR), aid-not-calculator disclaimer; Hub bumping dashboard link; Blueprint + sitemap. Printable worksheet stretch deferred (prose columns only).
 **Problem/Gap Statement:** `FEAT-005` (already in this backlog) correctly identifies that the College Bumping module has no seniority-calculation *engine* — but until that ships, officers have no guidance at all on how to manually work through a bumping/seniority scenario. A playbook is the pre-`FEAT-005` stopgap and becomes the in-app help content once the calculator exists.
 **Affected Architecture/Files:** new `src/app/[locale]/guide/seniority-bumping/page.tsx`, `messages/{en,fr}.json` (`seniorityGuide.*`), cross-link from `src/app/[locale]/app/bumping/page.tsx`
 **Implementation Blueprint:**
@@ -488,9 +491,10 @@ Added 2026-07-23 from a follow-up feasibility review (not part of the original f
 3. Add an in-Hub "Guide" link from the bumping case detail page (`src/app/[locale]/app/bumping/[id]/page.tsx`) so officers find it in-context, not only via the public `/guide` index.
 4. When `FEAT-005`'s `compareSeniority`/`rankEligibleBumpers` ship, update this guide to reference the in-tool calculator rather than replace it — keep the manual walkthrough for officers auditing/double-checking the tool's output.
 
-### [FUTURE-004]
+### [FUTURE-004] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity (content) + Comms Tools (stretch)
 **Severity/Priority:** Low (effort) / Medium (trust value)
+**Status:** Closed — `/guide/right-to-refuse` (`rightToRefuseGuide.*` EN/FR), Ontario OHSA s.43 scope callout + not-legal-advice; Blueprint labour strip + sitemap. Pocket-card stretch deferred.
 **Problem/Gap Statement:** No Health & Safety "right to refuse unsafe work" guide exists (Ontario OHSA s.43). This is squarely in scope for a college-sector union tool and pairs naturally with a printable pocket-card artifact, which the platform already has the exact machinery to generate.
 **Affected Architecture/Files:** new `src/app/[locale]/guide/right-to-refuse/page.tsx`, `messages/{en,fr}.json` (`rightToRefuseGuide.*`); optional stretch: new preset on an existing card-style tool (nearest precedent: `src/app/[locale]/tools/qr-card/page.tsx` / `src/components/tools/qr-board/QrBoardCanvas.tsx`)
 **Implementation Blueprint:**
@@ -498,9 +502,10 @@ Added 2026-07-23 from a follow-up feasibility review (not part of the original f
 2. Stretch: add a "H&S Right to Refuse" preset/mode to a wallet-card-style tool (either a new lightweight page reusing `ToolEditorLayout` + `Card`, or a new preset object in `src/lib/constants/qr-card-presets.ts` if a QR-to-guide link is the desired payload) so stewards can print/export a pocket reference card — this is presentation-layer only, no new data model or persistence, consistent with every other Comms tool's local-first/no-backend posture.
 3. Do not hardcode this guide's steps as authoritative for non-Ontario tenants; gate any tenant-specific legal-step content behind the existing `CAConfig`/tenant-config pattern if this ever needs to vary by union, per platform.mdc rule #4 ("CA/grievance steps from CAConfig, not hardcoded").
 
-### [FUTURE-005]
+### [FUTURE-005] ✅ CLOSED (2026-07-23)
 **Category:** Comms Tools
 **Severity/Priority:** Low–Medium, **scope-gate required before starting**
+**Status:** Closed — MVP only: `/tools/action-card` (headline / ask / deadline / CTA, Brand Kit theme, QR → officer-supplied external petition URL, PNG/PDF). No in-product signature collection. Full petition/pledge ADR remains out of scope (see blueprint §3).
 **Problem/Gap Statement:** No petition/action-card tool exists. A print/QR "action card" (share a cause, link to a sign-on) fits the existing Comms tool architecture almost exactly. A *full* petition tool with in-product signature/pledge collection does **not** fit the current architecture at all — it would require the platform's first public-facing personal-data-collection surface (names, contact info, potentially per-member signatures) from anonymous, unauthenticated visitors, which is a materially larger privacy/compliance surface than anything else in the product and is not something the local-first Comms tools (or the "no first-party member portal" rule in `.cursor/rules/roadmap-next.mdc`) were designed to hold.
 **Affected Architecture/Files:** new `src/app/[locale]/tools/action-card/{layout,page}.tsx`, new `src/components/tools/action-card/*` (nearest precedent: `src/app/[locale]/tools/qr-card/page.tsx`, `src/lib/export/qr.ts`)
 **Implementation Blueprint (MVP — build this):**

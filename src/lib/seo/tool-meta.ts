@@ -57,6 +57,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       description:
         "Print QR link cards so members can find your group, website, or support line.",
     },
+    "action-card": {
+      title: "Free Union Action Card Maker",
+      description:
+        "Print QR action cards for petitions and campaigns — link to your external sign-on page. Free and on your device.",
+    },
     "qr-board": {
       title: "Free Union QR Board Poster Maker",
       description:
@@ -128,6 +133,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       title: "Créateur de cartes QR gratuit",
       description:
         "Imprimez des cartes QR pour que les membres trouvent votre groupe, site ou ligne de soutien.",
+    },
+    "action-card": {
+      title: "Créateur de cartes d'action gratuit",
+      description:
+        "Imprimez des cartes QR pour pétitions et campagnes — lien vers votre page d'adhésion externe. Gratuit, sur votre appareil.",
     },
     "qr-board": {
       title: "Créateur d'affiches QR pour babillard gratuit",

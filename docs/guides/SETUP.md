@@ -53,6 +53,32 @@ npm run dev          # http://localhost:3000/en
 npm run build && npm start
 ```
 
+## Postgres (optional — Phase 6 / SEC-003)
+
+Default Hub modules still use in-memory stores. To use Postgres locally:
+
+1. Start Postgres (`docker compose -f docker/docker-compose.yml up db` or your own instance).
+2. Set `DATABASE_URL` (prefer non-owner `unionops_app` so RLS binds) and `MIGRATE_DATABASE_URL` (table owner) in `.env.local` — see [`.env.example`](../../.env.example).
+3. Apply migrations and seed the reference tenant:
+
+   ```bash
+   npm run db:migrate
+   npm run db:seed
+   # optional workshop row:
+   SEED_DEMO_CASES=true npm run db:seed
+   ```
+
+4. Flip backends per module (`GRIEVANCE_DB_BACKEND=postgres`, etc.).
+
+Live checks (require a running DB + app role credentials on `DATABASE_URL`):
+
+```bash
+npm run db:rls-smoke          # cross-union SELECT returns 0 under RLS
+GRIEVANCE_DB_BACKEND=postgres npm run db:durability-smoke
+```
+
+Compose creates `unionops_app` via `docker/db-init/` + migration `0008_app_role.sql`. Set `POSTGRES_APP_PASSWORD` (or reuse `POSTGRES_PASSWORD` for demos). Migrations run as the owner via `MIGRATE_DATABASE_URL` in `docker/entrypoint.sh`.
+
 ## Tests
 
 ```bash

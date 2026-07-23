@@ -6,8 +6,13 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-unionops}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in docker/.env}
       POSTGRES_DB: ${POSTGRES_DB:-unionops}
+      # Password for non-owner app role (RLS). Init script syncs on first volume create;
+      # after that: docker compose exec db psql -U unionops -c "ALTER ROLE unionops_app PASSWORD '…'"
+      POSTGRES_APP_PASSWORD: ${POSTGRES_APP_PASSWORD:-}
+      POSTGRES_APP_USER: ${POSTGRES_APP_USER:-unionops_app}
     volumes:
       - unionops_pgdata:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d:ro
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     healthcheck:
@@ -38,11 +43,26 @@ services:
       # Demo compose: shared static code (SEC-002). Prefer AUTH_MFA_MODE=totp on real hosts.
       AUTH_MFA_MODE: ${AUTH_MFA_MODE:-shared_code_insecure}
       AUTH_MFA_CODE: ${AUTH_MFA_CODE:?Set AUTH_MFA_CODE to a 6-digit shared code for this demo host}
-      DATABASE_URL: ${DATABASE_URL:-postgres://${POSTGRES_USER:-unionops}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-unionops}}
-      # Flip to postgres once migrations + adapters are verified for this host.
+      POSTGRES_USER: ${POSTGRES_USER:-unionops}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in docker/.env}
+      POSTGRES_DB: ${POSTGRES_DB:-unionops}
+      POSTGRES_APP_PASSWORD: ${POSTGRES_APP_PASSWORD:-}
+      # Owner URL for drizzle-kit migrate (table owner bypasses RLS — required for DDL).
+      MIGRATE_DATABASE_URL: ${MIGRATE_DATABASE_URL:-postgres://${POSTGRES_USER:-unionops}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-unionops}}
+      # Runtime URL: prefer unionops_app when POSTGRES_APP_PASSWORD is set (RLS binds).
+      # Demo fallback uses table owner when app password unset (RLS bypassed — not for production casework).
+      DATABASE_URL: ${DATABASE_URL:-postgres://unionops_app:${POSTGRES_APP_PASSWORD:-${POSTGRES_PASSWORD}}@db:5432/${POSTGRES_DB:-unionops}}
+      # Flip modules to postgres once migrations + seed are verified for this host.
+      # Demo default remains memory so a fresh compose still boots without seed.
       GRIEVANCE_DB_BACKEND: ${GRIEVANCE_DB_BACKEND:-memory}
       BUMPING_DB_BACKEND: ${BUMPING_DB_BACKEND:-memory}
       AUDIT_DB_BACKEND: ${AUDIT_DB_BACKEND:-memory}
+      TIME_DB_BACKEND: ${TIME_DB_BACKEND:-memory}
+      ATTACHMENTS_DB_BACKEND: ${ATTACHMENTS_DB_BACKEND:-memory}
+      DISCUSSIONS_DB_BACKEND: ${DISCUSSIONS_DB_BACKEND:-memory}
+      TASKS_DB_BACKEND: ${TASKS_DB_BACKEND:-memory}
+      INFORMAL_LOG_DB_BACKEND: ${INFORMAL_LOG_DB_BACKEND:-memory}
+      AUTH_USERS_BACKEND: ${AUTH_USERS_BACKEND:-memory}
 
 volumes:
   unionops_pgdata:

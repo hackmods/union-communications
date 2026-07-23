@@ -12,13 +12,16 @@ if [ ! -f /app/server.js ]; then
 fi
 
 # Apply Drizzle migrations when Postgres is configured (SEC-003).
-if [ -n "${DATABASE_URL:-}" ] && [ -d /app/src/lib/db/migrations ]; then
-  echo "[entrypoint] DATABASE_URL set — running drizzle-kit migrate"
-  npx drizzle-kit migrate || echo "[entrypoint] WARN: migrate failed — continuing with existing schema"
-elif [ -n "${DATABASE_URL:-}" ]; then
-  echo "[entrypoint] DATABASE_URL set but migrations folder missing — skip migrate"
+# Prefer MIGRATE_DATABASE_URL (table owner) so DDL succeeds; runtime DATABASE_URL
+# should be unionops_app so RLS binds (see migration 0008_app_role.sql).
+MIGRATE_URL="${MIGRATE_DATABASE_URL:-${DATABASE_URL:-}}"
+if [ -n "${MIGRATE_URL}" ] && [ -d /app/src/lib/db/migrations ]; then
+  echo "[entrypoint] running drizzle-kit migrate (owner/migrate URL)"
+  DATABASE_URL="${MIGRATE_URL}" npx drizzle-kit migrate || echo "[entrypoint] WARN: migrate failed — continuing with existing schema"
+elif [ -n "${MIGRATE_URL}" ]; then
+  echo "[entrypoint] migrate URL set but migrations folder missing — skip migrate"
 else
-  echo "[entrypoint] no DATABASE_URL — memory adapters (case data is not durable)"
+  echo "[entrypoint] no DATABASE_URL / MIGRATE_DATABASE_URL — memory adapters (case data is not durable)"
 fi
 
 exec "$@"

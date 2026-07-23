@@ -108,6 +108,23 @@ export const MODULE_REGISTRY: HubModuleDefinition[] = [
     requiresMfa: true,
     enabledCheck: (m) => m.includes("tasks"),
   },
+  {
+    id: "informalLog",
+    nameKey: "informalLog",
+    descriptionKey: "informalLogDesc",
+    href: "/app/informal-log",
+    emojiId: "chat",
+    requiredRoles: [
+      "platform_admin",
+      "union_admin",
+      "division_admin",
+      "local_president",
+      "local_steward",
+      "solo_account",
+    ],
+    requiresMfa: true,
+    enabledCheck: (m) => m.includes("informalLog"),
+  },
 ];
 
 export function getVisibleModules(

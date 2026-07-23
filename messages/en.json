@@ -28,6 +28,7 @@
     "solidarityPoster": "Solidarity Posters",
     "meetingBackground": "Meeting Backgrounds",
     "qrCard": "QR Link Cards",
+    "actionCard": "Action Cards",
     "qrBoard": "QR Board Posters",
     "websiteTemplate": "Website Template",
     "documentGenerator": "Document & Slide Generator",
@@ -248,7 +249,10 @@
       "title": "Related paths",
       "plan": "Get started - Brand Kit first, then the Social Media Plan roadmap",
       "resources": "Comms Resources - orientation, practice, sources",
-      "crisis": "Strike Guide - high-stakes bargaining and strike communications"
+      "crisis": "Strike Guide - high-stakes bargaining and strike communications",
+      "dfr": "Duty of Fair Representation - steward and officer literacy",
+      "seniority": "Seniority & bumping playbook - manual walkthrough aid",
+      "rightToRefuse": "Right to refuse unsafe work - Ontario OHSA s.43"
     },
     "chapters": {
       "platforms": {
@@ -278,6 +282,12 @@
       "print": "Print",
       "website": "Website",
       "membershipSignup": "Membership signup"
+    },
+    "labourGuides": {
+      "title": "Labour rights guides",
+      "dfr": "Duty of Fair Representation",
+      "seniority": "Seniority & bumping",
+      "rightToRefuse": "Right to refuse (Ontario)"
     }
   },
   "unionBoardsGuide": {
@@ -1199,6 +1209,69 @@
       "localWebsiteTagline": "Scan for our website"
     }
   },
+  "actionCard": {
+    "title": "Action Card Maker",
+    "subtitle": "Print QR cards that point members to your external petition or sign-on page — headline, ask, deadline, and a scannable link. Signatures stay on the tool you already use.",
+    "privacyHint": "UnionOps does not collect petition signatures. Paste a link to ActionNetwork, Google Forms, your national union’s sign-on page, or any other external tool.",
+    "preset": "Preset",
+    "destination": "Petition / sign-on link",
+    "savedLinks": "Use a saved Brand Kit link",
+    "savedLinksPlaceholder": "Choose a saved link…",
+    "savedWebsite": "Local website",
+    "savedFacebook": "Facebook",
+    "headline": "Headline",
+    "ask": "The ask",
+    "deadline": "Deadline (optional)",
+    "deadlinePlaceholder": "e.g. Sign by Friday March 14",
+    "cta": "CTA under QR",
+    "bgMode": "Background",
+    "bgModes": {
+      "plain": "Plain",
+      "gradient": "Gradient",
+      "accentBar": "Accent bar"
+    },
+    "size": "Print size",
+    "sizes": {
+      "quarter": "Quarter (4.25×5.5)",
+      "half": "Half (5.5×8.5)",
+      "letter": "Letter (8.5×11)",
+      "square5": "Square 5×5",
+      "square4": "Square 4×4"
+    },
+    "sizeTip": "Quarter = 4 per letter sheet; Half = 2 per sheet. Print multiple copies of the same card to fill a page.",
+    "previewSize": "Preview at {label} - {width}×{height} in",
+    "showUrl": "Show URL under CTA",
+    "includeBranding": "Include local branding",
+    "qrPlaceholder": "Paste a petition link",
+    "setupBrandPrompt": "Set up your Brand Kit to stamp cards with your local lockup.",
+    "setupBrandLink": "Start onboarding",
+    "presets": {
+      "signPetitionHeadline": "Sign the petition",
+      "signPetitionAsk": "Add your name in support of our members’ demands.",
+      "signPetitionDeadline": "Sign before the deadline",
+      "signPetitionCta": "Scan to sign →",
+      "supportCampaignHeadline": "Stand with us",
+      "supportCampaignAsk": "Show solidarity — take one minute to support this campaign.",
+      "supportCampaignDeadline": "Act this week",
+      "supportCampaignCta": "Scan to support →",
+      "attendRallyHeadline": "Join the action",
+      "attendRallyAsk": "Scan for details, RSVP, and how to get there safely.",
+      "attendRallyDeadline": "Mark your calendar",
+      "attendRallyCta": "Scan for details →",
+      "writeOfficialHeadline": "Write your MPP / MP",
+      "writeOfficialAsk": "Send a message to your elected representative. It takes two minutes.",
+      "writeOfficialDeadline": "Before the vote",
+      "writeOfficialCta": "Scan to write →",
+      "bargainingSupportHeadline": "Support bargaining",
+      "bargainingSupportAsk": "Back your bargaining team — sign on and share with coworkers.",
+      "bargainingSupportDeadline": "Before bargaining resumes",
+      "bargainingSupportCta": "Scan to stand with us →",
+      "stopCutsHeadline": "Stop the cuts",
+      "stopCutsAsk": "Tell decision-makers you oppose cuts that hurt workers and the public.",
+      "stopCutsDeadline": "Sign before the decision",
+      "stopCutsCta": "Scan to take action →"
+    }
+  },
   "qrBoard": {
     "title": "QR Board Poster Maker",
     "subtitle": "Multi-QR posters for union boards — dual campaigns or a full set of core links, with a title above each code and the URL underneath",
@@ -1776,6 +1849,187 @@
       ]
     }
   },
+  "dfrGuide": {
+    "title": "Duty of Fair Representation",
+    "subtitle": "Foundational literacy for stewards and local officers",
+    "backToGuide": "Back to The Blueprint",
+    "intro": "The duty of fair representation (DFR) is the legal obligation that a union owes each member it represents. Missed grievance deadlines, ignored complaints, and unexplained refusals to advance a case are classic DFR exposure points — not just “bad process.” This guide orients officers; it does not replace your collective agreement, national union advice, or counsel.",
+    "disclaimer": {
+      "title": "Not legal advice",
+      "body": "This is educational orientation only — not legal advice. Confirm every deadline, filing step, and representation decision with your collective agreement, local executive, and national union legal department or servicing representative."
+    },
+    "related": {
+      "seniority": "Seniority & bumping playbook",
+      "rightToRefuse": "Right to refuse unsafe work"
+    },
+    "sections": {
+      "whatItMeans": {
+        "title": "What DFR means in practice",
+        "content": "In Ontario labour relations, DFR means the union must represent members in a way that is not arbitrary, discriminatory, or in bad faith. Members do not have an absolute right to every grievance going to arbitration — but they do have a right to a serious, honest process.",
+        "items": [
+          "Investigate complaints promptly and document what you did",
+          "Communicate status updates to the member in plain language",
+          "Apply the collective agreement consistently across similar cases",
+          "Escalate early when deadlines, complexity, or conflict of interest appear"
+        ]
+      },
+      "legalTest": {
+        "title": "The “arbitrary / discriminatory / bad faith” test",
+        "content": "Labour boards assess whether the union’s conduct fell below the DFR standard — not whether the member would have won at arbitration. Arbitrary means no real consideration; discriminatory means unequal treatment without a legitimate basis; bad faith includes hostility, deceit, or improper motives.",
+        "items": [
+          "Arbitrary — rubber-stamping a refusal, never reading the file, missing a known deadline",
+          "Discriminatory — treating members differently because of protected grounds or personal dislike",
+          "Bad faith — lying to the member, burying evidence, or advancing a personal agenda",
+          "Honest disagreement with a member after a real investigation is usually not a DFR breach"
+        ]
+      },
+      "failureModes": {
+        "title": "Common failure modes",
+        "content": "Most DFR complaints grow from silence and missed clocks, not from dramatic malice. Build habits that leave a paper trail of serious consideration.",
+        "items": [
+          "Missed Step / referral deadlines in the collective agreement",
+          "No investigation notes, interviews, or document requests on file",
+          "No written explanation when declining to advance a grievance",
+          "Promising outcomes you cannot control (“we will win this”)",
+          "Mixing personal conflict with representation decisions"
+        ]
+      },
+      "practice": {
+        "title": "Steward and officer practice checklist",
+        "content": "Use the Officer Hub grievance tools to track steps and dates — but treat the CA and your servicing rep as authoritative. When in doubt, document the question and escalate.",
+        "items": [
+          "Log the member’s concern the same day you hear it",
+          "Diary every CA deadline forward from the triggering event",
+          "Confirm extension agreements in writing",
+          "Keep confidential notes internal — never on public social channels",
+          "If you cannot act fairly (conflict), hand the file to another officer"
+        ]
+      }
+    },
+    "hub": {
+      "title": "Where this connects in UnionOps",
+      "body": "Use Grievances in the Officer Hub to track steps, notes, and meetings. Pair this guide with the seniority playbook when displacement or bumping files raise representation questions. Informal pre-filing logs (when enabled for your tenant) help prove you took early concerns seriously."
+    }
+  },
+  "seniorityGuide": {
+    "title": "Seniority & bumping playbook",
+    "subtitle": "A manual walkthrough aid for stability committees — not a calculator",
+    "backToGuide": "Back to The Blueprint",
+    "intro": "College bumping and displacement files turn on seniority dates, classification boundaries, and posting rules in your collective agreement. This playbook helps committees work a scenario on paper and double-check any in-tool seniority aid. It does not decide outcomes.",
+    "disclaimer": {
+      "title": "Not legal advice — aid, not the calculator",
+      "body": "This guide and any Hub seniority helpers are advisory process aids only — not legal advice and not a binding decision engine. Follow your collective agreement, local bumping procedures, and national union guidance. Committee DecisionRecords remain authoritative."
+    },
+    "related": {
+      "dfr": "Duty of Fair Representation",
+      "rightToRefuse": "Right to refuse unsafe work"
+    },
+    "sections": {
+      "compare": {
+        "title": "Worked example: comparing seniority",
+        "content": "Start with two members and one target role. Write each person’s seniority date, classification, and current status on one sheet before debating qualifications.",
+        "items": [
+          "List Member A and Member B with seniority date (YYYY-MM-DD) and classification",
+          "Confirm which date the CA uses — continuous service, classification seniority, or another clock",
+          "Note ties and how your CA breaks them (e.g. earlier hire number, draw)",
+          "Only then compare qualifications, hours, and posting eligibility against the CA language"
+        ]
+      },
+      "cascade": {
+        "title": "Cascading displacement walk-through",
+        "content": "A bump can displace another member, who may then bump further down. Map the chain before the committee votes so no one is surprised mid-meeting.",
+        "items": [
+          "Draw the chain: vacancy → first bumper → displaced incumbent → next bump (if any)",
+          "Stop when the CA says the chain ends (classification floor, probation, temporary status)",
+          "Flag anyone who cannot bump (wrong classification, insufficient seniority, refused options)",
+          "Record each step in the committee log with dates and CA articles cited"
+        ]
+      },
+      "pitfalls": {
+        "title": "Common pitfalls",
+        "content": "Most committee errors come from mixing clocks or ignoring boundaries the CA already defines.",
+        "items": [
+          "Posting date vs. seniority date — do not treat a vacancy posting date as someone’s seniority",
+          "Classification boundaries — FT/PT or support-staff collections may not bump across freely",
+          "Probationary or temporary status — confirm bumping rights before ranking someone",
+          "Assuming “earlier date always wins” without reading the CA’s tie-break and ability language"
+        ]
+      },
+      "worksheet": {
+        "title": "Paper worksheet (print or copy)",
+        "content": "Use this column layout on a blank page or spreadsheet during the meeting. Keep one copy in the case file.",
+        "items": [
+          "Columns: Member ref · Seniority date · Classification · Current position · Target / bump claim · Eligible? (Y/N/?) · Notes / CA article",
+          "Rows: one per person in the chain, plus a blank row for alternate candidates",
+          "Footer: session date, chair, decision summary, and link to the Hub bumping case ID"
+        ]
+      }
+    },
+    "hub": {
+      "title": "Officer Hub bumping module",
+      "body": "Open College Bumping in the Hub for case notes, PDF comparison, and committee sessions. Use any seniority ranking aid only as a second check — re-run the paper worksheet if the tool output surprises you."
+    }
+  },
+  "rightToRefuseGuide": {
+    "title": "Right to refuse unsafe work",
+    "subtitle": "Ontario Occupational Health and Safety Act (OHSA) section 43 — jurisdiction-specific",
+    "backToGuide": "Back to The Blueprint",
+    "intro": "This guide summarizes the Ontario OHSA s.43 refusal procedure for college-sector stewards and JHSC members. Other provinces and territories use different statutes and steps — do not assume this sequence applies outside Ontario.",
+    "disclaimer": {
+      "title": "Not legal advice — Ontario-specific",
+      "body": "This is educational orientation for Ontario workplaces covered by the OHSA — not legal advice. Confirm steps with your JHSC, employer health-and-safety policy, collective agreement, and Ministry of Labour, Immigration, Training and Skills Development guidance. Tenants outside Ontario must follow their own jurisdiction’s rules."
+    },
+    "related": {
+      "dfr": "Duty of Fair Representation",
+      "seniority": "Seniority & bumping playbook"
+    },
+    "sections": {
+      "ontarioScope": {
+        "title": "Ontario scope (read this first)",
+        "content": "OHSA s.43 applies to most provincially regulated Ontario workplaces, with important exceptions and special rules for some sectors. Always verify coverage for your workplace type before advising a member.",
+        "items": [
+          "Label this guide Ontario-only in any local training materials you reprint",
+          "Federal workplaces and other provinces follow different refusal frameworks",
+          "Some workers have modified rights — check current OHSA text and ministry materials",
+          "Union representation supports the member; it does not replace JHSC or ministry roles"
+        ]
+      },
+      "procedure": {
+        "title": "Step-by-step refusal (report)",
+        "content": "A worker who has reason to believe work is likely to endanger them (or another worker) may refuse. The first move is prompt reporting — not a silent walkout.",
+        "items": [
+          "Worker promptly reports the circumstances to the supervisor / employer",
+          "Worker remains in a safe place nearby and available for investigation steps",
+          "Worker may be accompanied by a JHSC worker member or union health-and-safety rep where the Act provides",
+          "Employer investigates in the presence of the worker and the worker representative"
+        ]
+      },
+      "investigation": {
+        "title": "If the worker still refuses",
+        "content": "When the danger is not resolved to the worker’s satisfaction, the matter escalates beyond the internal investigation.",
+        "items": [
+          "Notify a Ministry of Labour inspector — the employer or worker (or JHSC member) can trigger this",
+          "Inspector investigates and decides whether the refusal is likely to endanger",
+          "Do not coach members to invent hazards — facts, dates, and witnesses matter",
+          "Keep notes of times, who was present, and what was said for the local file"
+        ]
+      },
+      "reassignment": {
+        "title": "Work reassignment rules (high level)",
+        "content": "While a refusal is live, employers generally cannot assign the same work to another worker without informing them of the refusal and the reasons, subject to OHSA rules. Details change — verify current Act language before advising.",
+        "items": [
+          "Other workers assigned the work must be informed of the refusal and reasons",
+          "The refusing worker is typically paid pending the investigation outcome, subject to Act rules",
+          "Reprisals for exercising OHSA rights are prohibited — escalate suspected reprisals immediately",
+          "Post current JHSC contacts and hazard-reporting steps on the union board"
+        ]
+      }
+    },
+    "boards": {
+      "title": "Union boards and pocket cards",
+      "body": "Keep JHSC contacts and a short “how to report a hazard / refuse unsafe work” strip on the workplace board. Link QR posters to official e-Laws OHSA text rather than outdated photocopies."
+    }
+  },
   "share": {
     "button": "Share this tool",
     "copied": "Link copied!",
@@ -1950,8 +2204,53 @@
       "discussions": "Discussions",
       "discussionsDesc": "Local threads for casework and business",
       "tasks": "Tasks",
-      "tasksDesc": "Assign and track local officer to-dos"
+      "tasksDesc": "Assign and track local officer to-dos",
+      "informalLog": "Steward Quick-Log",
+      "informalLogDesc": "Log informal discussions before filing a grievance"
     }
+  },
+  "informalLog": {
+    "title": "Steward Quick-Log",
+    "subtitle": "Document informal discussions and attempts to resolve before a Step 1 grievance is filed.",
+    "loading": "Loading informal log…",
+    "loadError": "Could not load informal log entries.",
+    "createError": "Could not create log entry.",
+    "deleteError": "Could not delete log entry.",
+    "convertError": "Could not convert this entry to a grievance.",
+    "alreadyConverted": "This entry was already converted to a grievance.",
+    "created": "Log entry saved.",
+    "converted": "Converted to grievance {id}.",
+    "newEntry": "New log entry",
+    "cancel": "Cancel",
+    "save": "Save entry",
+    "empty": "No informal discussions logged for this local scope yet.",
+    "filterLabel": "Informal log filters",
+    "filter": {
+      "all": "All",
+      "unconverted": "Not yet grievances"
+    },
+    "fields": {
+      "topic": "Topic",
+      "memberPseudonym": "Member (pseudonym)",
+      "memberPseudonymHint": "Optional — avoid real names when possible",
+      "channel": "Channel",
+      "occurredAt": "When it happened",
+      "summary": "Summary"
+    },
+    "channel": {
+      "email": "Email",
+      "phone": "Phone",
+      "in_person": "In person",
+      "letter": "Letter",
+      "other": "Other"
+    },
+    "meta": "{channel} · {when} · Logged by {by}",
+    "memberLabel": "Member: {name}",
+    "convert": "Convert to grievance",
+    "converting": "Converting…",
+    "viewGrievance": "Open grievance",
+    "delete": "Delete",
+    "readOnlyBanner": "Steward mobile read-only mode is on — you can view the log but not add or convert entries."
   },
   "discussions": {
     "title": "Discussions",
@@ -2311,6 +2610,7 @@
     "title": "College Bumping",
     "subtitle": "Stability committee position comparison and decision log",
     "disclaimer": "Checklists assist committee process - not legal advice. Follow your collective agreement.",
+    "seniorityGuideLink": "Seniority & bumping playbook",
     "loading": "Loading cases...",
     "loadError": "Could not load bumping cases",
     "newCase": "New case",

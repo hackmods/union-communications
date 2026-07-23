@@ -130,7 +130,7 @@ Scaffold through testing/CI — all complete.
 ## Deferred (future)
 
 - [ ] Multi-union onboarding UI → **Phase 6**
-- [ ] Persistent Postgres + RLS (`unionId` / `localId` / `bargainingUnitId`) → **Phase 6**
+- [ ] Persistent Postgres + RLS (`unionId` / `localId` / `bargainingUnitId`) → **Phase 6** — scaffold + adapters + seed/app-role/smoke closed (`SEC-003`); flip host backends from memory when ready
 - [ ] Workforce Time full (scheduling, PTO, union rollup) → **Phase 8** (8-lite + 8-lite+ shipped)
 - [ ] Comms content backlog (email/broadcast guide; First week Print step + remaining copy sweep) → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
 - [x] Photo consent / member media checklist → `/guide/photo-consent` (Learn → Guides)
@@ -318,6 +318,12 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Print sizes: quarter / half / letter / 5×5 / 4×4; PNG + PDF
 - [x] Presets for support, ESA, OHSA, H&S, socials, website
 
+## Action Card Maker (2026-07-23)
+
+- [x] `/tools/action-card` — headline, ask, deadline, CTA; QR → external petition URL
+- [x] Reuses QR card sizes / export path; Brand Kit theme; EN/FR; Tools → Union boards nav
+- [x] MVP only — no in-product signature collection (`FUTURE-005` CLOSED)
+
 ## Brand Kit Local Links (2026-07-11)
 
 - [x] BrandKit v1.1: optional `websiteUrl`, `facebookUrl`, `customLinks[]`
@@ -455,6 +461,7 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `SEC-003` (scaffold) — Drizzle schemas + migration, `DATABASE_URL` client, docker `db` service, backend flags, memory-data Hub banner
 - [x] `SEC-003` (grievance adapter) — `DrizzleGrievanceAdapter` + `grievanceStore` proxy; flip with `GRIEVANCE_DB_BACKEND=postgres`
 - [x] `SEC-003` (bumping + audit adapters) — Drizzle adapters + store proxies; RLS migration `0002_rls_policies.sql` + `rls-context.ts`
+- [x] `SEC-003` (close-out) — idempotent `db:seed`, `0008_app_role` (`unionops_app`), compose app-role URL + backend passthrough, RLS contract test + `db:rls-smoke`, `db:durability-smoke`; defaults stay memory until operators flip
 - [x] `SEC-009` — hybrid slice `Cache-Control: no-store` + COMPLIANCE/UI residual-risk copy
 - [x] `RBAC-003` — cross-module `rbac-matrix.test.ts`
 - [x] `FEAT-004` — `GrievanceOutcome` entity (type, Zod, Drizzle table, memory/drizzle adapters, `/api/grievances/[id]/outcome`); UI/export/appeal-deadline follow-ups remain
@@ -467,7 +474,10 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `FEAT-001` (partial) — durable local attachments: `attachment_meta` + `documents` (`0006_attachments`), filesystem object store (`ATTACHMENT_STORAGE=local`), store proxies (`ATTACHMENTS_DB_BACKEND`), grievance download route, Local Documents vault (`/app/documents`); S3 / ClamAV / SSE deferred
 - [x] `TOOL-001` / `TOOL-006` / `TOOL-007` — LocalStorage try/catch + session fallback; Brand Kit v2 write-back; `opseu-*` → `unionops-*` keys
 - [x] `TOOL-002` — `useExportHandler` + danger Callout on canvas tool exports
-- [x] `FEAT-003` — Task entity + Hub board (`/app/tasks`, `MyTasksWidget`, CRUD `/api/tasks`, `"tasks"` HubModule); memory-only (Drizzle deferred vs FEAT-001/002 migration conflict)
+- [x] `FEAT-003` — Task entity + Hub board (`/app/tasks`, `MyTasksWidget`, CRUD `/api/tasks`, `"tasks"` HubModule); memory default + optional `TASKS_DB_BACKEND=postgres` (`DrizzleTaskAdapter`, migration `0009_tasks` + RLS; `0008` reserved for parallel SEC-003)
+- [x] `FUTURE-002` / `FUTURE-003` / `FUTURE-004` — labour rights guides: `/guide/dfr`, `/guide/seniority-bumping`, `/guide/right-to-refuse` (EN/FR, not-legal-advice Callouts); Blueprint related links + labour strip; sitemap; Hub bumping → seniority playbook link
+- [x] `FUTURE-001` — Steward Quick-Log (`InformalLogEntry`, `"informalLog"` HubModule, `/app/informal-log`, CRUD `/api/informal-log`, convert-to-grievance); memory default + optional `INFORMAL_LOG_DB_BACKEND=postgres` (migration `0010_informal_log` + RLS)
+- [x] `FUTURE-005` — Action Card / QR petition builder MVP (`/tools/action-card`): headline/ask/deadline/CTA, Brand Kit theme, QR → external petition URL, PNG/PDF; no in-product signatures
 - [x] `UX-003` — Flyer/Graphic Maker `ContrastChecker` uses `pickContrastingInk(primary)` (not hardcoded `#FFFFFF`); unit test for WCAG pass/fail vs canvas ink
 - [x] `UX-004` — Brand Kit contrast advisory → enforce via `brandPaletteHasContrastRisk` / ink helpers; inline warning + confirm-before-save (Brand Kit, onboarding, Logo Builder)
 - [x] `TOOL-004` — dynamic `import()` for `html-to-image` / `jspdf` / `docx` in export helpers (no static module-scope pulls)

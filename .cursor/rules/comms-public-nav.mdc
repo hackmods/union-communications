@@ -28,7 +28,7 @@ Do not re-flatten channel guides into a long top-level link bar. Do not invent m
 Four groups in `nav-config.ts` `toolGroups` (mega-menu columns):
 
 1. **Brand** — Logo Builder, Resizer, Document & Slide Generator
-2. **Union boards** — Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board Posters, QR Link Cards
+2. **Union boards** — Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board Posters, QR Link Cards, Action Cards
 3. **Print** — Flyer Maker
 4. **Social & web** — Graphic Maker, Quote Card, Meeting Backgrounds, Website Template, Alt-Text Assistant
 

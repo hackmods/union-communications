@@ -27,6 +27,9 @@ const PUBLIC_PATHS = [
   "/guide/photo-consent",
   "/guide/crisis",
   "/guide/membership-signup",
+  "/guide/dfr",
+  "/guide/seniority-bumping",
+  "/guide/right-to-refuse",
   ...TOOL_SLUGS.map((slug) => `/tools/${slug}`),
 ];
 

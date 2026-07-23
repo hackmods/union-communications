@@ -16,6 +16,9 @@ const pathLinks = [
   { href: "/guide/social-media-plan", key: "plan" as const },
   { href: "/guide/resources", key: "resources" as const },
   { href: "/guide/crisis", key: "crisis" as const },
+  { href: "/guide/dfr", key: "dfr" as const },
+  { href: "/guide/seniority-bumping", key: "seniority" as const },
+  { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },
 ];
 
 export default async function GuidePage({
@@ -107,6 +110,39 @@ export default async function GuidePage({
                 className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
               >
                 {t(`channelGuides.${link.key}`)}
+              </Link>
+            </span>
+          ))}
+        </nav>
+      </Callout>
+
+      <Callout tone="muted" className="mt-6">
+        <p className="font-semibold text-opseu-dark">{t("labourGuides.title")}</p>
+        <nav
+          className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
+          aria-label={t("labourGuides.title")}
+        >
+          {(
+            [
+              { href: "/guide/dfr", key: "dfr" as const },
+              { href: "/guide/seniority-bumping", key: "seniority" as const },
+              {
+                href: "/guide/right-to-refuse",
+                key: "rightToRefuse" as const,
+              },
+            ] as const
+          ).map((link, i) => (
+            <span key={link.href} className="inline-flex items-baseline gap-x-3">
+              {i > 0 && (
+                <span className="text-gray-300" aria-hidden="true">
+                  ·
+                </span>
+              )}
+              <Link
+                href={link.href}
+                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+              >
+                {t(`labourGuides.${link.key}`)}
               </Link>
             </span>
           ))}

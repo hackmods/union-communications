@@ -57,6 +57,14 @@ export function BumpingDashboard({ canWrite }: { canWrite: boolean }) {
             {t("subtitle")}
           </p>
           <p className="mt-2 text-xs text-gray-500">{t("disclaimer")}</p>
+          <p className="mt-2">
+            <Link
+              href="/guide/seniority-bumping"
+              className="text-sm font-medium text-opseu-blue underline underline-offset-2"
+            >
+              {t("seniorityGuideLink")}
+            </Link>
+          </p>
         </div>
         {canWrite && (
           <Link href="/app/bumping/new" className="w-full shrink-0 sm:w-auto">

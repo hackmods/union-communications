@@ -109,6 +109,13 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("button", { name: "Download PNG" })).toBeVisible();
   });
 
+  test("action card maker page renders", async ({ page }) => {
+    await page.goto("/en/tools/action-card/");
+    await expect(page.getByRole("heading", { name: "Action Card Maker" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Download PNG" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Download PDF" })).toBeVisible();
+  });
+
   test("qr board poster maker page renders", async ({ page }) => {
     await page.goto("/en/tools/qr-board/");
     await expect(page.getByRole("heading", { name: "QR Board Poster Maker" })).toBeVisible();

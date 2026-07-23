@@ -48,6 +48,7 @@ Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “
 | `/[locale]/tools/solidarity-poster` | Solidarity board posters + wallpapers (Print; Digital 16:9 / 19.5:9 / 9:16 PNG; CTA + QR toggles) |
 | `/[locale]/tools/meeting-background` | Zoom/Teams virtual backgrounds (Bold + Minimal design sets; landscape 16:9 HD/UHD + portrait 9:16; face-safe layouts + layer toggles) |
 | `/[locale]/tools/qr-card` | QR link cards (title, tagline, multi-size print; join / FT / PT membership presets) |
+| `/[locale]/tools/action-card` | Action / petition QR cards (headline, ask, deadline; QR → officer-supplied external sign-on URL; PNG + PDF) |
 | `/[locale]/tools/qr-board` | Multi-QR board posters (2–8 links; letter/tabloid; PNG + PDF; Membership FT+PT preset) |
 | `/[locale]/guide/membership-signup` | Membership growth guide — Brand Kit links → QR materials → welcome letter |
 | `/[locale]/tools/graphic-maker` | Social graphics |
@@ -64,7 +65,7 @@ Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “
 |---------|----------------|
 | **Social** | Blueprint, crisis guide, captions, examples, graphic maker, resizer, quote card, alt-text |
 | **Print** | Flyer maker, print guide |
-| **Union boards** | Board notice maker, solidarity poster maker, QR link cards, QR board posters, union boards guide (bare-minimum + reference layouts) |
+| **Union boards** | Board notice maker, solidarity poster maker, QR link cards, action cards, QR board posters, union boards guide (bare-minimum + reference layouts) |
 | **Website** | Website template (based on local243.org model), website guide |
 
 ## Multi-Union Migration Checklist (Phase 1)

@@ -32,6 +32,7 @@ const AUTH_MARKERS = [
   "requireTimeSession",
   "requireTaskSession",
   "requireDiscussionsSession",
+  "requireInformalLogSession",
 ];
 
 describe("API route auth coverage", () => {

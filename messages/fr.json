@@ -28,6 +28,7 @@
     "solidarityPoster": "Affiches solidarité",
     "meetingBackground": "Fonds de réunion",
     "qrCard": "Cartes lien QR",
+    "actionCard": "Cartes d'action",
     "qrBoard": "Affiches QR tableau",
     "websiteTemplate": "Modèle de site Web",
     "documentGenerator": "Documents et diapositives",
@@ -248,7 +249,10 @@
       "title": "Parcours connexes",
       "plan": "Commencer - Trousse de marque d'abord, puis la feuille de route du plan médias sociaux",
       "resources": "Ressources de communication - orientation, pratique, sources",
-      "crisis": "Guide de grève - communications de négociation et de grève"
+      "crisis": "Guide de grève - communications de négociation et de grève",
+      "dfr": "Devoir de représentation équitable - littératie pour délégués et dirigeants",
+      "seniority": "Guide d'ancienneté et de bumping - aide manuelle",
+      "rightToRefuse": "Droit de refuser un travail dangereux - LSST Ont. art. 43"
     },
     "chapters": {
       "platforms": {
@@ -278,6 +282,12 @@
       "print": "Impression",
       "website": "Site Web",
       "membershipSignup": "Adhésion"
+    },
+    "labourGuides": {
+      "title": "Guides de droits au travail",
+      "dfr": "Devoir de représentation équitable",
+      "seniority": "Ancienneté et bumping",
+      "rightToRefuse": "Droit de refuser (Ontario)"
     }
   },
   "unionBoardsGuide": {
@@ -1199,6 +1209,69 @@
       "localWebsiteTagline": "Scannez pour notre site"
     }
   },
+  "actionCard": {
+    "title": "Créateur de cartes d'action",
+    "subtitle": "Imprimez des cartes QR qui renvoient vers votre pétition ou page d'adhésion externe — titre, demande, échéance et lien scannable. Les signatures restent sur l'outil que vous utilisez déjà.",
+    "privacyHint": "UnionOps ne recueille pas les signatures de pétition. Collez un lien vers ActionNetwork, Google Forms, la page d'adhésion de votre syndicat national ou tout autre outil externe.",
+    "preset": "Préréglage",
+    "destination": "Lien de pétition / adhésion",
+    "savedLinks": "Utiliser un lien enregistré de la trousse",
+    "savedLinksPlaceholder": "Choisir un lien enregistré…",
+    "savedWebsite": "Site de la section",
+    "savedFacebook": "Facebook",
+    "headline": "Titre",
+    "ask": "La demande",
+    "deadline": "Échéance (optionnelle)",
+    "deadlinePlaceholder": "p. ex. Signez avant le vendredi 14 mars",
+    "cta": "Appel à l'action sous le QR",
+    "bgMode": "Arrière-plan",
+    "bgModes": {
+      "plain": "Uni",
+      "gradient": "Dégradé",
+      "accentBar": "Barre d'accent"
+    },
+    "size": "Format d'impression",
+    "sizes": {
+      "quarter": "Quart (4,25×5,5)",
+      "half": "Demi (5,5×8,5)",
+      "letter": "Lettre (8,5×11)",
+      "square5": "Carré 5×5",
+      "square4": "Carré 4×4"
+    },
+    "sizeTip": "Quart = 4 par feuille lettre; Demi = 2 par feuille. Imprimez plusieurs copies de la même carte pour remplir une page.",
+    "previewSize": "Aperçu {label} - {width}×{height} po",
+    "showUrl": "Afficher l'URL sous l'appel à l'action",
+    "includeBranding": "Inclure l'image de marque locale",
+    "qrPlaceholder": "Collez un lien de pétition",
+    "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les cartes avec le logo de votre section.",
+    "setupBrandLink": "Commencer l'intégration",
+    "presets": {
+      "signPetitionHeadline": "Signez la pétition",
+      "signPetitionAsk": "Ajoutez votre nom en appui aux demandes de nos membres.",
+      "signPetitionDeadline": "Signez avant l'échéance",
+      "signPetitionCta": "Scannez pour signer →",
+      "supportCampaignHeadline": "Soutenez-nous",
+      "supportCampaignAsk": "Montrez votre solidarité — prenez une minute pour appuyer cette campagne.",
+      "supportCampaignDeadline": "Agissez cette semaine",
+      "supportCampaignCta": "Scannez pour appuyer →",
+      "attendRallyHeadline": "Joignez l'action",
+      "attendRallyAsk": "Scannez pour les détails, le RSVP et comment vous y rendre en sécurité.",
+      "attendRallyDeadline": "Notez la date",
+      "attendRallyCta": "Scannez pour les détails →",
+      "writeOfficialHeadline": "Écrivez à votre député·e",
+      "writeOfficialAsk": "Envoyez un message à votre représentant·e élu·e. Cela prend deux minutes.",
+      "writeOfficialDeadline": "Avant le vote",
+      "writeOfficialCta": "Scannez pour écrire →",
+      "bargainingSupportHeadline": "Appuyez la négociation",
+      "bargainingSupportAsk": "Soutenez votre équipe de négociation — signez et partagez avec vos collègues.",
+      "bargainingSupportDeadline": "Avant la reprise des pourparlers",
+      "bargainingSupportCta": "Scannez pour nous appuyer →",
+      "stopCutsHeadline": "Arrêtez les compressions",
+      "stopCutsAsk": "Dites aux décideurs que vous vous opposez aux compressions qui nuisent aux travailleurs et au public.",
+      "stopCutsDeadline": "Signez avant la décision",
+      "stopCutsCta": "Scannez pour agir →"
+    }
+  },
   "qrBoard": {
     "title": "Créateur d'affiches QR pour tableau",
     "subtitle": "Affiches multi-QR pour tableaux syndicaux — deux campagnes ou un ensemble de liens essentiels, titre au-dessus du code et URL en dessous",
@@ -1751,6 +1824,187 @@
       ]
     }
   },
+  "dfrGuide": {
+    "title": "Devoir de représentation équitable",
+    "subtitle": "Littératie de base pour les délégués et dirigeants locaux",
+    "backToGuide": "Retour au Plan directeur",
+    "intro": "Le devoir de représentation équitable (DRE) est l'obligation légale qu'un syndicat doit à chaque membre qu'il représente. Les délais de grief manqués, les plaintes ignorées et les refus non expliqués d'avancer un dossier sont des points d'exposition classiques au DRE — pas seulement un « mauvais processus ». Ce guide oriente les dirigeants; il ne remplace pas votre convention collective, les conseils du syndicat national ni un avocat.",
+    "disclaimer": {
+      "title": "Pas un avis juridique",
+      "body": "Ceci est une orientation éducative seulement — pas un avis juridique. Confirmez chaque délai, étape de dépôt et décision de représentation avec votre convention collective, l'exécutif local et le service juridique ou le représentant du syndicat national."
+    },
+    "related": {
+      "seniority": "Guide d'ancienneté et de bumping",
+      "rightToRefuse": "Droit de refuser un travail dangereux"
+    },
+    "sections": {
+      "whatItMeans": {
+        "title": "Ce que signifie le DRE en pratique",
+        "content": "En relations de travail en Ontario, le DRE signifie que le syndicat doit représenter les membres d'une façon qui n'est pas arbitraire, discriminatoire ou de mauvaise foi. Les membres n'ont pas un droit absolu à ce que chaque grief aille en arbitrage — mais ils ont droit à un processus sérieux et honnête.",
+        "items": [
+          "Enquêtez rapidement les plaintes et documentez ce que vous avez fait",
+          "Communiquez les mises à jour au membre en langage clair",
+          "Appliquez la convention collective de façon cohérente dans des dossiers similaires",
+          "Escaladez tôt lorsque des délais, une complexité ou un conflit d'intérêts apparaissent"
+        ]
+      },
+      "legalTest": {
+        "title": "Le critère « arbitraire / discriminatoire / mauvaise foi »",
+        "content": "Les commissions du travail évaluent si la conduite du syndicat a manqué au DRE — pas si le membre aurait gagné en arbitrage. Arbitraire signifie aucune véritable considération; discriminatoire signifie un traitement inégal sans motif légitime; mauvaise foi inclut l'hostilité, la tromperie ou des motifs impropres.",
+        "items": [
+          "Arbitraire — refuser sans lire le dossier, manquer un délai connu",
+          "Discriminatoire — traiter des membres différemment pour des motifs illicites ou une antipathie personnelle",
+          "Mauvaise foi — mentir au membre, enterrer des preuves ou poursuivre un agenda personnel",
+          "Un désaccord honnête après une vraie enquête n'est généralement pas un manquement au DRE"
+        ]
+      },
+      "failureModes": {
+        "title": "Modes d'échec courants",
+        "content": "La plupart des plaintes de DRE naissent du silence et des horloges manquées, pas d'une malice spectaculaire. Adoptez des habitudes qui laissent une trace écrite d'une considération sérieuse.",
+        "items": [
+          "Délais d'étape / de renvoi manqués dans la convention collective",
+          "Aucune note d'enquête, entrevue ou demande de documents au dossier",
+          "Aucune explication écrite lorsqu'on refuse d'avancer un grief",
+          "Promettre des résultats que vous ne contrôlez pas (« nous gagnerons »)",
+          "Mélanger un conflit personnel avec les décisions de représentation"
+        ]
+      },
+      "practice": {
+        "title": "Liste de pratique pour délégués et dirigeants",
+        "content": "Utilisez les outils de griefs du Centre des dirigeants pour suivre les étapes et les dates — mais traitez la CC et votre représentant comme autoritatifs. En cas de doute, documentez la question et escaladez.",
+        "items": [
+          "Inscrivez la préoccupation du membre le jour même où vous l'entendez",
+          "Notez chaque délai de la CC à partir de l'événement déclencheur",
+          "Confirmez les prolongations par écrit",
+          "Gardez les notes confidentielles à l'interne — jamais sur les réseaux publics",
+          "Si vous ne pouvez pas agir équitablement (conflit), confiez le dossier à un autre dirigeant"
+        ]
+      }
+    },
+    "hub": {
+      "title": "Lien avec UnionOps",
+      "body": "Utilisez Griefs dans le Centre des dirigeants pour suivre les étapes, notes et réunions. Associez ce guide au guide d'ancienneté lorsque les dossiers de déplacement ou de bumping soulèvent des questions de représentation. Les journaux informels pré-dépôt (lorsqu'ils sont activés pour votre locataire) aident à prouver que vous avez pris au sérieux les préoccupations dès le départ."
+    }
+  },
+  "seniorityGuide": {
+    "title": "Guide d'ancienneté et de bumping",
+    "subtitle": "Aide manuelle pour les comités de stabilité — pas un calculateur",
+    "backToGuide": "Retour au Plan directeur",
+    "intro": "Les dossiers de bumping et de déplacement collégiaux reposent sur les dates d'ancienneté, les frontières de classification et les règles d'affichage de votre convention collective. Ce guide aide les comités à travailler un scénario sur papier et à contre-vérifier toute aide d'ancienneté dans l'outil. Il ne décide pas des résultats.",
+    "disclaimer": {
+      "title": "Pas un avis juridique — aide, pas le calculateur",
+      "body": "Ce guide et toute aide d'ancienneté du Centre sont des aides de processus seulement — pas un avis juridique et pas un moteur de décision contraignant. Suivez votre convention collective, les procédures locales de bumping et les orientations du syndicat national. Les DecisionRecords du comité demeurent autoritatifs."
+    },
+    "related": {
+      "dfr": "Devoir de représentation équitable",
+      "rightToRefuse": "Droit de refuser un travail dangereux"
+    },
+    "sections": {
+      "compare": {
+        "title": "Exemple : comparer l'ancienneté",
+        "content": "Commencez avec deux membres et un poste cible. Inscrivez la date d'ancienneté, la classification et le statut de chacun sur une seule feuille avant de débattre des qualifications.",
+        "items": [
+          "Listez le membre A et le membre B avec date d'ancienneté (AAAA-MM-JJ) et classification",
+          "Confirmez quelle date utilise la CC — service continu, ancienneté de classification ou autre horloge",
+          "Notez les égalités et comment votre CC les départage",
+          "Seulement ensuite comparez qualifications, heures et admissibilité à l'affichage selon le libellé de la CC"
+        ]
+      },
+      "cascade": {
+        "title": "Parcours de déplacement en cascade",
+        "content": "Un bump peut déplacer un autre membre, qui peut ensuite bumper plus bas. Cartographiez la chaîne avant le vote du comité.",
+        "items": [
+          "Dessinez la chaîne : poste vacant → premier bumper → titulaire déplacé → bump suivant (s'il y a lieu)",
+          "Arrêtez lorsque la CC met fin à la chaîne (plancher de classification, probation, statut temporaire)",
+          "Signalez quiconque ne peut pas bumper (mauvaise classification, ancienneté insuffisante, options refusées)",
+          "Consignez chaque étape dans le journal du comité avec dates et articles de la CC"
+        ]
+      },
+      "pitfalls": {
+        "title": "Pièges courants",
+        "content": "La plupart des erreurs de comité viennent du mélange des horloges ou de l'ignorance des frontières déjà définies par la CC.",
+        "items": [
+          "Date d'affichage vs date d'ancienneté — ne traitez pas la date d'affichage d'un poste comme l'ancienneté de quelqu'un",
+          "Frontières de classification — les collections FT/PT ou du personnel de soutien ne se bumper pas librement",
+          "Statut probatoire ou temporaire — confirmez les droits de bumping avant de classer quelqu'un",
+          "Supposer que « la date la plus ancienne gagne toujours » sans lire le départage et le langage d'aptitude de la CC"
+        ]
+      },
+      "worksheet": {
+        "title": "Feuille de travail papier (imprimer ou copier)",
+        "content": "Utilisez cette disposition de colonnes sur une page blanche ou un tableur pendant la réunion. Gardez une copie au dossier.",
+        "items": [
+          "Colonnes : Réf. membre · Date d'ancienneté · Classification · Poste actuel · Cible / réclamation · Admissible? (O/N/?) · Notes / article CC",
+          "Lignes : une par personne dans la chaîne, plus une ligne vide pour les candidats de rechange",
+          "Pied de page : date de séance, président, résumé de décision et lien vers l'ID du dossier de bumping du Centre"
+        ]
+      }
+    },
+    "hub": {
+      "title": "Module de bumping du Centre des dirigeants",
+      "body": "Ouvrez Bumping collégial dans le Centre pour les notes de dossier, la comparaison PDF et les séances de comité. Utilisez toute aide de classement d'ancienneté seulement comme seconde vérification — refaites la feuille papier si le résultat de l'outil vous surprend."
+    }
+  },
+  "rightToRefuseGuide": {
+    "title": "Droit de refuser un travail dangereux",
+    "subtitle": "Loi sur la santé et la sécurité au travail de l'Ontario (LSST) article 43 — propre à cette compétence",
+    "backToGuide": "Retour au Plan directeur",
+    "intro": "Ce guide résume la procédure de refus de l'art. 43 de la LSST de l'Ontario pour les délégués et membres du CSS du secteur collégial. Les autres provinces et territoires utilisent des lois et étapes différentes — ne supposez pas que cette séquence s'applique hors de l'Ontario.",
+    "disclaimer": {
+      "title": "Pas un avis juridique — propre à l'Ontario",
+      "body": "Ceci est une orientation éducative pour les lieux de travail ontariens assujettis à la LSST — pas un avis juridique. Confirmez les étapes avec votre CSS, la politique de santé-sécurité de l'employeur, la convention collective et les orientations du ministère. Les locataires hors Ontario doivent suivre les règles de leur propre compétence."
+    },
+    "related": {
+      "dfr": "Devoir de représentation équitable",
+      "seniority": "Guide d'ancienneté et de bumping"
+    },
+    "sections": {
+      "ontarioScope": {
+        "title": "Portée ontarienne (lisez d'abord)",
+        "content": "L'art. 43 de la LSST s'applique à la plupart des lieux de travail réglementés par la province en Ontario, avec des exceptions et règles spéciales pour certains secteurs. Vérifiez toujours la couverture pour votre type de lieu de travail avant de conseiller un membre.",
+        "items": [
+          "Étiquetez ce guide « Ontario seulement » dans tout matériel de formation local que vous réimprimez",
+          "Les lieux de travail fédéraux et les autres provinces suivent d'autres cadres de refus",
+          "Certains travailleurs ont des droits modifiés — vérifiez le texte actuel de la LSST et les documents du ministère",
+          "La représentation syndicale appuie le membre; elle ne remplace pas le CSS ni le ministère"
+        ]
+      },
+      "procedure": {
+        "title": "Refus étape par étape (signalement)",
+        "content": "Un travailleur qui a des motifs de croire que le travail risque de le mettre en danger (ou un autre travailleur) peut refuser. Le premier geste est un signalement rapide — pas un départ silencieux.",
+        "items": [
+          "Le travailleur signale rapidement les circonstances au superviseur / employeur",
+          "Le travailleur demeure dans un lieu sûr à proximité et disponible pour l'enquête",
+          "Le travailleur peut être accompagné d'un membre travailleur du CSS ou d'un représentant syndical SST lorsque la Loi le prévoit",
+          "L'employeur enquête en présence du travailleur et du représentant des travailleurs"
+        ]
+      },
+      "investigation": {
+        "title": "Si le travailleur refuse encore",
+        "content": "Lorsque le danger n'est pas résolu à la satisfaction du travailleur, l'affaire dépasse l'enquête interne.",
+        "items": [
+          "Avis à un inspecteur du ministère du Travail — l'employeur, le travailleur ou un membre du CSS peut déclencher cette étape",
+          "L'inspecteur enquête et décide si le refus est susceptible de mettre en danger",
+          "N'incitez pas les membres à inventer des dangers — les faits, dates et témoins comptent",
+          "Conservez des notes sur les heures, les personnes présentes et ce qui a été dit pour le dossier local"
+        ]
+      },
+      "reassignment": {
+        "title": "Règles de réaffectation (aperçu)",
+        "content": "Pendant qu'un refus est en cours, l'employeur ne peut généralement pas assigner le même travail à un autre travailleur sans l'informer du refus et des motifs, sous réserve des règles de la LSST. Les détails changent — vérifiez le libellé actuel avant de conseiller.",
+        "items": [
+          "Les autres travailleurs assignés au travail doivent être informés du refus et des motifs",
+          "Le travailleur qui refuse est généralement payé en attendant le résultat de l'enquête, sous réserve des règles de la Loi",
+          "Les représailles pour l'exercice de droits LSST sont interdites — escaladez immédiatement toute représaille soupçonnée",
+          "Affichez les contacts actuels du CSS et les étapes de signalement de danger sur le tableau syndical"
+        ]
+      }
+    },
+    "boards": {
+      "title": "Tableaux syndicaux et cartes de poche",
+      "body": "Gardez les contacts du CSS et une courte bande « comment signaler un danger / refuser un travail dangereux » sur le tableau. Liez les affiches QR au texte officiel e-Laws de la LSST plutôt qu'à des photocopies périmées."
+    }
+  },
   "share": {
     "button": "Partager cet outil",
     "copied": "Lien copié!",
@@ -1925,8 +2179,53 @@
       "discussions": "Discussions",
       "discussionsDesc": "Fils locaux pour les dossiers et les affaires",
       "tasks": "Tâches",
-      "tasksDesc": "Assigner et suivre les tâches des dirigeants"
+      "tasksDesc": "Assigner et suivre les tâches des dirigeants",
+      "informalLog": "Journal rapide du délégué",
+      "informalLogDesc": "Consigner les discussions informelles avant de déposer un grief"
     }
+  },
+  "informalLog": {
+    "title": "Journal rapide du délégué",
+    "subtitle": "Documentez les discussions informelles et les tentatives de règlement avant le dépôt d’un grief à l’étape 1.",
+    "loading": "Chargement du journal…",
+    "loadError": "Impossible de charger les entrées du journal.",
+    "createError": "Impossible de créer l’entrée.",
+    "deleteError": "Impossible de supprimer l’entrée.",
+    "convertError": "Impossible de convertir cette entrée en grief.",
+    "alreadyConverted": "Cette entrée a déjà été convertie en grief.",
+    "created": "Entrée enregistrée.",
+    "converted": "Convertie en grief {id}.",
+    "newEntry": "Nouvelle entrée",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "empty": "Aucune discussion informelle consignée pour cette portée locale.",
+    "filterLabel": "Filtres du journal",
+    "filter": {
+      "all": "Toutes",
+      "unconverted": "Pas encore des griefs"
+    },
+    "fields": {
+      "topic": "Sujet",
+      "memberPseudonym": "Membre (pseudonyme)",
+      "memberPseudonymHint": "Facultatif — évitez les vrais noms lorsque possible",
+      "channel": "Canal",
+      "occurredAt": "Date et heure",
+      "summary": "Résumé"
+    },
+    "channel": {
+      "email": "Courriel",
+      "phone": "Téléphone",
+      "in_person": "En personne",
+      "letter": "Lettre",
+      "other": "Autre"
+    },
+    "meta": "{channel} · {when} · Consigné par {by}",
+    "memberLabel": "Membre : {name}",
+    "convert": "Convertir en grief",
+    "converting": "Conversion…",
+    "viewGrievance": "Ouvrir le grief",
+    "delete": "Supprimer",
+    "readOnlyBanner": "Le mode lecture seule mobile du délégué est activé — vous pouvez consulter le journal mais pas ajouter ni convertir d’entrées."
   },
   "discussions": {
     "title": "Discussions",
@@ -2286,6 +2585,7 @@
     "title": "Bumpage collégial",
     "subtitle": "Comparaison de postes et registre du comité de stabilité",
     "disclaimer": "Les listes aident le processus - pas un avis juridique. Suivez votre convention collective.",
+    "seniorityGuideLink": "Guide d'ancienneté et de bumping",
     "loading": "Chargement...",
     "loadError": "Impossible de charger les dossiers",
     "newCase": "Nouveau dossier",

@@ -6,11 +6,11 @@ const addPage = vi.fn();
 const output = vi.fn(() => new Blob(["pdf"], { type: "application/pdf" }));
 const JsPDFCtor = vi.fn();
 
-const toPng = vi.fn(
-  async (_node?: HTMLElement, _opts?: Record<string, unknown>) =>
-    "data:image/png;base64,abc",
-) as unknown as ReturnType<typeof vi.fn> &
-  ((node?: HTMLElement, opts?: Record<string, unknown>) => Promise<string>);
+const toPng = vi.fn(async () => "data:image/png;base64,abc") as unknown as ((
+  node?: HTMLElement,
+  opts?: Record<string, unknown>,
+) => Promise<string>) &
+  ReturnType<typeof vi.fn>;
 
 vi.mock("file-saver", () => ({
   saveAs: (...args: unknown[]) => {

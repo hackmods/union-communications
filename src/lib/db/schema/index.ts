@@ -6,3 +6,5 @@ export * from "./qol";
 export * from "./time";
 export * from "./discussions";
 export * from "./attachments";
+export * from "./tasks";
+export * from "./informal-log";

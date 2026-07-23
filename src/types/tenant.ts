@@ -4,7 +4,8 @@ export type HubModule =
   | "bumping"
   | "time"
   | "discussions"
-  | "tasks";
+  | "tasks"
+  | "informalLog";
 
 export type UserRole =
   | "platform_admin"
