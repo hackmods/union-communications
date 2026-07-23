@@ -1849,6 +1849,8 @@
     "auditLocal": "Section locale",
     "demoBannerLabel": "Démo",
     "demoBannerBody": "Ce hub des dirigeants est un site de démonstration avec des données fictives — pas un environnement de production. N’y saisissez pas de renseignements réels sur des membres ou des griefs; rien ici n’est un dossier confidentiel.",
+    "memoryBannerLabel": "Mémoire seulement",
+    "memoryBannerBody": "Cette instance stocke les dossiers uniquement en mémoire — ils seront perdus au redémarrage. Ne l’utilisez pas pour de vrais dossiers de membres tant que Postgres n’est pas activé.",
     "backToPublic": "Retour aux outils publics",
     "tenantInfo": "Votre organisation",
     "union": "Syndicat",

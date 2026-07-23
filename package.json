@@ -26,7 +26,10 @@
     "test:e2e": "playwright test",
     "test:smoke": "playwright test --grep @smoke",
     "brand:set": "node scripts/set-host-brand.mjs",
-    "brand:favicons": "node scripts/generate-favicons.mjs"
+    "brand:favicons": "node scripts/generate-favicons.mjs",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -34,6 +37,7 @@
     "docx": "^9.7.1",
     "docxtemplater": "^3.69.0",
     "docxtemplater-image-module-free": "^1.1.1",
+    "drizzle-orm": "^0.45.2",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "html-to-image": "^1.11.13",
@@ -44,6 +48,7 @@
     "next-intl": "^4.13.1",
     "pdfjs-dist": "^6.1.200",
     "pizzip": "^3.2.0",
+    "postgres": "^3.4.9",
     "pptxgenjs": "^4.0.1",
     "qrcode": "^1.5.4",
     "react": "19.2.4",
@@ -65,6 +70,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.0.3",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "jsdom": "^29.1.1",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DemoSiteBanner } from "@/components/hub/DemoSiteBanner";
+import { MemoryDataBanner } from "@/components/hub/MemoryDataBanner";
 import { HubNav } from "@/components/hub/HubNav";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,7 @@ export default function AppLayout({
   return (
     <>
       <DemoSiteBanner />
+      <MemoryDataBanner />
       <HubNav />
       <div className={cn(PAGE_SHELL.chrome, "py-6 md:py-8")}>{children}</div>
     </>

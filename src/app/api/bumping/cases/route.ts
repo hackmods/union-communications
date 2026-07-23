@@ -75,11 +75,32 @@ export async function POST(request: Request) {
     seniorityNotes: "",
   };
 
+  const normalizePosition = (
+    value: typeof parsed.data.incumbentPosition,
+  ) => ({
+    title: value?.title ?? "",
+    duties: value?.duties ?? "",
+    qualifications: value?.qualifications ?? "",
+    seniorityNotes: value?.seniorityNotes ?? "",
+    ...(value?.sourceText !== undefined
+      ? { sourceText: value.sourceText }
+      : {}),
+    ...(value?.fileName !== undefined ? { fileName: value.fileName } : {}),
+  });
+
   const created = await bumpingStore.create(
     {
-      ...parsed.data,
-      incumbentPosition: parsed.data.incumbentPosition ?? emptyPosition,
-      bumpingPosition: parsed.data.bumpingPosition ?? emptyPosition,
+      memberRef: parsed.data.memberRef,
+      seniorityDate: parsed.data.seniorityDate,
+      currentPosition: parsed.data.currentPosition,
+      targetPosition: parsed.data.targetPosition,
+      scenario: parsed.data.scenario,
+      incumbentPosition: parsed.data.incumbentPosition
+        ? normalizePosition(parsed.data.incumbentPosition)
+        : emptyPosition,
+      bumpingPosition: parsed.data.bumpingPosition
+        ? normalizePosition(parsed.data.bumpingPosition)
+        : emptyPosition,
     },
     {
       unionId,

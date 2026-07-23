@@ -1874,6 +1874,8 @@
     "auditLocal": "Local",
     "demoBannerLabel": "Demo",
     "demoBannerBody": "This Officer Hub is a demonstration site with sample data — not live production. Do not enter real member or grievance information; nothing here is confidential casework.",
+    "memoryBannerLabel": "Memory only",
+    "memoryBannerBody": "This instance stores case data in memory only — it will be lost on restart. Do not use for real member casework until Postgres is enabled.",
     "backToPublic": "Back to public tools",
     "tenantInfo": "Your organization",
     "union": "Union",

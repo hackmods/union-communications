@@ -452,6 +452,7 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 
 - [x] `SEC-006` — Zod schemas for grievance/bumping create/update; adapter field allowlists; mass-assignment tests
 - [x] `RBAC-001` — snippet/marketplace DELETE uses `canDeleteSharedContent` (includes `division_admin`)
-- [ ] `SEC-003` — Postgres + RLS (in progress)
-- [ ] `SEC-007` — real accounts / invite flow (blocked on SEC-003)
+- [x] `SEC-003` (scaffold) — Drizzle schemas + migration, `DATABASE_URL` client, docker `db` service, backend flags, memory-data Hub banner
+- [ ] `SEC-003` (adapters) — swap grievance/bumping/audit memory adapters behind `*_DB_BACKEND=postgres`
+- [ ] `SEC-007` — real accounts / invite flow (blocked on SEC-003 adapters)
 - [ ] `RBAC-003` / `SEC-009` — remaining Phase 2 tickets

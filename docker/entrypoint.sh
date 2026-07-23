@@ -11,5 +11,14 @@ if [ ! -f /app/server.js ]; then
   exit 1
 fi
 
-# No database migrations in the MVP (in-memory adapters).
+# Apply Drizzle migrations when Postgres is configured (SEC-003).
+if [ -n "${DATABASE_URL:-}" ] && [ -d /app/src/lib/db/migrations ]; then
+  echo "[entrypoint] DATABASE_URL set — running drizzle-kit migrate"
+  npx drizzle-kit migrate || echo "[entrypoint] WARN: migrate failed — continuing with existing schema"
+elif [ -n "${DATABASE_URL:-}" ]; then
+  echo "[entrypoint] DATABASE_URL set but migrations folder missing — skip migrate"
+else
+  echo "[entrypoint] no DATABASE_URL — memory adapters (case data is not durable)"
+fi
+
 exec "$@"

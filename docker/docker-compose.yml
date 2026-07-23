@@ -1,4 +1,21 @@
 services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-unionops}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in docker/.env}
+      POSTGRES_DB: ${POSTGRES_DB:-unionops}
+    volumes:
+      - unionops_pgdata:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-unionops} -d ${POSTGRES_DB:-unionops}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   web:
     # Prefer a release image when available:
     # image: ghcr.io/hackmods/union-communications:v0.1.0
@@ -10,6 +27,9 @@ services:
         NEXT_PUBLIC_DEMO_SITE: "true"
     ports:
       - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
       NODE_ENV: production
       # Required — compose fails if unset (SEC-004). Generate: openssl rand -base64 32
@@ -18,3 +38,11 @@ services:
       # Demo compose: shared static code (SEC-002). Prefer AUTH_MFA_MODE=totp on real hosts.
       AUTH_MFA_MODE: ${AUTH_MFA_MODE:-shared_code_insecure}
       AUTH_MFA_CODE: ${AUTH_MFA_CODE:?Set AUTH_MFA_CODE to a 6-digit shared code for this demo host}
+      DATABASE_URL: ${DATABASE_URL:-postgres://${POSTGRES_USER:-unionops}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-unionops}}
+      # Flip to postgres once migrations + adapters are verified for this host.
+      GRIEVANCE_DB_BACKEND: ${GRIEVANCE_DB_BACKEND:-memory}
+      BUMPING_DB_BACKEND: ${BUMPING_DB_BACKEND:-memory}
+      AUDIT_DB_BACKEND: ${AUDIT_DB_BACKEND:-memory}
+
+volumes:
+  unionops_pgdata:
