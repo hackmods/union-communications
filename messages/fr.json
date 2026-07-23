@@ -93,7 +93,8 @@
     "showPreview": "Afficher l'aperçu",
     "backToEdit": "Retour à la modification",
     "editHistory": "Historique des modifications",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "close": "Fermer"
   },
   "routeUi": {
     "errorTitle": "Une erreur s’est produite",
@@ -1494,6 +1495,14 @@
     "colors": {
       "primary": "Couleur de marque principale",
       "secondary": "Accent graphique"
+    },
+    "contrastAdvisory": {
+      "inline": "Cette combinaison de couleurs peut être difficile à lire sur les tableaux et graphiques.",
+      "confirmTitle": "Couleurs à faible contraste",
+      "confirmBody": "Cette combinaison de couleurs peut être difficile à lire — enregistrer quand même ?",
+      "confirmSave": "Enregistrer quand même",
+      "confirmCancel": "Continuer à modifier",
+      "resetDefaults": "Réinitialiser aux valeurs par défaut de l'instance"
     },
     "logo": {
       "title": "Logo",

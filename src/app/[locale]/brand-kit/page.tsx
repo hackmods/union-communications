@@ -223,6 +223,8 @@ export default function BrandKitPage() {
           <ThemePicker
             primaryColor={brandKit.primaryColor}
             secondaryColor={brandKit.secondaryColor}
+            accentColor={brandKit.accentColor}
+            confirmLowContrast
             onPrimaryChange={(c) => setBrandKit({ primaryColor: c })}
             onSecondaryChange={(c) => setBrandKit({ secondaryColor: c })}
             primaryLabel={t("colors.primary")}

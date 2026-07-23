@@ -1,5 +1,9 @@
 import { BRAND_COLORS } from "@/lib/constants/brand";
-import { contrastRatio, hexToRgba } from "@/lib/utils/contrast";
+import {
+  contrastRatio,
+  hexToRgba,
+  meetsWcagAA,
+} from "@/lib/utils/contrast";
 
 /** Solid ink tones for logos/titles on brand-coloured canvases */
 export type InkTone = typeof BRAND_COLORS.white | typeof BRAND_COLORS.black;
@@ -52,4 +56,51 @@ export function coloursClash(
   const ratio = contrastRatio(a, b);
   if (ratio === null) return false;
   return ratio < minRatio;
+}
+
+/** Brand Kit / ThemePicker palette fields checked for accessibility risk. */
+export type BrandPalette = {
+  primary: string;
+  secondary: string;
+  accent?: string;
+};
+
+export type BrandContrastIssue =
+  | "primaryCanvasInk"
+  | "secondaryCanvasInk"
+  | "accentCanvasInk"
+  | "primarySecondaryClash";
+
+/**
+ * Evaluate whether a Brand Kit palette will be hard to read on canvases.
+ * Uses auto ink (`pickContrastingInk`) for WCAG AA against each field as a
+ * background, plus `coloursClash` when primary sits with secondary.
+ * Accent is checked as a canvas background only — it is often a darkened
+ * primary by design, so primary/accent clash is not treated as a risk.
+ */
+export function evaluateBrandPaletteContrast(
+  palette: BrandPalette,
+): { ok: boolean; issues: BrandContrastIssue[] } {
+  const issues: BrandContrastIssue[] = [];
+  const { primary, secondary, accent } = palette;
+
+  if (!meetsWcagAA(pickContrastingInk(primary), primary)) {
+    issues.push("primaryCanvasInk");
+  }
+  if (!meetsWcagAA(pickContrastingInk(secondary), secondary)) {
+    issues.push("secondaryCanvasInk");
+  }
+  if (coloursClash(primary, secondary)) {
+    issues.push("primarySecondaryClash");
+  }
+  if (accent && !meetsWcagAA(pickContrastingInk(accent), accent)) {
+    issues.push("accentCanvasInk");
+  }
+
+  return { ok: issues.length === 0, issues };
+}
+
+/** True when Brand Kit colours fail accessibility checks used by tools. */
+export function brandPaletteHasContrastRisk(palette: BrandPalette): boolean {
+  return !evaluateBrandPaletteContrast(palette).ok;
 }

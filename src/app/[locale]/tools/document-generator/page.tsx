@@ -7,6 +7,8 @@ import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
+import { Checkbox } from "@/components/ui/Checkbox";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import {
   OfficeExampleTile,
@@ -363,15 +365,9 @@ export default function DocumentGeneratorPage() {
 
           {/* Mobile a11y preset select */}
           <div className="sm:hidden">
-            <label
-              htmlFor="design-preset"
-              className="mb-1 block text-sm font-medium text-gray-700"
-            >
-              {t("designPreset")}
-            </label>
-            <select
+            <Select
               id="design-preset"
-              className="min-h-11 w-full rounded-lg border border-gray-300 px-3 py-2 text-base"
+              label={t("designPreset")}
               value={state.presetId}
               onChange={(e) => applyPreset(e.target.value as OfficePresetId)}
             >
@@ -380,20 +376,17 @@ export default function DocumentGeneratorPage() {
                   {t(p.titleKey)}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
 
           <div className="space-y-2">
-            <label className="inline-flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={state.includeLogo}
-                onChange={(e) =>
-                  setState({ ...state, includeLogo: e.target.checked })
-                }
-              />
-              {t("includeLogo")}
-            </label>
+            <Checkbox
+              label={t("includeLogo")}
+              checked={state.includeLogo}
+              onChange={(e) =>
+                setState({ ...state, includeLogo: e.target.checked })
+              }
+            />
             {!themeEstablished ? (
               <p className="text-xs text-gray-500">
                 {t("setupBrandPrompt")}{" "}
@@ -412,50 +405,38 @@ export default function DocumentGeneratorPage() {
               {t("outputs")}
             </legend>
             <div className="flex flex-col gap-1.5">
-              <label className="inline-flex min-h-11 items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={state.includeDocx}
+              <Checkbox
+                label={t("outputDocx")}
+                checked={state.includeDocx}
+                onChange={(e) =>
+                  setState({ ...state, includeDocx: e.target.checked })
+                }
+              />
+              {preset.outputs.xlsx ? (
+                <Checkbox
+                  label={t("outputXlsx")}
+                  checked={state.includeXlsx}
                   onChange={(e) =>
-                    setState({ ...state, includeDocx: e.target.checked })
+                    setState({ ...state, includeXlsx: e.target.checked })
                   }
                 />
-                {t("outputDocx")}
-              </label>
-              {preset.outputs.xlsx ? (
-                <label className="inline-flex min-h-11 items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={state.includeXlsx}
-                    onChange={(e) =>
-                      setState({ ...state, includeXlsx: e.target.checked })
-                    }
-                  />
-                  {t("outputXlsx")}
-                </label>
               ) : null}
               {preset.outputs.ics ? (
-                <label className="inline-flex min-h-11 items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={state.includeIcs}
-                    onChange={(e) =>
-                      setState({ ...state, includeIcs: e.target.checked })
-                    }
-                  />
-                  {t("outputIcs")}
-                </label>
-              ) : null}
-              <label className="inline-flex min-h-11 items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={state.includePptx}
+                <Checkbox
+                  label={t("outputIcs")}
+                  checked={state.includeIcs}
                   onChange={(e) =>
-                    setState({ ...state, includePptx: e.target.checked })
+                    setState({ ...state, includeIcs: e.target.checked })
                   }
                 />
-                {t("outputPptx")}
-              </label>
+              ) : null}
+              <Checkbox
+                label={t("outputPptx")}
+                checked={state.includePptx}
+                onChange={(e) =>
+                  setState({ ...state, includePptx: e.target.checked })
+                }
+              />
             </div>
           </fieldset>
 

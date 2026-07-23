@@ -250,9 +250,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Add a top-level `src/app/[locale]/error.tsx` for public Comms routes too, matching the tone of the rest of the site.
 4. Add `not-found.tsx` at both levels for consistent 404 handling with EN/FR copy and a link back to the tool catalog / Hub dashboard.
 
-### [UX-002]
+### [UX-002] 🟡 PARTIAL (2026-07-23)
 **Category:** UX
 **Severity/Priority:** Medium
+**Status:** Partial — `Skeleton` (already from UX-001) + new `EmptyState` in `src/components/ui/`. Migrated loading/empty on `TimeDashboard` and `GrievanceDashboard` only. Unit coverage in `primitives.test.tsx`. Remaining: bumping/audit/snippets/marketplace/handoff ad-hoc states; Playwright visual smoke.
 **Problem/Gap Statement:** Loading and empty states across the Hub are ad-hoc, inconsistent plain-text (`<p>{t("loading")}</p>`, `…`, or gray `<p>` empty copy) with no shared visual language — grievances, bumping, time, and audit each hand-roll their own version. There is no shared `Skeleton` or `EmptyState` component in `src/components/ui/` (which only has `Button`, `Input`, `Card`, `Callout`, `Emoji` — five files total).
 **Affected Architecture/Files:** `src/components/ui/*` (missing `Skeleton.tsx`, `EmptyState.tsx`), `src/components/grievance/GrievanceDashboard.tsx`, `src/components/bumping/BumpingDashboard.tsx`, `src/components/time/TimeDashboard.tsx`, `src/app/[locale]/app/audit/page.tsx`
 **Implementation Blueprint:**
@@ -281,9 +282,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. If a failure is detected, show a non-blocking confirmation dialog ("This colour combination may be hard to read — save anyway?") rather than silently allowing it or hard-blocking (unions may have fixed institutional colours they must use regardless of contrast score).
 3. Surface the same warning inline in the Brand Kit editor UI, not just at save time.
 
-### [UX-005]
+### [UX-005] ✅ CLOSED (2026-07-23)
 **Category:** UX
 **Severity/Priority:** Low
+**Status:** Closed — `/guide` index added to `PUBLIC_PATHS` in `src/app/sitemap.ts`; unit test derives expected guide routes from `src/app/[locale]/guide/` and asserts en/fr sitemap URLs.
 **Problem/Gap Statement:** `src/app/sitemap.ts`'s guide-path list includes individual sub-guides but appears to omit the bare `/guide` index route from its bilingual alternates, per the UI/UX review of that file (verify against current `PUBLIC_PATHS` array before implementing, since this specific claim came from a sub-agent pass rather than a full line-by-line audit of that file).
 **Affected Architecture/Files:** `src/app/sitemap.ts`
 **Implementation Blueprint:**
@@ -295,9 +297,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 
 ## UI / MEDIA (`UI-`)
 
-### [UI-001]
+### [UI-001] ✅ CLOSED (2026-07-23)
 **Category:** UI/Media
 **Severity/Priority:** Medium
+**Status:** Closed — Added `Select`, `Checkbox`, `Radio`/`RadioGroup`, `Dialog`, `Badge` (+ `EmptyState` with UX-002). Consumers: `TimeDashboard`, `GrievanceDashboard`, `document-generator`, `HybridSettingsPanel` (radios), `ConsentModal` (Dialog). Unit tests in `src/components/ui/primitives.test.tsx`. Toast/Tabs still deferred.
 **Problem/Gap Statement:** `src/components/ui/` contains only five primitives (`Button`, `Input`/`Textarea`, `Card`, `Callout`, `Emoji`) — there is no shared `Select`, `Checkbox`, `Radio`, `Dialog`/`Modal`, `Toast`, `Badge`, or `Tabs` component. This drives raw, one-off `<input>`/`<button>` usage in data-dense Hub screens (e.g. `TimeDashboard.tsx` has ~16 raw `<input>` elements) instead of a consistent, accessible, reusable control set.
 **Affected Architecture/Files:** `src/components/ui/*`, `src/components/time/TimeDashboard.tsx`, `src/app/[locale]/tools/document-generator/page.tsx`
 **Implementation Blueprint:**
@@ -373,9 +376,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Fix `board-banner/page.tsx`'s multi-sheet export to collect failed-sheet names and show a summary ("3 of 4 sheets exported — Side Rail failed, try again") instead of silently continuing.
 4. Add a `Callout` (existing shared component) error state to `ToolEditorLayout` that any tool can populate on export failure, for visual consistency.
 
-### [TOOL-003]
+### [TOOL-003] ✅ CLOSED (2026-07-23)
 **Category:** Comms Tools
 **Severity/Priority:** Medium
+**Status:** Closed — SW precaches `/en/` + `/fr/`; navigation fallback uses URL locale prefix then last-known locale cache entry; manifest `start_url`/`lang` from `NEXT_LOCALE` cookie or `Accept-Language`. See `resolveOfflineShellPath`, `resolvePwaManifestLocale`.
 **Problem/Gap Statement:** The PWA offline shell (`public/sw.js`, `src/lib/pwa/shell.ts`) precaches and falls back to `/en/` only — French-locale users get a degraded or broken offline/install experience, since the service worker's navigation fallback always resolves to the English shell regardless of the user's locale.
 **Affected Architecture/Files:** `public/sw.js`, `src/lib/pwa/shell.ts`, `src/app/manifest.ts` (`start_url`)
 **Implementation Blueprint:**

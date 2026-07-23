@@ -7,7 +7,7 @@ const output = vi.fn(() => new Blob(["pdf"], { type: "application/pdf" }));
 const JsPDFCtor = vi.fn();
 
 const toPng = vi.fn(
-  async (_node?: HTMLElement, _opts?: Record<string, unknown>) =>
+  async (..._args: [HTMLElement?, Record<string, unknown>?]) =>
     "data:image/png;base64,abc",
 );
 

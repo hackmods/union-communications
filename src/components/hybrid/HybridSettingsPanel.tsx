@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
+import { Radio, RadioGroup } from "@/components/ui/Radio";
 import {
   decryptHybridFile,
   encryptHybridSlice,
@@ -267,29 +268,22 @@ export function HybridSettingsPanel() {
       <Card className="space-y-4">
         <CardTitle>{t("importTitle")}</CardTitle>
         <p className="text-sm text-gray-600">{t("importDesc")}</p>
-        <fieldset className="space-y-2">
-          <legend className="text-sm font-medium text-gray-700">
-            {t("importMode")}
-          </legend>
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="radio"
-              name="importMode"
-              checked={importMode === "merge"}
-              onChange={() => setImportMode("merge")}
-            />
-            {t("modeMerge")}
-          </label>
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="radio"
-              name="importMode"
-              checked={importMode === "replace"}
-              onChange={() => setImportMode("replace")}
-            />
-            {t("modeReplace")}
-          </label>
-        </fieldset>
+        <RadioGroup legend={t("importMode")}>
+          <Radio
+            name="importMode"
+            value="merge"
+            label={t("modeMerge")}
+            checked={importMode === "merge"}
+            onChange={() => setImportMode("merge")}
+          />
+          <Radio
+            name="importMode"
+            value="replace"
+            label={t("modeReplace")}
+            checked={importMode === "replace"}
+            onChange={() => setImportMode("replace")}
+          />
+        </RadioGroup>
         <Button
           variant="outline"
           onClick={() => fileRef.current?.click()}
@@ -335,31 +329,26 @@ export function HybridSettingsPanel() {
           </Button>
         </div>
 
-        <fieldset className="space-y-2 border-t border-gray-100 pt-4">
-          <legend className="text-sm font-medium text-gray-700">
-            {t("dataMode")}
-          </legend>
+        <div className="space-y-2 border-t border-gray-100 pt-4">
           <p className="text-sm text-gray-600">{t("dataModeDesc")}</p>
           <p className="text-sm text-amber-800">{t("dataModeHonest")}</p>
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="radio"
+          <RadioGroup legend={t("dataMode")}>
+            <Radio
               name="dataMode"
+              value="central"
+              label={t("modeCentral")}
               checked={dataMode === "central"}
               onChange={() => void handleDataModeChange("central")}
             />
-            {t("modeCentral")}
-          </label>
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="radio"
+            <Radio
               name="dataMode"
+              value="local"
+              label={t("modeLocal")}
               checked={dataMode === "local"}
               onChange={() => void handleDataModeChange("local")}
             />
-            {t("modeLocal")}
-          </label>
-        </fieldset>
+          </RadioGroup>
+        </div>
       </Card>
 
       {message && (

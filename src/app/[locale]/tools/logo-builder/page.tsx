@@ -5,6 +5,7 @@ import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { exportNodeAsPng, exportNodeAsSvg } from "@/lib/export/image-export";
 import { formatFilename, cn } from "@/lib/utils";
+import { brandPaletteHasContrastRisk } from "@/lib/utils/ink";
 import { deriveAccentFromPrimary, getUnionPreset, resolvePresetLogos } from "@/lib/constants/unionPresets";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -15,6 +16,7 @@ import {
   LocalLogoPlate,
   type LogoShape,
 } from "@/components/brand/LocalLogoPlate";
+import { BrandContrastConfirmDialog } from "@/components/brand/BrandContrastConfirmDialog";
 import {
   LogoSettings,
   brandKitPatchForLogoMode,
@@ -44,6 +46,7 @@ export default function LogoBuilderPage() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [exportError, setExportError] = useState<string | null>(null);
+  const [contrastConfirmOpen, setContrastConfirmOpen] = useState(false);
   const presetLogos = brandKit.unionPresetId
     ? resolvePresetLogos(getUnionPreset(brandKit.unionPresetId)?.logos)
     : null;
@@ -59,7 +62,7 @@ export default function LogoBuilderPage() {
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<LogoState>(initial);
 
-  const handleSaveToBrandKit = () => {
+  const persistToBrandKit = () => {
     setBrandKit({
       local: {
         ...brandKit.local,
@@ -71,6 +74,22 @@ export default function LogoBuilderPage() {
       accentColor: deriveAccentFromPrimary(state.primaryColor),
     });
     setSaveMessage(tBuilder("saveSuccess"));
+    setContrastConfirmOpen(false);
+  };
+
+  const handleSaveToBrandKit = () => {
+    const accentColor = deriveAccentFromPrimary(state.primaryColor);
+    if (
+      brandPaletteHasContrastRisk({
+        primary: state.primaryColor,
+        secondary: state.secondaryColor,
+        accent: accentColor,
+      })
+    ) {
+      setContrastConfirmOpen(true);
+      return;
+    }
+    persistToBrandKit();
   };
 
   const handleExportPng = async () => {
@@ -123,8 +142,14 @@ export default function LogoBuilderPage() {
           <ThemePicker
             primaryColor={state.primaryColor}
             secondaryColor={state.secondaryColor}
+            accentColor={deriveAccentFromPrimary(state.primaryColor)}
             onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
             onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
+          />
+          <BrandContrastConfirmDialog
+            open={contrastConfirmOpen}
+            onConfirm={persistToBrandKit}
+            onCancel={() => setContrastConfirmOpen(false)}
           />
 
           <SegControl

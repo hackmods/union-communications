@@ -18,6 +18,7 @@ const PUBLIC_PATHS = [
   "/captions",
   "/assets",
   "/tools",
+  "/guide",
   "/guide/social-media-plan",
   "/guide/union-boards",
   "/guide/print",

@@ -18,15 +18,29 @@ interface ColorFieldProps {
   label: string;
   value: string;
   onChange: (color: string) => void;
+  /** Fired on blur after the user finishes picking / editing (not every drag tick). */
+  onCommit?: (color: string) => void;
   className?: string;
 }
 
-export function ColorField({ label, value, onChange, className }: ColorFieldProps) {
+export function ColorField({
+  label,
+  value,
+  onChange,
+  onCommit,
+  className,
+}: ColorFieldProps) {
   const id = useId();
   const pickerId = `${id}-picker`;
   const hexId = `${id}-hex`;
   const hex = normalizeHex(value);
   const pickerValue = /^#[0-9A-Fa-f]{6}$/.test(hex) ? hex : "#C2410C";
+
+  const commit = () => {
+    if (!onCommit) return;
+    if (!/^#[0-9A-Fa-f]{6}$/.test(hex)) return;
+    onCommit(hex);
+  };
 
   return (
     <div className={cn("space-y-1", className)}>
@@ -49,6 +63,7 @@ export function ColorField({ label, value, onChange, className }: ColorFieldProp
             type="color"
             value={pickerValue}
             onChange={(e) => onChange(e.target.value.toUpperCase())}
+            onBlur={commit}
             className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
             aria-label={`${label} colour picker`}
           />
@@ -67,6 +82,7 @@ export function ColorField({ label, value, onChange, className }: ColorFieldProp
             }
             onChange(normalizeHex(next));
           }}
+          onBlur={commit}
           className="w-full rounded-lg border border-gray-300 px-3 py-2 font-mono text-base uppercase tracking-wide focus:border-opseu-blue focus:ring-2 focus:ring-opseu-blue/20"
           aria-label={`${label} hex value`}
         />

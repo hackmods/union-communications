@@ -6,6 +6,12 @@ import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
+import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { Badge } from "@/components/ui/Badge";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { EmptyState } from "@/components/ui/EmptyState";
 import type {
   JobCode,
   TimeCategory,
@@ -14,6 +20,23 @@ import type {
   TimeNeededRow,
   TimeWorker,
 } from "@/types/time";
+
+function statusBadgeVariant(
+  status: TimeEntry["status"],
+): "success" | "danger" | "warning" | "info" | "muted" {
+  switch (status) {
+    case "approved":
+      return "success";
+    case "rejected":
+      return "danger";
+    case "submitted":
+      return "warning";
+    case "active":
+      return "info";
+    default:
+      return "muted";
+  }
+}
 
 const CATEGORIES: TimeCategory[] = [
   "staff",
@@ -468,7 +491,14 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
   }
 
   if (loading) {
-    return <p className="text-gray-600">{t("loading")}</p>;
+    return (
+      <div className="space-y-4" aria-busy="true" aria-label={t("loading")}>
+        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-4 w-96 max-w-full" />
+        <Skeleton className="h-40 w-full" />
+        <Skeleton className="h-40 w-full" />
+      </div>
+    );
   }
 
   return (
@@ -554,53 +584,45 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
               </div>
             ) : (
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                <label className="text-sm">
-                  <span className="font-medium">{t("category")}</span>
-                  <select
-                    className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
-                    value={category}
-                    onChange={(e) =>
-                      handleCategoryChange(e.target.value as TimeCategory)
-                    }
-                  >
-                    {CATEGORIES.map((c) => (
-                      <option key={c} value={c}>
-                        {t(`categories.${c}`)}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label className="text-sm">
-                  <span className="font-medium">{t("jobCode")}</span>
-                  <select
-                    className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
-                    value={jobCodeId}
-                    onChange={(e) => setJobCodeId(e.target.value)}
-                  >
-                    {filteredCodes.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.code} — {c.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label className="text-sm sm:col-span-2">
-                  <span className="font-medium">{t("notes")}</span>
-                  <input
+                <Select
+                  label={t("category")}
+                  value={category}
+                  onChange={(e) =>
+                    handleCategoryChange(e.target.value as TimeCategory)
+                  }
+                >
+                  {CATEGORIES.map((c) => (
+                    <option key={c} value={c}>
+                      {t(`categories.${c}`)}
+                    </option>
+                  ))}
+                </Select>
+                <Select
+                  label={t("jobCode")}
+                  value={jobCodeId}
+                  onChange={(e) => setJobCodeId(e.target.value)}
+                >
+                  {filteredCodes.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.code} — {c.label}
+                    </option>
+                  ))}
+                </Select>
+                <div className="sm:col-span-2">
+                  <Input
+                    label={t("notes")}
                     type="text"
-                    className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                   />
-                </label>
-                <label className="flex items-center gap-2 text-sm sm:col-span-2">
-                  <input
-                    type="checkbox"
+                </div>
+                <div className="sm:col-span-2">
+                  <Checkbox
+                    label={t("gpsOptional")}
                     checked={useGps}
                     onChange={(e) => setUseGps(e.target.checked)}
                   />
-                  {t("gpsOptional")}
-                </label>
+                </div>
                 <Button onClick={handleClockIn} disabled={working || !jobCodeId}>
                   {t("clockIn")}
                 </Button>
@@ -612,33 +634,26 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
             <CardTitle>{t("manualTitle")}</CardTitle>
             <p className="mt-1 text-sm text-gray-600">{t("manualHint")}</p>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <label className="text-sm">
-                <span className="font-medium">{t("start")}</span>
-                <input
-                  type="datetime-local"
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
-                  value={manualStart}
-                  onChange={(e) => setManualStart(e.target.value)}
-                />
-              </label>
-              <label className="text-sm">
-                <span className="font-medium">{t("end")}</span>
-                <input
-                  type="datetime-local"
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
-                  value={manualEnd}
-                  onChange={(e) => setManualEnd(e.target.value)}
-                />
-              </label>
-              <label className="text-sm sm:col-span-2">
-                <span className="font-medium">{t("eventLabelOptional")}</span>
-                <input
+              <Input
+                label={t("start")}
+                type="datetime-local"
+                value={manualStart}
+                onChange={(e) => setManualStart(e.target.value)}
+              />
+              <Input
+                label={t("end")}
+                type="datetime-local"
+                value={manualEnd}
+                onChange={(e) => setManualEnd(e.target.value)}
+              />
+              <div className="sm:col-span-2">
+                <Input
+                  label={t("eventLabelOptional")}
                   type="text"
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
                   value={manualEventLabel}
                   onChange={(e) => setManualEventLabel(e.target.value)}
                 />
-              </label>
+              </div>
               <Button
                 onClick={handleManualEntry}
                 disabled={working || !jobCodeId}
@@ -656,77 +671,62 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
             <CardTitle>{t("bulkTitle")}</CardTitle>
             <p className="mt-1 text-sm text-gray-600">{t("bulkHint")}</p>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <label className="text-sm sm:col-span-2">
-                <span className="font-medium">{t("eventLabel")}</span>
-                <input
+              <div className="sm:col-span-2">
+                <Input
+                  label={t("eventLabel")}
                   type="text"
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
                   value={bulkLabel}
                   onChange={(e) => setBulkLabel(e.target.value)}
                 />
-              </label>
-              <label className="text-sm">
-                <span className="font-medium">{t("category")}</span>
-                <select
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
-                  value={category}
-                  onChange={(e) =>
-                    handleCategoryChange(e.target.value as TimeCategory)
-                  }
-                >
-                  {CATEGORIES.map((c) => (
-                    <option key={c} value={c}>
-                      {t(`categories.${c}`)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="text-sm">
-                <span className="font-medium">{t("jobCode")}</span>
-                <select
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
-                  value={jobCodeId}
-                  onChange={(e) => setJobCodeId(e.target.value)}
-                >
-                  {filteredCodes.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.code} — {c.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="text-sm">
-                <span className="font-medium">{t("start")}</span>
-                <input
-                  type="datetime-local"
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
-                  value={bulkStart}
-                  onChange={(e) => setBulkStart(e.target.value)}
-                />
-              </label>
-              <label className="text-sm">
-                <span className="font-medium">{t("end")}</span>
-                <input
-                  type="datetime-local"
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
-                  value={bulkEnd}
-                  onChange={(e) => setBulkEnd(e.target.value)}
-                />
-              </label>
+              </div>
+              <Select
+                label={t("category")}
+                value={category}
+                onChange={(e) =>
+                  handleCategoryChange(e.target.value as TimeCategory)
+                }
+              >
+                {CATEGORIES.map((c) => (
+                  <option key={c} value={c}>
+                    {t(`categories.${c}`)}
+                  </option>
+                ))}
+              </Select>
+              <Select
+                label={t("jobCode")}
+                value={jobCodeId}
+                onChange={(e) => setJobCodeId(e.target.value)}
+              >
+                {filteredCodes.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.code} — {c.label}
+                  </option>
+                ))}
+              </Select>
+              <Input
+                label={t("start")}
+                type="datetime-local"
+                value={bulkStart}
+                onChange={(e) => setBulkStart(e.target.value)}
+              />
+              <Input
+                label={t("end")}
+                type="datetime-local"
+                value={bulkEnd}
+                onChange={(e) => setBulkEnd(e.target.value)}
+              />
               <fieldset className="sm:col-span-2">
                 <legend className="text-sm font-medium">{t("workers")}</legend>
                 <div className="mt-2 grid gap-2 sm:grid-cols-2">
                   {workers.map((w) => (
-                    <label key={w.id} className="flex items-center gap-2 text-sm">
-                      <input
-                        type="checkbox"
-                        checked={bulkWorkerIds.includes(w.id)}
-                        onChange={() =>
-                          toggleId(bulkWorkerIds, w.id, setBulkWorkerIds)
-                        }
-                      />
-                      {w.displayName}
-                    </label>
+                    <Checkbox
+                      key={w.id}
+                      label={w.displayName}
+                      checked={bulkWorkerIds.includes(w.id)}
+                      onChange={() =>
+                        toggleId(bulkWorkerIds, w.id, setBulkWorkerIds)
+                      }
+                    />
                   ))}
                 </div>
               </fieldset>
@@ -745,47 +745,38 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
             <CardTitle>{t("windowsTitle")}</CardTitle>
             <p className="mt-1 text-sm text-gray-600">{t("windowsHint")}</p>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <label className="text-sm sm:col-span-2">
-                <span className="font-medium">{t("windowLabel")}</span>
-                <input
+              <div className="sm:col-span-2">
+                <Input
+                  label={t("windowLabel")}
                   type="text"
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
                   value={windowLabel}
                   onChange={(e) => setWindowLabel(e.target.value)}
                 />
-              </label>
-              <label className="text-sm">
-                <span className="font-medium">{t("start")}</span>
-                <input
-                  type="datetime-local"
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
-                  value={windowStart}
-                  onChange={(e) => setWindowStart(e.target.value)}
-                />
-              </label>
-              <label className="text-sm">
-                <span className="font-medium">{t("end")}</span>
-                <input
-                  type="datetime-local"
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
-                  value={windowEnd}
-                  onChange={(e) => setWindowEnd(e.target.value)}
-                />
-              </label>
+              </div>
+              <Input
+                label={t("start")}
+                type="datetime-local"
+                value={windowStart}
+                onChange={(e) => setWindowStart(e.target.value)}
+              />
+              <Input
+                label={t("end")}
+                type="datetime-local"
+                value={windowEnd}
+                onChange={(e) => setWindowEnd(e.target.value)}
+              />
               <fieldset className="sm:col-span-2">
                 <legend className="text-sm font-medium">{t("attendees")}</legend>
                 <div className="mt-2 grid gap-2 sm:grid-cols-2">
                   {workers.map((w) => (
-                    <label key={w.id} className="flex items-center gap-2 text-sm">
-                      <input
-                        type="checkbox"
-                        checked={windowAttendees.includes(w.id)}
-                        onChange={() =>
-                          toggleId(windowAttendees, w.id, setWindowAttendees)
-                        }
-                      />
-                      {w.displayName}
-                    </label>
+                    <Checkbox
+                      key={w.id}
+                      label={w.displayName}
+                      checked={windowAttendees.includes(w.id)}
+                      onChange={() =>
+                        toggleId(windowAttendees, w.id, setWindowAttendees)
+                      }
+                    />
                   ))}
                 </div>
               </fieldset>
@@ -817,10 +808,11 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
           <Card className="mt-6">
             <CardTitle>{t("rosterTitle")}</CardTitle>
             <div className="mt-3 flex flex-wrap gap-2">
-              <input
+              <Input
                 type="text"
-                className="min-w-[12rem] flex-1 rounded border border-gray-300 px-3 py-2 text-sm"
+                className="min-w-[12rem] flex-1"
                 placeholder={t("workerNamePlaceholder")}
+                aria-label={t("workerNamePlaceholder")}
                 value={newWorkerName}
                 onChange={(e) => setNewWorkerName(e.target.value)}
               />
@@ -846,24 +838,18 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
             <CardTitle>{t("reportTitle")}</CardTitle>
             <p className="mt-1 text-sm text-gray-600">{t("reportHint")}</p>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <label className="text-sm">
-                <span className="font-medium">{t("from")}</span>
-                <input
-                  type="datetime-local"
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
-                  value={reportFrom}
-                  onChange={(e) => setReportFrom(e.target.value)}
-                />
-              </label>
-              <label className="text-sm">
-                <span className="font-medium">{t("to")}</span>
-                <input
-                  type="datetime-local"
-                  className="mt-1 w-full rounded border border-gray-300 px-3 py-2"
-                  value={reportTo}
-                  onChange={(e) => setReportTo(e.target.value)}
-                />
-              </label>
+              <Input
+                label={t("from")}
+                type="datetime-local"
+                value={reportFrom}
+                onChange={(e) => setReportFrom(e.target.value)}
+              />
+              <Input
+                label={t("to")}
+                type="datetime-local"
+                value={reportTo}
+                onChange={(e) => setReportTo(e.target.value)}
+              />
               <div className="flex flex-wrap gap-2 sm:col-span-2">
                 <Button
                   onClick={() => {
@@ -926,7 +912,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
       <Card className="mt-6">
         <CardTitle>{isAdmin ? t("localBoard") : t("recentEntries")}</CardTitle>
         {entries.length === 0 ? (
-          <p className="mt-3 text-sm text-gray-600">{t("noEntries")}</p>
+          <EmptyState className="mt-3" title={t("noEntries")} />
         ) : (
           <ul className="mt-3 divide-y divide-gray-200">
             {entries.map((entry) => (
@@ -943,13 +929,15 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
                     {entry.jobCodeLabel}
                     {entry.eventLabel ? ` · ${entry.eventLabel}` : ""}
                   </p>
-                  <p className="text-gray-600">
-                    {new Date(entry.clockInAt).toLocaleString()}
-                    {entry.clockOutAt && ` → ${formatDuration(entry)}`}
-                    {" · "}
-                    {t(`status.${entry.status}`)}
-                    {" · "}
-                    {t(`sources.${entry.entrySource}`)}
+                  <p className="mt-1 flex flex-wrap items-center gap-2 text-gray-600">
+                    <span>
+                      {new Date(entry.clockInAt).toLocaleString()}
+                      {entry.clockOutAt && ` → ${formatDuration(entry)}`}
+                    </span>
+                    <Badge variant={statusBadgeVariant(entry.status)}>
+                      {t(`status.${entry.status}`)}
+                    </Badge>
+                    <span>· {t(`sources.${entry.entrySource}`)}</span>
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">

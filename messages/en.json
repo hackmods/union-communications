@@ -93,7 +93,8 @@
     "showPreview": "Show preview",
     "backToEdit": "Back to edit",
     "editHistory": "Edit history",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "close": "Close"
   },
   "routeUi": {
     "errorTitle": "Something went wrong",
@@ -1494,6 +1495,14 @@
     "colors": {
       "primary": "Primary brand colour",
       "secondary": "Graphics accent"
+    },
+    "contrastAdvisory": {
+      "inline": "This colour combination may be hard to read on boards and graphics.",
+      "confirmTitle": "Low contrast colours",
+      "confirmBody": "This colour combination may be hard to read — save anyway?",
+      "confirmSave": "Save anyway",
+      "confirmCancel": "Keep editing",
+      "resetDefaults": "Reset to tenant defaults"
     },
     "logo": {
       "title": "Logo",

@@ -4,7 +4,9 @@ import { describe, expect, it } from "vitest";
 import {
   assertManifestInstallable,
   buildWebManifest,
+  preferredLocaleFromAcceptLanguage,
   pwaStartUrl,
+  resolvePwaManifestLocale,
   PWA_INSTALLABLE_DISPLAY,
 } from "./manifest";
 import { ICON_192_PATH, ICON_512_PATH, SITE_NAME } from "@/lib/seo/site";
@@ -12,10 +14,51 @@ import { ICON_192_PATH, ICON_512_PATH, SITE_NAME } from "@/lib/seo/site";
 describe("pwaStartUrl", () => {
   it("points at Officer Hub when the hub is public", () => {
     expect(pwaStartUrl(true)).toBe("/en/app/");
+    expect(pwaStartUrl(true, "fr")).toBe("/fr/app/");
   });
 
   it("points at the Comms home when the hub is soft-launched", () => {
     expect(pwaStartUrl(false)).toBe("/en/");
+    expect(pwaStartUrl(false, "fr")).toBe("/fr/");
+  });
+});
+
+describe("resolvePwaManifestLocale", () => {
+  it("prefers the next-intl cookie over Accept-Language", () => {
+    expect(
+      resolvePwaManifestLocale({
+        cookieLocale: "fr",
+        acceptLanguage: "en-US,en;q=0.9",
+      }),
+    ).toBe("fr");
+  });
+
+  it("falls back to Accept-Language when no cookie is set", () => {
+    expect(
+      resolvePwaManifestLocale({
+        cookieLocale: null,
+        acceptLanguage: "fr-CA,fr;q=0.9,en;q=0.8",
+      }),
+    ).toBe("fr");
+  });
+
+  it("defaults to en for unknown values", () => {
+    expect(
+      resolvePwaManifestLocale({
+        cookieLocale: "de",
+        acceptLanguage: "es,de;q=0.8",
+      }),
+    ).toBe("en");
+  });
+});
+
+describe("preferredLocaleFromAcceptLanguage", () => {
+  it("picks the highest-q supported locale", () => {
+    expect(preferredLocaleFromAcceptLanguage("fr-CA,fr;q=0.9,en;q=0.5")).toBe(
+      "fr",
+    );
+    expect(preferredLocaleFromAcceptLanguage("en-US,en;q=0.9")).toBe("en");
+    expect(preferredLocaleFromAcceptLanguage(null)).toBeNull();
   });
 });
 
@@ -26,6 +69,7 @@ describe("buildWebManifest", () => {
     expect(manifest.name).toBe(SITE_NAME);
     expect(manifest.short_name).toBe(SITE_NAME);
     expect(manifest.start_url).toBe("/en/");
+    expect(manifest.lang).toBe("en");
     expect(manifest.scope).toBe("/");
     expect(manifest.display).toBe("standalone");
     expect(PWA_INSTALLABLE_DISPLAY.has(manifest.display!)).toBe(true);
@@ -48,6 +92,16 @@ describe("buildWebManifest", () => {
   it("uses hub start_url when Officer Hub is public", () => {
     const manifest = buildWebManifest({ officerHubPublic: true });
     expect(manifest.start_url).toBe("/en/app/");
+    expect(assertManifestInstallable(manifest)).toEqual([]);
+  });
+
+  it("uses French start_url and lang when locale is fr", () => {
+    const manifest = buildWebManifest({
+      officerHubPublic: false,
+      locale: "fr",
+    });
+    expect(manifest.start_url).toBe("/fr/");
+    expect(manifest.lang).toBe("fr");
     expect(assertManifestInstallable(manifest)).toEqual([]);
   });
 

@@ -5,6 +5,10 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { Badge } from "@/components/ui/Badge";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { useStewardReadOnly } from "@/hooks/use-steward-read-only";
 import { usePreferencesStore } from "@/store/preferences-store";
 import type { Grievance } from "@/types/grievance";
@@ -43,7 +47,18 @@ export function GrievanceDashboard() {
   const open = items.filter((g) => g.status !== "resolved");
 
   if (loading) {
-    return <p className="text-gray-600">{t("loading")}</p>;
+    return (
+      <div className="space-y-4" aria-busy="true" aria-label={t("loading")}>
+        <Skeleton className="h-8 w-56" />
+        <Skeleton className="h-4 w-80 max-w-full" />
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+        <Skeleton className="h-32 w-full" />
+      </div>
+    );
   }
 
   if (error) {
@@ -71,20 +86,12 @@ export function GrievanceDashboard() {
 
       {isSteward && (
         <Card className="mt-4">
-          <label className="flex items-start gap-3 text-sm">
-            <input
-              type="checkbox"
-              checked={mobileMode}
-              onChange={(e) => setStewardMobileMode(e.target.checked)}
-              className="mt-1"
-            />
-            <span>
-              <span className="font-medium">{tq("mobile.toggle")}</span>
-              <span className="mt-1 block text-gray-600">
-                {tq("mobile.toggleHint")}
-              </span>
-            </span>
-          </label>
+          <Checkbox
+            label={tq("mobile.toggle")}
+            description={tq("mobile.toggleHint")}
+            checked={mobileMode}
+            onChange={(e) => setStewardMobileMode(e.target.checked)}
+          />
         </Card>
       )}
 
@@ -140,9 +147,17 @@ export function GrievanceDashboard() {
       <section className="mt-8">
         <h2 className="text-xl font-bold text-opseu-dark">{t("allGrievances")}</h2>
         {items.length === 0 ? (
-          <Card className="mt-3">
-            <p className="text-gray-600">{t("empty")}</p>
-          </Card>
+          <EmptyState
+            className="mt-3"
+            title={t("empty")}
+            action={
+              !readOnly ? (
+                <Link href="/app/grievances/new">
+                  <Button size="sm">{t("newGrievance")}</Button>
+                </Link>
+              ) : undefined
+            }
+          />
         ) : (
           <div className="mt-3 space-y-2">
             {items.map((g) => (
@@ -182,7 +197,7 @@ function GrievanceRow({
           </div>
           <div className="text-right text-sm">
             {grievance.isOverdue && (
-              <span className="font-semibold text-red-600">{t("overdue")}</span>
+              <Badge variant="danger">{t("overdue")}</Badge>
             )}
             {grievance.dueAt && !grievance.isOverdue && (
               <span className="text-gray-500">

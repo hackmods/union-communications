@@ -7,6 +7,8 @@ import {
 } from "@/lib/utils/contrast";
 import {
   coloursClash,
+  brandPaletteHasContrastRisk,
+  evaluateBrandPaletteContrast,
   inkWithAlpha,
   isLightInk,
   logoRasterFilter,
@@ -73,6 +75,41 @@ describe("ink utilities", () => {
   it("detects logo/background colour clash", () => {
     expect(coloursClash("#003DA5", "#003DA5")).toBe(true);
     expect(coloursClash("#003DA5", "#FFFFFF")).toBe(false);
+  });
+
+  it("flags Brand Kit palettes when primary and secondary clash", () => {
+    expect(
+      brandPaletteHasContrastRisk({
+        primary: "#003DA5",
+        secondary: "#003DA5",
+      }),
+    ).toBe(true);
+    expect(
+      evaluateBrandPaletteContrast({
+        primary: "#003DA5",
+        secondary: "#003DA5",
+      }).issues,
+    ).toContain("primarySecondaryClash");
+  });
+
+  it("accepts a strong Brand Kit primary/secondary pair", () => {
+    expect(
+      brandPaletteHasContrastRisk({
+        primary: "#003DA5",
+        secondary: "#FFFFFF",
+        accent: "#9B0D1C",
+      }),
+    ).toBe(false);
+  });
+
+  it("flags mid-grey canvases where auto ink fails WCAG AA", () => {
+    // #777777: pickContrastingInk prefers white, but white fails AA on this grey
+    const result = evaluateBrandPaletteContrast({
+      primary: "#777777",
+      secondary: "#FFFFFF",
+    });
+    expect(result.ok).toBe(false);
+    expect(result.issues).toContain("primaryCanvasInk");
   });
 });
 
