@@ -77,3 +77,9 @@
 **Context:** Platform must empower any local, any union — not only OPSEU.  
 **Decision:** Union-agnostic core; OPSEU/CAAT is reference tenant #1 in seed data only.  
 **Consequences:** No union names in core code; `UnionConfig` drives branding and modules.
+
+## ADR-014: System font stack — no `next/font` / no remote webfonts
+**Status:** Accepted  
+**Context:** Audit `UI-004` noted that the app never uses `next/font` and `globals.css` sets `--font-sans` to a pure system stack (`system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`) with no self-hosted webfont or font-loading strategy. That looked like a possible oversight versus a privacy choice.  
+**Decision:** Keep the system-font stack for platform chrome. Do not add `next/font/google`, a Google Fonts (or other CDN) stylesheet, or any remote font fetch — that would weaken ADR-006’s zero third-party network posture. Brand Kit / canvas exports remain free to use colours and layout; they do not introduce a platform-wide webfont. If a self-hosted brand typeface is desired later, use `next/font/local` only (font file bundled with the app, no external request).  
+**Consequences:** No webfont CLS/font-metric tuning is needed today (OS fonts paint immediately). Contributors must not “fix” typography by wiring Google Fonts. A future brand typeface is an explicit product choice + `next/font/local`, not a silent dependency add.

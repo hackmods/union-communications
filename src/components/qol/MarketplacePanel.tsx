@@ -6,6 +6,8 @@ import { useTranslations } from "next-intl";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { useStewardReadOnly } from "@/hooks/use-steward-read-only";
 import {
   canDeleteSharedContent,
@@ -194,66 +196,80 @@ export function MarketplacePanel() {
       )}
 
       {loading ? (
-        <p className="mt-6 text-gray-600">{t("marketplace.loading")}</p>
+        <div
+          className="mt-6 space-y-3"
+          aria-busy="true"
+          aria-label={t("marketplace.loading")}
+        >
+          <Skeleton className="h-32 w-full" />
+          <Skeleton className="h-32 w-full" />
+          <Skeleton className="h-32 w-full" />
+        </div>
+      ) : templates.length === 0 ? (
+        <EmptyState
+          className="mt-6"
+          title={t("marketplace.empty")}
+          action={
+            canPublish ? (
+              <Button size="sm" onClick={() => setShowForm(true)}>
+                {t("marketplace.share")}
+              </Button>
+            ) : undefined
+          }
+        />
       ) : (
         <div className="mt-6 space-y-3">
-          {templates.length === 0 ? (
-            <Card>
-              <p className="text-gray-600">{t("marketplace.empty")}</p>
-            </Card>
-          ) : (
-            templates.map((tmpl) => (
-              <Card key={tmpl.id}>
-                <div className="flex flex-wrap items-start justify-between gap-2">
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
-                      {t(`marketplace.kinds.${tmpl.kind}`)}
+          {templates.map((tmpl) => (
+            <Card key={tmpl.id}>
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                    {t(`marketplace.kinds.${tmpl.kind}`)}
+                  </p>
+                  <CardTitle className="text-base">{tmpl.title}</CardTitle>
+                  {tmpl.description && (
+                    <p className="mt-1 text-sm text-gray-600">
+                      {tmpl.description}
                     </p>
-                    <CardTitle className="text-base">{tmpl.title}</CardTitle>
-                    {tmpl.description && (
-                      <p className="mt-1 text-sm text-gray-600">
-                        {tmpl.description}
-                      </p>
-                    )}
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => void copyTemplate(tmpl)}
-                    >
-                      {copiedId === tmpl.id
-                        ? t("marketplace.copied")
-                        : t("marketplace.copy")}
-                    </Button>
-                    {!readOnly &&
-                      canDeleteSharedContent(
-                        roles,
-                        tmpl.sharedById,
-                        userId,
-                      ) && (
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => void removeTemplate(tmpl.id)}
-                        >
-                          {t("marketplace.delete")}
-                        </Button>
-                      )}
-                  </div>
+                  )}
                 </div>
-                <pre className="mt-3 max-h-40 overflow-auto whitespace-pre-wrap rounded-lg bg-gray-50 p-3 text-sm text-gray-700">
-                  {tmpl.body}
-                </pre>
-                <p className="mt-2 text-xs text-gray-500">
-                  {t("marketplace.sharedBy", {
-                    name: tmpl.sharedByName,
-                    date: new Date(tmpl.createdAt).toLocaleDateString(),
-                  })}
-                </p>
-              </Card>
-            ))
-          )}
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => void copyTemplate(tmpl)}
+                  >
+                    {copiedId === tmpl.id
+                      ? t("marketplace.copied")
+                      : t("marketplace.copy")}
+                  </Button>
+                  {!readOnly &&
+                    canDeleteSharedContent(
+                      roles,
+                      tmpl.sharedById,
+                      userId,
+                    ) && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => void removeTemplate(tmpl.id)}
+                      >
+                        {t("marketplace.delete")}
+                      </Button>
+                    )}
+                </div>
+              </div>
+              <pre className="mt-3 max-h-40 overflow-auto whitespace-pre-wrap rounded-lg bg-gray-50 p-3 text-sm text-gray-700">
+                {tmpl.body}
+              </pre>
+              <p className="mt-2 text-xs text-gray-500">
+                {t("marketplace.sharedBy", {
+                  name: tmpl.sharedByName,
+                  date: new Date(tmpl.createdAt).toLocaleDateString(),
+                })}
+              </p>
+            </Card>
+          ))}
         </div>
       )}
     </div>

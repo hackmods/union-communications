@@ -471,6 +471,11 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `UX-003` — Flyer/Graphic Maker `ContrastChecker` uses `pickContrastingInk(primary)` (not hardcoded `#FFFFFF`); unit test for WCAG pass/fail vs canvas ink
 - [x] `UX-004` — Brand Kit contrast advisory → enforce via `brandPaletteHasContrastRisk` / ink helpers; inline warning + confirm-before-save (Brand Kit, onboarding, Logo Builder)
 - [x] `TOOL-004` — dynamic `import()` for `html-to-image` / `jspdf` / `docx` in export helpers (no static module-scope pulls)
+- [x] `TOOL-005` — unit tests for `pdf-export` + `ToolEditorLayout` / `BoardTrimCanvas` (mobile panes, trim prop rendering)
 - [x] `TOOL-003` — PWA offline shell precaches `/en/` + `/fr/`; locale-aware navigation fallback + manifest `start_url`
 - [x] `UI-001` — shared `Select` / `Checkbox` / `Radio` / `Dialog` / `Badge`; migrated TimeDashboard + document-generator (+ GrievanceDashboard / Hybrid radios / ConsentModal); `primitives.test.tsx`
-- [x] `UX-002` (partial) — `EmptyState` + Skeleton/Empty on TimeDashboard + GrievanceDashboard; wider Hub rollout + Playwright smoke deferred
+- [x] `UI-002` — Hub mobile-first: `PAGE_SHELL.wide` app body; Grievance/Bumping dense KPI + stacked CTAs/rows; Time header CTAs; `@mobile` hub overflow specs + auth helper
+- [x] `UX-002` — `EmptyState` + `Skeleton` on main Hub lists (grievance/bumping/time/audit/snippets/marketplace/overdue/handoff/tasks); Playwright visual smoke deferred
+- [x] `UI-005` — canvas preview `role="group"` + accessible name via `ToolEditorLayout.previewAccessibleName`; `BoardTrimCanvas.accessibleName`; solidarity-poster + board-banner EN/FR summaries
+- [x] `UI-004` — system font stack confirmed intentional; ADR-014 (no `next/font` / no remote webfonts)
+- [x] `UI-003` — axe smoke on authenticated Hub (grievances/bumping/time/calendar/discussions/tasks/documents/audit) + expanded canvas tools; shared `e2e/helpers/axe.ts`; serial MFA login

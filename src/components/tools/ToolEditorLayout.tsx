@@ -12,6 +12,12 @@ type ToolEditorLayoutProps = {
   description?: ReactNode;
   form: ReactNode;
   preview: ReactNode;
+  /**
+   * Short summary of the live canvas for assistive tech (UI-005).
+   * Wraps the preview in a labeled figure/group — not role="img", so
+   * focusable controls and DOM text inside stay reachable.
+   */
+  previewAccessibleName?: string;
   /** Optional second sticky preview (e.g. board-banner print sheet). */
   previewSecondary?: ReactNode;
   /** Export / actions shown on the mobile full-preview pane. */
@@ -53,6 +59,7 @@ export function ToolEditorLayout({
   description,
   form,
   preview,
+  previewAccessibleName,
   previewSecondary,
   previewActions,
   miniPreview = true,
@@ -195,7 +202,18 @@ export function ToolEditorLayout({
                 }
                 expandLabel={t("expandPreview")}
               >
-                {preview}
+                {previewAccessibleName ? (
+                  <figure
+                    role="group"
+                    aria-label={previewAccessibleName}
+                    aria-live="off"
+                    className="m-0"
+                  >
+                    {preview}
+                  </figure>
+                ) : (
+                  preview
+                )}
               </MobilePreviewStage>
             </div>
             {showMini ? (

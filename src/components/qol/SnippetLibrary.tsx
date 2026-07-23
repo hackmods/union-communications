@@ -6,6 +6,8 @@ import { useTranslations } from "next-intl";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { useStewardReadOnly } from "@/hooks/use-steward-read-only";
 import {
   canDeleteSharedContent,
@@ -184,56 +186,70 @@ export function SnippetLibrary() {
       )}
 
       {loading ? (
-        <p className="mt-6 text-gray-600">{t("snippets.loading")}</p>
+        <div
+          className="mt-6 space-y-3"
+          aria-busy="true"
+          aria-label={t("snippets.loading")}
+        >
+          <Skeleton className="h-28 w-full" />
+          <Skeleton className="h-28 w-full" />
+          <Skeleton className="h-28 w-full" />
+        </div>
+      ) : snippets.length === 0 ? (
+        <EmptyState
+          className="mt-6"
+          title={t("snippets.empty")}
+          action={
+            canWrite ? (
+              <Button size="sm" onClick={() => setShowForm(true)}>
+                {t("snippets.add")}
+              </Button>
+            ) : undefined
+          }
+        />
       ) : (
         <div className="mt-6 space-y-3">
-          {snippets.length === 0 ? (
-            <Card>
-              <p className="text-gray-600">{t("snippets.empty")}</p>
-            </Card>
-          ) : (
-            snippets.map((s) => (
-              <Card key={s.id}>
-                <div className="flex flex-wrap items-start justify-between gap-2">
-                  <div>
-                    <CardTitle className="text-base">{s.title}</CardTitle>
-                    <p className="mt-1 text-sm font-medium text-opseu-blue">
-                      {s.clauseRef}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => void copySnippet(s)}
-                    >
-                      {copiedId === s.id
-                        ? t("snippets.copied")
-                        : t("snippets.copy")}
-                    </Button>
-                    {!readOnly &&
-                      canDeleteSharedContent(roles, s.createdById, userId) && (
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => void removeSnippet(s.id)}
-                        >
-                          {t("snippets.delete")}
-                        </Button>
-                      )}
-                  </div>
-                </div>
-                <p className="mt-3 whitespace-pre-wrap text-sm text-gray-700">
-                  {s.body}
-                </p>
-                {s.tags.length > 0 && (
-                  <p className="mt-2 text-xs text-gray-500">
-                    {s.tags.join(" · ")}
+          {snippets.map((s) => (
+            <Card key={s.id}>
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <CardTitle className="text-base">{s.title}</CardTitle>
+                  <p className="mt-1 text-sm font-medium text-opseu-blue">
+                    {s.clauseRef}
                   </p>
-                )}
-              </Card>
-            ))
-          )}
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => void copySnippet(s)}
+                  >
+                    {copiedId === s.id
+                      ? t("snippets.copied")
+                      : t("snippets.copy")}
+                  </Button>
+                  {!readOnly &&
+                    canDeleteSharedContent(roles, s.createdById, userId) && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => void removeSnippet(s.id)}
+                      >
+                        {t("snippets.delete")}
+                      </Button>
+                    )}
+                </div>
+              </div>
+              <p className="mt-3 whitespace-pre-wrap text-sm text-gray-700">
+                {s.body}
+              </p>
+              {s.tags.length > 0 && (
+                <p className="mt-2 text-xs text-gray-500">
+                  {s.tags.join(" · ")}
+                </p>
+              )}
+            </Card>
+          ))}
         </div>
       )}
     </div>

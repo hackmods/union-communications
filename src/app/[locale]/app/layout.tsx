@@ -19,7 +19,10 @@ export default function AppLayout({
       <DemoSiteBanner />
       <MemoryDataBanner />
       <HubNav />
-      <div className={cn(PAGE_SHELL.chrome, "py-6 md:py-8")}>{children}</div>
+      {/* Body uses `wide` (not chrome): avoid stretched empty margins on phone/tablet. */}
+      <div className={cn(PAGE_SHELL.wide, "py-4 sm:py-6 md:py-8")}>
+        {children}
+      </div>
     </>
   );
 }

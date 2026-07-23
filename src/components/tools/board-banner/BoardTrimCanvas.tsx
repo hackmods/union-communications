@@ -22,6 +22,8 @@ export interface BoardTrimCanvasProps {
   byline: string;
   /** Edge width in inches — gates corner byline */
   edgeWidthInches?: number;
+  /** Assistive summary of this trim graphic (UI-005). */
+  accessibleName?: string;
   className?: string;
 }
 
@@ -42,6 +44,7 @@ export function BoardTrimCanvas({
   showByline,
   byline,
   edgeWidthInches = 2,
+  accessibleName,
   className,
 }: BoardTrimCanvasProps) {
   const ink = pickContrastingInk(primaryColor);
@@ -52,6 +55,13 @@ export function BoardTrimCanvas({
   const bylineText = byline.trim();
   const showLogo = logoMode !== "none";
   const logoVariant = logoMode === "mark" ? "mark" : "lockup";
+  const a11yProps = accessibleName
+    ? ({
+        role: "group" as const,
+        "aria-label": accessibleName,
+        "aria-live": "off" as const,
+      })
+    : {};
 
   if (piece === "side") {
     const topLabel = showLocal ? localDisplay : null;
@@ -65,6 +75,7 @@ export function BoardTrimCanvas({
     return (
       <div
         className={className}
+        {...a11yProps}
         style={{
           boxSizing: "border-box",
           width: "100%",
@@ -204,6 +215,7 @@ export function BoardTrimCanvas({
     return (
       <div
         className={className}
+        {...a11yProps}
         style={{
           boxSizing: "border-box",
           width: "100%",
@@ -336,6 +348,7 @@ export function BoardTrimCanvas({
   return (
     <div
       className={className}
+      {...a11yProps}
       style={{
         boxSizing: "border-box",
         position: "relative",

@@ -222,6 +222,10 @@ export default function BoardBannerPage() {
         accentColor={state.accentColor}
         localNumber={localNum}
         edgeWidthInches={edgeWidthInches}
+        accessibleName={t("trimCanvasAccessibleName", {
+          piece: t(trimPieceById(piece).labelKey),
+          color: state.primaryColor,
+        })}
         {...ornamentProps}
       />
     );
@@ -406,12 +410,21 @@ export default function BoardBannerPage() {
         })
       : null;
 
+  const previewSummary =
+    state.mode === "banner"
+      ? (state.callout.trim() || t(bannerLayoutById(state.layout).labelKey))
+      : t(trimPieceById(trimFocus).labelKey);
+
   return (
     <>
       <ToolEditorLayout
         title={t("title")}
         description={t("subtitle")}
         exportError={exportError}
+        previewAccessibleName={t("previewAccessibleName", {
+          summary: previewSummary,
+          color: state.primaryColor,
+        })}
         form={
           <Card density="compact" className="space-y-3">
             <div>

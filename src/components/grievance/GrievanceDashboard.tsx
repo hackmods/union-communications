@@ -49,14 +49,14 @@ export function GrievanceDashboard() {
   if (loading) {
     return (
       <div className="space-y-4" aria-busy="true" aria-label={t("loading")}>
-        <Skeleton className="h-8 w-56" />
-        <Skeleton className="h-4 w-80 max-w-full" />
-        <div className="grid gap-4 sm:grid-cols-3">
-          <Skeleton className="h-24 w-full" />
-          <Skeleton className="h-24 w-full" />
-          <Skeleton className="h-24 w-full" />
+        <Skeleton className="h-8 w-48 max-w-full sm:w-56" />
+        <Skeleton className="h-4 w-full max-w-sm" />
+        <div className="grid grid-cols-3 gap-2 sm:gap-4">
+          <Skeleton className="h-20 w-full sm:h-24" />
+          <Skeleton className="h-20 w-full sm:h-24" />
+          <Skeleton className="h-20 w-full sm:h-24" />
         </div>
-        <Skeleton className="h-32 w-full" />
+        <Skeleton className="h-28 w-full sm:h-32" />
       </div>
     );
   }
@@ -66,19 +66,25 @@ export function GrievanceDashboard() {
   }
 
   return (
-    <div className={readOnly ? "max-w-3xl" : undefined}>
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
-          <p className="mt-1 text-gray-600">{t("subtitle")}</p>
+    <div className={readOnly ? "mx-auto max-w-3xl" : undefined}>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+            {t("title")}
+          </h1>
+          <p className="mt-1 text-sm text-gray-600 sm:text-base">
+            {t("subtitle")}
+          </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Link href="/app/overdue">
-            <Button variant="outline">{tq("overdue.nav")}</Button>
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
+          <Link href="/app/overdue" className="w-full sm:w-auto">
+            <Button variant="outline" className="w-full sm:w-auto">
+              {tq("overdue.nav")}
+            </Button>
           </Link>
           {!readOnly && (
-            <Link href="/app/grievances/new">
-              <Button>{t("newGrievance")}</Button>
+            <Link href="/app/grievances/new" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto">{t("newGrievance")}</Button>
             </Link>
           )}
         </div>
@@ -104,31 +110,41 @@ export function GrievanceDashboard() {
         </p>
       )}
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        <Card>
-          <p className="text-sm font-medium text-gray-500">{t("stats.open")}</p>
-          <p className="text-2xl font-bold text-opseu-dark">{open.length}</p>
+      <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-4">
+        <Card className="px-2 py-3 sm:px-4 sm:py-4">
+          <p className="text-xs font-medium text-gray-500 sm:text-sm">
+            {t("stats.open")}
+          </p>
+          <p className="mt-1 text-xl font-bold text-opseu-dark sm:text-2xl">
+            {open.length}
+          </p>
         </Card>
-        <Link href="/app/overdue">
-          <Card className="transition hover:border-red-300">
-            <p className="text-sm font-medium text-gray-500">
+        <Link href="/app/overdue" className="min-w-0">
+          <Card className="h-full px-2 py-3 transition hover:border-red-300 sm:px-4 sm:py-4">
+            <p className="text-xs font-medium text-gray-500 sm:text-sm">
               {t("stats.overdue")}
             </p>
-            <p className="text-2xl font-bold text-red-600">{overdue.length}</p>
+            <p className="mt-1 text-xl font-bold text-red-600 sm:text-2xl">
+              {overdue.length}
+            </p>
           </Card>
         </Link>
-        <Card>
-          <p className="text-sm font-medium text-gray-500">
+        <Card className="px-2 py-3 sm:px-4 sm:py-4">
+          <p className="text-xs font-medium text-gray-500 sm:text-sm">
             {t("stats.upcoming")}
           </p>
-          <p className="text-2xl font-bold text-opseu-blue">{upcoming.length}</p>
+          <p className="mt-1 text-xl font-bold text-opseu-blue sm:text-2xl">
+            {upcoming.length}
+          </p>
         </Card>
       </div>
 
       {overdue.length > 0 && (
-        <section className="mt-8">
-          <div className="flex items-center justify-between gap-2">
-            <h2 className="text-xl font-bold text-red-700">{t("overdueTitle")}</h2>
+        <section className="mt-6 sm:mt-8">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
+            <h2 className="text-lg font-bold text-red-700 sm:text-xl">
+              {t("overdueTitle")}
+            </h2>
             <Link
               href="/app/overdue"
               className="text-sm text-opseu-blue underline"
@@ -144,8 +160,10 @@ export function GrievanceDashboard() {
         </section>
       )}
 
-      <section className="mt-8">
-        <h2 className="text-xl font-bold text-opseu-dark">{t("allGrievances")}</h2>
+      <section className="mt-6 sm:mt-8">
+        <h2 className="text-lg font-bold text-opseu-dark sm:text-xl">
+          {t("allGrievances")}
+        </h2>
         {items.length === 0 ? (
           <EmptyState
             className="mt-3"
@@ -180,14 +198,14 @@ function GrievanceRow({
   urgent?: boolean;
 }) {
   return (
-    <Link href={`/app/grievances/${grievance.id}`}>
+    <Link href={`/app/grievances/${grievance.id}`} className="block">
       <Card
         className={`transition hover:border-opseu-blue/40 ${urgent ? "border-red-200 bg-red-50/50" : ""}`}
       >
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <CardTitle className="text-base">
-              {grievance.memberPseudonym ?? t("anonymousMember")}  - {" "}
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+          <div className="min-w-0">
+            <CardTitle className="text-base break-words">
+              {grievance.memberPseudonym ?? t("anonymousMember")} -{" "}
               {grievance.category}
             </CardTitle>
             <p className="mt-1 text-sm text-gray-600">
@@ -195,7 +213,7 @@ function GrievanceRow({
               {t(`status.${grievance.status}`)}
             </p>
           </div>
-          <div className="text-right text-sm">
+          <div className="flex flex-wrap items-center gap-2 text-sm sm:shrink-0 sm:justify-end sm:text-right">
             {grievance.isOverdue && (
               <Badge variant="danger">{t("overdue")}</Badge>
             )}

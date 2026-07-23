@@ -503,27 +503,35 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
 
   return (
     <div>
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-opseu-dark">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
             {isAdmin ? t("adminTitle") : t("title")}
           </h1>
-          <p className="mt-1 text-gray-600">
+          <p className="mt-1 text-sm text-gray-600 sm:text-base">
             {isAdmin ? t("adminSubtitle") : t("subtitle")}
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
           {!isAdmin && (
-            <Link href="/app/time/admin">
-              <Button variant="outline">{t("adminLink")}</Button>
+            <Link href="/app/time/admin" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full sm:w-auto">
+                {t("adminLink")}
+              </Button>
             </Link>
           )}
           {isAdmin && (
             <>
-              <Link href="/app/time">
-                <Button variant="outline">{t("workerLink")}</Button>
+              <Link href="/app/time" className="w-full sm:w-auto">
+                <Button variant="outline" className="w-full sm:w-auto">
+                  {t("workerLink")}
+                </Button>
               </Link>
-              <Button variant="outline" onClick={handleExportCsv}>
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto"
+                onClick={handleExportCsv}
+              >
                 {t("exportCsv")}
               </Button>
             </>

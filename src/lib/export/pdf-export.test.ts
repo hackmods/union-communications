@@ -7,9 +7,10 @@ const output = vi.fn(() => new Blob(["pdf"], { type: "application/pdf" }));
 const JsPDFCtor = vi.fn();
 
 const toPng = vi.fn(
-  async (..._args: [HTMLElement?, Record<string, unknown>?]) =>
+  async (_node?: HTMLElement, _opts?: Record<string, unknown>) =>
     "data:image/png;base64,abc",
-);
+) as unknown as ReturnType<typeof vi.fn> &
+  ((node?: HTMLElement, opts?: Record<string, unknown>) => Promise<string>);
 
 vi.mock("file-saver", () => ({
   saveAs: (...args: unknown[]) => {
@@ -130,5 +131,40 @@ describe("pdf-export", () => {
     expect(toPng).toHaveBeenCalledTimes(1);
     expect(addPage).not.toHaveBeenCalled();
     expect(saveAs).toHaveBeenCalledTimes(1);
+  });
+
+  it("exportFlyerPdf uses landscape when width exceeds height", async () => {
+    await exportFlyerPdf("data:image/png;base64,abc", "wide.pdf", 11, 8.5);
+
+    expect(JsPDFCtor).toHaveBeenCalledWith(
+      expect.objectContaining({
+        orientation: "landscape",
+        format: [11, 8.5],
+      }),
+    );
+  });
+
+  it("nodeToPdf propagates a failed toPng capture", async () => {
+    toPng.mockRejectedValueOnce(new Error("capture failed"));
+
+    await expect(nodeToPdf(fakeNode(), "fail.pdf")).rejects.toThrow(
+      "capture failed",
+    );
+    expect(JsPDFCtor).not.toHaveBeenCalled();
+    expect(saveAs).not.toHaveBeenCalled();
+  });
+
+  it("nodeToPdf uses computed background when the node is opaque", async () => {
+    vi.stubGlobal("getComputedStyle", () => ({
+      backgroundColor: "rgb(0, 61, 165)",
+    }));
+
+    await nodeToPdf(fakeNode(), "opaque.pdf");
+
+    expect(toPng.mock.calls[0]?.[1]).toEqual(
+      expect.objectContaining({
+        backgroundColor: "rgb(0, 61, 165)",
+      }),
+    );
   });
 });

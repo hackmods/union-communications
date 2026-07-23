@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Input";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { HANDOFF_CHECKLIST } from "@/lib/handoff/package";
 import type { Grievance } from "@/types/grievance";
 import type { HandoffPackage } from "@/types/qol";
@@ -28,6 +30,7 @@ export function HandoffWizard() {
   const [result, setResult] = useState<HandoffPackage | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     void fetch("/api/handoff")
@@ -43,7 +46,8 @@ export function HandoffWizard() {
         setSelectedIds(new Set(data.grievances.map((g: Grievance) => g.id)));
         if (data.stewards[0]) setStewardId(data.stewards[0].id);
       })
-      .catch(() => setError(t("handoff.loadError")));
+      .catch(() => setError(t("handoff.loadError")))
+      .finally(() => setLoading(false));
   }, [t]);
 
   function toggleId(id: string) {
@@ -93,6 +97,17 @@ export function HandoffWizard() {
     URL.revokeObjectURL(url);
   }
 
+  if (loading) {
+    return (
+      <div className="space-y-4" aria-busy="true" aria-label={t("handoff.loading")}>
+        <Skeleton className="h-8 w-64 max-w-full" />
+        <Skeleton className="h-4 w-full max-w-lg" />
+        <Skeleton className="h-8 w-72 max-w-full" />
+        <Skeleton className="h-40 w-full" />
+      </div>
+    );
+  }
+
   if (error && step === 1 && grievances.length === 0) {
     return (
       <div>
@@ -129,25 +144,29 @@ export function HandoffWizard() {
       {step === 1 && (
         <Card className="mt-6 space-y-3">
           <CardTitle>{t("handoff.selectCases")}</CardTitle>
-          {grievances.map((g) => (
-            <label key={g.id} className="flex items-start gap-3 text-sm">
-              <input
-                type="checkbox"
-                checked={selectedIds.has(g.id)}
-                onChange={() => toggleId(g.id)}
-                className="mt-1"
-              />
-              <span>
-                <span className="font-medium">
-                  {g.memberPseudonym ?? tg("anonymousMember")} - {g.category}
+          {grievances.length === 0 ? (
+            <EmptyState title={t("handoff.empty")} />
+          ) : (
+            grievances.map((g) => (
+              <label key={g.id} className="flex items-start gap-3 text-sm">
+                <input
+                  type="checkbox"
+                  checked={selectedIds.has(g.id)}
+                  onChange={() => toggleId(g.id)}
+                  className="mt-1"
+                />
+                <span>
+                  <span className="font-medium">
+                    {g.memberPseudonym ?? tg("anonymousMember")} - {g.category}
+                  </span>
+                  <span className="block text-gray-500">
+                    {tg("step", { step: g.currentStep })} ·{" "}
+                    {tg(`status.${g.status}`)}
+                  </span>
                 </span>
-                <span className="block text-gray-500">
-                  {tg("step", { step: g.currentStep })} ·{" "}
-                  {tg(`status.${g.status}`)}
-                </span>
-              </span>
-            </label>
-          ))}
+              </label>
+            ))
+          )}
           <Button
             onClick={() => setStep(2)}
             disabled={selectedIds.size === 0}

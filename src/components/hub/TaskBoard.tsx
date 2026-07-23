@@ -7,6 +7,8 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { EmptyState } from "@/components/ui/EmptyState";
 import {
   canAssignOthers,
   canCreateTask,
@@ -169,7 +171,18 @@ export function TaskBoard() {
   }
 
   if (loading && tasks.length === 0) {
-    return <p className="text-gray-600">{t("loading")}</p>;
+    return (
+      <div className="space-y-4" aria-busy="true" aria-label={t("loading")}>
+        <Skeleton className="h-8 w-48 max-w-full" />
+        <Skeleton className="h-4 w-full max-w-md" />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+        <Skeleton className="h-28 w-full" />
+        <Skeleton className="h-28 w-full" />
+      </div>
+    );
   }
 
   return (
@@ -298,7 +311,18 @@ export function TaskBoard() {
 
       <ul className="mt-8 space-y-3">
         {tasks.length === 0 ? (
-          <li className="text-gray-600">{t("empty")}</li>
+          <li>
+            <EmptyState
+              title={t("empty")}
+              action={
+                canWrite ? (
+                  <Button size="sm" onClick={() => setShowForm(true)}>
+                    {t("newTask")}
+                  </Button>
+                ) : undefined
+              }
+            />
+          </li>
         ) : (
           tasks.map((task) => {
             const canMutate = canMutateTaskAssignment(

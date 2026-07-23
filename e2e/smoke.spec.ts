@@ -1,19 +1,11 @@
 import { test, expect } from "@playwright/test";
-import AxeBuilder from "@axe-core/playwright";
 import { USER_PREFERENCES_KEY } from "../src/lib/data/adapter";
+import { expectNoSeriousA11yViolations } from "./helpers/axe";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/en/");
   await page.evaluate(() => localStorage.clear());
 });
-
-function seriousOrCriticalViolations(
-  violations: { impact?: string | null }[],
-) {
-  return violations.filter(
-    (v) => v.impact === "critical" || v.impact === "serious",
-  );
-}
 
 test.describe("Smoke tests @smoke", () => {
   test("home page renders in English", async ({ page }) => {
@@ -205,26 +197,22 @@ test.describe("Smoke tests @smoke", () => {
 
   test("guide page has no serious or critical a11y violations", async ({ page }) => {
     await page.goto("/en/guide/");
-    const results = await new AxeBuilder({ page }).analyze();
-    expect(seriousOrCriticalViolations(results.violations)).toEqual([]);
+    await expectNoSeriousA11yViolations(page);
   });
 
   test("home page has no serious or critical a11y violations", async ({ page }) => {
     await page.goto("/en/");
-    const results = await new AxeBuilder({ page }).analyze();
-    expect(seriousOrCriticalViolations(results.violations)).toEqual([]);
+    await expectNoSeriousA11yViolations(page);
   });
 
   test("accessibility page has no serious or critical a11y violations", async ({ page }) => {
     await page.goto("/en/accessibility/");
-    const results = await new AxeBuilder({ page }).analyze();
-    expect(seriousOrCriticalViolations(results.violations)).toEqual([]);
+    await expectNoSeriousA11yViolations(page);
   });
 
   test("brand kit page has no serious or critical a11y violations", async ({ page }) => {
     await page.goto("/en/brand-kit/");
-    const results = await new AxeBuilder({ page }).analyze();
-    expect(seriousOrCriticalViolations(results.violations)).toEqual([]);
+    await expectNoSeriousA11yViolations(page);
   });
 
   test("logo builder page renders", async ({ page }) => {
@@ -285,8 +273,7 @@ test.describe("Smoke tests @smoke", () => {
 
   test("hub login page has no serious or critical a11y violations", async ({ page }) => {
     await page.goto("/en/app/login");
-    const results = await new AxeBuilder({ page }).analyze();
-    expect(seriousOrCriticalViolations(results.violations)).toEqual([]);
+    await expectNoSeriousA11yViolations(page);
   });
 
   test("officer can sign in and reach MFA", async ({ page }) => {

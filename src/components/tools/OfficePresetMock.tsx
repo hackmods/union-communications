@@ -146,7 +146,7 @@ export function OfficePresetMock({
           <div className="min-w-0">
             <p className="truncate text-sm font-bold">{localLabel}</p>
             {fields.contactName ? (
-              <p className="truncate text-xs opacity-90">{fields.contactName}</p>
+              <p className="truncate text-xs">{fields.contactName}</p>
             ) : null}
           </div>
         </div>

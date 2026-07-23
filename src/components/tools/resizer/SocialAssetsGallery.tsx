@@ -124,7 +124,7 @@ export function SocialAssetsGallery({
                         {format.width}×{format.height}
                       </span>
                       {selected ? (
-                        <span className="rounded bg-opseu-blue/10 px-1.5 py-0.5 text-xs font-semibold text-opseu-blue">
+                        <span className="rounded bg-opseu-blue/10 px-1.5 py-0.5 text-xs font-semibold text-opseu-dark">
                           {t("formatEditing")}
                         </span>
                       ) : null}

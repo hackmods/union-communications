@@ -357,6 +357,11 @@ export default function SolidarityPosterPage() {
       title={t("title")}
       description={t("subtitle")}
       exportError={exportError}
+      previewAccessibleName={t("previewAccessibleName", {
+        headline:
+          state.headline.replace(/\n/g, " ").trim() || t("title"),
+        color: state.primaryColor,
+      })}
       toolbar={
         !themeEstablished && hydrated ? (
           <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">

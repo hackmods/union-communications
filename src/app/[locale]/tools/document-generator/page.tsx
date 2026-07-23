@@ -331,7 +331,7 @@ export default function DocumentGeneratorPage() {
 
       <div
         className="mb-4 grid gap-3 sm:grid-cols-3"
-        role="listbox"
+        role="group"
         aria-label={t("examples")}
       >
         {OFFICE_PRESETS.map((p) => (

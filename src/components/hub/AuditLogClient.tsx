@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { PageShell } from "@/components/layout/PageShell";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { EmptyState } from "@/components/ui/EmptyState";
 
 interface AuditRow {
   id: string;
@@ -51,14 +53,26 @@ export function AuditLogClient() {
     <PageShell size="wide" className="py-6 md:py-8">
       <h1 className="text-2xl font-semibold text-opseu-dark">{t("auditTitle")}</h1>
       <p className="mt-1 text-sm text-gray-600">{t("auditSubtitle")}</p>
-      {loading && <p className="mt-6 text-sm text-gray-500">…</p>}
+      {loading && (
+        <div
+          className="mt-6 space-y-3"
+          role="status"
+          aria-busy="true"
+          aria-label={t("auditLoading")}
+        >
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-3/4 max-w-full" />
+        </div>
+      )}
       {error && (
         <p className="mt-6 text-sm text-red-700" role="alert">
           {error}
         </p>
       )}
       {!loading && !error && entries.length === 0 && (
-        <p className="mt-6 text-sm text-gray-600">{t("auditEmpty")}</p>
+        <EmptyState className="mt-6" title={t("auditEmpty")} />
       )}
       {entries.length > 0 && (
         <div className="mt-6 overflow-x-auto rounded-lg border border-gray-200">

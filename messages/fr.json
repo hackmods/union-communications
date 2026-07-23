@@ -910,7 +910,9 @@
     "packSummary": "{count} pièces · coupez sur les pointillés",
     "cutGuideHint": "Les pointillés s'impriment comme guides de coupe. Pour les bandes latérales, agrafez à la verticale le long du cadre.",
     "setupBrandPrompt": "Configurez votre trousse de marque pour que les bandeaux utilisent votre logo et vos couleurs.",
-    "setupBrandLink": "Commencer l'intégration"
+    "setupBrandLink": "Commencer l'intégration",
+    "previewAccessibleName": "Aperçu d'art de tableau : {summary} sur fond {color}",
+    "trimCanvasAccessibleName": "Bordure de cadre : {piece} sur fond {color}"
   },
   "resizer": {
     "title": "Redimensionneur omnicanal",
@@ -1085,7 +1087,8 @@
     "includeBranding": "Inclure l'image de marque locale",
     "cta": "Obtenir du soutien →",
     "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les affiches avec le logo de votre section locale.",
-    "setupBrandLink": "Commencer l'intégration"
+    "setupBrandLink": "Commencer l'intégration",
+    "previewAccessibleName": "Aperçu de l'affiche : {headline} sur fond {color}"
   },
   "meetingBackground": {
     "title": "Créateur de fonds de réunion",
@@ -1868,6 +1871,7 @@
     "auditTitle": "Journal d’audit",
     "auditSubtitle": "Actions récentes des dirigeants pour votre syndicat (mémoire jusqu’à Postgres).",
     "auditEmpty": "Aucune entrée d’audit pour le moment.",
+    "auditLoading": "Chargement du journal d’audit…",
     "auditAction": "Action",
     "auditResource": "Ressource",
     "auditWhen": "Quand",
@@ -2097,6 +2101,7 @@
       "sectionOverdue": "Dossiers en retard",
       "sectionUpcoming": "Échéances à venir",
       "none": "Aucun grief en retard - bravo.",
+      "noneUpcoming": "Aucune échéance à venir dans la prochaine fenêtre.",
       "daysOverdue": "{days} j de retard",
       "daysUntil": "Dans {days} j"
     },
@@ -2154,6 +2159,8 @@
       "title": "Assistant de passation",
       "subtitle": "Réassignez les griefs ouverts et générez un dossier de passation.",
       "forbidden": "Seuls les présidents locaux et administrateurs peuvent faire une passation.",
+      "loading": "Chargement des données de passation…",
+      "empty": "Aucun grief ouvert à réassigner.",
       "loadError": "Impossible de charger les données de passation.",
       "completeError": "Échec de la passation.",
       "step1": "1. Dossiers",

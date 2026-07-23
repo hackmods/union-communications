@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { daysUntilDue } from "@/lib/grievance/deadlines";
 import type { Grievance } from "@/types/grievance";
 
@@ -52,7 +54,21 @@ export function OverdueDashboard() {
       .slice(0, 10);
   }, [items]);
 
-  if (loading) return <p className="text-gray-600">{tg("loading")}</p>;
+  if (loading) {
+    return (
+      <div className="space-y-4" aria-busy="true" aria-label={tg("loading")}>
+        <Skeleton className="h-8 w-56 max-w-full" />
+        <Skeleton className="h-4 w-full max-w-md" />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Skeleton className="h-24 w-full" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+        <Skeleton className="h-28 w-full" />
+        <Skeleton className="h-28 w-full" />
+      </div>
+    );
+  }
+
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
@@ -81,9 +97,7 @@ export function OverdueDashboard() {
       <section className="mt-8">
         <h2 className="text-xl font-bold text-red-700">{t("overdue.sectionOverdue")}</h2>
         {overdue.length === 0 ? (
-          <Card className="mt-3">
-            <p className="text-gray-600">{t("overdue.none")}</p>
-          </Card>
+          <EmptyState className="mt-3" title={t("overdue.none")} />
         ) : (
           <div className="mt-3 space-y-2">
             {overdue.map((g) => {
@@ -118,31 +132,35 @@ export function OverdueDashboard() {
 
       <section className="mt-8">
         <h2 className="text-xl font-bold text-opseu-dark">{t("overdue.sectionUpcoming")}</h2>
-        <div className="mt-3 space-y-2">
-          {upcoming.map((g) => {
-            const days = g.dueAt ? daysUntilDue(new Date(g.dueAt)) : null;
-            return (
-              <Link key={g.id} href={`/app/grievances/${g.id}`}>
-                <Card className="transition hover:border-opseu-blue/40">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <CardTitle className="text-base">
-                      {g.memberPseudonym ?? tg("anonymousMember")} - {g.category}
-                    </CardTitle>
-                    <span className="text-sm text-gray-600">
-                      {days != null
-                        ? t("overdue.daysUntil", { days })
-                        : g.dueAt
-                          ? tg("due", {
-                              date: new Date(g.dueAt).toLocaleDateString(),
-                            })
-                          : ""}
-                    </span>
-                  </div>
-                </Card>
-              </Link>
-            );
-          })}
-        </div>
+        {upcoming.length === 0 ? (
+          <EmptyState className="mt-3" title={t("overdue.noneUpcoming")} />
+        ) : (
+          <div className="mt-3 space-y-2">
+            {upcoming.map((g) => {
+              const days = g.dueAt ? daysUntilDue(new Date(g.dueAt)) : null;
+              return (
+                <Link key={g.id} href={`/app/grievances/${g.id}`}>
+                  <Card className="transition hover:border-opseu-blue/40">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <CardTitle className="text-base">
+                        {g.memberPseudonym ?? tg("anonymousMember")} - {g.category}
+                      </CardTitle>
+                      <span className="text-sm text-gray-600">
+                        {days != null
+                          ? t("overdue.daysUntil", { days })
+                          : g.dueAt
+                            ? tg("due", {
+                                date: new Date(g.dueAt).toLocaleDateString(),
+                              })
+                            : ""}
+                      </span>
+                    </div>
+                  </Card>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </section>
     </div>
   );

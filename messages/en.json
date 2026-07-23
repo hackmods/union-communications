@@ -910,7 +910,9 @@
     "packSummary": "{count} pieces · cut on dashed lines",
     "cutGuideHint": "Dashed lines print on the sheet as cut guides. For side strips, staple vertically along the board frame.",
     "setupBrandPrompt": "Set up your Brand Kit so banners use your local lockup and colours.",
-    "setupBrandLink": "Start onboarding"
+    "setupBrandLink": "Start onboarding",
+    "previewAccessibleName": "Board art preview: {summary} on {color} background",
+    "trimCanvasAccessibleName": "Frame trim: {piece} on {color} background"
   },
   "resizer": {
     "title": "Omnichannel Resizer",
@@ -1085,7 +1087,8 @@
     "includeBranding": "Include local branding",
     "cta": "Get support →",
     "setupBrandPrompt": "Set up your Brand Kit to stamp posters with your local lockup.",
-    "setupBrandLink": "Start onboarding"
+    "setupBrandLink": "Start onboarding",
+    "previewAccessibleName": "Poster preview: {headline} on {color} background"
   },
   "meetingBackground": {
     "title": "Meeting Background Maker",
@@ -1893,6 +1896,7 @@
     "auditTitle": "Audit log",
     "auditSubtitle": "Recent officer actions for your union (memory store until Postgres).",
     "auditEmpty": "No audit entries yet.",
+    "auditLoading": "Loading audit log…",
     "auditAction": "Action",
     "auditResource": "Resource",
     "auditWhen": "When",
@@ -2122,6 +2126,7 @@
       "sectionOverdue": "Overdue cases",
       "sectionUpcoming": "Upcoming deadlines",
       "none": "No overdue grievances - nice work.",
+      "noneUpcoming": "No upcoming deadlines in the next window.",
       "daysOverdue": "{days}d overdue",
       "daysUntil": "Due in {days}d"
     },
@@ -2179,6 +2184,8 @@
       "title": "Officer handoff wizard",
       "subtitle": "Reassign open grievances and generate a handoff package for the incoming steward.",
       "forbidden": "Only local presidents and admins can run a handoff.",
+      "loading": "Loading handoff data…",
+      "empty": "No open grievances to reassign.",
       "loadError": "Could not load handoff data.",
       "completeError": "Handoff failed.",
       "step1": "1. Cases",

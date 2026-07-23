@@ -250,10 +250,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Add a top-level `src/app/[locale]/error.tsx` for public Comms routes too, matching the tone of the rest of the site.
 4. Add `not-found.tsx` at both levels for consistent 404 handling with EN/FR copy and a link back to the tool catalog / Hub dashboard.
 
-### [UX-002] 🟡 PARTIAL (2026-07-23)
+### [UX-002] ✅ CLOSED (2026-07-23)
 **Category:** UX
 **Severity/Priority:** Medium
-**Status:** Partial — `Skeleton` (already from UX-001) + new `EmptyState` in `src/components/ui/`. Migrated loading/empty on `TimeDashboard` and `GrievanceDashboard` only. Unit coverage in `primitives.test.tsx`. Remaining: bumping/audit/snippets/marketplace/handoff ad-hoc states; Playwright visual smoke.
+**Status:** Closed — Shared `Skeleton` + `EmptyState` now cover main Hub list boards: `TimeDashboard`, `GrievanceDashboard`, `BumpingDashboard`, `AuditLogClient`, `SnippetLibrary`, `MarketplacePanel`, `OverdueDashboard`, `HandoffWizard` (loading/empty), `TaskBoard`. Unit coverage remains in `primitives.test.tsx`. Playwright visual smoke still deferred.
 **Problem/Gap Statement:** Loading and empty states across the Hub are ad-hoc, inconsistent plain-text (`<p>{t("loading")}</p>`, `…`, or gray `<p>` empty copy) with no shared visual language — grievances, bumping, time, and audit each hand-roll their own version. There is no shared `Skeleton` or `EmptyState` component in `src/components/ui/` (which only has `Button`, `Input`, `Card`, `Callout`, `Emoji` — five files total).
 **Affected Architecture/Files:** `src/components/ui/*` (missing `Skeleton.tsx`, `EmptyState.tsx`), `src/components/grievance/GrievanceDashboard.tsx`, `src/components/bumping/BumpingDashboard.tsx`, `src/components/time/TimeDashboard.tsx`, `src/app/[locale]/app/audit/page.tsx`
 **Implementation Blueprint:**
@@ -272,9 +272,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Add a unit test asserting `ContrastChecker`'s displayed pass/fail matches a manually-computed WCAG contrast ratio for a few known brand-color pairs.
 3. Audit `quote-card/page.tsx` (which the comms-tools review found already does this correctly) as the reference implementation to copy from.
 
-### [UX-004]
+### [UX-004] ✅ CLOSED (2026-07-23)
 **Category:** UX
 **Severity/Priority:** Medium
+**Status:** Closed — Brand Kit save uses `evaluateBrandPaletteContrast` / `brandPaletteHasContrastRisk` (ink helpers); inline advisory + non-blocking confirm-before-save on Brand Kit, onboarding, and Logo Builder.
 **Problem/Gap Statement:** Brand Kit colour selection is only advisory for accessibility — `ContrastChecker` displays a pass/fail `role="status"` message, but nothing blocks saving a Brand Kit with primary/secondary/accent colours that fail WCAG AA contrast against the text/background they'll actually be used with. Locals can unknowingly ship low-contrast materials.
 **Affected Architecture/Files:** `src/lib/utils/ink.ts`, `src/store/brand-store.ts`, `src/components/brand/LogoSettings.tsx` (or wherever Brand Kit save is triggered)
 **Implementation Blueprint:**
@@ -308,9 +309,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Migrate `TimeDashboard.tsx` and `document-generator/page.tsx` form fields to the new primitives as the first consumers, to validate the API before wider rollout.
 3. Add each new primitive to whatever lightweight visual-regression/unit test pattern the existing `Button`/`Input` components use, if any, or establish one.
 
-### [UI-002]
+### [UI-002] ✅ CLOSED (2026-07-23)
 **Category:** UI/Media
 **Severity/Priority:** Medium
+**Status:** Closed — Mobile-first Hub shell + dashboards: `app/layout` body uses `PAGE_SHELL.wide` with `py-4 sm:py-6 md:py-8`; Grievance/Bumping (and Time header CTAs) stack full-width actions on phone, dense KPI grids, stacked list rows; `@mobile` Playwright overflow coverage via `e2e/hub.mobile.spec.ts` + `e2e/helpers/auth.ts`. Other Hub modules (audit/handoff/qol) not reworked in this ticket.
 **Problem/Gap Statement:** The authenticated Hub (`src/app/[locale]/app/**`, and components under `src/components/{grievance,bumping,time,qol}/**` excluding the more mobile-aware `TimeDashboard.tsx`) has sparse Tailwind responsive breakpoint usage compared to the public Comms canvas tools, which are consistently built mobile-first via `ToolEditorLayout`. Stat blocks and list views in grievance/bumping dashboards skew desktop-linear.
 **Affected Architecture/Files:** `src/components/grievance/GrievanceDashboard.tsx`, `src/components/bumping/BumpingDashboard.tsx`, `src/app/[locale]/app/layout.tsx`
 **Implementation Blueprint:**
@@ -318,9 +320,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Add `@mobile` Playwright coverage (the project already has an `@mobile` tag pattern used for canvas tools) for the grievance/bumping/time dashboards specifically.
 3. Cross-reference `.cursor/rules/responsive-layouts.mdc` for the project's existing responsive conventions before making changes, to stay consistent with intent already documented there.
 
-### [UI-003]
+### [UI-003] ✅ CLOSED (2026-07-23)
 **Category:** UI/Media
 **Severity/Priority:** Medium
+**Status:** Closed — Shared `e2e/helpers/axe.ts`; authenticated Hub axe via `e2e/hub.a11y.spec.ts` (grievances, bumping, time, calendar, discussions, tasks, documents, audit) using `loginAsDemoOfficer` (serial MFA to avoid session races); mobile axe on grievances/bumping/time in `hub.mobile.spec.ts`; canvas/tool axe expanded in `builders.smoke.spec.ts` (board-notice, flyer, QR, website-template, document-generator, solidarity-poster, meeting-background, board-banner, quote-card, resizer, alt-text). Minor a11y fixes unblocked scans (audit loading `role="status"`, document-generator example `role="group"`, resizer Editing badge contrast, OfficePresetMock opacity). Demo login works in local smoke; CI uses same helper.
 **Problem/Gap Statement:** Axe-core accessibility smoke coverage (`e2e/smoke.spec.ts`, `e2e/builders.smoke.spec.ts`) exercises only a handful of pages (home, guide index, `/accessibility`, `/brand-kit`, `/app/login`, graphic-maker, logo-builder, print guide). No authenticated Hub route (grievances, bumping, time, audit, handoff, marketplace, snippets, overdue, hybrid) has any axe coverage, and most canvas tools beyond graphic-maker/logo-builder are also unscanned.
 **Affected Architecture/Files:** `e2e/smoke.spec.ts`, `e2e/builders.smoke.spec.ts`
 **Implementation Blueprint:**
@@ -328,9 +331,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Extend the canvas-tool axe list to cover the remaining tools not yet scanned (board-notice, flyer-maker, QR tools, website-template, document-generator, solidarity-poster, meeting-background, board-banner).
 3. Gate these new scans behind the existing `@smoke` tag so they run in the standard `npm run test:smoke` pass without needing a separate CI job.
 
-### [UI-004]
+### [UI-004] ✅ CLOSED (2026-07-23)
 **Category:** UI/Media
 **Severity/Priority:** Low
+**Status:** Closed — Confirmed intentional. Documented as ADR-014 in `docs/DECISIONS.md` (system stack; no `next/font/google` / remote webfonts; `next/font/local` only if a self-hosted brand face is added later). No font/code change.
 **Problem/Gap Statement:** No `next/font` usage anywhere — `globals.css` declares `--font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`, a pure system-font stack with no self-hosted webfont, no font-loading strategy, and no documented CLS/font-metric control. This may be an intentional "no third-party asset loading" privacy choice (consistent with ADR-006's "no analytics, cookies, third-party scripts, or network calls") rather than an oversight — confirm intent before treating as a defect.
 **Affected Architecture/Files:** `src/app/globals.css`, `src/app/layout.tsx`
 **Implementation Blueprint:**
@@ -338,9 +342,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. If intentional: document it explicitly as a decision in `docs/DECISIONS.md` (a new ADR) so future contributors don't "fix" it by adding a Google Fonts import that would violate ADR-006.
 3. If a self-hosted brand typeface is desired later, use `next/font/local` (bundles the font file with the app, no external request) rather than `next/font/google`, to preserve the zero-third-party-request posture.
 
-### [UI-005]
+### [UI-005] ✅ CLOSED (2026-07-23)
 **Category:** UI/Media
 **Severity/Priority:** Low
+**Status:** Closed — `ToolEditorLayout` optional `previewAccessibleName` wraps preview in `<figure role="group" aria-label>` (not `role="img"`); `BoardTrimCanvas` `accessibleName`; solidarity-poster + board-banner dynamic EN/FR summaries.
 **Problem/Gap Statement:** Canvas tool previews are styled `<div>` trees (not `<canvas>`/SVG), which is good for keeping text content in the DOM, but none of them expose a `role="img"` + accessible name summarizing the composed graphic for screen-reader users navigating past the preview region — a screen reader will read through dozens of individually-styled text nodes rather than getting one coherent description.
 **Affected Architecture/Files:** `src/components/tools/ToolEditorLayout.tsx`, representative canvas components (`BoardTrimCanvas.tsx`, graphic-maker/flyer-maker canvas layouts, `solidarity-poster/page.tsx`)
 **Implementation Blueprint:**
@@ -398,9 +403,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Verify with a bundle-analyzer pass (`next build` output / `@next/bundle-analyzer` if available) that per-tool-route JS shrinks measurably.
 3. Re-run the existing `image-export.test.ts` / add a `pdf-export.test.ts` (currently missing entirely) to confirm the dynamic-import refactor doesn't change behavior.
 
-### [TOOL-005]
+### [TOOL-005] ✅ CLOSED (2026-07-23)
 **Category:** Comms Tools
 **Severity/Priority:** Medium
+**Status:** Closed — `pdf-export.test.ts` covers single/multi-page export, landscape orientation, failed `toPng` propagation, and computed background; component tests for `ToolEditorLayout` (mobile Edit/Preview tabs, export alert, a11y group) and `BoardTrimCanvas` (side/bottom/corner prop rendering).
 **Problem/Gap Statement:** `src/lib/export/pdf-export.ts` has zero unit test coverage (confirmed: only `image-export.test.ts`, `office-export.test.ts`, `office-docx-builders.test.ts`, and `brand-logo-bytes.test.ts` exist under `src/lib/export/`), and there are zero `*.test.ts`/`*.test.tsx` files anywhere under `src/components/tools/` — every canvas tool's rendering and export-triggering logic is verified only by manual QA and the limited Playwright smoke suite.
 **Affected Architecture/Files:** `src/lib/export/pdf-export.ts`, `src/components/tools/**`
 **Implementation Blueprint:**
