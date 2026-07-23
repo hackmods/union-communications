@@ -481,3 +481,87 @@ Added 2026-07-23 from a follow-up feasibility review (not part of the original f
 2. The response-collection half (member-side) is the blocked part: it needs a public route that accepts anonymous submissions scoped to `unionId`/`localId`/optional `bargainingUnitId`, basic anti-abuse (single-submission token in the shared link, or simple rate-limit by IP+fingerprint — no third-party analytics/tracking per the platform's "Do Not" rule), and a Hub-side aggregate results view gated by the same RBAC tier as CA snippets (`canManageQolContent`).
 3. Do not ship the response-collection half on the in-memory adapters — a poll that silently loses responses (per `SEC-003`) actively damages trust in a bargaining campaign at the exact moment the union needs members to trust the tool. Gate this ticket's public-facing half behind `SEC-003` explicitly; the authoring half has no such dependency and can be prototyped anytime.
 4. Once built, results should export via the existing document-generation stack (`exceljs` for a raw CSV/XLSX dump, consistent with the Time module's existing CSV export precedent).
+
+---
+
+## ORG OPERATIONS — RUNNING THE LOCAL (`ORG-`)
+
+Added 2026-07-23. Question posed: once the `SEC-`/`RBAC-`/`FEAT-`/`FUTURE-` items above are done, what's still missing for a real local (OPSEU-sized or a small independent committee) to run itself day-to-day as an organization — not just do casework and comms? Verified against `src/types/entities.ts`, `docs/VISION.md`, `docs/modules/CALENDAR_MEETINGS.md`, `git ls-files`.
+
+**Three buckets — do not conflate them:**
+
+- **(A) Genuinely missing, in-scope, worth building** — `ORG-001` to `ORG-006` below.
+- **(B) Explicitly a Non-Goal today** (`docs/VISION.md` §Non-Goals: "Replacing national union ERP/HR systems") — dues collection, per-capita remittance to the parent union, and full member/HR records. Do **not** build these; see `ORG-007` for the recommended integration-only posture instead.
+- **(C) Already fully scoped elsewhere — do not duplicate.** General membership-meeting scheduling, recurrence, and RSVP is exhaustively specced (and deliberately deferred behind Postgres) in `docs/modules/CALENDAR_MEETINGS.md` / `.cursor/rules/calendar-meetings.mdc`. A general document vault for CBAs/bylaws/minutes is `FEAT-001` above. Read those before proposing either again — `ORG-003` and `ORG-005` below explicitly cross-reference and extend them rather than re-scoping them.
+
+### [ORG-001]
+**Category:** Feature Parity
+**Severity/Priority:** Medium
+**Problem/Gap Statement:** There is no way to record **motions and votes** for exec board or general membership meetings. `docs/modules/CALENDAR_MEETINGS.md` covers *scheduling* a meeting and collecting RSVPs — it says nothing about capturing what happened *at* the meeting. Every local constitution requires motions to be moved, seconded, voted, and minuted; today that's 100% pen-and-paper or an external Word doc with zero connection to the platform.
+**Affected Architecture/Files:** none yet — nearest shape precedent is `CommitteeSession`/`CommitteeNote` in `src/types/bumping.ts` (bumping-committee-scoped only, not reusable as-is)
+**Implementation Blueprint:**
+1. Add a `unionId`/`localId`-scoped `MeetingMinutes` entity: `{ id, meetingDate, meetingType: "exec"|"general"|"committee", attendees, motions: Motion[], notes, recordedById, approvedAt? }` where `Motion = { text, movedBy, secondedBy, vote: { for, against, abstain }, result: "carried"|"defeated"|"tabled" }`.
+2. Ship a minimal draft → approve workflow (minutes are drafted after the meeting, then approved/amended at the *next* meeting per standard union practice) — a simple `status: "draft"|"approved"` field is enough for v1, no full amendment-tracking needed yet.
+3. This is deliberately **decoupled** from `docs/modules/CALENDAR_MEETINGS.md`'s future `UnionMeeting`/RSVP entities — minutes-taking should not be blocked on that spec's Postgres-gated RSVP work; it can ship as its own small memory-adapter module first (same persistence caveat as everything else pre-`SEC-003`) and link to a `UnionMeeting` row later once that exists.
+4. Export minutes to PDF/DOCX via the existing document-generation stack (`docx`/`docxtemplater`, already dependencies) for archival and emailing to members who couldn't attend.
+
+### [ORG-002]
+**Category:** Feature Parity
+**Severity/Priority:** Medium
+**Problem/Gap Statement:** `Officer` (`src/types/entities.ts`) is `{ id, name, role, localId }` — a letterhead/signature-block value object for Comms exports, not a governance record. There is no term start/end date anywhere in the codebase (verified: no `termStart`/`termEnd`/`electedAt` field exists), so the platform cannot answer "who is currently the Vice-President" or "when does this steward's term expire" in any structured way, even though the Handoff module (`src/lib/handoff/package.ts`) assumes officers rotate.
+**Affected Architecture/Files:** `src/types/entities.ts` (`Officer`), `src/lib/handoff/package.ts`
+**Implementation Blueprint:**
+1. Extend (or add a sibling to, if the letterhead use case needs to stay lightweight) `Officer` with `termStart`, `termEnd?`, `email?`, `phone?`, `committees?: string[]` — a real roster, not just a name string for print.
+2. Surface a simple `/app/officers` roster page (list/add/edit, president/admin-gated) as the source of truth Handoff, Comms letterhead, and (once built) `ORG-003` elections all read from, instead of each feature re-typing officer names.
+3. Add a "term expiring soon" indicator reusing the existing Hub banner pattern (`DemoSiteBanner.tsx`-style) to prompt succession/handoff planning before a term lapses — a natural tie-in to the existing Handoff wizard (`/app/handoff`).
+
+### [ORG-003]
+**Category:** Feature Parity
+**Severity/Priority:** Low–Medium
+**Problem/Gap Statement:** No support for local elections or steward nominations exists — no self-nomination intake, no slate/ballot builder, no vote tabulation. Locals run executive elections (typically annually or biennially) and steward elections/appointments regularly; today this is entirely off-platform.
+**Affected Architecture/Files:** none yet — depends on `ORG-002`'s officer roster existing first
+**Implementation Blueprint:**
+1. v1 scope deliberately small: a **nomination intake form** (member self-nominates or is nominated for a position, with an accept/decline step) plus a **printable/exportable ballot** — not live online secret-ballot voting, which raises its own integrity/anonymity requirements (voter eligibility, one-vote-per-member, secret ballot guarantees) that this platform's architecture (no member accounts, `docs/VISION.md`'s explicit "no `/member` portal") is not currently built to guarantee.
+2. Tabulation can stay manual/offline (committee counts paper or emailed ballots, enters final tallies into the tool) rather than the platform being the ballot box itself — this sidesteps the election-integrity problem while still giving officers a structured place to track candidates, positions, and results.
+3. On a result being recorded, offer a one-click "update officer roster" action feeding directly into `ORG-002`'s roster (elected candidate → new `Officer` row with `termStart` = today).
+4. Explicitly do **not** build online secret-ballot voting without a dedicated security/integrity design pass — flag this the same way `FUTURE-005`/`FUTURE-006` flag public data collection as needing its own review before scoping further.
+
+### [ORG-004]
+**Category:** Feature Parity
+**Severity/Priority:** Low
+**Problem/Gap Statement:** No roster exists for internal (non-bargaining) committees — Health & Safety, Social, Equity, Political Action, etc. `CommitteeSession`/`CommitteeNote` (`src/types/bumping.ts`) are hardcoded to the bumping/stability committee specifically and are not a general-purpose "who's on which committee" structure.
+**Affected Architecture/Files:** `src/types/bumping.ts` (nearest analogue, not reusable as-is), depends on `ORG-002`
+**Implementation Blueprint:**
+1. Add a lightweight `Committee { id, name, description, memberOfficerIds: string[] }` entity referencing `ORG-002`'s officer roster — no separate meeting/motion machinery needed here (that's `ORG-001`, which any committee can use by tagging its `meetingType`/committee reference).
+2. Surface on a local's `/app/officers` (or a dedicated `/app/committees`) page as a simple grouping view — this is a small, low-risk addition once the officer roster exists.
+
+### [ORG-005]
+**Category:** Feature Parity
+**Severity/Priority:** Medium (high value, near-zero new persistence)
+**Problem/Gap Statement:** A local president or chief steward has no way to generate an aggregate report ("14 grievances filed this quarter, 9 resolved at Step 1, 2 at arbitration") for a membership meeting update or a report to the parent union. All the underlying data already exists (`Grievance`, `BumpingCase`, `TimeEntry` records) but there is no rollup/reporting view anywhere — only per-case detail pages and the raw audit log.
+**Affected Architecture/Files:** `src/lib/grievance/memory-adapter.ts`, `src/lib/bumping/memory-adapter.ts`, `src/lib/time/memory-adapter.ts` (read-only aggregation over existing data)
+**Implementation Blueprint:**
+1. Add a read-only `/app/reports` view: date-range filter, counts by status/category/step for grievances, counts by status for bumping cases, union-business hours totals from Time — pure aggregation queries over data that already exists, no new entities.
+2. Export to PDF (for a membership-meeting handout) and CSV/XLSX (for a parent-union report), reusing the existing export stack exactly as the Time module's CSV export (`docs/modules/WORKFORCE_TIME.md`) already does.
+3. RBAC: gate to elevated roles only (`isElevatedGrievanceRole`-equivalent) since aggregate case counts, even without member names, are still confidential-adjacent per `docs/COMPLIANCE.md`.
+4. This is one of the cheapest tickets in the entire backlog relative to its value — no new data model, no new persistence risk, just a query + export layer over what's already built.
+
+### [ORG-006]
+**Category:** Feature Parity
+**Severity/Priority:** Low
+**Problem/Gap Statement:** Locals commonly hold a small discretionary fund (solidarity/strike-support fund, social committee budget, convention delegate per-diems) that is distinct from dues/per-capita accounting (which is explicitly out of scope, see `ORG-007`). There is nowhere in the platform to log even a simple income/expense ledger for this local-controlled money, despite member-facing financial transparency being a common constitutional requirement for locals.
+**Affected Architecture/Files:** none yet
+**Implementation Blueprint:**
+1. Add a minimal `LedgerEntry { id, unionId, localId, date, description, amount, type: "income"|"expense", category, recordedById }` — genuinely simple bookkeeping, not accounting software (no reconciliation, no multi-currency, no invoicing).
+2. Surface a running-balance list view + CSV/XLSX export (again, `exceljs`, already a dependency) for a treasurer's report at membership meetings.
+3. Keep this explicitly framed in-product as "your local's discretionary fund tracker," not a dues/financial-ERP system, to avoid scope creep toward `ORG-007`'s Non-Goal territory.
+
+### [ORG-007] — Explicit Non-Build: Dues, Per-Capita, Member/HR Records
+**Category:** Feature Parity (guardrail, not a build ticket)
+**Severity/Priority:** N/A — this ticket exists to stop scope creep, not to schedule work
+**Problem/Gap Statement:** A real union local's back office also runs on dues collection, per-capita remittance to the parent union, and member/HR records (hire dates, classification, leaves) — all of which `docs/VISION.md`'s Non-Goals section explicitly excludes ("Replacing national union ERP/HR systems"). This is called out here only so a future agent doesn't accidentally propose building it after seeing `ORG-001`–`ORG-006` and assuming the gap-filling logic extends this far.
+**Affected Architecture/Files:** N/A
+**Implementation Blueprint:**
+1. Do not build dues collection, payment processing, or a member/HR database — this is a different product category (and a much larger PCI/financial-compliance and data-liability surface than anything else in this codebase).
+2. If integration is ever wanted, prefer **export hooks** (e.g. a CSV export of `ORG-002`'s officer roster, or `ORG-005`'s reports, in a format the parent union's existing ERP/membership system can ingest) over building a parallel system.
+3. The existing `MembershipUrl` pattern (`src/types/entities.ts`, Brand Kit) — linking out to the parent union's own membership sign-up/update portal — is the correct model to keep following: point at the system of record, don't replicate it.
