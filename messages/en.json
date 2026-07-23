@@ -1888,7 +1888,7 @@
     "verifyMfa": "Verify",
     "verifying": "Verifying...",
     "mfaError": "Invalid code — use AUTH_DEV_MFA_CODE (default 000000)",
-    "mfaDevHint": "Dev mode: enter 000000 (or AUTH_DEV_MFA_CODE / AUTH_MFA_CODE)",
+    "mfaDevHint": "Dev default: enter 000000 (or AUTH_DEV_MFA_CODE). Production requires AUTH_MFA_MODE.",
     "mfaRequired": "MFA required",
     "mfaOk": "MFA verified",
     "mfaVerified": "Identity verified",

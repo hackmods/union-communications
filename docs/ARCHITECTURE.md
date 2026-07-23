@@ -8,7 +8,7 @@ Evolution from v1 static comms toolbox to multi-tenant authenticated hub.
 flowchart LR
     User[Officer User] --> NextApp[Next.js App]
     NextApp --> PublicComms[Public Comms - static]
-    NextApp --> AuthGate[Auth Middleware]
+    NextApp --> AuthGate[proxy.ts + per-route auth]
     AuthGate --> GrievanceAPI[Grievance API]
     AuthGate --> BumpingAPI[Bumping API]
     GrievanceAPI --> Postgres[(Postgres RLS)]
@@ -24,6 +24,16 @@ flowchart LR
 | `(app)` | `/[locale]/app/*` | Required | Hub shell |
 | `(app)/grievances` | Grievance module | MFA recommended | Highly confidential |
 | `(app)/bumping` | College bumping | MFA recommended | Sector-optional |
+
+## Route protection (as-built)
+
+There is **no** `middleware.ts`. Next.js 16 gating lives in [`src/proxy.ts`](../src/proxy.ts):
+
+- Matcher excludes `api`, `_next`, `_vercel`, and static file extensions — **API routes are not gated by the proxy** and must call `auth()` / `require*Session()` themselves.
+- For matched `/app/*` paths (except login/register), requires an authenticated session or redirects to login.
+- Hub pages such as `/app` and `/app/audit` also call `auth()` in Server Components and redirect when unauthenticated.
+
+MFA and tenant context (`localId` / `bargainingUnitId`) are only writable via trusted JWT update paths (server-issued MFA grant nonce; local switch validated against `accessibleLocalIds` / elevated roles).
 
 ## Stack
 

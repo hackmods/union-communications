@@ -55,4 +55,6 @@ export interface DemoUser {
   accessibleLocalIds?: string[];
   roles: UserRole[];
   requiresMfa: boolean;
+  /** Base32 TOTP secret when AUTH_MFA_MODE=totp (interim until users table). */
+  totpSecret?: string;
 }

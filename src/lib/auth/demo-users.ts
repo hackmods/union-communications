@@ -14,6 +14,8 @@ export const DEMO_USERS: DemoUser[] = [
     accessibleLocalIds: ["local-243"],
     roles: ["local_president"],
     requiresMfa: true,
+    // Demo TOTP secret (AUTH_MFA_MODE=totp). Shared-code mode is the default for demos.
+    totpSecret: "JBSWY3DPEHPK3PXP",
   },
   {
     id: "user-steward-243",
@@ -27,6 +29,7 @@ export const DEMO_USERS: DemoUser[] = [
     accessibleLocalIds: ["local-243"],
     roles: ["local_steward"],
     requiresMfa: true,
+    totpSecret: "JBSWY3DPEHPK3PXP",
   },
   {
     id: "user-steward-243-pt",
@@ -40,6 +43,7 @@ export const DEMO_USERS: DemoUser[] = [
     accessibleLocalIds: ["local-243"],
     roles: ["local_steward"],
     requiresMfa: true,
+    totpSecret: "JBSWY3DPEHPK3PXP",
   },
   {
     id: "user-division-admin",
@@ -53,6 +57,7 @@ export const DEMO_USERS: DemoUser[] = [
     accessibleLocalIds: ["local-243", "local-560"],
     roles: ["division_admin"],
     requiresMfa: true,
+    totpSecret: "JBSWY3DPEHPK3PXP",
   },
   {
     id: "user-stability-243",
@@ -65,6 +70,7 @@ export const DEMO_USERS: DemoUser[] = [
     accessibleLocalIds: ["local-243"],
     roles: ["stability_member"],
     requiresMfa: true,
+    totpSecret: "JBSWY3DPEHPK3PXP",
   },
   {
     id: "user-solo",

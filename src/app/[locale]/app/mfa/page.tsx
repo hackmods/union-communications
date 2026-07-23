@@ -63,7 +63,15 @@ export default function MfaPage() {
       return;
     }
 
-    await update({ mfaVerified: true });
+    const body = (await res.json()) as { mfaGrant?: string };
+    if (!body.mfaGrant) {
+      setError(t("mfaError"));
+      setLoading(false);
+      return;
+    }
+
+    // Opaque server-issued grant only — never set mfaVerified from the client.
+    await update({ mfaGrant: body.mfaGrant });
     setLoading(false);
     router.push("/app");
   };

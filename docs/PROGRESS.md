@@ -437,3 +437,13 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Document Generator Welcome letter preset (generic onboarding copy + membership URL token)
 - [x] Guide `/guide/membership-signup` + nav / sitemap / Blueprint channel link
 - [x] Unit tests for membership resolve + welcome letter docx
+
+## Audit Phase 1 — Security & Auth Hardening (2026-07-23)
+
+- [x] `SEC-001` / `SEC-005` — MFA grant nonce + JWT update allowlist; `localId`/`bargainingUnitId` validated server-side
+- [x] `SEC-002` — `AUTH_MFA_MODE` fail-closed in production; shared-code opt-in; interim TOTP verifier for demo users
+- [x] `SEC-004` — `AUTH_SECRET` fail-closed at production runtime; compose requires secret
+- [x] `SEC-008` — CSP/security headers in `next.config.ts` (all hosts)
+- [x] `SEC-010` — `env.example` deprecated; `.env.example` is canonical
+- [x] `RBAC-002` — `/app` and `/app/audit` server `auth()` gates
+- [x] API route auth coverage test; unit regression suite for session update / MFA policy

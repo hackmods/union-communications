@@ -70,7 +70,9 @@ Demo accounts (password `demo123`) exist for local CI and workshops. They are do
 
 **Demo site banner:** set `NEXT_PUBLIC_DEMO_SITE=true` so authenticated `/app` pages show a persistent Demo notice (sample data only — not live production). Turn it off on real tenant hosts.
 
-**Do not** use demo passwords for real member casework on a public host. MFA in development accepts any 6-digit code — that is not production MFA.
+**Do not** use demo passwords for real member casework on a public host.
+
+**MFA:** non-production defaults to `AUTH_MFA_MODE=shared_code_insecure` and accepts `AUTH_DEV_MFA_CODE` (default `000000`). Production **requires** `AUTH_MFA_MODE` (`totp` preferred, or `shared_code_insecure` with an explicit `AUTH_MFA_CODE`). MFA success issues a short-lived server grant; the client cannot set `mfaVerified` via `session.update()` alone.
 
 ## Project docs
 

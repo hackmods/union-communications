@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { auditLog } from "@/lib/audit/memory-adapter";
+import { issueMfaGrant } from "@/lib/auth/mfa-grants";
+import { verifyMfaCode } from "@/lib/auth/mfa-policy";
 
 /**
- * MFA verify.
- * - Production: set AUTH_MFA_CODE to the shared offline code (or wire TOTP later).
- * - Dev default: accept the code in AUTH_DEV_MFA_CODE (default 000000) only —
- *   no longer accepts arbitrary 6-digit codes.
+ * MFA verify — validates the code server-side, then issues a single-use
+ * grant nonce. The client must pass that nonce through session.update({ mfaGrant })
+ * so the JWT callback can set mfaVerified (SEC-001). Never trust a client boolean.
  */
 export async function POST(request: Request) {
   const session = await auth();
@@ -14,20 +15,26 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = (await request.json()) as { code?: string };
-  const code = body.code?.trim() ?? "";
-  if (!/^\d{6}$/.test(code)) {
+  let body: { code?: string };
+  try {
+    body = (await request.json()) as { code?: string };
+  } catch {
     return NextResponse.json({ error: "Invalid code" }, { status: 400 });
   }
 
-  const expected =
-    process.env.AUTH_MFA_CODE ??
-    process.env.AUTH_DEV_MFA_CODE ??
-    "000000";
+  const result = verifyMfaCode({
+    userId: session.user.id,
+    code: body.code ?? "",
+  });
 
-  if (code !== expected) {
-    return NextResponse.json({ error: "Invalid code" }, { status: 400 });
+  if (!result.ok) {
+    return NextResponse.json(
+      { error: result.error },
+      { status: result.status },
+    );
   }
+
+  const mfaGrant = issueMfaGrant(session.user.id);
 
   await auditLog.log({
     userId: session.user.id,
@@ -38,5 +45,5 @@ export async function POST(request: Request) {
     localId: session.user.localId,
   });
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json({ success: true, mfaGrant });
 }

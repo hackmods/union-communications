@@ -1,12 +1,13 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "@/auth.config";
+import { resolveAuthSecret } from "@/lib/auth/auth-secret";
 import { findDemoUser } from "@/lib/auth/demo-users";
 import { auditLog } from "@/lib/audit/memory-adapter";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
-  secret: process.env.AUTH_SECRET ?? "dev-secret-change-in-production",
+  secret: resolveAuthSecret(),
   providers: [
     Credentials({
       name: "credentials",

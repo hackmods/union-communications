@@ -1,7 +1,9 @@
 import type { NextAuthConfig } from "next-auth";
+import { resolveAuthSecret } from "@/lib/auth/auth-secret";
+import { applyTrustedSessionUpdate } from "@/lib/auth/session-update";
 
 export const authConfig = {
-  secret: process.env.AUTH_SECRET ?? "dev-secret-change-in-production",
+  secret: resolveAuthSecret(),
   pages: {
     signIn: "/en/app/login",
   },
@@ -28,17 +30,7 @@ export const authConfig = {
         token.mfaVerified = user.mfaVerified;
       }
       if (trigger === "update" && session) {
-        if (session.mfaVerified !== undefined) {
-          token.mfaVerified = session.mfaVerified as boolean;
-        }
-        if ("localId" in session) {
-          token.localId = session.localId as string | undefined;
-        }
-        if ("bargainingUnitId" in session) {
-          token.bargainingUnitId = session.bargainingUnitId as
-            | string
-            | undefined;
-        }
+        applyTrustedSessionUpdate(token, session);
       }
       return token;
     },

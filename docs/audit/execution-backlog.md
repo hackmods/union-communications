@@ -6,9 +6,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 
 ## SECURITY (`SEC-`)
 
-### [SEC-001]
+### [SEC-001] ✅ CLOSED (2026-07-23)
 **Category:** Security
 **Severity/Priority:** Critical
+**Status:** Closed — `/api/mfa/verify` issues a single-use grant; `jwt()` only sets `mfaVerified` via `consumeMfaGrant`; bare `session.update({ mfaVerified: true })` is ignored. See `src/lib/auth/mfa-grants.ts`, `src/lib/auth/session-update.ts`, `src/auth.config.test.ts`.
 **Problem/Gap Statement:** MFA can be bypassed entirely from an authenticated client. `POST /api/mfa/verify` validates the code but never writes `mfaVerified` into the server-side session/JWT — the client sets that flag itself via NextAuth's `session.update({ mfaVerified: true })` call after receiving `{ success: true }`. Any authenticated browser session can call `update()` directly (e.g. from devtools or a modified client) and unlock grievance/bumping/time modules without ever calling `/api/mfa/verify`.
 **Affected Architecture/Files:** `src/app/api/mfa/verify/route.ts`, `src/app/[locale]/app/mfa/page.tsx`, `src/auth.config.ts` (`jwt()` callback, `trigger === "update"` branch)
 **Implementation Blueprint:**
@@ -17,9 +18,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Add a unit/integration test that calls `session.update({ mfaVerified: true })`-equivalent without a valid `/api/mfa/verify` call and asserts the confidential module APIs still reject the request.
 4. Apply the same pattern to `localId`/`bargainingUnitId` context-switch updates (see SEC-005).
 
-### [SEC-002]
+### [SEC-002] ✅ CLOSED (2026-07-23) — interim; full enrollment UI still Phase 2
 **Category:** Security
 **Severity/Priority:** Critical
+**Status:** Closed for Phase 1 — `AUTH_MFA_MODE` required in production; shared code is explicit opt-in with `AUTH_MFA_CODE`; TOTP verifier + demo `totpSecret` fields land; QR enrollment deferred to Postgres users (`SEC-007`).
 **Problem/Gap Statement:** MFA for "highly confidential" grievance/bumping data (per ADR-009, `docs/RBAC.md`) is a single shared static 6-digit code for the entire instance (`AUTH_MFA_CODE` / `AUTH_DEV_MFA_CODE`, default literal `"000000"`), not per-user, not TOTP. Any user who knows or guesses the code can "verify MFA" as themselves for any account. `.env.example` doesn't even document the variable, so most self-hosters will run on the `"000000"` default indefinitely.
 **Affected Architecture/Files:** `src/app/api/mfa/verify/route.ts`, `.env.example`, `docs/guides/SETUP.md`
 **Implementation Blueprint:**
@@ -39,9 +41,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Add a Postgres service to `docker/docker-compose.yml` with a named volume, and update `docker/entrypoint.sh` to run migrations on boot.
 4. Until this ships, add a persistent, dismissible-but-recurring UI banner on every Hub page (reuse the existing `DemoSiteBanner.tsx` pattern) stating plainly: "This instance stores case data in memory only — it will be lost on restart. Do not use for real member casework." Gate it off only when a real DB adapter is confirmed active.
 
-### [SEC-004]
+### [SEC-004] ✅ CLOSED (2026-07-23)
 **Category:** Security
 **Severity/Priority:** Critical
+**Status:** Closed — production runtime throws without `AUTH_SECRET`; compose uses `${AUTH_SECRET:?…}`; fallback renamed `insecure-test-only-secret` for non-prod/build only.
 **Problem/Gap Statement:** `AUTH_SECRET` silently falls back to a hardcoded literal (`"dev-secret-change-in-production"`) in both `src/auth.ts` and `src/auth.config.ts` if the environment variable is unset. A misconfigured self-host fails **open** with a publicly-known secret rather than failing to start, allowing anyone to forge valid session JWTs (including arbitrary roles/`unionId`/`localId` claims).
 **Affected Architecture/Files:** `src/auth.ts` (line ~9), `src/auth.config.ts` (line ~4), `docker/docker-compose.yml` (hardcoded `AUTH_SECRET: local-docker-auth-secret-change-me`)
 **Implementation Blueprint:**
@@ -50,9 +53,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Update `docker/docker-compose.yml` to require the operator to supply `AUTH_SECRET` via `.env` rather than a hardcoded default (fail the `docker compose up` with a clear error if unset, using Compose's `${AUTH_SECRET:?err message}` syntax).
 4. Add a startup self-check (logged at boot) confirming `AUTH_SECRET` length/entropy is reasonable (e.g. ≥32 bytes base64).
 
-### [SEC-005]
+### [SEC-005] ✅ CLOSED (2026-07-23)
 **Category:** Security
 **Severity/Priority:** High
+**Status:** Closed — `applyTrustedSessionUpdate` validates `localId` against `accessibleLocalIds` / cross-local roles and re-validates `bargainingUnitId` via tenant loader.
 **Problem/Gap Statement:** A client can change its own session's `localId`/`bargainingUnitId` via NextAuth's `session.update()` (used legitimately by the Hub context switcher for elevated multi-local admins) with no server-side check that the requested value is actually in the user's `accessibleLocalIds` or that their role permits cross-local switching. A non-elevated user could, in principle, set an arbitrary `localId` client-side and have subsequent API calls scope reads/writes to that local.
 **Affected Architecture/Files:** `src/auth.config.ts` (`jwt()` callback, `trigger === "update"` branch), `src/components/hub/HubContextSwitcher.tsx`
 **Implementation Blueprint:**
@@ -82,9 +86,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 3. Keep the demo roster available only behind an explicit `NEXT_PUBLIC_DEMO_SITE=true` gate (already used elsewhere for the demo banner) and never enabled by default for a fresh self-host.
 4. Add a password-reset flow (token + expiry) once transactional email exists (tracked separately in `docs/ROADMAP.md`).
 
-### [SEC-008]
+### [SEC-008] ✅ CLOSED (2026-07-23)
 **Category:** Security
 **Severity/Priority:** Medium
+**Status:** Closed — CSP and related headers live in `next.config.ts` `headers()`; `vercel.json` retains only `/sw.js` cache rules.
 **Problem/Gap Statement:** `next.config.ts` only sets response headers for `/sw.js`. The strong CSP/security headers that exist in `vercel.json` (X-Frame-Options, CSP, referrer/permissions policy) apply **only** to Vercel deployments. Self-hosted CapRover/Docker deployments (the primary supported self-host path per `docs/guides/DEPLOY.md`) get **no CSP at all** unless the operator's own reverse proxy happens to add one — which the deploy guide does not instruct them to do.
 **Affected Architecture/Files:** `next.config.ts`, `vercel.json`, `docs/guides/DEPLOY.md`
 **Implementation Blueprint:**
@@ -102,9 +107,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Consider adding `Cache-Control: no-store` and confirming no server-side logging captures the response body for this route.
 3. No code change required if TLS is enforced end-to-end in deployment guides — cross-check `docs/guides/DEPLOY.md` explicitly requires HTTPS (`AUTH_URL` uses `https://` in production).
 
-### [SEC-010]
+### [SEC-010] ✅ CLOSED (2026-07-23)
 **Category:** Security
 **Severity/Priority:** Low
+**Status:** Closed — `env.example` deprecated pointer; `.env.example` remains canonical with blank `AUTH_SECRET`.
 **Problem/Gap Statement:** Two environment example files exist with different philosophies: `.env.example` (blank `AUTH_SECRET=`, referenced by `docs/guides/SETUP.md`) and `env.example` (pre-filled with the literal `dev-secret-change-in-production`, not referenced by docs). A self-hosting operator who copies the wrong one, or who is unaware of the second file, could deploy with the known placeholder secret from SEC-004.
 **Affected Architecture/Files:** `.env.example`, `env.example`
 **Implementation Blueprint:**
@@ -125,9 +131,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Update the marketplace `DELETE` handler to use the same shared `canDeleteSharedContent` helper instead of its bespoke inline check, so `division_admin` is included consistently.
 3. Add unit tests: a non-owner `local_steward` should be rejected from deleting another steward's snippet; a `local_president`/`division_admin` should be allowed.
 
-### [RBAC-002]
+### [RBAC-002] ✅ CLOSED (2026-07-23)
 **Category:** RBAC
 **Severity/Priority:** Medium
+**Status:** Closed — `/app` and `/app/audit` are Server Components calling `auth()` + redirect; ARCHITECTURE documents `src/proxy.ts`.
 **Problem/Gap Statement:** There is no single enforced choke point for `/app/*` server-rendered pages (see `active-context.md` §3) — `src/proxy.ts` handles most, but confidential-looking pages like `/app/audit` are plain client components gated only by `useSession()`. Data is still protected at the API layer today, but this pattern is fragile: a future page that fetches data during SSR (rather than via a client `useEffect` + `fetch`) would have no equivalent protection.
 **Affected Architecture/Files:** `src/proxy.ts`, `src/app/[locale]/app/audit/page.tsx`, `src/app/[locale]/app/page.tsx`
 **Implementation Blueprint:**

@@ -1863,7 +1863,7 @@
     "verifyMfa": "Vérifier",
     "verifying": "Vérification...",
     "mfaError": "Code invalide — utilisez AUTH_DEV_MFA_CODE (défaut 000000)",
-    "mfaDevHint": "Mode dev : entrez 000000 (ou AUTH_DEV_MFA_CODE / AUTH_MFA_CODE)",
+    "mfaDevHint": "Défaut dev : entrez 000000 (ou AUTH_DEV_MFA_CODE). La production exige AUTH_MFA_MODE.",
     "mfaRequired": "AMF requise",
     "mfaOk": "AMF vérifiée",
     "mfaVerified": "Identité vérifiée",
