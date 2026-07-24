@@ -70,6 +70,42 @@ export function informalLogDbBackend(
   return resolveBackend("INFORMAL_LOG_DB_BACKEND", env);
 }
 
+export function minutesDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("MINUTES_DB_BACKEND", env);
+}
+
+export function ledgerDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("LEDGER_DB_BACKEND", env);
+}
+
+export function officersDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("OFFICERS_DB_BACKEND", env);
+}
+
+export function travelDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("TRAVEL_DB_BACKEND", env);
+}
+
+export function committeesDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("COMMITTEES_DB_BACKEND", env);
+}
+
+export function electionsDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("ELECTIONS_DB_BACKEND", env);
+}
+
 /** True when any confidential module still uses the in-memory store. */
 export function isMemoryCaseDataActive(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -82,6 +118,12 @@ export function isMemoryCaseDataActive(
     attachmentsDbBackend(env) === "memory" ||
     discussionsDbBackend(env) === "memory" ||
     tasksDbBackend(env) === "memory" ||
-    informalLogDbBackend(env) === "memory"
+    informalLogDbBackend(env) === "memory" ||
+    minutesDbBackend(env) === "memory" ||
+    ledgerDbBackend(env) === "memory" ||
+    officersDbBackend(env) === "memory" ||
+    travelDbBackend(env) === "memory" ||
+    committeesDbBackend(env) === "memory" ||
+    electionsDbBackend(env) === "memory"
   );
 }

@@ -62,6 +62,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       description:
         "Print QR action cards for petitions and campaigns — link to your external sign-on page. Free and on your device.",
     },
+    "pulse-poll": {
+      title: "Free Union Pulse Poll Creator",
+      description:
+        "Author branded bargaining pulse polls and print a QR share card. Responses are not collected in-app yet — privacy-first authoring only.",
+    },
     "qr-board": {
       title: "Free Union QR Board Poster Maker",
       description:
@@ -138,6 +143,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       title: "Créateur de cartes d'action gratuit",
       description:
         "Imprimez des cartes QR pour pétitions et campagnes — lien vers votre page d'adhésion externe. Gratuit, sur votre appareil.",
+    },
+    "pulse-poll": {
+      title: "Créateur de sondage éclair syndical gratuit",
+      description:
+        "Rédigez des sondages de négociation avec votre marque et imprimez une carte QR. Les réponses ne sont pas encore collectées dans l’appli.",
     },
     "qr-board": {
       title: "Créateur d'affiches QR pour babillard gratuit",

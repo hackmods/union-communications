@@ -22,6 +22,7 @@ export type NavLinkKey =
   | "qrBoard"
   | "qrCard"
   | "actionCard"
+  | "pulsePoll"
   | "flyerMaker"
   | "graphicMaker"
   | "quoteCard"
@@ -121,6 +122,7 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/meeting-background", key: "meetingBackground" },
       { href: "/tools/website-template", key: "websiteTemplate" },
       { href: "/tools/alt-text", key: "altText" },
+      { href: "/tools/pulse-poll", key: "pulsePoll" },
     ],
   },
 ] as const;

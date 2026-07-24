@@ -94,6 +94,46 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
     policy: "informal_log_entries_tenant_isolation",
     migration: "0010_informal_log.sql",
   },
+  {
+    table: "officer_roster",
+    policy: "officer_roster_tenant_isolation",
+    migration: "0011_officer_roster.sql",
+  },
+  {
+    table: "meeting_minutes",
+    policy: "meeting_minutes_tenant_isolation",
+    migration: "0012_meeting_minutes.sql",
+  },
+  {
+    table: "ledger_entries",
+    policy: "ledger_entries_tenant_isolation",
+    migration: "0013_ledger.sql",
+  },
+  {
+    table: "committees",
+    policy: "committees_tenant_isolation",
+    migration: "0014_committees.sql",
+  },
+  {
+    table: "election_cycles",
+    policy: "election_cycles_tenant_isolation",
+    migration: "0015_elections.sql",
+  },
+  {
+    table: "travel_authorizations",
+    policy: "travel_authorizations_tenant_isolation",
+    migration: "0016_travel.sql",
+  },
+  {
+    table: "cash_advances",
+    policy: "cash_advances_tenant_isolation",
+    migration: "0016_travel.sql",
+  },
+  {
+    table: "expense_claims",
+    policy: "expense_claims_tenant_isolation",
+    migration: "0016_travel.sql",
+  },
 ] as const;
 
 /** App role that must not own tables / must not bypass RLS. */

@@ -13,6 +13,8 @@ export interface AttachmentMeta {
   bargainingUnitId?: string;
   grievanceId?: string;
   bumpingCaseId?: string;
+  /** ORG-008 — receipt photos/PDFs for an expense claim. */
+  expenseClaimId?: string;
   fileName: string;
   mimeType: string;
   sizeBytes: number;

@@ -8,8 +8,16 @@ import { getVisibleModules } from "@/lib/modules/registry";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canInitiateHandoff } from "@/lib/handoff/package";
 import { canAccessBumpingModule } from "@/lib/bumping/access";
-import { canAccessGrievanceModule } from "@/lib/grievance/access";
-import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import {
+  canAccessGrievanceModule,
+  canCrossLocalGrievance,
+  isElevatedGrievanceRole,
+} from "@/lib/grievance/access";
+import { canAccessCommitteesModule } from "@/lib/committees/access";
+import { canAccessElectionsModule } from "@/lib/elections/access";
+import { canAccessMinutesModule } from "@/lib/minutes/access";
+import { canAccessOfficerRoster } from "@/lib/officers/access";
+import { canAccessTravelModule } from "@/lib/travel/access";
 import type { HubModule, UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
@@ -42,6 +50,16 @@ export function HubNav() {
     canCrossLocalGrievance(roles) ||
     roles.includes("local_president") ||
     roles.includes("local_exec");
+  const showReports = isElevatedGrievanceRole(roles);
+  const showMinutes = canAccessMinutesModule(roles);
+  const showOfficers = canAccessOfficerRoster(roles);
+  const showCommittees = canAccessCommitteesModule(roles);
+  const showElections = canAccessElectionsModule(roles);
+  const showTravel = canAccessTravelModule(roles);
+  const showLedger =
+    roles.includes("local_president") ||
+    roles.includes("local_exec") ||
+    canCrossLocalGrievance(roles);
 
   const toolLinks = [
     showCalendar && {
@@ -64,6 +82,22 @@ export function HubNav() {
       href: "/app/documents",
       label: t("documentsLink"),
     },
+    showMinutes && {
+      href: "/app/minutes",
+      label: t("minutesLink"),
+    },
+    showOfficers && {
+      href: "/app/officers",
+      label: t("officersLink"),
+    },
+    showCommittees && {
+      href: "/app/committees",
+      label: t("committeesLink"),
+    },
+    showElections && {
+      href: "/app/elections",
+      label: t("electionsLink"),
+    },
     showHandoff && {
       href: "/app/handoff",
       label: t("handoffLink"),
@@ -71,6 +105,18 @@ export function HubNav() {
     hasGrievance && {
       href: "/app/hybrid",
       label: t("hybridLink"),
+    },
+    showLedger && {
+      href: "/app/ledger",
+      label: t("ledgerLink"),
+    },
+    showTravel && {
+      href: "/app/travel",
+      label: t("travelLink"),
+    },
+    showReports && {
+      href: "/app/reports",
+      label: t("reportsLink"),
     },
     showAudit && {
       href: "/app/audit",

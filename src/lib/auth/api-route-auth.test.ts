@@ -33,6 +33,12 @@ const AUTH_MARKERS = [
   "requireTaskSession",
   "requireDiscussionsSession",
   "requireInformalLogSession",
+  "requireMinutesSession",
+  "requireLedgerSession",
+  "requireOfficerRosterSession",
+  "requireCommitteesSession",
+  "requireElectionsSession",
+  "requireTravelSession",
 ];
 
 describe("API route auth coverage", () => {

@@ -514,13 +514,14 @@ Added 2026-07-23 from a follow-up feasibility review (not part of the original f
 **Implementation Blueprint (Full petition/signature collection — do NOT build without a separate design + compliance pass):**
 3. If ever pursued, this needs its own ADR: a new public API surface accepting anonymous submissions scoped by `unionId`/`localId`, explicit consent copy at point of collection (parallel to the existing `ConsentModal.tsx` pattern for member photos), a retention/deletion policy, and it is blocked on `SEC-003` (Postgres) for the same reason `FUTURE-006` is — there is nowhere durable to put the data today. Do not build this as an in-memory-adapter MVP; unlike internal casework, a lost public petition/pledge list is a reputational and possibly legal (implied consent to be contacted) problem, not just a data-loss annoyance.
 
-### [FUTURE-006]
-**Category:** Feature Parity, **blocked on `SEC-003`**
-**Severity/Priority:** Medium, deferred
+### [FUTURE-006] 🟡 PARTIAL (2026-07-23)
+**Category:** Feature Parity, **response collection blocked on `SEC-003`**
+**Severity/Priority:** Medium
+**Status:** Partial — authoring shipped (`/tools/pulse-poll` + Brand Kit + question builder + print/QR to `/poll/[slug]` placeholder with explicit no-collection privacy copy; localStorage draft). Response collection, public submit API, and Hub results remain deferred until Postgres.
 **Problem/Gap Statement:** No bargaining-survey/pulse-poll tool exists. Unlike the Comms canvas tools, a survey's value is in *aggregating* responses across many members — that is structurally not "local-first, on-device" (the officer authoring the survey and the members answering it are different people/devices), so this cannot reuse the client-only Comms tool pattern the way `FUTURE-005`'s MVP can. It needs a real (if minimal) public submission endpoint and a Hub-side results view.
-**Affected Architecture/Files:** new `src/app/[locale]/tools/pulse-poll/{layout,page}.tsx` (authoring, local-first, reuses `ToolEditorLayout`), new public response route (e.g. `src/app/[locale]/poll/[slug]/page.tsx`), new `src/app/api/polls/**`, new `src/lib/polls/memory-adapter.ts` (temporary) → DB-backed adapter once `SEC-003` lands
+**Affected Architecture/Files:** `src/app/[locale]/tools/pulse-poll/{layout,page}.tsx`, `src/app/[locale]/poll/[slug]/page.tsx`, `src/lib/comms/pulse-poll.ts` (authoring); collection half still deferred (`/api/polls/**`, Hub results)
 **Implementation Blueprint:**
-1. Authoring UI (officer-side) can ship early and stay fully local-first: build the question set, theme it, and get a print/QR-shareable link — this half mirrors `qr-card`/`board-notice` exactly.
+1. Authoring UI (officer-side) can ship early and stay fully local-first: build the question set, theme it, and get a print/QR-shareable link — this half mirrors `qr-card`/`board-notice` exactly. ✅
 2. The response-collection half (member-side) is the blocked part: it needs a public route that accepts anonymous submissions scoped to `unionId`/`localId`/optional `bargainingUnitId`, basic anti-abuse (single-submission token in the shared link, or simple rate-limit by IP+fingerprint — no third-party analytics/tracking per the platform's "Do Not" rule), and a Hub-side aggregate results view gated by the same RBAC tier as CA snippets (`canManageQolContent`).
 3. Do not ship the response-collection half on the in-memory adapters — a poll that silently loses responses (per `SEC-003`) actively damages trust in a bargaining campaign at the exact moment the union needs members to trust the tool. Gate this ticket's public-facing half behind `SEC-003` explicitly; the authoring half has no such dependency and can be prototyped anytime.
 4. Once built, results should export via the existing document-generation stack (`exceljs` for a raw CSV/XLSX dump, consistent with the Time module's existing CSV export precedent).
@@ -537,9 +538,10 @@ Added 2026-07-23. Question posed: once the `SEC-`/`RBAC-`/`FEAT-`/`FUTURE-` item
 - **(B) Explicitly a Non-Goal today** (`docs/VISION.md` §Non-Goals: "Replacing national union ERP/HR systems") — dues collection, per-capita remittance to the parent union, and full member/HR records. Do **not** build these; see `ORG-007` for the recommended integration-only posture instead.
 - **(C) Already fully scoped elsewhere — do not duplicate.** General membership-meeting scheduling, recurrence, and RSVP is exhaustively specced (and deliberately deferred behind Postgres) in `docs/modules/CALENDAR_MEETINGS.md` / `.cursor/rules/calendar-meetings.mdc`. A general document vault for CBAs/bylaws/minutes is `FEAT-001` above. Read those before proposing either again — `ORG-003` and `ORG-005` below explicitly cross-reference and extend them rather than re-scoping them.
 
-### [ORG-001]
+### [ORG-001] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Medium
+**Status:** Closed — `MeetingMinutes` / `Motion` types; memory + optional `MINUTES_DB_BACKEND=postgres` (migration `0012_meeting_minutes` + RLS; `0011` reserved for officers); CRUD `/api/minutes` + approve; Hub `/app/minutes` list/create/detail; DOCX export via dynamic `docx`; EN/FR + HubNav tools link. Deccoupled from calendar/RSVP.
 **Problem/Gap Statement:** There is no way to record **motions and votes** for exec board or general membership meetings. `docs/modules/CALENDAR_MEETINGS.md` covers *scheduling* a meeting and collecting RSVPs — it says nothing about capturing what happened *at* the meeting. Every local constitution requires motions to be moved, seconded, voted, and minuted; today that's 100% pen-and-paper or an external Word doc with zero connection to the platform.
 **Affected Architecture/Files:** none yet — nearest shape precedent is `CommitteeSession`/`CommitteeNote` in `src/types/bumping.ts` (bumping-committee-scoped only, not reusable as-is)
 **Implementation Blueprint:**
@@ -548,39 +550,43 @@ Added 2026-07-23. Question posed: once the `SEC-`/`RBAC-`/`FEAT-`/`FUTURE-` item
 3. This is deliberately **decoupled** from `docs/modules/CALENDAR_MEETINGS.md`'s future `UnionMeeting`/RSVP entities — minutes-taking should not be blocked on that spec's Postgres-gated RSVP work; it can ship as its own small memory-adapter module first (same persistence caveat as everything else pre-`SEC-003`) and link to a `UnionMeeting` row later once that exists.
 4. Export minutes to PDF/DOCX via the existing document-generation stack (`docx`/`docxtemplater`, already dependencies) for archival and emailing to members who couldn't attend.
 
-### [ORG-002]
+### [ORG-002] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Medium
+**Status:** Closed — `OfficerRosterEntry` types + memory/Drizzle (`OFFICERS_DB_BACKEND`, migration `0011_officer_roster` + RLS) + `/api/officers` CRUD gated via `canManageOfficerRoster` / `requireOfficerRosterSession` (president/admin via `canInitiateHandoff`); Hub `/app/officers` roster with term-expiring banner (60 days) + handoff link; EN/FR + HubNav; demo seed for local-243. Distinct from Comms letterhead `Officer` in `entities.ts`.
 **Problem/Gap Statement:** `Officer` (`src/types/entities.ts`) is `{ id, name, role, localId }` — a letterhead/signature-block value object for Comms exports, not a governance record. There is no term start/end date anywhere in the codebase (verified: no `termStart`/`termEnd`/`electedAt` field exists), so the platform cannot answer "who is currently the Vice-President" or "when does this steward's term expire" in any structured way, even though the Handoff module (`src/lib/handoff/package.ts`) assumes officers rotate.
-**Affected Architecture/Files:** `src/types/entities.ts` (`Officer`), `src/lib/handoff/package.ts`
+**Affected Architecture/Files:** `src/types/officer-roster.ts`, `src/lib/officers/*`, `src/lib/auth/officers-session.ts`, `src/app/api/officers/**`, `src/app/[locale]/app/officers/page.tsx`, `src/components/hub/OfficerRosterBoard.tsx`, `src/lib/db/migrations/0011_officer_roster.sql`
 **Implementation Blueprint:**
 1. Extend (or add a sibling to, if the letterhead use case needs to stay lightweight) `Officer` with `termStart`, `termEnd?`, `email?`, `phone?`, `committees?: string[]` — a real roster, not just a name string for print.
 2. Surface a simple `/app/officers` roster page (list/add/edit, president/admin-gated) as the source of truth Handoff, Comms letterhead, and (once built) `ORG-003` elections all read from, instead of each feature re-typing officer names.
 3. Add a "term expiring soon" indicator reusing the existing Hub banner pattern (`DemoSiteBanner.tsx`-style) to prompt succession/handoff planning before a term lapses — a natural tie-in to the existing Handoff wizard (`/app/handoff`).
 
-### [ORG-003]
+### [ORG-003] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Low–Medium
+**Status:** Closed — `ElectionCycle` / `Nomination` types; memory + optional `ELECTIONS_DB_BACKEND=postgres` (migration `0015_elections` + RLS); CRUD `/api/elections` + nominations/tallies/promote/ballot; Hub `/app/elections`; printable DOCX ballot (dynamic `docx`); manual tallies only; promote-to-roster via `officerRosterStore`; EN/FR + HubNav. **Explicitly no online secret-ballot voting.**
 **Problem/Gap Statement:** No support for local elections or steward nominations exists — no self-nomination intake, no slate/ballot builder, no vote tabulation. Locals run executive elections (typically annually or biennially) and steward elections/appointments regularly; today this is entirely off-platform.
-**Affected Architecture/Files:** none yet — depends on `ORG-002`'s officer roster existing first
+**Affected Architecture/Files:** `src/types/elections.ts`, `src/lib/elections/*`, `src/lib/auth/elections-session.ts`, `src/app/api/elections/**`, `src/app/[locale]/app/elections/page.tsx`, `src/components/hub/ElectionsBoard.tsx`, `src/lib/db/migrations/0015_elections.sql`
 **Implementation Blueprint:**
 1. v1 scope deliberately small: a **nomination intake form** (member self-nominates or is nominated for a position, with an accept/decline step) plus a **printable/exportable ballot** — not live online secret-ballot voting, which raises its own integrity/anonymity requirements (voter eligibility, one-vote-per-member, secret ballot guarantees) that this platform's architecture (no member accounts, `docs/VISION.md`'s explicit "no `/member` portal") is not currently built to guarantee.
 2. Tabulation can stay manual/offline (committee counts paper or emailed ballots, enters final tallies into the tool) rather than the platform being the ballot box itself — this sidesteps the election-integrity problem while still giving officers a structured place to track candidates, positions, and results.
 3. On a result being recorded, offer a one-click "update officer roster" action feeding directly into `ORG-002`'s roster (elected candidate → new `Officer` row with `termStart` = today).
 4. Explicitly do **not** build online secret-ballot voting without a dedicated security/integrity design pass — flag this the same way `FUTURE-005`/`FUTURE-006` flag public data collection as needing its own review before scoping further.
 
-### [ORG-004]
+### [ORG-004] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Low
+**Status:** Closed — `Committee` entity (`memberOfficerIds`); memory + optional `COMMITTEES_DB_BACKEND=postgres` (migration `0014_committees` + RLS); CRUD `/api/committees`; Hub `/app/committees`; president/elevated gate; EN/FR + HubNav. References ORG-002 officer IDs; no meeting/motion machinery (ORG-001).
 **Problem/Gap Statement:** No roster exists for internal (non-bargaining) committees — Health & Safety, Social, Equity, Political Action, etc. `CommitteeSession`/`CommitteeNote` (`src/types/bumping.ts`) are hardcoded to the bumping/stability committee specifically and are not a general-purpose "who's on which committee" structure.
-**Affected Architecture/Files:** `src/types/bumping.ts` (nearest analogue, not reusable as-is), depends on `ORG-002`
+**Affected Architecture/Files:** `src/types/committees.ts`, `src/lib/committees/*`, `src/lib/auth/committees-session.ts`, `src/app/api/committees/**`, `src/app/[locale]/app/committees/page.tsx`, `src/components/hub/CommitteesBoard.tsx`, `src/lib/db/migrations/0014_committees.sql`
 **Implementation Blueprint:**
 1. Add a lightweight `Committee { id, name, description, memberOfficerIds: string[] }` entity referencing `ORG-002`'s officer roster — no separate meeting/motion machinery needed here (that's `ORG-001`, which any committee can use by tagging its `meetingType`/committee reference).
 2. Surface on a local's `/app/officers` (or a dedicated `/app/committees`) page as a simple grouping view — this is a small, low-risk addition once the officer roster exists.
 
-### [ORG-005]
+### [ORG-005] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Medium (high value, near-zero new persistence)
+**Status:** Closed — read-only `/app/reports` + `GET /api/reports/summary` aggregates existing grievance/bumping/time stores (date range; counts by status/step/category; union-business hours); elevated RBAC via `isElevatedGrievanceRole`; CSV/XLSX/PDF exports (`exceljs`/`jspdf` dynamic import); HubNav link; EN/FR; unit tests on pure helpers in `src/lib/reports/aggregate.ts`.
 **Problem/Gap Statement:** A local president or chief steward has no way to generate an aggregate report ("14 grievances filed this quarter, 9 resolved at Step 1, 2 at arbitration") for a membership meeting update or a report to the parent union. All the underlying data already exists (`Grievance`, `BumpingCase`, `TimeEntry` records) but there is no rollup/reporting view anywhere — only per-case detail pages and the raw audit log.
 **Affected Architecture/Files:** `src/lib/grievance/memory-adapter.ts`, `src/lib/bumping/memory-adapter.ts`, `src/lib/time/memory-adapter.ts` (read-only aggregation over existing data)
 **Implementation Blueprint:**
@@ -589,19 +595,21 @@ Added 2026-07-23. Question posed: once the `SEC-`/`RBAC-`/`FEAT-`/`FUTURE-` item
 3. RBAC: gate to elevated roles only (`isElevatedGrievanceRole`-equivalent) since aggregate case counts, even without member names, are still confidential-adjacent per `docs/COMPLIANCE.md`.
 4. This is one of the cheapest tickets in the entire backlog relative to its value — no new data model, no new persistence risk, just a query + export layer over what's already built.
 
-### [ORG-006]
+### [ORG-006] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Low
+**Status:** Closed — `LedgerEntry` types + memory/Drizzle (`LEDGER_DB_BACKEND`, migration `0013_ledger`) + `/api/ledger` CRUD gated to president/`local_exec` (treasurer) + elevated admins; Hub `/app/ledger` running balance + CSV/XLSX (dynamic `exceljs`); framed as local discretionary fund tracker (EN/FR); HubNav tools link. Not dues/ERP (`ORG-007`).
 **Problem/Gap Statement:** Locals commonly hold a small discretionary fund (solidarity/strike-support fund, social committee budget, convention delegate per-diems) that is distinct from dues/per-capita accounting (which is explicitly out of scope, see `ORG-007`). There is nowhere in the platform to log even a simple income/expense ledger for this local-controlled money, despite member-facing financial transparency being a common constitutional requirement for locals.
-**Affected Architecture/Files:** none yet
+**Affected Architecture/Files:** `src/types/ledger.ts`, `src/lib/ledger/*`, `src/lib/auth/ledger-session.ts`, `src/app/api/ledger/**`, `src/app/[locale]/app/ledger/page.tsx`, `src/components/hub/LedgerBoard.tsx`, `src/lib/db/migrations/0013_ledger.sql`
 **Implementation Blueprint:**
 1. Add a minimal `LedgerEntry { id, unionId, localId, date, description, amount, type: "income"|"expense", category, recordedById }` — genuinely simple bookkeeping, not accounting software (no reconciliation, no multi-currency, no invoicing).
 2. Surface a running-balance list view + CSV/XLSX export (again, `exceljs`, already a dependency) for a treasurer's report at membership meetings.
 3. Keep this explicitly framed in-product as "your local's discretionary fund tracker," not a dues/financial-ERP system, to avoid scope creep toward `ORG-007`'s Non-Goal territory.
 
-### [ORG-007] — Explicit Non-Build: Dues, Per-Capita, Member/HR Records
+### [ORG-007] ✅ ACKNOWLEDGED (2026-07-23) — Explicit Non-Build: Dues, Per-Capita, Member/HR Records
 **Category:** Feature Parity (guardrail, not a build ticket)
 **Severity/Priority:** N/A — this ticket exists to stop scope creep, not to schedule work
+**Status:** Acknowledged — no dues/PCI/member-HR system will be built; export-hook posture only (see VISION Non-Goals).
 **Problem/Gap Statement:** A real union local's back office also runs on dues collection, per-capita remittance to the parent union, and member/HR records (hire dates, classification, leaves) — all of which `docs/VISION.md`'s Non-Goals section explicitly excludes ("Replacing national union ERP/HR systems"). This is called out here only so a future agent doesn't accidentally propose building it after seeing `ORG-001`–`ORG-006`/`ORG-008` and assuming the gap-filling logic extends this far.
 **Affected Architecture/Files:** N/A
 **Implementation Blueprint:**
@@ -609,16 +617,17 @@ Added 2026-07-23. Question posed: once the `SEC-`/`RBAC-`/`FEAT-`/`FUTURE-` item
 2. If integration is ever wanted, prefer **export hooks** (e.g. a CSV export of `ORG-002`'s officer roster, or `ORG-005`'s reports, in a format the parent union's existing ERP/membership system can ingest) over building a parallel system.
 3. The existing `MembershipUrl` pattern (`src/types/entities.ts`, Brand Kit) — linking out to the parent union's own membership sign-up/update portal — is the correct model to keep following: point at the system of record, don't replicate it. `ORG-008` below follows the same "prepare and export, never integrate" posture for expense reconciliation.
 
-### [ORG-008]
+### [ORG-008] 🟡 PARTIAL (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Medium
+**Status:** Partial — travel auth + cash advance + expense claim + ledger post on advance/reconcile; memory + optional `TRAVEL_DB_BACKEND=postgres` (`0016_travel` + RLS); `/api/travel/**` RBAC; Hub `/app/travel`; PDF/XLSX export; `AttachmentMeta.expenseClaimId`; receipt ZIP stubbed (FEAT-001). No SAP/ERP integration.
 **Problem/Gap Statement:** No support exists for the common local workflow around delegate/steward travel to conventions, conferences, or training: requesting authorization ahead of the event (a "TAR"-style travel authorization), issuing a cash advance against it, tracking actual receipts during/after the event, and reconciling advance-vs-actual to a final owed-to-local or owed-to-officer amount. Locals then typically need to hand that reconciliation, with receipts attached, into whatever expense/accounting system the parent union runs (this ticket assumes that's an SAP-family portal — confirm the actual target system name before scoping the export format precisely, since "SAG" wasn't a term found anywhere in this codebase or docs). Today there is nothing between "book travel" and "hope someone remembers the receipts" — `AttachmentMeta` (`src/types/attachments.ts`) only attaches to a `grievanceId`/`bumpingCaseId`, and `ORG-006`'s ledger has no concept of an advance-and-reconcile lifecycle, only flat income/expense rows.
-**Affected Architecture/Files:** none yet — builds directly on `ORG-006` (`LedgerEntry`) and extends `src/types/attachments.ts` (`AttachmentMeta`) rather than inventing a parallel attachment system; real receipt image storage is blocked on `FEAT-001` (object storage) the same way every other attachment use case is
+**Affected Architecture/Files:** `src/types/travel.ts`, `src/lib/travel/*`, `src/lib/auth/travel-session.ts`, `src/app/api/travel/**`, `src/app/[locale]/app/travel/page.tsx`, `src/components/hub/TravelBoard.tsx`, `src/lib/db/migrations/0016_travel.sql`, `AttachmentMeta.expenseClaimId`
 **Implementation Blueprint:**
-1. Add `TravelAuthorization { id, unionId, localId, requestedById, purpose, eventName, eventDates, estimatedCosts: { travel, lodging, meals, registration, other }, status: "requested"|"approved"|"denied", approvedById?, approvedAt? }` — a lightweight pre-approval record, gated the same way `ORG-006`/`ORG-001` are (treasurer/president approves).
-2. Add `CashAdvance { id, travelAuthorizationId, amount, issuedAt, issuedById }` — issuing one posts an "expense: advance issued" row into `ORG-006`'s ledger immediately (the money has left the local's account even though it isn't reconciled yet).
-3. Add `ExpenseClaim` + `ExpenseLineItem { date, category, amount, description }` for the officer to log actual spend against the authorization after the event. Extend `AttachmentMeta` with an optional `expenseClaimId?` field (parallel to its existing optional `grievanceId?`/`bumpingCaseId?`) so receipt photos/PDFs reuse the exact same attachment pipeline instead of a new one — same real-storage dependency on `FEAT-001`, same scan pipeline (`src/lib/attachments/scan.ts`).
-4. On marking a claim reconciled: compute `sum(lineItems) − advanceAmount`; post the signed difference back into the `ORG-006` ledger as a single reconciling entry (positive = officer owes the local, negative = local owes the officer an additional reimbursement) so the discretionary-fund balance stays accurate without manual double-entry.
-5. Export a submission-ready package for the officer to hand off to the parent union's actual expense system: an itemized report (PDF/XLSX via the existing `docx`/`docxtemplater`/`exceljs` stack, matching the pattern already used for Time CSV / RSVP XLSX exports) plus receipt attachments bundled into a ZIP (`jszip`, already a dependency — same pattern as the Hybrid export bundle and `src/lib/templates/website/generate-website-zip.ts`).
-6. **Do not** attempt direct API integration with any parent union's expense/ERP system (SAP-family or otherwise) — that is squarely `ORG-007`'s Non-Goal territory ("replacing national union ERP/HR systems"). The scope here is strictly "organize what that system will need," never "talk to that system," consistent with `docs/VISION.md`'s "fills the gap without replacing national union systems" framing.
-7. RBAC: claimant can create/edit their own `TravelAuthorization`/`ExpenseClaim` while in draft; approval, advance issuance, and marking-reconciled are elevated-role actions — reuse the same gating pattern as `canManageQolContent` (`src/lib/qol/access.ts`).
+1. Add `TravelAuthorization { id, unionId, localId, requestedById, purpose, eventName, eventDates, estimatedCosts: { travel, lodging, meals, registration, other }, status: "requested"|"approved"|"denied", approvedById?, approvedAt? }` — a lightweight pre-approval record, gated the same way `ORG-006`/`ORG-001` are (treasurer/president approves). ✅
+2. Add `CashAdvance { id, travelAuthorizationId, amount, issuedAt, issuedById }` — issuing one posts an "expense: advance issued" row into `ORG-006`'s ledger immediately (the money has left the local's account even though it isn't reconciled yet). ✅
+3. Add `ExpenseClaim` + `ExpenseLineItem { date, category, amount, description }` for the officer to log actual spend against the authorization after the event. Extend `AttachmentMeta` with an optional `expenseClaimId?` field (parallel to its existing optional `grievanceId?`/`bumpingCaseId?`) so receipt photos/PDFs reuse the exact same attachment pipeline instead of a new one — same real-storage dependency on `FEAT-001`, same scan pipeline (`src/lib/attachments/scan.ts`). ✅ (field + migration column; upload wiring still FEAT-001)
+4. On marking a claim reconciled: compute `sum(lineItems) − advanceAmount`; post the signed difference back into the `ORG-006` ledger as a single reconciling entry (positive = officer owes the local, negative = local owes the officer an additional reimbursement) so the discretionary-fund balance stays accurate without manual double-entry. ✅ (implemented as spend−advance → positive = local owes officer / expense; negative = officer owes local / income — matching real-world advance reconcile)
+5. Export a submission-ready package for the officer to hand off to the parent union's actual expense system: an itemized report (PDF/XLSX via the existing `docx`/`docxtemplater`/`exceljs` stack, matching the pattern already used for Time CSV / RSVP XLSX exports) plus receipt attachments bundled into a ZIP (`jszip`, already a dependency — same pattern as the Hybrid export bundle and `src/lib/templates/website/generate-website-zip.ts`). ✅ PDF/XLSX; ZIP is README stub until receipts attach
+6. **Do not** attempt direct API integration with any parent union's expense/ERP system (SAP-family or otherwise) — that is squarely `ORG-007`'s Non-Goal territory ("replacing national union ERP/HR systems"). The scope here is strictly "organize what that system will need," never "talk to that system," consistent with `docs/VISION.md`'s "fills the gap without replacing national union systems" framing. ✅
+7. RBAC: claimant can create/edit their own `TravelAuthorization`/`ExpenseClaim` while in draft; approval, advance issuance, and marking-reconciled are elevated-role actions — reuse the same gating pattern as `canManageQolContent` (`src/lib/qol/access.ts`). ✅ (money actions use ledger/treasurer gate)
