@@ -190,11 +190,11 @@ Do **not** reuse `ScheduledMeeting` (grievance-scoped, Confidential).
 - Member accounts, dashboards, or grievance-linked RSVPs
 - Marketing broadcast lists collected from RSVP emails without separate consent copy
 
-### Phase R2 — Officer reminders (logged-in)
+### Phase R2 — Officer reminders (logged-in) ✅
 
-- Hub banner: “LEC in 3 days — quorum N/Need · food heads F (on site)”
-- Optional ICS `VALARM` on membership meeting export
-- Copy-only `membership_meeting_reminder` draft that includes the public RSVP link
+- [x] Hub banner: “LEC in 3 days — quorum N/Need · food heads F (on site)” (`MeetingReminderBanner` + `/api/meetings/upcoming` tallies)
+- [x] Optional ICS `VALARM` on membership meeting export
+- [x] Copy-only `membership_meeting_reminder` draft (`src/lib/comms/membership-meeting-reminder.ts`) on Hub Events board — includes public RSVP link when token active; no auto-send
 
 ### Phase R3 — Transactional email ✅ shipped 2026-07-24
 
@@ -236,7 +236,7 @@ Current roadmap priority remains: **Postgres+RLS → onboarding UI → attachmen
 
 - [x] In-app hub banner ("Membership meeting in N days") — `MeetingReminderBanner`, 7-day window
 - [x] Optional ICS with `VALARM` — `reminderMinutesBefore` on `buildIcsEvent`
-- [ ] Copy-only `membership_meeting_reminder` email draft template
+- [x] Copy-only `membership_meeting_reminder` email draft template (Hub Events board)
 
 ### Phase C — Transactional email ✅ shipped 2026-07-24 (ADR-016)
 

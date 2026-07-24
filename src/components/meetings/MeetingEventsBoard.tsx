@@ -1,11 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { EmptyState } from "@/components/ui/EmptyState";
+import {
+  buildMailto,
+  buildMembershipMeetingReminder,
+} from "@/lib/comms/membership-meeting-reminder";
 import { qrDataUrl } from "@/lib/export/qr";
+import { copyToClipboard } from "@/lib/utils";
+import { resolveLocalNumber } from "@/lib/utils/local";
 import type {
   MeetingRsvpTallies,
   RsvpAttending,
@@ -44,7 +50,8 @@ export function MeetingEventsBoard({
   showMemoryBanner?: boolean;
 }) {
   const t = useTranslations("meetingsRsvp");
-  const locale = useLocale();
+  const tc = useTranslations("common");
+  const locale = useLocale() as "en" | "fr";
   const [meetings, setMeetings] = useState<UnionMeeting[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -56,6 +63,9 @@ export function MeetingEventsBoard({
   const [tallies, setTallies] = useState<MeetingRsvpTallies | null>(null);
   const [qrUrl, setQrUrl] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [reminderCopied, setReminderCopied] = useState<
+    "subject" | "body" | null
+  >(null);
 
   const [title, setTitle] = useState("");
   const [startsAt, setStartsAt] = useState("");
@@ -250,11 +260,47 @@ export function MeetingEventsBoard({
     await loadDetail(selectedId);
   }
 
+  const activeToken = tokens.find(isTokenActive);
+  const selectedMeeting = meetings.find((m) => m.id === selectedId) ?? null;
+
+  const rsvpUrl =
+    activeToken && typeof window !== "undefined"
+      ? `${window.location.origin}/${locale}/r/${activeToken.token}`
+      : undefined;
+
+  const reminderEmail = useMemo(() => {
+    if (!selectedMeeting) return null;
+    return buildMembershipMeetingReminder(
+      {
+        title: selectedMeeting.title,
+        startsAt: selectedMeeting.startsAt,
+        endsAt: selectedMeeting.endsAt,
+        location: selectedMeeting.location,
+        publicBlurb: selectedMeeting.publicBlurb,
+        quorumNeeded: selectedMeeting.quorumNeeded,
+        quorumCount: tallies?.quorumCount,
+        foodHeads: tallies?.foodHeads,
+        rsvpUrl,
+        localNumber: resolveLocalNumber(),
+      },
+      { locale },
+    );
+  }, [selectedMeeting, tallies, rsvpUrl, locale]);
+
+  async function copyReminderPart(part: "subject" | "body") {
+    if (!reminderEmail) return;
+    const ok = await copyToClipboard(
+      part === "subject" ? reminderEmail.subject : reminderEmail.body,
+    );
+    if (ok) {
+      setReminderCopied(part);
+      window.setTimeout(() => setReminderCopied(null), 1500);
+    }
+  }
+
   if (loading) {
     return <p className="text-sm text-gray-600">{t("loading")}</p>;
   }
-
-  const activeToken = tokens.find(isTokenActive);
 
   return (
     <section className="mt-8 max-w-2xl space-y-4 border-t border-gray-200 pt-8">
@@ -454,6 +500,55 @@ export function MeetingEventsBoard({
                   className="rounded border border-gray-200 bg-white p-1"
                 />
               )}
+            </div>
+          )}
+
+          {reminderEmail && (
+            <div className="space-y-2 border-t border-gray-200 pt-3">
+              <h4 className="text-sm font-medium">{t("reminderDraft.title")}</h4>
+              <p className="text-xs text-gray-600">{t("reminderDraft.hint")}</p>
+              <Input
+                label={t("reminderDraft.subjectLabel")}
+                readOnly
+                value={reminderEmail.subject}
+                onFocus={(e) => e.currentTarget.select()}
+              />
+              <Textarea
+                label={t("reminderDraft.bodyLabel")}
+                readOnly
+                rows={8}
+                value={reminderEmail.body}
+                onFocus={(e) => e.currentTarget.select()}
+              />
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => void copyReminderPart("subject")}
+                >
+                  {reminderCopied === "subject"
+                    ? tc("copied")
+                    : t("reminderDraft.copySubject")}
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() => void copyReminderPart("body")}
+                >
+                  {reminderCopied === "body"
+                    ? tc("copied")
+                    : t("reminderDraft.copyBody")}
+                </Button>
+                <a
+                  href={buildMailto(reminderEmail)}
+                  className="inline-flex min-h-9 items-center justify-center rounded-lg border-2 border-opseu-blue px-3 py-1.5 text-sm font-semibold text-opseu-blue hover:bg-opseu-blue/5"
+                >
+                  {t("reminderDraft.openMail")}
+                </a>
+              </div>
+              <p className="text-xs text-gray-500">{t("reminderDraft.privacy")}</p>
             </div>
           )}
 

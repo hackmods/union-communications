@@ -5,6 +5,10 @@ import {
   requireTimeSession,
 } from "@/lib/auth/time-session";
 import { canAdminTime } from "@/lib/time/access";
+import {
+  buildTimeExportPdf,
+  buildTimeExportXlsx,
+} from "@/lib/time/export-rollup";
 import { timeStore } from "@/lib/time/store";
 import type { TimeEntry } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
@@ -55,6 +59,7 @@ export async function GET(request: Request) {
   const category = url.searchParams.get("category") ?? undefined;
   const from = url.searchParams.get("from") ?? undefined;
   const to = url.searchParams.get("to") ?? undefined;
+  const format = (url.searchParams.get("format") ?? "csv").toLowerCase();
   const filters = {
     ...listFiltersForTimeSession(session),
     workerId: undefined,
@@ -63,17 +68,38 @@ export async function GET(request: Request) {
     to,
   };
   const entries = await timeStore.listEntries(filters);
-  const csv = toCsv(entries);
 
   await auditLog.log({
     userId: session.user.id,
-    action: "time.export.csv",
+    action: `time.export.${format === "xlsx" || format === "pdf" ? format : "csv"}`,
     resourceType: "time_entry",
     resourceId: "*",
     unionId: session.user.unionId,
     localId: session.user.localId,
   });
 
+  if (format === "xlsx") {
+    const buf = await buildTimeExportXlsx(entries);
+    return new NextResponse(new Uint8Array(buf), {
+      headers: {
+        "Content-Type":
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "Content-Disposition": 'attachment; filename="time-export.xlsx"',
+      },
+    });
+  }
+
+  if (format === "pdf") {
+    const blob = await buildTimeExportPdf(entries);
+    return new NextResponse(blob, {
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": 'attachment; filename="time-rollup.pdf"',
+      },
+    });
+  }
+
+  const csv = toCsv(entries);
   return new NextResponse(csv, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",

@@ -2633,6 +2633,16 @@
     "source": {
       "public_form": "Formulaire public",
       "officer_entry": "Saisie dirigeant"
+    },
+    "reminderDraft": {
+      "title": "Brouillon de rappel (copie seule)",
+      "hint": "Copiez ce rappel pour les dirigeants — inclut le lien RSVP public quand un jeton est actif. Aucun envoi automatique.",
+      "subjectLabel": "Objet",
+      "bodyLabel": "Message",
+      "copySubject": "Copier l'objet",
+      "copyBody": "Copier le message",
+      "openMail": "Ouvrir le courriel",
+      "privacy": "Brouillon sur appareil. Pas de liste membre. SMTP rappel personnel reste optionnel dans le Hub."
     }
   },
   "rsvpPublic": {
@@ -2965,7 +2975,22 @@
     "widgetTitle": "Mes tâches",
     "widgetDesc": "Tâches ouvertes qui vous sont assignées.",
     "widgetEmpty": "Aucune tâche ouverte qui vous est assignée.",
-    "widgetLink": "Ouvrir le tableau des tâches"
+    "widgetLink": "Ouvrir le tableau des tâches",
+    "relatedPanel": {
+      "title": "Tâches liées",
+      "hint": "Tâches liées à ce dossier. Ouvrez le tableau des tâches pour tous les filtres.",
+      "openBoard": "Ouvrir le tableau des tâches",
+      "empty": "Aucune tâche liée pour l'instant.",
+      "loadError": "Impossible de charger les tâches liées",
+      "createError": "Impossible de créer la tâche",
+      "updateError": "Impossible de mettre à jour la tâche",
+      "titleField": "Titre de la tâche",
+      "dueField": "Échéance (optionnel)",
+      "add": "Ajouter une tâche",
+      "saving": "Enregistrement…",
+      "markDone": "Marquer comme faite",
+      "due": "Échéance {date}"
+    }
   },
   "hybrid": {
     "title": "Mode de données hybride",
@@ -3469,7 +3494,30 @@
       "clock": "Pointage",
       "manual_range": "Plage passée",
       "bulk_event": "Événement de groupe"
-    }
+    },
+    "sitesTitle": "Sites de travail et géorepérage",
+    "sitesHint": "Sites GPS optionnels. Avertir ou bloquer les pointages hors rayon quand le GPS est partagé.",
+    "sitesEmpty": "Aucun site pour l'instant.",
+    "siteName": "Nom du site",
+    "siteLat": "Latitude",
+    "siteLng": "Longitude",
+    "siteRadius": "Rayon de géorepérage (m)",
+    "siteGeofenceMode": "Mode de géorepérage",
+    "addSite": "Ajouter un site",
+    "siteInactive": "inactif",
+    "siteError": "Impossible d'enregistrer le site",
+    "siteValidationError": "Entrez un nom, lat/lng valides et un rayon.",
+    "geofenceModes": {
+      "off": "Désactivé",
+      "warn": "Avertir",
+      "block": "Bloquer"
+    },
+    "exportXlsx": "Exporter XLSX",
+    "exportPdf": "Exporter le sommaire PDF",
+    "bulkApprove": "Approuver la sélection ({count})",
+    "selectAllSubmitted": "Sélectionner toutes les soumises",
+    "selectEntry": "Sélectionner l'entrée de {name}",
+    "bulkApproveError": "Impossible d'approuver en lot"
   },
   "assets": {
     "title": "Trousse d'actifs de marque",

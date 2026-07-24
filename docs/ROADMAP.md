@@ -79,9 +79,10 @@
 - [x] Expected windows + weekday gap “entry needed” board
 - [x] Submit/approve workflow + admin board + date-scoped CSV / union-business report
 - [x] Optional GPS punch tagging (client consent checkbox)
-- [ ] Postgres + RLS persistence (requires Phase 6)
-- [ ] Full workers/sites, scheduling, PTO, OT policies, PDF/XLSX union rollup
-- [ ] Geofence admin UI + punch photo attachments (Phase 7)
+- [x] Postgres + RLS persistence (`TIME_DB_BACKEND=postgres`; memory default)
+- [x] Sites / geofence admin + bulk approve + XLSX/PDF rollup (8b, 2026-07-24)
+- [ ] Full workers directory beyond lite roster, scheduling, PTO, OT policies
+- [ ] Punch photo attachments; hybrid time slice
 
 Spec: [`docs/modules/WORKFORCE_TIME.md`](modules/WORKFORCE_TIME.md)
 

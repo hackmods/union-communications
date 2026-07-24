@@ -2658,6 +2658,16 @@
     "source": {
       "public_form": "Public form",
       "officer_entry": "Officer entry"
+    },
+    "reminderDraft": {
+      "title": "Officer reminder draft (copy-only)",
+      "hint": "Copy this reminder for officers — includes the public RSVP link when a token is active. No auto-send.",
+      "subjectLabel": "Subject",
+      "bodyLabel": "Body",
+      "copySubject": "Copy subject",
+      "copyBody": "Copy body",
+      "openMail": "Open mail app",
+      "privacy": "On-device draft. No member list. Optional personal SMTP remind remains a separate Hub action."
     }
   },
   "rsvpPublic": {
@@ -2990,7 +3000,22 @@
     "widgetTitle": "My tasks",
     "widgetDesc": "Open tasks assigned to you.",
     "widgetEmpty": "No open tasks assigned to you.",
-    "widgetLink": "Open task board"
+    "widgetLink": "Open task board",
+    "relatedPanel": {
+      "title": "Related tasks",
+      "hint": "To-dos linked to this case. Open the Tasks board for full filters.",
+      "openBoard": "Open tasks board",
+      "empty": "No tasks linked yet.",
+      "loadError": "Could not load related tasks",
+      "createError": "Could not create task",
+      "updateError": "Could not update task",
+      "titleField": "Task title",
+      "dueField": "Due (optional)",
+      "add": "Add task",
+      "saving": "Saving…",
+      "markDone": "Mark done",
+      "due": "Due {date}"
+    }
   },
   "hybrid": {
     "title": "Hybrid data mode",
@@ -3494,7 +3519,30 @@
       "clock": "Clock",
       "manual_range": "Past range",
       "bulk_event": "Group event"
-    }
+    },
+    "sitesTitle": "Work sites & geofences",
+    "sitesHint": "Optional GPS punch sites. Warn or block punches outside the radius when GPS is shared.",
+    "sitesEmpty": "No sites yet.",
+    "siteName": "Site name",
+    "siteLat": "Latitude",
+    "siteLng": "Longitude",
+    "siteRadius": "Geofence radius (m)",
+    "siteGeofenceMode": "Geofence mode",
+    "addSite": "Add site",
+    "siteInactive": "inactive",
+    "siteError": "Could not save site",
+    "siteValidationError": "Enter a name, valid lat/lng, and radius.",
+    "geofenceModes": {
+      "off": "Off",
+      "warn": "Warn",
+      "block": "Block"
+    },
+    "exportXlsx": "Export XLSX",
+    "exportPdf": "Export PDF rollup",
+    "bulkApprove": "Approve selected ({count})",
+    "selectAllSubmitted": "Select all submitted",
+    "selectEntry": "Select entry for {name}",
+    "bulkApproveError": "Could not bulk-approve entries"
   },
   "installPage": {
     "title": "Install UnionOps on your desktop",

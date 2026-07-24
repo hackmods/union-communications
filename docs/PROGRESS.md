@@ -542,3 +542,9 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Export bundle includes `outcome` + computed `appealDueDate` (JSON + PDF summary)
 - [x] Optional `GrievanceStep.appealDays` (distinct from `responseDays`); reference seed Arbitration steps use `appealDays: 30`
 - [x] EN/FR `grievance.outcome.*`; unit tests for appeal math + export
+
+## R2 + case tasks + Time 8b (2026-07-24)
+
+- [x] Calendar R2 — copy-only `membership_meeting_reminder` on Hub Events board (banner tallies already shipped)
+- [x] `RelatedTasksPanel` on grievance + bumping detail (FEAT-003 case-detail follow-up)
+- [x] Time 8b — sites/geofence CRUD (`/api/time/sites`), bulk approve, XLSX/PDF export rollup

@@ -39,6 +39,7 @@ import type {
   ScheduledMeeting,
 } from "@/types/qol";
 import type { AttachmentMeta } from "@/types/attachments";
+import { RelatedTasksPanel } from "@/components/hub/RelatedTasksPanel";
 
 const OUTCOME_TYPES: GrievanceOutcomeType[] = [
   "upheld",
@@ -763,6 +764,8 @@ export function GrievanceDetail({ id }: { id: string }) {
           </form>
         )}
       </Card>
+
+      <RelatedTasksPanel relatedGrievanceId={id} />
 
       <Card className="mt-4">
         <CardTitle>{t("outcome.title")}</CardTitle>

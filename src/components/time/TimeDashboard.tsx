@@ -13,12 +13,14 @@ import { Badge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import type {
+  GeofenceMode,
   JobCode,
   TimeCategory,
   TimeEntry,
   TimeExpectedWindow,
   TimeNeededRow,
   TimeWorker,
+  WorkSite,
 } from "@/types/time";
 
 function statusBadgeVariant(
@@ -120,8 +122,10 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
   const [activeEntry, setActiveEntry] = useState<TimeEntry | null>(null);
   const [codes, setCodes] = useState<JobCode[]>([]);
   const [workers, setWorkers] = useState<TimeWorker[]>([]);
+  const [sites, setSites] = useState<WorkSite[]>([]);
   const [windows, setWindows] = useState<TimeExpectedWindow[]>([]);
   const [needed, setNeeded] = useState<TimeNeededRow[]>([]);
+  const [selectedEntryIds, setSelectedEntryIds] = useState<string[]>([]);
   const [reportTotals, setReportTotals] = useState<ReportTotals | null>(null);
   const [category, setCategory] = useState<TimeCategory>("release");
   const [jobCodeId, setJobCodeId] = useState("");
@@ -151,6 +155,11 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
   });
   const [windowAttendees, setWindowAttendees] = useState<string[]>([]);
   const [newWorkerName, setNewWorkerName] = useState("");
+  const [siteName, setSiteName] = useState("");
+  const [siteLat, setSiteLat] = useState("");
+  const [siteLng, setSiteLng] = useState("");
+  const [siteRadius, setSiteRadius] = useState("100");
+  const [siteMode, setSiteMode] = useState<GeofenceMode>("warn");
   const [reportFrom, setReportFrom] = useState(() => {
     const d = new Date();
     d.setDate(d.getDate() - 30);
@@ -171,9 +180,10 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
   }
 
   async function loadAdminExtras() {
-    const [workersRes, windowsRes] = await Promise.all([
+    const [workersRes, windowsRes, sitesRes] = await Promise.all([
       fetch("/api/time/workers"),
       fetch("/api/time/windows"),
+      fetch("/api/time/sites"),
     ]);
     if (workersRes.ok) {
       const data = await workersRes.json();
@@ -182,6 +192,10 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
     if (windowsRes.ok) {
       const data = await windowsRes.json();
       setWindows(data.windows);
+    }
+    if (sitesRes.ok) {
+      const data = await sitesRes.json();
+      setSites(data.sites);
     }
   }
 
@@ -249,7 +263,8 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
       void Promise.all([
         fetch("/api/time/workers"),
         fetch("/api/time/windows"),
-      ]).then(async ([workersRes, windowsRes]) => {
+        fetch("/api/time/sites"),
+      ]).then(async ([workersRes, windowsRes, sitesRes]) => {
         if (cancelled) return;
         if (workersRes.ok) {
           const data = await workersRes.json();
@@ -258,6 +273,10 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
         if (windowsRes.ok) {
           const data = await windowsRes.json();
           if (!cancelled) setWindows(data.windows);
+        }
+        if (sitesRes.ok) {
+          const data = await sitesRes.json();
+          if (!cancelled) setSites(data.sites);
         }
       });
     }
@@ -450,6 +469,64 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
     }
   }
 
+  async function handleAddSite() {
+    const lat = Number.parseFloat(siteLat);
+    const lng = Number.parseFloat(siteLng);
+    const radius = Number.parseFloat(siteRadius);
+    if (!siteName.trim() || Number.isNaN(lat) || Number.isNaN(lng) || Number.isNaN(radius)) {
+      setError(t("siteValidationError"));
+      return;
+    }
+    setWorking(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/time/sites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: siteName.trim(),
+          lat,
+          lng,
+          geofenceRadiusM: radius,
+          geofenceMode: siteMode,
+          active: true,
+        }),
+      });
+      if (!res.ok) throw new Error("site");
+      setSiteName("");
+      setSiteLat("");
+      setSiteLng("");
+      setSiteRadius("100");
+      setSiteMode("warn");
+      await loadAdminExtras();
+    } catch {
+      setError(t("siteError"));
+    } finally {
+      setWorking(false);
+    }
+  }
+
+  async function handleBulkApprove() {
+    if (selectedEntryIds.length === 0) return;
+    setWorking(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/time/entries/bulk-approve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selectedEntryIds }),
+      });
+      if (!res.ok) throw new Error("bulk");
+      setSelectedEntryIds([]);
+      await reloadEntries();
+      await loadNeeded();
+    } catch {
+      setError(t("bulkApproveError"));
+    } finally {
+      setWorking(false);
+    }
+  }
+
   async function handleAction(
     entryId: string,
     action: "submit" | "approve" | "reject",
@@ -472,12 +549,17 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
     }
   }
 
-  function handleExportCsv() {
+  function handleExport(format: "csv" | "xlsx" | "pdf" = "csv") {
     const qs = new URLSearchParams({
       from: localInputToIso(reportFrom),
       to: localInputToIso(reportTo),
+      format,
     });
     window.location.assign(`/api/time/export?${qs}`);
+  }
+
+  function handleExportCsv() {
+    handleExport("csv");
   }
 
   function toggleId(
@@ -843,6 +925,73 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
           </Card>
 
           <Card className="mt-6">
+            <CardTitle>{t("sitesTitle")}</CardTitle>
+            <p className="mt-1 text-sm text-gray-600">{t("sitesHint")}</p>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <Input
+                label={t("siteName")}
+                value={siteName}
+                onChange={(e) => setSiteName(e.target.value)}
+              />
+              <Select
+                label={t("siteGeofenceMode")}
+                value={siteMode}
+                onChange={(e) => setSiteMode(e.target.value as GeofenceMode)}
+              >
+                <option value="off">{t("geofenceModes.off")}</option>
+                <option value="warn">{t("geofenceModes.warn")}</option>
+                <option value="block">{t("geofenceModes.block")}</option>
+              </Select>
+              <Input
+                label={t("siteLat")}
+                type="number"
+                step="any"
+                value={siteLat}
+                onChange={(e) => setSiteLat(e.target.value)}
+              />
+              <Input
+                label={t("siteLng")}
+                type="number"
+                step="any"
+                value={siteLng}
+                onChange={(e) => setSiteLng(e.target.value)}
+              />
+              <Input
+                label={t("siteRadius")}
+                type="number"
+                min={0}
+                value={siteRadius}
+                onChange={(e) => setSiteRadius(e.target.value)}
+              />
+              <div className="flex items-end">
+                <Button
+                  variant="outline"
+                  onClick={() => void handleAddSite()}
+                  disabled={working}
+                >
+                  {t("addSite")}
+                </Button>
+              </div>
+            </div>
+            <ul className="mt-3 space-y-1 text-sm text-gray-700">
+              {sites.length === 0 ? (
+                <li className="text-gray-500">{t("sitesEmpty")}</li>
+              ) : (
+                sites.map((s) => (
+                  <li key={s.id}>
+                    {s.name}
+                    {" · "}
+                    {t(`geofenceModes.${s.geofenceMode}`)}
+                    {" · "}
+                    {s.geofenceRadiusM}m
+                    {!s.active ? ` · ${t("siteInactive")}` : ""}
+                  </li>
+                ))
+              )}
+            </ul>
+          </Card>
+
+          <Card className="mt-6">
             <CardTitle>{t("reportTitle")}</CardTitle>
             <p className="mt-1 text-sm text-gray-600">{t("reportHint")}</p>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -873,6 +1022,18 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
                 </Button>
                 <Button variant="outline" onClick={handleExportCsv}>
                   {t("exportCsv")}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => handleExport("xlsx")}
+                >
+                  {t("exportXlsx")}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => handleExport("pdf")}
+                >
+                  {t("exportPdf")}
                 </Button>
               </div>
             </div>
@@ -919,6 +1080,34 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
 
       <Card className="mt-6">
         <CardTitle>{isAdmin ? t("localBoard") : t("recentEntries")}</CardTitle>
+        {isAdmin && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={working || selectedEntryIds.length === 0}
+              onClick={() => void handleBulkApprove()}
+            >
+              {t("bulkApprove", { count: selectedEntryIds.length })}
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={
+                entries.filter((e) => e.status === "submitted").length === 0
+              }
+              onClick={() =>
+                setSelectedEntryIds(
+                  entries
+                    .filter((e) => e.status === "submitted")
+                    .map((e) => e.id),
+                )
+              }
+            >
+              {t("selectAllSubmitted")}
+            </Button>
+          </div>
+        )}
         {entries.length === 0 ? (
           <EmptyState className="mt-3" title={t("noEntries")} />
         ) : (
@@ -928,7 +1117,21 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
                 key={entry.id}
                 className="flex flex-wrap items-center justify-between gap-2 py-3 text-sm"
               >
-                <div>
+                <div className="flex min-w-0 flex-1 items-start gap-2">
+                  {isAdmin && entry.status === "submitted" && (
+                    <Checkbox
+                      checked={selectedEntryIds.includes(entry.id)}
+                      onChange={() =>
+                        toggleId(
+                          selectedEntryIds,
+                          entry.id,
+                          setSelectedEntryIds,
+                        )
+                      }
+                      aria-label={t("selectEntry", { name: entry.workerName })}
+                    />
+                  )}
+                  <div>
                   <p className="font-medium">
                     {isAdmin
                       ? entry.workerName
@@ -947,6 +1150,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
                     </Badge>
                     <span>· {t(`sources.${entry.entrySource}`)}</span>
                   </p>
+                  </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {!isAdmin && entry.status === "completed" && (

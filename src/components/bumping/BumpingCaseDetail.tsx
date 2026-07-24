@@ -22,6 +22,7 @@ import type {
   DiffLine,
 } from "@/types/bumping";
 import type { AttachmentMeta } from "@/types/attachments";
+import { RelatedTasksPanel } from "@/components/hub/RelatedTasksPanel";
 
 const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
 
@@ -403,6 +404,8 @@ export function BumpingCaseDetail({
           )}
         </Card>
       </div>
+
+      <RelatedTasksPanel relatedBumpingCaseId={id} />
 
       <Card className="mt-4">
         <CardTitle>{t("attachments.title")}</CardTitle>

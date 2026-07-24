@@ -39,6 +39,7 @@ Full spec: [`docs/modules/CALENDAR_MEETINGS.md`](../../docs/modules/CALENDAR_MEE
 
 ### R2 light / R3
 - Banner can show quorum/food for upcoming events
+- Copy-only `membership_meeting_reminder` draft on Hub Events board
 - `src/lib/email/send.ts` (nodemailer) when `EMAIL_ENABLED=true`
 
 ## RSVP phases
@@ -48,7 +49,7 @@ Full spec: [`docs/modules/CALENDAR_MEETINGS.md`](../../docs/modules/CALENDAR_MEE
 | **R0** Offline RSVP pack | Shipped |
 | **R0.5** Board Notice invite email | Shipped |
 | **R1** Hub event + `/r/[token]` | Shipped |
-| **R2** Officer prompts | Partial (banner + copy drafts) |
+| **R2** Officer prompts | Shipped (banner tallies + copy draft; cron deferred) |
 | **R3** Transactional SMTP | Shipped (opt-in; not auto member broadcast) |
 
 ## Agent alignment

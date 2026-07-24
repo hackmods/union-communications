@@ -15,6 +15,7 @@ import type {
   TimeNeededRow,
   TimeWorker,
   UpsertWorkerInput,
+  UpsertSiteInput,
   WorkSite,
 } from "@/types/time";
 
@@ -23,6 +24,7 @@ let codeSeq = 10;
 let workerSeq = 1;
 let windowSeq = 1;
 let eventSeq = 1;
+let siteSeq = 1;
 
 const entries: TimeEntry[] = [];
 const jobCodes: JobCode[] = [
@@ -121,6 +123,10 @@ function nextCodeId() {
 
 function nextWorkerId() {
   return `tw-${String(workerSeq++).padStart(4, "0")}`;
+}
+
+function nextSiteId() {
+  return `site-${String(siteSeq++).padStart(4, "0")}`;
 }
 
 function nextWindowId() {
@@ -391,9 +397,47 @@ export const memoryTimeStore: TimeAdapter = {
   },
 
   async listSites(unionId: string, localId: string): Promise<WorkSite[]> {
-    return sites.filter(
-      (s) => s.unionId === unionId && s.localId === localId && s.active,
-    );
+    return sites.filter((s) => s.unionId === unionId && s.localId === localId);
+  },
+
+  async upsertSite(
+    input: UpsertSiteInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<WorkSite> {
+    if (input.id) {
+      const idx = sites.findIndex(
+        (s) =>
+          s.id === input.id &&
+          s.unionId === meta.unionId &&
+          s.localId === meta.localId,
+      );
+      if (idx >= 0) {
+        sites[idx] = {
+          ...sites[idx],
+          name: input.name,
+          lat: input.lat,
+          lng: input.lng,
+          geofenceRadiusM: input.geofenceRadiusM,
+          geofenceMode: input.geofenceMode,
+          active: input.active ?? sites[idx].active,
+        };
+        return sites[idx];
+      }
+    }
+
+    const site: WorkSite = {
+      id: nextSiteId(),
+      unionId: meta.unionId,
+      localId: meta.localId,
+      name: input.name,
+      lat: input.lat,
+      lng: input.lng,
+      geofenceRadiusM: input.geofenceRadiusM,
+      geofenceMode: input.geofenceMode,
+      active: input.active ?? true,
+    };
+    sites.push(site);
+    return site;
   },
 
   async listWorkers(unionId: string, localId: string): Promise<TimeWorker[]> {

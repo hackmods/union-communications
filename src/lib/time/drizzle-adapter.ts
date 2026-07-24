@@ -24,6 +24,7 @@ import type {
   TimeNeededRow,
   TimeWorker,
   UpsertWorkerInput,
+  UpsertSiteInput,
   WorkSite,
 } from "@/types/time";
 
@@ -440,13 +441,62 @@ export class DrizzleTimeAdapter implements TimeAdapter {
       .select()
       .from(workSites)
       .where(
-        and(
-          eq(workSites.unionId, unionId),
-          eq(workSites.localId, localId),
-          eq(workSites.active, true),
-        ),
+        and(eq(workSites.unionId, unionId), eq(workSites.localId, localId)),
       );
     return rows.map(mapSite);
+  }
+
+  async upsertSite(
+    input: UpsertSiteInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<WorkSite> {
+    const db = getDb();
+
+    if (input.id) {
+      const existing = await db
+        .select()
+        .from(workSites)
+        .where(
+          and(
+            eq(workSites.id, input.id),
+            eq(workSites.unionId, meta.unionId),
+            eq(workSites.localId, meta.localId),
+          ),
+        )
+        .limit(1);
+
+      if (existing[0]) {
+        const [row] = await db
+          .update(workSites)
+          .set({
+            name: input.name,
+            lat: input.lat,
+            lng: input.lng,
+            geofenceRadiusM: input.geofenceRadiusM,
+            geofenceMode: input.geofenceMode,
+            active: input.active ?? existing[0].active,
+          })
+          .where(eq(workSites.id, input.id))
+          .returning();
+        return mapSite(row);
+      }
+    }
+
+    const [row] = await db
+      .insert(workSites)
+      .values({
+        id: newId("site"),
+        unionId: meta.unionId,
+        localId: meta.localId,
+        name: input.name,
+        lat: input.lat,
+        lng: input.lng,
+        geofenceRadiusM: input.geofenceRadiusM,
+        geofenceMode: input.geofenceMode,
+        active: input.active ?? true,
+      })
+      .returning();
+    return mapSite(row);
   }
 
   async listWorkers(unionId: string, localId: string): Promise<TimeWorker[]> {

@@ -8,8 +8,9 @@ VeriClock-class time tracking for union locals and union-wide operations. **Not*
 |-------|--------|
 | **8-lite (v1)** | Shipped — memory adapter; clock in/out, job codes, approvals, CSV export |
 | **8-lite+** | Shipped — manual/retro ranges, bulk event groups, expected windows, entry-needed tracking, union-business report |
-| 8a Postgres + RLS | Blocked on Phase 6 |
-| 8b–8f (full workers/sites, scheduling, PTO, GPS geofence UI, PDF/XLSX union rollup) | Planned |
+| **8a** Postgres + RLS | Shipped — `TIME_DB_BACKEND=postgres` (`DrizzleTimeAdapter`, migrations `0004`/`0005`); default remains memory |
+| **8b** Sites / geofence admin + bulk approve + XLSX/PDF | Shipped (2026-07-24) — `/api/time/sites`, bulk-approve, `?format=xlsx\|pdf` export |
+| 8c–8f (scheduling, PTO, OT policies, hybrid slice, punch photos) | Planned |
 
 ## Time categories (1D — all in one module)
 
@@ -63,9 +64,11 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 - `PATCH /api/time/entries/[id]` — submit or approve/reject
 - `GET/POST /api/time/codes`
 - `GET/POST /api/time/workers`
+- `GET/POST /api/time/sites` — work sites + geofence mode/radius
 - `GET/POST /api/time/windows`
 - `GET /api/time/needed?from&to`
-- `GET /api/time/export?from&to&category` — CSV
+- `GET /api/time/export?from&to&category&format=csv|xlsx|pdf`
+- `POST /api/time/entries/bulk-approve` — `{ ids: string[] }`
 - `GET /api/time/report/union-business?from&to` — JSON totals + needed
 
 ## GPS (optional, v1-lite foundation)
@@ -77,15 +80,18 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 
 ## Deferred (full Phase 8)
 
-- Postgres persistence + RLS
-- Full worker directory / sites admin (lite roster ships in 8-lite+)
 - Scheduling, PTO balances/requests
 - OT policy engine and pay periods
-- PDF/XLSX export, union rollup dashboard
 - Standing named groups (v1 uses ad-hoc multi-select only)
 - Punch photo attachments (Phase 7 object storage)
 - Hybrid slice inclusion
 - Payroll vendor integrations
+
+## Shipped in 8b (2026-07-24)
+
+- Work sites CRUD (`GET/POST /api/time/sites`) + admin geofence mode/radius UI
+- Bulk approve submitted entries (`POST /api/time/entries/bulk-approve`)
+- XLSX + PDF rollup export (`GET /api/time/export?format=xlsx|pdf`) alongside CSV
 
 ## Compliance
 

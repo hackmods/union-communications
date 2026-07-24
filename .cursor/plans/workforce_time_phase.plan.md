@@ -1,6 +1,6 @@
 # Phase 8 — Workforce Time (VeriClock-class)
 
-**Status:** 8-lite + 8-lite+ shipped (memory adapter). Full phase blocked on Phase 6 Postgres+RLS.
+**Status:** 8-lite + 8-lite+ + 8a (Postgres flag) + **8b admin** shipped. Scheduling/PTO/OT (8c+) remain planned.
 
 ## Product intent
 
@@ -33,14 +33,14 @@ Phase 6 (Postgres) → Phase 7 (Attachments) → Phase 8 (Workforce Time full).
 - Entry-needed: expected-window miss + weekday gaps (`trackGaps`)
 - Union-business report + CSV `from`/`to` + event columns
 
-## Remaining slices
+## Remaining / shipped slices
 
-- **8a** Postgres + RLS (Phase 6 prerequisite)
-- **8b** Admin: full workers, sites, OT/pay-period policies (lite roster already in 8-lite+)
-- **8c** Scheduling + PTO
-- **8d** Approvals bulk + PDF/XLSX + union rollup
-- **8e** GPS consent UI + geofence map
-- **8f** PWA polish, smoke tests, hybrid slice
+- **8a** Postgres + RLS — shipped (`TIME_DB_BACKEND`, memory default)
+- **8b** Sites CRUD + geofence admin + bulk approve + XLSX/PDF rollup — **shipped 2026-07-24**
+- **8c** Scheduling + PTO — planned
+- **8d** (partially covered by 8b exports) OT/pay-period policies — planned
+- **8e** GPS consent UI polish — planned (punch GPS + site geofence exist)
+- **8f** PWA polish, smoke tests, hybrid slice — planned
 
 ## Non-goals
 

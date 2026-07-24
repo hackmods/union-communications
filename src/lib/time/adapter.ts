@@ -13,6 +13,7 @@ import type {
   TimeNeededRow,
   TimeWorker,
   UpsertWorkerInput,
+  UpsertSiteInput,
   WorkSite,
 } from "@/types/time";
 
@@ -61,6 +62,10 @@ export interface TimeAdapter {
     meta: { unionId: string; localId: string },
   ): Promise<JobCode>;
   listSites(unionId: string, localId: string): Promise<WorkSite[]>;
+  upsertSite(
+    input: UpsertSiteInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<WorkSite>;
   listWorkers(unionId: string, localId: string): Promise<TimeWorker[]>;
   upsertWorker(
     input: UpsertWorkerInput,

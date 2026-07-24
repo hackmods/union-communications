@@ -190,7 +190,7 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 ### [FEAT-003] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Medium
-**Status:** Closed — `Task` entity + memory adapter/store, Zod create/update, `requireTaskSession`, CRUD `/api/tasks` (+ `[id]`), Hub module `"tasks"`, `/app/tasks` board + dashboard `MyTasksWidget`, EN/FR, seed enabled. **Follow-up (2026-07-23):** `tasks` Drizzle table + RLS migration `0009_tasks` (skipped `0008` for parallel SEC-003), `DrizzleTaskAdapter`, `TASKS_DB_BACKEND` store proxy (memory default). Case-detail surfaces remain a follow-up.
+**Status:** Closed — `Task` entity + memory adapter/store, Zod create/update, `requireTaskSession`, CRUD `/api/tasks` (+ `[id]`), Hub module `"tasks"`, `/app/tasks` board + dashboard `MyTasksWidget`, EN/FR, seed enabled. **Follow-up (2026-07-23):** `tasks` Drizzle table + RLS migration `0009_tasks`, `DrizzleTaskAdapter`, `TASKS_DB_BACKEND` store proxy (memory default). **Case-detail surfaces closed (2026-07-24):** `RelatedTasksPanel` on `GrievanceDetail` / `BumpingCaseDetail` via existing `relatedGrievanceId` / `relatedBumpingCaseId` filters.
 **Problem/Gap Statement:** There is no general to-do/task list feature. The only task-like structures are the static handoff checklist (`src/lib/handoff/package.ts`) and per-grievance `GrievanceEvent` timeline entries — neither supports assigning an arbitrary task to an officer with a due date outside the grievance/handoff context.
 **Affected Architecture/Files:** `src/lib/handoff/package.ts`, `src/types/qol.ts`
 **Implementation Blueprint:**

@@ -182,6 +182,16 @@ export interface UpsertWorkerInput {
   id?: string;
 }
 
+export interface UpsertSiteInput {
+  name: string;
+  lat: number;
+  lng: number;
+  geofenceRadiusM: number;
+  geofenceMode: GeofenceMode;
+  active?: boolean;
+  id?: string;
+}
+
 export interface NeededEntriesFilters {
   unionId: string;
   localId: string;
