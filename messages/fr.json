@@ -3271,7 +3271,32 @@
       "scanPending": "Analyse en attente",
       "scanInfected": "Bloqué - a échoué l'analyse de sécurité",
       "uploadedBy": "Téléversé le {date}"
-    }
+    },
+    "outcome": {
+      "title": "Décision / règlement",
+      "hint": "Consigner le résultat d’arbitrage ou de règlement. Vérifiez les délais d’appel dans votre convention.",
+      "empty": "Aucun résultat enregistré.",
+      "type": "Résultat",
+      "types": {
+        "upheld": "Maintenu",
+        "denied": "Rejeté",
+        "settled": "Règlement",
+        "withdrawn": "Retiré"
+      },
+      "remedy": "Réparation",
+      "settlementTerms": "Conditions du règlement",
+      "arbitratorName": "Arbitre",
+      "hearingDate": "Date d’audience",
+      "decidedAt": "Date de la décision",
+      "record": "Enregistrer le résultat",
+      "recording": "Enregistrement…",
+      "recordError": "Impossible d’enregistrer le résultat",
+      "appealDue": "Délai d’appel : {date}",
+      "appealOverdue": "Délai d’appel dépassé",
+      "appealHint": "Fenêtre d’appel indicative ({days} j après la décision) — vérifier la convention.",
+      "disclaimer": "Aide au suivi seulement — pas un avis juridique. Confirmez les délais d’appel dans votre convention collective."
+    },
+    "appealDaysLabel": "appel {days} j"
   },
   "bumping": {
     "title": "Bumpage collégial",

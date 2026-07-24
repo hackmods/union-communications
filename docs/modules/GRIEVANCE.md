@@ -26,6 +26,11 @@ See `docs/PROGRESS.md` Phase 4.
 - `filedAt`, `resolvedAt`
 - `assignedStewardId`
 
+### GrievanceOutcome (FEAT-004)
+- Optional 1:1 arbitration / settlement record: `outcomeType` (`upheld` | `denied` | `settled` | `withdrawn`), remedy, settlement terms, arbitrator, hearing/decision dates
+- API: `GET`/`POST /api/grievances/[id]/outcome`; surfaced on grievance detail; included in export bundle
+- CA step may set optional `appealDays` (calendar days after `decidedAt`) — distinct from step `responseDays` (often `null` at Arbitration)
+
 ### GrievanceEvent
 - Timeline: meeting scheduled, step filed, response received, deadline
 - `dueAt`, `completedAt`, `stepNumber`

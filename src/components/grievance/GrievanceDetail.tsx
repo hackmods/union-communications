@@ -6,9 +6,15 @@ import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import { useStewardReadOnly } from "@/hooks/use-steward-read-only";
 import { useHybridCaseStore } from "@/hooks/use-hybrid-case-store";
 import { buildIcsEvent, downloadIcs } from "@/lib/calendar/ics";
+import {
+  getAppealDueDate,
+  isOverdue as isDateOverdue,
+  resolveAppealStep,
+} from "@/lib/grievance/deadlines";
 import { EMAIL_TEMPLATE_IDS } from "@/lib/grievance/email-templates";
 import {
   buildGrievanceBundle,
@@ -20,6 +26,8 @@ import type {
   Grievance,
   GrievanceEvent,
   GrievanceNote,
+  GrievanceOutcome,
+  GrievanceOutcomeType,
   GrievanceStatus,
 } from "@/types/grievance";
 import type { GrievanceConfig } from "@/types/tenant";
@@ -31,6 +39,13 @@ import type {
   ScheduledMeeting,
 } from "@/types/qol";
 import type { AttachmentMeta } from "@/types/attachments";
+
+const OUTCOME_TYPES: GrievanceOutcomeType[] = [
+  "upheld",
+  "denied",
+  "settled",
+  "withdrawn",
+];
 
 const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
 
@@ -111,6 +126,19 @@ export function GrievanceDetail({ id }: { id: string }) {
   const [uploading, setUploading] = useState(false);
   const [attachmentError, setAttachmentError] = useState<string | null>(null);
 
+  const [outcome, setOutcome] = useState<GrievanceOutcome | null>(null);
+  const [outcomeType, setOutcomeType] =
+    useState<GrievanceOutcomeType>("settled");
+  const [outcomeRemedy, setOutcomeRemedy] = useState("");
+  const [outcomeSettlement, setOutcomeSettlement] = useState("");
+  const [outcomeArbitrator, setOutcomeArbitrator] = useState("");
+  const [outcomeHearing, setOutcomeHearing] = useState("");
+  const [outcomeDecidedAt, setOutcomeDecidedAt] = useState(
+    () => new Date().toISOString().slice(0, 16),
+  );
+  const [savingOutcome, setSavingOutcome] = useState(false);
+  const [outcomeError, setOutcomeError] = useState<string | null>(null);
+
   const applyDetailData = useCallback((json: GrievanceDetailData) => {
     setData(json);
     setLoading(false);
@@ -145,10 +173,83 @@ export function GrievanceDetail({ id }: { id: string }) {
       .then((json) => {
         if (!cancelled && json?.attachments) setAttachments(json.attachments);
       });
+    void fetch(`/api/grievances/${id}/outcome`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (cancelled) return;
+        const next = (json?.outcome as GrievanceOutcome | null) ?? null;
+        setOutcome(next);
+        if (next) {
+          setOutcomeType(next.outcomeType);
+          setOutcomeRemedy(next.remedy ?? "");
+          setOutcomeSettlement(next.settlementTerms ?? "");
+          setOutcomeArbitrator(next.arbitratorName ?? "");
+          setOutcomeHearing(
+            next.hearingDate
+              ? new Date(next.hearingDate).toISOString().slice(0, 16)
+              : "",
+          );
+          setOutcomeDecidedAt(
+            new Date(next.decidedAt).toISOString().slice(0, 16),
+          );
+        }
+      });
     return () => {
       cancelled = true;
     };
   }, [applyDetailData, getGrievance, id, revision]);
+
+  async function reloadOutcome() {
+    const res = await fetch(`/api/grievances/${id}/outcome`);
+    if (!res.ok) return;
+    const json = await res.json();
+    const next = (json?.outcome as GrievanceOutcome | null) ?? null;
+    setOutcome(next);
+    if (next) {
+      setOutcomeType(next.outcomeType);
+      setOutcomeRemedy(next.remedy ?? "");
+      setOutcomeSettlement(next.settlementTerms ?? "");
+      setOutcomeArbitrator(next.arbitratorName ?? "");
+      setOutcomeHearing(
+        next.hearingDate
+          ? new Date(next.hearingDate).toISOString().slice(0, 16)
+          : "",
+      );
+      setOutcomeDecidedAt(new Date(next.decidedAt).toISOString().slice(0, 16));
+    }
+  }
+
+  async function recordOutcome(e: React.FormEvent) {
+    e.preventDefault();
+    if (readOnly) return;
+    setOutcomeError(null);
+    setSavingOutcome(true);
+    try {
+      const res = await fetch(`/api/grievances/${id}/outcome`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          outcomeType,
+          remedy: outcomeRemedy.trim() || undefined,
+          settlementTerms: outcomeSettlement.trim() || undefined,
+          arbitratorName: outcomeArbitrator.trim() || undefined,
+          hearingDate: outcomeHearing
+            ? new Date(outcomeHearing).toISOString()
+            : undefined,
+          decidedAt: new Date(outcomeDecidedAt).toISOString(),
+        }),
+      });
+      if (!res.ok) {
+        setOutcomeError(t("outcome.recordError"));
+        return;
+      }
+      await reloadOutcome();
+    } catch {
+      setOutcomeError(t("outcome.recordError"));
+    } finally {
+      setSavingOutcome(false);
+    }
+  }
 
   async function reloadAttachments() {
     const res = await fetch(`/api/grievances/${id}/attachments`);
@@ -242,7 +343,12 @@ export function GrievanceDetail({ id }: { id: string }) {
   async function exportBundle() {
     if (!data?.grievanceConfig) return;
     const bundle = buildGrievanceBundle(
-      { grievance: data.grievance, events: data.events, notes: data.notes },
+      {
+        grievance: data.grievance,
+        events: data.events,
+        notes: data.notes,
+        outcome,
+      },
       data.grievanceConfig,
     );
 
@@ -463,6 +569,11 @@ export function GrievanceDetail({ id }: { id: string }) {
                       ({step.responseDays}d)
                     </span>
                   )}
+                  {step.appealDays != null && (
+                    <span className="ml-2 text-gray-500">
+                      ({t("appealDaysLabel", { days: step.appealDays })})
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
@@ -648,6 +759,133 @@ export function GrievanceDetail({ id }: { id: string }) {
             />
             <Button type="submit" size="sm">
               {tq("meetings.schedule")}
+            </Button>
+          </form>
+        )}
+      </Card>
+
+      <Card className="mt-4">
+        <CardTitle>{t("outcome.title")}</CardTitle>
+        <p className="mt-1 text-xs text-gray-500">{t("outcome.hint")}</p>
+        <p className="mt-1 text-xs text-amber-800">{t("outcome.disclaimer")}</p>
+        {outcome ? (
+          <div className="mt-3 rounded-lg bg-gray-50 p-4">
+            <p className="font-semibold">
+              {t(`outcome.types.${outcome.outcomeType}`)}
+            </p>
+            <p className="mt-1 text-xs text-gray-500">
+              {t("outcome.decidedAt")}:{" "}
+              {new Date(outcome.decidedAt).toLocaleString()}
+            </p>
+            {outcome.arbitratorName && (
+              <p className="mt-2 text-sm">
+                {t("outcome.arbitratorName")}: {outcome.arbitratorName}
+              </p>
+            )}
+            {outcome.hearingDate && (
+              <p className="mt-1 text-sm">
+                {t("outcome.hearingDate")}:{" "}
+                {new Date(outcome.hearingDate).toLocaleDateString()}
+              </p>
+            )}
+            {outcome.remedy && (
+              <p className="mt-2 text-sm">
+                {t("outcome.remedy")}: {outcome.remedy}
+              </p>
+            )}
+            {outcome.settlementTerms && (
+              <p className="mt-2 text-sm">
+                {t("outcome.settlementTerms")}: {outcome.settlementTerms}
+              </p>
+            )}
+            {(() => {
+              if (!grievanceConfig) return null;
+              const appealDue = getAppealDueDate(
+                outcome.decidedAt,
+                grievance.currentStep,
+                grievanceConfig,
+              );
+              if (!appealDue) return null;
+              const appealStep = resolveAppealStep(
+                grievanceConfig,
+                grievance.currentStep,
+              );
+              const overdueAppeal = isDateOverdue(appealDue);
+              return (
+                <div className="mt-3 space-y-1">
+                  <p
+                    className={`text-sm ${overdueAppeal ? "font-semibold text-red-600" : "text-gray-700"}`}
+                  >
+                    {overdueAppeal
+                      ? t("outcome.appealOverdue")
+                      : t("outcome.appealDue", {
+                          date: appealDue.toLocaleDateString(),
+                        })}
+                  </p>
+                  {appealStep?.appealDays != null && (
+                    <p className="text-xs text-gray-500">
+                      {t("outcome.appealHint", {
+                        days: appealStep.appealDays,
+                      })}
+                    </p>
+                  )}
+                </div>
+              );
+            })()}
+          </div>
+        ) : (
+          <p className="mt-2 text-sm text-gray-500">{t("outcome.empty")}</p>
+        )}
+        {!readOnly && (
+          <form onSubmit={recordOutcome} className="mt-4 space-y-3">
+            <Select
+              label={t("outcome.type")}
+              value={outcomeType}
+              onChange={(e) =>
+                setOutcomeType(e.target.value as GrievanceOutcomeType)
+              }
+            >
+              {OUTCOME_TYPES.map((type) => (
+                <option key={type} value={type}>
+                  {t(`outcome.types.${type}`)}
+                </option>
+              ))}
+            </Select>
+            <Input
+              label={t("outcome.decidedAt")}
+              type="datetime-local"
+              value={outcomeDecidedAt}
+              onChange={(e) => setOutcomeDecidedAt(e.target.value)}
+              required
+            />
+            <Input
+              label={t("outcome.hearingDate")}
+              type="datetime-local"
+              value={outcomeHearing}
+              onChange={(e) => setOutcomeHearing(e.target.value)}
+            />
+            <Input
+              label={t("outcome.arbitratorName")}
+              value={outcomeArbitrator}
+              onChange={(e) => setOutcomeArbitrator(e.target.value)}
+            />
+            <Textarea
+              label={t("outcome.remedy")}
+              value={outcomeRemedy}
+              onChange={(e) => setOutcomeRemedy(e.target.value)}
+              rows={2}
+            />
+            <Textarea
+              label={t("outcome.settlementTerms")}
+              value={outcomeSettlement}
+              onChange={(e) => setOutcomeSettlement(e.target.value)}
+              rows={2}
+            />
+            {outcomeError && (
+              <p className="text-sm text-red-600">{outcomeError}</p>
+            )}
+            <Button type="submit" size="sm" disabled={savingOutcome}>
+              {savingOutcome ? t("outcome.recording") : t("outcome.record")}
             </Button>
           </form>
         )}

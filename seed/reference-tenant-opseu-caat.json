@@ -43,7 +43,7 @@
           { "number": 1, "name": "Step 1", "responseDays": 5 },
           { "number": 2, "name": "Step 2", "responseDays": 10 },
           { "number": 3, "name": "Step 3", "responseDays": 15 },
-          { "number": 4, "name": "Arbitration", "responseDays": null }
+          { "number": 4, "name": "Arbitration", "responseDays": null, "appealDays": 30 }
         ]
       }
     },
@@ -58,7 +58,7 @@
           { "number": 1, "name": "Step 1", "responseDays": 7 },
           { "number": 2, "name": "Step 2", "responseDays": 14 },
           { "number": 3, "name": "Step 3", "responseDays": 21 },
-          { "number": 4, "name": "Arbitration", "responseDays": null }
+          { "number": 4, "name": "Arbitration", "responseDays": null, "appealDays": 30 }
         ]
       }
     },
@@ -73,7 +73,7 @@
           { "number": 1, "name": "Step 1", "responseDays": 5 },
           { "number": 2, "name": "Step 2", "responseDays": 10 },
           { "number": 3, "name": "Step 3", "responseDays": 15 },
-          { "number": 4, "name": "Arbitration", "responseDays": null }
+          { "number": 4, "name": "Arbitration", "responseDays": null, "appealDays": 30 }
         ]
       }
     }
@@ -105,7 +105,7 @@
       { "number": 1, "name": "Step 1", "responseDays": 5 },
       { "number": 2, "name": "Step 2", "responseDays": 10 },
       { "number": 3, "name": "Step 3", "responseDays": 15 },
-      { "number": 4, "name": "Arbitration", "responseDays": null }
+      { "number": 4, "name": "Arbitration", "responseDays": null, "appealDays": 30 }
     ]
   },
   "moduleConfig": {

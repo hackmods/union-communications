@@ -3296,7 +3296,32 @@
       "scanPending": "Scan pending",
       "scanInfected": "Blocked - failed security scan",
       "uploadedBy": "Uploaded {date}"
-    }
+    },
+    "outcome": {
+      "title": "Arbitration / settlement outcome",
+      "hint": "Record the arbitrator decision or settlement terms. Verify appeal windows against your collective agreement.",
+      "empty": "No outcome recorded yet.",
+      "type": "Outcome",
+      "types": {
+        "upheld": "Upheld",
+        "denied": "Denied",
+        "settled": "Settled",
+        "withdrawn": "Withdrawn"
+      },
+      "remedy": "Remedy",
+      "settlementTerms": "Settlement terms",
+      "arbitratorName": "Arbitrator",
+      "hearingDate": "Hearing date",
+      "decidedAt": "Decision date",
+      "record": "Record outcome",
+      "recording": "Saving…",
+      "recordError": "Could not record outcome",
+      "appealDue": "Appeal deadline: {date}",
+      "appealOverdue": "Appeal deadline passed",
+      "appealHint": "Indicative appeal window ({days} days after decision) — verify against your CA.",
+      "disclaimer": "Tracking aid only — not legal advice. Confirm appeal deadlines in your collective agreement."
+    },
+    "appealDaysLabel": "appeal {days}d"
   },
   "bumping": {
     "title": "College Bumping",

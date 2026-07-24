@@ -202,7 +202,7 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 ### [FEAT-004] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** Medium
-**Status:** Closed — `GrievanceOutcome` type, Zod create schema, Drizzle `grievance_outcomes` table + migration, memory/drizzle adapter `getOutcome`/`recordOutcome`, and `GET`/`POST /api/grievances/[id]/outcome`. Detail UI + export bundle + appeal-deadline CAConfig still open follow-ups.
+**Status:** Closed — `GrievanceOutcome` type, Zod create schema, Drizzle `grievance_outcomes` table + migration, memory/drizzle adapter `getOutcome`/`recordOutcome`, and `GET`/`POST /api/grievances/[id]/outcome`. **Follow-ups closed (2026-07-24):** detail UI in `GrievanceDetail`, outcome + appeal due date in export bundle, optional `GrievanceStep.appealDays` (seed Arbitration = 30) with `calculateAppealDueDate` / `getAppealDueDate`.
 **Problem/Gap Statement:** The Grievance module has no structured arbitration outcome, settlement-terms, or appeal-deadline entity. Step 4 ("Arbitration") in the reference CAConfig seed has `responseDays: null`, meaning no deadline is ever computed for it, and there is no way to record the arbitrator's decision, remedy granted, or settlement terms in a queryable field — only free-text notes.
 **Affected Architecture/Files:** `src/types/grievance.ts`, `seed/reference-tenant-opseu-caat.json`, `src/lib/grievance/deadlines.ts`
 **Implementation Blueprint:**

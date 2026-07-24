@@ -28,6 +28,41 @@ export function getCurrentStepDueDate(
   return calculateStepDueDate(filedAt, step);
 }
 
+/**
+ * Appeal / judicial-review window from outcome decidedAt + step.appealDays.
+ * Uses the arbitration (or current) step that defines `appealDays`.
+ */
+export function calculateAppealDueDate(
+  decidedAt: string,
+  step: GrievanceStep | undefined,
+): Date | null {
+  if (!step || step.appealDays == null) return null;
+  const due = new Date(decidedAt);
+  due.setDate(due.getDate() + step.appealDays);
+  return due;
+}
+
+/** Prefer the step that declares appealDays; fall back to current step. */
+export function resolveAppealStep(
+  config: GrievanceConfig,
+  currentStep: number,
+): GrievanceStep | undefined {
+  const withAppeal = config.steps.find((s) => s.appealDays != null);
+  if (withAppeal) return withAppeal;
+  return getStepConfig(config, currentStep);
+}
+
+export function getAppealDueDate(
+  decidedAt: string,
+  currentStep: number,
+  config: GrievanceConfig,
+): Date | null {
+  return calculateAppealDueDate(
+    decidedAt,
+    resolveAppealStep(config, currentStep),
+  );
+}
+
 export function isOverdue(dueAt: Date | null, completedAt?: string): boolean {
   if (!dueAt || completedAt) return false;
   return dueAt.getTime() < Date.now();

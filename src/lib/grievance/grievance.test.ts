@@ -1,7 +1,9 @@
 import { describe, it, expect } from "vitest";
 import {
+  calculateAppealDueDate,
   calculateStepDueDate,
   daysUntilDue,
+  getAppealDueDate,
   getCurrentStepDueDate,
   isOverdue,
 } from "@/lib/grievance/deadlines";
@@ -10,14 +12,23 @@ import {
   canViewGrievance,
 } from "@/lib/grievance/access";
 import { buildEmailDraft } from "@/lib/grievance/email-templates";
-import type { Grievance } from "@/types/grievance";
+import {
+  buildGrievanceBundle,
+  bundleToPdfLines,
+} from "@/lib/grievance/export";
+import type { Grievance, GrievanceOutcome } from "@/types/grievance";
 
 const config = {
   steps: [
     { number: 1, name: "Step 1", responseDays: 5 },
     { number: 2, name: "Step 2", responseDays: 10 },
     { number: 3, name: "Step 3", responseDays: 15 },
-    { number: 4, name: "Arbitration", responseDays: null },
+    {
+      number: 4,
+      name: "Arbitration",
+      responseDays: null,
+      appealDays: 30,
+    },
   ],
 };
 
@@ -34,6 +45,15 @@ const sampleGrievance: Grievance = {
   updatedAt: "2026-01-01T00:00:00.000Z",
 };
 
+const sampleOutcome: GrievanceOutcome = {
+  id: "gout-1",
+  grievanceId: sampleGrievance.id,
+  outcomeType: "upheld",
+  remedy: "Reinstatement",
+  decidedAt: "2026-06-01T00:00:00.000Z",
+  recordedById: "user-president-243",
+};
+
 describe("deadline calculator", () => {
   it("adds response days to filed date", () => {
     const due = calculateStepDueDate(
@@ -43,13 +63,30 @@ describe("deadline calculator", () => {
     expect(due?.toISOString().slice(0, 10)).toBe("2026-01-06");
   });
 
-  it("returns null for arbitration step", () => {
+  it("returns null for arbitration step response deadline", () => {
     const due = getCurrentStepDueDate(
       sampleGrievance.filedAt,
       4,
       config,
     );
     expect(due).toBeNull();
+  });
+
+  it("computes appeal deadline from decidedAt + appealDays", () => {
+    const due = calculateAppealDueDate(
+      "2026-06-01T00:00:00.000Z",
+      config.steps[3],
+    );
+    expect(due?.toISOString().slice(0, 10)).toBe("2026-07-01");
+  });
+
+  it("resolves appeal due via config helper", () => {
+    const due = getAppealDueDate(
+      "2026-06-01T00:00:00.000Z",
+      4,
+      config,
+    );
+    expect(due?.toISOString().slice(0, 10)).toBe("2026-07-01");
   });
 
   it("detects overdue deadlines", () => {
@@ -63,6 +100,39 @@ describe("deadline calculator", () => {
     const days = daysUntilDue(future);
     expect(days).toBeGreaterThanOrEqual(2);
     expect(days).toBeLessThanOrEqual(4);
+  });
+});
+
+describe("grievance export bundle", () => {
+  it("includes outcome and appeal due date", () => {
+    const bundle = buildGrievanceBundle(
+      {
+        grievance: { ...sampleGrievance, currentStep: 4 },
+        events: [],
+        notes: [],
+        outcome: sampleOutcome,
+      },
+      config,
+    );
+    expect(bundle.outcome?.outcomeType).toBe("upheld");
+    expect(bundle.appealDueDate?.slice(0, 10)).toBe("2026-07-01");
+    const lines = bundleToPdfLines(bundle, "243");
+    expect(lines.some((l) => l.includes("ARBITRATION"))).toBe(true);
+    expect(lines.some((l) => l.includes("Appeal deadline"))).toBe(true);
+    expect(lines.some((l) => l.includes("Reinstatement"))).toBe(true);
+  });
+
+  it("omits appeal due when no outcome", () => {
+    const bundle = buildGrievanceBundle(
+      {
+        grievance: sampleGrievance,
+        events: [],
+        notes: [],
+      },
+      config,
+    );
+    expect(bundle.outcome).toBeNull();
+    expect(bundle.appealDueDate).toBeNull();
   });
 });
 

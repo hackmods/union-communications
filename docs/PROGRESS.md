@@ -473,7 +473,7 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `SEC-003` (close-out) — idempotent `db:seed`, `0008_app_role` (`unionops_app`), compose app-role URL + backend passthrough, RLS contract test + `db:rls-smoke`, `db:durability-smoke`; defaults stay memory until operators flip
 - [x] `SEC-009` — hybrid slice `Cache-Control: no-store` + COMPLIANCE/UI residual-risk copy
 - [x] `RBAC-003` — cross-module `rbac-matrix.test.ts`
-- [x] `FEAT-004` — `GrievanceOutcome` entity (type, Zod, Drizzle table, memory/drizzle adapters, `/api/grievances/[id]/outcome`); UI/export/appeal-deadline follow-ups remain
+- [x] `FEAT-004` — `GrievanceOutcome` entity (type, Zod, Drizzle table, memory/drizzle adapters, `/api/grievances/[id]/outcome`); follow-ups closed 2026-07-24 (detail UI, export bundle, `appealDays`)
 - [x] `FEAT-005` — advisory seniority aid (`compareSeniority` / `rankEligibleBumpers`, seed roster, `GET /api/bumping/seniority`); not a binding decision engine
 - [x] `FEAT-002` — Discussions v1 (`DiscussionThread`/`DiscussionPost`, memory + `DISCUSSIONS_DB_BACKEND`, migration `0007`, Hub module + `/app/discussions` + APIs; linked-case ACL)
 - [x] `FEAT-006` — Hub calendar aggregation (`/app/calendar`, `GET /api/calendar`) of grievance meetings + bumping sessions; MFA/role gated; multi-event ICS export; HubNav link
@@ -535,3 +535,10 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Officer in-app reminder banner (`MeetingReminderBanner`, mounted in `[locale]/app/layout.tsx` alongside `DemoSiteBanner`) — fetches `/api/meetings/upcoming`, shows within 7 days of the next meeting; no auto-email, per `.cursor/rules/calendar-meetings.mdc`
 - [x] Public "next meeting" page `/[locale]/meetings/[slug]` + reusable `NextMeetingSnippet` component, backed by public `GET /api/meetings/public/[slug]` — no login, no union/local ids, no member data
 - [x] `docs/modules/CALENDAR_MEETINGS.md` Phase A marked shipped; `docs/ROADMAP.md` new Calendar & Meetings section
+
+## FEAT-004 outcome follow-ups (2026-07-24)
+
+- [x] Grievance detail UI — record/view arbitration/settlement outcome (`GET`/`POST /api/grievances/[id]/outcome`), steward read-only gated
+- [x] Export bundle includes `outcome` + computed `appealDueDate` (JSON + PDF summary)
+- [x] Optional `GrievanceStep.appealDays` (distinct from `responseDays`); reference seed Arbitration steps use `appealDays: 30`
+- [x] EN/FR `grievance.outcome.*`; unit tests for appeal math + export

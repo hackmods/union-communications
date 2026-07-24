@@ -70,7 +70,13 @@ export interface BrandDefaults {
 export interface GrievanceStep {
   number: number;
   name: string;
+  /** Calendar days for employer/union response after filing into this step. Null = no fixed response window (e.g. arbitration). */
   responseDays: number | null;
+  /**
+   * Optional calendar days after an arbitration/settlement decision (`GrievanceOutcome.decidedAt`)
+   * to track an appeal / judicial-review window. Distinct from `responseDays`.
+   */
+  appealDays?: number | null;
 }
 
 export interface GrievanceConfig {
