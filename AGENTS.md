@@ -29,7 +29,7 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 | 8 Workforce Time | 8-lite / 8-lite+ / 8a / **8b** shipped; 8c+ scheduling/PTO planned |
 | Calendar / RSVP | Phase A + R0–R3 shipped (cron member broadcast deferred) |
 
-**Next:** Time 8c+ or COMMS_BACKLOG Print step — see `.cursor/rules/roadmap-next.mdc` and `docs/audit/current-ground-truth.md`.
+**Next:** Time 8c+ or email ops polish — see `.cursor/rules/roadmap-next.mdc` and `docs/audit/current-ground-truth.md`.
 
 ## Multi-Union Rules
 

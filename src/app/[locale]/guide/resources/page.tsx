@@ -32,6 +32,7 @@ const exploreLinks = [
   { href: "/onboarding", key: "onboarding" as const },
   { href: "/tools/logo-builder", key: "logo" as const },
   { href: "/tools/board-notice", key: "board" as const },
+  { href: "/tools/flyer-maker", key: "flyer" as const },
   { href: "/tools/graphic-maker", key: "graphic" as const },
   { href: "/tools/website-template", key: "website" as const },
   { href: "/guide/crisis", key: "crisis" as const },

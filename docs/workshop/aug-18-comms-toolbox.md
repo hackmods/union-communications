@@ -8,7 +8,7 @@
 
 ## Session goal
 
-Attendees leave with a logo, board notice, social graphic, and a website ZIP they can publish — and understand the four-channel Social Media Plan roadmap.
+Attendees leave with a logo, board notice, flyer, social graphic, and a website ZIP they can publish — and understand the four-channel First week roadmap.
 
 ## Materials needed
 
@@ -24,11 +24,11 @@ Attendees leave with a logo, board notice, social graphic, and a website ZIP the
 1. **Problem:** Central union comms are under-resourced; locals need professional tools now.
 2. **Solution:** The Toolbox — guides + on-device tools, no data sent to servers.
 3. **Four channels:** Social, print, union boards, website — one message, four places.
-4. Show home page channel layout and Social Media Plan CTA.
+4. Show home page channel layout and First week roadmap CTA.
 
 **Talking point:** "Weak comms isn't a talent problem — it's a tools problem. This hub fixes that."
 
-### 8–18 min — Walkthrough (Social Media Plan)
+### 8–18 min — Walkthrough (First week roadmap)
 
 Open `/guide/social-media-plan` and walk through each step live:
 
@@ -36,19 +36,21 @@ Open `/guide/social-media-plan` and walk through each step live:
 |------|-------|------|
 | 1. Logo | `/onboarding` → `/tools/logo-builder` | Brand Kit colours, export PNG |
 | 2. Union boards | `/tools/board-notice` | Letter notice, export PDF |
-| 3. Socials | `/tools/graphic-maker` | One bargaining graphic + captions link |
-| 4. Website | `/tools/website-template` | Preview iframe, download ZIP |
+| 3. Print | `/tools/flyer-maker` | Flyer PDF + Print Guide link |
+| 4. Socials | `/tools/graphic-maker` | One bargaining graphic + captions link |
+| 5. Website | `/tools/website-template` | Preview iframe, download ZIP |
 
 Mention crisis guide at `/guide/crisis` for strike season.
 
 ### 18–50 min — Hands-on
 
-Attendees complete the four steps on their devices. Facilitators circulate.
+Attendees complete the roadmap steps on their devices. Facilitators circulate.
 
 **Checklist for attendees:**
 - [ ] Import demo Brand Kit or complete onboarding
 - [ ] Export logo PNG
 - [ ] Create and print/PDF a board notice
+- [ ] Create a flyer PDF
 - [ ] Create one social graphic
 - [ ] Download website ZIP
 
@@ -72,8 +74,10 @@ Attendees complete the four steps on their devices. Facilitators circulate.
 /en/onboarding
 /en/tools/logo-builder
 /en/tools/board-notice
+/en/tools/flyer-maker
 /en/tools/graphic-maker
 /en/tools/website-template
+/en/guide/print
 /en/guide/crisis
 /en/guide/photo-consent
 ```

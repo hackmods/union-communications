@@ -35,15 +35,16 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 ## Next planned work (in order)
 
 1. **Workforce Time 8c+** — scheduling, PTO, OT/pay-period policies (explicitly **not** part of 8b). Spec: `docs/modules/WORKFORCE_TIME.md`
-2. **COMMS_BACKLOG** — First week Print step + remaining “Social Media Plan” → “First week” copy sweep
-3. **Email ops polish** — password-reset; optional cron officer self-reminders (still no member broadcast lists)
-4. **Ops default flip** — production hosts choosing Postgres backends + real scanner (ops, not new adapters)
+2. **Email ops polish** — password-reset; optional cron officer self-reminders (still no member broadcast lists)
+3. **Ops default flip** — production hosts choosing Postgres backends + real scanner (ops, not new adapters)
+4. **COMMS backlog (optional)** — email/broadcast guide; Graphic Maker `meetingNotice` invite panel stretch
 
 ## Deferred / non-goals
 
 - Member marketing email lists; `/member` portal for RSVP
 - Full VeriClock scheduling as a silent “8b+” expansion — require explicit product cut
 - CMEK / signed-URL attachment uploads (stretch on FEAT-001)
+- First week Print step + “Social Media Plan” → “First week” copy — **shipped 2026-07-24**
 
 ## Shipped hub surfaces (do not rebuild)
 

@@ -315,7 +315,7 @@ export default async function WebsiteGuidePage({
           <Button variant="outline">{nav("qrCard")}</Button>
         </Link>
         <Link href="/guide/social-media-plan">
-          <Button variant="outline">{nav("socialMediaPlan")}</Button>
+          <Button variant="outline">{nav("firstWeek")}</Button>
         </Link>
       </div>
     </GuideLayout>

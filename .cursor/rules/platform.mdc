@@ -11,7 +11,7 @@ Public brand: **UnionOps** (https://unionops.org). Slogan: **Solidarity.**
 OPSEU/CAAT is reference tenant #1 (`seed/reference-tenant-opseu-caat.json`), not a code default.
 
 ## Current status
-Phases **0–7 near-complete** (Postgres adapters flag-gated; default memory). Time **8b** + Calendar R0–R3 shipped. Next: Time 8c+ or COMMS_BACKLOG — see `.cursor/rules/roadmap-next.mdc` and `docs/audit/current-ground-truth.md`.
+Phases **0–7 near-complete** (Postgres adapters flag-gated; default memory). Time **8b** + Calendar R0–R3 shipped. First week Print step shipped. Next: Time 8c+ or email ops polish — see `.cursor/rules/roadmap-next.mdc` and `docs/audit/current-ground-truth.md`.
 
 ## Stack
 - Next.js 16 App Router, TypeScript, Tailwind CSS v4

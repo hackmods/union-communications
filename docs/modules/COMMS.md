@@ -18,7 +18,7 @@ Top bar is slim and dual-audience oriented:
 
 Footer includes Blueprint, Tools, Print Guide, Social Examples, Captions, Comms Resources, Brand Assets, Why it's free, Install, Privacy, Accessibility, Support.
 
-Social Examples and Captions are **not** top-level nav items. They remain under Guides, the home Social channel, footer links, and First week step 3. Channel guides (print / boards / website) live under Guides → By channel so the four-channel model is discoverable without flattening Guides into a long link bar.
+Social Examples and Captions are **not** top-level nav items. They remain under Guides, the home Social channel, footer links, and First week socials step. Channel guides (print / boards / website) live under Guides → By channel so the four-channel model is discoverable without flattening Guides into a long link bar.
 
 Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “What’s next” roadmap secondary; dual-path cards (comms vs Officer Hub, or compact “coming soon” rail when hub is off); Brand Kit link row above a four-column toolbox (boards → print → social → website). First week (`/guide/social-media-plan`) is the channel roadmap **after** Brand Kit. Deferred content ideas: [`COMMS_BACKLOG.md`](COMMS_BACKLOG.md). Agent nav conventions: `.cursor/rules/comms-public-nav.mdc`.
 
@@ -31,7 +31,7 @@ Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “
 | `/[locale]/brand-kit` | Brand Kit home base — purpose + export/import branding JSON (colours, logo, website & key links) |
 | `/[locale]/tools` | Tools catalog — channel-grouped links to every maker |
 | `/[locale]/guide` | The Blueprint handbook |
-| `/[locale]/guide/social-media-plan` | First-week roadmap after Brand Kit: brand → boards → socials → website |
+| `/[locale]/guide/social-media-plan` | First-week roadmap after Brand Kit: brand → boards → print → socials → website |
 | `/[locale]/guide/resources` | Comms Resources — orientation, practice checklist, presentation + workshop outlines, bibliography (`/guide/materials` redirects here) |
 | `/[locale]/guide/crisis` | Crisis comms playbook |
 | `/[locale]/guide/photo-consent` | Photo consent & member media checklist for stewards and workshops |

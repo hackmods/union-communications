@@ -3,34 +3,10 @@ import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { Button } from "@/components/ui/Button";
-
-const stepKeys = ["logo", "boards", "socials", "website"] as const;
-
-const stepLinks: Record<
-  (typeof stepKeys)[number],
-  { primary: string; secondary: string; tertiary?: { href: string; labelKey: string }[] }
-> = {
-  logo: {
-    primary: "/brand-kit",
-    secondary: "/tools/logo-builder",
-  },
-  boards: {
-    primary: "/tools/board-notice",
-    secondary: "/guide/union-boards",
-  },
-  socials: {
-    primary: "/tools/graphic-maker",
-    secondary: "/captions",
-    tertiary: [
-      { href: "/examples", labelKey: "tertiaryExamples" },
-      { href: "/guide", labelKey: "tertiaryBlueprint" },
-    ],
-  },
-  website: {
-    primary: "/tools/website-template",
-    secondary: "/guide/website",
-  },
-};
+import {
+  FIRST_WEEK_STEP_KEYS,
+  FIRST_WEEK_STEP_LINKS,
+} from "@/lib/comms/first-week-roadmap";
 
 export default async function SocialMediaPlanPage({
   params,
@@ -64,7 +40,7 @@ export default async function SocialMediaPlanPage({
         className="mb-8 flex flex-wrap gap-2"
         aria-label={t("stepsNavLabel")}
       >
-        {stepKeys.map((key, index) => (
+        {FIRST_WEEK_STEP_KEYS.map((key, index) => (
           <a
             key={key}
             href={`#step-${key}`}
@@ -82,7 +58,7 @@ export default async function SocialMediaPlanPage({
       </nav>
 
       <ol className="space-y-8">
-        {stepKeys.map((key, index) => (
+        {FIRST_WEEK_STEP_KEYS.map((key, index) => (
           <li
             key={key}
             id={`step-${key}`}
@@ -108,15 +84,15 @@ export default async function SocialMediaPlanPage({
               ))}
             </ul>
             <div className="button-row mt-4 max-w-lg">
-              <Link href={stepLinks[key].primary}>
+              <Link href={FIRST_WEEK_STEP_LINKS[key].primary}>
                 <Button size="sm">{t(`steps.${key}.cta`)}</Button>
               </Link>
-              <Link href={stepLinks[key].secondary}>
+              <Link href={FIRST_WEEK_STEP_LINKS[key].secondary}>
                 <Button variant="outline" size="sm">
                   {t(`steps.${key}.secondaryCta`)}
                 </Button>
               </Link>
-              {stepLinks[key].tertiary?.map((link) => (
+              {FIRST_WEEK_STEP_LINKS[key].tertiary?.map((link) => (
                 <Link key={link.href} href={link.href}>
                   <Button variant="ghost" size="sm">
                     {t(`steps.${key}.${link.labelKey}`)}

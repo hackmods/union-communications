@@ -12,17 +12,16 @@ Implementation surface today: [`HomeContent.tsx`](../../src/components/pages/Hom
 - **Defer until:** Product expands past social / print / boards / website, or we intentionally add a fifth channel.
 - **Do not:** Add a nav stub with no page.
 
-### Get started beyond social (rename + Print step) — PARTIAL (2026-07)
+### Get started beyond social (rename + Print step) — SHIPPED (2026-07-24)
 
 - **Shipped:** Page H1 / Header Learn label reframed to **First week** (EN/FR); route stays `/guide/social-media-plan`. Get started (when Brand Kit established) → First week, not a duplicate Brand Kit link. Learn → Guides includes First week. Tools mega-menu + `/tools` catalog.
-- **Still open:**
-  1. Insert an explicit **Print** step or checkpoint (Flyer Maker + `/guide/print`) — e.g. after boards, before socials.
-  2. Sweep remaining workshop / cross-link copy that still says “Social Media Plan” where “First week” is clearer.
+- **Shipped:** Explicit **Print** step after boards / before socials (`Flyer Maker` + `/guide/print`) via `FIRST_WEEK_STEP_KEYS` in `src/lib/comms/first-week-roadmap.ts`.
+- **Shipped:** Cross-link / workshop / Resources / Blueprint / Website Guide / Examples copy swept from “Social Media Plan” → “First week” where the roadmap label is clearer. Practice checklist includes a flyer PDF step.
 - **Do not:** Retarget Get started at `/guide/print` alone, or drop the socials/website steps.
 
 ### Landing page — align with site + desktop layout — SHIPPED (2026-07)
 
-Implemented on `/` via `HomeContent.tsx` (hero band, path layout, Brand Kit rail, equal channel columns, closing CTAs, home-enter motion). Home copy uses first-week / print-aware language; plan page rename + Print step remain under **Get started beyond social** above.
+Implemented on `/` via `HomeContent.tsx` (hero band, path layout, Brand Kit rail, equal channel columns, closing CTAs, home-enter motion). Home copy uses first-week / print-aware language.
 
 ## Shipped from the same review (2026-07)
 
@@ -33,6 +32,7 @@ Implemented on `/` via `HomeContent.tsx` (hero band, path layout, Brand Kit rail
 - Landing page desktop layout + channel IA alignment (`HomeContent`)
 - Photo consent / member media checklist at `/guide/photo-consent` (Learn → Guides; Resources + workshop links)
 - First week H1 + Get started → roadmap when theme established; Tools mega-menu + `/tools` index
+- First week Print step + remaining “Social Media Plan” → “First week” copy sweep (2026-07-24)
 
 ## Related deferred (not Comms v1)
 

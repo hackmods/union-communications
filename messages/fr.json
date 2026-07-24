@@ -33,7 +33,7 @@
     "qrBoard": "Affiches QR tableau",
     "websiteTemplate": "Modèle de site Web",
     "documentGenerator": "Documents et diapositives",
-    "socialMediaPlan": "Plan médias sociaux",
+    "socialMediaPlan": "Première semaine",
     "socialExamples": "Exemples sociaux",
     "unionBoardsGuide": "Guide tableaux syndicaux",
     "printGuide": "Guide impression",
@@ -178,7 +178,7 @@
   },
   "socialMediaPlan": {
     "title": "Première semaine",
-    "subtitle": "Après la trousse de marque : quatre étapes pour rejoindre les membres aux tableaux, sur les réseaux et via un site simple",
+    "subtitle": "Après la trousse de marque : tableaux, impression, médias sociaux et un site simple — un message, quatre canaux",
     "intro": "Ne sautez pas l'identité. Définissez d'abord le syndicat, les couleurs, le numéro de section et le logo dans la trousse de marque — puis suivez cette feuille de route. Pour les pratiques (ton, plateformes, trolls), utilisez le Plan directeur. Pour une vue d'ensemble, une liste de pratique et les sources, voir Ressources de communication.",
     "relatedLabel": "Voir aussi",
     "stepsNavLabel": "Étapes de la feuille de route",
@@ -192,7 +192,7 @@
       "logo": {
         "title": "Trousse de marque d'abord",
         "navLabel": "Marque",
-        "description": "La trousse de marque est l'étape 0. Chaque graphique, avis de tableau et modèle de site utilise ces couleurs, logo et liens. Configurez le préréglage syndical, le numéro de section, les couleurs et le logo avant le reste de la feuille de route.",
+        "description": "La trousse de marque est l'étape 0. Chaque graphique, avis de tableau, affiche et modèle de site utilise ces couleurs, logo et liens. Configurez le préréglage syndical, le numéro de section, les couleurs et le logo avant le reste de la feuille de route.",
         "checklist": [
           "Choisir votre préréglage syndical (ou Autre pour définir les couleurs vous-même)",
           "Définir le numéro et le sous-texte de la section",
@@ -213,6 +213,18 @@
         ],
         "cta": "Avis pour tableau syndical",
         "secondaryCta": "Guide tableaux syndicaux"
+      },
+      "print": {
+        "title": "Impression",
+        "navLabel": "Impression",
+        "description": "Remettez le même message en affiche pour les réunions, les tournées et les actions. Associez l'impression aux tableaux pour que les membres hors ligne aient aussi les faits.",
+        "checklist": [
+          "Ouvrir le Créateur d'affiche avec les couleurs et le numéro de section de la trousse de marque",
+          "Garder le texte grand et à fort contraste pour la lecture en corridor ou à l'extérieur",
+          "Exporter en PDF pour impression maison ou en copisterie (format lettre)"
+        ],
+        "cta": "Créateur d'affiche",
+        "secondaryCta": "Guide impression"
       },
       "socials": {
         "title": "Médias sociaux",
@@ -245,10 +257,10 @@
   "guide": {
     "title": "Le Plan directeur",
     "subtitle": "Un manuel pour la pratique continue des communications locales - plateformes, ton, rythme et accessibilité.",
-    "intro": "Utilisez ce guide une fois la trousse de marque en place et un premier message en circulation. Nouveau au centre? Commencez par la trousse de marque, puis le plan médias sociaux. Besoin de la carte, de la liste de pratique ou des sources? Ouvrez Ressources de communication.",
+    "intro": "Utilisez ce guide une fois la trousse de marque en place et un premier message en circulation. Nouveau au centre? Commencez par la trousse de marque, puis la feuille de route Première semaine. Besoin de la carte, de la liste de pratique ou des sources? Ouvrez Ressources de communication.",
     "path": {
       "title": "Parcours connexes",
-      "plan": "Commencer - Trousse de marque d'abord, puis la feuille de route du plan médias sociaux",
+      "plan": "Commencer - Trousse de marque d'abord, puis la feuille de route Première semaine",
       "resources": "Ressources de communication - orientation, pratique, sources",
       "crisis": "Guide de grève - communications de négociation et de grève",
       "dfr": "Devoir de représentation équitable - littératie pour délégués et dirigeants",
@@ -495,7 +507,7 @@
     "related": {
       "template": "Modèle de site Web",
       "brandKit": "Trousse de marque",
-      "plan": "Plan médias sociaux",
+      "plan": "Première semaine",
       "qr": "Cartes lien QR"
     },
     "tocLabel": "Sections du guide",
@@ -673,7 +685,7 @@
     "pair": {
       "navLabel": "Relier les canaux",
       "title": "Relier le site aux autres canaux",
-      "intro": "Le site est le quatrième canal du Plan médias sociaux — pas un remplacement des tableaux ou du social. Utilisez la même trousse de marque partout pour que les membres vous reconnaissent.",
+      "intro": "Le site est le quatrième canal de la feuille de route Première semaine — pas un remplacement des tableaux, de l'impression ou du social. Utilisez la même trousse de marque partout pour que les membres vous reconnaissent.",
       "items": {
         "boards": {
           "label": "Tableaux syndicaux",
@@ -700,7 +712,7 @@
     "filterLabel": "Filtrer par catégorie",
     "whyHeading": "Pourquoi ça fonctionne",
     "planPrompt": "Besoin de la liste complète de publication?",
-    "planLink": "Ouvrir le plan médias sociaux",
+    "planLink": "Ouvrir la feuille de route Première semaine",
     "categories": {
       "all": "Tous",
       "strike": "Action de grève",
@@ -1445,7 +1457,7 @@
       "title": "Comment apprendre ce centre",
       "intro": "Choisissez un parcours selon ce dont vous avez besoin aujourd'hui.",
       "links": {
-        "plan": "Plan médias sociaux",
+        "plan": "Première semaine",
         "blueprint": "Le Plan directeur",
         "boards": "Guide tableaux syndicaux",
         "print": "Guide impression",
@@ -1454,7 +1466,7 @@
         "photoConsent": "Consentement photo"
       },
       "blurb": {
-        "plan": "Après la trousse de marque : tableaux, réseaux et site dans l'ordre.",
+        "plan": "Après la trousse de marque : tableaux, impression, réseaux et site dans l'ordre.",
         "blueprint": "Pratique continue : plateformes, ton, fréquence, trolls, texte alt.",
         "boards": "Tableaux minimaux au travail et quoi imprimer.",
         "print": "Affiches et habitudes d'impression pour réunions et actions.",
@@ -1470,6 +1482,7 @@
         "Importer la trousse de marque de démo ou compléter l'intégration de votre section",
         "Exporter un logo circulaire local (PNG)",
         "Créer et télécharger un avis pour tableau (PDF)",
+        "Créer une affiche avec le Créateur d'affiche (PDF)",
         "Créer un graphique social avec le Créateur graphique",
         "Télécharger le ZIP du site Web et lire le README inclus"
       ]
@@ -1485,6 +1498,7 @@
       "onboarding": "Assistant de configuration de marque",
       "logo": "Créateur de logo",
       "board": "Avis pour tableau syndical",
+      "flyer": "Créateur d'affiche",
       "graphic": "Créateur graphique",
       "website": "Modèle de site Web",
       "crisis": "Guide de grève"
@@ -1507,7 +1521,7 @@
       "body": "Session réutilisable de 60 minutes pour dirigeants et communicateurs bénévoles. Les participants repartent avec un logo, un avis pour tableau, un graphique social et un ZIP de site - et comprennent la feuille de route à quatre canaux.",
       "outline": [
         "Présentation (environ 8 min) : problème, boîte à outils, quatre canaux",
-        "Démonstration en direct (environ 10 min) : étapes du plan médias sociaux",
+        "Démonstration en direct (environ 10 min) : étapes de la feuille de route Première semaine",
         "Pratique (environ 30 min) : liste ci-dessus",
         "Déploiement et questions (environ 10 min) : README du ZIP, rétroaction"
       ],
@@ -2296,7 +2310,7 @@
       "commsDesc": "Outils publics de médias sociaux",
       "grievance": "Griefs",
       "grievanceDesc": "Suivi des griefs et échéances",
-      "bumping": "Bumpage collégial",
+      "bumping": "Comité de stabilité",
       "bumpingDesc": "Comparaison PDF du comité de stabilité",
       "time": "Temps de travail",
       "timeDesc": "Pointage pour le personnel, la décharge, et le travail de solidarité",
@@ -3324,7 +3338,7 @@
     "appealDaysLabel": "appel {days} j"
   },
   "bumping": {
-    "title": "Bumpage collégial",
+    "title": "Comité de stabilité",
     "subtitle": "Comparaison de postes et registre du comité de stabilité",
     "disclaimer": "Les listes aident le processus - pas un avis juridique. Suivez votre convention collective.",
     "seniorityGuideLink": "Guide d'ancienneté et de bumping",

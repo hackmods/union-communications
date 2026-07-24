@@ -28,7 +28,7 @@ Remote lunch-and-learns are hard to facilitate as live labs (screen share, uneve
 
 1. **Problem:** A strong digital presence informs, engages, and mobilizes — but starting from scratch overwhelms busy volunteer executives (platforms? graphics? logo?).
 2. **Essentials:** Choose platforms you can sustain; secure shared accounts (not personal); set a posting rhythm that won't burn out the executive.
-3. Point to **Social Media Plan** (`/guide/social-media-plan`) and **Blueprint** (`/guide`) for written depth after the call.
+3. Point to **First week** (`/guide/social-media-plan`) and **Blueprint** (`/guide`) for written depth after the call.
 
 **Discussion prompts:**
 - Which platform does your local already use (or ignore) the most?

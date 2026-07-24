@@ -33,7 +33,7 @@
     "qrBoard": "QR Board Posters",
     "websiteTemplate": "Website Template",
     "documentGenerator": "Document & Slide Generator",
-    "socialMediaPlan": "Social Media Plan",
+    "socialMediaPlan": "First week",
     "socialExamples": "Social Examples",
     "unionBoardsGuide": "Union Boards Guide",
     "printGuide": "Print Guide",
@@ -178,7 +178,7 @@
   },
   "socialMediaPlan": {
     "title": "First week",
-    "subtitle": "After Brand Kit: four steps to reach members on boards, social, and a simple website",
+    "subtitle": "After Brand Kit: boards, print, socials, and a simple website — one message, four channels",
     "intro": "Do not skip identity. Set union, colours, local number, and logo in Brand Kit first — then use this roadmap. For practice guidance (tone, platforms, trolls), use The Blueprint. For an overview of the hub, checklist, and sources, see Comms Resources.",
     "relatedLabel": "Also see",
     "stepsNavLabel": "Roadmap steps",
@@ -192,7 +192,7 @@
       "logo": {
         "title": "Brand Kit first",
         "navLabel": "Brand",
-        "description": "Your Brand Kit is step 0. Every graphic, board notice, and site template uses these colours, logo, and links. Set your union preset, local number, colours, and logo before the rest of the roadmap.",
+        "description": "Your Brand Kit is step 0. Every graphic, board notice, flyer, and site template uses these colours, logo, and links. Set your union preset, local number, colours, and logo before the rest of the roadmap.",
         "checklist": [
           "Choose your union preset (or Other to set colours yourself)",
           "Set local number and sub-text",
@@ -213,6 +213,18 @@
         ],
         "cta": "Board Notice Maker",
         "secondaryCta": "Union Boards Guide"
+      },
+      "print": {
+        "title": "Print",
+        "navLabel": "Print",
+        "description": "Hand out the same message as a flyer for meetings, walkabouts, and actions. Pair print with boards so members offline still get the facts.",
+        "checklist": [
+          "Open Flyer Maker with your Brand Kit colours and local number",
+          "Keep text large and high-contrast for outdoor or hallway reading",
+          "Export PDF for home or copy-shop letter printing"
+        ],
+        "cta": "Flyer Maker",
+        "secondaryCta": "Print Guide"
       },
       "socials": {
         "title": "Socials",
@@ -245,10 +257,10 @@
   "guide": {
     "title": "The Blueprint",
     "subtitle": "A handbook for ongoing local communications practice - platforms, tone, rhythm, and accessibility.",
-    "intro": "Use this after you have a Brand Kit and a first message in motion. New to the hub? Get started with Brand Kit, then the Social Media Plan. Need the map, checklist, or sources? Open Comms Resources.",
+    "intro": "Use this after you have a Brand Kit and a first message in motion. New to the hub? Get started with Brand Kit, then the First week roadmap. Need the map, checklist, or sources? Open Comms Resources.",
     "path": {
       "title": "Related paths",
-      "plan": "Get started - Brand Kit first, then the Social Media Plan roadmap",
+      "plan": "Get started - Brand Kit first, then the First week roadmap",
       "resources": "Comms Resources - orientation, practice, sources",
       "crisis": "Strike Guide - high-stakes bargaining and strike communications",
       "dfr": "Duty of Fair Representation - steward and officer literacy",
@@ -495,7 +507,7 @@
     "related": {
       "template": "Website Template",
       "brandKit": "Brand Kit",
-      "plan": "Social Media Plan",
+      "plan": "First week",
       "qr": "QR Link Cards"
     },
     "tocLabel": "Guide sections",
@@ -673,7 +685,7 @@
     "pair": {
       "navLabel": "Pair channels",
       "title": "Pair the site with other channels",
-      "intro": "The website is the fourth channel in the Social Media Plan — not a replacement for boards or social. Use the same Brand Kit everywhere so members recognize you.",
+      "intro": "The website is the fourth channel in the First week roadmap — not a replacement for boards, print, or social. Use the same Brand Kit everywhere so members recognize you.",
       "items": {
         "boards": {
           "label": "Union boards",
@@ -700,7 +712,7 @@
     "filterLabel": "Filter by category",
     "whyHeading": "Why it works",
     "planPrompt": "Need the full posting checklist?",
-    "planLink": "Open the Social Media Plan",
+    "planLink": "Open the First week roadmap",
     "categories": {
       "all": "All",
       "strike": "Strike action",
@@ -1445,7 +1457,7 @@
       "title": "How to learn this hub",
       "intro": "Pick a path based on what you need today.",
       "links": {
-        "plan": "Social Media Plan",
+        "plan": "First week",
         "blueprint": "The Blueprint",
         "boards": "Union Boards Guide",
         "print": "Print Guide",
@@ -1454,7 +1466,7 @@
         "photoConsent": "Photo Consent"
       },
       "blurb": {
-        "plan": "After Brand Kit: boards, socials, and website in order.",
+        "plan": "After Brand Kit: boards, print, socials, and website in order.",
         "blueprint": "Ongoing practice: platforms, tone, frequency, trolls, alt-text.",
         "boards": "Bare-minimum workplace boards and what to print.",
         "print": "Flyers and print habits for meetings and actions.",
@@ -1470,6 +1482,7 @@
         "Import the demo Brand Kit or complete onboarding for your local",
         "Export a circular local logo (PNG)",
         "Create and download a board notice (PDF)",
+        "Create a flyer with Flyer Maker (PDF)",
         "Create one social graphic with Graphic Maker",
         "Download the website ZIP and read the included README"
       ]
@@ -1485,6 +1498,7 @@
       "onboarding": "Brand setup wizard",
       "logo": "Logo Builder",
       "board": "Board Notice Maker",
+      "flyer": "Flyer Maker",
       "graphic": "Graphic Maker",
       "website": "Website Template",
       "crisis": "Strike Guide"
@@ -1507,7 +1521,7 @@
       "body": "A reusable 60-minute session for officers and volunteer communicators. Attendees leave with a logo, board notice, social graphic, and website ZIP - and understand the four-channel roadmap.",
       "outline": [
         "Pitch (about 8 min): problem, toolbox, four channels",
-        "Live walkthrough (about 10 min): Social Media Plan steps",
+        "Live walkthrough (about 10 min): First week roadmap steps",
         "Hands-on practice (about 30 min): checklist above",
         "Deploy and Q&A (about 10 min): website ZIP README, feedback"
       ],
@@ -2321,7 +2335,7 @@
       "commsDesc": "Public social media tools and guides",
       "grievance": "Grievances",
       "grievanceDesc": "Track grievances, deadlines, and notes",
-      "bumping": "College Bumping",
+      "bumping": "Stability Committee",
       "bumpingDesc": "Stability committee PDF comparison",
       "time": "Workforce Time",
       "timeDesc": "Clock hours for staff, release, and solidarity work",
@@ -3349,7 +3363,7 @@
     "appealDaysLabel": "appeal {days}d"
   },
   "bumping": {
-    "title": "College Bumping",
+    "title": "Stability Committee",
     "subtitle": "Stability committee position comparison and decision log",
     "disclaimer": "Checklists assist committee process - not legal advice. Follow your collective agreement.",
     "seniorityGuideLink": "Seniority & bumping playbook",

@@ -53,9 +53,11 @@ Never put public meeting RSVP invite copy on grievance email-draft APIs. Never t
 ## Sensible next candidates (after this milestone)
 
 1. Time **8c** scheduling / PTO (large; needs product cut)
-2. COMMS_BACKLOG “First week” Print step + copy sweep
+2. Password-reset + cron officer reminders (email infra exists; still opt-in / no member lists)
 3. Graphic Maker optional invite panel (R0.5 stretch — not blocking)
-4. Password-reset + cron officer reminders (email infra exists; still opt-in / no member lists)
+4. COMMS email/broadcast guide (fifth-channel deferral still stands)
+
+**Shipped this pass:** COMMS First week Print step + remaining “Social Media Plan” → “First week” copy sweep (2026-07-24).
 
 ## Agent habits reinforced this session
 

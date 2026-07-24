@@ -1,5 +1,11 @@
 # Progress Log
 
+## First week Print step + copy sweep (2026-07-24) — COMPLETE
+
+- [x] Print step on `/guide/social-media-plan` after boards / before socials (`FIRST_WEEK_STEP_KEYS` → Flyer Maker + Print Guide)
+- [x] EN/FR roadmap, Resources checklist/explore, Blueprint, Website Guide, Examples, workshop run sheets: “Social Media Plan” → “First week”
+- [x] Unit tests for step order + EN/FR step parity; `COMMS_BACKLOG.md` / `COMMS.md` / roadmap-next / ground-truth updated
+
 ## Milestone 1–10 — Comms v1 (2026-07-07)
 Scaffold through testing/CI — all complete.
 
@@ -132,7 +138,8 @@ Scaffold through testing/CI — all complete.
 - [x] Multi-union onboarding UI → **Phase 6** (shipped 2026-07-23 — memory overlay + invite accept)
 - [ ] Persistent Postgres + RLS (`unionId` / `localId` / `bargainingUnitId`) → **Phase 6** — scaffold + adapters + seed/app-role/smoke closed (`SEC-003`); flip host backends from memory when ready
 - [ ] Workforce Time **8c+** (scheduling, PTO, OT) → **Phase 8** (8-lite + 8-lite+ + 8a + **8b** shipped 2026-07-24)
-- [ ] Comms content backlog (email/broadcast guide; First week Print step + remaining copy sweep) → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
+- [x] Comms First week Print step + “Social Media Plan” → “First week” copy sweep → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
+- [ ] Comms content backlog (email/broadcast guide) → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
 - [x] Photo consent / member media checklist → `/guide/photo-consent` (Learn → Guides)
 
 ## Phase 6.0–6.4 multi-scope + Phase 7 scaffolds (2026-07-17) — COMPLETE (memory)
