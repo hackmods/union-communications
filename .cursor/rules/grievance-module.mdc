@@ -25,10 +25,13 @@ alwaysApply: false
 - Meeting scheduler + ICS (`/api/grievances/[id]/meetings`) — **grievance meetings only**, not local membership calendar; see `.cursor/rules/calendar-meetings.mdc`
 - CA snippet insert into notes; overdue board at `/app/overdue`
 - Steward mobile read-only via `useStewardReadOnly`
-- Attachments API scaffold (`/api/grievances/[id]/attachments`) — scan stub until object storage
+- Attachments UI + durable storage (`/api/grievances/[id]/attachments`)
+- **Outcome (FEAT-004):** `GET/POST /api/grievances/[id]/outcome` + detail UI + export; optional CA `appealDays` after `decidedAt` (≠ step `responseDays`)
+- **Related tasks:** `RelatedTasksPanel` via `relatedGrievanceId` filter (no new task API)
 
 ## Do Not
 - Auto-send email drafts or logged communications
 - Cross-union queries; local presidents must switch context for other locals
 - Mark attachments `clean` without a real scanner in production
 - Skip MFA or audit
+- Treat `appealDays` / deadline math as authoritative legal deadlines — always surface verify-against-CA copy

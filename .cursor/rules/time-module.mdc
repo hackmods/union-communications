@@ -1,5 +1,5 @@
 ---
-description: Workforce Time module (Phase 8-lite+)
+description: Workforce Time module (Phase 8-lite through 8b)
 globs:
   - src/lib/time/**
   - src/types/time.ts
@@ -16,26 +16,28 @@ VeriClock-class hub module for staff hours, steward release/duty-bank, and actio
 ## Access
 - MFA required; module gated by `enabledModules.includes("time")`
 - Scope every query by `unionId` + `localId`
-- Stewards clock/view own and enter past ranges; presidents approve, bulk events, windows, roster, reports
+- Stewards clock/view own and enter past ranges; presidents approve, bulk events, windows, roster, sites, reports
 - Audit every list/create/mutate via `auditLog`
 
-## 8-lite+ (memory adapter)
-- Clock in/out, manual/retro ranges, bulk event groups, job codes, submit/approve
-- Expected windows + weekday gap entry-needed tracking
-- CSV date-range export + union-business report
-- Optional GPS punch tags when `gpsPolicy` is `tag_optional` — never required for punch
-- No continuous GPS, no native apps, no payroll integrations
+## Shipped slices
+- **8-lite / 8-lite+:** clock, manual/retro, bulk events, job codes, expected windows, entry-needed, CSV + union-business report, optional GPS punch tags (`gpsPolicy: tag_optional`)
+- **8a:** `TIME_DB_BACKEND=postgres` (`DrizzleTimeAdapter`); default remains **memory**
+- **8b (2026-07-24):** work sites CRUD + geofence mode/radius UI; `POST /api/time/entries/bulk-approve`; export `?format=csv|xlsx|pdf`
 
 ## Data
-- Use `timeStore` from `src/lib/time/memory-adapter.ts` until Phase 6 Postgres
+- Use `timeStore` from `src/lib/time/store.ts` (memory or Drizzle via flag)
 - Categories: `staff` | `release` | `duty_bank` | `action` | `volunteer`
 - Entry sources: `clock` | `manual_range` | `bulk_event`
 - Reject overlapping non-rejected ranges for the same worker
+- Geofence: `src/lib/time/geofence.ts` against active `WorkSite` rows on clock-in when GPS present
+
+## Deferred (8c+) — do not silently expand “8b”
+- Scheduling, PTO, OT/pay-period engine
+- Hybrid slice inclusion; punch photo attachments
+- See `docs/modules/WORKFORCE_TIME.md`, `docs/audit/current-ground-truth.md`
 
 ## Do Not
 - Cross-union or cross-local reads without elevated role checks
 - Require GPS for clock-in when policy is `off` or `tag_optional`
-- Store attachments without virus scan (deferred Phase 7)
 - Hardcode OPSEU as default — seed tenant config only
-
-See `docs/modules/WORKFORCE_TIME.md`.
+- Treat “8b+” as permission to build scheduling/PTO without an explicit product cut

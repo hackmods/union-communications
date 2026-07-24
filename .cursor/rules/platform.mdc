@@ -11,14 +11,14 @@ Public brand: **UnionOps** (https://unionops.org). Slogan: **Solidarity.**
 OPSEU/CAAT is reference tenant #1 (`seed/reference-tenant-opseu-caat.json`), not a code default.
 
 ## Current status
-Phases **0–5 complete**. Next: Postgres+RLS, onboarding UI, attachments — see `.cursor/rules/roadmap-next.mdc`.
+Phases **0–7 near-complete** (Postgres adapters flag-gated; default memory). Time **8b** + Calendar R0–R3 shipped. Next: Time 8c+ or COMMS_BACKLOG — see `.cursor/rules/roadmap-next.mdc` and `docs/audit/current-ground-truth.md`.
 
 ## Stack
 - Next.js 16 App Router, TypeScript, Tailwind CSS v4
-- Public comms: client-side tools; hub: Auth.js + API routes (memory adapters until Postgres)
+- Public comms: client-side tools; hub: Auth.js + API routes (memory default; Drizzle via `*_DB_BACKEND=postgres`)
 - next-intl EN/FR with `[locale]` routing
-- Zustand + `DataAdapter` (`LocalStorageAdapter` for brand/prefs; memory for grievance/bumping/QOL)
-- html-to-image, JSZip, jsPDF, Web Crypto (hybrid), ICS export
+- Zustand + `DataAdapter` (`LocalStorageAdapter` default; optional `ApiAdapter` for Hub Brand Kit / prefs)
+- html-to-image, JSZip, jsPDF, Web Crypto (hybrid), ICS export; Zod on mutating Hub APIs
 
 ## Multi-Union Principles
 1. No union names in core code — tenant config and seed data only

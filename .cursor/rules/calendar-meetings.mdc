@@ -25,6 +25,8 @@ Full spec: [`docs/modules/CALENDAR_MEETINGS.md`](../../docs/modules/CALENDAR_MEE
 
 **Terminology guard:** grievance "Meeting scheduler" ≠ monthly membership / LEC events.
 
+**Three email/reminder builders (locked):** (1) public Comms invite `event-email.ts`, (2) Hub R2 copy draft `membership-meeting-reminder.ts`, (3) R3 SMTP self-remind — see `docs/audit/current-ground-truth.md`. Do not merge (1) and (2).
+
 ## Shipped today
 
 ### Phase A — local schedule

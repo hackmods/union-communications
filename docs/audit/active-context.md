@@ -1,6 +1,8 @@
 # UnionOps — Active Technical Context (for AI agents)
 
-**Purpose:** ground-truth technical reference so cheaper/faster sub-agents (Grok, Composer, etc.) don't have to re-derive the architecture from scratch. Generated 2026-07-22 from direct file reads; all paths verified against `git ls-files`. Read this alongside `AGENTS.md`, `.cursor/rules/platform.mdc`, `.cursor/rules/roadmap-next.mdc` (those remain the canonical *intent* docs; this file is the as-built map).
+**Purpose:** ground-truth technical reference so cheaper/faster sub-agents don't have to re-derive the architecture from scratch. **Generated 2026-07-22** from direct file reads — **this snapshot is historical.**
+
+**Prefer instead:** [`docs/audit/current-ground-truth.md`](current-ground-truth.md) (2026-07-24+) for what is shipped vs deferred after the audit execution. Keep reading `AGENTS.md` and `.cursor/rules/roadmap-next.mdc` for intent.
 
 ---
 

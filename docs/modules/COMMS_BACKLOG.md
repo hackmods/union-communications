@@ -41,7 +41,7 @@ Implemented on `/` via `HomeContent.tsx` (hero band, path layout, Brand Kit rail
 - **Why:** Locals need monthly meeting awareness; UnionOps today only supports grievance ICS and manual Comms announcement exports.
 - **Defer until:** Postgres + RLS (roadmap #1) for persisted schedules; transactional email (ARCHITECTURE v2+) before auto-send.
 - **Spec:** [`CALENDAR_MEETINGS.md`](CALENDAR_MEETINGS.md), `.cursor/rules/calendar-meetings.mdc`
-- **Shipped (R0):** Document Generator Event notice — hybrid LEC RSVP (quorum + on-site/remote food heads) + optional `.ics` + copy-only invite email.
-- **Next (R0.5):** Matching invite-email step on Board Notice (and optionally Graphic Maker) — plan: `.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`, rule: `.cursor/rules/event-rsvp-outreach.mdc`.
-- **Later (R1):** Hub `UnionMeeting` + `joinMode` + public `/r/[token]` after Postgres — not a `/member` portal.
-- **Do not:** Treat the email/broadcast guide above as implying a calendar ships with it; do not add `/app/calendar` nav stub without a page.
+- **Shipped (R0 + R0.5):** Document Generator Event notice — hybrid LEC RSVP + `.ics` + copy-only invite email; Board Notice matching invite via `InviteEmailPanel` + `fieldsFromBoardNotice`.
+- **Shipped (R1–R3 Hub):** token RSVP `/r/[token]`, banner tallies, SMTP opt-in, Hub copy-only officer reminder draft (`membership-meeting-reminder.ts`) — distinct from public invite email.
+- **Optional stretch:** Graphic Maker `meetingNotice` invite panel if fields exist.
+- **Do not:** Treat the email/broadcast guide above as implying a calendar ships with it; do not conflate public invite email with Hub R2 reminder draft (see `docs/audit/current-ground-truth.md`).

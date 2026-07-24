@@ -4,19 +4,19 @@ overview: Extend the shipped Document Generator Event notice pack (hybrid RSVP E
 todos:
   - id: shared-invite-ui
     content: Extract reusable InviteEmailPanel (or hook) from Document Generator that wraps buildEventInviteEmail + copy/mailto actions
-    status: pending
+    status: completed
   - id: board-notice-step
     content: Add invite-email step/card to /tools/board-notice when noticeType is meeting (or event); map headline/date/time/location/contact → EventEmailFields
-    status: pending
+    status: completed
   - id: graphic-maker-optional
     content: Optional — when Graphic Maker starter is meetingNotice, show the same InviteEmailPanel (lower priority than board-notice)
     status: pending
   - id: i18n-docs
     content: EN/FR boardNotice (and graphic-maker if touched) strings; update CALENDAR_MEETINGS + PROGRESS when shipping
-    status: pending
+    status: completed
   - id: tests
     content: Unit-test field mapping helper; lint + targeted unit tests before commit
-    status: pending
+    status: completed
 ---
 
 # Hybrid LEC RSVP outreach — Board Notice + printable tools
@@ -112,12 +112,14 @@ export function fieldsFromBoardNotice(s: {
 
 ### Acceptance
 
-- [ ] Board Notice + type Meeting: invite email subject/body reflect headline / when / where / contact
-- [ ] Copy subject, copy body, open mailto work
-- [ ] Switching notice type away from meeting/event hides the card
-- [ ] Document Generator still works (refactored to shared panel)
-- [ ] No new Hub surface; no network send
-- [ ] EN + FR strings; unit tests for mapper + existing `event-email.test.ts` still green
+- [x] Board Notice + type Meeting: invite email subject/body reflect headline / when / where / contact
+- [x] Copy subject, copy body, open mailto work
+- [x] Switching notice type away from meeting/event hides the card
+- [x] Document Generator still works (refactored to shared panel)
+- [x] No new Hub surface; no network send
+- [x] EN + FR strings; unit tests for mapper + existing `event-email.test.ts` still green
+
+**Status:** R0.5 primary scope shipped. Optional Graphic Maker stretch remains open. Hub officer reminder draft is **R2** (`membership-meeting-reminder.ts`), not this plan.
 
 ## Later (not this slice)
 

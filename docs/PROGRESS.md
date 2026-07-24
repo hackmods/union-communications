@@ -131,7 +131,7 @@ Scaffold through testing/CI — all complete.
 
 - [x] Multi-union onboarding UI → **Phase 6** (shipped 2026-07-23 — memory overlay + invite accept)
 - [ ] Persistent Postgres + RLS (`unionId` / `localId` / `bargainingUnitId`) → **Phase 6** — scaffold + adapters + seed/app-role/smoke closed (`SEC-003`); flip host backends from memory when ready
-- [ ] Workforce Time full (scheduling, PTO, union rollup) → **Phase 8** (8-lite + 8-lite+ shipped)
+- [ ] Workforce Time **8c+** (scheduling, PTO, OT) → **Phase 8** (8-lite + 8-lite+ + 8a + **8b** shipped 2026-07-24)
 - [ ] Comms content backlog (email/broadcast guide; First week Print step + remaining copy sweep) → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
 - [x] Photo consent / member media checklist → `/guide/photo-consent` (Learn → Guides)
 
@@ -269,7 +269,7 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Event `.ics` from Calendar start/end (`src/lib/calendar/event-ics.ts`) in Document Generator ZIP
 - [x] Copy-only RSVP invite email (`src/lib/comms/event-email.ts`) — public tool, no auto-send
 - [x] Phased live RSVP design (R1 Hub + `/r/[token]` with `joinMode`) — no member portal
-- [ ] **R0.5 (planned):** matching invite-email on Board Notice / printables — `.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`
+- [x] **R0.5 (shipped):** matching invite-email on Board Notice / printables — `InviteEmailPanel` + `event-email-from-notice.ts`; plan `.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`
 
 ## Phase 6/7 close-out + Calendar R1/R3 + E2E (2026-07-24)
 
@@ -548,3 +548,9 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Calendar R2 — copy-only `membership_meeting_reminder` on Hub Events board (banner tallies already shipped)
 - [x] `RelatedTasksPanel` on grievance + bumping detail (FEAT-003 case-detail follow-up)
 - [x] Time 8b — sites/geofence CRUD (`/api/time/sites`), bulk approve, XLSX/PDF export rollup
+
+## Agent knowledge capture (2026-07-24)
+
+- [x] [`docs/audit/current-ground-truth.md`](audit/current-ground-truth.md) — post-audit as-built + locked email/reminder surfaces + Time 8b vs 8c slicing
+- [x] Refresh `roadmap-next.mdc`, `event-rsvp-outreach.mdc`, `time-module.mdc`, `grievance-module.mdc`, `calendar-meetings.mdc`, `.cursorrules`, `AGENTS.md` so stale “next” / memory-only / R0.5-planned claims do not mislead agents
+- [x] Mark R0.5 shipped in `PROGRESS.md` / `COMMS_BACKLOG.md`; mark hybrid LEC plan todos completed (Graphic Maker stretch remains optional)

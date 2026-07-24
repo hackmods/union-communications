@@ -1,5 +1,5 @@
 ---
-description: Hybrid LEC RSVP outreach — shared invite email on public Comms tools; not Hub
+description: Hybrid LEC RSVP outreach — public Comms invite email (R0/R0.5); distinct from Hub R2 reminder draft
 globs: src/lib/comms/event-email*.ts,src/components/tools/InviteEmailPanel.tsx,src/app/**/tools/document-generator/**,src/app/**/tools/board-notice/**,src/app/**/tools/graphic-maker/**
 alwaysApply: false
 ---
@@ -11,38 +11,33 @@ alwaysApply: false
 - **Real LEC job:** hybrid meetings (on site + remote). Officers need **two numbers**: quorum = Yes (either mode); **food heads** = on-site Yes + guests only.
 - **Calendar Accept/Decline cannot do this** — native invite RSVP has no on-site vs remote. Use copy-only email + Excel (R0) or token form (R1).
 - **Sample invite email = public tool**, not Hub. Announcement class, no member PII, copy-only / `mailto:`. Grievance drafts stay in Hub (MFA + audit).
-- **No auto-send** until ARCHITECTURE v2+ transactional email. Footer on templates must say review-before-send / no collection.
+- **No auto-send** for this Comms path. Footer must say review-before-send / no collection.
+- **Hub officer reminder draft (R2)** is a **different** builder (`membership-meeting-reminder.ts`) on the Events board — do not merge into `event-email.ts` or put invite copy on grievance draft APIs. See `.cursor/rules/calendar-meetings.mdc` and `docs/audit/current-ground-truth.md`.
 
-## Shipped
+## Shipped (R0 + R0.5)
 
 | Asset | Path |
 |-------|------|
 | Invite builder | `src/lib/comms/event-email.ts` (`buildEventInviteEmail`, `buildMailto`) |
+| Board Notice mapper | `src/lib/comms/event-email-from-notice.ts` (`fieldsFromBoardNotice`) |
+| Shared UI | `src/components/tools/InviteEmailPanel.tsx` — Document Generator + Board Notice (`meeting`/`event`) |
 | RSVP Excel + tallies | `src/lib/export/office-export.ts` (`renderEventRsvpXlsx`) |
 | Event ICS | `src/lib/calendar/event-ics.ts` |
-| UI today | Document Generator Event notice only |
 
-## Planned next (R0.5)
+## Optional stretch (not blocking)
 
-Build plan: [`.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`](../plans/hybrid_lec_rsvp_outreach.plan.md)
-
-1. Extract shared **`InviteEmailPanel`** from Document Generator
-2. Mount on **Board Notice** when `noticeType` is `meeting` (optionally `event`)
-3. Map `headline→title`, `date`, `time`, `location`, `contact→contactName`; optional `quorumNeeded`
-4. Optional Graphic Maker `meetingNotice` — only if fields exist
-5. Do **not** duplicate Excel/ICS on Board Notice — link to Document Generator Event notice for the full pack
+- Graphic Maker `meetingNotice` starter — same panel only if date/time/location/contact-equivalent fields exist
 
 ## Do
 
 - Reuse `event-email.ts` — one source of EN/FR reply instructions (Attending + On site/Remote + dietary)
-- Keep invite email **adjacent** to print export (card/step), not forced onto the poster pixels
-- Unit-test any field mapper (`fieldsFromBoardNotice` or similar)
-- Update EN + FR; update `docs/modules/CALENDAR_MEETINGS.md` + `docs/PROGRESS.md` when shipping R0.5
+- Keep invite email **adjacent** to print export, not burned into poster pixels by default
+- Unit-test field mappers; keep Board Notice → Document Generator deep-link for Excel/ICS pack
 
 ## Do Not
 
-- Put event RSVP invite email in the Officer Hub
+- Put **public** event RSVP invite email in the Officer Hub (Hub gets the separate R2 reminder draft)
 - Call `/api/grievances/*/email-draft` for public meetings
-- Add SMTP, cron, or auto-send
+- Add SMTP, cron, or auto-send on this Comms path
 - Treat Board Notice as a live RSVP collector
-- Fork a second invite email template with different reply schema
+- Fork a second public invite template with a different reply schema

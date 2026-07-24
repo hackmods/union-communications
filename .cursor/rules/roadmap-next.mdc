@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Roadmap Status & Next Work
 
-Phases **0–5 are complete**. Phase **6 multi-scope (memory)** + Phase **7 scaffolds** shipped — Postgres + real attachments remain. See `docs/PROGRESS.md`, ADR-013.
+Phases **0–5 complete**. Phase **6/7** (Postgres adapters behind flags, onboarding, attachments, ApiAdapter, hybrid live-local, meetings A+R1+R3, MFA opt-in) **shipped**. Post-audit tickets largely closed. **Ground truth for agents:** [`docs/audit/current-ground-truth.md`](../../docs/audit/current-ground-truth.md) (prefer over stale `active-context.md`).
 
 ## Tenancy scopes (do not collapse)
 
@@ -18,42 +18,52 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 - CA steps: `resolveGrievanceConfig(unionId, { bargainingUnitId, localId })`
 - Brand Kit v2 profiles mirror FT/PT for Comms (not a member portal)
 
+## Shipped recently (do not rebuild)
+
+| Area | Status |
+|------|--------|
+| Postgres + RLS adapters | Flagged `*_DB_BACKEND` (default memory); flip per host |
+| Onboarding + invites | Memory overlay + `/app/onboarding`, `/app/invites` |
+| Attachments + Documents | Local FS / S3 + ClamAV HTTP; grievance/bumping UI |
+| Hybrid live-local | Client unlock + manual sync |
+| ApiAdapter | Opt-in Brand Kit / prefs |
+| MFA | `AUTH_MFA_ENABLED` opt-in; TOTP enroll UI; shared code not prod default |
+| Calendar A + R0–R3 | Schedule, banner tallies, Comms invite, Hub RSVP `/r/[token]`, SMTP opt-in, **R2 copy reminder draft** |
+| Time 8-lite / 8-lite+ / **8a** / **8b** | Clock, roster, windows, Postgres flag, **sites/geofence, bulk approve, XLSX/PDF** |
+| FEAT-003/004 follow-ups | Related tasks on case detail; outcome UI + export + `appealDays` |
+
 ## Next planned work (in order)
 
-1. **Postgres + RLS** — `unionId` / `localId` / optional `bargainingUnitId`; replace memory adapters; ADR-008 + ADR-013
-2. **Multi-union onboarding UI** — create locals + collections; invite; never hardcode OPSEU as default
-3. **Attachments production path** — object storage + real virus scan (stub exists)
-4. **Hybrid live local path** — mode=`local` + unlocked tab session; sync via POST `/api/hybrid/slice`
-5. **ApiAdapter** — authenticated API persistence for Brand Kit / prefs
-6. **Workforce Time (full)** — Postgres, scheduling, PTO, union rollup
-7. **TOTP MFA** — opt-in via `AUTH_MFA_ENABLED` (default off); when on, prefer `totp` over shared `AUTH_MFA_CODE`
+1. **Workforce Time 8c+** — scheduling, PTO, OT/pay-period policies (explicitly **not** part of 8b). Spec: `docs/modules/WORKFORCE_TIME.md`
+2. **COMMS_BACKLOG** — First week Print step + remaining “Social Media Plan” → “First week” copy sweep
+3. **Email ops polish** — password-reset; optional cron officer self-reminders (still no member broadcast lists)
+4. **Ops default flip** — production hosts choosing Postgres backends + real scanner (ops, not new adapters)
 
+## Deferred / non-goals
 
-## Deferred (post-Postgres, post-transactional email)
-
-8. **Local membership meeting config + reminders** — recurring schedule, public "next meeting" snippet, officer in-app banner; auto-send only after ARCHITECTURE v2+ email infra. Spec: `docs/modules/CALENDAR_MEETINGS.md`, `.cursor/rules/calendar-meetings.mdc`
-9. **Comms R0.5 (can ship before Postgres):** matching RSVP invite-email step on Board Notice / printables — reuse `src/lib/comms/event-email.ts`. Plan: `.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`, rule: `.cursor/rules/event-rsvp-outreach.mdc`
+- Member marketing email lists; `/member` portal for RSVP
+- Full VeriClock scheduling as a silent “8b+” expansion — require explicit product cut
+- CMEK / signed-URL attachment uploads (stretch on FEAT-001)
 
 ## Shipped hub surfaces (do not rebuild)
 
 | Path | Purpose |
 |------|---------|
-| `/app/time` | Workforce time clock + admin board (8-lite) |
-| `/app/hybrid` | Encrypted export/import; passphrase client-only |
-| `/app/overdue` | Overdue/upcoming board |
-| `/app/snippets` | CA clause library (collection-aware filter) |
-| `/app/marketplace` | Within-union templates only |
-| `/app/handoff` | President/admin reassignment wizard |
-| `/app/audit` | Audit log query (elevated officers) |
+| `/app/time` (+ `/admin`) | Workforce time + 8b sites/exports |
+| `/app/hybrid` | Encrypted export/import; live-local unlock |
+| `/app/meetings` | Local schedule + Events/RSVP + reminder draft |
+| `/app/overdue` | Grievance CA deadlines only |
+| `/app/snippets` | CA clause library |
+| `/app/marketplace` | Within-union templates |
+| `/app/handoff` | President/admin reassignment |
+| `/app/audit` | Audit log (elevated) |
+| `/app/tasks` | Tasks board; case detail embeds `RelatedTasksPanel` |
 
 ## Agent habits
 
-- Prefer extending memory adapters + APIs first; Postgres is a dedicated milestone
-- Gate write CTAs by role (`src/lib/qol/access.ts`, `canInitiateHandoff`)
-- Steward mobile read-only: `useStewardReadOnly` + `stewardMobileMode` preference
-- Hub Tools menu in `HubNav` — do not re-flatten; include Audit when elevated
-- Cross-local grievance reads: only `union_admin` / `division_admin` / `platform_admin` without switcher; presidents use Hub context switcher
-- No first-party `/member` portal — keep grievance notes internal
-- Hybrid live-local: client branch only (`useHybridCaseStore` / `case-client`) — never read browser storage from server adapters
-- Update `docs/PROGRESS.md` + `docs/ROADMAP.md` when closing a milestone
-- Before committing large or multi-file changes: run `npm run lint` and relevant tests (`npm run test:unit`; smoke when UI/routes change). Fix lint/test failures before push.
+- **Verify “next” against code** before implementing — docs lag (R0.5, Time 8a, R2 tallies were common false gaps)
+- Prefer extending memory adapters + APIs first; Postgres flip is ops
+- Three reminder/email surfaces stay separate (public invite vs Hub copy draft vs SMTP) — see ground-truth doc
+- Gate write CTAs by role; steward mobile read-only via `useStewardReadOnly`
+- Update `docs/PROGRESS.md` + module specs + relevant `.cursor/rules` when closing a milestone
+- Before large commits: `npm run lint` + `npm run test:unit` (smoke when UI/routes change)

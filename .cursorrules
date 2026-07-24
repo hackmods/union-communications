@@ -5,37 +5,40 @@ This file is a flat, tool-agnostic mirror of the most load-bearing rules already
 ## Product framing
 
 - **UnionOps** is multi-union by design. OPSEU/CAAT is reference tenant #1 (seed data only) — never hardcode a union name, colour, or local number in core code (`src/lib`, `src/app` outside seed/config files).
-- The platform is a **union casework + communications toolkit**, not a general Basecamp-style collaboration suite. Do not assume message boards, to-dos, chat, or a document vault exist — they do not (see `docs/audit/execution-backlog.md` `FEAT-001`–`FEAT-006`). If asked to build "Basecamp parity" features, these are greenfield, not extensions of existing code.
+- The platform is a **union casework + communications toolkit**. Basecamp-parity modules (discussions, tasks, documents) and many org-ops surfaces **have since shipped** — check `docs/PROGRESS.md` / `docs/audit/current-ground-truth.md` before assuming they are greenfield.
 
 ## Data & persistence — read this before touching any grievance/bumping/time/attachment code
 
-- **All confidential case data (grievances, bumping cases, time entries, attachment metadata, audit log) currently lives only in in-memory JS arrays** (`src/lib/{grievance,bumping,time,attachments,audit}/memory-adapter.ts`). There is no database. Data is lost on every process restart. Do not build features that assume durability across restarts without first checking whether Postgres has landed (`docs/ROADMAP.md` Phase 6).
-- Always persist through the existing `*Adapter` interface (`src/lib/grievance/adapter.ts` and siblings) — never reach into a memory-adapter's internal array directly from a route or component.
-- Comms tools (Brand Kit, preferences) must persist via the `DataAdapter` pattern (`src/lib/data/adapter.ts`) — never call `localStorage`/`fetch` directly from a tool component. Wrap every `localStorage` call in try/catch (private browsing and quota-exceeded both throw — see `docs/audit/execution-backlog.md` `TOOL-001`).
+- **Default demo path is still memory adapters** (`src/lib/*/memory-adapter.ts`) — data is lost on restart unless the host flips `*_DB_BACKEND=postgres` (Drizzle adapters + RLS exist; see `docs/audit/current-ground-truth.md`). Do not assume durability without checking backend flags.
+- Always persist through the existing `*Adapter` interface — never reach into a memory-adapter's internal array from a route or component.
+- Comms tools (Brand Kit, preferences) must persist via the `DataAdapter` pattern (`src/lib/data/adapter.ts`) — never call `localStorage`/`fetch` directly from a tool component. Wrap every `localStorage` call in try/catch (private browsing and quota-exceeded both throw — `TOOL-001` closed).
 - Every domain entity must carry `unionId` + `localId` (required for local-scoped data) + optional `bargainingUnitId`. Every list query must filter by at least `unionId`.
 
 ## RBAC & security
 
-- Server-side enforcement is the real boundary — UI hiding is secondary and never sufficient on its own. Every confidential API route must call the module's `require*Session()` helper (`src/lib/auth/{grievance,bumping,time}-session.ts`) or an equivalent explicit `auth()` + role + MFA check. Do not add a new `/app/**` page or `/api/**` route without one.
-- There is no `middleware.ts` — Next.js 16 route gating in this repo is `src/proxy.ts`, and its matcher **excludes `/api/**`**. Do not assume API routes are protected by anything other than their own explicit checks.
-- MFA (`mfaVerified` session claim) must never be treated as securely set just because it's present on the session object — the current implementation is a known-weak shared static code (`docs/audit/execution-backlog.md` `SEC-001`/`SEC-002`) and is being hardened; don't build new features that add more trust in the current mechanism without flagging it.
-- Never spread a raw parsed request body onto a stored entity (`{...existing, ...input}`) without an explicit field allowlist or schema validation first — this repo has no `zod`/schema-validation dependency yet, so validation is manual; be deliberate about which fields a PATCH/POST body is allowed to touch, especially `unionId`/`localId`/`id`.
-- Cross-reference `docs/RBAC.md`'s hard rules before writing any new access-control logic — especially "no cross-union reads, ever" and "cross-local reads only for `union_admin`/`division_admin`/`platform_admin`."
+- Server-side enforcement is the real boundary — UI hiding is secondary. Every confidential API route must call `require*Session()` or explicit `auth()` + role + MFA checks. `src/proxy.ts` matcher **excludes `/api/**`**.
+- MFA is **opt-in** via `AUTH_MFA_ENABLED` (default off for demos). When enabled, prefer TOTP; production rejects insecure shared-code mode unless break-glass. Do not trust client `session.update({ mfaVerified })` — grants are server-minted (`SEC-001` closed).
+- Never spread a raw parsed request body onto a stored entity without Zod / allowlist (zod is in use for grievance/bumping and peers).
+- Cross-reference `docs/RBAC.md` — especially "no cross-union reads, ever."
+
+## Product framing note (parity)
+
+- Discussions, tasks, documents vault, org modules (minutes, officers, elections, ledger, travel, polls) **shipped** after the July 2022 audit — do not treat `FEAT-001`–`FEAT-006` / `ORG-*` as greenfield. Read `docs/PROGRESS.md` + `docs/audit/current-ground-truth.md` before proposing rebuilds.
 
 ## Comms tools (canvas / export)
 
 - Always use `DataAdapter`/`LocalStorageAdapter` for comms tool state — this preserves data sovereignty (no server round-trip for brand/preference data) and is a hard product requirement, not a style preference.
 - New canvas tools should be built on `src/components/tools/ToolEditorLayout.tsx` (sticky desktop preview + mobile Edit/Preview tabs) rather than a bespoke layout, unless there's a documented reason not to (see `document-generator`/`alt-text` for the accepted exceptions).
-- Wrap every export action (`html-to-image`/`jsPDF`/office-export calls) in try/catch and surface a user-visible error state — most existing tools do not do this yet (`docs/audit/execution-backlog.md` `TOOL-002`); don't copy that anti-pattern into new tools.
-- Heavy export libraries (`pizzip`, `exceljs`, `pptxgenjs`, `jszip`) must be dynamic-imported (`await import(...)`) inside the function that needs them, never imported statically at module scope — `html-to-image`/`jsPDF` are known exceptions that should be fixed, not copied (`TOOL-004`).
-- Use `pickContrastingInk`/`coloursClash` from `src/lib/utils/ink.ts` for any runtime contrast decision in a canvas/export — do not hardcode a comparison colour (the `ContrastChecker` widget's `#FFFFFF` hardcoding on two tools is a known bug, not a pattern to follow).
+- Wrap every export action in try/catch and surface a user-visible error state (`useExportHandler` / `TOOL-002` closed for canvas tools).
+- Heavy export libraries must be dynamic-imported inside the function that needs them (`TOOL-004` closed for html-to-image/jspdf/docx paths).
+- Use `pickContrastingInk`/`coloursClash` from `src/lib/utils/ink.ts` for runtime contrast — do not hardcode comparison colours.
 
 ## UI / accessibility / i18n
 
 - All user-facing text must exist in both `messages/en.json` and `messages/fr.json` — no exceptions, including error/loading/empty states.
 - Ensure all new UI components are fully mobile-responsive for shop-floor use — stewards use these tools on phones. Prefer mobile-first Tailwind classes (base styles for mobile, `sm:`/`md:`/`lg:` to progressively enhance), matching the pattern established in the public Comms canvas tools rather than the sparser responsive coverage currently in the authenticated Hub dashboards.
-- New routes under `src/app/[locale]/app/**` should include a server-side `auth()` check and should get `loading.tsx`/`error.tsx` coverage as those are built out (currently absent platform-wide — see `docs/audit/execution-backlog.md` `UX-001`).
-- Add axe-core smoke coverage for any new page, especially authenticated Hub pages — current axe coverage is public-site-only; don't assume an existing pattern covers the Hub.
+- New routes under `src/app/[locale]/app/**` should include a server-side `auth()` check; `loading.tsx`/`error.tsx` exist at locale + Hub (`UX-001`).
+- Add axe-core smoke coverage for new Hub pages (`UI-003` established authenticated axe patterns).
 - Never use `dangerouslySetInnerHTML`.
 - No analytics, cookies, or third-party tracking scripts (ADR-006) — this includes new dependencies that phone home by default.
 

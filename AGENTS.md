@@ -11,20 +11,25 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 4. [`docs/COMPLIANCE.md`](docs/COMPLIANCE.md) - privacy, AODA
 5. [`docs/ROADMAP.md`](docs/ROADMAP.md) - phase status + next work
 6. [`docs/PROGRESS.md`](docs/PROGRESS.md) - what shipped
-7. Module spec: [`docs/modules/`](docs/modules/) — calendar/meetings: [`docs/modules/CALENDAR_MEETINGS.md`](docs/modules/CALENDAR_MEETINGS.md)
-8. Cursor rules: [`.cursor/rules/platform.mdc`](.cursor/rules/platform.mdc), [`roadmap-next.mdc`](.cursor/rules/roadmap-next.mdc), per-module rules — calendar/meetings: [`.cursor/rules/calendar-meetings.mdc`](.cursor/rules/calendar-meetings.mdc); RSVP outreach: [`.cursor/rules/event-rsvp-outreach.mdc`](.cursor/rules/event-rsvp-outreach.mdc), plan [`.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`](.cursor/plans/hybrid_lec_rsvp_outreach.plan.md)
+7. [`docs/audit/current-ground-truth.md`](docs/audit/current-ground-truth.md) - **post-audit as-built** (prefer over stale `active-context.md`)
+8. Module spec: [`docs/modules/`](docs/modules/) — calendar/meetings: [`docs/modules/CALENDAR_MEETINGS.md`](docs/modules/CALENDAR_MEETINGS.md)
+9. Cursor rules: [`.cursor/rules/platform.mdc`](.cursor/rules/platform.mdc), [`roadmap-next.mdc`](.cursor/rules/roadmap-next.mdc), per-module rules — calendar/meetings: [`.cursor/rules/calendar-meetings.mdc`](.cursor/rules/calendar-meetings.mdc); RSVP outreach: [`.cursor/rules/event-rsvp-outreach.mdc`](.cursor/rules/event-rsvp-outreach.mdc)
 
 ## Phase Status
 
 | Phase | Status |
 |-------|--------|
 | 0 Docs | Complete |
-| 1 Platform shell | Complete (onboarding UI deferred) |
-| 2 Grievance MVP | Complete |
+| 1 Platform shell | Complete (onboarding UI deferred → shipped Phase 6) |
+| 2 Grievance MVP | Complete (+ FEAT-004 outcome UI/export/`appealDays`) |
 | 3 College bumping | Complete |
-| 4 Hybrid mode | Complete |
+| 4 Hybrid mode | Complete (incl. live-local) |
 | 5 QOL | Complete |
-| **Next** | Postgres+RLS → onboarding UI → attachments |
+| 6/7 Persistence & hardening | Near-complete — adapters flagged; ops flip Postgres |
+| 8 Workforce Time | 8-lite / 8-lite+ / 8a / **8b** shipped; 8c+ scheduling/PTO planned |
+| Calendar / RSVP | Phase A + R0–R3 shipped (cron member broadcast deferred) |
+
+**Next:** Time 8c+ or COMMS_BACKLOG Print step — see `.cursor/rules/roadmap-next.mdc` and `docs/audit/current-ground-truth.md`.
 
 ## Multi-Union Rules
 
