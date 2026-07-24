@@ -111,7 +111,7 @@ export async function buildTravelExportPdf(opts: {
   }
   line("");
   line(
-    "Receipt ZIP is deferred until object storage is complete. Hand receipts separately.",
+    "Export Receipt ZIP from the Hub to bundle scanned receipts with this report.",
   );
   line(
     "UnionOps prepares this package only — it does not connect to SAP/ERP systems.",
@@ -121,35 +121,74 @@ export async function buildTravelExportPdf(opts: {
 
 export function travelExportFilename(
   auth: TravelAuthorization,
-  ext: "xlsx" | "pdf",
+  ext: "xlsx" | "pdf" | "zip",
 ): string {
   return `travel-${downloadSafeName(auth.eventName)}-${auth.id.slice(0, 8)}.${ext}`;
 }
 
 /**
- * Stub receipt ZIP — attachments for expense claims are not fully wired yet
- * (FEAT-001 object storage). Returns a ZIP with a README only.
+ * Expense handoff ZIP: report buffers (xlsx/pdf) plus receipt files under receipts/.
+ * Only includes attachments with scanStatus clean or skipped_dev.
  */
-export async function buildReceiptZipStub(opts: {
+export async function buildReceiptZip(opts: {
   auth: TravelAuthorization;
   claim: ExpenseClaim | null;
+  xlsxBuffer?: Buffer | null;
+  pdfBuffer?: Buffer | null;
 }): Promise<Blob> {
+  const { isDownloadAllowed } = await import("@/lib/attachments/scan");
+  const { attachmentStore } = await import("@/lib/attachments/store");
+  const { getObjectStorage } = await import("@/lib/attachments/storage");
   const JSZip = (await import("jszip")).default;
   const zip = new JSZip();
+
+  const base = downloadSafeName(opts.auth.eventName) || "travel";
+  const shortId = opts.auth.id.slice(0, 8);
+
+  if (opts.xlsxBuffer?.length) {
+    zip.file(`${base}-${shortId}.xlsx`, opts.xlsxBuffer);
+  }
+  if (opts.pdfBuffer?.length) {
+    zip.file(`${base}-${shortId}.pdf`, opts.pdfBuffer);
+  }
+
+  const receiptNames: string[] = [];
+  if (opts.claim) {
+    const attachments = await attachmentStore.listForExpenseClaim(opts.claim.id);
+    const storage = getObjectStorage();
+    const usedNames = new Set<string>();
+    for (const att of attachments) {
+      if (!isDownloadAllowed(att.scanStatus)) continue;
+      const bytes = await storage.get(att.storageKey);
+      if (!bytes?.length) continue;
+      let name = downloadSafeName(att.fileName) || att.id;
+      if (usedNames.has(name)) {
+        const ext = name.includes(".") ? name.slice(name.lastIndexOf(".")) : "";
+        const stem = ext ? name.slice(0, -ext.length) : name;
+        name = `${stem}-${att.id.slice(0, 6)}${ext}`;
+      }
+      usedNames.add(name);
+      zip.file(`receipts/${name}`, bytes);
+      receiptNames.push(name);
+    }
+  }
+
   zip.file(
     "README.txt",
     [
-      "UnionOps travel receipt package (stub)",
+      "UnionOps travel expense package",
       `Authorization: ${opts.auth.id}`,
       `Event: ${opts.auth.eventName}`,
       opts.claim
         ? `Claim: ${opts.claim.id} (${opts.claim.lineItems.length} line items)`
         : "No expense claim yet.",
+      `Receipts included: ${receiptNames.length}`,
+      ...receiptNames.map((n) => `  - receipts/${n}`),
       "",
-      "Receipt image/PDF bundling is deferred until attachment storage is production-ready.",
-      "Attach receipts manually when submitting to your parent union’s expense system.",
+      "Hand this package to your parent union’s expense system.",
       "UnionOps does not integrate with SAP/ERP.",
     ].join("\n"),
   );
+
   return zip.generateAsync({ type: "blob" });
 }

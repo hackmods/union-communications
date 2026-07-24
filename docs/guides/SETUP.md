@@ -79,6 +79,37 @@ GRIEVANCE_DB_BACKEND=postgres npm run db:durability-smoke
 
 Compose creates `unionops_app` via `docker/db-init/` + migration `0008_app_role.sql`. Set `POSTGRES_APP_PASSWORD` (or reuse `POSTGRES_PASSWORD` for demos). Migrations run as the owner via `MIGRATE_DATABASE_URL` in `docker/entrypoint.sh`.
 
+## Attachment storage & ClamAV (optional — FEAT-001)
+
+Default stores attachment/document bytes on local disk (`ATTACHMENT_STORAGE=local`, `ATTACHMENT_LOCAL_DIR=.data/attachments`). Encrypt that volume at the host level.
+
+### S3-compatible object storage
+
+```bash
+ATTACHMENT_STORAGE=s3
+ATTACHMENT_S3_BUCKET=unionops-attachments
+ATTACHMENT_S3_REGION=us-east-1
+ATTACHMENT_S3_ACCESS_KEY_ID=…
+ATTACHMENT_S3_SECRET_ACCESS_KEY=…
+# MinIO / path-style:
+# ATTACHMENT_S3_ENDPOINT=http://127.0.0.1:9000
+# ATTACHMENT_S3_FORCE_PATH_STYLE=true
+# SSE-S3 (default):
+# ATTACHMENT_S3_SSE=AES256
+```
+
+Credentials also accept `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY`. PutObject uses SSE-S3 AES256 by default; CMEK is not wired yet.
+
+### Virus scanner
+
+```bash
+ATTACHMENT_SCANNER_URL=http://127.0.0.1:8080
+# Optional: allow uploads when the scanner is down (dev only)
+# ATTACHMENT_SCAN_ALLOW_SKIP_ON_ERROR=true
+```
+
+Contract: `POST ${ATTACHMENT_SCANNER_URL}/scan` with raw file bytes and `Content-Type: application/octet-stream`. Response: JSON `{ "ok": true, "infected": false }` or plain text `stream: OK` / `… FOUND`. Compose has an optional `clamav` profile (`docker compose -f docker/docker-compose.yml --profile clamav up`) that starts the official ClamAV daemon only — put a REST proxy in front for the HTTP contract above. Default demo compose does not require ClamAV.
+
 ## Tests
 
 ```bash

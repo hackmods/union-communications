@@ -1,7 +1,7 @@
 import { desc, eq } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
 import { attachmentMeta } from "@/lib/db/schema";
-import { scanAttachmentStub } from "@/lib/attachments/scan";
+import { scanAttachment } from "@/lib/attachments/scan";
 import {
   buildStorageKey,
   getObjectStorage,
@@ -29,6 +29,7 @@ function mapRow(row: typeof attachmentMeta.$inferSelect): AttachmentMeta {
     bargainingUnitId: row.bargainingUnitId ?? undefined,
     grievanceId: row.grievanceId ?? undefined,
     bumpingCaseId: row.bumpingCaseId ?? undefined,
+    expenseClaimId: row.expenseClaimId ?? undefined,
     fileName: row.fileName,
     mimeType: row.mimeType,
     sizeBytes: row.sizeBytes,
@@ -73,6 +74,18 @@ export class DrizzleAttachmentAdapter implements AttachmentAdapter {
     return rows.map(mapRow);
   }
 
+  async listForExpenseClaim(
+    expenseClaimId: string,
+  ): Promise<AttachmentMeta[]> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(attachmentMeta)
+      .where(eq(attachmentMeta.expenseClaimId, expenseClaimId))
+      .orderBy(desc(attachmentMeta.createdAt));
+    return rows.map(mapRow);
+  }
+
   async getById(id: string): Promise<AttachmentMeta | null> {
     const db = getDb();
     const rows = await db
@@ -88,7 +101,7 @@ export class DrizzleAttachmentAdapter implements AttachmentAdapter {
     input: CreateAttachmentInput,
     meta: AttachmentCreateMeta,
   ): Promise<{ attachment?: AttachmentMeta; error?: string }> {
-    const scan = scanAttachmentStub(input);
+    const scan = await scanAttachment(input);
     if (!scan.ok) {
       return { error: scan.error ?? "Scan failed" };
     }

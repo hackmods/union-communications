@@ -5,7 +5,7 @@ import {
   requireTravelSession,
 } from "@/lib/auth/travel-session";
 import {
-  buildReceiptZipStub,
+  buildReceiptZip,
   buildTravelExportPdf,
   buildTravelExportXlsx,
   travelExportFilename,
@@ -65,15 +65,30 @@ export async function GET(
     }
 
     if (format === "zip") {
-      const blob = await buildReceiptZipStub({
+      const [xlsxBuffer, pdfBlob] = await Promise.all([
+        buildTravelExportXlsx({
+          auth: authorization,
+          advance,
+          claim,
+        }),
+        buildTravelExportPdf({
+          auth: authorization,
+          advance,
+          claim,
+        }),
+      ]);
+      const pdfBuffer = Buffer.from(await pdfBlob.arrayBuffer());
+      const blob = await buildReceiptZip({
         auth: authorization,
         claim,
+        xlsxBuffer,
+        pdfBuffer,
       });
       const buf = Buffer.from(await blob.arrayBuffer());
       return new NextResponse(new Uint8Array(buf), {
         headers: {
           "Content-Type": "application/zip",
-          "Content-Disposition": `attachment; filename="travel-receipts-stub-${authorization.id.slice(0, 8)}.zip"`,
+          "Content-Disposition": `attachment; filename="${travelExportFilename(authorization, "zip")}"`,
         },
       });
     }

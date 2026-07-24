@@ -83,3 +83,14 @@
 **Context:** Audit `UI-004` noted that the app never uses `next/font` and `globals.css` sets `--font-sans` to a pure system stack (`system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`) with no self-hosted webfont or font-loading strategy. That looked like a possible oversight versus a privacy choice.  
 **Decision:** Keep the system-font stack for platform chrome. Do not add `next/font/google`, a Google Fonts (or other CDN) stylesheet, or any remote font fetch — that would weaken ADR-006’s zero third-party network posture. Brand Kit / canvas exports remain free to use colours and layout; they do not introduce a platform-wide webfont. If a self-hosted brand typeface is desired later, use `next/font/local` only (font file bundled with the app, no external request).  
 **Consequences:** No webfont CLS/font-metric tuning is needed today (OS fonts paint immediately). Contributors must not “fix” typography by wiring Google Fonts. A future brand typeface is an explicit product choice + `next/font/local`, not a silent dependency add.
+
+## ADR-015: Anonymous pulse poll responses (FUTURE-006)
+**Status:** Accepted  
+**Context:** Pulse polls need member answers aggregated for officers, which cannot stay fully on-device. Public collection is a new surface vs ADR-006’s “zero data collection” for Comms tools. Petition signatures remain out of scope.  
+**Decision:**
+- Collect **anonymous** answers only (no member account, name, or email on the response record).
+- Require an **explicit consent checkbox** when `consentRequired` is true (default) before submit.
+- Never store raw client IP — store an optional **one-way hash** (`ipHash`) solely for light in-memory rate limiting.
+- No third-party analytics, trackers, or embeddable survey SaaS.
+- Retention: officers may close a poll; durable retention/deletion policy is the instance operator’s responsibility under hosted Hub data-controller rules (`docs/COMPLIANCE.md`). Prefer `POLLS_DB_BACKEND=postgres` for production collection; memory remains the demo default.
+**Consequences:** `POST /api/polls/[slug]/responses` is a documented public API route; officer create/results routes stay MFA-gated. Complements ADR-006 for Comms without reopening third-party tracking.

@@ -322,7 +322,7 @@ export function TravelBoard() {
                         size="sm"
                         onClick={() => void handleExport(auth.id, "zip")}
                       >
-                        {t("exportZipStub")}
+                        {t("exportZip")}
                       </Button>
                     </div>
                   </div>

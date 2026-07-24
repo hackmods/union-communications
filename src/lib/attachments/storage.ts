@@ -1,14 +1,23 @@
 import { mkdir, readFile, unlink, writeFile, access } from "node:fs/promises";
 import path from "node:path";
 import { constants } from "node:fs";
+import {
+  DeleteObjectCommand,
+  GetObjectCommand,
+  HeadObjectCommand,
+  PutObjectCommand,
+  S3Client,
+  type S3ClientConfig,
+} from "@aws-sdk/client-s3";
 
 /**
  * Object storage for attachment / document bytes.
  *
  * ATTACHMENT_STORAGE=local (default) → filesystem under ATTACHMENT_LOCAL_DIR
- * ATTACHMENT_STORAGE=s3 → stub only (MinIO/S3/R2 deferred — FEAT-001)
+ * ATTACHMENT_STORAGE=s3 → S3-compatible (MinIO / Cloudflare R2 / AWS) via @aws-sdk/client-s3
  *
- * Encryption-at-rest (SSE-S3 / CMEK) is deferred with S3.
+ * Encryption-at-rest: local volume encryption is an operator concern; S3 puts use
+ * SSE-S3 AES256 by default (`ATTACHMENT_S3_SSE=AES256`). CMEK remains optional.
  */
 
 export interface ObjectStorageAdapter {
@@ -49,7 +58,7 @@ export function sanitizeStorageSegment(value: string): string {
 }
 
 /**
- * Build a durable storage key (relative path / future S3 object key).
+ * Build a durable storage key (relative path / S3 object key).
  * Example: union/local/grievance/g-1/att-xyz/evidence.pdf
  */
 export function buildStorageKey(parts: {
@@ -125,24 +134,200 @@ export class LocalFilesystemStorage implements ObjectStorageAdapter {
   }
 }
 
-/**
- * Stub for future S3-compatible storage (MinIO / R2 / AWS).
- * Configure ATTACHMENT_STORAGE=s3 only after a real client lands.
- */
-export class S3ObjectStorageStub implements ObjectStorageAdapter {
-  async put(): Promise<void> {
+export type S3StorageConfig = {
+  region: string;
+  bucket: string;
+  accessKeyId: string;
+  secretAccessKey: string;
+  endpoint?: string;
+  forcePathStyle: boolean;
+  /** SSE-S3 algorithm; omit / "none" disables ServerSideEncryption on PutObject. */
+  serverSideEncryption?: "AES256";
+};
+
+export function resolveS3StorageConfig(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): S3StorageConfig {
+  const bucket = env.ATTACHMENT_S3_BUCKET?.trim();
+  if (!bucket) {
     throw new Error(
-      "ATTACHMENT_STORAGE=s3 is not implemented yet — use local filesystem (default) or wire MinIO/S3",
+      "ATTACHMENT_STORAGE=s3 requires ATTACHMENT_S3_BUCKET (and credentials)",
     );
   }
-  async get(): Promise<Buffer | null> {
-    throw new Error("ATTACHMENT_STORAGE=s3 is not implemented yet");
+  const accessKeyId =
+    env.ATTACHMENT_S3_ACCESS_KEY_ID?.trim() ||
+    env.AWS_ACCESS_KEY_ID?.trim() ||
+    "";
+  const secretAccessKey =
+    env.ATTACHMENT_S3_SECRET_ACCESS_KEY?.trim() ||
+    env.AWS_SECRET_ACCESS_KEY?.trim() ||
+    "";
+  if (!accessKeyId || !secretAccessKey) {
+    throw new Error(
+      "ATTACHMENT_STORAGE=s3 requires ATTACHMENT_S3_ACCESS_KEY_ID / ATTACHMENT_S3_SECRET_ACCESS_KEY (or AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY)",
+    );
   }
-  async delete(): Promise<void> {
-    throw new Error("ATTACHMENT_STORAGE=s3 is not implemented yet");
+
+  const sseRaw = (env.ATTACHMENT_S3_SSE ?? "AES256").trim().toUpperCase();
+  const serverSideEncryption =
+    sseRaw === "" || sseRaw === "NONE" || sseRaw === "OFF"
+      ? undefined
+      : ("AES256" as const);
+
+  const forcePathStyle =
+    env.ATTACHMENT_S3_FORCE_PATH_STYLE?.trim().toLowerCase() === "true" ||
+    env.ATTACHMENT_S3_FORCE_PATH_STYLE === "1";
+
+  return {
+    region: env.ATTACHMENT_S3_REGION?.trim() || "us-east-1",
+    bucket,
+    accessKeyId,
+    secretAccessKey,
+    endpoint: env.ATTACHMENT_S3_ENDPOINT?.trim() || undefined,
+    forcePathStyle,
+    serverSideEncryption,
+  };
+}
+
+function createS3Client(config: S3StorageConfig): S3Client {
+  const clientConfig: S3ClientConfig = {
+    region: config.region,
+    credentials: {
+      accessKeyId: config.accessKeyId,
+      secretAccessKey: config.secretAccessKey,
+    },
+    forcePathStyle: config.forcePathStyle,
+  };
+  if (config.endpoint) {
+    clientConfig.endpoint = config.endpoint;
   }
-  async exists(): Promise<boolean> {
-    throw new Error("ATTACHMENT_STORAGE=s3 is not implemented yet");
+  return new S3Client(clientConfig);
+}
+
+async function streamToBuffer(
+  body: unknown,
+): Promise<Buffer> {
+  if (!body) return Buffer.alloc(0);
+  if (Buffer.isBuffer(body)) return body;
+  if (body instanceof Uint8Array) return Buffer.from(body);
+  if (typeof body === "string") return Buffer.from(body);
+  if (typeof Blob !== "undefined" && body instanceof Blob) {
+    return Buffer.from(await body.arrayBuffer());
+  }
+  if (
+    typeof body === "object" &&
+    body !== null &&
+    Symbol.asyncIterator in body
+  ) {
+    const chunks: Buffer[] = [];
+    for await (const chunk of body as AsyncIterable<unknown>) {
+      chunks.push(
+        Buffer.isBuffer(chunk)
+          ? chunk
+          : Buffer.from(chunk as ArrayBufferLike),
+      );
+    }
+    return Buffer.concat(chunks);
+  }
+  throw new Error("Unsupported S3 object body type");
+}
+
+/**
+ * S3-compatible object storage (AWS S3, MinIO, Cloudflare R2).
+ * Pass a mock `S3Client` in tests; production uses `createS3Client`.
+ */
+export class S3ObjectStorage implements ObjectStorageAdapter {
+  private readonly client: S3Client;
+
+  constructor(
+    private readonly config: S3StorageConfig,
+    client?: S3Client,
+  ) {
+    this.client = client ?? createS3Client(config);
+  }
+
+  async put(key: string, bytes: Buffer, contentType: string): Promise<void> {
+    await this.client.send(
+      new PutObjectCommand({
+        Bucket: this.config.bucket,
+        Key: key,
+        Body: bytes,
+        ContentType: contentType,
+        ...(this.config.serverSideEncryption
+          ? { ServerSideEncryption: this.config.serverSideEncryption }
+          : {}),
+      }),
+    );
+  }
+
+  async get(key: string): Promise<Buffer | null> {
+    try {
+      const out = await this.client.send(
+        new GetObjectCommand({
+          Bucket: this.config.bucket,
+          Key: key,
+        }),
+      );
+      return await streamToBuffer(out.Body);
+    } catch (err) {
+      const name =
+        err && typeof err === "object" && "name" in err
+          ? String((err as { name: string }).name)
+          : "";
+      const status =
+        err && typeof err === "object" && "$metadata" in err
+          ? (err as { $metadata?: { httpStatusCode?: number } }).$metadata
+              ?.httpStatusCode
+          : undefined;
+      if (name === "NoSuchKey" || name === "NotFound" || status === 404) {
+        return null;
+      }
+      throw err;
+    }
+  }
+
+  async delete(key: string): Promise<void> {
+    try {
+      await this.client.send(
+        new DeleteObjectCommand({
+          Bucket: this.config.bucket,
+          Key: key,
+        }),
+      );
+    } catch {
+      // ignore missing / delete errors (parity with local adapter)
+    }
+  }
+
+  async exists(key: string): Promise<boolean> {
+    try {
+      await this.client.send(
+        new HeadObjectCommand({
+          Bucket: this.config.bucket,
+          Key: key,
+        }),
+      );
+      return true;
+    } catch (err) {
+      const name =
+        err && typeof err === "object" && "name" in err
+          ? String((err as { name: string }).name)
+          : "";
+      const status =
+        err && typeof err === "object" && "$metadata" in err
+          ? (err as { $metadata?: { httpStatusCode?: number } }).$metadata
+              ?.httpStatusCode
+          : undefined;
+      if (
+        name === "NotFound" ||
+        name === "NoSuchKey" ||
+        status === 404 ||
+        status === 403
+      ) {
+        return false;
+      }
+      throw err;
+    }
   }
 }
 
@@ -155,7 +340,7 @@ export function getObjectStorage(
   const mode = resolveAttachmentStorageMode(env);
   const adapter =
     mode === "s3"
-      ? new S3ObjectStorageStub()
+      ? new S3ObjectStorage(resolveS3StorageConfig(env))
       : new LocalFilesystemStorage(resolveAttachmentLocalDir(env));
   if (env === process.env) cached = adapter;
   return adapter;

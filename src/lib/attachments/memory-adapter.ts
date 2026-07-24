@@ -1,6 +1,6 @@
 import {
   isDownloadAllowed,
-  scanAttachmentStub,
+  scanAttachment,
 } from "@/lib/attachments/scan";
 import {
   buildStorageKey,
@@ -48,6 +48,14 @@ export class MemoryAttachmentAdapter implements AttachmentAdapter {
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   }
 
+  async listForExpenseClaim(
+    expenseClaimId: string,
+  ): Promise<AttachmentMeta[]> {
+    return store
+      .filter((a) => a.expenseClaimId === expenseClaimId)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
   async getById(id: string): Promise<AttachmentMeta | null> {
     return store.find((a) => a.id === id) ?? null;
   }
@@ -57,7 +65,7 @@ export class MemoryAttachmentAdapter implements AttachmentAdapter {
     input: CreateAttachmentInput,
     meta: AttachmentCreateMeta,
   ): Promise<{ attachment?: AttachmentMeta; error?: string }> {
-    const scan = scanAttachmentStub(input);
+    const scan = await scanAttachment(input);
     if (!scan.ok) {
       return { error: scan.error ?? "Scan failed" };
     }

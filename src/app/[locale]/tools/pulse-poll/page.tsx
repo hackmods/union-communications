@@ -20,6 +20,7 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import {
   createEmptyPulsePollDraft,
+  draftQuestionsToApi,
   loadPulsePollDraft,
   savePulsePollDraft,
   sanitizePollSlug,
@@ -37,6 +38,8 @@ export default function PulsePollPage() {
   const [qrSrc, setQrSrc] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [saveMsg, setSaveMsg] = useState<string | null>(null);
+  const [publishMsg, setPublishMsg] = useState<string | null>(null);
+  const [publishing, setPublishing] = useState(false);
   const seeded = useRef(false);
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
@@ -94,6 +97,48 @@ export default function PulsePollPage() {
   function persist() {
     const ok = savePulsePollDraft({ ...state, slug });
     setSaveMsg(ok ? t("saved") : t("saveError"));
+  }
+
+  async function publish() {
+    setPublishMsg(null);
+    const questions = draftQuestionsToApi(state.questions);
+    if (!state.title.trim() || questions.length === 0) {
+      setPublishMsg(t("minQuestions"));
+      return;
+    }
+    setPublishing(true);
+    try {
+      const res = await fetch("/api/polls", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          slug,
+          title: state.title.trim(),
+          intro: state.intro.trim() || undefined,
+          questions,
+          consentRequired: true,
+          status: "open",
+        }),
+      });
+      if (res.status === 401 || res.status === 403) {
+        setPublishMsg(t("publishAuthRequired"));
+        return;
+      }
+      if (res.status === 409) {
+        setPublishMsg(t("publishSlugTaken"));
+        return;
+      }
+      if (!res.ok) {
+        setPublishMsg(t("publishError"));
+        return;
+      }
+      persist();
+      setPublishMsg(t("published"));
+    } catch {
+      setPublishMsg(t("publishError"));
+    } finally {
+      setPublishing(false);
+    }
   }
 
   function updateQuestion(id: string, text: string) {
@@ -256,6 +301,14 @@ export default function PulsePollPage() {
         <Button type="button" onClick={persist}>
           {tc("save")}
         </Button>
+        <Button
+          type="button"
+          variant="secondary"
+          disabled={publishing}
+          onClick={() => void publish()}
+        >
+          {publishing ? t("publishing") : t("publish")}
+        </Button>
         <Button type="button" variant="outline" onClick={() => void copyLink()}>
           {copied ? t("linkCopied") : t("copyLink")}
         </Button>
@@ -263,6 +316,11 @@ export default function PulsePollPage() {
       {saveMsg && (
         <p className="text-sm text-gray-600" role="status">
           {saveMsg}
+        </p>
+      )}
+      {publishMsg && (
+        <p className="text-sm text-gray-600" role="status">
+          {publishMsg}
         </p>
       )}
       <p className="break-all text-xs text-gray-500">

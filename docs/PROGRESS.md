@@ -48,7 +48,7 @@ Scaffold through testing/CI — all complete.
 - [x] CA step escalation checklist
 - [x] Email draft templates (EN/FR) — copy only, never auto-send
 - [x] Export grievance bundle (JSON + PDF in ZIP)
-- [x] Document attachments — durable local object storage + metadata (FEAT-001 partial; S3/ClamAV deferred)
+- [x] Document attachments — durable local + S3 object storage, ClamAV HTTP scan, SSE-S3 (FEAT-001; CMEK stretch)
 - [ ] Persistent DB storage (memory adapter for MVP)
 
 ## Phase 3 — College Bumping MVP (2026-07-08) — COMPLETE
@@ -471,7 +471,7 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `UX-001` — App Router `error.tsx` / `loading.tsx` / `not-found.tsx` for `[locale]` + Hub `/app`; shared `Skeleton`; EN/FR `routeUi` copy
 - [x] `SEC-007` — bcrypt auth path; demo roster production-gated; Postgres users via `AUTH_USERS_BACKEND`; invite create/accept APIs (email + password-reset deferred)
 - [x] Time module Drizzle adapter + store (`TIME_DB_BACKEND`); migrations `0004_time_tables` / `0005_time_rls`
-- [x] `FEAT-001` (partial) — durable local attachments: `attachment_meta` + `documents` (`0006_attachments`), filesystem object store (`ATTACHMENT_STORAGE=local`), store proxies (`ATTACHMENTS_DB_BACKEND`), grievance download route, Local Documents vault (`/app/documents`); S3 / ClamAV / SSE deferred
+- [x] `FEAT-001` — durable attachments: local FS + S3-compatible (`@aws-sdk/client-s3`, SSE-S3 AES256), ClamAV HTTP client (`ATTACHMENT_SCANNER_URL` → `POST /scan`), Documents vault; CMEK / signed-URL upload remain stretch
 - [x] `TOOL-001` / `TOOL-006` / `TOOL-007` — LocalStorage try/catch + session fallback; Brand Kit v2 write-back; `opseu-*` → `unionops-*` keys
 - [x] `TOOL-002` — `useExportHandler` + danger Callout on canvas tool exports
 - [x] `FEAT-003` — Task entity + Hub board (`/app/tasks`, `MyTasksWidget`, CRUD `/api/tasks`, `"tasks"` HubModule); memory default + optional `TASKS_DB_BACKEND=postgres` (`DrizzleTaskAdapter`, migration `0009_tasks` + RLS; `0008` reserved for parallel SEC-003)
@@ -495,6 +495,6 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `ORG-006` — discretionary fund ledger (`LedgerEntry`, memory + optional `LEDGER_DB_BACKEND=postgres`, migration `0013_ledger` + RLS); CRUD `/api/ledger`; Hub `/app/ledger` running balance + CSV/XLSX; EN/FR + HubNav
 - [x] `ORG-004` — internal committees (`Committee`, memory + optional `COMMITTEES_DB_BACKEND=postgres`, migration `0014_committees` + RLS); CRUD `/api/committees`; Hub `/app/committees`; president/elevated gate; EN/FR + HubNav
 - [x] `ORG-003` — nominations + printable ballot (`ElectionCycle`/`Nomination`, memory + optional `ELECTIONS_DB_BACKEND=postgres`, migration `0015_elections` + RLS); Hub `/app/elections`; DOCX ballot; manual tallies; promote-to-roster; **no online voting**; EN/FR + HubNav
-- [x] `ORG-008` (partial) — travel authorization + cash advance + expense reconcile (`TravelAuthorization`/`CashAdvance`/`ExpenseClaim`, memory + optional `TRAVEL_DB_BACKEND=postgres`, migration `0016_travel` + RLS); ledger posts on advance/reconcile; `/api/travel/**`; Hub `/app/travel`; PDF/XLSX export; receipt ZIP stub; `AttachmentMeta.expenseClaimId`; no SAP/ERP
-- [x] `FUTURE-006` (partial) — Pulse Poll authoring only (`/tools/pulse-poll`, Brand Kit + questions + print/QR → `/poll/[slug]` placeholder with no-collection privacy copy; localStorage draft); response collection deferred on SEC-003
+- [x] `ORG-008` — travel authorization + cash advance + expense reconcile (`TravelAuthorization`/`CashAdvance`/`ExpenseClaim`, memory + optional `TRAVEL_DB_BACKEND=postgres`, migration `0016_travel` + RLS); ledger posts on advance/reconcile; `/api/travel/**`; Hub `/app/travel`; PDF/XLSX + receipt ZIP (`buildReceiptZip` + `listForExpenseClaim` + object storage); `AttachmentMeta.expenseClaimId`; no SAP/ERP
+- [x] `FUTURE-006` — Pulse Poll authoring + response collection (`PollDefinition`/`PollResponse`, memory + optional `POLLS_DB_BACKEND=postgres`, migration `0017_polls` + RLS); public `/poll/[slug]` + consent submit API; Hub `/app/polls` aggregates + CSV/XLSX; Publish from `/tools/pulse-poll`; ADR-015
 - [x] `ORG-007` — acknowledged Non-Build (dues/per-capita/member-HR); export-hook posture only

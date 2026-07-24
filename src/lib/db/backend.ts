@@ -106,6 +106,16 @@ export function electionsDbBackend(
   return resolveBackend("ELECTIONS_DB_BACKEND", env);
 }
 
+/**
+ * Pulse poll definitions + responses (FUTURE-006).
+ * Default memory for demos; production collection should use postgres.
+ */
+export function pollsDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("POLLS_DB_BACKEND", env);
+}
+
 /** True when any confidential module still uses the in-memory store. */
 export function isMemoryCaseDataActive(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -124,6 +134,7 @@ export function isMemoryCaseDataActive(
     officersDbBackend(env) === "memory" ||
     travelDbBackend(env) === "memory" ||
     committeesDbBackend(env) === "memory" ||
-    electionsDbBackend(env) === "memory"
+    electionsDbBackend(env) === "memory" ||
+    pollsDbBackend(env) === "memory"
   );
 }

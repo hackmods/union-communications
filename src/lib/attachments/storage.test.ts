@@ -1,17 +1,30 @@
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+  DeleteObjectCommand,
+  GetObjectCommand,
+  HeadObjectCommand,
+  PutObjectCommand,
+  type S3Client,
+} from "@aws-sdk/client-s3";
 import {
   buildStorageKey,
   LocalFilesystemStorage,
   resetObjectStorageCache,
   resolveAttachmentLocalDir,
   resolveAttachmentStorageMode,
+  resolveS3StorageConfig,
   sanitizeStorageSegment,
+  S3ObjectStorage,
 } from "@/lib/attachments/storage";
 import { MemoryAttachmentAdapter } from "@/lib/attachments/memory-adapter";
-import { isDownloadAllowed, scanAttachmentStub } from "@/lib/attachments/scan";
+import {
+  isDownloadAllowed,
+  scanAttachment,
+  scanAttachmentStub,
+} from "@/lib/attachments/scan";
 
 describe("attachment storage keys", () => {
   it("builds stable relative keys without traversal", () => {
@@ -71,6 +84,99 @@ describe("LocalFilesystemStorage", () => {
   });
 });
 
+describe("S3ObjectStorage (mocked client)", () => {
+  it("resolves config with SSE-S3 AES256 by default", () => {
+    const cfg = resolveS3StorageConfig({
+      ATTACHMENT_S3_BUCKET: "vault",
+      ATTACHMENT_S3_ACCESS_KEY_ID: "key",
+      ATTACHMENT_S3_SECRET_ACCESS_KEY: "secret",
+      ATTACHMENT_S3_ENDPOINT: "http://localhost:9000",
+      ATTACHMENT_S3_FORCE_PATH_STYLE: "true",
+    });
+    expect(cfg.bucket).toBe("vault");
+    expect(cfg.region).toBe("us-east-1");
+    expect(cfg.endpoint).toBe("http://localhost:9000");
+    expect(cfg.forcePathStyle).toBe(true);
+    expect(cfg.serverSideEncryption).toBe("AES256");
+  });
+
+  it("puts with ServerSideEncryption and round-trips via mock", async () => {
+    const objects = new Map<string, { body: Buffer; contentType: string }>();
+    const send = vi.fn(async (command: unknown) => {
+      if (command instanceof PutObjectCommand) {
+        const input = command.input;
+        expect(input.ServerSideEncryption).toBe("AES256");
+        objects.set(input.Key!, {
+          body: Buffer.from(input.Body as Buffer),
+          contentType: input.ContentType ?? "",
+        });
+        return {};
+      }
+      if (command instanceof GetObjectCommand) {
+        const row = objects.get(command.input.Key!);
+        if (!row) {
+          const err = new Error("missing") as Error & { name: string };
+          err.name = "NoSuchKey";
+          throw err;
+        }
+        return { Body: row.body };
+      }
+      if (command instanceof HeadObjectCommand) {
+        if (!objects.has(command.input.Key!)) {
+          const err = new Error("missing") as Error & {
+            name: string;
+            $metadata: { httpStatusCode: number };
+          };
+          err.name = "NotFound";
+          err.$metadata = { httpStatusCode: 404 };
+          throw err;
+        }
+        return {};
+      }
+      if (command instanceof DeleteObjectCommand) {
+        objects.delete(command.input.Key!);
+        return {};
+      }
+      throw new Error(`unexpected command ${String(command)}`);
+    });
+
+    const client = { send } as unknown as S3Client;
+    const storage = new S3ObjectStorage(
+      {
+        region: "us-east-1",
+        bucket: "vault",
+        accessKeyId: "k",
+        secretAccessKey: "s",
+        forcePathStyle: true,
+        serverSideEncryption: "AES256",
+      },
+      client,
+    );
+
+    const key = "u/l/document/d1/d1/file.pdf";
+    const bytes = Buffer.from("%PDF-s3");
+    await storage.put(key, bytes, "application/pdf");
+    expect(await storage.exists(key)).toBe(true);
+    expect(await storage.get(key)).toEqual(bytes);
+    await storage.delete(key);
+    expect(await storage.exists(key)).toBe(false);
+    expect(send).toHaveBeenCalled();
+  });
+
+  it.skipIf(!process.env.ATTACHMENT_S3_BUCKET)(
+    "integration: live S3 when ATTACHMENT_S3_BUCKET is set",
+    async () => {
+      const storage = new S3ObjectStorage(resolveS3StorageConfig(process.env));
+      const key = `ci-smoke/${Date.now()}.txt`;
+      const bytes = Buffer.from("unionops-s3-smoke");
+      await storage.put(key, bytes, "text/plain");
+      expect(await storage.exists(key)).toBe(true);
+      expect(await storage.get(key)).toEqual(bytes);
+      await storage.delete(key);
+    },
+  );
+});
+
 describe("MemoryAttachmentAdapter + scan", () => {
   afterEach(() => {
     resetObjectStorageCache();
@@ -113,8 +219,8 @@ describe("MemoryAttachmentAdapter + scan", () => {
     await rm(dir, { recursive: true, force: true });
   });
 
-  it("marks missing scanner as skipped_dev", () => {
-    const result = scanAttachmentStub(
+  it("marks missing scanner as skipped_dev", async () => {
+    const result = await scanAttachment(
       {
         fileName: "a.pdf",
         mimeType: "application/pdf",
@@ -122,6 +228,103 @@ describe("MemoryAttachmentAdapter + scan", () => {
         contentBase64: Buffer.from("abcdefghijkl").toString("base64"),
       },
       {},
+    );
+    expect(result).toEqual({ ok: true, status: "skipped_dev" });
+  });
+
+  it("sync stub still skips when scanner unset", () => {
+    expect(
+      scanAttachmentStub(
+        {
+          fileName: "a.pdf",
+          mimeType: "application/pdf",
+          sizeBytes: 4,
+          contentBase64: Buffer.from("abcd").toString("base64"),
+        },
+        {},
+      ),
+    ).toEqual({ ok: true, status: "skipped_dev" });
+  });
+
+  it("posts to scanner and marks clean on JSON ok", async () => {
+    const fetchImpl = vi.fn(async () =>
+      new Response(JSON.stringify({ ok: true, infected: false }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+    const payload = Buffer.from("abcdefghijkl");
+    const result = await scanAttachment(
+      {
+        fileName: "a.pdf",
+        mimeType: "application/pdf",
+        sizeBytes: payload.length,
+        contentBase64: payload.toString("base64"),
+      },
+      { ATTACHMENT_SCANNER_URL: "http://clamav.local" },
+      fetchImpl as unknown as typeof fetch,
+    );
+    expect(result).toEqual({ ok: true, status: "clean" });
+    expect(fetchImpl).toHaveBeenCalledWith(
+      "http://clamav.local/scan",
+      expect.objectContaining({ method: "POST" }),
+    );
+  });
+
+  it("parses ClamAV stream: OK text", async () => {
+    const fetchImpl = vi.fn(
+      async () => new Response("stream: OK", { status: 200 }),
+    );
+    const payload = Buffer.from("abcdefghijkl");
+    const result = await scanAttachment(
+      {
+        fileName: "a.pdf",
+        mimeType: "application/pdf",
+        sizeBytes: payload.length,
+        contentBase64: payload.toString("base64"),
+      },
+      { ATTACHMENT_SCANNER_URL: "http://scanner/scan" },
+      fetchImpl as unknown as typeof fetch,
+    );
+    expect(result.status).toBe("clean");
+  });
+
+  it("fails closed on scanner network error", async () => {
+    const fetchImpl = vi.fn(async () => {
+      throw new Error("ECONNREFUSED");
+    });
+    const payload = Buffer.from("abcdefghijkl");
+    const result = await scanAttachment(
+      {
+        fileName: "a.pdf",
+        mimeType: "application/pdf",
+        sizeBytes: payload.length,
+        contentBase64: payload.toString("base64"),
+      },
+      { ATTACHMENT_SCANNER_URL: "http://down" },
+      fetchImpl as unknown as typeof fetch,
+    );
+    expect(result.ok).toBe(false);
+    expect(result.status).toBe("pending");
+  });
+
+  it("skips on scanner error when ALLOW_SKIP_ON_ERROR", async () => {
+    const fetchImpl = vi.fn(async () => {
+      throw new Error("ECONNREFUSED");
+    });
+    const payload = Buffer.from("abcdefghijkl");
+    const result = await scanAttachment(
+      {
+        fileName: "a.pdf",
+        mimeType: "application/pdf",
+        sizeBytes: payload.length,
+        contentBase64: payload.toString("base64"),
+      },
+      {
+        ATTACHMENT_SCANNER_URL: "http://down",
+        ATTACHMENT_SCAN_ALLOW_SKIP_ON_ERROR: "true",
+      },
+      fetchImpl as unknown as typeof fetch,
     );
     expect(result).toEqual({ ok: true, status: "skipped_dev" });
   });

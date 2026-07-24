@@ -10,6 +10,8 @@ const PUBLIC_API_ROUTES = new Set([
   "health/route.ts",
   // Invite accept uses the token as the capability secret (SEC-007).
   "invites/[token]/route.ts",
+  // FUTURE-006 anonymous poll submit — rate-limited; no auth (ADR-015).
+  "polls/[slug]/responses/route.ts",
 ]);
 
 function walkRouteFiles(dir: string): string[] {
@@ -39,6 +41,7 @@ const AUTH_MARKERS = [
   "requireCommitteesSession",
   "requireElectionsSession",
   "requireTravelSession",
+  "requirePollsSession",
 ];
 
 describe("API route auth coverage", () => {

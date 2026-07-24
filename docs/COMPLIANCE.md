@@ -30,7 +30,8 @@ Separation of duties, immutable audit trail, 7-year retention default, member ph
 | Control | Comms | Officer Hub |
 |---------|-------|-------------|
 | CSP headers | Yes (`next.config.ts`) | Yes (`next.config.ts`) |
-| File upload validation | Type + size limits | + virus scan (planned) |
+| File upload validation | Type + size limits | + virus scan (ClamAV via `ATTACHMENT_SCANNER_URL`, or `skipped_dev`) |
+| Attachment encryption at rest | N/A (on-device) | Local disk: encrypt the host/volume. S3: SSE-S3 AES256 on PutObject (`ATTACHMENT_S3_SSE`). CMEK optional/stretch. |
 | Auth | None (public comms) | Auth.js + MFA (grant-hardened; TOTP preferred in prod) |
 | RLS | N/A | Postgres policies in migrations; runtime must use `unionops_app` (not table owner). Contract: `src/lib/db/rls-contract.ts`; live: `npm run db:rls-smoke` |
 | Dependency audit | CI `npm audit` | CI `npm audit` |
@@ -52,6 +53,12 @@ Hybrid backup export (`GET /api/hybrid/slice`) returns **plaintext JSON** over t
 ## Postgres durability (SEC-003)
 
 With `DATABASE_URL` + `GRIEVANCE_DB_BACKEND=postgres` (and peer flags for other modules), case rows survive process restart. Verify with `npm run db:durability-smoke` after `npm run db:migrate` and `npm run db:seed`. Compose demo defaults remain `memory` until an operator flips backends. See [`docs/guides/SETUP.md`](guides/SETUP.md).
+
+## Attachment storage & scanning (FEAT-001)
+
+- **Local (`ATTACHMENT_STORAGE=local`, default):** bytes under `ATTACHMENT_LOCAL_DIR` (`.data/attachments`). Encryption-at-rest depends on the host volume (LUKS, cloud disk encryption, etc.) — the app does not encrypt files itself.
+- **S3-compatible (`ATTACHMENT_STORAGE=s3`):** MinIO / Cloudflare R2 / AWS via `@aws-sdk/client-s3`. PutObject sets `ServerSideEncryption=AES256` (SSE-S3) by default. Customer-managed keys (CMEK / SSE-KMS) remain an optional stretch.
+- **Virus scan:** when `ATTACHMENT_SCANNER_URL` is set, uploads POST raw bytes to `${ATTACHMENT_SCANNER_URL}/scan` (`Content-Type: application/octet-stream`). Expect JSON `{ ok, infected? }` or ClamAV-style `stream: OK` / `FOUND`. Unset URL → `skipped_dev` (unless `ATTACHMENT_SCAN_MODE=strict`). Network failures fail closed (`pending`) unless `ATTACHMENT_SCAN_ALLOW_SKIP_ON_ERROR=true`.
 
 ## Legal Disclaimer (display in app)
 

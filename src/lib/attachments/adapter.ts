@@ -12,6 +12,8 @@ export interface AttachmentCreateMeta {
 
 export interface AttachmentAdapter {
   listForGrievance(grievanceId: string): Promise<AttachmentMeta[]>;
+  /** ORG-008 — receipt photos/PDFs linked to an expense claim. */
+  listForExpenseClaim(expenseClaimId: string): Promise<AttachmentMeta[]>;
   getById(id: string): Promise<AttachmentMeta | null>;
   createForGrievance(
     grievanceId: string,

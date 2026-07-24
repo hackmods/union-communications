@@ -65,5 +65,22 @@ services:
       MINUTES_DB_BACKEND: ${MINUTES_DB_BACKEND:-memory}
       AUTH_USERS_BACKEND: ${AUTH_USERS_BACKEND:-memory}
 
+  # Optional ClamAV REST sidecar for attachment scanning (FEAT-001).
+  # Not started by default — use: docker compose --profile clamav up
+  # Point ATTACHMENT_SCANNER_URL at http://clamav:8080 (POST /scan, octet-stream).
+  # Replace the image below with your preferred clamav-rest build when wiring prod.
+  clamav:
+    profiles: ["clamav"]
+    # Stub image comment — swap for a real clamav-rest image, e.g.:
+    # image: clamav/clamav:stable  (daemon only; pair with a REST wrapper)
+    # image: mkodockx/docker-clamav  (example community REST front-end)
+    image: clamav/clamav:1.4
+    restart: unless-stopped
+    ports:
+      - "${CLAMAV_PORT:-3310}:3310"
+    # App contract: HTTP POST ${ATTACHMENT_SCANNER_URL}/scan with raw bytes.
+    # This official image exposes clamd on 3310 only — put a REST proxy in front
+    # or set ATTACHMENT_SCANNER_URL to your own clamav-rest service.
+
 volumes:
   unionops_pgdata:

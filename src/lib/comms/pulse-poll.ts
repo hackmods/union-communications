@@ -1,10 +1,12 @@
-/** FUTURE-006 — local-first pulse poll draft (authoring only). */
+/** FUTURE-006 — local-first pulse poll draft + publish to collection API. */
 
 export const PULSE_POLL_STORAGE_KEY = "unionops-pulse-poll-draft";
 
 export interface PulsePollQuestion {
   id: string;
   text: string;
+  /** Optional choice options — when 2+, publishes as single_choice. */
+  options?: string[];
 }
 
 export interface PulsePollDraft {
@@ -62,4 +64,26 @@ export function sanitizePollSlug(raw: string): string {
     .replace(/-+/g, "-")
     .replace(/^-|-$/g, "")
     .slice(0, 64);
+}
+
+/** Map local draft questions into API PollQuestion shapes. */
+export function draftQuestionsToApi(questions: PulsePollQuestion[]) {
+  return questions
+    .filter((q) => q.text.trim())
+    .map((q) => {
+      const options = (q.options ?? []).map((o) => o.trim()).filter(Boolean);
+      if (options.length >= 2) {
+        return {
+          id: q.id,
+          text: q.text.trim(),
+          type: "single_choice" as const,
+          options,
+        };
+      }
+      return {
+        id: q.id,
+        text: q.text.trim(),
+        type: "free_text" as const,
+      };
+    });
 }

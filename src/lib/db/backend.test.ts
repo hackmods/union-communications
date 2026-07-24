@@ -12,6 +12,7 @@ import {
   ledgerDbBackend,
   minutesDbBackend,
   officersDbBackend,
+  pollsDbBackend,
   tasksDbBackend,
   timeDbBackend,
   travelDbBackend,
@@ -33,6 +34,7 @@ describe("db backend flags", () => {
     expect(travelDbBackend({})).toBe("memory");
     expect(committeesDbBackend({})).toBe("memory");
     expect(electionsDbBackend({})).toBe("memory");
+    expect(pollsDbBackend({})).toBe("memory");
     expect(isMemoryCaseDataActive({})).toBe(true);
   });
 
@@ -60,6 +62,7 @@ describe("db backend flags", () => {
     expect(electionsDbBackend({ ELECTIONS_DB_BACKEND: "postgres" })).toBe(
       "memory",
     );
+    expect(pollsDbBackend({ POLLS_DB_BACKEND: "postgres" })).toBe("memory");
     expect(
       grievanceDbBackend({
         GRIEVANCE_DB_BACKEND: "postgres",
@@ -126,6 +129,12 @@ describe("db backend flags", () => {
         DATABASE_URL: "postgres://localhost/unionops",
       }),
     ).toBe("postgres");
+    expect(
+      pollsDbBackend({
+        POLLS_DB_BACKEND: "postgres",
+        DATABASE_URL: "postgres://localhost/unionops",
+      }),
+    ).toBe("postgres");
   });
 
   it("reports memory inactive only when all backends are postgres", () => {
@@ -145,6 +154,7 @@ describe("db backend flags", () => {
       TRAVEL_DB_BACKEND: "postgres",
       COMMITTEES_DB_BACKEND: "postgres",
       ELECTIONS_DB_BACKEND: "postgres",
+      POLLS_DB_BACKEND: "postgres",
     };
     expect(auditDbBackend(env)).toBe("postgres");
     expect(timeDbBackend(env)).toBe("postgres");
@@ -158,6 +168,7 @@ describe("db backend flags", () => {
     expect(travelDbBackend(env)).toBe("postgres");
     expect(committeesDbBackend(env)).toBe("postgres");
     expect(electionsDbBackend(env)).toBe("postgres");
+    expect(pollsDbBackend(env)).toBe("postgres");
     expect(isMemoryCaseDataActive(env)).toBe(false);
   });
 
@@ -178,6 +189,7 @@ describe("db backend flags", () => {
       TRAVEL_DB_BACKEND: "postgres",
       COMMITTEES_DB_BACKEND: "postgres",
       ELECTIONS_DB_BACKEND: "postgres",
+      POLLS_DB_BACKEND: "postgres",
     };
     expect(isMemoryCaseDataActive(env)).toBe(true);
   });
@@ -198,6 +210,7 @@ describe("db backend flags", () => {
       OFFICERS_DB_BACKEND: "postgres",
       COMMITTEES_DB_BACKEND: "postgres",
       ELECTIONS_DB_BACKEND: "postgres",
+      POLLS_DB_BACKEND: "postgres",
     };
     expect(isMemoryCaseDataActive(env)).toBe(true);
   });
@@ -218,6 +231,7 @@ describe("db backend flags", () => {
       OFFICERS_DB_BACKEND: "postgres",
       COMMITTEES_DB_BACKEND: "postgres",
       ELECTIONS_DB_BACKEND: "postgres",
+      POLLS_DB_BACKEND: "postgres",
     };
     expect(isMemoryCaseDataActive(env)).toBe(true);
   });
@@ -238,6 +252,7 @@ describe("db backend flags", () => {
       OFFICERS_DB_BACKEND: "postgres",
       COMMITTEES_DB_BACKEND: "postgres",
       ELECTIONS_DB_BACKEND: "postgres",
+      POLLS_DB_BACKEND: "postgres",
     };
     expect(isMemoryCaseDataActive(env)).toBe(true);
   });
@@ -258,6 +273,7 @@ describe("db backend flags", () => {
       OFFICERS_DB_BACKEND: "postgres",
       COMMITTEES_DB_BACKEND: "postgres",
       ELECTIONS_DB_BACKEND: "postgres",
+      POLLS_DB_BACKEND: "postgres",
     };
     expect(isMemoryCaseDataActive(env)).toBe(true);
   });
@@ -278,6 +294,7 @@ describe("db backend flags", () => {
       OFFICERS_DB_BACKEND: "postgres",
       COMMITTEES_DB_BACKEND: "postgres",
       ELECTIONS_DB_BACKEND: "postgres",
+      POLLS_DB_BACKEND: "postgres",
     };
     expect(isMemoryCaseDataActive(env)).toBe(true);
   });
@@ -298,6 +315,7 @@ describe("db backend flags", () => {
       OFFICERS_DB_BACKEND: "memory",
       COMMITTEES_DB_BACKEND: "postgres",
       ELECTIONS_DB_BACKEND: "postgres",
+      POLLS_DB_BACKEND: "postgres",
     };
     expect(isMemoryCaseDataActive(env)).toBe(true);
   });
@@ -319,6 +337,7 @@ describe("db backend flags", () => {
       TRAVEL_DB_BACKEND: "postgres",
       COMMITTEES_DB_BACKEND: "memory",
       ELECTIONS_DB_BACKEND: "postgres",
+      POLLS_DB_BACKEND: "postgres",
     };
     expect(isMemoryCaseDataActive(env)).toBe(true);
   });
@@ -340,6 +359,29 @@ describe("db backend flags", () => {
       TRAVEL_DB_BACKEND: "postgres",
       COMMITTEES_DB_BACKEND: "postgres",
       ELECTIONS_DB_BACKEND: "memory",
+      POLLS_DB_BACKEND: "postgres",
+    };
+    expect(isMemoryCaseDataActive(env)).toBe(true);
+  });
+
+  it("keeps memory active when polls backend is still memory", () => {
+    const env = {
+      DATABASE_URL: "postgres://localhost/unionops",
+      GRIEVANCE_DB_BACKEND: "postgres",
+      BUMPING_DB_BACKEND: "postgres",
+      AUDIT_DB_BACKEND: "postgres",
+      TIME_DB_BACKEND: "postgres",
+      ATTACHMENTS_DB_BACKEND: "postgres",
+      DISCUSSIONS_DB_BACKEND: "postgres",
+      TASKS_DB_BACKEND: "postgres",
+      INFORMAL_LOG_DB_BACKEND: "postgres",
+      MINUTES_DB_BACKEND: "postgres",
+      LEDGER_DB_BACKEND: "postgres",
+      OFFICERS_DB_BACKEND: "postgres",
+      TRAVEL_DB_BACKEND: "postgres",
+      COMMITTEES_DB_BACKEND: "postgres",
+      ELECTIONS_DB_BACKEND: "postgres",
+      POLLS_DB_BACKEND: "memory",
     };
     expect(isMemoryCaseDataActive(env)).toBe(true);
   });

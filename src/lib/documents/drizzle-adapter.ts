@@ -1,7 +1,7 @@
 import { and, desc, eq } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
 import { documents } from "@/lib/db/schema";
-import { scanAttachmentStub } from "@/lib/attachments/scan";
+import { scanAttachment } from "@/lib/attachments/scan";
 import {
   buildStorageKey,
   getObjectStorage,
@@ -99,7 +99,7 @@ export class DrizzleDocumentAdapter implements DocumentAdapter {
     input: CreateDocumentInput,
     meta: DocumentCreateMeta,
   ): Promise<{ document?: DocumentRecord; error?: string }> {
-    const scan = scanAttachmentStub(input);
+    const scan = await scanAttachment(input);
     if (!scan.ok) {
       return { error: scan.error ?? "Scan failed" };
     }
