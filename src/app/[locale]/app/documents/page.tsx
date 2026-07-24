@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { DocumentsVault } from "@/components/hub/DocumentsVault";
@@ -17,7 +18,7 @@ export default async function DocumentsPage({
   if (!session?.user) {
     redirect(`/${locale}/app/login`);
   }
-  if (!session.user.mfaVerified) {
+  if (!sessionMfaOk(session)) {
     redirect(`/${locale}/app/mfa`);
   }
   const roles = (session.user.roles ?? []) as UserRole[];

@@ -6,12 +6,13 @@ alwaysApply: false
 
 # Hybrid & QOL Modules
 
-## Hybrid (Phase 4)
+## Hybrid (Phase 4 + live-local)
 - Format: `lunion-hybrid-v1` — PBKDF2 + AES-GCM via Web Crypto (`src/lib/crypto/passphrase.ts`)
 - Passphrase **never** sent to the server; API exchanges plaintext slices over MFA only
 - Routes: `GET/POST /api/hybrid/slice`; UI `/app/hybrid`
 - Audit: `hybrid.export` / `hybrid.import`
-- Local slice in `localStorage` (`LocalHybridSliceAdapter`) is a **backup**, not the live store — do not pretend otherwise in UI copy
+- Encrypted slice in `localStorage` (`LocalHybridSliceAdapter`); when mode=`local` and unlocked, client grievance/bumping screens use `live-session` + `case-client` (not server adapters reading browser storage)
+- Sync to hub is explicit POST; attachments remain hub-backed
 
 ## QOL (Phase 5+)
 - Types: `src/types/qol.ts` — optional `bargainingUnitId` on snippets / marketplace
@@ -26,5 +27,5 @@ alwaysApply: false
 - Auto-send email drafts or member communications
 - Show handoff/share/delete CTAs the API will 403
 - Cross-union marketplace or snippet reads
-- Treat hybrid “local mode” as offline source of truth until live path ships
+- Pretend server adapters read browser `localStorage` for hybrid live-local — client pages must branch
 - Build a first-party member self-service portal under QOL

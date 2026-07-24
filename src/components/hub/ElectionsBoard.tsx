@@ -433,7 +433,7 @@ export function ElectionsBoard() {
                             · {n.position} · {nomStatusLabel(n.status)}
                           </span>
                           {n.nominator && (
-                            <span className="block text-xs text-gray-400">
+                            <span className="block text-xs text-gray-600">
                               {t("nominatedBy", { name: n.nominator })}
                             </span>
                           )}

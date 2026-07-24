@@ -18,17 +18,25 @@ type CreateInviteResponse = {
   expiresAt: string;
   acceptPath: string;
   token: string;
+  emailSent?: boolean;
+  emailReason?: string;
 };
+
+const emailUiEnabled =
+  process.env.NEXT_PUBLIC_EMAIL_ENABLED === "true";
 
 export function InvitesBoard() {
   const t = useTranslations("invites");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [roles, setRoles] = useState<InviteRoleOption[]>(["local_steward"]);
+  const [sendEmailOnCreate, setSendEmailOnCreate] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [created, setCreated] = useState<CreateInviteResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [sendingEmail, setSendingEmail] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<string | null>(null);
 
   function toggleRole(role: InviteRoleOption) {
     setRoles((prev) =>
@@ -43,6 +51,7 @@ export function InvitesBoard() {
     setError(null);
     setCreated(null);
     setCopied(false);
+    setEmailStatus(null);
     if (roles.length === 0) {
       setError(t("rolesRequired"));
       return;
@@ -52,7 +61,14 @@ export function InvitesBoard() {
       const res = await fetch("/api/invites", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, roles }),
+        body: JSON.stringify({
+          email,
+          name,
+          roles,
+          ...(emailUiEnabled && sendEmailOnCreate
+            ? { sendEmail: true }
+            : {}),
+        }),
       });
       if (!res.ok) {
         setError(t("createError"));
@@ -60,9 +76,19 @@ export function InvitesBoard() {
       }
       const data = (await res.json()) as CreateInviteResponse;
       setCreated(data);
+      if (data.emailSent === true) {
+        setEmailStatus(t("emailSent"));
+      } else if (data.emailSent === false) {
+        setEmailStatus(
+          data.emailReason === "not_configured"
+            ? t("emailNotConfigured")
+            : t("emailSendError"),
+        );
+      }
       setEmail("");
       setName("");
       setRoles(["local_steward"]);
+      setSendEmailOnCreate(false);
     } catch {
       setError(t("createError"));
     } finally {
@@ -84,6 +110,34 @@ export function InvitesBoard() {
     }
   }
 
+  async function sendInviteEmail() {
+    if (!created?.token) return;
+    setSendingEmail(true);
+    setEmailStatus(null);
+    setError(null);
+    try {
+      const res = await fetch(
+        `/api/invites/${encodeURIComponent(created.token)}/email`,
+        { method: "POST" },
+      );
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        reason?: string;
+      };
+      if (res.ok && data.ok) {
+        setEmailStatus(t("emailSent"));
+      } else if (data.reason === "not_configured" || res.status === 503) {
+        setEmailStatus(t("emailNotConfigured"));
+      } else {
+        setEmailStatus(t("emailSendError"));
+      }
+    } catch {
+      setEmailStatus(t("emailSendError"));
+    } finally {
+      setSendingEmail(false);
+    }
+  }
+
   return (
     <PageShell size="focus" className="space-y-6">
       <header>
@@ -94,7 +148,7 @@ export function InvitesBoard() {
       </header>
 
       <Callout tone="muted">
-        <p>{t("emailDeferred")}</p>
+        <p>{emailUiEnabled ? t("emailReady") : t("emailDeferred")}</p>
       </Callout>
 
       <form onSubmit={handleSubmit} className="space-y-3">
@@ -128,6 +182,13 @@ export function InvitesBoard() {
             ))}
           </div>
         </fieldset>
+        {emailUiEnabled && (
+          <Checkbox
+            checked={sendEmailOnCreate}
+            onChange={() => setSendEmailOnCreate((v) => !v)}
+            label={t("sendEmailOnCreate")}
+          />
+        )}
         {error && (
           <p className="text-sm text-red-600" role="alert">
             {error}
@@ -160,13 +221,30 @@ export function InvitesBoard() {
               date: new Date(created.expiresAt).toLocaleString(),
             })}
           </p>
-          <Button
-            type="button"
-            onClick={() => void copyLink()}
-            className="min-h-11"
-          >
-            {copied ? t("copied") : t("copyLink")}
-          </Button>
+          {emailStatus && (
+            <p className="text-sm text-gray-700" role="status">
+              {emailStatus}
+            </p>
+          )}
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              onClick={() => void copyLink()}
+              className="min-h-11"
+            >
+              {copied ? t("copied") : t("copyLink")}
+            </Button>
+            {emailUiEnabled && (
+              <Button
+                type="button"
+                onClick={() => void sendInviteEmail()}
+                disabled={sendingEmail}
+                className="min-h-11"
+              >
+                {sendingEmail ? t("sendingEmail") : t("sendEmail")}
+              </Button>
+            )}
+          </div>
         </section>
       )}
     </PageShell>

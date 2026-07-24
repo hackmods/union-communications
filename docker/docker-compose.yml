@@ -40,9 +40,11 @@ services:
       # Required — compose fails if unset (SEC-004). Generate: openssl rand -base64 32
       AUTH_SECRET: ${AUTH_SECRET:?Set AUTH_SECRET in docker/.env — openssl rand -base64 32}
       AUTH_URL: ${AUTH_URL:-http://localhost:3000}
-      # Demo compose: shared static code (SEC-002). Prefer AUTH_MFA_MODE=totp on real hosts.
+      # Demo compose: MFA off by default for usability. Opt in with AUTH_MFA_ENABLED=true.
+      AUTH_MFA_ENABLED: ${AUTH_MFA_ENABLED:-false}
       AUTH_MFA_MODE: ${AUTH_MFA_MODE:-shared_code_insecure}
-      AUTH_MFA_CODE: ${AUTH_MFA_CODE:?Set AUTH_MFA_CODE to a 6-digit shared code for this demo host}
+      AUTH_ALLOW_SHARED_MFA_IN_PROD: ${AUTH_ALLOW_SHARED_MFA_IN_PROD:-true}
+      AUTH_MFA_CODE: ${AUTH_MFA_CODE:-000000}
       POSTGRES_USER: ${POSTGRES_USER:-unionops}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in docker/.env}
       POSTGRES_DB: ${POSTGRES_DB:-unionops}

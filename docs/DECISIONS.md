@@ -94,3 +94,14 @@
 - No third-party analytics, trackers, or embeddable survey SaaS.
 - Retention: officers may close a poll; durable retention/deletion policy is the instance operator’s responsibility under hosted Hub data-controller rules (`docs/COMPLIANCE.md`). Prefer `POLLS_DB_BACKEND=postgres` for production collection; memory remains the demo default.
 **Consequences:** `POST /api/polls/[slug]/responses` is a documented public API route; officer create/results routes stay MFA-gated. Complements ADR-006 for Comms without reopening third-party tracking.
+
+## ADR-016: Transactional SMTP only (no marketing email)
+**Status:** Accepted  
+**Context:** Calendar R3 and Hub invites need one-shot mail (accept links, officer self-reminders, optional RSVP confirmations). Operators self-host (CapRover/Docker); a SaaS-only ESP would weaken the privacy posture. Marketing broadcasts and member list collection remain out of scope pending PIPEDA review (`docs/COMPLIANCE.md`).  
+**Decision:**
+- Use **SMTP via `nodemailer`** (`src/lib/email/send.ts`) gated by `EMAIL_ENABLED=true` plus `SMTP_*` / `EMAIL_FROM`.
+- **Transactional only** — invite accept links, officer reminder to `session.user.email`, and opt-in RSVP confirmation when `consentEmailConfirm` + email are provided.
+- **No marketing campaigns**, no subscription lists, no grievance case content on this path.
+- **Audit every send** (and skipped sends) via `auditLog`.
+- When email is disabled or misconfigured, helpers return `{ ok: false, reason: "not_configured" }`; copy-link / mailto flows remain available.
+**Consequences:** Operators must configure SMTP for auto-send; Hub Invites can expose Send email when `NEXT_PUBLIC_EMAIL_ENABLED=true`. Password-reset and cron reminders can reuse this helper later without opening a marketing channel.

@@ -1,4 +1,8 @@
 import type { EncryptedHybridFile, HybridLocalSliceMeta } from "./types";
+import {
+  clearLiveHybridSession,
+  isLiveHybridUnlocked,
+} from "./live-session";
 
 export const HYBRID_LOCAL_SLICE_KEY = "lunion-hybrid-local-slice";
 export const HYBRID_MODE_KEY = "lunion-hybrid-mode";
@@ -12,16 +16,44 @@ export interface HybridLocalSliceAdapter {
   getMeta(): Promise<HybridLocalSliceMeta | null>;
   getDataMode(): Promise<HybridDataMode>;
   setDataMode(mode: HybridDataMode): Promise<void>;
+  /** True when preferred mode is local and a decrypted tab session is unlocked. */
+  isLiveLocalActive(): Promise<boolean>;
+}
+
+function storageAvailable(): boolean {
+  try {
+    return typeof localStorage !== "undefined";
+  } catch {
+    return false;
+  }
 }
 
 function readJson<T>(key: string): T | null {
-  if (typeof window === "undefined") return null;
-  const raw = localStorage.getItem(key);
-  if (!raw) return null;
+  if (!storageAvailable()) return null;
   try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
     return JSON.parse(raw) as T;
   } catch {
     return null;
+  }
+}
+
+function writeJson(key: string, value: unknown): void {
+  if (!storageAvailable()) return;
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // private browsing / quota — caller surfaces via missing slice
+  }
+}
+
+function removeKey(key: string): void {
+  if (!storageAvailable()) return;
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    // ignore
   }
 }
 
@@ -31,13 +63,12 @@ export class LocalHybridSliceAdapter implements HybridLocalSliceAdapter {
   }
 
   async saveEncryptedSlice(file: EncryptedHybridFile): Promise<void> {
-    if (typeof window === "undefined") return;
-    localStorage.setItem(HYBRID_LOCAL_SLICE_KEY, JSON.stringify(file));
+    writeJson(HYBRID_LOCAL_SLICE_KEY, file);
   }
 
   async clearEncryptedSlice(): Promise<void> {
-    if (typeof window === "undefined") return;
-    localStorage.removeItem(HYBRID_LOCAL_SLICE_KEY);
+    removeKey(HYBRID_LOCAL_SLICE_KEY);
+    clearLiveHybridSession();
   }
 
   async getMeta(): Promise<HybridLocalSliceMeta | null> {
@@ -53,14 +84,30 @@ export class LocalHybridSliceAdapter implements HybridLocalSliceAdapter {
   }
 
   async getDataMode(): Promise<HybridDataMode> {
-    if (typeof window === "undefined") return "central";
-    const mode = localStorage.getItem(HYBRID_MODE_KEY);
-    return mode === "local" ? "local" : "central";
+    if (!storageAvailable()) return "central";
+    try {
+      const mode = localStorage.getItem(HYBRID_MODE_KEY);
+      return mode === "local" ? "local" : "central";
+    } catch {
+      return "central";
+    }
   }
 
   async setDataMode(mode: HybridDataMode): Promise<void> {
-    if (typeof window === "undefined") return;
-    localStorage.setItem(HYBRID_MODE_KEY, mode);
+    if (!storageAvailable()) return;
+    try {
+      localStorage.setItem(HYBRID_MODE_KEY, mode);
+    } catch {
+      return;
+    }
+    if (mode === "central") {
+      clearLiveHybridSession();
+    }
+  }
+
+  async isLiveLocalActive(): Promise<boolean> {
+    const mode = await this.getDataMode();
+    return mode === "local" && isLiveHybridUnlocked();
   }
 }
 

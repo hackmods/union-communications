@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import type { Session } from "next-auth";
 import {
   canAccessTimeModule,
@@ -19,7 +20,7 @@ export async function requireTimeSession(): Promise<TimeSessionResult> {
   if (!session?.user) {
     return { ok: false, status: 401, error: "Unauthorized" };
   }
-  if (!session.user.mfaVerified) {
+  if (!sessionMfaOk(session)) {
     return { ok: false, status: 403, error: "MFA required" };
   }
   const roles = (session.user.roles ?? []) as UserRole[];

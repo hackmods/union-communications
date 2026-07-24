@@ -7,6 +7,7 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { PdfUploadField } from "@/components/bumping/PdfUploadField";
+import { useHybridCaseStore } from "@/hooks/use-hybrid-case-store";
 import type { PositionDescription } from "@/types/bumping";
 
 const emptyPosition = (): PositionDescription => ({
@@ -18,7 +19,9 @@ const emptyPosition = (): PositionDescription => ({
 
 export function NewBumpingCaseForm() {
   const t = useTranslations("bumping");
+  const th = useTranslations("hybrid");
   const router = useRouter();
+  const { createBumpingCase, needsUnlock } = useHybridCaseStore();
   const [memberRef, setMemberRef] = useState("");
   const [seniorityDate, setSeniorityDate] = useState("");
   const [currentPosition, setCurrentPosition] = useState("");
@@ -31,13 +34,15 @@ export function NewBumpingCaseForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (needsUnlock) {
+      setError(th("needsUnlockBanner"));
+      return;
+    }
     setSubmitting(true);
     setError(null);
 
-    const res = await fetch("/api/bumping/cases", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    try {
+      const data = await createBumpingCase({
         memberRef,
         seniorityDate,
         currentPosition,
@@ -45,17 +50,12 @@ export function NewBumpingCaseForm() {
         scenario,
         incumbentPosition,
         bumpingPosition,
-      }),
-    });
-
-    if (!res.ok) {
+      });
+      router.push(`/app/bumping/${data.bumpingCase.id}`);
+    } catch {
       setError(t("createError"));
       setSubmitting(false);
-      return;
     }
-
-    const data = await res.json();
-    router.push(`/app/bumping/${data.bumpingCase.id}`);
   }
 
   return (

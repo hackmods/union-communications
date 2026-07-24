@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { MinutesList } from "@/components/hub/MinutesList";
@@ -14,7 +15,7 @@ export default async function MinutesPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!session.user.mfaVerified) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
 
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!canAccessMinutesModule(roles)) redirect(`/${locale}/app`);

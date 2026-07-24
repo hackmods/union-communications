@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/auth";
+import { auditLog } from "@/lib/audit/store";
 import { createInvite } from "@/lib/auth/invites";
+import {
+  buildInviteAcceptEmail,
+  emailAppBaseUrl,
+} from "@/lib/email/messages";
+import { sendTransactionalEmail } from "@/lib/email/send";
 import type { UserRole } from "@/types/tenant";
 import { parseJsonBody } from "@/lib/validation/parse";
 
@@ -12,6 +18,8 @@ const createSchema = z.object({
   localId: z.string().optional(),
   divisionId: z.string().optional(),
   bargainingUnitId: z.string().optional(),
+  /** When true, attempt transactional invite email after create (R3). */
+  sendEmail: z.boolean().optional(),
 });
 
 const INVITE_ROLES = new Set([
@@ -60,12 +68,50 @@ export async function POST(req: Request) {
     invitedById: session.user.id,
   });
 
-  // Email delivery is deferred until transactional email (ROADMAP). Return token for ops/dev.
+  const acceptPath = `/app/invite/${invite.token}`;
+  let emailSent: boolean | undefined;
+  let emailReason: string | undefined;
+
+  if (parsed.data.sendEmail === true) {
+    const origin = new URL(req.url).origin;
+    const acceptUrl = `${emailAppBaseUrl(origin)}${acceptPath}`;
+    const copy = buildInviteAcceptEmail({
+      inviteeName: invite.name,
+      acceptUrl,
+      expiresAt: invite.expiresAt,
+    });
+    const result = await sendTransactionalEmail({
+      to: invite.email,
+      subject: copy.subject,
+      text: copy.text,
+    });
+    emailSent = result.ok;
+    emailReason = result.ok ? undefined : result.reason;
+
+    await auditLog.log({
+      userId: session.user.id,
+      action: result.ok ? "email.invite" : "email.invite_skipped",
+      resourceType: "invite",
+      resourceId: invite.id,
+      unionId: invite.unionId,
+      localId: invite.localId,
+      metadata: {
+        to: invite.email,
+        ...(result.ok
+          ? { messageId: result.messageId ?? "" }
+          : { reason: result.reason }),
+      },
+    });
+  }
+
   return NextResponse.json({
     id: invite.id,
     email: invite.email,
     expiresAt: invite.expiresAt,
-    acceptPath: `/app/invite/${invite.token}`,
+    acceptPath,
     token: invite.token,
+    ...(parsed.data.sendEmail === true
+      ? { emailSent, emailReason }
+      : {}),
   });
 }

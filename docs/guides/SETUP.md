@@ -129,13 +129,21 @@ Demo accounts (password `demo123`) exist for local CI and workshops. They are do
 
 **Do not** use demo passwords for real member casework on a public host.
 
-**MFA:** non-production defaults to `AUTH_MFA_MODE=shared_code_insecure` and accepts `AUTH_DEV_MFA_CODE` (default `000000`). Production **requires** `AUTH_MFA_MODE` (`totp` preferred, or `shared_code_insecure` with an explicit `AUTH_MFA_CODE`). MFA success issues a short-lived server grant; the client cannot set `mfaVerified` via `session.update()` alone.
+**MFA (opt-in):** unset / `AUTH_MFA_ENABLED=false` (default) — password login unlocks the Hub; second factor is not required. Prefer this for local dev and demo hosts. Set `AUTH_MFA_ENABLED=true` for real casework. When enabled, non-production defaults to `AUTH_MFA_MODE=shared_code_insecure` with `AUTH_DEV_MFA_CODE` (default `000000`). Production with MFA enabled requires `AUTH_MFA_MODE=totp`; `shared_code_insecure` needs `AUTH_ALLOW_SHARED_MFA_IN_PROD=true` (workshop break-glass only). MFA success issues a short-lived server grant; the client cannot set `mfaVerified` via `session.update()` alone.
 
-**TOTP enrollment (`AUTH_MFA_MODE=totp`):** signed-in users self-enroll at `/app/mfa/setup` — the page calls `POST /api/mfa/enroll` to generate a fresh base32 secret + `otpauth://` URI, renders it as a QR code (scannable by Google Authenticator, Authy, 1Password, etc.) with a manual-entry fallback, then `POST /api/mfa/enroll/confirm` verifies one live code before persisting the secret. Nothing is persisted until confirmation succeeds, so a half-finished enrollment never locks an account out. Persistence depends on the users backend:
+**TOTP enrollment (`AUTH_MFA_ENABLED=true` + `AUTH_MFA_MODE=totp`):** signed-in users without a secret are redirected to `/app/mfa/setup` before other Hub routes. The page calls `POST /api/mfa/enroll` to generate a fresh base32 secret + `otpauth://` URI, renders it as a QR code (scannable by Google Authenticator, Authy, 1Password, etc.) with a manual-entry fallback, then `POST /api/mfa/enroll/confirm` verifies one live code before persisting the secret. Nothing is persisted until confirmation succeeds, so a half-finished enrollment never locks an account out. Persistence depends on the users backend:
 - **Demo roster (default):** confirmed secrets are held in an in-memory, process-scoped override (`src/lib/auth/mfa-enrollment-store.ts`) — separate from the seeded `DEMO_USERS` array — and reset on restart, same as other memory-only stores.
 - **`AUTH_USERS_BACKEND=postgres`:** confirmed secrets are written to `users.totp_secret` / `users.mfa_enabled` (`src/lib/auth/mfa-user-secret.ts`), and survive restarts.
 
 Once enrolled, `/app/mfa` verifies exactly as it does for shared-code mode — enter the 6-digit code from the app to receive the short-lived server grant.
+
+## Transactional email (optional)
+
+Officer invites, meeting self-reminders, and opt-in RSVP confirmations use SMTP via `nodemailer` (`src/lib/email/send.ts`). This is **transactional only** — no marketing campaigns (ADR-016).
+
+1. Set `EMAIL_ENABLED=true` plus `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, and `EMAIL_FROM` in `.env.local` (see [`.env.example`](../../.env.example)).
+2. Set `NEXT_PUBLIC_EMAIL_ENABLED=true` so Hub **Invites** shows the Send email control (Next.js inlines `NEXT_PUBLIC_*` at build time).
+3. With `EMAIL_ENABLED` unset/false, send helpers return `{ ok: false, reason: "not_configured" }` and APIs respond 503 — copy links still work.
 
 ## Project docs
 

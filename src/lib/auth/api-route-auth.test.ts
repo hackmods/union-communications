@@ -14,6 +14,8 @@ const PUBLIC_API_ROUTES = new Set([
   "polls/[slug]/responses/route.ts",
   // Calendar & Meetings Phase A — public "next meeting" snippet; no PII, no auth.
   "meetings/public/[slug]/route.ts",
+  // Calendar R1 — public tokenized RSVP submit; rate-limited; no auth (ADR-015).
+  "rsvp/[token]/route.ts",
 ]);
 
 function walkRouteFiles(dir: string): string[] {

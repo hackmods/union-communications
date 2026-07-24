@@ -28,8 +28,13 @@ export async function POST(request: Request) {
   });
 
   if (!result.ok) {
+    const needsEnrollment =
+      result.error === "TOTP is not enrolled for this account.";
     return NextResponse.json(
-      { error: result.error },
+      {
+        error: result.error,
+        ...(needsEnrollment ? { needsEnrollment: true } : {}),
+      },
       { status: result.status },
     );
   }

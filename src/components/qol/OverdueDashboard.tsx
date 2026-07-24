@@ -7,6 +7,7 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { useHybridCaseStore } from "@/hooks/use-hybrid-case-store";
 import { daysUntilDue } from "@/lib/grievance/deadlines";
 import type { Grievance } from "@/types/grievance";
 
@@ -18,20 +19,35 @@ interface OverdueItem extends Grievance {
 export function OverdueDashboard() {
   const t = useTranslations("qol");
   const tg = useTranslations("grievance");
+  const th = useTranslations("hybrid");
+  const { listGrievances, needsUnlock, revision } = useHybridCaseStore();
   const [items, setItems] = useState<OverdueItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    void fetch("/api/grievances")
-      .then(async (res) => {
-        if (!res.ok) throw new Error("fail");
-        const data = await res.json();
-        setItems(data.grievances);
+    let cancelled = false;
+    void listGrievances()
+      .then((result) => {
+        if (cancelled) return;
+        if (result.source === "locked") {
+          setItems([]);
+          setError(null);
+          return;
+        }
+        setItems(result.grievances);
+        setError(null);
       })
-      .catch(() => setError(tg("loadError")))
-      .finally(() => setLoading(false));
-  }, [tg]);
+      .catch(() => {
+        if (!cancelled) setError(tg("loadError"));
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [listGrievances, revision, tg]);
 
   const overdue = useMemo(() => {
     return items
@@ -65,6 +81,25 @@ export function OverdueDashboard() {
         </div>
         <Skeleton className="h-28 w-full" />
         <Skeleton className="h-28 w-full" />
+      </div>
+    );
+  }
+
+  if (needsUnlock) {
+    return (
+      <div className="space-y-4">
+        <h1 className="text-3xl font-bold text-opseu-dark">
+          {t("overdue.title")}
+        </h1>
+        <p
+          className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
+          role="status"
+        >
+          {th("needsUnlockBanner")}{" "}
+          <Link href="/app/hybrid" className="font-medium underline">
+            {th("openHybridSettings")}
+          </Link>
+        </p>
       </div>
     );
   }

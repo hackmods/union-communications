@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Input";
+import { useHybridCaseStore } from "@/hooks/use-hybrid-case-store";
 import { DEFAULT_BUMPING_CHECKLIST } from "@/lib/bumping/checklist";
 import {
   diffLines,
@@ -44,6 +45,17 @@ export function BumpingCaseDetail({
   canWrite: boolean;
 }) {
   const t = useTranslations("bumping");
+  const th = useTranslations("hybrid");
+  const {
+    getBumpingCase,
+    updateBumpingCase,
+    addBumpingNote,
+    addBumpingSession,
+    setBumpingDecision,
+    needsUnlock,
+    isLiveLocal,
+    revision,
+  } = useHybridCaseStore();
   const [data, setData] = useState<BumpingCaseWithRelations | null>(null);
   const [loading, setLoading] = useState(true);
   const [noteBody, setNoteBody] = useState("");
@@ -70,26 +82,24 @@ export function BumpingCaseDetail({
   }, []);
 
   const reload = useCallback(async () => {
-    const res = await fetch(`/api/bumping/cases/${id}`);
-    if (!res.ok) {
+    const result = await getBumpingCase(id);
+    if (result.source === "locked" || !result.data) {
       setLoading(false);
       return;
     }
-    applyCaseData(await res.json());
-  }, [applyCaseData, id]);
+    applyCaseData(result.data);
+  }, [applyCaseData, getBumpingCase, id]);
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`/api/bumping/cases/${id}`)
-      .then((res) => (res.ok ? res.json() : null))
-      .then((json: BumpingCaseWithRelations | null) => {
-        if (cancelled) return;
-        if (!json) {
-          setLoading(false);
-          return;
-        }
-        applyCaseData(json);
-      });
+    void getBumpingCase(id).then((result) => {
+      if (cancelled) return;
+      if (result.source === "locked" || !result.data) {
+        setLoading(false);
+        return;
+      }
+      applyCaseData(result.data);
+    });
     void fetch(`/api/bumping/cases/${id}/attachments`)
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => {
@@ -98,7 +108,7 @@ export function BumpingCaseDetail({
     return () => {
       cancelled = true;
     };
-  }, [applyCaseData, id]);
+  }, [applyCaseData, getBumpingCase, id, revision]);
 
   async function reloadAttachments() {
     const res = await fetch(`/api/bumping/cases/${id}/attachments`);
@@ -149,10 +159,9 @@ export function BumpingCaseDetail({
       ...data.bumpingCase.checklist,
       [itemId]: value,
     };
-    await fetch(`/api/bumping/cases/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ checklist, status: "in_review" }),
+    await updateBumpingCase(id, {
+      checklist,
+      status: "in_review",
     });
     await reload();
   }
@@ -160,11 +169,7 @@ export function BumpingCaseDetail({
   async function addNote(e: React.FormEvent) {
     e.preventDefault();
     if (!noteBody.trim()) return;
-    await fetch(`/api/bumping/cases/${id}/notes`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ body: noteBody }),
-    });
+    await addBumpingNote(id, { body: noteBody });
     setNoteBody("");
     await reload();
   }
@@ -172,17 +177,13 @@ export function BumpingCaseDetail({
   async function addSession(e: React.FormEvent) {
     e.preventDefault();
     if (!sessionDate || !sessionAgenda.trim()) return;
-    await fetch(`/api/bumping/cases/${id}/sessions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        date: sessionDate,
-        agenda: sessionAgenda,
-        attendees: sessionAttendees
-          .split(",")
-          .map((a) => a.trim())
-          .filter(Boolean),
-      }),
+    await addBumpingSession(id, {
+      date: sessionDate,
+      agenda: sessionAgenda,
+      attendees: sessionAttendees
+        .split(",")
+        .map((a) => a.trim())
+        .filter(Boolean),
     });
     setSessionDate("");
     setSessionAgenda("");
@@ -192,14 +193,10 @@ export function BumpingCaseDetail({
 
   async function recordDecision(e: React.FormEvent) {
     e.preventDefault();
-    await fetch(`/api/bumping/cases/${id}/decision`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        outcome: decisionOutcome,
-        rationale: decisionRationale,
-        dissentNotes: decisionDissent || undefined,
-      }),
+    await setBumpingDecision(id, {
+      outcome: decisionOutcome,
+      rationale: decisionRationale,
+      dissentNotes: decisionDissent || undefined,
     });
     await reload();
   }
@@ -229,6 +226,19 @@ export function BumpingCaseDetail({
     saveAs(blob, `bumping-${data.bumpingCase.id}.zip`);
   }
 
+  if (needsUnlock) {
+    return (
+      <p
+        className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
+        role="status"
+      >
+        {th("needsUnlockBanner")}{" "}
+        <Link href="/app/hybrid" className="font-medium underline">
+          {th("openHybridSettings")}
+        </Link>
+      </p>
+    );
+  }
   if (loading) return <p className="text-gray-600">{t("loading")}</p>;
   if (!data) return <p className="text-red-600">{t("notFound")}</p>;
 
@@ -242,6 +252,15 @@ export function BumpingCaseDetail({
       <Link href="/app/bumping" className="text-sm text-opseu-blue underline">
         ← {t("backToList")}
       </Link>
+
+      {isLiveLocal && (
+        <p
+          className="mt-3 rounded-lg border border-opseu-blue/20 bg-opseu-blue/5 px-3 py-2 text-sm text-opseu-dark"
+          role="status"
+        >
+          {th("liveLocalBanner")}
+        </p>
+      )}
 
       <div className="mt-4 flex flex-wrap items-start justify-between gap-4">
         <div>

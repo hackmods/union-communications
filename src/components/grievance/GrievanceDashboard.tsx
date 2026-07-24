@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/Checkbox";
 import { Badge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { useHybridCaseStore } from "@/hooks/use-hybrid-case-store";
 import { useStewardReadOnly } from "@/hooks/use-steward-read-only";
 import { usePreferencesStore } from "@/store/preferences-store";
 import type { Grievance } from "@/types/grievance";
@@ -21,24 +22,40 @@ interface GrievanceListItem extends Grievance {
 export function GrievanceDashboard() {
   const t = useTranslations("grievance");
   const tq = useTranslations("qol");
+  const th = useTranslations("hybrid");
   const { readOnly, isSteward, mobileMode } = useStewardReadOnly();
   const setStewardMobileMode = usePreferencesStore(
     (s) => s.setStewardMobileMode,
   );
+  const { listGrievances, needsUnlock, isLiveLocal, revision } =
+    useHybridCaseStore();
   const [items, setItems] = useState<GrievanceListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    void fetch("/api/grievances")
-      .then(async (res) => {
-        if (!res.ok) throw new Error("Failed to load");
-        const data = await res.json();
-        setItems(data.grievances);
+    let cancelled = false;
+    void listGrievances()
+      .then((result) => {
+        if (cancelled) return;
+        if (result.source === "locked") {
+          setItems([]);
+          setError(null);
+          return;
+        }
+        setItems(result.grievances);
+        setError(null);
       })
-      .catch(() => setError(t("loadError")))
-      .finally(() => setLoading(false));
-  }, [t]);
+      .catch(() => {
+        if (!cancelled) setError(t("loadError"));
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [listGrievances, revision, t]);
 
   const overdue = items.filter((g) => g.isOverdue);
   const upcoming = items.filter(
@@ -61,6 +78,25 @@ export function GrievanceDashboard() {
     );
   }
 
+  if (needsUnlock) {
+    return (
+      <div className="space-y-4">
+        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+          {t("title")}
+        </h1>
+        <p
+          className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
+          role="status"
+        >
+          {th("needsUnlockBanner")}{" "}
+          <Link href="/app/hybrid" className="font-medium underline">
+            {th("openHybridSettings")}
+          </Link>
+        </p>
+      </div>
+    );
+  }
+
   if (error) {
     return <p className="text-red-600">{error}</p>;
   }
@@ -75,6 +111,14 @@ export function GrievanceDashboard() {
           <p className="mt-1 text-sm text-gray-600 sm:text-base">
             {t("subtitle")}
           </p>
+          {isLiveLocal && (
+            <p
+              className="mt-2 rounded-lg border border-opseu-blue/20 bg-opseu-blue/5 px-3 py-2 text-sm text-opseu-dark"
+              role="status"
+            >
+              {th("liveLocalBanner")}
+            </p>
+          )}
         </div>
         <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
           <Link href="/app/overdue" className="w-full sm:w-auto">

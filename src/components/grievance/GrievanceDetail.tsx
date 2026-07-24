@@ -7,6 +7,7 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { useStewardReadOnly } from "@/hooks/use-steward-read-only";
+import { useHybridCaseStore } from "@/hooks/use-hybrid-case-store";
 import { buildIcsEvent, downloadIcs } from "@/lib/calendar/ics";
 import { EMAIL_TEMPLATE_IDS } from "@/lib/grievance/email-templates";
 import {
@@ -68,8 +69,17 @@ const CHANNELS: CommunicationChannel[] = [
 export function GrievanceDetail({ id }: { id: string }) {
   const t = useTranslations("grievance");
   const tq = useTranslations("qol");
+  const th = useTranslations("hybrid");
   const locale = useLocale() as "en" | "fr";
   const { readOnly } = useStewardReadOnly();
+  const {
+    getGrievance,
+    updateGrievance,
+    addGrievanceNote,
+    needsUnlock,
+    isLiveLocal,
+    revision,
+  } = useHybridCaseStore();
 
   const [data, setData] = useState<GrievanceDetailData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -107,26 +117,24 @@ export function GrievanceDetail({ id }: { id: string }) {
   }, []);
 
   const reload = useCallback(async () => {
-    const res = await fetch(`/api/grievances/${id}`);
-    if (!res.ok) {
+    const result = await getGrievance(id);
+    if (result.source === "locked" || !result.data) {
       setLoading(false);
       return;
     }
-    applyDetailData(await res.json());
-  }, [applyDetailData, id]);
+    applyDetailData(result.data);
+  }, [applyDetailData, getGrievance, id]);
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`/api/grievances/${id}`)
-      .then((res) => (res.ok ? res.json() : null))
-      .then((json: GrievanceDetailData | null) => {
-        if (cancelled) return;
-        if (!json) {
-          setLoading(false);
-          return;
-        }
-        applyDetailData(json);
-      });
+    void getGrievance(id).then((result) => {
+      if (cancelled) return;
+      if (result.source === "locked" || !result.data) {
+        setLoading(false);
+        return;
+      }
+      applyDetailData(result.data);
+    });
     void fetch("/api/snippets")
       .then((res) => (res.ok ? res.json() : null))
       .then((json) => {
@@ -140,7 +148,7 @@ export function GrievanceDetail({ id }: { id: string }) {
     return () => {
       cancelled = true;
     };
-  }, [applyDetailData, id]);
+  }, [applyDetailData, getGrievance, id, revision]);
 
   async function reloadAttachments() {
     const res = await fetch(`/api/grievances/${id}/attachments`);
@@ -189,12 +197,8 @@ export function GrievanceDetail({ id }: { id: string }) {
     e.preventDefault();
     if (!noteBody.trim() || readOnly) return;
     setSavingNote(true);
-    const res = await fetch(`/api/grievances/${id}/notes`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ body: noteBody }),
-    });
-    if (res.ok) {
+    const ok = await addGrievanceNote(id, { body: noteBody });
+    if (ok) {
       setNoteBody("");
       await reload();
     }
@@ -222,24 +226,16 @@ export function GrievanceDetail({ id }: { id: string }) {
 
   async function updateStatus(status: GrievanceStatus) {
     if (readOnly) return;
-    await fetch(`/api/grievances/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        status,
-        resolvedAt: status === "resolved" ? new Date().toISOString() : null,
-      }),
+    await updateGrievance(id, {
+      status,
+      resolvedAt: status === "resolved" ? new Date().toISOString() : null,
     });
     await reload();
   }
 
   async function escalateStep(step: number) {
     if (readOnly) return;
-    await fetch(`/api/grievances/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ currentStep: step, status: "escalated" }),
-    });
+    await updateGrievance(id, { currentStep: step, status: "escalated" });
     await reload();
   }
 
@@ -339,6 +335,19 @@ export function GrievanceDetail({ id }: { id: string }) {
     );
   }
 
+  if (needsUnlock) {
+    return (
+      <p
+        className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
+        role="status"
+      >
+        {th("needsUnlockBanner")}{" "}
+        <Link href="/app/hybrid" className="font-medium underline">
+          {th("openHybridSettings")}
+        </Link>
+      </p>
+    );
+  }
   if (loading) return <p className="text-gray-600">{t("loading")}</p>;
   if (!data) return <p className="text-red-600">{t("notFound")}</p>;
 
@@ -361,6 +370,15 @@ export function GrievanceDetail({ id }: { id: string }) {
       >
         ← {t("backToList")}
       </Link>
+
+      {isLiveLocal && (
+        <p
+          className="mt-3 rounded-lg border border-opseu-blue/20 bg-opseu-blue/5 px-3 py-2 text-sm text-opseu-dark"
+          role="status"
+        >
+          {th("liveLocalBanner")}
+        </p>
+      )}
 
       {readOnly && (
         <p

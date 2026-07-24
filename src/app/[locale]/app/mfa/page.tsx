@@ -15,6 +15,7 @@ export default function MfaPage() {
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [mfaEnabled, setMfaEnabled] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -22,12 +23,42 @@ export default function MfaPage() {
     }
   }, [status, router]);
 
-  if (status === "loading" || !session?.user) {
+  useEffect(() => {
+    if (status !== "authenticated") return;
+    let cancelled = false;
+    void fetch("/api/mfa/status")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { enabled?: boolean } | null) => {
+        if (!cancelled) setMfaEnabled(Boolean(data?.enabled));
+      })
+      .catch(() => {
+        if (!cancelled) setMfaEnabled(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [status]);
+
+  if (status === "loading" || !session?.user || mfaEnabled === null) {
     return (
       <div className="mx-auto max-w-md px-4 py-8 md:py-12">
         <p className="text-gray-600" aria-live="polite">
           {t("sessionLoading")}
         </p>
+      </div>
+    );
+  }
+
+  if (!mfaEnabled) {
+    return (
+      <div className="mx-auto max-w-md px-4 py-8 md:py-12">
+        <Card density="compact">
+          <CardTitle className="text-base">{t("mfaDisabledTitle")}</CardTitle>
+          <p className="mt-2 text-gray-600">{t("mfaDisabledDesc")}</p>
+          <Button className="mt-4 min-h-11" onClick={() => router.push("/app")}>
+            {t("backToDashboard")}
+          </Button>
+        </Card>
       </div>
     );
   }
@@ -64,6 +95,14 @@ export default function MfaPage() {
     });
 
     if (!res.ok) {
+      const errBody = (await res.json().catch(() => ({}))) as {
+        needsEnrollment?: boolean;
+      };
+      if (errBody.needsEnrollment) {
+        setLoading(false);
+        router.replace("/app/mfa/setup");
+        return;
+      }
       setError(t("mfaError"));
       setLoading(false);
       return;

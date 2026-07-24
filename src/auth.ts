@@ -6,6 +6,7 @@ import { findDemoUser } from "@/lib/auth/demo-users";
 import { findDbUser } from "@/lib/auth/find-db-user";
 import { findInvitedUser } from "@/lib/auth/invites";
 import { auditLog } from "@/lib/audit/store";
+import { isMfaEnabled } from "@/lib/auth/mfa-policy";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -38,6 +39,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           localId: account.localId,
         });
 
+        // MFA off by default (AUTH_MFA_ENABLED); when off, treat as verified for Hub access.
+        const mfaVerified =
+          !isMfaEnabled() || !account.requiresMfa;
+
         return {
           id: account.id,
           name: account.name,
@@ -51,7 +56,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               ? account.accessibleLocalIds
               : undefined,
           roles: account.roles,
-          mfaVerified: !account.requiresMfa,
+          mfaVerified,
         };
       },
     }),

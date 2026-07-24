@@ -12,8 +12,9 @@ export const DEMO_OFFICER = {
 const HUB_POST_LOGIN = /\/en\/app(?:\/mfa)?\/?(?:\?.*)?$/;
 
 /**
- * Sign in as a demo officer and complete MFA when prompted.
- * Always ensures MFA is verified so confidential Hub routes are reachable.
+ * Sign in as a demo officer. Completes MFA only when the host has
+ * AUTH_MFA_ENABLED and the session still needs a second factor.
+ * Default hosts leave MFA off for usability (demo / local).
  *
  * Callers that run many Hub tests should prefer `test.describe.configure({ mode: "serial" })`
  * so parallel workers do not race Auth.js session/MFA JSON responses.
@@ -29,12 +30,16 @@ export async function loginAsDemoOfficer(
 
   await expect(page).toHaveURL(HUB_POST_LOGIN, { timeout: 20_000 });
 
-  // Hub home is reachable without MFA; confidential modules are not.
   await page.goto("/en/app/mfa");
   const codeInput = page.getByLabel(/Verification code|Code de vérification/i);
   const verified = page.getByText(/Identity verified|Identité vérifiée/i);
+  const disabled = page.getByText(
+    /MFA is not required|A2F n'est pas requise|not enabled|non activ/i,
+  );
 
-  await expect(codeInput.or(verified)).toBeVisible({ timeout: 20_000 });
+  await expect(codeInput.or(verified).or(disabled)).toBeVisible({
+    timeout: 20_000,
+  });
 
   if (await codeInput.isVisible()) {
     await codeInput.fill(creds.mfaCode);
@@ -42,11 +47,7 @@ export async function loginAsDemoOfficer(
     await expect(page).toHaveURL(/\/en\/app\/?(?:\?.*)?$/, {
       timeout: 20_000,
     });
+    await page.goto("/en/app/mfa");
+    await expect(verified).toBeVisible({ timeout: 20_000 });
   }
-
-  // Confirm JWT/session actually carries mfaVerified before confidential routes.
-  await page.goto("/en/app/mfa");
-  await expect(
-    page.getByText(/Identity verified|Identité vérifiée/i),
-  ).toBeVisible({ timeout: 20_000 });
 }

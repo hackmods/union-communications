@@ -51,6 +51,26 @@ const HUB_A11Y_PAGES: {
     path: "/en/app/audit",
     heading: /Audit log|Journal d[’']audit/i,
   },
+  {
+    label: "meetings",
+    path: "/en/app/meetings",
+    heading: /Meeting schedule|Horaire des assembl/i,
+  },
+  {
+    label: "polls",
+    path: "/en/app/polls",
+    heading: /Pulse polls|Sondages Pulse/i,
+  },
+  {
+    label: "officers",
+    path: "/en/app/officers",
+    heading: /Officer roster|Liste des dirigeants/i,
+  },
+  {
+    label: "travel",
+    path: "/en/app/travel",
+    heading: /Travel authorization|Autorisation de/i,
+  },
 ];
 
 test.describe("Hub authenticated a11y @smoke", () => {

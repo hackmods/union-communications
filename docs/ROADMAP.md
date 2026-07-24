@@ -56,7 +56,7 @@
 - [x] Replace memory adapters with DB-backed stores — per-module Drizzle adapters behind flags (default memory until operators flip)
 - [x] `ApiAdapter` for hub clients — opt-in server persistence for Brand Kit + preferences (`/api/brand-kit`, `/api/preferences`); default remains `LocalStorageAdapter`
 - [x] Multi-union tenant onboarding / invite UI (create locals + collections; runtime overlay; `/app/onboarding`, `/app/invites`, `/app/invite/[token]`)
-- [ ] Hybrid live local data path (optional offline source of truth)
+- [x] Hybrid live local data path (optional offline source of truth)
 
 ## Phase 7 — Attachments & Hardening (near-complete)
 
@@ -67,7 +67,7 @@
 - [x] Grievance detail UI for attachments — list/upload/download panel in `GrievanceDetail`, role-gated by `useStewardReadOnly`
 - [x] Server-side bumping attachments (light) — `AttachmentAdapter.createForBumping`/`listForBumping`, `/api/bumping/cases/[id]/attachments`, UI panel in `BumpingCaseDetail` (`canWrite` gated); client-side PDF text-extract on the New Case form is unchanged
 - [x] TOTP enrollment UI (`/app/mfa/setup`) — QR + manual secret, confirm-before-persist, demo-memory or Postgres `users` table depending on `AUTH_USERS_BACKEND`
-- [ ] Retire `shared_code_insecure` as a viable production mode (make `totp` mandatory)
+- [x] Retire `shared_code_insecure` as a viable production mode when MFA is on — `AUTH_MFA_ENABLED` opt-in (default off for demos); when enabled, production requires `totp` unless `AUTH_ALLOW_SHARED_MFA_IN_PROD=true`; unenrolled users redirected to `/app/mfa/setup`
 
 ## Phase 8 — Workforce Time (VeriClock-class)
 
@@ -92,7 +92,7 @@ Spec: [`docs/modules/WORKFORCE_TIME.md`](modules/WORKFORCE_TIME.md)
 - [x] Officer in-app reminder banner (`MeetingReminderBanner`, reuses `DemoSiteBanner` layout pattern) — shows within 7 days of the next meeting, no auto-email
 - [x] Public "next meeting" page `/meetings/[slug]` + reusable `NextMeetingSnippet` — no PII, no union/local ids, for embed/share
 - [x] `RRULE`-equivalent recurrence math (`src/lib/meetings/recurrence.ts`) — monthly-by-date, monthly-by-nth-weekday, or custom date list
-- [ ] Phase B/R1+ (tokenized RSVP, transactional email) remain — see `docs/modules/CALENDAR_MEETINGS.md`
+- [x] Phase B/R1+ (tokenized RSVP + transactional SMTP) — `UnionMeeting` / `RsvpToken` / `RsvpResponse`, `/r/[token]`, `EMAIL_ENABLED` + nodemailer (ADR-016); see `docs/modules/CALENDAR_MEETINGS.md`
 
 ## Reference Tenant
 

@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { canWriteBumping } from "@/lib/bumping/access";
@@ -18,7 +19,7 @@ export default async function BumpingPage({
   if (!session?.user) {
     redirect(`/${locale}/app/login`);
   }
-  if (!session.user.mfaVerified) {
+  if (!sessionMfaOk(session)) {
     redirect(`/${locale}/app/mfa`);
   }
   if (!isBumpingModuleEnabled(session)) {

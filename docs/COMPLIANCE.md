@@ -42,6 +42,8 @@ Separation of duties, immutable audit trail, 7-year retention default, member ph
 
 Hybrid backup export (`GET /api/hybrid/slice`) returns **plaintext JSON** over the authenticated TLS session. The browser encrypts with a client-only passphrase afterward — the server never learns the passphrase. Treat this as intentional: protect the TLS path (HTTPS in production via `AUTH_URL`), do not log response bodies, and responses set `Cache-Control: no-store`.
 
+**Live-local path:** when Hybrid data mode is `local` and the officer unlocks the encrypted browser slice for the tab, grievance/bumping list/get/write run against that decrypted in-memory slice and re-encrypt to `localStorage`. Hub sync remains an explicit POST `/api/hybrid/slice` (merge/replace). Attachments and most other Hub APIs stay central. Closing the tab clears the decrypted session; the encrypted blob remains until cleared.
+
 ## Breach Response Playbook
 
 1. Detect and contain (revoke tokens, isolate affected tenant)

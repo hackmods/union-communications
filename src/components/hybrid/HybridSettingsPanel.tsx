@@ -17,6 +17,12 @@ import {
   hybridLocalSliceAdapter,
   type HybridDataMode,
 } from "@/lib/hybrid/local-slice-adapter";
+import {
+  clearLiveHybridSession,
+  getLiveHybridSlice,
+  isLiveHybridUnlocked,
+  unlockLiveHybridSession,
+} from "@/lib/hybrid/live-session";
 import type { HybridImportMode, HybridImportResult } from "@/lib/hybrid/types";
 import type { HybridDataSlice } from "@/lib/hybrid/types";
 
@@ -31,18 +37,26 @@ export function HybridSettingsPanel() {
   const [dataMode, setDataMode] = useState<HybridDataMode>("central");
   const [hasLocalSlice, setHasLocalSlice] = useState(false);
   const [localSavedAt, setLocalSavedAt] = useState<string | null>(null);
+  const [unlocked, setUnlocked] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     void (async () => {
       const mode = await hybridLocalSliceAdapter.getDataMode();
+      if (cancelled) return;
       setDataMode(mode);
       const file = await hybridLocalSliceAdapter.getEncryptedSlice();
+      if (cancelled) return;
       setHasLocalSlice(!!file);
       setLocalSavedAt(file?.exportedAt ?? null);
+      setUnlocked(isLiveHybridUnlocked());
     })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const clearStatus = () => {
@@ -89,6 +103,20 @@ export function HybridSettingsPanel() {
       throw new Error(body.error ?? t("errors.importFailed"));
     }
     return res.json() as Promise<HybridImportResult>;
+  };
+
+  const unlockFromStorage = async (): Promise<HybridDataSlice> => {
+    if (passphrase.length < 8) {
+      throw new Error(t("errors.passphraseShort"));
+    }
+    const file = await hybridLocalSliceAdapter.getEncryptedSlice();
+    if (!file || !isEncryptedHybridFile(file)) {
+      throw new Error(t("errors.noLocalSlice"));
+    }
+    const slice = await decryptHybridFile(file, passphrase);
+    unlockLiveHybridSession(slice, passphrase);
+    setUnlocked(true);
+    return slice;
   };
 
   const handleExport = async () => {
@@ -170,11 +198,51 @@ export function HybridSettingsPanel() {
       const slice = await fetchSlice();
       const encrypted = await encryptHybridSlice(slice, passphrase);
       await hybridLocalSliceAdapter.saveEncryptedSlice(encrypted);
+      unlockLiveHybridSession(slice, passphrase);
       setHasLocalSlice(true);
       setLocalSavedAt(encrypted.exportedAt);
+      setUnlocked(true);
       setMessage(t("localSaveSuccess"));
     } catch (err) {
       setError(err instanceof Error ? err.message : t("errors.localSaveFailed"));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleUnlockLive = async () => {
+    clearStatus();
+    setBusy(true);
+    try {
+      await unlockFromStorage();
+      await hybridLocalSliceAdapter.setDataMode("local");
+      setDataMode("local");
+      setMessage(t("unlockSuccess"));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("errors.unlockFailed"));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleSyncToHub = async () => {
+    clearStatus();
+    setBusy(true);
+    try {
+      let slice = getLiveHybridSlice();
+      if (!slice) {
+        slice = await unlockFromStorage();
+      }
+      const result = await postImport(slice, importMode);
+      setMessage(
+        t("syncSuccess", {
+          grievances: result.grievancesImported,
+          bumping: result.bumpingImported,
+          removed: result.grievancesRemoved + result.bumpingRemoved,
+        }),
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("errors.syncFailed"));
     } finally {
       setBusy(false);
     }
@@ -194,6 +262,8 @@ export function HybridSettingsPanel() {
       }
       const slice = await decryptHybridFile(file, passphrase);
       const result = await postImport(slice, importMode);
+      unlockLiveHybridSession(slice, passphrase);
+      setUnlocked(true);
       setMessage(
         t("importSuccess", {
           grievances: result.grievancesImported,
@@ -214,21 +284,39 @@ export function HybridSettingsPanel() {
     clearStatus();
     await hybridLocalSliceAdapter.clearEncryptedSlice();
     await hybridLocalSliceAdapter.setDataMode("central");
+    clearLiveHybridSession();
     setHasLocalSlice(false);
     setLocalSavedAt(null);
     setDataMode("central");
+    setUnlocked(false);
     setMessage(t("localCleared"));
   };
 
   const handleDataModeChange = async (mode: HybridDataMode) => {
     clearStatus();
-    if (mode === "local" && !hasLocalSlice) {
-      setError(t("errors.needLocalSlice"));
+    if (mode === "local") {
+      if (!hasLocalSlice) {
+        setError(t("errors.needLocalSlice"));
+        return;
+      }
+      setBusy(true);
+      try {
+        await unlockFromStorage();
+        await hybridLocalSliceAdapter.setDataMode("local");
+        setDataMode("local");
+        setMessage(t("modeLocalOn"));
+      } catch (err) {
+        setError(err instanceof Error ? err.message : t("errors.unlockFailed"));
+      } finally {
+        setBusy(false);
+      }
       return;
     }
-    await hybridLocalSliceAdapter.setDataMode(mode);
-    setDataMode(mode);
-    setMessage(mode === "local" ? t("modeLocalOn") : t("modeCentralOn"));
+    await hybridLocalSliceAdapter.setDataMode("central");
+    clearLiveHybridSession();
+    setUnlocked(false);
+    setDataMode("central");
+    setMessage(t("modeCentralOn"));
   };
 
   return (
@@ -309,9 +397,28 @@ export function HybridSettingsPanel() {
             {t("localSlicePresent", { date: localSavedAt.slice(0, 10) })}
           </p>
         )}
+        {unlocked && (
+          <p className="text-sm text-opseu-blue" role="status">
+            {t("sessionUnlocked")}
+          </p>
+        )}
         <div className="flex flex-wrap gap-3">
           <Button onClick={handleSaveLocalSlice} disabled={busy}>
             {t("saveLocal")}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handleUnlockLive}
+            disabled={busy || !hasLocalSlice}
+          >
+            {t("unlockLive")}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handleSyncToHub}
+            disabled={busy || !hasLocalSlice}
+          >
+            {t("syncToHub")}
           </Button>
           <Button
             variant="outline"

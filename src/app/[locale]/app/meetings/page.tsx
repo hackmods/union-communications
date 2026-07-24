@@ -1,7 +1,10 @@
 import { auth } from "@/auth";
+import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
+import { MeetingEventsBoard } from "@/components/meetings/MeetingEventsBoard";
 import { MeetingScheduleSettings } from "@/components/meetings/MeetingScheduleSettings";
+import { meetingsRsvpDbBackend } from "@/lib/db/backend";
 import {
   canAccessMeetingsModule,
   canWriteMeetingSchedule,
@@ -20,7 +23,7 @@ export default async function MeetingsPage({
   if (!session?.user) {
     redirect(`/${locale}/app/login`);
   }
-  if (!session.user.mfaVerified) {
+  if (!sessionMfaOk(session)) {
     redirect(`/${locale}/app/mfa`);
   }
   const roles = (session.user.roles ?? []) as UserRole[];
@@ -28,5 +31,15 @@ export default async function MeetingsPage({
     redirect(`/${locale}/app`);
   }
 
-  return <MeetingScheduleSettings canWrite={canWriteMeetingSchedule(roles)} />;
+  const canWrite = canWriteMeetingSchedule(roles);
+
+  return (
+    <div className="space-y-2">
+      <MeetingScheduleSettings canWrite={canWrite} />
+      <MeetingEventsBoard
+        canWrite={canWrite}
+        showMemoryBanner={meetingsRsvpDbBackend() === "memory"}
+      />
+    </div>
+  );
 }

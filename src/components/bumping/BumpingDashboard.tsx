@@ -8,24 +8,41 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { useHybridCaseStore } from "@/hooks/use-hybrid-case-store";
 import type { BumpingCase } from "@/types/bumping";
 
 export function BumpingDashboard({ canWrite }: { canWrite: boolean }) {
   const t = useTranslations("bumping");
+  const th = useTranslations("hybrid");
+  const { listBumpingCases, needsUnlock, isLiveLocal, revision } =
+    useHybridCaseStore();
   const [items, setItems] = useState<BumpingCase[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    void fetch("/api/bumping/cases")
-      .then(async (res) => {
-        if (!res.ok) throw new Error("Failed");
-        const data = await res.json();
-        setItems(data.cases);
+    let cancelled = false;
+    void listBumpingCases()
+      .then((result) => {
+        if (cancelled) return;
+        if (result.source === "locked") {
+          setItems([]);
+          setError(null);
+          return;
+        }
+        setItems(result.cases);
+        setError(null);
       })
-      .catch(() => setError(t("loadError")))
-      .finally(() => setLoading(false));
-  }, [t]);
+      .catch(() => {
+        if (!cancelled) setError(t("loadError"));
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [listBumpingCases, revision, t]);
 
   const inReview = items.filter((c) => c.status === "in_review");
   const open = items.filter((c) => c.status === "open" || c.status === "in_review");
@@ -44,6 +61,25 @@ export function BumpingDashboard({ canWrite }: { canWrite: boolean }) {
     );
   }
 
+  if (needsUnlock) {
+    return (
+      <div className="space-y-4">
+        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+          {t("title")}
+        </h1>
+        <p
+          className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
+          role="status"
+        >
+          {th("needsUnlockBanner")}{" "}
+          <Link href="/app/hybrid" className="font-medium underline">
+            {th("openHybridSettings")}
+          </Link>
+        </p>
+      </div>
+    );
+  }
+
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
@@ -57,6 +93,14 @@ export function BumpingDashboard({ canWrite }: { canWrite: boolean }) {
             {t("subtitle")}
           </p>
           <p className="mt-2 text-xs text-gray-500">{t("disclaimer")}</p>
+          {isLiveLocal && (
+            <p
+              className="mt-2 rounded-lg border border-opseu-blue/20 bg-opseu-blue/5 px-3 py-2 text-sm text-opseu-dark"
+              role="status"
+            >
+              {th("liveLocalBanner")}
+            </p>
+          )}
           <p className="mt-2">
             <Link
               href="/guide/seniority-bumping"

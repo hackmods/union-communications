@@ -1,6 +1,6 @@
 # Calendar & Meeting Reminders
 
-Status: **Phase A shipped** (recurring local schedule + officer banner + public no-PII snippet, no auto-email). Phases B/C/D and the RSVP R1+ token flow remain deferred — see below. This spec documents what exists, what is deferred, and a realistic phased path if locals need monthly membership meeting support — including a better **RSVP** path that stays inside UnionOps constraints.
+Status: **Phase A + R1 + R3 shipped** (recurring local schedule + officer banner + public snippet; tokenized RSVP Hub events + `/r/[token]`; optional SMTP transactional email). Phases B/C/D member-facing auto-reminders and marketing email remain out of scope — see below.
 
 Related agent rule: [`.cursor/rules/calendar-meetings.mdc`](../../.cursor/rules/calendar-meetings.mdc)
 
@@ -93,12 +93,9 @@ The **grievance** email drafts stay in the Hub (`/api/grievances/[id]/email-draf
 
 ## Not shipped
 
-- Live / tokenized RSVP form with server persistence (`UnionMeeting` / `RsvpToken` / `RsvpResponse` — Phase R1)
-- SMTP / transactional email, cron, push notifications
+- Automated "remind N days before meeting" **to members** (officer in-app banner + optional officer self-reminder email are shipped; member broadcast remains Phase D)
 - Member email lists or `/member` portal
-- Automated "remind N days before meeting" **to members** (officer in-app banner is shipped; member-facing reminders remain Phase D)
-
-**Planned (docs only):** ARCHITECTURE v2+ — "Transactional email for follow-up reminders only — no marketing email."
+- Marketing / campaign email (forbidden — ADR-016)
 
 ## Auth & surfaces
 
@@ -199,11 +196,12 @@ Do **not** reuse `ScheduledMeeting` (grievance-scoped, Confidential).
 - Optional ICS `VALARM` on membership meeting export
 - Copy-only `membership_meeting_reminder` draft that includes the public RSVP link
 
-### Phase R3 — Transactional email (ARCHITECTURE v2+)
+### Phase R3 — Transactional email ✅ shipped 2026-07-24
 
-- Officer-only reminder mail (opt-in)
-- Optional one-shot confirmation to the address on an RSVP response (explicit consent checkbox on the public form)
-- Audit log + unsubscribe; no marketing campaigns
+- [x] SMTP via `nodemailer` (`src/lib/email/send.ts`) gated by `EMAIL_ENABLED=true` (ADR-016)
+- [x] Officer-only reminder: `POST /api/meetings/events/[id]/remind-email` → `session.user.email` only
+- [x] Optional one-shot RSVP confirmation when `consentEmailConfirm` + email on public submit
+- [x] Audit log on every send/skip; no marketing campaigns / grievance content on this path
 
 ### Mapping to meeting-reminder phases A–D
 
@@ -218,8 +216,8 @@ Do **not** reuse `ScheduledMeeting` (grievance-scoped, Confidential).
 
 | Capability | Blocked on |
 |------------|------------|
-| Persisted meetings / RSVPs | Postgres + RLS (roadmap #1) |
-| Auto-send reminders | Transactional email provider + env config |
+| Persisted meetings / RSVPs | Postgres + RLS (roadmap #1) — memory + optional `MEETINGS_RSVP_DB_BACKEND=postgres` available |
+| Auto-send reminders | Operator SMTP config (`EMAIL_ENABLED` + `SMTP_*`) — helper shipped |
 | Expanded notification surfaces | TOTP MFA (roadmap #7) |
 | Member email lists | PIPEDA/consent review (`docs/COMPLIANCE.md`) — still discouraged |
 
@@ -240,11 +238,11 @@ Current roadmap priority remains: **Postgres+RLS → onboarding UI → attachmen
 - [x] Optional ICS with `VALARM` — `reminderMinutesBefore` on `buildIcsEvent`
 - [ ] Copy-only `membership_meeting_reminder` email draft template
 
-### Phase C — Transactional email (requires v2 infra)
+### Phase C — Transactional email ✅ shipped 2026-07-24 (ADR-016)
 
-- Officer-only reminders; no marketing
-- Cron/worker N days before meeting to opted-in officer emails
-- Audit log + unsubscribe
+- [x] Officer-only self-reminders via SMTP; no marketing
+- [x] Audit log on send/skip
+- [ ] Cron/worker N days before meeting (still deferred — opt-in button / API only today)
 
 ### Phase D — Member-facing (minimal, public)
 

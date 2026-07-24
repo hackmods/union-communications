@@ -52,7 +52,7 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 - Skip consent modal for member photos
 - Cross-union marketplace/snippet/grievance access
 - Hardcode OPSEU/CAAT as platform defaults for new tenants
-- Treat hybrid “local mode” as live offline store (backup preference only today)
+- Treat hybrid live-local as tab-scoped (unlock required; sync is manual; attachments stay on hub)
 
 ## Easter Egg
 

@@ -134,6 +134,13 @@
       "when": 1784797500000,
       "tag": "0018_local_meeting_schedule",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1784798000000,
+      "tag": "0019_union_meetings_rsvp",
+      "breakpoints": true
     }
   ]
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/auth";
+import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import {
   requireTenantOnboardingSession,
   sessionCanCreateUnion,
@@ -65,7 +66,7 @@ export async function GET() {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  if (!session.user.mfaVerified) {
+  if (!sessionMfaOk(session)) {
     return NextResponse.json({ error: "MFA required" }, { status: 403 });
   }
   const unionId = session.user.unionId;

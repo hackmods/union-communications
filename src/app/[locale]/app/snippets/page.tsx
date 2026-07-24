@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { SnippetLibrary } from "@/components/qol/SnippetLibrary";
@@ -12,6 +13,6 @@ export default async function SnippetsPage({
   setRequestLocale(locale);
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!session.user.mfaVerified) redirect(`/${locale}/app/mfa`);
+  if (!sessionMfaOk(session)) redirect(`/${locale}/app/mfa`);
   return <SnippetLibrary />;
 }

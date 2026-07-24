@@ -8,7 +8,7 @@ If **you** host an instance, **you** are the data controller for data that insta
 
 1. Set a unique `AUTH_SECRET` (`openssl rand -base64 32`) — never use the repo placeholders. Production refuses to start without it.
 2. Set `AUTH_URL` to your public HTTPS origin (no trailing slash).
-3. Set MFA: `AUTH_MFA_MODE=totp` (preferred) or `AUTH_MFA_MODE=shared_code_insecure` plus a unique `AUTH_MFA_CODE` (6 digits) for workshop-only hosts. Unset mode fails closed in production.
+3. MFA is **opt-in** (`AUTH_MFA_ENABLED=true`). Leave it off for demos/usability. For real casework: enable MFA and set `AUTH_MFA_MODE=totp`. Workshop hosts may use `shared_code_insecure` only with `AUTH_ALLOW_SHARED_MFA_IN_PROD=true` plus a unique `AUTH_MFA_CODE`. When MFA is enabled in production, unset mode or shared-code without break-glass fails closed.
 4. Set your union’s default brand (optional but recommended for a white-label host):
    - Edit `config/host-brand.json` before build, or
    - `npm run brand:set -- --primary=#… --secondary=#… --local=… --sub="…"`, or
@@ -59,7 +59,7 @@ cd docker
 docker compose up --build
 ```
 
-Compose **requires** `AUTH_SECRET` and `AUTH_MFA_CODE` in the environment (or `docker/.env`); it will not start with unset secrets.
+Compose **requires** `AUTH_SECRET` in the environment (or `docker/.env`). MFA stays off by default (`AUTH_MFA_ENABLED=false`); set it true plus mode/code when testing second-factor flows.
 
 ## CapRover
 
@@ -72,8 +72,22 @@ This repo includes [`captain-definition`](../../captain-definition) pointing at 
 |----------|---------|
 | `AUTH_SECRET` | output of `openssl rand -base64 32` |
 | `AUTH_URL` | `https://your-app.example.com` |
-| `AUTH_MFA_MODE` | `totp` (or `shared_code_insecure` for workshops) |
+| `AUTH_MFA_ENABLED` | `true` for casework; omit/`false` for demos (default) |
+| `AUTH_MFA_MODE` | `totp` when MFA enabled; workshops: shared_code + break-glass |
+| `AUTH_ALLOW_SHARED_MFA_IN_PROD` | `true` only for workshop/demo hosts using shared code |
 | `AUTH_MFA_CODE` | 6-digit code when using shared_code mode |
+
+Optional transactional SMTP (invites / officer reminders / RSVP confirm — ADR-016):
+
+| Variable | Example |
+|----------|---------|
+| `EMAIL_ENABLED` | `true` (required to send; otherwise APIs return `not_configured`) |
+| `NEXT_PUBLIC_EMAIL_ENABLED` | `true` (Hub Invites “Send email” button; bake at **build** time) |
+| `SMTP_HOST` | `smtp.example.com` |
+| `SMTP_PORT` | `587` |
+| `SMTP_USER` | SMTP username |
+| `SMTP_PASS` | SMTP password |
+| `EMAIL_FROM` | `UnionOps <noreply@your-domain>` |
 
 Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_*` is inlined by Next.js). Prefer editing `config/host-brand.json` (or `npm run brand:set`) before `docker build` when you want a white-label host without env sprawl:
 

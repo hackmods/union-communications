@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { useHybridCaseStore } from "@/hooks/use-hybrid-case-store";
 
 const CATEGORIES = [
   "Contract interpretation",
@@ -18,7 +19,9 @@ const CATEGORIES = [
 
 export function NewGrievanceForm() {
   const t = useTranslations("grievance");
+  const th = useTranslations("hybrid");
   const router = useRouter();
+  const { createGrievance, needsUnlock } = useHybridCaseStore();
   const [memberPseudonym, setMemberPseudonym] = useState("");
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [filedAt, setFiledAt] = useState(
@@ -29,27 +32,24 @@ export function NewGrievanceForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (needsUnlock) {
+      setError(th("needsUnlockBanner"));
+      return;
+    }
     setSubmitting(true);
     setError(null);
 
-    const res = await fetch("/api/grievances", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    try {
+      const data = await createGrievance({
         memberPseudonym: memberPseudonym || undefined,
         category,
         filedAt: new Date(filedAt).toISOString(),
-      }),
-    });
-
-    if (!res.ok) {
+      });
+      router.push(`/app/grievances/${data.grievance.id}`);
+    } catch {
       setError(t("createError"));
       setSubmitting(false);
-      return;
     }
-
-    const data = await res.json();
-    router.push(`/app/grievances/${data.grievance.id}`);
   }
 
   return (

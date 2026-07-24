@@ -181,7 +181,7 @@ Scaffold through testing/CI — all complete.
 - [x] EN/FR i18n; unit tests for overlap + needed computation
 
 - [ ] Document/PDF attachments with virus scan → **Phase 7**
-- [ ] Hybrid live local data path → **Phase 6**
+- [x] Hybrid live local data path → **Phase 6**
 - [ ] Stronger MFA + audit log UI → **Phase 7**
 
 Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, refreshed `platform.mdc` / `grievance-module.mdc` / `AGENTS.md`.
@@ -270,6 +270,15 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] Copy-only RSVP invite email (`src/lib/comms/event-email.ts`) — public tool, no auto-send
 - [x] Phased live RSVP design (R1 Hub + `/r/[token]` with `joinMode`) — no member portal
 - [ ] **R0.5 (planned):** matching invite-email on Board Notice / printables — `.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`
+
+## Phase 6/7 close-out + Calendar R1/R3 + E2E (2026-07-24)
+
+- [x] MFA opt-in via `AUTH_MFA_ENABLED` (**default off** for demos/usability); when enabled, production rejects `shared_code_insecure` unless break-glass; unenrolled TOTP users gated to `/app/mfa/setup`
+- [x] Hybrid live-local path: unlocked browser slice drives grievance/bumping read/write; Sync to hub remains manual
+- [x] Calendar R1: `UnionMeeting` / `RsvpToken` / `RsvpResponse`, migration `0019`, Hub Events board, public `/r/[token]`
+- [x] Transactional SMTP R3 (ADR-016) — officer reminder, RSVP confirm, invite send when `EMAIL_ENABLED`
+- [x] Unit: recurrence, tallies, MFA policy, hybrid live-session, email mocks, polls/officers access
+- [x] Playwright: `hub.org`, `rsvp.smoke`, `mfa.setup`, `hybrid.smoke`; expanded `hub.a11y`
 
 ## Union Boards Guide Expansion (2026-07-11)
 

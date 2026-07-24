@@ -23,10 +23,11 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 1. **Postgres + RLS** — `unionId` / `localId` / optional `bargainingUnitId`; replace memory adapters; ADR-008 + ADR-013
 2. **Multi-union onboarding UI** — create locals + collections; invite; never hardcode OPSEU as default
 3. **Attachments production path** — object storage + real virus scan (stub exists)
-4. **Hybrid live local path** — today backup preference only
+4. **Hybrid live local path** — mode=`local` + unlocked tab session; sync via POST `/api/hybrid/slice`
 5. **ApiAdapter** — authenticated API persistence for Brand Kit / prefs
 6. **Workforce Time (full)** — Postgres, scheduling, PTO, union rollup
-7. **TOTP MFA** — replace shared `AUTH_MFA_CODE`
+7. **TOTP MFA** — opt-in via `AUTH_MFA_ENABLED` (default off); when on, prefer `totp` over shared `AUTH_MFA_CODE`
+
 
 ## Deferred (post-Postgres, post-transactional email)
 
@@ -53,5 +54,6 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 - Hub Tools menu in `HubNav` — do not re-flatten; include Audit when elevated
 - Cross-local grievance reads: only `union_admin` / `division_admin` / `platform_admin` without switcher; presidents use Hub context switcher
 - No first-party `/member` portal — keep grievance notes internal
+- Hybrid live-local: client branch only (`useHybridCaseStore` / `case-client`) — never read browser storage from server adapters
 - Update `docs/PROGRESS.md` + `docs/ROADMAP.md` when closing a milestone
 - Before committing large or multi-file changes: run `npm run lint` and relevant tests (`npm run test:unit`; smoke when UI/routes change). Fix lint/test failures before push.

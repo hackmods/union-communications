@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
+import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import { auditLog } from "@/lib/audit/store";
 import {
   isBumpingModuleEnabled,
@@ -31,7 +32,7 @@ export async function GET(request: Request) {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  if (!session.user.mfaVerified) {
+  if (!sessionMfaOk(session)) {
     return NextResponse.json({ error: "MFA required" }, { status: 403 });
   }
 

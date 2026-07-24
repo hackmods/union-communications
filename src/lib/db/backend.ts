@@ -126,6 +126,17 @@ export function meetingsDbBackend(
   return resolveBackend("MEETINGS_DB_BACKEND", env);
 }
 
+/**
+ * Calendar R1 — UnionMeeting + RSVP tokens/responses.
+ * Default memory for demos; production collection should use postgres
+ * (responses carry display names / optional contact fields).
+ */
+export function meetingsRsvpDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("MEETINGS_RSVP_DB_BACKEND", env);
+}
+
 /** True when any confidential module still uses the in-memory store. */
 export function isMemoryCaseDataActive(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -146,6 +157,7 @@ export function isMemoryCaseDataActive(
     committeesDbBackend(env) === "memory" ||
     electionsDbBackend(env) === "memory" ||
     pollsDbBackend(env) === "memory" ||
-    meetingsDbBackend(env) === "memory"
+    meetingsDbBackend(env) === "memory" ||
+    meetingsRsvpDbBackend(env) === "memory"
   );
 }
