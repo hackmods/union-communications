@@ -110,7 +110,13 @@ export function RelatedTasksPanel({
   async function markDone(task: Task) {
     if (
       readOnly ||
-      !canMutateTaskAssignment(roles, task.assigneeId, userId)
+      !canMutateTaskAssignment(
+        task,
+        userId,
+        session?.user?.unionId,
+        session?.user?.localId,
+        roles,
+      )
     ) {
       return;
     }
@@ -168,7 +174,13 @@ export function RelatedTasksPanel({
               </div>
               {task.status === "open" &&
                 !readOnly &&
-                canMutateTaskAssignment(roles, task.assigneeId, userId) && (
+                canMutateTaskAssignment(
+                  task,
+                  userId,
+                  session?.user?.unionId,
+                  session?.user?.localId,
+                  roles,
+                ) && (
                   <Button
                     type="button"
                     size="sm"
