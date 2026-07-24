@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canCrossLocalGrievance } from "@/lib/grievance/access";
 import type { TenantContext, UserRole } from "@/types/tenant";
@@ -15,12 +16,13 @@ import type { TenantContext, UserRole } from "@/types/tenant";
 export function HubContextSwitcher() {
   const { data: session, update, status } = useSession();
   const t = useTranslations("hub");
+  const mfaOk = useSessionMfaOk();
   const unionId = session?.user?.unionId;
   const seedTenant = unionId ? getTenantContext(unionId) : null;
   const [tenant, setTenant] = useState<TenantContext | null>(seedTenant);
 
   useEffect(() => {
-    if (status !== "authenticated" || !session?.user?.mfaVerified || !unionId) {
+    if (status !== "authenticated" || !mfaOk || !unionId) {
       return;
     }
 
@@ -47,7 +49,7 @@ export function HubContextSwitcher() {
       cancelled = true;
       window.removeEventListener("unionops:tenant-updated", onUpdate);
     };
-  }, [status, session?.user?.mfaVerified, unionId]);
+  }, [status, mfaOk, unionId]);
 
   if (status !== "authenticated" || !session?.user?.unionId || !tenant) {
     return null;

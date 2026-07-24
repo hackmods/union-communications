@@ -19,7 +19,7 @@ const HUB_A11Y_PAGES: {
   {
     label: "bumping",
     path: "/en/app/bumping",
-    heading: /College Bumping|Bumpage collégial/i,
+    heading: /Stability Committee|Comité de stabilité/i,
   },
   {
     label: "time",

@@ -31,7 +31,7 @@ test.describe("Hub dashboards mobile @smoke @mobile", () => {
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: /College Bumping|Bumpage collégial/i,
+        name: /Stability Committee|Comité de stabilité/i,
       }),
     ).toBeVisible();
     await assertNoHorizontalOverflow(page);
@@ -68,7 +68,7 @@ test.describe("Hub dashboards mobile @smoke @mobile", () => {
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: /College Bumping|Bumpage collégial/i,
+        name: /Stability Committee|Comité de stabilité/i,
       }),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);

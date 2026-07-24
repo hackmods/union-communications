@@ -29,12 +29,18 @@ import { cn } from "@/lib/utils";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { Emoji } from "@/components/ui/Emoji";
 import { HubContextSwitcher } from "@/components/hub/HubContextSwitcher";
+import {
+  useMfaEnabled,
+  useSessionMfaOk,
+} from "@/components/hub/MfaPolicyProvider";
 import { getMenuItems } from "@/components/layout/nav/focusables";
 
 export function HubNav() {
   const { data: session, status } = useSession();
   const t = useTranslations("hub");
   const pathname = usePathname();
+  const mfaEnabled = useMfaEnabled();
+  const mfaOk = useSessionMfaOk();
 
   // Login sits under /app; hide hub chrome until the session is ready.
   if (status !== "authenticated" || !session?.user) return null;
@@ -46,7 +52,6 @@ export function HubNav() {
     tenant?.union.enabledModules ?? ["comms"];
   const roles = (session.user.roles ?? []) as UserRole[];
   const modules = getVisibleModules(enabledModules, roles);
-  const mfaOk = !!session.user.mfaVerified;
   const hasGrievance = canAccessGrievanceModule(roles);
   const hasBumping =
     canAccessBumpingModule(roles) && enabledModules.includes("bumping");
@@ -207,13 +212,15 @@ export function HubNav() {
             dimmed={!mfaOk}
           />
         )}
-        <Link
-          href="/app/mfa"
-          aria-current={pathname.startsWith("/app/mfa") ? "page" : undefined}
-          className={linkClass("text-opseu-blue")}
-        >
-          {mfaOk ? t("mfaOk") : t("mfaRequired")}
-        </Link>
+        {mfaEnabled && (
+          <Link
+            href="/app/mfa"
+            aria-current={pathname.startsWith("/app/mfa") ? "page" : undefined}
+            className={linkClass("text-opseu-blue")}
+          >
+            {mfaOk ? t("mfaOk") : t("mfaRequired")}
+          </Link>
+        )}
       </div>
     </nav>
   );

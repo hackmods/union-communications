@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
+import { useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canAccessTasksModule } from "@/lib/tasks/access";
 import type { Task } from "@/types/task";
@@ -14,6 +15,7 @@ import type { HubModule, UserRole } from "@/types/tenant";
 export function MyTasksWidget() {
   const t = useTranslations("tasks");
   const { data: session } = useSession();
+  const mfaOk = useSessionMfaOk();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetched, setFetched] = useState(false);
@@ -25,7 +27,7 @@ export function MyTasksWidget() {
   const enabledModules: HubModule[] =
     tenant?.union.enabledModules ?? ["comms"];
   const show =
-    !!session?.user?.mfaVerified &&
+    mfaOk &&
     canAccessTasksModule(roles) &&
     enabledModules.includes("tasks");
 
