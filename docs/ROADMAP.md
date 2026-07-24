@@ -14,7 +14,7 @@
 - [x] Audit log foundation
 - [x] Refactor OPSEU/CAAT strings to tenant config
 - [x] Package rename: `local-union-hub`
-- [ ] Multi-union onboarding UI (deferred → Phase 6)
+- [x] Multi-union onboarding UI (Phase 6 — memory overlay + invites)
 
 ## Phase 2 — Grievance MVP — COMPLETE
 - [x] CRUD, timeline, notes, deadlines
@@ -41,7 +41,7 @@
 - [x] Union template marketplace (within-union sharing)
 - [x] Mobile steward read-only mode
 
-## Phase 6 — Persistence, multi-scope & Onboarding (in progress)
+## Phase 6 — Persistence, multi-scope & Onboarding (near-complete)
 
 ### Shipped (memory-backed)
 - [x] ADR-013 Collection / BargainingUnit under Local
@@ -51,22 +51,23 @@
 - [x] Brand Kit v2 profiles (FT/PT) + Comms copy
 - [x] Phase 7 scaffolds: audit UI, attachment API + scan stub, MFA fixed-code verify
 
-### Remaining
-- [ ] PostgreSQL + Row-Level Security (`unionId` / `localId` / optional `bargainingUnitId`)
-- [ ] Replace memory adapters with DB-backed stores
-- [ ] `ApiAdapter` for hub clients
-- [ ] Multi-union tenant onboarding / invite UI (create locals + collections)
+### Remaining / shipped later in audit
+- [x] PostgreSQL + Row-Level Security (`unionId` / `localId` / optional `bargainingUnitId`) — Drizzle migrations + `unionops_app` role; flip via `*_DB_BACKEND=postgres`
+- [x] Replace memory adapters with DB-backed stores — per-module Drizzle adapters behind flags (default memory until operators flip)
+- [x] `ApiAdapter` for hub clients — opt-in server persistence for Brand Kit + preferences (`/api/brand-kit`, `/api/preferences`); default remains `LocalStorageAdapter`
+- [x] Multi-union tenant onboarding / invite UI (create locals + collections; runtime overlay; `/app/onboarding`, `/app/invites`, `/app/invite/[token]`)
 - [ ] Hybrid live local data path (optional offline source of truth)
 
-## Phase 7 — Attachments & Hardening (partial)
+## Phase 7 — Attachments & Hardening (near-complete)
 
 - [x] Attachment metadata API + memory adapter + scan stub (`skipped_dev`)
 - [x] Audit log query UI (`/app/audit`) for elevated officers
 - [x] MFA no longer accepts arbitrary 6-digit codes — `AUTH_DEV_MFA_CODE` / `AUTH_MFA_CODE` (default `000000`)
-- [ ] Object storage + real virus scanner (ClamAV / cloud)
-- [ ] Grievance detail UI for attachments
-- [ ] Server-side bumping PDF storage + virus scan
-- [ ] TOTP / stronger MFA (replace shared offline code)
+- [x] Object storage + real virus scanner — local FS + S3-compatible SSE-S3; ClamAV HTTP via `ATTACHMENT_SCANNER_URL`
+- [x] Grievance detail UI for attachments — list/upload/download panel in `GrievanceDetail`, role-gated by `useStewardReadOnly`
+- [x] Server-side bumping attachments (light) — `AttachmentAdapter.createForBumping`/`listForBumping`, `/api/bumping/cases/[id]/attachments`, UI panel in `BumpingCaseDetail` (`canWrite` gated); client-side PDF text-extract on the New Case form is unchanged
+- [x] TOTP enrollment UI (`/app/mfa/setup`) — QR + manual secret, confirm-before-persist, demo-memory or Postgres `users` table depending on `AUTH_USERS_BACKEND`
+- [ ] Retire `shared_code_insecure` as a viable production mode (make `totp` mandatory)
 
 ## Phase 8 — Workforce Time (VeriClock-class)
 
@@ -83,6 +84,15 @@
 - [ ] Geofence admin UI + punch photo attachments (Phase 7)
 
 Spec: [`docs/modules/WORKFORCE_TIME.md`](modules/WORKFORCE_TIME.md)
+
+## Calendar & Meetings — Phase A (local schedule + banner + public snippet)
+
+- [x] `LocalMeetingSchedule` entity (`unionId`, `localId`, monthly/custom recurrence, time, location, `publicBlurb`, timezone, `publicSlug`); memory + optional `MEETINGS_DB_BACKEND=postgres`, migration `0018_local_meeting_schedule` + RLS
+- [x] Hub `/app/meetings` — configure schedule (president/exec/admin write, others read), computed next-meeting date, `.ics` download with optional `VALARM`, copy public share link
+- [x] Officer in-app reminder banner (`MeetingReminderBanner`, reuses `DemoSiteBanner` layout pattern) — shows within 7 days of the next meeting, no auto-email
+- [x] Public "next meeting" page `/meetings/[slug]` + reusable `NextMeetingSnippet` — no PII, no union/local ids, for embed/share
+- [x] `RRULE`-equivalent recurrence math (`src/lib/meetings/recurrence.ts`) — monthly-by-date, monthly-by-nth-weekday, or custom date list
+- [ ] Phase B/R1+ (tokenized RSVP, transactional email) remain — see `docs/modules/CALENDAR_MEETINGS.md`
 
 ## Reference Tenant
 

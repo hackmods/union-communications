@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -19,6 +20,8 @@ import { cn } from "@/lib/utils";
 import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import { PageShell } from "@/components/layout/PageShell";
+import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
+import { fieldsFromBoardNotice } from "@/lib/comms/event-email-from-notice";
 
 type NoticeType = "meeting" | "bargaining" | "event" | "general";
 type PageFormat = "letter" | "tabloid";
@@ -31,6 +34,7 @@ interface BoardNoticeState {
   time: string;
   location: string;
   contact: string;
+  quorumNeeded: string;
 }
 
 const FORMAT_DIMENSIONS: Record<
@@ -57,6 +61,7 @@ export default function BoardNoticePage() {
     time: "5:30 PM",
     location: "Union office, Room S206",
     contact: "Questions? Email your steward or local executive.",
+    quorumNeeded: "",
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -66,6 +71,19 @@ export default function BoardNoticePage() {
   const dims = FORMAT_DIMENSIONS[format];
   const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)} - ${brandKit.local.subText}`;
   const canvasInk = pickContrastingInk(brandKit.primaryColor);
+  const showInviteEmail =
+    state.noticeType === "meeting" || state.noticeType === "event";
+  const inviteFields = fieldsFromBoardNotice({
+    headline: state.headline,
+    date: state.date,
+    time: state.time,
+    location: state.location,
+    contact: state.contact,
+    ...(state.noticeType === "meeting"
+      ? { quorumNeeded: state.quorumNeeded }
+      : {}),
+  });
+
   const leadColor = meetsWcagAA(
     brandKit.secondaryColor,
     brandKit.primaryColor,
@@ -165,6 +183,15 @@ export default function BoardNoticePage() {
               value={state.contact}
               onChange={(e) => setState({ ...state, contact: e.target.value })}
             />
+            {state.noticeType === "meeting" ? (
+              <Input
+                label={t("quorumNeeded")}
+                value={state.quorumNeeded}
+                onChange={(e) =>
+                  setState({ ...state, quorumNeeded: e.target.value })
+                }
+              />
+            ) : null}
 
             <SegControl
               label={t("format")}
@@ -268,6 +295,26 @@ export default function BoardNoticePage() {
           </div>
         }
       />
+      {showInviteEmail ? (
+        <PageShell className="pb-4">
+          <InviteEmailPanel
+            fields={inviteFields}
+            localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+            messagesNamespace="boardNotice"
+            footerExtra={
+              <p className="text-sm text-gray-600">
+                {t("inviteEmail.eventPackPrompt")}{" "}
+                <Link
+                  href="/tools/document-generator"
+                  className="font-medium text-opseu-blue underline"
+                >
+                  {t("inviteEmail.eventPackLink")}
+                </Link>
+              </p>
+            }
+          />
+        </PageShell>
+      ) : null}
       <PageShell className="pb-8">
         <SourcesBlock
           pageId="boardNotice"

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
@@ -41,6 +41,12 @@ export default function MfaPage() {
           <Button className="mt-4 min-h-11" onClick={() => router.push("/app")}>
             {t("backToDashboard")}
           </Button>
+          <Link
+            href="/app/mfa/setup"
+            className="mt-3 block text-sm font-medium text-opseu-blue hover:underline"
+          >
+            {t("mfaSetupLink")}
+          </Link>
         </Card>
       </div>
     );
@@ -103,6 +109,12 @@ export default function MfaPage() {
           </Button>
         </form>
         <p className="mt-4 text-xs text-gray-500">{t("mfaDevHint")}</p>
+        <Link
+          href="/app/mfa/setup"
+          className="mt-3 block text-sm font-medium text-opseu-blue hover:underline"
+        >
+          {t("mfaSetupLink")}
+        </Link>
       </Card>
     </div>
   );

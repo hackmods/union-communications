@@ -42,8 +42,8 @@ describe("resolveAuthSecret (SEC-004)", () => {
 });
 
 describe("verifyMfaCode (SEC-002)", () => {
-  it("fails closed in production when AUTH_MFA_MODE is unset", () => {
-    const result = verifyMfaCode({
+  it("fails closed in production when AUTH_MFA_MODE is unset", async () => {
+    const result = await verifyMfaCode({
       userId: "user-president-243",
       code: "000000",
       env: { NODE_ENV: "production" },
@@ -52,8 +52,8 @@ describe("verifyMfaCode (SEC-002)", () => {
     if (!result.ok) expect(result.status).toBe(503);
   });
 
-  it("rejects shared_code in production without AUTH_MFA_CODE", () => {
-    const result = verifyMfaCode({
+  it("rejects shared_code in production without AUTH_MFA_CODE", async () => {
+    const result = await verifyMfaCode({
       userId: "user-president-243",
       code: "000000",
       env: {
@@ -65,8 +65,8 @@ describe("verifyMfaCode (SEC-002)", () => {
     if (!result.ok) expect(result.status).toBe(503);
   });
 
-  it("accepts shared_code with AUTH_MFA_CODE in production", () => {
-    const result = verifyMfaCode({
+  it("accepts shared_code with AUTH_MFA_CODE in production", async () => {
+    const result = await verifyMfaCode({
       userId: "user-president-243",
       code: "424242",
       env: {
@@ -78,8 +78,8 @@ describe("verifyMfaCode (SEC-002)", () => {
     expect(result).toEqual({ ok: true, mode: "shared_code_insecure" });
   });
 
-  it("defaults to shared_code_insecure in non-production and accepts 000000", () => {
-    const result = verifyMfaCode({
+  it("defaults to shared_code_insecure in non-production and accepts 000000", async () => {
+    const result = await verifyMfaCode({
       userId: "user-president-243",
       code: "000000",
       env: { NODE_ENV: "development" },
@@ -87,9 +87,9 @@ describe("verifyMfaCode (SEC-002)", () => {
     expect(result).toEqual({ ok: true, mode: "shared_code_insecure" });
   });
 
-  it("verifies TOTP against the demo user secret", () => {
+  it("verifies TOTP against the demo user secret", async () => {
     const code = generateTotp("JBSWY3DPEHPK3PXP");
-    const result = verifyMfaCode({
+    const result = await verifyMfaCode({
       userId: "user-president-243",
       code,
       env: { NODE_ENV: "production", AUTH_MFA_MODE: "totp" },
@@ -97,8 +97,8 @@ describe("verifyMfaCode (SEC-002)", () => {
     expect(result).toEqual({ ok: true, mode: "totp" });
   });
 
-  it("rejects wrong TOTP codes", () => {
-    const result = verifyMfaCode({
+  it("rejects wrong TOTP codes", async () => {
+    const result = await verifyMfaCode({
       userId: "user-president-243",
       code: "999999",
       env: { NODE_ENV: "production", AUTH_MFA_MODE: "totp" },

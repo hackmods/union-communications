@@ -74,6 +74,16 @@ export class DrizzleAttachmentAdapter implements AttachmentAdapter {
     return rows.map(mapRow);
   }
 
+  async listForBumping(bumpingCaseId: string): Promise<AttachmentMeta[]> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(attachmentMeta)
+      .where(eq(attachmentMeta.bumpingCaseId, bumpingCaseId))
+      .orderBy(desc(attachmentMeta.createdAt));
+    return rows.map(mapRow);
+  }
+
   async listForExpenseClaim(
     expenseClaimId: string,
   ): Promise<AttachmentMeta[]> {
@@ -139,6 +149,62 @@ export class DrizzleAttachmentAdapter implements AttachmentAdapter {
         bargainingUnitId: meta.bargainingUnitId ?? null,
         grievanceId,
         bumpingCaseId: null,
+        fileName: input.fileName,
+        mimeType: input.mimeType,
+        sizeBytes: input.sizeBytes,
+        storageKey,
+        scanStatus: scan.status,
+        uploadedById: meta.uploadedById,
+        createdAt: new Date(),
+      })
+      .returning();
+
+    return { attachment: mapRow(row) };
+  }
+
+  async createForBumping(
+    bumpingCaseId: string,
+    input: CreateAttachmentInput,
+    meta: AttachmentCreateMeta,
+  ): Promise<{ attachment?: AttachmentMeta; error?: string }> {
+    const scan = await scanAttachment(input);
+    if (!scan.ok) {
+      return { error: scan.error ?? "Scan failed" };
+    }
+    const decoded = decodePayload(input);
+    if (!decoded.ok) {
+      return { error: decoded.error };
+    }
+
+    const attachmentId = newId();
+    const storageKey = buildStorageKey({
+      unionId: meta.unionId,
+      localId: meta.localId,
+      scope: "bumping",
+      scopeId: bumpingCaseId,
+      attachmentId,
+      fileName: input.fileName,
+    });
+
+    try {
+      await getObjectStorage().put(storageKey, decoded.bytes, input.mimeType);
+    } catch (err) {
+      return {
+        error:
+          err instanceof Error ? err.message : "Failed to write object storage",
+      };
+    }
+
+    const db = getDb();
+    const [row] = await db
+      .insert(attachmentMeta)
+      .values({
+        id: attachmentId,
+        unionId: meta.unionId,
+        localId: meta.localId,
+        bargainingUnitId: meta.bargainingUnitId ?? null,
+        grievanceId: null,
+        bumpingCaseId,
         fileName: input.fileName,
         mimeType: input.mimeType,
         sizeBytes: input.sizeBytes,

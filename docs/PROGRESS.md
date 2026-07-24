@@ -34,7 +34,7 @@ Scaffold through testing/CI — all complete.
 - [x] Package renamed to `local-union-hub`
 - [x] Playwright uses `npm run dev` web server
 - [x] Unit tests for tenant loader + module registry
-- [ ] Multi-union onboarding UI (deferred — seed-only for now)
+- [x] Multi-union onboarding UI → Phase 6 (`/app/onboarding`, invites)
 - [x] `.env.example` (AUTH_SECRET, AUTH_URL)
 
 ## Phase 2 — Grievance MVP (2026-07-08) — COMPLETE
@@ -129,7 +129,7 @@ Scaffold through testing/CI — all complete.
 
 ## Deferred (future)
 
-- [ ] Multi-union onboarding UI → **Phase 6**
+- [x] Multi-union onboarding UI → **Phase 6** (shipped 2026-07-23 — memory overlay + invite accept)
 - [ ] Persistent Postgres + RLS (`unionId` / `localId` / `bargainingUnitId`) → **Phase 6** — scaffold + adapters + seed/app-role/smoke closed (`SEC-003`); flip host backends from memory when ready
 - [ ] Workforce Time full (scheduling, PTO, union rollup) → **Phase 8** (8-lite + 8-lite+ shipped)
 - [ ] Comms content backlog (email/broadcast guide; First week Print step + remaining copy sweep) → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
@@ -498,3 +498,31 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `ORG-008` — travel authorization + cash advance + expense reconcile (`TravelAuthorization`/`CashAdvance`/`ExpenseClaim`, memory + optional `TRAVEL_DB_BACKEND=postgres`, migration `0016_travel` + RLS); ledger posts on advance/reconcile; `/api/travel/**`; Hub `/app/travel`; PDF/XLSX + receipt ZIP (`buildReceiptZip` + `listForExpenseClaim` + object storage); `AttachmentMeta.expenseClaimId`; no SAP/ERP
 - [x] `FUTURE-006` — Pulse Poll authoring + response collection (`PollDefinition`/`PollResponse`, memory + optional `POLLS_DB_BACKEND=postgres`, migration `0017_polls` + RLS); public `/poll/[slug]` + consent submit API; Hub `/app/polls` aggregates + CSV/XLSX; Publish from `/tools/pulse-poll`; ADR-015
 - [x] `ORG-007` — acknowledged Non-Build (dues/per-capita/member-HR); export-hook posture only
+
+## Phase 6 — Multi-union onboarding + invite UI (2026-07-23) — COMPLETE (memory overlay)
+
+- [x] Runtime tenant overlay (`src/lib/tenant/overlay.ts`) merged by loader — locals/collections + new unions
+- [x] New unions use host Brand Kit defaults + empty asset pack — **never** clone OPSEU/CAAT seed
+- [x] Hub wizard `/app/onboarding` (+ alias `/app/settings/tenant`) for `local_president` / `union_admin` / `platform_admin`
+- [x] `GET`/`POST /api/tenant` (MFA; create_local / create_collection / create_union)
+- [x] Invite create UI `/app/invites` + public accept `/app/invite/[token]` (password → POST accept → login)
+- [x] HubNav links (invites via `canManageInvites`; tenant setup via `canManageTenantOnboarding`)
+- [x] Proxy allows unauthenticated `/app/invite/*`; EN/FR copy; ROADMAP checkbox closed
+
+## Phase 6/7 — ApiAdapter + TOTP enrollment (2026-07-23)
+
+- [x] `ApiAdapter` (`src/lib/data/api-adapter.ts`) implementing `DataAdapter` over `GET/PUT /api/brand-kit` and `GET/PUT /api/preferences`; memory store keyed `unionId:userId` (`src/lib/hub-settings/store.ts`); Zod-validated bodies; unit tests with mocked `fetch`
+- [x] `getDataAdapter()` / `unionops-data-adapter-mode` browser preference — defaults `LocalStorageAdapter` for Comms sovereignty, opt-in `ApiAdapter` for authenticated Hub use; `docs/ARCHITECTURE.md` DataAdapter table updated
+- [x] TOTP enrollment UI (`/app/mfa/setup`): `POST /api/mfa/enroll` issues a pending secret + `otpauth://` URI (QR via `qrcode`, manual fallback), `POST /api/mfa/enroll/confirm` verifies one live code before persisting — nothing is written until confirmed
+- [x] `mfa-policy.ts` TOTP lookup now backend-aware (`src/lib/auth/mfa-user-secret.ts`): demo-roster override map or `users.totp_secret`/`mfa_enabled` when `AUTH_USERS_BACKEND=postgres`; `verifyMfaCode` is now async
+- [x] Linked from `/app/mfa`; EN/FR copy; `docs/guides/SETUP.md` TOTP enrollment section; ROADMAP Phase 6/7 checkboxes closed
+
+## Phase 7 — Attachment UIs + Calendar & Meetings Phase A (2026-07-23)
+
+- [x] Grievance attachments UI — list/upload/download panel added to `GrievanceDetail` (`src/components/grievance/GrievanceDetail.tsx`) wired to the existing `GET/POST /api/grievances/[id]/attachments` + download route; base64 upload via `FileReader`; role-gated with `useStewardReadOnly`; EN/FR `grievance.attachments.*`
+- [x] Bumping attachments (Phase 7 light) — `AttachmentAdapter.createForBumping` / `listForBumping` added to memory + Drizzle adapters; new `/api/bumping/cases/[id]/attachments` (list/upload) + `/[attachmentId]/download`; UI panel in `BumpingCaseDetail` gated by the existing `canWrite` prop; EN/FR `bumping.attachments.*`
+- [x] `LocalMeetingSchedule` (Calendar & Meetings Phase A) — `src/lib/meetings/*` (adapter, memory + Drizzle adapters, `recurrence.ts` next-occurrence math, access, store); memory default + optional `MEETINGS_DB_BACKEND=postgres`; migration `0018_local_meeting_schedule` + RLS
+- [x] Hub `/app/meetings` settings page (`MeetingScheduleSettings`) — configure monthly (by date or nth weekday) or custom-date recurrence, time/duration/location/public blurb/timezone; write gated to president/exec/admin (`canWriteMeetingSchedule`), read for any hub role; `.ics` download with optional `VALARM` reminder; copy public share link
+- [x] Officer in-app reminder banner (`MeetingReminderBanner`, mounted in `[locale]/app/layout.tsx` alongside `DemoSiteBanner`) — fetches `/api/meetings/upcoming`, shows within 7 days of the next meeting; no auto-email, per `.cursor/rules/calendar-meetings.mdc`
+- [x] Public "next meeting" page `/[locale]/meetings/[slug]` + reusable `NextMeetingSnippet` component, backed by public `GET /api/meetings/public/[slug]` — no login, no union/local ids, no member data
+- [x] `docs/modules/CALENDAR_MEETINGS.md` Phase A marked shipped; `docs/ROADMAP.md` new Calendar & Meetings section

@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid code" }, { status: 400 });
   }
 
-  const result = verifyMfaCode({
+  const result = await verifyMfaCode({
     userId: session.user.id,
     code: body.code ?? "",
   });

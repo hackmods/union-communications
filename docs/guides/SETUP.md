@@ -131,6 +131,12 @@ Demo accounts (password `demo123`) exist for local CI and workshops. They are do
 
 **MFA:** non-production defaults to `AUTH_MFA_MODE=shared_code_insecure` and accepts `AUTH_DEV_MFA_CODE` (default `000000`). Production **requires** `AUTH_MFA_MODE` (`totp` preferred, or `shared_code_insecure` with an explicit `AUTH_MFA_CODE`). MFA success issues a short-lived server grant; the client cannot set `mfaVerified` via `session.update()` alone.
 
+**TOTP enrollment (`AUTH_MFA_MODE=totp`):** signed-in users self-enroll at `/app/mfa/setup` — the page calls `POST /api/mfa/enroll` to generate a fresh base32 secret + `otpauth://` URI, renders it as a QR code (scannable by Google Authenticator, Authy, 1Password, etc.) with a manual-entry fallback, then `POST /api/mfa/enroll/confirm` verifies one live code before persisting the secret. Nothing is persisted until confirmation succeeds, so a half-finished enrollment never locks an account out. Persistence depends on the users backend:
+- **Demo roster (default):** confirmed secrets are held in an in-memory, process-scoped override (`src/lib/auth/mfa-enrollment-store.ts`) — separate from the seeded `DEMO_USERS` array — and reset on restart, same as other memory-only stores.
+- **`AUTH_USERS_BACKEND=postgres`:** confirmed secrets are written to `users.totp_secret` / `users.mfa_enabled` (`src/lib/auth/mfa-user-secret.ts`), and survive restarts.
+
+Once enrolled, `/app/mfa` verifies exactly as it does for shared-code mode — enter the 6-digit code from the app to receive the short-lived server grant.
+
 ## Project docs
 
 - Vision: [`docs/VISION.md`](../VISION.md)

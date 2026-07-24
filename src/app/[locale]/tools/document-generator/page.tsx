@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
@@ -34,14 +34,11 @@ import {
   renderPptx,
 } from "@/lib/export/office-export";
 import { renderEventIcsBlob } from "@/lib/calendar/event-ics";
-import {
-  buildEventInviteEmail,
-  buildMailto,
-} from "@/lib/comms/event-email";
 import { downloadBlob } from "@/lib/export/image-export";
 import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { copyToClipboard, formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 
 export interface GeneratorState {
@@ -73,7 +70,6 @@ function initialState(
 export default function DocumentGeneratorPage() {
   const t = useTranslations("documentGenerator");
   const tc = useTranslations("common");
-  const locale = useLocale() as "en" | "fr";
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
@@ -88,8 +84,6 @@ export default function DocumentGeneratorPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [logoPreviewSrc, setLogoPreviewSrc] = useState<string | null>(null);
-  const [copied, setCopied] = useState<"subject" | "body" | null>(null);
-
   useEffect(() => {
     if (!hydrated || logoDefaultApplied.current) return;
     logoDefaultApplied.current = true;
@@ -123,23 +117,7 @@ export default function DocumentGeneratorPage() {
     contactName: state.fields.contactName ?? "",
   };
 
-  const inviteEmail = preset.outputs.email
-    ? buildEventInviteEmail(fields, {
-        locale,
-        localNumber: resolveLocalNumber(localNumber),
-      })
-    : null;
-
-  async function copyEmailPart(part: "subject" | "body") {
-    if (!inviteEmail) return;
-    const ok = await copyToClipboard(
-      part === "subject" ? inviteEmail.subject : inviteEmail.body,
-    );
-    if (ok) {
-      setCopied(part);
-      window.setTimeout(() => setCopied(null), 1500);
-    }
-  }
+  const showInviteEmail = preset.outputs.email;
 
   function applyPreset(id: OfficePresetId) {
     const next = getPreset(id);
@@ -540,73 +518,13 @@ export default function DocumentGeneratorPage() {
         </div>
       </div>
 
-      {inviteEmail ? (
-        <Card density="compact" className="mt-4 space-y-3">
-          <div>
-            <CardTitle className="text-base">{t("inviteEmail.title")}</CardTitle>
-            <p className="mt-1 text-sm text-gray-600">
-              {t("inviteEmail.hint")}
-            </p>
-          </div>
-
-          <div className="space-y-1">
-            <label
-              htmlFor="invite-subject"
-              className="text-sm font-medium text-gray-700"
-            >
-              {t("inviteEmail.subjectLabel")}
-            </label>
-            <Input
-              id="invite-subject"
-              readOnly
-              value={inviteEmail.subject}
-              onFocus={(e) => e.currentTarget.select()}
-            />
-          </div>
-
-          <div className="space-y-1">
-            <label
-              htmlFor="invite-body"
-              className="text-sm font-medium text-gray-700"
-            >
-              {t("inviteEmail.bodyLabel")}
-            </label>
-            <Textarea
-              id="invite-body"
-              readOnly
-              rows={12}
-              value={inviteEmail.body}
-              onFocus={(e) => e.currentTarget.select()}
-            />
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => void copyEmailPart("subject")}
-            >
-              {copied === "subject"
-                ? tc("copied")
-                : t("inviteEmail.copySubject")}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => void copyEmailPart("body")}
-            >
-              {copied === "body" ? tc("copied") : t("inviteEmail.copyBody")}
-            </Button>
-            <a
-              href={buildMailto(inviteEmail)}
-              className="inline-flex items-center justify-center rounded-lg border-2 border-opseu-blue px-4 py-2 text-base font-semibold text-opseu-blue transition-colors hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
-            >
-              {t("inviteEmail.openMail")}
-            </a>
-          </div>
-
-          <p className="text-xs text-gray-500">{t("inviteEmail.privacy")}</p>
-        </Card>
+      {showInviteEmail ? (
+        <InviteEmailPanel
+          className="mt-4"
+          fields={fields}
+          localNumber={resolveLocalNumber(localNumber)}
+          messagesNamespace="documentGenerator"
+        />
       ) : null}
     </PageShell>
   );

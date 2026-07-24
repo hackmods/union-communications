@@ -15,3 +15,4 @@ export * from "./committees";
 export * from "./elections";
 export * from "./travel";
 export * from "./polls";
+export * from "./meetings";

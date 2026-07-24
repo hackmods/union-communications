@@ -1,6 +1,6 @@
 # Calendar & Meeting Reminders
 
-Status: **review captured** — no union calendar product ships today. This spec documents what exists, what is deferred, and a realistic phased path if locals need monthly membership meeting support — including a better **RSVP** path that stays inside UnionOps constraints.
+Status: **Phase A shipped** (recurring local schedule + officer banner + public no-PII snippet, no auto-email). Phases B/C/D and the RSVP R1+ token flow remain deferred — see below. This spec documents what exists, what is deferred, and a realistic phased path if locals need monthly membership meeting support — including a better **RSVP** path that stays inside UnionOps constraints.
 
 Related agent rule: [`.cursor/rules/calendar-meetings.mdc`](../../.cursor/rules/calendar-meetings.mdc)
 
@@ -10,13 +10,29 @@ UnionOps helps officers **prepare** meeting outreach (ICS files, email drafts, p
 
 | Need | Today | Gap |
 |------|-------|-----|
-| Monthly membership meeting config | Manual re-entry in Comms tools each month | `LocalMeetingSchedule` + recurrence |
-| Officer reminders | Personal calendar via grievance ICS + event `.ics` export | In-app banner; optional VALARM |
-| Member reminders (public, minimal detail) | Board notice / graphic exports | Public "next meeting" snippet from tenant config |
+| Need | Today | Gap |
+|------|-------|-----|
+| Monthly membership meeting config | **`LocalMeetingSchedule` + recurrence (shipped)** | — |
+| Officer reminders | **In-app banner (shipped, 7-day window); optional VALARM on `.ics` (shipped)** | Transactional email (Phase C) |
+| Member reminders (public, minimal detail) | **Public "next meeting" page/snippet (shipped)** | QR/embed wiring into Comms tools |
 | RSVP collection | Offline Excel RSVP (Yes/No/Maybe + guests) | Tokenized public form + Hub tally (after Postgres) |
 | Email reminders | Copy-only grievance drafts | Transactional email infra (ARCHITECTURE v2+) |
 
-## Shipped
+## Shipped — Phase A: Local meeting config (2026-07-23)
+
+| Piece | Location |
+|-------|----------|
+| `LocalMeetingSchedule` entity | `src/types/meetings.ts` |
+| Adapters (memory + optional Postgres) | `src/lib/meetings/{adapter,memory-adapter,drizzle-adapter,store}.ts`; `MEETINGS_DB_BACKEND=postgres`; migration `0018_local_meeting_schedule.sql` + RLS |
+| Recurrence math | `src/lib/meetings/recurrence.ts` — monthly-by-date, monthly-by-nth-weekday, or custom date list; same UTC-wall-clock limitation as `ics.ts` (no real `VTIMEZONE`) |
+| Hub settings page | `/app/meetings`, `src/components/meetings/MeetingScheduleSettings.tsx` — write gated to president/exec/admin (`canWriteMeetingSchedule`), read for any hub role |
+| `.ics` with optional reminder | `buildIcsEvent({ ..., reminderMinutesBefore })` now emits a `VALARM` block |
+| Officer banner | `src/components/hub/MeetingReminderBanner.tsx`, mounted in `[locale]/app/layout.tsx`; polls `GET /api/meetings/upcoming`; shows within 7 days; **no auto-email** |
+| Public snippet/page | `/[locale]/meetings/[slug]`, `src/components/meetings/NextMeetingSnippet.tsx`, backed by public `GET /api/meetings/public/[slug]` — no login, no union/local ids, no member data |
+
+**Not yet done from the original Phase A scope:** QR/embed wiring from the public page into Comms board-notice/flyer tools (link is share-copy only today).
+
+## Also shipped (pre-existing)
 
 ### Officer Hub (authenticated — login + MFA + RBAC)
 
@@ -32,7 +48,7 @@ UnionOps helps officers **prepare** meeting outreach (ICS files, email drafts, p
 
 | Tool | Route | Meeting use |
 |------|-------|-------------|
-| Board Notice | `/tools/board-notice` | `noticeType: "meeting"` — PNG/PDF export |
+| Board Notice | `/tools/board-notice` | `noticeType: "meeting"` — PNG/PDF export + **copy-only RSVP invite email** (R0.5) |
 | Document Generator | `/tools/document-generator` | `quick-event` — notice + **RSVP Excel** + **`.ics`** + PPTX |
 | Graphic Maker | `/tools/graphic-maker` | `meetingNotice` starter |
 | Meeting Backgrounds | `/tools/meeting-background` | Virtual meeting branding |
@@ -77,13 +93,10 @@ The **grievance** email drafts stay in the Hub (`/api/grievances/[id]/email-draf
 
 ## Not shipped
 
-- Union-wide calendar UI or `/app/meetings` hub route
-- `CalendarEvent` / `UnionMeeting` data model (distinct from grievance `ScheduledMeeting`)
-- Live / tokenized RSVP form with server persistence
-- Recurring monthly meeting configuration
+- Live / tokenized RSVP form with server persistence (`UnionMeeting` / `RsvpToken` / `RsvpResponse` — Phase R1)
 - SMTP / transactional email, cron, push notifications
 - Member email lists or `/member` portal
-- Automated "remind N days before meeting"
+- Automated "remind N days before meeting" **to members** (officer in-app banner is shipped; member-facing reminders remain Phase D)
 
 **Planned (docs only):** ARCHITECTURE v2+ — "Transactional email for follow-up reminders only — no marketing email."
 
@@ -104,7 +117,7 @@ Stay aligned with multi-union + privacy rules: **no `/member` portal**, minimize
 
 ```text
 R0 Document Generator pack (shipped)
-  → R0.5 matching invite email on Board Notice / printables (planned)
+  → R0.5 matching invite email on Board Notice / printables (shipped)
   → R1 Hub event + token form
   → R2 officer prompts
   → R3 transactional mail
@@ -124,17 +137,17 @@ Buildable agent plan: [`.cursor/plans/hybrid_lec_rsvp_outreach.plan.md`](../../.
 | Invite email | Copy-only subject/body + `mailto:` asking Attending + On site/Remote |
 | Why first | Zero new privacy surface; matches LEC hybrid + food-order workflow today |
 
-### Phase R0.5 — Matching invite email on printable / board tools (planned)
+### Phase R0.5 — Matching invite email on printable / board tools ✅
 
 **Why:** Officers often start on **Board Notice** (print for the corridor board), not Document Generator. They still need the same RSVP ask (Attending + On site / Remote) without losing the hybrid quorum/food workflow.
 
 | Piece | Detail |
 |-------|--------|
-| Primary surface | `/tools/board-notice` when `noticeType` is `meeting` (optionally `event`) |
-| Secondary | Graphic Maker `meetingNotice` starter — only if it has date/time/location fields |
+| Primary surface | `/tools/board-notice` when `noticeType` is `meeting` or `event` |
 | Builder | **Reuse** `src/lib/comms/event-email.ts` — do not fork |
-| UI | Extract shared `InviteEmailPanel` from Document Generator; mount on both pages |
+| UI | Shared `InviteEmailPanel` (`src/components/tools/InviteEmailPanel.tsx`) on Board Notice + Document Generator |
 | Field map | `headline→title`, `date`, `time`, `location`, `contact→contactName`; optional `quorumNeeded` input on meeting notices |
+| RSVP sheet + ICS | Deep-link to Document Generator Event notice — not duplicated on Board Notice |
 | Out of scope | Hub, auto-send, canvas QR, Meeting Backgrounds, `/r/[token]` |
 
 **Insights to preserve when building**
@@ -214,18 +227,18 @@ Do **not** reuse `ScheduledMeeting` (grievance-scoped, Confidential).
 
 Current roadmap priority remains: **Postgres+RLS → onboarding UI → attachments**. Meeting config + live RSVP come after that.
 
-### Phase A — Local meeting config (no email)
+### Phase A — Local meeting config (no email) ✅ shipped 2026-07-23
 
-- `LocalMeetingSchedule` in tenant config: title, recurrence, location, public vs internal description
-- Hub UI to configure monthly meeting (settings or `/app/meetings`)
-- Public "next meeting" snippet — date/time/location only
-- Extend `ics.ts` for `RRULE:FREQ=MONTHLY`
+- [x] `LocalMeetingSchedule` (own adapter/store, not tenant config JSON): recurrence, location, public vs internal description
+- [x] Hub UI to configure the meeting (`/app/meetings`)
+- [x] Public "next meeting" snippet/page — date/time/location only
+- [~] Recurrence computed in `recurrence.ts` (monthly-by-date, monthly-by-nth-weekday, custom dates) rather than an ICS `RRULE` string — the exported `.ics` is still a single `VEVENT` for the next occurrence, not a recurring `RRULE:FREQ=MONTHLY` (`ics.ts` limitations unchanged)
 
 ### Phase B — Officer reminders (logged-in)
 
-- In-app hub banner ("Membership meeting in 3 days")
-- Optional ICS with `VALARM`
-- Copy-only `membership_meeting_reminder` email draft template
+- [x] In-app hub banner ("Membership meeting in N days") — `MeetingReminderBanner`, 7-day window
+- [x] Optional ICS with `VALARM` — `reminderMinutesBefore` on `buildIcsEvent`
+- [ ] Copy-only `membership_meeting_reminder` email draft template
 
 ### Phase C — Transactional email (requires v2 infra)
 
@@ -256,6 +269,8 @@ Current roadmap priority remains: **Postgres+RLS → onboarding UI → attachmen
 | Event ICS from Comms fields | `src/lib/calendar/event-ics.ts` |
 | RSVP Excel | `src/lib/export/office-export.ts` (`renderEventRsvpXlsx`) |
 | RSVP invite email (copy-only) | `src/lib/comms/event-email.ts` |
+| Invite email UI (shared) | `src/components/tools/InviteEmailPanel.tsx` |
+| Board notice field map | `src/lib/comms/event-email-from-notice.ts` |
 | Grievance meetings API | `src/app/api/grievances/[id]/meetings/route.ts` |
 | Meeting UI | `src/components/grievance/GrievanceDetail.tsx` |
 | Email drafts | `src/lib/grievance/email-templates.ts` |
@@ -264,6 +279,14 @@ Current roadmap priority remains: **Postgres+RLS → onboarding UI → attachmen
 | Overdue (grievance) | `src/components/qol/OverdueDashboard.tsx` |
 | Grievance module spec | `docs/modules/GRIEVANCE.md` |
 | Comms backlog | `docs/modules/COMMS_BACKLOG.md` |
+| `LocalMeetingSchedule` type | `src/types/meetings.ts` |
+| Meetings adapters/store | `src/lib/meetings/{adapter,memory-adapter,drizzle-adapter,store}.ts` |
+| Recurrence math | `src/lib/meetings/recurrence.ts` |
+| Meetings access/validation/session | `src/lib/meetings/access.ts`, `src/lib/validation/meetings.ts`, `src/lib/auth/meetings-session.ts` |
+| Meetings APIs | `src/app/api/meetings/{schedule,upcoming}/route.ts`, `src/app/api/meetings/public/[slug]/route.ts` |
+| Hub settings UI | `src/app/[locale]/app/meetings/page.tsx`, `src/components/meetings/MeetingScheduleSettings.tsx` |
+| Officer banner | `src/components/hub/MeetingReminderBanner.tsx` |
+| Public page + snippet | `src/app/[locale]/meetings/[slug]/page.tsx`, `src/components/meetings/NextMeetingSnippet.tsx` |
 
 ## Compliance
 

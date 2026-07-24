@@ -1,4 +1,9 @@
 import referenceTenant from "../../../seed/reference-tenant-opseu-caat.json";
+import {
+  getLocalPatches,
+  getOverlaySeeds,
+  getUnitPatches,
+} from "@/lib/tenant/overlay";
 import type {
   BargainingUnit,
   BrandDefaults,
@@ -8,18 +13,64 @@ import type {
   TenantSeed,
 } from "@/types/tenant";
 
-const SEEDS: TenantSeed[] = [referenceTenant as TenantSeed];
+const STATIC_SEEDS: TenantSeed[] = [referenceTenant as TenantSeed];
+
+function mergeSeed(base: TenantSeed): TenantSeed {
+  const unionId = base.union.id;
+  const patchLocals = getLocalPatches(unionId);
+  const patchUnits = getUnitPatches(unionId);
+  if (patchLocals.length === 0 && patchUnits.length === 0) return base;
+
+  const locals = [
+    ...(base.locals && base.locals.length > 0
+      ? base.locals
+      : base.local
+        ? [base.local]
+        : []),
+    ...patchLocals.filter((p) => !base.locals?.some((l) => l.id === p.id)),
+  ];
+  // Deduplicate by id when overlay seed already includes patches
+  const localIds = new Set<string>();
+  const dedupedLocals = locals.filter((l) => {
+    if (localIds.has(l.id)) return false;
+    localIds.add(l.id);
+    return true;
+  });
+
+  const units = [
+    ...(base.bargainingUnits ?? []),
+    ...patchUnits.filter(
+      (p) => !(base.bargainingUnits ?? []).some((u) => u.id === p.id),
+    ),
+  ];
+  const unitIds = new Set<string>();
+  const dedupedUnits = units.filter((u) => {
+    if (unitIds.has(u.id)) return false;
+    unitIds.add(u.id);
+    return true;
+  });
+
+  return {
+    ...base,
+    locals: dedupedLocals,
+    bargainingUnits: dedupedUnits,
+  };
+}
 
 export function getAllTenantSeeds(): TenantSeed[] {
-  return SEEDS;
+  const staticMerged = STATIC_SEEDS.map(mergeSeed);
+  const overlay = getOverlaySeeds().map(mergeSeed);
+  // Overlay seeds that duplicate a static union id should not appear twice
+  const staticIds = new Set(staticMerged.map((s) => s.union.id));
+  return [...staticMerged, ...overlay.filter((s) => !staticIds.has(s.union.id))];
 }
 
 export function getTenantByUnionSlug(slug: string): TenantSeed | undefined {
-  return SEEDS.find((s) => s.union.slug === slug);
+  return getAllTenantSeeds().find((s) => s.union.slug === slug);
 }
 
 export function getTenantByUnionId(unionId: string): TenantSeed | undefined {
-  return SEEDS.find((s) => s.union.id === unionId);
+  return getAllTenantSeeds().find((s) => s.union.id === unionId);
 }
 
 export function normalizeLocals(seed: TenantSeed): TenantLocal[] {
@@ -103,8 +154,12 @@ export function resolveGrievanceConfig(
   return ctx.grievanceConfig;
 }
 
+/**
+ * Asset-pack defaults from the first *static* seed (reference tenant).
+ * Not used when provisioning new unions — see `neutralBrandDefaultsForNewTenant`.
+ */
 export function getDefaultBrandDefaults() {
-  const seed = SEEDS[0];
+  const seed = STATIC_SEEDS[0];
   return (
     seed?.brandDefaults ?? {
       primaryColor: "#C2410C",

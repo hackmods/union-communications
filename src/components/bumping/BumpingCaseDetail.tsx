@@ -20,6 +20,21 @@ import type {
   ChecklistState,
   DiffLine,
 } from "@/types/bumping";
+import type { AttachmentMeta } from "@/types/attachments";
+
+const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
+
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      resolve(result.slice(result.indexOf(",") + 1));
+    };
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
 
 export function BumpingCaseDetail({
   id,
@@ -38,6 +53,11 @@ export function BumpingCaseDetail({
   const [decisionOutcome, setDecisionOutcome] = useState("");
   const [decisionRationale, setDecisionRationale] = useState("");
   const [decisionDissent, setDecisionDissent] = useState("");
+
+  const [attachments, setAttachments] = useState<AttachmentMeta[]>([]);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [attachmentError, setAttachmentError] = useState<string | null>(null);
 
   const applyCaseData = useCallback((json: BumpingCaseWithRelations) => {
     setData(json);
@@ -70,10 +90,58 @@ export function BumpingCaseDetail({
         }
         applyCaseData(json);
       });
+    void fetch(`/api/bumping/cases/${id}/attachments`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (!cancelled && json?.attachments) setAttachments(json.attachments);
+      });
     return () => {
       cancelled = true;
     };
   }, [applyCaseData, id]);
+
+  async function reloadAttachments() {
+    const res = await fetch(`/api/bumping/cases/${id}/attachments`);
+    if (res.ok) {
+      const json = await res.json();
+      setAttachments(json.attachments ?? []);
+    }
+  }
+
+  async function uploadAttachment(e: React.FormEvent) {
+    e.preventDefault();
+    setAttachmentError(null);
+    if (!canWrite || !uploadFile) return;
+    if (uploadFile.size > MAX_ATTACHMENT_BYTES) {
+      setAttachmentError(t("attachments.fileTooLarge"));
+      return;
+    }
+    setUploading(true);
+    try {
+      const contentBase64 = await fileToBase64(uploadFile);
+      const res = await fetch(`/api/bumping/cases/${id}/attachments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fileName: uploadFile.name,
+          mimeType: uploadFile.type || "application/octet-stream",
+          sizeBytes: uploadFile.size,
+          contentBase64,
+        }),
+      });
+      if (!res.ok) {
+        const json = await res.json().catch(() => null);
+        setAttachmentError(json?.error ?? t("attachments.uploadError"));
+      } else {
+        setUploadFile(null);
+        await reloadAttachments();
+      }
+    } catch {
+      setAttachmentError(t("attachments.uploadError"));
+    } finally {
+      setUploading(false);
+    }
+  }
 
   async function updateChecklist(itemId: string, value: boolean) {
     if (!data || !canWrite) return;
@@ -316,6 +384,64 @@ export function BumpingCaseDetail({
           )}
         </Card>
       </div>
+
+      <Card className="mt-4">
+        <CardTitle>{t("attachments.title")}</CardTitle>
+        <p className="mt-1 text-xs text-gray-500">{t("attachments.hint")}</p>
+        {attachments.length === 0 ? (
+          <p className="mt-2 text-sm text-gray-500">{t("attachments.empty")}</p>
+        ) : (
+          <ul className="mt-3 space-y-2">
+            {attachments.map((a) => (
+              <li
+                key={a.id}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-gray-50 p-3 text-sm"
+              >
+                <div>
+                  <p className="font-medium">{a.fileName}</p>
+                  <p className="text-xs text-gray-500">
+                    {t("attachments.uploadedBy", {
+                      date: new Date(a.createdAt).toLocaleString(),
+                    })}
+                    {a.scanStatus === "pending" &&
+                      ` · ${t("attachments.scanPending")}`}
+                    {a.scanStatus === "infected" &&
+                      ` · ${t("attachments.scanInfected")}`}
+                  </p>
+                </div>
+                {(a.scanStatus === "clean" ||
+                  a.scanStatus === "skipped_dev") && (
+                  <a
+                    href={`/api/bumping/cases/${id}/attachments/${a.id}/download`}
+                    className="rounded-lg border border-opseu-blue px-3 py-1 text-xs font-medium text-opseu-blue hover:bg-opseu-blue/5"
+                  >
+                    {t("attachments.download")}
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+        {canWrite && (
+          <form onSubmit={uploadAttachment} className="mt-4 space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              {t("attachments.upload")}
+              <input
+                type="file"
+                onChange={(e) => setUploadFile(e.target.files?.[0] ?? null)}
+                className="mt-1 block w-full text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-opseu-blue/10 file:px-3 file:py-2 file:text-opseu-blue"
+              />
+            </label>
+            <p className="text-xs text-gray-500">{t("attachments.sizeLimit")}</p>
+            {attachmentError && (
+              <p className="text-sm text-red-600">{attachmentError}</p>
+            )}
+            <Button type="submit" size="sm" disabled={uploading || !uploadFile}>
+              {uploading ? t("attachments.uploading") : t("attachments.upload")}
+            </Button>
+          </form>
+        )}
+      </Card>
 
       <Card className="mt-4">
         <CardTitle>{t("decision")}</CardTitle>

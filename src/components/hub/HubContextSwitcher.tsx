@@ -1,26 +1,57 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import {
-  getTenantContext,
-  listBargainingUnitsForLocal,
-} from "@/lib/tenant/loader";
+import { getTenantContext } from "@/lib/tenant/loader";
 import { canCrossLocalGrievance } from "@/lib/grievance/access";
-import type { UserRole } from "@/types/tenant";
+import type { TenantContext, UserRole } from "@/types/tenant";
 
 /**
  * Hub local + collection (bargaining unit) switcher.
  * Updates JWT via session.update so list APIs filter by active context.
+ * Merges GET /api/tenant so runtime overlay locals/collections appear.
  */
 export function HubContextSwitcher() {
   const { data: session, update, status } = useSession();
   const t = useTranslations("hub");
+  const unionId = session?.user?.unionId;
+  const seedTenant = unionId ? getTenantContext(unionId) : null;
+  const [tenant, setTenant] = useState<TenantContext | null>(seedTenant);
 
-  if (status !== "authenticated" || !session?.user?.unionId) return null;
+  useEffect(() => {
+    if (status !== "authenticated" || !session?.user?.mfaVerified || !unionId) {
+      return;
+    }
 
-  const tenant = getTenantContext(session.user.unionId);
-  if (!tenant) return null;
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const res = await fetch("/api/tenant");
+        if (!res.ok) return;
+        const data = (await res.json()) as { context: TenantContext };
+        if (!cancelled) setTenant(data.context);
+      } catch {
+        if (!cancelled && unionId) setTenant(getTenantContext(unionId));
+      }
+    }
+
+    const onUpdate = () => {
+      void load();
+    };
+
+    void load();
+    window.addEventListener("unionops:tenant-updated", onUpdate);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("unionops:tenant-updated", onUpdate);
+    };
+  }, [status, session?.user?.mfaVerified, unionId]);
+
+  if (status !== "authenticated" || !session?.user?.unionId || !tenant) {
+    return null;
+  }
 
   const roles = (session.user.roles ?? []) as UserRole[];
   const accessible =
@@ -36,13 +67,13 @@ export function HubContextSwitcher() {
 
   const activeLocalId = session.user.localId;
   const collections = activeLocalId
-    ? listBargainingUnitsForLocal(session.user.unionId, activeLocalId)
+    ? tenant.bargainingUnits.filter((b) => b.localId === activeLocalId)
     : [];
 
   const onLocalChange = async (value: string) => {
     const localId = value === "__all__" ? undefined : value || undefined;
     const units = localId
-      ? listBargainingUnitsForLocal(session.user.unionId!, localId)
+      ? tenant.bargainingUnits.filter((b) => b.localId === localId)
       : [];
     await update({
       localId,

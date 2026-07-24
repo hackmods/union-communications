@@ -4,7 +4,7 @@
  * - non-production: defaults to shared_code_insecure for demos/CI
  */
 
-import { DEMO_USERS } from "@/lib/auth/demo-users";
+import { getTotpSecretForUser } from "@/lib/auth/mfa-user-secret";
 import { verifyTotp } from "@/lib/auth/totp";
 
 export type MfaMode = "shared_code_insecure" | "totp";
@@ -30,11 +30,11 @@ function expectedSharedCode(env: NodeJS.ProcessEnv): string | null {
   return env.AUTH_DEV_MFA_CODE?.trim() || "000000";
 }
 
-export function verifyMfaCode(input: {
+export async function verifyMfaCode(input: {
   userId: string;
   code: string;
   env?: NodeJS.ProcessEnv;
-}): MfaPolicyResult {
+}): Promise<MfaPolicyResult> {
   const env = input.env ?? process.env;
   const mode = resolveMfaMode(env);
 
@@ -73,8 +73,7 @@ export function verifyMfaCode(input: {
     return { ok: true, mode };
   }
 
-  const user = DEMO_USERS.find((u) => u.id === input.userId);
-  const secret = user?.totpSecret;
+  const secret = await getTotpSecretForUser(input.userId);
   if (!secret) {
     return {
       ok: false,

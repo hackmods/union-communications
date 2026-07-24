@@ -116,6 +116,16 @@ export function pollsDbBackend(
   return resolveBackend("POLLS_DB_BACKEND", env);
 }
 
+/**
+ * Local membership meeting schedule (Calendar & Meetings Phase A).
+ * Not confidential (no PII), but shares the memory/postgres adapter pattern.
+ */
+export function meetingsDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("MEETINGS_DB_BACKEND", env);
+}
+
 /** True when any confidential module still uses the in-memory store. */
 export function isMemoryCaseDataActive(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -135,6 +145,7 @@ export function isMemoryCaseDataActive(
     travelDbBackend(env) === "memory" ||
     committeesDbBackend(env) === "memory" ||
     electionsDbBackend(env) === "memory" ||
-    pollsDbBackend(env) === "memory"
+    pollsDbBackend(env) === "memory" ||
+    meetingsDbBackend(env) === "memory"
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DemoSiteBanner } from "@/components/hub/DemoSiteBanner";
 import { MemoryDataBanner } from "@/components/hub/MemoryDataBanner";
+import { MeetingReminderBanner } from "@/components/hub/MeetingReminderBanner";
 import { HubNav } from "@/components/hub/HubNav";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
@@ -18,6 +19,7 @@ export default function AppLayout({
     <>
       <DemoSiteBanner />
       <MemoryDataBanner />
+      <MeetingReminderBanner />
       <HubNav />
       {/* Body uses `wide` (not chrome): avoid stretched empty margins on phone/tablet. */}
       <div className={cn(PAGE_SHELL.wide, "py-4 sm:py-6 md:py-8")}>

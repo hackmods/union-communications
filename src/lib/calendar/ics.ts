@@ -6,6 +6,8 @@ export interface IcsEventInput {
   startsAt: string; // ISO
   endsAt: string; // ISO
   organizerName?: string;
+  /** Stretch — adds a VALARM display reminder N minutes before DTSTART. */
+  reminderMinutesBefore?: number;
 }
 
 function pad(n: number): string {
@@ -47,6 +49,15 @@ function veventLines(event: IcsEventInput): string[] {
   if (event.organizerName) {
     lines.push(
       `ORGANIZER;CN=${escapeIcsText(event.organizerName)}:MAILTO:noreply@local-union-hub.local`,
+    );
+  }
+  if (event.reminderMinutesBefore != null && event.reminderMinutesBefore > 0) {
+    lines.push(
+      "BEGIN:VALARM",
+      "ACTION:DISPLAY",
+      `DESCRIPTION:${escapeIcsText(event.title)}`,
+      `TRIGGER:-PT${Math.round(event.reminderMinutesBefore)}M`,
+      "END:VALARM",
     );
   }
   lines.push("END:VEVENT");

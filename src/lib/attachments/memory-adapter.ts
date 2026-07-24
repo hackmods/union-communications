@@ -48,6 +48,12 @@ export class MemoryAttachmentAdapter implements AttachmentAdapter {
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   }
 
+  async listForBumping(bumpingCaseId: string): Promise<AttachmentMeta[]> {
+    return store
+      .filter((a) => a.bumpingCaseId === bumpingCaseId)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
   async listForExpenseClaim(
     expenseClaimId: string,
   ): Promise<AttachmentMeta[]> {
@@ -99,6 +105,57 @@ export class MemoryAttachmentAdapter implements AttachmentAdapter {
       localId: meta.localId,
       bargainingUnitId: meta.bargainingUnitId,
       grievanceId,
+      fileName: input.fileName,
+      mimeType: input.mimeType,
+      sizeBytes: input.sizeBytes,
+      storageKey,
+      scanStatus: scan.status,
+      uploadedById: meta.uploadedById,
+      createdAt: new Date().toISOString(),
+    };
+    store.push(row);
+    return { attachment: row };
+  }
+
+  async createForBumping(
+    bumpingCaseId: string,
+    input: CreateAttachmentInput,
+    meta: AttachmentCreateMeta,
+  ): Promise<{ attachment?: AttachmentMeta; error?: string }> {
+    const scan = await scanAttachment(input);
+    if (!scan.ok) {
+      return { error: scan.error ?? "Scan failed" };
+    }
+    const decoded = decodePayload(input);
+    if (!decoded.ok) {
+      return { error: decoded.error };
+    }
+
+    const attachmentId = id();
+    const storageKey = buildStorageKey({
+      unionId: meta.unionId,
+      localId: meta.localId,
+      scope: "bumping",
+      scopeId: bumpingCaseId,
+      attachmentId,
+      fileName: input.fileName,
+    });
+
+    try {
+      await getObjectStorage().put(storageKey, decoded.bytes, input.mimeType);
+    } catch (err) {
+      return {
+        error:
+          err instanceof Error ? err.message : "Failed to write object storage",
+      };
+    }
+
+    const row: AttachmentMeta = {
+      id: attachmentId,
+      unionId: meta.unionId,
+      localId: meta.localId,
+      bargainingUnitId: meta.bargainingUnitId,
+      bumpingCaseId,
       fileName: input.fileName,
       mimeType: input.mimeType,
       sizeBytes: input.sizeBytes,

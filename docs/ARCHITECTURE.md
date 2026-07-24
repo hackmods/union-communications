@@ -67,11 +67,11 @@ All persistence goes through [`src/lib/data/adapter.ts`](../src/lib/data/adapter
 
 | Adapter | Use case |
 |---------|----------|
-| `LocalStorageAdapter` | v1 comms, hybrid mode local slice |
+| `LocalStorageAdapter` | Default for all Comms canvas tools + Brand Kit/preferences — on-device sovereignty (ADR-006) |
 | `LocalHybridSliceAdapter` | Encrypted grievance/bumping slice in browser (Phase 4) |
-| `ApiAdapter` | Central hub (Phase 1+) |
+| `ApiAdapter` | Opt-in server persistence for Brand Kit + preferences via `GET/PUT /api/brand-kit` and `/api/preferences` (Phase 6) — authenticated Hub users only, memory-backed store keyed by `unionId:userId` until Postgres lands |
 
-Tools never call `localStorage` or fetch directly — always via adapter.
+Tools never call `localStorage` or fetch directly — always via adapter. `getDataAdapter()` (`src/lib/data/get-data-adapter.ts`) resolves `LocalStorageAdapter` by default and only returns `ApiAdapter` when the user has explicitly opted in via the `unionops-data-adapter-mode` browser preference — never default a whole tenant to `api`.
 
 ## Multi-Tenancy
 

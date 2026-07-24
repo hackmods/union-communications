@@ -31,8 +31,13 @@ export default auth((req) => {
 
   const locale = localeFromPath(pathname);
   const isLogin = pathname.includes("/app/login");
+  // Invite accept is public — token is the capability (SEC-007).
+  const isInviteAccept = /\/app\/invite\//.test(pathname);
   const isAppRoute =
-    pathname.includes("/app") && !isLogin && !pathname.includes("/app/register");
+    pathname.includes("/app") &&
+    !isLogin &&
+    !pathname.includes("/app/register") &&
+    !isInviteAccept;
 
   if (req.auth && isLogin) {
     return NextResponse.redirect(new URL(`/${locale}/app`, req.url));

@@ -127,6 +127,13 @@
       "when": 1784797000000,
       "tag": "0017_polls",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1784797500000,
+      "tag": "0018_local_meeting_schedule",
+      "breakpoints": true
     }
   ]
 }

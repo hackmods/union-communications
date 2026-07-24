@@ -12,6 +12,8 @@ const PUBLIC_API_ROUTES = new Set([
   "invites/[token]/route.ts",
   // FUTURE-006 anonymous poll submit — rate-limited; no auth (ADR-015).
   "polls/[slug]/responses/route.ts",
+  // Calendar & Meetings Phase A — public "next meeting" snippet; no PII, no auth.
+  "meetings/public/[slug]/route.ts",
 ]);
 
 function walkRouteFiles(dir: string): string[] {
@@ -42,6 +44,8 @@ const AUTH_MARKERS = [
   "requireElectionsSession",
   "requireTravelSession",
   "requirePollsSession",
+  "requireTenantOnboardingSession",
+  "requireMeetingsSession",
 ];
 
 describe("API route auth coverage", () => {
