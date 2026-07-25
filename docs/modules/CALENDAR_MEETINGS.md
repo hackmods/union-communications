@@ -200,6 +200,7 @@ Do **not** reuse `ScheduledMeeting` (grievance-scoped, Confidential).
 
 - [x] SMTP via `nodemailer` (`src/lib/email/send.ts`) gated by `EMAIL_ENABLED=true` (ADR-016)
 - [x] Officer-only reminder: `POST /api/meetings/events/[id]/remind-email` → `session.user.email` only
+- [x] Cron officer reminders: `GET|POST /api/cron/meeting-reminders` + `CRON_SECRET` → roster emails only (no member lists)
 - [x] Optional one-shot RSVP confirmation when `consentEmailConfirm` + email on public submit
 - [x] Audit log on every send/skip; no marketing campaigns / grievance content on this path
 
