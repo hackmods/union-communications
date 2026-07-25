@@ -137,10 +137,11 @@ Skip: dues/PCI, member marketing lists, full VeriClock as one blob, CMEK.
 ## Sensible next (after this train)
 
 1. Ops: flip `*_DB_BACKEND=postgres` + real scanner on durability hosts  
-2. Durable Postgres `password_reset_tokens` (memory today)  
-3. COMMS email/broadcast guide (fifth channel — only if product expands channels)  
-4. Time **8f** hybrid slice / punch photos — **explicit product cut required**  
-5. Redeploy sandbox from latest `main` and re-run hub smoke  
+2. COMMS email/broadcast guide (fifth channel — only if product expands channels)  
+3. Time **8f** hybrid slice / punch photos — **explicit product cut required**  
+4. Redeploy sandbox from latest `main` and re-run hub smoke  
+
+Password-reset durable Postgres tokens — **shipped** (`AUTH_USERS_BACKEND=postgres` + migration `0024`).
 
 ---
 

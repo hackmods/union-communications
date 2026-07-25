@@ -52,6 +52,13 @@
 - [x] Transactional email copy via existing SMTP helper; EN/FR i18n; unit tests
 - [x] Docs: `current-ground-truth.md`, `roadmap-next.mdc`
 
+## Durable Postgres password-reset tokens (2026-07-25) — COMPLETE
+
+- [x] `password_reset_tokens` table (migration `0024`) + Drizzle schema — no RLS (public token lookup, like `users`)
+- [x] Adapter factory: memory default; Postgres when `AUTH_USERS_BACKEND=postgres` (+ `DATABASE_URL`)
+- [x] Async facade (`create` / `get` / `consume`); routes await; prior unused tokens invalidated per email
+- [x] Unit tests + `.env.example` / SETUP / ground-truth / roadmap-next updated
+
 ## First week Print step + copy sweep (2026-07-24) — COMPLETE
 
 - [x] Print step on `/guide/social-media-plan` after boards / before socials (`FIRST_WEEK_STEP_KEYS` → Flyer Maker + Print Guide)

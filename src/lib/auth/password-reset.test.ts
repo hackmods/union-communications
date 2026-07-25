@@ -24,32 +24,47 @@ describe("password reset tokens", () => {
     resetInviteStoreForTests();
   });
 
-  it("creates a consumable token and rejects a second consume", () => {
-    const row = createPasswordResetToken({
+  it("creates a consumable token and rejects a second consume", async () => {
+    const row = await createPasswordResetToken({
       email: "officer@example.ca",
       userId: "user-1",
     });
-    expect(getPasswordResetToken(row.token)?.email).toBe("officer@example.ca");
+    expect((await getPasswordResetToken(row.token))?.email).toBe(
+      "officer@example.ca",
+    );
 
-    const first = consumePasswordResetToken(row.token);
+    const first = await consumePasswordResetToken(row.token);
     expect(first.ok).toBe(true);
 
-    const second = consumePasswordResetToken(row.token);
+    const second = await consumePasswordResetToken(row.token);
     expect(second.ok).toBe(false);
     if (!second.ok) expect(second.error).toBe("consumed");
   });
 
-  it("invalidates prior unused tokens for the same email", () => {
-    const first = createPasswordResetToken({
+  it("invalidates prior unused tokens for the same email", async () => {
+    const first = await createPasswordResetToken({
       email: "officer@example.ca",
       userId: "user-1",
     });
-    const second = createPasswordResetToken({
+    const second = await createPasswordResetToken({
       email: "officer@example.ca",
       userId: "user-1",
     });
-    expect(getPasswordResetToken(first.token)?.consumedAt).toBeTruthy();
-    expect(getPasswordResetToken(second.token)?.consumedAt).toBeUndefined();
+    expect((await getPasswordResetToken(first.token))?.consumedAt).toBeTruthy();
+    expect(
+      (await getPasswordResetToken(second.token))?.consumedAt,
+    ).toBeUndefined();
+  });
+
+  it("rejects expired tokens", async () => {
+    const row = await createPasswordResetToken({
+      email: "officer@example.ca",
+      userId: "user-1",
+      ttlHours: -1,
+    });
+    const result = await consumePasswordResetToken(row.token);
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error).toBe("expired");
   });
 });
 

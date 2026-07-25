@@ -17,7 +17,7 @@
 | Time 8d-lite / 8e | Shipped 2026-07-25 | Weekly OT CSV flag; pay-period snap; GPS consent |
 | Graphic Maker notice invite | Shipped 2026-07-25 | `InviteEmailPanel` on notice layout (R0.5 stretch) |
 | Pristine Office Templates | Shipped 2026-07-15 | Plan file todos may look pending — trust PROGRESS |
-| Password-reset | Shipped | Memory tokens; demo roster excluded |
+| Password-reset | Shipped | Memory default; durable Postgres when `AUTH_USERS_BACKEND=postgres` |
 | FEAT-003 / FEAT-004 | Shipped | Related tasks panel; outcome UI/export/`appealDays` |
 
 ## Three email/reminder surfaces (do not conflate)
@@ -51,10 +51,9 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 ## Sensible next candidates
 
 1. Ops: Postgres backend flips + real scanner on durability hosts
-2. Durable Postgres `password_reset_tokens` (memory today)
-3. COMMS email/broadcast guide (fifth-channel — only if product expands channels)
-4. Time **8f** hybrid slice / punch photos (explicit cut)
-5. Redeploy sandbox from latest `main` + hub smoke
+2. COMMS email/broadcast guide (fifth-channel — only if product expands channels)
+3. Time **8f** hybrid slice / punch photos (explicit cut)
+4. Redeploy sandbox from latest `main` + hub smoke
 
 ## Agent habits
 
