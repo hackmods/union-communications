@@ -31,7 +31,9 @@ import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
 import { PageShell } from "@/components/layout/PageShell";
+import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { pickContrastingInk } from "@/lib/utils/ink";
+import type { EventEmailFields } from "@/lib/comms/event-email";
 
 function isToolPresetKey(value: string): value is ToolPresetKey {
   return value in TOOL_PRESETS;
@@ -402,6 +404,21 @@ function GraphicMakerPageContent() {
           </div>
         }
       />
+      {state.layout === "notice" ? (
+        <div className="mx-auto mt-6 max-w-3xl px-4 sm:px-6">
+          <InviteEmailPanel
+            messagesNamespace="graphicMaker"
+            localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+            fields={
+              {
+                title: state.headline,
+                subtitle: state.subheadline,
+                location: state.detail || undefined,
+              } satisfies EventEmailFields
+            }
+          />
+        </div>
+      ) : null}
       <ConsentModal
         open={consentOpen}
         onConfirm={handleConsent}

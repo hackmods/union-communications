@@ -13,7 +13,9 @@ VeriClock-class time tracking for union locals and union-wide operations. **Not*
 | **8c.1** PTO leave requests | Shipped (2026-07-24) — create/list/approve/reject/cancel; no accrual balances |
 | **8c.2** Shift scheduling | Shipped (2026-07-24) — admin draft/publish shifts; worker upcoming list; optional `shiftId` on clock-in |
 | **8c.3** PTO accrual balances | Shipped (2026-07-24) — set/adjust balances; approve decrements `hoursRequested` |
-| 8d–8f (OT policies, hybrid slice, punch photos) | Planned |
+| **8d-lite** OT / pay-period | Shipped (2026-07-24) — weekly OT flag on CSV; 14-day pay-period snap (not full payroll) |
+| **8e** GPS consent | Shipped (2026-07-24) — roster `gpsConsentAt` + punch UI |
+| 8f (hybrid slice, punch photos) | Planned |
 
 ## Time categories (1D — all in one module)
 
@@ -88,13 +90,19 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 
 ## Deferred (full Phase 8)
 
-- OT policy engine and pay periods
+- Full OT policy engine / multi-jurisdiction pay rules
 - Standing named groups (v1 uses ad-hoc multi-select only)
 - Punch photo attachments (Phase 7 object storage)
 - Hybrid slice inclusion
 - Payroll vendor integrations
 - Shift **recurrence** / auto-timesheet from shifts (8c.2 is explicit windows only)
 - Auto-accrual formulas (8c.3 is manual set/adjust + approve debit)
+
+## Shipped in 8d-lite / 8e (2026-07-24)
+
+- CSV `ot_weekly_flag` via `weeklyOtFlags` (default 40h/week)
+- Admin report “snap to 14-day pay period”
+- Worker GPS consent stored on `TimeWorker.gpsConsentAt`; punch GPS disabled until consented
 
 ## Shipped in 8c.3 (2026-07-24)
 

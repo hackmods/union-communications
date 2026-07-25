@@ -109,6 +109,7 @@ export const timeWorkers = pgTable(
     userId: text("user_id"),
     trackGaps: boolean("track_gaps").notNull().default(false),
     active: boolean("active").notNull().default(true),
+    gpsConsentAt: timestamp("gps_consent_at", { withTimezone: true }),
   },
   (t) => [index("time_workers_union_local_idx").on(t.unionId, t.localId)],
 );

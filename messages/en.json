@@ -1747,7 +1747,17 @@
     "backgroundColor": "Background colour",
     "gradientColor": "Gradient fade colour",
     "gradientFrom": "Gradient start",
-    "gradientTo": "Gradient end"
+    "gradientTo": "Gradient end",
+    "inviteEmail": {
+      "title": "RSVP invite email",
+      "hint": "For meeting notices — copy into your mail app. Asks Attending + On site / Remote for quorum and food heads.",
+      "subjectLabel": "Subject",
+      "bodyLabel": "Message",
+      "copySubject": "Copy subject",
+      "copyBody": "Copy message",
+      "openMail": "Open in email app",
+      "privacy": "Runs on your device. Nothing is sent and no replies are collected here."
+    }
   },
   "quoteCard": {
     "title": "Quote Card Generator",
@@ -3495,7 +3505,11 @@
     "category": "Category",
     "jobCode": "Job code",
     "notes": "Notes (optional)",
-    "gpsOptional": "Tag punch with GPS (optional)",
+    "gpsOptional": "Tag this punch with GPS (requires consent below)",
+    "gpsConsent": "I consent to optional GPS tags on my punches",
+    "gpsConsentHint": "Consent is stored on your time roster record. GPS is never continuous tracking.",
+    "gpsConsentError": "Could not save GPS consent",
+    "snapPayPeriod": "Snap to current 14-day pay period",
     "activeSince": "{category} · {code} · {duration} so far",
     "recentEntries": "Recent entries",
     "localBoard": "Local time board",

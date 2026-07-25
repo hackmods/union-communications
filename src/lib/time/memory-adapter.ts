@@ -523,6 +523,10 @@ export const memoryTimeStore: TimeAdapter = {
           userId: input.userId ?? workers[idx].userId,
           trackGaps: input.trackGaps ?? workers[idx].trackGaps,
           active: input.active ?? workers[idx].active,
+          gpsConsentAt:
+            input.gpsConsentAt === null
+              ? undefined
+              : (input.gpsConsentAt ?? workers[idx].gpsConsentAt),
         };
         return workers[idx];
       }
@@ -536,6 +540,7 @@ export const memoryTimeStore: TimeAdapter = {
       userId: input.userId,
       trackGaps: input.trackGaps ?? true,
       active: input.active ?? true,
+      gpsConsentAt: input.gpsConsentAt ?? undefined,
     };
     workers.push(worker);
     return worker;

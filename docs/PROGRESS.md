@@ -1,5 +1,12 @@
 # Progress Log
 
+## Time 8d-lite + 8e GPS + Graphic Maker invite (2026-07-24) — COMPLETE
+
+- [x] 8d-lite: weekly OT flag on CSV export + pay-period snap helper (`pay-period.ts`)
+- [x] 8e: `gpsConsentAt` on workers + `/api/time/workers/consent-gps` + worker UI
+- [x] Graphic Maker notice layout: `InviteEmailPanel` (R0.5 stretch)
+- [x] Migration `0023_time_gps_consent.sql`; EN/FR; unit tests
+
 ## Cron officer meeting reminders (2026-07-24) — COMPLETE
 
 - [x] `GET|POST /api/cron/meeting-reminders` gated by `CRON_SECRET`

@@ -119,6 +119,7 @@ function mapWorker(row: typeof timeWorkers.$inferSelect): TimeWorker {
     userId: row.userId ?? undefined,
     trackGaps: row.trackGaps,
     active: row.active,
+    gpsConsentAt: toIso(row.gpsConsentAt),
   };
 }
 
@@ -610,6 +611,12 @@ export class DrizzleTimeAdapter implements TimeAdapter {
             userId: input.userId ?? existing[0].userId,
             trackGaps: input.trackGaps ?? existing[0].trackGaps,
             active: input.active ?? existing[0].active,
+            gpsConsentAt:
+              input.gpsConsentAt === null
+                ? null
+                : input.gpsConsentAt
+                  ? toDate(input.gpsConsentAt)
+                  : existing[0].gpsConsentAt,
           })
           .where(eq(timeWorkers.id, input.id))
           .returning();
@@ -627,6 +634,9 @@ export class DrizzleTimeAdapter implements TimeAdapter {
         userId: input.userId,
         trackGaps: input.trackGaps ?? true,
         active: input.active ?? true,
+        gpsConsentAt: input.gpsConsentAt
+          ? toDate(input.gpsConsentAt)
+          : undefined,
       })
       .returning();
     return mapWorker(row);
