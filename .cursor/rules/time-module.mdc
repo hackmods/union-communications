@@ -24,17 +24,19 @@ VeriClock-class hub module for staff hours, steward release/duty-bank, and actio
 - **8a:** `TIME_DB_BACKEND=postgres` (`DrizzleTimeAdapter`); default remains **memory**
 - **8b (2026-07-24):** work sites CRUD + geofence mode/radius UI; `POST /api/time/entries/bulk-approve`; export `?format=csv|xlsx|pdf`
 - **8c.1 (2026-07-24):** PTO leave requests (create/list/approve/reject/cancel) — **no** accrual balances
+- **8c.2 (2026-07-24):** `TimeShift` draft/publish/cancel; worker upcoming list; optional `shiftId` on clock-in
 
 ## Data
 - Use `timeStore` from `src/lib/time/store.ts` (memory or Drizzle via flag)
 - Categories: `staff` | `release` | `duty_bank` | `action` | `volunteer`
 - Entry sources: `clock` | `manual_range` | `bulk_event`
 - PTO: `PtoRequest` via `/api/time/pto` — vacation/sick/personal/other
+- Shifts: `TimeShift` via `/api/time/shifts` — explicit windows only (no recurrence)
 - Reject overlapping non-rejected ranges for the same worker
 - Geofence: `src/lib/time/geofence.ts` against active `WorkSite` rows on clock-in when GPS present
 
-## Deferred (8c.2+) — do not silently expand
-- Scheduling, PTO accrual balances, OT/pay-period engine
+## Deferred (8c.3+) — do not silently expand
+- PTO accrual balances, OT/pay-period engine, shift recurrence / auto-timesheet
 - Hybrid slice inclusion; punch photo attachments
 - See `docs/modules/WORKFORCE_TIME.md`, `docs/audit/current-ground-truth.md`
 

@@ -41,6 +41,8 @@ export interface TimeEntry {
   notes?: string;
   eventId?: string;
   eventLabel?: string;
+  /** Optional published shift this punch is for (8c.2). */
+  shiftId?: string;
   clockInGps?: TimeEntryGps;
   clockOutGps?: TimeEntryGps;
   geofenceResult?: "ok" | "warn" | "block";
@@ -127,6 +129,8 @@ export interface ClockInInput {
   jobCodeId: string;
   notes?: string;
   clockInGps?: TimeEntryGps;
+  /** Optional link to a published assigned shift (8c.2). */
+  shiftId?: string;
 }
 
 export interface ClockOutInput {
@@ -248,4 +252,56 @@ export interface CreatePtoRequestInput {
   notes?: string;
   /** Default `submitted` for worker self-serve. */
   status?: Extract<PtoRequestStatus, "draft" | "submitted">;
+}
+
+/** 8c.2 — admin-published shifts; not a recurrence engine. */
+export type TimeShiftStatus = "draft" | "published" | "cancelled";
+
+export interface TimeShift {
+  id: string;
+  unionId: string;
+  localId: string;
+  label: string;
+  startsAt: string;
+  endsAt: string;
+  category: TimeCategory;
+  siteId?: string;
+  jobCodeId?: string;
+  assignedWorkerIds: string[];
+  status: TimeShiftStatus;
+  createdById: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ShiftListFilters {
+  unionId: string;
+  localId?: string;
+  /** When set, only shifts that include this worker id. */
+  workerId?: string;
+  status?: TimeShiftStatus;
+  from?: string;
+  to?: string;
+}
+
+export interface CreateTimeShiftInput {
+  label: string;
+  startsAt: string;
+  endsAt: string;
+  category: TimeCategory;
+  siteId?: string;
+  jobCodeId?: string;
+  assignedWorkerIds: string[];
+  status?: Extract<TimeShiftStatus, "draft" | "published">;
+}
+
+export interface UpdateTimeShiftInput {
+  label?: string;
+  startsAt?: string;
+  endsAt?: string;
+  category?: TimeCategory;
+  siteId?: string | null;
+  jobCodeId?: string | null;
+  assignedWorkerIds?: string[];
+  status?: TimeShiftStatus;
 }

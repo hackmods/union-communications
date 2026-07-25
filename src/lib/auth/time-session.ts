@@ -6,12 +6,14 @@ import {
   canApprovePtoRequest,
   canApproveTimeEntry,
   canCancelPtoRequest,
+  canMutateTimeShift,
   canViewPtoRequest,
   canViewTimeEntry,
+  canViewTimeShift,
   isElevatedTimeRole,
 } from "@/lib/time/access";
 import { getTenantContext } from "@/lib/tenant/loader";
-import type { PtoRequest, TimeEntry } from "@/types/time";
+import type { PtoRequest, TimeEntry, TimeShift } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
 
 export type TimeSessionResult =
@@ -85,6 +87,26 @@ export function assertPtoApprove(session: Session, req: PtoRequest): boolean {
 export function assertPtoCancel(session: Session, req: PtoRequest): boolean {
   return canCancelPtoRequest(
     req,
+    session.user.id,
+    session.user.unionId,
+    session.user.localId,
+    (session.user.roles ?? []) as UserRole[],
+  );
+}
+
+export function assertShiftView(session: Session, shift: TimeShift): boolean {
+  return canViewTimeShift(
+    shift,
+    session.user.id,
+    session.user.unionId,
+    session.user.localId,
+    (session.user.roles ?? []) as UserRole[],
+  );
+}
+
+export function assertShiftMutate(session: Session, shift: TimeShift): boolean {
+  return canMutateTimeShift(
+    shift,
     session.user.id,
     session.user.unionId,
     session.user.localId,

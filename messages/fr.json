@@ -3584,6 +3584,27 @@
       "approved": "Approuvée",
       "rejected": "Refusée",
       "cancelled": "Annulée"
+    },
+    "shiftsTitle": "Quarts à venir",
+    "shiftsAdminTitle": "Horaire des quarts",
+    "shiftsHint": "Quarts publiés qui vous sont assignés. Vous pouvez lier un quart au pointage.",
+    "shiftsAdminHint": "Créez des quarts brouillon ou publiés pour le personnel. Pas de moteur de récurrence — ajoutez chaque plage explicitement.",
+    "shiftsLabel": "Libellé du quart",
+    "shiftsAssignee": "Assigner un travailleur",
+    "shiftsAssigneeSelf": "Utilisateur de la session (défaut)",
+    "shiftsSaveDraft": "Enregistrer le brouillon",
+    "shiftsPublish": "Publier",
+    "shiftsCancel": "Annuler le quart",
+    "shiftsEmpty": "Aucun quart planifié.",
+    "shiftsLoadError": "Impossible de charger les quarts",
+    "shiftsCreateError": "Impossible de créer le quart",
+    "shiftsActionError": "Impossible de mettre à jour le quart",
+    "shiftsValidationError": "Indiquez un libellé, un début et une fin.",
+    "shiftsAssignedCount": "{count} assigné(s)",
+    "shiftsStatus": {
+      "draft": "Brouillon",
+      "published": "Publié",
+      "cancelled": "Annulé"
     }
   },
   "assets": {

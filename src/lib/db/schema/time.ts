@@ -17,6 +17,7 @@ import type {
   TimeEntryGps,
   TimeEntrySource,
   TimeEntryStatus,
+  TimeShiftStatus,
 } from "@/types/time";
 
 export const timeEntries = pgTable(
@@ -41,6 +42,7 @@ export const timeEntries = pgTable(
     notes: text("notes"),
     eventId: text("event_id"),
     eventLabel: text("event_label"),
+    shiftId: text("shift_id"),
     clockInGps: jsonb("clock_in_gps").$type<TimeEntryGps>(),
     clockOutGps: jsonb("clock_out_gps").$type<TimeEntryGps>(),
     geofenceResult: text("geofence_result"),
@@ -166,4 +168,35 @@ export const ptoRequests = pgTable(
       .defaultNow(),
   },
   (t) => [index("pto_requests_union_local_idx").on(t.unionId, t.localId)],
+);
+
+export const timeShifts = pgTable(
+  "time_shifts",
+  {
+    id: text("id").primaryKey(),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "restrict" }),
+    localId: text("local_id")
+      .notNull()
+      .references(() => locals.id, { onDelete: "restrict" }),
+    label: text("label").notNull(),
+    startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+    endsAt: timestamp("ends_at", { withTimezone: true }).notNull(),
+    category: text("category").notNull().$type<TimeCategory>(),
+    siteId: text("site_id"),
+    jobCodeId: text("job_code_id"),
+    assignedWorkerIds: jsonb("assigned_worker_ids")
+      .notNull()
+      .$type<string[]>(),
+    status: text("status").notNull().$type<TimeShiftStatus>(),
+    createdById: text("created_by_id").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [index("time_shifts_union_local_idx").on(t.unionId, t.localId)],
 );

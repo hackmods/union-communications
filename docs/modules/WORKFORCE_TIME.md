@@ -11,7 +11,8 @@ VeriClock-class time tracking for union locals and union-wide operations. **Not*
 | **8a** Postgres + RLS | Shipped — `TIME_DB_BACKEND=postgres` (`DrizzleTimeAdapter`, migrations `0004`/`0005`); default remains memory |
 | **8b** Sites / geofence admin + bulk approve + XLSX/PDF | Shipped (2026-07-24) — `/api/time/sites`, bulk-approve, `?format=xlsx\|pdf` export |
 | **8c.1** PTO leave requests | Shipped (2026-07-24) — create/list/approve/reject/cancel; no accrual balances |
-| 8c.2–8f (scheduling, OT policies, hybrid slice, punch photos) | Planned |
+| **8c.2** Shift scheduling | Shipped (2026-07-24) — admin draft/publish shifts; worker upcoming list; optional `shiftId` on clock-in |
+| 8c.3–8f (PTO accrual, OT policies, hybrid slice, punch photos) | Planned |
 
 ## Time categories (1D — all in one module)
 
@@ -73,6 +74,8 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 - `GET /api/time/report/union-business?from&to` — JSON totals + needed
 - `GET/POST /api/time/pto` — leave requests (8c.1)
 - `PATCH /api/time/pto/[id]` — approve / reject / cancel / submit draft
+- `GET/POST /api/time/shifts` — shift schedule (8c.2)
+- `PATCH /api/time/shifts/[id]` — publish / cancel / edit
 
 ## GPS (optional, v1-lite foundation)
 
@@ -83,13 +86,20 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 
 ## Deferred (full Phase 8)
 
-- Scheduling (8c.2+)
-- PTO **accrual balances** (8c.1 ships requests only)
+- PTO **accrual balances** (8c.3+)
 - OT policy engine and pay periods
 - Standing named groups (v1 uses ad-hoc multi-select only)
 - Punch photo attachments (Phase 7 object storage)
 - Hybrid slice inclusion
 - Payroll vendor integrations
+- Shift **recurrence** / auto-timesheet from shifts (8c.2 is explicit windows only)
+
+## Shipped in 8c.2 (2026-07-24)
+
+- `TimeShift` CRUD (`GET/POST /api/time/shifts`, `PATCH /api/time/shifts/[id]`)
+- Admin schedule panel + worker upcoming shifts (`ShiftSchedulePanel`)
+- Optional `shiftId` on clock-in when worker is assigned to a published shift
+- Memory + Postgres (`time_shifts` + `time_entries.shift_id`) behind `TIME_DB_BACKEND`
 
 ## Shipped in 8c.1 (2026-07-24)
 

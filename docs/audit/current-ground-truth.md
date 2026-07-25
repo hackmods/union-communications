@@ -14,6 +14,7 @@
 | Time 8a | Shipped (`TIME_DB_BACKEND`) | Module docs wrongly said “blocked on Phase 6” |
 | Time 8b | Shipped 2026-07-24 | Sites/geofence admin, bulk approve, XLSX/PDF — **not** scheduling/PTO |
 | Time 8c.1 | Shipped 2026-07-24 | Leave requests only — **not** accrual balances or scheduling |
+| Time 8c.2 | Shipped 2026-07-24 | Explicit shift draft/publish; optional clock-in `shiftId` — **not** recurrence |
 | FEAT-003 case-detail tasks | Shipped | API already filtered by `relatedGrievanceId` / `relatedBumpingCaseId`; only UI panel was missing |
 | FEAT-004 outcome | Entity+API earlier; UI/export/`appealDays` closed 2026-07-24 | `appealDays` ≠ `responseDays` (Arbitration often has `responseDays: null`) |
 
@@ -32,7 +33,8 @@ Never put public meeting RSVP invite copy on grievance email-draft APIs. Never t
 - **Ship incrementally** on existing `TimeAdapter` → API → admin UI patterns.
 - **8b (done):** sites CRUD + geofence fields, bulk approve, XLSX/PDF rollup.
 - **8c.1 (done):** PTO **leave requests** only (`/api/time/pto`) — no accrual ledger.
-- **Defer 8c.2+:** scheduling, PTO accrual, OT/pay-period engine, hybrid time slice, punch photos — new domain entities, not plumbing.
+- **8c.2 (done):** `TimeShift` schedule (`/api/time/shifts`) — no recurrence / auto-timesheet.
+- **Defer 8c.3+:** PTO accrual, OT/pay-period engine, hybrid time slice, punch photos — new domain entities, not plumbing.
 - Saying “Workforce Time 8b+” / “8c” in planning means the **named slice**, not full VeriClock, unless product explicitly expands scope.
 
 ## Grievance outcome / appeal window
@@ -72,16 +74,15 @@ Never put public meeting RSVP invite copy on grievance email-draft APIs. Never t
 
 ## Sensible next candidates
 
-1. Time **8c.2** scheduling / shift roster
-2. PTO accrual balances (8c.3)
-3. Optional cron officer self-reminders (email infra exists; still opt-in / no member lists)
-4. Graphic Maker optional invite panel (R0.5 stretch — not blocking)
-5. Ops Postgres backend flips + real scanner on durability hosts
-6. Durable Postgres `password_reset_tokens` table (memory tokens today)
-7. COMMS email/broadcast guide (fifth-channel deferral still stands)
+1. PTO accrual balances (8c.3)
+2. Optional cron officer self-reminders (email infra exists; still opt-in / no member lists)
+3. Graphic Maker optional invite panel (R0.5 stretch — not blocking)
+4. Ops Postgres backend flips + real scanner on durability hosts
+5. Durable Postgres `password_reset_tokens` table (memory tokens today)
+6. COMMS email/broadcast guide (fifth-channel deferral still stands)
 
 **Shipped this pass:** COMMS First week Print step + remaining “Social Media Plan” → “First week” copy sweep (2026-07-24).
-**Shipped:** Hub MFA-off UX + Stability Committee rename + density; password-reset; Time **8c.1** PTO leave requests.
+**Shipped:** Hub MFA-off UX + Stability Committee rename + density; password-reset; Time **8c.1** PTO leave requests; Time **8c.2** shifts.
 
 ## Agent habits reinforced this session
 

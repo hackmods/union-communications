@@ -3609,6 +3609,27 @@
       "approved": "Approved",
       "rejected": "Rejected",
       "cancelled": "Cancelled"
+    },
+    "shiftsTitle": "Upcoming shifts",
+    "shiftsAdminTitle": "Shift schedule",
+    "shiftsHint": "Published shifts assigned to you. You can link a shift when clocking in.",
+    "shiftsAdminHint": "Create draft or published shifts for roster workers. Not a recurrence engine — add each window explicitly.",
+    "shiftsLabel": "Shift label",
+    "shiftsAssignee": "Assign worker",
+    "shiftsAssigneeSelf": "Session user (default)",
+    "shiftsSaveDraft": "Save draft",
+    "shiftsPublish": "Publish",
+    "shiftsCancel": "Cancel shift",
+    "shiftsEmpty": "No shifts scheduled.",
+    "shiftsLoadError": "Could not load shifts",
+    "shiftsCreateError": "Could not create shift",
+    "shiftsActionError": "Could not update shift",
+    "shiftsValidationError": "Enter a label, start, and end.",
+    "shiftsAssignedCount": "{count} assigned",
+    "shiftsStatus": {
+      "draft": "Draft",
+      "published": "Published",
+      "cancelled": "Cancelled"
     }
   },
   "installPage": {

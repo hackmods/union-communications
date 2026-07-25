@@ -7,17 +7,21 @@ import type {
   CreateExpectedWindowInput,
   CreateJobCodeInput,
   CreatePtoRequestInput,
+  CreateTimeShiftInput,
   JobCode,
   ManualEntryInput,
   NeededEntriesFilters,
   PtoListFilters,
   PtoRequest,
   PtoRequestStatus,
+  ShiftListFilters,
   TimeEntry,
   TimeExpectedWindow,
   TimeListFilters,
   TimeNeededRow,
+  TimeShift,
   TimeWorker,
+  UpdateTimeShiftInput,
   UpsertWorkerInput,
   UpsertSiteInput,
   WorkSite,
@@ -30,6 +34,7 @@ let windowSeq = 1;
 let eventSeq = 1;
 let siteSeq = 1;
 let ptoSeq = 1;
+let shiftSeq = 1;
 
 const entries: TimeEntry[] = [];
 const jobCodes: JobCode[] = [
@@ -114,6 +119,7 @@ const workers: TimeWorker[] = [
 
 const expectedWindows: TimeExpectedWindow[] = [];
 const ptoRequests: PtoRequest[] = [];
+const shifts: TimeShift[] = [];
 
 function now() {
   return new Date().toISOString();
@@ -145,6 +151,10 @@ function nextEventId() {
 
 function nextPtoId() {
   return `pto-${String(ptoSeq++).padStart(4, "0")}`;
+}
+
+function nextShiftId() {
+  return `shift-${String(shiftSeq++).padStart(4, "0")}`;
 }
 
 function assertValidRange(clockInAt: string, clockOutAt: string) {
@@ -249,6 +259,7 @@ export const memoryTimeStore: TimeAdapter = {
       entrySource: "clock",
       clockInAt: ts,
       notes: input.notes,
+      shiftId: input.shiftId,
       clockInGps: input.clockInGps,
       geofenceResult,
       createdAt: ts,
@@ -610,6 +621,77 @@ export const memoryTimeStore: TimeAdapter = {
       row.approvedById = meta?.approvedById;
       row.approvedAt = now();
     }
+    return row;
+  },
+
+  async listShifts(filters: ShiftListFilters): Promise<TimeShift[]> {
+    return shifts
+      .filter((s) => {
+        if (s.unionId !== filters.unionId) return false;
+        if (filters.localId && s.localId !== filters.localId) return false;
+        if (filters.workerId && !s.assignedWorkerIds.includes(filters.workerId)) {
+          return false;
+        }
+        if (filters.status && s.status !== filters.status) return false;
+        if (filters.from && s.endsAt < filters.from) return false;
+        if (filters.to && s.startsAt > filters.to) return false;
+        return true;
+      })
+      .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
+  },
+
+  async getShiftById(id: string): Promise<TimeShift | null> {
+    return shifts.find((s) => s.id === id) ?? null;
+  },
+
+  async createShift(
+    input: CreateTimeShiftInput,
+    meta: { unionId: string; localId: string; createdById: string },
+  ): Promise<TimeShift> {
+    assertValidRange(input.startsAt, input.endsAt);
+    const stamp = now();
+    const row: TimeShift = {
+      id: nextShiftId(),
+      unionId: meta.unionId,
+      localId: meta.localId,
+      label: input.label.trim(),
+      startsAt: input.startsAt,
+      endsAt: input.endsAt,
+      category: input.category,
+      siteId: input.siteId,
+      jobCodeId: input.jobCodeId,
+      assignedWorkerIds: [...input.assignedWorkerIds],
+      status: input.status ?? "draft",
+      createdById: meta.createdById,
+      createdAt: stamp,
+      updatedAt: stamp,
+    };
+    shifts.push(row);
+    return row;
+  },
+
+  async updateShift(
+    id: string,
+    input: UpdateTimeShiftInput,
+  ): Promise<TimeShift | null> {
+    const row = shifts.find((s) => s.id === id);
+    if (!row) return null;
+    if (input.label !== undefined) row.label = input.label.trim();
+    if (input.startsAt !== undefined) row.startsAt = input.startsAt;
+    if (input.endsAt !== undefined) row.endsAt = input.endsAt;
+    if (input.category !== undefined) row.category = input.category;
+    if (input.siteId !== undefined) {
+      row.siteId = input.siteId ?? undefined;
+    }
+    if (input.jobCodeId !== undefined) {
+      row.jobCodeId = input.jobCodeId ?? undefined;
+    }
+    if (input.assignedWorkerIds !== undefined) {
+      row.assignedWorkerIds = [...input.assignedWorkerIds];
+    }
+    if (input.status !== undefined) row.status = input.status;
+    assertValidRange(row.startsAt, row.endsAt);
+    row.updatedAt = now();
     return row;
   },
 };

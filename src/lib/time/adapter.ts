@@ -5,17 +5,21 @@ import type {
   CreateExpectedWindowInput,
   CreateJobCodeInput,
   CreatePtoRequestInput,
+  CreateTimeShiftInput,
   JobCode,
   ManualEntryInput,
   NeededEntriesFilters,
   PtoListFilters,
   PtoRequest,
   PtoRequestStatus,
+  ShiftListFilters,
   TimeEntry,
   TimeExpectedWindow,
   TimeListFilters,
   TimeNeededRow,
+  TimeShift,
   TimeWorker,
+  UpdateTimeShiftInput,
   UpsertWorkerInput,
   UpsertSiteInput,
   WorkSite,
@@ -95,4 +99,14 @@ export interface TimeAdapter {
     status: PtoRequestStatus,
     meta?: { approvedById?: string },
   ): Promise<PtoRequest | null>;
+  listShifts(filters: ShiftListFilters): Promise<TimeShift[]>;
+  getShiftById(id: string): Promise<TimeShift | null>;
+  createShift(
+    input: CreateTimeShiftInput,
+    meta: { unionId: string; localId: string; createdById: string },
+  ): Promise<TimeShift>;
+  updateShift(
+    id: string,
+    input: UpdateTimeShiftInput,
+  ): Promise<TimeShift | null>;
 }

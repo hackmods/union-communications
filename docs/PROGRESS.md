@@ -1,5 +1,14 @@
 # Progress Log
 
+## Time 8c.2 — Shift scheduling (2026-07-24) — COMPLETE
+
+- [x] `TimeShift` types + adapter methods (memory + Drizzle)
+- [x] `GET/POST /api/time/shifts`, `PATCH /api/time/shifts/[id]` with RBAC + audit
+- [x] Admin + worker `ShiftSchedulePanel`; optional `shiftId` on clock-in
+- [x] Migration `0021_time_shifts.sql` + `time_entries.shift_id`; EN/FR; unit tests
+- [x] Docs: WORKFORCE_TIME, time-module, ground-truth / roadmap-next
+- [ ] Recurrence / auto-timesheet / PTO accrual (deferred)
+
 ## Time 8c.1 — PTO leave requests (2026-07-24) — COMPLETE
 
 - [x] `PtoRequest` types + adapter methods (memory + Drizzle)
