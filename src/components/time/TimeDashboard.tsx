@@ -12,6 +12,7 @@ import { Checkbox } from "@/components/ui/Checkbox";
 import { Badge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { PtoRequestsPanel } from "@/components/time/PtoRequestsPanel";
 import type {
   GeofenceMode,
   JobCode,
@@ -752,11 +753,14 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
               </Button>
             </div>
           </Card>
+
+          <PtoRequestsPanel isAdmin={false} />
         </>
       )}
 
       {isAdmin && (
         <>
+          <PtoRequestsPanel isAdmin />
           <Card className="mt-6">
             <CardTitle>{t("bulkTitle")}</CardTitle>
             <p className="mt-1 text-sm text-gray-600">{t("bulkHint")}</p>

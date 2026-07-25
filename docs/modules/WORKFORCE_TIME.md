@@ -10,7 +10,8 @@ VeriClock-class time tracking for union locals and union-wide operations. **Not*
 | **8-lite+** | Shipped — manual/retro ranges, bulk event groups, expected windows, entry-needed tracking, union-business report |
 | **8a** Postgres + RLS | Shipped — `TIME_DB_BACKEND=postgres` (`DrizzleTimeAdapter`, migrations `0004`/`0005`); default remains memory |
 | **8b** Sites / geofence admin + bulk approve + XLSX/PDF | Shipped (2026-07-24) — `/api/time/sites`, bulk-approve, `?format=xlsx\|pdf` export |
-| 8c–8f (scheduling, PTO, OT policies, hybrid slice, punch photos) | Planned |
+| **8c.1** PTO leave requests | Shipped (2026-07-24) — create/list/approve/reject/cancel; no accrual balances |
+| 8c.2–8f (scheduling, OT policies, hybrid slice, punch photos) | Planned |
 
 ## Time categories (1D — all in one module)
 
@@ -70,6 +71,8 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 - `GET /api/time/export?from&to&category&format=csv|xlsx|pdf`
 - `POST /api/time/entries/bulk-approve` — `{ ids: string[] }`
 - `GET /api/time/report/union-business?from&to` — JSON totals + needed
+- `GET/POST /api/time/pto` — leave requests (8c.1)
+- `PATCH /api/time/pto/[id]` — approve / reject / cancel / submit draft
 
 ## GPS (optional, v1-lite foundation)
 
@@ -80,12 +83,20 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 
 ## Deferred (full Phase 8)
 
-- Scheduling, PTO balances/requests
+- Scheduling (8c.2+)
+- PTO **accrual balances** (8c.1 ships requests only)
 - OT policy engine and pay periods
 - Standing named groups (v1 uses ad-hoc multi-select only)
 - Punch photo attachments (Phase 7 object storage)
 - Hybrid slice inclusion
 - Payroll vendor integrations
+
+## Shipped in 8c.1 (2026-07-24)
+
+- Leave request CRUD (`GET/POST /api/time/pto`, `PATCH /api/time/pto/[id]`)
+- Worker request form + admin approval queue on Time dashboards
+- Memory + Postgres (`pto_requests` + RLS) behind `TIME_DB_BACKEND`
+- No accrual ledger / balance math yet
 
 ## Shipped in 8b (2026-07-24)
 

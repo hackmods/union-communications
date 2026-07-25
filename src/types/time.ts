@@ -199,3 +199,53 @@ export interface NeededEntriesFilters {
   to: string;
   workerId?: string;
 }
+
+/** 8c.1 — leave requests only (no accrual balances). */
+export type PtoType = "vacation" | "sick" | "personal" | "other";
+
+export type PtoRequestStatus =
+  | "draft"
+  | "submitted"
+  | "approved"
+  | "rejected"
+  | "cancelled";
+
+export interface PtoRequest {
+  id: string;
+  unionId: string;
+  localId: string;
+  workerId: string;
+  workerName: string;
+  ptoType: PtoType;
+  status: PtoRequestStatus;
+  startsAt: string;
+  endsAt: string;
+  hoursRequested?: number;
+  notes?: string;
+  requestedById: string;
+  approvedById?: string;
+  approvedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PtoListFilters {
+  unionId: string;
+  localId?: string;
+  workerId?: string;
+  status?: PtoRequestStatus;
+  from?: string;
+  to?: string;
+}
+
+export interface CreatePtoRequestInput {
+  workerId: string;
+  workerName: string;
+  ptoType: PtoType;
+  startsAt: string;
+  endsAt: string;
+  hoursRequested?: number;
+  notes?: string;
+  /** Default `submitted` for worker self-serve. */
+  status?: Extract<PtoRequestStatus, "draft" | "submitted">;
+}

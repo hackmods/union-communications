@@ -3,12 +3,15 @@ import { sessionMfaOk } from "@/lib/auth/mfa-policy";
 import type { Session } from "next-auth";
 import {
   canAccessTimeModule,
+  canApprovePtoRequest,
   canApproveTimeEntry,
+  canCancelPtoRequest,
+  canViewPtoRequest,
   canViewTimeEntry,
   isElevatedTimeRole,
 } from "@/lib/time/access";
 import { getTenantContext } from "@/lib/tenant/loader";
-import type { TimeEntry } from "@/types/time";
+import type { PtoRequest, TimeEntry } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
 
 export type TimeSessionResult =
@@ -52,6 +55,36 @@ export function assertTimeView(session: Session, entry: TimeEntry): boolean {
 export function assertTimeApprove(session: Session, entry: TimeEntry): boolean {
   return canApproveTimeEntry(
     entry,
+    session.user.id,
+    session.user.unionId,
+    session.user.localId,
+    (session.user.roles ?? []) as UserRole[],
+  );
+}
+
+export function assertPtoView(session: Session, req: PtoRequest): boolean {
+  return canViewPtoRequest(
+    req,
+    session.user.id,
+    session.user.unionId,
+    session.user.localId,
+    (session.user.roles ?? []) as UserRole[],
+  );
+}
+
+export function assertPtoApprove(session: Session, req: PtoRequest): boolean {
+  return canApprovePtoRequest(
+    req,
+    session.user.id,
+    session.user.unionId,
+    session.user.localId,
+    (session.user.roles ?? []) as UserRole[],
+  );
+}
+
+export function assertPtoCancel(session: Session, req: PtoRequest): boolean {
+  return canCancelPtoRequest(
+    req,
     session.user.id,
     session.user.unionId,
     session.user.localId,
