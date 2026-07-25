@@ -88,6 +88,29 @@ export function buildRsvpConfirmationEmail(input: {
   };
 }
 
+export function buildPasswordResetEmail(input: {
+  name: string;
+  resetUrl: string;
+  expiresAt: string;
+}): { subject: string; text: string } {
+  const expires = new Date(input.expiresAt).toLocaleString();
+  return {
+    subject: "Reset your UnionOps Officer Hub password",
+    text: [
+      `Hello ${input.name},`,
+      "",
+      "We received a request to reset your Officer Hub password.",
+      `Choose a new password here: ${input.resetUrl}`,
+      "",
+      `This link expires on ${expires}.`,
+      "",
+      "If you did not request a reset, you can ignore this message — your password will stay the same.",
+      "",
+      "— UnionOps (transactional password reset; not a mailing list)",
+    ].join("\n"),
+  };
+}
+
 /** Public base URL for links in outbound mail (no trailing slash). */
 export function emailAppBaseUrl(requestOrigin?: string | null): string {
   const fromEnv = process.env.AUTH_URL?.replace(/\/$/, "");

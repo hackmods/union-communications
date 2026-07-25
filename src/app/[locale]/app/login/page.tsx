@@ -78,6 +78,12 @@ export default function LoginPage() {
           </Button>
         </form>
 
+        <p className="mt-3 text-center text-sm">
+          <Link href="/app/forgot-password" className="text-opseu-blue underline">
+            {t("forgotPassword")}
+          </Link>
+        </p>
+
         <p className="mt-4 text-xs text-gray-500">{t("demoHint")}</p>
       </Card>
 

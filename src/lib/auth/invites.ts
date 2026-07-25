@@ -118,12 +118,31 @@ export async function findInvitedUser(
   password: string,
 ): Promise<InvitedUserRecord | null> {
   const { verifyPassword } = await import("@/lib/auth/password");
-  const user = invitedUsers.find(
-    (u) => u.email.toLowerCase() === email.toLowerCase(),
-  );
+  const user = findInvitedUserRecordByEmail(email);
   if (!user) return null;
   const ok = await verifyPassword(password, user.passwordHash);
   return ok ? user : null;
+}
+
+/** Lookup without password check (password-reset forgot flow). */
+export function findInvitedUserRecordByEmail(
+  email: string,
+): InvitedUserRecord | null {
+  return (
+    invitedUsers.find((u) => u.email.toLowerCase() === email.toLowerCase()) ??
+    null
+  );
+}
+
+/** Update password hash for an accepted invitee (memory auth). */
+export function updateInvitedUserPasswordHash(
+  email: string,
+  passwordHash: string,
+): boolean {
+  const user = findInvitedUserRecordByEmail(email);
+  if (!user) return false;
+  user.passwordHash = passwordHash;
+  return true;
 }
 
 /** @internal test helper */

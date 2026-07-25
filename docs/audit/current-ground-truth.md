@@ -61,7 +61,7 @@ Never put public meeting RSVP invite copy on grievance email-draft APIs. Never t
 | MFA-off Hub | Client must use `useSessionMfaOk()` / `MfaPolicyProvider` — raw `mfaVerified` falsely walls the Hub when MFA is disabled |
 | Bumping label | UI: **Stability Committee** — module id/route remain `bumping` |
 | Demo on prod image | Need `AUTH_ALLOW_DEMO_USERS=true` (or runtime demo flag); `NEXT_PUBLIC_DEMO_SITE` alone may not unlock server demo roster |
-| Password-reset | PR #5 — memory tokens; exclude demo roster; proxy allowlist for forgot/reset pages |
+| Password-reset | Shipped — memory tokens; exclude demo roster; proxy allowlist for forgot/reset pages |
 
 ## Sandbox / E2E (ops)
 
@@ -70,17 +70,18 @@ Never put public meeting RSVP invite copy on grievance email-draft APIs. Never t
 - Remote smoke: `PLAYWRIGHT_BASE_URL=http://192.168.0.115:3000` (skips local `webServer`).
 - Never commit `proxmox_mcp.log` (gitignored).
 
-## Sensible next candidates (after merging open PRs)
+## Sensible next candidates
 
-1. Land password-reset (#5) + Time 8c.1 (#6) on `main` if not already
-2. Time **8c.2** scheduling / shift roster **or** cron officer self-reminders (pick one bounded cut)
-3. PTO accrual balances (after 8c.1 requests)
+1. Time **8c.2** scheduling / shift roster
+2. PTO accrual balances (8c.3)
+3. Optional cron officer self-reminders (email infra exists; still opt-in / no member lists)
 4. Graphic Maker optional invite panel (R0.5 stretch — not blocking)
 5. Ops Postgres backend flips + real scanner on durability hosts
-6. COMMS email/broadcast guide (fifth-channel deferral still stands)
+6. Durable Postgres `password_reset_tokens` table (memory tokens today)
+7. COMMS email/broadcast guide (fifth-channel deferral still stands)
 
 **Shipped this pass:** COMMS First week Print step + remaining “Social Media Plan” → “First week” copy sweep (2026-07-24).
-**Shipped:** Hub MFA-off UX + Stability Committee rename + density; password-reset PR; Time **8c.1** PTO leave requests.
+**Shipped:** Hub MFA-off UX + Stability Committee rename + density; password-reset; Time **8c.1** PTO leave requests.
 
 ## Agent habits reinforced this session
 
