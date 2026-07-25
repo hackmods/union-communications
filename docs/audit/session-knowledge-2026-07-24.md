@@ -139,9 +139,21 @@ Skip: dues/PCI, member marketing lists, full VeriClock as one blob, CMEK.
 1. Ops: flip `*_DB_BACKEND=postgres` + real scanner on durability hosts  
 2. COMMS email/broadcast guide (fifth channel — only if product expands channels)  
 3. Time **8f** hybrid slice / punch photos — **explicit product cut required**  
-4. Redeploy sandbox from latest `main` and re-run hub smoke  
+4. Optional: canvas tool axe color-contrast on brand-orange previews (smoke noise on 6 tools)
 
-Password-reset durable Postgres tokens — **shipped** (`AUTH_USERS_BACKEND=postgres` + migration `0024`).
+Password-reset durable Postgres tokens — **shipped** (`AUTH_USERS_BACKEND=postgres` + migration `0024`) — PRs **#11–#13**.
+
+### 2026-07-25 autonomous follow-up
+
+| Slice | PR / outcome |
+|-------|----------------|
+| Durable `password_reset_tokens` | **#11** — adapter factory; memory default |
+| Audit `details` → `metadata` | **#12** — unblocked Docker `next build` |
+| Shift `assignedWorkerIds ?? []` | **#13** — second Docker typecheck break |
+| Sandbox redeploy | CT 115 `unionops:local` @ `5f650a7`; `AUTH_ALLOW_DEMO_USERS=true`; health ok |
+| Hub smoke | MFA-off + login + grievances a11y **passed**; full suite **119/125** (6 canvas contrast failures on brand orange — not Hub) |
+
+**Lesson:** unit tests do not catch production `next build` typecheck. Run `npx tsc --noEmit` (or a Docker build) before claiming a merge is deployable.
 
 ---
 

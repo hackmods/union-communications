@@ -44,16 +44,17 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 |-------|---------|
 | MFA-off Hub | `useSessionMfaOk()` / `MfaPolicyProvider` — not raw `mfaVerified` |
 | Demo on prod image | `AUTH_ALLOW_DEMO_USERS=true` |
-| Sandbox | CT 115 @ `192.168.0.115:3000`; build from source; never commit `proxmox_mcp.log` |
+| Sandbox | CT 115 @ `192.168.0.115:3000`; build from source; never commit `proxmox_mcp.log`; last redeploy `5f650a7` (2026-07-25) |
 | Cron | `CRON_SECRET` required; Bearer or `x-cron-secret` |
 | React derived state | Do not sync `setState` in `useEffect` for consent flags — derive from roster |
+| Production typecheck | `npx tsc --noEmit` / Docker build — unit tests miss route type errors (`#12`, `#13`) |
 
 ## Sensible next candidates
 
 1. Ops: Postgres backend flips + real scanner on durability hosts
 2. COMMS email/broadcast guide (fifth-channel — only if product expands channels)
 3. Time **8f** hybrid slice / punch photos (explicit cut)
-4. Redeploy sandbox from latest `main` + hub smoke
+4. Optional: canvas tool axe color-contrast on brand-orange previews (6 smoke failures noted 2026-07-25)
 
 ## Agent habits
 
