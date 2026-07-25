@@ -66,10 +66,10 @@ export async function POST(req: Request) {
       action: result.ok ? "email.password_reset" : "email.password_reset_skipped",
       resourceType: "auth",
       resourceId: account.id,
-      details: {
+      metadata: {
         email: account.email,
-        reason: emailReason,
         source: account.source,
+        ...(emailReason ? { reason: emailReason } : {}),
       },
     });
   }

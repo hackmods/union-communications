@@ -82,7 +82,7 @@ export async function POST(
     action: "auth.password_reset_complete",
     resourceType: "auth",
     resourceId: consumed.row.userId,
-    details: {
+    metadata: {
       email: consumed.row.email,
       source: persisted.source,
     },
