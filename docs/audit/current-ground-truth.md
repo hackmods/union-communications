@@ -2,6 +2,8 @@
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work. Generated from post-audit shipping through Calendar R2 / Time 8b / FEAT-004 follow-ups.
 
+**Session narrative + lessons (Hub MFA, Proxmox sandbox, password-reset, Time 8c.1):** [`session-knowledge-2026-07-24.md`](session-knowledge-2026-07-24.md)
+
 ## Do not re-open as if missing
 
 | Topic | Reality | Why it mattered |
@@ -29,8 +31,9 @@ Never put public meeting RSVP invite copy on grievance email-draft APIs. Never t
 
 - **Ship incrementally** on existing `TimeAdapter` → API → admin UI patterns.
 - **8b (done):** sites CRUD + geofence fields, bulk approve, XLSX/PDF rollup.
-- **Defer 8c+:** scheduling, PTO, OT/pay-period engine, hybrid time slice, punch photos — new domain entities, not plumbing.
-- Saying “Workforce Time 8b+” in planning means **8b admin slice**, not full VeriClock, unless product explicitly expands scope.
+- **8c.1 (done):** PTO **leave requests** only (`/api/time/pto`) — no accrual ledger.
+- **Defer 8c.2+:** scheduling, PTO accrual, OT/pay-period engine, hybrid time slice, punch photos — new domain entities, not plumbing.
+- Saying “Workforce Time 8b+” / “8c” in planning means the **named slice**, not full VeriClock, unless product explicitly expands scope.
 
 ## Grievance outcome / appeal window
 
@@ -51,20 +54,39 @@ Never put public meeting RSVP invite copy on grievance email-draft APIs. Never t
 - `PROGRESS.md` R0.5 “planned” checkbox — mark shipped when editing that section.
 - `event-rsvp-outreach.mdc` “Planned next (R0.5)” — R0.5 shipped; Hub reminder is a **different** builder.
 
-## Sensible next candidates (after this milestone)
+## Hub / auth gotchas (shipped 2026-07-24)
 
-1. Time **8c.2** scheduling / shift roster (product cut still required)
-2. Password-reset + cron officer reminders (email infra exists; still opt-in / no member lists)
-3. Graphic Maker optional invite panel (R0.5 stretch — not blocking)
-4. COMMS email/broadcast guide (fifth-channel deferral still stands)
-5. PTO accrual balances (after 8c.1 requests)
+| Topic | Reality |
+|-------|---------|
+| MFA-off Hub | Client must use `useSessionMfaOk()` / `MfaPolicyProvider` — raw `mfaVerified` falsely walls the Hub when MFA is disabled |
+| Bumping label | UI: **Stability Committee** — module id/route remain `bumping` |
+| Demo on prod image | Need `AUTH_ALLOW_DEMO_USERS=true` (or runtime demo flag); `NEXT_PUBLIC_DEMO_SITE` alone may not unlock server demo roster |
+| Password-reset | PR #5 — memory tokens; exclude demo roster; proxy allowlist for forgot/reset pages |
+
+## Sandbox / E2E (ops)
+
+- Proxmox CT **115** `unionops-sandbox` @ `192.168.0.115:3000` (Docker LXC).
+- GHCR `:main` can lag — build from source for truth.
+- Remote smoke: `PLAYWRIGHT_BASE_URL=http://192.168.0.115:3000` (skips local `webServer`).
+- Never commit `proxmox_mcp.log` (gitignored).
+
+## Sensible next candidates (after merging open PRs)
+
+1. Land password-reset (#5) + Time 8c.1 (#6) on `main` if not already
+2. Time **8c.2** scheduling / shift roster **or** cron officer self-reminders (pick one bounded cut)
+3. PTO accrual balances (after 8c.1 requests)
+4. Graphic Maker optional invite panel (R0.5 stretch — not blocking)
+5. Ops Postgres backend flips + real scanner on durability hosts
+6. COMMS email/broadcast guide (fifth-channel deferral still stands)
 
 **Shipped this pass:** COMMS First week Print step + remaining “Social Media Plan” → “First week” copy sweep (2026-07-24).
-**Shipped:** Time **8c.1** PTO leave requests (create/approve/reject/cancel; no accrual ledger).
+**Shipped:** Hub MFA-off UX + Stability Committee rename + density; password-reset PR; Time **8c.1** PTO leave requests.
 
 ## Agent habits reinforced this session
 
 - Before “implement next roadmap item,” **diff docs vs code** — several “next” items were already partially or fully shipped.
-- Prefer closing named follow-ups (FEAT-004 UI, FEAT-003 case panel, R2 draft) over greenfield Phase 8c.
+- Prefer closing named follow-ups / **bounded slices** (“next phase go” ≠ full VeriClock) over greenfield Phase 8c.
 - Scope “full Phase 8” language down to numbered slices in `docs/modules/WORKFORCE_TIME.md`.
 - Update EN+FR, module spec, `PROGRESS.md`, and the relevant `.cursor/rules/*.mdc` in the same milestone as code.
+- When access helpers change arity, grep all call sites — Docker build catches what unit tests miss.
+- Prove Hub demos against sandbox with demo auth enabled before calling the site healthy.

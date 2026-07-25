@@ -568,5 +568,6 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 ## Agent knowledge capture (2026-07-24)
 
 - [x] [`docs/audit/current-ground-truth.md`](audit/current-ground-truth.md) — post-audit as-built + locked email/reminder surfaces + Time 8b vs 8c slicing
+- [x] [`docs/audit/session-knowledge-2026-07-24.md`](audit/session-knowledge-2026-07-24.md) — Hub MFA / Proxmox / password-reset / Time 8c.1 lessons + session feedback
 - [x] Refresh `roadmap-next.mdc`, `event-rsvp-outreach.mdc`, `time-module.mdc`, `grievance-module.mdc`, `calendar-meetings.mdc`, `.cursorrules`, `AGENTS.md` so stale “next” / memory-only / R0.5-planned claims do not mislead agents
 - [x] Mark R0.5 shipped in `PROGRESS.md` / `COMMS_BACKLOG.md`; mark hybrid LEC plan todos completed (Graphic Maker stretch remains optional)
