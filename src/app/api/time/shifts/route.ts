@@ -108,7 +108,7 @@ export async function POST(request: Request) {
         category: parsed.data.category,
         siteId: parsed.data.siteId,
         jobCodeId: parsed.data.jobCodeId,
-        assignedWorkerIds: parsed.data.assignedWorkerIds,
+        assignedWorkerIds: parsed.data.assignedWorkerIds ?? [],
         status: parsed.data.status ?? "draft",
       },
       { unionId, localId, createdById: session.user.id },
