@@ -1,5 +1,4 @@
-import type { TimeEntry } from "@/types/time";
-import type { PtoRequest } from "@/types/time";
+import type { PtoRequest, TimeEntry, TimeShift } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
 
 const TIME_READ_ROLES: UserRole[] = [
@@ -133,4 +132,32 @@ export function canCancelPtoRequest(
     req.requestedById === userId ||
     canAdminTime(roles)
   );
+}
+
+export function canViewTimeShift(
+  shift: TimeShift,
+  userId: string,
+  unionId: string | undefined,
+  localId: string | undefined,
+  roles: UserRole[],
+): boolean {
+  if (!canAccessTimeModule(roles)) return false;
+  if (!unionId || shift.unionId !== unionId) return false;
+  if (isElevatedTimeRole(roles)) return true;
+  if (localId && shift.localId !== localId) return false;
+  if (canAdminTime(roles)) return true;
+  return (
+    shift.status === "published" && shift.assignedWorkerIds.includes(userId)
+  );
+}
+
+export function canMutateTimeShift(
+  shift: TimeShift,
+  userId: string,
+  unionId: string | undefined,
+  localId: string | undefined,
+  roles: UserRole[],
+): boolean {
+  if (!canViewTimeShift(shift, userId, unionId, localId, roles)) return false;
+  return canAdminTime(roles);
 }

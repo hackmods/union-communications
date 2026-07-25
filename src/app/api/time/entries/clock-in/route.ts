@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { category, jobCodeId, notes, clockInGps } = body;
+  const { category, jobCodeId, notes, clockInGps, shiftId } = body;
 
   if (!category || !jobCodeId) {
     return NextResponse.json(
@@ -53,6 +53,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Job code not found" }, { status: 404 });
   }
 
+  let resolvedShiftId: string | undefined;
+  if (typeof shiftId === "string" && shiftId.trim()) {
+    const shift = await timeStore.getShiftById(shiftId.trim());
+    if (
+      !shift ||
+      shift.unionId !== unionId ||
+      shift.localId !== localId ||
+      shift.status !== "published" ||
+      !shift.assignedWorkerIds.includes(session.user.id)
+    ) {
+      return NextResponse.json(
+        { error: "Shift not available for clock-in" },
+        { status: 400 },
+      );
+    }
+    resolvedShiftId = shift.id;
+  }
+
   if (clockInGps) {
     const sites = await timeStore.listSites(unionId, localId);
     const { checkGeofence } = await import("@/lib/time/geofence");
@@ -67,7 +85,7 @@ export async function POST(request: Request) {
 
   try {
     const entry = await timeStore.clockIn(
-      { category, jobCodeId, notes, clockInGps },
+      { category, jobCodeId, notes, clockInGps, shiftId: resolvedShiftId },
       {
         unionId,
         localId,

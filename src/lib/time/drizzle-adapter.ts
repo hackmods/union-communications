@@ -5,6 +5,7 @@ import {
   ptoRequests,
   timeEntries,
   timeExpectedWindows,
+  timeShifts,
   timeWorkers,
   workSites,
 } from "@/lib/db/schema";
@@ -17,17 +18,21 @@ import type {
   CreateExpectedWindowInput,
   CreateJobCodeInput,
   CreatePtoRequestInput,
+  CreateTimeShiftInput,
   JobCode,
   ManualEntryInput,
   NeededEntriesFilters,
   PtoListFilters,
   PtoRequest,
   PtoRequestStatus,
+  ShiftListFilters,
   TimeEntry,
   TimeExpectedWindow,
   TimeListFilters,
   TimeNeededRow,
+  TimeShift,
   TimeWorker,
+  UpdateTimeShiftInput,
   UpsertWorkerInput,
   UpsertSiteInput,
   WorkSite,
@@ -64,6 +69,7 @@ function mapEntry(row: typeof timeEntries.$inferSelect): TimeEntry {
     notes: row.notes ?? undefined,
     eventId: row.eventId ?? undefined,
     eventLabel: row.eventLabel ?? undefined,
+    shiftId: row.shiftId ?? undefined,
     clockInGps: row.clockInGps ?? undefined,
     clockOutGps: row.clockOutGps ?? undefined,
     geofenceResult: (row.geofenceResult as TimeEntry["geofenceResult"]) ?? undefined,
@@ -146,6 +152,25 @@ function mapPtoRequest(row: typeof ptoRequests.$inferSelect): PtoRequest {
     requestedById: row.requestedById,
     approvedById: row.approvedById ?? undefined,
     approvedAt: toIso(row.approvedAt),
+    createdAt: toIso(row.createdAt)!,
+    updatedAt: toIso(row.updatedAt)!,
+  };
+}
+
+function mapShift(row: typeof timeShifts.$inferSelect): TimeShift {
+  return {
+    id: row.id,
+    unionId: row.unionId,
+    localId: row.localId,
+    label: row.label,
+    startsAt: toIso(row.startsAt)!,
+    endsAt: toIso(row.endsAt)!,
+    category: row.category,
+    siteId: row.siteId ?? undefined,
+    jobCodeId: row.jobCodeId ?? undefined,
+    assignedWorkerIds: row.assignedWorkerIds,
+    status: row.status,
+    createdById: row.createdById,
     createdAt: toIso(row.createdAt)!,
     updatedAt: toIso(row.updatedAt)!,
   };
@@ -271,6 +296,7 @@ export class DrizzleTimeAdapter implements TimeAdapter {
         entrySource: "clock",
         clockInAt: ts,
         notes: input.notes,
+        shiftId: input.shiftId,
         clockInGps: input.clockInGps,
         geofenceResult,
         createdAt: ts,
@@ -745,5 +771,109 @@ export class DrizzleTimeAdapter implements TimeAdapter {
       .where(eq(ptoRequests.id, id))
       .returning();
     return row ? mapPtoRequest(row) : null;
+  }
+
+  async listShifts(filters: ShiftListFilters): Promise<TimeShift[]> {
+    const db = getDb();
+    const clauses = [eq(timeShifts.unionId, filters.unionId)];
+    if (filters.localId) {
+      clauses.push(eq(timeShifts.localId, filters.localId));
+    }
+    if (filters.status) {
+      clauses.push(eq(timeShifts.status, filters.status));
+    }
+    const rows = await db
+      .select()
+      .from(timeShifts)
+      .where(and(...clauses))
+      .orderBy(timeShifts.startsAt);
+    return rows
+      .map(mapShift)
+      .filter((s) => {
+        if (
+          filters.workerId &&
+          !s.assignedWorkerIds.includes(filters.workerId)
+        ) {
+          return false;
+        }
+        if (filters.from && s.endsAt < filters.from) return false;
+        if (filters.to && s.startsAt > filters.to) return false;
+        return true;
+      });
+  }
+
+  async getShiftById(id: string): Promise<TimeShift | null> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(timeShifts)
+      .where(eq(timeShifts.id, id))
+      .limit(1);
+    return rows[0] ? mapShift(rows[0]) : null;
+  }
+
+  async createShift(
+    input: CreateTimeShiftInput,
+    meta: { unionId: string; localId: string; createdById: string },
+  ): Promise<TimeShift> {
+    assertValidRange(input.startsAt, input.endsAt);
+    const db = getDb();
+    const stamp = new Date();
+    const [row] = await db
+      .insert(timeShifts)
+      .values({
+        id: newId("shift"),
+        unionId: meta.unionId,
+        localId: meta.localId,
+        label: input.label.trim(),
+        startsAt: toDate(input.startsAt),
+        endsAt: toDate(input.endsAt),
+        category: input.category,
+        siteId: input.siteId,
+        jobCodeId: input.jobCodeId,
+        assignedWorkerIds: [...input.assignedWorkerIds],
+        status: input.status ?? "draft",
+        createdById: meta.createdById,
+        createdAt: stamp,
+        updatedAt: stamp,
+      })
+      .returning();
+    return mapShift(row);
+  }
+
+  async updateShift(
+    id: string,
+    input: UpdateTimeShiftInput,
+  ): Promise<TimeShift | null> {
+    const existing = await this.getShiftById(id);
+    if (!existing) return null;
+    const startsAt = input.startsAt ?? existing.startsAt;
+    const endsAt = input.endsAt ?? existing.endsAt;
+    assertValidRange(startsAt, endsAt);
+    const db = getDb();
+    const stamp = new Date();
+    const patch: Partial<typeof timeShifts.$inferInsert> = {
+      updatedAt: stamp,
+    };
+    if (input.label !== undefined) patch.label = input.label.trim();
+    if (input.startsAt !== undefined) patch.startsAt = toDate(input.startsAt);
+    if (input.endsAt !== undefined) patch.endsAt = toDate(input.endsAt);
+    if (input.category !== undefined) patch.category = input.category;
+    if (input.siteId !== undefined) {
+      patch.siteId = input.siteId ?? null;
+    }
+    if (input.jobCodeId !== undefined) {
+      patch.jobCodeId = input.jobCodeId ?? null;
+    }
+    if (input.assignedWorkerIds !== undefined) {
+      patch.assignedWorkerIds = [...input.assignedWorkerIds];
+    }
+    if (input.status !== undefined) patch.status = input.status;
+    const [row] = await db
+      .update(timeShifts)
+      .set(patch)
+      .where(eq(timeShifts.id, id))
+      .returning();
+    return row ? mapShift(row) : null;
   }
 }

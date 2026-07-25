@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { PtoRequestsPanel } from "@/components/time/PtoRequestsPanel";
+import { ShiftSchedulePanel } from "@/components/time/ShiftSchedulePanel";
 import type {
   GeofenceMode,
   JobCode,
@@ -754,12 +755,14 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
             </div>
           </Card>
 
+          <ShiftSchedulePanel isAdmin={false} />
           <PtoRequestsPanel isAdmin={false} />
         </>
       )}
 
       {isAdmin && (
         <>
+          <ShiftSchedulePanel isAdmin />
           <PtoRequestsPanel isAdmin />
           <Card className="mt-6">
             <CardTitle>{t("bulkTitle")}</CardTitle>
