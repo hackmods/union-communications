@@ -33,11 +33,16 @@ export default auth((req) => {
   const isLogin = pathname.includes("/app/login");
   // Invite accept is public — token is the capability (SEC-007).
   const isInviteAccept = /\/app\/invite\//.test(pathname);
+  // Password reset is public — email token is the capability.
+  const isPasswordReset =
+    pathname.includes("/app/forgot-password") ||
+    /\/app\/reset-password\//.test(pathname);
   const isAppRoute =
     pathname.includes("/app") &&
     !isLogin &&
     !pathname.includes("/app/register") &&
-    !isInviteAccept;
+    !isInviteAccept &&
+    !isPasswordReset;
 
   if (req.auth && isLogin) {
     return NextResponse.redirect(new URL(`/${locale}/app`, req.url));

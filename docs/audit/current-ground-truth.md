@@ -52,12 +52,14 @@ Never put public meeting RSVP invite copy on grievance email-draft APIs. Never t
 
 ## Sensible next candidates (after this milestone)
 
-1. Time **8c** scheduling / PTO (large; needs product cut)
-2. Password-reset + cron officer reminders (email infra exists; still opt-in / no member lists)
+1. Time **8c** scheduling / PTO (large; needs product cut — prefer **8c.1 PTO requests** first)
+2. Optional cron officer self-reminders (email infra exists; still opt-in / no member lists)
 3. Graphic Maker optional invite panel (R0.5 stretch — not blocking)
 4. COMMS email/broadcast guide (fifth-channel deferral still stands)
+5. Durable Postgres `password_reset_tokens` table (memory tokens today)
 
 **Shipped this pass:** COMMS First week Print step + remaining “Social Media Plan” → “First week” copy sweep (2026-07-24).
+**Shipped:** Password-reset (forgot + token reset for Postgres users + memory invitees; demo roster excluded; SMTP opt-in).
 
 ## Agent habits reinforced this session
 

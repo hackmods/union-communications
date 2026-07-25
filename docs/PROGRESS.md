@@ -1,5 +1,13 @@
 # Progress Log
 
+## Password-reset (2026-07-24) — COMPLETE
+
+- [x] Memory reset tokens (`password-reset.ts`) + persist for Postgres users / memory invitees (demo roster excluded)
+- [x] `POST /api/auth/forgot-password` (no email enumeration) + `GET/POST /api/auth/reset-password/[token]`
+- [x] Public Hub pages `/app/forgot-password`, `/app/reset-password/[token]`; login link; proxy allowlist
+- [x] Transactional email copy via existing SMTP helper; EN/FR i18n; unit tests
+- [x] Docs: `current-ground-truth.md`, `roadmap-next.mdc`
+
 ## First week Print step + copy sweep (2026-07-24) — COMPLETE
 
 - [x] Print step on `/guide/social-media-plan` after boards / before socials (`FIRST_WEEK_STEP_KEYS` → Flyer Maker + Print Guide)
