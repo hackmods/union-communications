@@ -30,13 +30,16 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 | MFA | `AUTH_MFA_ENABLED` opt-in; TOTP enroll UI; shared code not prod default |
 | Calendar A + R0–R3 | Schedule, banner tallies, Comms invite, Hub RSVP `/r/[token]`, SMTP opt-in, **R2 copy reminder draft** |
 | Time 8-lite / 8-lite+ / **8a** / **8b** | Clock, roster, windows, Postgres flag, **sites/geofence, bulk approve, XLSX/PDF** |
+| Time **8c.1–8c.3** / **8d-lite** / **8e** | PTO requests + shifts + accrual; weekly OT CSV flag; GPS consent (2026-07-24/25) |
+| Calendar cron officer reminders | `/api/cron/meeting-reminders` + `CRON_SECRET` — roster emails only |
 | FEAT-003/004 follow-ups | Related tasks on case detail; outcome UI + export + `appealDays` |
+| Graphic Maker notice invite | `InviteEmailPanel` on notice layout (R0.5 stretch) |
 
 ## Next planned work (in order)
 
-1. **COMMS backlog (optional)** — email/broadcast guide; remaining polish
-2. **Email ops polish** — durable Postgres password-reset tokens
-3. **Ops default flip** — production hosts choosing Postgres backends + real scanner (ops, not new adapters)
+1. **Ops default flip** — production hosts choosing Postgres backends + real scanner (ops, not new adapters)
+2. **Email ops polish** — durable Postgres password-reset tokens (cron officer reminders shipped)
+3. **COMMS backlog (optional)** — email/broadcast guide (fifth channel only if product expands)
 4. Time **8f** hybrid slice / punch photos (explicit product cut)
 
 ## Deferred / non-goals
@@ -45,10 +48,9 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 - Full VeriClock scheduling as a silent “8b+” expansion — require explicit product cut
 - CMEK / signed-URL attachment uploads (stretch on FEAT-001)
 - First week Print step + “Social Media Plan” → “First week” copy — **shipped 2026-07-24**
-- Time 8c.1 PTO leave requests — **shipped 2026-07-24** (no accrual balances)
-- Time 8c.2 shift scheduling — **shipped 2026-07-24** (no recurrence / auto-timesheet)
-- Time 8c.3 PTO accrual balances — **shipped 2026-07-24** (manual set/adjust + approve debit)
+- Time 8c.1–8e + cron officer reminders — **shipped 2026-07-24/25**
 - Password-reset — **shipped** (memory tokens; Postgres token table follow-up)
+- Pristine Office Templates — **shipped 2026-07-15** (ignore stale plan todos)
 
 ## Shipped hub surfaces (do not rebuild)
 

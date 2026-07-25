@@ -1,95 +1,64 @@
-# Current ground truth (agents) — as of 2026-07-24
+# Current ground truth (agents) — as of 2026-07-25
 
-**Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work. Generated from post-audit shipping through Calendar R2 / Time 8b / FEAT-004 follow-ups.
+**Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
 
-**Session narrative + lessons (Hub MFA, Proxmox sandbox, password-reset, Time 8c.1):** [`session-knowledge-2026-07-24.md`](session-knowledge-2026-07-24.md)
+**Session narrative + lessons (Hub → Proxmox → password-reset → Time 8c–8e → cron → GM invite):** [`session-knowledge-2026-07-24.md`](session-knowledge-2026-07-24.md)
 
 ## Do not re-open as if missing
 
 | Topic | Reality | Why it mattered |
 |-------|---------|-----------------|
 | Audit sprint Phases 1–4 | Closed | Security, Postgres adapters (flagged), FEAT/ORG/TOOL/UX tickets shipped |
-| Postgres adapters | Exist behind `*_DB_BACKEND` (default **memory**) | Ops flip per host; not a code gap. Durability banner remains until flipped |
-| Calendar R0 / R0.5 / R1 / R2 / R3 | Shipped (cron member auto-send deferred) | Banner tallies were already in `MeetingReminderBanner`; R2 gap was **copy-only Hub reminder draft**, not tallies |
-| Time 8a | Shipped (`TIME_DB_BACKEND`) | Module docs wrongly said “blocked on Phase 6” |
-| Time 8b | Shipped 2026-07-24 | Sites/geofence admin, bulk approve, XLSX/PDF — **not** scheduling/PTO |
-| Time 8c.1 | Shipped 2026-07-24 | Leave requests only — **not** accrual balances or scheduling |
-| Time 8c.2 | Shipped 2026-07-24 | Explicit shift draft/publish; optional clock-in `shiftId` — **not** recurrence |
-| Time 8c.3 | Shipped 2026-07-24 | Manual accrual balances; approve decrements `hoursRequested` |
-| FEAT-003 case-detail tasks | Shipped | API already filtered by `relatedGrievanceId` / `relatedBumpingCaseId`; only UI panel was missing |
-| FEAT-004 outcome | Entity+API earlier; UI/export/`appealDays` closed 2026-07-24 | `appealDays` ≠ `responseDays` (Arbitration often has `responseDays: null`) |
+| Postgres adapters | Exist behind `*_DB_BACKEND` (default **memory**) | Ops flip per host; not a code gap |
+| Calendar R0 / R0.5 / R1 / R2 / R3 | Shipped (cron **member** auto-send deferred) | R2 = Hub copy draft; R3 = SMTP self-remind |
+| Cron officer reminders | Shipped 2026-07-25 | `/api/cron/meeting-reminders` + `CRON_SECRET`; roster emails only |
+| Time 8a–8b | Shipped | Postgres flag; sites/geofence; bulk approve; XLSX/PDF |
+| Time 8c.1–8c.3 | Shipped 2026-07-24/25 | PTO requests; shifts; accrual balances |
+| Time 8d-lite / 8e | Shipped 2026-07-25 | Weekly OT CSV flag; pay-period snap; GPS consent |
+| Graphic Maker notice invite | Shipped 2026-07-25 | `InviteEmailPanel` on notice layout (R0.5 stretch) |
+| Pristine Office Templates | Shipped 2026-07-15 | Plan file todos may look pending — trust PROGRESS |
+| Password-reset | Shipped | Memory tokens; demo roster excluded |
+| FEAT-003 / FEAT-004 | Shipped | Related tasks panel; outcome UI/export/`appealDays` |
 
 ## Three email/reminder surfaces (do not conflate)
 
-| Surface | Where | Send model | File |
-|---------|-------|------------|------|
-| Public RSVP **invite** | Comms tools (Document Generator, Board Notice) | Copy / `mailto:` only | `src/lib/comms/event-email.ts`, `InviteEmailPanel` |
-| Hub **officer reminder draft** (R2) | `/app/meetings` Events board | Copy / `mailto:` only; includes public `/r/{token}` when active | `src/lib/comms/membership-meeting-reminder.ts` |
-| Hub **SMTP self-remind** (R3) | `POST .../remind-email` | Opt-in `EMAIL_ENABLED`; officer’s own inbox only | `src/lib/email/send.ts` |
+| Surface | Where | Send model |
+|---------|-------|------------|
+| Public RSVP **invite** | Document Generator, Board Notice, Graphic Maker notice | Copy / `mailto:` — `event-email.ts` |
+| Hub **officer reminder draft** (R2) | `/app/meetings` Events board | Copy / `mailto:` — `membership-meeting-reminder.ts` |
+| Hub **SMTP** (R3 + cron) | `remind-email` + `/api/cron/meeting-reminders` | Opt-in `EMAIL_ENABLED`; officer session or **roster** emails only |
 
-Never put public meeting RSVP invite copy on grievance email-draft APIs. Never treat Calendar Accept/Decline as quorum/food tracking.
+Never member broadcast lists. Never put public invite copy on grievance email-draft APIs.
 
 ## Time Phase 8 slicing (locked)
 
-- **Ship incrementally** on existing `TimeAdapter` → API → admin UI patterns.
-- **8b (done):** sites CRUD + geofence fields, bulk approve, XLSX/PDF rollup.
-- **8c.1 (done):** PTO **leave requests** only (`/api/time/pto`) — no accrual ledger.
-- **8c.2 (done):** `TimeShift` schedule (`/api/time/shifts`) — no recurrence / auto-timesheet.
-- **8c.3 (done):** `PtoBalance` set/adjust + approve debit — no auto-accrual formulas.
-- **Defer 8d+:** OT/pay-period engine, hybrid time slice, punch photos — new domain entities, not plumbing.
-- Saying “Workforce Time 8b+” / “8c” in planning means the **named slice**, not full VeriClock, unless product explicitly expands scope.
+- **8b:** sites/geofence, bulk approve, XLSX/PDF
+- **8c.1:** leave requests — **8c.2:** shifts (no recurrence) — **8c.3:** manual accrual + approve debit
+- **8d-lite:** weekly OT flag on CSV + 14-day pay-period snap — **not** full OT engine
+- **8e:** `gpsConsentAt` + punch GPS gated on consent
+- **Defer 8f:** hybrid time slice, punch photos — explicit product cut
 
-## Grievance outcome / appeal window
-
-- Record via `GET/POST /api/grievances/[id]/outcome`; UI on `GrievanceDetail`.
-- Export bundle includes `outcome` + `appealDueDate`.
-- Optional `GrievanceStep.appealDays` = calendar days after `GrievanceOutcome.decidedAt` — tracking aid only; always disclaimer / verify CA.
-- Reference seed Arbitration steps use `appealDays: 30` (tenant config, not hardcoded in UI logic).
-
-## Related tasks on cases
-
-- Use `RelatedTasksPanel` + existing task list filters — **no new task API**.
-- Mount on both `GrievanceDetail` and `BumpingCaseDetail`.
-
-## Stale doc traps (fix when touching)
-
-- `docs/audit/active-context.md` — July 22 snapshot (no Drizzle, plaintext MFA, etc.); historical.
-- Older `roadmap-next.mdc` bullets listing Postgres/onboarding/R0.5 as “next” — superseded by this file + updated rule.
-- `PROGRESS.md` R0.5 “planned” checkbox — mark shipped when editing that section.
-- `event-rsvp-outreach.mdc` “Planned next (R0.5)” — R0.5 shipped; Hub reminder is a **different** builder.
-
-## Hub / auth gotchas (shipped 2026-07-24)
+## Hub / auth / ops gotchas
 
 | Topic | Reality |
 |-------|---------|
-| MFA-off Hub | Client must use `useSessionMfaOk()` / `MfaPolicyProvider` — raw `mfaVerified` falsely walls the Hub when MFA is disabled |
-| Bumping label | UI: **Stability Committee** — module id/route remain `bumping` |
-| Demo on prod image | Need `AUTH_ALLOW_DEMO_USERS=true` (or runtime demo flag); `NEXT_PUBLIC_DEMO_SITE` alone may not unlock server demo roster |
-| Password-reset | Shipped — memory tokens; exclude demo roster; proxy allowlist for forgot/reset pages |
-
-## Sandbox / E2E (ops)
-
-- Proxmox CT **115** `unionops-sandbox` @ `192.168.0.115:3000` (Docker LXC).
-- GHCR `:main` can lag — build from source for truth.
-- Remote smoke: `PLAYWRIGHT_BASE_URL=http://192.168.0.115:3000` (skips local `webServer`).
-- Never commit `proxmox_mcp.log` (gitignored).
+| MFA-off Hub | `useSessionMfaOk()` / `MfaPolicyProvider` — not raw `mfaVerified` |
+| Demo on prod image | `AUTH_ALLOW_DEMO_USERS=true` |
+| Sandbox | CT 115 @ `192.168.0.115:3000`; build from source; never commit `proxmox_mcp.log` |
+| Cron | `CRON_SECRET` required; Bearer or `x-cron-secret` |
+| React derived state | Do not sync `setState` in `useEffect` for consent flags — derive from roster |
 
 ## Sensible next candidates
 
-1. Graphic Maker optional invite — **shipped** on notice layout
-2. Ops Postgres backend flips + real scanner on durability hosts
-3. Durable Postgres `password_reset_tokens` table (memory tokens today)
-4. COMMS email/broadcast guide (fifth-channel deferral still stands)
-5. Time **8f** hybrid slice / punch photos (explicit cut)
+1. Ops: Postgres backend flips + real scanner on durability hosts
+2. Durable Postgres `password_reset_tokens` (memory today)
+3. COMMS email/broadcast guide (fifth-channel — only if product expands channels)
+4. Time **8f** hybrid slice / punch photos (explicit cut)
+5. Redeploy sandbox from latest `main` + hub smoke
 
-**Shipped this pass:** COMMS First week Print step + remaining “Social Media Plan” → “First week” copy sweep (2026-07-24).
-**Shipped:** Hub MFA-off UX; password-reset; Time **8c.1**–**8e** + cron officer reminders; Graphic Maker notice invite panel.
+## Agent habits
 
-## Agent habits reinforced this session
-
-- Before “implement next roadmap item,” **diff docs vs code** — several “next” items were already partially or fully shipped.
-- Prefer closing named follow-ups / **bounded slices** (“next phase go” ≠ full VeriClock) over greenfield Phase 8c.
-- Scope “full Phase 8” language down to numbered slices in `docs/modules/WORKFORCE_TIME.md`.
-- Update EN+FR, module spec, `PROGRESS.md`, and the relevant `.cursor/rules/*.mdc` in the same milestone as code.
-- When access helpers change arity, grep all call sites — Docker build catches what unit tests miss.
-- Prove Hub demos against sandbox with demo auth enabled before calling the site healthy.
+- Diff docs vs code before “implement next” — plan files and backlog tickets lag
+- Bounded PRs; EN/FR + module spec + PROGRESS + rules in same milestone
+- Grep access-helper call sites when signatures change
+- Skip VISION non-goals (dues, member lists, Basecamp greenfield)

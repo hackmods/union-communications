@@ -608,9 +608,9 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `RelatedTasksPanel` on grievance + bumping detail (FEAT-003 case-detail follow-up)
 - [x] Time 8b — sites/geofence CRUD (`/api/time/sites`), bulk approve, XLSX/PDF export rollup
 
-## Agent knowledge capture (2026-07-24)
+## Agent knowledge capture (2026-07-24 / 2026-07-25)
 
-- [x] [`docs/audit/current-ground-truth.md`](audit/current-ground-truth.md) — post-audit as-built + locked email/reminder surfaces + Time 8b vs 8c slicing
-- [x] [`docs/audit/session-knowledge-2026-07-24.md`](audit/session-knowledge-2026-07-24.md) — Hub MFA / Proxmox / password-reset / Time 8c.1 lessons + session feedback
-- [x] Refresh `roadmap-next.mdc`, `event-rsvp-outreach.mdc`, `time-module.mdc`, `grievance-module.mdc`, `calendar-meetings.mdc`, `.cursorrules`, `AGENTS.md` so stale “next” / memory-only / R0.5-planned claims do not mislead agents
-- [x] Mark R0.5 shipped in `PROGRESS.md` / `COMMS_BACKLOG.md`; mark hybrid LEC plan todos completed (Graphic Maker stretch remains optional)
+- [x] [`docs/audit/current-ground-truth.md`](audit/current-ground-truth.md) — as-built through Time 8e + cron + GM invite
+- [x] [`docs/audit/session-knowledge-2026-07-24.md`](audit/session-knowledge-2026-07-24.md) — Hub MFA / Proxmox / password-reset / autonomous feature train (#4–#10) lessons
+- [x] Refresh `roadmap-next.mdc`, `time-module.mdc`, and related rules so stale “next” claims do not mislead agents
+- [x] Autonomous train merged: PRs #5–#10 (password-reset, Time 8c.1–8e, cron, GM invite)

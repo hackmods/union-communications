@@ -1,24 +1,30 @@
-# Session knowledge — 2026-07-24
+# Session knowledge — 2026-07-24 / 2026-07-25
 
 **Audience:** future agents + Ryan.  
-**Companion:** [`current-ground-truth.md`](current-ground-truth.md) (durable as-built). This file is the narrative + lessons from one long session (Hub UX → Proxmox sandbox → password-reset → Time 8c.1 PTO).
+**Companion:** [`current-ground-truth.md`](current-ground-truth.md) (durable as-built).
 
-Transcript: [Hub → sandbox → phases](494a13c8-5568-4275-83eb-670e8b887e09)
+Transcripts:
+- [Hub → sandbox → phases](494a13c8-5568-4275-83eb-670e8b887e09) (earlier: Hub MFA, Proxmox, password-reset, 8c.1)
+- Autonomous feature train continued same day → PRs **#4–#10** merged to `main`
 
 ---
 
-## What shipped this session
+## What shipped (full arc)
 
-| Slice | Outcome | Where |
-|-------|---------|--------|
-| Hub MFA when MFA off | Fixed false “MFA required” wall | `MfaPolicyProvider` + `useSessionMfaOk()`; hub layout passes `isMfaEnabled()` |
-| Hub density | Compact org strip + module tiles | `HubDashboard.tsx` |
-| Bumping label | UI → **Stability Committee** / **Comité de stabilité** | `hub.modules.bumping`, `bumping.title` — **module id/route stay `bumping`** |
-| RelatedTasksPanel build | Fixed arity vs `canMutateTaskAssignment` (5 args) | Match TaskBoard signature |
-| Playwright remote | `PLAYWRIGHT_BASE_URL` skips local `webServer` | `playwright.config.ts`; `e2e/hub.mfa-off.spec.ts` |
-| Proxmox sandbox | CT **115** `unionops-sandbox` @ **192.168.0.115** | Docker LXC; image built from source (`unionops:local`) |
-| Password-reset | PR **#5** `feat/password-reset` | Memory tokens; forgot/reset APIs + pages; demo roster excluded |
-| Time 8c.1 PTO | PR **#6** `feat/time-pto-requests` | Leave requests only — **no accrual**, **no scheduling** |
+| Slice | PR | Outcome |
+|-------|-----|---------|
+| Hub MFA when MFA off | `cc3dafc` / #4 | `MfaPolicyProvider` + `useSessionMfaOk()` |
+| Hub density + Stability Committee rename | same | UI only; module id stays `bumping` |
+| RelatedTasksPanel arity | #3/#4 | Match `canMutateTaskAssignment` 5-arg signature |
+| Password-reset | **#5** | Memory tokens; demo roster excluded; proxy allowlist |
+| Time 8c.1 PTO requests | **#6** | Leave CRUD; no accrual |
+| Time 8c.2 shifts | **#7** | `TimeShift` draft/publish; optional `shiftId` on clock-in |
+| Time 8c.3 PTO accrual | **#8** | `PtoBalance` set/adjust; approve debits `hoursRequested` |
+| Cron officer reminders | **#9** | `GET\|POST /api/cron/meeting-reminders` + `CRON_SECRET`; roster emails only |
+| Time 8d-lite + 8e + GM invite | **#10** | Weekly OT CSV flag; pay-period snap; GPS consent; Graphic Maker notice `InviteEmailPanel` |
+| Pristine Office Templates | — | **Already shipped 2026-07-15** — do not rebuild |
+
+`main` tip after train: merge of #10 (`eb31a16` area). Prefer `git log` over this table if docs lag.
 
 ---
 
@@ -26,81 +32,92 @@ Transcript: [Hub → sandbox → phases](494a13c8-5568-4275-83eb-670e8b887e09)
 
 ### 1. Client MFA must follow `sessionMfaOk`, not raw `mfaVerified`
 
-- **Bug:** Hub UI gated on `session.user.mfaVerified`. Server already used `sessionMfaOk()` (always OK when `AUTH_MFA_ENABLED` is off). Demo felt “broken” with MFA required banners when MFA was disabled.
-- **Fix pattern:** Server computes `isMfaEnabled()` → layout `MfaPolicyProvider` → client `useSessionMfaOk()`.
-- **Rule:** Never treat `mfaVerified` alone as the Hub gate. Hide MFA pill / verify CTAs when MFA is off.
+Server already used `sessionMfaOk()` when MFA is off. Client must use `useSessionMfaOk()` / `MfaPolicyProvider`. Never gate Hub on raw `mfaVerified` alone.
 
-### 2. Production demo login needs an explicit server flag
+### 2. Production demo login needs `AUTH_ALLOW_DEMO_USERS=true`
 
-- Build-time `NEXT_PUBLIC_DEMO_SITE` alone may **not** unlock demo roster on a production Node image.
-- Gate is `isDemoAuthEnabled()` → set **`AUTH_ALLOW_DEMO_USERS=true`** (or equivalent runtime demo-site flag) on sandbox/demo hosts.
-- Without it: login UI can exist while credentials fail — looks like a half-broken site.
+`NEXT_PUBLIC_DEMO_SITE` alone may not unlock demo roster on a production Node image. Without the server flag, login UI works while credentials fail.
 
-### 3. GHCR `:main` can lag local `main` — build from source for sandbox truth
+### 3. GHCR `:main` can lag — build from source for sandbox truth
 
-- Sandbox initially pulled GHCR which was ~33 commits behind.
-- For “test what we just shipped,” build `unionops:local` from the checkout you care about, then deploy that tag to CT 115.
+Proxmox CT **115** @ `192.168.0.115`. Rebuild `unionops:local` from the checkout under test.
 
-### 4. Playwright browsers path is environment-fragile
+### 4. Playwright remote base URL
 
-- Cursor sandbox / agent shells may use a non-default Playwright cache. If browsers “missing,” reinstall for that environment rather than assuming global install.
-- Against remote sandbox: `PLAYWRIGHT_BASE_URL=http://192.168.0.115:3000` — do not also start local `webServer`.
+`PLAYWRIGHT_BASE_URL=http://192.168.0.115:3000` skips local `webServer`. Reinstall browsers if the agent sandbox cache path is empty.
 
-### 5. `proxmox_mcp.log` is agent noise — never commit it
+### 5. Never commit `proxmox_mcp.log`
 
-- Already in `.gitignore`. Prefer path-scoped `git add` over `git add -A` when MCP / Proxmox tools have been used.
-- If it slips in: `git rm --cached proxmox_mcp.log` + follow-up commit.
+Gitignored. Prefer path-scoped `git add` over `git add -A` after MCP/Proxmox work.
 
-### 6. Time “8c” is not VeriClock — slice or expand explicitly
+### 6. Time Phase 8 is numbered slices — not VeriClock
 
-- **8c.1 = leave requests** (create / list / approve / reject / cancel).
-- Accrual balances and scheduling are **8c.2+** and need an explicit product cut.
-- Saying “next phase go” after email polish meant: pick the **next bounded slice**, not greenfield Phase 8.
+| Slice | Means | Not |
+|-------|-------|-----|
+| 8c.1 | Leave requests | Accrual |
+| 8c.2 | Explicit shifts | Recurrence / auto-timesheet |
+| 8c.3 | Manual balances + approve debit | Auto-accrual formulas |
+| 8d-lite | Weekly OT CSV flag + 14-day snap | Full payroll engine |
+| 8e | GPS consent on roster + punch gate | Continuous tracking |
+| 8f | (deferred) hybrid slice / punch photos | Silent expansion |
+
+“next phase go” / “build all dreamed features” → ship **bounded slices** with docs in the same PR; skip VISION non-goals (dues, member broadcast lists, `/member` portal).
 
 ### 7. Rename ≠ rewrite module identity
 
-- “College Bumping” → “Stability Committee” is **copy/i18n only**.
-- Keep `bumping` routes, APIs, types, `enabledModules` keys. Broader OPSEU-wide language in UI; college-specific mechanics stay in seed/config.
+Stability Committee = i18n only. Routes/APIs/`enabledModules` stay `bumping`.
 
-### 8. Access helpers have signatures — match call sites when APIs evolve
+### 8. Access-helper arity breaks Docker builds
 
-- `canMutateTaskAssignment` grew to 5 args; `RelatedTasksPanel` still passed 3 → Docker/prod build failed while unit tests might still pass if panel wasn’t covered.
-- When changing shared access helpers, grep all call sites and run a production build (or smoke) before declaring done.
+When shared helpers change signatures, grep all call sites. Unit tests may miss uncovered panels.
 
-### 9. Password-reset boundaries
+### 9. Password-reset + cron boundaries
 
-- Memory token store is fine until Postgres flip; hash tokens at rest.
-- Exclude **demo roster** from reset (shared accounts).
-- Proxy allowlist must include `/app/forgot-password` and `/app/reset-password/` (matcher excludes `/api/**` — API still self-auth).
-- Prefer shipping reset while SMTP/email infra is warm from Calendar R3.
+- Reset: memory tokens OK; exclude demo roster; proxy allowlist for forgot/reset pages.
+- Cron: `CRON_SECRET` (Bearer or `x-cron-secret`); emails **officer roster** addresses only for Hub events in window; still needs `EMAIL_ENABLED` + SMTP to send. **Never** member lists (ADR-016).
 
-### 10. Auto-review / MCP secrets
+### 10. Three email/reminder surfaces stay separate
 
-- Proxmox MCP commands that embed credentials may be blocked by Auto-review. When the user explicitly authorized sandbox work, retry with approval rather than inventing a non-MCP workaround that loses the live cluster state.
+1. Public Comms invite (`event-email.ts` / `InviteEmailPanel`) — copy/mailto  
+2. Hub R2 officer reminder **draft** (`membership-meeting-reminder.ts`) — copy/mailto  
+3. Hub R3 / cron SMTP — opt-in, officer inbox / roster only  
+
+Graphic Maker notice layout now hosts `InviteEmailPanel` (R0.5 stretch) — still public Comms, not Hub.
+
+### 11. React lint: do not `setState` sync inside `useEffect` for derived UI
+
+GPS consent was derived from `workers` + session via effect → ESLint `react-hooks/set-state-in-effect`. Fix: derive `gpsConsented` from roster in render; update roster via fetch callback after consent API.
+
+### 12. ISO week tests need same-week fixtures
+
+`isoWeekKey` is UTC ISO week — pick Mon–Sat in the **same** week when asserting weekly OT flags (2030-01-06 vs 01-11 spanned weeks).
+
+### 13. Audit FEAT/ORG/FUTURE tickets are largely closed
+
+Before inventing “dreamed” Hub features, read `execution-backlog.md` + ground-truth. Remaining work is mostly Time 8f, ops Postgres flips, durable reset tokens, COMMS fifth-channel guide — not Basecamp greenfield.
+
+### 14. Plan files can be stale
+
+`.cursor/plans/pristine_office_templates.plan.md` still shows pending todos; PROGRESS marks it shipped 2026-07-15. **Diff docs vs code** before implementing.
+
+### 15. Merge conflicts on feature branches vs `main`
+
+When landing stacked PRs (#6 after #5), resolve roadmap/PROGRESS/ground-truth by **keeping both shipped sections**, not either-or.
+
+### 16. Auto-review may block push/PR from agent shells
+
+User authorized autonomous train → retry with approval for commit/push/`gh pr create`/`gh pr merge`. Do not invent non-git workarounds that leave work unmerged.
 
 ---
 
-## Product sequencing feedback (Ryan / this session)
+## Product sequencing that worked
 
-Preferred order that worked:
+1. Hub trust (MFA-off, rename, density)  
+2. Sandbox E2E proof  
+3. Password-reset (#5)  
+4. Time 8c.1 → 8c.2 → 8c.3 → cron → 8d-lite/8e/GM invite (#6–#10)  
 
-1. Fix Hub trust (MFA-off UX, rename, density) so demos aren’t half-broken.
-2. Prove deploy + E2E against a real host (Proxmox CT 115).
-3. **Password-reset** (email path ready) — PR #5.
-4. **Time 8c.1 PTO requests** (bounded) — PR #6 — not full scheduling.
-
-Still sensible next (after merging open PRs):
-
-1. Merge / land #5 and #6 onto `main`.
-2. Time **8c.2** scheduling **or** cron officer self-reminders — pick one bounded cut.
-3. Ops: Postgres backend flips + real scanner on hosts that need durability.
-4. COMMS backlog leftovers only if product prioritizes Print/social copy over Hub.
-
-User cues that agents should honour:
-
-- “next phase go” → ship the next **named bounded slice**, update ground-truth + rules in the same PR.
-- Prefer closing follow-ups over inventing Basecamp-like greenfield.
-- E2E against sandbox matters; don’t claim “site works” from local memory-only alone.
+Skip: dues/PCI, member marketing lists, full VeriClock as one blob, CMEK.
 
 ---
 
@@ -110,28 +127,26 @@ User cues that agents should honour:
 |------|--------|
 | CT | 115 `unionops-sandbox` |
 | IP | `192.168.0.115` |
-| Stack | Docker + crun in LXC |
-| App URL | `http://192.168.0.115:3000` |
-| Demo auth | `AUTH_ALLOW_DEMO_USERS=true` (required for production image demo login) |
-| Smoke | `PLAYWRIGHT_BASE_URL=http://192.168.0.115:3000 npm run test:smoke` (or hub suite) |
-
-Rebuild when testing unreleased `main`/PR branches — do not assume GHCR `:main` equals local HEAD.
+| App | `http://192.168.0.115:3000` |
+| Demo auth | `AUTH_ALLOW_DEMO_USERS=true` |
+| Smoke | `PLAYWRIGHT_BASE_URL=http://192.168.0.115:3000` (+ skip local webServer) |
+| Cron | `CRON_SECRET` + `EMAIL_ENABLED` for `/api/cron/meeting-reminders?days=7` |
 
 ---
 
-## Open PRs at session end
+## Sensible next (after this train)
 
-| PR | Branch | Topic |
-|----|--------|--------|
-| [#5](https://github.com/hackmods/union-communications/pull/5) | `feat/password-reset` | Forgot/reset password |
-| [#6](https://github.com/hackmods/union-communications/pull/6) | `feat/time-pto-requests` | Time 8c.1 PTO requests |
+1. Ops: flip `*_DB_BACKEND=postgres` + real scanner on durability hosts  
+2. Durable Postgres `password_reset_tokens` (memory today)  
+3. COMMS email/broadcast guide (fifth channel — only if product expands channels)  
+4. Time **8f** hybrid slice / punch photos — **explicit product cut required**  
+5. Redeploy sandbox from latest `main` and re-run hub smoke  
 
 ---
 
-## Doc hygiene reinforced
+## Doc hygiene
 
-- Prefer this file + `current-ground-truth.md` over stale `active-context.md`.
-- Verify paths with `git ls-files` before citing (audit Glob phantoms still apply).
-- Same milestone: code + EN/FR + module spec + `PROGRESS.md` + relevant `.cursor/rules/*.mdc`.
-- Conventional commits focused on **why**; never force-push `main`; never commit secrets or `proxmox_mcp.log`.
-`)
+- Prefer this file + `current-ground-truth.md` over `active-context.md`  
+- Verify paths with `git ls-files` (Glob phantoms still apply)  
+- Same milestone: code + EN/FR + module spec + `PROGRESS.md` + `.cursor/rules`  
+- Never force-push `main`; never commit secrets or `proxmox_mcp.log`
