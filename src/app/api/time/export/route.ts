@@ -9,18 +9,20 @@ import {
   buildTimeExportPdf,
   buildTimeExportXlsx,
 } from "@/lib/time/export-rollup";
+import {
+  entryDurationHours,
+  weeklyOtFlags,
+} from "@/lib/time/pay-period";
 import { timeStore } from "@/lib/time/store";
 import type { TimeEntry } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
 
 function toCsv(rows: TimeEntry[]): string {
+  const otFlags = weeklyOtFlags(rows);
   const header =
-    "id,worker,category,job_code,status,entry_source,event_id,event_label,clock_in,clock_out,duration_hours,notes";
+    "id,worker,category,job_code,status,entry_source,event_id,event_label,clock_in,clock_out,duration_hours,ot_weekly_flag,notes";
   const lines = rows.map((e) => {
-    const durationMs = e.clockOutAt
-      ? new Date(e.clockOutAt).getTime() - new Date(e.clockInAt).getTime()
-      : 0;
-    const durationHours = (durationMs / 3_600_000).toFixed(2);
+    const durationHours = entryDurationHours(e).toFixed(2);
     const cols = [
       e.id,
       e.workerName,
@@ -33,6 +35,7 @@ function toCsv(rows: TimeEntry[]): string {
       e.clockInAt,
       e.clockOutAt ?? "",
       durationHours,
+      otFlags.get(e.id) ? "yes" : "no",
       (e.notes ?? "").replace(/"/g, '""'),
     ];
     return cols.map((c) => `"${c}"`).join(",");

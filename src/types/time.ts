@@ -82,6 +82,8 @@ export interface TimeWorker {
   userId?: string;
   trackGaps: boolean;
   active: boolean;
+  /** ISO timestamp when worker consented to optional GPS punch tags (8e). */
+  gpsConsentAt?: string;
 }
 
 export interface TimeExpectedWindow {
@@ -184,6 +186,7 @@ export interface UpsertWorkerInput {
   trackGaps?: boolean;
   active?: boolean;
   id?: string;
+  gpsConsentAt?: string | null;
 }
 
 export interface UpsertSiteInput {

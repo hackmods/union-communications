@@ -162,6 +162,13 @@
       "when": 1784872000000,
       "tag": "0022_pto_balances",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1784873000000,
+      "tag": "0023_time_gps_consent",
+      "breakpoints": true
     }
   ]
 }

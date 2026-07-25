@@ -13,7 +13,10 @@ import {
 import { copyToClipboard } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
-type InviteEmailMessagesNamespace = "documentGenerator" | "boardNotice";
+type InviteEmailMessagesNamespace =
+  | "documentGenerator"
+  | "boardNotice"
+  | "graphicMaker";
 
 export interface InviteEmailPanelProps {
   fields: EventEmailFields;

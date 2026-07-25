@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
@@ -14,6 +15,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { PtoRequestsPanel } from "@/components/time/PtoRequestsPanel";
 import { ShiftSchedulePanel } from "@/components/time/ShiftSchedulePanel";
+import { payPeriodBounds } from "@/lib/time/pay-period";
 import type {
   GeofenceMode,
   JobCode,
@@ -120,6 +122,7 @@ type ReportTotals = {
 
 export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
   const t = useTranslations("time");
+  const { data: session } = useSession();
   const [entries, setEntries] = useState<TimeEntry[]>([]);
   const [activeEntry, setActiveEntry] = useState<TimeEntry | null>(null);
   const [codes, setCodes] = useState<JobCode[]>([]);
@@ -133,6 +136,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
   const [jobCodeId, setJobCodeId] = useState("");
   const [notes, setNotes] = useState("");
   const [useGps, setUseGps] = useState(false);
+  // gpsConsented derived from roster below
   const [manualStart, setManualStart] = useState(() => {
     const d = new Date();
     d.setHours(d.getHours() - 2);
@@ -171,6 +175,12 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
   const [loading, setLoading] = useState(true);
   const [working, setWorking] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const sessionUserId = session?.user?.id;
+  const myWorker =
+    workers.find((w) => w.userId === sessionUserId) ??
+    workers.find((w) => w.id === sessionUserId);
+  const gpsConsented = Boolean(myWorker?.gpsConsentAt);
 
   async function loadNeeded(from?: string, to?: string) {
     const range = from && to ? { from, to } : defaultFromTo(isAdmin ? 14 : 14);
@@ -708,12 +718,41 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
                     onChange={(e) => setNotes(e.target.value)}
                   />
                 </div>
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-2 space-y-2">
+                  <Checkbox
+                    label={t("gpsConsent")}
+                    checked={gpsConsented}
+                    onChange={(e) => {
+                      const next = e.target.checked;
+                      if (!next) setUseGps(false);
+                      void fetch("/api/time/workers/consent-gps", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ consent: next }),
+                      }).then(async (res) => {
+                        if (!res.ok) {
+                          setError(t("gpsConsentError"));
+                          return;
+                        }
+                        const data = (await res.json()) as {
+                          worker: TimeWorker;
+                        };
+                        setWorkers((prev) => {
+                          const others = prev.filter(
+                            (w) => w.id !== data.worker.id,
+                          );
+                          return [...others, data.worker];
+                        });
+                      });
+                    }}
+                  />
                   <Checkbox
                     label={t("gpsOptional")}
                     checked={useGps}
+                    disabled={!gpsConsented}
                     onChange={(e) => setUseGps(e.target.checked)}
                   />
+                  <p className="text-xs text-gray-500">{t("gpsConsentHint")}</p>
                 </div>
                 <Button onClick={handleClockIn} disabled={working || !jobCodeId}>
                   {t("clockIn")}
@@ -1015,6 +1054,16 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
                 onChange={(e) => setReportTo(e.target.value)}
               />
               <div className="flex flex-wrap gap-2 sm:col-span-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    const { from, to } = payPeriodBounds(new Date(), 14);
+                    setReportFrom(toLocalInputValue(new Date(from)));
+                    setReportTo(toLocalInputValue(new Date(to)));
+                  }}
+                >
+                  {t("snapPayPeriod")}
+                </Button>
                 <Button
                   onClick={() => {
                     setWorking(true);

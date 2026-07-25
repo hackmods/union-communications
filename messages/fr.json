@@ -1722,7 +1722,17 @@
     "backgroundColor": "Couleur de fond",
     "gradientColor": "Couleur du dégradé",
     "gradientFrom": "Début du dégradé",
-    "gradientTo": "Fin du dégradé"
+    "gradientTo": "Fin du dégradé",
+    "inviteEmail": {
+      "title": "Courriel d'invitation RSVP",
+      "hint": "Pour les avis de réunion — copiez dans votre messagerie. Demande Présence + Sur place / À distance pour le quorum et les repas.",
+      "subjectLabel": "Objet",
+      "bodyLabel": "Message",
+      "copySubject": "Copier l'objet",
+      "copyBody": "Copier le message",
+      "openMail": "Ouvrir dans l'application courriel",
+      "privacy": "Fonctionne sur cet appareil. Rien n'est envoyé et aucune réponse n'est collectée ici."
+    }
   },
   "quoteCard": {
     "title": "Générateur de carte citation",
@@ -3470,7 +3480,11 @@
     "category": "Catégorie",
     "jobCode": "Code de tâche",
     "notes": "Notes (facultatif)",
-    "gpsOptional": "Marquer le pointage avec GPS (facultatif)",
+    "gpsOptional": "Marquer ce pointage avec GPS (nécessite le consentement ci-dessous)",
+    "gpsConsent": "Je consens aux balises GPS facultatives sur mes pointages",
+    "gpsConsentHint": "Le consentement est enregistré sur votre fiche du registre. Le GPS n'est jamais un suivi continu.",
+    "gpsConsentError": "Impossible d'enregistrer le consentement GPS",
+    "snapPayPeriod": "Aligner sur la période de paie de 14 jours",
     "activeSince": "{category} · {code} · {duration} jusqu'ici",
     "recentEntries": "Entrées récentes",
     "localBoard": "Tableau local",
