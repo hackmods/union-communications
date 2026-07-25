@@ -1,11 +1,23 @@
 # Progress Log
 
+## Cron officer meeting reminders (2026-07-24) — COMPLETE
+
+- [x] `GET|POST /api/cron/meeting-reminders` gated by `CRON_SECRET`
+- [x] Officer roster emails only for Hub events in window; ADR-016 no member lists
+- [x] Helpers + unit tests; SETUP + `.env.example` docs
+
 ## Time 8c.3 — PTO accrual balances (2026-07-24) — COMPLETE
 
 - [x] `PtoBalance` types + adapter (memory + Drizzle); approve debit when `hoursRequested` set
 - [x] `GET/POST /api/time/pto/balances` (admin set/adjust)
 - [x] Balances on `PtoRequestsPanel`; migration `0022_pto_balances.sql`; EN/FR; unit test
 - [ ] Auto-accrual formulas (deferred)
+
+## Cron officer meeting reminders (2026-07-24) — COMPLETE
+
+- [x] `GET|POST /api/cron/meeting-reminders` gated by `CRON_SECRET`
+- [x] Officer roster emails only for Hub events in window; ADR-016 no member lists
+- [x] Helpers + unit tests; SETUP + `.env.example` docs
 
 ## Time 8c.2 — Shift scheduling (2026-07-24) — COMPLETE
 

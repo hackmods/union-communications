@@ -144,6 +144,7 @@ Officer invites, meeting self-reminders, and opt-in RSVP confirmations use SMTP 
 1. Set `EMAIL_ENABLED=true` plus `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, and `EMAIL_FROM` in `.env.local` (see [`.env.example`](../../.env.example)).
 2. Set `NEXT_PUBLIC_EMAIL_ENABLED=true` so Hub **Invites** shows the Send email control (Next.js inlines `NEXT_PUBLIC_*` at build time).
 3. With `EMAIL_ENABLED` unset/false, send helpers return `{ ok: false, reason: "not_configured" }` and APIs respond 503 — copy links still work.
+4. Optional cron officer reminders: set `CRON_SECRET`, then call `GET|POST /api/cron/meeting-reminders?days=7` with `Authorization: Bearer $CRON_SECRET` (or `x-cron-secret`). Sends only to officer roster emails for Hub events starting within N days — never member broadcast lists.
 
 ## Project docs
 

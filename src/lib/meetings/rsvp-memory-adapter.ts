@@ -103,6 +103,15 @@ export class MemoryMeetingsRsvpAdapter implements MeetingsRsvpAdapter {
     return [...results].sort((a, b) => a.startsAt.localeCompare(b.startsAt));
   }
 
+  async listMeetingsInWindow(
+    fromIso: string,
+    toIso: string,
+  ): Promise<UnionMeeting[]> {
+    return bucket()
+      .meetings.filter((m) => m.startsAt >= fromIso && m.startsAt <= toIso)
+      .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
+  }
+
   async getMeetingById(meetingId: string): Promise<UnionMeeting | null> {
     return bucket().meetings.find((m) => m.id === meetingId) ?? null;
   }

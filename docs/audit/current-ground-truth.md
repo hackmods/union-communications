@@ -76,15 +76,15 @@ Never put public meeting RSVP invite copy on grievance email-draft APIs. Never t
 
 ## Sensible next candidates
 
-1. Optional cron officer self-reminders (email infra exists; still opt-in / no member lists)
-2. Time **8d-lite** OT/pay-period bounds
-3. Graphic Maker optional invite panel (R0.5 stretch — not blocking)
-4. Ops Postgres backend flips + real scanner on durability hosts
-5. Durable Postgres `password_reset_tokens` table (memory tokens today)
-6. COMMS email/broadcast guide (fifth-channel deferral still stands)
+1. Time **8d-lite** OT/pay-period bounds
+2. Graphic Maker optional invite panel (R0.5 stretch — not blocking)
+3. Ops Postgres backend flips + real scanner on durability hosts
+4. Durable Postgres `password_reset_tokens` table (memory tokens today)
+5. COMMS email/broadcast guide (fifth-channel deferral still stands)
+6. Pristine Office Templates (gallery quality)
 
 **Shipped this pass:** COMMS First week Print step + remaining “Social Media Plan” → “First week” copy sweep (2026-07-24).
-**Shipped:** Hub MFA-off UX + Stability Committee rename + density; password-reset; Time **8c.1**–**8c.3** (PTO + shifts + accrual).
+**Shipped:** Hub MFA-off UX + Stability Committee rename + density; password-reset; Time **8c.1**–**8c.3**; cron officer meeting reminders.
 
 ## Agent habits reinforced this session
 

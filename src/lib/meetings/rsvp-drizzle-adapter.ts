@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, gte, lte } from "drizzle-orm";
 import { randomBytes } from "node:crypto";
 import { getDb } from "@/lib/db/client";
 import {
@@ -147,6 +147,24 @@ export class DrizzleMeetingsRsvpAdapter implements MeetingsRsvpAdapter {
       .select()
       .from(unionMeetings)
       .where(and(...conditions))
+      .orderBy(unionMeetings.startsAt);
+    return rows.map(mapMeeting);
+  }
+
+  async listMeetingsInWindow(
+    fromIso: string,
+    toIso: string,
+  ): Promise<UnionMeeting[]> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(unionMeetings)
+      .where(
+        and(
+          gte(unionMeetings.startsAt, new Date(fromIso)),
+          lte(unionMeetings.startsAt, new Date(toIso)),
+        ),
+      )
       .orderBy(unionMeetings.startsAt);
     return rows.map(mapMeeting);
   }

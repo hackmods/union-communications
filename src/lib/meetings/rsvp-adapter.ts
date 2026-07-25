@@ -12,6 +12,8 @@ import type {
 
 export interface MeetingsRsvpAdapter {
   listMeetings(filters: UnionMeetingListFilters): Promise<UnionMeeting[]>;
+  /** Cron / ops: meetings with startsAt in [fromIso, toIso] across all tenants. */
+  listMeetingsInWindow(fromIso: string, toIso: string): Promise<UnionMeeting[]>;
   getMeetingById(id: string): Promise<UnionMeeting | null>;
   createMeeting(
     input: CreateUnionMeetingInput,
