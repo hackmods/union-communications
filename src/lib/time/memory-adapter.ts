@@ -11,6 +11,8 @@ import type {
   JobCode,
   ManualEntryInput,
   NeededEntriesFilters,
+  PtoBalance,
+  PtoBalanceFilters,
   PtoListFilters,
   PtoRequest,
   PtoRequestStatus,
@@ -22,6 +24,7 @@ import type {
   TimeShift,
   TimeWorker,
   UpdateTimeShiftInput,
+  UpsertPtoBalanceInput,
   UpsertWorkerInput,
   UpsertSiteInput,
   WorkSite,
@@ -35,6 +38,7 @@ let eventSeq = 1;
 let siteSeq = 1;
 let ptoSeq = 1;
 let shiftSeq = 1;
+let ptoBalanceSeq = 1;
 
 const entries: TimeEntry[] = [];
 const jobCodes: JobCode[] = [
@@ -119,6 +123,7 @@ const workers: TimeWorker[] = [
 
 const expectedWindows: TimeExpectedWindow[] = [];
 const ptoRequests: PtoRequest[] = [];
+const ptoBalances: PtoBalance[] = [];
 const shifts: TimeShift[] = [];
 
 function now() {
@@ -155,6 +160,39 @@ function nextPtoId() {
 
 function nextShiftId() {
   return `shift-${String(shiftSeq++).padStart(4, "0")}`;
+}
+
+function nextPtoBalanceId() {
+  return `ptobal-${String(ptoBalanceSeq++).padStart(4, "0")}`;
+}
+
+function applyPtoApprovalDebit(row: PtoRequest, updatedById?: string) {
+  const hours = row.hoursRequested;
+  if (hours == null || hours <= 0) return;
+  const stamp = now();
+  let balance = ptoBalances.find(
+    (b) =>
+      b.unionId === row.unionId &&
+      b.localId === row.localId &&
+      b.workerId === row.workerId &&
+      b.ptoType === row.ptoType,
+  );
+  if (!balance) {
+    balance = {
+      id: nextPtoBalanceId(),
+      unionId: row.unionId,
+      localId: row.localId,
+      workerId: row.workerId,
+      ptoType: row.ptoType,
+      hoursBalance: 0,
+      updatedAt: stamp,
+      updatedById,
+    };
+    ptoBalances.push(balance);
+  }
+  balance.hoursBalance = Number((balance.hoursBalance - hours).toFixed(2));
+  balance.updatedAt = stamp;
+  balance.updatedById = updatedById;
 }
 
 function assertValidRange(clockInAt: string, clockOutAt: string) {
@@ -615,12 +653,62 @@ export const memoryTimeStore: TimeAdapter = {
   ): Promise<PtoRequest | null> {
     const row = ptoRequests.find((r) => r.id === id);
     if (!row) return null;
+    const prev = row.status;
     row.status = status;
     row.updatedAt = now();
     if (status === "approved" || status === "rejected") {
       row.approvedById = meta?.approvedById;
       row.approvedAt = now();
     }
+    if (status === "approved" && prev !== "approved") {
+      applyPtoApprovalDebit(row, meta?.approvedById);
+    }
+    return row;
+  },
+
+  async listPtoBalances(filters: PtoBalanceFilters): Promise<PtoBalance[]> {
+    return ptoBalances
+      .filter((b) => {
+        if (b.unionId !== filters.unionId) return false;
+        if (filters.localId && b.localId !== filters.localId) return false;
+        if (filters.workerId && b.workerId !== filters.workerId) return false;
+        if (filters.ptoType && b.ptoType !== filters.ptoType) return false;
+        return true;
+      })
+      .sort((a, b) => a.workerId.localeCompare(b.workerId));
+  },
+
+  async upsertPtoBalance(
+    input: UpsertPtoBalanceInput,
+    meta: { unionId: string; localId: string; updatedById: string },
+  ): Promise<PtoBalance> {
+    const stamp = now();
+    let row = ptoBalances.find(
+      (b) =>
+        b.unionId === meta.unionId &&
+        b.localId === meta.localId &&
+        b.workerId === input.workerId &&
+        b.ptoType === input.ptoType,
+    );
+    if (!row) {
+      row = {
+        id: nextPtoBalanceId(),
+        unionId: meta.unionId,
+        localId: meta.localId,
+        workerId: input.workerId,
+        ptoType: input.ptoType,
+        hoursBalance: 0,
+        updatedAt: stamp,
+        updatedById: meta.updatedById,
+      };
+      ptoBalances.push(row);
+    }
+    row.hoursBalance =
+      input.mode === "set"
+        ? Number(input.hours.toFixed(2))
+        : Number((row.hoursBalance + input.hours).toFixed(2));
+    row.updatedAt = stamp;
+    row.updatedById = meta.updatedById;
     return row;
   },
 

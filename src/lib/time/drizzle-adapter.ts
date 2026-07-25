@@ -2,6 +2,7 @@ import { and, desc, eq } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
 import {
   jobCodes,
+  ptoBalances,
   ptoRequests,
   timeEntries,
   timeExpectedWindows,
@@ -22,6 +23,8 @@ import type {
   JobCode,
   ManualEntryInput,
   NeededEntriesFilters,
+  PtoBalance,
+  PtoBalanceFilters,
   PtoListFilters,
   PtoRequest,
   PtoRequestStatus,
@@ -33,6 +36,7 @@ import type {
   TimeShift,
   TimeWorker,
   UpdateTimeShiftInput,
+  UpsertPtoBalanceInput,
   UpsertWorkerInput,
   UpsertSiteInput,
   WorkSite,
@@ -154,6 +158,19 @@ function mapPtoRequest(row: typeof ptoRequests.$inferSelect): PtoRequest {
     approvedAt: toIso(row.approvedAt),
     createdAt: toIso(row.createdAt)!,
     updatedAt: toIso(row.updatedAt)!,
+  };
+}
+
+function mapPtoBalance(row: typeof ptoBalances.$inferSelect): PtoBalance {
+  return {
+    id: row.id,
+    unionId: row.unionId,
+    localId: row.localId,
+    workerId: row.workerId,
+    ptoType: row.ptoType,
+    hoursBalance: row.hoursBalance,
+    updatedAt: toIso(row.updatedAt)!,
+    updatedById: row.updatedById ?? undefined,
   };
 }
 
@@ -755,6 +772,8 @@ export class DrizzleTimeAdapter implements TimeAdapter {
     status: PtoRequestStatus,
     meta?: { approvedById?: string },
   ): Promise<PtoRequest | null> {
+    const existing = await this.getPtoRequestById(id);
+    if (!existing) return null;
     const db = getDb();
     const stamp = new Date();
     const patch: Partial<typeof ptoRequests.$inferInsert> = {
@@ -770,7 +789,99 @@ export class DrizzleTimeAdapter implements TimeAdapter {
       .set(patch)
       .where(eq(ptoRequests.id, id))
       .returning();
-    return row ? mapPtoRequest(row) : null;
+    if (!row) return null;
+    if (status === "approved" && existing.status !== "approved") {
+      const hours = existing.hoursRequested;
+      if (hours != null && hours > 0) {
+        await this.upsertPtoBalance(
+          {
+            workerId: existing.workerId,
+            ptoType: existing.ptoType,
+            hours: -hours,
+            mode: "adjust",
+          },
+          {
+            unionId: existing.unionId,
+            localId: existing.localId,
+            updatedById: meta?.approvedById ?? "system",
+          },
+        );
+      }
+    }
+    return mapPtoRequest(row);
+  }
+
+  async listPtoBalances(filters: PtoBalanceFilters): Promise<PtoBalance[]> {
+    const db = getDb();
+    const clauses = [eq(ptoBalances.unionId, filters.unionId)];
+    if (filters.localId) {
+      clauses.push(eq(ptoBalances.localId, filters.localId));
+    }
+    if (filters.workerId) {
+      clauses.push(eq(ptoBalances.workerId, filters.workerId));
+    }
+    if (filters.ptoType) {
+      clauses.push(eq(ptoBalances.ptoType, filters.ptoType));
+    }
+    const rows = await db
+      .select()
+      .from(ptoBalances)
+      .where(and(...clauses));
+    return rows.map(mapPtoBalance);
+  }
+
+  async upsertPtoBalance(
+    input: UpsertPtoBalanceInput,
+    meta: { unionId: string; localId: string; updatedById: string },
+  ): Promise<PtoBalance> {
+    const db = getDb();
+    const stamp = new Date();
+    const existing = await db
+      .select()
+      .from(ptoBalances)
+      .where(
+        and(
+          eq(ptoBalances.unionId, meta.unionId),
+          eq(ptoBalances.localId, meta.localId),
+          eq(ptoBalances.workerId, input.workerId),
+          eq(ptoBalances.ptoType, input.ptoType),
+        ),
+      )
+      .limit(1);
+    if (existing[0]) {
+      const next =
+        input.mode === "set"
+          ? Number(input.hours.toFixed(2))
+          : Number((existing[0].hoursBalance + input.hours).toFixed(2));
+      const [row] = await db
+        .update(ptoBalances)
+        .set({
+          hoursBalance: next,
+          updatedAt: stamp,
+          updatedById: meta.updatedById,
+        })
+        .where(eq(ptoBalances.id, existing[0].id))
+        .returning();
+      return mapPtoBalance(row);
+    }
+    const initial =
+      input.mode === "set"
+        ? Number(input.hours.toFixed(2))
+        : Number(input.hours.toFixed(2));
+    const [row] = await db
+      .insert(ptoBalances)
+      .values({
+        id: newId("ptobal"),
+        unionId: meta.unionId,
+        localId: meta.localId,
+        workerId: input.workerId,
+        ptoType: input.ptoType,
+        hoursBalance: initial,
+        updatedAt: stamp,
+        updatedById: meta.updatedById,
+      })
+      .returning();
+    return mapPtoBalance(row);
   }
 
   async listShifts(filters: ShiftListFilters): Promise<TimeShift[]> {

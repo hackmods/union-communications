@@ -9,6 +9,8 @@ import type {
   JobCode,
   ManualEntryInput,
   NeededEntriesFilters,
+  PtoBalance,
+  PtoBalanceFilters,
   PtoListFilters,
   PtoRequest,
   PtoRequestStatus,
@@ -20,6 +22,7 @@ import type {
   TimeShift,
   TimeWorker,
   UpdateTimeShiftInput,
+  UpsertPtoBalanceInput,
   UpsertWorkerInput,
   UpsertSiteInput,
   WorkSite,
@@ -99,6 +102,11 @@ export interface TimeAdapter {
     status: PtoRequestStatus,
     meta?: { approvedById?: string },
   ): Promise<PtoRequest | null>;
+  listPtoBalances(filters: PtoBalanceFilters): Promise<PtoBalance[]>;
+  upsertPtoBalance(
+    input: UpsertPtoBalanceInput,
+    meta: { unionId: string; localId: string; updatedById: string },
+  ): Promise<PtoBalance>;
   listShifts(filters: ShiftListFilters): Promise<TimeShift[]>;
   getShiftById(id: string): Promise<TimeShift | null>;
   createShift(

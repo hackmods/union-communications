@@ -254,6 +254,33 @@ export interface CreatePtoRequestInput {
   status?: Extract<PtoRequestStatus, "draft" | "submitted">;
 }
 
+/** 8c.3 — accrual hours per worker + leave type (manual set/adjust; approve decrements). */
+export interface PtoBalance {
+  id: string;
+  unionId: string;
+  localId: string;
+  workerId: string;
+  ptoType: PtoType;
+  hoursBalance: number;
+  updatedAt: string;
+  updatedById?: string;
+}
+
+export interface PtoBalanceFilters {
+  unionId: string;
+  localId?: string;
+  workerId?: string;
+  ptoType?: PtoType;
+}
+
+export interface UpsertPtoBalanceInput {
+  workerId: string;
+  ptoType: PtoType;
+  /** Absolute set when `mode` is `set`; delta when `mode` is `adjust`. */
+  hours: number;
+  mode: "set" | "adjust";
+}
+
 /** 8c.2 — admin-published shifts; not a recurrence engine. */
 export type TimeShiftStatus = "draft" | "published" | "cancelled";
 

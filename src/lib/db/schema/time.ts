@@ -170,6 +170,30 @@ export const ptoRequests = pgTable(
   (t) => [index("pto_requests_union_local_idx").on(t.unionId, t.localId)],
 );
 
+export const ptoBalances = pgTable(
+  "pto_balances",
+  {
+    id: text("id").primaryKey(),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "restrict" }),
+    localId: text("local_id")
+      .notNull()
+      .references(() => locals.id, { onDelete: "restrict" }),
+    workerId: text("worker_id").notNull(),
+    ptoType: text("pto_type").notNull().$type<PtoType>(),
+    hoursBalance: real("hours_balance").notNull().default(0),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedById: text("updated_by_id"),
+  },
+  (t) => [
+    index("pto_balances_union_local_idx").on(t.unionId, t.localId),
+    index("pto_balances_worker_type_idx").on(t.workerId, t.ptoType),
+  ],
+);
+
 export const timeShifts = pgTable(
   "time_shifts",
   {

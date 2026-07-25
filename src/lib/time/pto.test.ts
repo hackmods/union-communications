@@ -66,6 +66,48 @@ describe("PTO 8c.1 memory adapter", () => {
       ),
     ).rejects.toThrow(/after/i);
   });
+
+  it("decrements accrual balance on approve when hoursRequested set", async () => {
+    await memoryTimeStore.upsertPtoBalance(
+      {
+        workerId: "user-steward-243",
+        ptoType: "vacation",
+        hours: 40,
+        mode: "set",
+      },
+      {
+        unionId: "union-opseu",
+        localId: "local-243",
+        updatedById: "user-president-243",
+      },
+    );
+    const created = await memoryTimeStore.createPtoRequest(
+      {
+        workerId: "user-steward-243",
+        workerName: "Steward",
+        ptoType: "vacation",
+        startsAt: "2030-08-10T09:00:00.000Z",
+        endsAt: "2030-08-11T17:00:00.000Z",
+        hoursRequested: 8,
+        status: "submitted",
+      },
+      {
+        unionId: "union-opseu",
+        localId: "local-243",
+        requestedById: "user-steward-243",
+      },
+    );
+    await memoryTimeStore.updatePtoRequestStatus(created.id, "approved", {
+      approvedById: "user-president-243",
+    });
+    const balances = await memoryTimeStore.listPtoBalances({
+      unionId: "union-opseu",
+      localId: "local-243",
+      workerId: "user-steward-243",
+      ptoType: "vacation",
+    });
+    expect(balances[0]?.hoursBalance).toBe(32);
+  });
 });
 
 describe("PTO access", () => {

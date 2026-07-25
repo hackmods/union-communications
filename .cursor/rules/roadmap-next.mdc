@@ -34,7 +34,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 
 ## Next planned work (in order)
 
-1. **Workforce Time 8c.3+** — PTO accrual balances; OT/pay-period (8c.1 leave + 8c.2 shifts shipped). Spec: `docs/modules/WORKFORCE_TIME.md`
+1. **Workforce Time 8d+** — OT/pay-period lite; GPS consent polish (8c.1–8c.3 shipped). Spec: `docs/modules/WORKFORCE_TIME.md`
 2. **Email ops polish** — optional cron officer self-reminders (password-reset shipped; still no member broadcast lists)
 3. **Ops default flip** — production hosts choosing Postgres backends + real scanner (ops, not new adapters)
 4. **COMMS backlog (optional)** — email/broadcast guide; Graphic Maker `meetingNotice` invite panel stretch
@@ -47,6 +47,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 - First week Print step + “Social Media Plan” → “First week” copy — **shipped 2026-07-24**
 - Time 8c.1 PTO leave requests — **shipped 2026-07-24** (no accrual balances)
 - Time 8c.2 shift scheduling — **shipped 2026-07-24** (no recurrence / auto-timesheet)
+- Time 8c.3 PTO accrual balances — **shipped 2026-07-24** (manual set/adjust + approve debit)
 - Password-reset — **shipped** (memory tokens; Postgres token table follow-up)
 
 ## Shipped hub surfaces (do not rebuild)
