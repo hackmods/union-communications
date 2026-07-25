@@ -3556,7 +3556,33 @@
     "bulkApprove": "Approve selected ({count})",
     "selectAllSubmitted": "Select all submitted",
     "selectEntry": "Select entry for {name}",
-    "bulkApproveError": "Could not bulk-approve entries"
+    "bulkApproveError": "Could not bulk-approve entries",
+    "ptoTitle": "Leave requests",
+    "ptoAdminTitle": "Leave request queue",
+    "ptoHint": "Request vacation, sick, or personal leave for approval. Accrual balances are not tracked yet.",
+    "ptoAdminHint": "Review submitted leave requests for your local. No accrual ledger in this slice.",
+    "ptoType": "Leave type",
+    "ptoHoursOptional": "Hours (optional)",
+    "ptoSubmit": "Submit leave request",
+    "ptoCancel": "Cancel",
+    "ptoEmpty": "No leave requests yet.",
+    "ptoLoadError": "Could not load leave requests",
+    "ptoCreateError": "Could not create leave request",
+    "ptoActionError": "Could not update leave request",
+    "ptoValidationError": "Enter a start and end time.",
+    "ptoTypes": {
+      "vacation": "Vacation",
+      "sick": "Sick",
+      "personal": "Personal",
+      "other": "Other"
+    },
+    "ptoStatus": {
+      "draft": "Draft",
+      "submitted": "Submitted",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "cancelled": "Cancelled"
+    }
   },
   "installPage": {
     "title": "Install UnionOps on your desktop",

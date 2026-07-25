@@ -1,4 +1,5 @@
 import type { TimeEntry } from "@/types/time";
+import type { PtoRequest } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
 
 const TIME_READ_ROLES: UserRole[] = [
@@ -90,4 +91,46 @@ export function canSubmitTimeEntry(
 ): boolean {
   if (!canViewTimeEntry(entry, userId, unionId, localId, roles)) return false;
   return entry.workerId === userId && entry.status === "completed";
+}
+
+export function canViewPtoRequest(
+  req: PtoRequest,
+  userId: string,
+  unionId: string | undefined,
+  localId: string | undefined,
+  roles: UserRole[],
+): boolean {
+  if (!canAccessTimeModule(roles)) return false;
+  if (!unionId || req.unionId !== unionId) return false;
+  if (isElevatedTimeRole(roles)) return true;
+  if (localId && req.localId !== localId) return false;
+  if (canAdminTime(roles)) return true;
+  return req.workerId === userId || req.requestedById === userId;
+}
+
+export function canApprovePtoRequest(
+  req: PtoRequest,
+  userId: string,
+  unionId: string | undefined,
+  localId: string | undefined,
+  roles: UserRole[],
+): boolean {
+  if (!canViewPtoRequest(req, userId, unionId, localId, roles)) return false;
+  return canAdminTime(roles) && req.status === "submitted";
+}
+
+export function canCancelPtoRequest(
+  req: PtoRequest,
+  userId: string,
+  unionId: string | undefined,
+  localId: string | undefined,
+  roles: UserRole[],
+): boolean {
+  if (!canViewPtoRequest(req, userId, unionId, localId, roles)) return false;
+  if (req.status !== "draft" && req.status !== "submitted") return false;
+  return (
+    req.workerId === userId ||
+    req.requestedById === userId ||
+    canAdminTime(roles)
+  );
 }

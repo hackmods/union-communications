@@ -3531,7 +3531,33 @@
     "bulkApprove": "Approuver la sélection ({count})",
     "selectAllSubmitted": "Sélectionner toutes les soumises",
     "selectEntry": "Sélectionner l'entrée de {name}",
-    "bulkApproveError": "Impossible d'approuver en lot"
+    "bulkApproveError": "Impossible d'approuver en lot",
+    "ptoTitle": "Demandes de congé",
+    "ptoAdminTitle": "File des demandes de congé",
+    "ptoHint": "Demandez des vacances, un congé de maladie ou personnel pour approbation. Les soldes d'accumulation ne sont pas suivis encore.",
+    "ptoAdminHint": "Examinez les demandes de congé soumises pour votre section. Pas de registre d'accumulation dans cette tranche.",
+    "ptoType": "Type de congé",
+    "ptoHoursOptional": "Heures (optionnel)",
+    "ptoSubmit": "Soumettre la demande",
+    "ptoCancel": "Annuler",
+    "ptoEmpty": "Aucune demande de congé.",
+    "ptoLoadError": "Impossible de charger les demandes de congé",
+    "ptoCreateError": "Impossible de créer la demande de congé",
+    "ptoActionError": "Impossible de mettre à jour la demande",
+    "ptoValidationError": "Indiquez une heure de début et de fin.",
+    "ptoTypes": {
+      "vacation": "Vacances",
+      "sick": "Maladie",
+      "personal": "Personnel",
+      "other": "Autre"
+    },
+    "ptoStatus": {
+      "draft": "Brouillon",
+      "submitted": "Soumise",
+      "approved": "Approuvée",
+      "rejected": "Refusée",
+      "cancelled": "Annulée"
+    }
   },
   "assets": {
     "title": "Trousse d'actifs de marque",

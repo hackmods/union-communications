@@ -6,9 +6,13 @@ import type {
   ClockInInput,
   CreateExpectedWindowInput,
   CreateJobCodeInput,
+  CreatePtoRequestInput,
   JobCode,
   ManualEntryInput,
   NeededEntriesFilters,
+  PtoListFilters,
+  PtoRequest,
+  PtoRequestStatus,
   TimeEntry,
   TimeExpectedWindow,
   TimeListFilters,
@@ -25,6 +29,7 @@ let workerSeq = 1;
 let windowSeq = 1;
 let eventSeq = 1;
 let siteSeq = 1;
+let ptoSeq = 1;
 
 const entries: TimeEntry[] = [];
 const jobCodes: JobCode[] = [
@@ -108,6 +113,7 @@ const workers: TimeWorker[] = [
 ];
 
 const expectedWindows: TimeExpectedWindow[] = [];
+const ptoRequests: PtoRequest[] = [];
 
 function now() {
   return new Date().toISOString();
@@ -135,6 +141,10 @@ function nextWindowId() {
 
 function nextEventId() {
   return `tev-${String(eventSeq++).padStart(4, "0")}`;
+}
+
+function nextPtoId() {
+  return `pto-${String(ptoSeq++).padStart(4, "0")}`;
 }
 
 function assertValidRange(clockInAt: string, clockOutAt: string) {
@@ -541,5 +551,65 @@ export const memoryTimeStore: TimeAdapter = {
       to: filters.to,
       workerId: filters.workerId,
     });
+  },
+
+  async listPtoRequests(filters: PtoListFilters): Promise<PtoRequest[]> {
+    return ptoRequests
+      .filter((r) => {
+        if (r.unionId !== filters.unionId) return false;
+        if (filters.localId && r.localId !== filters.localId) return false;
+        if (filters.workerId && r.workerId !== filters.workerId) return false;
+        if (filters.status && r.status !== filters.status) return false;
+        if (filters.from && r.endsAt < filters.from) return false;
+        if (filters.to && r.startsAt > filters.to) return false;
+        return true;
+      })
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  },
+
+  async getPtoRequestById(id: string): Promise<PtoRequest | null> {
+    return ptoRequests.find((r) => r.id === id) ?? null;
+  },
+
+  async createPtoRequest(
+    input: CreatePtoRequestInput,
+    meta: { unionId: string; localId: string; requestedById: string },
+  ): Promise<PtoRequest> {
+    assertValidRange(input.startsAt, input.endsAt);
+    const stamp = now();
+    const row: PtoRequest = {
+      id: nextPtoId(),
+      unionId: meta.unionId,
+      localId: meta.localId,
+      workerId: input.workerId,
+      workerName: input.workerName,
+      ptoType: input.ptoType,
+      status: input.status ?? "submitted",
+      startsAt: input.startsAt,
+      endsAt: input.endsAt,
+      hoursRequested: input.hoursRequested,
+      notes: input.notes,
+      requestedById: meta.requestedById,
+      createdAt: stamp,
+      updatedAt: stamp,
+    };
+    ptoRequests.push(row);
+    return row;
+  },
+
+  async updatePtoRequestStatus(
+    id: string,
+    status: PtoRequestStatus,
+    meta?: { approvedById?: string },
+  ): Promise<PtoRequest | null> {
+    const row = ptoRequests.find((r) => r.id === id);
+    if (!row) return null;
+    row.status = status;
+    row.updatedAt = now();
+    if (status === "approved" || status === "rejected") {
+      row.approvedById = meta?.approvedById;
+      row.approvedAt = now();
+    }
+    return row;
   },
 };

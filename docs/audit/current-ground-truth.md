@@ -11,6 +11,7 @@
 | Calendar R0 / R0.5 / R1 / R2 / R3 | Shipped (cron member auto-send deferred) | Banner tallies were already in `MeetingReminderBanner`; R2 gap was **copy-only Hub reminder draft**, not tallies |
 | Time 8a | Shipped (`TIME_DB_BACKEND`) | Module docs wrongly said “blocked on Phase 6” |
 | Time 8b | Shipped 2026-07-24 | Sites/geofence admin, bulk approve, XLSX/PDF — **not** scheduling/PTO |
+| Time 8c.1 | Shipped 2026-07-24 | Leave requests only — **not** accrual balances or scheduling |
 | FEAT-003 case-detail tasks | Shipped | API already filtered by `relatedGrievanceId` / `relatedBumpingCaseId`; only UI panel was missing |
 | FEAT-004 outcome | Entity+API earlier; UI/export/`appealDays` closed 2026-07-24 | `appealDays` ≠ `responseDays` (Arbitration often has `responseDays: null`) |
 
@@ -52,12 +53,14 @@ Never put public meeting RSVP invite copy on grievance email-draft APIs. Never t
 
 ## Sensible next candidates (after this milestone)
 
-1. Time **8c** scheduling / PTO (large; needs product cut)
+1. Time **8c.2** scheduling / shift roster (product cut still required)
 2. Password-reset + cron officer reminders (email infra exists; still opt-in / no member lists)
 3. Graphic Maker optional invite panel (R0.5 stretch — not blocking)
 4. COMMS email/broadcast guide (fifth-channel deferral still stands)
+5. PTO accrual balances (after 8c.1 requests)
 
 **Shipped this pass:** COMMS First week Print step + remaining “Social Media Plan” → “First week” copy sweep (2026-07-24).
+**Shipped:** Time **8c.1** PTO leave requests (create/approve/reject/cancel; no accrual ledger).
 
 ## Agent habits reinforced this session
 

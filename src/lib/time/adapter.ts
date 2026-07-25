@@ -4,9 +4,13 @@ import type {
   ClockOutInput,
   CreateExpectedWindowInput,
   CreateJobCodeInput,
+  CreatePtoRequestInput,
   JobCode,
   ManualEntryInput,
   NeededEntriesFilters,
+  PtoListFilters,
+  PtoRequest,
+  PtoRequestStatus,
   TimeEntry,
   TimeExpectedWindow,
   TimeListFilters,
@@ -80,4 +84,15 @@ export interface TimeAdapter {
     meta: { unionId: string; localId: string; createdById: string },
   ): Promise<TimeExpectedWindow>;
   listNeededEntries(filters: NeededEntriesFilters): Promise<TimeNeededRow[]>;
+  listPtoRequests(filters: PtoListFilters): Promise<PtoRequest[]>;
+  getPtoRequestById(id: string): Promise<PtoRequest | null>;
+  createPtoRequest(
+    input: CreatePtoRequestInput,
+    meta: { unionId: string; localId: string; requestedById: string },
+  ): Promise<PtoRequest>;
+  updatePtoRequestStatus(
+    id: string,
+    status: PtoRequestStatus,
+    meta?: { approvedById?: string },
+  ): Promise<PtoRequest | null>;
 }

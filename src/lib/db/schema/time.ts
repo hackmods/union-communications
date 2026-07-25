@@ -11,6 +11,8 @@ import {
 import { locals, unions } from "./tenant";
 import type {
   GeofenceMode,
+  PtoRequestStatus,
+  PtoType,
   TimeCategory,
   TimeEntryGps,
   TimeEntrySource,
@@ -133,4 +135,35 @@ export const timeExpectedWindows = pgTable(
   (t) => [
     index("time_expected_windows_union_local_idx").on(t.unionId, t.localId),
   ],
+);
+
+export const ptoRequests = pgTable(
+  "pto_requests",
+  {
+    id: text("id").primaryKey(),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "restrict" }),
+    localId: text("local_id")
+      .notNull()
+      .references(() => locals.id, { onDelete: "restrict" }),
+    workerId: text("worker_id").notNull(),
+    workerName: text("worker_name").notNull(),
+    ptoType: text("pto_type").notNull().$type<PtoType>(),
+    status: text("status").notNull().$type<PtoRequestStatus>(),
+    startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+    endsAt: timestamp("ends_at", { withTimezone: true }).notNull(),
+    hoursRequested: real("hours_requested"),
+    notes: text("notes"),
+    requestedById: text("requested_by_id").notNull(),
+    approvedById: text("approved_by_id"),
+    approvedAt: timestamp("approved_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [index("pto_requests_union_local_idx").on(t.unionId, t.localId)],
 );

@@ -2,6 +2,7 @@ import { and, desc, eq } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
 import {
   jobCodes,
+  ptoRequests,
   timeEntries,
   timeExpectedWindows,
   timeWorkers,
@@ -15,9 +16,13 @@ import type {
   ClockInInput,
   CreateExpectedWindowInput,
   CreateJobCodeInput,
+  CreatePtoRequestInput,
   JobCode,
   ManualEntryInput,
   NeededEntriesFilters,
+  PtoListFilters,
+  PtoRequest,
+  PtoRequestStatus,
   TimeEntry,
   TimeExpectedWindow,
   TimeListFilters,
@@ -122,6 +127,27 @@ function mapWindow(
     attendeeWorkerIds: row.attendeeWorkerIds,
     createdById: row.createdById,
     createdAt: toIso(row.createdAt)!,
+  };
+}
+
+function mapPtoRequest(row: typeof ptoRequests.$inferSelect): PtoRequest {
+  return {
+    id: row.id,
+    unionId: row.unionId,
+    localId: row.localId,
+    workerId: row.workerId,
+    workerName: row.workerName,
+    ptoType: row.ptoType,
+    status: row.status,
+    startsAt: toIso(row.startsAt)!,
+    endsAt: toIso(row.endsAt)!,
+    hoursRequested: row.hoursRequested ?? undefined,
+    notes: row.notes ?? undefined,
+    requestedById: row.requestedById,
+    approvedById: row.approvedById ?? undefined,
+    approvedAt: toIso(row.approvedAt),
+    createdAt: toIso(row.createdAt)!,
+    updatedAt: toIso(row.updatedAt)!,
   };
 }
 
@@ -631,5 +657,93 @@ export class DrizzleTimeAdapter implements TimeAdapter {
       to: filters.to,
       workerId: filters.workerId,
     });
+  }
+
+  async listPtoRequests(filters: PtoListFilters): Promise<PtoRequest[]> {
+    const db = getDb();
+    const clauses = [eq(ptoRequests.unionId, filters.unionId)];
+    if (filters.localId) {
+      clauses.push(eq(ptoRequests.localId, filters.localId));
+    }
+    if (filters.workerId) {
+      clauses.push(eq(ptoRequests.workerId, filters.workerId));
+    }
+    if (filters.status) {
+      clauses.push(eq(ptoRequests.status, filters.status));
+    }
+    const rows = await db
+      .select()
+      .from(ptoRequests)
+      .where(and(...clauses))
+      .orderBy(desc(ptoRequests.createdAt));
+    return rows
+      .map(mapPtoRequest)
+      .filter((r) => {
+        if (filters.from && r.endsAt < filters.from) return false;
+        if (filters.to && r.startsAt > filters.to) return false;
+        return true;
+      });
+  }
+
+  async getPtoRequestById(id: string): Promise<PtoRequest | null> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(ptoRequests)
+      .where(eq(ptoRequests.id, id))
+      .limit(1);
+    return rows[0] ? mapPtoRequest(rows[0]) : null;
+  }
+
+  async createPtoRequest(
+    input: CreatePtoRequestInput,
+    meta: { unionId: string; localId: string; requestedById: string },
+  ): Promise<PtoRequest> {
+    assertValidRange(input.startsAt, input.endsAt);
+    const db = getDb();
+    const stamp = new Date();
+    const [row] = await db
+      .insert(ptoRequests)
+      .values({
+        id: newId("pto"),
+        unionId: meta.unionId,
+        localId: meta.localId,
+        workerId: input.workerId,
+        workerName: input.workerName,
+        ptoType: input.ptoType,
+        status: input.status ?? "submitted",
+        startsAt: toDate(input.startsAt),
+        endsAt: toDate(input.endsAt),
+        hoursRequested: input.hoursRequested,
+        notes: input.notes,
+        requestedById: meta.requestedById,
+        createdAt: stamp,
+        updatedAt: stamp,
+      })
+      .returning();
+    return mapPtoRequest(row);
+  }
+
+  async updatePtoRequestStatus(
+    id: string,
+    status: PtoRequestStatus,
+    meta?: { approvedById?: string },
+  ): Promise<PtoRequest | null> {
+    const db = getDb();
+    const stamp = new Date();
+    const patch: Partial<typeof ptoRequests.$inferInsert> = {
+      status,
+      updatedAt: stamp,
+    };
+    if (status === "approved" || status === "rejected") {
+      patch.approvedById = meta?.approvedById;
+      patch.approvedAt = stamp;
+    }
+    const [row] = await db
+      .update(ptoRequests)
+      .set(patch)
+      .where(eq(ptoRequests.id, id))
+      .returning();
+    return row ? mapPtoRequest(row) : null;
   }
 }

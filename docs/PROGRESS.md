@@ -1,5 +1,14 @@
 # Progress Log
 
+## Time 8c.1 — PTO leave requests (2026-07-24) — COMPLETE
+
+- [x] `PtoRequest` types + adapter methods (memory + Drizzle)
+- [x] `GET/POST /api/time/pto`, `PATCH /api/time/pto/[id]` with RBAC + audit
+- [x] Worker request form + admin queue (`PtoRequestsPanel` on Time dashboards)
+- [x] Migration `0020_pto_requests.sql` + RLS; EN/FR; unit tests
+- [x] Docs: `WORKFORCE_TIME.md`, `time-module.mdc`, ground-truth / roadmap-next
+- [ ] Accrual balances / scheduling (deferred to 8c.2+)
+
 ## First week Print step + copy sweep (2026-07-24) — COMPLETE
 
 - [x] Print step on `/guide/social-media-plan` after boards / before socials (`FIRST_WEEK_STEP_KEYS` → Flyer Maker + Print Guide)
