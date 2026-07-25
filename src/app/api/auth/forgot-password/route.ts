@@ -41,7 +41,7 @@ export async function POST(req: Request) {
   let emailReason: string | undefined;
 
   if (account) {
-    const tokenRow = createPasswordResetToken({
+    const tokenRow = await createPasswordResetToken({
       email: account.email,
       userId: account.id,
     });

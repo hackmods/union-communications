@@ -169,6 +169,13 @@
       "when": 1784873000000,
       "tag": "0023_time_gps_consent",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1784874000000,
+      "tag": "0024_password_reset_tokens",
+      "breakpoints": true
     }
   ]
 }

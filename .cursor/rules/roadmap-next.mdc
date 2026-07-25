@@ -38,9 +38,9 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 ## Next planned work (in order)
 
 1. **Ops default flip** — production hosts choosing Postgres backends + real scanner (ops, not new adapters)
-2. **Email ops polish** — durable Postgres password-reset tokens (cron officer reminders shipped)
-3. **COMMS backlog (optional)** — email/broadcast guide (fifth channel only if product expands)
-4. Time **8f** hybrid slice / punch photos (explicit product cut)
+2. **COMMS backlog (optional)** — email/broadcast guide (fifth channel only if product expands)
+3. Time **8f** hybrid slice / punch photos (explicit product cut)
+4. Redeploy sandbox from latest `main` + hub smoke
 
 ## Deferred / non-goals
 
@@ -49,7 +49,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 - CMEK / signed-URL attachment uploads (stretch on FEAT-001)
 - First week Print step + “Social Media Plan” → “First week” copy — **shipped 2026-07-24**
 - Time 8c.1–8e + cron officer reminders — **shipped 2026-07-24/25**
-- Password-reset — **shipped** (memory tokens; Postgres token table follow-up)
+- Password-reset — **shipped** (memory default; durable Postgres tokens when `AUTH_USERS_BACKEND=postgres`)
 - Pristine Office Templates — **shipped 2026-07-15** (ignore stale plan todos)
 
 ## Shipped hub surfaces (do not rebuild)

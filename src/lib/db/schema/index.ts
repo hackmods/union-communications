@@ -1,4 +1,5 @@
 export * from "./tenant";
+export * from "./auth";
 export * from "./grievance";
 export * from "./bumping";
 export * from "./audit";

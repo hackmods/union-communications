@@ -18,7 +18,7 @@ export async function GET(
   ctx: { params: Promise<{ token: string }> },
 ) {
   const { token } = await ctx.params;
-  const row = getPasswordResetToken(token);
+  const row = await getPasswordResetToken(token);
   if (!row) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -54,7 +54,7 @@ export async function POST(
     );
   }
 
-  const consumed = consumePasswordResetToken(token);
+  const consumed = await consumePasswordResetToken(token);
   if (!consumed.ok) {
     const message =
       consumed.error === "expired"
