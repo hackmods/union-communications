@@ -1,5 +1,12 @@
 # Progress Log
 
+## Time 8c.3 — PTO accrual balances (2026-07-24) — COMPLETE
+
+- [x] `PtoBalance` types + adapter (memory + Drizzle); approve debit when `hoursRequested` set
+- [x] `GET/POST /api/time/pto/balances` (admin set/adjust)
+- [x] Balances on `PtoRequestsPanel`; migration `0022_pto_balances.sql`; EN/FR; unit test
+- [ ] Auto-accrual formulas (deferred)
+
 ## Time 8c.2 — Shift scheduling (2026-07-24) — COMPLETE
 
 - [x] `TimeShift` types + adapter methods (memory + Drizzle)

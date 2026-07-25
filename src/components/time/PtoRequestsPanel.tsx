@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
-import type { PtoRequest, PtoType } from "@/types/time";
+import type { PtoBalance, PtoRequest, PtoType } from "@/types/time";
 
 const PTO_TYPES: PtoType[] = ["vacation", "sick", "personal", "other"];
 
@@ -19,6 +19,7 @@ export function PtoRequestsPanel({ isAdmin }: { isAdmin: boolean }) {
   const t = useTranslations("time");
   const { data: session } = useSession();
   const [requests, setRequests] = useState<PtoRequest[]>([]);
+  const [balances, setBalances] = useState<PtoBalance[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [working, setWorking] = useState(false);
@@ -27,15 +28,25 @@ export function PtoRequestsPanel({ isAdmin }: { isAdmin: boolean }) {
   const [end, setEnd] = useState("");
   const [hours, setHours] = useState("");
   const [notes, setNotes] = useState("");
+  const [balanceHours, setBalanceHours] = useState("40");
+  const [balanceType, setBalanceType] = useState<PtoType>("vacation");
+  const [balanceWorkerId, setBalanceWorkerId] = useState("");
 
   const reload = useCallback(async () => {
-    const res = await fetch("/api/time/pto");
-    if (!res.ok) {
+    const [ptoRes, balRes] = await Promise.all([
+      fetch("/api/time/pto"),
+      fetch("/api/time/pto/balances"),
+    ]);
+    if (!ptoRes.ok) {
       setError(t("ptoLoadError"));
       return;
     }
-    const data = (await res.json()) as { requests: PtoRequest[] };
+    const data = (await ptoRes.json()) as { requests: PtoRequest[] };
     setRequests(data.requests);
+    if (balRes.ok) {
+      const bal = (await balRes.json()) as { balances: PtoBalance[] };
+      setBalances(bal.balances);
+    }
     setError(null);
   }, [t]);
 
@@ -114,6 +125,35 @@ export function PtoRequestsPanel({ isAdmin }: { isAdmin: boolean }) {
     }
   }
 
+  async function handleBalanceSet() {
+    const workerId = balanceWorkerId || session?.user?.id;
+    if (!workerId || !balanceHours) {
+      setError(t("ptoBalanceValidationError"));
+      return;
+    }
+    setWorking(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/time/pto/balances", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          workerId,
+          ptoType: balanceType,
+          hours: Number(balanceHours),
+          mode: "set",
+        }),
+      });
+      if (!res.ok) {
+        setError(t("ptoBalanceError"));
+        return;
+      }
+      await reload();
+    } finally {
+      setWorking(false);
+    }
+  }
+
   const pending = requests.filter((r) => r.status === "submitted");
 
   return (
@@ -124,6 +164,55 @@ export function PtoRequestsPanel({ isAdmin }: { isAdmin: boolean }) {
       <p className="mt-1 text-xs text-gray-600 sm:text-sm">
         {isAdmin ? t("ptoAdminHint") : t("ptoHint")}
       </p>
+
+      {balances.length > 0 ? (
+        <ul className="mt-2 flex flex-wrap gap-2 text-xs text-gray-700">
+          {balances.map((b) => (
+            <li
+              key={b.id}
+              className="rounded border border-gray-200 bg-gray-50 px-2 py-1"
+            >
+              {t(`ptoTypes.${b.ptoType}`)}: {b.hoursBalance}h
+              {isAdmin ? ` (${b.workerId})` : ""}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-2 text-xs text-gray-500">{t("ptoBalanceEmpty")}</p>
+      )}
+
+      {isAdmin ? (
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <Select
+            label={t("ptoType")}
+            value={balanceType}
+            onChange={(e) => setBalanceType(e.target.value as PtoType)}
+          >
+            {PTO_TYPES.map((type) => (
+              <option key={type} value={type}>
+                {t(`ptoTypes.${type}`)}
+              </option>
+            ))}
+          </Select>
+          <Input
+            label={t("ptoBalanceHours")}
+            type="number"
+            step={0.5}
+            value={balanceHours}
+            onChange={(e) => setBalanceHours(e.target.value)}
+          />
+          <Input
+            label={t("ptoBalanceWorkerId")}
+            type="text"
+            value={balanceWorkerId}
+            onChange={(e) => setBalanceWorkerId(e.target.value)}
+            placeholder={session?.user?.id}
+          />
+          <Button onClick={() => void handleBalanceSet()} disabled={working}>
+            {t("ptoBalanceSet")}
+          </Button>
+        </div>
+      ) : null}
 
       {!isAdmin && (
         <div className="mt-3 grid gap-3 sm:grid-cols-2">

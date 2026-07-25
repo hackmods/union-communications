@@ -12,7 +12,8 @@ VeriClock-class time tracking for union locals and union-wide operations. **Not*
 | **8b** Sites / geofence admin + bulk approve + XLSX/PDF | Shipped (2026-07-24) — `/api/time/sites`, bulk-approve, `?format=xlsx\|pdf` export |
 | **8c.1** PTO leave requests | Shipped (2026-07-24) — create/list/approve/reject/cancel; no accrual balances |
 | **8c.2** Shift scheduling | Shipped (2026-07-24) — admin draft/publish shifts; worker upcoming list; optional `shiftId` on clock-in |
-| 8c.3–8f (PTO accrual, OT policies, hybrid slice, punch photos) | Planned |
+| **8c.3** PTO accrual balances | Shipped (2026-07-24) — set/adjust balances; approve decrements `hoursRequested` |
+| 8d–8f (OT policies, hybrid slice, punch photos) | Planned |
 
 ## Time categories (1D — all in one module)
 
@@ -74,6 +75,7 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 - `GET /api/time/report/union-business?from&to` — JSON totals + needed
 - `GET/POST /api/time/pto` — leave requests (8c.1)
 - `PATCH /api/time/pto/[id]` — approve / reject / cancel / submit draft
+- `GET/POST /api/time/pto/balances` — accrual balances (8c.3)
 - `GET/POST /api/time/shifts` — shift schedule (8c.2)
 - `PATCH /api/time/shifts/[id]` — publish / cancel / edit
 
@@ -86,13 +88,19 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 
 ## Deferred (full Phase 8)
 
-- PTO **accrual balances** (8c.3+)
 - OT policy engine and pay periods
 - Standing named groups (v1 uses ad-hoc multi-select only)
 - Punch photo attachments (Phase 7 object storage)
 - Hybrid slice inclusion
 - Payroll vendor integrations
 - Shift **recurrence** / auto-timesheet from shifts (8c.2 is explicit windows only)
+- Auto-accrual formulas (8c.3 is manual set/adjust + approve debit)
+
+## Shipped in 8c.3 (2026-07-24)
+
+- `PtoBalance` set/adjust (`GET/POST /api/time/pto/balances`)
+- Approving a leave request with `hoursRequested` decrements that worker/type balance
+- Balances surface on `PtoRequestsPanel`; admin can set absolute hours
 
 ## Shipped in 8c.2 (2026-07-24)
 
