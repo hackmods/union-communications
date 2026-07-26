@@ -18,8 +18,9 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NPM_CONFIG_UPDATE_NOTIFIER=false
-# CapRover often builds on 1 GB droplets; cap Node heap during next build.
-ENV NODE_OPTIONS="--max-old-space-size=768"
+# CapRover often builds on 1 GB droplets; override with BUILD_NODE_HEAP_MB on larger hosts.
+ARG BUILD_NODE_HEAP_MB=2048
+ENV NODE_OPTIONS="--max-old-space-size=${BUILD_NODE_HEAP_MB}"
 # AUTH_SECRET is only needed at runtime; a build-time placeholder keeps
 # Auth.js route collection happy during `next build`.
 ARG AUTH_SECRET=build-time-placeholder-not-used-at-runtime
