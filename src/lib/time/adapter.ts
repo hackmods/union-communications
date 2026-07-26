@@ -26,6 +26,7 @@ import type {
   TimeShift,
   TimeShiftSeries,
   TimeWorker,
+  TimePunchPhotoKind,
   TimeWorkerGroup,
   UpdateShiftSeriesInput,
   UpdateTimeShiftInput,
@@ -171,4 +172,15 @@ export interface TimeAdapter {
     input: UpsertPayrollProfileInput,
     meta: { unionId: string; localId: string },
   ): Promise<PayrollExportProfile>;
+  importLocalSlice(
+    unionId: string,
+    localId: string,
+    entries: TimeEntry[],
+    mode: "merge" | "replace",
+  ): Promise<{ imported: number; removed: number }>;
+  linkPunchPhoto(
+    entryId: string,
+    kind: TimePunchPhotoKind,
+    attachmentId: string,
+  ): Promise<TimeEntry | null>;
 }

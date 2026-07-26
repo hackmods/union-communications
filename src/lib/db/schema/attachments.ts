@@ -1,5 +1,6 @@
 import { index, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import type { AttachmentScanStatus } from "@/types/attachments";
+import type { TimePunchPhotoKind } from "@/types/time";
 import { bargainingUnits, locals, unions } from "./tenant";
 
 /** Metadata for grievance / bumping / vault file uploads (bytes live in object storage). */
@@ -21,6 +22,8 @@ export const attachmentMeta = pgTable(
     bumpingCaseId: text("bumping_case_id"),
     expenseClaimId: text("expense_claim_id"),
     expenseSubmissionId: text("expense_submission_id"),
+    timeEntryId: text("time_entry_id"),
+    punchKind: text("punch_kind").$type<TimePunchPhotoKind>(),
     fileName: text("file_name").notNull(),
     mimeType: text("mime_type").notNull(),
     sizeBytes: integer("size_bytes").notNull(),
@@ -37,6 +40,7 @@ export const attachmentMeta = pgTable(
     index("attachment_meta_bumping_idx").on(t.bumpingCaseId),
     index("attachment_meta_expense_claim_idx").on(t.expenseClaimId),
     index("attachment_meta_expense_submission_idx").on(t.expenseSubmissionId),
+    index("attachment_meta_time_entry_idx").on(t.timeEntryId),
   ],
 );
 

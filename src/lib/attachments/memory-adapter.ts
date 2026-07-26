@@ -227,6 +227,69 @@ export class MemoryAttachmentAdapter implements AttachmentAdapter {
     return { attachment: row };
   }
 
+  async listForTimeEntry(timeEntryId: string): Promise<AttachmentMeta[]> {
+    return store
+      .filter((a) => a.timeEntryId === timeEntryId)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
+  async createForTimeEntry(
+    timeEntryId: string,
+    input: CreateAttachmentInput,
+    meta: AttachmentCreateMeta & {
+      punchKind: import("@/types/time").TimePunchPhotoKind;
+    },
+  ): Promise<{ attachment?: AttachmentMeta; error?: string }> {
+    if (!input.mimeType.startsWith("image/")) {
+      return { error: "Punch photos must be images (JPEG, PNG, or WebP)" };
+    }
+    const scan = await scanAttachment(input);
+    if (!scan.ok) {
+      return { error: scan.error ?? "Scan failed" };
+    }
+    const decoded = decodePayload(input);
+    if (!decoded.ok) {
+      return { error: decoded.error };
+    }
+
+    const attachmentId = id();
+    const storageKey = buildStorageKey({
+      unionId: meta.unionId,
+      localId: meta.localId,
+      scope: "time",
+      scopeId: timeEntryId,
+      attachmentId,
+      fileName: input.fileName,
+    });
+
+    try {
+      await getObjectStorage().put(storageKey, decoded.bytes, input.mimeType);
+    } catch (err) {
+      return {
+        error:
+          err instanceof Error ? err.message : "Failed to write object storage",
+      };
+    }
+
+    const row: AttachmentMeta = {
+      id: attachmentId,
+      unionId: meta.unionId,
+      localId: meta.localId,
+      bargainingUnitId: meta.bargainingUnitId,
+      timeEntryId,
+      punchKind: meta.punchKind,
+      fileName: input.fileName,
+      mimeType: input.mimeType,
+      sizeBytes: input.sizeBytes,
+      storageKey,
+      scanStatus: scan.status,
+      uploadedById: meta.uploadedById,
+      createdAt: new Date().toISOString(),
+    };
+    store.push(row);
+    return { attachment: row };
+  }
+
   async readBytes(storageKey: string): Promise<Buffer | null> {
     return getObjectStorage().get(storageKey);
   }

@@ -2,6 +2,7 @@ import type {
   AttachmentMeta,
   CreateAttachmentInput,
 } from "@/types/attachments";
+import type { TimePunchPhotoKind } from "@/types/time";
 
 export interface AttachmentCreateMeta {
   unionId: string;
@@ -36,4 +37,10 @@ export interface AttachmentAdapter {
   ): Promise<{ attachment?: AttachmentMeta; error?: string }>;
   /** Read stored bytes for a known storageKey (after auth + scan checks). */
   readBytes(storageKey: string): Promise<Buffer | null>;
+  listForTimeEntry(timeEntryId: string): Promise<AttachmentMeta[]>;
+  createForTimeEntry(
+    timeEntryId: string,
+    input: CreateAttachmentInput,
+    meta: AttachmentCreateMeta & { punchKind: TimePunchPhotoKind },
+  ): Promise<{ attachment?: AttachmentMeta; error?: string }>;
 }

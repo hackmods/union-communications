@@ -28,6 +28,7 @@ import type {
   TimeShift,
   TimeShiftSeries,
   TimeWorker,
+  TimePunchPhotoKind,
   TimeWorkerGroup,
   UpdateShiftSeriesInput,
   UpdateTimeShiftInput,
@@ -1211,6 +1212,55 @@ export const memoryTimeStore: TimeAdapter = {
       updatedAt: stamp,
     };
     payrollProfiles.push(row);
+    return row;
+  },
+
+  async importLocalSlice(
+    unionId: string,
+    localId: string,
+    items: TimeEntry[],
+    mode: "merge" | "replace",
+  ): Promise<{ imported: number; removed: number }> {
+    let removed = 0;
+    if (mode === "replace") {
+      const removeIds = new Set(
+        entries
+          .filter((e) => e.unionId === unionId && e.localId === localId)
+          .map((e) => e.id),
+      );
+      removed = removeIds.size;
+      for (let i = entries.length - 1; i >= 0; i--) {
+        if (removeIds.has(entries[i].id)) entries.splice(i, 1);
+      }
+    }
+
+    let imported = 0;
+    for (const item of items) {
+      if (item.unionId !== unionId || item.localId !== localId) continue;
+      const idx = entries.findIndex((e) => e.id === item.id);
+      if (idx >= 0) {
+        entries[idx] = { ...item };
+      } else {
+        entries.push({ ...item });
+      }
+      imported += 1;
+    }
+    return { imported, removed };
+  },
+
+  async linkPunchPhoto(
+    entryId: string,
+    kind: TimePunchPhotoKind,
+    attachmentId: string,
+  ): Promise<TimeEntry | null> {
+    const row = entries.find((e) => e.id === entryId);
+    if (!row) return null;
+    if (kind === "clock_in") {
+      row.clockInPhotoAttachmentId = attachmentId;
+    } else {
+      row.clockOutPhotoAttachmentId = attachmentId;
+    }
+    row.updatedAt = now();
     return row;
   },
 };

@@ -81,8 +81,8 @@
 - [x] Optional GPS punch tagging (client consent checkbox)
 - [x] Postgres + RLS persistence (`TIME_DB_BACKEND=postgres`; memory default)
 - [x] Sites / geofence admin + bulk approve + XLSX/PDF rollup (8b, 2026-07-24)
-- [ ] Full workers directory beyond lite roster, scheduling, PTO, OT policies
-- [ ] Punch photo attachments; hybrid time slice
+- [x] Full workers directory, OT policies, shift recurrence, auto-accrual, groups, payroll hooks (8-full, 2026-07-26)
+- [x] Punch photo attachments + hybrid time slice v1.1 (8f, 2026-07-26)
 
 Spec: [`docs/modules/WORKFORCE_TIME.md`](modules/WORKFORCE_TIME.md)
 

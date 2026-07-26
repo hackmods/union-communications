@@ -143,6 +143,7 @@ export function HybridSettingsPanel() {
         t("exportSuccess", {
           grievances: slice.grievances.length,
           bumping: slice.bumpingCases.length,
+          time: slice.timeEntries?.length ?? 0,
         }),
       );
     } catch (err) {
@@ -173,7 +174,11 @@ export function HybridSettingsPanel() {
         t("importSuccess", {
           grievances: result.grievancesImported,
           bumping: result.bumpingImported,
-          removed: result.grievancesRemoved + result.bumpingRemoved,
+          time: result.timeImported,
+          removed:
+            result.grievancesRemoved +
+            result.bumpingRemoved +
+            result.timeRemoved,
         }),
       );
     } catch (err) {
@@ -238,7 +243,11 @@ export function HybridSettingsPanel() {
         t("syncSuccess", {
           grievances: result.grievancesImported,
           bumping: result.bumpingImported,
-          removed: result.grievancesRemoved + result.bumpingRemoved,
+          time: result.timeImported,
+          removed:
+            result.grievancesRemoved +
+            result.bumpingRemoved +
+            result.timeRemoved,
         }),
       );
     } catch (err) {
@@ -268,7 +277,11 @@ export function HybridSettingsPanel() {
         t("importSuccess", {
           grievances: result.grievancesImported,
           bumping: result.bumpingImported,
-          removed: result.grievancesRemoved + result.bumpingRemoved,
+          time: result.timeImported,
+          removed:
+            result.grievancesRemoved +
+            result.bumpingRemoved +
+            result.timeRemoved,
         }),
       );
     } catch (err) {

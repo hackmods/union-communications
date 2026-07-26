@@ -1,5 +1,22 @@
 # Progress Log
 
+## Time 8f — hybrid slice + punch photos (2026-07-26) — COMPLETE
+
+- [x] Hybrid slice **v1.1** — optional `timeEntries` in export/import when time module enabled; v1.0 slices still accepted
+- [x] `timeStore.importLocalSlice()` on memory + Drizzle adapters; `HybridSettingsPanel` time counts (EN/FR)
+- [x] Optional punch photo on clock in/out — `savePunchPhoto`, attachment adapter `createForTimeEntry` / `listForTimeEntry`
+- [x] API: `GET /api/time/entries/[id]/attachments` + download route; worker dashboard file input
+- [x] Migration `0029_time_8f.sql`; unit tests `time-8f.test.ts` + hybrid slice tests
+- [x] Punch photos hub-only (not in hybrid exports); `docs/modules/WORKFORCE_TIME.md` + ground-truth updated
+
+## Time 8-full — VeriClock remainder (2026-07-26) — COMPLETE
+
+- [x] Workers directory fields + `GET /api/time/workers?includeInactive=true`
+- [x] Standing named groups (`/api/time/groups`); OT policy engine (`/api/time/ot-policies`)
+- [x] Shift recurrence (`/api/time/shift-series` + expand); auto-accrual policies (`/api/time/pto/accrual-policies`)
+- [x] Payroll export profiles + mapped CSV/webhook (`/api/time/payroll-profiles`, `/api/time/payroll-export`)
+- [x] `TimeFullAdminPanel` on `/app/time/admin`; migration `0028_time_full8.sql`; `full8.test.ts`
+
 ## Discussions / Tasks social stretch (2026-07-26) — COMPLETE
 
 - [x] Reactions on discussion posts + tasks (`solidarity` / `ack` / `question` toggle APIs)

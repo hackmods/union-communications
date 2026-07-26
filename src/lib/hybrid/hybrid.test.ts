@@ -77,6 +77,7 @@ describe("hybrid slice", () => {
     });
     expect(isHybridDataSlice(slice)).toBe(true);
     expect(slice.grievances).toHaveLength(1);
+    expect(slice.timeEntries).toEqual([]);
     expect(() =>
       assertSliceTenantScope(slice, "union-opseu", "local-243"),
     ).not.toThrow();

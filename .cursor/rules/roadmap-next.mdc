@@ -31,6 +31,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 | Calendar A + R0–R3 | Schedule, banner tallies, Comms invite, Hub RSVP `/r/[token]`, SMTP opt-in, **R2 copy reminder draft** |
 | Time 8-lite / 8-lite+ / **8a** / **8b** | Clock, roster, windows, Postgres flag, **sites/geofence, bulk approve, XLSX/PDF** |
 | Time **8c.1–8c.3** / **8d-lite** / **8e** | PTO requests + shifts + accrual; weekly OT CSV flag; GPS consent (2026-07-24/25) |
+| Time **8-full** / **8f** | Workers directory, OT engine, recurrence, auto-accrual, payroll hooks; hybrid slice v1.1 + punch photos (2026-07-26) |
 | Calendar cron officer reminders | `/api/cron/meeting-reminders` + `CRON_SECRET` — roster emails only |
 | FEAT-003/004 follow-ups | Related tasks on case detail; outcome UI + export + `appealDays` |
 | Graphic Maker notice invite | `InviteEmailPanel` on notice layout (R0.5 stretch) |
@@ -41,7 +42,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 
 1. **Ops default flip** — production hosts choosing Postgres backends + real scanner ([`POSTGRES_OPS.md`](../../docs/guides/POSTGRES_OPS.md))
 2. ~~COMMS email/broadcast guide~~ — **shipped 2026-07-26** (`/guide/email-broadcast`)
-3. Time **8f** hybrid slice / punch photos (explicit product cut)
+3. ~~Time **8f** hybrid slice / punch photos~~ — **shipped 2026-07-26** (`0029_time_8f`)
 4. ~~Optional canvas axe contrast polish (brand-orange preview smoke noise)~~ — **shipped 2026-07-25**
 5. Ops: redeploy sandbox after train merges — `npm run package:sandbox` + `health:check` + `test:smoke:sandbox` — **done 2026-07-26** (`9446186`)
 6. ~~Basecamp automatic check-ins~~ — **shipped 2026-07-26** (`checkins` HubModule + dashboard widget)

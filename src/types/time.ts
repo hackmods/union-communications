@@ -48,6 +48,9 @@ export interface TimeEntry {
   geofenceResult?: "ok" | "warn" | "block";
   approvedById?: string;
   approvedAt?: string;
+  /** Time 8f — optional punch photo attachment ids (hub object storage). */
+  clockInPhotoAttachmentId?: string;
+  clockOutPhotoAttachmentId?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -145,6 +148,8 @@ export interface TimeListFilters {
   eventId?: string;
 }
 
+export type TimePunchPhotoKind = "clock_in" | "clock_out";
+
 export interface ClockInInput {
   category: TimeCategory;
   jobCodeId: string;
@@ -152,12 +157,23 @@ export interface ClockInInput {
   clockInGps?: TimeEntryGps;
   /** Optional link to a published assigned shift (8c.2). */
   shiftId?: string;
+  /** Time 8f — optional punch photo uploaded after entry create. */
+  punchPhoto?: PunchPhotoInput;
+}
+
+export interface PunchPhotoInput {
+  fileName: string;
+  mimeType: string;
+  sizeBytes: number;
+  contentBase64: string;
+  kind: TimePunchPhotoKind;
 }
 
 export interface ClockOutInput {
   entryId: string;
   notes?: string;
   clockOutGps?: TimeEntryGps;
+  punchPhoto?: PunchPhotoInput;
 }
 
 export interface CreateJobCodeInput {

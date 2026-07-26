@@ -31,6 +31,8 @@ function mapRow(row: typeof attachmentMeta.$inferSelect): AttachmentMeta {
     bumpingCaseId: row.bumpingCaseId ?? undefined,
     expenseClaimId: row.expenseClaimId ?? undefined,
     expenseSubmissionId: row.expenseSubmissionId ?? undefined,
+    timeEntryId: row.timeEntryId ?? undefined,
+    punchKind: row.punchKind ?? undefined,
     fileName: row.fileName,
     mimeType: row.mimeType,
     sizeBytes: row.sizeBytes,
@@ -276,6 +278,76 @@ export class DrizzleAttachmentAdapter implements AttachmentAdapter {
         bumpingCaseId: null,
         expenseClaimId: null,
         expenseSubmissionId,
+        fileName: input.fileName,
+        mimeType: input.mimeType,
+        sizeBytes: input.sizeBytes,
+        storageKey,
+        scanStatus: scan.status,
+        uploadedById: meta.uploadedById,
+        createdAt: new Date(),
+      })
+      .returning();
+
+    return { attachment: mapRow(row) };
+  }
+
+  async listForTimeEntry(timeEntryId: string): Promise<AttachmentMeta[]> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(attachmentMeta)
+      .where(eq(attachmentMeta.timeEntryId, timeEntryId));
+    return rows.map(mapRow).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
+  async createForTimeEntry(
+    timeEntryId: string,
+    input: CreateAttachmentInput,
+    meta: AttachmentCreateMeta & {
+      punchKind: import("@/types/time").TimePunchPhotoKind;
+    },
+  ): Promise<{ attachment?: AttachmentMeta; error?: string }> {
+    if (!input.mimeType.startsWith("image/")) {
+      return { error: "Punch photos must be images (JPEG, PNG, or WebP)" };
+    }
+    const scan = await scanAttachment(input);
+    if (!scan.ok) {
+      return { error: scan.error ?? "Scan failed" };
+    }
+    const decoded = decodePayload(input);
+    if (!decoded.ok) {
+      return { error: decoded.error };
+    }
+
+    const attachmentId = newId();
+    const storageKey = buildStorageKey({
+      unionId: meta.unionId,
+      localId: meta.localId,
+      scope: "time",
+      scopeId: timeEntryId,
+      attachmentId,
+      fileName: input.fileName,
+    });
+
+    try {
+      await getObjectStorage().put(storageKey, decoded.bytes, input.mimeType);
+    } catch (err) {
+      return {
+        error:
+          err instanceof Error ? err.message : "Failed to write object storage",
+      };
+    }
+
+    const db = getDb();
+    const [row] = await db
+      .insert(attachmentMeta)
+      .values({
+        id: attachmentId,
+        unionId: meta.unionId,
+        localId: meta.localId,
+        bargainingUnitId: meta.bargainingUnitId ?? null,
+        timeEntryId,
+        punchKind: meta.punchKind,
         fileName: input.fileName,
         mimeType: input.mimeType,
         sizeBytes: input.sizeBytes,

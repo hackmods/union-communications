@@ -1,8 +1,10 @@
 import type { BumpingCaseWithRelations } from "@/types/bumping";
 import type { GrievanceWithRelations } from "@/types/grievance";
+import type { TimeEntry } from "@/types/time";
 import type { EncryptedPayload } from "@/lib/crypto/passphrase";
 
-export const HYBRID_SLICE_VERSION = "1.0" as const;
+export const HYBRID_SLICE_VERSION = "1.1" as const;
+export const HYBRID_SLICE_VERSION_LEGACY = "1.0" as const;
 export const HYBRID_FILE_FORMAT = "lunion-hybrid-v1" as const;
 
 /** Plaintext confidential data slice for a single local. */
@@ -13,6 +15,8 @@ export interface HybridDataSlice {
   localId: string;
   grievances: GrievanceWithRelations[];
   bumpingCases: BumpingCaseWithRelations[];
+  /** Time 8f — approved/completed local time entries when `time` module enabled. */
+  timeEntries?: TimeEntry[];
 }
 
 /** Encrypted file downloaded / stored locally. */
@@ -32,6 +36,8 @@ export interface HybridImportResult {
   grievancesRemoved: number;
   bumpingImported: number;
   bumpingRemoved: number;
+  timeImported: number;
+  timeRemoved: number;
 }
 
 export interface HybridLocalSliceMeta {
@@ -40,4 +46,5 @@ export interface HybridLocalSliceMeta {
   savedAt: string;
   grievanceCount: number;
   bumpingCount: number;
+  timeCount: number;
 }

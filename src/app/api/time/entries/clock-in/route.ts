@@ -5,6 +5,7 @@ import {
   tenantIdsForTimeSession,
 } from "@/lib/auth/time-session";
 import { canClockTime } from "@/lib/time/access";
+import { savePunchPhoto } from "@/lib/time/punch-photo";
 import { timeStore } from "@/lib/time/store";
 import type { TimeCategory } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { category, jobCodeId, notes, clockInGps, shiftId } = body;
+  const { category, jobCodeId, notes, clockInGps, shiftId, punchPhoto } = body;
 
   if (!category || !jobCodeId) {
     return NextResponse.json(
@@ -84,7 +85,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const entry = await timeStore.clockIn(
+    let entry = await timeStore.clockIn(
       { category, jobCodeId, notes, clockInGps, shiftId: resolvedShiftId },
       {
         unionId,
@@ -94,6 +95,25 @@ export async function POST(request: Request) {
         jobCodeLabel: jobCode.label,
       },
     );
+
+    if (punchPhoto && typeof punchPhoto === "object") {
+      const photo = {
+        ...punchPhoto,
+        kind: "clock_in" as const,
+      };
+      const photoResult = await savePunchPhoto({
+        entryId: entry.id,
+        photo,
+        unionId,
+        localId,
+        uploadedById: session.user.id,
+      });
+      if (photoResult.error) {
+        return NextResponse.json({ error: photoResult.error }, { status: 400 });
+      }
+      entry =
+        (await timeStore.getEntryById(entry.id)) ?? entry;
+    }
 
     await auditLog.log({
       userId: session.user.id,

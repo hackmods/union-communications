@@ -46,6 +46,7 @@ import type {
   TimeOtPolicy,
   TimeShift,
   TimeShiftSeries,
+  TimePunchPhotoKind,
   TimeWorker,
   TimeWorkerGroup,
   UpdateShiftSeriesInput,
@@ -98,8 +99,12 @@ function mapEntry(row: typeof timeEntries.$inferSelect): TimeEntry {
     geofenceResult: (row.geofenceResult as TimeEntry["geofenceResult"]) ?? undefined,
     approvedById: row.approvedById ?? undefined,
     approvedAt: toIso(row.approvedAt),
+    clockInPhotoAttachmentId: row.clockInPhotoAttachmentId ?? undefined,
+    clockOutPhotoAttachmentId: row.clockOutPhotoAttachmentId ?? undefined,
     createdAt: toIso(row.createdAt)!,
     updatedAt: toIso(row.updatedAt)!,
+    seriesId: row.seriesId ?? undefined,
+    seriesOccurrenceDate: row.seriesOccurrenceDate ?? undefined,
   };
 }
 
@@ -1592,5 +1597,101 @@ export class DrizzleTimeAdapter implements TimeAdapter {
       })
       .returning();
     return mapPayrollProfile(row);
+  }
+
+  async importLocalSlice(
+    unionId: string,
+    localId: string,
+    items: TimeEntry[],
+    mode: "merge" | "replace",
+  ): Promise<{ imported: number; removed: number }> {
+    const db = getDb();
+    let removed = 0;
+
+    if (mode === "replace") {
+      const existing = await db
+        .select({ id: timeEntries.id })
+        .from(timeEntries)
+        .where(
+          and(
+            eq(timeEntries.unionId, unionId),
+            eq(timeEntries.localId, localId),
+          ),
+        );
+      removed = existing.length;
+      if (removed > 0) {
+        await db
+          .delete(timeEntries)
+          .where(
+            and(
+              eq(timeEntries.unionId, unionId),
+              eq(timeEntries.localId, localId),
+            ),
+          );
+      }
+    }
+
+    let imported = 0;
+    for (const item of items) {
+      if (item.unionId !== unionId || item.localId !== localId) continue;
+      const row = {
+        id: item.id,
+        unionId: item.unionId,
+        localId: item.localId,
+        workerId: item.workerId,
+        workerName: item.workerName,
+        category: item.category,
+        jobCodeId: item.jobCodeId,
+        jobCodeLabel: item.jobCodeLabel,
+        status: item.status,
+        entrySource: item.entrySource,
+        clockInAt: toDate(item.clockInAt),
+        clockOutAt: item.clockOutAt ? toDate(item.clockOutAt) : null,
+        notes: item.notes ?? null,
+        eventId: item.eventId ?? null,
+        eventLabel: item.eventLabel ?? null,
+        shiftId: item.shiftId ?? null,
+        clockInGps: item.clockInGps ?? null,
+        clockOutGps: item.clockOutGps ?? null,
+        geofenceResult: item.geofenceResult ?? null,
+        approvedById: item.approvedById ?? null,
+        approvedAt: item.approvedAt ? toDate(item.approvedAt) : null,
+        clockInPhotoAttachmentId: item.clockInPhotoAttachmentId ?? null,
+        clockOutPhotoAttachmentId: item.clockOutPhotoAttachmentId ?? null,
+        createdAt: toDate(item.createdAt),
+        updatedAt: toDate(item.updatedAt),
+        seriesId: item.seriesId ?? null,
+        seriesOccurrenceDate: item.seriesOccurrenceDate ?? null,
+      };
+      await db
+        .insert(timeEntries)
+        .values(row)
+        .onConflictDoUpdate({
+          target: timeEntries.id,
+          set: row,
+        });
+      imported += 1;
+    }
+    return { imported, removed };
+  }
+
+  async linkPunchPhoto(
+    entryId: string,
+    kind: TimePunchPhotoKind,
+    attachmentId: string,
+  ): Promise<TimeEntry | null> {
+    const existing = await this.getEntryById(entryId);
+    if (!existing) return null;
+    const db = getDb();
+    const patch =
+      kind === "clock_in"
+        ? { clockInPhotoAttachmentId: attachmentId }
+        : { clockOutPhotoAttachmentId: attachmentId };
+    const [row] = await db
+      .update(timeEntries)
+      .set({ ...patch, updatedAt: new Date() })
+      .where(eq(timeEntries.id, entryId))
+      .returning();
+    return row ? mapEntry(row) : null;
   }
 }

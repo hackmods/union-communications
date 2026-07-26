@@ -15,6 +15,8 @@
 | Time 8a–8b | Shipped | Postgres flag; sites/geofence; bulk approve; XLSX/PDF |
 | Time 8c.1–8c.3 | Shipped 2026-07-24/25 | PTO requests; shifts; accrual balances |
 | Time 8d-lite / 8e | Shipped 2026-07-25 | Weekly OT CSV flag; pay-period snap; GPS consent |
+| Time 8-full | Shipped 2026-07-26 | Workers directory, OT policies, shift recurrence, auto-accrual, groups, payroll hooks |
+| Time 8f | Shipped 2026-07-26 | Hybrid slice v1.1 time entries; punch photo attachments |
 | Graphic Maker notice invite | Shipped 2026-07-25 | `InviteEmailPanel` on notice layout (R0.5 stretch) |
 | Pristine Office Templates | Shipped 2026-07-15 | Plan file todos may look pending — trust PROGRESS |
 | Password-reset | Shipped | Memory default; durable Postgres when `AUTH_USERS_BACKEND=postgres` |
@@ -37,7 +39,8 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 - **8c.1:** leave requests — **8c.2:** shifts (no recurrence) — **8c.3:** manual accrual + approve debit
 - **8d-lite:** weekly OT flag on CSV + 14-day pay-period snap — **not** full OT engine
 - **8e:** `gpsConsentAt` + punch GPS gated on consent
-- **Defer 8f:** hybrid time slice, punch photos — explicit product cut
+- **8-full:** workers directory, OT policy engine, shift recurrence, auto-accrual, named groups, payroll export hooks
+- **8f:** hybrid slice v1.1 includes time entries; optional punch photo attachments (hub storage only)
 
 ## Hub / auth / ops gotchas
 
@@ -54,7 +57,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 
 1. Ops: Postgres backend flips + real scanner on durability hosts — see [`docs/guides/POSTGRES_OPS.md`](../guides/POSTGRES_OPS.md)
 2. ~~COMMS email/broadcast guide (fifth-channel)~~ — **shipped 2026-07-26** (`/guide/email-broadcast`); train #2 wired home, footer, First week, tools index
-3. Time **8f** hybrid slice / punch photos (explicit cut)
+3. ~~Time **8f** hybrid slice / punch photos~~ — **shipped 2026-07-26** (slice v1.1 + migration `0029_time_8f`)
 4. ~~Optional: canvas tool axe color-contrast on brand-orange previews (6 smoke failures noted 2026-07-25)~~ — **shipped 2026-07-25** (`mutedInkOnBackground`)
 5. ~~Ops: redeploy sandbox after train merges~~ — **done 2026-07-26** (`9446186`, health ok, 137/137 smoke)
 6. ~~API route auth unit gap (cron / forgot-password)~~ — **shipped 2026-07-26** (train #3)

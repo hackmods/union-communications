@@ -80,6 +80,7 @@ export class LocalHybridSliceAdapter implements HybridLocalSliceAdapter {
       savedAt: file.exportedAt,
       grievanceCount: -1,
       bumpingCount: -1,
+      timeCount: -1,
     };
   }
 

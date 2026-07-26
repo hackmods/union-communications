@@ -1,5 +1,7 @@
 /** Grievance / bumping attachment metadata + Local Documents vault types. */
 
+import type { TimePunchPhotoKind } from "@/types/time";
+
 export type AttachmentScanStatus =
   | "pending"
   | "clean"
@@ -17,6 +19,9 @@ export interface AttachmentMeta {
   expenseClaimId?: string;
   /** ORG-009 — receipt photos/PDFs for a union business expense submission. */
   expenseSubmissionId?: string;
+  /** Time 8f — punch photo for a workforce time entry. */
+  timeEntryId?: string;
+  punchKind?: TimePunchPhotoKind;
   fileName: string;
   mimeType: string;
   sizeBytes: number;

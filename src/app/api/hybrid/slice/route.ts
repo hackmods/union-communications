@@ -9,15 +9,21 @@ import {
   isBumpingModuleEnabled,
   listFiltersForBumpingSession,
 } from "@/lib/auth/bumping-session";
+import {
+  assertTimeView,
+  isTimeModuleEnabled,
+} from "@/lib/auth/time-session";
 import { canViewBumpingCase } from "@/lib/bumping/access";
 import { bumpingStore } from "@/lib/bumping/store";
 import { grievanceStore } from "@/lib/grievance/store";
+import { timeStore } from "@/lib/time/store";
 import {
   assertSliceTenantScope,
   buildHybridSlice,
   isHybridDataSlice,
 } from "@/lib/hybrid/slice";
 import type { HybridImportMode } from "@/lib/hybrid/types";
+import type { TimeEntry } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
 import type { BumpingCaseWithRelations } from "@/types/bumping";
 import type { GrievanceWithRelations } from "@/types/grievance";
@@ -86,11 +92,18 @@ export async function GET() {
     }
   }
 
+  let timeEntries: TimeEntry[] = [];
+  if (isTimeModuleEnabled(session)) {
+    const timeListed = await timeStore.listEntries({ unionId, localId });
+    timeEntries = timeListed.filter((e) => assertTimeView(session, e));
+  }
+
   const slice = buildHybridSlice({
     unionId,
     localId,
     grievances,
     bumpingCases,
+    timeEntries,
   });
 
   await auditLog.log({
@@ -103,6 +116,7 @@ export async function GET() {
     metadata: {
       grievanceCount: String(grievances.length),
       bumpingCount: String(bumpingCases.length),
+      timeCount: String(timeEntries.length),
     },
   });
 
@@ -193,6 +207,19 @@ export async function POST(request: Request) {
     );
   }
 
+  let timeResult = { imported: 0, removed: 0 };
+  if (
+    isTimeModuleEnabled(session) &&
+    (payload.slice.timeEntries?.length ?? 0) > 0
+  ) {
+    timeResult = await timeStore.importLocalSlice(
+      unionId,
+      localId,
+      payload.slice.timeEntries ?? [],
+      mode,
+    );
+  }
+
   await auditLog.log({
     userId: session.user.id,
     action: "hybrid.import",
@@ -206,6 +233,8 @@ export async function POST(request: Request) {
       grievancesRemoved: String(grevResult.removed),
       bumpingImported: String(bumpResult.imported),
       bumpingRemoved: String(bumpResult.removed),
+      timeImported: String(timeResult.imported),
+      timeRemoved: String(timeResult.removed),
     },
   });
 
@@ -214,5 +243,7 @@ export async function POST(request: Request) {
     grievancesRemoved: grevResult.removed,
     bumpingImported: bumpResult.imported,
     bumpingRemoved: bumpResult.removed,
+    timeImported: timeResult.imported,
+    timeRemoved: timeResult.removed,
   });
 }

@@ -16,7 +16,7 @@ VeriClock-class time tracking for union locals and union-wide operations. **Not*
 | **8d-lite** OT / pay-period | Shipped (2026-07-24) — weekly OT flag on CSV; 14-day pay-period snap (not full payroll) |
 | **8e** GPS consent | Shipped (2026-07-24) — roster `gpsConsentAt` + punch UI |
 | **8-full** VeriClock remainder | Shipped (2026-07-26) — workers directory, OT policy engine, shift recurrence, auto-accrual, named groups, payroll export hooks |
-| 8f (hybrid slice, punch photos) | Planned |
+| **8f** hybrid slice + punch photos | Shipped (2026-07-26) — hybrid slice v1.1 includes time entries; optional punch photo attachments on clock in/out |
 
 ## Time categories (1D — all in one module)
 
@@ -88,6 +88,8 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 - `GET/POST/PATCH /api/time/pto/accrual-policies` — auto-accrual formulas + run (8-full)
 - `GET/POST /api/time/payroll-profiles` — vendor export profiles (8-full)
 - `POST /api/time/payroll-export` — mapped CSV + optional webhook (8-full)
+- `GET /api/time/entries/[id]/attachments` — punch photo metadata (8f)
+- `GET /api/time/entries/[id]/attachments/[attachmentId]/download` — punch photo download (8f)
 
 ## GPS (optional, v1-lite foundation)
 
@@ -96,11 +98,10 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 - Geofence warn/block against `WorkSite` records — server-side in `src/lib/time/geofence.ts`
 - No continuous tracking; no native apps / SMS / IVR
 
-## Deferred (8f+)
+## Deferred (post-8f)
 
-- Punch photo attachments (Phase 7 object storage)
-- Hybrid slice inclusion
 - Live payroll vendor API connectors (export hooks only in 8-full)
+- Punch photos in hybrid exports (attachments stay on hub by design)
 
 ## Shipped in 8d-lite / 8e (2026-07-24)
 
@@ -133,6 +134,15 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 - Work sites CRUD (`GET/POST /api/time/sites`) + admin geofence mode/radius UI
 - Bulk approve submitted entries (`POST /api/time/entries/bulk-approve`)
 - XLSX + PDF rollup export (`GET /api/time/export?format=xlsx|pdf`) alongside CSV
+
+## Shipped in 8f (2026-07-26)
+
+- Hybrid slice **v1.1** includes `timeEntries` when time module enabled (`GET/POST /api/hybrid/slice`); v1.0 slices still import
+- `timeStore.importLocalSlice()` on memory + Drizzle adapters
+- Optional punch photo on clock in/out (`punchPhoto` body field); stored via attachment adapter with `timeEntryId` + `punchKind`
+- Worker dashboard file input + download routes for punch photos
+- Migration `0029_time_8f.sql` — `clock_in_photo_attachment_id`, `clock_out_photo_attachment_id` on `time_entries`
+- Punch photos **not** included in hybrid exports (hub-only attachments)
 
 ## Compliance
 

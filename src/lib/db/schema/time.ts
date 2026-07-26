@@ -55,6 +55,8 @@ export const timeEntries = pgTable(
     geofenceResult: text("geofence_result"),
     approvedById: text("approved_by_id"),
     approvedAt: timestamp("approved_at", { withTimezone: true }),
+    clockInPhotoAttachmentId: text("clock_in_photo_attachment_id"),
+    clockOutPhotoAttachmentId: text("clock_out_photo_attachment_id"),
     createdAt: timestamp("created_at", { withTimezone: true })
       .notNull()
       .defaultNow(),

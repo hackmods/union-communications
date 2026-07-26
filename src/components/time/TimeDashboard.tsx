@@ -102,6 +102,21 @@ async function tryGps(): Promise<TimeEntry["clockInGps"] | undefined> {
   });
 }
 
+async function readPunchPhotoFile(file: File) {
+  const buffer = await file.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return {
+    fileName: file.name,
+    mimeType: file.type,
+    sizeBytes: file.size,
+    contentBase64: btoa(binary),
+  };
+}
+
 type ReportTotals = {
   byWorker: Array<{
     workerId: string;
@@ -137,6 +152,8 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
   const [jobCodeId, setJobCodeId] = useState("");
   const [notes, setNotes] = useState("");
   const [useGps, setUseGps] = useState(false);
+  const [usePunchPhoto, setUsePunchPhoto] = useState(false);
+  const [punchPhotoFile, setPunchPhotoFile] = useState<File | null>(null);
   // gpsConsented derived from roster below
   const [manualStart, setManualStart] = useState(() => {
     const d = new Date();
@@ -319,16 +336,28 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
     setError(null);
     try {
       const clockInGps = useGps ? await tryGps() : undefined;
+      const punchPhoto =
+        usePunchPhoto && punchPhotoFile
+          ? await readPunchPhotoFile(punchPhotoFile)
+          : undefined;
       const res = await fetch("/api/time/entries/clock-in", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, jobCodeId, notes, clockInGps }),
+        body: JSON.stringify({
+          category,
+          jobCodeId,
+          notes,
+          clockInGps,
+          punchPhoto,
+        }),
       });
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error ?? "clock-in");
       }
       setNotes("");
+      setPunchPhotoFile(null);
+      setUsePunchPhoto(false);
       await reloadEntries();
       await loadNeeded();
     } catch (err) {
@@ -344,6 +373,10 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
     setError(null);
     try {
       const clockOutGps = useGps ? await tryGps() : undefined;
+      const punchPhoto =
+        usePunchPhoto && punchPhotoFile
+          ? await readPunchPhotoFile(punchPhotoFile)
+          : undefined;
       const res = await fetch("/api/time/entries/clock-out", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -351,10 +384,13 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
           entryId: activeEntry.id,
           notes,
           clockOutGps,
+          punchPhoto,
         }),
       });
       if (!res.ok) throw new Error("clock-out");
       setNotes("");
+      setPunchPhotoFile(null);
+      setUsePunchPhoto(false);
       await reloadEntries();
       await loadNeeded();
     } catch {
@@ -681,6 +717,26 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
                     duration: formatDuration(activeEntry),
                   })}
                 </p>
+                <div className="space-y-2">
+                  <Checkbox
+                    label={t("punchPhotoOptional")}
+                    checked={usePunchPhoto}
+                    onChange={(e) => {
+                      setUsePunchPhoto(e.target.checked);
+                      if (!e.target.checked) setPunchPhotoFile(null);
+                    }}
+                  />
+                  {usePunchPhoto && (
+                    <Input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      onChange={(e) =>
+                        setPunchPhotoFile(e.target.files?.[0] ?? null)
+                      }
+                      aria-label={t("punchPhotoChoose")}
+                    />
+                  )}
+                </div>
                 <Button onClick={handleClockOut} disabled={working}>
                   {t("clockOut")}
                 </Button>
@@ -754,6 +810,27 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
                     onChange={(e) => setUseGps(e.target.checked)}
                   />
                   <p className="text-xs text-gray-500">{t("gpsConsentHint")}</p>
+                </div>
+                <div className="sm:col-span-2 space-y-2">
+                  <Checkbox
+                    label={t("punchPhotoOptional")}
+                    checked={usePunchPhoto}
+                    onChange={(e) => {
+                      setUsePunchPhoto(e.target.checked);
+                      if (!e.target.checked) setPunchPhotoFile(null);
+                    }}
+                  />
+                  {usePunchPhoto && (
+                    <Input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      onChange={(e) =>
+                        setPunchPhotoFile(e.target.files?.[0] ?? null)
+                      }
+                      aria-label={t("punchPhotoChoose")}
+                    />
+                  )}
+                  <p className="text-xs text-gray-500">{t("punchPhotoHint")}</p>
                 </div>
                 <Button onClick={handleClockIn} disabled={working || !jobCodeId}>
                   {t("clockIn")}
