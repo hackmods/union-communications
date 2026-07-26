@@ -44,7 +44,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 |-------|---------|
 | MFA-off Hub | `useSessionMfaOk()` / `MfaPolicyProvider` — not raw `mfaVerified` |
 | Demo on prod image | `AUTH_ALLOW_DEMO_USERS=true` |
-| Sandbox | CT 115 @ `192.168.0.115:3000`; build from source; never commit `proxmox_mcp.log`; last redeploy `d439e1f` (2026-07-25) |
+| Sandbox | CT 115 @ `192.168.0.115:3000`; build from source; never commit `proxmox_mcp.log`; last redeploy `5b42b92` (2026-07-25) |
 | Cron | `CRON_SECRET` required; Bearer or `x-cron-secret` |
 | React derived state | Do not sync `setState` in `useEffect` for consent flags — derive from roster |
 | Production typecheck | `npx tsc --noEmit` / Docker build — unit tests miss route type errors (`#12`, `#13`) |
