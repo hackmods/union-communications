@@ -1,5 +1,18 @@
 # Progress Log
 
+## Enhancement train #3 — 10 sets (2026-07-26) — COMPLETE
+
+1. API route auth coverage — password-reset public routes + cron `assertCronSecret` allowlist
+2. `/api/health` adds `cronConfigured` (boolean, non-secret)
+3. `buildCronDryRunPayload` helper + unit test
+4. Email guide cross-links (website, First week)
+5. Website guide cross-link to email & outreach
+6. Home `pathCommsHint` mentions email (EN/FR)
+7. `comms-public-nav.mdc` footer documents email link
+8. Smoke: tools channel guides, footer email, Guides menu email
+9. `DEPLOY.md` Proxmox sandbox overlay workflow + `.gitignore` tarball
+10. PROGRESS + ground-truth + SETUP health field docs
+
 ## Enhancement train #2 — 10 sets (2026-07-26) — COMPLETE
 
 1. Home website channel + footer link to email & outreach guide

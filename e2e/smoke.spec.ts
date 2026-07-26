@@ -70,6 +70,32 @@ test.describe("Smoke tests @smoke", () => {
     expect(typeof body.commit).toBe("string");
     expect(body.backends).toBeTruthy();
     expect(typeof body.emailEnabled).toBe("boolean");
+    expect(typeof body.cronConfigured).toBe("boolean");
+  });
+
+  test("tools index shows channel guides", async ({ page }) => {
+    await page.goto("/en/tools/");
+    await expect(page.getByRole("heading", { name: "Tools" })).toBeVisible();
+    const guides = page.getByRole("navigation", { name: "Channel guides" });
+    await expect(
+      guides.getByRole("link", { name: "Email & outreach" }),
+    ).toBeVisible();
+  });
+
+  test("footer includes email outreach guide", async ({ page }) => {
+    await page.goto("/en/");
+    await expect(
+      page.getByLabel("Footer").getByRole("link", { name: "Email & outreach" }),
+    ).toBeVisible();
+  });
+
+  test("guides menu lists email outreach under by channel", async ({ page }) => {
+    await page.goto("/en/");
+    const main = page.getByRole("navigation", { name: "Main" });
+    await main.getByRole("button", { name: /Guides/ }).click();
+    await expect(
+      main.getByRole("menuitem", { name: "Email & outreach" }),
+    ).toBeVisible();
   });
 
   test("tools index and mega-menu all tools", async ({ page }) => {

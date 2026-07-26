@@ -14,7 +14,7 @@ If **you** host an instance, **you** are the data controller for data that insta
    - `npm run brand:set -- --primary=#… --secondary=#… --local=… --sub="…"`, or
    - Pass `NEXT_PUBLIC_BRAND_PRIMARY` / `SECONDARY` / `ACCENT` and `NEXT_PUBLIC_DEFAULT_LOCAL_NUMBER` / `SUB_TEXT` as container env (see `.env.example`).
 5. Do **not** rely on demo accounts (`demo123`) for real grievances or member files. On workshop/demo hosts, set `NEXT_PUBLIC_DEMO_SITE=true` so the authenticated hub shows a Demo banner; turn that off for real tenant instances.
-6. Confirm health: `GET /api/health` → `{"status":"ok",...}` (includes `commit` and `backends` map).
+6. Confirm health: `GET /api/health` → `{"status":"ok",...}` (includes `commit`, `backends`, `emailEnabled`, `cronConfigured`).
 7. CSP and related security headers are set in `next.config.ts` (apply on CapRover/Docker/Vercel alike).
 8. Read the two-tier privacy model in the site Privacy page and [`docs/COMPLIANCE.md`](../COMPLIANCE.md).
 
@@ -116,3 +116,14 @@ CI on `main` can POST `CAPROVER_WEBHOOK_URL` (GitHub Actions secret) after tests
 - Local setup: [`SETUP.md`](SETUP.md)
 - Postgres durability: [`POSTGRES_OPS.md`](POSTGRES_OPS.md)
 - Security reporting: [`SECURITY.md`](../../SECURITY.md)
+
+## Proxmox sandbox (internal)
+
+For the CT 115 lab host (`192.168.0.115:3000`):
+
+1. On your workstation: `npm run package:sandbox` → `unionops-src.tar.gz` (git archive, no `node_modules`).
+2. Copy the tarball to the container (e.g. `/tmp/unionops-src.tar.gz`).
+3. Overlay into `/root/unionops-src` (`tar -xzf` — do not wipe the tree with `rm -rf`).
+4. Rebuild: `docker build -f docker/Dockerfile -t unionops:local .` with `BUILD_COMMIT_SHA` set to the deployed commit.
+5. Restart the `unionops` container preserving env from `docker inspect` (never log `AUTH_SECRET`).
+6. Verify: `GET /api/health` and `npm run test:smoke:sandbox` from your workstation.

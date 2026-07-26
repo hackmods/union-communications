@@ -21,6 +21,8 @@ export default async function EmailBroadcastGuidePage({
       subtitle={t("subtitle")}
       relatedLinks={[
         { href: "/guide/print", label: nav("printGuide") },
+        { href: "/guide/website", label: nav("websiteGuide") },
+        { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },
         { href: "/tools/document-generator", label: nav("documentGenerator") },
         { href: "/guide/crisis", label: nav("strikeGuide") },
       ]}

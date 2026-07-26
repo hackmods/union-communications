@@ -20,15 +20,18 @@ describe("buildHealthStatus", () => {
     expect(status.commit).toBe("unknown");
     expect(status.backends.GRIEVANCE_DB_BACKEND).toBe("memory");
     expect(status.emailEnabled).toBe(false);
+    expect(status.cronConfigured).toBe(false);
   });
 
   it("reflects configured commit and postgres flags", () => {
     process.env.BUILD_COMMIT_SHA = "abc1234";
     process.env.GRIEVANCE_DB_BACKEND = "postgres";
     process.env.EMAIL_ENABLED = "true";
+    process.env.CRON_SECRET = "cron-test";
     const status = buildHealthStatus();
     expect(status.commit).toBe("abc1234");
     expect(status.backends.GRIEVANCE_DB_BACKEND).toBe("postgres");
     expect(status.emailEnabled).toBe(true);
+    expect(status.cronConfigured).toBe(true);
   });
 });

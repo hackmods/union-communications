@@ -4,6 +4,7 @@ export type HealthStatus = {
   commit: string;
   backends: Record<string, string>;
   emailEnabled: boolean;
+  cronConfigured: boolean;
 };
 
 const BACKEND_FLAGS = [
@@ -26,5 +27,6 @@ export function buildHealthStatus(): HealthStatus {
     commit: process.env.BUILD_COMMIT_SHA?.trim() || "unknown",
     backends,
     emailEnabled: process.env.EMAIL_ENABLED === "true",
+    cronConfigured: Boolean(process.env.CRON_SECRET?.trim()),
   };
 }

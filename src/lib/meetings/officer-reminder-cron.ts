@@ -117,3 +117,26 @@ export function parseCronWithinDays(searchParams: URLSearchParams): number {
   const daysRaw = Number(searchParams.get("days") ?? "7");
   return Number.isFinite(daysRaw) && daysRaw > 0 && daysRaw <= 30 ? daysRaw : 7;
 }
+
+export function buildCronDryRunPayload(input: {
+  withinDays: number;
+  fromIso: string;
+  toIso: string;
+  meetings: number;
+  jobs: OfficerReminderJob[];
+}) {
+  return {
+    ok: true as const,
+    dryRun: true as const,
+    withinDays: input.withinDays,
+    fromIso: input.fromIso,
+    toIso: input.toIso,
+    meetings: input.meetings,
+    jobs: input.jobs.length,
+    preview: input.jobs.map((j) => ({
+      meetingId: j.meetingId,
+      to: j.to,
+      subject: j.subject,
+    })),
+  };
+}

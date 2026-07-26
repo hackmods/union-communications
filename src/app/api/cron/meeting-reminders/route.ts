@@ -3,6 +3,7 @@ import { auditLog } from "@/lib/audit/store";
 import {
   assertCronSecret,
   buildOfficerReminderJobs,
+  buildCronDryRunPayload,
   parseCronDryRun,
   parseCronWithinDays,
   reminderWindowIso,
@@ -61,20 +62,15 @@ async function handle(request: Request) {
   });
 
   if (dryRun) {
-    return NextResponse.json({
-      ok: true,
-      dryRun: true,
-      withinDays,
-      fromIso,
-      toIso,
-      meetings: meetings.length,
-      jobs: jobs.length,
-      preview: jobs.map((j) => ({
-        meetingId: j.meetingId,
-        to: j.to,
-        subject: j.subject,
-      })),
-    });
+    return NextResponse.json(
+      buildCronDryRunPayload({
+        withinDays,
+        fromIso,
+        toIso,
+        meetings: meetings.length,
+        jobs,
+      }),
+    );
   }
 
   const result = await sendOfficerReminderJobs(jobs);
