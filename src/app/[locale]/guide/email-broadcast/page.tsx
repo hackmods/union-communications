@@ -1,6 +1,7 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
+import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 
 const sectionKeys = ["when", "comms", "hub", "lists", "checklist"] as const;
@@ -14,6 +15,7 @@ export default async function EmailBroadcastGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("emailBroadcastGuide");
   const nav = await getTranslations("nav");
+  const ts = await getTranslations("sources");
 
   return (
     <GuideLayout
@@ -27,6 +29,13 @@ export default async function EmailBroadcastGuidePage({
         { href: "/guide/crisis", label: nav("strikeGuide") },
       ]}
       relatedLabel={t("relatedLabel")}
+      footer={
+        <SourcesBlock
+          pageId="emailBroadcast"
+          title={ts("title")}
+          intro={ts("intro")}
+        />
+      }
     >
       <div className="space-y-8">
         {sectionKeys.map((key) => (

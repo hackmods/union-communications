@@ -453,6 +453,7 @@
   "printGuide": {
     "title": "Print Communications Guide",
     "subtitle": "When to print and how to pair print with digital channels",
+    "relatedLabel": "Also see",
     "sections": {
       "when": {
         "title": "When to print",

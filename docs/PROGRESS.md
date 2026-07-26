@@ -1,5 +1,18 @@
 # Progress Log
 
+## Enhancement train #5 — 10 sets (2026-07-26) — COMPLETE
+
+1. `/api/health` `HEAD` support for load balancers
+2. Health `mfaEnabled` flag (non-secret)
+3. `health-check.mjs` validates `version` field
+4. Print guide related links (First week, email, boards) + EN/FR `relatedLabel`
+5. Email guide `SourcesBlock` + `PAGE_SOURCE_IDS.emailBroadcast`
+6. Brand Kit page link to email & outreach guide
+7. FR smoke: footer + Guides menu email outreach
+8. Smoke: print guide related email link + health HEAD
+9. `.env.example` `HEALTH_URL` + SETUP/ARCHITECTURE health fields
+10. PROGRESS + ground-truth updates
+
 ## Enhancement train #4 — 10 sets (2026-07-26) — COMPLETE
 
 1. `scripts/health-check.mjs` + `npm run health:check` preflight

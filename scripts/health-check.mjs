@@ -37,6 +37,11 @@ if (body.status !== "ok") {
   process.exit(1);
 }
 
+if (typeof body.version !== "string" || body.version.length === 0) {
+  console.error("[health-check] Missing version field");
+  process.exit(1);
+}
+
 console.log(
   `[health-check] ok commit=${body.commit ?? "unknown"} version=${body.version ?? "unknown"} email=${body.emailEnabled} cron=${body.cronConfigured}`,
 );

@@ -58,6 +58,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 5. Ops: redeploy sandbox + `npm run test:smoke:sandbox` after merges — see `DEPLOY.md` Proxmox section
 6. ~~API route auth unit gap (cron / forgot-password)~~ — **shipped 2026-07-26** (train #3)
 7. Ops: `npm run health:check` before sandbox smoke — **shipped 2026-07-26** (train #4)
+8. Guide discoverability polish (print/email sources, FR smoke, Brand Kit link) — **shipped 2026-07-26** (train #5)
 
 ## Agent habits
 

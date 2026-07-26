@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach, afterEach } from "vitest";
-import { buildHealthStatus } from "@/lib/ops/health-status";
+import { buildHealthStatus, readAppVersion } from "@/lib/ops/health-status";
 
 describe("buildHealthStatus", () => {
   const env = { ...process.env };
@@ -22,6 +22,11 @@ describe("buildHealthStatus", () => {
     expect(status.backends.GRIEVANCE_DB_BACKEND).toBe("memory");
     expect(status.emailEnabled).toBe(false);
     expect(status.cronConfigured).toBe(false);
+    expect(status.mfaEnabled).toBe(false);
+  });
+
+  it("reads app version from package.json", () => {
+    expect(readAppVersion()).toBe("0.1.0");
   });
 
   it("reflects configured commit and postgres flags", () => {
@@ -29,10 +34,12 @@ describe("buildHealthStatus", () => {
     process.env.GRIEVANCE_DB_BACKEND = "postgres";
     process.env.EMAIL_ENABLED = "true";
     process.env.CRON_SECRET = "cron-test";
+    process.env.AUTH_MFA_ENABLED = "true";
     const status = buildHealthStatus();
     expect(status.commit).toBe("abc1234");
     expect(status.backends.GRIEVANCE_DB_BACKEND).toBe("postgres");
     expect(status.emailEnabled).toBe(true);
     expect(status.cronConfigured).toBe(true);
+    expect(status.mfaEnabled).toBe(true);
   });
 });

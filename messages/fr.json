@@ -453,6 +453,7 @@
   "printGuide": {
     "title": "Guide des communications imprimées",
     "subtitle": "Quand imprimer et comment combiner l'impression avec le numérique",
+    "relatedLabel": "Voir aussi",
     "sections": {
       "when": {
         "title": "Quand imprimer",

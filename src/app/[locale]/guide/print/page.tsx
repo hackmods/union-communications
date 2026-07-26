@@ -21,6 +21,12 @@ export default async function PrintGuidePage({
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
+      relatedLabel={t("relatedLabel")}
+      relatedLinks={[
+        { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },
+        { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
+        { href: "/guide/union-boards", label: nav("unionBoardsGuide") },
+      ]}
       footer={
         <SourcesBlock pageId="print" title={ts("title")} intro={ts("intro")} />
       }

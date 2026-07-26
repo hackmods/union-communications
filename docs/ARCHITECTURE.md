@@ -98,8 +98,9 @@ Every authenticated row includes:
 | `backends` | Map of `*_DB_BACKEND` flags (`memory` default) |
 | `emailEnabled` | `EMAIL_ENABLED=true` |
 | `cronConfigured` | `CRON_SECRET` is set (does not expose the secret) |
+| `mfaEnabled` | `AUTH_MFA_ENABLED=true` |
 
-CLI preflight: `npm run health:check` (optional `HEALTH_URL` or `PLAYWRIGHT_BASE_URL`). Sandbox smoke runs this before Playwright (`npm run test:smoke:sandbox`).
+CLI preflight: `npm run health:check` (optional `HEALTH_URL` or `PLAYWRIGHT_BASE_URL`). Sandbox smoke runs this before Playwright (`npm run test:smoke:sandbox`). `HEAD /api/health` is supported for load balancers.
 
 ## Union Configuration
 

@@ -9,6 +9,7 @@ export type HealthStatus = {
   backends: Record<string, string>;
   emailEnabled: boolean;
   cronConfigured: boolean;
+  mfaEnabled: boolean;
 };
 
 const BACKEND_FLAGS = [
@@ -48,5 +49,6 @@ export function buildHealthStatus(): HealthStatus {
     backends,
     emailEnabled: process.env.EMAIL_ENABLED === "true",
     cronConfigured: Boolean(process.env.CRON_SECRET?.trim()),
+    mfaEnabled: process.env.AUTH_MFA_ENABLED === "true",
   };
 }
