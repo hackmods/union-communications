@@ -23,6 +23,7 @@ const PUBLIC_PATHS = [
   "/guide/union-boards",
   "/guide/print",
   "/guide/website",
+  "/guide/email-broadcast",
   "/guide/resources",
   "/guide/photo-consent",
   "/guide/crisis",

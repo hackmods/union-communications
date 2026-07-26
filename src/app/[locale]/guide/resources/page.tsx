@@ -23,6 +23,7 @@ const pathLinks = [
   { href: "/guide/union-boards", key: "boards" as const },
   { href: "/guide/print", key: "print" as const },
   { href: "/guide/website", key: "website" as const },
+  { href: "/guide/email-broadcast", key: "email" as const },
   { href: "/guide/crisis", key: "crisis" as const },
   { href: "/guide/photo-consent", key: "photoConsent" as const },
 ];

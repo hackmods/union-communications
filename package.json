@@ -25,6 +25,7 @@
     "test:unit:watch": "vitest",
     "test:e2e": "playwright test",
     "test:smoke": "playwright test --grep @smoke",
+    "test:smoke:sandbox": "node scripts/smoke-sandbox.mjs",
     "brand:set": "node scripts/set-host-brand.mjs",
     "brand:favicons": "node scripts/generate-favicons.mjs",
     "db:generate": "drizzle-kit generate",

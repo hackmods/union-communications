@@ -121,6 +121,10 @@ test.describe("Public secondary pages smoke @smoke", () => {
       path: "/en/guide/membership-signup/",
       heading: "Grow membership with scan-to-sign materials",
     },
+    {
+      path: "/en/guide/email-broadcast/",
+      heading: /Email.*outreach/i,
+    },
     { path: "/en/accessibility/", heading: "Accessibility Statement" },
   ];
 

@@ -7,6 +7,7 @@ import {
   qrBoardGridColumns,
   type QrBoardFormatId,
 } from "@/lib/constants/qr-board-formats";
+import { CANVAS_PLACEHOLDER_INK } from "@/lib/constants/brand";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 
 export interface QrBoardCanvasSlot {
@@ -178,7 +179,7 @@ export function QrBoardCanvas({
                 ) : (
                   <span
                     style={{
-                      color: "#6B7280",
+                      color: CANVAS_PLACEHOLDER_INK,
                       fontSize: isTabloid ? 12 : 10,
                       padding: 4,
                     }}

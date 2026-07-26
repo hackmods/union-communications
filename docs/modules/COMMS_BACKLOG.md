@@ -6,11 +6,10 @@ Implementation surface today: [`HomeContent.tsx`](../../src/components/pages/Hom
 
 ## Deferred content
 
-### Email / member broadcast guide
+### Email / member broadcast guide — SHIPPED (2026-07-26)
 
-- **Why:** Locals often use email or SMS alongside the four channels; there is no guide page today.
-- **Defer until:** Product expands past social / print / boards / website, or we intentionally add a fifth channel.
-- **Do not:** Add a nav stub with no page.
+- **Shipped:** `/guide/email-broadcast` (EN/FR) — copy-only Comms invites vs Hub SMTP/cron; no marketing lists.
+- **Nav:** Guides → By channel; Blueprint channel links; Resources path; sitemap.
 
 ### Get started beyond social (rename + Print step) — SHIPPED (2026-07-24)
 

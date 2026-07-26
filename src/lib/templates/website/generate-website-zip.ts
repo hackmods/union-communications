@@ -1,5 +1,6 @@
 import type { WebsiteTemplateData } from "@/types/website-template";
 import { mutedInkOnBackground } from "@/lib/utils/ink";
+import { blendHex } from "@/lib/utils/contrast";
 
 function escapeHtml(text: string): string {
   return text
@@ -158,6 +159,8 @@ ${opseuResourcesHtml}      <div class="footer-col">
 export function buildWebsiteCss(primaryColor: string, secondaryColor: string): string {
   const footerLinkColor = mutedInkOnBackground(primaryColor, 0.85);
   const footerMutedColor = mutedInkOnBackground(primaryColor, 0.8);
+  const officerCardBg = blendHex("#000000", primaryColor, 0.25);
+  const officerLocationColor = mutedInkOnBackground(officerCardBg, 0.85);
   return `:root {
   --color-primary: ${primaryColor};
   --color-secondary: ${secondaryColor};
@@ -327,7 +330,7 @@ h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 1rem; }
 
 .officer-card h4 { color: var(--color-white); margin-bottom: 0.25rem; }
 .officer-card p { margin: 0.25rem 0; }
-.officer-card .location { opacity: 0.85; font-size: 0.9rem; }
+.officer-card .location { color: ${officerLocationColor}; font-size: 0.9rem; }
 
 .contact-section {
   padding: var(--spacing-8) var(--spacing-4);
