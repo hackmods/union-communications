@@ -10,6 +10,16 @@ const base =
   "http://192.168.0.115:3000";
 
 const env = { ...process.env, PLAYWRIGHT_BASE_URL: base };
+
+const health = spawnSync("node", ["scripts/health-check.mjs"], {
+  stdio: "inherit",
+  env,
+  shell: true,
+});
+if (health.status !== 0) {
+  process.exit(health.status ?? 1);
+}
+
 const result = spawnSync(
   "npx",
   ["playwright", "test", "--grep", "@smoke"],

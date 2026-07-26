@@ -143,7 +143,7 @@
     "pathCommsTitle": "New to running a local’s communications?",
     "pathCommsDesc": "Start with Brand Kit — union, colours, local number, and logo. Then follow the first-week roadmap for boards, print, socials, and a website.",
     "pathCommsCta": "Get started",
-    "pathCommsHint": "Channel guides for print, boards, and website live under Learn. Social Examples and Captions are there too.",
+    "pathCommsHint": "Channel guides for print, boards, website, and email outreach live under Guides. Social Examples and Captions are there too.",
     "pathOfficerTitle": "President or steward managing cases?",
     "pathOfficerDesc": "Track grievances, college bumping, overdue work, and handoffs in the Officer Hub.",
     "pathOfficerCta": "Open Officer Hub",
@@ -179,7 +179,7 @@
   },
   "socialMediaPlan": {
     "title": "First week",
-    "subtitle": "After Brand Kit: boards, print, socials, and a simple website — one message, four channels",
+    "subtitle": "After Brand Kit: boards, print, socials, and a simple website — one message, four channels (plus optional email outreach)",
     "intro": "Do not skip identity. Set union, colours, local number, and logo in Brand Kit first — then use this roadmap. For practice guidance (tone, platforms, trolls), use The Blueprint. For an overview of the hub, checklist, and sources, see Comms Resources.",
     "relatedLabel": "Also see",
     "stepsNavLabel": "Roadmap steps",
@@ -453,6 +453,7 @@
   "printGuide": {
     "title": "Print Communications Guide",
     "subtitle": "When to print and how to pair print with digital channels",
+    "relatedLabel": "Also see",
     "sections": {
       "when": {
         "title": "When to print",

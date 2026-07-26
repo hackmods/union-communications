@@ -20,7 +20,7 @@ Footer includes Blueprint, Tools, Print Guide, **Email & outreach**, Social Exam
 
 Social Examples and Captions are **not** top-level nav items. They remain under Guides, the home Social channel, footer links, and First week socials step. Channel guides (print / boards / website) live under Guides → By channel so the four-channel model is discoverable without flattening Guides into a long link bar.
 
-Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “What’s next” roadmap secondary; dual-path cards (comms vs Officer Hub, or compact “coming soon” rail when hub is off); Brand Kit link row above a four-column toolbox (boards → print → social → website). First week (`/guide/social-media-plan`) is the channel roadmap **after** Brand Kit. Deferred content ideas: [`COMMS_BACKLOG.md`](COMMS_BACKLOG.md). Agent nav conventions: `.cursor/rules/comms-public-nav.mdc`.
+Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “What’s next” roadmap secondary; dual-path cards (comms vs Officer Hub, or compact “coming soon” rail when hub is off); Brand Kit link row above a four-column toolbox (boards → print → social → website). First week (`/guide/social-media-plan`) is the channel roadmap **after** Brand Kit. Optional fifth-channel email guide at `/guide/email-broadcast`. Operators verify deploys with `GET /api/health` (`npm run health:check`). Deferred content ideas: [`COMMS_BACKLOG.md`](COMMS_BACKLOG.md). Agent nav conventions: `.cursor/rules/comms-public-nav.mdc`.
 
 ## Routes
 

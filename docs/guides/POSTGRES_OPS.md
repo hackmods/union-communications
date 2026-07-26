@@ -27,7 +27,7 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
 | `AUTH_USERS_BACKEND` | `memory` \| `postgres` | Users + password-reset tokens |
 | `MEETINGS_RSVP_DB_BACKEND` | `memory` \| `postgres` | Hub events / RSVP |
 
-5. **Verify health:** `GET /api/health` returns `backends` map and `commit` sha.
+5. **Verify health:** `GET /api/health` returns `version`, `commit`, `backends`, `emailEnabled`, and `cronConfigured` (or run `npm run health:check`).
 6. **Run smoke:** `npm run db:rls-smoke` and `npm run db:durability-smoke` from the repo.
 7. **Optional attachment scanner:** enable compose `clamav` profile and set `ATTACHMENT_SCANNER_URL` (see `DEPLOY.md`).
 

@@ -55,7 +55,10 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 2. ~~COMMS email/broadcast guide (fifth-channel)~~ — **shipped 2026-07-26** (`/guide/email-broadcast`); train #2 wired home, footer, First week, tools index
 3. Time **8f** hybrid slice / punch photos (explicit cut)
 4. ~~Optional: canvas tool axe color-contrast on brand-orange previews (6 smoke failures noted 2026-07-25)~~ — **shipped 2026-07-25** (`mutedInkOnBackground`)
-5. Ops: redeploy sandbox + `npm run test:smoke:sandbox` after merges
+5. Ops: redeploy sandbox + `npm run test:smoke:sandbox` after merges — see `DEPLOY.md` Proxmox section
+6. ~~API route auth unit gap (cron / forgot-password)~~ — **shipped 2026-07-26** (train #3)
+7. Ops: `npm run health:check` before sandbox smoke — **shipped 2026-07-26** (train #4)
+8. Guide discoverability polish (print/email sources, FR smoke, Brand Kit link) — **shipped 2026-07-26** (train #5)
 
 ## Agent habits
 

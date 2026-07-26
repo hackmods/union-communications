@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   assertCronSecret,
+  buildCronDryRunPayload,
   buildOfficerReminderJobs,
   officerEmailsForLocal,
   parseCronDryRun,
@@ -111,5 +112,27 @@ describe("officer reminder cron helpers", () => {
     expect(parseCronWithinDays(new URLSearchParams("days=14"))).toBe(14);
     expect(parseCronWithinDays(new URLSearchParams("days=99"))).toBe(7);
     expect(parseCronWithinDays(new URLSearchParams())).toBe(7);
+  });
+
+  it("builds dry-run preview payload without sending", () => {
+    const payload = buildCronDryRunPayload({
+      withinDays: 7,
+      fromIso: "2030-01-01T00:00:00.000Z",
+      toIso: "2030-01-08T00:00:00.000Z",
+      meetings: 1,
+      jobs: [
+        {
+          meetingId: "m1",
+          unionId: "u1",
+          localId: "l1",
+          to: "pres@example.com",
+          subject: "Reminder: GM",
+          text: "body",
+        },
+      ],
+    });
+    expect(payload.dryRun).toBe(true);
+    expect(payload.jobs).toBe(1);
+    expect(payload.preview[0]?.to).toBe("pres@example.com");
   });
 });

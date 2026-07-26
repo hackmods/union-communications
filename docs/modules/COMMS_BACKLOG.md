@@ -9,7 +9,7 @@ Implementation surface today: [`HomeContent.tsx`](../../src/components/pages/Hom
 ### Email / member broadcast guide — SHIPPED (2026-07-26)
 
 - **Shipped:** `/guide/email-broadcast` (EN/FR) — copy-only Comms invites vs Hub SMTP/cron; no marketing lists.
-- **Nav:** Guides → By channel; Blueprint channel links; Resources path; sitemap.
+- **Nav:** Guides → By channel; Blueprint channel links; Resources path; sitemap; home website channel + footer + First week tertiary + tools index (train #2); guide cross-links (train #3).
 
 ### Get started beyond social (rename + Print step) — SHIPPED (2026-07-24)
 

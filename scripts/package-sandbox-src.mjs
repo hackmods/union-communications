@@ -10,6 +10,12 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const out = path.join(root, "unionops-src.tar.gz");
 
+const sha = spawnSync("git", ["rev-parse", "--short", "HEAD"], {
+  cwd: root,
+  encoding: "utf8",
+});
+const commit = sha.status === 0 ? sha.stdout.trim() : "unknown";
+
 const result = spawnSync(
   "git",
   ["archive", "--format=tar.gz", "-o", out, "HEAD"],
@@ -21,4 +27,5 @@ if (result.status !== 0) {
   process.exit(result.status ?? 1);
 }
 
-console.log(`Wrote ${out}`);
+console.log(`Wrote ${out} (commit ${commit})`);
+console.log(`Set BUILD_COMMIT_SHA=${commit} when rebuilding the sandbox image.`);

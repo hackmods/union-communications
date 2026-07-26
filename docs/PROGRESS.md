@@ -1,5 +1,44 @@
 # Progress Log
 
+## Enhancement train #5 — 10 sets (2026-07-26) — COMPLETE
+
+1. `/api/health` `HEAD` support for load balancers
+2. Health `mfaEnabled` flag (non-secret)
+3. `health-check.mjs` validates `version` field
+4. Print guide related links (First week, email, boards) + EN/FR `relatedLabel`
+5. Email guide `SourcesBlock` + `PAGE_SOURCE_IDS.emailBroadcast`
+6. Brand Kit page link to email & outreach guide
+7. FR smoke: footer + Guides menu email outreach
+8. Smoke: print guide related email link + health HEAD
+9. `.env.example` `HEALTH_URL` + SETUP/ARCHITECTURE health fields
+10. PROGRESS + ground-truth updates
+
+## Enhancement train #4 — 10 sets (2026-07-26) — COMPLETE
+
+1. `scripts/health-check.mjs` + `npm run health:check` preflight
+2. `test:smoke:sandbox` runs health-check before Playwright
+3. `package:sandbox` prints commit sha + `BUILD_COMMIT_SHA` hint
+4. `/api/health` adds `version` from package.json
+5. POSTGRES_OPS + SETUP + DEPLOY health field docs
+6. Website guide smoke — email outreach related link
+7. Website guide axe smoke in builders suite
+8. First week subtitle mentions optional email (EN/FR) + tertiary label test
+9. `ARCHITECTURE.md` ops health endpoint section
+10. PROGRESS + ground-truth + roadmap-next updates
+
+## Enhancement train #3 — 10 sets (2026-07-26) — COMPLETE
+
+1. API route auth coverage — password-reset public routes + cron `assertCronSecret` allowlist
+2. `/api/health` adds `cronConfigured` (boolean, non-secret)
+3. `buildCronDryRunPayload` helper + unit test
+4. Email guide cross-links (website, First week)
+5. Website guide cross-link to email & outreach
+6. Home `pathCommsHint` mentions email (EN/FR)
+7. `comms-public-nav.mdc` footer documents email link
+8. Smoke: tools channel guides, footer email, Guides menu email
+9. `DEPLOY.md` Proxmox sandbox overlay workflow + `.gitignore` tarball
+10. PROGRESS + ground-truth + SETUP health field docs
+
 ## Enhancement train #2 — 10 sets (2026-07-26) — COMPLETE
 
 1. Home website channel + footer link to email & outreach guide

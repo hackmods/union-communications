@@ -31,6 +31,7 @@ import { PageShell } from "@/components/layout/PageShell";
 
 export default function BrandKitPage() {
   const t = useTranslations("brandKit");
+  const nav = useTranslations("nav");
   const {
     brandKit,
     setBrandKit,
@@ -144,6 +145,12 @@ export default function BrandKitPage() {
             className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
           >
             {t("assetsLink")}
+          </Link>
+          <Link
+            href="/guide/email-broadcast"
+            className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+          >
+            {nav("emailBroadcastGuide")}
           </Link>
         </div>
       </Callout>

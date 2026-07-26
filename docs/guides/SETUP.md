@@ -148,6 +148,8 @@ Officer invites, meeting self-reminders, and opt-in RSVP confirmations use SMTP 
 
 ## Sandbox smoke (Proxmox CT 115)
 
+Package source for overlay deploy: `npm run package:sandbox` → `unionops-src.tar.gz` (see [`DEPLOY.md`](DEPLOY.md) Proxmox section).
+
 Point Playwright at a remote host without starting a local web server:
 
 ```bash
@@ -157,7 +159,7 @@ npm run test:smoke:sandbox
 
 Install browsers once: `npx playwright install chromium`. Demo login on the sandbox requires `AUTH_ALLOW_DEMO_USERS=true` on the container.
 
-**Health check:** `GET /api/health` returns `{ status, commit, backends, emailEnabled }` for deploy verification.
+**Health check:** `GET /api/health` returns `{ status, version, commit, backends, emailEnabled, cronConfigured, mfaEnabled }`. Preflight: `npm run health:check` (optional `HEALTH_URL`; used by `test:smoke:sandbox`).
 
 ## Project docs
 

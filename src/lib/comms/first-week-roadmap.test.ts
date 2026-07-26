@@ -32,6 +32,11 @@ describe("FIRST_WEEK_STEP_KEYS", () => {
     });
   });
 
+  it("has tertiary email label in EN/FR for website step", () => {
+    expect(en.socialMediaPlan.steps.website.tertiaryEmailBroadcast).toBeTruthy();
+    expect(fr.socialMediaPlan.steps.website.tertiaryEmailBroadcast).toBeTruthy();
+  });
+
   it("has matching EN/FR step copy for every roadmap key", () => {
     for (const key of FIRST_WEEK_STEP_KEYS) {
       const enStep = en.socialMediaPlan.steps[key];

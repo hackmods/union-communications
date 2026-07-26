@@ -7,6 +7,8 @@ const API_ROOT = join(process.cwd(), "src", "app", "api");
 /** Public or framework routes that must not require Officer Hub auth. */
 const PUBLIC_API_ROUTES = new Set([
   "auth/[...nextauth]/route.ts",
+  "auth/forgot-password/route.ts",
+  "auth/reset-password/[token]/route.ts",
   "health/route.ts",
   // Invite accept uses the token as the capability secret (SEC-007).
   "invites/[token]/route.ts",
@@ -50,6 +52,9 @@ const AUTH_MARKERS = [
   "requireMeetingsSession",
 ];
 
+/** Routes that gate with shared secrets or tokens instead of Hub session. */
+const ALTERNATIVE_AUTH_MARKERS = ["assertCronSecret"];
+
 describe("API route auth coverage", () => {
   it("every confidential API route enforces auth()/require*Session", () => {
     const routes = walkRouteFiles(API_ROOT);
@@ -60,7 +65,9 @@ describe("API route auth coverage", () => {
       const rel = relative(API_ROOT, file).replace(/\\/g, "/");
       if (PUBLIC_API_ROUTES.has(rel)) continue;
       const src = readFileSync(file, "utf8");
-      const protectedRoute = AUTH_MARKERS.some((m) => src.includes(m));
+      const protectedRoute =
+        AUTH_MARKERS.some((m) => src.includes(m)) ||
+        ALTERNATIVE_AUTH_MARKERS.some((m) => src.includes(m));
       if (!protectedRoute) gaps.push(rel);
     }
 

@@ -34,6 +34,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 | Calendar cron officer reminders | `/api/cron/meeting-reminders` + `CRON_SECRET` — roster emails only |
 | FEAT-003/004 follow-ups | Related tasks on case detail; outcome UI + export + `appealDays` |
 | Graphic Maker notice invite | `InviteEmailPanel` on notice layout (R0.5 stretch) |
+| Comms enhancement trains | Health/cron ops, email fifth-channel discoverability, sandbox scripts (2026-07-26) |
 
 ## Next planned work (in order)
 
@@ -41,6 +42,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 2. ~~COMMS email/broadcast guide~~ — **shipped 2026-07-26** (`/guide/email-broadcast`)
 3. Time **8f** hybrid slice / punch photos (explicit product cut)
 4. ~~Optional canvas axe contrast polish (brand-orange preview smoke noise)~~ — **shipped 2026-07-25**
+5. Ops: redeploy sandbox after train merges — `npm run package:sandbox` + `health:check` + `test:smoke:sandbox`
 
 ## Deferred / non-goals
 

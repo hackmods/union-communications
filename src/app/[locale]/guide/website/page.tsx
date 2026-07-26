@@ -47,6 +47,7 @@ export default async function WebsiteGuidePage({
         { href: "/tools/website-template", label: t("related.template") },
         { href: "/brand-kit", label: t("related.brandKit") },
         { href: "/guide/social-media-plan", label: t("related.plan") },
+        { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
         { href: "/tools/qr-card", label: t("related.qr") },
       ]}
       footer={

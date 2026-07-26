@@ -67,9 +67,78 @@ test.describe("Smoke tests @smoke", () => {
     expect(res.ok()).toBeTruthy();
     const body = await res.json();
     expect(body.status).toBe("ok");
+    expect(typeof body.version).toBe("string");
     expect(typeof body.commit).toBe("string");
     expect(body.backends).toBeTruthy();
     expect(typeof body.emailEnabled).toBe("boolean");
+    expect(typeof body.cronConfigured).toBe("boolean");
+    expect(typeof body.mfaEnabled).toBe("boolean");
+  });
+
+  test("health API supports HEAD", async ({ request }) => {
+    const res = await request.head("/api/health");
+    expect(res.ok()).toBeTruthy();
+  });
+
+  test("French footer includes email outreach guide", async ({ page }) => {
+    await page.goto("/fr/");
+    await expect(
+      page
+        .getByLabel("Footer")
+        .getByRole("link", { name: /Courriel et diffusion/i }),
+    ).toBeVisible();
+  });
+
+  test("French guides menu lists email outreach", async ({ page }) => {
+    await page.goto("/fr/");
+    const main = page.getByRole("navigation", { name: "Main" });
+    await main.getByRole("button", { name: /Guides/i }).click();
+    await expect(
+      main.getByRole("menuitem", { name: /Courriel et diffusion/i }),
+    ).toBeVisible();
+  });
+
+  test("print guide lists email outreach in related links", async ({
+    page,
+  }) => {
+    await page.goto("/en/guide/print/");
+    await expect(
+      page.getByLabel("Also see").getByRole("link", { name: "Email & outreach" }),
+    ).toBeVisible();
+  });
+
+  test("tools index shows channel guides", async ({ page }) => {
+    await page.goto("/en/tools/");
+    await expect(page.getByRole("heading", { name: "Tools" })).toBeVisible();
+    const guides = page.getByRole("navigation", { name: "Channel guides" });
+    await expect(
+      guides.getByRole("link", { name: "Email & outreach" }),
+    ).toBeVisible();
+  });
+
+  test("footer includes email outreach guide", async ({ page }) => {
+    await page.goto("/en/");
+    await expect(
+      page.getByLabel("Footer").getByRole("link", { name: "Email & outreach" }),
+    ).toBeVisible();
+  });
+
+  test("website guide lists email outreach in related links", async ({
+    page,
+  }) => {
+    await page.goto("/en/guide/website/");
+    await expect(
+      page.getByLabel("Also see").getByRole("link", { name: "Email & outreach" }),
+    ).toBeVisible();
+  });
+
+  test("guides menu lists email outreach under by channel", async ({ page }) => {
+    await page.goto("/en/");
+    const main = page.getByRole("navigation", { name: "Main" });
+    await main.getByRole("button", { name: /Guides/ }).click();
+    await expect(
+      main.getByRole("menuitem", { name: "Email & outreach" }),
+    ).toBeVisible();
   });
 
   test("tools index and mega-menu all tools", async ({ page }) => {

@@ -143,7 +143,7 @@
     "pathCommsTitle": "Nouveau aux communications de votre section ?",
     "pathCommsDesc": "Commencez par la trousse de marque — syndicat, couleurs, numéro de section et logo. Ensuite, suivez la feuille de route pour tableaux, impression, médias sociaux et site Web.",
     "pathCommsCta": "Commencer",
-    "pathCommsHint": "Les guides par canal (impression, tableaux, site Web) sont sous Apprendre, avec les exemples sociaux et les légendes.",
+    "pathCommsHint": "Les guides par canal (impression, tableaux, site Web et diffusion par courriel) sont sous Guides, avec les exemples sociaux et les légendes.",
     "pathOfficerTitle": "Président ou délégué qui gère des dossiers ?",
     "pathOfficerDesc": "Suivez les griefs, le bumpage collégial, les retards et les passations dans le Hub des dirigeants.",
     "pathOfficerCta": "Ouvrir le Hub des dirigeants",
@@ -179,7 +179,7 @@
   },
   "socialMediaPlan": {
     "title": "Première semaine",
-    "subtitle": "Après la trousse de marque : tableaux, impression, médias sociaux et un site simple — un message, quatre canaux",
+    "subtitle": "Après la trousse de marque : tableaux, impression, médias sociaux et un site simple — un message, quatre canaux (plus diffusion par courriel optionnelle)",
     "intro": "Ne sautez pas l'identité. Définissez d'abord le syndicat, les couleurs, le numéro de section et le logo dans la trousse de marque — puis suivez cette feuille de route. Pour les pratiques (ton, plateformes, trolls), utilisez le Plan directeur. Pour une vue d'ensemble, une liste de pratique et les sources, voir Ressources de communication.",
     "relatedLabel": "Voir aussi",
     "stepsNavLabel": "Étapes de la feuille de route",
@@ -453,6 +453,7 @@
   "printGuide": {
     "title": "Guide des communications imprimées",
     "subtitle": "Quand imprimer et comment combiner l'impression avec le numérique",
+    "relatedLabel": "Voir aussi",
     "sections": {
       "when": {
         "title": "Quand imprimer",
