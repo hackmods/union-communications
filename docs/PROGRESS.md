@@ -1,5 +1,18 @@
 # Progress Log
 
+## Enhancement train #4 — 10 sets (2026-07-26) — COMPLETE
+
+1. `scripts/health-check.mjs` + `npm run health:check` preflight
+2. `test:smoke:sandbox` runs health-check before Playwright
+3. `package:sandbox` prints commit sha + `BUILD_COMMIT_SHA` hint
+4. `/api/health` adds `version` from package.json
+5. POSTGRES_OPS + SETUP + DEPLOY health field docs
+6. Website guide smoke — email outreach related link
+7. Website guide axe smoke in builders suite
+8. First week subtitle mentions optional email (EN/FR) + tertiary label test
+9. `ARCHITECTURE.md` ops health endpoint section
+10. PROGRESS + ground-truth + roadmap-next updates
+
 ## Enhancement train #3 — 10 sets (2026-07-26) — COMPLETE
 
 1. API route auth coverage — password-reset public routes + cron `assertCronSecret` allowlist

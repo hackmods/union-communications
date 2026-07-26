@@ -17,6 +17,7 @@ describe("buildHealthStatus", () => {
     delete process.env.GRIEVANCE_DB_BACKEND;
     const status = buildHealthStatus();
     expect(status.status).toBe("ok");
+    expect(status.version).toBe("0.1.0");
     expect(status.commit).toBe("unknown");
     expect(status.backends.GRIEVANCE_DB_BACKEND).toBe("memory");
     expect(status.emailEnabled).toBe(false);

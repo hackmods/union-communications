@@ -142,6 +142,13 @@ test.describe("Public secondary pages smoke @smoke", () => {
     await expectNoSeriousA11yViolations(page);
   });
 
+  test("website guide has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/en/guide/website/");
+    await expectNoSeriousA11yViolations(page);
+  });
+
   test("email broadcast guide has no serious or critical a11y violations", async ({
     page,
   }) => {

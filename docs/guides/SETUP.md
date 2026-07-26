@@ -159,7 +159,7 @@ npm run test:smoke:sandbox
 
 Install browsers once: `npx playwright install chromium`. Demo login on the sandbox requires `AUTH_ALLOW_DEMO_USERS=true` on the container.
 
-**Health check:** `GET /api/health` returns `{ status, commit, backends, emailEnabled, cronConfigured }` for deploy verification.
+**Health check:** `GET /api/health` returns `{ status, version, commit, backends, emailEnabled, cronConfigured }`. Preflight: `npm run health:check` (used by `test:smoke:sandbox`).
 
 ## Project docs
 

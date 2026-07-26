@@ -86,6 +86,21 @@ Every authenticated row includes:
 - No cross-local reads except roles with local-wide scope
 - `platform_admin` break-glass requires audit log entry
 
+## Ops health endpoint
+
+`GET /api/health` is unauthenticated and returns a non-secret runtime summary for deploy verification:
+
+| Field | Meaning |
+|-------|---------|
+| `status` | Always `"ok"` when the app is serving |
+| `version` | `package.json` version |
+| `commit` | `BUILD_COMMIT_SHA` env (Docker build arg) or `"unknown"` |
+| `backends` | Map of `*_DB_BACKEND` flags (`memory` default) |
+| `emailEnabled` | `EMAIL_ENABLED=true` |
+| `cronConfigured` | `CRON_SECRET` is set (does not expose the secret) |
+
+CLI preflight: `npm run health:check` (optional `HEALTH_URL` or `PLAYWRIGHT_BASE_URL`). Sandbox smoke runs this before Playwright (`npm run test:smoke:sandbox`).
+
 ## Union Configuration
 
 `UnionConfig` object per union:

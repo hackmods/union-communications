@@ -67,6 +67,7 @@ test.describe("Smoke tests @smoke", () => {
     expect(res.ok()).toBeTruthy();
     const body = await res.json();
     expect(body.status).toBe("ok");
+    expect(typeof body.version).toBe("string");
     expect(typeof body.commit).toBe("string");
     expect(body.backends).toBeTruthy();
     expect(typeof body.emailEnabled).toBe("boolean");
@@ -86,6 +87,15 @@ test.describe("Smoke tests @smoke", () => {
     await page.goto("/en/");
     await expect(
       page.getByLabel("Footer").getByRole("link", { name: "Email & outreach" }),
+    ).toBeVisible();
+  });
+
+  test("website guide lists email outreach in related links", async ({
+    page,
+  }) => {
+    await page.goto("/en/guide/website/");
+    await expect(
+      page.getByLabel("Also see").getByRole("link", { name: "Email & outreach" }),
     ).toBeVisible();
   });
 
