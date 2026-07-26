@@ -2,6 +2,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
+import { Link } from "@/i18n/navigation";
 
 const sectionKeys = [
   "ontarioScope",
@@ -69,6 +70,16 @@ export default async function RightToRefuseGuidePage({
           <p className="font-semibold text-opseu-dark">{t("boards.title")}</p>
           <p className="mt-2 leading-relaxed text-gray-700">
             {t("boards.body")}
+          </p>
+          <p className="mt-3 text-sm text-gray-700">
+            <Link
+              href="/tools/qr-card?preset=rightToRefuse"
+              className="font-medium text-opseu-blue underline"
+            >
+              {t("boards.exportCta")}
+            </Link>
+            {" — "}
+            {t("boards.exportHint")}
           </p>
         </Callout>
       </div>

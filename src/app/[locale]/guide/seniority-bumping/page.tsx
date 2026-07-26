@@ -2,6 +2,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
+import { Link } from "@/i18n/navigation";
 
 const sectionKeys = [
   "compare",
@@ -62,6 +63,18 @@ export default async function SeniorityBumpingGuidePage({
                 <li key={item}>{item}</li>
               ))}
             </ul>
+            {key === "worksheet" ? (
+              <p className="mt-4 text-sm text-gray-700">
+                <Link
+                  href="/tools/document-generator?preset=seniority-worksheet"
+                  className="font-medium text-opseu-blue underline"
+                >
+                  {t("sections.worksheet.exportCta")}
+                </Link>
+                {" — "}
+                {t("sections.worksheet.exportHint")}
+              </p>
+            ) : null}
           </section>
         ))}
 

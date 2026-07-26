@@ -272,6 +272,20 @@ export function BumpingCaseDetail({
             {bumpingCase.currentPosition} → {bumpingCase.targetPosition}
           </p>
           <p className="mt-1 text-sm text-gray-500">{bumpingCase.scenario}</p>
+          <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm">
+            <Link
+              href="/guide/seniority-bumping"
+              className="text-opseu-blue underline"
+            >
+              {t("seniorityGuideLink")}
+            </Link>
+            <Link
+              href="/tools/document-generator?preset=seniority-worksheet"
+              className="text-opseu-blue underline"
+            >
+              {t("worksheetExportLink")}
+            </Link>
+          </p>
         </div>
         <Button variant="secondary" size="sm" onClick={() => exportBundle()}>
           {t("exportLog")}

@@ -8,7 +8,8 @@ export type OfficePresetId =
   | "simple-letter"
   | "letterhead"
   | "quick-event"
-  | "welcome-letter";
+  | "welcome-letter"
+  | "seniority-worksheet";
 
 export type FieldDef = {
   key: string;
@@ -218,6 +219,37 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         key: "contactName",
         labelKey: "fields.contactName",
         defaultValue: "Local executive committee",
+      },
+    ],
+  },
+  {
+    id: "seniority-worksheet",
+    titleKey: "presets.seniorityWorksheet.title",
+    blurbKey: "presets.seniorityWorksheet.blurb",
+    fileStem: "seniority-worksheet",
+    outputs: { docx: false, xlsx: true, pptx: false, ics: false },
+    structureKeys: ["structure.seniorityWorksheetXlsx"],
+    fields: [
+      {
+        key: "sessionDate",
+        labelKey: "fields.sessionDate",
+        defaultValue: "",
+      },
+      {
+        key: "chair",
+        labelKey: "fields.chair",
+        defaultValue: "",
+      },
+      {
+        key: "caseId",
+        labelKey: "fields.caseId",
+        defaultValue: "",
+      },
+      {
+        key: "committeeNotes",
+        labelKey: "fields.committeeNotes",
+        multiline: true,
+        defaultValue: "",
       },
     ],
   },

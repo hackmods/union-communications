@@ -8,12 +8,13 @@ import {
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 
 describe("office-templates", () => {
-  it("ships four high-quality presets including welcome letter", () => {
+  it("ships five high-quality presets including seniority worksheet", () => {
     expect(OFFICE_PRESETS.map((p) => p.id)).toEqual([
       "simple-letter",
       "letterhead",
       "quick-event",
       "welcome-letter",
+      "seniority-worksheet",
     ]);
   });
 
@@ -55,5 +56,18 @@ describe("office-templates", () => {
     expect(event.fields.some((f) => f.key === "quorumNeeded")).toBe(true);
     expect(getPreset("simple-letter").outputs.xlsx).toBe(false);
     expect(getPreset("simple-letter").outputs.ics).toBe(false);
+  });
+
+  it("seniority worksheet is Excel-only with session footer fields", () => {
+    const sheet = getPreset("seniority-worksheet");
+    expect(sheet.outputs).toEqual({
+      docx: false,
+      xlsx: true,
+      pptx: false,
+      ics: false,
+    });
+    expect(sheet.fields.some((f) => f.key === "sessionDate")).toBe(true);
+    expect(sheet.fields.some((f) => f.key === "caseId")).toBe(true);
+    expect(sheet.fields.some((f) => f.key === "chair")).toBe(true);
   });
 });

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
@@ -29,9 +30,12 @@ import {
   exportEventRsvpXlsx,
   exportOfficeBundle,
   exportPptx,
+  exportSeniorityWorksheetXlsx,
   renderDocxFromPreset,
   renderEventRsvpXlsx,
   renderPptx,
+  renderSeniorityWorksheetXlsx,
+  type SeniorityWorksheetLabels,
 } from "@/lib/export/office-export";
 import { renderEventIcsBlob } from "@/lib/calendar/event-ics";
 import { downloadBlob } from "@/lib/export/image-export";
@@ -40,6 +44,14 @@ import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+
+const OFFICE_PRESET_IDS = new Set<string>(
+  OFFICE_PRESETS.map((p) => p.id),
+);
+
+function isOfficePresetId(value: string): value is OfficePresetId {
+  return OFFICE_PRESET_IDS.has(value);
+}
 
 export interface GeneratorState {
   presetId: OfficePresetId;
@@ -68,8 +80,25 @@ function initialState(
 }
 
 export default function DocumentGeneratorPage() {
+  return (
+    <Suspense
+      fallback={
+        <PageShell className="py-6 md:py-8 lg:py-10">
+          <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
+            Document & Slide Generator
+          </h1>
+        </PageShell>
+      }
+    >
+      <DocumentGeneratorPageContent />
+    </Suspense>
+  );
+}
+
+function DocumentGeneratorPageContent() {
   const t = useTranslations("documentGenerator");
   const tc = useTranslations("common");
+  const searchParams = useSearchParams();
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
@@ -78,6 +107,7 @@ export default function DocumentGeneratorPage() {
     onboardingComplete,
   );
   const logoDefaultApplied = useRef(false);
+  const deepLinkApplied = useRef(false);
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<GeneratorState>(initialState());
@@ -119,28 +149,52 @@ export default function DocumentGeneratorPage() {
 
   const showInviteEmail = preset.outputs.email;
 
+  function seniorityLabels(): SeniorityWorksheetLabels {
+    return {
+      sheetName: t("senioritySheet.sheetName"),
+      title: t("senioritySheet.title"),
+      local: t("senioritySheet.local"),
+      sessionDate: t("fields.sessionDate"),
+      chair: t("fields.chair"),
+      caseId: t("fields.caseId"),
+      notes: t("fields.committeeNotes"),
+      disclaimer: t("senioritySheet.disclaimer"),
+      columns: t.raw("senioritySheet.columns") as string[],
+      footerDecision: t("senioritySheet.footerDecision"),
+    };
+  }
+
   function applyPreset(id: OfficePresetId) {
     const next = getPreset(id);
-    const fields = defaultFieldsForPreset(next);
+    const nextFields = defaultFieldsForPreset(next);
     if (id === "welcome-letter") {
       const origin =
         typeof window !== "undefined" ? window.location.origin : "";
-      fields.collection =
-        brandKit.local.subText?.trim() || fields.collection;
-      fields.membershipUrl =
+      nextFields.collection =
+        brandKit.local.subText?.trim() || nextFields.collection;
+      nextFields.membershipUrl =
         resolvePresetDestination("membership-primary", brandKit, origin) ||
-        fields.membershipUrl;
+        nextFields.membershipUrl;
     }
     setState({
       ...state,
       presetId: id,
       includeDocx: next.outputs.docx,
       includeXlsx: next.outputs.xlsx,
-      includePptx: true,
+      includePptx: next.outputs.pptx,
       includeIcs: Boolean(next.outputs.ics),
-      fields,
+      fields: nextFields,
     });
   }
+
+  useEffect(() => {
+    if (deepLinkApplied.current) return;
+    const raw = searchParams.get("preset");
+    if (!raw || !isOfficePresetId(raw)) return;
+    deepLinkApplied.current = true;
+    applyPreset(raw);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot deep link
+  }, [searchParams]);
 
   function setField(key: string, value: string) {
     setState({
@@ -184,6 +238,7 @@ export default function DocumentGeneratorPage() {
   }
 
   function handleDownloadDocx() {
+    if (!preset.outputs.docx) return;
     void run(async () => {
       const logo = await resolveLogo().catch((e) => {
         if (state.includeLogo) throw e;
@@ -202,17 +257,32 @@ export default function DocumentGeneratorPage() {
 
   function handleDownloadXlsx() {
     if (!preset.outputs.xlsx) return;
+    const filename = formatFilename(preset.fileStem, localNumber, "xlsx");
+    const local = resolveLocalNumber(localNumber);
+    if (state.presetId === "seniority-worksheet") {
+      void run(() =>
+        exportSeniorityWorksheetXlsx({
+          palette,
+          localNumber: local,
+          fields,
+          labels: seniorityLabels(),
+          filename,
+        }),
+      );
+      return;
+    }
     void run(() =>
       exportEventRsvpXlsx({
         palette,
-        localNumber: resolveLocalNumber(localNumber),
+        localNumber: local,
         fields,
-        filename: formatFilename(preset.fileStem, localNumber, "xlsx"),
+        filename,
       }),
     );
   }
 
   function handleDownloadPptx() {
+    if (!preset.outputs.pptx) return;
     void run(async () => {
       const logo = state.includeLogo
         ? await resolveBrandLogoBytes(brandKit, { includeLogo: true })
@@ -247,7 +317,7 @@ export default function DocumentGeneratorPage() {
       }
 
       const files: { name: string; blob: Promise<Blob> | Blob }[] = [];
-      if (state.includeDocx) {
+      if (state.includeDocx && preset.outputs.docx) {
         files.push({
           name: formatFilename(preset.fileStem, localNumber, "docx"),
           blob: renderDocxFromPreset({
@@ -260,13 +330,22 @@ export default function DocumentGeneratorPage() {
         });
       }
       if (state.includeXlsx && preset.outputs.xlsx) {
+        const local = resolveLocalNumber(localNumber);
         files.push({
           name: formatFilename(preset.fileStem, localNumber, "xlsx"),
-          blob: renderEventRsvpXlsx({
-            palette,
-            localNumber: resolveLocalNumber(localNumber),
-            fields,
-          }),
+          blob:
+            state.presetId === "seniority-worksheet"
+              ? renderSeniorityWorksheetXlsx({
+                  palette,
+                  localNumber: local,
+                  fields,
+                  labels: seniorityLabels(),
+                })
+              : renderEventRsvpXlsx({
+                  palette,
+                  localNumber: local,
+                  fields,
+                }),
         });
       }
       if (state.includeIcs && preset.outputs.ics) {
@@ -279,7 +358,7 @@ export default function DocumentGeneratorPage() {
           blob: icsBlob,
         });
       }
-      if (state.includePptx) {
+      if (state.includePptx && preset.outputs.pptx) {
         files.push({
           name: formatFilename(preset.fileStem, localNumber, "pptx"),
           blob: renderPptx(pptOpts(logo)),
@@ -308,7 +387,7 @@ export default function DocumentGeneratorPage() {
       </div>
 
       <div
-        className="mb-4 grid gap-3 sm:grid-cols-3"
+        className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
         role="group"
         aria-label={t("examples")}
       >
@@ -383,16 +462,22 @@ export default function DocumentGeneratorPage() {
               {t("outputs")}
             </legend>
             <div className="flex flex-col gap-1.5">
-              <Checkbox
-                label={t("outputDocx")}
-                checked={state.includeDocx}
-                onChange={(e) =>
-                  setState({ ...state, includeDocx: e.target.checked })
-                }
-              />
+              {preset.outputs.docx ? (
+                <Checkbox
+                  label={t("outputDocx")}
+                  checked={state.includeDocx}
+                  onChange={(e) =>
+                    setState({ ...state, includeDocx: e.target.checked })
+                  }
+                />
+              ) : null}
               {preset.outputs.xlsx ? (
                 <Checkbox
-                  label={t("outputXlsx")}
+                  label={
+                    state.presetId === "seniority-worksheet"
+                      ? t("outputXlsxWorksheet")
+                      : t("outputXlsx")
+                  }
                   checked={state.includeXlsx}
                   onChange={(e) =>
                     setState({ ...state, includeXlsx: e.target.checked })
@@ -408,13 +493,15 @@ export default function DocumentGeneratorPage() {
                   }
                 />
               ) : null}
-              <Checkbox
-                label={t("outputPptx")}
-                checked={state.includePptx}
-                onChange={(e) =>
-                  setState({ ...state, includePptx: e.target.checked })
-                }
-              />
+              {preset.outputs.pptx ? (
+                <Checkbox
+                  label={t("outputPptx")}
+                  checked={state.includePptx}
+                  onChange={(e) =>
+                    setState({ ...state, includePptx: e.target.checked })
+                  }
+                />
+              ) : null}
             </div>
           </fieldset>
 
@@ -443,14 +530,16 @@ export default function DocumentGeneratorPage() {
           </div>
 
           <div className="flex flex-wrap gap-2 border-t border-gray-100 pt-3">
-            <Button
-              type="button"
-              variant="outline"
-              disabled={busy}
-              onClick={handleDownloadDocx}
-            >
-              {tc("downloadDocx")}
-            </Button>
+            {preset.outputs.docx ? (
+              <Button
+                type="button"
+                variant="outline"
+                disabled={busy}
+                onClick={handleDownloadDocx}
+              >
+                {tc("downloadDocx")}
+              </Button>
+            ) : null}
             {preset.outputs.xlsx ? (
               <Button
                 type="button"
@@ -471,14 +560,16 @@ export default function DocumentGeneratorPage() {
                 {t("downloadIcs")}
               </Button>
             ) : null}
-            <Button
-              type="button"
-              variant="outline"
-              disabled={busy}
-              onClick={handleDownloadPptx}
-            >
-              {tc("downloadPptx")}
-            </Button>
+            {preset.outputs.pptx ? (
+              <Button
+                type="button"
+                variant="outline"
+                disabled={busy}
+                onClick={handleDownloadPptx}
+              >
+                {tc("downloadPptx")}
+              </Button>
+            ) : null}
             <Button
               type="button"
               disabled={busy}
@@ -506,9 +597,9 @@ export default function DocumentGeneratorPage() {
             localLabel={localLabel}
             fields={fields}
             logoSrc={state.includeLogo ? logoPreviewSrc : null}
-            includeDocx={state.includeDocx}
+            includeDocx={state.includeDocx && preset.outputs.docx}
             includeXlsx={state.includeXlsx && preset.outputs.xlsx}
-            includePptx={state.includePptx}
+            includePptx={state.includePptx && preset.outputs.pptx}
           />
           <ul className="list-disc space-y-1 pl-5 text-xs text-gray-500">
             {preset.structureKeys.map((key) => (

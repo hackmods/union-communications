@@ -301,6 +301,13 @@ export function resolvePresetDestination(
       return softFallback;
     case "healthSafety":
       return softFallback;
+    case "rightToRefuse": {
+      const locale =
+        typeof window !== "undefined"
+          ? window.location.pathname.match(/^\/(en|fr)(?:\/|$)/)?.[1]
+          : undefined;
+      return `${originFallback}/${locale ?? "en"}/guide/right-to-refuse`;
+    }
     case "joinUnion":
     case "membership-primary":
       return resolveMembershipUrl(kit) || softFallback;

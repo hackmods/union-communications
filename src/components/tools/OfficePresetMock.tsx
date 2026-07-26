@@ -62,6 +62,92 @@ export function OfficePresetMock({
 }: OfficePresetMockProps) {
   const ink = pickContrastingInk(palette.primary);
 
+  if (presetId === "seniority-worksheet") {
+    const columns = [
+      "Member",
+      "Seniority",
+      "Class",
+      "Position",
+      "Target",
+      "Elig?",
+      "Notes",
+    ];
+    return (
+      <div className={cn("space-y-3", className)}>
+        <div
+          className="overflow-hidden rounded-lg border border-gray-200 shadow-sm"
+          style={{ backgroundColor: "#fff" }}
+        >
+          <div
+            className="flex items-center gap-3 px-4 py-3"
+            style={{ backgroundColor: palette.primary, color: ink }}
+          >
+            {logoSrc ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={logoSrc}
+                alt=""
+                className="h-8 w-auto max-w-[96px] object-contain"
+              />
+            ) : null}
+            <span className="text-sm font-semibold">{localLabel}</span>
+          </div>
+          <div className="space-y-2 p-4">
+            <p
+              className="text-lg font-bold"
+              style={{ color: palette.secondary }}
+            >
+              Seniority worksheet
+            </p>
+            <p className="text-xs text-gray-600">
+              {[fields.sessionDate, fields.chair, fields.caseId]
+                .filter(Boolean)
+                .join(" · ") || "Session · chair · Hub case ID"}
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-[10px] text-gray-700">
+                <thead>
+                  <tr>
+                    {columns.map((c) => (
+                      <th
+                        key={c}
+                        className="border border-gray-200 bg-gray-50 px-1 py-1 text-left font-semibold"
+                      >
+                        {c}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <tr key={i}>
+                      {columns.map((c) => (
+                        <td
+                          key={c}
+                          className="h-5 border border-gray-100 px-1"
+                        />
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {fields.committeeNotes ? (
+              <p className="text-xs whitespace-pre-wrap text-gray-600">
+                {fields.committeeNotes}
+              </p>
+            ) : null}
+          </div>
+        </div>
+        <FormatChips
+          includeDocx={includeDocx}
+          includeXlsx={includeXlsx}
+          includePptx={includePptx}
+        />
+      </div>
+    );
+  }
+
   if (presetId === "quick-event") {
     return (
       <div className={cn("space-y-3", className)}>
@@ -247,6 +333,22 @@ export function OfficeExampleTile({
               />
               <div className="h-1 w-1/3 rounded-sm bg-gray-300" />
               <div className="h-1 w-1/2 rounded-sm bg-gray-200" />
+            </div>
+          ) : presetId === "seniority-worksheet" ? (
+            <div className="space-y-1">
+              <div className="grid grid-cols-4 gap-0.5">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="h-1 rounded-sm bg-gray-200"
+                    style={
+                      i < 4
+                        ? { backgroundColor: palette.primary, opacity: 0.35 }
+                        : undefined
+                    }
+                  />
+                ))}
+              </div>
             </div>
           ) : (
             <div className="space-y-1">

@@ -502,7 +502,7 @@ Added 2026-07-23 from a follow-up feasibility review (not part of the original f
 ### [FUTURE-003] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity (content)
 **Severity/Priority:** Low (effort) / Medium (trust value)
-**Status:** Closed — `/guide/seniority-bumping` (`seniorityGuide.*` EN/FR), aid-not-calculator disclaimer; Hub bumping dashboard link; Blueprint + sitemap. Printable worksheet stretch deferred (prose columns only).
+**Status:** Closed — `/guide/seniority-bumping` (`seniorityGuide.*` EN/FR), aid-not-calculator disclaimer; Hub bumping dashboard link; Blueprint + sitemap. **Printable worksheet stretch shipped 2026-07-26** (Document Generator `seniority-worksheet` XLSX + guide/Hub deep-links).
 **Problem/Gap Statement:** `FEAT-005` (already in this backlog) correctly identifies that the College Bumping module has no seniority-calculation *engine* — but until that ships, officers have no guidance at all on how to manually work through a bumping/seniority scenario. A playbook is the pre-`FEAT-005` stopgap and becomes the in-app help content once the calculator exists.
 **Affected Architecture/Files:** new `src/app/[locale]/guide/seniority-bumping/page.tsx`, `messages/{en,fr}.json` (`seniorityGuide.*`), cross-link from `src/app/[locale]/app/bumping/page.tsx`
 **Implementation Blueprint:**
@@ -514,7 +514,7 @@ Added 2026-07-23 from a follow-up feasibility review (not part of the original f
 ### [FUTURE-004] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity (content) + Comms Tools (stretch)
 **Severity/Priority:** Low (effort) / Medium (trust value)
-**Status:** Closed — `/guide/right-to-refuse` (`rightToRefuseGuide.*` EN/FR), Ontario OHSA s.43 scope callout + not-legal-advice; Blueprint labour strip + sitemap. Pocket-card stretch deferred.
+**Status:** Closed — `/guide/right-to-refuse` (`rightToRefuseGuide.*` EN/FR), Ontario OHSA s.43 scope callout + not-legal-advice; Blueprint labour strip + sitemap. **Pocket-card stretch shipped 2026-07-26** (QR Link Card `rightToRefuse` reference preset + guide CTA).
 **Problem/Gap Statement:** No Health & Safety "right to refuse unsafe work" guide exists (Ontario OHSA s.43). This is squarely in scope for a college-sector union tool and pairs naturally with a printable pocket-card artifact, which the platform already has the exact machinery to generate.
 **Affected Architecture/Files:** new `src/app/[locale]/guide/right-to-refuse/page.tsx`, `messages/{en,fr}.json` (`rightToRefuseGuide.*`); optional stretch: new preset on an existing card-style tool (nearest precedent: `src/app/[locale]/tools/qr-card/page.tsx` / `src/components/tools/qr-board/QrBoardCanvas.tsx`)
 **Implementation Blueprint:**

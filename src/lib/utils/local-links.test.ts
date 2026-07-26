@@ -129,6 +129,12 @@ describe("listSavedLinks / resolve helpers", () => {
     );
   });
 
+  it("resolves right-to-refuse to the Ontario guide path", () => {
+    expect(
+      resolvePresetDestination("rightToRefuse", kit, "https://hub"),
+    ).toMatch(/\/en\/guide\/right-to-refuse$/);
+  });
+
   it("resolves membership presets from typed membershipUrls", () => {
     const withMembership = normalizeBrandKit({
       ...kit,

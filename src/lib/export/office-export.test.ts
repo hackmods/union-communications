@@ -16,6 +16,7 @@ import {
   loadTemplateBuffer,
   renderDocxFromPreset,
   renderEventRsvpXlsx,
+  renderSeniorityWorksheetXlsx,
   renderPptx,
 } from "./office-export";
 import { transparentPngBytes } from "./brand-logo-bytes";
@@ -142,6 +143,55 @@ describe("office-export", () => {
           : String(foodHeads);
       expect(foodFormula).toContain("COUNTIFS");
       expect(foodFormula).toContain("On site");
+    },
+    20_000,
+  );
+
+  it(
+    "renderSeniorityWorksheetXlsx builds branded blank eligibility grid",
+    async () => {
+      const blob = await renderSeniorityWorksheetXlsx({
+        palette: { primary: "#003366", secondary: "#001a33", accent: "#c45c26" },
+        localNumber: "110",
+        fields: {
+          sessionDate: "2026-07-26",
+          chair: "Alex",
+          caseId: "bump-1",
+          committeeNotes: "Aid only",
+        },
+        labels: {
+          sheetName: "Seniority",
+          title: "Seniority & bumping worksheet",
+          local: "Local",
+          sessionDate: "Session date",
+          chair: "Chair",
+          caseId: "Case ID",
+          notes: "Notes",
+          disclaimer: "Aid only",
+          columns: [
+            "Member ref",
+            "Seniority date",
+            "Classification",
+            "Current position",
+            "Target / bump claim",
+            "Eligible?",
+            "Notes / CA article",
+          ],
+          footerDecision: "Decision summary",
+        },
+      });
+      expect(blob.size).toBeGreaterThan(1000);
+
+      const excelMod = await import("exceljs");
+      const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
+      const wb = new ExcelNS.Workbook();
+      await wb.xlsx.load(await blob.arrayBuffer());
+      const ws = wb.getWorksheet("Seniority");
+      expect(ws).toBeTruthy();
+      expect(ws!.getCell("A1").value).toBe("Seniority & bumping worksheet");
+      expect(ws!.getCell("B2").value).toBe("110");
+      expect(ws!.getCell("A8").value).toBe("Member ref");
+      expect(ws!.getCell("F8").value).toBe("Eligible?");
     },
     20_000,
   );

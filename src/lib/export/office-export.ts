@@ -78,6 +78,8 @@ export async function renderDocxFromPreset(
       return buildLetterheadDocx(input);
     case "quick-event":
       return buildEventNoticeDocx(input);
+    case "seniority-worksheet":
+      throw new Error("Seniority worksheet exports Excel only");
   }
 }
 
@@ -293,6 +295,135 @@ export async function exportEventRsvpXlsx(
 ): Promise<void> {
   const { filename, ...rest } = opts;
   downloadBlob(await renderEventRsvpXlsx(rest), filename);
+}
+
+const SENIORITY_HEADER_ROW = 8;
+const SENIORITY_FIRST_DATA_ROW = 9;
+const SENIORITY_ROW_COUNT = 12;
+const SENIORITY_LAST_DATA_ROW = SENIORITY_FIRST_DATA_ROW + SENIORITY_ROW_COUNT - 1;
+
+/** Localized labels for the printable seniority / bumping committee worksheet. */
+export type SeniorityWorksheetLabels = {
+  sheetName: string;
+  title: string;
+  local: string;
+  sessionDate: string;
+  chair: string;
+  caseId: string;
+  notes: string;
+  disclaimer: string;
+  columns: readonly string[];
+  footerDecision: string;
+};
+
+/**
+ * Blank seniority / bumping committee worksheet (aid, not a calculator).
+ * Columns match the public playbook; officers fill rows by hand or in Excel.
+ */
+export async function renderSeniorityWorksheetXlsx(opts: {
+  palette: BrandPalette;
+  localNumber: string;
+  fields: Record<string, string>;
+  labels: SeniorityWorksheetLabels;
+}): Promise<Blob> {
+  const excelMod = await import("exceljs");
+  const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
+  const workbook = new ExcelNS.Workbook();
+  const ws = workbook.addWorksheet(opts.labels.sheetName.slice(0, 31) || "Worksheet");
+  const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
+
+  ws.getCell("A1").value = opts.labels.title;
+  ws.getCell("A1").font = { bold: true, size: 14, color: { argb: "FFFFFFFF" } };
+  ws.getCell("A1").fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: `FF${fill}` },
+  };
+  ws.mergeCells("A1:G1");
+
+  ws.getCell("A2").value = opts.labels.local;
+  ws.getCell("B2").value = opts.localNumber;
+  ws.getCell("A3").value = opts.labels.sessionDate;
+  ws.getCell("B3").value = opts.fields.sessionDate ?? "";
+  ws.getCell("A4").value = opts.labels.chair;
+  ws.getCell("B4").value = opts.fields.chair ?? "";
+  ws.getCell("A5").value = opts.labels.caseId;
+  ws.getCell("B5").value = opts.fields.caseId ?? "";
+  ws.getCell("A6").value = opts.labels.notes;
+  ws.getCell("B6").value = opts.fields.committeeNotes ?? "";
+  ws.mergeCells("B6:G6");
+
+  for (let r = 2; r <= 6; r++) {
+    ws.getCell(`A${r}`).font = { bold: true, color: { argb: "FFFFFFFF" } };
+    ws.getCell(`A${r}`).fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: `FF${fill}` },
+    };
+  }
+
+  ws.getCell("A7").value = opts.labels.disclaimer;
+  ws.getCell("A7").font = { italic: true, color: { argb: "FF4B5563" }, size: 9 };
+  ws.mergeCells("A7:G7");
+
+  opts.labels.columns.forEach((h, i) => {
+    const cell = ws.getCell(SENIORITY_HEADER_ROW, i + 1);
+    cell.value = h;
+    cell.font = { bold: true };
+    cell.fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "FFE8EEF4" },
+    };
+  });
+
+  for (let r = SENIORITY_FIRST_DATA_ROW; r <= SENIORITY_LAST_DATA_ROW; r++) {
+    ws.getCell(r, 6).dataValidation = {
+      type: "list",
+      allowBlank: true,
+      formulae: ['"Y,N,?"'],
+      showErrorMessage: true,
+      errorTitle: "Eligible?",
+      error: "Choose Y, N, or ?.",
+    };
+  }
+
+  const footerRow = SENIORITY_LAST_DATA_ROW + 2;
+  ws.getCell(`A${footerRow}`).value = opts.labels.footerDecision;
+  ws.getCell(`A${footerRow}`).font = { bold: true };
+  ws.mergeCells(`A${footerRow}:G${footerRow}`);
+  ws.getCell(`A${footerRow + 1}`).value = "";
+  ws.mergeCells(`A${footerRow + 1}:G${footerRow + 3}`);
+  ws.getCell(`A${footerRow + 1}`).border = {
+    top: { style: "thin", color: { argb: "FFCBD5E1" } },
+    left: { style: "thin", color: { argb: "FFCBD5E1" } },
+    bottom: { style: "thin", color: { argb: "FFCBD5E1" } },
+    right: { style: "thin", color: { argb: "FFCBD5E1" } },
+  };
+
+  ws.getColumn(1).width = 14;
+  ws.getColumn(2).width = 14;
+  ws.getColumn(3).width = 16;
+  ws.getColumn(4).width = 18;
+  ws.getColumn(5).width = 18;
+  ws.getColumn(6).width = 12;
+  ws.getColumn(7).width = 28;
+
+  const out = await workbook.xlsx.writeBuffer();
+  return new Blob([new Uint8Array(out)], { type: XLSX_MIME });
+}
+
+export async function exportSeniorityWorksheetXlsx(
+  opts: {
+    palette: BrandPalette;
+    localNumber: string;
+    fields: Record<string, string>;
+    labels: SeniorityWorksheetLabels;
+    filename: string;
+  },
+): Promise<void> {
+  const { filename, ...rest } = opts;
+  downloadBlob(await renderSeniorityWorksheetXlsx(rest), filename);
 }
 
 /** Legacy XLSX template fill (sample-roster tests). */

@@ -61,6 +61,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 7. Ops: `npm run health:check` before sandbox smoke — **shipped 2026-07-26** (train #4)
 8. Guide discoverability polish (print/email sources, FR smoke, Brand Kit link) — **shipped 2026-07-26** (train #5)
 9. ~~Basecamp automatic check-ins + Hub unanswered widget~~ — **shipped 2026-07-26** (`checkins` HubModule)
+10. ~~Comms stretch: printable seniority worksheet + right-to-refuse pocket card~~ — **shipped 2026-07-26** (Document Generator + QR Link Card presets)
 
 ## Agent habits
 

@@ -283,7 +283,8 @@ Scaffold through testing/CI — all complete.
 - [ ] Persistent Postgres + RLS (`unionId` / `localId` / `bargainingUnitId`) → **Phase 6** — scaffold + adapters + seed/app-role/smoke closed (`SEC-003`); flip host backends from memory when ready
 - [ ] Workforce Time **8c+** (scheduling, PTO, OT) → **Phase 8** (8-lite + 8-lite+ + 8a + **8b** shipped 2026-07-24)
 - [x] Comms First week Print step + “Social Media Plan” → “First week” copy sweep → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
-- [ ] Comms content backlog (email/broadcast guide) → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
+- [x] Comms content backlog (email/broadcast guide) → [`docs/modules/COMMS_BACKLOG.md`](modules/COMMS_BACKLOG.md)
+- [x] Printable seniority worksheet + right-to-refuse pocket card (FUTURE-003/004 stretch) → Document Generator + QR Link Card presets (2026-07-26)
 - [x] Photo consent / member media checklist → `/guide/photo-consent` (Learn → Guides)
 
 ## Phase 6.0–6.4 multi-scope + Phase 7 scaffolds (2026-07-17) — COMPLETE (memory)
@@ -636,6 +637,7 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `TOOL-002` — `useExportHandler` + danger Callout on canvas tool exports
 - [x] `FEAT-003` — Task entity + Hub board (`/app/tasks`, `MyTasksWidget`, CRUD `/api/tasks`, `"tasks"` HubModule); memory default + optional `TASKS_DB_BACKEND=postgres` (`DrizzleTaskAdapter`, migration `0009_tasks` + RLS; `0008` reserved for parallel SEC-003)
 - [x] `FUTURE-002` / `FUTURE-003` / `FUTURE-004` — labour rights guides: `/guide/dfr`, `/guide/seniority-bumping`, `/guide/right-to-refuse` (EN/FR, not-legal-advice Callouts); Blueprint related links + labour strip; sitemap; Hub bumping → seniority playbook link
+- [x] FUTURE-003/004 stretch (2026-07-26) — printable seniority worksheet (`document-generator?preset=seniority-worksheet`) + right-to-refuse pocket card (`qr-card?preset=rightToRefuse`); Hub case detail guide + worksheet links
 - [x] `FUTURE-001` — Steward Quick-Log (`InformalLogEntry`, `"informalLog"` HubModule, `/app/informal-log`, CRUD `/api/informal-log`, convert-to-grievance); memory default + optional `INFORMAL_LOG_DB_BACKEND=postgres` (migration `0010_informal_log` + RLS)
 - [x] `ORG-001` — Meeting minutes with motions (`MeetingMinutes`/`Motion`, memory + optional `MINUTES_DB_BACKEND=postgres`, migration `0012_meeting_minutes` + RLS; `0011` reserved for officers); CRUD `/api/minutes` + approve; Hub `/app/minutes` list/create/detail; DOCX export; EN/FR + HubNav
 - [x] `FUTURE-005` — Action Card / QR petition builder MVP (`/tools/action-card`): headline/ask/deadline/CTA, Brand Kit theme, QR → external petition URL, PNG/PDF; no in-product signatures

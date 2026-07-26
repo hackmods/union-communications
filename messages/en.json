@@ -1050,6 +1050,7 @@
     "outputs": "Include in ZIP",
     "outputDocx": "Word (.docx)",
     "outputXlsx": "Excel RSVP (.xlsx)",
+    "outputXlsxWorksheet": "Excel worksheet (.xlsx)",
     "outputIcs": "Calendar (.ics)",
     "outputPptx": "PowerPoint (.pptx)",
     "fieldsHeading": "Text",
@@ -1070,7 +1071,24 @@
       "eventXlsx": "Hybrid RSVP Excel — quorum board + on-site food heads",
       "eventIcs": "Calendar invite (.ics) from Calendar start/end",
       "eventEmail": "Copy-only RSVP invite email (on site / remote)",
-      "eventPptx": "3 PowerPoint slides"
+      "eventPptx": "3 PowerPoint slides",
+      "seniorityWorksheetXlsx": "Printable seniority / bumping worksheet — blank rows + eligible Y/N/? column"
+    },
+    "senioritySheet": {
+      "sheetName": "Seniority",
+      "title": "Seniority & bumping worksheet",
+      "local": "Local",
+      "disclaimer": "Aid only — not legal advice and not a binding decision engine. Follow your CA and local procedures. Committee DecisionRecords remain authoritative.",
+      "footerDecision": "Decision summary (chair notes)",
+      "columns": [
+        "Member ref",
+        "Seniority date",
+        "Classification",
+        "Current position",
+        "Target / bump claim",
+        "Eligible?",
+        "Notes / CA article"
+      ]
     },
     "inviteEmail": {
       "title": "RSVP invite email",
@@ -1098,6 +1116,10 @@
       "quickEvent": {
         "title": "Event notice",
         "blurb": "Hybrid LEC / meeting pack: notice, RSVP with on-site vs remote + food/quorum tallies, calendar file, and slides."
+      },
+      "seniorityWorksheet": {
+        "title": "Seniority worksheet",
+        "blurb": "Blank Excel grid for stability committees — seniority dates, classification, eligibility, and decision notes. Aid only, not a calculator."
       }
     },
     "fields": {
@@ -1118,7 +1140,11 @@
       "collection": "Collection / bargaining unit",
       "membershipUrl": "Membership application URL",
       "presidentName": "Local president name",
-      "stewardContact": "Steward contact"
+      "stewardContact": "Steward contact",
+      "sessionDate": "Session date",
+      "chair": "Chair / facilitator",
+      "caseId": "Hub bumping case ID",
+      "committeeNotes": "Committee notes"
     }
   },
   "solidarityPoster": {
@@ -1258,6 +1284,9 @@
       "healthSafetyTitle": "JHSC & safety",
       "healthSafetyDesc": "Committee contacts and how to report a hazard.",
       "healthSafetyTagline": "Scan for H&S contacts",
+      "rightToRefuseTitle": "Right to refuse",
+      "rightToRefuseDesc": "Ontario OHSA s.43 — not legal advice.\n1. Report danger to supervisor promptly\n2. Stay nearby in a safe place\n3. JHSC / union H&S rep may accompany\n4. Employer investigates with you present\nStill refuse → notify Ministry inspector\nReprisals for OHSA rights are prohibited",
+      "rightToRefuseTagline": "Scan the full guide →",
       "followUsTitle": "Stay connected",
       "followUsDesc": "Updates, meetings, and solidarity - follow your local online.",
       "followUsTagline": "Scan to follow us",
@@ -2087,7 +2116,9 @@
           "Columns: Member ref · Seniority date · Classification · Current position · Target / bump claim · Eligible? (Y/N/?) · Notes / CA article",
           "Rows: one per person in the chain, plus a blank row for alternate candidates",
           "Footer: session date, chair, decision summary, and link to the Hub bumping case ID"
-        ]
+        ],
+        "exportCta": "Download Excel worksheet",
+        "exportHint": "Opens Document Generator with a blank branded seniority grid ready to export."
       }
     },
     "hub": {
@@ -2152,7 +2183,9 @@
     },
     "boards": {
       "title": "Union boards and pocket cards",
-      "body": "Keep JHSC contacts and a short “how to report a hazard / refuse unsafe work” strip on the workplace board. Link QR posters to official e-Laws OHSA text rather than outdated photocopies."
+      "body": "Keep JHSC contacts and a short “how to report a hazard / refuse unsafe work” strip on the workplace board. Link QR posters to official e-Laws OHSA text rather than outdated photocopies.",
+      "exportCta": "Make a pocket card",
+      "exportHint": "Opens QR Link Cards with the Ontario right-to-refuse procedure preset — print PNG/PDF for wallets or boards."
     }
   },
   "share": {
@@ -3549,6 +3582,7 @@
     "subtitle": "Stability committee position comparison and decision log",
     "disclaimer": "Checklists assist committee process - not legal advice. Follow your collective agreement.",
     "seniorityGuideLink": "Seniority & bumping playbook",
+    "worksheetExportLink": "Download seniority worksheet",
     "loading": "Loading cases...",
     "loadError": "Could not load bumping cases",
     "newCase": "New case",

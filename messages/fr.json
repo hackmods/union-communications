@@ -1050,6 +1050,7 @@
     "outputs": "Inclure dans le ZIP",
     "outputDocx": "Word (.docx)",
     "outputXlsx": "RSVP Excel (.xlsx)",
+    "outputXlsxWorksheet": "Feuille de travail Excel (.xlsx)",
     "outputIcs": "Calendrier (.ics)",
     "outputPptx": "PowerPoint (.pptx)",
     "fieldsHeading": "Texte",
@@ -1070,7 +1071,24 @@
       "eventXlsx": "RSVP hybride Excel — quorum et repas sur place",
       "eventIcs": "Invitation calendrier (.ics) à partir du début/fin",
       "eventEmail": "Courriel d'invitation RSVP (copie seulement)",
-      "eventPptx": "3 diapositives PowerPoint"
+      "eventPptx": "3 diapositives PowerPoint",
+      "seniorityWorksheetXlsx": "Feuille d'ancienneté / bumping imprimable — lignes vides + colonne Admissible O/N/?"
+    },
+    "senioritySheet": {
+      "sheetName": "Ancienneté",
+      "title": "Feuille d'ancienneté et de bumping",
+      "local": "Section locale",
+      "disclaimer": "Aide seulement — pas un avis juridique et pas un moteur de décision contraignant. Suivez votre CC et les procédures locales. Les DecisionRecords du comité demeurent autoritatifs.",
+      "footerDecision": "Résumé de décision (notes du président)",
+      "columns": [
+        "Réf. membre",
+        "Date d'ancienneté",
+        "Classification",
+        "Poste actuel",
+        "Cible / réclamation",
+        "Admissible?",
+        "Notes / article CC"
+      ]
     },
     "inviteEmail": {
       "title": "Courriel d'invitation RSVP",
@@ -1098,6 +1116,10 @@
       "quickEvent": {
         "title": "Avis d'événement",
         "blurb": "Trousse LEC hybride : avis, RSVP sur place/à distance + totaux quorum/repas, calendrier et diapositives."
+      },
+      "seniorityWorksheet": {
+        "title": "Feuille d'ancienneté",
+        "blurb": "Grille Excel vide pour les comités de stabilité — dates d'ancienneté, classification, admissibilité et notes. Aide seulement, pas un calculateur."
       }
     },
     "fields": {
@@ -1118,7 +1140,11 @@
       "collection": "Collection / unité de négociation",
       "membershipUrl": "URL de demande d'adhésion",
       "presidentName": "Nom du président de section",
-      "stewardContact": "Contact du délégué"
+      "stewardContact": "Contact du délégué",
+      "sessionDate": "Date de séance",
+      "chair": "Président / animateur",
+      "caseId": "ID du dossier de bumping (Hub)",
+      "committeeNotes": "Notes du comité"
     }
   },
   "solidarityPoster": {
@@ -1258,6 +1284,9 @@
       "healthSafetyTitle": "CSS et sécurité",
       "healthSafetyDesc": "Contacts du comité et comment signaler un danger.",
       "healthSafetyTagline": "Scannez pour les contacts S&S",
+      "rightToRefuseTitle": "Droit de refuser",
+      "rightToRefuseDesc": "LSST Ont. art. 43 — pas un avis juridique.\n1. Signalez le danger au superviseur rapidement\n2. Restez à proximité dans un lieu sûr\n3. Un membre CSS / rep. syndical SST peut accompagner\n4. L'employeur enquête en votre présence\nToujours refuser → aviser un inspecteur du ministère\nLes représailles pour droits LSST sont interdites",
+      "rightToRefuseTagline": "Scannez le guide complet →",
       "followUsTitle": "Restez branchés",
       "followUsDesc": "Mises à jour, réunions et solidarité - suivez votre section en ligne.",
       "followUsTagline": "Scannez pour nous suivre",
@@ -2062,7 +2091,9 @@
           "Colonnes : Réf. membre · Date d'ancienneté · Classification · Poste actuel · Cible / réclamation · Admissible? (O/N/?) · Notes / article CC",
           "Lignes : une par personne dans la chaîne, plus une ligne vide pour les candidats de rechange",
           "Pied de page : date de séance, président, résumé de décision et lien vers l'ID du dossier de bumping du Centre"
-        ]
+        ],
+        "exportCta": "Télécharger la feuille Excel",
+        "exportHint": "Ouvre le générateur de documents avec une grille d'ancienneté de marque prête à exporter."
       }
     },
     "hub": {
@@ -2127,7 +2158,9 @@
     },
     "boards": {
       "title": "Tableaux syndicaux et cartes de poche",
-      "body": "Gardez les contacts du CSS et une courte bande « comment signaler un danger / refuser un travail dangereux » sur le tableau. Liez les affiches QR au texte officiel e-Laws de la LSST plutôt qu'à des photocopies périmées."
+      "body": "Gardez les contacts du CSS et une courte bande « comment signaler un danger / refuser un travail dangereux » sur le tableau. Liez les affiches QR au texte officiel e-Laws de la LSST plutôt qu'à des photocopies périmées.",
+      "exportCta": "Créer une carte de poche",
+      "exportHint": "Ouvre les cartes QR avec le préréglage de procédure de refus (Ontario) — exportez PNG/PDF pour portefeuilles ou tableaux."
     }
   },
   "share": {
@@ -3524,6 +3557,7 @@
     "subtitle": "Comparaison de postes et registre du comité de stabilité",
     "disclaimer": "Les listes aident le processus - pas un avis juridique. Suivez votre convention collective.",
     "seniorityGuideLink": "Guide d'ancienneté et de bumping",
+    "worksheetExportLink": "Télécharger la feuille d'ancienneté",
     "loading": "Chargement...",
     "loadError": "Impossible de charger les dossiers",
     "newCase": "Nouveau dossier",

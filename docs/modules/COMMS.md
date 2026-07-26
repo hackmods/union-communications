@@ -93,7 +93,7 @@ v1: all public. Phase 1+: optional premium templates behind login; core tools st
 - `src/lib/export/brand-logo-bytes.ts` — Brand Kit → PNG bytes for Word/PPT
 - `src/components/tools/OfficePresetMock.tsx` — live CSS document preview + example tiles
 - `src/components/tools/OfficeExportButton.tsx` — shared Word/Excel download control (legacy templates)
-- `src/lib/constants/office-templates.ts` — Document Generator presets (incl. welcome letter)
+- `src/lib/constants/office-templates.ts` — Document Generator presets (incl. welcome letter, seniority worksheet)
 - `src/components/brand/MembershipUrlsEditor.tsx` — typed FT/PT membership application URLs on Brand Kit
 - `src/lib/utils/local-links.ts` — Brand Kit link normalize + membership preset destination resolve
 - `src/lib/templates/website/generate-website-zip.ts` — static site ZIP generator

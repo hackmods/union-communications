@@ -11,6 +11,12 @@ Implementation surface today: [`HomeContent.tsx`](../../src/components/pages/Hom
 - **Shipped:** `/guide/email-broadcast` (EN/FR) — copy-only Comms invites vs Hub SMTP/cron; no marketing lists.
 - **Nav:** Guides → By channel; Blueprint channel links; Resources path; sitemap; home website channel + footer + First week tertiary + tools index (train #2); guide cross-links (train #3).
 
+### Printable seniority worksheet + right-to-refuse pocket card — SHIPPED (2026-07-26)
+
+- **Shipped:** Document Generator preset `seniority-worksheet` (ExcelJS blank eligibility grid); deep-link `?preset=seniority-worksheet` from seniority playbook + Hub bumping case detail.
+- **Shipped:** QR Link Card preset `rightToRefuse` (reference layout: Ontario OHSA s.43 steps + QR to guide); deep-link `?preset=rightToRefuse` from right-to-refuse guide boards callout.
+- Guides remain the source of truth; exports are presentation-layer only (local-first, no new persistence).
+
 ### Get started beyond social (rename + Print step) — SHIPPED (2026-07-24)
 
 - **Shipped:** Page H1 / Header Learn label reframed to **First week** (EN/FR); route stays `/guide/social-media-plan`. Get started (when Brand Kit established) → First week, not a duplicate Brand Kit link. Learn → Guides includes First week. Tools mega-menu + `/tools` catalog.

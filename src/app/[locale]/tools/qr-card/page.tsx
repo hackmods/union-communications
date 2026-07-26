@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { Suspense, useEffect, useRef, useState, type CSSProperties } from "react";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
@@ -57,14 +58,32 @@ interface QrCardState {
 }
 
 export default function QrCardPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-5xl px-4 py-6 md:py-8 lg:py-10">
+          <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
+            QR Link Card Maker
+          </h1>
+        </div>
+      }
+    >
+      <QrCardPageContent />
+    </Suspense>
+  );
+}
+
+function QrCardPageContent() {
   const t = useTranslations("qrCard");
   const tc = useTranslations("common");
+  const searchParams = useSearchParams();
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [qrSrc, setQrSrc] = useState<string | null>(null);
   const seeded = useRef(false);
+  const deepLinkApplied = useRef(false);
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const first = QR_CARD_PRESETS[0];
@@ -87,17 +106,45 @@ export default function QrCardPage() {
     useUndoRedo<QrCardState>(initial);
   const { exportError, exporting, runExport } = useExportHandler();
 
+  const applyPreset = (id: string, base: QrCardState = state) => {
+    const preset = getQrCardPreset(id);
+    if (!preset) return;
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const fromPreset = preset.defaultUrl.trim();
+    setState({
+      ...base,
+      presetId: preset.id,
+      destination:
+        fromPreset || resolvePresetDestination(preset.id, brandKit, origin),
+      title: t(`presets.${preset.titleKey}`),
+      description: t(`presets.${preset.descriptionKey}`),
+      tagline: t(`presets.${preset.taglineKey}`),
+      bgMode: preset.bgMode,
+    });
+  };
+
   useEffect(() => {
     if (!hydrated || seeded.current) return;
     seeded.current = true;
     const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const deepPreset = searchParams.get("preset");
+    const fromDeep =
+      deepPreset && getQrCardPreset(deepPreset)
+        ? getQrCardPreset(deepPreset)!
+        : first;
+    if (deepPreset && getQrCardPreset(deepPreset)) {
+      deepLinkApplied.current = true;
+    }
+    const fromPreset = fromDeep.defaultUrl.trim();
     reset({
-      presetId: first.id,
-      destination: resolvePresetDestination(first.id, brandKit, origin),
-      title: t(`presets.${first.titleKey}`),
-      description: t(`presets.${first.descriptionKey}`),
-      tagline: t(`presets.${first.taglineKey}`),
-      bgMode: first.bgMode,
+      presetId: fromDeep.id,
+      destination:
+        fromPreset ||
+        resolvePresetDestination(fromDeep.id, brandKit, origin),
+      title: t(`presets.${fromDeep.titleKey}`),
+      description: t(`presets.${fromDeep.descriptionKey}`),
+      tagline: t(`presets.${fromDeep.taglineKey}`),
+      bgMode: fromDeep.bgMode,
       sizeId: DEFAULT_QR_CARD_SIZE,
       showUrl: false,
       includeBranding: themeEstablished,
@@ -107,12 +154,23 @@ export default function QrCardPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot hydrate
   }, [hydrated, themeEstablished]);
 
+  useEffect(() => {
+    if (!seeded.current || deepLinkApplied.current) return;
+    const raw = searchParams.get("preset");
+    if (!raw || !getQrCardPreset(raw)) return;
+    deepLinkApplied.current = true;
+    applyPreset(raw);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot deep link
+  }, [searchParams, hydrated]);
+
   const size = QR_CARD_SIZES[state.sizeId];
   const exportPixelRatio = qrCardExportPixelRatio(size);
   const savedLinks = listSavedLinks(brandKit, {
     website: t("savedWebsite"),
     facebook: t("savedFacebook"),
   });
+  const activePreset = getQrCardPreset(state.presetId);
+  const isReference = activePreset?.layoutMode === "reference";
 
   useEffect(() => {
     let cancelled = false;
@@ -127,23 +185,6 @@ export default function QrCardPage() {
       cancelled = true;
     };
   }, [state.destination, size.qrPixels]);
-
-  const applyPreset = (id: string) => {
-    const preset = getQrCardPreset(id);
-    if (!preset) return;
-    const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const fromPreset = preset.defaultUrl.trim();
-    setState({
-      ...state,
-      presetId: preset.id,
-      destination:
-        fromPreset || resolvePresetDestination(preset.id, brandKit, origin),
-      title: t(`presets.${preset.titleKey}`),
-      description: t(`presets.${preset.descriptionKey}`),
-      tagline: t(`presets.${preset.taglineKey}`),
-      bgMode: preset.bgMode,
-    });
-  };
 
   const localLabel = brandKit.local.subText
     ? `Local ${resolveLocalNumber(brandKit.local.localNumber)} - ${brandKit.local.subText}`
@@ -178,8 +219,11 @@ export default function QrCardPage() {
       : canvasInk;
 
   /** QR plate as % of card width - smaller cards keep more room for copy */
-  const qrPlatePercent =
-    state.sizeId === "square4"
+  const qrPlatePercent = isReference
+    ? state.sizeId === "square4"
+      ? 26
+      : 28
+    : state.sizeId === "square4"
       ? 34
       : state.sizeId === "square5"
         ? 36
@@ -217,15 +261,19 @@ export default function QrCardPage() {
   const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
   const isSquare = state.sizeId === "square4" || state.sizeId === "square5";
 
-  const titleSize = isSquare
-    ? state.sizeId === "square4"
-      ? "text-lg"
+  const titleSize = isReference
+    ? isCompact
+      ? "text-base"
       : "text-xl"
-    : state.sizeId === "letter"
-      ? "text-4xl"
-      : state.sizeId === "half"
-        ? "text-3xl"
-        : "text-2xl";
+    : isSquare
+      ? state.sizeId === "square4"
+        ? "text-lg"
+        : "text-xl"
+      : state.sizeId === "letter"
+        ? "text-4xl"
+        : state.sizeId === "half"
+          ? "text-3xl"
+          : "text-2xl";
 
   return (
     <ToolEditorLayout
@@ -300,7 +348,7 @@ export default function QrCardPage() {
             label={t("description")}
             value={state.description}
             onChange={(e) => setState({ ...state, description: e.target.value })}
-            rows={2}
+            rows={isReference ? 6 : 2}
           />
           <Input
             label={t("tagline")}
@@ -432,12 +480,16 @@ export default function QrCardPage() {
 
                   <div
                     className={cn(
-                      "flex min-h-0 min-w-0 flex-1 flex-col items-center justify-between text-center",
-                      isCompact
-                        ? "gap-1.5 p-2.5"
-                        : isSquare
-                          ? "gap-2 p-3"
-                          : "gap-3 p-4 sm:p-5",
+                      "flex min-h-0 min-w-0 flex-1 flex-col items-center text-center",
+                      isReference
+                        ? isCompact
+                          ? "justify-start gap-1 p-2"
+                          : "justify-start gap-1.5 p-3"
+                        : isCompact
+                          ? "justify-between gap-1.5 p-2.5"
+                          : isSquare
+                            ? "justify-between gap-2 p-3"
+                            : "justify-between gap-3 p-4 sm:p-5",
                     )}
                   >
                     <div className="w-full min-w-0 shrink-0">
@@ -466,8 +518,14 @@ export default function QrCardPage() {
                       {state.description.trim() ? (
                         <p
                           className={cn(
-                            "mt-1 leading-snug",
-                            isCompact || isSquare ? "text-xs" : "text-sm",
+                            "mt-1 text-left leading-snug",
+                            isReference
+                              ? isCompact
+                                ? "whitespace-pre-line text-[9px]"
+                                : "whitespace-pre-line text-[11px]"
+                              : isCompact || isSquare
+                                ? "text-center text-xs"
+                                : "text-center text-sm",
                           )}
                           style={{ color: mutedInk }}
                         >
@@ -476,7 +534,12 @@ export default function QrCardPage() {
                       ) : null}
                     </div>
 
-                    <div className="flex min-h-0 w-full min-w-0 flex-col items-center justify-center">
+                    <div
+                      className={cn(
+                        "flex min-h-0 w-full min-w-0 flex-col items-center justify-center",
+                        isReference && "mt-auto",
+                      )}
+                    >
                       <div
                         className={cn(
                           "rounded-md",

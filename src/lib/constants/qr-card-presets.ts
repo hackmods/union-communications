@@ -3,6 +3,7 @@ export type QrCardPresetId =
   | "esa"
   | "ohsa"
   | "healthSafety"
+  | "rightToRefuse"
   | "followUs"
   | "localWebsite"
   | "joinUnion"
@@ -10,6 +11,9 @@ export type QrCardPresetId =
   | "joinPartTime";
 
 export type QrCardBgMode = "plain" | "gradient" | "accentBar";
+
+/** link = QR-forward card; reference = denser procedure copy + smaller QR */
+export type QrCardLayoutMode = "link" | "reference";
 
 export interface QrCardPreset {
   id: QrCardPresetId;
@@ -20,6 +24,7 @@ export interface QrCardPreset {
   descriptionKey: string;
   taglineKey: string;
   bgMode: QrCardBgMode;
+  layoutMode?: QrCardLayoutMode;
 }
 
 export const QR_CARD_PRESETS: readonly QrCardPreset[] = [
@@ -80,6 +85,15 @@ export const QR_CARD_PRESETS: readonly QrCardPreset[] = [
     descriptionKey: "healthSafetyDesc",
     taglineKey: "healthSafetyTagline",
     bgMode: "plain",
+  },
+  {
+    id: "rightToRefuse",
+    defaultUrl: "",
+    titleKey: "rightToRefuseTitle",
+    descriptionKey: "rightToRefuseDesc",
+    taglineKey: "rightToRefuseTagline",
+    bgMode: "accentBar",
+    layoutMode: "reference",
   },
   {
     id: "followUs",
