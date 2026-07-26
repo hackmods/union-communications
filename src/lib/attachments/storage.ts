@@ -64,7 +64,7 @@ export function sanitizeStorageSegment(value: string): string {
 export function buildStorageKey(parts: {
   unionId: string;
   localId: string;
-  scope: "grievance" | "bumping" | "document";
+  scope: "grievance" | "bumping" | "document" | "expense";
   scopeId: string;
   attachmentId: string;
   fileName: string;

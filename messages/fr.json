@@ -2249,6 +2249,7 @@
     "contextAllCollections": "Toutes les collections",
     "ledgerLink": "Fonds discrétionnaire",
     "travelLink": "Déplacements et dépenses",
+    "expensesLink": "Dépenses d’affaires syndicales",
     "pollsLink": "Sondages éclair",
     "meetingsLink": "Horaire des assemblées",
     "officersLink": "Liste des dirigeants",
@@ -2572,6 +2573,60 @@
       "meals": "Repas",
       "registration": "Inscription",
       "other": "Autre"
+    }
+  },
+  "expenses": {
+    "title": "Dépenses d’affaires syndicales",
+    "subtitle": "Soumettez les achats payés de votre poche pour les affaires de la section, joignez les reçus et faites approuver par le trésorier.",
+    "disclaimer": "Prépare un dossier à remettre au système de dépenses de votre syndicat national. UnionOps ne se connecte pas à SAP ni à un ERP. Pour les déplacements de délégués avec avances, utilisez Déplacements et dépenses.",
+    "loadError": "Impossible de charger les demandes de remboursement.",
+    "createError": "Impossible de créer cette demande.",
+    "actionError": "Cette action n’a pas pu être effectuée.",
+    "exportError": "Échec de l’export. Réessayez.",
+    "uploadError": "Échec du téléversement du reçu.",
+    "created": "Demande enregistrée comme brouillon.",
+    "submitted": "Soumise pour approbation du trésorier.",
+    "approved": "Approuvée et portée au registre du fonds discrétionnaire.",
+    "denied": "Demande refusée.",
+    "exported": "Export téléchargé.",
+    "receiptUploaded": "Reçu joint.",
+    "newSubmission": "Nouvelle demande de remboursement",
+    "cancel": "Annuler",
+    "saveDraft": "Enregistrer le brouillon",
+    "empty": "Aucune demande de dépense d’affaires syndicales pour cette section.",
+    "approve": "Approuver et rembourser",
+    "deny": "Refuser",
+    "submitForApproval": "Soumettre pour approbation",
+    "uploadReceipt": "Joindre un reçu",
+    "addLine": "Ajouter une ligne",
+    "removeLine": "Retirer la dernière ligne",
+    "exportXlsx": "Exporter Excel",
+    "exportPdf": "Exporter PDF",
+    "exportZip": "ZIP des reçus",
+    "total": "Total",
+    "deniedReason": "Motif",
+    "status": {
+      "draft": "Brouillon",
+      "submitted": "En attente d’approbation",
+      "approved": "Approuvée",
+      "denied": "Refusée"
+    },
+    "category": {
+      "supplies": "Fournitures de bureau",
+      "meeting": "Réunion / repas",
+      "printing": "Impression et copies",
+      "solidarity": "Solidarité / événements",
+      "postage": "Affranchissement et envoi",
+      "other": "Autre"
+    },
+    "fields": {
+      "title": "Titre court",
+      "purpose": "Objet des affaires syndicales",
+      "lineItems": "Achats",
+      "lineDate": "Date",
+      "lineCategory": "Catégorie",
+      "lineAmount": "Montant",
+      "lineDescription": "Description"
     }
   },
   "hubPolls": {

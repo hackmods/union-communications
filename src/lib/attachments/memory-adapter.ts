@@ -62,6 +62,14 @@ export class MemoryAttachmentAdapter implements AttachmentAdapter {
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   }
 
+  async listForExpenseSubmission(
+    expenseSubmissionId: string,
+  ): Promise<AttachmentMeta[]> {
+    return store
+      .filter((a) => a.expenseSubmissionId === expenseSubmissionId)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
   async getById(id: string): Promise<AttachmentMeta | null> {
     return store.find((a) => a.id === id) ?? null;
   }
@@ -156,6 +164,57 @@ export class MemoryAttachmentAdapter implements AttachmentAdapter {
       localId: meta.localId,
       bargainingUnitId: meta.bargainingUnitId,
       bumpingCaseId,
+      fileName: input.fileName,
+      mimeType: input.mimeType,
+      sizeBytes: input.sizeBytes,
+      storageKey,
+      scanStatus: scan.status,
+      uploadedById: meta.uploadedById,
+      createdAt: new Date().toISOString(),
+    };
+    store.push(row);
+    return { attachment: row };
+  }
+
+  async createForExpenseSubmission(
+    expenseSubmissionId: string,
+    input: CreateAttachmentInput,
+    meta: AttachmentCreateMeta,
+  ): Promise<{ attachment?: AttachmentMeta; error?: string }> {
+    const scan = await scanAttachment(input);
+    if (!scan.ok) {
+      return { error: scan.error ?? "Scan failed" };
+    }
+    const decoded = decodePayload(input);
+    if (!decoded.ok) {
+      return { error: decoded.error };
+    }
+
+    const attachmentId = id();
+    const storageKey = buildStorageKey({
+      unionId: meta.unionId,
+      localId: meta.localId,
+      scope: "expense",
+      scopeId: expenseSubmissionId,
+      attachmentId,
+      fileName: input.fileName,
+    });
+
+    try {
+      await getObjectStorage().put(storageKey, decoded.bytes, input.mimeType);
+    } catch (err) {
+      return {
+        error:
+          err instanceof Error ? err.message : "Failed to write object storage",
+      };
+    }
+
+    const row: AttachmentMeta = {
+      id: attachmentId,
+      unionId: meta.unionId,
+      localId: meta.localId,
+      bargainingUnitId: meta.bargainingUnitId,
+      expenseSubmissionId,
       fileName: input.fileName,
       mimeType: input.mimeType,
       sizeBytes: input.sizeBytes,

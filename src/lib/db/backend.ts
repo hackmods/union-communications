@@ -94,6 +94,13 @@ export function travelDbBackend(
   return resolveBackend("TRAVEL_DB_BACKEND", env);
 }
 
+/** Union business expense submissions (ORG-009). */
+export function expensesDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("EXPENSES_DB_BACKEND", env);
+}
+
 export function committeesDbBackend(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
 ): DbBackend {
@@ -161,6 +168,7 @@ export function isMemoryCaseDataActive(
     ledgerDbBackend(env) === "memory" ||
     officersDbBackend(env) === "memory" ||
     travelDbBackend(env) === "memory" ||
+    expensesDbBackend(env) === "memory" ||
     committeesDbBackend(env) === "memory" ||
     electionsDbBackend(env) === "memory" ||
     pollsDbBackend(env) === "memory" ||

@@ -183,6 +183,13 @@
       "when": 1784875000000,
       "tag": "0025_checkins",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1784876000000,
+      "tag": "0026_expense_submissions",
+      "breakpoints": true
     }
   ]
 }

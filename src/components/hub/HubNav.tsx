@@ -22,6 +22,7 @@ import { canAccessElectionsModule } from "@/lib/elections/access";
 import { canAccessMinutesModule } from "@/lib/minutes/access";
 import { canAccessOfficerRoster } from "@/lib/officers/access";
 import { canAccessTravelModule } from "@/lib/travel/access";
+import { canAccessExpensesModule } from "@/lib/expenses/access";
 import { canAccessPollsModule } from "@/lib/polls/access";
 import { canAccessMeetingsModule } from "@/lib/meetings/access";
 import type { HubModule, UserRole } from "@/types/tenant";
@@ -69,6 +70,7 @@ export function HubNav() {
   const showCommittees = canAccessCommitteesModule(roles);
   const showElections = canAccessElectionsModule(roles);
   const showTravel = canAccessTravelModule(roles);
+  const showExpenses = canAccessExpensesModule(roles);
   const showPolls = canAccessPollsModule(roles);
   const showMeetings = canAccessMeetingsModule(roles);
   const showLedger =
@@ -136,6 +138,10 @@ export function HubNav() {
     showTravel && {
       href: "/app/travel",
       label: t("travelLink"),
+    },
+    showExpenses && {
+      href: "/app/expenses",
+      label: t("expensesLink"),
     },
     showPolls && {
       href: "/app/polls",

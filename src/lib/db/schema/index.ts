@@ -15,6 +15,7 @@ export * from "./minutes";
 export * from "./committees";
 export * from "./elections";
 export * from "./travel";
+export * from "./expenses";
 export * from "./polls";
 export * from "./meetings";
 export * from "./meetings-rsvp";

@@ -145,6 +145,11 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
     migration: "0016_travel.sql",
   },
   {
+    table: "expense_submissions",
+    policy: "expense_submissions_tenant_isolation",
+    migration: "0026_expense_submissions.sql",
+  },
+  {
     table: "poll_definitions",
     policy: "poll_definitions_tenant_isolation",
     migration: "0017_polls.sql",

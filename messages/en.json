@@ -2274,6 +2274,7 @@
     "contextAllCollections": "All collections",
     "ledgerLink": "Discretionary fund",
     "travelLink": "Travel & expenses",
+    "expensesLink": "Union business expenses",
     "pollsLink": "Pulse polls",
     "meetingsLink": "Meeting schedule",
     "officersLink": "Officer roster",
@@ -2597,6 +2598,60 @@
       "meals": "Meals",
       "registration": "Registration",
       "other": "Other"
+    }
+  },
+  "expenses": {
+    "title": "Union business expenses",
+    "subtitle": "Submit out-of-pocket purchases for local union business, attach receipts, and route for treasurer approval.",
+    "disclaimer": "Prepares a handoff package for your parent union’s expense system. UnionOps does not connect to SAP or any ERP. For delegate travel with cash advances, use Travel & expenses.",
+    "loadError": "Could not load expense submissions.",
+    "createError": "Could not create this submission.",
+    "actionError": "That action could not be completed.",
+    "exportError": "Export failed. Try again.",
+    "uploadError": "Receipt upload failed.",
+    "created": "Expense submission saved as draft.",
+    "submitted": "Submitted for treasurer approval.",
+    "approved": "Approved and posted to the discretionary fund ledger.",
+    "denied": "Submission denied.",
+    "exported": "Export downloaded.",
+    "receiptUploaded": "Receipt attached.",
+    "newSubmission": "New expense submission",
+    "cancel": "Cancel",
+    "saveDraft": "Save draft",
+    "empty": "No union business expense submissions for this local yet.",
+    "approve": "Approve & reimburse",
+    "deny": "Deny",
+    "submitForApproval": "Submit for approval",
+    "uploadReceipt": "Attach receipt",
+    "addLine": "Add line item",
+    "removeLine": "Remove last line",
+    "exportXlsx": "Export Excel",
+    "exportPdf": "Export PDF",
+    "exportZip": "Receipt ZIP",
+    "total": "Total",
+    "deniedReason": "Reason",
+    "status": {
+      "draft": "Draft",
+      "submitted": "Awaiting approval",
+      "approved": "Approved",
+      "denied": "Denied"
+    },
+    "category": {
+      "supplies": "Office supplies",
+      "meeting": "Meeting / food",
+      "printing": "Printing & copies",
+      "solidarity": "Solidarity / events",
+      "postage": "Postage & shipping",
+      "other": "Other"
+    },
+    "fields": {
+      "title": "Short title",
+      "purpose": "Business purpose",
+      "lineItems": "Purchases",
+      "lineDate": "Date",
+      "lineCategory": "Category",
+      "lineAmount": "Amount",
+      "lineDescription": "Description"
     }
   },
   "hubPolls": {

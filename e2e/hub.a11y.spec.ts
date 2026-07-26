@@ -76,6 +76,11 @@ const HUB_A11Y_PAGES: {
     path: "/en/app/travel",
     heading: /Travel authorization|Autorisation de/i,
   },
+  {
+    label: "expenses",
+    path: "/en/app/expenses",
+    heading: /Union business expenses|Dépenses d'affaires syndicales/i,
+  },
 ];
 
 test.describe("Hub authenticated a11y @smoke", () => {

@@ -42,6 +42,11 @@ const ORG_PAGES: { path: string; heading: RegExp; label: string }[] = [
     heading: /Travel authorization|Autorisation de/i,
   },
   {
+    label: "expenses",
+    path: "/en/app/expenses",
+    heading: /Union business expenses|Dépenses d'affaires syndicales/i,
+  },
+  {
     label: "polls",
     path: "/en/app/polls",
     heading: /Pulse polls|Sondages Pulse/i,

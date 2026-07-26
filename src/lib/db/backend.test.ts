@@ -7,6 +7,7 @@ import {
   committeesDbBackend,
   discussionsDbBackend,
   electionsDbBackend,
+  expensesDbBackend,
   grievanceDbBackend,
   informalLogDbBackend,
   isMemoryCaseDataActive,
@@ -164,6 +165,7 @@ describe("db backend flags", () => {
       MEETINGS_DB_BACKEND: "postgres",
       MEETINGS_RSVP_DB_BACKEND: "postgres",
       CHECKINS_DB_BACKEND: "postgres",
+      EXPENSES_DB_BACKEND: "postgres",
     };
     expect(auditDbBackend(env)).toBe("postgres");
     expect(timeDbBackend(env)).toBe("postgres");
@@ -181,6 +183,7 @@ describe("db backend flags", () => {
     expect(meetingsDbBackend(env)).toBe("postgres");
     expect(meetingsRsvpDbBackend(env)).toBe("postgres");
     expect(checkinsDbBackend(env)).toBe("postgres");
+    expect(expensesDbBackend(env)).toBe("postgres");
     expect(isMemoryCaseDataActive(env)).toBe(false);
   });
 

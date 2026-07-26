@@ -20,6 +20,7 @@ export const attachmentMeta = pgTable(
     grievanceId: text("grievance_id"),
     bumpingCaseId: text("bumping_case_id"),
     expenseClaimId: text("expense_claim_id"),
+    expenseSubmissionId: text("expense_submission_id"),
     fileName: text("file_name").notNull(),
     mimeType: text("mime_type").notNull(),
     sizeBytes: integer("size_bytes").notNull(),
@@ -35,6 +36,7 @@ export const attachmentMeta = pgTable(
     index("attachment_meta_grievance_idx").on(t.grievanceId),
     index("attachment_meta_bumping_idx").on(t.bumpingCaseId),
     index("attachment_meta_expense_claim_idx").on(t.expenseClaimId),
+    index("attachment_meta_expense_submission_idx").on(t.expenseSubmissionId),
   ],
 );
 
