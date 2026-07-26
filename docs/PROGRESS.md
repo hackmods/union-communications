@@ -1,5 +1,12 @@
 # Progress Log
 
+## Sandbox Postgres flip (2026-07-26) — COMPLETE
+
+- [x] CT 115 `unionops-sandbox` — `docker-compose.durable.yml` + Postgres 16 volume; all migrations + seed
+- [x] `docker-web-1` @ `289bfb3`; `/api/health` `postgresFlipComplete: true`
+- [x] `HEALTH_REQUIRE_DURABLE=true npm run health:check` green against `192.168.0.115:3000`
+- [x] Build fix: raised `BUILD_NODE_HEAP_MB` default; fixed `TimeEntry` drizzle mapping TS errors
+
 ## Postgres ops flip tooling (2026-07-26) — COMPLETE
 
 - [x] `/api/health` — all `*_DB_BACKEND` effective flags + `postgresFlipComplete` / `memoryCaseDataActive`
