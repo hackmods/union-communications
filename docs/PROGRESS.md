@@ -1,5 +1,11 @@
 # Progress Log
 
+## Sandbox redeploy (2026-07-26) — COMPLETE
+
+- [x] CT 115 `unionops:local` @ `9446186` (trains #3–#5 on main)
+- [x] Health ok (`version` + `mfaEnabled` + `commit`); 137/137 `@smoke` green
+- [x] `health-check.mjs` / `smoke-sandbox.mjs` — avoid Windows `AbortSignal.timeout` + `process.exit(0)` UV assert
+
 ## Enhancement train #5 — 10 sets (2026-07-26) — COMPLETE
 
 1. `/api/health` `HEAD` support for load balancers

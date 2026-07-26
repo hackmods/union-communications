@@ -42,7 +42,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 2. ~~COMMS email/broadcast guide~~ — **shipped 2026-07-26** (`/guide/email-broadcast`)
 3. Time **8f** hybrid slice / punch photos (explicit product cut)
 4. ~~Optional canvas axe contrast polish (brand-orange preview smoke noise)~~ — **shipped 2026-07-25**
-5. Ops: redeploy sandbox after train merges — `npm run package:sandbox` + `health:check` + `test:smoke:sandbox`
+5. Ops: redeploy sandbox after train merges — `npm run package:sandbox` + `health:check` + `test:smoke:sandbox` — **done 2026-07-26** (`9446186`)
 
 ## Deferred / non-goals
 

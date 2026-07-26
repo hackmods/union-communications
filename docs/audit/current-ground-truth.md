@@ -44,7 +44,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 |-------|---------|
 | MFA-off Hub | `useSessionMfaOk()` / `MfaPolicyProvider` — not raw `mfaVerified` |
 | Demo on prod image | `AUTH_ALLOW_DEMO_USERS=true` |
-| Sandbox | CT 115 @ `192.168.0.115:3000`; build from source (`npm run package:sandbox`); never commit `proxmox_mcp.log`; redeploy after train merges |
+| Sandbox | CT 115 @ `192.168.0.115:3000`; `unionops:local` @ `9446186` (trains #3–#5); build from source (`npm run package:sandbox`); never commit `proxmox_mcp.log`; 137/137 smoke green 2026-07-26 |
 | Cron | `CRON_SECRET` required; Bearer or `x-cron-secret`; `?dryRun=1` previews without send/audit |
 | React derived state | Do not sync `setState` in `useEffect` for consent flags — derive from roster |
 | Production typecheck | `npx tsc --noEmit` / Docker build — unit tests miss route type errors (`#12`, `#13`) |
@@ -55,7 +55,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 2. ~~COMMS email/broadcast guide (fifth-channel)~~ — **shipped 2026-07-26** (`/guide/email-broadcast`); train #2 wired home, footer, First week, tools index
 3. Time **8f** hybrid slice / punch photos (explicit cut)
 4. ~~Optional: canvas tool axe color-contrast on brand-orange previews (6 smoke failures noted 2026-07-25)~~ — **shipped 2026-07-25** (`mutedInkOnBackground`)
-5. Ops: redeploy sandbox + `npm run test:smoke:sandbox` after merges — see `DEPLOY.md` Proxmox section
+5. ~~Ops: redeploy sandbox after train merges~~ — **done 2026-07-26** (`9446186`, health ok, 137/137 smoke)
 6. ~~API route auth unit gap (cron / forgot-password)~~ — **shipped 2026-07-26** (train #3)
 7. Ops: `npm run health:check` before sandbox smoke — **shipped 2026-07-26** (train #4)
 8. Guide discoverability polish (print/email sources, FR smoke, Brand Kit link) — **shipped 2026-07-26** (train #5)
