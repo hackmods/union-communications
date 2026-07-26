@@ -19,6 +19,7 @@
 | Pristine Office Templates | Shipped 2026-07-15 | Plan file todos may look pending — trust PROGRESS |
 | Password-reset | Shipped | Memory default; durable Postgres when `AUTH_USERS_BACKEND=postgres` |
 | FEAT-003 / FEAT-004 | Shipped | Related tasks panel; outcome UI/export/`appealDays` |
+| Check-ins (Basecamp Automatic Check-ins) | Shipped 2026-07-26 | HubModule `checkins`; dashboard unanswered widget; no email nudges |
 
 ## Three email/reminder surfaces (do not conflate)
 
@@ -59,10 +60,11 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 6. ~~API route auth unit gap (cron / forgot-password)~~ — **shipped 2026-07-26** (train #3)
 7. Ops: `npm run health:check` before sandbox smoke — **shipped 2026-07-26** (train #4)
 8. Guide discoverability polish (print/email sources, FR smoke, Brand Kit link) — **shipped 2026-07-26** (train #5)
+9. ~~Basecamp automatic check-ins + Hub unanswered widget~~ — **shipped 2026-07-26** (`checkins` HubModule)
 
 ## Agent habits
 
 - Diff docs vs code before “implement next” — plan files and backlog tickets lag
 - Bounded PRs; EN/FR + module spec + PROGRESS + rules in same milestone
 - Grep access-helper call sites when signatures change
-- Skip VISION non-goals (dues, member lists, Basecamp greenfield)
+- Skip VISION non-goals (dues, member lists); skip Basecamp **Campfire / hill charts** greenfield — check-ins shipped

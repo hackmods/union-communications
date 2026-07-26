@@ -1,5 +1,12 @@
 # Progress Log
 
+## Check-ins + Hub QOL (2026-07-26) — COMPLETE
+
+- [x] HubModule `checkins` — schedules + answers (memory default, `CHECKINS_DB_BACKEND`, migration `0025`)
+- [x] Period helper (daily / weekdays / weekly UTC); unanswered `/api/checkins/mine`
+- [x] Hub UI `/app/checkins` + detail; `MyCheckinsWidget` on dashboard
+- [x] EN/FR; `docs/modules/CHECKINS.md`; hub.a11y smoke; unit tests for periods + access
+
 ## Sandbox redeploy (2026-07-26) — COMPLETE
 
 - [x] CT 115 `unionops:local` @ `9446186` (trains #3–#5 on main)

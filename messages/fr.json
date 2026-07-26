@@ -2363,7 +2363,9 @@
       "tasks": "Tâches",
       "tasksDesc": "Assigner et suivre les tâches des dirigeants",
       "informalLog": "Journal rapide du délégué",
-      "informalLogDesc": "Consigner les discussions informelles avant de déposer un grief"
+      "informalLogDesc": "Consigner les discussions informelles avant de déposer un grief",
+      "checkins": "Points de suivi",
+      "checkinsDesc": "Questions récurrentes pour les dirigeants locaux (style Basecamp)"
     }
   },
   "tenantOnboarding": {
@@ -3014,6 +3016,61 @@
     "backToList": "Retour aux discussions",
     "reply": "Répondre",
     "postReply": "Publier la réponse"
+  },
+  "checkins": {
+    "title": "Points de suivi",
+    "subtitle": "Questions récurrentes pour les dirigeants locaux — une réponse par période. Pas de rappels courriel en v1.",
+    "loading": "Chargement des points de suivi…",
+    "loadError": "Impossible de charger les points de suivi.",
+    "createError": "Impossible de créer le point de suivi.",
+    "updateError": "Impossible de mettre à jour le point de suivi.",
+    "answerError": "Impossible d'enregistrer votre réponse.",
+    "alreadyAnswered": "Vous avez déjà répondu pour cette période.",
+    "notFound": "Point de suivi introuvable.",
+    "empty": "Aucun point de suivi pour ce local.",
+    "pendingTitle": "En attente de votre réponse",
+    "answerNow": "Répondre maintenant",
+    "allSchedules": "Tous les horaires",
+    "newSchedule": "Nouveau point de suivi",
+    "cancel": "Annuler",
+    "create": "Créer",
+    "saving": "Enregistrement…",
+    "questionLabel": "Question",
+    "cadenceLabel": "Fréquence",
+    "cadenceDaily": "Chaque jour",
+    "cadenceWeekdays": "Jours ouvrables (lun–ven)",
+    "cadenceWeekly": "Une fois par semaine",
+    "weekdayLabel": "Jour de la semaine (UTC)",
+    "weekday": {
+      "0": "Dimanche",
+      "1": "Lundi",
+      "2": "Mardi",
+      "3": "Mercredi",
+      "4": "Jeudi",
+      "5": "Vendredi",
+      "6": "Samedi"
+    },
+    "cadence": {
+      "daily": "Quotidien",
+      "weekdays": "Jours ouvrables",
+      "weekly": "Hebdomadaire"
+    },
+    "scheduleMeta": "{cadence} · {status}",
+    "statusActive": "Actif",
+    "statusInactive": "Inactif",
+    "open": "Ouvrir",
+    "deactivate": "Désactiver",
+    "backToList": "Retour aux points de suivi",
+    "periodLabel": "Période : {period}",
+    "noActivePeriod": "Aucune période active pour le moment (p. ex. fin de semaine pour les jours ouvrables)",
+    "yourAnswer": "Votre réponse",
+    "answerBody": "Réponse",
+    "submitAnswer": "Envoyer la réponse",
+    "youAnswered": "Vous avez répondu pour cette période",
+    "answersTitle": "Réponses de cette période",
+    "answersEmpty": "Aucune réponse pour cette période.",
+    "widgetTitle": "Vos points de suivi en attente",
+    "widgetAll": "Tout voir"
   },
   "tasks": {
     "title": "Tableau des tâches",

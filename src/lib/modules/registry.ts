@@ -125,6 +125,25 @@ export const MODULE_REGISTRY: HubModuleDefinition[] = [
     requiresMfa: true,
     enabledCheck: (m) => m.includes("informalLog"),
   },
+  {
+    id: "checkins",
+    nameKey: "checkins",
+    descriptionKey: "checkinsDesc",
+    href: "/app/checkins",
+    emojiId: "clipboard",
+    requiredRoles: [
+      "platform_admin",
+      "union_admin",
+      "division_admin",
+      "local_president",
+      "local_steward",
+      "local_exec",
+      "stability_member",
+      "solo_account",
+    ],
+    requiresMfa: true,
+    enabledCheck: (m) => m.includes("checkins"),
+  },
 ];
 
 export function getVisibleModules(

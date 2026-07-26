@@ -42,6 +42,11 @@ const HUB_A11Y_PAGES: {
     heading: /Task board|Tableau des tâches/i,
   },
   {
+    label: "checkins",
+    path: "/en/app/checkins",
+    heading: /Check-ins|Points de suivi/i,
+  },
+  {
     label: "documents",
     path: "/en/app/documents",
     heading: /Local documents|Documents locaux/i,

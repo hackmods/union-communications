@@ -43,10 +43,12 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 3. Time **8f** hybrid slice / punch photos (explicit product cut)
 4. ~~Optional canvas axe contrast polish (brand-orange preview smoke noise)~~ — **shipped 2026-07-25**
 5. Ops: redeploy sandbox after train merges — `npm run package:sandbox` + `health:check` + `test:smoke:sandbox` — **done 2026-07-26** (`9446186`)
+6. ~~Basecamp automatic check-ins~~ — **shipped 2026-07-26** (`checkins` HubModule + dashboard widget)
 
 ## Deferred / non-goals
 
 - Member marketing email lists; `/member` portal for RSVP
+- Basecamp Campfire / hill charts / card tables (check-ins shipped; chat & hill charts remain out)
 - Full VeriClock scheduling as a silent “8b+” expansion — require explicit product cut
 - CMEK / signed-URL attachment uploads (stretch on FEAT-001)
 - First week Print step + “Social Media Plan” → “First week” copy — **shipped 2026-07-24**
@@ -67,6 +69,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 | `/app/handoff` | President/admin reassignment |
 | `/app/audit` | Audit log (elevated) |
 | `/app/tasks` | Tasks board; case detail embeds `RelatedTasksPanel` |
+| `/app/checkins` | Automatic check-ins; dashboard unanswered widget |
 
 ## Agent habits
 

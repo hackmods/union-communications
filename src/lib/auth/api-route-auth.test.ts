@@ -40,6 +40,7 @@ const AUTH_MARKERS = [
   "requireTimeSession",
   "requireTaskSession",
   "requireDiscussionsSession",
+  "requireCheckinsSession",
   "requireInformalLogSession",
   "requireMinutesSession",
   "requireLedgerSession",

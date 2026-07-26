@@ -24,6 +24,7 @@ const hubModuleSchema = z.enum([
   "discussions",
   "tasks",
   "informalLog",
+  "checkins",
 ]);
 
 const createLocalSchema = z.object({

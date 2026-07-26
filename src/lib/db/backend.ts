@@ -137,6 +137,13 @@ export function meetingsRsvpDbBackend(
   return resolveBackend("MEETINGS_RSVP_DB_BACKEND", env);
 }
 
+/** Automatic check-ins (Basecamp-style). Default memory for demos. */
+export function checkinsDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("CHECKINS_DB_BACKEND", env);
+}
+
 /** True when any confidential module still uses the in-memory store. */
 export function isMemoryCaseDataActive(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -158,6 +165,7 @@ export function isMemoryCaseDataActive(
     electionsDbBackend(env) === "memory" ||
     pollsDbBackend(env) === "memory" ||
     meetingsDbBackend(env) === "memory" ||
-    meetingsRsvpDbBackend(env) === "memory"
+    meetingsRsvpDbBackend(env) === "memory" ||
+    checkinsDbBackend(env) === "memory"
   );
 }

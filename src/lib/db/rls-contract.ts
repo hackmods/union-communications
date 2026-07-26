@@ -85,6 +85,16 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
     migration: "0007_discussions.sql",
   },
   {
+    table: "checkin_schedules",
+    policy: "checkin_schedules_tenant_isolation",
+    migration: "0025_checkins.sql",
+  },
+  {
+    table: "checkin_answers",
+    policy: "checkin_answers_tenant_isolation",
+    migration: "0025_checkins.sql",
+  },
+  {
     table: "tasks",
     policy: "tasks_tenant_isolation",
     migration: "0009_tasks.sql",

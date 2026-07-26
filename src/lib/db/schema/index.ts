@@ -18,3 +18,4 @@ export * from "./travel";
 export * from "./polls";
 export * from "./meetings";
 export * from "./meetings-rsvp";
+export * from "./checkins";

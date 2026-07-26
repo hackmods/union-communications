@@ -3,6 +3,7 @@ import {
   attachmentsDbBackend,
   auditDbBackend,
   bumpingDbBackend,
+  checkinsDbBackend,
   committeesDbBackend,
   discussionsDbBackend,
   electionsDbBackend,
@@ -39,6 +40,7 @@ describe("db backend flags", () => {
     expect(pollsDbBackend({})).toBe("memory");
     expect(meetingsDbBackend({})).toBe("memory");
     expect(meetingsRsvpDbBackend({})).toBe("memory");
+    expect(checkinsDbBackend({})).toBe("memory");
     expect(isMemoryCaseDataActive({})).toBe(true);
   });
 
@@ -161,6 +163,7 @@ describe("db backend flags", () => {
       POLLS_DB_BACKEND: "postgres",
       MEETINGS_DB_BACKEND: "postgres",
       MEETINGS_RSVP_DB_BACKEND: "postgres",
+      CHECKINS_DB_BACKEND: "postgres",
     };
     expect(auditDbBackend(env)).toBe("postgres");
     expect(timeDbBackend(env)).toBe("postgres");
@@ -177,6 +180,7 @@ describe("db backend flags", () => {
     expect(pollsDbBackend(env)).toBe("postgres");
     expect(meetingsDbBackend(env)).toBe("postgres");
     expect(meetingsRsvpDbBackend(env)).toBe("postgres");
+    expect(checkinsDbBackend(env)).toBe("postgres");
     expect(isMemoryCaseDataActive(env)).toBe(false);
   });
 

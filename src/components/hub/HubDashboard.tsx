@@ -11,6 +11,7 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Emoji } from "@/components/ui/Emoji";
 import { MyTasksWidget } from "@/components/hub/MyTasksWidget";
+import { MyCheckinsWidget } from "@/components/hub/MyCheckinsWidget";
 import type { HubModule, UserRole } from "@/types/tenant";
 
 export function HubDashboard() {
@@ -127,6 +128,7 @@ export function HubDashboard() {
       </div>
 
       <MyTasksWidget />
+      <MyCheckinsWidget />
 
       <Card density="compact" className="mt-6">
         <CardTitle className="text-base">{t("qolCardTitle")}</CardTitle>

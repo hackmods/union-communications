@@ -2388,7 +2388,9 @@
       "tasks": "Tasks",
       "tasksDesc": "Assign and track local officer to-dos",
       "informalLog": "Steward Quick-Log",
-      "informalLogDesc": "Log informal discussions before filing a grievance"
+      "informalLogDesc": "Log informal discussions before filing a grievance",
+      "checkins": "Check-ins",
+      "checkinsDesc": "Recurring questions for local officers (Basecamp-style)"
     }
   },
   "tenantOnboarding": {
@@ -3039,6 +3041,61 @@
     "backToList": "Back to discussions",
     "reply": "Reply",
     "postReply": "Post reply"
+  },
+  "checkins": {
+    "title": "Check-ins",
+    "subtitle": "Recurring questions for local officers — answer once per period. No email nudges in v1.",
+    "loading": "Loading check-ins…",
+    "loadError": "Could not load check-ins.",
+    "createError": "Could not create check-in.",
+    "updateError": "Could not update check-in.",
+    "answerError": "Could not save your answer.",
+    "alreadyAnswered": "You already answered this period.",
+    "notFound": "Check-in not found.",
+    "empty": "No check-in schedules yet for this local.",
+    "pendingTitle": "Waiting for your answer",
+    "answerNow": "Answer now",
+    "allSchedules": "All schedules",
+    "newSchedule": "New check-in",
+    "cancel": "Cancel",
+    "create": "Create check-in",
+    "saving": "Saving…",
+    "questionLabel": "Question",
+    "cadenceLabel": "How often",
+    "cadenceDaily": "Every day",
+    "cadenceWeekdays": "Weekdays (Mon–Fri)",
+    "cadenceWeekly": "Once a week",
+    "weekdayLabel": "Day of week (UTC)",
+    "weekday": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
+    },
+    "cadence": {
+      "daily": "Daily",
+      "weekdays": "Weekdays",
+      "weekly": "Weekly"
+    },
+    "scheduleMeta": "{cadence} · {status}",
+    "statusActive": "Active",
+    "statusInactive": "Inactive",
+    "open": "Open",
+    "deactivate": "Deactivate",
+    "backToList": "Back to check-ins",
+    "periodLabel": "Period: {period}",
+    "noActivePeriod": "No active period right now (e.g. weekend for weekday check-ins)",
+    "yourAnswer": "Your answer",
+    "answerBody": "Answer",
+    "submitAnswer": "Submit answer",
+    "youAnswered": "You answered this period",
+    "answersTitle": "Answers this period",
+    "answersEmpty": "No answers yet for this period.",
+    "widgetTitle": "Your unanswered check-ins",
+    "widgetAll": "View all"
   },
   "tasks": {
     "title": "Task board",

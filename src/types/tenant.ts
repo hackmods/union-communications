@@ -5,7 +5,8 @@ export type HubModule =
   | "time"
   | "discussions"
   | "tasks"
-  | "informalLog";
+  | "informalLog"
+  | "checkins";
 
 export type UserRole =
   | "platform_admin"
