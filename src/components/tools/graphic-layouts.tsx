@@ -566,7 +566,7 @@ export function QuoteLayout({
             localNumber={localNumber}
             subText={subText}
             size={size}
-            color={accentInk.a90}
+            color={quoteInk.a90}
           />
         </div>
       </div>

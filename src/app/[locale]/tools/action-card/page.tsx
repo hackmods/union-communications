@@ -521,7 +521,7 @@ export default function ActionCardPage() {
                             className="flex aspect-square w-full items-center justify-center text-[0.65rem]"
                             style={{
                               backgroundColor: "#F3F4F6",
-                              color: "#6B7280",
+                              color: "#4B5563",
                             }}
                           >
                             {t("qrPlaceholder")}
