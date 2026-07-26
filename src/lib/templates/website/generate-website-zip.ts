@@ -157,6 +157,7 @@ ${opseuResourcesHtml}      <div class="footer-col">
 
 export function buildWebsiteCss(primaryColor: string, secondaryColor: string): string {
   const footerLinkColor = mutedInkOnBackground(primaryColor, 0.85);
+  const footerMutedColor = mutedInkOnBackground(primaryColor, 0.8);
   return `:root {
   --color-primary: ${primaryColor};
   --color-secondary: ${secondaryColor};
@@ -368,7 +369,7 @@ h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 1rem; }
   text-align: center;
   margin-top: var(--spacing-5);
   font-size: 0.875rem;
-  opacity: 0.8;
+  color: ${footerMutedColor};
 }
 
 @media (max-width: 768px) {
