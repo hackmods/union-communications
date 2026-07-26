@@ -165,9 +165,33 @@ export function OfficerRosterBoard() {
   }
 
   return (
-    <PageShell size="wide" className="py-6 md:py-8">
-      <h1 className="text-2xl font-semibold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-1 text-sm text-gray-600">{t("subtitle")}</p>
+    <PageShell size="wide" className="py-4 sm:py-6 md:py-8">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+            {t("title")}
+          </h1>
+          <p className="mt-1 text-sm text-gray-600 sm:text-base">
+            {t("subtitle")}
+          </p>
+        </div>
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+          <Button
+            type="button"
+            className="w-full sm:w-auto"
+            onClick={() => {
+              if (showForm) {
+                setShowForm(false);
+                setEditingId(null);
+              } else {
+                openCreate();
+              }
+            }}
+          >
+            {showForm ? t("cancel") : t("newOfficer")}
+          </Button>
+        </div>
+      </div>
 
       {expiringSoon.length > 0 && (
         <div
@@ -200,23 +224,6 @@ export function OfficerRosterBoard() {
           </ul>
         </div>
       )}
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        <Button
-          type="button"
-          size="sm"
-          onClick={() => {
-            if (showForm) {
-              setShowForm(false);
-              setEditingId(null);
-            } else {
-              openCreate();
-            }
-          }}
-        >
-          {showForm ? t("cancel") : t("newOfficer")}
-        </Button>
-      </div>
 
       {message && (
         <p className="mt-3 text-sm text-green-800" role="status">
@@ -316,7 +323,7 @@ export function OfficerRosterBoard() {
             />
           </label>
           <div className="sm:col-span-2">
-            <Button type="submit">
+            <Button type="submit" className="w-full sm:w-auto">
               {editingId ? t("saveEdit") : t("save")}
             </Button>
           </div>
@@ -341,67 +348,141 @@ export function OfficerRosterBoard() {
       )}
 
       {officers.length > 0 && (
-        <div className="mt-6 overflow-x-auto rounded-lg border border-gray-200">
-          <table className="min-w-full text-left text-sm">
-            <thead className="bg-gray-50 text-gray-700">
-              <tr>
-                <th className="px-3 py-2 font-medium">{t("colName")}</th>
-                <th className="px-3 py-2 font-medium">{t("colRole")}</th>
-                <th className="px-3 py-2 font-medium">{t("colTermStart")}</th>
-                <th className="px-3 py-2 font-medium">{t("colTermEnd")}</th>
-                <th className="px-3 py-2 font-medium">{t("colCommittees")}</th>
-                <th className="px-3 py-2 font-medium">
-                  <span className="sr-only">{t("actions")}</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {officers.map((row) => {
-                const expiring = isTermExpiringSoon(row.termEnd);
-                return (
-                  <tr key={row.id} className="border-t border-gray-100">
-                    <td className="px-3 py-2 font-medium text-opseu-dark">
+        <>
+          <ul className="mt-6 space-y-3 md:hidden">
+            {officers.map((row) => {
+              const expiring = isTermExpiringSoon(row.termEnd);
+              return (
+                <li
+                  key={row.id}
+                  className="rounded-lg border border-gray-200 bg-white p-3"
+                >
+                  <div className="flex min-w-0 flex-wrap items-center gap-2">
+                    <p className="min-w-0 font-medium text-opseu-dark">
                       {row.name}
-                      {expiring && (
-                        <span className="ml-2 inline-block rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-900">
-                          {t("expiringBadge")}
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-3 py-2">{row.role}</td>
-                    <td className="px-3 py-2 whitespace-nowrap text-gray-600">
-                      {row.termStart.slice(0, 10)}
-                    </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-gray-600">
-                      {row.termEnd?.slice(0, 10) ?? t("openEnded")}
-                    </td>
-                    <td className="px-3 py-2 text-gray-600">
-                      {row.committees?.join(", ") || "—"}
-                    </td>
-                    <td className="px-3 py-2 text-right whitespace-nowrap">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => openEdit(row)}
-                      >
-                        {t("edit")}
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => void handleDelete(row.id)}
-                      >
-                        {t("delete")}
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                    </p>
+                    {expiring && (
+                      <span className="inline-block rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-900">
+                        {t("expiringBadge")}
+                      </span>
+                    )}
+                  </div>
+                  <dl className="mt-2 space-y-1.5 text-xs">
+                    <div className="flex min-w-0 gap-2">
+                      <dt className="shrink-0 text-gray-500">{t("colRole")}</dt>
+                      <dd className="min-w-0 text-gray-800">{row.role}</dd>
+                    </div>
+                    <div className="flex min-w-0 gap-2">
+                      <dt className="shrink-0 text-gray-500">
+                        {t("colTermStart")}
+                      </dt>
+                      <dd className="min-w-0 text-gray-800">
+                        {row.termStart.slice(0, 10)}
+                      </dd>
+                    </div>
+                    <div className="flex min-w-0 gap-2">
+                      <dt className="shrink-0 text-gray-500">
+                        {t("colTermEnd")}
+                      </dt>
+                      <dd className="min-w-0 text-gray-800">
+                        {row.termEnd?.slice(0, 10) ?? t("openEnded")}
+                      </dd>
+                    </div>
+                    <div className="flex min-w-0 gap-2">
+                      <dt className="shrink-0 text-gray-500">
+                        {t("colCommittees")}
+                      </dt>
+                      <dd className="min-w-0 break-words text-gray-800">
+                        {row.committees?.join(", ") || "—"}
+                      </dd>
+                    </div>
+                  </dl>
+                  <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="w-full sm:w-auto"
+                      onClick={() => openEdit(row)}
+                    >
+                      {t("edit")}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="w-full sm:w-auto"
+                      onClick={() => void handleDelete(row.id)}
+                    >
+                      {t("delete")}
+                    </Button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="mt-6 hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
+            <table className="min-w-full text-left text-sm">
+              <thead className="bg-gray-50 text-gray-700">
+                <tr>
+                  <th className="px-3 py-2 font-medium">{t("colName")}</th>
+                  <th className="px-3 py-2 font-medium">{t("colRole")}</th>
+                  <th className="px-3 py-2 font-medium">{t("colTermStart")}</th>
+                  <th className="px-3 py-2 font-medium">{t("colTermEnd")}</th>
+                  <th className="px-3 py-2 font-medium">{t("colCommittees")}</th>
+                  <th className="px-3 py-2 font-medium">
+                    <span className="sr-only">{t("actions")}</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {officers.map((row) => {
+                  const expiring = isTermExpiringSoon(row.termEnd);
+                  return (
+                    <tr key={row.id} className="border-t border-gray-100">
+                      <td className="px-3 py-2 font-medium text-opseu-dark">
+                        {row.name}
+                        {expiring && (
+                          <span className="ml-2 inline-block rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-900">
+                            {t("expiringBadge")}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-3 py-2">{row.role}</td>
+                      <td className="px-3 py-2 whitespace-nowrap text-gray-600">
+                        {row.termStart.slice(0, 10)}
+                      </td>
+                      <td className="px-3 py-2 whitespace-nowrap text-gray-600">
+                        {row.termEnd?.slice(0, 10) ?? t("openEnded")}
+                      </td>
+                      <td className="px-3 py-2 text-gray-600">
+                        {row.committees?.join(", ") || "—"}
+                      </td>
+                      <td className="px-3 py-2 text-right whitespace-nowrap">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => openEdit(row)}
+                        >
+                          {t("edit")}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => void handleDelete(row.id)}
+                        >
+                          {t("delete")}
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </PageShell>
   );

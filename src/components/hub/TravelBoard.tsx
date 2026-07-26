@@ -171,20 +171,33 @@ export function TravelBoard() {
 
   if (loading) {
     return (
-      <PageShell>
-        <Skeleton className="h-8 w-64" />
+      <PageShell size="wide" className="py-4 sm:py-6 md:py-8">
+        <Skeleton className="h-8 w-64 max-w-full" />
         <Skeleton className="mt-4 h-40 w-full" />
       </PageShell>
     );
   }
 
   return (
-    <PageShell>
+    <PageShell size="wide" className="py-4 sm:py-6 md:py-8">
       <div className="space-y-6">
-        <header className="space-y-2">
-          <h1 className="text-2xl font-semibold text-opseu-dark">{t("title")}</h1>
-          <p className="text-sm text-gray-600">{t("subtitle")}</p>
-          <p className="text-xs text-gray-500">{t("disclaimer")}</p>
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+          <div className="min-w-0 space-y-1">
+            <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+              {t("title")}
+            </h1>
+            <p className="text-sm text-gray-600 sm:text-base">{t("subtitle")}</p>
+            <p className="text-xs text-gray-500">{t("disclaimer")}</p>
+          </div>
+          <div className="flex w-full flex-col gap-2 sm:w-auto">
+            <Button
+              type="button"
+              className="w-full sm:w-auto"
+              onClick={() => setShowForm((v) => !v)}
+            >
+              {showForm ? t("cancel") : t("newRequest")}
+            </Button>
+          </div>
         </header>
 
         {error && (
@@ -197,12 +210,6 @@ export function TravelBoard() {
             {message}
           </p>
         )}
-
-        <div className="flex flex-wrap gap-2">
-          <Button type="button" onClick={() => setShowForm((v) => !v)}>
-            {showForm ? t("cancel") : t("newRequest")}
-          </Button>
-        </div>
 
         {showForm && (
           <form
@@ -257,7 +264,9 @@ export function TravelBoard() {
                 />
               ))}
             </fieldset>
-            <Button type="submit">{t("save")}</Button>
+            <Button type="submit" className="w-full sm:w-auto">
+              {t("save")}
+            </Button>
           </form>
         )}
 

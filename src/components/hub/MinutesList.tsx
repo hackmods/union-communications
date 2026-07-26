@@ -39,22 +39,28 @@ export function MinutesList() {
   }, [t]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 py-4 sm:py-0">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-opseu-dark">{t("title")}</h1>
-          <p className="mt-1 text-sm text-gray-600">{t("subtitle")}</p>
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+            {t("title")}
+          </h1>
+          <p className="mt-1 text-sm text-gray-600 sm:text-base">
+            {t("subtitle")}
+          </p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
           <Link
             href="/app"
-            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-opseu-dark hover:bg-gray-50"
+            className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-opseu-dark hover:bg-gray-50 sm:w-auto"
           >
             {th("backToDashboard")}
           </Link>
           {canWrite ? (
-            <Link href="/app/minutes/new">
-              <Button type="button">{t("newMinutes")}</Button>
+            <Link href="/app/minutes/new" className="w-full sm:w-auto">
+              <Button type="button" className="w-full sm:w-auto">
+                {t("newMinutes")}
+              </Button>
             </Link>
           ) : null}
         </div>

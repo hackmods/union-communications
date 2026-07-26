@@ -84,4 +84,48 @@ test.describe("Hub dashboards mobile @smoke @mobile", () => {
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
+
+  test("audit log has no horizontal overflow", async ({ page }) => {
+    await page.goto("/en/app/audit");
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: /Audit log|Journal d’audit|Journal d'audit/i,
+      }),
+    ).toBeVisible();
+    await assertNoHorizontalOverflow(page);
+  });
+
+  test("handoff wizard has no horizontal overflow", async ({ page }) => {
+    await page.goto("/en/app/handoff");
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: /Officer handoff wizard|Assistant de passation/i,
+      }),
+    ).toBeVisible();
+    await assertNoHorizontalOverflow(page);
+  });
+
+  test("officers roster has no horizontal overflow", async ({ page }) => {
+    await page.goto("/en/app/officers");
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: /Officer roster|Liste des dirigeants/i,
+      }),
+    ).toBeVisible();
+    await assertNoHorizontalOverflow(page);
+  });
+
+  test("minutes list has no horizontal overflow", async ({ page }) => {
+    await page.goto("/en/app/minutes");
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: /Meeting minutes|Procès-verbaux/i,
+      }),
+    ).toBeVisible();
+    await assertNoHorizontalOverflow(page);
+  });
 });

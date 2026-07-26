@@ -148,7 +148,7 @@ export function MinutesDetail({ minutesId }: { minutesId: string }) {
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div>
+        <div className="min-w-0">
           <div className="mb-2 flex flex-wrap items-center gap-2">
             <Badge
               variant={entry.status === "approved" ? "success" : "muted"}
@@ -159,12 +159,12 @@ export function MinutesDetail({ minutesId }: { minutesId: string }) {
               {t(`meetingType.${entry.meetingType}`)}
             </span>
           </div>
-          <h1 className="text-2xl font-bold text-opseu-dark">
+          <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
             {t("detailTitle", {
               date: new Date(entry.meetingDate).toLocaleDateString(),
             })}
           </h1>
-          <p className="mt-1 text-sm text-gray-600">
+          <p className="mt-1 text-sm text-gray-600 sm:text-base">
             {t("recordedBy", { name: entry.recordedByName })}
             {entry.approvedAt
               ? ` · ${t("approvedAt", {
@@ -173,16 +173,17 @@ export function MinutesDetail({ minutesId }: { minutesId: string }) {
               : ""}
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
           <Link
             href="/app/minutes"
-            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50"
+            className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50 sm:w-auto"
           >
             {t("backToList")}
           </Link>
           <Button
             type="button"
             variant="secondary"
+            className="w-full sm:w-auto"
             disabled={busy}
             onClick={() => void handleExport()}
           >
@@ -191,6 +192,7 @@ export function MinutesDetail({ minutesId }: { minutesId: string }) {
           {canApprove && entry.status === "draft" ? (
             <Button
               type="button"
+              className="w-full sm:w-auto"
               disabled={busy}
               onClick={() => void handleApprove()}
             >
@@ -201,6 +203,7 @@ export function MinutesDetail({ minutesId }: { minutesId: string }) {
             <Button
               type="button"
               variant="outline"
+              className="w-full sm:w-auto"
               disabled={busy}
               onClick={() => void handleDelete()}
             >

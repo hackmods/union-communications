@@ -80,7 +80,8 @@ Legend: **Blocked by** = must be *closed* first. **Blocks** = downstream tickets
 | `UX-003` — `ContrastChecker` hardcodes `#FFFFFF` on Flyer/Graphic Maker | Medium | `flyer-maker/page.tsx`, `graphic-maker/page.tsx`, `ContrastChecker.tsx` | — | — |
 | `UX-004` — Brand Kit contrast is advisory-only, not enforced | Medium | `src/lib/utils/ink.ts`, `src/store/brand-store.ts`, Brand Kit save flow | `UX-003` (fix the checker's own correctness first) | — |
 | `UX-005` — Sitemap may omit bare `/guide` index | Low | `src/app/sitemap.ts` | — | — |
-| `UI-002` — Hub dashboards lack mobile-first responsive layouts | Medium | `GrievanceDashboard.tsx`, `BumpingDashboard.tsx`, `src/app/[locale]/app/layout.tsx` | — | — |
+| `UI-002` — Hub dashboards lack mobile-first responsive layouts | Medium | `GrievanceDashboard.tsx`, `BumpingDashboard.tsx`, `src/app/[locale]/app/layout.tsx` | — | `UI-006` (deferred modules) |
+| `UI-006` — Hub polish follow-on (audit/handoff/org mobile-first) | Medium | `AuditLogClient`, `HandoffWizard`, org boards under `src/components/hub/`, `e2e/hub.mobile.spec.ts` | `UI-002` | — |
 | `UI-003` — Axe coverage missing on authenticated Hub + most tools | Medium | `e2e/smoke.spec.ts`, `e2e/builders.smoke.spec.ts` | `UX-001` (scan the new error/loading states, not just happy path) | — |
 | `UI-004` — No `next/font`; confirm intentional | Low | `docs/DECISIONS.md` (new ADR) or `src/app/globals.css`/`layout.tsx` if a change is chosen | — | — |
 | `UI-005` — Canvas previews lack `role`/accessible-name summary for screen readers | Low | `ToolEditorLayout.tsx`, `BoardTrimCanvas.tsx`, `solidarity-poster/page.tsx` | — | — |

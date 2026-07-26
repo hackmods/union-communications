@@ -270,29 +270,38 @@ export function ElectionsBoard() {
   }
 
   return (
-    <PageShell size="wide" className="py-6 md:py-8">
-      <h1 className="text-2xl font-semibold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-1 text-sm text-gray-600">{t("subtitle")}</p>
-      <p className="mt-2 text-xs text-gray-500">{t("noOnlineVoting")}</p>
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        <Button
-          type="button"
-          size="sm"
-          onClick={() => setShowForm((v) => !v)}
-        >
-          {showForm ? t("cancel") : t("newCycle")}
-        </Button>
-        {selected && (
+    <PageShell size="wide" className="py-4 sm:py-6 md:py-8">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+            {t("title")}
+          </h1>
+          <p className="mt-1 text-sm text-gray-600 sm:text-base">
+            {t("subtitle")}
+          </p>
+          <p className="mt-2 text-xs text-gray-500">{t("noOnlineVoting")}</p>
+        </div>
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
           <Button
             type="button"
-            variant="outline"
             size="sm"
-            onClick={() => void exportBallot()}
+            className="w-full sm:w-auto"
+            onClick={() => setShowForm((v) => !v)}
           >
-            {t("exportBallot")}
+            {showForm ? t("cancel") : t("newCycle")}
           </Button>
-        )}
+          {selected && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="w-full sm:w-auto"
+              onClick={() => void exportBallot()}
+            >
+              {t("exportBallot")}
+            </Button>
+          )}
+        </div>
       </div>
 
       {exportError && (
@@ -348,7 +357,9 @@ export function ElectionsBoard() {
             />
           </label>
           <div className="sm:col-span-2">
-            <Button type="submit">{t("saveCycle")}</Button>
+            <Button type="submit" className="w-full sm:w-auto">
+              {t("saveCycle")}
+            </Button>
           </div>
         </form>
       )}
@@ -510,7 +521,7 @@ export function ElectionsBoard() {
                     />
                   </label>
                   <div className="sm:col-span-2">
-                    <Button type="submit" size="sm">
+                    <Button type="submit" size="sm" className="w-full sm:w-auto">
                       {t("addNomination")}
                     </Button>
                   </div>
@@ -532,7 +543,7 @@ export function ElectionsBoard() {
                     tallyDraft.map((row, idx) => (
                       <div
                         key={`${row.position}-${row.nomineeName}-${idx}`}
-                        className="grid grid-cols-[1fr_1fr_6rem] gap-2 text-sm"
+                        className="grid grid-cols-1 gap-2 text-sm sm:grid-cols-[1fr_1fr_6rem]"
                       >
                         <span className="self-center truncate">{row.position}</span>
                         <span className="self-center truncate">

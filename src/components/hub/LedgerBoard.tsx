@@ -194,13 +194,17 @@ export function LedgerBoard() {
   }
 
   return (
-    <PageShell size="wide" className="py-6 md:py-8">
-      <h1 className="text-2xl font-semibold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-1 text-sm text-gray-600">{t("subtitle")}</p>
-      <p className="mt-2 text-xs text-gray-500">{t("disclaimer")}</p>
+    <PageShell size="wide" className="py-4 sm:py-6 md:py-8">
+      <div className="min-w-0">
+        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+          {t("title")}
+        </h1>
+        <p className="mt-1 text-sm text-gray-600 sm:text-base">{t("subtitle")}</p>
+        <p className="mt-2 text-xs text-gray-500">{t("disclaimer")}</p>
+      </div>
 
-      <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
-        <div>
+      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
           <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
             {t("balanceLabel")}
           </p>
@@ -208,14 +212,21 @@ export function LedgerBoard() {
             {formatMoney(balance)}
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Button type="button" variant="outline" size="sm" onClick={exportCsv}>
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full sm:w-auto"
+            onClick={exportCsv}
+          >
             {t("exportCsv")}
           </Button>
           <Button
             type="button"
             variant="outline"
             size="sm"
+            className="w-full sm:w-auto"
             onClick={() => void exportXlsx()}
           >
             {t("exportXlsx")}
@@ -223,6 +234,7 @@ export function LedgerBoard() {
           <Button
             type="button"
             size="sm"
+            className="w-full sm:w-auto"
             onClick={() => setShowForm((v) => !v)}
           >
             {showForm ? t("cancel") : t("newEntry")}
@@ -309,7 +321,9 @@ export function LedgerBoard() {
             />
           </label>
           <div className="sm:col-span-2">
-            <Button type="submit">{t("save")}</Button>
+            <Button type="submit" className="w-full sm:w-auto">
+              {t("save")}
+            </Button>
           </div>
         </form>
       )}
@@ -332,40 +346,19 @@ export function LedgerBoard() {
       )}
 
       {entries.length > 0 && (
-        <div className="mt-6 overflow-x-auto rounded-lg border border-gray-200">
-          <table className="min-w-full text-left text-sm">
-            <thead className="bg-gray-50 text-gray-700">
-              <tr>
-                <th className="px-3 py-2 font-medium">{t("colDate")}</th>
-                <th className="px-3 py-2 font-medium">{t("colType")}</th>
-                <th className="px-3 py-2 font-medium">{t("colCategory")}</th>
-                <th className="px-3 py-2 font-medium">{t("colDescription")}</th>
-                <th className="px-3 py-2 font-medium text-right">
-                  {t("colAmount")}
-                </th>
-                <th className="px-3 py-2 font-medium text-right">
-                  {t("colBalance")}
-                </th>
-                <th className="px-3 py-2 font-medium">
-                  <span className="sr-only">{t("actions")}</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {entries.map((row) => (
-                <tr key={row.id} className="border-t border-gray-100">
-                  <td className="px-3 py-2 whitespace-nowrap text-gray-600">
+        <>
+          <ul className="mt-6 space-y-3 md:hidden">
+            {entries.map((row) => (
+              <li
+                key={row.id}
+                className="rounded-lg border border-gray-200 bg-white p-3"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <p className="min-w-0 text-sm font-medium text-opseu-dark">
                     {row.date.slice(0, 10)}
-                  </td>
-                  <td className="px-3 py-2">
-                    {row.type === "income"
-                      ? t("typeIncome")
-                      : t("typeExpense")}
-                  </td>
-                  <td className="px-3 py-2">{row.category}</td>
-                  <td className="px-3 py-2">{row.description}</td>
-                  <td
-                    className={`px-3 py-2 text-right font-mono text-xs ${
+                  </p>
+                  <p
+                    className={`shrink-0 font-mono text-sm ${
                       row.type === "income"
                         ? "text-green-800"
                         : "text-red-800"
@@ -373,25 +366,115 @@ export function LedgerBoard() {
                   >
                     {row.type === "income" ? "+" : "−"}
                     {formatMoney(row.amount)}
-                  </td>
-                  <td className="px-3 py-2 text-right font-mono text-xs">
-                    {formatMoney(row.runningBalance)}
-                  </td>
-                  <td className="px-3 py-2 text-right">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => void handleDelete(row.id)}
-                    >
-                      {t("delete")}
-                    </Button>
-                  </td>
+                  </p>
+                </div>
+                <dl className="mt-2 space-y-1.5 text-xs">
+                  <div className="flex min-w-0 gap-2">
+                    <dt className="shrink-0 text-gray-500">{t("colType")}</dt>
+                    <dd className="min-w-0 text-gray-800">
+                      {row.type === "income"
+                        ? t("typeIncome")
+                        : t("typeExpense")}
+                    </dd>
+                  </div>
+                  <div className="flex min-w-0 gap-2">
+                    <dt className="shrink-0 text-gray-500">
+                      {t("colCategory")}
+                    </dt>
+                    <dd className="min-w-0 break-words text-gray-800">
+                      {row.category}
+                    </dd>
+                  </div>
+                  <div className="flex min-w-0 gap-2">
+                    <dt className="shrink-0 text-gray-500">
+                      {t("colDescription")}
+                    </dt>
+                    <dd className="min-w-0 break-words text-gray-800">
+                      {row.description}
+                    </dd>
+                  </div>
+                  <div className="flex min-w-0 gap-2">
+                    <dt className="shrink-0 text-gray-500">
+                      {t("colBalance")}
+                    </dt>
+                    <dd className="min-w-0 font-mono text-gray-800">
+                      {formatMoney(row.runningBalance)}
+                    </dd>
+                  </div>
+                </dl>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="mt-3 w-full sm:w-auto"
+                  onClick={() => void handleDelete(row.id)}
+                >
+                  {t("delete")}
+                </Button>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-6 hidden overflow-x-auto rounded-lg border border-gray-200 md:block">
+            <table className="min-w-full text-left text-sm">
+              <thead className="bg-gray-50 text-gray-700">
+                <tr>
+                  <th className="px-3 py-2 font-medium">{t("colDate")}</th>
+                  <th className="px-3 py-2 font-medium">{t("colType")}</th>
+                  <th className="px-3 py-2 font-medium">{t("colCategory")}</th>
+                  <th className="px-3 py-2 font-medium">{t("colDescription")}</th>
+                  <th className="px-3 py-2 font-medium text-right">
+                    {t("colAmount")}
+                  </th>
+                  <th className="px-3 py-2 font-medium text-right">
+                    {t("colBalance")}
+                  </th>
+                  <th className="px-3 py-2 font-medium">
+                    <span className="sr-only">{t("actions")}</span>
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {entries.map((row) => (
+                  <tr key={row.id} className="border-t border-gray-100">
+                    <td className="px-3 py-2 whitespace-nowrap text-gray-600">
+                      {row.date.slice(0, 10)}
+                    </td>
+                    <td className="px-3 py-2">
+                      {row.type === "income"
+                        ? t("typeIncome")
+                        : t("typeExpense")}
+                    </td>
+                    <td className="px-3 py-2">{row.category}</td>
+                    <td className="px-3 py-2">{row.description}</td>
+                    <td
+                      className={`px-3 py-2 text-right font-mono text-xs ${
+                        row.type === "income"
+                          ? "text-green-800"
+                          : "text-red-800"
+                      }`}
+                    >
+                      {row.type === "income" ? "+" : "−"}
+                      {formatMoney(row.amount)}
+                    </td>
+                    <td className="px-3 py-2 text-right font-mono text-xs">
+                      {formatMoney(row.runningBalance)}
+                    </td>
+                    <td className="px-3 py-2 text-right">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => void handleDelete(row.id)}
+                      >
+                        {t("delete")}
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </PageShell>
   );

@@ -158,33 +158,41 @@ export function PollsBoard() {
 
   if (loading) {
     return (
-      <PageShell size="wide" className="py-6 md:py-8">
-        <Skeleton className="h-8 w-64" />
+      <PageShell size="wide" className="py-4 sm:py-6 md:py-8">
+        <Skeleton className="h-8 w-64 max-w-full" />
         <Skeleton className="mt-4 h-40 w-full" />
       </PageShell>
     );
   }
 
   return (
-    <PageShell size="wide" className="py-6 md:py-8">
-      <h1 className="text-2xl font-semibold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-1 text-sm text-gray-600">{t("subtitle")}</p>
-      <p className="mt-2 text-xs text-gray-500">{t("privacy")}</p>
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        <Button
-          type="button"
-          size="sm"
-          onClick={() => setShowForm((v) => !v)}
-        >
-          {showForm ? t("cancel") : t("newPoll")}
-        </Button>
-        <Link
-          href="/tools/pulse-poll"
-          className="inline-flex min-h-11 items-center text-sm text-opseu-blue underline"
-        >
-          {t("authoringTool")}
-        </Link>
+    <PageShell size="wide" className="py-4 sm:py-6 md:py-8">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+            {t("title")}
+          </h1>
+          <p className="mt-1 text-sm text-gray-600 sm:text-base">
+            {t("subtitle")}
+          </p>
+          <p className="mt-2 text-xs text-gray-500">{t("privacy")}</p>
+        </div>
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
+          <Button
+            type="button"
+            size="sm"
+            className="w-full sm:w-auto"
+            onClick={() => setShowForm((v) => !v)}
+          >
+            {showForm ? t("cancel") : t("newPoll")}
+          </Button>
+          <Link
+            href="/tools/pulse-poll"
+            className="inline-flex min-h-11 w-full items-center justify-center text-sm text-opseu-blue underline sm:w-auto sm:justify-start"
+          >
+            {t("authoringTool")}
+          </Link>
+        </div>
       </div>
 
       {message && (
@@ -226,7 +234,7 @@ export function PollsBoard() {
             onChange={(e) => setQuestionText(e.target.value)}
             required
           />
-          <Button type="submit" size="sm">
+          <Button type="submit" size="sm" className="w-full sm:w-auto">
             {t("create")}
           </Button>
         </form>

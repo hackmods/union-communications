@@ -111,7 +111,9 @@ export function HandoffWizard() {
   if (error && step === 1 && grievances.length === 0) {
     return (
       <div>
-        <h1 className="text-3xl font-bold text-opseu-dark">{t("handoff.title")}</h1>
+        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+          {t("handoff.title")}
+        </h1>
         <p className="mt-4 text-red-700" role="alert">
           {error}
         </p>
@@ -121,14 +123,18 @@ export function HandoffWizard() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-opseu-dark">{t("handoff.title")}</h1>
-      <p className="mt-1 text-gray-600">{t("handoff.subtitle")}</p>
+      <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+        {t("handoff.title")}
+      </h1>
+      <p className="mt-1 text-sm text-gray-600 sm:text-base">
+        {t("handoff.subtitle")}
+      </p>
 
-      <ol className="mt-4 flex flex-wrap gap-2 text-sm">
+      <ol className="mt-4 flex flex-col gap-2 text-sm sm:flex-row sm:flex-wrap">
         {[1, 2, 3, 4].map((n) => (
           <li
             key={n}
-            className={`rounded-md px-3 py-1 ${
+            className={`min-h-11 rounded-md px-3 py-2 sm:min-h-0 sm:py-1 ${
               step === n
                 ? "bg-opseu-blue text-white"
                 : step > n
@@ -148,14 +154,17 @@ export function HandoffWizard() {
             <EmptyState title={t("handoff.empty")} />
           ) : (
             grievances.map((g) => (
-              <label key={g.id} className="flex items-start gap-3 text-sm">
+              <label
+                key={g.id}
+                className="flex min-h-11 items-start gap-3 text-sm"
+              >
                 <input
                   type="checkbox"
                   checked={selectedIds.has(g.id)}
                   onChange={() => toggleId(g.id)}
                   className="mt-1"
                 />
-                <span>
+                <span className="min-w-0">
                   <span className="font-medium">
                     {g.memberPseudonym ?? tg("anonymousMember")} - {g.category}
                   </span>
@@ -168,6 +177,7 @@ export function HandoffWizard() {
             ))
           )}
           <Button
+            className="w-full sm:w-auto"
             onClick={() => setStep(2)}
             disabled={selectedIds.size === 0}
           >
@@ -182,7 +192,7 @@ export function HandoffWizard() {
           <select
             value={stewardId}
             onChange={(e) => setStewardId(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2"
+            className="min-h-11 w-full rounded-lg border border-gray-300 px-3 py-2"
           >
             {stewards.map((s) => (
               <option key={s.id} value={s.id}>
@@ -196,11 +206,19 @@ export function HandoffWizard() {
             onChange={(e) => setNotes(e.target.value)}
             rows={3}
           />
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => setStep(1)}>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Button
+              variant="outline"
+              className="w-full sm:w-auto"
+              onClick={() => setStep(1)}
+            >
               {t("handoff.back")}
             </Button>
-            <Button onClick={() => setStep(3)} disabled={!stewardId}>
+            <Button
+              className="w-full sm:w-auto"
+              onClick={() => setStep(3)}
+              disabled={!stewardId}
+            >
               {t("handoff.next")}
             </Button>
           </div>
@@ -212,7 +230,10 @@ export function HandoffWizard() {
           <CardTitle>{t("handoff.checklist")}</CardTitle>
           <p className="text-sm text-gray-600">{t("handoff.checklistHint")}</p>
           {HANDOFF_CHECKLIST.map((item) => (
-            <label key={item} className="flex items-start gap-3 text-sm">
+            <label
+              key={item}
+              className="flex min-h-11 items-start gap-3 text-sm"
+            >
               <input
                 type="checkbox"
                 checked={!!checked[item]}
@@ -221,14 +242,22 @@ export function HandoffWizard() {
                 }
                 className="mt-1"
               />
-              <span>{item}</span>
+              <span className="min-w-0">{item}</span>
             </label>
           ))}
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => setStep(2)}>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Button
+              variant="outline"
+              className="w-full sm:w-auto"
+              onClick={() => setStep(2)}
+            >
               {t("handoff.back")}
             </Button>
-            <Button onClick={() => void completeHandoff()} disabled={busy}>
+            <Button
+              className="w-full sm:w-auto"
+              onClick={() => void completeHandoff()}
+              disabled={busy}
+            >
               {busy ? t("handoff.working") : t("handoff.complete")}
             </Button>
           </div>
@@ -249,7 +278,9 @@ export function HandoffWizard() {
               name: result.toStewardName,
             })}
           </p>
-          <Button onClick={downloadPackage}>{t("handoff.download")}</Button>
+          <Button className="w-full sm:w-auto" onClick={downloadPackage}>
+            {t("handoff.download")}
+          </Button>
         </Card>
       )}
     </div>

@@ -353,6 +353,26 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Populate `previewAccessibleName` per tool with a short dynamic summary (e.g. "Flyer preview: [headline] on [primary colour] background") generated from the tool's own state.
 3. Verify with a screen reader (NVDA/VoiceOver) that navigating past the preview announces the summary rather than reading every internal node individually (consider `aria-live="off"` + programmatic focus management rather than fully hiding content with `aria-hidden`, to avoid regressing the "text stays in DOM" positive noted in this audit).
 
+### [UI-006] ✅ CLOSED (2026-07-26)
+**Category:** UI/Media
+**Severity/Priority:** Medium
+**Status:** Closed — Mobile-first Hub polish follow-on to `UI-002`: audit/officers/ledger use card stacks below `md` + tables from `md` up; handoff wizard stacks step chips + full-width CTAs on phone; elections/travel/polls/minutes header CTAs match GrievanceDashboard density; `@mobile` overflow coverage for `/app/audit`, `/app/handoff`, `/app/officers`, `/app/minutes`.
+**Problem/Gap Statement:** `UI-002` explicitly deferred other Hub modules. Audit is a desktop-only wide table; handoff wizard uses fixed `text-3xl` + non-stacking CTA rows; org boards (officers/ledger/elections/travel/polls/minutes) mix partial `sm:` grids with phone-hostile table layouts and header CTAs that do not match `GrievanceDashboard` density. Stewards use Hub on shop-floor phones — these surfaces still feel desktop-linear.
+**Affected Architecture/Files:**
+- `src/components/hub/AuditLogClient.tsx`
+- `src/components/qol/HandoffWizard.tsx`
+- Org boards: `OfficerRosterBoard.tsx`, `LedgerBoard.tsx`, `ElectionsBoard.tsx`, `TravelBoard.tsx`, `PollsBoard.tsx`, `MinutesList.tsx` / `MinutesDetail.tsx` / `MinutesCreateForm.tsx` (under `src/components/hub/`)
+- Optionally QOL peers if still sparse: `SnippetLibrary.tsx`, `MarketplacePanel.tsx`, `OverdueDashboard.tsx`
+- `e2e/hub.mobile.spec.ts` (extend overflow coverage)
+- `.cursor/rules/responsive-layouts.mdc` + `tool-editor-ux.mdc` Hub chrome notes
+**Implementation Blueprint:**
+1. Mirror `GrievanceDashboard` / `UI-002` patterns: `text-2xl sm:text-3xl` titles; header/action rows `flex-col` → `sm:flex-row`; primary buttons `w-full sm:w-auto`; `min-w-0` on text columns; touch targets ≥44px where practical.
+2. **Audit + officers + ledger tables:** on `<md`, render stacked card/list rows (label + value); keep `overflow-x-auto` table from `md:` up — do not rely on horizontal scroll as the only phone UX.
+3. **Handoff:** stack step chips / Back+Next CTAs full-width on phone; tighten title/subtitle rhythm to match Hub polish.
+4. **Org boards:** stack create/header CTAs; ensure create forms and list rows do not cause page-level horizontal overflow at ~375px; densify padding (`py-4 sm:py-6 md:py-8` where PageShell allows).
+5. Extend `e2e/hub.mobile.spec.ts` with `@mobile` no-overflow (+ optional axe) for `/app/audit`, `/app/handoff`, and at least two org routes (e.g. `/app/officers`, `/app/minutes`).
+6. Update `docs/PROGRESS.md`; mark this ticket Closed with commit SHA (do not delete). No union-name hardcoding; both EN/FR if any new copy is required (prefer reuse existing keys).
+
 ---
 
 ## COMMS TOOLS (`TOOL-`)

@@ -48,6 +48,7 @@ const AUTH_MARKERS = [
   "requireCommitteesSession",
   "requireElectionsSession",
   "requireTravelSession",
+  "requireExpenseSession",
   "requirePollsSession",
   "requireTenantOnboardingSession",
   "requireMeetingsSession",

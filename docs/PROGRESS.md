@@ -646,6 +646,7 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] `TOOL-003` — PWA offline shell precaches `/en/` + `/fr/`; locale-aware navigation fallback + manifest `start_url`
 - [x] `UI-001` — shared `Select` / `Checkbox` / `Radio` / `Dialog` / `Badge`; migrated TimeDashboard + document-generator (+ GrievanceDashboard / Hybrid radios / ConsentModal); `primitives.test.tsx`
 - [x] `UI-002` — Hub mobile-first: `PAGE_SHELL.wide` app body; Grievance/Bumping dense KPI + stacked CTAs/rows; Time header CTAs; `@mobile` hub overflow specs + auth helper
+- [x] `UI-006` — Hub polish follow-on: mobile card stacks for audit/officers/ledger; stacked CTAs on handoff + org boards (elections/travel/polls/minutes); `@mobile` overflow for audit/handoff/officers/minutes
 - [x] `UX-002` — `EmptyState` + `Skeleton` on main Hub lists (grievance/bumping/time/audit/snippets/marketplace/overdue/handoff/tasks); Playwright visual smoke deferred
 - [x] `UI-005` — canvas preview `role="group"` + accessible name via `ToolEditorLayout.previewAccessibleName`; `BoardTrimCanvas.accessibleName`; solidarity-poster + board-banner EN/FR summaries
 - [x] `UI-004` — system font stack confirmed intentional; ADR-014 (no `next/font` / no remote webfonts)

@@ -295,13 +295,13 @@ export function MinutesCreateForm() {
             </p>
           ) : null}
 
-          <div className="flex flex-wrap gap-2">
-            <Button type="submit" disabled={saving}>
+          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
+            <Button type="submit" className="w-full sm:w-auto" disabled={saving}>
               {saving ? t("saving") : t("save")}
             </Button>
             <Link
               href="/app/minutes"
-              className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50"
+              className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50 sm:w-auto"
             >
               {t("cancel")}
             </Link>
