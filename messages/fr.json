@@ -251,7 +251,8 @@
           "Suivre le guide de déploiement pour publier"
         ],
         "cta": "Modèle de site Web",
-        "secondaryCta": "Guide site Web"
+        "secondaryCta": "Guide site Web",
+        "tertiaryEmailBroadcast": "Courriel et diffusion"
       }
     }
   },
@@ -1501,6 +1502,7 @@
         "boards": "Tableaux minimaux au travail et quoi imprimer.",
         "print": "Affiches et habitudes d'impression pour réunions et actions.",
         "website": "Quoi mettre sur un site local, créer le ZIP et publier sur GitHub Pages.",
+        "email": "Quand utiliser la copie Comms/mailto vs le SMTP du hub — diffusion aux dirigeants seulement, jamais de listes marketing.",
         "crisis": "Communications de négociation et de grève à enjeux élevés.",
         "photoConsent": "Liste photo membre pour délégués et ateliers."
       }
@@ -3710,6 +3712,8 @@
   "toolsIndex": {
     "title": "Outils",
     "subtitle": "Créateurs pour la marque, les tableaux syndicaux, l'impression, le social et le web — tout reste sur votre appareil.",
+    "channelGuidesTitle": "Guides par canal",
+    "channelGuidesIntro": "Guides pas à pas pour l'impression, les tableaux de travail, les sites Web et la diffusion par courriel — la même feuille de route à quatre canaux que Première semaine, plus le courriel en cinquième canal optionnel.",
     "hint": "Définissez d'abord les couleurs et le logo dans"
   }
 }

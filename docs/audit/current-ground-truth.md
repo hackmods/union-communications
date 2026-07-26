@@ -1,4 +1,4 @@
-# Current ground truth (agents) — as of 2026-07-25
+# Current ground truth (agents) — as of 2026-07-26
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
 
@@ -44,17 +44,18 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 |-------|---------|
 | MFA-off Hub | `useSessionMfaOk()` / `MfaPolicyProvider` — not raw `mfaVerified` |
 | Demo on prod image | `AUTH_ALLOW_DEMO_USERS=true` |
-| Sandbox | CT 115 @ `192.168.0.115:3000`; build from source; never commit `proxmox_mcp.log`; last redeploy `5b42b92` (2026-07-25) |
-| Cron | `CRON_SECRET` required; Bearer or `x-cron-secret` |
+| Sandbox | CT 115 @ `192.168.0.115:3000`; build from source (`npm run package:sandbox`); never commit `proxmox_mcp.log`; redeploy after train merges |
+| Cron | `CRON_SECRET` required; Bearer or `x-cron-secret`; `?dryRun=1` previews without send/audit |
 | React derived state | Do not sync `setState` in `useEffect` for consent flags — derive from roster |
 | Production typecheck | `npx tsc --noEmit` / Docker build — unit tests miss route type errors (`#12`, `#13`) |
 
 ## Sensible next candidates
 
 1. Ops: Postgres backend flips + real scanner on durability hosts — see [`docs/guides/POSTGRES_OPS.md`](../guides/POSTGRES_OPS.md)
-2. ~~COMMS email/broadcast guide (fifth-channel)~~ — **shipped 2026-07-26** (`/guide/email-broadcast`)
+2. ~~COMMS email/broadcast guide (fifth-channel)~~ — **shipped 2026-07-26** (`/guide/email-broadcast`); train #2 wired home, footer, First week, tools index
 3. Time **8f** hybrid slice / punch photos (explicit cut)
 4. ~~Optional: canvas tool axe color-contrast on brand-orange previews (6 smoke failures noted 2026-07-25)~~ — **shipped 2026-07-25** (`mutedInkOnBackground`)
+5. Ops: redeploy sandbox + `npm run test:smoke:sandbox` after merges
 
 ## Agent habits
 

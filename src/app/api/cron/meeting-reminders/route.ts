@@ -3,6 +3,8 @@ import { auditLog } from "@/lib/audit/store";
 import {
   assertCronSecret,
   buildOfficerReminderJobs,
+  parseCronDryRun,
+  parseCronWithinDays,
   reminderWindowIso,
   sendOfficerReminderJobs,
 } from "@/lib/meetings/officer-reminder-cron";
@@ -31,12 +33,8 @@ async function handle(request: Request) {
   }
 
   const url = new URL(request.url);
-  const daysRaw = Number(url.searchParams.get("days") ?? "7");
-  const withinDays =
-    Number.isFinite(daysRaw) && daysRaw > 0 && daysRaw <= 30 ? daysRaw : 7;
-  const dryRun =
-    url.searchParams.get("dryRun") === "1" ||
-    url.searchParams.get("dryRun") === "true";
+  const withinDays = parseCronWithinDays(url.searchParams);
+  const dryRun = parseCronDryRun(url.searchParams);
 
   const { fromIso, toIso } = reminderWindowIso(new Date(), withinDays);
   const meetings = await meetingsRsvpStore.listMeetingsInWindow(

@@ -40,6 +40,9 @@ export function Footer() {
           <Link href="/guide/print" className={footerLinkClass}>
             {nav("printGuide")}
           </Link>
+          <Link href="/guide/email-broadcast" className={footerLinkClass}>
+            {nav("emailBroadcastGuide")}
+          </Link>
           <Link href="/examples" className={footerLinkClass}>
             {nav("socialExamples")}
           </Link>
