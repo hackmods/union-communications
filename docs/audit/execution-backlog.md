@@ -356,7 +356,7 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 ### [UI-006] ✅ CLOSED (2026-07-26)
 **Category:** UI/Media
 **Severity/Priority:** Medium
-**Status:** Closed — Mobile-first Hub polish follow-on to `UI-002`: audit/officers/ledger use card stacks below `md` + tables from `md` up; handoff wizard stacks step chips + full-width CTAs on phone; elections/travel/polls/minutes header CTAs match GrievanceDashboard density; `@mobile` overflow coverage for `/app/audit`, `/app/handoff`, `/app/officers`, `/app/minutes`.
+**Status:** Closed (commit `a3bb1b5`) — Mobile-first Hub polish follow-on to `UI-002`: audit/officers/ledger use card stacks below `md` + tables from `md` up; handoff wizard stacks step chips + full-width CTAs on phone; elections/travel/polls/minutes header CTAs match GrievanceDashboard density; `@mobile` overflow coverage for `/app/audit`, `/app/handoff`, `/app/officers`, `/app/minutes`. Auth marker test also includes `requireExpenseSession` (ORG-009).
 **Problem/Gap Statement:** `UI-002` explicitly deferred other Hub modules. Audit is a desktop-only wide table; handoff wizard uses fixed `text-3xl` + non-stacking CTA rows; org boards (officers/ledger/elections/travel/polls/minutes) mix partial `sm:` grids with phone-hostile table layouts and header CTAs that do not match `GrievanceDashboard` density. Stewards use Hub on shop-floor phones — these surfaces still feel desktop-linear.
 **Affected Architecture/Files:**
 - `src/components/hub/AuditLogClient.tsx`
