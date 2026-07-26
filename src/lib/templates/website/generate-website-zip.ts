@@ -1,4 +1,5 @@
 import type { WebsiteTemplateData } from "@/types/website-template";
+import { mutedInkOnBackground } from "@/lib/utils/ink";
 
 function escapeHtml(text: string): string {
   return text
@@ -155,6 +156,7 @@ ${opseuResourcesHtml}      <div class="footer-col">
 }
 
 export function buildWebsiteCss(primaryColor: string, secondaryColor: string): string {
+  const footerLinkColor = mutedInkOnBackground(primaryColor, 0.85);
   return `:root {
   --color-primary: ${primaryColor};
   --color-secondary: ${secondaryColor};
@@ -358,7 +360,7 @@ h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 1rem; }
 .footer-col h3:first-child { margin-top: 0; }
 .footer-col ul { list-style: none; padding: 0; margin: 0 0 var(--spacing-3); }
 .footer-col li { margin-bottom: 0.5rem; }
-.footer-col a { color: rgba(255, 255, 255, 0.85); }
+.footer-col a { color: ${footerLinkColor}; }
 .footer-col a:hover { color: var(--color-white); }
 .office-address-list { margin-bottom: var(--spacing-3); }
 

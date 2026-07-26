@@ -32,7 +32,7 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
-import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
+import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 
 interface ActionCardState {
@@ -161,8 +161,8 @@ export default function ActionCardPage() {
   })();
 
   const canvasInk = pickContrastingInk(state.primaryColor);
-  const mutedInk = inkWithAlpha(canvasInk, 0.9);
-  const mutedInk80 = inkWithAlpha(canvasInk, 0.8);
+  const mutedInk = mutedInkOnBackground(state.primaryColor, 0.9);
+  const mutedInk80 = mutedInkOnBackground(state.primaryColor, 0.8);
   const ctaColor =
     state.bgMode === "plain" &&
     meetsWcagAA(state.secondaryColor, state.primaryColor, true)

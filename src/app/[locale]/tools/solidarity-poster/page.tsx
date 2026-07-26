@@ -43,7 +43,7 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
-import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
+import { inkWithAlpha, mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 
 interface PosterState {
@@ -238,8 +238,8 @@ export default function SolidarityPosterPage() {
   const showFooter =
     state.showCta || state.showQr || showLocalInFooter;
   const canvasInk = pickContrastingInk(state.primaryColor);
-  const mutedInk90 = inkWithAlpha(canvasInk, 0.9);
-  const mutedInk80 = inkWithAlpha(canvasInk, 0.8);
+  const mutedInk90 = mutedInkOnBackground(state.primaryColor, 0.9);
+  const mutedInk80 = mutedInkOnBackground(state.primaryColor, 0.8);
   const mutedInk30 = inkWithAlpha(canvasInk, 0.3);
   const secondaryOnPrimary = meetsWcagAA(
     state.secondaryColor,
