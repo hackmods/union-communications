@@ -1,26 +1,26 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import {
+  type DbBackend,
+  isMemoryCaseDataActive,
+  isPostgresFlipComplete,
+  readEffectiveBackendFlags,
+} from "@/lib/db/backend";
+import { isPostgresConfigured } from "@/lib/db/client";
 
 /** Non-secret runtime summary for `/api/health` (operators + smoke). */
 export type HealthStatus = {
   status: "ok";
   version: string;
   commit: string;
-  backends: Record<string, string>;
+  backends: Record<string, DbBackend>;
+  postgresConfigured: boolean;
+  memoryCaseDataActive: boolean;
+  postgresFlipComplete: boolean;
   emailEnabled: boolean;
   cronConfigured: boolean;
   mfaEnabled: boolean;
 };
-
-const BACKEND_FLAGS = [
-  "GRIEVANCE_DB_BACKEND",
-  "BUMPING_DB_BACKEND",
-  "TIME_DB_BACKEND",
-  "ATTACHMENTS_DB_BACKEND",
-  "AUDIT_DB_BACKEND",
-  "AUTH_USERS_BACKEND",
-  "MEETINGS_RSVP_DB_BACKEND",
-] as const;
 
 let cachedVersion: string | undefined;
 
@@ -38,15 +38,14 @@ export function readAppVersion(): string {
 }
 
 export function buildHealthStatus(): HealthStatus {
-  const backends: Record<string, string> = {};
-  for (const key of BACKEND_FLAGS) {
-    backends[key] = process.env[key] ?? "memory";
-  }
   return {
     status: "ok",
     version: readAppVersion(),
     commit: process.env.BUILD_COMMIT_SHA?.trim() || "unknown",
-    backends,
+    backends: readEffectiveBackendFlags(),
+    postgresConfigured: isPostgresConfigured(),
+    memoryCaseDataActive: isMemoryCaseDataActive(),
+    postgresFlipComplete: isPostgresFlipComplete(),
     emailEnabled: process.env.EMAIL_ENABLED === "true",
     cronConfigured: Boolean(process.env.CRON_SECRET?.trim()),
     mfaEnabled: process.env.AUTH_MFA_ENABLED === "true",

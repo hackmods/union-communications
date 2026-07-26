@@ -1,5 +1,13 @@
 # Progress Log
 
+## Postgres ops flip tooling (2026-07-26) — COMPLETE
+
+- [x] `/api/health` — all `*_DB_BACKEND` effective flags + `postgresFlipComplete` / `memoryCaseDataActive`
+- [x] `docker-compose.durable.yml` overlay flips every module to Postgres after migrate + seed
+- [x] `docker/.env.example` + expanded base compose env passthrough for org modules
+- [x] `HEALTH_REQUIRE_DURABLE=true` on `npm run health:check` for post-flip verification
+- [x] `docs/guides/POSTGRES_OPS.md` — full module table + durable compose workflow
+
 ## Time 8f — hybrid slice + punch photos (2026-07-26) — COMPLETE
 
 - [x] Hybrid slice **v1.1** — optional `timeEntries` in export/import when time module enabled; v1.0 slices still accepted

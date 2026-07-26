@@ -24,16 +24,44 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
 | `TIME_DB_BACKEND` | `memory` \| `postgres` | Workforce time |
 | `ATTACHMENTS_DB_BACKEND` | `memory` \| `postgres` | Attachment metadata |
 | `AUDIT_DB_BACKEND` | `memory` \| `postgres` | Audit log |
-| `AUTH_USERS_BACKEND` | `memory` \| `postgres` | Users + password-reset tokens |
+| `DISCUSSIONS_DB_BACKEND` | `memory` \| `postgres` | Discussions |
+| `TASKS_DB_BACKEND` | `memory` \| `postgres` | Tasks board |
+| `INFORMAL_LOG_DB_BACKEND` | `memory` \| `postgres` | Steward quick-log |
+| `MINUTES_DB_BACKEND` | `memory` \| `postgres` | Meeting minutes |
+| `LEDGER_DB_BACKEND` | `memory` \| `postgres` | Discretionary fund ledger |
+| `OFFICERS_DB_BACKEND` | `memory` \| `postgres` | Officer roster |
+| `TRAVEL_DB_BACKEND` | `memory` \| `postgres` | Travel authorizations |
+| `EXPENSES_DB_BACKEND` | `memory` \| `postgres` | Expense submissions |
+| `COMMITTEES_DB_BACKEND` | `memory` \| `postgres` | Internal committees |
+| `ELECTIONS_DB_BACKEND` | `memory` \| `postgres` | Nominations / ballots |
+| `POLLS_DB_BACKEND` | `memory` \| `postgres` | Pulse polls |
+| `MEETINGS_DB_BACKEND` | `memory` \| `postgres` | Local meeting schedule |
 | `MEETINGS_RSVP_DB_BACKEND` | `memory` \| `postgres` | Hub events / RSVP |
+| `CHECKINS_DB_BACKEND` | `memory` \| `postgres` | Automatic check-ins |
+| `AUTH_USERS_BACKEND` | `memory` \| `postgres` | Users + password-reset tokens |
 
-5. **Verify health:** `GET /api/health` returns `version`, `commit`, `backends`, `emailEnabled`, and `cronConfigured` (or run `npm run health:check`).
-6. **Run smoke:** `npm run db:rls-smoke` and `npm run db:durability-smoke` from the repo.
-7. **Optional attachment scanner:** enable compose `clamav` profile and set `ATTACHMENT_SCANNER_URL` (see `DEPLOY.md`).
+5. **All-at-once Docker flip:** after migrate + seed, use the durable overlay:
+
+```bash
+cd docker
+cp .env.example .env   # fill AUTH_SECRET, POSTGRES_PASSWORD, POSTGRES_APP_PASSWORD
+docker compose -f docker-compose.yml -f docker-compose.durable.yml up -d
+```
+
+6. **Verify health:** `GET /api/health` returns `version`, `commit`, `backends` (effective per module), `postgresConfigured`, `memoryCaseDataActive`, and `postgresFlipComplete`. Or run:
+
+```bash
+npm run health:check
+# Production after flip:
+HEALTH_REQUIRE_DURABLE=true npm run health:check
+```
+
+7. **Run smoke:** `npm run db:rls-smoke` and `npm run db:durability-smoke` from the repo (durability smoke needs `GRIEVANCE_DB_BACKEND=postgres`).
+8. **Optional attachment scanner:** enable compose `clamav` profile and set `ATTACHMENT_SCANNER_URL` (see `DEPLOY.md`).
 
 ## What stays memory-only
 
-Demo compose defaults keep memory adapters so a fresh `docker compose up` works without seed. Production casework hosts should flip **all** confidential modules together once verified.
+Demo compose defaults keep memory adapters so a fresh `docker compose up` works without seed. Production casework hosts should flip **all** confidential modules together once verified (`postgresFlipComplete: true` on `/api/health`).
 
 ## Rollback
 

@@ -3,6 +3,9 @@
  * Preflight GET /api/health for deploy verification and sandbox smoke.
  * Exits 0 when status is ok; prints commit + version on success.
  *
+ * Set HEALTH_REQUIRE_DURABLE=true to fail when any confidential module (or auth
+ * users) still uses memory — use after the Postgres flip on production hosts.
+ *
  * Prefer AbortController + clearTimeout over AbortSignal.timeout — on
  * Windows, timeout() + process.exit(0) can assert UV_HANDLE_CLOSING.
  */
@@ -13,6 +16,7 @@ const base = (
 ).replace(/\/$/, "");
 
 const url = `${base}/api/health`;
+const requireDurable = process.env.HEALTH_REQUIRE_DURABLE === "true";
 
 const controller = new AbortController();
 const timer = setTimeout(() => controller.abort(), 15_000);
@@ -50,9 +54,23 @@ if (!process.exitCode) {
         console.error("[health-check] Missing version field");
         process.exitCode = 1;
       } else {
-        console.log(
-          `[health-check] ok commit=${body.commit ?? "unknown"} version=${body.version ?? "unknown"} email=${body.emailEnabled} cron=${body.cronConfigured}`,
+        const memoryBackends = Object.entries(body.backends ?? {}).filter(
+          ([, value]) => value === "memory",
         );
+        console.log(
+          `[health-check] ok commit=${body.commit ?? "unknown"} version=${body.version ?? "unknown"} email=${body.emailEnabled} cron=${body.cronConfigured} postgres=${body.postgresConfigured} durable=${body.postgresFlipComplete}`,
+        );
+        if (memoryBackends.length > 0) {
+          console.log(
+            `[health-check] memory backends (${memoryBackends.length}): ${memoryBackends.map(([k]) => k).join(", ")}`,
+          );
+        }
+        if (requireDurable && body.postgresFlipComplete !== true) {
+          console.error(
+            "[health-check] HEALTH_REQUIRE_DURABLE=true but postgresFlipComplete is false",
+          );
+          process.exitCode = 1;
+        }
       }
     }
   }

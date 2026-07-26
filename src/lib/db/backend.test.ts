@@ -5,18 +5,21 @@ import {
   bumpingDbBackend,
   checkinsDbBackend,
   committeesDbBackend,
+  DB_BACKEND_ENV_KEYS,
   discussionsDbBackend,
   electionsDbBackend,
   expensesDbBackend,
   grievanceDbBackend,
   informalLogDbBackend,
   isMemoryCaseDataActive,
+  isPostgresFlipComplete,
   ledgerDbBackend,
   meetingsDbBackend,
   meetingsRsvpDbBackend,
   minutesDbBackend,
   officersDbBackend,
   pollsDbBackend,
+  readEffectiveBackendFlags,
   tasksDbBackend,
   timeDbBackend,
   travelDbBackend,
@@ -399,5 +402,41 @@ describe("db backend flags", () => {
       POLLS_DB_BACKEND: "memory",
     };
     expect(isMemoryCaseDataActive(env)).toBe(true);
+  });
+
+  it("reports postgres flip complete only when all modules and auth users are postgres", () => {
+    const base = {
+      DATABASE_URL: "postgres://localhost/unionops",
+      GRIEVANCE_DB_BACKEND: "postgres",
+      BUMPING_DB_BACKEND: "postgres",
+      AUDIT_DB_BACKEND: "postgres",
+      TIME_DB_BACKEND: "postgres",
+      ATTACHMENTS_DB_BACKEND: "postgres",
+      DISCUSSIONS_DB_BACKEND: "postgres",
+      TASKS_DB_BACKEND: "postgres",
+      INFORMAL_LOG_DB_BACKEND: "postgres",
+      MINUTES_DB_BACKEND: "postgres",
+      LEDGER_DB_BACKEND: "postgres",
+      OFFICERS_DB_BACKEND: "postgres",
+      TRAVEL_DB_BACKEND: "postgres",
+      EXPENSES_DB_BACKEND: "postgres",
+      COMMITTEES_DB_BACKEND: "postgres",
+      ELECTIONS_DB_BACKEND: "postgres",
+      POLLS_DB_BACKEND: "postgres",
+      MEETINGS_DB_BACKEND: "postgres",
+      MEETINGS_RSVP_DB_BACKEND: "postgres",
+      CHECKINS_DB_BACKEND: "postgres",
+    };
+    expect(isPostgresFlipComplete(base)).toBe(false);
+    expect(
+      isPostgresFlipComplete({ ...base, AUTH_USERS_BACKEND: "postgres" }),
+    ).toBe(true);
+    const flags = readEffectiveBackendFlags({
+      ...base,
+      AUTH_USERS_BACKEND: "postgres",
+    });
+    expect(flags.GRIEVANCE_DB_BACKEND).toBe("postgres");
+    expect(flags.AUTH_USERS_BACKEND).toBe("postgres");
+    expect(DB_BACKEND_ENV_KEYS).toHaveLength(20);
   });
 });

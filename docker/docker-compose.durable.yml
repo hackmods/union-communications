@@ -1,0 +1,30 @@
+# Durable production overlay — flip all Hub backends to Postgres.
+# Use after migrations + seed on a named volume:
+#   cd docker
+#   docker compose -f docker-compose.yml -f docker-compose.durable.yml up -d
+#
+# Demo hosts can keep the base compose (memory defaults) without this file.
+
+services:
+  web:
+    environment:
+      GRIEVANCE_DB_BACKEND: postgres
+      BUMPING_DB_BACKEND: postgres
+      AUDIT_DB_BACKEND: postgres
+      TIME_DB_BACKEND: postgres
+      ATTACHMENTS_DB_BACKEND: postgres
+      DISCUSSIONS_DB_BACKEND: postgres
+      TASKS_DB_BACKEND: postgres
+      INFORMAL_LOG_DB_BACKEND: postgres
+      MINUTES_DB_BACKEND: postgres
+      LEDGER_DB_BACKEND: postgres
+      OFFICERS_DB_BACKEND: postgres
+      TRAVEL_DB_BACKEND: postgres
+      EXPENSES_DB_BACKEND: postgres
+      COMMITTEES_DB_BACKEND: postgres
+      ELECTIONS_DB_BACKEND: postgres
+      POLLS_DB_BACKEND: postgres
+      MEETINGS_DB_BACKEND: postgres
+      MEETINGS_RSVP_DB_BACKEND: postgres
+      CHECKINS_DB_BACKEND: postgres
+      AUTH_USERS_BACKEND: postgres

@@ -73,6 +73,9 @@ test.describe("Smoke tests @smoke", () => {
     expect(typeof body.emailEnabled).toBe("boolean");
     expect(typeof body.cronConfigured).toBe("boolean");
     expect(typeof body.mfaEnabled).toBe("boolean");
+    expect(typeof body.postgresConfigured).toBe("boolean");
+    expect(typeof body.memoryCaseDataActive).toBe("boolean");
+    expect(typeof body.postgresFlipComplete).toBe("boolean");
   });
 
   test("health API supports HEAD", async ({ request }) => {
