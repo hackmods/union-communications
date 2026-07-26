@@ -38,7 +38,9 @@ function countsTowardOt(
   category: TimeCategory,
   policy: TimeOtPolicy,
 ): boolean {
-  const map = policy.categoryOtEligible ?? DEFAULT_OT_POLICY.categoryOtEligible;
+  const map =
+    policy.categoryOtEligible ?? DEFAULT_OT_POLICY.categoryOtEligible;
+  if (!map) return false;
   return map[category] ?? false;
 }
 

@@ -103,8 +103,6 @@ function mapEntry(row: typeof timeEntries.$inferSelect): TimeEntry {
     clockOutPhotoAttachmentId: row.clockOutPhotoAttachmentId ?? undefined,
     createdAt: toIso(row.createdAt)!,
     updatedAt: toIso(row.updatedAt)!,
-    seriesId: row.seriesId ?? undefined,
-    seriesOccurrenceDate: row.seriesOccurrenceDate ?? undefined,
   };
 }
 
@@ -813,10 +811,9 @@ export class DrizzleTimeAdapter implements TimeAdapter {
         id: newId("tw"),
         unionId: meta.unionId,
         localId: meta.localId,
-        displayName: input.displayName,
+        ...workerFields,
         trackGaps: input.trackGaps ?? true,
         active: input.active ?? true,
-        ...workerFields,
       })
       .returning();
     return mapWorker(row);
@@ -1660,8 +1657,6 @@ export class DrizzleTimeAdapter implements TimeAdapter {
         clockOutPhotoAttachmentId: item.clockOutPhotoAttachmentId ?? null,
         createdAt: toDate(item.createdAt),
         updatedAt: toDate(item.updatedAt),
-        seriesId: item.seriesId ?? null,
-        seriesOccurrenceDate: item.seriesOccurrenceDate ?? null,
       };
       await db
         .insert(timeEntries)
