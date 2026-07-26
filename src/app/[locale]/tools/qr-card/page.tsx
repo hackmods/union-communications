@@ -12,6 +12,10 @@ import { qrDataUrl } from "@/lib/export/qr";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import {
+  CANVAS_PLACEHOLDER_BG,
+  CANVAS_PLACEHOLDER_INK,
+} from "@/lib/constants/brand";
+import {
   listSavedLinks,
   resolvePresetDestination,
 } from "@/lib/utils/local-links";
@@ -494,8 +498,8 @@ export default function QrCardPage() {
                           <div
                             className="flex aspect-square w-full items-center justify-center text-[0.65rem]"
                             style={{
-                              backgroundColor: "#F3F4F6",
-                              color: "#6B7280",
+                              backgroundColor: CANVAS_PLACEHOLDER_BG,
+                              color: CANVAS_PLACEHOLDER_INK,
                             }}
                           >
                             {t("qrPlaceholder")}

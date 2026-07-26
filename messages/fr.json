@@ -38,6 +38,7 @@
     "unionBoardsGuide": "Guide tableaux syndicaux",
     "printGuide": "Guide impression",
     "websiteGuide": "Guide site Web",
+    "emailBroadcastGuide": "Courriel et diffusion",
     "resources": "Ressources de communication",
     "photoConsent": "Consentement photo",
     "membershipSignupGuide": "Adhésion",
@@ -294,6 +295,7 @@
       "unionBoards": "Tableaux syndicaux",
       "print": "Impression",
       "website": "Site Web",
+      "email": "Courriel et diffusion",
       "membershipSignup": "Adhésion"
     },
     "labourGuides": {
@@ -466,6 +468,33 @@
       "digital": {
         "title": "Impression plus numérique",
         "content": "Partagez la même date, heure et lieu sur l'avis au tableau, l'affiche, le graphique social et le site Web. Un message, quatre canaux."
+      }
+    }
+  },
+  "emailBroadcastGuide": {
+    "title": "Guide courriel et diffusion",
+    "subtitle": "Invitations à copier et rappels aux dirigeants — pas de listes marketing dans UnionOps",
+    "relatedLabel": "Voir aussi",
+    "sections": {
+      "when": {
+        "title": "Quand utiliser le courriel",
+        "content": "Utilisez le courriel lorsque les membres s'attendent à un message direct : invitations à une assemblée, mises à jour urgentes après un avis au tableau, ou suivi d'une affiche. Associez le courriel à l'impression et aux réseaux sociaux."
+      },
+      "comms": {
+        "title": "Outils Comms publics (copier / mailto)",
+        "content": "Le générateur de documents, l'outil Avis et la mise en page Avis du créateur graphique incluent une étape d'invitation par courriel à copier seulement. UnionOps n'envoie pas ces messages — les délégués révisent, collent dans la boîte syndicale et envoient manuellement."
+      },
+      "hub": {
+        "title": "Portail des dirigeants (surfaces distinctes)",
+        "content": "Le tableau Événements du portail offre un brouillon de rappel à copier (R2) et un rappel SMTP facultatif (R3). Le cron /api/cron/meeting-reminders peut envoyer aux courriels du roster des dirigeants seulement lorsque EMAIL_ENABLED et CRON_SECRET sont configurés."
+      },
+      "lists": {
+        "title": "Ce qu'UnionOps ne fait pas",
+        "content": "Pas de listes marketing de membres, pas de diffusion automatique à l'ensemble de la membership, pas de cotisations ni de PCI. Pour une infolettre, utilisez l'outil de messagerie approuvé par votre syndicat."
+      },
+      "checklist": {
+        "title": "Avant d'envoyer",
+        "content": "Vérifiez que la date, l'heure, le lieu et les instructions RSVP correspondent à l'avis et aux publications sociales. Retirez les textes provisoires. Pour les photos de membres, suivez le guide Consentement photo."
       }
     }
   },
@@ -1462,6 +1491,7 @@
         "boards": "Guide tableaux syndicaux",
         "print": "Guide impression",
         "website": "Guide site Web",
+        "email": "Courriel et diffusion",
         "crisis": "Guide de grève",
         "photoConsent": "Consentement photo"
       },

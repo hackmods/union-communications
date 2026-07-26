@@ -34,6 +34,9 @@ async function handle(request: Request) {
   const daysRaw = Number(url.searchParams.get("days") ?? "7");
   const withinDays =
     Number.isFinite(daysRaw) && daysRaw > 0 && daysRaw <= 30 ? daysRaw : 7;
+  const dryRun =
+    url.searchParams.get("dryRun") === "1" ||
+    url.searchParams.get("dryRun") === "true";
 
   const { fromIso, toIso } = reminderWindowIso(new Date(), withinDays);
   const meetings = await meetingsRsvpStore.listMeetingsInWindow(
@@ -58,6 +61,24 @@ async function handle(request: Request) {
     officersByLocal,
     origin,
   });
+
+  if (dryRun) {
+    return NextResponse.json({
+      ok: true,
+      dryRun: true,
+      withinDays,
+      fromIso,
+      toIso,
+      meetings: meetings.length,
+      jobs: jobs.length,
+      preview: jobs.map((j) => ({
+        meetingId: j.meetingId,
+        to: j.to,
+        subject: j.subject,
+      })),
+    });
+  }
+
   const result = await sendOfficerReminderJobs(jobs);
 
   await auditLog.log({

@@ -8,6 +8,7 @@ export type NavLinkKey =
   | "printGuide"
   | "unionBoardsGuide"
   | "websiteGuide"
+  | "emailBroadcastGuide"
   | "socialExamples"
   | "captions"
   | "assets"
@@ -71,6 +72,7 @@ export const learnGroups: readonly NavGroup[] = [
       { href: "/guide/print", key: "printGuide" },
       { href: "/guide/union-boards", key: "unionBoardsGuide" },
       { href: "/guide/website", key: "websiteGuide" },
+      { href: "/guide/email-broadcast", key: "emailBroadcastGuide" },
     ],
   },
   {

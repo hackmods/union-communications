@@ -93,6 +93,7 @@ export default async function GuidePage({
               { href: "/guide/union-boards", key: "unionBoards" as const },
               { href: "/guide/print", key: "print" as const },
               { href: "/guide/website", key: "website" as const },
+              { href: "/guide/email-broadcast", key: "email" as const },
               {
                 href: "/guide/membership-signup",
                 key: "membershipSignup" as const,

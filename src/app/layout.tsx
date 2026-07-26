@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { BRAND_COLORS } from "@/lib/constants/brand";
 import {
@@ -32,7 +32,6 @@ export const metadata: Metadata = {
   creator: SITE_NAME,
   publisher: SITE_NAME,
   manifest: "/manifest.webmanifest",
-  themeColor: BRAND_COLORS.primary,
   appleWebApp: {
     capable: true,
     title: SITE_NAME,
@@ -77,6 +76,10 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: BRAND_COLORS.primary,
 };
 
 export default function RootLayout({

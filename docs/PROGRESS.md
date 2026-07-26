@@ -1,5 +1,18 @@
 # Progress Log
 
+## Enhancement train — 10 sets (2026-07-26) — COMPLETE
+
+1. Canvas placeholder ink constants (`CANVAS_PLACEHOLDER_*`) on QR card/board + action card
+2. COMMS email/broadcast guide (`/guide/email-broadcast`) EN/FR + nav + sitemap
+3. `/api/health` enriched (`commit`, `backends`, `emailEnabled`)
+4. Cron `?dryRun=1` on `/api/cron/meeting-reminders`
+5. `themeColor` → `viewport` export (Next.js 16)
+6. Operator runbook `docs/guides/POSTGRES_OPS.md`
+7. Website template officer location contrast (`mutedInkOnBackground`)
+8. `npm run test:smoke:sandbox` script
+9. SETUP/DEPLOY operator docs (health, cron dry-run, sandbox smoke)
+10. PROGRESS + COMMS_BACKLOG + ground-truth updates
+
 ## Canvas muted-ink contrast (2026-07-25) — COMPLETE
 
 - [x] `mutedInkOnBackground()` + `blendHex()` — bump semi-transparent ink alpha when UnionOps orange (#C2410C) fails WCAG AA

@@ -38,6 +38,7 @@
     "unionBoardsGuide": "Union Boards Guide",
     "printGuide": "Print Guide",
     "websiteGuide": "Website Guide",
+    "emailBroadcastGuide": "Email & outreach",
     "resources": "Comms Resources",
     "photoConsent": "Photo Consent",
     "membershipSignupGuide": "Membership signup",
@@ -294,6 +295,7 @@
       "unionBoards": "Union Boards",
       "print": "Print",
       "website": "Website",
+      "email": "Email & outreach",
       "membershipSignup": "Membership signup"
     },
     "labourGuides": {
@@ -466,6 +468,33 @@
       "digital": {
         "title": "Print plus digital",
         "content": "Share the same date, time, and location across board notice, flyer, social graphic, and website. One message, four channels - less confusion for members."
+      }
+    }
+  },
+  "emailBroadcastGuide": {
+    "title": "Email & Member Outreach Guide",
+    "subtitle": "Copy-only invites and officer reminders — no marketing lists in UnionOps",
+    "relatedLabel": "Also see",
+    "sections": {
+      "when": {
+        "title": "When email fits",
+        "content": "Use email when members already expect a direct message: meeting invites, urgent updates after a board notice is posted, or follow-up to a flyer. Pair email with print and social so members who miss one channel still see the message."
+      },
+      "comms": {
+        "title": "Public Comms tools (copy / mailto)",
+        "content": "Document Generator, Board Notice, and Graphic Maker notice layouts include a copy-only invite email step. UnionOps does not send these messages for you — stewards review, paste into their union inbox, and send manually. RSVP instructions stay in the email body; hybrid tallies use the exported Excel pack."
+      },
+      "hub": {
+        "title": "Officer Hub (separate surfaces)",
+        "content": "The Hub Events board offers a copy-only officer reminder draft (R2) and optional SMTP self-remind (R3). Cron at /api/cron/meeting-reminders can email officer roster addresses only when EMAIL_ENABLED and CRON_SECRET are configured. These are not the same template as public Comms invites — do not merge the copy."
+      },
+      "lists": {
+        "title": "What UnionOps does not do",
+        "content": "No member marketing lists, no auto-broadcast to the full membership, and no dues or PCI workflows. If your local needs a newsletter tool, use your union's approved mass-email provider and export graphics from Comms separately."
+      },
+      "checklist": {
+        "title": "Before you hit send",
+        "content": "Confirm date, time, location, and RSVP reply instructions match your board notice and social post. Remove draft placeholders. For member photos in graphics, follow the Photo Consent guide. Keep a local record of who received officer reminders when using Hub SMTP."
       }
     }
   },
@@ -1462,6 +1491,7 @@
         "boards": "Union Boards Guide",
         "print": "Print Guide",
         "website": "Website Guide",
+        "email": "Email & outreach",
         "crisis": "Strike Guide",
         "photoConsent": "Photo Consent"
       },

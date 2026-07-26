@@ -20,6 +20,10 @@ export const BRAND_COLORS = {
   gray: "#6B7280",
 } as const;
 
+/** Light plate + ink for empty QR / petition placeholders (WCAG AA on #F3F4F6). */
+export const CANVAS_PLACEHOLDER_BG = "#F3F4F6";
+export const CANVAS_PLACEHOLDER_INK = "#4B5563";
+
 /** @deprecated Use BRAND_COLORS - kept for gradual migration */
 export const CAAT_OPSEU_COLORS = BRAND_COLORS;
 
