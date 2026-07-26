@@ -24,6 +24,14 @@ describe("FIRST_WEEK_STEP_KEYS", () => {
     });
   });
 
+  it("links website step to template, guide, and email outreach", () => {
+    expect(FIRST_WEEK_STEP_LINKS.website).toEqual({
+      primary: "/tools/website-template",
+      secondary: "/guide/website",
+      tertiary: [{ href: "/guide/email-broadcast", labelKey: "tertiaryEmailBroadcast" }],
+    });
+  });
+
   it("has matching EN/FR step copy for every roadmap key", () => {
     for (const key of FIRST_WEEK_STEP_KEYS) {
       const enStep = en.socialMediaPlan.steps[key];

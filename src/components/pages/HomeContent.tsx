@@ -39,6 +39,7 @@ const channelItems: Record<
   website: [
     { href: "/tools/website-template", titleKey: "websiteTemplate" },
     { href: "/guide/website", titleKey: "websiteGuide" },
+    { href: "/guide/email-broadcast", titleKey: "emailBroadcastGuide" },
   ],
 };
 

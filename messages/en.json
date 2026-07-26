@@ -251,7 +251,8 @@
           "Follow the deploy guide to publish"
         ],
         "cta": "Website Template",
-        "secondaryCta": "Website Guide"
+        "secondaryCta": "Website Guide",
+        "tertiaryEmailBroadcast": "Email & outreach"
       }
     }
   },
@@ -1501,6 +1502,7 @@
         "boards": "Bare-minimum workplace boards and what to print.",
         "print": "Flyers and print habits for meetings and actions.",
         "website": "What to put on a local site, build the ZIP, and publish on GitHub Pages.",
+        "email": "When to use Comms copy/mailto vs Hub SMTP — officer outreach only, never member marketing lists.",
         "crisis": "High-stakes bargaining and strike communications.",
         "photoConsent": "Member photo checklist for stewards and workshops."
       }
@@ -3710,6 +3712,8 @@
   "toolsIndex": {
     "title": "Tools",
     "subtitle": "Makers for brand, union boards, print, social, and web — all run on your device.",
+    "channelGuidesTitle": "Channel guides",
+    "channelGuidesIntro": "Step-by-step guides for print, workplace boards, websites, and email outreach — same four-channel roadmap as First week, plus optional fifth-channel email copy.",
     "hint": "Set colours and logo first in"
   }
 }

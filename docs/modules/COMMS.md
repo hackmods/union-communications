@@ -1,6 +1,6 @@
 # Comms Module
 
-## Status: v1.1 — Four-Channel Communications Toolbox
+## Status: v1.2 — Four-Channel Toolbox + Fifth-Channel Email Guide
 
 Public-facing communications toolbox covering social media, print, union boards, and local websites. Client-side image generation and static site export.
 
@@ -11,12 +11,12 @@ Top bar is slim and dual-audience oriented:
 | Item | Route / contents |
 |------|------------------|
 | **Get started** | `/onboarding` when Brand Kit is not established; `/guide/social-media-plan` (First week) when it is — Brand Kit stays a separate link |
-| **Guides ▾** | **Start here:** Comms Resources, Blueprint, First week, Strike Guide, Photo Consent, Membership signup · **By channel:** Print, Union Boards, Website · **Libraries:** Social Examples, Captions · **About:** Brand Assets, Why it's free, Install as an app |
+| **Guides ▾** | **Start here:** Comms Resources, Blueprint, First week, Strike Guide, Photo Consent, Membership signup · **By channel:** Print, Union Boards, Website, **Email & outreach** · **Libraries:** Social Examples, Captions · **About:** Brand Assets, Why it's free, Install as an app |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Asset Pack) |
 | **Tools ▾** | Mega-menu columns — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, QR Cards · **Print:** Flyer · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · footer **All tools** → `/tools` |
 | **Officer Hub** | `/app` (auth) — filled primary CTA |
 
-Footer includes Blueprint, Tools, Print Guide, Social Examples, Captions, Comms Resources, Brand Assets, Why it's free, Install, Privacy, Accessibility, Support.
+Footer includes Blueprint, Tools, Print Guide, **Email & outreach**, Social Examples, Captions, Comms Resources, Brand Assets, Why it's free, Install, Privacy, Accessibility, Support.
 
 Social Examples and Captions are **not** top-level nav items. They remain under Guides, the home Social channel, footer links, and First week socials step. Channel guides (print / boards / website) live under Guides → By channel so the four-channel model is discoverable without flattening Guides into a long link bar.
 
@@ -38,6 +38,7 @@ Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “
 | `/[locale]/guide/union-boards` | Workplace bulletin board guide (bare-minimum layout, ministry posters, anonymized templates, IRL reference patterns) |
 | `/[locale]/guide/print` | Print communications guide |
 | `/[locale]/guide/website` | Local website deploy guide |
+| `/[locale]/guide/email-broadcast` | Fifth-channel email & outreach guide — Comms copy/mailto vs Hub SMTP/cron; no marketing lists |
 | `/[locale]/install` | PWA / desktop install guide — Guides → About + footer |
 | `/[locale]/examples` | Social examples gallery — brand-aware mockups, why-it-works notes, handoff to Graphic Maker / Captions / Quote Card / Flyer |
 | `/[locale]/captions` | Caption & hashtag library |
@@ -67,6 +68,9 @@ Home landing (`HomeContent`): desktop hero band with Brand Kit primary CTA + “
 | **Print** | Flyer maker, print guide |
 | **Union boards** | Board notice maker, solidarity poster maker, QR link cards, action cards, QR board posters, union boards guide (bare-minimum + reference layouts) |
 | **Website** | Website template (based on local243.org model), website guide |
+| **Email (fifth channel)** | Email & outreach guide — complements boards/print/social/website; officer SMTP/cron stays Hub-only |
+
+The four-channel model (boards → print → social → website) remains the First week roadmap. Email is documented as an optional fifth channel for officer outreach copy and Hub SMTP boundaries — not a member broadcast list.
 
 ## Multi-Union Migration Checklist (Phase 1)
 

@@ -141,6 +141,14 @@ test.describe("Public secondary pages smoke @smoke", () => {
     await page.goto("/en/guide/print/");
     await expectNoSeriousA11yViolations(page);
   });
+
+  test("email broadcast guide has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/en/guide/email-broadcast/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
 });
 
 test.describe("Mobile tool chrome @smoke @mobile", () => {

@@ -105,3 +105,15 @@ export function assertCronSecret(
     : raw;
   return token.length > 0 && token === expected.trim();
 }
+
+/** Parse `?dryRun=1` or `?dryRun=true` from cron query params. */
+export function parseCronDryRun(searchParams: URLSearchParams): boolean {
+  const value = searchParams.get("dryRun");
+  return value === "1" || value === "true";
+}
+
+/** Parse `?days=N` for cron reminder window (1–30, default 7). */
+export function parseCronWithinDays(searchParams: URLSearchParams): number {
+  const daysRaw = Number(searchParams.get("days") ?? "7");
+  return Number.isFinite(daysRaw) && daysRaw > 0 && daysRaw <= 30 ? daysRaw : 7;
+}

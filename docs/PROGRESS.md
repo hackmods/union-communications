@@ -1,5 +1,18 @@
 # Progress Log
 
+## Enhancement train #2 — 10 sets (2026-07-26) — COMPLETE
+
+1. Home website channel + footer link to email & outreach guide
+2. First-week website step tertiary CTA → `/guide/email-broadcast` (EN/FR)
+3. `/api/health` smoke test in `e2e/smoke.spec.ts`
+4. Email broadcast guide axe smoke in `builders.smoke.spec.ts`
+5. Cron `parseCronDryRun` / `parseCronWithinDays` helpers + unit tests
+6. `docs/modules/COMMS.md` — fifth-channel email route + v1.2 IA
+7. `.env.example` — `BUILD_COMMIT_SHA` + cron `?dryRun=1` docs
+8. Tools index channel-guides nav (print, boards, website, email)
+9. `npm run package:sandbox` → `scripts/package-sandbox-src.mjs` (git archive tarball)
+10. PROGRESS + ground-truth updates
+
 ## Enhancement train — 10 sets (2026-07-26) — COMPLETE
 
 1. Canvas placeholder ink constants (`CANVAS_PLACEHOLDER_*`) on QR card/board + action card

@@ -57,6 +57,19 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("heading", { name: "First week" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Brand Kit" }).first()).toBeVisible();
     await expect(page.getByRole("link", { name: "Logo Builder" }).first()).toBeVisible();
+    await expect(
+      page.locator("#step-website").getByRole("link", { name: "Email & outreach" }),
+    ).toBeVisible();
+  });
+
+  test("health API returns ok status", async ({ request }) => {
+    const res = await request.get("/api/health");
+    expect(res.ok()).toBeTruthy();
+    const body = await res.json();
+    expect(body.status).toBe("ok");
+    expect(typeof body.commit).toBe("string");
+    expect(body.backends).toBeTruthy();
+    expect(typeof body.emailEnabled).toBe("boolean");
   });
 
   test("tools index and mega-menu all tools", async ({ page }) => {

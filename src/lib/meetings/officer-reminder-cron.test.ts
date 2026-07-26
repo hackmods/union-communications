@@ -3,6 +3,8 @@ import {
   assertCronSecret,
   buildOfficerReminderJobs,
   officerEmailsForLocal,
+  parseCronDryRun,
+  parseCronWithinDays,
   reminderWindowIso,
 } from "@/lib/meetings/officer-reminder-cron";
 import type { OfficerRosterEntry } from "@/types/officer-roster";
@@ -100,5 +102,14 @@ describe("officer reminder cron helpers", () => {
     expect(assertCronSecret("secret", "secret")).toBe(true);
     expect(assertCronSecret("Bearer wrong", "secret")).toBe(false);
     expect(assertCronSecret("Bearer secret", undefined)).toBe(false);
+  });
+
+  it("parses cron query params for dry run and within-days window", () => {
+    expect(parseCronDryRun(new URLSearchParams("dryRun=1"))).toBe(true);
+    expect(parseCronDryRun(new URLSearchParams("dryRun=true"))).toBe(true);
+    expect(parseCronDryRun(new URLSearchParams("dryRun=0"))).toBe(false);
+    expect(parseCronWithinDays(new URLSearchParams("days=14"))).toBe(14);
+    expect(parseCronWithinDays(new URLSearchParams("days=99"))).toBe(7);
+    expect(parseCronWithinDays(new URLSearchParams())).toBe(7);
   });
 });

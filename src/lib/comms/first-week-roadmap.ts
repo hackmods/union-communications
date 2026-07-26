@@ -39,5 +39,6 @@ export const FIRST_WEEK_STEP_LINKS: Record<
   website: {
     primary: "/tools/website-template",
     secondary: "/guide/website",
+    tertiary: [{ href: "/guide/email-broadcast", labelKey: "tertiaryEmailBroadcast" }],
   },
 };
