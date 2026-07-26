@@ -2,27 +2,37 @@ import { and, desc, eq } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
 import {
   jobCodes,
+  payrollExportProfiles,
+  ptoAccrualPolicies,
   ptoBalances,
   ptoRequests,
   timeEntries,
   timeExpectedWindows,
+  timeOtPolicies,
+  timeShiftSeries,
   timeShifts,
+  timeWorkerGroups,
   timeWorkers,
   workSites,
 } from "@/lib/db/schema";
 import type { TimeAdapter } from "./adapter";
 import { checkGeofence } from "./geofence";
 import { computeNeededEntries, hasOverlappingEntry } from "./needed";
+import { DEFAULT_OT_POLICY } from "./ot-policy";
+import { buildShiftInstancesFromSeries } from "./shift-recurrence";
 import type {
   BulkEventInput,
   ClockInInput,
   CreateExpectedWindowInput,
   CreateJobCodeInput,
   CreatePtoRequestInput,
+  CreateShiftSeriesInput,
   CreateTimeShiftInput,
   JobCode,
   ManualEntryInput,
   NeededEntriesFilters,
+  PayrollExportProfile,
+  PtoAccrualPolicy,
   PtoBalance,
   PtoBalanceFilters,
   PtoListFilters,
@@ -33,12 +43,21 @@ import type {
   TimeExpectedWindow,
   TimeListFilters,
   TimeNeededRow,
+  TimeOtPolicy,
   TimeShift,
+  TimeShiftSeries,
   TimeWorker,
+  TimeWorkerGroup,
+  UpdateShiftSeriesInput,
   UpdateTimeShiftInput,
+  UpsertAccrualPolicyInput,
+  UpsertOtPolicyInput,
+  UpsertPayrollProfileInput,
   UpsertPtoBalanceInput,
+  UpsertWorkerGroupInput,
   UpsertWorkerInput,
   UpsertSiteInput,
+  WorkerListFilters,
   WorkSite,
 } from "@/types/time";
 
@@ -120,6 +139,17 @@ function mapWorker(row: typeof timeWorkers.$inferSelect): TimeWorker {
     trackGaps: row.trackGaps,
     active: row.active,
     gpsConsentAt: toIso(row.gpsConsentAt),
+    employeeNumber: row.employeeNumber ?? undefined,
+    email: row.email ?? undefined,
+    phone: row.phone ?? undefined,
+    jobTitle: row.jobTitle ?? undefined,
+    department: row.department ?? undefined,
+    hireDate: row.hireDate ?? undefined,
+    employmentType: row.employmentType ?? undefined,
+    defaultJobCodeId: row.defaultJobCodeId ?? undefined,
+    supervisorWorkerId: row.supervisorWorkerId ?? undefined,
+    notes: row.notes ?? undefined,
+    groupIds: row.groupIds ?? undefined,
   };
 }
 
@@ -189,6 +219,109 @@ function mapShift(row: typeof timeShifts.$inferSelect): TimeShift {
     assignedWorkerIds: row.assignedWorkerIds,
     status: row.status,
     createdById: row.createdById,
+    createdAt: toIso(row.createdAt)!,
+    updatedAt: toIso(row.updatedAt)!,
+    seriesId: row.seriesId ?? undefined,
+    seriesOccurrenceDate: row.seriesOccurrenceDate ?? undefined,
+  };
+}
+
+function mapWorkerGroup(
+  row: typeof timeWorkerGroups.$inferSelect,
+): TimeWorkerGroup {
+  return {
+    id: row.id,
+    unionId: row.unionId,
+    localId: row.localId,
+    name: row.name,
+    description: row.description ?? undefined,
+    memberWorkerIds: row.memberWorkerIds,
+    active: row.active,
+    createdAt: toIso(row.createdAt)!,
+    updatedAt: toIso(row.updatedAt)!,
+  };
+}
+
+function mapOtPolicy(row: typeof timeOtPolicies.$inferSelect): TimeOtPolicy {
+  return {
+    id: row.id,
+    unionId: row.unionId,
+    localId: row.localId,
+    name: row.name,
+    payPeriodType: row.payPeriodType,
+    payPeriodDays: row.payPeriodDays ?? undefined,
+    payPeriodAnchor: row.payPeriodAnchor ?? undefined,
+    dailyRegularHours: row.dailyRegularHours,
+    dailyOtThreshold: row.dailyOtThreshold,
+    weeklyRegularHours: row.weeklyRegularHours,
+    dailyDoubleThreshold: row.dailyDoubleThreshold ?? undefined,
+    otMultiplier: row.otMultiplier,
+    doubleTimeMultiplier: row.doubleTimeMultiplier,
+    holidayDates: row.holidayDates ?? undefined,
+    holidayMultiplier: row.holidayMultiplier,
+    categoryOtEligible: row.categoryOtEligible ?? undefined,
+    active: row.active,
+    createdAt: toIso(row.createdAt)!,
+    updatedAt: toIso(row.updatedAt)!,
+  };
+}
+
+function mapShiftSeries(
+  row: typeof timeShiftSeries.$inferSelect,
+): TimeShiftSeries {
+  return {
+    id: row.id,
+    unionId: row.unionId,
+    localId: row.localId,
+    label: row.label,
+    startTime: row.startTime,
+    durationMinutes: row.durationMinutes,
+    category: row.category,
+    siteId: row.siteId ?? undefined,
+    jobCodeId: row.jobCodeId ?? undefined,
+    assignedWorkerIds: row.assignedWorkerIds,
+    recurrence: row.recurrence,
+    status: row.status,
+    createdById: row.createdById,
+    createdAt: toIso(row.createdAt)!,
+    updatedAt: toIso(row.updatedAt)!,
+  };
+}
+
+function mapAccrualPolicy(
+  row: typeof ptoAccrualPolicies.$inferSelect,
+): PtoAccrualPolicy {
+  return {
+    id: row.id,
+    unionId: row.unionId,
+    localId: row.localId,
+    name: row.name,
+    ptoType: row.ptoType,
+    formulaType: row.formulaType,
+    hoursWorkedRate: row.hoursWorkedRate ?? undefined,
+    eligibleCategories: row.eligibleCategories ?? undefined,
+    fixedHoursPerPeriod: row.fixedHoursPerPeriod ?? undefined,
+    periodDays: row.periodDays ?? undefined,
+    tenureTiers: row.tenureTiers ?? undefined,
+    active: row.active,
+    createdAt: toIso(row.createdAt)!,
+    updatedAt: toIso(row.updatedAt)!,
+  };
+}
+
+function mapPayrollProfile(
+  row: typeof payrollExportProfiles.$inferSelect,
+): PayrollExportProfile {
+  return {
+    id: row.id,
+    unionId: row.unionId,
+    localId: row.localId,
+    name: row.name,
+    vendor: row.vendor,
+    fieldMapping: row.fieldMapping,
+    webhookUrl: row.webhookUrl ?? undefined,
+    includeOtBreakdown: row.includeOtBreakdown,
+    active: row.active,
     createdAt: toIso(row.createdAt)!,
     updatedAt: toIso(row.updatedAt)!,
   };
@@ -569,19 +702,26 @@ export class DrizzleTimeAdapter implements TimeAdapter {
     return mapSite(row);
   }
 
-  async listWorkers(unionId: string, localId: string): Promise<TimeWorker[]> {
+  async listWorkers(filters: WorkerListFilters): Promise<TimeWorker[]> {
     const db = getDb();
+    const clauses = [
+      eq(timeWorkers.unionId, filters.unionId),
+      eq(timeWorkers.localId, filters.localId),
+    ];
+    if (!filters.includeInactive) {
+      clauses.push(eq(timeWorkers.active, true));
+    }
     const rows = await db
       .select()
       .from(timeWorkers)
-      .where(
-        and(
-          eq(timeWorkers.unionId, unionId),
-          eq(timeWorkers.localId, localId),
-          eq(timeWorkers.active, true),
-        ),
+      .where(and(...clauses));
+    return rows
+      .map(mapWorker)
+      .filter((w) =>
+        filters.groupId
+          ? (w.groupIds ?? []).includes(filters.groupId)
+          : true,
       );
-    return rows.map(mapWorker);
   }
 
   async upsertWorker(
@@ -589,6 +729,29 @@ export class DrizzleTimeAdapter implements TimeAdapter {
     meta: { unionId: string; localId: string },
   ): Promise<TimeWorker> {
     const db = getDb();
+    const workerFields = {
+      displayName: input.displayName,
+      userId: input.userId,
+      trackGaps: input.trackGaps,
+      active: input.active,
+      gpsConsentAt:
+        input.gpsConsentAt === null
+          ? null
+          : input.gpsConsentAt
+            ? toDate(input.gpsConsentAt)
+            : undefined,
+      employeeNumber: input.employeeNumber,
+      email: input.email,
+      phone: input.phone,
+      jobTitle: input.jobTitle,
+      department: input.department,
+      hireDate: input.hireDate,
+      employmentType: input.employmentType,
+      defaultJobCodeId: input.defaultJobCodeId,
+      supervisorWorkerId: input.supervisorWorkerId,
+      notes: input.notes,
+      groupIds: input.groupIds,
+    };
 
     if (input.id) {
       const existing = await db
@@ -617,6 +780,21 @@ export class DrizzleTimeAdapter implements TimeAdapter {
                 : input.gpsConsentAt
                   ? toDate(input.gpsConsentAt)
                   : existing[0].gpsConsentAt,
+            employeeNumber:
+              input.employeeNumber ?? existing[0].employeeNumber,
+            email: input.email ?? existing[0].email,
+            phone: input.phone ?? existing[0].phone,
+            jobTitle: input.jobTitle ?? existing[0].jobTitle,
+            department: input.department ?? existing[0].department,
+            hireDate: input.hireDate ?? existing[0].hireDate,
+            employmentType:
+              input.employmentType ?? existing[0].employmentType,
+            defaultJobCodeId:
+              input.defaultJobCodeId ?? existing[0].defaultJobCodeId,
+            supervisorWorkerId:
+              input.supervisorWorkerId ?? existing[0].supervisorWorkerId,
+            notes: input.notes ?? existing[0].notes,
+            groupIds: input.groupIds ?? existing[0].groupIds,
           })
           .where(eq(timeWorkers.id, input.id))
           .returning();
@@ -631,12 +809,9 @@ export class DrizzleTimeAdapter implements TimeAdapter {
         unionId: meta.unionId,
         localId: meta.localId,
         displayName: input.displayName,
-        userId: input.userId,
         trackGaps: input.trackGaps ?? true,
         active: input.active ?? true,
-        gpsConsentAt: input.gpsConsentAt
-          ? toDate(input.gpsConsentAt)
-          : undefined,
+        ...workerFields,
       })
       .returning();
     return mapWorker(row);
@@ -688,10 +863,10 @@ export class DrizzleTimeAdapter implements TimeAdapter {
   async listNeededEntries(
     filters: NeededEntriesFilters,
   ): Promise<TimeNeededRow[]> {
-    const localWorkers = await this.listWorkers(
-      filters.unionId,
-      filters.localId,
-    );
+    const localWorkers = await this.listWorkers({
+      unionId: filters.unionId,
+      localId: filters.localId,
+    });
     const windows = await this.listExpectedWindows(
       filters.unionId,
       filters.localId,
@@ -996,5 +1171,426 @@ export class DrizzleTimeAdapter implements TimeAdapter {
       .where(eq(timeShifts.id, id))
       .returning();
     return row ? mapShift(row) : null;
+  }
+
+  async listWorkerGroups(
+    unionId: string,
+    localId: string,
+  ): Promise<TimeWorkerGroup[]> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(timeWorkerGroups)
+      .where(
+        and(
+          eq(timeWorkerGroups.unionId, unionId),
+          eq(timeWorkerGroups.localId, localId),
+          eq(timeWorkerGroups.active, true),
+        ),
+      );
+    return rows.map(mapWorkerGroup).sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  async upsertWorkerGroup(
+    input: UpsertWorkerGroupInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<TimeWorkerGroup> {
+    const db = getDb();
+    const stamp = new Date();
+    if (input.id) {
+      const [row] = await db
+        .update(timeWorkerGroups)
+        .set({
+          name: input.name.trim(),
+          description: input.description,
+          memberWorkerIds: input.memberWorkerIds,
+          active: input.active,
+          updatedAt: stamp,
+        })
+        .where(
+          and(
+            eq(timeWorkerGroups.id, input.id),
+            eq(timeWorkerGroups.unionId, meta.unionId),
+            eq(timeWorkerGroups.localId, meta.localId),
+          ),
+        )
+        .returning();
+      if (row) return mapWorkerGroup(row);
+    }
+    const [row] = await db
+      .insert(timeWorkerGroups)
+      .values({
+        id: newId("twg"),
+        unionId: meta.unionId,
+        localId: meta.localId,
+        name: input.name.trim(),
+        description: input.description,
+        memberWorkerIds: input.memberWorkerIds ?? [],
+        active: input.active ?? true,
+        createdAt: stamp,
+        updatedAt: stamp,
+      })
+      .returning();
+    return mapWorkerGroup(row);
+  }
+
+  async listOtPolicies(
+    unionId: string,
+    localId: string,
+  ): Promise<TimeOtPolicy[]> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(timeOtPolicies)
+      .where(
+        and(
+          eq(timeOtPolicies.unionId, unionId),
+          eq(timeOtPolicies.localId, localId),
+        ),
+      );
+    return rows.map(mapOtPolicy);
+  }
+
+  async upsertOtPolicy(
+    input: UpsertOtPolicyInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<TimeOtPolicy> {
+    const db = getDb();
+    const stamp = new Date();
+    if (input.id) {
+      const existing = (
+        await db
+          .select()
+          .from(timeOtPolicies)
+          .where(eq(timeOtPolicies.id, input.id))
+          .limit(1)
+      )[0];
+      if (existing) {
+        const [row] = await db
+          .update(timeOtPolicies)
+          .set({
+            name: input.name.trim(),
+            payPeriodType: input.payPeriodType ?? existing.payPeriodType,
+            payPeriodDays: input.payPeriodDays ?? existing.payPeriodDays,
+            payPeriodAnchor:
+              input.payPeriodAnchor ?? existing.payPeriodAnchor,
+            dailyRegularHours:
+              input.dailyRegularHours ?? existing.dailyRegularHours,
+            dailyOtThreshold:
+              input.dailyOtThreshold ?? existing.dailyOtThreshold,
+            weeklyRegularHours:
+              input.weeklyRegularHours ?? existing.weeklyRegularHours,
+            dailyDoubleThreshold:
+              input.dailyDoubleThreshold ?? existing.dailyDoubleThreshold,
+            otMultiplier: input.otMultiplier ?? existing.otMultiplier,
+            doubleTimeMultiplier:
+              input.doubleTimeMultiplier ?? existing.doubleTimeMultiplier,
+            holidayDates: input.holidayDates ?? existing.holidayDates,
+            holidayMultiplier:
+              input.holidayMultiplier ?? existing.holidayMultiplier,
+            categoryOtEligible:
+              input.categoryOtEligible ?? existing.categoryOtEligible,
+            active: input.active ?? existing.active,
+            updatedAt: stamp,
+          })
+          .where(eq(timeOtPolicies.id, input.id))
+          .returning();
+        return mapOtPolicy(row);
+      }
+    }
+    const [row] = await db
+      .insert(timeOtPolicies)
+      .values({
+        id: newId("otpol"),
+        unionId: meta.unionId,
+        localId: meta.localId,
+        name: input.name.trim(),
+        payPeriodType: input.payPeriodType ?? DEFAULT_OT_POLICY.payPeriodType,
+        payPeriodDays: input.payPeriodDays ?? DEFAULT_OT_POLICY.payPeriodDays,
+        payPeriodAnchor: input.payPeriodAnchor,
+        dailyRegularHours:
+          input.dailyRegularHours ?? DEFAULT_OT_POLICY.dailyRegularHours,
+        dailyOtThreshold:
+          input.dailyOtThreshold ?? DEFAULT_OT_POLICY.dailyOtThreshold,
+        weeklyRegularHours:
+          input.weeklyRegularHours ?? DEFAULT_OT_POLICY.weeklyRegularHours,
+        dailyDoubleThreshold:
+          input.dailyDoubleThreshold ?? DEFAULT_OT_POLICY.dailyDoubleThreshold,
+        otMultiplier: input.otMultiplier ?? DEFAULT_OT_POLICY.otMultiplier,
+        doubleTimeMultiplier:
+          input.doubleTimeMultiplier ?? DEFAULT_OT_POLICY.doubleTimeMultiplier,
+        holidayDates: input.holidayDates ?? [],
+        holidayMultiplier:
+          input.holidayMultiplier ?? DEFAULT_OT_POLICY.holidayMultiplier,
+        categoryOtEligible:
+          input.categoryOtEligible ?? DEFAULT_OT_POLICY.categoryOtEligible,
+        active: input.active ?? true,
+        createdAt: stamp,
+        updatedAt: stamp,
+      })
+      .returning();
+    return mapOtPolicy(row);
+  }
+
+  async listShiftSeries(
+    unionId: string,
+    localId: string,
+  ): Promise<TimeShiftSeries[]> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(timeShiftSeries)
+      .where(
+        and(
+          eq(timeShiftSeries.unionId, unionId),
+          eq(timeShiftSeries.localId, localId),
+        ),
+      );
+    return rows.map(mapShiftSeries).sort((a, b) => a.label.localeCompare(b.label));
+  }
+
+  async getShiftSeriesById(id: string): Promise<TimeShiftSeries | null> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(timeShiftSeries)
+      .where(eq(timeShiftSeries.id, id))
+      .limit(1);
+    return rows[0] ? mapShiftSeries(rows[0]) : null;
+  }
+
+  async createShiftSeries(
+    input: CreateShiftSeriesInput,
+    meta: { unionId: string; localId: string; createdById: string },
+  ): Promise<TimeShiftSeries> {
+    const db = getDb();
+    const stamp = new Date();
+    const [row] = await db
+      .insert(timeShiftSeries)
+      .values({
+        id: newId("tser"),
+        unionId: meta.unionId,
+        localId: meta.localId,
+        label: input.label.trim(),
+        startTime: input.startTime,
+        durationMinutes: input.durationMinutes,
+        category: input.category,
+        siteId: input.siteId,
+        jobCodeId: input.jobCodeId,
+        assignedWorkerIds: [...input.assignedWorkerIds],
+        recurrence: input.recurrence,
+        status: input.status ?? "draft",
+        createdById: meta.createdById,
+        createdAt: stamp,
+        updatedAt: stamp,
+      })
+      .returning();
+    return mapShiftSeries(row);
+  }
+
+  async updateShiftSeries(
+    id: string,
+    input: UpdateShiftSeriesInput,
+  ): Promise<TimeShiftSeries | null> {
+    const existing = await this.getShiftSeriesById(id);
+    if (!existing) return null;
+    const db = getDb();
+    const stamp = new Date();
+    const [row] = await db
+      .update(timeShiftSeries)
+      .set({
+        label: input.label?.trim() ?? existing.label,
+        startTime: input.startTime ?? existing.startTime,
+        durationMinutes: input.durationMinutes ?? existing.durationMinutes,
+        category: input.category ?? existing.category,
+        siteId:
+          input.siteId === null ? null : (input.siteId ?? existing.siteId),
+        jobCodeId:
+          input.jobCodeId === null
+            ? null
+            : (input.jobCodeId ?? existing.jobCodeId),
+        assignedWorkerIds:
+          input.assignedWorkerIds ?? existing.assignedWorkerIds,
+        recurrence: input.recurrence ?? existing.recurrence,
+        status: input.status ?? existing.status,
+        updatedAt: stamp,
+      })
+      .where(eq(timeShiftSeries.id, id))
+      .returning();
+    return row ? mapShiftSeries(row) : null;
+  }
+
+  async expandShiftSeries(
+    seriesId: string,
+    from: string,
+    to: string,
+    meta: { unionId: string; localId: string; createdById: string },
+  ): Promise<TimeShift[]> {
+    const series = await this.getShiftSeriesById(seriesId);
+    if (
+      !series ||
+      series.unionId !== meta.unionId ||
+      series.localId !== meta.localId
+    ) {
+      return [];
+    }
+    const instances = buildShiftInstancesFromSeries(series, from, to);
+    const created: TimeShift[] = [];
+    const db = getDb();
+    for (const inst of instances) {
+      const dateKey = inst.startsAt.slice(0, 10);
+      const existing = await db
+        .select()
+        .from(timeShifts)
+        .where(
+          and(
+            eq(timeShifts.seriesId, seriesId),
+            eq(timeShifts.seriesOccurrenceDate, dateKey),
+          ),
+        )
+        .limit(1);
+      if (existing[0]) continue;
+      const shift = await this.createShift(inst, meta);
+      await db
+        .update(timeShifts)
+        .set({ seriesId, seriesOccurrenceDate: dateKey })
+        .where(eq(timeShifts.id, shift.id));
+      created.push({ ...shift, seriesId, seriesOccurrenceDate: dateKey });
+    }
+    return created;
+  }
+
+  async listAccrualPolicies(
+    unionId: string,
+    localId: string,
+  ): Promise<PtoAccrualPolicy[]> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(ptoAccrualPolicies)
+      .where(
+        and(
+          eq(ptoAccrualPolicies.unionId, unionId),
+          eq(ptoAccrualPolicies.localId, localId),
+        ),
+      );
+    return rows.map(mapAccrualPolicy);
+  }
+
+  async upsertAccrualPolicy(
+    input: UpsertAccrualPolicyInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<PtoAccrualPolicy> {
+    const db = getDb();
+    const stamp = new Date();
+    if (input.id) {
+      const [row] = await db
+        .update(ptoAccrualPolicies)
+        .set({
+          name: input.name.trim(),
+          ptoType: input.ptoType,
+          formulaType: input.formulaType,
+          hoursWorkedRate: input.hoursWorkedRate,
+          eligibleCategories: input.eligibleCategories,
+          fixedHoursPerPeriod: input.fixedHoursPerPeriod,
+          periodDays: input.periodDays,
+          tenureTiers: input.tenureTiers,
+          active: input.active,
+          updatedAt: stamp,
+        })
+        .where(
+          and(
+            eq(ptoAccrualPolicies.id, input.id),
+            eq(ptoAccrualPolicies.unionId, meta.unionId),
+            eq(ptoAccrualPolicies.localId, meta.localId),
+          ),
+        )
+        .returning();
+      if (row) return mapAccrualPolicy(row);
+    }
+    const [row] = await db
+      .insert(ptoAccrualPolicies)
+      .values({
+        id: newId("accpol"),
+        unionId: meta.unionId,
+        localId: meta.localId,
+        name: input.name.trim(),
+        ptoType: input.ptoType,
+        formulaType: input.formulaType,
+        hoursWorkedRate: input.hoursWorkedRate,
+        eligibleCategories: input.eligibleCategories,
+        fixedHoursPerPeriod: input.fixedHoursPerPeriod,
+        periodDays: input.periodDays ?? 14,
+        tenureTiers: input.tenureTiers,
+        active: input.active ?? true,
+        createdAt: stamp,
+        updatedAt: stamp,
+      })
+      .returning();
+    return mapAccrualPolicy(row);
+  }
+
+  async listPayrollProfiles(
+    unionId: string,
+    localId: string,
+  ): Promise<PayrollExportProfile[]> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(payrollExportProfiles)
+      .where(
+        and(
+          eq(payrollExportProfiles.unionId, unionId),
+          eq(payrollExportProfiles.localId, localId),
+        ),
+      );
+    return rows.map(mapPayrollProfile);
+  }
+
+  async upsertPayrollProfile(
+    input: UpsertPayrollProfileInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<PayrollExportProfile> {
+    const db = getDb();
+    const stamp = new Date();
+    if (input.id) {
+      const [row] = await db
+        .update(payrollExportProfiles)
+        .set({
+          name: input.name.trim(),
+          vendor: input.vendor,
+          fieldMapping: input.fieldMapping,
+          webhookUrl: input.webhookUrl,
+          includeOtBreakdown: input.includeOtBreakdown,
+          active: input.active,
+          updatedAt: stamp,
+        })
+        .where(
+          and(
+            eq(payrollExportProfiles.id, input.id),
+            eq(payrollExportProfiles.unionId, meta.unionId),
+            eq(payrollExportProfiles.localId, meta.localId),
+          ),
+        )
+        .returning();
+      if (row) return mapPayrollProfile(row);
+    }
+    const [row] = await db
+      .insert(payrollExportProfiles)
+      .values({
+        id: newId("payprof"),
+        unionId: meta.unionId,
+        localId: meta.localId,
+        name: input.name.trim(),
+        vendor: input.vendor,
+        fieldMapping: input.fieldMapping ?? {},
+        webhookUrl: input.webhookUrl,
+        includeOtBreakdown: input.includeOtBreakdown ?? true,
+        active: input.active ?? true,
+        createdAt: stamp,
+        updatedAt: stamp,
+      })
+      .returning();
+    return mapPayrollProfile(row);
   }
 }

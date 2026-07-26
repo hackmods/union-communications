@@ -111,7 +111,7 @@ export async function POST(request: Request) {
     workerId = session.user.id;
     workerName = session.user.name ?? session.user.email ?? "Worker";
   } else if (parsed.data.workerId) {
-    const roster = await timeStore.listWorkers(unionId, localId);
+    const roster = await timeStore.listWorkers({ unionId, localId });
     const match = roster.find((w) => w.id === parsed.data.workerId);
     if (match) {
       workerId = match.id;

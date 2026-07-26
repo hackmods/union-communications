@@ -15,6 +15,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { PtoRequestsPanel } from "@/components/time/PtoRequestsPanel";
 import { ShiftSchedulePanel } from "@/components/time/ShiftSchedulePanel";
+import { TimeFullAdminPanel } from "@/components/time/TimeFullAdminPanel";
 import { payPeriodBounds } from "@/lib/time/pay-period";
 import type {
   GeofenceMode,
@@ -803,6 +804,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
         <>
           <ShiftSchedulePanel isAdmin />
           <PtoRequestsPanel isAdmin />
+          <TimeFullAdminPanel />
           <Card className="mt-6">
             <CardTitle>{t("bulkTitle")}</CardTitle>
             <p className="mt-1 text-sm text-gray-600">{t("bulkHint")}</p>

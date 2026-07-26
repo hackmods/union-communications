@@ -5,6 +5,7 @@ import type {
   CreateExpectedWindowInput,
   CreateJobCodeInput,
   CreatePtoRequestInput,
+  CreateShiftSeriesInput,
   CreateTimeShiftInput,
   JobCode,
   ManualEntryInput,
@@ -14,17 +15,28 @@ import type {
   PtoListFilters,
   PtoRequest,
   PtoRequestStatus,
+  PtoAccrualPolicy,
+  PayrollExportProfile,
   ShiftListFilters,
   TimeEntry,
   TimeExpectedWindow,
   TimeListFilters,
   TimeNeededRow,
+  TimeOtPolicy,
   TimeShift,
+  TimeShiftSeries,
   TimeWorker,
+  TimeWorkerGroup,
+  UpdateShiftSeriesInput,
   UpdateTimeShiftInput,
+  UpsertAccrualPolicyInput,
+  UpsertOtPolicyInput,
+  UpsertPayrollProfileInput,
   UpsertPtoBalanceInput,
+  UpsertWorkerGroupInput,
   UpsertWorkerInput,
   UpsertSiteInput,
+  WorkerListFilters,
   WorkSite,
 } from "@/types/time";
 
@@ -77,7 +89,7 @@ export interface TimeAdapter {
     input: UpsertSiteInput,
     meta: { unionId: string; localId: string },
   ): Promise<WorkSite>;
-  listWorkers(unionId: string, localId: string): Promise<TimeWorker[]>;
+  listWorkers(filters: WorkerListFilters): Promise<TimeWorker[]>;
   upsertWorker(
     input: UpsertWorkerInput,
     meta: { unionId: string; localId: string },
@@ -117,4 +129,46 @@ export interface TimeAdapter {
     id: string,
     input: UpdateTimeShiftInput,
   ): Promise<TimeShift | null>;
+  listWorkerGroups(unionId: string, localId: string): Promise<TimeWorkerGroup[]>;
+  upsertWorkerGroup(
+    input: UpsertWorkerGroupInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<TimeWorkerGroup>;
+  listOtPolicies(unionId: string, localId: string): Promise<TimeOtPolicy[]>;
+  upsertOtPolicy(
+    input: UpsertOtPolicyInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<TimeOtPolicy>;
+  listShiftSeries(unionId: string, localId: string): Promise<TimeShiftSeries[]>;
+  getShiftSeriesById(id: string): Promise<TimeShiftSeries | null>;
+  createShiftSeries(
+    input: CreateShiftSeriesInput,
+    meta: { unionId: string; localId: string; createdById: string },
+  ): Promise<TimeShiftSeries>;
+  updateShiftSeries(
+    id: string,
+    input: UpdateShiftSeriesInput,
+  ): Promise<TimeShiftSeries | null>;
+  expandShiftSeries(
+    seriesId: string,
+    from: string,
+    to: string,
+    meta: { unionId: string; localId: string; createdById: string },
+  ): Promise<TimeShift[]>;
+  listAccrualPolicies(
+    unionId: string,
+    localId: string,
+  ): Promise<PtoAccrualPolicy[]>;
+  upsertAccrualPolicy(
+    input: UpsertAccrualPolicyInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<PtoAccrualPolicy>;
+  listPayrollProfiles(
+    unionId: string,
+    localId: string,
+  ): Promise<PayrollExportProfile[]>;
+  upsertPayrollProfile(
+    input: UpsertPayrollProfileInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<PayrollExportProfile>;
 }

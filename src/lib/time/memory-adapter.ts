@@ -7,10 +7,13 @@ import type {
   CreateExpectedWindowInput,
   CreateJobCodeInput,
   CreatePtoRequestInput,
+  CreateShiftSeriesInput,
   CreateTimeShiftInput,
   JobCode,
   ManualEntryInput,
   NeededEntriesFilters,
+  PayrollExportProfile,
+  PtoAccrualPolicy,
   PtoBalance,
   PtoBalanceFilters,
   PtoListFilters,
@@ -21,14 +24,25 @@ import type {
   TimeExpectedWindow,
   TimeListFilters,
   TimeNeededRow,
+  TimeOtPolicy,
   TimeShift,
+  TimeShiftSeries,
   TimeWorker,
+  TimeWorkerGroup,
+  UpdateShiftSeriesInput,
   UpdateTimeShiftInput,
+  UpsertAccrualPolicyInput,
+  UpsertOtPolicyInput,
+  UpsertPayrollProfileInput,
   UpsertPtoBalanceInput,
+  UpsertWorkerGroupInput,
   UpsertWorkerInput,
   UpsertSiteInput,
+  WorkerListFilters,
   WorkSite,
 } from "@/types/time";
+import { DEFAULT_OT_POLICY } from "./ot-policy";
+import { buildShiftInstancesFromSeries } from "./shift-recurrence";
 
 let entrySeq = 1;
 let codeSeq = 10;
@@ -39,6 +53,11 @@ let siteSeq = 1;
 let ptoSeq = 1;
 let shiftSeq = 1;
 let ptoBalanceSeq = 1;
+let groupSeq = 1;
+let otPolicySeq = 1;
+let seriesSeq = 1;
+let accrualPolicySeq = 1;
+let payrollProfileSeq = 1;
 
 const entries: TimeEntry[] = [];
 const jobCodes: JobCode[] = [
@@ -125,6 +144,11 @@ const expectedWindows: TimeExpectedWindow[] = [];
 const ptoRequests: PtoRequest[] = [];
 const ptoBalances: PtoBalance[] = [];
 const shifts: TimeShift[] = [];
+const workerGroups: TimeWorkerGroup[] = [];
+const otPolicies: TimeOtPolicy[] = [];
+const shiftSeries: TimeShiftSeries[] = [];
+const accrualPolicies: PtoAccrualPolicy[] = [];
+const payrollProfiles: PayrollExportProfile[] = [];
 
 function now() {
   return new Date().toISOString();
@@ -164,6 +188,26 @@ function nextShiftId() {
 
 function nextPtoBalanceId() {
   return `ptobal-${String(ptoBalanceSeq++).padStart(4, "0")}`;
+}
+
+function nextGroupId() {
+  return `twg-${String(groupSeq++).padStart(4, "0")}`;
+}
+
+function nextOtPolicyId() {
+  return `otpol-${String(otPolicySeq++).padStart(4, "0")}`;
+}
+
+function nextSeriesId() {
+  return `tser-${String(seriesSeq++).padStart(4, "0")}`;
+}
+
+function nextAccrualPolicyId() {
+  return `accpol-${String(accrualPolicySeq++).padStart(4, "0")}`;
+}
+
+function nextPayrollProfileId() {
+  return `payprof-${String(payrollProfileSeq++).padStart(4, "0")}`;
 }
 
 function applyPtoApprovalDebit(row: PtoRequest, updatedById?: string) {
@@ -499,10 +543,20 @@ export const memoryTimeStore: TimeAdapter = {
     return site;
   },
 
-  async listWorkers(unionId: string, localId: string): Promise<TimeWorker[]> {
-    return workers.filter(
-      (w) => w.unionId === unionId && w.localId === localId && w.active,
-    );
+  async listWorkers(filters: WorkerListFilters): Promise<TimeWorker[]> {
+    return workers.filter((w) => {
+      if (w.unionId !== filters.unionId || w.localId !== filters.localId) {
+        return false;
+      }
+      if (!filters.includeInactive && !w.active) return false;
+      if (
+        filters.groupId &&
+        !(w.groupIds ?? []).includes(filters.groupId)
+      ) {
+        return false;
+      }
+      return true;
+    });
   },
 
   async upsertWorker(
@@ -527,6 +581,20 @@ export const memoryTimeStore: TimeAdapter = {
             input.gpsConsentAt === null
               ? undefined
               : (input.gpsConsentAt ?? workers[idx].gpsConsentAt),
+          employeeNumber: input.employeeNumber ?? workers[idx].employeeNumber,
+          email: input.email ?? workers[idx].email,
+          phone: input.phone ?? workers[idx].phone,
+          jobTitle: input.jobTitle ?? workers[idx].jobTitle,
+          department: input.department ?? workers[idx].department,
+          hireDate: input.hireDate ?? workers[idx].hireDate,
+          employmentType:
+            input.employmentType ?? workers[idx].employmentType,
+          defaultJobCodeId:
+            input.defaultJobCodeId ?? workers[idx].defaultJobCodeId,
+          supervisorWorkerId:
+            input.supervisorWorkerId ?? workers[idx].supervisorWorkerId,
+          notes: input.notes ?? workers[idx].notes,
+          groupIds: input.groupIds ?? workers[idx].groupIds,
         };
         return workers[idx];
       }
@@ -541,6 +609,17 @@ export const memoryTimeStore: TimeAdapter = {
       trackGaps: input.trackGaps ?? true,
       active: input.active ?? true,
       gpsConsentAt: input.gpsConsentAt ?? undefined,
+      employeeNumber: input.employeeNumber,
+      email: input.email,
+      phone: input.phone,
+      jobTitle: input.jobTitle,
+      department: input.department,
+      hireDate: input.hireDate,
+      employmentType: input.employmentType,
+      defaultJobCodeId: input.defaultJobCodeId,
+      supervisorWorkerId: input.supervisorWorkerId,
+      notes: input.notes,
+      groupIds: input.groupIds ?? [],
     };
     workers.push(worker);
     return worker;
@@ -583,10 +662,10 @@ export const memoryTimeStore: TimeAdapter = {
   async listNeededEntries(
     filters: NeededEntriesFilters,
   ): Promise<TimeNeededRow[]> {
-    const localWorkers = await this.listWorkers(
-      filters.unionId,
-      filters.localId,
-    );
+    const localWorkers = await this.listWorkers({
+      unionId: filters.unionId,
+      localId: filters.localId,
+    });
     const windows = await this.listExpectedWindows(
       filters.unionId,
       filters.localId,
@@ -785,6 +864,353 @@ export const memoryTimeStore: TimeAdapter = {
     if (input.status !== undefined) row.status = input.status;
     assertValidRange(row.startsAt, row.endsAt);
     row.updatedAt = now();
+    return row;
+  },
+
+  async listWorkerGroups(
+    unionId: string,
+    localId: string,
+  ): Promise<TimeWorkerGroup[]> {
+    return workerGroups
+      .filter((g) => g.unionId === unionId && g.localId === localId && g.active)
+      .sort((a, b) => a.name.localeCompare(b.name));
+  },
+
+  async upsertWorkerGroup(
+    input: UpsertWorkerGroupInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<TimeWorkerGroup> {
+    const stamp = now();
+    if (input.id) {
+      const idx = workerGroups.findIndex(
+        (g) =>
+          g.id === input.id &&
+          g.unionId === meta.unionId &&
+          g.localId === meta.localId,
+      );
+      if (idx >= 0) {
+        workerGroups[idx] = {
+          ...workerGroups[idx],
+          name: input.name.trim(),
+          description: input.description ?? workerGroups[idx].description,
+          memberWorkerIds:
+            input.memberWorkerIds ?? workerGroups[idx].memberWorkerIds,
+          active: input.active ?? workerGroups[idx].active,
+          updatedAt: stamp,
+        };
+        return workerGroups[idx];
+      }
+    }
+    const row: TimeWorkerGroup = {
+      id: nextGroupId(),
+      unionId: meta.unionId,
+      localId: meta.localId,
+      name: input.name.trim(),
+      description: input.description,
+      memberWorkerIds: input.memberWorkerIds ?? [],
+      active: input.active ?? true,
+      createdAt: stamp,
+      updatedAt: stamp,
+    };
+    workerGroups.push(row);
+    return row;
+  },
+
+  async listOtPolicies(
+    unionId: string,
+    localId: string,
+  ): Promise<TimeOtPolicy[]> {
+    return otPolicies.filter(
+      (p) => p.unionId === unionId && p.localId === localId,
+    );
+  },
+
+  async upsertOtPolicy(
+    input: UpsertOtPolicyInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<TimeOtPolicy> {
+    const stamp = now();
+    if (input.id) {
+      const idx = otPolicies.findIndex(
+        (p) =>
+          p.id === input.id &&
+          p.unionId === meta.unionId &&
+          p.localId === meta.localId,
+      );
+      if (idx >= 0) {
+        const prev = otPolicies[idx];
+        otPolicies[idx] = {
+          ...prev,
+          name: input.name.trim(),
+          payPeriodType: input.payPeriodType ?? prev.payPeriodType,
+          payPeriodDays: input.payPeriodDays ?? prev.payPeriodDays,
+          payPeriodAnchor: input.payPeriodAnchor ?? prev.payPeriodAnchor,
+          dailyRegularHours:
+            input.dailyRegularHours ?? prev.dailyRegularHours,
+          dailyOtThreshold: input.dailyOtThreshold ?? prev.dailyOtThreshold,
+          weeklyRegularHours:
+            input.weeklyRegularHours ?? prev.weeklyRegularHours,
+          dailyDoubleThreshold:
+            input.dailyDoubleThreshold ?? prev.dailyDoubleThreshold,
+          otMultiplier: input.otMultiplier ?? prev.otMultiplier,
+          doubleTimeMultiplier:
+            input.doubleTimeMultiplier ?? prev.doubleTimeMultiplier,
+          holidayDates: input.holidayDates ?? prev.holidayDates,
+          holidayMultiplier: input.holidayMultiplier ?? prev.holidayMultiplier,
+          categoryOtEligible:
+            input.categoryOtEligible ?? prev.categoryOtEligible,
+          active: input.active ?? prev.active,
+          updatedAt: stamp,
+        };
+        return otPolicies[idx];
+      }
+    }
+    const row: TimeOtPolicy = {
+      id: nextOtPolicyId(),
+      unionId: meta.unionId,
+      localId: meta.localId,
+      name: input.name.trim(),
+      payPeriodType: input.payPeriodType ?? DEFAULT_OT_POLICY.payPeriodType,
+      payPeriodDays: input.payPeriodDays ?? DEFAULT_OT_POLICY.payPeriodDays,
+      payPeriodAnchor: input.payPeriodAnchor,
+      dailyRegularHours:
+        input.dailyRegularHours ?? DEFAULT_OT_POLICY.dailyRegularHours,
+      dailyOtThreshold:
+        input.dailyOtThreshold ?? DEFAULT_OT_POLICY.dailyOtThreshold,
+      weeklyRegularHours:
+        input.weeklyRegularHours ?? DEFAULT_OT_POLICY.weeklyRegularHours,
+      dailyDoubleThreshold:
+        input.dailyDoubleThreshold ?? DEFAULT_OT_POLICY.dailyDoubleThreshold,
+      otMultiplier: input.otMultiplier ?? DEFAULT_OT_POLICY.otMultiplier,
+      doubleTimeMultiplier:
+        input.doubleTimeMultiplier ?? DEFAULT_OT_POLICY.doubleTimeMultiplier,
+      holidayDates: input.holidayDates ?? [],
+      holidayMultiplier:
+        input.holidayMultiplier ?? DEFAULT_OT_POLICY.holidayMultiplier,
+      categoryOtEligible:
+        input.categoryOtEligible ?? DEFAULT_OT_POLICY.categoryOtEligible,
+      active: input.active ?? true,
+      createdAt: stamp,
+      updatedAt: stamp,
+    };
+    otPolicies.push(row);
+    return row;
+  },
+
+  async listShiftSeries(
+    unionId: string,
+    localId: string,
+  ): Promise<TimeShiftSeries[]> {
+    return shiftSeries
+      .filter((s) => s.unionId === unionId && s.localId === localId)
+      .sort((a, b) => a.label.localeCompare(b.label));
+  },
+
+  async getShiftSeriesById(id: string): Promise<TimeShiftSeries | null> {
+    return shiftSeries.find((s) => s.id === id) ?? null;
+  },
+
+  async createShiftSeries(
+    input: CreateShiftSeriesInput,
+    meta: { unionId: string; localId: string; createdById: string },
+  ): Promise<TimeShiftSeries> {
+    const stamp = now();
+    const row: TimeShiftSeries = {
+      id: nextSeriesId(),
+      unionId: meta.unionId,
+      localId: meta.localId,
+      label: input.label.trim(),
+      startTime: input.startTime,
+      durationMinutes: input.durationMinutes,
+      category: input.category,
+      siteId: input.siteId,
+      jobCodeId: input.jobCodeId,
+      assignedWorkerIds: [...input.assignedWorkerIds],
+      recurrence: input.recurrence,
+      status: input.status ?? "draft",
+      createdById: meta.createdById,
+      createdAt: stamp,
+      updatedAt: stamp,
+    };
+    shiftSeries.push(row);
+    return row;
+  },
+
+  async updateShiftSeries(
+    id: string,
+    input: UpdateShiftSeriesInput,
+  ): Promise<TimeShiftSeries | null> {
+    const row = shiftSeries.find((s) => s.id === id);
+    if (!row) return null;
+    if (input.label !== undefined) row.label = input.label.trim();
+    if (input.startTime !== undefined) row.startTime = input.startTime;
+    if (input.durationMinutes !== undefined) {
+      row.durationMinutes = input.durationMinutes;
+    }
+    if (input.category !== undefined) row.category = input.category;
+    if (input.siteId !== undefined) row.siteId = input.siteId ?? undefined;
+    if (input.jobCodeId !== undefined) {
+      row.jobCodeId = input.jobCodeId ?? undefined;
+    }
+    if (input.assignedWorkerIds !== undefined) {
+      row.assignedWorkerIds = [...input.assignedWorkerIds];
+    }
+    if (input.recurrence !== undefined) row.recurrence = input.recurrence;
+    if (input.status !== undefined) row.status = input.status;
+    row.updatedAt = now();
+    return row;
+  },
+
+  async expandShiftSeries(
+    seriesId: string,
+    from: string,
+    to: string,
+    meta: { unionId: string; localId: string; createdById: string },
+  ): Promise<TimeShift[]> {
+    const series = await this.getShiftSeriesById(seriesId);
+    if (
+      !series ||
+      series.unionId !== meta.unionId ||
+      series.localId !== meta.localId
+    ) {
+      return [];
+    }
+    const instances = buildShiftInstancesFromSeries(series, from, to);
+    const created: TimeShift[] = [];
+    for (const inst of instances) {
+      const dateKey = inst.startsAt.slice(0, 10);
+      const exists = shifts.some(
+        (s) =>
+          s.seriesId === seriesId && s.seriesOccurrenceDate === dateKey,
+      );
+      if (exists) continue;
+      const shift = await this.createShift(inst, {
+        unionId: meta.unionId,
+        localId: meta.localId,
+        createdById: meta.createdById,
+      });
+      const row = shifts.find((s) => s.id === shift.id);
+      if (row) {
+        row.seriesId = seriesId;
+        row.seriesOccurrenceDate = dateKey;
+      }
+      created.push({ ...shift, seriesId, seriesOccurrenceDate: dateKey });
+    }
+    return created;
+  },
+
+  async listAccrualPolicies(
+    unionId: string,
+    localId: string,
+  ): Promise<PtoAccrualPolicy[]> {
+    return accrualPolicies.filter(
+      (p) => p.unionId === unionId && p.localId === localId,
+    );
+  },
+
+  async upsertAccrualPolicy(
+    input: UpsertAccrualPolicyInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<PtoAccrualPolicy> {
+    const stamp = now();
+    if (input.id) {
+      const idx = accrualPolicies.findIndex(
+        (p) =>
+          p.id === input.id &&
+          p.unionId === meta.unionId &&
+          p.localId === meta.localId,
+      );
+      if (idx >= 0) {
+        const prev = accrualPolicies[idx];
+        accrualPolicies[idx] = {
+          ...prev,
+          name: input.name.trim(),
+          ptoType: input.ptoType,
+          formulaType: input.formulaType,
+          hoursWorkedRate: input.hoursWorkedRate ?? prev.hoursWorkedRate,
+          eligibleCategories:
+            input.eligibleCategories ?? prev.eligibleCategories,
+          fixedHoursPerPeriod:
+            input.fixedHoursPerPeriod ?? prev.fixedHoursPerPeriod,
+          periodDays: input.periodDays ?? prev.periodDays,
+          tenureTiers: input.tenureTiers ?? prev.tenureTiers,
+          active: input.active ?? prev.active,
+          updatedAt: stamp,
+        };
+        return accrualPolicies[idx];
+      }
+    }
+    const row: PtoAccrualPolicy = {
+      id: nextAccrualPolicyId(),
+      unionId: meta.unionId,
+      localId: meta.localId,
+      name: input.name.trim(),
+      ptoType: input.ptoType,
+      formulaType: input.formulaType,
+      hoursWorkedRate: input.hoursWorkedRate,
+      eligibleCategories: input.eligibleCategories,
+      fixedHoursPerPeriod: input.fixedHoursPerPeriod,
+      periodDays: input.periodDays ?? 14,
+      tenureTiers: input.tenureTiers,
+      active: input.active ?? true,
+      createdAt: stamp,
+      updatedAt: stamp,
+    };
+    accrualPolicies.push(row);
+    return row;
+  },
+
+  async listPayrollProfiles(
+    unionId: string,
+    localId: string,
+  ): Promise<PayrollExportProfile[]> {
+    return payrollProfiles.filter(
+      (p) => p.unionId === unionId && p.localId === localId,
+    );
+  },
+
+  async upsertPayrollProfile(
+    input: UpsertPayrollProfileInput,
+    meta: { unionId: string; localId: string },
+  ): Promise<PayrollExportProfile> {
+    const stamp = now();
+    if (input.id) {
+      const idx = payrollProfiles.findIndex(
+        (p) =>
+          p.id === input.id &&
+          p.unionId === meta.unionId &&
+          p.localId === meta.localId,
+      );
+      if (idx >= 0) {
+        const prev = payrollProfiles[idx];
+        payrollProfiles[idx] = {
+          ...prev,
+          name: input.name.trim(),
+          vendor: input.vendor,
+          fieldMapping: input.fieldMapping ?? prev.fieldMapping,
+          webhookUrl: input.webhookUrl ?? prev.webhookUrl,
+          includeOtBreakdown:
+            input.includeOtBreakdown ?? prev.includeOtBreakdown,
+          active: input.active ?? prev.active,
+          updatedAt: stamp,
+        };
+        return payrollProfiles[idx];
+      }
+    }
+    const row: PayrollExportProfile = {
+      id: nextPayrollProfileId(),
+      unionId: meta.unionId,
+      localId: meta.localId,
+      name: input.name.trim(),
+      vendor: input.vendor,
+      fieldMapping: input.fieldMapping ?? {},
+      webhookUrl: input.webhookUrl,
+      includeOtBreakdown: input.includeOtBreakdown ?? true,
+      active: input.active ?? true,
+      createdAt: stamp,
+      updatedAt: stamp,
+    };
+    payrollProfiles.push(row);
     return row;
   },
 };

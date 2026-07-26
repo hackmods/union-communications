@@ -15,6 +15,7 @@ VeriClock-class time tracking for union locals and union-wide operations. **Not*
 | **8c.3** PTO accrual balances | Shipped (2026-07-24) — set/adjust balances; approve decrements `hoursRequested` |
 | **8d-lite** OT / pay-period | Shipped (2026-07-24) — weekly OT flag on CSV; 14-day pay-period snap (not full payroll) |
 | **8e** GPS consent | Shipped (2026-07-24) — roster `gpsConsentAt` + punch UI |
+| **8-full** VeriClock remainder | Shipped (2026-07-26) — workers directory, OT policy engine, shift recurrence, auto-accrual, named groups, payroll export hooks |
 | 8f (hybrid slice, punch photos) | Planned |
 
 ## Time categories (1D — all in one module)
@@ -80,6 +81,13 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 - `GET/POST /api/time/pto/balances` — accrual balances (8c.3)
 - `GET/POST /api/time/shifts` — shift schedule (8c.2)
 - `PATCH /api/time/shifts/[id]` — publish / cancel / edit
+- `GET/POST /api/time/groups` — standing named worker groups (8-full)
+- `GET/POST /api/time/ot-policies` — OT policy engine (8-full)
+- `GET/POST /api/time/shift-series` — recurring shift templates (8-full)
+- `POST /api/time/shift-series/[id]/expand` — materialize shift instances (8-full)
+- `GET/POST/PATCH /api/time/pto/accrual-policies` — auto-accrual formulas + run (8-full)
+- `GET/POST /api/time/payroll-profiles` — vendor export profiles (8-full)
+- `POST /api/time/payroll-export` — mapped CSV + optional webhook (8-full)
 
 ## GPS (optional, v1-lite foundation)
 
@@ -88,15 +96,11 @@ Review flow unchanged: `completed` → submit → `submitted` → approve/reject
 - Geofence warn/block against `WorkSite` records — server-side in `src/lib/time/geofence.ts`
 - No continuous tracking; no native apps / SMS / IVR
 
-## Deferred (full Phase 8)
+## Deferred (8f+)
 
-- Full OT policy engine / multi-jurisdiction pay rules
-- Standing named groups (v1 uses ad-hoc multi-select only)
 - Punch photo attachments (Phase 7 object storage)
 - Hybrid slice inclusion
-- Payroll vendor integrations
-- Shift **recurrence** / auto-timesheet from shifts (8c.2 is explicit windows only)
-- Auto-accrual formulas (8c.3 is manual set/adjust + approve debit)
+- Live payroll vendor API connectors (export hooks only in 8-full)
 
 ## Shipped in 8d-lite / 8e (2026-07-24)
 

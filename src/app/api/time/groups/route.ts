@@ -6,10 +6,10 @@ import {
 } from "@/lib/auth/time-session";
 import { canAdminTime } from "@/lib/time/access";
 import { timeStore } from "@/lib/time/store";
-import { upsertWorkerSchema } from "@/lib/validation/time";
+import { upsertWorkerGroupSchema } from "@/lib/validation/time";
 import type { UserRole } from "@/types/tenant";
 
-export async function GET(request: Request) {
+export async function GET() {
   const authResult = await requireTimeSession();
   if (!authResult.ok) {
     return NextResponse.json(
@@ -20,29 +20,23 @@ export async function GET(request: Request) {
 
   const { session } = authResult;
   const roles = (session.user.roles ?? []) as UserRole[];
-  const { unionId, localId } = tenantIdsForTimeSession(session);
-  const url = new URL(request.url);
-  const includeInactive =
-    canAdminTime(roles) && url.searchParams.get("includeInactive") === "true";
-  const groupId = url.searchParams.get("groupId") ?? undefined;
+  if (!canAdminTime(roles)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
 
-  const workers = await timeStore.listWorkers({
-    unionId,
-    localId,
-    includeInactive,
-    groupId,
-  });
+  const { unionId, localId } = tenantIdsForTimeSession(session);
+  const groups = await timeStore.listWorkerGroups(unionId, localId);
 
   await auditLog.log({
     userId: session.user.id,
-    action: "time.workers.list",
-    resourceType: "time_worker",
+    action: "time.groups.list",
+    resourceType: "time_worker_group",
     resourceId: "*",
     unionId,
     localId,
   });
 
-  return NextResponse.json({ workers });
+  return NextResponse.json({ groups });
 }
 
 export async function POST(request: Request) {
@@ -61,25 +55,25 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const parsed = upsertWorkerSchema.safeParse(body);
+  const parsed = upsertWorkerGroupSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json(
-      { error: parsed.error.flatten().fieldErrors },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "Invalid group" }, { status: 400 });
   }
 
   const { unionId, localId } = tenantIdsForTimeSession(session);
-  const worker = await timeStore.upsertWorker(parsed.data, { unionId, localId });
-
-  await auditLog.log({
-    userId: session.user.id,
-    action: "time.workers.upsert",
-    resourceType: "time_worker",
-    resourceId: worker.id,
+  const group = await timeStore.upsertWorkerGroup(parsed.data, {
     unionId,
     localId,
   });
 
-  return NextResponse.json({ worker }, { status: 201 });
+  await auditLog.log({
+    userId: session.user.id,
+    action: "time.groups.upsert",
+    resourceType: "time_worker_group",
+    resourceId: group.id,
+    unionId,
+    localId,
+  });
+
+  return NextResponse.json({ group }, { status: 201 });
 }

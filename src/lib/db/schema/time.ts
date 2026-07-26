@@ -10,9 +10,16 @@ import {
 } from "drizzle-orm/pg-core";
 import { locals, unions } from "./tenant";
 import type {
+  AccrualFormulaType,
+  AccrualTenureTier,
+  EmploymentType,
   GeofenceMode,
+  PayPeriodType,
+  PayrollFieldMapping,
+  PayrollVendor,
   PtoRequestStatus,
   PtoType,
+  ShiftRecurrenceRule,
   TimeCategory,
   TimeEntryGps,
   TimeEntrySource,
@@ -110,6 +117,17 @@ export const timeWorkers = pgTable(
     trackGaps: boolean("track_gaps").notNull().default(false),
     active: boolean("active").notNull().default(true),
     gpsConsentAt: timestamp("gps_consent_at", { withTimezone: true }),
+    employeeNumber: text("employee_number"),
+    email: text("email"),
+    phone: text("phone"),
+    jobTitle: text("job_title"),
+    department: text("department"),
+    hireDate: text("hire_date"),
+    employmentType: text("employment_type").$type<EmploymentType>(),
+    defaultJobCodeId: text("default_job_code_id"),
+    supervisorWorkerId: text("supervisor_worker_id"),
+    notes: text("notes"),
+    groupIds: jsonb("group_ids").$type<string[]>(),
   },
   (t) => [index("time_workers_union_local_idx").on(t.unionId, t.localId)],
 );
@@ -222,6 +240,159 @@ export const timeShifts = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
+    seriesId: text("series_id"),
+    seriesOccurrenceDate: text("series_occurrence_date"),
   },
   (t) => [index("time_shifts_union_local_idx").on(t.unionId, t.localId)],
+);
+
+export const timeWorkerGroups = pgTable(
+  "time_worker_groups",
+  {
+    id: text("id").primaryKey(),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "restrict" }),
+    localId: text("local_id")
+      .notNull()
+      .references(() => locals.id, { onDelete: "restrict" }),
+    name: text("name").notNull(),
+    description: text("description"),
+    memberWorkerIds: jsonb("member_worker_ids").notNull().$type<string[]>(),
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [index("time_worker_groups_union_local_idx").on(t.unionId, t.localId)],
+);
+
+export const timeOtPolicies = pgTable(
+  "time_ot_policies",
+  {
+    id: text("id").primaryKey(),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "restrict" }),
+    localId: text("local_id")
+      .notNull()
+      .references(() => locals.id, { onDelete: "restrict" }),
+    name: text("name").notNull(),
+    payPeriodType: text("pay_period_type").notNull().$type<PayPeriodType>(),
+    payPeriodDays: integer("pay_period_days"),
+    payPeriodAnchor: text("pay_period_anchor"),
+    dailyRegularHours: real("daily_regular_hours").notNull().default(8),
+    dailyOtThreshold: real("daily_ot_threshold").notNull().default(8),
+    weeklyRegularHours: real("weekly_regular_hours").notNull().default(40),
+    dailyDoubleThreshold: real("daily_double_threshold"),
+    otMultiplier: real("ot_multiplier").notNull().default(1.5),
+    doubleTimeMultiplier: real("double_time_multiplier").notNull().default(2),
+    holidayDates: jsonb("holiday_dates").$type<string[]>(),
+    holidayMultiplier: real("holiday_multiplier").notNull().default(2),
+    categoryOtEligible: jsonb("category_ot_eligible").$type<
+      Partial<Record<TimeCategory, boolean>>
+    >(),
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [index("time_ot_policies_union_local_idx").on(t.unionId, t.localId)],
+);
+
+export const timeShiftSeries = pgTable(
+  "time_shift_series",
+  {
+    id: text("id").primaryKey(),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "restrict" }),
+    localId: text("local_id")
+      .notNull()
+      .references(() => locals.id, { onDelete: "restrict" }),
+    label: text("label").notNull(),
+    startTime: text("start_time").notNull(),
+    durationMinutes: integer("duration_minutes").notNull(),
+    category: text("category").notNull().$type<TimeCategory>(),
+    siteId: text("site_id"),
+    jobCodeId: text("job_code_id"),
+    assignedWorkerIds: jsonb("assigned_worker_ids")
+      .notNull()
+      .$type<string[]>(),
+    recurrence: jsonb("recurrence").notNull().$type<ShiftRecurrenceRule>(),
+    status: text("status").notNull().$type<TimeShiftStatus>(),
+    createdById: text("created_by_id").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [index("time_shift_series_union_local_idx").on(t.unionId, t.localId)],
+);
+
+export const ptoAccrualPolicies = pgTable(
+  "pto_accrual_policies",
+  {
+    id: text("id").primaryKey(),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "restrict" }),
+    localId: text("local_id")
+      .notNull()
+      .references(() => locals.id, { onDelete: "restrict" }),
+    name: text("name").notNull(),
+    ptoType: text("pto_type").notNull().$type<PtoType>(),
+    formulaType: text("formula_type").notNull().$type<AccrualFormulaType>(),
+    hoursWorkedRate: real("hours_worked_rate"),
+    eligibleCategories: jsonb("eligible_categories").$type<TimeCategory[]>(),
+    fixedHoursPerPeriod: real("fixed_hours_per_period"),
+    periodDays: integer("period_days"),
+    tenureTiers: jsonb("tenure_tiers").$type<AccrualTenureTier[]>(),
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    index("pto_accrual_policies_union_local_idx").on(t.unionId, t.localId),
+  ],
+);
+
+export const payrollExportProfiles = pgTable(
+  "payroll_export_profiles",
+  {
+    id: text("id").primaryKey(),
+    unionId: text("union_id")
+      .notNull()
+      .references(() => unions.id, { onDelete: "restrict" }),
+    localId: text("local_id")
+      .notNull()
+      .references(() => locals.id, { onDelete: "restrict" }),
+    name: text("name").notNull(),
+    vendor: text("vendor").notNull().$type<PayrollVendor>(),
+    fieldMapping: jsonb("field_mapping").notNull().$type<PayrollFieldMapping>(),
+    webhookUrl: text("webhook_url"),
+    includeOtBreakdown: boolean("include_ot_breakdown").notNull().default(true),
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    index("payroll_export_profiles_union_local_idx").on(t.unionId, t.localId),
+  ],
 );

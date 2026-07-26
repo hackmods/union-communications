@@ -34,7 +34,7 @@ export async function GET() {
 
   let visible = windows;
   if (!isAdmin) {
-    const roster = await timeStore.listWorkers(unionId, localId);
+    const roster = await timeStore.listWorkers({ unionId, localId });
     const mine = roster.find(
       (w) => w.userId === session.user.id || w.id === session.user.id,
     );

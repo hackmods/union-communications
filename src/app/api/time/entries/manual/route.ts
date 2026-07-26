@@ -75,7 +75,7 @@ export async function POST(request: Request) {
   let resolvedWorkerId = session.user.id;
 
   if (!isSelf) {
-    const roster = await timeStore.listWorkers(unionId, localId);
+    const roster = await timeStore.listWorkers({ unionId, localId });
     const worker = roster.find(
       (w) => w.id === targetWorkerId || w.userId === targetWorkerId,
     );

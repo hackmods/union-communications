@@ -35,7 +35,7 @@ export async function POST(request: Request) {
   }
 
   const { unionId, localId } = tenantIdsForTimeSession(session);
-  const roster = await timeStore.listWorkers(unionId, localId);
+  const roster = await timeStore.listWorkers({ unionId, localId });
   const existing =
     roster.find((w) => w.userId === session.user.id) ??
     roster.find((w) => w.id === session.user.id);

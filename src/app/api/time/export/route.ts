@@ -3,12 +3,17 @@ import { auditLog } from "@/lib/audit/store";
 import {
   listFiltersForTimeSession,
   requireTimeSession,
+  tenantIdsForTimeSession,
 } from "@/lib/auth/time-session";
 import { canAdminTime } from "@/lib/time/access";
 import {
   buildTimeExportPdf,
   buildTimeExportXlsx,
 } from "@/lib/time/export-rollup";
+import {
+  applyOtPolicy,
+  resolveOtPolicy,
+} from "@/lib/time/ot-policy";
 import {
   entryDurationHours,
   weeklyOtFlags,
@@ -17,12 +22,16 @@ import { timeStore } from "@/lib/time/store";
 import type { TimeEntry } from "@/types/time";
 import type { UserRole } from "@/types/tenant";
 
-function toCsv(rows: TimeEntry[]): string {
-  const otFlags = weeklyOtFlags(rows);
+function toCsv(
+  rows: TimeEntry[],
+  otFlags: Map<string, boolean>,
+  otBreakdown?: ReturnType<typeof applyOtPolicy>,
+): string {
   const header =
-    "id,worker,category,job_code,status,entry_source,event_id,event_label,clock_in,clock_out,duration_hours,ot_weekly_flag,notes";
+    "id,worker,category,job_code,status,entry_source,event_id,event_label,clock_in,clock_out,duration_hours,ot_weekly_flag,regular_hours,ot_hours,double_hours,holiday_hours,notes";
   const lines = rows.map((e) => {
     const durationHours = entryDurationHours(e).toFixed(2);
+    const ot = otBreakdown?.get(e.id);
     const cols = [
       e.id,
       e.workerName,
@@ -36,6 +45,10 @@ function toCsv(rows: TimeEntry[]): string {
       e.clockOutAt ?? "",
       durationHours,
       otFlags.get(e.id) ? "yes" : "no",
+      ot?.regularHours.toFixed(2) ?? "",
+      ot?.otHours.toFixed(2) ?? "",
+      ot?.doubleHours.toFixed(2) ?? "",
+      ot?.holidayHours.toFixed(2) ?? "",
       (e.notes ?? "").replace(/"/g, '""'),
     ];
     return cols.map((c) => `"${c}"`).join(",");
@@ -71,6 +84,13 @@ export async function GET(request: Request) {
     to,
   };
   const entries = await timeStore.listEntries(filters);
+  const otFlags = weeklyOtFlags(entries);
+  const { unionId, localId } = tenantIdsForTimeSession(session);
+  const policies = await timeStore.listOtPolicies(unionId, localId);
+  const activePolicy = resolveOtPolicy(policies);
+  const otBreakdown = activePolicy
+    ? applyOtPolicy(entries, activePolicy)
+    : undefined;
 
   await auditLog.log({
     userId: session.user.id,
@@ -102,7 +122,7 @@ export async function GET(request: Request) {
     });
   }
 
-  const csv = toCsv(entries);
+  const csv = toCsv(entries, otFlags, otBreakdown);
   return new NextResponse(csv, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",

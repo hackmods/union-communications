@@ -6,10 +6,10 @@ import {
 } from "@/lib/auth/time-session";
 import { canAdminTime } from "@/lib/time/access";
 import { timeStore } from "@/lib/time/store";
-import { upsertWorkerSchema } from "@/lib/validation/time";
+import { upsertPayrollProfileSchema } from "@/lib/validation/time";
 import type { UserRole } from "@/types/tenant";
 
-export async function GET(request: Request) {
+export async function GET() {
   const authResult = await requireTimeSession();
   if (!authResult.ok) {
     return NextResponse.json(
@@ -20,29 +20,14 @@ export async function GET(request: Request) {
 
   const { session } = authResult;
   const roles = (session.user.roles ?? []) as UserRole[];
+  if (!canAdminTime(roles)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const { unionId, localId } = tenantIdsForTimeSession(session);
-  const url = new URL(request.url);
-  const includeInactive =
-    canAdminTime(roles) && url.searchParams.get("includeInactive") === "true";
-  const groupId = url.searchParams.get("groupId") ?? undefined;
+  const profiles = await timeStore.listPayrollProfiles(unionId, localId);
 
-  const workers = await timeStore.listWorkers({
-    unionId,
-    localId,
-    includeInactive,
-    groupId,
-  });
-
-  await auditLog.log({
-    userId: session.user.id,
-    action: "time.workers.list",
-    resourceType: "time_worker",
-    resourceId: "*",
-    unionId,
-    localId,
-  });
-
-  return NextResponse.json({ workers });
+  return NextResponse.json({ profiles });
 }
 
 export async function POST(request: Request) {
@@ -61,25 +46,28 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const parsed = upsertWorkerSchema.safeParse(body);
+  const parsed = upsertPayrollProfileSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
-      { error: parsed.error.flatten().fieldErrors },
+      { error: "Invalid payroll profile" },
       { status: 400 },
     );
   }
 
   const { unionId, localId } = tenantIdsForTimeSession(session);
-  const worker = await timeStore.upsertWorker(parsed.data, { unionId, localId });
-
-  await auditLog.log({
-    userId: session.user.id,
-    action: "time.workers.upsert",
-    resourceType: "time_worker",
-    resourceId: worker.id,
+  const profile = await timeStore.upsertPayrollProfile(parsed.data, {
     unionId,
     localId,
   });
 
-  return NextResponse.json({ worker }, { status: 201 });
+  await auditLog.log({
+    userId: session.user.id,
+    action: "time.payroll_profiles.upsert",
+    resourceType: "payroll_export_profile",
+    resourceId: profile.id,
+    unionId,
+    localId,
+  });
+
+  return NextResponse.json({ profile }, { status: 201 });
 }

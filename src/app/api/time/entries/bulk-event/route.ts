@@ -72,7 +72,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Job code not found" }, { status: 404 });
   }
 
-  const roster = await timeStore.listWorkers(unionId, localId);
+  const roster = await timeStore.listWorkers({ unionId, localId });
   const workers: Array<{ workerId: string; workerName: string }> = [];
   for (const id of workerIds as string[]) {
     const worker = roster.find((w) => w.id === id || w.userId === id);

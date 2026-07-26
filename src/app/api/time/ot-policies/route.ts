@@ -6,10 +6,10 @@ import {
 } from "@/lib/auth/time-session";
 import { canAdminTime } from "@/lib/time/access";
 import { timeStore } from "@/lib/time/store";
-import { upsertWorkerSchema } from "@/lib/validation/time";
+import { upsertOtPolicySchema } from "@/lib/validation/time";
 import type { UserRole } from "@/types/tenant";
 
-export async function GET(request: Request) {
+export async function GET() {
   const authResult = await requireTimeSession();
   if (!authResult.ok) {
     return NextResponse.json(
@@ -20,29 +20,23 @@ export async function GET(request: Request) {
 
   const { session } = authResult;
   const roles = (session.user.roles ?? []) as UserRole[];
-  const { unionId, localId } = tenantIdsForTimeSession(session);
-  const url = new URL(request.url);
-  const includeInactive =
-    canAdminTime(roles) && url.searchParams.get("includeInactive") === "true";
-  const groupId = url.searchParams.get("groupId") ?? undefined;
+  if (!canAdminTime(roles)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
 
-  const workers = await timeStore.listWorkers({
-    unionId,
-    localId,
-    includeInactive,
-    groupId,
-  });
+  const { unionId, localId } = tenantIdsForTimeSession(session);
+  const policies = await timeStore.listOtPolicies(unionId, localId);
 
   await auditLog.log({
     userId: session.user.id,
-    action: "time.workers.list",
-    resourceType: "time_worker",
+    action: "time.ot_policies.list",
+    resourceType: "time_ot_policy",
     resourceId: "*",
     unionId,
     localId,
   });
 
-  return NextResponse.json({ workers });
+  return NextResponse.json({ policies });
 }
 
 export async function POST(request: Request) {
@@ -61,25 +55,25 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const parsed = upsertWorkerSchema.safeParse(body);
+  const parsed = upsertOtPolicySchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json(
-      { error: parsed.error.flatten().fieldErrors },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "Invalid OT policy" }, { status: 400 });
   }
 
   const { unionId, localId } = tenantIdsForTimeSession(session);
-  const worker = await timeStore.upsertWorker(parsed.data, { unionId, localId });
-
-  await auditLog.log({
-    userId: session.user.id,
-    action: "time.workers.upsert",
-    resourceType: "time_worker",
-    resourceId: worker.id,
+  const policy = await timeStore.upsertOtPolicy(parsed.data, {
     unionId,
     localId,
   });
 
-  return NextResponse.json({ worker }, { status: 201 });
+  await auditLog.log({
+    userId: session.user.id,
+    action: "time.ot_policies.upsert",
+    resourceType: "time_ot_policy",
+    resourceId: policy.id,
+    unionId,
+    localId,
+  });
+
+  return NextResponse.json({ policy }, { status: 201 });
 }
