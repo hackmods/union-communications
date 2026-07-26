@@ -62,6 +62,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 8. Guide discoverability polish (print/email sources, FR smoke, Brand Kit link) — **shipped 2026-07-26** (train #5)
 9. ~~Basecamp automatic check-ins + Hub unanswered widget~~ — **shipped 2026-07-26** (`checkins` HubModule)
 10. ~~Comms stretch: printable seniority worksheet + right-to-refuse pocket card~~ — **shipped 2026-07-26** (Document Generator + QR Link Card presets)
+11. ~~Discussions / Tasks stretch (reactions, @mentions, poll-on-focus)~~ — **shipped 2026-07-26** (no websockets; migration `0027_hub_social`)
 
 ## Agent habits
 

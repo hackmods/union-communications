@@ -1,14 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { Input, Textarea } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { useMentionableRoster } from "@/components/discussions/DiscussionPostCard";
+import { HubReactionBar } from "@/components/hub/HubReactionBar";
+import { MentionText } from "@/components/hub/MentionText";
+import { useHubPoll } from "@/components/hub/useHubPoll";
 import {
   canAssignOthers,
   canCreateTask,
@@ -17,6 +21,7 @@ import {
   isElevatedTaskRole,
 } from "@/lib/tasks/access";
 import type { Task, TaskStatus } from "@/types/task";
+import type { HubReactionKind } from "@/types/hub-social";
 import type { UserRole } from "@/types/tenant";
 
 type FilterMode = "open" | "done" | "all" | "mine";
@@ -31,6 +36,7 @@ export function TaskBoard() {
   const elevated = isElevatedTaskRole(roles);
   const canPickAssignee = canAssignOthers(roles);
 
+  const roster = useMentionableRoster();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,50 +44,69 @@ export function TaskBoard() {
   const [filter, setFilter] = useState<FilterMode>("open");
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState("");
+  const [notes, setNotes] = useState("");
   const [dueAt, setDueAt] = useState("");
   const [assigneeId, setAssigneeId] = useState("");
   const [relatedGrievanceId, setRelatedGrievanceId] = useState("");
   const [relatedBumpingCaseId, setRelatedBumpingCaseId] = useState("");
   const [now] = useState(() => Date.now());
+  const lastSyncRef = useRef<string>(new Date().toISOString());
+
+  const refresh = useCallback(async (since?: string) => {
+    const params = new URLSearchParams();
+    if (filter === "mine") params.set("mine", "1");
+    if (filter === "open" || filter === "done") params.set("status", filter);
+    if (since) params.set("since", since);
+    const res = await fetch(`/api/tasks?${params.toString()}`);
+    if (res.ok) {
+      const data = (await res.json()) as { changed?: boolean; tasks: Task[] };
+      if (since && data.changed === false) return;
+      setTasks(data.tasks);
+      lastSyncRef.current = new Date().toISOString();
+      setError(null);
+    } else {
+      setError(t("loadError"));
+    }
+  }, [filter, t]);
 
   useEffect(() => {
+    let cancelled = false;
     const params = new URLSearchParams();
     if (filter === "mine") params.set("mine", "1");
     if (filter === "open" || filter === "done") params.set("status", filter);
     void fetch(`/api/tasks?${params.toString()}`)
       .then(async (res) => {
+        if (cancelled) return;
         if (!res.ok) throw new Error("fail");
         const data = (await res.json()) as { tasks: Task[] };
         setTasks(data.tasks);
+        lastSyncRef.current = new Date().toISOString();
         setError(null);
       })
-      .catch(() => setError(t("loadError")))
-      .finally(() => setLoading(false));
+      .catch(() => {
+        if (!cancelled) setError(t("loadError"));
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [filter, t]);
+
+  useHubPoll(!loading, () => refresh(lastSyncRef.current).catch(() => undefined));
 
   const openCount = useMemo(
     () => tasks.filter((task) => task.status === "open").length,
     [tasks],
   );
 
-  async function refresh() {
-    const params = new URLSearchParams();
-    if (filter === "mine") params.set("mine", "1");
-    if (filter === "open" || filter === "done") params.set("status", filter);
-    const res = await fetch(`/api/tasks?${params.toString()}`);
-    if (res.ok) {
-      const data = (await res.json()) as { tasks: Task[] };
-      setTasks(data.tasks);
-    } else {
-      setError(t("loadError"));
-    }
-  }
-
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
     if (!canWrite) return;
     setError(null);
     const body: Record<string, string> = { title };
+    if (notes.trim()) body.notes = notes.trim();
     if (dueAt) body.dueAt = new Date(dueAt).toISOString();
     if (canPickAssignee && assigneeId.trim()) {
       body.assigneeId = assigneeId.trim();
@@ -99,6 +124,7 @@ export function TaskBoard() {
     });
     if (res.ok) {
       setTitle("");
+      setNotes("");
       setDueAt("");
       setAssigneeId("");
       setRelatedGrievanceId("");
@@ -153,6 +179,23 @@ export function TaskBoard() {
     else setError(t("updateError"));
   }
 
+  async function toggleTaskReaction(task: Task, kind: HubReactionKind) {
+    const res = await fetch(`/api/tasks/${task.id}/reactions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kind }),
+    });
+    if (!res.ok) {
+      setError(t("updateError"));
+      return;
+    }
+    const data = (await res.json()) as { task: Task };
+    setTasks((current) =>
+      current.map((row) => (row.id === data.task.id ? data.task : row)),
+    );
+    lastSyncRef.current = new Date().toISOString();
+  }
+
   async function removeTask(task: Task) {
     if (
       !canDeleteTask(
@@ -191,6 +234,7 @@ export function TaskBoard() {
         <div>
           <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
           <p className="mt-1 text-gray-600">{t("subtitle")}</p>
+          <p className="mt-1 text-xs text-gray-500">{t("livePollHint")}</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {canWrite && (
@@ -258,6 +302,16 @@ export function TaskBoard() {
                 onChange={(e) => setTitle(e.target.value)}
                 required
                 maxLength={500}
+              />
+            </label>
+            <label className="block text-sm">
+              <span className="font-medium text-gray-700">{t("fieldNotes")}</span>
+              <Textarea
+                className="mt-1"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                rows={3}
+                placeholder={t("notesHint")}
               />
             </label>
             <label className="block text-sm">
@@ -384,6 +438,16 @@ export function TaskBoard() {
                             : null}
                         </p>
                       )}
+                      {task.notes ? (
+                        <div className="mt-2">
+                          <MentionText body={task.notes} roster={roster} />
+                        </div>
+                      ) : null}
+                      <HubReactionBar
+                        reactions={task.reactions}
+                        currentUserId={userId}
+                        onToggle={(kind) => void toggleTaskReaction(task, kind)}
+                      />
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {canMutate && task.status === "open" && (

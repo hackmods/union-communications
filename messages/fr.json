@@ -3079,7 +3079,7 @@
   },
   "discussions": {
     "title": "Discussions",
-    "subtitle": "Conversations locales en fils — autonomes ou liées à un grief ou un dossier de bumpage. Actualisation au chargement; pas de temps réel en v1.",
+    "subtitle": "Conversations locales en fils — autonomes ou liées à un grief ou un dossier de bumpage.",
     "loading": "Chargement des discussions…",
     "loadError": "Impossible de charger les discussions.",
     "createError": "Impossible de créer le fil.",
@@ -3103,7 +3103,18 @@
     "open": "Ouvrir",
     "backToList": "Retour aux discussions",
     "reply": "Répondre",
-    "postReply": "Publier la réponse"
+    "postReply": "Publier la réponse",
+    "mentionHint": "Tapez @ suivi du nom d’un dirigeant pour le mentionner (p. ex. @Local 243 President).",
+    "mentionedCount": "{count, plural, one {# mention} other {# mentions}}",
+    "livePollHint": "Mise à jour toutes les 15 secondes tant que cet onglet est ouvert."
+  },
+  "hubSocial": {
+    "reactionsLabel": "Réactions",
+    "reaction": {
+      "solidarity": "✊ Solidarité",
+      "ack": "✓ Reçu",
+      "question": "? Question"
+    }
   },
   "checkins": {
     "title": "Points de suivi",
@@ -3163,6 +3174,7 @@
   "tasks": {
     "title": "Tableau des tâches",
     "subtitle": "Tâches locales pour les dirigeants — liens optionnels vers griefs ou dossiers de bumpage.",
+    "livePollHint": "Le tableau se met à jour toutes les 15 secondes tant que cet onglet est ouvert.",
     "loading": "Chargement des tâches…",
     "loadError": "Impossible de charger les tâches.",
     "createError": "Impossible de créer la tâche.",
@@ -3182,6 +3194,8 @@
     "openCount": "Ouvertes (cette liste)",
     "totalCount": "Affichées",
     "fieldTitle": "Titre",
+    "fieldNotes": "Notes (optionnelles)",
+    "notesHint": "Ajoutez du contexte ou @mentionnez un dirigeant",
     "fieldDue": "Échéance (optionnelle)",
     "fieldAssignee": "Id utilisateur assigné (optionnel)",
     "assigneeHint": "Laissez vide pour vous assigner",

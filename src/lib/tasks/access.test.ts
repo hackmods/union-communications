@@ -20,6 +20,9 @@ const sample: Task = {
   status: "open",
   createdById: "pres-1",
   createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  mentionedUserIds: [],
+  reactions: [],
 };
 
 describe("tasks access (FEAT-003)", () => {

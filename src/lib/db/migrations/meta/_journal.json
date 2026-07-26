@@ -190,6 +190,13 @@
       "when": 1784876000000,
       "tag": "0026_expense_submissions",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1784877000000,
+      "tag": "0027_hub_social",
+      "breakpoints": true
     }
   ]
 }

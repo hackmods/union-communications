@@ -1,11 +1,13 @@
 import {
   index,
   integer,
+  jsonb,
   pgTable,
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
 import { bargainingUnits, locals, unions } from "./tenant";
+import type { HubReaction } from "@/types/hub-social";
 
 export const discussionThreads = pgTable(
   "discussion_threads",
@@ -62,7 +64,15 @@ export const discussionPosts = pgTable(
     authorId: text("author_id").notNull(),
     authorName: text("author_name").notNull(),
     body: text("body").notNull(),
+    mentionedUserIds: jsonb("mentioned_user_ids")
+      .notNull()
+      .$type<string[]>()
+      .default([]),
+    reactions: jsonb("reactions").notNull().$type<HubReaction[]>().default([]),
     createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
   },

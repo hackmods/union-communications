@@ -1,5 +1,13 @@
 # Progress Log
 
+## Discussions / Tasks social stretch (2026-07-26) — COMPLETE
+
+- [x] Reactions on discussion posts + tasks (`solidarity` / `ack` / `question` toggle APIs)
+- [x] @mentions in post/task notes — parse + highlight + in-app mention notifications (`/api/hub/notifications`)
+- [x] Lightweight realtime via 15s poll-on-focus (`?since=` on thread + task list); no websockets
+- [x] Migration `0027_hub_social` (jsonb reactions/mentions on posts + tasks); memory adapters updated
+- [x] EN/FR `hubSocial` + discussions/tasks copy; unit tests `hub-social.test.ts`
+
 ## Check-ins + Hub QOL (2026-07-26) — COMPLETE
 
 - [x] HubModule `checkins` — schedules + answers (memory default, `CHECKINS_DB_BACKEND`, migration `0025`)

@@ -7,6 +7,7 @@ import {
   tenantIdsForDiscussionsSession,
 } from "@/lib/auth/discussions-session";
 import { discussionsStore } from "@/lib/discussions/store";
+import { notifyMentionedUsers, resolveMentionedUserIds } from "@/lib/hub/mention-notify";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { createDiscussionPostSchema } from "@/lib/validation/discussions";
 
@@ -86,16 +87,33 @@ export async function POST(
   }
 
   const { unionId, localId } = tenantIdsForDiscussionsSession(session);
+  const mentionedUserIds = await resolveMentionedUserIds(parsed.data.body, {
+    unionId: thread.unionId,
+    localId: thread.localId,
+    accessibleLocalIds: session.user.accessibleLocalIds ?? undefined,
+  });
   const post = await discussionsStore.createPost(id, parsed.data, {
     unionId: thread.unionId,
     localId: thread.localId,
     authorId: session.user.id,
     authorName: session.user.name ?? session.user.email ?? "Officer",
+    mentionedUserIds,
   });
 
   if (!post) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
+
+  await notifyMentionedUsers({
+    body: parsed.data.body,
+    authorId: session.user.id,
+    unionId: thread.unionId,
+    localId: thread.localId,
+    accessibleLocalIds: session.user.accessibleLocalIds ?? undefined,
+    source: "discussion_post",
+    sourceId: post.id,
+    threadId: id,
+  });
 
   await auditLog.log({
     userId: session.user.id,

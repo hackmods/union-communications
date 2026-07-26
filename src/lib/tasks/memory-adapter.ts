@@ -5,6 +5,8 @@ import type {
   TaskListFilters,
   UpdateTaskInput,
 } from "@/types/task";
+import type { HubReactionKind } from "@/types/hub-social";
+import { toggleHubReaction } from "@/lib/hub/reactions";
 
 const tasks: Task[] = [
   {
@@ -13,12 +15,16 @@ const tasks: Task[] = [
     localId: "local-243",
     bargainingUnitId: "bu-243-ft",
     title: "Prepare Step 1 meeting notes for hours grievance",
+    notes: "Coordinate with @Local 243 President before the meeting.",
     assigneeId: "user-steward-243",
     dueAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
     status: "open",
     relatedGrievanceId: "grev-001",
     createdById: "user-president-243",
     createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    mentionedUserIds: ["user-president-243"],
+    reactions: [{ kind: "ack", userId: "user-president-243" }],
   },
   {
     id: "task-002",
@@ -30,6 +36,9 @@ const tasks: Task[] = [
     status: "open",
     createdById: "user-president-243",
     createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    mentionedUserIds: [],
+    reactions: [],
   },
   {
     id: "task-003",
@@ -41,11 +50,18 @@ const tasks: Task[] = [
     relatedBumpingCaseId: "bump-001",
     createdById: "user-president-243",
     createdAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+    mentionedUserIds: [],
+    reactions: [],
   },
 ];
 
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function now() {
+  return new Date().toISOString();
 }
 
 export class MemoryTaskAdapter implements TaskAdapter {
@@ -100,21 +116,27 @@ export class MemoryTaskAdapter implements TaskAdapter {
       bargainingUnitId?: string;
       createdById: string;
       assigneeId: string;
+      mentionedUserIds?: string[];
     },
   ): Promise<Task> {
+    const ts = now();
     const task: Task = {
       id: id("task"),
       unionId: meta.unionId,
       localId: meta.localId,
       bargainingUnitId: input.bargainingUnitId ?? meta.bargainingUnitId,
       title: input.title,
+      notes: input.notes,
       assigneeId: meta.assigneeId,
       dueAt: input.dueAt,
       status: "open",
       relatedGrievanceId: input.relatedGrievanceId,
       relatedBumpingCaseId: input.relatedBumpingCaseId,
       createdById: meta.createdById,
-      createdAt: new Date().toISOString(),
+      createdAt: ts,
+      updatedAt: ts,
+      mentionedUserIds: meta.mentionedUserIds ?? [],
+      reactions: [],
     };
     tasks.push(task);
     return task;
@@ -124,8 +146,11 @@ export class MemoryTaskAdapter implements TaskAdapter {
     const idx = tasks.findIndex((t) => t.id === taskId);
     if (idx < 0) return null;
     const existing = tasks[idx];
-    const next: Task = { ...existing };
+    const next: Task = { ...existing, updatedAt: now() };
     if (input.title !== undefined) next.title = input.title;
+    if (input.notes !== undefined) {
+      next.notes = input.notes === null ? undefined : input.notes;
+    }
     if (input.assigneeId !== undefined) next.assigneeId = input.assigneeId;
     if (input.status !== undefined) next.status = input.status;
     if (input.dueAt !== undefined) {
@@ -143,6 +168,9 @@ export class MemoryTaskAdapter implements TaskAdapter {
           ? undefined
           : input.relatedBumpingCaseId;
     }
+    if (input.mentionedUserIds !== undefined) {
+      next.mentionedUserIds = input.mentionedUserIds;
+    }
     tasks[idx] = next;
     return next;
   }
@@ -152,6 +180,19 @@ export class MemoryTaskAdapter implements TaskAdapter {
     if (idx < 0) return false;
     tasks.splice(idx, 1);
     return true;
+  }
+
+  async toggleReaction(
+    taskId: string,
+    kind: HubReactionKind,
+    userId: string,
+  ): Promise<Task | null> {
+    const idx = tasks.findIndex((task) => task.id === taskId);
+    if (idx < 0) return null;
+    const task = tasks[idx];
+    task.reactions = toggleHubReaction(task.reactions, kind, userId);
+    task.updatedAt = now();
+    return task;
   }
 }
 

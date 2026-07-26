@@ -1,3 +1,5 @@
+import type { HubReaction } from "@/types/hub-social";
+
 /** Threaded local discussions (FEAT-002) — standalone or linked to a case. */
 
 export interface DiscussionThread {
@@ -29,6 +31,9 @@ export interface DiscussionPost {
   authorName: string;
   body: string;
   createdAt: string;
+  updatedAt: string;
+  mentionedUserIds: string[];
+  reactions: HubReaction[];
 }
 
 export interface DiscussionThreadWithPosts {

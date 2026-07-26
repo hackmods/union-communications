@@ -7,7 +7,7 @@ import {
 import { discussionsStore } from "@/lib/discussions/store";
 
 export async function GET(
-  _request: Request,
+  request: Request,
   context: { params: Promise<{ id: string }> },
 ) {
   const authResult = await requireDiscussionsSession();
@@ -29,6 +29,22 @@ export async function GET(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  const since = new URL(request.url).searchParams.get("since");
+  if (since) {
+    const sinceMs = Date.parse(since);
+    if (!Number.isNaN(sinceMs)) {
+      const threadChanged =
+        Date.parse(data.thread.updatedAt) > sinceMs ||
+        Date.parse(data.thread.lastPostAt) > sinceMs;
+      const postsChanged = data.posts.some(
+        (post) => Date.parse(post.updatedAt) > sinceMs,
+      );
+      if (!threadChanged && !postsChanged) {
+        return NextResponse.json({ changed: false });
+      }
+    }
+  }
+
   await auditLog.log({
     userId: session.user.id,
     action: "discussions.threads.get",
@@ -38,5 +54,5 @@ export async function GET(
     localId: session.user.localId,
   });
 
-  return NextResponse.json(data);
+  return NextResponse.json({ changed: true, ...data });
 }

@@ -7,6 +7,7 @@ export const taskStatusSchema = z.enum(["open", "done"]);
 export const createTaskSchema = z
   .object({
     title: z.string().min(1).max(500),
+    notes: z.string().max(20_000).optional(),
     assigneeId: z.string().min(1).optional(),
     dueAt: isoDateTimeSchema.optional(),
     bargainingUnitId: bargainingUnitIdSchema,
@@ -19,6 +20,7 @@ export const createTaskSchema = z
 export const updateTaskSchema = z
   .object({
     title: z.string().min(1).max(500),
+    notes: z.string().max(20_000).nullable(),
     assigneeId: z.string().min(1),
     dueAt: isoDateTimeSchema.nullable(),
     status: taskStatusSchema,

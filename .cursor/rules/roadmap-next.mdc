@@ -46,6 +46,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 5. Ops: redeploy sandbox after train merges — `npm run package:sandbox` + `health:check` + `test:smoke:sandbox` — **done 2026-07-26** (`9446186`)
 6. ~~Basecamp automatic check-ins~~ — **shipped 2026-07-26** (`checkins` HubModule + dashboard widget)
 7. ~~Comms stretch: seniority worksheet + right-to-refuse pocket card~~ — **shipped 2026-07-26**
+8. ~~Discussions / Tasks stretch~~ — reactions, @mentions, 15s poll-on-focus — **shipped 2026-07-26** (`0027_hub_social`)
 
 ## Deferred / non-goals
 

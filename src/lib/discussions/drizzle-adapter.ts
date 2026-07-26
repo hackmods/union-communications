@@ -1,6 +1,7 @@
 import { and, asc, desc, eq } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
 import { discussionPosts, discussionThreads } from "@/lib/db/schema";
+import { toggleHubReaction } from "@/lib/hub/reactions";
 import type { DiscussionsAdapter } from "./adapter";
 import type {
   CreateDiscussionPostInput,
@@ -10,6 +11,7 @@ import type {
   DiscussionThread,
   DiscussionThreadWithPosts,
 } from "@/types/discussions";
+import type { HubReactionKind } from "@/types/hub-social";
 
 function newId(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -50,6 +52,9 @@ function mapPost(row: typeof discussionPosts.$inferSelect): DiscussionPost {
     authorName: row.authorName,
     body: row.body,
     createdAt: toIso(row.createdAt)!,
+    updatedAt: toIso(row.updatedAt ?? row.createdAt)!,
+    mentionedUserIds: row.mentionedUserIds ?? [],
+    reactions: row.reactions ?? [],
   };
 }
 
@@ -109,6 +114,7 @@ export class DrizzleDiscussionsAdapter implements DiscussionsAdapter {
       localId: string;
       createdById: string;
       createdByName: string;
+      mentionedUserIds?: string[];
     },
   ): Promise<DiscussionThread> {
     const db = getDb();
@@ -139,7 +145,10 @@ export class DrizzleDiscussionsAdapter implements DiscussionsAdapter {
       authorId: meta.createdById,
       authorName: meta.createdByName,
       body: input.body,
+      mentionedUserIds: meta.mentionedUserIds ?? [],
+      reactions: [],
       createdAt: ts,
+      updatedAt: ts,
     });
     const thread = await this.getThread(id);
     if (!thread) throw new Error("Failed to create discussion thread");
@@ -156,6 +165,16 @@ export class DrizzleDiscussionsAdapter implements DiscussionsAdapter {
     return rows.map(mapPost);
   }
 
+  async getPost(postId: string): Promise<DiscussionPost | null> {
+    const db = getDb();
+    const rows = await db
+      .select()
+      .from(discussionPosts)
+      .where(eq(discussionPosts.id, postId))
+      .limit(1);
+    return rows[0] ? mapPost(rows[0]) : null;
+  }
+
   async createPost(
     threadId: string,
     input: CreateDiscussionPostInput,
@@ -164,6 +183,7 @@ export class DrizzleDiscussionsAdapter implements DiscussionsAdapter {
       localId: string;
       authorId: string;
       authorName: string;
+      mentionedUserIds?: string[];
     },
   ): Promise<DiscussionPost | null> {
     const db = getDb();
@@ -179,7 +199,10 @@ export class DrizzleDiscussionsAdapter implements DiscussionsAdapter {
       authorId: meta.authorId,
       authorName: meta.authorName,
       body: input.body,
+      mentionedUserIds: meta.mentionedUserIds ?? [],
+      reactions: [],
       createdAt: ts,
+      updatedAt: ts,
     });
     await db
       .update(discussionThreads)
@@ -189,11 +212,27 @@ export class DrizzleDiscussionsAdapter implements DiscussionsAdapter {
         postCount: thread.postCount + 1,
       })
       .where(eq(discussionThreads.id, threadId));
-    const rows = await db
-      .select()
-      .from(discussionPosts)
-      .where(eq(discussionPosts.id, id))
-      .limit(1);
-    return rows[0] ? mapPost(rows[0]) : null;
+    return this.getPost(id);
+  }
+
+  async togglePostReaction(
+    postId: string,
+    kind: HubReactionKind,
+    userId: string,
+  ): Promise<DiscussionPost | null> {
+    const post = await this.getPost(postId);
+    if (!post) return null;
+    const ts = new Date();
+    const reactions = toggleHubReaction(post.reactions, kind, userId);
+    const db = getDb();
+    await db
+      .update(discussionPosts)
+      .set({ reactions, updatedAt: ts })
+      .where(eq(discussionPosts.id, postId));
+    await db
+      .update(discussionThreads)
+      .set({ updatedAt: ts })
+      .where(eq(discussionThreads.id, post.threadId));
+    return this.getPost(postId);
   }
 }

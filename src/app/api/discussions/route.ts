@@ -8,6 +8,7 @@ import {
   tenantIdsForDiscussionsSession,
 } from "@/lib/auth/discussions-session";
 import { discussionsStore } from "@/lib/discussions/store";
+import { notifyMentionedUsers, resolveMentionedUserIds } from "@/lib/hub/mention-notify";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { createDiscussionThreadSchema } from "@/lib/validation/discussions";
 
@@ -88,12 +89,32 @@ export async function POST(request: Request) {
   }
 
   const { unionId, localId } = tenantIdsForDiscussionsSession(session);
+  const mentionedUserIds = await resolveMentionedUserIds(parsed.data.body, {
+    unionId,
+    localId,
+    accessibleLocalIds: session.user.accessibleLocalIds ?? undefined,
+  });
   const thread = await discussionsStore.createThread(parsed.data, {
     unionId,
     localId,
     createdById: session.user.id,
     createdByName: session.user.name ?? session.user.email ?? "Officer",
+    mentionedUserIds,
   });
+
+  const openingPost = (await discussionsStore.listPosts(thread.id))[0];
+  if (openingPost) {
+    await notifyMentionedUsers({
+      body: parsed.data.body,
+      authorId: session.user.id,
+      unionId,
+      localId,
+      accessibleLocalIds: session.user.accessibleLocalIds ?? undefined,
+      source: "discussion_post",
+      sourceId: openingPost.id,
+      threadId: thread.id,
+    });
+  }
 
   await auditLog.log({
     userId: session.user.id,

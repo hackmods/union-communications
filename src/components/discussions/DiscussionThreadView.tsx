@@ -1,12 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Input";
 import { Callout } from "@/components/ui/Callout";
+import {
+  DiscussionPostCard,
+  useMentionableRoster,
+} from "@/components/discussions/DiscussionPostCard";
+import { useHubPoll } from "@/components/hub/useHubPoll";
 import type {
   DiscussionPost,
   DiscussionThread,
@@ -14,6 +19,7 @@ import type {
 
 export function DiscussionThreadView({ threadId }: { threadId: string }) {
   const t = useTranslations("discussions");
+  const roster = useMentionableRoster();
   const [thread, setThread] = useState<DiscussionThread | null>(null);
   const [posts, setPosts] = useState<DiscussionPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -21,6 +27,32 @@ export function DiscussionThreadView({ threadId }: { threadId: string }) {
   const [reply, setReply] = useState("");
   const [saving, setSaving] = useState(false);
   const [canReply, setCanReply] = useState(true);
+  const lastSyncRef = useRef<string>(new Date().toISOString());
+
+  const applyThreadData = useCallback((data: {
+    thread: DiscussionThread;
+    posts: DiscussionPost[];
+  }) => {
+    setThread(data.thread);
+    setPosts(data.posts ?? []);
+    lastSyncRef.current = new Date().toISOString();
+    setError(null);
+  }, []);
+
+  const refreshThread = useCallback(async (since?: string) => {
+    const query = since ? `?since=${encodeURIComponent(since)}` : "";
+    const res = await fetch(`/api/discussions/${threadId}${query}`);
+    if (res.status === 403) {
+      setError(t("forbidden"));
+      setThread(null);
+      setPosts([]);
+      return;
+    }
+    if (!res.ok) throw new Error("fail");
+    const data = await res.json();
+    if (since && data.changed === false) return;
+    applyThreadData(data);
+  }, [applyThreadData, t, threadId]);
 
   useEffect(() => {
     let cancelled = false;
@@ -35,10 +67,8 @@ export function DiscussionThreadView({ threadId }: { threadId: string }) {
         }
         if (!res.ok) throw new Error("fail");
         const data = await res.json();
-        setThread(data.thread);
-        setPosts(data.posts ?? []);
+        applyThreadData(data);
         setCanReply(true);
-        setError(null);
       })
       .catch(() => {
         if (!cancelled) setError(t("loadError"));
@@ -49,7 +79,11 @@ export function DiscussionThreadView({ threadId }: { threadId: string }) {
     return () => {
       cancelled = true;
     };
-  }, [threadId, t]);
+  }, [applyThreadData, t, threadId]);
+
+  useHubPoll(Boolean(thread), () =>
+    refreshThread(lastSyncRef.current).catch(() => undefined),
+  );
 
   async function handleReply(e: React.FormEvent) {
     e.preventDefault();
@@ -72,12 +106,7 @@ export function DiscussionThreadView({ threadId }: { threadId: string }) {
         return;
       }
       setReply("");
-      const refreshed = await fetch(`/api/discussions/${threadId}`);
-      if (refreshed.ok) {
-        const data = await refreshed.json();
-        setThread(data.thread);
-        setPosts(data.posts ?? []);
-      }
+      await refreshThread();
     } catch {
       setError(t("replyError"));
     } finally {
@@ -134,6 +163,7 @@ export function DiscussionThreadView({ threadId }: { threadId: string }) {
           ? ` · ${t("linkedBumping", { id: thread.bumpingCaseId })}`
           : ""}
       </p>
+      <p className="mt-1 text-xs text-gray-500">{t("livePollHint")}</p>
 
       {error && (
         <Callout tone="danger" className="mt-4">
@@ -143,20 +173,26 @@ export function DiscussionThreadView({ threadId }: { threadId: string }) {
 
       <div className="mt-6 space-y-3">
         {posts.map((post) => (
-          <Card key={post.id} density="compact">
-            <p className="whitespace-pre-wrap text-sm text-gray-800">
-              {post.body}
-            </p>
-            <p className="mt-2 text-xs text-gray-500">
-              {post.authorName} · {new Date(post.createdAt).toLocaleString()}
-            </p>
-          </Card>
+          <DiscussionPostCard
+            key={post.id}
+            threadId={threadId}
+            post={post}
+            roster={roster}
+            canReact={canReply}
+            onReactionChange={(updated) => {
+              setPosts((current) =>
+                current.map((row) => (row.id === updated.id ? updated : row)),
+              );
+              lastSyncRef.current = new Date().toISOString();
+            }}
+          />
         ))}
       </div>
 
       {canReply ? (
         <Card className="mt-6" density="compact">
           <CardTitle>{t("reply")}</CardTitle>
+          <p className="mt-1 text-xs text-gray-500">{t("mentionHint")}</p>
           <form onSubmit={handleReply} className="mt-3 space-y-3">
             <Textarea
               value={reply}

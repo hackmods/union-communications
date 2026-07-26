@@ -8,6 +8,7 @@ import {
 } from "@/lib/auth/task-session";
 import { canAssignOthers, canCreateTask } from "@/lib/tasks/access";
 import { taskStore } from "@/lib/tasks/store";
+import { notifyMentionedUsers, resolveMentionedUserIds } from "@/lib/hub/mention-notify";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { createTaskSchema } from "@/lib/validation/task";
 import type { TaskStatus } from "@/types/task";
@@ -32,6 +33,7 @@ export async function GET(request: Request) {
   const relatedBumpingCaseId =
     url.searchParams.get("relatedBumpingCaseId") ?? undefined;
   const mine = url.searchParams.get("mine") === "1";
+  const since = url.searchParams.get("since") ?? undefined;
 
   const tasks = await taskStore.list({
     ...filters,
@@ -43,6 +45,18 @@ export async function GET(request: Request) {
     relatedBumpingCaseId,
   });
 
+  if (since) {
+    const sinceMs = Date.parse(since);
+    if (!Number.isNaN(sinceMs)) {
+      const changed = tasks.some(
+        (task) => Date.parse(task.updatedAt) > sinceMs,
+      );
+      if (!changed) {
+        return NextResponse.json({ changed: false, tasks: [] });
+      }
+    }
+  }
+
   await auditLog.log({
     userId: session.user.id,
     action: "task.list",
@@ -52,7 +66,9 @@ export async function GET(request: Request) {
     localId: session.user.localId,
   });
 
-  return NextResponse.json({ tasks });
+  return NextResponse.json(
+    since ? { changed: true, tasks } : { tasks },
+  );
 }
 
 export async function POST(request: Request) {
@@ -99,7 +115,27 @@ export async function POST(request: Request) {
     bargainingUnitId: input.bargainingUnitId ?? tenant.bargainingUnitId,
     createdById: session.user.id,
     assigneeId,
+    mentionedUserIds: await resolveMentionedUserIds(
+      [input.title, input.notes].filter(Boolean).join("\n"),
+      {
+        unionId: tenant.unionId,
+        localId: tenant.localId,
+        accessibleLocalIds: session.user.accessibleLocalIds ?? undefined,
+      },
+    ),
   });
+
+  if (input.notes?.trim()) {
+    await notifyMentionedUsers({
+      body: input.notes,
+      authorId: session.user.id,
+      unionId: task.unionId,
+      localId: task.localId,
+      accessibleLocalIds: session.user.accessibleLocalIds ?? undefined,
+      source: "task",
+      sourceId: task.id,
+    });
+  }
 
   await auditLog.log({
     userId: session.user.id,

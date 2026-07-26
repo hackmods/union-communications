@@ -1,5 +1,6 @@
-import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { index, jsonb, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { bargainingUnits, locals, unions } from "./tenant";
+import type { HubReaction } from "@/types/hub-social";
 
 export const tasks = pgTable(
   "tasks",
@@ -16,13 +17,22 @@ export const tasks = pgTable(
       { onDelete: "set null" },
     ),
     title: text("title").notNull(),
+    notes: text("notes"),
     assigneeId: text("assignee_id").notNull(),
     dueAt: timestamp("due_at", { withTimezone: true }),
     status: text("status").notNull().default("open"),
     relatedGrievanceId: text("related_grievance_id"),
     relatedBumpingCaseId: text("related_bumping_case_id"),
+    mentionedUserIds: jsonb("mentioned_user_ids")
+      .notNull()
+      .$type<string[]>()
+      .default([]),
+    reactions: jsonb("reactions").notNull().$type<HubReaction[]>().default([]),
     createdById: text("created_by_id").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
   },

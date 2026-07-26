@@ -3104,7 +3104,7 @@
   },
   "discussions": {
     "title": "Discussions",
-    "subtitle": "Threaded local conversations — standalone or linked to a grievance or bumping case. Poll on load; no real-time delivery in v1.",
+    "subtitle": "Threaded local conversations — standalone or linked to a grievance or bumping case.",
     "loading": "Loading discussions…",
     "loadError": "Could not load discussions.",
     "createError": "Could not create thread.",
@@ -3128,7 +3128,18 @@
     "open": "Open",
     "backToList": "Back to discussions",
     "reply": "Reply",
-    "postReply": "Post reply"
+    "postReply": "Post reply",
+    "mentionHint": "Type @ followed by an officer name to mention them (e.g. @Local 243 President).",
+    "mentionedCount": "{count, plural, one {# mention} other {# mentions}}",
+    "livePollHint": "Updates every 15 seconds while this tab is open."
+  },
+  "hubSocial": {
+    "reactionsLabel": "Reactions",
+    "reaction": {
+      "solidarity": "✊ Solidarity",
+      "ack": "✓ Ack",
+      "question": "? Question"
+    }
   },
   "checkins": {
     "title": "Check-ins",
@@ -3188,6 +3199,7 @@
   "tasks": {
     "title": "Task board",
     "subtitle": "Local to-dos for officers — optional links to grievances or bumping cases.",
+    "livePollHint": "Board refreshes every 15 seconds while this tab is open.",
     "loading": "Loading tasks…",
     "loadError": "Could not load tasks.",
     "createError": "Could not create task.",
@@ -3207,6 +3219,8 @@
     "openCount": "Open (this list)",
     "totalCount": "Shown",
     "fieldTitle": "Title",
+    "fieldNotes": "Notes (optional)",
+    "notesHint": "Add context or @mention an officer",
     "fieldDue": "Due (optional)",
     "fieldAssignee": "Assignee user id (optional)",
     "assigneeHint": "Leave blank to assign to yourself",

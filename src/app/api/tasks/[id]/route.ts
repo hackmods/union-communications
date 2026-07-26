@@ -8,6 +8,7 @@ import {
   requireTaskSession,
 } from "@/lib/auth/task-session";
 import { taskStore } from "@/lib/tasks/store";
+import { notifyMentionedUsers, resolveMentionedUserIds } from "@/lib/hub/mention-notify";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { updateTaskSchema } from "@/lib/validation/task";
 
@@ -66,6 +67,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     input.status !== undefined || input.assigneeId !== undefined;
   const touchesFields =
     input.title !== undefined ||
+    input.notes !== undefined ||
     input.dueAt !== undefined ||
     input.relatedGrievanceId !== undefined ||
     input.relatedBumpingCaseId !== undefined;
@@ -77,7 +79,35 @@ export async function PATCH(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const updated = await taskStore.update(id, input);
+  const updated = await taskStore.update(id, {
+    ...input,
+    ...(input.notes !== undefined
+      ? {
+          mentionedUserIds: await resolveMentionedUserIds(
+            [existing.title, input.notes ?? ""].join("\n"),
+            {
+              unionId: existing.unionId,
+              localId: existing.localId,
+              accessibleLocalIds:
+                authResult.session.user.accessibleLocalIds ?? undefined,
+            },
+          ),
+        }
+      : {}),
+  });
+
+  if (input.notes && updated) {
+    await notifyMentionedUsers({
+      body: input.notes,
+      authorId: authResult.session.user.id,
+      unionId: existing.unionId,
+      localId: existing.localId,
+      accessibleLocalIds:
+        authResult.session.user.accessibleLocalIds ?? undefined,
+      source: "task",
+      sourceId: id,
+    });
+  }
   await auditLog.log({
     userId: authResult.session.user.id,
     action: "task.update",

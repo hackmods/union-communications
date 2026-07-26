@@ -1,6 +1,7 @@
 import { and, eq, isNull, or } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
 import { tasks } from "@/lib/db/schema";
+import { toggleHubReaction } from "@/lib/hub/reactions";
 import type { TaskAdapter } from "./adapter";
 import type {
   CreateTaskInput,
@@ -9,6 +10,7 @@ import type {
   TaskStatus,
   UpdateTaskInput,
 } from "@/types/task";
+import type { HubReactionKind } from "@/types/hub-social";
 
 function newId(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -27,6 +29,7 @@ function mapTask(row: typeof tasks.$inferSelect): Task {
     localId: row.localId,
     bargainingUnitId: row.bargainingUnitId ?? undefined,
     title: row.title,
+    notes: row.notes ?? undefined,
     assigneeId: row.assigneeId,
     dueAt: toIso(row.dueAt),
     status: row.status as TaskStatus,
@@ -34,6 +37,9 @@ function mapTask(row: typeof tasks.$inferSelect): Task {
     relatedBumpingCaseId: row.relatedBumpingCaseId ?? undefined,
     createdById: row.createdById,
     createdAt: toIso(row.createdAt)!,
+    updatedAt: toIso(row.updatedAt ?? row.createdAt)!,
+    mentionedUserIds: row.mentionedUserIds ?? [],
+    reactions: row.reactions ?? [],
   };
 }
 
@@ -103,6 +109,7 @@ export class DrizzleTaskAdapter implements TaskAdapter {
       bargainingUnitId?: string;
       createdById: string;
       assigneeId: string;
+      mentionedUserIds?: string[];
     },
   ): Promise<Task> {
     const db = getDb();
@@ -114,13 +121,17 @@ export class DrizzleTaskAdapter implements TaskAdapter {
       localId: meta.localId,
       bargainingUnitId: input.bargainingUnitId ?? meta.bargainingUnitId,
       title: input.title,
+      notes: input.notes,
       assigneeId: meta.assigneeId,
       dueAt: input.dueAt ? new Date(input.dueAt) : null,
       status: "open",
       relatedGrievanceId: input.relatedGrievanceId,
       relatedBumpingCaseId: input.relatedBumpingCaseId,
+      mentionedUserIds: meta.mentionedUserIds ?? [],
+      reactions: [],
       createdById: meta.createdById,
       createdAt: ts,
+      updatedAt: ts,
     });
     const created = await this.getById(id);
     if (!created) throw new Error("Failed to create task");
@@ -131,8 +142,13 @@ export class DrizzleTaskAdapter implements TaskAdapter {
     const existing = await this.getById(id);
     if (!existing) return null;
 
-    const patch: Partial<typeof tasks.$inferInsert> = {};
+    const patch: Partial<typeof tasks.$inferInsert> = {
+      updatedAt: new Date(),
+    };
     if (input.title !== undefined) patch.title = input.title;
+    if (input.notes !== undefined) {
+      patch.notes = input.notes === null ? null : input.notes;
+    }
     if (input.assigneeId !== undefined) patch.assigneeId = input.assigneeId;
     if (input.status !== undefined) patch.status = input.status;
     if (input.dueAt !== undefined) {
@@ -148,8 +164,9 @@ export class DrizzleTaskAdapter implements TaskAdapter {
           ? null
           : input.relatedBumpingCaseId;
     }
-
-    if (Object.keys(patch).length === 0) return existing;
+    if (input.mentionedUserIds !== undefined) {
+      patch.mentionedUserIds = input.mentionedUserIds;
+    }
 
     const db = getDb();
     await db.update(tasks).set(patch).where(eq(tasks.id, id));
@@ -163,5 +180,21 @@ export class DrizzleTaskAdapter implements TaskAdapter {
       .where(eq(tasks.id, id))
       .returning({ id: tasks.id });
     return deleted.length > 0;
+  }
+
+  async toggleReaction(
+    id: string,
+    kind: HubReactionKind,
+    userId: string,
+  ): Promise<Task | null> {
+    const existing = await this.getById(id);
+    if (!existing) return null;
+    const reactions = toggleHubReaction(existing.reactions, kind, userId);
+    const db = getDb();
+    await db
+      .update(tasks)
+      .set({ reactions, updatedAt: new Date() })
+      .where(eq(tasks.id, id));
+    return this.getById(id);
   }
 }

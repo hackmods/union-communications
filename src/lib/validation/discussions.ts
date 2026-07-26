@@ -1,5 +1,20 @@
 import { z } from "zod";
+import { HUB_REACTION_KINDS } from "@/types/hub-social";
 import { bargainingUnitIdSchema } from "./tenant";
+
+export const hubReactionKindSchema = z.enum(HUB_REACTION_KINDS);
+
+export const toggleHubReactionSchema = z
+  .object({
+    kind: hubReactionKindSchema,
+  })
+  .strict();
+
+export const markHubNotificationsReadSchema = z
+  .object({
+    ids: z.array(z.string().min(1)).min(1).max(100),
+  })
+  .strict();
 
 export const createDiscussionThreadSchema = z
   .object({

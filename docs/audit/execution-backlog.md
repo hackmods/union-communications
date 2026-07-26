@@ -178,7 +178,7 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 ### [FEAT-002] ✅ CLOSED (2026-07-23)
 **Category:** Feature Parity
 **Severity/Priority:** High
-**Status:** Closed — v1 `DiscussionThread` / `DiscussionPost` (types, memory + optional Drizzle via `DISCUSSIONS_DB_BACKEND`, migration `0007_discussions`), HubModule `"discussions"`, APIs under `/api/discussions`, Hub UI `/app/discussions` + thread detail, EN/FR. Linked threads inherit grievance/bumping ACL. No reactions/mentions/realtime.
+**Status:** Closed — v1 `DiscussionThread` / `DiscussionPost` (types, memory + optional Drizzle via `DISCUSSIONS_DB_BACKEND`, migration `0007_discussions`), HubModule `"discussions"`, APIs under `/api/discussions`, Hub UI `/app/discussions` + thread detail, EN/FR. Linked threads inherit grievance/bumping ACL. **Stretch (2026-07-26):** reactions, @mentions, in-app mention notifications, 15s poll-on-focus — no websockets (`0027_hub_social`).
 **Problem/Gap Statement:** No message-board / threaded-discussion feature exists anywhere. `CaSnippet` and `SharedTemplate` are content libraries (create/list/delete), not discussions — no replies, no threading, no @mentions, no notifications. Officers have no in-product way to discuss a grievance, a bumping case, or general local business asynchronously.
 **Affected Architecture/Files:** `src/lib/snippets/memory-adapter.ts`, `src/lib/marketplace/memory-adapter.ts` (nearest existing analogues), `src/types/qol.ts`
 **Implementation Blueprint:**

@@ -7,12 +7,22 @@ import type {
   DiscussionThread,
   DiscussionThreadWithPosts,
 } from "@/types/discussions";
+import type { HubReactionKind } from "@/types/hub-social";
+import { toggleHubReaction } from "@/lib/hub/reactions";
 
 function newId(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
 const now = () => new Date().toISOString();
+
+function emptyPostFields(ts: string) {
+  return {
+    updatedAt: ts,
+    mentionedUserIds: [] as string[],
+    reactions: [] as DiscussionPost["reactions"],
+  };
+}
 
 const threads: DiscussionThread[] = [
   {
@@ -56,6 +66,7 @@ const posts: DiscussionPost[] = [
     authorName: "Local 243 President",
     body: "Please add any standing items by Friday. Treasurer update and grievance overview are already on the draft.",
     createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    ...emptyPostFields(new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()),
   },
   {
     id: "disc-post-002",
@@ -63,9 +74,12 @@ const posts: DiscussionPost[] = [
     unionId: "union-opseu",
     localId: "local-243",
     authorId: "user-steward-243",
-    authorName: "Local 243 Steward",
-    body: "Can we slot 10 minutes for duty-bank clarification? Members have been asking at the board.",
+    authorName: "Local 243 Steward (FT)",
+    body: "Can we slot 10 minutes for duty-bank clarification? @Local 243 President — members have been asking at the board.",
     createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    mentionedUserIds: ["user-president-243"],
+    reactions: [{ kind: "solidarity", userId: "user-president-243" }],
   },
   {
     id: "disc-post-003",
@@ -76,8 +90,14 @@ const posts: DiscussionPost[] = [
     authorName: "Local 243 Steward",
     body: "Management response is overdue — drafting escalation checklist next.",
     createdAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+    ...emptyPostFields(new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString()),
   },
 ];
+
+function touchThread(thread: DiscussionThread, ts: string) {
+  thread.updatedAt = ts;
+  thread.lastPostAt = ts;
+}
 
 export class MemoryDiscussionsAdapter implements DiscussionsAdapter {
   async listThreads(
@@ -126,6 +146,7 @@ export class MemoryDiscussionsAdapter implements DiscussionsAdapter {
       localId: string;
       createdById: string;
       createdByName: string;
+      mentionedUserIds?: string[];
     },
   ): Promise<DiscussionThread> {
     const ts = now();
@@ -155,6 +176,9 @@ export class MemoryDiscussionsAdapter implements DiscussionsAdapter {
       authorName: meta.createdByName,
       body: input.body,
       createdAt: ts,
+      updatedAt: ts,
+      mentionedUserIds: meta.mentionedUserIds ?? [],
+      reactions: [],
     });
     return thread;
   }
@@ -168,6 +192,10 @@ export class MemoryDiscussionsAdapter implements DiscussionsAdapter {
       );
   }
 
+  async getPost(postId: string): Promise<DiscussionPost | null> {
+    return posts.find((post) => post.id === postId) ?? null;
+  }
+
   async createPost(
     threadId: string,
     input: CreateDiscussionPostInput,
@@ -176,6 +204,7 @@ export class MemoryDiscussionsAdapter implements DiscussionsAdapter {
       localId: string;
       authorId: string;
       authorName: string;
+      mentionedUserIds?: string[];
     },
   ): Promise<DiscussionPost | null> {
     const thread = await this.getThread(threadId);
@@ -190,11 +219,28 @@ export class MemoryDiscussionsAdapter implements DiscussionsAdapter {
       authorName: meta.authorName,
       body: input.body,
       createdAt: ts,
+      updatedAt: ts,
+      mentionedUserIds: meta.mentionedUserIds ?? [],
+      reactions: [],
     };
     posts.push(post);
-    thread.lastPostAt = ts;
-    thread.updatedAt = ts;
+    touchThread(thread, ts);
     thread.postCount += 1;
+    return post;
+  }
+
+  async togglePostReaction(
+    postId: string,
+    kind: HubReactionKind,
+    userId: string,
+  ): Promise<DiscussionPost | null> {
+    const post = await this.getPost(postId);
+    if (!post) return null;
+    const ts = now();
+    post.reactions = toggleHubReaction(post.reactions, kind, userId);
+    post.updatedAt = ts;
+    const thread = await this.getThread(post.threadId);
+    if (thread) thread.updatedAt = ts;
     return post;
   }
 }
