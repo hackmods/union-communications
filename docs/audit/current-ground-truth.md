@@ -54,7 +54,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 1. Ops: Postgres backend flips + real scanner on durability hosts
 2. COMMS email/broadcast guide (fifth-channel — only if product expands channels)
 3. Time **8f** hybrid slice / punch photos (explicit cut)
-4. Optional: canvas tool axe color-contrast on brand-orange previews (6 smoke failures noted 2026-07-25)
+4. ~~Optional: canvas tool axe color-contrast on brand-orange previews (6 smoke failures noted 2026-07-25)~~ — **shipped 2026-07-25** (`mutedInkOnBackground`)
 
 ## Agent habits
 

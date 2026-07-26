@@ -7,7 +7,7 @@ import {
   qrBoardGridColumns,
   type QrBoardFormatId,
 } from "@/lib/constants/qr-board-formats";
-import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
+import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 
 export interface QrBoardCanvasSlot {
   id: string;
@@ -45,7 +45,7 @@ export function QrBoardCanvas({
 }: QrBoardCanvasProps) {
   const format = QR_BOARD_FORMATS[formatId];
   const ink = pickContrastingInk(primaryColor);
-  const muted = inkWithAlpha(ink, 0.85);
+  const muted = mutedInkOnBackground(primaryColor, 0.85);
   const columns = qrBoardGridColumns(slots.length);
   const isTabloid = formatId === "tabloid";
   const isDense = slots.length >= 6;

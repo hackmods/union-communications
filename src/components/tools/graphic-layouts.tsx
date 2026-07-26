@@ -8,6 +8,7 @@ import type { ExampleAspect, ExampleLayout } from "@/lib/constants/examples";
 import { hexToRgba } from "@/lib/utils/contrast";
 import {
   inkWithAlpha,
+  mutedInkOnBackground,
   pickContrastingInk,
 } from "@/lib/utils/ink";
 
@@ -56,9 +57,9 @@ function inkPalette(background: string) {
   return {
     ink,
     full: ink,
-    a90: inkWithAlpha(ink, 0.9),
-    a80: inkWithAlpha(ink, 0.8),
-    a70: inkWithAlpha(ink, 0.7),
+    a90: mutedInkOnBackground(background, 0.9),
+    a80: mutedInkOnBackground(background, 0.8),
+    a70: mutedInkOnBackground(background, 0.7),
     a60: inkWithAlpha(ink, 0.6),
     a30: inkWithAlpha(ink, 0.3),
   };

@@ -1,5 +1,6 @@
 import { BRAND_COLORS } from "@/lib/constants/brand";
 import {
+  blendHex,
   contrastRatio,
   hexToRgba,
   meetsWcagAA,
@@ -32,6 +33,27 @@ export function isLightInk(ink: InkTone): boolean {
  */
 export function inkWithAlpha(ink: InkTone, alpha: number): string {
   return hexToRgba(ink, alpha) ?? ink;
+}
+
+/**
+ * Muted body/footer ink on a solid canvas background.
+ * Bumps alpha toward opaque when the requested transparency fails WCAG AA
+ * (e.g. white @ 0.85 on UnionOps orange #C2410C).
+ */
+export function mutedInkOnBackground(
+  background: string,
+  alpha = 0.85,
+): string {
+  const ink = pickContrastingInk(background);
+  const start = Math.min(1, Math.max(0, alpha));
+  for (let a = start; a <= 1.0001; a += 0.01) {
+    const clamped = Math.min(1, a);
+    const blended = blendHex(ink, background, clamped);
+    if (meetsWcagAA(blended, background)) {
+      return clamped >= 0.999 ? ink : inkWithAlpha(ink, clamped);
+    }
+  }
+  return ink;
 }
 
 /**

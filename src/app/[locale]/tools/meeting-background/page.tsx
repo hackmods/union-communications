@@ -9,7 +9,7 @@ import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
+import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import {
   DEFAULT_MEETING_BACKGROUND_FORMAT,
@@ -241,9 +241,9 @@ export default function MeetingBackgroundPage() {
   const canvasInk = pickContrastingInk(primary);
   const secondaryInk = pickContrastingInk(secondary);
   const accentInk = pickContrastingInk(accent);
-  const mutedPrimary = inkWithAlpha(canvasInk, 0.85);
-  const mutedSecondary = inkWithAlpha(secondaryInk, 0.85);
-  const mutedAccent = inkWithAlpha(accentInk, 0.85);
+  const mutedPrimary = mutedInkOnBackground(primary, 0.85);
+  const mutedSecondary = mutedInkOnBackground(secondary, 0.85);
+  const mutedAccent = mutedInkOnBackground(accent, 0.85);
   const secondaryOnPrimary = meetsWcagAA(secondary, primary, true)
     ? secondary
     : canvasInk;

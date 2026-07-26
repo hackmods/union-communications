@@ -1,5 +1,11 @@
 # Progress Log
 
+## Canvas muted-ink contrast (2026-07-25) — COMPLETE
+
+- [x] `mutedInkOnBackground()` + `blendHex()` — bump semi-transparent ink alpha when UnionOps orange (#C2410C) fails WCAG AA
+- [x] Applied across graphic layouts, QR board/card, action card, board notice, solidarity poster, meeting backgrounds, website template footer CSS
+- [x] Unit + builders smoke a11y (16/16) green
+
 ## Time 8d-lite + 8e GPS + Graphic Maker invite (2026-07-24) — COMPLETE
 
 - [x] 8d-lite: weekly OT flag on CSV export + pay-period snap helper (`pay-period.ts`)

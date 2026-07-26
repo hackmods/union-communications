@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
+  blendHex,
   contrastRatio,
   meetsWcagAA,
   checkContrast,
@@ -12,6 +13,7 @@ import {
   inkWithAlpha,
   isLightInk,
   logoRasterFilter,
+  mutedInkOnBackground,
   pickContrastingInk,
   INK_BLACK,
   INK_WHITE,
@@ -62,9 +64,29 @@ describe("ink utilities", () => {
     expect(pickContrastingInk("#777777")).toBe(INK_WHITE);
   });
 
+  it("blends foreground over background", () => {
+    expect(blendHex("#FFFFFF", "#C2410C", 0.85)).toBe("#f6e3db");
+  });
+
   it("returns export-safe rgba for ink alphas", () => {
     expect(inkWithAlpha(INK_WHITE, 0.9)).toBe("rgba(255, 255, 255, 0.9)");
     expect(inkWithAlpha(INK_BLACK, 0.7)).toBe("rgba(26, 26, 26, 0.7)");
+  });
+
+  it("bumps muted ink alpha on UnionOps orange for WCAG AA", () => {
+    const muted = mutedInkOnBackground("#C2410C", 0.85);
+    expect(muted).not.toBe("rgba(255, 255, 255, 0.85)");
+    const alpha = muted.startsWith("rgba")
+      ? parseFloat(muted.replace(/.*,\s*([\d.]+)\)/, "$1"))
+      : 1;
+    const effective = blendHex("#FFFFFF", "#C2410C", alpha);
+    expect(contrastRatio(effective, "#C2410C")).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it("keeps requested alpha when it already passes AA", () => {
+    expect(mutedInkOnBackground("#003DA5", 0.85)).toBe(
+      "rgba(255, 255, 255, 0.85)",
+    );
   });
 
   it("returns CSS filters for monochrome logos", () => {

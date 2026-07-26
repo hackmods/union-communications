@@ -15,6 +15,22 @@ export function hexToRgba(hex: string, alpha: number): string | null {
   return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${alpha})`;
 }
 
+/** Opaque hex after compositing `foreground` at `alpha` over `background`. */
+export function blendHex(
+  foreground: string,
+  background: string,
+  alpha: number,
+): string {
+  const fg = hexToRgb(foreground);
+  const bg = hexToRgb(background);
+  if (!fg || !bg) return foreground;
+  const a = Math.min(1, Math.max(0, alpha));
+  const r = Math.round(fg.r * a + bg.r * (1 - a));
+  const g = Math.round(fg.g * a + bg.g * (1 - a));
+  const b = Math.round(fg.b * a + bg.b * (1 - a));
+  return `#${[r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("")}`;
+}
+
 function relativeLuminance(r: number, g: number, b: number): number {
   const [rs, gs, bs] = [r, g, b].map((c) => {
     const s = c / 255;

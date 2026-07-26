@@ -17,7 +17,7 @@ import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
 import { cn } from "@/lib/utils";
-import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
+import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import { PageShell } from "@/components/layout/PageShell";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
@@ -260,7 +260,7 @@ export default function BoardNoticePage() {
                 </p>
                 <p
                   className="mt-2 text-xs uppercase"
-                  style={{ color: inkWithAlpha(canvasInk, 0.8) }}
+                  style={{ color: mutedInkOnBackground(brandKit.primaryColor, 0.8) }}
                 >
                   {t(`types.${state.noticeType}`)}
                 </p>
@@ -286,7 +286,7 @@ export default function BoardNoticePage() {
                 </p>
                 <p
                   className="mt-4 text-base"
-                  style={{ color: inkWithAlpha(canvasInk, 0.9) }}
+                  style={{ color: mutedInkOnBackground(brandKit.primaryColor, 0.9) }}
                 >
                   {state.contact}
                 </p>
