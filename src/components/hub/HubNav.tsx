@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { getVisibleModules } from "@/lib/modules/registry";
@@ -227,6 +227,26 @@ export function HubNav() {
             {mfaOk ? t("mfaOk") : t("mfaRequired")}
           </Link>
         )}
+        <Link
+          href="/app/profile"
+          aria-current={
+            pathname.startsWith("/app/profile") ? "page" : undefined
+          }
+          className={linkClass(
+            pathname.startsWith("/app/profile")
+              ? "bg-white font-semibold text-opseu-dark"
+              : undefined,
+          )}
+        >
+          {t("profileLink")}
+        </Link>
+        <button
+          type="button"
+          className={linkClass("text-opseu-dark")}
+          onClick={() => signOut({ callbackUrl: "/" })}
+        >
+          {t("signOut")}
+        </button>
       </div>
     </nav>
   );

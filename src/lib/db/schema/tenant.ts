@@ -76,6 +76,8 @@ export const users = pgTable("users", {
   roles: jsonb("roles").notNull().$type<string[]>(),
   totpSecret: text("totp_secret"),
   mfaEnabled: boolean("mfa_enabled").notNull().default(false),
+  /** Optional profile photo as a data URL (JPEG/PNG/WebP). */
+  image: text("image"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),

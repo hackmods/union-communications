@@ -42,10 +42,14 @@ Include Tools (`/tools`), Print Guide, **Email & outreach**, Blueprint / Example
 
 `/assets` lives under Guides → About and in the footer. Brand Kit may still link the Brand Asset Pack on-page.
 
+## Auth chrome (session-aware)
+
+When authenticated, the public header / mobile drawer always show **Officer Hub**, **Profile**, and **Sign out** (even if `NEXT_PUBLIC_OFFICER_HUB_PUBLIC` is false). When logged out, Officer Hub appears only if the hub is public. Profile photo capture lives at `/app/profile`.
+
 ## Keep out of public chrome
 
 - Operator docs (`docs/guides/SETUP.md`, `DEPLOY.md`)
-- Hub modules (use `HubNav`)
+- Hub modules (use `HubNav`) — except the session-aware Officer Hub / Profile / Sign out controls above
 - Invented marketing routes (`/about`, `/pricing`, `/blog`) unless product expands
 
 ## Spec & backlog

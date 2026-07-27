@@ -8,7 +8,6 @@ import { DisplaySettingsMenu } from "./DisplaySettingsMenu";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
-import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { useBrandStore } from "@/store/brand-store";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import {
@@ -20,6 +19,7 @@ import {
 import { NavDropdown } from "./nav/NavDropdown";
 import { LearnMenuContent, ToolsMegaMenuContent } from "./nav/MenuContents";
 import { MobileNavDrawer } from "./nav/MobileNavDrawer";
+import { AuthAccountControls } from "./AuthAccountControls";
 
 type NavMenuId = "learn" | "tools";
 
@@ -161,20 +161,7 @@ export function Header() {
             <ToolsMegaMenuContent pathname={pathname} onNavigate={closeMenu} />
           </NavDropdown>
 
-          {isOfficerHubPublic() ? (
-            <Link
-              href="/app"
-              aria-current={
-                pathname.startsWith("/app") ? "page" : undefined
-              }
-              className={cn(
-                "ml-2 rounded-lg bg-opseu-blue px-3 py-1.5 font-semibold text-white transition-colors duration-150 hover:bg-opseu-dark",
-                pathname.startsWith("/app") && "bg-opseu-dark",
-              )}
-            >
-              {th("hubLink")}
-            </Link>
-          ) : null}
+          <AuthAccountControls layout="inline" className="ml-2" />
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex">

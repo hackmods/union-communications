@@ -13,7 +13,8 @@ const SECURITY_HEADERS = [
   },
   {
     key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=()",
+    // camera=(self) — Officer Hub profile photo capture (getUserMedia).
+    value: "camera=(self), microphone=(), geolocation=()",
   },
   {
     key: "Content-Security-Policy",

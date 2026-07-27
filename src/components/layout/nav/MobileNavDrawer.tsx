@@ -7,7 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { DisplaySettingsMenu } from "@/components/layout/DisplaySettingsMenu";
 import { LanguageToggle } from "@/components/layout/LanguageToggle";
-import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { AuthAccountControls } from "@/components/layout/AuthAccountControls";
 import { cn } from "@/lib/utils";
 import { getFocusable } from "./focusables";
 import {
@@ -239,21 +239,10 @@ export function MobileNavDrawer({
             </Link>
           </AccordionSection>
 
-          {isOfficerHubPublic() ? (
-            <Link
-              href="/app"
-              onClick={onCloseAfterNav}
-              aria-current={
-                pathname.startsWith("/app") ? "page" : undefined
-              }
-              className={cn(
-                "mt-4 flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-3 py-2 font-semibold text-white hover:bg-opseu-dark",
-                pathname.startsWith("/app") && "bg-opseu-dark",
-              )}
-            >
-              {th("hubLink")}
-            </Link>
-          ) : null}
+          <AuthAccountControls
+            layout="stack"
+            onNavigate={onCloseAfterNav}
+          />
 
           <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-gray-100 px-1 pt-4">
             <DisplaySettingsMenu />

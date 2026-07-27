@@ -1,5 +1,12 @@
 # Progress Log
 
+## Auth nav + profile photo (2026-07-27) — COMPLETE
+
+- [x] Main nav shows Officer Hub when logged in (not only when hub is public)
+- [x] Sign out in public header / mobile drawer + Hub nav
+- [x] `/app/profile` — camera capture or file upload; `GET/PUT/DELETE /api/profile/avatar`
+- [x] Durable `users.image` when `AUTH_USERS_BACKEND=postgres` (migration `0031_user_profile_image`)
+
 ## Durable invites + seed-admin bootstrap (2026-07-27) — COMPLETE
 
 - [x] Postgres `user_invites` table (migration `0030`) when `AUTH_USERS_BACKEND=postgres`
