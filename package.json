@@ -33,6 +33,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx src/lib/db/seed.ts",
+    "db:seed-admin": "tsx src/lib/db/seed-admin.ts",
     "db:studio": "drizzle-kit studio",
     "db:rls-smoke": "tsx scripts/rls-smoke.ts",
     "db:durability-smoke": "tsx scripts/durability-smoke.ts"

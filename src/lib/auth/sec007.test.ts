@@ -77,7 +77,7 @@ describe("invite accept flow", () => {
   });
 
   it("creates invite, accepts with password, and allows login lookup", async () => {
-    const invite = createInvite({
+    const invite = await createInvite({
       email: "new.steward@example.ca",
       name: "New Steward",
       unionId: "union-opseu",

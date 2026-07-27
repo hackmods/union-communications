@@ -1,6 +1,12 @@
 import { randomBytes } from "crypto";
 import type { UserRole } from "@/types/tenant";
 import { hashPassword } from "@/lib/auth/password";
+import {
+  acceptInvitePostgres,
+  createInvitePostgres,
+  getInviteByTokenPostgres,
+  invitesPostgresEnabled,
+} from "@/lib/auth/invite-postgres";
 
 export type InviteStatus = "pending" | "accepted" | "revoked" | "expired";
 
@@ -21,7 +27,7 @@ export type InviteRecord = {
   acceptedAt?: string;
 };
 
-/** Accepted invitees before Postgres users are the sole auth source. */
+/** Accepted invitees when AUTH_USERS_BACKEND=memory (legacy demo path). */
 export type InvitedUserRecord = {
   id: string;
   email: string;
@@ -43,7 +49,7 @@ function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${randomBytes(4).toString("hex")}`;
 }
 
-export function createInvite(input: {
+function createInviteMemory(input: {
   email: string;
   name: string;
   unionId: string;
@@ -52,7 +58,6 @@ export function createInvite(input: {
   bargainingUnitId?: string;
   roles: UserRole[];
   invitedById: string;
-  /** Hours until expiry; default 72. */
   ttlHours?: number;
 }): InviteRecord {
   const now = Date.now();
@@ -76,22 +81,48 @@ export function createInvite(input: {
   return row;
 }
 
-export function getInviteByToken(token: string): InviteRecord | null {
+export async function createInvite(input: {
+  email: string;
+  name: string;
+  unionId: string;
+  localId?: string;
+  divisionId?: string;
+  bargainingUnitId?: string;
+  roles: UserRole[];
+  invitedById: string;
+  ttlHours?: number;
+}): Promise<InviteRecord> {
+  if (invitesPostgresEnabled()) {
+    return createInvitePostgres(input);
+  }
+  return createInviteMemory(input);
+}
+
+export async function getInviteByToken(
+  token: string,
+): Promise<InviteRecord | null> {
+  if (invitesPostgresEnabled()) {
+    return getInviteByTokenPostgres(token);
+  }
   return invites.find((i) => i.token === token) ?? null;
 }
 
-export async function acceptInvite(
+async function acceptInviteMemory(
   token: string,
   password: string,
 ): Promise<{ user?: InvitedUserRecord; error?: string }> {
-  const invite = getInviteByToken(token);
+  const invite = invites.find((i) => i.token === token);
   if (!invite) return { error: "Invite not found" };
-  if (invite.status !== "pending") return { error: "Invite is no longer pending" };
+  if (invite.status !== "pending") {
+    return { error: "Invite is no longer pending" };
+  }
   if (new Date(invite.expiresAt).getTime() < Date.now()) {
     invite.status = "expired";
     return { error: "Invite expired" };
   }
-  if (password.length < 8) return { error: "Password must be at least 8 characters" };
+  if (password.length < 8) {
+    return { error: "Password must be at least 8 characters" };
+  }
 
   const passwordHash = await hashPassword(password);
   const user: InvitedUserRecord = {
@@ -111,6 +142,36 @@ export async function acceptInvite(
   invite.status = "accepted";
   invite.acceptedAt = user.createdAt;
   return { user };
+}
+
+export async function acceptInvite(
+  token: string,
+  password: string,
+): Promise<{ user?: InvitedUserRecord; error?: string }> {
+  if (invitesPostgresEnabled()) {
+    const result = await acceptInvitePostgres(token, password);
+    if (result.error || !result.userId) {
+      return { error: result.error ?? "Accept failed" };
+    }
+    const invite = await getInviteByTokenPostgres(token);
+    if (!invite) return { error: "Invite not found" };
+    return {
+      user: {
+        id: result.userId,
+        email: invite.email,
+        name: invite.name,
+        passwordHash: "",
+        unionId: invite.unionId,
+        localId: invite.localId,
+        divisionId: invite.divisionId,
+        bargainingUnitId: invite.bargainingUnitId,
+        roles: invite.roles,
+        requiresMfa: true,
+        createdAt: invite.acceptedAt ?? new Date().toISOString(),
+      },
+    };
+  }
+  return acceptInviteMemory(token, password);
 }
 
 export async function findInvitedUser(

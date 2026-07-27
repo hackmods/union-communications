@@ -80,4 +80,5 @@ docker compose -f docker-compose.yml -f docker-compose.durable.yml up -d web
 sleep 5
 wget -qO- http://127.0.0.1:3000/api/health || true
 echo
-echo "[flip] done — verify: HEALTH_URL=http://192.168.0.115:3000 HEALTH_REQUIRE_DURABLE=true npm run health:check"
+echo "[flip] done — bootstrap admin: npm run db:seed-admin -- --email … --name … --password … --union-id union-opseu --local-id local-243"
+echo "[flip] verify: HEALTH_URL=http://192.168.0.115:3000 HEALTH_REQUIRE_DURABLE=true npm run health:check"

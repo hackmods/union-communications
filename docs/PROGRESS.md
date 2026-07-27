@@ -1,5 +1,12 @@
 # Progress Log
 
+## Durable invites + seed-admin bootstrap (2026-07-27) — COMPLETE
+
+- [x] Postgres `user_invites` table (migration `0030`) when `AUTH_USERS_BACKEND=postgres`
+- [x] Invite create/accept persists; accept upserts `users` (no memory-only invitees on durable hosts)
+- [x] `npm run db:seed-admin` — bootstrap first president/admin without public signup
+- [x] `docs/guides/POSTGRES_OPS.md` bootstrap + invite flow documented
+
 ## Sandbox Postgres flip (2026-07-26) — COMPLETE
 
 - [x] CT 115 `unionops-sandbox` — `docker-compose.durable.yml` + Postgres 16 volume; all migrations + seed

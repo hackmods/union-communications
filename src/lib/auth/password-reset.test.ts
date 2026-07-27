@@ -75,7 +75,7 @@ describe("persist password for invitees", () => {
   });
 
   it("updates invited user password and allows login with the new one", async () => {
-    const invite = createInvite({
+    const invite = await createInvite({
       email: "new.officer@example.ca",
       name: "New Officer",
       unionId: "union-opseu",

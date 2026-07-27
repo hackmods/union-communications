@@ -9,7 +9,7 @@
 | Topic | Reality | Why it mattered |
 |-------|---------|-----------------|
 | Audit sprint Phases 1–4 | Closed | Security, Postgres adapters (flagged), FEAT/ORG/TOOL/UX tickets shipped |
-| Postgres adapters | Exist behind `*_DB_BACKEND` (default **memory**) | Ops flip per host; not a code gap |
+| Postgres adapters | Exist behind `*_DB_BACKEND` (default **memory**) | Ops flip per host; durable invites + `db:seed-admin` when `AUTH_USERS_BACKEND=postgres` |
 | Calendar R0 / R0.5 / R1 / R2 / R3 | Shipped (cron **member** auto-send deferred) | R2 = Hub copy draft; R3 = SMTP self-remind |
 | Cron officer reminders | Shipped 2026-07-25 | `/api/cron/meeting-reminders` + `CRON_SECRET`; roster emails only |
 | Time 8a–8b | Shipped | Postgres flag; sites/geofence; bulk approve; XLSX/PDF |

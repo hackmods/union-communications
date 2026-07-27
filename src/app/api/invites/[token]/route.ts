@@ -15,7 +15,7 @@ export async function GET(
   ctx: { params: Promise<{ token: string }> },
 ) {
   const { token } = await ctx.params;
-  const invite = getInviteByToken(token);
+  const invite = await getInviteByToken(token);
   if (!invite) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }

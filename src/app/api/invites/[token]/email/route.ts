@@ -36,7 +36,7 @@ export async function POST(
   }
 
   const { token } = await context.params;
-  const invite = getInviteByToken(token);
+  const invite = await getInviteByToken(token);
   if (!invite || invite.unionId !== session.user.unionId) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }

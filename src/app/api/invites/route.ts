@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const invite = createInvite({
+  const invite = await createInvite({
     email: parsed.data.email,
     name: parsed.data.name,
     unionId: session.user.unionId,
