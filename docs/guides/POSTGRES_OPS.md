@@ -57,7 +57,11 @@ HEALTH_REQUIRE_DURABLE=true npm run health:check
 ```
 
 7. **Run smoke:** `npm run db:rls-smoke` and `npm run db:durability-smoke` from the repo (durability smoke needs `GRIEVANCE_DB_BACKEND=postgres`).
-8. **Bootstrap first admin** (no public signup — invite-only Hub):
+8. **Bootstrap admins** (no public signup — invite-only Hub):
+
+`npm run db:seed` (when `AUTH_USERS_BACKEND=postgres`) upserts the demo roster (`demo123`, matching the login hint) unless `SEED_DEMO_USERS=false`, and upserts `ryan@ryanmorris.ca` as `platform_admin,union_admin` unless `SEED_PLATFORM_ADMIN=false`. Set `SEED_PLATFORM_ADMIN_PASSWORD` or read a generated password from `SEED_PLATFORM_ADMIN_BOOTSTRAP_FILE`.
+
+Manual override:
 
 ```bash
 npm run db:seed-admin -- \
@@ -69,7 +73,9 @@ npm run db:seed-admin -- \
   --roles local_president,union_admin
 ```
 
-Turn off demo auth (`AUTH_ALLOW_DEMO_USERS=false`, `NEXT_PUBLIC_DEMO_SITE=false`), then invite stewards at `/app/invites`. When `AUTH_USERS_BACKEND=postgres`, invites persist in `user_invites` and accept creates rows in `users`.
+**Demo + durable coexist:** Postgres users win on email collision; seeding demo users resets those emails to `demo123`. For production casework turn off demo auth (`AUTH_ALLOW_DEMO_USERS=false`, `NEXT_PUBLIC_DEMO_SITE=false`, `SEED_DEMO_USERS=false`), then invite stewards at `/app/invites`. When `AUTH_USERS_BACKEND=postgres`, invites persist in `user_invites` and accept creates rows in `users`.
+
+When `EMAIL_ENABLED` + SMTP are configured, login offers **password-reset** and **magic sign-in** email links (`/api/auth/sign-in-email`).
 
 9. **Optional attachment scanner:** enable compose `clamav` profile and set `ATTACHMENT_SCANNER_URL` (see `DEPLOY.md`).
 

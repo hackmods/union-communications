@@ -37,14 +37,18 @@ export default auth((req) => {
   const isPasswordReset =
     pathname.includes("/app/forgot-password") ||
     /\/app\/reset-password\//.test(pathname);
+  // Magic sign-in link is public — email token is the capability.
+  // Magic sign-in link is public — email token is the capability.
+  const isMagicSignIn = /\/app\/sign-in\//.test(pathname);
   const isAppRoute =
     pathname.includes("/app") &&
     !isLogin &&
     !pathname.includes("/app/register") &&
     !isInviteAccept &&
-    !isPasswordReset;
+    !isPasswordReset &&
+    !isMagicSignIn;
 
-  if (req.auth && isLogin) {
+  if (req.auth && (isLogin || isMagicSignIn)) {
     return NextResponse.redirect(new URL(`/${locale}/app`, req.url));
   }
 

@@ -204,6 +204,13 @@
       "when": 1784883000000,
       "tag": "0031_user_profile_image",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1784884000000,
+      "tag": "0032_sign_in_tokens",
+      "breakpoints": true
     }
   ]
 }

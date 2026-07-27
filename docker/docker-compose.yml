@@ -41,7 +41,9 @@ services:
       # Required — compose fails if unset (SEC-004). Generate: openssl rand -base64 32
       AUTH_SECRET: ${AUTH_SECRET:?Set AUTH_SECRET in docker/.env — openssl rand -base64 32}
       AUTH_URL: ${AUTH_URL:-http://localhost:3000}
-      AUTH_ALLOW_DEMO_USERS: ${AUTH_ALLOW_DEMO_USERS:-}
+      # Demo roster on by default (matches login hint). Set false for production casework.
+      AUTH_ALLOW_DEMO_USERS: ${AUTH_ALLOW_DEMO_USERS:-true}
+      NEXT_PUBLIC_DEMO_SITE: ${NEXT_PUBLIC_DEMO_SITE:-true}
       # Demo compose: MFA off by default for usability. Opt in with AUTH_MFA_ENABLED=true.
       AUTH_MFA_ENABLED: ${AUTH_MFA_ENABLED:-false}
       AUTH_MFA_MODE: ${AUTH_MFA_MODE:-shared_code_insecure}

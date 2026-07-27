@@ -1,5 +1,12 @@
 # Progress Log
 
+## Demo defaults + magic sign-in (2026-07-27) — COMPLETE
+
+- [x] Demo auth on by default in compose; login `demoHint` gated by `NEXT_PUBLIC_DEMO_SITE`
+- [x] `db:seed` upserts DEMO_USERS (`demo123`) + `ryan@ryanmorris.ca` platform_admin (unless SEED_* =false)
+- [x] Magic sign-in email links + password-reset UX when SMTP/`EMAIL_ENABLED` available
+- [x] Migration `0032_sign_in_tokens`
+
 ## Auth nav + profile photo (2026-07-27) — COMPLETE
 
 - [x] Main nav shows Officer Hub when logged in (not only when hub is public)

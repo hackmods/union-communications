@@ -9,6 +9,9 @@ const PUBLIC_API_ROUTES = new Set([
   "auth/[...nextauth]/route.ts",
   "auth/forgot-password/route.ts",
   "auth/reset-password/[token]/route.ts",
+  "auth/email-status/route.ts",
+  "auth/sign-in-email/route.ts",
+  "auth/sign-in/[token]/route.ts",
   "health/route.ts",
   // Invite accept uses the token as the capability secret (SEC-007).
   "invites/[token]/route.ts",

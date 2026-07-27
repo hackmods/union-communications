@@ -75,3 +75,26 @@ export const userInvites = pgTable(
     index("user_invites_email_idx").on(t.email),
   ],
 );
+
+/**
+ * Magic sign-in link tokens — opaque public capability (like password-reset).
+ * No tenant RLS: public verify route looks up by token without GUCs.
+ */
+export const signInTokens = pgTable(
+  "sign_in_tokens",
+  {
+    id: text("id").primaryKey(),
+    token: text("token").notNull(),
+    email: text("email").notNull(),
+    userId: text("user_id").notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    consumedAt: timestamp("consumed_at", { withTimezone: true }),
+  },
+  (t) => [
+    uniqueIndex("sign_in_tokens_token_idx").on(t.token),
+    index("sign_in_tokens_email_idx").on(t.email),
+  ],
+);

@@ -29,6 +29,11 @@ function smtpConfigured(): boolean {
   );
 }
 
+/** True when EMAIL_ENABLED and SMTP host/from/port are set. */
+export function isTransactionalEmailAvailable(): boolean {
+  return isEmailEnabled() && smtpConfigured();
+}
+
 let cachedTransport: Transporter | null | undefined;
 
 /** @internal test helper — clear cached transporter between tests. */

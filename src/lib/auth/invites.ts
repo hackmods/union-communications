@@ -195,6 +195,12 @@ export function findInvitedUserRecordByEmail(
   );
 }
 
+export function findInvitedUserRecordById(
+  userId: string,
+): InvitedUserRecord | null {
+  return invitedUsers.find((u) => u.id === userId) ?? null;
+}
+
 /** Update password hash for an accepted invitee (memory auth). */
 export function updateInvitedUserPasswordHash(
   email: string,

@@ -29,11 +29,14 @@ export type UpsertPostgresUserInput = {
   email: string;
   name: string;
   password: string;
-  unionId: string;
+  unionId?: string;
   localId?: string;
   divisionId?: string;
   bargainingUnitId?: string;
+  accessibleLocalIds?: string[];
   roles: UserRole[];
+  totpSecret?: string | null;
+  mfaEnabled?: boolean;
   /** When set, update this user id instead of upserting by email. */
   userId?: string;
 };
@@ -49,12 +52,14 @@ export async function upsertPostgresUser(
     email,
     name: input.name.trim(),
     passwordHash,
-    unionId: input.unionId,
+    unionId: input.unionId ?? null,
     localId: input.localId ?? null,
     divisionId: input.divisionId ?? null,
     bargainingUnitId: input.bargainingUnitId ?? null,
+    accessibleLocalIds: input.accessibleLocalIds ?? null,
     roles: input.roles,
-    mfaEnabled: false,
+    totpSecret: input.totpSecret ?? null,
+    mfaEnabled: input.mfaEnabled ?? false,
   };
 
   if (input.userId) {

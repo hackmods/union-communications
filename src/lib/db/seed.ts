@@ -4,6 +4,8 @@
  * Usage:
  *   DATABASE_URL=postgres://… npm run db:seed
  *   SEED_DEMO_CASES=true npm run db:seed   # also upsert a minimal demo grievance
+ *   SEED_DEMO_USERS=false npm run db:seed  # skip syncing DEMO_USERS into users
+ *   SEED_PLATFORM_ADMIN=false …            # skip ryan@ryanmorris.ca bootstrap
  *
  * Prefer the table-owner URL for seeding (FK upserts). Runtime should use
  * `unionops_app` so RLS binds — see migration 0008_app_role.sql.
@@ -20,6 +22,8 @@ import {
   locals,
   unions,
 } from "@/lib/db/schema";
+import { shouldSeedDemoUsers } from "@/lib/db/seed-demo-users";
+import { shouldSeedPlatformAdmin } from "@/lib/db/seed-platform-admin";
 
 interface SeedBargainingUnit {
   id: string;
@@ -232,6 +236,27 @@ export async function runSeed(options?: {
   console.log(
     `[db:seed] upserted tenant ${seed.union.slug} (${seed.locals.length} locals, ${seed.bargainingUnits.length} collections)`,
   );
+
+  if (shouldSeedDemoUsers()) {
+    const { seedDemoUsersToPostgres } = await import("@/lib/db/seed-demo-users");
+    const demoUsers = await seedDemoUsersToPostgres();
+    console.log(`[db:seed] upserted ${demoUsers.upserted} demo roster users`);
+  }
+
+  if (shouldSeedPlatformAdmin()) {
+    const { seedPlatformAdmin } = await import("@/lib/db/seed-platform-admin");
+    const admin = await seedPlatformAdmin();
+    if (admin) {
+      console.log(
+        `[db:seed] ${admin.created ? "created" : "updated"} platform admin ${admin.email} (${admin.id})`,
+      );
+      if (admin.passwordGenerated && admin.password) {
+        console.log(
+          `[db:seed] generated platform admin password (also in SEED_PLATFORM_ADMIN_BOOTSTRAP_FILE if set): ${admin.password}`,
+        );
+      }
+    }
+  }
 
   const demo =
     options?.demoCases ??

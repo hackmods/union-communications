@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
@@ -8,6 +8,10 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
+
+function isDemoSiteClient(): boolean {
+  return process.env.NEXT_PUBLIC_DEMO_SITE === "true";
+}
 
 export default function LoginPage() {
   const t = useTranslations("hub");
@@ -17,6 +21,27 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [emailEnabled, setEmailEnabled] = useState(false);
+  const [magicBusy, setMagicBusy] = useState(false);
+  const [magicDone, setMagicDone] = useState(false);
+  const [magicEmailSent, setMagicEmailSent] = useState<boolean | null>(null);
+  const [magicReason, setMagicReason] = useState<string | undefined>();
+  const showDemoHint = isDemoSiteClient();
+
+  useEffect(() => {
+    let cancelled = false;
+    void fetch("/api/auth/email-status")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((body: { emailEnabled?: boolean } | null) => {
+        if (!cancelled && body?.emailEnabled) setEmailEnabled(true);
+      })
+      .catch(() => {
+        /* ignore — password login still works */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,12 +60,40 @@ export default function LoginPage() {
       return;
     }
 
-    // Credentials sign-in with redirect:false sets the cookie but leaves
-    // SessionProvider on a stale unauthenticated session. Refetch before
-    // soft-navigating so the hub dashboard does not render blank.
     await update();
     router.push("/app");
     router.refresh();
+  };
+
+  const handleMagicLink = async () => {
+    if (!email.trim()) {
+      setError(t("magicLinkNeedEmail"));
+      return;
+    }
+    setMagicBusy(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/auth/sign-in-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) {
+        setError(t("magicLinkError"));
+        return;
+      }
+      const data = (await res.json()) as {
+        emailSent?: boolean;
+        emailReason?: string;
+      };
+      setMagicEmailSent(data.emailSent ?? false);
+      setMagicReason(data.emailReason);
+      setMagicDone(true);
+    } catch {
+      setError(t("magicLinkError"));
+    } finally {
+      setMagicBusy(false);
+    }
   };
 
   return (
@@ -83,8 +136,39 @@ export default function LoginPage() {
             {t("forgotPassword")}
           </Link>
         </p>
+        {emailEnabled ? (
+          <p className="mt-1 text-center text-xs text-gray-500">
+            {t("forgotPasswordEmailHint")}
+          </p>
+        ) : null}
 
-        <p className="mt-4 text-xs text-gray-500">{t("demoHint")}</p>
+        {emailEnabled ? (
+          <div className="mt-4 border-t border-gray-100 pt-4">
+            {magicDone ? (
+              <div className="space-y-2 text-sm text-gray-700">
+                <p>{t("magicLinkSentGeneric")}</p>
+                {magicEmailSent === false &&
+                  magicReason === "not_configured" && (
+                    <p className="text-gray-600">{t("magicLinkSmtpOff")}</p>
+                  )}
+              </div>
+            ) : (
+              <Button
+                type="button"
+                variant="outline"
+                className="min-h-11 w-full"
+                disabled={magicBusy}
+                onClick={() => void handleMagicLink()}
+              >
+                {magicBusy ? t("magicLinkSending") : t("magicLinkCta")}
+              </Button>
+            )}
+          </div>
+        ) : null}
+
+        {showDemoHint ? (
+          <p className="mt-4 text-xs text-gray-500">{t("demoHint")}</p>
+        ) : null}
       </Card>
 
       <p className="mt-4 text-center text-sm">

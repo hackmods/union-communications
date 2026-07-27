@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
@@ -17,6 +17,20 @@ export function ForgotPasswordForm() {
   const [emailSent, setEmailSent] = useState<boolean | null>(null);
   const [emailReason, setEmailReason] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
+  const [emailEnabled, setEmailEnabled] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    void fetch("/api/auth/email-status")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((body: { emailEnabled?: boolean } | null) => {
+        if (!cancelled && body?.emailEnabled) setEmailEnabled(true);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -51,7 +65,9 @@ export function ForgotPasswordForm() {
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("forgotTitle")}
       </h1>
-      <p className="mt-2 text-gray-600">{t("forgotSubtitle")}</p>
+      <p className="mt-2 text-gray-600">
+        {emailEnabled ? t("forgotSubtitleEmailOn") : t("forgotSubtitle")}
+      </p>
 
       <Card density="compact" className="mt-6">
         {done ? (

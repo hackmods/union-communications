@@ -14,7 +14,11 @@ export const authConfig = {
       const isAppRoute =
         path.includes("/app") &&
         !path.includes("/app/login") &&
-        !path.includes("/app/register");
+        !path.includes("/app/register") &&
+        !path.includes("/app/forgot-password") &&
+        !/\/app\/reset-password\//.test(path) &&
+        !/\/app\/invite\//.test(path) &&
+        !/\/app\/sign-in\//.test(path);
       if (isAppRoute) return !!auth?.user;
       return true;
     },

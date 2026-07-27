@@ -111,6 +111,29 @@ export function buildPasswordResetEmail(input: {
   };
 }
 
+export function buildSignInLinkEmail(input: {
+  name: string;
+  signInUrl: string;
+  expiresAt: string;
+}): { subject: string; text: string } {
+  const expires = new Date(input.expiresAt).toLocaleString();
+  return {
+    subject: "Your UnionOps Officer Hub sign-in link",
+    text: [
+      `Hello ${input.name},`,
+      "",
+      "Use this link to sign in to the Officer Hub:",
+      input.signInUrl,
+      "",
+      `This link expires on ${expires} and can only be used once.`,
+      "",
+      "If you did not request this, you can ignore this message.",
+      "",
+      "— UnionOps (transactional sign-in link; not a mailing list)",
+    ].join("\n"),
+  };
+}
+
 /** Public base URL for links in outbound mail (no trailing slash). */
 export function emailAppBaseUrl(requestOrigin?: string | null): string {
   const fromEnv = process.env.AUTH_URL?.replace(/\/$/, "");

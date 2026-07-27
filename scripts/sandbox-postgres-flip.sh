@@ -68,11 +68,27 @@ docker run --rm --network "${NET}" \
   -v "${SRC}:/app" -w /app \
   -e MIGRATE_DATABASE_URL="postgres://${POSTGRES_USER:-unionops}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-unionops}" \
   -e DATABASE_URL="postgres://${POSTGRES_USER:-unionops}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-unionops}" \
+  -e AUTH_USERS_BACKEND=postgres \
+  -e SEED_PLATFORM_ADMIN_BOOTSTRAP_FILE=/app/docker/.unionops-bootstrap-admin \
   node:24-alpine sh -c "npm ci --ignore-scripts && npm run db:migrate && npm run db:seed"
+if [[ -f "${DOCKER_DIR}/.unionops-bootstrap-admin" ]]; then
+  cp "${DOCKER_DIR}/.unionops-bootstrap-admin" /root/.unionops-bootstrap-admin
+  chmod 600 /root/.unionops-bootstrap-admin
+  echo "[flip] wrote /root/.unionops-bootstrap-admin (platform admin)"
+fi
+
+# Ensure demo flags stay on for sandbox hosts (do not blank existing .env secrets).
+grep -q '^AUTH_ALLOW_DEMO_USERS=' .env \
+  && sed -i 's/^AUTH_ALLOW_DEMO_USERS=.*/AUTH_ALLOW_DEMO_USERS=true/' .env \
+  || echo 'AUTH_ALLOW_DEMO_USERS=true' >> .env
+grep -q '^NEXT_PUBLIC_DEMO_SITE=' .env \
+  && sed -i 's/^NEXT_PUBLIC_DEMO_SITE=.*/NEXT_PUBLIC_DEMO_SITE=true/' .env \
+  || echo 'NEXT_PUBLIC_DEMO_SITE=true' >> .env
 
 echo "[flip] building web image (commit ${COMMIT})…"
 docker compose -f docker-compose.yml -f docker-compose.durable.yml build \
-  --build-arg CAPROVER_GIT_COMMIT_SHA="${COMMIT}"
+  --build-arg CAPROVER_GIT_COMMIT_SHA="${COMMIT}" \
+  --build-arg NEXT_PUBLIC_DEMO_SITE=true
 
 echo "[flip] starting web with durable backends…"
 docker compose -f docker-compose.yml -f docker-compose.durable.yml up -d web
@@ -80,5 +96,5 @@ docker compose -f docker-compose.yml -f docker-compose.durable.yml up -d web
 sleep 5
 wget -qO- http://127.0.0.1:3000/api/health || true
 echo
-echo "[flip] done — bootstrap admin: npm run db:seed-admin -- --email … --name … --password … --union-id union-opseu --local-id local-243"
+echo "[flip] done — demo roster uses demo123; platform admin password in /root/.unionops-bootstrap-admin when generated"
 echo "[flip] verify: HEALTH_URL=http://192.168.0.115:3000 HEALTH_REQUIRE_DURABLE=true npm run health:check"
