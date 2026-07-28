@@ -48,7 +48,8 @@ test.describe("SEO smoke @smoke", () => {
     expect(robots.ok()).toBeTruthy();
     const robotsBody = await robots.text();
     expect(robotsBody).toMatch(/Sitemap:/i);
-    expect(robotsBody).toMatch(/Disallow:.*\/en\/app\//);
+    expect(robotsBody).toMatch(/Disallow:.*\/api\//);
+    expect(robotsBody).not.toMatch(/Disallow:.*\/en\/app\//);
 
     const sitemap = await request.get("/sitemap.xml");
     expect(sitemap.ok()).toBeTruthy();
@@ -58,8 +59,30 @@ test.describe("SEO smoke @smoke", () => {
     expect(xml).not.toContain("/en/app/");
   });
 
-  test("hub login is reachable from app redirect", async ({ page }) => {
+  test("guide and privacy self-canonicalize (not home)", async ({ page }) => {
+    await page.goto("/en/guide/print/");
+    await assertSeoBasics(page, {
+      titleIncludes: /Print|UnionOps/i,
+      canonicalPath: "/en/guide/print/",
+      ogUrlIncludes: "/en/guide/print/",
+      hreflang: true,
+    });
+
+    await page.goto("/en/privacy/");
+    await assertSeoBasics(page, {
+      titleIncludes: /Privacy|UnionOps/i,
+      canonicalPath: "/en/privacy/",
+      ogUrlIncludes: "/en/privacy/",
+      hreflang: true,
+    });
+  });
+
+  test("hub login is noindex and reachable from app redirect", async ({
+    page,
+  }) => {
     await page.goto("/en/app/");
     await expect(page).toHaveURL(/\/en\/app\/login/);
+    const robots = page.locator('meta[name="robots"]');
+    await expect(robots).toHaveAttribute("content", /noindex/i);
   });
 });

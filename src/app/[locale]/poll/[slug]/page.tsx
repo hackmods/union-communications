@@ -1,8 +1,30 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import { PageShell } from "@/components/layout/PageShell";
 import { PublicPollForm } from "@/components/polls/PublicPollForm";
 import { pollsStore } from "@/lib/polls/store";
+import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const title = locale === "fr" ? "Sondage éclair" : "Pulse poll";
+  const description =
+    locale === "fr"
+      ? "Sondage anonyme de section — lien de partage, pas un portail membre."
+      : "Anonymous local pulse poll — share link, not a member portal.";
+  return buildPageMetadata({
+    locale,
+    path: "/poll",
+    title,
+    description,
+    noIndex: true,
+  });
+}
 
 /**
  * FUTURE-006 — member-facing pulse poll with consent + anonymous submit.

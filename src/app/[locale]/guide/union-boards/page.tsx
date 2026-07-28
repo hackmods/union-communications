@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
@@ -13,6 +15,14 @@ import { BOARD_LAYOUT_REFERENCES } from "@/lib/constants/board-layouts";
 import {
   materialsByKind,
 } from "@/lib/constants/board-materials";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  return buildPublicPageMetadata("/guide/union-boards", params);
+}
 
 const practiceKeys = ["where", "howLong", "whatNot", "pairing"] as const;
 const printItemKeys = [

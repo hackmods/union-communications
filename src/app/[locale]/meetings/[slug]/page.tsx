@@ -1,9 +1,31 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import { PageShell } from "@/components/layout/PageShell";
 import { NextMeetingSnippet } from "@/components/meetings/NextMeetingSnippet";
 import { computeNextMeeting } from "@/lib/meetings/recurrence";
 import { meetingsStore } from "@/lib/meetings/store";
+import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const title = locale === "fr" ? "Prochaine réunion" : "Next meeting";
+  const description =
+    locale === "fr"
+      ? "Page publique de la prochaine réunion — partage et QR, pas un portail membre."
+      : "Public next-meeting page for share and QR — not a member portal.";
+  return buildPageMetadata({
+    locale,
+    path: "/meetings",
+    title,
+    description,
+    noIndex: true,
+  });
+}
 
 /**
  * Public, unauthenticated "next meeting" page — for embed/share (e.g. QR on a

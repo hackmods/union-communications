@@ -1,8 +1,30 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 import { PageShell } from "@/components/layout/PageShell";
 import { PublicRsvpForm } from "@/components/meetings/PublicRsvpForm";
 import { meetingsRsvpStore } from "@/lib/meetings/rsvp-store";
+import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const title = locale === "fr" ? "RSVP à la réunion" : "Meeting RSVP";
+  const description =
+    locale === "fr"
+      ? "Formulaire RSVP public pour une réunion de section — pas un portail membre."
+      : "Public RSVP form for a local meeting — not a member portal.";
+  return buildPageMetadata({
+    locale,
+    path: "/r",
+    title,
+    description,
+    noIndex: true,
+  });
+}
 
 /**
  * Calendar R1 — public tokenized RSVP form (not a member portal).

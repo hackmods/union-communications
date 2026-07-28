@@ -7,7 +7,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/en/app/", "/fr/app/"],
+        // Hub stays noindex via app layout meta — allow crawl so Google can
+        // see noindex and drop stale "indexed though blocked" URLs.
+        disallow: ["/api/"],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,

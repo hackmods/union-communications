@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
@@ -7,6 +9,14 @@ import {
   FIRST_WEEK_STEP_KEYS,
   FIRST_WEEK_STEP_LINKS,
 } from "@/lib/comms/first-week-roadmap";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  return buildPublicPageMetadata("/guide/social-media-plan", params);
+}
 
 export default async function SocialMediaPlanPage({
   params,

@@ -1,8 +1,19 @@
+import type { Metadata } from "next";
+import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  return buildPublicPageMetadata("/guide/membership-signup", params);
+}
+
 
 const steps = ["brandKit", "printMaterials", "welcome"] as const;
 

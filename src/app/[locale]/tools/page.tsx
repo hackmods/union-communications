@@ -1,7 +1,18 @@
+import type { Metadata } from "next";
+import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { learnGroups, toolGroups } from "@/components/layout/nav/nav-config";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  return buildPublicPageMetadata("/tools", params);
+}
+
 
 export default async function ToolsIndexPage({
   params,

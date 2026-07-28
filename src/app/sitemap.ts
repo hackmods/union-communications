@@ -5,7 +5,8 @@ import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
 const LOCALES = ["en", "fr"] as const;
 
-const PUBLIC_PATHS = [
+/** Public indexable paths (no locale prefix). Exported for SEO coverage tests. */
+export const PUBLIC_PATHS = [
   "/",
   "/manifesto",
   "/support",

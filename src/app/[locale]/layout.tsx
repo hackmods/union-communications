@@ -12,7 +12,6 @@ import { AuthProvider } from "@/components/providers/AuthProvider";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
 import { buildSiteJsonLdGraph } from "@/lib/seo/json-ld";
 import { SAFARI_PINNED_TAB_COLOR, SAFARI_PINNED_TAB_PATH } from "@/lib/seo/site";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
@@ -21,6 +20,11 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+/**
+ * Locale shell only: default title + template + description.
+ * Do not set canonical/hreflang here — child pages own their path via
+ * `buildPageMetadata` / `buildPublicPageMetadata` / tool layouts.
+ */
 export async function generateMetadata({
   params,
 }: {
@@ -33,18 +37,11 @@ export async function generateMetadata({
   const description = hubPublic ? t("description") : t("descriptionCommsOnly");
 
   return {
-    ...buildPageMetadata({
-      locale,
-      path: "/",
-      title,
-      description,
-      absoluteTitle: true,
-    }),
-    // Keep template for nested routes (tools, guides); home page uses absolute.
     title: {
       default: title,
       template: `%s | UnionOps`,
     },
+    description,
   };
 }
 
