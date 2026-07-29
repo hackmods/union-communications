@@ -126,22 +126,26 @@ export function SnippetLibrary() {
         )}
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-2">
-        <Input
-          label={t("snippets.search")}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="max-w-md"
-        />
-        <div className="flex items-end">
-          <Button variant="outline" onClick={() => void load(query)}>
-            {t("snippets.searchBtn")}
-          </Button>
+      <div className="mt-6 xl:grid xl:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] xl:items-start xl:gap-6">
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-2 xl:flex-col">
+            <Input
+              label={t("snippets.search")}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="max-w-md xl:max-w-none"
+            />
+            <div className="flex items-end">
+              <Button variant="outline" onClick={() => void load(query)}>
+                {t("snippets.searchBtn")}
+              </Button>
+            </div>
+          </div>
         </div>
-      </div>
 
+        <div>
       {showForm && canWrite && (
-        <Card className="mt-6 space-y-3">
+        <Card className="space-y-3">
           <CardTitle>{t("snippets.add")}</CardTitle>
           <form onSubmit={handleCreate} className="space-y-3">
             <Input
@@ -208,7 +212,7 @@ export function SnippetLibrary() {
           }
         />
       ) : (
-        <div className="mt-6 space-y-3">
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
           {snippets.map((s) => (
             <Card key={s.id}>
               <div className="flex flex-wrap items-start justify-between gap-2">
@@ -252,6 +256,8 @@ export function SnippetLibrary() {
           ))}
         </div>
       )}
+        </div>
+      </div>
     </div>
   );
 }

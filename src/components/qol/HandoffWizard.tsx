@@ -153,7 +153,8 @@ export function HandoffWizard() {
           {grievances.length === 0 ? (
             <EmptyState title={t("handoff.empty")} />
           ) : (
-            grievances.map((g) => (
+            <div className="grid gap-2 sm:grid-cols-2">
+            {grievances.map((g) => (
               <label
                 key={g.id}
                 className="flex min-h-11 items-start gap-3 text-sm"
@@ -174,7 +175,8 @@ export function HandoffWizard() {
                   </span>
                 </span>
               </label>
-            ))
+            ))}
+            </div>
           )}
           <Button
             className="w-full sm:w-auto"
@@ -229,6 +231,7 @@ export function HandoffWizard() {
         <Card className="mt-6 space-y-3">
           <CardTitle>{t("handoff.checklist")}</CardTitle>
           <p className="text-sm text-gray-600">{t("handoff.checklistHint")}</p>
+          <div className="grid gap-2 sm:grid-cols-2">
           {HANDOFF_CHECKLIST.map((item) => (
             <label
               key={item}
@@ -245,6 +248,7 @@ export function HandoffWizard() {
               <span className="min-w-0">{item}</span>
             </label>
           ))}
+          </div>
           <div className="flex flex-col gap-2 sm:flex-row">
             <Button
               variant="outline"

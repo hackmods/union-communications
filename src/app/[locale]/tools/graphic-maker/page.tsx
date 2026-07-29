@@ -405,7 +405,7 @@ function GraphicMakerPageContent() {
         }
       />
       {state.layout === "notice" ? (
-        <div className="mx-auto mt-6 max-w-3xl px-4 sm:px-6">
+        <PageShell className="mt-6 pb-4">
           <InviteEmailPanel
             messagesNamespace="graphicMaker"
             localNumber={resolveLocalNumber(brandKit.local.localNumber)}
@@ -417,7 +417,7 @@ function GraphicMakerPageContent() {
               } satisfies EventEmailFields
             }
           />
-        </div>
+        </PageShell>
       ) : null}
       <ConsentModal
         open={consentOpen}

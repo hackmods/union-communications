@@ -124,30 +124,32 @@ export function MarketplacePanel() {
         )}
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        <label className="text-sm font-medium text-gray-700">
-          <span className="sr-only">{t("marketplace.filterKind")}</span>
-          <select
-            value={filterKind}
-            onChange={(e) => {
-              setFilterKind(e.target.value);
-              void load(e.target.value);
-            }}
-            className="rounded-lg border border-gray-300 px-3 py-2 text-sm"
-            aria-label={t("marketplace.filterKind")}
-          >
-            <option value="">{t("marketplace.allKinds")}</option>
-            {KINDS.map((k) => (
-              <option key={k} value={k}>
-                {t(`marketplace.kinds.${k}`)}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+      <div className="mt-4 xl:grid xl:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] xl:items-start xl:gap-6">
+        <div>
+          <label className="text-sm font-medium text-gray-700">
+            <span className="sr-only">{t("marketplace.filterKind")}</span>
+            <select
+              value={filterKind}
+              onChange={(e) => {
+                setFilterKind(e.target.value);
+                void load(e.target.value);
+              }}
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              aria-label={t("marketplace.filterKind")}
+            >
+              <option value="">{t("marketplace.allKinds")}</option>
+              {KINDS.map((k) => (
+                <option key={k} value={k}>
+                  {t(`marketplace.kinds.${k}`)}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
 
+        <div>
       {showForm && canPublish && (
-        <Card className="mt-6 space-y-3">
+        <Card className="space-y-3">
           <CardTitle>{t("marketplace.share")}</CardTitle>
           <form onSubmit={handleShare} className="space-y-3">
             <label className="block text-sm font-medium text-gray-700">
@@ -218,7 +220,7 @@ export function MarketplacePanel() {
           }
         />
       ) : (
-        <div className="mt-6 space-y-3">
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
           {templates.map((tmpl) => (
             <Card key={tmpl.id}>
               <div className="flex flex-wrap items-start justify-between gap-2">
@@ -272,6 +274,8 @@ export function MarketplacePanel() {
           ))}
         </div>
       )}
+        </div>
+      </div>
     </div>
   );
 }

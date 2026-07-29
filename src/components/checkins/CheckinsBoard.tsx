@@ -165,7 +165,7 @@ export function CheckinsBoard() {
           >
             {t("pendingTitle")}
           </h2>
-          <ul className="mt-3 space-y-2">
+          <ul className="mt-3 grid gap-2 sm:grid-cols-2">
             {pending.map((item) => (
               <li key={item.schedule.id}>
                 <Card density="compact">
@@ -267,7 +267,7 @@ export function CheckinsBoard() {
         {schedules.length === 0 ? (
           <p className="mt-3 text-sm text-gray-600">{t("empty")}</p>
         ) : (
-          <ul className="mt-3 space-y-2">
+          <ul className="mt-3 grid gap-2 sm:grid-cols-2">
             {schedules.map((schedule) => (
               <li key={schedule.id}>
                 <Card density="compact">

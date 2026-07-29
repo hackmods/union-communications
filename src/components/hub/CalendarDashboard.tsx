@@ -97,7 +97,8 @@ export function CalendarDashboard() {
         </Card>
       </div>
 
-      <section className="mt-8">
+      <div className="mt-8 grid gap-8 xl:grid-cols-2">
+      <section>
         <h2 className="text-xl font-bold text-opseu-dark">{t("sectionUpcoming")}</h2>
         {upcoming.length === 0 ? (
           <Card className="mt-3">
@@ -112,7 +113,7 @@ export function CalendarDashboard() {
         )}
       </section>
 
-      <section className="mt-8">
+      <section>
         <h2 className="text-xl font-bold text-gray-700">{t("sectionPast")}</h2>
         {past.length === 0 ? (
           <Card className="mt-3">
@@ -126,6 +127,7 @@ export function CalendarDashboard() {
           </ul>
         )}
       </section>
+      </div>
     </div>
   );
 }

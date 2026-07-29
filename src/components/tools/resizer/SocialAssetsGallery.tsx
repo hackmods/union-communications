@@ -45,7 +45,7 @@ function tileWidthClass(id: Exclude<ResizerFormatId, "custom">): string {
     case "facebookCover":
       return "w-full";
     case "youtubeBanner":
-      return "w-full max-w-3xl";
+      return "w-full max-w-5xl";
   }
 }
 
@@ -84,12 +84,12 @@ export function SocialAssetsGallery({
         >
           {t("allFormats")}
         </h2>
-        <Callout tone="muted" className="max-w-2xl">
+        <Callout tone="muted" className="max-w-prose">
           {t("allFormatsHint")}
         </Callout>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-2 lg:gap-6">
+      <div className="grid gap-5 lg:grid-cols-2 lg:gap-6 xl:gap-8">
         {PLATFORM_GROUPS.map((group) => (
           <div
             key={group.id}

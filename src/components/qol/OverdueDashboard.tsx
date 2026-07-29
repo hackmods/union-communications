@@ -129,7 +129,8 @@ export function OverdueDashboard() {
         </Card>
       </div>
 
-      <section className="mt-8">
+      <div className="mt-8 grid gap-8 xl:grid-cols-2">
+      <section>
         <h2 className="text-xl font-bold text-red-700">{t("overdue.sectionOverdue")}</h2>
         {overdue.length === 0 ? (
           <EmptyState className="mt-3" title={t("overdue.none")} />
@@ -165,7 +166,7 @@ export function OverdueDashboard() {
         )}
       </section>
 
-      <section className="mt-8">
+      <section>
         <h2 className="text-xl font-bold text-opseu-dark">{t("overdue.sectionUpcoming")}</h2>
         {upcoming.length === 0 ? (
           <EmptyState className="mt-3" title={t("overdue.noneUpcoming")} />
@@ -197,6 +198,7 @@ export function OverdueDashboard() {
           </div>
         )}
       </section>
+      </div>
     </div>
   );
 }
