@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Callout } from "@/components/ui/Callout";
@@ -139,18 +138,19 @@ export function InvitesBoard() {
   }
 
   return (
-    <PageShell size="focus" className="space-y-6">
+    <div className="space-y-6">
       <header>
         <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
           {t("title")}
         </h1>
-        <p className="mt-2 text-gray-600">{t("subtitle")}</p>
+        <p className="mt-2 max-w-prose text-gray-600">{t("subtitle")}</p>
       </header>
 
       <Callout tone="muted">
         <p>{emailUiEnabled ? t("emailReady") : t("emailDeferred")}</p>
       </Callout>
 
+      <div className="grid items-start gap-6 xl:grid-cols-2">
       <form onSubmit={handleSubmit} className="space-y-3">
         <Input
           label={t("name")}
@@ -247,6 +247,7 @@ export function InvitesBoard() {
           </div>
         </section>
       )}
-    </PageShell>
+      </div>
+    </div>
   );
 }

@@ -303,10 +303,10 @@ export function MeetingEventsBoard({
   }
 
   return (
-    <section className="mt-8 max-w-2xl space-y-4 border-t border-gray-200 pt-8">
+    <section className="mt-8 space-y-4 border-t border-gray-200 pt-8">
       <div>
         <h2 className="text-xl font-semibold text-opseu-dark">{t("title")}</h2>
-        <p className="mt-1 text-sm text-gray-600">{t("subtitle")}</p>
+        <p className="mt-1 max-w-prose text-sm text-gray-600">{t("subtitle")}</p>
         {showMemoryBanner && (
           <p className="mt-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-950">
             {t("memoryBanner")}
@@ -389,29 +389,29 @@ export function MeetingEventsBoard({
       {meetings.length === 0 ? (
         <EmptyState title={t("empty")} />
       ) : (
-        <ul className="space-y-2">
-          {meetings.map((m) => (
-            <li key={m.id}>
-              <button
-                type="button"
-                className={`w-full rounded-md border px-3 py-2 text-left text-sm ${
-                  selectedId === m.id
-                    ? "border-opseu-blue bg-opseu-blue/5"
-                    : "border-gray-200 hover:bg-gray-50"
-                }`}
-                onClick={() => void loadDetail(m.id)}
-              >
-                <span className="font-medium text-opseu-dark">{m.title}</span>
-                <span className="mt-0.5 block text-xs text-gray-600">
-                  {new Date(m.startsAt).toLocaleString()} · {m.location}
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+        <div className="grid items-start gap-4 xl:grid-cols-[minmax(14rem,18rem)_minmax(0,1fr)] xl:gap-6">
+          <ul className="space-y-2">
+            {meetings.map((m) => (
+              <li key={m.id}>
+                <button
+                  type="button"
+                  className={`w-full rounded-md border px-3 py-2 text-left text-sm ${
+                    selectedId === m.id
+                      ? "border-opseu-blue bg-opseu-blue/5"
+                      : "border-gray-200 hover:bg-gray-50"
+                  }`}
+                  onClick={() => void loadDetail(m.id)}
+                >
+                  <span className="font-medium text-opseu-dark">{m.title}</span>
+                  <span className="mt-0.5 block text-xs text-gray-600">
+                    {new Date(m.startsAt).toLocaleString()} · {m.location}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
 
-      {selectedId && tallies && (
+          {selectedId && tallies ? (
         <div className="space-y-4 rounded-md border border-gray-200 p-4">
           <h3 className="font-medium text-opseu-dark">{t("talliesTitle")}</h3>
           <dl className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
@@ -644,6 +644,8 @@ export function MeetingEventsBoard({
               </table>
             </div>
           )}
+        </div>
+          ) : null}
         </div>
       )}
     </section>

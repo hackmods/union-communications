@@ -142,11 +142,12 @@ export function MeetingScheduleSettings({ canWrite }: { canWrite: boolean }) {
   if (loading) return <p className="text-gray-600">{t("loading")}</p>;
 
   return (
-    <div className="max-w-2xl">
+    <div>
       <h1 className="text-2xl font-bold text-opseu-dark">{t("title")}</h1>
-      <p className="mt-1 text-gray-600">{t("subtitle")}</p>
+      <p className="mt-1 max-w-prose text-gray-600">{t("subtitle")}</p>
 
-      <Card className="mt-4">
+      <div className="mt-4 grid gap-4 xl:grid-cols-2 xl:items-start">
+      <Card>
         <CardTitle>{t("nextMeeting")}</CardTitle>
         {nextMeeting ? (
           <div className="mt-2 space-y-2">
@@ -173,7 +174,7 @@ export function MeetingScheduleSettings({ canWrite }: { canWrite: boolean }) {
         )}
       </Card>
 
-      <Card className="mt-4">
+      <Card>
         <CardTitle>{t("configure")}</CardTitle>
         {!canWrite && (
           <p className="mt-1 text-xs text-gray-500">{t("readOnlyHint")}</p>
@@ -327,6 +328,7 @@ export function MeetingScheduleSettings({ canWrite }: { canWrite: boolean }) {
           )}
         </form>
       </Card>
+      </div>
     </div>
   );
 }

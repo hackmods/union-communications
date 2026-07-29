@@ -71,13 +71,14 @@ export default function AltTextPage() {
   };
 
   return (
-    <PageShell size="focus" className="py-6 md:py-8 lg:py-10">
+    <PageShell className="py-6 md:py-8 lg:py-10">
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("title")}
       </h1>
-      <p className="mt-1 text-gray-600">{t("subtitle")}</p>
+      <p className="mt-1 max-w-prose text-gray-600">{t("subtitle")}</p>
 
-      <Card density="compact" className="mt-6 space-y-3">
+      <div className="mt-6 grid items-start gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] xl:gap-6">
+      <Card density="compact" className="space-y-3">
         <div>
           <p className="mb-1.5 text-sm font-medium text-gray-700">
             {t("starterLabel")}
@@ -178,7 +179,8 @@ export default function AltTextPage() {
         </div>
       </Card>
 
-      <Card density="compact" className="mt-4">
+      <div className="space-y-4">
+      <Card density="compact">
         <CardTitle className="text-base">{t("howTitle")}</CardTitle>
         <ol className="mt-2 list-decimal space-y-1.5 pl-5 text-sm text-gray-700">
           <li>{t("how.step1")}</li>
@@ -188,7 +190,7 @@ export default function AltTextPage() {
         </ol>
       </Card>
 
-      <Card density="compact" className="mt-4">
+      <Card density="compact">
         <CardTitle className="text-base">{t("checklistTitle")}</CardTitle>
         <ul className="mt-2 space-y-1.5">
           {CHECKLIST_IDS.map((id) => (
@@ -207,7 +209,7 @@ export default function AltTextPage() {
         </ul>
       </Card>
 
-      <Card density="compact" className="mt-4 space-y-3">
+      <Card density="compact" className="space-y-3">
         <CardTitle className="text-base">{t("examplesTitle")}</CardTitle>
         <div>
           <p className="text-sm font-medium text-red-800">
@@ -222,6 +224,8 @@ export default function AltTextPage() {
           <p className="mt-0.5 text-sm text-gray-700">{t("examples.good")}</p>
         </div>
       </Card>
+      </div>
+      </div>
     </PageShell>
   );
 }

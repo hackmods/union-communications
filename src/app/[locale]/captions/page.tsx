@@ -46,7 +46,7 @@ function CaptionsPageContent() {
   }, [targetId]);
 
   return (
-    <PageShell size="read" className="py-8 md:py-12">
+    <PageShell className="py-8 md:py-12">
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         Caption & Hashtag Library
       </h1>
@@ -54,7 +54,7 @@ function CaptionsPageContent() {
         Reusable post templates with a solidarity-first tone. Click copy and customize.
       </p>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {CAPTION_TEMPLATES.map((template) => {
           const fullText = `${template.caption}\n\n${template.hashtags.join(" ")}`;
           const highlighted = highlightId === template.id;
@@ -102,7 +102,7 @@ export default function CaptionsPage() {
   return (
     <Suspense
       fallback={
-        <PageShell size="read" className="py-8 md:py-12">
+        <PageShell className="py-8 md:py-12">
           <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
             Caption & Hashtag Library
           </h1>
