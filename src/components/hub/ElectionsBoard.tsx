@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -270,7 +269,7 @@ export function ElectionsBoard() {
   }
 
   return (
-    <PageShell size="wide" className="py-4 sm:py-6 md:py-8">
+    <>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <div className="min-w-0">
           <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
@@ -606,6 +605,6 @@ export function ElectionsBoard() {
           )}
         </div>
       )}
-    </PageShell>
+    </>
   );
 }

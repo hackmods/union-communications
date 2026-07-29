@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { PageShell } from "@/components/layout/PageShell";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 
@@ -50,7 +49,7 @@ export function AuditLogClient() {
   }, []);
 
   return (
-    <PageShell size="wide" className="py-4 sm:py-6 md:py-8">
+    <>
       <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
         {t("auditTitle")}
       </h1>
@@ -152,6 +151,6 @@ export function AuditLogClient() {
           </div>
         </>
       )}
-    </PageShell>
+    </>
   );
 }

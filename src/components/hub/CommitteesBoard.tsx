@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -118,7 +117,7 @@ export function CommitteesBoard() {
   }
 
   return (
-    <PageShell size="wide" className="py-6 md:py-8">
+    <>
       <h1 className="text-2xl font-semibold text-opseu-dark">{t("title")}</h1>
       <p className="mt-1 text-sm text-gray-600">{t("subtitle")}</p>
       <p className="mt-2 text-xs text-gray-500">{t("disclaimer")}</p>
@@ -264,6 +263,6 @@ export function CommitteesBoard() {
           ))}
         </ul>
       )}
-    </PageShell>
+    </>
   );
 }

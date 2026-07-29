@@ -403,7 +403,7 @@ function DocumentGeneratorPageContent() {
         ))}
       </div>
 
-      <div className="grid items-start gap-4 lg:grid-cols-2 lg:gap-6">
+      <div className="grid items-start gap-4 lg:grid-cols-2 lg:gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] xl:gap-8">
         <Card density="compact" className="space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <CardTitle className="text-base">{t("settings")}</CardTitle>

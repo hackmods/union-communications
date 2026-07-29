@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { PageShell } from "@/components/layout/PageShell";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Skeleton } from "@/components/ui/Skeleton";
 import type { ReportsSummary } from "@/lib/reports/aggregate";
@@ -139,7 +138,7 @@ export function ReportsClient() {
     summary.time.entryCount === 0;
 
   return (
-    <PageShell size="wide" className="py-6 md:py-8">
+    <>
       <h1 className="text-2xl font-semibold text-opseu-dark">
         {t("reportsTitle")}
       </h1>
@@ -343,6 +342,6 @@ export function ReportsClient() {
           </section>
         </div>
       )}
-    </PageShell>
+    </>
   );
 }

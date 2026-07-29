@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -207,15 +206,15 @@ export function ExpensesBoard() {
 
   if (loading) {
     return (
-      <PageShell className="py-6 md:py-8">
+      <>
         <Skeleton className="h-8 w-64" />
         <Skeleton className="mt-4 h-32 w-full" />
-      </PageShell>
+      </>
     );
   }
 
   return (
-    <PageShell className="py-6 md:py-8">
+    <>
       <header className="mb-6">
         <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
           {t("title")}
@@ -521,6 +520,6 @@ export function ExpensesBoard() {
           })}
         </ul>
       )}
-    </PageShell>
+    </>
   );
 }

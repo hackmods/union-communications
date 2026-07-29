@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -171,15 +170,15 @@ export function TravelBoard() {
 
   if (loading) {
     return (
-      <PageShell size="wide" className="py-4 sm:py-6 md:py-8">
+      <>
         <Skeleton className="h-8 w-64 max-w-full" />
         <Skeleton className="mt-4 h-40 w-full" />
-      </PageShell>
+      </>
     );
   }
 
   return (
-    <PageShell size="wide" className="py-4 sm:py-6 md:py-8">
+    <>
       <div className="space-y-6">
         <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div className="min-w-0 space-y-1">
@@ -530,6 +529,6 @@ export function TravelBoard() {
           </ul>
         )}
       </div>
-    </PageShell>
+    </>
   );
 }

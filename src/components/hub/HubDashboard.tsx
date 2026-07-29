@@ -91,7 +91,7 @@ export function HubDashboard() {
       <h2 className="mt-6 text-lg font-bold text-opseu-dark sm:text-xl">
         {t("yourModules")}
       </h2>
-      <div className="mt-3 grid gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
+      <div className="mt-3 grid gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 xl:grid-cols-4">
         {modules.map((mod) => {
           const locked = Boolean(mod.requiresMfa) && !mfaOk;
           const href = mod.href.startsWith("/app") ? mod.href : "/";

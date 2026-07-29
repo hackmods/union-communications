@@ -61,7 +61,7 @@ export default function QrCardPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-5xl px-4 py-6 md:py-8 lg:py-10">
+        <div className="mx-auto max-w-6xl px-4 py-6 md:py-8 lg:py-10">
           <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
             QR Link Card Maker
           </h1>

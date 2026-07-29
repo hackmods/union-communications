@@ -36,7 +36,7 @@ export default async function ToolsIndexPage({
         <p className="mt-2 text-gray-600">{t("subtitle")}</p>
       </header>
 
-      <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 xl:gap-10">
         {toolGroups.map((group) => (
           <section key={group.labelKey} aria-labelledby={`tools-${group.labelKey}`}>
             <h2

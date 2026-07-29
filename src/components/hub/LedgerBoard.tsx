@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -194,7 +193,7 @@ export function LedgerBoard() {
   }
 
   return (
-    <PageShell size="wide" className="py-4 sm:py-6 md:py-8">
+    <>
       <div className="min-w-0">
         <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
           {t("title")}
@@ -476,6 +475,6 @@ export function LedgerBoard() {
           </div>
         </>
       )}
-    </PageShell>
+    </>
   );
 }

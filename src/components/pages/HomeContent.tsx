@@ -80,7 +80,7 @@ export function HomeContent() {
           }}
           aria-hidden
         />
-        <div className="relative mx-auto flex min-h-[min(72vh,40rem)] w-full max-w-5xl flex-col justify-center px-4 py-14 sm:px-6 md:min-h-[min(68vh,36rem)] md:py-16">
+        <div className="relative mx-auto flex min-h-[min(72vh,40rem)] w-full max-w-6xl flex-col justify-center px-4 py-14 sm:px-6 md:min-h-[min(68vh,36rem)] md:py-16">
           <div className="home-enter flex flex-col items-start gap-8 md:flex-row md:items-center md:gap-12 lg:gap-16">
             <div
               data-testid="home-hero-brand"
@@ -277,7 +277,7 @@ export function HomeContent() {
             </nav>
           </div>
 
-          <div className="mt-8 grid gap-8 sm:grid-cols-2">
+          <div className="mt-8 grid gap-8 sm:grid-cols-2 xl:grid-cols-4 xl:gap-6">
             {channelOrder.map((channel) => (
               <div key={channel} className="text-left">
                 <h3 className="text-lg font-semibold text-opseu-dark">
