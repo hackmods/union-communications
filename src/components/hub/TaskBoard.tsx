@@ -248,39 +248,43 @@ export function TaskBoard() {
         </div>
       </div>
 
-      <div
-        className="mt-6 flex flex-wrap gap-2"
-        role="group"
-        aria-label={t("filterLabel")}
-      >
-        {(["open", "mine", "done", "all"] as FilterMode[]).map((mode) => (
-          <Button
-            key={mode}
-            type="button"
-            variant={filter === mode ? "primary" : "outline"}
-            onClick={() => {
-              setLoading(true);
-              setFilter(mode);
-            }}
+      <div className="mt-6 xl:grid xl:grid-cols-[minmax(0,14rem)_minmax(0,1fr)] xl:items-start xl:gap-6">
+        <div className="space-y-4">
+          <div
+            className="flex flex-wrap gap-2 xl:flex-col"
+            role="group"
+            aria-label={t("filterLabel")}
           >
-            {t(`filter.${mode}`)}
-          </Button>
-        ))}
-      </div>
+            {(["open", "mine", "done", "all"] as FilterMode[]).map((mode) => (
+              <Button
+                key={mode}
+                type="button"
+                variant={filter === mode ? "primary" : "outline"}
+                onClick={() => {
+                  setLoading(true);
+                  setFilter(mode);
+                }}
+              >
+                {t(`filter.${mode}`)}
+              </Button>
+            ))}
+          </div>
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        <Card>
-          <p className="text-sm font-medium text-gray-500">{t("openCount")}</p>
-          <p className="text-3xl font-bold text-opseu-dark">{openCount}</p>
-        </Card>
-        <Card>
-          <p className="text-sm font-medium text-gray-500">{t("totalCount")}</p>
-          <p className="text-3xl font-bold text-opseu-blue">{tasks.length}</p>
-        </Card>
-      </div>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
+            <Card>
+              <p className="text-sm font-medium text-gray-500">{t("openCount")}</p>
+              <p className="text-3xl font-bold text-opseu-dark">{openCount}</p>
+            </Card>
+            <Card>
+              <p className="text-sm font-medium text-gray-500">{t("totalCount")}</p>
+              <p className="text-3xl font-bold text-opseu-blue">{tasks.length}</p>
+            </Card>
+          </div>
+        </div>
 
+        <div>
       {message && (
-        <p className="mt-4 text-sm text-green-700" role="status">
+        <p className="text-sm text-green-700" role="status">
           {message}
         </p>
       )}
@@ -363,7 +367,13 @@ export function TaskBoard() {
         </Card>
       )}
 
-      <ul className="mt-8 space-y-3">
+      <ul
+        className={
+          filter === "all"
+            ? "mt-8 space-y-3 xl:grid xl:grid-cols-2 xl:gap-4 xl:space-y-0"
+            : "mt-8 space-y-3"
+        }
+      >
         {tasks.length === 0 ? (
           <li>
             <EmptyState
@@ -496,6 +506,8 @@ export function TaskBoard() {
           })
         )}
       </ul>
+        </div>
+      </div>
     </div>
   );
 }

@@ -358,9 +358,9 @@ export function TimeFullAdminPanel() {
   }
 
   return (
-    <div className="mt-6 space-y-6">
+    <div className="mt-6 grid gap-6 xl:grid-cols-2">
       {error && (
-        <p className="text-sm text-red-700" role="alert">
+        <p className="text-sm text-red-700 xl:col-span-2" role="alert">
           {error}
         </p>
       )}
@@ -368,7 +368,7 @@ export function TimeFullAdminPanel() {
       <Card density="compact">
         <CardTitle>{t("directoryTitle")}</CardTitle>
         <p className="mt-1 text-sm text-gray-600">{t("directoryHint")}</p>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           <Input
             value={workerName}
             onChange={(e) => setWorkerName(e.target.value)}
@@ -479,7 +479,7 @@ export function TimeFullAdminPanel() {
       <Card density="compact">
         <CardTitle>{t("seriesTitle")}</CardTitle>
         <p className="mt-1 text-sm text-gray-600">{t("seriesHint")}</p>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           <Input
             value={seriesLabel}
             onChange={(e) => setSeriesLabel(e.target.value)}
@@ -527,7 +527,7 @@ export function TimeFullAdminPanel() {
       <Card density="compact">
         <CardTitle>{t("accrualTitle")}</CardTitle>
         <p className="mt-1 text-sm text-gray-600">{t("accrualHint")}</p>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           <Input
             value={accrualName}
             onChange={(e) => setAccrualName(e.target.value)}
@@ -559,7 +559,7 @@ export function TimeFullAdminPanel() {
       <Card density="compact">
         <CardTitle>{t("payrollTitle")}</CardTitle>
         <p className="mt-1 text-sm text-gray-600">{t("payrollHint")}</p>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           <Input
             value={payrollName}
             onChange={(e) => setPayrollName(e.target.value)}

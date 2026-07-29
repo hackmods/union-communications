@@ -241,7 +241,7 @@ export function ReportsClient() {
       )}
 
       {!loading && !error && summary && !emptySlice && (
-        <div className="mt-8 space-y-8">
+        <div className="mt-8 grid gap-8 xl:grid-cols-2">
           <section>
             <h2 className="text-lg font-semibold text-opseu-dark">
               {t("reportsGrievances")}
@@ -249,24 +249,30 @@ export function ReportsClient() {
             <p className="mt-1 text-sm text-gray-600">
               {t("reportsTotal", { count: summary.grievances.total })}
             </p>
-            <h3 className="mt-4 text-sm font-medium text-gray-800">
-              {t("reportsByStatus")}
-            </h3>
-            <CountTable
-              rows={summary.grievances.byStatus}
-              keyLabel={t("reportsKey")}
-              valueLabel={t("reportsCount")}
-              empty={t("reportsNoBreakdown")}
-            />
-            <h3 className="mt-4 text-sm font-medium text-gray-800">
-              {t("reportsByStep")}
-            </h3>
-            <CountTable
-              rows={summary.grievances.byStep}
-              keyLabel={t("reportsKey")}
-              valueLabel={t("reportsCount")}
-              empty={t("reportsNoBreakdown")}
-            />
+            <div className="mt-4 grid gap-4 xl:grid-cols-2">
+              <div>
+                <h3 className="text-sm font-medium text-gray-800">
+                  {t("reportsByStatus")}
+                </h3>
+                <CountTable
+                  rows={summary.grievances.byStatus}
+                  keyLabel={t("reportsKey")}
+                  valueLabel={t("reportsCount")}
+                  empty={t("reportsNoBreakdown")}
+                />
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-gray-800">
+                  {t("reportsByStep")}
+                </h3>
+                <CountTable
+                  rows={summary.grievances.byStep}
+                  keyLabel={t("reportsKey")}
+                  valueLabel={t("reportsCount")}
+                  empty={t("reportsNoBreakdown")}
+                />
+              </div>
+            </div>
             <h3 className="mt-4 text-sm font-medium text-gray-800">
               {t("reportsByCategory")}
             </h3>
@@ -296,7 +302,7 @@ export function ReportsClient() {
             />
           </section>
 
-          <section>
+          <section className="xl:col-span-2">
             <h2 className="text-lg font-semibold text-opseu-dark">
               {t("reportsTime")}
             </h2>

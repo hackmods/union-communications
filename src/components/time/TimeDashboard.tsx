@@ -702,6 +702,8 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
         </Callout>
       )}
 
+      <div className="xl:mt-6 xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] xl:items-start xl:gap-6">
+      <div>
       {!isAdmin && (
         <>
           <Card className="mt-6">
@@ -742,7 +744,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
                 </Button>
               </div>
             ) : (
-              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                 <Select
                   label={t("category")}
                   value={category}
@@ -842,7 +844,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
           <Card className="mt-6">
             <CardTitle>{t("manualTitle")}</CardTitle>
             <p className="mt-1 text-sm text-gray-600">{t("manualHint")}</p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               <Input
                 label={t("start")}
                 type="datetime-local"
@@ -885,7 +887,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
           <Card className="mt-6">
             <CardTitle>{t("bulkTitle")}</CardTitle>
             <p className="mt-1 text-sm text-gray-600">{t("bulkHint")}</p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               <div className="sm:col-span-2">
                 <Input
                   label={t("eventLabel")}
@@ -932,7 +934,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
               />
               <fieldset className="sm:col-span-2">
                 <legend className="text-sm font-medium">{t("workers")}</legend>
-                <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
                   {workers.map((w) => (
                     <Checkbox
                       key={w.id}
@@ -959,7 +961,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
           <Card className="mt-6">
             <CardTitle>{t("windowsTitle")}</CardTitle>
             <p className="mt-1 text-sm text-gray-600">{t("windowsHint")}</p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               <div className="sm:col-span-2">
                 <Input
                   label={t("windowLabel")}
@@ -982,7 +984,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
               />
               <fieldset className="sm:col-span-2">
                 <legend className="text-sm font-medium">{t("attendees")}</legend>
-                <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                <div className="mt-2 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
                   {workers.map((w) => (
                     <Checkbox
                       key={w.id}
@@ -1052,7 +1054,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
           <Card className="mt-6">
             <CardTitle>{t("sitesTitle")}</CardTitle>
             <p className="mt-1 text-sm text-gray-600">{t("sitesHint")}</p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               <Input
                 label={t("siteName")}
                 value={siteName}
@@ -1119,7 +1121,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
           <Card className="mt-6">
             <CardTitle>{t("reportTitle")}</CardTitle>
             <p className="mt-1 text-sm text-gray-600">{t("reportHint")}</p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               <Input
                 label={t("from")}
                 type="datetime-local"
@@ -1213,7 +1215,9 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
         </>
       )}
 
-      <Card className="mt-6">
+      </div>
+
+      <Card className="mt-6 xl:mt-0">
         <CardTitle>{isAdmin ? t("localBoard") : t("recentEntries")}</CardTitle>
         {isAdmin && (
           <div className="mt-3 flex flex-wrap gap-2">
@@ -1321,6 +1325,7 @@ export function TimeDashboard({ isAdmin = false }: { isAdmin?: boolean }) {
           </ul>
         )}
       </Card>
+      </div>
 
       <p className="mt-6 text-xs text-gray-500">{t("disclaimer")}</p>
     </div>
