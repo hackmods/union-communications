@@ -367,6 +367,7 @@ export function ExpensesBoard() {
         type="file"
         accept="image/*,application/pdf"
         className="sr-only"
+        aria-label={t("uploadReceipt")}
         onChange={(e) => {
           const file = e.target.files?.[0];
           if (file && uploadTargetId) {

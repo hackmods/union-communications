@@ -29,8 +29,12 @@ test.describe("Smoke tests @smoke", () => {
     const main = page.getByRole("navigation", { name: "Main" });
     await main.getByRole("button", { name: /Guides/ }).click();
     // Dropdown anchors use role="menuitem" (not link) while the menu is open.
-    await main.getByRole("menuitem", { name: "The Blueprint" }).click();
-    await expect(page).toHaveURL(/\/en\/guide\/?$/);
+    const blueprint = main.getByRole("menuitem", { name: "The Blueprint" });
+    await expect(blueprint).toBeVisible();
+    await Promise.all([
+      page.waitForURL(/\/en\/guide\/?$/),
+      blueprint.click(),
+    ]);
   });
 
   test("guides about links include assets manifesto install", async ({

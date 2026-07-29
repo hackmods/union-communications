@@ -17,7 +17,7 @@ export function MentionText({
         segment.type === "mention" ? (
           <span
             key={`${index}-${segment.value}`}
-            className="rounded bg-opseu-blue/10 px-1 font-medium text-opseu-blue"
+            className="rounded bg-opseu-blue/10 px-1 font-medium text-opseu-dark"
           >
             {segment.value}
           </span>

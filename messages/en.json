@@ -3173,6 +3173,7 @@
   },
   "hubSocial": {
     "reactionsLabel": "Reactions",
+    "reactionWithCount": "{name}, {count}",
     "reaction": {
       "solidarity": "✊ Solidarity",
       "ack": "✓ Ack",

@@ -3148,6 +3148,7 @@
   },
   "hubSocial": {
     "reactionsLabel": "Réactions",
+    "reactionWithCount": "{name}, {count}",
     "reaction": {
       "solidarity": "✊ Solidarité",
       "ack": "✓ Reçu",

@@ -35,7 +35,8 @@ function MenuItemLink({
       tabIndex={-1}
       aria-current={active ? "page" : undefined}
       onClick={() => {
-        requestAnimationFrame(onNavigate);
+        // Defer unmount until after Next.js Link starts navigation (rAF can race).
+        window.setTimeout(onNavigate, 0);
       }}
       className={cn(
         "block rounded-md px-2 py-2 outline-none hover:bg-opseu-blue/5 focus-visible:bg-opseu-blue/10 focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
@@ -148,7 +149,7 @@ export function ToolsMegaMenuContent({
           tabIndex={-1}
           aria-current={allActive ? "page" : undefined}
           onClick={() => {
-            requestAnimationFrame(onNavigate);
+            window.setTimeout(onNavigate, 0);
           }}
           className={cn(
             "block rounded-md px-2 py-2 text-sm font-semibold text-opseu-blue outline-none hover:bg-opseu-blue/5 focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
