@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
-import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
+import {
+  GuideRelatedLinkList,
+  type GuideRelatedLink,
+} from "@/components/comms/GuideRelatedLinkList";
 import { cn } from "@/lib/utils";
 
-export type GuideRelatedLink = {
-  href: string;
-  label: string;
-};
+export type { GuideRelatedLink };
 
 type GuideLayoutProps = {
   title: string;
@@ -48,29 +48,17 @@ export function GuideLayout({
           </div>
         )}
         {relatedLinks && relatedLinks.length > 0 && (
-          <nav
-            className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm"
-            aria-label={relatedLabel}
-          >
+          <div className="mt-5 text-sm">
             {relatedLabel && (
-              <span className="font-semibold text-opseu-dark">{relatedLabel}</span>
+              <p className="font-semibold text-opseu-dark">{relatedLabel}</p>
             )}
-            {relatedLinks.map((link, i) => (
-              <span key={link.href} className="inline-flex items-baseline gap-x-3">
-                {i > 0 && (
-                  <span className="text-gray-300" aria-hidden="true">
-                    ·
-                  </span>
-                )}
-                <Link
-                  href={link.href}
-                  className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-                >
-                  {link.label}
-                </Link>
-              </span>
-            ))}
-          </nav>
+            <nav aria-label={relatedLabel}>
+              <GuideRelatedLinkList
+                links={relatedLinks}
+                className={relatedLabel ? "mt-2" : undefined}
+              />
+            </nav>
+          </div>
         )}
       </header>
 
