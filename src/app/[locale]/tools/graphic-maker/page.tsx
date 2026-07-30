@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { TOOL_PRESETS, type ToolPresetKey } from "@/lib/constants/presets";
@@ -67,7 +68,7 @@ function GraphicMakerPageContent() {
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingPhoto, setPendingPhoto] = useState<string | null>(null);
   const [canvasSize, setCanvasSize] = useState<"preview" | "export">("preview");
-  const seedApplied = useRef(false);
+  const presetApplied = useRef(false);
 
   const brandColors = {
     primary: brandKit.primaryColor,
@@ -117,39 +118,48 @@ function GraphicMakerPageContent() {
     });
   };
 
-  useEffect(() => {
-    if (seedApplied.current) return;
-    const exampleId = searchParams.get("example");
-    const presetRaw = searchParams.get("preset");
+  useExamplePostSeed((exampleId) => {
+    const post = getExamplePost(exampleId);
+    if (!post || post.primaryTool !== "graphic-maker") return false;
+    if (!isGraphicLayoutId(post.layout)) return false;
+    const detail = te.has(`posts.${post.id}.mockup.detail`)
+      ? te(`posts.${post.id}.mockup.detail`)
+      : "";
+    const initials = te.has(`posts.${post.id}.mockup.initials`)
+      ? te(`posts.${post.id}.mockup.initials`)
+      : "M";
+    setState((prev) => ({
+      ...prev,
+      layout: post.layout as GraphicLayoutId,
+      aspect: post.aspect,
+      headline: te(`posts.${post.id}.mockup.headline`),
+      subheadline: te(`posts.${post.id}.mockup.body`),
+      detail,
+      initials,
+      primaryColor: brandKit.primaryColor,
+      accentColor: brandKit.accentColor,
+      secondaryColor: brandKit.secondaryColor,
+    }));
+    return true;
+  });
 
+  useEffect(() => {
+    if (presetApplied.current) return;
+    const exampleId = searchParams.get("example");
     if (exampleId) {
       const post = getExamplePost(exampleId);
-      if (!post || post.primaryTool !== "graphic-maker") return;
-      if (!isGraphicLayoutId(post.layout)) return;
-      seedApplied.current = true;
-      const detail = te.has(`posts.${post.id}.mockup.detail`)
-        ? te(`posts.${post.id}.mockup.detail`)
-        : "";
-      const initials = te.has(`posts.${post.id}.mockup.initials`)
-        ? te(`posts.${post.id}.mockup.initials`)
-        : "M";
-      setState((prev) => ({
-        ...prev,
-        layout: post.layout as GraphicLayoutId,
-        aspect: post.aspect,
-        headline: te(`posts.${post.id}.mockup.headline`),
-        subheadline: te(`posts.${post.id}.mockup.body`),
-        detail,
-        initials,
-        primaryColor: brandKit.primaryColor,
-        accentColor: brandKit.accentColor,
-        secondaryColor: brandKit.secondaryColor,
-      }));
-      return;
+      if (
+        post &&
+        post.primaryTool === "graphic-maker" &&
+        isGraphicLayoutId(post.layout)
+      ) {
+        return;
+      }
     }
+    const presetRaw = searchParams.get("preset");
 
     if (presetRaw && isToolPresetKey(presetRaw)) {
-      seedApplied.current = true;
+      presetApplied.current = true;
       const preset = TOOL_PRESETS[presetRaw];
       const layout: GraphicLayoutId =
         presetRaw === "memberSpotlight"
@@ -173,7 +183,7 @@ function GraphicMakerPageContent() {
                 : "",
       }));
     }
-  }, [searchParams, setState, te, brandKit]);
+  }, [searchParams, setState]);
 
   const handlePhotoUpload = (url: string) => {
     setPendingPhoto(url);

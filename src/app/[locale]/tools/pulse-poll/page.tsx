@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
@@ -40,7 +41,6 @@ export default function PulsePollPage() {
   const [saveMsg, setSaveMsg] = useState<string | null>(null);
   const [publishMsg, setPublishMsg] = useState<string | null>(null);
   const [publishing, setPublishing] = useState(false);
-  const seeded = useRef(false);
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
 
@@ -53,9 +53,7 @@ export default function PulsePollPage() {
     useUndoRedo<PulsePollDraft>(initial);
   const { exportError, exporting, runExport } = useExportHandler();
 
-  useEffect(() => {
-    if (!hydrated || seeded.current) return;
-    seeded.current = true;
+  useOneShotBrandSeed(hydrated, () => {
     const saved = loadPulsePollDraft();
     if (saved) {
       reset({
@@ -74,8 +72,7 @@ export default function PulsePollPage() {
         title: "",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot hydrate
-  }, [hydrated, themeEstablished]);
+  });
 
   const slug = sanitizePollSlug(state.slug) || "member-pulse";
   const sharePath = `/${locale}/poll/${slug}`;

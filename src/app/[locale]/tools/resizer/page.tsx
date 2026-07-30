@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type Ref } from "react";
+import { useRef, useState, type Ref } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
@@ -45,6 +45,7 @@ import { ImageUpload } from "@/components/tools/ImageUpload";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SocialAssetsGallery } from "@/components/tools/resizer/SocialAssetsGallery";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 
 type SourceMode = "logo" | "upload";
 type FitMode = "contain" | "cover";
@@ -284,7 +285,6 @@ export default function ResizerPage() {
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const zipRootRef = useRef<HTMLDivElement>(null);
-  const themeSeeded = useRef(false);
 
   const [imageUrl, setImageUrl] = useState<string | undefined>();
   const { exportError, exporting, runExport } = useExportHandler(t("exportError"));
@@ -308,9 +308,7 @@ export default function ResizerPage() {
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<ResizerState>(initial);
 
-  useEffect(() => {
-    if (!hydrated || themeSeeded.current) return;
-    themeSeeded.current = true;
+  useOneShotBrandSeed(hydrated, () => {
     reset({
       ...initial,
       primaryColor: brandKit.primaryColor,
@@ -318,8 +316,7 @@ export default function ResizerPage() {
       fit: "contain",
       placement: "center",
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot after hydrate
-  }, [hydrated]);
+  });
 
   const format = resolveResizerFormat(
     state.formatId,

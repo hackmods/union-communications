@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
@@ -71,7 +72,6 @@ export default function QrBoardPage() {
   const hydrated = useBrandStore((s) => s.hydrated);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [qrBySlot, setQrBySlot] = useState<Record<string, string | null>>({});
-  const seeded = useRef(false);
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const first = QR_BOARD_PRESETS[0];
@@ -110,11 +110,9 @@ export default function QrBoardPage() {
     });
   };
 
-  useEffect(() => {
-    if (!hydrated || seeded.current) return;
-    seeded.current = true;
+  useOneShotBrandSeed(hydrated, () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const seededState: QrBoardState = {
+    reset({
       presetId: first.id,
       posterTitle: t(`presets.${first.titleKey}`),
       posterSubtitle: t(`presets.${first.subtitleKey}`),
@@ -126,10 +124,8 @@ export default function QrBoardPage() {
       includeBranding: themeEstablished,
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
-    };
-    reset(seededState);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot hydrate
-  }, [hydrated, themeEstablished]);
+    });
+  });
 
   const format = QR_BOARD_FORMATS[state.formatId];
   const exportPixelRatio = qrBoardExportPixelRatio(format);
@@ -384,7 +380,6 @@ export default function QrBoardPage() {
             canUndo={canUndo}
             canRedo={canRedo}
             onReset={() => {
-              seeded.current = false;
               const origin =
                 typeof window !== "undefined" ? window.location.origin : "";
               reset({
@@ -400,7 +395,6 @@ export default function QrBoardPage() {
                 primaryColor: brandKit.primaryColor,
                 secondaryColor: brandKit.secondaryColor,
               });
-              seeded.current = true;
             }}
           />
 

@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import {
   downloadZip,
   exportNodeAsBlob,
@@ -114,7 +115,6 @@ export default function BoardBannerPage() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const exportHostRef = useRef<HTMLDivElement>(null);
   const [sheetId, setSheetId] = useState<BoardSheetId>(DEFAULT_BOARD_SHEET);
-  const brandingDefaultApplied = useRef(false);
   const { exportError, setExportError, exporting, runExport } =
     useExportHandler();
 
@@ -141,9 +141,7 @@ export default function BoardBannerPage() {
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<BoardBannerState>(initial);
 
-  useEffect(() => {
-    if (!hydrated || brandingDefaultApplied.current) return;
-    brandingDefaultApplied.current = true;
+  useOneShotBrandSeed(hydrated, () => {
     const sub = brandKit.local.subText?.trim() ?? "";
     reset({
       ...initial,
@@ -153,8 +151,7 @@ export default function BoardBannerPage() {
       secondaryColor: brandKit.secondaryColor,
       accentColor: brandKit.accentColor,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot after hydrate
-  }, [hydrated, themeEstablished]);
+  });
 
   const localNum = resolveLocalNumber(brandKit.local.localNumber);
   const localLabel = brandKit.local.subText

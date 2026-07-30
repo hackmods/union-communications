@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
@@ -62,7 +63,6 @@ export default function ActionCardPage() {
   const hydrated = useBrandStore((s) => s.hydrated);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [qrSrc, setQrSrc] = useState<string | null>(null);
-  const seeded = useRef(false);
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const first = ACTION_CARD_PRESETS[0];
@@ -86,9 +86,7 @@ export default function ActionCardPage() {
     useUndoRedo<ActionCardState>(initial);
   const { exportError, exporting, runExport } = useExportHandler();
 
-  useEffect(() => {
-    if (!hydrated || seeded.current) return;
-    seeded.current = true;
+  useOneShotBrandSeed(hydrated, () => {
     reset({
       presetId: first.id,
       destination: "",
@@ -103,8 +101,7 @@ export default function ActionCardPage() {
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot hydrate
-  }, [hydrated, themeEstablished]);
+  });
 
   const size = QR_CARD_SIZES[state.sizeId];
   const exportPixelRatio = qrCardExportPixelRatio(size);

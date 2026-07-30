@@ -1,11 +1,11 @@
 "use client";
 
-import { Suspense, useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import { Suspense, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { getExamplePost } from "@/lib/constants/examples";
@@ -36,8 +36,6 @@ function QuoteCardPageContent() {
   const te = useTranslations("examples");
   const brandKit = useBrandStore((s) => s.brandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const searchParams = useSearchParams();
-  const seedApplied = useRef(false);
 
   const initial: QuoteState = {
     quote: "We will not accept anything less than a fair deal for our members.",
@@ -52,13 +50,9 @@ function QuoteCardPageContent() {
     useUndoRedo<QuoteState>(initial);
   const { exportError, exporting, runExport } = useExportHandler();
 
-  useEffect(() => {
-    if (seedApplied.current) return;
-    const exampleId = searchParams.get("example");
-    if (!exampleId) return;
+  useExamplePostSeed((exampleId) => {
     const post = getExamplePost(exampleId);
-    if (!post || post.primaryTool !== "quote-card") return;
-    seedApplied.current = true;
+    if (!post || post.primaryTool !== "quote-card") return false;
     const role = te.has(`posts.${post.id}.mockup.detail`)
       ? te(`posts.${post.id}.mockup.detail`)
       : "";
@@ -71,7 +65,8 @@ function QuoteCardPageContent() {
       accentColor: brandKit.accentColor,
       textColor: pickContrastingInk(brandKit.primaryColor),
     }));
-  }, [searchParams, setState, te, brandKit]);
+    return true;
+  });
 
   const handleExport = async () => {
     if (!canvasRef.current) return;

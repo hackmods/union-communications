@@ -1,16 +1,18 @@
 "use client";
 
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
+import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { getExamplePost } from "@/lib/constants/examples";
-import { BRAND_COLORS } from "@/lib/constants/brand";
+import { coloursFromBrandKit } from "@/lib/utils/brand-theme";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -22,7 +24,6 @@ import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
-import type { BrandKit } from "@/types/entities";
 
 interface FlyerState {
   message: string;
@@ -34,14 +35,6 @@ interface FlyerState {
   secondaryColor: string;
 }
 
-function coloursFromBrandKit(brandKit: BrandKit) {
-  return {
-    primary: brandKit.primaryColor || BRAND_COLORS.primary,
-    accent: brandKit.accentColor || BRAND_COLORS.accent,
-    secondary: brandKit.secondaryColor || BRAND_COLORS.secondary,
-  };
-}
-
 function FlyerMakerPageContent() {
   const t = useTranslations("common");
   const tf = useTranslations("flyerMaker");
@@ -50,7 +43,6 @@ function FlyerMakerPageContent() {
   const hydrated = useBrandStore((s) => s.hydrated);
   const canvasRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
-  const brandingDefaultApplied = useRef(false);
 
   const brandColors = coloursFromBrandKit(brandKit);
 
@@ -68,38 +60,39 @@ function FlyerMakerPageContent() {
     useUndoRedo<FlyerState>(initial);
   const { exportError, exporting, runExport } = useExportHandler();
 
-  // Seed Brand Kit colours (and optional example copy) once after hydrate
-  useEffect(() => {
-    if (!hydrated || brandingDefaultApplied.current) return;
-    brandingDefaultApplied.current = true;
+  useExamplePostSeed((exampleId) => {
+    const post = getExamplePost(exampleId);
+    if (!post || post.primaryTool !== "flyer-maker") return false;
     const colours = coloursFromBrandKit(brandKit);
+    const detail = te.has(`posts.${post.id}.mockup.detail`)
+      ? te(`posts.${post.id}.mockup.detail`)
+      : "";
+    reset({
+      ...initial,
+      message: te(`posts.${post.id}.mockup.headline`).toUpperCase(),
+      location: te(`posts.${post.id}.mockup.body`),
+      date: detail || initial.date,
+      primaryColor: colours.primary,
+      accentColor: colours.accent,
+      secondaryColor: colours.secondary,
+    });
+    return true;
+  }, "example", hydrated);
 
+  useOneShotBrandSeed(hydrated, () => {
     const exampleId = searchParams.get("example");
-    const post = exampleId ? getExamplePost(exampleId) : undefined;
-    if (post && post.primaryTool === "flyer-maker") {
-      const detail = te.has(`posts.${post.id}.mockup.detail`)
-        ? te(`posts.${post.id}.mockup.detail`)
-        : "";
-      reset({
-        ...initial,
-        message: te(`posts.${post.id}.mockup.headline`).toUpperCase(),
-        location: te(`posts.${post.id}.mockup.body`),
-        date: detail || initial.date,
-        primaryColor: colours.primary,
-        accentColor: colours.accent,
-        secondaryColor: colours.secondary,
-      });
-      return;
+    if (exampleId) {
+      const post = getExamplePost(exampleId);
+      if (post?.primaryTool === "flyer-maker") return;
     }
-
+    const colours = coloursFromBrandKit(brandKit);
     reset({
       ...initial,
       primaryColor: colours.primary,
       accentColor: colours.accent,
       secondaryColor: colours.secondary,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot after hydrate
-  }, [hydrated]);
+  });
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;

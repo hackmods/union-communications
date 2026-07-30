@@ -1,5 +1,14 @@
 import type { BrandKit } from "@/types/entities";
+import { BRAND_COLORS } from "@/lib/constants/brand";
 import { isUnionOpsLogoSrc } from "@/lib/constants/unionPresets";
+
+export function coloursFromBrandKit(brandKit: BrandKit) {
+  return {
+    primary: brandKit.primaryColor || BRAND_COLORS.primary,
+    secondary: brandKit.secondaryColor || BRAND_COLORS.secondary,
+    accent: brandKit.accentColor || BRAND_COLORS.accent,
+  };
+}
 
 function isPlatformDefaultLogo(src?: string): boolean {
   return isUnionOpsLogoSrc(src);

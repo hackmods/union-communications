@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
@@ -159,7 +160,6 @@ export default function SolidarityPosterPage() {
     digital: DEFAULT_DIGITAL_FORMAT,
   });
   const [qrSrc, setQrSrc] = useState<string | null>(null);
-  const brandingDefaultApplied = useRef(false);
 
   const first = SOLIDARITY_SLOGANS[0];
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
@@ -185,10 +185,7 @@ export default function SolidarityPosterPage() {
     useUndoRedo<PosterState>(initial);
   const { exportError, exporting, runExport } = useExportHandler();
 
-  // Seed support URL + branding default once after Brand Kit hydrate
-  useEffect(() => {
-    if (!hydrated || brandingDefaultApplied.current) return;
-    brandingDefaultApplied.current = true;
+  useOneShotBrandSeed(hydrated, () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     reset({
       sloganId: first.id,
@@ -204,8 +201,7 @@ export default function SolidarityPosterPage() {
       secondaryColor: brandKit.secondaryColor,
       accentColor: brandKit.accentColor,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot after hydrate
-  }, [hydrated, themeEstablished]);
+  });
 
   const supportUrlForQr = state.supportUrl.trim() || SITE_URL;
 

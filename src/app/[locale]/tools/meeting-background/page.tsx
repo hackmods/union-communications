@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
@@ -174,7 +175,6 @@ export default function MeetingBackgroundPage() {
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const brandingDefaultApplied = useRef(false);
   const lastLandscapeDesign = useRef<MeetingDesignSet>("bold");
   const [formatId, setFormatId] = useState<MeetingBackgroundFormatId>(
     DEFAULT_MEETING_BACKGROUND_FORMAT,
@@ -217,9 +217,7 @@ export default function MeetingBackgroundPage() {
     setFormatId(matchingFormatForOrientation(formatId, "landscape"));
   }
 
-  useEffect(() => {
-    if (!hydrated || brandingDefaultApplied.current) return;
-    brandingDefaultApplied.current = true;
+  useOneShotBrandSeed(hydrated, () => {
     reset({
       ...initial,
       includeBranding: themeEstablished,
@@ -227,8 +225,7 @@ export default function MeetingBackgroundPage() {
       secondaryColor: brandKit.secondaryColor,
       accentColor: brandKit.accentColor,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot after hydrate
-  }, [hydrated, themeEstablished]);
+  });
 
   const localNum = resolveLocalNumber(brandKit.local.localNumber);
   const localLabel = brandKit.local.subText

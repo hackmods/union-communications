@@ -11,10 +11,6 @@ import { Input, Textarea } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
-import {
-  OfficeExampleTile,
-  OfficePresetMock,
-} from "@/components/tools/OfficePresetMock";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useBrandStore } from "@/store/brand-store";
 import {
@@ -25,18 +21,7 @@ import {
   type OfficePresetId,
 } from "@/lib/constants/office-templates";
 import { resolvePresetDestination } from "@/lib/utils/local-links";
-import {
-  exportDocxFromPreset,
-  exportEventRsvpXlsx,
-  exportOfficeBundle,
-  exportPptx,
-  exportSeniorityWorksheetXlsx,
-  renderDocxFromPreset,
-  renderEventRsvpXlsx,
-  renderPptx,
-  renderSeniorityWorksheetXlsx,
-  type SeniorityWorksheetLabels,
-} from "@/lib/export/office-export";
+import type { SeniorityWorksheetLabels } from "@/lib/export/office-export";
 import { renderEventIcsBlob } from "@/lib/calendar/event-ics";
 import { downloadBlob } from "@/lib/export/image-export";
 import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
@@ -45,6 +30,19 @@ import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
+import dynamic from "next/dynamic";
+
+const OfficePresetMock = dynamic(
+  () =>
+    import("@/components/tools/OfficePresetMock").then((m) => m.OfficePresetMock),
+  { ssr: false },
+);
+const OfficeExampleTile = dynamic(
+  () =>
+    import("@/components/tools/OfficePresetMock").then((m) => m.OfficeExampleTile),
+  { ssr: false },
+);
 
 const OFFICE_PRESET_IDS = new Set<string>(
   OFFICE_PRESETS.map((p) => p.id),
@@ -110,20 +108,17 @@ function DocumentGeneratorPageContent() {
     brandKit,
     onboardingComplete,
   );
-  const logoDefaultApplied = useRef(false);
   const deepLinkApplied = useRef(false);
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<GeneratorState>(initialState());
   const { exportError: error, exporting: busy, runExport } = useExportHandler();
   const [logoPreviewSrc, setLogoPreviewSrc] = useState<string | null>(null);
-  useEffect(() => {
-    if (!hydrated || logoDefaultApplied.current) return;
-    logoDefaultApplied.current = true;
+  useOneShotBrandSeed(hydrated, () => {
     if (themeEstablished) {
       setState((prev) => ({ ...prev, includeLogo: true }));
     }
-  }, [hydrated, themeEstablished, setState]);
+  });
 
   useEffect(() => {
     let cancelled = false;
@@ -235,6 +230,7 @@ function DocumentGeneratorPageContent() {
   function handleDownloadDocx() {
     if (!preset.outputs.docx) return;
     void run(async () => {
+      const { exportDocxFromPreset } = await import("@/lib/export/office-export");
       const logo = await resolveLogo().catch((e) => {
         if (state.includeLogo) throw e;
         return null;
@@ -255,30 +251,35 @@ function DocumentGeneratorPageContent() {
     const filename = formatFilename(preset.fileStem, localNumber, "xlsx");
     const local = resolveLocalNumber(localNumber);
     if (state.presetId === "seniority-worksheet") {
-      void run(() =>
-        exportSeniorityWorksheetXlsx({
+      void run(async () => {
+        const { exportSeniorityWorksheetXlsx } = await import(
+          "@/lib/export/office-export"
+        );
+        await exportSeniorityWorksheetXlsx({
           palette,
           localNumber: local,
           fields,
           labels: seniorityLabels(),
           filename,
-        }),
-      );
+        });
+      });
       return;
     }
-    void run(() =>
-      exportEventRsvpXlsx({
+    void run(async () => {
+      const { exportEventRsvpXlsx } = await import("@/lib/export/office-export");
+      await exportEventRsvpXlsx({
         palette,
         localNumber: local,
         fields,
         filename,
-      }),
-    );
+      });
+    });
   }
 
   function handleDownloadPptx() {
     if (!preset.outputs.pptx) return;
     void run(async () => {
+      const { exportPptx } = await import("@/lib/export/office-export");
       const logo = state.includeLogo
         ? await resolveBrandLogoBytes(brandKit, { includeLogo: true })
         : null;

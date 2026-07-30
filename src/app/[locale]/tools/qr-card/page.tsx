@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
@@ -82,7 +83,7 @@ function QrCardPageContent() {
   const hydrated = useBrandStore((s) => s.hydrated);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [qrSrc, setQrSrc] = useState<string | null>(null);
-  const seeded = useRef(false);
+  const brandSeedComplete = useRef(false);
   const deepLinkApplied = useRef(false);
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
@@ -123,9 +124,7 @@ function QrCardPageContent() {
     });
   };
 
-  useEffect(() => {
-    if (!hydrated || seeded.current) return;
-    seeded.current = true;
+  useOneShotBrandSeed(hydrated, () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     const deepPreset = searchParams.get("preset");
     const fromDeep =
@@ -151,11 +150,11 @@ function QrCardPageContent() {
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot hydrate
-  }, [hydrated, themeEstablished]);
+    brandSeedComplete.current = true;
+  });
 
   useEffect(() => {
-    if (!seeded.current || deepLinkApplied.current) return;
+    if (!brandSeedComplete.current || deepLinkApplied.current) return;
     const raw = searchParams.get("preset");
     if (!raw || !getQrCardPreset(raw)) return;
     deepLinkApplied.current = true;
