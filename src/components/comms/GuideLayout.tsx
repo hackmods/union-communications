@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
-import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
+import {
+  GuideRelatedLinkList,
+  type GuideRelatedLink,
+} from "@/components/comms/GuideRelatedLinkList";
 import { cn } from "@/lib/utils";
 
-export type GuideRelatedLink = {
-  href: string;
-  label: string;
-};
+export type { GuideRelatedLink };
 
 type GuideLayoutProps = {
   title: string;
@@ -53,35 +53,10 @@ export function GuideLayout({
               <p className="font-semibold text-opseu-dark">{relatedLabel}</p>
             )}
             <nav aria-label={relatedLabel}>
-              <ul
-                className={cn(
-                  "list-disc space-y-1 pl-5 marker:text-gray-400",
-                  relatedLabel ? "mt-2" : "mt-0",
-                  "md:mt-1 md:flex md:flex-wrap md:list-none md:space-y-0 md:pl-0 md:items-baseline md:gap-x-3 md:gap-y-1",
-                )}
-              >
-              {relatedLinks.map((link, i) => (
-                <li
-                  key={link.href}
-                  className="md:inline-flex md:items-baseline md:gap-x-3"
-                >
-                  {i > 0 && (
-                    <span
-                      className="hidden text-gray-300 md:inline"
-                      aria-hidden="true"
-                    >
-                      ·
-                    </span>
-                  )}
-                  <Link
-                    href={link.href}
-                    className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-              </ul>
+              <GuideRelatedLinkList
+                links={relatedLinks}
+                className={relatedLabel ? "mt-2" : undefined}
+              />
             </nav>
           </div>
         )}

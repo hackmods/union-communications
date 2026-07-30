@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideRelatedLinkList } from "@/components/comms/GuideRelatedLinkList";
 import { Callout } from "@/components/ui/Callout";
 import {
   COMMS_SOURCES,
@@ -112,8 +113,8 @@ export default async function ResourcesPage({
         </ul>
       </section>
 
-      <Callout tone="muted" className="mt-8">
-        <p className="font-semibold text-opseu-dark">{t("demoKit.title")}</p>
+      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
+        <h2 className="text-xl font-bold text-opseu-dark">{t("demoKit.title")}</h2>
         <p className="mt-2 text-gray-700">{t("demoKit.description")}</p>
         <a
           href="/demo/brand-kit-local-243.json"
@@ -122,31 +123,19 @@ export default async function ResourcesPage({
         >
           {t("demoKit.download")}
         </a>
-      </Callout>
+      </section>
 
-      <Callout tone="muted" className="mt-6">
-        <p className="font-semibold text-opseu-dark">{t("explore.title")}</p>
-        <nav
-          className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
-          aria-label={t("explore.title")}
-        >
-          {exploreLinks.map(({ href, key }, i) => (
-            <span key={`${href}-${key}`} className="inline-flex items-baseline gap-x-3">
-              {i > 0 && (
-                <span className="text-gray-300" aria-hidden="true">
-                  ·
-                </span>
-              )}
-              <Link
-                href={href}
-                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-              >
-                {t(`explore.${key}`)}
-              </Link>
-            </span>
-          ))}
+      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
+        <h2 className="text-xl font-bold text-opseu-dark">{t("explore.title")}</h2>
+        <nav className="mt-2 text-sm" aria-label={t("explore.title")}>
+          <GuideRelatedLinkList
+            links={exploreLinks.map(({ href, key }) => ({
+              href,
+              label: t(`explore.${key}`),
+            }))}
+          />
         </nav>
-      </Callout>
+      </section>
 
       <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
         <h2 className="text-xl font-bold text-opseu-dark">
