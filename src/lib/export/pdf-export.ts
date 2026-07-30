@@ -1,13 +1,12 @@
+import { saveBlob } from "@/lib/export/save-blob";
+
 export async function exportFlyerPdf(
   imageDataUrl: string,
   filename: string,
   widthInches = 8.5,
   heightInches = 11,
 ): Promise<void> {
-  const [{ jsPDF }, { saveAs }] = await Promise.all([
-    import("jspdf"),
-    import("file-saver"),
-  ]);
+  const { jsPDF } = await import("jspdf");
 
   const pdf = new jsPDF({
     orientation: heightInches > widthInches ? "portrait" : "landscape",
@@ -17,7 +16,7 @@ export async function exportFlyerPdf(
 
   pdf.addImage(imageDataUrl, "PNG", 0, 0, widthInches, heightInches);
   const blob = pdf.output("blob");
-  saveAs(blob, filename);
+  await saveBlob(blob, filename);
 }
 
 export async function nodeToPdf(
@@ -68,10 +67,9 @@ export async function nodesToPdf(
     return;
   }
 
-  const [{ toPng }, { jsPDF }, { saveAs }] = await Promise.all([
+  const [{ toPng }, { jsPDF }] = await Promise.all([
     import("html-to-image"),
     import("jspdf"),
-    import("file-saver"),
   ]);
 
   const pdf = new jsPDF({
@@ -93,5 +91,5 @@ export async function nodesToPdf(
     pdf.addImage(dataUrl, "PNG", 0, 0, widthInches, heightInches);
   }
 
-  saveAs(pdf.output("blob"), filename);
+  await saveBlob(pdf.output("blob"), filename);
 }
