@@ -6,6 +6,8 @@ alwaysApply: false
 
 # External links (Comms + reference tenant)
 
+National union websites reorganize often — **broken cited URLs are usually upstream CMS changes**, not UnionOps regressions. Point stewards at `/assets` mirrors and updated hub URLs in the registry; do not treat report as a toolbox bug by default.
+
 ## Single source of truth
 
 - **Product citations:** [`src/lib/constants/comms-sources.ts`](../../src/lib/constants/comms-sources.ts) — `COMMS_SOURCES`, `PAGE_SOURCE_IDS`, `getSourcesForPage()`.

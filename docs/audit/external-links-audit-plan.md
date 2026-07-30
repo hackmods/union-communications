@@ -1,11 +1,11 @@
 # External links audit — plan & inventory
 
-**Ticket:** [`LINK-001`](execution-backlog.md#link-001--open-2026-07-30) in `execution-backlog.md`  
+**Ticket:** [`LINK-001`](execution-backlog.md) — **closed 2026-07-30**  
 **Canonical product registry:** [`src/lib/constants/comms-sources.ts`](../../src/lib/constants/comms-sources.ts)  
 **Human bibliography:** [`docs/SOURCES.md`](../SOURCES.md)  
 **Agent rules:** [`.cursor/rules/external-links.mdc`](../../.cursor/rules/external-links.mdc)
 
-Opened **2026-07-30** after stewards reported dead national-union citations (e.g. OPSEU graphics deep link `/12263`). This doc is the working inventory and verification playbook; URL fixes land under LINK-001 acceptance criteria.
+Opened **2026-07-30** after stewards reported dead national-union citations. **Root cause:** parent union website reorganizations (deep CMS URLs retired), not UnionOps regressions. UnionOps mirrors logos on `/assets`; registry points at stable hub pages when deep links break.
 
 ---
 
