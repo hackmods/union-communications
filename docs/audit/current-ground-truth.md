@@ -72,7 +72,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 | Topic | Reality |
 |-------|---------|
 | Registry | `src/lib/constants/comms-sources.ts` + `SourcesBlock` |
-| Open work | **`LINK-001`** — OPSEU graphics deep link reported dead; `/assets` duplicates URL; ZIP footers not wired to registry |
+| Open work | **`LINK-001` closed 2026-07-30** — registry + `/assets` + ZIP footers; optional lychee CI + `hub03` seed check remain |
 | Playbook | [`external-links-audit-plan.md`](external-links-audit-plan.md), [`.cursor/rules/external-links.mdc`](../../.cursor/rules/external-links.mdc) |
 | Verify | Browser-first for `opseu.org` (automated HEAD often 403) |
 

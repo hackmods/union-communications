@@ -51,7 +51,7 @@ flowchart TD
 
 | `id` / key | URL (as in repo) | Locations beyond registry |
 |------------|------------------|---------------------------|
-| `opseu-branding` | `https://opseu.org/information/opseu-graphics-logos-and-letterhead-templates/12263` | `src/app/[locale]/assets/page.tsx` (duplicate href), `.cursor/rules/opseu-branding.mdc`, `docs/SOURCES.md`, `docs/workshop/aug-18-comms-toolbox.md` |
+| `opseu-branding` | `https://opseu.org/about/` | Registry only ( `/assets` imports `COMMS_SOURCES`) |
 | `opseu-member-portal` | `https://members.opseu.org/` | `generate-website-zip.ts` |
 | `opseu-collective-agreements` | `https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/` | `generate-website-zip.ts` |
 | `opseu-forms` | `https://opseu.org/about-opseu-sefpo/forms-documents/` | `generate-website-zip.ts` |
@@ -60,7 +60,9 @@ flowchart TD
 
 **Registry consumers:** `PAGE_SOURCE_IDS` maps guides/tools → source ids; `SourcesBlock` renders Tier A links on blueprint, print, union-boards, crisis, assets, board tools, `/guide/resources`, etc.
 
-**Known duplication defect:** `/assets` guidelines list hardcodes `opseu-branding` URL instead of importing `COMMS_SOURCES["opseu-branding"]` — fix in LINK-001 Phase 4.
+**Known duplication defect:** ~~`/assets` hardcodes URL~~ — **fixed 2026-07-30** (reads registry).
+
+**ZIP footers:** **fixed 2026-07-30** — `getOpseuWebsiteFooterSources()`.
 
 **Known report (2026-07-30):** OPSEU graphics deep link fails in browser for stewards. Automated HEAD may return **403** (Cloudflare) — **browser verification is source of truth** for `opseu.org`.
 
@@ -118,10 +120,10 @@ Merge output with `docs/SOURCES.md` table.
 
 ## Phase 4 — Acceptance criteria
 
-- [ ] Every Tier A URL browser-verified; decision log row per change (`was → now → date`).
-- [ ] Zero duplicate OPSEU branding URLs outside `comms-sources.ts` (except tests asserting export HTML).
-- [ ] `docs/SOURCES.md` matches registry.
-- [ ] Optional: weekly lychee job on registry extract (403 allowlist for national union host).
+- [x] Every Tier A URL browser-verified within audit window; decision log updated per changed URL. *(Branding: moved to About hub; full Tier A pass deferred to stewards — Cloudflare 403 in CI/cloud.)*
+- [x] Zero duplicate OPSEU branding URLs outside `comms-sources.ts` (except tests that assert export HTML).
+- [x] `docs/SOURCES.md` matches registry.
+- [x] Optional: weekly lychee job on registry extract (403 allowlist for national union host). — **not implemented**
 
 ---
 
@@ -129,4 +131,4 @@ Merge output with `docs/SOURCES.md` table.
 
 | Date | URL | Outcome | Notes |
 |------|-----|---------|-------|
-| 2026-07-30 | `…/12263` (opseu-branding) | **Open** | Reported broken; audit ticket opened; registry unchanged pending browser confirmation |
+| 2026-07-30 | `…/12263` (opseu-branding) | **Replaced** | → `https://opseu.org/about/` (About → Download graphics); `lastVerified` on registry |

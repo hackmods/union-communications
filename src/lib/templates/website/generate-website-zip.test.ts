@@ -4,6 +4,7 @@ import {
   buildWebsiteCss,
   buildPreviewHtml,
 } from "@/lib/templates/website/generate-website-zip";
+import { getOpseuWebsiteFooterSources } from "@/lib/constants/comms-sources";
 import type { WebsiteTemplateData } from "@/types/website-template";
 
 const sampleData: WebsiteTemplateData = {
@@ -38,7 +39,10 @@ describe("generate-website-zip", () => {
     expect(html).toContain("Rights &amp; Partners");
     expect(html).toContain("Ontario Human Rights Code");
     expect(html).toContain("Union Resources");
-    expect(html).toContain('href="https://opseu.org"');
+    for (const source of getOpseuWebsiteFooterSources()) {
+      expect(html).toContain(`href="${source.url}"`);
+    }
+    expect(html).not.toContain("12263");
     expect(html).toContain("North Pole, Arctic Circle");
   });
 

@@ -1,10 +1,11 @@
 # Progress Log
 
-## External links audit ticket (2026-07-30) — PLAN ONLY
+## External links audit ticket (2026-07-30) — COMPLETE (core)
 
-- [x] Backlog ticket **`LINK-001`** + [`docs/audit/external-links-audit-plan.md`](audit/external-links-audit-plan.md) (inventory, tiers, verification, acceptance criteria)
-- [x] Agent rules [`.cursor/rules/external-links.mdc`](../.cursor/rules/external-links.mdc); cross-refs in `comms-module.mdc`, `opseu-branding.mdc`, `docs/SOURCES.md`, `current-ground-truth.md`
-- [ ] URL fixes, `/assets` deduplication, ZIP/registry alignment — **open under LINK-001**
+- [x] Backlog ticket **`LINK-001`** + [`docs/audit/external-links-audit-plan.md`](audit/external-links-audit-plan.md)
+- [x] Agent rules [`.cursor/rules/external-links.mdc`](../.cursor/rules/external-links.mdc)
+- [x] `opseu-branding` → `https://opseu.org/about/`; `/assets` uses registry; ZIP footer from `getOpseuWebsiteFooterSources()`
+- [ ] Optional: lychee CI; steward verify `hub03.opseu.org` seed URLs
 
 ## Demo defaults + magic sign-in (2026-07-27) — COMPLETE
 

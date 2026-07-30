@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Callout } from "@/components/ui/Callout";
 import { BRAND_COLORS } from "@/lib/constants/brand";
+import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import Image from "next/image";
@@ -32,6 +33,8 @@ export default async function AssetsPage({
     { name: t("swatchSecondary"), hex: BRAND_COLORS.secondary },
     { name: t("swatchBlack"), hex: BRAND_COLORS.black },
   ];
+
+  const opseuBranding = COMMS_SOURCES["opseu-branding"];
 
   const guidelineKeys = [
     "clearSpace",
@@ -114,12 +117,12 @@ export default async function AssetsPage({
           <li>
             {t("guidelines.sourceLabel")}{" "}
             <a
-              href="https://opseu.org/information/opseu-graphics-logos-and-letterhead-templates/12263"
+              href={opseuBranding.url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-opseu-blue underline"
             >
-              OPSEU/SEFPO graphics, logos &amp; letterhead
+              {opseuBranding.label}
             </a>
           </li>
         </ul>

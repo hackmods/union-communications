@@ -461,10 +461,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 
 Added 2026-07-30 after steward reports that national-union bibliography links (starting with OPSEU graphics/letterhead) no longer resolve. Full inventory, tiers, and verification playbook: [`external-links-audit-plan.md`](external-links-audit-plan.md). Agent rules: [`.cursor/rules/external-links.mdc`](../.cursor/rules/external-links.mdc).
 
-### [LINK-001] — OPEN (2026-07-30)
+### [LINK-001] ✅ CLOSED (2026-07-30)
 **Category:** Comms / UX trust  
 **Severity/Priority:** Medium (broken citations erode steward confidence; no data-loss or security boundary)  
-**Status:** Open — audit plan + cursor rules committed; URL remediation and deduplication not started.  
+**Status:** Closed — `opseu-branding` moved to `https://opseu.org/about/`; `/assets` reads registry; website ZIP footer wired via `getOpseuWebsiteFooterSources()`; tests extended. **Deferred:** Tier B `hub03.opseu.org` seed URLs (steward confirmation); optional lychee CI (Phase 5). Cloud/automation still gets HTTP 403 from `opseu.org` — re-verify Tier A in a normal browser periodically.  
 **Problem/Gap Statement:** External resources cited across the public Comms toolbox are not centrally enforced, not reachability-tested in CI, and at least one high-visibility OPSEU branding URL (`opseu-branding` in `COMMS_SOURCES`, duplicated on `/assets`) is reported broken in normal browsers. National sites may return HTTP 403 to automated HEAD probes (Cloudflare), so link rot is easy to miss until a steward clicks. Exported local website ZIPs hardcode OPSEU footer URLs outside the registry, so registry-only fixes would leave stale links in generated sites.  
 **Affected Architecture/Files:**  
 - Canonical: `src/lib/constants/comms-sources.ts`, `src/components/comms/SourcesBlock.tsx`, `src/lib/constants/comms-sources.test.ts`  

@@ -1,4 +1,5 @@
 import type { WebsiteTemplateData } from "@/types/website-template";
+import { getOpseuWebsiteFooterSources } from "@/lib/constants/comms-sources";
 import { mutedInkOnBackground } from "@/lib/utils/ink";
 import { blendHex } from "@/lib/utils/contrast";
 
@@ -47,15 +48,17 @@ export function buildWebsiteHtml(data: WebsiteTemplateData): string {
   const logoHtml = data.logoFileName.trim()
     ? `<img src="./assets/${escapeHtml(data.logoFileName)}" alt="${escapeHtml(data.logoAlt)}" class="header-logo">`
     : `<span class="header-brand-text">${escapeHtml(data.unionName)}</span>`;
+  const opseuFooterLinks = getOpseuWebsiteFooterSources()
+    .map(
+      (source) =>
+        `          <li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)}</a></li>`,
+    )
+    .join("\n");
   const opseuResourcesHtml = data.includeOpseuResources
     ? `      <div class="footer-col">
         <h3>Union Resources</h3>
         <ul>
-          <li><a href="https://opseu.org" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO</a></li>
-          <li><a href="https://members.opseu.org/" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO Member Portal</a></li>
-          <li><a href="https://opseu.org/about-opseu-sefpo/forms-documents/" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO Forms and Documents</a></li>
-          <li><a href="https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/" target="_blank" rel="noopener noreferrer">OPSEU/SEFPO Collective Agreements</a></li>
-          <li><a href="https://opseu.org/contact/" target="_blank" rel="noopener noreferrer">OPSEU Head Office</a></li>
+${opseuFooterLinks}
         </ul>
       </div>
 `

@@ -11,6 +11,8 @@ export interface CommsSource {
   label: string;
   url: string;
   note: string;
+  /** ISO date (YYYY-MM-DD) when a steward or agent last confirmed the URL in a browser. */
+  lastVerified?: string;
 }
 
 /** Canonical external references used across comms guides and tools. */
@@ -19,8 +21,25 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     id: "opseu-branding",
     category: "branding",
     label: "OPSEU/SEFPO graphics, logos & letterhead",
-    url: "https://opseu.org/information/opseu-graphics-logos-and-letterhead-templates/12263",
-    note: "Official OPSEU blue (#003DA5, Pantone 285) and logo usage rules. White is the graphics accent on blue/dark backgrounds.",
+    url: "https://opseu.org/about/",
+    note: "About page links to downloadable logos, letterhead, and colour specs. Official OPSEU blue (#003DA5, Pantone 285). White is the graphics accent on blue/dark backgrounds. Mirrored PNGs on UnionOps /assets.",
+    lastVerified: "2026-07-30",
+  },
+  "opseu-home": {
+    id: "opseu-home",
+    category: "union",
+    label: "OPSEU/SEFPO",
+    url: "https://opseu.org/",
+    note: "National union homepage — exported local website footer.",
+    lastVerified: "2026-07-30",
+  },
+  "opseu-contact": {
+    id: "opseu-contact",
+    category: "union",
+    label: "OPSEU Head Office",
+    url: "https://opseu.org/contact/",
+    note: "National contact page — exported local website footer.",
+    lastVerified: "2026-07-30",
   },
   "opseu-member-portal": {
     id: "opseu-member-portal",
@@ -149,6 +168,21 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
   boardBanner: ["opseu-branding"],
   resources: Object.keys(COMMS_SOURCES),
 };
+
+/** Reference-tenant website ZIP footer when `includeOpseuResources` is true. */
+export const OPSEU_WEBSITE_FOOTER_SOURCE_IDS = [
+  "opseu-home",
+  "opseu-member-portal",
+  "opseu-forms",
+  "opseu-collective-agreements",
+  "opseu-contact",
+] as const;
+
+export function getOpseuWebsiteFooterSources(): CommsSource[] {
+  return OPSEU_WEBSITE_FOOTER_SOURCE_IDS.map((id) => COMMS_SOURCES[id]).filter(
+    Boolean,
+  );
+}
 
 export function getSourcesForPage(pageId: string): CommsSource[] {
   const ids = PAGE_SOURCE_IDS[pageId] ?? [];

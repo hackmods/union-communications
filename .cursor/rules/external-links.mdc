@@ -12,7 +12,7 @@ alwaysApply: false
 - **Rendered in UI:** [`SourcesBlock`](../../src/components/comms/SourcesBlock.tsx) on guides/tools; full list on `/guide/resources`.
 - **Do not** add new hardcoded `https://` national-union or government citation URLs in pages — add/update a `CommsSource` id and reference it (or pass `pageId` to `SourcesBlock`).
 
-**Exception (until LINK-001 closes):** [`generate-website-zip.ts`](../../src/lib/templates/website/generate-website-zip.ts) still hardcodes OPSEU footer links — any national URL change must update **both** registry and ZIP generator (or wire generator from registry in that ticket).
+**Exception (resolved LINK-001):** Website ZIP OPSEU footer links come from `getOpseuWebsiteFooterSources()` in `comms-sources.ts`.
 
 ## Replace vs remove
 
@@ -37,9 +37,9 @@ alwaysApply: false
 - `comms-sources.test.ts` checks URL shape only — not reachability.
 - After changing Tier A URLs: sync `docs/SOURCES.md`, `opseu-branding.mdc`, and decision log table in the audit plan doc.
 
-## OPSEU branding URL (known open item)
+## OPSEU branding URL
 
-Registry id `opseu-branding` — deep link `/information/opseu-graphics-logos-and-letterhead-templates/12263` reported dead **2026-07-30**. Confirm replacement in browser before merge; candidates listed in audit plan. Until fixed, prefer fixing registry over patching one-off pages.
+Registry id `opseu-branding` → `https://opseu.org/about/` (2026-07-30). Legacy `/12263` deep links must not return. Re-check in browser if national site reorganizes again.
 
 ## Multi-union
 
