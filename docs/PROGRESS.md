@@ -1,5 +1,11 @@
 # Progress Log
 
+## External links audit ticket (2026-07-30) — PLAN ONLY
+
+- [x] Backlog ticket **`LINK-001`** + [`docs/audit/external-links-audit-plan.md`](audit/external-links-audit-plan.md) (inventory, tiers, verification, acceptance criteria)
+- [x] Agent rules [`.cursor/rules/external-links.mdc`](../.cursor/rules/external-links.mdc); cross-refs in `comms-module.mdc`, `opseu-branding.mdc`, `docs/SOURCES.md`, `current-ground-truth.md`
+- [ ] URL fixes, `/assets` deduplication, ZIP/registry alignment — **open under LINK-001**
+
 ## Demo defaults + magic sign-in (2026-07-27) — COMPLETE
 
 - [x] Demo auth on by default in compose; login `demoHint` gated by `NEXT_PUBLIC_DEMO_SITE`

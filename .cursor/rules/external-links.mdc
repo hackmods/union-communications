@@ -1,0 +1,46 @@
+---
+description: External URL registry, link audit tiers, replace-vs-remove policy for comms citations
+globs: src/lib/constants/comms-sources.ts,src/components/comms/**,src/app/**/guide/**,src/app/**/assets/**,src/lib/templates/website/**,docs/SOURCES.md,seed/reference-tenant-opseu-caat.json
+alwaysApply: false
+---
+
+# External links (Comms + reference tenant)
+
+## Single source of truth
+
+- **Product citations:** [`src/lib/constants/comms-sources.ts`](../../src/lib/constants/comms-sources.ts) — `COMMS_SOURCES`, `PAGE_SOURCE_IDS`, `getSourcesForPage()`.
+- **Rendered in UI:** [`SourcesBlock`](../../src/components/comms/SourcesBlock.tsx) on guides/tools; full list on `/guide/resources`.
+- **Do not** add new hardcoded `https://` national-union or government citation URLs in pages — add/update a `CommsSource` id and reference it (or pass `pageId` to `SourcesBlock`).
+
+**Exception (until LINK-001 closes):** [`generate-website-zip.ts`](../../src/lib/templates/website/generate-website-zip.ts) still hardcodes OPSEU footer links — any national URL change must update **both** registry and ZIP generator (or wire generator from registry in that ticket).
+
+## Replace vs remove
+
+- **Replace** when the resource moved or the URL changed — update registry first.
+- **Remove** only duplicate hrefs outside the registry, or links with no user value after a **replacement** exists (internal `/assets`, updated hub URL, or revised copy).
+- **Never remove** a branding authority citation without replacement text — logos also live under `public/assets/caat-opseu/` and `/assets`; external link = official guidelines, not sole download path.
+
+## Audit tiers (see full playbook)
+
+[`docs/audit/external-links-audit-plan.md`](../../docs/audit/external-links-audit-plan.md) — ticket [`LINK-001`](../../docs/audit/execution-backlog.md).
+
+| Tier | Scope |
+|------|--------|
+| A | `comms-sources`, `SourcesBlock`, hardcoded UI, exported website ZIP |
+| B | `seed/reference-tenant-opseu-caat.json` membership URLs |
+| C | `docs/SOURCES.md`, workshop, `.cursor/rules/opseu-branding.mdc` |
+| D | Exempt: localhost, example.com, demo emails, XML namespaces |
+
+## Verification
+
+- **Browser** is authoritative for `opseu.org` (HEAD/crawlers often get **403** Cloudflare).
+- `comms-sources.test.ts` checks URL shape only — not reachability.
+- After changing Tier A URLs: sync `docs/SOURCES.md`, `opseu-branding.mdc`, and decision log table in the audit plan doc.
+
+## OPSEU branding URL (known open item)
+
+Registry id `opseu-branding` — deep link `/information/opseu-graphics-logos-and-letterhead-templates/12263` reported dead **2026-07-30**. Confirm replacement in browser before merge; candidates listed in audit plan. Until fixed, prefer fixing registry over patching one-off pages.
+
+## Multi-union
+
+National union URLs belong in **reference tenant seed**, `COMMS_SOURCES`, or tenant-specific export templates — not in generic core components. Other unions: their own source entries when product grows beyond reference tenant bibliography.

@@ -1,4 +1,4 @@
-# Current ground truth (agents) — as of 2026-07-26
+# Current ground truth (agents) — as of 2026-07-30
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
 
@@ -67,9 +67,19 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 10. ~~Comms stretch: printable seniority worksheet + right-to-refuse pocket card~~ — **shipped 2026-07-26** (Document Generator + QR Link Card presets)
 11. ~~Discussions / Tasks stretch (reactions, @mentions, poll-on-focus)~~ — **shipped 2026-07-26** (no websockets; migration `0027_hub_social`)
 
+## Comms external links (2026-07-30)
+
+| Topic | Reality |
+|-------|---------|
+| Registry | `src/lib/constants/comms-sources.ts` + `SourcesBlock` |
+| Open work | **`LINK-001`** — OPSEU graphics deep link reported dead; `/assets` duplicates URL; ZIP footers not wired to registry |
+| Playbook | [`external-links-audit-plan.md`](external-links-audit-plan.md), [`.cursor/rules/external-links.mdc`](../../.cursor/rules/external-links.mdc) |
+| Verify | Browser-first for `opseu.org` (automated HEAD often 403) |
+
 ## Agent habits
 
 - Diff docs vs code before “implement next” — plan files and backlog tickets lag
+- National citation URLs: edit `comms-sources.ts` only; follow `LINK-001` replace-vs-remove policy
 - Bounded PRs; EN/FR + module spec + PROGRESS + rules in same milestone
 - Grep access-helper call sites when signatures change
 - Skip VISION non-goals (dues, member lists); skip Basecamp **Campfire / hill charts** greenfield — check-ins shipped

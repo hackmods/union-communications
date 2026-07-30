@@ -457,6 +457,41 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 
 ---
 
+## LINK AUDIT (`LINK-`)
+
+Added 2026-07-30 after steward reports that national-union bibliography links (starting with OPSEU graphics/letterhead) no longer resolve. Full inventory, tiers, and verification playbook: [`external-links-audit-plan.md`](external-links-audit-plan.md). Agent rules: [`.cursor/rules/external-links.mdc`](../.cursor/rules/external-links.mdc).
+
+### [LINK-001] — OPEN (2026-07-30)
+**Category:** Comms / UX trust  
+**Severity/Priority:** Medium (broken citations erode steward confidence; no data-loss or security boundary)  
+**Status:** Open — audit plan + cursor rules committed; URL remediation and deduplication not started.  
+**Problem/Gap Statement:** External resources cited across the public Comms toolbox are not centrally enforced, not reachability-tested in CI, and at least one high-visibility OPSEU branding URL (`opseu-branding` in `COMMS_SOURCES`, duplicated on `/assets`) is reported broken in normal browsers. National sites may return HTTP 403 to automated HEAD probes (Cloudflare), so link rot is easy to miss until a steward clicks. Exported local website ZIPs hardcode OPSEU footer URLs outside the registry, so registry-only fixes would leave stale links in generated sites.  
+**Affected Architecture/Files:**  
+- Canonical: `src/lib/constants/comms-sources.ts`, `src/components/comms/SourcesBlock.tsx`, `src/lib/constants/comms-sources.test.ts`  
+- Duplication: `src/app/[locale]/assets/page.tsx` (hardcoded `opseu-branding` href)  
+- Export: `src/lib/templates/website/generate-website-zip.ts`, `src/lib/templates/website/generate-website-zip.test.ts`  
+- Seed: `seed/reference-tenant-opseu-caat.json` (`hub03.opseu.org` membership URLs)  
+- Docs/rules: `docs/SOURCES.md`, `docs/workshop/aug-18-comms-toolbox.md`, `.cursor/rules/opseu-branding.mdc`  
+**Replace vs remove policy (summary):** Replace dead URLs when a successor or in-product mirror exists; remove only duplicate hrefs outside the registry or citations superseded by replacement copy — do not silently drop national branding authority links. Details in `external-links-audit-plan.md`.  
+**Implementation Blueprint:**  
+1. **Inventory (Phase 1):** Export all Tier A/B URLs from `COMMS_SOURCES` + ripgrep for `opseu.org` and other national hosts; reconcile with `docs/SOURCES.md` (see audit plan inventory table).  
+2. **Verify (Phase 2):** Browser-verify every Tier A URL; record redirect chains; optional lychee/CI job with 403 allowlist for `opseu.org` — never treat 403 alone as “OK.”  
+3. **Fix registry (Phase 3a):** Update `COMMS_SOURCES` entries (starting with `opseu-branding`) with confirmed URLs; optional `lastVerified?: string` (ISO date) on `CommsSource`.  
+4. **Deduplicate (Phase 3b):** `/assets` guidelines link must read `COMMS_SOURCES["opseu-branding"].url` (or shared helper) — no second hardcoded string.  
+5. **Sync mirrors (Phase 3c):** `docs/SOURCES.md`, `opseu-branding.mdc`, workshop doc; append rows to decision log in `external-links-audit-plan.md`.  
+6. **ZIP footers (Phase 3d):** Update `generate-website-zip.ts` OPSEU links to match registry **or** refactor to import union citation URLs from `COMMS_SOURCES` for reference-tenant exports.  
+7. **Seed (Phase 3e):** Validate/update `hub03.opseu.org` membership URLs with steward input if dead.  
+8. **Tests (Phase 4):** Extend `comms-sources.test.ts` (unique URLs, registry completeness); adjust ZIP tests if footer URLs change; optional smoke assert on `/guide/resources` link hrefs.  
+9. **Ops (Phase 5, optional):** Document `npm run` link-check script or scheduled lychee against registry extract — non-blocking on 403.  
+**Acceptance Criteria:**  
+- All Tier A URLs browser-verified within audit window; decision log updated per changed URL.  
+- No duplicate `opseu-branding` URL string outside `comms-sources.ts` (except tests that assert export HTML).  
+- `docs/SOURCES.md` matches `COMMS_SOURCES` URLs.  
+- `[LINK-001]` marked closed in this file with date when above are done.  
+**Dependencies:** None blocking; steward/browser confirmation for replacement OPSEU graphics URL before closing.
+
+---
+
 ## Sequencing note for agents picking up this backlog
 
 `SEC-003` (Postgres + RLS) is a hard dependency for making `SEC-007` (real accounts), `FEAT-001` (real attachment storage), and most of the "Basecamp parity" `FEAT-` tickets durable rather than another layer built on sand. Do `SEC-001`/`SEC-002`/`SEC-004` (MFA + secret hardening) first — they are self-contained, high-severity, and do not require the database migration to land. `.cursor/rules/roadmap-next.mdc` already sequences Postgres before onboarding UI before attachments; this backlog does not contradict that sequencing, it fills in the ticket-level detail underneath it.

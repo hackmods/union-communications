@@ -32,6 +32,7 @@ Board Notice (`noticeType: "meeting"`), Document Generator `quick-event`, Graphi
 - Logo: `BrandLogo` for display; `LogoSettings` for official/custom upload (PNG/JPEG/WebP/SVG)
 - Platform UnionOps mark: interlocking u+o inline SVG in `UnionOpsMark` — primary plate + accent glyph; light ink → white plate; dark ink → black plate + white glyph (inline SVG so PNG export works)
 - See `.cursor/rules/opseu-branding.mdc` for OPSEU/CAAT colour rationale
+- External bibliography URLs: single registry in `src/lib/constants/comms-sources.ts` + `.cursor/rules/external-links.mdc` (audit ticket `LINK-001`)
 - Solidarity board posters: `.cursor/rules/solidarity-posters.mdc` (`/tools/solidarity-poster`)
 - Meeting backgrounds (Zoom/Teams): `.cursor/rules/meeting-backgrounds.mdc` (`/tools/meeting-background`) — solidarity energy, face-safe layouts
 - QR link cards: `/tools/qr-card` (client `qrDataUrl`, multi-size print)

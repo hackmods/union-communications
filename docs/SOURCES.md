@@ -2,6 +2,8 @@
 
 External resources cited across guides, tools, and exported materials. Canonical registry: [`src/lib/constants/comms-sources.ts`](../src/lib/constants/comms-sources.ts).
 
+**Link audit:** Open ticket [`LINK-001`](audit/execution-backlog.md) — playbook [`docs/audit/external-links-audit-plan.md`](audit/external-links-audit-plan.md). When updating any URL here, change `comms-sources.ts` first, then this table. Do not add page-level hardcoded duplicates.
+
 ## Branding
 
 | Source | URL | Used in |
