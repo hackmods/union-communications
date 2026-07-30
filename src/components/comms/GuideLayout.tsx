@@ -48,29 +48,42 @@ export function GuideLayout({
           </div>
         )}
         {relatedLinks && relatedLinks.length > 0 && (
-          <nav
-            className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm"
-            aria-label={relatedLabel}
-          >
+          <div className="mt-5 text-sm">
             {relatedLabel && (
-              <span className="font-semibold text-opseu-dark">{relatedLabel}</span>
+              <p className="font-semibold text-opseu-dark">{relatedLabel}</p>
             )}
-            {relatedLinks.map((link, i) => (
-              <span key={link.href} className="inline-flex items-baseline gap-x-3">
-                {i > 0 && (
-                  <span className="text-gray-300" aria-hidden="true">
-                    ·
-                  </span>
+            <nav aria-label={relatedLabel}>
+              <ul
+                className={cn(
+                  "list-disc space-y-1 pl-5 marker:text-gray-400",
+                  relatedLabel ? "mt-2" : "mt-0",
+                  "md:mt-1 md:flex md:flex-wrap md:list-none md:space-y-0 md:pl-0 md:items-baseline md:gap-x-3 md:gap-y-1",
                 )}
-                <Link
-                  href={link.href}
-                  className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+              >
+              {relatedLinks.map((link, i) => (
+                <li
+                  key={link.href}
+                  className="md:inline-flex md:items-baseline md:gap-x-3"
                 >
-                  {link.label}
-                </Link>
-              </span>
-            ))}
-          </nav>
+                  {i > 0 && (
+                    <span
+                      className="hidden text-gray-300 md:inline"
+                      aria-hidden="true"
+                    >
+                      ·
+                    </span>
+                  )}
+                  <Link
+                    href={link.href}
+                    className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+              </ul>
+            </nav>
+          </div>
         )}
       </header>
 
