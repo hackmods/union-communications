@@ -77,6 +77,26 @@ test.describe("SEO smoke @smoke", () => {
     });
   });
 
+  test("tools index and union-boards guide self-canonicalize", async ({
+    page,
+  }) => {
+    await page.goto("/en/tools/");
+    await assertSeoBasics(page, {
+      titleIncludes: /Tools|Toolbox|UnionOps/i,
+      canonicalPath: "/en/tools/",
+      ogUrlIncludes: "/en/tools/",
+      hreflang: true,
+    });
+
+    await page.goto("/fr/guide/union-boards/");
+    await assertSeoBasics(page, {
+      titleIncludes: /tableau|board|UnionOps/i,
+      canonicalPath: "/fr/guide/union-boards/",
+      ogUrlIncludes: "/fr/guide/union-boards/",
+      hreflang: true,
+    });
+  });
+
   test("hub login is noindex and reachable from app redirect", async ({
     page,
   }) => {

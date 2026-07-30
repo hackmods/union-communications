@@ -44,6 +44,7 @@ export function SafeLogoImage({
     <img
       src={current}
       alt={alt}
+      aria-hidden={alt === "" ? true : undefined}
       width={width}
       height={height}
       className={cn("object-contain", className)}

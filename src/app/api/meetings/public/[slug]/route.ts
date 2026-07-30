@@ -15,5 +15,12 @@ export async function GET(_request: Request, { params }: Params) {
     return NextResponse.json({ nextMeeting: null }, { status: 404 });
   }
   const nextMeeting = computeNextMeeting(schedule);
-  return NextResponse.json({ nextMeeting });
+  return NextResponse.json(
+    { nextMeeting },
+    {
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+      },
+    },
+  );
 }

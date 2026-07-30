@@ -97,13 +97,13 @@ Do **not** pull these into a polish PR unless explicitly requested:
   - **Fix:** Surface an error/toast string from i18n.  
   - **Effort:** Quick
 
-- [ ] **P1-07 — Repeated one-shot hydrate `useEffect` (~10 copies)**  
+- [x] **P1-07 — Repeated one-shot hydrate `useEffect` (~10 copies)**  
   - **Paths:** under `src/app/[locale]/tools/` — `action-card`, `board-banner`, `flyer-maker`, `meeting-background`, `pulse-poll`, `qr-board`, `qr-card`, `resizer`, `solidarity-poster`, `document-generator`  
   - **Issue:** Same “hydrate once then seed from Brand Kit” pattern with repeated `eslint-disable-next-line react-hooks/exhaustive-deps`.  
   - **Fix:** Extract `useOneShotBrandSeed()` **only when already editing those pages** — do not drive-by refactor all tools in one PR.  
   - **Effort:** Medium
 
-- [ ] **P1-08 — Repeated example deep-link seeding**  
+- [x] **P1-08 — Repeated example deep-link seeding**  
   - **Paths:**  
     - `src/app/[locale]/tools/graphic-maker/page.tsx`  
     - `src/app/[locale]/tools/flyer-maker/page.tsx`  
@@ -131,7 +131,7 @@ Do **not** pull these into a polish PR unless explicitly requested:
   - **Fix:** Move shared constant next to `LocalLogoPlate.tsx`.  
   - **Effort:** Quick
 
-- [ ] **P1-12 — `coloursFromBrandKit` helper scoped to one tool**  
+- [x] **P1-12 — `coloursFromBrandKit` helper scoped to one tool**  
   - **Path:** `src/app/[locale]/tools/flyer-maker/page.tsx` (~37–41)  
   - **Fix:** Extract to `src/lib/utils/brand-theme.ts` if a second consumer appears; otherwise leave.  
   - **Effort:** Quick
@@ -153,7 +153,7 @@ Do **not** pull these into a polish PR unless explicitly requested:
   - **Fix:** Optional later — add `knip` or similar; not required for polish PRs.  
   - **Effort:** Quick (tooling)
 
-- [ ] **P1-16 — Stale plan todos (docs noise)**  
+- [x] **P1-16 — Stale plan todos (docs noise)**  
   - **Path:** `.cursor/plans/pristine_office_templates.plan.md`  
   - **Fix:** Mark complete or archive; ignore in runtime work.  
   - **Effort:** Quick
@@ -215,13 +215,13 @@ Do **not** pull these into a polish PR unless explicitly requested:
   - **Fix:** Dedupe references; keep one source raster if still needed for export/docs; prefer SVG where safe.  
   - **Effort:** Low
 
-- [ ] **P2-08 — Zero `next/dynamic` / `React.lazy` site-wide**  
+- [x] **P2-08 — Zero `next/dynamic` / `React.lazy` site-wide**  
   - **Paths:** No matches under `src/`; candidates: `src/components/tools/OfficePresetMock.tsx`, `graphic-layouts.tsx`, website ZIP generator  
   - **Issue:** Heavy preview/export subcomponents load eagerly with parent pages.  
   - **Fix:** Lazy-load export panels / heavy mocks on interaction or below fold — only where measurable.  
   - **Effort:** Low–Medium
 
-- [ ] **P2-09 — `document-generator` statically imports full `office-export` module**  
+- [x] **P2-09 — `document-generator` statically imports full `office-export` module**  
   - **Paths:** `src/app/[locale]/tools/document-generator/page.tsx` (~28–39); `src/lib/export/office-export.ts`  
   - **Issue:** Nested libs are dynamic, but the module graph still lands in the initial chunk.  
   - **Fix:** Dynamic-import export entrypoints on click.  
@@ -265,7 +265,7 @@ Do **not** pull these into a polish PR unless explicitly requested:
   - **Fix:** Lower cap and/or compress before save — product-sensitive; treat carefully.  
   - **Effort:** Medium
 
-- [ ] **P2-16 — Public meetings API has no cache headers**  
+- [x] **P2-16 — Public meetings API has no cache headers**  
   - **Path:** `src/app/api/meetings/public/[slug]/route.ts`  
   - **Issue:** Public PII-free JSON could use short CDN/browser cache.  
   - **Fix:** Add short `Cache-Control` / `s-maxage` if semantics allow.  
@@ -349,7 +349,7 @@ Do **not** pull these into a polish PR unless explicitly requested:
   - **Fix:** Pass actual slug/token path into `buildPageMetadata`.  
   - **Effort:** Low
 
-- [ ] **P3-08 — `BrandLogo` / `SafeLogoImage` default `alt=""`**  
+- [x] **P3-08 — `BrandLogo` / `SafeLogoImage` default `alt=""`**  
   - **Paths:** `src/components/brand/SafeLogoImage.tsx`, `src/components/brand/BrandLogo.tsx`  
   - **Issue:** Risky in logo-only contexts (logo-builder chrome, auth avatar-adjacent).  
   - **Fix:** Require callers to pass meaningful alt when the logo is informative; keep empty only when decorative + `aria-hidden`.  
@@ -366,7 +366,7 @@ Do **not** pull these into a polish PR unless explicitly requested:
 
 ### P3 — Lower priority / coverage expansion
 
-- [ ] **P3-10 — Most public guides lack axe smoke**  
+- [x] **P3-10 — Most public guides lack axe smoke**  
   - **Paths:** `e2e/smoke.spec.ts`, `e2e/builders.smoke.spec.ts`  
   - **Issue:** Only home, guide index, accessibility, brand-kit, print, website, email-broadcast (and builders list) are covered.  
   - **Fix:** Incrementally add guide routes.  
@@ -377,7 +377,7 @@ Do **not** pull these into a polish PR unless explicitly requested:
   - **Fix:** Add representatives carefully (auth fixtures).  
   - **Effort:** Medium
 
-- [ ] **P3-12 — SEO E2E only deep-checks ~4 routes**  
+- [x] **P3-12 — SEO E2E only deep-checks ~4 routes**  
   - **Path:** `e2e/seo.smoke.spec.ts`  
   - **Fix:** Expand spot checks for a tool + a guide.  
   - **Effort:** Low

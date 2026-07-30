@@ -171,12 +171,14 @@ export default function BrandKitPage() {
                 <>
                   <SafeLogoImage
                     src={selectedLogos.lockup}
+                    alt={selectedPreset.name}
                     width={200}
                     height={48}
                     className="h-12 max-w-[200px]"
                   />
                   <SafeLogoImage
                     src={selectedLogos.mark}
+                    alt={selectedPreset.name}
                     width={48}
                     height={48}
                     className="h-12 w-12"

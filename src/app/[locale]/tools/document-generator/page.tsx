@@ -306,6 +306,14 @@ function DocumentGeneratorPageContent() {
 
   function handleDownloadZip() {
     void run(async () => {
+      const {
+        exportOfficeBundle,
+        renderDocxFromPreset,
+        renderEventRsvpXlsx,
+        renderPptx,
+        renderSeniorityWorksheetXlsx,
+      } = await import("@/lib/export/office-export");
+
       let logo: BrandLogoBytes | null = null;
       if (state.includeLogo) {
         logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });

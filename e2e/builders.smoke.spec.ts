@@ -126,6 +126,10 @@ test.describe("Public secondary pages smoke @smoke", () => {
     { path: "/en/guide/print/", heading: "Print Communications Guide" },
     { path: "/en/guide/crisis/", heading: "Strike & Crisis Comms Guide" },
     { path: "/en/guide/website/", heading: "Local Website Guide" },
+    { path: "/en/guide/union-boards/", heading: "Union Boards Guide" },
+    { path: "/en/guide/social-media-plan/", heading: "First week" },
+    { path: "/en/guide/photo-consent/", heading: "Photo Consent & Member Media" },
+    { path: "/en/guide/resources/", heading: "Comms Resources" },
     {
       path: "/en/guide/membership-signup/",
       heading: "Grow membership with scan-to-sign materials",
@@ -134,6 +138,11 @@ test.describe("Public secondary pages smoke @smoke", () => {
       path: "/en/guide/email-broadcast/",
       heading: /Email.*outreach/i,
     },
+    { path: "/en/tools/", heading: "Tools" },
+    { path: "/en/examples/", heading: "Social Examples" },
+    { path: "/en/captions/", heading: "Caption & Hashtag Library" },
+    { path: "/en/support/", heading: "Support the builder" },
+    { path: "/en/privacy/", heading: "Privacy Policy" },
     { path: "/en/accessibility/", heading: "Accessibility Statement" },
   ];
 
@@ -162,6 +171,30 @@ test.describe("Public secondary pages smoke @smoke", () => {
     page,
   }) => {
     await page.goto("/en/guide/email-broadcast/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
+
+  test("union-boards guide has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/en/guide/union-boards/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
+
+  test("tools index has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/en/tools/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
+
+  test("examples page has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/en/examples/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });

@@ -25,6 +25,11 @@ interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
   className?: string;
   /**
+   * Accessible name for raster logos. Empty (default) marks the image
+   * decorative — prefer this when adjacent text already names the brand.
+   */
+  alt?: string;
+  /**
    * Force light (white) ink. Prefer `backgroundColor` so ink auto-swaps
    * to black on pale fields.
    */
@@ -109,6 +114,7 @@ function resolveOfficialSrc(
 export function BrandLogo({
   size = "sm",
   className,
+  alt = "",
   onDark = false,
   backgroundColor,
   variantOverride,
@@ -130,6 +136,7 @@ export function BrandLogo({
       className={className}
       ink={ink ?? undefined}
       onDark={onDark && !backgroundColor}
+      title={alt || "UnionOps"}
     />
   );
 
@@ -152,6 +159,7 @@ export function BrandLogo({
     return (
       <SafeLogoImage
         src={resolved.src}
+        alt={alt}
         width={officialDims.width}
         height={officialDims.height}
         className={className}
@@ -192,6 +200,7 @@ export function BrandLogo({
     return (
       <SafeLogoImage
         src={customSrc}
+        alt={alt}
         width={customDims.width}
         height={customDims.height}
         className={className}

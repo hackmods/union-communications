@@ -4,22 +4,22 @@ overview: Upgrade Document Generator templates into ready-to-use Word/Excel layo
 todos:
   - id: script-pristine
     content: Rewrite generate-office-sample-templates.mjs with styles, letterhead bar, {%logo} image placeholders, real layouts for all presets including letterhead + simple-letter; regenerate public binaries
-    status: pending
+    status: completed
   - id: registry-quick
     content: Add letterhead/simple-letter to office-templates.ts (tier groupings); update fills for Steps/RSVP sheets; includeLogo in GeneratorState defaults
-    status: pending
+    status: completed
   - id: logo-docx
     content: Add resolveBrandLogoBytes + docxtemplater-image-module-free wiring in renderDocx; optional includeLogo checkbox; unit-test logo injection
-    status: pending
+    status: completed
   - id: pptx-per-preset
     content: Refactor renderPptx to per-preset decks with contrast-safe ink and optional Brand Kit logo via addImage
-    status: pending
+    status: completed
   - id: page-ux
     content: Revise gallery (quick vs packs), structure preview with logo toggle, default simple-letter; EN/FR copy to match delivery
-    status: pending
+    status: completed
   - id: tests-docs
     content: Update unit tests + PROGRESS/COMMS; lint and test:unit
-    status: pending
+    status: completed
 isProject: false
 ---
 
