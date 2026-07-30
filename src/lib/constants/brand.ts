@@ -124,7 +124,7 @@ export const DEFAULT_BRAND_KIT = {
   updatedAt: new Date().toISOString(),
 };
 
-export const MAX_UPLOAD_SIZE_MB = 10;
+export const MAX_UPLOAD_SIZE_MB = 2;
 export const ALLOWED_IMAGE_TYPES = [
   "image/jpeg",
   "image/png",

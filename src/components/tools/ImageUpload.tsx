@@ -2,7 +2,7 @@
 
 import { useId, useRef, useState } from "react";
 import { validateImageFile } from "@/lib/utils/validation";
-import { fileToDataUrl } from "@/lib/utils";
+import { downscaleImageForStorage } from "@/lib/utils/image-storage";
 import { Button } from "@/components/ui/Button";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { useTranslations } from "next-intl";
@@ -39,8 +39,12 @@ export function ImageUpload({
     }
 
     setError(null);
-    const dataUrl = await fileToDataUrl(result.file);
-    onUpload(dataUrl);
+    try {
+      const dataUrl = await downscaleImageForStorage(result.file);
+      onUpload(dataUrl);
+    } catch {
+      setError(t("uploadFailed"));
+    }
     // Allow re-selecting the same file after clear/replace
     e.target.value = "";
   };

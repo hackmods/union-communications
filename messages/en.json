@@ -60,7 +60,7 @@
     "mobileNav": "Mobile",
     "firstWeek": "First week",
     "allTools": "All tools",
-    "mainNav": "Main",
+    "mainNav": "Site navigation",
     "footerNav": "Footer",
     "language": "Language"
   },
@@ -88,6 +88,7 @@
     "exportFailed": "Export failed. Try again.",
     "exportPartial": "{exported} of {total} sheets exported — {failed} failed. Try again.",
     "upload": "Upload image",
+    "uploadFailed": "Could not process that image. Try another file.",
     "remove": "Remove",
     "preview": "Preview",
     "learnMore": "Learn more",

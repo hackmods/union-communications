@@ -150,7 +150,7 @@ Do **not** pull these into a polish PR unless explicitly requested:
 - [ ] **P1-15 — No automated dead-code detection in CI**  
   - **Path:** `package.json`  
   - **Issue:** Orphans (`OfficeExportButton`, `Tooltip`) slipped through.  
-  - **Fix:** Optional later — add `knip` or similar; not required for polish PRs.  
+  - **Fix:** Optional later — add `knip` or similar; not required for polish PRs. **Still deferred** (tooling noise risk).  
   - **Effort:** Quick (tooling)
 
 - [x] **P1-16 — Stale plan todos (docs noise)**  
@@ -253,16 +253,16 @@ Do **not** pull these into a polish PR unless explicitly requested:
   - **Fix:** Deferred — high ROI but rewrite-shaped (namespace splitting).  
   - **Effort:** High
 
-- [ ] **P2-14 — `SessionProvider` wraps all public Comms pages**  
+- [x] **P2-14 — `SessionProvider` wraps all public Comms pages**  
   - **Paths:** `src/app/[locale]/layout.tsx` → `src/components/providers/AuthProvider.tsx`  
   - **Issue:** Anonymous tool visitors still mount next-auth session client with default refetch-on-focus.  
-  - **Fix:** Deferred — medium effort / tenancy risk.  
+  - **Fix:** Deferred full unmount — closed the hot path with `refetchOnWindowFocus={false}` + `refetchInterval={0}` on `SessionProvider` (2026-07-30).  
   - **Effort:** Medium
 
-- [ ] **P2-15 — Custom logos up to 10 MB base64 in localStorage**  
-  - **Paths:** `src/lib/constants/brand.ts` (`MAX_UPLOAD_SIZE_MB = 10`); `src/components/tools/ImageUpload.tsx`; `src/store/brand-store.ts`  
+- [x] **P2-15 — Custom logos up to 10 MB base64 in localStorage**  
+  - **Paths:** `src/lib/constants/brand.ts` (`MAX_UPLOAD_SIZE_MB = 2`); `src/lib/utils/image-storage.ts`; `src/components/tools/ImageUpload.tsx`  
   - **Issue:** Large `customLogoDataUrl` slows writes and risks quota.  
-  - **Fix:** Lower cap and/or compress before save — product-sensitive; treat carefully.  
+  - **Fix:** Cap uploads at 2 MB and downscale rasters to max 1024px before save (SVG unchanged).  
   - **Effort:** Medium
 
 - [x] **P2-16 — Public meetings API has no cache headers**  
@@ -372,9 +372,9 @@ Do **not** pull these into a polish PR unless explicitly requested:
   - **Fix:** Incrementally add guide routes.  
   - **Effort:** Medium
 
-- [ ] **P3-11 — Hub detail/auth pages lack axe**  
+- [x] **P3-11 — Hub detail/auth pages lack axe**  
   - **Paths:** grievance detail, dashboard, profile, MFA — `e2e/hub.a11y.spec.ts`, `e2e/mfa.setup.spec.ts`  
-  - **Fix:** Add representatives carefully (auth fixtures).  
+  - **Fix:** Added dashboard, profile, grievance detail (from list click), and MFA setup axe coverage (2026-07-30).  
   - **Effort:** Medium
 
 - [x] **P3-12 — SEO E2E only deep-checks ~4 routes**  
@@ -393,10 +393,10 @@ Do **not** pull these into a polish PR unless explicitly requested:
   - **Fix:** Add `aria-hidden` where decorative.  
   - **Effort:** Low
 
-- [ ] **P3-15 — Double nav landmarks on Hub**  
-  - **Paths:** `src/components/layout/Header.tsx` ("Main") + `src/components/hub/HubNav.tsx` ("Hub navigation")  
+- [x] **P3-15 — Double nav landmarks on Hub**  
+  - **Paths:** `src/components/layout/Header.tsx` ("Site navigation") + `src/components/hub/HubNav.tsx` ("Hub navigation")  
   - **Issue:** Two navigation landmarks can confuse AT users in Hub.  
-  - **Fix:** Clarify labels / structure (e.g. hide public Main nav landmark when on Hub, or rename).  
+  - **Fix:** Clarified public chrome label to "Site navigation" / "Navigation du site" so it no longer collides with Hub navigation (2026-07-30).  
   - **Effort:** Low
 
 ### Phase 3 info / accept as-is
@@ -464,8 +464,8 @@ For each closed item:
 | P2-11 | 2 | P2 | Replace next/image for blob/data URLs |
 | P2-12 | 2 | P3 | Revisit `images.unoptimized` with ops plan |
 | P2-13 | 2 | P3 | Deferred: split i18n catalogs |
-| P2-14 | 2 | P3 | Deferred: AuthProvider scope |
-| P2-15 | 2 | P3 | Logo upload size / compress |
+| P2-14 | 2 | P3 | Closed: SessionProvider refetch quieted (full unmount deferred) |
+| P2-15 | 2 | P3 | Closed: 2 MB cap + 1024px downscale |
 | P2-16 | 2 | P3 | Public meetings API cache headers |
 | P2-17 | 2 | P3 | Optional home SSR split |
 | P2-18 | 2 | P3 | Deferred: tool page server shells |
@@ -479,11 +479,11 @@ For each closed item:
 | P3-08 | 3 | P2 | BrandLogo/SafeLogoImage alt discipline |
 | P3-09 | 3 | P2 | i18n Suspense fallback H1s |
 | P3-10 | 3 | P3 | Expand guide axe coverage |
-| P3-11 | 3 | P3 | Expand Hub detail/auth axe |
+| P3-11 | 3 | P3 | Closed: Hub dashboard/profile/detail/MFA axe |
 | P3-12 | 3 | P3 | Expand SEO E2E deep checks |
 | P3-13 | 3 | P3 | Stabilize sitemap lastModified |
 | P3-14 | 3 | P3 | Decorative img `aria-hidden` |
-| P3-15 | 3 | P3 | Hub double-nav landmark clarity |
+| P3-15 | 3 | P3 | Closed: Site vs Hub navigation labels |
 
 ---
 

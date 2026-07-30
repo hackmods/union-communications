@@ -21,13 +21,13 @@ test.describe("Smoke tests @smoke", () => {
   test("navigation links work", async ({ page }) => {
     await page.goto("/en/");
     await page
-      .getByRole("navigation", { name: /Main|Navigation principale/i })
+      .getByRole("navigation", { name: /Site navigation|Navigation du site|Main|Navigation principale/i })
       .getByRole("link", { name: "Get started" })
       .click();
     await expect(page).toHaveURL(/\/en\/onboarding/);
     await page.goto("/en/");
     const main = page.getByRole("navigation", {
-      name: /Main|Navigation principale/i,
+      name: /Site navigation|Navigation du site|Main|Navigation principale/i,
     });
     await main.getByRole("button", { name: /Guides/ }).click();
     // Dropdown anchors use role="menuitem" (not link) while the menu is open.
@@ -44,7 +44,7 @@ test.describe("Smoke tests @smoke", () => {
   }) => {
     await page.goto("/en/");
     const main = page.getByRole("navigation", {
-      name: /Main|Navigation principale/i,
+      name: /Site navigation|Navigation du site|Main|Navigation principale/i,
     });
     await main.getByRole("button", { name: /Guides/ }).click();
     await expect(
@@ -103,7 +103,7 @@ test.describe("Smoke tests @smoke", () => {
   test("French guides menu lists email outreach", async ({ page }) => {
     await page.goto("/fr/");
     const main = page.getByRole("navigation", {
-      name: /Main|Navigation principale/i,
+      name: /Site navigation|Navigation du site|Main|Navigation principale/i,
     });
     await main.getByRole("button", { name: /Guides/i }).click();
     await expect(
@@ -148,7 +148,7 @@ test.describe("Smoke tests @smoke", () => {
   test("guides menu lists email outreach under by channel", async ({ page }) => {
     await page.goto("/en/");
     const main = page.getByRole("navigation", {
-      name: /Main|Navigation principale/i,
+      name: /Site navigation|Navigation du site|Main|Navigation principale/i,
     });
     await main.getByRole("button", { name: /Guides/ }).click();
     await expect(
@@ -159,7 +159,7 @@ test.describe("Smoke tests @smoke", () => {
   test("tools index and mega-menu all tools", async ({ page }) => {
     await page.goto("/en/");
     const main = page.getByRole("navigation", {
-      name: /Main|Navigation principale/i,
+      name: /Site navigation|Navigation du site|Main|Navigation principale/i,
     });
     await main.getByRole("button", { name: /Tools/ }).click();
     await main.getByRole("menuitem", { name: "All tools" }).click();

@@ -96,6 +96,16 @@ const HUB_A11Y_PAGES: {
     path: "/en/app/handoff",
     heading: /Officer handoff wizard|Assistant de passation/i,
   },
+  {
+    label: "dashboard",
+    path: "/en/app",
+    heading: /Dashboard|Tableau de bord/i,
+  },
+  {
+    label: "profile",
+    path: "/en/app/profile",
+    heading: /Your profile|Votre profil/i,
+  },
 ];
 
 test.describe("Hub authenticated a11y @smoke", () => {
@@ -122,4 +132,39 @@ test.describe("Hub authenticated a11y @smoke", () => {
       await expectNoSeriousA11yViolations(page);
     });
   }
+
+  test("grievance detail has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/en/app/grievances");
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: /Grievance Tracking|Suivi des griefs/i,
+      }),
+    ).toBeVisible({ timeout: 20_000 });
+    const detailLink = page.locator('a[href*="/app/grievances/"]').first();
+    await expect(detailLink).toBeVisible({ timeout: 20_000 });
+    await detailLink.click();
+    await expect(page).toHaveURL(/\/en\/app\/grievances\/[^/]+/, {
+      timeout: 20_000,
+    });
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible({
+      timeout: 20_000,
+    });
+    await expectNoSeriousA11yViolations(page);
+  });
+
+  test("mfa setup has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/en/app/mfa/setup");
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: /Set up an authenticator|Configurer une appli/i,
+      }),
+    ).toBeVisible({ timeout: 20_000 });
+    await expectNoSeriousA11yViolations(page);
+  });
 });
