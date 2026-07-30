@@ -59,7 +59,10 @@
     "closeMenu": "Close menu",
     "mobileNav": "Mobile",
     "firstWeek": "First week",
-    "allTools": "All tools"
+    "allTools": "All tools",
+    "mainNav": "Main",
+    "footerNav": "Footer",
+    "language": "Language"
   },
   "common": {
     "download": "Download",
@@ -72,6 +75,7 @@
     "downloadPptx": "Download PowerPoint",
     "copy": "Copy",
     "copied": "Copied!",
+    "copyFailed": "Could not copy to clipboard. Try selecting the text and copying manually.",
     "undo": "Undo",
     "redo": "Redo",
     "reset": "Reset",
@@ -127,7 +131,8 @@
     "shapeRectangleHint": "Best for banners, email signatures, and letterheads",
     "save": "Save to Brand Kit",
     "saveSuccess": "Saved. Site colours and Brand Kit now use this palette and local details.",
-    "exportError": "Could not export the logo. Try again, or switch browser if the problem continues."
+    "exportError": "Could not export the logo. Try again, or switch browser if the problem continues.",
+    "previewAccessibleName": "Logo builder preview"
   },
   "home": {
     "title": "UnionOps: The Toolkit for Local Unions",
@@ -885,6 +890,7 @@
   "boardNotice": {
     "title": "Board Notice Maker",
     "subtitle": "High-contrast workplace bulletin notices - readable from across the room",
+    "previewAccessibleName": "Board notice preview",
     "noticeType": "Notice type",
     "types": {
       "meeting": "General membership meeting",
@@ -984,6 +990,7 @@
   "resizer": {
     "title": "Omnichannel Resizer",
     "subtitle": "Start from your Logo Builder plate (circle, square, or rectangle) or upload an image — crop to social sizes and custom pixels, then download a PNG or ZIP.",
+    "previewAccessibleName": "Resizer preview",
     "source": "Source",
     "sourceLogo": "Local logo",
     "sourceUpload": "Upload",
@@ -1186,6 +1193,7 @@
   "meetingBackground": {
     "title": "Meeting Background Maker",
     "subtitle": "Zoom and Teams virtual backgrounds — bold face-safe layouts, quieter minimal designs, and portrait sizes for phones and tall monitors",
+    "previewAccessibleName": "Meeting background preview",
     "preset": "Slogan preset",
     "leadIn": "Lead-in",
     "headline": "Headline",
@@ -1232,6 +1240,7 @@
   "qrCard": {
     "title": "QR Link Card Maker",
     "subtitle": "Clean attention-grabbing cards for board links - title, optional description, tagline under the QR, and print sizes from full letter down to quarter-sheet",
+    "previewAccessibleName": "QR link card preview",
     "preset": "Preset",
     "destination": "Link or text to encode",
     "savedLinks": "Use a saved Brand Kit link",
@@ -1298,6 +1307,7 @@
   "actionCard": {
     "title": "Action Card Maker",
     "subtitle": "Print QR cards that point members to your external petition or sign-on page — headline, ask, deadline, and a scannable link. Signatures stay on the tool you already use.",
+    "previewAccessibleName": "Action card preview",
     "privacyHint": "UnionOps does not collect petition signatures. Paste a link to ActionNetwork, Google Forms, your national union’s sign-on page, or any other external tool.",
     "preset": "Preset",
     "destination": "Petition / sign-on link",
@@ -1361,6 +1371,7 @@
   "pulsePoll": {
     "title": "Pulse Poll Creator",
     "subtitle": "Author a short bargaining or membership pulse poll, brand it, print a QR card, and publish for in-app response collection.",
+    "previewAccessibleName": "Pulse poll preview",
     "privacyNotice": "Privacy: Publishing registers the poll for anonymous collection (consent required on the share link). Prefer POLLS_DB_BACKEND=postgres in production. No third-party analytics.",
     "pollTitle": "Poll title",
     "intro": "Intro / context (optional)",
@@ -1379,6 +1390,7 @@
     "includeBranding": "Include local branding",
     "previewHeading": "Print / QR preview",
     "qrHint": "QR opens the share link for members to answer.",
+    "qrAlt": "QR code for the poll share link",
     "setupBrandPrompt": "Set up your Brand Kit to stamp polls with your local lockup.",
     "setupBrandLink": "Start onboarding",
     "exportPng": "Download PNG",
@@ -1415,6 +1427,7 @@
   "qrBoard": {
     "title": "QR Board Poster Maker",
     "subtitle": "Multi-QR posters for union boards — dual campaigns or a full set of core links, with a title above each code and the URL underneath",
+    "previewAccessibleName": "QR board poster preview",
     "preset": "Board preset",
     "posterTitle": "Poster title",
     "posterSubtitle": "Subtitle (optional)",
@@ -1470,6 +1483,7 @@
   "websiteTemplate": {
     "title": "Website Template",
     "subtitle": "Download a simple local website based on the Local 243 model - ready for GitHub Pages",
+    "previewAccessibleName": "Website template preview",
     "unionName": "Union name",
     "heroText": "Hero tagline",
     "about1": "About paragraph 1",
@@ -1780,6 +1794,7 @@
   "graphicMaker": {
     "title": "News & Event Graphic Maker",
     "subtitle": "Layouts that match Social Examples - solidarity, notices, results, spotlights, and thank-yous.",
+    "previewAccessibleName": "Graphic maker preview",
     "layout": "Layout",
     "layouts": {
       "solidarity": "Solidarity",
@@ -1824,6 +1839,7 @@
   "quoteCard": {
     "title": "Quote Card Generator",
     "subtitle": "Short leadership quotes with local branding - ready for Instagram.",
+    "previewAccessibleName": "Quote card preview",
     "quote": "Quote",
     "author": "Attribution",
     "role": "Role or committee (optional)",
@@ -1834,6 +1850,7 @@
   "flyerMaker": {
     "title": "Picket / Rally Flyer Maker",
     "subtitle": "High-contrast templates for social media and printing.",
+    "previewAccessibleName": "Flyer maker preview",
     "message": "Main message",
     "date": "Date",
     "time": "Time",

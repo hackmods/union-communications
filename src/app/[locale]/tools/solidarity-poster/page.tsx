@@ -211,14 +211,17 @@ export default function SolidarityPosterPage() {
 
   useEffect(() => {
     let cancelled = false;
-    const task = state.showQr
-      ? qrDataUrl(supportUrlForQr, { width: 140 })
-      : Promise.resolve(null);
-    void task.then((url) => {
-      if (!cancelled) setQrSrc(url);
-    });
+    const timer = window.setTimeout(() => {
+      const task = state.showQr
+        ? qrDataUrl(supportUrlForQr, { width: 140 })
+        : Promise.resolve(null);
+      void task.then((url) => {
+        if (!cancelled) setQrSrc(url);
+      });
+    }, 250);
     return () => {
       cancelled = true;
+      window.clearTimeout(timer);
     };
   }, [state.showQr, supportUrlForQr]);
 

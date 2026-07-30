@@ -81,6 +81,21 @@ const HUB_A11Y_PAGES: {
     path: "/en/app/expenses",
     heading: /Union business expenses|Dépenses d'affaires syndicales/i,
   },
+  {
+    label: "marketplace",
+    path: "/en/app/marketplace",
+    heading: /Union template marketplace|Marché de modèles syndicaux/i,
+  },
+  {
+    label: "snippets",
+    path: "/en/app/snippets",
+    heading: /CA clause snippets|Extraits de clauses CA/i,
+  },
+  {
+    label: "handoff",
+    path: "/en/app/handoff",
+    heading: /Officer handoff wizard|Assistant de passation/i,
+  },
 ];
 
 test.describe("Hub authenticated a11y @smoke", () => {

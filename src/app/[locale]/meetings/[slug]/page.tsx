@@ -10,9 +10,9 @@ import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale, slug } = await params;
   const title = locale === "fr" ? "Prochaine réunion" : "Next meeting";
   const description =
     locale === "fr"
@@ -20,7 +20,7 @@ export async function generateMetadata({
       : "Public next-meeting page for share and QR — not a member portal.";
   return buildPageMetadata({
     locale,
-    path: "/meetings",
+    path: `/meetings/${slug}`,
     title,
     description,
     noIndex: true,

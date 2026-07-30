@@ -14,6 +14,7 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import {
   LocalLogoPlate,
+  LOGO_SHAPES,
   type LogoShape,
 } from "@/components/brand/LocalLogoPlate";
 import { BrandContrastConfirmDialog } from "@/components/brand/BrandContrastConfirmDialog";
@@ -24,8 +25,7 @@ import {
 import { useTranslations } from "next-intl";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
-
-export type { LogoShape };
+import { useExportHandler } from "@/hooks/use-export-handler";
 
 interface LogoState {
   localNumber: string;
@@ -35,8 +35,6 @@ interface LogoState {
   shape: LogoShape;
 }
 
-const SHAPES: LogoShape[] = ["circle", "square", "rectangle"];
-
 export default function LogoBuilderPage() {
   const t = useTranslations("common");
   const tLogo = useTranslations("brandKit.logo");
@@ -45,7 +43,7 @@ export default function LogoBuilderPage() {
   const setBrandKit = useBrandStore((s) => s.setBrandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
-  const [exportError, setExportError] = useState<string | null>(null);
+  const { exportError, runExport } = useExportHandler(tBuilder("exportError"));
   const [contrastConfirmOpen, setContrastConfirmOpen] = useState(false);
   const presetLogos = brandKit.unionPresetId
     ? resolvePresetLogos(getUnionPreset(brandKit.unionPresetId)?.logos)
@@ -92,12 +90,12 @@ export default function LogoBuilderPage() {
     persistToBrandKit();
   };
 
-  const handleExportPng = async () => {
+  const handleExportPng = () => {
     if (!canvasRef.current) return;
-    setExportError(null);
-    try {
+    const node = canvasRef.current;
+    void runExport(async () => {
       await exportNodeAsPng(
-        canvasRef.current,
+        node,
         formatFilename(`local-logo-${state.shape}`, state.localNumber, "png"),
         {
           pixelRatio: 3,
@@ -105,28 +103,25 @@ export default function LogoBuilderPage() {
           backgroundColor: null,
         },
       );
-    } catch {
-      setExportError(tBuilder("exportError"));
-    }
+    });
   };
 
-  const handleExportSvg = async () => {
+  const handleExportSvg = () => {
     if (!canvasRef.current) return;
-    setExportError(null);
-    try {
+    const node = canvasRef.current;
+    void runExport(async () => {
       await exportNodeAsSvg(
-        canvasRef.current,
+        node,
         formatFilename(`local-logo-${state.shape}`, state.localNumber, "svg"),
       );
-    } catch {
-      setExportError(tBuilder("exportError"));
-    }
+    });
   };
 
   return (
     <ToolEditorLayout
       title={tBuilder("title")}
       description={tBuilder("description")}
+      previewAccessibleName={tBuilder("previewAccessibleName")}
       form={
         <Card density="compact" className="space-y-3">
           <Input
@@ -155,7 +150,7 @@ export default function LogoBuilderPage() {
           <SegControl
             label={tBuilder("shape")}
             value={state.shape}
-            options={SHAPES.map((shape) => ({
+            options={LOGO_SHAPES.map((shape) => ({
               value: shape,
               label: tBuilder(
                 shape === "circle"

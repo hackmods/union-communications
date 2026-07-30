@@ -1,5 +1,3 @@
-import { saveAs } from "file-saver";
-
 export type ExportFormat = "png" | "svg";
 
 export interface ExportOptions {
@@ -65,6 +63,7 @@ export async function exportNodeAsPng(
   options: ExportOptions = {},
 ): Promise<void> {
   const { toBlob, toPng } = await import("html-to-image");
+  const { saveAs } = await import("file-saver");
   const opts = pngOptions(node, options);
   // Prefer toBlob — avoids giant data URLs and CSP-blocked fetch(data:)
   const blob = await toBlob(node, opts);
@@ -82,6 +81,7 @@ export async function exportNodeAsSvg(
   filename: string,
 ): Promise<void> {
   const { toSvg } = await import("html-to-image");
+  const { saveAs } = await import("file-saver");
   const dataUrl = await toSvg(node, { cacheBust: true });
   saveAs(dataUrlToBlob(dataUrl), filename);
 }
@@ -102,7 +102,8 @@ export async function exportNodeAsBlob(
   return dataUrlToBlob(dataUrl);
 }
 
-export function downloadBlob(blob: Blob, filename: string): void {
+export async function downloadBlob(blob: Blob, filename: string): Promise<void> {
+  const { saveAs } = await import("file-saver");
   saveAs(blob, filename);
 }
 
@@ -111,6 +112,7 @@ export async function downloadZip(
   zipFilename: string,
 ): Promise<void> {
   const JSZip = (await import("jszip")).default;
+  const { saveAs } = await import("file-saver");
   const zip = new JSZip();
   for (const file of files) {
     zip.file(file.name, file.blob);

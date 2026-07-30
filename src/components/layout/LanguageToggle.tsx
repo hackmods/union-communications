@@ -1,11 +1,12 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 export function LanguageToggle() {
+  const t = useTranslations("nav");
   const router = useRouter();
   const pathname = usePathname();
   const currentLocale = useLocale();
@@ -15,7 +16,11 @@ export function LanguageToggle() {
   };
 
   return (
-    <div className="flex items-center gap-1 rounded-lg border border-gray-200 p-0.5" role="group" aria-label="Language">
+    <div
+      className="flex items-center gap-1 rounded-lg border border-gray-200 p-0.5"
+      role="group"
+      aria-label={t("language")}
+    >
       {routing.locales.map((locale) => (
         <button
           key={locale}

@@ -44,6 +44,7 @@ import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import { useExportHandler } from "@/hooks/use-export-handler";
 
 const OFFICE_PRESET_IDS = new Set<string>(
   OFFICE_PRESETS.map((p) => p.id),
@@ -79,17 +80,20 @@ function initialState(
   };
 }
 
+function DocumentGeneratorSuspenseFallback() {
+  const t = useTranslations("common");
+  return (
+    <PageShell className="py-6 md:py-8 lg:py-10">
+      <p className="text-gray-600" aria-busy="true">
+        {t("loading")}
+      </p>
+    </PageShell>
+  );
+}
+
 export default function DocumentGeneratorPage() {
   return (
-    <Suspense
-      fallback={
-        <PageShell className="py-6 md:py-8 lg:py-10">
-          <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
-            Document & Slide Generator
-          </h1>
-        </PageShell>
-      }
-    >
+    <Suspense fallback={<DocumentGeneratorSuspenseFallback />}>
       <DocumentGeneratorPageContent />
     </Suspense>
   );
@@ -111,8 +115,7 @@ function DocumentGeneratorPageContent() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<GeneratorState>(initialState());
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { exportError: error, exporting: busy, runExport } = useExportHandler();
   const [logoPreviewSrc, setLogoPreviewSrc] = useState<string | null>(null);
   useEffect(() => {
     if (!hydrated || logoDefaultApplied.current) return;
@@ -204,15 +207,7 @@ function DocumentGeneratorPageContent() {
   }
 
   async function run(action: () => Promise<void>) {
-    setBusy(true);
-    setError(null);
-    try {
-      await action();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : tc("exportFailed"));
-    } finally {
-      setBusy(false);
-    }
+    await runExport(action);
   }
 
   async function resolveLogo(): Promise<BrandLogoBytes | null> {
@@ -301,7 +296,7 @@ function DocumentGeneratorPageContent() {
         localNumber: resolveLocalNumber(localNumber),
       });
       if (!blob) throw new Error(t("icsNeedsCalendar"));
-      downloadBlob(
+      await downloadBlob(
         blob,
         formatFilename(preset.fileStem, localNumber, "ics"),
       );

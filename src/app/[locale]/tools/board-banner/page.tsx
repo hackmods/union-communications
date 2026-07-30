@@ -6,7 +6,11 @@ import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
-import { downloadZip, exportNodeAsPng } from "@/lib/export/image-export";
+import {
+  downloadZip,
+  exportNodeAsBlob,
+  exportNodeAsPng,
+} from "@/lib/export/image-export";
 import { nodesToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
@@ -300,24 +304,16 @@ export default function BoardBannerPage() {
         return;
       }
 
-      const { toBlob } = await import("html-to-image");
       const files: { name: string; blob: Blob }[] = [];
       const failedLabels: string[] = [];
       for (let i = 0; i < nodes.length; i++) {
         const piece = kitPieces[i];
         const label = t(trimPieceById(piece).labelKey);
         try {
-          const blob = await toBlob(nodes[i], {
+          const blob = await exportNodeAsBlob(nodes[i], {
             pixelRatio: 2,
-            cacheBust: true,
             backgroundColor: "#FFFFFF",
-            width: Math.max(1, Math.round(nodes[i].offsetWidth)),
-            height: Math.max(1, Math.round(nodes[i].offsetHeight)),
           });
-          if (!blob) {
-            failedLabels.push(label);
-            continue;
-          }
           files.push({
             name: formatFilename(
               sheetFilenameStem(sheet, "trim", piece),
@@ -333,7 +329,7 @@ export default function BoardBannerPage() {
 
       if (files.length === 1) {
         const { downloadBlob } = await import("@/lib/export/image-export");
-        downloadBlob(files[0].blob, files[0].name);
+        await downloadBlob(files[0].blob, files[0].name);
       } else if (files.length > 1) {
         await downloadZip(
           files,

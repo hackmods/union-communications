@@ -115,7 +115,7 @@ export function Header() {
 
         <nav
           className="hidden flex-wrap items-center gap-1 text-base lg:flex"
-          aria-label="Main"
+          aria-label={t("mainNav")}
         >
           <Link
             href={startedHref}

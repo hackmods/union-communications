@@ -9,9 +9,9 @@ import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string; token: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale, token } = await params;
   const title = locale === "fr" ? "RSVP à la réunion" : "Meeting RSVP";
   const description =
     locale === "fr"
@@ -19,7 +19,7 @@ export async function generateMetadata({
       : "Public RSVP form for a local meeting — not a member portal.";
   return buildPageMetadata({
     locale,
-    path: "/r",
+    path: `/r/${token}`,
     title,
     description,
     noIndex: true,

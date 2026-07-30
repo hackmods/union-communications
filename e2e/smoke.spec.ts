@@ -21,12 +21,14 @@ test.describe("Smoke tests @smoke", () => {
   test("navigation links work", async ({ page }) => {
     await page.goto("/en/");
     await page
-      .getByRole("navigation", { name: "Main" })
+      .getByRole("navigation", { name: /Main|Navigation principale/i })
       .getByRole("link", { name: "Get started" })
       .click();
     await expect(page).toHaveURL(/\/en\/onboarding/);
     await page.goto("/en/");
-    const main = page.getByRole("navigation", { name: "Main" });
+    const main = page.getByRole("navigation", {
+      name: /Main|Navigation principale/i,
+    });
     await main.getByRole("button", { name: /Guides/ }).click();
     // Dropdown anchors use role="menuitem" (not link) while the menu is open.
     const blueprint = main.getByRole("menuitem", { name: "The Blueprint" });
@@ -41,7 +43,9 @@ test.describe("Smoke tests @smoke", () => {
     page,
   }) => {
     await page.goto("/en/");
-    const main = page.getByRole("navigation", { name: "Main" });
+    const main = page.getByRole("navigation", {
+      name: /Main|Navigation principale/i,
+    });
     await main.getByRole("button", { name: /Guides/ }).click();
     await expect(
       main.getByRole("menuitem", { name: "Brand Assets" }),
@@ -91,14 +95,16 @@ test.describe("Smoke tests @smoke", () => {
     await page.goto("/fr/");
     await expect(
       page
-        .getByLabel("Footer")
+        .getByLabel(/Footer|Pied de page/i)
         .getByRole("link", { name: /Courriel et diffusion/i }),
     ).toBeVisible();
   });
 
   test("French guides menu lists email outreach", async ({ page }) => {
     await page.goto("/fr/");
-    const main = page.getByRole("navigation", { name: "Main" });
+    const main = page.getByRole("navigation", {
+      name: /Main|Navigation principale/i,
+    });
     await main.getByRole("button", { name: /Guides/i }).click();
     await expect(
       main.getByRole("menuitem", { name: /Courriel et diffusion/i }),
@@ -126,7 +132,7 @@ test.describe("Smoke tests @smoke", () => {
   test("footer includes email outreach guide", async ({ page }) => {
     await page.goto("/en/");
     await expect(
-      page.getByLabel("Footer").getByRole("link", { name: "Email & outreach" }),
+      page.getByLabel(/Footer|Pied de page/i).getByRole("link", { name: "Email & outreach" }),
     ).toBeVisible();
   });
 
@@ -141,7 +147,9 @@ test.describe("Smoke tests @smoke", () => {
 
   test("guides menu lists email outreach under by channel", async ({ page }) => {
     await page.goto("/en/");
-    const main = page.getByRole("navigation", { name: "Main" });
+    const main = page.getByRole("navigation", {
+      name: /Main|Navigation principale/i,
+    });
     await main.getByRole("button", { name: /Guides/ }).click();
     await expect(
       main.getByRole("menuitem", { name: "Email & outreach" }),
@@ -150,7 +158,9 @@ test.describe("Smoke tests @smoke", () => {
 
   test("tools index and mega-menu all tools", async ({ page }) => {
     await page.goto("/en/");
-    const main = page.getByRole("navigation", { name: "Main" });
+    const main = page.getByRole("navigation", {
+      name: /Main|Navigation principale/i,
+    });
     await main.getByRole("button", { name: /Tools/ }).click();
     await main.getByRole("menuitem", { name: "All tools" }).click();
     await expect(page).toHaveURL(/\/en\/tools\/?$/);
@@ -298,6 +308,13 @@ test.describe("Smoke tests @smoke", () => {
 
   test("home page has no serious or critical a11y violations", async ({ page }) => {
     await page.goto("/en/");
+    await expectNoSeriousA11yViolations(page);
+  });
+
+  test("French home page has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/fr/");
     await expectNoSeriousA11yViolations(page);
   });
 

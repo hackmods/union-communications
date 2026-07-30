@@ -1,5 +1,3 @@
-import QRCode from "qrcode";
-
 /** Client-side QR as a PNG data URL. Returns null for empty/invalid input. */
 export async function qrDataUrl(
   text: string,
@@ -8,6 +6,7 @@ export async function qrDataUrl(
   const value = text.trim();
   if (!value) return null;
   try {
+    const QRCode = (await import("qrcode")).default;
     return await QRCode.toDataURL(value, {
       width: options?.width ?? 160,
       margin: options?.margin ?? 1,

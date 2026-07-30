@@ -219,8 +219,9 @@ function GraphicMakerPageContent() {
     <>
       <ToolEditorLayout
         title={tg("title")}
-        description={tg("subtitle")}
-        exportError={exportError}
+      description={tg("subtitle")}
+      previewAccessibleName={tg("previewAccessibleName")}
+      exportError={exportError}
         toolbar={
           <div className="flex flex-wrap gap-2">
             {(Object.keys(TOOL_PRESETS) as ToolPresetKey[]).map((key) => (
@@ -431,15 +432,20 @@ function GraphicMakerPageContent() {
   );
 }
 
+function GraphicMakerSuspenseFallback() {
+  const t = useTranslations("common");
+  return (
+    <PageShell className="py-6 md:py-8 lg:py-10">
+      <p className="text-gray-600" aria-busy="true">
+        {t("loading")}
+      </p>
+    </PageShell>
+  );
+}
+
 export default function GraphicMakerPage() {
   return (
-    <Suspense
-      fallback={
-        <PageShell className="py-6 md:py-8 lg:py-10">
-          <h1 className="text-3xl font-bold text-opseu-dark">Graphic Maker</h1>
-        </PageShell>
-      }
-    >
+    <Suspense fallback={<GraphicMakerSuspenseFallback />}>
       <GraphicMakerPageContent />
     </Suspense>
   );

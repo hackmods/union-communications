@@ -35,6 +35,7 @@ const TOOL_A11Y_PAGES = [
   "/en/tools/quote-card/",
   "/en/tools/resizer/",
   "/en/tools/alt-text/",
+  "/en/tools/pulse-poll/",
 ] as const;
 
 test.describe("Home hero & builders smoke @smoke", () => {
@@ -106,6 +107,14 @@ test.describe("Home hero & builders smoke @smoke", () => {
       await expectNoSeriousA11yViolations(page);
     });
   }
+
+  test("French graphic maker has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/fr/tools/graphic-maker/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
 });
 
 test.describe("Public secondary pages smoke @smoke", () => {

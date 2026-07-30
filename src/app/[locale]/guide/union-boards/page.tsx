@@ -216,7 +216,7 @@ export default async function UnionBoardsGuidePage({
         <p className="mt-1 text-sm text-gray-600">{t("layouts.photosIntro")}</p>
 
         <div className="mt-4 space-y-6">
-          {photos.map((photo) => (
+          {photos.map((photo, index) => (
             <figure
               key={photo.id}
               className="overflow-hidden rounded-lg border border-gray-200"
@@ -226,6 +226,8 @@ export default async function UnionBoardsGuidePage({
                 alt={t(`materials.items.${photo.titleKey}Alt`)}
                 width={1200}
                 height={900}
+                sizes="(max-width: 768px) 100vw, 768px"
+                loading={index === 0 ? "eager" : "lazy"}
                 className="h-auto w-full object-cover"
               />
               <figcaption className="bg-gray-50 px-4 py-3">

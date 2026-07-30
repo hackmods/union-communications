@@ -8,6 +8,9 @@ import { meetsWcagAA } from "@/lib/utils/contrast";
 
 export type LogoShape = "circle" | "square" | "rectangle";
 
+/** Shared by Logo Builder and Omnichannel Resizer. */
+export const LOGO_SHAPES: LogoShape[] = ["circle", "square", "rectangle"];
+
 export interface LocalLogoPlateProps {
   shape: LogoShape;
   primaryColor: string;

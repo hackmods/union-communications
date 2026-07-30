@@ -41,6 +41,12 @@ const nextConfig: NextConfig = {
   },
   trailingSlash: true,
   async headers() {
+    const longCache = [
+      {
+        key: "Cache-Control",
+        value: "public, max-age=31536000, immutable",
+      },
+    ];
     return [
       {
         // Always revalidate the worker script so byte-identical updates apply
@@ -54,6 +60,10 @@ const nextConfig: NextConfig = {
           { key: "Service-Worker-Allowed", value: "/" },
         ],
       },
+      { source: "/assets/:path*", headers: longCache },
+      { source: "/icons/:path*", headers: longCache },
+      { source: "/demo/:path*", headers: longCache },
+      { source: "/templates/:path*", headers: longCache },
       {
         source: "/:path*",
         headers: SECURITY_HEADERS,

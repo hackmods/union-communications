@@ -29,7 +29,7 @@ export function Footer() {
         </div>
         <nav
           className="flex min-w-0 flex-wrap gap-x-4 gap-y-1 sm:max-w-xl sm:justify-end md:max-w-2xl"
-          aria-label="Footer"
+          aria-label={nav("footerNav")}
         >
           <Link href="/guide" className={footerLinkClass}>
             {nav("guide")}

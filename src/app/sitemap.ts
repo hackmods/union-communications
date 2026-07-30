@@ -47,7 +47,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const locale of LOCALES) {
       entries.push({
         url: localeUrl(locale, path),
-        lastModified: new Date(),
         alternates: {
           languages: {
             en: localeUrl("en", path),

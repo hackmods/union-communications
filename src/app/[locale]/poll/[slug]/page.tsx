@@ -9,9 +9,9 @@ import { buildPageMetadata } from "@/lib/seo/build-page-metadata";
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale, slug } = await params;
   const title = locale === "fr" ? "Sondage éclair" : "Pulse poll";
   const description =
     locale === "fr"
@@ -19,7 +19,7 @@ export async function generateMetadata({
       : "Anonymous local pulse poll — share link, not a member portal.";
   return buildPageMetadata({
     locale,
-    path: "/poll",
+    path: `/poll/${slug}`,
     title,
     description,
     noIndex: true,

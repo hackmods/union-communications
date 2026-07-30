@@ -87,7 +87,7 @@ export async function exportDocxFromPreset(
   opts: DocxPresetOpts & { filename: string },
 ): Promise<void> {
   const { filename, ...rest } = opts;
-  downloadBlob(await renderDocxFromPreset(rest), filename);
+  await downloadBlob(await renderDocxFromPreset(rest), filename);
 }
 
 /** Legacy templated DOCX (unit tests / sample-letter only). */
@@ -117,7 +117,7 @@ export async function exportDocx(opts: {
   data: DocxData;
   filename: string;
 }): Promise<void> {
-  downloadBlob(await renderDocx(opts), opts.filename);
+  await downloadBlob(await renderDocx(opts), opts.filename);
 }
 
 const RSVP_HEADER_ROW = 11;
@@ -294,7 +294,7 @@ export async function exportEventRsvpXlsx(
   },
 ): Promise<void> {
   const { filename, ...rest } = opts;
-  downloadBlob(await renderEventRsvpXlsx(rest), filename);
+  await downloadBlob(await renderEventRsvpXlsx(rest), filename);
 }
 
 const SENIORITY_HEADER_ROW = 8;
@@ -423,7 +423,7 @@ export async function exportSeniorityWorksheetXlsx(
   },
 ): Promise<void> {
   const { filename, ...rest } = opts;
-  downloadBlob(await renderSeniorityWorksheetXlsx(rest), filename);
+  await downloadBlob(await renderSeniorityWorksheetXlsx(rest), filename);
 }
 
 /** Legacy XLSX template fill (sample-roster tests). */
@@ -446,7 +446,7 @@ export async function exportXlsx(opts: {
   filename: string;
   fill: XlsxFillFn;
 }): Promise<void> {
-  downloadBlob(await renderXlsx(opts), opts.filename);
+  await downloadBlob(await renderXlsx(opts), opts.filename);
 }
 
 export type PptxDemoOpts = {
@@ -758,7 +758,7 @@ export async function exportPptx(
   opts: PptxDemoOpts & { filename: string },
 ): Promise<void> {
   const { filename, ...demo } = opts;
-  downloadBlob(await renderPptx(demo), filename);
+  await downloadBlob(await renderPptx(demo), filename);
 }
 
 export async function exportOfficeBundle(opts: {

@@ -1,7 +1,6 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import Image from "next/image";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { cn } from "@/lib/utils";
 import type { ExampleAspect, ExampleLayout } from "@/lib/constants/examples";
@@ -110,12 +109,12 @@ function PhotoLayer({
 }) {
   if (!photoUrl) return null;
   return (
-    <Image
+    // eslint-disable-next-line @next/next/no-img-element -- blob/data URL; next/image adds no benefit
+    <img
       src={photoUrl}
       alt=""
-      fill
-      unoptimized
-      className="object-cover"
+      aria-hidden
+      className="absolute inset-0 h-full w-full object-cover"
       style={{ transform: `scale(${photoScale})`, opacity: 0.35 }}
     />
   );

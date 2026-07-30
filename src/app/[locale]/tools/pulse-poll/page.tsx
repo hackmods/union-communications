@@ -86,11 +86,14 @@ export default function PulsePollPage() {
 
   useEffect(() => {
     let cancelled = false;
-    void qrDataUrl(shareUrl, { width: 280 }).then((url) => {
-      if (!cancelled) setQrSrc(url);
-    });
+    const timer = window.setTimeout(() => {
+      void qrDataUrl(shareUrl, { width: 280 }).then((url) => {
+        if (!cancelled) setQrSrc(url);
+      });
+    }, 250);
     return () => {
       cancelled = true;
+      window.clearTimeout(timer);
     };
   }, [shareUrl]);
 
@@ -423,7 +426,7 @@ export default function PulsePollPage() {
         <div className="mt-2 flex flex-col items-center gap-2 rounded-md bg-white/90 p-3 text-gray-900">
           {qrSrc ? (
             // eslint-disable-next-line @next/next/no-img-element -- data URL QR
-            <img src={qrSrc} alt="" width={160} height={160} />
+            <img src={qrSrc} alt={t("qrAlt")} width={160} height={160} />
           ) : (
             <div className="flex h-40 w-40 items-center justify-center bg-gray-100 text-xs text-gray-500">
               QR
@@ -439,6 +442,7 @@ export default function PulsePollPage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      previewAccessibleName={t("previewAccessibleName")}
       form={editor}
       preview={preview}
       exportError={exportError}

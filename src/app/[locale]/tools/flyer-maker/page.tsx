@@ -130,6 +130,7 @@ function FlyerMakerPageContent() {
     <ToolEditorLayout
       title={tf("title")}
       description={tf("subtitle")}
+      previewAccessibleName={tf("previewAccessibleName")}
       exportError={exportError}
       form={
         <Card density="compact" className="space-y-3">
@@ -285,15 +286,20 @@ function FlyerMakerPageContent() {
   );
 }
 
+function FlyerMakerSuspenseFallback() {
+  const t = useTranslations("common");
+  return (
+    <PageShell className="py-6 md:py-8 lg:py-10">
+      <p className="text-gray-600" aria-busy="true">
+        {t("loading")}
+      </p>
+    </PageShell>
+  );
+}
+
 export default function FlyerMakerPage() {
   return (
-    <Suspense
-      fallback={
-        <PageShell className="py-6 md:py-8 lg:py-10">
-          <h1 className="text-3xl font-bold text-opseu-dark">Flyer Maker</h1>
-        </PageShell>
-      }
-    >
+    <Suspense fallback={<FlyerMakerSuspenseFallback />}>
       <FlyerMakerPageContent />
     </Suspense>
   );

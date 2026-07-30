@@ -175,14 +175,17 @@ function QrCardPageContent() {
   useEffect(() => {
     let cancelled = false;
     const destination = state.destination.trim();
-    const task = destination
-      ? qrDataUrl(destination, { width: size.qrPixels })
-      : Promise.resolve(null);
-    void task.then((url) => {
-      if (!cancelled) setQrSrc(url);
-    });
+    const timer = window.setTimeout(() => {
+      const task = destination
+        ? qrDataUrl(destination, { width: size.qrPixels })
+        : Promise.resolve(null);
+      void task.then((url) => {
+        if (!cancelled) setQrSrc(url);
+      });
+    }, 250);
     return () => {
       cancelled = true;
+      window.clearTimeout(timer);
     };
   }, [state.destination, size.qrPixels]);
 
@@ -279,6 +282,7 @@ function QrCardPageContent() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      previewAccessibleName={t("previewAccessibleName")}
       exportError={exportError}
       toolbar={
         !themeEstablished && hydrated ? (

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState, type Ref } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -34,6 +33,7 @@ import {
 } from "@/lib/utils/resizer-layout";
 import {
   LocalLogoPlate,
+  LOGO_SHAPES,
   type LogoShape,
 } from "@/components/brand/LocalLogoPlate";
 import { Button } from "@/components/ui/Button";
@@ -44,6 +44,7 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SocialAssetsGallery } from "@/components/tools/resizer/SocialAssetsGallery";
+import { useExportHandler } from "@/hooks/use-export-handler";
 
 type SourceMode = "logo" | "upload";
 type FitMode = "contain" | "cover";
@@ -62,7 +63,6 @@ interface ResizerState {
   customHeight: number;
 }
 
-const SHAPES: LogoShape[] = ["circle", "square", "rectangle"];
 const PRESET_IDS: ResizerFormatId[] = [
   "facebookCover",
   "facebookPost",
@@ -181,13 +181,14 @@ function FormatCanvasContent({
           className="absolute inset-0 overflow-hidden"
           style={{ backgroundColor: state.primaryColor }}
         >
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element -- blob/data URL upload; next/image adds no benefit */}
+          <img
             src={imageUrl}
             alt=""
-            fill
-            unoptimized
             className={
-              state.fit === "cover" ? "object-cover" : "object-contain"
+              state.fit === "cover"
+                ? "absolute inset-0 h-full w-full object-cover"
+                : "absolute inset-0 h-full w-full object-contain"
             }
             style={{ objectPosition }}
           />
@@ -286,8 +287,7 @@ export default function ResizerPage() {
   const themeSeeded = useRef(false);
 
   const [imageUrl, setImageUrl] = useState<string | undefined>();
-  const [exporting, setExporting] = useState(false);
-  const [exportError, setExportError] = useState<string | null>(null);
+  const { exportError, exporting, runExport } = useExportHandler(t("exportError"));
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
 
@@ -341,35 +341,28 @@ export default function ResizerPage() {
           : "shapeRectangle",
     );
 
-  const handleExportPng = async () => {
+  const handleExportPng = () => {
     if (!canvasRef.current || !canExport) return;
-    setExportError(null);
-    setExporting(true);
-    try {
+    const node = canvasRef.current;
+    void runExport(async () => {
       await exportNodeAsPng(
-        canvasRef.current,
+        node,
         formatFilename(
           `${format.filenameStem}-${format.width}x${format.height}`,
           brandKit.local.localNumber,
           "png",
         ),
         {
-          pixelRatio: exportPixelRatio(canvasRef.current, format),
+          pixelRatio: exportPixelRatio(node, format),
           backgroundColor: state.primaryColor,
         },
       );
-    } catch {
-      setExportError(t("exportError"));
-    } finally {
-      setExporting(false);
-    }
+    });
   };
 
-  const handleExportZip = async () => {
+  const handleExportZip = () => {
     if (!canExport) return;
-    setExportError(null);
-    setExporting(true);
-    try {
+    void runExport(async () => {
       const files: { name: string; blob: Blob }[] = [];
       const presets = platformResizerFormats();
       const zipRoot = zipRootRef.current;
@@ -409,11 +402,7 @@ export default function ResizerPage() {
         files,
         formatFilename("social-assets", brandKit.local.localNumber, "zip"),
       );
-    } catch {
-      setExportError(t("exportError"));
-    } finally {
-      setExporting(false);
-    }
+    });
   };
 
   const setFormatId = (id: ResizerFormatId) => {
@@ -436,6 +425,7 @@ export default function ResizerPage() {
       <ToolEditorLayout
         title={t("title")}
         description={t("subtitle")}
+        previewAccessibleName={t("previewAccessibleName")}
         toolbar={
           !themeEstablished ? (
             <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
@@ -488,7 +478,7 @@ export default function ResizerPage() {
                   role="radiogroup"
                   aria-label={t("shape")}
                 >
-                  {SHAPES.map((shape) => {
+                  {LOGO_SHAPES.map((shape) => {
                     const selected = state.shape === shape;
                     return (
                       <Button

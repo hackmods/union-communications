@@ -11,20 +11,17 @@ import {
   resolveBrandLogoBytes,
   resolveBrandLogoSrc,
 } from "@/lib/export/brand-logo-bytes";
-import {
-  buildPreviewHtml,
-  generateWebsiteZip,
-} from "@/lib/templates/website/generate-website-zip";
+import { buildPreviewHtml } from "@/lib/templates/website/generate-website-zip";
 import {
   DEFAULT_WEBSITE_OFFICERS,
   type WebsiteOfficer,
   type WebsiteTemplateData,
 } from "@/types/website-template";
-import { saveAs } from "file-saver";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { WebsitePreviewFrame } from "@/components/tools/WebsitePreviewFrame";
 import { Callout } from "@/components/ui/Callout";
+import { useExportHandler } from "@/hooks/use-export-handler";
 
 const LOGO_FILE_NAME = "logo.png";
 
@@ -35,6 +32,7 @@ export default function WebsiteTemplatePage() {
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
   const localNumber = resolveLocalNumber(brandKit.local.localNumber);
+  const { exportError, exporting, runExport } = useExportHandler();
 
   const [unionName, setUnionName] = useState(`Local ${localNumber}`);
   const [heroText, setHeroText] = useState(
@@ -47,23 +45,18 @@ export default function WebsiteTemplatePage() {
     "Through collective action and solidarity, we work to ensure the essential work our members perform is recognized and respected.",
   );
   const [contactEmail, setContactEmail] = useState(`local${localNumber}@example.com`);
-  const [facebookUrl, setFacebookUrl] = useState("");
-  const [facebookSeeded, setFacebookSeeded] = useState(false);
+  /** null = follow Brand Kit once hydrated; string = user/local draft */
+  const [facebookDraft, setFacebookDraft] = useState<string | null>(null);
+  const facebookUrl =
+    facebookDraft !== null
+      ? facebookDraft
+      : hydrated
+        ? (brandKit.facebookUrl?.trim() ?? "")
+        : "";
   const [officeAddress, setOfficeAddress] = useState(
     "North Pole, Arctic Circle\n1 Santa Claus Lane\nH0H 0H0, Canada",
   );
   const [officers, setOfficers] = useState<WebsiteOfficer[]>(DEFAULT_WEBSITE_OFFICERS);
-  const [downloading, setDownloading] = useState(false);
-
-  // One-shot prefill after brand kit hydrates (adjust state during render).
-  if (hydrated && !facebookSeeded) {
-    setFacebookSeeded(true);
-    const fromBrand = brandKit.facebookUrl?.trim();
-    if (fromBrand) {
-      setFacebookUrl(fromBrand);
-    }
-  }
-
   const logoPreviewSrc = resolveBrandLogoSrc(brandKit);
   const includeOpseuResources = brandKit.unionPresetId === "opseu";
 
@@ -123,9 +116,12 @@ export default function WebsiteTemplatePage() {
     setOfficers((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleDownload = async () => {
-    setDownloading(true);
-    try {
+  const handleDownload = () => {
+    void runExport(async () => {
+      const { generateWebsiteZip } = await import(
+        "@/lib/templates/website/generate-website-zip"
+      );
+      const { saveAs } = await import("file-saver");
       const logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });
       const blob = await generateWebsiteZip(
         templateData,
@@ -134,15 +130,14 @@ export default function WebsiteTemplatePage() {
           : null,
       );
       saveAs(blob, `local-${localNumber}-website.zip`);
-    } finally {
-      setDownloading(false);
-    }
+    });
   };
 
   return (
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      previewAccessibleName={t("previewAccessibleName")}
       toolbar={<Callout tone="brand">{t("referenceNote")}</Callout>}
       form={
         <Card density="compact" className="space-y-3">
@@ -178,7 +173,7 @@ export default function WebsiteTemplatePage() {
           <Input
             label={t("facebookUrl")}
             value={facebookUrl}
-            onChange={(e) => setFacebookUrl(e.target.value)}
+            onChange={(e) => setFacebookDraft(e.target.value)}
           />
           <Textarea
             label={t("officeAddress")}
@@ -228,14 +223,19 @@ export default function WebsiteTemplatePage() {
             )}
           </div>
 
-          <Button onClick={handleDownload} disabled={downloading}>
-            {downloading ? tc("loading") : t("downloadZip")}
+          {exportError ? (
+            <p className="text-sm text-red-700" role="alert">
+              {exportError}
+            </p>
+          ) : null}
+          <Button onClick={handleDownload} disabled={exporting}>
+            {exporting ? tc("loading") : t("downloadZip")}
           </Button>
         </Card>
       }
       previewActions={
-        <Button onClick={handleDownload} disabled={downloading}>
-          {downloading ? tc("loading") : t("downloadZip")}
+        <Button onClick={handleDownload} disabled={exporting}>
+          {exporting ? tc("loading") : t("downloadZip")}
         </Button>
       }
       preview={

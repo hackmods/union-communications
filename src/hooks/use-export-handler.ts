@@ -32,8 +32,10 @@ export function useExportHandler(fallbackMessage?: string) {
       try {
         await action();
         return true;
-      } catch {
-        setExportError(options?.errorMessage ?? defaultMessage);
+      } catch (e) {
+        const fromError =
+          e instanceof Error && e.message.trim() ? e.message : null;
+        setExportError(options?.errorMessage ?? fromError ?? defaultMessage);
         return false;
       } finally {
         if (!options?.skipBusy) setExporting(false);

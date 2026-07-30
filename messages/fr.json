@@ -59,7 +59,10 @@
     "closeMenu": "Fermer le menu",
     "mobileNav": "Mobile",
     "firstWeek": "Première semaine",
-    "allTools": "Tous les outils"
+    "allTools": "Tous les outils",
+    "mainNav": "Navigation principale",
+    "footerNav": "Pied de page",
+    "language": "Langue"
   },
   "common": {
     "download": "Télécharger",
@@ -72,6 +75,7 @@
     "downloadPptx": "Télécharger PowerPoint",
     "copy": "Copier",
     "copied": "Copié!",
+    "copyFailed": "Impossible de copier dans le presse-papiers. Sélectionnez le texte et copiez-le manuellement.",
     "undo": "Annuler",
     "redo": "Rétablir",
     "reset": "Réinitialiser",
@@ -127,7 +131,8 @@
     "shapeRectangleHint": "Idéal pour les bannières, signatures courriel et en-têtes",
     "save": "Enregistrer dans la trousse de marque",
     "saveSuccess": "Enregistré. Les couleurs du site et la trousse de marque utilisent maintenant cette palette et ces détails.",
-    "exportError": "Impossible d'exporter le logo. Réessayez, ou changez de navigateur si le problème continue."
+    "exportError": "Impossible d'exporter le logo. Réessayez, ou changez de navigateur si le problème continue.",
+    "previewAccessibleName": "Aperçu du créateur de logo"
   },
   "home": {
     "title": "UnionOps: La boîte à outils pour les sections locales",
@@ -885,6 +890,7 @@
   "boardNotice": {
     "title": "Avis pour tableau syndical",
     "subtitle": "Avis pour tableaux d'affichage au travail - lisibles de loin",
+    "previewAccessibleName": "Aperçu d'avis pour tableau",
     "noticeType": "Type d'avis",
     "types": {
       "meeting": "Assemblée générale",
@@ -984,6 +990,7 @@
   "resizer": {
     "title": "Redimensionneur omnicanal",
     "subtitle": "Partir de la plaque Logo Builder (cercle, carré ou rectangle) ou téléverser une image — recadrer aux formats sociaux et pixels personnalisés, puis télécharger un PNG ou un ZIP.",
+    "previewAccessibleName": "Aperçu du redimensionneur",
     "source": "Source",
     "sourceLogo": "Logo local",
     "sourceUpload": "Téléverser",
@@ -1186,6 +1193,7 @@
   "meetingBackground": {
     "title": "Créateur de fonds de réunion",
     "subtitle": "Fonds virtuels Zoom et Teams — mises en page audacieuses dégagées pour le visage, designs minimalistes plus lisibles, et formats portrait pour téléphones et écrans verticaux",
+    "previewAccessibleName": "Aperçu du fond de réunion",
     "preset": "Slogan prédéfini",
     "leadIn": "Amorce",
     "headline": "Titre",
@@ -1232,6 +1240,7 @@
   "qrCard": {
     "title": "Créateur de cartes lien QR",
     "subtitle": "Cartes nettes pour les liens du tableau - titre, description optionnelle, slogan sous le QR, et formats d'impression de la lettre entière au quart de feuille",
+    "previewAccessibleName": "Aperçu de carte lien QR",
     "preset": "Préréglage",
     "destination": "Lien ou texte à encoder",
     "savedLinks": "Utiliser un lien enregistré de la trousse",
@@ -1298,6 +1307,7 @@
   "actionCard": {
     "title": "Créateur de cartes d'action",
     "subtitle": "Imprimez des cartes QR qui renvoient vers votre pétition ou page d'adhésion externe — titre, demande, échéance et lien scannable. Les signatures restent sur l'outil que vous utilisez déjà.",
+    "previewAccessibleName": "Aperçu de carte d'action",
     "privacyHint": "UnionOps ne recueille pas les signatures de pétition. Collez un lien vers ActionNetwork, Google Forms, la page d'adhésion de votre syndicat national ou tout autre outil externe.",
     "preset": "Préréglage",
     "destination": "Lien de pétition / adhésion",
@@ -1361,6 +1371,7 @@
   "pulsePoll": {
     "title": "Créateur de sondage éclair",
     "subtitle": "Rédigez un court sondage de négociation ou d’adhésion, appliquez votre marque, imprimez une carte QR et publiez pour la collecte de réponses dans l’appli.",
+    "previewAccessibleName": "Aperçu du sondage éclair",
     "privacyNotice": "Confidentialité : la publication enregistre le sondage pour une collecte anonyme (consentement requis sur le lien). Préférez POLLS_DB_BACKEND=postgres en production. Aucune analytique tierce.",
     "pollTitle": "Titre du sondage",
     "intro": "Intro / contexte (facultatif)",
@@ -1379,6 +1390,7 @@
     "includeBranding": "Inclure la marque locale",
     "previewHeading": "Aperçu impression / QR",
     "qrHint": "Le QR ouvre le lien de partage pour que les membres répondent.",
+    "qrAlt": "Code QR du lien de partage du sondage",
     "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les sondages avec le logo de votre section.",
     "setupBrandLink": "Commencer l’intégration",
     "exportPng": "Télécharger PNG",
@@ -1415,6 +1427,7 @@
   "qrBoard": {
     "title": "Créateur d'affiches QR pour tableau",
     "subtitle": "Affiches multi-QR pour tableaux syndicaux — deux campagnes ou un ensemble de liens essentiels, titre au-dessus du code et URL en dessous",
+    "previewAccessibleName": "Aperçu d'affiche QR pour tableau",
     "preset": "Préréglage tableau",
     "posterTitle": "Titre de l'affiche",
     "posterSubtitle": "Sous-titre (optionnel)",
@@ -1470,6 +1483,7 @@
   "websiteTemplate": {
     "title": "Modèle de site Web",
     "subtitle": "Téléchargez un site local simple basé sur le modèle Section 243 - prêt pour GitHub Pages",
+    "previewAccessibleName": "Aperçu du modèle de site Web",
     "unionName": "Nom du syndicat",
     "heroText": "Slogan d'accueil",
     "about1": "Paragraphe à propos 1",
@@ -1755,6 +1769,7 @@
   "graphicMaker": {
     "title": "Créateur de graphiques nouvelles et événements",
     "subtitle": "Mises en page comme les exemples sociaux - solidarité, avis, résultats, projecteurs et remerciements.",
+    "previewAccessibleName": "Aperçu du créateur de graphiques",
     "layout": "Mise en page",
     "layouts": {
       "solidarity": "Solidarité",
@@ -1799,6 +1814,7 @@
   "quoteCard": {
     "title": "Générateur de carte citation",
     "subtitle": "Courtes citations de leadership avec image de marque locale - prêtes pour Instagram.",
+    "previewAccessibleName": "Aperçu de carte citation",
     "quote": "Citation",
     "author": "Attribution",
     "role": "Rôle ou comité (optionnel)",
@@ -1809,6 +1825,7 @@
   "flyerMaker": {
     "title": "Créateur d'affiche piquet / rassemblement",
     "subtitle": "Modèles à fort contraste pour les médias sociaux et l'impression.",
+    "previewAccessibleName": "Aperçu du créateur d'affiche",
     "message": "Message principal",
     "date": "Date",
     "time": "Heure",

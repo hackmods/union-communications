@@ -140,21 +140,24 @@ export default function QrBoardPage() {
 
   useEffect(() => {
     let cancelled = false;
-    const tasks = state.slots.map(async (slot) => {
-      const destination = slot.destination.trim();
-      const url = destination
-        ? await qrDataUrl(destination, { width: format.qrPixels })
-        : null;
-      return [slot.id, url] as const;
-    });
-    void Promise.all(tasks).then((entries) => {
-      if (cancelled) return;
-      const next: Record<string, string | null> = {};
-      for (const [id, url] of entries) next[id] = url;
-      setQrBySlot(next);
-    });
+    const timer = window.setTimeout(() => {
+      const tasks = state.slots.map(async (slot) => {
+        const destination = slot.destination.trim();
+        const url = destination
+          ? await qrDataUrl(destination, { width: format.qrPixels })
+          : null;
+        return [slot.id, url] as const;
+      });
+      void Promise.all(tasks).then((entries) => {
+        if (cancelled) return;
+        const next: Record<string, string | null> = {};
+        for (const [id, url] of entries) next[id] = url;
+        setQrBySlot(next);
+      });
+    }, 250);
     return () => {
       cancelled = true;
+      window.clearTimeout(timer);
     };
   }, [state.slots, format.qrPixels]);
 
@@ -222,6 +225,7 @@ export default function QrBoardPage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      previewAccessibleName={t("previewAccessibleName")}
       exportError={exportError}
       toolbar={
         !themeEstablished && hydrated ? (

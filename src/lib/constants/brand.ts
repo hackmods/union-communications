@@ -24,9 +24,6 @@ export const BRAND_COLORS = {
 export const CANVAS_PLACEHOLDER_BG = "#F3F4F6";
 export const CANVAS_PLACEHOLDER_INK = "#4B5563";
 
-/** @deprecated Use BRAND_COLORS - kept for gradual migration */
-export const CAAT_OPSEU_COLORS = BRAND_COLORS;
-
 export const DEFAULT_ASSET_PACK_PATH = assetDefaults.assetPackPath;
 
 /** Bundled official logos for the reference tenant asset pack */
@@ -126,9 +123,6 @@ export const DEFAULT_BRAND_KIT = {
   membershipUrls: [] as MembershipUrl[],
   updatedAt: new Date().toISOString(),
 };
-
-/** @deprecated Prefer `@/lib/constants/resizer-formats`. Re-exported for compatibility. */
-export { PLATFORM_FORMATS } from "@/lib/constants/resizer-formats";
 
 export const MAX_UPLOAD_SIZE_MB = 10;
 export const ALLOWED_IMAGE_TYPES = [

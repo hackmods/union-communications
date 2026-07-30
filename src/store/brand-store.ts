@@ -24,6 +24,15 @@ interface BrandState {
 }
 
 let persistenceUnsub: (() => void) | null = null;
+let saveBrandKitTimer: ReturnType<typeof setTimeout> | null = null;
+
+function scheduleSaveBrandKit(kit: BrandKit) {
+  if (saveBrandKitTimer) clearTimeout(saveBrandKitTimer);
+  saveBrandKitTimer = setTimeout(() => {
+    saveBrandKitTimer = null;
+    void dataAdapter.saveBrandKit(kit);
+  }, 400);
+}
 
 function ensurePersistenceSubscription(
   set: (partial: Partial<BrandState>) => void,
@@ -58,10 +67,14 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
       updatedAt: new Date().toISOString(),
     });
     set({ brandKit: updated });
-    void dataAdapter.saveBrandKit(updated);
+    scheduleSaveBrandKit(updated);
   },
 
   resetBrandKit: () => {
+    if (saveBrandKitTimer) {
+      clearTimeout(saveBrandKitTimer);
+      saveBrandKitTimer = null;
+    }
     const reset = normalizeBrandKit({
       ...DEFAULT_BRAND_KIT,
       updatedAt: new Date().toISOString(),
@@ -71,6 +84,10 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
   },
 
   importBrandKit: (kit) => {
+    if (saveBrandKitTimer) {
+      clearTimeout(saveBrandKitTimer);
+      saveBrandKitTimer = null;
+    }
     const updated = normalizeBrandKit({
       ...(kit as object),
       updatedAt: new Date().toISOString(),

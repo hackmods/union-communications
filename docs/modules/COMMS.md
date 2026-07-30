@@ -92,7 +92,7 @@ v1: all public. Phase 1+: optional premium templates behind login; core tools st
 - `src/lib/export/office-docx-builders.ts` — simple / welcome letter / letterhead / event notice Word layouts
 - `src/lib/export/brand-logo-bytes.ts` — Brand Kit → PNG bytes for Word/PPT
 - `src/components/tools/OfficePresetMock.tsx` — live CSS document preview + example tiles
-- `src/components/tools/OfficeExportButton.tsx` — shared Word/Excel download control (legacy templates)
+- Document Generator builds Word/Excel/PowerPoint via `src/lib/export/office-export.ts` (Brand Kit colours/logo; ExcelJS RSVP sheets; pptxgenjs decks; ZIP bundles). Route: `/tools/document-generator`
 - `src/lib/constants/office-templates.ts` — Document Generator presets (incl. welcome letter, seniority worksheet)
 - `src/components/brand/MembershipUrlsEditor.tsx` — typed FT/PT membership application URLs on Brand Kit
 - `src/lib/utils/local-links.ts` — Brand Kit link normalize + membership preset destination resolve

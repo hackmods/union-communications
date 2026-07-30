@@ -123,6 +123,7 @@ export default function BoardNoticePage() {
         title={t("title")}
         description={t("subtitle")}
         exportError={exportError}
+        previewAccessibleName={t("previewAccessibleName")}
         form={
           <Card density="compact" className="space-y-3">
             <div>

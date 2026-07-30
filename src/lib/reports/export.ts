@@ -48,7 +48,7 @@ export async function exportReportsCsv(
   filename = "unionops-report.csv",
 ): Promise<void> {
   const csv = reportsSummaryToCsv(summary);
-  downloadBlob(new Blob([csv], { type: "text/csv;charset=utf-8" }), filename);
+  await downloadBlob(new Blob([csv], { type: "text/csv;charset=utf-8" }), filename);
 }
 
 export async function renderReportsXlsx(
@@ -100,7 +100,7 @@ export async function exportReportsXlsx(
   summary: ReportsSummary,
   filename = "unionops-report.xlsx",
 ): Promise<void> {
-  downloadBlob(await renderReportsXlsx(summary), filename);
+  await downloadBlob(await renderReportsXlsx(summary), filename);
 }
 
 /** Simple text PDF handout for membership meetings. */
@@ -158,5 +158,5 @@ export async function exportReportsPdf(
     line(`  ${row.key}: ${row.hours} h`);
   }
 
-  downloadBlob(pdf.output("blob"), filename);
+  await downloadBlob(pdf.output("blob"), filename);
 }

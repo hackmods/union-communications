@@ -709,6 +709,7 @@ export default function MeetingBackgroundPage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      previewAccessibleName={t("previewAccessibleName")}
       exportError={exportError}
       toolbar={
         !themeEstablished && hydrated ? (

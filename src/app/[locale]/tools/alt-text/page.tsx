@@ -36,6 +36,7 @@ export default function AltTextPage() {
   const [caption, setCaption] = useState("");
   const [platform, setPlatform] = useState<PlatformId>("instagram");
   const [copied, setCopied] = useState<"alt" | "both" | null>(null);
+  const [copyError, setCopyError] = useState<string | null>(null);
   const [checked, setChecked] = useState<Record<ChecklistId, boolean>>({
     visual: false,
     onImageText: false,
@@ -59,10 +60,13 @@ export default function AltTextPage() {
         ? altText.trim()
         : `${altText.trim()}\n\n${caption.trim()}`.trim();
     if (!payload) return;
+    setCopyError(null);
     const ok = await copyToClipboard(payload);
     if (ok) {
       setCopied(mode);
       setTimeout(() => setCopied(null), 2000);
+    } else {
+      setCopyError(tc("copyFailed"));
     }
   };
 
@@ -177,6 +181,11 @@ export default function AltTextPage() {
             {copied === "both" ? tc("copied") : t("copyBoth")}
           </Button>
         </div>
+        {copyError ? (
+          <p className="text-sm text-red-700" role="alert">
+            {copyError}
+          </p>
+        ) : null}
       </Card>
 
       <div className="space-y-4">

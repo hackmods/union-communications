@@ -33,7 +33,7 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 1. **Hierarchy** — one H1; section labels `text-sm font-medium text-gray-700`
 2. **Controls** — `SegControl` for pill groups (`min-h-11`); selects share Input border/`min-h-11`
 3. **Density** — Card `density="compact"`; form `space-y-3`; tool padding `py-6 md:py-8 lg:py-10`
-4. **Touch** — primary actions and tabs ≥44×44; icon-only → Tooltip / aria-label
+4. **Touch** — primary actions and tabs ≥44×44; icon-only → aria-label (or title)
 5. **Focus** — `focus-visible:ring-2 focus-visible:ring-opseu-blue/40`
 6. **Preview chrome** — screen `p-4 md:p-6` (not export `p-10`); sticky while editing; mobile mini dock is opaque (`bg-white/95`) under header, fixed `h-24` centered scale; full preview ≤~70vh
 7. **Brand** — Brand Kit colours where chrome shows brand; no new OPSEU hex in core UI
@@ -46,7 +46,6 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 - [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx)
 - [`MobilePreviewStage`](src/components/tools/MobilePreviewStage.tsx) — mobile mini (fixed viewport, centered) / full scale-to-fit; desktop passthrough
 - [`SegControl`](src/components/tools/SegControl.tsx)
-- [`Tooltip`](src/components/tools/Tooltip.tsx)
 - Card `density="compact"` | `"default"`
 
 ## Migration status register
