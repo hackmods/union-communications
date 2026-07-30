@@ -4,6 +4,7 @@
 
 - [x] Backlog ticket **`LINK-001`** + [`docs/audit/external-links-audit-plan.md`](audit/external-links-audit-plan.md)
 - [x] Agent rules [`.cursor/rules/external-links.mdc`](../.cursor/rules/external-links.mdc)
+- [x] Session knowledge [`session-knowledge-2026-07-30.md`](audit/session-knowledge-2026-07-30.md) (upstream national site rot — not UnionOps)
 - [x] `opseu-branding` → `https://opseu.org/about/`; `/assets` uses registry; ZIP footer from `getOpseuWebsiteFooterSources()`
 - [ ] Optional: lychee CI; steward verify `hub03.opseu.org` seed URLs
 

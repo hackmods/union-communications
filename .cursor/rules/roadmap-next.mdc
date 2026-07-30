@@ -37,6 +37,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 | Graphic Maker notice invite | `InviteEmailPanel` on notice layout (R0.5 stretch) |
 | Comms enhancement trains | Health/cron ops, email fifth-channel discoverability, sandbox scripts (2026-07-26) |
 | Seniority worksheet + RTR pocket card | Document Generator `seniority-worksheet` XLSX; QR Card `rightToRefuse` reference preset (2026-07-26) |
+| Comms external links (**LINK-001**) | Registry + `/assets` dedupe + ZIP footers; upstream national URL rot documented (2026-07-30) |
 
 ## Next planned work (in order)
 

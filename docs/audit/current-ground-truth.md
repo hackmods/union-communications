@@ -2,7 +2,8 @@
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
 
-**Session narrative + lessons (Hub → Proxmox → password-reset → Time 8c–8e → cron → GM invite):** [`session-knowledge-2026-07-24.md`](session-knowledge-2026-07-24.md)
+**Session narrative + lessons (Hub → Proxmox → password-reset → Time 8c–8e → cron → GM invite):** [`session-knowledge-2026-07-24.md`](session-knowledge-2026-07-24.md)  
+**Comms external links / national site URL rot (LINK-001):** [`session-knowledge-2026-07-30.md`](session-knowledge-2026-07-30.md)
 
 ## Do not re-open as if missing
 
@@ -71,10 +72,12 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 
 | Topic | Reality |
 |-------|---------|
+| Root cause | **Upstream** — reference tenant national union website reorganized; deep CMS URLs (e.g. `/12263`) retired — **not UnionOps regressions** |
 | Registry | `src/lib/constants/comms-sources.ts` + `SourcesBlock` |
-| Open work | **`LINK-001` closed 2026-07-30** — registry + `/assets` + ZIP footers; optional lychee CI + `hub03` seed check remain |
-| Playbook | [`external-links-audit-plan.md`](external-links-audit-plan.md), [`.cursor/rules/external-links.mdc`](../../.cursor/rules/external-links.mdc) |
+| Ticket | **`LINK-001` closed 2026-07-30** — registry + `/assets` + ZIP footers; optional lychee CI + `hub03` seed check remain |
+| Playbook + narrative | [`external-links-audit-plan.md`](external-links-audit-plan.md), [`session-knowledge-2026-07-30.md`](session-knowledge-2026-07-30.md), [`.cursor/rules/external-links.mdc`](../../.cursor/rules/external-links.mdc) |
 | Verify | Browser-first for `opseu.org` (automated HEAD often 403) |
+| Steward copy | `sources.intro` in EN/FR — use `/assets` mirrors when national links fail |
 
 ## Agent habits
 

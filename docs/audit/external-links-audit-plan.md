@@ -3,7 +3,8 @@
 **Ticket:** [`LINK-001`](execution-backlog.md) — **closed 2026-07-30**  
 **Canonical product registry:** [`src/lib/constants/comms-sources.ts`](../../src/lib/constants/comms-sources.ts)  
 **Human bibliography:** [`docs/SOURCES.md`](../SOURCES.md)  
-**Agent rules:** [`.cursor/rules/external-links.mdc`](../../.cursor/rules/external-links.mdc)
+**Agent rules:** [`.cursor/rules/external-links.mdc`](../../.cursor/rules/external-links.mdc)  
+**Session narrative:** [`session-knowledge-2026-07-30.md`](session-knowledge-2026-07-30.md)
 
 Opened **2026-07-30** after stewards reported dead national-union citations. **Root cause:** parent union website reorganizations (deep CMS URLs retired), not UnionOps regressions. UnionOps mirrors logos on `/assets`; registry points at stable hub pages when deep links break.
 

@@ -81,6 +81,22 @@ The four-channel model (boards → print → social → website) remains the Fir
 - [ ] Rename asset pack to `UnionAssetPack` pattern; CAAT pack = reference seed
 - [ ] Replace remaining hardcoded "OPSEU" / "CAAT" strings with `UnionConfig.name` where still present
 
+## External bibliography & link rot
+
+Cited national union and government URLs are **not** owned by UnionOps. When a reference tenant’s parent union reorganizes its public site, deep links in guides may 404 — that is **upstream**, not a toolbox deploy bug.
+
+| Piece | Location |
+|-------|----------|
+| Canonical URL registry | `src/lib/constants/comms-sources.ts` |
+| Per-guide footers | `SourcesBlock` + `PAGE_SOURCE_IDS` |
+| Full bibliography | `/guide/resources` |
+| Mirrored logos (when national download pages move) | `/assets`, `public/assets/caat-opseu/` |
+| Website ZIP national footer | `getOpseuWebsiteFooterSources()` in `generate-website-zip.ts` |
+| Agent playbook | `docs/audit/external-links-audit-plan.md`, `docs/audit/session-knowledge-2026-07-30.md` (**LINK-001**) |
+| Cursor rule | `.cursor/rules/external-links.mdc` |
+
+Steward copy: `sources.intro` in `messages/en.json` / `fr.json`. Update registry first; sync `docs/SOURCES.md`.
+
 ## Public vs Authenticated
 
 v1: all public. Phase 1+: optional premium templates behind login; core tools stay public.
