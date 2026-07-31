@@ -127,6 +127,7 @@ export const UNION_PRESETS: UnionBranding[] = [
     name: "OPSEU",
     primaryColor: "#003DA5",
     secondaryColor: "#FFFFFF",
+    accentColor: "#002868",
     defaultSlogans: ["Educate. Advocate. Organize."],
     logos: {
       useOfficialPack: true,

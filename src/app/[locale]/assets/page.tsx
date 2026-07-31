@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Callout } from "@/components/ui/Callout";
-import { BRAND_COLORS } from "@/lib/constants/brand";
+import { ASSET_PACK_COLORS } from "@/lib/constants/brand";
 import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
@@ -28,10 +28,10 @@ export default async function AssetsPage({
   const ts = await getTranslations("sources");
 
   const swatches = [
-    { name: t("swatchPrimary"), hex: BRAND_COLORS.primary },
-    { name: t("swatchAccent"), hex: BRAND_COLORS.accent },
-    { name: t("swatchSecondary"), hex: BRAND_COLORS.secondary },
-    { name: t("swatchBlack"), hex: BRAND_COLORS.black },
+    { name: t("swatchPrimary"), hex: ASSET_PACK_COLORS.primary },
+    { name: t("swatchAccent"), hex: ASSET_PACK_COLORS.accent },
+    { name: t("swatchSecondary"), hex: ASSET_PACK_COLORS.secondary },
+    { name: t("swatchBlack"), hex: ASSET_PACK_COLORS.black },
   ];
 
   const opseuBranding = COMMS_SOURCES["opseu-branding"];

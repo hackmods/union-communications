@@ -57,8 +57,17 @@ describe("unionPresets", () => {
     const colors = colorsFromUnionPreset(opseu);
     expect(colors.primaryColor).toBe("#003DA5");
     expect(colors.secondaryColor).toBe("#FFFFFF");
-    expect(colors.accentColor).toBe(deriveAccentFromPrimary("#003DA5"));
+    expect(colors.accentColor).toBe("#002868");
     expect(colors.accentColor).toMatch(/^#[0-9A-F]{6}$/);
+
+    const derived = colorsFromUnionPreset({
+      id: "tmp",
+      name: "Tmp",
+      primaryColor: "#003DA5",
+      secondaryColor: "#FFFFFF",
+      defaultSlogans: ["x"],
+    });
+    expect(derived.accentColor).toBe(deriveAccentFromPrimary("#003DA5"));
   });
 
   it("maps OPSEU preset to official logo fields", () => {

@@ -1,5 +1,10 @@
 # Progress Log
 
+## Brand Asset Pack swatches (2026-07-30)
+
+- [x] `/assets` colour swatches use `ASSET_PACK_COLORS` from reference seed (`#003DA5` / `#002868`) — not host `BRAND_COLORS` (platform orange)
+- [x] OPSEU union preset `accentColor` aligned with seed (`#002868`)
+
 ## External links audit ticket (2026-07-30) — COMPLETE (core)
 
 - [x] Backlog ticket **`LINK-001`** + [`docs/audit/external-links-audit-plan.md`](audit/external-links-audit-plan.md)

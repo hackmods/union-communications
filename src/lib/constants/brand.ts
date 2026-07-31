@@ -20,6 +20,19 @@ export const BRAND_COLORS = {
   gray: "#6B7280",
 } as const;
 
+/**
+ * Colours for the bundled reference Brand Asset Pack (`/assets`).
+ * From seed `brandDefaults` — not host chrome (`BRAND_COLORS`), which may be
+ * platform orange while this page mirrors the official union pack logos.
+ */
+export const ASSET_PACK_COLORS = {
+  primary: assetDefaults.primaryColor,
+  secondary: assetDefaults.secondaryColor,
+  accent: assetDefaults.accentColor,
+  white: BRAND_COLORS.white,
+  black: BRAND_COLORS.black,
+} as const;
+
 /** Light plate + ink for empty QR / petition placeholders (WCAG AA on #F3F4F6). */
 export const CANVAS_PLACEHOLDER_BG = "#F3F4F6";
 export const CANVAS_PLACEHOLDER_INK = "#4B5563";
