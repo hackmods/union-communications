@@ -90,7 +90,7 @@ Cited national union and government URLs are **not** owned by UnionOps. When a r
 | Canonical URL registry | `src/lib/constants/comms-sources.ts` |
 | Per-guide footers | `SourcesBlock` + `PAGE_SOURCE_IDS` |
 | Full bibliography | `/guide/resources` |
-| Mirrored logos (when national download pages move) | `/assets`, `public/assets/caat-opseu/` |
+| Mirrored logos (when national download pages move) | `/assets`, `public/assets/caat-opseu/` (OPSEU reference only; gated by Brand Kit preset — see LINK-002) |
 | Website ZIP national footer | `getOpseuWebsiteFooterSources()` in `generate-website-zip.ts` |
 | Agent playbook | `docs/audit/external-links-audit-plan.md`, `docs/audit/session-knowledge-2026-07-30.md` (**LINK-001**) |
 | Cursor rule | `.cursor/rules/external-links.mdc` |

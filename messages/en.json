@@ -1616,7 +1616,9 @@
     },
     "allSources": {
       "title": "Full source bibliography",
-      "intro": "All external references used across guides, tools, and exported materials."
+      "intro": "External references used across guides, tools, and exported materials — filtered to your Brand Kit union when set.",
+      "scopedNote": "National OPSEU citations are hidden because your Brand Kit is set to another union. Change the union preset in",
+      "brandKitLink": "Brand Kit"
     }
   },
   "onboarding": {
@@ -1770,6 +1772,12 @@
   "assets": {
     "title": "Brand Asset Pack",
     "description": "Colours, logos, and usage guidelines for local solidarity communications - customise everything in your Brand Kit so it fits your union.",
+    "referenceNote": "Bundled downloads below are the OPSEU/SEFPO reference tenant pack (not an endorsement). Other unions: set colours and upload your official logo in Brand Kit — we do not ship other national marks without permission.",
+    "otherUnion": {
+      "title": "Your Brand Kit is not OPSEU",
+      "body": "This page mirrors the OPSEU/SEFPO reference asset pack. For your union, set colours and upload an official logo in Brand Kit. We only bundle national marks when we have a clear reuse path — linking to your national brand page is preferred over shipping logos.",
+      "cta": "Open Brand Kit"
+    },
     "primaryLogo": "Primary logo",
     "downloadPng": "Download PNG",
     "logoAlt": "Default brand logo",

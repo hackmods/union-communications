@@ -11,9 +11,18 @@ export interface CommsSource {
   label: string;
   url: string;
   note: string;
+  /**
+   * Brand Kit `unionPresetId` values this citation applies to.
+   * Omit or empty = universal (all unions).
+   * When Brand Kit has no preset yet, OPSEU-scoped sources still show
+   * (reference-tenant / workshop default) — see `sourceMatchesUnion`.
+   */
+  unionIds?: readonly string[];
   /** ISO date (YYYY-MM-DD) when a steward or agent last confirmed the URL in a browser. */
   lastVerified?: string;
 }
+
+const OPSEU_SCOPE = ["opseu"] as const;
 
 /** Canonical external references used across comms guides and tools. */
 export const COMMS_SOURCES: Record<string, CommsSource> = {
@@ -23,6 +32,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     label: "OPSEU/SEFPO graphics, logos & letterhead",
     url: "https://opseu.org/about/",
     note: "About page links to downloadable logos, letterhead, and colour specs. Official OPSEU blue (#003DA5, Pantone 285). White is the graphics accent on blue/dark backgrounds. Mirrored PNGs on UnionOps /assets.",
+    unionIds: OPSEU_SCOPE,
     lastVerified: "2026-07-30",
   },
   "opseu-home": {
@@ -31,6 +41,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     label: "OPSEU/SEFPO",
     url: "https://opseu.org/",
     note: "National union homepage — exported local website footer.",
+    unionIds: OPSEU_SCOPE,
     lastVerified: "2026-07-30",
   },
   "opseu-contact": {
@@ -39,6 +50,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     label: "OPSEU Head Office",
     url: "https://opseu.org/contact/",
     note: "National contact page — exported local website footer.",
+    unionIds: OPSEU_SCOPE,
     lastVerified: "2026-07-30",
   },
   "opseu-member-portal": {
@@ -47,6 +59,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     label: "OPSEU/SEFPO Member Portal",
     url: "https://members.opseu.org/",
     note: "National member resources linked from local websites and crisis comms.",
+    unionIds: OPSEU_SCOPE,
   },
   "opseu-collective-agreements": {
     id: "opseu-collective-agreements",
@@ -54,6 +67,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     label: "OPSEU/SEFPO collective agreements",
     url: "https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/",
     note: "Public CA documents for citing contract language in comms - never post confidential bargaining details.",
+    unionIds: OPSEU_SCOPE,
   },
   "opseu-forms": {
     id: "opseu-forms",
@@ -61,6 +75,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     label: "OPSEU/SEFPO forms and documents",
     url: "https://opseu.org/about-opseu-sefpo/forms-documents/",
     note: "National forms referenced in footer links on exported local websites.",
+    unionIds: OPSEU_SCOPE,
   },
   "local243-website": {
     id: "local243-website",
@@ -68,6 +83,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     label: "OPSEU SEFPO Local 243 website (reference)",
     url: "https://local243.org",
     note: "Live example local site built by Local 243 volunteers. The Website Template tool is a simplified, parameterised version of this GitHub Pages site.",
+    unionIds: OPSEU_SCOPE,
   },
   "github-pages": {
     id: "github-pages",
@@ -178,15 +194,55 @@ export const OPSEU_WEBSITE_FOOTER_SOURCE_IDS = [
   "opseu-contact",
 ] as const;
 
+/**
+ * Whether a registry row applies to the current Brand Kit union preset.
+ * - No `unionIds` → universal.
+ * - Empty / unset preset → reference tenant (OPSEU-scoped still visible).
+ * - Other preset → only matching `unionIds` or universal.
+ */
+export function sourceMatchesUnion(
+  source: CommsSource,
+  unionPresetId?: string | null,
+): boolean {
+  const scope = source.unionIds;
+  if (!scope || scope.length === 0) return true;
+  const preset = unionPresetId?.trim();
+  if (!preset) return scope.includes("opseu");
+  return scope.includes(preset);
+}
+
+/** True when the bundled OPSEU/CAAT asset pack UI should show. */
+export function isReferenceAssetPackVisible(
+  unionPresetId?: string | null,
+): boolean {
+  const preset = unionPresetId?.trim();
+  return !preset || preset === "opseu";
+}
+
+export function filterSourcesByUnion(
+  sources: CommsSource[],
+  unionPresetId?: string | null,
+): CommsSource[] {
+  return sources.filter((s) => sourceMatchesUnion(s, unionPresetId));
+}
+
 export function getOpseuWebsiteFooterSources(): CommsSource[] {
   return OPSEU_WEBSITE_FOOTER_SOURCE_IDS.map((id) => COMMS_SOURCES[id]).filter(
     Boolean,
   );
 }
 
-export function getSourcesForPage(pageId: string): CommsSource[] {
+export function getSourcesForPage(
+  pageId: string,
+  unionPresetId?: string | null,
+): CommsSource[] {
   const ids = PAGE_SOURCE_IDS[pageId] ?? [];
-  return ids.map((id) => COMMS_SOURCES[id]).filter(Boolean);
+  return ids
+    .map((id) => COMMS_SOURCES[id])
+    .filter(
+      (source): source is CommsSource =>
+        Boolean(source) && sourceMatchesUnion(source, unionPresetId),
+    );
 }
 
 export function getSourcesByCategory(

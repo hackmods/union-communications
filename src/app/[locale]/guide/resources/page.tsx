@@ -6,11 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideRelatedLinkList } from "@/components/comms/GuideRelatedLinkList";
 import { Callout } from "@/components/ui/Callout";
-import {
-  COMMS_SOURCES,
-  getSourcesByCategory,
-  type CommsSourceCategory,
-} from "@/lib/constants/comms-sources";
+import { ResourcesSourcesList } from "@/components/comms/ResourcesSourcesList";
 
 export async function generateMetadata({
   params,
@@ -19,14 +15,6 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   return buildPublicPageMetadata("/guide/resources", params);
 }
-
-const categoryOrder: CommsSourceCategory[] = [
-  "branding",
-  "website",
-  "union",
-  "platform",
-  "accessibility",
-];
 
 const pathLinks = [
   { href: "/guide/social-media-plan", key: "plan" as const },
@@ -58,9 +46,6 @@ export default async function ResourcesPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("resources");
-  const ts = await getTranslations("sources");
-  const allSources = Object.values(COMMS_SOURCES);
-  const byCategory = getSourcesByCategory(allSources);
 
   return (
     <GuideLayout
@@ -181,47 +166,7 @@ export default async function ResourcesPage({
         </ul>
       </section>
 
-      <div className="mt-10">
-        <h2 className="text-xl font-bold text-opseu-dark">
-          {t("allSources.title")}
-        </h2>
-        <p className="mt-2 text-gray-600">{t("allSources.intro")}</p>
-
-        <div className="mt-6 space-y-8">
-          {categoryOrder.map((category) => {
-            const sources = byCategory[category];
-            if (sources.length === 0) return null;
-            return (
-              <section
-                key={category}
-                className="border-l-2 border-opseu-blue/30 pl-5"
-              >
-                <h3 className="text-base font-bold text-opseu-dark">
-                  {ts(`categories.${category}`)}
-                </h3>
-                <ul className="mt-3 space-y-3">
-                  {sources.map((source) => (
-                    <li
-                      key={source.id}
-                      className="border-b border-gray-100 pb-3 last:border-0 last:pb-0"
-                    >
-                      <a
-                        href={source.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-medium text-opseu-blue underline"
-                      >
-                        {source.label}
-                      </a>
-                      <p className="mt-1 text-sm text-gray-600">{source.note}</p>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            );
-          })}
-        </div>
-      </div>
+      <ResourcesSourcesList />
     </GuideLayout>
   );
 }

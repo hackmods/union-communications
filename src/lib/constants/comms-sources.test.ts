@@ -4,12 +4,14 @@ import {
   getOpseuWebsiteFooterSources,
   getSourcesForPage,
   getSourcesByCategory,
+  isReferenceAssetPackVisible,
   OPSEU_WEBSITE_FOOTER_SOURCE_IDS,
   PAGE_SOURCE_IDS,
+  sourceMatchesUnion,
 } from "@/lib/constants/comms-sources";
 
 describe("comms-sources", () => {
-  it("resolves sources for each mapped page", () => {
+  it("resolves sources for each mapped page (reference / unset preset)", () => {
     for (const [pageId, ids] of Object.entries(PAGE_SOURCE_IDS)) {
       const sources = getSourcesForPage(pageId);
       expect(sources).toHaveLength(ids.length);
@@ -20,10 +22,45 @@ describe("comms-sources", () => {
     }
   });
 
-  it("includes local243 and OPSEU branding references", () => {
+  it("includes local243 and OPSEU branding references for OPSEU / unset", () => {
     const website = getSourcesForPage("websiteTemplate");
     expect(website.some((s) => s.id === "local243-website")).toBe(true);
     expect(website.some((s) => s.id === "opseu-branding")).toBe(true);
+  });
+
+  it("hides OPSEU-scoped sources when Brand Kit preset is another union", () => {
+    expect(getSourcesForPage("print", "cupe")).toHaveLength(0);
+    expect(getSourcesForPage("blueprint", "cupe").map((s) => s.id)).toEqual([
+      "wcag-21",
+      "facebook-groups",
+    ]);
+    expect(
+      getSourcesForPage("websiteTemplate", "unifor").map((s) => s.id),
+    ).toEqual(["github-pages"]);
+    expect(getSourcesForPage("rightToRefuse", "cupe").map((s) => s.id)).toEqual(
+      ["ontario-ohsa", "ontario-required-posters"],
+    );
+  });
+
+  it("keeps OPSEU-scoped sources when preset is opseu", () => {
+    expect(getSourcesForPage("print", "opseu").some((s) => s.id === "opseu-branding")).toBe(
+      true,
+    );
+  });
+
+  it("matches union scope rules for reference vs other presets", () => {
+    const scoped = COMMS_SOURCES["opseu-branding"];
+    const universal = COMMS_SOURCES["wcag-21"];
+    expect(sourceMatchesUnion(scoped, undefined)).toBe(true);
+    expect(sourceMatchesUnion(scoped, "opseu")).toBe(true);
+    expect(sourceMatchesUnion(scoped, "cupe")).toBe(false);
+    expect(sourceMatchesUnion(universal, "cupe")).toBe(true);
+  });
+
+  it("shows reference asset pack only for unset or opseu", () => {
+    expect(isReferenceAssetPackVisible(undefined)).toBe(true);
+    expect(isReferenceAssetPackVisible("opseu")).toBe(true);
+    expect(isReferenceAssetPackVisible("cupe")).toBe(false);
   });
 
   it("groups sources by category without duplicates", () => {

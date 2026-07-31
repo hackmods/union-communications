@@ -1616,7 +1616,9 @@
     },
     "allSources": {
       "title": "Bibliographie complète des sources",
-      "intro": "Toutes les références externes utilisées dans les guides, outils et documents exportés."
+      "intro": "Références externes utilisées dans les guides, outils et documents exportés — filtrées selon le syndicat de votre trousse de marque lorsqu’il est défini.",
+      "scopedNote": "Les citations nationales OPSEU sont masquées parce que votre trousse de marque est réglée sur un autre syndicat. Changez le préréglage dans la",
+      "brandKitLink": "trousse de marque"
     }
   },
   "onboarding": {
@@ -3934,6 +3936,12 @@
   "assets": {
     "title": "Trousse d'actifs de marque",
     "description": "Couleurs, logos et directives d'usage pour les communications locales de solidarité - personnalisez tout dans votre trousse de marque pour qu'elle convienne à votre syndicat.",
+    "referenceNote": "Les téléchargements ci-dessous sont la trousse de référence OPSEU/SEFPO (pas une approbation). Autres syndicats : réglez les couleurs et téléversez votre logo officiel dans la trousse de marque — nous n’incluons pas d’autres marques nationales sans permission.",
+    "otherUnion": {
+      "title": "Votre trousse de marque n’est pas OPSEU",
+      "body": "Cette page reflète la trousse d’actifs de référence OPSEU/SEFPO. Pour votre syndicat, réglez les couleurs et téléversez un logo officiel dans la trousse de marque. Nous n’incluons des marques nationales que lorsqu’il existe une voie claire de réutilisation — préférer un lien vers la page nationale plutôt que d’embarquer les logos.",
+      "cta": "Ouvrir la trousse de marque"
+    },
     "primaryLogo": "Logo principal",
     "downloadPng": "Télécharger PNG",
     "logoAlt": "Logo de marque par défaut",

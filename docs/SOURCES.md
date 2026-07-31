@@ -2,7 +2,9 @@
 
 External resources cited across guides, tools, and exported materials. Canonical registry: [`src/lib/constants/comms-sources.ts`](../src/lib/constants/comms-sources.ts).
 
-**Link audit:** Open ticket [`LINK-001`](audit/execution-backlog.md) — playbook [`docs/audit/external-links-audit-plan.md`](audit/external-links-audit-plan.md). When updating any URL here, change `comms-sources.ts` first, then this table. Do not add page-level hardcoded duplicates.
+**Link audit:** [`LINK-001`](audit/execution-backlog.md) (URL rot) and [`LINK-002`](audit/execution-backlog.md) (multi-union gating) — playbook [`docs/audit/external-links-audit-plan.md`](audit/external-links-audit-plan.md). When updating any URL here, change `comms-sources.ts` first, then this table. Do not add page-level hardcoded duplicates.
+
+**Union scope:** Rows tagged OPSEU in the registry use `unionIds: ["opseu"]` and are hidden when Brand Kit preset is another union. Unset preset = reference demo (OPSEU still shown). Universal rows (WCAG, Ontario posters, GitHub Pages, …) always show. Stance on bundling logos: [`session-knowledge-2026-07-30-multi-union-sources.md`](audit/session-knowledge-2026-07-30-multi-union-sources.md).
 
 ## Branding
 

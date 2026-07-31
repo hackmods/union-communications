@@ -490,6 +490,20 @@ Added 2026-07-30 after steward reports that national-union bibliography links (s
 - `[LINK-001]` marked closed in this file with date when above are done.  
 **Dependencies:** None blocking; steward/browser confirmation for replacement OPSEU graphics URL before closing.
 
+### [LINK-002] ✅ CLOSED (2026-07-30)
+**Category:** Comms / multi-union  
+**Severity/Priority:** Medium (wrong-union citations + trademark exposure if we ship other national packs casually)  
+**Status:** Closed — `CommsSource.unionIds` + Brand Kit filtering on `SourcesBlock` / Resources / `/assets`; session knowledge on logo bundling risk. Website ZIP OPSEU footer already gated by `includeOpseuResources`.  
+**Problem/Gap Statement:** OPSEU national bibliography and the bundled asset pack appeared for every Brand Kit preset. Product decision: OPSEU-scoped citations only for OPSEU (or unset = reference demo); do not bundle other unions’ official logos without permission — prefer upload + link.  
+**Affected Architecture/Files:**  
+- `src/lib/constants/comms-sources.ts` (`unionIds`, `sourceMatchesUnion`, `isReferenceAssetPackVisible`)  
+- `src/components/comms/SourcesBlock.tsx`, `ResourcesSourcesList.tsx`, `AssetPackPanel.tsx`  
+- Docs: `docs/audit/session-knowledge-2026-07-30-multi-union-sources.md`, `.cursor/rules/external-links.mdc`  
+**Acceptance Criteria:**  
+- `getSourcesForPage("print", "cupe")` is empty; universal sources remain for non-OPSEU presets.  
+- `/assets` hides OPSEU downloads when preset is non-`opseu`.  
+- Knowledge doc records trademark stance (not legal advice).
+
 ---
 
 ## Sequencing note for agents picking up this backlog

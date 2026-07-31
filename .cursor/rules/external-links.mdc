@@ -45,4 +45,8 @@ Registry id `opseu-branding` → `https://opseu.org/about/` (2026-07-30). Legacy
 
 ## Multi-union
 
-National union URLs belong in **reference tenant seed**, `COMMS_SOURCES`, or tenant-specific export templates — not in generic core components. Other unions: their own source entries when product grows beyond reference tenant bibliography.
+- National union URLs belong in **`COMMS_SOURCES`** with optional `unionIds` (e.g. `["opseu"]`), not in generic core components.
+- **`getSourcesForPage(pageId, unionPresetId)`** / `SourcesBlock` filter by Brand Kit preset. Unset preset → reference tenant (OPSEU-scoped still shown). Other presets hide OPSEU-only rows.
+- Website ZIP OPSEU footer: only when `includeOpseuResources` (`unionPresetId === "opseu"`).
+- **Do not** bundle other unions’ official logos because OPSEU is mirrored — colours + steward upload + link to their brand page until written permission. Product stance: [`session-knowledge-2026-07-30-multi-union-sources.md`](../../docs/audit/session-knowledge-2026-07-30-multi-union-sources.md).
+- Other unions: add their own `CommsSource` rows with `unionIds` when product needs them — no logo pack required.

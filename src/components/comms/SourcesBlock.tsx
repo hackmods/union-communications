@@ -5,6 +5,7 @@ import {
   getSourcesForPage,
   type CommsSource,
 } from "@/lib/constants/comms-sources";
+import { useBrandStore } from "@/store/brand-store";
 
 interface SourcesBlockProps {
   pageId: string;
@@ -29,7 +30,12 @@ function SourceItem({ source }: { source: CommsSource }) {
 }
 
 export function SourcesBlock({ pageId, title, intro }: SourcesBlockProps) {
-  const sources = getSourcesForPage(pageId);
+  const unionPresetId = useBrandStore((s) => s.brandKit.unionPresetId);
+  const hydrated = useBrandStore((s) => s.hydrated);
+  const sources = getSourcesForPage(
+    pageId,
+    hydrated ? unionPresetId : undefined,
+  );
   if (sources.length === 0) return null;
 
   return (

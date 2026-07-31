@@ -1,5 +1,12 @@
 # Progress Log
 
+## Multi-union sources + asset pack gate (2026-07-30)
+
+- [x] Session knowledge [`session-knowledge-2026-07-30-multi-union-sources.md`](audit/session-knowledge-2026-07-30-multi-union-sources.md) — OPSEU citation gating, logo bundling stance
+- [x] `CommsSource.unionIds` + `getSourcesForPage(pageId, unionPresetId)` / `SourcesBlock` + Resources list filter by Brand Kit
+- [x] `/assets` shows OPSEU pack only when preset unset or `opseu`; otherwise Brand Kit CTA
+- [x] Website ZIP OPSEU footer already gated (`includeOpseuResources`) — left as-is
+
 ## Brand Asset Pack swatches (2026-07-30)
 
 - [x] `/assets` colour swatches use `ASSET_PACK_COLORS` from reference seed (`#003DA5` / `#002868`) — not host `BRAND_COLORS` (platform orange)
