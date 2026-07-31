@@ -1,15 +1,25 @@
 "use client";
 
+import { useState, type ReactNode } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
-import { ASSET_PACK_COLORS } from "@/lib/constants/brand";
+import {
+  ASSET_PACK_COLORS,
+  BRAND_COLORS,
+  OFFICIAL_LOGOS,
+  isOfficialLogoVariant,
+} from "@/lib/constants/brand";
 import {
   COMMS_SOURCES,
   isReferenceAssetPackVisible,
 } from "@/lib/constants/comms-sources";
+import { isUnionOpsLogoSrc } from "@/lib/constants/unionPresets";
+import { copyToClipboard, cn } from "@/lib/utils";
+import { INK_BLACK, pickContrastingInk } from "@/lib/utils/ink";
 import { useBrandStore } from "@/store/brand-store";
 
 const guidelineKeys = [
@@ -22,29 +32,190 @@ const guidelineKeys = [
   "questions",
 ] as const;
 
+type Swatch = { name: string; hex: string };
+
+type LogoDownload = {
+  href: string;
+  downloadName?: string;
+};
+
+function needsChecker(hex: string): boolean {
+  return pickContrastingInk(hex) === INK_BLACK;
+}
+
+function resolveKitLogoDownload(kit: {
+  useOfficialLogo: boolean;
+  officialLogoVariant?: string;
+  customLogoDataUrl?: string;
+}): LogoDownload | null {
+  if (kit.useOfficialLogo) {
+    const variant = isOfficialLogoVariant(kit.officialLogoVariant)
+      ? kit.officialLogoVariant
+      : "lockup";
+    if (variant === "lockup") {
+      return {
+        href: OFFICIAL_LOGOS.lockup.src,
+        downloadName: "logo-primary.png",
+      };
+    }
+    if (variant === "mark" || variant === "slitBlue") {
+      return {
+        href: OFFICIAL_LOGOS.mark.src,
+        downloadName: "logo-mark.png",
+      };
+    }
+    if (variant === "slitWhite") {
+      return {
+        href: OFFICIAL_LOGOS.mark.srcOnDark,
+        downloadName: "logo-mark-white.png",
+      };
+    }
+  }
+
+  const custom = kit.customLogoDataUrl?.trim();
+  if (!custom || isUnionOpsLogoSrc(custom)) return null;
+
+  if (custom.startsWith("data:")) {
+    const mime = custom.slice(5, custom.indexOf(";"));
+    const ext =
+      mime === "image/jpeg"
+        ? "jpg"
+        : mime === "image/svg+xml"
+          ? "svg"
+          : mime === "image/webp"
+            ? "webp"
+            : "png";
+    return { href: custom, downloadName: `brand-logo.${ext}` };
+  }
+
+  if (custom.startsWith("/") || /^https?:\/\//i.test(custom)) {
+    const leaf = custom.split("?")[0]?.split("/").pop();
+    return {
+      href: custom,
+      downloadName: leaf && leaf.includes(".") ? leaf : "brand-logo.png",
+    };
+  }
+
+  return null;
+}
+
+function SwatchGrid({
+  swatches,
+  copyLabel,
+  copiedLabel,
+}: {
+  swatches: Swatch[];
+  copyLabel: string;
+  copiedLabel: string;
+}) {
+  const [copiedHex, setCopiedHex] = useState<string | null>(null);
+
+  async function handleCopy(hex: string) {
+    const ok = await copyToClipboard(hex);
+    if (!ok) return;
+    setCopiedHex(hex);
+    window.setTimeout(() => {
+      setCopiedHex((current) => (current === hex ? null : current));
+    }, 1500);
+  }
+
+  return (
+    <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      {swatches.map((s) => {
+        const checker = needsChecker(s.hex);
+        return (
+          <div key={`${s.name}-${s.hex}`} className="text-center">
+            <button
+              type="button"
+              onClick={() => void handleCopy(s.hex)}
+              className="group mx-auto block w-full max-w-[7rem] rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+              aria-label={`${copyLabel} ${s.hex}`}
+            >
+              <div
+                className={cn(
+                  "mx-auto h-14 w-14 overflow-hidden rounded-lg border border-gray-200",
+                  checker && "bg-[length:10px_10px]",
+                )}
+                style={
+                  checker
+                    ? {
+                        backgroundImage:
+                          "linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%)",
+                        backgroundPosition: "0 0, 0 5px, 5px -5px, -5px 0",
+                      }
+                    : undefined
+                }
+              >
+                <div
+                  className="h-full w-full"
+                  style={{ backgroundColor: s.hex }}
+                />
+              </div>
+              <p className="mt-2 text-sm font-medium">{s.name}</p>
+              <p className="font-mono text-xs text-gray-500 group-hover:text-opseu-blue">
+                {copiedHex === s.hex ? copiedLabel : s.hex}
+              </p>
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function LogoDownloadCard({
+  children,
+  href,
+  downloadName,
+  label,
+}: {
+  children: ReactNode;
+  href: string;
+  downloadName?: string;
+  label: string;
+}) {
+  return (
+    <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white px-4 py-4">
+      <div className="flex min-h-20 items-center justify-center">{children}</div>
+      <a
+        href={href}
+        download={downloadName}
+        className="text-sm font-medium text-opseu-blue underline"
+      >
+        {label}
+      </a>
+    </div>
+  );
+}
+
 export function AssetPackPanel() {
   const t = useTranslations("assets");
-  const unionPresetId = useBrandStore((s) => s.brandKit.unionPresetId);
+  const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
-  const showPack = isReferenceAssetPackVisible(
-    hydrated ? unionPresetId : undefined,
+  const showReferencePack = isReferenceAssetPackVisible(
+    hydrated ? brandKit.unionPresetId : undefined,
   );
 
-  if (!showPack) {
+  if (!hydrated) {
     return (
-      <Callout className="mt-2">
-        <p className="font-semibold text-opseu-dark">{t("otherUnion.title")}</p>
-        <p className="mt-2 leading-relaxed text-gray-700">
-          {t("otherUnion.body")}
-        </p>
-        <Link href="/brand-kit" className="mt-4 inline-block">
-          <Button size="sm">{t("otherUnion.cta")}</Button>
-        </Link>
-      </Callout>
+      <p className="text-sm text-gray-500" role="status">
+        {t("loading")}
+      </p>
     );
   }
 
-  const swatches = [
+  const kitSwatches: Swatch[] = [
+    { name: t("swatchPrimary"), hex: brandKit.primaryColor || BRAND_COLORS.primary },
+    { name: t("swatchAccent"), hex: brandKit.accentColor || BRAND_COLORS.accent },
+    {
+      name: t("swatchSecondary"),
+      hex: brandKit.secondaryColor || BRAND_COLORS.secondary,
+    },
+    { name: t("swatchBlack"), hex: BRAND_COLORS.black },
+  ];
+
+  const kitDownload = resolveKitLogoDownload(brandKit);
+  const referenceSwatches: Swatch[] = [
     { name: t("swatchPrimary"), hex: ASSET_PACK_COLORS.primary },
     { name: t("swatchAccent"), hex: ASSET_PACK_COLORS.accent },
     { name: t("swatchSecondary"), hex: ASSET_PACK_COLORS.secondary },
@@ -54,63 +225,52 @@ export function AssetPackPanel() {
 
   return (
     <>
-      <Callout tone="muted" className="mb-8">
-        <p className="text-sm leading-relaxed text-gray-700">
-          {t("referenceNote")}
-        </p>
-      </Callout>
-
       <section className="border-l-2 border-opseu-blue/30 pl-5">
-        <h2 className="text-xl font-bold text-opseu-dark">{t("primaryLogo")}</h2>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white px-4 py-3">
-            <Image
-              src="/assets/caat-opseu/logo-primary.png"
-              alt={t("logoAlt")}
-              width={200}
-              height={80}
-              className="object-contain"
-            />
-            <a
-              href="/assets/caat-opseu/logo-primary.png"
-              download
-              className="text-sm font-medium text-opseu-blue underline"
-            >
-              {t("downloadPng")}
-            </a>
-          </div>
-          <div className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white px-4 py-3">
-            <Image
-              src="/assets/caat-opseu/logo-mark.png"
-              alt={t("markAlt")}
-              width={72}
-              height={72}
-              className="object-contain"
-            />
-            <a
-              href="/assets/caat-opseu/logo-mark.png"
-              download
-              className="text-sm font-medium text-opseu-blue underline"
-            >
-              {t("downloadMark")}
-            </a>
-          </div>
+        <div className="flex flex-wrap items-baseline justify-between gap-3">
+          <h2 className="text-xl font-bold text-opseu-dark">
+            {t("yourColours")}
+          </h2>
+          <Link
+            href="/brand-kit"
+            className="text-sm font-medium text-opseu-blue underline"
+          >
+            {t("editBrandKit")}
+          </Link>
         </div>
+        <SwatchGrid
+          swatches={kitSwatches}
+          copyLabel={t("copyHex")}
+          copiedLabel={t("copied")}
+        />
       </section>
 
       <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
-        <h2 className="text-xl font-bold text-opseu-dark">{t("swatchesTitle")}</h2>
-        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {swatches.map((s) => (
-            <div key={s.name} className="text-center">
-              <div
-                className="mx-auto h-14 w-14 rounded-lg border border-gray-200"
-                style={{ backgroundColor: s.hex }}
-              />
-              <p className="mt-2 text-sm font-medium">{s.name}</p>
-              <p className="text-xs text-gray-500">{s.hex}</p>
+        <h2 className="text-xl font-bold text-opseu-dark">{t("yourLogo")}</h2>
+        <div className="mt-4 grid max-w-xl gap-4 sm:grid-cols-2">
+          <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white px-4 py-4">
+            <div className="flex min-h-20 items-center justify-center">
+              <BrandLogo size="lg" alt={t("logoAlt")} />
             </div>
-          ))}
+            {kitDownload ? (
+              <a
+                href={kitDownload.href}
+                download={kitDownload.downloadName}
+                className="text-sm font-medium text-opseu-blue underline"
+              >
+                {t("downloadPng")}
+              </a>
+            ) : (
+              <p className="text-sm text-gray-600">
+                {t("downloadUnavailable")}{" "}
+                <Link
+                  href="/brand-kit"
+                  className="font-medium text-opseu-blue underline"
+                >
+                  {t("editBrandKit")}
+                </Link>
+              </p>
+            )}
+          </div>
         </div>
       </section>
 
@@ -120,19 +280,86 @@ export function AssetPackPanel() {
           {guidelineKeys.map((key) => (
             <li key={key}>{t(`guidelines.${key}`)}</li>
           ))}
-          <li>
-            {t("guidelines.sourceLabel")}{" "}
-            <a
-              href={opseuBranding.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-opseu-blue underline"
-            >
-              {opseuBranding.label}
-            </a>
-          </li>
         </ul>
       </Callout>
+
+      <div className="mt-6">
+        <Link href="/brand-kit">
+          <Button size="sm">{t("editBrandKit")}</Button>
+        </Link>
+      </div>
+
+      {showReferencePack && (
+        <section className="mt-12 border-t border-gray-200 pt-10">
+          <h2 className="text-xl font-bold text-opseu-dark">
+            {t("referencePackTitle")}
+          </h2>
+          <Callout tone="muted" className="mt-4">
+            <p className="text-sm leading-relaxed text-gray-700">
+              {t("referenceNote")}
+            </p>
+          </Callout>
+
+          <div className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
+            <h3 className="text-lg font-semibold text-opseu-dark">
+              {t("primaryLogo")}
+            </h3>
+            <div className="mt-4 grid max-w-2xl gap-4 sm:grid-cols-2">
+              <LogoDownloadCard
+                href="/assets/caat-opseu/logo-primary.png"
+                downloadName="logo-primary.png"
+                label={t("downloadPng")}
+              >
+                <Image
+                  src="/assets/caat-opseu/logo-primary.png"
+                  alt={t("logoAlt")}
+                  width={200}
+                  height={80}
+                  className="max-h-20 w-auto max-w-full object-contain"
+                />
+              </LogoDownloadCard>
+              <LogoDownloadCard
+                href="/assets/caat-opseu/logo-mark.png"
+                downloadName="logo-mark.png"
+                label={t("downloadMark")}
+              >
+                <Image
+                  src="/assets/caat-opseu/logo-mark.png"
+                  alt={t("markAlt")}
+                  width={72}
+                  height={72}
+                  className="max-h-20 w-auto max-w-full object-contain"
+                />
+              </LogoDownloadCard>
+            </div>
+          </div>
+
+          <div className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
+            <h3 className="text-lg font-semibold text-opseu-dark">
+              {t("swatchesTitle")}
+            </h3>
+            <SwatchGrid
+              swatches={referenceSwatches}
+              copyLabel={t("copyHex")}
+              copiedLabel={t("copied")}
+            />
+          </div>
+
+          <Callout tone="muted" className="mt-8">
+            <p className="text-sm text-gray-700">
+              {t("guidelines.sourceLabel")}{" "}
+              <a
+                href={opseuBranding.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-opseu-blue underline"
+              >
+                {opseuBranding.label}
+              </a>
+            </p>
+          </Callout>
+        </section>
+      )}
     </>
   );
 }

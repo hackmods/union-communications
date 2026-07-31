@@ -120,7 +120,7 @@ test.describe("Home hero & builders smoke @smoke", () => {
 test.describe("Public secondary pages smoke @smoke", () => {
   const pages: { path: string; heading: string | RegExp }[] = [
     { path: "/en/onboarding/", heading: "Set up your local brand" },
-    { path: "/en/assets/", heading: "Brand Asset Pack" },
+    { path: "/en/assets/", heading: "Brand Assets" },
     { path: "/en/manifesto/", heading: /Why UnionOps is free/i },
     { path: "/en/install/", heading: "Install UnionOps on your desktop" },
     { path: "/en/guide/print/", heading: "Print Communications Guide" },

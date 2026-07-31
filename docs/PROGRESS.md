@@ -1,15 +1,21 @@
 # Progress Log
 
+## Brand Assets page for every union (2026-07-31)
+
+- [x] `/assets` uses `PageShell` wide; always shows live Brand Kit colours + logo (copy hex, download when raster available)
+- [x] OPSEU reference pack (static logos + `ASSET_PACK_COLORS`) only when preset unset or `opseu`
+- [x] Removed non-OPSEU dead-end Callout; white/near-white swatches use checker backdrop
+
 ## Multi-union sources + asset pack gate (2026-07-30)
 
 - [x] Session knowledge [`session-knowledge-2026-07-30-multi-union-sources.md`](audit/session-knowledge-2026-07-30-multi-union-sources.md) — OPSEU citation gating, logo bundling stance
 - [x] `CommsSource.unionIds` + `getSourcesForPage(pageId, unionPresetId)` / `SourcesBlock` + Resources list filter by Brand Kit
-- [x] `/assets` shows OPSEU pack only when preset unset or `opseu`; otherwise Brand Kit CTA
+- [x] `/assets` shows OPSEU pack only when preset unset or `opseu`; otherwise Brand Kit CTA *(superseded 2026-07-31 — kit always shown; pack gated)*
 - [x] Website ZIP OPSEU footer already gated (`includeOpseuResources`) — left as-is
 
 ## Brand Asset Pack swatches (2026-07-30)
 
-- [x] `/assets` colour swatches use `ASSET_PACK_COLORS` from reference seed (`#003DA5` / `#002868`) — not host `BRAND_COLORS` (platform orange)
+- [x] `/assets` colour swatches use `ASSET_PACK_COLORS` from reference seed (`#003DA5` / `#002868`) — not host `BRAND_COLORS` (platform orange) *(reference section only as of 2026-07-31)*
 - [x] OPSEU union preset `accentColor` aligned with seed (`#002868`)
 
 ## External links audit ticket (2026-07-30) — COMPLETE (core)

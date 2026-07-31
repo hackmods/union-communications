@@ -36,10 +36,11 @@
 - Risk ↓ with written permission, clear “not affiliated / not endorsed,” steward **upload** instead of shipping marks, local-volunteer framing.
 - **OPSEU pack** today = pragmatic reference-tenant mirror + cite official About page — do **not** copy that pattern for CUPE/Unifor/etc. without a green light. Prefer colours + upload + link.
 
-### 4. `/assets` Brand Asset Pack
+### 4. `/assets` Brand Assets
 
-- Swatches use `ASSET_PACK_COLORS` (seed OPSEU blue), not host `BRAND_COLORS` (platform orange).
-- UI shows the OPSEU reference pack when Brand Kit preset is unset or `opseu`; otherwise Callout → Brand Kit (upload / colours), no implied endorsement that the pack is “your” union’s.
+- Always shows the steward’s live Brand Kit colours + logo (wide shell).
+- Bundled OPSEU reference pack (static logos + `ASSET_PACK_COLORS`) only when Brand Kit preset is unset or `opseu`.
+- Non-OPSEU presets no longer dead-end at a Callout — they get their kit; we still do not ship other national marks.
 
 ---
 

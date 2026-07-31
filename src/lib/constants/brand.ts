@@ -21,9 +21,9 @@ export const BRAND_COLORS = {
 } as const;
 
 /**
- * Colours for the bundled reference Brand Asset Pack (`/assets`).
+ * Colours for the bundled OPSEU/SEFPO reference section on `/assets`.
  * From seed `brandDefaults` — not host chrome (`BRAND_COLORS`), which may be
- * platform orange while this page mirrors the official union pack logos.
+ * platform orange, and not the steward’s live Brand Kit (shown separately).
  */
 export const ASSET_PACK_COLORS = {
   primary: assetDefaults.primaryColor,

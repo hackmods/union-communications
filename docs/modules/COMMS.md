@@ -12,7 +12,7 @@ Top bar is slim and dual-audience oriented:
 |------|------------------|
 | **Get started** | `/onboarding` when Brand Kit is not established; `/guide/social-media-plan` (First week) when it is — Brand Kit stays a separate link |
 | **Guides ▾** | **Start here:** Comms Resources, Blueprint, First week, Strike Guide, Photo Consent, Membership signup · **By channel:** Print, Union Boards, Website, **Email & outreach** · **Libraries:** Social Examples, Captions · **About:** Brand Assets, Why it's free, Install as an app |
-| **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Asset Pack) |
+| **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Assets) |
 | **Tools ▾** | Mega-menu columns — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, QR Cards · **Print:** Flyer · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · footer **All tools** → `/tools` |
 | **Officer Hub** | `/app` (auth) — filled primary CTA |
 

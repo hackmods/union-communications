@@ -43,9 +43,9 @@ export const PUBLIC_PAGE_SEO: Record<
         "Reusable post templates with a solidarity-first tone. Copy, customize, and paste into your social channels.",
     },
     "/assets": {
-      title: "Brand Asset Pack",
+      title: "Brand Assets",
       description:
-        "Colours, logos, and usage guidelines for local solidarity communications — customize everything in your Brand Kit.",
+        "Your Brand Kit colours and logo for local solidarity communications — customize everything in Brand Kit.",
     },
     "/tools": {
       title: "Tools",
@@ -150,9 +150,9 @@ export const PUBLIC_PAGE_SEO: Record<
         "Modèles de publications réutilisables au ton solidaire. Copiez, adaptez et collez dans vos réseaux.",
     },
     "/assets": {
-      title: "Trousse d'actifs de marque",
+      title: "Actifs de marque",
       description:
-        "Couleurs, logos et directives d'usage pour les communications locales de solidarité — personnalisez tout dans votre trousse.",
+        "Les couleurs et le logo de votre trousse de marque pour les communications locales de solidarité — personnalisez tout dans la trousse.",
     },
     "/tools": {
       title: "Outils",
