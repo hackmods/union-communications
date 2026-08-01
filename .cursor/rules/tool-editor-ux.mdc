@@ -22,7 +22,8 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 | Sources | `footer` slot — not a sibling ad-hoc PageShell |
 | Non-canvas tools | densify only; no fake Edit/Preview |
 | Guides | `GuideLayout` `py-8 md:py-12`; left-accent sections; Callout for notes; related-links row |
-| Focus prose | `PageShell focus`; section dividers / Callout — not nested Cards for short prose |
+| Focus prose | `PageShell focus` (manifesto, auth, install) — not multi-panel workspaces |
+| Brand Kit | `PageShell` **wide** with paired panels at `lg+`; utility row near heading |
 | Header | `<lg` drawer; `lg+` Guides/Tools dropdowns (keep groups — see `comms-public-nav.mdc`) |
 | Footer | wrap/stack; tap targets ≥44px |
 | Auth | centered `max-w-md`; dense form; calm shell |

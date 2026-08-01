@@ -46,7 +46,7 @@ export default function ProfilePage() {
 
   if (status === "loading" || !session?.user || !checked) {
     return (
-      <div className="mx-auto max-w-lg px-4 py-8 md:py-12">
+      <div className="mx-auto max-w-lg py-4 md:py-6">
         <p className="text-gray-600" aria-live="polite">
           {t("sessionLoading")}
         </p>
@@ -55,7 +55,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="mx-auto max-w-lg space-y-6 px-4 py-2 md:py-4">
+    <div className="mx-auto max-w-lg space-y-6 py-2 md:py-4">
       <div>
         <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
           {t("profileTitle")}

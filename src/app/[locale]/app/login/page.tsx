@@ -97,7 +97,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="mx-auto max-w-md px-4 py-8 md:py-12">
+    <div className="mx-auto max-w-md py-4 md:py-6">
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("login")}
       </h1>

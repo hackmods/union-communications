@@ -54,7 +54,7 @@ function CaptionsPageContent() {
         Reusable post templates with a solidarity-first tone. Click copy and customize.
       </p>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {CAPTION_TEMPLATES.map((template) => {
           const fullText = `${template.caption}\n\n${template.hashtags.join(" ")}`;
           const highlighted = highlightId === template.id;

@@ -19,7 +19,6 @@ import { SegControl } from "@/components/tools/SegControl";
 import { cn } from "@/lib/utils";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
-import { PageShell } from "@/components/layout/PageShell";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { fieldsFromBoardNotice } from "@/lib/comms/event-email-from-notice";
 
@@ -295,34 +294,34 @@ export default function BoardNoticePage() {
             </div>
           </div>
         }
+        footer={
+          <div className="space-y-6">
+            {showInviteEmail ? (
+              <InviteEmailPanel
+                fields={inviteFields}
+                localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+                messagesNamespace="boardNotice"
+                footerExtra={
+                  <p className="text-sm text-gray-600">
+                    {t("inviteEmail.eventPackPrompt")}{" "}
+                    <Link
+                      href="/tools/document-generator"
+                      className="font-medium text-opseu-blue underline"
+                    >
+                      {t("inviteEmail.eventPackLink")}
+                    </Link>
+                  </p>
+                }
+              />
+            ) : null}
+            <SourcesBlock
+              pageId="boardNotice"
+              title={ts("title")}
+              intro={ts("intro")}
+            />
+          </div>
+        }
       />
-      {showInviteEmail ? (
-        <PageShell className="pb-4">
-          <InviteEmailPanel
-            fields={inviteFields}
-            localNumber={resolveLocalNumber(brandKit.local.localNumber)}
-            messagesNamespace="boardNotice"
-            footerExtra={
-              <p className="text-sm text-gray-600">
-                {t("inviteEmail.eventPackPrompt")}{" "}
-                <Link
-                  href="/tools/document-generator"
-                  className="font-medium text-opseu-blue underline"
-                >
-                  {t("inviteEmail.eventPackLink")}
-                </Link>
-              </p>
-            }
-          />
-        </PageShell>
-      ) : null}
-      <PageShell className="pb-8">
-        <SourcesBlock
-          pageId="boardNotice"
-          title={ts("title")}
-          intro={ts("intro")}
-        />
-      </PageShell>
     </>
   );
 }

@@ -414,22 +414,22 @@ function GraphicMakerPageContent() {
             </div>
           </div>
         }
+        footer={
+          state.layout === "notice" ? (
+            <InviteEmailPanel
+              messagesNamespace="graphicMaker"
+              localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+              fields={
+                {
+                  title: state.headline,
+                  subtitle: state.subheadline,
+                  location: state.detail || undefined,
+                } satisfies EventEmailFields
+              }
+            />
+          ) : null
+        }
       />
-      {state.layout === "notice" ? (
-        <PageShell className="mt-6 pb-4">
-          <InviteEmailPanel
-            messagesNamespace="graphicMaker"
-            localNumber={resolveLocalNumber(brandKit.local.localNumber)}
-            fields={
-              {
-                title: state.headline,
-                subtitle: state.subheadline,
-                location: state.detail || undefined,
-              } satisfies EventEmailFields
-            }
-          />
-        </PageShell>
-      ) : null}
       <ConsentModal
         open={consentOpen}
         onConfirm={handleConsent}

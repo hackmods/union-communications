@@ -92,11 +92,40 @@ export default function BrandKitPage() {
   };
 
   return (
-    <PageShell size="focus" className="py-8 md:py-12">
-      <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
-        {t("title")}
-      </h1>
-      <p className="mt-2 max-w-prose text-gray-600">{t("description")}</p>
+    <PageShell className="py-8 md:py-12">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
+        <header className="min-w-0 max-w-3xl">
+          <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
+            {t("title")}
+          </h1>
+          <p className="mt-2 max-w-prose text-gray-600">{t("description")}</p>
+        </header>
+
+        <div className="flex shrink-0 flex-col gap-2 sm:items-end">
+          <div className="flex flex-wrap gap-2 sm:justify-end">
+            <Button onClick={handleExport}>{t("export")}</Button>
+            <Button variant="outline" onClick={() => fileRef.current?.click()}>
+              {t("import")}
+            </Button>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="application/json"
+              className="sr-only"
+              aria-label={t("import")}
+              onChange={handleImport}
+            />
+            <Button variant="ghost" onClick={resetBrandKit}>
+              {t("resetDefaults")}
+            </Button>
+          </div>
+          {message ? (
+            <p className="text-sm text-opseu-blue" role="status">
+              {message}
+            </p>
+          ) : null}
+        </div>
+      </div>
 
       {storageBlocked ? (
         <Callout
@@ -117,118 +146,124 @@ export default function BrandKitPage() {
         </Callout>
       ) : null}
 
-      <Callout tone="brand" className="mt-6 space-y-3">
-        <div>
-          <p className="text-sm font-semibold text-opseu-dark">
-            {t("purposeSets")}
-          </p>
-          <p className="mt-1 text-sm text-gray-700">{t("purposeSetsBody")}</p>
-        </div>
-        <div>
-          <p className="text-sm font-semibold text-opseu-dark">
-            {t("purposeUnlocks")}
-          </p>
-          <p className="mt-1 text-sm text-gray-700">{t("purposeUnlocksBody")}</p>
-        </div>
-        <div className="button-row">
-          {themeEstablished ? (
-            <Link href="/guide/social-media-plan">
-              <Button size="sm">{t("continueRoadmap")}</Button>
-            </Link>
-          ) : (
-            <Link href="/onboarding">
-              <Button size="sm">{t("startSetup")}</Button>
-            </Link>
-          )}
-          <Link
-            href="/assets"
-            className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-          >
-            {t("assetsLink")}
-          </Link>
-          <Link
-            href="/guide/email-broadcast"
-            className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-          >
-            {nav("emailBroadcastGuide")}
-          </Link>
-        </div>
-      </Callout>
-
-      <Card density="compact" className="mt-6 space-y-3">
-        <CardTitle className="text-base">{t("unionPreset.title")}</CardTitle>
-        <p className="text-sm text-gray-600">{t("unionPreset.description")}</p>
-        <UnionPresetSelect
-          label={t("unionPreset.label")}
-          value={unionPresetId}
-          placeholder={t("unionPreset.placeholder")}
-          onSelect={applyUnionPreset}
-        />
-        {selectedPreset && selectedLogos ? (
-          <div className="space-y-3">
-            <div className="flex flex-wrap items-center gap-4">
-              {selectedLogos.useOfficialPack ? (
-                <>
-                  <SafeLogoImage
-                    src={selectedLogos.lockup}
-                    alt={selectedPreset.name}
-                    width={200}
-                    height={48}
-                    className="h-12 max-w-[200px]"
-                  />
-                  <SafeLogoImage
-                    src={selectedLogos.mark}
-                    alt={selectedPreset.name}
-                    width={48}
-                    height={48}
-                    className="h-12 w-12"
-                  />
-                </>
-              ) : (
-                <UnionOpsMark
-                  primaryColor={selectedPreset.primaryColor}
-                  secondaryColor={selectedPreset.secondaryColor}
-                  size="md"
-                />
-              )}
-            </div>
-            <p className="text-xs text-gray-500">{t("unionPreset.logoNote")}</p>
-            <div>
-              <p className="text-sm font-medium text-gray-700">
-                {t("unionPreset.slogans")}
-              </p>
-              <ul className="mt-1 list-inside list-disc text-sm text-gray-600">
-                {selectedPreset.defaultSlogans.map((slogan) => (
-                  <li key={slogan}>{slogan}</li>
-                ))}
-              </ul>
-            </div>
+      <div className="mt-6 grid gap-4 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] xl:items-start">
+        <Callout tone="brand" className="space-y-3">
+          <div>
+            <p className="text-sm font-semibold text-opseu-dark">
+              {t("purposeSets")}
+            </p>
+            <p className="mt-1 text-sm text-gray-700">{t("purposeSetsBody")}</p>
           </div>
-        ) : null}
-      </Card>
+          <div>
+            <p className="text-sm font-semibold text-opseu-dark">
+              {t("purposeUnlocks")}
+            </p>
+            <p className="mt-1 text-sm text-gray-700">{t("purposeUnlocksBody")}</p>
+          </div>
+          <div className="button-row">
+            {themeEstablished ? (
+              <Link href="/guide/social-media-plan">
+                <Button size="sm">{t("continueRoadmap")}</Button>
+              </Link>
+            ) : (
+              <Link href="/onboarding">
+                <Button size="sm">{t("startSetup")}</Button>
+              </Link>
+            )}
+            <Link
+              href="/assets"
+              className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+            >
+              {t("assetsLink")}
+            </Link>
+            <Link
+              href="/guide/email-broadcast"
+              className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+            >
+              {nav("emailBroadcastGuide")}
+            </Link>
+          </div>
+        </Callout>
 
-      <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <Card density="compact" className="space-y-3">
+          <CardTitle className="text-base">{t("unionPreset.title")}</CardTitle>
+          <p className="text-sm text-gray-600">{t("unionPreset.description")}</p>
+          <UnionPresetSelect
+            label={t("unionPreset.label")}
+            value={unionPresetId}
+            placeholder={t("unionPreset.placeholder")}
+            onSelect={applyUnionPreset}
+          />
+          {selectedPreset && selectedLogos ? (
+            <div className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
+              <div className="flex flex-wrap items-center gap-4">
+                {selectedLogos.useOfficialPack ? (
+                  <>
+                    <SafeLogoImage
+                      src={selectedLogos.lockup}
+                      alt={selectedPreset.name}
+                      width={200}
+                      height={48}
+                      className="h-12 max-w-[200px]"
+                    />
+                    <SafeLogoImage
+                      src={selectedLogos.mark}
+                      alt={selectedPreset.name}
+                      width={48}
+                      height={48}
+                      className="h-12 w-12"
+                    />
+                  </>
+                ) : (
+                  <UnionOpsMark
+                    primaryColor={selectedPreset.primaryColor}
+                    secondaryColor={selectedPreset.secondaryColor}
+                    size="md"
+                  />
+                )}
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs text-gray-500">{t("unionPreset.logoNote")}</p>
+                <div>
+                  <p className="text-sm font-medium text-gray-700">
+                    {t("unionPreset.slogans")}
+                  </p>
+                  <ul className="mt-1 list-inside list-disc text-sm text-gray-600">
+                    {selectedPreset.defaultSlogans.map((slogan) => (
+                      <li key={slogan}>{slogan}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </Card>
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <Card density="compact" className="space-y-3">
           <CardTitle className="text-base">{t("currentSettings")}</CardTitle>
           <BrandProfileSwitcher />
-          <Input
-            label={t("localNumber")}
-            value={brandKit.local.localNumber}
-            onChange={(e) =>
-              setBrandKit({
-                local: { ...brandKit.local, localNumber: e.target.value },
-              })
-            }
-          />
-          <Input
-            label={t("subText")}
-            value={brandKit.local.subText}
-            onChange={(e) =>
-              setBrandKit({
-                local: { ...brandKit.local, subText: e.target.value },
-              })
-            }
-          />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Input
+              label={t("localNumber")}
+              value={brandKit.local.localNumber}
+              onChange={(e) =>
+                setBrandKit({
+                  local: { ...brandKit.local, localNumber: e.target.value },
+                })
+              }
+            />
+            <Input
+              label={t("subText")}
+              value={brandKit.local.subText}
+              onChange={(e) =>
+                setBrandKit({
+                  local: { ...brandKit.local, subText: e.target.value },
+                })
+              }
+            />
+          </div>
           <ThemePicker
             primaryColor={brandKit.primaryColor}
             secondaryColor={brandKit.secondaryColor}
@@ -271,46 +306,25 @@ export default function BrandKitPage() {
         </Card>
       </div>
 
-      <Card density="compact" className="mt-4 space-y-3">
-        <LocalLinksEditor
-          websiteUrl={brandKit.websiteUrl ?? ""}
-          facebookUrl={brandKit.facebookUrl ?? ""}
-          customLinks={brandKit.customLinks ?? []}
-          onWebsiteChange={(url) => setBrandKit({ websiteUrl: url })}
-          onFacebookChange={(url) => setBrandKit({ facebookUrl: url })}
-          onCustomLinksChange={(links) => setBrandKit({ customLinks: links })}
-        />
-      </Card>
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <Card density="compact" className="space-y-3">
+          <LocalLinksEditor
+            websiteUrl={brandKit.websiteUrl ?? ""}
+            facebookUrl={brandKit.facebookUrl ?? ""}
+            customLinks={brandKit.customLinks ?? []}
+            onWebsiteChange={(url) => setBrandKit({ websiteUrl: url })}
+            onFacebookChange={(url) => setBrandKit({ facebookUrl: url })}
+            onCustomLinksChange={(links) => setBrandKit({ customLinks: links })}
+          />
+        </Card>
 
-      <Card density="compact" className="mt-4 space-y-3">
-        <MembershipUrlsEditor
-          membershipUrls={brandKit.membershipUrls ?? []}
-          onChange={(urls) => setBrandKit({ membershipUrls: urls })}
-        />
-      </Card>
-
-      <div className="button-row mt-6">
-        <Button onClick={handleExport}>{t("export")}</Button>
-        <Button variant="outline" onClick={() => fileRef.current?.click()}>
-          {t("import")}
-        </Button>
-        <input
-          ref={fileRef}
-          type="file"
-          accept="application/json"
-          className="sr-only"
-          aria-label={t("import")}
-          onChange={handleImport}
-        />
-        <Button variant="ghost" onClick={resetBrandKit}>
-          {t("resetDefaults")}
-        </Button>
+        <Card density="compact" className="space-y-3">
+          <MembershipUrlsEditor
+            membershipUrls={brandKit.membershipUrls ?? []}
+            onChange={(urls) => setBrandKit({ membershipUrls: urls })}
+          />
+        </Card>
       </div>
-      {message && (
-        <p className="mt-4 text-sm text-opseu-blue" role="status">
-          {message}
-        </p>
-      )}
     </PageShell>
   );
 }

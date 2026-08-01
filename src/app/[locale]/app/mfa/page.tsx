@@ -41,7 +41,7 @@ export default function MfaPage() {
 
   if (status === "loading" || !session?.user || mfaEnabled === null) {
     return (
-      <div className="mx-auto max-w-md px-4 py-8 md:py-12">
+      <div className="mx-auto max-w-md py-4 md:py-6">
         <p className="text-gray-600" aria-live="polite">
           {t("sessionLoading")}
         </p>
@@ -51,7 +51,7 @@ export default function MfaPage() {
 
   if (!mfaEnabled) {
     return (
-      <div className="mx-auto max-w-md px-4 py-8 md:py-12">
+      <div className="mx-auto max-w-md py-4 md:py-6">
         <Card density="compact">
           <CardTitle className="text-base">{t("mfaDisabledTitle")}</CardTitle>
           <p className="mt-2 text-gray-600">{t("mfaDisabledDesc")}</p>
@@ -65,7 +65,7 @@ export default function MfaPage() {
 
   if (session.user.mfaVerified) {
     return (
-      <div className="mx-auto max-w-md px-4 py-8 md:py-12">
+      <div className="mx-auto max-w-md py-4 md:py-6">
         <Card density="compact">
           <CardTitle className="text-base">{t("mfaVerified")}</CardTitle>
           <p className="mt-2 text-gray-600">{t("mfaVerifiedDesc")}</p>
@@ -122,7 +122,7 @@ export default function MfaPage() {
   };
 
   return (
-    <div className="mx-auto max-w-md px-4 py-8 md:py-12">
+    <div className="mx-auto max-w-md py-4 md:py-6">
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("mfaTitle")}
       </h1>

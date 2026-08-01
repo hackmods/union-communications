@@ -225,56 +225,58 @@ export function AssetPackPanel() {
 
   return (
     <>
-      <section className="border-l-2 border-opseu-blue/30 pl-5">
-        <div className="flex flex-wrap items-baseline justify-between gap-3">
-          <h2 className="text-xl font-bold text-opseu-dark">
-            {t("yourColours")}
-          </h2>
-          <Link
-            href="/brand-kit"
-            className="text-sm font-medium text-opseu-blue underline"
-          >
-            {t("editBrandKit")}
-          </Link>
-        </div>
-        <SwatchGrid
-          swatches={kitSwatches}
-          copyLabel={t("copyHex")}
-          copiedLabel={t("copied")}
-        />
-      </section>
-
-      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
-        <h2 className="text-xl font-bold text-opseu-dark">{t("yourLogo")}</h2>
-        <div className="mt-4 grid max-w-xl gap-4 sm:grid-cols-2">
-          <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white px-4 py-4">
-            <div className="flex min-h-20 items-center justify-center">
-              <BrandLogo size="lg" alt={t("logoAlt")} />
-            </div>
-            {kitDownload ? (
-              <a
-                href={kitDownload.href}
-                download={kitDownload.downloadName}
-                className="text-sm font-medium text-opseu-blue underline"
-              >
-                {t("downloadPng")}
-              </a>
-            ) : (
-              <p className="text-sm text-gray-600">
-                {t("downloadUnavailable")}{" "}
-                <Link
-                  href="/brand-kit"
-                  className="font-medium text-opseu-blue underline"
-                >
-                  {t("editBrandKit")}
-                </Link>
-              </p>
-            )}
+      <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
+        <section className="border-l-2 border-opseu-blue/30 pl-5">
+          <div className="flex flex-wrap items-baseline justify-between gap-3">
+            <h2 className="text-xl font-bold text-opseu-dark">
+              {t("yourColours")}
+            </h2>
+            <Link
+              href="/brand-kit"
+              className="text-sm font-medium text-opseu-blue underline"
+            >
+              {t("editBrandKit")}
+            </Link>
           </div>
-        </div>
-      </section>
+          <SwatchGrid
+            swatches={kitSwatches}
+            copyLabel={t("copyHex")}
+            copiedLabel={t("copied")}
+          />
+        </section>
 
-      <Callout tone="muted" className="mt-8">
+        <section className="border-l-2 border-opseu-blue/30 pl-5">
+          <h2 className="text-xl font-bold text-opseu-dark">{t("yourLogo")}</h2>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:max-w-none lg:grid-cols-1 xl:grid-cols-2">
+            <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white px-4 py-4">
+              <div className="flex min-h-20 items-center justify-center">
+                <BrandLogo size="lg" alt={t("logoAlt")} />
+              </div>
+              {kitDownload ? (
+                <a
+                  href={kitDownload.href}
+                  download={kitDownload.downloadName}
+                  className="text-sm font-medium text-opseu-blue underline"
+                >
+                  {t("downloadPng")}
+                </a>
+              ) : (
+                <p className="text-sm text-gray-600">
+                  {t("downloadUnavailable")}{" "}
+                  <Link
+                    href="/brand-kit"
+                    className="font-medium text-opseu-blue underline"
+                  >
+                    {t("editBrandKit")}
+                  </Link>
+                </p>
+              )}
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <Callout tone="muted" className="mt-8 max-w-3xl">
         <p className="font-semibold text-opseu-dark">{t("guidelinesTitle")}</p>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
           {guidelineKeys.map((key) => (
@@ -294,58 +296,60 @@ export function AssetPackPanel() {
           <h2 className="text-xl font-bold text-opseu-dark">
             {t("referencePackTitle")}
           </h2>
-          <Callout tone="muted" className="mt-4">
+          <Callout tone="muted" className="mt-4 max-w-3xl">
             <p className="text-sm leading-relaxed text-gray-700">
               {t("referenceNote")}
             </p>
           </Callout>
 
-          <div className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
-            <h3 className="text-lg font-semibold text-opseu-dark">
-              {t("primaryLogo")}
-            </h3>
-            <div className="mt-4 grid max-w-2xl gap-4 sm:grid-cols-2">
-              <LogoDownloadCard
-                href="/assets/caat-opseu/logo-primary.png"
-                downloadName="logo-primary.png"
-                label={t("downloadPng")}
-              >
-                <Image
-                  src="/assets/caat-opseu/logo-primary.png"
-                  alt={t("logoAlt")}
-                  width={200}
-                  height={80}
-                  className="max-h-20 w-auto max-w-full object-contain"
-                />
-              </LogoDownloadCard>
-              <LogoDownloadCard
-                href="/assets/caat-opseu/logo-mark.png"
-                downloadName="logo-mark.png"
-                label={t("downloadMark")}
-              >
-                <Image
-                  src="/assets/caat-opseu/logo-mark.png"
-                  alt={t("markAlt")}
-                  width={72}
-                  height={72}
-                  className="max-h-20 w-auto max-w-full object-contain"
-                />
-              </LogoDownloadCard>
+          <div className="mt-8 grid gap-8 lg:grid-cols-2 lg:items-start">
+            <div className="border-l-2 border-opseu-blue/30 pl-5">
+              <h3 className="text-lg font-semibold text-opseu-dark">
+                {t("primaryLogo")}
+              </h3>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <LogoDownloadCard
+                  href="/assets/caat-opseu/logo-primary.png"
+                  downloadName="logo-primary.png"
+                  label={t("downloadPng")}
+                >
+                  <Image
+                    src="/assets/caat-opseu/logo-primary.png"
+                    alt={t("logoAlt")}
+                    width={200}
+                    height={80}
+                    className="max-h-20 w-auto max-w-full object-contain"
+                  />
+                </LogoDownloadCard>
+                <LogoDownloadCard
+                  href="/assets/caat-opseu/logo-mark.png"
+                  downloadName="logo-mark.png"
+                  label={t("downloadMark")}
+                >
+                  <Image
+                    src="/assets/caat-opseu/logo-mark.png"
+                    alt={t("markAlt")}
+                    width={72}
+                    height={72}
+                    className="max-h-20 w-auto max-w-full object-contain"
+                  />
+                </LogoDownloadCard>
+              </div>
+            </div>
+
+            <div className="border-l-2 border-opseu-blue/30 pl-5">
+              <h3 className="text-lg font-semibold text-opseu-dark">
+                {t("swatchesTitle")}
+              </h3>
+              <SwatchGrid
+                swatches={referenceSwatches}
+                copyLabel={t("copyHex")}
+                copiedLabel={t("copied")}
+              />
             </div>
           </div>
 
-          <div className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
-            <h3 className="text-lg font-semibold text-opseu-dark">
-              {t("swatchesTitle")}
-            </h3>
-            <SwatchGrid
-              swatches={referenceSwatches}
-              copyLabel={t("copyHex")}
-              copiedLabel={t("copied")}
-            />
-          </div>
-
-          <Callout tone="muted" className="mt-8">
+          <Callout tone="muted" className="mt-8 max-w-3xl">
             <p className="text-sm text-gray-700">
               {t("guidelines.sourceLabel")}{" "}
               <a

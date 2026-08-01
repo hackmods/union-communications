@@ -237,7 +237,27 @@ test.describe("Mobile tool chrome @smoke @mobile", () => {
   test("brand kit and onboarding have no overflow", async ({ page }) => {
     await page.goto("/en/brand-kit/");
     await assertNoHorizontalOverflow(page);
+    await expect(page.getByRole("heading", { name: /Brand Kit|Trousse/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Export|Exporter/i })).toBeVisible();
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await assertNoHorizontalOverflow(page);
+    await expect(page.getByRole("heading", { name: /Current settings|Paramètres/i })).toBeVisible();
     await page.goto("/en/onboarding/");
     await assertNoHorizontalOverflow(page);
+  });
+
+  test("wide public shells have no overflow at 1920", async ({ page }) => {
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    for (const path of [
+      "/en/",
+      "/en/tools/",
+      "/en/examples/",
+      "/en/captions/",
+      "/en/assets/",
+      "/en/tools/logo-builder/",
+    ] as const) {
+      await page.goto(path);
+      await assertNoHorizontalOverflow(page);
+    }
   });
 });

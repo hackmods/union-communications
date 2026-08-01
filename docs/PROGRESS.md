@@ -1,5 +1,14 @@
 # Progress Log
 
+## Wider desktop shells + Brand Kit workspace (2026-08-01)
+
+- [x] `PAGE_SHELL.chrome` → `max-w-[100rem]`; `wide` → `max-w-[90rem]` with `px-4 sm:px-6 xl:px-8`
+- [x] Brand Kit promoted from `focus` to **wide** multi-panel workspace (paired settings/logo/links; export/import near heading)
+- [x] Home hero + QR-card fallback aligned to shared wide shell; examples/captions denser at `2xl`; `/assets` two-column kit/reference layout
+- [x] Public RSVP/poll/next-meeting use `PageShell focus` (no nested `max-w-lg`); Hub auth forms drop double horizontal padding
+- [x] Board Notice + Graphic Maker invite/sources moved into `ToolEditorLayout` `footer` (no sibling shells)
+- [x] Responsive rules + tool-editor register updated; smoke checks overflow at 1920
+
 ## Brand Assets page for every union (2026-07-31)
 
 - [x] `/assets` uses `PageShell` wide; always shows live Brand Kit colours + logo (copy hex, download when raster available)

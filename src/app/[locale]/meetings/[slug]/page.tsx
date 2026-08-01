@@ -45,8 +45,8 @@ export default async function NextMeetingPage({
   const nextMeeting = schedule ? computeNextMeeting(schedule) : null;
 
   return (
-    <PageShell>
-      <article className="mx-auto max-w-lg space-y-4 py-10">
+    <PageShell size="focus" className="py-10">
+      <article className="space-y-4">
         <header className="space-y-1 text-center">
           <h1 className="text-2xl font-semibold text-opseu-dark">
             {t("heading")}

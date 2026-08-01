@@ -38,6 +38,7 @@ import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
+import { PageShell } from "@/components/layout/PageShell";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
@@ -62,11 +63,11 @@ export default function QrCardPage() {
   return (
     <Suspense
       fallback={
-        <div className="mx-auto max-w-6xl px-4 py-6 md:py-8 lg:py-10">
+        <PageShell className="py-6 md:py-8 lg:py-10">
           <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
             QR Link Card Maker
           </h1>
-        </div>
+        </PageShell>
       }
     >
       <QrCardPageContent />
