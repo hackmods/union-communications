@@ -157,7 +157,7 @@ export function TenantOnboardingWizard() {
 
   if (loading) {
     return (
-      <PageShell size="focus" className="space-y-4">
+      <PageShell size="nestedFocus" className="space-y-4">
         <Skeleton className="h-8 w-64" />
         <Skeleton className="h-40 w-full" />
       </PageShell>
@@ -165,7 +165,7 @@ export function TenantOnboardingWizard() {
   }
 
   return (
-    <PageShell size="focus" className="space-y-8">
+    <PageShell size="nestedFocus" className="space-y-8">
       <header>
         <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
           {t("title")}

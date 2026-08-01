@@ -61,7 +61,7 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <PageShell size="focus" className="py-8 md:py-12">
+    <PageShell size="nestedFocus" className="py-8 md:py-12">
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("forgotTitle")}
       </h1>

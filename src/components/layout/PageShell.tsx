@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 type PageShellProps = {
   children: ReactNode;
-  /** Default `wide`. Use `read` for guides, `focus` for manifesto/auth forms, `chrome` only for hub frames. */
+  /** Default `wide`. Use `read` for guides, `focus` for public forms, `nested*` inside Hub `wide`. */
   size?: PageShellSize;
   className?: string;
   as?: "div" | "article" | "main" | "section";

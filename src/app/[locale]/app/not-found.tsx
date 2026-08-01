@@ -1,11 +1,12 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { PageShell } from "@/components/layout/PageShell";
 
 export default async function HubNotFound() {
   const t = await getTranslations("routeUi");
 
   return (
-    <div className="mx-auto max-w-lg py-4">
+    <PageShell size="nestedFocus" className="py-4" as="section">
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("notFoundTitle")}
       </h1>
@@ -18,6 +19,6 @@ export default async function HubNotFound() {
           {t("backToHub")}
         </Link>
       </p>
-    </div>
+    </PageShell>
   );
 }

@@ -7,6 +7,8 @@
 - [x] Home hero + QR-card fallback aligned to shared wide shell; examples/captions denser at `2xl`; `/assets` two-column kit/reference layout
 - [x] Public RSVP/poll/next-meeting use `PageShell focus` (no nested `max-w-lg`); Hub auth forms drop double horizontal padding
 - [x] Board Notice + Graphic Maker invite/sources moved into `ToolEditorLayout` `footer` (no sibling shells)
+- [x] Hub leftovers: `nestedFocus` / `nestedAuth` / `nestedProfile` for forms inside `/app` wide; Hub error/not-found on `nestedFocus`
+- [x] `/guide` index → `GuideLayout size="wide"` (path grid + two-column chapters); child guides stay `read`
 - [x] Responsive rules + tool-editor register updated; smoke checks overflow at 1920
 
 ## Brand Assets page for every union (2026-07-31)

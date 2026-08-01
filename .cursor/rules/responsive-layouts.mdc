@@ -17,18 +17,22 @@ Use [`PageShell`](src/components/layout/PageShell.tsx) / [`PAGE_SHELL`](src/lib/
 | Tier | Class | Use |
 |------|--------|-----|
 | `chrome` | `max-w-[100rem]` (~1600px) | Header, footer, hub nav/banner only |
-| `wide` | `max-w-[90rem]` (~1440px) | Home, examples, multi-panel tools/workspaces (default) |
-| `read` | `max-w-3xl` | Guides, privacy, long-form → prefer [`GuideLayout`](src/components/comms/GuideLayout.tsx) |
-| `focus` | `max-w-2xl` | Manifesto, auth forms, focused single-column — **not** multi-panel workspaces |
+| `wide` | `max-w-[90rem]` (~1440px) | Home, examples, multi-panel tools/workspaces, guide indexes (default) |
+| `read` | `max-w-3xl` | Guide chapters, privacy, long-form → prefer [`GuideLayout`](src/components/comms/GuideLayout.tsx) |
+| `focus` | `max-w-2xl` | Manifesto, public forms — **not** multi-panel workspaces |
+| `nestedFocus` | `max-w-2xl` (no extra px) | Hub forms already inside `/app` `wide` (forgot/reset/invite) |
+| `nestedAuth` | `max-w-md` (no extra px) | Hub login / MFA |
+| `nestedProfile` | `max-w-lg` (no extra px) | Hub profile |
 
-Chrome and wide use `px-4 sm:px-6 xl:px-8`. After widening the canvas, compose with grids/columns at `lg`/`xl`/`2xl` — do not leave a sparse single column on a 90rem shell (Brand Kit is the reference workspace pattern).
+Chrome and wide use `px-4 sm:px-6 xl:px-8`. Nested Hub tiers omit horizontal padding so they do not double-pad inside `PAGE_SHELL.wide`. After widening the canvas, compose with grids/columns at `lg`/`xl`/`2xl` — do not leave a sparse single column on a 90rem shell (Brand Kit is the reference workspace pattern).
 
 ## Reference compositions
 
 - **Home** — hero + trust `Callout`; Brand Kit as a compact link row above Toolbox; denser channel link lists (no sticky empty rail, no sparse flex cards)
-- **Guides** — `GuideLayout`: related links as a compact nav row (never a fat empty tinted card); steps/sections with left accent or markers; optional horizontal step progress (see social-media-plan)
+- **Guides** — `GuideLayout`: related links as a compact nav row (never a fat empty tinted card); steps/sections with left accent or markers; optional horizontal step progress (see social-media-plan). Guide **index** (`/guide`) uses `GuideLayout size="wide"` with a path grid + two-column chapters
 - **Tools** — canvas tools use [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) — see [`tool-editor-ux.mdc`](tool-editor-ux.mdc) for editor chrome + face uplift
 - **Brand Kit / workspaces** — `PageShell` **wide** with paired panels at `lg+`; utility actions near the heading
+- **Hub auth** — `nestedAuth` / `nestedFocus` inside app layout — never a second `focus` shell with its own `px-*`
 - **Short notes** — [`Callout`](src/components/ui/Callout.tsx), not default `Card`
 
 Within a shell, still constrain body copy (`max-w-prose` / `max-w-xl`) when needed.

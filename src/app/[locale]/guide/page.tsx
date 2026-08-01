@@ -14,7 +14,6 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/guide", params);
 }
 
-
 const chapterKeys = [
   "platforms",
   "tone",
@@ -46,6 +45,7 @@ export default async function GuidePage({
 
   return (
     <GuideLayout
+      size="wide"
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
@@ -58,7 +58,7 @@ export default async function GuidePage({
         <SourcesBlock pageId="blueprint" title={ts("title")} intro={ts("intro")} />
       }
     >
-      <Callout className="mb-8">
+      <Callout className="mb-8 max-w-3xl">
         <p className="font-semibold text-opseu-dark">{crisis("title")}</p>
         <p className="mt-1">{crisis("subtitle")}</p>
         <Link
@@ -69,12 +69,9 @@ export default async function GuidePage({
         </Link>
       </Callout>
 
-      <ol className="space-y-8">
+      <ol className="grid gap-8 lg:grid-cols-2 xl:gap-10">
         {chapterKeys.map((key, i) => (
-          <li
-            key={key}
-            className="border-l-2 border-opseu-blue/30 pl-5"
-          >
+          <li key={key} className="border-l-2 border-opseu-blue/30 pl-5">
             <div className="flex items-baseline gap-3">
               <span
                 className="text-sm font-bold tabular-nums text-opseu-blue"
@@ -93,73 +90,75 @@ export default async function GuidePage({
         ))}
       </ol>
 
-      <Callout tone="muted" className="mt-10">
-        <p className="font-semibold text-opseu-dark">{t("channelGuides.title")}</p>
-        <nav
-          className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
-          aria-label={t("channelGuides.title")}
-        >
-          {(
-            [
-              { href: "/guide/union-boards", key: "unionBoards" as const },
-              { href: "/guide/print", key: "print" as const },
-              { href: "/guide/website", key: "website" as const },
-              { href: "/guide/email-broadcast", key: "email" as const },
-              {
-                href: "/guide/membership-signup",
-                key: "membershipSignup" as const,
-              },
-            ] as const
-          ).map((link, i) => (
-            <span key={link.href} className="inline-flex items-baseline gap-x-3">
-              {i > 0 && (
-                <span className="text-gray-300" aria-hidden="true">
-                  ·
-                </span>
-              )}
-              <Link
-                href={link.href}
-                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-              >
-                {t(`channelGuides.${link.key}`)}
-              </Link>
-            </span>
-          ))}
-        </nav>
-      </Callout>
+      <div className="mt-10 grid gap-4 lg:grid-cols-2">
+        <Callout tone="muted">
+          <p className="font-semibold text-opseu-dark">{t("channelGuides.title")}</p>
+          <nav
+            className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
+            aria-label={t("channelGuides.title")}
+          >
+            {(
+              [
+                { href: "/guide/union-boards", key: "unionBoards" as const },
+                { href: "/guide/print", key: "print" as const },
+                { href: "/guide/website", key: "website" as const },
+                { href: "/guide/email-broadcast", key: "email" as const },
+                {
+                  href: "/guide/membership-signup",
+                  key: "membershipSignup" as const,
+                },
+              ] as const
+            ).map((link, i) => (
+              <span key={link.href} className="inline-flex items-baseline gap-x-3">
+                {i > 0 && (
+                  <span className="text-gray-300" aria-hidden="true">
+                    ·
+                  </span>
+                )}
+                <Link
+                  href={link.href}
+                  className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+                >
+                  {t(`channelGuides.${link.key}`)}
+                </Link>
+              </span>
+            ))}
+          </nav>
+        </Callout>
 
-      <Callout tone="muted" className="mt-6">
-        <p className="font-semibold text-opseu-dark">{t("labourGuides.title")}</p>
-        <nav
-          className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
-          aria-label={t("labourGuides.title")}
-        >
-          {(
-            [
-              { href: "/guide/dfr", key: "dfr" as const },
-              { href: "/guide/seniority-bumping", key: "seniority" as const },
-              {
-                href: "/guide/right-to-refuse",
-                key: "rightToRefuse" as const,
-              },
-            ] as const
-          ).map((link, i) => (
-            <span key={link.href} className="inline-flex items-baseline gap-x-3">
-              {i > 0 && (
-                <span className="text-gray-300" aria-hidden="true">
-                  ·
-                </span>
-              )}
-              <Link
-                href={link.href}
-                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-              >
-                {t(`labourGuides.${link.key}`)}
-              </Link>
-            </span>
-          ))}
-        </nav>
-      </Callout>
+        <Callout tone="muted">
+          <p className="font-semibold text-opseu-dark">{t("labourGuides.title")}</p>
+          <nav
+            className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
+            aria-label={t("labourGuides.title")}
+          >
+            {(
+              [
+                { href: "/guide/dfr", key: "dfr" as const },
+                { href: "/guide/seniority-bumping", key: "seniority" as const },
+                {
+                  href: "/guide/right-to-refuse",
+                  key: "rightToRefuse" as const,
+                },
+              ] as const
+            ).map((link, i) => (
+              <span key={link.href} className="inline-flex items-baseline gap-x-3">
+                {i > 0 && (
+                  <span className="text-gray-300" aria-hidden="true">
+                    ·
+                  </span>
+                )}
+                <Link
+                  href={link.href}
+                  className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+                >
+                  {t(`labourGuides.${link.key}`)}
+                </Link>
+              </span>
+            ))}
+          </nav>
+        </Callout>
+      </div>
     </GuideLayout>
   );
 }

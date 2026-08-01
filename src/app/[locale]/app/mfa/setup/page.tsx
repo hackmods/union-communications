@@ -29,7 +29,7 @@ export default function MfaSetupPage() {
 
   if (status === "loading" || !session?.user) {
     return (
-      <div className="mx-auto max-w-md py-4 md:py-6">
+      <div className="mx-auto w-full max-w-md py-4 md:py-6">
         <p className="text-gray-600" aria-live="polite">
           {t("sessionLoading")}
         </p>
@@ -94,7 +94,7 @@ export default function MfaSetupPage() {
 
   if (state === "done") {
     return (
-      <div className="mx-auto max-w-md py-4 md:py-6">
+      <div className="mx-auto w-full max-w-md py-4 md:py-6">
         <Card density="compact">
           <CardTitle className="text-base">{t("mfaSetupSuccess")}</CardTitle>
           <p className="mt-2 text-gray-600">{t("mfaSetupSuccessDesc")}</p>
@@ -110,7 +110,7 @@ export default function MfaSetupPage() {
   }
 
   return (
-    <div className="mx-auto max-w-md py-4 md:py-6">
+    <div className="mx-auto w-full max-w-md py-4 md:py-6">
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("mfaSetupTitle")}
       </h1>

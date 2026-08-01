@@ -24,6 +24,8 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 | Guides | `GuideLayout` `py-8 md:py-12`; left-accent sections; Callout for notes; related-links row |
 | Focus prose | `PageShell focus` (manifesto, auth, install) — not multi-panel workspaces |
 | Brand Kit | `PageShell` **wide** with paired panels at `lg+`; utility row near heading |
+| Guide index | `GuideLayout size="wide"`; child guides stay `read` |
+| Hub nested forms | `PageShell nestedFocus` / `nestedAuth` (no double `px`) |
 | Header | `<lg` drawer; `lg+` Guides/Tools dropdowns (keep groups — see `comms-public-nav.mdc`) |
 | Footer | wrap/stack; tap targets ≥44px |
 | Auth | centered `max-w-md`; dense form; calm shell |

@@ -254,6 +254,7 @@ test.describe("Mobile tool chrome @smoke @mobile", () => {
       "/en/examples/",
       "/en/captions/",
       "/en/assets/",
+      "/en/guide/",
       "/en/tools/logo-builder/",
     ] as const) {
       await page.goto(path);

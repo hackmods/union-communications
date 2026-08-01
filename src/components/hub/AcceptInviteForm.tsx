@@ -85,7 +85,7 @@ export function AcceptInviteForm({ token }: { token: string }) {
 
   if (loading) {
     return (
-      <PageShell size="focus" className="space-y-4">
+      <PageShell size="nestedFocus" className="space-y-4">
         <Skeleton className="h-8 w-56" />
         <Skeleton className="h-32 w-full" />
       </PageShell>
@@ -94,7 +94,7 @@ export function AcceptInviteForm({ token }: { token: string }) {
 
   if (loadError || !preview) {
     return (
-      <PageShell size="focus" className="space-y-4">
+      <PageShell size="nestedFocus" className="space-y-4">
         <h1 className="text-2xl font-bold text-opseu-dark">{t("title")}</h1>
         <Callout tone="danger" role="alert">
           {loadError ?? t("notFound")}
@@ -108,7 +108,7 @@ export function AcceptInviteForm({ token }: { token: string }) {
 
   if (preview.status !== "pending") {
     return (
-      <PageShell size="focus" className="space-y-4">
+      <PageShell size="nestedFocus" className="space-y-4">
         <h1 className="text-2xl font-bold text-opseu-dark">{t("title")}</h1>
         <Callout tone="muted">
           {preview.status === "accepted"
@@ -126,7 +126,7 @@ export function AcceptInviteForm({ token }: { token: string }) {
 
   if (done) {
     return (
-      <PageShell size="focus" className="space-y-4">
+      <PageShell size="nestedFocus" className="space-y-4">
         <h1 className="text-2xl font-bold text-opseu-dark">{t("title")}</h1>
         <p className="text-gray-700">{t("success")}</p>
         <Link
@@ -140,7 +140,7 @@ export function AcceptInviteForm({ token }: { token: string }) {
   }
 
   return (
-    <PageShell size="focus" className="space-y-6">
+    <PageShell size="nestedFocus" className="space-y-6">
       <header>
         <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
           {t("title")}

@@ -89,7 +89,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
 
   if (loading) {
     return (
-      <PageShell size="focus" className="space-y-4 py-8 md:py-12">
+      <PageShell size="nestedFocus" className="space-y-4 py-8 md:py-12">
         <Skeleton className="h-8 w-56" />
         <Skeleton className="h-32 w-full" />
       </PageShell>
@@ -98,7 +98,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
 
   if (loadError || !preview) {
     return (
-      <PageShell size="focus" className="space-y-4 py-8 md:py-12">
+      <PageShell size="nestedFocus" className="space-y-4 py-8 md:py-12">
         <h1 className="text-2xl font-bold text-opseu-dark">{t("resetTitle")}</h1>
         <Callout tone="danger" role="alert">
           {loadError ?? t("notFound")}
@@ -112,7 +112,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
 
   if (preview.status === "expired") {
     return (
-      <PageShell size="focus" className="space-y-4 py-8 md:py-12">
+      <PageShell size="nestedFocus" className="space-y-4 py-8 md:py-12">
         <h1 className="text-2xl font-bold text-opseu-dark">{t("resetTitle")}</h1>
         <Callout tone="danger" role="alert">
           {t("expired")}
@@ -126,7 +126,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
 
   if (preview.status === "consumed" && !done) {
     return (
-      <PageShell size="focus" className="space-y-4 py-8 md:py-12">
+      <PageShell size="nestedFocus" className="space-y-4 py-8 md:py-12">
         <h1 className="text-2xl font-bold text-opseu-dark">{t("resetTitle")}</h1>
         <Callout tone="danger" role="alert">
           {t("alreadyUsed")}
@@ -139,7 +139,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
   }
 
   return (
-    <PageShell size="focus" className="py-8 md:py-12">
+    <PageShell size="nestedFocus" className="py-8 md:py-12">
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("resetTitle")}
       </h1>
