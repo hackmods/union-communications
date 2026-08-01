@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
+import { PageShell } from "@/components/layout/PageShell";
 
 function isDemoSiteClient(): boolean {
   return process.env.NEXT_PUBLIC_DEMO_SITE === "true";
@@ -97,7 +98,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md py-4 md:py-6">
+    <PageShell size="nestedAuth" className="py-4 md:py-6">
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("login")}
       </h1>
@@ -176,6 +177,6 @@ export default function LoginPage() {
           {t("backToPublic")}
         </Link>
       </p>
-    </div>
+    </PageShell>
   );
 }

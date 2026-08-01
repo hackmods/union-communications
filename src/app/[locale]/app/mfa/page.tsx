@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
+import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
@@ -41,17 +42,17 @@ export default function MfaPage() {
 
   if (status === "loading" || !session?.user || mfaEnabled === null) {
     return (
-      <div className="mx-auto w-full max-w-md py-4 md:py-6">
+      <PageShell size="nestedAuth" className="py-4 md:py-6">
         <p className="text-gray-600" aria-live="polite">
           {t("sessionLoading")}
         </p>
-      </div>
+      </PageShell>
     );
   }
 
   if (!mfaEnabled) {
     return (
-      <div className="mx-auto w-full max-w-md py-4 md:py-6">
+      <PageShell size="nestedAuth" className="py-4 md:py-6">
         <Card density="compact">
           <CardTitle className="text-base">{t("mfaDisabledTitle")}</CardTitle>
           <p className="mt-2 text-gray-600">{t("mfaDisabledDesc")}</p>
@@ -59,13 +60,13 @@ export default function MfaPage() {
             {t("backToDashboard")}
           </Button>
         </Card>
-      </div>
+      </PageShell>
     );
   }
 
   if (session.user.mfaVerified) {
     return (
-      <div className="mx-auto w-full max-w-md py-4 md:py-6">
+      <PageShell size="nestedAuth" className="py-4 md:py-6">
         <Card density="compact">
           <CardTitle className="text-base">{t("mfaVerified")}</CardTitle>
           <p className="mt-2 text-gray-600">{t("mfaVerifiedDesc")}</p>
@@ -79,7 +80,7 @@ export default function MfaPage() {
             {t("mfaSetupLink")}
           </Link>
         </Card>
-      </div>
+      </PageShell>
     );
   }
 
@@ -122,7 +123,7 @@ export default function MfaPage() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md py-4 md:py-6">
+    <PageShell size="nestedAuth" className="py-4 md:py-6">
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("mfaTitle")}
       </h1>
@@ -155,6 +156,6 @@ export default function MfaPage() {
           {t("mfaSetupLink")}
         </Link>
       </Card>
-    </div>
+    </PageShell>
   );
 }

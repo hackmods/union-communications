@@ -8,6 +8,7 @@
 - [x] Public RSVP/poll/next-meeting use `PageShell focus` (no nested `max-w-lg`); Hub auth forms drop double horizontal padding
 - [x] Board Notice + Graphic Maker invite/sources moved into `ToolEditorLayout` `footer` (no sibling shells)
 - [x] Hub leftovers: `nestedFocus` / `nestedAuth` / `nestedProfile` for forms inside `/app` wide; Hub error/not-found on `nestedFocus`
+- [x] Login / MFA / magic sign-in / profile migrate to `PageShell nestedAuth` / `nestedProfile` (no ad-hoc max-w)
 - [x] `/guide` index → `GuideLayout size="wide"` (path grid + two-column chapters); child guides stay `read`
 - [x] Responsive rules + tool-editor register updated; smoke checks overflow at 1920
 

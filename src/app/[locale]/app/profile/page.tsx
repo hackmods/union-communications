@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
+import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { ProfilePhotoCapture } from "@/components/hub/ProfilePhotoCapture";
 
@@ -46,16 +47,16 @@ export default function ProfilePage() {
 
   if (status === "loading" || !session?.user || !checked) {
     return (
-      <div className="mx-auto w-full max-w-lg py-4 md:py-6">
+      <PageShell size="nestedProfile" className="py-4 md:py-6">
         <p className="text-gray-600" aria-live="polite">
           {t("sessionLoading")}
         </p>
-      </div>
+      </PageShell>
     );
   }
 
   return (
-    <div className="mx-auto w-full max-w-lg space-y-6 py-2 md:py-4">
+    <PageShell size="nestedProfile" className="space-y-6 py-2 md:py-4">
       <div>
         <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
           {t("profileTitle")}
@@ -91,6 +92,6 @@ export default function ProfilePage() {
           </div>
         </dl>
       </Card>
-    </div>
+    </PageShell>
   );
 }

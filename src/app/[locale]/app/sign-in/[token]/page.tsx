@@ -5,6 +5,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
+import { PageShell } from "@/components/layout/PageShell";
 import { Card } from "@/components/ui/Card";
 
 type Phase = "loading" | "signing" | "done" | "error";
@@ -91,7 +92,7 @@ export default function MagicSignInPage() {
           : t("magicLinkInvalid");
 
   return (
-    <div className="mx-auto w-full max-w-md py-4 md:py-6">
+    <PageShell size="nestedAuth" className="py-4 md:py-6">
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("magicLinkPageTitle")}
       </h1>
@@ -114,6 +115,6 @@ export default function MagicSignInPage() {
           </>
         )}
       </Card>
-    </div>
+    </PageShell>
   );
 }

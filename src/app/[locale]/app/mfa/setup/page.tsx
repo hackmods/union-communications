@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
+import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
@@ -29,11 +30,11 @@ export default function MfaSetupPage() {
 
   if (status === "loading" || !session?.user) {
     return (
-      <div className="mx-auto w-full max-w-md py-4 md:py-6">
+      <PageShell size="nestedAuth" className="py-4 md:py-6">
         <p className="text-gray-600" aria-live="polite">
           {t("sessionLoading")}
         </p>
-      </div>
+      </PageShell>
     );
   }
 
@@ -94,7 +95,7 @@ export default function MfaSetupPage() {
 
   if (state === "done") {
     return (
-      <div className="mx-auto w-full max-w-md py-4 md:py-6">
+      <PageShell size="nestedAuth" className="py-4 md:py-6">
         <Card density="compact">
           <CardTitle className="text-base">{t("mfaSetupSuccess")}</CardTitle>
           <p className="mt-2 text-gray-600">{t("mfaSetupSuccessDesc")}</p>
@@ -105,12 +106,12 @@ export default function MfaSetupPage() {
             {t("mfaSetupVerifyNow")}
           </Button>
         </Card>
-      </div>
+      </PageShell>
     );
   }
 
   return (
-    <div className="mx-auto w-full max-w-md py-4 md:py-6">
+    <PageShell size="nestedAuth" className="py-4 md:py-6">
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("mfaSetupTitle")}
       </h1>
@@ -192,6 +193,6 @@ export default function MfaSetupPage() {
           </p>
         )}
       </Card>
-    </div>
+    </PageShell>
   );
 }
