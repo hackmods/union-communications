@@ -9,6 +9,7 @@ import {
 import {
   coloursClash,
   brandPaletteHasContrastRisk,
+  canvasAccentStripColor,
   evaluateBrandPaletteContrast,
   inkWithAlpha,
   isLightInk,
@@ -97,6 +98,22 @@ describe("ink utilities", () => {
   it("detects logo/background colour clash", () => {
     expect(coloursClash("#003DA5", "#003DA5")).toBe(true);
     expect(coloursClash("#003DA5", "#FFFFFF")).toBe(false);
+  });
+
+  it("falls back edge strip to primary when secondary is paper-white", () => {
+    // OPSEU — white secondary on blue must not paint a margin-like banner
+    expect(canvasAccentStripColor("#003DA5", "#FFFFFF")).toBe("#003DA5");
+    expect(canvasAccentStripColor("#003DA5", "#FEFEFE")).toBe("#003DA5");
+  });
+
+  it("keeps chromatic secondary as an edge accent strip", () => {
+    expect(canvasAccentStripColor("#003DA5", "#FFC72C")).toBe("#FFC72C");
+    expect(canvasAccentStripColor("#7A003C", "#FFD100")).toBe("#FFD100");
+  });
+
+  it("falls back edge strip when secondary clashes with the field", () => {
+    expect(canvasAccentStripColor("#003DA5", "#003DA5")).toBe("#003DA5");
+    expect(canvasAccentStripColor("#003DA5", "#0A45B0")).toBe("#003DA5");
   });
 
   it("flags Brand Kit palettes when primary and secondary clash", () => {

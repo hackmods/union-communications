@@ -80,6 +80,29 @@ export function coloursClash(
   return ratio < minRatio;
 }
 
+/** True when `color` is paper-white / near-white (exports look like a margin gap). */
+function isNearPaperWhite(color: string): boolean {
+  const ratio = contrastRatio(color, INK_WHITE);
+  return ratio !== null && ratio < 1.2;
+}
+
+/**
+ * Colour for a full-bleed edge accent strip on a primary canvas.
+ * Prefers secondary when it reads as a deliberate accent; falls back to
+ * primary when secondary clashes with the field or is paper-white on a
+ * dark field (e.g. OPSEU secondary `#FFFFFF` → awkward white banner).
+ */
+export function canvasAccentStripColor(
+  primary: string,
+  secondary: string,
+): string {
+  if (coloursClash(primary, secondary)) return primary;
+  if (isLightInk(pickContrastingInk(primary)) && isNearPaperWhite(secondary)) {
+    return primary;
+  }
+  return secondary;
+}
+
 /** Brand Kit / ThemePicker palette fields checked for accessibility risk. */
 export type BrandPalette = {
   primary: string;

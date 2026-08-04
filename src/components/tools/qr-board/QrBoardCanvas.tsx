@@ -8,7 +8,11 @@ import {
   type QrBoardFormatId,
 } from "@/lib/constants/qr-board-formats";
 import { CANVAS_PLACEHOLDER_INK } from "@/lib/constants/brand";
-import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
+import {
+  canvasAccentStripColor,
+  mutedInkOnBackground,
+  pickContrastingInk,
+} from "@/lib/utils/ink";
 
 export interface QrBoardCanvasSlot {
   id: string;
@@ -47,6 +51,7 @@ export function QrBoardCanvas({
   const format = QR_BOARD_FORMATS[formatId];
   const ink = pickContrastingInk(primaryColor);
   const muted = mutedInkOnBackground(primaryColor, 0.85);
+  const stripColor = canvasAccentStripColor(primaryColor, secondaryColor);
   const columns = qrBoardGridColumns(slots.length);
   const isTabloid = formatId === "tabloid";
   const isDense = slots.length >= 6;
@@ -84,9 +89,10 @@ export function QrBoardCanvas({
       <div
         style={{
           height: isTabloid ? 10 : 8,
-          backgroundColor: secondaryColor,
+          backgroundColor: stripColor,
           flexShrink: 0,
         }}
+        aria-hidden
       />
 
       <div
