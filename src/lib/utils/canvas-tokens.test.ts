@@ -3,11 +3,15 @@ import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { normalizeBrandKit } from "@/lib/utils/local-links";
 import {
   canvasFromStyleId,
+  contentPaddingPx,
   LEGACY_CANVAS_DEFAULTS,
+  meetingAlignFromBias,
   normalizeBrandKitCanvas,
   officeMockTypography,
   resolveCanvasTokens,
+  typeScaleFactor,
 } from "./canvas-tokens";
+
 describe("normalizeBrandKitCanvas", () => {
   it("returns undefined for empty/invalid", () => {
     expect(normalizeBrandKitCanvas(undefined)).toBeUndefined();
@@ -95,6 +99,64 @@ describe("resolveCanvasTokens", () => {
     expect(tokens.styleId).toBe("solid");
     expect(tokens.surface).toBe("duotone");
     expect(tokens.alignmentBias).toBe("center");
+  });
+});
+
+describe("layout matrix helpers", () => {
+  it("typeScaleFactor ranks display > compact > dense", () => {
+    const display = typeScaleFactor(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { typeScale: "display" },
+        }),
+      ),
+    );
+    const compact = typeScaleFactor(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { typeScale: "compact" },
+        }),
+      ),
+    );
+    const dense = typeScaleFactor(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { typeScale: "dense" },
+        }),
+      ),
+    );
+    expect(display).toBeGreaterThan(compact);
+    expect(compact).toBeGreaterThan(dense);
+  });
+
+  it("meetingAlignFromBias keeps face-safe defaults for asymmetric", () => {
+    expect(meetingAlignFromBias("right", "asymmetric")).toBe("right");
+    expect(meetingAlignFromBias("right", "center")).toBe("center");
+    expect(meetingAlignFromBias("right", "start")).toBe("left");
+  });
+
+  it("contentPaddingPx shrinks for portrait and tight density", () => {
+    const roomy = contentPaddingPx(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { density: "roomy" },
+        }),
+      ),
+    );
+    const tightPortrait = contentPaddingPx(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { density: "tight" },
+        }),
+      ),
+      { portrait: true },
+    );
+    expect(roomy).toBeGreaterThan(tightPortrait);
   });
 });
 

@@ -120,7 +120,17 @@ export function BrandKitCanvasPanel() {
           accentColor={brandKit.secondaryColor}
           className="mt-3"
         />
-        <div className="mt-3 flex justify-end">
+        <div
+          className="mt-3 flex"
+          style={{
+            justifyContent:
+              tokens.alignmentBias === "center"
+                ? "center"
+                : tokens.alignmentBias === "asymmetric"
+                  ? "flex-end"
+                  : "flex-start",
+          }}
+        >
           <CanvasQrPlate tokens={tokens} qrSrc={null} widthPercent={28} />
         </div>
         {tokens.surface === "duotone" ? (

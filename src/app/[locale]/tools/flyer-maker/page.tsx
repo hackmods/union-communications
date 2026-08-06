@@ -259,8 +259,15 @@ function FlyerMakerPageContent() {
               }
             />
             <div
-              className="relative z-[2] space-y-2 text-lg"
-              style={{ color: canvasInk }}
+              className="relative z-[2]"
+              style={{
+                color: canvasInk,
+                fontSize: tokens.subtitleFontSizePx + 4,
+                lineHeight: 1.45,
+                display: "flex",
+                flexDirection: "column",
+                gap: tokens.gapPx,
+              }}
             >
               <p>
                 <strong>{tf("date")}:</strong> {state.date}

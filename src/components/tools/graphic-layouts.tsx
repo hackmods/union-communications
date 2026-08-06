@@ -15,6 +15,10 @@ import {
   pickContrastingInk,
 } from "@/lib/utils/ink";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  flexAlignFromBias,
+  textAlignFromBias,
+} from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 
 export type GraphicLayoutId = Exclude<ExampleLayout, "quote">;
@@ -211,6 +215,7 @@ export function GraphicLayoutCanvas({
           localNumber={localNumber}
           subText={subText}
           size={size}
+          tokens={tokens}
         />
       )}
       {layout === "notice" && (
@@ -650,6 +655,7 @@ function ResultsLayout({
   localNumber,
   subText,
   size,
+  tokens,
 }: {
   primary: string;
   accent: string;
@@ -657,9 +663,21 @@ function ResultsLayout({
   localNumber: string;
   subText: string;
   size: "preview" | "export";
+  tokens?: CanvasTokens;
 }) {
   const exportMode = size === "export";
   const ink = inkPalette(primary);
+  const alignItems = tokens
+    ? flexAlignFromBias(tokens.alignmentBias)
+    : "center";
+  const textAlign = tokens
+    ? textAlignFromBias(tokens.alignmentBias)
+    : "center";
+  const pad = tokens
+    ? tokens.paddingPx * (exportMode ? 1 : 0.55)
+    : exportMode
+      ? 32
+      : 16;
   return (
     <>
       <div
@@ -669,10 +687,12 @@ function ResultsLayout({
         }}
       />
       <div
-        className={cn(
-          "absolute inset-0 flex flex-col items-center justify-center text-center",
-          exportMode ? "p-8" : "p-4",
-        )}
+        className="absolute inset-0 flex flex-col justify-center"
+        style={{
+          alignItems,
+          textAlign,
+          padding: pad,
+        }}
       >
         <BrandLogo
           size={exportMode ? "md" : "sm"}

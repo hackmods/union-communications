@@ -46,7 +46,13 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
 import { inkWithAlpha, mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
-import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  contentPaddingPx,
+  flexAlignFromBias,
+  resolveCanvasTokens,
+  textAlignFromBias,
+  typeScaleFactor,
+} from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import {
   CanvasGrainOverlay,
@@ -237,18 +243,26 @@ export default function SolidarityPosterPage() {
   const lines = headlineLines(state.headline);
   const chrome = layoutChrome(format);
   const isLandscape = chrome.isLandscape;
-  const displayUrl = state.supportUrl.trim() || SITE_URL;
-  const showLocalInFooter =
-    state.includeBranding || state.layout === "split";
-  const showFooter =
-    state.showCta || state.showQr || showLocalInFooter;
-  const canvasInk = pickContrastingInk(state.primaryColor);
   const tokens = resolveCanvasTokens(brandKit);
   const surfaceStyle = canvasSurfaceStyle(tokens, {
     primary: state.primaryColor,
     secondary: state.secondaryColor,
     accent: state.accentColor,
   });
+  const stackPadPx = contentPaddingPx(tokens, {
+    factor: isLandscape ? 0.8 : 1,
+  });
+  const qrPx = Math.round(
+    chrome.qrPx * (tokens.density === "tight" ? 0.92 : 1) * typeScaleFactor(tokens),
+  );
+  const stackAlign = textAlignFromBias(tokens.alignmentBias);
+  const stackItems = flexAlignFromBias(tokens.alignmentBias);
+  const displayUrl = state.supportUrl.trim() || SITE_URL;
+  const showLocalInFooter =
+    state.includeBranding || state.layout === "split";
+  const showFooter =
+    state.showCta || state.showQr || showLocalInFooter;
+  const canvasInk = pickContrastingInk(state.primaryColor);
   const mutedInk90 = mutedInkOnBackground(state.primaryColor, 0.9);
   const mutedInk80 = mutedInkOnBackground(state.primaryColor, 0.8);
   const mutedInk30 = inkWithAlpha(canvasInk, 0.3);
@@ -348,7 +362,7 @@ export default function SolidarityPosterPage() {
       {state.showQr && qrSrc ? (
         <div
           className="shrink-0 self-center"
-          style={{ width: chrome.qrPx, maxWidth: "100%" }}
+          style={{ width: qrPx, maxWidth: "100%" }}
         >
           <CanvasQrPlate tokens={tokens} qrSrc={qrSrc} alt="" />
         </div>
@@ -619,10 +633,8 @@ export default function SolidarityPosterPage() {
             <CanvasGrainOverlay opacity={tokens.grainOpacity} />
             {state.layout === "stack" ? (
               <div
-                className={cn(
-                  "relative z-[2] flex h-full min-h-0 flex-col justify-between",
-                  chrome.padStack,
-                )}
+                className="relative z-[2] flex h-full min-h-0 flex-col justify-between box-border"
+                style={{ padding: stackPadPx }}
               >
                 <div className="flex shrink-0 items-start justify-between gap-2">
                   <p
@@ -642,7 +654,13 @@ export default function SolidarityPosterPage() {
                     />
                   ) : null}
                 </div>
-                <div className="flex min-h-0 flex-1 flex-col items-center justify-center py-1 text-center">
+                <div
+                  className="flex min-h-0 flex-1 flex-col justify-center py-1"
+                  style={{
+                    alignItems: stackItems,
+                    textAlign: stackAlign,
+                  }}
+                >
                   {lines.map((line, i) => (
                     <p
                       key={`${i}-${line}`}
@@ -658,7 +676,6 @@ export default function SolidarityPosterPage() {
                   >
                     {state.closer}
                   </p>
-                  {/* Landscape: local stays in footer only so headline doesn't get crushed */}
                   {showLockup && !isLandscape ? (
                     <p
                       className="mt-2 text-sm font-semibold md:mt-3"

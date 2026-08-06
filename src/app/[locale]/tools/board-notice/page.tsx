@@ -289,8 +289,15 @@ export default function BoardNoticePage() {
                 ink={canvasInk}
               />
               <div
-                className="relative z-[2] space-y-2 text-xl"
-                style={{ color: canvasInk }}
+                className="relative z-[2]"
+                style={{
+                  color: canvasInk,
+                  fontSize: tokens.subtitleFontSizePx + 6,
+                  lineHeight: 1.4,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: tokens.gapPx,
+                }}
               >
                 <p>
                   <strong>{t("date")}:</strong> {state.date}
@@ -302,8 +309,9 @@ export default function BoardNoticePage() {
                   <strong>{t("location")}:</strong> {state.location}
                 </p>
                 <p
-                  className="mt-4 text-base"
                   style={{
+                    marginTop: tokens.gapPx,
+                    fontSize: tokens.subtitleFontSizePx,
                     color: mutedInkOnBackground(brandKit.primaryColor, 0.9),
                   }}
                 >

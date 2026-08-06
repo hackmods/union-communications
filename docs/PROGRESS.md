@@ -1,5 +1,12 @@
 # Progress Log
 
+## Comms visual system phase 3 (2026-08-06)
+
+- [x] `typeScaleFactor` / `contentPaddingPx` / `meetingAlignFromBias` — Brand Kit knobs now affect layout matrices
+- [x] Meeting Background: rem scale + token padding + asymmetric face-safe anchors
+- [x] Solidarity stack alignment/padding; flyer/board-notice meta type; graphic Results bias
+- [x] Brand Kit mini preview QR placement + asymmetric type block
+
 ## Comms visual system phase 2 (2026-08-06)
 
 - [x] Solidarity Poster + Meeting Background: `canvasSurfaceStyle` + grain (layout matrices unchanged)

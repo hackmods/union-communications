@@ -227,6 +227,7 @@ export function textAlignFromBias(
   bias: CanvasAlignmentBias,
 ): "left" | "center" | "right" {
   if (bias === "center") return "center";
+  // start + asymmetric → left in generic type blocks (asymmetric offsets via padding)
   return "left";
 }
 
@@ -235,6 +236,36 @@ export function flexAlignFromBias(
 ): "flex-start" | "center" {
   if (bias === "center") return "center";
   return "flex-start";
+}
+
+/**
+ * Face-safe meeting layouts keep their default anchor when bias is `asymmetric`.
+ * `center` / `start` override to global center / left.
+ */
+export function meetingAlignFromBias(
+  layoutDefault: "left" | "right" | "center",
+  bias: CanvasAlignmentBias,
+): "left" | "right" | "center" {
+  if (bias === "asymmetric") return layoutDefault;
+  if (bias === "center") return "center";
+  return "left";
+}
+
+/** Multiplier for FitStackedHeadline / poster type density. */
+export function typeScaleFactor(tokens: CanvasTokens): number {
+  if (tokens.typeScale === "display") return 1.1;
+  if (tokens.typeScale === "dense") return 0.88;
+  return 1;
+}
+
+/** Content inset from Brand Kit density / padding tokens. */
+export function contentPaddingPx(
+  tokens: CanvasTokens,
+  opts?: { portrait?: boolean; factor?: number },
+): number {
+  const portraitFactor = opts?.portrait ? 0.72 : 1;
+  const extra = opts?.factor ?? 1;
+  return Math.max(12, Math.round(tokens.paddingPx * portraitFactor * extra));
 }
 
 /** Preview type scale for Document Generator OfficePresetMock (CSS silhouette). */

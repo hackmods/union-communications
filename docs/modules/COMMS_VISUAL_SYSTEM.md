@@ -60,6 +60,16 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 | Meeting Background (surface + grain on capture root) | done |
 | Document Generator `OfficePresetMock` type scale | done |
 | Quote Card (`QuoteLayout` tokens) | done |
+| Phase 3 — layout matrix tokenization (`typeScale` / `density` / `asymmetric`) | done |
+
+### Phase 3 notes
+
+- `typeScaleFactor`, `contentPaddingPx`, `meetingAlignFromBias` in `canvas-tokens.ts`
+- Meeting Background: headline rem scale + token padding + asymmetric face-safe anchors
+- Solidarity stack: token padding + alignment bias; QR size responds to density
+- Flyer / Board Notice: meta blocks use `subtitleFontSizePx` / `gapPx`
+- Graphic `results`: alignment + padding from tokens
+- Brand Kit mini preview: QR placement follows alignment bias; `CanvasTypeBlock` asymmetric inset
 
 ## Agent contract
 

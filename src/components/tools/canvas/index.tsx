@@ -81,11 +81,15 @@ export function CanvasTypeBlock({
 }) {
   const align = textAlignFromBias(tokens.alignmentBias);
   const items = flexAlignFromBias(tokens.alignmentBias);
+  const asymmetric =
+    tokens.alignmentBias === "asymmetric"
+      ? ({ paddingInlineStart: "8%", maxWidth: "92%" } satisfies CSSProperties)
+      : undefined;
 
   return (
     <div
       className={cn("relative z-[2] flex w-full flex-col", className)}
-      style={{ alignItems: items, textAlign: align }}
+      style={{ alignItems: items, textAlign: align, ...asymmetric }}
     >
       <h2
         style={{

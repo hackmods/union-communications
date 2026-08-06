@@ -12,9 +12,14 @@ import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
-import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  contentPaddingPx,
+  meetingAlignFromBias,
+  resolveCanvasTokens,
+} from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { CanvasGrainOverlay } from "@/components/tools/canvas";
+import type { CanvasTypeScale } from "@/types/entities";
 import {
   DEFAULT_MEETING_BACKGROUND_FORMAT,
   MEETING_BACKGROUND_FORMATS,
@@ -62,7 +67,11 @@ interface BackgroundState {
 type HeadlineDensity = "panel" | "bar" | "corner" | "readable";
 
 /** Starting rem before measure-to-fit shrinks to keep each line intact. */
-function headlineStartRem(lines: string[], density: HeadlineDensity): number {
+function headlineStartRem(
+  lines: string[],
+  density: HeadlineDensity,
+  scale = 1,
+): number {
   const longest = lines.reduce((m, l) => Math.max(m, l.length), 0) || 1;
   const caps =
     density === "panel"
@@ -72,17 +81,23 @@ function headlineStartRem(lines: string[], density: HeadlineDensity): number {
         : density === "readable"
           ? { min: 0.7, max: 1.25, fitAt: 12 }
           : { min: 1.0, max: 2.0, fitAt: 10 };
-  return Math.max(
+  const base = Math.max(
     caps.min,
     Math.min(caps.max, (caps.fitAt / longest) * caps.max),
   );
+  return Math.max(caps.min * 0.85, base * scale);
 }
 
-function headlineMinRem(density: HeadlineDensity): number {
-  if (density === "panel") return 0.65;
-  if (density === "bar") return 0.85;
-  if (density === "readable") return 0.6;
-  return 0.9;
+function headlineMinRem(density: HeadlineDensity, scale = 1): number {
+  const min =
+    density === "panel"
+      ? 0.65
+      : density === "bar"
+        ? 0.85
+        : density === "readable"
+          ? 0.6
+          : 0.9;
+  return Math.max(0.5, min * Math.min(scale, 1));
 }
 
 /**
@@ -94,16 +109,20 @@ function FitStackedHeadline({
   ink,
   density,
   align = "left",
+  typeScale = "compact",
 }: {
   lines: string[];
   ink: string;
   density: HeadlineDensity;
   align?: "left" | "right" | "center";
+  typeScale?: CanvasTypeScale;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const linesKey = lines.join("\n");
+  const scaleFactor =
+    typeScale === "display" ? 1.1 : typeScale === "dense" ? 0.88 : 1;
   const [fontSizeRem, setFontSizeRem] = useState(() =>
-    headlineStartRem(lines, density),
+    headlineStartRem(lines, density, scaleFactor),
   );
 
   useEffect(() => {
@@ -112,15 +131,14 @@ function FitStackedHeadline({
     const currentLines = linesKey.split("\n").filter(Boolean);
 
     const fit = () => {
-      const min = headlineMinRem(density);
-      let size = headlineStartRem(currentLines, density);
+      const min = headlineMinRem(density, scaleFactor);
+      let size = headlineStartRem(currentLines, density, scaleFactor);
       const apply = (rem: number) => {
         for (const node of el.querySelectorAll<HTMLElement>("[data-headline-line]")) {
           node.style.fontSize = `${rem}rem`;
         }
       };
       apply(size);
-      // Shrink until every line fits (or floor). Step in rem for export stability.
       for (let i = 0; i < 48; i++) {
         const overflowing = Array.from(
           el.querySelectorAll<HTMLElement>("[data-headline-line]"),
@@ -136,7 +154,7 @@ function FitStackedHeadline({
     const ro = new ResizeObserver(() => fit());
     ro.observe(el);
     return () => ro.disconnect();
-  }, [linesKey, density]);
+  }, [linesKey, density, scaleFactor]);
 
   return (
     <div
@@ -352,19 +370,24 @@ export default function MeetingBackgroundPage() {
   const stackedHeadline = (
     ink: string,
     density: HeadlineDensity,
-    align: "left" | "right" | "center" = "left",
+    layoutDefault: "left" | "right" | "center" = "left",
   ) =>
     showHead ? (
       <FitStackedHeadline
         lines={lines}
         ink={ink}
         density={density}
-        align={align}
+        align={meetingAlignFromBias(layoutDefault, tokens.alignmentBias)}
+        typeScale={tokens.typeScale}
       />
     ) : null;
 
-  const leadLine = (ink: string, align: "left" | "right" | "center" = "left") =>
-    showLead ? (
+  const leadLine = (
+    ink: string,
+    layoutDefault: "left" | "right" | "center" = "left",
+  ) => {
+    const align = meetingAlignFromBias(layoutDefault, tokens.alignmentBias);
+    return showLead ? (
       <p
         className={cn(
           "min-w-0 max-w-full text-[10px] font-semibold uppercase tracking-[0.18em] md:text-xs",
@@ -376,12 +399,14 @@ export default function MeetingBackgroundPage() {
         {state.leadIn}
       </p>
     ) : null;
+  };
 
   const closerLine = (
     ink: string,
-    align: "left" | "right" | "center" = "left",
-  ) =>
-    showClose ? (
+    layoutDefault: "left" | "right" | "center" = "left",
+  ) => {
+    const align = meetingAlignFromBias(layoutDefault, tokens.alignmentBias);
+    return showClose ? (
       <p
         className={cn(
           "min-w-0 max-w-full text-[10px] font-medium tracking-wide md:text-xs",
@@ -393,6 +418,7 @@ export default function MeetingBackgroundPage() {
         {state.closer}
       </p>
     ) : null;
+  };
 
   const brandLockup = (bg: string, ink: string, size: "sm" | "md" = "sm") =>
     showBrand ? (
@@ -407,27 +433,37 @@ export default function MeetingBackgroundPage() {
       </div>
     ) : null;
 
-  const bandPad = isPortrait
-    ? "px-4 py-2.5 md:px-5 md:py-3"
-    : "px-5 py-2 md:px-7 md:py-2.5";
-  const fieldPad = isPortrait ? "p-4 md:p-5" : "p-5 md:p-7";
-  const railWidth = isPortrait ? "w-[7%] min-w-[10px] max-w-[28px]" : "w-[4%] min-w-[8px] max-w-[20px]";
+  const fieldPadPx = contentPaddingPx(tokens, { portrait: isPortrait });
+  const bandPadPx = Math.max(
+    10,
+    Math.round(contentPaddingPx(tokens, { portrait: isPortrait, factor: 0.55 })),
+  );
+  const railWidth = isPortrait
+    ? "w-[7%] min-w-[10px] max-w-[28px]"
+    : "w-[4%] min-w-[8px] max-w-[20px]";
 
   let canvasBody: ReactElement | null = null;
 
   if (state.layout === "corner") {
     // Full primary field; punchy stack bottom-right; logo top-left when branding on
+    const typeAlign = meetingAlignFromBias("right", tokens.alignmentBias);
     canvasBody = (
       <div
-        className="relative box-border flex h-full w-full flex-col justify-between p-5 md:p-7"
-        style={{ backgroundColor: primary }}
+        className="relative box-border flex h-full w-full flex-col justify-between"
+        style={{ backgroundColor: primary, padding: fieldPadPx }}
       >
         <div className="flex shrink-0 items-start justify-between gap-3">
           {showBrand ? brandLockup(primary, mutedPrimary, "md") : <span />}
           {!showBrand && showLead ? leadLine(secondaryOnPrimary, "right") : null}
         </div>
         <div className="flex min-h-0 flex-1" />
-        <div className="ml-auto w-full max-w-[46%] min-w-0 overflow-hidden text-right">
+        <div
+          className={cn(
+            "w-full max-w-[46%] min-w-0 overflow-hidden",
+            typeAlign === "right" && "ml-auto text-right",
+            typeAlign === "center" && "mx-auto text-center",
+          )}
+        >
           {showBrand && showLead ? leadLine(secondaryOnPrimary, "right") : null}
           <div className={cn(showLead && showBrand && "mt-1.5")}>
             {stackedHeadline(canvasInk, "corner", "right")}
@@ -446,15 +482,21 @@ export default function MeetingBackgroundPage() {
         className="relative box-border flex h-full w-full flex-col"
         style={{ backgroundColor: primary }}
       >
-        <div className="flex min-h-0 flex-1 items-start justify-end p-5 md:p-7">
+        <div
+          className="flex min-h-0 flex-1 items-start justify-end"
+          style={{ padding: fieldPadPx }}
+        >
           {!barHasContent && showBrand
             ? brandLockup(primary, mutedPrimary, "md")
             : null}
         </div>
         {barHasContent ? (
           <div
-            className="flex shrink-0 items-end justify-between gap-4 px-5 py-3.5 md:px-7 md:py-4"
-            style={{ backgroundColor: accent }}
+            className="flex shrink-0 items-end justify-between gap-4"
+            style={{
+              backgroundColor: accent,
+              padding: `${bandPadPx}px ${fieldPadPx}px`,
+            }}
           >
             <div className="min-w-0 flex-1 overflow-hidden">
               {leadLine(meetsWcagAA(secondary, accent, true) ? secondary : mutedAccent)}
@@ -509,7 +551,10 @@ export default function MeetingBackgroundPage() {
             ) : null}
           </div>
         ) : null}
-        <div className="flex min-h-0 flex-1 flex-col justify-between p-5 md:p-7">
+        <div
+          className="flex min-h-0 flex-1 flex-col justify-between"
+          style={{ padding: fieldPadPx }}
+        >
           {!panelHasContent && showBrand
             ? brandLockup(primary, mutedPrimary, "md")
             : null}
@@ -527,8 +572,11 @@ export default function MeetingBackgroundPage() {
       >
         {showTop ? (
           <div
-            className="flex shrink-0 items-center justify-between gap-3 px-5 py-2.5 md:px-7 md:py-3"
-            style={{ backgroundColor: accent }}
+            className="flex shrink-0 items-center justify-between gap-3"
+            style={{
+              backgroundColor: accent,
+              padding: `${bandPadPx}px ${fieldPadPx}px`,
+            }}
           >
             <div className="min-w-0 flex-1">
               {leadLine(
@@ -541,8 +589,11 @@ export default function MeetingBackgroundPage() {
         <div className="min-h-0 flex-1" />
         {showBottom ? (
           <div
-            className="flex shrink-0 items-end justify-between gap-4 px-5 py-3.5 md:px-7 md:py-4"
-            style={{ backgroundColor: secondary }}
+            className="flex shrink-0 items-end justify-between gap-4"
+            style={{
+              backgroundColor: secondary,
+              padding: `${bandPadPx}px ${fieldPadPx}px`,
+            }}
           >
             <div className="min-w-0 flex-1 overflow-hidden">
               {!showTop && showLead
@@ -575,11 +626,11 @@ export default function MeetingBackgroundPage() {
       >
         {bandHasContent ? (
           <div
-            className={cn(
-              "flex shrink-0 items-center justify-between gap-3",
-              bandPad,
-            )}
-            style={{ backgroundColor: secondary }}
+            className="flex shrink-0 items-center justify-between gap-3"
+            style={{
+              backgroundColor: secondary,
+              padding: `${bandPadPx}px ${fieldPadPx}px`,
+            }}
           >
             <div className="min-w-0 flex-1 overflow-hidden">
               {leadLine(
@@ -608,11 +659,11 @@ export default function MeetingBackgroundPage() {
         <div className="min-h-0 flex-1" />
         {bandHasContent ? (
           <div
-            className={cn(
-              "flex shrink-0 items-center justify-between gap-3",
-              bandPad,
-            )}
-            style={{ backgroundColor: accent }}
+            className="flex shrink-0 items-center justify-between gap-3"
+            style={{
+              backgroundColor: accent,
+              padding: `${bandPadPx}px ${fieldPadPx}px`,
+            }}
           >
             <div className="min-w-0 flex-1 overflow-hidden">
               {leadLine(
@@ -642,10 +693,8 @@ export default function MeetingBackgroundPage() {
           style={{ backgroundColor: accent }}
         />
         <div
-          className={cn(
-            "flex min-h-0 min-w-0 flex-1 flex-col justify-between",
-            fieldPad,
-          )}
+          className="flex min-h-0 min-w-0 flex-1 flex-col justify-between"
+          style={{ padding: fieldPadPx }}
         >
           <div className="mx-auto w-full max-w-[88%] min-w-0 overflow-hidden text-center">
             {hasType ? (
@@ -688,9 +737,9 @@ export default function MeetingBackgroundPage() {
           <div
             className={cn(
               "flex shrink-0 flex-col justify-start",
-              fieldPad,
               isPortrait ? "max-h-[30%]" : "max-h-[28%]",
             )}
+            style={{ padding: fieldPadPx }}
           >
             <div className="min-w-0 w-full max-w-[92%] overflow-hidden">
               {leadLine(secondaryOnPrimary)}
