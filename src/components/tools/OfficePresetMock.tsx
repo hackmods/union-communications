@@ -5,6 +5,10 @@
 "use client";
 
 import type { OfficePresetId, BrandPalette } from "@/lib/constants/office-templates";
+import {
+  officeMockTypography,
+  type CanvasTokens,
+} from "@/lib/utils/canvas-tokens";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { cn } from "@/lib/utils";
 
@@ -18,6 +22,8 @@ type OfficePresetMockProps = {
   includeXlsx: boolean;
   includePptx: boolean;
   className?: string;
+  /** Brand Kit canvas tokens — drives preview type scale */
+  tokens?: CanvasTokens;
 };
 
 function FormatChips({
@@ -49,6 +55,13 @@ function FormatChips({
   );
 }
 
+const FALLBACK_TYPE = {
+  headerTitlePx: 14,
+  docTitlePx: 24,
+  bodyPx: 14,
+  labelPx: 12,
+} as const;
+
 export function OfficePresetMock({
   presetId,
   palette,
@@ -59,8 +72,10 @@ export function OfficePresetMock({
   includeXlsx,
   includePptx,
   className,
+  tokens,
 }: OfficePresetMockProps) {
   const ink = pickContrastingInk(palette.primary);
+  const type = tokens ? officeMockTypography(tokens) : FALLBACK_TYPE;
 
   if (presetId === "seniority-worksheet") {
     const columns = [
@@ -90,22 +105,30 @@ export function OfficePresetMock({
                 className="h-8 w-auto max-w-[96px] object-contain"
               />
             ) : null}
-            <span className="text-sm font-semibold">{localLabel}</span>
+            <span
+              className="font-semibold"
+              style={{ fontSize: type.headerTitlePx }}
+            >
+              {localLabel}
+            </span>
           </div>
           <div className="space-y-2 p-4">
             <p
-              className="text-lg font-bold"
-              style={{ color: palette.secondary }}
+              className="font-bold"
+              style={{ color: palette.secondary, fontSize: type.docTitlePx }}
             >
               Seniority worksheet
             </p>
-            <p className="text-xs text-gray-600">
+            <p className="text-gray-600" style={{ fontSize: type.labelPx }}>
               {[fields.sessionDate, fields.chair, fields.caseId]
                 .filter(Boolean)
                 .join(" · ") || "Session · chair · Hub case ID"}
             </p>
             <div className="overflow-x-auto">
-              <table className="w-full border-collapse text-[10px] text-gray-700">
+              <table
+                className="w-full border-collapse text-gray-700"
+                style={{ fontSize: Math.max(9, type.labelPx - 2) }}
+              >
                 <thead>
                   <tr>
                     {columns.map((c) => (
@@ -133,7 +156,10 @@ export function OfficePresetMock({
               </table>
             </div>
             {fields.committeeNotes ? (
-              <p className="text-xs whitespace-pre-wrap text-gray-600">
+              <p
+                className="whitespace-pre-wrap text-gray-600"
+                style={{ fontSize: type.labelPx }}
+              >
                 {fields.committeeNotes}
               </p>
             ) : null}
@@ -167,38 +193,62 @@ export function OfficePresetMock({
                 className="h-8 w-auto max-w-[96px] object-contain"
               />
             ) : null}
-            <span className="text-sm font-semibold">{localLabel}</span>
+            <span
+              className="font-semibold"
+              style={{ fontSize: type.headerTitlePx }}
+            >
+              {localLabel}
+            </span>
           </div>
           <div className="space-y-3 p-5">
             <p
-              className="text-2xl font-bold leading-tight"
-              style={{ color: palette.secondary }}
+              className="font-bold leading-tight"
+              style={{ color: palette.secondary, fontSize: type.docTitlePx }}
             >
               {fields.title || "Event title"}
             </p>
             {fields.subtitle ? (
-              <p className="text-base text-gray-700">{fields.subtitle}</p>
+              <p className="text-gray-700" style={{ fontSize: type.bodyPx }}>
+                {fields.subtitle}
+              </p>
             ) : null}
             <div
-              className="inline-block rounded px-2 py-0.5 text-xs font-bold uppercase tracking-wide"
-              style={{ backgroundColor: palette.primary, color: ink }}
+              className="inline-block rounded px-2 py-0.5 font-bold uppercase tracking-wide"
+              style={{
+                backgroundColor: palette.primary,
+                color: ink,
+                fontSize: type.labelPx,
+              }}
             >
               When
             </div>
-            <p className="text-sm font-semibold text-gray-900">
+            <p
+              className="font-semibold text-gray-900"
+              style={{ fontSize: type.bodyPx }}
+            >
               {[fields.date, fields.time].filter(Boolean).join(" · ") || "—"}
             </p>
             <div
-              className="inline-block rounded px-2 py-0.5 text-xs font-bold uppercase tracking-wide"
-              style={{ backgroundColor: palette.primary, color: ink }}
+              className="inline-block rounded px-2 py-0.5 font-bold uppercase tracking-wide"
+              style={{
+                backgroundColor: palette.primary,
+                color: ink,
+                fontSize: type.labelPx,
+              }}
             >
               Where
             </div>
-            <p className="text-sm font-semibold text-gray-900">
+            <p
+              className="font-semibold text-gray-900"
+              style={{ fontSize: type.bodyPx }}
+            >
               {fields.location || "—"}
             </p>
             {fields.body ? (
-              <p className="text-sm whitespace-pre-wrap text-gray-700">
+              <p
+                className="whitespace-pre-wrap text-gray-700"
+                style={{ fontSize: type.bodyPx }}
+              >
                 {fields.body}
               </p>
             ) : null}
@@ -230,13 +280,23 @@ export function OfficePresetMock({
             />
           ) : null}
           <div className="min-w-0">
-            <p className="truncate text-sm font-bold">{localLabel}</p>
+            <p
+              className="truncate font-bold"
+              style={{ fontSize: type.headerTitlePx }}
+            >
+              {localLabel}
+            </p>
             {fields.contactName ? (
-              <p className="truncate text-xs">{fields.contactName}</p>
+              <p className="truncate" style={{ fontSize: type.labelPx }}>
+                {fields.contactName}
+              </p>
             ) : null}
           </div>
         </div>
-        <div className="space-y-3 p-5 text-sm text-gray-800">
+        <div
+          className="space-y-3 p-5 text-gray-800"
+          style={{ fontSize: type.bodyPx }}
+        >
           {presetId === "simple-letter" || presetId === "welcome-letter" ? (
             <>
               {fields.date ? (
@@ -265,8 +325,8 @@ export function OfficePresetMock({
           ) : (
             <>
               <p
-                className="text-lg font-bold"
-                style={{ color: palette.secondary }}
+                className="font-bold"
+                style={{ color: palette.secondary, fontSize: type.docTitlePx }}
               >
                 Correspondence
               </p>

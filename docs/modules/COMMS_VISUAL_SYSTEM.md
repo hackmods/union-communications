@@ -55,9 +55,11 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 | Action Card | done |
 | Pulse Poll | done |
 | Graphic Maker / `graphic-layouts` (+ duotone photos) | done |
-| QR Board (grain + tokens prop) | done |
-| Solidarity Poster / Meeting Background token wiring | later (keep layout matrices) |
-| Document Generator Office mock type scale | later |
+| QR Board (grain + surface + `CanvasQrPlate` slots) | done |
+| Solidarity Poster (surface + grain + QR plate) | done |
+| Meeting Background (surface + grain on capture root) | done |
+| Document Generator `OfficePresetMock` type scale | done |
+| Quote Card (`QuoteLayout` tokens) | done |
 
 ## Agent contract
 

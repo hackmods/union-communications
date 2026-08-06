@@ -20,6 +20,7 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { pickContrastingInk } from "@/lib/utils/ink";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 
 interface QuoteState {
   quote: string;
@@ -170,6 +171,7 @@ function QuoteCardPageContent() {
               localNumber={resolveLocalNumber(brandKit.local.localNumber)}
               subText={brandKit.local.subText}
               size="export"
+              tokens={resolveCanvasTokens(brandKit)}
             />
           </div>
         </div>

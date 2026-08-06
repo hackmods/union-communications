@@ -1,13 +1,13 @@
-import { describe, expect, it } from "vitest";
+﻿import { describe, expect, it } from "vitest";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { normalizeBrandKit } from "@/lib/utils/local-links";
 import {
   canvasFromStyleId,
   LEGACY_CANVAS_DEFAULTS,
   normalizeBrandKitCanvas,
+  officeMockTypography,
   resolveCanvasTokens,
-} from "@/lib/utils/canvas-tokens";
-
+} from "./canvas-tokens";
 describe("normalizeBrandKitCanvas", () => {
   it("returns undefined for empty/invalid", () => {
     expect(normalizeBrandKitCanvas(undefined)).toBeUndefined();
@@ -95,6 +95,38 @@ describe("resolveCanvasTokens", () => {
     expect(tokens.styleId).toBe("solid");
     expect(tokens.surface).toBe("duotone");
     expect(tokens.alignmentBias).toBe("center");
+  });
+});
+
+describe("officeMockTypography", () => {
+  it("scales display above compact above dense for doc titles", () => {
+    const display = officeMockTypography(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { ...canvasFromStyleId("solid"), typeScale: "display" },
+        }),
+      ),
+    );
+    const compact = officeMockTypography(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { typeScale: "compact" },
+        }),
+      ),
+    );
+    const dense = officeMockTypography(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { typeScale: "dense" },
+        }),
+      ),
+    );
+    expect(display.docTitlePx).toBeGreaterThanOrEqual(compact.docTitlePx);
+    expect(compact.docTitlePx).toBeGreaterThanOrEqual(dense.docTitlePx);
+    expect(display.headerTitlePx).toBeGreaterThanOrEqual(dense.headerTitlePx);
   });
 });
 

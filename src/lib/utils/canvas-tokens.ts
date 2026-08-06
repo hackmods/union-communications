@@ -236,3 +236,28 @@ export function flexAlignFromBias(
   if (bias === "center") return "center";
   return "flex-start";
 }
+
+/** Preview type scale for Document Generator OfficePresetMock (CSS silhouette). */
+export interface OfficeMockTypography {
+  headerTitlePx: number;
+  docTitlePx: number;
+  bodyPx: number;
+  labelPx: number;
+}
+
+/**
+ * Map Brand Kit canvas typeScale onto Office mock sizes.
+ * Preview scale is ~0.6 of canvas title metrics so the paper silhouette stays readable.
+ */
+export function officeMockTypography(tokens: CanvasTokens): OfficeMockTypography {
+  const scale =
+    tokens.typeScale === "display" ? 0.62 : tokens.typeScale === "dense" ? 0.52 : 0.55;
+  const title = Math.round(tokens.titleFontSizePx * scale);
+  const sub = Math.max(10, Math.round(tokens.subtitleFontSizePx * 0.95));
+  return {
+    headerTitlePx: Math.max(12, Math.round(title * 0.55)),
+    docTitlePx: Math.max(16, title),
+    bodyPx: Math.max(12, Math.round(sub * 1.15)),
+    labelPx: Math.max(10, Math.round(sub * 0.9)),
+  };
+}

@@ -46,6 +46,12 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
 import { inkWithAlpha, mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import {
+  CanvasGrainOverlay,
+  CanvasQrPlate,
+} from "@/components/tools/canvas";
 
 interface PosterState {
   sloganId: string;
@@ -237,6 +243,12 @@ export default function SolidarityPosterPage() {
   const showFooter =
     state.showCta || state.showQr || showLocalInFooter;
   const canvasInk = pickContrastingInk(state.primaryColor);
+  const tokens = resolveCanvasTokens(brandKit);
+  const surfaceStyle = canvasSurfaceStyle(tokens, {
+    primary: state.primaryColor,
+    secondary: state.secondaryColor,
+    accent: state.accentColor,
+  });
   const mutedInk90 = mutedInkOnBackground(state.primaryColor, 0.9);
   const mutedInk80 = mutedInkOnBackground(state.primaryColor, 0.8);
   const mutedInk30 = inkWithAlpha(canvasInk, 0.3);
@@ -334,19 +346,12 @@ export default function SolidarityPosterPage() {
         ) : null}
       </div>
       {state.showQr && qrSrc ? (
-        // eslint-disable-next-line @next/next/no-img-element -- data URL from client QR
-        <img
-          src={qrSrc}
-          alt=""
-          width={chrome.qrPx}
-          height={chrome.qrPx}
-          className="shrink-0 self-center rounded-sm p-0.5"
-          style={{
-            width: chrome.qrPx,
-            height: chrome.qrPx,
-            backgroundColor: "#FFFFFF",
-          }}
-        />
+        <div
+          className="shrink-0 self-center"
+          style={{ width: chrome.qrPx, maxWidth: "100%" }}
+        >
+          <CanvasQrPlate tokens={tokens} qrSrc={qrSrc} alt="" />
+        </div>
       ) : null}
     </div>
   ) : null;
@@ -602,16 +607,20 @@ export default function SolidarityPosterPage() {
         <div className="shadow-lg">
           <div
             ref={canvasRef}
-            className={cn("flex w-full flex-col overflow-hidden", format.aspect)}
+            className={cn(
+              "relative flex w-full flex-col overflow-hidden",
+              format.aspect,
+            )}
             style={{
-              backgroundColor: state.primaryColor,
+              ...surfaceStyle,
               color: canvasInk,
             }}
           >
+            <CanvasGrainOverlay opacity={tokens.grainOpacity} />
             {state.layout === "stack" ? (
               <div
                 className={cn(
-                  "flex h-full min-h-0 flex-col justify-between",
+                  "relative z-[2] flex h-full min-h-0 flex-col justify-between",
                   chrome.padStack,
                 )}
               >
@@ -664,7 +673,7 @@ export default function SolidarityPosterPage() {
             ) : null}
 
             {state.layout === "split" ? (
-              <div className="flex h-full min-h-0 flex-col">
+              <div className="relative z-[2] flex h-full min-h-0 flex-col">
                 <div
                   className={cn(
                     "grid min-h-0 flex-1",
@@ -723,7 +732,7 @@ export default function SolidarityPosterPage() {
             ) : null}
 
             {state.layout === "banner" ? (
-              <div className="flex h-full min-h-0 flex-col justify-between">
+              <div className="relative z-[2] flex h-full min-h-0 flex-col justify-between">
                 <div
                   className={cn(
                     "flex shrink-0 items-center justify-between gap-3",

@@ -14,7 +14,8 @@ import {
   pickContrastingInk,
 } from "@/lib/utils/ink";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
-import { CanvasGrainOverlay } from "@/components/tools/canvas";
+import { CanvasGrainOverlay, CanvasQrPlate } from "@/components/tools/canvas";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 
 export interface QrBoardCanvasSlot {
   id: string;
@@ -77,9 +78,16 @@ export function QrBoardCanvas({
       ? "text-xs"
       : "text-sm";
 
+  const surface = tokens
+    ? canvasSurfaceStyle(tokens, {
+        primary: primaryColor,
+        secondary: secondaryColor,
+        accent: secondaryColor,
+      })
+    : { backgroundColor: primaryColor };
   const style: CSSProperties = {
     aspectRatio: `${format.widthInches} / ${format.heightInches}`,
-    backgroundColor: primaryColor,
+    ...surface,
     color: ink,
     width: format.previewWidthPx,
     maxWidth: "100%",
@@ -175,7 +183,23 @@ export function QrBoardCanvas({
                 style={{ minHeight: 0 }}
               >
                 <div className="absolute inset-0 flex items-center justify-center">
-                  {slot.qrSrc ? (
+                  {tokens ? (
+                    <div
+                      style={{
+                        maxWidth: isTabloid
+                          ? "min(72%, 180px)"
+                          : "min(72%, 140px)",
+                        maxHeight: "100%",
+                        width: isTabloid ? 180 : 140,
+                      }}
+                    >
+                      <CanvasQrPlate
+                        tokens={tokens}
+                        qrSrc={slot.qrSrc}
+                        alt=""
+                      />
+                    </div>
+                  ) : slot.qrSrc ? (
                     // eslint-disable-next-line @next/next/no-img-element -- data URL from qrcode
                     <img
                       src={slot.qrSrc}

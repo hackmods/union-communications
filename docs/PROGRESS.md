@@ -1,5 +1,13 @@
 # Progress Log
 
+## Comms visual system phase 2 (2026-08-06)
+
+- [x] Solidarity Poster + Meeting Background: `canvasSurfaceStyle` + grain (layout matrices unchanged)
+- [x] Solidarity / QR Board: `CanvasQrPlate` for export QR chrome
+- [x] Document Generator `OfficePresetMock` type scale via `officeMockTypography`
+- [x] Quote Card / `QuoteLayout` surface + grain tokens
+- [x] Migration register complete in `COMMS_VISUAL_SYSTEM.md`
+
 ## Comms visual system — Brand Kit canvas tokens (2026-08-06)
 
 - [x] `BrandKit.canvas` + `resolveCanvasTokens` (`solid` / `field` / `workshop`; grain + duotone surfaces)

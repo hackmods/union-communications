@@ -12,6 +12,9 @@ import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import { CanvasGrainOverlay } from "@/components/tools/canvas";
 import {
   DEFAULT_MEETING_BACKGROUND_FORMAT,
   MEETING_BACKGROUND_FORMATS,
@@ -236,6 +239,12 @@ export default function MeetingBackgroundPage() {
   const secondary = state.secondaryColor || primary;
   const accent = state.accentColor || secondary;
   const canvasInk = pickContrastingInk(primary);
+  const tokens = resolveCanvasTokens(brandKit);
+  const surfaceStyle = canvasSurfaceStyle(tokens, {
+    primary,
+    secondary,
+    accent,
+  });
   const secondaryInk = pickContrastingInk(secondary);
   const accentInk = pickContrastingInk(accent);
   const mutedPrimary = mutedInkOnBackground(primary, 0.85);
@@ -929,10 +938,11 @@ export default function MeetingBackgroundPage() {
           >
             <div
               ref={canvasRef}
-              className={cn("w-full overflow-hidden", format.aspect)}
-              style={{ backgroundColor: primary, color: canvasInk }}
+              className={cn("relative w-full overflow-hidden", format.aspect)}
+              style={{ ...surfaceStyle, color: canvasInk }}
             >
               {canvasBody}
+              <CanvasGrainOverlay opacity={tokens.grainOpacity} />
             </div>
           </div>
         </div>

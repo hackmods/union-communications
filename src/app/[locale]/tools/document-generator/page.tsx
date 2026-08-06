@@ -31,6 +31,7 @@ import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import dynamic from "next/dynamic";
 
 const OfficePresetMock = dynamic(
@@ -137,6 +138,7 @@ function DocumentGeneratorPageContent() {
 
   const preset = getPreset(state.presetId);
   const palette = brandPalette(brandKit);
+  const canvasTokens = resolveCanvasTokens(brandKit);
   const localNumber = brandKit.local.localNumber;
   const localLabel = `Local ${resolveLocalNumber(localNumber)}`;
 
@@ -604,6 +606,7 @@ function DocumentGeneratorPageContent() {
             includeDocx={state.includeDocx && preset.outputs.docx}
             includeXlsx={state.includeXlsx && preset.outputs.xlsx}
             includePptx={state.includePptx && preset.outputs.pptx}
+            tokens={canvasTokens}
           />
           <ul className="list-disc space-y-1 pl-5 text-xs text-gray-500">
             {preset.structureKeys.map((key) => (

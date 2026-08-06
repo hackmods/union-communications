@@ -200,6 +200,7 @@ export function GraphicLayoutCanvas({
           localNumber={localNumber}
           subText={subText}
           size={size}
+          tokens={tokens}
         />
       )}
       {layout === "results" && (
@@ -550,6 +551,7 @@ export function QuoteLayout({
   localNumber,
   subText,
   size = "preview",
+  tokens,
 }: {
   primary: string;
   accent: string;
@@ -559,23 +561,32 @@ export function QuoteLayout({
   localNumber: string;
   subText: string;
   size?: "preview" | "export";
+  tokens?: CanvasTokens;
 }) {
   const exportMode = size === "export";
   const quoteInk = inkPalette(primary);
   const accentInk = textColor ? textPalette(textColor) : quoteInk;
+  const surface = tokens
+    ? canvasSurfaceStyle(tokens, {
+        primary,
+        secondary: primary,
+        accent,
+      })
+    : { backgroundColor: primary };
   return (
     <>
-      <div className="absolute inset-0" style={{ backgroundColor: primary }} />
+      <div className="absolute inset-0" style={surface} />
+      {tokens ? <CanvasGrainOverlay opacity={tokens.grainOpacity} /> : null}
       <div
         className={cn(
-          "absolute left-0 top-0 h-full",
+          "absolute left-0 top-0 z-[2] h-full",
           exportMode ? "w-2" : "w-1.5",
         )}
         style={{ backgroundColor: accent }}
       />
       <div
         className={cn(
-          "absolute inset-0 flex flex-col justify-center",
+          "absolute inset-0 z-[2] flex flex-col justify-center",
           exportMode ? "p-10" : "p-5 sm:p-6",
         )}
       >
