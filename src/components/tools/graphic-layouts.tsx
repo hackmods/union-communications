@@ -21,6 +21,40 @@ import {
 } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 
+/** Shared pad / type metrics for Graphic Maker layouts (preview vs export). */
+function layoutChrome(
+  tokens: CanvasTokens | undefined,
+  exportMode: boolean,
+): {
+  pad: number;
+  titlePx?: number;
+  bodyPx?: number;
+  metaPx?: number;
+  textAlign?: "left" | "center" | "right";
+  alignItems?: "flex-start" | "center";
+  titleWeight?: number;
+  titleTracking?: string;
+  titleTransform?: "none" | "uppercase";
+} {
+  const pad = tokens
+    ? tokens.paddingPx * (exportMode ? 1 : 0.55)
+    : exportMode
+      ? 32
+      : 16;
+  if (!tokens) return { pad };
+  return {
+    pad,
+    titlePx: Math.round(tokens.titleFontSizePx * (exportMode ? 1.05 : 0.72)),
+    bodyPx: Math.round(tokens.subtitleFontSizePx * (exportMode ? 1.2 : 0.95)),
+    metaPx: Math.max(9, Math.round(tokens.subtitleFontSizePx * 0.78)),
+    textAlign: textAlignFromBias(tokens.alignmentBias),
+    alignItems: flexAlignFromBias(tokens.alignmentBias),
+    titleWeight: tokens.titleFontWeight,
+    titleTracking: tokens.titleLetterSpacing,
+    titleTransform: tokens.titleTextTransform,
+  };
+}
+
 export type GraphicLayoutId = Exclude<ExampleLayout, "quote">;
 
 export const GRAPHIC_LAYOUT_ORDER: readonly GraphicLayoutId[] = [
@@ -194,6 +228,7 @@ export function GraphicLayoutCanvas({
           size={size}
           photoDuotone={photoDuotone}
           highlightOpacity={tokens?.duotoneHighlightOpacity}
+          tokens={tokens}
         />
       )}
       {layout === "quote" && (
@@ -244,6 +279,7 @@ export function GraphicLayoutCanvas({
           size={size}
           photoDuotone={photoDuotone}
           highlightOpacity={tokens?.duotoneHighlightOpacity}
+          tokens={tokens}
         />
       )}
     </div>
@@ -263,6 +299,7 @@ function SolidarityLayout({
   size,
   photoDuotone,
   highlightOpacity,
+  tokens,
 }: {
   primary: string;
   accent: string;
@@ -276,11 +313,13 @@ function SolidarityLayout({
   size: "preview" | "export";
   photoDuotone?: boolean;
   highlightOpacity?: number;
+  tokens?: CanvasTokens;
 }) {
   const exportMode = size === "export";
   // Dark photo overlay → ink against the scrim, not raw primary
   const footerBg = photoUrl ? "#1A1A1A" : primary;
   const ink = inkPalette(footerBg);
+  const chrome = layoutChrome(tokens, exportMode);
   return (
     <>
       <div
@@ -307,10 +346,11 @@ function SolidarityLayout({
         }}
       />
       <div
-        className={cn(
-          "absolute bottom-0 left-0 right-0",
-          exportMode ? "p-8" : "p-4 sm:p-5",
-        )}
+        className="absolute bottom-0 left-0 right-0"
+        style={{
+          padding: chrome.pad,
+          textAlign: chrome.textAlign,
+        }}
       >
         <BrandLogo
           size={exportMode ? "md" : "sm"}
@@ -320,15 +360,24 @@ function SolidarityLayout({
         <h3
           className={cn(
             "font-bold leading-tight",
-            exportMode ? "text-3xl" : "text-base sm:text-lg",
+            !chrome.titlePx && (exportMode ? "text-3xl" : "text-base sm:text-lg"),
           )}
-          style={{ color: ink.full }}
+          style={{
+            color: ink.full,
+            fontSize: chrome.titlePx,
+            fontWeight: chrome.titleWeight,
+            letterSpacing: chrome.titleTracking,
+            textTransform: chrome.titleTransform,
+          }}
         >
           {copy.headline}
         </h3>
         <p
-          className={cn("mt-1", exportMode ? "text-lg" : "text-xs sm:text-sm")}
-          style={{ color: ink.a90 }}
+          className={cn(
+            "mt-1",
+            !chrome.bodyPx && (exportMode ? "text-lg" : "text-xs sm:text-sm"),
+          )}
+          style={{ color: ink.a90, fontSize: chrome.bodyPx }}
         >
           {copy.body}
         </p>
@@ -336,9 +385,9 @@ function SolidarityLayout({
           <p
             className={cn(
               "mt-2 font-semibold uppercase tracking-wide",
-              exportMode ? "text-sm" : "text-[10px]",
+              !chrome.metaPx && (exportMode ? "text-sm" : "text-[10px]"),
             )}
-            style={{ color: ink.a80 }}
+            style={{ color: ink.a80, fontSize: chrome.metaPx }}
           >
             {copy.detail}
           </p>
@@ -366,6 +415,7 @@ function SpotlightLayout({
   size,
   photoDuotone,
   highlightOpacity,
+  tokens,
 }: {
   primary: string;
   accent: string;
@@ -378,12 +428,14 @@ function SpotlightLayout({
   size: "preview" | "export";
   photoDuotone?: boolean;
   highlightOpacity?: number;
+  tokens?: CanvasTokens;
 }) {
   const initials = copy.initials ?? "M";
   const exportMode = size === "export";
   const footerBg = photoUrl ? "#1A1A1A" : primary;
   const ink = inkPalette(footerBg);
   const badgeInk = pickContrastingInk(accent);
+  const chrome = layoutChrome(tokens, exportMode);
   return (
     <>
       <div
@@ -424,10 +476,11 @@ function SpotlightLayout({
         }}
       />
       <div
-        className={cn(
-          "absolute bottom-0 left-0 right-0",
-          exportMode ? "p-8" : "p-4 sm:p-5",
-        )}
+        className="absolute bottom-0 left-0 right-0"
+        style={{
+          padding: chrome.pad,
+          textAlign: chrome.textAlign,
+        }}
       >
         <BrandLogo
           size={exportMode ? "md" : "sm"}
@@ -437,18 +490,24 @@ function SpotlightLayout({
         <h3
           className={cn(
             "font-bold",
-            exportMode ? "text-3xl" : "text-base sm:text-lg",
+            !chrome.titlePx && (exportMode ? "text-3xl" : "text-base sm:text-lg"),
           )}
-          style={{ color: ink.full }}
+          style={{
+            color: ink.full,
+            fontSize: chrome.titlePx,
+            fontWeight: chrome.titleWeight,
+            letterSpacing: chrome.titleTracking,
+            textTransform: chrome.titleTransform,
+          }}
         >
           {copy.headline}
         </h3>
         <p
           className={cn(
             "mt-1 italic",
-            exportMode ? "text-lg" : "text-xs sm:text-sm",
+            !chrome.bodyPx && (exportMode ? "text-lg" : "text-xs sm:text-sm"),
           )}
-          style={{ color: ink.a90 }}
+          style={{ color: ink.a90, fontSize: chrome.bodyPx }}
         >
           &ldquo;{copy.body}&rdquo;
         </p>
@@ -492,39 +551,19 @@ function NoticeLayout({
         accent,
       })
     : { backgroundColor: primary };
-  const pad = tokens
-    ? tokens.paddingPx * (exportMode ? 1 : 0.55)
-    : exportMode
-      ? 32
-      : 16;
-  const titlePx = tokens
-    ? Math.round(
-        tokens.titleFontSizePx *
-          (exportMode ? 1.15 : 0.72) *
-          (tokens.typeScale === "display"
-            ? 1.12
-            : tokens.typeScale === "dense"
-              ? 0.9
-              : 1),
-      )
-    : undefined;
-  const bodyPx = tokens
-    ? Math.round(
-        tokens.subtitleFontSizePx * (exportMode ? 1.2 : 0.95),
-      )
-    : undefined;
-  const metaPx = tokens
-    ? Math.max(9, Math.round(tokens.subtitleFontSizePx * 0.78))
-    : undefined;
+  const chrome = layoutChrome(tokens, exportMode);
   const brandJustify =
     tokens?.alignmentBias === "center"
       ? "center"
       : tokens?.alignmentBias === "asymmetric"
         ? "flex-end"
         : "space-between";
-  const textAlign = tokens
-    ? textAlignFromBias(tokens.alignmentBias)
-    : "left";
+  const textAlign = chrome.textAlign ?? "left";
+  const titlePx = chrome.titlePx
+    ? Math.round(chrome.titlePx * (exportMode ? 1.1 : 1))
+    : undefined;
+  const bodyPx = chrome.bodyPx;
+  const metaPx = chrome.metaPx;
   return (
     <>
       <div className="absolute inset-0" style={surface} />
@@ -538,7 +577,7 @@ function NoticeLayout({
       />
       <div
         className="absolute inset-0 z-[2] flex flex-col justify-between"
-        style={{ padding: pad, textAlign }}
+        style={{ padding: chrome.pad, textAlign }}
       >
         <div
           className="flex items-start gap-2"
@@ -565,9 +604,9 @@ function NoticeLayout({
             style={{
               color: ink.full,
               fontSize: titlePx,
-              fontWeight: tokens?.titleFontWeight,
-              letterSpacing: tokens?.titleLetterSpacing,
-              textTransform: tokens?.titleTextTransform,
+              fontWeight: chrome.titleWeight,
+              letterSpacing: chrome.titleTracking,
+              textTransform: chrome.titleTransform,
             }}
           >
             {copy.headline}
@@ -633,6 +672,7 @@ export function QuoteLayout({
         accent,
       })
     : { backgroundColor: primary };
+  const chrome = layoutChrome(tokens, exportMode);
   return (
     <>
       <div className="absolute inset-0" style={surface} />
@@ -645,10 +685,12 @@ export function QuoteLayout({
         style={{ backgroundColor: accent }}
       />
       <div
-        className={cn(
-          "absolute inset-0 z-[2] flex flex-col justify-center",
-          exportMode ? "p-10" : "p-5 sm:p-6",
-        )}
+        className="absolute inset-0 z-[2] flex flex-col justify-center"
+        style={{
+          padding: chrome.pad * (exportMode ? 1.15 : 1),
+          textAlign: chrome.textAlign ?? "left",
+          alignItems: chrome.alignItems ?? "flex-start",
+        }}
       >
         <p
           className={cn(
@@ -663,18 +705,30 @@ export function QuoteLayout({
         <p
           className={cn(
             "font-medium leading-snug",
-            exportMode ? "text-xl" : "text-sm sm:text-base",
+            !chrome.bodyPx && (exportMode ? "text-xl" : "text-sm sm:text-base"),
           )}
-          style={{ color: quoteInk.full }}
+          style={{
+            color: quoteInk.full,
+            fontSize: chrome.bodyPx
+              ? Math.round(chrome.bodyPx * 1.15)
+              : undefined,
+          }}
         >
           {copy.body}
         </p>
         <p
           className={cn(
             "mt-3 font-semibold",
-            exportMode ? "text-base" : "text-xs",
+            !chrome.titlePx && (exportMode ? "text-base" : "text-xs"),
           )}
-          style={{ color: accentInk.full }}
+          style={{
+            color: accentInk.full,
+            fontSize: chrome.metaPx
+              ? Math.round(chrome.metaPx * 1.15)
+              : undefined,
+            fontWeight: chrome.titleWeight,
+            letterSpacing: chrome.titleTracking,
+          }}
         >
           {copy.headline}
         </p>
@@ -682,9 +736,9 @@ export function QuoteLayout({
           <p
             className={cn(
               "uppercase tracking-wide",
-              exportMode ? "text-xs" : "text-[10px]",
+              !chrome.metaPx && (exportMode ? "text-xs" : "text-[10px]"),
             )}
-            style={{ color: accentInk.a80 }}
+            style={{ color: accentInk.a80, fontSize: chrome.metaPx }}
           >
             {copy.detail}
           </p>
@@ -722,17 +776,9 @@ function ResultsLayout({
 }) {
   const exportMode = size === "export";
   const ink = inkPalette(primary);
-  const alignItems = tokens
-    ? flexAlignFromBias(tokens.alignmentBias)
-    : "center";
-  const textAlign = tokens
-    ? textAlignFromBias(tokens.alignmentBias)
-    : "center";
-  const pad = tokens
-    ? tokens.paddingPx * (exportMode ? 1 : 0.55)
-    : exportMode
-      ? 32
-      : 16;
+  const chrome = layoutChrome(tokens, exportMode);
+  const alignItems = chrome.alignItems ?? "center";
+  const textAlign = chrome.textAlign ?? "center";
   return (
     <>
       <div
@@ -746,7 +792,7 @@ function ResultsLayout({
         style={{
           alignItems,
           textAlign,
-          padding: pad,
+          padding: chrome.pad,
         }}
       >
         <BrandLogo
@@ -757,27 +803,42 @@ function ResultsLayout({
         <p
           className={cn(
             "font-semibold uppercase tracking-widest",
-            exportMode ? "text-sm" : "text-[10px]",
+            !chrome.metaPx && (exportMode ? "text-sm" : "text-[10px]"),
           )}
-          style={{ color: ink.a80 }}
+          style={{ color: ink.a80, fontSize: chrome.metaPx }}
         >
           {copy.detail}
         </p>
         <p
           className={cn(
             "font-black",
-            exportMode ? "mt-2 text-6xl" : "mt-1 text-4xl sm:text-5xl",
+            !chrome.titlePx &&
+              (exportMode ? "mt-2 text-6xl" : "mt-1 text-4xl sm:text-5xl"),
           )}
-          style={{ color: ink.full }}
+          style={{
+            color: ink.full,
+            fontSize: chrome.titlePx
+              ? Math.round(chrome.titlePx * (exportMode ? 1.8 : 1.55))
+              : undefined,
+            fontWeight: chrome.titleWeight ?? 900,
+            letterSpacing: chrome.titleTracking,
+            marginTop: exportMode ? 8 : 4,
+          }}
         >
           {copy.headline}
         </p>
         <p
           className={cn(
             "max-w-[14rem]",
-            exportMode ? "mt-3 max-w-md text-lg" : "mt-2 text-xs sm:text-sm",
+            !chrome.bodyPx &&
+              (exportMode ? "mt-3 max-w-md text-lg" : "mt-2 text-xs sm:text-sm"),
           )}
-          style={{ color: ink.a90 }}
+          style={{
+            color: ink.a90,
+            fontSize: chrome.bodyPx,
+            marginTop: exportMode ? 12 : 8,
+            maxWidth: exportMode ? "28rem" : "14rem",
+          }}
         >
           {copy.body}
         </p>

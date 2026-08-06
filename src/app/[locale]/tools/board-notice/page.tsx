@@ -268,15 +268,22 @@ export default function BoardNoticePage() {
               <CanvasGrainOverlay opacity={tokens.grainOpacity} />
               <div className="relative z-[2]">
                 <p
-                  className="text-sm font-bold uppercase tracking-widest"
-                  style={{ color: leadColor }}
+                  className="font-bold uppercase tracking-widest"
+                  style={{
+                    color: leadColor,
+                    fontSize: tokens.subtitleFontSizePx,
+                  }}
                 >
                   {localLabel}
                 </p>
                 <p
-                  className="mt-2 text-xs uppercase"
+                  className="mt-2 uppercase"
                   style={{
                     color: mutedInkOnBackground(brandKit.primaryColor, 0.8),
+                    fontSize: Math.max(
+                      10,
+                      Math.round(tokens.subtitleFontSizePx * 0.85),
+                    ),
                   }}
                 >
                   {t(`types.${state.noticeType}`)}

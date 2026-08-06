@@ -647,7 +647,11 @@ export default function SolidarityPosterPage() {
                       "font-semibold uppercase tracking-[0.2em]",
                       isLandscape ? "text-xs" : "text-sm",
                     )}
-                    style={{ color: secondaryOnPrimary }}
+                    style={{
+                      color: secondaryOnPrimary,
+                      letterSpacing: tokens.titleLetterSpacing || "0.2em",
+                      fontWeight: tokens.titleFontWeight,
+                    }}
                   >
                     {state.leadIn}
                   </p>
@@ -670,7 +674,12 @@ export default function SolidarityPosterPage() {
                     <p
                       key={`${i}-${line}`}
                       className={chrome.headlineStack}
-                      style={{ color: canvasInk }}
+                      style={{
+                        color: canvasInk,
+                        fontWeight: tokens.titleFontWeight,
+                        letterSpacing: tokens.titleLetterSpacing,
+                        textTransform: tokens.titleTextTransform,
+                      }}
                     >
                       {line}
                     </p>
@@ -786,7 +795,12 @@ export default function SolidarityPosterPage() {
                     <p
                       key={`${i}-${line}`}
                       className={chrome.headlineStack}
-                      style={{ color: canvasInk }}
+                      style={{
+                        color: canvasInk,
+                        fontWeight: tokens.titleFontWeight,
+                        letterSpacing: tokens.titleLetterSpacing,
+                        textTransform: tokens.titleTextTransform,
+                      }}
                     >
                       {line}
                     </p>

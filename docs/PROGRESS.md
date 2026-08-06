@@ -1,5 +1,10 @@
 # Progress Log
 
+## Comms visual system stop-gap pass (2026-08-06)
+
+- [x] Close incomplete token wiring: graphic Solidarity/Spotlight/Quote/Results, QR Board type/pad/align
+- [x] Board Notice lead type; Quote Card outer surface; Solidarity headline tracking/weight; Notice uses shared `layoutChrome`
+
 ## Comms visual system phase 5 (2026-08-06)
 
 - [x] Board Banner / Trim type + surface tokens; Logo Builder + Resizer `LocalLogoPlate` / frames

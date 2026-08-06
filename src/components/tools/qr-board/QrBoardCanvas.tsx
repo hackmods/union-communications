@@ -14,6 +14,12 @@ import {
   pickContrastingInk,
 } from "@/lib/utils/ink";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  contentPaddingPx,
+  flexAlignFromBias,
+  textAlignFromBias,
+  typeScaleFactor,
+} from "@/lib/utils/canvas-tokens";
 import { CanvasGrainOverlay, CanvasQrPlate } from "@/components/tools/canvas";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 
@@ -61,22 +67,27 @@ export function QrBoardCanvas({
   const isTabloid = formatId === "tabloid";
   const isDense = slots.length >= 6;
   const grainOpacity = tokens?.grainOpacity ?? 0;
-
-  const titleSize = isTabloid
-    ? isDense
-      ? "text-3xl"
-      : "text-4xl"
-    : isDense
-      ? "text-xl"
-      : "text-2xl";
-
-  const cellTitleSize = isTabloid
-    ? isDense
-      ? "text-base"
-      : "text-lg"
-    : isDense
-      ? "text-xs"
-      : "text-sm";
+  const scale = tokens ? typeScaleFactor(tokens) : 1;
+  const boardPad = tokens
+    ? contentPaddingPx(tokens, { factor: isTabloid ? 0.75 : 0.55 })
+    : isTabloid
+      ? 28
+      : 20;
+  const headerAlign = tokens
+    ? flexAlignFromBias(tokens.alignmentBias)
+    : "center";
+  const headerTextAlign = tokens
+    ? textAlignFromBias(tokens.alignmentBias)
+    : "center";
+  const titleFontPx = Math.round(
+    (isTabloid ? (isDense ? 28 : 34) : isDense ? 18 : 22) * scale,
+  );
+  const subtitleFontPx = Math.round(
+    (isTabloid ? 15 : 13) * scale * (tokens ? 1 : 1),
+  );
+  const cellTitleFontPx = Math.round(
+    (isTabloid ? (isDense ? 14 : 16) : isDense ? 11 : 13) * scale,
+  );
 
   const surface = tokens
     ? canvasSurfaceStyle(tokens, {
@@ -113,13 +124,18 @@ export function QrBoardCanvas({
       <div
         className="relative z-[2] flex flex-1 flex-col"
         style={{
-          padding: isTabloid ? "28px 32px 24px" : "20px 22px 16px",
+          padding: boardPad,
           minHeight: 0,
+          gap: tokens?.gapPx ?? (isTabloid ? 16 : 12),
         }}
       >
         <header
-          className="flex shrink-0 flex-col items-center text-center"
-          style={{ marginBottom: isTabloid ? 20 : 14 }}
+          className="flex shrink-0 flex-col"
+          style={{
+            alignItems: headerAlign,
+            textAlign: headerTextAlign,
+            marginBottom: isTabloid ? 8 : 4,
+          }}
         >
           {includeBranding ? (
             <div style={{ marginBottom: isTabloid ? 12 : 8 }}>
@@ -130,18 +146,25 @@ export function QrBoardCanvas({
             </div>
           ) : null}
           <h2
-            className={`font-bold leading-tight tracking-tight ${titleSize}`}
-            style={{ color: ink, margin: 0 }}
+            className="font-bold leading-tight tracking-tight"
+            style={{
+              color: ink,
+              margin: 0,
+              fontSize: titleFontPx,
+              fontWeight: tokens?.titleFontWeight,
+              letterSpacing: tokens?.titleLetterSpacing,
+              textTransform: tokens?.titleTextTransform,
+            }}
           >
             {posterTitle || "\u00a0"}
           </h2>
           {posterSubtitle.trim() ? (
             <p
-              className={isTabloid ? "text-base" : "text-sm"}
               style={{
                 color: muted,
                 margin: isTabloid ? "8px 0 0" : "6px 0 0",
                 maxWidth: "36em",
+                fontSize: subtitleFontPx,
               }}
             >
               {posterSubtitle}
@@ -164,12 +187,13 @@ export function QrBoardCanvas({
               style={{ gap: isTabloid ? 8 : 6 }}
             >
               <p
-                className={`shrink-0 font-semibold leading-snug ${cellTitleSize}`}
+                className="shrink-0 font-semibold leading-snug"
                 style={{
                   color: ink,
                   margin: 0,
                   width: "100%",
                   wordBreak: "break-word",
+                  fontSize: cellTitleFontPx,
                 }}
               >
                 {slot.title.trim() || "\u00a0"}

@@ -21,6 +21,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 
 interface QuoteState {
   quote: string;
@@ -37,6 +38,7 @@ function QuoteCardPageContent() {
   const te = useTranslations("examples");
   const brandKit = useBrandStore((s) => s.brandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const tokens = resolveCanvasTokens(brandKit);
 
   const initial: QuoteState = {
     quote: "We will not accept anything less than a fair deal for our members.",
@@ -50,6 +52,11 @@ function QuoteCardPageContent() {
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<QuoteState>(initial);
   const { exportError, exporting, runExport } = useExportHandler();
+  const surfaceStyle = canvasSurfaceStyle(tokens, {
+    primary: state.primaryColor,
+    secondary: brandKit.secondaryColor,
+    accent: state.accentColor,
+  });
 
   useExamplePostSeed((exampleId) => {
     const post = getExamplePost(exampleId);
@@ -157,7 +164,7 @@ function QuoteCardPageContent() {
           <div
             ref={canvasRef}
             className="relative aspect-square w-full overflow-hidden"
-            style={{ backgroundColor: state.primaryColor }}
+            style={surfaceStyle}
           >
             <QuoteLayout
               primary={state.primaryColor}
@@ -171,7 +178,7 @@ function QuoteCardPageContent() {
               localNumber={resolveLocalNumber(brandKit.local.localNumber)}
               subText={brandKit.local.subText}
               size="export"
-              tokens={resolveCanvasTokens(brandKit)}
+              tokens={tokens}
             />
           </div>
         </div>

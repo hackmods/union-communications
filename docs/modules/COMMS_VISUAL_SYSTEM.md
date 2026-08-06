@@ -91,6 +91,12 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 - Website ZIP/preview CSS: optional `canvas` surface / typeScale / density
 - `CanvasQrPlate`: soft shadow + optional accent-tinted border (modules stay black/white)
 
+### Stop-gap pass (2026-08-06)
+
+- Graphic Maker: Solidarity / Spotlight / Quote / Results share `layoutChrome` (pad / type / align); Notice reuses it
+- QR Board: title / cell type + padding / header alignment from tokens
+- Board Notice lead/type labels; Quote Card outer surface; Solidarity headline weight/tracking
+
 ## Agent contract
 
 See [`.cursor/rules/comms-visual-system.mdc`](../../.cursor/rules/comms-visual-system.mdc).
