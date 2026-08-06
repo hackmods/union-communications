@@ -10,6 +10,11 @@ import {
   officeMockTypography,
   resolveCanvasTokens,
   typeScaleFactor,
+  walletBodyFontSizePx,
+  walletContentGapPx,
+  walletContentPaddingPx,
+  walletMetaFontSizePx,
+  walletTitleFontSizePx,
 } from "./canvas-tokens";
 
 describe("normalizeBrandKitCanvas", () => {
@@ -189,6 +194,61 @@ describe("officeMockTypography", () => {
     expect(display.docTitlePx).toBeGreaterThanOrEqual(compact.docTitlePx);
     expect(compact.docTitlePx).toBeGreaterThanOrEqual(dense.docTitlePx);
     expect(display.headerTitlePx).toBeGreaterThanOrEqual(dense.headerTitlePx);
+  });
+});
+
+describe("wallet chrome helpers", () => {
+  const letterPreviewPx = 8.5 * 48;
+  const compactPreviewPx = 4 * 48;
+
+  it("walletTitleFontSizePx scales with typeScale and preview width", () => {
+    const display = walletTitleFontSizePx(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { typeScale: "display" },
+        }),
+      ),
+      letterPreviewPx,
+    );
+    const dense = walletTitleFontSizePx(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { typeScale: "dense" },
+        }),
+      ),
+      letterPreviewPx,
+    );
+    const compactCard = walletTitleFontSizePx(
+      resolveCanvasTokens(DEFAULT_BRAND_KIT),
+      compactPreviewPx,
+    );
+    expect(display).toBeGreaterThan(dense);
+    expect(display).toBeGreaterThan(compactCard);
+    expect(
+      walletTitleFontSizePx(resolveCanvasTokens(DEFAULT_BRAND_KIT), letterPreviewPx, {
+        reference: true,
+      }),
+    ).toBeLessThan(
+      walletTitleFontSizePx(resolveCanvasTokens(DEFAULT_BRAND_KIT), letterPreviewPx),
+    );
+  });
+
+  it("wallet body/meta/pad/gap stay readable on small cards", () => {
+    const tokens = resolveCanvasTokens(
+      normalizeBrandKit({
+        ...DEFAULT_BRAND_KIT,
+        canvas: canvasFromStyleId("workshop"),
+      }),
+    );
+    expect(walletBodyFontSizePx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(9);
+    expect(walletMetaFontSizePx(tokens)).toBeGreaterThanOrEqual(9);
+    expect(walletContentPaddingPx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(8);
+    expect(walletContentGapPx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(4);
+    expect(walletContentPaddingPx(tokens, letterPreviewPx)).toBeGreaterThan(
+      walletContentPaddingPx(tokens, compactPreviewPx),
+    );
   });
 });
 

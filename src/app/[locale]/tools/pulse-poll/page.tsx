@@ -19,7 +19,16 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { pickContrastingInk } from "@/lib/utils/ink";
-import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  resolveCanvasTokens,
+  typeScaleFactor,
+  textAlignFromBias,
+  walletBodyFontSizePx,
+  walletContentPaddingPx,
+  walletMetaFontSizePx,
+  walletTitleFontSizePx,
+} from "@/lib/utils/canvas-tokens";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import {
   CanvasGrainOverlay,
   CanvasQrPlate,
@@ -195,9 +204,22 @@ export default function PulsePollPage() {
   }
 
   const ink = pickContrastingInk(state.primaryColor);
+  const pollPreviewWidthPx = 384; // max-w-sm
+  const titleFontPx = walletTitleFontSizePx(tokens, pollPreviewWidthPx);
+  const bodyFontPx = walletBodyFontSizePx(tokens, pollPreviewWidthPx);
+  const metaFontPx = walletMetaFontSizePx(tokens);
+  const contentPadPx = walletContentPaddingPx(tokens, pollPreviewWidthPx);
+  const textAlign = textAlignFromBias(tokens.alignmentBias);
   const previewStyle: CSSProperties = {
-    background: `linear-gradient(160deg, ${state.primaryColor}, ${state.secondaryColor})`,
+    ...canvasSurfaceStyle(tokens, {
+      primary: state.primaryColor,
+      secondary: state.secondaryColor,
+      accent: state.secondaryColor,
+    }),
     color: ink,
+    padding: contentPadPx,
+    gap: Math.max(8, Math.round(tokens.gapPx * typeScaleFactor(tokens))),
+    textAlign,
   };
 
   const editor = (
@@ -402,25 +424,44 @@ export default function PulsePollPage() {
       <p className="text-sm font-medium text-gray-700">{t("previewHeading")}</p>
       <div
         ref={canvasRef}
-        className="relative mx-auto flex w-full max-w-sm flex-col gap-4 rounded-lg p-6 shadow-sm"
+        className="relative mx-auto flex w-full max-w-sm flex-col rounded-lg shadow-sm"
         style={previewStyle}
       >
         <CanvasGrainOverlay opacity={tokens.grainOpacity} />
         {state.includeBranding && themeEstablished && (
           <div className="relative z-[2] flex items-center gap-2">
             <BrandLogo className="h-10 w-auto" />
-            <span className="text-sm font-semibold">
+            <span
+              className="font-semibold"
+              style={{ fontSize: bodyFontPx }}
+            >
               Local {resolveLocalNumber(brandKit.local.localNumber)}
             </span>
           </div>
         )}
-        <h2 className="relative z-[2] text-xl font-bold leading-tight">
+        <h2
+          className="relative z-[2] font-bold leading-tight"
+          style={{
+            fontSize: titleFontPx,
+            fontWeight: tokens.titleFontWeight,
+            letterSpacing: tokens.titleLetterSpacing,
+            textTransform: tokens.titleTextTransform,
+          }}
+        >
           {state.title.trim() || t("title")}
         </h2>
         {state.intro.trim() && (
-          <p className="relative z-[2] text-sm opacity-90">{state.intro}</p>
+          <p
+            className="relative z-[2] opacity-90"
+            style={{ fontSize: bodyFontPx }}
+          >
+            {state.intro}
+          </p>
         )}
-        <ol className="relative z-[2] list-decimal space-y-1 pl-5 text-sm">
+        <ol
+          className="relative z-[2] list-decimal space-y-1 pl-5"
+          style={{ fontSize: bodyFontPx }}
+        >
           {state.questions
             .filter((q) => q.text.trim())
             .map((q) => (
@@ -429,7 +470,9 @@ export default function PulsePollPage() {
         </ol>
         <div className="relative z-[2] mt-2 flex flex-col items-center gap-2">
           <CanvasQrPlate tokens={tokens} qrSrc={qrSrc} alt={t("qrAlt")} widthPercent={55} />
-          <p className={cn("text-center text-xs")}>{t("qrHint")}</p>
+          <p className={cn("text-center")} style={{ fontSize: metaFontPx }}>
+            {t("qrHint")}
+          </p>
         </div>
       </div>
     </div>

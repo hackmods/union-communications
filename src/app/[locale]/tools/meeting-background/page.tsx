@@ -522,8 +522,11 @@ export default function MeetingBackgroundPage() {
       >
         {panelHasContent ? (
           <div
-            className="box-border flex h-full w-[34%] min-w-0 max-w-[40%] shrink-0 flex-col justify-between overflow-hidden p-3 md:p-4"
-            style={{ backgroundColor: secondary }}
+            className="box-border flex h-full w-[34%] min-w-0 max-w-[40%] shrink-0 flex-col justify-between overflow-hidden"
+            style={{
+              backgroundColor: secondary,
+              padding: bandPadPx,
+            }}
           >
             <div className="min-w-0 w-full max-w-full overflow-hidden">
               {leadLine(meetsWcagAA(accent, secondary, true) ? accent : mutedSecondary)}

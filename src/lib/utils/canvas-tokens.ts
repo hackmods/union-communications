@@ -268,6 +268,62 @@ export function contentPaddingPx(
   return Math.max(12, Math.round(tokens.paddingPx * portraitFactor * extra));
 }
 
+/** Letter-preview width baseline (8.5in × 48px/in from qr-card letter size). */
+const WALLET_LETTER_PREVIEW_PX = 8.5 * 48;
+
+function walletWidthRatio(previewWidthPx: number): number {
+  return Math.min(1.15, Math.max(0.45, previewWidthPx / WALLET_LETTER_PREVIEW_PX));
+}
+
+/** QR / Action card title size from Brand Kit + preview width. */
+export function walletTitleFontSizePx(
+  tokens: CanvasTokens,
+  previewWidthPx: number,
+  opts?: { reference?: boolean },
+): number {
+  const base =
+    tokens.titleFontSizePx * typeScaleFactor(tokens) * walletWidthRatio(previewWidthPx);
+  const ref = opts?.reference ? 0.85 : 1;
+  return Math.max(12, Math.round(base * ref));
+}
+
+/** QR / Action card body / description size. */
+export function walletBodyFontSizePx(
+  tokens: CanvasTokens,
+  previewWidthPx: number,
+): number {
+  return Math.max(
+    9,
+    Math.round(
+      tokens.subtitleFontSizePx * typeScaleFactor(tokens) * walletWidthRatio(previewWidthPx),
+    ),
+  );
+}
+
+/** Tagline, URL, local footer on wallet cards. */
+export function walletMetaFontSizePx(tokens: CanvasTokens): number {
+  return Math.max(9, Math.round(tokens.subtitleFontSizePx * 0.78));
+}
+
+/** Inner padding for wallet cards by approximate size bucket. */
+export function walletContentPaddingPx(
+  tokens: CanvasTokens,
+  previewWidthPx: number,
+): number {
+  const ratio = walletWidthRatio(previewWidthPx);
+  const factor = ratio < 0.55 ? 0.38 : ratio < 0.7 ? 0.48 : ratio < 0.9 ? 0.58 : 0.68;
+  return Math.max(8, contentPaddingPx(tokens, { factor }));
+}
+
+/** Gap between wallet chrome blocks. */
+export function walletContentGapPx(
+  tokens: CanvasTokens,
+  previewWidthPx: number,
+): number {
+  const ratio = walletWidthRatio(previewWidthPx);
+  return Math.max(4, Math.round(tokens.gapPx * Math.min(1, ratio + 0.15)));
+}
+
 /** Preview type scale for Document Generator OfficePresetMock (CSS silhouette). */
 export interface OfficeMockTypography {
   headerTitlePx: number;

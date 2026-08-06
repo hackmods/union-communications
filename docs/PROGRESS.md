@@ -1,5 +1,11 @@
 # Progress Log
 
+## Comms visual system phase 4 (2026-08-06)
+
+- [x] Wallet helpers (`walletTitle*` / pad / gap) + QR Card / Action Card type chrome
+- [x] Graphic Maker `NoticeLayout` surface/grain/pad/type; Pulse Poll wallet type/pad; Meeting `side-panel` token pad
+- [x] Unit coverage for wallet helpers
+
 ## Comms visual system phase 3 (2026-08-06)
 
 - [x] `typeScaleFactor` / `contentPaddingPx` / `meetingAlignFromBias` — Brand Kit knobs now affect layout matrices

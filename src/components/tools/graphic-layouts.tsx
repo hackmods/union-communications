@@ -227,6 +227,7 @@ export function GraphicLayoutCanvas({
           localNumber={localNumber}
           subText={subText}
           size={size}
+          tokens={tokens}
         />
       )}
       {(layout === "solidarity" || layout === "thanks") && (
@@ -470,6 +471,7 @@ function NoticeLayout({
   localNumber,
   subText,
   size,
+  tokens,
 }: {
   primary: string;
   accent: string;
@@ -478,51 +480,104 @@ function NoticeLayout({
   localNumber: string;
   subText: string;
   size: "preview" | "export";
+  tokens?: CanvasTokens;
 }) {
   const exportMode = size === "export";
   const ink = inkPalette(primary);
   const badgeInk = pickContrastingInk(accent);
+  const surface = tokens
+    ? canvasSurfaceStyle(tokens, {
+        primary,
+        secondary,
+        accent,
+      })
+    : { backgroundColor: primary };
+  const pad = tokens
+    ? tokens.paddingPx * (exportMode ? 1 : 0.55)
+    : exportMode
+      ? 32
+      : 16;
+  const titlePx = tokens
+    ? Math.round(
+        tokens.titleFontSizePx *
+          (exportMode ? 1.15 : 0.72) *
+          (tokens.typeScale === "display"
+            ? 1.12
+            : tokens.typeScale === "dense"
+              ? 0.9
+              : 1),
+      )
+    : undefined;
+  const bodyPx = tokens
+    ? Math.round(
+        tokens.subtitleFontSizePx * (exportMode ? 1.2 : 0.95),
+      )
+    : undefined;
+  const metaPx = tokens
+    ? Math.max(9, Math.round(tokens.subtitleFontSizePx * 0.78))
+    : undefined;
+  const brandJustify =
+    tokens?.alignmentBias === "center"
+      ? "center"
+      : tokens?.alignmentBias === "asymmetric"
+        ? "flex-end"
+        : "space-between";
+  const textAlign = tokens
+    ? textAlignFromBias(tokens.alignmentBias)
+    : "left";
   return (
     <>
-      <div className="absolute inset-0" style={{ backgroundColor: primary }} />
+      <div className="absolute inset-0" style={surface} />
+      {tokens ? <CanvasGrainOverlay opacity={tokens.grainOpacity} /> : null}
       <div
-        className={cn("absolute left-0 top-0 w-full", exportMode ? "h-2" : "h-1.5")}
+        className={cn(
+          "absolute left-0 top-0 z-[2] w-full",
+          exportMode ? "h-2" : "h-1.5",
+        )}
         style={{ backgroundColor: accent }}
       />
       <div
-        className={cn(
-          "absolute inset-0 flex flex-col justify-between",
-          exportMode ? "p-8" : "p-4 sm:p-5",
-        )}
+        className="absolute inset-0 z-[2] flex flex-col justify-between"
+        style={{ padding: pad, textAlign }}
       >
-        <div className="flex items-start justify-between gap-2">
+        <div
+          className="flex items-start gap-2"
+          style={{ justifyContent: brandJustify }}
+        >
           <BrandLogo size={exportMode ? "md" : "sm"} backgroundColor={primary} />
           <span
             className={cn(
               "rounded font-bold uppercase tracking-wide",
-              exportMode ? "px-3 py-1 text-xs" : "px-2 py-0.5 text-[10px]",
+              exportMode ? "px-3 py-1" : "px-2 py-0.5",
             )}
-            style={{ backgroundColor: accent, color: badgeInk }}
+            style={{
+              backgroundColor: accent,
+              color: badgeInk,
+              fontSize: metaPx ?? (exportMode ? 12 : 10),
+            }}
           >
             {copy.detail ?? "Notice"}
           </span>
         </div>
         <div>
           <h3
-            className={cn(
-              "font-bold",
-              exportMode ? "text-4xl" : "text-base sm:text-xl",
-            )}
-            style={{ color: ink.full }}
+            className={cn("font-bold", !titlePx && (exportMode ? "text-4xl" : "text-base sm:text-xl"))}
+            style={{
+              color: ink.full,
+              fontSize: titlePx,
+              fontWeight: tokens?.titleFontWeight,
+              letterSpacing: tokens?.titleLetterSpacing,
+              textTransform: tokens?.titleTextTransform,
+            }}
           >
             {copy.headline}
           </h3>
           <p
             className={cn(
               "mt-2",
-              exportMode ? "text-lg" : "text-xs sm:text-sm",
+              !bodyPx && (exportMode ? "text-lg" : "text-xs sm:text-sm"),
             )}
-            style={{ color: ink.a90 }}
+            style={{ color: ink.a90, fontSize: bodyPx }}
           >
             {copy.body}
           </p>

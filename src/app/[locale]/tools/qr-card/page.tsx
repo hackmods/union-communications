@@ -40,7 +40,16 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
-import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  flexAlignFromBias,
+  resolveCanvasTokens,
+  textAlignFromBias,
+  walletBodyFontSizePx,
+  walletContentGapPx,
+  walletContentPaddingPx,
+  walletMetaFontSizePx,
+  walletTitleFontSizePx,
+} from "@/lib/utils/canvas-tokens";
 import {
   CanvasGrainOverlay,
   CanvasQrPlate,
@@ -264,21 +273,23 @@ function QrCardPageContent() {
   };
 
   const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
-  const isSquare = state.sizeId === "square4" || state.sizeId === "square5";
-
-  const titleSize = isReference
-    ? isCompact
-      ? "text-base"
-      : "text-xl"
-    : isSquare
-      ? state.sizeId === "square4"
-        ? "text-lg"
-        : "text-xl"
-      : state.sizeId === "letter"
-        ? "text-4xl"
-        : state.sizeId === "half"
-          ? "text-3xl"
-          : "text-2xl";
+  const titleFontPx = walletTitleFontSizePx(
+    tokens,
+    size.previewWidthPx,
+    { reference: isReference },
+  );
+  const bodyFontPx = walletBodyFontSizePx(tokens, size.previewWidthPx);
+  const metaFontPx = walletMetaFontSizePx(tokens);
+  const contentPadPx = walletContentPaddingPx(tokens, size.previewWidthPx);
+  const contentGapPx = walletContentGapPx(tokens, size.previewWidthPx);
+  const textAlign = textAlignFromBias(tokens.alignmentBias);
+  const flexAlign = flexAlignFromBias(tokens.alignmentBias);
+  const brandJustify =
+    tokens.alignmentBias === "center"
+      ? "center"
+      : tokens.alignmentBias === "asymmetric"
+        ? "flex-end"
+        : "flex-start";
 
   return (
     <ToolEditorLayout
@@ -488,25 +499,20 @@ function QrCardPageContent() {
                   <div
                     className={cn(
                       "relative z-[2] flex min-h-0 min-w-0 flex-1 flex-col",
-                      tokens.alignmentBias === "center" ? "items-center text-center" : "items-start text-left",
-                      isReference
-                        ? isCompact
-                          ? "justify-start gap-1 p-2"
-                          : "justify-start gap-1.5 p-3"
-                        : isCompact
-                          ? "justify-between gap-1.5 p-2.5"
-                          : isSquare
-                            ? "justify-between gap-2 p-3"
-                            : "justify-between gap-3 p-4 sm:p-5",
+                      isReference ? "justify-start" : "justify-between",
                     )}
+                    style={{
+                      alignItems: flexAlign,
+                      textAlign,
+                      padding: contentPadPx,
+                      gap: contentGapPx,
+                    }}
                   >
                     <div className="w-full min-w-0 shrink-0">
                       {state.includeBranding ? (
                         <div
-                          className={cn(
-                            "flex justify-center",
-                            isCompact ? "mb-1" : "mb-2",
-                          )}
+                          className="mb-2 flex"
+                          style={{ justifyContent: brandJustify }}
                         >
                           <BrandLogo
                             size="sm"
@@ -515,27 +521,28 @@ function QrCardPageContent() {
                         </div>
                       ) : null}
                       <h2
-                        className={cn(
-                          "font-black uppercase leading-tight tracking-tight",
-                          titleSize,
-                        )}
-                        style={{ color: canvasInk }}
+                        className="font-black uppercase leading-tight"
+                        style={{
+                          color: canvasInk,
+                          fontSize: titleFontPx,
+                          fontWeight: tokens.titleFontWeight,
+                          letterSpacing: tokens.titleLetterSpacing,
+                          textTransform: tokens.titleTextTransform,
+                        }}
                       >
                         {state.title}
                       </h2>
                       {state.description.trim() ? (
                         <p
                           className={cn(
-                            "mt-1 text-left leading-snug",
-                            isReference
-                              ? isCompact
-                                ? "whitespace-pre-line text-[9px]"
-                                : "whitespace-pre-line text-[11px]"
-                              : isCompact || isSquare
-                                ? "text-center text-xs"
-                                : "text-center text-sm",
+                            "mt-1 leading-snug",
+                            isReference && "whitespace-pre-line",
                           )}
-                          style={{ color: mutedInk }}
+                          style={{
+                            color: mutedInk,
+                            fontSize: bodyFontPx,
+                            textAlign,
+                          }}
                         >
                           {state.description}
                         </p>
@@ -544,9 +551,10 @@ function QrCardPageContent() {
 
                     <div
                       className={cn(
-                        "flex min-h-0 w-full min-w-0 flex-col items-center justify-center",
+                        "flex min-h-0 w-full min-w-0 flex-col justify-center",
                         isReference && "mt-auto",
                       )}
+                      style={{ alignItems: "center" }}
                     >
                       <CanvasQrPlate
                         tokens={tokens}
@@ -556,12 +564,12 @@ function QrCardPageContent() {
                       />
                       {state.tagline.trim() ? (
                         <p
-                          className={cn(
-                            "mt-1.5 font-bold uppercase tracking-wide",
-                            isCompact || isSquare ? "text-[10px]" : "text-sm",
-                          )}
+                          className="mt-1.5 font-bold uppercase tracking-wide"
                           style={{
                             color: taglineColor,
+                            fontSize: metaFontPx,
+                            textAlign,
+                            width: "100%",
                           }}
                         >
                           {state.tagline}
@@ -569,8 +577,13 @@ function QrCardPageContent() {
                       ) : null}
                       {state.showUrl && state.destination.trim() ? (
                         <p
-                          className="mt-1 max-w-full truncate text-[10px]"
-                          style={{ color: mutedInk80 }}
+                          className="mt-1 max-w-full truncate"
+                          style={{
+                            color: mutedInk80,
+                            fontSize: metaFontPx,
+                            textAlign,
+                            width: "100%",
+                          }}
                         >
                           {state.destination}
                         </p>
@@ -579,11 +592,13 @@ function QrCardPageContent() {
 
                     {state.includeBranding ? (
                       <p
-                        className={cn(
-                          "shrink-0 font-semibold",
-                          isCompact || isSquare ? "text-[10px]" : "text-xs",
-                        )}
-                        style={{ color: mutedInk }}
+                        className="shrink-0 font-semibold"
+                        style={{
+                          color: mutedInk,
+                          fontSize: metaFontPx,
+                          textAlign,
+                          width: "100%",
+                        }}
                       >
                         {localLabel}
                       </p>

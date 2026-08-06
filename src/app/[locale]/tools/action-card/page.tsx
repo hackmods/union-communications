@@ -34,7 +34,16 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
-import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  flexAlignFromBias,
+  resolveCanvasTokens,
+  textAlignFromBias,
+  walletBodyFontSizePx,
+  walletContentGapPx,
+  walletContentPaddingPx,
+  walletMetaFontSizePx,
+  walletTitleFontSizePx,
+} from "@/lib/utils/canvas-tokens";
 import {
   CanvasGrainOverlay,
   CanvasQrPlate,
@@ -220,17 +229,19 @@ export default function ActionCardPage() {
   };
 
   const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
-  const isSquare = state.sizeId === "square4" || state.sizeId === "square5";
-
-  const headlineSize = isSquare
-    ? state.sizeId === "square4"
-      ? "text-base"
-      : "text-lg"
-    : state.sizeId === "letter"
-      ? "text-3xl"
-      : state.sizeId === "half"
-        ? "text-2xl"
-        : "text-xl";
+  const titleFontPx = walletTitleFontSizePx(tokens, size.previewWidthPx);
+  const bodyFontPx = walletBodyFontSizePx(tokens, size.previewWidthPx);
+  const metaFontPx = walletMetaFontSizePx(tokens);
+  const contentPadPx = walletContentPaddingPx(tokens, size.previewWidthPx);
+  const contentGapPx = walletContentGapPx(tokens, size.previewWidthPx);
+  const textAlign = textAlignFromBias(tokens.alignmentBias);
+  const flexAlign = flexAlignFromBias(tokens.alignmentBias);
+  const brandJustify =
+    tokens.alignmentBias === "center"
+      ? "center"
+      : tokens.alignmentBias === "asymmetric"
+        ? "flex-end"
+        : "flex-start";
 
   return (
     <ToolEditorLayout
@@ -450,22 +461,19 @@ export default function ActionCardPage() {
                   ) : null}
 
                   <div
-                    className={cn(
-                      "relative z-[2] flex min-h-0 min-w-0 flex-1 flex-col items-center justify-between text-center",
-                      isCompact
-                        ? "gap-1.5 p-2.5"
-                        : isSquare
-                          ? "gap-2 p-3"
-                          : "gap-3 p-4 sm:p-5",
-                    )}
+                    className="relative z-[2] flex min-h-0 min-w-0 flex-1 flex-col justify-between"
+                    style={{
+                      alignItems: flexAlign,
+                      textAlign,
+                      padding: contentPadPx,
+                      gap: contentGapPx,
+                    }}
                   >
                     <div className="w-full min-w-0 shrink-0">
                       {state.includeBranding ? (
                         <div
-                          className={cn(
-                            "flex justify-center",
-                            isCompact ? "mb-1" : "mb-2",
-                          )}
+                          className="mb-2 flex"
+                          style={{ justifyContent: brandJustify }}
                         >
                           <BrandLogo
                             size="sm"
@@ -474,39 +482,47 @@ export default function ActionCardPage() {
                         </div>
                       ) : null}
                       <h2
-                        className={cn(
-                          "font-black uppercase leading-tight tracking-tight",
-                          headlineSize,
-                        )}
-                        style={{ color: canvasInk }}
+                        className="font-black uppercase leading-tight"
+                        style={{
+                          color: canvasInk,
+                          fontSize: titleFontPx,
+                          fontWeight: tokens.titleFontWeight,
+                          letterSpacing: tokens.titleLetterSpacing,
+                          textTransform: tokens.titleTextTransform,
+                        }}
                       >
                         {state.headline}
                       </h2>
                       {state.ask.trim() ? (
                         <p
-                          className={cn(
-                            "mt-1.5 leading-snug",
-                            isCompact || isSquare ? "text-xs" : "text-sm",
-                          )}
-                          style={{ color: mutedInk }}
+                          className="mt-1.5 leading-snug"
+                          style={{
+                            color: mutedInk,
+                            fontSize: bodyFontPx,
+                            textAlign,
+                          }}
                         >
                           {state.ask}
                         </p>
                       ) : null}
                       {state.deadline.trim() ? (
                         <p
-                          className={cn(
-                            "mt-1.5 font-bold uppercase tracking-wide",
-                            isCompact || isSquare ? "text-[10px]" : "text-xs",
-                          )}
-                          style={{ color: ctaColor }}
+                          className="mt-1.5 font-bold uppercase tracking-wide"
+                          style={{
+                            color: ctaColor,
+                            fontSize: metaFontPx,
+                            textAlign,
+                          }}
                         >
                           {state.deadline}
                         </p>
                       ) : null}
                     </div>
 
-                    <div className="flex min-h-0 w-full min-w-0 flex-col items-center justify-center">
+                    <div
+                      className="flex min-h-0 w-full min-w-0 flex-col justify-center"
+                      style={{ alignItems: "center" }}
+                    >
                       <CanvasQrPlate
                         tokens={tokens}
                         qrSrc={qrSrc}
@@ -515,19 +531,26 @@ export default function ActionCardPage() {
                       />
                       {state.cta.trim() ? (
                         <p
-                          className={cn(
-                            "mt-1.5 font-bold uppercase tracking-wide",
-                            isCompact || isSquare ? "text-[10px]" : "text-sm",
-                          )}
-                          style={{ color: ctaColor }}
+                          className="mt-1.5 font-bold uppercase tracking-wide"
+                          style={{
+                            color: ctaColor,
+                            fontSize: metaFontPx,
+                            textAlign,
+                            width: "100%",
+                          }}
                         >
                           {state.cta}
                         </p>
                       ) : null}
                       {state.showUrl && state.destination.trim() ? (
                         <p
-                          className="mt-1 max-w-full truncate text-[10px]"
-                          style={{ color: mutedInk80 }}
+                          className="mt-1 max-w-full truncate"
+                          style={{
+                            color: mutedInk80,
+                            fontSize: metaFontPx,
+                            textAlign,
+                            width: "100%",
+                          }}
                         >
                           {state.destination}
                         </p>
@@ -536,11 +559,13 @@ export default function ActionCardPage() {
 
                     {state.includeBranding ? (
                       <p
-                        className={cn(
-                          "shrink-0 font-semibold",
-                          isCompact || isSquare ? "text-[10px]" : "text-xs",
-                        )}
-                        style={{ color: mutedInk }}
+                        className="shrink-0 font-semibold"
+                        style={{
+                          color: mutedInk,
+                          fontSize: metaFontPx,
+                          textAlign,
+                          width: "100%",
+                        }}
                       >
                         {localLabel}
                       </p>

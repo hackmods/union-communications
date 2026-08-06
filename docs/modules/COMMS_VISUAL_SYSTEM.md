@@ -61,6 +61,7 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 | Document Generator `OfficePresetMock` type scale | done |
 | Quote Card (`QuoteLayout` tokens) | done |
 | Phase 3 — layout matrix tokenization (`typeScale` / `density` / `asymmetric`) | done |
+| Phase 4 — wallet family + Notice + Pulse type chrome | done |
 
 ### Phase 3 notes
 
@@ -70,6 +71,13 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 - Flyer / Board Notice: meta blocks use `subtitleFontSizePx` / `gapPx`
 - Graphic `results`: alignment + padding from tokens
 - Brand Kit mini preview: QR placement follows alignment bias; `CanvasTypeBlock` asymmetric inset
+
+### Phase 4 notes
+
+- Wallet helpers: `walletTitleFontSizePx` / `walletBodyFontSizePx` / `walletMetaFontSizePx` / `walletContentPaddingPx` / `walletContentGapPx`
+- QR Card + Action Card: type / pad / gap / alignment bias (QR plate stays centered)
+- Graphic `notice`: surface + grain + pad / type / header justify from tokens
+- Pulse Poll: surface + wallet type/pad; Meeting `side-panel`: token pad (`bandPadPx`)
 
 ## Agent contract
 
