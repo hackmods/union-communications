@@ -17,6 +17,7 @@ import {
   walletTitleFontSizePx,
   bannerPadPercent,
   clampTypeRem,
+  officeMockPaddingPx,
 } from "./canvas-tokens";
 
 describe("normalizeBrandKitCanvas", () => {
@@ -304,6 +305,29 @@ describe("banner clamp helpers", () => {
         ),
       ),
     ).toBe(5);
+  });
+});
+
+describe("officeMockPaddingPx", () => {
+  it("tracks density", () => {
+    const roomy = officeMockPaddingPx(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { density: "roomy" },
+        }),
+      ),
+    );
+    const tight = officeMockPaddingPx(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { density: "tight" },
+        }),
+      ),
+    );
+    expect(roomy).toBeGreaterThan(tight);
+    expect(officeMockPaddingPx(undefined)).toBe(16);
   });
 });
 

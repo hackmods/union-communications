@@ -6,6 +6,7 @@
 
 import type { OfficePresetId, BrandPalette } from "@/lib/constants/office-templates";
 import {
+  officeMockPaddingPx,
   officeMockTypography,
   type CanvasTokens,
 } from "@/lib/utils/canvas-tokens";
@@ -76,6 +77,7 @@ export function OfficePresetMock({
 }: OfficePresetMockProps) {
   const ink = pickContrastingInk(palette.primary);
   const type = tokens ? officeMockTypography(tokens) : FALLBACK_TYPE;
+  const bodyPadPx = officeMockPaddingPx(tokens);
 
   if (presetId === "seniority-worksheet") {
     const columns = [
@@ -112,7 +114,7 @@ export function OfficePresetMock({
               {localLabel}
             </span>
           </div>
-          <div className="space-y-2 p-4">
+          <div className="space-y-2" style={{ padding: bodyPadPx }}>
             <p
               className="font-bold"
               style={{ color: palette.secondary, fontSize: type.docTitlePx }}
@@ -200,7 +202,7 @@ export function OfficePresetMock({
               {localLabel}
             </span>
           </div>
-          <div className="space-y-3 p-5">
+          <div className="space-y-3" style={{ padding: bodyPadPx }}>
             <p
               className="font-bold leading-tight"
               style={{ color: palette.secondary, fontSize: type.docTitlePx }}
@@ -294,8 +296,8 @@ export function OfficePresetMock({
           </div>
         </div>
         <div
-          className="space-y-3 p-5 text-gray-800"
-          style={{ fontSize: type.bodyPx }}
+          className="space-y-3 text-gray-800"
+          style={{ fontSize: type.bodyPx, padding: bodyPadPx }}
         >
           {presetId === "simple-letter" || presetId === "welcome-letter" ? (
             <>

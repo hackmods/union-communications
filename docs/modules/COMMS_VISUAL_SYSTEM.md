@@ -97,6 +97,12 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 - QR Board: title / cell type + padding / header alignment from tokens
 - Board Notice lead/type labels; Quote Card outer surface; Solidarity headline weight/tracking
 
+### Stop-gap pass 2 (2026-08-06)
+
+- Meeting: layout field fills yield to Brand Kit soft-gradient / grain / accent-band on the capture root
+- QR / Action Card plain+accentBar modes use `canvasSurfaceStyle`
+- Solidarity split/banner padding + title chrome; Office mock body pad via `officeMockPaddingPx`
+
 ## Agent contract
 
 See [`.cursor/rules/comms-visual-system.mdc`](../../.cursor/rules/comms-visual-system.mdc).

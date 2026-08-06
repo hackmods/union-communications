@@ -438,6 +438,13 @@ export default function MeetingBackgroundPage() {
     10,
     Math.round(contentPaddingPx(tokens, { portrait: isPortrait, factor: 0.55 })),
   );
+  /** When Brand Kit surface is textured/gradient, omit solid field fills so root surfaceStyle shows. */
+  const fieldFill =
+    tokens.surface === 'soft-gradient' ||
+    tokens.surface === 'grain' ||
+    tokens.surface === 'accent-band'
+      ? {}
+      : { backgroundColor: primary };
   const railWidth = isPortrait
     ? "w-[7%] min-w-[10px] max-w-[28px]"
     : "w-[4%] min-w-[8px] max-w-[20px]";
@@ -450,7 +457,7 @@ export default function MeetingBackgroundPage() {
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full flex-col justify-between"
-        style={{ backgroundColor: primary, padding: fieldPadPx }}
+        style={{ ...fieldFill, padding: fieldPadPx }}
       >
         <div className="flex shrink-0 items-start justify-between gap-3">
           {showBrand ? brandLockup(primary, mutedPrimary, "md") : <span />}
@@ -480,7 +487,7 @@ export default function MeetingBackgroundPage() {
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full flex-col"
-        style={{ backgroundColor: primary }}
+        style={{ ...fieldFill }}
       >
         <div
           className="flex min-h-0 flex-1 items-start justify-end"
@@ -518,7 +525,7 @@ export default function MeetingBackgroundPage() {
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full"
-        style={{ backgroundColor: primary }}
+        style={{ ...fieldFill }}
       >
         {panelHasContent ? (
           <div
@@ -541,11 +548,15 @@ export default function MeetingBackgroundPage() {
               <div className="mt-4 min-w-0 max-w-full overflow-hidden">
                 <BrandLogo size="sm" backgroundColor={secondary} />
                 <p
-                  className="mt-1.5 text-[9px] font-medium leading-tight md:text-[10px]"
+                  className="mt-1.5 font-medium leading-tight md:text-[10px]"
                   style={{
                     color: mutedSecondary,
                     overflowWrap: "anywhere",
                     wordBreak: "break-word",
+                    fontSize: Math.max(
+                      9,
+                      Math.round(tokens.subtitleFontSizePx * 0.72),
+                    ),
                   }}
                 >
                   {localLabel}
@@ -571,7 +582,7 @@ export default function MeetingBackgroundPage() {
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full flex-col"
-        style={{ backgroundColor: primary }}
+        style={{ ...fieldFill }}
       >
         {showTop ? (
           <div
@@ -625,7 +636,7 @@ export default function MeetingBackgroundPage() {
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full flex-col"
-        style={{ backgroundColor: primary }}
+        style={{ ...fieldFill }}
       >
         {bandHasContent ? (
           <div
@@ -657,7 +668,7 @@ export default function MeetingBackgroundPage() {
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full flex-col"
-        style={{ backgroundColor: primary }}
+        style={{ ...fieldFill }}
       >
         <div className="min-h-0 flex-1" />
         {bandHasContent ? (
@@ -689,7 +700,7 @@ export default function MeetingBackgroundPage() {
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full"
-        style={{ backgroundColor: primary }}
+        style={{ ...fieldFill }}
       >
         <div
           className={cn("h-full shrink-0", railWidth)}
@@ -734,7 +745,7 @@ export default function MeetingBackgroundPage() {
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full flex-col"
-        style={{ backgroundColor: primary }}
+        style={{ ...fieldFill }}
       >
         {stackHasContent ? (
           <div

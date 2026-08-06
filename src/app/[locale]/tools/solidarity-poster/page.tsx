@@ -252,11 +252,29 @@ export default function SolidarityPosterPage() {
   const stackPadPx = contentPaddingPx(tokens, {
     factor: isLandscape ? 0.8 : 1,
   });
+  const splitSidePadPx = contentPaddingPx(tokens, {
+    factor: isLandscape ? 0.45 : 0.55,
+  });
+  const splitTypePadPx = contentPaddingPx(tokens, {
+    factor: isLandscape ? 0.55 : 0.7,
+  });
+  const bannerBarPadY = Math.max(
+    6,
+    Math.round(contentPaddingPx(tokens, { factor: 0.28 })),
+  );
+  const bannerBodyPadPx = contentPaddingPx(tokens, {
+    factor: isLandscape ? 0.55 : 0.75,
+  });
   const qrPx = Math.round(
     chrome.qrPx * (tokens.density === "tight" ? 0.92 : 1) * typeScaleFactor(tokens),
   );
   const stackAlign = textAlignFromBias(tokens.alignmentBias);
   const stackItems = flexAlignFromBias(tokens.alignmentBias);
+  const titleChrome = {
+    fontWeight: tokens.titleFontWeight,
+    letterSpacing: tokens.titleLetterSpacing,
+    textTransform: tokens.titleTextTransform,
+  } as const;
   const displayUrl = state.supportUrl.trim() || SITE_URL;
   const showLocalInFooter =
     state.includeBranding || state.layout === "split";
@@ -676,9 +694,7 @@ export default function SolidarityPosterPage() {
                       className={chrome.headlineStack}
                       style={{
                         color: canvasInk,
-                        fontWeight: tokens.titleFontWeight,
-                        letterSpacing: tokens.titleLetterSpacing,
-                        textTransform: tokens.titleTextTransform,
+                        ...titleChrome,
                       }}
                     >
                       {line}
@@ -714,17 +730,21 @@ export default function SolidarityPosterPage() {
                   <div
                     className={cn(
                       "flex min-h-0 flex-col justify-between",
-                      chrome.padSplitSide,
                       !isLandscape && "col-span-2",
                     )}
                     style={{
                       backgroundColor: state.secondaryColor,
                       color: splitSideInk,
+                      padding: splitSidePadPx,
                     }}
                   >
                     <p
                       className="text-xs font-bold uppercase tracking-[0.25em]"
-                      style={{ color: splitSideInk }}
+                      style={{
+                        color: splitSideInk,
+                        letterSpacing: tokens.titleLetterSpacing || "0.25em",
+                        fontWeight: tokens.titleFontWeight,
+                      }}
                     >
                       {state.leadIn}
                     </p>
@@ -741,15 +761,15 @@ export default function SolidarityPosterPage() {
                   <div
                     className={cn(
                       "flex min-h-0 flex-col justify-center",
-                      chrome.padSplitType,
                       !isLandscape && "col-span-3",
                     )}
+                    style={{ padding: splitTypePadPx }}
                   >
                     {lines.map((line, i) => (
                       <p
                         key={`${i}-${line}`}
                         className={chrome.headlineSplit}
-                        style={{ color: canvasInk }}
+                        style={{ color: canvasInk, ...titleChrome }}
                       >
                         {line}
                       </p>
@@ -765,12 +785,10 @@ export default function SolidarityPosterPage() {
             {state.layout === "banner" ? (
               <div className="relative z-[2] flex h-full min-h-0 flex-col justify-between">
                 <div
-                  className={cn(
-                    "flex shrink-0 items-center justify-between gap-3",
-                    chrome.padBannerBar,
-                  )}
+                  className="flex shrink-0 items-center justify-between gap-3"
                   style={{
                     backgroundColor: bannerBarBg,
+                    padding: `${bannerBarPadY}px ${bannerBodyPadPx}px`,
                   }}
                 >
                   {showLockup ? (
@@ -786,10 +804,8 @@ export default function SolidarityPosterPage() {
                   </p>
                 </div>
                 <div
-                  className={cn(
-                    "flex min-h-0 flex-1 flex-col items-center justify-center text-center",
-                    chrome.padBannerBody,
-                  )}
+                  className="flex min-h-0 flex-1 flex-col items-center justify-center text-center"
+                  style={{ padding: bannerBodyPadPx }}
                 >
                   {lines.map((line, i) => (
                     <p
@@ -797,9 +813,7 @@ export default function SolidarityPosterPage() {
                       className={chrome.headlineStack}
                       style={{
                         color: canvasInk,
-                        fontWeight: tokens.titleFontWeight,
-                        letterSpacing: tokens.titleLetterSpacing,
-                        textTransform: tokens.titleTextTransform,
+                        ...titleChrome,
                       }}
                     >
                       {line}

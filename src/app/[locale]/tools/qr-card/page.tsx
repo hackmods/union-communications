@@ -50,6 +50,7 @@ import {
   walletMetaFontSizePx,
   walletTitleFontSizePx,
 } from "@/lib/utils/canvas-tokens";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import {
   CanvasGrainOverlay,
   CanvasQrPlate,
@@ -216,9 +217,14 @@ function QrCardPageContent() {
         color: ink,
       };
     }
+    // plain + accentBar: Brand Kit surface (soft-gradient / grain / accent-band) shows through
     return {
       ...box,
-      backgroundColor: state.primaryColor,
+      ...canvasSurfaceStyle(tokens, {
+        primary: state.primaryColor,
+        secondary: state.secondaryColor,
+        accent: state.secondaryColor,
+      }),
       color: ink,
     };
   })();

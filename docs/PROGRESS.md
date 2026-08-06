@@ -1,5 +1,10 @@
 # Progress Log
 
+## Comms visual system stop-gap pass 2 (2026-08-06)
+
+- [x] Meeting field fills yield to Brand Kit surfaces; QR/Action plain modes use `canvasSurfaceStyle`
+- [x] Solidarity split/banner token pads; OfficePresetMock density pad (`officeMockPaddingPx`)
+
 ## Comms visual system stop-gap pass (2026-08-06)
 
 - [x] Close incomplete token wiring: graphic Solidarity/Spotlight/Quote/Results, QR Board type/pad/align

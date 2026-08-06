@@ -371,3 +371,10 @@ export function officeMockTypography(tokens: CanvasTokens): OfficeMockTypography
     labelPx: Math.max(10, Math.round(sub * 0.9)),
   };
 }
+
+/** Content padding for Document Generator OfficePresetMock body regions. */
+export function officeMockPaddingPx(tokens: CanvasTokens | undefined): number {
+  if (!tokens) return 16;
+  const factor = tokens.density === "tight" ? 0.32 : tokens.density === "roomy" ? 0.48 : 0.4;
+  return Math.max(12, Math.round(tokens.paddingPx * factor));
+}

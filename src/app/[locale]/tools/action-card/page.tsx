@@ -44,6 +44,7 @@ import {
   walletMetaFontSizePx,
   walletTitleFontSizePx,
 } from "@/lib/utils/canvas-tokens";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import {
   CanvasGrainOverlay,
   CanvasQrPlate,
@@ -170,7 +171,11 @@ export default function ActionCardPage() {
     }
     return {
       ...box,
-      backgroundColor: state.primaryColor,
+      ...canvasSurfaceStyle(tokens, {
+        primary: state.primaryColor,
+        secondary: state.secondaryColor,
+        accent: state.secondaryColor,
+      }),
       color: ink,
     };
   })();
