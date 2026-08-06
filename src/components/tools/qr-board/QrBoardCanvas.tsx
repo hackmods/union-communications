@@ -13,6 +13,8 @@ import {
   mutedInkOnBackground,
   pickContrastingInk,
 } from "@/lib/utils/ink";
+import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
+import { CanvasGrainOverlay } from "@/components/tools/canvas";
 
 export interface QrBoardCanvasSlot {
   id: string;
@@ -33,6 +35,7 @@ export interface QrBoardCanvasProps {
   secondaryColor: string;
   localLabel: string;
   qrPlaceholder: string;
+  tokens?: CanvasTokens;
 }
 
 export function QrBoardCanvas({
@@ -47,6 +50,7 @@ export function QrBoardCanvas({
   secondaryColor,
   localLabel,
   qrPlaceholder,
+  tokens,
 }: QrBoardCanvasProps) {
   const format = QR_BOARD_FORMATS[formatId];
   const ink = pickContrastingInk(primaryColor);
@@ -55,6 +59,7 @@ export function QrBoardCanvas({
   const columns = qrBoardGridColumns(slots.length);
   const isTabloid = formatId === "tabloid";
   const isDense = slots.length >= 6;
+  const grainOpacity = tokens?.grainOpacity ?? 0;
 
   const titleSize = isTabloid
     ? isDense
@@ -83,10 +88,12 @@ export function QrBoardCanvas({
   return (
     <div
       ref={canvasRef}
-      className="flex h-full flex-col overflow-hidden"
+      className="relative flex h-full flex-col overflow-hidden"
       style={style}
     >
+      <CanvasGrainOverlay opacity={grainOpacity} />
       <div
+        className="relative z-[2]"
         style={{
           height: isTabloid ? 10 : 8,
           backgroundColor: stripColor,
@@ -96,7 +103,7 @@ export function QrBoardCanvas({
       />
 
       <div
-        className="flex flex-1 flex-col"
+        className="relative z-[2] flex flex-1 flex-col"
         style={{
           padding: isTabloid ? "28px 32px 24px" : "20px 22px 16px",
           minHeight: 0,

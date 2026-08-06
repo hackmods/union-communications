@@ -14,10 +14,6 @@ import { qrDataUrl } from "@/lib/export/qr";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import {
-  CANVAS_PLACEHOLDER_BG,
-  CANVAS_PLACEHOLDER_INK,
-} from "@/lib/constants/brand";
-import {
   listSavedLinks,
   resolvePresetDestination,
 } from "@/lib/utils/local-links";
@@ -44,6 +40,11 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  CanvasGrainOverlay,
+  CanvasQrPlate,
+} from "@/components/tools/canvas";
 
 interface QrCardState {
   presetId: string;
@@ -165,6 +166,7 @@ function QrCardPageContent() {
 
   const size = QR_CARD_SIZES[state.sizeId];
   const exportPixelRatio = qrCardExportPixelRatio(size);
+  const tokens = resolveCanvasTokens(brandKit);
   const savedLinks = listSavedLinks(brandKit, {
     website: t("savedWebsite"),
     facebook: t("savedFacebook"),
@@ -472,10 +474,11 @@ function QrCardPageContent() {
                   className="relative flex w-full min-w-0 flex-col overflow-hidden"
                   style={canvasStyle}
                 >
+                  <CanvasGrainOverlay opacity={tokens.grainOpacity} />
                   {state.bgMode === "accentBar" ? (
                     <div
                       className={cn(
-                        "w-full shrink-0",
+                        "relative z-[2] w-full shrink-0",
                         isCompact ? "h-2" : "h-3",
                       )}
                       style={{ backgroundColor: state.secondaryColor }}
@@ -484,7 +487,8 @@ function QrCardPageContent() {
 
                   <div
                     className={cn(
-                      "flex min-h-0 min-w-0 flex-1 flex-col items-center text-center",
+                      "relative z-[2] flex min-h-0 min-w-0 flex-1 flex-col",
+                      tokens.alignmentBias === "center" ? "items-center text-center" : "items-start text-left",
                       isReference
                         ? isCompact
                           ? "justify-start gap-1 p-2"
@@ -544,35 +548,12 @@ function QrCardPageContent() {
                         isReference && "mt-auto",
                       )}
                     >
-                      <div
-                        className={cn(
-                          "rounded-md",
-                          isCompact || isSquare ? "p-1.5" : "p-2",
-                        )}
-                        style={{
-                          width: `${qrPlatePercent}%`,
-                          backgroundColor: "#FFFFFF",
-                        }}
-                      >
-                        {qrSrc ? (
-                          // eslint-disable-next-line @next/next/no-img-element -- data URL from client QR
-                          <img
-                            src={qrSrc}
-                            alt=""
-                            className="aspect-square h-auto w-full"
-                          />
-                        ) : (
-                          <div
-                            className="flex aspect-square w-full items-center justify-center text-[0.65rem]"
-                            style={{
-                              backgroundColor: CANVAS_PLACEHOLDER_BG,
-                              color: CANVAS_PLACEHOLDER_INK,
-                            }}
-                          >
-                            {t("qrPlaceholder")}
-                          </div>
-                        )}
-                      </div>
+                      <CanvasQrPlate
+                        tokens={tokens}
+                        qrSrc={qrSrc}
+                        alt=""
+                        widthPercent={qrPlatePercent}
+                      />
                       {state.tagline.trim() ? (
                         <p
                           className={cn(

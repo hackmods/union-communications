@@ -1,5 +1,13 @@
 # Progress Log
 
+## Comms visual system — Brand Kit canvas tokens (2026-08-06)
+
+- [x] `BrandKit.canvas` + `resolveCanvasTokens` (`solid` / `field` / `workshop`; grain + duotone surfaces)
+- [x] Shared primitives `src/components/tools/canvas/` + Brand Kit Canvas style panel (EN/FR)
+- [x] Migrated flyer, board-notice, QR card/action/pulse, graphic-layouts (+ duotone photos), QR board grain
+- [x] `docs/modules/COMMS_VISUAL_SYSTEM.md` + `.cursor/rules/comms-visual-system.mdc`
+- [x] Unit tests `canvas-tokens.test.ts`
+
 ## Wider desktop shells + Brand Kit workspace (2026-08-01)
 
 - [x] `PAGE_SHELL.chrome` → `max-w-[100rem]`; `wide` → `max-w-[90rem]` with `px-4 sm:px-6 xl:px-8`

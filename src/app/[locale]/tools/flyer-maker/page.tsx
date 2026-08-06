@@ -10,10 +10,9 @@ import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
-import { formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { formatFilename } from "@/lib/utils";
 import { getExamplePost } from "@/lib/constants/examples";
 import { coloursFromBrandKit } from "@/lib/utils/brand-theme";
-import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -22,6 +21,13 @@ import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import {
+  CanvasBrandHeader,
+  CanvasGrainOverlay,
+  CanvasTypeBlock,
+} from "@/components/tools/canvas";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 
@@ -45,6 +51,16 @@ function FlyerMakerPageContent() {
   const searchParams = useSearchParams();
 
   const brandColors = coloursFromBrandKit(brandKit);
+  const tokens = resolveCanvasTokens(brandKit);
+  const canvasInk = pickContrastingInk(state.primaryColor);
+  const surfaceStyle = canvasSurfaceStyle(tokens, {
+    primary: state.primaryColor,
+    secondary: state.secondaryColor,
+    accent: state.accentColor,
+  });
+  const accentRule = meetsWcagAA(state.accentColor, state.primaryColor, true)
+    ? state.accentColor
+    : undefined;
 
   const initial: FlyerState = {
     message: "PICKET LINE - ALL MEMBERS WELCOME",
@@ -218,50 +234,34 @@ function FlyerMakerPageContent() {
         <div className="shadow-lg">
           <div
             ref={canvasRef}
-            className="flex aspect-[8.5/11] w-full flex-col justify-between p-10"
+            className="relative flex aspect-[8.5/11] w-full flex-col justify-between"
             style={{
-              backgroundColor: state.primaryColor,
-              color: pickContrastingInk(state.primaryColor),
+              ...surfaceStyle,
+              color: canvasInk,
+              padding: tokens.paddingPx,
+              gap: tokens.gapPx,
             }}
           >
-            <div>
-              <BrandLogo
-                size="md"
-                backgroundColor={state.primaryColor}
-                className="mb-3"
-              />
-              <p
-                className="text-sm font-bold uppercase tracking-widest"
-                style={{
-                  color: meetsWcagAA(
-                    state.accentColor,
-                    state.primaryColor,
-                    true,
-                  )
-                    ? state.accentColor
-                    : pickContrastingInk(state.primaryColor),
-                }}
-              >
-                Local {resolveLocalNumber(brandKit.local.localNumber)}  - {" "}
-                {brandKit.local.subText}
-              </p>
-            </div>
-            <div className="text-center">
-              <h2
-                className="text-3xl font-black uppercase leading-tight"
-                style={{ color: pickContrastingInk(state.primaryColor) }}
-              >
-                {state.message}
-              </h2>
-              {state.secondaryColor !== state.primaryColor ? (
-                <div
-                  className="mx-auto mt-4 h-1 w-24"
-                  style={{ backgroundColor: state.secondaryColor }}
-                  aria-hidden
-                />
-              ) : null}
-            </div>
-            <div className="space-y-2 text-lg">
+            <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+            <CanvasBrandHeader
+              backgroundColor={state.primaryColor}
+              localNumber={brandKit.local.localNumber}
+              subText={brandKit.local.subText}
+            />
+            <CanvasTypeBlock
+              tokens={tokens}
+              title={state.message}
+              ink={canvasInk}
+              accentColor={
+                state.secondaryColor !== state.primaryColor
+                  ? state.secondaryColor
+                  : accentRule
+              }
+            />
+            <div
+              className="relative z-[2] space-y-2 text-lg"
+              style={{ color: canvasInk }}
+            >
               <p>
                 <strong>{tf("date")}:</strong> {state.date}
               </p>

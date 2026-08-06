@@ -17,6 +17,7 @@ import {
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import { MembershipUrlsEditor } from "@/components/brand/MembershipUrlsEditor";
 import { BrandProfileSwitcher } from "@/components/brand/BrandProfileSwitcher";
+import { BrandKitCanvasPanel } from "@/components/brand/BrandKitCanvasPanel";
 import {
   brandFieldsFromUnionPreset,
   getUnionPreset,
@@ -304,6 +305,10 @@ export default function BrandKitPage() {
             onLogoTextChange={(text) => setBrandKit({ logoText: text })}
           />
         </Card>
+      </div>
+
+      <div className="mt-4">
+        <BrandKitCanvasPanel />
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">

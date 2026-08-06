@@ -64,6 +64,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
         partial.membershipUrls !== undefined
           ? partial.membershipUrls
           : current.membershipUrls,
+      canvas: "canvas" in partial ? (partial.canvas ?? undefined) : current.canvas,
       updatedAt: new Date().toISOString(),
     });
     set({ brandKit: updated });

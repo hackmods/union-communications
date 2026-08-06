@@ -34,6 +34,7 @@ import { SegControl } from "@/components/tools/SegControl";
 import { PageShell } from "@/components/layout/PageShell";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { pickContrastingInk } from "@/lib/utils/ink";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import type { EventEmailFields } from "@/lib/comms/event-email";
 
 function isToolPresetKey(value: string): value is ToolPresetKey {
@@ -410,6 +411,7 @@ function GraphicMakerPageContent() {
                 photoUrl={showPhoto ? state.photoUrl : undefined}
                 photoScale={state.photoScale}
                 size={canvasSize}
+                tokens={resolveCanvasTokens(brandKit)}
               />
             </div>
           </div>

@@ -37,6 +37,7 @@ Board Notice (`noticeType: "meeting"`), Document Generator `quick-event`, Graphi
 - Meeting backgrounds (Zoom/Teams): `.cursor/rules/meeting-backgrounds.mdc` (`/tools/meeting-background`) — solidarity energy, face-safe layouts
 - QR link cards: `/tools/qr-card` (client `qrDataUrl`, multi-size print)
 - QR board posters: `/tools/qr-board` (multi-QR letter/tabloid board sheets)
+- **Canvas chrome tokens:** `.cursor/rules/comms-visual-system.mdc` + `docs/modules/COMMS_VISUAL_SYSTEM.md` — `resolveCanvasTokens`, `CanvasQrPlate` / grain / duotone
 
 ## Multi-Union Migration (Phase 1)
 Replace hardcoded OPSEU/CAAT strings with tenant `UnionConfig`.

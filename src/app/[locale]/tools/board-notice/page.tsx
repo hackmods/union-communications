@@ -19,6 +19,12 @@ import { SegControl } from "@/components/tools/SegControl";
 import { cn } from "@/lib/utils";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import {
+  CanvasGrainOverlay,
+  CanvasTypeBlock,
+} from "@/components/tools/canvas";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { fieldsFromBoardNotice } from "@/lib/comms/event-email-from-notice";
 
@@ -70,6 +76,12 @@ export default function BoardNoticePage() {
   const dims = FORMAT_DIMENSIONS[format];
   const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)} - ${brandKit.local.subText}`;
   const canvasInk = pickContrastingInk(brandKit.primaryColor);
+  const tokens = resolveCanvasTokens(brandKit);
+  const surfaceStyle = canvasSurfaceStyle(tokens, {
+    primary: brandKit.primaryColor,
+    secondary: brandKit.secondaryColor,
+    accent: brandKit.accentColor,
+  });
   const showInviteEmail =
     state.noticeType === "meeting" || state.noticeType === "event";
   const inviteFields = fieldsFromBoardNotice({
@@ -243,15 +255,18 @@ export default function BoardNoticePage() {
             <div
               ref={canvasRef}
               className={cn(
-                "flex w-full flex-col justify-between p-4 md:p-6",
+                "relative flex w-full flex-col justify-between",
                 dims.aspect,
               )}
               style={{
-                backgroundColor: brandKit.primaryColor,
+                ...surfaceStyle,
                 color: canvasInk,
+                padding: tokens.paddingPx,
+                gap: tokens.gapPx,
               }}
             >
-              <div>
+              <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+              <div className="relative z-[2]">
                 <p
                   className="text-sm font-bold uppercase tracking-widest"
                   style={{ color: leadColor }}
@@ -260,21 +275,23 @@ export default function BoardNoticePage() {
                 </p>
                 <p
                   className="mt-2 text-xs uppercase"
-                  style={{ color: mutedInkOnBackground(brandKit.primaryColor, 0.8) }}
+                  style={{
+                    color: mutedInkOnBackground(brandKit.primaryColor, 0.8),
+                  }}
                 >
                   {t(`types.${state.noticeType}`)}
                 </p>
               </div>
-              <div className="text-center">
-                <h2
-                  className="text-4xl font-black uppercase leading-tight md:text-5xl"
-                  style={{ color: canvasInk }}
-                >
-                  {state.headline}
-                </h2>
-                <p className="mt-4 text-xl leading-relaxed">{state.body}</p>
-              </div>
-              <div className="space-y-2 text-xl">
+              <CanvasTypeBlock
+                tokens={tokens}
+                title={state.headline}
+                subtitle={state.body}
+                ink={canvasInk}
+              />
+              <div
+                className="relative z-[2] space-y-2 text-xl"
+                style={{ color: canvasInk }}
+              >
                 <p>
                   <strong>{t("date")}:</strong> {state.date}
                 </p>
@@ -286,7 +303,9 @@ export default function BoardNoticePage() {
                 </p>
                 <p
                   className="mt-4 text-base"
-                  style={{ color: mutedInkOnBackground(brandKit.primaryColor, 0.9) }}
+                  style={{
+                    color: mutedInkOnBackground(brandKit.primaryColor, 0.9),
+                  }}
                 >
                   {state.contact}
                 </p>

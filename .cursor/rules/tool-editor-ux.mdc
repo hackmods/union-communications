@@ -39,7 +39,7 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 4. **Touch** — primary actions and tabs ≥44×44; icon-only → aria-label (or title)
 5. **Focus** — `focus-visible:ring-2 focus-visible:ring-opseu-blue/40`
 6. **Preview chrome** — screen `p-4 md:p-6` (not export `p-10`); sticky while editing; mobile mini dock is opaque (`bg-white/95`) under header, fixed `h-24` centered scale; full preview ≤~70vh
-7. **Brand** — Brand Kit colours where chrome shows brand; no new OPSEU hex in core UI
+7. **Brand** — Brand Kit colours where chrome shows brand; no new OPSEU hex in core UI; canvas exports use `resolveCanvasTokens` + shared primitives when chrome fits ([`comms-visual-system.mdc`](comms-visual-system.mdc))
 8. **A11y** — radiogroup/`aria-checked` or `aria-pressed`; UndoRedoBar uses i18n `editHistory`
 9. **Overflow** — no page horizontal scroll at 375
 10. **Empty surfaces** — no orphan Cards; prefer Callout for short notes

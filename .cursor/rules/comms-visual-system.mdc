@@ -1,0 +1,27 @@
+---
+description: Shared Brand Kit canvas tokens + primitives for Comms export tools
+globs: src/app/**/tools/**/*.tsx,src/components/tools/canvas/**/*.tsx,src/components/tools/graphic-layouts.tsx,src/components/brand/BrandKitCanvasPanel.tsx,src/lib/utils/canvas-*.ts,src/app/**/brand-kit/**/*.tsx
+alwaysApply: false
+---
+
+# Comms visual system
+
+Companion to [`comms-module.mdc`](comms-module.mdc). Spec: [`docs/modules/COMMS_VISUAL_SYSTEM.md`](../../docs/modules/COMMS_VISUAL_SYSTEM.md).
+
+## Hard rules
+
+1. **Read tokens** via `resolveCanvasTokens(brandKit)` from `useBrandStore` — do not hardcode a new full-bleed centered primary column when `CanvasTypeBlock` / `CanvasQrPlate` / `CanvasBrandHeader` fit.
+2. **Style packages set tokens only** (`solid` / `field` / `workshop`). Tool layout IDs (meeting rails, solidarity stack/split, graphic notice/results) stay per-tool.
+3. **Legacy default:** omit `BrandKit.canvas` → resolver matches classic exports. Do not surprise existing kits.
+4. **Capture-safe:** inline hex/rgba inside export roots; `CanvasGrainOverlay` uses PNG tile + soft-light (never SVG `feTurbulence` alone). Duotone photos via `CanvasDuotonePhoto` (grayscale + multiply/screen).
+5. **QR modules:** black on white only. Tokenize plate chrome (`qrPlate`), not module colours.
+6. **Multi-union:** no OPSEU hex/names in new primitives — Brand Kit colours only.
+7. **Ink:** `pickContrastingInk` / `BrandLogo backgroundColor` as in `comms-module.mdc`.
+8. Update the migration register in `COMMS_VISUAL_SYSTEM.md` when a family ships.
+
+## Do not
+
+- Invent one-off white `#FFFFFF` QR plates when `CanvasQrPlate` exists
+- Load webfonts from CDN (ADR system-font stack)
+- Collapse all tools into one layout engine
+- Brand-tint QR modules without an explicit product ticket

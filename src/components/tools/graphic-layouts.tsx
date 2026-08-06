@@ -2,6 +2,10 @@
 
 import type { CSSProperties } from "react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import {
+  CanvasDuotonePhoto,
+  CanvasGrainOverlay,
+} from "@/components/tools/canvas";
 import { cn } from "@/lib/utils";
 import type { ExampleAspect, ExampleLayout } from "@/lib/constants/examples";
 import { hexToRgba } from "@/lib/utils/contrast";
@@ -10,6 +14,8 @@ import {
   mutedInkOnBackground,
   pickContrastingInk,
 } from "@/lib/utils/ink";
+import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 
 export type GraphicLayoutId = Exclude<ExampleLayout, "quote">;
 
@@ -48,6 +54,8 @@ export interface GraphicLayoutCanvasProps {
   size?: "preview" | "export";
   className?: string;
   style?: CSSProperties;
+  /** Brand Kit canvas tokens — omit for legacy look via caller */
+  tokens?: CanvasTokens;
 }
 
 /** Inline hex/rgba only — Tailwind v4 oklch utilities wash out html-to-image PNGs */
@@ -103,11 +111,30 @@ function LocalFooter({
 function PhotoLayer({
   photoUrl,
   photoScale,
+  primary,
+  accent,
+  duotone,
+  highlightOpacity,
 }: {
   photoUrl?: string;
   photoScale: number;
+  primary: string;
+  accent: string;
+  duotone?: boolean;
+  highlightOpacity?: number;
 }) {
   if (!photoUrl) return null;
+  if (duotone) {
+    return (
+      <CanvasDuotonePhoto
+        photoUrl={photoUrl}
+        shadowColor={primary}
+        highlightColor={accent}
+        highlightOpacity={highlightOpacity}
+        photoScale={photoScale}
+      />
+    );
+  }
   return (
     // eslint-disable-next-line @next/next/no-img-element -- blob/data URL; next/image adds no benefit
     <img
@@ -132,8 +159,13 @@ export function GraphicLayoutCanvas({
   size = "preview",
   className,
   style,
+  tokens,
 }: GraphicLayoutCanvasProps) {
   const { primary, accent, secondary } = colors;
+  const surface = tokens
+    ? canvasSurfaceStyle(tokens, { primary, secondary, accent })
+    : { backgroundColor: primary };
+  const photoDuotone = Boolean(photoUrl && tokens?.surface === "duotone");
 
   return (
     <div
@@ -142,8 +174,9 @@ export function GraphicLayoutCanvas({
         aspect === "square" ? "aspect-square" : "aspect-[1200/630]",
         className,
       )}
-      style={{ backgroundColor: primary, ...style }}
+      style={{ ...surface, ...style }}
     >
+      {tokens ? <CanvasGrainOverlay opacity={tokens.grainOpacity} /> : null}
       {layout === "spotlight" && (
         <SpotlightLayout
           primary={primary}
@@ -155,6 +188,8 @@ export function GraphicLayoutCanvas({
           photoUrl={photoUrl}
           photoScale={photoScale}
           size={size}
+          photoDuotone={photoDuotone}
+          highlightOpacity={tokens?.duotoneHighlightOpacity}
         />
       )}
       {layout === "quote" && (
@@ -200,6 +235,8 @@ export function GraphicLayoutCanvas({
           photoUrl={photoUrl}
           photoScale={photoScale}
           size={size}
+          photoDuotone={photoDuotone}
+          highlightOpacity={tokens?.duotoneHighlightOpacity}
         />
       )}
     </div>
@@ -217,6 +254,8 @@ function SolidarityLayout({
   photoUrl,
   photoScale,
   size,
+  photoDuotone,
+  highlightOpacity,
 }: {
   primary: string;
   accent: string;
@@ -228,6 +267,8 @@ function SolidarityLayout({
   photoUrl?: string;
   photoScale: number;
   size: "preview" | "export";
+  photoDuotone?: boolean;
+  highlightOpacity?: number;
 }) {
   const exportMode = size === "export";
   // Dark photo overlay → ink against the scrim, not raw primary
@@ -243,7 +284,14 @@ function SolidarityLayout({
             : `linear-gradient(160deg, ${primary} 0%, ${primary} 55%, ${accent} 100%)`,
         }}
       />
-      <PhotoLayer photoUrl={photoUrl} photoScale={photoScale} />
+      <PhotoLayer
+        photoUrl={photoUrl}
+        photoScale={photoScale}
+        primary={primary}
+        accent={accent}
+        duotone={photoDuotone}
+        highlightOpacity={highlightOpacity}
+      />
       <div
         className="absolute inset-0"
         style={{
@@ -309,6 +357,8 @@ function SpotlightLayout({
   photoUrl,
   photoScale,
   size,
+  photoDuotone,
+  highlightOpacity,
 }: {
   primary: string;
   accent: string;
@@ -319,6 +369,8 @@ function SpotlightLayout({
   photoUrl?: string;
   photoScale: number;
   size: "preview" | "export";
+  photoDuotone?: boolean;
+  highlightOpacity?: number;
 }) {
   const initials = copy.initials ?? "M";
   const exportMode = size === "export";
@@ -333,7 +385,14 @@ function SpotlightLayout({
           backgroundImage: `linear-gradient(145deg, ${secondary}, ${primary} 60%, ${accent})`,
         }}
       />
-      <PhotoLayer photoUrl={photoUrl} photoScale={photoScale} />
+      <PhotoLayer
+        photoUrl={photoUrl}
+        photoScale={photoScale}
+        primary={primary}
+        accent={accent}
+        duotone={photoDuotone}
+        highlightOpacity={highlightOpacity}
+      />
       {!photoUrl ? (
         <div className="absolute inset-0 flex items-center justify-center">
           <div

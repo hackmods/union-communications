@@ -38,6 +38,7 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
 import { QrBoardCanvas } from "@/components/tools/qr-board/QrBoardCanvas";
 import { QrBoardSlotEditor } from "@/components/tools/qr-board/QrBoardSlotEditor";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 
 interface QrBoardState {
   presetId: string;
@@ -451,6 +452,7 @@ export default function QrBoardPage() {
               secondaryColor={state.secondaryColor}
               localLabel={localLabel}
               qrPlaceholder={t("qrPlaceholder")}
+              tokens={resolveCanvasTokens(brandKit)}
             />
           </div>
           <p className="mt-3 text-sm text-gray-500">

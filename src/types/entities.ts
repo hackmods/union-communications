@@ -49,6 +49,34 @@ export interface BrandKitProfile {
   bargainingUnitCode?: string;
 }
 
+/** Optional style packages that seed Brand Kit canvas chrome tokens */
+export type CanvasStyleId = "solid" | "field" | "workshop";
+
+export type CanvasAlignmentBias = "center" | "start" | "asymmetric";
+export type CanvasDensity = "roomy" | "tight";
+export type CanvasTypeScale = "compact" | "display" | "dense";
+export type CanvasQrPlate = "white-card" | "inset" | "flush";
+/**
+ * Capture-safe surface treatments. `grain` uses a tiled PNG noise overlay.
+ * `duotone` applies brand-coloured photo treatment (Graphic Maker spotlight etc.).
+ */
+export type CanvasSurface =
+  | "flat"
+  | "soft-gradient"
+  | "accent-band"
+  | "grain"
+  | "duotone";
+
+/** Shared canvas chrome preferences (hybrid: tools keep their own layout ids). */
+export interface BrandKitCanvas {
+  styleId?: CanvasStyleId;
+  alignmentBias?: CanvasAlignmentBias;
+  density?: CanvasDensity;
+  typeScale?: CanvasTypeScale;
+  qrPlate?: CanvasQrPlate;
+  surface?: CanvasSurface;
+}
+
 export interface BrandKit {
   version: "1.1" | "2.0";
   /** Multi-union fields (Brand Kit v2) */
@@ -79,11 +107,18 @@ export interface BrandKit {
   customLinks?: LocalLink[];
   /** Membership application / update URLs (FT, PT, or shared) */
   membershipUrls?: MembershipUrl[];
+  /** Shared canvas chrome tokens — omit for legacy export look */
+  canvas?: BrandKitCanvas;
   updatedAt: string;
 }
 
 /** Partial Brand Kit update — `local` is deep-partial (store merges onto current). */
-export type BrandKitPatch = Omit<Partial<BrandKit>, "local" | "profiles"> & {
+export type BrandKitPatch = Omit<
+  Partial<BrandKit>,
+  "local" | "profiles" | "canvas"
+> & {
   local?: Partial<Local>;
   profiles?: BrandKitProfile[];
+  /** Pass `null` or `undefined` with key present via store `"canvas" in partial` to clear */
+  canvas?: BrandKitCanvas | null;
 };

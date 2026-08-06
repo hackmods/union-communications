@@ -115,3 +115,6 @@ v1: all public. Phase 1+: optional premium templates behind login; core tools st
 - `src/lib/templates/website/generate-website-zip.ts` — static site ZIP generator
 - `src/components/tools/*` — upload, contrast, consent, undo/redo, office export
 - `src/store/brand-store.ts` — brand state via DataAdapter
+- `src/lib/utils/canvas-tokens.ts` — Brand Kit canvas chrome resolver (`solid` / `field` / `workshop`, grain, duotone)
+- `docs/modules/COMMS_VISUAL_SYSTEM.md` — visual system + migration register
+- `src/components/tools/canvas/` — shared export primitives (`CanvasQrPlate`, grain, duotone photo)

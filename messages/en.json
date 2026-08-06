@@ -1703,7 +1703,7 @@
     "title": "Your local Brand Kit",
     "description": "Step 0 for every Comms tool. Colours, logo, local number, and key links here drive boards, print, social graphics, and the website template.",
     "purposeSets": "What you set here",
-    "purposeSetsBody": "Union preset, local number and sub-text, brand colours, logo, optional website or social links, and membership application URLs.",
+    "purposeSetsBody": "Union preset, local number and sub-text, brand colours, logo, canvas style, optional website or social links, and membership application URLs.",
     "purposeUnlocks": "What it unlocks",
     "purposeUnlocksBody": "Board notices, flyers, social graphics, QR materials, and the local website template — all stamped with your identity.",
     "startSetup": "Start setup",
@@ -1721,6 +1721,57 @@
     "profileLabel": "Collection profile",
     "profileHint": "Switch FT / PT Support Staff (or other) identity without wiping colours or logo.",
     "resetDefaults": "Reset to defaults",
+    "canvas": {
+      "title": "Canvas style",
+      "description": "Shared chrome for export tools — QR plate, type scale, alignment, and surface. Each tool still keeps its own layouts.",
+      "style": "Style package",
+      "styles": {
+        "legacy": "Classic",
+        "solid": "Solid",
+        "field": "Field",
+        "workshop": "Workshop"
+      },
+      "styleHints": {
+        "legacy": "Matches today’s default exports — centered type, flat fill, rounded white QR plate.",
+        "solid": "App-clean: soft gradient, roomy padding, left-weighted type, card QR plate.",
+        "field": "Grassroots energy: grain overlay, bold display type, inset QR plate.",
+        "workshop": "Modular: accent band, compact type, flush framed QR."
+      },
+      "previewHeadline": "Solidarity starts here",
+      "duotoneNote": "Duotone tints member photos in Graphic Maker (spotlight / solidarity / thanks).",
+      "advanced": "Advanced tokens",
+      "alignment": "Alignment bias",
+      "alignmentBias": {
+        "center": "Center",
+        "start": "Start",
+        "asymmetric": "Asymmetric"
+      },
+      "density": "Density",
+      "densityOpts": {
+        "roomy": "Roomy",
+        "tight": "Tight"
+      },
+      "typeScale": "Type scale",
+      "typeScaleOpts": {
+        "compact": "Compact",
+        "display": "Display",
+        "dense": "Dense"
+      },
+      "qrPlate": "QR plate",
+      "qrPlateOpts": {
+        "white-card": "Card",
+        "inset": "Inset",
+        "flush": "Flush"
+      },
+      "surface": "Surface",
+      "surfaceOpts": {
+        "flat": "Flat",
+        "soft-gradient": "Soft gradient",
+        "accent-band": "Accent band",
+        "grain": "Grain",
+        "duotone": "Duotone photos"
+      }
+    },
     "unionPreset": {
       "title": "Union preset",
       "description": "Start from a common Canadian union colour palette and tagline. OPSEU uses the official lockup; other unions default to the UnionOps mark in your brand colour — upload your local’s logo when you have one.",

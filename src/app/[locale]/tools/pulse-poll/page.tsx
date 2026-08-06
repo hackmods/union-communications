@@ -19,6 +19,11 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { pickContrastingInk } from "@/lib/utils/ink";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  CanvasGrainOverlay,
+  CanvasQrPlate,
+} from "@/components/tools/canvas";
 import {
   createEmptyPulsePollDraft,
   draftQuestionsToApi,
@@ -43,6 +48,7 @@ export default function PulsePollPage() {
   const [publishing, setPublishing] = useState(false);
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
+  const tokens = resolveCanvasTokens(brandKit);
 
   const initial = createEmptyPulsePollDraft({
     primaryColor: brandKit.primaryColor,
@@ -396,39 +402,33 @@ export default function PulsePollPage() {
       <p className="text-sm font-medium text-gray-700">{t("previewHeading")}</p>
       <div
         ref={canvasRef}
-        className="mx-auto flex w-full max-w-sm flex-col gap-4 rounded-lg p-6 shadow-sm"
+        className="relative mx-auto flex w-full max-w-sm flex-col gap-4 rounded-lg p-6 shadow-sm"
         style={previewStyle}
       >
+        <CanvasGrainOverlay opacity={tokens.grainOpacity} />
         {state.includeBranding && themeEstablished && (
-          <div className="flex items-center gap-2">
+          <div className="relative z-[2] flex items-center gap-2">
             <BrandLogo className="h-10 w-auto" />
             <span className="text-sm font-semibold">
               Local {resolveLocalNumber(brandKit.local.localNumber)}
             </span>
           </div>
         )}
-        <h2 className="text-xl font-bold leading-tight">
+        <h2 className="relative z-[2] text-xl font-bold leading-tight">
           {state.title.trim() || t("title")}
         </h2>
         {state.intro.trim() && (
-          <p className="text-sm opacity-90">{state.intro}</p>
+          <p className="relative z-[2] text-sm opacity-90">{state.intro}</p>
         )}
-        <ol className="list-decimal space-y-1 pl-5 text-sm">
+        <ol className="relative z-[2] list-decimal space-y-1 pl-5 text-sm">
           {state.questions
             .filter((q) => q.text.trim())
             .map((q) => (
               <li key={q.id}>{q.text}</li>
             ))}
         </ol>
-        <div className="mt-2 flex flex-col items-center gap-2 rounded-md bg-white/90 p-3 text-gray-900">
-          {qrSrc ? (
-            // eslint-disable-next-line @next/next/no-img-element -- data URL QR
-            <img src={qrSrc} alt={t("qrAlt")} width={160} height={160} />
-          ) : (
-            <div className="flex h-40 w-40 items-center justify-center bg-gray-100 text-xs text-gray-500">
-              QR
-            </div>
-          )}
+        <div className="relative z-[2] mt-2 flex flex-col items-center gap-2">
+          <CanvasQrPlate tokens={tokens} qrSrc={qrSrc} alt={t("qrAlt")} widthPercent={55} />
           <p className={cn("text-center text-xs")}>{t("qrHint")}</p>
         </div>
       </div>

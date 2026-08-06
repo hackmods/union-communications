@@ -1703,7 +1703,7 @@
     "title": "Trousse de marque de votre section",
     "description": "Étape 0 pour chaque outil de communication. Couleurs, logo, numéro de section et liens clés pilotent ici les tableaux, l'impression, les graphiques sociaux et le modèle de site.",
     "purposeSets": "Ce que vous définissez ici",
-    "purposeSetsBody": "Préréglage syndical, numéro et sous-texte de section, couleurs de marque, logo, liens de site ou réseaux facultatifs, et URL de demande d'adhésion.",
+    "purposeSetsBody": "Préréglage syndical, numéro et sous-texte de section, couleurs de marque, logo, style de toile, liens de site ou réseaux facultatifs, et URL de demande d'adhésion.",
     "purposeUnlocks": "Ce que cela débloque",
     "purposeUnlocksBody": "Avis de tableau, affiches, graphiques sociaux, matériel QR et modèle de site local — tous estampillés de votre identité.",
     "startSetup": "Commencer la configuration",
@@ -1721,6 +1721,57 @@
     "profileLabel": "Profil de collection",
     "profileHint": "Passez FT / PT Support Staff (ou autre) sans effacer couleurs ni logo.",
     "resetDefaults": "Réinitialiser aux valeurs par défaut",
+    "canvas": {
+      "title": "Style de toile",
+      "description": "Chrome partagé pour les outils d'export — plaque QR, échelle typographique, alignement et surface. Chaque outil garde ses propres mises en page.",
+      "style": "Ensemble de style",
+      "styles": {
+        "legacy": "Classique",
+        "solid": "Solide",
+        "field": "Terrain",
+        "workshop": "Atelier"
+      },
+      "styleHints": {
+        "legacy": "Correspond aux exports actuels — texte centré, fond uni, plaque QR blanche arrondie.",
+        "solid": "Aspect appli : dégradé doux, marges généreuses, texte à gauche, plaque QR en carte.",
+        "field": "Énergie de terrain : grain, typo display, plaque QR encastrée.",
+        "workshop": "Modulaire : bande d'accent, typo compacte, QR encadré à fleur."
+      },
+      "previewHeadline": "La solidarité commence ici",
+      "duotoneNote": "Le duotone teinte les photos de membres dans le Créateur graphique (projecteur / solidarité / merci).",
+      "advanced": "Jetons avancés",
+      "alignment": "Biais d'alignement",
+      "alignmentBias": {
+        "center": "Centre",
+        "start": "Début",
+        "asymmetric": "Asymétrique"
+      },
+      "density": "Densité",
+      "densityOpts": {
+        "roomy": "Aéré",
+        "tight": "Serré"
+      },
+      "typeScale": "Échelle typo",
+      "typeScaleOpts": {
+        "compact": "Compacte",
+        "display": "Display",
+        "dense": "Dense"
+      },
+      "qrPlate": "Plaque QR",
+      "qrPlateOpts": {
+        "white-card": "Carte",
+        "inset": "Encastrée",
+        "flush": "À fleur"
+      },
+      "surface": "Surface",
+      "surfaceOpts": {
+        "flat": "Uni",
+        "soft-gradient": "Dégradé doux",
+        "accent-band": "Bande d'accent",
+        "grain": "Grain",
+        "duotone": "Photos duotone"
+      }
+    },
     "unionPreset": {
       "title": "Préréglage syndical",
       "description": "Partez d'une palette et d'un slogan de syndicat canadien courant. OPSEU utilise le lockup officiel; les autres utilisent par défaut le monogramme UnionOps dans votre couleur de marque — téléversez le logo de votre section au besoin.",

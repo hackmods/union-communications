@@ -12,10 +12,6 @@ import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import {
-  CANVAS_PLACEHOLDER_BG,
-  CANVAS_PLACEHOLDER_INK,
-} from "@/lib/constants/brand";
 import { listSavedLinks } from "@/lib/utils/local-links";
 import {
   DEFAULT_QR_CARD_SIZE,
@@ -38,6 +34,11 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  CanvasGrainOverlay,
+  CanvasQrPlate,
+} from "@/components/tools/canvas";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 
 interface ActionCardState {
@@ -104,6 +105,7 @@ export default function ActionCardPage() {
   });
 
   const size = QR_CARD_SIZES[state.sizeId];
+  const tokens = resolveCanvasTokens(brandKit);
   const exportPixelRatio = qrCardExportPixelRatio(size);
   const savedLinks = listSavedLinks(brandKit, {
     website: t("savedWebsite"),
@@ -436,6 +438,7 @@ export default function ActionCardPage() {
                   className="relative flex w-full min-w-0 flex-col overflow-hidden"
                   style={canvasStyle}
                 >
+                  <CanvasGrainOverlay opacity={tokens.grainOpacity} />
                   {state.bgMode === "accentBar" ? (
                     <div
                       className={cn(
@@ -448,7 +451,7 @@ export default function ActionCardPage() {
 
                   <div
                     className={cn(
-                      "flex min-h-0 min-w-0 flex-1 flex-col items-center justify-between text-center",
+                      "relative z-[2] flex min-h-0 min-w-0 flex-1 flex-col items-center justify-between text-center",
                       isCompact
                         ? "gap-1.5 p-2.5"
                         : isSquare
@@ -504,35 +507,12 @@ export default function ActionCardPage() {
                     </div>
 
                     <div className="flex min-h-0 w-full min-w-0 flex-col items-center justify-center">
-                      <div
-                        className={cn(
-                          "rounded-md",
-                          isCompact || isSquare ? "p-1.5" : "p-2",
-                        )}
-                        style={{
-                          width: `${qrPlatePercent}%`,
-                          backgroundColor: "#FFFFFF",
-                        }}
-                      >
-                        {qrSrc ? (
-                          // eslint-disable-next-line @next/next/no-img-element -- data URL from client QR
-                          <img
-                            src={qrSrc}
-                            alt=""
-                            className="aspect-square h-auto w-full"
-                          />
-                        ) : (
-                          <div
-                            className="flex aspect-square w-full items-center justify-center text-[0.65rem]"
-                            style={{
-                              backgroundColor: CANVAS_PLACEHOLDER_BG,
-                              color: CANVAS_PLACEHOLDER_INK,
-                            }}
-                          >
-                            {t("qrPlaceholder")}
-                          </div>
-                        )}
-                      </div>
+                      <CanvasQrPlate
+                        tokens={tokens}
+                        qrSrc={qrSrc}
+                        alt=""
+                        widthPercent={qrPlatePercent}
+                      />
                       {state.cta.trim() ? (
                         <p
                           className={cn(

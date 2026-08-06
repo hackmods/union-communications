@@ -1,4 +1,5 @@
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
+import { normalizeBrandKitCanvas } from "@/lib/utils/canvas-tokens";
 import type {
   BrandKit,
   LocalLink,
@@ -178,6 +179,7 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
     facebookUrl: trimUrl(input.facebookUrl),
     customLinks: normalizeCustomLinks(input.customLinks),
     membershipUrls,
+    canvas: normalizeBrandKitCanvas(input.canvas),
     updatedAt:
       typeof input.updatedAt === "string"
         ? input.updatedAt
