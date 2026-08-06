@@ -23,6 +23,12 @@ export interface WebsiteTemplateData {
   logoAlt: string;
   /** OPSEU.org footer links — only when Brand Kit design theme is OPSEU. */
   includeOpseuResources: boolean;
+  /** Optional Brand Kit canvas knobs mapped into exported CSS. */
+  canvas?: {
+    surface?: "flat" | "soft-gradient" | "accent-band" | "grain" | "duotone";
+    typeScale?: "display" | "compact" | "dense";
+    density?: "roomy" | "tight";
+  };
 }
 
 export const DEFAULT_WEBSITE_OFFICERS: WebsiteOfficer[] = [

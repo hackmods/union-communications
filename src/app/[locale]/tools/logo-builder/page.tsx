@@ -26,6 +26,7 @@ import { useTranslations } from "next-intl";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SegControl } from "@/components/tools/SegControl";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 
 interface LogoState {
   localNumber: string;
@@ -41,6 +42,7 @@ export default function LogoBuilderPage() {
   const tBuilder = useTranslations("logoBuilder");
   const brandKit = useBrandStore((s) => s.brandKit);
   const setBrandKit = useBrandStore((s) => s.setBrandKit);
+  const tokens = resolveCanvasTokens(brandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const { exportError, runExport } = useExportHandler(tBuilder("exportError"));
@@ -255,6 +257,7 @@ export default function LogoBuilderPage() {
               secondaryColor={state.secondaryColor}
               localNumber={state.localNumber}
               subText={state.subText}
+              tokens={tokens}
             />
           </div>
         </div>

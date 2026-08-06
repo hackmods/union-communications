@@ -469,7 +469,13 @@ export default function PulsePollPage() {
             ))}
         </ol>
         <div className="relative z-[2] mt-2 flex flex-col items-center gap-2">
-          <CanvasQrPlate tokens={tokens} qrSrc={qrSrc} alt={t("qrAlt")} widthPercent={55} />
+          <CanvasQrPlate
+            tokens={tokens}
+            qrSrc={qrSrc}
+            alt={t("qrAlt")}
+            widthPercent={55}
+            accentColor={state.secondaryColor}
+          />
           <p className={cn("text-center")} style={{ fontSize: metaFontPx }}>
             {t("qrHint")}
           </p>

@@ -2,7 +2,11 @@
 
 import { forwardRef } from "react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import { CanvasGrainOverlay } from "@/components/tools/canvas";
 import { resolveLocalNumber, cn } from "@/lib/utils";
+import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
+import { typeScaleFactor } from "@/lib/utils/canvas-tokens";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 
@@ -22,6 +26,8 @@ export interface LocalLogoPlateProps {
    * `fluid` — fills the parent; use inside a sized frame for social crop.
    */
   size?: "fixed" | "fluid";
+  /** Optional Brand Kit canvas tokens (typeScale / surface / grain). */
+  tokens?: CanvasTokens;
   className?: string;
 }
 
@@ -38,6 +44,7 @@ export const LocalLogoPlate = forwardRef<HTMLDivElement, LocalLogoPlateProps>(
       localNumber,
       subText,
       size = "fixed",
+      tokens,
       className,
     },
     ref,
@@ -48,18 +55,26 @@ export const LocalLogoPlate = forwardRef<HTMLDivElement, LocalLogoPlateProps>(
     const localColor = meetsWcagAA(secondaryColor, primaryColor, true)
       ? secondaryColor
       : canvasInk;
+    const scale = tokens ? typeScaleFactor(tokens) : 1;
+    const surface = tokens
+      ? canvasSurfaceStyle(tokens, {
+          primary: primaryColor,
+          secondary: secondaryColor,
+          accent: secondaryColor,
+        })
+      : { backgroundColor: primaryColor };
 
     const shell =
       size === "fixed"
         ? cn(
-            "flex items-center justify-center overflow-hidden",
+            "relative flex items-center justify-center overflow-hidden",
             shape === "circle" && "h-80 w-80 flex-col rounded-full",
             shape === "square" && "h-80 w-80 flex-col",
             shape === "rectangle" &&
               "h-44 w-[28rem] max-w-full flex-row gap-5 px-8",
           )
         : cn(
-            "flex max-h-full max-w-full items-center justify-center overflow-hidden",
+            "relative flex max-h-full max-w-full items-center justify-center overflow-hidden",
             shape === "circle" &&
               "aspect-square h-full w-auto flex-col rounded-full p-[8%]",
             shape === "square" &&
@@ -91,13 +106,15 @@ export const LocalLogoPlate = forwardRef<HTMLDivElement, LocalLogoPlateProps>(
         ref={ref}
         className={cn(shell, className)}
         style={{
-          backgroundColor: primaryColor,
+          ...surface,
           containerType: size === "fluid" ? "size" : undefined,
         }}
       >
+        {tokens ? <CanvasGrainOverlay opacity={tokens.grainOpacity} /> : null}
         <BrandLogo
           size={isRectangle ? "md" : "lg"}
           className={cn(
+            "relative z-[2]",
             isRectangle ? "shrink-0" : "mb-2",
             size === "fluid" &&
               (isRectangle
@@ -108,14 +125,39 @@ export const LocalLogoPlate = forwardRef<HTMLDivElement, LocalLogoPlateProps>(
         />
         <div
           className={cn(
-            "text-center",
+            "relative z-[2] text-center",
             isRectangle && "min-w-0 flex-1 text-left",
           )}
         >
-          <p className={cn("font-bold", titleClass)} style={{ color: localColor }}>
+          <p
+            className={cn("font-bold", titleClass)}
+            style={{
+              color: localColor,
+              fontWeight: tokens?.titleFontWeight,
+              letterSpacing: tokens?.titleLetterSpacing,
+              textTransform: tokens?.titleTextTransform,
+              fontSize:
+                size === "fixed"
+                  ? isRectangle
+                    ? `${1.5 * scale}rem`
+                    : `${2.25 * scale}rem`
+                  : undefined,
+            }}
+          >
             {localLabel}
           </p>
-          <p className={subClass} style={{ color: canvasInk }}>
+          <p
+            className={subClass}
+            style={{
+              color: canvasInk,
+              fontSize:
+                size === "fixed"
+                  ? isRectangle
+                    ? `${1 * scale}rem`
+                    : `${1.125 * scale}rem`
+                  : undefined,
+            }}
+          >
             {subText}
           </p>
         </div>

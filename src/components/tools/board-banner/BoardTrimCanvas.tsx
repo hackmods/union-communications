@@ -5,6 +5,8 @@ import {
   type BoardLogoMode,
 } from "@/lib/constants/board-banner-ornaments";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
+import { clampTypeRem } from "@/lib/utils/canvas-tokens";
 import { pickContrastingInk } from "@/lib/utils/ink";
 
 /** Rail / corner art only — top header strips use BoardBannerCanvas. */
@@ -24,6 +26,7 @@ export interface BoardTrimCanvasProps {
   edgeWidthInches?: number;
   /** Assistive summary of this trim graphic (UI-005). */
   accessibleName?: string;
+  tokens?: CanvasTokens;
   className?: string;
 }
 
@@ -45,6 +48,7 @@ export function BoardTrimCanvas({
   byline,
   edgeWidthInches = 2,
   accessibleName,
+  tokens,
   className,
 }: BoardTrimCanvasProps) {
   const ink = pickContrastingInk(primaryColor);
@@ -55,6 +59,13 @@ export function BoardTrimCanvas({
   const bylineText = byline.trim();
   const showLogo = logoMode !== "none";
   const logoVariant = logoMode === "mark" ? "mark" : "lockup";
+  const localCapType = {
+    fontWeight: (tokens?.titleFontWeight ?? 900) as number,
+    letterSpacing: tokens?.titleLetterSpacing ?? "0.08em",
+    textTransform: (tokens?.titleTextTransform ?? "uppercase") as
+      | "none"
+      | "uppercase",
+  };
   const a11yProps = accessibleName
     ? ({
         role: "group" as const,
@@ -105,8 +116,8 @@ export function BoardTrimCanvas({
                 margin: 0,
                 color: accentInk,
                 fontWeight: 900,
-                fontSize: "clamp(0.45rem, 1.4vmin, 0.75rem)",
-                letterSpacing: "0.08em",
+                fontSize: clampTypeRem(tokens, 0.45, 1.4, 0.75),
+                ...localCapType,
                 textAlign: "center",
                 lineHeight: 1.1,
               }}
@@ -153,8 +164,8 @@ export function BoardTrimCanvas({
                   margin: 0,
                   color: ink,
                   fontWeight: 700,
-                  fontSize: "clamp(0.4rem, 1.1vmin, 0.65rem)",
-                  letterSpacing: "0.04em",
+                  fontSize: clampTypeRem(tokens, 0.4, 1.1, 0.65),
+                  letterSpacing: tokens?.titleLetterSpacing ?? "0.04em",
                   textAlign: "center",
                   lineHeight: 1.25,
                   writingMode: "vertical-rl",
@@ -189,8 +200,8 @@ export function BoardTrimCanvas({
                 margin: 0,
                 color: secondaryInk,
                 fontWeight: 900,
-                fontSize: "clamp(0.45rem, 1.4vmin, 0.75rem)",
-                letterSpacing: "0.08em",
+                fontSize: clampTypeRem(tokens, 0.45, 1.4, 0.75),
+                ...localCapType,
                 textAlign: "center",
                 lineHeight: 1.1,
               }}
@@ -245,8 +256,8 @@ export function BoardTrimCanvas({
                 margin: 0,
                 color: accentInk,
                 fontWeight: 900,
-                fontSize: "clamp(0.55rem, 1.8vmin, 0.95rem)",
-                letterSpacing: "0.08em",
+                fontSize: clampTypeRem(tokens, 0.55, 1.8, 0.95),
+                ...localCapType,
                 textAlign: "center",
                 lineHeight: 1.1,
               }}
@@ -294,8 +305,8 @@ export function BoardTrimCanvas({
                   margin: 0,
                   color: ink,
                   fontWeight: 700,
-                  fontSize: "clamp(0.5rem, 1.5vmin, 0.8rem)",
-                  letterSpacing: "0.04em",
+                  fontSize: clampTypeRem(tokens, 0.5, 1.5, 0.8),
+                  letterSpacing: tokens?.titleLetterSpacing ?? "0.04em",
                   textAlign: "center",
                   lineHeight: 1.25,
                 }}
@@ -328,8 +339,8 @@ export function BoardTrimCanvas({
                 margin: 0,
                 color: secondaryInk,
                 fontWeight: 900,
-                fontSize: "clamp(0.55rem, 1.8vmin, 0.95rem)",
-                letterSpacing: "0.08em",
+                fontSize: clampTypeRem(tokens, 0.55, 1.8, 0.95),
+                ...localCapType,
                 textAlign: "center",
                 lineHeight: 1.1,
               }}
@@ -391,8 +402,8 @@ export function BoardTrimCanvas({
             zIndex: 1,
             color: ink,
             fontWeight: 900,
-            fontSize: "clamp(0.5rem, 1.8vmin, 0.8rem)",
-            letterSpacing: "0.06em",
+            fontSize: clampTypeRem(tokens, 0.5, 1.8, 0.8),
+            ...localCapType,
           }}
         >
           {localDisplay}
@@ -426,8 +437,8 @@ export function BoardTrimCanvas({
             zIndex: 1,
             color: ink,
             fontWeight: 700,
-            fontSize: "clamp(0.4rem, 1.2vmin, 0.6rem)",
-            letterSpacing: "0.03em",
+            fontSize: clampTypeRem(tokens, 0.4, 1.2, 0.6),
+            letterSpacing: tokens?.titleLetterSpacing ?? "0.03em",
             maxWidth: "45%",
             lineHeight: 1.2,
           }}

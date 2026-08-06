@@ -159,25 +159,43 @@ ${opseuResourcesHtml}      <div class="footer-col">
 </html>`;
 }
 
-export function buildWebsiteCss(primaryColor: string, secondaryColor: string): string {
+export function buildWebsiteCss(
+  primaryColor: string,
+  secondaryColor: string,
+  canvas?: WebsiteTemplateData["canvas"] | null,
+): string {
   const footerLinkColor = mutedInkOnBackground(primaryColor, 0.85);
   const footerMutedColor = mutedInkOnBackground(primaryColor, 0.8);
   const officerCardBg = blendHex("#000000", primaryColor, 0.25);
   const officerLocationColor = mutedInkOnBackground(officerCardBg, 0.85);
+  const typeScale =
+    canvas?.typeScale === "display"
+      ? 1.12
+      : canvas?.typeScale === "dense"
+        ? 0.9
+        : 1;
+  const spacingScale = canvas?.density === "tight" ? 0.88 : 1;
+  const rem = (n: number) => `${Number((n).toFixed(3))}rem`;
+  const heroBg =
+    canvas?.surface === "soft-gradient"
+      ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), linear-gradient(160deg, ${primaryColor} 0%, ${secondaryColor} 100%)`
+      : canvas?.surface === "accent-band"
+        ? `linear-gradient(${secondaryColor} 0%, ${secondaryColor} 12px, ${primaryColor} 12px, ${primaryColor} 100%)`
+        : `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), ${primaryColor}`;
   return `:root {
   --color-primary: ${primaryColor};
   --color-secondary: ${secondaryColor};
   --color-dark: #0B203D;
   --color-text: #222;
   --color-white: #fff;
-  --spacing-3: 1rem;
-  --spacing-4: 1.5rem;
-  --spacing-5: 2rem;
-  --spacing-8: 6rem;
-  --font-size-base: 1.125rem;
-  --font-size-xl: 1.5rem;
-  --font-size-h1: 3rem;
-  --font-size-h2: 2.25rem;
+  --spacing-3: ${rem(1 * spacingScale)};
+  --spacing-4: ${rem(1.5 * spacingScale)};
+  --spacing-5: ${rem(2 * spacingScale)};
+  --spacing-8: ${rem(6 * spacingScale)};
+  --font-size-base: ${rem(1.125 * typeScale)};
+  --font-size-xl: ${rem(1.5 * typeScale)};
+  --font-size-h1: ${rem(3 * typeScale)};
+  --font-size-h2: ${rem(2.25 * typeScale)};
 }
 
 * { box-sizing: border-box; }
@@ -269,7 +287,7 @@ h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 1rem; }
 }
 
 .hero-section {
-  background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), var(--color-primary);
+  background: ${heroBg};
   color: var(--color-white);
   text-align: center;
   padding: var(--spacing-8) var(--spacing-4);
@@ -447,7 +465,10 @@ export async function generateWebsiteZip(
     : { ...data, logoFileName: "" };
 
   zip.file("index.html", buildWebsiteHtml(exportData));
-  zip.file("css/style.css", buildWebsiteCss(data.primaryColor, data.secondaryColor));
+  zip.file(
+    "css/style.css",
+    buildWebsiteCss(data.primaryColor, data.secondaryColor, data.canvas),
+  );
   zip.file("js/site.js", buildWebsiteJs());
   if (logo) {
     zip.file(`assets/${logo.fileName}`, logo.bytes);
@@ -462,7 +483,11 @@ export async function generateWebsiteZip(
 }
 
 export function buildPreviewHtml(data: WebsiteTemplateData): string {
-  const css = buildWebsiteCss(data.primaryColor, data.secondaryColor);
+  const css = buildWebsiteCss(
+    data.primaryColor,
+    data.secondaryColor,
+    data.canvas,
+  );
   let body = buildWebsiteHtml(data)
     .replace('<link rel="stylesheet" href="./css/style.css">', `<style>${css}</style>`)
     .replace('<script src="./js/site.js"></script>', "");

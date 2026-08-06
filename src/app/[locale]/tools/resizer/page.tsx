@@ -46,6 +46,10 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { SocialAssetsGallery } from "@/components/tools/resizer/SocialAssetsGallery";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
+import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import { CanvasGrainOverlay } from "@/components/tools/canvas";
 
 type SourceMode = "logo" | "upload";
 type FitMode = "contain" | "cover";
@@ -103,6 +107,7 @@ function FormatCanvasContent({
   localNumber,
   subText,
   uploadPrompt,
+  tokens,
 }: {
   state: ResizerState;
   format: ResizerFormat;
@@ -110,6 +115,7 @@ function FormatCanvasContent({
   localNumber: string;
   subText: string;
   uploadPrompt?: string;
+  tokens: CanvasTokens;
 }) {
   const overlayBg = "rgba(0,0,0,0.6)";
   const objectPosition = placementToObjectPosition(state.placement);
@@ -123,6 +129,11 @@ function FormatCanvasContent({
           state.placement,
         )
       : null;
+  const fieldBg = canvasSurfaceStyle(tokens, {
+    primary: state.primaryColor,
+    secondary: state.secondaryColor,
+    accent: state.secondaryColor,
+  });
 
   return (
     <>
@@ -130,8 +141,9 @@ function FormatCanvasContent({
         state.fit === "contain" && containBox ? (
           <div
             className="absolute inset-0 overflow-hidden"
-            style={{ backgroundColor: state.primaryColor }}
+            style={fieldBg}
           >
+            <CanvasGrainOverlay opacity={tokens.grainOpacity} />
             <div
               className="absolute overflow-hidden"
               style={{
@@ -148,6 +160,7 @@ function FormatCanvasContent({
                 secondaryColor={state.secondaryColor}
                 localNumber={localNumber}
                 subText={subText}
+                tokens={tokens}
                 className="!h-full !w-full !max-h-none !max-w-none"
               />
             </div>
@@ -158,9 +171,10 @@ function FormatCanvasContent({
               "absolute inset-0 flex overflow-hidden",
               coverFlex,
             )}
-            style={{ backgroundColor: state.primaryColor }}
+            style={fieldBg}
           >
-            <div className="min-h-full min-w-full">
+            <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+            <div className="relative z-[2] min-h-full min-w-full">
               <LocalLogoPlate
                 size="fluid"
                 shape={state.shape}
@@ -168,6 +182,7 @@ function FormatCanvasContent({
                 secondaryColor={state.secondaryColor}
                 localNumber={localNumber}
                 subText={subText}
+                tokens={tokens}
                 className={cn(
                   state.shape === "rectangle"
                     ? "!max-h-none !max-w-none h-full min-h-full w-auto min-w-full"
@@ -180,16 +195,17 @@ function FormatCanvasContent({
       ) : imageUrl ? (
         <div
           className="absolute inset-0 overflow-hidden"
-          style={{ backgroundColor: state.primaryColor }}
+          style={fieldBg}
         >
+          <CanvasGrainOverlay opacity={tokens.grainOpacity * 0.45} />
           {/* eslint-disable-next-line @next/next/no-img-element -- blob/data URL upload; next/image adds no benefit */}
           <img
             src={imageUrl}
             alt=""
             className={
               state.fit === "cover"
-                ? "absolute inset-0 h-full w-full object-cover"
-                : "absolute inset-0 h-full w-full object-contain"
+                ? "absolute inset-0 z-[2] h-full w-full object-cover"
+                : "absolute inset-0 z-[2] h-full w-full object-contain"
             }
             style={{ objectPosition }}
           />
@@ -197,11 +213,12 @@ function FormatCanvasContent({
       ) : (
         <div
           className="absolute inset-0 flex items-center justify-center"
-          style={{ backgroundColor: state.primaryColor }}
+          style={fieldBg}
         >
+          <CanvasGrainOverlay opacity={tokens.grainOpacity} />
           {uploadPrompt ? (
             <p
-              className="px-4 text-center text-sm"
+              className="relative z-[2] px-4 text-center text-sm"
               style={{ color: pickContrastingInk(state.primaryColor) }}
             >
               {uploadPrompt}
@@ -212,8 +229,12 @@ function FormatCanvasContent({
 
       {state.overlayText ? (
         <div
-          className="absolute bottom-0 left-0 right-0 p-2 text-center text-xs font-medium md:text-sm"
-          style={{ backgroundColor: overlayBg, color: "#ffffff" }}
+          className="absolute bottom-0 left-0 right-0 z-[3] p-2 text-center font-medium"
+          style={{
+            backgroundColor: overlayBg,
+            color: "#ffffff",
+            fontSize: tokens.subtitleFontSizePx,
+          }}
         >
           {state.overlayText}
         </div>
@@ -243,6 +264,7 @@ function FormatFrame({
   dataFormat,
   frameRef,
   className,
+  tokens,
 }: {
   format: ResizerFormat;
   state: ResizerState;
@@ -253,6 +275,7 @@ function FormatFrame({
   dataFormat?: string;
   frameRef?: Ref<HTMLDivElement>;
   className?: string;
+  tokens: CanvasTokens;
 }) {
   return (
     <div
@@ -271,6 +294,7 @@ function FormatFrame({
         localNumber={localNumber}
         subText={subText}
         uploadPrompt={uploadPrompt}
+        tokens={tokens}
       />
     </div>
   );
@@ -282,6 +306,7 @@ export default function ResizerPage() {
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
+  const tokens = resolveCanvasTokens(brandKit);
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const zipRootRef = useRef<HTMLDivElement>(null);
@@ -415,6 +440,7 @@ export default function ResizerPage() {
     localNumber,
     subText,
     uploadPrompt,
+    tokens,
   };
 
   return (

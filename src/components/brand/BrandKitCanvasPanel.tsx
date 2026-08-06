@@ -131,7 +131,12 @@ export function BrandKitCanvasPanel() {
                   : "flex-start",
           }}
         >
-          <CanvasQrPlate tokens={tokens} qrSrc={null} widthPercent={28} />
+          <CanvasQrPlate
+            tokens={tokens}
+            qrSrc={null}
+            widthPercent={28}
+            accentColor={brandKit.secondaryColor}
+          />
         </div>
         {tokens.surface === "duotone" ? (
           <p

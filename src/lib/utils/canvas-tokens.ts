@@ -324,6 +324,29 @@ export function walletContentGapPx(
   return Math.max(4, Math.round(tokens.gapPx * Math.min(1, ratio + 0.15)));
 }
 
+/**
+ * CSS `clamp()` rem/vmin string scaled by Brand Kit typeScale.
+ * Used by board-banner / trim rails where absolute px sizes fight strip height.
+ */
+export function clampTypeRem(
+  tokens: CanvasTokens | undefined,
+  minRem: number,
+  vmin: number,
+  maxRem: number,
+): string {
+  const s = tokens ? typeScaleFactor(tokens) : 1;
+  const f = (n: number) => (n * s).toFixed(3);
+  return `clamp(${f(minRem)}rem, ${f(vmin)}vmin, ${f(maxRem)}rem)`;
+}
+
+/** Horizontal padding % for board-banner / trim content rows. */
+export function bannerPadPercent(tokens: CanvasTokens | undefined): number {
+  if (!tokens) return 4;
+  if (tokens.density === "tight") return 3;
+  if (tokens.density === "roomy") return 5;
+  return 4;
+}
+
 /** Preview type scale for Document Generator OfficePresetMock (CSS silhouette). */
 export interface OfficeMockTypography {
   headerTitlePx: number;

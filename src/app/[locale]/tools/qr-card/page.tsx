@@ -561,6 +561,7 @@ function QrCardPageContent() {
                         qrSrc={qrSrc}
                         alt=""
                         widthPercent={qrPlatePercent}
+                        accentColor={state.secondaryColor}
                       />
                       {state.tagline.trim() ? (
                         <p

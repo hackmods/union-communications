@@ -528,6 +528,7 @@ export default function ActionCardPage() {
                         qrSrc={qrSrc}
                         alt=""
                         widthPercent={qrPlatePercent}
+                        accentColor={state.secondaryColor}
                       />
                       {state.cta.trim() ? (
                         <p

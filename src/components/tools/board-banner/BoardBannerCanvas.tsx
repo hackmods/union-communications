@@ -1,8 +1,16 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import { CanvasGrainOverlay } from "@/components/tools/canvas";
 import type { BannerLayoutId } from "@/lib/constants/board-banner-layouts";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
+import {
+  bannerPadPercent,
+  clampTypeRem,
+} from "@/lib/utils/canvas-tokens";
+import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 
@@ -18,6 +26,7 @@ export interface BoardBannerCanvasProps {
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
+  tokens?: CanvasTokens;
   className?: string;
 }
 
@@ -38,6 +47,7 @@ export function BoardBannerCanvas({
   primaryColor,
   secondaryColor,
   accentColor,
+  tokens,
   className,
 }: BoardBannerCanvasProps) {
   const ink = pickContrastingInk(primaryColor);
@@ -50,6 +60,16 @@ export function BoardBannerCanvas({
   const bylineText = byline.trim();
   const showLogo = logoMode !== "none";
   const logoVariant = logoMode === "mark" ? "mark" : "lockup";
+  const padPct = bannerPadPercent(tokens);
+  const titleType: CSSProperties = {
+    fontWeight: tokens?.titleFontWeight ?? 900,
+    letterSpacing: tokens?.titleLetterSpacing ?? "0.04em",
+    textTransform: tokens?.titleTextTransform ?? "uppercase",
+  };
+  const metaType: CSSProperties = {
+    fontWeight: 600,
+    letterSpacing: tokens?.titleLetterSpacing ?? "0.03em",
+  };
 
   if (layout === "slantCallout") {
     return (
@@ -81,18 +101,19 @@ export function BoardBannerCanvas({
           <polygon points="0,0 340,0 400,200 0,200" fill={primaryColor} />
           <polygon points="340,0 400,0 430,200 400,200" fill={accent} />
         </svg>
+        {tokens ? <CanvasGrainOverlay opacity={tokens.grainOpacity * 0.55} /> : null}
 
         <div
           style={{
             position: "relative",
-            zIndex: 1,
+            zIndex: 2,
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
             height: "100%",
             width: "100%",
             boxSizing: "border-box",
-            padding: "0 2.5% 0 0",
+            padding: `0 ${padPct * 0.6}% 0 0`,
           }}
         >
           <div
@@ -103,7 +124,7 @@ export function BoardBannerCanvas({
               alignItems: "center",
               justifyContent: "center",
               gap: "6%",
-              padding: "0 4% 0 3%",
+              padding: `0 ${padPct}% 0 ${padPct * 0.75}%`,
               boxSizing: "border-box",
             }}
           >
@@ -111,10 +132,11 @@ export function BoardBannerCanvas({
               style={{
                 margin: 0,
                 color: ink,
-                fontSize: "clamp(0.75rem, 2.4vmin, 1.35rem)",
-                fontWeight: 800,
+                fontSize: clampTypeRem(tokens, 0.75, 2.4, 1.35),
+                fontWeight: tokens?.titleFontWeight ?? 800,
                 lineHeight: 1.15,
                 textAlign: "center",
+                letterSpacing: tokens?.titleLetterSpacing ?? "0.02em",
               }}
             >
               {calloutText}
@@ -124,9 +146,8 @@ export function BoardBannerCanvas({
                 style={{
                   margin: 0,
                   color: ink,
-                  fontSize: "clamp(0.5rem, 1.4vmin, 0.75rem)",
-                  fontWeight: 600,
-                  letterSpacing: "0.04em",
+                  fontSize: clampTypeRem(tokens, 0.5, 1.4, 0.75),
+                  ...metaType,
                   textAlign: "center",
                   lineHeight: 1.2,
                 }}
@@ -175,9 +196,8 @@ export function BoardBannerCanvas({
                   margin: 0,
                   flex: "0 0 auto",
                   color: secondaryOnPrimary,
-                  fontSize: "clamp(0.9rem, 3.2vmin, 1.85rem)",
-                  fontWeight: 900,
-                  letterSpacing: "0.04em",
+                  fontSize: clampTypeRem(tokens, 0.9, 3.2, 1.85),
+                  ...titleType,
                   whiteSpace: "nowrap",
                 }}
               >
@@ -193,23 +213,45 @@ export function BoardBannerCanvas({
   }
 
   if (layout === "centeredLockup") {
+    const fieldSurface = tokens
+      ? canvasSurfaceStyle(tokens, {
+          primary: primaryColor,
+          secondary: secondaryColor,
+          accent,
+        })
+      : { backgroundColor: primaryColor };
+    const rowJustify =
+      tokens?.alignmentBias === "center"
+        ? "center"
+        : tokens?.alignmentBias === "asymmetric"
+          ? "flex-end"
+          : "space-between";
+
     return (
       <div
         className={className}
         style={{
           boxSizing: "border-box",
+          position: "relative",
           width: "100%",
           height: "100%",
           overflow: "hidden",
-          backgroundColor: primaryColor,
+          ...fieldSurface,
           display: "flex",
           flexDirection: "column",
           fontFamily: "Arial, Helvetica, sans-serif",
         }}
       >
+        {tokens ? <CanvasGrainOverlay opacity={tokens.grainOpacity} /> : null}
         <div
           aria-hidden="true"
-          style={{ height: "12%", backgroundColor: accent, flexShrink: 0 }}
+          style={{
+            height: "12%",
+            backgroundColor: accent,
+            flexShrink: 0,
+            position: "relative",
+            zIndex: 2,
+          }}
         />
         <div
           style={{
@@ -218,9 +260,11 @@ export function BoardBannerCanvas({
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "space-between",
-            padding: "0 4%",
+            justifyContent: rowJustify,
+            padding: `0 ${padPct}%`,
             gap: "3%",
+            position: "relative",
+            zIndex: 2,
           }}
         >
           <div style={{ maxWidth: "30%" }}>
@@ -228,10 +272,10 @@ export function BoardBannerCanvas({
               style={{
                 margin: 0,
                 color: ink,
-                fontSize: "clamp(0.65rem, 2vmin, 1rem)",
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
+                fontSize: clampTypeRem(tokens, 0.65, 2, 1),
+                fontWeight: tokens?.titleFontWeight ?? 700,
+                letterSpacing: tokens?.titleLetterSpacing ?? "0.06em",
+                textTransform: tokens?.titleTextTransform ?? "uppercase",
               }}
             >
               {showLocal ? localLabel : "\u00A0"}
@@ -241,9 +285,8 @@ export function BoardBannerCanvas({
                 style={{
                   margin: "4px 0 0",
                   color: ink,
-                  fontSize: "clamp(0.5rem, 1.4vmin, 0.7rem)",
-                  fontWeight: 600,
-                  letterSpacing: "0.03em",
+                  fontSize: clampTypeRem(tokens, 0.5, 1.4, 0.7),
+                  ...metaType,
                   lineHeight: 1.2,
                 }}
               >
@@ -272,9 +315,8 @@ export function BoardBannerCanvas({
               style={{
                 margin: 0,
                 color: ink,
-                fontSize: "clamp(0.95rem, 3vmin, 1.75rem)",
-                fontWeight: 900,
-                letterSpacing: "0.05em",
+                fontSize: clampTypeRem(tokens, 0.95, 3, 1.75),
+                ...titleType,
                 textAlign: "right",
                 whiteSpace: "nowrap",
               }}
@@ -291,6 +333,8 @@ export function BoardBannerCanvas({
             height: "12%",
             backgroundColor: secondaryColor,
             flexShrink: 0,
+            position: "relative",
+            zIndex: 2,
           }}
         />
       </div>
@@ -303,6 +347,7 @@ export function BoardBannerCanvas({
       className={className}
       style={{
         boxSizing: "border-box",
+        position: "relative",
         width: "100%",
         height: "100%",
         overflow: "hidden",
@@ -315,17 +360,25 @@ export function BoardBannerCanvas({
       <div
         style={{
           flex: "0 0 70%",
-          backgroundColor: primaryColor,
+          position: "relative",
+          ...(tokens
+            ? canvasSurfaceStyle(tokens, {
+                primary: primaryColor,
+                secondary: secondaryColor,
+                accent,
+              })
+            : { backgroundColor: primaryColor }),
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "0 4%",
+          padding: `0 ${padPct}%`,
           gap: "3%",
           minHeight: 0,
         }}
       >
-        <div>
+        {tokens ? <CanvasGrainOverlay opacity={tokens.grainOpacity * 0.7} /> : null}
+        <div style={{ position: "relative", zIndex: 2 }}>
           {showLogo ? (
             <div style={{ maxHeight: "75%", display: "flex", alignItems: "center" }}>
               <BrandLogo
@@ -338,8 +391,9 @@ export function BoardBannerCanvas({
             <span
               style={{
                 color: ink,
-                fontWeight: 700,
-                fontSize: "clamp(0.65rem, 1.8vmin, 0.95rem)",
+                fontWeight: tokens?.titleFontWeight ?? 700,
+                fontSize: clampTypeRem(tokens, 0.65, 1.8, 0.95),
+                letterSpacing: tokens?.titleLetterSpacing ?? "0.02em",
               }}
             >
               {showLocal ? localLabel : "\u00A0"}
@@ -350,9 +404,8 @@ export function BoardBannerCanvas({
               style={{
                 margin: "4px 0 0",
                 color: ink,
-                fontSize: "clamp(0.45rem, 1.2vmin, 0.65rem)",
-                fontWeight: 600,
-                letterSpacing: "0.03em",
+                fontSize: clampTypeRem(tokens, 0.45, 1.2, 0.65),
+                ...metaType,
               }}
             >
               {bylineText}
@@ -363,10 +416,11 @@ export function BoardBannerCanvas({
           <p
             style={{
               margin: 0,
+              position: "relative",
+              zIndex: 2,
               color: ink,
-              fontSize: "clamp(1rem, 3.5vmin, 2rem)",
-              fontWeight: 900,
-              letterSpacing: "0.06em",
+              fontSize: clampTypeRem(tokens, 1, 3.5, 2),
+              ...titleType,
               whiteSpace: "nowrap",
             }}
           >
@@ -378,8 +432,7 @@ export function BoardBannerCanvas({
         aria-hidden="true"
         style={{
           flex: 1,
-          minHeight: 0,
-          backgroundColor: accent,
+          backgroundColor: secondaryColor,
         }}
       />
     </div>

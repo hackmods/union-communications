@@ -364,7 +364,12 @@ export default function SolidarityPosterPage() {
           className="shrink-0 self-center"
           style={{ width: qrPx, maxWidth: "100%" }}
         >
-          <CanvasQrPlate tokens={tokens} qrSrc={qrSrc} alt="" />
+          <CanvasQrPlate
+            tokens={tokens}
+            qrSrc={qrSrc}
+            alt=""
+            accentColor={state.secondaryColor}
+          />
         </div>
       ) : null}
     </div>

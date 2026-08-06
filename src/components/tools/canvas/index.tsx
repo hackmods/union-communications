@@ -6,6 +6,7 @@ import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import {
   flexAlignFromBias,
   textAlignFromBias,
+  typeScaleFactor,
 } from "@/lib/utils/canvas-tokens";
 import { grainOverlayStyle } from "@/lib/utils/canvas-surface";
 import {
@@ -15,6 +16,7 @@ import {
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveLocalNumber } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import { hexToRgba } from "@/lib/utils/contrast";
 
 export function CanvasGrainOverlay({
   opacity,
@@ -137,6 +139,8 @@ export function CanvasQrPlate({
   qrSrc,
   alt = "",
   widthPercent,
+  /** Brand accent for plate chrome only — never tints QR modules. */
+  accentColor,
   className,
 }: {
   tokens: CanvasTokens;
@@ -144,13 +148,29 @@ export function CanvasQrPlate({
   alt?: string;
   /** Width of plate as % of parent */
   widthPercent?: number;
+  accentColor?: string;
   className?: string;
 }) {
+  const scale = typeScaleFactor(tokens);
+  const pad = Math.max(
+    2,
+    Math.round(tokens.qrPlatePaddingPx * Math.min(1.15, Math.max(0.85, scale))),
+  );
+  const tintedBorder =
+    accentColor && tokens.qrPlate !== "flush"
+      ? `2px solid ${hexToRgba(accentColor, 0.45)}`
+      : tokens.qrPlateBorder;
   const plateStyle: CSSProperties = {
     backgroundColor: tokens.qrPlateBg,
     borderRadius: tokens.qrPlateRadiusPx,
-    padding: tokens.qrPlatePaddingPx,
-    border: tokens.qrPlateBorder ?? undefined,
+    padding: pad,
+    border: tintedBorder ?? undefined,
+    boxShadow:
+      tokens.qrPlate === "white-card"
+        ? "0 2px 10px rgba(0,0,0,0.14)"
+        : tokens.qrPlate === "inset"
+          ? "inset 0 0 0 1px rgba(0,0,0,0.06)"
+          : undefined,
     width: widthPercent != null ? `${widthPercent}%` : undefined,
     maxWidth: "100%",
   };

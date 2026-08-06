@@ -62,6 +62,11 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 | Quote Card (`QuoteLayout` tokens) | done |
 | Phase 3 — layout matrix tokenization (`typeScale` / `density` / `asymmetric`) | done |
 | Phase 4 — wallet family + Notice + Pulse type chrome | done |
+| Phase 5 — remaining tools + QR plate chrome | done |
+| Board Banner / Trim | done |
+| Logo Builder (`LocalLogoPlate`) | done |
+| Omnichannel Resizer | done |
+| Website Template (CSS knobs) | done |
 
 ### Phase 3 notes
 
@@ -78,6 +83,13 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 - QR Card + Action Card: type / pad / gap / alignment bias (QR plate stays centered)
 - Graphic `notice`: surface + grain + pad / type / header justify from tokens
 - Pulse Poll: surface + wallet type/pad; Meeting `side-panel`: token pad (`bandPadPx`)
+
+### Phase 5 notes
+
+- Board Banner + Trim: `clampTypeRem` / `bannerPadPercent`; surface/grain on lockup & stripe layouts
+- Logo Builder / Resizer: `LocalLogoPlate` + frame surfaces take canvas tokens
+- Website ZIP/preview CSS: optional `canvas` surface / typeScale / density
+- `CanvasQrPlate`: soft shadow + optional accent-tinted border (modules stay black/white)
 
 ## Agent contract
 

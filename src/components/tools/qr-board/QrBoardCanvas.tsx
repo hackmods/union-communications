@@ -197,6 +197,7 @@ export function QrBoardCanvas({
                         tokens={tokens}
                         qrSrc={slot.qrSrc}
                         alt=""
+                        accentColor={secondaryColor}
                       />
                     </div>
                   ) : slot.qrSrc ? (

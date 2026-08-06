@@ -1,5 +1,11 @@
 # Progress Log
 
+## Comms visual system phase 5 (2026-08-06)
+
+- [x] Board Banner / Trim type + surface tokens; Logo Builder + Resizer `LocalLogoPlate` / frames
+- [x] Website template CSS knobs from Brand Kit canvas; QR plate accent border + shadow (modules B/W)
+- [x] Helpers `clampTypeRem` / `bannerPadPercent` + unit/Website CSS tests
+
 ## Comms visual system phase 4 (2026-08-06)
 
 - [x] Wallet helpers (`walletTitle*` / pad / gap) + QR Card / Action Card type chrome

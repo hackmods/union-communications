@@ -22,6 +22,7 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { WebsitePreviewFrame } from "@/components/tools/WebsitePreviewFrame";
 import { Callout } from "@/components/ui/Callout";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 
 const LOGO_FILE_NAME = "logo.png";
 
@@ -59,6 +60,7 @@ export default function WebsiteTemplatePage() {
   const [officers, setOfficers] = useState<WebsiteOfficer[]>(DEFAULT_WEBSITE_OFFICERS);
   const logoPreviewSrc = resolveBrandLogoSrc(brandKit);
   const includeOpseuResources = brandKit.unionPresetId === "opseu";
+  const canvasTokens = resolveCanvasTokens(brandKit);
 
   const templateData: WebsiteTemplateData = useMemo(
     () => ({
@@ -77,6 +79,13 @@ export default function WebsiteTemplatePage() {
       logoPreviewSrc,
       logoAlt: unionName,
       includeOpseuResources,
+      canvas: brandKit.canvas
+        ? {
+            surface: canvasTokens.surface,
+            typeScale: canvasTokens.typeScale,
+            density: canvasTokens.density,
+          }
+        : undefined,
     }),
     [
       localNumber,
@@ -89,6 +98,10 @@ export default function WebsiteTemplatePage() {
       officeAddress,
       brandKit.primaryColor,
       brandKit.secondaryColor,
+      brandKit.canvas,
+      canvasTokens.surface,
+      canvasTokens.typeScale,
+      canvasTokens.density,
       officers,
       logoPreviewSrc,
       includeOpseuResources,

@@ -88,6 +88,17 @@ describe("generate-website-zip", () => {
     expect(css).toContain(".footer {\n  background: var(--color-primary);");
   });
 
+  it("scales hero and type from Brand Kit canvas knobs", () => {
+    const css = buildWebsiteCss("#003DA5", "#C8102E", {
+      surface: "soft-gradient",
+      typeScale: "display",
+      density: "tight",
+    });
+    expect(css).toContain("linear-gradient(160deg, #003DA5 0%, #C8102E 100%)");
+    expect(css).toContain("--font-size-h1: 3.36rem");
+    expect(css).toContain("--spacing-4: 1.32rem");
+  });
+
   it("builds preview HTML with inline styles and logo preview src", () => {
     const preview = buildPreviewHtml(sampleData);
     expect(preview).toContain("<style>");

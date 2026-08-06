@@ -15,6 +15,8 @@ import {
   walletContentPaddingPx,
   walletMetaFontSizePx,
   walletTitleFontSizePx,
+  bannerPadPercent,
+  clampTypeRem,
 } from "./canvas-tokens";
 
 describe("normalizeBrandKitCanvas", () => {
@@ -249,6 +251,59 @@ describe("wallet chrome helpers", () => {
     expect(walletContentPaddingPx(tokens, letterPreviewPx)).toBeGreaterThan(
       walletContentPaddingPx(tokens, compactPreviewPx),
     );
+  });
+});
+
+describe("banner clamp helpers", () => {
+  it("clampTypeRem grows with display typeScale", () => {
+    const display = clampTypeRem(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { typeScale: "display" },
+        }),
+      ),
+      1,
+      2,
+      3,
+    );
+    const dense = clampTypeRem(
+      resolveCanvasTokens(
+        normalizeBrandKit({
+          ...DEFAULT_BRAND_KIT,
+          canvas: { typeScale: "dense" },
+        }),
+      ),
+      1,
+      2,
+      3,
+    );
+    expect(display).toContain("rem");
+    expect(display).not.toEqual(dense);
+  });
+
+  it("bannerPadPercent follows density", () => {
+    expect(bannerPadPercent(undefined)).toBe(4);
+    expect(
+      bannerPadPercent(
+        resolveCanvasTokens(
+          normalizeBrandKit({
+            ...DEFAULT_BRAND_KIT,
+            canvas: { density: "tight" },
+          }),
+        ),
+      ),
+    ).toBe(3);
+    expect(
+      bannerPadPercent(
+        resolveCanvasTokens(
+          normalizeBrandKit({
+            ...DEFAULT_BRAND_KIT,
+            canvas: { density: "roomy" },
+          }),
+        ),
+      ),
+    ).toBe(5);
   });
 });
 

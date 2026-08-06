@@ -15,6 +15,7 @@ import {
 import { nodesToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
+import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import {
   BOARD_SHEET_FORMATS,
   DEFAULT_BOARD_SHEET,
@@ -157,6 +158,7 @@ export default function BoardBannerPage() {
   const localLabel = brandKit.local.subText
     ? `Local ${localNum} - ${brandKit.local.subText}`
     : `Local ${localNum}`;
+  const tokens = resolveCanvasTokens(brandKit);
   const usesCallout = bannerLayoutUsesCallout(state.layout);
   const stripHeightInches =
     STRIP_HEIGHT_PRESETS[state.stripHeightId].heightInches;
@@ -208,6 +210,7 @@ export default function BoardBannerPage() {
       primaryColor={state.primaryColor}
       secondaryColor={state.secondaryColor}
       accentColor={state.accentColor}
+      tokens={tokens}
       {...ornamentProps}
     />
   );
@@ -223,6 +226,7 @@ export default function BoardBannerPage() {
         accentColor={state.accentColor}
         localNumber={localNum}
         edgeWidthInches={edgeWidthInches}
+        tokens={tokens}
         accessibleName={t("trimCanvasAccessibleName", {
           piece: t(trimPieceById(piece).labelKey),
           color: state.primaryColor,
