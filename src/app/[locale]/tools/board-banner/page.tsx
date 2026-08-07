@@ -59,6 +59,7 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 
 interface BoardBannerState {
@@ -423,8 +424,8 @@ export default function BoardBannerPage() {
           color: state.primaryColor,
         })}
         form={
-          <Card density="compact" className="space-y-3">
-            <div>
+          <Card density="compact" className="space-y-5">
+            <section className="space-y-3">
               <SegControl
                 label={t("mode")}
                 value={state.mode}
@@ -440,58 +441,76 @@ export default function BoardBannerPage() {
                 onChange={(mode) => setState({ ...state, mode })}
               />
               {state.mode === "trim" ? (
-                <p className="mt-2 text-xs text-gray-500">{t("trimModeHint")}</p>
+                <p className="text-sm leading-snug text-gray-600">
+                  {t("trimModeHint")}
+                </p>
               ) : null}
-            </div>
+            </section>
 
             {state.mode === "trim" ? (
-              <div>
-                <p className="mb-1.5 text-sm font-medium text-gray-700" id="trim-label">
-                  {t("frameKit")}
-                </p>
-                <div
-                  className="flex flex-wrap gap-2"
-                  role="group"
-                  aria-labelledby="trim-label"
-                >
-                  {(
-                    ["top", "side", "bottom", "corner"] as const
-                  ).map((piece) => (
-                    <TogglePill
-                      key={piece}
-                      pressed={state.trimKit[piece]}
-                      onClick={() => onKitPieceClick(piece)}
-                    >
-                      {t(trimPieceById(piece).labelKey)}
-                    </TogglePill>
-                  ))}
-                </div>
-                <p className="mt-2 text-xs text-gray-500">{t("frameKitHint")}</p>
-
-                <div className="mt-4">
-                  <SegControl
-                    label={t("previewPiece")}
-                    value={trimFocus}
-                    options={kitPieces.map((piece) => ({
-                      value: piece,
-                      label: t(trimPieceById(piece).labelKey),
-                    }))}
-                    onChange={(piece) =>
-                      setState({ ...state, trimFocus: piece })
-                    }
-                  />
-                </div>
-                <p className="mt-2 text-xs text-gray-500">{activeHint}</p>
-                {kitSummary ? (
-                  <p className="mt-1 text-xs font-medium text-opseu-dark">
-                    {kitSummary}
+              <section
+                className="space-y-4 border-t border-gray-200 pt-5"
+                aria-labelledby="trim-label"
+              >
+                <div className="space-y-2">
+                  <p
+                    className="text-sm font-semibold text-opseu-dark"
+                    id="trim-label"
+                  >
+                    {t("frameKit")}
                   </p>
-                ) : null}
-              </div>
+                  <div
+                    className="flex flex-wrap gap-2"
+                    role="group"
+                    aria-labelledby="trim-label"
+                  >
+                    {(
+                      ["top", "side", "bottom", "corner"] as const
+                    ).map((piece) => (
+                      <TogglePill
+                        key={piece}
+                        pressed={state.trimKit[piece]}
+                        onClick={() => onKitPieceClick(piece)}
+                      >
+                        {t(trimPieceById(piece).labelKey)}
+                      </TogglePill>
+                    ))}
+                  </div>
+                  {kitSummary ? (
+                    <p className="text-sm font-medium text-opseu-dark">
+                      {kitSummary}
+                    </p>
+                  ) : null}
+                  <p className="text-sm leading-snug text-gray-600">
+                    {t("frameKitHint")}
+                  </p>
+                </div>
+
+                <SegControl
+                  label={t("previewPiece")}
+                  value={trimFocus}
+                  options={kitPieces.map((piece) => ({
+                    value: piece,
+                    label: t(trimPieceById(piece).labelKey),
+                  }))}
+                  onChange={(piece) =>
+                    setState({ ...state, trimFocus: piece })
+                  }
+                />
+              </section>
             ) : null}
 
             {showBannerArt ? (
-              <div>
+              <section
+                className="space-y-3 border-t border-gray-200 pt-5"
+                aria-labelledby="banner-design-label"
+              >
+                <p
+                  className="text-sm font-semibold text-opseu-dark"
+                  id="banner-design-label"
+                >
+                  {t("bannerDesign")}
+                </p>
                 <SegControl
                   label={t("layout")}
                   value={state.layout}
@@ -502,38 +521,37 @@ export default function BoardBannerPage() {
                   onChange={(layout) => setState({ ...state, layout })}
                 />
                 {state.mode === "banner" ? (
-                  <p className="mt-2 text-xs text-gray-500">{activeHint}</p>
+                  <p className="text-sm leading-snug text-gray-600">
+                    {activeHint}
+                  </p>
                 ) : null}
-              </div>
+                {usesCallout ? (
+                  <Input
+                    label={t("callout")}
+                    value={state.callout}
+                    onChange={(e) =>
+                      setState({ ...state, callout: e.target.value })
+                    }
+                  />
+                ) : null}
+              </section>
             ) : null}
 
-            {showBannerArt && usesCallout ? (
-              <Input
-                label={t("callout")}
-                value={state.callout}
-                onChange={(e) =>
-                  setState({ ...state, callout: e.target.value })
-                }
-              />
-            ) : null}
-
-            <fieldset className="space-y-3 border-t border-gray-100 pt-4">
-              <legend className="text-sm font-medium text-opseu-dark">
-                {t("ornaments")}
-              </legend>
-              <p className="text-xs text-gray-500">{t("ornamentsHint")}</p>
-
-              <label className="flex items-center gap-2 text-sm">
+            <ToolFormDetails title={t("ornaments")}>
+              <p className="text-sm leading-snug text-gray-600">
+                {t("ornamentsHint")}
+              </p>
+              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
                 <input
                   type="checkbox"
                   checked={state.showLocal}
                   onChange={(e) =>
                     setState({ ...state, showLocal: e.target.checked })
                   }
+                  className="size-4"
                 />
                 {t("showLocal")}
               </label>
-
               <SegControl
                 label={t("logoMode")}
                 value={state.logoMode}
@@ -549,14 +567,14 @@ export default function BoardBannerPage() {
                 }))}
                 onChange={(logoMode) => setState({ ...state, logoMode })}
               />
-
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
                 <input
                   type="checkbox"
                   checked={state.showByline}
                   onChange={(e) =>
                     setState({ ...state, showByline: e.target.checked })
                   }
+                  className="size-4"
                 />
                 {t("showByline")}
               </label>
@@ -570,10 +588,56 @@ export default function BoardBannerPage() {
                   placeholder={t("bylinePlaceholder")}
                 />
               ) : null}
-            </fieldset>
+            </ToolFormDetails>
+
+            <ToolFormDetails title={t("sectionPrintSize")}>
+              {(state.mode === "banner" ||
+                state.trimKit.top ||
+                state.trimKit.bottom) && (
+                <SegControl
+                  label={t("stripHeight")}
+                  value={state.stripHeightId}
+                  options={stripHeightPresets().map((p) => ({
+                    value: p.id,
+                    label: t(p.labelKey),
+                  }))}
+                  onChange={(stripHeightId) =>
+                    setState({ ...state, stripHeightId })
+                  }
+                />
+              )}
+              {state.mode === "trim" &&
+                (state.trimKit.side || state.trimKit.corner) && (
+                  <SegControl
+                    label={t("edgeWidth")}
+                    value={state.edgeWidthId}
+                    options={edgeWidthPresets().map((p) => ({
+                      value: p.id,
+                      label: t(p.labelKey),
+                    }))}
+                    onChange={(edgeWidthId) =>
+                      setState({ ...state, edgeWidthId })
+                    }
+                  />
+                )}
+              <div className="space-y-2">
+                <SegControl
+                  label={t("sheetSize")}
+                  value={sheetId}
+                  options={boardSheetFormats().map((f) => ({
+                    value: f.id,
+                    label: t(f.labelKey),
+                  }))}
+                  onChange={setSheetId}
+                />
+                <p className="text-sm leading-snug text-gray-600">
+                  {t("packHint")}
+                </p>
+              </div>
+            </ToolFormDetails>
 
             {!themeEstablished ? (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm leading-snug text-gray-600">
                 {t("setupBrandPrompt")}{" "}
                 <Link href="/onboarding" className="text-opseu-blue underline">
                   {t("setupBrandLink")}
@@ -581,99 +645,58 @@ export default function BoardBannerPage() {
               </p>
             ) : null}
 
-            {(state.mode === "banner" ||
-              state.trimKit.top ||
-              state.trimKit.bottom) && (
-              <SegControl
-                label={t("stripHeight")}
-                value={state.stripHeightId}
-                options={stripHeightPresets().map((p) => ({
-                  value: p.id,
-                  label: t(p.labelKey),
-                }))}
-                onChange={(stripHeightId) =>
-                  setState({ ...state, stripHeightId })
+            <ToolFormDetails title={t("sectionColours")}>
+              <ThemePicker
+                primaryColor={state.primaryColor}
+                secondaryColor={state.secondaryColor}
+                onPrimaryChange={(primaryColor) =>
+                  setState({ ...state, primaryColor })
+                }
+                onSecondaryChange={(secondaryColor) =>
+                  setState({ ...state, secondaryColor })
                 }
               />
-            )}
-
-            {state.mode === "trim" &&
-              (state.trimKit.side || state.trimKit.corner) && (
-                <SegControl
-                  label={t("edgeWidth")}
-                  value={state.edgeWidthId}
-                  options={edgeWidthPresets().map((p) => ({
-                    value: p.id,
-                    label: t(p.labelKey),
-                  }))}
-                  onChange={(edgeWidthId) =>
-                    setState({ ...state, edgeWidthId })
+              <div>
+                <label
+                  htmlFor="banner-accent"
+                  className="mb-1.5 block text-sm font-medium text-gray-700"
+                >
+                  {t("accentColor")}
+                </label>
+                <input
+                  id="banner-accent"
+                  type="color"
+                  value={state.accentColor}
+                  onChange={(e) =>
+                    setState({ ...state, accentColor: e.target.value })
                   }
+                  className="h-11 w-full cursor-pointer rounded-md border border-gray-300"
                 />
-              )}
+              </div>
+            </ToolFormDetails>
 
-            <div>
-              <SegControl
-                label={t("sheetSize")}
-                value={sheetId}
-                options={boardSheetFormats().map((f) => ({
-                  value: f.id,
-                  label: t(f.labelKey),
-                }))}
-                onChange={setSheetId}
+            <div className="space-y-3 border-t border-gray-200 pt-5">
+              <UndoRedoBar
+                canUndo={canUndo}
+                canRedo={canRedo}
+                onUndo={undo}
+                onRedo={redo}
+                onReset={resetState}
               />
-              <p className="mt-2 text-xs text-gray-500">{t("packHint")}</p>
-            </div>
-
-            <ThemePicker
-              primaryColor={state.primaryColor}
-              secondaryColor={state.secondaryColor}
-              onPrimaryChange={(primaryColor) =>
-                setState({ ...state, primaryColor })
-              }
-              onSecondaryChange={(secondaryColor) =>
-                setState({ ...state, secondaryColor })
-              }
-            />
-
-            <div>
-              <label
-                htmlFor="banner-accent"
-                className="mb-1 block text-sm font-medium text-gray-700"
-              >
-                {t("accentColor")}
-              </label>
-              <input
-                id="banner-accent"
-                type="color"
-                value={state.accentColor}
-                onChange={(e) =>
-                  setState({ ...state, accentColor: e.target.value })
-                }
-                className="h-10 w-full cursor-pointer rounded-md border border-gray-300"
-              />
-            </div>
-
-            <UndoRedoBar
-              canUndo={canUndo}
-              canRedo={canRedo}
-              onUndo={undo}
-              onRedo={redo}
-              onReset={resetState}
-            />
-            <div className="flex gap-3">
-              <Button onClick={handleExportPng} disabled={exporting}>
-                {state.mode === "trim" && kitPieces.length > 1
-                  ? tc("downloadZip")
-                  : tc("downloadPng")}
-              </Button>
-              <Button
-                variant="outline"
-                onClick={handleExportPdf}
-                disabled={exporting}
-              >
-                {tc("downloadPdf")}
-              </Button>
+              <div className="flex flex-wrap gap-3">
+                <Button onClick={handleExportPng} disabled={exporting}>
+                  {state.mode === "trim" && kitPieces.length > 1
+                    ? tc("downloadZip")
+                    : tc("downloadPng")}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={handleExportPdf}
+                  disabled={exporting}
+                >
+                  {tc("downloadPdf")}
+                </Button>
+              </div>
             </div>
           </Card>
         }
@@ -695,10 +718,10 @@ export default function BoardBannerPage() {
         }
         preview={
           <div>
-            <p className="mb-1 text-sm font-medium text-gray-700">
+            <p className="mb-1 text-sm font-semibold text-opseu-dark">
               {t("designPreview")}
             </p>
-            <p className="mb-2 text-xs text-gray-500">
+            <p className="mb-3 text-sm leading-snug text-gray-600">
               {state.mode === "trim" && trimFocus === "top"
                 ? t("topDesignHint")
                 : state.mode === "trim" && trimFocus === "side"
@@ -721,10 +744,10 @@ export default function BoardBannerPage() {
         }
         previewSecondary={
           <div>
-            <p className="mb-1 text-sm font-medium text-gray-700">
+            <p className="mb-1 text-sm font-semibold text-opseu-dark">
               {t("printSheet")}
             </p>
-            <p className="mb-2 text-xs text-gray-500">
+            <p className="mb-3 text-sm leading-snug text-gray-600">
               {state.mode === "trim" && kitPieces.length > 1
                 ? t("kitPackSummary", {
                     count: packCount,
@@ -750,7 +773,9 @@ export default function BoardBannerPage() {
                 />
               </div>
             </div>
-            <p className="mt-2 text-xs text-gray-500">{t("cutGuideHint")}</p>
+            <p className="mt-3 text-sm leading-snug text-gray-600">
+              {t("cutGuideHint")}
+            </p>
           </div>
         }
         footer={
