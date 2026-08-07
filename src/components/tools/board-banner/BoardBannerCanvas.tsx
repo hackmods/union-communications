@@ -52,9 +52,6 @@ export function BoardBannerCanvas({
 }: BoardBannerCanvasProps) {
   const ink = pickContrastingInk(primaryColor);
   const accent = accentColor || secondaryColor;
-  const secondaryOnPrimary = meetsWcagAA(secondaryColor, primaryColor, true)
-    ? secondaryColor
-    : ink;
   const localDisplay = `LOCAL ${localNumber}`;
   const calloutText = callout.trim() || "Did you know?";
   const bylineText = byline.trim();
@@ -72,6 +69,12 @@ export function BoardBannerCanvas({
   };
 
   if (layout === "slantCallout") {
+    // SVG blue ends ~34–40%; accent band to ~43%. Keep callout in blue and
+    // start logo/LOCAL on solid white past the slant (see board-banner.mdc).
+    const localOnWhite = meetsWcagAA(primaryColor, "#FFFFFF", true)
+      ? primaryColor
+      : pickContrastingInk("#FFFFFF");
+
     return (
       <div
         className={className}
@@ -118,13 +121,13 @@ export function BoardBannerCanvas({
         >
           <div
             style={{
-              flex: "0 0 34%",
+              flex: "0 0 32%",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               gap: "6%",
-              padding: `0 ${padPct}% 0 ${padPct * 0.75}%`,
+              padding: `0 ${padPct * 0.5}% 0 ${padPct * 0.75}%`,
               boxSizing: "border-box",
             }}
           >
@@ -157,6 +160,9 @@ export function BoardBannerCanvas({
             ) : null}
           </div>
 
+          {/* Clears primary slant + accent stripe so lockup never straddles blue/white */}
+          <span aria-hidden="true" style={{ flex: "0 0 14%" }} />
+
           <div
             style={{
               flex: 1,
@@ -166,7 +172,6 @@ export function BoardBannerCanvas({
               alignItems: "center",
               justifyContent: "space-between",
               gap: "3%",
-              paddingLeft: "2%",
               height: "100%",
               boxSizing: "border-box",
             }}
@@ -175,16 +180,18 @@ export function BoardBannerCanvas({
               <div
                 style={{
                   flex: "0 1 auto",
-                  maxWidth: "36%",
-                  maxHeight: "70%",
+                  maxWidth: "48%",
+                  maxHeight: "68%",
                   display: "flex",
                   alignItems: "center",
+                  overflow: "hidden",
                 }}
               >
                 <BrandLogo
                   size="md"
                   backgroundColor="#FFFFFF"
                   variantOverride={logoVariant}
+                  className="max-h-full w-auto max-w-full object-contain object-left"
                 />
               </div>
             ) : (
@@ -195,7 +202,7 @@ export function BoardBannerCanvas({
                 style={{
                   margin: 0,
                   flex: "0 0 auto",
-                  color: secondaryOnPrimary,
+                  color: localOnWhite,
                   fontSize: clampTypeRem(tokens, 0.9, 3.2, 1.85),
                   ...titleType,
                   whiteSpace: "nowrap",

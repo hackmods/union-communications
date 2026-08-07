@@ -42,3 +42,8 @@ One Ornaments section applies to both modes:
 
 ## Capture-safe colours
 Follow `.cursor/rules/comms-module.mdc`: inline hex inside capture nodes; `pickContrastingInk` / `BrandLogo backgroundColor={…}`; keep UI shadows outside `canvasRef`.
+
+## Slant callout placement
+- Lockup / LOCAL live on the **white** field only — never straddle the blue→white slant
+- Leave a gutter past the SVG accent stripe (~43% of strip width) before logo
+- LOCAL ink contrasts against `#FFFFFF` (prefer primary when AA); do not reuse secondary-on-primary
