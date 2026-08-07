@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type ToolFormDetailsProps = {
@@ -23,9 +23,14 @@ export function ToolFormDetails({
   defaultOpen = false,
   className,
 }: ToolFormDetailsProps) {
+  const [open, setOpen] = useState(defaultOpen);
+
   return (
     <details
-      defaultOpen={defaultOpen}
+      open={open}
+      onToggle={(e) => {
+        setOpen((e.currentTarget as HTMLDetailsElement).open);
+      }}
       className={cn(
         "group rounded-lg border border-gray-200 bg-gray-50/60 open:bg-white",
         className,

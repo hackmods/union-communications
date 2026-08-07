@@ -47,6 +47,7 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 
 interface BackgroundState {
@@ -794,189 +795,212 @@ export default function MeetingBackgroundPage() {
         ) : null
       }
       form={
-        <Card density="compact" className="space-y-3">
-          <div>
-            <label
-              htmlFor="meeting-preset"
-              className="mb-1 block text-sm font-medium"
-            >
-              {t("preset")}
-            </label>
-            <select
-              id="meeting-preset"
-              value={state.presetId}
-              onChange={(e) => applyPreset(e.target.value)}
-              className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
-            >
-              {MEETING_BACKGROUND_PRESETS.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.label}
-                </option>
-              ))}
-            </select>
-          </div>
+        <Card density="compact" className="space-y-5">
+          <section className="space-y-3">
+            <div>
+              <label
+                htmlFor="meeting-preset"
+                className="mb-1.5 block text-sm font-medium text-gray-700"
+              >
+                {t("preset")}
+              </label>
+              <select
+                id="meeting-preset"
+                value={state.presetId}
+                onChange={(e) => applyPreset(e.target.value)}
+                className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
+              >
+                {MEETING_BACKGROUND_PRESETS.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <Input
-            label={t("leadIn")}
-            value={state.leadIn}
-            onChange={(e) => setState({ ...state, leadIn: e.target.value })}
-          />
-          <div>
-            <label
-              htmlFor="meeting-headline"
-              className="mb-1 block text-sm font-medium"
-            >
-              {t("headline")}
-            </label>
-            <textarea
-              id="meeting-headline"
-              value={state.headline}
-              onChange={(e) => setState({ ...state, headline: e.target.value })}
-              rows={3}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 font-semibold uppercase"
+            <Input
+              label={t("leadIn")}
+              value={state.leadIn}
+              onChange={(e) => setState({ ...state, leadIn: e.target.value })}
             />
-            <p className="mt-1 text-xs text-gray-500">{t("headlineHint")}</p>
-          </div>
-          <Input
-            label={t("closer")}
-            value={state.closer}
-            onChange={(e) => setState({ ...state, closer: e.target.value })}
-          />
+            <div>
+              <label
+                htmlFor="meeting-headline"
+                className="mb-1.5 block text-sm font-medium text-gray-700"
+              >
+                {t("headline")}
+              </label>
+              <textarea
+                id="meeting-headline"
+                value={state.headline}
+                onChange={(e) =>
+                  setState({ ...state, headline: e.target.value })
+                }
+                rows={3}
+                className="w-full rounded-md border border-gray-300 px-3 py-2 font-semibold uppercase"
+              />
+              <p className="mt-1.5 text-sm leading-snug text-gray-600">
+                {t("headlineHint")}
+              </p>
+            </div>
+            <Input
+              label={t("closer")}
+              value={state.closer}
+              onChange={(e) => setState({ ...state, closer: e.target.value })}
+            />
+          </section>
 
-          <SegControl
-            label={t("design")}
-            value={isPortrait ? "minimal" : designSet}
-            options={[
-              {
-                value: "bold" as const,
-                label: t("designs.bold"),
-                disabled: isPortrait,
-              },
-              { value: "minimal" as const, label: t("designs.minimal") },
-            ]}
-            onChange={handleDesignChange}
-          />
+          <section className="space-y-4 border-t border-gray-200 pt-5">
+            <SegControl
+              label={t("design")}
+              value={isPortrait ? "minimal" : designSet}
+              options={[
+                {
+                  value: "bold" as const,
+                  label: t("designs.bold"),
+                  disabled: isPortrait,
+                },
+                { value: "minimal" as const, label: t("designs.minimal") },
+              ]}
+              onChange={handleDesignChange}
+            />
 
-          <SegControl
-            label={t("orientation")}
-            value={orientation}
-            options={[
-              { value: "landscape" as const, label: t("orientations.landscape") },
-              { value: "portrait" as const, label: t("orientations.portrait") },
-            ]}
-            onChange={handleOrientationChange}
-          />
+            <SegControl
+              label={t("orientation")}
+              value={orientation}
+              options={[
+                {
+                  value: "landscape" as const,
+                  label: t("orientations.landscape"),
+                },
+                {
+                  value: "portrait" as const,
+                  label: t("orientations.portrait"),
+                },
+              ]}
+              onChange={handleOrientationChange}
+            />
 
-          <SegControl
-            label={t("layout")}
-            value={state.layout}
-            options={layoutOptions.map((id) => ({
-              value: id,
-              label: t(`layouts.${id}`),
-            }))}
-            onChange={(layout) => setState({ ...state, layout })}
-          />
+            <SegControl
+              label={t("layout")}
+              value={state.layout}
+              options={layoutOptions.map((id) => ({
+                value: id,
+                label: t(`layouts.${id}`),
+              }))}
+              onChange={(layout) => setState({ ...state, layout })}
+            />
+          </section>
 
-          <div>
-            <p className="mb-1 text-sm font-medium" id="meeting-toggles-label">
-              {t("toggles")}
-            </p>
+          <ToolFormDetails title={t("toggles")}>
             <div
-              className="space-y-2"
+              className="space-y-1"
               role="group"
-              aria-labelledby="meeting-toggles-label"
+              aria-label={t("toggles")}
             >
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
                 <input
                   type="checkbox"
                   checked={state.showLeadIn}
                   onChange={(e) =>
                     setState({ ...state, showLeadIn: e.target.checked })
                   }
+                  className="size-4"
                 />
                 {t("showLeadIn")}
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
                 <input
                   type="checkbox"
                   checked={state.showHeadline}
                   onChange={(e) =>
                     setState({ ...state, showHeadline: e.target.checked })
                   }
+                  className="size-4"
                 />
                 {t("showHeadline")}
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
                 <input
                   type="checkbox"
                   checked={state.showCloser}
                   onChange={(e) =>
                     setState({ ...state, showCloser: e.target.checked })
                   }
+                  className="size-4"
                 />
                 {t("showCloser")}
               </label>
-              <label className="flex items-center gap-2 text-sm">
+              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
                 <input
                   type="checkbox"
                   checked={state.includeBranding}
                   onChange={(e) =>
                     setState({ ...state, includeBranding: e.target.checked })
                   }
+                  className="size-4"
                 />
                 {t("includeBranding")}
               </label>
             </div>
-            <p className="mt-1 text-xs text-gray-500">{t("togglesHint")}</p>
+            <p className="text-sm leading-snug text-gray-600">
+              {t("togglesHint")}
+            </p>
+          </ToolFormDetails>
+
+          <ToolFormDetails title={t("outputSize")}>
+            <SegControl
+              label={t("outputSize")}
+              value={formatId}
+              options={sizeFormats.map((f) => ({
+                value: f.id,
+                label: t(f.labelKey),
+              }))}
+              onChange={setFormatId}
+            />
+            <p className="text-sm leading-snug text-gray-600">
+              {isPortrait ? t("sizeHintPortrait") : t("sizeHint")}
+            </p>
+          </ToolFormDetails>
+
+          <ToolFormDetails title={t("sectionColours")}>
+            <ThemePicker
+              primaryColor={state.primaryColor}
+              secondaryColor={state.secondaryColor}
+              onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
+              onSecondaryChange={(c) =>
+                setState({ ...state, secondaryColor: c })
+              }
+            />
+          </ToolFormDetails>
+
+          <div className="space-y-3 border-t border-gray-200 pt-5">
+            <UndoRedoBar
+              canUndo={canUndo}
+              canRedo={canRedo}
+              onUndo={undo}
+              onRedo={redo}
+              onReset={() => {
+                setFormatId(DEFAULT_MEETING_BACKGROUND_FORMAT);
+                lastLandscapeDesign.current = "bold";
+                reset({
+                  ...initial,
+                  includeBranding: themeEstablished,
+                  primaryColor: brandKit.primaryColor,
+                  secondaryColor: brandKit.secondaryColor,
+                  accentColor: brandKit.accentColor,
+                });
+              }}
+            />
+
+            <Button
+              type="button"
+              onClick={() => void handleExportPng()}
+              disabled={exporting}
+            >
+              {exporting ? tc("exporting") : tc("downloadPng")}
+            </Button>
           </div>
-
-          <SegControl
-            label={t("outputSize")}
-            value={formatId}
-            options={sizeFormats.map((f) => ({
-              value: f.id,
-              label: t(f.labelKey),
-            }))}
-            onChange={setFormatId}
-          />
-          <p className="text-xs text-gray-500">
-            {isPortrait ? t("sizeHintPortrait") : t("sizeHint")}
-          </p>
-
-          <ThemePicker
-            primaryColor={state.primaryColor}
-            secondaryColor={state.secondaryColor}
-            onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
-            onSecondaryChange={(c) =>
-              setState({ ...state, secondaryColor: c })
-            }
-          />
-
-          <UndoRedoBar
-            canUndo={canUndo}
-            canRedo={canRedo}
-            onUndo={undo}
-            onRedo={redo}
-            onReset={() => {
-              setFormatId(DEFAULT_MEETING_BACKGROUND_FORMAT);
-              lastLandscapeDesign.current = "bold";
-              reset({
-                ...initial,
-                includeBranding: themeEstablished,
-                primaryColor: brandKit.primaryColor,
-                secondaryColor: brandKit.secondaryColor,
-                accentColor: brandKit.accentColor,
-              });
-            }}
-          />
-
-          <Button
-            type="button"
-            onClick={() => void handleExportPng()}
-            disabled={exporting}
-          >
-            {exporting ? tc("exporting") : tc("downloadPng")}
-          </Button>
         </Card>
       }
       previewActions={

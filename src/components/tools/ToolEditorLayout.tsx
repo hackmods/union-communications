@@ -145,7 +145,7 @@ export function ToolEditorLayout({
         </div>
       ) : null}
 
-      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] xl:gap-8">
+      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6 xl:grid-cols-[minmax(20rem,1.05fr)_minmax(0,1fr)] xl:gap-8">
         <div
           className={cn(
             "order-2 lg:order-1",

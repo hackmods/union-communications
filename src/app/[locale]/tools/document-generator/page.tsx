@@ -11,6 +11,7 @@ import { Input, Textarea } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useBrandStore } from "@/store/brand-store";
 import {
@@ -409,8 +410,8 @@ function DocumentGeneratorPageContent() {
         ))}
       </div>
 
-      <div className="grid items-start gap-4 lg:grid-cols-2 lg:gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] xl:gap-8">
-        <Card density="compact" className="space-y-3">
+      <div className="grid items-start gap-4 lg:grid-cols-2 lg:gap-6 xl:grid-cols-[minmax(20rem,1.05fr)_minmax(0,1fr)] xl:gap-8">
+        <Card density="compact" className="space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <CardTitle className="text-base">{t("settings")}</CardTitle>
             <UndoRedoBar
@@ -424,7 +425,9 @@ function DocumentGeneratorPageContent() {
             />
           </div>
 
-          <p className="text-sm text-gray-600">{t(preset.blurbKey)}</p>
+          <p className="text-sm leading-snug text-gray-600">
+            {t(preset.blurbKey)}
+          </p>
 
           {/* Mobile a11y preset select */}
           <div className="sm:hidden">
@@ -442,7 +445,31 @@ function DocumentGeneratorPageContent() {
             </Select>
           </div>
 
-          <div className="space-y-2">
+          <section className="space-y-3 border-t border-gray-200 pt-5">
+            <p className="text-sm font-semibold text-opseu-dark">
+              {t("fieldsHeading")}
+            </p>
+            {preset.fields.map((field) =>
+              field.multiline ? (
+                <Textarea
+                  key={field.key}
+                  label={t(field.labelKey)}
+                  rows={3}
+                  value={state.fields[field.key] ?? ""}
+                  onChange={(e) => setField(field.key, e.target.value)}
+                />
+              ) : (
+                <Input
+                  key={field.key}
+                  label={t(field.labelKey)}
+                  value={state.fields[field.key] ?? ""}
+                  onChange={(e) => setField(field.key, e.target.value)}
+                />
+              ),
+            )}
+          </section>
+
+          <ToolFormDetails title={t("sectionBranding")}>
             <Checkbox
               label={t("includeLogo")}
               checked={state.includeLogo}
@@ -451,7 +478,7 @@ function DocumentGeneratorPageContent() {
               }
             />
             {!themeEstablished ? (
-              <p className="text-xs text-gray-500">
+              <p className="text-sm leading-snug text-gray-600">
                 {t("setupBrandPrompt")}{" "}
                 <Link
                   href="/brand-kit"
@@ -461,12 +488,9 @@ function DocumentGeneratorPageContent() {
                 </Link>
               </p>
             ) : null}
-          </div>
+          </ToolFormDetails>
 
-          <fieldset>
-            <legend className="mb-1.5 text-sm font-medium text-gray-700">
-              {t("outputs")}
-            </legend>
+          <ToolFormDetails title={t("outputs")}>
             <div className="flex flex-col gap-1.5">
               {preset.outputs.docx ? (
                 <Checkbox
@@ -509,33 +533,9 @@ function DocumentGeneratorPageContent() {
                 />
               ) : null}
             </div>
-          </fieldset>
+          </ToolFormDetails>
 
-          <div className="space-y-3 border-t border-gray-100 pt-3">
-            <p className="text-sm font-medium text-gray-700">
-              {t("fieldsHeading")}
-            </p>
-            {preset.fields.map((field) =>
-              field.multiline ? (
-                <Textarea
-                  key={field.key}
-                  label={t(field.labelKey)}
-                  rows={3}
-                  value={state.fields[field.key] ?? ""}
-                  onChange={(e) => setField(field.key, e.target.value)}
-                />
-              ) : (
-                <Input
-                  key={field.key}
-                  label={t(field.labelKey)}
-                  value={state.fields[field.key] ?? ""}
-                  onChange={(e) => setField(field.key, e.target.value)}
-                />
-              ),
-            )}
-          </div>
-
-          <div className="flex flex-wrap gap-2 border-t border-gray-100 pt-3">
+          <div className="flex flex-wrap gap-2 border-t border-gray-200 pt-5">
             {preset.outputs.docx ? (
               <Button
                 type="button"

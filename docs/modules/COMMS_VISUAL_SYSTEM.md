@@ -103,6 +103,15 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 - QR / Action Card plain+accentBar modes use `canvasSurfaceStyle`
 - Solidarity split/banner padding + title chrome; Office mock body pad via `officeMockPaddingPx`
 
+### Editor readability (2026-08-07)
+
+- Dense tool side panels use shared `ToolFormDetails` (collapsed by default) so primary choices stay above the fold
+- Board Banner & Trim: ornaments / print size / colours collapse; clearer section hierarchy + readable hint type
+- Meeting Background: toggles / size / colours collapse the same way
+- QR Board: options + colours collapse; title/format/slots stay primary
+- Document Generator: text fields first; branding + ZIP outputs collapse; form column slightly wider at `xl`
+- `ToolEditorLayout` xl grid gives the form column a slight width preference for scannability
+
 ## Agent contract
 
 See [`.cursor/rules/comms-visual-system.mdc`](../../.cursor/rules/comms-visual-system.mdc).

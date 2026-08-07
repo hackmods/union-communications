@@ -497,6 +497,9 @@ export default function BoardBannerPage() {
                     setState({ ...state, trimFocus: piece })
                   }
                 />
+                <p className="text-sm leading-snug text-gray-600">
+                  {activeHint}
+                </p>
               </section>
             ) : null}
 

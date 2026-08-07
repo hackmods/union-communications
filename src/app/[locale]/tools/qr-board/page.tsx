@@ -35,6 +35,7 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { QrBoardCanvas } from "@/components/tools/qr-board/QrBoardCanvas";
 import { QrBoardSlotEditor } from "@/components/tools/qr-board/QrBoardSlotEditor";
@@ -235,56 +236,65 @@ export default function QrBoardPage() {
         ) : null
       }
       form={
-        <Card density="compact" className="space-y-3">
-          <div>
-            <label htmlFor="qr-board-preset" className="mb-1.5 block text-sm font-medium text-gray-700">
-              {t("preset")}
-            </label>
-            <select
-              id="qr-board-preset"
-              value={state.presetId}
-              onChange={(e) => applyPreset(e.target.value)}
-              className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
-            >
-              {QR_BOARD_PRESETS.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {t(`presets.${p.labelKey}`)}
-                </option>
-              ))}
-            </select>
-          </div>
+        <Card density="compact" className="space-y-5">
+          <section className="space-y-3">
+            <div>
+              <label
+                htmlFor="qr-board-preset"
+                className="mb-1.5 block text-sm font-medium text-gray-700"
+              >
+                {t("preset")}
+              </label>
+              <select
+                id="qr-board-preset"
+                value={state.presetId}
+                onChange={(e) => applyPreset(e.target.value)}
+                className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
+              >
+                {QR_BOARD_PRESETS.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {t(`presets.${p.labelKey}`)}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <Input
-            label={t("posterTitle")}
-            value={state.posterTitle}
-            onChange={(e) =>
-              setState({ ...state, posterTitle: e.target.value })
-            }
-          />
-          <Input
-            label={t("posterSubtitle")}
-            value={state.posterSubtitle}
-            onChange={(e) =>
-              setState({ ...state, posterSubtitle: e.target.value })
-            }
-          />
-
-          <div>
-            <SegControl
-              label={t("format")}
-              value={state.formatId}
-              options={QR_BOARD_FORMAT_ORDER.map((id) => ({
-                value: id,
-                label: t(QR_BOARD_FORMATS[id].labelKey),
-              }))}
-              onChange={(formatId) => setState({ ...state, formatId })}
+            <Input
+              label={t("posterTitle")}
+              value={state.posterTitle}
+              onChange={(e) =>
+                setState({ ...state, posterTitle: e.target.value })
+              }
             />
-            <p className="mt-2 text-xs text-gray-500">{t("formatTip")}</p>
-          </div>
+            <Input
+              label={t("posterSubtitle")}
+              value={state.posterSubtitle}
+              onChange={(e) =>
+                setState({ ...state, posterSubtitle: e.target.value })
+              }
+            />
 
-          <div className="space-y-3">
+            <div className="space-y-2">
+              <SegControl
+                label={t("format")}
+                value={state.formatId}
+                options={QR_BOARD_FORMAT_ORDER.map((id) => ({
+                  value: id,
+                  label: t(QR_BOARD_FORMATS[id].labelKey),
+                }))}
+                onChange={(formatId) => setState({ ...state, formatId })}
+              />
+              <p className="text-sm leading-snug text-gray-600">
+                {t("formatTip")}
+              </p>
+            </div>
+          </section>
+
+          <section className="space-y-3 border-t border-gray-200 pt-5">
             <div className="flex items-center justify-between gap-2">
-              <p className="text-sm font-medium text-gray-700">{t("slots")}</p>
+              <p className="text-sm font-semibold text-opseu-dark">
+                {t("slots")}
+              </p>
               <Button
                 type="button"
                 variant="outline"
@@ -295,7 +305,7 @@ export default function QrBoardPage() {
                 {t("addSlot")}
               </Button>
             </div>
-            <p className="text-xs text-gray-500">
+            <p className="text-sm leading-snug text-gray-600">
               {t("slotsHint", {
                 min: QR_BOARD_MIN_SLOTS,
                 max: QR_BOARD_MAX_SLOTS,
@@ -341,80 +351,88 @@ export default function QrBoardPage() {
                 onRemove={() => removeSlot(index)}
               />
             ))}
-          </div>
+          </section>
 
-          <label className="flex min-h-11 items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={state.showUrl}
-              onChange={(e) =>
-                setState({ ...state, showUrl: e.target.checked })
+          <ToolFormDetails title={t("sectionOptions")}>
+            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
+              <input
+                type="checkbox"
+                checked={state.showUrl}
+                onChange={(e) =>
+                  setState({ ...state, showUrl: e.target.checked })
+                }
+                className="size-4"
+              />
+              {t("showUrl")}
+            </label>
+            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
+              <input
+                type="checkbox"
+                checked={state.includeBranding}
+                onChange={(e) =>
+                  setState({ ...state, includeBranding: e.target.checked })
+                }
+                className="size-4"
+              />
+              {t("includeBranding")}
+            </label>
+          </ToolFormDetails>
+
+          <ToolFormDetails title={t("sectionColours")}>
+            <ThemePicker
+              primaryColor={state.primaryColor}
+              secondaryColor={state.secondaryColor}
+              onPrimaryChange={(primaryColor) =>
+                setState({ ...state, primaryColor })
+              }
+              onSecondaryChange={(secondaryColor) =>
+                setState({ ...state, secondaryColor })
               }
             />
-            {t("showUrl")}
-          </label>
-          <label className="flex min-h-11 items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={state.includeBranding}
-              onChange={(e) =>
-                setState({ ...state, includeBranding: e.target.checked })
-              }
+          </ToolFormDetails>
+
+          <div className="space-y-3 border-t border-gray-200 pt-5">
+            <UndoRedoBar
+              onUndo={undo}
+              onRedo={redo}
+              canUndo={canUndo}
+              canRedo={canRedo}
+              onReset={() => {
+                const origin =
+                  typeof window !== "undefined" ? window.location.origin : "";
+                reset({
+                  presetId: first.id,
+                  posterTitle: t(`presets.${first.titleKey}`),
+                  posterSubtitle: t(`presets.${first.subtitleKey}`),
+                  formatId: DEFAULT_QR_BOARD_FORMAT,
+                  slots: buildSlotsFromPreset(first, brandKit, origin, (key) =>
+                    t(`slotTitles.${key}`),
+                  ),
+                  showUrl: true,
+                  includeBranding: themeEstablished,
+                  primaryColor: brandKit.primaryColor,
+                  secondaryColor: brandKit.secondaryColor,
+                });
+              }}
             />
-            {t("includeBranding")}
-          </label>
 
-          <ThemePicker
-            primaryColor={state.primaryColor}
-            secondaryColor={state.secondaryColor}
-            onPrimaryChange={(primaryColor) =>
-              setState({ ...state, primaryColor })
-            }
-            onSecondaryChange={(secondaryColor) =>
-              setState({ ...state, secondaryColor })
-            }
-          />
-
-          <UndoRedoBar
-            onUndo={undo}
-            onRedo={redo}
-            canUndo={canUndo}
-            canRedo={canRedo}
-            onReset={() => {
-              const origin =
-                typeof window !== "undefined" ? window.location.origin : "";
-              reset({
-                presetId: first.id,
-                posterTitle: t(`presets.${first.titleKey}`),
-                posterSubtitle: t(`presets.${first.subtitleKey}`),
-                formatId: DEFAULT_QR_BOARD_FORMAT,
-                slots: buildSlotsFromPreset(first, brandKit, origin, (key) =>
-                  t(`slotTitles.${key}`),
-                ),
-                showUrl: true,
-                includeBranding: themeEstablished,
-                primaryColor: brandKit.primaryColor,
-                secondaryColor: brandKit.secondaryColor,
-              });
-            }}
-          />
-
-          <div className="flex flex-wrap gap-3">
-            <Button
-              type="button"
-              onClick={() => void handleExportPng()}
-              disabled={exporting}
-            >
-              {exporting ? tc("exporting") : tc("downloadPng")}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => void handleExportPdf()}
-              disabled={exporting}
-            >
-              {tc("downloadPdf")}
-            </Button>
+            <div className="flex flex-wrap gap-3">
+              <Button
+                type="button"
+                onClick={() => void handleExportPng()}
+                disabled={exporting}
+              >
+                {exporting ? tc("exporting") : tc("downloadPng")}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => void handleExportPdf()}
+                disabled={exporting}
+              >
+                {tc("downloadPdf")}
+              </Button>
+            </div>
           </div>
         </Card>
       }
