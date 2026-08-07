@@ -43,6 +43,7 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SocialAssetsGallery } from "@/components/tools/resizer/SocialAssetsGallery";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
@@ -460,7 +461,7 @@ export default function ResizerPage() {
           ) : null
         }
         form={
-          <Card density="compact" className="space-y-3">
+          <Card density="compact" className="space-y-5">
             <div className="space-y-2">
               <p className="text-sm font-medium text-opseu-dark">{t("source")}</p>
               <div
@@ -608,24 +609,26 @@ export default function ResizerPage() {
               <p className="text-sm text-gray-600">{t("placementHint")}</p>
             </div>
 
-            <Input
-              label={t("overlayText")}
-              value={state.overlayText}
-              onChange={(e) =>
-                setState({ ...state, overlayText: e.target.value })
-              }
-            />
-
-            <label className="flex items-center gap-2 text-sm text-gray-700">
-              <input
-                type="checkbox"
-                checked={state.showSafeZones}
+            <ToolFormDetails title={tc("sectionOptions")}>
+              <Input
+                label={t("overlayText")}
+                value={state.overlayText}
                 onChange={(e) =>
-                  setState({ ...state, showSafeZones: e.target.checked })
+                  setState({ ...state, overlayText: e.target.value })
                 }
               />
-              {t("showSafeZones")}
-            </label>
+              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
+                <input
+                  type="checkbox"
+                  checked={state.showSafeZones}
+                  onChange={(e) =>
+                    setState({ ...state, showSafeZones: e.target.checked })
+                  }
+                  className="size-4"
+                />
+                {t("showSafeZones")}
+              </label>
+            </ToolFormDetails>
 
             <div className="space-y-2">
               <p className="text-sm font-medium text-opseu-dark">{t("outputSize")}</p>
@@ -696,7 +699,7 @@ export default function ResizerPage() {
               </div>
             ) : null}
 
-            <p className="text-sm text-gray-600">
+            <p className="text-sm leading-snug text-gray-600">
               {t("previewSize", {
                 label: t(format.labelKey),
                 width: format.width,
@@ -704,15 +707,18 @@ export default function ResizerPage() {
               })}
             </p>
 
-            <ThemePicker
-              primaryColor={state.primaryColor}
-              secondaryColor={state.secondaryColor}
-              onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
-              onSecondaryChange={(c) =>
-                setState({ ...state, secondaryColor: c })
-              }
-            />
+            <ToolFormDetails title={tc("sectionColours")}>
+              <ThemePicker
+                primaryColor={state.primaryColor}
+                secondaryColor={state.secondaryColor}
+                onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
+                onSecondaryChange={(c) =>
+                  setState({ ...state, secondaryColor: c })
+                }
+              />
+            </ToolFormDetails>
 
+            <div className="space-y-3 border-t border-gray-200 pt-5">
             <UndoRedoBar
               canUndo={canUndo}
               canRedo={canRedo}
@@ -747,6 +753,7 @@ export default function ResizerPage() {
               >
                 {exporting ? tc("loading") : tc("downloadZip")}
               </Button>
+            </div>
             </div>
           </Card>
         }

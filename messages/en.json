@@ -102,7 +102,10 @@
     "backToEdit": "Back to edit",
     "editHistory": "Edit history",
     "loading": "Loading...",
-    "close": "Close"
+    "close": "Close",
+    "sectionOptions": "Options",
+    "sectionColours": "Colours",
+    "sectionAdvanced": "Advanced"
   },
   "routeUi": {
     "errorTitle": "Something went wrong",

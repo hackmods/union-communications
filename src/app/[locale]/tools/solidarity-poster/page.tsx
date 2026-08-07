@@ -43,6 +43,7 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { inkWithAlpha, mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
@@ -414,7 +415,7 @@ export default function SolidarityPosterPage() {
         ) : null
       }
       form={
-        <Card density="compact" className="space-y-3">
+        <Card density="compact" className="space-y-5">
           <div>
             <label htmlFor="slogan-preset" className="mb-1 block text-sm font-medium">
               {t("preset")}
@@ -541,42 +542,50 @@ export default function SolidarityPosterPage() {
             </div>
           ) : null}
 
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={state.showCta}
-              onChange={(e) => setState({ ...state, showCta: e.target.checked })}
+          <ToolFormDetails title={tc("sectionOptions")}>
+            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
+              <input
+                type="checkbox"
+                checked={state.showCta}
+                onChange={(e) => setState({ ...state, showCta: e.target.checked })}
+                className="size-4"
+              />
+              {t("showCta")}
+            </label>
+
+            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
+              <input
+                type="checkbox"
+                checked={state.showQr}
+                onChange={(e) => setState({ ...state, showQr: e.target.checked })}
+                className="size-4"
+              />
+              {t("showQr")}
+            </label>
+
+            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
+              <input
+                type="checkbox"
+                checked={state.includeBranding}
+                onChange={(e) =>
+                  setState({ ...state, includeBranding: e.target.checked })
+                }
+                className="size-4"
+              />
+              {t("includeBranding")}
+            </label>
+          </ToolFormDetails>
+
+          <ToolFormDetails title={tc("sectionColours")}>
+            <ThemePicker
+              primaryColor={state.primaryColor}
+              secondaryColor={state.secondaryColor}
+              onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
+              onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
             />
-            {t("showCta")}
-          </label>
+          </ToolFormDetails>
 
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={state.showQr}
-              onChange={(e) => setState({ ...state, showQr: e.target.checked })}
-            />
-            {t("showQr")}
-          </label>
-
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={state.includeBranding}
-              onChange={(e) =>
-                setState({ ...state, includeBranding: e.target.checked })
-              }
-            />
-            {t("includeBranding")}
-          </label>
-
-          <ThemePicker
-            primaryColor={state.primaryColor}
-            secondaryColor={state.secondaryColor}
-            onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
-            onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
-          />
-
+          <div className="space-y-3 border-t border-gray-200 pt-5">
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}
@@ -599,7 +608,7 @@ export default function SolidarityPosterPage() {
               })
             }
           />
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <Button onClick={handleExportPng} disabled={exporting}>
               {exporting
                 ? tc("exporting")
@@ -616,6 +625,7 @@ export default function SolidarityPosterPage() {
                 {tc("downloadPdf")}
               </Button>
             ) : null}
+          </div>
           </div>
         </Card>
       }

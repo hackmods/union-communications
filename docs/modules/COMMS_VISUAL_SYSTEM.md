@@ -110,6 +110,9 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 - Meeting Background: toggles / size / colours collapse the same way
 - QR Board: options + colours collapse; title/format/slots stay primary
 - Document Generator: text fields first; branding + ZIP outputs collapse; form column slightly wider at `xl`
+- Wallet family: QR Card + Action Card options/colours collapse
+- Solidarity, Pulse Poll, Quote Card, Logo Builder, Resizer, Flyer Maker, Graphic Maker: colours/options collapsed
+- Shared `common.sectionOptions` / `sectionColours` / `sectionAdvanced` labels
 - `ToolEditorLayout` xl grid gives the form column a slight width preference for scannability
 
 ## Agent contract

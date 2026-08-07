@@ -18,6 +18,7 @@ import { Input, Textarea } from "@/components/ui/Input";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import {
   resolveCanvasTokens,
@@ -223,30 +224,19 @@ export default function PulsePollPage() {
   };
 
   const editor = (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <p className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-950">
         {t("privacyNotice")}
       </p>
 
       {!themeEstablished && (
-        <p className="text-sm text-gray-600">
+        <p className="text-sm leading-snug text-gray-600">
           {t("setupBrandPrompt")}{" "}
           <Link href="/onboarding" className="text-opseu-blue underline">
             {t("setupBrandLink")}
           </Link>
         </p>
       )}
-
-      <ThemePicker
-        primaryColor={state.primaryColor}
-        secondaryColor={state.secondaryColor}
-        onPrimaryChange={(primaryColor) =>
-          setState({ ...state, primaryColor })
-        }
-        onSecondaryChange={(secondaryColor) =>
-          setState({ ...state, secondaryColor })
-        }
-      />
 
       <Input
         label={t("pollTitle")}
@@ -312,20 +302,36 @@ export default function PulsePollPage() {
         value={state.slug}
         onChange={(e) => setState({ ...state, slug: e.target.value })}
       />
-      <p className="text-xs text-gray-500">{t("shareSlugHint")}</p>
+      <p className="text-sm leading-snug text-gray-600">{t("shareSlugHint")}</p>
 
-      <label className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={state.includeBranding}
-          onChange={(e) =>
-            setState({ ...state, includeBranding: e.target.checked })
+      <ToolFormDetails title={tc("sectionOptions")}>
+        <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
+          <input
+            type="checkbox"
+            checked={state.includeBranding}
+            onChange={(e) =>
+              setState({ ...state, includeBranding: e.target.checked })
+            }
+            className="size-4"
+          />
+          {t("includeBranding")}
+        </label>
+      </ToolFormDetails>
+
+      <ToolFormDetails title={tc("sectionColours")}>
+        <ThemePicker
+          primaryColor={state.primaryColor}
+          secondaryColor={state.secondaryColor}
+          onPrimaryChange={(primaryColor) =>
+            setState({ ...state, primaryColor })
+          }
+          onSecondaryChange={(secondaryColor) =>
+            setState({ ...state, secondaryColor })
           }
         />
-        {t("includeBranding")}
-      </label>
+      </ToolFormDetails>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 border-t border-gray-200 pt-5">
         <Button type="button" onClick={persist}>
           {tc("save")}
         </Button>

@@ -102,7 +102,10 @@
     "backToEdit": "Retour à la modification",
     "editHistory": "Historique des modifications",
     "loading": "Chargement...",
-    "close": "Fermer"
+    "close": "Fermer",
+    "sectionOptions": "Options",
+    "sectionColours": "Couleurs",
+    "sectionAdvanced": "Avancé"
   },
   "routeUi": {
     "errorTitle": "Une erreur s’est produite",

@@ -30,6 +30,7 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { PageShell } from "@/components/layout/PageShell";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
@@ -248,7 +249,8 @@ function GraphicMakerPageContent() {
           </div>
         }
         form={
-          <Card density="compact" className="space-y-3">
+          <Card density="compact" className="space-y-5">
+            <section className="space-y-3">
             <SegControl
               label={tg("layout")}
               value={state.layout}
@@ -317,7 +319,7 @@ function GraphicMakerPageContent() {
                   onUpload={handlePhotoUpload}
                   onClear={() => setState({ ...state, photoUrl: undefined })}
                 />
-                <p className="text-sm text-gray-600">
+                <p className="text-sm leading-snug text-gray-600">
                   <Link
                     href="/guide/photo-consent"
                     className="text-opseu-blue underline"
@@ -341,30 +343,34 @@ function GraphicMakerPageContent() {
                 />
               </>
             ) : null}
+            </section>
 
-            <BrandSwatchPicker
-              label={tg("primaryColor")}
-              value={state.primaryColor}
-              onChange={(c) => setState({ ...state, primaryColor: c })}
-              colors={brandColors}
-            />
-            <BrandSwatchPicker
-              label={tg("accentColor")}
-              value={state.accentColor}
-              onChange={(c) => setState({ ...state, accentColor: c })}
-              colors={brandColors}
-            />
-            <BrandSwatchPicker
-              label={tg("secondaryColor")}
-              value={state.secondaryColor}
-              onChange={(c) => setState({ ...state, secondaryColor: c })}
-              colors={brandColors}
-            />
-            <ContrastChecker
-              foreground={pickContrastingInk(state.primaryColor)}
-              background={state.primaryColor}
-            />
+            <ToolFormDetails title={t("sectionColours")}>
+              <BrandSwatchPicker
+                label={tg("primaryColor")}
+                value={state.primaryColor}
+                onChange={(c) => setState({ ...state, primaryColor: c })}
+                colors={brandColors}
+              />
+              <BrandSwatchPicker
+                label={tg("accentColor")}
+                value={state.accentColor}
+                onChange={(c) => setState({ ...state, accentColor: c })}
+                colors={brandColors}
+              />
+              <BrandSwatchPicker
+                label={tg("secondaryColor")}
+                value={state.secondaryColor}
+                onChange={(c) => setState({ ...state, secondaryColor: c })}
+                colors={brandColors}
+              />
+              <ContrastChecker
+                foreground={pickContrastingInk(state.primaryColor)}
+                background={state.primaryColor}
+              />
+            </ToolFormDetails>
 
+            <div className="space-y-3 border-t border-gray-200 pt-5">
             <UndoRedoBar
               canUndo={canUndo}
               canRedo={canRedo}
@@ -382,6 +388,7 @@ function GraphicMakerPageContent() {
             <Button onClick={handleExport} disabled={exporting}>
               {exporting ? t("exporting") : t("downloadPng")}
             </Button>
+            </div>
           </Card>
         }
         previewActions={

@@ -19,6 +19,7 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
@@ -94,7 +95,8 @@ function QuoteCardPageContent() {
       previewAccessibleName={tq("previewAccessibleName")}
       exportError={exportError}
       form={
-        <Card density="compact" className="space-y-3">
+        <Card density="compact" className="space-y-5">
+          <section className="space-y-3">
           <Textarea
             label={tq("quote")}
             value={state.quote}
@@ -111,29 +113,33 @@ function QuoteCardPageContent() {
             value={state.role}
             onChange={(e) => setState({ ...state, role: e.target.value })}
           />
-          <ThemePicker
-            primaryColor={state.primaryColor}
-            secondaryColor={state.accentColor}
-            onPrimaryChange={(c) =>
-              setState({
-                ...state,
-                primaryColor: c,
-                textColor: pickContrastingInk(c),
-              })
-            }
-            onSecondaryChange={(c) => setState({ ...state, accentColor: c })}
-            primaryLabel={tq("primaryColor")}
-            secondaryLabel={tq("accentColor")}
-          />
-          <ColorField
-            label={tq("textColor")}
-            value={state.textColor}
-            onChange={(c) => setState({ ...state, textColor: c })}
-          />
-          <ContrastChecker
-            foreground={state.textColor}
-            background={state.primaryColor}
-          />
+          </section>
+          <ToolFormDetails title={t("sectionColours")}>
+            <ThemePicker
+              primaryColor={state.primaryColor}
+              secondaryColor={state.accentColor}
+              onPrimaryChange={(c) =>
+                setState({
+                  ...state,
+                  primaryColor: c,
+                  textColor: pickContrastingInk(c),
+                })
+              }
+              onSecondaryChange={(c) => setState({ ...state, accentColor: c })}
+              primaryLabel={tq("primaryColor")}
+              secondaryLabel={tq("accentColor")}
+            />
+            <ColorField
+              label={tq("textColor")}
+              value={state.textColor}
+              onChange={(c) => setState({ ...state, textColor: c })}
+            />
+            <ContrastChecker
+              foreground={state.textColor}
+              background={state.primaryColor}
+            />
+          </ToolFormDetails>
+          <div className="space-y-3 border-t border-gray-200 pt-5">
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}
@@ -151,6 +157,7 @@ function QuoteCardPageContent() {
           <Button onClick={handleExport} disabled={exporting}>
             {exporting ? t("exporting") : t("downloadPng")}
           </Button>
+          </div>
         </Card>
       }
       previewActions={

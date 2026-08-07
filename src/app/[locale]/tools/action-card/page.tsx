@@ -32,6 +32,7 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import {
@@ -265,9 +266,10 @@ export default function ActionCardPage() {
         ) : null
       }
       form={
-        <Card density="compact" className="space-y-3">
-          <p className="text-xs text-gray-600">{t("privacyHint")}</p>
+        <Card density="compact" className="space-y-5">
+          <p className="text-sm leading-snug text-gray-600">{t("privacyHint")}</p>
 
+          <section className="space-y-3">
           <div>
             <label
               htmlFor="action-preset"
@@ -355,7 +357,7 @@ export default function ActionCardPage() {
             onChange={(bgMode) => setState({ ...state, bgMode })}
           />
 
-          <div>
+          <div className="space-y-2">
             <SegControl
               label={t("size")}
               value={state.sizeId}
@@ -365,36 +367,44 @@ export default function ActionCardPage() {
               }))}
               onChange={(sizeId) => setState({ ...state, sizeId })}
             />
-            <p className="mt-2 text-xs text-gray-500">{t("sizeTip")}</p>
+            <p className="text-sm leading-snug text-gray-600">{t("sizeTip")}</p>
           </div>
+          </section>
 
-          <label className="flex min-h-11 items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={state.showUrl}
-              onChange={(e) => setState({ ...state, showUrl: e.target.checked })}
+          <ToolFormDetails title={tc("sectionOptions")}>
+            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
+              <input
+                type="checkbox"
+                checked={state.showUrl}
+                onChange={(e) => setState({ ...state, showUrl: e.target.checked })}
+                className="size-4"
+              />
+              {t("showUrl")}
+            </label>
+
+            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
+              <input
+                type="checkbox"
+                checked={state.includeBranding}
+                onChange={(e) =>
+                  setState({ ...state, includeBranding: e.target.checked })
+                }
+                className="size-4"
+              />
+              {t("includeBranding")}
+            </label>
+          </ToolFormDetails>
+
+          <ToolFormDetails title={tc("sectionColours")}>
+            <ThemePicker
+              primaryColor={state.primaryColor}
+              secondaryColor={state.secondaryColor}
+              onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
+              onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
             />
-            {t("showUrl")}
-          </label>
+          </ToolFormDetails>
 
-          <label className="flex min-h-11 items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={state.includeBranding}
-              onChange={(e) =>
-                setState({ ...state, includeBranding: e.target.checked })
-              }
-            />
-            {t("includeBranding")}
-          </label>
-
-          <ThemePicker
-            primaryColor={state.primaryColor}
-            secondaryColor={state.secondaryColor}
-            onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
-            onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
-          />
-
+          <div className="space-y-3 border-t border-gray-200 pt-5">
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}
@@ -413,7 +423,7 @@ export default function ActionCardPage() {
               });
             }}
           />
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <Button onClick={handleExportPng} disabled={exporting}>
               {exporting ? tc("exporting") : tc("downloadPng")}
             </Button>
@@ -424,6 +434,7 @@ export default function ActionCardPage() {
             >
               {tc("downloadPdf")}
             </Button>
+          </div>
           </div>
         </Card>
       }

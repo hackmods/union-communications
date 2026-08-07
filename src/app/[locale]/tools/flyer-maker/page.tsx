@@ -30,6 +30,7 @@ import {
 } from "@/components/tools/canvas";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 
 interface FlyerState {
   message: string;
@@ -142,7 +143,8 @@ function FlyerMakerPageContent() {
       previewAccessibleName={tf("previewAccessibleName")}
       exportError={exportError}
       form={
-        <Card density="compact" className="space-y-3">
+        <Card density="compact" className="space-y-5">
+          <section className="space-y-3">
           <Textarea
             label={tf("message")}
             value={state.message}
@@ -164,28 +166,32 @@ function FlyerMakerPageContent() {
             value={state.location}
             onChange={(e) => setState({ ...state, location: e.target.value })}
           />
-          <BrandSwatchPicker
-            label={tf("primaryColor")}
-            value={state.primaryColor}
-            onChange={(c) => setState({ ...state, primaryColor: c })}
-            colors={brandColors}
-          />
-          <BrandSwatchPicker
-            label={tf("accentColor")}
-            value={state.accentColor}
-            onChange={(c) => setState({ ...state, accentColor: c })}
-            colors={brandColors}
-          />
-          <BrandSwatchPicker
-            label={tf("secondaryColor")}
-            value={state.secondaryColor}
-            onChange={(c) => setState({ ...state, secondaryColor: c })}
-            colors={brandColors}
-          />
-          <ContrastChecker
-            foreground={pickContrastingInk(state.primaryColor)}
-            background={state.primaryColor}
-          />
+          </section>
+          <ToolFormDetails title={t("sectionColours")}>
+            <BrandSwatchPicker
+              label={tf("primaryColor")}
+              value={state.primaryColor}
+              onChange={(c) => setState({ ...state, primaryColor: c })}
+              colors={brandColors}
+            />
+            <BrandSwatchPicker
+              label={tf("accentColor")}
+              value={state.accentColor}
+              onChange={(c) => setState({ ...state, accentColor: c })}
+              colors={brandColors}
+            />
+            <BrandSwatchPicker
+              label={tf("secondaryColor")}
+              value={state.secondaryColor}
+              onChange={(c) => setState({ ...state, secondaryColor: c })}
+              colors={brandColors}
+            />
+            <ContrastChecker
+              foreground={pickContrastingInk(state.primaryColor)}
+              background={state.primaryColor}
+            />
+          </ToolFormDetails>
+          <div className="space-y-3 border-t border-gray-200 pt-5">
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}
@@ -201,7 +207,7 @@ function FlyerMakerPageContent() {
               });
             }}
           />
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <Button onClick={handleExportPng} disabled={exporting}>
               {exporting ? t("exporting") : t("downloadPng")}
             </Button>
@@ -212,6 +218,7 @@ function FlyerMakerPageContent() {
             >
               {t("downloadPdf")}
             </Button>
+          </div>
           </div>
         </Card>
       }

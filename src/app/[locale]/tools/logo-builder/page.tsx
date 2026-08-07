@@ -24,6 +24,7 @@ import {
 } from "@/components/brand/LogoSettings";
 import { useTranslations } from "next-intl";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
@@ -125,7 +126,8 @@ export default function LogoBuilderPage() {
       description={tBuilder("description")}
       previewAccessibleName={tBuilder("previewAccessibleName")}
       form={
-        <Card density="compact" className="space-y-3">
+        <Card density="compact" className="space-y-5">
+          <section className="space-y-3">
           <Input
             label={tBuilder("localNumber")}
             value={state.localNumber}
@@ -136,19 +138,6 @@ export default function LogoBuilderPage() {
             value={state.subText}
             onChange={(e) => setState({ ...state, subText: e.target.value })}
           />
-          <ThemePicker
-            primaryColor={state.primaryColor}
-            secondaryColor={state.secondaryColor}
-            accentColor={deriveAccentFromPrimary(state.primaryColor)}
-            onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
-            onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
-          />
-          <BrandContrastConfirmDialog
-            open={contrastConfirmOpen}
-            onConfirm={persistToBrandKit}
-            onCancel={() => setContrastConfirmOpen(false)}
-          />
-
           <SegControl
             label={tBuilder("shape")}
             value={state.shape}
@@ -164,7 +153,7 @@ export default function LogoBuilderPage() {
             }))}
             onChange={(shape) => setState({ ...state, shape })}
           />
-          <p className="text-sm text-gray-600">
+          <p className="text-sm leading-snug text-gray-600">
             {tBuilder(
               state.shape === "circle"
                 ? "shapeCircleHint"
@@ -173,10 +162,24 @@ export default function LogoBuilderPage() {
                   : "shapeRectangleHint",
             )}
           </p>
+          </section>
+          <ToolFormDetails title={t("sectionColours")}>
+            <ThemePicker
+              primaryColor={state.primaryColor}
+              secondaryColor={state.secondaryColor}
+              accentColor={deriveAccentFromPrimary(state.primaryColor)}
+              onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
+              onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
+            />
+            <BrandContrastConfirmDialog
+              open={contrastConfirmOpen}
+              onConfirm={persistToBrandKit}
+              onCancel={() => setContrastConfirmOpen(false)}
+            />
+          </ToolFormDetails>
 
-          <div className="space-y-2 border-t border-gray-100 pt-3">
-            <h2 className="font-semibold text-opseu-dark">{tLogo("title")}</h2>
-            <p className="text-sm text-gray-600">{tLogo("description")}</p>
+          <ToolFormDetails title={tLogo("title")}>
+            <p className="text-sm leading-snug text-gray-600">{tLogo("description")}</p>
             <LogoSettings
               useOfficialLogo={brandKit.useOfficialLogo}
               officialLogoVariant={brandKit.officialLogoVariant}
@@ -203,7 +206,8 @@ export default function LogoBuilderPage() {
               }
               onLogoTextChange={(text) => setBrandKit({ logoText: text })}
             />
-          </div>
+          </ToolFormDetails>
+          <div className="space-y-3 border-t border-gray-200 pt-5">
           <UndoRedoBar
             canUndo={canUndo}
             canRedo={canRedo}
@@ -229,6 +233,7 @@ export default function LogoBuilderPage() {
             <Button variant="outline" onClick={handleExportSvg}>
               {t("downloadSvg")}
             </Button>
+          </div>
           </div>
         </Card>
       }
