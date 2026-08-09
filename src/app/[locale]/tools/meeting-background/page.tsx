@@ -10,6 +10,7 @@ import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
+import { brandSetupHref } from "@/lib/utils/brand-setup";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import {
@@ -786,7 +787,7 @@ export default function MeetingBackgroundPage() {
           <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
             {t("setupBrandPrompt")}{" "}
             <Link
-              href="/onboarding"
+              href={brandSetupHref(themeEstablished)}
               className="font-medium text-opseu-blue underline"
             >
               {t("setupBrandLink")}

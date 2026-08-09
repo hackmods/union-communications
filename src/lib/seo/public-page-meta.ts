@@ -62,6 +62,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "After Brand Kit: boards, print, socials, and a simple website — one message, four channels.",
     },
+    "/guide/workshop": {
+      title: "Workshop outline",
+      description:
+        "Reusable lunch-and-learn and hands-on workshop outline for starting local social communications.",
+    },
     "/guide/union-boards": {
       title: "Union Boards Guide",
       description:
@@ -85,7 +90,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/resources": {
       title: "Comms Resources",
       description:
-        "Orientation, practice, and sources for union locals building solidary communications.",
+        "Orientation, practice, and sources for union locals building solidarity communications.",
     },
     "/guide/photo-consent": {
       title: "Photo Consent & Member Media",
@@ -168,6 +173,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Première semaine",
       description:
         "Après la trousse de marque : tableaux, impression, médias sociaux et un site simple — un message, quatre canaux.",
+    },
+    "/guide/workshop": {
+      title: "Plan d'atelier",
+      description:
+        "Plan réutilisable pour lunch-and-learn et atelier pratique pour démarrer les communications sociales locales.",
     },
     "/guide/union-boards": {
       title: "Guide des tableaux syndicaux",

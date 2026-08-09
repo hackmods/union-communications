@@ -13,6 +13,7 @@ import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
+import { brandSetupHref } from "@/lib/utils/brand-setup";
 import {
   listSavedLinks,
   resolvePresetDestination,
@@ -308,7 +309,7 @@ function QrCardPageContent() {
         !themeEstablished && hydrated ? (
           <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
             {t("setupBrandPrompt")}{" "}
-            <Link href="/onboarding" className="font-medium text-opseu-blue underline">
+            <Link href={brandSetupHref(themeEstablished)} className="font-medium text-opseu-blue underline">
               {t("setupBrandLink")}
             </Link>
           </p>

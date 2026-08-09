@@ -12,6 +12,7 @@ import {
 } from "@/lib/export/image-export";
 import { formatFilename, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
+import { brandSetupHref } from "@/lib/utils/brand-setup";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import {
   DEFAULT_CUSTOM_HEIGHT,
@@ -454,7 +455,7 @@ export default function ResizerPage() {
           !themeEstablished ? (
             <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
               {t("setupBrandPrompt")}{" "}
-              <Link href="/onboarding" className="font-medium underline">
+              <Link href={brandSetupHref(themeEstablished)} className="font-medium underline">
                 {t("setupBrandLink")}
               </Link>
             </p>

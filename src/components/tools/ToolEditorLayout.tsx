@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useId, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { PageShell } from "@/components/layout/PageShell";
 import { MobilePreviewStage } from "@/components/tools/MobilePreviewStage";
@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils";
 type ToolEditorLayoutProps = {
   title: ReactNode;
   description?: ReactNode;
+  /** Short “when to use” line under the subtitle (workshop discoverability). */
+  purposeHint?: ReactNode;
   form: ReactNode;
   preview: ReactNode;
   /**
@@ -32,6 +34,8 @@ type ToolEditorLayoutProps = {
   footer?: ReactNode;
   /** User-visible export failure (TOOL-002); shown as a danger Callout. */
   exportError?: ReactNode;
+  /** Short-lived export success status. */
+  exportSuccess?: ReactNode;
   className?: string;
 };
 
@@ -51,12 +55,13 @@ function useIsLg() {
 
 /**
  * Shared editor | preview chrome for canvas tools.
- * Desktop: sticky two-column preview.
+ * Desktop: sticky two-column preview (asymmetric at xl).
  * Mobile: Edit + opaque sticky mini dock (tap to expand) | full Preview pane.
  */
 export function ToolEditorLayout({
   title,
   description,
+  purposeHint,
   form,
   preview,
   previewAccessibleName,
@@ -67,12 +72,18 @@ export function ToolEditorLayout({
   belowGrid,
   footer,
   exportError,
+  exportSuccess,
   className,
 }: ToolEditorLayoutProps) {
   const t = useTranslations("common");
   const isLg = useIsLg();
   const [pane, setPane] = useState<"edit" | "preview">("edit");
   const [miniCollapsed, setMiniCollapsed] = useState(false);
+  const baseId = useId();
+  const editTabId = `${baseId}-edit-tab`;
+  const previewTabId = `${baseId}-preview-tab`;
+  const editPanelId = `${baseId}-edit-panel`;
+  const previewPanelId = `${baseId}-preview-panel`;
 
   const showMini = miniPreview && !isLg && pane === "edit" && !miniCollapsed;
   const stageMode = isLg
@@ -85,14 +96,24 @@ export function ToolEditorLayout({
 
   return (
     <PageShell className={cn("py-6 md:py-8 lg:py-10", className)}>
-      <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">{title}</h1>
+      <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
+        {title}
+      </h1>
       {description ? (
-        <p className="mt-1 text-gray-600">{description}</p>
+        <p className="mt-1 max-w-3xl text-gray-600">{description}</p>
+      ) : null}
+      {purposeHint ? (
+        <p className="mt-2 max-w-2xl text-sm text-gray-500">{purposeHint}</p>
       ) : null}
 
       {exportError ? (
         <Callout tone="danger" role="alert" className="mt-4">
           {exportError}
+        </Callout>
+      ) : null}
+      {exportSuccess ? (
+        <Callout tone="success" role="status" className="mt-4">
+          {exportSuccess}
         </Callout>
       ) : null}
 
@@ -106,6 +127,8 @@ export function ToolEditorLayout({
         <button
           type="button"
           role="tab"
+          id={editTabId}
+          aria-controls={editPanelId}
           aria-selected={pane === "edit"}
           className={cn(
             "min-h-11 min-w-[5.5rem] flex-1 rounded-lg px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
@@ -120,6 +143,8 @@ export function ToolEditorLayout({
         <button
           type="button"
           role="tab"
+          id={previewTabId}
+          aria-controls={previewPanelId}
           aria-selected={pane === "preview"}
           className={cn(
             "min-h-11 min-w-[5.5rem] flex-1 rounded-lg px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
@@ -145,36 +170,37 @@ export function ToolEditorLayout({
         </div>
       ) : null}
 
-      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-2 lg:gap-6 xl:grid-cols-[minmax(20rem,1.05fr)_minmax(0,1fr)] xl:gap-8">
+      <div className="mt-4 grid items-start gap-4 lg:mt-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:gap-6 xl:grid-cols-[minmax(18rem,0.95fr)_minmax(0,1.15fr)] xl:gap-8 2xl:gap-10">
         <div
+          id={editPanelId}
+          role="tabpanel"
+          aria-labelledby={editTabId}
+          hidden={!isLg && pane !== "edit"}
           className={cn(
             "order-2 lg:order-1",
             pane === "edit" || isLg ? "block" : "hidden",
             "lg:block",
           )}
-          role="tabpanel"
         >
           {form}
         </div>
 
         <div
+          id={previewPanelId}
+          role="tabpanel"
+          aria-labelledby={previewTabId}
           className={cn(
             "order-1 lg:order-2",
-            // Always mounted so canvasRef stays exportable.
             "block",
-            // Edit + collapsed (mobile): keep sized offscreen for export.
             !isLg &&
               pane === "edit" &&
               miniCollapsed &&
               "fixed left-0 top-0 z-[-1] w-[min(100vw,36rem)] -translate-x-[150%] opacity-0 pointer-events-none",
-            // Edit + mini: opaque sticky dock under header (prevents form bleed-through).
             showMini &&
               "-mx-4 sticky top-14 z-20 border-b border-gray-200 bg-white/95 px-4 py-2 shadow-sm backdrop-blur-sm sm:-mx-6 sm:px-6",
             !showMini && "space-y-3 lg:space-y-4",
-            // Desktop: clear mobile dock chrome, keep sticky preview column.
             "lg:top-4 lg:z-auto lg:mx-0 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none lg:backdrop-blur-none lg:sticky",
           )}
-          role="tabpanel"
           aria-label={t("preview")}
         >
           {!isLg && pane === "preview" ? (
@@ -239,7 +265,7 @@ export function ToolEditorLayout({
 
       {belowGrid ? <div className="mt-6 lg:mt-8">{belowGrid}</div> : null}
 
-      {footer ? <div className="mt-8">{footer}</div> : null}
+      {footer ? <div className="mt-8 border-t border-gray-100 pt-6">{footer}</div> : null}
     </PageShell>
   );
 }

@@ -7,6 +7,7 @@ import { Callout } from "@/components/ui/Callout";
 import { PageShell } from "@/components/layout/PageShell";
 import { ShareThisTool } from "@/components/share/ShareThisTool";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
+import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useBrandStore } from "@/store/brand-store";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
@@ -164,6 +165,7 @@ export function HomeContent() {
               {t("trustManifestoLink")}
             </Link>
           </Callout>
+          <WorkshopDemoPath className="rounded-xl border border-gray-200 bg-white p-4 sm:p-5" />
           <p className="text-sm text-gray-600">
             {t(hubPublic ? "privacyNote" : "privacyNoteCommsOnly")}
           </p>
@@ -277,21 +279,24 @@ export function HomeContent() {
             </nav>
           </div>
 
-          <div className="mt-8 grid gap-8 sm:grid-cols-2 xl:grid-cols-4 xl:gap-6 2xl:gap-8">
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-5 2xl:gap-7">
             {channelOrder.map((channel) => (
-              <div key={channel} className="text-left">
+              <div
+                key={channel}
+                className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5"
+              >
                 <h3 className="text-lg font-semibold text-opseu-dark">
                   {t(`channels.${channel}.title`)}
                 </h3>
                 <p className="mt-1 text-sm text-gray-600">
                   {t(`channels.${channel}.description`)}
                 </p>
-                <ul className="mt-3 space-y-1.5 border-l-2 border-opseu-blue/25 pl-3">
+                <ul className="mt-3 space-y-1">
                   {channelItems[channel].map((item) => (
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="text-sm font-medium text-opseu-dark underline-offset-2 hover:text-opseu-blue hover:underline"
+                        className="inline-flex min-h-10 items-center text-sm font-medium text-opseu-blue underline-offset-2 hover:underline"
                       >
                         {nav(item.titleKey)}
                       </Link>
