@@ -70,11 +70,13 @@ test.describe("RSVP token flow @smoke", () => {
 
   test("invalid token page is friendly", async ({ page }) => {
     await page.goto("/en/r/not-a-real-token");
+    // Missing tokens call notFound() → Local 404 chrome (path bucket: rsvp).
     await expect(
       page.getByRole("heading", {
         level: 1,
-        name: /RSVP link not found|Lien RSVP introuvable/i,
+        name: /Local 404|Section 404/i,
       }),
     ).toBeVisible();
+    await expect(page.getByText("Solidarity.")).toBeVisible();
   });
 });
