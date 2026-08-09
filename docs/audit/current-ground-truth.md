@@ -5,7 +5,8 @@
 **Session narrative + lessons (Hub → Proxmox → password-reset → Time 8c–8e → cron → GM invite):** [`session-knowledge-2026-07-24.md`](session-knowledge-2026-07-24.md)  
 **Comms external links / national site URL rot (LINK-001):** [`session-knowledge-2026-07-30.md`](session-knowledge-2026-07-30.md)  
 **Multi-union sources + logo bundling (LINK-002):** [`session-knowledge-2026-07-30-multi-union-sources.md`](session-knowledge-2026-07-30-multi-union-sources.md)  
-**Local 404 / route status chrome:** [`session-knowledge-2026-08-09-local-404.md`](session-knowledge-2026-08-09-local-404.md)
+**Local 404 / route status chrome:** [`session-knowledge-2026-08-09-local-404.md`](session-knowledge-2026-08-09-local-404.md)  
+**Workshop Comms multiphase + Gap Fit (talk ~2026-08-12):** [`session-knowledge-2026-08-09-workshop-comms.md`](session-knowledge-2026-08-09-workshop-comms.md), [`workshop-gap-fit-2026-08.md`](workshop-gap-fit-2026-08.md)
 
 ## Do not re-open as if missing
 
@@ -26,6 +27,7 @@
 | FEAT-003 / FEAT-004 | Shipped | Related tasks panel; outcome UI/export/`appealDays` |
 | Check-ins (Basecamp Automatic Check-ins) | Shipped 2026-07-26 | HubModule `checkins`; dashboard unanswered widget; no email nudges |
 | Local 404 / route status | Shipped 2026-08-09 | `RouteStatusPanel`; Portal + root/`global-error`; poll/RSVP/meeting `notFound()`; quips + eggs |
+| Workshop Demo Path + multiphase UX | Shipped 2026-08-08/09 | `WorkshopDemoPath`; `/guide/workshop`; Day-of run sheet; exportSuccess / RelatedTools / BrandSetup; Gap Fit backlog |
 
 ## Three email/reminder surfaces (do not conflate)
 
@@ -94,6 +96,18 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 | Eggs | Quiet 243 footnote; snowmobile on 5× mark tap only |
 | Narrative | [`session-knowledge-2026-08-09-local-404.md`](session-knowledge-2026-08-09-local-404.md) |
 
+## Public workshop Comms (2026-08-08/09)
+
+| Topic | Reality |
+|-------|---------|
+| Live demo order | Brand Kit → Board Notice → Graphic Maker → Captions |
+| Facilitator | [`docs/guides/WORKSHOP_SOCIAL_COMMS.md`](../guides/WORKSHOP_SOCIAL_COMMS.md) Day-of section |
+| Public outline | `/guide/workshop`; First week calendar on `/guide/social-media-plan` |
+| UX contract | [`.cursor/rules/comms-public-ux.mdc`](../../.cursor/rules/comms-public-ux.mdc) |
+| Smoke | `e2e/workshop.smoke.spec.ts` (`@smoke`, quote the tag in PowerShell) |
+| Wednesday pitch | Demo-complete boards/print/social — **not** Share Kit / mass email (see Gap Fit) |
+| Narrative | [`session-knowledge-2026-08-09-workshop-comms.md`](session-knowledge-2026-08-09-workshop-comms.md) |
+
 ## Agent habits
 
 - Diff docs vs code before “implement next” — plan files and backlog tickets lag
@@ -102,3 +116,4 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 - Grep access-helper call sites when signatures change
 - Skip VISION non-goals (dues, member lists); skip Basecamp **Campfire / hill charts** greenfield — check-ins shipped
 - Route status UX: extend `RouteStatusPanel` + `routeUi` — do not invent parallel 404 chrome
+- Public workshop talk: follow Demo Path + `comms-public-ux.mdc`; Hub/Portal out of live demo; do not recreate `feat/comms-workshop-ux`

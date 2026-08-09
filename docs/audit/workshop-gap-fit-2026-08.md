@@ -2,7 +2,7 @@
 
 Reconciles the public Comms audit against what shipped before *Starting Your Local Social Communications* (~2026-08-12). **Demo-complete** for brand-first boards/print/social; **not** a one-click campaign OS.
 
-Facilitator run sheet: [`docs/guides/WORKSHOP_SOCIAL_COMMS.md`](../guides/WORKSHOP_SOCIAL_COMMS.md). Public outline: `/guide/workshop`. UX contract: [`.cursor/rules/comms-public-ux.mdc`](../../.cursor/rules/comms-public-ux.mdc).
+Facilitator run sheet: [`docs/guides/WORKSHOP_SOCIAL_COMMS.md`](../guides/WORKSHOP_SOCIAL_COMMS.md). Public outline: `/guide/workshop`. UX contract: [`.cursor/rules/comms-public-ux.mdc`](../../.cursor/rules/comms-public-ux.mdc). Session lessons: [`session-knowledge-2026-08-09-workshop-comms.md`](session-knowledge-2026-08-09-workshop-comms.md).
 
 | Need | Fit now | Residual gap | Post-Wed action |
 |------|---------|--------------|-----------------|

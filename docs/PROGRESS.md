@@ -6,6 +6,7 @@
 - [x] Phase B: `exportSuccess` on remaining canvas tools + doc-gen; RelatedTools / `purposeHint` / BrandSetup on quiet demo tools; Captions → Graphic Maker CTA
 - [x] Phase C: branch/worktree hygiene; lint + unit gate for workshop-touched surfaces
 - [x] Gap Fit: [`docs/audit/workshop-gap-fit-2026-08.md`](audit/workshop-gap-fit-2026-08.md); linked from `comms-public-ux.mdc`
+- [x] Session knowledge + cross-links: [`docs/audit/session-knowledge-2026-08-09-workshop-comms.md`](audit/session-knowledge-2026-08-09-workshop-comms.md) (AGENTS / ground-truth / rules)
 
 ## Local 404 solidarity status pass (2026-08-09)
 
