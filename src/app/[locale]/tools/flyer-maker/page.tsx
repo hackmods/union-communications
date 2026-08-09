@@ -54,15 +54,6 @@ function FlyerMakerPageContent() {
 
   const brandColors = coloursFromBrandKit(brandKit);
   const tokens = resolveCanvasTokens(brandKit);
-  const canvasInk = pickContrastingInk(state.primaryColor);
-  const surfaceStyle = canvasSurfaceStyle(tokens, {
-    primary: state.primaryColor,
-    secondary: state.secondaryColor,
-    accent: state.accentColor,
-  });
-  const accentRule = meetsWcagAA(state.accentColor, state.primaryColor, true)
-    ? state.accentColor
-    : undefined;
 
   const initial: FlyerState = {
     message: "PICKET LINE - ALL MEMBERS WELCOME",
@@ -76,6 +67,15 @@ function FlyerMakerPageContent() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<FlyerState>(initial);
+  const canvasInk = pickContrastingInk(state.primaryColor);
+  const surfaceStyle = canvasSurfaceStyle(tokens, {
+    primary: state.primaryColor,
+    secondary: state.secondaryColor,
+    accent: state.accentColor,
+  });
+  const accentRule = meetsWcagAA(state.accentColor, state.primaryColor, true)
+    ? state.accentColor
+    : undefined;
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
 

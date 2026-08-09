@@ -115,7 +115,6 @@ export function BoardTrimCanvas({
               style={{
                 margin: 0,
                 color: accentInk,
-                fontWeight: 900,
                 fontSize: clampTypeRem(tokens, 0.45, 1.4, 0.75),
                 ...localCapType,
                 textAlign: "center",
@@ -199,7 +198,6 @@ export function BoardTrimCanvas({
               style={{
                 margin: 0,
                 color: secondaryInk,
-                fontWeight: 900,
                 fontSize: clampTypeRem(tokens, 0.45, 1.4, 0.75),
                 ...localCapType,
                 textAlign: "center",
@@ -255,7 +253,6 @@ export function BoardTrimCanvas({
               style={{
                 margin: 0,
                 color: accentInk,
-                fontWeight: 900,
                 fontSize: clampTypeRem(tokens, 0.55, 1.8, 0.95),
                 ...localCapType,
                 textAlign: "center",
@@ -338,7 +335,6 @@ export function BoardTrimCanvas({
               style={{
                 margin: 0,
                 color: secondaryInk,
-                fontWeight: 900,
                 fontSize: clampTypeRem(tokens, 0.55, 1.8, 0.95),
                 ...localCapType,
                 textAlign: "center",
@@ -401,7 +397,6 @@ export function BoardTrimCanvas({
             margin: 0,
             zIndex: 1,
             color: ink,
-            fontWeight: 900,
             fontSize: clampTypeRem(tokens, 0.5, 1.8, 0.8),
             ...localCapType,
           }}
