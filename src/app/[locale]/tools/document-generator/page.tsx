@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Checkbox } from "@/components/ui/Checkbox";
+import { Callout } from "@/components/ui/Callout";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
@@ -29,6 +30,7 @@ import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
@@ -114,7 +116,7 @@ function DocumentGeneratorPageContent() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<GeneratorState>(initialState());
-  const { exportError: error, exporting: busy, runExport } = useExportHandler();
+  const { exportError: error, exportSuccess: success, exporting: busy, runExport } = useExportHandler();
   const [logoPreviewSrc, setLogoPreviewSrc] = useState<string | null>(null);
   useOneShotBrandSeed(hydrated, () => {
     if (themeEstablished) {
@@ -585,6 +587,11 @@ function DocumentGeneratorPageContent() {
               {busy ? tc("exporting") : t("downloadZip")}
             </Button>
           </div>
+          {success ? (
+            <Callout tone="success" role="status" className="mt-3">
+              {success}
+            </Callout>
+          ) : null}
           {error ? (
             <p className="text-sm text-red-700" role="alert">
               {error}
@@ -624,6 +631,8 @@ function DocumentGeneratorPageContent() {
           messagesNamespace="documentGenerator"
         />
       ) : null}
+
+      <ToolRelatedFooter toolSlug="document-generator" className="mt-8" />
     </PageShell>
   );
 }

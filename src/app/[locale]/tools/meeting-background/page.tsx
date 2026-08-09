@@ -48,6 +48,7 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 
@@ -227,7 +228,7 @@ export default function MeetingBackgroundPage() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<BackgroundState>(initial);
-  const { exportError, exporting, runExport } = useExportHandler();
+  const { exportError, exportSuccess, exporting, runExport } = useExportHandler();
 
   // Design set is derived from the active layout (undo/redo stays consistent)
   const designSet = designSetForLayout(state.layout);
@@ -780,8 +781,11 @@ export default function MeetingBackgroundPage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      purposeHint={t("whenToUse")}
       previewAccessibleName={t("previewAccessibleName")}
       exportError={exportError}
+      exportSuccess={exportSuccess}
+      footer={<ToolRelatedFooter toolSlug="meeting-background" />}
       toolbar={
         !themeEstablished && hydrated ? (
           <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">

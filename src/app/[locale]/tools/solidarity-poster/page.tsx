@@ -44,6 +44,7 @@ import { Card } from "@/components/ui/Card";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { inkWithAlpha, mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
@@ -197,7 +198,7 @@ export default function SolidarityPosterPage() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<PosterState>(initial);
-  const { exportError, exporting, runExport } = useExportHandler();
+  const { exportError, exportSuccess, exporting, runExport } = useExportHandler();
 
   useOneShotBrandSeed(hydrated, () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
@@ -399,7 +400,10 @@ export default function SolidarityPosterPage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      purposeHint={t("whenToUse")}
       exportError={exportError}
+      exportSuccess={exportSuccess}
+      footer={<ToolRelatedFooter toolSlug="solidarity-poster" />}
       previewAccessibleName={t("previewAccessibleName", {
         headline:
           state.headline.replace(/\n/g, " ").trim() || t("title"),

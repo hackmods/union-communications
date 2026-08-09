@@ -24,6 +24,7 @@ import {
 } from "@/components/brand/LogoSettings";
 import { useTranslations } from "next-intl";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -46,7 +47,7 @@ export default function LogoBuilderPage() {
   const tokens = resolveCanvasTokens(brandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
-  const { exportError, runExport } = useExportHandler(tBuilder("exportError"));
+  const { exportError, exportSuccess, runExport } = useExportHandler(tBuilder("exportError"));
   const [contrastConfirmOpen, setContrastConfirmOpen] = useState(false);
   const presetLogos = brandKit.unionPresetId
     ? resolvePresetLogos(getUnionPreset(brandKit.unionPresetId)?.logos)
@@ -124,7 +125,11 @@ export default function LogoBuilderPage() {
     <ToolEditorLayout
       title={tBuilder("title")}
       description={tBuilder("description")}
+      purposeHint={tBuilder("whenToUse")}
       previewAccessibleName={tBuilder("previewAccessibleName")}
+      exportError={exportError}
+      exportSuccess={exportSuccess}
+      footer={<ToolRelatedFooter toolSlug="logo-builder" />}
       form={
         <Card density="compact" className="space-y-5">
           <section className="space-y-3">

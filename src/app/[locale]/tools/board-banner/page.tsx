@@ -60,6 +60,7 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 
@@ -118,7 +119,7 @@ export default function BoardBannerPage() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const exportHostRef = useRef<HTMLDivElement>(null);
   const [sheetId, setSheetId] = useState<BoardSheetId>(DEFAULT_BOARD_SHEET);
-  const { exportError, setExportError, exporting, runExport } =
+  const { exportError, exportSuccess, setExportError, exporting, runExport } =
     useExportHandler();
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
@@ -420,6 +421,7 @@ export default function BoardBannerPage() {
         title={t("title")}
         description={t("subtitle")}
         exportError={exportError}
+      exportSuccess={exportSuccess}
         previewAccessibleName={t("previewAccessibleName", {
           summary: previewSummary,
           color: state.primaryColor,
@@ -783,11 +785,14 @@ export default function BoardBannerPage() {
           </div>
         }
         footer={
-          <SourcesBlock
-            pageId="boardBanner"
-            title={ts("title")}
-            intro={ts("intro")}
-          />
+          <div className="space-y-6">
+            <SourcesBlock
+              pageId="boardBanner"
+              title={ts("title")}
+              intro={ts("intro")}
+            />
+            <ToolRelatedFooter toolSlug="board-banner" />
+          </div>
         }
       />
 

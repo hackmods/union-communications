@@ -191,7 +191,8 @@
     "save": "Save to Brand Kit",
     "saveSuccess": "Saved. Site colours and Brand Kit now use this palette and local details.",
     "exportError": "Could not export the logo. Try again, or switch browser if the problem continues.",
-    "previewAccessibleName": "Logo builder preview"
+    "previewAccessibleName": "Logo builder preview",
+    "whenToUse": "Use first to build a local logo plate, then Save to Brand Kit so every tool matches."
   },
   "home": {
     "title": "UnionOps: The Toolkit for Local Unions",
@@ -1017,7 +1018,9 @@
       "eventPackPrompt": "Need the RSVP sheet and calendar file?",
       "eventPackLink": "Open Event notice in Document Generator"
     },
-    "whenToUse": "Use for workplace bulletin boards — meetings, votes, and updates members may miss on social."
+    "whenToUse": "Use for workplace bulletin boards — meetings, votes, and updates members may miss on social.",
+    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
+    "setupBrandLink": "Open Brand Kit"
   },
   "boardBanner": {
     "title": "Board Banner & Trim",
@@ -1143,7 +1146,8 @@
     "formatEditing": "Editing",
     "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
     "setupBrandLink": "Open Brand Kit",
-    "exportError": "Export failed. Try again."
+    "exportError": "Export failed. Try again.",
+    "whenToUse": "Use to crop your logo or photo into Facebook, Instagram, and YouTube sizes before posting."
   },
   "documentGenerator": {
     "title": "Document & Slide Generator",
@@ -1290,7 +1294,8 @@
     "cta": "Get support →",
     "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
     "setupBrandLink": "Open Brand Kit",
-    "previewAccessibleName": "Poster preview: {headline} on {color} background"
+    "previewAccessibleName": "Poster preview: {headline} on {color} background",
+    "whenToUse": "Use for bold board fillers and phone wallpapers with an optional support QR."
   },
   "meetingBackground": {
     "title": "Meeting Background Maker",
@@ -1338,7 +1343,8 @@
     "includeBranding": "Include local branding",
     "preview": "Preview",
     "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit"
+    "setupBrandLink": "Open Brand Kit",
+    "whenToUse": "Use for Zoom/Teams virtual backgrounds with your local colours and lockup."
   },
   "qrCard": {
     "title": "QR Link Card Maker",
@@ -1405,7 +1411,8 @@
       "localWebsiteTitle": "Visit our site",
       "localWebsiteDesc": "News, contacts, and resources for members.",
       "localWebsiteTagline": "Scan for our website"
-    }
+    },
+    "whenToUse": "Use for pocket cards that send members to your website, group, or support link."
   },
   "actionCard": {
     "title": "Action Card Maker",
@@ -2005,7 +2012,9 @@
       "openMail": "Open in email app",
       "privacy": "Runs on your device. Nothing is sent and no replies are collected here."
     },
-    "whenToUse": "Use for social posts. Pair with Captions after you download."
+    "whenToUse": "Use for social posts. Pair with Captions after you download.",
+    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
+    "setupBrandLink": "Open Brand Kit"
   },
   "quoteCard": {
     "title": "Quote Card Generator",
@@ -2016,7 +2025,10 @@
     "role": "Role or committee (optional)",
     "primaryColor": "Primary colour",
     "accentColor": "Accent bar",
-    "textColor": "Accent text colour"
+    "textColor": "Accent text colour",
+    "whenToUse": "Use when a member or leader quote should become a shareable card for social or boards.",
+    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
+    "setupBrandLink": "Open Brand Kit"
   },
   "flyerMaker": {
     "title": "Picket / Rally Flyer Maker",
@@ -2029,7 +2041,9 @@
     "primaryColor": "Primary colour",
     "accentColor": "Accent colour",
     "secondaryColor": "Secondary colour",
-    "whenToUse": "Use for handouts at meetings, walkabouts, and actions. Pair with boards so offline members still get the facts."
+    "whenToUse": "Use for handouts at meetings, walkabouts, and actions. Pair with boards so offline members still get the facts.",
+    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
+    "setupBrandLink": "Open Brand Kit"
   },
   "altTextAssistant": {
     "title": "Alt-Text Assistant",
@@ -4339,7 +4353,9 @@
   },
   "captions": {
     "title": "Caption & Hashtag Library",
-    "subtitle": "Copy a ready post, swap in your local number and dates, then paste under your Graphic Maker download."
+    "subtitle": "Copy a ready post, swap in your local number and dates, then paste under your Graphic Maker download.",
+    "graphicMakerCta": "Open Graphic Maker",
+    "graphicMakerHint": "After you copy a caption, download a matching post graphic."
   },
   "workshopDemo": {
     "title": "Demo this in about 20 minutes",

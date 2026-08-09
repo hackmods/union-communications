@@ -44,6 +44,7 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SocialAssetsGallery } from "@/components/tools/resizer/SocialAssetsGallery";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -314,7 +315,7 @@ export default function ResizerPage() {
   const zipRootRef = useRef<HTMLDivElement>(null);
 
   const [imageUrl, setImageUrl] = useState<string | undefined>();
-  const { exportError, exporting, runExport } = useExportHandler(t("exportError"));
+  const { exportError, exportSuccess, exporting, runExport } = useExportHandler(t("exportError"));
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
 
@@ -450,7 +451,11 @@ export default function ResizerPage() {
       <ToolEditorLayout
         title={t("title")}
         description={t("subtitle")}
+      purposeHint={t("whenToUse")}
         previewAccessibleName={t("previewAccessibleName")}
+        exportError={exportError}
+        exportSuccess={exportSuccess}
+      footer={<ToolRelatedFooter toolSlug="resizer" />}
         toolbar={
           !themeEstablished ? (
             <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">

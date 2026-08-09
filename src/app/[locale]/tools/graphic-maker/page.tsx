@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
+import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
@@ -30,6 +31,7 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
@@ -67,6 +69,8 @@ function GraphicMakerPageContent() {
   const te = useTranslations("examples");
   const searchParams = useSearchParams();
   const brandKit = useBrandStore((s) => s.brandKit);
+  const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
+  const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [consentOpen, setConsentOpen] = useState(false);
   const [pendingPhoto, setPendingPhoto] = useState<string | null>(null);
@@ -239,17 +243,26 @@ function GraphicMakerPageContent() {
         exportError={exportError}
         exportSuccess={exportSuccess}
         toolbar={
-          <div className="flex flex-wrap gap-2">
-            {(Object.keys(TOOL_PRESETS) as ToolPresetKey[]).map((key) => (
-              <Button
-                key={key}
-                size="sm"
-                variant="outline"
-                onClick={() => applyPreset(key)}
-              >
-                {TOOL_PRESETS[key].headline}
-              </Button>
-            ))}
+          <div className="space-y-3">
+            {!themeEstablished ? (
+              <BrandSetupPrompt
+                themeEstablished={themeEstablished}
+                prompt={tg("setupBrandPrompt")}
+                linkLabel={tg("setupBrandLink")}
+              />
+            ) : null}
+            <div className="flex flex-wrap gap-2">
+              {(Object.keys(TOOL_PRESETS) as ToolPresetKey[]).map((key) => (
+                <Button
+                  key={key}
+                  size="sm"
+                  variant="outline"
+                  onClick={() => applyPreset(key)}
+                >
+                  {TOOL_PRESETS[key].headline}
+                </Button>
+              ))}
+            </div>
           </div>
         }
         form={

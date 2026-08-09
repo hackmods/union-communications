@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
+import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
@@ -15,6 +16,7 @@ import { Card } from "@/components/ui/Card";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { SegControl } from "@/components/tools/SegControl";
 import { cn } from "@/lib/utils";
@@ -56,6 +58,8 @@ export default function BoardNoticePage() {
   const tc = useTranslations("common");
   const ts = useTranslations("sources");
   const brandKit = useBrandStore((s) => s.brandKit);
+  const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
+  const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [format, setFormat] = useState<PageFormat>("letter");
 
@@ -136,7 +140,14 @@ export default function BoardNoticePage() {
         title={t("title")}
         description={t("subtitle")}
         purposeHint={t("whenToUse")}
-        exportError={exportError}
+        toolbar={!themeEstablished ? (
+        <BrandSetupPrompt
+          themeEstablished={themeEstablished}
+          prompt={t("setupBrandPrompt")}
+          linkLabel={t("setupBrandLink")}
+        />
+      ) : undefined}
+      exportError={exportError}
         exportSuccess={exportSuccess}
         previewAccessibleName={t("previewAccessibleName")}
         form={

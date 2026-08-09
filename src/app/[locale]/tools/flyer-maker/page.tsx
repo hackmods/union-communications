@@ -4,6 +4,7 @@ import { Suspense, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
+import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
@@ -30,6 +31,7 @@ import {
 } from "@/components/tools/canvas";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 
@@ -48,6 +50,8 @@ function FlyerMakerPageContent() {
   const tf = useTranslations("flyerMaker");
   const te = useTranslations("examples");
   const brandKit = useBrandStore((s) => s.brandKit);
+  const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
+  const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
   const canvasRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
@@ -144,6 +148,13 @@ function FlyerMakerPageContent() {
       description={tf("subtitle")}
       purposeHint={tf("whenToUse")}
       previewAccessibleName={tf("previewAccessibleName")}
+      toolbar={!themeEstablished ? (
+        <BrandSetupPrompt
+          themeEstablished={themeEstablished}
+          prompt={tf("setupBrandPrompt")}
+          linkLabel={tf("setupBrandLink")}
+        />
+      ) : undefined}
       exportError={exportError}
       exportSuccess={exportSuccess}
       footer={<ToolRelatedFooter toolSlug="flyer-maker" />}

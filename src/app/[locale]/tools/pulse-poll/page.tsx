@@ -19,6 +19,7 @@ import { Input, Textarea } from "@/components/ui/Input";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import {
@@ -68,7 +69,7 @@ export default function PulsePollPage() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<PulsePollDraft>(initial);
-  const { exportError, exporting, runExport } = useExportHandler();
+  const { exportError, exportSuccess, exporting, runExport } = useExportHandler();
 
   useOneShotBrandSeed(hydrated, () => {
     const saved = loadPulsePollDraft();
@@ -499,6 +500,8 @@ export default function PulsePollPage() {
       form={editor}
       preview={preview}
       exportError={exportError}
+      exportSuccess={exportSuccess}
+      footer={<ToolRelatedFooter toolSlug="pulse-poll" />}
     />
   );
 }

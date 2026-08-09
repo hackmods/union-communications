@@ -3,6 +3,7 @@
 import { Suspense, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
+import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
@@ -19,6 +20,8 @@ import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
@@ -38,6 +41,8 @@ function QuoteCardPageContent() {
   const tq = useTranslations("quoteCard");
   const te = useTranslations("examples");
   const brandKit = useBrandStore((s) => s.brandKit);
+  const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
+  const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const canvasRef = useRef<HTMLDivElement>(null);
   const tokens = resolveCanvasTokens(brandKit);
 
@@ -52,7 +57,7 @@ function QuoteCardPageContent() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<QuoteState>(initial);
-  const { exportError, exporting, runExport } = useExportHandler();
+  const { exportError, exportSuccess, exporting, runExport } = useExportHandler();
   const surfaceStyle = canvasSurfaceStyle(tokens, {
     primary: state.primaryColor,
     secondary: brandKit.secondaryColor,
@@ -92,8 +97,18 @@ function QuoteCardPageContent() {
     <ToolEditorLayout
       title={tq("title")}
       description={tq("subtitle")}
+      purposeHint={tq("whenToUse")}
       previewAccessibleName={tq("previewAccessibleName")}
+      toolbar={!themeEstablished ? (
+        <BrandSetupPrompt
+          themeEstablished={themeEstablished}
+          prompt={tq("setupBrandPrompt")}
+          linkLabel={tq("setupBrandLink")}
+        />
+      ) : undefined}
       exportError={exportError}
+      exportSuccess={exportSuccess}
+      footer={<ToolRelatedFooter toolSlug="quote-card" />}
       form={
         <Card density="compact" className="space-y-5">
           <section className="space-y-3">

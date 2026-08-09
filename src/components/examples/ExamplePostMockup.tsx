@@ -35,7 +35,7 @@ export function ExamplePostMockup({
         <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-500">
           {platformLabel}
         </span>
-        <span className="text-[10px] text-gray-400">Local {local}</span>
+        <span className="text-[10px] text-gray-500">Local {local}</span>
       </div>
       <GraphicLayoutCanvas
         layout={layout}

@@ -191,7 +191,8 @@
     "save": "Enregistrer dans la trousse de marque",
     "saveSuccess": "Enregistré. Les couleurs du site et la trousse de marque utilisent maintenant cette palette et ces détails.",
     "exportError": "Impossible d'exporter le logo. Réessayez, ou changez de navigateur si le problème continue.",
-    "previewAccessibleName": "Aperçu du créateur de logo"
+    "previewAccessibleName": "Aperçu du créateur de logo",
+    "whenToUse": "D’abord pour créer une plaque logo locale, puis enregistrer dans la Trousse de marque."
   },
   "home": {
     "title": "UnionOps: La boîte à outils pour les sections locales",
@@ -1017,7 +1018,9 @@
       "eventPackPrompt": "Besoin de la feuille RSVP et du fichier calendrier?",
       "eventPackLink": "Ouvrir Avis d'événement dans Documents et diapositives"
     },
-    "whenToUse": "Pour les tableaux d'affichage — réunions, votes et mises à jour que les membres peuvent manquer sur les réseaux."
+    "whenToUse": "Pour les tableaux d'affichage — réunions, votes et mises à jour que les membres peuvent manquer sur les réseaux.",
+    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
+    "setupBrandLink": "Ouvrir la trousse de marque"
   },
   "boardBanner": {
     "title": "Bandeau et bordure de tableau",
@@ -1143,7 +1146,8 @@
     "formatEditing": "En cours",
     "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
     "setupBrandLink": "Ouvrir la trousse de marque",
-    "exportError": "Échec de l'export. Réessayez."
+    "exportError": "Échec de l'export. Réessayez.",
+    "whenToUse": "Pour recadrer votre logo ou photo aux formats Facebook, Instagram et YouTube avant de publier."
   },
   "documentGenerator": {
     "title": "Générateur de documents et diapositives",
@@ -1290,7 +1294,8 @@
     "cta": "Obtenir du soutien →",
     "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
     "setupBrandLink": "Ouvrir la trousse de marque",
-    "previewAccessibleName": "Aperçu de l'affiche : {headline} sur fond {color}"
+    "previewAccessibleName": "Aperçu de l'affiche : {headline} sur fond {color}",
+    "whenToUse": "Pour des affiches énergiques et fonds d’écran avec QR de soutien optionnel."
   },
   "meetingBackground": {
     "title": "Créateur de fonds de réunion",
@@ -1338,7 +1343,8 @@
     "includeBranding": "Inclure l'image de marque locale",
     "preview": "Aperçu",
     "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque"
+    "setupBrandLink": "Ouvrir la trousse de marque",
+    "whenToUse": "Pour les fonds Zoom/Teams avec les couleurs et le logo de votre section."
   },
   "qrCard": {
     "title": "Créateur de cartes lien QR",
@@ -1405,7 +1411,8 @@
       "localWebsiteTitle": "Visitez notre site",
       "localWebsiteDesc": "Nouvelles, contacts et ressources pour les membres.",
       "localWebsiteTagline": "Scannez pour notre site"
-    }
+    },
+    "whenToUse": "Pour des cartes de poche qui envoient les membres vers le site, le groupe ou le soutien."
   },
   "actionCard": {
     "title": "Créateur de cartes d'action",
@@ -1971,7 +1978,9 @@
       "openMail": "Ouvrir dans l'application courriel",
       "privacy": "Fonctionne sur cet appareil. Rien n'est envoyé et aucune réponse n'est collectée ici."
     },
-    "whenToUse": "Pour les publications sociales. Associez aux Légendes après le téléchargement."
+    "whenToUse": "Pour les publications sociales. Associez aux Légendes après le téléchargement.",
+    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
+    "setupBrandLink": "Ouvrir la trousse de marque"
   },
   "quoteCard": {
     "title": "Générateur de carte citation",
@@ -1982,7 +1991,10 @@
     "role": "Rôle ou comité (optionnel)",
     "primaryColor": "Couleur primaire",
     "accentColor": "Barre d'accent",
-    "textColor": "Couleur du texte d'accent"
+    "textColor": "Couleur du texte d'accent",
+    "whenToUse": "Quand une citation de membre ou de dirigeant doit devenir une carte partageable.",
+    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
+    "setupBrandLink": "Ouvrir la trousse de marque"
   },
   "flyerMaker": {
     "title": "Créateur d'affiche piquet / rassemblement",
@@ -1995,7 +2007,9 @@
     "primaryColor": "Couleur primaire",
     "accentColor": "Couleur d'accent",
     "secondaryColor": "Couleur secondaire",
-    "whenToUse": "Pour les tracts aux réunions, tournées et actions. Associez aux tableaux pour les membres hors ligne."
+    "whenToUse": "Pour les tracts aux réunions, tournées et actions. Associez aux tableaux pour les membres hors ligne.",
+    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
+    "setupBrandLink": "Ouvrir la trousse de marque"
   },
   "altTextAssistant": {
     "title": "Assistant texte alt",
@@ -4339,7 +4353,9 @@
   },
   "captions": {
     "title": "Bibliothèque de légendes et de mot-clics",
-    "subtitle": "Copiez une publication prête, ajoutez le numéro de section et les dates, puis collez sous votre téléchargement du Créateur de graphiques."
+    "subtitle": "Copiez une publication prête, ajoutez le numéro de section et les dates, puis collez sous votre téléchargement du Créateur de graphiques.",
+    "graphicMakerCta": "Ouvrir le Créateur de graphiques",
+    "graphicMakerHint": "Après avoir copié une légende, téléchargez un graphique assorti."
   },
   "workshopDemo": {
     "title": "Démo en environ 20 minutes",

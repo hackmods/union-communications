@@ -7,6 +7,7 @@ import { copyToClipboard, cn } from "@/lib/utils";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { PageShell } from "@/components/layout/PageShell";
+import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 function resolveCaptionId(searchParams: URLSearchParams): string | null {
@@ -95,17 +96,25 @@ function CaptionsPageContent() {
           );
         })}
       </div>
+
+      <div className="mt-10 max-w-prose border-t border-gray-200 pt-6">
+        <p className="text-sm text-gray-600">{tc("graphicMakerHint")}</p>
+        <Link href="/tools/graphic-maker" className="mt-3 inline-block">
+          <Button variant="outline">{tc("graphicMakerCta")}</Button>
+        </Link>
+      </div>
     </PageShell>
   );
 }
 
 export default function CaptionsPage() {
+  const t = useTranslations("common");
   return (
     <Suspense
       fallback={
         <PageShell className="py-8 md:py-12">
           <p className="text-gray-600" aria-busy="true">
-            Loading…
+            {t("loading")}
           </p>
         </PageShell>
       }
