@@ -144,6 +144,26 @@ export const MODULE_REGISTRY: HubModuleDefinition[] = [
     requiresMfa: true,
     enabledCheck: (m) => m.includes("checkins"),
   },
+  {
+    id: "portal",
+    nameKey: "portal",
+    descriptionKey: "portalDesc",
+    href: "/portal",
+    emojiId: "strength",
+    requiredRoles: [
+      "local_member",
+      "local_steward",
+      "local_exec",
+      "local_president",
+      "stability_member",
+      "union_admin",
+      "division_admin",
+      "platform_admin",
+      "solo_account",
+    ],
+    requiresMfa: false,
+    enabledCheck: (m) => m.includes("portal"),
+  },
 ];
 
 export function getVisibleModules(

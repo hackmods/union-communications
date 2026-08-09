@@ -1,0 +1,32 @@
+---
+description: Local Portal Circles — solidarity naming, multi-org, never Hub confidential
+globs: src/app/**/portal/**/*,src/components/portal/**/*,src/lib/portal/**/*,src/types/portal.ts,docs/modules/LOCAL_PORTAL.md
+alwaysApply: false
+---
+
+# Local Portal
+
+Spec: `docs/modules/LOCAL_PORTAL.md`. ADR-017.
+
+## Product language (required)
+
+Use solidarity names only: Circle, Hall, Bulletin, Floor, Actions, Calendar, Binder, Station, Dispatch, Sidebars, Roll Call, Pipeline, Oversight, Fronts, Momentum, Roster.
+
+Never ship Basecamp labels (Campfire, Hey!, Lineup, Hill Chart, Card Table, Check-in as product titles) in UI or i18n.
+
+## Hard rules
+
+1. No grievance notes, bumping strategy, or Hub confidential casework in Portal
+2. Every query scoped by `unionId` (+ `localId` / `circleId`)
+3. No cross-union Circles
+4. Portal auth: logged-in + `enabledModules.portal` — MFA not required
+5. Route is `/portal/*`, not `/member`
+6. EN + FR messages for every string
+
+## Patterns
+
+- Memory adapter until Postgres; mirror snippets/time module shape
+- Role-gate writes in `src/lib/portal/access.ts`
+- Hub stays `/app/*`; link Portal from Hub dashboard when module enabled
+- Future ideas: `.cursor/rules/local-portal-backlog.mdc` + `.cursor/plans/local_portal_future.plan.md` (do not implement unless asked)
+- Smoke: `e2e/portal.smoke.spec.ts`

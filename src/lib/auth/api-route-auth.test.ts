@@ -55,6 +55,7 @@ const AUTH_MARKERS = [
   "requirePollsSession",
   "requireTenantOnboardingSession",
   "requireMeetingsSession",
+  "requirePortalSession",
 ];
 
 /** Routes that gate with shared secrets or tokens instead of Hub session. */

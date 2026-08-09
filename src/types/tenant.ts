@@ -6,7 +6,8 @@ export type HubModule =
   | "discussions"
   | "tasks"
   | "informalLog"
-  | "checkins";
+  | "checkins"
+  | "portal";
 
 export type UserRole =
   | "platform_admin"
@@ -16,6 +17,7 @@ export type UserRole =
   | "local_steward"
   | "local_exec"
   | "stability_member"
+  | "local_member"
   | "solo_account";
 
 export interface Union {

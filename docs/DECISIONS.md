@@ -105,3 +105,14 @@
 - **Audit every send** (and skipped sends) via `auditLog`.
 - When email is disabled or misconfigured, helpers return `{ ok: false, reason: "not_configured" }`; copy-link / mailto flows remain available.
 **Consequences:** Operators must configure SMTP for auto-send; Hub Invites can expose Send email when `NEXT_PUBLIC_EMAIL_ENABLED=true`. Password-reset and cron reminders can reuse this helper later without opening a marketing channel.
+
+## ADR-017: Local Portal Circles (solidarity Basecamp parody)
+**Status:** Accepted  
+**Context:** Rank-and-file members, stewards, and committees need a calm collaboration surface without paying for generic PM tools or exposing confidential Hub casework (grievance notes, bumping strategy). An earlier experimental branch also shipped a Postgres identity/register/approvals fork that conflicted with main’s invite/onboarding and bcrypt demo auth.  
+**Decision:**
+- Ship **Local Portal** at `/[locale]/portal/*`, gated by `enabledModules.portal` and role set including `local_member`.
+- Use solidarity product names only (Circle, Hall, Bulletin, Floor, Actions, Binder, Station, Dispatch, Sidebars, Roll Call, Pipeline, Momentum, Fronts, Oversight) — never Basecamp labels in UI/i18n.
+- Default persistence is the **memory** `portalStore` (same as other Hub modules until a Postgres + RLS adapter is flagged).
+- Portal does **not** require MFA; confidential Hub modules still do.
+- Do **not** land self-serve register / join-local / identity Drizzle schema in this Circles cut — keep main’s demo `passwordHash` auth and existing invite/onboarding.
+**Consequences:** Hub discussions/tasks/check-ins remain officer Hub surfaces; Portal is a parallel member-facing Circles product. Roster invites may use the demo user roster until a real directory exists.

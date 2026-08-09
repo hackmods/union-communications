@@ -75,6 +75,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 | `/app/audit` | Audit log (elevated) |
 | `/app/tasks` | Tasks board; case detail embeds `RelatedTasksPanel` |
 | `/app/checkins` | Automatic check-ins; dashboard unanswered widget |
+| `/portal` | Local Portal Circles (members/stewards; memory MVP; ADR-017) |
 
 ## Agent habits
 

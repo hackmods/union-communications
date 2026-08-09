@@ -1,0 +1,246 @@
+import { describe, expect, it } from "vitest";
+import { portalStore } from "@/lib/portal/memory-adapter";
+import {
+  canAccessPortal,
+  canAdminCircle,
+  canCreateCircle,
+} from "@/lib/portal/access";
+
+describe("portal access", () => {
+  it("allows local_member and officers", () => {
+    expect(canAccessPortal(["local_member"])).toBe(true);
+    expect(canAccessPortal(["local_steward"])).toBe(true);
+    expect(canCreateCircle(["local_member"])).toBe(false);
+    expect(canCreateCircle(["local_president"])).toBe(true);
+    expect(canAdminCircle(["local_member"], "admin")).toBe(true);
+  });
+});
+
+describe("portalStore", () => {
+  it("returns Station for steward with Circles and overdue Actions", () => {
+    const station = portalStore.listStation(
+      "union-opseu",
+      "user-steward-243",
+    );
+    expect(station.circles.length).toBeGreaterThanOrEqual(2);
+    expect(station.myActions.some((a) => a.title.includes("coverage"))).toBe(
+      true,
+    );
+    expect(station.dispatchUnread).toBeGreaterThan(0);
+  });
+
+  it("loads Circle detail with solidarity toolkits", () => {
+    const detail = portalStore.getCircleDetail(
+      "union-opseu",
+      "user-steward-243",
+      "circle-jhsc-243",
+    );
+    expect(detail?.circle.name).toBe("JHSC");
+    expect(detail?.pipelineBoard?.name).toContain("pipeline");
+    expect(detail?.floor.length).toBeGreaterThan(0);
+  });
+
+  it("promotes Bulletin to Action via source id", () => {
+    const post = portalStore.addBulletin({
+      circleId: "circle-hall-243",
+      unionId: "union-opseu",
+      authorId: "user-president-243",
+      authorName: "President",
+      title: "Need flyer",
+      body: "Please make one",
+    });
+    const action = portalStore.addAction({
+      circleId: "circle-hall-243",
+      unionId: "union-opseu",
+      listName: "From Bulletin",
+      title: post.title,
+      createdById: "user-president-243",
+      sourceBulletinPostId: post.id,
+      assigneeId: "user-member-243",
+      assigneeName: "Member",
+    });
+    expect(action.sourceBulletinPostId).toBe(post.id);
+  });
+
+  it("mutes Dispatch and stars membership", () => {
+    const before = portalStore.listDispatch(
+      "union-opseu",
+      "user-steward-243",
+    ).length;
+    expect(before).toBeGreaterThan(0);
+    portalStore.updateMembership("user-steward-243", "circle-lec-243", {
+      muted: true,
+      starred: true,
+    });
+    const after = portalStore.listDispatch(
+      "union-opseu",
+      "user-steward-243",
+    );
+    expect(after.every((d) => d.circleId !== "circle-lec-243")).toBe(true);
+  });
+
+  it("archives Circle and reports Oversight", () => {
+    const created = portalStore.createCircle({
+      unionId: "union-opseu",
+      localId: "local-243",
+      kind: "ad_hoc",
+      name: "Temp Circle",
+      visibility: "invited",
+      createdById: "user-president-243",
+      createdByName: "President",
+    });
+    expect(portalStore.archiveCircle(created.id, "union-opseu")).toBe(true);
+    const oversight = portalStore.oversight("circle-lec-243", "union-opseu");
+    expect(oversight.openCount).toBeGreaterThanOrEqual(0);
+    expect(Array.isArray(oversight.overdue)).toBe(true);
+  });
+
+  it("marks Dispatch read", () => {
+    const n = portalStore.markDispatchRead(
+      "union-opseu",
+      "user-member-243",
+      undefined,
+    );
+    expect(n).toBeGreaterThanOrEqual(0);
+    const unread = portalStore
+      .listDispatch("union-opseu", "user-member-243")
+      .filter((d) => !d.readAt);
+    expect(unread).toHaveLength(0);
+  });
+
+  it("searches across Circles and lists Fronts", () => {
+    const hits = portalStore.search(
+      "union-opseu",
+      "user-steward-243",
+      "Hall",
+    );
+    expect(hits.some((h) => h.kind === "circle")).toBe(true);
+    const fronts = portalStore.listFronts("union-opseu", "user-steward-243");
+    expect(fronts.length).toBeGreaterThan(0);
+  });
+
+  it("updates Momentum and Sidebars", () => {
+    const item = portalStore.upsertMomentum({
+      circleId: "circle-lec-243",
+      unionId: "union-opseu",
+      title: "Test package",
+      progress: 40,
+      updatedById: "user-president-243",
+      updatedByName: "President",
+    });
+    expect(item.progress).toBe(40);
+    const thread = portalStore.ensureSidebarThread({
+      unionId: "union-opseu",
+      fromId: "user-member-243",
+      fromName: "Member",
+      toId: "user-president-243",
+      toName: "President",
+    });
+    const msg = portalStore.sendSidebarMessage({
+      unionId: "union-opseu",
+      threadId: thread.id,
+      authorId: "user-member-243",
+      authorName: "Member",
+      body: "Hello from Sidebar",
+    });
+    expect(msg?.body).toContain("Sidebar");
+  });
+
+  it("creates Circle from JHSC template with Pipeline", () => {
+    const circle = portalStore.createCircle({
+      unionId: "union-opseu",
+      localId: "local-243",
+      kind: "committee",
+      name: "Template JHSC",
+      visibility: "invited",
+      createdById: "user-president-243",
+      createdByName: "President",
+      template: "jhsc",
+    });
+    const detail = portalStore.getCircleDetail(
+      "union-opseu",
+      "user-president-243",
+      circle.id,
+    );
+    expect(detail?.pipelineBoard).not.toBeNull();
+    expect(detail?.rollCallQuestions.length).toBeGreaterThan(0);
+  });
+
+  it("resolves @mentions into Dispatch and soft-deletes Bulletin", () => {
+    const before = portalStore.listDispatch(
+      "union-opseu",
+      "user-member-243",
+    ).length;
+    portalStore.addBulletin({
+      circleId: "circle-hall-243",
+      unionId: "union-opseu",
+      authorId: "user-president-243",
+      authorName: "President",
+      title: "Ping",
+      body: "Please see @Local 243 Member about the flyer.",
+    });
+    const after = portalStore.listDispatch("union-opseu", "user-member-243");
+    expect(after.length).toBeGreaterThan(before);
+    expect(after.some((d) => d.kind === "mention")).toBe(true);
+
+    const post = portalStore.addBulletin({
+      circleId: "circle-hall-243",
+      unionId: "union-opseu",
+      authorId: "user-president-243",
+      authorName: "President",
+      title: "Temp delete me",
+      body: "Gone soon",
+    });
+    expect(
+      portalStore.softDelete(
+        "bulletin",
+        post.id,
+        "union-opseu",
+        "user-president-243",
+      ),
+    ).toBe(true);
+    const detail = portalStore.getCircleDetail(
+      "union-opseu",
+      "user-president-243",
+      "circle-hall-243",
+    );
+    expect(detail?.bulletin.some((p) => p.id === post.id)).toBe(false);
+  });
+
+  it("imports Basecamp CSV rows and exports activity pack", () => {
+    const result = portalStore.importBasecampCsv(
+      "circle-hall-243",
+      "union-opseu",
+      "user-president-243",
+      "President",
+      "type,title,body\nbulletin,Imported note,Hello\naction,Imported task,Do it\n",
+    );
+    expect(result.created).toBe(2);
+    const pack = portalStore.exportActivityPack(
+      "circle-hall-243",
+      "union-opseu",
+    );
+    expect(pack?.bulletin.some((p) => p.title === "Imported note")).toBe(true);
+    expect(pack?.audit.length).toBeGreaterThan(0);
+  });
+
+  it("mutes per-tool Dispatch", () => {
+    portalStore.updateMembership("user-member-243", "circle-hall-243", {
+      mutedTools: ["bulletin"],
+    });
+    portalStore.addBulletin({
+      circleId: "circle-hall-243",
+      unionId: "union-opseu",
+      authorId: "user-president-243",
+      authorName: "President",
+      title: "Should be quiet",
+      body: "Muted tool test",
+    });
+    const items = portalStore.listDispatch("union-opseu", "user-member-243");
+    expect(
+      items.every(
+        (d) => !(d.circleId === "circle-hall-243" && d.kind === "bulletin" && d.title.includes("Should be quiet")),
+      ),
+    ).toBe(true);
+  });
+});

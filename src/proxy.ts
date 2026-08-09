@@ -47,12 +47,13 @@ export default auth((req) => {
     !isInviteAccept &&
     !isPasswordReset &&
     !isMagicSignIn;
+  const isPortalRoute = pathname.includes("/portal");
 
   if (req.auth && (isLogin || isMagicSignIn)) {
     return NextResponse.redirect(new URL(`/${locale}/app`, req.url));
   }
 
-  if (!req.auth && isAppRoute) {
+  if (!req.auth && (isAppRoute || isPortalRoute)) {
     return NextResponse.redirect(new URL(`/${locale}/app/login`, req.url));
   }
 

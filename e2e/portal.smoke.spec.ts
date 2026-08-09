@@ -1,0 +1,229 @@
+import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
+import {
+  loginAsMember,
+  loginAsPresident,
+  loginAsSteward,
+  hubLogin,
+} from "./helpers/auth";
+
+function seriousOrCriticalViolations(
+  violations: { impact?: string | null }[],
+) {
+  return violations.filter(
+    (v) => v.impact === "critical" || v.impact === "serious",
+  );
+}
+
+test.describe("Local Portal smoke @smoke", () => {
+  test("unauthenticated portal redirects to login", async ({ page }) => {
+    await page.goto("/en/portal");
+    await expect(page).toHaveURL(/\/en\/app\/login/);
+  });
+
+  test("member reaches Station without MFA", async ({ page }) => {
+    await loginAsMember(page);
+    await page.goto("/en/portal");
+    await expect(page.getByRole("heading", { name: "Station" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Your Circles" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Local 243 Hall" })).toBeVisible();
+  });
+
+  test("Station has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await loginAsMember(page);
+    await page.goto("/en/portal");
+    await expect(page.getByRole("heading", { name: "Station" })).toBeVisible();
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(seriousOrCriticalViolations(results.violations)).toEqual([]);
+  });
+
+  test("member opens Hall and posts Bulletin", async ({ page }) => {
+    await loginAsMember(page);
+    await page.goto("/en/portal");
+    await page.getByRole("link", { name: "Local 243 Hall" }).click();
+    await expect(page).toHaveURL(/\/en\/portal\/circles\/circle-hall-243/);
+    await expect(
+      page.getByRole("heading", { name: "Local 243 Hall" }),
+    ).toBeVisible();
+
+    await page.getByRole("tab", { name: "Bulletin" }).click();
+    const stamp = Date.now();
+    await page.getByPlaceholder("Bulletin title").fill(`Smoke bulletin ${stamp}`);
+    await page
+      .getByPlaceholder("Write for the record…")
+      .fill("Playwright end-to-end Bulletin post.");
+    await page.getByRole("button", { name: "Post to Bulletin" }).click();
+    await expect(page.getByText(`Smoke bulletin ${stamp}`)).toBeVisible();
+  });
+
+  test("member promotes Bulletin to Action and completes it", async ({
+    page,
+  }) => {
+    await loginAsMember(page);
+    await page.goto("/en/portal/circles/circle-hall-243");
+    await page.getByRole("tab", { name: "Bulletin" }).click();
+
+    const stamp = Date.now();
+    await page.getByPlaceholder("Bulletin title").fill(`Promote me ${stamp}`);
+    await page
+      .getByPlaceholder("Write for the record…")
+      .fill("Should become an Action.");
+    await page.getByRole("button", { name: "Post to Bulletin" }).click();
+    await expect(page.getByText(`Promote me ${stamp}`)).toBeVisible();
+
+    const post = page.locator("li").filter({ hasText: `Promote me ${stamp}` });
+    await post.getByRole("button", { name: "Make Action" }).click();
+    await page.getByRole("tab", { name: "Actions" }).click();
+    const actionRow = page.locator("li").filter({ hasText: `Promote me ${stamp}` });
+    await expect(actionRow).toBeVisible();
+    await actionRow.getByRole("button", { name: "Complete" }).click();
+    await expect(
+      actionRow.locator("span.line-through").filter({ hasText: `Promote me ${stamp}` }),
+    ).toBeVisible();
+  });
+
+  test("member uses Calendar, Binder, and Floor on JHSC", async ({ page }) => {
+    await loginAsMember(page);
+    await page.goto("/en/portal/circles/circle-jhsc-243");
+
+    await page.getByRole("tab", { name: "Calendar" }).click();
+    await page.getByPlaceholder("Event title").fill("Smoke walkthrough");
+    await page.getByRole("button", { name: "Add to Calendar" }).click();
+    await expect(page.getByText("Smoke walkthrough")).toBeVisible();
+
+    await page.getByRole("tab", { name: "Binder" }).click();
+    await page.getByPlaceholder("Binder item title").fill("Smoke note");
+    await page.getByPlaceholder("Note or link…").fill("Binder memory note.");
+    await page.getByRole("button", { name: "Add to Binder" }).click();
+    await expect(page.getByText("Smoke note")).toBeVisible();
+
+    await page.getByRole("tab", { name: "Floor" }).click();
+    await page.getByPlaceholder("Message the Floor…").fill("Floor smoke ping");
+    await page.getByRole("button", { name: "Send" }).click();
+    await expect(page.getByText("Floor smoke ping")).toBeVisible();
+  });
+
+  test("member sees Pipeline and Oversight on JHSC", async ({ page }) => {
+    await loginAsMember(page);
+    await page.goto("/en/portal/circles/circle-jhsc-243");
+
+    await page.getByRole("tab", { name: "Pipeline" }).click();
+    await expect(page.getByRole("heading", { name: "Backlog" })).toBeVisible();
+    await expect(page.getByText("North lot lighting")).toBeVisible();
+
+    await page.getByRole("tab", { name: "Oversight" }).click();
+    await expect(page.getByRole("heading", { name: "Overdue" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Unassigned" })).toBeVisible();
+  });
+
+  test("Dispatch lists items and mark-all-read works", async ({ page }) => {
+    await loginAsMember(page);
+    await page.goto("/en/portal/dispatch");
+    await expect(page.getByRole("heading", { name: "Dispatch" })).toBeVisible();
+    await page.getByRole("button", { name: "Mark all read" }).click();
+    // After mark-all, unread styling may clear; page stays on Dispatch
+    await expect(page).toHaveURL(/\/en\/portal\/dispatch/);
+  });
+
+  test("star and mute controls on Circle", async ({ page }) => {
+    await loginAsMember(page);
+    await page.goto("/en/portal/circles/circle-hall-243");
+    const star = page.getByRole("button", { name: /Star Circle|Unstar Circle/ });
+    await expect(star).toBeVisible();
+    await star.click();
+    await page.getByRole("button", { name: /Mute Dispatch|Unmute Dispatch/ }).click();
+  });
+
+  test("president creates a Circle from Station", async ({ page }) => {
+    await loginAsPresident(page);
+    await page.goto("/en/portal");
+    await expect(page.getByRole("heading", { name: "Station" })).toBeVisible();
+    const name = `Smoke Circle ${Date.now()}`;
+    await page.getByPlaceholder("New committee Circle name").fill(name);
+    await page.getByRole("button", { name: "Create Circle" }).click();
+    await expect(page.getByRole("link", { name })).toBeVisible();
+  });
+
+  test("French Station uses solidarity labels", async ({ page }) => {
+    await hubLogin(page, "member@local243.ca");
+    await expect(page).toHaveURL(/\/en\/app\/?$/);
+    await page.goto("/fr/portal");
+    await expect(page.getByRole("heading", { name: "Poste" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Vos Cercles" })).toBeVisible();
+  });
+
+  test("officer with MFA can open Portal module after verify", async ({
+    page,
+  }) => {
+    await loginAsSteward(page);
+    await page.goto("/en/portal");
+    await expect(page.getByRole("heading", { name: "Station" })).toBeVisible({
+      timeout: 15_000,
+    });
+    await expect(page.getByRole("link", { name: "LEC", exact: true })).toBeVisible();
+  });
+
+  test("Circle workspace has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await loginAsMember(page);
+    await page.goto("/en/portal/circles/circle-hall-243");
+    await expect(
+      page.getByRole("heading", { name: "Local 243 Hall" }),
+    ).toBeVisible();
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(seriousOrCriticalViolations(results.violations)).toEqual([]);
+  });
+
+  test("member opens Fronts and Sidebars", async ({ page }) => {
+    await loginAsMember(page);
+    await page.goto("/en/portal/fronts");
+    await expect(page.getByRole("heading", { name: "Fronts" })).toBeVisible();
+    await page.goto("/en/portal/sidebars");
+    await expect(page.getByRole("heading", { name: "Sidebars" })).toBeVisible();
+  });
+
+  test("steward sees Momentum on LEC", async ({ page }) => {
+    await loginAsSteward(page);
+    await page.goto("/en/portal/circles/circle-lec-243");
+    await page.getByRole("tab", { name: "Momentum" }).click();
+    await expect(
+      page.getByText("Membership meeting turnout plan"),
+    ).toBeVisible();
+  });
+
+  test("deep-link opens Actions tab from Station query", async ({ page }) => {
+    await loginAsMember(page);
+    await page.goto("/en/portal/circles/circle-hall-243?tab=actions");
+    await expect(page.getByRole("tab", { name: "Actions" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await expect(page.getByPlaceholder("New Action")).toBeVisible();
+  });
+
+  test("member can soft-delete Bulletin and download activity pack", async ({
+    page,
+  }) => {
+    await loginAsMember(page);
+    await page.goto("/en/portal/circles/circle-hall-243");
+    await page.getByRole("tab", { name: "Bulletin" }).click();
+    const stamp = Date.now();
+    await page.getByPlaceholder("Bulletin title").fill(`Delete me ${stamp}`);
+    await page
+      .getByPlaceholder("Write for the record…")
+      .fill("Soft-delete smoke.");
+    await page.getByRole("button", { name: "Post to Bulletin" }).click();
+    await expect(page.getByText(`Delete me ${stamp}`)).toBeVisible();
+    const row = page.locator("li").filter({ hasText: `Delete me ${stamp}` });
+    await row.getByRole("button", { name: "Remove" }).click();
+    await expect(page.getByText(`Delete me ${stamp}`)).toHaveCount(0);
+
+    const downloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Download activity pack" }).click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/activity-pack\.json$/);
+  });
+});

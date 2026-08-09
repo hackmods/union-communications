@@ -1,5 +1,12 @@
 # Progress Log
 
+## Local Portal Circles re-landed (2026-08-08)
+
+- [x] Re-land Circles memory MVP on current main (Station, Circle workspace P0–P4, Dispatch/Fronts/Sidebars)
+- [x] Solidarity naming + `/portal` routes + `enabledModules.portal` + `local_member` demo user (`passwordHash`)
+- [x] Explicitly **excluded** Postgres identity / register / approvals fork from experimental branch
+- [x] ADR-017 + `docs/modules/LOCAL_PORTAL.md`; Hub tile does not require MFA
+
 ## Comms visual system stop-gap pass 2 (2026-08-06)
 
 - [x] Meeting field fills yield to Brand Kit surfaces; QR/Action plain modes use `canvasSurfaceStyle`

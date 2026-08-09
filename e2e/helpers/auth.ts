@@ -51,3 +51,42 @@ export async function loginAsDemoOfficer(
     await expect(verified).toBeVisible({ timeout: 20_000 });
   }
 }
+
+/** Sign in via hub login. Does not clear MFA unless the account skips it. */
+export async function hubLogin(
+  page: Page,
+  email: string,
+  password = "demo123",
+) {
+  await page.goto("/en/app/login");
+  await page.getByLabel(/Email|Courriel/i).fill(email);
+  await page.getByLabel(/Password|Mot de passe/i).fill(password);
+  await page.getByRole("button", { name: /Sign in|Connexion/i }).click();
+  await expect(page).toHaveURL(HUB_POST_LOGIN, { timeout: 20_000 });
+}
+
+/** Complete MFA when landed on the verify page (dev code 000000). */
+export async function completeMfaIfNeeded(page: Page) {
+  if (!page.url().includes("/mfa")) return;
+  await page
+    .getByLabel(/Verification code|Code de vérification/i)
+    .fill("000000");
+  await page.getByRole("button", { name: /Verify|Vérifier/i }).click();
+  await expect(page).toHaveURL(/\/en\/app\/?(?:\?.*)?$/, { timeout: 20_000 });
+}
+
+/** Rank-and-file Local Portal demo account — no MFA. */
+export async function loginAsMember(page: Page) {
+  await hubLogin(page, "member@local243.ca");
+  await expect(page).toHaveURL(/\/en\/app\/?(?:\?.*)?$/);
+}
+
+export async function loginAsPresident(page: Page) {
+  await hubLogin(page, "president@local243.ca");
+  await completeMfaIfNeeded(page);
+}
+
+export async function loginAsSteward(page: Page) {
+  await hubLogin(page, "steward@local243.ca");
+  await completeMfaIfNeeded(page);
+}

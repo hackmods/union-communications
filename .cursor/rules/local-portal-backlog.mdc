@@ -1,0 +1,47 @@
+---
+description: Local Portal future enhancements backlog (capture intent)
+globs: docs/modules/LOCAL_PORTAL.md,src/app/**/portal/**/*,src/components/portal/**/*,src/lib/portal/**/*
+alwaysApply: false
+---
+
+# Local Portal — future design backlog
+
+Spec: `docs/modules/LOCAL_PORTAL.md`. Plan: `.cursor/plans/local_portal_future.plan.md`.
+
+## Shipped in memory (P3 + P4 — 2026-07-22)
+
+- **Momentum**, **Sidebars**, **Fronts**
+- Cross-Circle search, Station week digest, per-Circle unread badges
+- Circle templates (LEC / JHSC / campaign), Bulletin pin + comments UI
+- Calendar `.ics` download, Roster invite (demo users), Roll Call question create (API + UI)
+- Deep-link Station/search hits via `?tab=`, Fronts date edit on Circle, Action assignee/due, Calendar datetime/location
+- **P4:** @mentions → Dispatch, soft-delete + Circle audit, per-tool mute, Pipeline drag-and-drop, Basecamp CSV import, activity pack export, keyboard 1–0 tool switch, Calendar RSVP/external URL, guest (viewer) banner
+
+## Production cutover (blocking)
+
+1. Postgres + RLS on `unionId` / `localId` / `circleId`
+2. Binder object storage + virus scan (reuse Phase 7 attachment path)
+3. Invite / Roster UI (email transactional — ARCHITECTURE v2+)
+4. Replace memory adapter; seed migration from demo Circles
+
+## Still deferred
+
+- **Email → Bulletin** — after retention/privacy ADR
+- Dispatch digest email (transactional)
+- Calendar link to live `UnionMeeting` / `/r/[token]` RSVP (external URL field ships as interim)
+- Realtime Floor (SSE first) — keep calm, not Slack
+- Guest visibility auto-admit for `local_members` Circles without explicit Roster
+
+## Explicit non-goals (still)
+
+- Grievance notes / bumping strategy in Portal
+- `/member` routes or national ERP replacement
+- Basecamp brand names in UI
+- Marketing email / analytics
+- Full Slack/Teams replacement
+
+## Testing expectations when touching Portal
+
+- `npm run lint` + `npm run typecheck` + `npm run test:unit`
+- `npm run test:smoke` (includes `e2e/portal.smoke.spec.ts` `@smoke`)
+- Keep axe serious/critical clean on Station + Circle workspace
