@@ -75,7 +75,10 @@ Update when a surface ships.
 | website-template | done |
 | board-banner | done |
 | alt-text | done |
-| document-generator | done |
+| document-generator | done (layout exception; success Callout + RelatedTools 2026-08) |
+| pulse-poll | done (RelatedTools + exportSuccess; Hub publish remains advanced) |
+
+Workshop polish (2026-08): remaining canvas tools wire `exportSuccess`, `ToolRelatedFooter`, and `purposeHint` where listed in `comms-public-ux.mdc`; quiet demo tools show `BrandSetupPrompt` when Brand Kit is empty. Captions page links Graphic Maker. Re-touch register rows only when four-width check fails again.
 
 ### Public secondary
 

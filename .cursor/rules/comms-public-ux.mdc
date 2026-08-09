@@ -26,6 +26,7 @@ Use `brandSetupHref(themeEstablished)` from `@/lib/utils/brand-setup` (`/onboard
 2. First week: boards → print → socials → website ([`first-week-roadmap.ts`](src/lib/comms/first-week-roadmap.ts))  
 3. Live demos: [`WorkshopDemoPath`](src/components/comms/WorkshopDemoPath.tsx) (Brand Kit → Board Notice → Graphic Maker → Captions)  
 4. Facilitator docs: [`docs/guides/WORKSHOP_SOCIAL_COMMS.md`](../../docs/guides/WORKSHOP_SOCIAL_COMMS.md); public outline: `/guide/workshop`; orientation: `/guide/resources`
+5. Post-talk backlog / fit notes: [`docs/audit/workshop-gap-fit-2026-08.md`](../../docs/audit/workshop-gap-fit-2026-08.md)
 
 ## Tool chrome contracts
 

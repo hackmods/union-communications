@@ -1,5 +1,12 @@
 # Progress Log
 
+## Workshop multiphase A/B/C + Gap Fit (2026-08-09)
+
+- [x] Phase A: Day-of run sheet; `e2e/workshop.smoke.spec.ts` demo quartet @smoke
+- [x] Phase B: `exportSuccess` on remaining canvas tools + doc-gen; RelatedTools / `purposeHint` / BrandSetup on quiet demo tools; Captions → Graphic Maker CTA
+- [x] Phase C: branch/worktree hygiene; lint + unit gate for workshop-touched surfaces
+- [x] Gap Fit: [`docs/audit/workshop-gap-fit-2026-08.md`](audit/workshop-gap-fit-2026-08.md); linked from `comms-public-ux.mdc`
+
 ## Local 404 solidarity status pass (2026-08-09)
 
 - [x] Shared `RouteStatusPanel` / `RouteStatusStatic` — Local 404 chrome, UnionOps mark, Solidarity closer
