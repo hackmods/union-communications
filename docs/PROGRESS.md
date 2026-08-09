@@ -1,5 +1,14 @@
 # Progress Log
 
+## Local 404 solidarity status pass (2026-08-09)
+
+- [x] Shared `RouteStatusPanel` / `RouteStatusStatic` — Local 404 chrome, UnionOps mark, Solidarity closer
+- [x] Stable-hash rotating EN/FR quips (`routeUi.quips`) with path buckets (hub/portal/poll/rsvp/meeting/error)
+- [x] Quiet Local 243 footnote + deepen snowmobile egg (5× mark tap; `public/easter-eggs/`)
+- [x] Portal `not-found` / `error` / `loading`; root `not-found` + `global-error` (kills Next stock 404)
+- [x] Poll / RSVP / meeting misses call `notFound()` for true HTTP 404
+- [x] Session knowledge: [`docs/audit/session-knowledge-2026-08-09-local-404.md`](audit/session-knowledge-2026-08-09-local-404.md)
+
 ## Public Comms workshop UX pack (2026-08-08)
 
 - [x] Copy/terminology pass (EN/FR): Graphic Maker, Image Resizer, UnionOps Comms vs hub, Brand Kit CTAs, Pulse Poll / email guide volunteer-safe

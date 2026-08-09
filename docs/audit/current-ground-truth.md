@@ -1,10 +1,11 @@
-# Current ground truth (agents) — as of 2026-07-30
+# Current ground truth (agents) — as of 2026-08-09
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
 
 **Session narrative + lessons (Hub → Proxmox → password-reset → Time 8c–8e → cron → GM invite):** [`session-knowledge-2026-07-24.md`](session-knowledge-2026-07-24.md)  
 **Comms external links / national site URL rot (LINK-001):** [`session-knowledge-2026-07-30.md`](session-knowledge-2026-07-30.md)  
-**Multi-union sources + logo bundling (LINK-002):** [`session-knowledge-2026-07-30-multi-union-sources.md`](session-knowledge-2026-07-30-multi-union-sources.md)
+**Multi-union sources + logo bundling (LINK-002):** [`session-knowledge-2026-07-30-multi-union-sources.md`](session-knowledge-2026-07-30-multi-union-sources.md)  
+**Local 404 / route status chrome:** [`session-knowledge-2026-08-09-local-404.md`](session-knowledge-2026-08-09-local-404.md)
 
 ## Do not re-open as if missing
 
@@ -24,6 +25,7 @@
 | Password-reset | Shipped | Memory default; durable Postgres when `AUTH_USERS_BACKEND=postgres` |
 | FEAT-003 / FEAT-004 | Shipped | Related tasks panel; outcome UI/export/`appealDays` |
 | Check-ins (Basecamp Automatic Check-ins) | Shipped 2026-07-26 | HubModule `checkins`; dashboard unanswered widget; no email nudges |
+| Local 404 / route status | Shipped 2026-08-09 | `RouteStatusPanel`; Portal + root/`global-error`; poll/RSVP/meeting `notFound()`; quips + eggs |
 
 ## Three email/reminder surfaces (do not conflate)
 
@@ -81,6 +83,17 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 | Verify | Browser-first for `opseu.org` (automated HEAD often 403) |
 | Steward copy | `sources.intro` in EN/FR — use `/assets` mirrors when national links fail |
 
+## Route status / Local 404 (2026-08-09)
+
+| Topic | Reality |
+|-------|---------|
+| Stock “404 This page could not be found.” | Next default — root `not-found` + `global-error` kill it |
+| Quips | Stable pathname hash; banks in `routeUi.quips` EN/FR |
+| Portal | Own `not-found`/`error`/`loading` — not Hub, not public tools CTAs |
+| Missing poll/RSVP/meeting | Call `notFound()` (HTTP 404); do not return 200 inline |
+| Eggs | Quiet 243 footnote; snowmobile on 5× mark tap only |
+| Narrative | [`session-knowledge-2026-08-09-local-404.md`](session-knowledge-2026-08-09-local-404.md) |
+
 ## Agent habits
 
 - Diff docs vs code before “implement next” — plan files and backlog tickets lag
@@ -88,3 +101,4 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 - Bounded PRs; EN/FR + module spec + PROGRESS + rules in same milestone
 - Grep access-helper call sites when signatures change
 - Skip VISION non-goals (dues, member lists); skip Basecamp **Campfire / hill charts** greenfield — check-ins shipped
+- Route status UX: extend `RouteStatusPanel` + `routeUi` — do not invent parallel 404 chrome

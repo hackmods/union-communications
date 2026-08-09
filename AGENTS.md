@@ -11,7 +11,7 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 4. [`docs/COMPLIANCE.md`](docs/COMPLIANCE.md) - privacy, AODA
 5. [`docs/ROADMAP.md`](docs/ROADMAP.md) - phase status + next work
 6. [`docs/PROGRESS.md`](docs/PROGRESS.md) - what shipped
-7. [`docs/audit/current-ground-truth.md`](docs/audit/current-ground-truth.md) - **post-audit as-built** (prefer over stale `active-context.md`); session lessons: [`session-knowledge-2026-07-24.md`](docs/audit/session-knowledge-2026-07-24.md), [`session-knowledge-2026-07-30.md`](docs/audit/session-knowledge-2026-07-30.md) (national link rot / **LINK-001**), [`session-knowledge-2026-07-30-multi-union-sources.md`](docs/audit/session-knowledge-2026-07-30-multi-union-sources.md) (gate OPSEU citations; logo bundling risk); playbook: [`external-links-audit-plan.md`](docs/audit/external-links-audit-plan.md)
+7. [`docs/audit/current-ground-truth.md`](docs/audit/current-ground-truth.md) - **post-audit as-built** (prefer over stale `active-context.md`); session lessons: [`session-knowledge-2026-07-24.md`](docs/audit/session-knowledge-2026-07-24.md), [`session-knowledge-2026-07-30.md`](docs/audit/session-knowledge-2026-07-30.md) (national link rot / **LINK-001**), [`session-knowledge-2026-07-30-multi-union-sources.md`](docs/audit/session-knowledge-2026-07-30-multi-union-sources.md) (gate OPSEU citations; logo bundling risk), [`session-knowledge-2026-08-09-local-404.md`](docs/audit/session-knowledge-2026-08-09-local-404.md) (Local 404 / route status chrome); playbook: [`external-links-audit-plan.md`](docs/audit/external-links-audit-plan.md)
 8. Module spec: [`docs/modules/`](docs/modules/) — calendar/meetings: [`docs/modules/CALENDAR_MEETINGS.md`](docs/modules/CALENDAR_MEETINGS.md); check-ins: [`docs/modules/CHECKINS.md`](docs/modules/CHECKINS.md)
 9. Cursor rules: [`.cursor/rules/platform.mdc`](.cursor/rules/platform.mdc), [`roadmap-next.mdc`](.cursor/rules/roadmap-next.mdc), per-module rules — calendar/meetings: [`.cursor/rules/calendar-meetings.mdc`](.cursor/rules/calendar-meetings.mdc); RSVP outreach: [`.cursor/rules/event-rsvp-outreach.mdc`](.cursor/rules/event-rsvp-outreach.mdc)
 
@@ -61,7 +61,9 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 
 ## Easter Egg
 
-When local number is empty, `resolveLocalNumber()` returns `"243"` for previews and exports. Do not document prominently in user-facing copy.
+When local number is empty, `resolveLocalNumber()` returns `"243"` for previews and exports. Status pages (Local 404) now wink at 243 in a quiet footnote and one rotating quip — still not a tenant default.
+
+Product deepen-egg: tap the UnionOps mark **5 times** on a status panel to open the JUST BE LOVED snowmobile (`public/easter-eggs/just-be-loved-snowmobile.png`; source also under `.cursor/easter-eggs/`).
 
 ## Agents: you are loved
 

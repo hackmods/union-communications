@@ -111,18 +111,70 @@
     "downloadSuccessDetail": "Your file is ready — check your downloads folder."
   },
   "routeUi": {
-    "errorTitle": "Something went wrong",
-    "errorBody": "This page hit an unexpected error. You can try again, or go back to a safe page.",
-    "hubErrorBody": "The Officer Hub hit an unexpected error. Try again, or sign out and sign back in.",
+    "errorTitle": "Needs a steward",
+    "errorBody": "Something unexpected broke on the floor. Try again, or get somewhere safe.",
+    "hubErrorBody": "The Officer Hub hit a snag. Try again, or sign out and sign back in.",
     "tryAgain": "Try again",
     "signOut": "Sign out",
-    "notFoundTitle": "Page not found",
-    "notFoundBody": "That page doesn’t exist or may have moved.",
-    "hubNotFoundBody": "That Hub page doesn’t exist or may have moved.",
+    "notFoundTitle": "Local 404",
+    "notFoundBody": "That page isn’t on the roster — or it moved camp.",
+    "hubNotFoundBody": "That Hub route isn’t on the roster.",
+    "portalNotFoundBody": "That Portal path isn’t on the floor plan.",
+    "portalErrorBody": "The Local Portal hit an unexpected error. Try again, or head back to the station.",
     "backToTools": "Browse tools",
     "backToHub": "Back to dashboard",
+    "backToPortal": "Back to Portal",
     "backHome": "Back to home",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "statusCode": "404",
+    "slogan": "Solidarity.",
+    "local243Footnote": "P.S. Empty local previews still land on 243.",
+    "markAria": "UnionOps mark",
+    "easterEggTitle": "JUST BE LOVED",
+    "easterEggBody": "You found the snowmobile. Take a breath. Then keep shipping Solidarity.",
+    "easterEggClose": "Back to work",
+    "easterEggImageAlt": "Snowmobile illustration rewritten to say JUST BE LOVED",
+    "quips": {
+      "notFound": [
+        "This page never joined the bargaining unit.",
+        "Off the clock — and off the map.",
+        "We filed a grievance with the URL. No response.",
+        "Looking for Local 243? Wrong door — but you found the wink.",
+        "This URL walked off the picket line.",
+        "Missing in solidarity — try a known path."
+      ],
+      "error": [
+        "Something broke on the floor. A steward is on the way (metaphorically).",
+        "Unexpected grievance: the page itself.",
+        "Punch error. Soft reset recommended.",
+        "The bargain held. This render did not."
+      ],
+      "hub": [
+        "That Hub page punched out early.",
+        "Not on this local’s Officer Hub roster.",
+        "Wrong door on the shop floor — dashboard’s that way."
+      ],
+      "portal": [
+        "That circle / station isn’t on the floor plan.",
+        "Portal route missing — try the station home.",
+        "No dispatch under that path."
+      ],
+      "poll": [
+        "This pulse poll signed off the sheet.",
+        "Share link doesn’t match an open poll.",
+        "Poll’s closed — or never opened."
+      ],
+      "rsvp": [
+        "This invite token punched out.",
+        "RSVP link invalid or removed — ask your steward for a fresh one.",
+        "No meeting headcount behind that token."
+      ],
+      "meeting": [
+        "No meeting schedule under that local slug.",
+        "Public meeting page not found.",
+        "That slug never made it onto the calendar."
+      ]
+    }
   },
   "logoBuilder": {
     "title": "Local Logo Builder",
