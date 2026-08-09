@@ -17,6 +17,7 @@ function resolveCaptionId(searchParams: URLSearchParams): string | null {
 
 function CaptionsPageContent() {
   const t = useTranslations("common");
+  const tc = useTranslations("captions");
   const searchParams = useSearchParams();
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
@@ -47,12 +48,10 @@ function CaptionsPageContent() {
 
   return (
     <PageShell className="py-8 md:py-12">
-      <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
-        Caption & Hashtag Library
+      <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
+        {tc("title")}
       </h1>
-      <p className="mt-2 max-w-prose text-gray-600">
-        Reusable post templates with a solidarity-first tone. Click copy and customize.
-      </p>
+      <p className="mt-2 max-w-prose text-gray-600">{tc("subtitle")}</p>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {CAPTION_TEMPLATES.map((template) => {
@@ -73,7 +72,9 @@ function CaptionsPageContent() {
                   <span className="text-xs font-medium uppercase text-opseu-blue">
                     {template.category}
                   </span>
-                  <CardTitle className="mt-0.5 text-base">{template.title}</CardTitle>
+                  <CardTitle className="mt-0.5 text-base">
+                    {template.title}
+                  </CardTitle>
                 </div>
                 <Button
                   size="sm"
@@ -103,9 +104,9 @@ export default function CaptionsPage() {
     <Suspense
       fallback={
         <PageShell className="py-8 md:py-12">
-          <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
-            Caption & Hashtag Library
-          </h1>
+          <p className="text-gray-600" aria-busy="true">
+            Loading…
+          </p>
         </PageShell>
       }
     >

@@ -21,6 +21,7 @@ export const PUBLIC_PATHS = [
   "/tools",
   "/guide",
   "/guide/social-media-plan",
+  "/guide/workshop",
   "/guide/union-boards",
   "/guide/print",
   "/guide/website",

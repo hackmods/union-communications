@@ -19,7 +19,7 @@
     "tools": "Outils",
     "logoBuilder": "Créateur de logo",
     "graphicMaker": "Créateur graphique",
-    "resizer": "Redimensionneur",
+    "resizer": "Redimensionneur d'images",
     "quoteCard": "Carte de citation",
     "flyerMaker": "Créateur d'affiche",
     "altText": "Assistant texte alt",
@@ -62,7 +62,8 @@
     "allTools": "Tous les outils",
     "mainNav": "Navigation du site",
     "footerNav": "Pied de page",
-    "language": "Langue"
+    "language": "Langue",
+    "workshopGuide": "Plan d'atelier"
   },
   "common": {
     "download": "Télécharger",
@@ -105,7 +106,9 @@
     "close": "Fermer",
     "sectionOptions": "Options",
     "sectionColours": "Couleurs",
-    "sectionAdvanced": "Avancé"
+    "sectionAdvanced": "Avancé",
+    "downloadSuccess": "Téléchargé!",
+    "downloadSuccessDetail": "Votre fichier est prêt — consultez votre dossier de téléchargements."
   },
   "routeUi": {
     "errorTitle": "Une erreur s’est produite",
@@ -142,11 +145,11 @@
     "title": "UnionOps: La boîte à outils pour les sections locales",
     "headline": "La boîte à outils pour les sections locales",
     "slogan": "Solidarity.",
-    "subtitle": "Outils de communication pour les bénévoles. Flux de travail pour présidents et délégués. Pour toute section, tout syndicat.",
+    "subtitle": "Des outils gratuits pour démarrer les communications de votre section locale — marque, tableaux, imprimés, réseaux sociaux et un site simple. Pour toute section, tout syndicat.",
     "subtitleCommsOnly": "Outils de communication pour les bénévoles qui font vivre une section. Pour toute section, tout syndicat.",
     "heroCta": "Configurer la marque de votre section",
     "openBrandKitCta": "Ouvrir la trousse de marque",
-    "whatsNextCta": "Et ensuite",
+    "whatsNextCta": "Ouvrir la feuille de route de la première semaine",
     "socialMediaPlanCta": "Continuer la feuille de route de la première semaine",
     "socialMediaPlanDesc": "Après la trousse de marque : tableaux, impression, médias sociaux et site Web simple.",
     "pathCommsTitle": "Nouveau aux communications de votre section ?",
@@ -160,7 +163,7 @@
     "pathOfficerDescComingSoon": "Le suivi des griefs, le bumpage collégial, les tableaux de retards et les passations sont en cours. Les outils de communication sont prêts dès maintenant.",
     "pathOfficerCtaComingSoon": "Hub des dirigeants — bientôt disponible",
     "channelsTitle": "La boîte à outils",
-    "channelsIntro": "Quatre canaux, poids égal. Ouvrez un outil ou un guide ci-dessous — le reste reste sous Apprendre et Outils dans l'en-tête.",
+    "channelsIntro": "Quatre canaux, même poids. Ouvrez un outil ou un guide ci-dessous — le reste est sous Guides et Outils dans l'en-tête.",
     "brandRailDesc": "Couleurs, logo et liens clés pour chaque graphique. Consultez le pack d'actifs de référence pour des fichiers de départ.",
     "privacyNote": "Les outils de communication tournent dans votre navigateur. Hébergez un hub et vous contrôlez cette instance.",
     "privacyNoteCommsOnly": "Les outils de communication tournent dans votre navigateur. Graphiques et trousse de marque restent sur votre appareil.",
@@ -189,7 +192,7 @@
   "socialMediaPlan": {
     "title": "Première semaine",
     "subtitle": "Après la trousse de marque : tableaux, impression, médias sociaux et un site simple — un message, quatre canaux (plus diffusion par courriel optionnelle)",
-    "intro": "Ne sautez pas l'identité. Définissez d'abord le syndicat, les couleurs, le numéro de section et le logo dans la trousse de marque — puis suivez cette feuille de route. Pour les pratiques (ton, plateformes, trolls), utilisez le Plan directeur. Pour une vue d'ensemble, une liste de pratique et les sources, voir Ressources de communication.",
+    "intro": "Ne sautez pas l'identité. Réglez syndicat, couleurs, numéro de section et logo dans la Trousse de marque d'abord — puis suivez cette feuille de route. Pour la pratique (ton, plateformes, trolls), utilisez Le plan. Pour un aperçu des Comms UnionOps, la liste de contrôle et les sources, voir Ressources Comms.",
     "relatedLabel": "Voir aussi",
     "stepsNavLabel": "Étapes de la feuille de route",
     "pathLinks": {
@@ -263,6 +266,44 @@
         "secondaryCta": "Guide site Web",
         "tertiaryEmailBroadcast": "Courriel et diffusion"
       }
+    },
+    "calendar": {
+      "title": "Calendrier de démarrage sur quatre semaines",
+      "intro": "Un rythme simple après la Trousse de marque. Reliez le même message sur les canaux — ne courez pas après toutes les plateformes.",
+      "weeks": [
+        {
+          "title": "Semaine 1 — Identité et tableaux",
+          "items": [
+            "Terminer couleurs et logo dans la Trousse de marque",
+            "Afficher un avis pour la prochaine réunion",
+            "Optionnel : carte QR sur le tableau"
+          ]
+        },
+        {
+          "title": "Semaine 2 — Imprimé + un social",
+          "items": [
+            "Imprimer un tract pour les corridors",
+            "Publier un graphique avec une légende",
+            "Vérifier le consentement photo"
+          ]
+        },
+        {
+          "title": "Semaine 3 — Site et liens",
+          "items": [
+            "Remplir le modèle de site et télécharger le ZIP",
+            "Ajouter site et Facebook dans la Trousse de marque",
+            "Rafraîchir les cartes QR"
+          ]
+        },
+        {
+          "title": "Semaine 4 — Soutenir",
+          "items": [
+            "Réutiliser les mises en page des Exemples",
+            "Planifier une mise à jour tableau et une publication",
+            "Parcourir Le plan pour le ton et les trolls"
+          ]
+        }
+      ]
     }
   },
   "guide": {
@@ -497,7 +538,7 @@
       },
       "hub": {
         "title": "Portail des dirigeants (surfaces distinctes)",
-        "content": "Le tableau Événements du portail offre un brouillon de rappel à copier (R2) et un rappel SMTP facultatif (R3). Le cron /api/cron/meeting-reminders peut envoyer aux courriels du roster des dirigeants seulement lorsque EMAIL_ENABLED et CRON_SECRET sont configurés."
+        "content": "Le Portail des dirigeants offre des brouillons de rappel distincts pour les dirigeants, et un courriel optionnel à la liste des dirigeants lorsque votre hôte l'active. Ce n'est pas le même texte que les invitations Comms publiques — gardez-les séparés."
       },
       "lists": {
         "title": "Ce qu'UnionOps ne fait pas",
@@ -923,7 +964,8 @@
       "privacy": "Tout se passe sur votre appareil. Rien n'est envoyé et aucune réponse n'est collectée ici — collez les réponses dans la feuille RSVP.",
       "eventPackPrompt": "Besoin de la feuille RSVP et du fichier calendrier?",
       "eventPackLink": "Ouvrir Avis d'événement dans Documents et diapositives"
-    }
+    },
+    "whenToUse": "Pour les tableaux d'affichage — réunions, votes et mises à jour que les membres peuvent manquer sur les réseaux."
   },
   "boardBanner": {
     "title": "Bandeau et bordure de tableau",
@@ -989,14 +1031,14 @@
     "printSheet": "Feuille d'impression",
     "packSummary": "{count} pièces · coupez sur les pointillés",
     "cutGuideHint": "Les pointillés s'impriment comme guides de coupe. Pour les bandes latérales, agrafez à la verticale le long du cadre.",
-    "setupBrandPrompt": "Configurez votre trousse de marque pour que les bandeaux utilisent votre logo et vos couleurs.",
-    "setupBrandLink": "Commencer l'intégration",
+    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
+    "setupBrandLink": "Ouvrir la trousse de marque",
     "previewAccessibleName": "Aperçu d'art de tableau : {summary} sur fond {color}",
     "trimCanvasAccessibleName": "Bordure de cadre : {piece} sur fond {color}"
   },
   "resizer": {
-    "title": "Redimensionneur omnicanal",
-    "subtitle": "Partir de la plaque Logo Builder (cercle, carré ou rectangle) ou téléverser une image — recadrer aux formats sociaux et pixels personnalisés, puis télécharger un PNG ou un ZIP.",
+    "title": "Redimensionneur d'images",
+    "subtitle": "Recadrez votre logo local ou une image pour Facebook, Instagram et YouTube — puis téléchargez un PNG ou un ZIP de tous les formats.",
     "previewAccessibleName": "Aperçu du redimensionneur",
     "source": "Source",
     "sourceLogo": "Logo local",
@@ -1047,8 +1089,8 @@
     "groupInstagram": "Instagram",
     "groupYoutube": "YouTube",
     "formatEditing": "En cours",
-    "setupBrandPrompt": "Configurez votre trousse de marque pour que la plaque logo utilise le numéro et les couleurs de votre section locale.",
-    "setupBrandLink": "Commencer l'intégration",
+    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
+    "setupBrandLink": "Ouvrir la trousse de marque",
     "exportError": "Échec de l'export. Réessayez."
   },
   "documentGenerator": {
@@ -1164,7 +1206,7 @@
   },
   "solidarityPoster": {
     "title": "Créateur d'affiches solidarité",
-    "subtitle": "Affiches énergiques pour tableaux syndicaux et fonds d'écran - grands textes, slogans de solidarité, lien vers ce site pour du soutien",
+    "subtitle": "Affiches énergiques et fonds d'écran avec grands slogans de solidarité — QR optionnel vers votre lien d'aide ou d'adhésion",
     "preset": "Slogan prédéfini",
     "leadIn": "Amorce",
     "headline": "Titre",
@@ -1194,8 +1236,8 @@
     "showQr": "Afficher le code QR",
     "includeBranding": "Inclure l'image de marque locale",
     "cta": "Obtenir du soutien →",
-    "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les affiches avec le logo de votre section locale.",
-    "setupBrandLink": "Commencer l'intégration",
+    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
+    "setupBrandLink": "Ouvrir la trousse de marque",
     "previewAccessibleName": "Aperçu de l'affiche : {headline} sur fond {color}"
   },
   "meetingBackground": {
@@ -1243,8 +1285,8 @@
     "sizeHintPortrait": "Le HD convient aux téléphones et à la plupart des webcams portrait. Utilisez l'UHD pour les moniteurs verticaux ou haute densité.",
     "includeBranding": "Inclure l'image de marque locale",
     "preview": "Aperçu",
-    "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les fonds avec le logo de votre section locale.",
-    "setupBrandLink": "Commencer l'intégration"
+    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
+    "setupBrandLink": "Ouvrir la trousse de marque"
   },
   "qrCard": {
     "title": "Créateur de cartes lien QR",
@@ -1278,11 +1320,11 @@
     "showUrl": "Afficher l'URL sous le slogan",
     "includeBranding": "Inclure l'image de marque locale",
     "qrPlaceholder": "Entrez un lien",
-    "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les cartes avec le logo de votre section.",
-    "setupBrandLink": "Commencer l'intégration",
+    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
+    "setupBrandLink": "Ouvrir la trousse de marque",
     "presets": {
       "getSupportTitle": "Obtenir du soutien",
-      "getSupportDesc": "Scannez pour de l'aide, des ressources et le carrefour de votre section.",
+      "getSupportDesc": "Balayez pour de l'aide, des ressources et la page de soutien de votre section.",
       "getSupportTagline": "Scannez pour du soutien →",
       "joinUnionTitle": "Joignez votre syndicat",
       "joinUnionDesc": "Scannez pour remplir ou mettre à jour votre demande d'adhésion.",
@@ -1348,8 +1390,8 @@
     "showUrl": "Afficher l'URL sous l'appel à l'action",
     "includeBranding": "Inclure l'image de marque locale",
     "qrPlaceholder": "Collez un lien de pétition",
-    "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les cartes avec le logo de votre section.",
-    "setupBrandLink": "Commencer l'intégration",
+    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
+    "setupBrandLink": "Ouvrir la trousse de marque",
     "presets": {
       "signPetitionHeadline": "Signez la pétition",
       "signPetitionAsk": "Ajoutez votre nom en appui aux demandes de nos membres.",
@@ -1381,7 +1423,7 @@
     "title": "Créateur de sondage éclair",
     "subtitle": "Rédigez un court sondage de négociation ou d’adhésion, appliquez votre marque, imprimez une carte QR et publiez pour la collecte de réponses dans l’appli.",
     "previewAccessibleName": "Aperçu du sondage éclair",
-    "privacyNotice": "Confidentialité : la publication enregistre le sondage pour une collecte anonyme (consentement requis sur le lien). Préférez POLLS_DB_BACKEND=postgres en production. Aucune analytique tierce.",
+    "privacyNotice": "La publication exige une connexion au Portail des dirigeants. Les membres répondent via un lien respectueux de la vie privée (consentement requis). Pas d'analytique tierce.",
     "pollTitle": "Titre du sondage",
     "intro": "Intro / contexte (facultatif)",
     "questions": "Questions",
@@ -1400,8 +1442,8 @@
     "previewHeading": "Aperçu impression / QR",
     "qrHint": "Le QR ouvre le lien de partage pour que les membres répondent.",
     "qrAlt": "Code QR du lien de partage du sondage",
-    "setupBrandPrompt": "Configurez votre trousse de marque pour estampiller les sondages avec le logo de votre section.",
-    "setupBrandLink": "Commencer l’intégration",
+    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
+    "setupBrandLink": "Ouvrir la trousse de marque",
     "exportPng": "Télécharger PNG",
     "exportPdf": "Télécharger PDF",
     "saved": "Brouillon enregistré sur cet appareil.",
@@ -1462,8 +1504,8 @@
     "sectionColours": "Couleurs",
     "qrPlaceholder": "Entrez un lien",
     "previewSize": "Aperçu {label} - {width}×{height} po",
-    "setupBrandPrompt": "Configurez votre trousse de marque pour tamponner les affiches avec le logo de votre section.",
-    "setupBrandLink": "Commencer l'intégration",
+    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
+    "setupBrandLink": "Ouvrir la trousse de marque",
     "presets": {
       "membershipFtPtLabel": "Adhésion TP + TPa (2)",
       "membershipFtPtTitle": "Demande / mise à jour d'adhésion",
@@ -1493,7 +1535,7 @@
   },
   "websiteTemplate": {
     "title": "Modèle de site Web",
-    "subtitle": "Téléchargez un site local simple basé sur le modèle Section 243 - prêt pour GitHub Pages",
+    "subtitle": "Remplissez les détails de votre section, prévisualisez le site et téléchargez un ZIP prêt pour GitHub Pages.",
     "previewAccessibleName": "Aperçu du modèle de site Web",
     "unionName": "Nom du syndicat",
     "heroText": "Slogan d'accueil",
@@ -1510,7 +1552,8 @@
     "removeOfficer": "Supprimer",
     "preview": "Aperçu en direct",
     "downloadZip": "Télécharger le ZIP du site",
-    "referenceNote": "Ce modèle est basé sur le site en direct local243.org - un site GitHub Pages bénévole utilisé comme référence. Le ZIP exporté utilise le logo de votre trousse de marque dans la barre de navigation. Les liens vers les ressources OPSEU n'apparaissent dans le pied de page que lorsque le thème de conception de votre trousse de marque est OPSEU."
+    "referenceNote": "Ce modèle est basé sur le site en direct local243.org - un site GitHub Pages bénévole utilisé comme référence. Le ZIP exporté utilise le logo de votre trousse de marque dans la barre de navigation. Les liens vers les ressources OPSEU n'apparaissent dans le pied de page que lorsque le thème de conception de votre trousse de marque est OPSEU.",
+    "whenToUse": "Quand votre section a besoin d'un site simple que les membres peuvent enregistrer."
   },
   "sources": {
     "title": "Sources et références",
@@ -1525,11 +1568,11 @@
   },
   "resources": {
     "title": "Ressources de communication",
-    "subtitle": "Orientation, pratique et sources pour les sections qui bâtissent des communications solidaires",
-    "intro": "Cette page explique le rôle du centre, permet de pratiquer les outils essentiels et regroupe les guides par canal. Utilisez-la à votre rythme avec votre section, comme présentation midi-causerie, ou comme atelier pratique pour les dirigeants et communicateurs bénévoles.",
+    "subtitle": "Orientation, pratique et sources pour les sections locales qui bâtissent des communications solidaires",
+    "intro": "Utilisez cette page pour comprendre à quoi servent les Comms UnionOps, pratiquer les outils essentiels et trouver les guides de chaque canal. En autonomie, en lunch-and-learn, ou en atelier pratique.",
     "purpose": {
-      "title": "À quoi sert ce centre",
-      "body": "Les communications centrales sont souvent sous-ressourcées. Les sections ont quand même besoin de communications professionnelles maintenant - sur les réseaux, en impression, sur les tableaux au travail et sur un site simple. Un message, quatre endroits, marque d'abord.",
+      "title": "À quoi servent les Comms UnionOps",
+      "body": "Les communications centrales des syndicats sont souvent sous-dotées. Les sections ont tout de même besoin de communications professionnelles maintenant — sur les réseaux, en imprimé, sur les tableaux, et sur un site simple. Un message, quatre endroits, marque d'abord.",
       "pillars": [
         "Quatre canaux : réseaux, impression, tableaux syndicaux et site Web",
         "Trousse de marque d'abord pour que chaque graphique et avis ressemble à votre section",
@@ -1539,7 +1582,7 @@
       "cta": "Configurer la trousse de marque"
     },
     "path": {
-      "title": "Comment apprendre ce centre",
+      "title": "Comment apprendre les Comms UnionOps",
       "intro": "Choisissez un parcours selon ce dont vous avez besoin aujourd'hui.",
       "links": {
         "plan": "Première semaine",
@@ -1549,7 +1592,8 @@
         "website": "Guide site Web",
         "email": "Courriel et diffusion",
         "crisis": "Guide de grève",
-        "photoConsent": "Consentement photo"
+        "photoConsent": "Consentement photo",
+        "workshop": "Plan d'atelier"
       },
       "blurb": {
         "plan": "Après la trousse de marque : tableaux, impression, réseaux et site dans l'ordre.",
@@ -1559,7 +1603,8 @@
         "website": "Quoi mettre sur un site local, créer le ZIP et publier sur GitHub Pages.",
         "email": "Quand utiliser la copie Comms/mailto vs le SMTP du hub — diffusion aux dirigeants seulement, jamais de listes marketing.",
         "crisis": "Communications de négociation et de grève à enjeux élevés.",
-        "photoConsent": "Liste photo membre pour délégués et ateliers."
+        "photoConsent": "Liste photo membre pour délégués et ateliers.",
+        "workshop": "Plan réutilisable pour lunch-and-learn et atelier pratique avec parcours de démo."
       }
     },
     "checklist": {
@@ -1831,8 +1876,8 @@
     }
   },
   "graphicMaker": {
-    "title": "Créateur de graphiques nouvelles et événements",
-    "subtitle": "Mises en page comme les exemples sociaux - solidarité, avis, résultats, projecteurs et remerciements.",
+    "title": "Créateur graphique",
+    "subtitle": "Créez des publications Facebook et Instagram pour réunions, victoires, mises en avant et remerciements — mêmes mises en page que les Exemples sociaux.",
     "previewAccessibleName": "Aperçu du créateur de graphiques",
     "layout": "Mise en page",
     "layouts": {
@@ -1849,7 +1894,7 @@
     },
     "headline": "Titre",
     "subheadline": "Sous-titre",
-    "detail": "Badge / ligne de détail",
+    "detail": "Ligne supplémentaire (date, section ou badge)",
     "initials": "Initiales (sans photo)",
     "photo": "Photo",
     "photoZoom": "Zoom photo",
@@ -1873,7 +1918,8 @@
       "copyBody": "Copier le message",
       "openMail": "Ouvrir dans l'application courriel",
       "privacy": "Fonctionne sur cet appareil. Rien n'est envoyé et aucune réponse n'est collectée ici."
-    }
+    },
+    "whenToUse": "Pour les publications sociales. Associez aux Légendes après le téléchargement."
   },
   "quoteCard": {
     "title": "Générateur de carte citation",
@@ -1896,7 +1942,8 @@
     "location": "Lieu",
     "primaryColor": "Couleur primaire",
     "accentColor": "Couleur d'accent",
-    "secondaryColor": "Couleur secondaire"
+    "secondaryColor": "Couleur secondaire",
+    "whenToUse": "Pour les tracts aux réunions, tournées et actions. Associez aux tableaux pour les membres hors ligne."
   },
   "altTextAssistant": {
     "title": "Assistant texte alt",
@@ -1981,7 +2028,7 @@
   },
   "contrast": {
     "pass": "Respecte le contraste WCAG AA",
-    "fail": "Ne respecte pas le contraste WCAG AA - ajustez les couleurs pour l'accessibilité",
+    "fail": "Difficile à lire — essayez un texte plus foncé ou un fond plus clair (accessibilité).",
     "ratio": "Ratio de contraste : {ratio}:1"
   },
   "crisisGuide": {
@@ -4058,6 +4105,58 @@
     "subtitle": "Créateurs pour la marque, les tableaux syndicaux, l'impression, le social et le web — tout reste sur votre appareil.",
     "channelGuidesTitle": "Guides par canal",
     "channelGuidesIntro": "Guides pas à pas pour l'impression, les tableaux de travail, les sites Web et la diffusion par courriel — la même feuille de route à quatre canaux que Première semaine, plus le courriel en cinquième canal optionnel.",
-    "hint": "Définissez d'abord les couleurs et le logo dans"
+    "hint": "Définissez d'abord les couleurs et le logo dans",
+    "blurbs": {
+      "logoBuilder": "Créez une plaque logo circulaire, carrée ou rectangulaire.",
+      "resizer": "Recadrez logos et images aux formats Facebook, Instagram et YouTube.",
+      "documentGenerator": "Packs Word, Excel, PowerPoint et invitations à l'image de marque.",
+      "boardBanner": "Bandeaux et découpes pour tableaux de liège.",
+      "boardNotice": "Avis d'affichage avec date, heure et lieu.",
+      "solidarityPoster": "Affiches de solidarité et fonds d'écran optionnels.",
+      "qrBoard": "Affiches multi-QR pour campagnes et liens clés.",
+      "qrCard": "Cartes QR de poche pour site, groupe ou soutien.",
+      "actionCard": "Cartes imprimées vers pétitions ou inscriptions.",
+      "flyerMaker": "Tracts contrastés pour rassemblements et réunions.",
+      "graphicMaker": "Publications sociales pour Facebook et Instagram.",
+      "quoteCard": "Transformez une citation en carte à partager.",
+      "meetingBackground": "Fonds virtuels Zoom/Teams à l'image de marque.",
+      "websiteTemplate": "ZIP de site local simple pour GitHub Pages.",
+      "altText": "Rédigez du texte alternatif sans envoyer d'images.",
+      "pulsePoll": "Sondages courts avec carte QR imprimable."
+    }
+  },
+  "captions": {
+    "title": "Bibliothèque de légendes et de mot-clics",
+    "subtitle": "Copiez une publication prête, ajoutez le numéro de section et les dates, puis collez sous votre téléchargement du Créateur de graphiques."
+  },
+  "workshopDemo": {
+    "title": "Démo en environ 20 minutes",
+    "intro": "Un parcours court pour les ateliers — marque d'abord, puis un avis, un graphique social et une légende.",
+    "stepBrand": "Trousse de marque",
+    "stepBoard": "Avis d'affichage",
+    "stepGraphic": "Créateur de graphiques",
+    "stepCaptions": "Légendes",
+    "openRoadmap": "Feuille de route complète"
+  },
+  "relatedTools": {
+    "label": "Outils connexes",
+    "next": "Ensuite"
+  },
+  "workshopGuide": {
+    "title": "Atelier : démarrer les communications sociales locales",
+    "subtitle": "Un plan réutilisable pour lunch-and-learns et ateliers pratiques avec les Comms UnionOps.",
+    "intro": "Utilisez cette page avec les participants. Les animateurs peuvent aussi suivre la feuille de route dans la documentation du projet.",
+    "outlineTitle": "Plan suggéré",
+    "outline": [
+      "Pourquoi les communications marque d'abord comptent pour les sections",
+      "Trousse de marque en direct (couleurs, numéro, logo)",
+      "Avis d'affichage pour les membres hors ligne",
+      "Créateur de graphiques + Légendes pour Facebook/Instagram",
+      "Feuille de route de la première semaine et liste de contrôle"
+    ],
+    "demoTitle": "Parcours de démo en direct",
+    "resourcesCta": "Ressources Comms",
+    "roadmapCta": "Feuille de route — première semaine",
+    "toolsCta": "Parcourir les outils"
   }
 }

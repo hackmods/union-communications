@@ -10,6 +10,8 @@ UI must be **designed per breakpoint**, not a phone stack stretched until it loo
 
 Home and tools must feel like the **same product width** when navigating — do not let `/` be a stray wider canvas than guides/tools.
 
+**Public Comms workshop journey, terminology, related tools, export success:** see [`comms-public-ux.mdc`](comms-public-ux.mdc). Stale “leave density as-is” notes may be revised when they block intentional breakpoint compositions — update that rule and the tool-editor register when you re-touch a surface.
+
 ## Page shell scale (required)
 
 Use [`PageShell`](src/components/layout/PageShell.tsx) / [`PAGE_SHELL`](src/lib/constants/page-shell.ts) — do not invent one-off `max-w-*` for page frames.

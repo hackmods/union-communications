@@ -84,6 +84,37 @@ describe("ToolEditorLayout", () => {
     expect(alert).toHaveTextContent("PDF export failed");
   });
 
+  it("surfaces exportSuccess as a status", () => {
+    render(
+      <ToolEditorLayout
+        title="Flyer"
+        form={<div>Form</div>}
+        preview={<div>Preview</div>}
+        exportSuccess="Downloaded!"
+      />,
+    );
+
+    expect(screen.getByRole("status")).toHaveTextContent("Downloaded!");
+  });
+
+  it("wires aria-controls between Edit/Preview tabs and panels", () => {
+    render(
+      <ToolEditorLayout
+        title="Flyer"
+        form={<div>Form</div>}
+        preview={<div>Preview</div>}
+      />,
+    );
+
+    const tabs = screen.getAllByRole("tab");
+    expect(tabs).toHaveLength(2);
+    for (const tab of tabs) {
+      const controls = tab.getAttribute("aria-controls");
+      expect(controls).toBeTruthy();
+      expect(document.getElementById(controls!)).toBeTruthy();
+    }
+  });
+
   it("wraps preview in an accessible named group when provided", () => {
     render(
       <ToolEditorLayout

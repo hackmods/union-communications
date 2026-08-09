@@ -13,7 +13,6 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/tools", params);
 }
 
-
 export default async function ToolsIndexPage({
   params,
 }: {
@@ -34,25 +33,43 @@ export default async function ToolsIndexPage({
           {t("title")}
         </h1>
         <p className="mt-2 text-gray-600">{t("subtitle")}</p>
+        <p className="mt-2 text-sm text-gray-600">
+          {t("hint")}{" "}
+          <Link
+            href="/brand-kit"
+            className="font-medium text-opseu-blue underline underline-offset-2"
+          >
+            {nav("brandKit")}
+          </Link>
+          .
+        </p>
       </header>
 
       <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 xl:gap-10">
         {toolGroups.map((group) => (
-          <section key={group.labelKey} aria-labelledby={`tools-${group.labelKey}`}>
+          <section
+            key={group.labelKey}
+            aria-labelledby={`tools-${group.labelKey}`}
+          >
             <h2
               id={`tools-${group.labelKey}`}
               className="text-sm font-semibold uppercase tracking-wide text-gray-500"
             >
               {nav(group.labelKey)}
             </h2>
-            <ul className="mt-3 space-y-1">
+            <ul className="mt-3 space-y-3">
               {group.links.map(({ href, key }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="inline-flex min-h-11 items-center rounded-md px-1 text-opseu-blue underline-offset-2 hover:underline"
+                    className="group block rounded-lg border border-transparent px-1 py-1 transition-colors hover:border-opseu-blue/15 hover:bg-opseu-blue/5"
                   >
-                    {nav(key)}
+                    <span className="inline-flex min-h-11 items-center font-medium text-opseu-blue underline-offset-2 group-hover:underline">
+                      {nav(key)}
+                    </span>
+                    <span className="mt-0.5 block text-sm text-gray-600">
+                      {t(`blurbs.${key}`)}
+                    </span>
                   </Link>
                 </li>
               ))}
@@ -62,7 +79,10 @@ export default async function ToolsIndexPage({
       </div>
 
       {channelGuides ? (
-        <section className="mt-10 border-t border-gray-200 pt-8" aria-labelledby="tools-channel-guides">
+        <section
+          className="mt-10 border-t border-gray-200 pt-8"
+          aria-labelledby="tools-channel-guides"
+        >
           <h2
             id="tools-channel-guides"
             className="text-sm font-semibold uppercase tracking-wide text-gray-500"
@@ -77,15 +97,18 @@ export default async function ToolsIndexPage({
             aria-label={t("channelGuidesTitle")}
           >
             {channelGuides.map((link, i) => (
-              <span key={link.href} className="inline-flex items-baseline gap-x-3">
-                {i > 0 && (
-                  <span className="text-gray-300" aria-hidden="true">
+              <span
+                key={link.href}
+                className="inline-flex items-baseline gap-x-3"
+              >
+                {i > 0 ? (
+                  <span className="text-gray-300" aria-hidden>
                     ·
                   </span>
-                )}
+                ) : null}
                 <Link
                   href={link.href}
-                  className="inline-flex min-h-11 items-center font-medium text-opseu-blue underline-offset-2 hover:underline"
+                  className="inline-flex min-h-11 items-center text-opseu-blue underline-offset-2 hover:underline"
                 >
                   {nav(link.key)}
                 </Link>
@@ -94,17 +117,6 @@ export default async function ToolsIndexPage({
           </nav>
         </section>
       ) : null}
-
-      <p className="mt-10 max-w-prose text-sm text-gray-600">
-        {t("hint")}{" "}
-        <Link
-          href="/brand-kit"
-          className="font-medium text-opseu-blue underline-offset-2 hover:underline"
-        >
-          {nav("brandKit")}
-        </Link>
-        .
-      </p>
     </PageShell>
   );
 }

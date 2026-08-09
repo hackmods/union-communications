@@ -1,5 +1,12 @@
 # Progress Log
 
+## Public Comms workshop UX pack (2026-08-08)
+
+- [x] Copy/terminology pass (EN/FR): Graphic Maker, Image Resizer, UnionOps Comms vs hub, Brand Kit CTAs, Pulse Poll / email guide volunteer-safe
+- [x] Workshop Demo Path, `/guide/workshop`, facilitator run sheet `docs/guides/WORKSHOP_SOCIAL_COMMS.md`, First week 4-week calendar
+- [x] Tools blurbs + denser home/tools grids; Related tools footer; export success + `aria-controls` on ToolEditorLayout
+- [x] Cursor knowledge: `.cursor/rules/comms-public-ux.mdc` + cross-links from responsive-layouts / tool-editor-ux / comms-module
+
 ## Comms visual system stop-gap pass 2 (2026-08-06)
 
 - [x] Meeting field fills yield to Brand Kit surfaces; QR/Action plain modes use `canvasSurfaceStyle`

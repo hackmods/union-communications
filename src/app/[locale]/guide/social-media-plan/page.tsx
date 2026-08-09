@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
+import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { Button } from "@/components/ui/Button";
 import {
   FIRST_WEEK_STEP_KEYS,
@@ -46,6 +47,11 @@ export default async function SocialMediaPlanPage({
         />
       }
     >
+      <WorkshopDemoPath
+        className="mb-8 rounded-xl border border-gray-200 bg-white p-4 sm:p-5"
+        showRoadmapLink={false}
+      />
+
       <nav
         className="mb-8 flex flex-wrap gap-2"
         aria-label={t("stepsNavLabel")}
@@ -113,6 +119,39 @@ export default async function SocialMediaPlanPage({
           </li>
         ))}
       </ol>
+
+      <section
+        className="mt-12 border-t border-gray-200 pt-8"
+        aria-labelledby="first-week-calendar"
+      >
+        <h2
+          id="first-week-calendar"
+          className="text-xl font-bold text-opseu-dark"
+        >
+          {t("calendar.title")}
+        </h2>
+        <p className="mt-2 max-w-prose text-gray-700">{t("calendar.intro")}</p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {(
+            t.raw("calendar.weeks") as {
+              title: string;
+              items: string[];
+            }[]
+          ).map((week) => (
+            <article
+              key={week.title}
+              className="rounded-xl border border-gray-200 bg-white p-4 sm:p-5"
+            >
+              <h3 className="font-semibold text-opseu-dark">{week.title}</h3>
+              <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-gray-700">
+                {week.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
     </GuideLayout>
   );
 }

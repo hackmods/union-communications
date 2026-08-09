@@ -19,6 +19,7 @@ import {
 } from "@/types/website-template";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { WebsitePreviewFrame } from "@/components/tools/WebsitePreviewFrame";
 import { Callout } from "@/components/ui/Callout";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -33,7 +34,8 @@ export default function WebsiteTemplatePage() {
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
   const localNumber = resolveLocalNumber(brandKit.local.localNumber);
-  const { exportError, exporting, runExport } = useExportHandler();
+  const { exportError, exportSuccess, exporting, runExport } =
+    useExportHandler();
 
   const [unionName, setUnionName] = useState(`Local ${localNumber}`);
   const [heroText, setHeroText] = useState(
@@ -150,7 +152,10 @@ export default function WebsiteTemplatePage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      purposeHint={t("whenToUse")}
       previewAccessibleName={t("previewAccessibleName")}
+      exportError={exportError}
+      exportSuccess={exportSuccess}
       toolbar={<Callout tone="brand">{t("referenceNote")}</Callout>}
       form={
         <Card density="compact" className="space-y-3">
@@ -258,11 +263,14 @@ export default function WebsiteTemplatePage() {
         </div>
       }
       footer={
-        <SourcesBlock
-          pageId="websiteTemplate"
-          title={ts("title")}
-          intro={ts("intro")}
-        />
+        <div className="space-y-6">
+          <SourcesBlock
+            pageId="websiteTemplate"
+            title={ts("title")}
+            intro={ts("intro")}
+          />
+          <ToolRelatedFooter toolSlug="website-template" />
+        </div>
       }
     />
   );

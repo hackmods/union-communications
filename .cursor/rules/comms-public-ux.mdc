@@ -1,0 +1,45 @@
+---
+description: Public Comms UX — workshop journey, terminology, related tools, responsive expectations
+globs: src/app/**/tools/**,src/app/**/guide/**,src/app/**/brand-kit/**,src/app/**/onboarding/**,src/app/**/captions/**,src/app/**/examples/**,src/components/tools/**,src/components/comms/**,src/components/pages/HomeContent.tsx,messages/*.json
+alwaysApply: false
+---
+
+# Public Comms UX (workshop + consistency)
+
+Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc), [`tool-editor-ux.mdc`](tool-editor-ux.mdc), and [`comms-module.mdc`](comms-module.mdc). Prefer **revising stale notes** when they block intentional responsive compositions — keep `PAGE_SHELL` tiers unless a change is documented here.
+
+## Product language (lock)
+
+| Prefer | Avoid on public Comms |
+|--------|------------------------|
+| **UnionOps Comms** / “this site” / named tool | Ambiguous “the hub” (confused with Officer Hub) |
+| **Officer Hub** only for `/app` casework | Mixing Hub ops jargon into public tool chrome |
+| **Brand Kit** + “Open Brand Kit” | “Start onboarding” once theme exists |
+| **Graphic Maker**, **Image Resizer** | Divergent H1 vs nav (“News & Event…”, “Omnichannel…”) |
+| **First week** roadmap | Multiple names for the same path without linking |
+
+Use `brandSetupHref(themeEstablished)` from `@/lib/utils/brand-setup` (`/onboarding` until established, else `/brand-kit`). Shared nudge: [`BrandSetupPrompt`](src/components/tools/BrandSetupPrompt.tsx).
+
+## Workshop journey
+
+1. Brand Kit / onboarding → identity  
+2. First week: boards → print → socials → website ([`first-week-roadmap.ts`](src/lib/comms/first-week-roadmap.ts))  
+3. Live demos: [`WorkshopDemoPath`](src/components/comms/WorkshopDemoPath.tsx) (Brand Kit → Board Notice → Graphic Maker → Captions)  
+4. Facilitator docs: [`docs/guides/WORKSHOP_SOCIAL_COMMS.md`](../../docs/guides/WORKSHOP_SOCIAL_COMMS.md); public outline: `/guide/workshop`; orientation: `/guide/resources`
+
+## Tool chrome contracts
+
+- Canvas tools: [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) — sticky asymmetric preview at `lg`/`xl`; mobile Edit/Preview with **`aria-controls`** / panel ids; optional `purposeHint` (“when to use”); `exportError` + **`exportSuccess`** via [`useExportHandler`](src/hooks/use-export-handler.ts).
+- Cross-links: [`ToolRelatedFooter`](src/components/tools/ToolRelatedFooter.tsx) / `RELATED_BY_TOOL` — add entries when shipping a new public tool.
+- Tools index: one-line `toolsIndex.blurbs.*` per nav key; densify grids at `sm`/`lg`/`xl`.
+- Captions page chrome is i18n (`captions.*`); caption **bodies** may stay EN until multi-union content lands — avoid hardcoded national-union hashtags (`#OPSEU`); prefer `#LocalUnion` + `[Local Number]` placeholders.
+
+## Responsive
+
+Spot-check **375 / 768 / 1280 / 1536**. Re-touch surfaces marked “done” in [`tool-editor-ux.mdc`](tool-editor-ux.mdc) when the four-width check fails. Document-generator / alt-text remain layout exceptions — still reduce mobile scroll friction when touching those pages.
+
+## Do not
+
+- Leak env vars, cron paths, or `*_DB_BACKEND` into public tool/guide copy for volunteers  
+- Hardcode OPSEU/CAAT as the only local identity in new workshop copy  
+- Invent one-off `max-w-*` page shells — use `PageShell` / `PAGE_SHELL`

@@ -15,6 +15,7 @@ import {
 import { nodesToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
+import { brandSetupHref } from "@/lib/utils/brand-setup";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import {
   BOARD_SHEET_FORMATS,
@@ -642,7 +643,7 @@ export default function BoardBannerPage() {
             {!themeEstablished ? (
               <p className="text-sm leading-snug text-gray-600">
                 {t("setupBrandPrompt")}{" "}
-                <Link href="/onboarding" className="text-opseu-blue underline">
+                <Link href={brandSetupHref(themeEstablished)} className="text-opseu-blue underline">
                   {t("setupBrandLink")}
                 </Link>
               </p>

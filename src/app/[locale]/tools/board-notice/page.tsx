@@ -15,6 +15,7 @@ import { Card } from "@/components/ui/Card";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { SegControl } from "@/components/tools/SegControl";
 import { cn } from "@/lib/utils";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
@@ -71,7 +72,8 @@ export default function BoardNoticePage() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<BoardNoticeState>(initial);
-  const { exportError, exporting, runExport } = useExportHandler();
+  const { exportError, exportSuccess, exporting, runExport } =
+    useExportHandler();
 
   const dims = FORMAT_DIMENSIONS[format];
   const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)} - ${brandKit.local.subText}`;
@@ -133,7 +135,9 @@ export default function BoardNoticePage() {
       <ToolEditorLayout
         title={t("title")}
         description={t("subtitle")}
+        purposeHint={t("whenToUse")}
         exportError={exportError}
+        exportSuccess={exportSuccess}
         previewAccessibleName={t("previewAccessibleName")}
         form={
           <Card density="compact" className="space-y-3">
@@ -353,6 +357,7 @@ export default function BoardNoticePage() {
               title={ts("title")}
               intro={ts("intro")}
             />
+            <ToolRelatedFooter toolSlug="board-notice" />
           </div>
         }
       />

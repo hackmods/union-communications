@@ -2,6 +2,7 @@ export type NavLinkKey =
   | "resources"
   | "guide"
   | "firstWeek"
+  | "workshopGuide"
   | "strikeGuide"
   | "photoConsent"
   | "membershipSignupGuide"
@@ -61,6 +62,7 @@ export const learnGroups: readonly NavGroup[] = [
       { href: "/guide/resources", key: "resources" },
       { href: "/guide", key: "guide" },
       { href: "/guide/social-media-plan", key: "firstWeek" },
+      { href: "/guide/workshop", key: "workshopGuide" },
       { href: "/guide/crisis", key: "strikeGuide" },
       { href: "/guide/photo-consent", key: "photoConsent" },
       { href: "/guide/membership-signup", key: "membershipSignupGuide" },

@@ -10,7 +10,7 @@ alwaysApply: false
 Public-facing guides and image generation tools. v1 shipped as static export.
 
 ## Public nav
-Learn menu must keep **By channel** (Print, Union Boards, Website guides) — see `.cursor/rules/comms-public-nav.mdc` and `docs/modules/COMMS.md`. Backlog ideas (email guide, consent checklist, Get started beyond social): `docs/modules/COMMS_BACKLOG.md`. Calendar/meeting scope: `docs/modules/CALENDAR_MEETINGS.md`, `.cursor/rules/calendar-meetings.mdc`.
+Learn menu must keep **By channel** (Print, Union Boards, Website guides) — see `.cursor/rules/comms-public-nav.mdc` and `docs/modules/COMMS.md`. Workshop UX, terminology, and facilitator docs: `.cursor/rules/comms-public-ux.mdc`, `docs/guides/WORKSHOP_SOCIAL_COMMS.md`, public `/guide/workshop`. Backlog ideas (email guide, consent checklist, Get started beyond social): `docs/modules/COMMS_BACKLOG.md`. Calendar/meeting scope: `docs/modules/CALENDAR_MEETINGS.md`, `.cursor/rules/calendar-meetings.mdc`.
 
 ## Meeting announcement tools (not scheduling or reminders)
 

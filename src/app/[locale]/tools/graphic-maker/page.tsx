@@ -30,6 +30,7 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { BrandSwatchPicker } from "@/components/tools/BrandSwatchPicker";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { PageShell } from "@/components/layout/PageShell";
@@ -93,7 +94,8 @@ function GraphicMakerPageContent() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<GraphicState>(initial);
-  const { exportError, exporting, runExport } = useExportHandler();
+  const { exportError, exportSuccess, exporting, runExport } =
+    useExportHandler();
 
   const applyPreset = (key: ToolPresetKey) => {
     const preset = TOOL_PRESETS[key];
@@ -231,9 +233,11 @@ function GraphicMakerPageContent() {
     <>
       <ToolEditorLayout
         title={tg("title")}
-      description={tg("subtitle")}
-      previewAccessibleName={tg("previewAccessibleName")}
-      exportError={exportError}
+        description={tg("subtitle")}
+        purposeHint={tg("whenToUse")}
+        previewAccessibleName={tg("previewAccessibleName")}
+        exportError={exportError}
+        exportSuccess={exportSuccess}
         toolbar={
           <div className="flex flex-wrap gap-2">
             {(Object.keys(TOOL_PRESETS) as ToolPresetKey[]).map((key) => (
@@ -424,19 +428,22 @@ function GraphicMakerPageContent() {
           </div>
         }
         footer={
-          state.layout === "notice" ? (
-            <InviteEmailPanel
-              messagesNamespace="graphicMaker"
-              localNumber={resolveLocalNumber(brandKit.local.localNumber)}
-              fields={
-                {
-                  title: state.headline,
-                  subtitle: state.subheadline,
-                  location: state.detail || undefined,
-                } satisfies EventEmailFields
-              }
-            />
-          ) : null
+          <div className="space-y-6">
+            {state.layout === "notice" ? (
+              <InviteEmailPanel
+                messagesNamespace="graphicMaker"
+                localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+                fields={
+                  {
+                    title: state.headline,
+                    subtitle: state.subheadline,
+                    location: state.detail || undefined,
+                  } satisfies EventEmailFields
+                }
+              />
+            ) : null}
+            <ToolRelatedFooter toolSlug="graphic-maker" />
+          </div>
         }
       />
       <ConsentModal

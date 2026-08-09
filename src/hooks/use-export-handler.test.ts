@@ -21,6 +21,7 @@ describe("useExportHandler", () => {
 
     expect(ok).toBe(true);
     expect(result.current.exportError).toBeNull();
+    expect(result.current.exportSuccess).toBe("downloadSuccess");
     expect(result.current.exporting).toBe(false);
   });
 

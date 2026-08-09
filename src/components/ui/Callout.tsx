@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 
 type CalloutProps = React.HTMLAttributes<HTMLDivElement> & {
-  /** Soft brand tint (default), quiet gray note, plain surface, or export/error alert */
-  tone?: "brand" | "muted" | "plain" | "danger";
+  /** Soft brand tint (default), quiet gray note, plain surface, success, or export/error alert */
+  tone?: "brand" | "muted" | "plain" | "danger" | "success" | "warning";
 };
 
 /**
@@ -20,6 +20,8 @@ export function Callout({
     muted: "border-gray-200 bg-gray-50",
     plain: "border-gray-200 bg-white",
     danger: "border-red-200 bg-red-50 text-red-900",
+    success: "border-green-200 bg-green-50 text-green-900",
+    warning: "border-amber-200 bg-amber-50 text-amber-950",
   };
 
   return (

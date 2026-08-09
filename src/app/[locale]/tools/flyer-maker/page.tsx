@@ -30,6 +30,7 @@ import {
 } from "@/components/tools/canvas";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 
 interface FlyerState {
@@ -75,7 +76,8 @@ function FlyerMakerPageContent() {
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<FlyerState>(initial);
-  const { exportError, exporting, runExport } = useExportHandler();
+  const { exportError, exportSuccess, exporting, runExport } =
+    useExportHandler();
 
   useExamplePostSeed((exampleId) => {
     const post = getExamplePost(exampleId);
@@ -140,8 +142,11 @@ function FlyerMakerPageContent() {
     <ToolEditorLayout
       title={tf("title")}
       description={tf("subtitle")}
+      purposeHint={tf("whenToUse")}
       previewAccessibleName={tf("previewAccessibleName")}
       exportError={exportError}
+      exportSuccess={exportSuccess}
+      footer={<ToolRelatedFooter toolSlug="flyer-maker" />}
       form={
         <Card density="compact" className="space-y-5">
           <section className="space-y-3">
