@@ -108,7 +108,7 @@ const HUB_A11Y_PAGES: {
   },
 ];
 
-test.describe("Hub authenticated a11y @smoke", () => {
+test.describe("Hub authenticated a11y", () => {
   // Parallel MFA logins race the session cookie / JSON body (flaky under workers).
   test.describe.configure({ mode: "serial" });
 
