@@ -7,6 +7,7 @@
 - [x] Quiet Local 243 footnote + deepen snowmobile egg (5× mark tap; `public/easter-eggs/`)
 - [x] Portal `not-found` / `error` / `loading`; root `not-found` + `global-error` (kills Next stock 404)
 - [x] Poll / RSVP / meeting misses call `notFound()` for true HTTP 404
+- [x] CI: opt in demo auth for production `next start` smoke (`AUTH_ALLOW_DEMO_USERS`) + 15m globalTimeout — unblocks CapRover after CredentialsSignin hang
 - [x] Session knowledge: [`docs/audit/session-knowledge-2026-08-09-local-404.md`](audit/session-knowledge-2026-08-09-local-404.md)
 
 ## Public Comms workshop UX pack (2026-08-08)

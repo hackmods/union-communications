@@ -105,4 +105,15 @@ test.describe("SEO smoke @smoke", () => {
     const robots = page.locator('meta[name="robots"]');
     await expect(robots).toHaveAttribute("content", /noindex/i);
   });
+
+  test("unknown path shows Local 404 chrome not Next stock", async ({
+    page,
+  }) => {
+    await page.goto("/en/this-path-does-not-exist-local-404");
+    await expect(
+      page.getByRole("heading", { name: /Local 404|Section 404/i }),
+    ).toBeVisible();
+    await expect(page.getByText("Solidarity.")).toBeVisible();
+    await expect(page).not.toHaveTitle(/This page could not be found/i);
+  });
 });
