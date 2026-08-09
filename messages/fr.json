@@ -108,18 +108,70 @@
     "sectionAdvanced": "Avancé"
   },
   "routeUi": {
-    "errorTitle": "Une erreur s’est produite",
-    "errorBody": "Cette page a rencontré une erreur inattendue. Vous pouvez réessayer ou revenir à une page sûre.",
-    "hubErrorBody": "Le Hub des dirigeants a rencontré une erreur inattendue. Réessayez, ou déconnectez-vous puis reconnectez-vous.",
+    "errorTitle": "Besoin d’un délégué",
+    "errorBody": "Quelque chose d’inattendu a cassé sur le plancher. Réessayez, ou allez quelque part de sûr.",
+    "hubErrorBody": "Le Hub des dirigeants a buté. Réessayez, ou déconnectez-vous puis reconnectez-vous.",
     "tryAgain": "Réessayer",
     "signOut": "Déconnexion",
-    "notFoundTitle": "Page introuvable",
-    "notFoundBody": "Cette page n’existe pas ou a peut-être été déplacée.",
-    "hubNotFoundBody": "Cette page du Hub n’existe pas ou a peut-être été déplacée.",
+    "notFoundTitle": "Section 404",
+    "notFoundBody": "Cette page n’est pas sur la liste — ou elle a changé de camp.",
+    "hubNotFoundBody": "Cette route du Hub n’est pas sur la liste.",
+    "portalNotFoundBody": "Ce chemin du Portail n’est pas sur le plan d’étage.",
+    "portalErrorBody": "Le Portail local a rencontré une erreur inattendue. Réessayez, ou retournez à la station.",
     "backToTools": "Parcourir les outils",
     "backToHub": "Retour au tableau de bord",
+    "backToPortal": "Retour au Portail",
     "backHome": "Retour à l’accueil",
-    "loading": "Chargement…"
+    "loading": "Chargement…",
+    "statusCode": "404",
+    "slogan": "Solidarity.",
+    "local243Footnote": "P.-S. Les aperçus sans numéro de section atterrissent encore sur 243.",
+    "markAria": "Marque UnionOps",
+    "easterEggTitle": "JUST BE LOVED",
+    "easterEggBody": "Vous avez trouvé la motoneige. Respirez. Puis continuez de bâtir Solidarity.",
+    "easterEggClose": "Retour au travail",
+    "easterEggImageAlt": "Illustration de motoneige réécrite pour dire JUST BE LOVED",
+    "quips": {
+      "notFound": [
+        "Cette page n’a jamais joint l’unité de négociation.",
+        "Hors service — et hors carte.",
+        "Nous avons déposé un grief contre l’URL. Aucune réponse.",
+        "Vous cherchez la section 243? Mauvaise porte — mais vous avez trouvé le clin d’œil.",
+        "Cette URL a quitté la ligne de piquetage.",
+        "Disparue en solidarité — essayez un chemin connu."
+      ],
+      "error": [
+        "Quelque chose a cassé sur le plancher. Un délégué arrive (métaphoriquement).",
+        "Grief inattendu : la page elle-même.",
+        "Erreur de poinçon. Soft reset recommandé.",
+        "La convention a tenu. Ce rendu, non."
+      ],
+      "hub": [
+        "Cette page du Hub a pointé trop tôt.",
+        "Pas sur la liste du Hub des dirigeants de cette section.",
+        "Mauvaise porte sur le plancher — le tableau de bord est de ce côté."
+      ],
+      "portal": [
+        "Ce cercle / cette station n’est pas sur le plan d’étage.",
+        "Route du Portail manquante — essayez l’accueil de la station.",
+        "Aucun envoi sous ce chemin."
+      ],
+      "poll": [
+        "Ce sondage éclair a quitté la feuille.",
+        "Le lien ne correspond à aucun sondage ouvert.",
+        "Sondage fermé — ou jamais ouvert."
+      ],
+      "rsvp": [
+        "Ce jeton d’invitation a pointé la sortie.",
+        "Lien RSVP invalide ou retiré — demandez-en un nouveau à votre délégué.",
+        "Aucun effectif de réunion derrière ce jeton."
+      ],
+      "meeting": [
+        "Aucun horaire de réunion sous ce slug de section.",
+        "Page publique de réunion introuvable.",
+        "Ce slug n’a jamais rejoint le calendrier."
+      ]
+    }
   },
   "logoBuilder": {
     "title": "Créateur de logo local",

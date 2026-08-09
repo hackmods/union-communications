@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
@@ -42,7 +43,11 @@ export default async function NextMeetingPage({
   const t = await getTranslations("meetingPublic");
 
   const schedule = await meetingsStore.getBySlug(slug);
-  const nextMeeting = schedule ? computeNextMeeting(schedule) : null;
+  if (!schedule) {
+    notFound();
+  }
+
+  const nextMeeting = computeNextMeeting(schedule);
 
   return (
     <PageShell size="focus" className="py-10">
@@ -52,20 +57,14 @@ export default async function NextMeetingPage({
             {t("heading")}
           </h1>
         </header>
-        {schedule ? (
-          <NextMeetingSnippet
-            nextMeeting={nextMeeting}
-            labels={{
-              title: t("nextMeeting"),
-              noMeeting: t("noMeeting"),
-              at: t("at"),
-            }}
-          />
-        ) : (
-          <div className="rounded-xl border border-gray-200 bg-white p-6 text-center">
-            <p className="text-gray-600">{t("notFound")}</p>
-          </div>
-        )}
+        <NextMeetingSnippet
+          nextMeeting={nextMeeting}
+          labels={{
+            title: t("nextMeeting"),
+            noMeeting: t("noMeeting"),
+            at: t("at"),
+          }}
+        />
       </article>
     </PageShell>
   );

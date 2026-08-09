@@ -3,21 +3,21 @@ import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { RouteStatusPanel } from "@/components/layout/RouteStatusPanel";
 
-export default async function HubNotFound() {
+export default async function PortalNotFound() {
   const t = await getTranslations("routeUi");
 
   return (
     <PageShell size="nestedFocus" className="py-4" as="section">
       <RouteStatusPanel
         variant="notFound"
-        bucket="hub"
-        body={t("hubNotFoundBody")}
+        bucket="portal"
+        body={t("portalNotFoundBody")}
         actions={
           <Link
-            href="/app"
+            href="/portal"
             className="inline-flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-4 py-2 font-semibold text-white transition-colors hover:bg-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
           >
-            {t("backToHub")}
+            {t("backToPortal")}
           </Link>
         }
       />

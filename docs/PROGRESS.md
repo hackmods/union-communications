@@ -1,5 +1,13 @@
 # Progress Log
 
+## Local 404 solidarity status pass (2026-08-09)
+
+- [x] Shared `RouteStatusPanel` / `RouteStatusStatic` — Local 404 chrome, UnionOps mark, Solidarity closer
+- [x] Stable-hash rotating EN/FR quips (`routeUi.quips`) with path buckets (hub/portal/poll/rsvp/meeting/error)
+- [x] Quiet Local 243 footnote + deepen snowmobile egg (5× mark tap; `public/easter-eggs/`)
+- [x] Portal `not-found` / `error` / `loading`; root `not-found` + `global-error` (kills Next stock 404)
+- [x] Poll / RSVP / meeting misses call `notFound()` for true HTTP 404
+
 ## Local Portal Circles re-landed (2026-08-08)
 
 - [x] Re-land Circles memory MVP on current main (Station, Circle workspace P0–P4, Dispatch/Fronts/Sidebars)

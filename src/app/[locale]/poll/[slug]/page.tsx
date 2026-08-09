@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
@@ -40,16 +41,7 @@ export default async function PollPage({
   const poll = await pollsStore.getBySlug(slug);
 
   if (!poll) {
-    return (
-      <PageShell size="focus" className="py-10">
-        <article className="space-y-4">
-          <h1 className="text-2xl font-semibold text-opseu-dark">
-            {t("notFoundTitle")}
-          </h1>
-          <p className="text-gray-700">{t("notFoundBody")}</p>
-        </article>
-      </PageShell>
-    );
+    notFound();
   }
 
   return (
