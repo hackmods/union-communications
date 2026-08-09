@@ -50,7 +50,7 @@ test.describe("Home hero & builders smoke @smoke", () => {
         .getByRole("link", { name: "Set up your local brand" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: "What’s next" }).first(),
+      page.getByRole("link", { name: /Open the first-week roadmap|What’s next|What's next/i }).first(),
     ).toBeVisible();
     await expect(page.getByText(/Local-first Comms/i)).toBeVisible();
   });

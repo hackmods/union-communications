@@ -48,6 +48,54 @@ Fallback if Brand Kit is empty: complete [Onboarding](/onboarding) or import dem
 
 UI chip for the same path: `WorkshopDemoPath` on home, First week, and `/guide/workshop`.
 
+## Day-of checklist (Wednesday)
+
+Do this the morning of the session (or the night before). Paths are locale-prefixed (`/en/…` or `/fr/…`).
+
+### URLs to keep open (separate tabs)
+
+| Tab | URL |
+|-----|-----|
+| Home + Demo Path | `/en/` |
+| Workshop outline | `/en/guide/workshop/` |
+| First week + calendar | `/en/guide/social-media-plan/` |
+| Comms Resources | `/en/guide/resources/` |
+| Brand Kit | `/en/brand-kit/` |
+| Board Notice | `/en/tools/board-notice/` |
+| Graphic Maker | `/en/tools/graphic-maker/` |
+| Captions | `/en/captions/` |
+| Tools index (backup) | `/en/tools/` |
+
+Optional: Website Template `/en/tools/website-template/`, Print Guide `/en/guide/print/`.
+
+### Brand Kit backup
+
+1. Prefer a **finished Brand Kit** (local number + colours + logo) before attendees join.
+2. If the browser is empty: run **Onboarding** (`/en/onboarding/`) once, or **import demo Brand Kit** from Brand Kit export/import.
+3. Keep a downloaded Brand Kit JSON on a USB / second machine.
+
+### Offline / AV fallbacks
+
+- Keep sample **Board Notice PDF** and **Graphic Maker PNG** already exported on disk (show if export fails mid-demo).
+- Prefer **wired Ethernet** for the presenter laptop; phone hotspot as plan B.
+- Share the browser window (not the whole desktop) in Zoom/Teams so Brand Kit colours stay readable.
+- Zoom the browser to ~110% for a projector; avoid ultra-wide half-scale that makes type tiny.
+- Confirm Graphic Maker **Edit / Preview** tabs at phone width (~375) once before the talk (DevTools or your phone).
+
+### Smoke before you speak (2 minutes)
+
+1. Home shows Demo Path steps 1–4 and “Solidarity.”
+2. Board Notice: form + Download PDF visible.
+3. Graphic Maker: Download PNG visible.
+4. Captions: Copy on a template works.
+5. `/en/guide/workshop/` H1 loads; `/fr/guide/workshop/` H1 loads in French.
+
+### Do not demo live (mention only)
+
+- Pulse Poll publish (needs Officer Hub).
+- Officer Hub SMTP / cron.
+- Portal Circles (separate product surface).
+
 ## Backup if wifi or import fails
 
 - Preload a demo Brand Kit JSON and screenshots of a notice + graphic.
