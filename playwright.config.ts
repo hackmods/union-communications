@@ -12,6 +12,9 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : 2,
+  /** Bound CI so auth misconfig cannot hang the job for 20+ minutes. */
+  globalTimeout: process.env.CI ? 15 * 60 * 1000 : undefined,
+  timeout: 30_000,
   reporter: "html",
   use: {
     baseURL,
@@ -40,6 +43,13 @@ export default defineConfig({
           url: baseURL,
           reuseExistingServer: !process.env.CI,
           timeout: 120_000,
+          env: {
+            ...process.env,
+            AUTH_SECRET:
+              process.env.AUTH_SECRET ?? "ci-build-secret-not-for-production",
+            AUTH_ALLOW_DEMO_USERS: process.env.AUTH_ALLOW_DEMO_USERS ?? "true",
+            NEXT_PUBLIC_DEMO_SITE: process.env.NEXT_PUBLIC_DEMO_SITE ?? "true",
+          },
         },
       }),
 });
