@@ -3,10 +3,12 @@ import en from "../../../messages/en.json";
 import fr from "../../../messages/fr.json";
 
 const PUBLIC_NS = [
+  "metadata",
   "home",
   "socialMediaPlan",
   "resources",
   "workshopDemo",
+  "workshopGuide",
   "toolsIndex",
   "guide",
   "boardNotice",
@@ -25,6 +27,32 @@ const PUBLIC_NS = [
   "altTextAssistant",
   "websiteTemplate",
   "logoBuilder",
+  "brandKit",
+  "assets",
+  "sources",
+  "examples",
+  "captions",
+  "manifesto",
+  "supportPage",
+  "accessibility",
+  "installPage",
+  "onboarding",
+  "unionBoardsGuide",
+  "printGuide",
+  "websiteGuide",
+  "emailBroadcastGuide",
+  "photoConsentGuide",
+  "crisisGuide",
+  "membershipSignupGuide",
+  "dfrGuide",
+  "seniorityGuide",
+  "rightToRefuseGuide",
+  "pollPublic",
+  "pollPlaceholder",
+  "common",
+  "routeUi",
+  "footer",
+  "relatedTools",
   "privacyPage",
 ] as const;
 
@@ -34,6 +62,26 @@ function wordCount(s: string): number {
 
 function emDashCount(s: string): number {
   return (s.match(/\u2014/g) ?? []).length;
+}
+
+function walkStrings(
+  value: unknown,
+  path: string,
+  visit: (path: string, text: string) => void,
+): void {
+  if (typeof value === "string") {
+    visit(path, value);
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, i) => walkStrings(item, `${path}[${i}]`, visit));
+    return;
+  }
+  if (value && typeof value === "object") {
+    for (const [key, child] of Object.entries(value)) {
+      walkStrings(child, path ? `${path}.${key}` : key, visit);
+    }
+  }
 }
 
 describe("public Comms copy style", () => {
@@ -85,19 +133,15 @@ describe("public Comms copy style", () => {
     expect(wordCount(en.websiteTemplate.referenceNote)).toBeLessThanOrEqual(40);
   });
 
-  it("keeps Blueprint and board-guide chapter bodies under 40 words", () => {
-    expect(wordCount(en.guide.chapters.platforms.content)).toBeLessThanOrEqual(
-      40,
-    );
-    expect(
-      wordCount(en.guide.chapters.accessibility.content),
-    ).toBeLessThanOrEqual(40);
-    expect(
-      wordCount(en.unionBoardsGuide.sections.howLong.content),
-    ).toBeLessThanOrEqual(40);
-    expect(wordCount(en.accessibility.limitations.body)).toBeLessThanOrEqual(
-      55,
-    );
+  it("keeps public namespaces under a 30-word leaf ceiling", () => {
+    const over: string[] = [];
+    for (const ns of PUBLIC_NS) {
+      const block = (en as Record<string, unknown>)[ns];
+      walkStrings(block, ns, (path, text) => {
+        if (wordCount(text) >= 30) over.push(`${wordCount(text)} ${path}`);
+      });
+    }
+    expect(over, over.join("\n")).toEqual([]);
   });
 
   it("allows at most one em dash on public tool/guide lead fields", () => {

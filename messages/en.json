@@ -377,7 +377,7 @@
     "chapters": {
       "platforms": {
         "title": "Which platforms to choose",
-        "content": "Facebook fits broad demographics, longer posts, and events. Instagram fits visual storytelling and younger members. Start with one platform and do it well. Many workplace locals rely on a closed Facebook group as the main channel."
+        "content": "Facebook fits broad demographics, longer posts, and events. Instagram fits visual storytelling. Start with one platform and do it well. Many locals rely on a closed Facebook group."
       },
       "tone": {
         "title": "Tone of voice",
@@ -389,11 +389,11 @@
       },
       "trolls": {
         "title": "Dealing with trolls and management",
-        "content": "Do not engage bad-faith comments. Hide or delete spam, harassment, and misinformation. For management pushback, stick to facts, cite the CA, and escalate to your communications chair or national rep. Never post confidential bargaining details."
+        "content": "Do not engage bad-faith comments. Hide or delete spam, harassment, and misinformation. For management pushback, stick to facts, cite the CA, and escalate. Never post confidential bargaining details."
       },
       "accessibility": {
         "title": "Accessibility - alt-text",
-        "content": "Every image post needs alt text. Use Alt-Text Assistant, then paste into the platform field (not the caption). Keep it short: who, what, where, and any text in the graphic."
+        "content": "Every image needs alt text. Draft with Alt-Text Assistant, paste into the platform field (not the caption). Cover who, what, where, and on-image text."
       }
     },
     "channelGuides": {
@@ -429,7 +429,7 @@
       "items": {
         "header": {
           "title": "Local header",
-          "content": "Local number, short name, and Brand Kit logo. Print a Board Banner strip so the cork reads as yours from across the room, even when the rest is parent-union posters."
+          "content": "Local number, short name, and Brand Kit logo. Print a Board Banner so the cork reads as yours from across the room."
         },
         "socials": {
           "title": "Socials and digital link",
@@ -437,7 +437,7 @@
         },
         "healthSafety": {
           "title": "Health and safety",
-          "content": "JHSC / health & safety contacts, how to report a hazard, and where to find the latest safety bulletin. Keep phone numbers large and current."
+          "content": "JHSC / H&S contacts, how to report a hazard, and where to find the latest bulletin. Keep phone numbers large and current."
         },
         "lec": {
           "title": "LEC and steward list",
@@ -473,16 +473,16 @@
       "title": "Reference layouts from real locals",
       "intro": "Patterns from boards locals actually run. Pick one shape and stick to it so members learn where to look.",
       "photosHeading": "Real boards (photo references)",
-      "photosIntro": "Photos from active campus boards - use them to see how LEC lists, JHSC, ministry posters, and QR codes sit together in the wild.",
+      "photosIntro": "Photos from active campus boards: how LEC lists, JHSC, ministry posters, and QR codes sit together in the wild.",
       "schematicsHeading": "Schematic patterns to copy",
       "fourQuadrant": "Four-zone classic",
-      "fourQuadrantDesc": "Header across the top, socials and health & safety side by side, full-width LEC strip, events along the bottom. The most common break-room layout.",
+      "fourQuadrantDesc": "Header on top; socials and H&S side by side; full-width LEC; events at the bottom. Common break-room layout.",
       "fourQuadrantBest": "Best for: standard cork boards in lunch rooms",
       "priorityStrip": "Priority strip + big events",
-      "priorityStripDesc": "Narrow left column keeps socials, H&S, and LEC always visible; the large right panel is reserved for the current campaign, meeting, or solidarity poster.",
+      "priorityStripDesc": "Narrow left column keeps socials, H&S, and LEC visible. Large right panel for the current campaign or poster.",
       "priorityStripBest": "Best for: wide boards near time clocks",
       "corridorTall": "Corridor tall stack",
-      "corridorTallDesc": "Single-column stack for narrow hallway boards: header, socials, H&S, LEC, events, then solidarity filler at the bottom so the board never ends in blank cork.",
+      "corridorTallDesc": "Single column for narrow halls: header, socials, H&S, LEC, events, then solidarity filler so cork is never blank.",
       "corridorTallBest": "Best for: narrow corridor or door-side boards",
       "labeledColumns": "Labeled columns (info board)",
       "labeledColumnsDesc": "Headers across the top: Postings | Updates / LEC | Health & safety + QR | Rights posters. Matches a tidy campus board with ministry posters on the right.",
@@ -538,15 +538,15 @@
     "sections": {
       "where": {
         "title": "Where to post",
-        "content": "Use union-designated bulletin boards in break rooms, steward offices, and other agreed locations. Never post on management-controlled boards without permission. Check your collective agreement for posting rights."
+        "content": "Use union-designated boards in break rooms, steward offices, and agreed spots. Never post on management boards without permission. Check CA posting rights."
       },
       "howLong": {
         "title": "How long to leave notices up",
-        "content": "Remove outdated notices promptly. Meeting notices: post 1-2 weeks ahead, remove after. Bargaining updates: refresh weekly in active rounds. Strike notices: update daily. Keep bare-minimum zones current even when the events slot is empty."
+        "content": "Remove outdated notices promptly. Meetings: post 1-2 weeks ahead, remove after. Bargaining: refresh weekly. Strike: daily. Keep bare-minimum zones current."
       },
       "whatNot": {
         "title": "What not to post",
-        "content": "Never post confidential bargaining positions, member home addresses, or internal strategy. Do not name individuals in grievances. If in doubt, ask your local president before printing."
+        "content": "Never post confidential bargaining positions, member home addresses, or internal strategy. Do not name individuals in grievances. Ask your president if unsure."
       },
       "pairing": {
         "title": "Pair with social media",
@@ -570,11 +570,11 @@
       },
       "boards": {
         "title": "Board notices",
-        "content": "Use the Board Notice Maker for workplace bulletin boards. Tabloid (11×17) size is easier to read from a distance. Letter size fits standard union boards."
+        "content": "Board Notice Maker for workplace corks. Tabloid (11×17) reads from farther away. Letter fits standard boards."
       },
       "digital": {
         "title": "Print plus digital",
-        "content": "Share the same date, time, and location across board notice, flyer, social graphic, and website. One message, four channels - less confusion for members."
+        "content": "Same date, time, and location on board, flyer, social, and website. One message, four channels."
       }
     }
   },
@@ -589,7 +589,7 @@
       },
       "comms": {
         "title": "Public Comms tools (copy / mailto)",
-        "content": "Document Generator, Board Notice, and Graphic Maker include a copy-only invite step. You paste into your union inbox. UnionOps does not send mail."
+        "content": "Document Generator, Board Notice, and Graphic Maker have a copy-only invite step. You paste into your inbox. UnionOps does not send mail."
       },
       "hub": {
         "title": "Officer Hub (separate surfaces)",
@@ -652,7 +652,7 @@
       "navLabel": "Why a site",
       "title": "Why a local website",
       "intro": "Boards and socials move messages. A website holds answers members search months later.",
-      "tip": "One clear URL beats a pile of outdated Google Docs and Facebook posts. Put that URL on boards, QR cards, email signatures, and event graphics.",
+      "tip": "One clear URL beats a pile of outdated Docs and posts. Put it on boards, QR cards, signatures, and event graphics.",
       "items": {
         "stable": {
           "label": "Stable link",
@@ -660,11 +660,11 @@
         },
         "search": {
           "label": "Search and credibility",
-          "content": "Members, media, and employers often search for your local online. A simple public page looks more professional than a sparse Facebook profile alone."
+          "content": "Members, media, and employers search for your local. A simple public page beats a sparse Facebook profile alone."
         },
         "control": {
           "label": "Your copy, your timeline",
-          "content": "You decide what stays live. No algorithm, no third-party form service — the template uses mailto: so messages go straight to your inbox."
+          "content": "You decide what stays live. No algorithm. The template uses mailto: so messages go straight to your inbox."
         }
       }
     },
@@ -675,19 +675,19 @@
       "items": {
         "about": {
           "title": "About your local",
-          "content": "Two short paragraphs: who you represent, where you work, and what you stand for. Skip jargon and long history — members need orientation, not a novel."
+          "content": "Two short paragraphs: who you represent, where you work, and what you stand for. Orientation, not a novel."
         },
         "officers": {
           "title": "Executive officers",
-          "content": "Names and roles (president, steward coordinator, treasurer, and so on). Update after every election. Outdated lists erode trust faster than a missing logo."
+          "content": "Names and roles (president, steward coordinator, treasurer). Update after every election. Stale lists erode trust."
         },
         "contact": {
           "title": "Contact path",
-          "content": "A monitored local email and, if you have one, office address or steward hours. Prefer one inbox over five personal addresses that go stale when people leave."
+          "content": "One monitored local email, plus office address or steward hours if you have them. Prefer one inbox over five personal addresses that go stale."
         },
         "social": {
           "title": "Social or member channel",
-          "content": "Link your Facebook group or other member channel. The site points people there; social posts can point back to the site for officers and email."
+          "content": "Link your Facebook group or other member channel. The site points there; social can point back for officers and email."
         }
       }
     },
@@ -715,7 +715,7 @@
       "navLabel": "Before you start",
       "title": "Before you open the template",
       "intro": "Five minutes of prep saves a broken-looking site. Gather these from your Brand Kit and local executive.",
-      "tip": "Save your website URL in Brand Kit once it is live. QR cards, board posters, and other tools can reuse that link without retyping.",
+      "tip": "Save the live website URL in Brand Kit. QR cards and board posters can reuse it without retyping.",
       "items": {
         "brand": "Brand Kit set: local number, colours, and logo (the template picks up colours and logo automatically).",
         "email": "A monitored contact email the local actually checks.",
@@ -743,7 +743,7 @@
         },
         "download": {
           "title": "Download the ZIP",
-          "content": "Download the site ZIP. Inside you will find index.html, css/, js/, assets/, a README with deploy notes, and a CNAME.example for custom domains."
+          "content": "Download the ZIP: index.html, css/, js/, assets/, README deploy notes, and CNAME.example for custom domains."
         }
       }
     },
@@ -751,11 +751,11 @@
       "navLabel": "Publish free",
       "title": "Publish on GitHub Pages (free)",
       "intro": "GitHub Pages hosts static sites free. You need a free GitHub account and about fifteen minutes the first time. The ZIP README repeats these steps.",
-      "tip": "Project sites live at https://yourusername.github.io/repository-name/. If you create a GitHub organization for the local, you can use a cleaner org URL later. Either path works for members.",
+      "tip": "Project sites use https://yourusername.github.io/repository-name/. A GitHub organization can give a cleaner URL later. Either path works.",
       "steps": {
         "account": {
           "title": "Create a GitHub account",
-          "content": "Sign up at github.com with an email the local can keep long-term (a shared officer account is better than one person's personal login alone)."
+          "content": "Sign up at github.com with an email the local can keep. Prefer a shared officer account over one personal login."
         },
         "repo": {
           "title": "Create a repository",
@@ -767,7 +767,7 @@
         },
         "pages": {
           "title": "Turn on Pages",
-          "content": "Open Settings → Pages. Under Build and deployment → Source, choose Deploy from a branch. Select main (or master) and / (root), then Save."
+          "content": "Settings → Pages → Deploy from a branch. Select main (or master) and / (root), then Save."
         },
         "wait": {
           "title": "Wait for the green check",
@@ -779,7 +779,7 @@
       "navLabel": "Custom domain",
       "title": "Custom domain (optional)",
       "intro": "A short domain (for example local243.org) is easier to say and print. Point it at GitHub Pages after the free github.io URL works.",
-      "tip": "The ZIP includes CNAME.example — rename it to CNAME (no extension) and put only your domain on the first line before you configure DNS.",
+      "tip": "ZIP includes CNAME.example. Rename to CNAME (no extension) with only your domain on line one before DNS.",
       "steps": {
         "cname": {
           "title": "Add a CNAME file",
@@ -787,11 +787,11 @@
         },
         "dns": {
           "title": "Configure DNS at your registrar",
-          "content": "Follow GitHub’s custom-domain docs for A records or a CNAME to your Pages host. DNS changes can take from minutes to a day."
+          "content": "Follow GitHub’s custom-domain docs (A records or CNAME). DNS can take minutes to a day."
         },
         "enable": {
           "title": "Enable the domain in Pages settings",
-          "content": "In Settings → Pages, enter the custom domain, save, and wait for DNS check / HTTPS to finish. Then save the final URL in Brand Kit."
+          "content": "In Settings → Pages, enter the custom domain, save, and wait for DNS/HTTPS. Then save the final URL in Brand Kit."
         }
       }
     },
@@ -802,15 +802,15 @@
       "items": {
         "who": {
           "title": "Who owns it",
-          "content": "Name one officer or volunteer as site steward. Share the GitHub login (or add a second trusted account) so updates do not die when one person leaves."
+          "content": "Name one site steward. Share the GitHub login or add a second trusted account so updates do not die when someone leaves."
         },
         "when": {
           "title": "When to update",
-          "content": "After elections, when the contact email changes, at the start of bargaining, and whenever a strike or major campaign needs a short public note."
+          "content": "After elections, contact changes, bargaining starts, or when a campaign needs a short public note."
         },
         "how": {
           "title": "How to edit",
-          "content": "Easiest path: change fields in Website Template and upload a fresh ZIP over the old files. Or edit index.html in GitHub’s web editor for small text fixes."
+          "content": "Easiest: update Website Template and upload a fresh ZIP. Or edit index.html in GitHub’s web editor for small fixes."
         },
         "archive": {
           "title": "What to remove",
@@ -825,15 +825,15 @@
       "items": {
         "boards": {
           "label": "Union boards",
-          "content": "Put a QR to the site in the socials zone of the bare-minimum board so members without social still reach officers and email."
+          "content": "Put a site QR in the socials zone of the bare-minimum board so offline members still reach officers."
         },
         "qr": {
           "label": "QR link cards",
-          "content": "Print wallet or letter cards that open the live URL. Save the website link in Brand Kit first so the card tool can pull it."
+          "content": "Print wallet or letter cards to the live URL. Save the website link in Brand Kit first so tools can pull it."
         },
         "social": {
           "label": "Social posts",
-          "content": "In bios and pinned posts, link the site for “who we are / contact.” Use social for timely updates; use the site for the stable facts."
+          "content": "In bios and pinned posts, link the site for who you are and how to contact. Social for timely updates; site for stable facts."
         },
         "brand": {
           "label": "Brand Kit",
@@ -1364,7 +1364,7 @@
       "square5": "Square 5×5",
       "square4": "Square 4×4"
     },
-    "sizeTip": "Quarter = 4 per letter sheet; Half = 2 per sheet. Print multiple copies of the same card to fill a page.",
+    "sizeTip": "Quarter = 4 per letter sheet. Half = 2 per sheet. Print repeats to fill a page.",
     "previewSize": "Preview at {label} - {width}×{height} in",
     "showUrl": "Show URL under tagline",
     "includeBranding": "Include local branding",
@@ -1407,7 +1407,7 @@
     "title": "Action Card Maker",
     "subtitle": "QR cards for petitions and sign-ons. Signatures stay on your external tool.",
     "previewAccessibleName": "Action card preview",
-    "privacyHint": "UnionOps does not collect petition signatures. Paste a link to ActionNetwork, Google Forms, your national union’s sign-on page, or any other external tool.",
+    "privacyHint": "UnionOps does not collect signatures. Paste a link to your petition or sign-on tool (ActionNetwork, Forms, national page, etc.).",
     "preset": "Preset",
     "destination": "Petition / sign-on link",
     "savedLinks": "Use a saved Brand Kit link",
@@ -1433,7 +1433,7 @@
       "square5": "Square 5×5",
       "square4": "Square 4×4"
     },
-    "sizeTip": "Quarter = 4 per letter sheet; Half = 2 per sheet. Print multiple copies of the same card to fill a page.",
+    "sizeTip": "Quarter = 4 per letter sheet. Half = 2 per sheet. Print repeats to fill a page.",
     "previewSize": "Preview at {label} - {width}×{height} in",
     "showUrl": "Show URL under CTA",
     "includeBranding": "Include local branding",
@@ -1798,9 +1798,9 @@
   },
   "brandKit": {
     "title": "Your local Brand Kit",
-    "description": "Step 0 for every Comms tool. Colours, logo, local number, and key links here drive boards, print, social graphics, and the website template.",
+    "description": "Step 0 for every Comms tool. Colours, logo, local number, and key links drive boards, print, social, and the site template.",
     "purposeSets": "What you set here",
-    "purposeSetsBody": "Union preset, local number and sub-text, brand colours, logo, canvas style, optional website or social links, and membership application URLs.",
+    "purposeSetsBody": "Union preset, local number, colours, logo, canvas style, optional web/social links, and membership URLs.",
     "purposeUnlocks": "What it unlocks",
     "purposeUnlocksBody": "Brand Kit drives colours, logo, and key links across every Comms tool.",
     "startSetup": "Start setup",
@@ -1891,7 +1891,7 @@
     },
     "logo": {
       "title": "Logo",
-      "description": "When your union preset includes bundled logos, pick one here. Otherwise use the UnionOps mark (tinted to your brand colour) or upload your own.",
+      "description": "If your preset includes bundled logos, pick one. Otherwise use the UnionOps mark (tinted) or upload your own.",
       "useOfficialLogo": "Use OPSEU logo",
       "uploadCustomLogo": "Upload logo",
       "uploadHint": "PNG, JPEG, WebP, or SVG up to 10 MB.",
@@ -2112,7 +2112,7 @@
     "title": "Strike & Crisis Comms Guide",
     "subtitle": "High-level guidance for local unions during strikes, bargaining, and workplace crises",
     "backToGuide": "Back to The Blueprint",
-    "intro": "Locals often run day-to-day member Comms while central unions handle sector bargaining support. This guide is for calm, clear local messaging under pressure.",
+    "intro": "For calm local messaging under pressure. Locals often own day-to-day Comms while central unions handle sector bargaining support.",
     "scenarios": {
       "strike": {
         "title": "Strike action",
@@ -2219,7 +2219,7 @@
       },
       "failureModes": {
         "title": "Common failure modes",
-        "content": "Most DFR complaints grow from silence and missed clocks, not from dramatic malice. Build habits that leave a paper trail of serious consideration.",
+        "content": "Most DFR complaints grow from silence and missed clocks, not malice. Leave a paper trail of serious consideration.",
         "items": [
           "Missed Step / referral deadlines in the collective agreement",
           "No investigation notes, interviews, or document requests on file",
@@ -2261,7 +2261,7 @@
     "sections": {
       "compare": {
         "title": "Worked example: comparing seniority",
-        "content": "Start with two members and one target role. Write each person’s seniority date, classification, and current status on one sheet before debating qualifications.",
+        "content": "Start with two members and one target role. Write seniority date, classification, and status on one sheet before debating.",
         "items": [
           "List Member A and Member B with seniority date (YYYY-MM-DD) and classification",
           "Confirm which date the CA uses — continuous service, classification seniority, or another clock",
@@ -2271,7 +2271,7 @@
       },
       "cascade": {
         "title": "Cascading displacement walk-through",
-        "content": "A bump can displace another member, who may then bump further down. Map the chain before the committee votes so no one is surprised mid-meeting.",
+        "content": "A bump can displace another member, who may bump further. Map the chain before the committee votes.",
         "items": [
           "Draw the chain: vacancy → first bumper → displaced incumbent → next bump (if any)",
           "Stop when the CA says the chain ends (classification floor, probation, temporary status)",
@@ -2303,7 +2303,7 @@
     },
     "hub": {
       "title": "Officer Hub bumping module",
-      "body": "Use College Bumping in the Hub for notes, PDF compare, and committee sessions. Treat ranking aids as a second check. Re-run the paper worksheet if the tool output surprises you."
+      "body": "Use College Bumping for notes, PDF compare, and sessions. Treat ranking aids as a check. Re-run the paper worksheet if the tool surprises you."
     }
   },
   "rightToRefuseGuide": {
@@ -2352,7 +2352,7 @@
       },
       "reassignment": {
         "title": "Work reassignment rules (high level)",
-        "content": "While a refusal is live, employers generally cannot assign the same work to another worker without telling them about the refusal, subject to OHSA. Verify current Act language before advising.",
+        "content": "While a refusal is live, employers generally cannot assign the same work to another worker without informing them, subject to OHSA. Verify current Act language before advising.",
         "items": [
           "Other workers assigned the work must be informed of the refusal and reasons",
           "The refusing worker is typically paid pending the investigation outcome, subject to Act rules",
@@ -2383,8 +2383,8 @@
     "noSubsTitle": "No subscriptions:",
     "noSubsBody": "This tool is free. No premium tiers, no paywalls, no hidden fees.",
     "noDataTitle": "No data harvesting:",
-    "noDataBody": "Comms graphics and Brand Kit stay on your device. If you host an Officer Hub, that host holds hub records, and the operator is the data controller for that instance.",
-    "noDataBodyCommsOnly": "We don't harvest your data or sell ads. Comms tools are local-first: graphics and brand kit stay in your browser. No venture landlords, no surveillance business model.",
+    "noDataBody": "Comms graphics and Brand Kit stay on your device. If you host an Officer Hub, that host holds hub records and is the data controller.",
+    "noDataBodyCommsOnly": "We don’t harvest data or sell ads. Comms stay in your browser. No venture landlords, no surveillance business model.",
     "noAdsTitle": "No ads, no tracking:",
     "noAdsBody": "We aren't selling your attention.",
     "closing": "UnionOps is built by union volunteers who wanted a solid tool for people doing the hard work on the ground.",
@@ -2437,7 +2437,7 @@
     },
     "limitations": {
       "title": "Known limitations",
-      "body": "Canvas previews may not fully support screen readers or high-contrast display settings. Form controls that drive the preview are standard and keyboard-usable. Exported PNG/PDF files do not embed alt text: draft with Alt-Text Assistant, then paste into each platform."
+      "body": "Canvas previews may not fully support screen readers or high-contrast modes. Form controls are keyboard-usable. Exports lack embedded alt text: draft with Alt-Text Assistant, then paste per platform."
     },
     "feedback": {
       "title": "Feedback",
@@ -4124,13 +4124,13 @@
     "title": "Install UnionOps on your desktop",
     "intro": "On supported browsers you can install UnionOps as an app window. No app store and no extra download beyond the browser.",
     "whereTitle": "Where install works",
-    "whereBody": "Use unionops.org (not www). Works best on desktop Chrome/Edge and iOS Safari. Android Chrome is supported when the browser offers “Install app”. Offline limits still apply.",
+    "whereBody": "Use unionops.org (not www). Best on desktop Chrome/Edge and iOS Safari. Android Chrome when Install app is offered.",
     "chromeTitle": "Chrome, Edge, and friends (PC)",
     "chromeStep1": "Open https://unionops.org in Chrome, Edge, or Brave.",
-    "chromeStep2": "After a short visit, look for Install in the address bar (omnibox), or open the browser menu and choose Install app / Install UnionOps.",
+    "chromeStep2": "After a short visit, use Install in the address bar, or the browser menu: Install app / Install UnionOps.",
     "chromeStep3": "Confirm. UnionOps opens in its own window with the offline shell for public pages you last loaded. Missing Install? You may already be in the installed app.",
     "androidTitle": "Chrome on Android",
-    "androidBody": "Open the site in Chrome, tap the menu, then Install app. “Add to Home screen” alone is only a browser shortcut — use Install when it appears.",
+    "androidBody": "Chrome menu → Install app. “Add to Home screen” alone is only a shortcut. Prefer Install when it appears.",
     "safariTitle": "Safari (Mac and iPhone)",
     "safariBody": "Safari never shows an automatic install prompt. On iPhone or iPad: Share, then Add to Home Screen.",
     "limitsTitle": "What install does not change",
@@ -4369,29 +4369,29 @@
     "subtitle": "Last updated: July 2026",
     "leadTitleHub": "Two surfaces, two rules",
     "leadTitleCommsOnly": "On-device Comms",
-    "leadBodyHub": "UnionOps separates public Comms tools from the Officer Hub. Comms graphics and brand settings stay on your device. The Officer Hub runs on whatever host operates that instance, and that operator is responsible for the data it holds.",
-    "leadBodyCommsOnly": "UnionOps public tools are local-first Comms: graphics and brand settings stay on your device. An Officer Hub for casework is not part of the public launch surface yet.",
+    "leadBodyHub": "Comms graphics and brand settings stay on your device. The Officer Hub runs on the host that operates it, and that operator is responsible for the data it holds.",
+    "leadBodyCommsOnly": "Public Comms are local-first: graphics and brand settings stay on your device. An Officer Hub for casework is not on the public launch surface yet.",
     "commsTitle": "Comms tools (on your device)",
     "comms1": "Image processing, templates, and file preparation happen in your browser",
     "comms2": "Brand kit settings are stored in browser local storage",
     "comms3": "No analytics, tracking cookies, or third-party ad scripts",
     "comms4": "Member photos used in graphics are not uploaded to UnionOps servers by the Comms tools",
     "hubTitle": "Officer Hub (hosted instance)",
-    "hubIntro": "Signing in to an Officer Hub means that instance processes account sessions and any grievance, bumping, or related records it stores. Evaluation builds may use in-memory stores for demos. A production host should configure secure secrets and, when available, a database with tenant isolation.",
-    "hubSelfHost": "If you self-host or operate CapRover / Docker: you are the data controller for that instance. Prefer Canadian hosting for confidential modules. Set a unique AUTH_SECRET. Do not use demo passwords for real member casework.",
-    "hubHybrid": "Encrypted hybrid export: backup passphrases are entered in the browser and are not sent to the server as part of the hybrid encrypt flow.",
+    "hubIntro": "Signing in means that Hub holds sessions and case records. Demos may use memory. Production needs secure secrets and tenant isolation when a database is available.",
+    "hubSelfHost": "If you self-host (CapRover / Docker), you are the data controller. Prefer Canadian hosting for confidential modules. Set a unique AUTH_SECRET. Never use demo passwords for real casework.",
+    "hubHybrid": "Hybrid export passphrases stay in the browser. They are not sent to the server in the encrypt flow.",
     "hubDemo": "Demo accounts exist for workshops and CI only, not for live confidential files.",
     "ontarioTitle": "Ontario privacy legislation",
-    "ontarioHub": "UnionOps follows Canada privacy principles, including PIPEDA and, where applicable, FIPPA. Comms stay on-device. Hosted Officer Hub operators must apply access control, retention, and breach practices for confidential labour records.",
+    "ontarioHub": "Designed around PIPEDA and, where applicable, FIPPA. Comms stay on-device. Hub hosts must apply access control, retention, and breach practices for labour records.",
     "ontarioCommsOnly": "UnionOps follows Canada privacy principles, including PIPEDA and, where applicable, FIPPA. Comms tools minimize collection by keeping work on-device.",
     "contactTitle": "Contact",
     "contactBody": "UnionOps is stewarded by Ryan Morris. For questions about this policy, contact your local communications chair or see Support.",
     "supportLink": "Support",
     "responsibilitiesTitle": "Your responsibilities",
-    "responsibilitiesBody": "You remain responsible for member photo consent and for posts and case handling that match your local policies and CA. This is not legal advice.",
+    "responsibilitiesBody": "You remain responsible for photo consent and for posts and case handling that match your local policies and CA. Not legal advice.",
     "photoConsentLink": "photo consent checklist",
     "installTitle": "Desktop / install as an app",
-    "installBody": "Supported browsers can install UnionOps as a local app window. The offline shell stays on-device; Hub case data still needs a network when live.",
+    "installBody": "Supported browsers can install UnionOps as an app window. Offline shell stays on-device; Hub case data still needs a network when live.",
     "installLink": "install guide"
   }
 }
