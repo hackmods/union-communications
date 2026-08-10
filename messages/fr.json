@@ -260,7 +260,7 @@
       "logo": {
         "title": "Trousse de marque d'abord",
         "navLabel": "Marque",
-        "description": "La trousse de marque est l'étape 0. Chaque graphique, avis de tableau, affiche et modèle de site utilise ces couleurs, logo et liens. Configurez le préréglage syndical, le numéro de section, les couleurs et le logo avant le reste de la feuille de route.",
+        "description": "La Trousse de marque est l’étape 0. Couleurs, logo et liens alimentent chaque graphique, avis, tract et site. Réglez-les avant le reste de la feuille de route.",
         "checklist": [
           "Choisir votre préréglage syndical (ou Autre pour définir les couleurs vous-même)",
           "Définir le numéro et le sous-texte de la section",
@@ -377,23 +377,23 @@
     "chapters": {
       "platforms": {
         "title": "Quelles plateformes choisir",
-        "content": "Facebook rejoint un large public et permet des publications plus longues. Instagram convient aux récits visuels et aux membres plus jeunes. Commencez par une plateforme, faites-le bien, puis élargissez. Pour bien des sections, un groupe Facebook fermé est le canal principal."
+        "content": "Facebook convient aux grands groupes, textes longs et événements. Instagram convient au récit visuel et aux plus jeunes. Commencez par une plateforme et faites-la bien. Beaucoup de sections misent sur un groupe Facebook fermé."
       },
       "tone": {
         "title": "Ton de voix",
-        "content": "Soyez professionnel mais humain. Parlez au nom du collectif (« nous », « nos membres »), pas de la direction. Célébrez les victoires, expliquez les revers honnêtement et mettez toujours les voix des membres au centre."
+        "content": "Professionnel mais humain. Parlez au collectif (« nous », « nos membres »). Célébrez les gains, expliquez les reculs, centrez les voix des membres. Évitez le jargon : écrivez pour un téléphone en pause."
       },
       "frequency": {
         "title": "Fréquence de publication",
-        "content": "Visez au moins 2 à 3 publications par semaine en période normale. Augmentez pendant la négociation ou la grève. La régularité prime sur le volume. Mélange simple : 40 % mises à jour, 30 % histoires de membres, 20 % éducation, 10 % solidarité."
+        "content": "Visez 2-3 publications par semaine en temps normal; augmentez en négociation ou grève. La constance bat le volume. Mélange simple : 40 % nouvelles, 30 % récits, 20 % éducation, 10 % solidarité."
       },
       "trolls": {
         "title": "Gérer les trolls et la direction",
-        "content": "Ne vous engagez pas avec les commentaires de mauvaise foi. Masquez ou supprimez le spam et le harcèlement. Pour les réponses de la direction, restez factuel et citez la convention collective. Ne publiez jamais de détails confidentiels de négociation."
+        "content": "N’alimentez pas les commentaires de mauvaise foi. Masquez ou supprimez pourriels, harcèlement et désinformation. Face à la direction, tenez-vous aux faits, citez la convention, et remontez à la présidence des communications ou au rep national. Jamais de détails confidentiels de négociation."
       },
       "accessibility": {
         "title": "Accessibilité - texte alternatif",
-        "content": "Chaque image publiée a besoin d'un texte alternatif pour les membres malvoyants. Utilisez l'assistant texte alt pour rédiger cette description, puis collez-la dans le champ texte alternatif de la plateforme (pas dans la légende). Soyez concis mais complet : qui, quoi, où et tout texte visible dans le graphique."
+        "content": "Chaque image a besoin d’un texte alt. Utilisez l’assistant, puis collez dans le champ de la plateforme (pas la légende). Restez bref : qui, quoi, où, et le texte du graphique."
       }
     },
     "channelGuides": {
@@ -425,15 +425,15 @@
     "bareMinimum": {
       "title": "Tableau minimal",
       "intro": "Chaque tableau doit répondre : Comment vous trouver en ligne? Qui appeler pour la santé-sécurité? Qui siège au CÉL? Que se passe-t-il ensuite?",
-      "tip": "Imprimez les éléments permanents sur du papier robuste; ne rafraîchissez que la zone événements. Utilisez des affiches de solidarité pour combler les vides afin que le tableau ne paraisse jamais abandonné.",
+      "tip": "Imprimez le permanent une fois sur carton. Ne rafraîchissez que la zone tournante. Remplissez le vide avec des affiches de solidarité.",
       "items": {
         "header": {
           "title": "En-tête local",
-          "content": "Numéro de section locale, courte désignation ou division, et logo de votre trousse de marque. Imprimez un bandeau pour le haut du liège afin que le tableau se reconnaisse de loin — même si le reste est des affiches du syndicat parent."
+          "content": "Numéro de section, nom court et logo de la Trousse de marque. Imprimez une bande Board Banner pour que le liège se lise de loin, même si le reste vient du syndicat parent."
         },
         "socials": {
           "title": "Réseaux et lien numérique",
-          "content": "Code QR ou URL courte vers ce carrefour, le site de la section ou le groupe Facebook. Un seul appel à l'action clair - « Obtenir du soutien » ou « Suivez-nous » - vaut mieux qu'un mur d'icônes."
+          "content": "Un QR ou une courte URL vers votre site, groupe ou cet hub. Un CTA clair (« Obtenir du soutien » ou « Suivez-nous ») vaut mieux qu’un mur d’icônes."
         },
         "healthSafety": {
           "title": "Santé et sécurité",
@@ -485,10 +485,10 @@
       "corridorTallDesc": "Colonne unique pour tableaux d'allée : en-tête, réseaux, S&S, exécutif, événements, puis remplissage solidarité en bas pour éviter le liège vide.",
       "corridorTallBest": "Idéal pour : tableaux étroits en corridor ou près d'une porte",
       "labeledColumns": "Colonnes étiquetées (tableau d'info)",
-      "labeledColumnsDesc": "En-têtes imprimés en haut - Affichages | Mises à jour / exécutif | Santé-sécurité + QR | Affiches de droits. Correspond à un tableau de campus bien tenu avec LNE, formule 82 et affiche harcèlement à droite.",
+      "labeledColumnsDesc": "En-têtes : Affichages | Mises à jour / CÉL | Santé-sécurité + QR | Affiches de droits. Comme un babillard de campus propre, avec affiches ministérielles à droite.",
       "labeledColumnsBest": "Idéal pour : grands tableaux que vous pouvez garder nets avec des étiquettes",
       "stewardDesk": "Tableau du bureau des délégués",
-      "stewardDeskDesc": "Grand bloc contacts exécutif / délégués à côté de cartes compactes réseaux et S&S; bande du bas pour la prochaine réunion ou action. Courant dans les bureaux où les membres s'arrêtent pour poser des questions.",
+      "stewardDeskDesc": "Grand bloc CÉL / délégué à côté des réseaux et cartes S&S; bande du bas pour la prochaine réunion. Courant là où les membres s’arrêtent pour poser des questions.",
       "stewardDeskBest": "Idéal pour : bureau des délégués ou local syndical"
     },
     "materials": {
@@ -524,10 +524,10 @@
         "ohsaQrTip": "Astuce accès LSST par téléphone / QR",
         "ohsaQrTipDesc": "Fiche d'une page pour scanner un QR vers la loi à jour depuis un téléphone.",
         "boardL33": "Tableau d'info de campus en colonnes",
-        "boardL33Desc": "Colonnes étiquetées : affichages, mises à jour/exécutif, liste CSS, affiches LNE + santé-sécurité, formule 82, affiche harcèlement, et grand QR. Le modèle « minimum + droits » bien rangé.",
+        "boardL33Desc": "Colonnes : Affichages, mises à jour/CÉL, CSS, ESA + S&S, Formule 82, harcèlement, grand QR. Minimum plus affiches de droits.",
         "boardL33Alt": "Photo d'un tableau d'info syndical en colonnes étiquetées pour affichages, exécutif, santé-sécurité et affiches de droits",
         "boardW010": "Tableau de corridor avec image de marque",
-        "boardW010Desc": "Bannières du syndicat parent en haut, formule 82 et harcèlement à hauteur des yeux, liste d'exécutif, affiche santé-sécurité, lien QR, plus un coin notes des membres - plus dense mais encore lisible.",
+        "boardW010Desc": "Bannières du syndicat parent en haut; Formule 82 et harcèlement à hauteur des yeux; liste CÉL, affiche S&S, QR et petit coin notes. Dense mais lisible.",
         "boardW010Alt": "Photo d'un tableau syndical avec image de marque, affiches de sécurité, liste d'exécutif, code QR et notes de membres",
         "denseBoardPhoto": "Tableau dense de campagne",
         "denseBoardPhotoDesc": "Grandes affiches de campagne avec feuille QR et cartes de contact - utile quand il faut du remplissage solidarité autour des zones permanentes.",
@@ -542,7 +542,7 @@
       },
       "howLong": {
         "title": "Combien de temps laisser les avis",
-        "content": "Retirez les avis périmés rapidement. Avis de réunion : 1 à 2 semaines avant, retirer après l'événement. Mises à jour de négociation : rafraîchir chaque semaine. Avis de grève : mettre à jour quotidiennement. Gardez les zones minimales à jour même si la case événements est vide."
+        "content": "Retirez vite les avis périmés. Réunions : affichez 1-2 semaines à l’avance, retirez après. Négociation : rafraîchissez chaque semaine. Grève : mettez à jour chaque jour. Gardez les zones permanentes à jour même si la case événements est vide."
       },
       "whatNot": {
         "title": "Ce qu'il ne faut pas afficher",
@@ -550,7 +550,7 @@
       },
       "pairing": {
         "title": "Combiner avec les médias sociaux",
-        "content": "Utilisez le même titre sur l'avis au tableau et le graphique social. Affichez d'abord au tableau, puis partagez sur les réseaux avec une photo de l'avis affiché (avec consentement)."
+        "content": "Même titre sur l’avis de tableau et le graphique social. Affichez d’abord sur le tableau, puis partagez une photo de l’avis (avec consentement des personnes visibles)."
       }
     },
     "toolCta": "Créer un avis pour tableau"
@@ -562,11 +562,11 @@
     "sections": {
       "when": {
         "title": "Quand imprimer",
-        "content": "Imprimez quand les membres peuvent ne pas voir les publications sociales : travailleurs de quart, membres sans téléphone intelligent, zones à fort passage au travail."
+        "content": "Imprimez quand le social peut manquer des gens : quarts, sans téléphone, et lieux passants. Tracts pour rassemblements; avis de tableau pour la visibilité continue."
       },
       "flyers": {
         "title": "Affiches et dépliants",
-        "content": "Utilisez le Créateur d'affiche pour les piquets de grève et rassemblements. Exportez en PDF format lettre pour impression à domicile ou en boutique."
+        "content": "Créateur de tracts pour piquets et rassemblements. Exportez en PDF lettre. Texte grand et à fort contraste dehors."
       },
       "boards": {
         "title": "Avis pour tableaux",
@@ -597,7 +597,7 @@
       },
       "lists": {
         "title": "Ce qu'UnionOps ne fait pas",
-        "content": "Pas de listes marketing de membres, pas de diffusion automatique à l'ensemble de la membership, pas de cotisations ni de PCI. Pour une infolettre, utilisez l'outil de messagerie approuvé par votre syndicat."
+        "content": "Pas de listes marketing, de diffusion auto, de cotisations ni de flux PCI. Pour un bulletin, utilisez le fournisseur mass-email approuvé et exportez les graphiques depuis Comms à part."
       },
       "checklist": {
         "title": "Avant d'envoyer",
@@ -632,7 +632,7 @@
     },
     "workshop": {
       "title": "Conseil pour atelier",
-      "content": "En session, pausez sur la boîte de dialogue de consentement du Créateur graphique, parcourez cette liste une fois, puis orientez les dirigeants vers les Ressources de communication et la page Confidentialité. Convenez qui consigne le consentement pour votre section et où vont les demandes de retrait."
+      "content": "En atelier, pausez sur le dialogue de consentement du créateur graphique, parcourez cette liste, puis pointez Ressources Comms et Confidentialité. Convenez qui consigne le consentement et où vont les retraits."
     }
   },
   "websiteGuide": {
@@ -735,7 +735,7 @@
         },
         "fill": {
           "title": "Remplir les champs",
-          "content": "Nom du syndicat ou de la section, accroche, paragraphes À propos, courriel, URL Facebook, adresse du bureau et dirigeants. Remplacez chaque espace réservé — les courriels d'exemple et l'adresse du pôle Nord ne doivent pas être publiés."
+          "content": "Remplissez nom, slogan, à propos, contact, Facebook, adresse et dirigeants. Remplacez chaque placeholder avant de publier."
         },
         "preview": {
           "title": "Vérifier l'aperçu",
@@ -759,11 +759,11 @@
         },
         "repo": {
           "title": "Créer un dépôt",
-          "content": "Cliquez Nouveau dépôt. Donnez un nom clair (par ex. site-local ou section243-site). Gardez-le Public pour que Pages puisse le servir sur un forfait gratuit. N'ajoutez pas de README si vous allez téléverser les fichiers du ZIP ensuite."
+          "content": "Créez un dépôt public (ex. local243-site). Les dépôts publics peuvent utiliser GitHub Pages gratuit. Sautez le README si vous téléversez le ZIP ensuite."
         },
         "upload": {
           "title": "Téléverser le contenu du ZIP",
-          "content": "Décompressez sur votre ordinateur. Dans le dépôt vide, utilisez Ajouter un fichier → Téléverser des fichiers et glissez index.html, css/, js/, assets/ et README.md à la racine (pas dans un dossier supplémentaire). Validez le commit."
+          "content": "Décompressez. Téléversez index.html, css/, js/, assets/ et README.md à la racine du dépôt (pas dans un dossier de plus). Validez."
         },
         "pages": {
           "title": "Activer Pages",
@@ -771,7 +771,7 @@
         },
         "wait": {
           "title": "Attendre la coche verte",
-          "content": "GitHub construit le site en quelques minutes. Actualisez Paramètres → Pages pour l'URL en direct, puis ouvrez-la en navigation privée pour confirmer que les liens de contact et de dirigeants fonctionnent."
+          "content": "GitHub construit en quelques minutes. Vérifiez Paramètres → Pages pour l’URL, puis ouvrez-la en navigation privée pour confirmer les liens."
         }
       }
     },
@@ -1020,9 +1020,7 @@
       "eventPackPrompt": "Besoin de la feuille RSVP et du fichier calendrier?",
       "eventPackLink": "Ouvrir Avis d'événement dans Documents et diapositives"
     },
-    "whenToUse": "Pour les tableaux du lieu de travail : réunions, votes et mises à jour manquées sur les réseaux.",
-    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque"
+    "whenToUse": "Pour les tableaux du lieu de travail : réunions, votes et mises à jour manquées sur les réseaux."
   },
   "boardBanner": {
     "title": "Bandeau et bordure de tableau",
@@ -1088,8 +1086,6 @@
     "printSheet": "Feuille d'impression",
     "packSummary": "{count} pièces · coupez sur les pointillés",
     "cutGuideHint": "Les pointillés s'impriment comme guides de coupe. Pour les bandes latérales, agrafez à la verticale le long du cadre.",
-    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque",
     "previewAccessibleName": "Aperçu d'art de tableau : {summary} sur fond {color}",
     "trimCanvasAccessibleName": "Bordure de cadre : {piece} sur fond {color}"
   },
@@ -1146,8 +1142,6 @@
     "groupInstagram": "Instagram",
     "groupYoutube": "YouTube",
     "formatEditing": "En cours",
-    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque",
     "exportError": "Échec de l'export. Réessayez.",
     "whenToUse": "Pour recadrer logo ou photo aux tailles des plateformes avant de publier."
   },
@@ -1161,7 +1155,6 @@
     "sectionBranding": "Image de marque",
     "logoResolveFailed": "Impossible de charger le logo en PNG. Essayez un PNG dans la trousse de marque, ou désactivez le logo.",
     "setupBrandPrompt": "Configurez la Trousse de marque pour que l’en-tête utilise votre logo.",
-    "setupBrandLink": "Ouvrir la trousse de marque",
     "outputs": "Inclure dans le ZIP",
     "outputDocx": "Word (.docx)",
     "outputXlsx": "RSVP Excel (.xlsx)",
@@ -1294,8 +1287,6 @@
     "showQr": "Afficher le code QR",
     "includeBranding": "Inclure l'image de marque locale",
     "cta": "Obtenir du soutien →",
-    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque",
     "previewAccessibleName": "Aperçu de l'affiche : {headline} sur fond {color}",
     "whenToUse": "Pour remplisseurs de tableau et fonds d’écran avec QR de soutien optionnel."
   },
@@ -1344,8 +1335,6 @@
     "sizeHintPortrait": "Le HD convient aux téléphones et à la plupart des webcams portrait. Utilisez l'UHD pour les moniteurs verticaux ou haute densité.",
     "includeBranding": "Inclure l'image de marque locale",
     "preview": "Aperçu",
-    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque",
     "whenToUse": "Pour des fonds Zoom/Teams aux couleurs et signature de votre section."
   },
   "qrCard": {
@@ -1380,8 +1369,6 @@
     "showUrl": "Afficher l'URL sous le slogan",
     "includeBranding": "Inclure l'image de marque locale",
     "qrPlaceholder": "Entrez un lien",
-    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque",
     "presets": {
       "getSupportTitle": "Obtenir du soutien",
       "getSupportDesc": "Balayez pour de l'aide, des ressources et la page de soutien de votre section.",
@@ -1451,8 +1438,6 @@
     "showUrl": "Afficher l'URL sous l'appel à l'action",
     "includeBranding": "Inclure l'image de marque locale",
     "qrPlaceholder": "Collez un lien de pétition",
-    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque",
     "presets": {
       "signPetitionHeadline": "Signez la pétition",
       "signPetitionAsk": "Ajoutez votre nom en appui aux demandes de nos membres.",
@@ -1503,8 +1488,6 @@
     "previewHeading": "Aperçu impression / QR",
     "qrHint": "Le QR ouvre le lien de partage pour que les membres répondent.",
     "qrAlt": "Code QR du lien de partage du sondage",
-    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque",
     "exportPng": "Télécharger PNG",
     "exportPdf": "Télécharger PDF",
     "saved": "Brouillon enregistré sur cet appareil.",
@@ -1565,8 +1548,6 @@
     "sectionColours": "Couleurs",
     "qrPlaceholder": "Entrez un lien",
     "previewSize": "Aperçu {label} - {width}×{height} po",
-    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque",
     "presets": {
       "membershipFtPtLabel": "Adhésion TP + TPa (2)",
       "membershipFtPtTitle": "Demande / mise à jour d'adhésion",
@@ -1706,7 +1687,7 @@
         "Produire des médias - démonstration du Créateur graphique (environ 10-12 min) + questions",
         "Clôture : repartir avec un plan; pointer la liste de pratique et les outils; questions ouvertes optionnelles"
       ],
-      "tinker": "Conseil à distance : vous apportez le lunch; UnionOps apporte les outils. Après la séance, parcourez la liste de pratique ci-dessus à votre rythme - Créateur de logo, Avis pour tableau et Créateur graphique sont liés sous Explorer le centre.",
+      "tinker": "Astuce à distance : apportez le lunch; UnionOps apporte les outils. Après la séance, suivez la liste de pratique à votre rythme (Logo, avis, graphique).",
       "note": "Les feuilles de route datées pour animateurs restent dans la documentation du projet. Cette page est le guide public durable."
     },
     "facilitators": {
@@ -1980,9 +1961,7 @@
       "openMail": "Ouvrir dans l'application courriel",
       "privacy": "Fonctionne sur cet appareil. Rien n'est envoyé et aucune réponse n'est collectée ici."
     },
-    "whenToUse": "Pour les publications sociales. Associez aux Légendes après le téléchargement.",
-    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque"
+    "whenToUse": "Pour les publications sociales. Associez aux Légendes après le téléchargement."
   },
   "quoteCard": {
     "title": "Générateur de carte citation",
@@ -1994,9 +1973,7 @@
     "primaryColor": "Couleur primaire",
     "accentColor": "Barre d'accent",
     "textColor": "Couleur du texte d'accent",
-    "whenToUse": "Quand une citation de membre ou de dirigeant doit devenir une carte partageable.",
-    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque"
+    "whenToUse": "Quand une citation de membre ou de dirigeant doit devenir une carte partageable."
   },
   "flyerMaker": {
     "title": "Créateur d'affiche piquet / rassemblement",
@@ -2009,9 +1986,7 @@
     "primaryColor": "Couleur primaire",
     "accentColor": "Couleur d'accent",
     "secondaryColor": "Couleur secondaire",
-    "whenToUse": "Pour les tracts aux réunions, tournées et actions. Associez aux tableaux pour les membres hors ligne.",
-    "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
-    "setupBrandLink": "Ouvrir la trousse de marque"
+    "whenToUse": "Pour les tracts aux réunions, tournées et actions. Associez aux tableaux pour les membres hors ligne."
   },
   "altTextAssistant": {
     "title": "Assistant texte alt",
@@ -2221,7 +2196,7 @@
       },
       "practice": {
         "title": "Liste de pratique pour délégués et dirigeants",
-        "content": "Utilisez les outils de griefs du Centre des dirigeants pour suivre les étapes et les dates — mais traitez la CC et votre représentant comme autoritatifs. En cas de doute, documentez la question et escaladez.",
+        "content": "Les outils de griefs du Hub suivent étapes et dates. La convention et votre rep de service restent l’autorité. En doute, documentez la question et remontez.",
         "items": [
           "Inscrivez la préoccupation du membre le jour même où vous l'entendez",
           "Notez chaque délai de la CC à partir de l'événement déclencheur",
@@ -2294,7 +2269,7 @@
     },
     "hub": {
       "title": "Module de bumping du Centre des dirigeants",
-      "body": "Ouvrez Bumping collégial dans le Centre pour les notes de dossier, la comparaison PDF et les séances de comité. Utilisez toute aide de classement d'ancienneté seulement comme seconde vérification — refaites la feuille papier si le résultat de l'outil vous surprend."
+      "body": "Utilisez le déplacement collégial du Hub pour notes, comparaisons PDF et séances. Traitez les aides de classement comme un second contrôle. Refaites la feuille papier si le résultat surprend."
     }
   },
   "rightToRefuseGuide": {
@@ -2313,7 +2288,7 @@
     "sections": {
       "ontarioScope": {
         "title": "Portée ontarienne (lisez d'abord)",
-        "content": "L'art. 43 de la LSST s'applique à la plupart des lieux de travail réglementés par la province en Ontario, avec des exceptions et règles spéciales pour certains secteurs. Vérifiez toujours la couverture pour votre type de lieu de travail avant de conseiller un membre.",
+        "content": "La LSST art. 43 couvre la plupart des milieux régis par l’Ontario, avec des exceptions. Vérifiez la couverture de votre type de milieu avant de conseiller.",
         "items": [
           "Étiquetez ce guide « Ontario seulement » dans tout matériel de formation local que vous réimprimez",
           "Les lieux de travail fédéraux et les autres provinces suivent d'autres cadres de refus",
@@ -2323,7 +2298,7 @@
       },
       "procedure": {
         "title": "Refus étape par étape (signalement)",
-        "content": "Un travailleur qui a des motifs de croire que le travail risque de le mettre en danger (ou un autre travailleur) peut refuser. Le premier geste est un signalement rapide — pas un départ silencieux.",
+        "content": "Un travailleur qui croit qu’un travail risque de le mettre en danger (ou un autre) peut refuser. Signalez promptement. Ne partez pas en silence.",
         "items": [
           "Le travailleur signale rapidement les circonstances au superviseur / employeur",
           "Le travailleur demeure dans un lieu sûr à proximité et disponible pour l'enquête",
@@ -2343,7 +2318,7 @@
       },
       "reassignment": {
         "title": "Règles de réaffectation (aperçu)",
-        "content": "Pendant qu'un refus est en cours, l'employeur ne peut généralement pas assigner le même travail à un autre travailleur sans l'informer du refus et des motifs, sous réserve des règles de la LSST. Les détails changent — vérifiez le libellé actuel avant de conseiller.",
+        "content": "Pendant un refus, l’employeur ne peut en général pas assigner le même travail à quelqu’un d’autre sans l’informer du refus, sous réserve de la LSST. Vérifiez le texte actuel avant de conseiller.",
         "items": [
           "Les autres travailleurs assignés au travail doivent être informés du refus et des motifs",
           "Le travailleur qui refuse est généralement payé en attendant le résultat de l'enquête, sous réserve des règles de la Loi",
@@ -2354,7 +2329,7 @@
     },
     "boards": {
       "title": "Tableaux syndicaux et cartes de poche",
-      "body": "Gardez les contacts du CSS et une courte bande « comment signaler un danger / refuser un travail dangereux » sur le tableau. Liez les affiches QR au texte officiel e-Laws de la LSST plutôt qu'à des photocopies périmées.",
+      "body": "Gardez les contacts CSS et une courte bande danger / refus sur le tableau. Liez les QR au texte officiel e-Laws de la LSST, pas à d’anciennes photocopies.",
       "exportCta": "Créer une carte de poche",
       "exportHint": "Ouvre les cartes QR avec le préréglage de procédure de refus (Ontario) — exportez PNG/PDF pour portefeuilles ou tableaux."
     }
@@ -2389,7 +2364,7 @@
     "p1Lead": "Questions sur les outils, ateliers ou l’hébergement?",
     "p1ManifestoLink": "page manifeste",
     "p1End": ".",
-    "p2": "L'hébergement, les domaines et les soirées libres coûtent quand même quelque chose. Si ce hub vous a fait gagner du temps et que vous voulez offrir un café à Ryan, qui l'a bâti, vous pouvez. Totalement optionnel. Jamais obligatoire.",
+    "p2": "L’hébergement et les soirées comptent encore. Si cet hub vous a fait gagner du temps, vous pouvez offrir un café à Ryan. Optionnel. Jamais obligatoire.",
     "p3": "Les sections locales utilisent les outils de toute façon. La solidarité n'est pas un panier d'achat.",
     "cta": "M'offrir un café",
     "ctaHint": "Ouvre buymeacoffee.com dans un nouvel onglet.",
@@ -2411,7 +2386,7 @@
     "skipLink": "Aller au contenu principal",
     "commitment": {
       "title": "Notre engagement",
-      "body": "UnionOps s'engage à assurer l'accessibilité numérique pour tous les membres, y compris les personnes en situation de handicap. Nous visons la conformité aux Règles pour l'accessibilité des contenus Web (WCAG) 2.1 niveau AA et à la Loi sur l'accessibilité pour les personnes handicapées de l'Ontario (LAPHO)."
+      "body": "UnionOps vise le WCAG 2.1 niveau AA et la LAPHO pour que les membres en situation de handicap puissent utiliser ces outils."
     },
     "features": {
       "title": "Fonctionnalités d'accessibilité",
@@ -2428,7 +2403,7 @@
     },
     "limitations": {
       "title": "Limites connues",
-      "body": "Les zones d'aperçu d'images basées sur canvas peuvent ne pas être entièrement accessibles aux lecteurs d'écran et peuvent ne pas refléter le mode contraste élevé. Tous les champs qui contrôlent l'aperçu sont accessibles via des contrôles de formulaire standard. Les fichiers PNG/PDF exportés n'intègrent pas de texte alt - ajoutez des descriptions dans le champ texte alternatif de chaque plateforme lors de la publication (l'assistant texte alt vous aide à les rédiger)."
+      "body": "Les aperçus canvas peuvent mal servir les lecteurs d’écran ou le contraste élevé. Les contrôles du formulaire restent accessibles au clavier. Les PNG/PDF n’embarquent pas de texte alt : rédigez avec l’assistant, puis collez dans chaque plateforme."
     },
     "feedback": {
       "title": "Commentaires",
@@ -4153,7 +4128,7 @@
     "chromeTitle": "Chrome, Edge et assimilés (PC)",
     "chromeStep1": "Ouvrez https://unionops.org dans Chrome, Edge ou Brave.",
     "chromeStep2": "Après une courte visite, cherchez Installer dans la barre d'adresse, ou ouvrez le menu du navigateur et choisissez Installer l'application / Installer UnionOps.",
-    "chromeStep3": "Confirmez. UnionOps s'ouvre dans sa propre fenêtre avec la coquille hors ligne pour les pages publiques déjà chargées. Si Installer manque, vérifiez que vous n'êtes pas déjà dans l'application installée.",
+    "chromeStep3": "Confirmez. UnionOps s’ouvre dans sa fenêtre avec le shell hors ligne pour les pages publiques déjà chargées. Pas d’Installer? Vous êtes peut-être déjà en mode appli.",
     "androidTitle": "Chrome sur Android",
     "androidBody": "Ouvrez le site dans Chrome, menu, puis Installer l’appli. « Ajouter à l’écran d’accueil » seul n’est qu’un raccourci navigateur — utilisez Installer quand il apparaît.",
     "safariTitle": "Safari (Mac et iPhone)",
@@ -4161,7 +4136,7 @@
     "limitsTitle": "Ce que l'installation ne change pas",
     "limitsOffline": "Les fenêtres installées ont encore besoin du réseau pour le premier chargement et certaines fonctions du Hub.",
     "limitsNetwork": "Griefs, bumping et autres modules du hub exigent toujours une session connectée et un réseau lorsque vous travaillez en direct.",
-    "limitsBrand": "Le chrome de la fenêtre et les icônes d'installation suivent la couleur primaire de votre trousse de marque sur cet appareil. Après un changement de couleurs, rouvrez l'application installée (ou réinstallez une fois) si le système affiche encore l'ancienne icône ou barre de titre.",
+    "limitsBrand": "Le chrome d’installation suit la couleur principale de la Trousse. Après un changement, rouvrez l’appli (ou réinstallez une fois) si l’OS garde l’ancienne icône ou barre.",
     "limitsNoStore": "Il n'y a pas de fiche App Store ni Microsoft Store; l'installation suit le flux d'application web progressive du navigateur.",
     "relatedLead": "Pour ce qui reste sur cet appareil, voir",
     "relatedPrivacy": "Confidentialité",

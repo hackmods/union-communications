@@ -46,6 +46,36 @@ describe("public Comms copy style", () => {
     expect(fr.privacyPage.title).toBeTruthy();
   });
 
+  it("keeps Brand Kit nudge on common, not duplicated on canvas tools", () => {
+    const tools = [
+      "boardNotice",
+      "boardBanner",
+      "resizer",
+      "solidarityPoster",
+      "meetingBackground",
+      "qrCard",
+      "actionCard",
+      "pulsePoll",
+      "qrBoard",
+      "graphicMaker",
+      "quoteCard",
+      "flyerMaker",
+    ] as const;
+    for (const ns of tools) {
+      expect(
+        (en as Record<string, { setupBrandPrompt?: string }>)[ns]
+          .setupBrandPrompt,
+      ).toBeUndefined();
+      expect(
+        (fr as Record<string, { setupBrandPrompt?: string }>)[ns]
+          .setupBrandPrompt,
+      ).toBeUndefined();
+    }
+    // Doc-gen keeps a letterhead-specific override.
+    expect(en.documentGenerator.setupBrandPrompt).toBeTruthy();
+    expect(fr.documentGenerator.setupBrandPrompt).toBeTruthy();
+  });
+
   it("keeps key lead copy short", () => {
     expect(wordCount(en.home.subtitle)).toBeLessThanOrEqual(20);
     expect(wordCount(en.socialMediaPlan.intro)).toBeLessThanOrEqual(35);
@@ -53,6 +83,21 @@ describe("public Comms copy style", () => {
     expect(wordCount(en.boardBanner.subtitle)).toBeLessThanOrEqual(16);
     expect(wordCount(en.actionCard.subtitle)).toBeLessThanOrEqual(18);
     expect(wordCount(en.websiteTemplate.referenceNote)).toBeLessThanOrEqual(40);
+  });
+
+  it("keeps Blueprint and board-guide chapter bodies under 40 words", () => {
+    expect(wordCount(en.guide.chapters.platforms.content)).toBeLessThanOrEqual(
+      40,
+    );
+    expect(
+      wordCount(en.guide.chapters.accessibility.content),
+    ).toBeLessThanOrEqual(40);
+    expect(
+      wordCount(en.unionBoardsGuide.sections.howLong.content),
+    ).toBeLessThanOrEqual(40);
+    expect(wordCount(en.accessibility.limitations.body)).toBeLessThanOrEqual(
+      55,
+    );
   });
 
   it("allows at most one em dash on public tool/guide lead fields", () => {

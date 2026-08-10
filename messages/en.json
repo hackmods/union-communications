@@ -260,7 +260,7 @@
       "logo": {
         "title": "Brand Kit first",
         "navLabel": "Brand",
-        "description": "Your Brand Kit is step 0. Every graphic, board notice, flyer, and site template uses these colours, logo, and links. Set your union preset, local number, colours, and logo before the rest of the roadmap.",
+        "description": "Brand Kit is step 0. Colours, logo, and links drive every graphic, notice, flyer, and site template. Set them before the rest of the roadmap.",
         "checklist": [
           "Choose your union preset (or Other to set colours yourself)",
           "Set local number and sub-text",
@@ -377,23 +377,23 @@
     "chapters": {
       "platforms": {
         "title": "Which platforms to choose",
-        "content": "Facebook reaches a broad member demographic and supports longer posts and event pages. Instagram works well for visual storytelling and younger members. Start with one platform, do it well, then expand. Many support-staff and workplace locals find a closed Facebook group is the primary member channel."
+        "content": "Facebook fits broad demographics, longer posts, and events. Instagram fits visual storytelling and younger members. Start with one platform and do it well. Many workplace locals rely on a closed Facebook group as the main channel."
       },
       "tone": {
         "title": "Tone of voice",
-        "content": "Be professional but human. Speak as a collective ('we', 'our members') not as management. Celebrate wins, explain setbacks honestly, and always centre member voices. Avoid jargon - write for members reading on their phone during a break."
+        "content": "Professional but human. Speak as a collective (“we”, “our members”). Celebrate wins, explain setbacks honestly, and centre member voices. Avoid jargon: write for a phone screen on break."
       },
       "frequency": {
         "title": "Posting frequency",
-        "content": "Aim for 2–3 posts per week minimum during normal times. Increase during bargaining or strike action. Consistency beats volume - a steady rhythm builds trust. Use a simple content mix: 40% updates, 30% member stories, 20% education, 10% solidarity/culture."
+        "content": "Aim for 2-3 posts per week in normal times; increase during bargaining or strike. Consistency beats volume. Simple mix: 40% updates, 30% member stories, 20% education, 10% solidarity."
       },
       "trolls": {
         "title": "Dealing with trolls and management",
-        "content": "Do not engage with bad-faith comments. Hide or delete spam, harassment, and misinformation. For management pushback, stick to facts, cite the collective agreement, and escalate to your communications chair or national rep. Never post confidential bargaining details."
+        "content": "Do not engage bad-faith comments. Hide or delete spam, harassment, and misinformation. For management pushback, stick to facts, cite the CA, and escalate to your communications chair or national rep. Never post confidential bargaining details."
       },
       "accessibility": {
         "title": "Accessibility - alt-text",
-        "content": "Every image post needs alt-text describing what's in the image for visually impaired members. Use the Alt-Text Assistant to draft that description, then paste it into the platform’s alt-text field (not the caption). Keep descriptions concise but complete: who, what, where, and any text shown in the graphic."
+        "content": "Every image post needs alt text. Use Alt-Text Assistant, then paste into the platform field (not the caption). Keep it short: who, what, where, and any text in the graphic."
       }
     },
     "channelGuides": {
@@ -425,15 +425,15 @@
     "bareMinimum": {
       "title": "Bare-minimum board",
       "intro": "Every board should answer: How do I find you online? Who do I call for health and safety? Who is on the LEC? What is happening next?",
-      "tip": "Print the always-on pieces once on sturdy stock; refresh only the events / rotating zone. Use solidarity posters to fill empty space so the board never looks abandoned.",
+      "tip": "Print always-on pieces once on sturdy stock. Refresh only the rotating zone. Fill empty space with solidarity posters so the board never looks abandoned.",
       "items": {
         "header": {
           "title": "Local header",
-          "content": "Local number, short name or division line, and logo from your Brand Kit. Print a Board Banner strip for the top of the cork so the board reads as yours from across the room — even when the rest is parent-union posters."
+          "content": "Local number, short name, and Brand Kit logo. Print a Board Banner strip so the cork reads as yours from across the room, even when the rest is parent-union posters."
         },
         "socials": {
           "title": "Socials and digital link",
-          "content": "QR code or short URL to this hub, your local website, or Facebook group. One clear CTA - “Get support” or “Follow us” - beats a wall of icons."
+          "content": "One QR or short URL to your site, group, or this hub. One clear CTA (“Get support” or “Follow us”) beats a wall of icons."
         },
         "healthSafety": {
           "title": "Health and safety",
@@ -485,10 +485,10 @@
       "corridorTallDesc": "Single-column stack for narrow hallway boards: header, socials, H&S, LEC, events, then solidarity filler at the bottom so the board never ends in blank cork.",
       "corridorTallBest": "Best for: narrow corridor or door-side boards",
       "labeledColumns": "Labeled columns (info board)",
-      "labeledColumnsDesc": "Printed section headers across the top - Postings | Updates / LEC | Health & safety + QR | Rights posters. Matches a well-kept campus info board with ministry ESA, Form 82, and bullying/harassment posters on the right.",
+      "labeledColumnsDesc": "Headers across the top: Postings | Updates / LEC | Health & safety + QR | Rights posters. Matches a tidy campus board with ministry posters on the right.",
       "labeledColumnsBest": "Best for: wide boards you can keep tidy with paper labels",
       "stewardDesk": "Steward desk board",
-      "stewardDeskDesc": "Large LEC / steward contact block beside compact socials and H&S cards; bottom strip for the next meeting or action. Common in steward offices where members stop to ask questions.",
+      "stewardDeskDesc": "Large LEC / steward block beside socials and H&S cards; bottom strip for the next meeting. Common where members stop to ask questions.",
       "stewardDeskBest": "Best for: steward office or union room boards"
     },
     "materials": {
@@ -524,10 +524,10 @@
         "ohsaQrTip": "OHSA phone / QR access tip",
         "ohsaQrTipDesc": "One-page tip for members scanning a QR to the live Act from their phone.",
         "boardL33": "Sectioned campus info board",
-        "boardL33Desc": "Labeled columns: Postings, updates/LEC list, JHSC roster, ESA + Health & Safety posters, Form 82, bullying/harassment poster, and a large QR. The tidy “bare minimum plus rights” pattern.",
+        "boardL33Desc": "Columns: Postings, updates/LEC, JHSC, ESA + H&S, Form 82, bullying/harassment, and a large QR. Bare minimum plus rights posters.",
         "boardL33Alt": "Photograph of a sectioned union info board with labeled columns for postings, LEC, health and safety, and rights posters",
         "boardW010": "Branded corridor board",
-        "boardW010Desc": "Parent-union banners across the top, Form 82 and bullying/harassment at eye level, LEC list, Health & Safety poster, QR link, plus a small member notes corner - denser but still scannable.",
+        "boardW010Desc": "Parent-union banners on top; Form 82 and bullying/harassment at eye level; LEC list, H&S poster, QR, and a small notes corner. Dense but scannable.",
         "boardW010Alt": "Photograph of a branded union bulletin board with safety posters, LEC list, QR code, and member notes",
         "denseBoardPhoto": "Campaign-dense board",
         "denseBoardPhotoDesc": "High-energy campaign anchors with QR resource sheet and contact cards - use when you need solidarity filler around the standing zones.",
@@ -542,7 +542,7 @@
       },
       "howLong": {
         "title": "How long to leave notices up",
-        "content": "Remove outdated notices promptly - a cluttered board loses impact. Meeting notices: post 1–2 weeks ahead, remove after the event. Bargaining updates: refresh weekly during active rounds. Strike notices: update daily during action. Keep the bare-minimum zones current even when the events slot is empty."
+        "content": "Remove outdated notices promptly. Meeting notices: post 1-2 weeks ahead, remove after. Bargaining updates: refresh weekly in active rounds. Strike notices: update daily. Keep bare-minimum zones current even when the events slot is empty."
       },
       "whatNot": {
         "title": "What not to post",
@@ -550,7 +550,7 @@
       },
       "pairing": {
         "title": "Pair with social media",
-        "content": "Use the same headline on your board notice and social graphic so members recognize the message. Post the board notice first for workplace visibility, then share on social with a photo of the posted notice (with consent from anyone visible)."
+        "content": "Use the same headline on the board notice and social graphic. Post the board first, then share on social with a photo of the posted notice (consent anyone visible)."
       }
     },
     "toolCta": "Create a board notice"
@@ -562,11 +562,11 @@
     "sections": {
       "when": {
         "title": "When to print",
-        "content": "Print when members may not see social posts: shift workers, members without smartphones, and high-traffic workplace areas. Flyers work for rallies and picket lines; board notices work for ongoing visibility."
+        "content": "Print when social may miss people: shift workers, members without smartphones, and high-traffic areas. Flyers for rallies; board notices for ongoing visibility."
       },
       "flyers": {
         "title": "Flyers and handouts",
-        "content": "Use the Flyer Maker for picket lines and rallies. Export PDF for letter-size printing at home or a copy shop. Keep text large and high-contrast for outdoor visibility."
+        "content": "Flyer Maker for picket lines and rallies. Export PDF for letter-size print. Keep text large and high-contrast outdoors."
       },
       "boards": {
         "title": "Board notices",
@@ -597,7 +597,7 @@
       },
       "lists": {
         "title": "What UnionOps does not do",
-        "content": "No member marketing lists, no auto-broadcast to the full membership, and no dues or PCI workflows. If your local needs a newsletter tool, use your union's approved mass-email provider and export graphics from Comms separately."
+        "content": "No member marketing lists, auto-broadcasts, dues, or PCI workflows. For newsletters, use your union’s approved mass-email provider and export graphics from Comms separately."
       },
       "checklist": {
         "title": "Before you hit send",
@@ -632,7 +632,7 @@
     },
     "workshop": {
       "title": "Workshop tip",
-      "content": "In a session, pause on Graphic Maker's consent dialog, walk this checklist once, then point officers to Comms Resources and the Privacy page. Agree who records consent for your local and where take-down requests go."
+      "content": "In workshops, pause on Graphic Maker’s consent dialog, walk this checklist once, then point officers to Comms Resources and Privacy. Agree who records consent and where take-downs go."
     }
   },
   "websiteGuide": {
@@ -735,7 +735,7 @@
         },
         "fill": {
           "title": "Fill the fields",
-          "content": "Union or local name, hero tagline, about paragraphs, contact email, Facebook URL, office address, and officers. Replace every placeholder — example emails and North Pole addresses should not ship."
+          "content": "Fill name, tagline, about, contact, Facebook, address, and officers. Replace every placeholder before you ship."
         },
         "preview": {
           "title": "Check the preview",
@@ -759,11 +759,11 @@
         },
         "repo": {
           "title": "Create a repository",
-          "content": "Click New repository. Name it something clear (for example local-website or local243-site). Keep it Public so Pages can serve it on a free plan. Skip adding a README if you will upload the ZIP files next."
+          "content": "Create a new public repository (for example local243-site). Public repos can use free GitHub Pages. Skip a README if you will upload the ZIP next."
         },
         "upload": {
           "title": "Upload the ZIP contents",
-          "content": "Unzip on your computer. In the empty repository, use Add file → Upload files and drag index.html, css/, js/, assets/, and README.md to the root (not nested inside an extra folder). Commit the upload."
+          "content": "Unzip locally. Upload index.html, css/, js/, assets/, and README.md to the repo root (not nested in an extra folder). Commit."
         },
         "pages": {
           "title": "Turn on Pages",
@@ -771,7 +771,7 @@
         },
         "wait": {
           "title": "Wait for the green check",
-          "content": "GitHub builds the site in a few minutes. Refresh Settings → Pages for the live URL, then open it in a private window to confirm contact and officer links work."
+          "content": "GitHub builds in a few minutes. Check Settings → Pages for the live URL, then open it in a private window to confirm links."
         }
       }
     },
@@ -1020,9 +1020,7 @@
       "eventPackPrompt": "Need the RSVP sheet and calendar file?",
       "eventPackLink": "Open Event notice in Document Generator"
     },
-    "whenToUse": "Use for workplace boards: meetings, votes, and updates members may miss on social.",
-    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit"
+    "whenToUse": "Use for workplace boards: meetings, votes, and updates members may miss on social."
   },
   "boardBanner": {
     "title": "Board Banner & Trim",
@@ -1088,8 +1086,6 @@
     "printSheet": "Print sheet",
     "packSummary": "{count} pieces · cut on dashed lines",
     "cutGuideHint": "Dashed lines print on the sheet as cut guides. For side strips, staple vertically along the board frame.",
-    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit",
     "previewAccessibleName": "Board art preview: {summary} on {color} background",
     "trimCanvasAccessibleName": "Frame trim: {piece} on {color} background"
   },
@@ -1146,8 +1142,6 @@
     "groupInstagram": "Instagram",
     "groupYoutube": "YouTube",
     "formatEditing": "Editing",
-    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit",
     "exportError": "Export failed. Try again.",
     "whenToUse": "Use to crop your logo or photo into platform sizes before posting."
   },
@@ -1161,7 +1155,6 @@
     "sectionBranding": "Branding",
     "logoResolveFailed": "Could not load your Brand Kit logo as PNG. Try a PNG upload in Brand Kit, or turn off the logo.",
     "setupBrandPrompt": "Set up Brand Kit so letterhead can use your local logo.",
-    "setupBrandLink": "Open Brand Kit",
     "outputs": "Include in ZIP",
     "outputDocx": "Word (.docx)",
     "outputXlsx": "Excel RSVP (.xlsx)",
@@ -1294,8 +1287,6 @@
     "showQr": "Show QR code",
     "includeBranding": "Include local branding",
     "cta": "Get support →",
-    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit",
     "previewAccessibleName": "Poster preview: {headline} on {color} background",
     "whenToUse": "Use for board fillers and phone wallpapers with an optional support QR."
   },
@@ -1344,8 +1335,6 @@
     "sizeHintPortrait": "HD suits phones and most portrait webcam setups. Use UHD for tall monitors or high-DPI screens.",
     "includeBranding": "Include local branding",
     "preview": "Preview",
-    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit",
     "whenToUse": "Use for Zoom/Teams backgrounds with your local colours and lockup."
   },
   "qrCard": {
@@ -1380,8 +1369,6 @@
     "showUrl": "Show URL under tagline",
     "includeBranding": "Include local branding",
     "qrPlaceholder": "Enter a link",
-    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit",
     "presets": {
       "getSupportTitle": "Get support",
       "getSupportDesc": "Scan for help, resources, and your local's support page.",
@@ -1451,8 +1438,6 @@
     "showUrl": "Show URL under CTA",
     "includeBranding": "Include local branding",
     "qrPlaceholder": "Paste a petition link",
-    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit",
     "presets": {
       "signPetitionHeadline": "Sign the petition",
       "signPetitionAsk": "Add your name in support of our members’ demands.",
@@ -1503,8 +1488,6 @@
     "previewHeading": "Print / QR preview",
     "qrHint": "QR opens the share link for members to answer.",
     "qrAlt": "QR code for the poll share link",
-    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit",
     "exportPng": "Download PNG",
     "exportPdf": "Download PDF",
     "saved": "Draft saved on this device.",
@@ -1565,8 +1548,6 @@
     "sectionColours": "Colours",
     "qrPlaceholder": "Enter a link",
     "previewSize": "Preview at {label} - {width}×{height} in",
-    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit",
     "presets": {
       "membershipFtPtLabel": "Membership FT + PT (2)",
       "membershipFtPtTitle": "Membership application / update",
@@ -1706,7 +1687,7 @@
         "Generating media - Graphic Maker live demo (about 10-12 min) + Q&A",
         "Close: leave with a plan; point to the practice checklist and tools; optional open floor"
       ],
-      "tinker": "Remote tip: you bring lunch; UnionOps brings the tools. After the session, work through the practice checklist above at your own pace - Logo Builder, Board Notice, and Graphic Maker are linked under Explore the hub.",
+      "tinker": "Remote tip: bring lunch; UnionOps brings the tools. After the session, use the practice checklist at your own pace (Logo Builder, Board Notice, Graphic Maker).",
       "note": "Dated session run sheets live in the project docs for facilitators. This page stays the lasting public guide."
     },
     "facilitators": {
@@ -2014,9 +1995,7 @@
       "openMail": "Open in email app",
       "privacy": "Runs on your device. Nothing is sent and no replies are collected here."
     },
-    "whenToUse": "Use for social posts. Pair with Captions after you download.",
-    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit"
+    "whenToUse": "Use for social posts. Pair with Captions after you download."
   },
   "quoteCard": {
     "title": "Quote Card Generator",
@@ -2028,9 +2007,7 @@
     "primaryColor": "Primary colour",
     "accentColor": "Accent bar",
     "textColor": "Accent text colour",
-    "whenToUse": "Use when a member or leader quote should become a shareable card for social or boards.",
-    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit"
+    "whenToUse": "Use when a member or leader quote should become a shareable card for social or boards."
   },
   "flyerMaker": {
     "title": "Picket / Rally Flyer Maker",
@@ -2043,9 +2020,7 @@
     "primaryColor": "Primary colour",
     "accentColor": "Accent colour",
     "secondaryColor": "Secondary colour",
-    "whenToUse": "Use for handouts at meetings, walkabouts, and actions. Pair with boards so offline members still get the facts.",
-    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
-    "setupBrandLink": "Open Brand Kit"
+    "whenToUse": "Use for handouts at meetings, walkabouts, and actions. Pair with boards so offline members still get the facts."
   },
   "altTextAssistant": {
     "title": "Alt-Text Assistant",
@@ -2255,7 +2230,7 @@
       },
       "practice": {
         "title": "Steward and officer practice checklist",
-        "content": "Use the Officer Hub grievance tools to track steps and dates — but treat the CA and your servicing rep as authoritative. When in doubt, document the question and escalate.",
+        "content": "Hub grievance tools track steps and dates. The CA and your servicing rep stay authoritative. When unsure, document the question and escalate.",
         "items": [
           "Log the member’s concern the same day you hear it",
           "Diary every CA deadline forward from the triggering event",
@@ -2328,7 +2303,7 @@
     },
     "hub": {
       "title": "Officer Hub bumping module",
-      "body": "Open College Bumping in the Hub for case notes, PDF comparison, and committee sessions. Use any seniority ranking aid only as a second check — re-run the paper worksheet if the tool output surprises you."
+      "body": "Use College Bumping in the Hub for notes, PDF compare, and committee sessions. Treat ranking aids as a second check. Re-run the paper worksheet if the tool output surprises you."
     }
   },
   "rightToRefuseGuide": {
@@ -2347,7 +2322,7 @@
     "sections": {
       "ontarioScope": {
         "title": "Ontario scope (read this first)",
-        "content": "OHSA s.43 applies to most provincially regulated Ontario workplaces, with important exceptions and special rules for some sectors. Always verify coverage for your workplace type before advising a member.",
+        "content": "OHSA s.43 covers most provincially regulated Ontario workplaces, with exceptions. Verify coverage for your workplace type before advising.",
         "items": [
           "Label this guide Ontario-only in any local training materials you reprint",
           "Federal workplaces and other provinces follow different refusal frameworks",
@@ -2357,7 +2332,7 @@
       },
       "procedure": {
         "title": "Step-by-step refusal (report)",
-        "content": "A worker who has reason to believe work is likely to endanger them (or another worker) may refuse. The first move is prompt reporting — not a silent walkout.",
+        "content": "A worker who believes work is likely to endanger them (or another) may refuse. Report promptly. Do not walk out in silence.",
         "items": [
           "Worker promptly reports the circumstances to the supervisor / employer",
           "Worker remains in a safe place nearby and available for investigation steps",
@@ -2377,7 +2352,7 @@
       },
       "reassignment": {
         "title": "Work reassignment rules (high level)",
-        "content": "While a refusal is live, employers generally cannot assign the same work to another worker without informing them of the refusal and the reasons, subject to OHSA rules. Details change — verify current Act language before advising.",
+        "content": "While a refusal is live, employers generally cannot assign the same work to another worker without telling them about the refusal, subject to OHSA. Verify current Act language before advising.",
         "items": [
           "Other workers assigned the work must be informed of the refusal and reasons",
           "The refusing worker is typically paid pending the investigation outcome, subject to Act rules",
@@ -2388,7 +2363,7 @@
     },
     "boards": {
       "title": "Union boards and pocket cards",
-      "body": "Keep JHSC contacts and a short “how to report a hazard / refuse unsafe work” strip on the workplace board. Link QR posters to official e-Laws OHSA text rather than outdated photocopies.",
+      "body": "Keep JHSC contacts and a short hazard / refusal strip on the board. Link QR posters to official e-Laws OHSA text, not outdated photocopies.",
       "exportCta": "Make a pocket card",
       "exportHint": "Opens QR Link Cards with the Ontario right-to-refuse procedure preset — print PNG/PDF for wallets or boards."
     }
@@ -2423,7 +2398,7 @@
     "p1Lead": "Questions about tools, workshops, or hosting?",
     "p1ManifestoLink": "manifesto page",
     "p1End": ".",
-    "p2": "Hosting, domains, and spare evenings still cost something. If this hub saved you time and you’d like to tip the steward who built it, you can buy Ryan a coffee. Totally optional. Never required.",
+    "p2": "Hosting and spare evenings still cost something. If this hub saved you time, you can buy Ryan a coffee. Optional. Never required.",
     "p3": "Locals keep using the tools either way. Solidarity isn’t a checkout flow.",
     "cta": "Buy me a coffee",
     "ctaHint": "Opens buymeacoffee.com in a new tab.",
@@ -2445,7 +2420,7 @@
     "skipLink": "Skip to main content",
     "commitment": {
       "title": "Our commitment",
-      "body": "UnionOps is committed to ensuring digital accessibility for all members, including those with disabilities. We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA and the Accessibility for Ontarians with Disabilities Act (AODA)."
+      "body": "UnionOps aims for WCAG 2.1 Level AA and AODA so members with disabilities can use these tools."
     },
     "features": {
       "title": "Accessibility features",
@@ -2462,7 +2437,7 @@
     },
     "limitations": {
       "title": "Known limitations",
-      "body": "Canvas-based image preview areas may not be fully accessible to screen reader users and may not reflect high-contrast display settings. All inputs that control the preview are accessible via standard form controls. Exported PNG/PDF files do not embed alt text - add descriptions in each platform’s alt-text field when posting (the Alt-Text Assistant helps you draft them)."
+      "body": "Canvas previews may not fully support screen readers or high-contrast display settings. Form controls that drive the preview are standard and keyboard-usable. Exported PNG/PDF files do not embed alt text: draft with Alt-Text Assistant, then paste into each platform."
     },
     "feedback": {
       "title": "Feedback",
@@ -4153,7 +4128,7 @@
     "chromeTitle": "Chrome, Edge, and friends (PC)",
     "chromeStep1": "Open https://unionops.org in Chrome, Edge, or Brave.",
     "chromeStep2": "After a short visit, look for Install in the address bar (omnibox), or open the browser menu and choose Install app / Install UnionOps.",
-    "chromeStep3": "Confirm. UnionOps opens in its own window with the offline shell available for the public pages you last loaded. If Install is missing, check you are not already running as an installed app.",
+    "chromeStep3": "Confirm. UnionOps opens in its own window with the offline shell for public pages you last loaded. Missing Install? You may already be in the installed app.",
     "androidTitle": "Chrome on Android",
     "androidBody": "Open the site in Chrome, tap the menu, then Install app. “Add to Home screen” alone is only a browser shortcut — use Install when it appears.",
     "safariTitle": "Safari (Mac and iPhone)",
@@ -4161,7 +4136,7 @@
     "limitsTitle": "What install does not change",
     "limitsOffline": "Installed app windows still need network for first load and some Hub features.",
     "limitsNetwork": "Grievance, bumping, and other hub modules still need a signed-in session and network when you work live.",
-    "limitsBrand": "Window chrome and install icons follow your Brand Kit primary on this device. After you change colours, reopen the installed app (or reinstall once) if the OS still shows the old icon or title-bar colour.",
+    "limitsBrand": "Install chrome follows your Brand Kit primary. After colour changes, reopen the app (or reinstall once) if the OS still shows the old icon or title bar.",
     "limitsNoStore": "There is no App Store or Microsoft Store listing; install is the browser’s own progressive web app flow.",
     "relatedLead": "For what stays on this device, see",
     "relatedPrivacy": "Privacy",

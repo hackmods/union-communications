@@ -7,6 +7,7 @@
 - [x] `common.setupBrandPrompt` / `BrandSetupPrompt` defaults; privacy page moved to `privacyPage.*`
 - [x] SEO/tool meta scrub + style note in `.cursor/rules/comms-public-ux.mdc`
 - [x] Unit guard: `src/lib/comms/public-copy-style.test.ts`
+- [x] Phase 2: trim Blueprint / Union Boards / Website / Print / email / photo / DFR / RTR / accessibility body copy; drop duplicate per-tool `setupBrand*` keys (doc-gen prompt override kept)
 
 ## Workshop multiphase A/B/C + Gap Fit (2026-08-09)
 
