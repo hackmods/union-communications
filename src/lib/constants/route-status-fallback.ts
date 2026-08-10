@@ -6,7 +6,7 @@ export const ROUTE_STATUS_FALLBACK = {
   notFoundTitle: "Local 404",
   notFoundBody: "This page isn’t on the roster.",
   notFoundQuip:
-    "This URL never joined the bargaining unit — or it’s off at a membership meeting.",
+    "This URL never joined the bargaining unit, or it’s off at a membership meeting.",
   errorTitle: "Needs a steward",
   errorBody: "Something unexpected broke on the floor.",
   errorQuip: "Try again, or head somewhere safe. Solidarity.",

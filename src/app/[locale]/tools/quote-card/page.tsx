@@ -100,11 +100,7 @@ function QuoteCardPageContent() {
       purposeHint={tq("whenToUse")}
       previewAccessibleName={tq("previewAccessibleName")}
       toolbar={!themeEstablished ? (
-        <BrandSetupPrompt
-          themeEstablished={themeEstablished}
-          prompt={tq("setupBrandPrompt")}
-          linkLabel={tq("setupBrandLink")}
-        />
+        <BrandSetupPrompt themeEstablished={themeEstablished} />
       ) : undefined}
       exportError={exportError}
       exportSuccess={exportSuccess}

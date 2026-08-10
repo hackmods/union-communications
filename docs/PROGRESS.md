@@ -1,5 +1,13 @@
 # Progress Log
 
+## Public copy streamline (2026-08-10)
+
+- [x] Shorter public subtitles/intros (home, First week, Resources, tools, guides) EN + FR
+- [x] Em dashes used sparingly (contrast pairs OK; stack avoided on lead chrome)
+- [x] `common.setupBrandPrompt` / `BrandSetupPrompt` defaults; privacy page moved to `privacyPage.*`
+- [x] SEO/tool meta scrub + style note in `.cursor/rules/comms-public-ux.mdc`
+- [x] Unit guard: `src/lib/comms/public-copy-style.test.ts`
+
 ## Workshop multiphase A/B/C + Gap Fit (2026-08-09)
 
 - [x] Phase A: Day-of run sheet; `e2e/workshop.smoke.spec.ts` demo quartet @smoke

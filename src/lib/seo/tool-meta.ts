@@ -26,7 +26,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     resizer: {
       title: "Free Union Image Resizer",
       description:
-        "Crop local logo plates or uploads to Facebook, Instagram, YouTube, and custom sizes — true-pixel PNG and ZIP, on your device.",
+        "Crop local logo plates or uploads to Facebook, Instagram, YouTube, and custom sizes. True-pixel PNG and ZIP, on your device.",
     },
     "alt-text": {
       title: "Free Union Alt-Text Assistant",
@@ -40,7 +40,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "board-banner": {
       title: "Free Union Board Banner & Trim Maker",
       description:
-        "Print packed sheets of Brand Kit header strips and frame trim for cork boards. Cut on the dashed lines — free and on your device.",
+        "Print packed sheets of Brand Kit header strips and frame trim for cork boards. Cut on the dashed lines. Free and on your device.",
     },
     "solidarity-poster": {
       title: "Free Solidarity Poster Maker",
@@ -50,7 +50,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "meeting-background": {
       title: "Free Zoom & Teams Meeting Background Maker",
       description:
-        "Bold and minimal virtual backgrounds for Zoom and Teams — face-safe layouts, landscape and portrait, on your device.",
+        "Bold and minimal virtual backgrounds for Zoom and Teams: face-safe layouts, landscape and portrait, on your device.",
     },
     "qr-card": {
       title: "Free Union QR Link Card Maker",
@@ -60,17 +60,17 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "action-card": {
       title: "Free Union Action Card Maker",
       description:
-        "Print QR action cards for petitions and campaigns — link to your external sign-on page. Free and on your device.",
+        "Print QR action cards for petitions and campaigns. Link to your external sign-on page. Free and on your device.",
     },
     "pulse-poll": {
       title: "Free Union Pulse Poll Creator",
       description:
-        "Author branded bargaining pulse polls and print a QR share card. Responses are not collected in-app yet — privacy-first authoring only.",
+        "Author branded bargaining pulse polls and print a QR share card. Privacy-first authoring; responses are not collected in-app yet.",
     },
     "qr-board": {
       title: "Free Union QR Board Poster Maker",
       description:
-        "Print multi-QR posters for union boards — two campaigns or a full set of core links, on your device.",
+        "Print multi-QR posters for union boards: two campaigns or a full set of core links, on your device.",
     },
     "website-template": {
       title: "Free Union Website Template",
@@ -80,7 +80,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "document-generator": {
       title: "Free Document & Slide Generator",
       description:
-        "Make branded Word, Excel, and PowerPoint files for your local. Presets, colour themes, and ZIP download — on your device.",
+        "Make branded Word, Excel, and PowerPoint files for your local. Presets, colour themes, and ZIP download on your device.",
     },
   },
   fr: {
@@ -107,7 +107,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     resizer: {
       title: "Redimensionneur d'images syndical gratuit",
       description:
-        "Recadrez logos ou téléversements pour Facebook, Instagram, YouTube et formats personnalisés — PNG et ZIP, sur votre appareil.",
+        "Recadrez logos ou téléversements pour Facebook, Instagram, YouTube et formats personnalisés. PNG et ZIP, sur votre appareil.",
     },
     "alt-text": {
       title: "Assistant de texte alternatif gratuit",
@@ -122,7 +122,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "board-banner": {
       title: "Créateur de bannières et bordures gratuit",
       description:
-        "Imprimez des bandes d'en-tête et de bordure pour babillards. Coupez sur les pointillés — gratuit, sur votre appareil.",
+        "Imprimez des bandes d'en-tête et de bordure pour babillards. Coupez sur les pointillés. gratuit, sur votre appareil.",
     },
     "solidarity-poster": {
       title: "Créateur d'affiches de solidarité gratuit",
@@ -132,7 +132,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "meeting-background": {
       title: "Arrière-plans Zoom et Teams gratuits",
       description:
-        "Fonds virtuels audacieux ou minimalistes pour Zoom et Teams — mises en page sûres pour le visage, paysage et portrait, sur votre appareil.",
+        "Fonds virtuels audacieux ou minimalistes pour Zoom et Teams. mises en page sûres pour le visage, paysage et portrait, sur votre appareil.",
     },
     "qr-card": {
       title: "Créateur de cartes QR gratuit",
@@ -142,7 +142,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "action-card": {
       title: "Créateur de cartes d'action gratuit",
       description:
-        "Imprimez des cartes QR pour pétitions et campagnes — lien vers votre page d'adhésion externe. Gratuit, sur votre appareil.",
+        "Imprimez des cartes QR pour pétitions et campagnes. lien vers votre page d'adhésion externe. Gratuit, sur votre appareil.",
     },
     "pulse-poll": {
       title: "Créateur de sondage éclair syndical gratuit",
@@ -152,7 +152,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "qr-board": {
       title: "Créateur d'affiches QR pour babillard gratuit",
       description:
-        "Imprimez des affiches multi-QR pour babillards — deux campagnes ou un ensemble de liens, sur votre appareil.",
+        "Imprimez des affiches multi-QR pour babillards. deux campagnes ou un ensemble de liens, sur votre appareil.",
     },
     "website-template": {
       title: "Modèle de site web syndical gratuit",
@@ -162,7 +162,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "document-generator": {
       title: "Générateur de documents et diapositives gratuit",
       description:
-        "Créez des fichiers Word, Excel et PowerPoint à l'image de votre section. Préréglages, thèmes et ZIP — sur votre appareil.",
+        "Créez des fichiers Word, Excel et PowerPoint à l'image de votre section. Préréglages, thèmes et ZIP. sur votre appareil.",
     },
   },
 };

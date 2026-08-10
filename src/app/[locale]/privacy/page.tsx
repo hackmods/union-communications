@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
-import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
@@ -14,7 +14,6 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/privacy", params);
 }
 
-
 export default async function PrivacyPage({
   params,
 }: {
@@ -22,132 +21,78 @@ export default async function PrivacyPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("privacyPage");
   const hubPublic = isOfficerHubPublic();
 
   return (
-    <GuideLayout title="Privacy Policy" subtitle="Last updated: July 2026">
+    <GuideLayout title={t("title")} subtitle={t("subtitle")}>
       <div className="space-y-8">
         <Callout>
           <p className="font-semibold text-opseu-dark">
-            {hubPublic ? "Two surfaces, two rules" : "On-device Comms"}
+            {hubPublic ? t("leadTitleHub") : t("leadTitleCommsOnly")}
           </p>
           <p className="mt-2 text-gray-700">
-            {hubPublic ? (
-              <>
-                UnionOps separates public communications tools from the Officer Hub. Comms
-                graphics and brand settings are designed to stay on your device. The Officer
-                Hub runs on whatever host operates that instance — and that operator becomes
-                responsible for the data it holds.
-              </>
-            ) : (
-              <>
-                UnionOps public tools are local-first Comms: graphics and brand settings are
-                designed to stay on your device. An Officer Hub for casework is in development
-                and is not part of the public launch surface yet.
-              </>
-            )}
+            {hubPublic ? t("leadBodyHub") : t("leadBodyCommsOnly")}
           </p>
         </Callout>
 
         <section className="border-l-2 border-opseu-blue/30 pl-5">
-          <h2 className="text-xl font-bold text-opseu-dark">
-            Comms tools (on your device)
-          </h2>
+          <h2 className="text-xl font-bold text-opseu-dark">{t("commsTitle")}</h2>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-            <li>Image processing, templates, and file preparation happen in your browser</li>
-            <li>Brand kit settings are stored in browser local storage</li>
-            <li>No analytics, tracking cookies, or third-party ad scripts</li>
-            <li>Member photos used in graphics are not uploaded to UnionOps servers by the Comms tools</li>
+            <li>{t("comms1")}</li>
+            <li>{t("comms2")}</li>
+            <li>{t("comms3")}</li>
+            <li>{t("comms4")}</li>
           </ul>
         </section>
 
         {hubPublic ? (
           <section className="border-l-2 border-opseu-blue/30 pl-5">
-            <h2 className="text-xl font-bold text-opseu-dark">
-              Officer Hub (hosted instance)
-            </h2>
-            <p className="mt-3 max-w-prose text-gray-700">
-              Signing in to an Officer Hub means that instance processes account sessions and
-              any grievance, bumping, or related records it stores. Today&apos;s evaluation
-              builds may use in-memory stores for demos; a production host should configure
-              secure secrets and, when available, a proper database with tenant isolation.
-            </p>
+            <h2 className="text-xl font-bold text-opseu-dark">{t("hubTitle")}</h2>
+            <p className="mt-3 max-w-prose text-gray-700">{t("hubIntro")}</p>
             <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-              <li>
-                <strong>If you self-host or operate CapRover / Docker:</strong> you are the
-                data controller for that instance. Prefer Canadian hosting for confidential
-                modules. Set a unique <code>AUTH_SECRET</code>. Do not use demo passwords for
-                real member casework.
-              </li>
-              <li>
-                <strong>Encrypted hybrid export:</strong> backup passphrases are entered in
-                the browser and are not sent to the server as part of the hybrid encrypt flow.
-              </li>
-              <li>
-                Demo accounts exist for workshops and CI only — not for live confidential
-                files.
-              </li>
+              <li>{t("hubSelfHost")}</li>
+              <li>{t("hubHybrid")}</li>
+              <li>{t("hubDemo")}</li>
             </ul>
           </section>
         ) : null}
 
         <section className="border-l-2 border-opseu-blue/30 pl-5">
-          <h2 className="text-xl font-bold text-opseu-dark">
-            Ontario privacy legislation
-          </h2>
+          <h2 className="text-xl font-bold text-opseu-dark">{t("ontarioTitle")}</h2>
           <p className="mt-3 max-w-prose text-gray-700">
-            {hubPublic ? (
-              <>
-                UnionOps is designed around the principles of Canada&apos;s privacy framework,
-                including PIPEDA and, where applicable, FIPPA for public-sector members. Comms
-                tools minimize collection by keeping work on-device. Hosted Officer Hub operators
-                must apply access control, retention, and breach practices appropriate to
-                confidential labour records.
-              </>
-            ) : (
-              <>
-                UnionOps is designed around the principles of Canada&apos;s privacy framework,
-                including PIPEDA and, where applicable, FIPPA for public-sector members. Comms
-                tools minimize collection by keeping work on-device.
-              </>
-            )}
+            {hubPublic ? t("ontarioHub") : t("ontarioCommsOnly")}
           </p>
         </section>
 
         <Callout tone="muted">
-          <p className="font-semibold text-opseu-dark">Your responsibilities</p>
+          <p className="font-semibold text-opseu-dark">{t("responsibilitiesTitle")}</p>
           <p className="mt-2 text-gray-700">
-            You remain responsible for obtaining member consent before using photos in
-            social media graphics, and for ensuring posts and case handling comply with your
-            local&apos;s policies and collective agreement. This tool does not provide legal
-            advice. See the{" "}
+            {t("responsibilitiesBody")}{" "}
             <Link href="/guide/photo-consent" className="text-opseu-blue underline">
-              photo consent checklist
-            </Link>{" "}
-            for a short steward practice guide.
+              {t("photoConsentLink")}
+            </Link>
+            .
           </p>
         </Callout>
 
         <Callout tone="muted">
-          <p className="font-semibold text-opseu-dark">Desktop / install as an app</p>
+          <p className="font-semibold text-opseu-dark">{t("installTitle")}</p>
           <p className="mt-2 text-gray-700">
-            On unionops.org, supported browsers can install UnionOps as a local app window
-            (progressive web app). The offline shell stays on-device; hub case data still
-            needs a network when live. See the quiet{" "}
+            {t("installBody")}{" "}
             <Link href="/install" className="text-opseu-blue underline">
-              install guide
+              {t("installLink")}
             </Link>
             .
           </p>
         </Callout>
 
         <Callout tone="plain">
-          <p className="font-semibold text-opseu-dark">Contact</p>
+          <p className="font-semibold text-opseu-dark">{t("contactTitle")}</p>
           <p className="mt-2 text-gray-700">
-            UnionOps is stewarded by Ryan Morris. For questions about this privacy policy,
-            contact your local communications chair or see{" "}
+            {t("contactBody")}{" "}
             <Link href="/support" className="text-opseu-blue underline">
-              Support
+              {t("supportLink")}
             </Link>
             .
           </p>

@@ -18,7 +18,13 @@ Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc), [`tool-editor-u
 | **Graphic Maker**, **Image Resizer** | Divergent H1 vs nav (“News & Event…”, “Omnichannel…”) |
 | **First week** roadmap | Multiple names for the same path without linking |
 
-Use `brandSetupHref(themeEstablished)` from `@/lib/utils/brand-setup` (`/onboarding` until established, else `/brand-kit`). Shared nudge: [`BrandSetupPrompt`](src/components/tools/BrandSetupPrompt.tsx).
+Use `brandSetupHref(themeEstablished)` from `@/lib/utils/brand-setup` (`/onboarding` until established, else `/brand-kit`). Shared nudge: [`BrandSetupPrompt`](src/components/tools/BrandSetupPrompt.tsx) (defaults to `common.setupBrandPrompt` / `common.setupBrandLink`).
+
+## Copy style (public Comms)
+
+- **Tool subtitles / guide intros:** one job each. Prefer ~12–18 words on subtitles; max two short sentences on intros. Put print tips and cross-links in hints, `whenToUse`, or related chips — not the lead line.
+- **Em dashes:** fine within reason for contrast (`Aid only — not legal advice`) or a single clause break. Do not stack multiple em dashes in one string, and prefer a period or colon in tool subtitles and home chrome when a dash only adds pause.
+- Keep EN/FR in lockstep for every public string you change.
 
 ## Workshop journey
 

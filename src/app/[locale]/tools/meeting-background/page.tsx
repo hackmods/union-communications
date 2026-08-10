@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, type ReactElement } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -10,7 +9,7 @@ import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { brandSetupHref } from "@/lib/utils/brand-setup";
+import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import {
@@ -253,7 +252,7 @@ export default function MeetingBackgroundPage() {
 
   const localNum = resolveLocalNumber(brandKit.local.localNumber);
   const localLabel = brandKit.local.subText
-    ? `Local ${localNum} — ${brandKit.local.subText}`
+    ? `Local ${localNum}: ${brandKit.local.subText}`
     : `Local ${localNum}`;
 
   const primary = state.primaryColor;
@@ -788,15 +787,7 @@ export default function MeetingBackgroundPage() {
       footer={<ToolRelatedFooter toolSlug="meeting-background" />}
       toolbar={
         !themeEstablished && hydrated ? (
-          <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-            {t("setupBrandPrompt")}{" "}
-            <Link
-              href={brandSetupHref(themeEstablished)}
-              className="font-medium text-opseu-blue underline"
-            >
-              {t("setupBrandLink")}
-            </Link>
-          </p>
+          <BrandSetupPrompt themeEstablished={themeEstablished} />
         ) : null
       }
       form={

@@ -2,7 +2,6 @@
 
 import { useRef, useState, type Ref } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import {
@@ -12,7 +11,7 @@ import {
 } from "@/lib/export/image-export";
 import { formatFilename, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { brandSetupHref } from "@/lib/utils/brand-setup";
+import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import {
   DEFAULT_CUSTOM_HEIGHT,
@@ -458,12 +457,7 @@ export default function ResizerPage() {
       footer={<ToolRelatedFooter toolSlug="resizer" />}
         toolbar={
           !themeEstablished ? (
-            <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-              {t("setupBrandPrompt")}{" "}
-              <Link href={brandSetupHref(themeEstablished)} className="font-medium underline">
-                {t("setupBrandLink")}
-              </Link>
-            </p>
+            <BrandSetupPrompt themeEstablished={themeEstablished} />
           ) : null
         }
         form={

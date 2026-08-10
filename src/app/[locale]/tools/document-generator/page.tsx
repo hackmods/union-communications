@@ -3,7 +3,6 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -30,6 +29,7 @@ import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
+import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -480,15 +480,10 @@ function DocumentGeneratorPageContent() {
               }
             />
             {!themeEstablished ? (
-              <p className="text-sm leading-snug text-gray-600">
-                {t("setupBrandPrompt")}{" "}
-                <Link
-                  href="/brand-kit"
-                  className="font-medium text-opseu-blue underline"
-                >
-                  {t("setupBrandLink")}
-                </Link>
-              </p>
+              <BrandSetupPrompt
+                themeEstablished={themeEstablished}
+                prompt={t("setupBrandPrompt")}
+              />
             ) : null}
           </ToolFormDetails>
 

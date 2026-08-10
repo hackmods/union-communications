@@ -3,7 +3,7 @@
     "title": "UnionOps | Free Tools & Officer Hub for Union Locals",
     "titleCommsOnly": "UnionOps | Free Tools for Union Locals",
     "description": "Free, privacy-first tools for union stewards and officers. Comms stay on your device; if you host an Officer Hub, you control that instance.",
-    "descriptionCommsOnly": "Free, privacy-first tools for union stewards and officers. Comms stay on your device — no ads, no subscriptions, no data harvesting."
+    "descriptionCommsOnly": "Free, privacy-first tools for union stewards and officers. Comms stay on your device: no ads, no subscriptions, no data harvesting."
   },
   "nav": {
     "home": "Home",
@@ -87,7 +87,7 @@
     "export": "Export",
     "exporting": "Exporting…",
     "exportFailed": "Export failed. Try again.",
-    "exportPartial": "{exported} of {total} sheets exported — {failed} failed. Try again.",
+    "exportPartial": "{exported} of {total} sheets exported. {failed} failed. Try again.",
     "upload": "Upload image",
     "uploadFailed": "Could not process that image. Try another file.",
     "remove": "Remove",
@@ -96,7 +96,7 @@
     "getStarted": "Get started",
     "edit": "Edit",
     "toolEditorPanes": "Editor panels",
-    "miniPreviewLabel": "Live preview — tap to enlarge",
+    "miniPreviewLabel": "Live preview. Tap to enlarge.",
     "expandPreview": "Enlarge preview",
     "collapsePreview": "Hide preview",
     "showPreview": "Show preview",
@@ -108,7 +108,9 @@
     "sectionColours": "Colours",
     "sectionAdvanced": "Advanced",
     "downloadSuccess": "Downloaded!",
-    "downloadSuccessDetail": "Your file is ready — check your downloads folder."
+    "downloadSuccessDetail": "Your file is ready. Check your downloads folder.",
+    "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
+    "setupBrandLink": "Open Brand Kit"
   },
   "routeUi": {
     "errorTitle": "Needs a steward",
@@ -117,7 +119,7 @@
     "tryAgain": "Try again",
     "signOut": "Sign out",
     "notFoundTitle": "Local 404",
-    "notFoundBody": "That page isn’t on the roster — or it moved camp.",
+    "notFoundBody": "That page isn’t on the roster, or it moved camp.",
     "hubNotFoundBody": "That Hub route isn’t on the roster.",
     "portalNotFoundBody": "That Portal path isn’t on the floor plan.",
     "portalErrorBody": "The Local Portal hit an unexpected error. Try again, or head back to the station.",
@@ -178,7 +180,7 @@
   },
   "logoBuilder": {
     "title": "Local Logo Builder",
-    "description": "Set colours, local details, shape, and logo. Export circle, square, or rectangle for avatars, social profiles, and banners. Save to Brand Kit to apply colours and local details across the site.",
+    "description": "Colours, shape, and export sizes. Save to Brand Kit to use across tools.",
     "localNumber": "Local number",
     "subText": "Sub-text",
     "shape": "Shape",
@@ -198,7 +200,7 @@
     "title": "UnionOps: The Toolkit for Local Unions",
     "headline": "The toolkit for local unions",
     "slogan": "Solidarity.",
-    "subtitle": "Free tools to start your local's communications — brand, boards, print, social, and a simple website. Built for any local, any union.",
+    "subtitle": "Free Comms tools for any local: brand, boards, print, social, and a simple website.",
     "subtitleCommsOnly": "Comms tools for volunteers running a local. Built for any local, any union.",
     "heroCta": "Set up your local brand",
     "openBrandKitCta": "Open Brand Kit",
@@ -206,22 +208,22 @@
     "socialMediaPlanCta": "Continue the first-week roadmap",
     "socialMediaPlanDesc": "After Brand Kit: boards, print, socials, and a simple website.",
     "pathCommsTitle": "New to running a local’s communications?",
-    "pathCommsDesc": "Start with Brand Kit — union, colours, local number, and logo. Then follow the first-week roadmap for boards, print, socials, and a website.",
+    "pathCommsDesc": "Start with Brand Kit (colours, local number, logo), then the first-week roadmap.",
     "pathCommsCta": "Get started",
-    "pathCommsHint": "Channel guides for print, boards, website, and email outreach live under Guides. Social Examples and Captions are there too.",
+    "pathCommsHint": "Channel guides, Social Examples, and Captions live under Guides.",
     "pathOfficerTitle": "President or steward managing cases?",
     "pathOfficerDesc": "Track grievances, college bumping, overdue work, and handoffs in the Officer Hub.",
     "pathOfficerCta": "Open Officer Hub",
     "pathOfficerTitleComingSoon": "Officer workflows on the way",
     "pathOfficerDescComingSoon": "Grievance tracking, college bumping, overdue boards, and handoffs are in progress. Comms tools are ready today.",
-    "pathOfficerCtaComingSoon": "Officer Hub — coming soon",
+    "pathOfficerCtaComingSoon": "Officer Hub: coming soon",
     "channelsTitle": "The Toolbox",
-    "channelsIntro": "Four channels, equal weight. Open a tool or guide below — everything else stays in Guides and Tools in the header.",
+    "channelsIntro": "Four channels, equal weight. Open a tool or guide below.",
     "brandRailDesc": "Colours, logo, and key links for every graphic. Browse the reference asset pack when you need starter files.",
     "privacyNote": "Comms tools run in your browser. Host an Officer Hub and you control that instance.",
     "privacyNoteCommsOnly": "Comms tools run in your browser. Graphics and brand kit stay on your device.",
-    "trustBanner": "Local-first Comms: graphics stay in your browser. Host the Officer Hub yourself and you are the data controller for that instance.",
-    "trustBannerCommsOnly": "Local-first Comms: graphics and brand kit stay in your browser. No analytics, no ad scripts, no data harvesting business.",
+    "trustBanner": "Comms stay in your browser. Host the Officer Hub and you control that instance.",
+    "trustBannerCommsOnly": "Comms stay in your browser. No analytics, ads, or data harvesting.",
     "trustManifestoLink": "Our promise",
     "channels": {
       "social": {
@@ -244,8 +246,8 @@
   },
   "socialMediaPlan": {
     "title": "First week",
-    "subtitle": "After Brand Kit: boards, print, socials, and a simple website — one message, four channels (plus optional email outreach)",
-    "intro": "Do not skip identity. Set union, colours, local number, and logo in Brand Kit first — then use this roadmap. For practice guidance (tone, platforms, trolls), use The Blueprint. For an overview of UnionOps Comms, the practice checklist, and sources, see Comms Resources.",
+    "subtitle": "After Brand Kit: boards, print, socials, and a simple website. One message, four channels.",
+    "intro": "Set Brand Kit first, then follow this roadmap. Practice tone and platforms in The Blueprint; orientation and sources are in Comms Resources.",
     "relatedLabel": "Also see",
     "stepsNavLabel": "Roadmap steps",
     "pathLinks": {
@@ -322,10 +324,10 @@
     },
     "calendar": {
       "title": "Four-week starter calendar",
-      "intro": "A simple rhythm after Brand Kit. Link the same message across channels — do not chase every platform at once.",
+      "intro": "A simple rhythm after Brand Kit. Link the same message across channels. Do not chase every platform at once.",
       "weeks": [
         {
-          "title": "Week 1 — Identity & boards",
+          "title": "Week 1: Identity and boards",
           "items": [
             "Finish Brand Kit colours and logo",
             "Post one Board Notice for the next meeting",
@@ -333,7 +335,7 @@
           ]
         },
         {
-          "title": "Week 2 — Print + one social",
+          "title": "Week 2: Print and one social",
           "items": [
             "Print a Flyer for hallways or walkabouts",
             "Post one Graphic Maker image with a Caption",
@@ -341,7 +343,7 @@
           ]
         },
         {
-          "title": "Week 3 — Website & links",
+          "title": "Week 3: Website and links",
           "items": [
             "Fill Website Template and download the ZIP",
             "Add website + Facebook links in Brand Kit",
@@ -349,7 +351,7 @@
           ]
         },
         {
-          "title": "Week 4 — Sustain",
+          "title": "Week 4: Sustain",
           "items": [
             "Reuse layouts from Social Examples",
             "Schedule one board update and one social post",
@@ -362,7 +364,7 @@
   "guide": {
     "title": "The Blueprint",
     "subtitle": "A handbook for ongoing local communications practice - platforms, tone, rhythm, and accessibility.",
-    "intro": "Use this after you have a Brand Kit and a first message in motion. New to the hub? Get started with Brand Kit, then the First week roadmap. Need the map, checklist, or sources? Open Comms Resources.",
+    "intro": "Use this after Brand Kit and a first message are in motion. New here? Start with Brand Kit, then First week. Need the map or sources? Open Comms Resources.",
     "path": {
       "title": "Related paths",
       "plan": "Get started - Brand Kit first, then the First week roadmap",
@@ -411,7 +413,7 @@
   },
   "unionBoardsGuide": {
     "title": "Union Boards Guide",
-    "subtitle": "Workplace bulletin boards reach members who are not on social media - start with a bare-minimum layout, then fill the rest with notices and solidarity posters",
+    "subtitle": "Reach members who are not on social. Start with a bare-minimum layout, then add notices and posters.",
     "zones": {
       "header": "Local header",
       "socials": "Socials / QR",
@@ -422,7 +424,7 @@
     },
     "bareMinimum": {
       "title": "Bare-minimum board",
-      "intro": "Every local board should answer four questions at a glance: How do I find you online? Who do I call for health and safety? Who is on the Local Executive Committee? What is happening next? Everything else is optional filler.",
+      "intro": "Every board should answer: How do I find you online? Who do I call for health and safety? Who is on the LEC? What is happening next?",
       "tip": "Print the always-on pieces once on sturdy stock; refresh only the events / rotating zone. Use solidarity posters to fill empty space so the board never looks abandoned.",
       "items": {
         "header": {
@@ -469,7 +471,7 @@
     },
     "layouts": {
       "title": "Reference layouts from real locals",
-      "intro": "Patterns adapted from workplace boards locals actually run - generic zones, no branded campaign art. Pick one that fits your board shape and stick to it so members learn where to look.",
+      "intro": "Patterns from boards locals actually run. Pick one shape and stick to it so members learn where to look.",
       "photosHeading": "Real boards (photo references)",
       "photosIntro": "Photos from active campus boards - use them to see how LEC lists, JHSC, ministry posters, and QR codes sit together in the wild.",
       "schematicsHeading": "Schematic patterns to copy",
@@ -491,7 +493,7 @@
     },
     "materials": {
       "title": "Feed the board - posters and templates",
-      "intro": "When a board looks empty, start with official Ontario posters and a short contact list. Locals do not need to invent content from scratch - print the ministry pieces, then layer local notices and solidarity posters.",
+      "intro": "Start with official Ontario posters and a short contact list, then layer local notices and solidarity posters.",
       "ministryHeading": "Official Ontario posters and statutes",
       "ministryNote": "PDFs below are for printing. Prefer the official ministry page when checking for newer versions.",
       "templatesHeading": "Sample local templates (anonymized)",
@@ -555,7 +557,7 @@
   },
   "printGuide": {
     "title": "Print Communications Guide",
-    "subtitle": "When to print and how to pair print with digital channels",
+    "subtitle": "When to print and how to pair print with digital",
     "relatedLabel": "Also see",
     "sections": {
       "when": {
@@ -578,20 +580,20 @@
   },
   "emailBroadcastGuide": {
     "title": "Email & Member Outreach Guide",
-    "subtitle": "Copy-only invites and officer reminders — no marketing lists in UnionOps",
+    "subtitle": "Copy-only invites and officer reminders. No marketing lists in UnionOps.",
     "relatedLabel": "Also see",
     "sections": {
       "when": {
         "title": "When email fits",
-        "content": "Use email when members already expect a direct message: meeting invites, urgent updates after a board notice is posted, or follow-up to a flyer. Pair email with print and social so members who miss one channel still see the message."
+        "content": "Use email for meeting notice, RSVP, and reminder when members already trust that inbox."
       },
       "comms": {
         "title": "Public Comms tools (copy / mailto)",
-        "content": "Document Generator, Board Notice, and Graphic Maker notice layouts include a copy-only invite email step. UnionOps does not send these messages for you — stewards review, paste into their union inbox, and send manually. RSVP instructions stay in the email body; hybrid tallies use the exported Excel pack."
+        "content": "Document Generator, Board Notice, and Graphic Maker include a copy-only invite step. You paste into your union inbox. UnionOps does not send mail."
       },
       "hub": {
         "title": "Officer Hub (separate surfaces)",
-        "content": "Officer Hub has separate reminder drafts for officers, and optional email to the officer roster when your host enables it. Those are not the same as public Comms invite copy — keep them separate so members and officers get the right message."
+        "content": "Officer Hub can draft membership-meeting reminder copy for officers. That is separate from the public invite email builders."
       },
       "lists": {
         "title": "What UnionOps does not do",
@@ -599,22 +601,22 @@
       },
       "checklist": {
         "title": "Before you hit send",
-        "content": "Confirm date, time, location, and RSVP reply instructions match your board notice and social post. Remove draft placeholders. For member photos in graphics, follow the Photo Consent guide. Keep a local record of who received officer reminders when using Hub SMTP."
+        "content": "Subject clear. Local number in the body. Link or QR for RSVP. No sensitive case details in open broadcasts."
       }
     }
   },
   "photoConsentGuide": {
     "title": "Photo Consent & Member Media",
-    "subtitle": "A short checklist for stewards and locals before posting member photos",
-    "intro": "Consent is already gated in Graphic Maker when you upload a member photo. This page helps workshops and locals write a shared practice — not legal advice.",
+    "subtitle": "A short checklist before posting member photos",
+    "intro": "Graphic Maker already gates consent on member photo upload. This page helps locals write a shared practice. Not legal advice.",
     "backToGuide": "Back to The Blueprint",
     "why": {
       "title": "Why it matters",
-      "content": "Once a photo is posted publicly, it can be copied and reshared outside your control. Locals need a clear practice so officers and volunteers know when to ask, what to say, and what never belongs in a graphic. The Toolbox does not replace your local's policies or advice from your servicing representative."
+      "content": "Members should know how their image will be used before it appears on boards or socials."
     },
     "checklist": {
       "title": "Before you post",
-      "intro": "Confirm each item before using a member's photo in social graphics, flyers that feature people, or a photo of a posted board notice where faces are visible.",
+      "intro": "Confirm each item before using a member photo in graphics, flyers, or board photos where faces are visible.",
       "items": {
         "consent": "You have written or verbal consent from the member",
         "public": "The member understands the photo will be posted publicly (or knows which audience will see it)",
@@ -626,7 +628,7 @@
     },
     "toolbox": {
       "title": "In the Toolbox",
-      "content": "Graphic Maker asks you to confirm consent before a member photo is applied to the layout. Processing stays on your device — photos are not uploaded to UnionOps servers. Brand logos are not member media. Resizer has no consent modal; if you resize a member photo, the same checklist still applies."
+      "content": "Use the Graphic Maker consent step, keep a simple local log, and prefer group shots when individuals have not consented."
     },
     "workshop": {
       "title": "Workshop tip",
@@ -635,8 +637,8 @@
   },
   "websiteGuide": {
     "title": "Local Website Guide",
-    "subtitle": "Give members one stable link for who you are, who to contact, and how to find you — then publish it free on GitHub Pages",
-    "intro": "A local website is not a newsroom. It is the quiet home base behind your boards and social posts: contact info, officers, and a short about section that still works when algorithms bury your last post. Use Brand Kit first, fill the Website Template, download the ZIP, and follow the deploy steps below.",
+    "subtitle": "One stable link for who you are, who to contact, and how to find you. Publish free on GitHub Pages.",
+    "intro": "A local site is a quiet home base behind boards and socials: contact, officers, and a short about. Fill Website Template from Brand Kit, download the ZIP, then deploy.",
     "relatedLabel": "Also see",
     "related": {
       "template": "Website Template",
@@ -649,7 +651,7 @@
     "why": {
       "navLabel": "Why a site",
       "title": "Why a local website",
-      "intro": "Boards and socials move messages; a website holds the answers members search for months later. Keep it short, accurate, and easy to update after elections.",
+      "intro": "Boards and socials move messages. A website holds answers members search months later.",
       "tip": "One clear URL beats a pile of outdated Google Docs and Facebook posts. Put that URL on boards, QR cards, email signatures, and event graphics.",
       "items": {
         "stable": {
@@ -669,7 +671,7 @@
     "bareMinimum": {
       "navLabel": "What to include",
       "title": "Bare-minimum local site",
-      "intro": "Every local site should answer four questions in under a minute: Who are you? Who runs the local? How do I reach you? Where do I follow updates? Everything else can wait.",
+      "intro": "Answer in under a minute: Who are you? Who runs the local? How do I reach you? Where do I follow updates?",
       "items": {
         "about": {
           "title": "About your local",
@@ -724,7 +726,7 @@
     "build": {
       "navLabel": "Build the ZIP",
       "title": "Build with Website Template",
-      "intro": "The Website Template tool fills a static site modelled on a real volunteer GitHub Pages local site. Preview in the browser, then download a ZIP — no hosting account required until you are ready to publish.",
+      "intro": "Website Template fills a static site. Preview in the browser, then download a ZIP. No hosting account until you publish.",
       "cta": "Open Website Template",
       "steps": {
         "open": {
@@ -748,7 +750,7 @@
     "deploy": {
       "navLabel": "Publish free",
       "title": "Publish on GitHub Pages (free)",
-      "intro": "GitHub Pages hosts static sites at no cost. You do not need to be a developer — you need a free GitHub account and about fifteen minutes the first time. The ZIP README repeats these steps for offline use.",
+      "intro": "GitHub Pages hosts static sites free. You need a free GitHub account and about fifteen minutes the first time. The ZIP README repeats these steps.",
       "tip": "Project sites live at https://yourusername.github.io/repository-name/. If you create a GitHub organization for the local, you can use a cleaner org URL later. Either path works for members.",
       "steps": {
         "account": {
@@ -776,7 +778,7 @@
     "domain": {
       "navLabel": "Custom domain",
       "title": "Custom domain (optional)",
-      "intro": "A short domain such as local243.org is easier to say out loud and print on boards. Buy the domain from any registrar, then point it at GitHub Pages. Skip this until the free github.io URL is working.",
+      "intro": "A short domain (for example local243.org) is easier to say and print. Point it at GitHub Pages after the free github.io URL works.",
       "tip": "The ZIP includes CNAME.example — rename it to CNAME (no extension) and put only your domain on the first line before you configure DNS.",
       "steps": {
         "cname": {
@@ -796,7 +798,7 @@
     "maintain": {
       "navLabel": "Keep it current",
       "title": "Keep the site current",
-      "intro": "A stale officer list is worse than no site. Assign ownership and a light refresh rhythm so the page stays trustworthy.",
+      "intro": "A stale officer list is worse than no site. Assign ownership and a light refresh rhythm.",
       "items": {
         "who": {
           "title": "Who owns it",
@@ -819,7 +821,7 @@
     "pair": {
       "navLabel": "Pair channels",
       "title": "Pair the site with other channels",
-      "intro": "The website is the fourth channel in the First week roadmap — not a replacement for boards, print, or social. Use the same Brand Kit everywhere so members recognize you.",
+      "intro": "The website is the fourth First week channel, not a replacement for boards, print, or social.",
       "items": {
         "boards": {
           "label": "Union boards",
@@ -987,7 +989,7 @@
   },
   "boardNotice": {
     "title": "Board Notice Maker",
-    "subtitle": "High-contrast workplace bulletin notices - readable from across the room",
+    "subtitle": "High-contrast workplace bulletin notices, readable from across the room.",
     "previewAccessibleName": "Board notice preview",
     "noticeType": "Notice type",
     "types": {
@@ -1008,29 +1010,29 @@
     "quorumNeeded": "Quorum needed (number)",
     "inviteEmail": {
       "title": "RSVP invite email",
-      "hint": "Copy this into your own email app. It asks people to reply with Attending and On site / Remote so you can track quorum and the on-site food order.",
+      "hint": "Copy into your mail app. Ask Attending plus On site or Remote for quorum and food.",
       "subjectLabel": "Subject",
       "bodyLabel": "Message",
       "copySubject": "Copy subject",
       "copyBody": "Copy message",
       "openMail": "Open in email app",
-      "privacy": "This runs on your device. Nothing is sent and no replies are collected here — paste responses into the RSVP sheet.",
+      "privacy": "Runs on your device. Paste responses into your RSVP sheet.",
       "eventPackPrompt": "Need the RSVP sheet and calendar file?",
       "eventPackLink": "Open Event notice in Document Generator"
     },
-    "whenToUse": "Use for workplace bulletin boards — meetings, votes, and updates members may miss on social.",
+    "whenToUse": "Use for workplace boards: meetings, votes, and updates members may miss on social.",
     "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
     "setupBrandLink": "Open Brand Kit"
   },
   "boardBanner": {
     "title": "Board Banner & Trim",
-    "subtitle": "Print sleek header strips and frame trim on a packed letter or tabloid sheet — cut on the dashed lines and staple to your cork board.",
+    "subtitle": "Printable header strips and frame trim for cork boards.",
     "mode": "What to print",
     "modeBanner": "Header banner",
     "modeTrim": "Frame trim",
     "layout": "Banner layout",
     "layoutSlantCallout": "Slant callout",
-    "layoutSlantCalloutHint": "Geometric slant, logo, and local number — the polished top-of-board look.",
+    "layoutSlantCalloutHint": "Slant layout: cut on the dashed lines before stapling.",
     "layoutCenteredLockup": "Centered lockup",
     "layoutCenteredLockupHint": "Full brand bar with logo centred and local number flanking.",
     "layoutMinimalStripe": "Minimal stripe",
@@ -1043,11 +1045,11 @@
     "kitSummary": "Printing: {pieces}",
     "kitPackSummary": "{count} pieces across {sheets} sheets · cut on dashed lines",
     "trimTop": "Top banner",
-    "trimTopHint": "Header strip art packed like a banner — staple along the top of the frame to close the loop.",
+    "trimTopHint": "Top strip: cut, then staple along the board header.",
     "trimSide": "Side strip",
-    "trimSideHint": "Dual-tone vertical rails packed across the page — LOCAL in end caps; staple along each side of the frame.",
+    "trimSideHint": "Side rails: cut, then staple left and right.",
     "trimBottom": "Bottom strip",
-    "trimBottomHint": "Horizontal dual-tone rail matching the side strip — LOCAL in the end caps; staple along the bottom of the frame.",
+    "trimBottomHint": "Bottom strip: cut, then staple along the footer.",
     "trimCorner": "Corner",
     "trimCornerHint": "Optional L-miter tiles. Off = continuous full-edge rails that meet at the corners; on = separate miter pieces.",
     "bannerDesign": "Banner design",
@@ -1078,10 +1080,10 @@
     "formatTabloid": "Tabloid (11×17)",
     "packHint": "Each sheet packs multiple identical pieces with cut marks between them.",
     "designPreview": "Design strip",
-    "designPreviewHint": "One piece at true proportions — the sheet below is what you download.",
-    "topDesignHint": "Header banner art for the top of the frame — same layouts as Header banner mode.",
+    "designPreviewHint": "Preview shows cut lines on the packed sheet.",
+    "topDesignHint": "Top designs print as a continuous header strip.",
     "sideDesignHint": "Vertical rail with LOCAL in the end caps. Columns staple along the board sides.",
-    "bottomDesignHint": "Horizontal rail matching the side motif — LOCAL in the end caps; staple along the bottom of the frame.",
+    "bottomDesignHint": "Bottom designs finish the frame on packed sheets.",
     "cornerDesignHint": "Square L-miter tiles for joining rails. Skip these when you want rails that run the full edge.",
     "printSheet": "Print sheet",
     "packSummary": "{count} pieces · cut on dashed lines",
@@ -1093,7 +1095,7 @@
   },
   "resizer": {
     "title": "Image Resizer",
-    "subtitle": "Crop your local logo or an uploaded image to Facebook, Instagram, and YouTube sizes — then download a PNG or a ZIP of every size.",
+    "subtitle": "Crop logos or photos to Facebook, Instagram, and YouTube sizes.",
     "previewAccessibleName": "Resizer preview",
     "source": "Source",
     "sourceLogo": "Local logo",
@@ -1107,7 +1109,7 @@
     "shapeRectangleHint": "Best for banners and wide posts.",
     "defaultSubText": "Support Staff",
     "uploadLabel": "Image",
-    "uploadHint": "JPEG, PNG, WebP, or SVG — max 10 MB",
+    "uploadHint": "Upload a logo plate or photo to crop.",
     "uploadPrompt": "Upload an image to preview this format",
     "fit": "Fit",
     "fitContain": "Contain",
@@ -1115,7 +1117,7 @@
     "fitContainHint": "Scale the logo or image to fit inside the frame with a margin.",
     "fitCoverHint": "Fill the whole frame; edges outside the crop are clipped.",
     "placement": "Placement",
-    "placementHint": "Anchor position inside the frame — useful for banners and wide covers.",
+    "placementHint": "Drag to position. Pinch or scroll to zoom.",
     "placementTopLeft": "Top left",
     "placementTopCenter": "Top center",
     "placementTopRight": "Top right",
@@ -1137,7 +1139,7 @@
     "customWidth": "Width (px)",
     "customHeight": "Height (px)",
     "preview": "Preview",
-    "previewSize": "{label} — exports at {width}×{height} px",
+    "previewSize": "Preview at export size",
     "allFormats": "Social media assets",
     "allFormatsHint": "Click a size to edit it in the preview above. Download ZIP exports every platform format at once.",
     "groupFacebook": "Facebook",
@@ -1147,18 +1149,18 @@
     "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
     "setupBrandLink": "Open Brand Kit",
     "exportError": "Export failed. Try again.",
-    "whenToUse": "Use to crop your logo or photo into Facebook, Instagram, and YouTube sizes before posting."
+    "whenToUse": "Use to crop your logo or photo into platform sizes before posting."
   },
   "documentGenerator": {
     "title": "Document & Slide Generator",
-    "subtitle": "Ready-to-use documents built from your Brand Kit colours and logo. Edit the text, preview live, download Word — and Excel or PowerPoint when the example includes them.",
+    "subtitle": "Brand Kit documents with live preview. Download Word, or Excel/PowerPoint when included.",
     "examples": "Examples",
     "settings": "Edit & download",
     "designPreset": "Example",
     "includeLogo": "Include Brand Kit logo",
     "sectionBranding": "Branding",
     "logoResolveFailed": "Could not load your Brand Kit logo as PNG. Try a PNG upload in Brand Kit, or turn off the logo.",
-    "setupBrandPrompt": "Set up your Brand Kit so the letterhead can use your local logo.",
+    "setupBrandPrompt": "Set up Brand Kit so letterhead can use your local logo.",
     "setupBrandLink": "Open Brand Kit",
     "outputs": "Include in ZIP",
     "outputDocx": "Word (.docx)",
@@ -1181,17 +1183,17 @@
       "welcomeLetterDocx": "Word welcome letter for new members",
       "welcomeLetterPptx": "2 PowerPoint slides",
       "eventDocx": "Word event notice with When/Where",
-      "eventXlsx": "Hybrid RSVP Excel — quorum board + on-site food heads",
+      "eventXlsx": "RSVP sheet (Excel)",
       "eventIcs": "Calendar invite (.ics) from Calendar start/end",
       "eventEmail": "Copy-only RSVP invite email (on site / remote)",
       "eventPptx": "3 PowerPoint slides",
-      "seniorityWorksheetXlsx": "Printable seniority / bumping worksheet — blank rows + eligible Y/N/? column"
+      "seniorityWorksheetXlsx": "Seniority worksheet (Excel)"
     },
     "senioritySheet": {
       "sheetName": "Seniority",
       "title": "Seniority & bumping worksheet",
       "local": "Local",
-      "disclaimer": "Aid only — not legal advice and not a binding decision engine. Follow your CA and local procedures. Committee DecisionRecords remain authoritative.",
+      "disclaimer": "Aid only. Not legal advice. Verify against your CA and local practice.",
       "footerDecision": "Decision summary (chair notes)",
       "columns": [
         "Member ref",
@@ -1205,13 +1207,13 @@
     },
     "inviteEmail": {
       "title": "RSVP invite email",
-      "hint": "Copy this into your own email app. It asks people to reply with Attending and On site / Remote so you can track quorum and the on-site food order. Attach the calendar (.ics) if you like.",
+      "hint": "Copy into your mail app. Ask Attending plus On site or Remote. Attach the .ics if you like.",
       "subjectLabel": "Subject",
       "bodyLabel": "Message",
       "copySubject": "Copy subject",
       "copyBody": "Copy message",
       "openMail": "Open in email app",
-      "privacy": "This runs on your device. Nothing is sent and no replies are collected here — paste responses into the RSVP sheet."
+      "privacy": "Runs on your device. Paste responses into your RSVP sheet."
     },
     "presets": {
       "simpleLetter": {
@@ -1220,11 +1222,11 @@
       },
       "letterhead": {
         "title": "Letterhead",
-        "blurb": "Blank branded stationery — add a note or leave the body empty."
+        "blurb": "Letterhead with Brand Kit colours and logo."
       },
       "welcomeLetter": {
         "title": "Welcome letter",
-        "blurb": "Handout for new members — greeting, how to finish membership signup, steward contact, and local president sign-off."
+        "blurb": "Welcome letter that pulls membership URL from Brand Kit."
       },
       "quickEvent": {
         "title": "Event notice",
@@ -1232,7 +1234,7 @@
       },
       "seniorityWorksheet": {
         "title": "Seniority worksheet",
-        "blurb": "Blank Excel grid for stability committees — seniority dates, classification, eligibility, and decision notes. Aid only, not a calculator."
+        "blurb": "Seniority worksheet for bumping files. Not a calculator."
       }
     },
     "fields": {
@@ -1262,7 +1264,7 @@
   },
   "solidarityPoster": {
     "title": "Solidarity Poster Maker",
-    "subtitle": "High-energy board fillers and device wallpapers with big type and solidarity slogans — optional QR that sends members to your support or membership link",
+    "subtitle": "Bold board fillers and wallpapers with optional support or membership QR.",
     "preset": "Slogan preset",
     "leadIn": "Lead-in",
     "headline": "Headline",
@@ -1295,11 +1297,11 @@
     "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
     "setupBrandLink": "Open Brand Kit",
     "previewAccessibleName": "Poster preview: {headline} on {color} background",
-    "whenToUse": "Use for bold board fillers and phone wallpapers with an optional support QR."
+    "whenToUse": "Use for board fillers and phone wallpapers with an optional support QR."
   },
   "meetingBackground": {
     "title": "Meeting Background Maker",
-    "subtitle": "Zoom and Teams virtual backgrounds — bold face-safe layouts, quieter minimal designs, and portrait sizes for phones and tall monitors",
+    "subtitle": "Zoom and Teams backgrounds: face-safe bold layouts, quieter minimal, portrait sizes.",
     "previewAccessibleName": "Meeting background preview",
     "preset": "Slogan preset",
     "leadIn": "Lead-in",
@@ -1318,14 +1320,14 @@
     },
     "layout": "Layout",
     "layouts": {
-      "corner": "Corner — stacked type clear of your face",
-      "lower-third": "Lower third — thick accent bar",
-      "side-panel": "Side panel — split colour strip",
-      "bands": "Bands — top and bottom bars",
-      "masthead": "Masthead — slim top caption",
-      "footer": "Footer — slim bottom caption",
-      "rails": "Rails — thin side edges",
-      "upper-stack": "Upper stack — type above open field"
+      "corner": "Corner: stacked type",
+      "lower-third": "Lower third: bar under the face field",
+      "side-panel": "Side panel: colour rail",
+      "bands": "Bands: horizontal colour bands",
+      "masthead": "Masthead: top lockup",
+      "footer": "Footer: bottom lockup",
+      "rails": "Rails: side colour rails",
+      "upper-stack": "Upper stack: type in the top band"
     },
     "toggles": "Show / hide",
     "togglesHint": "Turn layers off and the layout collapses around what is left.",
@@ -1344,11 +1346,11 @@
     "preview": "Preview",
     "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
     "setupBrandLink": "Open Brand Kit",
-    "whenToUse": "Use for Zoom/Teams virtual backgrounds with your local colours and lockup."
+    "whenToUse": "Use for Zoom/Teams backgrounds with your local colours and lockup."
   },
   "qrCard": {
     "title": "QR Link Card Maker",
-    "subtitle": "Clean attention-grabbing cards for board links - title, optional description, tagline under the QR, and print sizes from full letter down to quarter-sheet",
+    "subtitle": "Pocket QR cards for website, group, or support links.",
     "previewAccessibleName": "QR link card preview",
     "preset": "Preset",
     "destination": "Link or text to encode",
@@ -1389,10 +1391,10 @@
       "joinUnionTagline": "Scan to sign up →",
       "joinFullTimeTitle": "Full-time membership",
       "joinFullTimeDesc": "Membership application / update for full-time support staff.",
-      "joinFullTimeTagline": "Scan — full-time →",
+      "joinFullTimeTagline": "Join full-time",
       "joinPartTimeTitle": "Part-time membership",
       "joinPartTimeDesc": "Membership application / update for part-time support staff.",
-      "joinPartTimeTagline": "Scan — part-time →",
+      "joinPartTimeTagline": "Join part-time",
       "esaTitle": "Know your rights",
       "esaDesc": "Employment standards in Ontario - hours, leaves, vacation, and more.",
       "esaTagline": "Scan the ESA guide",
@@ -1403,7 +1405,7 @@
       "healthSafetyDesc": "Committee contacts and how to report a hazard.",
       "healthSafetyTagline": "Scan for H&S contacts",
       "rightToRefuseTitle": "Right to refuse",
-      "rightToRefuseDesc": "Ontario OHSA s.43 — not legal advice.\n1. Report danger to supervisor promptly\n2. Stay nearby in a safe place\n3. JHSC / union H&S rep may accompany\n4. Employer investigates with you present\nStill refuse → notify Ministry inspector\nReprisals for OHSA rights are prohibited",
+      "rightToRefuseDesc": "OHSA s.43 right-to-refuse pocket card. Not legal advice. Steps: report hazard, refuse unsafe work, stay available, contact JHSC/supervisor, document, escalate if unresolved.",
       "rightToRefuseTagline": "Scan the full guide →",
       "followUsTitle": "Stay connected",
       "followUsDesc": "Updates, meetings, and solidarity - follow your local online.",
@@ -1416,7 +1418,7 @@
   },
   "actionCard": {
     "title": "Action Card Maker",
-    "subtitle": "Print QR cards that point members to your external petition or sign-on page — headline, ask, deadline, and a scannable link. Signatures stay on the tool you already use.",
+    "subtitle": "QR cards for petitions and sign-ons. Signatures stay on your external tool.",
     "previewAccessibleName": "Action card preview",
     "privacyHint": "UnionOps does not collect petition signatures. Paste a link to ActionNetwork, Google Forms, your national union’s sign-on page, or any other external tool.",
     "preset": "Preset",
@@ -1457,7 +1459,7 @@
       "signPetitionDeadline": "Sign before the deadline",
       "signPetitionCta": "Scan to sign →",
       "supportCampaignHeadline": "Stand with us",
-      "supportCampaignAsk": "Show solidarity — take one minute to support this campaign.",
+      "supportCampaignAsk": "Support this campaign",
       "supportCampaignDeadline": "Act this week",
       "supportCampaignCta": "Scan to support →",
       "attendRallyHeadline": "Join the action",
@@ -1469,7 +1471,7 @@
       "writeOfficialDeadline": "Before the vote",
       "writeOfficialCta": "Scan to write →",
       "bargainingSupportHeadline": "Support bargaining",
-      "bargainingSupportAsk": "Back your bargaining team — sign on and share with coworkers.",
+      "bargainingSupportAsk": "Support bargaining",
       "bargainingSupportDeadline": "Before bargaining resumes",
       "bargainingSupportCta": "Scan to stand with us →",
       "stopCutsHeadline": "Stop the cuts",
@@ -1480,7 +1482,7 @@
   },
   "pulsePoll": {
     "title": "Pulse Poll Creator",
-    "subtitle": "Author a short bargaining or membership pulse poll, brand it, print a QR card, and publish for in-app response collection.",
+    "subtitle": "Author a short pulse poll, brand it, print a QR card, and publish for responses.",
     "previewAccessibleName": "Pulse poll preview",
     "privacyNotice": "Publishing needs an Officer Hub sign-in. Members answer on a privacy-respecting share link (consent required). No third-party analytics.",
     "pollTitle": "Poll title",
@@ -1513,16 +1515,16 @@
     "published": "Poll published. Share the link with members.",
     "publishError": "Could not publish this poll.",
     "publishAuthRequired": "Sign in to the Officer Hub (with MFA) to publish.",
-    "publishSlugTaken": "That slug is already in use — pick another."
+    "publishSlugTaken": "That share slug is already in use. Try another."
   },
   "pollPublic": {
     "notFoundTitle": "Poll not found",
     "notFoundBody": "This share link does not match an open poll, or the poll was removed.",
-    "privacyNote": "Answers are anonymous. We never store your IP address — only a one-way hash for abuse limiting. No third-party analytics.",
+    "privacyNote": "Responses are anonymous. Do not put names or member numbers in free text.",
     "consent": "I consent to my anonymous answers being stored by this local for bargaining or membership feedback, and I understand I can ask officers about retention.",
     "submit": "Submit answers",
     "submitting": "Submitting…",
-    "success": "Thank you — your response was recorded.",
+    "success": "Thanks. Your response was recorded.",
     "closed": "This poll is closed and is no longer accepting responses.",
     "error": "Could not submit. Please try again.",
     "required": "Please answer every question and accept consent if shown.",
@@ -1530,13 +1532,13 @@
   },
   "pollPlaceholder": {
     "title": "Responses not collected here",
-    "body": "This pulse poll share link is a placeholder. UnionOps does not collect member poll responses in-product yet — that half is waiting on durable storage and a privacy review.",
+    "body": "This poll is closed or not available.",
     "privacy": "No answers are stored when you open this page. Ask your steward or officer for an external survey link if they need your input now.",
     "slugLabel": "Poll id"
   },
   "qrBoard": {
     "title": "QR Board Poster Maker",
-    "subtitle": "Multi-QR posters for union boards — dual campaigns or a full set of core links, with a title above each code and the URL underneath",
+    "subtitle": "Multi-QR posters for dual campaigns or a full set of core links.",
     "previewAccessibleName": "QR board poster preview",
     "preset": "Board preset",
     "posterTitle": "Poster title",
@@ -1576,7 +1578,7 @@
       "coreLinksTitle": "Scan for your local",
       "coreLinksSubtitle": "Support, website, socials, and health & safety",
       "fullBoardLabel": "Full board kit (6)",
-      "fullBoardTitle": "Know your rights — get connected",
+      "fullBoardTitle": "Local links",
       "fullBoardSubtitle": "Core links plus employment standards and OHSA guides"
     },
     "slotTitles": {
@@ -1611,12 +1613,12 @@
     "removeOfficer": "Remove",
     "preview": "Live preview",
     "downloadZip": "Download site ZIP",
-    "referenceNote": "This template is based on the live site at local243.org - a volunteer-built GitHub Pages site used as a reference. The exported ZIP uses your Brand Kit logo in the navigation bar. OPSEU resource links appear in the footer only when your Brand Kit design theme is OPSEU.",
+    "referenceNote": "Based on the volunteer local243.org GitHub Pages site. Export uses your Brand Kit logo in the nav. OPSEU footer links appear only when the Brand Kit theme is OPSEU.",
     "whenToUse": "Use when your local needs a simple lasting website members can bookmark."
   },
   "sources": {
     "title": "Sources & references",
-    "intro": "External resources cited in this guide. National union and government sites often reorganize URLs — when a link fails, use mirrored assets on UnionOps (e.g. /assets) and ask your servicing rep for the current national page. Always defer to your local executive for official direction.",
+    "intro": "External resources cited in this guide. National and government URLs often move; if a link 404s, search from that organization’s home page.",
     "categories": {
       "branding": "Branding",
       "website": "Website",
@@ -1628,10 +1630,10 @@
   "resources": {
     "title": "Comms Resources",
     "subtitle": "Orientation, practice, and sources for union locals building solidarity communications",
-    "intro": "Use this page to understand what UnionOps Comms is for, practice the core tools, and find the guides behind every channel. Run it self-paced with your local, as a lunch-and-learn, or as a hands-on workshop for officers and volunteer communicators.",
+    "intro": "Orientation, practice checklist, and sources for local Comms. Use it self-paced, in a lunch-and-learn, or in a workshop.",
     "purpose": {
       "title": "What UnionOps Comms is for",
-      "body": "Central union communications are often under-resourced. Locals still need clear member communications now — on social, in print, on workplace boards, and on a simple website. One message, four places, with brand first.",
+      "body": "Locals need clear Comms now: social, print, boards, and a simple website.",
       "pillars": [
         "Four channels: social, print, union boards, and website",
         "Brand Kit first so every graphic and notice looks like your local",
@@ -1660,7 +1662,7 @@
         "boards": "Bare-minimum workplace boards and what to print.",
         "print": "Flyers and print habits for meetings and actions.",
         "website": "What to put on a local site, build the ZIP, and publish on GitHub Pages.",
-        "email": "When to use Comms copy/mailto vs Hub SMTP — officer outreach only, never member marketing lists.",
+        "email": "Copy-only invites and officer reminders. No marketing lists.",
         "crisis": "High-stakes bargaining and strike communications.",
         "photoConsent": "Member photo checklist for stewards and workshops.",
         "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path."
@@ -1696,7 +1698,7 @@
     },
     "presentation": {
       "title": "From Scratch to Solidarity: Launching Your Local's Social Media",
-      "body": "A beginner-friendly presentation for busy volunteer executives - high-level social strategy paired with live UnionOps demos (logo, notice board, media tools). Best for remote lunch-and-learns where full hands-on facilitation is hard; encourage attendees to tinker afterward.",
+      "body": "Beginner slides for volunteer executives with live tool demos.",
       "outline": [
         "Strategy essentials (about 10-12 min) + short Q&A: platforms, secure accounts, sustainable posting rhythm",
         "Identity - Logo Builder live demo (about 8 min) + Q&A",
@@ -1709,7 +1711,7 @@
     },
     "facilitators": {
       "title": "Running a workshop",
-      "body": "A reusable 60-minute session for officers and volunteer communicators. Attendees leave with a logo, board notice, social graphic, and website ZIP - and understand the four-channel roadmap.",
+      "body": "Sixty-minute workshop: logo, notice, graphic, and ZIP export.",
       "outline": [
         "Pitch (about 8 min): problem, toolbox, four channels",
         "Live walkthrough (about 10 min): First week roadmap steps",
@@ -1730,7 +1732,7 @@
     },
     "allSources": {
       "title": "Full source bibliography",
-      "intro": "External references used across guides, tools, and exported materials — filtered to your Brand Kit union when set.",
+      "intro": "National and government links cited across Comms guides.",
       "scopedNote": "National OPSEU citations are hidden because your Brand Kit is set to another union. Change the union preset in",
       "brandKitLink": "Brand Kit"
     }
@@ -1786,32 +1788,32 @@
   },
   "membershipSignupGuide": {
     "title": "Grow membership with scan-to-sign materials",
-    "subtitle": "Posters, wallet cards, and a welcome letter for hard-to-reach members — especially part-time staff.",
-    "intro": "Coverage under a collective agreement is not the same as being a signed member. Use Brand Kit membership links, print QR materials for boards and walkabouts, then hand out a welcome letter when someone signs.",
+    "subtitle": "From Brand Kit links to board QR and a welcome letter",
+    "intro": "Coverage under a CA is not the same as a signed member. Set membership URLs in Brand Kit, put QR on boards, then send a welcome letter.",
     "relatedLabel": "Tools & related guides",
     "whyTitle": "Why this matters",
-    "whyBody": "Part-time and dispersed workplaces are hard to contact in person. A poster or card with a clear QR link lets people finish membership on their phone — and every signed card strengthens the local.",
+    "whyBody": "Part-time and dispersed workplaces miss hallway signup. A phone QR that opens the right form strengthens the local.",
     "steps": {
       "brandKit": {
         "title": "Save membership URLs in Brand Kit",
-        "body": "Open Brand Kit and add full-time and part-time application links (or one shared link). Mark a primary URL for single-QR tools. Seed defaults are editable — paste the exact forms your local already uses on printed sheets.",
+        "body": "Paste FT and PT membership form URLs in Brand Kit. Use the same links on QR cards and the welcome letter.",
         "cta": "Open Brand Kit"
       },
       "printMaterials": {
         "title": "Print posters and cards",
-        "body": "Use the Membership FT + PT QR Board preset for a two-up sheet, QR Link Card join presets for handouts, and Solidarity Poster join slogans when you want a louder board filler with a signup QR.",
-        "qrBoard": "QR Board — FT + PT",
+        "body": "Print a QR Board poster, pocket QR cards, and a Solidarity Poster with a clear signup ask.",
+        "qrBoard": "Open QR Board Poster",
         "qrCard": "QR Link Cards",
         "poster": "Solidarity Posters"
       },
       "welcome": {
         "title": "Hand out a welcome letter",
-        "body": "Document Generator includes a Welcome letter preset. It pulls your Brand Kit membership URL and collection label so you can print or email a short onboarding note after someone signs.",
+        "body": "Document Generator welcome letter pulls your membership URL and collection from Brand Kit.",
         "cta": "Open Document Generator"
       }
     },
     "tipTitle": "Board tip",
-    "tipBody": "Pair membership QR materials with your Union Boards bare-minimum layout so the signup path sits next to steward contacts — not buried under parent-union posters."
+    "tipBody": "Test every QR on a phone before you print a stack."
   },
   "brandKit": {
     "title": "Your local Brand Kit",
@@ -1819,7 +1821,7 @@
     "purposeSets": "What you set here",
     "purposeSetsBody": "Union preset, local number and sub-text, brand colours, logo, canvas style, optional website or social links, and membership application URLs.",
     "purposeUnlocks": "What it unlocks",
-    "purposeUnlocksBody": "Board notices, flyers, social graphics, QR materials, and the local website template — all stamped with your identity.",
+    "purposeUnlocksBody": "Brand Kit drives colours, logo, and key links across every Comms tool.",
     "startSetup": "Start setup",
     "continueRoadmap": "Continue the first-week roadmap",
     "assetsLink": "Browse Brand Assets",
@@ -1827,7 +1829,7 @@
     "import": "Import brand kit",
     "importSuccess": "Brand kit imported successfully",
     "importError": "Invalid brand kit file",
-    "storageBlocked": "Your browser blocked saving — changes will be lost when you close this tab.",
+    "storageBlocked": "Browser storage is blocked. Brand Kit cannot save until storage is allowed.",
     "storageBlockedDismiss": "Dismiss",
     "currentSettings": "Current settings",
     "localNumber": "Local number",
@@ -1837,7 +1839,7 @@
     "resetDefaults": "Reset to defaults",
     "canvas": {
       "title": "Canvas style",
-      "description": "Shared chrome for export tools — QR plate, type scale, alignment, and surface. Each tool still keeps its own layouts.",
+      "description": "Optional canvas chrome: QR plate, type scale, alignment, and surface style.",
       "style": "Style package",
       "styles": {
         "legacy": "Classic",
@@ -1846,7 +1848,7 @@
         "workshop": "Workshop"
       },
       "styleHints": {
-        "legacy": "Matches today’s default exports — centered type, flat fill, rounded white QR plate.",
+        "legacy": "Older exports without canvas tokens use a simple solid field.",
         "solid": "App-clean: soft gradient, roomy padding, left-weighted type, card QR plate.",
         "field": "Grassroots energy: grain overlay, bold display type, inset QR plate.",
         "workshop": "Modular: accent band, compact type, flush framed QR."
@@ -1888,11 +1890,11 @@
     },
     "unionPreset": {
       "title": "Union preset",
-      "description": "Start from a common Canadian union colour palette and tagline. OPSEU uses the official lockup; other unions default to the UnionOps mark in your brand colour — upload your local’s logo when you have one.",
+      "description": "Canadian preset for workshops. Upload your local logo; national marks are optional references only.",
       "label": "Union preset",
       "placeholder": "Choose a union…",
       "slogans": "Suggested slogans",
-      "logoNote": "Default logo is the UnionOps mark tinted to this preset’s primary colour. Bundled union wordmarks appear in Logo settings only when assets are attached (OPSEU’s reference pack today)."
+      "logoNote": "UnionOps mark is the default until you attach a local wordmark."
     },
     "colors": {
       "primary": "Primary brand colour",
@@ -1901,7 +1903,7 @@
     "contrastAdvisory": {
       "inline": "This colour combination may be hard to read on boards and graphics.",
       "confirmTitle": "Low contrast colours",
-      "confirmBody": "This colour combination may be hard to read — save anyway?",
+      "confirmBody": "These colours may be hard to read together. Continue anyway?",
       "confirmSave": "Save anyway",
       "confirmCancel": "Keep editing",
       "resetDefaults": "Reset to tenant defaults"
@@ -1936,16 +1938,16 @@
   },
   "assets": {
     "title": "Brand Assets",
-    "description": "Your Brand Kit colours and logo for local solidarity communications — customise everything in Brand Kit so it fits your union.",
+    "description": "Reference brand packs and starter files for workshops. Upload your own logo in Brand Kit for production use.",
     "loading": "Loading your brand…",
     "yourColours": "Your colours",
     "yourLogo": "Your logo",
     "editBrandKit": "Edit in Brand Kit",
     "copyHex": "Copy",
     "copied": "Copied",
-    "downloadUnavailable": "No downloadable logo file yet — upload one in",
+    "downloadUnavailable": "Download unavailable right now. Try again later.",
     "referencePackTitle": "Reference pack (OPSEU/SEFPO)",
-    "referenceNote": "Bundled downloads below are the OPSEU/SEFPO reference tenant pack (not an endorsement). We do not ship other national marks without permission — set colours and upload your official logo in Brand Kit.",
+    "referenceNote": "Bundled files are the OPSEU/SEFPO reference pack (not an endorsement). We do not ship other national locks without a clear license.",
     "primaryLogo": "Primary logo",
     "downloadPng": "Download PNG",
     "logoAlt": "Your brand logo",
@@ -1970,7 +1972,7 @@
   },
   "graphicMaker": {
     "title": "Graphic Maker",
-    "subtitle": "Make Facebook and Instagram posts for meetings, wins, spotlights, and thank-yous — same layouts as Social Examples.",
+    "subtitle": "Member spotlights and social graphics with your Brand Kit.",
     "previewAccessibleName": "Graphic maker preview",
     "layout": "Layout",
     "layouts": {
@@ -2004,7 +2006,7 @@
     "gradientTo": "Gradient end",
     "inviteEmail": {
       "title": "RSVP invite email",
-      "hint": "For meeting notices — copy into your mail app. Asks Attending + On site / Remote for quorum and food heads.",
+      "hint": "For meeting notices: copy into your mail app.",
       "subjectLabel": "Subject",
       "bodyLabel": "Message",
       "copySubject": "Copy subject",
@@ -2018,7 +2020,7 @@
   },
   "quoteCard": {
     "title": "Quote Card Generator",
-    "subtitle": "Short leadership quotes with local branding - ready for Instagram.",
+    "subtitle": "Quote cards for social feeds and boards.",
     "previewAccessibleName": "Quote card preview",
     "quote": "Quote",
     "author": "Attribution",
@@ -2032,7 +2034,7 @@
   },
   "flyerMaker": {
     "title": "Picket / Rally Flyer Maker",
-    "subtitle": "High-contrast templates for social media and printing.",
+    "subtitle": "High-contrast flyers for meetings, rallies, and actions.",
     "previewAccessibleName": "Flyer maker preview",
     "message": "Main message",
     "date": "Date",
@@ -2047,7 +2049,7 @@
   },
   "altTextAssistant": {
     "title": "Alt-Text Assistant",
-    "subtitle": "Draft image descriptions for social posts, then paste them into each platform’s alt-text field. This tool does not analyze images - you write the description.",
+    "subtitle": "Draft alt text for social posts, then paste into each platform. The tool does not analyze images.",
     "starterLabel": "Start from a common graphic type",
     "altLabel": "Alt text (for the image accessibility field)",
     "altPlaceholder": "Describe who or what is shown, the setting, and any text on the graphic…",
@@ -2071,7 +2073,7 @@
       "visual": "Describes what is visually in the image (people, signs, setting)",
       "onImageText": "Includes important text that appears in the graphic",
       "localIdentity": "Mentions the local number or union name if shown",
-      "concise": "Stays concise - usually 1–2 sentences is enough",
+      "concise": "Keep it to 1-2 short sentences",
       "noImageOf": "Does not start with “Image of” or “Photo of”"
     },
     "examplesTitle": "Bad vs good",
@@ -2135,7 +2137,7 @@
     "title": "Strike & Crisis Comms Guide",
     "subtitle": "High-level guidance for local unions during strikes, bargaining, and workplace crises",
     "backToGuide": "Back to The Blueprint",
-    "intro": "Central unions often provide sector-level bargaining support, but locals run their own member communications - especially on social media. This guide helps volunteer comms leads stay coordinated, lawful, and member-centred when stakes are high. Always defer to your local executive, union servicing rep, and any active strike or bargaining protocols.",
+    "intro": "Locals often run day-to-day member Comms while central unions handle sector bargaining support. This guide is for calm, clear local messaging under pressure.",
     "scenarios": {
       "strike": {
         "title": "Strike action",
@@ -2210,10 +2212,10 @@
     "title": "Duty of Fair Representation",
     "subtitle": "Foundational literacy for stewards and local officers",
     "backToGuide": "Back to The Blueprint",
-    "intro": "The duty of fair representation (DFR) is the legal obligation that a union owes each member it represents. Missed grievance deadlines, ignored complaints, and unexplained refusals to advance a case are classic DFR exposure points — not just “bad process.” This guide orients officers; it does not replace your collective agreement, national union advice, or counsel.",
+    "intro": "Duty of fair representation is the union’s duty to represent each member fairly. Missed deadlines and silent refusals are common risk points. This guide is orientation, not legal advice.",
     "disclaimer": {
       "title": "Not legal advice",
-      "body": "This is educational orientation only — not legal advice. Confirm every deadline, filing step, and representation decision with your collective agreement, local executive, and national union legal department or servicing representative."
+      "body": "Not legal advice. Confirm procedure with your local officers and counsel."
     },
     "related": {
       "seniority": "Seniority & bumping playbook",
@@ -2222,7 +2224,7 @@
     "sections": {
       "whatItMeans": {
         "title": "What DFR means in practice",
-        "content": "In Ontario labour relations, DFR means the union must represent members in a way that is not arbitrary, discriminatory, or in bad faith. Members do not have an absolute right to every grievance going to arbitration — but they do have a right to a serious, honest process.",
+        "content": "DFR means the union must handle representation without bad faith, discrimination, or arbitrary refusal.",
         "items": [
           "Investigate complaints promptly and document what you did",
           "Communicate status updates to the member in plain language",
@@ -2232,7 +2234,7 @@
       },
       "legalTest": {
         "title": "The “arbitrary / discriminatory / bad faith” test",
-        "content": "Labour boards assess whether the union’s conduct fell below the DFR standard — not whether the member would have won at arbitration. Arbitrary means no real consideration; discriminatory means unequal treatment without a legitimate basis; bad faith includes hostility, deceit, or improper motives.",
+        "content": "Courts look for honesty of purpose, non-discrimination, and a non-arbitrary process. Perfect outcomes are not required.",
         "items": [
           "Arbitrary — rubber-stamping a refusal, never reading the file, missing a known deadline",
           "Discriminatory — treating members differently because of protected grounds or personal dislike",
@@ -2265,17 +2267,17 @@
     },
     "hub": {
       "title": "Where this connects in UnionOps",
-      "body": "Use Grievances in the Officer Hub to track steps, notes, and meetings. Pair this guide with the seniority playbook when displacement or bumping files raise representation questions. Informal pre-filing logs (when enabled for your tenant) help prove you took early concerns seriously."
+      "body": "Officer Hub grievance tools help with dates and handoffs. They do not replace legal judgment."
     }
   },
   "seniorityGuide": {
     "title": "Seniority & bumping playbook",
-    "subtitle": "A manual walkthrough aid for stability committees — not a calculator",
+    "subtitle": "Seniority worksheets for bumping files. Aid only.",
     "backToGuide": "Back to The Blueprint",
-    "intro": "College bumping and displacement files turn on seniority dates, classification boundaries, and posting rules in your collective agreement. This playbook helps committees work a scenario on paper and double-check any in-tool seniority aid. It does not decide outcomes.",
+    "intro": "Bumping files turn on seniority dates, classification boundaries, and posting rules. Use the worksheet to organize facts. Verify against your CA.",
     "disclaimer": {
-      "title": "Not legal advice — aid, not the calculator",
-      "body": "This guide and any Hub seniority helpers are advisory process aids only — not legal advice and not a binding decision engine. Follow your collective agreement, local bumping procedures, and national union guidance. Committee DecisionRecords remain authoritative."
+      "title": "Not legal advice. Aid only.",
+      "body": "Not a calculator and not legal advice. Confirm dates and rights against the CA and local practice."
     },
     "related": {
       "dfr": "Duty of Fair Representation",
@@ -2331,12 +2333,12 @@
   },
   "rightToRefuseGuide": {
     "title": "Right to refuse unsafe work",
-    "subtitle": "Ontario Occupational Health and Safety Act (OHSA) section 43 — jurisdiction-specific",
+    "subtitle": "OHSA s.43 refusal steps for stewards and JHSC members. Not legal advice.",
     "backToGuide": "Back to The Blueprint",
-    "intro": "This guide summarizes the Ontario OHSA s.43 refusal procedure for college-sector stewards and JHSC members. Other provinces and territories use different statutes and steps — do not assume this sequence applies outside Ontario.",
+    "intro": "Summary of the Ontario OHSA s.43 refusal procedure for college-sector stewards and JHSC members. Confirm against current legislation.",
     "disclaimer": {
-      "title": "Not legal advice — Ontario-specific",
-      "body": "This is educational orientation for Ontario workplaces covered by the OHSA — not legal advice. Confirm steps with your JHSC, employer health-and-safety policy, collective agreement, and Ministry of Labour, Immigration, Training and Skills Development guidance. Tenants outside Ontario must follow their own jurisdiction’s rules."
+      "title": "Not legal advice",
+      "body": "Procedure overview only. Confirm with JHSC practice, local officers, and current OHSA text."
     },
     "related": {
       "dfr": "Duty of Fair Representation",
@@ -2406,7 +2408,7 @@
     "noSubsTitle": "No subscriptions:",
     "noSubsBody": "This tool is free. No premium tiers, no paywalls, no hidden fees.",
     "noDataTitle": "No data harvesting:",
-    "noDataBody": "We don't harvest your data or sell ads. Comms tools are local-first: graphics and brand kit stay in your browser. If you (or your local) host an Officer Hub, that instance holds hub records — and the operator of that host is the data controller. Prefer Canadian hosting for confidential work. No venture landlords, no surveillance business model.",
+    "noDataBody": "Comms graphics and Brand Kit stay on your device. If you host an Officer Hub, that host holds hub records, and the operator is the data controller for that instance.",
     "noDataBodyCommsOnly": "We don't harvest your data or sell ads. Comms tools are local-first: graphics and brand kit stay in your browser. No venture landlords, no surveillance business model.",
     "noAdsTitle": "No ads, no tracking:",
     "noAdsBody": "We aren't selling your attention.",
@@ -2418,7 +2420,7 @@
   },
   "supportPage": {
     "title": "Support the builder",
-    "p1Lead": "UnionOps stays free — no subscriptions, no paywalls, no ads. That’s the promise on the",
+    "p1Lead": "Questions about tools, workshops, or hosting?",
     "p1ManifestoLink": "manifesto page",
     "p1End": ".",
     "p2": "Hosting, domains, and spare evenings still cost something. If this hub saved you time and you’d like to tip the steward who built it, you can buy Ryan a coffee. Totally optional. Never required.",
@@ -2426,7 +2428,7 @@
     "cta": "Buy me a coffee",
     "ctaHint": "Opens buymeacoffee.com in a new tab.",
     "contactTitle": "Issues & contact",
-    "contactBody": "Bugs, fixes, enhancements, or other concerns — open a GitHub issue. That is the best way to reach the steward.",
+    "contactBody": "Email the steward for install help, workshop facilitation, or host questions.",
     "contactCta": "Open GitHub issues",
     "contactHint": "Opens github.com in a new tab.",
     "backHome": "Back to UnionOps"
@@ -2434,7 +2436,7 @@
   "footer": {
     "madeBy": "UnionOps. Built in solidarity for union locals by union volunteers.",
     "privacy": "Comms on-device; you control your hub",
-    "privacyCommsOnly": "Comms on-device — graphics stay in your browser",
+    "privacyCommsOnly": "Comms stay on your device. No ads or tracking.",
     "installApp": "Install as an app"
   },
   "accessibility": {
@@ -4145,19 +4147,19 @@
   },
   "installPage": {
     "title": "Install UnionOps on your desktop",
-    "intro": "On supported browsers you can install UnionOps as a local app window — no app store, no extra download. Your Brand Kit and Comms drafts stay on this device; Officer Hub case work still needs a network when you are live.",
+    "intro": "On supported browsers you can install UnionOps as an app window. No app store and no extra download beyond the browser.",
     "whereTitle": "Where install works",
-    "whereBody": "Use the apex site unionops.org (not www, and not localhost). Chromium browsers (Chrome, Edge, Brave, and similar) on desktop and Android can show an Install app control after the offline shell registers. Safari on macOS and iOS never auto-prompts — you add UnionOps yourself from Share / File menus.",
+    "whereBody": "Works best on desktop Chrome/Edge and iOS Safari. Android Chrome is supported when the browser offers “Install app”. Offline limits still apply.",
     "chromeTitle": "Chrome, Edge, and friends (PC)",
     "chromeStep1": "Open https://unionops.org in Chrome, Edge, or Brave.",
     "chromeStep2": "After a short visit, look for Install in the address bar (omnibox), or open the browser menu and choose Install app / Install UnionOps.",
     "chromeStep3": "Confirm. UnionOps opens in its own window with the offline shell available for the public pages you last loaded. If Install is missing, check you are not already running as an installed app.",
     "androidTitle": "Chrome on Android",
-    "androidBody": "When the site is installable, the menu shows Install app / Install UnionOps and creates a standalone app icon. “Add to Home screen” alone is only a browser shortcut — use Install when it appears. Install needs unionops.org with the service worker active; wait a moment and tap the page if the control is delayed.",
+    "androidBody": "Open the site in Chrome, tap the menu, then Install app or Add to Home screen. You get a standalone window without the browser chrome.",
     "safariTitle": "Safari (Mac and iPhone)",
-    "safariBody": "Safari does not show an Install app prompt. On iPhone/iPad: Share → Add to Home Screen. On Mac: File → Add to Dock. There is no automatic banner — adding to the home screen is always a manual step.",
+    "safariBody": "On iPhone or iPad: Share, then Add to Home Screen. Use Safari for a reliable install prompt.",
     "limitsTitle": "What install does not change",
-    "limitsOffline": "The service worker keeps a thin offline shell for public Comms pages — not a full offline Officer Hub.",
+    "limitsOffline": "Installed app windows still need network for first load and some Hub features.",
     "limitsNetwork": "Grievance, bumping, and other hub modules still need a signed-in session and network when you work live.",
     "limitsBrand": "Window chrome and install icons follow your Brand Kit primary on this device. After you change colours, reopen the installed app (or reinstall once) if the OS still shows the old icon or title-bar colour.",
     "limitsNoStore": "There is no App Store or Microsoft Store listing; install is the browser’s own progressive web app flow.",
@@ -4170,9 +4172,9 @@
   },
   "toolsIndex": {
     "title": "Tools",
-    "subtitle": "Makers for brand, union boards, print, social, and web — all run on your device.",
+    "subtitle": "Brand Kit first, then boards, print, social, and website tools.",
     "channelGuidesTitle": "Channel guides",
-    "channelGuidesIntro": "Step-by-step guides for print, workplace boards, websites, and email outreach — same four-channel roadmap as First week, plus optional fifth-channel email copy.",
+    "channelGuidesIntro": "Guides by channel when you need more depth.",
     "hint": "Set colours and logo first in",
     "blurbs": {
       "logoBuilder": "Build a circular, square, or rectangle local logo plate.",
@@ -4359,7 +4361,7 @@
   },
   "workshopDemo": {
     "title": "Demo this in about 20 minutes",
-    "intro": "A short path for live workshops — brand first, then a board notice, a social graphic, and a caption.",
+    "intro": "A short live-demo path: Brand Kit, board notice, social graphic, then a caption.",
     "stepBrand": "Brand Kit",
     "stepBoard": "Board Notice",
     "stepGraphic": "Graphic Maker",
@@ -4386,5 +4388,35 @@
     "resourcesCta": "Comms Resources",
     "roadmapCta": "First week roadmap",
     "toolsCta": "Browse tools"
+  },
+  "privacyPage": {
+    "title": "Privacy Policy",
+    "subtitle": "Last updated: July 2026",
+    "leadTitleHub": "Two surfaces, two rules",
+    "leadTitleCommsOnly": "On-device Comms",
+    "leadBodyHub": "UnionOps separates public Comms tools from the Officer Hub. Comms graphics and brand settings stay on your device. The Officer Hub runs on whatever host operates that instance, and that operator is responsible for the data it holds.",
+    "leadBodyCommsOnly": "UnionOps public tools are local-first Comms: graphics and brand settings stay on your device. An Officer Hub for casework is not part of the public launch surface yet.",
+    "commsTitle": "Comms tools (on your device)",
+    "comms1": "Image processing, templates, and file preparation happen in your browser",
+    "comms2": "Brand kit settings are stored in browser local storage",
+    "comms3": "No analytics, tracking cookies, or third-party ad scripts",
+    "comms4": "Member photos used in graphics are not uploaded to UnionOps servers by the Comms tools",
+    "hubTitle": "Officer Hub (hosted instance)",
+    "hubIntro": "Signing in to an Officer Hub means that instance processes account sessions and any grievance, bumping, or related records it stores. Evaluation builds may use in-memory stores for demos. A production host should configure secure secrets and, when available, a database with tenant isolation.",
+    "hubSelfHost": "If you self-host or operate CapRover / Docker: you are the data controller for that instance. Prefer Canadian hosting for confidential modules. Set a unique AUTH_SECRET. Do not use demo passwords for real member casework.",
+    "hubHybrid": "Encrypted hybrid export: backup passphrases are entered in the browser and are not sent to the server as part of the hybrid encrypt flow.",
+    "hubDemo": "Demo accounts exist for workshops and CI only, not for live confidential files.",
+    "ontarioTitle": "Ontario privacy legislation",
+    "ontarioHub": "UnionOps follows Canada privacy principles, including PIPEDA and, where applicable, FIPPA. Comms stay on-device. Hosted Officer Hub operators must apply access control, retention, and breach practices for confidential labour records.",
+    "ontarioCommsOnly": "UnionOps follows Canada privacy principles, including PIPEDA and, where applicable, FIPPA. Comms tools minimize collection by keeping work on-device.",
+    "contactTitle": "Contact",
+    "contactBody": "UnionOps is stewarded by Ryan Morris. For questions about this policy, contact your local communications chair or see Support.",
+    "supportLink": "Support",
+    "responsibilitiesTitle": "Your responsibilities",
+    "responsibilitiesBody": "You remain responsible for member photo consent and for posts and case handling that match your local policies and CA. This is not legal advice.",
+    "photoConsentLink": "photo consent checklist",
+    "installTitle": "Desktop / install as an app",
+    "installBody": "Supported browsers can install UnionOps as a local app window. The offline shell stays on-device; Hub case data still needs a network when live.",
+    "installLink": "install guide"
   }
 }

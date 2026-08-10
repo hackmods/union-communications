@@ -62,7 +62,7 @@ function FlyerMakerPageContent() {
   const initial: FlyerState = {
     message: "PICKET LINE - ALL MEMBERS WELCOME",
     date: "Monday, March 15",
-    time: "7:00 AM – 4:00 PM",
+    time: "7:00 AM - 4:00 PM",
     location: "123 Main Street, Toronto",
     primaryColor: brandColors.primary,
     accentColor: brandColors.accent,
@@ -149,11 +149,7 @@ function FlyerMakerPageContent() {
       purposeHint={tf("whenToUse")}
       previewAccessibleName={tf("previewAccessibleName")}
       toolbar={!themeEstablished ? (
-        <BrandSetupPrompt
-          themeEstablished={themeEstablished}
-          prompt={tf("setupBrandPrompt")}
-          linkLabel={tf("setupBrandLink")}
-        />
+        <BrandSetupPrompt themeEstablished={themeEstablished} />
       ) : undefined}
       exportError={exportError}
       exportSuccess={exportSuccess}

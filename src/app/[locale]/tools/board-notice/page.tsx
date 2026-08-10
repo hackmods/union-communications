@@ -141,11 +141,7 @@ export default function BoardNoticePage() {
         description={t("subtitle")}
         purposeHint={t("whenToUse")}
         toolbar={!themeEstablished ? (
-        <BrandSetupPrompt
-          themeEstablished={themeEstablished}
-          prompt={t("setupBrandPrompt")}
-          linkLabel={t("setupBrandLink")}
-        />
+        <BrandSetupPrompt themeEstablished={themeEstablished} />
       ) : undefined}
       exportError={exportError}
         exportSuccess={exportSuccess}

@@ -89,7 +89,7 @@ export default async function RightToRefuseGuidePage({
             >
               {t("boards.exportCta")}
             </Link>
-            {" — "}
+            {" · "}
             {t("boards.exportHint")}
           </p>
         </Callout>

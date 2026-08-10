@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -12,7 +11,7 @@ import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { brandSetupHref } from "@/lib/utils/brand-setup";
+import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -232,12 +231,7 @@ export default function PulsePollPage() {
       </p>
 
       {!themeEstablished && (
-        <p className="text-sm leading-snug text-gray-600">
-          {t("setupBrandPrompt")}{" "}
-          <Link href={brandSetupHref(themeEstablished)} className="text-opseu-blue underline">
-            {t("setupBrandLink")}
-          </Link>
-        </p>
+        <BrandSetupPrompt themeEstablished={themeEstablished} />
       )}
 
       <Input

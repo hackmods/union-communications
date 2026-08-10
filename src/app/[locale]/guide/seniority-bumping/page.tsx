@@ -82,7 +82,7 @@ export default async function SeniorityBumpingGuidePage({
                 >
                   {t("sections.worksheet.exportCta")}
                 </Link>
-                {" — "}
+                {" · "}
                 {t("sections.worksheet.exportHint")}
               </p>
             ) : null}

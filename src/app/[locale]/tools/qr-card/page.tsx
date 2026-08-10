@@ -3,7 +3,6 @@
 import { Suspense, useEffect, useRef, useState, type CSSProperties } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -13,7 +12,7 @@ import { nodeToPdf } from "@/lib/export/pdf-export";
 import { qrDataUrl } from "@/lib/export/qr";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { brandSetupHref } from "@/lib/utils/brand-setup";
+import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import {
   listSavedLinks,
   resolvePresetDestination,
@@ -311,12 +310,7 @@ function QrCardPageContent() {
       footer={<ToolRelatedFooter toolSlug="qr-card" />}
       toolbar={
         !themeEstablished && hydrated ? (
-          <p className="rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-            {t("setupBrandPrompt")}{" "}
-            <Link href={brandSetupHref(themeEstablished)} className="font-medium text-opseu-blue underline">
-              {t("setupBrandLink")}
-            </Link>
-          </p>
+          <BrandSetupPrompt themeEstablished={themeEstablished} />
         ) : null
       }
       form={

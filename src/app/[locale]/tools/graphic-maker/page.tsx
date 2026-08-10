@@ -245,11 +245,7 @@ function GraphicMakerPageContent() {
         toolbar={
           <div className="space-y-3">
             {!themeEstablished ? (
-              <BrandSetupPrompt
-                themeEstablished={themeEstablished}
-                prompt={tg("setupBrandPrompt")}
-                linkLabel={tg("setupBrandLink")}
-              />
+              <BrandSetupPrompt themeEstablished={themeEstablished} />
             ) : null}
             <div className="flex flex-wrap gap-2">
               {(Object.keys(TOOL_PRESETS) as ToolPresetKey[]).map((key) => (

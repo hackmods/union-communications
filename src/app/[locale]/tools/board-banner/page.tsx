@@ -2,7 +2,6 @@
 
 import { useRef, useState, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -15,7 +14,7 @@ import {
 import { nodesToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { brandSetupHref } from "@/lib/utils/brand-setup";
+import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import {
   BOARD_SHEET_FORMATS,
@@ -643,12 +642,7 @@ export default function BoardBannerPage() {
             </ToolFormDetails>
 
             {!themeEstablished ? (
-              <p className="text-sm leading-snug text-gray-600">
-                {t("setupBrandPrompt")}{" "}
-                <Link href={brandSetupHref(themeEstablished)} className="text-opseu-blue underline">
-                  {t("setupBrandLink")}
-                </Link>
-              </p>
+              <BrandSetupPrompt themeEstablished={themeEstablished} />
             ) : null}
 
             <ToolFormDetails title={t("sectionColours")}>

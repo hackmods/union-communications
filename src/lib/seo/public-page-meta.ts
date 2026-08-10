@@ -25,7 +25,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/onboarding": {
       title: "Set up your local brand",
       description:
-        "Step-by-step Brand Kit setup for your local — colours, logo, and links that drive every Comms tool.",
+        "Step-by-step Brand Kit setup for your local. colours, logo, and links that drive every Comms tool.",
     },
     "/brand-kit": {
       title: "Your local Brand Kit",
@@ -45,22 +45,22 @@ export const PUBLIC_PAGE_SEO: Record<
     "/assets": {
       title: "Brand Assets",
       description:
-        "Your Brand Kit colours and logo for local solidarity communications — customize everything in Brand Kit.",
+        "Your Brand Kit colours and logo for local solidarity communications. customize everything in Brand Kit.",
     },
     "/tools": {
       title: "Tools",
       description:
-        "Makers for brand, union boards, print, social, and web — all run on your device.",
+        "Makers for brand, union boards, print, social, and web. all run on your device.",
     },
     "/guide": {
       title: "The Blueprint",
       description:
-        "A handbook for ongoing local communications practice — platforms, tone, rhythm, and accessibility.",
+        "A handbook for ongoing local communications practice. platforms, tone, rhythm, and accessibility.",
     },
     "/guide/social-media-plan": {
       title: "First week",
       description:
-        "After Brand Kit: boards, print, socials, and a simple website — one message, four channels.",
+        "After Brand Kit: boards, print, socials, and a simple website. one message, four channels.",
     },
     "/guide/workshop": {
       title: "Workshop outline",
@@ -70,7 +70,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/union-boards": {
       title: "Union Boards Guide",
       description:
-        "Workplace bulletin boards reach members who are not on social media — layout, notices, and solidarity posters.",
+        "Workplace bulletin boards reach members who are not on social media. layout, notices, and solidarity posters.",
     },
     "/guide/print": {
       title: "Print Communications Guide",
@@ -80,12 +80,12 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/website": {
       title: "Local Website Guide",
       description:
-        "Give members one stable link for who you are and how to find you — then publish it free on GitHub Pages.",
+        "Give members one stable link for who you are and how to find you. then publish it free on GitHub Pages.",
     },
     "/guide/email-broadcast": {
       title: "Email & Member Outreach Guide",
       description:
-        "Copy-only invites and officer reminders — no marketing lists in UnionOps.",
+        "Copy-only invites and officer reminders. no marketing lists in UnionOps.",
     },
     "/guide/resources": {
       title: "Comms Resources",
@@ -105,7 +105,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/membership-signup": {
       title: "Grow membership with scan-to-sign materials",
       description:
-        "Posters, wallet cards, and a welcome letter for hard-to-reach members — especially part-time staff.",
+        "Posters, wallet cards, and a welcome letter for hard-to-reach members. especially part-time staff.",
     },
     "/guide/dfr": {
       title: "Duty of Fair Representation",
@@ -115,12 +115,12 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/seniority-bumping": {
       title: "Seniority & bumping playbook",
       description:
-        "A manual walkthrough aid for stability committees — not a calculator.",
+        "A manual walkthrough aid for stability committees. not a calculator.",
     },
     "/guide/right-to-refuse": {
       title: "Right to refuse unsafe work",
       description:
-        "Ontario OHSA section 43 right to refuse — jurisdiction-specific literacy for stewards.",
+        "Ontario OHSA section 43 right to refuse. jurisdiction-specific literacy for stewards.",
     },
   },
   fr: {
@@ -137,7 +137,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/onboarding": {
       title: "Configurer la marque de votre section",
       description:
-        "Configuration pas à pas de la trousse de marque — couleurs, logo et liens qui alimentent chaque outil Comms.",
+        "Configuration pas à pas de la trousse de marque. couleurs, logo et liens qui alimentent chaque outil Comms.",
     },
     "/brand-kit": {
       title: "Trousse de marque de votre section",
@@ -157,22 +157,22 @@ export const PUBLIC_PAGE_SEO: Record<
     "/assets": {
       title: "Actifs de marque",
       description:
-        "Les couleurs et le logo de votre trousse de marque pour les communications locales de solidarité — personnalisez tout dans la trousse.",
+        "Les couleurs et le logo de votre trousse de marque pour les communications locales de solidarité. personnalisez tout dans la trousse.",
     },
     "/tools": {
       title: "Outils",
       description:
-        "Créateurs pour la marque, les tableaux syndicaux, l'impression, le social et le web — tout reste sur votre appareil.",
+        "Créateurs pour la marque, les tableaux syndicaux, l'impression, le social et le web. tout reste sur votre appareil.",
     },
     "/guide": {
       title: "Le Plan directeur",
       description:
-        "Un manuel pour la pratique continue des communications locales — plateformes, ton, rythme et accessibilité.",
+        "Un manuel pour la pratique continue des communications locales. plateformes, ton, rythme et accessibilité.",
     },
     "/guide/social-media-plan": {
       title: "Première semaine",
       description:
-        "Après la trousse de marque : tableaux, impression, médias sociaux et un site simple — un message, quatre canaux.",
+        "Après la trousse de marque : tableaux, impression, médias sociaux et un site simple. un message, quatre canaux.",
     },
     "/guide/workshop": {
       title: "Plan d'atelier",
@@ -182,7 +182,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/union-boards": {
       title: "Guide des tableaux syndicaux",
       description:
-        "Les tableaux d'affichage rejoignent les membres hors réseaux sociaux — mise en page, avis et affiches de solidarité.",
+        "Les tableaux d'affichage rejoignent les membres hors réseaux sociaux. mise en page, avis et affiches de solidarité.",
     },
     "/guide/print": {
       title: "Guide des communications imprimées",
@@ -192,12 +192,12 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/website": {
       title: "Guide du site Web local",
       description:
-        "Donnez aux membres un lien stable pour savoir qui vous êtes et où vous trouver — puis publiez-le gratuitement sur GitHub Pages.",
+        "Donnez aux membres un lien stable pour savoir qui vous êtes et où vous trouver. puis publiez-le gratuitement sur GitHub Pages.",
     },
     "/guide/email-broadcast": {
       title: "Guide courriel et diffusion",
       description:
-        "Invitations à copier et rappels aux dirigeants — pas de listes marketing dans UnionOps.",
+        "Invitations à copier et rappels aux dirigeants. pas de listes marketing dans UnionOps.",
     },
     "/guide/resources": {
       title: "Ressources de communication",
@@ -217,7 +217,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/membership-signup": {
       title: "Faire croître l'adhésion avec du matériel à scanner",
       description:
-        "Affiches, cartes de poche et lettre de bienvenue pour les membres difficiles à joindre — surtout le personnel à temps partiel.",
+        "Affiches, cartes de poche et lettre de bienvenue pour les membres difficiles à joindre. surtout le personnel à temps partiel.",
     },
     "/guide/dfr": {
       title: "Devoir de représentation équitable",
@@ -227,12 +227,12 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/seniority-bumping": {
       title: "Guide d'ancienneté et de bumping",
       description:
-        "Aide manuelle pour les comités de stabilité — pas un calculateur.",
+        "Aide manuelle pour les comités de stabilité. pas un calculateur.",
     },
     "/guide/right-to-refuse": {
       title: "Droit de refuser un travail dangereux",
       description:
-        "LSST de l'Ontario article 43 — littératie propre à cette compétence pour les délégués.",
+        "LSST de l'Ontario article 43. littératie propre à cette compétence pour les délégués.",
     },
   },
 };
