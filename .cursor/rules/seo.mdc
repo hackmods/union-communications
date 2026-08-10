@@ -1,0 +1,33 @@
+---
+description: Public SEO — AUTH_URL origin, sitemap/canonical/hreflang, no poison redirects or broad asset cache
+globs: src/app/sitemap.ts,src/app/robots.ts,src/lib/seo/**,src/proxy.ts,src/i18n/routing.ts,next.config.ts,e2e/seo*.ts,docs/guides/DEPLOY.md
+alwaysApply: false
+---
+
+# Public SEO (unionops.org + white-label hosts)
+
+Prevent GSC “Page with redirect” / bad canonical noise from **leaking the CapRover hostname** or advertising unprefixed URLs. Locale prefix + trailing slash redirects are intentional; wrong `Location` hosts are not.
+
+## Public origin
+
+- CapRover / custom nginx may present an internal Host (`*.behind7proxies.com`). **`AUTH_URL` must be the browser-facing HTTPS origin** (e.g. `https://unionops.org`) — never the internal FQDN. See [`docs/guides/DEPLOY.md`](../../docs/guides/DEPLOY.md).
+- Locale redirects and Auth cookies use helpers in [`src/lib/seo/public-origin.ts`](../../src/lib/seo/public-origin.ts) from [`src/proxy.ts`](../../src/proxy.ts) (`requestWithPublicOrigin`, `publicAbsoluteUrl`). Do not build redirects from raw `req.url` when an absolute `Location` is needed.
+
+## Canonicals, hreflang, sitemap
+
+- Page metadata via [`buildPageMetadata`](../../src/lib/seo/build-page-metadata.ts) — self-canonical, en/fr, **`x-default` = EN prefixed path**.
+- Keep [`routing.ts`](../../src/i18n/routing.ts) **`alternateLinks: false`**. Middleware Link headers otherwise advertise unprefixed `x-default` (then 307), fighting HTML hreflang.
+- Sitemap [`PUBLIC_PATHS`](../../src/app/sitemap.ts): only final **HTTPS + `/{en|fr}/…/`** URLs. Hub/`/app` stays noindex and out of the sitemap.
+- New public indexable routes: add to `PUBLIC_PATHS` (or tool SEO registry) + EN/FR copy; guide routes are coverage-tested against the filesystem.
+
+## Cache headers
+
+- Long-cache **only** static trees under `public/assets/` (`unions`, `caat-opseu`, `unionops`, `ontario-board-posters`) in [`next.config.ts`](../../next.config.ts).
+- **Never** `max-age=31536000` / `immutable` on locale-less `/assets/` page redirects or HTML routes.
+
+## GSC hygiene
+
+- **Expected exclusions:** http→https, missing trailing slash, missing locale prefix. Do not “validate fix” those away.
+- **Bug:** `Location` or Auth `callback-url` on an internal proxy host, or sitemap entries that 307/308.
+
+Spot-check after deploy: `curl -sI https://unionops.org/examples/` → `Location: https://unionops.org/en/examples/`.

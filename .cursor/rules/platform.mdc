@@ -33,6 +33,7 @@ Phases **0–7 near-complete** (Postgres adapters flag-gated; default memory). Tim
 - Data via adapters only — never raw `localStorage`/`fetch` in tools
 - Role-gate write UI to match API (`src/lib/qol/access.ts`, grievance/bumping access)
 - i18n: both `messages/en.json` and `messages/fr.json`
+- Public SEO: `.cursor/rules/seo.mdc` — `AUTH_URL` is the browser host; sitemap/canonicals via `buildPageMetadata` + `PUBLIC_PATHS`
 - Commit at milestone end; update `docs/PROGRESS.md`
 - Source-available (`LICENSE`); stewarded by Ryan Morris
 - Privacy copy: Comms on-device; hosted Officer Hub ? operator is data controller

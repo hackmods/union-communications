@@ -45,6 +45,7 @@ This file is a flat, tool-agnostic mirror of the most load-bearing rules already
 - Add axe-core smoke coverage for new Hub pages (`UI-003` established authenticated axe patterns).
 - Never use `dangerouslySetInnerHTML`.
 - No analytics, cookies, or third-party tracking scripts (ADR-006) — this includes new dependencies that phone home by default.
+- **Public SEO:** [`.cursor/rules/seo.mdc`](.cursor/rules/seo.mdc) — `AUTH_URL` = browser-facing HTTPS host (never CapRover FQDN); sitemap/canonicals via `buildPageMetadata` + `PUBLIC_PATHS`; keep `alternateLinks: false`; long-cache only static `/assets/*` trees.
 
 ## Verifying files before citing or acting on them
 
