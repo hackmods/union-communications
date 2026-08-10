@@ -60,7 +60,12 @@ const nextConfig: NextConfig = {
           { key: "Service-Worker-Allowed", value: "/" },
         ],
       },
-      { source: "/assets/:path*", headers: longCache },
+      // Static trees under public/assets/ only — do not long-cache the
+      // locale-less /assets/ page redirect (GSC + CapRover host poison).
+      { source: "/assets/unions/:path*", headers: longCache },
+      { source: "/assets/caat-opseu/:path*", headers: longCache },
+      { source: "/assets/unionops/:path*", headers: longCache },
+      { source: "/assets/ontario-board-posters/:path*", headers: longCache },
       { source: "/icons/:path*", headers: longCache },
       { source: "/demo/:path*", headers: longCache },
       { source: "/templates/:path*", headers: longCache },

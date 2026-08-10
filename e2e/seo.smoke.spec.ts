@@ -59,6 +59,26 @@ test.describe("SEO smoke @smoke", () => {
     expect(xml).not.toContain("/en/app/");
   });
 
+  test("locale-less public paths redirect on the same host", async ({
+    request,
+    baseURL,
+  }) => {
+    const origin = new URL(baseURL ?? "http://127.0.0.1:3000").origin;
+    for (const path of ["/examples/", "/privacy/", "/tools/", "/assets/"]) {
+      const res = await request.get(path, { maxRedirects: 0 });
+      expect([301, 302, 307, 308]).toContain(res.status());
+      const location = res.headers()["location"];
+      expect(location).toBeTruthy();
+      const target = new URL(location!, origin);
+      expect(target.origin).toBe(origin);
+      expect(target.pathname).toMatch(/^\/(en|fr)\//);
+      // Must not long-cache HTML/locale redirects (esp. /assets/).
+      const cache = res.headers()["cache-control"] ?? "";
+      expect(cache).not.toMatch(/max-age=31536000/);
+      expect(cache).not.toMatch(/immutable/);
+    }
+  });
+
   test("guide and privacy self-canonicalize (not home)", async ({ page }) => {
     await page.goto("/en/guide/print/");
     await assertSeoBasics(page, {

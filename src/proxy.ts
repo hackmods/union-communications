@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import createIntlMiddleware from "next-intl/middleware";
 import { auth } from "@/auth";
 import { routing } from "@/i18n/routing";
+import {
+  publicAbsoluteUrl,
+  requestWithPublicOrigin,
+} from "@/lib/seo/public-origin";
 
 const intlMiddleware = createIntlMiddleware(routing);
 
@@ -38,7 +42,6 @@ export default auth((req) => {
     pathname.includes("/app/forgot-password") ||
     /\/app\/reset-password\//.test(pathname);
   // Magic sign-in link is public — email token is the capability.
-  // Magic sign-in link is public — email token is the capability.
   const isMagicSignIn = /\/app\/sign-in\//.test(pathname);
   const isAppRoute =
     pathname.includes("/app") &&
@@ -50,14 +53,17 @@ export default auth((req) => {
   const isPortalRoute = pathname.includes("/portal");
 
   if (req.auth && (isLogin || isMagicSignIn)) {
-    return NextResponse.redirect(new URL(`/${locale}/app`, req.url));
+    return NextResponse.redirect(publicAbsoluteUrl(req, `/${locale}/app`));
   }
 
   if (!req.auth && (isAppRoute || isPortalRoute)) {
-    return NextResponse.redirect(new URL(`/${locale}/app/login`, req.url));
+    return NextResponse.redirect(
+      publicAbsoluteUrl(req, `/${locale}/app/login`),
+    );
   }
 
-  return intlMiddleware(req);
+  // Rewrite onto AUTH_URL / X-Forwarded-* so next-intl Location stays public.
+  return intlMiddleware(requestWithPublicOrigin(req));
 });
 
 export const config = {

@@ -7,7 +7,7 @@ If **you** host an instance, **you** are the data controller for data that insta
 ## Production checklist
 
 1. Set a unique `AUTH_SECRET` (`openssl rand -base64 32`) — never use the repo placeholders. Production refuses to start without it.
-2. Set `AUTH_URL` to your public HTTPS origin (no trailing slash).
+2. Set `AUTH_URL` to your public HTTPS origin (no trailing slash). Behind CapRover or custom nginx, this must be the **browser-facing** host (e.g. `https://unionops.org`), not the internal app FQDN — otherwise locale redirects and Auth cookies advertise the proxy hostname to crawlers.
 3. MFA is **opt-in** (`AUTH_MFA_ENABLED=true`). Leave it off for demos/usability. For real casework: enable MFA and set `AUTH_MFA_MODE=totp`. Workshop hosts may use `shared_code_insecure` only with `AUTH_ALLOW_SHARED_MFA_IN_PROD=true` plus a unique `AUTH_MFA_CODE`. When MFA is enabled in production, unset mode or shared-code without break-glass fails closed.
 4. Set your union’s default brand (optional but recommended for a white-label host):
    - Edit `config/host-brand.json` before build, or
@@ -71,7 +71,7 @@ This repo includes [`captain-definition`](../../captain-definition) pointing at 
 | Variable | Example |
 |----------|---------|
 | `AUTH_SECRET` | output of `openssl rand -base64 32` |
-| `AUTH_URL` | `https://your-app.example.com` |
+| `AUTH_URL` | **Public** HTTPS origin only (no trailing slash) — e.g. `https://unionops.org`. Never the CapRover/internal FQDN (`*.behind7proxies.com`); wrong value leaks internal hosts into locale redirects, Auth.js `callback-url` cookies, and GSC “Page with redirect” noise. |
 | `AUTH_MFA_ENABLED` | `true` for casework; omit/`false` for demos (default) |
 | `AUTH_MFA_MODE` | `totp` when MFA enabled; workshops: shared_code + break-glass |
 | `AUTH_ALLOW_SHARED_MFA_IN_PROD` | `true` only for workshop/demo hosts using shared code |
@@ -103,7 +103,7 @@ Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_
 
 3. Deploy via CapRover git push / webhook, or pull the GHCR tag if your CapRover setup uses a registry image.
 4. Health check: `GET /api/health`.
-5. **Public `unionops.org` host:** point the installable origin at apex `https://unionops.org`. Until `www` serves this app (or 301s to apex) with a trusted certificate, leave `www` off the PWA service-worker allowlist (`src/lib/pwa/hosts.ts`).
+5. **Public `unionops.org` host:** point the installable origin at apex `https://unionops.org`. Set `AUTH_URL=https://unionops.org` (same origin). Until `www` serves this app (or 301s to apex) with a trusted certificate, leave `www` off the PWA service-worker allowlist (`src/lib/pwa/hosts.ts`). After deploy, spot-check `curl -sI https://unionops.org/examples/` — `Location` must stay on `unionops.org`, not the CapRover hostname.
 
 CI on `main` can POST `CAPROVER_WEBHOOK_URL` (GitHub Actions secret) after tests pass.
 
