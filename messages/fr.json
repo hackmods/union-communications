@@ -197,7 +197,7 @@
     "whenToUse": "À utiliser en premier pour créer une plaque logo locale, puis enregistrez-la dans la Trousse de marque pour que tous les outils s’accordent."
   },
   "home": {
-    "title": "UnionOps: La boîte à outils pour les sections locales",
+    "title": "UnionOps : La boîte à outils pour les sections locales",
     "headline": "La boîte à outils pour les sections locales",
     "slogan": "Solidarity.",
     "subtitle": "Outils Comms gratuits pour toute section : marque, tableaux, imprimés, réseaux sociaux et un site simple.",
@@ -385,7 +385,7 @@
       },
       "frequency": {
         "title": "Fréquence de publication",
-        "content": "Visez 2-3 publications par semaine en temps normal; augmentez en négociation ou grève. La constance bat le volume. Mélange simple : 40 % nouvelles, 30 % récits, 20 % éducation, 10 % solidarité."
+        "content": "Visez 2-3 publications par semaine en temps normal ; augmentez en négociation ou grève. La constance bat le volume. Mélange simple : 40 % nouvelles, 30 % récits, 20 % éducation, 10 % solidarité."
       },
       "trolls": {
         "title": "Gérer les trolls et la direction",
@@ -466,7 +466,7 @@
       },
       "sizes": {
         "label": "Formats qui fonctionnent",
-        "content": "Lettre (8,5×11) pour les listes de contacts; tabloïde (11×17) pour les avis et affiches lisibles de loin."
+        "content": "Lettre (8,5×11) pour les listes de contacts ; tabloïde (11×17) pour les avis et affiches lisibles de loin."
       }
     },
     "layouts": {
@@ -476,7 +476,7 @@
       "photosIntro": "Photos de babillards de campus : comment listes CÉL, CSS, affiches ministérielles et QR cohabitent.",
       "schematicsHeading": "Schémas à reproduire",
       "fourQuadrant": "Classique en quatre zones",
-      "fourQuadrantDesc": "En-tête en haut; réseaux et S&S côte à côte; bande CÉL pleine largeur; événements en bas. Mise en page courante.",
+      "fourQuadrantDesc": "En-tête en haut ; réseaux et S&S côte à côte ; bande CÉL pleine largeur ; événements en bas. Mise en page courante.",
       "fourQuadrantBest": "Idéal pour : tableaux en liège standards en salle à manger",
       "priorityStrip": "Bande prioritaire + grands événements",
       "priorityStripDesc": "Colonne gauche étroite pour réseaux, S&S et CÉL. Grand panneau droit pour la campagne ou l’affiche du moment.",
@@ -488,7 +488,7 @@
       "labeledColumnsDesc": "En-têtes : Affichages | Mises à jour / CÉL | Santé-sécurité + QR | Affiches de droits. Comme un babillard de campus propre, avec affiches ministérielles à droite.",
       "labeledColumnsBest": "Idéal pour : grands tableaux que vous pouvez garder nets avec des étiquettes",
       "stewardDesk": "Tableau du bureau des délégués",
-      "stewardDeskDesc": "Grand bloc CÉL / délégué à côté des réseaux et cartes S&S; bande du bas pour la prochaine réunion. Courant là où les membres s’arrêtent pour poser des questions.",
+      "stewardDeskDesc": "Grand bloc CÉL / délégué à côté des réseaux et cartes S&S ; bande du bas pour la prochaine réunion. Courant là où les membres s’arrêtent pour poser des questions.",
       "stewardDeskBest": "Idéal pour : bureau des délégués ou local syndical"
     },
     "materials": {
@@ -527,7 +527,7 @@
         "boardL33Desc": "Colonnes : Affichages, mises à jour/CÉL, CSS, LNE + S&S, Formule 82, harcèlement, grand QR. Minimum plus affiches de droits.",
         "boardL33Alt": "Photo d'un tableau d'info syndical en colonnes étiquetées pour affichages, exécutif, santé-sécurité et affiches de droits",
         "boardW010": "Tableau de corridor avec image de marque",
-        "boardW010Desc": "Bannières du syndicat parent en haut; Formule 82 et harcèlement à hauteur des yeux; liste CÉL, affiche S&S, QR et petit coin notes. Dense mais lisible.",
+        "boardW010Desc": "Bannières du syndicat parent en haut ; Formule 82 et harcèlement à hauteur des yeux ; liste CÉL, affiche S&S, QR et petit coin notes. Dense mais lisible.",
         "boardW010Alt": "Photo d'un tableau syndical avec image de marque, affiches de sécurité, liste d'exécutif, code QR et notes de membres",
         "denseBoardPhoto": "Tableau dense de campagne",
         "denseBoardPhotoDesc": "Grandes affiches de campagne avec feuille QR et cartes de contact - utile quand il faut du remplissage solidarité autour des zones permanentes.",
@@ -687,7 +687,7 @@
         },
         "social": {
           "title": "Canal social ou membres",
-          "content": "Liez votre groupe Facebook ou autre canal. Le site y pointe; le social peut renvoyer pour dirigeants et courriel."
+          "content": "Liez votre groupe Facebook ou autre canal. Le site y pointe ; le social peut renvoyer pour dirigeants et courriel."
         }
       }
     },
@@ -833,7 +833,7 @@
         },
         "social": {
           "label": "Publications sociales",
-          "content": "Dans bios et publications épinglées, liez le site pour qui vous êtes et comment contacter. Social pour l’actualité; site pour les faits stables."
+          "content": "Dans bios et publications épinglées, liez le site pour qui vous êtes et comment contacter. Social pour l’actualité ; site pour les faits stables."
         },
         "brand": {
           "label": "Trousse de marque",
@@ -913,7 +913,7 @@
         "description": "Citation chaleureuse, nom mis en valeur et identité locale en format carré Instagram.",
         "why": {
           "0": "Les visages et courtes citations engagent plus que les annonces génériques.",
-          "1": "Le format carré convient à Instagram; gardez le logo lisible."
+          "1": "Le format carré convient à Instagram ; gardez le logo lisible."
         },
         "mockup": {
           "headline": "Portrait de membre",
@@ -1111,7 +1111,7 @@
     "fitContain": "Contenir",
     "fitCover": "Couvrir",
     "fitContainHint": "Mettre le logo ou l’image à l’échelle pour qu’il tienne dans le cadre avec une marge.",
-    "fitCoverHint": "Remplir tout le cadre; les bords hors recadrage sont coupés.",
+    "fitCoverHint": "Remplir tout le cadre ; les bords hors recadrage sont coupés.",
     "placement": "Emplacement",
     "placementHint": "Glissez pour positionner. Pincez ou faites défiler pour zoomer.",
     "placementTopLeft": "Haut gauche",
@@ -1529,7 +1529,7 @@
     "format": "Format d'impression",
     "formatLetter": "Lettre (8,5×11)",
     "formatTabloid": "Tabloïd (11×17)",
-    "formatTip": "Utilisez la lettre pour la plupart des tableaux; le tabloïd quand vous avez six codes ou plus.",
+    "formatTip": "Utilisez la lettre pour la plupart des tableaux ; le tabloïd quand vous avez six codes ou plus.",
     "slots": "Liens QR",
     "slotsHint": "{count} liens (min {min}, max {max})",
     "slotLabel": "Lien {n}",
@@ -1599,7 +1599,7 @@
   },
   "sources": {
     "title": "Sources et références",
-    "intro": "Ressources externes citées ici. Les URL nationales et gouvernementales bougent souvent; en cas de 404, cherchez depuis la page d’accueil de l’organisation.",
+    "intro": "Ressources externes citées ici. Les URL nationales et gouvernementales bougent souvent ; en cas de 404, cherchez depuis la page d’accueil de l’organisation.",
     "categories": {
       "branding": "Image de marque",
       "website": "Site Web",
@@ -1685,9 +1685,9 @@
         "Identité - démonstration du Créateur de logo (environ 8 min) + questions",
         "Inspiration - visite du tableau d'avis / tableaux syndicaux (environ 8 min) + questions",
         "Produire des médias - démonstration du Créateur graphique (environ 10-12 min) + questions",
-        "Clôture : repartir avec un plan; pointer la liste de pratique et les outils; questions ouvertes optionnelles"
+        "Clôture : repartir avec un plan ; pointer la liste de pratique et les outils ; questions ouvertes optionnelles"
       ],
-      "tinker": "Astuce à distance : apportez le lunch; UnionOps apporte les outils. Après la séance, suivez la liste de pratique à votre rythme (Logo, avis, graphique).",
+      "tinker": "Astuce à distance : apportez votre lunch, UnionOps apporte les outils. Après la séance, suivez la liste de pratique à votre rythme (Créateur de logo, Avis pour tableau syndical, Créateur graphique).",
       "note": "Les feuilles de route datées pour animateurs restent dans la documentation du projet. Cette page est le guide public durable."
     },
     "facilitators": {
@@ -1871,7 +1871,7 @@
     },
     "unionPreset": {
       "title": "Préréglage syndical",
-      "description": "Préréglage canadien pour les ateliers. Téléversez le logo de votre section; les marques nationales sont des références optionnelles.",
+      "description": "Préréglage canadien pour les ateliers. Téléversez le logo de votre section ; les marques nationales sont des références optionnelles.",
       "label": "Préréglage syndical",
       "placeholder": "Choisir un syndicat…",
       "slogans": "Slogans suggérés",
@@ -2087,7 +2087,7 @@
           "Désignez un ou deux porte-parole - les membres et les médias doivent entendre une seule voix locale cohérente",
           "Publiez quotidiennement les horaires de piquetage, les entrées et les rappels de sécurité avec les graphiques de cette trousse",
           "Partagez la solidarité et les témoignages des membres avec consentement - ne publiez jamais de photos sans permission",
-          "Utilisez les couleurs de votre Trousse de marque; suivez les matériels de campagne de division ou de secteur lors d'une coordination divisionnelle",
+          "Utilisez les couleurs de votre Trousse de marque ; suivez les matériels de campagne de division ou de secteur lors d'une coordination divisionnelle",
           "Ne partagez pas les détails de négociation, les adresses des membres ni la stratégie interne sur les canaux publics",
           "Orientez les questions sur la paie, les tâches et le retour au travail vers le comité de grève - pas les fils de commentaires"
         ]
@@ -2132,7 +2132,7 @@
         "Demandes des médias - orientez vers le porte-parole désigné ou les communications syndicales",
         "Menaces juridiques, injonctions ou lettres de l'employeur sur la conduite - exécutif et représentant immédiatement",
         "Incidents de sécurité des membres sur la ligne ou au travail - suivez d'abord les protocoles d'urgence locaux",
-        "Documents confidentiels divulgués ou mauvaise foi suspectée - ne publiez pas; alertez la direction",
+        "Documents confidentiels divulgués ou mauvaise foi suspectée - ne publiez pas ; alertez la direction",
         "Désinformation virale sur votre section - coordonnez une seule correction plutôt que plusieurs réponses"
       ]
     },
@@ -2293,7 +2293,7 @@
           "Étiquetez ce guide « Ontario seulement » dans tout matériel de formation local que vous réimprimez",
           "Les lieux de travail fédéraux et les autres provinces suivent d'autres cadres de refus",
           "Certains travailleurs ont des droits modifiés — vérifiez le texte actuel de la LSST et les documents du ministère",
-          "La représentation syndicale appuie le membre; elle ne remplace pas le CSS ni le ministère"
+          "La représentation syndicale appuie le membre ; elle ne remplace pas le CSS ni le ministère"
         ]
       },
       "procedure": {
@@ -2533,7 +2533,7 @@
     "reportsHoursTotal": "{hours} heures sur {count} entrées",
     "reportsNoBreakdown": "Aucune ventilation pour cette période.",
     "demoBannerLabel": "Démo",
-    "demoBannerBody": "Ce hub des dirigeants est un site de démonstration avec des données fictives — pas un environnement de production. N’y saisissez pas de renseignements réels sur des membres ou des griefs; rien ici n’est un dossier confidentiel.",
+    "demoBannerBody": "Ce hub des dirigeants est un site de démonstration avec des données fictives — pas un environnement de production. N’y saisissez pas de renseignements réels sur des membres ou des griefs ; rien ici n’est un dossier confidentiel.",
     "memoryBannerLabel": "Mémoire seulement",
     "memoryBannerBody": "Cette instance stocke les dossiers uniquement en mémoire — ils seront perdus au redémarrage. Ne l’utilisez pas pour de vrais dossiers de membres tant que Postgres n’est pas activé.",
     "meetingBanner": "Assemblée générale dans {days} jour(s) — {date}",
@@ -3126,7 +3126,7 @@
   "elections": {
     "title": "Candidatures et élections",
     "subtitle": "Suivez les candidatures, imprimez les bulletins et enregistrez les dépouillements hors ligne — puis promouvez les élus vers la liste des dirigeants.",
-    "noOnlineVoting": "Il n’y a pas de vote secret en ligne. Les bulletins sont imprimables pour un décompte papier ou hors ligne; les résultats sont saisis manuellement.",
+    "noOnlineVoting": "Il n’y a pas de vote secret en ligne. Les bulletins sont imprimables pour un décompte papier ou hors ligne ; les résultats sont saisis manuellement.",
     "loading": "Chargement des cycles électoraux…",
     "loadError": "Impossible de charger les cycles électoraux.",
     "createError": "Impossible de créer ce cycle électoral.",
@@ -3236,7 +3236,7 @@
     "notFound": "Procès-verbal introuvable.",
     "newMinutes": "Nouveau procès-verbal",
     "createTitle": "Rédiger un procès-verbal",
-    "createSubtitle": "Rédigez le brouillon après la réunion; approuvez-le à la réunion suivante.",
+    "createSubtitle": "Rédigez le brouillon après la réunion ; approuvez-le à la réunion suivante.",
     "detailTitle": "Procès-verbal — {date}",
     "empty": "Aucun procès-verbal pour cette portée locale.",
     "cancel": "Annuler",
@@ -3256,7 +3256,7 @@
     "listMeta": "{motions, plural, one {# motion} other {# motions}} · Consigné par {by}",
     "recordedBy": "Consigné par {name}",
     "approvedAt": "Approuvé le {date}",
-    "motionMeta": "Proposée par {movedBy}; appuyée par {secondedBy}.",
+    "motionMeta": "Proposée par {movedBy} ; appuyée par {secondedBy}.",
     "voteMeta": "Pour {for}, contre {against}, abstentions {abstain}. Résultat : {result}.",
     "status": {
       "draft": "Brouillon",
@@ -3984,7 +3984,7 @@
     "ptoTitle": "Demandes de congé",
     "ptoAdminTitle": "File des demandes de congé",
     "ptoHint": "Demandez des vacances, un congé de maladie ou personnel pour approbation. Les approbations débitent le solde d'accumulation lorsque des heures sont indiquées.",
-    "ptoAdminHint": "Examinez les demandes de congé soumises. Définissez les soldes; l'approbation avec heures débite ce solde.",
+    "ptoAdminHint": "Examinez les demandes de congé soumises. Définissez les soldes ; l'approbation avec heures débite ce solde.",
     "ptoType": "Type de congé",
     "ptoHoursOptional": "Heures (optionnel)",
     "ptoSubmit": "Soumettre la demande",
@@ -4391,7 +4391,7 @@
     "responsibilitiesBody": "Vous restez responsable du consentement photo et des publications / dossiers conformes à vos politiques et à la convention. Pas un avis juridique.",
     "photoConsentLink": "liste de contrôle consentement photo",
     "installTitle": "Bureau / installer comme appli",
-    "installBody": "Les navigateurs pris en charge peuvent installer UnionOps comme fenêtre d’appli. Shell hors ligne sur l’appareil; les dossiers Hub ont encore besoin du réseau.",
+    "installBody": "Les navigateurs pris en charge peuvent installer UnionOps comme fenêtre d’appli. Shell hors ligne sur l’appareil ; les dossiers Hub ont encore besoin du réseau.",
     "installLink": "guide d’installation"
   }
 }

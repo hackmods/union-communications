@@ -20,7 +20,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/accessibility": {
       title: "Accessibility Statement",
       description:
-        "UnionOps AODA / WCAG 2.1 Level AA commitment for stewards and officers using the toolkit.",
+        "The UnionOps commitment to AODA and WCAG 2.1 Level AA, so stewards and officers with disabilities can use these tools, plus the gaps we still know about.",
     },
     "/onboarding": {
       title: "Set up your local brand",
@@ -35,7 +35,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/examples": {
       title: "Social Examples",
       description:
-        "Browse strong local post patterns, see why they work, then make your own with the UnionOps tools.",
+        "Browse post patterns that work for real locals, read why each one works, then build your own version with the UnionOps tools in your local's colours.",
     },
     "/captions": {
       title: "Caption & Hashtag Library",
@@ -65,7 +65,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/workshop": {
       title: "Workshop outline",
       description:
-        "Reusable lunch-and-learn and hands-on workshop outline for starting local social communications.",
+        "A reusable outline for a lunch-and-learn or a hands-on session, so your local can start its social communications in about an hour of shared time.",
     },
     "/guide/union-boards": {
       title: "Union Boards Guide",
@@ -75,7 +75,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/print": {
       title: "Print Communications Guide",
       description:
-        "When printing is worth it, and how to pair print with the digital channels your local already uses.",
+        "When printing is worth it, which sizes actually read from across a hallway, and how to pair print with the digital channels your local already uses.",
     },
     "/guide/website": {
       title: "Local Website Guide",
@@ -90,12 +90,12 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/resources": {
       title: "Comms Resources",
       description:
-        "Orientation, practice, and sources for union locals building solidarity communications.",
+        "Orientation, a practice checklist, and the sources behind this toolkit, for locals building solidarity communications on their own or in a workshop.",
     },
     "/guide/photo-consent": {
       title: "Photo Consent & Member Media",
       description:
-        "A short checklist for stewards and locals before posting member photos.",
+        "A short checklist to run before you post a member's photo: consent, group shots, confidential details, and who to call for a later withdrawal.",
     },
     "/guide/crisis": {
       title: "Strike & Crisis Comms Guide",
@@ -110,7 +110,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/dfr": {
       title: "Duty of Fair Representation",
       description:
-        "Foundational literacy for stewards and local officers on the duty of fair representation.",
+        "What the duty of fair representation asks of stewards and local officers in practice, where complaints usually start, and how to keep a clean record.",
     },
     "/guide/seniority-bumping": {
       title: "Seniority & bumping playbook",
@@ -132,7 +132,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/accessibility": {
       title: "Déclaration d'accessibilité",
       description:
-        "Engagement AODA / WCAG 2.1 niveau AA d'UnionOps pour les délégués et dirigeants qui utilisent la trousse.",
+        "L'engagement d'UnionOps envers la LAPHO et le WCAG 2.1 niveau AA, pour que les délégués et les dirigeants en situation de handicap puissent utiliser ces outils.",
     },
     "/onboarding": {
       title: "Configurer la marque de votre section",
@@ -147,12 +147,12 @@ export const PUBLIC_PAGE_SEO: Record<
     "/examples": {
       title: "Exemples sociaux",
       description:
-        "Parcourez des modèles de publications locales, comprenez pourquoi ils fonctionnent, puis créez les vôtres.",
+        "Parcourez des modèles de publications qui fonctionnent pour de vraies sections, voyez pourquoi, puis créez votre version avec les outils UnionOps à vos couleurs.",
     },
     "/captions": {
       title: "Bibliothèque de légendes et de mot-clics",
       description:
-        "Modèles de publications réutilisables au ton solidaire. Copiez, adaptez et collez dans vos réseaux.",
+        "Modèles de publications réutilisables au ton solidaire. Copiez-les, adaptez-les à votre section, puis collez-les dans vos réseaux sociaux.",
     },
     "/assets": {
       title: "Actifs de marque",
@@ -177,7 +177,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/workshop": {
       title: "Plan d'atelier",
       description:
-        "Plan réutilisable pour lunch-and-learn et atelier pratique pour démarrer les communications sociales locales.",
+        "Un plan réutilisable pour un dîner-causerie ou une séance pratique, afin que votre section démarre ses communications sociales en environ une heure ensemble.",
     },
     "/guide/union-boards": {
       title: "Guide des tableaux syndicaux",
@@ -187,7 +187,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/print": {
       title: "Guide des communications imprimées",
       description:
-        "Quand l'impression en vaut la peine, et comment la combiner aux canaux numériques que votre section utilise déjà.",
+        "Quand l'impression en vaut la peine, quels formats se lisent d'un bout à l'autre d'un corridor, et comment la combiner aux canaux numériques de votre section.",
     },
     "/guide/website": {
       title: "Guide du site Web local",
@@ -202,12 +202,12 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/resources": {
       title: "Ressources de communication",
       description:
-        "Orientation, pratique et sources pour les sections qui bâtissent des communications solidaires.",
+        "Orientation, liste de pratique et sources derrière cette boîte à outils, pour les sections qui bâtissent des communications solidaires, en solo ou en atelier.",
     },
     "/guide/photo-consent": {
       title: "Consentement photo et médias des membres",
       description:
-        "Une courte liste pour délégués et sections avant de publier des photos de membres.",
+        "Une courte liste à parcourir avant de publier la photo d'un membre : consentement, photos de groupe, détails confidentiels et retrait demandé plus tard.",
     },
     "/guide/crisis": {
       title: "Guide de communication - grève et crise",
@@ -222,7 +222,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/dfr": {
       title: "Devoir de représentation équitable",
       description:
-        "Littératie de base pour les délégués et dirigeants locaux sur le devoir de représentation équitable.",
+        "Ce que le devoir de représentation équitable exige en pratique des délégués et dirigeants locaux, d'où viennent les plaintes et comment garder un dossier propre.",
     },
     "/guide/seniority-bumping": {
       title: "Guide d'ancienneté et de bumping",

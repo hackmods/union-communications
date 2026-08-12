@@ -6,12 +6,12 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "flyer-maker": {
       title: "Free Union Flyer Maker",
       description:
-        "Make high-contrast picket and rally flyers for your local. Free, private, and on your device.",
+        "Make high-contrast picket and rally flyers in your local's colours, then export a letter-size PDF. Free, private, and on your device.",
     },
     "graphic-maker": {
       title: "Free Union Graphic Maker",
       description:
-        "Make member spotlights and social graphics with your local brand. Runs in your browser.",
+        "Make member spotlights and social graphics in your local's colours, with a consent step for member photos. Runs in your browser.",
     },
     "logo-builder": {
       title: "Free Union Logo Builder",
@@ -46,7 +46,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "solidarity-poster": {
       title: "Free Solidarity Poster Maker",
       description:
-        "Fill empty union boards with bold solidarity posters. Free and on your device.",
+        "Fill empty union boards with bold solidarity posters, and make matching phone wallpapers from the same design. Free and on your device.",
     },
     "meeting-background": {
       title: "Free Zoom & Teams Meeting Background Maker",
@@ -71,7 +71,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "qr-board": {
       title: "Free Union QR Board Poster Maker",
       description:
-        "Print multi-QR posters for union boards: two campaigns or a full set of core links, on your device.",
+        "Print multi-QR posters for union boards: two campaigns or a full set of core links, in letter or tabloid size, on your device.",
     },
     "website-template": {
       title: "Free Union Website Template",
@@ -88,12 +88,12 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "flyer-maker": {
       title: "Créateur de tracts syndicaux gratuit",
       description:
-        "Créez des tracts à fort contraste pour piquets et rassemblements. Gratuit, privé, sur votre appareil.",
+        "Créez des tracts à fort contraste aux couleurs de votre section, puis exportez un PDF format lettre. Gratuit, privé, sur votre appareil.",
     },
     "graphic-maker": {
       title: "Créateur de graphiques syndicaux gratuit",
       description:
-        "Créez des mises en avant de membres et des graphiques sociaux avec la marque de votre section. Dans votre navigateur.",
+        "Créez des mises en avant de membres et des graphiques sociaux aux couleurs de votre section, avec une étape de consentement pour les photos. Dans votre navigateur.",
     },
     "logo-builder": {
       title: "Créateur de logo syndical gratuit",
@@ -128,7 +128,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "solidarity-poster": {
       title: "Créateur d'affiches de solidarité gratuit",
       description:
-        "Remplissez les babillards vides avec des affiches de solidarité audacieuses. Gratuit, sur votre appareil.",
+        "Remplissez les babillards vides avec des affiches de solidarité audacieuses, et créez des fonds d'écran assortis à partir du même visuel. Gratuit, sur votre appareil.",
     },
     "meeting-background": {
       title: "Arrière-plans Zoom et Teams gratuits",
@@ -153,7 +153,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "qr-board": {
       title: "Créateur d'affiches QR pour babillard gratuit",
       description:
-        "Imprimez des affiches multi-QR pour babillards : deux campagnes ou un ensemble de liens clés, sur votre appareil.",
+        "Imprimez des affiches multi-QR pour babillards : deux campagnes ou un ensemble de liens clés, en format lettre ou tabloïd, sur votre appareil.",
     },
     "website-template": {
       title: "Modèle de site web syndical gratuit",
