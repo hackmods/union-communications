@@ -208,7 +208,7 @@
     "socialMediaPlanCta": "Continue the first-week roadmap",
     "socialMediaPlanDesc": "After Brand Kit: boards, print, socials, and a simple website.",
     "pathCommsTitle": "New to running a local’s communications?",
-    "pathCommsDesc": "Start with Brand Kit (colours, local number, logo), then the first-week roadmap.",
+    "pathCommsDesc": "Set your colours, local number, and logo once, and every graphic, notice, and poster picks them up.",
     "pathCommsCta": "Get started",
     "pathCommsHint": "You will find the channel guides, Social Examples, and Captions under Guides.",
     "pathOfficerTitle": "President or steward managing cases?",
@@ -607,7 +607,7 @@
   },
   "photoConsentGuide": {
     "title": "Photo Consent & Member Media",
-    "subtitle": "A short checklist before posting member photos",
+    "subtitle": "A short checklist to run before you post a member's photo.",
     "intro": "Graphic Maker already gates consent on member photo upload. This page helps locals write a shared practice. Not legal advice.",
     "backToGuide": "Back to The Blueprint",
     "why": {
@@ -622,7 +622,7 @@
         "public": "The member understands the photo will be posted publicly (or knows which audience will see it)",
         "confidential": "The photo and caption do not contain confidential workplace, grievance, medical, or bargaining information",
         "group": "For group photos, everyone who is clearly identifiable has been covered — or crop, blur, or choose a different image",
-        "minors": "Photos of minors or dependents follow your local executive and union policy before publish",
+        "minors": "Photos of minors or dependents follow your local executive and union policy before you publish them",
         "withdrawal": "You know who to contact if a member later asks for the photo to be taken down"
       }
     },
@@ -1491,7 +1491,7 @@
     "exportPng": "Download PNG",
     "exportPdf": "Download PDF",
     "saved": "Draft saved on this device.",
-    "saveError": "Could not save draft on this device.",
+    "saveError": "Could not save the draft on this device. Browser storage may be blocked, so check your privacy settings and try again.",
     "minQuestions": "Add a title and at least one question.",
     "publish": "Publish",
     "publishing": "Publishing…",
@@ -1699,7 +1699,7 @@
         "Hands-on practice (about 30 min): checklist above",
         "Deploy and Q&A (about 10 min): website ZIP README, feedback"
       ],
-      "note": "Dated session run sheets live in the project docs for facilitators. This page stays the lasting public guide."
+      "note": "Adapt the timings to your room. Facilitators who want a minute-by-minute run sheet will find dated ones in the project docs."
     },
     "builtFrom": {
       "title": "What this toolbox is built from",
@@ -1806,10 +1806,10 @@
     "startSetup": "Start setup",
     "continueRoadmap": "Continue the first-week roadmap",
     "assetsLink": "Browse Brand Assets",
-    "export": "Export brand kit",
-    "import": "Import brand kit",
-    "importSuccess": "Brand kit imported successfully",
-    "importError": "Invalid brand kit file",
+    "export": "Export Brand Kit",
+    "import": "Import Brand Kit",
+    "importSuccess": "Brand Kit imported. Your colours, logo, and links are now in place.",
+    "importError": "That file is not a Brand Kit export. Pick the .json file you downloaded from Brand Kit and try again.",
     "storageBlocked": "Browser storage is blocked. Brand Kit cannot save until storage is allowed.",
     "storageBlockedDismiss": "Dismiss",
     "currentSettings": "Current settings",
@@ -4140,7 +4140,7 @@
     "limitsNoStore": "There is no App Store or Microsoft Store listing, because installing uses your browser's own app-install feature.",
     "relatedLead": "For what stays on this device, see",
     "relatedPrivacy": "Privacy",
-    "relatedMid": ". Optional tips live on",
+    "relatedMid": ". If you want to chip in, visit",
     "relatedSupport": "Support the builder",
     "relatedEnd": ".",
     "backHome": "Back to UnionOps"

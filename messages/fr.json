@@ -190,8 +190,8 @@
     "shapeCircleHint": "Idéal pour les photos de profil et les avatars",
     "shapeSquareHint": "Idéal pour les profils sociaux et les icônes",
     "shapeRectangleHint": "Idéal pour les bannières, signatures courriel et en-têtes",
-    "save": "Enregistrer dans la trousse de marque",
-    "saveSuccess": "Enregistré. Les couleurs du site et la trousse de marque utilisent maintenant cette palette et ces détails.",
+    "save": "Enregistrer dans la Trousse de marque",
+    "saveSuccess": "Enregistré. Les couleurs du site et la Trousse de marque utilisent maintenant cette palette et ces détails.",
     "exportError": "Impossible d'exporter le logo. Réessayez, ou changez de navigateur si le problème continue.",
     "previewAccessibleName": "Aperçu du créateur de logo",
     "whenToUse": "À utiliser en premier pour créer une plaque logo locale, puis enregistrez-la dans la Trousse de marque pour que tous les outils s’accordent."
@@ -203,12 +203,12 @@
     "subtitle": "Outils Comms gratuits pour toute section : marque, tableaux, imprimés, réseaux sociaux et un site simple.",
     "subtitleCommsOnly": "Outils de communication pour les bénévoles qui font vivre une section. Pour toute section, tout syndicat.",
     "heroCta": "Configurer la marque de votre section",
-    "openBrandKitCta": "Ouvrir la trousse de marque",
+    "openBrandKitCta": "Ouvrir la Trousse de marque",
     "whatsNextCta": "Ouvrir la feuille de route de la première semaine",
     "socialMediaPlanCta": "Continuer la feuille de route de la première semaine",
-    "socialMediaPlanDesc": "Après la trousse de marque : tableaux, impression, médias sociaux et site Web simple.",
+    "socialMediaPlanDesc": "Après la Trousse de marque : tableaux, impression, médias sociaux et site Web simple.",
     "pathCommsTitle": "Nouveau aux communications de votre section ?",
-    "pathCommsDesc": "Commencez par la Trousse de marque (couleurs, numéro de section, logo), puis la feuille de route de première semaine.",
+    "pathCommsDesc": "Réglez vos couleurs, votre numéro de section et votre logo une seule fois : chaque graphique, avis et affiche les reprend ensuite.",
     "pathCommsCta": "Commencer",
     "pathCommsHint": "Vous trouverez les guides par canal, les Exemples sociaux et les Légendes sous Guides.",
     "pathOfficerTitle": "Président ou délégué qui gère des dossiers ?",
@@ -287,7 +287,7 @@
         "navLabel": "Impression",
         "description": "Remettez le même message en tract pour les réunions, les tournées et les actions. Associez l'impression aux tableaux pour que les membres hors ligne aient aussi les faits.",
         "checklist": [
-          "Ouvrir le Créateur de tracts avec les couleurs et le numéro de section de la trousse de marque",
+          "Ouvrir le Créateur de tracts avec les couleurs et le numéro de section de la Trousse de marque",
           "Garder le texte grand et à fort contraste pour la lecture en corridor ou à l'extérieur",
           "Exporter en PDF pour impression maison ou en copisterie (format lettre)"
         ],
@@ -607,7 +607,7 @@
   },
   "photoConsentGuide": {
     "title": "Consentement photo et médias des membres",
-    "subtitle": "Courte liste avant de publier des photos de membres",
+    "subtitle": "Une courte liste à parcourir avant de publier la photo d'un membre.",
     "intro": "Le créateur graphique exige déjà le consentement au téléversement. Cette page aide les sections à écrire une pratique commune. Pas un avis juridique.",
     "backToGuide": "Retour au Plan directeur",
     "why": {
@@ -622,7 +622,7 @@
         "public": "Le membre comprend que la photo sera publiée publiquement (ou sait quel public la verra)",
         "confidential": "La photo et la légende ne contiennent pas de renseignements confidentiels sur le lieu de travail, un grief, la santé ou la négociation",
         "group": "Pour les photos de groupe, chaque personne clairement identifiable a donné son accord — sinon recadrez, floutez ou choisissez une autre image",
-        "minors": "Les photos de mineurs ou de personnes à charge suivent la politique de la direction locale et du syndicat avant publication",
+        "minors": "Les photos de mineurs ou de personnes à charge suivent la politique de la direction locale et du syndicat avant que vous les publiiez",
         "withdrawal": "Vous savez qui contacter si un membre demande plus tard le retrait de la photo"
       }
     },
@@ -714,7 +714,7 @@
     "before": {
       "navLabel": "Avant de commencer",
       "title": "Avant d'ouvrir le modèle",
-      "intro": "Cinq minutes de préparation évitent un site qui a l'air cassé. Rassemblez ceci depuis la trousse de marque et l'exécutif local.",
+      "intro": "Cinq minutes de préparation évitent un site qui a l'air cassé. Rassemblez ceci depuis la Trousse de marque et l'exécutif local.",
       "tip": "Enregistrez l’URL du site dans la Trousse de marque. Cartes QR et affiches peuvent la réutiliser.",
       "items": {
         "brand": "Trousse de marque prête : numéro de section, couleurs et logo (le modèle reprend les couleurs et le logo automatiquement).",
@@ -731,7 +731,7 @@
       "steps": {
         "open": {
           "title": "Ouvrir l'outil",
-          "content": "Allez au Modèle de site Web. Vérifiez que les couleurs et le logo de la trousse de marque sont corrects dans l'aperçu en direct."
+          "content": "Allez au Modèle de site Web. Vérifiez que les couleurs et le logo de la Trousse de marque sont corrects dans l'aperçu en direct."
         },
         "fill": {
           "title": "Remplir les champs",
@@ -837,7 +837,7 @@
         },
         "brand": {
           "label": "Trousse de marque",
-          "content": "Gardez couleurs et URL du site dans la trousse de marque pour que régénérer le modèle ou imprimer de nouveaux QR reste cohérent."
+          "content": "Gardez couleurs et URL du site dans la Trousse de marque pour que régénérer le modèle ou imprimer de nouveaux QR reste cohérent."
         }
       }
     }
@@ -1151,9 +1151,9 @@
     "examples": "Exemples",
     "settings": "Modifier et télécharger",
     "designPreset": "Exemple",
-    "includeLogo": "Inclure le logo de la trousse de marque",
+    "includeLogo": "Inclure le logo de la Trousse de marque",
     "sectionBranding": "Image de marque",
-    "logoResolveFailed": "Impossible de charger le logo en PNG. Essayez un PNG dans la trousse de marque, ou désactivez le logo.",
+    "logoResolveFailed": "Impossible de charger le logo en PNG. Essayez un PNG dans la Trousse de marque, ou désactivez le logo.",
     "setupBrandPrompt": "Configurez la Trousse de marque pour que l’en-tête utilise votre logo.",
     "outputs": "Inclure dans le ZIP",
     "outputDocx": "Word (.docx)",
@@ -1491,7 +1491,7 @@
     "exportPng": "Télécharger PNG",
     "exportPdf": "Télécharger PDF",
     "saved": "Brouillon enregistré sur cet appareil.",
-    "saveError": "Impossible d’enregistrer le brouillon sur cet appareil.",
+    "saveError": "Impossible d’enregistrer le brouillon sur cet appareil. Le stockage du navigateur est peut-être bloqué : vérifiez vos réglages de confidentialité, puis réessayez.",
     "minQuestions": "Ajoutez un titre et au moins une question.",
     "publish": "Publier",
     "publishing": "Publication…",
@@ -1621,7 +1621,7 @@
         "Les outils de communication tournent sur votre appareil - pas de compte ni de suivi pour les outils publics",
         "Conçu pour toute section ou groupe syndical qui apprend les pratiques de communication"
       ],
-      "cta": "Configurer la trousse de marque"
+      "cta": "Configurer la Trousse de marque"
     },
     "path": {
       "title": "Comment apprendre les Comms UnionOps",
@@ -1638,7 +1638,7 @@
         "workshop": "Plan d'atelier"
       },
       "blurb": {
-        "plan": "Après la trousse de marque : tableaux, impression, réseaux et site dans l'ordre.",
+        "plan": "Après la Trousse de marque : tableaux, impression, réseaux et site dans l'ordre.",
         "blueprint": "Pratique continue : plateformes, ton, fréquence, trolls, texte alternatif.",
         "boards": "Tableaux minimaux au travail et quoi imprimer.",
         "print": "Tracts et habitudes d'impression pour réunions et actions.",
@@ -1653,7 +1653,7 @@
       "title": "Liste de pratique",
       "intro": "Faites ces étapes une seule fois, à votre rythme ou en atelier, et votre section aura de vrais matériaux à publier.",
       "items": [
-        "Importer la trousse de marque de démo ou compléter l'intégration de votre section",
+        "Importer la Trousse de marque de démo ou compléter l'intégration de votre section",
         "Exporter un logo circulaire local (PNG)",
         "Créer et télécharger un avis pour tableau (PDF)",
         "Créer un tract avec le Créateur de tracts (PDF)",
@@ -1664,7 +1664,7 @@
     "demoKit": {
       "title": "Trousse de marque de démo",
       "description": "Paramètres de marque d'exemple pour essayer les outils avant de finaliser votre propre trousse. Importer sur la page Trousse de marque.",
-      "download": "Télécharger la trousse de marque JSON de démo"
+      "download": "Télécharger la Trousse de marque JSON de démo"
     },
     "explore": {
       "title": "Explorer les outils",
@@ -1699,7 +1699,7 @@
         "Pratique (environ 30 min) : liste ci-dessus",
         "Déploiement et questions (environ 10 min) : README du ZIP, rétroaction"
       ],
-      "note": "Les feuilles de route datées pour animateurs restent dans la documentation du projet. Cette page est le guide public durable."
+      "note": "Adaptez les durées à votre groupe. Les animateurs qui veulent un déroulé minute par minute en trouveront des versions datées dans la documentation du projet."
     },
     "builtFrom": {
       "title": "De quoi est faite cette boîte à outils",
@@ -1714,8 +1714,8 @@
     "allSources": {
       "title": "Bibliographie complète des sources",
       "intro": "Liens nationaux et gouvernementaux cités dans les guides Comms.",
-      "scopedNote": "Les citations nationales OPSEU sont masquées parce que votre trousse de marque est réglée sur un autre syndicat. Changez le préréglage dans la",
-      "brandKitLink": "trousse de marque"
+      "scopedNote": "Les citations nationales OPSEU sont masquées parce que votre Trousse de marque est réglée sur un autre syndicat. Changez le préréglage dans la",
+      "brandKitLink": "Trousse de marque"
     }
   },
   "onboarding": {
@@ -1778,7 +1778,7 @@
       "brandKit": {
         "title": "Enregistrer les URL d'adhésion",
         "body": "Collez les URL FT et PT dans la Trousse de marque. Réutilisez-les sur les cartes QR et la lettre de bienvenue.",
-        "cta": "Ouvrir la trousse de marque"
+        "cta": "Ouvrir la Trousse de marque"
       },
       "printMaterials": {
         "title": "Imprimer affiches et cartes",
@@ -1806,10 +1806,10 @@
     "startSetup": "Commencer la configuration",
     "continueRoadmap": "Continuer la feuille de route de la première semaine",
     "assetsLink": "Voir les actifs de marque",
-    "export": "Exporter la trousse de marque",
-    "import": "Importer la trousse de marque",
-    "importSuccess": "Trousse de marque importée avec succès",
-    "importError": "Fichier de trousse de marque invalide",
+    "export": "Exporter la Trousse de marque",
+    "import": "Importer la Trousse de marque",
+    "importSuccess": "Trousse de marque importée. Vos couleurs, votre logo et vos liens sont en place.",
+    "importError": "Ce fichier n’est pas un export de Trousse de marque. Choisissez le fichier .json téléchargé depuis la Trousse de marque, puis réessayez.",
     "storageBlocked": "Le stockage du navigateur est bloqué. La Trousse ne peut pas enregistrer tant qu’il n’est pas autorisé.",
     "storageBlockedDismiss": "Fermer",
     "currentSettings": "Paramètres actuels",
@@ -2087,7 +2087,7 @@
           "Désignez un ou deux porte-parole - les membres et les médias doivent entendre une seule voix locale cohérente",
           "Publiez quotidiennement les horaires de piquetage, les entrées et les rappels de sécurité avec les graphiques de cette trousse",
           "Partagez la solidarité et les témoignages des membres avec consentement - ne publiez jamais de photos sans permission",
-          "Utilisez les couleurs de votre trousse de marque; suivez les matériels de campagne de division ou de secteur lors d'une coordination divisionnelle",
+          "Utilisez les couleurs de votre Trousse de marque; suivez les matériels de campagne de division ou de secteur lors d'une coordination divisionnelle",
           "Ne partagez pas les détails de négociation, les adresses des membres ni la stratégie interne sur les canaux publics",
           "Orientez les questions sur la paie, les tâches et le retour au travail vers le comité de grève - pas les fils de commentaires"
         ]
@@ -3483,7 +3483,7 @@
     "openHybridSettings": "Ouvrir les paramètres hybrides",
     "dataMode": "Mode de données préféré",
     "dataModeDesc": "Choisissez si les écrans de griefs et de bumpage sur cet appareil utilisent le hub central ou la copie locale chiffrée déverrouillée.",
-    "dataModeHonest": "Précisions : le mode local actif dure pour cet onglet après déverrouillage par phrase secrète ; fermer l'onglet efface la session déchiffrée (la copie chiffrée demeure). La synchronisation vers le hub est manuelle (fusion ou remplacement). Les pièces jointes, brouillons de courriel et la plupart des outils QOL restent sur le hub. Les outils de communication restent sur l'appareil via la trousse de marque.",
+    "dataModeHonest": "Précisions : le mode local actif dure pour cet onglet après déverrouillage par phrase secrète ; fermer l'onglet efface la session déchiffrée (la copie chiffrée demeure). La synchronisation vers le hub est manuelle (fusion ou remplacement). Les pièces jointes, brouillons de courriel et la plupart des outils QOL restent sur le hub. Les outils de communication restent sur l'appareil via la Trousse de marque.",
     "modeCentral": "Hub central (par défaut)",
     "modeLocal": "Copie locale chiffrée active",
     "modeLocalOn": "Mode local actif. Les écrans de griefs et de bumpage utilisent la copie déverrouillée dans cet onglet.",
@@ -4092,7 +4092,7 @@
     "loading": "Chargement de votre marque…",
     "yourColours": "Vos couleurs",
     "yourLogo": "Votre logo",
-    "editBrandKit": "Modifier dans la trousse de marque",
+    "editBrandKit": "Modifier dans la Trousse de marque",
     "copyHex": "Copier",
     "copied": "Copié",
     "downloadUnavailable": "Téléchargement indisponible pour le moment. Réessayez plus tard.",
@@ -4140,7 +4140,7 @@
     "limitsNoStore": "Il n'y a pas de fiche App Store ni Microsoft Store, car l'installation passe par la fonction d'installation d'applications de votre navigateur.",
     "relatedLead": "Pour ce qui reste sur cet appareil, voir",
     "relatedPrivacy": "Confidentialité",
-    "relatedMid": ". Les pourboires optionnels sont sur",
+    "relatedMid": ". Si vous voulez contribuer, visitez",
     "relatedSupport": "Soutenir le bâtisseur",
     "relatedEnd": ".",
     "backHome": "Retour à UnionOps"
@@ -4373,7 +4373,7 @@
     "leadBodyCommsOnly": "Les Comms publics restent locaux d’abord : graphiques et marque sur votre appareil. Un Hub pour les dossiers ne fait pas encore partie du lancement public.",
     "commsTitle": "Outils Comms (sur votre appareil)",
     "comms1": "Traitement d’images, modèles et préparation de fichiers dans votre navigateur",
-    "comms2": "Réglages de la trousse de marque dans le stockage local du navigateur",
+    "comms2": "Réglages de la Trousse de marque dans le stockage local du navigateur",
     "comms3": "Pas d’analytique, de témoins de pistage ni de scripts publicitaires tiers",
     "comms4": "Les photos de membres dans les graphiques ne sont pas téléversées vers les serveurs UnionOps par les outils Comms",
     "hubTitle": "Hub des dirigeants (instance hébergée)",

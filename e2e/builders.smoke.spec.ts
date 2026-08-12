@@ -52,7 +52,7 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(
       page.getByRole("link", { name: /Open the first-week roadmap|What’s next|What's next/i }).first(),
     ).toBeVisible();
-    await expect(page.getByText(/Local-first Comms/i)).toBeVisible();
+    await expect(page.getByText(/stays in your browser/i).first()).toBeVisible();
   });
 
   test("graphic maker renders with download", async ({ page }) => {
