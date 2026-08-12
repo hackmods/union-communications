@@ -11,7 +11,8 @@
 - [x] Voice pass on public strings that prior length cuts left telegraphic/jargon-y: `privacyPage.hubIntro` (dropped "memory"/"tenant isolation" for plain language), `installPage.androidBody`, `crisisGuide.intro` (fixed fragment lead), `brandKit.purposeSetsBody`/`purposeUnlocksBody`/`description`, `websiteGuide.domain.tip`, `seniorityGuide.hub.body`, `home.trustBanner*`, `actionCard.privacyHint` — EN + FR lockstep
 - [x] Removed marketing verb "drive" from Brand Kit copy + SEO (`public-page-meta` `/onboarding`, `/brand-kit`) in favour of "reuse across every tool"
 - [x] Kept legal disclaimers intact (seniority/RTR "Aid only — not legal advice")
-- [x] Style guard still green: `src/lib/comms/public-copy-style.test.ts` (30-word ceiling; ≤1 em dash on lead fields)
+- [x] Full public-namespace readability sweep (EN+FR): catalog was largely healthy; fixed residual clipped/fragment leads (`printGuide.subtitle`, `documentGenerator.subtitle`, `emailBroadcastGuide` when), removed lingering "drive" (`socialMediaPlan` step 0) and jargon ("public launch surface"). Authenticated Hub `/app` copy left out of scope.
+- [x] Style guard still green: `src/lib/comms/public-copy-style.test.ts` (named lead-length limits + ≤1 em dash on lead fields)
 
 ## Public copy streamline (2026-08-10)
 

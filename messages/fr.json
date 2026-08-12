@@ -260,7 +260,7 @@
       "logo": {
         "title": "Trousse de marque d'abord",
         "navLabel": "Marque",
-        "description": "La Trousse de marque est l’étape 0. Couleurs, logo et liens alimentent chaque graphique, avis, tract et site. Réglez-les avant le reste de la feuille de route.",
+        "description": "La Trousse de marque est l’étape 0. Vos couleurs, votre logo et vos liens apparaissent ensuite sur chaque graphique, avis, tract et site. Réglez-les avant le reste de la feuille de route.",
         "checklist": [
           "Choisir votre préréglage syndical (ou Autre pour définir les couleurs vous-même)",
           "Définir le numéro et le sous-texte de la section",
@@ -557,7 +557,7 @@
   },
   "printGuide": {
     "title": "Guide des communications imprimées",
-    "subtitle": "Quand imprimer et comment jumeler l’imprimé au numérique",
+    "subtitle": "Quand imprimer, et comment jumeler l’imprimé à vos canaux numériques.",
     "relatedLabel": "Voir aussi",
     "sections": {
       "when": {
@@ -585,7 +585,7 @@
     "sections": {
       "when": {
         "title": "Quand utiliser le courriel",
-        "content": "Utilisez le courriel pour avis, RSVP et rappel quand les membres font déjà confiance à cette boîte."
+        "content": "Optez pour le courriel quand les membres font déjà confiance à cette boîte — avis de réunion, RSVP et rappels."
       },
       "comms": {
         "title": "Outils Comms publics (copier / mailto)",
@@ -1147,7 +1147,7 @@
   },
   "documentGenerator": {
     "title": "Générateur de documents et diapositives",
-    "subtitle": "Documents Trousse de marque avec aperçu en direct. Word, ou Excel/PowerPoint si inclus.",
+    "subtitle": "Créez des documents à votre marque avec aperçu en direct. Téléchargez Word — plus Excel ou PowerPoint quand l’exemple les inclut.",
     "examples": "Exemples",
     "settings": "Modifier et télécharger",
     "designPreset": "Exemple",
@@ -4370,7 +4370,7 @@
     "leadTitleHub": "Deux surfaces, deux règles",
     "leadTitleCommsOnly": "Comms sur l’appareil",
     "leadBodyHub": "Graphiques et marque restent sur votre appareil. Le Hub tourne chez l’hôte qui l’opère, responsable des données qu’il détient.",
-    "leadBodyCommsOnly": "Les Comms publics restent locaux d’abord : graphiques et marque sur votre appareil. Un Hub pour les dossiers n’est pas encore sur la surface publique de lancement.",
+    "leadBodyCommsOnly": "Les Comms publics restent locaux d’abord : graphiques et marque sur votre appareil. Un Hub pour les dossiers ne fait pas encore partie du lancement public.",
     "commsTitle": "Outils Comms (sur votre appareil)",
     "comms1": "Traitement d’images, modèles et préparation de fichiers dans votre navigateur",
     "comms2": "Réglages de la trousse de marque dans le stockage local du navigateur",

@@ -260,7 +260,7 @@
       "logo": {
         "title": "Brand Kit first",
         "navLabel": "Brand",
-        "description": "Brand Kit is step 0. Colours, logo, and links drive every graphic, notice, flyer, and site template. Set them before the rest of the roadmap.",
+        "description": "Brand Kit is step 0. Your colours, logo, and links then show up on every graphic, notice, flyer, and site template. Set them before the rest of the roadmap.",
         "checklist": [
           "Choose your union preset (or Other to set colours yourself)",
           "Set local number and sub-text",
@@ -557,7 +557,7 @@
   },
   "printGuide": {
     "title": "Print Communications Guide",
-    "subtitle": "When to print and how to pair print with digital",
+    "subtitle": "When to print, and how to pair print with your digital channels.",
     "relatedLabel": "Also see",
     "sections": {
       "when": {
@@ -585,7 +585,7 @@
     "sections": {
       "when": {
         "title": "When email fits",
-        "content": "Use email for meeting notice, RSVP, and reminder when members already trust that inbox."
+        "content": "Reach for email when members already trust that inbox — meeting notices, RSVPs, and reminders."
       },
       "comms": {
         "title": "Public Comms tools (copy / mailto)",
@@ -1147,7 +1147,7 @@
   },
   "documentGenerator": {
     "title": "Document & Slide Generator",
-    "subtitle": "Brand Kit documents with live preview. Download Word, or Excel/PowerPoint when included.",
+    "subtitle": "Build branded documents with a live preview. Download Word — plus Excel or PowerPoint when the example includes them.",
     "examples": "Examples",
     "settings": "Edit & download",
     "designPreset": "Example",
@@ -4370,7 +4370,7 @@
     "leadTitleHub": "Two surfaces, two rules",
     "leadTitleCommsOnly": "On-device Comms",
     "leadBodyHub": "Comms graphics and brand settings stay on your device. The Officer Hub runs on the host that operates it, and that operator is responsible for the data it holds.",
-    "leadBodyCommsOnly": "Public Comms are local-first: graphics and brand settings stay on your device. An Officer Hub for casework is not on the public launch surface yet.",
+    "leadBodyCommsOnly": "Public Comms are local-first: graphics and brand settings stay on your device. An Officer Hub for casework is not part of the public launch yet.",
     "commsTitle": "Comms tools (on your device)",
     "comms1": "Image processing, templates, and file preparation happen in your browser",
     "comms2": "Brand kit settings are stored in browser local storage",
