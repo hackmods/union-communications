@@ -225,6 +225,17 @@
     "trustBanner": "Votre travail Comms reste dans votre navigateur. Si vous hébergez le Hub des dirigeants, c’est vous qui gérez cette instance.",
     "trustBannerCommsOnly": "Votre travail Comms reste dans votre navigateur. Pas de pubs, pas d’analytique et personne qui récolte vos données.",
     "trustManifestoLink": "Notre promesse",
+    "heroPreview": {
+      "ariaLabel": "Exemple d'avis pour tableau aux couleurs de votre Trousse de marque",
+      "noticeEyebrow": "Avis pour tableau",
+      "localLabel": "Section {number}",
+      "noticeLead": "Assemblée des membres",
+      "noticeHeadline": "Présents. Informés.",
+      "noticeBody": "Les mêmes couleurs et le même numéro de section que dans la Trousse de marque, prêts pour le tableau au travail.",
+      "noticeCta": "Ajouter au calendrier",
+      "swatchHint": "Couleurs en direct de votre Trousse de marque",
+      "openTool": "Ouvrir Avis pour tableau syndical"
+    },
     "channels": {
       "social": {
         "title": "Médias sociaux",

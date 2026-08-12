@@ -225,6 +225,17 @@
     "trustBanner": "Your Comms work stays in your browser. If you host the Officer Hub, you are in charge of that instance.",
     "trustBannerCommsOnly": "Your Comms work stays in your browser. No ads, no analytics, and nobody harvesting your data.",
     "trustManifestoLink": "Our promise",
+    "heroPreview": {
+      "ariaLabel": "Sample board notice using your Brand Kit colours",
+      "noticeEyebrow": "Board notice",
+      "localLabel": "Local {number}",
+      "noticeLead": "Membership meeting",
+      "noticeHeadline": "Show up. Stay informed.",
+      "noticeBody": "Same colours and local number you set in Brand Kit, ready for the workplace board.",
+      "noticeCta": "Add to calendar",
+      "swatchHint": "Live colours from your Brand Kit",
+      "openTool": "Open Board Notice Maker"
+    },
     "channels": {
       "social": {
         "title": "Social Media",

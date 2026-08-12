@@ -39,11 +39,12 @@ const TOOL_A11Y_PAGES = [
 ] as const;
 
 test.describe("Home hero & builders smoke @smoke", () => {
-  test("home hero shows brand mark, slogan, and CTAs", async ({ page }) => {
+  test("home hero shows brand mark, slogan, preview, and CTAs", async ({ page }) => {
     await page.goto("/en/");
     await expect(page.getByTestId("home-hero-brand")).toBeVisible();
+    await expect(page.getByTestId("home-hero-preview")).toBeVisible();
     await expect(page.getByText("Solidarity.")).toBeVisible();
-    // Hero + Comms path share the same label when Officer Hub is public.
+    // Hero owns brand setup; Comms path uses pathCommsCta ("Get started") — COPY-001.
     await expect(
       page
         .getByRole("region", { name: /toolkit for local unions/i })
@@ -52,6 +53,14 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(
       page.getByRole("link", { name: /Open the first-week roadmap|What’s next|What's next/i }).first(),
     ).toBeVisible();
+    // Path card only when NEXT_PUBLIC_OFFICER_HUB_PUBLIC is on (CI / soft-launch).
+    const pathComms = page.getByTestId("home-path-comms");
+    if ((await pathComms.count()) > 0) {
+      await expect(pathComms.getByRole("link", { name: "Get started" })).toBeVisible();
+      await expect(
+        pathComms.getByRole("link", { name: "Set up your local brand" }),
+      ).toHaveCount(0);
+    }
     await expect(page.getByText(/stays in your browser/i).first()).toBeVisible();
   });
 

@@ -8,6 +8,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { ShareThisTool } from "@/components/share/ShareThisTool";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import { HomeHeroPreview } from "@/components/pages/HomeHeroPreview";
 import { useBrandStore } from "@/store/brand-store";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
@@ -81,11 +82,11 @@ export function HomeContent() {
           }}
           aria-hidden
         />
-        <div className="relative mx-auto flex min-h-[min(72vh,40rem)] w-full max-w-[90rem] flex-col justify-center px-4 py-14 sm:px-6 md:min-h-[min(68vh,36rem)] md:py-16 xl:px-8">
-          <div className="home-enter flex flex-col items-start gap-8 md:flex-row md:items-center md:gap-12 lg:gap-16">
+        <div className="relative mx-auto grid min-h-[min(72vh,40rem)] w-full max-w-[90rem] grid-cols-1 items-center gap-10 px-4 py-14 sm:px-6 md:min-h-[min(68vh,36rem)] md:gap-12 md:py-16 lg:grid-cols-2 lg:gap-14 xl:gap-16 xl:px-8">
+          <div className="home-enter flex min-w-0 flex-col items-start gap-6 sm:gap-8">
             <div
               data-testid="home-hero-brand"
-              className="home-enter shrink-0 rounded-[28%] bg-white/95 p-3 shadow-lg ring-1 ring-black/5"
+              className="shrink-0 rounded-[28%] bg-white/95 p-3 shadow-lg ring-1 ring-black/5"
             >
               {/* Live interlocking mark — plate/glyph follow Brand Kit primary + secondary */}
               <UnionOpsMark
@@ -151,6 +152,8 @@ export function HomeContent() {
               </div>
             </div>
           </div>
+
+          <HomeHeroPreview className="justify-self-stretch lg:justify-self-end" />
         </div>
       </section>
 
@@ -176,6 +179,7 @@ export function HomeContent() {
           <section className="home-enter home-enter-delay-2 mb-12 grid gap-4 md:grid-cols-2">
             <Callout
               tone="brand"
+              data-testid="home-path-comms"
               className="flex flex-col gap-3 p-5"
             >
               <div>
@@ -185,15 +189,10 @@ export function HomeContent() {
                 <p className="mt-2 text-sm text-gray-600">{t("pathCommsDesc")}</p>
                 <p className="mt-2 text-sm text-gray-600">{t("pathCommsHint")}</p>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div>
                 <Link href={brandHref}>
                   <Button size="md" className="min-h-11">
-                    {themeEstablished ? t("openBrandKitCta") : t("heroCta")}
-                  </Button>
-                </Link>
-                <Link href="/guide/social-media-plan">
-                  <Button variant="outline" size="md" className="min-h-11">
-                    {t("whatsNextCta")}
+                    {t("pathCommsCta")}
                   </Button>
                 </Link>
               </div>

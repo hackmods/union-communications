@@ -1,5 +1,12 @@
 # Progress Log
 
+## Home composition v2 + COPY-001 (2026-08-12)
+
+- [x] Two-zone `lg+` hero: message column + `HomeHeroPreview` (Brand Kit–coloured board notice + swatches)
+- [x] `COPY-001`: Comms path uses `pathCommsCta` only; roadmap outline stays in hero
+- [x] EN/FR `home.heroPreview.*`; smoke asserts preview + de-dup when hub public
+- [x] Docs/backlog/roadmap marked closed
+
 ## Public marketing layout rules (2026-08-12)
 
 - [x] New [`.cursor/rules/public-marketing-ux.mdc`](../.cursor/rules/public-marketing-ux.mdc) — Home two-zone hero, effort bar, re-touch license
@@ -546,14 +553,14 @@ Scaffold through testing/CI — all complete.
 - [x] Brand Kit → `/assets` link; i18n `learnGroupChannels` EN/FR
 - [x] Spec + agent rules: `COMMS.md`, `comms-public-nav.mdc`, `COMMS_BACKLOG.md`
 
-## Landing page — align + desktop layout (2026-07-14) — v1 COMPLETE; composition v2 open
+## Landing page — align + desktop layout (2026-07-14) — v1 COMPLETE; composition v2 COMPLETE (2026-08-12)
 
 - [x] Hero band with CTAs + trust aside (`lg` split); Share/privacy secondary
 - [x] Hub-off: compact coming-soon rail (not a twin dashed card)
 - [x] Brand Kit sticky rail + `/assets` / Logo Builder links
 - [x] Toolbox: boards → print → social → website; capped tiles; `xl:grid-cols-4`
 - [x] Closing CTAs: Get started / Resources / Blueprint; home-enter motion; EN/FR copy
-- [ ] **v2:** two-zone hero at `lg+` (no empty-half full-bleed); pair with `COPY-001` — see `.cursor/rules/public-marketing-ux.mdc`
+- [x] **v2:** two-zone hero at `lg+` (`HomeHeroPreview`); `COPY-001` path CTA de-dup
 
 ## Phase 8-lite — Workforce Time (2026-07-12) — COMPLETE
 
