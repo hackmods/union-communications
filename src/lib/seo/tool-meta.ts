@@ -128,7 +128,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "solidarity-poster": {
       title: "Créateur d'affiches de solidarité gratuit",
       description:
-        "Remplissez les babillards vides avec des affiches de solidarité audacieuses, et créez des fonds d'écran assortis à partir du même visuel. Gratuit, sur votre appareil.",
+        "Remplissez les babillards vides avec des affiches de solidarité audacieuses, et créez des fonds d'écran assortis du même visuel. Gratuit, sur votre appareil.",
     },
     "meeting-background": {
       title: "Arrière-plans Zoom et Teams gratuits",

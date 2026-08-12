@@ -2261,7 +2261,7 @@
         "items": [
           "Colonnes : Réf. membre · Date d'ancienneté · Classification · Poste actuel · Cible / réclamation · Admissible? (O/N/?) · Notes / article CC",
           "Lignes : une par personne dans la chaîne, plus une ligne vide pour les candidats de rechange",
-          "Pied de page : date de séance, président, résumé de décision et lien vers l'ID du dossier de bumping du Centre"
+          "Pied de page : date de séance, président, résumé de décision et lien vers l'ID du dossier de bumping du Hub des dirigeants"
         ],
         "exportCta": "Télécharger la feuille Excel",
         "exportHint": "Ouvre le générateur de documents avec une grille d'ancienneté de marque prête à exporter."

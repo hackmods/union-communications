@@ -874,7 +874,7 @@
         "description": "High-contrast graphic with date, time, and location - a clear call to show up.",
         "why": {
           "0": "Lead with when and where so members can act without reading a long caption.",
-          "1": "High contrast and a single CTA keep the post readable in a busy feed."
+          "1": "High contrast and a single call to action keep the post readable in a busy feed."
         },
         "mockup": {
           "headline": "Picket line tomorrow",
@@ -1418,7 +1418,7 @@
     "ask": "The ask",
     "deadline": "Deadline (optional)",
     "deadlinePlaceholder": "e.g. Sign by Friday March 14",
-    "cta": "CTA under QR",
+    "cta": "Call to action under QR",
     "bgMode": "Background",
     "bgModes": {
       "plain": "Plain",
@@ -1435,7 +1435,7 @@
     },
     "sizeTip": "Quarter = 4 per letter sheet. Half = 2 per sheet. Print repeats to fill a page.",
     "previewSize": "Preview at {label} - {width}×{height} in",
-    "showUrl": "Show URL under CTA",
+    "showUrl": "Show URL under the call to action",
     "includeBranding": "Include local branding",
     "qrPlaceholder": "Paste a petition link",
     "presets": {
@@ -2295,7 +2295,7 @@
         "items": [
           "Columns: Member ref · Seniority date · Classification · Current position · Target / bump claim · Eligible? (Y/N/?) · Notes / CA article",
           "Rows: one per person in the chain, plus a blank row for alternate candidates",
-          "Footer: session date, chair, decision summary, and link to the Hub bumping case ID"
+          "Footer: session date, chair, decision summary, and link to the Officer Hub bumping case ID"
         ],
         "exportCta": "Download Excel worksheet",
         "exportHint": "Opens Document Generator with a blank branded seniority grid ready to export."
