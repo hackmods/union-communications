@@ -76,6 +76,44 @@ test that gap would have shipped inside the fix meant to prevent it.
 
 **A guard you have not tried to break is a guess.**
 
+The harness is throwaway — write it as a temp `.mjs`, run it, delete it. It is
+recreatable in a minute, so recreate it rather than trusting a guard you added
+without it:
+
+```js
+// tmp-probe.mjs — inject one regression per guard, confirm the suite fails, restore.
+import fs from "node:fs";
+import { execSync } from "node:child_process";
+
+const FR = "messages/fr.json";
+const EN = "messages/en.json";
+const orig = { [FR]: fs.readFileSync(FR, "utf8"), [EN]: fs.readFileSync(EN, "utf8") };
+
+// [label, file, exact string to find, what to replace it with]
+const cases = [
+  ["FR locked term", FR, "Hub des dirigeants", "Centre des dirigeants"],
+  ["EN bare hub", EN, "Explore the tools", "Explore the hub"],
+  ["EN jargon", EN, "One clear call to action", "One clear CTA"],
+  // ...one row per check the guard claims to make
+];
+
+for (const [label, file, find, replace] of cases) {
+  if (!orig[file].includes(find)) { console.log(`SKIP  ${label}`); continue; }
+  fs.writeFileSync(file, orig[file].replace(find, replace));
+  let bit = false;
+  try { execSync("npx vitest run src/lib/comms/public-copy-style.test.ts", { stdio: "pipe" }); }
+  catch { bit = true; }
+  for (const [p, text] of Object.entries(orig)) fs.writeFileSync(p, text);
+  console.log(`${bit ? "BITES" : "MISS "} ${label}`);
+}
+```
+
+Two things that made injections report a false MISS: anchoring on a string whose
+**first** occurrence sits in a namespace the guard does not scan (that is how the
+`nav` gap surfaced — investigate a MISS before assuming the injection was wrong),
+and, for the untranslated-FR check, writing a French value that is merely
+English-*ish* rather than byte-identical to the English value at the same path.
+
 ### 3. Mechanical edits leave a readable fingerprint
 
 An earlier pass had replaced semicolons and dashes with periods across the SEO

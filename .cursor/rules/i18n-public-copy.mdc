@@ -47,6 +47,13 @@ Failures print the offending key path and value. **Fix the copy, not the guard**
 if a check is genuinely wrong, change it deliberately and say why in the commit,
 the way the blanket word ceiling was removed on 2026-08-11.
 
+**Adding a check? Verify it by injecting the regression it claims to catch.** A
+guard you have not tried to break is a guess. Doing this on 2026-08-11 is what
+revealed that `nav` — which holds the locked tool names — was missing from
+`PUBLIC_NS` and had never been scanned. Throwaway harness:
+[`session-knowledge-2026-08-11-public-copy-qol.md`](../../docs/audit/session-knowledge-2026-08-11-public-copy-qol.md)
+(lesson 2).
+
 ## Locked terms and their French names
 
 Never rename these, and never let French invent a second name:
