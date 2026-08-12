@@ -13,6 +13,16 @@
 - [x] Fixed stale `e2e/builders.smoke.spec.ts` banner assertion (`Local-first Comms` no longer exists in the catalog)
 - [x] Green: `npm run lint`, `npm run test:unit` (127 files / 718 tests)
 
+### Guards + knowledge capture (same day)
+
+- [x] `public-copy-style.test.ts` extended from 3 checks to 10: sentence capitalization (EN+FR, with an abbreviation allowlist), no bare "the hub" in EN, one French name per locked term, French space before `:`/`;`, banned developer jargon, and no untranslated FR. `PUBLIC_NS` now includes `nav`/`share`/`consent` — `nav` carries the locked tool names and was never being scanned
+- [x] `public-page-meta.test.ts` gained a description band (95–165 chars, deliberately a band not a target), duplicate detection per locale, and the same lowercase-sentence check
+- [x] Verified the new guards by injecting **13 deliberate regressions** one at a time and confirming each fails the suite; that negative test is what exposed the missing `nav` namespace
+- [x] Guard run also caught four strings the manual pass missed: `actionCard.cta`/`showUrl` and `examples` still said "CTA", and `seniorityGuide` said "the Hub bumping case ID"
+- [x] New rule [`.cursor/rules/i18n-public-copy.mdc`](../.cursor/rules/i18n-public-copy.mdc); cross-linked from `AGENTS.md`, `.cursorrules`, `comms-public-ux.mdc`, `roadmap-next.mdc`
+- [x] Session knowledge: [`docs/audit/session-knowledge-2026-08-11-public-copy-qol.md`](audit/session-knowledge-2026-08-11-public-copy-qol.md) — why structural tests passed while a consent instruction was inverted, and the Windows/PowerShell/`ftruncate` editing hazards
+- [x] Next steps as tickets: `COPY-001`…`COPY-005` in [`execution-backlog.md`](audit/execution-backlog.md) (home hero CTA de-dup, spec-literal rot check, Hub copy pass, FR caption bodies, optional readability floor)
+
 ## Drop blanket word-count guard (2026-08-11)
 
 - [x] Removed the blanket 30-word per-leaf ceiling test from `public-copy-style.test.ts` — it optimized for brevity over clarity and rewarded clipping subjects/verbs out of body copy (the root cause of the telegraphic strings fixed below)

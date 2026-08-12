@@ -506,6 +506,96 @@ Added 2026-07-30 after steward reports that national-union bibliography links (s
 
 ---
 
+## PUBLIC COPY & i18n (`COPY-`)
+
+Added 2026-08-11 after the public copy QOL pass. Audit: [`public-copy-qol-2026-08.md`](public-copy-qol-2026-08.md). Lessons: [`session-knowledge-2026-08-11-public-copy-qol.md`](session-knowledge-2026-08-11-public-copy-qol.md). Agent rules: [`.cursor/rules/i18n-public-copy.mdc`](../.cursor/rules/i18n-public-copy.mdc).
+
+Sections 1–7 of that audit shipped. These are the residuals it deliberately did not take, plus the coverage gaps the pass exposed. None is urgent; `COPY-001` is the only one with a user-visible defect behind it.
+
+### [COPY-001] Home hero duplicates the Comms path CTA pair
+**Category:** UX / public Comms
+**Severity/Priority:** Low-Medium (wastes the first two viewports on mobile; no data or security impact)
+**Status:** Open — copy differentiated 2026-08-11; structural de-duplication deferred
+**Problem/Gap Statement:** When the Officer Hub is public, `HomeContent` renders the same **Brand Kit** + **Open the first-week roadmap** button pair twice — once in the hero and again in the Comms path card. The smoke suite documents the duplication rather than preventing it ("Hero + Comms path share the same label"). `home.pathCommsCta` ("Get started") exists in both catalogs and is unused. The QOL pass mitigated this at the copy level only (`pathCommsDesc` / `pathCommsHint` now say something the hero does not), because removing a button changes the accessible names the specs assert.
+**Affected Architecture/Files:**
+- `src/components/pages/HomeContent.tsx`
+- `messages/en.json`, `messages/fr.json` (`home.pathComms*`)
+- `e2e/builders.smoke.spec.ts` (hero region + link-name assertions), `e2e/smoke.spec.ts`
+**Implementation Blueprint:**
+1. Decide the single owner of each CTA: hero keeps **Set up your local brand**; Comms path card uses the existing `home.pathCommsCta` ("Get started" / "Commencer") pointing at `brandSetupHref`.
+2. Drop the second roadmap button from the path card, or demote it to a text link under `pathCommsHint`.
+3. Update the two smoke specs in the same commit — they currently scope by `getByRole("region", { name: /toolkit for local unions/i })`, so re-check the region query still resolves.
+4. Re-check the four widths (375 / 768 / 1280 / 1536) per `comms-public-ux.mdc`; the point of the change is mobile scan length.
+**Acceptance Criteria:**
+- No duplicate accessible link name in the first two viewports at 375px.
+- `home.pathCommsCta` is rendered somewhere or removed from both catalogs (no dead keys).
+- `npm run test:unit` + `npx playwright test e2e/builders.smoke.spec.ts --grep "@smoke"` green.
+**Dependencies:** None.
+
+### [COPY-002] Copy guards do not run on public Comms smoke, so asserted strings can rot
+**Category:** Testing / CI hygiene
+**Severity/Priority:** Low (developer-facing; caused one stale assertion that silently passed for weeks)
+**Status:** Open
+**Problem/Gap Statement:** `e2e/builders.smoke.spec.ts` asserted `/Local-first Comms/i` after the `trustBanner` rewrite deleted that string from both catalogs. Nothing failed, because smoke is not run on copy-only commits and no unit test cross-references spec literals against `messages/*.json`. The same rot will recur on the next copy pass.
+**Affected Architecture/Files:**
+- `e2e/*.smoke.spec.ts` (literal text assertions)
+- `src/lib/comms/public-copy-style.test.ts` (natural home for the cross-check)
+- `messages/en.json`
+**Implementation Blueprint:**
+1. Extract the smoke-asserted public strings into a shared fixture (e.g. `e2e/fixtures/asserted-copy.ts`) that both the specs and a unit test import, **or**
+2. Cheaper: add a unit test that reads the `e2e/*.smoke.spec.ts` sources, pulls quoted `getByText` / `getByRole({ name })` literals that look like prose (>3 words, no regex metacharacters), and asserts each appears in `messages/en.json`.
+3. Document the pinned-string list in `i18n-public-copy.mdc` (already listed there as of 2026-08-11) and keep it in sync.
+**Acceptance Criteria:**
+- Deleting a smoke-asserted public string from `messages/en.json` fails `npm run test:unit`.
+- The check tolerates regex-based assertions and non-catalog text (headings composed at runtime) without false positives.
+**Dependencies:** None.
+
+### [COPY-003] Authenticated Hub copy has never had a voice or French-quality pass
+**Category:** UX / i18n
+**Severity/Priority:** Low-Medium (officers hit these strings daily; French quality unknown)
+**Status:** Open — explicitly out of scope for the 2026-08-11 pass
+**Problem/Gap Statement:** Every public-copy pass so far has scoped out `/app` module copy (grievance, time, portal, ledger, travel, expenses, polls, meetings, officers, committees, elections, minutes). Those namespaces are the majority of the catalog and have never been screened for the defect classes the public pass found. Spot evidence that the same bugs exist there: `hybrid.dataModeHonest` and `hybrid.localSliceDesc` say "le magasin du hub" / "hub central" (jargon a local president will not parse), `elections.noOnlineVoting` and `minutes.motionMeta` needed the same French semicolon fix, and `onboarding.unionNotesPlaceholder` leaks "host brand config" plus a hardcoded OPSEU reference.
+**Affected Architecture/Files:**
+- `messages/en.json`, `messages/fr.json` — Hub namespaces (`grievance*`, `bumping*`, `time*`, `portal*`, `ledger*`, `travel*`, `expenses*`, `polls*`, `meetings*`, `officers*`, `committees*`, `elections*`, `minutes*`, `hybrid*`, `audit*`, `onboarding` admin keys)
+- `src/lib/comms/public-copy-style.test.ts` (`PUBLIC_NS` would extend, or a sibling `hub-copy-style.test.ts`)
+**Implementation Blueprint:**
+1. Run the existing guard functions against Hub namespaces first and read the output before changing anything — that is the audit, and it is nearly free now that the checks exist.
+2. Expect a different jargon list than the public one: officers legitimately need "grievance step", "CA article", "bargaining unit". Do **not** reuse the public banned list wholesale; build a Hub-specific one (`memory store`, `adapter`, `overlay`, `RLS`, `slug`, `payload` are fair game).
+3. Keep the audit → implement → guard order that worked for public copy: write findings to `docs/audit/` first so the diff is reviewable against a record.
+4. Extend the guard to the newly-cleaned namespaces so they cannot regress.
+**Acceptance Criteria:**
+- A `docs/audit/hub-copy-qol-*.md` exists with before/after per key.
+- Hub namespaces pass sentence-capitalization, French-typography, and locked-term checks.
+- `PUBLIC_NS` (or a Hub equivalent) covers the cleaned namespaces.
+**Dependencies:** None. Cheapest right after this session, while the guard functions are fresh.
+
+### [COPY-004] French caption bodies still ship as English templates
+**Category:** i18n / content
+**Severity/Priority:** Low (documented product decision, not a defect)
+**Status:** Open — deliberate; recorded here so it is not "discovered" again
+**Problem/Gap Statement:** `comms-public-ux.mdc` allows caption **bodies** to stay EN while the page chrome is i18n, pending multi-union content. The new "no untranslated FR" guard scopes to `PUBLIC_NS`, which includes `captions`, so any future FR caption work must land as real translation rather than copied English or the guard will fire. Related open item from the workshop Gap Fit: FR caption packs.
+**Affected Architecture/Files:**
+- `messages/fr.json` (`captions.*`)
+- `.cursor/rules/comms-public-ux.mdc`, `docs/audit/workshop-gap-fit-2026-08.md`
+**Implementation Blueprint:** Translate caption bodies with `#LocalUnion` / `[Local Number]` placeholders intact; do not introduce national hashtags. Verify the untranslated-FR guard passes rather than exempting `captions`.
+**Acceptance Criteria:** FR caption bodies read as French written for Ontario locals; no hardcoded national hashtag; guard green without a new exemption.
+**Dependencies:** Multi-union content decision (same blocker as the Gap Fit entry).
+
+### [COPY-005] No automated readability floor
+**Category:** Tooling (optional)
+**Severity/Priority:** Low
+**Status:** Open — proposal only
+**Problem/Gap Statement:** The target is grade 8–10, but nothing measures it. Every pass has judged reading level by eye, which is why "reference tenant defaults" survived several reviews. A crude Flesch-Kincaid or syllable-per-word check over public leaves would catch the worst offenders without pretending to be authoritative.
+**Affected Architecture/Files:** `src/lib/comms/` (new helper + test)
+**Implementation Blueprint:**
+1. Implement a small dependency-free readability score for EN leaves only (French scoring needs different constants and is not worth it).
+2. Report the worst 20 rather than failing a build initially — treat it as a report, then tighten to a ceiling once the tail is cleaned.
+3. Skip labels and short strings (≤8 words); they score meaninglessly.
+**Acceptance Criteria:** `npm run` target or test prints the least-readable public strings; no third-party dependency added (ADR-006 spirit — nothing that phones home).
+**Dependencies:** None. Do after `COPY-003` so Hub copy is in scope too.
+
+---
+
 ## Sequencing note for agents picking up this backlog
 
 `SEC-003` (Postgres + RLS) is a hard dependency for making `SEC-007` (real accounts), `FEAT-001` (real attachment storage), and most of the "Basecamp parity" `FEAT-` tickets durable rather than another layer built on sand. Do `SEC-001`/`SEC-002`/`SEC-004` (MFA + secret hardening) first — they are self-contained, high-severity, and do not require the database migration to land. `.cursor/rules/roadmap-next.mdc` already sequences Postgres before onboarding UI before attachments; this backlog does not contradict that sequencing, it fills in the ticket-level detail underneath it.

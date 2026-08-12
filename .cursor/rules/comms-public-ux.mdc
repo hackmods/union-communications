@@ -12,7 +12,7 @@ Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc), [`tool-editor-u
 
 | Prefer | Avoid on public Comms |
 |--------|------------------------|
-| **UnionOps Comms** / “this site” / named tool | Ambiguous “the hub” (confused with Officer Hub) |
+| **UnionOps Comms** / “this site” / named tool | Ambiguous “the hub” (confused with Officer Hub) — guarded in `public-copy-style.test.ts` |
 | **Officer Hub** only for `/app` casework | Mixing Hub ops jargon into public tool chrome |
 | **Brand Kit** + “Open Brand Kit” | “Start onboarding” once theme exists |
 | **Graphic Maker**, **Image Resizer** | Divergent H1 vs nav (“News & Event…”, “Omnichannel…”) |
@@ -25,7 +25,8 @@ Use `brandSetupHref(themeEstablished)` from `@/lib/utils/brand-setup` (`/onboard
 - **Tool subtitles / guide intros:** one job each. Prefer ~12–18 words on subtitles; max two short sentences on intros. Put print tips and cross-links in hints, `whenToUse`, or related chips — not the lead line.
 - **Body copy is not a lead.** Guide paragraphs, tips, checklist items, and hints should read as complete sentences a steward could say aloud. Do **not** clip subjects/verbs to hit a word count ("Prefer Install when it appears." is a failure, not a win). There is intentionally **no blanket per-leaf word ceiling** — the [`public-copy-style.test.ts`](../../src/lib/comms/public-copy-style.test.ts) guard only keeps a few *named* lead fields short and caps em-dash stacking on leads. Clarity beats brevity below the lead line.
 - **Em dashes:** fine within reason for contrast (`Aid only — not legal advice`) or a single clause break. Do not stack multiple em dashes in one string, and prefer a period or colon in tool subtitles and home chrome when a dash only adds pause.
-- Keep EN/FR in lockstep for every public string you change.
+- **Error / empty / success states owe a consequence and a remedy.** Name the likely cause and the next action ("That file is not a Brand Kit export. Pick the .json file you downloaded from Brand Kit and try again."), not just the failure.
+- Keep EN/FR in lockstep for every public string you change — and read the other locale's value, not just its key. French is a second source of truth that can be **wrong**, not a mirror. Full contract, locked French term names, banned jargon list, and the guard commands: [`i18n-public-copy.mdc`](i18n-public-copy.mdc).
 
 ## Workshop journey
 
@@ -35,6 +36,7 @@ Use `brandSetupHref(themeEstablished)` from `@/lib/utils/brand-setup` (`/onboard
 4. Facilitator docs: [`docs/guides/WORKSHOP_SOCIAL_COMMS.md`](../../docs/guides/WORKSHOP_SOCIAL_COMMS.md); public outline: `/guide/workshop`; orientation: `/guide/resources`
 5. Post-talk backlog / fit notes: [`docs/audit/workshop-gap-fit-2026-08.md`](../../docs/audit/workshop-gap-fit-2026-08.md)
 6. Session lessons (merge hygiene, BrandSetup toolbar, PowerShell `@smoke`): [`docs/audit/session-knowledge-2026-08-09-workshop-comms.md`](../../docs/audit/session-knowledge-2026-08-09-workshop-comms.md)
+7. Copy/i18n lessons (FR meaning errors, locked-term drift, mechanical-edit fingerprints): [`docs/audit/session-knowledge-2026-08-11-public-copy-qol.md`](../../docs/audit/session-knowledge-2026-08-11-public-copy-qol.md)
 
 ## Tool chrome contracts
 

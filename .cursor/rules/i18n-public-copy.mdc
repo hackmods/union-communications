@@ -1,0 +1,133 @@
+---
+description: EN/FR message catalogs + public SEO copy — parity, French quality, locked terms, plain language, and the guards that enforce them
+globs: messages/*.json,src/lib/seo/*.ts,src/lib/comms/public-copy-style.test.ts
+alwaysApply: false
+---
+
+# Public copy & i18n (EN + FR)
+
+Companion to [`comms-public-ux.mdc`](comms-public-ux.mdc) (product language lock, copy
+style) and [`seo.mdc`](seo.mdc) (canonicals, sitemap). Written after the
+2026-08-11 QOL pass, which found that the catalog looked healthy at the lead line
+while French carried real meaning errors underneath. Findings and before/after:
+[`docs/audit/public-copy-qol-2026-08.md`](../../docs/audit/public-copy-qol-2026-08.md);
+lessons: [`docs/audit/session-knowledge-2026-08-11-public-copy-qol.md`](../../docs/audit/session-knowledge-2026-08-11-public-copy-qol.md).
+
+## The rule that matters most
+
+**French is not a mirror of English — it is a second source of truth that can be
+wrong.** Key parity passing tells you nothing about whether the two locales say
+the same thing. The worst bug found in the QOL pass was `photoConsentGuide`
+telling stewards in French to prefer group photos *"sans consentement individuel"*
+(without individual consent) — the exact opposite of the English. It had passed
+every existing check for months.
+
+When you touch a French string, read the English one beside it and confirm the
+**claim** matches, not just the topic. When you touch an English string, update
+the French value in the same commit.
+
+## Mechanical guards (run these, do not hand-audit)
+
+| Check | Lives in |
+|---|---|
+| Sentence starts capitalized (EN + FR) | [`public-copy-style.test.ts`](../../src/lib/comms/public-copy-style.test.ts) |
+| No bare "the hub" in EN public copy | same |
+| One French name per locked term | same |
+| French space before `:` and `;` | same |
+| No developer jargon | same |
+| No untranslated FR (identical to EN, >4 words) | same |
+| Named lead-length limits + ≤1 em dash on leads | same |
+| SEO description length band, duplicates, capitalization | [`public-page-meta.test.ts`](../../src/lib/seo/public-page-meta.test.ts) |
+
+```bash
+npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts
+```
+
+Failures print the offending key path and value. **Fix the copy, not the guard** —
+if a check is genuinely wrong, change it deliberately and say why in the commit,
+the way the blanket word ceiling was removed on 2026-08-11.
+
+## Locked terms and their French names
+
+Never rename these, and never let French invent a second name:
+
+| English (locked) | French (locked) |
+|---|---|
+| Officer Hub (only for `/app`) | Hub des dirigeants |
+| Brand Kit | Trousse de marque (capitalized — it is a product name) |
+| UnionOps Comms / "this site" | UnionOps Comms / « ce site » |
+| Flyer Maker → a *flyer* | Créateur de tracts → un **tract** (not *affiche* = poster, not *dépliant* = leaflet) |
+| alt text | texte **alternatif** (never the clipped "texte alt") |
+| Duty of Fair Representation / DFR | devoir de représentation équitable / **DRE** |
+| OHSA | **LSST** |
+| ESA | **LNE** |
+
+*Poster* is `affiche`, so `affiche` is correct for Solidarity Posters and QR Board
+Posters — the flyer rule is specifically about Flyer Maker output.
+
+## Plain language for volunteers
+
+The audience is Ontario public-sector and college-sector stewards, LEC officers,
+and workshop volunteers. Not marketers, developers, or lawyers.
+
+Banned on public strings (the guard enforces these): `tenant`, `canvas/install/brand
+chrome`, `type scale`, `progressive web app`, `PCI`, `slug`, `memory store`,
+`localStorage`, `CTA`, `utilize`, `leverage`, `*_DB_BACKEND`.
+
+Say the thing instead: "starter values from published union graphics guidelines",
+"text size", "your browser's own app-install feature", "share link name",
+"call to action".
+
+**One documented exception:** `privacyPage.hubSelfHost` keeps `AUTH_SECRET`,
+because that paragraph addresses whoever self-hosts the Officer Hub, not stewards.
+It is exempted by key path in the guard. Add exceptions the same way — by key,
+with a comment — rather than by weakening a pattern.
+
+## French typography and idiom
+
+- A space goes before `:` and `;` (`Un message : quatre canaux`). Guarded.
+- Prefer `p. ex.` over `e.g.`, and `…` over `...`.
+- Watch for calques that invert or change meaning: *"Vérifiez **contre** votre
+  convention"* → `dans`; *"moved camp"* → not `changé de camp` (that reads as
+  switching sides); *"paywalls"* → `murs payants`; *"votre central"* → name it
+  (`votre syndicat provincial ou national`).
+- Do not drop the clause that carries the reason. French had lost *"so the board
+  never looks abandoned"* and *"so updates do not die when someone leaves"* — the
+  sentence still parsed, but the advice no longer explained itself.
+
+## Body copy vs lead copy
+
+There is intentionally **no blanket per-leaf word ceiling** (removed 2026-08-11 —
+it rewarded clipping subjects and verbs). Guide paragraphs, tips, checklist items,
+and hints must read as complete sentences a steward could say aloud. Only a few
+*named* lead fields stay short, and lead fields cap at one em dash.
+
+Error, empty, and success states owe the reader **a consequence and a remedy**.
+"Invalid brand kit file" names neither; "That file is not a Brand Kit export. Pick
+the .json file you downloaded from Brand Kit and try again." names both.
+
+## Editing hazards
+
+- **Mechanical find-and-replace leaves a fingerprint.** An earlier pass swapped
+  semicolons and dashes for periods and left ten SEO descriptions starting a
+  sentence lowercase, which rendered verbatim in search results. If you run a bulk
+  replace, run the guards after and read the diff.
+- **Prefer a temp `.mjs` script over a PowerShell one-liner** for bulk catalog
+  edits; PowerShell mangles quotes and `$` in JSON strings. Delete the script
+  before committing.
+- **`JSON.stringify` round-trips are not byte-safe** on these files (line endings
+  and trailing newline differ). Do raw-text replaces, or use `StrReplace`.
+- Semicolons never appear in JSON syntax, so a raw-text semicolon pass is safe.
+  Colons do — never bulk-replace those.
+- **Edit values, not keys.** EN/FR key parity is asserted; renaming a key in one
+  locale breaks the other.
+
+## Do not
+
+- Reintroduce a blanket word-count ceiling
+- Hardcode a national union name, colour, or hashtag into generic copy (OPSEU/CAAT
+  is reference tenant #1, not a default) — prefer `#LocalUnion` + `[Local Number]`
+- Leak env vars, cron paths, or `*_DB_BACKEND` into volunteer-facing copy
+- Weaken the legal meaning of "not legal advice" / "aid only" disclaimers
+- Assume a smoke assertion still matches the catalog — `builders.smoke.spec.ts`
+  spent weeks asserting `Local-first Comms` after that string was deleted

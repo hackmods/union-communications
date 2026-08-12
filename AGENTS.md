@@ -13,7 +13,7 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 6. [`docs/PROGRESS.md`](docs/PROGRESS.md) - what shipped
 7. [`docs/audit/current-ground-truth.md`](docs/audit/current-ground-truth.md) - **post-audit as-built** (prefer over stale `active-context.md`); session lessons: [`session-knowledge-2026-07-24.md`](docs/audit/session-knowledge-2026-07-24.md), [`session-knowledge-2026-07-30.md`](docs/audit/session-knowledge-2026-07-30.md) (national link rot / **LINK-001**), [`session-knowledge-2026-07-30-multi-union-sources.md`](docs/audit/session-knowledge-2026-07-30-multi-union-sources.md) (gate OPSEU citations; logo bundling risk), [`session-knowledge-2026-08-09-local-404.md`](docs/audit/session-knowledge-2026-08-09-local-404.md) (Local 404 / route status chrome), [`session-knowledge-2026-08-09-workshop-comms.md`](docs/audit/session-knowledge-2026-08-09-workshop-comms.md) (workshop Demo Path / multiphase / Gap Fit); playbook: [`external-links-audit-plan.md`](docs/audit/external-links-audit-plan.md); Gap Fit: [`workshop-gap-fit-2026-08.md`](docs/audit/workshop-gap-fit-2026-08.md)
 8. Module spec: [`docs/modules/`](docs/modules/) — calendar/meetings: [`docs/modules/CALENDAR_MEETINGS.md`](docs/modules/CALENDAR_MEETINGS.md); check-ins: [`docs/modules/CHECKINS.md`](docs/modules/CHECKINS.md)
-9. Cursor rules: [`.cursor/rules/platform.mdc`](.cursor/rules/platform.mdc), [`roadmap-next.mdc`](.cursor/rules/roadmap-next.mdc), [`comms-public-ux.mdc`](.cursor/rules/comms-public-ux.mdc) (public workshop Comms), [`seo.mdc`](.cursor/rules/seo.mdc) (public origin / sitemap / GSC), per-module rules — calendar/meetings: [`.cursor/rules/calendar-meetings.mdc`](.cursor/rules/calendar-meetings.mdc); RSVP outreach: [`.cursor/rules/event-rsvp-outreach.mdc`](.cursor/rules/event-rsvp-outreach.mdc)
+9. Cursor rules: [`.cursor/rules/platform.mdc`](.cursor/rules/platform.mdc), [`roadmap-next.mdc`](.cursor/rules/roadmap-next.mdc), [`comms-public-ux.mdc`](.cursor/rules/comms-public-ux.mdc) (public workshop Comms), [`i18n-public-copy.mdc`](.cursor/rules/i18n-public-copy.mdc) (**read before editing `messages/*.json` or SEO copy** — EN/FR parity is not translation quality), [`seo.mdc`](.cursor/rules/seo.mdc) (public origin / sitemap / GSC), per-module rules — calendar/meetings: [`.cursor/rules/calendar-meetings.mdc`](.cursor/rules/calendar-meetings.mdc); RSVP outreach: [`.cursor/rules/event-rsvp-outreach.mdc`](.cursor/rules/event-rsvp-outreach.mdc)
 
 ## Phase Status
 
@@ -44,7 +44,7 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 - `@/` imports, `"use client"` where needed
 - Data via adapters only (`DataAdapter`, grievance/bumping/snippet/marketplace memory stores)
 - Local number display: `resolveLocalNumber()` from `@/lib/utils/local`
-- i18n: both `messages/en.json` and `messages/fr.json`
+- i18n: both `messages/en.json` and `messages/fr.json` — and read the other locale's **value**, not just its key. Key parity is asserted; meaning is not. See [`i18n-public-copy.mdc`](.cursor/rules/i18n-public-copy.mdc)
 - Role-gate UI write actions to match API
 - Tests: `npm run test:unit` + `npm run test:smoke` after major changes
 - Before committing large / multi-file changes: run `npm run lint` and the relevant test suite(s); fix failures before push
