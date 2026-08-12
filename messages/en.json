@@ -364,7 +364,7 @@
   "guide": {
     "title": "The Blueprint",
     "subtitle": "A handbook for ongoing local communications practice - platforms, tone, rhythm, and accessibility.",
-    "intro": "Use this after Brand Kit and a first message are in motion. New here? Start with Brand Kit, then First week. Need the map or sources? Open Comms Resources.",
+    "intro": "Use this once your Brand Kit is set up and a first message is out. New here? Start with Brand Kit, then First week.",
     "path": {
       "title": "Related paths",
       "plan": "Get started - Brand Kit first, then the First week roadmap",
@@ -601,7 +601,7 @@
       },
       "checklist": {
         "title": "Before you hit send",
-        "content": "Subject clear. Local number in the body. Link or QR for RSVP. No sensitive case details in open broadcasts."
+        "content": "Make the subject line clear, put your local number in the body, and add a link or QR code for RSVPs. Keep sensitive case details out of any open broadcast."
       }
     }
   },
@@ -1614,7 +1614,7 @@
     "intro": "Orientation, practice checklist, and sources for local Comms. Use it self-paced, in a lunch-and-learn, or in a workshop.",
     "purpose": {
       "title": "What UnionOps Comms is for",
-      "body": "Locals need clear Comms now: social, print, boards, and a simple website.",
+      "body": "Every local needs clear communications on four channels: social media, print, workplace boards, and a simple website.",
       "pillars": [
         "Four channels: social, print, union boards, and website",
         "Brand Kit first so every graphic and notice looks like your local",
@@ -1651,7 +1651,7 @@
     },
     "checklist": {
       "title": "Practice checklist",
-      "intro": "Complete these once - self-paced or in a workshop - so your local can ship real materials.",
+      "intro": "Work through these once, on your own or in a workshop, and your local will have real materials to post.",
       "items": [
         "Import the demo Brand Kit or complete onboarding for your local",
         "Export a circular local logo (PNG)",
@@ -4124,7 +4124,7 @@
     "title": "Install UnionOps on your desktop",
     "intro": "On supported browsers you can install UnionOps as an app window. No app store and no extra download beyond the browser.",
     "whereTitle": "Where install works",
-    "whereBody": "Use unionops.org (not www). Best on desktop Chrome/Edge and iOS Safari. Android Chrome when Install app is offered.",
+    "whereBody": "Use unionops.org (not www). It works best in Chrome or Edge on a computer and in Safari on iPhone or iPad. On Android, use Chrome when it offers Install app.",
     "chromeTitle": "Chrome, Edge, and friends (PC)",
     "chromeStep1": "Open https://unionops.org in Chrome, Edge, or Brave.",
     "chromeStep2": "After a short visit, use Install in the address bar, or the browser menu: Install app / Install UnionOps.",
