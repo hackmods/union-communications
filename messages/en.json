@@ -87,7 +87,7 @@
     "export": "Export",
     "exporting": "Exporting…",
     "exportFailed": "Export failed. Try again.",
-    "exportPartial": "{exported} of {total} sheets exported. {failed} failed. Try again.",
+    "exportPartial": "Exported {exported} of {total} sheets. These did not export: {failed}. Try again.",
     "upload": "Upload image",
     "uploadFailed": "Could not process that image. Try another file.",
     "remove": "Remove",
@@ -102,7 +102,7 @@
     "showPreview": "Show preview",
     "backToEdit": "Back to edit",
     "editHistory": "Edit history",
-    "loading": "Loading...",
+    "loading": "Loading…",
     "close": "Close",
     "sectionOptions": "Options",
     "sectionColours": "Colours",
@@ -114,14 +114,14 @@
   },
   "routeUi": {
     "errorTitle": "Needs a steward",
-    "errorBody": "Something unexpected broke on the floor. Try again, or get somewhere safe.",
+    "errorBody": "Something broke on our side, not yours. Try again, or head back to a page you know.",
     "hubErrorBody": "The Officer Hub hit a snag. Try again, or sign out and sign back in.",
     "tryAgain": "Try again",
     "signOut": "Sign out",
     "notFoundTitle": "Local 404",
-    "notFoundBody": "That page isn’t on the roster, or it moved camp.",
-    "hubNotFoundBody": "That Hub route isn’t on the roster.",
-    "portalNotFoundBody": "That Portal path isn’t on the floor plan.",
+    "notFoundBody": "That page isn’t on the roster. It may have moved, or the link may be out of date.",
+    "hubNotFoundBody": "That Officer Hub page isn’t on the roster.",
+    "portalNotFoundBody": "That Portal page isn’t on the floor plan.",
     "portalErrorBody": "The Local Portal hit an unexpected error. Try again, or head back to the station.",
     "backToTools": "Browse tools",
     "backToHub": "Back to dashboard",
@@ -148,7 +148,7 @@
       "error": [
         "Something broke on the floor. A steward is on the way (metaphorically).",
         "Unexpected grievance: the page itself.",
-        "Punch error. Soft reset recommended.",
+        "Punch error. A refresh usually sorts it out.",
         "The bargain held. This render did not."
       ],
       "hub": [
@@ -158,7 +158,7 @@
       ],
       "portal": [
         "That circle / station isn’t on the floor plan.",
-        "Portal route missing — try the station home.",
+        "Portal page missing — try the station home.",
         "No dispatch under that path."
       ],
       "poll": [
@@ -210,7 +210,7 @@
     "pathCommsTitle": "New to running a local’s communications?",
     "pathCommsDesc": "Start with Brand Kit (colours, local number, logo), then the first-week roadmap.",
     "pathCommsCta": "Get started",
-    "pathCommsHint": "Channel guides, Social Examples, and Captions live under Guides.",
+    "pathCommsHint": "You will find the channel guides, Social Examples, and Captions under Guides.",
     "pathOfficerTitle": "President or steward managing cases?",
     "pathOfficerDesc": "Track grievances, college bumping, overdue work, and handoffs in the Officer Hub.",
     "pathOfficerCta": "Open Officer Hub",
@@ -218,10 +218,10 @@
     "pathOfficerDescComingSoon": "Grievance tracking, college bumping, overdue boards, and handoffs are in progress. Comms tools are ready today.",
     "pathOfficerCtaComingSoon": "Officer Hub: coming soon",
     "channelsTitle": "The Toolbox",
-    "channelsIntro": "Four channels, equal weight. Open a tool or guide below.",
+    "channelsIntro": "All four channels carry equal weight. Open a tool or guide below.",
     "brandRailDesc": "Colours, logo, and key links for every graphic. Browse the reference asset pack when you need starter files.",
     "privacyNote": "Comms tools run in your browser. Host an Officer Hub and you control that instance.",
-    "privacyNoteCommsOnly": "Comms tools run in your browser. Graphics and brand kit stay on your device.",
+    "privacyNoteCommsOnly": "Comms tools run in your browser. Your graphics and Brand Kit stay on your device.",
     "trustBanner": "Your Comms work stays in your browser. If you host the Officer Hub, you are in charge of that instance.",
     "trustBannerCommsOnly": "Your Comms work stays in your browser. No ads, no analytics, and nobody harvesting your data.",
     "trustManifestoLink": "Our promise",
@@ -433,7 +433,7 @@
         },
         "socials": {
           "title": "Socials and digital link",
-          "content": "One QR or short URL to your site, group, or this hub. One clear CTA (“Get support” or “Follow us”) beats a wall of icons."
+          "content": "Add one QR code or short URL that points to your site, your group, or this site. One clear call to action (“Get support” or “Follow us”) beats a wall of icons."
         },
         "healthSafety": {
           "title": "Health and safety",
@@ -1667,7 +1667,7 @@
       "download": "Download demo Brand Kit JSON"
     },
     "explore": {
-      "title": "Explore the hub",
+      "title": "Explore the tools",
       "cta": "First-week roadmap",
       "onboarding": "Brand setup wizard",
       "logo": "Logo Builder",
@@ -1708,7 +1708,7 @@
         "Brand colours - reference tenant defaults from official union graphics guidelines (customise in Brand Kit)",
         "Blueprint chapters - volunteer comms best practices for local solidarity communications",
         "Crisis guide - high-level guidance for local strike and bargaining communications",
-        "Accessibility - WCAG 2.1 AA and AODA commitments in the hub accessibility statement"
+        "Accessibility - WCAG 2.1 AA and AODA commitments in the UnionOps accessibility statement"
       ]
     },
     "allSources": {
@@ -1783,7 +1783,7 @@
       "printMaterials": {
         "title": "Print posters and cards",
         "body": "Print a QR Board poster, pocket QR cards, and a Solidarity Poster with a clear signup ask.",
-        "qrBoard": "Open QR Board Poster",
+        "qrBoard": "QR Board Posters",
         "qrCard": "QR Link Cards",
         "poster": "Solidarity Posters"
       },
@@ -2398,7 +2398,7 @@
     "p1Lead": "Questions about tools, workshops, or hosting?",
     "p1ManifestoLink": "manifesto page",
     "p1End": ".",
-    "p2": "Hosting and spare evenings still cost something. If this hub saved you time, you can buy Ryan a coffee. Optional. Never required.",
+    "p2": "Hosting and spare evenings still cost something. If these tools saved you time, you can buy Ryan a coffee. It is optional and never required.",
     "p3": "Locals keep using the tools either way. Solidarity isn’t a checkout flow.",
     "cta": "Buy me a coffee",
     "ctaHint": "Opens buymeacoffee.com in a new tab.",
@@ -2410,7 +2410,7 @@
   },
   "footer": {
     "madeBy": "UnionOps. Built in solidarity for union locals by union volunteers.",
-    "privacy": "Comms on-device; you control your hub",
+    "privacy": "Comms on-device; you control your Officer Hub",
     "privacyCommsOnly": "Comms stay on your device. No ads or tracking.",
     "installApp": "Install as an app"
   },
@@ -2441,7 +2441,7 @@
     },
     "feedback": {
       "title": "Feedback",
-      "body": "If you encounter accessibility barriers while using this hub, please contact your local communications chair. We welcome feedback and are committed to continuous improvement."
+      "body": "If you run into an accessibility barrier while using UnionOps, please contact your local communications chair. We welcome feedback and are committed to continuous improvement."
     },
     "display": {
       "title": "Display settings",
@@ -4135,7 +4135,7 @@
     "safariBody": "Safari never shows an automatic install prompt. On iPhone or iPad: Share, then Add to Home Screen.",
     "limitsTitle": "What install does not change",
     "limitsOffline": "Installed app windows still need network for first load and some Hub features.",
-    "limitsNetwork": "Grievance, bumping, and other hub modules still need a signed-in session and network when you work live.",
+    "limitsNetwork": "Grievance, bumping, and other Officer Hub modules still need a signed-in session and a network connection when you work live.",
     "limitsBrand": "Install chrome follows your Brand Kit primary. After colour changes, reopen the app (or reinstall once) if the OS still shows the old icon or title bar.",
     "limitsNoStore": "There is no App Store or Microsoft Store listing; install is the browser’s own progressive web app flow.",
     "relatedLead": "For what stays on this device, see",
