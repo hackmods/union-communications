@@ -1,0 +1,61 @@
+---
+description: Public marketing / Home effort bar — two-zone heroes, no empty-half layouts
+globs: src/components/pages/HomeContent.tsx,src/app/[locale]/page.tsx,src/app/[locale]/examples/**,src/components/share/**,messages/*.json
+alwaysApply: false
+---
+
+# Public marketing UX (Home + first-impression surfaces)
+
+Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc) (shell tiers) and [`comms-public-ux.mdc`](comms-public-ux.mdc) (workshop language). This rule owns the **effort bar** for `/`, examples, and other steward-facing marketing bands — not tool editor chrome.
+
+## Shell stays; ambition does not freeze
+
+- Keep `PageShell` / `PAGE_SHELL.wide` so Home aligns with tools when navigating.
+- **Do not** treat shell alignment, “landing SHIPPED” backlog notes, or smoke CTA assertions as a reason to leave a left-pinned hero on a full-bleed gradient.
+- Re-touch Home when it fails the empty-half / unfinished-mock test even if docs still say v1 shipped — update [`COMMS.md`](../../docs/modules/COMMS.md) / [`COMMS_BACKLOG.md`](../../docs/modules/COMMS_BACKLOG.md) after.
+
+## Effort bar
+
+Landing and Get-started-adjacent surfaces are **composed**, not “dense link lists under a sparse hero.” If the first viewport could pass as a wireframe with a gradient fill, rewrite the composition (not just padding).
+
+Modern here means clear hierarchy, purposeful type, filled breakpoints, steward phone-first, AODA — **not** glassmorphism, glow stacks, pill spam, or Hub dashboard chrome on `/`.
+
+## Home hero contract
+
+| Breakpoint | Required |
+|------------|----------|
+| `lg+` | **Two-zone** hero inside the `wide` content frame: (1) identity + one primary CTA group; (2) secondary visual zone earning **≥~40%** of content width |
+| `<lg` | Stack; visual may sit under copy or collapse to a compact plate — still intentional |
+
+**Secondary zone may be:** live or static product preview (Brand Kit plate, Board Notice / Graphic Maker face), workshop path preview, or real product imagery. Multi-union safe: Brand Kit colours + generic local number — no hardcoded union names in core.
+
+**Secondary zone is not:** empty Brand Kit gradient, abstract blob, decorative radial alone, or a third competing CTA path.
+
+**Hero job:** identity + next action. One composition. Do not stuff stats, schedules, or secondary marketing modules into the first viewport.
+
+**Full-bleed bands:** OK for atmosphere (gradient edge-to-edge). Content inside must still fill or constrain — full-bleed paint + left-only `max-w-xl` stack = fail.
+
+**Motion:** keep 2–3 intentional enters (`home-enter`); do not add noise.
+
+## Anti-defaults
+
+Align with solidarity / public taste guards:
+
+- Avoid purple/indigo kits, cream+terracotta, broadsheet/newspaper density
+- No AI-dashboard card grids or floating badge/sticker overlays in the hero
+- No analytics, tracking pixels, or third-party marketing scripts (ADR-006)
+
+## CTA hygiene
+
+- Prefer **one** primary CTA in the hero; secondary outline OK
+- Do not repeat the same accessible button pair in the hero and the next viewport (`COPY-001`) — when redesigning Home, de-dup CTAs and update smoke specs in the same change
+- Role-appropriate: Brand Kit / First week for Comms; Officer Hub only as a distinct path, not a duplicate hero action
+
+## Checklist (Home or marketing band change)
+
+- [ ] `lg+` two-zone hero (or intentionally constrained band — not half-empty full-bleed)
+- [ ] Secondary zone shows product truth, not gradient-as-product
+- [ ] Shell remains `wide` unless a shell-tier change is documented
+- [ ] Four widths: ~375 / ~768 / ~1280 / ~1536
+- [ ] EN/FR copy still meets [`i18n-public-copy.mdc`](i18n-public-copy.mdc)
+- [ ] Smoke assertions updated if accessible names / hero region change

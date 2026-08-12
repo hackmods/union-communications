@@ -1,5 +1,5 @@
 ---
-description: Thoughtful responsive layouts — consistent shells, no stretched mobile
+description: Thoughtful responsive layouts — shell alignment + per-breakpoint composition
 globs: src/app/**/*.tsx,src/components/**/*.tsx,src/app/globals.css,src/lib/constants/page-shell.ts,src/components/comms/GuideLayout.tsx
 alwaysApply: false
 ---
@@ -8,9 +8,12 @@ alwaysApply: false
 
 UI must be **designed per breakpoint**, not a phone stack stretched until it looks sparse. If a wide viewport could belong to an unfinished mock, the layout failed.
 
-Home and tools must feel like the **same product width** when navigating — do not let `/` be a stray wider canvas than guides/tools.
+## Shell vs composition (do not conflate)
 
-**Public Comms workshop journey, terminology, related tools, export success:** see [`comms-public-ux.mdc`](comms-public-ux.mdc). Stale “leave density as-is” notes may be revised when they block intentional breakpoint compositions — update that rule and the tool-editor register when you re-touch a surface.
+- **Shell discipline (keep):** Home and tools share the same product **width** via [`PAGE_SHELL`](src/lib/constants/page-shell.ts) — do not let `/` become a stray wider *frame* than guides/tools.
+- **Composition (required):** Same shell ≠ same sparse single column. Marketing may use asymmetric grids, full-bleed atmosphere bands, and a secondary visual zone. Workspaces stay paired panels. Filling `wide` is mandatory; matching tools’ *visual density* is not.
+
+**Public Comms workshop journey / terminology:** [`comms-public-ux.mdc`](comms-public-ux.mdc). **Marketing / Home effort bar:** [`public-marketing-ux.mdc`](public-marketing-ux.mdc). Stale “leave density as-is” or “landing SHIPPED” notes may be revised when they block intentional breakpoint compositions.
 
 ## Page shell scale (required)
 
@@ -26,22 +29,25 @@ Use [`PageShell`](src/components/layout/PageShell.tsx) / [`PAGE_SHELL`](src/lib/
 | `nestedAuth` | `max-w-md` (no extra px) | Hub login / MFA |
 | `nestedProfile` | `max-w-lg` (no extra px) | Hub profile |
 
-Chrome and wide use `px-4 sm:px-6 xl:px-8`. Nested Hub tiers omit horizontal padding so they do not double-pad inside `PAGE_SHELL.wide`. After widening the canvas, compose with grids/columns at `lg`/`xl`/`2xl` — do not leave a sparse single column on a 90rem shell (Brand Kit is the reference workspace pattern).
+Chrome and wide use `px-4 sm:px-6 xl:px-8`. Nested Hub tiers omit horizontal padding so they do not double-pad inside `PAGE_SHELL.wide`. After picking a shell, compose with grids/columns at `lg`/`xl`/`2xl` — do not leave a sparse single column on a 90rem shell (Brand Kit is the reference **workspace** pattern; Home marketing follows [`public-marketing-ux.mdc`](public-marketing-ux.mdc)).
 
 ## Reference compositions
 
-- **Home** — hero + trust `Callout`; Brand Kit as a compact link row above Toolbox; denser channel link lists (no sticky empty rail, no sparse flex cards)
+- **Home** — see [`public-marketing-ux.mdc`](public-marketing-ux.mdc). Short form: at `lg+`, two-zone hero inside `wide` (message + secondary visual earning ≥~40% of content width); body keeps trust `Callout`, Brand Kit link row, denser channel lists. Full-bleed gradient alone is atmosphere, not a secondary zone. Docs saying “landing shipped” do **not** freeze a layout that fails the empty-half / unfinished-mock test.
 - **Guides** — `GuideLayout`: related links as a compact nav row (never a fat empty tinted card); steps/sections with left accent or markers; optional horizontal step progress (see social-media-plan). Guide **index** (`/guide`) uses `GuideLayout size="wide"` with a path grid + two-column chapters
 - **Tools** — canvas tools use [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) — see [`tool-editor-ux.mdc`](tool-editor-ux.mdc) for editor chrome + face uplift
 - **Brand Kit / workspaces** — `PageShell` **wide** with paired panels at `lg+`; utility actions near the heading
 - **Hub auth** — `nestedAuth` / `nestedFocus` inside app layout — never a second `focus` shell with its own `px-*`
 - **Short notes** — [`Callout`](src/components/ui/Callout.tsx), not default `Card`
 
-Within a shell, still constrain body copy (`max-w-prose` / `max-w-xl`) when needed.
+Within a shell, still constrain body copy (`max-w-prose` / `max-w-xl`) when needed — **constrain the text measure, not the whole hero band to that measure without a counterweight.**
 
 ## Hard rejects (fix before shipping)
 
-- **Stray wide home** — marketing/home wider than tools/guides without intentional composition
+- **Stray wide home** — marketing/home *frame* wider than tools/guides without a documented shell change
+- **Shell as alibi** — citing “same product width” to leave Home as a left-pinned stack on a full-bleed band
+- **Empty-half hero** — full-bleed (or `wide`) hero whose only children are mark + `max-w-*` prose with no secondary visual zone at `lg+`
+- **Gradient-as-product** — Brand Kit gradient (or abstract wash) treated as the dominant visual with no product UI, preview, or real imagery
 - **Workspace on focus** — multi-panel settings (Brand Kit-class) stuck at `max-w-2xl` while chrome is ~100rem
 - **Stretched mobile shell** — same single column, left-pinned blocks, growing empty space as the viewport widens
 - **Orphan empty containers** — full-width cards whose content is a short left-aligned list with a dead zone filling the rest
@@ -53,18 +59,20 @@ Within a shell, still constrain body copy (`max-w-prose` / `max-w-xl`) when need
 ## Do this instead
 
 1. **Pick a shell tier first**, then compose for desktop / stack for mobile
-2. **Fill or constrain** — use the width (grid/columns/rail) or shrink the surface; never a wide empty card
-3. **Chrome vs body** — chrome may be `100rem`; page body uses `wide`/`read`/`focus`
+2. **Fill or constrain** — use the width (grid/columns/rail) or shrink the surface; never a wide empty card or half-empty full-bleed
+3. **Chrome vs body** — chrome may be `100rem`; page body uses `wide`/`read`/`focus`. Full-bleed **paint** is OK; content inside still fills or constrains
 4. **Verify four widths** — ~375, ~768, ~1280, ~1536: each must look intentional (spot-check 1920 gutters; densify at `xl`/`2xl`, do not only grow margins)
 
 ```tsx
-// ❌ BAD — multi-panel workspace on focus / orphan path card
+// ❌ BAD — multi-panel workspace on focus / orphan path card / empty-half hero
 <PageShell size="focus">…
 <Card><ul><li>One link</li></ul></Card>
+<section className="w-screen"><div className="max-w-xl">…mark + copy only…</div></section>
 
 // ✅ GOOD
 <PageShell className="py-8 md:py-12">…
 <div className="grid gap-4 lg:grid-cols-2">…
+{/* Home lg+: message column + secondary visual zone */}
 <GuideLayout title="…" relatedLinks={[…]} relatedLabel="Also see">…
 ```
 
@@ -73,5 +81,6 @@ Within a shell, still constrain body copy (`max-w-prose` / `max-w-xl`) when need
 - [ ] Shell tier matches page type (`wide` / `read` / `focus`)
 - [ ] Desktop is not just mobile with more margin
 - [ ] No full-bleed empty regions inside bordered/filled surfaces
+- [ ] At ~1280 / ~1536, marketing heroes do not read as half-empty (secondary zone or intentionally constrained band)
 - [ ] Body measure stays readable
 - [ ] Spot-checked phone / tablet / desktop / xl (~1536)

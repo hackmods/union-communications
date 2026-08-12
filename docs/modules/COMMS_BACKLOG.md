@@ -24,9 +24,11 @@ Implementation surface today: [`HomeContent.tsx`](../../src/components/pages/Hom
 - **Shipped:** Cross-link / workshop / Resources / Blueprint / Website Guide / Examples copy swept from “Social Media Plan” → “First week” where the roadmap label is clearer. Practice checklist includes a flyer PDF step.
 - **Do not:** Retarget Get started at `/guide/print` alone, or drop the socials/website steps.
 
-### Landing page — align with site + desktop layout — SHIPPED (2026-07)
+### Landing page — align with site + desktop layout — v1 SHIPPED (2026-07); composition v2 open
 
-Implemented on `/` via `HomeContent.tsx` (hero band, path layout, Brand Kit rail, equal channel columns, closing CTAs, home-enter motion). Home copy uses first-week / print-aware language.
+**v1** on `/` via `HomeContent.tsx` (hero band, path layout, Brand Kit rail, equal channel columns, closing CTAs, home-enter motion). Home copy uses first-week / print-aware language.
+
+**v2 (open):** large-layout hero still reads as half-empty (full-bleed gradient + left-only mark/copy). Do **not** treat v1 as a freeze. Next Home pass must satisfy [`.cursor/rules/public-marketing-ux.mdc`](../../.cursor/rules/public-marketing-ux.mdc) (two-zone hero at `lg+`) and should own [`COPY-001`](../audit/execution-backlog.md) CTA de-dup + smoke updates in the same change.
 
 ## Shipped from the same review (2026-07)
 
@@ -34,7 +36,7 @@ Implemented on `/` via `HomeContent.tsx` (hero band, path layout, Brand Kit rail
 - Footer: Print Guide + Tools catalog
 - Brand Kit → Brand Asset Pack (`/assets`) on-page link
 - Spec + agent rules: [`COMMS.md`](COMMS.md), `.cursor/rules/comms-public-nav.mdc`
-- Landing page desktop layout + channel IA alignment (`HomeContent`)
+- Landing page v1 desktop layout + channel IA alignment (`HomeContent`); composition v2 tracked above
 - Photo consent / member media checklist at `/guide/photo-consent` (Learn → Guides; Resources + workshop links)
 - First week H1 + Get started → roadmap when theme established; Tools mega-menu + `/tools` index
 - First week Print step + remaining “Social Media Plan” → “First week” copy sweep (2026-07-24)

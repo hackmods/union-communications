@@ -1,12 +1,16 @@
 /**
  * Shared public/hub content shells. Chrome (header/footer) stays widest;
- * page bodies pick a tier so home ≠ “stray wider canvas” than tools/guides.
+ * page bodies pick a tier so home ≠ “stray wider frame” than tools/guides.
+ *
+ * Shell width ≠ composition: Home may use asymmetric / two-zone layouts inside
+ * `wide`; do not leave a sparse single column. See public-marketing-ux.mdc.
  *
  * Desktop canvases (~90–100rem) use large screens; read/focus stay narrow
  * for prose measure and auth forms. Nested Hub tiers omit horizontal padding
  * because `/app` layout already applies `wide` padding.
  *
  * @see .cursor/rules/responsive-layouts.mdc
+ * @see .cursor/rules/public-marketing-ux.mdc
  */
 export const PAGE_SHELL = {
   /** Header, footer, hub nav — app chrome frame only */

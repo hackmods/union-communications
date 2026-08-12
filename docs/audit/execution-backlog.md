@@ -515,19 +515,21 @@ Sections 1–7 of that audit shipped. These are the residuals it deliberately di
 ### [COPY-001] Home hero duplicates the Comms path CTA pair
 **Category:** UX / public Comms
 **Severity/Priority:** Low-Medium (wastes the first two viewports on mobile; no data or security impact)
-**Status:** Open — copy differentiated 2026-08-11; structural de-duplication deferred
-**Problem/Gap Statement:** When the Officer Hub is public, `HomeContent` renders the same **Brand Kit** + **Open the first-week roadmap** button pair twice — once in the hero and again in the Comms path card. The smoke suite documents the duplication rather than preventing it ("Hero + Comms path share the same label"). `home.pathCommsCta` ("Get started") exists in both catalogs and is unused. The QOL pass mitigated this at the copy level only (`pathCommsDesc` / `pathCommsHint` now say something the hero does not), because removing a button changes the accessible names the specs assert.
+**Status:** Open — copy differentiated 2026-08-11; structural de-duplication deferred; **own with Home composition v2**
+**Problem/Gap Statement:** When the Officer Hub is public, `HomeContent` renders the same **Brand Kit** + **Open the first-week roadmap** button pair twice — once in the hero and again in the Comms path card. The smoke suite documents the duplication rather than preventing it ("Hero + Comms path share the same label"). `home.pathCommsCta` ("Get started") exists in both catalogs and is unused. The QOL pass mitigated this at the copy level only (`pathCommsDesc` / `pathCommsHint` now say something the hero does not), because removing a button changes the accessible names the specs assert. Separately, the `lg+` hero fails the empty-half test (full-bleed gradient + left-only mark/copy) — see [`.cursor/rules/public-marketing-ux.mdc`](../.cursor/rules/public-marketing-ux.mdc); do not ship CTA-only tweaks that leave that intact if you are already touching Home.
 **Affected Architecture/Files:**
 - `src/components/pages/HomeContent.tsx`
 - `messages/en.json`, `messages/fr.json` (`home.pathComms*`)
 - `e2e/builders.smoke.spec.ts` (hero region + link-name assertions), `e2e/smoke.spec.ts`
 **Implementation Blueprint:**
-1. Decide the single owner of each CTA: hero keeps **Set up your local brand**; Comms path card uses the existing `home.pathCommsCta` ("Get started" / "Commencer") pointing at `brandSetupHref`.
-2. Drop the second roadmap button from the path card, or demote it to a text link under `pathCommsHint`.
-3. Update the two smoke specs in the same commit — they currently scope by `getByRole("region", { name: /toolkit for local unions/i })`, so re-check the region query still resolves.
-4. Re-check the four widths (375 / 768 / 1280 / 1536) per `comms-public-ux.mdc`; the point of the change is mobile scan length.
+1. Prefer one Home pass: **two-zone hero** (public-marketing-ux) **and** CTA de-dup below — same commit as smoke updates.
+2. Decide the single owner of each CTA: hero keeps **Set up your local brand**; Comms path card uses the existing `home.pathCommsCta` ("Get started" / "Commencer") pointing at `brandSetupHref`.
+3. Drop the second roadmap button from the path card, or demote it to a text link under `pathCommsHint`.
+4. Update the two smoke specs in the same commit — they currently scope by `getByRole("region", { name: /toolkit for local unions/i })`, so re-check the region query still resolves.
+5. Re-check the four widths (375 / 768 / 1280 / 1536); at `lg+` the hero must not read as half-empty.
 **Acceptance Criteria:**
 - No duplicate accessible link name in the first two viewports at 375px.
+- At ~1280 / ~1536, hero passes two-zone / no-empty-half (or intentionally constrained band).
 - `home.pathCommsCta` is rendered somewhere or removed from both catalogs (no dead keys).
 - `npm run test:unit` + `npx playwright test e2e/builders.smoke.spec.ts --grep "@smoke"` green.
 **Dependencies:** None.

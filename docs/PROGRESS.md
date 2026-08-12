@@ -1,5 +1,12 @@
 # Progress Log
 
+## Public marketing layout rules (2026-08-12)
+
+- [x] New [`.cursor/rules/public-marketing-ux.mdc`](../.cursor/rules/public-marketing-ux.mdc) — Home two-zone hero, effort bar, re-touch license
+- [x] [`responsive-layouts.mdc`](../.cursor/rules/responsive-layouts.mdc) — shell vs composition; empty-half / gradient-as-product / shell-as-alibi rejects
+- [x] Cross-links: `comms-public-ux`, `tool-editor-ux`, `page-shell.ts`, `AGENTS.md`, `.cursorrules`, `roadmap-next`
+- [x] Docs unfreeze: `COMMS.md`, `COMMS_BACKLOG.md`, `PROGRESS` landing v2 open; `COPY-001` paired with composition v2
+
 ## Officer Hub copy QOL pass (2026-08-11) — COPY-003
 
 - [x] Audit: [`docs/audit/hub-copy-qol-2026-08.md`](audit/hub-copy-qol-2026-08.md) — 1,643 Hub leaves EN/FR; classified `localLinks`/`membershipUrls` as public Brand Kit; prioritized `rsvpPublic`/`meetingPublic` (token pages)
@@ -539,13 +546,14 @@ Scaffold through testing/CI — all complete.
 - [x] Brand Kit → `/assets` link; i18n `learnGroupChannels` EN/FR
 - [x] Spec + agent rules: `COMMS.md`, `comms-public-nav.mdc`, `COMMS_BACKLOG.md`
 
-## Landing page — align + desktop layout (2026-07-14) — COMPLETE
+## Landing page — align + desktop layout (2026-07-14) — v1 COMPLETE; composition v2 open
 
 - [x] Hero band with CTAs + trust aside (`lg` split); Share/privacy secondary
 - [x] Hub-off: compact coming-soon rail (not a twin dashed card)
 - [x] Brand Kit sticky rail + `/assets` / Logo Builder links
 - [x] Toolbox: boards → print → social → website; capped tiles; `xl:grid-cols-4`
 - [x] Closing CTAs: Get started / Resources / Blueprint; home-enter motion; EN/FR copy
+- [ ] **v2:** two-zone hero at `lg+` (no empty-half full-bleed); pair with `COPY-001` — see `.cursor/rules/public-marketing-ux.mdc`
 
 ## Phase 8-lite — Workforce Time (2026-07-12) — COMPLETE
 

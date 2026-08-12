@@ -6,7 +6,7 @@ alwaysApply: false
 
 # Public Comms UX (workshop + consistency)
 
-Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc), [`tool-editor-ux.mdc`](tool-editor-ux.mdc), and [`comms-module.mdc`](comms-module.mdc). Prefer **revising stale notes** when they block intentional responsive compositions — keep `PAGE_SHELL` tiers unless a change is documented here.
+Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc), [`public-marketing-ux.mdc`](public-marketing-ux.mdc) (Home / marketing effort bar), [`tool-editor-ux.mdc`](tool-editor-ux.mdc), and [`comms-module.mdc`](comms-module.mdc). Prefer **revising stale notes** when they block intentional responsive compositions — keep `PAGE_SHELL` tiers unless a change is documented here.
 
 ## Product language (lock)
 
@@ -48,6 +48,8 @@ Use `brandSetupHref(themeEstablished)` from `@/lib/utils/brand-setup` (`/onboard
 ## Responsive
 
 Spot-check **375 / 768 / 1280 / 1536**. Re-touch surfaces marked “done” in [`tool-editor-ux.mdc`](tool-editor-ux.mdc) when the four-width check fails. Document-generator / alt-text remain layout exceptions — still reduce mobile scroll friction when touching those pages.
+
+**Home:** must pass the two-zone / no-empty-half check in [`public-marketing-ux.mdc`](public-marketing-ux.mdc) and [`responsive-layouts.mdc`](responsive-layouts.mdc). Revising `HomeContent` is allowed when that fails — “landing shipped” in backlog docs is not a freeze.
 
 ## Do not
 

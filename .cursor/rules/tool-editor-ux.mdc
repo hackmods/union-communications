@@ -6,13 +6,15 @@ alwaysApply: false
 
 # Tool editor UX & sitewide face uplift
 
-Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc) (shell tiers) and [`comms-public-ux.mdc`](comms-public-ux.mdc) (workshop language, Brand Kit CTAs, Related tools, `purposeHint`, export success). This rule owns **editor chrome**, **face uplift**, and the **public-page register**.
+Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc) (shell tiers), [`public-marketing-ux.mdc`](public-marketing-ux.mdc) (Home / marketing), and [`comms-public-ux.mdc`](comms-public-ux.mdc) (workshop language, Brand Kit CTAs, Related tools, `purposeHint`, export success). This rule owns **editor chrome**, **face uplift**, and the **public-page register**.
 
 Re-touch is allowed when a surface is still marked “done” but fails the 375 / 768 / 1280 / 1536 check — update the register below after shipping.
 
 ## Hard rule: no tag-only refactors
 
 Reject changes that only swap `py-12` → `py-8 md:py-12` without changing composition. Spot-check **375 / 768 / 1280 / 1536** — each must look intentional (columns, measure, CTA wrap, no page-level horizontal scroll).
+
+**Marketing / Home:** empty space at `lg+` requires a **composition** change (secondary visual zone, grid, or constrained band) — padding-only still fails. See [`public-marketing-ux.mdc`](public-marketing-ux.mdc).
 
 ## Layout contracts
 
