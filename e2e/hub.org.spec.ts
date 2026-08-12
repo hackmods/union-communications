@@ -59,7 +59,7 @@ const ORG_PAGES: { path: string; heading: RegExp; label: string }[] = [
   {
     label: "onboarding",
     path: "/en/app/onboarding",
-    heading: /Tenant setup|Configuration du locataire/i,
+    heading: /Union setup|Configuration du syndicat/i,
   },
   {
     label: "meetings",
