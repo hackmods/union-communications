@@ -16,12 +16,12 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "logo-builder": {
       title: "Free Union Logo Builder",
       description:
-        "Build a simple local logo and brand kit for notices, flyers, and social posts.",
+        "Build a simple local logo, then save it to your Brand Kit so notices, flyers, and social posts all match. Free and on your device.",
     },
     "quote-card": {
       title: "Free Union Quote Card Maker",
       description:
-        "Turn leadership quotes into cards for Facebook, Instagram, and boards.",
+        "Turn a leader or member quote into a branded card for Facebook, Instagram, and workplace boards. Free and on your device.",
     },
     resizer: {
       title: "Free Union Image Resizer",
@@ -30,12 +30,13 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     },
     "alt-text": {
       title: "Free Union Alt-Text Assistant",
-      description: "Draft alt text for union graphics and social posts.",
+      description:
+        "Draft alt text for union graphics and social posts, then paste it into each platform's accessibility field. Your images are never uploaded.",
     },
     "board-notice": {
       title: "Free Union Board Notice Maker",
       description:
-        "Print workplace bulletin board notices with clear date, time, and location.",
+        "Print workplace bulletin board notices with a clear date, time, and location that members can read from across the room. Free and on your device.",
     },
     "board-banner": {
       title: "Free Union Board Banner & Trim Maker",
@@ -55,7 +56,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "qr-card": {
       title: "Free Union QR Link Card Maker",
       description:
-        "Print QR link cards so members can find your group, website, or support line.",
+        "Print pocket QR cards so members can find your group, website, or support line from their phone. Free and on your device.",
     },
     "action-card": {
       title: "Free Union Action Card Maker",
@@ -75,7 +76,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "website-template": {
       title: "Free Union Website Template",
       description:
-        "Download a simple static website for your local, ready for GitHub Pages.",
+        "Fill in your local details and download a simple website your members can bookmark, ready to publish free on GitHub Pages.",
     },
     "document-generator": {
       title: "Free Document & Slide Generator",
@@ -97,12 +98,12 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "logo-builder": {
       title: "Créateur de logo syndical gratuit",
       description:
-        "Créez un logo de section simple et une trousse de marque pour avis, tracts et publications.",
+        "Créez un logo de section simple, puis enregistrez-le dans la Trousse de marque pour que vos avis, tracts et publications s'accordent. Sur votre appareil.",
     },
     "quote-card": {
       title: "Créateur de cartes citation gratuit",
       description:
-        "Transformez des citations de dirigeants en cartes pour Facebook, Instagram et babillards.",
+        "Transformez la citation d'un dirigeant ou d'un membre en carte à votre image pour Facebook, Instagram et les babillards. Gratuit, sur votre appareil.",
     },
     resizer: {
       title: "Redimensionneur d'images syndical gratuit",
@@ -112,17 +113,17 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "alt-text": {
       title: "Assistant de texte alternatif gratuit",
       description:
-        "Rédigez le texte alternatif pour graphiques et publications syndicales.",
+        "Rédigez le texte alternatif de vos graphiques et publications, puis collez-le dans le champ d'accessibilité de chaque plateforme. Aucune image n'est téléversée.",
     },
     "board-notice": {
       title: "Créateur d'avis de babillard gratuit",
       description:
-        "Imprimez des avis de babillard avec date, heure et lieu clairement indiqués.",
+        "Imprimez des avis de babillard dont la date, l'heure et le lieu se lisent de loin. Gratuit, sur votre appareil.",
     },
     "board-banner": {
       title: "Créateur de bannières et bordures gratuit",
       description:
-        "Imprimez des bandes d'en-tête et de bordure pour babillards. Coupez sur les pointillés. gratuit, sur votre appareil.",
+        "Imprimez des bandes d'en-tête et de bordure pour babillards. Coupez sur les pointillés. Gratuit, sur votre appareil.",
     },
     "solidarity-poster": {
       title: "Créateur d'affiches de solidarité gratuit",
@@ -132,17 +133,17 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "meeting-background": {
       title: "Arrière-plans Zoom et Teams gratuits",
       description:
-        "Fonds virtuels audacieux ou minimalistes pour Zoom et Teams. mises en page sûres pour le visage, paysage et portrait, sur votre appareil.",
+        "Fonds virtuels audacieux ou minimalistes pour Zoom et Teams : mises en page sûres pour le visage, en paysage ou en portrait, sur votre appareil.",
     },
     "qr-card": {
       title: "Créateur de cartes QR gratuit",
       description:
-        "Imprimez des cartes QR pour que les membres trouvent votre groupe, site ou ligne de soutien.",
+        "Imprimez des cartes QR de poche pour que les membres trouvent votre groupe, votre site ou votre ligne de soutien depuis leur téléphone. Sur votre appareil.",
     },
     "action-card": {
       title: "Créateur de cartes d'action gratuit",
       description:
-        "Imprimez des cartes QR pour pétitions et campagnes. lien vers votre page d'adhésion externe. Gratuit, sur votre appareil.",
+        "Imprimez des cartes QR pour pétitions et campagnes. Le lien mène à votre page d'adhésion externe. Gratuit, sur votre appareil.",
     },
     "pulse-poll": {
       title: "Créateur de sondage éclair syndical gratuit",
@@ -152,17 +153,17 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "qr-board": {
       title: "Créateur d'affiches QR pour babillard gratuit",
       description:
-        "Imprimez des affiches multi-QR pour babillards. deux campagnes ou un ensemble de liens, sur votre appareil.",
+        "Imprimez des affiches multi-QR pour babillards : deux campagnes ou un ensemble de liens clés, sur votre appareil.",
     },
     "website-template": {
       title: "Modèle de site web syndical gratuit",
       description:
-        "Téléchargez un site statique simple pour votre section, prêt pour GitHub Pages.",
+        "Remplissez les détails de votre section et téléchargez un site simple que les membres pourront garder en favori, prêt à publier sur GitHub Pages.",
     },
     "document-generator": {
       title: "Générateur de documents et diapositives gratuit",
       description:
-        "Créez des fichiers Word, Excel et PowerPoint à l'image de votre section. Préréglages, thèmes et ZIP. sur votre appareil.",
+        "Créez des fichiers Word, Excel et PowerPoint à l'image de votre section. Préréglages, thèmes et téléchargement ZIP, sur votre appareil.",
     },
   },
 };
