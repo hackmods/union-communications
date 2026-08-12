@@ -52,7 +52,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 6. ~~Basecamp automatic check-ins~~ — **shipped 2026-07-26** (`checkins` HubModule + dashboard widget)
 7. ~~Comms stretch: seniority worksheet + right-to-refuse pocket card~~ — **shipped 2026-07-26**
 8. ~~Discussions / Tasks stretch~~ — reactions, @mentions, 15s poll-on-focus — **shipped 2026-07-26** (`0027_hub_social`)
-9. **Copy residuals** (`COPY-001`…`COPY-005` in [`execution-backlog.md`](../../docs/audit/execution-backlog.md)) — cheapest first: `COPY-003` Hub copy voice/FR pass (the guard functions already exist, so the audit is nearly free), then `COPY-001` home hero CTA de-dup (touches smoke assertions), then `COPY-002` spec-literal rot check
+9. **Copy residuals** (`COPY-001`…`COPY-005` in [`execution-backlog.md`](../../docs/audit/execution-backlog.md)) — `COPY-003` Hub copy **closed 2026-08-11**; still open cheapest-first: `COPY-001` home hero CTA de-dup (touches smoke assertions), then `COPY-002` spec-literal rot check
 
 ## Deferred / non-goals
 

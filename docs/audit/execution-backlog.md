@@ -553,7 +553,7 @@ Sections 1–7 of that audit shipped. These are the residuals it deliberately di
 ### [COPY-003] Authenticated Hub copy has never had a voice or French-quality pass
 **Category:** UX / i18n
 **Severity/Priority:** Low-Medium (officers hit these strings daily; French quality unknown)
-**Status:** Open — explicitly out of scope for the 2026-08-11 pass
+**Status:** Closed 2026-08-11 — audit [`hub-copy-qol-2026-08.md`](hub-copy-qol-2026-08.md); EN/FR Hub namespaces cleaned (correctness, jargon, locked terms, weak UX states); `HUB_NS` guards + `rsvpPublic`/`meetingPublic`/`localLinks`/`membershipUrls` moved into `PUBLIC_NS`
 **Problem/Gap Statement:** Every public-copy pass so far has scoped out `/app` module copy (grievance, time, portal, ledger, travel, expenses, polls, meetings, officers, committees, elections, minutes). Those namespaces are the majority of the catalog and have never been screened for the defect classes the public pass found. Spot evidence that the same bugs exist there: `hybrid.dataModeHonest` and `hybrid.localSliceDesc` say "le magasin du hub" / "hub central" (jargon a local president will not parse), `elections.noOnlineVoting` and `minutes.motionMeta` needed the same French semicolon fix, and `onboarding.unionNotesPlaceholder` leaks "host brand config" plus a hardcoded OPSEU reference.
 **Affected Architecture/Files:**
 - `messages/en.json`, `messages/fr.json` — Hub namespaces (`grievance*`, `bumping*`, `time*`, `portal*`, `ledger*`, `travel*`, `expenses*`, `polls*`, `meetings*`, `officers*`, `committees*`, `elections*`, `minutes*`, `hybrid*`, `audit*`, `onboarding` admin keys)

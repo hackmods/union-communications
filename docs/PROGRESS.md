@@ -1,5 +1,15 @@
 # Progress Log
 
+## Officer Hub copy QOL pass (2026-08-11) — COPY-003
+
+- [x] Audit: [`docs/audit/hub-copy-qol-2026-08.md`](audit/hub-copy-qol-2026-08.md) — 1,643 Hub leaves EN/FR; classified `localLinks`/`membershipUrls` as public Brand Kit; prioritized `rsvpPublic`/`meetingPublic` (token pages)
+- [x] Correctness: FR `locataire` → syndicat; OPSEU/CAAT hardcodes removed from onboarding; MFA/`*_DB_BACKEND` env leaks rewritten; hybrid FR `magasin` → Hub des dirigeants; RSVP `ce local` → section locale; qol FR steward + dropped read-only remedy restored
+- [x] Jargon: tenant/slug/overlay/memory store/QOL/slice → plain officer language; bare “the hub” → Officer Hub
+- [x] Weak UX states: densest error/empty strings now name a consequence and a next action (money, invites, hybrid, grievance/bumping/time, org modules, RSVP)
+- [x] Guards: sibling `HUB_NS` suite in `public-copy-style.test.ts`; `rsvpPublic`/`meetingPublic`/`localLinks`/`membershipUrls` added to `PUBLIC_NS`; injection harness confirmed 10/10 bites
+- [x] Smoke pin: `e2e/hub.org.spec.ts` Union setup / Configuration du syndicat
+- [x] `COPY-003` marked closed in [`execution-backlog.md`](audit/execution-backlog.md)
+
 ## Public copy QOL audit + voice enhancement (2026-08-11)
 
 - [x] Audit: [`docs/audit/public-copy-qol-2026-08.md`](audit/public-copy-qol-2026-08.md) — flattened both catalogs (EN/FR parity clean) and screened for lowercase sentence starts, verbless fragments, jargon, stacked em dashes, untranslated FR, and EN↔FR semantic drift

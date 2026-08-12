@@ -33,6 +33,9 @@ const PUBLIC_NS = [
   "websiteTemplate",
   "logoBuilder",
   "brandKit",
+  // Brand Kit editors on the public /brand-kit page (not Hub-only).
+  "localLinks",
+  "membershipUrls",
   "assets",
   "sources",
   "examples",
@@ -54,11 +57,49 @@ const PUBLIC_NS = [
   "rightToRefuseGuide",
   "pollPublic",
   "pollPlaceholder",
+  // Token pages members reach without signing in.
+  "rsvpPublic",
+  "meetingPublic",
   "common",
   "routeUi",
   "footer",
   "relatedTools",
   "privacyPage",
+] as const;
+
+/**
+ * Authenticated Officer Hub namespaces. Kept separate from PUBLIC_NS so
+ * public-only rules (e.g. flyer→tract) stay public-only. See
+ * docs/audit/hub-copy-qol-2026-08.md.
+ */
+const HUB_NS = [
+  "hub",
+  "tenantOnboarding",
+  "invites",
+  "inviteAccept",
+  "passwordReset",
+  "ledger",
+  "travel",
+  "expenses",
+  "hubPolls",
+  "meetings",
+  "meetingsRsvp",
+  "officers",
+  "committees",
+  "elections",
+  "informalLog",
+  "minutes",
+  "discussions",
+  "hubSocial",
+  "checkins",
+  "tasks",
+  "hybrid",
+  "documents",
+  "qol",
+  "grievance",
+  "bumping",
+  "time",
+  "portal",
 ] as const;
 
 function wordCount(s: string): number {
@@ -71,8 +112,11 @@ function emDashCount(s: string): number {
 
 type Leaf = readonly [path: string, value: string];
 
-/** Every string leaf under the public namespaces, as `ns.a.b` paths. */
-function publicLeaves(catalog: Record<string, unknown>): Leaf[] {
+/** Every string leaf under the given namespaces, as `ns.a.b` paths. */
+function leavesFor(
+  catalog: Record<string, unknown>,
+  namespaces: readonly string[],
+): Leaf[] {
   const out: Leaf[] = [];
   const walk = (node: Record<string, unknown>, prefix: string) => {
     for (const [key, value] of Object.entries(node)) {
@@ -83,7 +127,7 @@ function publicLeaves(catalog: Record<string, unknown>): Leaf[] {
       }
     }
   };
-  for (const ns of PUBLIC_NS) {
+  for (const ns of namespaces) {
     const block = catalog[ns];
     if (block && typeof block === "object") {
       walk(block as Record<string, unknown>, ns);
@@ -92,8 +136,18 @@ function publicLeaves(catalog: Record<string, unknown>): Leaf[] {
   return out;
 }
 
+function publicLeaves(catalog: Record<string, unknown>): Leaf[] {
+  return leavesFor(catalog, PUBLIC_NS);
+}
+
+function hubLeaves(catalog: Record<string, unknown>): Leaf[] {
+  return leavesFor(catalog, HUB_NS);
+}
+
 const EN_LEAVES = publicLeaves(en as unknown as Record<string, unknown>);
 const FR_LEAVES = publicLeaves(fr as unknown as Record<string, unknown>);
+const EN_HUB = hubLeaves(en as unknown as Record<string, unknown>);
+const FR_HUB = hubLeaves(fr as unknown as Record<string, unknown>);
 
 function report(rows: Leaf[]): string {
   return rows.map(([path, value]) => `${path}: ${value}`).join("\n");
@@ -115,9 +169,15 @@ const ABBREVIATIONS = new Set([
  * Those render verbatim in search results and share cards.
  */
 function hasLowercaseSentenceStart(value: string): boolean {
+  // Collapse multi-token abbreviations first so "p. ex. off-001" does not
+  // leave a bare "x." for the scanner to treat as a sentence end.
+  const normalized = value
+    .replace(/\bp\.\s*ex\./gi, "PEX")
+    .replace(/\be\.\s*g\./gi, "EG")
+    .replace(/\bi\.\s*e\./gi, "IE");
   const pattern = /(\S*[.!?]) +([a-z\u00e0-\u00ff])/g;
   let match: RegExpExecArray | null;
-  while ((match = pattern.exec(value))) {
+  while ((match = pattern.exec(normalized))) {
     // Strip opening brackets/quotes so "(e.g." still matches the allowlist.
     const token = match[1].replace(/^[^\w\u00c0-\u00ff]+/, "");
     if (!ABBREVIATIONS.has(token)) return true;
@@ -248,7 +308,8 @@ describe("plain language for volunteers", () => {
     ["type scale", /\btype scale\b/i],
     ["progressive web app", /\bprogressive web app\b/i],
     ["PCI", /\bPCI\b/],
-    ["slug", /\bslugs?\b/i],
+    // Do not flag ICU placeholders like {slug}.
+    ["slug", /(?<!\{)\bslugs?\b(?!\})/i],
     ["memory store", /\bmemory stores?\b/i],
     ["localStorage", /\blocalStorage\b/],
     ["CTA", /\bCTAs?\b/],
@@ -302,5 +363,104 @@ describe("French locale quality", () => {
       return !/^[A-Z0-9 .,&|/'-]+$/.test(value);
     });
     expect(untranslated, report(untranslated)).toEqual([]);
+  });
+});
+
+describe("Officer Hub copy style", () => {
+  it("starts every Hub sentence with a capital in both locales", () => {
+    for (const [locale, rows] of [
+      ["en", EN_HUB],
+      ["fr", FR_HUB],
+    ] as const) {
+      const broken = rows.filter(([, v]) => hasLowercaseSentenceStart(v));
+      expect(broken, `${locale}\n${report(broken)}`).toEqual([]);
+    }
+  });
+
+  it("never says a bare 'the hub' in English Hub copy", () => {
+    const bare = EN_HUB.filter(([, v]) =>
+      /\b(?:the|this|your|our) hub\b/i.test(v),
+    );
+    expect(bare, report(bare)).toEqual([]);
+  });
+
+  it("uses one French name per locked Hub term", () => {
+    const drifted = FR_HUB.filter(([, v]) =>
+      /(?:Portail|Centre) des dirigeants/.test(v) ||
+      /trousse de marque/.test(v) ||
+      /texte alt(?!ernatif)\b/.test(v) ||
+      /\bDJR\b/.test(v) ||
+      // Rental "locataire" must not stand in for union tenancy.
+      /\blocataire\b/i.test(v) ||
+      // Warehouse jargon from early hybrid FR.
+      /\bmagasin\b/i.test(v),
+    );
+    expect(drifted, report(drifted)).toEqual([]);
+  });
+
+  it("puts a space before ':' and ';' in Hub French", () => {
+    const tight = FR_HUB.filter(([, v]) => {
+      if (/\S;(?= )/.test(v)) return true;
+      return /(?:^|[^\s\d:])(?<!mailto|https|http|ftp):(?= )/.test(v);
+    });
+    expect(tight, report(tight)).toEqual([]);
+  });
+
+  it("translates every substantial Hub English string", () => {
+    const enByPath = new Map(EN_HUB);
+    const untranslated = FR_HUB.filter(([path, value]) => {
+      const english = enByPath.get(path);
+      if (english !== value) return false;
+      if (wordCount(value) <= 4) return false;
+      return !/^[A-Z0-9 .,&|/'-]+$/.test(value);
+    });
+    expect(untranslated, report(untranslated)).toEqual([]);
+  });
+
+  /**
+   * Hub jargon list differs from public: officers need grievance / CA /
+   * bumping / bargaining unit. Ban software words instead.
+   */
+  const HUB_JARGON: readonly (readonly [label: string, pattern: RegExp])[] = [
+    ["tenant", /\btenants?\b/i],
+    // Do not flag ICU placeholders like {slug}.
+    ["slug", /(?<!\{)\bslugs?\b(?!\})/i],
+    ["payload", /\bpayloads?\b/i],
+    ["adapter", /\badapters?\b/i],
+    ["overlay", /\boverlays?\b/i],
+    ["RLS", /\bRLS\b/],
+    ["memory store", /\bmemory stores?\b/i],
+    ["*_DB_BACKEND", /_DB_BACKEND/],
+    ["CTA", /\bCTAs?\b/],
+    ["utilize", /\butiliz\w+/i],
+    ["leverage", /\bleverage\b/i],
+    ["AUTH_ env", /\bAUTH_[A-Z0-9_]+\b/],
+  ];
+
+  /** Demo login hint keeps reference-tenant email addresses by design. */
+  const HUB_EXEMPT = new Set(["hub.demoHint"]);
+
+  it("keeps developer jargon out of Hub strings", () => {
+    for (const [locale, rows] of [
+      ["en", EN_HUB],
+      ["fr", FR_HUB],
+    ] as const) {
+      const hits = rows.flatMap(([path, value]) => {
+        if (HUB_EXEMPT.has(path)) return [];
+        const found = HUB_JARGON.filter(([, pattern]) => pattern.test(value));
+        return found.map(
+          ([label]) => [path, `[${label}] ${value}`] as const satisfies Leaf,
+        );
+      });
+      expect(hits, `${locale}\n${report(hits)}`).toEqual([]);
+    }
+  });
+
+  it("does not hardcode national union names outside the demo hint", () => {
+    const hits = [...EN_HUB, ...FR_HUB].filter(([path, value]) => {
+      if (HUB_EXEMPT.has(path)) return false;
+      return /\b(?:OPSEU|CAAT)\b/i.test(value);
+    });
+    expect(hits, report(hits)).toEqual([]);
   });
 });
