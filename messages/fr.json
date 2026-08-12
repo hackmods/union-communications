@@ -222,8 +222,8 @@
     "brandRailDesc": "Couleurs, logo et liens clés pour chaque graphique. Consultez le pack d'actifs de référence pour des fichiers de départ.",
     "privacyNote": "Les outils de communication tournent dans votre navigateur. Hébergez un hub et vous contrôlez cette instance.",
     "privacyNoteCommsOnly": "Les outils de communication tournent dans votre navigateur. Graphiques et trousse de marque restent sur votre appareil.",
-    "trustBanner": "Les Comms restent dans votre navigateur. Hébergez le Hub des dirigeants et vous contrôlez cette instance.",
-    "trustBannerCommsOnly": "Les Comms restent dans votre navigateur. Pas d’analytique, de pubs ni de collecte.",
+    "trustBanner": "Votre travail Comms reste dans votre navigateur. Si vous hébergez le Hub des dirigeants, c’est vous qui gérez cette instance.",
+    "trustBannerCommsOnly": "Votre travail Comms reste dans votre navigateur. Pas de pubs, pas d’analytique et personne qui récolte vos données.",
     "trustManifestoLink": "Notre promesse",
     "channels": {
       "social": {
@@ -779,7 +779,7 @@
       "navLabel": "Domaine personnalisé",
       "title": "Domaine personnalisé (optionnel)",
       "intro": "Un court domaine (ex. local243.org) est plus facile à dire et à imprimer. Pointez-le vers GitHub Pages une fois l’URL github.io en place.",
-      "tip": "Le ZIP contient CNAME.example. Renommez en CNAME (sans extension) avec seulement votre domaine en première ligne avant le DNS.",
+      "tip": "Le ZIP contient un fichier nommé CNAME.example. Renommez-le en CNAME (sans extension) et inscrivez uniquement votre domaine sur la première ligne avant de configurer le DNS.",
       "steps": {
         "cname": {
           "title": "Ajouter un fichier CNAME",
@@ -1407,7 +1407,7 @@
     "title": "Créateur de cartes d'action",
     "subtitle": "Cartes QR pour pétitions et inscriptions. Les signatures restent sur votre outil externe.",
     "previewAccessibleName": "Aperçu de carte d'action",
-    "privacyHint": "UnionOps ne collecte pas les signatures. Collez un lien vers votre pétition (ActionNetwork, Forms, page nationale, etc.).",
+    "privacyHint": "UnionOps ne collecte jamais les signatures. Collez simplement le lien vers votre pétition ou outil de signature — ActionNetwork, un formulaire Google, votre page nationale, ce que vous utilisez.",
     "preset": "Préréglage",
     "destination": "Lien de pétition / adhésion",
     "savedLinks": "Utiliser un lien enregistré de la trousse",
@@ -1798,11 +1798,11 @@
   },
   "brandKit": {
     "title": "Trousse de marque de votre section",
-    "description": "Étape 0 de chaque outil Comms. Couleurs, logo, numéro de section et liens alimentent tableaux, impression, social et site.",
+    "description": "Configurez ceci en premier. Vos couleurs, votre logo, votre numéro de section et vos liens apparaissent ensuite sur chaque tableau, tract, graphique social et sur le modèle de site.",
     "purposeSets": "Ce que vous définissez ici",
-    "purposeSetsBody": "Préréglage syndical, numéro de section, couleurs, logo, style de canevas, liens web/social optionnels et URL d’adhésion.",
+    "purposeSetsBody": "Réglez ici votre préréglage syndical, numéro de section, couleurs, logo et style de canevas — plus les liens web, sociaux ou d’adhésion que vos outils réutiliseront.",
     "purposeUnlocks": "Ce que cela débloque",
-    "purposeUnlocksBody": "La Trousse de marque alimente couleurs, logo et liens clés dans chaque outil Comms.",
+    "purposeUnlocksBody": "Chaque outil Comms reprend automatiquement ces couleurs, ce logo et ces liens : vous ne les réglez qu’une seule fois.",
     "startSetup": "Commencer la configuration",
     "continueRoadmap": "Continuer la feuille de route de la première semaine",
     "assetsLink": "Voir les actifs de marque",
@@ -2078,7 +2078,7 @@
     "title": "Guide de communication - grève et crise",
     "subtitle": "Orientation de haut niveau pour les sections locales pendant les grèves, la négociation et les crises en milieu de travail",
     "backToGuide": "Retour au plan directeur",
-    "intro": "Pour des messages locaux calmes sous pression. Les sections gèrent souvent le quotidien pendant que le central appuie la négociation sectorielle.",
+    "intro": "Ce guide vous aide à garder des messages locaux calmes et clairs sous pression. Votre section gère d’ordinaire le quotidien pendant que votre central appuie la négociation sectorielle.",
     "scenarios": {
       "strike": {
         "title": "Grève",
@@ -2269,7 +2269,7 @@
     },
     "hub": {
       "title": "Module de bumping du Centre des dirigeants",
-      "body": "Utilisez le déplacement collégial pour notes, PDF et séances. Traitez les aides de classement comme contrôle. Refaites la feuille papier si le résultat surprend."
+      "body": "Dans le Hub, le déplacement collégial regroupe vos notes, comparaisons PDF et séances au même endroit. Traitez toute aide de classement comme une vérification, et refaites la feuille papier si un résultat vous surprend."
     }
   },
   "rightToRefuseGuide": {
@@ -4130,7 +4130,7 @@
     "chromeStep2": "Après une courte visite, utilisez Installer dans la barre d’adresse, ou le menu : Installer l’appli / Installer UnionOps.",
     "chromeStep3": "Confirmez. UnionOps s’ouvre dans sa fenêtre avec le shell hors ligne pour les pages publiques déjà chargées. Pas d’Installer? Vous êtes peut-être déjà en mode appli.",
     "androidTitle": "Chrome sur Android",
-    "androidBody": "Menu Chrome → Installer l’appli. « Ajouter à l’écran d’accueil » seul n’est qu’un raccourci. Préférez Installer quand c’est offert.",
+    "androidBody": "Dans le menu Chrome, touchez Installer l’appli. Si vous ne voyez que « Ajouter à l’écran d’accueil », cela crée un raccourci, pas l’appli complète — choisissez Installer dès qu’elle apparaît.",
     "safariTitle": "Safari (Mac et iPhone)",
     "safariBody": "Safari n’affiche jamais d’invite automatique. Sur iPhone ou iPad : Partager, puis Sur l’écran d’accueil.",
     "limitsTitle": "Ce que l'installation ne change pas",
@@ -4377,7 +4377,7 @@
     "comms3": "Pas d’analytique, de témoins de pistage ni de scripts publicitaires tiers",
     "comms4": "Les photos de membres dans les graphiques ne sont pas téléversées vers les serveurs UnionOps par les outils Comms",
     "hubTitle": "Hub des dirigeants (instance hébergée)",
-    "hubIntro": "Se connecter signifie que le Hub détient sessions et dossiers. Les démos peuvent utiliser la mémoire. En production: secrets sécurisés et isolation de locataire si une base est disponible.",
+    "hubIntro": "Quand vous vous connectez, ce Hub conserve votre session et vos dossiers. Les démos peuvent perdre les données au redémarrage ; en production, les dossiers de chaque syndicat restent sécurisés et séparés.",
     "hubSelfHost": "Si vous auto-hébergez (CapRover / Docker), vous êtes le responsable des données. Préférez un hébergement canadien pour le confidentiel. AUTH_SECRET unique. Pas de mots de passe de démo pour de vrais dossiers.",
     "hubHybrid": "Les phrases de passe d’export hybride restent dans le navigateur. Elles ne partent pas vers le serveur dans le flux de chiffrement.",
     "hubDemo": "Les comptes de démo sont pour ateliers et CI seulement, pas pour des dossiers confidentiels réels.",

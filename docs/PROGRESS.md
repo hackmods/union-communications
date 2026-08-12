@@ -1,5 +1,12 @@
 # Progress Log
 
+## Public copy voice rewrite (2026-08-11)
+
+- [x] Voice pass on public strings that prior length cuts left telegraphic/jargon-y: `privacyPage.hubIntro` (dropped "memory"/"tenant isolation" for plain language), `installPage.androidBody`, `crisisGuide.intro` (fixed fragment lead), `brandKit.purposeSetsBody`/`purposeUnlocksBody`/`description`, `websiteGuide.domain.tip`, `seniorityGuide.hub.body`, `home.trustBanner*`, `actionCard.privacyHint` — EN + FR lockstep
+- [x] Removed marketing verb "drive" from Brand Kit copy + SEO (`public-page-meta` `/onboarding`, `/brand-kit`) in favour of "reuse across every tool"
+- [x] Kept legal disclaimers intact (seniority/RTR "Aid only — not legal advice")
+- [x] Style guard still green: `src/lib/comms/public-copy-style.test.ts` (30-word ceiling; ≤1 em dash on lead fields)
+
 ## Public copy streamline (2026-08-10)
 
 - [x] Shorter public subtitles/intros (home, First week, Resources, tools, guides) EN + FR

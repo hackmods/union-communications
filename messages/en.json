@@ -222,8 +222,8 @@
     "brandRailDesc": "Colours, logo, and key links for every graphic. Browse the reference asset pack when you need starter files.",
     "privacyNote": "Comms tools run in your browser. Host an Officer Hub and you control that instance.",
     "privacyNoteCommsOnly": "Comms tools run in your browser. Graphics and brand kit stay on your device.",
-    "trustBanner": "Comms stay in your browser. Host the Officer Hub and you control that instance.",
-    "trustBannerCommsOnly": "Comms stay in your browser. No analytics, ads, or data harvesting.",
+    "trustBanner": "Your Comms work stays in your browser. If you host the Officer Hub, you are in charge of that instance.",
+    "trustBannerCommsOnly": "Your Comms work stays in your browser. No ads, no analytics, and nobody harvesting your data.",
     "trustManifestoLink": "Our promise",
     "channels": {
       "social": {
@@ -779,7 +779,7 @@
       "navLabel": "Custom domain",
       "title": "Custom domain (optional)",
       "intro": "A short domain (for example local243.org) is easier to say and print. Point it at GitHub Pages after the free github.io URL works.",
-      "tip": "ZIP includes CNAME.example. Rename to CNAME (no extension) with only your domain on line one before DNS.",
+      "tip": "The ZIP includes a file called CNAME.example. Rename it to CNAME (no file extension) and put only your domain on the first line before you set up DNS.",
       "steps": {
         "cname": {
           "title": "Add a CNAME file",
@@ -1407,7 +1407,7 @@
     "title": "Action Card Maker",
     "subtitle": "QR cards for petitions and sign-ons. Signatures stay on your external tool.",
     "previewAccessibleName": "Action card preview",
-    "privacyHint": "UnionOps does not collect signatures. Paste a link to your petition or sign-on tool (ActionNetwork, Forms, national page, etc.).",
+    "privacyHint": "UnionOps never collects signatures. Just paste the link to your petition or sign-on tool — ActionNetwork, a Google Form, your national page, whatever you use.",
     "preset": "Preset",
     "destination": "Petition / sign-on link",
     "savedLinks": "Use a saved Brand Kit link",
@@ -1798,11 +1798,11 @@
   },
   "brandKit": {
     "title": "Your local Brand Kit",
-    "description": "Step 0 for every Comms tool. Colours, logo, local number, and key links drive boards, print, social, and the site template.",
+    "description": "Set this up first. Your colours, logo, local number, and links then show up on every board, flyer, social graphic, and the website template.",
     "purposeSets": "What you set here",
-    "purposeSetsBody": "Union preset, local number, colours, logo, canvas style, optional web/social links, and membership URLs.",
+    "purposeSetsBody": "Set your union preset, local number, colours, logo, and canvas style here — plus any website, social, or membership links you want the tools to reuse.",
     "purposeUnlocks": "What it unlocks",
-    "purposeUnlocksBody": "Brand Kit drives colours, logo, and key links across every Comms tool.",
+    "purposeUnlocksBody": "Every Comms tool picks up these colours, logo, and links automatically, so you only set them once.",
     "startSetup": "Start setup",
     "continueRoadmap": "Continue the first-week roadmap",
     "assetsLink": "Browse Brand Assets",
@@ -2112,7 +2112,7 @@
     "title": "Strike & Crisis Comms Guide",
     "subtitle": "High-level guidance for local unions during strikes, bargaining, and workplace crises",
     "backToGuide": "Back to The Blueprint",
-    "intro": "For calm local messaging under pressure. Locals often own day-to-day Comms while central unions handle sector bargaining support.",
+    "intro": "This guide helps you keep local messaging calm and clear under pressure. Your local usually handles day-to-day Comms while your central union supports sector bargaining.",
     "scenarios": {
       "strike": {
         "title": "Strike action",
@@ -2303,7 +2303,7 @@
     },
     "hub": {
       "title": "Officer Hub bumping module",
-      "body": "Use College Bumping for notes, PDF compare, and sessions. Treat ranking aids as a check. Re-run the paper worksheet if the tool surprises you."
+      "body": "In the Officer Hub, College Bumping keeps notes, PDF comparisons, and sessions together. Treat any ranking aid as a double-check, and redo the paper worksheet if it surprises you."
     }
   },
   "rightToRefuseGuide": {
@@ -4130,7 +4130,7 @@
     "chromeStep2": "After a short visit, use Install in the address bar, or the browser menu: Install app / Install UnionOps.",
     "chromeStep3": "Confirm. UnionOps opens in its own window with the offline shell for public pages you last loaded. Missing Install? You may already be in the installed app.",
     "androidTitle": "Chrome on Android",
-    "androidBody": "Chrome menu → Install app. “Add to Home screen” alone is only a shortcut. Prefer Install when it appears.",
+    "androidBody": "In the Chrome menu, tap Install app. If you only see “Add to Home screen,” that makes a shortcut, not the full app. Use Install when it shows up.",
     "safariTitle": "Safari (Mac and iPhone)",
     "safariBody": "Safari never shows an automatic install prompt. On iPhone or iPad: Share, then Add to Home Screen.",
     "limitsTitle": "What install does not change",
@@ -4377,7 +4377,7 @@
     "comms3": "No analytics, tracking cookies, or third-party ad scripts",
     "comms4": "Member photos used in graphics are not uploaded to UnionOps servers by the Comms tools",
     "hubTitle": "Officer Hub (hosted instance)",
-    "hubIntro": "Signing in means that Hub holds sessions and case records. Demos may use memory. Production needs secure secrets and tenant isolation when a database is available.",
+    "hubIntro": "When you sign in, that Hub stores your session and case records. Demo setups may lose data on restart; a real deployment keeps each union's records secure and separate.",
     "hubSelfHost": "If you self-host (CapRover / Docker), you are the data controller. Prefer Canadian hosting for confidential modules. Set a unique AUTH_SECRET. Never use demo passwords for real casework.",
     "hubHybrid": "Hybrid export passphrases stay in the browser. They are not sent to the server in the encrypt flow.",
     "hubDemo": "Demo accounts exist for workshops and CI only, not for live confidential files.",

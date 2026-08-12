@@ -25,12 +25,12 @@ export const PUBLIC_PAGE_SEO: Record<
     "/onboarding": {
       title: "Set up your local brand",
       description:
-        "Step-by-step Brand Kit setup for your local. colours, logo, and links that drive every Comms tool.",
+        "Set up your local's Brand Kit step by step: colours, logo, local number, and links that every Comms tool reuses automatically.",
     },
     "/brand-kit": {
       title: "Your local Brand Kit",
       description:
-        "Colours, logo, local number, and key links that drive boards, print, social graphics, and the website template.",
+        "Set your colours, logo, local number, and key links once, then reuse them across boards, print, social graphics, and the website template.",
     },
     "/examples": {
       title: "Social Examples",
@@ -137,12 +137,12 @@ export const PUBLIC_PAGE_SEO: Record<
     "/onboarding": {
       title: "Configurer la marque de votre section",
       description:
-        "Configuration pas à pas de la trousse de marque. couleurs, logo et liens qui alimentent chaque outil Comms.",
+        "Configurez la trousse de marque de votre section pas à pas : couleurs, logo, numéro de section et liens que chaque outil Comms réutilise automatiquement.",
     },
     "/brand-kit": {
       title: "Trousse de marque de votre section",
       description:
-        "Couleurs, logo, numéro de section et liens clés pour tableaux, impression, graphiques sociaux et modèle de site.",
+        "Réglez une seule fois vos couleurs, logo, numéro de section et liens clés, puis réutilisez-les sur tableaux, impressions, graphiques sociaux et le modèle de site.",
     },
     "/examples": {
       title: "Exemples sociaux",
