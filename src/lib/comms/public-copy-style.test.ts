@@ -64,26 +64,6 @@ function emDashCount(s: string): number {
   return (s.match(/\u2014/g) ?? []).length;
 }
 
-function walkStrings(
-  value: unknown,
-  path: string,
-  visit: (path: string, text: string) => void,
-): void {
-  if (typeof value === "string") {
-    visit(path, value);
-    return;
-  }
-  if (Array.isArray(value)) {
-    value.forEach((item, i) => walkStrings(item, `${path}[${i}]`, visit));
-    return;
-  }
-  if (value && typeof value === "object") {
-    for (const [key, child] of Object.entries(value)) {
-      walkStrings(child, path ? `${path}.${key}` : key, visit);
-    }
-  }
-}
-
 describe("public Comms copy style", () => {
   it("exposes shared Brand Kit nudge + privacy page keys in EN and FR", () => {
     expect(en.common.setupBrandPrompt).toBeTruthy();
@@ -133,16 +113,11 @@ describe("public Comms copy style", () => {
     expect(wordCount(en.websiteTemplate.referenceNote)).toBeLessThanOrEqual(40);
   });
 
-  it("keeps public namespaces under a 30-word leaf ceiling", () => {
-    const over: string[] = [];
-    for (const ns of PUBLIC_NS) {
-      const block = (en as Record<string, unknown>)[ns];
-      walkStrings(block, ns, (path, text) => {
-        if (wordCount(text) >= 30) over.push(`${wordCount(text)} ${path}`);
-      });
-    }
-    expect(over, over.join("\n")).toEqual([]);
-  });
+  // Deliberately no blanket per-leaf word ceiling. It optimized for brevity
+  // over clarity and rewarded clipping subjects/verbs out of body copy
+  // ("Prefer Install when it appears."). Body tips and guide paragraphs
+  // should read as complete sentences; only named lead fields are kept short
+  // above, and em-dash stacking is capped below.
 
   it("allows at most one em dash on public tool/guide lead fields", () => {
     const leads: string[] = [];

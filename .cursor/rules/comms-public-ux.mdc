@@ -23,6 +23,7 @@ Use `brandSetupHref(themeEstablished)` from `@/lib/utils/brand-setup` (`/onboard
 ## Copy style (public Comms)
 
 - **Tool subtitles / guide intros:** one job each. Prefer ~12–18 words on subtitles; max two short sentences on intros. Put print tips and cross-links in hints, `whenToUse`, or related chips — not the lead line.
+- **Body copy is not a lead.** Guide paragraphs, tips, checklist items, and hints should read as complete sentences a steward could say aloud. Do **not** clip subjects/verbs to hit a word count ("Prefer Install when it appears." is a failure, not a win). There is intentionally **no blanket per-leaf word ceiling** — the [`public-copy-style.test.ts`](../../src/lib/comms/public-copy-style.test.ts) guard only keeps a few *named* lead fields short and caps em-dash stacking on leads. Clarity beats brevity below the lead line.
 - **Em dashes:** fine within reason for contrast (`Aid only — not legal advice`) or a single clause break. Do not stack multiple em dashes in one string, and prefer a period or colon in tool subtitles and home chrome when a dash only adds pause.
 - Keep EN/FR in lockstep for every public string you change.
 

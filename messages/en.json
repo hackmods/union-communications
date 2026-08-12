@@ -2303,7 +2303,7 @@
     },
     "hub": {
       "title": "Officer Hub bumping module",
-      "body": "In the Officer Hub, College Bumping keeps notes, PDF comparisons, and sessions together. Treat any ranking aid as a double-check, and redo the paper worksheet if it surprises you."
+      "body": "In the Officer Hub, College Bumping keeps your notes, PDF comparisons, and sessions in one place. Treat any ranking aid as a double-check, and re-run the paper worksheet if a result surprises you."
     }
   },
   "rightToRefuseGuide": {
@@ -4130,7 +4130,7 @@
     "chromeStep2": "After a short visit, use Install in the address bar, or the browser menu: Install app / Install UnionOps.",
     "chromeStep3": "Confirm. UnionOps opens in its own window with the offline shell for public pages you last loaded. Missing Install? You may already be in the installed app.",
     "androidTitle": "Chrome on Android",
-    "androidBody": "In the Chrome menu, tap Install app. If you only see “Add to Home screen,” that makes a shortcut, not the full app. Use Install when it shows up.",
+    "androidBody": "In the Chrome menu, tap Install app. If you only see “Add to Home screen,” that just makes a shortcut, not the full app — use Install whenever it shows up.",
     "safariTitle": "Safari (Mac and iPhone)",
     "safariBody": "Safari never shows an automatic install prompt. On iPhone or iPad: Share, then Add to Home Screen.",
     "limitsTitle": "What install does not change",

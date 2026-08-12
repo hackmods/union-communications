@@ -1,5 +1,11 @@
 # Progress Log
 
+## Drop blanket word-count guard (2026-08-11)
+
+- [x] Removed the blanket 30-word per-leaf ceiling test from `public-copy-style.test.ts` — it optimized for brevity over clarity and rewarded clipping subjects/verbs out of body copy (the root cause of the telegraphic strings fixed below)
+- [x] Kept the good guards: the *named* lead-length checks (home subtitle, First-week/Resources intros, etc.) and the ≤1 em-dash-on-lead-fields cap
+- [x] `comms-public-ux.mdc`: added "body copy is not a lead — complete sentences, no clipping to hit a count; no blanket ceiling" principle
+
 ## Public copy voice rewrite (2026-08-11)
 
 - [x] Voice pass on public strings that prior length cuts left telegraphic/jargon-y: `privacyPage.hubIntro` (dropped "memory"/"tenant isolation" for plain language), `installPage.androidBody`, `crisisGuide.intro` (fixed fragment lead), `brandKit.purposeSetsBody`/`purposeUnlocksBody`/`description`, `websiteGuide.domain.tip`, `seniorityGuide.hub.body`, `home.trustBanner*`, `actionCard.privacyHint` — EN + FR lockstep
