@@ -21,8 +21,8 @@
     "graphicMaker": "Créateur graphique",
     "resizer": "Redimensionneur d'images",
     "quoteCard": "Carte de citation",
-    "flyerMaker": "Créateur d'affiche",
-    "altText": "Assistant texte alt",
+    "flyerMaker": "Créateur de tracts",
+    "altText": "Assistant texte alternatif",
     "boardNotice": "Avis pour tableau syndical",
     "boardBanner": "Bandeau et bordure de tableau",
     "solidarityPoster": "Affiches solidarité",
@@ -285,13 +285,13 @@
       "print": {
         "title": "Impression",
         "navLabel": "Impression",
-        "description": "Remettez le même message en affiche pour les réunions, les tournées et les actions. Associez l'impression aux tableaux pour que les membres hors ligne aient aussi les faits.",
+        "description": "Remettez le même message en tract pour les réunions, les tournées et les actions. Associez l'impression aux tableaux pour que les membres hors ligne aient aussi les faits.",
         "checklist": [
-          "Ouvrir le Créateur d'affiche avec les couleurs et le numéro de section de la trousse de marque",
+          "Ouvrir le Créateur de tracts avec les couleurs et le numéro de section de la trousse de marque",
           "Garder le texte grand et à fort contraste pour la lecture en corridor ou à l'extérieur",
           "Exporter en PDF pour impression maison ou en copisterie (format lettre)"
         ],
-        "cta": "Créateur d'affiche",
+        "cta": "Créateur de tracts",
         "secondaryCta": "Guide impression"
       },
       "socials": {
@@ -393,7 +393,7 @@
       },
       "accessibility": {
         "title": "Accessibilité - texte alternatif",
-        "content": "Chaque image a besoin d’un texte alt. Rédigez avec l’assistant, collez dans le champ plateforme (pas la légende). Qui, quoi, où, et le texte du graphique."
+        "content": "Chaque image a besoin d’un texte alternatif. Rédigez avec l’assistant, collez dans le champ plateforme (pas la légende). Qui, quoi, où, et le texte du graphique."
       }
     },
     "channelGuides": {
@@ -425,7 +425,7 @@
     "bareMinimum": {
       "title": "Tableau minimal",
       "intro": "Chaque tableau doit répondre : Comment vous trouver en ligne? Qui appeler pour la santé-sécurité? Qui siège au CÉL? Que se passe-t-il ensuite?",
-      "tip": "Imprimez le permanent une fois sur carton. Ne rafraîchissez que la zone tournante. Remplissez le vide avec des affiches de solidarité.",
+      "tip": "Imprimez une seule fois les éléments permanents sur du carton solide. Ne rafraîchissez que la zone tournante. Remplissez les espaces vides avec des affiches de solidarité pour que le tableau n'ait jamais l'air abandonné.",
       "items": {
         "header": {
           "title": "En-tête local",
@@ -458,7 +458,7 @@
       },
       "rotate": {
         "label": "À faire tourner souvent",
-        "content": "Avis de réunion, mises à jour de négociation, dépliants d'événements, et affiches de solidarité pour les espaces vides."
+        "content": "Avis de réunion, mises à jour de négociation, tracts d'événement et affiches de solidarité pour les espaces vides."
       },
       "optional": {
         "label": "Extras optionnels",
@@ -470,7 +470,7 @@
       }
     },
     "layouts": {
-      "title": "Mises en page de référence (locaux réels)",
+      "title": "Mises en page de référence (vraies sections)",
       "intro": "Schémas tirés de tableaux réels. Choisissez une forme et tenez-vous-y pour que les membres sachent où regarder.",
       "photosHeading": "Vrais tableaux (références photo)",
       "photosIntro": "Photos de babillards de campus : comment listes CÉL, CSS, affiches ministérielles et QR cohabitent.",
@@ -524,7 +524,7 @@
         "ohsaQrTip": "Astuce accès LSST par téléphone / QR",
         "ohsaQrTipDesc": "Fiche d'une page pour scanner un QR vers la loi à jour depuis un téléphone.",
         "boardL33": "Tableau d'info de campus en colonnes",
-        "boardL33Desc": "Colonnes : Affichages, mises à jour/CÉL, CSS, ESA + S&S, Formule 82, harcèlement, grand QR. Minimum plus affiches de droits.",
+        "boardL33Desc": "Colonnes : Affichages, mises à jour/CÉL, CSS, LNE + S&S, Formule 82, harcèlement, grand QR. Minimum plus affiches de droits.",
         "boardL33Alt": "Photo d'un tableau d'info syndical en colonnes étiquetées pour affichages, exécutif, santé-sécurité et affiches de droits",
         "boardW010": "Tableau de corridor avec image de marque",
         "boardW010Desc": "Bannières du syndicat parent en haut; Formule 82 et harcèlement à hauteur des yeux; liste CÉL, affiche S&S, QR et petit coin notes. Dense mais lisible.",
@@ -565,8 +565,8 @@
         "content": "Imprimez quand les réseaux sociaux risquent de manquer des gens : les quarts de travail, les membres sans téléphone intelligent et les lieux très passants. Utilisez les tracts pour les rassemblements et les avis de tableau pour la visibilité continue."
       },
       "flyers": {
-        "title": "Affiches et dépliants",
-        "content": "Créateur de tracts pour piquets et rassemblements. Exportez en PDF lettre. Texte grand et à fort contraste dehors."
+        "title": "Tracts et documents à distribuer",
+        "content": "Utilisez le Créateur de tracts pour les piquets et les rassemblements, puis exportez un PDF au format lettre. Gardez le texte grand et à fort contraste pour qu'il se lise dehors."
       },
       "boards": {
         "title": "Avis pour tableaux",
@@ -632,7 +632,7 @@
     },
     "workshop": {
       "title": "Conseil pour atelier",
-      "content": "En atelier, pausez sur le dialogue de consentement du créateur graphique, parcourez cette liste, puis pointez Ressources Comms et Confidentialité. Convenez qui consigne le consentement et où vont les retraits."
+      "content": "En atelier, arrêtez-vous sur le dialogue de consentement du créateur graphique, parcourez cette liste, puis pointez Ressources Comms et Confidentialité. Convenez qui consigne le consentement et où vont les retraits."
     }
   },
   "websiteGuide": {
@@ -755,7 +755,7 @@
       "steps": {
         "account": {
           "title": "Créer un compte GitHub",
-          "content": "Inscrivez-vous sur github.com avec un courriel que la section peut garder. Préférez un compte partagé."
+          "content": "Inscrivez-vous sur github.com avec un courriel que la section peut garder. Préférez un compte partagé entre dirigeants plutôt qu'une seule connexion personnelle."
         },
         "repo": {
           "title": "Créer un dépôt",
@@ -783,7 +783,7 @@
       "steps": {
         "cname": {
           "title": "Ajouter un fichier CNAME",
-          "content": "À la racine du dépôt, ajoutez un fichier nommé CNAME contenant seulement votre domaine (par ex. section243.org). Validez le commit."
+          "content": "À la racine du dépôt, ajoutez un fichier nommé CNAME contenant seulement votre domaine (par ex. local243.org). Validez le commit."
         },
         "dns": {
           "title": "Configurer le DNS chez le registraire",
@@ -802,7 +802,7 @@
       "items": {
         "who": {
           "title": "Qui en est responsable",
-          "content": "Nommez un steward du site. Partagez le compte GitHub ou ajoutez un second compte de confiance."
+          "content": "Nommez un responsable du site. Partagez le compte GitHub ou ajoutez un second compte de confiance pour que les mises à jour ne meurent pas au départ d'une personne."
         },
         "when": {
           "title": "Quand mettre à jour",
@@ -1186,7 +1186,7 @@
       "sheetName": "Ancienneté",
       "title": "Feuille d'ancienneté et de bumping",
       "local": "Section locale",
-      "disclaimer": "Aide seulement. Pas un avis juridique. Vérifiez contre votre convention et la pratique locale.",
+      "disclaimer": "Aide seulement. Pas un avis juridique. Vérifiez dans votre convention collective et selon la pratique locale.",
       "footerDecision": "Résumé de décision (notes du président)",
       "columns": [
         "Réf. membre",
@@ -1392,7 +1392,7 @@
       "healthSafetyDesc": "Contacts du comité et comment signaler un danger.",
       "healthSafetyTagline": "Scannez pour les contacts S&S",
       "rightToRefuseTitle": "Droit de refuser",
-      "rightToRefuseDesc": "Carte de poche OHSA art. 43 (refus). Pas un avis juridique. Étapes : signaler le danger, refuser le travail dangereux, rester disponible, joindre CSS/superviseur, documenter, escalader si non résolu.",
+      "rightToRefuseDesc": "Carte de poche LSST art. 43 (refus). Pas un avis juridique. Étapes : signaler le danger, refuser le travail dangereux, rester disponible, joindre CSS/superviseur, documenter, escalader si non résolu.",
       "rightToRefuseTagline": "Scannez le guide complet →",
       "followUsTitle": "Restez branchés",
       "followUsDesc": "Mises à jour, réunions et solidarité - suivez votre section en ligne.",
@@ -1569,8 +1569,8 @@
       "localWebsite": "Visitez notre site",
       "followUs": "Restez branchés",
       "healthSafety": "Santé et sécurité",
-      "esa": "Vos droits (ESA)",
-      "ohsa": "Guide OHSA / LSST",
+      "esa": "Connaissez vos droits (LNE)",
+      "ohsa": "Guide de la LSST",
       "membershipFullTime": "Adhésion temps plein",
       "membershipPartTime": "Adhésion temps partiel"
     }
@@ -1639,9 +1639,9 @@
       },
       "blurb": {
         "plan": "Après la trousse de marque : tableaux, impression, réseaux et site dans l'ordre.",
-        "blueprint": "Pratique continue : plateformes, ton, fréquence, trolls, texte alt.",
+        "blueprint": "Pratique continue : plateformes, ton, fréquence, trolls, texte alternatif.",
         "boards": "Tableaux minimaux au travail et quoi imprimer.",
-        "print": "Affiches et habitudes d'impression pour réunions et actions.",
+        "print": "Tracts et habitudes d'impression pour réunions et actions.",
         "website": "Quoi mettre sur un site local, créer le ZIP et publier sur GitHub Pages.",
         "email": "Invitations à copier-coller et rappels aux dirigeants. Pas de listes marketing.",
         "crisis": "Communications de négociation et de grève à enjeux élevés.",
@@ -1656,7 +1656,7 @@
         "Importer la trousse de marque de démo ou compléter l'intégration de votre section",
         "Exporter un logo circulaire local (PNG)",
         "Créer et télécharger un avis pour tableau (PDF)",
-        "Créer une affiche avec le Créateur d'affiche (PDF)",
+        "Créer un tract avec le Créateur de tracts (PDF)",
         "Créer un graphique social avec le Créateur graphique",
         "Télécharger le ZIP du site Web et lire le README inclus"
       ]
@@ -1672,7 +1672,7 @@
       "onboarding": "Assistant de configuration de marque",
       "logo": "Créateur de logo",
       "board": "Avis pour tableau syndical",
-      "flyer": "Créateur d'affiche",
+      "flyer": "Créateur de tracts",
       "graphic": "Créateur graphique",
       "website": "Modèle de site Web",
       "crisis": "Guide de grève"
@@ -1976,9 +1976,9 @@
     "whenToUse": "À utiliser quand une citation de membre ou de dirigeant doit devenir une carte partageable pour les réseaux sociaux ou les tableaux."
   },
   "flyerMaker": {
-    "title": "Créateur d'affiche piquet / rassemblement",
+    "title": "Créateur de tracts piquet / rassemblement",
     "subtitle": "Tracts à fort contraste pour réunions, rassemblements et actions.",
-    "previewAccessibleName": "Aperçu du créateur d'affiche",
+    "previewAccessibleName": "Aperçu du créateur de tracts",
     "message": "Message principal",
     "date": "Date",
     "time": "Heure",
@@ -1989,24 +1989,24 @@
     "whenToUse": "À utiliser pour les tracts distribués aux réunions, aux tournées et aux actions. Associez-les aux tableaux pour que les membres hors ligne aient aussi les faits."
   },
   "altTextAssistant": {
-    "title": "Assistant texte alt",
-    "subtitle": "Rédigez le texte alt pour les publications, puis collez-le dans chaque plateforme. L’outil n’analyse pas les images.",
+    "title": "Assistant texte alternatif",
+    "subtitle": "Rédigez le texte alternatif pour les publications, puis collez-le dans chaque plateforme. L’outil n’analyse pas les images.",
     "starterLabel": "Partir d'un type de graphique courant",
-    "altLabel": "Texte alt (pour le champ d'accessibilité de l'image)",
+    "altLabel": "Texte alternatif (pour le champ d'accessibilité de l'image)",
     "altPlaceholder": "Décrivez qui ou ce qui est montré, le contexte, et tout texte sur le graphique…",
     "platformLabel": "Vérifier la limite pour",
     "charCount": "{count} / {limit} caractères",
     "captionLabel": "Légende du billet (facultatif, pour votre référence)",
     "captionPlaceholder": "Collez la légende que vous publierez séparément…",
-    "captionHint": "Le texte alt et la légende sont des champs distincts sur la plupart des plateformes. N'insérez pas toute la légende dans le champ alt.",
-    "copyAlt": "Copier le texte alt",
+    "captionHint": "Le texte alternatif et la légende sont des champs distincts sur la plupart des plateformes. N'insérez pas toute la légende dans le champ du texte alternatif.",
+    "copyAlt": "Copier le texte alternatif",
     "copyBoth": "Copier alt + légende",
     "draftLooksGood": "Le brouillon semble solide - aucun problème courant détecté. Vérifiez quand même la liste avant de publier.",
     "howTitle": "Comment l'utiliser",
     "how": {
       "step1": "Exportez ou capturez votre graphique depuis le créateur de graphiques, la carte citation, l'affiche ou un autre outil.",
-      "step2": "Rédigez ici un texte alt qui décrit le contenu visuel (pas la légende).",
-      "step3": "Copiez le texte alt et collez-le dans le champ « Modifier le texte alt » / accessibilité d'Instagram, Facebook, X ou LinkedIn au moment de publier.",
+      "step2": "Rédigez ici un texte alternatif qui décrit le contenu visuel (pas la légende).",
+      "step3": "Copiez le texte alternatif et collez-le dans le champ « Modifier le texte alternatif » / accessibilité d'Instagram, Facebook, X ou LinkedIn au moment de publier.",
       "step4": "Gardez votre légende habituelle dans le champ de publication normal."
     },
     "checklistTitle": "Avant de publier",
@@ -2056,7 +2056,7 @@
       "empty": "Ajoutez une description avant de copier.",
       "startsWithImageOf": "Évitez de commencer par « Image de » ou « Photo de » - les lecteurs d'écran annoncent déjà qu'il s'agit d'une image.",
       "tooShort": "C'est trop court. Ajoutez qui/quoi est montré et tout texte important sur l'image.",
-      "sameAsCaption": "Le texte alt reprend la légende. Décrivez l'image elle-même ; gardez la légende dans le champ de publication.",
+      "sameAsCaption": "Le texte alternatif reprend la légende. Décrivez l'image elle-même ; gardez la légende dans le champ de publication.",
       "placeholderLeft": "Remplacez les espaces réservés entre crochets par les vrais détails de votre graphique."
     }
   },
@@ -2077,8 +2077,8 @@
   "crisisGuide": {
     "title": "Guide de communication - grève et crise",
     "subtitle": "Orientation de haut niveau pour les sections locales pendant les grèves, la négociation et les crises en milieu de travail",
-    "backToGuide": "Retour au plan directeur",
-    "intro": "Ce guide vous aide à garder des messages locaux calmes et clairs sous pression. Votre section gère d’ordinaire le quotidien pendant que votre central appuie la négociation sectorielle.",
+    "backToGuide": "Retour au Plan directeur",
+    "intro": "Ce guide vous aide à garder des messages locaux calmes et clairs sous pression. Votre section gère d’ordinaire le quotidien pendant que votre syndicat provincial ou national appuie la négociation sectorielle.",
     "scenarios": {
       "strike": {
         "title": "Grève",
@@ -2142,8 +2142,8 @@
       "items": [
         "Trousse de marque - numéro de section, couleurs et logo prêts pour des graphiques rapides",
         "Avis pour tableau syndical - mises à jour sur les tableaux d'affichage pendant les grèves",
-        "Créateur de dépliants et carte de citation - déclarations des dirigeants et mises à jour de piquetage",
-        "Créateur de graphiques - mise en vedette des membres avec flux de consentement",
+          "Créateur de tracts et carte de citation - déclarations des dirigeants et mises à jour de piquetage",
+        "Créateur de graphiques - mise en vedette des membres avec l'étape de consentement",
         "Modèle de site Web - un lien stable pour les membres et les médias",
         "Bibliothèque de légendes - publications de solidarité et de négociation réutilisables"
       ]
@@ -2153,7 +2153,7 @@
     "title": "Devoir de représentation équitable",
     "subtitle": "Littératie de base pour les délégués et dirigeants locaux",
     "backToGuide": "Retour au Plan directeur",
-    "intro": "Le devoir de juste représentation est l’obligation du syndicat de représenter chaque membre équitablement. Délais manqués et refus silencieux sont des risques courants. Orientation seulement, pas un avis juridique.",
+    "intro": "Le devoir de représentation équitable (DRE) est l’obligation du syndicat de représenter chaque membre équitablement. Délais manqués et refus silencieux sont des risques courants. Orientation seulement, pas un avis juridique.",
     "disclaimer": {
       "title": "Pas un avis juridique",
       "body": "Pas un avis juridique. Confirmez la procédure avec vos dirigeants et conseillers."
@@ -2165,7 +2165,7 @@
     "sections": {
       "whatItMeans": {
         "title": "Ce que signifie le DRE en pratique",
-        "content": "Le DJR exige une représentation sans mauvaise foi, discrimination ni refus arbitraire.",
+        "content": "Le DRE exige une représentation sans mauvaise foi, discrimination ni refus arbitraire.",
         "items": [
           "Enquêtez rapidement sur les plaintes et documentez ce que vous avez fait",
           "Communiquez les mises à jour au membre en langage clair",
@@ -2185,7 +2185,7 @@
       },
       "failureModes": {
         "title": "Modes d'échec courants",
-        "content": "La plupart des plaintes DJR naissent du silence et des délais manqués, pas de la malice. Laissez une trace écrite.",
+        "content": "La plupart des plaintes DRE naissent du silence et des délais manqués, pas de la malice. Laissez une trace écrite.",
         "items": [
           "Délais d'étape / de renvoi manqués dans la convention collective",
           "Aucune note d'enquête, entrevue ou demande de documents au dossier",
@@ -2215,7 +2215,7 @@
     "title": "Guide d'ancienneté et de bumping",
     "subtitle": "Feuilles d’ancienneté pour les dossiers de déplacement. Aide seulement.",
     "backToGuide": "Retour au Plan directeur",
-    "intro": "Les dossiers de déplacement reposent sur dates d’ancienneté, limites de classification et règles d’affichage. Organisez les faits avec la feuille. Vérifiez contre votre convention.",
+    "intro": "Les dossiers de déplacement reposent sur dates d’ancienneté, limites de classification et règles d’affichage. Organisez les faits avec la feuille, puis vérifiez chaque règle dans votre convention collective.",
     "disclaimer": {
       "title": "Pas un avis juridique. Aide seulement.",
       "body": "Pas une calculatrice et pas un avis juridique. Confirmez dates et droits contre la convention et la pratique locale."
@@ -2274,12 +2274,12 @@
   },
   "rightToRefuseGuide": {
     "title": "Droit de refuser un travail dangereux",
-    "subtitle": "Étapes de refus OHSA art. 43 pour délégués et CSS. Pas un avis juridique.",
+    "subtitle": "Étapes de refus selon la LSST art. 43, pour délégués et CSS. Pas un avis juridique.",
     "backToGuide": "Retour au Plan directeur",
-    "intro": "Résumé de la procédure de refus OHSA art. 43 (Ontario) pour délégués et CSS du collégial. Confirmez contre la loi à jour.",
+    "intro": "Résumé de la procédure de refus selon la LSST art. 43 (Ontario), pour délégués et CSS du collégial. Vérifiez toujours dans la loi à jour.",
     "disclaimer": {
       "title": "Pas un avis juridique",
-      "body": "Aperçu de procédure seulement. Confirmez avec la pratique CSS, les dirigeants locaux et le texte OHSA actuel."
+      "body": "Aperçu de procédure seulement. Confirmez avec la pratique CSS, les dirigeants locaux et le texte actuel de la LSST."
     },
     "related": {
       "dfr": "Devoir de représentation équitable",
@@ -2350,7 +2350,7 @@
     "noSubsBody": "Cet outil est gratuit. Pas de forfaits premium, pas de murs payants, pas de frais cachés.",
     "noDataTitle": "Pas de collecte de données :",
     "noDataBody": "Graphiques Comms et Trousse de marque restent sur votre appareil. Si vous hébergez un Hub, cet hôte détient les dossiers et en est le responsable.",
-    "noDataBodyCommsOnly": "Nous ne collectons pas vos données ni ne vendons de pubs. Les Comms restent dans le navigateur. Pas de modèle de surveillance.",
+    "noDataBodyCommsOnly": "Nous ne collectons pas vos données ni ne vendons de pubs. Les Comms restent dans votre navigateur. Pas d’investisseurs à enrichir, pas de modèle d’affaires basé sur la surveillance.",
     "noAdsTitle": "Pas de pubs, pas de pistage :",
     "noAdsBody": "On ne vend pas votre attention.",
     "closing": "UnionOps est bâti par des bénévoles syndicaux qui voulaient un bon outil pour les gens qui font le vrai travail sur le terrain.",
@@ -2369,7 +2369,7 @@
     "cta": "M'offrir un café",
     "ctaHint": "Ouvre buymeacoffee.com dans un nouvel onglet.",
     "contactTitle": "Problèmes et contact",
-    "contactBody": "Écrivez au steward pour l’installation, l’animation d’atelier ou les questions d’hôte.",
+    "contactBody": "Pour de l’aide à l’installation, l’animation d’atelier ou des questions d’hébergement, ouvrez une issue GitHub et Ryan s’en occupera.",
     "contactCta": "Ouvrir les issues GitHub",
     "contactHint": "Ouvre github.com dans un nouvel onglet.",
     "backHome": "Retour à UnionOps"
@@ -2399,11 +2399,11 @@
       "bilingual": "Options de langue anglais et français",
       "displaySettings": "Taille de texte, contraste élevé et réduction des animations configurables",
       "skipLink": "Lien d'évitement pour accéder directement au contenu principal",
-      "altTextTool": "Assistant texte alt pour rédiger des descriptions d'images pour les publications"
+      "altTextTool": "Assistant texte alternatif pour rédiger des descriptions d'images pour les publications"
     },
     "limitations": {
       "title": "Limites connues",
-      "body": "Les aperçus canvas peuvent mal servir lecteurs d’écran ou contraste élevé. Les contrôles restent utilisables au clavier. Pas de texte alt embarqué: rédigez avec l’assistant, puis collez par plateforme."
+      "body": "Les aperçus de canevas peuvent mal servir les lecteurs d’écran ou le contraste élevé, mais les contrôles restent utilisables au clavier. Le texte alternatif n’est pas intégré aux images : rédigez-le avec l’assistant, puis collez-le sur chaque plateforme."
     },
     "feedback": {
       "title": "Commentaires",

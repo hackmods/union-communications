@@ -566,7 +566,7 @@
       },
       "flyers": {
         "title": "Flyers and handouts",
-        "content": "Flyer Maker for picket lines and rallies. Export PDF for letter-size print. Keep text large and high-contrast outdoors."
+        "content": "Use Flyer Maker for picket lines and rallies, then export a PDF for letter-size printing. Keep the text large and high-contrast so it reads outdoors."
       },
       "boards": {
         "title": "Board notices",
@@ -2112,7 +2112,7 @@
     "title": "Strike & Crisis Comms Guide",
     "subtitle": "High-level guidance for local unions during strikes, bargaining, and workplace crises",
     "backToGuide": "Back to The Blueprint",
-    "intro": "This guide helps you keep local messaging calm and clear under pressure. Your local usually handles day-to-day Comms while your central union supports sector bargaining.",
+    "intro": "This guide helps you keep local messaging calm and clear under pressure. Your local usually handles day-to-day Comms while your provincial or national union supports sector bargaining.",
     "scenarios": {
       "strike": {
         "title": "Strike action",
@@ -2403,7 +2403,7 @@
     "cta": "Buy me a coffee",
     "ctaHint": "Opens buymeacoffee.com in a new tab.",
     "contactTitle": "Issues & contact",
-    "contactBody": "Email the steward for install help, workshop facilitation, or host questions.",
+    "contactBody": "For install help, workshop facilitation, or hosting questions, open a GitHub issue and Ryan will pick it up.",
     "contactCta": "Open GitHub issues",
     "contactHint": "Opens github.com in a new tab.",
     "backHome": "Back to UnionOps"
