@@ -1,5 +1,18 @@
 # Progress Log
 
+## Public copy QOL audit + voice enhancement (2026-08-11)
+
+- [x] Audit: [`docs/audit/public-copy-qol-2026-08.md`](audit/public-copy-qol-2026-08.md) — flattened both catalogs (EN/FR parity clean) and screened for lowercase sentence starts, verbless fragments, jargon, stacked em dashes, untranslated FR, and EN↔FR semantic drift
+- [x] Correctness: FR strings that said the opposite of EN — most seriously `photoConsentGuide.toolbox.content` ("group photos **without** individual consent"), plus `flyerMaker.subtitle` ("Tractus"), `websiteGuide.maintain.intro` ("vaut pire"), `crisisGuide` Brand-Kit-vs-union colours, and `routeUi.notFoundBody` ("changé de camp" = switched sides)
+- [x] Locked-term drift: bare "the hub" removed from public pages (`resources.explore`, `accessibility.feedback`, `supportPage.p2`, `footer.privacy`, `installPage.limitsNetwork`, `metadata.*`); FR normalized from Portail/Centre/Hub to **Hub des dirigeants**; FR "trousse de marque" → **Trousse de marque** (23) and EN "brand kit" → **Brand Kit**
+- [x] Jargon off volunteer pages: "reference tenant defaults", "canvas chrome", "type scale", "progressive web app flow", "PCI workflows", "share slug", "Diary every CA deadline", "brand chrome", "CTA"
+- [x] Fragments restored to sentences (the removed word ceiling's residue): `emailBroadcastGuide.sections.checklist`, `home.channelsIntro`, `resources.purpose`/`checklist.intro`, `installPage.whereBody`, `printGuide.sections.flyers`, and all nine FR `whenToUse` hints (which had lost subject, verb, and a trailing clause each)
+- [x] EN↔FR drift: FR had three names for a flyer (→ **tract**), two for alt text (→ **texte alternatif**), three for the duty of fair representation (→ **DRE**), and carried EN statute acronyms OHSA/ESA beside their French equivalents (→ **LSST**/**LNE**); restored clauses FR had dropped; fixed `local243.org` example domain
+- [x] UX states: `brandKit.importSuccess`/`importError`, `pulsePoll.saveError`, and `common.exportPartial` now name a consequence and a remedy; `installPage.relatedMid` no longer reads as gratuity; the two identical workshop notes differ; "your central union" → "your provincial or national union"
+- [x] SEO: eight page + eight tool descriptions expanded off the thin end toward the ~150-char snippet budget (one concrete clause each, no keyword stuffing); French colon/semicolon spacing applied to 24 strings and `home.title`
+- [x] Fixed stale `e2e/builders.smoke.spec.ts` banner assertion (`Local-first Comms` no longer exists in the catalog)
+- [x] Green: `npm run lint`, `npm run test:unit` (127 files / 718 tests)
+
 ## Drop blanket word-count guard (2026-08-11)
 
 - [x] Removed the blanket 30-word per-leaf ceiling test from `public-copy-style.test.ts` — it optimized for brevity over clarity and rewarded clipping subjects/verbs out of body copy (the root cause of the telegraphic strings fixed below)

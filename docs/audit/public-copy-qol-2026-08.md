@@ -1,5 +1,11 @@
 # Public copy QOL audit — 2026-08-11
 
+**Status: implemented 2026-08-11.** Sections 1–7 shipped in five commits (correctness
+and locked terms, jargon, fragments, EN↔FR drift, UX states + SEO). The one item
+deliberately left open is the *structural* home-hero CTA duplication in section 6 —
+copy now differentiates the two cards, but de-duplicating the buttons changes the
+accessible names the smoke suite asserts, so it needs its own change.
+
 Scope: public namespaces in `messages/{en,fr}.json` (home, tools, guides, libraries,
 about/legal pages, `common.*`, `routeUi.*`, `nav.*`, `metadata.*`) plus the three SEO
 sources (`src/lib/seo/site.ts`, `tool-meta.ts`, `public-page-meta.ts`).
