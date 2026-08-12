@@ -169,12 +169,12 @@
       "rsvp": [
         "This invite token punched out.",
         "RSVP link invalid or removed — ask your steward for a fresh one.",
-        "No meeting headcount behind that token."
+        "There's no meeting count behind that link."
       ],
       "meeting": [
-        "No meeting schedule under that local slug.",
+        "No meeting schedule under that local link.",
         "Public meeting page not found.",
-        "That slug never made it onto the calendar."
+        "That link never made it onto the calendar."
       ]
     }
   },
@@ -597,7 +597,7 @@
       },
       "lists": {
         "title": "What UnionOps does not do",
-        "content": "No member marketing lists, auto-broadcasts, dues, or PCI workflows. For newsletters, use your union’s approved mass-email provider and export graphics from Comms separately."
+        "content": "UnionOps does not keep member marketing lists, send automatic broadcasts, or handle dues or card payments. For newsletters, use your union’s approved mass-email provider and export the graphics from Comms separately."
       },
       "checklist": {
         "title": "Before you hit send",
@@ -735,7 +735,7 @@
         },
         "fill": {
           "title": "Fill the fields",
-          "content": "Fill name, tagline, about, contact, Facebook, address, and officers. Replace every placeholder before you ship."
+          "content": "Fill in the name, tagline, about text, contact, Facebook, address, and officers. Replace every placeholder before you publish."
         },
         "preview": {
           "title": "Check the preview",
@@ -1479,8 +1479,8 @@
     "removeQuestion": "Remove",
     "moveUp": "Move up",
     "moveDown": "Move down",
-    "shareSlug": "Share slug (for your print link)",
-    "shareSlugHint": "Letters, numbers, and hyphens. Used in /poll/[slug].",
+    "shareSlug": "Share link name (used in your print link)",
+    "shareSlugHint": "Letters, numbers, and hyphens only. This becomes the end of the poll's web address, as in /poll/your-name.",
     "shareUrl": "Shareable link",
     "copyLink": "Copy link",
     "linkCopied": "Link copied",
@@ -1498,7 +1498,7 @@
     "published": "Poll published. Share the link with members.",
     "publishError": "Could not publish this poll.",
     "publishAuthRequired": "Sign in to the Officer Hub (with MFA) to publish.",
-    "publishSlugTaken": "That share slug is already in use. Try another."
+    "publishSlugTaken": "That share link name is already in use. Try another one."
   },
   "pollPublic": {
     "notFoundTitle": "Poll not found",
@@ -1705,7 +1705,7 @@
       "title": "What this toolbox is built from",
       "items": [
         "Website template - simplified from a volunteer local GitHub Pages site (reference: local243.org)",
-        "Brand colours - reference tenant defaults from official union graphics guidelines (customise in Brand Kit)",
+        "Brand colours - starter values from published union graphics guidelines (change them in Brand Kit)",
         "Blueprint chapters - volunteer comms best practices for local solidarity communications",
         "Crisis guide - high-level guidance for local strike and bargaining communications",
         "Accessibility - WCAG 2.1 AA and AODA commitments in the UnionOps accessibility statement"
@@ -1816,11 +1816,11 @@
     "localNumber": "Local number",
     "subText": "Sub-text",
     "profileLabel": "Collection profile",
-    "profileHint": "Switch FT / PT Support Staff (or other) identity without wiping colours or logo.",
+    "profileHint": "Switch between your full-time and part-time identities without losing your colours or logo.",
     "resetDefaults": "Reset to defaults",
     "canvas": {
       "title": "Canvas style",
-      "description": "Optional canvas chrome: QR plate, type scale, alignment, and surface style.",
+      "description": "Optional finishing touches for your exports: QR plate, text size, alignment, and background surface.",
       "style": "Style package",
       "styles": {
         "legacy": "Classic",
@@ -1848,7 +1848,7 @@
         "roomy": "Roomy",
         "tight": "Tight"
       },
-      "typeScale": "Type scale",
+      "typeScale": "Text size",
       "typeScaleOpts": {
         "compact": "Compact",
         "display": "Display",
@@ -1887,7 +1887,7 @@
       "confirmBody": "These colours may be hard to read together. Continue anyway?",
       "confirmSave": "Save anyway",
       "confirmCancel": "Keep editing",
-      "resetDefaults": "Reset to tenant defaults"
+      "resetDefaults": "Reset to preset colours"
     },
     "logo": {
       "title": "Logo",
@@ -2233,7 +2233,7 @@
         "content": "Hub grievance tools track steps and dates. The CA and your servicing rep stay authoritative. When unsure, document the question and escalate.",
         "items": [
           "Log the member’s concern the same day you hear it",
-          "Diary every CA deadline forward from the triggering event",
+          "Put every CA deadline in your calendar, counted forward from the triggering event",
           "Confirm extension agreements in writing",
           "Keep confidential notes internal — never on public social channels",
           "If you cannot act fairly (conflict), hand the file to another officer"
@@ -4136,8 +4136,8 @@
     "limitsTitle": "What install does not change",
     "limitsOffline": "Installed app windows still need network for first load and some Hub features.",
     "limitsNetwork": "Grievance, bumping, and other Officer Hub modules still need a signed-in session and a network connection when you work live.",
-    "limitsBrand": "Install chrome follows your Brand Kit primary. After colour changes, reopen the app (or reinstall once) if the OS still shows the old icon or title bar.",
-    "limitsNoStore": "There is no App Store or Microsoft Store listing; install is the browser’s own progressive web app flow.",
+    "limitsBrand": "The installed window uses your Brand Kit's main colour. After you change colours, reopen the app (or reinstall it once) if your device still shows the old icon or title bar.",
+    "limitsNoStore": "There is no App Store or Microsoft Store listing, because installing uses your browser's own app-install feature.",
     "relatedLead": "For what stays on this device, see",
     "relatedPrivacy": "Privacy",
     "relatedMid": ". Optional tips live on",
@@ -4164,7 +4164,7 @@
       "flyerMaker": "High-contrast flyers for rallies and meetings.",
       "graphicMaker": "Social posts for Facebook and Instagram.",
       "quoteCard": "Turn a quote into a branded shareable card.",
-      "meetingBackground": "Zoom/Teams virtual backgrounds with brand chrome.",
+      "meetingBackground": "Zoom and Teams backgrounds in your local's colours.",
       "websiteTemplate": "Simple local site ZIP for GitHub Pages.",
       "altText": "Draft accessible alt text without uploading images.",
       "pulsePoll": "Short pulse polls with a printable QR card."

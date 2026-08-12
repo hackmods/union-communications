@@ -169,12 +169,12 @@
       "rsvp": [
         "Ce jeton d’invitation a pointé la sortie.",
         "Lien RSVP invalide ou retiré — demandez-en un nouveau à votre délégué.",
-        "Aucun effectif de réunion derrière ce jeton."
+        "Il n’y a aucun décompte de réunion derrière ce lien."
       ],
       "meeting": [
-        "Aucun horaire de réunion sous ce slug de section.",
+        "Aucun horaire de réunion sous ce lien de section.",
         "Page publique de réunion introuvable.",
-        "Ce slug n’a jamais rejoint le calendrier."
+        "Ce lien n’a jamais rejoint le calendrier."
       ]
     }
   },
@@ -597,7 +597,7 @@
       },
       "lists": {
         "title": "Ce qu'UnionOps ne fait pas",
-        "content": "Pas de listes marketing, de diffusion auto, de cotisations ni de flux PCI. Pour un bulletin, utilisez le fournisseur mass-email approuvé et exportez les graphiques depuis Comms à part."
+        "content": "UnionOps ne tient pas de listes de marketing pour les membres, n’envoie pas de diffusions automatiques et ne gère ni les cotisations ni les paiements par carte. Pour un bulletin, utilisez le fournisseur de courriel de masse approuvé par votre syndicat et exportez les graphiques depuis Comms séparément."
       },
       "checklist": {
         "title": "Avant d'envoyer",
@@ -735,7 +735,7 @@
         },
         "fill": {
           "title": "Remplir les champs",
-          "content": "Remplissez nom, slogan, à propos, contact, Facebook, adresse et dirigeants. Remplacez chaque placeholder avant de publier."
+          "content": "Remplissez le nom, le slogan, la section à propos, les coordonnées, Facebook, l’adresse et les dirigeants. Remplacez chaque espace réservé avant de publier."
         },
         "preview": {
           "title": "Vérifier l'aperçu",
@@ -1479,8 +1479,8 @@
     "removeQuestion": "Retirer",
     "moveUp": "Monter",
     "moveDown": "Descendre",
-    "shareSlug": "Identifiant de partage (pour le lien imprimé)",
-    "shareSlugHint": "Lettres, chiffres et tirets. Utilisé dans /poll/[slug].",
+    "shareSlug": "Nom du lien de partage (utilisé dans le lien imprimé)",
+    "shareSlugHint": "Lettres, chiffres et tirets seulement. Ce nom devient la fin de l’adresse du sondage, comme dans /poll/votre-nom.",
     "shareUrl": "Lien partageable",
     "copyLink": "Copier le lien",
     "linkCopied": "Lien copié",
@@ -1498,7 +1498,7 @@
     "published": "Sondage publié. Partagez le lien avec les membres.",
     "publishError": "Impossible de publier ce sondage.",
     "publishAuthRequired": "Connectez-vous au Hub des dirigeants (avec MFA) pour publier.",
-    "publishSlugTaken": "Ce slug est déjà pris. Essayez-en un autre."
+    "publishSlugTaken": "Ce nom de lien de partage est déjà pris. Essayez-en un autre."
   },
   "pollPublic": {
     "notFoundTitle": "Sondage introuvable",
@@ -1816,11 +1816,11 @@
     "localNumber": "Numéro de section",
     "subText": "Sous-texte",
     "profileLabel": "Profil de collection",
-    "profileHint": "Passez FT / PT Support Staff (ou autre) sans effacer couleurs ni logo.",
+    "profileHint": "Passez de votre identité temps plein à votre identité temps partiel sans perdre vos couleurs ni votre logo.",
     "resetDefaults": "Réinitialiser aux valeurs par défaut",
     "canvas": {
-      "title": "Style de toile",
-      "description": "Chrome de canevas optionnel : plaque QR, échelle de type, alignement et surface.",
+      "title": "Style de canevas",
+      "description": "Touches de finition optionnelles pour vos exports : plaque QR, taille du texte, alignement et fond.",
       "style": "Ensemble de style",
       "styles": {
         "legacy": "Classique",
@@ -1848,7 +1848,7 @@
         "roomy": "Aéré",
         "tight": "Serré"
       },
-      "typeScale": "Échelle typo",
+      "typeScale": "Taille du texte",
       "typeScaleOpts": {
         "compact": "Compacte",
         "display": "Display",
@@ -1887,7 +1887,7 @@
       "confirmBody": "Ces couleurs peuvent être difficiles à lire ensemble. Continuer quand même?",
       "confirmSave": "Enregistrer quand même",
       "confirmCancel": "Continuer à modifier",
-      "resetDefaults": "Réinitialiser aux valeurs par défaut de l'instance"
+      "resetDefaults": "Rétablir les couleurs prédéfinies"
     },
     "logo": {
       "title": "Logo",
@@ -2199,7 +2199,7 @@
         "content": "Les outils de griefs du Hub des dirigeants suivent les étapes et les dates. La convention collective et votre représentant de service restent l’autorité. En cas de doute, documentez la question et faites-la remonter.",
         "items": [
           "Inscrivez la préoccupation du membre le jour même où vous l'entendez",
-          "Notez chaque délai de la CC à partir de l'événement déclencheur",
+          "Inscrivez chaque délai de la CC à votre calendrier, calculé à partir de l'événement déclencheur",
           "Confirmez les prolongations par écrit",
           "Gardez les notes confidentielles à l'interne — jamais sur les réseaux publics",
           "Si vous ne pouvez pas agir équitablement (conflit), confiez le dossier à un autre dirigeant"
@@ -4136,8 +4136,8 @@
     "limitsTitle": "Ce que l'installation ne change pas",
     "limitsOffline": "Les fenêtres installées ont encore besoin du réseau pour le premier chargement et certaines fonctions du Hub.",
     "limitsNetwork": "Les griefs, le bumping et les autres modules du Hub des dirigeants exigent toujours une session connectée et un réseau lorsque vous travaillez en direct.",
-    "limitsBrand": "Le chrome d’installation suit la couleur principale de la Trousse. Après un changement, rouvrez l’appli (ou réinstallez une fois) si l’OS garde l’ancienne icône ou barre.",
-    "limitsNoStore": "Il n'y a pas de fiche App Store ni Microsoft Store; l'installation suit le flux d'application web progressive du navigateur.",
+    "limitsBrand": "La fenêtre installée utilise la couleur principale de votre Trousse de marque. Après un changement de couleurs, rouvrez l’application (ou réinstallez-la une fois) si votre appareil affiche encore l’ancienne icône ou l’ancienne barre de titre.",
+    "limitsNoStore": "Il n'y a pas de fiche App Store ni Microsoft Store, car l'installation passe par la fonction d'installation d'applications de votre navigateur.",
     "relatedLead": "Pour ce qui reste sur cet appareil, voir",
     "relatedPrivacy": "Confidentialité",
     "relatedMid": ". Les pourboires optionnels sont sur",
@@ -4164,7 +4164,7 @@
       "flyerMaker": "Tracts contrastés pour rassemblements et réunions.",
       "graphicMaker": "Publications sociales pour Facebook et Instagram.",
       "quoteCard": "Transformez une citation en carte à partager.",
-      "meetingBackground": "Fonds virtuels Zoom/Teams à l'image de marque.",
+      "meetingBackground": "Fonds Zoom et Teams aux couleurs de votre section.",
       "websiteTemplate": "ZIP de site local simple pour GitHub Pages.",
       "altText": "Rédigez du texte alternatif sans envoyer d'images.",
       "pulsePoll": "Sondages courts avec carte QR imprimable."
