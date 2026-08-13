@@ -57,9 +57,16 @@ import {
 } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import {
+  CanvasEdgeClearanceFrame,
   CanvasGrainOverlay,
   CanvasQrPlate,
+  CanvasSafeZoneOverlay,
 } from "@/components/tools/canvas";
+import {
+  defaultEdgeClearanceForMedium,
+  insetsForProfile,
+  profileForSolidarityFormat,
+} from "@/lib/utils/edge-clearance";
 
 interface PosterState {
   sloganId: string;
@@ -71,6 +78,7 @@ interface PosterState {
   showCta: boolean;
   showQr: boolean;
   includeBranding: boolean;
+  edgeClearance: boolean;
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
@@ -190,6 +198,7 @@ export default function SolidarityPosterPage() {
     showCta: true,
     showQr: true,
     includeBranding: false,
+    edgeClearance: false,
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
     accentColor: brandKit.accentColor,
@@ -211,6 +220,7 @@ export default function SolidarityPosterPage() {
       showCta: true,
       showQr: true,
       includeBranding: themeEstablished,
+      edgeClearance: defaultEdgeClearanceForMedium("print"),
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
       accentColor: brandKit.accentColor,
@@ -296,12 +306,20 @@ export default function SolidarityPosterPage() {
   const bannerBarBg = state.accentColor || state.secondaryColor;
   const bannerBarInk = pickContrastingInk(bannerBarBg);
   const splitSideInk = pickContrastingInk(state.secondaryColor);
+  const clearanceInsets = insetsForProfile(
+    profileForSolidarityFormat(formatId),
+    state.edgeClearance,
+  );
 
   const selectMedium = (next: OutputMedium) => {
     if (next === medium) return;
     const restored = lastFormatByMedium[next] ?? defaultFormatForMedium(next);
     setMedium(next);
     setFormatId(restored);
+    setState({
+      ...state,
+      edgeClearance: defaultEdgeClearanceForMedium(next),
+    });
   };
 
   const selectFormat = (id: PosterFormatId) => {
@@ -573,6 +591,25 @@ export default function SolidarityPosterPage() {
               />
               {t("includeBranding")}
             </label>
+
+            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
+              <input
+                type="checkbox"
+                checked={state.edgeClearance}
+                onChange={(e) =>
+                  setState({ ...state, edgeClearance: e.target.checked })
+                }
+                className="size-4"
+              />
+              {medium === "digital"
+                ? t("edgeClearanceDigital")
+                : t("edgeClearancePrint")}
+            </label>
+            <p className="text-xs leading-snug text-gray-500">
+              {medium === "digital"
+                ? t("edgeClearanceDigitalHint")
+                : t("edgeClearancePrintHint")}
+            </p>
           </ToolFormDetails>
 
           <ToolFormDetails title={tc("sectionColours")}>
@@ -597,6 +634,7 @@ export default function SolidarityPosterPage() {
                 secondaryColor: brandKit.secondaryColor,
                 accentColor: brandKit.accentColor,
                 includeBranding: themeEstablished,
+                edgeClearance: defaultEdgeClearanceForMedium(medium),
                 supportUrl:
                   state.supportUrl ||
                   resolveLocalWebsiteUrl(
@@ -650,7 +688,7 @@ export default function SolidarityPosterPage() {
       }
       preview={
         /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
-        <div className="shadow-lg">
+        <div className="relative shadow-lg">
           <div
             ref={canvasRef}
             className={cn(
@@ -663,6 +701,10 @@ export default function SolidarityPosterPage() {
             }}
           >
             <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+            <CanvasEdgeClearanceFrame
+              insets={clearanceInsets}
+              className="z-[2] min-h-0 flex-1"
+            >
             {state.layout === "stack" ? (
               <div
                 className="relative z-[2] flex h-full min-h-0 flex-col justify-between box-border"
@@ -848,7 +890,11 @@ export default function SolidarityPosterPage() {
                 ) : null}
               </div>
             ) : null}
+            </CanvasEdgeClearanceFrame>
           </div>
+          {state.edgeClearance ? (
+            <CanvasSafeZoneOverlay insets={clearanceInsets} />
+          ) : null}
         </div>
       }
     />

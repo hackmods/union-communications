@@ -46,8 +46,8 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | `/[locale]/tools/logo-builder` | Local logo (circle, square, rectangle) |
 | `/[locale]/tools/board-notice` | Workplace bulletin notices (letter + tabloid) |
 | `/[locale]/tools/board-banner` | Board header banners + frame trim on packed letter/tabloid sheets (strip heights + side columns; PNG + PDF) |
-| `/[locale]/tools/solidarity-poster` | Solidarity board posters + wallpapers (Print; Digital 16:9 / 19.5:9 / 9:16 PNG; CTA + QR toggles) |
-| `/[locale]/tools/meeting-background` | Zoom/Teams virtual backgrounds (Bold + Minimal design sets; landscape 16:9 HD/UHD + portrait 9:16; face-safe layouts + layer toggles) |
+| `/[locale]/tools/solidarity-poster` | Solidarity board posters + wallpapers (Print; Digital 16:9 / 19.5:9 / 9:16 PNG; CTA + QR toggles; extra edge clearance on Digital) |
+| `/[locale]/tools/meeting-background` | Zoom/Teams virtual backgrounds (Bold + Minimal; landscape 16:9 HD/UHD + portrait 9:16; face-safe layouts; extra edge clearance default on) |
 | `/[locale]/tools/qr-card` | QR link cards (title, tagline, multi-size print; join / FT / PT membership presets) |
 | `/[locale]/tools/action-card` | Action / petition QR cards (headline, ask, deadline; QR → officer-supplied external sign-on URL; PNG + PDF) |
 | `/[locale]/tools/qr-board` | Multi-QR board posters (2–8 links; letter/tabloid; PNG + PDF; Membership FT+PT preset) |

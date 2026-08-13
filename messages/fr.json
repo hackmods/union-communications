@@ -1289,7 +1289,7 @@
     "formatHorizontal": "Bureau 16:9 (3840×2160)",
     "formatWide": "Large 19,5:9 (2340×1080)",
     "formatVertical": "Téléphone 9:16 (1080×1920)",
-    "digitalHint": "Les codes QR sont difficiles à balayer sur un écran de verrouillage - pensez à désactiver le QR pour les fonds d'écran.",
+    "digitalHint": "Les codes QR sont difficiles à balayer sur un écran de verrouillage — pensez à désactiver le QR pour les fonds d'écran. Les barres des tâches et les applis de réunion rognent le bord extérieur ; un dégagement supplémentaire garde les slogans visibles.",
     "downloadWallpaper": "Télécharger le fond d'écran",
     "supportUrl": "URL de soutien",
     "membershipLink": "Utiliser un lien d'adhésion",
@@ -1297,6 +1297,10 @@
     "showCta": "Afficher « Obtenir du soutien → » et l'URL",
     "showQr": "Afficher le code QR",
     "includeBranding": "Inclure l'image de marque locale",
+    "edgeClearanceDigital": "Garder le texte loin des bords de l'écran",
+    "edgeClearanceDigitalHint": "Les barres des tâches, encoches et fonds virtuels masquent les slogans et le QR collés au bord. La couleur va quand même jusqu'au bord.",
+    "edgeClearancePrint": "Garder le texte loin du bord du papier",
+    "edgeClearancePrintHint": "Utile si l'imprimante ou le cadre rogne la bordure. Laissez désactivé pour des affiches de tableau plus percutantes.",
     "cta": "Obtenir du soutien →",
     "previewAccessibleName": "Aperçu de l'affiche : {headline} sur fond {color}",
     "whenToUse": "À utiliser pour remplir un tableau ou créer des fonds d’écran de téléphone, avec un code QR de soutien optionnel."
@@ -1345,6 +1349,8 @@
     "sizeHint": "Le HD correspond aux recommandations typiques de Zoom et Teams. Utilisez l'UHD pour les grands écrans ou haute densité.",
     "sizeHintPortrait": "Le HD convient aux téléphones et à la plupart des webcams portrait. Utilisez l'UHD pour les moniteurs verticaux ou haute densité.",
     "includeBranding": "Inclure l'image de marque locale",
+    "edgeClearance": "Garder le texte loin des bords de la vidéo",
+    "edgeClearanceHint": "Zoom et Teams remplissent le cadre de la caméra et rognent la bande extérieure. L'espace supplémentaire dégage aussi une barre des tâches si vous réutilisez ce fichier comme fond d'écran.",
     "preview": "Aperçu",
     "whenToUse": "À utiliser pour des fonds Zoom ou Teams aux couleurs et à la signature de votre section."
   },

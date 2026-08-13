@@ -18,6 +18,7 @@ High-energy union-board filler posters and device wallpapers (Keep-Calm structur
 - **Export-safe colours**: inside `canvasRef` use inline hex/`rgba` only — no Tailwind `border-white/30`, `text-white`, `opacity-*`, or `bg-white` (Tailwind v4 oklch/`color-mix` washes out PNGs via html-to-image)
 - **Auto ink**: derive title/logo colour with `pickContrastingInk(primary)` (and panel hexes for banner/split). Pass `backgroundColor` to `BrandLogo` — never hardcode `#FFFFFF` / `onDark` when the canvas hex is known
 - Footer toggles: Show CTA + URL (defaults on; falls back to unionops.org), Show QR (defaults on; tip suggests off for wallpapers)
+- **Edge clearance**: Digital defaults **on** (desktop / ultrawide / phone profiles); Print defaults **off** (optional `print` profile). Insets type, QR, and bars from the crop — colour still full-bleed. Switching Print ↔ Digital reapplies the medium default. Dashed overlay is preview-only (outside `canvasRef`). Helper: `src/lib/utils/edge-clearance.ts`
 - No member photos → no ConsentModal
 - No union names in slogans or core UI — Brand Kit / seed only
 

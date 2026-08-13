@@ -51,7 +51,11 @@ import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
-import { CanvasGrainOverlay } from "@/components/tools/canvas";
+import {
+  CanvasGrainOverlay,
+  CanvasSafeZoneOverlay,
+} from "@/components/tools/canvas";
+import { SOCIAL_SAFE_ZONE_INSETS } from "@/lib/utils/edge-clearance";
 
 type SourceMode = "logo" | "upload";
 type FitMode = "contain" | "cover";
@@ -242,17 +246,6 @@ function FormatCanvasContent({
         </div>
       ) : null}
     </>
-  );
-}
-
-/** Preview-only — must stay outside capture nodes (canvasRef / ZIP frames). */
-function SafeZoneOverlay() {
-  return (
-    <div
-      className="pointer-events-none absolute inset-[10%] border-2 border-dashed"
-      style={{ borderColor: "rgba(250, 204, 21, 0.8)" }}
-      aria-hidden="true"
-    />
   );
 }
 
@@ -786,7 +779,9 @@ export default function ResizerPage() {
                 frameRef={canvasRef}
                 {...sharedFrameProps}
               />
-              {state.showSafeZones ? <SafeZoneOverlay /> : null}
+              {state.showSafeZones ? (
+                <CanvasSafeZoneOverlay insets={SOCIAL_SAFE_ZONE_INSETS} />
+              ) : null}
             </div>
           </div>
         }
@@ -798,7 +793,9 @@ export default function ResizerPage() {
               <FormatFrame format={preset} {...sharedFrameProps} />
             )}
             safeZoneOverlay={
-              state.showSafeZones ? <SafeZoneOverlay /> : null
+              state.showSafeZones ? (
+                <CanvasSafeZoneOverlay insets={SOCIAL_SAFE_ZONE_INSETS} />
+              ) : null
             }
           />
         }

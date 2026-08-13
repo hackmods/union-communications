@@ -18,7 +18,15 @@ import {
   resolveCanvasTokens,
 } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
-import { CanvasGrainOverlay } from "@/components/tools/canvas";
+import {
+  insetsForProfile,
+  profileForMeetingOrientation,
+} from "@/lib/utils/edge-clearance";
+import {
+  CanvasEdgeClearanceFrame,
+  CanvasGrainOverlay,
+  CanvasSafeZoneOverlay,
+} from "@/components/tools/canvas";
 import type { CanvasTypeScale } from "@/types/entities";
 import {
   DEFAULT_MEETING_BACKGROUND_FORMAT,
@@ -61,6 +69,7 @@ interface BackgroundState {
   showHeadline: boolean;
   showCloser: boolean;
   includeBranding: boolean;
+  edgeClearance: boolean;
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
@@ -220,6 +229,7 @@ export default function MeetingBackgroundPage() {
     showHeadline: true,
     showCloser: true,
     includeBranding: false,
+    edgeClearance: true,
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
     accentColor: brandKit.accentColor,
@@ -244,6 +254,7 @@ export default function MeetingBackgroundPage() {
     reset({
       ...initial,
       includeBranding: themeEstablished,
+      edgeClearance: true,
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
       accentColor: brandKit.accentColor,
@@ -279,6 +290,10 @@ export default function MeetingBackgroundPage() {
   const showClose = state.showCloser && Boolean(state.closer.trim());
   const showCopy = showLead || showHead || showClose;
   const showBrand = state.includeBranding;
+  const clearanceInsets = insetsForProfile(
+    profileForMeetingOrientation(orientation),
+    state.edgeClearance,
+  );
 
   const applyPreset = (id: string) => {
     const preset = getMeetingPresetById(id);
@@ -938,7 +953,21 @@ export default function MeetingBackgroundPage() {
                 />
                 {t("includeBranding")}
               </label>
+              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
+                <input
+                  type="checkbox"
+                  checked={state.edgeClearance}
+                  onChange={(e) =>
+                    setState({ ...state, edgeClearance: e.target.checked })
+                  }
+                  className="size-4"
+                />
+                {t("edgeClearance")}
+              </label>
             </div>
+            <p className="text-sm leading-snug text-gray-600">
+              {t("edgeClearanceHint")}
+            </p>
             <p className="text-sm leading-snug text-gray-600">
               {t("togglesHint")}
             </p>
@@ -1015,7 +1044,7 @@ export default function MeetingBackgroundPage() {
           </p>
           <div
             className={cn(
-              "overflow-hidden rounded-lg shadow-lg shadow-black/20",
+              "relative overflow-hidden rounded-lg shadow-lg shadow-black/20",
               isPortrait && "mx-auto max-w-[280px] sm:max-w-[320px]",
             )}
           >
@@ -1024,9 +1053,14 @@ export default function MeetingBackgroundPage() {
               className={cn("relative w-full overflow-hidden", format.aspect)}
               style={{ ...surfaceStyle, color: canvasInk }}
             >
-              {canvasBody}
+              <CanvasEdgeClearanceFrame insets={clearanceInsets}>
+                {canvasBody}
+              </CanvasEdgeClearanceFrame>
               <CanvasGrainOverlay opacity={tokens.grainOpacity} />
             </div>
+            {state.edgeClearance ? (
+              <CanvasSafeZoneOverlay insets={clearanceInsets} />
+            ) : null}
           </div>
         </div>
       }

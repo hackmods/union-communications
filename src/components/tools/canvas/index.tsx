@@ -10,6 +10,11 @@ import {
 } from "@/lib/utils/canvas-tokens";
 import { grainOverlayStyle } from "@/lib/utils/canvas-surface";
 import {
+  insetsToInsetStyle,
+  isZeroInsets,
+  type EdgeInsets,
+} from "@/lib/utils/edge-clearance";
+import {
   CANVAS_PLACEHOLDER_BG,
   CANVAS_PLACEHOLDER_INK,
 } from "@/lib/constants/brand";
@@ -26,6 +31,56 @@ export function CanvasGrainOverlay({
   const style = grainOverlayStyle(opacity);
   if (!style) return null;
   return <div aria-hidden style={style} />;
+}
+
+/**
+ * Preview-only dashed crop guide. Must stay outside capture nodes
+ * (`canvasRef` / ZIP frames) — html-to-image would bake the yellow border.
+ */
+export function CanvasSafeZoneOverlay({
+  insets,
+}: {
+  insets: EdgeInsets;
+}) {
+  if (isZeroInsets(insets)) return null;
+  return (
+    <div
+      className="pointer-events-none absolute border-2 border-dashed"
+      style={{
+        ...insetsToInsetStyle(insets),
+        borderColor: "rgba(250, 204, 21, 0.8)",
+      }}
+      aria-hidden="true"
+    />
+  );
+}
+
+/**
+ * Insets type/chrome inside a full-bleed capture root. Colour and grain stay
+ * on the parent; this frame only shrinks the layout so bars lift off the crop.
+ */
+export function CanvasEdgeClearanceFrame({
+  insets,
+  children,
+  className,
+}: {
+  insets: EdgeInsets;
+  children: ReactNode;
+  className?: string;
+}) {
+  if (isZeroInsets(insets)) {
+    return <>{children}</>;
+  }
+  return (
+    <div className={cn("relative h-full min-h-0 w-full", className)}>
+      <div
+        className="absolute box-border min-h-0 min-w-0 overflow-hidden"
+        style={insetsToInsetStyle(insets)}
+      >
+        {children}
+      </div>
+    </div>
+  );
 }
 
 export function CanvasBrandHeader({

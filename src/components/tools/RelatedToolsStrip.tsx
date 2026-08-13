@@ -91,6 +91,7 @@ export const RELATED_BY_TOOL: Record<
     { href: "/tools/solidarity-poster", navKey: "solidarityPoster" },
   ],
   "solidarity-poster": [
+    { href: "/tools/meeting-background", navKey: "meetingBackground" },
     { href: "/tools/board-notice", navKey: "boardNotice" },
     { href: "/tools/qr-card", navKey: "qrCard" },
   ],
@@ -99,6 +100,7 @@ export const RELATED_BY_TOOL: Record<
     { href: "/guide/union-boards", navKey: "unionBoardsGuide" },
   ],
   "meeting-background": [
+    { href: "/tools/solidarity-poster", navKey: "solidarityPoster" },
     { href: "/tools/graphic-maker", navKey: "graphicMaker" },
     { href: "/brand-kit", navKey: "brandKit" },
   ],

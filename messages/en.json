@@ -1289,7 +1289,7 @@
     "formatHorizontal": "Desktop 16:9 (3840×2160)",
     "formatWide": "Wide 19.5:9 (2340×1080)",
     "formatVertical": "Phone 9:16 (1080×1920)",
-    "digitalHint": "QR codes are hard to scan on lock screens - consider turning the QR off for wallpapers.",
+    "digitalHint": "QR codes are hard to scan on lock screens — consider turning the QR off for wallpapers. Taskbars and meeting apps crop the outer edge; extra clearance keeps slogans visible.",
     "downloadWallpaper": "Download wallpaper",
     "supportUrl": "Support URL",
     "membershipLink": "Use a membership application link",
@@ -1297,6 +1297,10 @@
     "showCta": "Show “Get support →” and URL",
     "showQr": "Show QR code",
     "includeBranding": "Include local branding",
+    "edgeClearanceDigital": "Keep type off screen edges",
+    "edgeClearanceDigitalHint": "Taskbars, notches, and virtual-background crop hide flush slogans and QR. Colour still goes to the edge.",
+    "edgeClearancePrint": "Keep type off the paper edge",
+    "edgeClearancePrintHint": "Helps if a printer or frame clips the border. Leave off for loud board fillers.",
     "cta": "Get support →",
     "previewAccessibleName": "Poster preview: {headline} on {color} background",
     "whenToUse": "Use for board fillers and phone wallpapers with an optional support QR."
@@ -1345,6 +1349,8 @@
     "sizeHint": "HD matches typical Zoom and Teams recommendations. Use UHD for large or high-DPI displays.",
     "sizeHintPortrait": "HD suits phones and most portrait webcam setups. Use UHD for tall monitors or high-DPI screens.",
     "includeBranding": "Include local branding",
+    "edgeClearance": "Keep type off video edges",
+    "edgeClearanceHint": "Zoom and Teams fill the camera frame and clip the outer band. Extra space also clears a taskbar if you reuse this as wallpaper.",
     "preview": "Preview",
     "whenToUse": "Use for Zoom/Teams backgrounds with your local colours and lockup."
   },

@@ -959,3 +959,9 @@ Cursor agent rules updated 2026-07-11: `roadmap-next.mdc`, `hybrid-qol.mdc`, ref
 - [x] [`docs/audit/session-knowledge-2026-07-24.md`](audit/session-knowledge-2026-07-24.md) — Hub MFA / Proxmox / password-reset / autonomous feature train (#4–#10) lessons
 - [x] Refresh `roadmap-next.mdc`, `time-module.mdc`, and related rules so stale “next” claims do not mislead agents
 - [x] Autonomous train merged: PRs #5–#10 (password-reset, Time 8c.1–8e, cron, GM invite)
+
+## Extra edge clearance — wallpapers + meeting backgrounds (2026-08-12)
+
+- [x] Shared `edge-clearance.ts` profiles inset type/chrome (not the brand field) so taskbars, notches, and Zoom/Teams cover-fit crop empty colour
+- [x] Meeting Backgrounds: toggle default on; Solidarity Poster: Digital on / Print off; Resizer overlay extracted to `CanvasSafeZoneOverlay` (preview-only)
+- [x] EN/FR copy + dashed preview overlay outside `canvasRef`; related-tools link between the two digital tools
