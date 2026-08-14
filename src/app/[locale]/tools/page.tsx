@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
+import { auth } from "@/auth";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
-import { learnGroups, toolGroups } from "@/components/layout/nav/nav-config";
+import {
+  learnGroups,
+  visibleToolGroups,
+} from "@/components/layout/nav/nav-config";
+import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
 export async function generateMetadata({
   params,
@@ -22,6 +27,11 @@ export default async function ToolsIndexPage({
   setRequestLocale(locale);
   const t = await getTranslations("toolsIndex");
   const nav = await getTranslations("nav");
+  const session = await auth();
+  const groups = visibleToolGroups({
+    officerHubPublic: isOfficerHubPublic(),
+    authenticated: Boolean(session?.user),
+  });
   const channelGuides = learnGroups.find(
     (g) => g.labelKey === "learnGroupChannels",
   )?.links;
@@ -46,7 +56,7 @@ export default async function ToolsIndexPage({
       </header>
 
       <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 xl:gap-10">
-        {toolGroups.map((group) => (
+        {groups.map((group) => (
           <section
             key={group.labelKey}
             aria-labelledby={`tools-${group.labelKey}`}

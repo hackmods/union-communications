@@ -5,6 +5,9 @@ import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 
 const LOCALES = ["en", "fr"] as const;
 
+/** Hub-gated authoring — requires login; omit from public sitemap. */
+const NON_PUBLIC_TOOL_SLUGS = new Set(["pulse-poll"]);
+
 /** Public indexable paths (no locale prefix). Exported for SEO coverage tests. */
 export const PUBLIC_PATHS = [
   "/",
@@ -33,7 +36,9 @@ export const PUBLIC_PATHS = [
   "/guide/dfr",
   "/guide/seniority-bumping",
   "/guide/right-to-refuse",
-  ...TOOL_SLUGS.map((slug) => `/tools/${slug}`),
+  ...TOOL_SLUGS.filter((slug) => !NON_PUBLIC_TOOL_SLUGS.has(slug)).map(
+    (slug) => `/tools/${slug}`,
+  ),
 ];
 
 function localeUrl(locale: string, path: string): string {

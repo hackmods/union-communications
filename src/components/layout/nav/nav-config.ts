@@ -94,6 +94,9 @@ export const learnGroups: readonly NavGroup[] = [
   },
 ] as const;
 
+/** Hub-backed authoring tool — hide unless Officer Hub login is on and the user is signed in. */
+export const PULSE_POLL_HREF = "/tools/pulse-poll" as const;
+
 export const toolGroups: readonly NavGroup[] = [
   {
     labelKey: "toolsGroupBrand",
@@ -126,10 +129,29 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/meeting-background", key: "meetingBackground" },
       { href: "/tools/website-template", key: "websiteTemplate" },
       { href: "/tools/alt-text", key: "altText" },
-      { href: "/tools/pulse-poll", key: "pulsePoll" },
+      { href: PULSE_POLL_HREF, key: "pulsePoll" },
     ],
   },
 ] as const;
+
+/**
+ * Pulse Poll publishes to the Officer Hub, so it is not a public Comms tool.
+ * Hide it when login is soft-launched off, or when the visitor is anonymous.
+ */
+export function visibleToolGroups(options: {
+  officerHubPublic: boolean;
+  authenticated: boolean;
+}): NavGroup[] {
+  const showPulsePoll = options.officerHubPublic && options.authenticated;
+  if (showPulsePoll) return [...toolGroups];
+
+  return toolGroups
+    .map((group) => ({
+      ...group,
+      links: group.links.filter((link) => link.href !== PULSE_POLL_HREF),
+    }))
+    .filter((group) => group.links.length > 0);
+}
 
 const learnHrefs: Set<string> = new Set(
   learnGroups.flatMap((g) => g.links.map((l) => l.href)),

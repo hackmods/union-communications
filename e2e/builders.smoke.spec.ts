@@ -35,7 +35,6 @@ const TOOL_A11Y_PAGES = [
   "/en/tools/quote-card/",
   "/en/tools/resizer/",
   "/en/tools/alt-text/",
-  "/en/tools/pulse-poll/",
 ] as const;
 
 test.describe("Home hero & builders smoke @smoke", () => {
@@ -116,6 +115,17 @@ test.describe("Home hero & builders smoke @smoke", () => {
       await expectNoSeriousA11yViolations(page);
     });
   }
+
+  test("pulse poll authoring redirects anonymous visitors to login", async ({
+    page,
+  }) => {
+    await page.goto("/en/tools/pulse-poll/");
+    // CI sets NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true → login gate (soft-launch uses 404).
+    await expect(page).toHaveURL(/\/en\/app\/login/);
+    await expect(
+      page.getByRole("heading", { name: /Sign in|Connexion/i }),
+    ).toBeVisible();
+  });
 
   test("French graphic maker has no serious or critical a11y violations", async ({
     page,

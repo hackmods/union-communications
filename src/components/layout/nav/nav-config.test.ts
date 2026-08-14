@@ -5,7 +5,9 @@ import {
   isToolsPath,
   linkActive,
   learnGroups,
+  PULSE_POLL_HREF,
   toolGroups,
+  visibleToolGroups,
 } from "./nav-config";
 
 describe("getStartedHref", () => {
@@ -60,5 +62,28 @@ describe("path helpers", () => {
 
   it("keeps four tool groups", () => {
     expect(toolGroups).toHaveLength(4);
+  });
+});
+
+describe("visibleToolGroups", () => {
+  it("includes Pulse Poll only when hub login is on and the user is signed in", () => {
+    const hrefs = (opts: {
+      officerHubPublic: boolean;
+      authenticated: boolean;
+    }) =>
+      visibleToolGroups(opts).flatMap((g) => g.links.map((l) => l.href));
+
+    expect(
+      hrefs({ officerHubPublic: true, authenticated: true }),
+    ).toContain(PULSE_POLL_HREF);
+    expect(
+      hrefs({ officerHubPublic: true, authenticated: false }),
+    ).not.toContain(PULSE_POLL_HREF);
+    expect(
+      hrefs({ officerHubPublic: false, authenticated: true }),
+    ).not.toContain(PULSE_POLL_HREF);
+    expect(
+      hrefs({ officerHubPublic: false, authenticated: false }),
+    ).not.toContain(PULSE_POLL_HREF);
   });
 });

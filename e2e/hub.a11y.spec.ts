@@ -167,4 +167,18 @@ test.describe("Hub authenticated a11y", () => {
     ).toBeVisible({ timeout: 20_000 });
     await expectNoSeriousA11yViolations(page);
   });
+
+  test("pulse poll authoring has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/en/tools/pulse-poll/");
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: /Pulse Poll Creator|Créateur de sondage éclair/i,
+      }),
+    ).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByRole("button", { name: /Download PNG|Télécharger PNG/i })).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
 });

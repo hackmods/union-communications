@@ -3,10 +3,12 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
+import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import {
   learnGroups,
   linkActive,
-  toolGroups,
+  visibleToolGroups,
   type NavGroup,
 } from "./nav-config";
 
@@ -132,12 +134,19 @@ export function ToolsMegaMenuContent({
   onNavigate: () => void;
 }) {
   const t = useTranslations("nav");
+  const { data: session, status } = useSession();
+  const authenticated =
+    status === "authenticated" && Boolean(session?.user);
+  const groups = visibleToolGroups({
+    officerHubPublic: isOfficerHubPublic(),
+    authenticated,
+  });
   const allActive = pathname === "/tools";
 
   return (
     <div className="w-[min(90vw,40rem)] xl:w-[min(90vw,52rem)]">
       <MenuLinkGroups
-        groups={toolGroups}
+        groups={groups}
         pathname={pathname}
         onNavigate={onNavigate}
         layout="mega"

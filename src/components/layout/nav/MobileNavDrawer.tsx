@@ -10,10 +10,12 @@ import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { AuthAccountControls } from "@/components/layout/AuthAccountControls";
 import { cn } from "@/lib/utils";
 import { getFocusable } from "./focusables";
+import { useSession } from "next-auth/react";
+import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import {
   learnGroups,
   linkActive,
-  toolGroups,
+  visibleToolGroups,
   type NavGroup,
   type NavLinkKey,
 } from "./nav-config";
@@ -45,6 +47,13 @@ export function MobileNavDrawer({
   const t = useTranslations("nav");
   const th = useTranslations("hub");
   const drawerRef = useRef<HTMLDivElement>(null);
+  const { data: session, status } = useSession();
+  const authenticated =
+    status === "authenticated" && Boolean(session?.user);
+  const tools = visibleToolGroups({
+    officerHubPublic: isOfficerHubPublic(),
+    authenticated,
+  });
 
   const [accordion, setAccordion] = useState<AccordionId | null>(() => {
     if (toolsActive) return "tools";
@@ -215,7 +224,7 @@ export function MobileNavDrawer({
             active={toolsActive}
             onToggle={() => toggleAccordion("tools")}
           >
-            {toolGroups.map((group) => (
+            {tools.map((group) => (
               <MobileGroup
                 key={group.labelKey}
                 group={group}
