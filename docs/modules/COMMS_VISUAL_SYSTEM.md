@@ -49,7 +49,7 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 | Family | Status |
 |--------|--------|
 | Brand Kit UI (`BrandKitCanvasPanel`) | done |
-| Flyer Maker | done |
+| Flyer Maker | done | QOL v2: layouts, paper sizes, system font stacks, QR/photo, invite email |
 | Board Notice | done |
 | QR Card | done |
 | Action Card | done |

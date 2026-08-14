@@ -577,7 +577,7 @@
       },
       "flyers": {
         "title": "Tracts et documents à distribuer",
-        "content": "Utilisez le Créateur de tracts pour les piquets et les rassemblements, puis exportez un PDF au format lettre. Gardez le texte grand et à fort contraste pour qu'il se lise dehors."
+        "content": "Utilisez le Créateur de tracts pour les piquets et les rassemblements, puis exportez un PDF au format lettre, demi-lettre ou tabloïd. Gardez le texte grand et à fort contraste pour qu'il se lise dehors."
       },
       "boards": {
         "title": "Avis pour tableaux",
@@ -1995,15 +1995,72 @@
   "flyerMaker": {
     "title": "Créateur de tracts piquet / rassemblement",
     "subtitle": "Tracts à fort contraste pour réunions, rassemblements et actions.",
-    "previewAccessibleName": "Aperçu du créateur de tracts",
+    "previewAccessibleName": "Aperçu du tract : {headline} ({format})",
     "message": "Message principal",
+    "body": "Détails complémentaires (facultatif)",
     "date": "Date",
     "time": "Heure",
     "location": "Lieu",
+    "contact": "Ligne de contact (facultatif)",
+    "layout": "Mise en page",
+    "format": "Format papier",
+    "fontStack": "Police du titre",
+    "headlineCase": "Casse du titre",
+    "caseUpper": "MAJUSCULES",
+    "caseAsTyped": "Tel quel",
+    "typeScale": "Taille du texte",
+    "sectionTypography": "Typographie",
+    "sectionQrPhoto": "QR et photo",
+    "showQr": "Ajouter un code QR",
+    "qrUrl": "Lien du QR",
+    "qrUrlPlaceholder": "https://…",
+    "photo": "Photo (facultatif)",
+    "photoZoom": "Zoom de la photo",
+    "photoConsentLink": "Guide de consentement photo",
     "primaryColor": "Couleur primaire",
     "accentColor": "Couleur d'accent",
     "secondaryColor": "Couleur secondaire",
-    "whenToUse": "À utiliser pour les tracts distribués aux réunions, aux tournées et aux actions. Associez-les aux tableaux pour que les membres hors ligne aient aussi les faits."
+    "whenToUse": "À utiliser pour les tracts distribués aux réunions, aux tournées et aux actions. Associez-les aux tableaux pour que les membres hors ligne aient aussi les faits.",
+    "layouts": {
+      "stack": "Empilé",
+      "band": "Bande couleur",
+      "split": "Partagé",
+      "photoHero": "Photo en tête"
+    },
+    "formats": {
+      "letter": "Lettre (8,5×11)",
+      "halfLetter": "Demi-lettre (5,5×8,5)",
+      "tabloid": "Tabloïd (11×17)"
+    },
+    "fonts": {
+      "impact": "Impact",
+      "condensed": "Condensée",
+      "clean": "Sans empattement",
+      "slab": "À empattements épais",
+      "serif": "À empattements"
+    },
+    "typeScales": {
+      "inherit": "Trousse de marque",
+      "display": "Affichage",
+      "compact": "Compact",
+      "dense": "Dense"
+    },
+    "presets": {
+      "picket": { "label": "Ligne de piquetage" },
+      "rally": { "label": "Rassemblement" },
+      "meeting": { "label": "Assemblée des membres" },
+      "walkabout": { "label": "Tract de tournée" }
+    },
+    "inviteEmail": {
+      "title": "Brouillon d'invitation par courriel",
+      "hint": "Copiez dans votre application de messagerie pour le même événement que ce tract.",
+      "subjectLabel": "Objet",
+      "bodyLabel": "Message",
+      "copySubject": "Copier l'objet",
+      "copyBody": "Copier le message",
+      "openMail": "Ouvrir dans l'application de messagerie",
+      "privacy": "Fonctionne sur votre appareil. Rien n'est envoyé et aucune réponse n'est collectée ici."
+    }
   },
   "altTextAssistant": {
     "title": "Assistant texte alternatif",

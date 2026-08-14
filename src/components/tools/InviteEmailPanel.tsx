@@ -16,7 +16,8 @@ import { cn } from "@/lib/utils";
 type InviteEmailMessagesNamespace =
   | "documentGenerator"
   | "boardNotice"
-  | "graphicMaker";
+  | "graphicMaker"
+  | "flyerMaker";
 
 export interface InviteEmailPanelProps {
   fields: EventEmailFields;

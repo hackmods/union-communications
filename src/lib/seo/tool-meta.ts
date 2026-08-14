@@ -6,7 +6,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "flyer-maker": {
       title: "Free Union Flyer Maker",
       description:
-        "Make high-contrast picket and rally flyers in your local's colours, then export a letter-size PDF. Free, private, and on your device.",
+        "Make high-contrast picket and rally flyers in your local's colours, then export a letter, half-letter, or tabloid PDF. Free, private, and on your device.",
     },
     "graphic-maker": {
       title: "Free Union Graphic Maker",
@@ -88,7 +88,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "flyer-maker": {
       title: "Créateur de tracts syndicaux gratuit",
       description:
-        "Créez des tracts à fort contraste aux couleurs de votre section, puis exportez un PDF format lettre. Gratuit, privé, sur votre appareil.",
+        "Créez des tracts à fort contraste aux couleurs de votre section, puis exportez un PDF format lettre, demi-lettre ou tabloïd. Gratuit, privé, sur votre appareil.",
     },
     "graphic-maker": {
       title: "Créateur de graphiques syndicaux gratuit",

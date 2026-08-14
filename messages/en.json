@@ -577,7 +577,7 @@
       },
       "flyers": {
         "title": "Flyers and handouts",
-        "content": "Use Flyer Maker for picket lines and rallies, then export a PDF for letter-size printing. Keep the text large and high-contrast so it reads outdoors."
+        "content": "Use Flyer Maker for picket lines and rallies, then export a PDF for letter, half-letter, or tabloid printing. Keep the text large and high-contrast so it reads outdoors."
       },
       "boards": {
         "title": "Board notices",
@@ -2029,15 +2029,72 @@
   "flyerMaker": {
     "title": "Picket / Rally Flyer Maker",
     "subtitle": "High-contrast flyers for meetings, rallies, and actions.",
-    "previewAccessibleName": "Flyer maker preview",
+    "previewAccessibleName": "Flyer preview: {headline} ({format})",
     "message": "Main message",
+    "body": "Supporting details (optional)",
     "date": "Date",
     "time": "Time",
     "location": "Location",
+    "contact": "Contact line (optional)",
+    "layout": "Layout",
+    "format": "Paper size",
+    "fontStack": "Headline font",
+    "headlineCase": "Headline case",
+    "caseUpper": "ALL CAPS",
+    "caseAsTyped": "As typed",
+    "typeScale": "Type size",
+    "sectionTypography": "Typography",
+    "sectionQrPhoto": "QR and photo",
+    "showQr": "Add a QR code",
+    "qrUrl": "QR link",
+    "qrUrlPlaceholder": "https://…",
+    "photo": "Photo (optional)",
+    "photoZoom": "Photo zoom",
+    "photoConsentLink": "Photo consent guide",
     "primaryColor": "Primary colour",
     "accentColor": "Accent colour",
     "secondaryColor": "Secondary colour",
-    "whenToUse": "Use for handouts at meetings, walkabouts, and actions. Pair with boards so offline members still get the facts."
+    "whenToUse": "Use for handouts at meetings, walkabouts, and actions. Pair with boards so offline members still get the facts.",
+    "layouts": {
+      "stack": "Stack",
+      "band": "Colour band",
+      "split": "Split",
+      "photoHero": "Photo hero"
+    },
+    "formats": {
+      "letter": "Letter (8.5×11)",
+      "halfLetter": "Half letter (5.5×8.5)",
+      "tabloid": "Tabloid (11×17)"
+    },
+    "fonts": {
+      "impact": "Impact",
+      "condensed": "Condensed",
+      "clean": "Clean sans",
+      "slab": "Slab",
+      "serif": "Serif"
+    },
+    "typeScales": {
+      "inherit": "Brand Kit",
+      "display": "Display",
+      "compact": "Compact",
+      "dense": "Dense"
+    },
+    "presets": {
+      "picket": { "label": "Picket line" },
+      "rally": { "label": "Rally" },
+      "meeting": { "label": "Membership meeting" },
+      "walkabout": { "label": "Walkabout handbill" }
+    },
+    "inviteEmail": {
+      "title": "Invite email draft",
+      "hint": "Copy into your mail app for the same event as this flyer.",
+      "subjectLabel": "Subject",
+      "bodyLabel": "Message",
+      "copySubject": "Copy subject",
+      "copyBody": "Copy message",
+      "openMail": "Open in email app",
+      "privacy": "Runs on your device. Nothing is sent and no replies are collected here."
+    }
   },
   "altTextAssistant": {
     "title": "Alt-Text Assistant",

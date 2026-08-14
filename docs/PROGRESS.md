@@ -1,5 +1,15 @@
 # Progress Log
 
+## Flyer Maker QOL v2 (2026-08-14)
+
+- [x] Layouts: stack / colour band / split / photo hero
+- [x] Paper sizes: letter, half-letter handbill, tabloid (PNG + PDF inches)
+- [x] System font stacks (ADR-014): Impact, condensed, clean, slab, serif + case/type-scale controls
+- [x] Presets: picket, rally, membership meeting, walkabout
+- [x] Optional QR (`CanvasQrPlate`) + photo/duotone with consent modal
+- [x] Invite email draft panel; body/contact fields; dynamic preview a11y name
+- [x] Unit coverage in `src/lib/comms/flyer-maker.test.ts`; SEO + Print Guide copy updated
+
 ## Home composition v2 + COPY-001 (2026-08-12)
 
 - [x] Two-zone `lg+` hero: message column + `HomeHeroPreview` (Brand Kit–coloured board notice + swatches)
