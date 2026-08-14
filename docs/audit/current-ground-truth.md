@@ -7,6 +7,7 @@
 **Multi-union sources + logo bundling (LINK-002):** [`session-knowledge-2026-07-30-multi-union-sources.md`](session-knowledge-2026-07-30-multi-union-sources.md)  
 **Local 404 / route status chrome:** [`session-knowledge-2026-08-09-local-404.md`](session-knowledge-2026-08-09-local-404.md)  
 **Workshop Comms multiphase + Gap Fit (talk ~2026-08-12):** [`session-knowledge-2026-08-09-workshop-comms.md`](session-knowledge-2026-08-09-workshop-comms.md), [`workshop-gap-fit-2026-08.md`](workshop-gap-fit-2026-08.md)
+**Flyer Maker QOL v2 + unified tools chrome / Share Kit v0 (2026-08-14):** [`session-knowledge-2026-08-14-flyer-unified-tools.md`](session-knowledge-2026-08-14-flyer-unified-tools.md)
 
 ## Do not re-open as if missing
 
@@ -105,8 +106,9 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 | Public outline | `/guide/workshop`; First week calendar on `/guide/social-media-plan` |
 | UX contract | [`.cursor/rules/comms-public-ux.mdc`](../../.cursor/rules/comms-public-ux.mdc) |
 | Smoke | `e2e/workshop.smoke.spec.ts` (`@smoke`, quote the tag in PowerShell) |
-| Wednesday pitch | Demo-complete boards/print/social — **not** Share Kit / mass email (see Gap Fit) |
+| Wednesday pitch | Demo-complete boards/print/social — Share Kit v0 is an orchestrator only (no one-click campaign OS / mass email) |
 | Narrative | [`session-knowledge-2026-08-09-workshop-comms.md`](session-knowledge-2026-08-09-workshop-comms.md) |
+| Flyer + unified chrome (2026-08-14) | Flyer Maker QOL v2; Share Kit `/tools/share-kit`; shell checklist — [`session-knowledge-2026-08-14-flyer-unified-tools.md`](session-knowledge-2026-08-14-flyer-unified-tools.md) |
 
 ## Agent habits
 

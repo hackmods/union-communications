@@ -6,6 +6,7 @@
 - [x] Wave 2: `ToolColourSection` + `ToolExportActions`; board-notice options collapse; shell checklist in `tool-editor-ux.mdc`
 - [x] Wave 3: ThemePicker tools via colour section (built-in ContrastChecker); `?preset=` deep links; channel packs doc + `channel-packs.ts`
 - [x] Wave 4: Share Kit v0 orchestrator (`/tools/share-kit`) — Graphic Maker + Captions + Resizer, no new canvas
+- [x] Session knowledge: [`docs/audit/session-knowledge-2026-08-14-flyer-unified-tools.md`](audit/session-knowledge-2026-08-14-flyer-unified-tools.md)
 
 ## Flyer Maker QOL v2 (2026-08-14)
 
