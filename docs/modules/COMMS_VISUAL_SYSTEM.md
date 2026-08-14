@@ -121,6 +121,19 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 - `CanvasEdgeClearanceFrame` (inside capture) + `CanvasSafeZoneOverlay` (outside capture). Colour/grain stay full-bleed.
 - Solidarity Poster: digital default on, print default off. Meeting Backgrounds: default on. Resizer keeps preview-only 10% overlay (`SOCIAL_SAFE_ZONE_INSETS`); no baked inset.
 
+## Channel packs (2026-08-14)
+
+Thin **feature packs** compose the shared shell — they do **not** unify layout engines.
+
+| Pack | Tools | Shared behaviours |
+|------|-------|-------------------|
+| **Print** | Flyer Maker, Document Generator | Paper sizes, invite email where event-like, print guide links |
+| **Social** | Graphic Maker, Quote Card, Resizer, Meeting Background, Alt-text, Share Kit | Platform sizes, photo consent, captions / examples handoffs |
+| **Board** | Board Notice, Banner, Solidarity, QR Board | Letter/tabloid, trim/ornaments, multi-QR, union-boards guide |
+| **Wallet** | QR Card, Action Card, Pulse Poll | Wallet type scale helpers, membership presets, size pills, QR plate |
+
+Constants: [`src/lib/comms/packs/channel-packs.ts`](../../src/lib/comms/packs/channel-packs.ts). Deep-link workshop demos with `?preset=` where presets exist (QR Card, Action Card, QR Board, Solidarity slogan id, Meeting Background).
+
 ## Agent contract
 
 See [`.cursor/rules/comms-visual-system.mdc`](../../.cursor/rules/comms-visual-system.mdc).

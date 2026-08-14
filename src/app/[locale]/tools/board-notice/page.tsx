@@ -10,12 +10,12 @@ import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { nodeToPdf } from "@/lib/export/pdf-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { SegControl } from "@/components/tools/SegControl";
@@ -30,6 +30,7 @@ import {
 } from "@/components/tools/canvas";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { fieldsFromBoardNotice } from "@/lib/comms/event-email-from-notice";
+import { ToolExportActions } from "@/components/tools/ToolExportActions";
 
 type NoticeType = "meeting" | "bargaining" | "event" | "general";
 type PageFormat = "letter" | "tabloid";
@@ -216,15 +217,17 @@ export default function BoardNoticePage() {
               />
             ) : null}
 
-            <SegControl
-              label={t("format")}
-              value={format}
-              options={[
-                { value: "letter" as const, label: t("formatLetter") },
-                { value: "tabloid" as const, label: t("formatTabloid") },
-              ]}
-              onChange={setFormat}
-            />
+            <ToolFormDetails title={tc("sectionOptions")}>
+              <SegControl
+                label={t("format")}
+                value={format}
+                options={[
+                  { value: "letter" as const, label: t("formatLetter") },
+                  { value: "tabloid" as const, label: t("formatTabloid") },
+                ]}
+                onChange={setFormat}
+              />
+            </ToolFormDetails>
 
             <UndoRedoBar
               canUndo={canUndo}
@@ -233,33 +236,19 @@ export default function BoardNoticePage() {
               onRedo={redo}
               onReset={() => reset(initial)}
             />
-            <div className="flex gap-3">
-              <Button onClick={handleExportPng} disabled={exporting}>
-                {exporting ? tc("exporting") : tc("downloadPng")}
-              </Button>
-              <Button
-                variant="outline"
-                onClick={handleExportPdf}
-                disabled={exporting}
-              >
-                {tc("downloadPdf")}
-              </Button>
-            </div>
+            <ToolExportActions
+              exporting={exporting}
+              onPng={() => void handleExportPng()}
+              onPdf={() => void handleExportPdf()}
+            />
           </Card>
         }
         previewActions={
-          <>
-            <Button onClick={handleExportPng} disabled={exporting}>
-              {exporting ? tc("exporting") : tc("downloadPng")}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={handleExportPdf}
-              disabled={exporting}
-            >
-              {tc("downloadPdf")}
-            </Button>
-          </>
+          <ToolExportActions
+            exporting={exporting}
+            onPng={() => void handleExportPng()}
+            onPdf={() => void handleExportPdf()}
+          />
         }
         preview={
           <div className="shadow-lg">

@@ -83,6 +83,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       description:
         "Make branded Word, Excel, and PowerPoint files for your local. Presets, colour themes, and ZIP download on your device.",
     },
+    "share-kit": {
+      title: "Free Union Share Kit",
+      description:
+        "Pick a seed message, open Graphic Maker for the PNG, then Captions for the post text. A thin workshop path — no new canvas, on your device.",
+    },
   },
   fr: {
     "flyer-maker": {
@@ -164,6 +169,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       title: "Générateur de documents et diapositives gratuit",
       description:
         "Créez des fichiers Word, Excel et PowerPoint à l'image de votre section. Préréglages, thèmes et téléchargement ZIP, sur votre appareil.",
+    },
+    "share-kit": {
+      title: "Trousse de partage syndicale gratuite",
+      description:
+        "Choisissez un message, ouvrez le Créateur de graphiques pour le PNG, puis Légendes pour le texte. Sur votre appareil.",
     },
   },
 };

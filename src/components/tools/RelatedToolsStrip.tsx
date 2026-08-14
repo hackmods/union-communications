@@ -45,10 +45,15 @@ export const RELATED_BY_TOOL: Record<
   { href: string; navKey: string }[]
 > = {
   "graphic-maker": [
+    { href: "/tools/share-kit", navKey: "shareKit" },
     { href: "/captions", navKey: "captions" },
     { href: "/examples", navKey: "socialExamples" },
     { href: "/tools/resizer", navKey: "resizer" },
-    { href: "/tools/flyer-maker", navKey: "flyerMaker" },
+  ],
+  "share-kit": [
+    { href: "/tools/graphic-maker", navKey: "graphicMaker" },
+    { href: "/captions", navKey: "captions" },
+    { href: "/tools/resizer", navKey: "resizer" },
   ],
   "flyer-maker": [
     { href: "/tools/board-notice", navKey: "boardNotice" },

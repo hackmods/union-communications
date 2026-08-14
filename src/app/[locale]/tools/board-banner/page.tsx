@@ -55,7 +55,7 @@ import { BoardBannerSheet } from "@/components/tools/board-banner/BoardBannerShe
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
-import { ThemePicker } from "@/components/tools/ThemePicker";
+import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
@@ -419,12 +419,18 @@ export default function BoardBannerPage() {
       <ToolEditorLayout
         title={t("title")}
         description={t("subtitle")}
+        purposeHint={t("whenToUse")}
         exportError={exportError}
       exportSuccess={exportSuccess}
         previewAccessibleName={t("previewAccessibleName", {
           summary: previewSummary,
           color: state.primaryColor,
         })}
+        toolbar={
+          !themeEstablished ? (
+            <BrandSetupPrompt themeEstablished={themeEstablished} />
+          ) : undefined
+        }
         form={
           <Card density="compact" className="space-y-5">
             <section className="space-y-3">
@@ -641,39 +647,36 @@ export default function BoardBannerPage() {
               </div>
             </ToolFormDetails>
 
-            {!themeEstablished ? (
-              <BrandSetupPrompt themeEstablished={themeEstablished} />
-            ) : null}
-
-            <ToolFormDetails title={t("sectionColours")}>
-              <ThemePicker
-                primaryColor={state.primaryColor}
-                secondaryColor={state.secondaryColor}
-                onPrimaryChange={(primaryColor) =>
-                  setState({ ...state, primaryColor })
-                }
-                onSecondaryChange={(secondaryColor) =>
-                  setState({ ...state, secondaryColor })
-                }
-              />
-              <div>
-                <label
-                  htmlFor="banner-accent"
-                  className="mb-1.5 block text-sm font-medium text-gray-700"
-                >
-                  {t("accentColor")}
-                </label>
-                <input
-                  id="banner-accent"
-                  type="color"
-                  value={state.accentColor}
+          <ToolColourSection
+            title={t("sectionColours")}
+            primaryColor={state.primaryColor}
+            secondaryColor={state.secondaryColor}
+            accentColor={state.accentColor}
+            onPrimaryChange={(primaryColor) =>
+              setState({ ...state, primaryColor })
+            }
+            onSecondaryChange={(secondaryColor) =>
+              setState({ ...state, secondaryColor })
+            }
+          >
+            <div>
+              <label
+                htmlFor="banner-accent"
+                className="mb-1.5 block text-sm font-medium text-gray-700"
+              >
+                {t("accentColor")}
+              </label>
+              <input
+                id="banner-accent"
+                type="color"
+                value={state.accentColor}
                   onChange={(e) =>
                     setState({ ...state, accentColor: e.target.value })
                   }
                   className="h-11 w-full cursor-pointer rounded-md border border-gray-300"
                 />
               </div>
-            </ToolFormDetails>
+          </ToolColourSection>
 
             <div className="space-y-3 border-t border-gray-200 pt-5">
               <UndoRedoBar

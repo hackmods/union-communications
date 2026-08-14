@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { Suspense, useEffect, useRef, useState, type CSSProperties } from "react";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
@@ -25,11 +26,12 @@ import {
   getActionCardPreset,
 } from "@/lib/constants/action-card-presets";
 import type { QrCardBgMode } from "@/lib/constants/qr-card-presets";
+import { PageShell } from "@/components/layout/PageShell";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
-import { ThemePicker } from "@/components/tools/ThemePicker";
+import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
@@ -69,12 +71,32 @@ interface ActionCardState {
 }
 
 export default function ActionCardPage() {
+  const tc = useTranslations("common");
+  return (
+    <Suspense
+      fallback={
+        <PageShell className="py-6 md:py-8 lg:py-10">
+          <p className="text-gray-600" aria-busy="true">
+            {tc("loading")}
+          </p>
+        </PageShell>
+      }
+    >
+      <ActionCardPageContent />
+    </Suspense>
+  );
+}
+
+function ActionCardPageContent() {
   const t = useTranslations("actionCard");
   const tc = useTranslations("common");
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
+  const searchParams = useSearchParams();
   const canvasRef = useRef<HTMLDivElement>(null);
+  const deepLinkApplied = useRef(false);
+  const brandSeedComplete = useRef(false);
   const [qrSrc, setQrSrc] = useState<string | null>(null);
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
@@ -100,21 +122,53 @@ export default function ActionCardPage() {
   const { exportError, exportSuccess, exporting, runExport } = useExportHandler();
 
   useOneShotBrandSeed(hydrated, () => {
+    const deepPreset = searchParams.get("preset");
+    const fromDeep =
+      deepPreset && getActionCardPreset(deepPreset)
+        ? getActionCardPreset(deepPreset)!
+        : first;
+    if (deepPreset && getActionCardPreset(deepPreset)) {
+      deepLinkApplied.current = true;
+    }
     reset({
-      presetId: first.id,
+      presetId: fromDeep.id,
       destination: "",
-      headline: t(`presets.${first.headlineKey}`),
-      ask: t(`presets.${first.askKey}`),
-      deadline: t(`presets.${first.deadlineKey}`),
-      cta: t(`presets.${first.ctaKey}`),
-      bgMode: first.bgMode,
+      headline: t(`presets.${fromDeep.headlineKey}`),
+      ask: t(`presets.${fromDeep.askKey}`),
+      deadline: t(`presets.${fromDeep.deadlineKey}`),
+      cta: t(`presets.${fromDeep.ctaKey}`),
+      bgMode: fromDeep.bgMode,
       sizeId: DEFAULT_QR_CARD_SIZE,
       showUrl: false,
       includeBranding: themeEstablished,
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
     });
+    brandSeedComplete.current = true;
   });
+
+  const applyPreset = (id: string) => {
+    const preset = getActionCardPreset(id);
+    if (!preset) return;
+    setState({
+      ...state,
+      presetId: preset.id,
+      headline: t(`presets.${preset.headlineKey}`),
+      ask: t(`presets.${preset.askKey}`),
+      deadline: t(`presets.${preset.deadlineKey}`),
+      cta: t(`presets.${preset.ctaKey}`),
+      bgMode: preset.bgMode,
+    });
+  };
+
+  useEffect(() => {
+    if (!brandSeedComplete.current || deepLinkApplied.current) return;
+    const raw = searchParams.get("preset");
+    if (!raw || !getActionCardPreset(raw)) return;
+    deepLinkApplied.current = true;
+    applyPreset(raw);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot deep link
+  }, [searchParams, hydrated]);
 
   const size = QR_CARD_SIZES[state.sizeId];
   const tokens = resolveCanvasTokens(brandKit);
@@ -140,20 +194,6 @@ export default function ActionCardPage() {
       window.clearTimeout(timer);
     };
   }, [state.destination, size.qrPixels]);
-
-  const applyPreset = (id: string) => {
-    const preset = getActionCardPreset(id);
-    if (!preset) return;
-    setState({
-      ...state,
-      presetId: preset.id,
-      headline: t(`presets.${preset.headlineKey}`),
-      ask: t(`presets.${preset.askKey}`),
-      deadline: t(`presets.${preset.deadlineKey}`),
-      cta: t(`presets.${preset.ctaKey}`),
-      bgMode: preset.bgMode,
-    });
-  };
 
   const localLabel = brandKit.local.subText
     ? `Local ${resolveLocalNumber(brandKit.local.localNumber)} - ${brandKit.local.subText}`
@@ -254,6 +294,7 @@ export default function ActionCardPage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      purposeHint={t("whenToUse")}
       previewAccessibleName={t("previewAccessibleName")}
       exportError={exportError}
       exportSuccess={exportSuccess}
@@ -393,14 +434,12 @@ export default function ActionCardPage() {
             </label>
           </ToolFormDetails>
 
-          <ToolFormDetails title={tc("sectionColours")}>
-            <ThemePicker
-              primaryColor={state.primaryColor}
-              secondaryColor={state.secondaryColor}
-              onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
-              onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
-            />
-          </ToolFormDetails>
+          <ToolColourSection
+            primaryColor={state.primaryColor}
+            secondaryColor={state.secondaryColor}
+            onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
+            onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
+          />
 
           <div className="space-y-3 border-t border-gray-200 pt-5">
           <UndoRedoBar

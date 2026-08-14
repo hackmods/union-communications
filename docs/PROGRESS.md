@@ -1,5 +1,12 @@
 # Progress Log
 
+## Unified Comms tools experience (2026-08-14)
+
+- [x] Wave 1 chrome: `purposeHint` / `previewActions` / BrandSetup toolbar on pulse-poll, board-banner, action-card, qr-board; Resizer `ConsentModal`; Flyer invite email in footer
+- [x] Wave 2: `ToolColourSection` + `ToolExportActions`; board-notice options collapse; shell checklist in `tool-editor-ux.mdc`
+- [x] Wave 3: ThemePicker tools via colour section (built-in ContrastChecker); `?preset=` deep links; channel packs doc + `channel-packs.ts`
+- [x] Wave 4: Share Kit v0 orchestrator (`/tools/share-kit`) — Graphic Maker + Captions + Resizer, no new canvas
+
 ## Flyer Maker QOL v2 (2026-08-14)
 
 - [x] Layouts: stack / colour band / split / photo hero

@@ -30,7 +30,8 @@ export type NavLinkKey =
   | "quoteCard"
   | "meetingBackground"
   | "websiteTemplate"
-  | "altText";
+  | "altText"
+  | "shareKit";
 
 export type NavGroupLabelKey =
   | "learnGroupGuides"
@@ -125,6 +126,7 @@ export const toolGroups: readonly NavGroup[] = [
     labelKey: "toolsGroupSocialWeb",
     links: [
       { href: "/tools/graphic-maker", key: "graphicMaker" },
+      { href: "/tools/share-kit", key: "shareKit" },
       { href: "/tools/quote-card", key: "quoteCard" },
       { href: "/tools/meeting-background", key: "meetingBackground" },
       { href: "/tools/website-template", key: "websiteTemplate" },

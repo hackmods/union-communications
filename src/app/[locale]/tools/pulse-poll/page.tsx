@@ -15,11 +15,12 @@ import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
+import { ToolColourSection } from "@/components/tools/ToolColourSection";
+import { ToolExportActions } from "@/components/tools/ToolExportActions";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import {
   resolveCanvasTokens,
@@ -230,10 +231,6 @@ export default function PulsePollPage() {
         {t("privacyNotice")}
       </p>
 
-      {!themeEstablished && (
-        <BrandSetupPrompt themeEstablished={themeEstablished} />
-      )}
-
       <Input
         label={t("pollTitle")}
         value={state.title}
@@ -314,18 +311,16 @@ export default function PulsePollPage() {
         </label>
       </ToolFormDetails>
 
-      <ToolFormDetails title={tc("sectionColours")}>
-        <ThemePicker
-          primaryColor={state.primaryColor}
-          secondaryColor={state.secondaryColor}
-          onPrimaryChange={(primaryColor) =>
-            setState({ ...state, primaryColor })
-          }
-          onSecondaryChange={(secondaryColor) =>
-            setState({ ...state, secondaryColor })
-          }
-        />
-      </ToolFormDetails>
+      <ToolColourSection
+        primaryColor={state.primaryColor}
+        secondaryColor={state.secondaryColor}
+        onPrimaryChange={(primaryColor) =>
+          setState({ ...state, primaryColor })
+        }
+        onSecondaryChange={(secondaryColor) =>
+          setState({ ...state, secondaryColor })
+        }
+      />
 
       <div className="flex flex-wrap gap-2 border-t border-gray-200 pt-5">
         <Button type="button" onClick={persist}>
@@ -373,10 +368,11 @@ export default function PulsePollPage() {
       />
 
       <div className="flex flex-wrap gap-2">
-        <Button
-          type="button"
-          disabled={exporting}
-          onClick={() =>
+        <ToolExportActions
+          exporting={exporting}
+          pngLabel={t("exportPng")}
+          pdfLabel={t("exportPdf")}
+          onPng={() =>
             void runExport(async () => {
               if (!canvasRef.current) return;
               await exportNodeAsPng(
@@ -389,14 +385,7 @@ export default function PulsePollPage() {
               );
             })
           }
-        >
-          {t("exportPng")}
-        </Button>
-        <Button
-          type="button"
-          variant="outline"
-          disabled={exporting}
-          onClick={() =>
+          onPdf={() =>
             void runExport(async () => {
               if (!canvasRef.current) return;
               await nodeToPdf(
@@ -409,9 +398,7 @@ export default function PulsePollPage() {
               );
             })
           }
-        >
-          {t("exportPdf")}
-        </Button>
+        />
       </div>
       {exportError && (
         <p className="text-sm text-red-700" role="alert">
@@ -490,11 +477,50 @@ export default function PulsePollPage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      purposeHint={t("whenToUse")}
       previewAccessibleName={t("previewAccessibleName")}
+      toolbar={
+        !themeEstablished ? (
+          <BrandSetupPrompt themeEstablished={themeEstablished} />
+        ) : undefined
+      }
       form={editor}
       preview={preview}
       exportError={exportError}
       exportSuccess={exportSuccess}
+      previewActions={
+        <ToolExportActions
+          exporting={exporting}
+          pngLabel={t("exportPng")}
+          pdfLabel={t("exportPdf")}
+          onPng={() =>
+            void runExport(async () => {
+              if (!canvasRef.current) return;
+              await exportNodeAsPng(
+                canvasRef.current,
+                formatFilename(
+                  "pulse-poll",
+                  brandKit.local.localNumber,
+                  "png",
+                ),
+              );
+            })
+          }
+          onPdf={() =>
+            void runExport(async () => {
+              if (!canvasRef.current) return;
+              await nodeToPdf(
+                canvasRef.current,
+                formatFilename(
+                  "pulse-poll",
+                  brandKit.local.localNumber,
+                  "pdf",
+                ),
+              );
+            })
+          }
+        />
+      }
       footer={<ToolRelatedFooter toolSlug="pulse-poll" />}
     />
   );

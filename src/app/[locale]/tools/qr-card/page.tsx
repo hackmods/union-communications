@@ -33,7 +33,7 @@ import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
-import { ThemePicker } from "@/components/tools/ThemePicker";
+import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { PageShell } from "@/components/layout/PageShell";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
@@ -428,14 +428,12 @@ function QrCardPageContent() {
             </label>
           </ToolFormDetails>
 
-          <ToolFormDetails title={tc("sectionColours")}>
-            <ThemePicker
-              primaryColor={state.primaryColor}
-              secondaryColor={state.secondaryColor}
-              onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
-              onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
-            />
-          </ToolFormDetails>
+          <ToolColourSection
+            primaryColor={state.primaryColor}
+            secondaryColor={state.secondaryColor}
+            onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
+            onSecondaryChange={(c) => setState({ ...state, secondaryColor: c })}
+          />
 
           <div className="space-y-3 border-t border-gray-200 pt-5">
           <UndoRedoBar

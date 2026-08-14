@@ -20,6 +20,6 @@ Platform is ready to demo Brand Kit → Board Notice → Graphic Maker → Capti
 
 ## After-talk backlog (not blockers)
 
-1. **Share Kit v0** — seed → PNG + matching caption (wire existing tools; no new canvas engine).
+1. ~~**Share Kit v0**~~ — **shipped 2026-08-14** (`/tools/share-kit` orchestrates Graphic Maker + Captions + optional Resizer; no new canvas).
 2. **Caption localization pack** — templates into i18n / locale JSON for FR workshops.
 3. **Workshop analytics-by-hand** — facilitator feedback form or paper (ADR-006: no product analytics).

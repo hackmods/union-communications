@@ -52,9 +52,22 @@ Reject changes that only swap `py-12` → `py-8 md:py-12` without changing compo
 
 - [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx)
 - [`ToolFormDetails`](src/components/tools/ToolFormDetails.tsx) — collapse secondary Options / Colours / Advanced; keep primary copy + layout visible
+- [`ToolColourSection`](src/components/tools/ToolColourSection.tsx) — ThemePicker + ContrastChecker inside Colours collapse (ThemePicker tools)
+- [`ToolExportActions`](src/components/tools/ToolExportActions.tsx) — PNG/PDF/ZIP row for form + `previewActions`
 - [`MobilePreviewStage`](src/components/tools/MobilePreviewStage.tsx) — mobile mini (fixed viewport, centered) / full scale-to-fit; desktop passthrough
 - [`SegControl`](src/components/tools/SegControl.tsx)
 - Card `density="compact"` | `"default"`
+
+## Shell checklist (every canvas tool)
+
+Before marking a canvas tool done, confirm:
+
+1. `purposeHint` (`whenToUse` i18n)
+2. `exportError` + `exportSuccess` from `useExportHandler`
+3. `previewActions` on full Preview (export reachable on mobile Preview tab)
+4. `BrandSetupPrompt` merged into **`toolbar`** (never a second `toolbar=` / not buried only in the form body)
+5. `ToolRelatedFooter` / `RELATED_BY_TOOL` entry
+6. Colours collapsed via `ToolColourSection` or `ToolFormDetails` when the tool has colour overrides
 
 ## Migration status register
 
@@ -79,6 +92,7 @@ Update when a surface ships.
 | alt-text | done |
 | document-generator | done (layout exception; success Callout + RelatedTools 2026-08) |
 | pulse-poll | done (RelatedTools + exportSuccess; Hub publish remains advanced) |
+| share-kit | done (orchestrator; Graphic Maker + Captions; no canvas export) |
 
 Workshop polish (2026-08): remaining canvas tools wire `exportSuccess`, `ToolRelatedFooter`, and `purposeHint` where listed in `comms-public-ux.mdc`; quiet demo tools show `BrandSetupPrompt` when Brand Kit is empty. Captions page links Graphic Maker. Re-touch register rows only when four-width check fails again.
 

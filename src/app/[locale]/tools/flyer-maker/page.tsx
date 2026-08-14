@@ -296,28 +296,36 @@ function FlyerMakerPageContent() {
         }
         exportError={exportError}
         exportSuccess={exportSuccess}
-        footer={<ToolRelatedFooter toolSlug="flyer-maker" />}
+        footer={
+          <div className="space-y-6">
+            <InviteEmailPanel
+              fields={inviteFields}
+              localNumber={resolveLocalNumber(brandKit.local.localNumber)}
+              messagesNamespace="flyerMaker"
+            />
+            <ToolRelatedFooter toolSlug="flyer-maker" />
+          </div>
+        }
         form={
-          <div className="space-y-5">
-            <Card density="compact" className="space-y-5">
-              <section className="space-y-3">
-                <SegControl
-                  label={tf("layout")}
-                  value={state.layout}
-                  options={FLYER_LAYOUT_ORDER.map((id) => ({
-                    value: id,
-                    label: tf(`layouts.${id}`),
-                  }))}
-                  onChange={(id) =>
-                    setState({
-                      ...state,
-                      layout: id,
-                      photoUrl: flyerLayoutSupportsPhoto(id)
-                        ? state.photoUrl
-                        : undefined,
-                    })
-                  }
-                />
+          <Card density="compact" className="space-y-5">
+            <section className="space-y-3">
+              <SegControl
+                label={tf("layout")}
+                value={state.layout}
+                options={FLYER_LAYOUT_ORDER.map((id) => ({
+                  value: id,
+                  label: tf(`layouts.${id}`),
+                }))}
+                onChange={(id) =>
+                  setState({
+                    ...state,
+                    layout: id,
+                    photoUrl: flyerLayoutSupportsPhoto(id)
+                      ? state.photoUrl
+                      : undefined,
+                  })
+                }
+              />
                 <SegControl
                   label={tf("format")}
                   value={state.format}
@@ -516,13 +524,6 @@ function FlyerMakerPageContent() {
                 </div>
               </div>
             </Card>
-
-            <InviteEmailPanel
-              fields={inviteFields}
-              localNumber={resolveLocalNumber(brandKit.local.localNumber)}
-              messagesNamespace="flyerMaker"
-            />
-          </div>
         }
         previewActions={
           <>

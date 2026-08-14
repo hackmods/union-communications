@@ -39,9 +39,11 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
-import { ThemePicker } from "@/components/tools/ThemePicker";
+import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ImageUpload } from "@/components/tools/ImageUpload";
+import { ConsentModal } from "@/components/tools/ConsentModal";
+import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
@@ -307,6 +309,8 @@ export default function ResizerPage() {
   const zipRootRef = useRef<HTMLDivElement>(null);
 
   const [imageUrl, setImageUrl] = useState<string | undefined>();
+  const [consentOpen, setConsentOpen] = useState(false);
+  const [pendingPhoto, setPendingPhoto] = useState<string | null>(null);
   const { exportError, exportSuccess, exporting, runExport } = useExportHandler(t("exportError"));
 
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
@@ -523,13 +527,26 @@ export default function ResizerPage() {
                 </p>
               </div>
             ) : (
-              <ImageUpload
-                label={t("uploadLabel")}
-                hint={t("uploadHint")}
-                preview={imageUrl}
-                onUpload={setImageUrl}
-                onClear={() => setImageUrl(undefined)}
-              />
+              <>
+                <ImageUpload
+                  label={t("uploadLabel")}
+                  hint={t("uploadHint")}
+                  preview={imageUrl}
+                  onUpload={(url) => {
+                    setPendingPhoto(url);
+                    setConsentOpen(true);
+                  }}
+                  onClear={() => setImageUrl(undefined)}
+                />
+                <p className="text-sm leading-snug text-gray-600">
+                  <Link
+                    href="/guide/photo-consent"
+                    className="text-opseu-blue underline"
+                  >
+                    {t("photoConsentLink")}
+                  </Link>
+                </p>
+              </>
             )}
 
             <div className="space-y-2">
@@ -700,16 +717,14 @@ export default function ResizerPage() {
               })}
             </p>
 
-            <ToolFormDetails title={tc("sectionColours")}>
-              <ThemePicker
-                primaryColor={state.primaryColor}
-                secondaryColor={state.secondaryColor}
-                onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
-                onSecondaryChange={(c) =>
-                  setState({ ...state, secondaryColor: c })
-                }
-              />
-            </ToolFormDetails>
+            <ToolColourSection
+              primaryColor={state.primaryColor}
+              secondaryColor={state.secondaryColor}
+              onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
+              onSecondaryChange={(c) =>
+                setState({ ...state, secondaryColor: c })
+              }
+            />
 
             <div className="space-y-3 border-t border-gray-200 pt-5">
             <UndoRedoBar
@@ -799,6 +814,19 @@ export default function ResizerPage() {
             }
           />
         }
+      />
+
+      <ConsentModal
+        open={consentOpen}
+        onConfirm={() => {
+          if (pendingPhoto) setImageUrl(pendingPhoto);
+          setPendingPhoto(null);
+          setConsentOpen(false);
+        }}
+        onCancel={() => {
+          setPendingPhoto(null);
+          setConsentOpen(false);
+        }}
       />
 
       {/* Offscreen platform frames for true-pixel ZIP export */}

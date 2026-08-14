@@ -32,7 +32,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
-import { ThemePicker } from "@/components/tools/ThemePicker";
+import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
@@ -115,12 +115,20 @@ export default function QrBoardPage() {
 
   useOneShotBrandSeed(hydrated, () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const deepPreset =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.search).get("preset")
+        : null;
+    const fromDeep =
+      deepPreset && getQrBoardPreset(deepPreset)
+        ? getQrBoardPreset(deepPreset)!
+        : first;
     reset({
-      presetId: first.id,
-      posterTitle: t(`presets.${first.titleKey}`),
-      posterSubtitle: t(`presets.${first.subtitleKey}`),
+      presetId: fromDeep.id,
+      posterTitle: t(`presets.${fromDeep.titleKey}`),
+      posterSubtitle: t(`presets.${fromDeep.subtitleKey}`),
       formatId: DEFAULT_QR_BOARD_FORMAT,
-      slots: buildSlotsFromPreset(first, brandKit, origin, (key) =>
+      slots: buildSlotsFromPreset(fromDeep, brandKit, origin, (key) =>
         t(`slotTitles.${key}`),
       ),
       showUrl: true,
@@ -224,6 +232,7 @@ export default function QrBoardPage() {
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
+      purposeHint={t("whenToUse")}
       previewAccessibleName={t("previewAccessibleName")}
       exportError={exportError}
       exportSuccess={exportSuccess}
@@ -376,18 +385,17 @@ export default function QrBoardPage() {
             </label>
           </ToolFormDetails>
 
-          <ToolFormDetails title={t("sectionColours")}>
-            <ThemePicker
-              primaryColor={state.primaryColor}
-              secondaryColor={state.secondaryColor}
-              onPrimaryChange={(primaryColor) =>
-                setState({ ...state, primaryColor })
-              }
-              onSecondaryChange={(secondaryColor) =>
-                setState({ ...state, secondaryColor })
-              }
-            />
-          </ToolFormDetails>
+          <ToolColourSection
+            title={t("sectionColours")}
+            primaryColor={state.primaryColor}
+            secondaryColor={state.secondaryColor}
+            onPrimaryChange={(primaryColor) =>
+              setState({ ...state, primaryColor })
+            }
+            onSecondaryChange={(secondaryColor) =>
+              setState({ ...state, secondaryColor })
+            }
+          />
 
           <div className="space-y-3 border-t border-gray-200 pt-5">
             <UndoRedoBar

@@ -52,7 +52,7 @@ import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
-import { ThemePicker } from "@/components/tools/ThemePicker";
+import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
@@ -251,8 +251,21 @@ export default function MeetingBackgroundPage() {
   }
 
   useOneShotBrandSeed(hydrated, () => {
+    const deepPreset =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.search).get("preset")
+        : null;
+    const fromDeep =
+      deepPreset && getMeetingPresetById(deepPreset)
+        ? getMeetingPresetById(deepPreset)!
+        : first;
     reset({
       ...initial,
+      presetId: fromDeep.id,
+      leadIn: fromDeep.leadIn,
+      headline: fromDeep.headline,
+      closer: fromDeep.closer,
+      layout: fromDeep.layout,
       includeBranding: themeEstablished,
       edgeClearance: true,
       primaryColor: brandKit.primaryColor,
@@ -988,16 +1001,15 @@ export default function MeetingBackgroundPage() {
             </p>
           </ToolFormDetails>
 
-          <ToolFormDetails title={t("sectionColours")}>
-            <ThemePicker
-              primaryColor={state.primaryColor}
-              secondaryColor={state.secondaryColor}
-              onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
-              onSecondaryChange={(c) =>
-                setState({ ...state, secondaryColor: c })
-              }
-            />
-          </ToolFormDetails>
+          <ToolColourSection
+            title={t("sectionColours")}
+            primaryColor={state.primaryColor}
+            secondaryColor={state.secondaryColor}
+            onPrimaryChange={(c) => setState({ ...state, primaryColor: c })}
+            onSecondaryChange={(c) =>
+              setState({ ...state, secondaryColor: c })
+            }
+          />
 
           <div className="space-y-3 border-t border-gray-200 pt-5">
             <UndoRedoBar
