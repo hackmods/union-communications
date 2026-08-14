@@ -55,7 +55,7 @@ Do **not** invent `ToolDesignControls` mega-components or a unified layout engin
 
 ### 2. Flyer is the Print reference — not the typography mandate for every tool
 
-Flyer exposes font stacks / case / typeScale because handouts need outdoor readability. Other tools correctly inherit Brand Kit `canvas` tokens. Do not add font pickers to Graphic Maker / Quote Card / wallet tools “for parity.”
+Flyer exposes font stacks / case / typeScale because handouts need outdoor readability. Other tools correctly inherit Brand Kit `canvas` tokens. Do not add font pickers to Graphic Maker / Quote Card / wallet tools “for parity.” See **Cross-tool comparison** below.
 
 ### 3. ADR-014 fonts — system stacks only
 
@@ -111,6 +111,86 @@ Gap Fit residual “Share Kit v0” is **closed**. The route does not export PNG
 | Invite slot | Footer | Match graphic / board-notice |
 | Share Kit | Orchestrator route under Social pack | Gap Fit; no new canvas engine |
 | Typography expansion | Flyer only for now | Channel pack rule |
+
+---
+
+## Cross-tool comparison — fonts, layouts, placement
+
+Use this table when auditing “parity gaps.” **Same shell chrome ≠ same design controls.** Channel and capture constraints decide who gets fonts / layout pickers / where panels sit.
+
+### Typography model
+
+| Layer | Who owns it | What stewards pick |
+|-------|-------------|--------------------|
+| **Brand Kit `canvas` tokens** | `resolveCanvasTokens` — `typeScale` (`compact` / `display` / `dense`), weight, tracking, uppercase via style packages (`solid` / `field` / `workshop`) | Almost every canvas tool (Graphic, Quote, Meeting, Solidarity, wallets, boards, …) |
+| **Flyer in-tool stacks** | `flyer-fonts.ts` on capture-root `fontFamily` only | Flyer Maker only: `impact` / `condensed` / `clean` / `slab` / `serif` + local `headlineCase` + `typeScaleOverride` |
+| **Hardcoded UI type** | Tailwind on chrome / form labels | Never on export capture |
+
+**Why Flyer alone has a font picker:** physical Print handouts need outdoor readability (Impact/condensed) without bundling webfonts. Social/board/wallet tools stay Brand Kit–driven so one style package restyles the whole toolkit. Expanding stacks to other print tools (e.g. board-notice, solidarity print) needs an **explicit product ask** — not shell-parity work.
+
+**Not a gap:** Quote Card / Graphic Maker lacking a font family control. They amplify Brand Kit `typeScale` / alignment / density.
+
+### Layout IDs (per-tool — never unify)
+
+Same English words (`stack`, `split`, `banner`) are **coincidental labels**, not shared types.
+
+| Tool | Layout / composition IDs | Notes |
+|------|--------------------------|-------|
+| **Flyer Maker** | `stack` · `band` · `split` · `photoHero` | Photo on `split` / `photoHero`; paper = letter / half-letter / tabloid |
+| **Graphic Maker** | `solidarity` · `thanks` · `spotlight` · `notice` · `results` | Photo on solidarity / spotlight / thanks; Quote is a sibling tool |
+| **Quote Card** | single `QuoteLayout` | No multi-layout picker |
+| **Solidarity Poster** | `stack` · `split` · `banner` | Print + digital formats; QR optional |
+| **Board Banner** | `slantCallout` · `centeredLockup` · `minimalStripe` (+ trim kit pieces) | Banner vs trim mode |
+| **Board Notice** | **no layout picker** — letter / tabloid format only | Intentional single workplace notice composition |
+| **Meeting Background** | Bold: `corner` · `lower-third` · `side-panel` · `bands`; Minimal: `masthead` · `footer` · `rails` · `upper-stack` | Face-safe; design set gates which IDs appear |
+| **QR / Action Card** | size + bg mode / preset (`link` vs `reference` on QR) — not a flyer-style layout enum | Wallet pack |
+| **QR Board** | grid of QR cells; format letter/tabloid | Multi-QR board, not a single lockup layout |
+| **Pulse Poll** | single poll card composition | Tokens only |
+| **Share Kit** | **no canvas** — orchestrates Graphic Maker layouts via `?preset=` | |
+
+Do **not** invent a shared `LayoutId` union or `ToolDesignControls` that maps Flyer `stack` ↔ Solidarity `stack`.
+
+### Placement — chrome vs canvas geometry vs panels
+
+Three different “placement” questions; agents often conflate them.
+
+#### A. Editor chrome (where controls live in TEL)
+
+| Slot / pattern | Convention | Examples |
+|----------------|------------|----------|
+| `toolbar` | BrandSetup (+ presets when present) — **one** `toolbar=` | Flyer presets+BrandSetup; pulse-poll / board-banner BrandSetup moved here |
+| Form body | Content + design SegControls | Layout / font / paper on Flyer; layout on Graphic / Meeting / Solidarity |
+| `footer` | InviteEmailPanel + `ToolRelatedFooter` | Graphic notice, board-notice, Flyer (after unified pass) |
+| `previewActions` | Export buttons | Prefer `ToolExportActions` |
+| `purposeHint` | One-line channel purpose | Required shell checklist |
+
+#### B. Canvas geometry (where content sits in the export)
+
+| Concern | Owner | Notes |
+|---------|-------|-------|
+| Alignment of type blocks | Brand Kit `alignmentBias` (`start` / `center` / `asymmetric`) | Most tools via `CanvasTypeBlock` / `textAlignFromBias` |
+| QR plate chrome | Brand Kit `qrPlate` (`white-card` / `inset` / `flush`) | `CanvasQrPlate`; wallet QR often stays optically centered |
+| Photo | Per-layout + ConsentModal | Graphic / Flyer / Solidarity / Resizer — gate upload on consent |
+| Meeting face-safe | Layout ID + edge-clearance | Content stays out of webcam crop; Bold vs Minimal sets |
+| Board Banner trim | Trim kit toggles (top/side/bottom/corner) | Physical board rails, not text alignment |
+
+#### C. Channel affordances (feature placement by pack)
+
+| Affordance | Print | Social | Board | Wallet |
+|------------|-------|--------|-------|--------|
+| System font family picker | Flyer **yes** | no | no | no |
+| Multi layout SegControl | Flyer **yes** | Graphic / Meeting **yes** | Solidarity / Banner **yes**; Notice **no** | size/preset, not layout enum |
+| Paper / sheet size | Flyer + Doc Gen; Notice letter/tabloid | platform aspects | letter/tabloid common | wallet sizes |
+| InviteEmailPanel (footer) | Flyer (event-like) | Graphic notice | Board Notice | — |
+| Photo + consent | Flyer (photo layouts) | Graphic / Resizer | Solidarity (digital) | — |
+| Optional QR | Flyer | — | Solidarity / QR Board | QR Card / Action Card |
+
+### Parity checklist (before “adding for consistency”)
+
+1. Is the missing control a **shell** gap (`purposeHint` / BrandSetup-in-toolbar / exportSuccess)? → Fix.
+2. Is it a **channel** feature (font picker, paper size, InviteEmail)? → Only if the channel pack table says yes.
+3. Is it a **layout ID** from another tool? → Do not port; add a new per-tool ID if the product needs a new composition.
+4. Is typography “missing”? → Check Brand Kit canvas tokens first; Flyer stacks are the exception.
 
 ---
 
