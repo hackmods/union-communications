@@ -554,10 +554,10 @@ Sections 1–7 of that audit shipped. These are the residuals it deliberately di
 - `home.pathCommsCta` is rendered when Officer Hub is public.
 **Dependencies:** None.
 
-### [COPY-002] Copy guards do not run on public Comms smoke, so asserted strings can rot
+### [COPY-002] ✅ CLOSED (2026-08-14) — Smoke-asserted copy vs catalog
 **Category:** Testing / CI hygiene
 **Severity/Priority:** Low (developer-facing; caused one stale assertion that silently passed for weeks)
-**Status:** Open
+**Status:** Closed — `src/lib/comms/smoke-asserted-copy.ts` + `smoke-asserted-copy.test.ts` extract plain `getByText` / `name:` literals from public Comms smoke specs and require each to appear in `messages/en.json` (allowlist only for COMMS_SOURCES bibliography titles). Documented in `i18n-public-copy.mdc`.
 **Problem/Gap Statement:** `e2e/builders.smoke.spec.ts` asserted `/Local-first Comms/i` after the `trustBanner` rewrite deleted that string from both catalogs. Nothing failed, because smoke is not run on copy-only commits and no unit test cross-references spec literals against `messages/*.json`. The same rot will recur on the next copy pass.
 **Affected Architecture/Files:**
 - `e2e/*.smoke.spec.ts` (literal text assertions)

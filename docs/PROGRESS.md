@@ -1,5 +1,12 @@
 # Progress Log
 
+## COPY-002 smoke↔catalog guard (2026-08-14)
+
+- [x] Extract plain `getByText` / `name:` literals from public Comms smoke specs
+- [x] Unit test requires each literal in `messages/en.json` (allowlist: COMMS_SOURCES bibliography title only)
+- [x] Documented in `i18n-public-copy.mdc`; backlog COPY-002 closed
+- Verify: `npm run test:unit -- src/lib/comms/smoke-asserted-copy.test.ts`
+
 ## Phase 9 — Comms export integrity (SHIPPED 2026-08-14)
 
 - [x] **9a / TOOL-008:** Capture hardening (`capture.ts` — unscale preview, inline computed styles); Flyer inline aspectRatio; PDF JPEG re-encode

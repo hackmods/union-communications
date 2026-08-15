@@ -38,9 +38,10 @@ the French value in the same commit.
 | No untranslated FR (identical to EN, >4 words) | same |
 | Named lead-length limits + ≤1 em dash on leads | same |
 | SEO description length band, duplicates, capitalization | [`public-page-meta.test.ts`](../../src/lib/seo/public-page-meta.test.ts) |
+| Smoke-asserted EN prose still in `messages/en.json` (COPY-002) | [`smoke-asserted-copy.test.ts`](../../src/lib/comms/smoke-asserted-copy.test.ts) |
 
 ```bash
-npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts
+npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/smoke-asserted-copy.test.ts
 ```
 
 Failures print the offending key path and value. **Fix the copy, not the guard** —
@@ -137,4 +138,8 @@ the .json file you downloaded from Brand Kit and try again." names both.
 - Leak env vars, cron paths, or `*_DB_BACKEND` into volunteer-facing copy
 - Weaken the legal meaning of "not legal advice" / "aid only" disclaimers
 - Assume a smoke assertion still matches the catalog — `builders.smoke.spec.ts`
-  spent weeks asserting `Local-first Comms` after that string was deleted
+  spent weeks asserting `Local-first Comms` after that string was deleted.
+  **COPY-002 closed:** `npm run test:unit -- src/lib/comms/smoke-asserted-copy.test.ts`
+  fails if a plain-string public Comms smoke assertion disappears from `messages/en.json`.
+  Prefer regex (`/Graphic Maker/i`) or restore catalog copy; allowlist only COMMS_SOURCES
+  titles in `smoke-asserted-copy.ts`.
