@@ -25,9 +25,10 @@ import {
 import {
   DEFAULT_FLYER_FONT,
   FLYER_FONT_ORDER,
-  flyerFontFamily,
-  type FlyerFontStackId,
-} from "@/lib/comms/flyer-fonts";
+  migrateFlyerFontChoice,
+  resolveFlyerFontFamily,
+  type FlyerFontChoice,
+} from "@/lib/comms/canvas-fonts";
 import {
   DEFAULT_FLYER_LAYOUT,
   FLYER_LAYOUT_ORDER,
@@ -73,7 +74,7 @@ interface FlyerState {
   contact: string;
   layout: FlyerLayoutId;
   format: FlyerFormatId;
-  fontStack: FlyerFontStackId;
+  fontStack: FlyerFontChoice;
   headlineCase: FlyerHeadlineCase;
   typeScaleOverride: FlyerTypeScaleOverride;
   showQr: boolean;
@@ -124,11 +125,19 @@ function FlyerMakerPageContent() {
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<FlyerState>(initial);
 
-  const tokens = resolveFlyerTokens(brandKit, {
+  const baseTokens = resolveFlyerTokens(brandKit, {
     typeScaleOverride: state.typeScaleOverride,
     headlineCase: state.headlineCase,
     format: state.format,
   });
+  const fontChoice = migrateFlyerFontChoice(state.fontStack);
+  const tokens = {
+    ...baseTokens,
+    headlineFontFamily: resolveFlyerFontFamily(
+      fontChoice,
+      baseTokens.headlineFontFamily,
+    ),
+  };
   const format = FLYER_FORMATS[state.format];
   const showPhoto = flyerLayoutSupportsPhoto(state.layout);
   const { exportError, exportSuccess, exporting, runExport } =
@@ -166,7 +175,7 @@ function FlyerMakerPageContent() {
       date: detail || initial.date,
       layout: "stack",
       format: "letter",
-      fontStack: "impact",
+      fontStack: "oswald",
       headlineCase: "uppercase",
       primaryColor: colours.primary,
       accentColor: colours.accent,
@@ -378,12 +387,17 @@ function FlyerMakerPageContent() {
               <ToolFormDetails title={tf("sectionTypography")}>
                 <SegControl
                   label={tf("fontStack")}
-                  value={state.fontStack}
+                  value={fontChoice}
                   options={FLYER_FONT_ORDER.map((id) => ({
                     value: id,
                     label: tf(`fonts.${id}`),
                   }))}
-                  onChange={(id) => setState({ ...state, fontStack: id })}
+                  onChange={(id) =>
+                    setState({
+                      ...state,
+                      fontStack: migrateFlyerFontChoice(id),
+                    })
+                  }
                 />
                 <SegControl
                   label={tf("headlineCase")}
@@ -564,7 +578,7 @@ function FlyerMakerPageContent() {
               }}
               localNumber={brandKit.local.localNumber}
               subText={brandKit.local.subText}
-              fontFamily={flyerFontFamily(state.fontStack)}
+              fontFamily={tokens.bodyFontFamily}
               aspectClass={format.aspectClass}
               aspectRatio={format.aspectRatio}
               photoUrl={showPhoto ? state.photoUrl : undefined}

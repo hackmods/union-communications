@@ -49,7 +49,7 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 | Family | Status |
 |--------|--------|
 | Brand Kit UI (`BrandKitCanvasPanel`) | done |
-| Flyer Maker | done | QOL v2: layouts, paper sizes, system font stacks, QR/photo, invite email |
+| Flyer Maker | done | QOL v2 + Brand Kit / catalog font override (hybrid OFL + system residual) |
 | Board Notice | done |
 | QR Card | done |
 | Action Card | done |
@@ -134,7 +134,7 @@ Thin **feature packs** compose the shared shell — they do **not** unify layout
 
 Constants: [`src/lib/comms/packs/channel-packs.ts`](../../src/lib/comms/packs/channel-packs.ts). Deep-link workshop demos with `?preset=` where presets exist (QR Card, Action Card, QR Board, Solidarity slogan id, Meeting Background).
 
-**Fonts / layouts / placement across tools:** do not treat missing Flyer-style font pickers or shared layout enums as gaps. Brand Kit `canvas` tokens own typeScale/alignment for most tools; only Flyer Maker exposes ADR-014 system font stacks. Layout IDs stay per-tool (Flyer `stack` ≠ Solidarity `stack`). Full comparison matrix: [`docs/audit/session-knowledge-2026-08-14-flyer-unified-tools.md`](../audit/session-knowledge-2026-08-14-flyer-unified-tools.md#cross-tool-comparison--fonts-layouts-placement).
+**Fonts / layouts / placement across tools:** Brand Kit `canvas` owns `headlineFontId` / `bodyFontId` / typeScale / alignment for canvas tools ([`canvas-fonts.ts`](../../src/lib/comms/canvas-fonts.ts), ADR-014 local OFL). Flyer Maker may override the headline face (`inherit` or catalog id). Layout IDs stay per-tool (Flyer `stack` ≠ Solidarity `stack`). Website ZIP / Office exports still use Arial (offline bundle follow-up). Comparison matrix: [`docs/audit/session-knowledge-2026-08-14-flyer-unified-tools.md`](../audit/session-knowledge-2026-08-14-flyer-unified-tools.md#cross-tool-comparison--fonts-layouts-placement); font catalog upgrade: [`session-knowledge-2026-08-15-canvas-fonts.md`](../audit/session-knowledge-2026-08-15-canvas-fonts.md).
 
 ### Capture / export fidelity (Phase 9 — shipped 2026-08-14; 9e 2026-08-15)
 

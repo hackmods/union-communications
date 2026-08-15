@@ -229,6 +229,7 @@ export function FlyerLayoutCanvas({
             backgroundColor={colours.secondary}
             localNumber={localNumber}
             subText={subText}
+            fontFamily={tokens.bodyFontFamily}
           />
           <CanvasTypeBlock
             tokens={{
@@ -315,6 +316,7 @@ export function FlyerLayoutCanvas({
             backgroundColor={colours.primary}
             localNumber={localNumber}
             subText={subText}
+            fontFamily={tokens.bodyFontFamily}
           />
           <CanvasTypeBlock
             tokens={tokens}
@@ -361,6 +363,7 @@ export function FlyerLayoutCanvas({
             backgroundColor={colours.primary}
             localNumber={localNumber}
             subText={subText}
+            fontFamily={tokens.bodyFontFamily}
           />
           <CanvasTypeBlock
             tokens={tokens}
@@ -429,6 +432,7 @@ export function FlyerLayoutCanvas({
         backgroundColor={colours.primary}
         localNumber={localNumber}
         subText={subText}
+        fontFamily={tokens.bodyFontFamily}
       />
       <CanvasTypeBlock
         tokens={tokens}

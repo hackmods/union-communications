@@ -1843,7 +1843,7 @@
     "resetDefaults": "Réinitialiser aux valeurs par défaut",
     "canvas": {
       "title": "Style de canevas",
-      "description": "Touches de finition optionnelles pour vos exports : plaque QR, taille du texte, alignement et fond.",
+      "description": "Touches de finition optionnelles pour vos exports : polices, plaque QR, taille du texte, alignement et fond.",
       "style": "Ensemble de style",
       "styles": {
         "legacy": "Classique",
@@ -1858,7 +1858,20 @@
         "workshop": "Modulaire : bande d'accent, typo compacte, QR encadré à fleur."
       },
       "previewHeadline": "La solidarité commence ici",
+      "previewBody": "Le texte d'appui utilise la police de corps de votre Brand Kit.",
       "duotoneNote": "Le duotone teinte les photos de membres dans le Créateur graphique (projecteur / solidarité / merci).",
+      "headlineFont": "Police des titres",
+      "bodyFont": "Police du corps",
+      "fonts": {
+        "montserrat": "Montserrat",
+        "sourceSans": "Source Sans",
+        "barlowCondensed": "Barlow Condensed",
+        "oswald": "Oswald",
+        "sourceSerif": "Source Serif",
+        "robotoSlab": "Roboto Slab",
+        "systemSans": "Sans système",
+        "systemSerif": "Serif système"
+      },
       "advanced": "Jetons avancés",
       "alignment": "Biais d'alignement",
       "alignmentBias": {
@@ -2061,14 +2074,18 @@
       "tabloid": "Tabloïd (11×17)"
     },
     "fonts": {
-      "impact": "Impact",
-      "condensed": "Condensée",
-      "clean": "Sans empattement",
-      "slab": "À empattements épais",
-      "serif": "À empattements"
+      "inherit": "Brand Kit",
+      "montserrat": "Montserrat",
+      "sourceSans": "Source Sans",
+      "barlowCondensed": "Barlow Condensed",
+      "oswald": "Oswald",
+      "sourceSerif": "Source Serif",
+      "robotoSlab": "Roboto Slab",
+      "systemSans": "Sans système",
+      "systemSerif": "Serif système"
     },
     "typeScales": {
-      "inherit": "Trousse de marque",
+      "inherit": "Brand Kit",
       "display": "Affichage",
       "compact": "Compact",
       "dense": "Dense"

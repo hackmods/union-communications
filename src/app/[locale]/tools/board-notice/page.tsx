@@ -264,6 +264,7 @@ export default function BoardNoticePage() {
                 color: canvasInk,
                 padding: tokens.paddingPx,
                 gap: tokens.gapPx,
+                fontFamily: tokens.bodyFontFamily,
               }}
             >
               <CanvasGrainOverlay opacity={tokens.grainOpacity} />
@@ -273,6 +274,7 @@ export default function BoardNoticePage() {
                   style={{
                     color: leadColor,
                     fontSize: tokens.subtitleFontSizePx,
+                    fontFamily: tokens.bodyFontFamily,
                   }}
                 >
                   {localLabel}
@@ -285,6 +287,7 @@ export default function BoardNoticePage() {
                       10,
                       Math.round(tokens.subtitleFontSizePx * 0.85),
                     ),
+                    fontFamily: tokens.bodyFontFamily,
                   }}
                 >
                   {t(`types.${state.noticeType}`)}

@@ -1,5 +1,5 @@
 import type { FlyerFormatId } from "@/lib/comms/flyer-formats";
-import type { FlyerFontStackId } from "@/lib/comms/flyer-fonts";
+import type { FlyerFontChoice } from "@/lib/comms/canvas-fonts";
 import type { FlyerLayoutId } from "@/lib/comms/flyer-layouts";
 import type {
   FlyerHeadlineCase,
@@ -17,7 +17,7 @@ export interface FlyerPreset {
   /** i18n key under flyerMaker.presets.<id>.label — stored as stable id */
   layout: FlyerLayoutId;
   format: FlyerFormatId;
-  fontStack: FlyerFontStackId;
+  fontStack: FlyerFontChoice;
   headlineCase: FlyerHeadlineCase;
   typeScaleOverride: FlyerTypeScaleOverride;
   message: string;
@@ -41,7 +41,7 @@ export const FLYER_PRESETS: Record<FlyerPresetKey, FlyerPreset> = {
     id: "picket",
     layout: "band",
     format: "letter",
-    fontStack: "impact",
+    fontStack: "oswald",
     headlineCase: "uppercase",
     typeScaleOverride: "display",
     message: "PICKET LINE — ALL MEMBERS WELCOME",
@@ -56,7 +56,7 @@ export const FLYER_PRESETS: Record<FlyerPresetKey, FlyerPreset> = {
     id: "rally",
     layout: "stack",
     format: "letter",
-    fontStack: "impact",
+    fontStack: "oswald",
     headlineCase: "uppercase",
     typeScaleOverride: "display",
     message: "RALLY FOR A FAIR CONTRACT",
@@ -71,7 +71,7 @@ export const FLYER_PRESETS: Record<FlyerPresetKey, FlyerPreset> = {
     id: "meeting",
     layout: "stack",
     format: "letter",
-    fontStack: "serif",
+    fontStack: "sourceSerif",
     headlineCase: "asTyped",
     typeScaleOverride: "compact",
     message: "General Membership Meeting",
@@ -86,7 +86,7 @@ export const FLYER_PRESETS: Record<FlyerPresetKey, FlyerPreset> = {
     id: "walkabout",
     layout: "split",
     format: "halfLetter",
-    fontStack: "condensed",
+    fontStack: "barlowCondensed",
     headlineCase: "uppercase",
     typeScaleOverride: "dense",
     message: "UNION WALKABOUT",

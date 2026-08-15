@@ -121,12 +121,14 @@ function FitStackedHeadline({
   density,
   align = "left",
   typeScale = "compact",
+  fontFamily,
 }: {
   lines: string[];
   ink: string;
   density: HeadlineDensity;
   align?: "left" | "right" | "center";
   typeScale?: CanvasTypeScale;
+  fontFamily?: string;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const linesKey = lines.join("\n");
@@ -191,6 +193,7 @@ function FitStackedHeadline({
             fontSize: `${fontSizeRem}rem`,
             whiteSpace: "nowrap",
             overflow: "hidden",
+            fontFamily,
           }}
         >
           {line}
@@ -409,6 +412,7 @@ export default function MeetingBackgroundPage() {
         density={density}
         align={meetingAlignFromBias(layoutDefault, tokens.alignmentBias)}
         typeScale={tokens.typeScale}
+        fontFamily={tokens.headlineFontFamily}
       />
     ) : null;
 
@@ -424,7 +428,7 @@ export default function MeetingBackgroundPage() {
           align === "center" && "text-center",
           align === "right" && "text-right",
         )}
-        style={{ color: ink }}
+        style={{ color: ink, fontFamily: tokens.bodyFontFamily }}
       >
         {state.leadIn}
       </p>

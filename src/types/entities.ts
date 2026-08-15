@@ -75,6 +75,10 @@ export interface BrandKitCanvas {
   typeScale?: CanvasTypeScale;
   qrPlate?: CanvasQrPlate;
   surface?: CanvasSurface;
+  /** Catalog id from `@/lib/comms/canvas-fonts` (headline / display type). */
+  headlineFontId?: string;
+  /** Catalog id from `@/lib/comms/canvas-fonts` (body / supporting type). */
+  bodyFontId?: string;
 }
 
 export interface BrandKit {

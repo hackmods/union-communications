@@ -423,7 +423,7 @@ export default function PulsePollPage() {
             <BrandLogo className="h-10 w-auto" />
             <span
               className="font-semibold"
-              style={{ fontSize: bodyFontPx }}
+              style={{ fontSize: bodyFontPx, fontFamily: tokens.bodyFontFamily }}
             >
               Local {resolveLocalNumber(brandKit.local.localNumber)}
             </span>
@@ -436,6 +436,7 @@ export default function PulsePollPage() {
             fontWeight: tokens.titleFontWeight,
             letterSpacing: tokens.titleLetterSpacing,
             textTransform: tokens.titleTextTransform,
+            fontFamily: tokens.headlineFontFamily,
           }}
         >
           {state.title.trim() || t("title")}

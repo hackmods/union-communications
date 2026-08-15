@@ -1843,7 +1843,7 @@
     "resetDefaults": "Reset to defaults",
     "canvas": {
       "title": "Canvas style",
-      "description": "Optional finishing touches for your exports: QR plate, text size, alignment, and background surface.",
+      "description": "Optional finishing touches for your exports: typefaces, QR plate, text size, alignment, and background surface.",
       "style": "Style package",
       "styles": {
         "legacy": "Classic",
@@ -1858,7 +1858,20 @@
         "workshop": "Modular: accent band, compact type, flush framed QR."
       },
       "previewHeadline": "Solidarity starts here",
+      "previewBody": "Body text uses your Brand Kit body face.",
       "duotoneNote": "Duotone tints member photos in Graphic Maker (spotlight / solidarity / thanks).",
+      "headlineFont": "Headline font",
+      "bodyFont": "Body font",
+      "fonts": {
+        "montserrat": "Montserrat",
+        "sourceSans": "Source Sans",
+        "barlowCondensed": "Barlow Condensed",
+        "oswald": "Oswald",
+        "sourceSerif": "Source Serif",
+        "robotoSlab": "Roboto Slab",
+        "systemSans": "System sans",
+        "systemSerif": "System serif"
+      },
       "advanced": "Advanced tokens",
       "alignment": "Alignment bias",
       "alignmentBias": {
@@ -2095,11 +2108,15 @@
       "tabloid": "Tabloid (11×17)"
     },
     "fonts": {
-      "impact": "Impact",
-      "condensed": "Condensed",
-      "clean": "Clean sans",
-      "slab": "Slab",
-      "serif": "Serif"
+      "inherit": "Brand Kit",
+      "montserrat": "Montserrat",
+      "sourceSans": "Source Sans",
+      "barlowCondensed": "Barlow Condensed",
+      "oswald": "Oswald",
+      "sourceSerif": "Source Serif",
+      "robotoSlab": "Roboto Slab",
+      "systemSans": "System sans",
+      "systemSerif": "System serif"
     },
     "typeScales": {
       "inherit": "Brand Kit",

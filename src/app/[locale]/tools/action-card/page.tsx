@@ -543,6 +543,7 @@ function ActionCardPageContent() {
                           fontWeight: tokens.titleFontWeight,
                           letterSpacing: tokens.titleLetterSpacing,
                           textTransform: tokens.titleTextTransform,
+                          fontFamily: tokens.headlineFontFamily,
                         }}
                       >
                         {state.headline}
@@ -554,6 +555,7 @@ function ActionCardPageContent() {
                             color: mutedInk,
                             fontSize: bodyFontPx,
                             textAlign,
+                            fontFamily: tokens.bodyFontFamily,
                           }}
                         >
                           {state.ask}
@@ -566,6 +568,7 @@ function ActionCardPageContent() {
                             color: ctaColor,
                             fontSize: metaFontPx,
                             textAlign,
+                            fontFamily: tokens.bodyFontFamily,
                           }}
                         >
                           {state.deadline}
@@ -592,6 +595,7 @@ function ActionCardPageContent() {
                             fontSize: metaFontPx,
                             textAlign,
                             width: "100%",
+                            fontFamily: tokens.bodyFontFamily,
                           }}
                         >
                           {state.cta}
@@ -605,6 +609,7 @@ function ActionCardPageContent() {
                             fontSize: metaFontPx,
                             textAlign,
                             width: "100%",
+                            fontFamily: tokens.bodyFontFamily,
                           }}
                         >
                           {state.destination}
@@ -620,6 +625,7 @@ function ActionCardPageContent() {
                           fontSize: metaFontPx,
                           textAlign,
                           width: "100%",
+                          fontFamily: tokens.bodyFontFamily,
                         }}
                       >
                         {localLabel}

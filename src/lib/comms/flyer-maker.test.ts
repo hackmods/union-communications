@@ -8,9 +8,10 @@ import {
 import {
   DEFAULT_FLYER_FONT,
   FLYER_FONT_ORDER,
-  FLYER_FONT_STACKS,
+  canvasFontFamily,
   flyerFontFamily,
   isFlyerFontStackId,
+  migrateFlyerFontChoice,
 } from "@/lib/comms/flyer-fonts";
 import {
   DEFAULT_FLYER_LAYOUT,
@@ -50,11 +51,12 @@ describe("flyer-formats", () => {
 });
 
 describe("flyer-fonts", () => {
-  it("maps every stack id to a capture-safe family string", () => {
-    for (const id of FLYER_FONT_ORDER) {
-      expect(FLYER_FONT_STACKS[id].length).toBeGreaterThan(0);
-      expect(flyerFontFamily(id)).toBe(FLYER_FONT_STACKS[id]);
-    }
+  it("defaults to inherit Brand Kit and maps catalog ids", () => {
+    expect(DEFAULT_FLYER_FONT).toBe("inherit");
+    expect(FLYER_FONT_ORDER[0]).toBe("inherit");
+    expect(flyerFontFamily("inherit")).toBe(canvasFontFamily("montserrat"));
+    expect(flyerFontFamily("oswald")).toContain("var(--font-oswald)");
+    expect(migrateFlyerFontChoice("impact")).toBe("oswald");
     expect(isFlyerFontStackId(DEFAULT_FLYER_FONT)).toBe(true);
     expect(isFlyerFontStackId("comic")).toBe(false);
   });
@@ -81,7 +83,9 @@ describe("flyer-presets", () => {
       "walkabout",
     ]);
     expect(FLYER_PRESETS.walkabout.format).toBe("halfLetter");
-    expect(FLYER_PRESETS.picket.fontStack).toBe("impact");
+    expect(FLYER_PRESETS.picket.fontStack).toBe("oswald");
+    expect(FLYER_PRESETS.meeting.fontStack).toBe("sourceSerif");
+    expect(FLYER_PRESETS.walkabout.fontStack).toBe("barlowCondensed");
     expect(isFlyerPresetKey("rally")).toBe(true);
     expect(isFlyerPresetKey("strike")).toBe(false);
   });

@@ -15,6 +15,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { buildSiteJsonLdGraph } from "@/lib/seo/json-ld";
 import { SAFARI_PINNED_TAB_COLOR, SAFARI_PINNED_TAB_PATH } from "@/lib/seo/site";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { canvasFontVariablesClassName } from "@/app/canvas-fonts";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -63,7 +64,11 @@ export default async function LocaleLayout({
 
   // PreferencesInitScript may set data-* prefs on <html> before hydrate (FOUC).
   return (
-    <html lang={locale} className="h-full" suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={`h-full ${canvasFontVariablesClassName}`}
+      suppressHydrationWarning
+    >
       <head>
         <PreferencesInitScript />
         <link

@@ -91,6 +91,7 @@ export function CanvasBrandHeader({
   badge,
   logoSize = "md",
   className,
+  fontFamily,
 }: {
   backgroundColor: string;
   localNumber: string;
@@ -98,6 +99,8 @@ export function CanvasBrandHeader({
   badge?: ReactNode;
   logoSize?: "sm" | "md" | "lg";
   className?: string;
+  /** Brand Kit body / meta face */
+  fontFamily?: string;
 }) {
   const ink = pickContrastingInk(backgroundColor);
   const label = subText
@@ -120,6 +123,7 @@ export function CanvasBrandHeader({
           fontSize: "0.875rem",
           lineHeight: 1.25,
           margin: 0,
+          fontFamily,
         }}
       >
         {label}
@@ -164,6 +168,7 @@ export function CanvasTypeBlock({
           textTransform: tokens.titleTextTransform,
           lineHeight: 1.15,
           margin: 0,
+          fontFamily: tokens.headlineFontFamily,
         }}
       >
         {title}
@@ -187,6 +192,7 @@ export function CanvasTypeBlock({
             fontSize: tokens.subtitleFontSizePx,
             margin: 0,
             opacity: 0.9,
+            fontFamily: tokens.bodyFontFamily,
           }}
         >
           {subtitle}

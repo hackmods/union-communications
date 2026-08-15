@@ -141,11 +141,29 @@ export async function withUnscaledAncestors<T>(
     // Duotone photos bake async; data-URL <img>s are skipped by html-to-image embed
     await awaitDuotonePhotosReady(node);
     await awaitCaptureImages(node);
+    await awaitDocumentFontsReady();
     return await run();
   } finally {
     if (scaled && previous !== undefined) {
       scaled.style.transform = previous;
     }
+  }
+}
+
+/** Wait for self-hosted canvas webfonts before rasterizing exports. */
+export async function awaitDocumentFontsReady(
+  timeoutMs = 5_000,
+): Promise<void> {
+  if (typeof document === "undefined" || !document.fonts?.ready) return;
+  try {
+    await Promise.race([
+      document.fonts.ready,
+      new Promise<void>((resolve) => {
+        setTimeout(resolve, timeoutMs);
+      }),
+    ]);
+  } catch {
+    // Ignore FontFaceSet errors — capture still proceeds with fallbacks.
   }
 }
 

@@ -26,6 +26,10 @@ import type {
   CanvasSurface,
   CanvasTypeScale,
 } from "@/types/entities";
+import {
+  CANVAS_FONT_ORDER,
+  type CanvasFontId,
+} from "@/lib/comms/canvas-fonts";
 
 const SURFACE_ORDER: CanvasSurface[] = [
   "flat",
@@ -34,6 +38,8 @@ const SURFACE_ORDER: CanvasSurface[] = [
   "grain",
   "duotone",
 ];
+
+const FONT_OPTIONS = CANVAS_FONT_ORDER.map((id) => id);
 
 export function BrandKitCanvasPanel() {
   const t = useTranslations("brandKit.canvas");
@@ -96,6 +102,29 @@ export function BrandKitCanvasPanel() {
 
       <p className="text-xs text-gray-500">{t(`styleHints.${activeStyle}`)}</p>
 
+      <SegControl
+        label={t("headlineFont")}
+        value={tokens.headlineFontId}
+        options={FONT_OPTIONS.map((id) => ({
+          value: id,
+          label: t(`fonts.${id}`),
+        }))}
+        onChange={(headlineFontId) =>
+          setToken("headlineFontId", headlineFontId as CanvasFontId)
+        }
+      />
+      <SegControl
+        label={t("bodyFont")}
+        value={tokens.bodyFontId}
+        options={FONT_OPTIONS.map((id) => ({
+          value: id,
+          label: t(`fonts.${id}`),
+        }))}
+        onChange={(bodyFontId) =>
+          setToken("bodyFontId", bodyFontId as CanvasFontId)
+        }
+      />
+
       <div
         className="relative overflow-hidden rounded-md"
         style={{
@@ -112,10 +141,12 @@ export function BrandKitCanvasPanel() {
           localNumber={brandKit.local.localNumber}
           subText={brandKit.local.subText}
           logoSize="sm"
+          fontFamily={tokens.bodyFontFamily}
         />
         <CanvasTypeBlock
           tokens={tokens}
           title={t("previewHeadline")}
+          subtitle={t("previewBody")}
           ink={ink}
           accentColor={brandKit.secondaryColor}
           className="mt-3"

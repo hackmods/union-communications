@@ -65,6 +65,7 @@ export function BoardTrimCanvas({
     textTransform: (tokens?.titleTextTransform ?? "uppercase") as
       | "none"
       | "uppercase",
+    fontFamily: tokens?.headlineFontFamily,
   };
   const a11yProps = accessibleName
     ? ({
@@ -95,7 +96,7 @@ export function BoardTrimCanvas({
           display: "flex",
           flexDirection: "column",
           backgroundColor: primaryColor,
-          fontFamily: "Arial, Helvetica, sans-serif",
+          fontFamily: tokens?.bodyFontFamily,
         }}
       >
         {/* Top cap — accent */}
@@ -233,7 +234,7 @@ export function BoardTrimCanvas({
           display: "flex",
           flexDirection: "row",
           backgroundColor: primaryColor,
-          fontFamily: "Arial, Helvetica, sans-serif",
+          fontFamily: tokens?.bodyFontFamily,
         }}
       >
         {/* Left cap — accent (mirrors side top cap) */}
@@ -363,7 +364,7 @@ export function BoardTrimCanvas({
         height: "100%",
         overflow: "hidden",
         backgroundColor: "#FFFFFF",
-        fontFamily: "Arial, Helvetica, sans-serif",
+        fontFamily: tokens?.bodyFontFamily,
       }}
     >
       <svg

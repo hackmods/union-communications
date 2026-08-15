@@ -294,6 +294,7 @@ export default function SolidarityPosterPage() {
     fontWeight: tokens.titleFontWeight,
     letterSpacing: tokens.titleLetterSpacing,
     textTransform: tokens.titleTextTransform,
+    fontFamily: tokens.headlineFontFamily,
   } as const;
   const displayUrl = state.supportUrl.trim() || SITE_URL;
   const showLocalInFooter =
@@ -705,8 +706,9 @@ export default function SolidarityPosterPage() {
             style={{
               ...surfaceStyle,
               color: canvasInk,
+              fontFamily: tokens.bodyFontFamily,
             }}
-          >
+            >
             <CanvasGrainOverlay opacity={tokens.grainOpacity} />
             <CanvasEdgeClearanceFrame
               insets={clearanceInsets}

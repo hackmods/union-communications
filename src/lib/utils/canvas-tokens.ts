@@ -8,6 +8,13 @@ import type {
   CanvasSurface,
   CanvasTypeScale,
 } from "@/types/entities";
+import {
+  canvasFontFamily,
+  DEFAULT_BODY_FONT,
+  DEFAULT_HEADLINE_FONT,
+  migrateCanvasFontId,
+  type CanvasFontId,
+} from "@/lib/comms/canvas-fonts";
 
 /** Resolved metrics for capture-safe canvas primitives */
 export interface CanvasTokens {
@@ -17,6 +24,12 @@ export interface CanvasTokens {
   typeScale: CanvasTypeScale;
   qrPlate: CanvasQrPlate;
   surface: CanvasSurface;
+  headlineFontId: CanvasFontId;
+  bodyFontId: CanvasFontId;
+  /** CSS font-family for titles / display type */
+  headlineFontFamily: string;
+  /** CSS font-family for body / supporting type */
+  bodyFontFamily: string;
   /** Outer padding (px) for letter-ish canvases */
   paddingPx: number;
   gapPx: number;
@@ -49,6 +62,8 @@ const STYLE_PACKAGES: Record<
     typeScale: "display",
     qrPlate: "white-card",
     surface: "soft-gradient",
+    headlineFontId: DEFAULT_HEADLINE_FONT,
+    bodyFontId: DEFAULT_BODY_FONT,
   },
   field: {
     alignmentBias: "center",
@@ -56,6 +71,8 @@ const STYLE_PACKAGES: Record<
     typeScale: "display",
     qrPlate: "inset",
     surface: "grain",
+    headlineFontId: DEFAULT_HEADLINE_FONT,
+    bodyFontId: DEFAULT_BODY_FONT,
   },
   workshop: {
     alignmentBias: "start",
@@ -63,10 +80,12 @@ const STYLE_PACKAGES: Record<
     typeScale: "compact",
     qrPlate: "flush",
     surface: "accent-band",
+    headlineFontId: DEFAULT_HEADLINE_FONT,
+    bodyFontId: DEFAULT_BODY_FONT,
   },
 };
 
-/** Legacy export look when Brand Kit has no canvas prefs */
+/** Defaults when Brand Kit has no canvas prefs (OPSEU-like digital sans pair). */
 export const LEGACY_CANVAS_DEFAULTS: Required<
   Omit<BrandKitCanvas, "styleId">
 > = {
@@ -75,6 +94,8 @@ export const LEGACY_CANVAS_DEFAULTS: Required<
   typeScale: "compact",
   qrPlate: "white-card",
   surface: "flat",
+  headlineFontId: DEFAULT_HEADLINE_FONT,
+  bodyFontId: DEFAULT_BODY_FONT,
 };
 
 function isCanvasStyleId(v: unknown): v is CanvasStyleId {
@@ -121,6 +142,10 @@ export function normalizeBrandKitCanvas(
   if (isTypeScale(input.typeScale)) out.typeScale = input.typeScale;
   if (isQrPlate(input.qrPlate)) out.qrPlate = input.qrPlate;
   if (isSurface(input.surface)) out.surface = input.surface;
+  const headline = migrateCanvasFontId(input.headlineFontId);
+  if (headline) out.headlineFontId = headline;
+  const body = migrateCanvasFontId(input.bodyFontId);
+  if (body) out.bodyFontId = body;
 
   return Object.keys(out).length > 0 ? out : undefined;
 }
@@ -137,6 +162,12 @@ function mergeCanvasPrefs(canvas?: BrandKitCanvas): {
     typeScale: canvas?.typeScale ?? fromStyle.typeScale,
     qrPlate: canvas?.qrPlate ?? fromStyle.qrPlate,
     surface: canvas?.surface ?? fromStyle.surface,
+    headlineFontId:
+      migrateCanvasFontId(canvas?.headlineFontId) ??
+      (fromStyle.headlineFontId as CanvasFontId),
+    bodyFontId:
+      migrateCanvasFontId(canvas?.bodyFontId) ??
+      (fromStyle.bodyFontId as CanvasFontId),
   };
 }
 
@@ -195,8 +226,15 @@ export function resolveCanvasTokens(brandKit: BrandKit): CanvasTokens {
             qrPlateBorder: null as string | null,
           };
 
+  const headlineFontId = prefs.headlineFontId as CanvasFontId;
+  const bodyFontId = prefs.bodyFontId as CanvasFontId;
+
   return {
     ...prefs,
+    headlineFontId,
+    bodyFontId,
+    headlineFontFamily: canvasFontFamily(headlineFontId),
+    bodyFontFamily: canvasFontFamily(bodyFontId),
     paddingPx: roomy ? 40 : 28,
     gapPx: roomy ? 16 : 10,
     ...type,

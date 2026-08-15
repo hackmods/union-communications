@@ -35,6 +35,8 @@ function layoutChrome(
   titleWeight?: number;
   titleTracking?: string;
   titleTransform?: "none" | "uppercase";
+  headlineFontFamily?: string;
+  bodyFontFamily?: string;
 } {
   const pad = tokens
     ? tokens.paddingPx * (exportMode ? 1 : 0.55)
@@ -52,6 +54,8 @@ function layoutChrome(
     titleWeight: tokens.titleFontWeight,
     titleTracking: tokens.titleLetterSpacing,
     titleTransform: tokens.titleTextTransform,
+    headlineFontFamily: tokens.headlineFontFamily,
+    bodyFontFamily: tokens.bodyFontFamily,
   };
 }
 
@@ -368,6 +372,7 @@ function SolidarityLayout({
             fontWeight: chrome.titleWeight,
             letterSpacing: chrome.titleTracking,
             textTransform: chrome.titleTransform,
+            fontFamily: chrome.headlineFontFamily,
           }}
         >
           {copy.headline}
@@ -377,7 +382,7 @@ function SolidarityLayout({
             "mt-1",
             !chrome.bodyPx && (exportMode ? "text-lg" : "text-xs sm:text-sm"),
           )}
-          style={{ color: ink.a90, fontSize: chrome.bodyPx }}
+          style={{ color: ink.a90, fontSize: chrome.bodyPx, fontFamily: chrome.bodyFontFamily }}
         >
           {copy.body}
         </p>
@@ -387,7 +392,7 @@ function SolidarityLayout({
               "mt-2 font-semibold uppercase tracking-wide",
               !chrome.metaPx && (exportMode ? "text-sm" : "text-[10px]"),
             )}
-            style={{ color: ink.a80, fontSize: chrome.metaPx }}
+            style={{ color: ink.a80, fontSize: chrome.metaPx, fontFamily: chrome.bodyFontFamily }}
           >
             {copy.detail}
           </p>
@@ -498,6 +503,7 @@ function SpotlightLayout({
             fontWeight: chrome.titleWeight,
             letterSpacing: chrome.titleTracking,
             textTransform: chrome.titleTransform,
+            fontFamily: chrome.headlineFontFamily,
           }}
         >
           {copy.headline}
@@ -507,7 +513,7 @@ function SpotlightLayout({
             "mt-1 italic",
             !chrome.bodyPx && (exportMode ? "text-lg" : "text-xs sm:text-sm"),
           )}
-          style={{ color: ink.a90, fontSize: chrome.bodyPx }}
+          style={{ color: ink.a90, fontSize: chrome.bodyPx, fontFamily: chrome.bodyFontFamily }}
         >
           &ldquo;{copy.body}&rdquo;
         </p>
@@ -593,6 +599,7 @@ function NoticeLayout({
               backgroundColor: accent,
               color: badgeInk,
               fontSize: metaPx ?? (exportMode ? 12 : 10),
+              fontFamily: chrome.bodyFontFamily,
             }}
           >
             {copy.detail ?? "Notice"}
@@ -607,6 +614,7 @@ function NoticeLayout({
               fontWeight: chrome.titleWeight,
               letterSpacing: chrome.titleTracking,
               textTransform: chrome.titleTransform,
+              fontFamily: chrome.headlineFontFamily,
             }}
           >
             {copy.headline}
@@ -616,7 +624,11 @@ function NoticeLayout({
               "mt-2",
               !bodyPx && (exportMode ? "text-lg" : "text-xs sm:text-sm"),
             )}
-            style={{ color: ink.a90, fontSize: bodyPx }}
+            style={{
+              color: ink.a90,
+              fontSize: bodyPx,
+              fontFamily: chrome.bodyFontFamily,
+            }}
           >
             {copy.body}
           </p>
@@ -712,6 +724,7 @@ export function QuoteLayout({
             fontSize: chrome.bodyPx
               ? Math.round(chrome.bodyPx * 1.15)
               : undefined,
+            fontFamily: chrome.bodyFontFamily,
           }}
         >
           {copy.body}
@@ -728,6 +741,7 @@ export function QuoteLayout({
               : undefined,
             fontWeight: chrome.titleWeight,
             letterSpacing: chrome.titleTracking,
+            fontFamily: chrome.headlineFontFamily,
           }}
         >
           {copy.headline}
@@ -738,7 +752,7 @@ export function QuoteLayout({
               "uppercase tracking-wide",
               !chrome.metaPx && (exportMode ? "text-xs" : "text-[10px]"),
             )}
-            style={{ color: accentInk.a80, fontSize: chrome.metaPx }}
+            style={{ color: accentInk.a80, fontSize: chrome.metaPx, fontFamily: chrome.bodyFontFamily }}
           >
             {copy.detail}
           </p>
@@ -805,7 +819,7 @@ function ResultsLayout({
             "font-semibold uppercase tracking-widest",
             !chrome.metaPx && (exportMode ? "text-sm" : "text-[10px]"),
           )}
-          style={{ color: ink.a80, fontSize: chrome.metaPx }}
+          style={{ color: ink.a80, fontSize: chrome.metaPx, fontFamily: chrome.bodyFontFamily }}
         >
           {copy.detail}
         </p>
@@ -823,6 +837,7 @@ function ResultsLayout({
             fontWeight: chrome.titleWeight ?? 900,
             letterSpacing: chrome.titleTracking,
             marginTop: exportMode ? 8 : 4,
+            fontFamily: chrome.headlineFontFamily,
           }}
         >
           {copy.headline}
@@ -838,6 +853,7 @@ function ResultsLayout({
             fontSize: chrome.bodyPx,
             marginTop: exportMode ? 12 : 8,
             maxWidth: exportMode ? "28rem" : "14rem",
+            fontFamily: chrome.bodyFontFamily,
           }}
         >
           {copy.body}

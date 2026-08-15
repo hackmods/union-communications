@@ -33,11 +33,27 @@ describe("normalizeBrandKitCanvas", () => {
         styleId: "field",
         surface: "grain",
         qrPlate: "inset",
+        headlineFontId: "oswald",
+        bodyFontId: "sourceSerif",
       }),
     ).toEqual({
       styleId: "field",
       surface: "grain",
       qrPlate: "inset",
+      headlineFontId: "oswald",
+      bodyFontId: "sourceSerif",
+    });
+  });
+
+  it("migrates legacy Flyer font ids on Brand Kit canvas", () => {
+    expect(
+      normalizeBrandKitCanvas({
+        headlineFontId: "impact",
+        bodyFontId: "serif",
+      }),
+    ).toEqual({
+      headlineFontId: "oswald",
+      bodyFontId: "sourceSerif",
     });
   });
 });
@@ -51,6 +67,10 @@ describe("resolveCanvasTokens", () => {
     expect(tokens.typeScale).toBe(LEGACY_CANVAS_DEFAULTS.typeScale);
     expect(tokens.qrPlate).toBe(LEGACY_CANVAS_DEFAULTS.qrPlate);
     expect(tokens.surface).toBe(LEGACY_CANVAS_DEFAULTS.surface);
+    expect(tokens.headlineFontId).toBe("montserrat");
+    expect(tokens.bodyFontId).toBe("sourceSans");
+    expect(tokens.headlineFontFamily).toContain("var(--font-montserrat)");
+    expect(tokens.bodyFontFamily).toContain("var(--font-source-sans)");
     expect(tokens.grainOpacity).toBe(0);
     expect(tokens.qrPlateBg).toBe("#FFFFFF");
     expect(tokens.paddingPx).toBe(40);

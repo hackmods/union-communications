@@ -78,11 +78,15 @@
 **Decision:** Union-agnostic core; OPSEU/CAAT is reference tenant #1 in seed data only.  
 **Consequences:** No union names in core code; `UnionConfig` drives branding and modules.
 
-## ADR-014: System font stack — no `next/font` / no remote webfonts
-**Status:** Accepted  
-**Context:** Audit `UI-004` noted that the app never uses `next/font` and `globals.css` sets `--font-sans` to a pure system stack (`system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`) with no self-hosted webfont or font-loading strategy. That looked like a possible oversight versus a privacy choice.  
-**Decision:** Keep the system-font stack for platform chrome. Do not add `next/font/google`, a Google Fonts (or other CDN) stylesheet, or any remote font fetch — that would weaken ADR-006’s zero third-party network posture. Brand Kit / canvas exports remain free to use colours and layout; they do not introduce a platform-wide webfont. If a self-hosted brand typeface is desired later, use `next/font/local` only (font file bundled with the app, no external request).  
-**Consequences:** No webfont CLS/font-metric tuning is needed today (OS fonts paint immediately). Contributors must not “fix” typography by wiring Google Fonts. A future brand typeface is an explicit product choice + `next/font/local`, not a silent dependency add.
+## ADR-014: System font stack for chrome; self-hosted canvas brand faces
+**Status:** Accepted (amended 2026-08-15)  
+**Context:** Audit `UI-004` noted that the app never uses `next/font` and `globals.css` sets `--font-sans` to a pure system stack (`system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`) with no self-hosted webfont or font-loading strategy. That looked like a possible oversight versus a privacy choice. Comms exports later needed OPSEU-like campaign typography and consistent preview↔PNG faces, which OS system stacks (Impact / Arial Narrow / Rockwell) cannot guarantee.  
+**Decision:**
+- Keep the **system-font stack for platform chrome** (shell, Hub, forms). Do not add `next/font/google`, a Google Fonts (or other CDN) stylesheet, or any remote font fetch — that would weaken ADR-006’s zero third-party network posture.
+- **Canvas / Brand Kit typefaces** use `next/font/local` only: OFL faces bundled under `public/fonts/`, CSS variables from [`src/app/canvas-fonts.ts`](../src/app/canvas-fonts.ts), catalog in [`src/lib/comms/canvas-fonts.ts`](../src/lib/comms/canvas-fonts.ts). Defaults: Montserrat (headline) + Source Sans 3 (body). Hybrid residual: `systemSans` / `systemSerif`. Flyer may override with `inherit` or a catalog id.
+- Capture waits on `document.fonts.ready` before rasterizing.
+
+**Consequences:** Chrome stays zero-network and paints immediately. Export canvases share consistent brand faces across devices. Contributors must not “fix” typography by wiring Google Fonts or expanding to an unbounded free-font dump.
 
 ## ADR-015: Anonymous pulse poll responses (FUTURE-006)
 **Status:** Accepted  

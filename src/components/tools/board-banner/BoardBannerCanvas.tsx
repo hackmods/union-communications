@@ -62,10 +62,12 @@ export function BoardBannerCanvas({
     fontWeight: tokens?.titleFontWeight ?? 900,
     letterSpacing: tokens?.titleLetterSpacing ?? "0.04em",
     textTransform: tokens?.titleTextTransform ?? "uppercase",
+    fontFamily: tokens?.headlineFontFamily,
   };
   const metaType: CSSProperties = {
     fontWeight: 600,
     letterSpacing: tokens?.titleLetterSpacing ?? "0.03em",
+    fontFamily: tokens?.bodyFontFamily,
   };
 
   if (layout === "slantCallout") {
@@ -85,7 +87,7 @@ export function BoardBannerCanvas({
           height: "100%",
           overflow: "hidden",
           backgroundColor: "#FFFFFF",
-          fontFamily: "Arial, Helvetica, sans-serif",
+          fontFamily: tokens?.bodyFontFamily,
         }}
       >
         <svg
@@ -246,7 +248,7 @@ export function BoardBannerCanvas({
           ...fieldSurface,
           display: "flex",
           flexDirection: "column",
-          fontFamily: "Arial, Helvetica, sans-serif",
+          fontFamily: tokens?.bodyFontFamily,
         }}
       >
         {tokens ? <CanvasGrainOverlay opacity={tokens.grainOpacity} /> : null}
@@ -361,7 +363,7 @@ export function BoardBannerCanvas({
         display: "flex",
         flexDirection: "column",
         backgroundColor: "#FFFFFF",
-        fontFamily: "Arial, Helvetica, sans-serif",
+        fontFamily: tokens?.bodyFontFamily,
       }}
     >
       <div

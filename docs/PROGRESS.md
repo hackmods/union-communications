@@ -1,5 +1,14 @@
 # Progress Log
 
+## Canvas brand fonts catalog (2026-08-15)
+
+- [x] Self-hosted OFL woff2 under `public/fonts/` + `next/font/local` CSS vars (`src/app/canvas-fonts.ts`)
+- [x] Curated catalog + Flyer migration (`src/lib/comms/canvas-fonts.ts`); defaults Montserrat + Source Sans
+- [x] Brand Kit `headlineFontId` / `bodyFontId` + panel pickers; tokens on canvas tools / Flyer override
+- [x] Board banner/trim drop hardcoded Arial; capture waits `document.fonts.ready`
+- [x] ADR-014 amended; COMMS visual system + session knowledge
+- Verify: `npm run test:unit -- src/lib/comms/canvas-fonts.test.ts src/lib/comms/flyer-maker.test.ts src/lib/utils/canvas-tokens.test.ts`
+
 ## COPY-005 EN readability report (2026-08-15)
 
 - [x] Shared `PUBLIC_NS` / `HUB_NS` + `leavesFor` in `src/lib/comms/copy-namespaces.ts`
