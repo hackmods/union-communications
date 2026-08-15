@@ -60,6 +60,25 @@ describe("findScaledTransformAncestor / withUnscaledAncestors", () => {
     expect(scaled.style.transform).toBe("scale(0.5)");
     scaled.remove();
   });
+
+  it("waits for pending duotone photos before running", async () => {
+    const root = document.createElement("div");
+    const photo = document.createElement("div");
+    photo.setAttribute("data-canvas-duotone", "pending");
+    root.appendChild(photo);
+    document.body.appendChild(root);
+
+    const run = vi.fn(async () => "ok");
+    const pending = withUnscaledAncestors(root, run);
+
+    await new Promise<void>((resolve) => setTimeout(resolve, 60));
+    expect(run).not.toHaveBeenCalled();
+    photo.setAttribute("data-canvas-duotone", "ready");
+
+    await expect(pending).resolves.toBe("ok");
+    expect(run).toHaveBeenCalledTimes(1);
+    root.remove();
+  });
 });
 
 describe("buildHtmlToImageOptions", () => {

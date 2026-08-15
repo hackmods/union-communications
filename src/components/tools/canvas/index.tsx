@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import {
@@ -22,6 +22,7 @@ import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveLocalNumber } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { hexToRgba } from "@/lib/utils/contrast";
+import { composeDuotonePhotoDataUrl } from "@/lib/utils/duotone-photo";
 
 export function CanvasGrainOverlay({
   opacity,
@@ -260,8 +261,9 @@ export function CanvasQrPlate({
 }
 
 /**
- * Duotone photo layer: grayscale base + brand multiply/screen.
- * Prefer over SVG filters — mix-blend layers survive html-to-image more reliably.
+ * Duotone photo layer: grayscale + brand multiply/screen, pre-baked to a single
+ * JPEG data URL. Live CSS blend stacks wash out inside html-to-image’s SVG
+ * foreignObject path — a plain <img> is what survives PNG/PDF export.
  */
 export function CanvasDuotonePhoto({
   photoUrl,
@@ -278,38 +280,73 @@ export function CanvasDuotonePhoto({
   photoScale?: number;
   className?: string;
 }) {
+  const bakeKey = `${photoUrl}\0${shadowColor}\0${highlightColor}\0${highlightOpacity}`;
+  const [baked, setBaked] = useState<{ key: string; url: string } | null>(
+    null,
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    void composeDuotonePhotoDataUrl(
+      photoUrl,
+      shadowColor,
+      highlightColor,
+      highlightOpacity,
+    )
+      .then((url) => {
+        if (!cancelled) setBaked({ key: bakeKey, url });
+      })
+      .catch(() => {
+        if (!cancelled) setBaked({ key: bakeKey, url: photoUrl });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [bakeKey, photoUrl, shadowColor, highlightColor, highlightOpacity]);
+
+  const ready = baked?.key === bakeKey;
+  const src = ready && baked ? baked.url : photoUrl;
+
   return (
     <div
       className={cn("absolute inset-0 overflow-hidden", className)}
       aria-hidden
+      data-canvas-duotone={ready ? "ready" : "pending"}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- blob/data URL */}
       <img
-        src={photoUrl}
+        src={src}
         alt=""
         className="absolute inset-0 h-full w-full object-cover"
         style={{
           transform: `scale(${photoScale})`,
-          filter: "grayscale(1) contrast(1.05)",
+          // CSS fallback only while baking — remove once the capture-safe raster is ready
+          ...(ready
+            ? undefined
+            : { filter: "grayscale(1) contrast(1.05)" }),
         }}
       />
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: shadowColor,
-          mixBlendMode: "multiply",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: highlightColor,
-          mixBlendMode: "screen",
-          opacity: highlightOpacity,
-        }}
-      />
+      {!ready ? (
+        <>
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: shadowColor,
+              mixBlendMode: "multiply",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: highlightColor,
+              mixBlendMode: "screen",
+              opacity: highlightOpacity,
+            }}
+          />
+        </>
+      ) : null}
     </div>
   );
 }

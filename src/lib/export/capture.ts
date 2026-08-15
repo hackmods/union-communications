@@ -125,10 +125,11 @@ export async function withUnscaledAncestors<T>(
   run: () => Promise<T>,
 ): Promise<T> {
   const scaled = findScaledTransformAncestor(node);
-  if (!scaled) return run();
+  const previous = scaled?.style.transform;
 
-  const previous = scaled.style.transform;
-  scaled.style.transform = "none";
+  if (scaled) {
+    scaled.style.transform = "none";
+  }
   try {
     await new Promise<void>((resolve) => {
       if (typeof requestAnimationFrame === "function") {
@@ -137,10 +138,59 @@ export async function withUnscaledAncestors<T>(
         setTimeout(resolve, 0);
       }
     });
+    // Duotone photos bake async; data-URL <img>s are skipped by html-to-image embed
+    await awaitDuotonePhotosReady(node);
+    await awaitCaptureImages(node);
     return await run();
   } finally {
-    scaled.style.transform = previous;
+    if (scaled && previous !== undefined) {
+      scaled.style.transform = previous;
+    }
   }
+}
+
+/** Wait until CanvasDuotonePhoto has swapped CSS blends for a baked raster. */
+export async function awaitDuotonePhotosReady(
+  root: HTMLElement,
+  timeoutMs = 8_000,
+): Promise<void> {
+  if (typeof root.querySelectorAll !== "function") return;
+  const started = Date.now();
+  while (Date.now() - started < timeoutMs) {
+    const pending = root.querySelectorAll('[data-canvas-duotone="pending"]');
+    if (pending.length === 0) return;
+    await new Promise<void>((resolve) => setTimeout(resolve, 40));
+  }
+}
+
+/**
+ * Ensure every <img> under the capture root has decoded pixels.
+ * html-to-image skips load waits for existing data: URLs.
+ */
+export async function awaitCaptureImages(root: HTMLElement): Promise<void> {
+  if (typeof root.querySelectorAll !== "function") return;
+  const imgs = Array.from(root.querySelectorAll("img"));
+  await Promise.all(
+    imgs.map(async (img) => {
+      if (!img.getAttribute("src") && !img.src) return;
+      try {
+        if (!img.complete || img.naturalWidth === 0) {
+          await new Promise<void>((resolve) => {
+            const done = () => resolve();
+            img.addEventListener("load", done, { once: true });
+            img.addEventListener("error", done, { once: true });
+            // Already failed/complete edge cases
+            if (img.complete) resolve();
+          });
+        }
+        if (typeof img.decode === "function") {
+          await img.decode();
+        }
+      } catch {
+        // Missing/broken images should not block the rest of the export
+      }
+    }),
+  );
 }
 
 function camelToKebab(prop: string): string {

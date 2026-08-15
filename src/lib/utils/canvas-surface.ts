@@ -57,7 +57,9 @@ export function grainOverlayStyle(opacity: number): CSSProperties | null {
   };
 }
 
-/** Duotone multiply/screen layers for photo pipelines (capture-safe). */
+/** Duotone multiply/screen layers for photo pipelines (preview-only fallback).
+ * Prefer {@link composeDuotonePhotoDataUrl} / `CanvasDuotonePhoto` baked rasters
+ * for anything that will go through html-to-image. */
 export function duotoneOverlayStyles(
   shadowColor: string,
   highlightColor: string,
