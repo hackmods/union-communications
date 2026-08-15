@@ -136,9 +136,9 @@ Constants: [`src/lib/comms/packs/channel-packs.ts`](../../src/lib/comms/packs/ch
 
 **Fonts / layouts / placement across tools:** do not treat missing Flyer-style font pickers or shared layout enums as gaps. Brand Kit `canvas` tokens own typeScale/alignment for most tools; only Flyer Maker exposes ADR-014 system font stacks. Layout IDs stay per-tool (Flyer `stack` ≠ Solidarity `stack`). Full comparison matrix: [`docs/audit/session-knowledge-2026-08-14-flyer-unified-tools.md`](../audit/session-knowledge-2026-08-14-flyer-unified-tools.md#cross-tool-comparison--fonts-layouts-placement).
 
-### Capture / export fidelity (Phase 9 — planned)
+### Capture / export fidelity (Phase 9 — shipped 2026-08-14)
 
-Live preview ≠ proof of export. `html-to-image` can wash out styles (especially Tailwind v4 `oklch` utilities). **Flyer Maker PDF confirmed unstyled vs preview (2026-08-14).** Prefer inline hex/rgba on capture roots. Roadmap Phase 9 + [`TOOL-008`](../audit/execution-backlog.md) / [`TOOL-009`](../audit/execution-backlog.md) add fidelity harness + Playwright download smoke.
+Live preview ≠ proof of export. Use `src/lib/export/capture.ts` for all html-to-image paths (clears preview `scale()`, inlines computed styles). PDFs re-encode to JPEG. Assert downloads in `e2e/tools.export.smoke.spec.ts` — do not rely on builders visit-only smoke. Prefer inline hex/rgba on capture roots (Tailwind v4 `oklch` washes out).
 
 ## Agent contract
 

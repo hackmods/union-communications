@@ -455,10 +455,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Add a one-time read-migration in `local-storage-adapter.ts`: on `getBrandKit()`/`isOnboardingComplete()`, if the new key is empty but the legacy `opseu-*` key has data, read it, then write it under the new key (and optionally clear the old key) — so existing users' browsers don't silently "lose" their saved Brand Kit on the rename.
 3. Add a unit test covering the legacy-key fallback/migration path.
 
-### [TOOL-008] Export capture loses styling vs live preview (Flyer PDF confirmed)
+### [TOOL-008] ✅ CLOSED (2026-08-14) — Export capture fidelity (Flyer PDF + harness)
 **Category:** Comms Tools  
 **Severity/Priority:** High  
-**Status:** Open — Phase 9a/9b ([`docs/ROADMAP.md`](../ROADMAP.md) Phase 9). Confirmed steward report 2026-08-14: Flyer Maker **preview is styled**; generated **PDF has no styling**.  
+**Status:** Closed — Phase 9a/9b. Shared `src/lib/export/capture.ts` (clear MobilePreviewStage `scale()` during capture, inline computed styles onto the html-to-image clone, pin width/height); PDF path re-encodes captures to JPEG via `pngDataUrlToJpegDataUrl` (avoids multi‑MB raw PNG XObjects); Flyer roots carry inline `aspectRatio` + flex; `CanvasBrandHeader` uses inline font size. Unit coverage: `capture.test.ts`, `fidelity.test.ts`; pdf/image export tests updated.  
 **Problem/Gap Statement:** Canvas tools render a correct on-screen preview, then export via `html-to-image` (`toPng`/`toBlob`) into PNG or a jsPDF page (`nodeToPdf`). Capture can wash out backgrounds, type, or layout while the live DOM still looks fine. Historical cause class: Tailwind v4 **oklch** colour utilities on capture roots (documented in `graphic-layouts.tsx` / solidarity-poster — “hex fill only”). Flyer QOL v2 uses inline hex on many surfaces + system `fontFamily`, but PDF still ships unstyled — so either (a) remaining utility colours / computed styles do not clone, (b) capture box collapses (`offsetWidth`/`aspect-*`), (c) PDF path differs from PNG (`nodeToPdf` always uses `toPng` + `addImage`), or (d) font stacks do not embed in the raster. Existing tests mock `toPng` and never assert pixel content. Playwright builders smoke only checks that Download controls exist.  
 **Affected Architecture/Files:** `src/lib/export/pdf-export.ts`, `src/lib/export/image-export.ts`, `src/components/tools/flyer-layouts.tsx`, `src/app/[locale]/tools/flyer-maker/page.tsx`, sibling capture roots under `src/components/tools/canvas/`, `src/lib/export/*.test.ts`  
 **Implementation Blueprint:**
@@ -468,10 +468,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 4. Extend harness to Graphic Maker + Board Notice once Flyer is green; document capture-safe rules in `COMMS_VISUAL_SYSTEM.md` if any new constraints emerge.
 5. Close when Flyer PDF/PNG pass the harness in CI and the steward-repro case is fixed.
 
-### [TOOL-009] Playwright smoke for tool outputs (download ≠ visit)
+### [TOOL-009] ✅ CLOSED (2026-08-14) — Playwright smoke for tool outputs
 **Category:** Comms Tools / QA  
 **Severity/Priority:** Medium  
-**Status:** Open — Phase 9c/9d ([`docs/ROADMAP.md`](../ROADMAP.md) Phase 9). Depends on TOOL-008 harness patterns (reuse helpers; do not invent a second assertion dialect).  
+**Status:** Closed — Phase 9c/9d. `e2e/tools.export.smoke.spec.ts` (`@smoke`) downloads Flyer PNG/PDF, Graphic Maker PNG, Board Notice PDF, Solidarity Poster PNG; asserts size floors, PDF `paintImage` ops, and PNG brand-field + ink samples via `fidelity.ts`.  
 **Problem/Gap Statement:** `e2e/builders.smoke.spec.ts` and `e2e/workshop.smoke.spec.ts` navigate tools and run axe — they do **not** click export, wait for a download, or verify the file contents. Regressions like unstyled Flyer PDFs can ship while `@smoke` stays green.  
 **Affected Architecture/Files:** `e2e/builders.smoke.spec.ts` (or new `e2e/tools.export.smoke.spec.ts`), `e2e/helpers/*`, Playwright config tags (`@smoke` / optional `@export`)  
 **Implementation Blueprint:**

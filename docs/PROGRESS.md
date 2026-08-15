@@ -1,12 +1,12 @@
 # Progress Log
 
-## Phase 9 — Comms export integrity (PLANNED 2026-08-14)
+## Phase 9 — Comms export integrity (SHIPPED 2026-08-14)
 
-- [ ] **9a / TOOL-008:** Fix Flyer Maker PDF (confirmed: preview styled, export unstyled); capture-safe root audit
-- [ ] **9b / TOOL-008:** Export fidelity harness — real DOM → PNG/PDF byte + colour-sample assertions (not mocked `toPng` only)
-- [ ] **9c / TOOL-009:** Playwright tool-output smoke — download Flyer PDF, Graphic PNG, Board Notice PDF; size + coarse pixel checks
-- [ ] **9d / TOOL-009 stretch:** Remaining channel-pack tools; document preview-only exceptions
-- Spec: [`docs/ROADMAP.md`](ROADMAP.md) Phase 9; backlog [`TOOL-008`](audit/execution-backlog.md) / [`TOOL-009`](audit/execution-backlog.md)
+- [x] **9a / TOOL-008:** Capture hardening (`capture.ts` — unscale preview, inline computed styles); Flyer inline aspectRatio; PDF JPEG re-encode
+- [x] **9b / TOOL-008:** Fidelity helpers + unit tests (`fidelity.ts`, `capture.test.ts`)
+- [x] **9c / TOOL-009:** Playwright tool-output smoke — Flyer PNG/PDF, Graphic PNG, Board Notice PDF
+- [x] **9d / TOOL-009:** Solidarity Poster PNG output smoke
+- Spec: [`docs/ROADMAP.md`](ROADMAP.md) Phase 9; suite `e2e/tools.export.smoke.spec.ts`
 
 ## Unified Comms tools experience (2026-08-14)
 

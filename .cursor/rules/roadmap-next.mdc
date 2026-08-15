@@ -40,12 +40,13 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 | Comms external links (**LINK-001**) | Registry + `/assets` dedupe + ZIP footers; upstream national URL rot documented (2026-07-30) |
 | Workshop Comms (Demo Path + multiphase) | **Shipped 2026-08-08/09** — run sheet Day-of, `/guide/workshop`, exportSuccess/RelatedTools/BrandSetup; Gap Fit + [`session-knowledge-2026-08-09-workshop-comms.md`](../../docs/audit/session-knowledge-2026-08-09-workshop-comms.md) |
 | Flyer Maker QOL v2 + unified tools / Share Kit v0 | **Shipped 2026-08-14** — print utility + shell chrome parity + `/tools/share-kit`; [`session-knowledge-2026-08-14-flyer-unified-tools.md`](../../docs/audit/session-knowledge-2026-08-14-flyer-unified-tools.md) |
+| Phase 9 export integrity | **Shipped 2026-08-14** — capture hardening + fidelity helpers + `tools.export.smoke`; TOOL-008/009 closed |
 | Local 404 solidarity | **Shipped 2026-08-09** — `RouteStatusPanel`; see session-knowledge local-404 |
 | Public copy QOL + voice | **Shipped 2026-08-11** — FR meaning fixes, locked-term normalization, jargon removal, SEO band; guards in `public-copy-style.test.ts` / `public-page-meta.test.ts`; rule [`i18n-public-copy.mdc`](i18n-public-copy.mdc) |
 
 ## Next planned work (in order)
 
-1. **Phase 9 — Comms export integrity** ([`docs/ROADMAP.md`](../../docs/ROADMAP.md)) — preview ↔ PNG/PDF fidelity; Flyer PDF confirmed unstyled 2026-08-14; tickets [`TOOL-008`](../../docs/audit/execution-backlog.md) (capture fix + harness) → [`TOOL-009`](../../docs/audit/execution-backlog.md) (Playwright download smoke)
+1. ~~**Phase 9 — Comms export integrity**~~ — **shipped 2026-08-14** (`capture.ts` + `e2e/tools.export.smoke.spec.ts`; TOOL-008/009 closed)
 2. **Ops default flip** — production hosts choosing Postgres backends + real scanner ([`POSTGRES_OPS.md`](../../docs/guides/POSTGRES_OPS.md))
 3. ~~COMMS email/broadcast guide~~ — **shipped 2026-07-26** (`/guide/email-broadcast`)
 4. ~~Time **8f** hybrid slice / punch photos~~ — **shipped 2026-07-26** (`0029_time_8f`)

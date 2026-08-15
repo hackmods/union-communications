@@ -86,22 +86,20 @@
 
 Spec: [`docs/modules/WORKFORCE_TIME.md`](modules/WORKFORCE_TIME.md)
 
-## Phase 9 — Comms export integrity (preview ↔ rendered output) — PLANNED
+## Phase 9 — Comms export integrity (preview ↔ rendered output) — SHIPPED (2026-08-14)
 
-**Why:** Stewards trust the on-screen preview. Today Playwright `@smoke` only visits tools and checks chrome — it does **not** assert that PNG/PDF/ZIP downloads match what the preview shows. Confirmed 2026-08-14: **Flyer Maker PDF can export without styling** (preview looks correct; capture washes out). Same class of failure hit historically when Tailwind v4 `oklch` utilities were used on capture roots (see comments in `graphic-layouts.tsx` / solidarity-poster).
+**Why:** Stewards trust the on-screen preview. Playwright used to only visit tools — it did not assert PNG/PDF downloads. Flyer PDFs could ship multi‑MB uncompressed embeds; mobile preview `scale()` could bake into captures.
 
-**Goal:** Automated proof that tool **exports** are non-blank, capture-safe, and visually consistent with the live preview — starting with Flyer PDF, then the Demo Path + Print/Board export suite.
+**Shipped:**
 
-| Step | Work | Tickets |
-|------|------|---------|
-| 9a | **Fix Flyer Maker capture** — diagnose `html-to-image` → PDF path (`nodeToPdf` / `exportNodeAsPng`); ensure capture-root styles survive (inline hex/rgba, font stacks, layout box); regression test | [`TOOL-008`](audit/execution-backlog.md#tool-008) |
-| 9b | **Export fidelity harness** — shared helper: capture preview node → PNG bytes; assert min size, non-white/non-empty pixels, key colours present; unit/integration tests for `image-export` / `pdf-export` with a real DOM fixture (not only mocked `toPng`) | [`TOOL-008`](audit/execution-backlog.md#tool-008) |
-| 9c | **Playwright tool-output smoke** — `@smoke` (or `@export`) downloads for Flyer PDF, Graphic Maker PNG, Board Notice PDF (extend to Solidarity / QR Board / Meeting); assert file size + optional PNG decode / PDF page raster sample vs preview screenshot tolerance | [`TOOL-009`](audit/execution-backlog.md#tool-009) |
-| 9d | **Coverage matrix** — remaining canvas tools per channel pack; document “preview-only” exceptions (Resizer safe-zone overlay); gate new canvas tools on an export assertion | TOOL-009 stretch |
+| Step | Outcome |
+|------|---------|
+| 9a | Capture hardening — `src/lib/export/capture.ts` (unscale ancestors, inline computed styles, pinned box); Flyer inline `aspectRatio` + capture-safe header type; PDF pages re-encode PNG→JPEG |
+| 9b | Fidelity helpers — `src/lib/export/fidelity.ts` + unit tests (`capture.test.ts`, `fidelity.test.ts`) |
+| 9c | Playwright `@smoke` downloads — `e2e/tools.export.smoke.spec.ts` (Flyer PNG/PDF, Graphic PNG, Board Notice PDF) |
+| 9d | Solidarity stretch — Solidarity Poster PNG output smoke |
 
-**Non-goals:** Pixel-perfect golden images for every Brand Kit colour (too brittle). Prefer structural checks (dimensions, ink presence, contrast sample) + a small set of fixed Brand Kit fixtures.
-
-Agent sequencing: [`.cursor/rules/roadmap-next.mdc`](.cursor/rules/roadmap-next.mdc). Session note: [`docs/audit/session-knowledge-2026-08-14-flyer-unified-tools.md`](audit/session-knowledge-2026-08-14-flyer-unified-tools.md).
+Tickets [`TOOL-008`](audit/execution-backlog.md) / [`TOOL-009`](audit/execution-backlog.md) closed. Residual: optional `@export` job split if smoke runtime grows; more wallet tools on demand.
 
 ## Calendar & Meetings — Phase A (local schedule + banner + public snippet)
 

@@ -223,9 +223,17 @@ Manual: `/en/tools/flyer-maker` (preset → paper size → PDF); `/en/tools/shar
 
 ## Open residuals (not this train)
 
-- **Phase 9 — export integrity (planned):** Flyer PDF confirmed unstyled vs preview (2026-08-14); add fidelity harness + Playwright download smoke — [`TOOL-008`](execution-backlog.md) / [`TOOL-009`](execution-backlog.md), [`docs/ROADMAP.md`](../ROADMAP.md) Phase 9
+- ~~**Phase 9 — export integrity**~~ — **shipped 2026-08-14** (capture.ts + tools.export.smoke; TOOL-008/009 closed)
 - FR caption body packs (content project)
 - Provenance / watermark on anonymous canvas exports (strategic)
 - Calendar RSVP → flyer QR deep embed
 - Expanding Flyer-style typography pickers to other print tools (explicit product ask)
 - Unrelated local dirty: `e2e/helpers/axe.ts` (do not assume it belongs in Comms commits)
+
+### Phase 9 lessons (export)
+
+1. **MobilePreviewStage `scale()`** on ancestors must be cleared during capture or exports bake the wrong box.
+2. **Inline computed styles in `onclone`** — do not trust Tailwind utilities alone in the foreignObject clone.
+3. **PDF = JPEG re-encode** of the PNG capture — multi‑MB raw PNG XObjects confuse some viewers and look “unstyled.”
+4. **Visit-only smoke is not enough** — assert download bytes + brand-field/ink samples (`fidelity.ts`).
+
