@@ -1,3 +1,5 @@
+import type { CanvasFontId } from "@/lib/comms/canvas-fonts";
+
 export interface WebsiteOfficer {
   name: string;
   role: string;
@@ -28,6 +30,9 @@ export interface WebsiteTemplateData {
     surface?: "flat" | "soft-gradient" | "accent-band" | "grain" | "duotone";
     typeScale?: "display" | "compact" | "dense";
     density?: "roomy" | "tight";
+    /** Brand Kit catalog ids — embedded as `@font-face` in ZIP when non-system. */
+    headlineFontId?: CanvasFontId;
+    bodyFontId?: CanvasFontId;
   };
 }
 

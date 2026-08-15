@@ -86,8 +86,13 @@ export default function WebsiteTemplatePage() {
             surface: canvasTokens.surface,
             typeScale: canvasTokens.typeScale,
             density: canvasTokens.density,
+            headlineFontId: canvasTokens.headlineFontId,
+            bodyFontId: canvasTokens.bodyFontId,
           }
-        : undefined,
+        : {
+            headlineFontId: canvasTokens.headlineFontId,
+            bodyFontId: canvasTokens.bodyFontId,
+          },
     }),
     [
       localNumber,
@@ -104,6 +109,8 @@ export default function WebsiteTemplatePage() {
       canvasTokens.surface,
       canvasTokens.typeScale,
       canvasTokens.density,
+      canvasTokens.headlineFontId,
+      canvasTokens.bodyFontId,
       officers,
       logoPreviewSrc,
       includeOpseuResources,

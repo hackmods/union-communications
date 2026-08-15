@@ -21,6 +21,11 @@ import {
 import type { BrandPalette } from "@/lib/constants/office-templates";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { logoDisplaySizePx } from "@/lib/export/brand-logo-bytes";
+import {
+  canvasFontOfficeName,
+  DEFAULT_BODY_FONT,
+  DEFAULT_HEADLINE_FONT,
+} from "@/lib/comms/canvas-fonts";
 import { pickContrastingInk } from "@/lib/utils/ink";
 
 export type DocxBuildInput = {
@@ -28,19 +33,31 @@ export type DocxBuildInput = {
   localLabel: string;
   fields: Record<string, string>;
   logo?: BrandLogoBytes | null;
+  /** Office face name for titles (Brand Kit headline). Not embedded in the file. */
+  headlineFont?: string;
+  /** Office face name for body copy (Brand Kit body). Not embedded in the file. */
+  bodyFont?: string;
 };
 
 function hexNoHash(hex: string): string {
   return hex.replace(/^#/, "").toUpperCase();
 }
 
-function bodyParagraphs(text: string): Paragraph[] {
+function headlineFace(opts: DocxBuildInput): string {
+  return opts.headlineFont ?? canvasFontOfficeName(DEFAULT_HEADLINE_FONT);
+}
+
+function bodyFace(opts: DocxBuildInput): string {
+  return opts.bodyFont ?? canvasFontOfficeName(DEFAULT_BODY_FONT);
+}
+
+function bodyParagraphs(text: string, font: string): Paragraph[] {
   const parts = (text || "").split(/\n+/).filter((p) => p.length > 0);
   if (parts.length === 0) {
     return [
       new Paragraph({
         spacing: { after: 200 },
-        children: [new TextRun({ text: " ", font: "Calibri", size: 22 })],
+        children: [new TextRun({ text: " ", font, size: 22 })],
       }),
     ];
   }
@@ -51,7 +68,7 @@ function bodyParagraphs(text: string): Paragraph[] {
         children: [
           new TextRun({
             text: line,
-            font: "Calibri",
+            font,
             size: 22,
           }),
         ],
@@ -63,6 +80,8 @@ function letterheadHeader(opts: DocxBuildInput): Header {
   const primary = hexNoHash(opts.palette.primary);
   const ink = hexNoHash(pickContrastingInk(opts.palette.primary));
   const contact = opts.fields.contactName || "";
+  const hFont = headlineFace(opts);
+  const bFont = bodyFace(opts);
   const [logoW, logoH] = opts.logo
     ? logoDisplaySizePx(opts.logo, 140, 56)
     : [0, 0];
@@ -89,7 +108,7 @@ function letterheadHeader(opts: DocxBuildInput): Header {
           children: [
             new TextRun({
               text: " ",
-              font: "Calibri",
+              font: bFont,
               size: 20,
             }),
           ],
@@ -131,7 +150,7 @@ function letterheadHeader(opts: DocxBuildInput): Header {
                     text: opts.localLabel,
                     bold: true,
                     color: ink,
-                    font: "Calibri",
+                    font: hFont,
                     size: 28,
                   }),
                 ],
@@ -144,7 +163,7 @@ function letterheadHeader(opts: DocxBuildInput): Header {
                         new TextRun({
                           text: contact,
                           color: ink,
-                          font: "Calibri",
+                          font: bFont,
                           size: 20,
                         }),
                       ],
@@ -205,7 +224,7 @@ export async function buildSimpleLetterDocx(
     new Paragraph({
       spacing: { after: 280 },
       children: [
-        new TextRun({ text: date, font: "Calibri", size: 22 }),
+        new TextRun({ text: date, font: bodyFace(opts), size: 22 }),
       ],
     }),
     new Paragraph({
@@ -213,18 +232,18 @@ export async function buildSimpleLetterDocx(
       children: [
         new TextRun({
           text: `Dear ${member},`,
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 22,
         }),
       ],
     }),
-    ...bodyParagraphs(opts.fields.body || ""),
+    ...bodyParagraphs(opts.fields.body || "", bodyFace(opts)),
     new Paragraph({
       spacing: { before: 200, after: 80 },
       children: [
         new TextRun({
           text: "In solidarity,",
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 22,
         }),
       ],
@@ -235,7 +254,7 @@ export async function buildSimpleLetterDocx(
         new TextRun({
           text: steward,
           bold: true,
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 22,
         }),
       ],
@@ -245,7 +264,7 @@ export async function buildSimpleLetterDocx(
         new TextRun({
           text: `Steward · ${opts.localLabel}`,
           color: "666666",
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 18,
         }),
       ],
@@ -269,7 +288,7 @@ export async function buildWelcomeLetterDocx(
     new Paragraph({
       spacing: { after: 280 },
       children: [
-        new TextRun({ text: date, font: "Calibri", size: 22 }),
+        new TextRun({ text: date, font: bodyFace(opts), size: 22 }),
       ],
     }),
     new Paragraph({
@@ -277,7 +296,7 @@ export async function buildWelcomeLetterDocx(
       children: [
         new TextRun({
           text: `Dear ${member},`,
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 22,
         }),
       ],
@@ -291,14 +310,14 @@ export async function buildWelcomeLetterDocx(
                 text: collection,
                 italics: true,
                 color: "555555",
-                font: "Calibri",
+                font: bodyFace(opts),
                 size: 20,
               }),
             ],
           }),
         ]
       : []),
-    ...bodyParagraphs(opts.fields.body || ""),
+    ...bodyParagraphs(opts.fields.body || "", bodyFace(opts)),
     ...(membershipUrl
       ? [
           new Paragraph({
@@ -307,7 +326,7 @@ export async function buildWelcomeLetterDocx(
               new TextRun({
                 text: "Membership application / update:",
                 bold: true,
-                font: "Calibri",
+                font: bodyFace(opts),
                 size: 20,
               }),
             ],
@@ -318,7 +337,7 @@ export async function buildWelcomeLetterDocx(
               new TextRun({
                 text: membershipUrl,
                 color: hexNoHash(opts.palette.primary),
-                font: "Calibri",
+                font: bodyFace(opts),
                 size: 20,
               }),
             ],
@@ -332,7 +351,7 @@ export async function buildWelcomeLetterDocx(
             children: [
               new TextRun({
                 text: `Questions? Contact your steward: ${stewardContact}`,
-                font: "Calibri",
+                font: bodyFace(opts),
                 size: 20,
                 color: "555555",
               }),
@@ -345,7 +364,7 @@ export async function buildWelcomeLetterDocx(
       children: [
         new TextRun({
           text: "In solidarity,",
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 22,
         }),
       ],
@@ -356,7 +375,7 @@ export async function buildWelcomeLetterDocx(
         new TextRun({
           text: president,
           bold: true,
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 22,
         }),
       ],
@@ -366,7 +385,7 @@ export async function buildWelcomeLetterDocx(
         new TextRun({
           text: `Local president · ${opts.localLabel}`,
           color: "666666",
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 18,
         }),
       ],
@@ -388,21 +407,21 @@ export async function buildLetterheadDocx(
         new TextRun({
           text: "Correspondence",
           bold: true,
-          font: "Calibri",
+          font: headlineFace(opts),
           size: 32,
           color: hexNoHash(opts.palette.secondary),
         }),
       ],
     }),
     ...(body
-      ? bodyParagraphs(body)
+      ? bodyParagraphs(body, bodyFace(opts))
       : [
           new Paragraph({
             spacing: { after: 120 },
             children: [
               new TextRun({
                 text: " ",
-                font: "Calibri",
+                font: bodyFace(opts),
                 size: 22,
               }),
             ],
@@ -450,7 +469,7 @@ export async function buildLetterheadDocx(
         new TextRun({
           text: opts.localLabel,
           color: "666666",
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 18,
         }),
       ],
@@ -477,7 +496,7 @@ export async function buildEventNoticeDocx(
         new TextRun({
           text: title,
           bold: true,
-          font: "Calibri",
+          font: headlineFace(opts),
           size: 48,
           color: hexNoHash(opts.palette.secondary),
         }),
@@ -490,7 +509,7 @@ export async function buildEventNoticeDocx(
             children: [
               new TextRun({
                 text: subtitle,
-                font: "Calibri",
+                font: bodyFace(opts),
                 size: 26,
               }),
             ],
@@ -505,7 +524,7 @@ export async function buildEventNoticeDocx(
           text: "  When  ",
           bold: true,
           color: ink,
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 20,
         }),
       ],
@@ -516,7 +535,7 @@ export async function buildEventNoticeDocx(
         new TextRun({
           text: when || "TBD",
           bold: true,
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 24,
         }),
       ],
@@ -529,7 +548,7 @@ export async function buildEventNoticeDocx(
           text: "  Where  ",
           bold: true,
           color: ink,
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 20,
         }),
       ],
@@ -540,12 +559,12 @@ export async function buildEventNoticeDocx(
         new TextRun({
           text: where || "TBD",
           bold: true,
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 24,
         }),
       ],
     }),
-    ...bodyParagraphs(opts.fields.body || ""),
+    ...bodyParagraphs(opts.fields.body || "", bodyFace(opts)),
     new Paragraph({
       spacing: { before: 200 },
       alignment: AlignmentType.LEFT,
@@ -555,7 +574,7 @@ export async function buildEventNoticeDocx(
             ? `Questions: ${opts.fields.contactName}`
             : "",
           color: "666666",
-          font: "Calibri",
+          font: bodyFace(opts),
           size: 18,
         }),
       ],

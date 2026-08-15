@@ -208,6 +208,61 @@ describe("office-export", () => {
     expect(downloadBlob).toHaveBeenCalledTimes(1);
   });
 
+  it("renderDocxFromPreset embeds Brand Kit Office face names", async () => {
+    const blob = await renderDocxFromPreset({
+      presetId: "simple-letter",
+      palette: {
+        primary: "#9E1B32",
+        secondary: "#5C0A1A",
+        accent: "#C45C26",
+      },
+      localLabel: "Local 110",
+      fields: {
+        date: "July 15",
+        memberName: "Alex",
+        body: "Hello",
+        stewardName: "Jordan",
+        contactName: "LEC",
+      },
+      headlineFont: "Oswald",
+      bodyFont: "Source Sans 3",
+    });
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const headerXml = await zip.file("word/header1.xml")!.async("string");
+    const docXml = await zip.file("word/document.xml")!.async("string");
+    expect(headerXml).toContain("Oswald");
+    expect(docXml).toContain("Source Sans 3");
+    expect(docXml).not.toContain("Calibri");
+  });
+
+  it("renderPptx embeds Brand Kit Office face names", async () => {
+    const blob = await renderPptx({
+      presetId: "quick-event",
+      title: "Meeting",
+      localLabel: "Local 110",
+      palette: {
+        primary: "#003366",
+        secondary: "#001a33",
+        accent: "#c45c26",
+      },
+      fields: { date: "Aug 12", location: "Hall" },
+      headlineFont: "Oswald",
+      bodyFont: "Source Sans 3",
+    });
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const slideFiles = Object.keys(zip.files).filter(
+      (n) => n.startsWith("ppt/slides/slide") && n.endsWith(".xml"),
+    );
+    expect(slideFiles.length).toBeGreaterThan(0);
+    const xml = (
+      await Promise.all(slideFiles.map((n) => zip.file(n)!.async("string")))
+    ).join("\n");
+    expect(xml).toContain('typeface="Oswald"');
+    expect(xml).toContain('typeface="Source Sans 3"');
+  });
+
   it("renderPptx builds event and letter decks", async () => {
     const event = await renderPptx({
       presetId: "quick-event",

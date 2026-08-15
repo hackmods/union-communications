@@ -1,7 +1,27 @@
 import type { WebsiteTemplateData } from "@/types/website-template";
 import { getOpseuWebsiteFooterSources } from "@/lib/constants/comms-sources";
+import {
+  buildWebsiteFontFaceCss,
+  canvasFontCssFamily,
+  collectWebsiteZipFontFiles,
+  DEFAULT_BODY_FONT,
+  DEFAULT_HEADLINE_FONT,
+  loadCanvasFontBytes,
+  WEBSITE_FONT_NOTICE,
+  type CanvasFontId,
+} from "@/lib/comms/canvas-fonts";
 import { mutedInkOnBackground } from "@/lib/utils/ink";
 import { blendHex } from "@/lib/utils/contrast";
+
+function resolveWebsiteFontIds(canvas?: WebsiteTemplateData["canvas"] | null): {
+  headlineFontId: CanvasFontId;
+  bodyFontId: CanvasFontId;
+} {
+  return {
+    headlineFontId: canvas?.headlineFontId ?? DEFAULT_HEADLINE_FONT,
+    bodyFontId: canvas?.bodyFontId ?? DEFAULT_BODY_FONT,
+  };
+}
 
 function escapeHtml(text: string): string {
   return text
@@ -159,10 +179,21 @@ ${opseuResourcesHtml}      <div class="footer-col">
 </html>`;
 }
 
+export type BuildWebsiteCssOptions = {
+  /**
+   * Base URL for `@font-face` src.
+   * ZIP: `../assets/fonts` (flat filenames). Preview: `/fonts` (dir/file paths).
+   */
+  fontUrlBase?: string;
+  /** When true (ZIP), font URLs use flattened `dir-file.woff2` names under fontUrlBase. */
+  flatFontFileNames?: boolean;
+};
+
 export function buildWebsiteCss(
   primaryColor: string,
   secondaryColor: string,
   canvas?: WebsiteTemplateData["canvas"] | null,
+  options?: BuildWebsiteCssOptions | null,
 ): string {
   const footerLinkColor = mutedInkOnBackground(primaryColor, 0.85);
   const footerMutedColor = mutedInkOnBackground(primaryColor, 0.8);
@@ -182,7 +213,19 @@ export function buildWebsiteCss(
       : canvas?.surface === "accent-band"
         ? `linear-gradient(${secondaryColor} 0%, ${secondaryColor} 12px, ${primaryColor} 12px, ${primaryColor} 100%)`
         : `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), ${primaryColor}`;
-  return `:root {
+  const { headlineFontId, bodyFontId } = resolveWebsiteFontIds(canvas);
+  const headlineStack = canvasFontCssFamily(headlineFontId);
+  const bodyStack = canvasFontCssFamily(bodyFontId);
+  const fontFiles = collectWebsiteZipFontFiles(headlineFontId, bodyFontId);
+  const fontUrlBase = options?.fontUrlBase ?? "/fonts";
+  const flatFontFileNames = options?.flatFontFileNames ?? false;
+  const fontFaceCss = buildWebsiteFontFaceCss(
+    fontFiles,
+    fontUrlBase,
+    flatFontFileNames,
+  );
+  const fontFaceBlock = fontFaceCss ? `${fontFaceCss}\n\n` : "";
+  return `${fontFaceBlock}:root {
   --color-primary: ${primaryColor};
   --color-secondary: ${secondaryColor};
   --color-dark: #0B203D;
@@ -196,19 +239,25 @@ export function buildWebsiteCss(
   --font-size-xl: ${rem(1.5 * typeScale)};
   --font-size-h1: ${rem(3 * typeScale)};
   --font-size-h2: ${rem(2.25 * typeScale)};
+  --font-headline: ${headlineStack};
+  --font-body: ${bodyStack};
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
   line-height: 1.5;
   color: var(--color-text);
   scroll-behavior: smooth;
 }
 
-h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 1rem; }
+h1, h2, h3, h4 {
+  line-height: 1.2;
+  margin: 0 0 1rem;
+  font-family: var(--font-headline);
+}
 
 .text-wrapper {
   max-width: 1280px;
@@ -464,14 +513,29 @@ export async function generateWebsiteZip(
     ? { ...data, logoFileName: logo.fileName }
     : { ...data, logoFileName: "" };
 
+  const { headlineFontId, bodyFontId } = resolveWebsiteFontIds(data.canvas);
+  const fontFiles = collectWebsiteZipFontFiles(headlineFontId, bodyFontId);
+
   zip.file("index.html", buildWebsiteHtml(exportData));
   zip.file(
     "css/style.css",
-    buildWebsiteCss(data.primaryColor, data.secondaryColor, data.canvas),
+    buildWebsiteCss(data.primaryColor, data.secondaryColor, data.canvas, {
+      fontUrlBase: "../assets/fonts",
+      flatFontFileNames: true,
+    }),
   );
   zip.file("js/site.js", buildWebsiteJs());
   if (logo) {
     zip.file(`assets/${logo.fileName}`, logo.bytes);
+  }
+  if (fontFiles.length > 0) {
+    zip.file("assets/fonts/NOTICE.txt", WEBSITE_FONT_NOTICE);
+    await Promise.all(
+      fontFiles.map(async (f) => {
+        const bytes = await loadCanvasFontBytes(f.relativePath);
+        zip.file(`assets/fonts/${f.fileName}`, bytes);
+      }),
+    );
   }
   zip.file("README.md", buildWebsiteReadme(data.localNumber));
   zip.file(
@@ -487,6 +551,7 @@ export function buildPreviewHtml(data: WebsiteTemplateData): string {
     data.primaryColor,
     data.secondaryColor,
     data.canvas,
+    { fontUrlBase: "/fonts", flatFontFileNames: false },
   );
   let body = buildWebsiteHtml(data)
     .replace('<link rel="stylesheet" href="./css/style.css">', `<style>${css}</style>`)

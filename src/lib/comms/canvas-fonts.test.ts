@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   CANVAS_FONT_ORDER,
+  canvasFontCssFamily,
   canvasFontFamily,
+  canvasFontOfficeName,
+  collectWebsiteZipFontFiles,
   DEFAULT_BODY_FONT,
   DEFAULT_FLYER_FONT,
   DEFAULT_HEADLINE_FONT,
@@ -55,5 +58,23 @@ describe("canvas-fonts", () => {
     expect(isFlyerFontChoice("inherit")).toBe(true);
     expect(isFlyerFontChoice("montserrat")).toBe(true);
     expect(isFlyerFontChoice("comic")).toBe(false);
+  });
+
+  it("exposes CSS family names and Office face names", () => {
+    expect(canvasFontCssFamily("montserrat")).toContain("Montserrat");
+    expect(canvasFontCssFamily("montserrat")).not.toContain("var(--");
+    expect(canvasFontCssFamily("systemSans")).toContain("system-ui");
+    expect(canvasFontOfficeName("oswald")).toBe("Oswald");
+    expect(canvasFontOfficeName("sourceSans")).toBe("Source Sans 3");
+    expect(canvasFontOfficeName("systemSans")).toBe("Arial");
+    expect(canvasFontOfficeName("systemSerif")).toBe("Georgia");
+  });
+
+  it("collects deduped ZIP font subsets for headline + body", () => {
+    const files = collectWebsiteZipFontFiles("oswald", "sourceSans");
+    expect(files.some((f) => f.family === "Oswald")).toBe(true);
+    expect(files.some((f) => f.family === "Source Sans 3")).toBe(true);
+    expect(files.every((f) => f.relativePath.endsWith(".woff2"))).toBe(true);
+    expect(collectWebsiteZipFontFiles("systemSans", "systemSerif")).toEqual([]);
   });
 });

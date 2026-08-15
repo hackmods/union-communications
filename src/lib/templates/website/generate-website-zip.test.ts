@@ -3,6 +3,7 @@ import {
   buildWebsiteHtml,
   buildWebsiteCss,
   buildPreviewHtml,
+  generateWebsiteZip,
 } from "@/lib/templates/website/generate-website-zip";
 import { getOpseuWebsiteFooterSources } from "@/lib/constants/comms-sources";
 import type { WebsiteTemplateData } from "@/types/website-template";
@@ -86,6 +87,10 @@ describe("generate-website-zip", () => {
     expect(css).toContain("--color-secondary: #FFFFFF");
     expect(css).toContain(".site-header {\n  background: var(--color-primary);");
     expect(css).toContain(".footer {\n  background: var(--color-primary);");
+    expect(css).toContain('--font-headline: "Montserrat", sans-serif');
+    expect(css).toContain('--font-body: "Source Sans 3", sans-serif');
+    expect(css).toContain("@font-face");
+    expect(css).toContain('font-family: "Montserrat"');
   });
 
   it("scales hero and type from Brand Kit canvas knobs", () => {
@@ -99,11 +104,65 @@ describe("generate-website-zip", () => {
     expect(css).toContain("--spacing-4: 1.32rem");
   });
 
+  it("emits chosen faces and @font-face for webfont canvas ids", () => {
+    const css = buildWebsiteCss("#003DA5", "#FFFFFF", {
+      headlineFontId: "oswald",
+      bodyFontId: "sourceSerif",
+    });
+    expect(css).toContain('--font-headline: "Oswald", sans-serif');
+    expect(css).toContain('--font-body: "Source Serif 4", serif');
+    expect(css).toContain('font-family: "Oswald"');
+    expect(css).toContain('font-family: "Source Serif 4"');
+    expect(css).toContain('url("/fonts/oswald/');
+  });
+
+  it("skips @font-face when both faces are system residual", () => {
+    const css = buildWebsiteCss("#003DA5", "#FFFFFF", {
+      headlineFontId: "systemSans",
+      bodyFontId: "systemSerif",
+    });
+    expect(css).not.toContain("@font-face");
+    expect(css).toContain("system-ui");
+    expect(css).toContain("Georgia");
+  });
+
   it("builds preview HTML with inline styles and logo preview src", () => {
     const preview = buildPreviewHtml(sampleData);
     expect(preview).toContain("<style>");
     expect(preview).not.toContain('href="./css/style.css"');
     expect(preview).toContain('src="/assets/caat-opseu/logo-primary.png"');
     expect(preview).not.toContain('src="./assets/logo.png"');
+  });
+
+  it("bundles subset woff2 + NOTICE for webfont Brand Kit faces", async () => {
+    const blob = await generateWebsiteZip({
+      ...sampleData,
+      canvas: { headlineFontId: "oswald", bodyFontId: "sourceSans" },
+    });
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(blob);
+    const names = Object.keys(zip.files);
+    expect(names).toContain("assets/fonts/NOTICE.txt");
+    expect(names.some((n) => n.includes("oswald") && n.endsWith(".woff2"))).toBe(
+      true,
+    );
+    expect(
+      names.some((n) => n.includes("source-sans") && n.endsWith(".woff2")),
+    ).toBe(true);
+    const css = await zip.file("css/style.css")!.async("string");
+    expect(css).toContain("../assets/fonts/");
+    expect(css).toContain("@font-face");
+    expect(css).toContain('"Oswald"');
+  });
+
+  it("omits font assets when both faces are system residual", async () => {
+    const blob = await generateWebsiteZip({
+      ...sampleData,
+      canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
+    });
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(blob);
+    const names = Object.keys(zip.files);
+    expect(names.some((n) => n.startsWith("assets/fonts/"))).toBe(false);
   });
 });

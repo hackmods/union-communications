@@ -35,6 +35,7 @@ import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import { canvasFontOfficeName } from "@/lib/comms/canvas-fonts";
 import dynamic from "next/dynamic";
 
 const OfficePresetMock = dynamic(
@@ -142,6 +143,8 @@ function DocumentGeneratorPageContent() {
   const preset = getPreset(state.presetId);
   const palette = brandPalette(brandKit);
   const canvasTokens = resolveCanvasTokens(brandKit);
+  const officeHeadlineFont = canvasFontOfficeName(canvasTokens.headlineFontId);
+  const officeBodyFont = canvasFontOfficeName(canvasTokens.bodyFontId);
   const localNumber = brandKit.local.localNumber;
   const localLabel = `Local ${resolveLocalNumber(localNumber)}`;
 
@@ -151,6 +154,13 @@ function DocumentGeneratorPageContent() {
   };
 
   const showInviteEmail = preset.outputs.email;
+
+  function officeFontOpts() {
+    return {
+      headlineFont: officeHeadlineFont,
+      bodyFont: officeBodyFont,
+    };
+  }
 
   function seniorityLabels(): SeniorityWorksheetLabels {
     return {
@@ -229,6 +239,7 @@ function DocumentGeneratorPageContent() {
       palette,
       fields,
       logo,
+      ...officeFontOpts(),
     };
   }
 
@@ -246,6 +257,7 @@ function DocumentGeneratorPageContent() {
         localLabel,
         fields,
         logo,
+        ...officeFontOpts(),
         filename: formatFilename(preset.fileStem, localNumber, "docx"),
       });
     });
@@ -335,6 +347,7 @@ function DocumentGeneratorPageContent() {
             localLabel,
             fields,
             logo,
+            ...officeFontOpts(),
           }),
         });
       }

@@ -45,12 +45,13 @@ The 2026-08-14 note that “Flyer alone has font pickers; other tools stay typeS
 
 ## Next steps (ordered)
 
-1. **Website ZIP / Office embed (follow-up)** — generated website CSS and DOCX/PPTX still hardcode Arial. Bundle subset `@font-face` in ZIP or map catalog ids → Office `fontFace` when offline fidelity matters.
+1. ~~**Website ZIP / Office embed (follow-up)**~~ — **shipped 2026-08-15** — Website ZIP bundles subset `@font-face` + woff2 + `NOTICE.txt`; Office DOCX/PPTX map catalog ids → face names (no OOXML binary embed).
 2. **Pulse Poll public fidelity** — still Hub-gated; when public, add font seed case to `@export` suite.
 3. **Quote Card / wallet spot-check in CI** — Graphic/Flyer/Board Notice/Meeting covered; optional `@export` matrix row for Quote Card + Action Card with `oswald` seed (parity, not blocking).
 4. **Ops Postgres flip** — still the roadmap #1 ops item (unrelated to fonts); see [`roadmap-next.mdc`](../../.cursor/rules/roadmap-next.mdc).
 5. **COPY-004** — FR captions content residual still open.
 6. **Variable-font consolidation (stretch)** — current static weight files work; a single VF per family would shrink `public/fonts/` if download size becomes an issue.
+7. **OOXML binary font embed (stretch)** — Office name-map is enough when faces are installed locally; embed only if product demands offline Word/PowerPoint without installed fonts.
 
 ## Agent pitfalls
 

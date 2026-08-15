@@ -39,6 +39,29 @@ describe("office-docx-builders", () => {
     expect(blob.size).toBeGreaterThan(8000);
   });
 
+  it("writes Brand Kit Office face names into OOXML", async () => {
+    const blob = await buildSimpleLetterDocx({
+      palette,
+      localLabel: "Local 110",
+      logo,
+      headlineFont: "Oswald",
+      bodyFont: "Source Sans 3",
+      fields: {
+        date: "July 15, 2026",
+        memberName: "Alex",
+        body: "Thank you for your call.",
+        stewardName: "Jordan",
+        contactName: "Chief steward",
+      },
+    });
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const headerXml = await zip.file("word/header1.xml")!.async("string");
+    const docXml = await zip.file("word/document.xml")!.async("string");
+    expect(headerXml).toContain("Oswald");
+    expect(docXml).toContain("Source Sans 3");
+  });
+
   it("builds letterhead without logo", async () => {
     const blob = await buildLetterheadDocx({
       palette,

@@ -10,6 +10,11 @@ import type {
   OfficePresetId,
 } from "@/lib/constants/office-templates";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import {
+  canvasFontOfficeName,
+  DEFAULT_BODY_FONT,
+  DEFAULT_HEADLINE_FONT,
+} from "@/lib/comms/canvas-fonts";
 import { pickContrastingInk } from "@/lib/utils/ink";
 
 export type DocxData = Record<string, unknown>;
@@ -50,6 +55,9 @@ export type DocxPresetOpts = {
   localLabel: string;
   fields: Record<string, string>;
   logo?: BrandLogoBytes | null;
+  /** Office face names from Brand Kit (name-only; not embedded). */
+  headlineFont?: string;
+  bodyFont?: string;
 };
 
 /** Build a pristine Word file for a shipped preset (Brand Kit driven). */
@@ -68,6 +76,8 @@ export async function renderDocxFromPreset(
     localLabel: opts.localLabel,
     fields: opts.fields,
     logo: opts.logo,
+    headlineFont: opts.headlineFont,
+    bodyFont: opts.bodyFont,
   };
   switch (opts.presetId) {
     case "simple-letter":
@@ -458,6 +468,9 @@ export type PptxDemoOpts = {
   palette: BrandPalette;
   fields: Record<string, string>;
   logo?: BrandLogoBytes | null;
+  /** Office face names from Brand Kit (name-only; not embedded). */
+  headlineFont?: string;
+  bodyFont?: string;
 };
 
 function stripHash(hex: string): string {
@@ -466,6 +479,14 @@ function stripHash(hex: string): string {
 
 function inkHex(bg: string): string {
   return stripHash(pickContrastingInk(bg));
+}
+
+function pptxHeadline(opts: PptxDemoOpts): string {
+  return opts.headlineFont ?? canvasFontOfficeName(DEFAULT_HEADLINE_FONT);
+}
+
+function pptxBody(opts: PptxDemoOpts): string {
+  return opts.bodyFont ?? canvasFontOfficeName(DEFAULT_BODY_FONT);
 }
 
 type PptxLike = {
@@ -503,6 +524,8 @@ function buildLetterheadOrSimple(
       ? "Letterhead"
       : opts.fields.title || "Local correspondence";
   const body = opts.body || opts.fields.body || "";
+  const hFace = pptxHeadline(opts);
+  const bFace = pptxBody(opts);
 
   {
     const s = pptx.addSlide();
@@ -516,7 +539,7 @@ function buildLetterheadOrSimple(
       fontSize: 22,
       bold: true,
       color: ink,
-      fontFace: "Arial",
+      fontFace: hFace,
     });
     s.addText(opts.fields.contactName || "", {
       x: 0.6,
@@ -525,7 +548,7 @@ function buildLetterheadOrSimple(
       h: 0.4,
       fontSize: 16,
       color: ink,
-      fontFace: "Arial",
+      fontFace: bFace,
     });
     s.addShape(pptx.ShapeType.rect, {
       x: 0.6,
@@ -542,7 +565,7 @@ function buildLetterheadOrSimple(
       fontSize: 28,
       bold: true,
       color: ink,
-      fontFace: "Arial",
+      fontFace: hFace,
     });
   }
 
@@ -564,7 +587,7 @@ function buildLetterheadOrSimple(
         h: 0.5,
         fontSize: 18,
         color: "1A1A1A",
-        fontFace: "Arial",
+        fontFace: bFace,
       });
     }
     s.addText(body || "In solidarity.", {
@@ -574,7 +597,7 @@ function buildLetterheadOrSimple(
       h: 3.5,
       fontSize: 18,
       color: "1A1A1A",
-      fontFace: "Arial",
+      fontFace: bFace,
       valign: "top",
     });
     s.addText(
@@ -588,7 +611,7 @@ function buildLetterheadOrSimple(
         h: 1.2,
         fontSize: 16,
         color: secondary,
-        fontFace: "Arial",
+        fontFace: bFace,
       },
     );
   }
@@ -607,6 +630,8 @@ function buildEvent(
   const when = [opts.fields.date, opts.fields.time].filter(Boolean).join(" · ");
   const where = opts.fields.location || "";
   const body = opts.body || opts.fields.body || "";
+  const hFace = pptxHeadline(opts);
+  const bFace = pptxBody(opts);
 
   {
     const s = pptx.addSlide();
@@ -620,7 +645,7 @@ function buildEvent(
       fontSize: 40,
       bold: true,
       color: ink,
-      fontFace: "Arial",
+      fontFace: hFace,
     });
     if (subtitle) {
       s.addText(subtitle, {
@@ -630,7 +655,7 @@ function buildEvent(
         h: 0.5,
         fontSize: 20,
         color: ink,
-        fontFace: "Arial",
+        fontFace: bFace,
       });
     }
     s.addShape(pptx.ShapeType.rect, {
@@ -647,7 +672,7 @@ function buildEvent(
       h: 0.4,
       fontSize: 14,
       color: inkHex(`#${accent}`),
-      fontFace: "Arial",
+      fontFace: bFace,
     });
   }
 
@@ -669,7 +694,7 @@ function buildEvent(
       fontSize: 24,
       bold: true,
       color: secondary,
-      fontFace: "Arial",
+      fontFace: hFace,
     });
     s.addText([when, where].filter(Boolean).join("\n"), {
       x: 0.8,
@@ -679,7 +704,7 @@ function buildEvent(
       fontSize: 22,
       bold: true,
       color: "1A1A1A",
-      fontFace: "Arial",
+      fontFace: bFace,
     });
     s.addText(body, {
       x: 0.8,
@@ -688,7 +713,7 @@ function buildEvent(
       h: 2.5,
       fontSize: 16,
       color: "1A1A1A",
-      fontFace: "Arial",
+      fontFace: bFace,
       valign: "top",
     });
   }
@@ -704,7 +729,7 @@ function buildEvent(
       fontSize: 32,
       bold: true,
       color: inkHex(`#${secondary}`),
-      fontFace: "Arial",
+      fontFace: hFace,
       align: "center",
     });
     s.addText(opts.localLabel, {
@@ -714,7 +739,7 @@ function buildEvent(
       h: 0.4,
       fontSize: 16,
       color: inkHex(`#${secondary}`),
-      fontFace: "Arial",
+      fontFace: bFace,
       align: "center",
     });
   }
