@@ -7,7 +7,9 @@
 - [x] Brand Kit `headlineFontId` / `bodyFontId` + panel pickers; tokens on canvas tools / Flyer override
 - [x] Board banner/trim drop hardcoded Arial; capture waits `document.fonts.ready`
 - [x] ADR-014 amended; COMMS visual system + session knowledge
-- Verify: `npm run test:unit -- src/lib/comms/canvas-fonts.test.ts src/lib/comms/flyer-maker.test.ts src/lib/utils/canvas-tokens.test.ts`
+- [x] Playwright: `e2e/tools.fonts.smoke.spec.ts` (`@smoke` + `@export`) + `e2e/helpers/canvas-fonts.ts`
+- Verify: `npx playwright test e2e/tools.fonts.smoke.spec.ts` (quote `@smoke` / `@export` on PowerShell)
+- Unit: `npm run test:unit -- src/lib/comms/canvas-fonts.test.ts src/lib/comms/flyer-maker.test.ts src/lib/utils/canvas-tokens.test.ts`
 
 ## COPY-005 EN readability report (2026-08-15)
 
