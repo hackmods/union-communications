@@ -5,18 +5,32 @@
  * (simulates process restart), and asserts the row still exists.
  *
  * Requires:
- *   DATABASE_URL=…
- *   GRIEVANCE_DB_BACKEND=postgres
+ *   - DATABASE_URL=… (table-owner URL is fine here — RLS is covered by
+ *     `db:rls-smoke` against `unionops_app`)
+ *   - GRIEVANCE_DB_BACKEND=postgres
  *
  * Seed the reference tenant first (`npm run db:seed`) so FKs resolve.
+ * This script re-seeds only when the reference union row is missing.
  *
  * Run: npm run db:durability-smoke
  */
 import { eq } from "drizzle-orm";
 import { getDb, isPostgresConfigured, resetDbClient } from "../src/lib/db/client";
-import { grievanceEvents, grievances } from "../src/lib/db/schema";
+import { grievanceEvents, grievances, unions } from "../src/lib/db/schema";
 import { seedReferenceTenant } from "../src/lib/db/seed";
 import { DrizzleGrievanceAdapter } from "../src/lib/grievance/drizzle-adapter";
+
+async function ensureReferenceTenant(): Promise<void> {
+  const db = getDb();
+  const existing = await db
+    .select({ id: unions.id })
+    .from(unions)
+    .where(eq(unions.id, "union-opseu"))
+    .limit(1);
+  if (existing.length === 0) {
+    await seedReferenceTenant();
+  }
+}
 
 async function main(): Promise<void> {
   if (!isPostgresConfigured()) {
@@ -26,7 +40,7 @@ async function main(): Promise<void> {
     throw new Error("GRIEVANCE_DB_BACKEND=postgres is required");
   }
 
-  await seedReferenceTenant();
+  await ensureReferenceTenant();
 
   const adapter = new DrizzleGrievanceAdapter();
   const created = await adapter.create(

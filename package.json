@@ -36,7 +36,8 @@
     "db:seed-admin": "tsx src/lib/db/seed-admin.ts",
     "db:studio": "drizzle-kit studio",
     "db:rls-smoke": "tsx scripts/rls-smoke.ts",
-    "db:durability-smoke": "tsx scripts/durability-smoke.ts"
+    "db:durability-smoke": "tsx scripts/durability-smoke.ts",
+    "ops:verify-durable": "node scripts/verify-durable-local.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1094.0",

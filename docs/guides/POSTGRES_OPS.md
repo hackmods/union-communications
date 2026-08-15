@@ -14,7 +14,16 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
 2. **Set owner + app URLs:**
    - `MIGRATE_DATABASE_URL` — owner role (DDL + migrations)
    - `DATABASE_URL` — `unionops_app` when `POSTGRES_APP_PASSWORD` is set (RLS binds at runtime)
+   - **URL-encode passwords** in connection strings (`encodeURIComponent` / `[uri]::EscapeDataString`). A raw `+` or `/` in the password will break migrate/seed.
 3. **Run migrations + seed once:** `npm run db:migrate` then `npm run db:seed` (or rely on `docker/entrypoint.sh` migrate on boot).
+
+   **One-shot local verify** (db already healthy, `docker/.env` filled):
+
+   ```bash
+   npm run ops:verify-durable
+   ```
+
+   That runs migrate → seed → `db:durability-smoke` → `db:rls-smoke` without printing secret values.
 4. **Flip module flags** (start with one module, verify, then expand):
 
 | Variable | Values | Module |

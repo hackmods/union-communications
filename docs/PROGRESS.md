@@ -1,5 +1,13 @@
 # Progress Log
 
+## Ops Postgres flip tooling (2026-08-15)
+
+- [x] Local durable path: Postgres container + migrate (URL-encoded passwords)
+- [x] `scripts/verify-durable-local.mjs` + `npm run ops:verify-durable` (migrate → seed → durability → RLS)
+- [x] Durability smoke skips re-seed when reference tenant exists; documents owner URL vs app-role RLS smoke
+- [x] `POSTGRES_OPS.md` — encode passwords; one-shot verify command
+- Host production flip remains an operator choice (`docker-compose.durable.yml` + `HEALTH_REQUIRE_DURABLE=true`)
+
 ## COPY-002 smoke↔catalog guard (2026-08-14)
 
 - [x] Extract plain `getByText` / `name:` literals from public Comms smoke specs

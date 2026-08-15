@@ -47,7 +47,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 ## Next planned work (in order)
 
 1. ~~**Phase 9 — Comms export integrity**~~ — **shipped 2026-08-14** (`capture.ts` + `e2e/tools.export.smoke.spec.ts`; TOOL-008/009 closed)
-2. **Ops default flip** — production hosts choosing Postgres backends + real scanner ([`POSTGRES_OPS.md`](../../docs/guides/POSTGRES_OPS.md))
+2. **Ops default flip** — production hosts: `docker-compose.durable.yml` + [`POSTGRES_OPS.md`](../../docs/guides/POSTGRES_OPS.md); local verify: `npm run ops:verify-durable` (migrate/seed/durability/RLS). Host still chooses when to flip prod.
 3. ~~COMMS email/broadcast guide~~ — **shipped 2026-07-26** (`/guide/email-broadcast`)
 4. ~~Time **8f** hybrid slice / punch photos~~ — **shipped 2026-07-26** (`0029_time_8f`)
 5. ~~Optional canvas axe contrast polish (brand-orange preview smoke noise)~~ — **shipped 2026-07-25**
