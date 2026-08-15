@@ -278,6 +278,7 @@ function FormatFrame({
     <div
       ref={frameRef}
       data-format={dataFormat}
+      {...(frameRef ? { "data-export-root": "" } : {})}
       className={cn("relative w-full overflow-hidden", className)}
       style={{
         aspectRatio: `${format.width}/${format.height}`,

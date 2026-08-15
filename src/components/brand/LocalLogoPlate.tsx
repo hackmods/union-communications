@@ -29,6 +29,8 @@ export interface LocalLogoPlateProps {
   /** Optional Brand Kit canvas tokens (typeScale / surface / grain). */
   tokens?: CanvasTokens;
   className?: string;
+  /** Stamp Phase 9e capture root (Logo Builder only — not nested Resizer frames). */
+  exportRoot?: boolean;
 }
 
 /**
@@ -46,6 +48,7 @@ export const LocalLogoPlate = forwardRef<HTMLDivElement, LocalLogoPlateProps>(
       size = "fixed",
       tokens,
       className,
+      exportRoot = false,
     },
     ref,
   ) {
@@ -104,6 +107,7 @@ export const LocalLogoPlate = forwardRef<HTMLDivElement, LocalLogoPlateProps>(
     return (
       <div
         ref={ref}
+        {...(exportRoot ? { "data-export-root": "" } : {})}
         className={cn(shell, className)}
         style={{
           ...surface,

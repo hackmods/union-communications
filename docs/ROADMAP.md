@@ -99,7 +99,13 @@ Spec: [`docs/modules/WORKFORCE_TIME.md`](modules/WORKFORCE_TIME.md)
 | 9c | Playwright `@smoke` downloads — `e2e/tools.export.smoke.spec.ts` (Flyer PNG/PDF, Graphic PNG, Board Notice PDF) |
 | 9d | Solidarity stretch — Solidarity Poster PNG output smoke |
 
-Tickets [`TOOL-008`](audit/execution-backlog.md) / [`TOOL-009`](audit/execution-backlog.md) closed. Residual: optional `@export` job split if smoke runtime grows; more wallet tools on demand.
+Tickets [`TOOL-008`](audit/execution-backlog.md) / [`TOOL-009`](audit/execution-backlog.md) closed.
+
+| Step | Outcome |
+|------|---------|
+| **9e** | Preview/capture ↔ download comparison — `compareRasters` + `e2e/tools.export.fidelity.spec.ts` (`@export`); `data-export-root` + `ExportCaptureBridge`; run `npm run test:export` |
+
+Residual: optional CI job for `@export` if smoke runtime budget is tight; tighten PDF JPEG thresholds as capture improves.
 
 ## Calendar & Meetings — Phase A (local schedule + banner + public snippet)
 

@@ -194,6 +194,7 @@ export function FlyerLayoutCanvas({
     return (
       <div
         ref={canvasRef}
+        data-export-root=""
         className={cn(
           "relative flex w-full flex-col overflow-hidden",
           aspectClass,
@@ -274,6 +275,7 @@ export function FlyerLayoutCanvas({
     return (
       <div
         ref={canvasRef}
+        data-export-root=""
         className={cn(
           "relative flex w-full flex-col overflow-hidden",
           aspectClass,
@@ -342,6 +344,7 @@ export function FlyerLayoutCanvas({
     return (
       <div
         ref={canvasRef}
+        data-export-root=""
         className={cn(
           "relative flex w-full flex-col overflow-hidden",
           aspectClass,
@@ -413,6 +416,7 @@ export function FlyerLayoutCanvas({
   return (
     <div
       ref={canvasRef}
+        data-export-root=""
       className={cn(
         "relative flex w-full flex-col justify-between overflow-hidden",
         aspectClass,

@@ -1062,6 +1062,7 @@ export default function MeetingBackgroundPage() {
           >
             <div
               ref={canvasRef}
+                  data-export-root=""
               className={cn("relative w-full overflow-hidden", format.aspect)}
               style={{ ...surfaceStyle, color: canvasInk }}
             >

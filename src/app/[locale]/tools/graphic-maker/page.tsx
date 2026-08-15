@@ -411,7 +411,8 @@ function GraphicMakerPageContent() {
         }
         preview={
           <div className="overflow-hidden rounded-lg shadow-lg">
-            <div ref={canvasRef}>
+            <div ref={canvasRef}
+                  data-export-root="">
               <GraphicLayoutCanvas
                 layout={state.layout}
                 aspect={state.aspect}

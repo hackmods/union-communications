@@ -262,6 +262,7 @@ export default function LogoBuilderPage() {
           >
             <LocalLogoPlate
               ref={canvasRef}
+              exportRoot
               shape={state.shape}
               primaryColor={state.primaryColor}
               secondaryColor={state.secondaryColor}

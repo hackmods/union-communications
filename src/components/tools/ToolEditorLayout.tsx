@@ -3,6 +3,7 @@
 import { useEffect, useId, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { PageShell } from "@/components/layout/PageShell";
+import { ExportCaptureBridge } from "@/components/tools/ExportCaptureBridge";
 import { MobilePreviewStage } from "@/components/tools/MobilePreviewStage";
 import { Callout } from "@/components/ui/Callout";
 import { cn } from "@/lib/utils";
@@ -96,6 +97,7 @@ export function ToolEditorLayout({
 
   return (
     <PageShell className={cn("py-6 md:py-8 lg:py-10", className)}>
+      <ExportCaptureBridge />
       <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
         {title}
       </h1>

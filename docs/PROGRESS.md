@@ -1,5 +1,13 @@
 # Progress Log
 
+## Phase 9e — export preview↔download comparison (2026-08-15)
+
+- [x] `compareRasters` / `resizeRasterNearest` in `src/lib/export/fidelity.ts` (+ unit tests)
+- [x] `data-export-root` on capture canvases + `ExportCaptureBridge` on `ToolEditorLayout`
+- [x] `e2e/tools.export.fidelity.spec.ts` (`@export`) — PNG/PDF for all canvas tools; ZIP/Office/SVG for the rest
+- [x] `npm run test:export`
+- Spec: [`docs/ROADMAP.md`](ROADMAP.md) Phase 9e
+
 ## Ops Postgres flip tooling (2026-08-15)
 
 - [x] Local durable path: Postgres container + migrate (URL-encoded passwords)

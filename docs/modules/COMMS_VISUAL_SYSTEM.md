@@ -136,9 +136,11 @@ Constants: [`src/lib/comms/packs/channel-packs.ts`](../../src/lib/comms/packs/ch
 
 **Fonts / layouts / placement across tools:** do not treat missing Flyer-style font pickers or shared layout enums as gaps. Brand Kit `canvas` tokens own typeScale/alignment for most tools; only Flyer Maker exposes ADR-014 system font stacks. Layout IDs stay per-tool (Flyer `stack` ≠ Solidarity `stack`). Full comparison matrix: [`docs/audit/session-knowledge-2026-08-14-flyer-unified-tools.md`](../audit/session-knowledge-2026-08-14-flyer-unified-tools.md#cross-tool-comparison--fonts-layouts-placement).
 
-### Capture / export fidelity (Phase 9 — shipped 2026-08-14)
+### Capture / export fidelity (Phase 9 — shipped 2026-08-14; 9e 2026-08-15)
 
 Live preview ≠ proof of export. Use `src/lib/export/capture.ts` for all html-to-image paths (clears preview `scale()`, inlines computed styles). PDFs re-encode to JPEG. Assert downloads in `e2e/tools.export.smoke.spec.ts` — do not rely on builders visit-only smoke. Prefer inline hex/rgba on capture roots (Tailwind v4 `oklch` washes out).
+
+**Phase 9e:** stamp `data-export-root` on capture canvases; `ExportCaptureBridge` exposes capture for Playwright. `compareRasters` in `fidelity.ts` compares preview paint ↔ capture and capture ↔ PNG/PDF download for every public canvas tool (`npm run test:export`). Non-raster tools assert ZIP/Office/SVG structure. Pulse Poll authoring stays Hub-gated (excluded from public fidelity suite).
 
 ## Agent contract
 

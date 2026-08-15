@@ -761,6 +761,7 @@ export default function BoardBannerPage() {
             <div className="shadow-lg">
               <div
                 ref={canvasRef}
+                  data-export-root=""
                 className={cn("w-full", sheet.aspect)}
                 style={{ backgroundColor: "#FFFFFF" }}
               >

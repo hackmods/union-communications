@@ -413,6 +413,7 @@ export default function PulsePollPage() {
       <p className="text-sm font-medium text-gray-700">{t("previewHeading")}</p>
       <div
         ref={canvasRef}
+                  data-export-root=""
         className="relative mx-auto flex w-full max-w-sm flex-col rounded-lg shadow-sm"
         style={previewStyle}
       >

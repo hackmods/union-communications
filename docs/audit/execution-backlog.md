@@ -471,7 +471,7 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 ### [TOOL-009] ✅ CLOSED (2026-08-14) — Playwright smoke for tool outputs
 **Category:** Comms Tools / QA  
 **Severity/Priority:** Medium  
-**Status:** Closed — Phase 9c/9d. `e2e/tools.export.smoke.spec.ts` (`@smoke`) downloads Flyer PNG/PDF, Graphic Maker PNG, Board Notice PDF, Solidarity Poster PNG; asserts size floors, PDF `paintImage` ops, and PNG brand-field + ink samples via `fidelity.ts`.  
+**Status:** Closed — Phase 9c/9d. `e2e/tools.export.smoke.spec.ts` (`@smoke`) downloads Flyer PNG/PDF, Graphic Maker PNG, Board Notice PDF, Solidarity Poster PNG; asserts size floors, PDF `paintImage` ops, and PNG brand-field + ink samples via `fidelity.ts`. **Phase 9e (2026-08-15):** `e2e/tools.export.fidelity.spec.ts` (`@export` / `npm run test:export`) compares preview↔capture↔download for all canvas tool outputs plus ZIP/Office/SVG structural checks.  
 **Problem/Gap Statement:** `e2e/builders.smoke.spec.ts` and `e2e/workshop.smoke.spec.ts` navigate tools and run axe — they do **not** click export, wait for a download, or verify the file contents. Regressions like unstyled Flyer PDFs can ship while `@smoke` stays green.  
 **Affected Architecture/Files:** `e2e/builders.smoke.spec.ts` (or new `e2e/tools.export.smoke.spec.ts`), `e2e/helpers/*`, Playwright config tags (`@smoke` / optional `@export`)  
 **Implementation Blueprint:**

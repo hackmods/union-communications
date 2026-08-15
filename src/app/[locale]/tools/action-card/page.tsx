@@ -499,6 +499,7 @@ function ActionCardPageContent() {
               <div className="shadow-lg">
                 <div
                   ref={canvasRef}
+                  data-export-root=""
                   className="relative flex w-full min-w-0 flex-col overflow-hidden"
                   style={canvasStyle}
                 >

@@ -254,6 +254,7 @@ export default function BoardNoticePage() {
           <div className="shadow-lg">
             <div
               ref={canvasRef}
+                  data-export-root=""
               className={cn(
                 "relative flex w-full flex-col justify-between",
                 dims.aspect,

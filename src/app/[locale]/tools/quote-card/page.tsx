@@ -181,6 +181,7 @@ function QuoteCardPageContent() {
         <div className="shadow-lg">
           <div
             ref={canvasRef}
+                  data-export-root=""
             className="relative aspect-square w-full overflow-hidden"
             style={surfaceStyle}
           >

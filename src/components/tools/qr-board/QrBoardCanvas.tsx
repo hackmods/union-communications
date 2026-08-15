@@ -107,6 +107,7 @@ export function QrBoardCanvas({
   return (
     <div
       ref={canvasRef}
+      data-export-root=""
       className="relative flex h-full flex-col overflow-hidden"
       style={style}
     >

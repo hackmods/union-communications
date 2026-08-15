@@ -697,6 +697,7 @@ export default function SolidarityPosterPage() {
         <div className="relative shadow-lg">
           <div
             ref={canvasRef}
+                  data-export-root=""
             className={cn(
               "relative flex w-full flex-col overflow-hidden",
               format.aspect,
