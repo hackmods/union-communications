@@ -591,17 +591,16 @@ Sections 1–7 of that audit shipped. These are the residuals it deliberately di
 - `PUBLIC_NS` (or a Hub equivalent) covers the cleaned namespaces.
 **Dependencies:** None. Cheapest right after this session, while the guard functions are fresh.
 
-### [COPY-004] French caption bodies still ship as English templates
+### [COPY-004] ✅ CLOSED (2026-08-15) — French caption bodies
 **Category:** i18n / content
 **Severity/Priority:** Low (documented product decision, not a defect)
-**Status:** Open — deliberate; recorded here so it is not "discovered" again
-**Problem/Gap Statement:** `comms-public-ux.mdc` allows caption **bodies** to stay EN while the page chrome is i18n, pending multi-union content. The new "no untranslated FR" guard scopes to `PUBLIC_NS`, which includes `captions`, so any future FR caption work must land as real translation rather than copied English or the guard will fire. Related open item from the workshop Gap Fit: FR caption packs.
+**Status:** Closed — template `category` / `title` / `caption` moved into `messages/en.json` + `messages/fr.json` under `captions.templates.*`; ids + hashtags stay in [`src/lib/constants/captions.ts`](../../src/lib/constants/captions.ts); `/captions` page uses `useTranslations`. Placeholders and `#LocalUnion` preserved; no national hashtags. Per-union caption packs remain future scope.
+**Problem/Gap Statement:** `comms-public-ux.mdc` allowed caption **bodies** to stay EN while the page chrome is i18n, pending multi-union content. Bodies lived in `captions.ts` outside the untranslated-FR guard.
 **Affected Architecture/Files:**
-- `messages/fr.json` (`captions.*`)
-- `.cursor/rules/comms-public-ux.mdc`, `docs/audit/workshop-gap-fit-2026-08.md`
-**Implementation Blueprint:** Translate caption bodies with `#LocalUnion` / `[Local Number]` placeholders intact; do not introduce national hashtags. Verify the untranslated-FR guard passes rather than exempting `captions`.
-**Acceptance Criteria:** FR caption bodies read as French written for Ontario locals; no hardcoded national hashtag; guard green without a new exemption.
-**Dependencies:** Multi-union content decision (same blocker as the Gap Fit entry).
+- `messages/en.json`, `messages/fr.json` (`captions.templates.*`)
+- `src/lib/constants/captions.ts`, `src/app/[locale]/captions/page.tsx`
+**Acceptance Criteria:** FR caption bodies read as French written for Ontario locals; no hardcoded national hashtag; guard green without a new exemption. **Met.**
+**Dependencies:** None for generic FR; multi-union packs still deferred.
 
 ### [COPY-005] ✅ CLOSED (2026-08-15) — EN readability ranking report
 **Category:** Tooling (optional)

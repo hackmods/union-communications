@@ -9,8 +9,22 @@
 - [x] ADR-014 amended; COMMS visual system + session knowledge
 - [x] Playwright: `e2e/tools.fonts.smoke.spec.ts` (`@smoke` + `@export`) + `e2e/helpers/canvas-fonts.ts`
 - [x] Website ZIP embeds subset `@font-face` + woff2 + `NOTICE.txt`; Office DOCX/PPTX map catalog → face names (not binary embed)
+- [x] Quote Card + Action Card Oswald matrix rows; Pulse Poll Hub-auth Oswald `@export` case
+- [x] Variable fonts deferred (static bundle ≈ 278 KB)
 - Verify: `npx playwright test e2e/tools.fonts.smoke.spec.ts` (quote `@smoke` / `@export` on PowerShell)
 - Unit: `npm run test:unit -- src/lib/comms/canvas-fonts.test.ts src/lib/templates/website/generate-website-zip.test.ts src/lib/export/office-export.test.ts src/lib/export/office-docx-builders.test.ts`
+
+## COPY-004 FR caption bodies (2026-08-15)
+
+- [x] Template category/title/caption in `messages` EN/FR; ids + hashtags in `captions.ts`
+- [x] `/captions` page locale-aware; placeholders + `#LocalUnion` preserved
+- [x] Backlog COPY-004 closed; unit coverage for template meta
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/constants/captions.test.ts`
+
+## Ops durable verify (2026-08-15)
+
+- [x] `npm run ops:verify-durable` green locally (migrate → seed → durability → RLS)
+- Host production flip remains operator choice (`docker-compose.durable.yml` + `HEALTH_REQUIRE_DURABLE=true`)
 
 ## COPY-005 EN readability report (2026-08-15)
 

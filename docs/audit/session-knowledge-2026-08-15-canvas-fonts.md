@@ -46,12 +46,14 @@ The 2026-08-14 note that “Flyer alone has font pickers; other tools stay typeS
 ## Next steps (ordered)
 
 1. ~~**Website ZIP / Office embed (follow-up)**~~ — **shipped 2026-08-15** — Website ZIP bundles subset `@font-face` + woff2 + `NOTICE.txt`; Office DOCX/PPTX map catalog ids → face names (no OOXML binary embed).
-2. **Pulse Poll public fidelity** — still Hub-gated; when public, add font seed case to `@export` suite.
-3. **Quote Card / wallet spot-check in CI** — Graphic/Flyer/Board Notice/Meeting covered; optional `@export` matrix row for Quote Card + Action Card with `oswald` seed (parity, not blocking).
-4. **Ops Postgres flip** — still the roadmap #1 ops item (unrelated to fonts); see [`roadmap-next.mdc`](../../.cursor/rules/roadmap-next.mdc).
-5. **COPY-004** — FR captions content residual still open.
-6. **Variable-font consolidation (stretch)** — current static weight files work; a single VF per family would shrink `public/fonts/` if download size becomes an issue.
+2. ~~**Pulse Poll public fidelity**~~ — **shipped 2026-08-15** — Hub-auth `@export` Oswald case in `tools.fonts.smoke.spec.ts` (authoring stays Hub-gated; ADR-015 unchanged).
+3. ~~**Quote Card / wallet spot-check in CI**~~ — **shipped 2026-08-15** — Oswald `@smoke` + `@export` rows for Quote Card + Action Card.
+4. ~~**Ops Postgres flip (local verify)**~~ — **verified 2026-08-15** — `npm run ops:verify-durable` green (migrate/seed/durability/RLS). Production host flip remains an operator choice.
+5. ~~**COPY-004**~~ — **shipped 2026-08-15** — FR caption template bodies in `messages`; see execution-backlog.
+6. ~~**Variable-font consolidation (stretch)**~~ — **deferred** — `public/fonts/` ≈ 278 KB static Latin subsets; VF churn not justified until download size is a product issue.
 7. **OOXML binary font embed (stretch)** — Office name-map is enough when faces are installed locally; embed only if product demands offline Word/PowerPoint without installed fonts.
+
+Parked-followups plan: [`plan-2026-08-15-parked-followups.md`](plan-2026-08-15-parked-followups.md).
 
 ## Agent pitfalls
 

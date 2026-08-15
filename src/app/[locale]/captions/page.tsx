@@ -2,7 +2,11 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { CAPTION_TEMPLATES } from "@/lib/constants/captions";
+import {
+  CAPTION_TEMPLATES,
+  formatCaptionBody,
+  isCaptionTemplateId,
+} from "@/lib/constants/captions";
 import { copyToClipboard, cn } from "@/lib/utils";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -12,8 +16,8 @@ import { useTranslations } from "next-intl";
 
 function resolveCaptionId(searchParams: URLSearchParams): string | null {
   const id = searchParams.get("caption");
-  if (!id) return null;
-  return CAPTION_TEMPLATES.some((tpl) => tpl.id === id) ? id : null;
+  if (!id || !isCaptionTemplateId(id)) return null;
+  return id;
 }
 
 function CaptionsPageContent() {
@@ -56,7 +60,13 @@ function CaptionsPageContent() {
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {CAPTION_TEMPLATES.map((template) => {
-          const fullText = `${template.caption}\n\n${template.hashtags.join(" ")}`;
+          const category = tc(`templates.${template.id}.category`);
+          const title = tc(`templates.${template.id}.title`);
+          const caption = formatCaptionBody(
+            template,
+            tc(`templates.${template.id}.caption`),
+          );
+          const fullText = `${caption}\n\n${template.hashtags.join(" ")}`;
           const highlighted = highlightId === template.id;
           return (
             <Card
@@ -71,11 +81,9 @@ function CaptionsPageContent() {
               <div className="flex items-start justify-between gap-3 sm:gap-4">
                 <div className="min-w-0">
                   <span className="text-xs font-medium uppercase text-opseu-blue">
-                    {template.category}
+                    {category}
                   </span>
-                  <CardTitle className="mt-0.5 text-base">
-                    {template.title}
-                  </CardTitle>
+                  <CardTitle className="mt-0.5 text-base">{title}</CardTitle>
                 </div>
                 <Button
                   size="sm"
@@ -87,7 +95,7 @@ function CaptionsPageContent() {
                 </Button>
               </div>
               <pre className="mt-2 whitespace-pre-wrap font-sans text-sm text-gray-700">
-                {template.caption}
+                {caption}
               </pre>
               <p className="mt-1.5 text-sm text-opseu-blue">
                 {template.hashtags.join(" ")}

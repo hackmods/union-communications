@@ -220,6 +220,36 @@ test.describe("Canvas brand fonts rendering @smoke", () => {
     const doc = await pdfjs.getDocument({ data }).promise;
     expect(doc.numPages).toBeGreaterThanOrEqual(1);
   });
+
+  test("Quote Card with Oswald headline paints on export root", async ({
+    page,
+  }) => {
+    await seedCanvasFonts(page, {
+      headlineFontId: "oswald",
+      bodyFontId: "sourceSans",
+    });
+    await page.goto("/en/tools/quote-card/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await waitForExportRoot(page);
+
+    const family = await exportRootHeadlineFontFamily(page);
+    expect(family.toLowerCase()).toMatch(/oswald|__/i);
+  });
+
+  test("Action Card with Oswald headline paints on export root", async ({
+    page,
+  }) => {
+    await seedCanvasFonts(page, {
+      headlineFontId: "oswald",
+      bodyFontId: "sourceSans",
+    });
+    await page.goto("/en/tools/action-card/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await waitForExportRoot(page);
+
+    const family = await exportRootHeadlineFontFamily(page);
+    expect(family.toLowerCase()).toMatch(/oswald|__/i);
+  });
 });
 
 test.describe("Canvas brand fonts export fidelity @export", () => {
@@ -320,6 +350,63 @@ test.describe("Canvas brand fonts export fidelity @export", () => {
       if (!line) throw new Error("no headline line");
       return getComputedStyle(line).fontFamily;
     }, EXPORT_ROOT_SELECTOR);
+    expect(family.toLowerCase()).toMatch(/oswald|__/i);
+
+    const capture = await bridgeCapturePng(page, { pixelRatio: 2 });
+    expect(capture.width * capture.height).toBeGreaterThan(10_000);
+  });
+
+  test("Quote Card Oswald capture stays non-empty", async ({ page }) => {
+    await seedCanvasFonts(page, {
+      headlineFontId: "oswald",
+      bodyFontId: "sourceSans",
+    });
+    await page.goto("/en/tools/quote-card/");
+    await waitForExportRoot(page);
+    const family = await exportRootHeadlineFontFamily(page);
+    expect(family.toLowerCase()).toMatch(/oswald|__/i);
+    const capture = await bridgeCapturePng(page, { pixelRatio: 2 });
+    expect(capture.width * capture.height).toBeGreaterThan(10_000);
+  });
+
+  test("Action Card Oswald capture stays non-empty", async ({ page }) => {
+    await seedCanvasFonts(page, {
+      headlineFontId: "oswald",
+      bodyFontId: "sourceSans",
+    });
+    await page.goto("/en/tools/action-card/");
+    await waitForExportRoot(page);
+    const family = await exportRootHeadlineFontFamily(page);
+    expect(family.toLowerCase()).toMatch(/oswald|__/i);
+    const capture = await bridgeCapturePng(page, { pixelRatio: 2 });
+    expect(capture.width * capture.height).toBeGreaterThan(10_000);
+  });
+});
+
+test.describe("Pulse Poll Hub font fidelity @export", () => {
+  test.describe.configure({ mode: "serial", timeout: 90_000 });
+
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+  });
+
+  test("Pulse Poll Oswald headline after Hub login", async ({ page }) => {
+    const { loginAsDemoOfficer } = await import("./helpers/auth");
+    await seedCanvasFonts(page, {
+      headlineFontId: "oswald",
+      bodyFontId: "sourceSans",
+    });
+    await loginAsDemoOfficer(page);
+    await page.goto("/en/tools/pulse-poll/");
+    await expect(
+      page.getByRole("heading", {
+        level: 1,
+        name: /Pulse Poll Creator|Créateur de sondage éclair/i,
+      }),
+    ).toBeVisible({ timeout: 20_000 });
+    await waitForExportRoot(page);
+
+    const family = await exportRootHeadlineFontFamily(page);
     expect(family.toLowerCase()).toMatch(/oswald|__/i);
 
     const capture = await bridgeCapturePng(page, { pixelRatio: 2 });

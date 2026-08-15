@@ -4452,7 +4452,39 @@
     "title": "Bibliothèque de légendes et de mot-clics",
     "subtitle": "Copiez une publication prête, ajoutez le numéro de section et les dates, puis collez sous votre téléchargement du Créateur de graphiques.",
     "graphicMakerCta": "Ouvrir le Créateur de graphiques",
-    "graphicMakerHint": "Après avoir copié une légende, téléchargez un graphique assorti."
+    "graphicMakerHint": "Après avoir copié une légende, téléchargez un graphique assorti.",
+    "templates": {
+      "welcome": {
+        "category": "Général",
+        "title": "Accueil des nouveaux membres",
+        "caption": "Bienvenue dans la famille! Nous sommes ravis de vous accueillir à la [Local Number] [Sub-text]. Ensemble, nous sommes plus forts. Des questions? Communiquez avec votre délégué ou consultez notre page en tout temps."
+      },
+      "agm": {
+        "category": "AGA",
+        "title": "Annonce d'assemblée générale annuelle",
+        "caption": "ASSEMBLÉE GÉNÉRALE ANNUELLE\n\nDate : [Date]\nHeure : [Time]\nLieu : [Location/Virtual link]\n\nTous les membres sont encouragés à y participer. Votre voix oriente la direction de notre section. À bientôt!"
+      },
+      "bargaining": {
+        "category": "Négociation",
+        "title": "Mise à jour des négociations",
+        "caption": "Mise à jour des négociations : notre équipe a rencontré la direction aujourd'hui pour discuter de [key issues]. Nous restons déterminés à obtenir des salaires justes, des milieux de travail sécuritaires et le respect de chaque membre. Restez à l'affût des nouvelles."
+      },
+      "strike": {
+        "category": "Grève",
+        "title": "Avis de moyen de pression",
+        "caption": "MOYEN DE PRESSION\n\nNos membres ont voté en faveur d'un moyen de pression à compter du [Date]. Nous demandons à la direction de revenir à la table avec une offre juste. Solidarité pour toujours!"
+      },
+      "spotlight": {
+        "category": "Membre en vedette",
+        "title": "Membre en vedette",
+        "caption": "MEMBRE EN VEDETTE\n\nVoici [Name], qui milite dans notre section depuis [X] ans. [Quote or achievement]. Merci pour tout ce que vous faites pour nos membres!"
+      },
+      "event-thanks": {
+        "category": "Événements",
+        "title": "Remerciement après un événement",
+        "caption": "Merci à toutes les personnes qui se sont jointes à nous pour [Event Name]! [X] membres sont venus manifester leur solidarité. Ensemble, nous changeons les choses."
+      }
+    }
   },
   "workshopDemo": {
     "title": "Démo en environ 20 minutes",

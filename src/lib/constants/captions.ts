@@ -1,61 +1,67 @@
+import type { EmojiId } from "@/lib/constants/emoji";
 import { emojiChar } from "@/lib/constants/emoji";
 
-export interface CaptionTemplate {
-  id: string;
-  category: string;
-  title: string;
-  caption: string;
+export type CaptionTemplateId =
+  | "welcome"
+  | "agm"
+  | "bargaining"
+  | "strike"
+  | "spotlight"
+  | "event-thanks";
+
+export interface CaptionTemplateMeta {
+  id: CaptionTemplateId;
   hashtags: string[];
+  /** Optional emoji prepended/appended around the i18n caption body. */
+  leadEmoji?: EmojiId;
+  trailEmoji?: EmojiId;
 }
 
-/** Swap [Local Number] / [Sub-text] placeholders; prefer union-agnostic hashtags. */
-export const CAPTION_TEMPLATES: CaptionTemplate[] = [
+/**
+ * Stable ids + union-agnostic hashtags. Category / title / caption bodies live
+ * in messages catalogs under captions.templates (COPY-004).
+ */
+export const CAPTION_TEMPLATES: CaptionTemplateMeta[] = [
   {
     id: "welcome",
-    category: "General",
-    title: "Welcome new members",
-    caption:
-      "Welcome to the family! We're thrilled to have you join [Local Number] [Sub-text]. Together, we're stronger. Questions? Reach out to your steward or visit our page anytime.",
     hashtags: ["#LocalUnion", "#UnionStrong", "#NewMember", "#Solidarity"],
   },
   {
     id: "agm",
-    category: "AGM",
-    title: "AGM announcement",
-    caption:
-      `${emojiChar("megaphone")} ANNUAL GENERAL MEETING\n\nDate: [Date]\nTime: [Time]\nLocation: [Location/Virtual link]\n\nAll members are encouraged to attend. Your participation shapes our local's direction. See you there!`,
+    leadEmoji: "megaphone",
     hashtags: ["#AGM", "#LocalUnion", "#MemberVoice", "#Democracy"],
   },
   {
     id: "bargaining",
-    category: "Bargaining",
-    title: "Bargaining update",
-    caption:
-      "Bargaining update: Our team met with management today to discuss [key issues]. We remain committed to fair wages, safe workplaces, and respect for every member. Stay tuned for updates.",
     hashtags: ["#Bargaining", "#FairWages", "#LocalUnion", "#WorkersRights"],
   },
   {
     id: "strike",
-    category: "Strike",
-    title: "Strike action notice",
-    caption:
-      `${emojiChar("warning")} STRIKE ACTION\n\nOur members have voted to take strike action effective [Date]. We call on management to return to the table with a fair offer. Solidarity forever!`,
+    leadEmoji: "warning",
     hashtags: ["#Strike", "#Solidarity", "#LocalUnion", "#UnionStrong"],
   },
   {
     id: "spotlight",
-    category: "Member spotlight",
-    title: "Member spotlight",
-    caption:
-      `${emojiChar("star")} MEMBER SPOTLIGHT\n\nMeet [Name], who has served our local for [X] years. [Quote or achievement]. Thank you for everything you do for our members!`,
+    leadEmoji: "star",
     hashtags: ["#MemberSpotlight", "#LocalUnion", "#UnionFamily"],
   },
   {
     id: "event-thanks",
-    category: "Events",
-    title: "Event thank-you",
-    caption:
-      `Thank you to everyone who joined us at [Event Name]! [X] members came out to show their solidarity. Together, we make a difference. ${emojiChar("strength")}`,
+    trailEmoji: "strength",
     hashtags: ["#ThankYou", "#LocalUnion", "#Community", "#Solidarity"],
   },
 ];
+
+export function isCaptionTemplateId(value: string): value is CaptionTemplateId {
+  return CAPTION_TEMPLATES.some((tpl) => tpl.id === value);
+}
+
+/** Compose caption body with optional registry emoji around the translated text. */
+export function formatCaptionBody(
+  meta: CaptionTemplateMeta,
+  caption: string,
+): string {
+  const lead = meta.leadEmoji ? `${emojiChar(meta.leadEmoji)} ` : "";
+  const trail = meta.trailEmoji ? ` ${emojiChar(meta.trailEmoji)}` : "";
+  return `${lead}${caption}${trail}`;
+}
