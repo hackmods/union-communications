@@ -96,6 +96,9 @@ describe("pdf-export", () => {
         backgroundColor: "#ffffff",
       }),
     );
+    expect(typeof (toPng.mock.calls[0]?.[1] as { onclone?: unknown })?.onclone).toBe(
+      "function",
+    );
     expect(JsPDFCtor).toHaveBeenCalledTimes(1);
     expect(saveAs).toHaveBeenCalledTimes(1);
   });

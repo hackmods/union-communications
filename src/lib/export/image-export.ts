@@ -1,35 +1,13 @@
 import { saveBlob } from "@/lib/export/save-blob";
+import {
+  buildHtmlToImageOptions,
+  withUnscaledAncestors,
+  type CaptureOptions,
+} from "@/lib/export/capture";
 
 export type ExportFormat = "png" | "svg";
 
-export interface ExportOptions {
-  pixelRatio?: number;
-  /**
-   * Canvas fill behind the node. Omit / undefined → white (most graphics tools).
-   * Pass `null` for a transparent PNG (logos with rounded shapes).
-   */
-  backgroundColor?: string | null;
-}
-
-function pngOptions(node: HTMLElement, options: ExportOptions) {
-  const opts: {
-    pixelRatio: number;
-    cacheBust: boolean;
-    backgroundColor?: string;
-    width: number;
-    height: number;
-  } = {
-    pixelRatio: options.pixelRatio ?? 2,
-    cacheBust: true,
-    // Pin layout box so aspect-ratio / flex clones don't collapse during capture
-    width: Math.max(1, Math.round(node.offsetWidth)),
-    height: Math.max(1, Math.round(node.offsetHeight)),
-  };
-  if (options.backgroundColor !== null) {
-    opts.backgroundColor = options.backgroundColor ?? "#ffffff";
-  }
-  return opts;
-}
+export type ExportOptions = CaptureOptions;
 
 /**
  * Convert a data URL to a Blob without `fetch()`.
@@ -59,22 +37,34 @@ export function dataUrlToBlob(dataUrl: string): Blob {
   return new Blob([decodeURIComponent(payload)], { type: mime });
 }
 
+export async function captureNodeToPngDataUrl(
+  node: HTMLElement,
+  options: ExportOptions = {},
+): Promise<string> {
+  return withUnscaledAncestors(node, async () => {
+    const { toPng } = await import("html-to-image");
+    const opts = buildHtmlToImageOptions(node, options);
+    return toPng(node, opts);
+  });
+}
+
 export async function exportNodeAsPng(
   node: HTMLElement,
   filename: string,
   options: ExportOptions = {},
 ): Promise<void> {
-  const { toBlob, toPng } = await import("html-to-image");
-  const opts = pngOptions(node, options);
-  // Prefer toBlob — avoids giant data URLs and CSP-blocked fetch(data:)
-  const blob = await toBlob(node, opts);
-  if (!blob || blob.size === 0) {
-    // Fallback when toBlob returns null (some older WebKit paths)
-    const dataUrl = await toPng(node, opts);
-    await saveBlob(dataUrlToBlob(dataUrl), filename);
-    return;
-  }
-  await saveBlob(blob, filename);
+  await withUnscaledAncestors(node, async () => {
+    const { toBlob, toPng } = await import("html-to-image");
+    const opts = buildHtmlToImageOptions(node, options);
+    // Prefer toBlob — avoids giant data URLs and CSP-blocked fetch(data:)
+    const blob = await toBlob(node, opts);
+    if (!blob || blob.size === 0) {
+      const dataUrl = await toPng(node, opts);
+      await saveBlob(dataUrlToBlob(dataUrl), filename);
+      return;
+    }
+    await saveBlob(blob, filename);
+  });
 }
 
 export async function exportNodeAsSvg(
@@ -90,16 +80,18 @@ export async function exportNodeAsBlob(
   node: HTMLElement,
   options: ExportOptions = {},
 ): Promise<Blob> {
-  const { toBlob, toPng } = await import("html-to-image");
-  const opts = {
-    ...pngOptions(node, options),
-    pixelRatio: options.pixelRatio ?? 1,
-  };
-  const blob = await toBlob(node, opts);
-  if (blob && blob.size > 0) return blob;
+  return withUnscaledAncestors(node, async () => {
+    const { toBlob, toPng } = await import("html-to-image");
+    const opts = buildHtmlToImageOptions(node, {
+      ...options,
+      pixelRatio: options.pixelRatio ?? 1,
+    });
+    const blob = await toBlob(node, opts);
+    if (blob && blob.size > 0) return blob;
 
-  const dataUrl = await toPng(node, opts);
-  return dataUrlToBlob(dataUrl);
+    const dataUrl = await toPng(node, opts);
+    return dataUrlToBlob(dataUrl);
+  });
 }
 
 export async function downloadBlob(blob: Blob, filename: string): Promise<void> {

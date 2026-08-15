@@ -42,6 +42,8 @@ export interface FlyerLayoutCanvasProps {
   subText: string;
   fontFamily: string;
   aspectClass: string;
+  /** Inline aspect-ratio for capture-safe clones (e.g. `"8.5 / 11"`). */
+  aspectRatio: string;
   photoUrl?: string;
   photoScale?: number;
   qrSrc?: string | null;
@@ -147,6 +149,7 @@ export function FlyerLayoutCanvas({
   subText,
   fontFamily,
   aspectClass,
+  aspectRatio,
   photoUrl,
   photoScale = 1,
   qrSrc,
@@ -173,6 +176,12 @@ export function FlyerLayoutCanvas({
     ...surfaceStyle,
     color: ink,
     fontFamily,
+    aspectRatio,
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    overflow: "hidden",
+    boxSizing: "border-box",
     padding: tokens.paddingPx,
     gap: tokens.gapPx,
     ...style,
@@ -194,6 +203,12 @@ export function FlyerLayoutCanvas({
           backgroundColor: panelBg,
           color: panelInk,
           fontFamily,
+          aspectRatio,
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          overflow: "hidden",
+          boxSizing: "border-box",
           ...style,
         }}
       >
@@ -203,6 +218,7 @@ export function FlyerLayoutCanvas({
           style={{
             backgroundColor: colours.secondary,
             color: bandInk,
+            fontFamily,
             padding: tokens.paddingPx,
             gap: tokens.gapPx,
             flex: "0 0 auto",

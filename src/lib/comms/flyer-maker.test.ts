@@ -41,6 +41,7 @@ describe("flyer-formats", () => {
   it("exposes letter, half-letter, and tabloid with PDF inches", () => {
     expect(FLYER_FORMAT_ORDER).toEqual(["letter", "halfLetter", "tabloid"]);
     expect(FLYER_FORMATS.letter.widthInches).toBe(8.5);
+    expect(FLYER_FORMATS.letter.aspectRatio).toBe("8.5 / 11");
     expect(FLYER_FORMATS.halfLetter.heightInches).toBe(8.5);
     expect(FLYER_FORMATS.tabloid.widthInches).toBe(11);
     expect(isFlyerFormatId(DEFAULT_FLYER_FORMAT)).toBe(true);

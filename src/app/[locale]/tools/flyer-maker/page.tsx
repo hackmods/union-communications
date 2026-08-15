@@ -566,6 +566,7 @@ function FlyerMakerPageContent() {
               subText={brandKit.local.subText}
               fontFamily={flyerFontFamily(state.fontStack)}
               aspectClass={format.aspectClass}
+              aspectRatio={format.aspectRatio}
               photoUrl={showPhoto ? state.photoUrl : undefined}
               photoScale={state.photoScale}
               showQr={state.showQr}

@@ -112,8 +112,14 @@ export function CanvasBrandHeader({
       />
       {badge}
       <p
-        className="text-sm font-bold uppercase tracking-widest"
-        style={{ color: ink }}
+        className="font-bold uppercase tracking-widest"
+        style={{
+          color: ink,
+          // Inline size — Tailwind text-* can resolve via oklch vars in some builds
+          fontSize: "0.875rem",
+          lineHeight: 1.25,
+          margin: 0,
+        }}
       >
         {label}
       </p>

@@ -1,4 +1,9 @@
 import { saveBlob } from "@/lib/export/save-blob";
+import {
+  buildHtmlToImageOptions,
+  pngDataUrlToJpegDataUrl,
+  withUnscaledAncestors,
+} from "@/lib/export/capture";
 
 export async function exportFlyerPdf(
   imageDataUrl: string,
@@ -14,7 +19,11 @@ export async function exportFlyerPdf(
     format: [widthInches, heightInches],
   });
 
-  pdf.addImage(imageDataUrl, "PNG", 0, 0, widthInches, heightInches);
+  // JPEG keeps steward downloads small and avoids blank/odd renders some
+  // viewers show for multi‑MB uncompressed PNG XObjects.
+  const jpegUrl = await pngDataUrlToJpegDataUrl(imageDataUrl);
+  const format = jpegUrl.startsWith("data:image/jpeg") ? "JPEG" : "PNG";
+  pdf.addImage(jpegUrl, format, 0, 0, widthInches, heightInches);
   const blob = pdf.output("blob");
   await saveBlob(blob, filename);
 }
@@ -27,20 +36,12 @@ export async function nodeToPdf(
   pixelRatio = 2,
   backgroundColor?: string,
 ): Promise<void> {
-  const { toPng } = await import("html-to-image");
-  const dataUrl = await toPng(node, {
-    pixelRatio,
-    cacheBust: true,
-    width: Math.max(1, Math.round(node.offsetWidth)),
-    height: Math.max(1, Math.round(node.offsetHeight)),
-    backgroundColor:
-      backgroundColor ??
-      (() => {
-        const computed = getComputedStyle(node).backgroundColor;
-        return !computed || computed === "rgba(0, 0, 0, 0)" || computed === "transparent"
-          ? "#ffffff"
-          : computed;
-      })(),
+  const dataUrl = await withUnscaledAncestors(node, async () => {
+    const { toPng } = await import("html-to-image");
+    return toPng(
+      node,
+      buildHtmlToImageOptions(node, { pixelRatio, backgroundColor }),
+    );
   });
   await exportFlyerPdf(dataUrl, filename, widthInches, heightInches);
 }
@@ -80,15 +81,16 @@ export async function nodesToPdf(
 
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
-    const dataUrl = await toPng(node, {
-      pixelRatio,
-      cacheBust: true,
-      width: Math.max(1, Math.round(node.offsetWidth)),
-      height: Math.max(1, Math.round(node.offsetHeight)),
-      backgroundColor,
-    });
+    const dataUrl = await withUnscaledAncestors(node, async () =>
+      toPng(
+        node,
+        buildHtmlToImageOptions(node, { pixelRatio, backgroundColor }),
+      ),
+    );
+    const jpegUrl = await pngDataUrlToJpegDataUrl(dataUrl);
+    const format = jpegUrl.startsWith("data:image/jpeg") ? "JPEG" : "PNG";
     if (i > 0) pdf.addPage([widthInches, heightInches]);
-    pdf.addImage(dataUrl, "PNG", 0, 0, widthInches, heightInches);
+    pdf.addImage(jpegUrl, format, 0, 0, widthInches, heightInches);
   }
 
   await saveBlob(pdf.output("blob"), filename);

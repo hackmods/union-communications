@@ -14,6 +14,11 @@ export interface FlyerFormat {
   id: FlyerFormatId;
   /** Tailwind aspect utility class for the preview canvas */
   aspectClass: string;
+  /**
+   * Inline CSS aspect-ratio (capture-safe). Prefer this over relying solely
+   * on the Tailwind class when html-to-image clones the node.
+   */
+  aspectRatio: string;
   widthInches: number;
   heightInches: number;
 }
@@ -22,18 +27,21 @@ export const FLYER_FORMATS: Record<FlyerFormatId, FlyerFormat> = {
   letter: {
     id: "letter",
     aspectClass: "aspect-[8.5/11]",
+    aspectRatio: "8.5 / 11",
     widthInches: 8.5,
     heightInches: 11,
   },
   halfLetter: {
     id: "halfLetter",
     aspectClass: "aspect-[5.5/8.5]",
+    aspectRatio: "5.5 / 8.5",
     widthInches: 5.5,
     heightInches: 8.5,
   },
   tabloid: {
     id: "tabloid",
     aspectClass: "aspect-[11/17]",
+    aspectRatio: "11 / 17",
     widthInches: 11,
     heightInches: 17,
   },
