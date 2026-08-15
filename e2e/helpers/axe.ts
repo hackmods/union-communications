@@ -13,9 +13,9 @@ export function seriousOrCriticalViolations(
 /** Run axe and assert no serious or critical violations. */
 export async function expectNoSeriousA11yViolations(page: Page) {
   const results = await new AxeBuilder({ page })
-    // Smoke gate focuses on structure/name/role. Known Hub/tool UI debt:
-    // near-miss contrast + scrollable panels without focusable children.
-    .disableRules(["color-contrast", "scrollable-region-focusable"])
+    // Near-miss orange/cream and muted caption greys trip 4.48 vs 4.5 in CI;
+    // keep smoke focused on structure/name/role. Contrast is tracked separately.
+    .disableRules(["color-contrast"])
     .analyze();
   expect(seriousOrCriticalViolations(results.violations)).toEqual([]);
 }
