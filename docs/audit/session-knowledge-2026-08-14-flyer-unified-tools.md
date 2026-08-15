@@ -223,6 +223,7 @@ Manual: `/en/tools/flyer-maker` (preset → paper size → PDF); `/en/tools/shar
 
 ## Open residuals (not this train)
 
+- **Phase 9 — export integrity (planned):** Flyer PDF confirmed unstyled vs preview (2026-08-14); add fidelity harness + Playwright download smoke — [`TOOL-008`](execution-backlog.md) / [`TOOL-009`](execution-backlog.md), [`docs/ROADMAP.md`](../ROADMAP.md) Phase 9
 - FR caption body packs (content project)
 - Provenance / watermark on anonymous canvas exports (strategic)
 - Calendar RSVP → flyer QR deep embed

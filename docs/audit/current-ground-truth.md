@@ -110,6 +110,15 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 | Narrative | [`session-knowledge-2026-08-09-workshop-comms.md`](session-knowledge-2026-08-09-workshop-comms.md) |
 | Flyer + unified chrome (2026-08-14) | Flyer Maker QOL v2; Share Kit `/tools/share-kit`; shell checklist — [`session-knowledge-2026-08-14-flyer-unified-tools.md`](session-knowledge-2026-08-14-flyer-unified-tools.md) |
 
+## Next — Phase 9 export integrity (planned)
+
+| Topic | Reality |
+|-------|---------|
+| Gap | Preview can look correct while PNG/PDF capture washes out — **Flyer PDF confirmed unstyled 2026-08-14** |
+| Smoke today | Visit + axe only — no download/content assertions (`builders.smoke` / `workshop.smoke`) |
+| Plan | [`docs/ROADMAP.md`](../ROADMAP.md) Phase 9; [`TOOL-008`](execution-backlog.md) fix+harness → [`TOOL-009`](execution-backlog.md) Playwright output smoke |
+| Capture-safe reminder | Inline hex/rgba on capture roots — Tailwind v4 `oklch` utilities wash out `html-to-image` |
+
 ## Agent habits
 
 - Diff docs vs code before “implement next” — plan files and backlog tickets lag

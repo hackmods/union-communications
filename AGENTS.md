@@ -28,8 +28,9 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 | 6/7 Persistence & hardening | Near-complete — adapters flagged; ops flip Postgres |
 | 8 Workforce Time | 8-lite / 8-lite+ / 8a / **8b** shipped; 8c+ scheduling/PTO planned |
 | Calendar / RSVP | Phase A + R0–R3 shipped (cron member broadcast deferred) |
+| **9 Comms export integrity** | **Planned** — preview ↔ PNG/PDF fidelity; Flyer PDF unstyled confirmed; TOOL-008 → TOOL-009 |
 
-**Next:** Time 8c+ or email ops polish — see `.cursor/rules/roadmap-next.mdc` and `docs/audit/current-ground-truth.md`.
+**Next:** Phase 9 export integrity (or Time 8c+ / email ops polish) — see `.cursor/rules/roadmap-next.mdc` and `docs/audit/current-ground-truth.md`.
 
 ## Multi-Union Rules
 

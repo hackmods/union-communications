@@ -41,6 +41,10 @@ Implementation surface today: [`HomeContent.tsx`](../../src/components/pages/Hom
 - First week H1 + Get started → roadmap when theme established; Tools mega-menu + `/tools` index
 - First week Print step + remaining “Social Media Plan” → “First week” copy sweep (2026-07-24)
 
+## Phase 9 — Export integrity (planned 2026-08-14)
+
+Preview can look correct while PNG/PDF capture washes out (`html-to-image`). **Flyer Maker PDF confirmed unstyled vs preview.** Roadmap Phase 9 + [`TOOL-008`](../audit/execution-backlog.md) (fix + fidelity harness) → [`TOOL-009`](../audit/execution-backlog.md) (Playwright download smoke). Spec: [`docs/ROADMAP.md`](../ROADMAP.md) Phase 9.
+
 ## Related deferred (not Comms v1)
 
 ### Local membership meeting calendar + reminders

@@ -45,15 +45,16 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 
 ## Next planned work (in order)
 
-1. **Ops default flip** — production hosts choosing Postgres backends + real scanner ([`POSTGRES_OPS.md`](../../docs/guides/POSTGRES_OPS.md))
-2. ~~COMMS email/broadcast guide~~ — **shipped 2026-07-26** (`/guide/email-broadcast`)
-3. ~~Time **8f** hybrid slice / punch photos~~ — **shipped 2026-07-26** (`0029_time_8f`)
-4. ~~Optional canvas axe contrast polish (brand-orange preview smoke noise)~~ — **shipped 2026-07-25**
-5. Ops: redeploy sandbox after train merges — `npm run package:sandbox` + `health:check` + `test:smoke:sandbox` — **done 2026-07-26** (`9446186`)
-6. ~~Basecamp automatic check-ins~~ — **shipped 2026-07-26** (`checkins` HubModule + dashboard widget)
-7. ~~Comms stretch: seniority worksheet + right-to-refuse pocket card~~ — **shipped 2026-07-26**
-8. ~~Discussions / Tasks stretch~~ — reactions, @mentions, 15s poll-on-focus — **shipped 2026-07-26** (`0027_hub_social`)
-9. **Copy residuals** (`COPY-001`…`COPY-005` in [`execution-backlog.md`](../../docs/audit/execution-backlog.md)) — `COPY-003` Hub copy **closed 2026-08-11**; `COPY-001` Home composition v2 + CTA de-dup **closed 2026-08-12**; still open cheapest-first: `COPY-002` spec-literal rot check
+1. **Phase 9 — Comms export integrity** ([`docs/ROADMAP.md`](../../docs/ROADMAP.md)) — preview ↔ PNG/PDF fidelity; Flyer PDF confirmed unstyled 2026-08-14; tickets [`TOOL-008`](../../docs/audit/execution-backlog.md) (capture fix + harness) → [`TOOL-009`](../../docs/audit/execution-backlog.md) (Playwright download smoke)
+2. **Ops default flip** — production hosts choosing Postgres backends + real scanner ([`POSTGRES_OPS.md`](../../docs/guides/POSTGRES_OPS.md))
+3. ~~COMMS email/broadcast guide~~ — **shipped 2026-07-26** (`/guide/email-broadcast`)
+4. ~~Time **8f** hybrid slice / punch photos~~ — **shipped 2026-07-26** (`0029_time_8f`)
+5. ~~Optional canvas axe contrast polish (brand-orange preview smoke noise)~~ — **shipped 2026-07-25**
+6. Ops: redeploy sandbox after train merges — `npm run package:sandbox` + `health:check` + `test:smoke:sandbox` — **done 2026-07-26** (`9446186`)
+7. ~~Basecamp automatic check-ins~~ — **shipped 2026-07-26** (`checkins` HubModule + dashboard widget)
+8. ~~Comms stretch: seniority worksheet + right-to-refuse pocket card~~ — **shipped 2026-07-26**
+9. ~~Discussions / Tasks stretch~~ — reactions, @mentions, 15s poll-on-focus — **shipped 2026-07-26** (`0027_hub_social`)
+10. **Copy residuals** (`COPY-001`…`COPY-005` in [`execution-backlog.md`](../../docs/audit/execution-backlog.md)) — `COPY-003` Hub copy **closed 2026-08-11**; `COPY-001` Home composition v2 + CTA de-dup **closed 2026-08-12**; still open cheapest-first: `COPY-002` spec-literal rot check
 
 ## Deferred / non-goals
 

@@ -455,6 +455,32 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Add a one-time read-migration in `local-storage-adapter.ts`: on `getBrandKit()`/`isOnboardingComplete()`, if the new key is empty but the legacy `opseu-*` key has data, read it, then write it under the new key (and optionally clear the old key) — so existing users' browsers don't silently "lose" their saved Brand Kit on the rename.
 3. Add a unit test covering the legacy-key fallback/migration path.
 
+### [TOOL-008] Export capture loses styling vs live preview (Flyer PDF confirmed)
+**Category:** Comms Tools  
+**Severity/Priority:** High  
+**Status:** Open — Phase 9a/9b ([`docs/ROADMAP.md`](../ROADMAP.md) Phase 9). Confirmed steward report 2026-08-14: Flyer Maker **preview is styled**; generated **PDF has no styling**.  
+**Problem/Gap Statement:** Canvas tools render a correct on-screen preview, then export via `html-to-image` (`toPng`/`toBlob`) into PNG or a jsPDF page (`nodeToPdf`). Capture can wash out backgrounds, type, or layout while the live DOM still looks fine. Historical cause class: Tailwind v4 **oklch** colour utilities on capture roots (documented in `graphic-layouts.tsx` / solidarity-poster — “hex fill only”). Flyer QOL v2 uses inline hex on many surfaces + system `fontFamily`, but PDF still ships unstyled — so either (a) remaining utility colours / computed styles do not clone, (b) capture box collapses (`offsetWidth`/`aspect-*`), (c) PDF path differs from PNG (`nodeToPdf` always uses `toPng` + `addImage`), or (d) font stacks do not embed in the raster. Existing tests mock `toPng` and never assert pixel content. Playwright builders smoke only checks that Download controls exist.  
+**Affected Architecture/Files:** `src/lib/export/pdf-export.ts`, `src/lib/export/image-export.ts`, `src/components/tools/flyer-layouts.tsx`, `src/app/[locale]/tools/flyer-maker/page.tsx`, sibling capture roots under `src/components/tools/canvas/`, `src/lib/export/*.test.ts`  
+**Implementation Blueprint:**
+1. Reproduce Flyer letter export: capture PNG bytes from the same node as PDF; compare to a Playwright screenshot of the preview group — confirm whether failure is shared (html-to-image) or PDF-only.
+2. Fix capture-root styling to survive clone (inline hex/rgba only; avoid oklch utilities; pin explicit width/height; apply `fontFamily` on every text subtree if inheritance drops; align PDF backgroundColor with surface).
+3. Add a **fidelity harness** (Vitest + jsdom/happy-dom or Playwright component): render a fixed Brand Kit fixture flyer → `exportNodeAsBlob` / `nodeToPdf` → assert byte length floor + decode PNG / raster first PDF page → sample that primary brand colour and ink appear (not all-white / all-transparent).
+4. Extend harness to Graphic Maker + Board Notice once Flyer is green; document capture-safe rules in `COMMS_VISUAL_SYSTEM.md` if any new constraints emerge.
+5. Close when Flyer PDF/PNG pass the harness in CI and the steward-repro case is fixed.
+
+### [TOOL-009] Playwright smoke for tool outputs (download ≠ visit)
+**Category:** Comms Tools / QA  
+**Severity/Priority:** Medium  
+**Status:** Open — Phase 9c/9d ([`docs/ROADMAP.md`](../ROADMAP.md) Phase 9). Depends on TOOL-008 harness patterns (reuse helpers; do not invent a second assertion dialect).  
+**Problem/Gap Statement:** `e2e/builders.smoke.spec.ts` and `e2e/workshop.smoke.spec.ts` navigate tools and run axe — they do **not** click export, wait for a download, or verify the file contents. Regressions like unstyled Flyer PDFs can ship while `@smoke` stays green.  
+**Affected Architecture/Files:** `e2e/builders.smoke.spec.ts` (or new `e2e/tools.export.smoke.spec.ts`), `e2e/helpers/*`, Playwright config tags (`@smoke` / optional `@export`)  
+**Implementation Blueprint:**
+1. Add download helpers: click PNG/PDF → `waitForEvent('download')` → save to test output → assert `suggestedFilename` + size floor.
+2. First wave (Demo Path + Print): Flyer Maker PDF, Graphic Maker PNG, Board Notice PDF — fixed copy via UI fill or `?preset=` / example seed so Brand Kit colours are deterministic enough for a coarse pixel check.
+3. Optional: decode PNG / raster PDF page 1; compare colour histogram or sampled pixels against a preview screenshot with a loose tolerance (not golden-image per theme).
+4. Tag `@smoke` if runtime stays short; otherwise `@export` job in CI after unit harness is green.
+5. Stretch: Solidarity Poster, QR Board, Meeting Background, Action Card — one export each per channel pack; skip documented preview-only overlays (Resizer safe-zone).
+
 ---
 
 ## LINK AUDIT (`LINK-`)

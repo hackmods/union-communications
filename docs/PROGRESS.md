@@ -1,5 +1,13 @@
 # Progress Log
 
+## Phase 9 — Comms export integrity (PLANNED 2026-08-14)
+
+- [ ] **9a / TOOL-008:** Fix Flyer Maker PDF (confirmed: preview styled, export unstyled); capture-safe root audit
+- [ ] **9b / TOOL-008:** Export fidelity harness — real DOM → PNG/PDF byte + colour-sample assertions (not mocked `toPng` only)
+- [ ] **9c / TOOL-009:** Playwright tool-output smoke — download Flyer PDF, Graphic PNG, Board Notice PDF; size + coarse pixel checks
+- [ ] **9d / TOOL-009 stretch:** Remaining channel-pack tools; document preview-only exceptions
+- Spec: [`docs/ROADMAP.md`](ROADMAP.md) Phase 9; backlog [`TOOL-008`](audit/execution-backlog.md) / [`TOOL-009`](audit/execution-backlog.md)
+
 ## Unified Comms tools experience (2026-08-14)
 
 - [x] Wave 1 chrome: `purposeHint` / `previewActions` / BrandSetup toolbar on pulse-poll, board-banner, action-card, qr-board; Resizer `ConsentModal`; Flyer invite email in footer
