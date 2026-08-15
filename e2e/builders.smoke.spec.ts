@@ -123,7 +123,7 @@ test.describe("Home hero & builders smoke @smoke", () => {
     // CI sets NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true → login gate (soft-launch uses 404).
     await expect(page).toHaveURL(/\/en\/app\/login/);
     await expect(
-      page.getByRole("heading", { name: /Sign in|Connexion/i }),
+      page.getByRole("heading", { name: /Officer login|Connexion/i }),
     ).toBeVisible();
   });
 
