@@ -603,18 +603,15 @@ Sections 1–7 of that audit shipped. These are the residuals it deliberately di
 **Acceptance Criteria:** FR caption bodies read as French written for Ontario locals; no hardcoded national hashtag; guard green without a new exemption.
 **Dependencies:** Multi-union content decision (same blocker as the Gap Fit entry).
 
-### [COPY-005] No automated readability floor
+### [COPY-005] ✅ CLOSED (2026-08-15) — EN readability ranking report
 **Category:** Tooling (optional)
 **Severity/Priority:** Low
-**Status:** Open — proposal only
-**Problem/Gap Statement:** The target is grade 8–10, but nothing measures it. Every pass has judged reading level by eye, which is why "reference tenant defaults" survived several reviews. A crude Flesch-Kincaid or syllable-per-word check over public leaves would catch the worst offenders without pretending to be authoritative.
-**Affected Architecture/Files:** `src/lib/comms/` (new helper + test)
-**Implementation Blueprint:**
-1. Implement a small dependency-free readability score for EN leaves only (French scoring needs different constants and is not worth it).
-2. Report the worst 20 rather than failing a build initially — treat it as a report, then tighten to a ceiling once the tail is cleaned.
-3. Skip labels and short strings (≤8 words); they score meaninglessly.
-**Acceptance Criteria:** `npm run` target or test prints the least-readable public strings; no third-party dependency added (ADR-006 spirit — nothing that phones home).
-**Dependencies:** None. Do after `COPY-003` so Hub copy is in scope too.
+**Status:** Closed — tooling shipped; hard CI ceiling deferred (needs explicit product decision). Snapshot: [`copy-readability-2026-08.md`](copy-readability-2026-08.md).
+**Problem/Gap Statement:** Nothing measured reading density; every pass judged by eye. (The Aug 11 mission brief’s “~grade 8–10” was soft intent, never a product rule — not promoted into `i18n-public-copy.mdc` as a fail band.)
+**Affected Architecture/Files:** `src/lib/comms/readability.ts`, `readability.test.ts`, `copy-namespaces.ts`, `scripts/copy-readability.ts`, `npm run copy:readability`
+**Resolution:** Dependency-free Flesch–Kincaid Grade Level over EN public + Hub leaves (>8 words); prints worst 20 per section; exit 0. Hub section is informational only.
+**Acceptance Criteria:** `npm run copy:readability` prints least-readable public (and Hub) strings; no third-party dependency; unit tests cover scorer ranking.
+**Dependencies:** None. Shipped after `COPY-003`.
 
 ---
 

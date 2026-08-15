@@ -1,5 +1,13 @@
 # Progress Log
 
+## COPY-005 EN readability report (2026-08-15)
+
+- [x] Shared `PUBLIC_NS` / `HUB_NS` + `leavesFor` in `src/lib/comms/copy-namespaces.ts`
+- [x] Dependency-free Flesch–Kincaid helper + unit tests (`readability.ts`)
+- [x] `npm run copy:readability` prints worst 20 public + Hub EN leaves (>8 words); exit 0
+- [x] Snapshot [`docs/audit/copy-readability-2026-08.md`](audit/copy-readability-2026-08.md); backlog closed (no hard grade ceiling)
+- Verify: `npm run copy:readability` and `npm run test:unit -- src/lib/comms/readability.test.ts`
+
 ## Phase 9e — export preview↔download comparison (2026-08-15)
 
 - [x] `compareRasters` / `resizeRasterNearest` in `src/lib/export/fidelity.ts` (+ unit tests)

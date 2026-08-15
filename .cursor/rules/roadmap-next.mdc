@@ -55,7 +55,7 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 7. ~~Basecamp automatic check-ins~~ — **shipped 2026-07-26** (`checkins` HubModule + dashboard widget)
 8. ~~Comms stretch: seniority worksheet + right-to-refuse pocket card~~ — **shipped 2026-07-26**
 9. ~~Discussions / Tasks stretch~~ — reactions, @mentions, 15s poll-on-focus — **shipped 2026-07-26** (`0027_hub_social`)
-10. **Copy residuals** (`COPY-001`…`COPY-005` in [`execution-backlog.md`](../../docs/audit/execution-backlog.md)) — `COPY-003` Hub copy **closed 2026-08-11**; `COPY-001` Home composition v2 + CTA de-dup **closed 2026-08-12**; `COPY-002` smoke↔catalog guard **closed 2026-08-14**; still open: `COPY-004` FR captions (content), `COPY-005` readability proposal
+10. **Copy residuals** (`COPY-001`…`COPY-005` in [`execution-backlog.md`](../../docs/audit/execution-backlog.md)) — `COPY-003` Hub copy **closed 2026-08-11**; `COPY-001` Home composition v2 + CTA de-dup **closed 2026-08-12**; `COPY-002` smoke↔catalog guard **closed 2026-08-14**; `COPY-005` readability report **closed 2026-08-15**; still open: `COPY-004` FR captions (content)
 
 ## Deferred / non-goals
 

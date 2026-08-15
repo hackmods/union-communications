@@ -1,148 +1,16 @@
 import { describe, expect, it } from "vitest";
 import en from "../../../messages/en.json";
 import fr from "../../../messages/fr.json";
-
-const PUBLIC_NS = [
-  "metadata",
-  // nav carries the locked tool names, so it belongs in the locked-term and
-  // French-quality sweeps below.
-  "nav",
-  "share",
-  "consent",
-  "home",
-  "socialMediaPlan",
-  "resources",
-  "workshopDemo",
-  "workshopGuide",
-  "toolsIndex",
-  "guide",
-  "boardNotice",
-  "boardBanner",
-  "resizer",
-  "documentGenerator",
-  "solidarityPoster",
-  "meetingBackground",
-  "qrCard",
-  "actionCard",
-  "pulsePoll",
-  "qrBoard",
-  "graphicMaker",
-  "quoteCard",
-  "flyerMaker",
-  "shareKit",
-  "altTextAssistant",
-  "websiteTemplate",
-  "logoBuilder",
-  "brandKit",
-  // Brand Kit editors on the public /brand-kit page (not Hub-only).
-  "localLinks",
-  "membershipUrls",
-  "assets",
-  "sources",
-  "examples",
-  "captions",
-  "manifesto",
-  "supportPage",
-  "accessibility",
-  "installPage",
-  "onboarding",
-  "unionBoardsGuide",
-  "printGuide",
-  "websiteGuide",
-  "emailBroadcastGuide",
-  "photoConsentGuide",
-  "crisisGuide",
-  "membershipSignupGuide",
-  "dfrGuide",
-  "seniorityGuide",
-  "rightToRefuseGuide",
-  "pollPublic",
-  "pollPlaceholder",
-  // Token pages members reach without signing in.
-  "rsvpPublic",
-  "meetingPublic",
-  "common",
-  "routeUi",
-  "footer",
-  "relatedTools",
-  "privacyPage",
-] as const;
-
-/**
- * Authenticated Officer Hub namespaces. Kept separate from PUBLIC_NS so
- * public-only rules (e.g. flyer→tract) stay public-only. See
- * docs/audit/hub-copy-qol-2026-08.md.
- */
-const HUB_NS = [
-  "hub",
-  "tenantOnboarding",
-  "invites",
-  "inviteAccept",
-  "passwordReset",
-  "ledger",
-  "travel",
-  "expenses",
-  "hubPolls",
-  "meetings",
-  "meetingsRsvp",
-  "officers",
-  "committees",
-  "elections",
-  "informalLog",
-  "minutes",
-  "discussions",
-  "hubSocial",
-  "checkins",
-  "tasks",
-  "hybrid",
-  "documents",
-  "qol",
-  "grievance",
-  "bumping",
-  "time",
-  "portal",
-] as const;
-
-function wordCount(s: string): number {
-  return s.trim().split(/\s+/).filter(Boolean).length;
-}
+import {
+  type CopyLeaf,
+  PUBLIC_NS,
+  hubLeaves,
+  publicLeaves,
+  wordCount,
+} from "./copy-namespaces";
 
 function emDashCount(s: string): number {
   return (s.match(/\u2014/g) ?? []).length;
-}
-
-type Leaf = readonly [path: string, value: string];
-
-/** Every string leaf under the given namespaces, as `ns.a.b` paths. */
-function leavesFor(
-  catalog: Record<string, unknown>,
-  namespaces: readonly string[],
-): Leaf[] {
-  const out: Leaf[] = [];
-  const walk = (node: Record<string, unknown>, prefix: string) => {
-    for (const [key, value] of Object.entries(node)) {
-      const path = `${prefix}.${key}`;
-      if (typeof value === "string") out.push([path, value]);
-      else if (value && typeof value === "object") {
-        walk(value as Record<string, unknown>, path);
-      }
-    }
-  };
-  for (const ns of namespaces) {
-    const block = catalog[ns];
-    if (block && typeof block === "object") {
-      walk(block as Record<string, unknown>, ns);
-    }
-  }
-  return out;
-}
-
-function publicLeaves(catalog: Record<string, unknown>): Leaf[] {
-  return leavesFor(catalog, PUBLIC_NS);
-}
-
-function hubLeaves(catalog: Record<string, unknown>): Leaf[] {
-  return leavesFor(catalog, HUB_NS);
 }
 
 const EN_LEAVES = publicLeaves(en as unknown as Record<string, unknown>);
@@ -150,7 +18,7 @@ const FR_LEAVES = publicLeaves(fr as unknown as Record<string, unknown>);
 const EN_HUB = hubLeaves(en as unknown as Record<string, unknown>);
 const FR_HUB = hubLeaves(fr as unknown as Record<string, unknown>);
 
-function report(rows: Leaf[]): string {
+function report(rows: CopyLeaf[]): string {
   return rows.map(([path, value]) => `${path}: ${value}`).join("\n");
 }
 
@@ -335,7 +203,7 @@ describe("plain language for volunteers", () => {
         if (EXEMPT.has(path)) return [];
         const found = JARGON.filter(([, pattern]) => pattern.test(value));
         return found.map(
-          ([label]) => [path, `[${label}] ${value}`] as const satisfies Leaf,
+          ([label]) => [path, `[${label}] ${value}`] as const satisfies CopyLeaf,
         );
       });
       expect(hits, `${locale}\n${report(hits)}`).toEqual([]);
@@ -450,7 +318,7 @@ describe("Officer Hub copy style", () => {
         if (HUB_EXEMPT.has(path)) return [];
         const found = HUB_JARGON.filter(([, pattern]) => pattern.test(value));
         return found.map(
-          ([label]) => [path, `[${label}] ${value}`] as const satisfies Leaf,
+          ([label]) => [path, `[${label}] ${value}`] as const satisfies CopyLeaf,
         );
       });
       expect(hits, `${locale}\n${report(hits)}`).toEqual([]);
