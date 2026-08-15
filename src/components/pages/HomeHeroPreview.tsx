@@ -23,7 +23,7 @@ export function HomeHeroPreview({ className }: HomeHeroPreviewProps) {
   const accent = brandKit.accentColor;
   const ink = pickContrastingInk(primary);
   const inkSoft = inkWithAlpha(ink, 0.78);
-  const localLabel = resolveLocalNumber(brandKit.localNumber);
+  const localLabel = resolveLocalNumber(brandKit.local.localNumber);
 
   return (
     <aside
