@@ -266,7 +266,10 @@ describe("wallet chrome helpers", () => {
       }),
     );
     expect(walletBodyFontSizePx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(9);
-    expect(walletMetaFontSizePx(tokens)).toBeGreaterThanOrEqual(9);
+    expect(walletMetaFontSizePx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(9);
+    expect(walletMetaFontSizePx(tokens, letterPreviewPx)).toBeGreaterThan(
+      walletMetaFontSizePx(tokens, compactPreviewPx),
+    );
     expect(walletContentPaddingPx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(8);
     expect(walletContentGapPx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(4);
     expect(walletContentPaddingPx(tokens, letterPreviewPx)).toBeGreaterThan(

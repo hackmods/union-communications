@@ -56,6 +56,7 @@ import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import {
   CanvasGrainOverlay,
   CanvasQrPlate,
+  CanvasUrlCaption,
 } from "@/components/tools/canvas";
 
 interface QrCardState {
@@ -239,9 +240,10 @@ function QrCardPageContent() {
     meetsWcagAA(state.secondaryColor, state.primaryColor, true)
       ? state.secondaryColor
       : canvasInk;
+  const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
 
   /** QR plate as % of card width - smaller cards keep more room for copy */
-  const qrPlatePercent = isReference
+  const qrPlatePercentBase = isReference
     ? state.sizeId === "square4"
       ? 26
       : 28
@@ -254,6 +256,11 @@ function QrCardPageContent() {
           : state.sizeId === "half"
             ? 42
             : 34;
+  /** Leave vertical room for wrapped URL captions under the plate. */
+  const qrPlatePercent =
+    state.showUrl && state.destination.trim()
+      ? Math.max(24, qrPlatePercentBase - (isCompact ? 6 : 4))
+      : qrPlatePercentBase;
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
@@ -280,14 +287,13 @@ function QrCardPageContent() {
     });
   };
 
-  const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
   const titleFontPx = walletTitleFontSizePx(
     tokens,
     size.previewWidthPx,
     { reference: isReference },
   );
   const bodyFontPx = walletBodyFontSizePx(tokens, size.previewWidthPx);
-  const metaFontPx = walletMetaFontSizePx(tokens);
+  const metaFontPx = walletMetaFontSizePx(tokens, size.previewWidthPx);
   const contentPadPx = walletContentPaddingPx(tokens, size.previewWidthPx);
   const contentGapPx = walletContentGapPx(tokens, size.previewWidthPx);
   const textAlign = textAlignFromBias(tokens.alignmentBias);
@@ -595,18 +601,15 @@ function QrCardPageContent() {
                         </p>
                       ) : null}
                       {state.showUrl && state.destination.trim() ? (
-                        <p
-                          className="mt-1 max-w-full truncate"
-                          style={{
-                            color: mutedInk80,
-                            fontSize: metaFontPx,
-                            textAlign,
-                            width: "100%",
-                            fontFamily: tokens.bodyFontFamily,
-                          }}
-                        >
-                          {state.destination}
-                        </p>
+                        <CanvasUrlCaption
+                          url={state.destination}
+                          color={mutedInk80}
+                          fontSizePx={metaFontPx}
+                          fontFamily={tokens.bodyFontFamily}
+                          textAlign={textAlign}
+                          maxLines={isCompact ? 2 : 3}
+                          className="mt-1"
+                        />
                       ) : null}
                     </div>
 

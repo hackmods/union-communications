@@ -23,6 +23,7 @@ import { resolveLocalNumber } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { hexToRgba } from "@/lib/utils/contrast";
 import { composeDuotonePhotoDataUrl } from "@/lib/utils/duotone-photo";
+import { formatCanvasDisplayUrl } from "@/lib/utils/canvas-url";
 
 export function CanvasGrainOverlay({
   opacity,
@@ -235,22 +236,31 @@ export function CanvasQrPlate({
     border: tintedBorder ?? undefined,
     boxShadow:
       tokens.qrPlate === "white-card"
-        ? "0 2px 10px rgba(0,0,0,0.14)"
+        ? "0 2px 8px rgba(0,0,0,0.12)"
         : tokens.qrPlate === "inset"
           ? "inset 0 0 0 1px rgba(0,0,0,0.06)"
           : undefined,
-    width: widthPercent != null ? `${widthPercent}%` : undefined,
+    width: widthPercent != null ? `${widthPercent}%` : "100%",
     maxWidth: "100%",
+    maxHeight: "100%",
+    boxSizing: "border-box",
   };
 
   return (
-    <div
-      className={cn("relative z-[2] shrink-0", className)}
-      style={plateStyle}
-    >
+    /*
+     * No elevated z-index — parent content already sits above grain. A
+     * z-indexed plate paints over sibling URL captions when the white-card
+     * shadow or square overflows the slot.
+     */
+    <div className={cn("relative shrink-0", className)} style={plateStyle}>
       {qrSrc ? (
         // eslint-disable-next-line @next/next/no-img-element -- data URL QR
-        <img src={qrSrc} alt={alt} className="h-auto w-full" />
+        <img
+          src={qrSrc}
+          alt={alt}
+          className="block h-auto w-full max-h-full object-contain"
+          style={{ aspectRatio: "1" }}
+        />
       ) : (
         <div
           className="flex aspect-square w-full items-center justify-center text-center text-xs"
@@ -265,6 +275,58 @@ export function CanvasQrPlate({
     </div>
   );
 }
+
+/**
+ * Destination caption under a QR plate. Wraps long links (no single-line
+ * ellipsis) and stays above plate chrome in the stacking order.
+ */
+export function CanvasUrlCaption({
+  url,
+  color,
+  fontSizePx,
+  fontFamily,
+  textAlign = "center",
+  maxLines = 2,
+  className,
+}: {
+  url: string;
+  color: string;
+  fontSizePx: number;
+  fontFamily?: string;
+  textAlign?: CanvasTextAlign;
+  maxLines?: number;
+  className?: string;
+}) {
+  const display = formatCanvasDisplayUrl(url);
+  if (!display) return null;
+
+  return (
+    <p
+      data-canvas-url=""
+      title={url.trim()}
+      className={cn("relative z-[1] min-w-0 shrink-0", className)}
+      style={{
+        color,
+        fontSize: fontSizePx,
+        fontFamily,
+        textAlign,
+        width: "100%",
+        margin: 0,
+        lineHeight: 1.25,
+        overflowWrap: "anywhere",
+        wordBreak: "break-word",
+        display: "-webkit-box",
+        WebkitLineClamp: maxLines,
+        WebkitBoxOrient: "vertical",
+        overflow: "hidden",
+      }}
+    >
+      {display}
+    </p>
+  );
+}
+
+type CanvasTextAlign = "left" | "center" | "right";
 
 /**
  * Duotone photo layer: grayscale + brand multiply/screen, pre-baked to a single

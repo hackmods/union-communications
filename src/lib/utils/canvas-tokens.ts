@@ -338,9 +338,22 @@ export function walletBodyFontSizePx(
   );
 }
 
-/** Tagline, URL, local footer on wallet cards. */
-export function walletMetaFontSizePx(tokens: CanvasTokens): number {
-  return Math.max(9, Math.round(tokens.subtitleFontSizePx * 0.78));
+/** Tagline, URL, local footer on wallet cards. Scales with preview width when given. */
+export function walletMetaFontSizePx(
+  tokens: CanvasTokens,
+  previewWidthPx?: number,
+): number {
+  const widthFactor =
+    previewWidthPx != null ? walletWidthRatio(previewWidthPx) : 1;
+  return Math.max(
+    9,
+    Math.round(
+      tokens.subtitleFontSizePx *
+        0.78 *
+        typeScaleFactor(tokens) *
+        widthFactor,
+    ),
+  );
 }
 
 /** Inner padding for wallet cards by approximate size bucket. */

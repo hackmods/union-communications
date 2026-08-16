@@ -20,8 +20,9 @@ import {
   textAlignFromBias,
   typeScaleFactor,
 } from "@/lib/utils/canvas-tokens";
-import { CanvasGrainOverlay, CanvasQrPlate } from "@/components/tools/canvas";
+import { CanvasGrainOverlay, CanvasQrPlate, CanvasUrlCaption } from "@/components/tools/canvas";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import { boardUrlFontSizePx } from "@/lib/utils/canvas-url";
 
 export interface QrBoardCanvasSlot {
   id: string;
@@ -88,6 +89,14 @@ export function QrBoardCanvas({
   const cellTitleFontPx = Math.round(
     (isTabloid ? (isDense ? 14 : 16) : isDense ? 11 : 13) * scale,
   );
+  const urlFontPx = boardUrlFontSizePx({ isTabloid, isDense, typeScale: scale });
+  const plateMax = isTabloid
+    ? isDense
+      ? "min(70%, 160px)"
+      : "min(72%, 180px)"
+    : isDense
+      ? "min(68%, 120px)"
+      : "min(72%, 140px)";
 
   const surface = tokens
     ? canvasSurfaceStyle(tokens, {
@@ -200,22 +209,23 @@ export function QrBoardCanvas({
                 {slot.title.trim() || "\u00a0"}
               </p>
               {/*
-                Constrain plates against leftover cell height. Width-only
-                aspect-ratio squares ignore row height and overclip the next row.
+                Absolute slot keeps the plate inside leftover cell height.
+                URL stays a shrink-0 sibling below so captions never sit under
+                the white-card chrome.
               */}
               <div
-                className="relative min-h-0 w-full flex-1"
-                style={{ minHeight: 0 }}
+                data-qr-slot=""
+                className="relative min-h-0 w-full flex-1 overflow-hidden"
+                style={{ minHeight: isTabloid ? (isDense ? 88 : 110) : isDense ? 64 : 80 }}
               >
-                <div className="absolute inset-0 flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center p-0.5">
                   {tokens ? (
                     <div
                       style={{
-                        maxWidth: isTabloid
-                          ? "min(72%, 180px)"
-                          : "min(72%, 140px)",
+                        width: plateMax,
+                        height: plateMax,
+                        maxWidth: "100%",
                         maxHeight: "100%",
-                        width: isTabloid ? 180 : 140,
                       }}
                     >
                       <CanvasQrPlate
@@ -223,6 +233,7 @@ export function QrBoardCanvas({
                         qrSrc={slot.qrSrc}
                         alt=""
                         accentColor={secondaryColor}
+                        className="h-full w-full"
                       />
                     </div>
                   ) : slot.qrSrc ? (
@@ -235,9 +246,7 @@ export function QrBoardCanvas({
                         backgroundColor: "#FFFFFF",
                         padding: isTabloid ? 10 : 7,
                         boxSizing: "border-box",
-                        maxWidth: isTabloid
-                          ? "min(72%, 180px)"
-                          : "min(72%, 140px)",
+                        maxWidth: plateMax,
                         maxHeight: "100%",
                         width: "auto",
                         height: "auto",
@@ -250,11 +259,9 @@ export function QrBoardCanvas({
                         backgroundColor: "#FFFFFF",
                         padding: isTabloid ? 10 : 7,
                         boxSizing: "border-box",
-                        maxWidth: isTabloid
-                          ? "min(72%, 180px)"
-                          : "min(72%, 140px)",
+                        maxWidth: plateMax,
                         maxHeight: "100%",
-                        width: isTabloid ? 180 : 140,
+                        height: "min(100%, 180px)",
                         aspectRatio: "1",
                         display: "flex",
                         alignItems: "center",
@@ -275,24 +282,14 @@ export function QrBoardCanvas({
                 </div>
               </div>
               {showUrl && slot.destination.trim() ? (
-                <p
-                  className="shrink-0"
-                  style={{
-                    color: muted,
-                    margin: 0,
-                    fontSize: isTabloid ? (isDense ? 10 : 11) : isDense ? 8 : 9,
-                    lineHeight: 1.25,
-                    width: "100%",
-                    wordBreak: "break-all",
-                    overflowWrap: "anywhere",
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                  }}
-                >
-                  {slot.destination.trim()}
-                </p>
+                <CanvasUrlCaption
+                  url={slot.destination}
+                  color={muted}
+                  fontSizePx={urlFontPx}
+                  textAlign="center"
+                  maxLines={2}
+                  className="pt-0.5"
+                />
               ) : null}
             </div>
           ))}
