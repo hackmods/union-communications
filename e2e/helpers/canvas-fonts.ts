@@ -97,8 +97,8 @@ export async function awaitDocumentFonts(page: Page): Promise<void> {
 }
 
 /**
- * Resolved font-family on the first h2 inside the export capture root
- * (Graphic / Flyer / Board Notice headlines).
+ * Resolved font-family on the canvas headline inside the export capture root
+ * (h2/h3 tools, Meeting Background lines, Quote Card attribution).
  */
 export async function exportRootHeadlineFontFamily(
   page: Page,
@@ -109,7 +109,8 @@ export async function exportRootHeadlineFontFamily(
     const title =
       root.querySelector("h2") ??
       root.querySelector("h3") ??
-      root.querySelector("[data-headline-line]");
+      root.querySelector("[data-headline-line]") ??
+      root.querySelector("[data-canvas-headline]");
     if (!title) throw new Error("No title node in export root");
     return getComputedStyle(title).fontFamily;
   }, EXPORT_ROOT_SELECTOR);

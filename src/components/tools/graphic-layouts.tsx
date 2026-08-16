@@ -730,6 +730,7 @@ export function QuoteLayout({
           {copy.body}
         </p>
         <p
+          data-canvas-headline=""
           className={cn(
             "mt-3 font-semibold",
             !chrome.titlePx && (exportMode ? "text-base" : "text-xs"),
