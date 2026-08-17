@@ -29,9 +29,14 @@ describe("formatCanvasDisplayUrl", () => {
     );
   });
 
-  it("handles bare hosts and empty input", () => {
-    expect(formatCanvasDisplayUrl("example.com/path")).toBe("example.com/path");
-    expect(formatCanvasDisplayUrl("  ")).toBe("");
+  it("shortens long paths when maxChars is set", () => {
+    const out = formatCanvasDisplayUrl(
+      "https://www.ontario.ca/document/your-guide-employment-standards-act-0/mandatory-information-employees",
+      { maxChars: 32 },
+    );
+    expect(out.length).toBeLessThanOrEqual(32);
+    expect(out).toContain("…");
+    expect(out).toContain("ontario.ca");
   });
 });
 

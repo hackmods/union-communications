@@ -243,7 +243,7 @@ function QrCardPageContent() {
   const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
 
   /** QR plate as % of card width - smaller cards keep more room for copy */
-  const qrPlatePercentBase = isReference
+  const qrPlatePercent = isReference
     ? state.sizeId === "square4"
       ? 26
       : 28
@@ -256,11 +256,6 @@ function QrCardPageContent() {
           : state.sizeId === "half"
             ? 42
             : 34;
-  /** Leave vertical room for wrapped URL captions under the plate. */
-  const qrPlatePercent =
-    state.showUrl && state.destination.trim()
-      ? Math.max(24, qrPlatePercentBase - (isCompact ? 6 : 4))
-      : qrPlatePercentBase;
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;

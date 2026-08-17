@@ -63,3 +63,51 @@ export function qrBoardGridColumns(slotCount: number): number {
   if (n <= 6) return 3;
   return 4;
 }
+
+export function qrBoardGridRows(slotCount: number): number {
+  const cols = qrBoardGridColumns(slotCount);
+  return Math.ceil(Math.max(1, slotCount) / cols);
+}
+
+/**
+ * Largest square QR plate (CSS px) that fits a cell after title, URL, and
+ * chrome. Explicit pixels avoid flex/container-query collapse that left a
+ * tall empty plate with a tiny code.
+ */
+export function qrBoardPlatePx(opts: {
+  format: QrBoardFormat;
+  slotCount: number;
+  showUrl: boolean;
+  includeBranding: boolean;
+  paddingPx: number;
+}): number {
+  const cols = qrBoardGridColumns(opts.slotCount);
+  const rows = qrBoardGridRows(opts.slotCount);
+  const isTabloid = opts.format.id === "tabloid";
+  const isDense = opts.slotCount >= 6;
+  const previewH = Math.round(
+    opts.format.previewWidthPx *
+      (opts.format.heightInches / opts.format.widthInches),
+  );
+  const strip = isTabloid ? 10 : 8;
+  const header = (opts.includeBranding ? (isTabloid ? 56 : 40) : 0) +
+    (isTabloid ? 80 : 64);
+  const footer = opts.includeBranding ? (isTabloid ? 32 : 26) : 0;
+  const gridGap = isTabloid ? (isDense ? 18 : 24) : isDense ? 12 : 16;
+  const cellGap = isTabloid ? 8 : 6;
+  const titleBand = (isTabloid ? (isDense ? 16 : 18) : isDense ? 14 : 16) + cellGap;
+  const urlBand = opts.showUrl
+    ? (isDense ? 28 : 40) + cellGap
+    : 0;
+
+  const innerW = opts.format.previewWidthPx - opts.paddingPx * 2;
+  const innerH =
+    previewH - strip - opts.paddingPx * 2 - header - footer;
+  const cellW = (innerW - gridGap * (cols - 1)) / cols;
+  const cellH = (innerH - gridGap * (rows - 1)) / rows;
+  const square = Math.min(
+    cellW * (isDense ? 0.82 : 0.92),
+    cellH - titleBand - urlBand,
+  );
+  return Math.max(36, Math.floor(square));
+}

@@ -8,7 +8,19 @@ const LONG_URL =
 async function waitForQrPreview(page: Page): Promise<Locator> {
   const root = page.locator(EXPORT_ROOT_SELECTOR);
   await expect(root).toBeVisible({ timeout: 20_000 });
-  await expect(root.locator("img").first()).toBeAttached({ timeout: 15_000 });
+  await expect(root.locator("[data-qr-plate] img").first()).toBeAttached({
+    timeout: 15_000,
+  });
+  await expect
+    .poll(async () => {
+      return root.locator("[data-qr-plate] img").evaluateAll((imgs) =>
+        imgs.some((img) => {
+          const r = img.getBoundingClientRect();
+          return r.width >= 20 && r.height >= 20;
+        }),
+      );
+    }, { timeout: 15_000 })
+    .toBe(true);
   return root;
 }
 
@@ -41,6 +53,81 @@ type OverlapReport = {
   truncatedNowrap: number;
   sizes: { w: number; h: number }[];
 };
+
+type PlateFillReport = {
+  plateCount: number;
+  imgCount: number;
+  minFill: number;
+  maxAspect: number;
+  minAspect: number;
+  minImgPx: number;
+  urlFooterOverlaps: number;
+};
+
+async function measurePlateFill(page: Page): Promise<PlateFillReport> {
+  return page.evaluate((rootSel) => {
+    const root = document.querySelector(rootSel);
+    if (!root) {
+      return {
+        plateCount: 0,
+        imgCount: 0,
+        minFill: 0,
+        maxAspect: 0,
+        minAspect: 0,
+        minImgPx: 0,
+        urlFooterOverlaps: 0,
+      };
+    }
+    const plates = [...root.querySelectorAll("[data-qr-plate]")];
+    let minFill = Infinity;
+    let maxAspect = 0;
+    let minAspect = Infinity;
+    let minImgPx = Infinity;
+    let imgCount = 0;
+    for (const plate of plates) {
+      const pr = plate.getBoundingClientRect();
+      if (pr.width < 4 || pr.height < 4) continue;
+      const aspect = pr.height / pr.width;
+      maxAspect = Math.max(maxAspect, aspect);
+      minAspect = Math.min(minAspect, aspect);
+      const img = plate.querySelector("img");
+      if (!img) continue;
+      imgCount += 1;
+      const ir = img.getBoundingClientRect();
+      minImgPx = Math.min(minImgPx, ir.width, ir.height);
+      minFill = Math.min(minFill, ir.width / pr.width, ir.height / pr.height);
+    }
+
+    const urls = [...root.querySelectorAll("[data-canvas-url]")];
+    const footer = root.querySelector("[data-board-footer]");
+    let urlFooterOverlaps = 0;
+    if (footer) {
+      const fr = footer.getBoundingClientRect();
+      for (const urlEl of urls) {
+        const ur = urlEl.getBoundingClientRect();
+        const cell = urlEl.closest("[data-qr-cell]");
+        const cr = cell?.getBoundingClientRect();
+        const top = cr ? Math.max(ur.top, cr.top) : ur.top;
+        const bottom = cr ? Math.min(ur.bottom, cr.bottom) : ur.bottom;
+        const left = cr ? Math.max(ur.left, cr.left) : ur.left;
+        const right = cr ? Math.min(ur.right, cr.right) : ur.right;
+        if (bottom - top < 1 || right - left < 1) continue;
+        const oy = Math.min(bottom, fr.bottom) - Math.max(top, fr.top);
+        if (oy > 4) urlFooterOverlaps += 1;
+      }
+    }
+
+    return {
+      plateCount: plates.length,
+      imgCount,
+      minFill: minFill === Infinity ? 0 : minFill,
+      maxAspect: maxAspect || 0,
+      minAspect: minAspect === Infinity ? 0 : minAspect,
+      minImgPx: minImgPx === Infinity ? 0 : minImgPx,
+      urlFooterOverlaps,
+    };
+  }, EXPORT_ROOT_SELECTOR);
+}
 
 async function measureUrlLayout(page: Page): Promise<OverlapReport> {
   return page.evaluate((rootSel) => {
@@ -165,6 +252,41 @@ test.describe("QR share URL captions @smoke", () => {
     expect(report.overlaps).toBe(0);
     expect(report.truncatedNowrap).toBe(0);
     expect(report.minFontPx).toBeGreaterThanOrEqual(9);
+
+    const fill = await measurePlateFill(page);
+    expect(fill.imgCount).toBe(6);
+    expect(fill.minFill).toBeGreaterThan(0.65);
+    expect(fill.minAspect).toBeGreaterThan(0.85);
+    expect(fill.maxAspect).toBeLessThan(1.2);
+    expect(fill.urlFooterOverlaps).toBe(0);
+  });
+
+  test("qr-board 2-up membership QR fills the plate and keeps the footer clear", async ({
+    page,
+  }) => {
+    await seedCanvasFonts(page);
+    await page.goto("/en/tools/qr-board/?preset=membershipFtPt");
+    await expect(
+      page.getByRole("heading", { name: "QR Board Poster Maker" }),
+    ).toBeVisible();
+    await expect(page.getByLabel(/Board preset/i)).toHaveValue("membershipFtPt");
+    await enableShowUrl(page, /Show URL under each QR/i);
+
+    const root = await waitForQrPreview(page);
+    const captions = root.locator("[data-canvas-url]");
+    await expect(captions).toHaveCount(2, { timeout: 15_000 });
+
+    const fill = await measurePlateFill(page);
+    expect(fill.imgCount).toBe(2);
+    expect(fill.minFill).toBeGreaterThan(0.7);
+    expect(fill.minImgPx).toBeGreaterThan(48);
+    expect(fill.minAspect).toBeGreaterThan(0.85);
+    expect(fill.maxAspect).toBeLessThan(1.2);
+    expect(fill.urlFooterOverlaps).toBe(0);
+
+    const layout = await measureUrlLayout(page);
+    expect(layout.overlaps).toBe(0);
+    expect(layout.minFontPx).toBeGreaterThanOrEqual(9);
   });
 
   test("action-card URL caption stays below QR when shown", async ({

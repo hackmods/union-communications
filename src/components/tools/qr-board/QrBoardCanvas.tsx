@@ -5,6 +5,7 @@ import { BrandLogo } from "@/components/brand/BrandLogo";
 import {
   QR_BOARD_FORMATS,
   qrBoardGridColumns,
+  qrBoardPlatePx,
   type QrBoardFormatId,
 } from "@/lib/constants/qr-board-formats";
 import { CANVAS_PLACEHOLDER_INK } from "@/lib/constants/brand";
@@ -90,13 +91,13 @@ export function QrBoardCanvas({
     (isTabloid ? (isDense ? 14 : 16) : isDense ? 11 : 13) * scale,
   );
   const urlFontPx = boardUrlFontSizePx({ isTabloid, isDense, typeScale: scale });
-  const plateMax = isTabloid
-    ? isDense
-      ? "min(70%, 160px)"
-      : "min(72%, 180px)"
-    : isDense
-      ? "min(68%, 120px)"
-      : "min(72%, 140px)";
+  const platePx = qrBoardPlatePx({
+    format,
+    slotCount: slots.length,
+    showUrl,
+    includeBranding,
+    paddingPx: boardPad,
+  });
 
   const surface = tokens
     ? canvasSurfaceStyle(tokens, {
@@ -188,12 +189,14 @@ export function QrBoardCanvas({
             gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
             gridAutoRows: "1fr",
             gap: isTabloid ? (isDense ? 18 : 24) : isDense ? 12 : 16,
+            paddingBottom: showUrl ? 2 : 0,
           }}
         >
           {slots.map((slot) => (
             <div
               key={slot.id}
-              className="flex min-h-0 flex-col items-center text-center"
+              data-qr-cell=""
+              className="flex min-h-0 flex-col items-center overflow-hidden text-center"
               style={{ gap: isTabloid ? 8 : 6 }}
             >
               <p
@@ -208,78 +211,62 @@ export function QrBoardCanvas({
               >
                 {slot.title.trim() || "\u00a0"}
               </p>
-              {/*
-                Absolute slot keeps the plate inside leftover cell height.
-                URL stays a shrink-0 sibling below so captions never sit under
-                the white-card chrome.
-              */}
               <div
                 data-qr-slot=""
-                className="relative min-h-0 w-full flex-1 overflow-hidden"
-                style={{ minHeight: isTabloid ? (isDense ? 88 : 110) : isDense ? 64 : 80 }}
+                className="max-w-full shrink-0"
+                style={{
+                  width: platePx,
+                  maxWidth: "90%",
+                  aspectRatio: "1 / 1",
+                }}
               >
-                <div className="absolute inset-0 flex items-center justify-center p-0.5">
-                  {tokens ? (
-                    <div
+                {tokens ? (
+                  <CanvasQrPlate
+                    tokens={tokens}
+                    qrSrc={slot.qrSrc}
+                    alt=""
+                    accentColor={secondaryColor}
+                    paddingPx={Math.max(3, Math.round(platePx * 0.07))}
+                  />
+                ) : slot.qrSrc ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- data URL from qrcode
+                  <img
+                    src={slot.qrSrc}
+                    alt=""
+                    style={{
+                      display: "block",
+                      backgroundColor: "#FFFFFF",
+                      padding: isTabloid ? 10 : 7,
+                      boxSizing: "border-box",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "contain",
+                    }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      backgroundColor: "#FFFFFF",
+                      padding: isTabloid ? 10 : 7,
+                      boxSizing: "border-box",
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span
                       style={{
-                        width: plateMax,
-                        height: plateMax,
-                        maxWidth: "100%",
-                        maxHeight: "100%",
+                        color: CANVAS_PLACEHOLDER_INK,
+                        fontSize: isTabloid ? 12 : 10,
+                        padding: 4,
                       }}
                     >
-                      <CanvasQrPlate
-                        tokens={tokens}
-                        qrSrc={slot.qrSrc}
-                        alt=""
-                        accentColor={secondaryColor}
-                        className="h-full w-full"
-                      />
-                    </div>
-                  ) : slot.qrSrc ? (
-                    // eslint-disable-next-line @next/next/no-img-element -- data URL from qrcode
-                    <img
-                      src={slot.qrSrc}
-                      alt=""
-                      style={{
-                        display: "block",
-                        backgroundColor: "#FFFFFF",
-                        padding: isTabloid ? 10 : 7,
-                        boxSizing: "border-box",
-                        maxWidth: plateMax,
-                        maxHeight: "100%",
-                        width: "auto",
-                        height: "auto",
-                        objectFit: "contain",
-                      }}
-                    />
-                  ) : (
-                    <div
-                      style={{
-                        backgroundColor: "#FFFFFF",
-                        padding: isTabloid ? 10 : 7,
-                        boxSizing: "border-box",
-                        maxWidth: plateMax,
-                        maxHeight: "100%",
-                        height: "min(100%, 180px)",
-                        aspectRatio: "1",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <span
-                        style={{
-                          color: CANVAS_PLACEHOLDER_INK,
-                          fontSize: isTabloid ? 12 : 10,
-                          padding: 4,
-                        }}
-                      >
-                        {qrPlaceholder}
-                      </span>
-                    </div>
-                  )}
-                </div>
+                      {qrPlaceholder}
+                    </span>
+                  </div>
+                )}
               </div>
               {showUrl && slot.destination.trim() ? (
                 <CanvasUrlCaption
@@ -287,8 +274,9 @@ export function QrBoardCanvas({
                   color={muted}
                   fontSizePx={urlFontPx}
                   textAlign="center"
-                  maxLines={2}
-                  className="pt-0.5"
+                  maxLines={isDense ? 1 : 2}
+                  maxChars={isDense ? 32 : 56}
+                  className="w-full"
                 />
               ) : null}
             </div>
@@ -297,10 +285,12 @@ export function QrBoardCanvas({
 
         {includeBranding ? (
           <p
+            data-board-footer=""
             className="shrink-0 text-center font-medium"
             style={{
               color: muted,
-              margin: isTabloid ? "16px 0 0" : "12px 0 0",
+              margin: 0,
+              paddingTop: isTabloid ? 16 : 12,
               fontSize: isTabloid ? 14 : 11,
             }}
           >

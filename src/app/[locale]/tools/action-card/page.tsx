@@ -233,7 +233,7 @@ function ActionCardPageContent() {
       : canvasInk;
   const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
 
-  const qrPlatePercentBase =
+  const qrPlatePercent =
     state.sizeId === "square4"
       ? 32
       : state.sizeId === "square5"
@@ -243,10 +243,6 @@ function ActionCardPageContent() {
           : state.sizeId === "half"
             ? 40
             : 32;
-  const qrPlatePercent =
-    state.showUrl && state.destination.trim()
-      ? Math.max(24, qrPlatePercentBase - (isCompact ? 6 : 4))
-      : qrPlatePercentBase;
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;

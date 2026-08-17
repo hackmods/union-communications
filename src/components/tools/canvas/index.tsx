@@ -211,6 +211,8 @@ export function CanvasQrPlate({
   /** Brand accent for plate chrome only — never tints QR modules. */
   accentColor,
   className,
+  /** Override token padding — small board plates need a thinner quiet zone. */
+  paddingPx,
 }: {
   tokens: CanvasTokens;
   qrSrc: string | null;
@@ -219,11 +221,13 @@ export function CanvasQrPlate({
   widthPercent?: number;
   accentColor?: string;
   className?: string;
+  paddingPx?: number;
 }) {
   const scale = typeScaleFactor(tokens);
   const pad = Math.max(
     2,
-    Math.round(tokens.qrPlatePaddingPx * Math.min(1.15, Math.max(0.85, scale))),
+    paddingPx ??
+      Math.round(tokens.qrPlatePaddingPx * Math.min(1.15, Math.max(0.85, scale))),
   );
   const tintedBorder =
     accentColor && tokens.qrPlate !== "flush"
@@ -243,24 +247,23 @@ export function CanvasQrPlate({
     width: widthPercent != null ? `${widthPercent}%` : "100%",
     maxWidth: "100%",
     maxHeight: "100%",
+    aspectRatio: "1",
     boxSizing: "border-box",
   };
 
   return (
     /*
-     * No elevated z-index — parent content already sits above grain. A
-     * z-indexed plate paints over sibling URL captions when the white-card
-     * shadow or square overflows the slot.
+     * Square plate sized by the parent. Do not raise z-index — that used to
+     * paint white-card chrome over URL captions in the next flex row.
      */
-    <div className={cn("relative shrink-0", className)} style={plateStyle}>
+    <div
+      data-qr-plate=""
+      className={cn("relative shrink-0", className)}
+      style={plateStyle}
+    >
       {qrSrc ? (
         // eslint-disable-next-line @next/next/no-img-element -- data URL QR
-        <img
-          src={qrSrc}
-          alt={alt}
-          className="block h-auto w-full max-h-full object-contain"
-          style={{ aspectRatio: "1" }}
-        />
+        <img src={qrSrc} alt={alt} className="block h-auto w-full" />
       ) : (
         <div
           className="flex aspect-square w-full items-center justify-center text-center text-xs"
@@ -287,6 +290,7 @@ export function CanvasUrlCaption({
   fontFamily,
   textAlign = "center",
   maxLines = 2,
+  maxChars,
   className,
 }: {
   url: string;
@@ -295,9 +299,10 @@ export function CanvasUrlCaption({
   fontFamily?: string;
   textAlign?: CanvasTextAlign;
   maxLines?: number;
+  maxChars?: number;
   className?: string;
 }) {
-  const display = formatCanvasDisplayUrl(url);
+  const display = formatCanvasDisplayUrl(url, { maxChars });
   if (!display) return null;
 
   return (

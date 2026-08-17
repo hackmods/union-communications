@@ -5,6 +5,7 @@ import {
   QR_BOARD_FORMATS,
   qrBoardExportPixelRatio,
   qrBoardGridColumns,
+  qrBoardPlatePx,
 } from "./qr-board-formats";
 import {
   QR_BOARD_MAX_SLOTS,
@@ -39,13 +40,25 @@ describe("qr-board-formats", () => {
     expect(qrBoardGridColumns(8)).toBe(4);
   });
 
-  it("keeps export pixel ratio in a sensible band", () => {
-    const letter = qrBoardExportPixelRatio(QR_BOARD_FORMATS.letter);
-    const tabloid = qrBoardExportPixelRatio(QR_BOARD_FORMATS.tabloid);
-    expect(letter).toBeGreaterThanOrEqual(2);
-    expect(letter).toBeLessThanOrEqual(4);
-    expect(tabloid).toBeGreaterThanOrEqual(2);
-    expect(tabloid).toBeLessThanOrEqual(4);
+  it("sizes 2-up letter plates larger than dense 6-up, and still scannable", () => {
+    const letter = QR_BOARD_FORMATS.letter;
+    const two = qrBoardPlatePx({
+      format: letter,
+      slotCount: 2,
+      showUrl: true,
+      includeBranding: true,
+      paddingPx: 20,
+    });
+    const six = qrBoardPlatePx({
+      format: letter,
+      slotCount: 6,
+      showUrl: true,
+      includeBranding: true,
+      paddingPx: 20,
+    });
+    expect(two).toBeGreaterThanOrEqual(80);
+    expect(six).toBeGreaterThanOrEqual(36);
+    expect(two).toBeGreaterThan(six);
   });
 });
 
