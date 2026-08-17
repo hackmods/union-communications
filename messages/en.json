@@ -56,6 +56,7 @@
     "support": "Support",
     "privacy": "Privacy",
     "accessibility": "Accessibility",
+    "feedback": "Feedback",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "mobileNav": "Mobile",
@@ -125,6 +126,7 @@
     "portalNotFoundBody": "That Portal page isn’t on the floor plan.",
     "portalErrorBody": "The Local Portal hit an unexpected error. Try again, or head back to the station.",
     "backToTools": "Browse tools",
+    "tellUsMissing": "Tell us this was missing",
     "backToHub": "Back to dashboard",
     "backToPortal": "Back to Portal",
     "backHome": "Back to home",
@@ -2525,6 +2527,9 @@
     "contactBody": "For install help, workshop facilitation, or hosting questions, open a GitHub issue and Ryan will pick it up.",
     "contactCta": "Open GitHub issues",
     "contactHint": "Opens github.com in a new tab.",
+    "feedbackTitle": "Ideas, bugs, and workshop notes",
+    "feedbackBody": "For a private note about the UnionOps website — an idea, a bug, an accessibility barrier, or something from a workshop — use the feedback page. GitHub stays available when you want a public issue.",
+    "feedbackCta": "Send site feedback",
     "backHome": "Back to UnionOps"
   },
   "footer": {
@@ -2560,7 +2565,8 @@
     },
     "feedback": {
       "title": "Feedback",
-      "body": "If you run into an accessibility barrier while using UnionOps, please contact your local communications chair. We welcome feedback and are committed to continuous improvement."
+      "body": "If you run into an accessibility barrier while using UnionOps, send it on the site feedback page. That note goes to the people who run this website, not to your local communications chair. Use your chair for barriers in materials your local published.",
+      "link": "Send accessibility feedback"
     },
     "display": {
       "title": "Display settings",
@@ -2650,6 +2656,56 @@
     "committeesLink": "Committees",
     "electionsLink": "Elections",
     "auditLink": "Audit log",
+    "siteFeedbackInboxLink": "Site feedback inbox",
+    "sendFeedbackLink": "Send feedback",
+    "sendFeedback": {
+      "title": "Send site feedback home",
+      "lead": "This note goes to the UnionOps steward who runs this site, not to your local officers. It is about the website, not a grievance or Pulse Poll."
+    },
+    "siteFeedback": {
+      "title": "Site feedback inbox",
+      "subtitle": "Website notes from public visitors and Hub or Portal users. This is product mail, not a local suggestion box.",
+      "memoryWarning": "This demo host stores notes in memory. They disappear when the server restarts. Use lasting storage for real collection.",
+      "loadError": "Could not load site feedback. Refresh and try again.",
+      "saveError": "Could not save that note. Try again.",
+      "deleteError": "Could not delete that note. Try again.",
+      "deleteConfirm": "Delete this note permanently? The sender will not be notified.",
+      "filterAll": "All",
+      "filterStatus": "Status",
+      "filterCategory": "Category",
+      "filterSource": "Source",
+      "emptyTitle": "No site feedback yet",
+      "emptyBody": "When someone sends a note from /feedback or Send feedback, it will show up here.",
+      "signedIn": "Signed in",
+      "anonymous": "Anonymous",
+      "pageLabel": "Page",
+      "contactLabel": "Contact",
+      "noContact": "No reply address given",
+      "statusLabel": "Status",
+      "noteLabel": "Steward note",
+      "save": "Save",
+      "saving": "Saving…",
+      "delete": "Delete",
+      "categories": {
+        "idea": "Idea",
+        "issue": "Something broken",
+        "accessibility": "Accessibility",
+        "workshop": "Workshop",
+        "other": "Something else"
+      },
+      "statuses": {
+        "new": "New",
+        "triaged": "Triaged",
+        "planned": "Planned",
+        "done": "Done",
+        "declined": "Declined"
+      },
+      "sources": {
+        "public": "Public page",
+        "hub": "Officer Hub",
+        "portal": "Portal"
+      }
+    },
     "auditTitle": "Audit log",
     "auditSubtitle": "Recent officer actions for your union. On this demo instance, the list resets when the server restarts.",
     "auditEmpty": "No audit entries yet. Officer actions will appear here as people use the Officer Hub.",
@@ -4301,6 +4357,9 @@
     "hubLink": "Officer Hub",
     "loading": "Loading…",
     "loadError": "Could not load Portal data.",
+    "sendFeedbackLink": "Send site feedback",
+    "sendFeedbackTitle": "Send site feedback home",
+    "sendFeedbackLead": "This note goes to the UnionOps steward who runs this site, not to your local officers. It is about the website, not a Circle or a grievance.",
     "yourCircles": "Your Circles",
     "myActions": "My Actions",
     "recentBulletin": "Recent Bulletin",
@@ -4516,6 +4575,41 @@
     "roadmapCta": "First week roadmap",
     "toolsCta": "Browse tools"
   },
+  "feedbackPage": {
+    "title": "Help improve UnionOps",
+    "lead": "Send an idea, a bug, an accessibility barrier, a workshop note, or anything else about this website. It goes to the people who run this UnionOps host, not to your local.",
+    "notLocal": "This is not a grievance form and not a Pulse Poll. Do not put member names, case numbers, or confidential local business in the box.",
+    "hubLead": "This note goes to the UnionOps steward who runs this site, not to your local officers.",
+    "memoryWarning": "This demo host stores notes in memory. They disappear when the server restarts. Prefer GitHub for anything you cannot afford to lose.",
+    "categoryLabel": "What is this about?",
+    "categories": {
+      "idea": "An idea",
+      "issue": "Something broken",
+      "accessibility": "An accessibility barrier",
+      "workshop": "A workshop note",
+      "other": "Something else"
+    },
+    "bodyLabel": "Your note",
+    "bodyPlaceholder": "What happened, what you expected, and where you were.",
+    "pageLabel": "Page (optional)",
+    "pagePlaceholder": "/tools/flyer-maker",
+    "pageHint": "A relative path on this site, if you remember it. Skip this if you are not sure.",
+    "nameLabel": "Name (optional)",
+    "emailLabel": "Email if you want a reply (optional)",
+    "emailHint": "We will only use this to reply about this note. It is not a mailing list.",
+    "honeypotLabel": "Leave this blank",
+    "consent": "I consent to this host storing my note, and any name or email I include, so the operator can improve UnionOps. I can ask the operator about retention or deletion.",
+    "consentRequired": "Tick the consent box so we can store your note, or close the page if you do not want it stored.",
+    "submit": "Send feedback",
+    "submitting": "Sending…",
+    "successTitle": "Thank you — it arrived",
+    "successBody": "The steward who runs this site will read it. If you left an email, they may reply. You do not need to send it again.",
+    "error": "Could not send your note. Check your connection and try again. If it keeps failing, open a GitHub issue from Support.",
+    "rateLimited": "Too many notes from this network in a short time. Wait a few minutes, then try once more.",
+    "notDurable": "This host is not storing site feedback right now. Open Support for GitHub issues, or ask the operator to turn on lasting storage.",
+    "githubLead": "Prefer a public bug report?",
+    "githubLink": "See Support for GitHub issues"
+  },
   "privacyPage": {
     "title": "Privacy Policy",
     "subtitle": "Last updated: July 2026",
@@ -4544,6 +4638,9 @@
     "photoConsentLink": "photo consent checklist",
     "installTitle": "Desktop / install as an app",
     "installBody": "Supported browsers can install UnionOps as an app window. Offline shell stays on-device; Hub case data still needs a network when live.",
-    "installLink": "install guide"
+    "installLink": "install guide",
+    "siteFeedbackTitle": "Site feedback",
+    "siteFeedbackBody": "If you send a note from the feedback page, this host stores the text and any optional name or email you include, so the operator can improve UnionOps. Optional email is for a reply only, never a mailing list. You can ask the operator to delete your note.",
+    "siteFeedbackLink": "site feedback page"
   }
 }

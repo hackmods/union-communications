@@ -64,6 +64,7 @@ export function HubNav() {
     canCrossLocalGrievance(roles) ||
     roles.includes("local_president") ||
     roles.includes("local_exec");
+  const showSiteFeedbackInbox = roles.includes("platform_admin");
   const showReports = isElevatedGrievanceRole(roles);
   const showMinutes = canAccessMinutesModule(roles);
   const showOfficers = canAccessOfficerRoster(roles);
@@ -159,6 +160,10 @@ export function HubNav() {
       href: "/app/audit",
       label: t("auditLink"),
     },
+    showSiteFeedbackInbox && {
+      href: "/app/feedback",
+      label: t("siteFeedbackInboxLink"),
+    },
   ].filter(Boolean) as { href: string; label: string }[];
 
   const linkClass = (extra?: string) =>
@@ -227,6 +232,19 @@ export function HubNav() {
             {mfaOk ? t("mfaOk") : t("mfaRequired")}
           </Link>
         )}
+        <Link
+          href="/app/send-feedback"
+          aria-current={
+            pathname.startsWith("/app/send-feedback") ? "page" : undefined
+          }
+          className={linkClass(
+            pathname.startsWith("/app/send-feedback")
+              ? "bg-white font-semibold text-opseu-dark"
+              : undefined,
+          )}
+        >
+          {t("sendFeedbackLink")}
+        </Link>
         <Link
           href="/app/profile"
           aria-current={

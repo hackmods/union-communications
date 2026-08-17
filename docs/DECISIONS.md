@@ -120,3 +120,16 @@
 - Portal does **not** require MFA; confidential Hub modules still do.
 - Do **not** land self-serve register / join-local / identity Drizzle schema in this Circles cut — keep main’s demo `passwordHash` auth and existing invite/onboarding.
 **Consequences:** Hub discussions/tasks/check-ins remain officer Hub surfaces; Portal is a parallel member-facing Circles product. Roster invites may use the demo user roster until a real directory exists.
+
+## ADR-018: Site feedback (product mail, not union casework)
+**Status:** Accepted  
+**Context:** UnionOps had no in-product way to collect website ideas, bugs, accessibility barriers, or workshop notes. GitHub Issues on `/support` is a public-bug path; Pulse Polls are local anonymous collection. A public form plus Hub/Portal send-home must not become tenant casework or a third-party survey (ADR-006).  
+**Decision:**
+- Collect **website feedback only** via `POST /api/feedback`. Public `/feedback` and signed-in `/app/send-feedback` (any Hub role) plus Portal `/portal/send-feedback` share one store.
+- Do **not** store `unionId` / `localId` / case ids. Server-stamp `source` (`public` | `hub` | `portal`) and optional `submitterUserId` from the session. Ignore client-supplied identity.
+- Require an **explicit consent checkbox**. Optional name/email is **reply-only** (ADR-016) — never a mailing list.
+- Never store raw client IP — store an optional **one-way hash** (`ipHash`) solely for in-memory rate limiting (same posture as ADR-015).
+- No third-party forms, analytics, or embeddable survey SaaS.
+- Inbox at `/app/feedback` is **`platform_admin` only**. This is operator product mail, not a cross-union read of tenant content.
+- Retention: operator may delete anytime; prefer 24 months then purge. Prefer `FEEDBACK_DB_BACKEND=postgres` for production collection; memory remains the demo default. Optional `FEEDBACK_REQUIRE_DURABLE=true` refuses POST on memory so workshop hosts cannot silently drop notes.
+**Consequences:** Complements ADR-006 for Comms without reopening tracking. GitHub Issues stay available for public repros. Pulse Polls stay the local member channel.

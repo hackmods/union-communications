@@ -48,6 +48,9 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
 | `MEETINGS_RSVP_DB_BACKEND` | `memory` \| `postgres` | Hub events / RSVP |
 | `CHECKINS_DB_BACKEND` | `memory` \| `postgres` | Automatic check-ins |
 | `AUTH_USERS_BACKEND` | `memory` \| `postgres` | Users + password-reset tokens |
+| `FEEDBACK_DB_BACKEND` | `memory` \| `postgres` | Site feedback (ADR-018; no tenant RLS) |
+
+`platform_feedback_submissions` (migration `0033`) is a **platform** table like password-reset tokens: no tenant RLS. `unionops_app` can INSERT/SELECT via default grants; **API RBAC** (`platform_admin`) is the read boundary.
 
 5. **All-at-once Docker flip:** after migrate + seed, use the durable overlay:
 

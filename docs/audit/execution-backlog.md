@@ -234,6 +234,17 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 2. Reuse the existing ICS export helper (`event-ics.ts`) to offer a single "subscribe" ICS feed per officer (filtered by their accessible locals/roles) rather than per-item export only.
 3. This is explicitly deferred behind Postgres in `docs/ROADMAP.md`/`docs/modules/CALENDAR_MEETINGS.md`'s "Deferred" section for the *public* meeting-reminder feature — this ticket scopes only the *authenticated Hub* read-only aggregation view, which does not require new persistence beyond what already exists.
 
+### [FEAT-007] ✅ CLOSED (2026-08-17)
+**Category:** Feature Parity
+**Severity/Priority:** Medium
+**Status:** Closed — public `/feedback` + Hub `/app/send-feedback` + Portal `/portal/send-feedback` share `POST /api/feedback`; platform store (memory default, `FEEDBACK_DB_BACKEND=postgres`); `platform_admin` inbox `/app/feedback`; ADR-018. Not union/local casework.
+**Problem/Gap Statement:** UnionOps had no in-product channel for website ideas, bugs, accessibility barriers, or workshop notes. `/support` only pointed at GitHub; `/accessibility` sent product barriers to a local comms chair; Hub users had no send-home path.
+**Affected Architecture/Files:** `src/lib/platform-feedback/`, `src/app/[locale]/feedback/page.tsx`, `src/app/api/feedback/route.ts`, `src/app/[locale]/app/send-feedback/page.tsx`, `src/app/[locale]/app/feedback/page.tsx`
+**Implementation Blueprint:**
+1. Public form + optional signed-in Hub/Portal send-home to one platform table (no `unionId`/`localId`).
+2. Consent, hashed-IP rate limit, honeypot; inbox `platform_admin` only.
+3. Document ADR-018; prefer Postgres for real collection.
+
 ---
 
 ## UX (`UX-`)

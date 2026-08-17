@@ -85,6 +85,21 @@ export default async function SupportPage({
         <p className="mt-3 text-sm text-gray-500">{t("contactHint")}</p>
       </div>
 
+      <div className="mt-12 max-w-prose border-t border-gray-200 pt-10">
+        <h2 className="text-lg font-semibold text-opseu-dark">{t("feedbackTitle")}</h2>
+        <p className="mt-3 text-base leading-relaxed text-gray-800">
+          {t("feedbackBody")}
+        </p>
+        <p className="mt-6">
+          <Link
+            href="/feedback"
+            className="inline-flex min-h-11 items-center justify-center rounded-md border border-opseu-blue px-5 py-3 text-base font-semibold text-opseu-blue hover:bg-opseu-blue/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-opseu-blue"
+          >
+            {t("feedbackCta")}
+          </Link>
+        </p>
+      </div>
+
       <p className="mt-12">
         <Link href="/" className="font-semibold text-opseu-blue hover:underline">
           {t("backHome")}

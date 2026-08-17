@@ -27,6 +27,7 @@ export const DB_BACKEND_ENV_KEYS = [
   "MEETINGS_RSVP_DB_BACKEND",
   "CHECKINS_DB_BACKEND",
   "AUTH_USERS_BACKEND",
+  "FEEDBACK_DB_BACKEND",
 ] as const;
 
 export type DbBackendEnvKey = (typeof DB_BACKEND_ENV_KEYS)[number];
@@ -177,6 +178,17 @@ export function checkinsDbBackend(
   return resolveBackend("CHECKINS_DB_BACKEND", env);
 }
 
+/**
+ * Platform website feedback (ADR-018).
+ * Default memory for demos; production collection should use postgres.
+ * Not tenant casework — omitted from isMemoryCaseDataActive.
+ */
+export function feedbackDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("FEEDBACK_DB_BACKEND", env);
+}
+
 /** Durable Hub users + password-reset tokens (SEC-007). */
 export function authUsersDbBackend(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -209,6 +221,7 @@ export function readEffectiveBackendFlags(
     MEETINGS_RSVP_DB_BACKEND: meetingsRsvpDbBackend(env),
     CHECKINS_DB_BACKEND: checkinsDbBackend(env),
     AUTH_USERS_BACKEND: authUsersDbBackend(env),
+    FEEDBACK_DB_BACKEND: feedbackDbBackend(env),
   };
 }
 

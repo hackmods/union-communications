@@ -33,6 +33,7 @@ solo_account (parallel — no local required)
 5. **Module visibility** — College Bumping only when `modules.bumping = true` in union/division config
 6. **Server-side enforcement** on every route; UI hiding is secondary
 7. **MFA required** for grievance and bumping modules (Phase 2+)
+8. **Site feedback inbox** is operator product mail (`platform_admin` only). It is not tenant content and is not a cross-union read. Any signed-in Hub or Portal user may *send* home; they cannot list other people’s notes.
 
 ## Active Hub context
 

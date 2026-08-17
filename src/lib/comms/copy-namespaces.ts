@@ -67,6 +67,7 @@ export const PUBLIC_NS = [
   "footer",
   "relatedTools",
   "privacyPage",
+  "feedbackPage",
 ] as const;
 
 /**

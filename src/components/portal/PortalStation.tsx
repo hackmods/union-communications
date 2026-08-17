@@ -321,6 +321,15 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
           </ul>
         </div>
       </section>
+
+      <p className="text-sm text-gray-600">
+        <Link
+          href="/portal/send-feedback"
+          className="font-semibold text-opseu-blue hover:underline"
+        >
+          {t("sendFeedbackLink")}
+        </Link>
+      </p>
     </div>
   );
 }

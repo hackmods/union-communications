@@ -56,6 +56,7 @@
     "support": "Soutien",
     "privacy": "Confidentialité",
     "accessibility": "Accessibilité",
+    "feedback": "Commentaires",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu",
     "mobileNav": "Mobile",
@@ -125,6 +126,7 @@
     "portalNotFoundBody": "Cette page du Portail n’est pas sur le plan d’étage.",
     "portalErrorBody": "Le Portail local a rencontré une erreur inattendue. Réessayez, ou retournez à la station.",
     "backToTools": "Parcourir les outils",
+    "tellUsMissing": "Dites-nous que cette page manque",
     "backToHub": "Retour au tableau de bord",
     "backToPortal": "Retour au Portail",
     "backHome": "Retour à l’accueil",
@@ -2491,6 +2493,9 @@
     "contactBody": "Pour de l’aide à l’installation, l’animation d’atelier ou des questions d’hébergement, ouvrez une issue GitHub et Ryan s’en occupera.",
     "contactCta": "Ouvrir les issues GitHub",
     "contactHint": "Ouvre github.com dans un nouvel onglet.",
+    "feedbackTitle": "Idées, bogues et notes d'atelier",
+    "feedbackBody": "Pour une note privée sur le site UnionOps — une idée, un bogue, un obstacle d'accessibilité ou un retour d'atelier — utilisez la page de commentaires. GitHub reste disponible si vous voulez une issue publique.",
+    "feedbackCta": "Envoyer un commentaire sur le site",
     "backHome": "Retour à UnionOps"
   },
   "footer": {
@@ -2526,7 +2531,8 @@
     },
     "feedback": {
       "title": "Commentaires",
-      "body": "Si vous rencontrez un obstacle d'accessibilité en utilisant UnionOps, contactez le responsable des communications de votre section. Nous accueillons vos commentaires et nous engageons à nous améliorer continuellement."
+      "body": "Si vous rencontrez un obstacle d'accessibilité en utilisant UnionOps, envoyez-le sur la page de commentaires du site. Cette note va aux personnes qui gèrent ce site, pas au responsable des communications de votre section. Contactez ce responsable pour les obstacles dans les documents publiés par votre section.",
+      "link": "Envoyer un commentaire d'accessibilité"
     },
     "display": {
       "title": "Paramètres d'affichage",
@@ -2616,6 +2622,56 @@
     "committeesLink": "Comités",
     "electionsLink": "Élections",
     "auditLink": "Journal d’audit",
+    "siteFeedbackInboxLink": "Boîte de commentaires du site",
+    "sendFeedbackLink": "Envoyer un commentaire",
+    "sendFeedback": {
+      "title": "Envoyer un commentaire à UnionOps",
+      "lead": "Cette note va au steward UnionOps qui gère ce site, pas aux dirigeants de votre section. Elle concerne le site, pas un grief ni un sondage Pulse."
+    },
+    "siteFeedback": {
+      "title": "Boîte de commentaires du site",
+      "subtitle": "Notes sur le site provenant du public et des utilisateurs du Hub ou du Portail. C’est du courrier produit, pas une boîte à suggestions locale.",
+      "memoryWarning": "Cet hôte de démo stocke les notes en mémoire. Elles disparaissent au redémarrage du serveur. Utilisez un stockage durable pour une vraie collecte.",
+      "loadError": "Impossible de charger les commentaires. Actualisez la page et réessayez.",
+      "saveError": "Impossible d’enregistrer cette note. Réessayez.",
+      "deleteError": "Impossible de supprimer cette note. Réessayez.",
+      "deleteConfirm": "Supprimer cette note de façon permanente? L’expéditeur ne sera pas avisé.",
+      "filterAll": "Tous",
+      "filterStatus": "Statut",
+      "filterCategory": "Catégorie",
+      "filterSource": "Source",
+      "emptyTitle": "Aucun commentaire pour le moment",
+      "emptyBody": "Quand quelqu’un envoie une note depuis /feedback ou Envoyer un commentaire, elle apparaîtra ici.",
+      "signedIn": "Connecté",
+      "anonymous": "Anonyme",
+      "pageLabel": "Page",
+      "contactLabel": "Contact",
+      "noContact": "Aucune adresse de réponse fournie",
+      "statusLabel": "Statut",
+      "noteLabel": "Note du steward",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…",
+      "delete": "Supprimer",
+      "categories": {
+        "idea": "Idée",
+        "issue": "Quelque chose de brisé",
+        "accessibility": "Accessibilité",
+        "workshop": "Atelier",
+        "other": "Autre chose"
+      },
+      "statuses": {
+        "new": "Nouveau",
+        "triaged": "Trié",
+        "planned": "Prévu",
+        "done": "Terminé",
+        "declined": "Refusé"
+      },
+      "sources": {
+        "public": "Page publique",
+        "hub": "Hub des dirigeants",
+        "portal": "Portail"
+      }
+    },
     "auditTitle": "Journal d’audit",
     "auditSubtitle": "Actions récentes des dirigeants pour votre syndicat. Sur cette instance de démo, la liste se réinitialise au redémarrage du serveur.",
     "auditEmpty": "Aucune entrée d’audit pour le moment. Les actions des dirigeants apparaîtront ici à mesure qu’ils utilisent le Hub des dirigeants.",
@@ -4301,6 +4357,9 @@
     "hubLink": "Hub des dirigeants",
     "loading": "Chargement…",
     "loadError": "Impossible de charger le Portail.",
+    "sendFeedbackLink": "Envoyer un commentaire sur le site",
+    "sendFeedbackTitle": "Envoyer un commentaire à UnionOps",
+    "sendFeedbackLead": "Cette note va au steward UnionOps qui gère ce site, pas aux dirigeants de votre section. Elle concerne le site, pas un Cercle ni un grief.",
     "yourCircles": "Vos Cercles",
     "myActions": "Mes Actions",
     "recentBulletin": "Babillard récent",
@@ -4516,6 +4575,41 @@
     "roadmapCta": "Feuille de route — première semaine",
     "toolsCta": "Parcourir les outils"
   },
+  "feedbackPage": {
+    "title": "Aidez à améliorer UnionOps",
+    "lead": "Envoyez une idée, un bogue, un obstacle d'accessibilité, une note d'atelier ou tout autre commentaire sur ce site. Il va aux personnes qui gèrent cet hôte UnionOps, pas à votre section.",
+    "notLocal": "Ce n'est pas un formulaire de grief ni un sondage Pulse. N'y mettez pas de noms de membres, de numéros de dossier ou d'affaires locales confidentielles.",
+    "hubLead": "Cette note va au steward UnionOps qui gère ce site, pas aux dirigeants de votre section.",
+    "memoryWarning": "Cet hôte de démo stocke les notes en mémoire. Elles disparaissent au redémarrage du serveur. Préférez GitHub pour ce que vous ne pouvez pas perdre.",
+    "categoryLabel": "De quoi s'agit-il?",
+    "categories": {
+      "idea": "Une idée",
+      "issue": "Quelque chose de brisé",
+      "accessibility": "Un obstacle d'accessibilité",
+      "workshop": "Une note d'atelier",
+      "other": "Autre chose"
+    },
+    "bodyLabel": "Votre note",
+    "bodyPlaceholder": "Ce qui s'est passé, ce que vous attendiez, et où vous étiez.",
+    "pageLabel": "Page (facultatif)",
+    "pagePlaceholder": "/tools/flyer-maker",
+    "pageHint": "Un chemin relatif sur ce site, si vous vous en souvenez. Laissez vide si vous n'êtes pas certain.",
+    "nameLabel": "Nom (facultatif)",
+    "emailLabel": "Courriel si vous voulez une réponse (facultatif)",
+    "emailHint": "Nous l'utiliserons seulement pour répondre à cette note. Ce n'est pas une liste d'envoi.",
+    "honeypotLabel": "Laissez ce champ vide",
+    "consent": "Je consens à ce que cet hôte conserve ma note, et le nom ou courriel que j'inclus, pour que l'opérateur puisse améliorer UnionOps. Je peux demander à l'opérateur la durée de conservation ou la suppression.",
+    "consentRequired": "Cochez la case de consentement pour que nous puissions conserver votre note, ou fermez la page si vous ne le voulez pas.",
+    "submit": "Envoyer le commentaire",
+    "submitting": "Envoi…",
+    "successTitle": "Merci — c'est arrivé",
+    "successBody": "Le steward qui gère ce site la lira. Si vous avez laissé un courriel, il pourra répondre. Vous n'avez pas besoin de renvoyer.",
+    "error": "Impossible d'envoyer votre note. Vérifiez votre connexion et réessayez. Si ça échoue encore, ouvrez une issue GitHub depuis Soutien.",
+    "rateLimited": "Trop de notes depuis ce réseau en peu de temps. Attendez quelques minutes, puis réessayez une fois.",
+    "notDurable": "Cet hôte ne conserve pas les commentaires du site pour le moment. Ouvrez Soutien pour GitHub, ou demandez à l'opérateur d'activer un stockage durable.",
+    "githubLead": "Vous préférez un rapport public?",
+    "githubLink": "Voir Soutien pour les issues GitHub"
+  },
   "privacyPage": {
     "title": "Politique de confidentialité",
     "subtitle": "Dernière mise à jour : juillet 2026",
@@ -4544,6 +4638,9 @@
     "photoConsentLink": "liste de contrôle consentement photo",
     "installTitle": "Bureau / installer comme appli",
     "installBody": "Les navigateurs pris en charge peuvent installer UnionOps comme fenêtre d’appli. Shell hors ligne sur l’appareil ; les dossiers Hub ont encore besoin du réseau.",
-    "installLink": "guide d’installation"
+    "installLink": "guide d’installation",
+    "siteFeedbackTitle": "Commentaires sur le site",
+    "siteFeedbackBody": "Si vous envoyez une note depuis la page de commentaires, cet hôte conserve le texte et le nom ou courriel facultatif, pour que l’opérateur puisse améliorer UnionOps. Le courriel facultatif sert seulement à une réponse, jamais à une liste. Vous pouvez demander à l’opérateur de supprimer votre note.",
+    "siteFeedbackLink": "page de commentaires du site"
   }
 }

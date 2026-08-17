@@ -67,6 +67,9 @@ export function Footer() {
           <Link href="/accessibility" className={footerLinkClass}>
             {nav("accessibility")}
           </Link>
+          <Link href="/feedback" className={footerLinkClass}>
+            {nav("feedback")}
+          </Link>
         </nav>
       </div>
     </footer>

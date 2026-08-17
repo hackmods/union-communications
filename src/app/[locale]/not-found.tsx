@@ -25,6 +25,12 @@ export default async function LocaleNotFound() {
             >
               {t("backHome")}
             </Link>
+            <Link
+              href="/feedback?category=issue"
+              className="inline-flex min-h-11 items-center font-semibold text-opseu-blue underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+            >
+              {t("tellUsMissing")}
+            </Link>
           </>
         }
       />

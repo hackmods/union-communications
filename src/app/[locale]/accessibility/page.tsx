@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
 import { DisplaySettings } from "@/components/accessibility/DisplaySettings";
+import { Link } from "@/i18n/navigation";
 
 export async function generateMetadata({
   params,
@@ -65,6 +66,14 @@ export default async function AccessibilityPage({
         <Callout tone="plain">
           <p className="font-semibold text-opseu-dark">{t("feedback.title")}</p>
           <p className="mt-2 text-gray-700">{t("feedback.body")}</p>
+          <p className="mt-3">
+            <Link
+              href="/feedback?category=accessibility"
+              className="font-semibold text-opseu-blue underline"
+            >
+              {t("feedback.link")}
+            </Link>
+          </p>
         </Callout>
       </div>
     </GuideLayout>

@@ -88,6 +88,17 @@ export default async function PrivacyPage({
         </Callout>
 
         <Callout tone="plain">
+          <p className="font-semibold text-opseu-dark">{t("siteFeedbackTitle")}</p>
+          <p className="mt-2 text-gray-700">
+            {t("siteFeedbackBody")}{" "}
+            <Link href="/feedback" className="text-opseu-blue underline">
+              {t("siteFeedbackLink")}
+            </Link>
+            .
+          </p>
+        </Callout>
+
+        <Callout tone="plain">
           <p className="font-semibold text-opseu-dark">{t("contactTitle")}</p>
           <p className="mt-2 text-gray-700">
             {t("contactBody")}{" "}

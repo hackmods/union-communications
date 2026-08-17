@@ -20,3 +20,4 @@ export * from "./polls";
 export * from "./meetings";
 export * from "./meetings-rsvp";
 export * from "./checkins";
+export * from "./platform-feedback";

@@ -323,6 +323,11 @@ test.describe("Smoke tests @smoke", () => {
     await expectNoSeriousA11yViolations(page);
   });
 
+  test("feedback page has no serious or critical a11y violations", async ({ page }) => {
+    await page.goto("/en/feedback/");
+    await expectNoSeriousA11yViolations(page);
+  });
+
   test("brand kit page has no serious or critical a11y violations", async ({ page }) => {
     await page.goto("/en/brand-kit/");
     await expectNoSeriousA11yViolations(page);
@@ -355,6 +360,16 @@ test.describe("Smoke tests @smoke", () => {
     await expect(
       page.getByRole("link", { name: "Buy me a coffee" }),
     ).toHaveAttribute("href", "https://buymeacoffee.com/ryanmorris");
+  });
+
+  test("feedback page renders", async ({ page }) => {
+    await page.goto("/en/feedback/");
+    await expect(
+      page.getByRole("heading", { name: "Help improve UnionOps" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Send feedback" }),
+    ).toBeVisible();
   });
 
   test("install page renders and stays out of header nav", async ({ page }) => {

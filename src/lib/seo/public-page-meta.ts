@@ -22,6 +22,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "The UnionOps commitment to AODA and WCAG 2.1 Level AA, so stewards and officers with disabilities can use these tools, plus the gaps we still know about.",
     },
+    "/feedback": {
+      title: "Site feedback",
+      description:
+        "Send UnionOps an idea, a bug, an accessibility barrier, or a workshop note. Optional email is for a reply only, never a mailing list.",
+    },
     "/onboarding": {
       title: "Set up your local brand",
       description:
@@ -133,6 +138,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Déclaration d'accessibilité",
       description:
         "L'engagement d'UnionOps envers la LAPHO et le WCAG 2.1 niveau AA, pour que les délégués et les dirigeants en situation de handicap puissent utiliser ces outils.",
+    },
+    "/feedback": {
+      title: "Commentaires sur le site",
+      description:
+        "Envoyez à UnionOps une idée, un bogue, un obstacle d'accessibilité ou une note d'atelier. Le courriel facultatif sert seulement à une réponse.",
     },
     "/onboarding": {
       title: "Configurer la marque de votre section",

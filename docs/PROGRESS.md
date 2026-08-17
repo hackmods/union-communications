@@ -1,5 +1,14 @@
 # Progress Log
 
+## Site feedback (ADR-018) (2026-08-17)
+
+- [x] Public `/feedback` form (ideas, bugs, accessibility, workshop, other) with consent + honeypot
+- [x] Hub send-home `/app/send-feedback` for any signed-in officer; Portal `/portal/send-feedback`
+- [x] Platform store (`FEEDBACK_DB_BACKEND`, memory default, migration `0033_platform_feedback`, no tenant RLS)
+- [x] `platform_admin` inbox `/app/feedback` (status/note/delete); optional `FEEDBACK_NOTIFY_EMAIL`
+- [x] Footer, Support, Accessibility, Privacy, Local 404 discoverability; EN/FR + SEO
+- Verify: `npm run test:unit -- src/lib/platform-feedback/platform-feedback.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/public-copy-style.test.ts src/lib/db/backend.test.ts`
+
 ## Canvas brand fonts catalog (2026-08-15)
 
 - [x] Self-hosted OFL woff2 under `public/fonts/` + `next/font/local` CSS vars (`src/app/canvas-fonts.ts`)

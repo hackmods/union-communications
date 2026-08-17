@@ -163,6 +163,7 @@ test.describe("Public secondary pages smoke @smoke", () => {
     { path: "/en/support/", heading: "Support the builder" },
     { path: "/en/privacy/", heading: "Privacy Policy" },
     { path: "/en/accessibility/", heading: "Accessibility Statement" },
+    { path: "/en/feedback/", heading: "Help improve UnionOps" },
   ];
 
   for (const { path, heading } of pages) {

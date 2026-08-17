@@ -24,6 +24,7 @@ services:
       COMMITTEES_DB_BACKEND: postgres
       ELECTIONS_DB_BACKEND: postgres
       POLLS_DB_BACKEND: postgres
+      FEEDBACK_DB_BACKEND: postgres
       MEETINGS_DB_BACKEND: postgres
       MEETINGS_RSVP_DB_BACKEND: postgres
       CHECKINS_DB_BACKEND: postgres

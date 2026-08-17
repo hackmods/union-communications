@@ -16,6 +16,7 @@ export const PUBLIC_PATHS = [
   "/install",
   "/privacy",
   "/accessibility",
+  "/feedback",
   "/onboarding",
   "/brand-kit",
   "/examples",
