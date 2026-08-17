@@ -40,3 +40,4 @@ Session: [`session-knowledge-2026-08-17-qr-canvas-layout.md`](../../docs/audit/s
 6. **Layout overlap tests:** clip `getBoundingClientRect()` URL boxes to `[data-qr-cell]` before overlap checks; `overflow: hidden` is not enough. Keep Playwright `evaluate()` math in sync with `canvas-layout-geometry.ts`.
 7. **Playwright QR waits:** poll `offsetWidth` / `naturalWidth`, not visual `getBoundingClientRect()` — parent preview scale shrinks painted size without failed render.
 8. **Do not port Board FitWidth / header branding to every tool** — only when a layout-class smoke row fails. Flyer/Graphic display type staying loud is intentional. Do not copy `qrBoardChrome` onto Solidarity / Flyer / Graphic.
+9. **Square wallet sheets:** explicit design height on export root + copy column `min-h-0 overflow-hidden`; never center the whole flex stack on square link cards (B13). Use `qrCardPreviewHeightPx`.

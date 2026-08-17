@@ -5,7 +5,8 @@
 - [x] Shared `FitWidthFrame` (`src/components/tools/FitWidthFrame.tsx`) — scale on a parent of `[data-export-root]`; QR Board, QR Card, Action Card
 - [x] Letter/tabloid wallet previews lay out at design size then uniform-scale; `wallet*` type stays on `previewWidthPx`
 - [x] Compact one-line local label + mark logo on compact wallet sizes; branding stays on after onboarding
-- [x] QR share smoke: Letter wider than quarter; 390px FitWidth box; Action Card Show URL
+- [x] QR share smoke: Letter wider than quarter; 390px FitWidth box; Action Card Show URL; square 5×5 geometry
+- Lessons: B12–B14 in [`session-knowledge-2026-08-17-qr-canvas-layout.md`](audit/session-knowledge-2026-08-17-qr-canvas-layout.md); residual gaps + next steps in same file
 - Verify: `npx playwright test e2e/tools.qr-share.smoke.spec.ts --grep "@smoke"` (PowerShell: quote grep)
 
 ## Site feedback (ADR-018) (2026-08-17)

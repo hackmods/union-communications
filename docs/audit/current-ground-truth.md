@@ -8,7 +8,7 @@
 **Local 404 / route status chrome:** [`session-knowledge-2026-08-09-local-404.md`](session-knowledge-2026-08-09-local-404.md)  
 **Workshop Comms multiphase + Gap Fit (talk ~2026-08-12):** [`session-knowledge-2026-08-09-workshop-comms.md`](session-knowledge-2026-08-09-workshop-comms.md), [`workshop-gap-fit-2026-08.md`](workshop-gap-fit-2026-08.md)
 **Flyer Maker QOL v2 + unified tools chrome / Share Kit v0 (2026-08-14):** [`session-knowledge-2026-08-14-flyer-unified-tools.md`](session-knowledge-2026-08-14-flyer-unified-tools.md)
-**QR Board canvas QOL + layout-class CI matrix (2026-08-17):** [`session-knowledge-2026-08-17-qr-canvas-layout.md`](session-knowledge-2026-08-17-qr-canvas-layout.md), checklist [`plan-2026-08-17-qr-board-canvas-qol.md`](plan-2026-08-17-qr-board-canvas-qol.md)
+**QR Board canvas QOL + layout-class CI matrix + wallet FitWidth (2026-08-17):** [`session-knowledge-2026-08-17-qr-canvas-layout.md`](session-knowledge-2026-08-17-qr-canvas-layout.md) (lessons B1–B14, residual gaps, optional next steps), checklist [`plan-2026-08-17-qr-board-canvas-qol.md`](plan-2026-08-17-qr-board-canvas-qol.md)
 
 ## Do not re-open as if missing
 
