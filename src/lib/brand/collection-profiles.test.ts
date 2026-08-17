@@ -7,6 +7,7 @@ import {
   OPSEU_CAAT_SUPPORT_PT_ID,
   OPSEU_CAAT_SUPPORT_PT_LABEL,
   addBrandKitProfile,
+  collectionPatchForOpseuSector,
   collectionPatchForPreset,
   collectionProfilesForPreset,
   defaultProfilesForStoredKit,
@@ -18,16 +19,15 @@ import {
 } from "./collection-profiles";
 
 describe("collectionProfilesForPreset", () => {
-  it("gives OPSEU the CAAT Support Full-time and Part-time collections", () => {
-    const { profiles, activeProfileId } = collectionProfilesForPreset(
-      "opseu",
-      "243",
-      "Educate. Advocate. Organize.",
-    );
+  it("gives OPSEU the CAAT Support Full-time and Part-time collections by default", () => {
+    const { profiles, activeProfileId, opseuSectorId } =
+      collectionProfilesForPreset("opseu", "243", "Educate. Advocate. Organize.");
+    expect(opseuSectorId).toBe("caat-support");
     expect(activeProfileId).toBe(OPSEU_CAAT_SUPPORT_FT_ID);
     expect(profiles.map((p) => p.id)).toEqual([
       OPSEU_CAAT_SUPPORT_FT_ID,
       OPSEU_CAAT_SUPPORT_PT_ID,
+      "profile-other",
     ]);
     expect(profiles[0]).toMatchObject({
       label: OPSEU_CAAT_SUPPORT_FT_LABEL,
@@ -53,6 +53,24 @@ describe("collectionProfilesForPreset", () => {
       "All-employee unit",
       "Other",
     ]);
+    expect(profiles.at(-1)?.id).toBe("profile-other");
+  });
+
+  it("loads OPS collections when OPSEU sector is ops", () => {
+    const { profiles, activeProfileId, opseuSectorId } =
+      collectionProfilesForPreset("opseu", "649", "Solidarity.", {
+        opseuSectorId: "ops",
+      });
+    expect(opseuSectorId).toBe("ops");
+    expect(activeProfileId).toBe("profile-opseu-ops");
+    expect(profiles[0]?.label).toBe("Ontario Public Service");
+  });
+
+  it("loads LCBO collections when OPSEU sector is lcbo", () => {
+    const { profiles } = collectionProfilesForPreset("opseu", "100", "", {
+      opseuSectorId: "lcbo",
+    });
+    expect(profiles[0]?.label).toBe("Liquor Board Employees");
     expect(profiles.at(-1)?.id).toBe("profile-other");
   });
 
@@ -87,13 +105,26 @@ describe("collectionPatchForPreset", () => {
     expect(patch.local?.subText).toBe(OPSEU_CAAT_SUPPORT_FT_LABEL);
     expect(patch.local?.bargainingUnitCode).toBe("ft");
     expect(patch.activeProfileId).toBe(OPSEU_CAAT_SUPPORT_FT_ID);
+    expect(patch.opseuSectorId).toBe("caat-support");
+  });
+
+  it("applies corrections sector onto local identity", () => {
+    const patch = collectionPatchForOpseuSector("corrections", "649", "slogan");
+    expect(patch.opseuSectorId).toBe("corrections");
+    expect(patch.local?.subText).toBe("Corrections");
+  });
+});
+
+describe("collectionPatchForOpseuSector", () => {
+  it("is exported for sector picker", () => {
+    expect(typeof collectionPatchForOpseuSector).toBe("function");
   });
 });
 
 describe("defaultProfilesForStoredKit", () => {
   it("restores OPSEU CAAT Support collections for legacy kits without profiles", () => {
     const profiles = defaultProfilesForStoredKit("opseu", "243", "ignored");
-    expect(profiles).toHaveLength(2);
+    expect(profiles).toHaveLength(3);
     expect(profiles[0]?.id).toBe(OPSEU_CAAT_SUPPORT_FT_ID);
   });
 

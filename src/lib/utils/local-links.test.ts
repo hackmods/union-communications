@@ -111,7 +111,8 @@ describe("normalizeBrandKit", () => {
       useOfficialLogo: true,
       updatedAt: "2026-01-01T00:00:00.000Z",
     });
-    expect(kit.profiles).toHaveLength(2);
+    expect(kit.profiles).toHaveLength(3);
+    expect(kit.opseuSectorId).toBe("caat-support");
     expect(kit.local.bargainingUnitCode).toBe("ft");
   });
 

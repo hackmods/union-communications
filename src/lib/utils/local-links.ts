@@ -2,6 +2,7 @@ import {
   defaultProfilesForStoredKit,
   normalizeBrandKitProfiles,
   reconcileActiveProfileId,
+  resolveOpseuSectorId,
 } from "@/lib/brand/collection-profiles";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { normalizeBrandKitCanvas } from "@/lib/utils/canvas-tokens";
@@ -121,18 +122,30 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
       ? input.unionPresetId.trim()
       : undefined;
 
+  const rawOpseuSectorId =
+    typeof input.opseuSectorId === "string" && input.opseuSectorId.trim()
+      ? input.opseuSectorId.trim()
+      : undefined;
+
   const profileFallback = defaultProfilesForStoredKit(
     unionPresetId,
     typeof localIn.localNumber === "string"
       ? localIn.localNumber
       : base.local.localNumber,
     typeof localIn.subText === "string" ? localIn.subText : base.local.subText,
+    rawOpseuSectorId,
   );
 
   const profiles =
     "profiles" in input
       ? normalizeBrandKitProfiles(input.profiles, profileFallback)
       : profileFallback;
+
+  const opseuSectorId = resolveOpseuSectorId(
+    unionPresetId,
+    rawOpseuSectorId,
+    profiles,
+  );
 
   const activeProfileId = reconcileActiveProfileId(
     profiles,
@@ -196,6 +209,7 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
         ? input.useOfficialLogo
         : base.useOfficialLogo,
     unionPresetId,
+    opseuSectorId,
     websiteUrl: trimUrl(input.websiteUrl),
     facebookUrl: trimUrl(input.facebookUrl),
     customLinks: normalizeCustomLinks(input.customLinks),

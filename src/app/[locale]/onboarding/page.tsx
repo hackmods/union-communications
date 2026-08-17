@@ -14,6 +14,7 @@ import {
   brandKitPatchForLogoMode,
   type LogoMode,
 } from "@/components/brand/LogoSettings";
+import { OpseuSectorSelect } from "@/components/brand/OpseuSectorSelect";
 import { CollectionProfilesEditor } from "@/components/brand/CollectionProfilesEditor";
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import { hasStarterCollectionList } from "@/lib/brand/collection-profiles";
@@ -37,6 +38,7 @@ export default function OnboardingPage() {
     : null;
   const profileCount = brandKit.profiles?.length ?? 0;
   const multiProfile = profileCount > 1;
+  const isOpseu = brandKit.unionPresetId === "opseu";
   const showCollections =
     hasStarterCollectionList(brandKit.unionPresetId) || multiProfile;
 
@@ -111,6 +113,7 @@ export default function OnboardingPage() {
                 })
               }
             />
+            {isOpseu ? <OpseuSectorSelect compact /> : null}
             {showCollections ? (
               <div className="space-y-2">
                 <h3 className="text-sm font-semibold text-gray-700">

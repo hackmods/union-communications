@@ -31,13 +31,37 @@ export function CollectionProfilesEditor({
   const activeId = brandKit.activeProfileId ?? profiles[0]?.id ?? "";
   const active = profiles.find((profile) => profile.id === activeId);
   const multi = profiles.length > 1;
-  const presetHintKey = collectionPresetHintKey(brandKit.unionPresetId);
+  const presetHintKey = collectionPresetHintKey(
+    brandKit.unionPresetId,
+    brandKit.opseuSectorId,
+    brandKit.profiles,
+  );
   const showStarterNote = hasStarterCollectionList(brandKit.unionPresetId);
 
   if (profiles.length === 0) return null;
 
+  const OPSEU_SECTOR_HINT_KEYS = new Set([
+    "opseu-caat-support",
+    "opseu-caat-academic",
+    "opseu-ops",
+    "opseu-corrections",
+    "opseu-hospital-professionals",
+    "opseu-hospital-support",
+    "opseu-lcbo",
+    "opseu-municipalities",
+    "opseu-long-term-care",
+  ]);
+
   const profileHint = presetHintKey
-    ? t(`profilePresetHint.${presetHintKey}` as "profilePresetHint.cupe")
+    ? t(
+        `profilePresetHint.${
+          OPSEU_SECTOR_HINT_KEYS.has(presetHintKey)
+            ? presetHintKey
+            : presetHintKey.startsWith("opseu-")
+              ? "opseu-generic"
+              : presetHintKey
+        }` as "profilePresetHint.cupe",
+      )
     : multi
       ? t("profileHint")
       : t("profileSingleHint");

@@ -82,7 +82,7 @@ Catalog: [`src/lib/brand/collection-profile-catalog.ts`](../../src/lib/brand/col
 
 ## Residual gaps
 
-- No OPSEU *sector* picker (CAAT Academic / OPS / hospital). OPSEU preset still means CAAT Support until we add that.
+- ~~No OPSEU *sector* picker~~ — **shipped 2026-08-17** — `opseu-sector-catalog.ts` + `OpseuSectorSelect`; default remains CAAT Support.
 - No Hub-onboarding bridge that seeds Brand Kit profiles from tenant `bargainingUnits`.
 - Stored profile labels are English data (same as before). Chrome is EN/FR.
 - Membership URL audiences remain `full_time` / `part_time` / `all` — fine for CAAT Support; other unions use `all` or custom links.

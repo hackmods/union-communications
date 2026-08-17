@@ -1,6 +1,6 @@
 ---
 description: Brand Kit collection profiles — per-union defaults, labels, and sourced bargaining structures
-globs: src/lib/brand/collection-profiles.ts,src/lib/brand/collection-profile-catalog.ts,src/lib/constants/unionPresets.ts,src/lib/constants/brand.ts,src/components/brand/CollectionProfilesEditor.tsx,src/app/**/brand-kit/**,src/app/**/onboarding/**,seed/reference-tenant-opseu-caat.json
+globs: src/lib/brand/collection-profiles.ts,src/lib/brand/collection-profile-catalog.ts,src/lib/brand/opseu-sector-catalog.ts,src/lib/constants/unionPresets.ts,src/lib/constants/brand.ts,src/components/brand/CollectionProfilesEditor.tsx,src/components/brand/OpseuSectorSelect.tsx,src/app/**/brand-kit/**,src/app/**/onboarding/**,seed/reference-tenant-opseu-caat.json
 alwaysApply: false
 ---
 
@@ -14,7 +14,7 @@ Companion research: [`docs/audit/session-knowledge-2026-08-17-brand-kit-collecti
 
 1. **Preset starter lists ship in** [`collection-profile-catalog.ts`](../../src/lib/brand/collection-profile-catalog.ts). Each list ends with **Other** so stewards rename/remove rows they do not use.
 2. **Fresh Brand Kit / `other` preset:** one **Local** profile until a union preset is chosen.
-3. **OPSEU preset:** **College Support Full-time** (`ft`) + **College Support Part-time** (`pt`) — CAAT Support reference tenant only.
+3. **OPSEU preset:** sector picker + starter collections from [`opseu-sector-catalog.ts`](../../src/lib/brand/opseu-sector-catalog.ts). Default sector **CAAT Support** (`caat-support`) — FT/PT + Other. Legacy kits infer sector from profile ids.
 4. **Applying a preset replaces profiles.** Switching presets must not leave the prior union’s collection labels behind.
 5. **Saved kits are not rewritten on hydrate** except via `normalizeBrandKit` when `profiles` is missing — then preset catalog applies.
 6. **Reference URLs** in the catalog are **general union homepages** for agent/docs context — never stored in Brand Kit or membership URLs.
@@ -26,6 +26,8 @@ Companion research: [`docs/audit/session-knowledge-2026-08-17-brand-kit-collecti
 | Concern | Path |
 |---|---|
 | Per-union starter lists + reference URLs | [`collection-profile-catalog.ts`](../../src/lib/brand/collection-profile-catalog.ts) |
+| OPSEU sector starter lists | [`opseu-sector-catalog.ts`](../../src/lib/brand/opseu-sector-catalog.ts) |
+| OPSEU sector picker UI | [`OpseuSectorSelect.tsx`](../../src/components/brand/OpseuSectorSelect.tsx) |
 | Defaults + add/remove/sync | [`collection-profiles.ts`](../../src/lib/brand/collection-profiles.ts) |
 | Preset application | `brandFieldsFromUnionPreset()` in [`unionPresets.ts`](../../src/lib/constants/unionPresets.ts) |
 | Fresh kit | [`DEFAULT_BRAND_KIT`](../../src/lib/constants/brand.ts) — one Local profile |
@@ -37,7 +39,7 @@ Companion research: [`docs/audit/session-knowledge-2026-08-17-brand-kit-collecti
 | Preset | `#` | Active default | Stored labels (codes) |
 |---|---|---|---|
 | *(none)* / `other` | 1 | Local | Local |
-| `opseu` | 2 | College Support Full-time | College Support Full-time (`ft`), College Support Part-time (`pt`) |
+| `opseu` | sector-dependent | **CAAT Support** default: College Support FT/PT + Other | See OPSEU sector table |
 | `cupe` | 4 | Full-time unit | Full-time (`ft`), Part-time (`pt`), All-employee (`all`), **Other** (`other`) |
 | `unifor` | 3 | Bargaining unit | Bargaining unit (`bu`), Additional bargaining unit (`bu-add`), **Other** |
 | `usw` | 3 | Unit | Unit (`unit`), Additional unit (`unit-add`), **Other** |
@@ -57,14 +59,24 @@ Companion research: [`docs/audit/session-knowledge-2026-08-17-brand-kit-collecti
 
 ## Sourced structures (detail)
 
-### OPSEU/SEFPO (CAAT Support default)
+### OPSEU/SEFPO (sector picker)
 
-- CAAT-S FT / PT sector pages — [college-support-full-time](https://opseu.org/sector/college-support-full-time), [college-support-part-time](https://opseu.org/sector/college-support-part-time)
-- Statutory FT/PT split — [OPSEU PT certification (2016)](https://opseu.org/news/opseu-applies-to-represent-part-time-college-support-staff/14462/)
-- CEC bargaining pages — [FT Support](https://www.collegeemployercouncil.ca/bargaining/full-time_support_staff_2025), [PT Support](https://www.collegeemployercouncil.ca/bargaining/part-time-support-staff-bargaining)
-- College composite locals — [CAAT-A intro PDF (Local 562)](https://www.opseu562.org/wp-content/uploads/2019/10/Intro-to-CAAT-A-2025.pdf)
+Catalog: [`opseu-sector-catalog.ts`](../../src/lib/brand/opseu-sector-catalog.ts). Brand Kit stores `opseuSectorId` when preset is `opseu`.
 
-**Stretch (steward-added, not preset default):** CAAT Academic FT/PT-SL; OPS Unified/Correctional; hospital/LTC/municipal.
+| Sector id | Starter collections | Reference |
+|---|---|---|
+| `caat-support` (default) | College Support FT, PT, Other | [college-support-full-time](https://opseu.org/sector/college-support-full-time) |
+| `caat-academic` | College Faculty FT, Part-time sessional, Other | [college-faculty](https://opseu.org/sector/college-faculty) |
+| `ops` | Ontario Public Service, Other | [opseu.org](https://opseu.org) |
+| `corrections` | Corrections, Other | [corrections](https://opseu.org/sector/corrections) |
+| `lcbo` | Liquor Board Employees, Other | [liquor-board-employees](https://opseu.org/sector/liquor-board-employees) |
+| `hospital-professionals` | HPD + additional BU + Other | [hospital-professionals](https://opseu.org/sector/hospital-professionals) |
+| `hospital-support` | Hospital Support + additional BU + Other | [hospital-support](https://opseu.org/sector/hospital-support) |
+| `municipalities` | Municipalities + additional workplace + Other | orientation booklet |
+| `long-term-care` | LTC + additional workplace + Other | orientation booklet |
+| `universities`, `boards-of-education`, `ambulance`, `mental-health`, `community-health`, `blood-services`, `community-agencies`, `developmental-services`, `childrens-aid`, `child-treatment`, `mpac`, `other` | sector identity + Other (or Local for `other`) | [opseu.org](https://opseu.org) |
+
+CAAT Support FT/PT statutory split — [OPSEU PT certification (2016)](https://opseu.org/news/opseu-applies-to-represent-part-time-college-support-staff/14462/). CEC bargaining — [FT Support](https://www.collegeemployercouncil.ca/bargaining/full-time_support_staff_2025), [PT Support](https://www.collegeemployercouncil.ca/bargaining/part-time-support-staff-bargaining).
 
 ### CUPE
 

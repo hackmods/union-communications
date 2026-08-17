@@ -5,15 +5,26 @@ import {
   PROFILE_OTHER_ID,
   type UnionCollectionCatalog,
 } from "@/lib/brand/collection-profile-catalog";
+import {
+  DEFAULT_OPSEU_SECTOR_ID,
+  getOpseuSector,
+  inferOpseuSectorId,
+  isOpseuSectorId,
+  OPSEU_CAAT_SUPPORT_FT_ID,
+  OPSEU_CAAT_SUPPORT_FT_LABEL,
+  OPSEU_CAAT_SUPPORT_PT_ID,
+  OPSEU_CAAT_SUPPORT_PT_LABEL,
+} from "@/lib/brand/opseu-sector-catalog";
+
+export {
+  OPSEU_CAAT_SUPPORT_FT_ID,
+  OPSEU_CAAT_SUPPORT_FT_LABEL,
+  OPSEU_CAAT_SUPPORT_PT_ID,
+  OPSEU_CAAT_SUPPORT_PT_LABEL,
+  DEFAULT_OPSEU_SECTOR_ID,
+};
 
 export const GENERIC_COLLECTION_PROFILE_ID = "profile-local";
-export const OPSEU_CAAT_SUPPORT_FT_ID = "profile-caat-s-ft";
-export const OPSEU_CAAT_SUPPORT_PT_ID = "profile-caat-s-pt";
-
-/** Official OPSEU/SEFPO CAAT Support sector names (not a platform-wide default). */
-export const OPSEU_CAAT_SUPPORT_FT_LABEL = "College Support Full-time";
-export const OPSEU_CAAT_SUPPORT_PT_LABEL = "College Support Part-time";
-
 export const GENERIC_COLLECTION_LABEL = "Local";
 
 export function newBrandKitProfileId(): string {
@@ -32,25 +43,11 @@ export function genericCollectionProfile(
   };
 }
 
+/** @deprecated Use profiles from `getOpseuSector("caat-support")` */
 export function opseuCaatSupportProfiles(
   localNumber: string,
 ): BrandKitProfile[] {
-  return [
-    {
-      id: OPSEU_CAAT_SUPPORT_FT_ID,
-      label: OPSEU_CAAT_SUPPORT_FT_LABEL,
-      localNumber,
-      subText: OPSEU_CAAT_SUPPORT_FT_LABEL,
-      bargainingUnitCode: "ft",
-    },
-    {
-      id: OPSEU_CAAT_SUPPORT_PT_ID,
-      label: OPSEU_CAAT_SUPPORT_PT_LABEL,
-      localNumber,
-      subText: OPSEU_CAAT_SUPPORT_PT_LABEL,
-      bargainingUnitCode: "pt",
-    },
-  ];
+  return profilesFromOpseuSector(DEFAULT_OPSEU_SECTOR_ID, localNumber);
 }
 
 export function profilesFromCatalog(
@@ -66,14 +63,66 @@ export function profilesFromCatalog(
   }));
 }
 
+export function profilesFromOpseuSector(
+  sectorId: string | undefined,
+  localNumber: string,
+): BrandKitProfile[] {
+  const sector = getOpseuSector(sectorId);
+  return sector.profiles.map((template) => ({
+    id: template.id,
+    label: template.label,
+    localNumber,
+    subText: template.label,
+    bargainingUnitCode: template.bargainingUnitCode,
+  }));
+}
+
+export function collectionProfilesForOpseuSector(
+  sectorId: string | undefined,
+  localNumber: string,
+): { profiles: BrandKitProfile[]; activeProfileId: string; opseuSectorId: string } {
+  const sector = getOpseuSector(sectorId);
+  return {
+    profiles: profilesFromOpseuSector(sector.id, localNumber),
+    activeProfileId: sector.defaultActiveId,
+    opseuSectorId: sector.id,
+  };
+}
+
+export function collectionPatchForOpseuSector(
+  sectorId: string | undefined,
+  localNumber: string,
+  fallbackSubText: string,
+): Pick<BrandKitPatch, "profiles" | "activeProfileId" | "local" | "opseuSectorId"> {
+  const { profiles, activeProfileId, opseuSectorId } =
+    collectionProfilesForOpseuSector(sectorId, localNumber);
+  const active = profiles.find((profile) => profile.id === activeProfileId);
+  return {
+    profiles,
+    activeProfileId,
+    opseuSectorId,
+    local: {
+      subText: active?.subText ?? fallbackSubText,
+      bargainingUnitCode: active?.bargainingUnitCode,
+    },
+  };
+}
+
 export function collectionProfilesForPreset(
   presetId: string | undefined,
   localNumber: string,
   fallbackSubText: string,
-): { profiles: BrandKitProfile[]; activeProfileId: string } {
+  options?: { opseuSectorId?: string },
+): {
+  profiles: BrandKitProfile[];
+  activeProfileId: string;
+  opseuSectorId?: string;
+} {
   if (presetId === "opseu") {
-    const profiles = opseuCaatSupportProfiles(localNumber);
-    return { profiles, activeProfileId: OPSEU_CAAT_SUPPORT_FT_ID };
+    return collectionProfilesForOpseuSector(
+      options?.opseuSectorId ?? DEFAULT_OPSEU_SECTOR_ID,
+      localNumber,
+    );
   }
 
   const catalog = getUnionCollectionCatalog(presetId);
@@ -92,16 +141,24 @@ export function collectionPatchForPreset(
   presetId: string | undefined,
   localNumber: string,
   fallbackSubText: string,
-): Pick<BrandKitPatch, "profiles" | "activeProfileId" | "local"> {
-  const { profiles, activeProfileId } = collectionProfilesForPreset(
+  options?: { opseuSectorId?: string },
+): Pick<
+  BrandKitPatch,
+  "profiles" | "activeProfileId" | "local" | "opseuSectorId"
+> {
+  const result = collectionProfilesForPreset(
     presetId,
     localNumber,
     fallbackSubText,
+    options,
   );
-  const active = profiles.find((profile) => profile.id === activeProfileId);
+  const active = result.profiles.find(
+    (profile) => profile.id === result.activeProfileId,
+  );
   return {
-    profiles,
-    activeProfileId,
+    profiles: result.profiles,
+    activeProfileId: result.activeProfileId,
+    ...(result.opseuSectorId ? { opseuSectorId: result.opseuSectorId } : {}),
     local: {
       subText: active?.subText ?? fallbackSubText,
       bargainingUnitCode: active?.bargainingUnitCode,
@@ -113,9 +170,13 @@ export function defaultProfilesForStoredKit(
   unionPresetId: string | undefined,
   localNumber: string,
   fallbackSubText: string,
+  opseuSectorId?: string,
 ): BrandKitProfile[] {
   if (unionPresetId === "opseu") {
-    return opseuCaatSupportProfiles(localNumber);
+    return profilesFromOpseuSector(
+      opseuSectorId ?? DEFAULT_OPSEU_SECTOR_ID,
+      localNumber,
+    );
   }
   const catalog = getUnionCollectionCatalog(unionPresetId);
   if (catalog) {
@@ -124,20 +185,37 @@ export function defaultProfilesForStoredKit(
   return [genericCollectionProfile(localNumber, fallbackSubText)];
 }
 
+export function resolveOpseuSectorId(
+  unionPresetId: string | undefined,
+  opseuSectorId: string | undefined,
+  profiles: BrandKitProfile[] | undefined,
+): string | undefined {
+  if (unionPresetId !== "opseu") return undefined;
+  if (isOpseuSectorId(opseuSectorId)) return opseuSectorId;
+  return inferOpseuSectorId(profiles);
+}
+
+/** i18n key under `brandKit.profilePresetHint.*` */
+export function collectionPresetHintKey(
+  presetId: string | undefined,
+  opseuSectorId?: string,
+  profiles?: BrandKitProfile[],
+): string | undefined {
+  if (presetId === "opseu") {
+    const sector =
+      resolveOpseuSectorId("opseu", opseuSectorId, profiles) ??
+      DEFAULT_OPSEU_SECTOR_ID;
+    return `opseu-${sector}`;
+  }
+  if (isPresetWithCollectionCatalog(presetId)) return presetId;
+  return undefined;
+}
+
 /** True when the preset ships a multi-row starter list (not just Local). */
 export function hasStarterCollectionList(
   presetId: string | undefined,
 ): boolean {
   return presetId === "opseu" || isPresetWithCollectionCatalog(presetId);
-}
-
-/** i18n key under `brandKit.profilePresetHint.*` — undefined for generic Local-only presets. */
-export function collectionPresetHintKey(
-  presetId: string | undefined,
-): string | undefined {
-  if (presetId === "opseu") return "opseu";
-  if (isPresetWithCollectionCatalog(presetId)) return presetId;
-  return undefined;
 }
 
 export function reconcileActiveProfileId(

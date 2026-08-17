@@ -16,6 +16,7 @@ import {
 } from "@/components/brand/LogoSettings";
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import { MembershipUrlsEditor } from "@/components/brand/MembershipUrlsEditor";
+import { OpseuSectorSelect } from "@/components/brand/OpseuSectorSelect";
 import { CollectionProfilesEditor } from "@/components/brand/CollectionProfilesEditor";
 import { hasStarterCollectionList } from "@/lib/brand/collection-profiles";
 import { BrandKitCanvasPanel } from "@/components/brand/BrandKitCanvasPanel";
@@ -205,6 +206,7 @@ export default function BrandKitPage() {
           {showPresetCollectionsNote ? (
             <p className="text-sm text-gray-600">{t("unionPreset.collectionsNote")}</p>
           ) : null}
+          {unionPresetId === "opseu" ? <OpseuSectorSelect /> : null}
           {selectedPreset && selectedLogos ? (
             <div className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
               <div className="flex flex-wrap items-center gap-4">

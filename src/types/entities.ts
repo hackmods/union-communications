@@ -102,6 +102,8 @@ export interface BrandKit {
   logoText?: string;
   /** Active union preset id from Brand Kit (drives logo picker options) */
   unionPresetId?: string;
+  /** OPSEU/SEFPO sector when `unionPresetId` is `opseu` — drives starter collections */
+  opseuSectorId?: string;
   divisionId?: string;
   /** Local website (optional) - used by QR cards, posters, website template */
   websiteUrl?: string;
