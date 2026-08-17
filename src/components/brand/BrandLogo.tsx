@@ -45,11 +45,15 @@ function resolveInk(
 
 import type { BrandKit } from "@/types/entities";
 
+type LogoDimensions =
+  | (typeof lockupSize)[keyof typeof lockupSize]
+  | (typeof markSize)[keyof typeof markSize];
+
 function logoDims(
   brandKit: BrandKit,
   size: keyof typeof markSize,
   variantOverride?: "lockup" | "mark",
-): (typeof lockupSize)["sm"] {
+): LogoDimensions {
   const customSrc = brandKit.customLogoDataUrl?.trim();
   if (customSrc && !brandKit.useOfficialLogo) {
     const pathLooksLockup =
