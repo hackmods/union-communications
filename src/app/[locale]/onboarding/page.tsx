@@ -14,7 +14,9 @@ import {
   brandKitPatchForLogoMode,
   type LogoMode,
 } from "@/components/brand/LogoSettings";
+import { CollectionProfilesEditor } from "@/components/brand/CollectionProfilesEditor";
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
+import { hasStarterCollectionList } from "@/lib/brand/collection-profiles";
 import {
   brandFieldsFromUnionPreset,
   getUnionPreset,
@@ -33,6 +35,10 @@ export default function OnboardingPage() {
   const presetLogos = brandKit.unionPresetId
     ? resolvePresetLogos(getUnionPreset(brandKit.unionPresetId)?.logos)
     : null;
+  const profileCount = brandKit.profiles?.length ?? 0;
+  const multiProfile = profileCount > 1;
+  const showCollections =
+    hasStarterCollectionList(brandKit.unionPresetId) || multiProfile;
 
   // Default to UnionOps mark — never force OPSEU unless that preset is chosen
   useEffect(() => {
@@ -105,16 +111,25 @@ export default function OnboardingPage() {
                 })
               }
             />
-            <Input
-              label={t("subText")}
-              placeholder={t("subTextPlaceholder")}
-              value={brandKit.local.subText}
-              onChange={(e) =>
-                setBrandKit({
-                  local: { ...brandKit.local, subText: e.target.value },
-                })
-              }
-            />
+            {showCollections ? (
+              <div className="space-y-2">
+                <h3 className="text-sm font-semibold text-gray-700">
+                  {t("collectionsHeading")}
+                </h3>
+                <CollectionProfilesEditor compact />
+              </div>
+            ) : (
+              <Input
+                label={t("subText")}
+                placeholder={t("subTextPlaceholder")}
+                value={brandKit.local.subText}
+                onChange={(e) =>
+                  setBrandKit({
+                    local: { ...brandKit.local, subText: e.target.value },
+                  })
+                }
+              />
+            )}
             <LocalLinksEditor
               compact
               websiteUrl={brandKit.websiteUrl ?? ""}

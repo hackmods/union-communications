@@ -2,6 +2,7 @@ import type { BrandKit, BrandKitPatch, BrandKitProfile } from "@/types/entities"
 import {
   getUnionCollectionCatalog,
   isPresetWithCollectionCatalog,
+  PROFILE_OTHER_ID,
   type UnionCollectionCatalog,
 } from "@/lib/brand/collection-profile-catalog";
 
@@ -123,7 +124,21 @@ export function defaultProfilesForStoredKit(
   return [genericCollectionProfile(localNumber, fallbackSubText)];
 }
 
-export { isPresetWithCollectionCatalog, getUnionCollectionCatalog };
+/** True when the preset ships a multi-row starter list (not just Local). */
+export function hasStarterCollectionList(
+  presetId: string | undefined,
+): boolean {
+  return presetId === "opseu" || isPresetWithCollectionCatalog(presetId);
+}
+
+/** i18n key under `brandKit.profilePresetHint.*` — undefined for generic Local-only presets. */
+export function collectionPresetHintKey(
+  presetId: string | undefined,
+): string | undefined {
+  if (presetId === "opseu") return "opseu";
+  if (isPresetWithCollectionCatalog(presetId)) return presetId;
+  return undefined;
+}
 
 export function reconcileActiveProfileId(
   profiles: BrandKitProfile[] | undefined,
@@ -175,25 +190,32 @@ export function normalizeBrandKitProfiles(
   return fallback;
 }
 
-/** Keep the active saved profile in sync with Local number / sub-text / code. */
-export function syncActiveBrandKitProfile(kit: BrandKit): BrandKit {
+/** Keep saved profiles in sync when local identity fields change. */
+export function syncBrandKitProfilesFromLocal(kit: BrandKit): BrandKit {
   const profiles = kit.profiles ?? [];
   if (profiles.length === 0) return kit;
   const activeId = kit.activeProfileId ?? profiles[0].id;
   return {
     ...kit,
-    profiles: profiles.map((profile) =>
-      profile.id === activeId
+    profiles: profiles.map((profile) => ({
+      ...profile,
+      localNumber: kit.local.localNumber,
+      ...(profile.id === activeId
         ? {
-            ...profile,
-            localNumber: kit.local.localNumber,
             subText: kit.local.subText,
             bargainingUnitCode: kit.local.bargainingUnitCode,
           }
-        : profile,
-    ),
+        : {}),
+    })),
   };
 }
+
+/** @deprecated Use syncBrandKitProfilesFromLocal */
+export function syncActiveBrandKitProfile(kit: BrandKit): BrandKit {
+  return syncBrandKitProfilesFromLocal(kit);
+}
+
+export { isPresetWithCollectionCatalog, getUnionCollectionCatalog, PROFILE_OTHER_ID };
 
 export function addBrandKitProfile(
   kit: BrandKit,
@@ -244,10 +266,22 @@ export function renameBrandKitProfile(
   profileId: string,
   label: string,
 ): BrandKit {
+  const trimmed = label.trim();
+  const activeId = kit.activeProfileId ?? kit.profiles?.[0]?.id;
+  const isActive = profileId === activeId;
   return {
     ...kit,
     profiles: (kit.profiles ?? []).map((profile) =>
-      profile.id === profileId ? { ...profile, label: label.trim() } : profile,
+      profile.id === profileId
+        ? {
+            ...profile,
+            label: trimmed,
+            ...(isActive ? { subText: trimmed } : {}),
+          }
+        : profile,
     ),
+    ...(isActive
+      ? { local: { ...kit.local, subText: trimmed } }
+      : {}),
   };
 }

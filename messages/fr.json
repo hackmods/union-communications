@@ -1772,12 +1772,13 @@
     "step2": "Couleurs",
     "step3": "Choisissez votre logo",
     "unionPreset": "Syndicat",
-    "unionPresetHint": "Démarre les couleurs et options de logo. Choisissez Autre pour définir les couleurs vous-même.",
+    "unionPresetHint": "Démarre les couleurs, les options de logo et des collections de départ lorsque votre syndicat compte plus d’un groupe. Choisissez Autre pour définir les couleurs vous-même.",
     "unionPresetPlaceholder": "Choisir un syndicat…",
     "localNumber": "Numéro de section",
     "localNumberPlaceholder": "p. ex. 243",
     "subText": "Sous-texte",
     "subTextPlaceholder": "p. ex. Personnel de soutien",
+    "collectionsHeading": "Collections",
     "primaryColor": "Couleur de marque principale",
     "secondaryColor": "Accent graphique",
     "useOfficialLogo": "Utiliser le logo OPSEU",
@@ -1800,7 +1801,7 @@
   },
   "membershipUrls": {
     "title": "Liens de demande d'adhésion",
-    "description": "URL d'inscription typées pour les cartes QR, affiches de tableau et lettre de bienvenue. Ajoutez des liens distincts temps plein et temps partiel si votre syndicat utilise des formulaires différents.",
+    "description": "URL d'inscription typées pour les cartes QR, affiches de tableau et lettre de bienvenue. Ajoutez un lien pour tout le monde, ou des liens distincts lorsque votre syndicat utilise des formulaires différents selon la collection ou le statut.",
     "optionalHint": "Facultatif — ajoutez les URL d'adhésion pour que les préréglages et la lettre de bienvenue les réutilisent.",
     "linkLabel": "Libellé",
     "linkLabelPlaceholder": "p. ex. Adhésion temps plein",
@@ -1825,7 +1826,7 @@
     "steps": {
       "brandKit": {
         "title": "Enregistrer les URL d'adhésion",
-        "body": "Collez les URL FT et PT dans la Trousse de marque. Réutilisez-les sur les cartes QR et la lettre de bienvenue.",
+        "body": "Collez les URL de formulaire d’adhésion dans la Trousse de marque — un lien ou des liens distincts par collection. Réutilisez-les sur les cartes QR et la lettre de bienvenue.",
         "cta": "Ouvrir la Trousse de marque"
       },
       "printMaterials": {
@@ -1868,7 +1869,17 @@
     "profileSingleHint": "La plupart des sections n’ont besoin que d’une identité. Ajoutez une collection si vous créez des graphiques pour plus d’un lieu de travail ou d’un groupe.",
     "profileName": "Nom de la collection",
     "profileCode": "Code de collection (optionnel)",
-    "profileCodeHint": "Un code court, p. ex. FT ou PT. Laissez vide si vous n’en utilisez pas.",
+    "profileCodeHint": "Code court pour cette collection — p. ex. FT, PT, PA ou UCN. Laissez vide si vous n’en utilisez pas.",
+    "profileStarterNote": "Collections de départ selon votre préréglage syndical. Retirez celles que vous n’utilisez pas et renommez la collection active pour qu’elle corresponde à votre milieu.",
+    "profileOtherHint": "Renommez cette collection pour qu’elle corresponde à votre milieu de travail ou à votre unité de négociation.",
+    "profilePresetHint": {
+      "opseu": "Les sections de soutien collégial OPSEU séparent souvent temps plein et temps partiel. Changez de collection sans perdre vos couleurs ni votre logo.",
+      "cupe": "Les sections SCFP peuvent avoir des unités temps plein, temps partiel et tous les employés. Gardez seulement les collections que vous représentez réellement.",
+      "unifor": "Les sections Unifor peuvent couvrir plus d’une unité de négociation. Renommez chaque collection selon votre milieu.",
+      "usw": "Les sections Métallos peuvent avoir plus d’une unité. Renommez chaque collection selon votre milieu.",
+      "ona": "Les sections AIO peuvent couvrir plus d’une unité de négociation. Renommez chaque collection selon votre hôpital ou votre site.",
+      "psac": "Les groupes fédéraux utilisent souvent les codes PA, TC, EB ou SV. Gardez les classifications que vous représentez et retirez le reste."
+    },
     "profileAdd": "Ajouter une collection",
     "profileRemove": "Retirer cette collection",
     "profileAddedLabel": "Collection {n}",
@@ -1939,11 +1950,12 @@
     },
     "unionPreset": {
       "title": "Préréglage syndical",
-      "description": "Préréglage canadien pour les ateliers. Téléversez le logo de votre section ; les marques nationales sont des références optionnelles.",
+      "description": "Préréglage canadien pour les ateliers. Choisir un syndicat charge les couleurs et des collections de départ ; téléversez le logo de votre section pour la production.",
       "label": "Préréglage syndical",
       "placeholder": "Choisir un syndicat…",
       "slogans": "Slogans suggérés",
-      "logoNote": "Le symbole UnionOps est utilisé par défaut jusqu’à ce que vous joigniez un mot-symbole local."
+      "logoNote": "Le symbole UnionOps est utilisé par défaut jusqu’à ce que vous joigniez un mot-symbole local.",
+      "collectionsNote": "Ce préréglage inclut des collections de départ que vous pouvez renommer ou retirer dans Paramètres actuels ci-dessous."
     },
     "colors": {
       "primary": "Couleur de marque principale",

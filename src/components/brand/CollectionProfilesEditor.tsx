@@ -6,13 +6,23 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import {
   addBrandKitProfile,
+  collectionPresetHintKey,
+  hasStarterCollectionList,
   removeBrandKitProfile,
   renameBrandKitProfile,
+  PROFILE_OTHER_ID,
 } from "@/lib/brand/collection-profiles";
 import { applyBrandKitProfile } from "@/lib/utils/local-links";
 
+type CollectionProfilesEditorProps = {
+  /** Compact spacing for onboarding step 1 */
+  compact?: boolean;
+};
+
 /** Switch, add, and rename Brand Kit collection identities. */
-export function CollectionProfilesEditor() {
+export function CollectionProfilesEditor({
+  compact = false,
+}: CollectionProfilesEditorProps) {
   const t = useTranslations("brandKit");
   const brandKit = useBrandStore((s) => s.brandKit);
   const importBrandKit = useBrandStore((s) => s.importBrandKit);
@@ -21,11 +31,23 @@ export function CollectionProfilesEditor() {
   const activeId = brandKit.activeProfileId ?? profiles[0]?.id ?? "";
   const active = profiles.find((profile) => profile.id === activeId);
   const multi = profiles.length > 1;
+  const presetHintKey = collectionPresetHintKey(brandKit.unionPresetId);
+  const showStarterNote = hasStarterCollectionList(brandKit.unionPresetId);
 
   if (profiles.length === 0) return null;
 
+  const profileHint = presetHintKey
+    ? t(`profilePresetHint.${presetHintKey}` as "profilePresetHint.cupe")
+    : multi
+      ? t("profileHint")
+      : t("profileSingleHint");
+
   return (
-    <div className="space-y-3">
+    <div className={compact ? "space-y-2" : "space-y-3"}>
+      {showStarterNote && multi ? (
+        <p className="text-sm text-gray-600">{t("profileStarterNote")}</p>
+      ) : null}
+
       {multi ? (
         <label className="block space-y-1">
           <span className="text-sm font-medium text-gray-700">
@@ -49,10 +71,10 @@ export function CollectionProfilesEditor() {
               </option>
             ))}
           </select>
-          <p className="text-xs text-gray-500">{t("profileHint")}</p>
+          <p className="text-xs text-gray-500">{profileHint}</p>
         </label>
       ) : (
-        <p className="text-xs text-gray-500">{t("profileSingleHint")}</p>
+        <p className="text-xs text-gray-500">{profileHint}</p>
       )}
 
       <Input
@@ -65,6 +87,9 @@ export function CollectionProfilesEditor() {
           );
         }}
       />
+      {active?.id === PROFILE_OTHER_ID ? (
+        <p className="text-xs text-gray-500">{t("profileOtherHint")}</p>
+      ) : null}
 
       <div className="space-y-1">
         <Input

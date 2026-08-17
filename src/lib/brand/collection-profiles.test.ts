@@ -14,7 +14,7 @@ import {
   reconcileActiveProfileId,
   removeBrandKitProfile,
   renameBrandKitProfile,
-  syncActiveBrandKitProfile,
+  syncBrandKitProfilesFromLocal,
 } from "./collection-profiles";
 
 describe("collectionProfilesForPreset", () => {
@@ -139,7 +139,7 @@ describe("profile helpers", () => {
   });
 
   it("syncs the active profile from local fields", () => {
-    const kit = syncActiveBrandKitProfile({
+    const kit = syncBrandKitProfilesFromLocal({
       ...DEFAULT_BRAND_KIT,
       local: {
         ...DEFAULT_BRAND_KIT.local,
@@ -152,6 +152,28 @@ describe("profile helpers", () => {
       localNumber: "560",
       subText: "Support Staff",
     });
+  });
+
+  it("syncs local number to every profile when collections are preset", () => {
+    const { profiles, activeProfileId } = collectionProfilesForPreset(
+      "cupe",
+      "3902",
+      "On the front line.",
+    );
+    const kit = syncBrandKitProfilesFromLocal({
+      ...DEFAULT_BRAND_KIT,
+      profiles,
+      activeProfileId,
+      local: {
+        ...DEFAULT_BRAND_KIT.local,
+        localNumber: "9999",
+        subText: profiles[0].subText,
+        bargainingUnitCode: profiles[0].bargainingUnitCode,
+      },
+    });
+    expect(kit.profiles?.every((p) => p.localNumber === "9999")).toBe(true);
+    expect(kit.profiles?.[0]).toMatchObject({ subText: profiles[0].subText });
+    expect(kit.profiles?.[1]?.subText).toBe(profiles[1].subText);
   });
 
   it("adds and removes collections without dropping the last one", () => {
@@ -169,13 +191,17 @@ describe("profile helpers", () => {
     );
   });
 
-  it("renames a profile and keeps a non-empty label", () => {
+  it("renames a profile and syncs sub-text on the active collection", () => {
     const renamed = renameBrandKitProfile(
       DEFAULT_BRAND_KIT,
       GENERIC_COLLECTION_PROFILE_ID,
       "  Workplace A  ",
     );
-    expect(renamed.profiles?.[0].label).toBe("Workplace A");
+    expect(renamed.profiles?.[0]).toMatchObject({
+      label: "Workplace A",
+      subText: "Workplace A",
+    });
+    expect(renamed.local.subText).toBe("Workplace A");
     const blank = renameBrandKitProfile(
       renamed,
       GENERIC_COLLECTION_PROFILE_ID,

@@ -17,6 +17,7 @@ import {
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import { MembershipUrlsEditor } from "@/components/brand/MembershipUrlsEditor";
 import { CollectionProfilesEditor } from "@/components/brand/CollectionProfilesEditor";
+import { hasStarterCollectionList } from "@/lib/brand/collection-profiles";
 import { BrandKitCanvasPanel } from "@/components/brand/BrandKitCanvasPanel";
 import {
   brandFieldsFromUnionPreset,
@@ -54,6 +55,8 @@ export default function BrandKitPage() {
   const selectedLogos = selectedPreset
     ? resolvePresetLogos(selectedPreset.logos)
     : null;
+  const multiProfile = (brandKit.profiles?.length ?? 0) > 1;
+  const showPresetCollectionsNote = hasStarterCollectionList(unionPresetId);
 
   const applyUnionPreset = (preset: UnionBranding) => {
     setBrandKit(
@@ -199,6 +202,9 @@ export default function BrandKitPage() {
             placeholder={t("unionPreset.placeholder")}
             onSelect={applyUnionPreset}
           />
+          {showPresetCollectionsNote ? (
+            <p className="text-sm text-gray-600">{t("unionPreset.collectionsNote")}</p>
+          ) : null}
           {selectedPreset && selectedLogos ? (
             <div className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
               <div className="flex flex-wrap items-center gap-4">
@@ -249,7 +255,7 @@ export default function BrandKitPage() {
         <Card density="compact" className="space-y-3">
           <CardTitle className="text-base">{t("currentSettings")}</CardTitle>
           <CollectionProfilesEditor />
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className={`grid gap-3 ${multiProfile ? "" : "sm:grid-cols-2"}`}>
             <Input
               label={t("localNumber")}
               value={brandKit.local.localNumber}
@@ -259,15 +265,17 @@ export default function BrandKitPage() {
                 })
               }
             />
-            <Input
-              label={t("subText")}
-              value={brandKit.local.subText}
-              onChange={(e) =>
-                setBrandKit({
-                  local: { ...brandKit.local, subText: e.target.value },
-                })
-              }
-            />
+            {!multiProfile ? (
+              <Input
+                label={t("subText")}
+                value={brandKit.local.subText}
+                onChange={(e) =>
+                  setBrandKit({
+                    local: { ...brandKit.local, subText: e.target.value },
+                  })
+                }
+              />
+            ) : null}
           </div>
           <ThemePicker
             primaryColor={brandKit.primaryColor}

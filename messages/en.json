@@ -1772,12 +1772,13 @@
     "step2": "Colours",
     "step3": "Choose your logo",
     "unionPreset": "Union",
-    "unionPresetHint": "Starts colours and logo options. Choose Other to set colours yourself.",
+    "unionPresetHint": "Starts colours, logo options, and starter collections when your union uses more than one group. Choose Other to set colours yourself.",
     "unionPresetPlaceholder": "Choose a union…",
     "localNumber": "Local number",
     "localNumberPlaceholder": "e.g. 243",
     "subText": "Sub-text",
     "subTextPlaceholder": "e.g. Support Staff",
+    "collectionsHeading": "Collections",
     "primaryColor": "Primary brand colour",
     "secondaryColor": "Graphics accent",
     "useOfficialLogo": "Use OPSEU logo",
@@ -1800,7 +1801,7 @@
   },
   "membershipUrls": {
     "title": "Membership application links",
-    "description": "Typed signup URLs for QR cards, board posters, and the welcome letter. Add separate full-time and part-time links when your union uses different forms.",
+    "description": "Typed signup URLs for QR cards, board posters, and the welcome letter. Add one link for everyone, or separate links when your union uses different forms by collection or status.",
     "optionalHint": "Optional — add membership application URLs so join presets and welcome letters can reuse them.",
     "linkLabel": "Label",
     "linkLabelPlaceholder": "e.g. Full-time membership",
@@ -1825,7 +1826,7 @@
     "steps": {
       "brandKit": {
         "title": "Save membership URLs in Brand Kit",
-        "body": "Paste FT and PT membership form URLs in Brand Kit. Use the same links on QR cards and the welcome letter.",
+        "body": "Paste membership form URLs in Brand Kit — one link or separate links per collection. Reuse them on QR cards and the welcome letter.",
         "cta": "Open Brand Kit"
       },
       "printMaterials": {
@@ -1868,7 +1869,17 @@
     "profileSingleHint": "Most locals only need one identity. Add a collection if you make graphics for more than one workplace or group.",
     "profileName": "Collection name",
     "profileCode": "Collection code (optional)",
-    "profileCodeHint": "A short code such as FT or PT. Leave blank if you do not use one.",
+    "profileCodeHint": "Short code for this collection — e.g. FT, PT, PA, or BU. Leave blank if you do not use one.",
+    "profileStarterNote": "Starter collections from your union preset. Remove any you do not use and rename the active one to match your workplace.",
+    "profileOtherHint": "Rename this collection to match your workplace or bargaining unit.",
+    "profilePresetHint": {
+      "opseu": "OPSEU college support locals often split full-time and part-time. Switch collections without losing colours or logo.",
+      "cupe": "CUPE locals may have full-time, part-time, and all-employee units. Keep only the collections you actually represent.",
+      "unifor": "Unifor locals may cover more than one bargaining unit. Rename each collection to match your workplace.",
+      "usw": "Steelworkers locals may have more than one unit. Rename each collection to match your workplace.",
+      "ona": "ONA locals may cover more than one bargaining unit. Rename each collection to match your hospital or site.",
+      "psac": "Federal groups often use PA, TC, EB, or SV codes. Keep the classifications you represent and remove the rest."
+    },
     "profileAdd": "Add a collection",
     "profileRemove": "Remove this collection",
     "profileAddedLabel": "Collection {n}",
@@ -1939,11 +1950,12 @@
     },
     "unionPreset": {
       "title": "Union preset",
-      "description": "Canadian preset for workshops. Upload your local logo; national marks are optional references only.",
+      "description": "Canadian preset for workshops. Choosing a union loads colours and starter collections; upload your local logo for production use.",
       "label": "Union preset",
       "placeholder": "Choose a union…",
       "slogans": "Suggested slogans",
-      "logoNote": "UnionOps mark is the default until you attach a local wordmark."
+      "logoNote": "UnionOps mark is the default until you attach a local wordmark.",
+      "collectionsNote": "This preset includes starter collections you can rename or trim in Current settings below."
     },
     "colors": {
       "primary": "Primary brand colour",

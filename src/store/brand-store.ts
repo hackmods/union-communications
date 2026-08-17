@@ -6,7 +6,7 @@ import {
   dataAdapter,
   LocalStorageAdapter,
 } from "@/lib/data/local-storage-adapter";
-import { syncActiveBrandKitProfile } from "@/lib/brand/collection-profiles";
+import { syncBrandKitProfilesFromLocal } from "@/lib/brand/collection-profiles";
 import { normalizeBrandKit } from "@/lib/utils/local-links";
 import type { BrandKit, BrandKitPatch } from "@/types/entities";
 
@@ -53,7 +53,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
 
   setBrandKit: (partial) => {
     const current = get().brandKit;
-    const updated = syncActiveBrandKitProfile(
+    const updated = syncBrandKitProfilesFromLocal(
       normalizeBrandKit({
         ...current,
         ...partial,

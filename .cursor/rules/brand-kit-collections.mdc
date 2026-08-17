@@ -18,7 +18,8 @@ Companion research: [`docs/audit/session-knowledge-2026-08-17-brand-kit-collecti
 4. **Applying a preset replaces profiles.** Switching presets must not leave the prior union’s collection labels behind.
 5. **Saved kits are not rewritten on hydrate** except via `normalizeBrandKit` when `profiles` is missing — then preset catalog applies.
 6. **Reference URLs** in the catalog are **general union homepages** for agent/docs context — never stored in Brand Kit or membership URLs.
-7. **No union names in generic chrome.** Copy talks about collections, workplaces, or units.
+7. **No union names in generic chrome.** Preset-specific hints live under `brandKit.profilePresetHint.{presetId}` only when that preset is selected.
+8. **Local number is shared** across all saved profiles; sub-text/code follow the active profile. Onboarding and Brand Kit hide the standalone sub-text field when `profiles.length > 1`.
 
 ## Code map
 

@@ -18,7 +18,7 @@ Ryan’s direction: support **all** unions. Locals and areas break out different
 
 1. **Fresh kit = one Local profile.** No CAAT language until the OPSEU preset is applied.
 2. **OPSEU preset = College Support Full-time + College Support Part-time** (`ft` / `pt`). Labels match official OPSEU sector names, not a claim that every OPSEU local is college support.
-3. **Every other preset = one Local profile.** Stewards add collections for extra units/workplaces.
+3. **CUPE / Unifor / USW / ONA / PSAC presets** load starter lists from the catalog (each ends with **Other**). **Other / unset** = one **Local** profile.
 4. **Preset application replaces `profiles` + `activeProfileId` + local collection fields** (same hygiene as membership URLs).
 5. **In-app add/remove/rename.** JSON import is not enough for amalgamated locals.
 6. **Do not migrate existing localStorage kits.** Re-apply a preset or Reset to pick up new defaults.
@@ -62,9 +62,21 @@ Catalog: [`src/lib/brand/collection-profile-catalog.ts`](../../src/lib/brand/col
 - [`src/lib/brand/collection-profiles.ts`](../../src/lib/brand/collection-profiles.ts) — defaults, normalize, add/remove/rename, sync active → local
 - [`CollectionProfilesEditor.tsx`](../../src/components/brand/CollectionProfilesEditor.tsx) — Brand Kit UI
 - `brandFieldsFromUnionPreset(preset, { localNumber })` now writes collection fields
-- `setBrandKit` syncs the active profile when Local number / sub-text / code change
-- Legacy kits without `profiles`: OPSEU → CAAT Support FT/PT on read; others → one Local; explicit `profiles: []` hides collections
+- Legacy kits without `profiles`: OPSEU → CAAT Support FT/PT on read; catalog presets → starter list; others → one Local; explicit `profiles: []` hides collections
 - Hub `ApiAdapter` normalizes on GET/PUT (parity with localStorage)
+- `setBrandKit` syncs **local number to all profiles**; sub-text/code follow the **active** collection
+- Onboarding step 1 surfaces `CollectionProfilesEditor` when a preset ships starter collections; sub-text field hidden when multi-profile
+- Preset-specific hints under `brandKit.profilePresetHint.*` (EN/FR); generalized membership URL copy
+
+---
+
+## QOL pass (2026-08-17 evening)
+
+- Preset-specific collection hints (CUPE FT/PT/all-employee, PSAC PA/TC/EB/SV, etc.)
+- Starter note: remove collections you do not use; rename **Other**
+- Local number syncs to every profile on save (fixes onboarding only updating active row)
+- Renaming the active collection updates sub-text for graphics
+- Brand Kit union preset card notes when starter collections load
 
 ---
 
