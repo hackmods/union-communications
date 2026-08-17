@@ -56,6 +56,7 @@ const AUTH_MARKERS = [
   "requireTenantOnboardingSession",
   "requireMeetingsSession",
   "requirePortalSession",
+  "requireSiteFeedbackInboxSession",
 ];
 
 /** Routes that gate with shared secrets or tokens instead of Hub session. */
