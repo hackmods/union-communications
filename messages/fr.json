@@ -1387,6 +1387,7 @@
       "square4": "Carré 4×4"
     },
     "sizeTip": "Quart = 4 par feuille lettre. Demi = 2 par feuille. Répétez pour remplir la page.",
+    "squareSizeTip": "Carré 4×4 / 5×5 = cartes pocket autonomes. Le texte est agrandi pour l'impression — la marque locale passe en en-tête pour laisser le QR libre.",
     "previewSize": "Aperçu {label} - {width}×{height} po",
     "showUrl": "Afficher l'URL sous le slogan",
     "includeBranding": "Inclure l'image de marque locale",

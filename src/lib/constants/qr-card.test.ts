@@ -3,6 +3,7 @@ import {
   DEFAULT_QR_CARD_SIZE,
   QR_CARD_SIZE_ORDER,
   QR_CARD_SIZES,
+  isQrCardSquareSize,
   qrCardExportPixelRatio,
 } from "./qr-card-sizes";
 import { QR_CARD_PRESETS, getQrCardPreset } from "./qr-card-presets";
@@ -20,6 +21,15 @@ describe("qr-card-sizes", () => {
       expect(QR_CARD_SIZES[id].qrPixels).toBeGreaterThan(0);
       expect(QR_CARD_SIZES[id].previewWidthPx).toBeGreaterThan(0);
     }
+  });
+
+  it("square sizes are 1:1 aspect", () => {
+    expect(isQrCardSquareSize("square4")).toBe(true);
+    expect(isQrCardSquareSize("square5")).toBe(true);
+    expect(isQrCardSquareSize("quarter")).toBe(false);
+    expect(QR_CARD_SIZES.square5.widthInches).toBe(
+      QR_CARD_SIZES.square5.heightInches,
+    );
   });
 
   it("scales preview width with physical sheet width", () => {

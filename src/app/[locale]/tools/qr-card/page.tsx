@@ -21,6 +21,7 @@ import {
   DEFAULT_QR_CARD_SIZE,
   QR_CARD_SIZE_ORDER,
   QR_CARD_SIZES,
+  isQrCardSquareSize,
   qrCardExportPixelRatio,
   type QrCardSizeId,
 } from "@/lib/constants/qr-card-sizes";
@@ -240,17 +241,20 @@ function QrCardPageContent() {
     meetsWcagAA(state.secondaryColor, state.primaryColor, true)
       ? state.secondaryColor
       : canvasInk;
-  const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
+  const isSquare = isQrCardSquareSize(state.sizeId);
+  const isCompact = isSquare || state.sizeId === "quarter";
 
-  /** QR plate as % of card width - smaller cards keep more room for copy */
+  /** QR plate as % of card width - square formats keep more room for copy */
   const qrPlatePercent = isReference
     ? state.sizeId === "square4"
-      ? 26
-      : 28
-    : state.sizeId === "square4"
-      ? 34
+      ? 24
       : state.sizeId === "square5"
-        ? 36
+        ? 26
+        : 28
+    : state.sizeId === "square4"
+      ? 28
+      : state.sizeId === "square5"
+        ? 30
         : state.sizeId === "quarter"
           ? 38
           : state.sizeId === "half"
@@ -259,6 +263,28 @@ function QrCardPageContent() {
   const referencePlatePx = isReference
     ? Math.round(size.previewWidthPx * (qrPlatePercent / 100))
     : null;
+
+  const squareFontOpts = { square: isSquare } as const;
+  const titleFontPx = walletTitleFontSizePx(
+    tokens,
+    size.previewWidthPx,
+    { reference: isReference, ...squareFontOpts },
+  );
+  const bodyFontPx = walletBodyFontSizePx(tokens, size.previewWidthPx, squareFontOpts);
+  const metaFontPx = walletMetaFontSizePx(tokens, size.previewWidthPx, squareFontOpts);
+  const contentPadPx = walletContentPaddingPx(tokens, size.previewWidthPx, squareFontOpts);
+  const contentGapPx = walletContentGapPx(tokens, size.previewWidthPx, squareFontOpts);
+
+  /** Line-clamp description on dense canvases so QR + footer stay clear */
+  const descriptionLineClamp = isReference
+    ? isCompact
+      ? 2
+      : 4
+    : isSquare
+      ? state.sizeId === "square4"
+        ? 1
+        : 2
+      : null;
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
@@ -285,15 +311,6 @@ function QrCardPageContent() {
     });
   };
 
-  const titleFontPx = walletTitleFontSizePx(
-    tokens,
-    size.previewWidthPx,
-    { reference: isReference },
-  );
-  const bodyFontPx = walletBodyFontSizePx(tokens, size.previewWidthPx);
-  const metaFontPx = walletMetaFontSizePx(tokens, size.previewWidthPx);
-  const contentPadPx = walletContentPaddingPx(tokens, size.previewWidthPx);
-  const contentGapPx = walletContentGapPx(tokens, size.previewWidthPx);
   const textAlign = textAlignFromBias(tokens.alignmentBias);
   const flexAlign = flexAlignFromBias(tokens.alignmentBias);
   const brandJustify =
@@ -302,6 +319,7 @@ function QrCardPageContent() {
       : tokens.alignmentBias === "asymmetric"
         ? "flex-end"
         : "flex-start";
+  const useHeaderBranding = state.includeBranding && isSquare;
 
   return (
     <ToolEditorLayout
@@ -404,7 +422,9 @@ function QrCardPageContent() {
               }))}
               onChange={(sizeId) => setState({ ...state, sizeId })}
             />
-            <p className="text-sm leading-snug text-gray-600">{t("sizeTip")}</p>
+            <p className="text-sm leading-snug text-gray-600">
+              {isSquare ? t("squareSizeTip") : t("sizeTip")}
+            </p>
           </div>
           </section>
 
@@ -518,7 +538,7 @@ function QrCardPageContent() {
                   <div
                     className={cn(
                       "relative z-[2] flex min-h-0 min-w-0 flex-1 flex-col",
-                      isReference ? "justify-start" : "justify-between",
+                      isReference || isSquare ? "justify-start" : "justify-between",
                     )}
                     style={{
                       alignItems: flexAlign,
@@ -531,17 +551,31 @@ function QrCardPageContent() {
                       className={cn(
                         "w-full min-w-0 shrink-0",
                         isReference && "min-h-0 overflow-hidden",
+                        isSquare && !isReference && "min-h-0 overflow-hidden",
                       )}
                     >
                       {state.includeBranding ? (
                         <div
-                          className="mb-2 flex"
-                          style={{ justifyContent: brandJustify }}
+                          className={cn("flex flex-col", isSquare ? "mb-1.5 gap-1" : "mb-2")}
+                          style={{ alignItems: flexAlign, justifyContent: brandJustify }}
                         >
                           <BrandLogo
                             size="sm"
                             backgroundColor={state.primaryColor}
                           />
+                          {useHeaderBranding ? (
+                            <p
+                              className="font-semibold leading-tight"
+                              style={{
+                                color: mutedInk,
+                                fontSize: Math.max(9, Math.round(metaFontPx * 0.92)),
+                                textAlign,
+                                fontFamily: tokens.bodyFontFamily,
+                              }}
+                            >
+                              {localLabel}
+                            </p>
+                          ) : null}
                         </div>
                       ) : null}
                       <h2
@@ -561,17 +595,17 @@ function QrCardPageContent() {
                         <p
                           className={cn(
                             "mt-1 leading-snug",
-                            isReference && "whitespace-pre-line",
+                            (isReference || isSquare) && "whitespace-pre-line",
                           )}
                           style={{
                             color: mutedInk,
                             fontSize: bodyFontPx,
                             textAlign,
                             fontFamily: tokens.bodyFontFamily,
-                            ...(isReference
+                            ...(descriptionLineClamp != null
                               ? {
                                   display: "-webkit-box",
-                                  WebkitLineClamp: isCompact ? 2 : 4,
+                                  WebkitLineClamp: descriptionLineClamp,
                                   WebkitBoxOrient: "vertical" as const,
                                   overflow: "hidden",
                                 }
@@ -585,9 +619,8 @@ function QrCardPageContent() {
 
                     <div
                       className={cn(
-                        "flex w-full min-w-0 flex-col justify-center",
-                        isReference && "mt-auto shrink-0",
-                        !isReference && "min-h-0",
+                        "flex w-full min-w-0 shrink-0 flex-col justify-center",
+                        (isReference || isSquare) && "mt-auto",
                       )}
                       style={{
                         alignItems: "center",
@@ -651,7 +684,7 @@ function QrCardPageContent() {
                       ) : null}
                     </div>
 
-                    {state.includeBranding ? (
+                    {state.includeBranding && !useHeaderBranding ? (
                       <p
                         className="shrink-0 font-semibold"
                         style={{
@@ -664,9 +697,9 @@ function QrCardPageContent() {
                       >
                         {localLabel}
                       </p>
-                    ) : (
+                    ) : !isSquare ? (
                       <span className="h-2 shrink-0" aria-hidden />
-                    )}
+                    ) : null}
                   </div>
                 </div>
               </div>

@@ -70,6 +70,10 @@ export const QR_CARD_SIZE_ORDER: readonly QrCardSizeId[] = [
 
 export const DEFAULT_QR_CARD_SIZE: QrCardSizeId = "quarter";
 
+export function isQrCardSquareSize(id: QrCardSizeId): boolean {
+  return id === "square4" || id === "square5";
+}
+
 /** Capture density so PDF/PNG stay sharp even when the on-screen preview is small */
 export function qrCardExportPixelRatio(size: QrCardSize): number {
   const targetPx = size.widthInches * 200;

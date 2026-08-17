@@ -100,6 +100,33 @@ test.describe("QR share URL captions @smoke", () => {
     expectPreviewFitsColumn(await measurePreviewFit(page), "reference-letter");
   });
 
+  test("qr-card square 5×5 keeps plate geometry and readable type", async ({
+    page,
+  }) => {
+    await seedCanvasFonts(page);
+    await page.goto("/en/tools/qr-card/?preset=joinPartTime");
+    await expect(
+      page.getByRole("heading", { name: "QR Link Card Maker" }),
+    ).toBeVisible();
+    await expect(page.locator("#qr-preset")).toHaveValue("joinPartTime");
+
+    await page.getByRole("radio", { name: /Square 5×5/i }).click();
+    await expect(page.getByText(/Preview at Square 5×5/i)).toBeVisible({
+      timeout: 10_000,
+    });
+    await waitForQrPreview(page);
+    expectPlateGeometry(await measurePlateFill(page), {
+      label: "square5-link",
+      slots: 1,
+    });
+    expectPreviewFitsColumn(await measurePreviewFit(page), "square5-link");
+
+    const titleSize = await page
+      .locator("[data-export-root] h2")
+      .evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+    expect(titleSize).toBeGreaterThanOrEqual(28);
+  });
+
   test("qr-card Letter stays uncropped at phone width", async ({ page }) => {
     await seedCanvasFonts(page);
     await page.setViewportSize({ width: 390, height: 844 });

@@ -276,6 +276,32 @@ describe("wallet chrome helpers", () => {
       walletContentPaddingPx(tokens, compactPreviewPx),
     );
   });
+
+  it("wallet square helpers boost type vs letter-width ratio and cap display scale", () => {
+    const displayTokens = resolveCanvasTokens(
+      normalizeBrandKit({
+        ...DEFAULT_BRAND_KIT,
+        canvas: { typeScale: "display" },
+      }),
+    );
+    const square5Px = 5 * 48;
+    const square4Px = 4 * 48;
+    const letterRatio = walletTitleFontSizePx(displayTokens, square5Px);
+    const squareRatio = walletTitleFontSizePx(displayTokens, square5Px, {
+      square: true,
+    });
+    expect(squareRatio).toBeGreaterThan(letterRatio);
+    expect(
+      walletTitleFontSizePx(displayTokens, square5Px, { square: true }),
+    ).toBeGreaterThan(
+      walletTitleFontSizePx(displayTokens, square4Px, { square: true }),
+    );
+    expect(
+      walletTitleFontSizePx(displayTokens, square5Px, { square: true }),
+    ).toBeLessThanOrEqual(
+      Math.round(displayTokens.titleFontSizePx * 1.05),
+    );
+  });
 });
 
 describe("banner clamp helpers", () => {

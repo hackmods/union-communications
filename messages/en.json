@@ -1387,6 +1387,7 @@
       "square4": "Square 4×4"
     },
     "sizeTip": "Quarter = 4 per letter sheet. Half = 2 per sheet. Print repeats to fill a page.",
+    "squareSizeTip": "Square 4×4 / 5×5 = standalone pocket cards. Type scales up for print — local branding moves to the header so the QR stays clear.",
     "previewSize": "Preview at {label} - {width}×{height} in",
     "showUrl": "Show URL under tagline",
     "includeBranding": "Include local branding",

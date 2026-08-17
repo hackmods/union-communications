@@ -309,18 +309,44 @@ export function contentPaddingPx(
 /** Letter-preview width baseline (8.5in × 48px/in from qr-card letter size). */
 const WALLET_LETTER_PREVIEW_PX = 8.5 * 48;
 
+/** 4×4 square baseline — 1:1 cards budget vertical space, not letter width. */
+const WALLET_SQUARE_BASELINE_PX = 4 * 48;
+
+export type WalletFontOpts = {
+  reference?: boolean;
+  /** 4×4 / 5×5 pocket cards — boost type vs letter-width ratio; cap display scale. */
+  square?: boolean;
+};
+
 function walletWidthRatio(previewWidthPx: number): number {
   return Math.min(1.15, Math.max(0.45, previewWidthPx / WALLET_LETTER_PREVIEW_PX));
+}
+
+/** Square cards scale from 4″ baseline so 5×5 print stays readable. */
+function walletSquareRatio(previewWidthPx: number): number {
+  return Math.min(1.05, Math.max(0.68, previewWidthPx / WALLET_SQUARE_BASELINE_PX));
+}
+
+function walletPreviewRatio(previewWidthPx: number, square?: boolean): number {
+  return square ? walletSquareRatio(previewWidthPx) : walletWidthRatio(previewWidthPx);
+}
+
+/** Display typeScale is loud on posters — cap at 1 on dense square cards (see B6). */
+function walletTypeScale(tokens: CanvasTokens, square?: boolean): number {
+  const scale = typeScaleFactor(tokens);
+  return square ? Math.min(1, scale) : scale;
 }
 
 /** QR / Action card title size from Brand Kit + preview width. */
 export function walletTitleFontSizePx(
   tokens: CanvasTokens,
   previewWidthPx: number,
-  opts?: { reference?: boolean },
+  opts?: WalletFontOpts,
 ): number {
   const base =
-    tokens.titleFontSizePx * typeScaleFactor(tokens) * walletWidthRatio(previewWidthPx);
+    tokens.titleFontSizePx *
+    walletTypeScale(tokens, opts?.square) *
+    walletPreviewRatio(previewWidthPx, opts?.square);
   const ref = opts?.reference ? 0.85 : 1;
   return Math.max(12, Math.round(base * ref));
 }
@@ -329,11 +355,14 @@ export function walletTitleFontSizePx(
 export function walletBodyFontSizePx(
   tokens: CanvasTokens,
   previewWidthPx: number,
+  opts?: Pick<WalletFontOpts, "square">,
 ): number {
   return Math.max(
     9,
     Math.round(
-      tokens.subtitleFontSizePx * typeScaleFactor(tokens) * walletWidthRatio(previewWidthPx),
+      tokens.subtitleFontSizePx *
+        walletTypeScale(tokens, opts?.square) *
+        walletPreviewRatio(previewWidthPx, opts?.square),
     ),
   );
 }
@@ -342,15 +371,18 @@ export function walletBodyFontSizePx(
 export function walletMetaFontSizePx(
   tokens: CanvasTokens,
   previewWidthPx?: number,
+  opts?: Pick<WalletFontOpts, "square">,
 ): number {
   const widthFactor =
-    previewWidthPx != null ? walletWidthRatio(previewWidthPx) : 1;
+    previewWidthPx != null
+      ? walletPreviewRatio(previewWidthPx, opts?.square)
+      : 1;
   return Math.max(
     9,
     Math.round(
       tokens.subtitleFontSizePx *
         0.78 *
-        typeScaleFactor(tokens) *
+        walletTypeScale(tokens, opts?.square) *
         widthFactor,
     ),
   );
@@ -360,7 +392,13 @@ export function walletMetaFontSizePx(
 export function walletContentPaddingPx(
   tokens: CanvasTokens,
   previewWidthPx: number,
+  opts?: Pick<WalletFontOpts, "square">,
 ): number {
+  if (opts?.square) {
+    const ratio = walletSquareRatio(previewWidthPx);
+    const factor = ratio < 0.85 ? 0.4 : 0.5;
+    return Math.max(8, contentPaddingPx(tokens, { factor }));
+  }
   const ratio = walletWidthRatio(previewWidthPx);
   const factor = ratio < 0.55 ? 0.38 : ratio < 0.7 ? 0.48 : ratio < 0.9 ? 0.58 : 0.68;
   return Math.max(8, contentPaddingPx(tokens, { factor }));
@@ -370,7 +408,11 @@ export function walletContentPaddingPx(
 export function walletContentGapPx(
   tokens: CanvasTokens,
   previewWidthPx: number,
+  opts?: Pick<WalletFontOpts, "square">,
 ): number {
+  if (opts?.square) {
+    return Math.max(3, Math.round(tokens.gapPx * 0.45));
+  }
   const ratio = walletWidthRatio(previewWidthPx);
   return Math.max(4, Math.round(tokens.gapPx * Math.min(1, ratio + 0.15)));
 }
