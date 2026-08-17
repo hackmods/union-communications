@@ -13,6 +13,7 @@ Facilitator run sheet: [`docs/guides/WORKSHOP_SOCIAL_COMMS.md`](../guides/WORKSH
 | Discoverability | **Much fitter** after workshop polish | Guide/tool mix on home still secondary | Revisit cards after talk |
 | Email outreach | **Fit for policy** — copy/mailto, no lists | Volunteers still ask “broadcast?” | Keep Email guide + run-sheet Q&A |
 | Ops jargon leaks | **Mostly fit** | Pulse Poll publish still Hub-gated | Demo as “advanced / later” only |
+| **Canvas layout-class CI** | **Fit** — `@smoke` matrix locks default geometry per tool class (2026-08-17) | Pulse Poll skips without Hub; wallet FitWidth not shared; tabloid export not in layout smoke | See [`session-knowledge-2026-08-17-qr-canvas-layout.md`](session-knowledge-2026-08-17-qr-canvas-layout.md) fit-gap table |
 
 ## Wednesday verdict
 

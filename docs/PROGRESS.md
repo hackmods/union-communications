@@ -15,7 +15,7 @@
 - [x] `@smoke` matrix: Flyer/Graphic/Solidarity/Meeting + default Quote/Board Notice/Banner/Pulse Poll (`e2e/tools.layout-matrix.smoke.spec.ts`)
 - [x] Extended QR share smoke: tabloid, QR Card reference + Letter 390px, Action Card (`e2e/tools.qr-share.smoke.spec.ts`)
 - [x] Flyer Maker `?preset=` deep link; QR Card reference square wrapper; removed `CanvasQrPlate` `maxHeight: 100%`
-- Plan: [`docs/audit/plan-2026-08-17-qr-board-canvas-qol.md`](audit/plan-2026-08-17-qr-board-canvas-qol.md) Part D/F3
+- Plan: [`docs/audit/plan-2026-08-17-qr-board-canvas-qol.md`](audit/plan-2026-08-17-qr-board-canvas-qol.md) Part D/F3; lessons: [`session-knowledge-2026-08-17-qr-canvas-layout.md`](audit/session-knowledge-2026-08-17-qr-canvas-layout.md)
 - Verify: `npx playwright test e2e/tools.qr-share.smoke.spec.ts e2e/tools.layout-matrix.smoke.spec.ts --grep "@smoke"` (PowerShell: quote grep)
 
 ## Canvas brand fonts catalog (2026-08-15)

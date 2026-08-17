@@ -132,7 +132,21 @@ Thin **feature packs** compose the shared shell — they do **not** unify layout
 | **Board** | Board Notice, Banner, Solidarity, QR Board | Letter/tabloid, trim/ornaments, multi-QR, union-boards guide |
 | **Wallet** | QR Card, Action Card, Pulse Poll | Wallet type scale helpers, membership presets, size pills, QR plate |
 
-Constants: [`src/lib/comms/packs/channel-packs.ts`](../../src/lib/comms/packs/channel-packs.ts). Deep-link workshop demos with `?preset=` where presets exist (QR Card, Action Card, QR Board, Solidarity slogan id, Meeting Background).
+Constants: [`src/lib/comms/packs/channel-packs.ts`](../../src/lib/comms/packs/channel-packs.ts). Deep-link workshop demos with `?preset=` where presets exist (QR Card, Action Card, QR Board, Solidarity slogan id, Meeting Background, Flyer Maker).
+
+## Layout-class smoke coverage (2026-08-17)
+
+CI locks **uncropped default layouts per geometry class** — not every preset copy variant. Session knowledge: [`session-knowledge-2026-08-17-qr-canvas-layout.md`](../../docs/audit/session-knowledge-2026-08-17-qr-canvas-layout.md).
+
+| Artifact | Role |
+|----------|------|
+| [`layout-class-matrix.ts`](../../src/lib/comms/layout-class-matrix.ts) | E2e preset ids per tool class |
+| [`canvas-layout-geometry.ts`](../../src/lib/utils/canvas-layout-geometry.ts) | Clip/overlap/aspect thresholds |
+| [`e2e/helpers/canvas-layout.ts`](../../e2e/helpers/canvas-layout.ts) | Playwright measure/assert helpers |
+| [`e2e/tools.layout-matrix.smoke.spec.ts`](../../e2e/tools.layout-matrix.smoke.spec.ts) | Flyer, Graphic, Solidarity, Meeting, defaults |
+| [`e2e/tools.qr-share.smoke.spec.ts`](../../e2e/tools.qr-share.smoke.spec.ts) | QR Board, QR Card, Action Card |
+
+Do not add QR plate geometry to type-first tools (Graphic, Quote) “for parity.” Residual gaps (Pulse Poll Hub skip, wallet FitWidth, tabloid export) are documented in session knowledge — not product bugs by default.
 
 **Fonts / layouts / placement across tools:** Brand Kit `canvas` owns `headlineFontId` / `bodyFontId` / typeScale / alignment for canvas tools ([`canvas-fonts.ts`](../../src/lib/comms/canvas-fonts.ts), ADR-014 local OFL). Flyer Maker may override the headline face (`inherit` or catalog id). Layout IDs stay per-tool (Flyer `stack` ≠ Solidarity `stack`). **Website ZIP** embeds subset OFL `@font-face` + woff2 under `assets/fonts/` (system residual skips bundling). **Office** DOCX/PPTX map catalog ids to face names via `canvasFontOfficeName` (name-only — files are not embedded in OOXML). Comparison matrix: [`docs/audit/session-knowledge-2026-08-14-flyer-unified-tools.md`](../audit/session-knowledge-2026-08-14-flyer-unified-tools.md#cross-tool-comparison--fonts-layouts-placement); font catalog upgrade: [`session-knowledge-2026-08-15-canvas-fonts.md`](../audit/session-knowledge-2026-08-15-canvas-fonts.md).
 
