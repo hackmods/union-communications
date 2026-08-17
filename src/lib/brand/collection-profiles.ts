@@ -83,40 +83,65 @@ export function collectionPatchForPreset(
   };
 }
 
+export function defaultProfilesForStoredKit(
+  unionPresetId: string | undefined,
+  localNumber: string,
+  fallbackSubText: string,
+): BrandKitProfile[] {
+  if (unionPresetId === "opseu") {
+    return opseuCaatSupportProfiles(localNumber);
+  }
+  return [genericCollectionProfile(localNumber, fallbackSubText)];
+}
+
+export function reconcileActiveProfileId(
+  profiles: BrandKitProfile[] | undefined,
+  activeProfileId: string | undefined,
+): string | undefined {
+  if (!profiles?.length) return undefined;
+  if (activeProfileId && profiles.some((profile) => profile.id === activeProfileId)) {
+    return activeProfileId;
+  }
+  return profiles[0]?.id;
+}
+
 export function normalizeBrandKitProfiles(
   raw: unknown,
   fallback: BrandKitProfile[],
 ): BrandKitProfile[] {
-  if (!Array.isArray(raw)) return fallback;
-  const out: BrandKitProfile[] = [];
-  for (let i = 0; i < raw.length; i++) {
-    const item = raw[i];
-    if (!item || typeof item !== "object") continue;
-    const row = item as Record<string, unknown>;
-    const id =
-      typeof row.id === "string" && row.id.trim()
-        ? row.id.trim()
-        : `profile-${i}`;
-    const label =
-      typeof row.label === "string" && row.label.trim()
-        ? row.label.trim()
-        : GENERIC_COLLECTION_LABEL;
-    const localNumber =
-      typeof row.localNumber === "string" ? row.localNumber : "";
-    const subText = typeof row.subText === "string" ? row.subText : "";
-    const code =
-      typeof row.bargainingUnitCode === "string"
-        ? row.bargainingUnitCode.trim()
-        : "";
-    out.push({
-      id,
-      label,
-      localNumber,
-      subText,
-      bargainingUnitCode: code || undefined,
-    });
+  if (Array.isArray(raw)) {
+    if (raw.length === 0) return [];
+    const out: BrandKitProfile[] = [];
+    for (let i = 0; i < raw.length; i++) {
+      const item = raw[i];
+      if (!item || typeof item !== "object") continue;
+      const row = item as Record<string, unknown>;
+      const id =
+        typeof row.id === "string" && row.id.trim()
+          ? row.id.trim()
+          : `profile-${i}`;
+      const label =
+        typeof row.label === "string" && row.label.trim()
+          ? row.label.trim()
+          : GENERIC_COLLECTION_LABEL;
+      const localNumber =
+        typeof row.localNumber === "string" ? row.localNumber : "";
+      const subText = typeof row.subText === "string" ? row.subText : "";
+      const code =
+        typeof row.bargainingUnitCode === "string"
+          ? row.bargainingUnitCode.trim()
+          : "";
+      out.push({
+        id,
+        label,
+        localNumber,
+        subText,
+        bargainingUnitCode: code || undefined,
+      });
+    }
+    return out.length > 0 ? out : fallback;
   }
-  return out.length > 0 ? out : fallback;
+  return fallback;
 }
 
 /** Keep the active saved profile in sync with Local number / sub-text / code. */

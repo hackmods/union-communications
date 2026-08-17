@@ -1,4 +1,5 @@
 import type { BrandKit } from "@/types/entities";
+import { normalizeBrandKit } from "@/lib/utils/local-links";
 import type { UserPreferences } from "@/types/preferences";
 import type { DataAdapter } from "./adapter";
 
@@ -18,7 +19,8 @@ export class ApiAdapter implements DataAdapter {
       const res = await this.fetchJson<{ brandKit: BrandKit | null }>(
         "/api/brand-kit",
       );
-      return res?.brandKit ?? null;
+      const kit = res?.brandKit ?? null;
+      return kit ? normalizeBrandKit(kit) : null;
     } catch (err) {
       console.warn("[ApiAdapter] getBrandKit failed", err);
       return null;
@@ -27,7 +29,9 @@ export class ApiAdapter implements DataAdapter {
 
   async saveBrandKit(kit: BrandKit): Promise<void> {
     try {
-      await this.putJson("/api/brand-kit", { brandKit: kit });
+      await this.putJson("/api/brand-kit", {
+        brandKit: normalizeBrandKit(kit),
+      });
     } catch (err) {
       console.warn("[ApiAdapter] saveBrandKit failed", err);
     }

@@ -9,7 +9,9 @@ import {
   addBrandKitProfile,
   collectionPatchForPreset,
   collectionProfilesForPreset,
+  defaultProfilesForStoredKit,
   normalizeBrandKitProfiles,
+  reconcileActiveProfileId,
   removeBrandKitProfile,
   renameBrandKitProfile,
   syncActiveBrandKitProfile,
@@ -63,12 +65,42 @@ describe("collectionPatchForPreset", () => {
   });
 });
 
+describe("defaultProfilesForStoredKit", () => {
+  it("restores OPSEU CAAT Support collections for legacy kits without profiles", () => {
+    const profiles = defaultProfilesForStoredKit("opseu", "243", "ignored");
+    expect(profiles).toHaveLength(2);
+    expect(profiles[0]?.id).toBe(OPSEU_CAAT_SUPPORT_FT_ID);
+  });
+
+  it("uses one Local profile for other stored presets", () => {
+    const profiles = defaultProfilesForStoredKit("cupe", "100", "On the front line.");
+    expect(profiles).toHaveLength(1);
+    expect(profiles[0]?.label).toBe("Local");
+    expect(profiles[0]?.subText).toBe("On the front line.");
+  });
+});
+
+describe("reconcileActiveProfileId", () => {
+  it("falls back to the first profile when the active id is missing", () => {
+    const profiles = defaultProfilesForStoredKit("opseu", "243", "");
+    expect(
+      reconcileActiveProfileId(profiles, "profile-missing"),
+    ).toBe(OPSEU_CAAT_SUPPORT_FT_ID);
+  });
+
+  it("returns undefined when there are no profiles", () => {
+    expect(reconcileActiveProfileId([], "profile-local")).toBeUndefined();
+  });
+});
+
 describe("profile helpers", () => {
-  it("normalizes junk rows and falls back when empty", () => {
+  it("honours an explicit empty profiles array", () => {
+    expect(
+      normalizeBrandKitProfiles([], DEFAULT_BRAND_KIT.profiles),
+    ).toEqual([]);
+  });
+  it("normalizes junk rows and falls back when missing", () => {
     expect(normalizeBrandKitProfiles("nope", DEFAULT_BRAND_KIT.profiles)).toEqual(
-      DEFAULT_BRAND_KIT.profiles,
-    );
-    expect(normalizeBrandKitProfiles([], DEFAULT_BRAND_KIT.profiles)).toEqual(
       DEFAULT_BRAND_KIT.profiles,
     );
     const rows = normalizeBrandKitProfiles(

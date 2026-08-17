@@ -49,26 +49,34 @@ describe("ApiAdapter", () => {
     );
 
     const loaded = await adapter.getBrandKit();
-    expect(loaded).toEqual(brandKit);
+    expect(loaded?.version).toBe("2.0");
+    expect(loaded?.profiles).toHaveLength(1);
     expect(fetchMock).toHaveBeenCalledWith(
       "/api/brand-kit",
       expect.objectContaining({ credentials: "include" }),
     );
   });
 
-  it("saves a brand kit via PUT /api/brand-kit", async () => {
+  it("normalizes a brand kit before PUT /api/brand-kit", async () => {
     fetchMock.mockResolvedValueOnce(jsonResponse({ brandKit, onboardingComplete: false }));
 
-    await adapter.saveBrandKit(brandKit);
+    const legacyKit = {
+      version: "1.1",
+      local: { id: "local-1", localNumber: "243", subText: "Support" },
+      primaryColor: "#003DA5",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#002868",
+      useOfficialLogo: true,
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    } as BrandKit;
 
-    expect(fetchMock).toHaveBeenCalledWith(
-      "/api/brand-kit",
-      expect.objectContaining({
-        method: "PUT",
-        credentials: "include",
-        body: JSON.stringify({ brandKit }),
-      }),
-    );
+    await adapter.saveBrandKit(legacyKit);
+
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body as string) as {
+      brandKit: BrandKit;
+    };
+    expect(body.brandKit.version).toBe("2.0");
+    expect(body.brandKit.profiles).toHaveLength(1);
   });
 
   it("clears a brand kit via DELETE /api/brand-kit", async () => {

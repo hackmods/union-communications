@@ -60,6 +60,8 @@ Full URL list lives in the cursor rule. Short form:
 - [`CollectionProfilesEditor.tsx`](../../src/components/brand/CollectionProfilesEditor.tsx) — Brand Kit UI
 - `brandFieldsFromUnionPreset(preset, { localNumber })` now writes collection fields
 - `setBrandKit` syncs the active profile when Local number / sub-text / code change
+- Legacy kits without `profiles`: OPSEU → CAAT Support FT/PT on read; others → one Local; explicit `profiles: []` hides collections
+- Hub `ApiAdapter` normalizes on GET/PUT (parity with localStorage)
 
 ---
 

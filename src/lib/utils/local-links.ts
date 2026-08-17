@@ -1,4 +1,8 @@
-import { normalizeBrandKitProfiles } from "@/lib/brand/collection-profiles";
+import {
+  defaultProfilesForStoredKit,
+  normalizeBrandKitProfiles,
+  reconcileActiveProfileId,
+} from "@/lib/brand/collection-profiles";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { normalizeBrandKitCanvas } from "@/lib/utils/canvas-tokens";
 import type {
@@ -112,15 +116,30 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
       ? (input.local as Record<string, unknown>)
       : {};
 
-  const profiles = normalizeBrandKitProfiles(
-    input.profiles,
-    base.profiles ?? [],
+  const unionPresetId =
+    typeof input.unionPresetId === "string" && input.unionPresetId.trim()
+      ? input.unionPresetId.trim()
+      : undefined;
+
+  const profileFallback = defaultProfilesForStoredKit(
+    unionPresetId,
+    typeof localIn.localNumber === "string"
+      ? localIn.localNumber
+      : base.local.localNumber,
+    typeof localIn.subText === "string" ? localIn.subText : base.local.subText,
   );
 
-  const activeProfileId =
+  const profiles =
+    "profiles" in input
+      ? normalizeBrandKitProfiles(input.profiles, profileFallback)
+      : profileFallback;
+
+  const activeProfileId = reconcileActiveProfileId(
+    profiles,
     typeof input.activeProfileId === "string"
       ? input.activeProfileId
-      : base.activeProfileId;
+      : base.activeProfileId,
+  );
 
   const activeProfile = profiles?.find((p) => p.id === activeProfileId);
 
@@ -176,10 +195,7 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
       typeof input.useOfficialLogo === "boolean"
         ? input.useOfficialLogo
         : base.useOfficialLogo,
-    unionPresetId:
-      typeof input.unionPresetId === "string" && input.unionPresetId.trim()
-        ? input.unionPresetId.trim()
-        : undefined,
+    unionPresetId,
     websiteUrl: trimUrl(input.websiteUrl),
     facebookUrl: trimUrl(input.facebookUrl),
     customLinks: normalizeCustomLinks(input.customLinks),

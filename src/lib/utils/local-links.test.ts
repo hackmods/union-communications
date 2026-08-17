@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
+  applyBrandKitProfile,
   listSavedLinks,
   normalizeBrandKit,
   resolveLocalWebsiteUrl,
   resolvePresetDestination,
 } from "./local-links";
+import { OPSEU_CAAT_SUPPORT_PT_ID } from "@/lib/brand/collection-profiles";
 
 describe("normalizeBrandKit", () => {
   it("upgrades a 1.0 kit to 2.0 with empty links", () => {
@@ -81,6 +83,69 @@ describe("normalizeBrandKit", () => {
     expect(kit.primaryColor).toMatch(/^#[0-9A-F]{6}$/);
     expect(kit.secondaryColor).toMatch(/^#[0-9A-F]{6}$/);
     expect(kit.accentColor).toMatch(/^#[0-9A-F]{6}$/);
+  });
+
+  it("migrates legacy OPSEU kits to CAAT Support collections", () => {
+    const kit = normalizeBrandKit({
+      version: "1.1",
+      unionPresetId: "opseu",
+      local: { id: "x", localNumber: "243", subText: "Support" },
+      primaryColor: "#003DA5",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#002868",
+      useOfficialLogo: true,
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    });
+    expect(kit.profiles).toHaveLength(2);
+    expect(kit.local.bargainingUnitCode).toBe("ft");
+  });
+
+  it("keeps an explicit empty profiles list", () => {
+    const kit = normalizeBrandKit({
+      version: "2.0",
+      profiles: [],
+      local: { id: "x", localNumber: "100", subText: "Staff" },
+      primaryColor: "#003DA5",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#002868",
+      useOfficialLogo: false,
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    });
+    expect(kit.profiles).toEqual([]);
+  });
+
+  it("reconciles a missing activeProfileId onto the first profile", () => {
+    const kit = normalizeBrandKit({
+      version: "2.0",
+      unionPresetId: "opseu",
+      activeProfileId: "profile-does-not-exist",
+      local: { id: "x", localNumber: "243", subText: "Support" },
+      primaryColor: "#003DA5",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#002868",
+      useOfficialLogo: true,
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    });
+    expect(kit.activeProfileId).toBe("profile-caat-s-ft");
+  });
+});
+
+describe("applyBrandKitProfile", () => {
+  it("copies the selected collection onto local identity fields", () => {
+    const base = normalizeBrandKit({
+      version: "2.0",
+      unionPresetId: "opseu",
+      local: { id: "x", localNumber: "243", subText: "Support" },
+      primaryColor: "#003DA5",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#002868",
+      useOfficialLogo: true,
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    });
+    const switched = applyBrandKitProfile(base, OPSEU_CAAT_SUPPORT_PT_ID);
+    expect(switched.activeProfileId).toBe(OPSEU_CAAT_SUPPORT_PT_ID);
+    expect(switched.local.bargainingUnitCode).toBe("pt");
+    expect(switched.local.subText).toBe("College Support Part-time");
   });
 });
 

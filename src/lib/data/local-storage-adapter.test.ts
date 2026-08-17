@@ -94,10 +94,22 @@ describe("LocalStorageAdapter", () => {
 
     const loaded = await adapter.getBrandKit();
     expect(loaded?.version).toBe("2.0");
+    expect(loaded?.profiles).toHaveLength(1);
 
     const raw = store.get(BRAND_KIT_KEY);
     expect(raw).toBeDefined();
     expect(JSON.parse(raw!).version).toBe("2.0");
+  });
+
+  it("migrates legacy OPSEU kits to CAAT Support collections on read", async () => {
+    store.set(
+      BRAND_KIT_KEY,
+      JSON.stringify({ ...v11Kit, unionPresetId: "opseu" }),
+    );
+
+    const loaded = await adapter.getBrandKit();
+    expect(loaded?.profiles).toHaveLength(2);
+    expect(loaded?.local.bargainingUnitCode).toBe("ft");
   });
 
   it("migrates legacy opseu-brand-kit to the canonical key (TOOL-007)", async () => {
