@@ -20,6 +20,8 @@ export interface UnionLogoPack {
    * instead of treating paths as custom uploads — only when lockup/mark paths exist.
    */
   useOfficialPack?: boolean;
+  /** Default official variant when `useOfficialPack` is true (else lockup). */
+  officialLogoVariant?: "lockup" | "mark";
 }
 
 export interface UnionBranding {
@@ -131,6 +133,7 @@ export const UNION_PRESETS: UnionBranding[] = [
     defaultSlogans: ["Educate. Advocate. Organize."],
     logos: {
       useOfficialPack: true,
+      officialLogoVariant: "mark",
       lockup: "/assets/caat-opseu/logo-primary.png",
       mark: "/assets/caat-opseu/logo-mark.png",
       markOnDark: "/assets/caat-opseu/logo-mark-white.png",
@@ -211,7 +214,7 @@ export function colorsFromUnionPreset(preset: UnionBranding): {
 }
 
 /** Brand Kit colour + logo + sub-text fields when applying a union preset.
- * OPSEU uses the official pack; others default to the UnionOps mark
+ * OPSEU uses the official pack (mark by default); others default to the UnionOps mark
  * tinted with the preset primary (upload your own logo in Logo Settings).
  * Always sets `membershipUrls` from the matching tenant seed (or `[]`) so
  * switching presets cannot leave another union's join forms behind.
@@ -229,7 +232,7 @@ export function brandFieldsFromUnionPreset(
     return {
       ...colors,
       useOfficialLogo: true,
-      officialLogoVariant: "lockup",
+      officialLogoVariant: preset.logos?.officialLogoVariant ?? "lockup",
       customLogoDataUrl: undefined,
       logoText,
       unionPresetId: preset.id,
