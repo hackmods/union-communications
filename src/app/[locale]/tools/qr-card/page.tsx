@@ -320,6 +320,8 @@ function QrCardPageContent() {
         ? "flex-end"
         : "flex-start";
   const useHeaderBranding = state.includeBranding && isSquare;
+  /** Square link cards — center copy + QR; reference presets stay top-anchored. */
+  const squareLinkCentered = isSquare && !isReference;
 
   return (
     <ToolEditorLayout
@@ -538,7 +540,11 @@ function QrCardPageContent() {
                   <div
                     className={cn(
                       "relative z-[2] flex min-h-0 min-w-0 flex-1 flex-col",
-                      isReference || isSquare ? "justify-start" : "justify-between",
+                      squareLinkCentered
+                        ? "justify-center"
+                        : isReference || isSquare
+                          ? "justify-start"
+                          : "justify-between",
                     )}
                     style={{
                       alignItems: flexAlign,
@@ -620,7 +626,7 @@ function QrCardPageContent() {
                     <div
                       className={cn(
                         "flex w-full min-w-0 shrink-0 flex-col justify-center",
-                        (isReference || isSquare) && "mt-auto",
+                        isReference && "mt-auto",
                       )}
                       style={{
                         alignItems: "center",
