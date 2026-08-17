@@ -77,6 +77,12 @@ describe("unionPresets", () => {
     expect(fields.customLogoDataUrl).toBeUndefined();
     expect(fields.membershipUrls?.length).toBeGreaterThan(0);
     expect(fields.membershipUrls?.[0].url).toContain("opseu.org");
+    expect(fields.profiles).toHaveLength(2);
+    expect(fields.profiles?.map((p) => p.bargainingUnitCode)).toEqual([
+      "ft",
+      "pt",
+    ]);
+    expect(fields.local?.subText).toBe("College Support Full-time");
   });
 
   it("maps other presets to UnionOps mark plus palette colours and sub-text", () => {
@@ -88,6 +94,9 @@ describe("unionPresets", () => {
     expect(fields.unionPresetId).toBe("unifor");
     expect(fields.local?.subText).toBe("A union for everyone.");
     expect(fields.membershipUrls).toEqual([]);
+    expect(fields.profiles).toHaveLength(1);
+    expect(fields.profiles?.[0].label).toBe("Local");
+    expect(fields.local?.bargainingUnitCode).toBeUndefined();
   });
 
   it("clears OPSEU membership URLs when switching to a non-seed preset", () => {

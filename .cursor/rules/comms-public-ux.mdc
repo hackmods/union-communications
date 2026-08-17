@@ -20,6 +20,8 @@ Companion to [`responsive-layouts.mdc`](responsive-layouts.mdc), [`public-market
 
 Use `brandSetupHref(themeEstablished)` from `@/lib/utils/brand-setup` (`/onboarding` until established, else `/brand-kit`). Shared nudge: [`BrandSetupPrompt`](src/components/tools/BrandSetupPrompt.tsx) (defaults to `common.setupBrandPrompt` / `common.setupBrandLink`).
 
+**Collection profiles:** one Local identity by default; OPSEU preset is the only two-profile default (College Support Full-time / Part-time). Do not put CAAT FT/PT language in generic Brand Kit chrome. Rule + sources: [`brand-kit-collections.mdc`](brand-kit-collections.mdc).
+
 ## Copy style (public Comms)
 
 - **Tool subtitles / guide intros:** one job each. Prefer ~12–18 words on subtitles; max two short sentences on intros. Put print tips and cross-links in hints, `whenToUse`, or related chips — not the lead line.

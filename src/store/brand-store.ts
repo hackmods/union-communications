@@ -6,6 +6,7 @@ import {
   dataAdapter,
   LocalStorageAdapter,
 } from "@/lib/data/local-storage-adapter";
+import { syncActiveBrandKitProfile } from "@/lib/brand/collection-profiles";
 import { normalizeBrandKit } from "@/lib/utils/local-links";
 import type { BrandKit, BrandKitPatch } from "@/types/entities";
 
@@ -52,21 +53,23 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
 
   setBrandKit: (partial) => {
     const current = get().brandKit;
-    const updated = normalizeBrandKit({
-      ...current,
-      ...partial,
-      local: { ...current.local, ...partial.local },
-      customLinks:
-        partial.customLinks !== undefined
-          ? partial.customLinks
-          : current.customLinks,
-      membershipUrls:
-        partial.membershipUrls !== undefined
-          ? partial.membershipUrls
-          : current.membershipUrls,
-      canvas: "canvas" in partial ? (partial.canvas ?? undefined) : current.canvas,
-      updatedAt: new Date().toISOString(),
-    });
+    const updated = syncActiveBrandKitProfile(
+      normalizeBrandKit({
+        ...current,
+        ...partial,
+        local: { ...current.local, ...partial.local },
+        customLinks:
+          partial.customLinks !== undefined
+            ? partial.customLinks
+            : current.customLinks,
+        membershipUrls:
+          partial.membershipUrls !== undefined
+            ? partial.membershipUrls
+            : current.membershipUrls,
+        canvas: "canvas" in partial ? (partial.canvas ?? undefined) : current.canvas,
+        updatedAt: new Date().toISOString(),
+      }),
+    );
     set({ brandKit: updated });
     scheduleSaveBrandKit(updated);
   },

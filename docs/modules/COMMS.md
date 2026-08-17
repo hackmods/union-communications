@@ -75,7 +75,7 @@ The four-channel model (boards → print → social → website) remains the Fir
 ## Multi-Union Migration Checklist (Phase 1)
 
 - [x] Move `CAAT_OPSEU_COLORS` to per-union `brandDefaults` (`BRAND_COLORS` from tenant loader)
-- [x] Extend Brand Kit schema v2: `unionId`, `unionName`, `divisionName`, FT/PT profiles
+- [x] Extend Brand Kit schema v2: `unionId`, `unionName`, `divisionName`, collection profiles (OPSEU CAAT Support FT/PT; one Local elsewhere)
 - [x] Default local number fallback via `resolveLocalNumber()` (easter egg: 243)
 - [x] Platform-neutral metadata titles in `messages/*.json`
 - [ ] Rename asset pack to `UnionAssetPack` pattern; CAAT pack = reference seed

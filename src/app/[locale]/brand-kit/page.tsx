@@ -16,7 +16,7 @@ import {
 } from "@/components/brand/LogoSettings";
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import { MembershipUrlsEditor } from "@/components/brand/MembershipUrlsEditor";
-import { BrandProfileSwitcher } from "@/components/brand/BrandProfileSwitcher";
+import { CollectionProfilesEditor } from "@/components/brand/CollectionProfilesEditor";
 import { BrandKitCanvasPanel } from "@/components/brand/BrandKitCanvasPanel";
 import {
   brandFieldsFromUnionPreset,
@@ -56,7 +56,11 @@ export default function BrandKitPage() {
     : null;
 
   const applyUnionPreset = (preset: UnionBranding) => {
-    setBrandKit(brandFieldsFromUnionPreset(preset));
+    setBrandKit(
+      brandFieldsFromUnionPreset(preset, {
+        localNumber: brandKit.local.localNumber,
+      }),
+    );
   };
 
   const handleExport = () => {
@@ -244,7 +248,7 @@ export default function BrandKitPage() {
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <Card density="compact" className="space-y-3">
           <CardTitle className="text-base">{t("currentSettings")}</CardTitle>
-          <BrandProfileSwitcher />
+          <CollectionProfilesEditor />
           <div className="grid gap-3 sm:grid-cols-2">
             <Input
               label={t("localNumber")}

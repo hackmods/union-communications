@@ -22,7 +22,8 @@ describe("normalizeBrandKit", () => {
     expect(kit.customLinks).toEqual([]);
     expect(kit.websiteUrl).toBeUndefined();
     expect(kit.membershipUrls).toEqual([]);
-    expect(kit.profiles?.length).toBeGreaterThan(0);
+    expect(kit.profiles).toHaveLength(1);
+    expect(kit.profiles?.[0].id).toBe("profile-local");
   });
 
   it("does not default membershipUrls to OPSEU seed forms", () => {

@@ -3,7 +3,7 @@ export interface Local {
   localNumber: string;
   subText: string;
   divisionId?: string;
-  /** Active collection code when set (ft / pt) */
+  /** Active collection code when set (e.g. ft / pt for OPSEU CAAT Support) */
   bargainingUnitCode?: string;
 }
 
@@ -88,7 +88,7 @@ export interface BrandKit {
   unionName?: string;
   divisionName?: string;
   local: Local;
-  /** Optional profiles for FT/PT or multi-local communicators */
+  /** Saved collection identities — OPSEU CAAT Support defaults to FT/PT; others start with one Local */
   profiles?: BrandKitProfile[];
   activeProfileId?: string;
   primaryColor: string;

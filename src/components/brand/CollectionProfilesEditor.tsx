@@ -1,0 +1,116 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { useBrandStore } from "@/store/brand-store";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import {
+  addBrandKitProfile,
+  removeBrandKitProfile,
+  renameBrandKitProfile,
+} from "@/lib/brand/collection-profiles";
+import { applyBrandKitProfile } from "@/lib/utils/local-links";
+
+/** Switch, add, and rename Brand Kit collection identities. */
+export function CollectionProfilesEditor() {
+  const t = useTranslations("brandKit");
+  const brandKit = useBrandStore((s) => s.brandKit);
+  const importBrandKit = useBrandStore((s) => s.importBrandKit);
+  const setBrandKit = useBrandStore((s) => s.setBrandKit);
+  const profiles = brandKit.profiles ?? [];
+  const activeId = brandKit.activeProfileId ?? profiles[0]?.id ?? "";
+  const active = profiles.find((profile) => profile.id === activeId);
+  const multi = profiles.length > 1;
+
+  if (profiles.length === 0) return null;
+
+  return (
+    <div className="space-y-3">
+      {multi ? (
+        <label className="block space-y-1">
+          <span className="text-sm font-medium text-gray-700">
+            {t("profileLabel")}
+          </span>
+          <select
+            className="min-h-11 w-full rounded-md border border-gray-300 px-3 text-sm"
+            value={activeId}
+            onChange={(e) => {
+              importBrandKit(applyBrandKitProfile(brandKit, e.target.value));
+            }}
+            aria-label={t("profileLabel")}
+          >
+            {profiles.map((profile, index) => (
+              <option key={profile.id} value={profile.id}>
+                {profile.label.trim() ||
+                  t("profileAddedLabel", { n: index + 1 })}
+                {profile.bargainingUnitCode
+                  ? ` (${profile.bargainingUnitCode.toUpperCase()})`
+                  : ""}
+              </option>
+            ))}
+          </select>
+          <p className="text-xs text-gray-500">{t("profileHint")}</p>
+        </label>
+      ) : (
+        <p className="text-xs text-gray-500">{t("profileSingleHint")}</p>
+      )}
+
+      <Input
+        label={t("profileName")}
+        value={active?.label ?? ""}
+        onChange={(e) => {
+          if (!active) return;
+          importBrandKit(
+            renameBrandKitProfile(brandKit, active.id, e.target.value),
+          );
+        }}
+      />
+
+      <div className="space-y-1">
+        <Input
+          label={t("profileCode")}
+          value={brandKit.local.bargainingUnitCode ?? ""}
+          onChange={(e) =>
+            setBrandKit({
+              local: {
+                ...brandKit.local,
+                bargainingUnitCode: e.target.value,
+              },
+            })
+          }
+        />
+        <p className="text-xs text-gray-500">{t("profileCodeHint")}</p>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => {
+            const nextIndex = profiles.length + 1;
+            importBrandKit(
+              addBrandKitProfile(
+                brandKit,
+                t("profileAddedLabel", { n: nextIndex }),
+              ),
+            );
+          }}
+        >
+          {t("profileAdd")}
+        </Button>
+        {multi ? (
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => {
+              if (!active) return;
+              importBrandKit(removeBrandKitProfile(brandKit, active.id));
+            }}
+          >
+            {t("profileRemove")}
+          </Button>
+        ) : null}
+      </div>
+    </div>
+  );
+}

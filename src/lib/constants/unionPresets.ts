@@ -5,6 +5,7 @@
  * Missing / empty logo packs fall back to UnionOps platform marks.
  */
 
+import { collectionPatchForPreset } from "@/lib/brand/collection-profiles";
 import { getSeedMembershipUrlsForPreset } from "@/lib/tenant/loader";
 import type { BrandKitPatch } from "@/types/entities";
 
@@ -213,20 +214,26 @@ export function colorsFromUnionPreset(preset: UnionBranding): {
   };
 }
 
-/** Brand Kit colour + logo + sub-text fields when applying a union preset.
- * OPSEU uses the official pack (mark by default); others default to the UnionOps mark
- * tinted with the preset primary (upload your own logo in Logo Settings).
+/** Brand Kit colour + logo + collection + sub-text fields when applying a union preset.
+ * OPSEU uses the official pack (mark by default) and CAAT Support FT/PT collections;
+ * others default to the UnionOps mark and a single Local collection.
  * Always sets `membershipUrls` from the matching tenant seed (or `[]`) so
  * switching presets cannot leave another union's join forms behind.
  */
 export function brandFieldsFromUnionPreset(
   preset: UnionBranding,
+  options?: { localNumber?: string },
 ): BrandKitPatch {
   const colors = colorsFromUnionPreset(preset);
   const logos = resolvePresetLogos(preset.logos);
   const logoText = (preset.logoText ?? preset.name.slice(0, 4)).toUpperCase();
   const subText = preset.defaultSlogans[0] ?? "";
   const membershipUrls = getSeedMembershipUrlsForPreset(preset.id);
+  const collections = collectionPatchForPreset(
+    preset.id,
+    options?.localNumber ?? "",
+    subText,
+  );
 
   if (logos.useOfficialPack) {
     return {
@@ -237,7 +244,7 @@ export function brandFieldsFromUnionPreset(
       logoText,
       unionPresetId: preset.id,
       membershipUrls,
-      local: { subText },
+      ...collections,
     };
   }
 
@@ -249,6 +256,6 @@ export function brandFieldsFromUnionPreset(
     logoText,
     unionPresetId: preset.id,
     membershipUrls,
-    local: { subText },
+    ...collections,
   };
 }

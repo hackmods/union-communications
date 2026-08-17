@@ -1,3 +1,4 @@
+import { genericCollectionProfile } from "@/lib/brand/collection-profiles";
 import { getDefaultBrandDefaults } from "@/lib/tenant/loader";
 import { resolveHostBrandDefaults } from "@/lib/constants/host-brand";
 import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
@@ -102,23 +103,11 @@ export const DEFAULT_BRAND_KIT = {
     divisionId: hostDefaults.divisionId,
     bargainingUnitCode: undefined as string | undefined,
   },
+  // One generic Local identity — OPSEU CAAT Support FT/PT arrives with that preset
   profiles: [
-    {
-      id: "profile-ft",
-      label: "Full-time Support Staff",
-      localNumber: hostDefaults.localNumber,
-      subText: "Full-time Support Staff",
-      bargainingUnitCode: "ft",
-    },
-    {
-      id: "profile-pt",
-      label: "Part-time Support Staff",
-      localNumber: hostDefaults.localNumber,
-      subText: "Part-time Support Staff",
-      bargainingUnitCode: "pt",
-    },
+    genericCollectionProfile(hostDefaults.localNumber, hostDefaults.subText),
   ],
-  activeProfileId: "profile-ft" as string | undefined,
+  activeProfileId: "profile-local" as string | undefined,
   primaryColor: BRAND_COLORS.primary,
   secondaryColor: BRAND_COLORS.secondary,
   accentColor: BRAND_COLORS.accent,

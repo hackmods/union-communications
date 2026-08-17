@@ -1,5 +1,14 @@
 # Progress Log
 
+## Brand Kit collection profiles (2026-08-17)
+
+- [x] Fresh Brand Kit + non-OPSEU presets use one **Local** profile (no CAAT FT/PT on first visit)
+- [x] OPSEU preset applies **College Support Full-time / Part-time** (`ft` / `pt`) and replaces leftover profiles
+- [x] In-app add / remove / rename so amalgamated locals can model extra workplaces
+- [x] Active profile stays in sync when Local number, sub-text, or code change
+- [x] Sourced reference: [`.cursor/rules/brand-kit-collections.mdc`](../.cursor/rules/brand-kit-collections.mdc) + [`session-knowledge-2026-08-17-brand-kit-collections.md`](audit/session-knowledge-2026-08-17-brand-kit-collections.md)
+- Verify: `npm run test:unit -- src/lib/brand/collection-profiles.test.ts src/lib/constants/unionPresets.test.ts src/lib/utils/local-links.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Wallet Letter FitWidth (2026-08-17)
 
 - [x] Shared `FitWidthFrame` (`src/components/tools/FitWidthFrame.tsx`) — scale on a parent of `[data-export-root]`; QR Board, QR Card, Action Card

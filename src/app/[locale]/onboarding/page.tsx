@@ -51,7 +51,11 @@ export default function OnboardingPage() {
   };
 
   const applyUnionPreset = (preset: UnionBranding) => {
-    setBrandKit(brandFieldsFromUnionPreset(preset));
+    setBrandKit(
+      brandFieldsFromUnionPreset(preset, {
+        localNumber: brandKit.local.localNumber,
+      }),
+    );
   };
 
   const handleLogoModeChange = (mode: LogoMode) => {

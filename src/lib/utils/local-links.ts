@@ -1,3 +1,4 @@
+import { normalizeBrandKitProfiles } from "@/lib/brand/collection-profiles";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { normalizeBrandKitCanvas } from "@/lib/utils/canvas-tokens";
 import type {
@@ -111,9 +112,10 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
       ? (input.local as Record<string, unknown>)
       : {};
 
-  const profiles = Array.isArray(input.profiles)
-    ? (input.profiles as BrandKit["profiles"])
-    : base.profiles;
+  const profiles = normalizeBrandKitProfiles(
+    input.profiles,
+    base.profiles ?? [],
+  );
 
   const activeProfileId =
     typeof input.activeProfileId === "string"
@@ -137,11 +139,14 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
       typeof localIn.subText === "string"
         ? localIn.subText
         : (activeProfile?.subText ?? base.local.subText),
-    bargainingUnitCode:
-      typeof localIn.bargainingUnitCode === "string"
-        ? localIn.bargainingUnitCode
-        : (activeProfile?.bargainingUnitCode ??
-          base.local.bargainingUnitCode),
+    bargainingUnitCode: (() => {
+      const raw =
+        typeof localIn.bargainingUnitCode === "string"
+          ? localIn.bargainingUnitCode.trim()
+          : (activeProfile?.bargainingUnitCode ??
+            base.local.bargainingUnitCode);
+      return raw || undefined;
+    })(),
   };
 
   const membershipUrls =
