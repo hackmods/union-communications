@@ -229,15 +229,37 @@
     "trustBannerCommsOnly": "Votre travail Comms reste dans votre navigateur. Pas de pubs, pas d’analytique et personne qui récolte vos données.",
     "trustManifestoLink": "Notre promesse",
     "heroPreview": {
-      "ariaLabel": "Exemple d'avis pour tableau aux couleurs de votre Trousse de marque",
-      "noticeEyebrow": "Avis pour tableau",
-      "localLabel": "Section {number}",
-      "noticeLead": "Assemblée des membres",
-      "noticeHeadline": "Présents. Informés.",
-      "noticeBody": "Les mêmes couleurs et le même numéro de section que dans la Trousse de marque, prêts pour le tableau au travail.",
-      "noticeCta": "Ajouter au calendrier",
       "swatchHint": "Couleurs en direct de votre Trousse de marque",
-      "openTool": "Ouvrir Avis pour tableau syndical"
+      "boardNotice": {
+        "ariaLabel": "Exemple d'avis pour tableau aux couleurs de votre Trousse de marque",
+        "eyebrow": "Avis pour tableau",
+        "localLabel": "Section {number}",
+        "lead": "Assemblée des membres",
+        "headline": "Présents. Informés.",
+        "body": "Les mêmes couleurs et le même numéro de section que dans la Trousse de marque, prêts pour le tableau au travail.",
+        "cta": "Ajouter au calendrier",
+        "openTool": "Ouvrir Avis pour tableau syndical"
+      },
+      "graphicMaker": {
+        "ariaLabel": "Exemple de graphique pour médias sociaux aux couleurs de votre Trousse de marque",
+        "eyebrow": "Créateur graphique",
+        "localLabel": "Section {number}",
+        "lead": "Publication de solidarité",
+        "headline": "Ensemble, on est là.",
+        "body": "Graphiques carrés pour Facebook et Instagram — la même Trousse de marque sur chaque canal.",
+        "cta": "En savoir plus",
+        "openTool": "Ouvrir Créateur graphique"
+      },
+      "flyerMaker": {
+        "ariaLabel": "Exemple de tract imprimable aux couleurs de votre Trousse de marque",
+        "eyebrow": "Créateur de tracts",
+        "localLabel": "Section {number}",
+        "lead": "Tract imprimable",
+        "headline": "Rassemblement vendredi",
+        "body": "Date, heure et lieu — prêt à imprimer pour le lieu de travail ou une assemblée.",
+        "cta": "Voir les détails",
+        "openTool": "Ouvrir Créateur de tracts"
+      }
     },
     "channels": {
       "social": {
