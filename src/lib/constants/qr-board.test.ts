@@ -3,7 +3,8 @@ import {
   DEFAULT_QR_BOARD_FORMAT,
   QR_BOARD_FORMAT_ORDER,
   QR_BOARD_FORMATS,
-  qrBoardExportPixelRatio,
+  qrBoardChrome,
+  qrBoardDensity,
   qrBoardGridColumns,
   qrBoardPlatePx,
 } from "./qr-board-formats";
@@ -40,25 +41,56 @@ describe("qr-board-formats", () => {
     expect(qrBoardGridColumns(8)).toBe(4);
   });
 
-  it("sizes 2-up letter plates larger than dense 6-up, and still scannable", () => {
+  it("treats 4-up as regular density, not compact", () => {
+    expect(qrBoardDensity(2)).toBe("roomy");
+    expect(qrBoardDensity(4)).toBe("regular");
+    expect(qrBoardDensity(6)).toBe("compact");
+  });
+
+  it("sizes letter plates so 4-up stays scannable and larger than 6-up", () => {
     const letter = QR_BOARD_FORMATS.letter;
     const two = qrBoardPlatePx({
       format: letter,
       slotCount: 2,
       showUrl: true,
       includeBranding: true,
-      paddingPx: 20,
+    });
+    const four = qrBoardPlatePx({
+      format: letter,
+      slotCount: 4,
+      showUrl: true,
+      includeBranding: true,
     });
     const six = qrBoardPlatePx({
       format: letter,
       slotCount: 6,
       showUrl: true,
       includeBranding: true,
-      paddingPx: 20,
     });
     expect(two).toBeGreaterThanOrEqual(80);
-    expect(six).toBeGreaterThanOrEqual(36);
-    expect(two).toBeGreaterThan(six);
+    expect(four).toBeGreaterThanOrEqual(80);
+    expect(six).toBeGreaterThanOrEqual(48);
+    expect(four).toBeGreaterThan(six);
+    expect(two).toBeGreaterThan(four);
+  });
+
+  it("keeps branding in the header budget instead of a footer band", () => {
+    const withBrand = qrBoardChrome({
+      format: QR_BOARD_FORMATS.letter,
+      slotCount: 4,
+      showUrl: true,
+      includeBranding: true,
+    });
+    const noBrand = qrBoardChrome({
+      format: QR_BOARD_FORMATS.letter,
+      slotCount: 4,
+      showUrl: true,
+      includeBranding: false,
+    });
+    expect(withBrand.useMarkLogo).toBe(true);
+    expect(withBrand.headerBudgetPx).toBeLessThan(100);
+    expect(withBrand.platePx).toBeGreaterThanOrEqual(80);
+    expect(noBrand.platePx).toBeGreaterThanOrEqual(withBrand.platePx);
   });
 });
 

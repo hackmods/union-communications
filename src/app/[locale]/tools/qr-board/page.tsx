@@ -463,21 +463,23 @@ export default function QrBoardPage() {
       }
       preview={
         <>
-          <div className="inline-block rounded-lg shadow-lg">
-            <QrBoardCanvas
-              canvasRef={canvasRef}
-              formatId={state.formatId}
-              posterTitle={state.posterTitle}
-              posterSubtitle={state.posterSubtitle}
-              slots={canvasSlots}
-              showUrl={state.showUrl}
-              includeBranding={state.includeBranding}
-              primaryColor={state.primaryColor}
-              secondaryColor={state.secondaryColor}
-              localLabel={localLabel}
-              qrPlaceholder={t("qrPlaceholder")}
-              tokens={resolveCanvasTokens(brandKit)}
-            />
+          <div className="w-full min-w-0 max-w-full">
+            <div className="overflow-hidden rounded-lg shadow-lg">
+              <QrBoardCanvas
+                canvasRef={canvasRef}
+                formatId={state.formatId}
+                posterTitle={state.posterTitle}
+                posterSubtitle={state.posterSubtitle}
+                slots={canvasSlots}
+                showUrl={state.showUrl}
+                includeBranding={state.includeBranding}
+                primaryColor={state.primaryColor}
+                secondaryColor={state.secondaryColor}
+                localLabel={localLabel}
+                qrPlaceholder={t("qrPlaceholder")}
+                tokens={resolveCanvasTokens(brandKit)}
+              />
+            </div>
           </div>
           <p className="mt-3 text-sm text-gray-500">
             {t("previewSize", {

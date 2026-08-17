@@ -43,15 +43,17 @@ export function formatCanvasDisplayUrl(
 /** URL caption size for multi-QR board cells (never below 9px). */
 export function boardUrlFontSizePx(opts: {
   isTabloid: boolean;
-  isDense: boolean;
+  isDense?: boolean;
+  density?: "roomy" | "regular" | "compact";
   typeScale?: number;
 }): number {
+  const density =
+    opts.density ?? (opts.isDense ? "compact" : "roomy");
+  const scale = Math.min(1, opts.typeScale ?? 1);
   const base = opts.isTabloid
-    ? opts.isDense
+    ? density === "roomy"
       ? 11
-      : 13
-    : opts.isDense
-      ? 9
-      : 11;
-  return Math.max(9, Math.round(base * (opts.typeScale ?? 1)));
+      : 10
+    : 9;
+  return Math.max(9, Math.round(base * scale));
 }

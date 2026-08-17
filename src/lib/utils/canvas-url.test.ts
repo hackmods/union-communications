@@ -47,7 +47,7 @@ describe("boardUrlFontSizePx", () => {
     ).toBeGreaterThanOrEqual(9);
   });
 
-  it("grows for tabloid and display type scale", () => {
+  it("grows for tabloid and caps display type scale", () => {
     const letter = boardUrlFontSizePx({ isTabloid: false, isDense: false });
     const tabloid = boardUrlFontSizePx({ isTabloid: true, isDense: false });
     const display = boardUrlFontSizePx({
@@ -56,6 +56,6 @@ describe("boardUrlFontSizePx", () => {
       typeScale: 1.1,
     });
     expect(tabloid).toBeGreaterThan(letter);
-    expect(display).toBeGreaterThanOrEqual(tabloid);
+    expect(display).toBe(tabloid);
   });
 });

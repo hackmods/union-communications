@@ -62,7 +62,17 @@ type PlateFillReport = {
   minAspect: number;
   minImgPx: number;
   urlFooterOverlaps: number;
+  footerBelowPlates: number;
+  platesOutsideCell: number;
+  platesOutsideRoot: number;
 };
+
+const QR_BOARD_PRESET_CASES = [
+  { id: "membershipFtPt", slots: 2, minImgPx: 72 },
+  { id: "twoCampaigns", slots: 2, minImgPx: 72 },
+  { id: "coreLinks", slots: 4, minImgPx: 64 },
+  { id: "fullBoard", slots: 6, minImgPx: 48 },
+] as const;
 
 async function measurePlateFill(page: Page): Promise<PlateFillReport> {
   return page.evaluate((rootSel) => {
@@ -76,14 +86,20 @@ async function measurePlateFill(page: Page): Promise<PlateFillReport> {
         minAspect: 0,
         minImgPx: 0,
         urlFooterOverlaps: 0,
+        footerBelowPlates: 0,
+        platesOutsideCell: 0,
+        platesOutsideRoot: 0,
       };
     }
+    const rr = root.getBoundingClientRect();
     const plates = [...root.querySelectorAll("[data-qr-plate]")];
     let minFill = Infinity;
     let maxAspect = 0;
     let minAspect = Infinity;
     let minImgPx = Infinity;
     let imgCount = 0;
+    let platesOutsideCell = 0;
+    let platesOutsideRoot = 0;
     for (const plate of plates) {
       const pr = plate.getBoundingClientRect();
       if (pr.width < 4 || pr.height < 4) continue;
@@ -96,11 +112,33 @@ async function measurePlateFill(page: Page): Promise<PlateFillReport> {
       const ir = img.getBoundingClientRect();
       minImgPx = Math.min(minImgPx, ir.width, ir.height);
       minFill = Math.min(minFill, ir.width / pr.width, ir.height / pr.height);
+
+      const cell = plate.closest("[data-qr-cell]");
+      if (cell) {
+        const cr = cell.getBoundingClientRect();
+        if (
+          pr.left < cr.left - 1.5 ||
+          pr.top < cr.top - 1.5 ||
+          pr.right > cr.right + 1.5 ||
+          pr.bottom > cr.bottom + 1.5
+        ) {
+          platesOutsideCell += 1;
+        }
+      }
+      if (
+        pr.left < rr.left - 1.5 ||
+        pr.top < rr.top - 1.5 ||
+        pr.right > rr.right + 1.5 ||
+        pr.bottom > rr.bottom + 1.5
+      ) {
+        platesOutsideRoot += 1;
+      }
     }
 
     const urls = [...root.querySelectorAll("[data-canvas-url]")];
     const footer = root.querySelector("[data-board-footer]");
     let urlFooterOverlaps = 0;
+    let footerBelowPlates = 0;
     if (footer) {
       const fr = footer.getBoundingClientRect();
       for (const urlEl of urls) {
@@ -115,6 +153,10 @@ async function measurePlateFill(page: Page): Promise<PlateFillReport> {
         const oy = Math.min(bottom, fr.bottom) - Math.max(top, fr.top);
         if (oy > 4) urlFooterOverlaps += 1;
       }
+      const firstPlate = plates[0]?.getBoundingClientRect();
+      if (firstPlate && fr.bottom > firstPlate.top + 4) {
+        footerBelowPlates += 1;
+      }
     }
 
     return {
@@ -125,6 +167,9 @@ async function measurePlateFill(page: Page): Promise<PlateFillReport> {
       minAspect: minAspect === Infinity ? 0 : minAspect,
       minImgPx: minImgPx === Infinity ? 0 : minImgPx,
       urlFooterOverlaps,
+      footerBelowPlates,
+      platesOutsideCell,
+      platesOutsideRoot,
     };
   }, EXPORT_ROOT_SELECTOR);
 }
@@ -226,67 +271,87 @@ test.describe("QR share URL captions @smoke", () => {
     expect(letter.minFontPx).toBeGreaterThanOrEqual(quarter.minFontPx);
   });
 
-  test("qr-board keeps dense URLs readable and clear of QR plates", async ({
+  test("qr-board presets keep QRs uncropped and branding in the header", async ({
     page,
   }) => {
     await seedCanvasFonts(page);
-    await page.goto("/en/tools/qr-board/?preset=fullBoard");
-    await expect(
-      page.getByRole("heading", { name: "QR Board Poster Maker" }),
-    ).toBeVisible();
 
-    await expect(page.getByLabel(/Board preset/i)).toHaveValue("fullBoard");
-    await enableShowUrl(page, /Show URL under each QR/i);
+    for (const preset of QR_BOARD_PRESET_CASES) {
+      await page.goto(`/en/tools/qr-board/?preset=${preset.id}`);
+      await expect(
+        page.getByRole("heading", { name: "QR Board Poster Maker" }),
+      ).toBeVisible();
+      await expect(page.getByLabel(/Board preset/i)).toHaveValue(preset.id);
+      await enableShowUrl(page, /Show URL under each QR/i);
 
-    const root = await waitForQrPreview(page);
-    const captions = root.locator("[data-canvas-url]");
-    await expect(captions.first()).toBeVisible({ timeout: 15_000 });
-    await expect(captions).toHaveCount(6, { timeout: 15_000 });
+      const root = await waitForQrPreview(page);
+      const captions = root.locator("[data-canvas-url]");
+      await expect(captions).toHaveCount(preset.slots, { timeout: 15_000 });
+      await expect(root).toHaveAttribute(
+        "data-qr-board-density",
+        preset.slots <= 2 ? "roomy" : preset.slots <= 4 ? "regular" : "compact",
+      );
 
-    // Long Ontario links should display without https://www.
-    await expect(captions.nth(4)).toContainText("ontario.ca");
-    await expect(captions.nth(4)).not.toContainText("https://");
+      if (preset.id === "fullBoard") {
+        await expect(captions.nth(4)).toContainText("ontario.ca");
+        await expect(captions.nth(4)).not.toContainText("https://");
+      }
 
-    const report = await measureUrlLayout(page);
-    expect(report.urlCount).toBe(6);
-    expect(report.overlaps).toBe(0);
-    expect(report.truncatedNowrap).toBe(0);
-    expect(report.minFontPx).toBeGreaterThanOrEqual(9);
+      const layout = await measureUrlLayout(page);
+      expect(layout.urlCount, preset.id).toBe(preset.slots);
+      expect(layout.overlaps, preset.id).toBe(0);
+      expect(layout.truncatedNowrap, preset.id).toBe(0);
+      expect(layout.minFontPx, preset.id).toBeGreaterThanOrEqual(9);
 
-    const fill = await measurePlateFill(page);
-    expect(fill.imgCount).toBe(6);
-    expect(fill.minFill).toBeGreaterThan(0.65);
-    expect(fill.minAspect).toBeGreaterThan(0.85);
-    expect(fill.maxAspect).toBeLessThan(1.2);
-    expect(fill.urlFooterOverlaps).toBe(0);
+      const fill = await measurePlateFill(page);
+      expect(fill.imgCount, preset.id).toBe(preset.slots);
+      expect(fill.minFill, preset.id).toBeGreaterThan(0.65);
+      expect(fill.minAspect, preset.id).toBeGreaterThan(0.85);
+      expect(fill.maxAspect, preset.id).toBeLessThan(1.2);
+      expect(fill.minImgPx, preset.id).toBeGreaterThan(preset.minImgPx);
+      expect(fill.urlFooterOverlaps, preset.id).toBe(0);
+      expect(fill.footerBelowPlates, preset.id).toBe(0);
+      expect(fill.platesOutsideCell, preset.id).toBe(0);
+      expect(fill.platesOutsideRoot, preset.id).toBe(0);
+    }
   });
 
-  test("qr-board 2-up membership QR fills the plate and keeps the footer clear", async ({
+  test("qr-board 4-up stays uncropped when the preview column shrinks", async ({
     page,
   }) => {
     await seedCanvasFonts(page);
-    await page.goto("/en/tools/qr-board/?preset=membershipFtPt");
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/en/tools/qr-board/?preset=coreLinks");
     await expect(
       page.getByRole("heading", { name: "QR Board Poster Maker" }),
     ).toBeVisible();
-    await expect(page.getByLabel(/Board preset/i)).toHaveValue("membershipFtPt");
     await enableShowUrl(page, /Show URL under each QR/i);
+    await page.getByRole("tab", { name: /^Preview$/i }).click();
 
     const root = await waitForQrPreview(page);
-    const captions = root.locator("[data-canvas-url]");
-    await expect(captions).toHaveCount(2, { timeout: 15_000 });
+    await expect(root.locator("[data-canvas-url]")).toHaveCount(4, {
+      timeout: 15_000,
+    });
+
+    const fit = page.locator("[data-qr-board-fit]");
+    await expect(fit).toBeVisible();
+    const fitBox = await fit.boundingBox();
+    const rootBox = await root.boundingBox();
+    expect(fitBox?.width ?? 0).toBeGreaterThan(0);
+    expect(rootBox?.width ?? 0).toBeLessThanOrEqual((fitBox?.width ?? 0) + 2);
 
     const fill = await measurePlateFill(page);
-    expect(fill.imgCount).toBe(2);
-    expect(fill.minFill).toBeGreaterThan(0.7);
-    expect(fill.minImgPx).toBeGreaterThan(48);
+    expect(fill.imgCount).toBe(4);
     expect(fill.minAspect).toBeGreaterThan(0.85);
     expect(fill.maxAspect).toBeLessThan(1.2);
+    expect(fill.platesOutsideCell).toBe(0);
+    expect(fill.platesOutsideRoot).toBe(0);
     expect(fill.urlFooterOverlaps).toBe(0);
+    expect(fill.footerBelowPlates).toBe(0);
+    expect(fill.minImgPx).toBeGreaterThan(40);
 
     const layout = await measureUrlLayout(page);
     expect(layout.overlaps).toBe(0);
-    expect(layout.minFontPx).toBeGreaterThanOrEqual(9);
   });
 
   test("action-card URL caption stays below QR when shown", async ({
