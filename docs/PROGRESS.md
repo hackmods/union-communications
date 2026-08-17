@@ -9,6 +9,15 @@
 - [x] Footer, Support, Accessibility, Privacy, Local 404 discoverability; EN/FR + SEO
 - Verify: `npm run test:unit -- src/lib/platform-feedback/platform-feedback.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/public-copy-style.test.ts src/lib/db/backend.test.ts`
 
+## Canvas layout-class CI matrix (2026-08-17)
+
+- [x] Shared Playwright helpers (`e2e/helpers/canvas-layout.ts`) + Vitest geometry guards (`canvas-layout-geometry.ts`, `layout-class-matrix.ts`)
+- [x] `@smoke` matrix: Flyer/Graphic/Solidarity/Meeting + default Quote/Board Notice/Banner/Pulse Poll (`e2e/tools.layout-matrix.smoke.spec.ts`)
+- [x] Extended QR share smoke: tabloid, QR Card reference + Letter 390px, Action Card (`e2e/tools.qr-share.smoke.spec.ts`)
+- [x] Flyer Maker `?preset=` deep link; QR Card reference square wrapper; removed `CanvasQrPlate` `maxHeight: 100%`
+- Plan: [`docs/audit/plan-2026-08-17-qr-board-canvas-qol.md`](audit/plan-2026-08-17-qr-board-canvas-qol.md) Part D/F3
+- Verify: `npx playwright test e2e/tools.qr-share.smoke.spec.ts e2e/tools.layout-matrix.smoke.spec.ts --grep "@smoke"` (PowerShell: quote grep)
+
 ## Canvas brand fonts catalog (2026-08-15)
 
 - [x] Self-hosted OFL woff2 under `public/fonts/` + `next/font/local` CSS vars (`src/app/canvas-fonts.ts`)

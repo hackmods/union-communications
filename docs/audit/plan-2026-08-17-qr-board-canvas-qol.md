@@ -117,7 +117,7 @@ Brand Kit `typeScale: "display"` is `titleFontSizePx: 36` × `typeScaleFactor` *
 
 **Nothing else lays out 2×2 or 2×3 QR codes.** Do not add font pickers, FitWidth, or header-only branding “for parity.” Flyer is still the Print reference, not the typography mandate ([session-knowledge-2026-08-14](session-knowledge-2026-08-14-flyer-unified-tools.md) lesson 2).
 
-**Shared footgun still in `CanvasQrPlate`:** `maxHeight: 100%` + `aspect-ratio: 1` + `%` width. Harmless when the parent is already square (Board). Dangerous when the parent is a tall flex slot (the 2026-08-17 morning screenshot).
+**Shared footgun (fixed 2026-08-17):** `CanvasQrPlate` no longer sets `maxHeight: 100%` on the plate (B2/B4). QR Card **reference** preset on quarter/Letter needed explicit square wrapper + line-clamp on dense copy — link layout keeps direct `CanvasQrPlate` (wrapper broke flex shrink).
 
 ---
 
@@ -133,16 +133,16 @@ For each row: default size first, then the **largest paper / Letter**, then ~390
 | D2 | QR Board `?preset=coreLinks` | 4-up codes not tiny (~80px+ on letter preview); no crop | [x] shipped `89fccbb` |
 | D3 | QR Board `?preset=fullBoard` | 6-up still scannable; Ontario URLs readable, no `https://` | [x] shipped `89fccbb` |
 | D4 | QR Board `?preset=twoCampaigns` | Same as 2-up membership | [x] covered by preset loop |
-| D5 | QR Board tabloid | FitWidth scales; export PNG still full sheet | [ ] |
-| D6 | QR Card **quarter** (default) + Show URL + branding | URL below QR, not truncated; footer one line | [ ] |
-| D7 | QR Card **Letter** + branding + Show URL | No crop in desktop preview column; type not overflowing QR | [ ] |
-| D8 | Action Card quarter + Letter (same as D6–D7) | Same | [ ] |
-| D9 | Solidarity **stack** letter + branding + QR | Header/footer vs QR; type still poster-scale | [ ] |
-| D10 | Solidarity **16:9 / wide** + branding | Short preview still fits; QR may be small **by design** (40–48px) | [ ] |
-| D11 | Flyer layout with QR on | Plate square; does not cover body type | [ ] |
-| D12 | Graphic Maker notice / results | Preview type already reduced — only log if crop/QR clash | [ ] |
-| D13 | Quote Card / Pulse Poll | Type-first; skip unless crop or branding eats the quote | [ ] |
-| D14 | Board Banner / Notice | Skip unless strip type overflows | [ ] |
+| D5 | QR Board tabloid | FitWidth scales; export PNG still full sheet | [x] CI `@smoke` tabloid FitWidth 4-up |
+| D6 | QR Card **quarter** (default) + Show URL + branding | URL below QR, not truncated; footer one line | [x] CI `@smoke` getSupport quarter + plate/URL geometry |
+| D7 | QR Card **Letter** + branding + Show URL | No crop in desktop preview column; type not overflowing QR | [x] CI `@smoke` Letter + 390px Preview tab |
+| D8 | Action Card quarter + Letter (same as D6–D7) | Same | [x] CI `@smoke` action-card URL caption |
+| D9 | Solidarity **stack** letter + branding + QR | Header/footer vs QR; type still poster-scale | [x] CI `@smoke` stack layout |
+| D10 | Solidarity **16:9 / wide** + branding | Short preview still fits; QR may be small **by design** (40–48px) | [x] CI `@smoke` 16:9 layout |
+| D11 | Flyer layout with QR on | Plate square; does not cover body type | [x] CI `@smoke` four presets + `?preset=` + 390px |
+| D12 | Graphic Maker notice / results | Preview type already reduced — only log if crop/QR clash | [x] CI `@smoke` four TOOL_PRESETS |
+| D13 | Quote Card / Pulse Poll | Type-first; skip unless crop or branding eats the quote | [x] CI quote + board notice/banner; pulse poll when Hub-reachable (skip otherwise) |
+| D14 | Board Banner / Notice | Skip unless strip type overflows | [x] CI default export-root fit (no strip overflow in smoke) |
 
 **Pass criteria (any QR canvas):**
 
@@ -207,7 +207,11 @@ Update [`docs/modules/COMMS_VISUAL_SYSTEM.md`](../modules/COMMS_VISUAL_SYSTEM.md
 
 ### F3. Tests that should remain
 
-Keep `e2e/tools.qr-share.smoke.spec.ts` looping **all** `QR_BOARD_PRESETS` plus a phone-width 4-up case. If QR Card Letter fails in D7, add a Letter+branding uncropped assertion — default quarter will not catch it.
+- **`e2e/tools.qr-share.smoke.spec.ts`** — loops all `QR_BOARD_PRESETS`, tabloid FitWidth, QR Card link + reference (quarter + Letter), Action Card, 390px Letter Preview tab.
+- **`e2e/tools.layout-matrix.smoke.spec.ts`** — Flyer (`?preset=`), Graphic, Solidarity (stack + 16:9), Meeting (bold→minimal), Quote Card, Board Notice/Banner, Pulse Poll when Hub-reachable.
+- **`e2e/helpers/canvas-layout.ts`** — shared plate/URL/preview-fit geometry helpers (clip overlap, aspect, fill).
+- **`src/lib/comms/layout-class-matrix.ts`** + Vitest guard — e2e preset ids must exist in source constants.
+- **`src/lib/utils/canvas-layout-geometry.ts`** + unit tests — clip/overlap/aspect math used by helpers.
 
 ---
 
@@ -226,6 +230,6 @@ Keep `e2e/tools.qr-share.smoke.spec.ts` looping **all** `QR_BOARD_PRESETS` plus 
 | Track | State |
 |-------|--------|
 | QR Board type / footer / 4-up / FitWidth / preset tests | **Shipped** `89fccbb` |
-| Sibling deep-test (Part D) | **Open** — Ryan testing round |
-| Sibling code (Part E) | **Blocked** on D failures |
-| Session knowledge + Cursor rule (Part F) | **Blocked** on D (and E if any) |
+| Layout-class CI matrix (Part D D5–D14) | **Shipped** 2026-08-17 — helpers + matrix spec + QR Card reference fix |
+| Sibling code (Part E) | **Minimal** — QR Card reference square wrapper; `CanvasQrPlate` maxHeight removed |
+| Session knowledge + Cursor rule (Part F1–F2) | **Open** — F3 tests landed; distill B1–B9 when Ryan wants session file |

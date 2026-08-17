@@ -246,7 +246,6 @@ export function CanvasQrPlate({
           : undefined,
     width: widthPercent != null ? `${widthPercent}%` : "100%",
     maxWidth: "100%",
-    maxHeight: "100%",
     aspectRatio: "1",
     boxSizing: "border-box",
   };

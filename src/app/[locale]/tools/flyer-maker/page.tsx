@@ -38,6 +38,7 @@ import {
 import {
   FLYER_PRESET_ORDER,
   FLYER_PRESETS,
+  isFlyerPresetKey,
   type FlyerPresetKey,
 } from "@/lib/comms/flyer-presets";
 import {
@@ -191,6 +192,35 @@ function FlyerMakerPageContent() {
       if (post?.primaryTool === "flyer-maker") return;
     }
     const colours = coloursFromBrandKit(brandKit);
+    const deepPreset = searchParams.get("preset");
+    const fromDeep =
+      deepPreset && isFlyerPresetKey(deepPreset)
+        ? FLYER_PRESETS[deepPreset]
+        : null;
+    if (fromDeep) {
+      reset({
+        ...initial,
+        message: fromDeep.message,
+        body: fromDeep.body,
+        date: fromDeep.date,
+        time: fromDeep.time,
+        location: fromDeep.location,
+        contact: fromDeep.contact,
+        layout: fromDeep.layout,
+        format: fromDeep.format,
+        fontStack: fromDeep.fontStack,
+        headlineCase: fromDeep.headlineCase,
+        typeScaleOverride: fromDeep.typeScaleOverride,
+        showQr: fromDeep.showQr,
+        photoUrl: flyerLayoutSupportsPhoto(fromDeep.layout)
+          ? initial.photoUrl
+          : undefined,
+        primaryColor: colours.primary,
+        accentColor: colours.accent,
+        secondaryColor: colours.secondary,
+      });
+      return;
+    }
     reset({
       ...initial,
       primaryColor: colours.primary,

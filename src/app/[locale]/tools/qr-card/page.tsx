@@ -256,6 +256,9 @@ function QrCardPageContent() {
           : state.sizeId === "half"
             ? 42
             : 34;
+  const referencePlatePx = isReference
+    ? Math.round(size.previewWidthPx * (qrPlatePercent / 100))
+    : null;
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
@@ -524,7 +527,12 @@ function QrCardPageContent() {
                       gap: contentGapPx,
                     }}
                   >
-                    <div className="w-full min-w-0 shrink-0">
+                    <div
+                      className={cn(
+                        "w-full min-w-0 shrink-0",
+                        isReference && "min-h-0 overflow-hidden",
+                      )}
+                    >
                       {state.includeBranding ? (
                         <div
                           className="mb-2 flex"
@@ -560,6 +568,14 @@ function QrCardPageContent() {
                             fontSize: bodyFontPx,
                             textAlign,
                             fontFamily: tokens.bodyFontFamily,
+                            ...(isReference
+                              ? {
+                                  display: "-webkit-box",
+                                  WebkitLineClamp: isCompact ? 2 : 4,
+                                  WebkitBoxOrient: "vertical" as const,
+                                  overflow: "hidden",
+                                }
+                              : {}),
                           }}
                         >
                           {state.description}
@@ -569,18 +585,45 @@ function QrCardPageContent() {
 
                     <div
                       className={cn(
-                        "flex min-h-0 w-full min-w-0 flex-col justify-center",
-                        isReference && "mt-auto",
+                        "flex w-full min-w-0 flex-col justify-center",
+                        isReference && "mt-auto shrink-0",
+                        !isReference && "min-h-0",
                       )}
-                      style={{ alignItems: "center" }}
+                      style={{
+                        alignItems: "center",
+                        ...(isReference
+                          ? {
+                              minHeight: referencePlatePx ?? undefined,
+                            }
+                          : {}),
+                      }}
                     >
-                      <CanvasQrPlate
-                        tokens={tokens}
-                        qrSrc={qrSrc}
-                        alt=""
-                        widthPercent={qrPlatePercent}
-                        accentColor={state.secondaryColor}
-                      />
+                      {referencePlatePx ? (
+                        <div
+                          className="shrink-0"
+                          style={{
+                            width: referencePlatePx,
+                            height: referencePlatePx,
+                            maxWidth: "100%",
+                          }}
+                        >
+                          <CanvasQrPlate
+                            tokens={tokens}
+                            qrSrc={qrSrc}
+                            alt=""
+                            widthPercent={100}
+                            accentColor={state.secondaryColor}
+                          />
+                        </div>
+                      ) : (
+                        <CanvasQrPlate
+                          tokens={tokens}
+                          qrSrc={qrSrc}
+                          alt=""
+                          widthPercent={qrPlatePercent}
+                          accentColor={state.secondaryColor}
+                        />
+                      )}
                       {state.tagline.trim() ? (
                         <p
                           className="mt-1.5 font-bold uppercase tracking-wide"
