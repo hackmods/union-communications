@@ -77,10 +77,11 @@ describe("unionPresets", () => {
     expect(fields.customLogoDataUrl).toBeUndefined();
     expect(fields.membershipUrls?.length).toBeGreaterThan(0);
     expect(fields.membershipUrls?.[0].url).toContain("opseu.org");
-    expect(fields.profiles).toHaveLength(2);
+    expect(fields.profiles).toHaveLength(3);
     expect(fields.profiles?.map((p) => p.bargainingUnitCode)).toEqual([
       "ft",
       "pt",
+      "other",
     ]);
     expect(fields.local?.subText).toBe("College Support Full-time");
   });

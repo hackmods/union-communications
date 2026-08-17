@@ -108,7 +108,7 @@ describe("LocalStorageAdapter", () => {
     );
 
     const loaded = await adapter.getBrandKit();
-    expect(loaded?.profiles).toHaveLength(2);
+    expect(loaded?.profiles).toHaveLength(3);
     expect(loaded?.local.bargainingUnitCode).toBe("ft");
   });
 
