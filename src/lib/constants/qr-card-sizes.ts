@@ -74,6 +74,11 @@ export function isQrCardSquareSize(id: QrCardSizeId): boolean {
   return id === "square4" || id === "square5";
 }
 
+/** Design-size preview height so FitWidth can scale the whole sheet. */
+export function qrCardPreviewHeightPx(size: QrCardSize): number {
+  return Math.round(size.previewWidthPx * (size.heightInches / size.widthInches));
+}
+
 /** Capture density so PDF/PNG stay sharp even when the on-screen preview is small */
 export function qrCardExportPixelRatio(size: QrCardSize): number {
   const targetPx = size.widthInches * 200;

@@ -1,14 +1,8 @@
 "use client";
 
-import {
-  useLayoutEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type ReactNode,
-  type Ref,
-} from "react";
+import { type CSSProperties, type Ref } from "react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import { FitWidthFrame } from "@/components/tools/FitWidthFrame";
 import {
   QR_BOARD_FORMATS,
   qrBoardChrome,
@@ -49,63 +43,6 @@ export interface QrBoardCanvasProps {
   localLabel: string;
   qrPlaceholder: string;
   tokens?: CanvasTokens;
-}
-
-/**
- * Layout the poster at its design width, then scale the whole sheet to the
- * preview column. Interior px chrome stays proportional — no cropped QRs
- * when the page narrows.
- */
-function FitWidthFrame({
-  designWidth,
-  designHeight,
-  children,
-}: {
-  designWidth: number;
-  designHeight: number;
-  children: ReactNode;
-}) {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(1);
-
-  useLayoutEffect(() => {
-    const el = wrapRef.current;
-    if (!el) return;
-    const update = () => {
-      const w = el.clientWidth;
-      setScale(w > 0 ? Math.min(1, w / designWidth) : 1);
-    };
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    update();
-    return () => ro.disconnect();
-  }, [designWidth]);
-
-  return (
-    <div
-      ref={wrapRef}
-      data-qr-board-fit=""
-      className="w-full min-w-0 max-w-full"
-    >
-      <div
-        style={{
-          position: "relative",
-          height: designHeight * scale,
-        }}
-      >
-        <div
-          style={{
-            width: designWidth,
-            height: designHeight,
-            transform: scale === 1 ? undefined : `scale(${scale})`,
-            transformOrigin: "top left",
-          }}
-        >
-          {children}
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export function QrBoardCanvas({

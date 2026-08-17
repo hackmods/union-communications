@@ -252,8 +252,10 @@ export function CanvasQrPlate({
 
   return (
     /*
-     * Square plate sized by the parent. Do not raise z-index — that used to
-     * paint white-card chrome over URL captions in the next flex row.
+     * Square plate: width % (or 100%) + aspect-ratio 1 — never the same %
+     * on height. Do not max-h-full + object-contain on the img unless this
+     * box is already square. Do not raise z-index — that used to paint
+     * white-card chrome over URL captions in the next flex row.
      */
     <div
       data-qr-plate=""

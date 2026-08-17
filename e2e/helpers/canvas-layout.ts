@@ -305,7 +305,9 @@ export async function measurePreviewFit(page: Page): Promise<PreviewFitReport> {
   return page.evaluate((rootSel) => {
     const root = document.querySelector(rootSel);
     if (!root) return { visualWidth: 0, columnWidth: 0 };
-    const fit = document.querySelector("[data-qr-board-fit]");
+    const fit =
+      document.querySelector("[data-fit-width]") ??
+      document.querySelector("[data-qr-board-fit]");
     const visual = (fit ?? root).getBoundingClientRect();
     const column =
       root.closest('[role="tabpanel"]') ?? root.parentElement;

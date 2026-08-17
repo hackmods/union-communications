@@ -128,7 +128,7 @@ These are **not blockers** for the layout-class pass — record before an agent 
 | Gap | Severity | Why it remains | Suggested follow-up |
 |-----|----------|----------------|---------------------|
 | **Pulse Poll smoke skips without Hub** | Medium for CI | Publish gate + demo officer login; smoke skips when unreachable | Durable smoke env with seeded officer, or document as `@export`-only |
-| **Wallet tools lack FitWidthFrame** | Low–medium | QR Card/Action Letter pass at default desktop + 390px mobile Preview; narrow **desktop** column may still squash without uniform scale | Only extract `FitWidthFrame` if a D-row fails on desktop narrow column |
+| **Wallet tools lack FitWidthFrame** | **Closed** 2026-08-17 | Shared `FitWidthFrame` on QR Card + Action Card Letter | Keep `wallet*` helpers on design `previewWidthPx` |
 | **Tabloid export not in smoke** | Low | Preview fit asserted; export integrity covered separately by `@export` fidelity suite | Optional: one tabloid PNG size floor in `tools.export.smoke.spec.ts` |
 | **Meeting Background layout IDs** | Low | One preset + design-set switch proves class; not exhaustive | Add rows only if a facilitator reports a specific layout crop |
 | **Board Banner strip overflow** | Low | `clampTypeRem` / vmin — different problem than QR grid | Human visual pass on longest local number + tagline |

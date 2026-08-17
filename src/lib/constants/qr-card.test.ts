@@ -5,6 +5,7 @@ import {
   QR_CARD_SIZES,
   isQrCardSquareSize,
   qrCardExportPixelRatio,
+  qrCardPreviewHeightPx,
 } from "./qr-card-sizes";
 import { QR_CARD_PRESETS, getQrCardPreset } from "./qr-card-presets";
 
@@ -53,6 +54,14 @@ describe("qr-card-sizes", () => {
     expect(QR_CARD_SIZES.letter.previewWidthPx).not.toBe(
       QR_CARD_SIZES.quarter.previewWidthPx,
     );
+  });
+
+  it("computes letter preview height from the 8.5×11 aspect", () => {
+    const letter = QR_CARD_SIZES.letter;
+    expect(qrCardPreviewHeightPx(letter)).toBe(
+      Math.round(letter.previewWidthPx * (11 / 8.5)),
+    );
+    expect(letter.previewWidthPx).toBeGreaterThan(400);
   });
 
   it("raises export pixel ratio for smaller previews", () => {

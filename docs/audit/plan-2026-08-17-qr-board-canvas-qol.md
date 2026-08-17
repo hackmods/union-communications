@@ -231,5 +231,5 @@ Update [`docs/modules/COMMS_VISUAL_SYSTEM.md`](../modules/COMMS_VISUAL_SYSTEM.md
 |-------|--------|
 | QR Board type / footer / 4-up / FitWidth / preset tests | **Shipped** `89fccbb` |
 | Layout-class CI matrix (Part D D5–D14) | **Shipped** 2026-08-17 — helpers + matrix spec + QR Card reference fix |
-| Sibling code (Part E) | **Minimal** — QR Card reference square wrapper; `CanvasQrPlate` maxHeight removed |
+| Sibling code (Part E) | **Shipped** 2026-08-17 — shared `FitWidthFrame` on QR Card + Action Card; compact wallet local-label; `CanvasQrPlate` maxHeight already removed |
 | Session knowledge + Cursor rule (Part F1–F2) | **Shipped** 2026-08-17 — [`session-knowledge-2026-08-17-qr-canvas-layout.md`](session-knowledge-2026-08-17-qr-canvas-layout.md) + `comms-visual-system.mdc` addendum |

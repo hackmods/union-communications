@@ -43,6 +43,7 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 
 - `CanvasBrandHeader` / `CanvasTypeBlock` / `CanvasQrPlate`
 - `CanvasGrainOverlay` / `CanvasDuotonePhoto`
+- `FitWidthFrame` (`src/components/tools/FitWidthFrame.tsx`) — uniform preview scale on a **parent** of `[data-export-root]`; used by QR Board, QR Card, Action Card. Export stays full design size (`capture.ts` zeros transform on the clone).
 
 ## Migration register
 
@@ -146,7 +147,7 @@ CI locks **uncropped default layouts per geometry class** — not every preset c
 | [`e2e/tools.layout-matrix.smoke.spec.ts`](../../e2e/tools.layout-matrix.smoke.spec.ts) | Flyer, Graphic, Solidarity, Meeting, defaults |
 | [`e2e/tools.qr-share.smoke.spec.ts`](../../e2e/tools.qr-share.smoke.spec.ts) | QR Board, QR Card, Action Card |
 
-Do not add QR plate geometry to type-first tools (Graphic, Quote) “for parity.” Residual gaps (Pulse Poll Hub skip, wallet FitWidth, tabloid export) are documented in session knowledge — not product bugs by default.
+Do not add QR plate geometry to type-first tools (Graphic, Quote) “for parity.” Residual gaps (Pulse Poll Hub skip, tabloid export) are documented in session knowledge — not product bugs by default.
 
 **Fonts / layouts / placement across tools:** Brand Kit `canvas` owns `headlineFontId` / `bodyFontId` / typeScale / alignment for canvas tools ([`canvas-fonts.ts`](../../src/lib/comms/canvas-fonts.ts), ADR-014 local OFL). Flyer Maker may override the headline face (`inherit` or catalog id). Layout IDs stay per-tool (Flyer `stack` ≠ Solidarity `stack`). **Website ZIP** embeds subset OFL `@font-face` + woff2 under `assets/fonts/` (system residual skips bundling). **Office** DOCX/PPTX map catalog ids to face names via `canvasFontOfficeName` (name-only — files are not embedded in OOXML). Comparison matrix: [`docs/audit/session-knowledge-2026-08-14-flyer-unified-tools.md`](../audit/session-knowledge-2026-08-14-flyer-unified-tools.md#cross-tool-comparison--fonts-layouts-placement); font catalog upgrade: [`session-knowledge-2026-08-15-canvas-fonts.md`](../audit/session-knowledge-2026-08-15-canvas-fonts.md).
 

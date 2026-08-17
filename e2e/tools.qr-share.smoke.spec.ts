@@ -137,7 +137,12 @@ test.describe("QR share URL captions @smoke", () => {
     await enableShowUrl(page, /Show URL under tagline/i);
     await page.getByRole("radio", { name: /Letter \(8\.5/i }).click();
     await openPreviewTab(page);
-    await waitForQrPreview(page);
+    const root = await waitForQrPreview(page);
+    const fit = page.locator("[data-fit-width]");
+    await expect(fit).toBeVisible();
+    const fitBox = await fit.boundingBox();
+    const rootBox = await root.boundingBox();
+    expect(rootBox?.width ?? 0).toBeLessThanOrEqual((fitBox?.width ?? 0) + 2);
     expectPlateGeometry(await measurePlateFill(page), {
       label: "qr-card-390-letter",
       slots: 1,
@@ -202,7 +207,7 @@ test.describe("QR share URL captions @smoke", () => {
       timeout: 15_000,
     });
 
-    const fit = page.locator("[data-qr-board-fit]");
+    const fit = page.locator("[data-fit-width]");
     await expect(fit).toBeVisible();
     const fitBox = await fit.boundingBox();
     const rootBox = await root.boundingBox();

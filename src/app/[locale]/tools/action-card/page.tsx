@@ -14,11 +14,13 @@ import { formatFilename, resolveLocalNumber, cn } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { listSavedLinks } from "@/lib/utils/local-links";
+import { FitWidthFrame } from "@/components/tools/FitWidthFrame";
 import {
   DEFAULT_QR_CARD_SIZE,
   QR_CARD_SIZE_ORDER,
   QR_CARD_SIZES,
   qrCardExportPixelRatio,
+  qrCardPreviewHeightPx,
   type QrCardSizeId,
 } from "@/lib/constants/qr-card-sizes";
 import {
@@ -172,6 +174,8 @@ function ActionCardPageContent() {
   }, [searchParams, hydrated]);
 
   const size = QR_CARD_SIZES[state.sizeId];
+  const designWidth = size.previewWidthPx;
+  const designHeight = qrCardPreviewHeightPx(size);
   const tokens = resolveCanvasTokens(brandKit);
   const exportPixelRatio = qrCardExportPixelRatio(size);
   const savedLinks = listSavedLinks(brandKit, {
@@ -202,6 +206,8 @@ function ActionCardPageContent() {
 
   const canvasStyle: CSSProperties = (() => {
     const box: CSSProperties = {
+      width: designWidth,
+      height: designHeight,
       aspectRatio: `${size.widthInches} / ${size.heightInches}`,
     };
     const ink = pickContrastingInk(state.primaryColor);
@@ -232,6 +238,14 @@ function ActionCardPageContent() {
       ? state.secondaryColor
       : canvasInk;
   const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
+  const useMarkLogo =
+    state.sizeId === "square4" ||
+    state.sizeId === "square5" ||
+    state.sizeId === "quarter";
+  const compactLocalLabel =
+    state.includeBranding &&
+    state.showUrl &&
+    (state.sizeId === "letter" || state.sizeId === "half");
 
   const qrPlatePercent =
     state.sizeId === "square4"
@@ -280,6 +294,9 @@ function ActionCardPageContent() {
   const titleFontPx = walletTitleFontSizePx(tokens, size.previewWidthPx);
   const bodyFontPx = walletBodyFontSizePx(tokens, size.previewWidthPx);
   const metaFontPx = walletMetaFontSizePx(tokens, size.previewWidthPx);
+  const localLabelFontPx = compactLocalLabel
+    ? Math.max(9, Math.round(metaFontPx * 0.85))
+    : metaFontPx;
   const contentPadPx = walletContentPaddingPx(tokens, size.previewWidthPx);
   const contentGapPx = walletContentGapPx(tokens, size.previewWidthPx);
   const textAlign = textAlignFromBias(tokens.alignmentBias);
@@ -491,17 +508,17 @@ function ActionCardPageContent() {
         </>
       }
       preview={
-        <div className="mx-auto w-fit max-w-full">
+        <div className="mx-auto w-full min-w-0 max-w-full">
           <div className="rounded-lg border border-gray-200 bg-gray-100/80 p-4 md:p-6">
-            <div
-              className="min-w-0"
-              style={{ width: size.previewWidthPx, maxWidth: "100%" }}
-            >
-              <div className="shadow-lg">
+            <div className="overflow-hidden rounded-lg shadow-lg">
+              <FitWidthFrame
+                designWidth={designWidth}
+                designHeight={designHeight}
+              >
                 <div
                   ref={canvasRef}
                   data-export-root=""
-                  className="relative flex w-full min-w-0 flex-col overflow-hidden"
+                  className="relative flex min-w-0 flex-col overflow-hidden"
                   style={canvasStyle}
                 >
                   <CanvasGrainOverlay opacity={tokens.grainOpacity} />
@@ -532,6 +549,7 @@ function ActionCardPageContent() {
                         >
                           <BrandLogo
                             size="sm"
+                            variantOverride={useMarkLogo ? "mark" : undefined}
                             backgroundColor={state.primaryColor}
                           />
                         </div>
@@ -617,10 +635,10 @@ function ActionCardPageContent() {
 
                     {state.includeBranding ? (
                       <p
-                        className="shrink-0 font-semibold"
+                        className="shrink-0 truncate font-semibold leading-tight"
                         style={{
                           color: mutedInk,
-                          fontSize: metaFontPx,
+                          fontSize: localLabelFontPx,
                           textAlign,
                           width: "100%",
                           fontFamily: tokens.bodyFontFamily,
@@ -633,7 +651,7 @@ function ActionCardPageContent() {
                     )}
                   </div>
                 </div>
-              </div>
+              </FitWidthFrame>
             </div>
           </div>
           <p className="mt-3 text-center text-xs text-gray-500">
