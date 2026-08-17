@@ -1,6 +1,6 @@
 ---
 description: Brand Kit collection profiles — per-union defaults, labels, and sourced bargaining structures
-globs: src/lib/brand/collection-profiles.ts,src/lib/constants/unionPresets.ts,src/lib/constants/brand.ts,src/components/brand/CollectionProfilesEditor.tsx,src/app/**/brand-kit/**,src/app/**/onboarding/**,seed/reference-tenant-opseu-caat.json
+globs: src/lib/brand/collection-profiles.ts,src/lib/brand/collection-profile-catalog.ts,src/lib/constants/unionPresets.ts,src/lib/constants/brand.ts,src/components/brand/CollectionProfilesEditor.tsx,src/app/**/brand-kit/**,src/app/**/onboarding/**,seed/reference-tenant-opseu-caat.json
 alwaysApply: false
 ---
 
@@ -12,102 +12,98 @@ Companion research: [`docs/audit/session-knowledge-2026-08-17-brand-kit-collecti
 
 ## Product rules
 
-1. **Do not assume FT/PT for every union.** That split is required for OPSEU CAAT Support under the *Colleges Collective Bargaining Act* — it is not a CUPE/Unifor/ONA/PSAC/USW default.
-2. **Fresh Brand Kit / Other / non-OPSEU presets:** one **Local** profile. Hide the switcher until the steward adds a second collection.
-3. **OPSEU preset only:** two collections — **College Support Full-time** (`ft`) and **College Support Part-time** (`pt`). Official sector names, not “Support Staff” for the whole union.
-4. **Applying a preset replaces profiles.** Switching Unifor → OPSEU must not leave CAAT labels behind, and the reverse must not leave FT/PT on a CUPE kit.
-5. **Saved kits are not rewritten on hydrate.** Existing localStorage FT/PT rows stay until the steward resets or re-applies a preset.
-6. **Any union can add collections.** Amalgamated / multi-unit locals add named workplaces themselves. Do not hardcode a second union’s unit list into core defaults.
-7. **No union names in generic chrome.** Copy talks about collections, workplaces, or units — not “full-time and part-time” unless the OPSEU CAAT labels are the stored data.
+1. **Preset starter lists ship in** [`collection-profile-catalog.ts`](../../src/lib/brand/collection-profile-catalog.ts). Each list ends with **Other** so stewards rename/remove rows they do not use.
+2. **Fresh Brand Kit / `other` preset:** one **Local** profile until a union preset is chosen.
+3. **OPSEU preset:** **College Support Full-time** (`ft`) + **College Support Part-time** (`pt`) — CAAT Support reference tenant only.
+4. **Applying a preset replaces profiles.** Switching presets must not leave the prior union’s collection labels behind.
+5. **Saved kits are not rewritten on hydrate** except via `normalizeBrandKit` when `profiles` is missing — then preset catalog applies.
+6. **Reference URLs** in the catalog are **general union homepages** for agent/docs context — never stored in Brand Kit or membership URLs.
+7. **No union names in generic chrome.** Copy talks about collections, workplaces, or units.
 
 ## Code map
 
 | Concern | Path |
 |---|---|
-| Defaults + add/remove/sync | [`src/lib/brand/collection-profiles.ts`](../../src/lib/brand/collection-profiles.ts) |
+| Per-union starter lists + reference URLs | [`collection-profile-catalog.ts`](../../src/lib/brand/collection-profile-catalog.ts) |
+| Defaults + add/remove/sync | [`collection-profiles.ts`](../../src/lib/brand/collection-profiles.ts) |
 | Preset application | `brandFieldsFromUnionPreset()` in [`unionPresets.ts`](../../src/lib/constants/unionPresets.ts) |
 | Fresh kit | [`DEFAULT_BRAND_KIT`](../../src/lib/constants/brand.ts) — one Local profile |
 | Editor | [`CollectionProfilesEditor.tsx`](../../src/components/brand/CollectionProfilesEditor.tsx) |
 | Hub seed (CAAT Support) | [`seed/reference-tenant-opseu-caat.json`](../../seed/reference-tenant-opseu-caat.json) |
 
-## Default labels (Brand Kit)
+## Shipped default labels
 
-| Preset | `#` | Stored labels | Code |
+| Preset | `#` | Active default | Stored labels (codes) |
 |---|---|---|---|
-| *(none)* / Other / CUPE / Unifor / USW / ONA / PSAC | 1 | Local | — |
-| `opseu` | 2 | College Support Full-time / College Support Part-time | `ft` / `pt` |
+| *(none)* / `other` | 1 | Local | Local |
+| `opseu` | 2 | College Support Full-time | College Support Full-time (`ft`), College Support Part-time (`pt`) |
+| `cupe` | 4 | Full-time unit | Full-time (`ft`), Part-time (`pt`), All-employee (`all`), **Other** (`other`) |
+| `unifor` | 3 | Bargaining unit | Bargaining unit (`bu`), Additional bargaining unit (`bu-add`), **Other** |
+| `usw` | 3 | Unit | Unit (`unit`), Additional unit (`unit-add`), **Other** |
+| `ona` | 3 | Bargaining unit | Bargaining unit (`bu`), Additional bargaining unit (`bu-add`), **Other** |
+| `psac` | 5 | Program & Administration (PA) | PA, TC, EB, SV, **Other** |
 
-OPSEU stretch (do **not** default; offer only if a steward adds them): CAAT Academic FT + PT/Sessional; OPS Unified + Correctional; hospital / LTC / municipal as one collection per local.
+## Union reference URLs (docs / agents only)
 
-## Sourced structures (do not flatten)
+| Preset | Homepage |
+|---|---|
+| CUPE | [cupe.ca](https://cupe.ca) |
+| Unifor | [unifor.org](https://www.unifor.org) |
+| USW | [usw.ca](https://usw.ca) |
+| ONA | [ona.org](https://ona.org) |
+| PSAC | [psacunion.ca](https://psacunion.ca) |
+| OPSEU | [opseu.org](https://opseu.org) |
 
-### OPSEU/SEFPO
+## Sourced structures (detail)
 
-Ontario colleges have **four** province-wide groups (CEC + OPSEU). Reference tenant is **CAAT Support** only.
+### OPSEU/SEFPO (CAAT Support default)
 
-- CAAT-S FT / College Support Full-time — [opseu.org/sector/college-support-full-time](https://opseu.org/sector/college-support-full-time)
-- CAAT-S PT / College Support Part-time — [opseu.org/sector/college-support-part-time](https://opseu.org/sector/college-support-part-time)
-- FT vs PT **must** be separate units under the *Colleges Collective Bargaining Act* — [OPSEU PT certification (2016)](https://opseu.org/news/opseu-applies-to-represent-part-time-college-support-staff/14462/)
-- CEC: [FT Support](https://www.collegeemployercouncil.ca/bargaining/full-time_support_staff_2025), [PT Support](https://www.collegeemployercouncil.ca/bargaining/part-time-support-staff-bargaining) (also CAAT-A FT and CAAT-A PT/SL)
-- Hours: FT support regularly **>24 hrs/week**; PT **≤24** — [OPSEU Local 137](https://opseu137.ca/opseu-local-137)
-- College locals are composite (Academic local + Support local; each with FT + PT) — [CAAT-A intro (Local 562 PDF)](https://www.opseu562.org/wp-content/uploads/2019/10/Intro-to-CAAT-A-2025.pdf)
-- ~500 local units / 17 sectors — [Local 2100 structure](https://opseu2100.ca/organization/structure-governance/), [Owners’ Manual PDF](https://opseu5121.ca/wp-content/uploads/2021/12/opseu-orientation-booklet-2020.pdf)
-- Central CAs: [Find your collective agreement](https://opseu.org/information/general/find-your-collective-agreement/12967/)
+- CAAT-S FT / PT sector pages — [college-support-full-time](https://opseu.org/sector/college-support-full-time), [college-support-part-time](https://opseu.org/sector/college-support-part-time)
+- Statutory FT/PT split — [OPSEU PT certification (2016)](https://opseu.org/news/opseu-applies-to-represent-part-time-college-support-staff/14462/)
+- CEC bargaining pages — [FT Support](https://www.collegeemployercouncil.ca/bargaining/full-time_support_staff_2025), [PT Support](https://www.collegeemployercouncil.ca/bargaining/part-time-support-staff-bargaining)
+- College composite locals — [CAAT-A intro PDF (Local 562)](https://www.opseu562.org/wp-content/uploads/2019/10/Intro-to-CAAT-A-2025.pdf)
+
+**Stretch (steward-added, not preset default):** CAAT Academic FT/PT-SL; OPS Unified/Correctional; hospital/LTC/municipal.
 
 ### CUPE
 
-Employer- and history-specific. **Default one Local.** Examples only:
+Starter reflects common **FT / PT / all-employee** patterns — employer-specific (OLRB may order either split).
 
-- One local, several units (U of T 3261) — [cupe.ca coordinated bargaining](https://cupe.ca/counterpoint/three-locals-one-goal-how-coordination-transformed-their-bargaining-strategy)
-- ~230 PSE units — [Sector profile: Post-Secondary](https://cupe.ca/sector-profile-post-secondary)
-- Local 2484 ~20 child-care units — [Raising the floor](https://cupe.ca/raising-floor-child-care-workers)
-- Toronto Local 79: FT, Unit B PT, Recreation PT, LTC PT — [City of Toronto settlement PDF](https://www.toronto.ca/legdocs/mmis/2020/cc/bgrd/backgroundfile-148172.pdf)
-- OLRB may order FT+PT **or** all-employee — [Loyalist Township 1998](https://www.minicounsel.ca/olrb/1998/18288), [Kawartha Pine Ridge 1998](https://www.minicounsel.ca/olrb/1998/m125)
+- Coordinated multi-unit locals — [cupe.ca](https://cupe.ca/counterpoint/three-locals-one-goal-how-coordination-transformed-their-bargaining-strategy)
+- PSE ~230 units — [Sector profile: Post-Secondary](https://cupe.ca/sector-profile-post-secondary)
+- OLRB FT+PT vs all-employee — [Loyalist 1998](https://www.minicounsel.ca/olrb/1998/18288), [Kawartha Pine Ridge 1998](https://www.minicounsel.ca/olrb/1998/m125)
 
 ### Unifor
 
 Single-unit **or** amalgamated (2+ bargaining units). ~40% amalgamated locals / ~80% of members.
 
-- [Guide to Amalgamated Local Unions (PDF)](https://www.unifor.org/sites/default/files/legacy/documents/document/unifor-amalgamatedlocals-en.pdf)
+- [Amalgamated locals guide (PDF)](https://www.unifor.org/sites/default/files/legacy/documents/document/unifor-amalgamatedlocals-en.pdf)
 - [Servicing bargaining units (PDF)](https://www.unifor.org/sites/default/files/legacy/documents/document/unifor-servicingbargainingunits-en-print.pdf)
-- [Constitution 2023 (PDF)](https://www.unifor.org/sites/default/files/documents/Unifor%20Constitution%202023.pdf)
-
-Default **Local**. Amalgamated stewards add one profile per unit they comms for.
 
 ### USW
 
-Amalgamated locals + **units** (unit chair). ~37% amalgamated locals / ~65% of members (international figure).
+Amalgamated locals + **units** (unit chair).
 
 - [Resolution 17: Amalgamation](https://usw.org/usw-convention/resolution-no-17-amalgamation/)
-- [USW Local 1998 — 7 units, each with a CA](https://www.usw1998.ca/union-101/)
-- [Local 1944 units](https://usw1944.ca/function)
-- [USW Canada — new unit inside amalgamated local](https://usw.ca/security-guards-vale-join-steelworkers/)
-
-Default **Local**. Extra profiles = unit / workplace names.
+- [USW Local 1998 — multiple units](https://www.usw1998.ca/union-101/)
 
 ### ONA
 
-Local = 1+ **employer bargaining units** (not usually FT/PT). 60+ Locals, 500+ BUs.
+Local = 1+ **employer bargaining units** (central + local CA).
 
 - [Regions, Locals & Bargaining Units](https://ona.org/regions-locals-bargaining-units/)
-- [How bargaining works](https://ona.org/how-bargaining-works/) (central + local agreement)
-- [Constitution (PDF)](https://ona.org/wp-content/uploads/2026/01/ona_statementofbeliefsconstitution_20260102.pdf)
-
-Default **Local**. Multi-BU locals add a profile per employer/site they comms for.
+- [How bargaining works](https://ona.org/how-bargaining-works/)
 
 ### PSAC
 
-Locals → Components (or Directly Chartered Locals). Bargaining units are **employer + classification**, not FT/PT.
+Treasury Board **classification groups** PA / TC / EB / SV are the familiar starter split; other employers use workplace names.
 
 - [Our structure](https://psacunion.ca/our-structure-1)
-- [Which bargaining unit am I in?](https://psacunion.ca/which-bargaining-unit-am-i-in) (Treasury Board PA / TC / EB / SV)
-- [Bargaining overview](https://psacunion.ca/bargaining-0)
-
-Default **Local**. Optional extra profiles: PA, CRA, workplace name.
+- [Which bargaining unit am I in?](https://psacunion.ca/which-bargaining-unit-am-i-in)
 
 ## Do not
 
-- Ship CUPE/Unifor/USW/ONA/PSAC unit lists as hardcoded Brand Kit defaults
+- Store catalog `referenceUrl` in Brand Kit JSON or membership URLs
 - Treat Collection profiles as Hub `bargainingUnitId` tenancy
 - Reintroduce CAAT FT/PT as `DEFAULT_BRAND_KIT` for every first visit
 - Bundle another union’s official marks because OPSEU has a reference pack — see [`session-knowledge-2026-07-30-multi-union-sources.md`](../../docs/audit/session-knowledge-2026-07-30-multi-union-sources.md)

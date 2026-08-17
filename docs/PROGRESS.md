@@ -2,8 +2,9 @@
 
 ## Brand Kit collection profiles (2026-08-17)
 
-- [x] Fresh Brand Kit + non-OPSEU presets use one **Local** profile (no CAAT FT/PT on first visit)
-- [x] OPSEU preset applies **College Support Full-time / Part-time** (`ft` / `pt`) and replaces leftover profiles
+- [x] Fresh Brand Kit + `other` preset use one **Local** profile
+- [x] OPSEU preset applies **College Support Full-time / Part-time** (`ft` / `pt`)
+- [x] CUPE / Unifor / USW / ONA / PSAC ship starter collection lists + **Other** (`collection-profile-catalog.ts`)
 - [x] In-app add / remove / rename so amalgamated locals can model extra workplaces
 - [x] Active profile stays in sync when Local number, sub-text, or code change
 - [x] Sourced reference: [`.cursor/rules/brand-kit-collections.mdc`](../.cursor/rules/brand-kit-collections.mdc) + [`session-knowledge-2026-08-17-brand-kit-collections.md`](audit/session-knowledge-2026-08-17-brand-kit-collections.md)

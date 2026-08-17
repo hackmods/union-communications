@@ -85,6 +85,21 @@ describe("normalizeBrandKit", () => {
     expect(kit.accentColor).toMatch(/^#[0-9A-F]{6}$/);
   });
 
+  it("migrates legacy CUPE kits to the starter collection list", () => {
+    const kit = normalizeBrandKit({
+      version: "1.1",
+      unionPresetId: "cupe",
+      local: { id: "x", localNumber: "3902", subText: "Support" },
+      primaryColor: "#E5007D",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#B80063",
+      useOfficialLogo: false,
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    });
+    expect(kit.profiles).toHaveLength(4);
+    expect(kit.activeProfileId).toBe("profile-cupe-ft");
+  });
+
   it("migrates legacy OPSEU kits to CAAT Support collections", () => {
     const kit = normalizeBrandKit({
       version: "1.1",

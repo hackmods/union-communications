@@ -40,8 +40,35 @@ describe("collectionProfilesForPreset", () => {
     });
   });
 
-  it("gives other unions a single Local profile", () => {
-    for (const id of ["cupe", "unifor", "usw", "ona", "psac", "other", "bare"]) {
+  it("gives CUPE a FT / PT / all-employee starter list plus Other", () => {
+    const { profiles, activeProfileId } = collectionProfilesForPreset(
+      "cupe",
+      "3902",
+      "On the front line.",
+    );
+    expect(activeProfileId).toBe("profile-cupe-ft");
+    expect(profiles.map((p) => p.label)).toEqual([
+      "Full-time unit",
+      "Part-time unit",
+      "All-employee unit",
+      "Other",
+    ]);
+    expect(profiles.at(-1)?.id).toBe("profile-other");
+  });
+
+  it("gives PSAC Treasury Board classification starters plus Other", () => {
+    const { profiles } = collectionProfilesForPreset("psac", "700", "Here for Canada.");
+    expect(profiles.map((p) => p.bargainingUnitCode)).toEqual([
+      "pa",
+      "tc",
+      "eb",
+      "sv",
+      "other",
+    ]);
+  });
+
+  it("gives Other and unknown presets a single Local profile", () => {
+    for (const id of ["other", "bare"]) {
       const { profiles, activeProfileId } = collectionProfilesForPreset(
         id,
         "100",
@@ -50,8 +77,6 @@ describe("collectionProfilesForPreset", () => {
       expect(profiles).toHaveLength(1);
       expect(activeProfileId).toBe(GENERIC_COLLECTION_PROFILE_ID);
       expect(profiles[0].label).toBe("Local");
-      expect(profiles[0].subText).toBe("Solidarity.");
-      expect(profiles[0].bargainingUnitCode).toBeUndefined();
     }
   });
 });
@@ -72,11 +97,11 @@ describe("defaultProfilesForStoredKit", () => {
     expect(profiles[0]?.id).toBe(OPSEU_CAAT_SUPPORT_FT_ID);
   });
 
-  it("uses one Local profile for other stored presets", () => {
+  it("uses the CUPE starter list for legacy stored presets", () => {
     const profiles = defaultProfilesForStoredKit("cupe", "100", "On the front line.");
-    expect(profiles).toHaveLength(1);
-    expect(profiles[0]?.label).toBe("Local");
-    expect(profiles[0]?.subText).toBe("On the front line.");
+    expect(profiles).toHaveLength(4);
+    expect(profiles[0]?.label).toBe("Full-time unit");
+    expect(profiles.at(-1)?.label).toBe("Other");
   });
 });
 

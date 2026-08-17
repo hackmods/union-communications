@@ -1,4 +1,9 @@
 import type { BrandKit, BrandKitPatch, BrandKitProfile } from "@/types/entities";
+import {
+  getUnionCollectionCatalog,
+  isPresetWithCollectionCatalog,
+  type UnionCollectionCatalog,
+} from "@/lib/brand/collection-profile-catalog";
 
 export const GENERIC_COLLECTION_PROFILE_ID = "profile-local";
 export const OPSEU_CAAT_SUPPORT_FT_ID = "profile-caat-s-ft";
@@ -47,6 +52,19 @@ export function opseuCaatSupportProfiles(
   ];
 }
 
+export function profilesFromCatalog(
+  catalog: UnionCollectionCatalog,
+  localNumber: string,
+): BrandKitProfile[] {
+  return catalog.profiles.map((template) => ({
+    id: template.id,
+    label: template.label,
+    localNumber,
+    subText: template.label,
+    bargainingUnitCode: template.bargainingUnitCode,
+  }));
+}
+
 export function collectionProfilesForPreset(
   presetId: string | undefined,
   localNumber: string,
@@ -56,6 +74,13 @@ export function collectionProfilesForPreset(
     const profiles = opseuCaatSupportProfiles(localNumber);
     return { profiles, activeProfileId: OPSEU_CAAT_SUPPORT_FT_ID };
   }
+
+  const catalog = getUnionCollectionCatalog(presetId);
+  if (catalog) {
+    const profiles = profilesFromCatalog(catalog, localNumber);
+    return { profiles, activeProfileId: catalog.defaultActiveId };
+  }
+
   return {
     profiles: [genericCollectionProfile(localNumber, fallbackSubText)],
     activeProfileId: GENERIC_COLLECTION_PROFILE_ID,
@@ -91,8 +116,14 @@ export function defaultProfilesForStoredKit(
   if (unionPresetId === "opseu") {
     return opseuCaatSupportProfiles(localNumber);
   }
+  const catalog = getUnionCollectionCatalog(unionPresetId);
+  if (catalog) {
+    return profilesFromCatalog(catalog, localNumber);
+  }
   return [genericCollectionProfile(localNumber, fallbackSubText)];
 }
+
+export { isPresetWithCollectionCatalog, getUnionCollectionCatalog };
 
 export function reconcileActiveProfileId(
   profiles: BrandKitProfile[] | undefined,

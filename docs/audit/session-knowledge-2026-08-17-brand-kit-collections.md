@@ -42,20 +42,23 @@ Ryan’s direction: support **all** unions. Locals and areas break out different
 
 Full URL list lives in the cursor rule. Short form:
 
-| Union | Typical breakout | Brand Kit default | Add-more examples |
-|---|---|---|---|
-| **OPSEU CAAT Support** | Statute-split FT + PT; 24-hour rule | 2 (College Support FT/PT) | Academic FT, Academic PT/Sessional, hospital, OPS Unified, Correctional |
-| **OPSEU other sectors** | Usually one unit per local; 17 sectors | *(if they picked OPSEU preset they still get CAAT Support — rename/remove)* | Sector/employer name |
-| **CUPE** | 1 unit, FT+PT, or many job-family units | 1 Local | Inside workers, outside workers, library, child-care site |
-| **Unifor** | Single-unit or amalgamated (2+ units) | 1 Local | Plant / workplace unit name |
-| **USW** | Local + units (each may have its own CA) | 1 Local | Staff-appointed, casual, campus unit |
-| **ONA** | Local = 1+ employer BUs; central + local CA | 1 Local | Hospital site, LTC home |
-| **PSAC** | Local / component; TB PA·TC·EB·SV etc. | 1 Local | PA, CRA, workplace |
+| Union | Starter profiles | Reference (homepage only) |
+|---|---|---|
+| **CUPE** | Full-time, Part-time, All-employee, Other | [cupe.ca](https://cupe.ca) |
+| **Unifor** | Bargaining unit, Additional bargaining unit, Other | [unifor.org](https://www.unifor.org) |
+| **USW** | Unit, Additional unit, Other | [usw.ca](https://usw.ca) |
+| **ONA** | Bargaining unit, Additional bargaining unit, Other | [ona.org](https://ona.org) |
+| **PSAC** | PA, TC, EB, SV, Other | [psacunion.ca](https://psacunion.ca) |
+| **OPSEU CAAT Support** | College Support Full-time, College Support Part-time | [opseu.org](https://opseu.org) |
+| **Other / unset** | Local | — |
+
+Catalog: [`src/lib/brand/collection-profile-catalog.ts`](../../src/lib/brand/collection-profile-catalog.ts). URLs are for docs/agents — not stored in Brand Kit.
 
 ---
 
 ## Code shipped
 
+- [`src/lib/brand/collection-profile-catalog.ts`](../../src/lib/brand/collection-profile-catalog.ts) — per-union starter lists + homepage references
 - [`src/lib/brand/collection-profiles.ts`](../../src/lib/brand/collection-profiles.ts) — defaults, normalize, add/remove/rename, sync active → local
 - [`CollectionProfilesEditor.tsx`](../../src/components/brand/CollectionProfilesEditor.tsx) — Brand Kit UI
 - `brandFieldsFromUnionPreset(preset, { localNumber })` now writes collection fields

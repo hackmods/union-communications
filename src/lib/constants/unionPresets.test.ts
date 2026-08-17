@@ -85,18 +85,28 @@ describe("unionPresets", () => {
     expect(fields.local?.subText).toBe("College Support Full-time");
   });
 
-  it("maps other presets to UnionOps mark plus palette colours and sub-text", () => {
+  it("maps Unifor preset to starter bargaining units plus UnionOps mark", () => {
     const fields = brandFieldsFromUnionPreset(getUnionPreset("unifor")!);
     expect(fields.useOfficialLogo).toBe(false);
     expect(fields.customLogoDataUrl).toBe(UNIONOPS_LOGOS.mark);
     expect(fields.primaryColor).toBe("#ED1B2F");
     expect(fields.secondaryColor).toBe("#FFFFFF");
     expect(fields.unionPresetId).toBe("unifor");
-    expect(fields.local?.subText).toBe("A union for everyone.");
     expect(fields.membershipUrls).toEqual([]);
-    expect(fields.profiles).toHaveLength(1);
-    expect(fields.profiles?.[0].label).toBe("Local");
-    expect(fields.local?.bargainingUnitCode).toBeUndefined();
+    expect(fields.profiles?.length).toBeGreaterThan(1);
+    expect(fields.profiles?.some((p) => p.id === "profile-other")).toBe(true);
+    expect(fields.local?.subText).toBe("Bargaining unit");
+    expect(fields.local?.bargainingUnitCode).toBe("bu");
+  });
+
+  it("maps CUPE preset to FT / PT / all-employee starters", () => {
+    const fields = brandFieldsFromUnionPreset(getUnionPreset("cupe")!);
+    expect(fields.profiles?.map((p) => p.bargainingUnitCode)).toEqual([
+      "ft",
+      "pt",
+      "all",
+      "other",
+    ]);
   });
 
   it("clears OPSEU membership URLs when switching to a non-seed preset", () => {
