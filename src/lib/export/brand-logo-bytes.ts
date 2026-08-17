@@ -1,14 +1,5 @@
 import type { BrandKit } from "@/types/entities";
-import {
-  OFFICIAL_LOGOS,
-  isOfficialLogoVariant,
-  isSelectableOfficialLogoVariant,
-  type OfficialLogoVariant,
-} from "@/lib/constants/brand";
-import {
-  UNIONOPS_LOGOS,
-  isUnionOpsLogoSrc,
-} from "@/lib/constants/unionPresets";
+import { resolveBrandLogoPresentation } from "@/lib/brand/resolve-logo-presentation";
 
 export type BrandLogoBytes = {
   bytes: Uint8Array;
@@ -42,6 +33,14 @@ function dataUrlToBytes(dataUrl: string): Uint8Array | null {
   }
 }
 
+function bytesToPngDataUrl(bytes: Uint8Array): string {
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]!);
+  }
+  return `data:image/png;base64,${btoa(binary)}`;
+}
+
 async function fetchBytes(url: string): Promise<Uint8Array | null> {
   try {
     const res = await fetch(url);
@@ -60,6 +59,7 @@ export async function rasterizeSrcToPng(
   src: string,
   maxWidth = 240,
   maxHeight = 96,
+  cssFilter?: string,
 ): Promise<{ bytes: Uint8Array; widthPx: number; heightPx: number } | null> {
   if (typeof Image === "undefined" || typeof document === "undefined") {
     return null;
@@ -99,7 +99,9 @@ export async function rasterizeSrcToPng(
         finish(null);
         return;
       }
+      if (cssFilter) ctx.filter = cssFilter;
       ctx.drawImage(img, 0, 0, widthPx, heightPx);
+      ctx.filter = "none";
       canvas.toBlob(
         async (blob) => {
           if (!blob) {
@@ -123,34 +125,22 @@ export async function rasterizeSrcToPng(
   });
 }
 
-function resolveOfficialSrc(variant: OfficialLogoVariant): string {
-  const effective: OfficialLogoVariant = isSelectableOfficialLogoVariant(
-    variant,
-  )
-    ? variant
-    : "mark";
-  if (effective === "lockup") return OFFICIAL_LOGOS.lockup.src;
-  if (effective === "slitBlue") return OFFICIAL_LOGOS.slitBlue.src;
-  if (effective === "slitWhite") return OFFICIAL_LOGOS.slitWhite.src;
-  return OFFICIAL_LOGOS.mark.src;
-}
-
 /**
  * Sync Brand Kit logo URL for preview / HTML embeds (path or data URL).
+ * Pass `backgroundColor` (e.g. letterhead primary) to swap/invert on dark fields.
  */
-export function resolveBrandLogoSrc(brandKit: BrandKit): string {
-  if (brandKit.useOfficialLogo) {
-    const variant = isOfficialLogoVariant(brandKit.officialLogoVariant)
-      ? brandKit.officialLogoVariant
-      : "lockup";
-    return resolveOfficialSrc(variant);
-  }
-  const custom = brandKit.customLogoDataUrl?.trim();
-  if (custom && !isUnionOpsLogoSrc(custom)) {
-    return custom;
-  }
-  return UNIONOPS_LOGOS.markInterlock;
+export function resolveBrandLogoSrc(
+  brandKit: BrandKit,
+  backgroundColor?: string,
+): string {
+  return resolveBrandLogoPresentation(brandKit, backgroundColor).src;
 }
+
+export type ResolveBrandLogoBytesOpts = {
+  includeLogo?: boolean;
+  /** Header / slide fill — drives white mark or inverted lockup for Office embeds. */
+  backgroundColor?: string;
+};
 
 /**
  * Resolve Brand Kit logo to PNG bytes for DOCX/PPTX.
@@ -158,12 +148,28 @@ export function resolveBrandLogoSrc(brandKit: BrandKit): string {
  */
 export async function resolveBrandLogoBytes(
   brandKit: BrandKit,
-  opts?: { includeLogo?: boolean },
+  opts?: ResolveBrandLogoBytesOpts,
 ): Promise<BrandLogoBytes | null> {
   if (opts?.includeLogo === false) return null;
 
-  const src = resolveBrandLogoSrc(brandKit);
+  const { src, cssFilter } = resolveBrandLogoPresentation(
+    brandKit,
+    opts?.backgroundColor,
+  );
   if (!src) return null;
+
+  // Filtered logos must rasterize — raw blue lockup on a blue header is unreadable.
+  if (cssFilter) {
+    const raster = await rasterizeSrcToPng(src, 240, 96, cssFilter);
+    if (!raster) return null;
+    return {
+      bytes: raster.bytes,
+      extension: "png",
+      widthPx: raster.widthPx,
+      heightPx: raster.heightPx,
+      src: bytesToPngDataUrl(raster.bytes),
+    };
+  }
 
   // Fast path: PNG data URLs need no canvas (and avoid jsdom Image hangs)
   if (src.startsWith("data:image/png")) {

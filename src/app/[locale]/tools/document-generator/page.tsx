@@ -125,6 +125,9 @@ function DocumentGeneratorPageContent() {
     }
   });
 
+  const preset = getPreset(state.presetId);
+  const palette = brandPalette(brandKit);
+
   useEffect(() => {
     let cancelled = false;
     void (async () => {
@@ -132,16 +135,17 @@ function DocumentGeneratorPageContent() {
         setLogoPreviewSrc(null);
         return;
       }
-      const logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });
+      const logo = await resolveBrandLogoBytes(brandKit, {
+        includeLogo: true,
+        backgroundColor: palette.primary,
+      });
       if (!cancelled) setLogoPreviewSrc(logo?.src ?? null);
     })();
     return () => {
       cancelled = true;
     };
-  }, [brandKit, state.includeLogo]);
+  }, [brandKit, state.includeLogo, palette.primary]);
 
-  const preset = getPreset(state.presetId);
-  const palette = brandPalette(brandKit);
   const canvasTokens = resolveCanvasTokens(brandKit);
   const officeHeadlineFont = canvasFontOfficeName(canvasTokens.headlineFontId);
   const officeBodyFont = canvasFontOfficeName(canvasTokens.bodyFontId);
@@ -222,7 +226,10 @@ function DocumentGeneratorPageContent() {
 
   async function resolveLogo(): Promise<BrandLogoBytes | null> {
     if (!state.includeLogo) return null;
-    const logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });
+    const logo = await resolveBrandLogoBytes(brandKit, {
+      includeLogo: true,
+      backgroundColor: palette.primary,
+    });
     if (!logo) {
       throw new Error(t("logoResolveFailed"));
     }
@@ -298,7 +305,10 @@ function DocumentGeneratorPageContent() {
     void run(async () => {
       const { exportPptx } = await import("@/lib/export/office-export");
       const logo = state.includeLogo
-        ? await resolveBrandLogoBytes(brandKit, { includeLogo: true })
+        ? await resolveBrandLogoBytes(brandKit, {
+            includeLogo: true,
+            backgroundColor: palette.primary,
+          })
         : null;
       await exportPptx({
         ...pptOpts(logo),
@@ -333,7 +343,10 @@ function DocumentGeneratorPageContent() {
 
       let logo: BrandLogoBytes | null = null;
       if (state.includeLogo) {
-        logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });
+        logo = await resolveBrandLogoBytes(brandKit, {
+          includeLogo: true,
+          backgroundColor: palette.primary,
+        });
         if (!logo) throw new Error(t("logoResolveFailed"));
       }
 

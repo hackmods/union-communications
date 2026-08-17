@@ -1,22 +1,14 @@
 "use client";
 
 import { useBrandStore } from "@/store/brand-store";
-import {
-  OFFICIAL_LOGOS,
-  BRAND_COLORS,
-  isOfficialLogoVariant,
-  isSelectableOfficialLogoVariant,
-  type OfficialLogoVariant,
-} from "@/lib/constants/brand";
-import {
-  isUnionOpsLogoSrc,
-} from "@/lib/constants/unionPresets";
+import { BRAND_COLORS, isOfficialLogoVariant } from "@/lib/constants/brand";
+import { isUnionOpsLogoSrc } from "@/lib/constants/unionPresets";
+import { resolveBrandLogoPresentation } from "@/lib/brand/resolve-logo-presentation";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import {
   INK_WHITE,
   isLightInk,
-  logoRasterFilter,
   pickContrastingInk,
   type InkTone,
 } from "@/lib/utils/ink";
@@ -24,22 +16,9 @@ import {
 interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
   className?: string;
-  /**
-   * Accessible name for raster logos. Empty (default) marks the image
-   * decorative — prefer this when adjacent text already names the brand.
-   */
   alt?: string;
-  /**
-   * Force light (white) ink. Prefer `backgroundColor` so ink auto-swaps
-   * to black on pale fields.
-   */
   onDark?: boolean;
-  /** Canvas fill hex — drives auto white/black ink for mark + raster logos */
   backgroundColor?: string;
-  /**
-   * Force lockup vs compact mark without mutating Brand Kit.
-   * Custom uploads: mark → smaller plate; lockup → full custom dims.
-   */
   variantOverride?: "lockup" | "mark";
 }
 
@@ -64,51 +43,36 @@ function resolveInk(
   return null;
 }
 
-function resolveOfficialSrc(
-  variant: OfficialLogoVariant,
-  ink: InkTone | null,
-): { src: string; size: "lockup" | "mark"; useFilter: boolean } {
-  const effective: OfficialLogoVariant = isSelectableOfficialLogoVariant(
-    variant,
-  )
-    ? variant
-    : "mark";
+import type { BrandKit } from "@/types/entities";
 
-  if (effective === "lockup") {
-    return {
-      src: OFFICIAL_LOGOS.lockup.src,
-      size: "lockup",
-      useFilter: ink !== null,
-    };
-  }
-  if (effective === "slitBlue") {
-    return {
-      src: OFFICIAL_LOGOS.slitBlue.src,
-      size: "mark",
-      useFilter: ink !== null,
-    };
-  }
-  if (effective === "slitWhite") {
-    return {
-      src: OFFICIAL_LOGOS.slitWhite.src,
-      size: "mark",
-      // Already white — only filter when forcing black
-      useFilter: ink !== null && !isLightInk(ink),
-    };
+function logoDims(
+  brandKit: BrandKit,
+  size: keyof typeof markSize,
+  variantOverride?: "lockup" | "mark",
+): (typeof lockupSize)["sm"] {
+  const customSrc = brandKit.customLogoDataUrl?.trim();
+  if (customSrc && !brandKit.useOfficialLogo) {
+    const pathLooksLockup =
+      customSrc.includes("logo-lockup") ||
+      customSrc.includes("logo-primary") ||
+      (customSrc.endsWith("/logo.svg") && !customSrc.includes("logo-mark"));
+    const preferLockup =
+      variantOverride === "lockup"
+        ? true
+        : variantOverride === "mark"
+          ? false
+          : pathLooksLockup;
+    return preferLockup ? lockupSize[size] : markSize[size];
   }
 
-  if (ink && isLightInk(ink)) {
-    return {
-      src: OFFICIAL_LOGOS.mark.srcOnDark,
-      size: "mark",
-      useFilter: false,
-    };
-  }
-  return {
-    src: OFFICIAL_LOGOS.mark.src,
-    size: "mark",
-    useFilter: ink !== null,
-  };
+  const kitVariant = isOfficialLogoVariant(brandKit.officialLogoVariant)
+    ? brandKit.officialLogoVariant
+    : "lockup";
+  const variant =
+    variantOverride === "lockup" || variantOverride === "mark"
+      ? variantOverride
+      : kitVariant;
+  return variant === "lockup" ? lockupSize[size] : markSize[size];
 }
 
 export function BrandLogo({
@@ -123,11 +87,8 @@ export function BrandLogo({
   const brandKit = useBrandStore((s) => s.brandKit);
   const primaryColor = brandKit.primaryColor || BRAND_COLORS.primary;
   const secondaryColor = brandKit.secondaryColor || BRAND_COLORS.secondary;
-  const dims = markSize[size];
   const ink = resolveInk(backgroundColor, onDark);
-  const rasterFilter = ink ? logoRasterFilter(ink) : undefined;
 
-  // Platform interlocking SVG — BrandLogo / UnionOpsMark tints via fill
   const platformMark = (
     <UnionOpsMark
       primaryColor={primaryColor}
@@ -144,68 +105,28 @@ export function BrandLogo({
     return platformMark;
   }
 
-  if (brandKit.useOfficialLogo) {
-    const kitVariant = isOfficialLogoVariant(brandKit.officialLogoVariant)
-      ? brandKit.officialLogoVariant
-      : "lockup";
-    const variant: OfficialLogoVariant =
-      variantOverride === "lockup" || variantOverride === "mark"
-        ? variantOverride
-        : kitVariant;
-    const resolved = resolveOfficialSrc(variant, ink);
-    const officialDims =
-      resolved.size === "lockup" ? lockupSize[size] : markSize[size];
+  const customSrc = brandKit.customLogoDataUrl?.trim();
+  if (customSrc && isUnionOpsLogoSrc(customSrc)) {
+    return platformMark;
+  }
+
+  if (brandKit.useOfficialLogo || customSrc) {
+    const { src, cssFilter } = resolveBrandLogoPresentation(
+      brandKit,
+      backgroundColor,
+      variantOverride,
+    );
+    const officialDims = logoDims(brandKit, size, variantOverride);
 
     return (
       <SafeLogoImage
-        src={resolved.src}
+        src={src}
         alt={alt}
         width={officialDims.width}
         height={officialDims.height}
         className={className}
         onDark={ink ? isLightInk(ink) : onDark}
-        style={
-          resolved.useFilter && rasterFilter
-            ? { filter: rasterFilter }
-            : undefined
-        }
-      />
-    );
-  }
-
-  const customSrc = brandKit.customLogoDataUrl?.trim();
-  if (customSrc) {
-    if (isUnionOpsLogoSrc(customSrc)) {
-      return platformMark;
-    }
-
-    const pathLooksLockup =
-      customSrc.includes("logo-lockup") ||
-      customSrc.includes("logo-primary") ||
-      (customSrc.endsWith("/logo.svg") && !customSrc.includes("logo-mark"));
-    const preferLockup =
-      variantOverride === "lockup"
-        ? true
-        : variantOverride === "mark"
-          ? false
-          : pathLooksLockup;
-    const customDims = preferLockup ? lockupSize[size] : dims;
-    const looksLikeWhiteMark =
-      customSrc.includes("logo-mark-white") ||
-      customSrc.includes("mark-on-dark") ||
-      customSrc.includes("on-dark");
-    const useFilter =
-      ink !== null && !(ink && isLightInk(ink) && looksLikeWhiteMark);
-
-    return (
-      <SafeLogoImage
-        src={customSrc}
-        alt={alt}
-        width={customDims.width}
-        height={customDims.height}
-        className={className}
-        onDark={ink ? isLightInk(ink) : onDark}
-        style={useFilter && rasterFilter ? { filter: rasterFilter } : undefined}
+        style={cssFilter ? { filter: cssFilter } : undefined}
       />
     );
   }
