@@ -259,7 +259,8 @@ export function QrBoardCanvas({
             className="grid min-h-0 flex-1"
             style={{
               gridTemplateColumns: `repeat(${chrome.columns}, minmax(0, 1fr))`,
-              gridAutoRows: "1fr",
+              gridAutoRows: chrome.centerGridVertically ? "auto" : "1fr",
+              alignContent: chrome.centerGridVertically ? "center" : undefined,
               gap: chrome.gridGapPx,
             }}
           >

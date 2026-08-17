@@ -74,6 +74,23 @@ describe("qr-board-formats", () => {
     expect(two).toBeGreaterThan(four);
   });
 
+  it("centers the 2-up grid vertically on the sheet", () => {
+    const two = qrBoardChrome({
+      format: QR_BOARD_FORMATS.letter,
+      slotCount: 2,
+      showUrl: true,
+      includeBranding: true,
+    });
+    const four = qrBoardChrome({
+      format: QR_BOARD_FORMATS.letter,
+      slotCount: 4,
+      showUrl: true,
+      includeBranding: true,
+    });
+    expect(two.centerGridVertically).toBe(true);
+    expect(four.centerGridVertically).toBe(false);
+  });
+
   it("keeps branding in the header budget instead of a footer band", () => {
     const withBrand = qrBoardChrome({
       format: QR_BOARD_FORMATS.letter,

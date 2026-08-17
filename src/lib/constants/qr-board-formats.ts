@@ -101,6 +101,8 @@ export interface QrBoardChrome {
   platePx: number;
   /** Width of the plate as % of the grid cell — scales when the preview shrinks. */
   plateCellPercent: number;
+  /** Single-row 2-up: center the QR row in leftover sheet height. */
+  centerGridVertically: boolean;
 }
 
 /**
@@ -215,6 +217,7 @@ export function qrBoardChrome(opts: {
     urlMaxChars,
     platePx,
     plateCellPercent,
+    centerGridVertically: rows === 1 && opts.slotCount <= 2,
   };
 }
 
