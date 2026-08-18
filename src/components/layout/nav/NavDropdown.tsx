@@ -29,6 +29,8 @@ type NavDropdownProps = {
    * mega-menu cannot clip off the left edge on lg/xl desktops.
    */
   preferredPanelWidth?: (viewportWidth: number) => number;
+  /** Extra classes on the trigger (Hub chrome uses white hover, not blue tint). */
+  triggerClassName?: string;
   menuRef?: RefObject<HTMLDivElement | null>;
 };
 
@@ -42,6 +44,7 @@ export function NavDropdown({
   align = "left",
   panelClassName,
   preferredPanelWidth,
+  triggerClassName,
   menuRef: externalMenuRef,
 }: NavDropdownProps) {
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -165,10 +168,17 @@ export function NavDropdown({
         ref={triggerRef}
         type="button"
         className={cn(
-          "inline-flex items-center gap-1 rounded-md px-2 py-1 transition-colors duration-150 hover:bg-opseu-blue/5",
+          "inline-flex items-center gap-1 rounded-md px-2 py-1 transition-colors duration-150",
+          triggerClassName ?? "hover:bg-opseu-blue/5",
           open
-            ? "bg-opseu-blue/10 font-semibold text-opseu-dark"
-            : active && "font-semibold text-opseu-blue",
+            ? cn(
+                "font-semibold text-opseu-dark",
+                triggerClassName ? "bg-white" : "bg-opseu-blue/10",
+              )
+            : active &&
+              (triggerClassName
+                ? "bg-white font-semibold text-opseu-dark"
+                : "font-semibold text-opseu-blue"),
         )}
         aria-expanded={open}
         aria-haspopup="menu"

@@ -33,6 +33,8 @@ import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import { resolveLocalNumber } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { PageShell } from "@/components/layout/PageShell";
+import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 
 export default function BrandKitPage() {
   const t = useTranslations("brandKit");
@@ -53,6 +55,7 @@ export default function BrandKitPage() {
     brandKit,
     onboardingComplete,
   );
+  const inDemo = useWorkshopDemoSession(null);
 
   const unionPresetId = brandKit.unionPresetId ?? "";
   const selectedPreset = getUnionPreset(unionPresetId);
@@ -113,6 +116,9 @@ export default function BrandKitPage() {
 
   return (
     <PageShell className="py-8 md:py-12">
+      {inDemo ? (
+        <WorkshopDemoPath variant="trail" className="mb-4" />
+      ) : null}
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
         <header className="min-w-0 max-w-3xl">
           <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">

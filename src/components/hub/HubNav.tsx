@@ -246,8 +246,8 @@ export function HubNav() {
                 )
               }
               onClose={() => setToolsMenu(null)}
-              align="right"
               preferredPanelWidth={preferredHubToolsMenuWidth}
+              triggerClassName="whitespace-nowrap hover:bg-white"
             >
               {toolGroups.map((group, groupIndex) => (
                 <div

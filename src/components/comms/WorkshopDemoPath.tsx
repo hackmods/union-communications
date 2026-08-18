@@ -16,7 +16,7 @@ type WorkshopDemoPathProps = {
   showRoadmapLink?: boolean;
   /**
    * `card` is the First week / home pitch.
-   * `trail` is the quiet continuation on Graphic Maker and Captions.
+   * `trail` is the quiet continuation on the four demo tools.
    */
   variant?: "card" | "trail";
 };
@@ -27,7 +27,7 @@ function isCurrentDemoStep(pathname: string, href: string): boolean {
 
 /**
  * Compact “demo in ~20 minutes” path for home + First week, plus a quiet
- * in-tool trail so steps 3–4 stay in the same story.
+ * in-tool trail on Brand Kit, Board Notice, Graphic Maker, and Captions.
  */
 export function WorkshopDemoPath({
   className,
@@ -78,6 +78,16 @@ export function WorkshopDemoPath({
             })}
           </ol>
         </nav>
+        {currentHref === "/brand-kit" ? (
+          <p className="mt-1 max-w-prose text-sm text-gray-600">
+            {t("continueBrand")}
+          </p>
+        ) : null}
+        {currentHref === "/tools/board-notice" ? (
+          <p className="mt-1 max-w-prose text-sm text-gray-600">
+            {t("continueBoard")}
+          </p>
+        ) : null}
         {currentHref === "/tools/graphic-maker" ? (
           <p className="mt-1 max-w-prose text-sm text-gray-600">
             {t("continueGraphic")}

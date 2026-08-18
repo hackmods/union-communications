@@ -17,11 +17,13 @@ import {
 function RoadmapStepLink({
   href,
   children,
+  join = false,
 }: {
   href: string;
   children: ReactNode;
+  join?: boolean;
 }) {
-  if (isWorkshopDemoJoinHref(href)) {
+  if (join || isWorkshopDemoJoinHref(href)) {
     return (
       <WorkshopDemoJoinLink href={href}>{children}</WorkshopDemoJoinLink>
     );
@@ -123,7 +125,7 @@ export default async function SocialMediaPlanPage({
               ))}
             </ul>
             <div className="button-row mt-4 max-w-lg">
-              <RoadmapStepLink href={FIRST_WEEK_STEP_LINKS[key].primary}>
+              <RoadmapStepLink href={FIRST_WEEK_STEP_LINKS[key].primary} join>
                 <Button size="sm">{t(`steps.${key}.cta`)}</Button>
               </RoadmapStepLink>
               <RoadmapStepLink href={FIRST_WEEK_STEP_LINKS[key].secondary}>

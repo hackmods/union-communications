@@ -15,6 +15,7 @@
 
 - [x] Hub chrome uses a **Hub menu** drawer below `lg` (no hidden horizontal scroll)
 - [x] Officer tools ▾ is grouped (Casework / Records / Funds / Administration) and viewport-clamped like public Tools
+- [x] Officer tools drops **under the trigger** (left-aligned); clamp shrinks width before sliding so it does not look left-floated
 - [x] Hub bar sticks under `--site-header-height`; Profile / Sign out live in the hub drawer on small screens
 - Verify: `npm run test:unit -- src/components/hub/hub-nav-model.test.ts src/lib/utils/flyout-geometry.test.ts`
 

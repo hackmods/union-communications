@@ -1,9 +1,8 @@
 /**
- * Viewport-safe placement for header flyouts (Tools mega-menu).
+ * Viewport-safe placement for header flyouts.
  *
- * The Tools panel is right-aligned to a mid-header trigger. A fixed 40/52rem
- * width overflows the left edge on lg/xl desktops (~1024–1440) and gets clipped
- * by `html { overflow-x: clip }`. Width + position must be clamped together.
+ * Keep the panel attached to the trigger. If the preferred width would
+ * overflow, shrink first — do not slide a full-width panel across the page.
  */
 
 export type FlyoutAlign = "left" | "right";
@@ -85,19 +84,25 @@ export function clampFlyoutToViewport(input: {
   const gap = input.gapBelowTrigger ?? TOOLS_MEGA_MENU.gapBelowTriggerPx;
   const maxHeightPx = input.maxHeightPx ?? TOOLS_MEGA_MENU.maxHeightPx;
   const maxHeightVh = input.maxHeightVh ?? TOOLS_MEGA_MENU.maxHeightVh;
-  const align = input.align ?? "right";
+  const align = input.align ?? "left";
 
   const maxWidth = Math.max(0, input.viewportWidth - gutter * 2);
-  const width = Math.min(Math.max(0, input.preferredWidth), maxWidth);
+  let width = Math.min(Math.max(0, input.preferredWidth), maxWidth);
+  let left: number;
+
+  if (align === "right") {
+    const room = Math.max(0, input.trigger.right - gutter);
+    if (width > room) width = room;
+    left = input.trigger.right - width;
+  } else {
+    const room = Math.max(0, input.viewportWidth - gutter - input.trigger.left);
+    if (width > room) width = room;
+    left = input.trigger.left;
+  }
 
   const minLeft = gutter;
   const maxLeft = input.viewportWidth - gutter - width;
-  const preferredLeft =
-    align === "right" ? input.trigger.right - width : input.trigger.left;
-  const left = Math.min(
-    Math.max(preferredLeft, minLeft),
-    Math.max(minLeft, maxLeft),
-  );
+  left = Math.min(Math.max(left, minLeft), Math.max(minLeft, maxLeft));
 
   const top = input.trigger.bottom + gap;
   const fromViewport = input.viewportHeight - top - gutter;

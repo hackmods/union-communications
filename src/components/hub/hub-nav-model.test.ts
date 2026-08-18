@@ -68,6 +68,7 @@ describe("HubNav chrome contract", () => {
     expect(source).not.toMatch(/scrollbar-width:none/);
     expect(source).toContain("HubNavDrawer");
     expect(source).toContain("preferredHubToolsMenuWidth");
+    expect(source).not.toMatch(/align="right"/);
   });
 
   it("sticks the hub bar below the public header height token", () => {

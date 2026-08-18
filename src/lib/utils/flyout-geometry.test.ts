@@ -106,14 +106,12 @@ describe("clampFlyoutToViewport", () => {
     expect(box.left).toBe(trigger.right - box.width);
   });
 
-  it("shifts right instead of clipping when the trigger is too far left", () => {
+  it("shrinks a right-aligned panel to stay on the trigger instead of parking left", () => {
     const vw = 1024;
     const trigger = leftishToolsTrigger();
     const box = place(vw, trigger, 40 * 16);
-    expect(box.left).toBe(TOOLS_MEGA_MENU.gutterPx);
-    expect(box.left + box.width).toBeLessThanOrEqual(
-      vw - TOOLS_MEGA_MENU.gutterPx,
-    );
+    expect(box.left + box.width).toBe(trigger.right);
+    expect(box.left).toBeGreaterThanOrEqual(TOOLS_MEGA_MENU.gutterPx);
   });
 
   it("caps height so a tall panel cannot extend past the viewport", () => {
@@ -130,10 +128,17 @@ describe("clampFlyoutToViewport", () => {
     expect(box.maxHeight).toBeLessThanOrEqual(700 * TOOLS_MEGA_MENU.maxHeightVh);
   });
 
-  it("keeps the Officer tools list on-screen on a short laptop", () => {
+  it("keeps the Officer tools list under the trigger, not floated left", () => {
     const vw = 1280;
     const trigger = { left: 900, right: 1020, bottom: 104 };
-    const box = place(vw, trigger, preferredHubToolsMenuWidth(), 700);
+    const box = clampFlyoutToViewport({
+      viewportWidth: vw,
+      viewportHeight: 700,
+      trigger,
+      preferredWidth: preferredHubToolsMenuWidth(),
+      align: "left",
+    });
+    expect(box.left).toBe(trigger.left);
     expect(box.width).toBe(HUB_TOOLS_MENU_WIDTH_PX);
     expect(flyoutBoxFitsViewport(box, vw, 700)).toBe(true);
   });

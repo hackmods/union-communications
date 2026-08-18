@@ -87,6 +87,21 @@ test.describe("Workshop demo path E2E @smoke", () => {
     });
     const demoSection = page.locator("section").filter({ has: heading });
     await demoSection.getByRole("link", { name: /Brand Kit/i }).click();
+    await expect(
+      page.getByRole("navigation", { name: /20-minute demo path/i }),
+    ).toBeVisible();
+    await page.goto("/en/tools/graphic-maker/");
+    await expect(
+      page.getByRole("navigation", { name: /20-minute demo path/i }),
+    ).toBeVisible();
+  });
+
+  test("First week primary buttons join the trail", async ({ page }) => {
+    await page.goto("/en/guide/social-media-plan/");
+    await page
+      .locator("#step-print")
+      .getByRole("link", { name: /Flyer Maker/i })
+      .click();
     await page.goto("/en/tools/graphic-maker/");
     await expect(
       page.getByRole("navigation", { name: /20-minute demo path/i }),
