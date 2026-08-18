@@ -228,6 +228,7 @@ test.describe("Smoke tests @smoke", () => {
     await expect(page.getByRole("heading", { name: "Website Template" })).toBeVisible();
     await expect(page.getByTitle("Live preview")).toBeVisible();
     await expect(page.getByRole("button", { name: "Download site ZIP" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Download WordPress theme" })).toBeVisible();
   });
 
   test("union boards guide renders", async ({ page }) => {

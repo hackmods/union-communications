@@ -815,6 +815,10 @@
       "handoff": "Maintenant que vous avez le fichier ZIP de votre site, il faut le mettre sur Internet. Si la configuration technique du Web ne vous convient pas, vous pouvez donner le ZIP téléchargé et ce guide à un volontaire à l’aise avec la technique.",
       "tocLabel": "Sections de la partie 2"
     },
+    "wordpress": {
+      "title": "Déjà sur WordPress?",
+      "body": "Le modèle de site Web peut aussi télécharger un thème WordPress. UnionOps ne prend pas en charge WordPress. N’utilisez ce fichier que si quelqu’un gère déjà votre site. Les autres devraient rester avec le ZIP GitHub Pages de cette partie."
+    },
     "terms": {
       "title": "Quelques mots que vous verrez",
       "repository": {
@@ -1799,6 +1803,9 @@
     "removeOfficer": "Supprimer",
     "preview": "Aperçu en direct",
     "downloadZip": "Télécharger le ZIP du site",
+    "downloadWordpress": "Télécharger le thème WordPress",
+    "wordpressHeading": "Déjà sur WordPress?",
+    "wordpressUnsupported": "UnionOps ne prend pas en charge WordPress. Utilisez ce fichier seulement si quelqu’un gère déjà votre site WordPress. Si vous partez de zéro, téléchargez plutôt le ZIP du site — nous ne pouvons pas aider pour l’hébergement ou les mises à jour WordPress.",
     "referenceNote": "Basé sur le site bénévole local243.org (GitHub Pages). L’export utilise le logo de la Trousse de marque dans la navigation. Liens OPSEU en pied seulement si le thème est OPSEU.",
     "whenToUse": "À utiliser quand votre section a besoin d'un site Web simple et durable que les membres peuvent mettre dans leurs favoris.",
     "heroDefault": "Les membres sont unis dans la solidarité pour l’équité, le respect et des services publics de qualité. Consultez les nouvelles et voyez comment joindre votre section.",

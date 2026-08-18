@@ -815,6 +815,10 @@
       "handoff": "Now that you have your website ZIP file, it needs to be put on the internet. If you are not comfortable with technical web setup, you can hand your downloaded ZIP file and this guide to a tech-savvy volunteer.",
       "tocLabel": "Part 2 sections"
     },
+    "wordpress": {
+      "title": "Already on WordPress?",
+      "body": "Website Template can also download a WordPress theme. UnionOps does not support WordPress. Use that file only if someone already runs your site. Everyone else should stay with the GitHub Pages ZIP in this part."
+    },
     "terms": {
       "title": "A few words you will see",
       "repository": {
@@ -1799,6 +1803,9 @@
     "removeOfficer": "Remove",
     "preview": "Live preview",
     "downloadZip": "Download site ZIP",
+    "downloadWordpress": "Download WordPress theme",
+    "wordpressHeading": "Already on WordPress?",
+    "wordpressUnsupported": "UnionOps does not support WordPress. Use this only if someone already runs your WordPress site. If you are starting from scratch, download the site ZIP instead — we cannot help with WordPress hosting or updates.",
     "referenceNote": "Based on the volunteer local243.org GitHub Pages site. Export uses your Brand Kit logo in the nav. OPSEU footer links appear only when the Brand Kit theme is OPSEU.",
     "whenToUse": "Use when your local needs a simple lasting website members can bookmark.",
     "heroDefault": "Members stand united in solidarity for fairness, respect, and quality public services. Get the latest updates and find out how to connect with your Local.",

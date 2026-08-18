@@ -211,30 +211,50 @@ export default function WebsiteTemplatePage() {
     setOfficers((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const collectExportMedia = async () => {
+    const logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });
+    let heroImage: { fileName: string; bytes: Uint8Array } | null = null;
+    if (heroImagePreviewSrc.trim()) {
+      const bytes = websiteHeroDataUrlToBytes(heroImagePreviewSrc);
+      if (!bytes) {
+        throw new Error(tc("uploadFailed"));
+      }
+      heroImage = {
+        fileName: websiteHeroUploadFileName(heroImagePreviewSrc),
+        bytes,
+      };
+    }
+    return {
+      logo: logo ? { fileName: LOGO_FILE_NAME, bytes: logo.bytes } : null,
+      heroImage,
+    };
+  };
+
   const handleDownload = () => {
     void runExport(async () => {
       const { generateWebsiteZip } = await import(
         "@/lib/templates/website/generate-website-zip"
       );
       const { saveAs } = await import("file-saver");
-      const logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });
-      let heroImage: { fileName: string; bytes: Uint8Array } | null = null;
-      if (heroImagePreviewSrc.trim()) {
-        const bytes = websiteHeroDataUrlToBytes(heroImagePreviewSrc);
-        if (!bytes) {
-          throw new Error(tc("uploadFailed"));
-        }
-        heroImage = {
-          fileName: websiteHeroUploadFileName(heroImagePreviewSrc),
-          bytes,
-        };
-      }
-      const blob = await generateWebsiteZip(
+      const { logo, heroImage } = await collectExportMedia();
+      const blob = await generateWebsiteZip(templateData, logo, heroImage);
+      saveAs(blob, `local-${localNumber}-website.zip`);
+    });
+  };
+
+  const handleWordpressDownload = () => {
+    void runExport(async () => {
+      const { generateWordpressThemeZip } = await import(
+        "@/lib/templates/website/generate-wordpress-theme-zip"
+      );
+      const { saveAs } = await import("file-saver");
+      const { logo, heroImage } = await collectExportMedia();
+      const blob = await generateWordpressThemeZip(
         templateData,
-        logo ? { fileName: LOGO_FILE_NAME, bytes: logo.bytes } : null,
+        logo,
         heroImage,
       );
-      saveAs(blob, `local-${localNumber}-website.zip`);
+      saveAs(blob, `local-${localNumber}-wordpress-theme.zip`);
     });
   };
 
@@ -443,12 +463,37 @@ export default function WebsiteTemplatePage() {
           <Button onClick={handleDownload} disabled={exporting}>
             {exporting ? tc("loading") : t("downloadZip")}
           </Button>
+          <Callout tone="muted">
+            <p className="font-semibold text-opseu-dark">
+              {t("wordpressHeading")}
+            </p>
+            <p className="mt-1">{t("wordpressUnsupported")}</p>
+            <Button
+              type="button"
+              variant="outline"
+              className="mt-3"
+              onClick={handleWordpressDownload}
+              disabled={exporting}
+            >
+              {exporting ? tc("loading") : t("downloadWordpress")}
+            </Button>
+          </Callout>
         </Card>
       }
       previewActions={
-        <Button onClick={handleDownload} disabled={exporting}>
-          {exporting ? tc("loading") : t("downloadZip")}
-        </Button>
+        <>
+          <Button onClick={handleDownload} disabled={exporting}>
+            {exporting ? tc("loading") : t("downloadZip")}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleWordpressDownload}
+            disabled={exporting}
+          >
+            {exporting ? tc("loading") : t("downloadWordpress")}
+          </Button>
+        </>
       }
       preview={
         <div>

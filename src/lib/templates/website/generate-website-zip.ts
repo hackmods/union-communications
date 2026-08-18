@@ -613,14 +613,16 @@ export type WebsiteZipHeroImage = {
   bytes: Uint8Array;
 };
 
-export async function generateWebsiteZip(
+/** Minimal JSZip-like writer so GitHub Pages and WordPress exporters share media packing. */
+export type WebsiteZipWriter = {
+  file: (name: string, data: string | Uint8Array) => unknown;
+};
+
+export function prepareWebsiteExportData(
   data: WebsiteTemplateData,
   logo?: WebsiteZipLogo | null,
   heroImage?: WebsiteZipHeroImage | null,
-): Promise<Blob> {
-  const JSZip = (await import("jszip")).default;
-  const zip = new JSZip();
-
+): WebsiteTemplateData {
   const exportData: WebsiteTemplateData = {
     ...data,
     logoFileName: logo ? logo.fileName : "",
@@ -630,9 +632,49 @@ export async function generateWebsiteZip(
     exportData.heroImagePreviewSrc =
       data.heroImagePreviewSrc?.trim() || `./assets/${heroImage.fileName}`;
   }
+  return exportData;
+}
 
+/** Logo, hero art, and OFL font files — same layout in both ZIP exporters. */
+export async function addWebsiteMediaToZip(
+  zip: WebsiteZipWriter,
+  data: WebsiteTemplateData,
+  logo?: WebsiteZipLogo | null,
+  heroImage?: WebsiteZipHeroImage | null,
+): Promise<void> {
+  if (logo) {
+    zip.file(`assets/${logo.fileName}`, logo.bytes);
+  }
+  if (heroImage) {
+    zip.file(`assets/${heroImage.fileName}`, heroImage.bytes);
+  } else {
+    const art = resolveWebsiteHeroArt(data);
+    if (art?.kind === "pattern" && art.catalogId) {
+      const bytes = await loadWebsiteHeroArtBytes(art.catalogId);
+      zip.file(`assets/${art.zipFileName}`, bytes);
+    }
+  }
   const { headlineFontId, bodyFontId } = resolveWebsiteFontIds(data.canvas);
   const fontFiles = collectWebsiteZipFontFiles(headlineFontId, bodyFontId);
+  if (fontFiles.length > 0) {
+    zip.file("assets/fonts/NOTICE.txt", WEBSITE_FONT_NOTICE);
+    await Promise.all(
+      fontFiles.map(async (f) => {
+        const bytes = await loadCanvasFontBytes(f.relativePath);
+        zip.file(`assets/fonts/${f.fileName}`, bytes);
+      }),
+    );
+  }
+}
+
+export async function generateWebsiteZip(
+  data: WebsiteTemplateData,
+  logo?: WebsiteZipLogo | null,
+  heroImage?: WebsiteZipHeroImage | null,
+): Promise<Blob> {
+  const JSZip = (await import("jszip")).default;
+  const zip = new JSZip();
+  const exportData = prepareWebsiteExportData(data, logo, heroImage);
 
   zip.file("index.html", buildWebsiteHtml(exportData));
   zip.file(
@@ -643,27 +685,7 @@ export async function generateWebsiteZip(
     }),
   );
   zip.file("js/site.js", buildWebsiteJs());
-  if (logo) {
-    zip.file(`assets/${logo.fileName}`, logo.bytes);
-  }
-  if (heroImage) {
-    zip.file(`assets/${heroImage.fileName}`, heroImage.bytes);
-  } else {
-    const art = resolveWebsiteHeroArt(exportData);
-    if (art?.kind === "pattern" && art.catalogId) {
-      const bytes = await loadWebsiteHeroArtBytes(art.catalogId);
-      zip.file(`assets/${art.zipFileName}`, bytes);
-    }
-  }
-  if (fontFiles.length > 0) {
-    zip.file("assets/fonts/NOTICE.txt", WEBSITE_FONT_NOTICE);
-    await Promise.all(
-      fontFiles.map(async (f) => {
-        const bytes = await loadCanvasFontBytes(f.relativePath);
-        zip.file(`assets/fonts/${f.fileName}`, bytes);
-      }),
-    );
-  }
+  await addWebsiteMediaToZip(zip, exportData, logo, heroImage);
   zip.file("README.md", buildWebsiteReadme(data.localNumber));
   zip.file(
     "CNAME.example",

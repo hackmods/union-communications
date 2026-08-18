@@ -197,6 +197,26 @@ test.describe("Tool export fidelity @export", () => {
     expect(names.some((n) => /index\.html$/i.test(n))).toBe(true);
   });
 
+  test("website-template WordPress theme ZIP contains style.css", async ({
+    page,
+  }) => {
+    await page.goto("/en/tools/website-template/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    const filePath = await downloadNamed(
+      page,
+      /Download WordPress theme/i,
+      "website-template-wordpress.zip",
+    );
+    const zip = await JSZip.loadAsync(fs.readFileSync(filePath));
+    const names = Object.keys(zip.files);
+    expect(names.some((n) => /style\.css$/i.test(n))).toBe(true);
+    expect(names.some((n) => /functions\.php$/i.test(n))).toBe(true);
+    const cssEntry = names.find((n) => /style\.css$/i.test(n));
+    expect(cssEntry).toBeTruthy();
+    const css = await zip.file(cssEntry!)!.async("string");
+    expect(css).toContain("Theme Name:");
+  });
+
   test("document-generator downloads an Office package", async ({ page }) => {
     await page.goto("/en/tools/document-generator/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

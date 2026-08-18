@@ -1,7 +1,7 @@
 # Plan — Website Template → WordPress / Squarespace export (2026-08-18)
 
 **Audience:** Ryan + future agents.  
-**Status:** Feasibility documented (Phase 0). No product export code until demand is proven.  
+**Status:** Phase 0 documented. Phase 1 (classic WordPress theme ZIP) **shipped 2026-08-18**. GitHub Pages remains the default export. UnionOps does **not** support WordPress.  
 **Companion:** [`session-knowledge-2026-08-18-website-export.md`](session-knowledge-2026-08-18-website-export.md), [`.cursor/rules/website-export.mdc`](../../.cursor/rules/website-export.mdc), [`../modules/COMMS.md`](../modules/COMMS.md).
 
 **Verdict:** WordPress export is **feasible** (classic theme wrap of today’s GitHub Pages ZIP; WXR is a weaker content-only path). Squarespace **7.1 theme / developer-mode / template ZIP export is a non-option**. A Squarespace “paste kit” is the only honest consolation, and it is not an importer.
@@ -231,8 +231,8 @@ T-shirt sizes = engineering for this repo (export serializers + UI + EN/FR guide
 
 | Phase | Work | Size | Ship? |
 |-------|------|------|-------|
-| **0. Knowledge (this doc)** | Plan + session-knowledge + rule + COMMS pointers | Small | **Done** |
-| **1. WP classic theme ZIP** | Second JSZip serializer: `style.css` header, `functions.php` enqueue, `front-page.php` (or `index.php`) from `buildWebsiteHtml`, reuse CSS/JS/assets; extra export button; README for Appearance → Themes; unit tests on zip entries | **Medium** | Optional — best WP path |
+| **0. Knowledge** | Plan + session-knowledge + rule + COMMS pointers | Small | **Done** |
+| **1. WP classic theme ZIP** | Second JSZip serializer + extra export button + README; unit tests on zip entries | **Medium** | **Shipped 2026-08-18** |
 | **2. WP WXR** | One page of escaped HTML + attachment stubs | **Small** | Only as a companion to Phase 1; **not** a substitute (no styles/media) |
 | **3. WP Customizer / FSE** | `theme.json` + block templates, or Customizer colour controls | **Large** | Defer until we have a real block/page model |
 | **4. Squarespace 7.1 theme/dev export** | — | **Not applicable** | **No** |
