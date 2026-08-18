@@ -777,7 +777,7 @@
       "title": "Edit on the phone you already have",
       "content": "Trim, captions on screen, and a voiceover belong in a phone editor. UnionOps does not edit video. Start with the camera app. Named apps below are common; none of them run inside this site, and some upload footage to a cloud.",
       "stillsTitle": "What UnionOps stills are for",
-      "stillsBody": "Download a cover or end card from Graphic Maker or Image Resizer (Instagram Story is 1080×1920), then drop it on the first and last frames. Copy a caption from the library. Point a QR or link at an Action Card, meeting notice, or your local website."
+      "stillsBody": "Download a 9:16 cover or end card from Graphic Maker (Portrait) or Image Resizer (Instagram Story is 1080×1920), then drop it on the first and last frames. Copy a caption from the library. Point a QR or link at an Action Card, meeting notice, or your local website."
     },
     "strategy": {
       "navLabel": "Posting",
@@ -796,7 +796,7 @@
       "intro": "Work through these once per clip, the same way First week walks boards then print then socials.",
       "items": {
         "consent": "Photo Consent is done, including background faces and location tags turned off.",
-        "cover": "A tall cover or end card is exported (Image Resizer Story size, or a 9:16 Solidarity Poster).",
+        "cover": "A tall cover or end card is exported (Graphic Maker Portrait, Image Resizer Story size, or a 9:16 Solidarity Poster).",
         "caption": "A caption is copied from the library and edited for this ask. Hashtags stay generic, without a union name.",
         "alt": "Alt text is drafted in Alt-Text Assistant for the cover still, then pasted into the platform field.",
         "ask": "The clip points at one action members can take this week."
@@ -1176,6 +1176,19 @@
           "headline": "Picket line tomorrow",
           "body": "Stand with your coworkers. Bring water, signs, and solidarity.",
           "detail": "7:00 a.m. - Main Gate"
+        }
+      },
+      "reel-picket": {
+        "title": "Picket line Reel cover",
+        "description": "A 9:16 still for the first frame of a Reel or Story, with when and where still readable.",
+        "why": {
+          "0": "Phone feeds open in portrait. A tall still fills the screen before the clip plays.",
+          "1": "Keep the ask and the place in the lower third so buttons and captions at the bottom do not cover them."
+        },
+        "mockup": {
+          "headline": "Picket tomorrow",
+          "body": "Main gate. Bring water and a sign.",
+          "detail": "7:00 a.m."
         }
       },
       "strike-vote-results": {
@@ -2392,7 +2405,8 @@
     "aspect": "Format",
     "aspects": {
       "landscape": "Landscape (FB)",
-      "square": "Square (IG)"
+      "square": "Square (IG)",
+      "portrait": "Portrait (Reels)"
     },
     "headline": "Headline",
     "subheadline": "Subheadline",
@@ -2421,7 +2435,7 @@
       "openMail": "Open in email app",
       "privacy": "Runs on your device. Nothing is sent and no replies are collected here."
     },
-    "whenToUse": "Use for social posts. Pair with Captions after you download."
+    "whenToUse": "Use for social posts, including 9:16 stills for Reels and Stories. Pair with Captions after you download."
   },
   "quoteCard": {
     "title": "Quote Card Generator",

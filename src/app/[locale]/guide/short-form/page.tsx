@@ -62,7 +62,7 @@ export default async function ShortFormGuidePage({
       relatedLinks={[
         { href: "/guide/photo-consent", label: nav("photoConsent") },
         { href: "/captions", label: nav("captions") },
-        { href: "/tools/graphic-maker", label: nav("graphicMaker") },
+        { href: "/tools/graphic-maker?aspect=portrait", label: nav("graphicMaker") },
         { href: "/tools/resizer", label: nav("resizer") },
         { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },
         { href: "/examples", label: nav("socialExamples") },
@@ -250,7 +250,7 @@ export default async function ShortFormGuidePage({
       </section>
 
       <div className="button-row mt-8 max-w-lg">
-        <Link href="/tools/graphic-maker">
+        <Link href="/tools/graphic-maker?aspect=portrait">
           <Button variant="outline">{nav("graphicMaker")}</Button>
         </Link>
         <Link href="/tools/resizer">

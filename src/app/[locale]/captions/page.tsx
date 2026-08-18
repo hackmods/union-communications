@@ -25,6 +25,7 @@ function resolveCaptionId(searchParams: URLSearchParams): string | null {
 function CaptionsPageContent() {
   const t = useTranslations("common");
   const tc = useTranslations("captions");
+  const nav = useTranslations("nav");
   const td = useTranslations("workshopDemo");
   const searchParams = useSearchParams();
   const inDemo = useWorkshopDemoSession(searchParams.get("demo"));
@@ -128,9 +129,14 @@ function CaptionsPageContent() {
         ) : (
           <>
             <p className="text-sm text-gray-600">{tc("graphicMakerHint")}</p>
-            <Link href="/tools/graphic-maker" className="mt-3 inline-block">
-              <Button variant="outline">{tc("graphicMakerCta")}</Button>
-            </Link>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Link href="/tools/graphic-maker">
+                <Button variant="outline">{tc("graphicMakerCta")}</Button>
+              </Link>
+              <Link href="/guide/short-form">
+                <Button variant="outline">{nav("shortFormGuide")}</Button>
+              </Link>
+            </div>
           </>
         )}
       </div>

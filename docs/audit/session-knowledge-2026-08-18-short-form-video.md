@@ -7,6 +7,12 @@
 
 `/guide/short-form` is a **channel-practice guide** (Email & outreach analog), not a Video Hub and not a maker. Copy lives in `shortFormGuide` (EN/FR). Editors are a TypeScript registry ([`short-form-editors.ts`](../../src/lib/constants/short-form-editors.ts)) with i18n names — no CapCut/Canva URLs.
 
+## Follow-up — Graphic Maker 9:16 (same day)
+
+Graphic Maker Format is now `landscape` | `square` | `portrait`. Deep-link: `/tools/graphic-maker?aspect=portrait` (and `?preset=strikeAction&aspect=portrait`). Social Examples `reel-picket` is the vertical gallery card. Preview width is capped (`max-w-[320px]`) so layout-class `expectPreviewFitsColumn` still holds.
+
+Quote Card portrait is still optional stretch. Resizer `?format=` deep-link is not shipped.
+
 ## Decisions
 
 - **Native phone editor first; CapCut last.** UnionOps’s claim is on-device sovereignty. Leading with CapCut would contradict that.
@@ -19,4 +25,3 @@
 - Rebuild Share Kit / a social orchestrator
 - Ship an in-browser NLE, hashtag generator, or filterable SaaS directory
 - Document “the current Reels algorithm”
-- Add Graphic Maker `portrait` in the same train as copy (optional later; Resizer Story 1080×1920 and Solidarity Poster 9:16 already exist)

@@ -777,7 +777,7 @@
       "title": "Montez sur le téléphone que vous avez déjà",
       "content": "Couper, coller du texte à l’écran et ajouter une voix hors champ se font dans un éditeur de téléphone. UnionOps ne monte pas de vidéo. Commencez par l’appli caméra. Les applis nommées plus bas sont courantes ; aucune ne tourne dans ce site, et certaines téléversent les images vers un nuage.",
       "stillsTitle": "À quoi servent les images UnionOps",
-      "stillsBody": "Téléchargez une couverture ou une carte de fin depuis le Créateur graphique ou le Redimensionneur d’images (Story Instagram : 1080×1920), puis placez-la sur les première et dernière images. Copiez une légende dans la bibliothèque. Orientez un QR ou un lien vers une Carte d’action, un avis de réunion ou le site de votre section."
+      "stillsBody": "Téléchargez une couverture ou une carte de fin 9:16 depuis le Créateur graphique (Portrait) ou le Redimensionneur d’images (Story Instagram : 1080×1920), puis placez-la sur les première et dernière images. Copiez une légende dans la bibliothèque. Orientez un QR ou un lien vers une Carte d’action, un avis de réunion ou le site de votre section."
     },
     "strategy": {
       "navLabel": "Publication",
@@ -796,7 +796,7 @@
       "intro": "Parcourez ces points une fois par clip, comme la Première semaine parcourt tableaux, impression, puis réseaux.",
       "items": {
         "consent": "Consentement photo est fait, y compris les visages en arrière-plan et les étiquettes de lieu désactivées.",
-        "cover": "Une couverture ou une carte de fin en hauteur est exportée (format Story du Redimensionneur, ou une affiche solidarité 9:16).",
+        "cover": "Une couverture ou une carte de fin en hauteur est exportée (Portrait du Créateur graphique, format Story du Redimensionneur, ou une affiche solidarité 9:16).",
         "caption": "Une légende est copiée depuis la bibliothèque et adaptée à cette demande. Les mot-clics restent sans nom de syndicat.",
         "alt": "Le texte alternatif de l’image de couverture est rédigé dans l’Assistant texte alternatif, puis collé dans le champ de la plateforme.",
         "ask": "Le clip pointe vers une action que les membres peuvent faire cette semaine."
@@ -1176,6 +1176,19 @@
           "headline": "Ligne de piquetage demain",
           "body": "Soutenez vos collègues. Apportez de l'eau, des pancartes et de la solidarité.",
           "detail": "7 h - Entrée principale"
+        }
+      },
+      "reel-picket": {
+        "title": "Couverture Reel de piquetage",
+        "description": "Une image 9:16 pour la première image d'un Reel ou d'une Story, avec le quand et le où encore lisibles.",
+        "why": {
+          "0": "Les fils s'ouvrent en portrait. Une image haute remplit l'écran avant que le clip joue.",
+          "1": "Gardez la demande et le lieu dans le tiers inférieur pour que les boutons et les légendes en bas ne les cachent pas."
+        },
+        "mockup": {
+          "headline": "Piquetage demain",
+          "body": "Entrée principale. Apportez de l'eau et une pancarte.",
+          "detail": "7 h"
         }
       },
       "strike-vote-results": {
@@ -2358,7 +2371,8 @@
     "aspect": "Format",
     "aspects": {
       "landscape": "Paysage (FB)",
-      "square": "Carré (IG)"
+      "square": "Carré (IG)",
+      "portrait": "Portrait (Reels)"
     },
     "headline": "Titre",
     "subheadline": "Sous-titre",
@@ -2387,7 +2401,7 @@
       "openMail": "Ouvrir dans l'application courriel",
       "privacy": "Fonctionne sur cet appareil. Rien n'est envoyé et aucune réponse n'est collectée ici."
     },
-    "whenToUse": "À utiliser pour les publications sur les réseaux sociaux. Passez ensuite aux Légendes après le téléchargement."
+    "whenToUse": "À utiliser pour les publications, y compris les images 9:16 pour Reels et Stories. Passez ensuite aux Légendes après le téléchargement."
   },
   "quoteCard": {
     "title": "Générateur de carte citation",

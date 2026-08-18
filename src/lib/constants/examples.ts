@@ -22,7 +22,34 @@ export type ExamplePrimaryTool =
 
 export type ExamplePlatform = "facebook" | "instagram" | "both";
 
-export type ExampleAspect = "landscape" | "square";
+export const EXAMPLE_ASPECTS = ["landscape", "square", "portrait"] as const;
+
+export type ExampleAspect = (typeof EXAMPLE_ASPECTS)[number];
+
+export function isExampleAspect(value: string): value is ExampleAspect {
+  return (EXAMPLE_ASPECTS as readonly string[]).includes(value);
+}
+
+/** Tailwind aspect class for Graphic Maker / Social Examples mockups. */
+export function graphicAspectClass(aspect: ExampleAspect): string {
+  if (aspect === "square") return "aspect-square";
+  if (aspect === "portrait") return "aspect-[9/16]";
+  return "aspect-[1200/630]";
+}
+
+/**
+ * Spotlight and results read better as a square than a landscape banner.
+ * Portrait (Reels / Stories) stays portrait.
+ */
+export function coerceAspectForGraphicLayout(
+  layout: ExampleLayout,
+  aspect: ExampleAspect,
+): ExampleAspect {
+  if ((layout === "spotlight" || layout === "results") && aspect === "landscape") {
+    return "square";
+  }
+  return aspect;
+}
 
 export interface ExamplePost {
   id: string;
@@ -52,6 +79,16 @@ export const EXAMPLE_POSTS: ExamplePost[] = [
     platform: "both",
     layout: "solidarity",
     aspect: "landscape",
+    presetKey: "strikeAction",
+    captionId: "strike",
+    primaryTool: "graphic-maker",
+  },
+  {
+    id: "reel-picket",
+    category: "strike",
+    platform: "instagram",
+    layout: "solidarity",
+    aspect: "portrait",
     presetKey: "strikeAction",
     captionId: "strike",
     primaryTool: "graphic-maker",

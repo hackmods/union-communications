@@ -11,10 +11,13 @@ import { useExportHandler } from "@/hooks/use-export-handler";
 import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
-import { formatFilename, resolveLocalNumber } from "@/lib/utils";
+import { cn, formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { TOOL_PRESETS, type ToolPresetKey } from "@/lib/constants/presets";
 import {
+  EXAMPLE_ASPECTS,
+  coerceAspectForGraphicLayout,
   getExamplePost,
+  isExampleAspect,
   layoutSupportsPhoto,
   type ExampleAspect,
 } from "@/lib/constants/examples";
@@ -50,6 +53,18 @@ function isToolPresetKey(value: string): value is ToolPresetKey {
 
 function isGraphicLayoutId(value: string): value is GraphicLayoutId {
   return (GRAPHIC_LAYOUT_ORDER as readonly string[]).includes(value);
+}
+
+function defaultAspectForPreset(key: ToolPresetKey): ExampleAspect {
+  return key === "memberSpotlight" ? "square" : "landscape";
+}
+
+function aspectFromQuery(
+  searchParams: { get(name: string): string | null },
+  fallback: ExampleAspect,
+): ExampleAspect {
+  const raw = searchParams.get("aspect");
+  return raw && isExampleAspect(raw) ? raw : fallback;
 }
 
 interface GraphicState {
@@ -118,7 +133,7 @@ function GraphicMakerPageContent() {
     setState({
       ...state,
       layout,
-      aspect: key === "memberSpotlight" ? "square" : "landscape",
+      aspect: defaultAspectForPreset(key),
       headline: preset.headline,
       subheadline: preset.subheadline,
       detail:
@@ -187,7 +202,10 @@ function GraphicMakerPageContent() {
         ...initial,
         ...colours,
         layout,
-        aspect: presetRaw === "memberSpotlight" ? "square" : "landscape",
+        aspect: aspectFromQuery(
+          searchParams,
+          defaultAspectForPreset(presetRaw),
+        ),
         headline: preset.headline,
         subheadline: preset.subheadline,
         detail:
@@ -204,6 +222,7 @@ function GraphicMakerPageContent() {
     reset({
       ...initial,
       ...colours,
+      aspect: aspectFromQuery(searchParams, initial.aspect),
     });
   });
 
@@ -235,7 +254,10 @@ function GraphicMakerPageContent() {
       setState((prev) => ({
         ...prev,
         layout,
-        aspect: presetRaw === "memberSpotlight" ? "square" : "landscape",
+        aspect: aspectFromQuery(
+          searchParams,
+          defaultAspectForPreset(presetRaw),
+        ),
         headline: preset.headline,
         subheadline: preset.subheadline,
         detail:
@@ -347,10 +369,7 @@ function GraphicMakerPageContent() {
                 setState({
                   ...state,
                   layout: id,
-                  aspect:
-                    id === "spotlight" || id === "results"
-                      ? "square"
-                      : state.aspect,
+                  aspect: coerceAspectForGraphicLayout(id, state.aspect),
                 })
               }
             />
@@ -358,7 +377,7 @@ function GraphicMakerPageContent() {
             <SegControl
               label={tg("aspect")}
               value={state.aspect}
-              options={(["landscape", "square"] as const).map((aspect) => ({
+              options={EXAMPLE_ASPECTS.map((aspect) => ({
                 value: aspect,
                 label: tg(`aspects.${aspect}`),
               }))}
@@ -482,9 +501,14 @@ function GraphicMakerPageContent() {
           </Button>
         }
         preview={
-          <div className="overflow-hidden rounded-lg shadow-lg">
-            <div ref={canvasRef}
-                  data-export-root="">
+          <div
+            className={cn(
+              "overflow-hidden rounded-lg shadow-lg",
+              state.aspect === "portrait" &&
+                "mx-auto w-full max-w-[280px] sm:max-w-[320px]",
+            )}
+          >
+            <div ref={canvasRef} data-export-root="">
               <GraphicLayoutCanvas
                 layout={state.layout}
                 aspect={state.aspect}

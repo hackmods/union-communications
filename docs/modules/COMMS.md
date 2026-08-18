@@ -39,7 +39,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | `/[locale]/guide/print` | Print communications guide |
 | `/[locale]/guide/website` | Local website guide: plan and write the ZIP, then publish on GitHub Pages |
 | `/[locale]/guide/email-broadcast` | Fifth-channel email & outreach guide — Comms copy/mailto vs Hub SMTP/cron; no marketing lists |
-| `/[locale]/guide/short-form` | Short-form video practice — filming, phone editors, pointing Reels/Shorts at a campaign ask; stills stay in Graphic Maker / Resizer |
+| `/[locale]/guide/short-form` | Short-form video practice — filming, phone editors, pointing Reels/Shorts at a campaign ask; stills from Graphic Maker Portrait / Resizer Story |
 | `/[locale]/install` | PWA / desktop install guide — Guides → About + footer |
 | `/[locale]/examples` | Social examples gallery — brand-aware mockups, why-it-works notes, handoff to Graphic Maker / Captions / Quote Card / Flyer |
 | `/[locale]/captions` | Caption & hashtag library |
@@ -53,7 +53,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | `/[locale]/tools/action-card` | Action / petition QR cards (headline, ask, deadline; QR → officer-supplied external sign-on URL; PNG + PDF) |
 | `/[locale]/tools/qr-board` | Multi-QR board posters (2–8 links; letter/tabloid; PNG + PDF; Membership FT+PT preset) |
 | `/[locale]/guide/membership-signup` | Membership growth guide — Brand Kit links → QR materials → welcome letter |
-| `/[locale]/tools/graphic-maker` | Social graphics |
+| `/[locale]/tools/graphic-maker` | Social graphics (landscape, square, 9:16 portrait) |
 | `/[locale]/tools/resizer` | Omnichannel resizer — Logo Builder plate (circle/square/rectangle) or upload; social + custom sizes at true pixels; ZIP/PNG |
 | `/[locale]/tools/quote-card` | Leadership quote cards |
 | `/[locale]/tools/flyer-maker` | Picket/rally flyers |

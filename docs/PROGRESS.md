@@ -1,5 +1,12 @@
 # Progress Log
 
+## Graphic Maker 9:16 stills (2026-08-18)
+
+- [x] Graphic Maker Format adds **Portrait (Reels)** (`aspect-[9/16]`) alongside landscape and square; `?aspect=portrait` deep-link from `/guide/short-form`
+- [x] Spotlight/results no longer clobber an explicit portrait choice; preview column caps width so layout-class fit still holds
+- [x] Social Examples `reel-picket` vertical post; Graphic Maker / Resizer / Captions reverse-link the short-form guide
+- Verify: `npm run test:unit -- src/lib/constants/examples.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts` · layout-class: `npx playwright test e2e/tools.layout-matrix.smoke.spec.ts -g "graphic maker"`
+
 ## Short-form video guide (2026-08-18)
 
 - [x] `/guide/short-form` — filming, native-first phone editors, evergreen posting (one ask); EN/FR lockstep

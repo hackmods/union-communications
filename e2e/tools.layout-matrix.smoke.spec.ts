@@ -92,7 +92,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
   });
 
   test("graphic maker presets apply layout classes", async ({ page }) => {
-    test.setTimeout(90_000);
+    test.setTimeout(120_000);
     await seedCanvasFonts(page);
 
     for (const id of LAYOUT_CLASS_GRAPHIC) {
@@ -105,6 +105,23 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       await waitForExportRoot(page);
       expectPreviewFitsColumn(await measurePreviewFit(page), id);
     }
+
+    await page.goto(
+      "/en/tools/graphic-maker/?preset=strikeAction&aspect=portrait",
+    );
+    await expect(
+      page.getByRole("heading", { name: "Graphic Maker" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("radiogroup", { name: /^Format$/i }).getByRole("radio", {
+        name: /Portrait \(Reels\)/i,
+      }),
+    ).toBeChecked();
+    await waitForExportRoot(page);
+    expectPreviewFitsColumn(
+      await measurePreviewFit(page),
+      "graphic-portrait-9-16",
+    );
   });
 
   test("solidarity one slogan per layout plus 16:9", async ({ page }) => {
