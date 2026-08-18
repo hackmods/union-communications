@@ -16,9 +16,9 @@ Brand Kit is the Comms home base (colours, logo, local number, links). First wee
 
 Four groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups` (trigger label **Guides**):
 
-1. **Start here** — Comms Resources, The Blueprint, First week (`/guide/social-media-plan`), Strike Guide, Photo Consent (`/guide/photo-consent`), Membership signup (`/guide/membership-signup`)
-2. **By channel** — Print Guide (`/guide/print`), Union Boards Guide, Website Guide, Email & outreach (`/guide/email-broadcast`)
-3. **Libraries** — Social Examples, Captions
+1. **Start here** — The Blueprint (`/guide`), First week (`/guide/social-media-plan`), Comms Resources (`/guide/resources`), Workshop outline (`/guide/workshop`), Strike Guide (`/guide/crisis`)
+2. **By channel** — Print Guide (`/guide/print`), Union Boards Guide, Website Guide, Email & outreach (`/guide/email-broadcast`), Membership signup (`/guide/membership-signup`)
+3. **Libraries** — Social Examples, Captions, Photo Consent (`/guide/photo-consent`)
 4. **About** — Brand Assets (`/assets`), Why it's free (`/manifesto`), Install as an app (`/install`)
 
 Do not re-flatten channel guides into a long top-level link bar. Do not invent marketing routes (`/about`, `/pricing`, `/blog`) unless product expands.

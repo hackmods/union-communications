@@ -44,11 +44,36 @@ describe("path helpers", () => {
     expect(isToolsPath("/guide")).toBe(false);
   });
 
-  it("includes First week under Start here", () => {
+  it("orders Start here as Blueprint, First week, then Comms Resources", () => {
     const guides = learnGroups.find((g) => g.labelKey === "learnGroupGuides");
-    expect(
-      guides?.links.some((l) => l.href === "/guide/social-media-plan"),
-    ).toBe(true);
+    expect(guides?.links.map((l) => l.href)).toEqual([
+      "/guide",
+      "/guide/social-media-plan",
+      "/guide/resources",
+      "/guide/workshop",
+      "/guide/crisis",
+    ]);
+  });
+
+  it("puts Membership signup under By channel and Photo Consent under Libraries", () => {
+    const channels = learnGroups.find(
+      (g) => g.labelKey === "learnGroupChannels",
+    );
+    const libraries = learnGroups.find(
+      (g) => g.labelKey === "learnGroupLibraries",
+    );
+    expect(channels?.links.map((l) => l.href)).toEqual([
+      "/guide/print",
+      "/guide/union-boards",
+      "/guide/website",
+      "/guide/email-broadcast",
+      "/guide/membership-signup",
+    ]);
+    expect(libraries?.links.map((l) => l.href)).toEqual([
+      "/examples",
+      "/captions",
+      "/guide/photo-consent",
+    ]);
   });
 
   it("includes About group with assets manifesto install", () => {

@@ -17,9 +17,9 @@ export async function generateMetadata({
 }
 
 const pathLinks = [
+  { href: "/guide", key: "blueprint" as const },
   { href: "/guide/social-media-plan", key: "plan" as const },
   { href: "/guide/workshop", key: "workshop" as const },
-  { href: "/guide", key: "blueprint" as const },
   { href: "/guide/union-boards", key: "boards" as const },
   { href: "/guide/print", key: "print" as const },
   { href: "/guide/website", key: "website" as const },

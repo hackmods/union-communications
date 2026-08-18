@@ -59,13 +59,11 @@ export const learnGroups: readonly NavGroup[] = [
   {
     labelKey: "learnGroupGuides",
     links: [
-      { href: "/guide/resources", key: "resources" },
       { href: "/guide", key: "guide" },
       { href: "/guide/social-media-plan", key: "firstWeek" },
+      { href: "/guide/resources", key: "resources" },
       { href: "/guide/workshop", key: "workshopGuide" },
       { href: "/guide/crisis", key: "strikeGuide" },
-      { href: "/guide/photo-consent", key: "photoConsent" },
-      { href: "/guide/membership-signup", key: "membershipSignupGuide" },
     ],
   },
   {
@@ -75,6 +73,7 @@ export const learnGroups: readonly NavGroup[] = [
       { href: "/guide/union-boards", key: "unionBoardsGuide" },
       { href: "/guide/website", key: "websiteGuide" },
       { href: "/guide/email-broadcast", key: "emailBroadcastGuide" },
+      { href: "/guide/membership-signup", key: "membershipSignupGuide" },
     ],
   },
   {
@@ -82,6 +81,7 @@ export const learnGroups: readonly NavGroup[] = [
     links: [
       { href: "/examples", key: "socialExamples" },
       { href: "/captions", key: "captions" },
+      { href: "/guide/photo-consent", key: "photoConsent" },
     ],
   },
   {

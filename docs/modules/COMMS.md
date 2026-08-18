@@ -11,7 +11,7 @@ Top bar is slim and dual-audience oriented:
 | Item | Route / contents |
 |------|------------------|
 | **Get started** | `/onboarding` when Brand Kit is not established; `/guide/social-media-plan` (First week) when it is — Brand Kit stays a separate link |
-| **Guides ▾** | **Start here:** Comms Resources, Blueprint, First week, Strike Guide, Photo Consent, Membership signup · **By channel:** Print, Union Boards, Website, **Email & outreach** · **Libraries:** Social Examples, Captions · **About:** Brand Assets, Why it's free, Install as an app |
+| **Guides ▾** | **Start here:** Blueprint, First week, Comms Resources, Workshop outline, Strike Guide · **By channel:** Print, Union Boards, Website, **Email & outreach**, Membership signup · **Libraries:** Social Examples, Captions, Photo Consent · **About:** Brand Assets, Why it's free, Install as an app |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Assets) |
 | **Tools ▾** | Mega-menu columns grouped by **job** — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board · **Print & cards:** Flyer, QR Cards, Action Cards, Pulse Poll (signed-in) · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · footer **All tools** → `/tools`. Do not 1:1-map these columns to First week channels; see [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../audit/session-knowledge-2026-08-18-tools-catalog-ia.md) |
 | **Officer Hub** | `/app` (auth) — filled primary CTA |
