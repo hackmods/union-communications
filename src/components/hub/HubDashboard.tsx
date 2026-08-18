@@ -5,11 +5,11 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { getVisibleModules } from "@/lib/modules/registry";
-import { canInitiateHandoff } from "@/lib/handoff/package";
 import { useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Emoji } from "@/components/ui/Emoji";
+import { HubOfficerToolsCatalog } from "@/components/hub/HubOfficerToolsCatalog";
 import { MyTasksWidget } from "@/components/hub/MyTasksWidget";
 import { MyCheckinsWidget } from "@/components/hub/MyCheckinsWidget";
 import type { HubModule, UserRole } from "@/types/tenant";
@@ -34,7 +34,6 @@ export function HubDashboard() {
     tenant?.union.enabledModules ?? ["comms"];
   const roles = (session.user.roles ?? []) as UserRole[];
   const modules = getVisibleModules(enabledModules, roles);
-  const showHandoff = canInitiateHandoff(roles);
 
   return (
     <div>
@@ -88,6 +87,12 @@ export function HubDashboard() {
         </Card>
       )}
 
+      <HubOfficerToolsCatalog
+        roles={roles}
+        enabledModules={enabledModules}
+        mfaOk={mfaOk}
+      />
+
       <h2 className="mt-6 text-lg font-bold text-opseu-dark sm:text-xl">
         {t("yourModules")}
       </h2>
@@ -129,58 +134,6 @@ export function HubDashboard() {
 
       <MyTasksWidget />
       <MyCheckinsWidget />
-
-      <Card density="compact" className="mt-6">
-        <CardTitle className="text-base">{t("qolCardTitle")}</CardTitle>
-        <p className="mt-1 text-xs text-gray-600 sm:text-sm">{t("qolCardDesc")}</p>
-        {mfaOk ? (
-          <div className="mt-2 flex flex-wrap gap-3 text-sm sm:gap-4">
-            <Link href="/app/overdue" className="text-opseu-blue underline">
-              {t("overdueLink")}
-            </Link>
-            <Link href="/app/snippets" className="text-opseu-blue underline">
-              {t("snippetsLink")}
-            </Link>
-            <Link href="/app/marketplace" className="text-opseu-blue underline">
-              {t("marketplaceLink")}
-            </Link>
-            {showHandoff && (
-              <Link href="/app/handoff" className="text-opseu-blue underline">
-                {t("handoffLink")}
-              </Link>
-            )}
-          </div>
-        ) : (
-          <Link
-            href="/app/mfa"
-            className="mt-2 inline-block text-sm text-opseu-blue underline"
-          >
-            {t("mfaRequired")}
-          </Link>
-        )}
-      </Card>
-
-      <Card density="compact" className="mt-4">
-        <CardTitle className="text-base">{t("hybridCardTitle")}</CardTitle>
-        <p className="mt-1 text-xs text-gray-600 sm:text-sm">
-          {t("hybridCardDesc")}
-        </p>
-        {mfaOk ? (
-          <Link
-            href="/app/hybrid"
-            className="mt-2 inline-block text-sm text-opseu-blue underline"
-          >
-            {t("hybridLink")}
-          </Link>
-        ) : (
-          <Link
-            href="/app/mfa"
-            className="mt-2 inline-block text-sm text-opseu-blue underline"
-          >
-            {t("mfaRequired")}
-          </Link>
-        )}
-      </Card>
     </div>
   );
 }

@@ -71,6 +71,19 @@ describe("HubNav chrome contract", () => {
     expect(source).not.toMatch(/align="right"/);
   });
 
+  it("lists Officer tools before top-level modules so the kit is not last", () => {
+    const source = readFileSync(
+      join(srcRoot, "components/hub/HubNav.tsx"),
+      "utf8",
+    );
+    const toolsIdx = source.indexOf('label={t("toolsMenu")}');
+    const modulesIdx = source.indexOf("{modules.map((mod) => {");
+    expect(toolsIdx).toBeGreaterThan(-1);
+    expect(modulesIdx).toBeGreaterThan(-1);
+    expect(toolsIdx).toBeLessThan(modulesIdx);
+    expect(source).toContain("listHubToolLinks");
+  });
+
   it("sticks the hub bar below the public header height token", () => {
     const header = readFileSync(
       join(srcRoot, "components/layout/Header.tsx"),

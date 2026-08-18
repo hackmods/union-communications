@@ -33,6 +33,19 @@ test.describe("Hub MFA-off dashboard @smoke", () => {
       .first();
     await expect(grievances).toBeVisible();
 
+    await expect(
+      page.getByRole("heading", {
+        level: 2,
+        name: /Officer tools|Outils dirigeants/i,
+      }),
+    ).toBeVisible();
+    await expect(page.getByTestId("hub-officer-tools")).toBeVisible();
+    await expect(
+      page.getByTestId("hub-officer-tools").getByRole("link", {
+        name: /Meeting minutes|Procès-verbaux/i,
+      }),
+    ).toBeVisible();
+
     await page.goto("/en/app/grievances");
     await expect(
       page.getByRole("heading", {

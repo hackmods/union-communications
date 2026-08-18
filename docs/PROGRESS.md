@@ -1,5 +1,12 @@
 # Progress Log
 
+## Officer tools dashboard catalog (2026-08-18)
+
+- [x] Hub dashboard lists the full Officer tools kit (Casework / Records / Funds / Administration) with blurbs — no longer a leftover card of four links
+- [x] Hybrid data sits in Casework with the rest of the kit; Officer tools ▾ is first in the desktop hub bar
+- [x] Nav and dashboard share one catalog (`hub-tool-catalog.ts`) so a new tool cannot land in the menu only
+- Verify: `npm run test:unit -- src/components/hub/hub-tool-catalog.test.ts src/components/hub/hub-nav-model.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## From Scratch to Solidarity workshop path (2026-08-18)
 
 - [x] Public `/guide/workshop` hour matches the listing: strategy, Logo Builder, Social Examples, Graphic Maker + Quote Card, Website Template last

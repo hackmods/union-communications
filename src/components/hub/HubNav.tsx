@@ -6,25 +6,10 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { getHubNavModules } from "@/lib/modules/registry";
 import { getTenantContext } from "@/lib/tenant/loader";
-import { canInitiateHandoff } from "@/lib/handoff/package";
 import {
-  canManageInvites,
-  canManageTenantOnboarding,
-} from "@/lib/tenant/access";
-import { canAccessBumpingModule } from "@/lib/bumping/access";
-import {
-  canAccessGrievanceModule,
-  canCrossLocalGrievance,
-  isElevatedGrievanceRole,
-} from "@/lib/grievance/access";
-import { canAccessCommitteesModule } from "@/lib/committees/access";
-import { canAccessElectionsModule } from "@/lib/elections/access";
-import { canAccessMinutesModule } from "@/lib/minutes/access";
-import { canAccessOfficerRoster } from "@/lib/officers/access";
-import { canAccessTravelModule } from "@/lib/travel/access";
-import { canAccessExpensesModule } from "@/lib/expenses/access";
-import { canAccessPollsModule } from "@/lib/polls/access";
-import { canAccessMeetingsModule } from "@/lib/meetings/access";
+  listHubToolLinks,
+  resolveHubToolAccess,
+} from "@/components/hub/hub-tool-catalog";
 import type { HubModule, UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
@@ -37,7 +22,6 @@ import {
   hubModuleActive,
   hubToolLinkActive,
   hubToolsActive,
-  type HubToolLink,
 } from "@/components/hub/hub-nav-model";
 import {
   useMfaEnabled,
@@ -95,61 +79,8 @@ export function HubNav() {
     tenant?.union.enabledModules ?? ["comms"];
   const roles = (session.user.roles ?? []) as UserRole[];
   const modules = getHubNavModules(enabledModules, roles);
-  const hasGrievance = canAccessGrievanceModule(roles);
-  const hasBumping =
-    canAccessBumpingModule(roles) && enabledModules.includes("bumping");
-  const showCalendar = hasGrievance || hasBumping;
-  const showHandoff = canInitiateHandoff(roles);
-  const showInvites = canManageInvites(roles);
-  const showTenantOnboarding = canManageTenantOnboarding(roles);
-  const showAudit =
-    canCrossLocalGrievance(roles) ||
-    roles.includes("local_president") ||
-    roles.includes("local_exec");
-  const showSiteFeedbackInbox = roles.includes("platform_admin");
-  const showReports = isElevatedGrievanceRole(roles);
-  const showMinutes = canAccessMinutesModule(roles);
-  const showOfficers = canAccessOfficerRoster(roles);
-  const showCommittees = canAccessCommitteesModule(roles);
-  const showElections = canAccessElectionsModule(roles);
-  const showTravel = canAccessTravelModule(roles);
-  const showExpenses = canAccessExpensesModule(roles);
-  const showPolls = canAccessPollsModule(roles);
-  const showMeetings = canAccessMeetingsModule(roles);
-  const showLedger =
-    roles.includes("local_president") ||
-    roles.includes("local_exec") ||
-    canCrossLocalGrievance(roles);
-
-  const toolLinks = [
-    showCalendar && { href: "/app/calendar", label: t("calendarLink") },
-    hasGrievance && { href: "/app/overdue", label: t("overdueLink") },
-    hasGrievance && { href: "/app/snippets", label: t("snippetsLink") },
-    hasGrievance && { href: "/app/marketplace", label: t("marketplaceLink") },
-    hasGrievance && { href: "/app/documents", label: t("documentsLink") },
-    showMinutes && { href: "/app/minutes", label: t("minutesLink") },
-    showOfficers && { href: "/app/officers", label: t("officersLink") },
-    showCommittees && { href: "/app/committees", label: t("committeesLink") },
-    showElections && { href: "/app/elections", label: t("electionsLink") },
-    showHandoff && { href: "/app/handoff", label: t("handoffLink") },
-    showInvites && { href: "/app/invites", label: t("invitesLink") },
-    showTenantOnboarding && {
-      href: "/app/onboarding",
-      label: t("tenantOnboardingLink"),
-    },
-    hasGrievance && { href: "/app/hybrid", label: t("hybridLink") },
-    showLedger && { href: "/app/ledger", label: t("ledgerLink") },
-    showTravel && { href: "/app/travel", label: t("travelLink") },
-    showExpenses && { href: "/app/expenses", label: t("expensesLink") },
-    showPolls && { href: "/app/polls", label: t("pollsLink") },
-    showMeetings && { href: "/app/meetings", label: t("meetingsLink") },
-    showReports && { href: "/app/reports", label: t("reportsLink") },
-    showAudit && { href: "/app/audit", label: t("auditLink") },
-    showSiteFeedbackInbox && {
-      href: "/app/feedback",
-      label: t("siteFeedbackInboxLink"),
-    },
-  ].filter(Boolean) as HubToolLink[];
+  const toolAccess = resolveHubToolAccess(roles, enabledModules);
+  const toolLinks = listHubToolLinks(toolAccess, (key) => t(key));
   const toolGroups = groupHubToolLinks(toolLinks);
   const toolsActive = hubToolsActive(pathname, toolLinks);
 
@@ -216,25 +147,6 @@ export function HubNav() {
         </div>
 
         <div className="hidden min-w-0 flex-1 flex-wrap items-center justify-end gap-1 lg:flex">
-          {modules.map((mod) => {
-            const href = mod.href;
-            const active = hubModuleActive(pathname, href);
-            return (
-              <Link
-                key={mod.id}
-                href={href}
-                aria-current={active ? "page" : undefined}
-                className={linkClass(
-                  cn(
-                    mod.requiresMfa && !mfaOk ? "opacity-60" : undefined,
-                    active && "bg-white font-semibold text-opseu-dark",
-                  ),
-                )}
-              >
-                <Emoji id={mod.emojiId} /> {t(`modules.${mod.nameKey}`)}
-              </Link>
-            );
-          })}
           {toolGroups.length > 0 && (
             <NavDropdown
               label={t("toolsMenu")}
@@ -247,7 +159,7 @@ export function HubNav() {
               }
               onClose={() => setToolsMenu(null)}
               preferredPanelWidth={preferredHubToolsMenuWidth}
-              triggerClassName="whitespace-nowrap hover:bg-white"
+              triggerClassName="font-medium whitespace-nowrap hover:bg-white"
             >
               {toolGroups.map((group, groupIndex) => (
                 <div
@@ -285,6 +197,25 @@ export function HubNav() {
               ))}
             </NavDropdown>
           )}
+          {modules.map((mod) => {
+            const href = mod.href;
+            const active = hubModuleActive(pathname, href);
+            return (
+              <Link
+                key={mod.id}
+                href={href}
+                aria-current={active ? "page" : undefined}
+                className={linkClass(
+                  cn(
+                    mod.requiresMfa && !mfaOk ? "opacity-60" : undefined,
+                    active && "bg-white font-semibold text-opseu-dark",
+                  ),
+                )}
+              >
+                <Emoji id={mod.emojiId} /> {t(`modules.${mod.nameKey}`)}
+              </Link>
+            );
+          })}
           {mfaEnabled && (
             <Link
               href="/app/mfa"
