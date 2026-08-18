@@ -26,6 +26,8 @@ import {
 import { useTranslations } from "next-intl";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
+import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -47,6 +49,7 @@ export default function LogoBuilderPage() {
   const setBrandKit = useBrandStore((s) => s.setBrandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
   const tokens = resolveCanvasTokens(brandKit);
+  const inDemo = useWorkshopDemoSession(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const { exportError, exportSuccess, runExport } = useExportHandler(tBuilder("exportError"));
@@ -137,8 +140,9 @@ export default function LogoBuilderPage() {
   return (
     <ToolEditorLayout
       title={tBuilder("title")}
+      eyebrow={inDemo ? <WorkshopDemoPath variant="trail" /> : undefined}
       description={tBuilder("description")}
-      purposeHint={tBuilder("whenToUse")}
+      purposeHint={inDemo ? undefined : tBuilder("whenToUse")}
       previewAccessibleName={tBuilder("previewAccessibleName")}
       exportError={exportError}
       exportSuccess={exportSuccess}

@@ -10,10 +10,13 @@ import {
 } from "@/lib/constants/examples";
 import { ExampleCard } from "@/components/examples/ExampleCard";
 import { PageShell } from "@/components/layout/PageShell";
+import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { cn } from "@/lib/utils";
 
 export default function ExamplesPage() {
   const t = useTranslations("examples");
+  const inDemo = useWorkshopDemoSession(null);
   const [filter, setFilter] = useState<ExampleCategory | "all">("all");
 
   const filtered =
@@ -23,6 +26,9 @@ export default function ExamplesPage() {
 
   return (
     <PageShell className="py-8 md:py-12">
+      {inDemo ? (
+        <WorkshopDemoPath variant="trail" className="mb-4" />
+      ) : null}
       <header className="max-w-2xl">
         <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
           {t("title")}

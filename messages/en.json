@@ -321,7 +321,7 @@
         "title": "Print",
         "navLabel": "Print",
         "description": "Hand out the same message as a flyer for meetings, walkabouts, and actions. Pair print with boards so members offline still get the facts.",
-        "demoNote": "The 20-minute demo skips print. Come back to Flyer Maker after Captions if you still have time.",
+        "demoNote": "The 20-minute demo skips print. Come back to Flyer Maker after Quote Card if you still have time.",
         "checklist": [
           "Open Flyer Maker with your Brand Kit colours and local number",
           "Keep text large and high-contrast for outdoor or hallway reading",
@@ -334,7 +334,7 @@
         "title": "Socials",
         "navLabel": "Socials",
         "description": "Share the same message on Facebook and Instagram. Use the Blueprint for tone and frequency, and pre-written captions to save time.",
-        "demoNote": "Graphic Maker and Captions from the live demo are this step. The Blueprint is extra reading for posting rhythm.",
+        "demoNote": "Graphic Maker and Quote Card from the live demo are this step. Social Examples is the gallery. The Blueprint is extra reading for posting rhythm.",
         "checklist": [
           "Read The Blueprint for platform and posting tips",
           "Create a graphic with Graphic Maker or Resizer",
@@ -1798,7 +1798,7 @@
       "outline": [
         "Strategy essentials (about 10-12 min) + short Q&A: platforms, secure accounts, sustainable posting rhythm",
         "Identity - Logo Builder live demo (about 8 min) + Q&A",
-        "Inspiration - Notice Board / Union Boards tour (about 8 min) + Q&A",
+        "Inspiration - Social Examples gallery (about 8 min) + Q&A",
         "Generating media - Graphic Maker live demo (about 10-12 min) + Q&A",
         "Close: leave with a plan; point to the practice checklist and tools; optional open floor"
       ],
@@ -4694,31 +4694,28 @@
   },
   "workshopDemo": {
     "title": "Demo this in about 20 minutes",
-    "intro": "A short live-demo path: Brand Kit, board notice, social graphic, then a caption.",
-    "stepBrand": "Brand Kit",
-    "stepBoard": "Board Notice",
+    "intro": "A short live path: Logo Builder, Social Examples, Graphic Maker, then a quote card.",
+    "stepLogo": "Logo Builder",
+    "stepExamples": "Social Examples",
     "stepGraphic": "Graphic Maker",
-    "stepCaptions": "Captions",
-    "stepWebsite": "Website Template",
-    "openRoadmap": "Full first-week roadmap",
+    "stepQuote": "Quote Card",
+    "openRoadmap": "First week: platforms and posting rhythm",
     "trailNavLabel": "20-minute demo path",
-    "continueBrand": "Set colours and logo, then open Board Notice.",
-    "continueBoard": "Download a PDF, then make a social graphic.",
-    "continueGraphic": "Download a PNG, then copy a caption.",
-    "continueCaptions": "Copy a caption to paste under the graphic you just downloaded.",
-    "continueCaptionsThenWebsite": "Copy a caption, then optionally open Website Template.",
-    "continueWebsite": "Fill in officers and contact, then download the ZIP.",
-    "nextCaption": "Copy a caption",
-    "done": "That's the 20-minute path. First week has print and a website when you want them.",
-    "doneWithWebsite": "That's the 20-minute path. Optional next: a simple website."
+    "continueBrand": "Set colours and local number, then open Logo Builder.",
+    "continueLogo": "Download a circular PNG, then browse Social Examples.",
+    "continueExamples": "Pick a strike, AGM, or member spotlight, then open Graphic Maker.",
+    "continueGraphic": "Download a PNG, then make a quote card.",
+    "continueQuote": "Download a PNG. Captions are extra if you still have time.",
+    "nextQuote": "Make a quote card",
+    "done": "That's the 20-minute path. First week has print and boards when you want them."
   },
   "relatedTools": {
     "label": "Related tools",
     "next": "What's next"
   },
   "workshopGuide": {
-    "title": "Workshop: Starting local social communications",
-    "subtitle": "A reusable outline for lunch-and-learns and hands-on workshops using UnionOps Comms.",
+    "title": "From Scratch to Solidarity: Launching Your Local's Social Media",
+    "subtitle": "A beginner hour for volunteer executives: strategy, a local logo, example posts, then graphics and quote cards.",
     "intro": "Project this page or follow it on your own device. The numbered agenda is a 45 to 60 minute lunch-and-learn. Notes marked Facilitator are for the person at the front; Do this is for everyone else.",
     "relatedLabel": "Also see",
     "audienceFacilitatorLabel": "Facilitator",
@@ -4729,61 +4726,60 @@
     "prereqIntro": "Have these ready before the hour starts so the first download is yours, not a demo.",
     "prereq": {
       "device": "A laptop, tablet, or phone with a current browser. A laptop is easier for typing; a phone is enough to follow along.",
-      "logo": "A digital copy of your local logo if you have one (PNG, JPG, or SVG). If you do not, <strong>Logo Builder</strong> can make a starter during the <strong>Brand Kit</strong> step.",
+      "logo": "A digital copy of your local logo if you have one (PNG, JPG, or SVG). If you do not, <strong>Logo Builder</strong> makes a starter during the identity step.",
       "colours": "A rough idea of your local's colours, from letterhead, a banner, or a printed notice. Exact colour codes are optional.",
       "number": "Your local number, if it appears on your materials.",
-      "prompt": "Optional: one real meeting date or announcement you might post this week, so the practice is a real notice, not a placeholder."
+      "prompt": "Optional: one real announcement or quote you might post this week, so the practice is a real post, not a placeholder."
     },
     "demoKicker": "Quick links",
     "demoLead": "Keep this box in view. Tap a tool when the agenda names it. Same four stops as the 20-minute live demo.",
-    "demoNote": "After this browser opens Brand Kit, Board Notice, Graphic Maker, and Captions, Website Template appears on that path as an optional fifth. Print stays on First week.",
+    "demoNote": "Strategy lives on First week, not on these numbered stops. The live path is Logo Builder, Social Examples, Graphic Maker, then Quote Card. Print and Board Notice stay on First week.",
     "outlineTitle": "Suggested outline",
     "outlineIntro": "Times add up to about 50 minutes, with room for questions. If you have a full hour, linger on <strong>Graphic Maker</strong>. If you have 45 minutes, keep the downloads moving.",
     "outlineNavLabel": "Agenda times",
     "outlineItems": {
-      "why": {
+      "strategy": {
+        "time": "12 min",
+        "navLabel": "Strategy",
+        "title": "High-level social media strategy",
+        "do": "Listen for three essentials: platforms you can sustain, a shared account that is not a personal account, and a posting rhythm that will not burn out the executive. <strong>First week</strong> is the written plan you leave with.",
+        "facilitator": "Open First week, then The Blueprint. Do not start inside a maker yet. Ask who holds the passwords today."
+      },
+      "identity": {
         "time": "8 min",
-        "navLabel": "Brand-first",
-        "title": "Why brand-first communications matter for locals",
-        "do": "Listen for the four channels: workplace boards, print, social, and a simple website. Name where members who are not on Facebook still see union news, so this hour is not only about social posts.",
-        "facilitator": "Pitch the problem in plain language: brand once, publish everywhere. Open the homepage. Do not start inside a tool yet."
+        "navLabel": "Logo Builder",
+        "title": "Creating your identity",
+        "do": "Open <strong>Logo Builder</strong>. Set your local number and colours if needed, generate a circular logo, and download the PNG. This is the file you take home.",
+        "facilitator": "If the kit is empty, import the demo Brand Kit first. Share Logo Builder, not Brand Kit, as the identity beat. Show the PNG download succeeding."
       },
-      "brand": {
-        "time": "10 min",
-        "navLabel": "Brand Kit",
-        "title": "Live Brand Kit (colours, local number, logo)",
-        "do": "Open <strong>Brand Kit</strong>. Set your local number, pick two colours, and upload a logo if you brought one. Later downloads reuse this identity, so you do not retype colours on every graphic.",
-        "facilitator": "Share the Brand Kit tab. If a laptop is empty, import the demo kit from Comms Resources before people sit down. Offer <strong>Logo Builder</strong> only when nobody has a file."
-      },
-      "board": {
+      "inspiration": {
         "time": "8 min",
-        "navLabel": "Board Notice",
-        "title": "Board Notice for members offline",
-        "do": "Open <strong>Board Notice</strong>. Fill a short heading and a date, then download the PDF. Members who never open Facebook still walk past the workplace board.",
-        "facilitator": "Show Download PDF succeeding. Printing in the room is optional. Point to the Union Boards guide only if someone asks about layout."
+        "navLabel": "Social Examples",
+        "title": "Finding inspiration",
+        "do": "Open <strong>Social Examples</strong>. Browse strike, AGM, and member-spotlight layouts so you are not staring at a blank screen. Tap one example to seed Graphic Maker when the next block starts.",
+        "facilitator": "This is the example gallery. Do not open Board Notice Maker unless someone asks about cork boards; point to the Union Boards guide instead."
       },
-      "social": {
-        "time": "15 min",
+      "media": {
+        "time": "12 min",
         "navLabel": "Graphic Maker",
-        "title": "Graphic Maker and Captions for Facebook and Instagram",
-        "do": "Open <strong>Graphic Maker</strong>, pick a preset, and download a PNG. Then copy a matching caption from <strong>Captions</strong>. You leave with a post you could actually publish, not only a slide about posting.",
-        "facilitator": "Pause on the photo consent dialog. Do not demo Pulse Poll publish. If a download fails, show a PNG you saved before the session. After Captions, Website Template appears on that path once all four stops are open."
+        "title": "Generating media content",
+        "do": "Open <strong>Graphic Maker</strong>, pick a preset, and download a PNG. Then make a <strong>Quote Card</strong>. Graphic Maker is Facebook landscape and Instagram square; Image Resizer is how you hit other crops.",
+        "facilitator": "Pause on the photo consent dialog. Do not demo Pulse Poll publish. If a download fails, show a PNG you saved before the session. Skip Captions unless minutes remain."
       },
-      "roadmap": {
-        "time": "7 min",
-        "navLabel": "First week",
-        "title": "First week roadmap and practice checklist",
-        "do": "Open the <strong>First week</strong> roadmap. Choose one real action for this week, usually the notice you just made, then one social post. The practice checklist on Comms Resources is homework, not extra talking time.",
-        "facilitator": "Ask what will go on the board this week. Point to Comms Resources and stop on time. Tinkering after the session is the point. Website Template is already on First week; it is not a fifth numbered stop on this page."
+      "close": {
+        "time": "5 min",
+        "navLabel": "Plan",
+        "title": "Leave with a plan",
+        "do": "You should have a logo PNG, one graphic, and a quote card. Open <strong>First week</strong> for the written plan. The practice checklist on Comms Resources is homework, not extra talking time.",
+        "facilitator": "Thank people. Point to Comms Resources and stop on time. Tinkering after lunch is the point. No website ZIP unless someone asks."
       }
     },
     "wrapTitle": "Next steps",
     "wrapIntro": "Do these before the week is out, while the files are still on this device.",
     "wrap": {
       "bookmark": "Bookmark <strong>Brand Kit</strong> in this browser so your colours are still here when you come back. If you share the computer, download the Brand Kit file from Brand Kit and keep it with your local records.",
-      "post": "Open the <strong>First week</strong> roadmap and attempt your first real post using the graphic and caption you made today.",
-      "board": "Get the Board Notice PDF onto the workplace board, or hand it to whoever updates the board.",
-      "website": "If you opened all four live stops, open Website Template and download the ZIP when you want a simple local page.",
+      "logo": "Keep the Logo Builder PNG with your local records, and use it on the Facebook cover only after whoever must approve identity has said yes.",
+      "post": "Open the <strong>First week</strong> roadmap and attempt your first real post using the graphic and quote card you made today.",
       "checklist": "When you have a quiet half hour, work through the practice checklist on Comms Resources."
     },
     "wrapFacilitator": "Thank people. Remind them public Comms stay on the device. If something broke, the Feedback page on this site takes a note without a member mailing list.",

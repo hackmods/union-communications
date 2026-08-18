@@ -24,36 +24,36 @@ Mixed workshop — new volunteer communicators and experienced officers. Keep ja
 | Hands-on | ~30 min | Checklist: Brand Kit → Logo → Board Notice → Graphic Maker (+ Caption) → optional Website ZIP |
 | Deploy & Q&A | ~10 min | Website README / GitHub Pages; point to Resources + Blueprint |
 
-### B. Lunch-and-learn / remote (~45 min)
+### B. Lunch-and-learn / remote (~45–60 min) — **From Scratch to Solidarity**
 
 | Block | Time | What to do |
 |-------|------|------------|
-| Strategy | ~10–12 min | Platforms, secure accounts, sustainable posting; short Q&A |
-| Identity | ~8 min | Logo Builder / Brand Kit live demo |
-| Inspiration | ~8 min | Board Notice + Union Boards |
-| Media | ~10–12 min | Graphic Maker live demo |
+| Strategy | ~12 min | Platforms, shared accounts, sustainable posting; First week + Blueprint |
+| Identity | ~8 min | Logo Builder live demo; download circular PNG |
+| Inspiration | ~8 min | Social Examples gallery (strike / AGM / spotlight) |
+| Media | ~12 min | Graphic Maker PNG + Quote Card; Captions only if time |
 | Close | ~5 min | Practice checklist; encourage tinkering after |
 
-Public attendee-facing agenda (outline B as five timed blocks, about 8 / 10 / 8 / 15 / 7 min): `/guide/workshop`. Longer lab shape stays outline A above. Slide-style strings also live in `resources.facilitators` and `resources.presentation`.
+Public attendee-facing agenda: `/guide/workshop`. Dated run sheet: [`docs/workshop/from-scratch-to-solidarity.md`](../workshop/from-scratch-to-solidarity.md). Slide-style strings also live in `resources.presentation`.
 
 ## Live demo click path (20 minutes)
 
-Numbered pitch (home, First week, `/guide/workshop`) stays **four** stops:
+Numbered pitch (home, First week, `/guide/workshop`) is **four** stops matching the listing:
 
-1. [Brand Kit](/brand-kit) — colours, local number, logo  
-2. [Board Notice](/tools/board-notice) — download PDF  
+1. [Logo Builder](/tools/logo-builder) — circular PNG (Brand Kit / Onboarding count as this stop)  
+2. [Social Examples](/examples) — strike, AGM, member spotlight gallery  
 3. [Graphic Maker](/tools/graphic-maker) — download PNG  
-4. [Captions](/captions) — copy a caption  
+4. [Quote Card](/tools/quote-card) — download PNG  
 
-Optional fifth: [Website Template](/tools/website-template) ZIP appears on the **in-tool trail** after this tab has visited all four. It is not a fifth numbered chip on the pitch card.
+Strategy is **First week**, not a chip. Print, Board Notice, Captions, and Website Template stay off the pitch card.
 
-Do **not** put Logo Builder or QR Board on the 20-minute chips. Logo Builder is a Brand Kit fallback when nobody brought a file (and a lab beat in the 60-minute hands-on). QR Board is a campaign poster, not the meeting notice.
+Do **not** put Board Notice or QR Board on the 20-minute chips. Social Examples is the inspiration gallery. QR Board is a campaign poster.
 
-Fallback if Brand Kit is empty: complete [Onboarding](/onboarding) or import demo kit from Brand Kit.
+Fallback if Brand Kit is empty: complete [Onboarding](/onboarding) or import demo kit from Brand Kit, then Logo Builder.
 
-UI: `WorkshopDemoPath` `variant="card"` (four numbered chips) vs `variant="trail"` (unnumbered; Website unlocks after the quartet).
+UI: `WorkshopDemoPath` `variant="card"` (four numbered chips) vs `variant="trail"` (unnumbered continuation on those four tools).
 
-## Day-of checklist (Wednesday)
+## Day-of checklist (Tuesday 18 August)
 
 Do this the morning of the session (or the night before). Paths are locale-prefixed (`/en/…` or `/fr/…`).
 
@@ -64,14 +64,16 @@ Do this the morning of the session (or the night before). Paths are locale-prefi
 | Home + Demo Path | `/en/` |
 | Workshop outline | `/en/guide/workshop/` |
 | First week + calendar | `/en/guide/social-media-plan/` |
+| Blueprint | `/en/guide/` |
 | Comms Resources | `/en/guide/resources/` |
 | Brand Kit | `/en/brand-kit/` |
-| Board Notice | `/en/tools/board-notice/` |
+| Logo Builder | `/en/tools/logo-builder/` |
+| Social Examples | `/en/examples/` |
 | Graphic Maker | `/en/tools/graphic-maker/` |
-| Captions | `/en/captions/` |
+| Quote Card | `/en/tools/quote-card/` |
 | Tools index (backup) | `/en/tools/` |
 
-Optional after the four live stops: Website Template `/en/tools/website-template/` (trail stop 5). Print Guide `/en/guide/print/` is First week, not the 20-minute path.
+Captions `/en/captions/` and Print Guide `/en/guide/print/` are extra if time. Board Notice and Website Template are First week, not this hour.
 
 ### Brand Kit backup
 
@@ -81,7 +83,7 @@ Optional after the four live stops: Website Template `/en/tools/website-template
 
 ### Offline / AV fallbacks
 
-- Keep sample **Board Notice PDF** and **Graphic Maker PNG** already exported on disk (show if export fails mid-demo).
+- Keep sample **Logo Builder PNG**, **Graphic Maker PNG**, and **Quote Card PNG** already exported on disk (show if export fails mid-demo).
 - Prefer **wired Ethernet** for the presenter laptop; phone hotspot as plan B.
 - Share the browser window (not the whole desktop) in Zoom/Teams so Brand Kit colours stay readable.
 - Zoom the browser to ~110% for a projector; avoid ultra-wide half-scale that makes type tiny.
@@ -89,20 +91,20 @@ Optional after the four live stops: Website Template `/en/tools/website-template
 
 ### Smoke before you speak (2 minutes)
 
-1. Home shows Demo Path steps 1–4 and “Solidarity.”
-2. Board Notice: form + Download PDF visible.
-3. Graphic Maker: Download PNG visible.
-4. Captions: Copy on a template works.
-5. After visiting 1–4, the in-tool trail shows Website Template.
-6. `/en/guide/workshop/` H1 loads; Quick links mention the optional fifth. `/fr/guide/workshop/` H1 loads in French.
+1. Home shows Demo Path: Logo Builder, Social Examples, Graphic Maker, Quote Card, and “Solidarity.”
+2. Logo Builder: Download PNG visible.
+3. Social Examples: gallery cards visible.
+4. Graphic Maker: Download PNG visible.
+5. Quote Card: Download PNG visible.
+6. `/en/guide/workshop/` H1 is From Scratch to Solidarity; `/fr/guide/workshop/` H1 loads in French.
 
 ### Do not demo live (mention only)
 
 - Pulse Poll publish (needs Officer Hub).
 - Officer Hub SMTP / cron.
 - Portal Circles (separate product surface).
-- QR Board as a stand-in for Board Notice (campaign poster, not the meeting notice).
-- Logo Builder as its own 20-minute chip (keep it inside Brand Kit).
+- Board Notice or QR Board as the inspiration gallery (Social Examples is the gallery; QR Board is a campaign poster).
+- Website Template ZIP unless someone asks.
 
 ## Backup if wifi or import fails
 

@@ -22,6 +22,8 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
+import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { pickContrastingInk } from "@/lib/utils/ink";
@@ -45,6 +47,7 @@ function QuoteCardPageContent() {
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
+  const inDemo = useWorkshopDemoSession(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const tokens = resolveCanvasTokens(brandKit);
 
@@ -115,8 +118,9 @@ function QuoteCardPageContent() {
   return (
     <ToolEditorLayout
       title={tq("title")}
+      eyebrow={inDemo ? <WorkshopDemoPath variant="trail" /> : undefined}
       description={tq("subtitle")}
-      purposeHint={tq("whenToUse")}
+      purposeHint={inDemo ? undefined : tq("whenToUse")}
       previewAccessibleName={tq("previewAccessibleName")}
       toolbar={!themeEstablished ? (
         <BrandSetupPrompt themeEstablished={themeEstablished} />

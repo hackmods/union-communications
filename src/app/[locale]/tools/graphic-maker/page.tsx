@@ -304,10 +304,10 @@ function GraphicMakerPageContent() {
             <>
               {exportSuccess}{" "}
               <Link
-                href="/captions"
+                href="/tools/quote-card"
                 className="font-semibold underline underline-offset-2"
               >
-                {td("nextCaption")}
+                {td("nextQuote")}
               </Link>
             </>
           ) : (

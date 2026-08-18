@@ -321,7 +321,7 @@
         "title": "Impression",
         "navLabel": "Impression",
         "description": "Remettez le même message en tract pour les réunions, les tournées et les actions. Associez l'impression aux tableaux pour que les membres hors ligne aient aussi les faits.",
-        "demoNote": "La démo de 20 minutes saute l'impression. Revenez au Créateur de tracts après les Légendes si vous avez encore du temps.",
+        "demoNote": "La démo de 20 minutes saute l'impression. Revenez au Créateur de tracts après la Carte de citation si vous avez encore du temps.",
         "checklist": [
           "Ouvrir le Créateur de tracts avec les couleurs et le numéro de section de la Trousse de marque",
           "Garder le texte grand et à fort contraste pour la lecture en corridor ou à l'extérieur",
@@ -334,7 +334,7 @@
         "title": "Médias sociaux",
         "navLabel": "Réseaux",
         "description": "Partagez le même message sur Facebook et Instagram. Utilisez le Plan directeur pour le ton et la fréquence, et les légendes préécrites pour gagner du temps.",
-        "demoNote": "Cette étape reprend le Créateur de graphiques et les Légendes de la démo en direct. Le Plan directeur est la lecture supplémentaire pour le rythme de publication.",
+        "demoNote": "Cette étape reprend le Créateur de graphiques et la Carte de citation de la démo en direct. Les Exemples sociaux sont la galerie. Le Plan directeur est la lecture supplémentaire pour le rythme de publication.",
         "checklist": [
           "Lire le Plan directeur pour les plateformes et la fréquence",
           "Créer un graphique avec le Créateur graphique ou le Redimensionneur",
@@ -1798,7 +1798,7 @@
       "outline": [
         "Essentiels de stratégie (environ 10-12 min) + courte période de questions : plateformes, comptes sécurisés, rythme de publication durable",
         "Identité - démonstration du Créateur de logo (environ 8 min) + questions",
-        "Inspiration - visite du tableau d'avis / tableaux syndicaux (environ 8 min) + questions",
+        "Inspiration - galerie Exemples sociaux (environ 8 min) + questions",
         "Produire des médias - démonstration du Créateur graphique (environ 10-12 min) + questions",
         "Clôture : repartir avec un plan ; pointer la liste de pratique et les outils ; questions ouvertes optionnelles"
       ],
@@ -4694,31 +4694,28 @@
   },
   "workshopDemo": {
     "title": "Démo en environ 20 minutes",
-    "intro": "Parcours de démo courte : Trousse de marque, avis de tableau, graphique social, puis légende.",
-    "stepBrand": "Trousse de marque",
-    "stepBoard": "Avis d'affichage",
+    "intro": "Un court parcours en direct : Créateur de logo, Exemples sociaux, Créateur de graphiques, puis une carte de citation.",
+    "stepLogo": "Créateur de logo",
+    "stepExamples": "Exemples sociaux",
     "stepGraphic": "Créateur de graphiques",
-    "stepCaptions": "Légendes",
-    "stepWebsite": "Modèle de site Web",
-    "openRoadmap": "Feuille de route complète",
+    "stepQuote": "Carte de citation",
+    "openRoadmap": "Première semaine : plateformes et rythme de publication",
     "trailNavLabel": "Parcours de démo de 20 minutes",
-    "continueBrand": "Réglez les couleurs et le logo, puis ouvrez l'Avis d'affichage.",
-    "continueBoard": "Téléchargez un PDF, puis créez un graphique social.",
-    "continueGraphic": "Téléchargez un PNG, puis copiez une légende.",
-    "continueCaptions": "Copiez une légende à coller sous le graphique que vous venez de télécharger.",
-    "continueCaptionsThenWebsite": "Copiez une légende, puis ouvrez le Modèle de site Web si vous voulez un site.",
-    "continueWebsite": "Remplissez les dirigeants et le courriel, puis téléchargez le ZIP.",
-    "nextCaption": "Copier une légende",
-    "done": "Voilà le parcours de 20 minutes. La première semaine ajoute l'impression et un site Web quand vous en aurez besoin.",
-    "doneWithWebsite": "Voilà le parcours de 20 minutes. Ensuite, en option : un site Web simple."
+    "continueBrand": "Réglez les couleurs et le numéro de section, puis ouvrez le Créateur de logo.",
+    "continueLogo": "Téléchargez un PNG circulaire, puis parcourez les Exemples sociaux.",
+    "continueExamples": "Choisissez une grève, une AGA ou un portrait de membre, puis ouvrez le Créateur de graphiques.",
+    "continueGraphic": "Téléchargez un PNG, puis faites une carte de citation.",
+    "continueQuote": "Téléchargez un PNG. Les Légendes sont en extra si vous avez encore du temps.",
+    "nextQuote": "Faire une carte de citation",
+    "done": "Voilà le parcours de 20 minutes. La première semaine ajoute l'impression et les tableaux quand vous en aurez besoin."
   },
   "relatedTools": {
     "label": "Outils connexes",
     "next": "Ensuite"
   },
   "workshopGuide": {
-    "title": "Atelier : démarrer les communications sociales locales",
-    "subtitle": "Un plan réutilisable pour dîners-causeries et ateliers pratiques avec UnionOps Comms.",
+    "title": "De zéro à la solidarité : lancer les médias sociaux de votre section",
+    "subtitle": "Une heure pour les cadres bénévoles : stratégie, logo local, exemples de publications, puis graphiques et cartes de citation.",
     "intro": "Projetez cette page ou suivez-la sur votre appareil. Le plan numéroté est un dîner-causerie de 45 à 60 minutes. Les notes marquées Animation s'adressent à la personne devant la salle ; À faire s'adresse à tout le monde.",
     "relatedLabel": "Voir aussi",
     "audienceFacilitatorLabel": "Animation",
@@ -4729,61 +4726,60 @@
     "prereqIntro": "Préparez ceci avant le début de l'heure, pour que le premier téléchargement soit le vôtre, pas une démo.",
     "prereq": {
       "device": "Un portable, une tablette ou un téléphone avec un navigateur à jour. Un portable est plus facile pour taper ; un téléphone suffit pour suivre.",
-      "logo": "Une copie numérique du logo de votre section, si vous en avez une (PNG, JPG ou SVG). Sinon, le <strong>Créateur de logo</strong> peut en faire un de départ pendant l'étape <strong>Trousse de marque</strong>.",
+      "logo": "Une copie numérique du logo de votre section, si vous en avez une (PNG, JPG ou SVG). Sinon, le <strong>Créateur de logo</strong> en fait un de départ pendant l'étape identité.",
       "colours": "Une idée approximative des couleurs de votre section, d'après un en-tête, une bannière ou un avis imprimé. Les codes de couleur exacts sont facultatifs.",
       "number": "Le numéro de votre section, s'il apparaît sur vos documents.",
-      "prompt": "Facultatif : une vraie date d'assemblée ou une annonce que vous pourriez publier cette semaine, pour que l'exercice soit un vrai avis, pas un exemple vide."
+      "prompt": "Facultatif : une vraie annonce ou une citation que vous pourriez publier cette semaine, pour que l'exercice soit une vraie publication, pas un exemple vide."
     },
     "demoKicker": "Liens rapides",
     "demoLead": "Gardez cette boîte visible. Touchez un outil quand le plan le nomme. Ce sont les quatre mêmes arrêts que la démo de 20 minutes.",
-    "demoNote": "Après que ce navigateur a ouvert la Trousse de marque, l'Avis d'affichage, le Créateur de graphiques et les Légendes, le Modèle de site Web apparaît sur le parcours comme cinquième option. L'impression reste dans Première semaine.",
+    "demoNote": "La stratégie est dans Première semaine, pas sur ces arrêts numérotés. Le parcours en direct est Créateur de logo, Exemples sociaux, Créateur de graphiques, puis Carte de citation. L'impression et l'Avis d'affichage restent dans Première semaine.",
     "outlineTitle": "Plan suggéré",
     "outlineIntro": "Les durées totalisent environ 50 minutes, avec de la place pour les questions. Si vous avez une heure complète, restez plus longtemps sur le <strong>Créateur de graphiques</strong>. Si vous avez 45 minutes, enchaînez les téléchargements.",
     "outlineNavLabel": "Durées du plan",
     "outlineItems": {
-      "why": {
+      "strategy": {
+        "time": "12 min",
+        "navLabel": "Stratégie",
+        "title": "Stratégie de médias sociaux en vue d'ensemble",
+        "do": "Repérez trois essentiels : des plateformes que vous pouvez tenir, un compte partagé qui n'est pas un compte personnel, et un rythme de publication qui n'épuisera pas l'exécutif. <strong>Première semaine</strong> est le plan écrit que vous emportez.",
+        "facilitator": "Ouvrez Première semaine, puis le Plan directeur. Ne commencez pas encore dans un outil de création. Demandez qui détient les mots de passe aujourd'hui."
+      },
+      "identity": {
         "time": "8 min",
-        "navLabel": "La marque d'abord",
-        "title": "Pourquoi les communications fondées sur la marque comptent pour les sections",
-        "do": "Repérez les quatre canaux : tableaux au travail, impression, médias sociaux et un site simple. Nommez où les membres qui ne sont pas sur Facebook voient encore les nouvelles syndicales, pour que cette heure ne porte pas seulement sur les publications sociales.",
-        "facilitator": "Présentez le problème en langage simple : une marque, partout. Ouvrez la page d'accueil. Ne commencez pas encore dans un outil."
+        "navLabel": "Créateur de logo",
+        "title": "Créer votre identité",
+        "do": "Ouvrez le <strong>Créateur de logo</strong>. Indiquez le numéro de section et les couleurs au besoin, générez un logo circulaire, puis téléchargez le PNG. C'est le fichier que vous emportez.",
+        "facilitator": "Si la trousse est vide, importez d'abord le fichier de démo. Partagez le Créateur de logo, pas la Trousse de marque, comme temps identité. Montrez que le téléchargement PNG fonctionne."
       },
-      "brand": {
-        "time": "10 min",
-        "navLabel": "Trousse de marque",
-        "title": "Trousse de marque en direct (couleurs, numéro, logo)",
-        "do": "Ouvrez la <strong>Trousse de marque</strong>. Indiquez le numéro de section, choisissez deux couleurs et téléversez un logo si vous en avez apporté un. Les téléchargements suivants réutilisent cette identité, pour que vous n'ayez pas à retaper les couleurs sur chaque graphique.",
-        "facilitator": "Partagez l'onglet Trousse de marque. Si un portable est vide, importez le fichier de démo de la Trousse de marque depuis Ressources Comms avant que les gens s'assoient. Proposez le <strong>Créateur de logo</strong> seulement si personne n'a de fichier."
-      },
-      "board": {
+      "inspiration": {
         "time": "8 min",
-        "navLabel": "Avis d'affichage",
-        "title": "Avis d'affichage pour les membres hors ligne",
-        "do": "Ouvrez l'<strong>Avis d'affichage</strong>. Rédigez un court titre et une date, puis téléchargez le PDF. Les membres qui n'ouvrent jamais Facebook passent encore devant le tableau au travail.",
-        "facilitator": "Montrez que Télécharger PDF fonctionne. Imprimer dans la salle est facultatif. Pointez le Guide des tableaux syndicaux seulement si quelqu'un demande la mise en page."
+        "navLabel": "Exemples sociaux",
+        "title": "Trouver de l'inspiration",
+        "do": "Ouvrez les <strong>Exemples sociaux</strong>. Parcourez les mises en page grève, AGA et portrait de membre, pour ne pas rester devant un écran vide. Touchez un exemple pour préremplir le Créateur de graphiques au bloc suivant.",
+        "facilitator": "C'est la galerie d'exemples. N'ouvrez pas l'Avis d'affichage sauf si quelqu'un pose une question sur les tableaux de liège ; pointez plutôt le Guide des tableaux syndicaux."
       },
-      "social": {
-        "time": "15 min",
+      "media": {
+        "time": "12 min",
         "navLabel": "Créateur de graphiques",
-        "title": "Créateur de graphiques et Légendes pour Facebook et Instagram",
-        "do": "Ouvrez le <strong>Créateur de graphiques</strong>, choisissez un modèle, puis téléchargez un PNG. Ensuite, copiez une légende correspondante dans <strong>Légendes</strong>. Vous partez avec une publication que vous pourriez vraiment mettre en ligne, pas seulement une diapositive sur le fait de publier.",
-        "facilitator": "Faites une pause sur le dialogue de consentement photo. Ne faites pas la démo de publication du Sondage éclair. Si un téléchargement échoue, montrez un PNG enregistré avant la séance. Après les Légendes, le Modèle de site Web apparaît sur le parcours une fois les quatre arrêts ouverts."
+        "title": "Produire du contenu média",
+        "do": "Ouvrez le <strong>Créateur de graphiques</strong>, choisissez un modèle, puis téléchargez un PNG. Ensuite, faites une <strong>Carte de citation</strong>. Le Créateur de graphiques est le paysage Facebook et le carré Instagram ; le Redimensionneur d'images sert aux autres formats.",
+        "facilitator": "Faites une pause sur le dialogue de consentement photo. Ne faites pas la démo de publication du Sondage éclair. Si un téléchargement échoue, montrez un PNG enregistré avant la séance. Sautez les Légendes sauf s'il reste des minutes."
       },
-      "roadmap": {
-        "time": "7 min",
-        "navLabel": "Première semaine",
-        "title": "Feuille de route de la première semaine et liste de contrôle",
-        "do": "Ouvrez la feuille de route <strong>Première semaine</strong>. Choisissez une vraie action pour cette semaine, d'habitude l'avis que vous venez de faire, puis une publication sociale. La liste de pratique dans Ressources Comms est un devoir, pas du temps de parole en plus.",
-        "facilitator": "Demandez ce qui ira sur le tableau cette semaine. Pointez Ressources Comms et terminez à l'heure. Bricoler après la séance, c'est le but. Le Modèle de site Web est déjà dans Première semaine ; ce n'est pas un cinquième arrêt numéroté sur cette page."
+      "close": {
+        "time": "5 min",
+        "navLabel": "Plan",
+        "title": "Partir avec un plan",
+        "do": "Vous devriez avoir un PNG de logo, un graphique et une carte de citation. Ouvrez <strong>Première semaine</strong> pour le plan écrit. La liste de pratique dans Ressources Comms est un devoir, pas du temps de parole en plus.",
+        "facilitator": "Remerciez les gens. Pointez Ressources Comms et terminez à l'heure. Bricoler après le dîner, c'est le but. Pas de ZIP de site Web sauf si quelqu'un le demande."
       }
     },
     "wrapTitle": "Prochaines étapes",
     "wrapIntro": "Faites ceci avant la fin de la semaine, pendant que les fichiers sont encore sur cet appareil.",
     "wrap": {
       "bookmark": "Ajoutez la <strong>Trousse de marque</strong> aux favoris de ce navigateur pour retrouver vos couleurs à votre retour. Si vous partagez l'ordinateur, téléchargez le fichier de la Trousse de marque et rangez-le avec les dossiers de la section.",
-      "post": "Ouvrez la feuille de route <strong>Première semaine</strong> et tentez votre première vraie publication avec le graphique et la légende faits aujourd'hui.",
-      "board": "Placez le PDF de l'Avis d'affichage sur le tableau au travail, ou remettez-le à la personne qui met le tableau à jour.",
-      "website": "Si vous avez ouvert les quatre arrêts en direct, ouvrez le Modèle de site Web et téléchargez le ZIP quand vous voulez une page locale simple.",
+      "logo": "Gardez le PNG du Créateur de logo avec les dossiers de la section, et ne l'utilisez sur la couverture Facebook qu'après l'accord de la personne qui doit approuver l'identité.",
+      "post": "Ouvrez la feuille de route <strong>Première semaine</strong> et tentez votre première vraie publication avec le graphique et la carte de citation faits aujourd'hui.",
       "checklist": "Quand vous avez une demi-heure tranquille, parcourez la liste de pratique dans Ressources Comms."
     },
     "wrapFacilitator": "Remerciez les gens. Rappelez que les outils de communication publics restent sur l'appareil. Si quelque chose a cassé, la page Commentaires de ce site prend une note, sans liste d'envoi aux membres.",

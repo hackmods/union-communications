@@ -18,8 +18,6 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
-import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
-import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { SegControl } from "@/components/tools/SegControl";
 import { cn } from "@/lib/utils";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
@@ -63,7 +61,6 @@ export default function BoardNoticePage() {
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
-  const inDemo = useWorkshopDemoSession(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [format, setFormat] = useState<PageFormat>("letter");
 
@@ -142,9 +139,8 @@ export default function BoardNoticePage() {
     <>
       <ToolEditorLayout
         title={t("title")}
-        eyebrow={inDemo ? <WorkshopDemoPath variant="trail" /> : undefined}
         description={t("subtitle")}
-        purposeHint={inDemo ? undefined : t("whenToUse")}
+        purposeHint={t("whenToUse")}
         toolbar={!themeEstablished ? (
         <BrandSetupPrompt themeEstablished={themeEstablished} />
       ) : undefined}

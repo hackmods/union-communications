@@ -70,7 +70,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/workshop": {
       title: "Workshop outline",
       description:
-        "A reusable outline for a lunch-and-learn or a hands-on session, so your local can start its social communications in about an hour of shared time.",
+        "A beginner hour for volunteer executives: platforms and posting rhythm, a local logo, Social Examples, then Graphic Maker and Quote Card.",
     },
     "/guide/union-boards": {
       title: "Union Boards Guide",
@@ -187,7 +187,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/workshop": {
       title: "Plan d'atelier",
       description:
-        "Un plan réutilisable pour un dîner-causerie ou une séance pratique, afin que votre section démarre ses communications sociales en environ une heure ensemble.",
+        "Une heure pour les cadres bénévoles : plateformes et rythme, un logo local, les Exemples sociaux, puis le Créateur de graphiques et la Carte de citation.",
     },
     "/guide/union-boards": {
       title: "Guide des tableaux syndicaux",

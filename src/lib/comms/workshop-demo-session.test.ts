@@ -22,32 +22,35 @@ describe("workshop demo session", () => {
     expect(isWorkshopDemoSession()).toBe(true);
   });
 
-  it("treats Brand Kit, onboarding, board notice, graphic, and captions as join hrefs", () => {
+  it("treats identity, examples, graphic, and quote as join hrefs", () => {
     expect(isWorkshopDemoJoinHref("/brand-kit")).toBe(true);
     expect(isWorkshopDemoJoinHref("/onboarding")).toBe(true);
-    expect(isWorkshopDemoJoinHref("/tools/board-notice")).toBe(true);
+    expect(isWorkshopDemoJoinHref("/tools/logo-builder")).toBe(true);
+    expect(isWorkshopDemoJoinHref("/examples")).toBe(true);
     expect(isWorkshopDemoJoinHref("/tools/graphic-maker")).toBe(true);
-    expect(isWorkshopDemoJoinHref("/captions")).toBe(true);
+    expect(isWorkshopDemoJoinHref("/tools/quote-card")).toBe(true);
+    expect(isWorkshopDemoJoinHref("/tools/board-notice")).toBe(false);
+    expect(isWorkshopDemoJoinHref("/captions")).toBe(false);
     expect(isWorkshopDemoJoinHref("/tools/flyer-maker")).toBe(false);
-    expect(isWorkshopDemoJoinHref("/guide/social-media-plan")).toBe(false);
   });
 
-  it("unlocks Website Template only after the four core stops", () => {
+  it("completes after logo, examples, graphic, and quote", () => {
     expect(hasCompletedWorkshopDemoQuartet()).toBe(false);
-    markWorkshopDemoStep("/brand-kit");
-    markWorkshopDemoStep("/tools/board-notice");
+    markWorkshopDemoStep("/tools/logo-builder");
+    markWorkshopDemoStep("/examples");
     markWorkshopDemoStep("/tools/graphic-maker");
     expect(hasCompletedWorkshopDemoQuartet()).toBe(false);
-    markWorkshopDemoStep("/captions");
+    markWorkshopDemoStep("/tools/quote-card");
     expect(hasCompletedWorkshopDemoQuartet()).toBe(true);
   });
 
-  it("counts onboarding as the Brand Kit stop", () => {
-    expect(canonicalWorkshopDemoHref("/onboarding")).toBe("/brand-kit");
+  it("counts onboarding and Brand Kit as the Logo Builder stop", () => {
+    expect(canonicalWorkshopDemoHref("/onboarding")).toBe("/tools/logo-builder");
+    expect(canonicalWorkshopDemoHref("/brand-kit")).toBe("/tools/logo-builder");
     markWorkshopDemoStep("/onboarding");
-    markWorkshopDemoStep("/tools/board-notice");
+    markWorkshopDemoStep("/examples");
     markWorkshopDemoStep("/tools/graphic-maker");
-    markWorkshopDemoStep("/captions");
+    markWorkshopDemoStep("/tools/quote-card");
     expect(hasCompletedWorkshopDemoQuartet()).toBe(true);
   });
 });

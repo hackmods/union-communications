@@ -6,23 +6,27 @@
 export const WORKSHOP_DEMO_SESSION_KEY = "unionops-workshop-demo";
 export const WORKSHOP_DEMO_VISITS_KEY = "unionops-workshop-demo-visits";
 
+export const WORKSHOP_DEMO_LOGO_HREF = "/tools/logo-builder";
+export const WORKSHOP_DEMO_EXAMPLES_HREF = "/examples";
+export const WORKSHOP_DEMO_GRAPHIC_HREF = "/tools/graphic-maker";
+export const WORKSHOP_DEMO_QUOTE_HREF = "/tools/quote-card";
+
 /** Destinations that mean the visitor started the 20-minute path. */
 export const WORKSHOP_DEMO_JOIN_HREFS = [
   "/brand-kit",
   "/onboarding",
-  "/tools/board-notice",
-  "/tools/graphic-maker",
-  "/captions",
+  WORKSHOP_DEMO_LOGO_HREF,
+  WORKSHOP_DEMO_EXAMPLES_HREF,
+  WORKSHOP_DEMO_GRAPHIC_HREF,
+  WORKSHOP_DEMO_QUOTE_HREF,
 ] as const;
 
 export const WORKSHOP_DEMO_CORE_HREFS = [
-  "/brand-kit",
-  "/tools/board-notice",
-  "/tools/graphic-maker",
-  "/captions",
+  WORKSHOP_DEMO_LOGO_HREF,
+  WORKSHOP_DEMO_EXAMPLES_HREF,
+  WORKSHOP_DEMO_GRAPHIC_HREF,
+  WORKSHOP_DEMO_QUOTE_HREF,
 ] as const;
-
-export const WORKSHOP_DEMO_WEBSITE_HREF = "/tools/website-template";
 
 const listeners = new Set<() => void>();
 
@@ -71,11 +75,19 @@ function readVisited(): string[] {
 }
 
 export function canonicalWorkshopDemoHref(pathname: string): string | null {
-  if (pathname === "/onboarding" || pathname.startsWith("/onboarding/")) {
-    return "/brand-kit";
+  if (
+    pathname === "/onboarding" ||
+    pathname.startsWith("/onboarding/") ||
+    pathname === "/brand-kit" ||
+    pathname.startsWith("/brand-kit/")
+  ) {
+    return WORKSHOP_DEMO_LOGO_HREF;
   }
-  const known = [...WORKSHOP_DEMO_CORE_HREFS, WORKSHOP_DEMO_WEBSITE_HREF];
-  return known.find((href) => pathname === href || pathname.startsWith(`${href}/`)) ?? null;
+  return (
+    WORKSHOP_DEMO_CORE_HREFS.find(
+      (href) => pathname === href || pathname.startsWith(`${href}/`),
+    ) ?? null
+  );
 }
 
 /** Record that this tab visited a demo stop. Joins the session if needed. */

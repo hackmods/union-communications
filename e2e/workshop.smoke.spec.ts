@@ -3,8 +3,8 @@ import { expectNoSeriousA11yViolations } from "./helpers/axe";
 import { assertNoHorizontalOverflow } from "./helpers/layout";
 
 /**
- * End-to-end coverage for the “Starting Your Local Social Communications”
- * facilitator path (Phase A). Tagged @smoke for CI/demo gates.
+ * End-to-end coverage for From Scratch to Solidarity (Phase A).
+ * Tagged @smoke for CI/demo gates.
  */
 test.describe("Workshop demo path E2E @smoke", () => {
   test.beforeEach(async ({ page }) => {
@@ -15,7 +15,7 @@ test.describe("Workshop demo path E2E @smoke", () => {
     });
   });
 
-  test("home WorkshopDemoPath links Brand Kit → Board Notice → Graphic Maker → Captions", async ({
+  test("home WorkshopDemoPath links Logo Builder → Social Examples → Graphic Maker → Quote Card", async ({
     page,
   }) => {
     await page.goto("/en/");
@@ -25,20 +25,22 @@ test.describe("Workshop demo path E2E @smoke", () => {
     await expect(heading).toBeVisible();
 
     const demoSection = page.locator("section").filter({ has: heading });
-    const stepBrand = demoSection.getByRole("link", { name: /Brand Kit/i });
-    const stepBoard = demoSection.getByRole("link", { name: /Board Notice/i });
+    const stepLogo = demoSection.getByRole("link", { name: /Logo Builder/i });
+    const stepExamples = demoSection.getByRole("link", {
+      name: /Social Examples/i,
+    });
     const stepGraphic = demoSection.getByRole("link", {
       name: /Graphic Maker/i,
     });
-    const stepCaptions = demoSection.getByRole("link", { name: /Captions/i });
+    const stepQuote = demoSection.getByRole("link", { name: /Quote Card/i });
 
-    await expect(stepBrand).toHaveAttribute("href", /\/brand-kit\/?$/);
-    await expect(stepBoard).toHaveAttribute("href", /\/tools\/board-notice\/?$/);
+    await expect(stepLogo).toHaveAttribute("href", /\/tools\/logo-builder\/?$/);
+    await expect(stepExamples).toHaveAttribute("href", /\/examples\/?$/);
     await expect(stepGraphic).toHaveAttribute(
       "href",
       /\/tools\/graphic-maker\/?$/,
     );
-    await expect(stepCaptions).toHaveAttribute("href", /\/captions\/?$/);
+    await expect(stepQuote).toHaveAttribute("href", /\/tools\/quote-card\/?$/);
 
     await stepGraphic.click();
     const trail = page.getByRole("navigation", {
@@ -46,16 +48,16 @@ test.describe("Workshop demo path E2E @smoke", () => {
     });
     await expect(trail).toBeVisible();
     await expect(trail.getByText("Graphic Maker")).toBeVisible();
-    await trail.getByRole("link", { name: /Captions/i }).click();
+    await trail.getByRole("link", { name: /Quote Card/i }).click();
     await expect(
-      page.getByRole("heading", { name: /Caption & Hashtag Library/i }),
-    ).toBeVisible();
-    await expect(
-      page.getByText(/That's the 20-minute path/i),
+      page.getByRole("heading", { name: /Quote Card/i }),
     ).toBeVisible();
 
     await page.goto("/en/brand-kit/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(
+      page.getByRole("navigation", { name: /20-minute demo path/i }),
+    ).toBeVisible();
   });
 
   test("Graphic Maker has no demo trail on a cold visit", async ({ page }) => {
@@ -86,7 +88,7 @@ test.describe("Workshop demo path E2E @smoke", () => {
       name: /Demo this in about 20 minutes/i,
     });
     const demoSection = page.locator("section").filter({ has: heading });
-    await demoSection.getByRole("link", { name: /Brand Kit/i }).click();
+    await demoSection.getByRole("link", { name: /Logo Builder/i }).click();
     await expect(
       page.getByRole("navigation", { name: /20-minute demo path/i }),
     ).toBeVisible();
@@ -96,7 +98,7 @@ test.describe("Workshop demo path E2E @smoke", () => {
     ).toBeVisible();
   });
 
-  test("Website Template appears on the trail after the four demo stops", async ({
+  test("trail stays four stops after visiting Logo Builder, Examples, Graphic Maker, and Quote Card", async ({
     page,
   }) => {
     await page.goto("/en/guide/social-media-plan/");
@@ -104,17 +106,21 @@ test.describe("Workshop demo path E2E @smoke", () => {
       name: /Demo this in about 20 minutes/i,
     });
     const demoSection = page.locator("section").filter({ has: heading });
-    await demoSection.getByRole("link", { name: /Brand Kit/i }).click();
-    await page.goto("/en/tools/board-notice/");
+    await demoSection.getByRole("link", { name: /Logo Builder/i }).click();
+    await expect(
+      page.getByRole("heading", { name: /Logo Builder/i }),
+    ).toBeVisible();
+    await page.goto("/en/examples/");
     await page.goto("/en/tools/graphic-maker/");
-    await page.goto("/en/captions/");
+    await page.goto("/en/tools/quote-card/");
     const trail = page.getByRole("navigation", {
       name: /20-minute demo path/i,
     });
     await expect(trail).toBeVisible();
+    await expect(trail.getByText("Quote Card")).toBeVisible();
     await expect(
       trail.getByRole("link", { name: /Website Template/i }),
-    ).toBeVisible();
+    ).toHaveCount(0);
   });
 
   test("First week primary buttons join the trail", async ({ page }) => {
@@ -133,7 +139,7 @@ test.describe("Workshop demo path E2E @smoke", () => {
     await page.goto("/en/guide/workshop/");
     await expect(
       page.getByRole("heading", {
-        name: /Workshop: Starting local social communications/i,
+        name: /From Scratch to Solidarity: Launching Your Local's Social Media/i,
       }),
     ).toBeVisible();
     await expect(
@@ -149,14 +155,16 @@ test.describe("Workshop demo path E2E @smoke", () => {
       page.getByRole("heading", { name: /Demo this in about 20 minutes/i }),
     ).toBeVisible();
     await expect(
-      page.getByText(/Website Template appears on that path as an optional fifth/i),
+      page.getByText(
+        /The live path is Logo Builder, Social Examples, Graphic Maker, then Quote Card/i,
+      ),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
 
     await page.goto("/fr/guide/workshop/");
     await expect(
       page.getByRole("heading", {
-        name: /Atelier : démarrer les communications sociales locales/i,
+        name: /De zéro à la solidarité : lancer les médias sociaux de votre section/i,
       }),
     ).toBeVisible();
   });
@@ -174,17 +182,19 @@ test.describe("Workshop demo path E2E @smoke", () => {
       page.getByText(/The 20-minute demo skips print/i),
     ).toBeVisible();
     await expect(
-      page.getByText(/Graphic Maker and Captions from the live demo/i),
+      page.getByText(/Graphic Maker and Quote Card from the live demo/i),
     ).toBeVisible();
   });
 
-  test("demo quartet surfaces: board notice, graphic maker, captions", async ({
+  test("demo quartet surfaces: logo builder, examples, graphic maker, quote card", async ({
     page,
   }) => {
-    await page.goto("/en/tools/board-notice/");
+    await page.goto("/en/tools/logo-builder/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+    await page.goto("/en/examples/");
     await expect(
-      page.getByRole("button", { name: /Download PDF/i }),
+      page.getByRole("heading", { name: /Social Examples/i }),
     ).toBeVisible();
 
     await page.goto("/en/tools/graphic-maker/");
@@ -195,14 +205,10 @@ test.describe("Workshop demo path E2E @smoke", () => {
       page.getByRole("button", { name: /Download PNG/i }),
     ).toBeVisible();
 
-    await page.goto("/en/captions/");
+    await page.goto("/en/tools/quote-card/");
     await expect(
-      page.getByRole("heading", { name: /Caption & Hashtag Library/i }),
+      page.getByRole("heading", { name: /Quote Card/i }),
     ).toBeVisible();
-    await expect(page.getByRole("button", { name: /Copy/i }).first()).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: /Open Graphic Maker/i }),
-    ).toHaveAttribute("href", /\/tools\/graphic-maker\/?$/);
   });
 
   test("graphic maker mobile Edit/Preview has no horizontal overflow @mobile", async ({

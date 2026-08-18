@@ -2,13 +2,13 @@
 
 > **Public guide:** attendees and locals should use **Comms Resources** at `/[locale]/guide/resources`. This file is the facilitator run sheet for the presentation format only.
 
-**When:** August session (date TBA)  
+**When:** Tuesday, August 18, 2026, 12:00–1:00 p.m.  
 **Format:** Presentation + interleaved Q&A (remote lunch-and-learn friendly)  
 **Audience:** Local officers and volunteer executives starting social media from scratch
 
 ## Session goal
 
-Give a clear high-level plan for launching a local's digital presence, demo UnionOps tools live (logo, notice board, graphics), and leave attendees ready to tinker self-paced afterward. Do **not** rely on full hands-on facilitation during a remote lunch lab.
+Give a clear high-level plan for launching a local's digital presence, demo UnionOps tools live (logo, Social Examples, Graphic Maker, Quote Card), and leave attendees with a plan and a custom logo. Project `/guide/workshop`. Do **not** follow the four-channel toolbox lab in this hour.
 
 ## Why this format
 
@@ -44,21 +44,21 @@ Live demo: `/onboarding` → Brand Kit colours → `/tools/logo-builder` → exp
 - Do you already have official colours or letterhead from your union?
 - Who should approve the logo before it goes on a Facebook cover?
 
-### 20–28 min — Inspiration (Notice Board / Union Boards) + Q&A
+### 20–28 min — Inspiration (Social Examples) + Q&A
 
-Live tour: `/tools/board-notice` and/or `/guide/union-boards` — gallery of layouts for AGMs, actions, member updates, standing resources.
+Live tour: `/examples` — gallery of strike, AGM, and member-spotlight layouts. Union Boards guide only if someone asks about cork boards.
 
-**Talking point:** Never stare at a blank screen — borrow real-world notice patterns, then adapt for social crops in Graphic Maker.
+**Talking point:** Never stare at a blank screen — borrow a real example, then open it in Graphic Maker.
 
 **Discussion prompts:**
-- What one notice would your members need to see this month on a workplace board *and* online?
-- Who prints and posts physical boards at your worksites?
+- What is the next post you actually need (meeting, bargaining update, member spotlight)?
+- Who prints and posts physical boards at your worksites? (Point to `/guide/union-boards` if asked.)
 
-### 28–40 min — Generating media (Graphic Maker) + Q&A
+### 28–40 min — Generating media (Graphic Maker + Quote Card) + Q&A
 
-Live demo: `/tools/graphic-maker` — news graphic, quote card, or announcement; show platform-sized exports. Mention captions library if time.
+Live demo: `/tools/graphic-maker` — preset → Download PNG. Then `/tools/quote-card`. Graphic Maker is Facebook landscape and Instagram square; mention Image Resizer for other crops. Captions only if minutes remain.
 
-**Talking point:** Skip expensive design software — sized and branded for the platforms you chose in the strategy block.
+**Talking point:** Skip expensive design software — branded for the platforms you chose in the strategy block.
 
 **Discussion prompts:**
 - What is the next post you actually need to ship (meeting, bargaining update, member spotlight)?
@@ -77,21 +77,24 @@ Do not require these during the call. After the session:
 
 - [ ] Import the demo Brand Kit or complete onboarding for your local
 - [ ] Export a circular local logo (PNG)
-- [ ] Create and download a board notice (PDF)
+- [ ] Open Social Examples and seed Graphic Maker from one post
 - [ ] Create one social graphic with Graphic Maker
-- [ ] (Optional) Download the website ZIP and skim the README
+- [ ] Create one Quote Card
+- [ ] (Optional) Copy a caption; Board Notice PDF and website ZIP are First week homework
 
 ## Facilitator URLs (quick reference)
 
 ```
+/en/guide/workshop
 /en/guide/resources
 /en/guide/social-media-plan
 /en/guide
 /en/onboarding
 /en/tools/logo-builder
-/en/tools/board-notice
-/en/guide/union-boards
+/en/examples
 /en/tools/graphic-maker
+/en/tools/quote-card
+/en/captions
 /en/guide/photo-consent
 ```
 

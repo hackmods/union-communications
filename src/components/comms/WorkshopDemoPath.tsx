@@ -3,23 +3,21 @@
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { WorkshopDemoJoinLink } from "@/components/comms/WorkshopDemoJoinLink";
+import { useWorkshopDemoStepVisit } from "@/hooks/use-workshop-demo-session";
 import {
-  useWorkshopDemoQuartetComplete,
-  useWorkshopDemoStepVisit,
-} from "@/hooks/use-workshop-demo-session";
-import { WORKSHOP_DEMO_WEBSITE_HREF } from "@/lib/comms/workshop-demo-session";
+  canonicalWorkshopDemoHref,
+  WORKSHOP_DEMO_EXAMPLES_HREF,
+  WORKSHOP_DEMO_GRAPHIC_HREF,
+  WORKSHOP_DEMO_LOGO_HREF,
+  WORKSHOP_DEMO_QUOTE_HREF,
+} from "@/lib/comms/workshop-demo-session";
 
 export const WORKSHOP_DEMO_STEPS = [
-  { href: "/brand-kit", labelKey: "stepBrand" as const },
-  { href: "/tools/board-notice", labelKey: "stepBoard" as const },
-  { href: "/tools/graphic-maker", labelKey: "stepGraphic" as const },
-  { href: "/captions", labelKey: "stepCaptions" as const },
+  { href: WORKSHOP_DEMO_LOGO_HREF, labelKey: "stepLogo" as const },
+  { href: WORKSHOP_DEMO_EXAMPLES_HREF, labelKey: "stepExamples" as const },
+  { href: WORKSHOP_DEMO_GRAPHIC_HREF, labelKey: "stepGraphic" as const },
+  { href: WORKSHOP_DEMO_QUOTE_HREF, labelKey: "stepQuote" as const },
 ] as const;
-
-const WEBSITE_STEP = {
-  href: WORKSHOP_DEMO_WEBSITE_HREF,
-  labelKey: "stepWebsite" as const,
-};
 
 type WorkshopDemoPathProps = {
   className?: string;
@@ -31,13 +29,18 @@ type WorkshopDemoPathProps = {
   variant?: "card" | "trail";
 };
 
-function isCurrentDemoStep(pathname: string, href: string): boolean {
-  return pathname === href || pathname.startsWith(`${href}/`);
+function isIdentitySetupPath(pathname: string): boolean {
+  return (
+    pathname === "/brand-kit" ||
+    pathname.startsWith("/brand-kit/") ||
+    pathname === "/onboarding" ||
+    pathname.startsWith("/onboarding/")
+  );
 }
 
 /**
  * Compact “demo in ~20 minutes” path for home + First week, plus a quiet
- * in-tool trail. Website Template appears as stop 5 only after the first four.
+ * in-tool trail. Matches From Scratch to Solidarity: logo, examples, graphic, quote.
  */
 export function WorkshopDemoPath({
   className,
@@ -46,22 +49,16 @@ export function WorkshopDemoPath({
 }: WorkshopDemoPathProps) {
   const t = useTranslations("workshopDemo");
   const pathname = usePathname();
-  const quartetComplete = useWorkshopDemoQuartetComplete();
   useWorkshopDemoStepVisit(variant === "trail");
 
   if (variant === "trail") {
-    const trailSteps = quartetComplete
-      ? [...WORKSHOP_DEMO_STEPS, WEBSITE_STEP]
-      : WORKSHOP_DEMO_STEPS;
-    const currentHref = trailSteps.find((step) =>
-      isCurrentDemoStep(pathname, step.href),
-    )?.href;
+    const currentHref = canonicalWorkshopDemoHref(pathname);
 
     return (
       <div className={className}>
         <nav aria-label={t("trailNavLabel")}>
           <ol className="flex flex-wrap items-center gap-x-1 gap-y-1 text-sm">
-            {trailSteps.map((step, i) => {
+            {WORKSHOP_DEMO_STEPS.map((step, i) => {
               const current = step.href === currentHref;
               return (
                 <li
@@ -93,29 +90,29 @@ export function WorkshopDemoPath({
             })}
           </ol>
         </nav>
-        {currentHref === "/brand-kit" ? (
+        {currentHref === WORKSHOP_DEMO_LOGO_HREF && isIdentitySetupPath(pathname) ? (
           <p className="mt-1 max-w-prose text-sm text-gray-600">
             {t("continueBrand")}
           </p>
         ) : null}
-        {currentHref === "/tools/board-notice" ? (
+        {currentHref === WORKSHOP_DEMO_LOGO_HREF && !isIdentitySetupPath(pathname) ? (
           <p className="mt-1 max-w-prose text-sm text-gray-600">
-            {t("continueBoard")}
+            {t("continueLogo")}
           </p>
         ) : null}
-        {currentHref === "/tools/graphic-maker" ? (
+        {currentHref === WORKSHOP_DEMO_EXAMPLES_HREF ? (
+          <p className="mt-1 max-w-prose text-sm text-gray-600">
+            {t("continueExamples")}
+          </p>
+        ) : null}
+        {currentHref === WORKSHOP_DEMO_GRAPHIC_HREF ? (
           <p className="mt-1 max-w-prose text-sm text-gray-600">
             {t("continueGraphic")}
           </p>
         ) : null}
-        {currentHref === "/captions" ? (
+        {currentHref === WORKSHOP_DEMO_QUOTE_HREF ? (
           <p className="mt-1 max-w-prose text-sm text-gray-600">
-            {quartetComplete ? t("continueCaptionsThenWebsite") : t("continueCaptions")}
-          </p>
-        ) : null}
-        {currentHref === WORKSHOP_DEMO_WEBSITE_HREF ? (
-          <p className="mt-1 max-w-prose text-sm text-gray-600">
-            {t("continueWebsite")}
+            {t("continueQuote")}
           </p>
         ) : null}
       </div>
