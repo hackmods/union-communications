@@ -6,6 +6,10 @@
  */
 
 import { collectionPatchForPreset } from "@/lib/brand/collection-profiles";
+import {
+  opseuCollectionMembershipAudience,
+  withPrimaryMembershipForAudience,
+} from "@/lib/brand/membership-primary";
 import { getSeedMembershipUrlsForPreset } from "@/lib/tenant/loader";
 import type { BrandKitPatch } from "@/types/entities";
 
@@ -228,12 +232,20 @@ export function brandFieldsFromUnionPreset(
   const logos = resolvePresetLogos(preset.logos);
   const logoText = (preset.logoText ?? preset.name.slice(0, 4)).toUpperCase();
   const subText = preset.defaultSlogans[0] ?? "";
-  const membershipUrls = getSeedMembershipUrlsForPreset(preset.id);
   const collections = collectionPatchForPreset(
     preset.id,
     options?.localNumber ?? "",
     subText,
   );
+  const seedMembership = getSeedMembershipUrlsForPreset(preset.id);
+  const collectionAudience =
+    preset.id === "opseu"
+      ? opseuCollectionMembershipAudience(collections.activeProfileId)
+      : null;
+  const membershipUrls = collectionAudience
+    ? (withPrimaryMembershipForAudience(seedMembership, collectionAudience) ??
+      seedMembership)
+    : seedMembership;
 
   if (logos.useOfficialPack) {
     return {

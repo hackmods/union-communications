@@ -1,6 +1,6 @@
 ---
 description: Brand Kit collection profiles — per-union defaults, labels, and sourced bargaining structures
-globs: src/lib/brand/collection-profiles.ts,src/lib/brand/collection-profile-catalog.ts,src/lib/brand/opseu-sector-catalog.ts,src/lib/constants/unionPresets.ts,src/lib/constants/brand.ts,src/components/brand/CollectionProfilesEditor.tsx,src/components/brand/OpseuSectorSelect.tsx,src/app/**/brand-kit/**,src/app/**/onboarding/**,seed/reference-tenant-opseu-caat.json
+globs: src/lib/brand/collection-profiles.ts,src/lib/brand/collection-profile-catalog.ts,src/lib/brand/opseu-sector-catalog.ts,src/lib/brand/membership-primary.ts,src/lib/constants/unionPresets.ts,src/lib/constants/brand.ts,src/components/brand/CollectionProfilesEditor.tsx,src/components/brand/OpseuSectorSelect.tsx,src/app/**/brand-kit/**,src/app/**/onboarding/**,seed/reference-tenant-opseu-caat.json
 alwaysApply: false
 ---
 
@@ -20,6 +20,7 @@ Companion research: [`docs/audit/session-knowledge-2026-08-17-brand-kit-collecti
 6. **Reference URLs** in the catalog are **general union homepages** for agent/docs context — never stored in Brand Kit or membership URLs.
 7. **No union names in generic chrome.** Preset-specific hints live under `brandKit.profilePresetHint.{presetId}` only when that preset is selected.
 8. **Local number is shared** across all saved profiles; sub-text/code follow the active profile. Onboarding and Brand Kit hide the standalone sub-text field when `profiles.length > 1`.
+9. **OPSEU CAAT Support membership primary follows the active collection:** College Support Part-time → Support Part-Time join form; Full-time → Support Full-Time. Do not leave PT stewards on the FT application by default.
 
 ## Code map
 

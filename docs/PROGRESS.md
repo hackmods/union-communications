@@ -1,5 +1,10 @@
 # Progress Log
 
+## OPSEU PT collection membership primary (2026-08-18)
+
+- [x] College Support Part-time collection selects **CAAT Support Part-Time** as the membership Primary link (FT collection keeps Full-Time)
+- Verify: `npm run test:unit -- src/lib/brand/membership-primary.test.ts src/lib/constants/unionPresets.test.ts`
+
 ## HubNav drawer + Officer tools clamp (2026-08-18)
 
 - [x] Hub chrome uses a **Hub menu** drawer below `lg` (no hidden horizontal scroll)

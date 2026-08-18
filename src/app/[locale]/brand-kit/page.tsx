@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
+import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
 import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Callout } from "@/components/ui/Callout";
@@ -43,6 +45,7 @@ export default function BrandKitPage() {
     onboardingComplete,
     storageBlocked,
     dismissStorageBlocked,
+    hydrated,
   } = useBrandStore();
   const fileRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -58,6 +61,14 @@ export default function BrandKitPage() {
     : null;
   const multiProfile = (brandKit.profiles?.length ?? 0) > 1;
   const showPresetCollectionsNote = hasStarterCollectionList(unionPresetId);
+
+  useOneShotBrandSeed(hydrated, () => {
+    const kit = useBrandStore.getState().brandKit;
+    const aligned = alignOpseuMembershipPrimary(kit);
+    if (aligned.membershipUrls !== kit.membershipUrls) {
+      setBrandKit({ membershipUrls: aligned.membershipUrls });
+    }
+  });
 
   const applyUnionPreset = (preset: UnionBranding) => {
     setBrandKit(

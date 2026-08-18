@@ -4,6 +4,7 @@ import {
   reconcileActiveProfileId,
   resolveOpseuSectorId,
 } from "@/lib/brand/collection-profiles";
+import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { normalizeBrandKitCanvas } from "@/lib/utils/canvas-tokens";
 import type {
@@ -229,16 +230,18 @@ export function applyBrandKitProfile(
 ): BrandKit {
   const profile = kit.profiles?.find((p) => p.id === profileId);
   if (!profile) return kit;
-  return normalizeBrandKit({
-    ...kit,
-    activeProfileId: profileId,
-    local: {
-      ...kit.local,
-      localNumber: profile.localNumber,
-      subText: profile.subText,
-      bargainingUnitCode: profile.bargainingUnitCode,
-    },
-  });
+  return alignOpseuMembershipPrimary(
+    normalizeBrandKit({
+      ...kit,
+      activeProfileId: profileId,
+      local: {
+        ...kit.local,
+        localNumber: profile.localNumber,
+        subText: profile.subText,
+        bargainingUnitCode: profile.bargainingUnitCode,
+      },
+    }),
+  );
 }
 
 /** Client-side: local website, else current origin (or empty on server). */

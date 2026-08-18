@@ -7,6 +7,7 @@ import {
   LocalStorageAdapter,
 } from "@/lib/data/local-storage-adapter";
 import { syncBrandKitProfilesFromLocal } from "@/lib/brand/collection-profiles";
+import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
 import { normalizeBrandKit } from "@/lib/utils/local-links";
 import type { BrandKit, BrandKitPatch } from "@/types/entities";
 
@@ -45,7 +46,7 @@ function clearSaveTimer() {
 }
 
 function applyBrandKitPatch(current: BrandKit, partial: BrandKitPatch): BrandKit {
-  return syncBrandKitProfilesFromLocal(
+  const updated = syncBrandKitProfilesFromLocal(
     normalizeBrandKit({
       ...current,
       ...partial,
@@ -62,6 +63,10 @@ function applyBrandKitPatch(current: BrandKit, partial: BrandKitPatch): BrandKit
       updatedAt: new Date().toISOString(),
     }),
   );
+  if (partial.activeProfileId !== undefined || partial.profiles !== undefined) {
+    return alignOpseuMembershipPrimary(updated);
+  }
+  return updated;
 }
 
 function queueBrandKitPatch(

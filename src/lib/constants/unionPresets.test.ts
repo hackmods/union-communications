@@ -84,6 +84,9 @@ describe("unionPresets", () => {
       "other",
     ]);
     expect(fields.local?.subText).toBe("College Support Full-time");
+    expect(fields.membershipUrls?.find((row) => row.primary)?.audience).toBe(
+      "full_time",
+    );
   });
 
   it("maps Unifor preset to starter bargaining units plus UnionOps mark", () => {
