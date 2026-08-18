@@ -17,6 +17,12 @@ describe("alt-text draft helpers", () => {
       false,
     );
     expect(strictestPlatformLimit()).toBe(1000);
+    expect(PLATFORM_ALT_LIMITS).toEqual({
+      instagram: 1000,
+      facebook: 1000,
+      x: 1000,
+      linkedin: 1000,
+    });
   });
 
   it("flags empty drafts", () => {

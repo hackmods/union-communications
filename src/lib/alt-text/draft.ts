@@ -1,9 +1,17 @@
-/** Platform alt-text character limits (documented social maxima). */
+/**
+ * Native alt-text field maxima (not caption / post-body limits).
+ * Checked 2026-08-18:
+ * - Instagram Graph API `alt_text`: 1000
+ * - Facebook: no published hard cap; composer may warn near 100 (ignorable). 1000 is a practical ceiling.
+ * - X API alt_text: maxLength 1000
+ * - LinkedIn composer: 1000 (Accessible Social, 2026-04-29). Images API allows 4086 and recommends under 120.
+ *   Do not use 3000 — that is LinkedIn's post body, not alt text.
+ */
 export const PLATFORM_ALT_LIMITS = {
   instagram: 1000,
   facebook: 1000,
   x: 1000,
-  linkedin: 3000,
+  linkedin: 1000,
 } as const;
 
 export type PlatformId = keyof typeof PLATFORM_ALT_LIMITS;
