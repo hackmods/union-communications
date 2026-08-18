@@ -78,6 +78,11 @@ describe("canvas-fonts", () => {
     const files = collectWebsiteZipFontFiles("oswald", "sourceSans");
     expect(files.some((f) => f.family === "Oswald")).toBe(true);
     expect(files.some((f) => f.family === "Source Sans 3")).toBe(true);
+    expect(
+      files.some(
+        (f) => f.family === "Source Sans 3" && f.weight === 700,
+      ),
+    ).toBe(true);
     expect(files.every((f) => f.relativePath.endsWith(".woff2"))).toBe(true);
     expect(collectWebsiteZipFontFiles("systemSans", "systemSerif")).toEqual([]);
   });

@@ -1,5 +1,11 @@
 # Progress Log
 
+## Website Template preview fonts (2026-08-18)
+
+- [x] Preview iframe `allow-same-origin` so Brand Kit `@font-face` can load (`font-src 'self'` was blocking unique-origin sandbox → Arial fallback)
+- [x] ZIP body faces include weight 700 so nav/CTA/email are not faux-bold; drop the heavy hero text-shadow
+- Verify: `npm run test:unit -- src/lib/comms/canvas-fonts.test.ts src/lib/templates/website/generate-website-zip.test.ts`
+
 ## Workshop outline lunch-and-learn QOL (2026-08-18)
 
 - [x] `/guide/workshop` is a standalone teaching page: what to bring, timed 45–60 min agenda with Facilitator / Do this notes, Quick links around Demo Path, and next steps

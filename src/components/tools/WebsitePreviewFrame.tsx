@@ -12,6 +12,10 @@ type WebsitePreviewFrameProps = {
 /**
  * Live website template preview. Clears srcDoc on unmount so React soft-nav
  * does not race the iframe's nested document (removeChild null crashes).
+ *
+ * `allow-same-origin` is required so `@font-face` can load `/fonts/*.woff2`.
+ * A unique-origin sandbox inherits `font-src 'self'` as the opaque origin,
+ * so Brand Kit faces fail and the preview falls back to Arial.
  */
 export function WebsitePreviewFrame({
   html,
@@ -43,7 +47,7 @@ export function WebsitePreviewFrame({
         "h-[600px] w-full rounded-lg border border-gray-200 bg-white shadow-lg",
         className,
       )}
-      sandbox="allow-scripts"
+      sandbox="allow-scripts allow-same-origin"
     />
   );
 }

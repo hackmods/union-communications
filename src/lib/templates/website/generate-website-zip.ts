@@ -284,6 +284,7 @@ export function buildWebsiteCss(
 body {
   margin: 0;
   font-family: var(--font-body);
+  font-synthesis: none;
   line-height: 1.5;
   color: var(--color-text);
   scroll-behavior: smooth;
@@ -293,6 +294,7 @@ h1, h2, h3, h4 {
   line-height: 1.2;
   margin: 0 0 1rem;
   font-family: var(--font-headline);
+  font-weight: 700;
 }
 
 .text-wrapper {
@@ -335,7 +337,7 @@ h1, h2, h3, h4 {
 .header-brand-text {
   color: var(--color-white);
   font-size: 1.25rem;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .nav-links {
@@ -381,7 +383,7 @@ h1, h2, h3, h4 {
 .hero-section h1 {
   font-size: var(--font-size-h1);
   color: var(--color-white);
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
 }
 
 .hero-text {
@@ -397,7 +399,7 @@ h1, h2, h3, h4 {
   padding: var(--spacing-3) var(--spacing-5);
   border-radius: 8px;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 1.1rem;
 }
 
@@ -446,7 +448,7 @@ h1, h2, h3, h4 {
 .contact-email a {
   color: var(--color-primary);
   font-size: 1.25rem;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .contact-links {

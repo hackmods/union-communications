@@ -120,6 +120,8 @@ describe("generate-website-zip", () => {
     expect(css).toContain('--font-body: "Source Sans 3", sans-serif');
     expect(css).toContain("@font-face");
     expect(css).toContain('font-family: "Montserrat"');
+    expect(css).toContain("font-synthesis: none");
+    expect(css).toContain("font-weight: 700");
   });
 
   it("scales hero and type from Brand Kit canvas knobs", () => {
@@ -182,6 +184,9 @@ describe("generate-website-zip", () => {
     expect(css).toContain("../assets/fonts/");
     expect(css).toContain("@font-face");
     expect(css).toContain('"Oswald"');
+    expect(
+      names.some((n) => n.includes("source-sans") && n.includes("700")),
+    ).toBe(true);
   });
 
   it("omits font assets when both faces are system residual", async () => {

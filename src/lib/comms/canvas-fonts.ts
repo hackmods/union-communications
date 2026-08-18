@@ -181,11 +181,11 @@ const ZIP_WEIGHTS: Record<
   { headline: number[]; body: number[] }
 > = {
   montserrat: { headline: [700, 800], body: [700] },
-  sourceSans: { headline: [700], body: [400, 600] },
-  barlowCondensed: { headline: [700, 800], body: [600] },
-  oswald: { headline: [600, 700], body: [600] },
-  sourceSerif: { headline: [700], body: [400, 600] },
-  robotoSlab: { headline: [700], body: [400] },
+  sourceSans: { headline: [700], body: [400, 600, 700] },
+  barlowCondensed: { headline: [700, 800], body: [600, 700] },
+  oswald: { headline: [600, 700], body: [600, 700] },
+  sourceSerif: { headline: [700], body: [400, 600, 700] },
+  robotoSlab: { headline: [700], body: [400, 700] },
 };
 
 export type CanvasFontZipFile = {
