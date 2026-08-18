@@ -9,6 +9,7 @@ import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { TOOL_PRESETS, type ToolPresetKey } from "@/lib/constants/presets";
@@ -70,6 +71,7 @@ function GraphicMakerPageContent() {
   const searchParams = useSearchParams();
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
+  const hydrated = useBrandStore((s) => s.hydrated);
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [consentOpen, setConsentOpen] = useState(false);
@@ -149,9 +151,60 @@ function GraphicMakerPageContent() {
       secondaryColor: brandKit.secondaryColor,
     }));
     return true;
+  }, "example", hydrated);
+
+  useOneShotBrandSeed(hydrated, () => {
+    const exampleId = searchParams.get("example");
+    if (exampleId) {
+      const post = getExamplePost(exampleId);
+      if (
+        post?.primaryTool === "graphic-maker" &&
+        isGraphicLayoutId(post.layout)
+      ) {
+        return;
+      }
+    }
+    const colours = {
+      primaryColor: brandKit.primaryColor,
+      accentColor: brandKit.accentColor,
+      secondaryColor: brandKit.secondaryColor,
+    };
+    const presetRaw = searchParams.get("preset");
+    if (presetRaw && isToolPresetKey(presetRaw)) {
+      const preset = TOOL_PRESETS[presetRaw];
+      const layout: GraphicLayoutId =
+        presetRaw === "memberSpotlight"
+          ? "spotlight"
+          : presetRaw === "agmNotice" || presetRaw === "bargainingUpdate"
+            ? "notice"
+            : "solidarity";
+      presetApplied.current = true;
+      reset({
+        ...initial,
+        ...colours,
+        layout,
+        aspect: presetRaw === "memberSpotlight" ? "square" : "landscape",
+        headline: preset.headline,
+        subheadline: preset.subheadline,
+        detail:
+          presetRaw === "agmNotice"
+            ? "AGM"
+            : presetRaw === "bargainingUpdate"
+              ? "Update"
+              : presetRaw === "strikeAction"
+                ? "Strike"
+                : "",
+      });
+      return;
+    }
+    reset({
+      ...initial,
+      ...colours,
+    });
   });
 
   useEffect(() => {
+    if (!hydrated) return;
     if (presetApplied.current) return;
     const exampleId = searchParams.get("example");
     if (exampleId) {
@@ -191,7 +244,7 @@ function GraphicMakerPageContent() {
                 : "",
       }));
     }
-  }, [searchParams, setState]);
+  }, [searchParams, setState, hydrated]);
 
   const handlePhotoUpload = (url: string) => {
     setPendingPhoto(url);

@@ -16,6 +16,7 @@ export function BrandProvider({ children }: { children: React.ReactNode }) {
   }, [hydrate]);
 
   useEffect(() => {
+    if (!hydrated) return;
     const primary = brandKit.primaryColor || BRAND_COLORS.primary;
     const secondary = brandKit.secondaryColor || BRAND_COLORS.secondary;
     const accent = brandKit.accentColor || BRAND_COLORS.accent;
@@ -26,7 +27,12 @@ export function BrandProvider({ children }: { children: React.ReactNode }) {
     // Legacy chrome tokens (text-opseu-blue, bg-opseu-dark, focus rings) follow Brand Kit
     root.style.setProperty("--opseu-blue", primary);
     root.style.setProperty("--opseu-dark", accent);
-  }, [brandKit.primaryColor, brandKit.secondaryColor, brandKit.accentColor]);
+  }, [
+    hydrated,
+    brandKit.primaryColor,
+    brandKit.secondaryColor,
+    brandKit.accentColor,
+  ]);
 
   useEffect(() => {
     if (!hydrated) return;

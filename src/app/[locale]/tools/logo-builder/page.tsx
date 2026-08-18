@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useBrandStore } from "@/store/brand-store";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng, exportNodeAsSvg } from "@/lib/export/image-export";
 import { formatFilename, cn } from "@/lib/utils";
 import { brandPaletteHasContrastRisk } from "@/lib/utils/ink";
@@ -44,6 +45,7 @@ export default function LogoBuilderPage() {
   const tBuilder = useTranslations("logoBuilder");
   const brandKit = useBrandStore((s) => s.brandKit);
   const setBrandKit = useBrandStore((s) => s.setBrandKit);
+  const hydrated = useBrandStore((s) => s.hydrated);
   const tokens = resolveCanvasTokens(brandKit);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
@@ -64,6 +66,16 @@ export default function LogoBuilderPage() {
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<LogoState>(initial);
 
+  useOneShotBrandSeed(hydrated, () => {
+    reset({
+      localNumber: brandKit.local.localNumber,
+      subText: brandKit.local.subText || "Support Staff",
+      primaryColor: brandKit.primaryColor,
+      secondaryColor: brandKit.secondaryColor,
+      shape: "circle",
+    });
+  });
+
   const persistToBrandKit = () => {
     setBrandKit({
       local: {
@@ -80,6 +92,7 @@ export default function LogoBuilderPage() {
   };
 
   const handleSaveToBrandKit = () => {
+    if (!hydrated) return;
     const accentColor = deriveAccentFromPrimary(state.primaryColor);
     if (
       brandPaletteHasContrastRisk({
