@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils";
 
 type ToolEditorLayoutProps = {
   title: ReactNode;
+  /** Quiet nav or kicker above the H1 (e.g. Demo Path trail). */
+  eyebrow?: ReactNode;
   description?: ReactNode;
   /** Short “when to use” line under the subtitle (workshop discoverability). */
   purposeHint?: ReactNode;
@@ -61,6 +63,7 @@ function useIsLg() {
  */
 export function ToolEditorLayout({
   title,
+  eyebrow,
   description,
   purposeHint,
   form,
@@ -98,6 +101,7 @@ export function ToolEditorLayout({
   return (
     <PageShell className={cn("py-6 md:py-8 lg:py-10", className)}>
       <ExportCaptureBridge />
+      {eyebrow ? <div className="mb-3">{eyebrow}</div> : null}
       <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
         {title}
       </h1>

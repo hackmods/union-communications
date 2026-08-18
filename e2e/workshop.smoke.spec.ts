@@ -9,7 +9,10 @@ import { assertNoHorizontalOverflow } from "./helpers/layout";
 test.describe("Workshop demo path E2E @smoke", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/en/");
-    await page.evaluate(() => localStorage.clear());
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+    });
   });
 
   test("home WorkshopDemoPath links Brand Kit → Board Notice → Graphic Maker → Captions", async ({
@@ -37,8 +40,32 @@ test.describe("Workshop demo path E2E @smoke", () => {
     );
     await expect(stepCaptions).toHaveAttribute("href", /\/captions\/?$/);
 
+    await stepGraphic.click();
+    const trail = page.getByRole("navigation", {
+      name: /20-minute demo path/i,
+    });
+    await expect(trail).toBeVisible();
+    await expect(trail.getByText("Graphic Maker")).toBeVisible();
+    await trail.getByRole("link", { name: /Captions/i }).click();
+    await expect(
+      page.getByRole("heading", { name: /Caption & Hashtag Library/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/That's the 20-minute path/i),
+    ).toBeVisible();
+
     await page.goto("/en/brand-kit/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  });
+
+  test("Graphic Maker has no demo trail on a cold visit", async ({ page }) => {
+    await page.goto("/en/tools/graphic-maker/");
+    await expect(
+      page.getByRole("heading", { name: /Graphic Maker/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("navigation", { name: /20-minute demo path/i }),
+    ).toHaveCount(0);
   });
 
   test("workshop outline EN + FR render", async ({ page }) => {
@@ -69,6 +96,12 @@ test.describe("Workshop demo path E2E @smoke", () => {
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { name: /Demo this in about 20 minutes/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/The 20-minute demo skips print/i),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/Graphic Maker and Captions from the live demo/i),
     ).toBeVisible();
   });
 

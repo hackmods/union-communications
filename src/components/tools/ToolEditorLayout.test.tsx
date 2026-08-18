@@ -97,6 +97,24 @@ describe("ToolEditorLayout", () => {
     expect(screen.getByRole("status")).toHaveTextContent("Downloaded!");
   });
 
+  it("renders an eyebrow above the title without putting it in the heading", () => {
+    render(
+      <ToolEditorLayout
+        title="Graphic Maker"
+        eyebrow={<nav aria-label="20-minute demo path">Trail</nav>}
+        form={<div>Form</div>}
+        preview={<div>Preview</div>}
+      />,
+    );
+
+    expect(
+      screen.getByRole("navigation", { name: "20-minute demo path" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Graphic Maker" }),
+    ).toBeInTheDocument();
+  });
+
   it("wires aria-controls between Edit/Preview tabs and panels", () => {
     render(
       <ToolEditorLayout

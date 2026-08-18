@@ -34,6 +34,8 @@ import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
+import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { PageShell } from "@/components/layout/PageShell";
@@ -68,7 +70,9 @@ function GraphicMakerPageContent() {
   const t = useTranslations("common");
   const tg = useTranslations("graphicMaker");
   const te = useTranslations("examples");
+  const td = useTranslations("workshopDemo");
   const searchParams = useSearchParams();
+  const inDemo = useWorkshopDemoSession(searchParams.get("demo"));
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
@@ -290,11 +294,26 @@ function GraphicMakerPageContent() {
     <>
       <ToolEditorLayout
         title={tg("title")}
+        eyebrow={inDemo ? <WorkshopDemoPath variant="trail" /> : undefined}
         description={tg("subtitle")}
-        purposeHint={tg("whenToUse")}
+        purposeHint={inDemo ? undefined : tg("whenToUse")}
         previewAccessibleName={tg("previewAccessibleName")}
         exportError={exportError}
-        exportSuccess={exportSuccess}
+        exportSuccess={
+          exportSuccess && inDemo ? (
+            <>
+              {exportSuccess}{" "}
+              <Link
+                href="/captions"
+                className="font-semibold underline underline-offset-2"
+              >
+                {td("nextCaption")}
+              </Link>
+            </>
+          ) : (
+            exportSuccess
+          )
+        }
         toolbar={
           <div className="space-y-3">
             {!themeEstablished ? (

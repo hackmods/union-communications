@@ -51,4 +51,13 @@ describe("FIRST_WEEK_STEP_KEYS", () => {
       expect(frStep!.checklist.length).toBe(enStep!.checklist.length);
     }
   });
+
+  it("ties print and socials back to the 20-minute demo in both locales", () => {
+    expect(en.socialMediaPlan.steps.print.demoNote).toMatch(/20-minute demo/i);
+    expect(fr.socialMediaPlan.steps.print.demoNote).toMatch(/démo de 20 minutes/i);
+    expect(en.socialMediaPlan.steps.socials.demoNote).toMatch(/Graphic Maker/);
+    expect(fr.socialMediaPlan.steps.socials.demoNote).toMatch(
+      /Créateur de graphiques/,
+    );
+  });
 });

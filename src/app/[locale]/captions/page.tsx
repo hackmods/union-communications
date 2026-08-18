@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/Button";
 import { PageShell } from "@/components/layout/PageShell";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 
 function resolveCaptionId(searchParams: URLSearchParams): string | null {
   const id = searchParams.get("caption");
@@ -23,7 +25,9 @@ function resolveCaptionId(searchParams: URLSearchParams): string | null {
 function CaptionsPageContent() {
   const t = useTranslations("common");
   const tc = useTranslations("captions");
+  const td = useTranslations("workshopDemo");
   const searchParams = useSearchParams();
+  const inDemo = useWorkshopDemoSession(searchParams.get("demo"));
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const targetId = resolveCaptionId(searchParams);
@@ -53,6 +57,9 @@ function CaptionsPageContent() {
 
   return (
     <PageShell className="py-8 md:py-12">
+      {inDemo ? (
+        <WorkshopDemoPath variant="trail" className="mb-4" />
+      ) : null}
       <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
         {tc("title")}
       </h1>
@@ -106,10 +113,26 @@ function CaptionsPageContent() {
       </div>
 
       <div className="mt-10 max-w-prose border-t border-gray-200 pt-6">
-        <p className="text-sm text-gray-600">{tc("graphicMakerHint")}</p>
-        <Link href="/tools/graphic-maker" className="mt-3 inline-block">
-          <Button variant="outline">{tc("graphicMakerCta")}</Button>
-        </Link>
+        {inDemo ? (
+          <>
+            <p className="text-sm text-gray-600">{td("done")}</p>
+            <p className="mt-3">
+              <Link
+                href="/guide/social-media-plan"
+                className="text-sm font-medium text-opseu-blue underline-offset-2 hover:underline"
+              >
+                {td("openRoadmap")}
+              </Link>
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="text-sm text-gray-600">{tc("graphicMakerHint")}</p>
+            <Link href="/tools/graphic-maker" className="mt-3 inline-block">
+              <Button variant="outline">{tc("graphicMakerCta")}</Button>
+            </Link>
+          </>
+        )}
       </div>
     </PageShell>
   );

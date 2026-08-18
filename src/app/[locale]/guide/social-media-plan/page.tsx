@@ -94,6 +94,11 @@ export default async function SocialMediaPlanPage({
             <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
               {t(`steps.${key}.description`)}
             </p>
+            {t.has(`steps.${key}.demoNote`) ? (
+              <p className="mt-2 max-w-prose text-sm text-gray-600">
+                {t(`steps.${key}.demoNote`)}
+              </p>
+            ) : null}
             <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-600">
               {(t.raw(`steps.${key}.checklist`) as string[]).map((item) => (
                 <li key={item}>{item}</li>

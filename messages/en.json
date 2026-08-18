@@ -334,6 +334,7 @@
         "title": "Socials",
         "navLabel": "Socials",
         "description": "Share the same message on Facebook and Instagram. Use the Blueprint for tone and frequency, and pre-written captions to save time.",
+        "demoNote": "Graphic Maker and Captions from the live demo are this step. The Blueprint is extra reading for posting rhythm.",
         "checklist": [
           "Read The Blueprint for platform and posting tips",
           "Create a graphic with Graphic Maker or Resizer",
@@ -4687,7 +4688,12 @@
     "stepBoard": "Board Notice",
     "stepGraphic": "Graphic Maker",
     "stepCaptions": "Captions",
-    "openRoadmap": "Full first-week roadmap"
+    "openRoadmap": "Full first-week roadmap",
+    "trailNavLabel": "20-minute demo path",
+    "continueGraphic": "Download a PNG, then copy a caption.",
+    "continueCaptions": "Copy a caption to paste under the graphic you just downloaded.",
+    "nextCaption": "Copy a caption",
+    "done": "That's the 20-minute path. First week has print and a website when you want them."
   },
   "relatedTools": {
     "label": "Related tools",

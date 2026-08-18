@@ -1,9 +1,10 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
+import { markWorkshopDemoSession } from "@/lib/comms/workshop-demo-session";
 
-const STEPS = [
+export const WORKSHOP_DEMO_STEPS = [
   { href: "/brand-kit", labelKey: "stepBrand" as const },
   { href: "/tools/board-notice", labelKey: "stepBoard" as const },
   { href: "/tools/graphic-maker", labelKey: "stepGraphic" as const },
@@ -13,16 +14,84 @@ const STEPS = [
 type WorkshopDemoPathProps = {
   className?: string;
   showRoadmapLink?: boolean;
+  /**
+   * `card` is the First week / home pitch.
+   * `trail` is the quiet continuation on Graphic Maker and Captions.
+   */
+  variant?: "card" | "trail";
 };
 
+function isCurrentDemoStep(pathname: string, href: string): boolean {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 /**
- * Compact “demo in ~20 minutes” path for home + First week workshop surfaces.
+ * Compact “demo in ~20 minutes” path for home + First week, plus a quiet
+ * in-tool trail so steps 3–4 stay in the same story.
  */
 export function WorkshopDemoPath({
   className,
   showRoadmapLink = true,
+  variant = "card",
 }: WorkshopDemoPathProps) {
   const t = useTranslations("workshopDemo");
+  const pathname = usePathname();
+
+  if (variant === "trail") {
+    const currentHref = WORKSHOP_DEMO_STEPS.find((step) =>
+      isCurrentDemoStep(pathname, step.href),
+    )?.href;
+
+    return (
+      <div className={className}>
+        <nav aria-label={t("trailNavLabel")}>
+          <ol className="flex flex-wrap items-center gap-x-1 gap-y-1 text-sm">
+            {WORKSHOP_DEMO_STEPS.map((step, i) => {
+              const current = step.href === currentHref;
+              return (
+                <li
+                  key={step.href}
+                  className="inline-flex items-center gap-1"
+                >
+                  {i > 0 ? (
+                    <span className="text-gray-400" aria-hidden>
+                      →
+                    </span>
+                  ) : null}
+                  {current ? (
+                    <span
+                      aria-current="page"
+                      className="inline-flex min-h-11 items-center font-semibold text-opseu-dark"
+                    >
+                      {t(step.labelKey)}
+                    </span>
+                  ) : (
+                    <Link
+                      href={step.href}
+                      onClick={markWorkshopDemoSession}
+                      className="inline-flex min-h-11 items-center text-gray-600 underline-offset-2 hover:text-opseu-blue hover:underline"
+                    >
+                      {t(step.labelKey)}
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </nav>
+        {currentHref === "/tools/graphic-maker" ? (
+          <p className="mt-1 max-w-prose text-sm text-gray-600">
+            {t("continueGraphic")}
+          </p>
+        ) : null}
+        {currentHref === "/captions" ? (
+          <p className="mt-1 max-w-prose text-sm text-gray-600">
+            {t("continueCaptions")}
+          </p>
+        ) : null}
+      </div>
+    );
+  }
 
   return (
     <section className={className} aria-labelledby="workshop-demo-heading">
@@ -34,7 +103,7 @@ export function WorkshopDemoPath({
       </h2>
       <p className="mt-1 max-w-prose text-sm text-gray-600">{t("intro")}</p>
       <ol className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-1 sm:gap-y-2">
-        {STEPS.map((step, i) => (
+        {WORKSHOP_DEMO_STEPS.map((step, i) => (
           <li
             key={step.href}
             className="inline-flex items-center gap-1 sm:gap-2"
@@ -46,6 +115,7 @@ export function WorkshopDemoPath({
             ) : null}
             <Link
               href={step.href}
+              onClick={markWorkshopDemoSession}
               className="inline-flex min-h-11 items-center rounded-lg border border-opseu-blue/20 bg-opseu-blue/5 px-3 text-sm font-semibold text-opseu-blue underline-offset-2 hover:underline"
             >
               <span className="mr-2 inline-flex size-6 items-center justify-center rounded-full bg-opseu-blue text-xs font-bold text-white">

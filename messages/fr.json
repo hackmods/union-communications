@@ -321,6 +321,7 @@
         "title": "Impression",
         "navLabel": "Impression",
         "description": "Remettez le même message en tract pour les réunions, les tournées et les actions. Associez l'impression aux tableaux pour que les membres hors ligne aient aussi les faits.",
+        "demoNote": "La démo de 20 minutes saute l'impression. Revenez au Créateur de tracts après les Légendes si vous avez encore du temps.",
         "checklist": [
           "Ouvrir le Créateur de tracts avec les couleurs et le numéro de section de la Trousse de marque",
           "Garder le texte grand et à fort contraste pour la lecture en corridor ou à l'extérieur",
@@ -333,6 +334,7 @@
         "title": "Médias sociaux",
         "navLabel": "Réseaux",
         "description": "Partagez le même message sur Facebook et Instagram. Utilisez le Plan directeur pour le ton et la fréquence, et les légendes préécrites pour gagner du temps.",
+        "demoNote": "Cette étape reprend le Créateur de graphiques et les Légendes de la démo en direct. Le Plan directeur est la lecture supplémentaire pour le rythme de publication.",
         "checklist": [
           "Lire le Plan directeur pour les plateformes et la fréquence",
           "Créer un graphique avec le Créateur graphique ou le Redimensionneur",
@@ -4686,7 +4688,12 @@
     "stepBoard": "Avis d'affichage",
     "stepGraphic": "Créateur de graphiques",
     "stepCaptions": "Légendes",
-    "openRoadmap": "Feuille de route complète"
+    "openRoadmap": "Feuille de route complète",
+    "trailNavLabel": "Parcours de démo de 20 minutes",
+    "continueGraphic": "Téléchargez un PNG, puis copiez une légende.",
+    "continueCaptions": "Copiez une légende à coller sous le graphique que vous venez de télécharger.",
+    "nextCaption": "Copier une légende",
+    "done": "Voilà le parcours de 20 minutes. La première semaine ajoute l'impression et un site Web quand vous en aurez besoin."
   },
   "relatedTools": {
     "label": "Outils connexes",
