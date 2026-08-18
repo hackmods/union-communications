@@ -16,6 +16,7 @@ Spec: `docs/modules/LOCAL_PORTAL.md`. Plan: `.cursor/plans/local_portal_future.p
 - Calendar `.ics` download, Roster invite (demo users), Roll Call question create (API + UI)
 - Deep-link Station/search hits via `?tab=`, Fronts date edit on Circle, Action assignee/due, Calendar datetime/location
 - **P4:** @mentions → Dispatch, soft-delete + Circle audit, per-tool mute, Pipeline drag-and-drop, Basecamp CSV import, activity pack export, keyboard 1–0 tool switch, Calendar RSVP/external URL, guest (viewer) banner
+- **Lived-in Station (2026-08-18):** relative demo seed, Open Hall + upcoming events, search off the fold, Hall hides empty committee tabs
 
 ## Production cutover (blocking)
 

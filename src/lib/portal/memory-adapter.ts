@@ -32,6 +32,13 @@ function now() {
   return new Date().toISOString();
 }
 
+function daysFromNow(days: number, hours = 12): string {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  d.setHours(hours, 0, 0, 0);
+  return d.toISOString();
+}
+
 function id(prefix: string) {
   return `${prefix}-${Math.random().toString(36).slice(2, 10)}`;
 }
@@ -185,10 +192,10 @@ const bulletin: BulletinPost[] = [
     authorId: "user-president-243",
     authorName: "Local 243 President",
     title: "Welcome to the Hall",
-    body: "This Local Portal replaces our paid generic PM seat. Use Bulletin for decisions on the record, Actions for follow-ups, Calendar for meetings.",
+    body: "Bulletin is for decisions on the record. Actions are follow-ups. The next membership meeting is on the Calendar — grab an Action if you can help with the door stack.",
     pinned: true,
-    createdAt: "2026-07-10T14:00:00.000Z",
-    updatedAt: "2026-07-10T14:00:00.000Z",
+    createdAt: daysFromNow(-3, 14),
+    updatedAt: daysFromNow(-3, 14),
   },
   {
     id: "bp-2",
@@ -199,8 +206,32 @@ const bulletin: BulletinPost[] = [
     title: "LEC agenda items for Thursday",
     body: "Bring notes on steward coverage and the membership meeting flyer.",
     pinned: false,
-    createdAt: "2026-07-18T09:00:00.000Z",
-    updatedAt: "2026-07-18T09:00:00.000Z",
+    createdAt: daysFromNow(-1, 9),
+    updatedAt: daysFromNow(-1, 9),
+  },
+  {
+    id: "bp-3",
+    circleId: hall.id,
+    unionId: UNION,
+    authorId: "user-member-243",
+    authorName: "Local 243 Member",
+    title: "Door stack is at the steward office",
+    body: "Printed this morning. I can hang copies after lunch if someone has the board keys.",
+    pinned: false,
+    createdAt: daysFromNow(-1, 15),
+    updatedAt: daysFromNow(-1, 15),
+  },
+  {
+    id: "bp-4",
+    circleId: jhsc.id,
+    unionId: UNION,
+    authorId: "user-steward-243",
+    authorName: "Local 243 Steward (FT)",
+    title: "Inspection walk Friday",
+    body: "Meet at the north lot at 8:30. Lighting and the library ergonomics request are on the Pipeline.",
+    pinned: false,
+    createdAt: daysFromNow(-2, 11),
+    updatedAt: daysFromNow(-2, 11),
   },
 ];
 
@@ -211,7 +242,7 @@ const comments: BulletinComment[] = [
     authorId: "user-steward-243",
     authorName: "Local 243 Steward (FT)",
     body: "I'll draft the coverage grid.",
-    createdAt: "2026-07-18T10:00:00.000Z",
+    createdAt: daysFromNow(-1, 10),
   },
 ];
 
@@ -231,8 +262,8 @@ const actions: ActionItem[] = [
     assigneeName: "Local 243 Steward (FT)",
     dueAt: yesterday.toISOString(),
     createdById: "user-president-243",
-    createdAt: "2026-07-18T09:30:00.000Z",
-    updatedAt: "2026-07-18T09:30:00.000Z",
+    createdAt: daysFromNow(-2, 9),
+    updatedAt: daysFromNow(-2, 9),
   },
   {
     id: "act-2",
@@ -244,8 +275,22 @@ const actions: ActionItem[] = [
     assigneeName: "Local 243 Member",
     dueAt: nextWeek.toISOString(),
     createdById: "user-president-243",
-    createdAt: "2026-07-19T12:00:00.000Z",
-    updatedAt: "2026-07-19T12:00:00.000Z",
+    createdAt: daysFromNow(-2, 12),
+    updatedAt: daysFromNow(-2, 12),
+  },
+  {
+    id: "act-3",
+    circleId: hall.id,
+    unionId: UNION,
+    listName: "Comms",
+    title: "Print the door stack",
+    assigneeId: "user-member-243",
+    assigneeName: "Local 243 Member",
+    dueAt: daysFromNow(-1, 12),
+    completedAt: daysFromNow(-1, 14),
+    createdById: "user-president-243",
+    createdAt: daysFromNow(-3, 12),
+    updatedAt: daysFromNow(-1, 14),
   },
 ];
 
@@ -259,7 +304,18 @@ const calendar: CalendarEvent[] = [
     startsAt: nextWeek.toISOString(),
     location: "Main campus room A",
     createdById: "user-president-243",
-    createdAt: "2026-07-12T12:00:00.000Z",
+    createdAt: daysFromNow(-4, 12),
+  },
+  {
+    id: "cal-2",
+    circleId: hall.id,
+    unionId: UNION,
+    title: "Steward drop-in",
+    description: "Questions at the board — no appointment needed.",
+    startsAt: daysFromNow(2, 12),
+    location: "Steward office",
+    createdById: "user-steward-243",
+    createdAt: daysFromNow(-2, 10),
   },
 ];
 
@@ -275,7 +331,20 @@ const binder: BinderItem[] = [
     contentType: "note",
     createdById: "user-president-243",
     createdByName: "Local 243 President",
-    createdAt: "2026-07-10T14:05:00.000Z",
+    createdAt: daysFromNow(-5, 14),
+  },
+  {
+    id: "bind-2",
+    circleId: hall.id,
+    unionId: UNION,
+    title: "Board posting checklist",
+    folder: "Onboarding",
+    content:
+      "Print, date, and pin. Take down last month’s notice. QR on the flyer points to the Calendar event.",
+    contentType: "note",
+    createdById: "user-steward-243",
+    createdByName: "Local 243 Steward (FT)",
+    createdAt: daysFromNow(-2, 13),
   },
 ];
 
@@ -287,7 +356,25 @@ const floor: FloorMessage[] = [
     authorId: "user-steward-243",
     authorName: "Local 243 Steward (FT)",
     body: "Inspection walk scheduled for Friday morning.",
-    createdAt: "2026-07-20T15:00:00.000Z",
+    createdAt: daysFromNow(-1, 8),
+  },
+  {
+    id: "fl-2",
+    circleId: hall.id,
+    unionId: UNION,
+    authorId: "user-member-243",
+    authorName: "Local 243 Member",
+    body: "Door stack is printed — I'll hang it after lunch if the board keys are free.",
+    createdAt: daysFromNow(-1, 16),
+  },
+  {
+    id: "fl-3",
+    circleId: hall.id,
+    unionId: UNION,
+    authorId: "user-steward-243",
+    authorName: "Local 243 Steward (FT)",
+    body: "Keys are in the steward office. Hang the new notice under last month's.",
+    createdAt: daysFromNow(0, 10),
   },
 ];
 
@@ -299,7 +386,7 @@ const rollQuestions: RollCallQuestion[] = [
     question: "Any campus issues that need LEC eyes this week?",
     cadence: "weekly",
     active: true,
-    createdAt: "2026-07-01T12:00:00.000Z",
+    createdAt: daysFromNow(-20, 12),
   },
 ];
 
@@ -311,7 +398,7 @@ const rollAnswers: RollCallAnswer[] = [
     authorId: "user-steward-243",
     authorName: "Local 243 Steward (FT)",
     body: "Parking enforcement complaints on north lot — watching.",
-    createdAt: "2026-07-20T11:00:00.000Z",
+    createdAt: daysFromNow(-1, 11),
   },
 ];
 
@@ -358,7 +445,7 @@ const dispatch: DispatchItem[] = [
     circleName: "LEC",
     kind: "assignment",
     title: "Action assigned: Draft steward coverage grid",
-    createdAt: "2026-07-18T09:30:00.000Z",
+    createdAt: daysFromNow(-2, 9),
   },
   {
     id: "di-2",
@@ -368,7 +455,7 @@ const dispatch: DispatchItem[] = [
     circleName: "Local 243 Hall",
     kind: "assignment",
     title: "Action assigned: Post membership meeting notice",
-    createdAt: "2026-07-19T12:00:00.000Z",
+    createdAt: daysFromNow(-2, 12),
   },
   {
     id: "di-3",
@@ -593,6 +680,20 @@ export class MemoryPortalAdapter {
         !isDispatchMuted(userId, d.circleId, d.kind),
     ).length;
 
+    const upcomingEvents = calendar
+      .filter(
+        (ev) =>
+          ev.unionId === unionId &&
+          circleIds.has(ev.circleId) &&
+          ev.startsAt >= now(),
+      )
+      .sort((a, b) => a.startsAt.localeCompare(b.startsAt))
+      .slice(0, 4)
+      .map((ev) => ({
+        ...ev,
+        circleName: circles.find((c) => c.id === ev.circleId)?.name ?? ev.circleId,
+      }));
+
     const weekDigest = {
       bulletinPosts: bulletin.filter(
         (p) =>
@@ -617,6 +718,7 @@ export class MemoryPortalAdapter {
       myActions,
       recentBulletin,
       dispatchUnread,
+      upcomingEvents,
       weekDigest,
     };
   }

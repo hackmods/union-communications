@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
@@ -24,10 +24,13 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
   const [query, setQuery] = useState("");
   const [hits, setHits] = useState<PortalSearchHit[]>([]);
   const allowCreate = canCreateCircle(roles);
+  const loadGen = useRef(0);
 
   const load = useCallback(async () => {
+    const gen = ++loadGen.current;
     try {
       const res = await fetch("/api/portal/station");
+      if (gen !== loadGen.current) return;
       if (!res.ok) {
         setError(t("loadError"));
         return;
@@ -36,25 +39,28 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
       setStation(data.station);
       setError(null);
     } catch {
+      if (gen !== loadGen.current) return;
       setError(t("loadError"));
     }
   }, [t]);
 
   useEffect(() => {
     let cancelled = false;
+    const gen = ++loadGen.current;
     void fetch("/api/portal/station")
       .then(async (res) => {
-        if (cancelled) return;
+        if (cancelled || gen !== loadGen.current) return;
         if (!res.ok) {
           setError(t("loadError"));
           return;
         }
         const data = (await res.json()) as { station: StationPayload };
+        if (cancelled || gen !== loadGen.current) return;
         setStation(data.station);
         setError(null);
       })
       .catch(() => {
-        if (!cancelled) setError(t("loadError"));
+        if (!cancelled && gen === loadGen.current) setError(t("loadError"));
       });
     return () => {
       cancelled = true;
@@ -92,19 +98,25 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
     if (!name.trim()) return;
     setCreating(true);
     setCreateError(null);
+    loadGen.current += 1;
     const start = new Date();
     const end = new Date();
     end.setMonth(end.getMonth() + 3);
+    const isCampaign = template === "campaign";
     try {
-      const res = await fetch("/api/portal/circles", {
+      const res = await fetch("/api/portal/circles/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: name.trim(),
-          kind: template === "campaign" ? "campaign" : "committee",
+          kind: isCampaign ? "campaign" : "committee",
           template,
-          frontStartsAt: start.toISOString(),
-          frontEndsAt: end.toISOString(),
+          ...(isCampaign
+            ? {
+                frontStartsAt: start.toISOString(),
+                frontEndsAt: end.toISOString(),
+              }
+            : {}),
         }),
       });
       if (res.ok) {
@@ -135,33 +147,22 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
     (n, c) => n + c.overdueActions,
     0,
   );
+  const hall = station.circles.find((c) => c.kind === "local_hall");
+  const upcoming = station.upcomingEvents ?? [];
+  const digestBusy =
+    station.weekDigest.bulletinPosts +
+      station.weekDigest.actionsCompleted +
+      station.weekDigest.floorMessages >
+    0;
 
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
-          {t("stationTitle")}
-        </h1>
-        <p className="mt-1 max-w-prose text-sm text-gray-600 sm:text-base">
-          {t("stationSubtitle")}
-        </p>
-      </div>
-
-      <Callout tone="muted">
-        {t("weekDigest", {
-          bulletin: station.weekDigest.bulletinPosts,
-          done: station.weekDigest.actionsCompleted,
-          floor: station.weekDigest.floorMessages,
-        })}
-      </Callout>
-
-      {overdueTotal > 0 ? (
-        <Callout>{t("overdueBadge", { count: overdueTotal })}</Callout>
-      ) : null}
-
-      <Card density="compact">
-        <label className="text-sm font-medium text-gray-700">
+  const searchCard = (
+    <Card density="compact">
+      <details>
+        <summary className="cursor-pointer text-sm font-medium text-gray-700">
           {t("searchLabel")}
+        </summary>
+        <label className="mt-2 block text-sm text-gray-600">
+          <span className="sr-only">{t("searchLabel")}</span>
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -180,9 +181,7 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
                   ? "actions"
                   : h.kind === "binder"
                     ? "binder"
-                    : h.kind === "bulletin"
-                      ? "bulletin"
-                      : "bulletin";
+                    : "bulletin";
               return (
                 <li key={`${h.kind}-${h.id}`} className="text-sm">
                   <Link
@@ -197,7 +196,56 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
             })}
           </ul>
         ) : null}
-      </Card>
+      </details>
+    </Card>
+  );
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+          {t("stationTitle")}
+        </h1>
+        <p className="mt-1 max-w-prose text-sm text-gray-600 sm:text-base">
+          {t("stationSubtitle")}
+        </p>
+      </div>
+
+      {hall ? (
+        <Card density="compact" className="flex flex-wrap items-center justify-between gap-3">
+          <p className="max-w-prose text-sm text-gray-700">
+            {t("startHere", { hall: hall.name })}
+          </p>
+          <Link
+            href={`/portal/circles/${hall.id}`}
+            className="inline-flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-4 text-sm font-semibold text-white hover:bg-opseu-dark"
+          >
+            {t("openHall")}
+          </Link>
+        </Card>
+      ) : null}
+
+      {digestBusy ? (
+        <Callout tone="muted">
+          {t("weekDigest", {
+            bulletin: station.weekDigest.bulletinPosts,
+            done: station.weekDigest.actionsCompleted,
+            floor: station.weekDigest.floorMessages,
+          })}
+        </Callout>
+      ) : null}
+
+      {overdueTotal > 0 ? (
+        <Callout>{t("overdueBadge", { count: overdueTotal })}</Callout>
+      ) : null}
+
+      {station.dispatchUnread > 0 ? (
+        <Callout>
+          <Link href="/portal/dispatch" className="font-medium text-opseu-dark hover:underline">
+            {t("dispatchUnread", { count: station.dispatchUnread })}
+          </Link>
+        </Callout>
+      ) : null}
 
       <Card density="compact">
         <h2 className="text-sm font-medium text-gray-700">{t("yourCircles")}</h2>
@@ -226,6 +274,9 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
                     ? ` · ${t("unreadShort", { count: c.dispatchUnread })}`
                     : ""}
                 </p>
+                {c.description ? (
+                  <p className="mt-1 text-sm text-gray-500">{c.description}</p>
+                ) : null}
               </div>
               <button
                 type="button"
@@ -280,7 +331,29 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
         </Card>
       ) : null}
 
-      <section className="grid gap-6 md:grid-cols-2">
+      <section className="grid gap-6 lg:grid-cols-3">
+        <Card density="compact">
+          <h2 className="text-sm font-medium text-gray-700">{t("upcomingTitle")}</h2>
+          <ul className="mt-2 space-y-2">
+            {upcoming.length === 0 ? (
+              <li className="text-sm text-gray-500">{t("upcomingEmpty")}</li>
+            ) : (
+              upcoming.map((ev) => (
+                <li key={ev.id} className="text-sm">
+                  <Link
+                    href={`/portal/circles/${ev.circleId}?tab=calendar`}
+                    className="font-medium text-opseu-dark hover:underline"
+                  >
+                    {ev.title}
+                  </Link>
+                  <span className="ml-2 text-gray-500">
+                    {new Date(ev.startsAt).toLocaleString()} · {ev.circleName}
+                  </span>
+                </li>
+              ))
+            )}
+          </ul>
+        </Card>
         <Card density="compact">
           <h2 className="text-sm font-medium text-gray-700">{t("myActions")}</h2>
           <ul className="mt-2 space-y-2">
@@ -327,6 +400,8 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
           </ul>
         </Card>
       </section>
+
+      {searchCard}
     </div>
   );
 }

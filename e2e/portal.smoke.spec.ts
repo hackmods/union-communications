@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import {
   loginAsMember,
@@ -13,6 +13,11 @@ function seriousOrCriticalViolations(
   return violations.filter(
     (v) => v.impact === "critical" || v.impact === "serious",
   );
+}
+
+async function openBulletinWriter(page: Page) {
+  await page.getByRole("tab", { name: "Bulletin" }).click();
+  await expect(page.getByPlaceholder("Bulletin title")).toBeVisible();
 }
 
 test.describe("Local Portal smoke @smoke", () => {
@@ -35,7 +40,12 @@ test.describe("Local Portal smoke @smoke", () => {
     await page.goto("/en/portal");
     await expect(page.getByRole("heading", { name: "Station" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Your Circles" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Local 243 Hall" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Open Hall" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Coming up" })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Membership meeting", exact: true }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Local 243 Hall" }).first()).toBeVisible();
     const portalNav = page.getByRole("navigation", { name: "Portal navigation" });
     await expect(portalNav).toBeVisible();
     await expect(portalNav.getByRole("link", { name: "Dispatch" })).toBeVisible();
@@ -62,8 +72,9 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(
       page.getByRole("heading", { name: "Local 243 Hall" }),
     ).toBeVisible();
+    await expect(page.getByRole("tab", { name: "Pipeline" })).toHaveCount(0);
 
-    await page.getByRole("tab", { name: "Bulletin" }).click();
+    await openBulletinWriter(page);
     const stamp = Date.now();
     await page.getByPlaceholder("Bulletin title").fill(`Smoke bulletin ${stamp}`);
     await page
@@ -78,7 +89,7 @@ test.describe("Local Portal smoke @smoke", () => {
   }) => {
     await loginAsMember(page);
     await page.goto("/en/portal/circles/circle-hall-243");
-    await page.getByRole("tab", { name: "Bulletin" }).click();
+    await openBulletinWriter(page);
 
     const stamp = Date.now();
     await page.getByPlaceholder("Bulletin title").fill(`Promote me ${stamp}`);
@@ -156,9 +167,25 @@ test.describe("Local Portal smoke @smoke", () => {
     await page.goto("/en/portal");
     await expect(page.getByRole("heading", { name: "Station" })).toBeVisible();
     const name = `Smoke Circle ${Date.now()}`;
-    await page.getByPlaceholder("New committee Circle name").fill(name);
-    await page.getByRole("button", { name: "Create Circle" }).click();
-    await expect(page.getByRole("link", { name })).toBeVisible();
+    const nameField = page.getByPlaceholder("New committee Circle name");
+    const createBtn = page.getByRole("button", { name: "Create Circle" });
+    await nameField.scrollIntoViewIfNeeded();
+    await nameField.fill(name);
+    await expect(nameField).toHaveValue(name);
+    await expect(createBtn).toBeEnabled();
+    const posted = page.waitForResponse((r) => {
+      const path = new URL(r.url()).pathname.replace(/\/$/, "");
+      return (
+        path === "/api/portal/circles" &&
+        r.request().method() === "POST" &&
+        r.status() === 201
+      );
+    });
+    await createBtn.click();
+    expect((await posted).ok()).toBeTruthy();
+    await expect(page.getByRole("link", { name, exact: true })).toBeVisible({
+      timeout: 15_000,
+    });
   });
 
   test("French Station uses solidarity labels", async ({ page }) => {
@@ -222,6 +249,7 @@ test.describe("Local Portal smoke @smoke", () => {
       "aria-selected",
       "true",
     );
+    await openBulletinWriter(page);
     await expect(page.getByPlaceholder("Bulletin title")).toBeVisible();
   });
 
@@ -230,7 +258,7 @@ test.describe("Local Portal smoke @smoke", () => {
   }) => {
     await loginAsMember(page);
     await page.goto("/en/portal/circles/circle-hall-243");
-    await page.getByRole("tab", { name: "Bulletin" }).click();
+    await openBulletinWriter(page);
     const stamp = Date.now();
     await page.getByPlaceholder("Bulletin title").fill(`Delete me ${stamp}`);
     await page

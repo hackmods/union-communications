@@ -5,6 +5,7 @@ import {
   PORTAL_NAV_LINKS,
   circleHrefForDispatch,
   circleIdFromPath,
+  circleWorkspaceTabs,
   portalCirclesMenuActive,
   portalNavLinkActive,
   sortCirclesForNav,
@@ -54,6 +55,47 @@ describe("circleIdFromPath", () => {
     );
     expect(circleIdFromPath("/portal")).toBeNull();
     expect(circleIdFromPath("/portal/dispatch")).toBeNull();
+  });
+});
+
+describe("circleWorkspaceTabs", () => {
+  it("keeps Hall on core tools unless extras have data", () => {
+    expect(
+      circleWorkspaceTabs({
+        kind: "local_hall",
+        hasRollCall: false,
+        hasPipeline: false,
+        hasMomentum: false,
+      }),
+    ).toEqual([
+      "bulletin",
+      "actions",
+      "calendar",
+      "binder",
+      "floor",
+      "roster",
+    ]);
+  });
+
+  it("adds Oversight on committees and only extras that exist", () => {
+    expect(
+      circleWorkspaceTabs({
+        kind: "committee",
+        hasRollCall: true,
+        hasPipeline: false,
+        hasMomentum: true,
+      }),
+    ).toEqual([
+      "bulletin",
+      "actions",
+      "calendar",
+      "binder",
+      "floor",
+      "rollCall",
+      "momentum",
+      "oversight",
+      "roster",
+    ]);
   });
 });
 
