@@ -211,6 +211,7 @@ export interface StationPayload {
   myActions: ActionItem[];
   recentBulletin: BulletinPost[];
   dispatchUnread: number;
+  upcomingEvents: Array<CalendarEvent & { circleName: string }>;
   /** This-week digest line counts */
   weekDigest: {
     bulletinPosts: number;

@@ -1,5 +1,12 @@
 # Progress Log
 
+## Local Portal lived-in Station (2026-08-18)
+
+- [x] Demo seed dates follow “now”, so Station week digest, Floor, and Bulletin look current
+- [x] Station opens on Hall (Open Hall), hides a zero digest, shows Coming up / Actions / Bulletin, and tucks search behind a disclosure
+- [x] Hall hides empty committee tools (Pipeline, Roll Call, Momentum, Oversight) until that Circle has them
+- Verify: `npm run test:unit -- src/lib/portal/portal.test.ts src/components/portal/portal-nav-model.test.ts src/lib/comms/public-copy-style.test.ts` · `npx playwright test e2e/portal.smoke.spec.ts`
+
 ## Website Template WordPress theme ZIP (2026-08-18)
 
 - [x] Second export: classic PHP theme wrap of the same HTML/CSS/JS (`generateWordpressThemeZip`) — Appearance → Themes upload folder

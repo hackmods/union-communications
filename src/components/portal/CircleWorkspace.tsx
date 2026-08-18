@@ -14,32 +14,19 @@ import {
   isCircleGuest,
   PORTAL_TOOL_MUTES,
 } from "@/lib/portal/access";
+import {
+  circleWorkspaceTabs,
+  type CircleWorkspaceTab,
+} from "@/components/portal/portal-nav-model";
 import type { UserRole } from "@/types/tenant";
 import { buildIcsEvent, downloadIcs } from "@/lib/calendar/ics";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import { useSession } from "next-auth/react";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 
-type Tab =
-  | "bulletin"
-  | "actions"
-  | "calendar"
-  | "binder"
-  | "floor"
-  | "rollCall"
-  | "pipeline"
-  | "momentum"
-  | "oversight"
-  | "roster";
+type Tab = CircleWorkspaceTab;
 
-type Oversight = {
-  overdue: { id: string; title: string }[];
-  unassigned: { id: string; title: string }[];
-  doneToday: { id: string; title: string }[];
-  openCount: number;
-};
-
-const TABS: Tab[] = [
+const ALL_TABS: Tab[] = [
   "bulletin",
   "actions",
   "calendar",
@@ -51,6 +38,13 @@ const TABS: Tab[] = [
   "oversight",
   "roster",
 ];
+
+type Oversight = {
+  overdue: { id: string; title: string }[];
+  unassigned: { id: string; title: string }[];
+  doneToday: { id: string; title: string }[];
+  openCount: number;
+};
 
 export function CircleWorkspace({
   circleId,
@@ -64,7 +58,7 @@ export function CircleWorkspace({
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
   const [tab, setTab] = useState<Tab>(
-    tabParam && (TABS as string[]).includes(tabParam)
+    tabParam && (ALL_TABS as string[]).includes(tabParam)
       ? (tabParam as Tab)
       : "bulletin",
   );
@@ -161,6 +155,18 @@ export function CircleWorkspace({
     };
   }, [circleId, t]);
 
+  const visibleTabs = useMemo(() => {
+    if (!detail) return ALL_TABS;
+    return circleWorkspaceTabs({
+      kind: detail.circle.kind,
+      hasRollCall: detail.rollCallQuestions.length > 0,
+      hasPipeline: Boolean(detail.pipelineBoard),
+      hasMomentum: detail.momentum.length > 0,
+    });
+  }, [detail]);
+
+  const activeTab = visibleTabs.includes(tab) ? tab : visibleTabs[0] ?? "bulletin";
+
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       const target = e.target as HTMLElement | null;
@@ -175,19 +181,19 @@ export function CircleWorkspace({
       }
       if (e.key >= "1" && e.key <= "9") {
         const idx = Number(e.key) - 1;
-        if (TABS[idx]) {
+        if (visibleTabs[idx]) {
           e.preventDefault();
-          selectTab(TABS[idx]);
+          selectTab(visibleTabs[idx]);
         }
       }
-      if (e.key === "0" && TABS[9]) {
+      if (e.key === "0" && visibleTabs[9]) {
         e.preventDefault();
-        selectTab(TABS[9]);
+        selectTab(visibleTabs[9]);
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [selectTab]);
+  }, [selectTab, visibleTabs]);
 
   const canWrite = canWriteCircle(detail?.membership.role);
   const canAdmin = canAdminCircle(roles, detail?.membership.role);
@@ -450,14 +456,14 @@ export function CircleWorkspace({
         aria-label={t("toolsNav")}
         className="sticky z-30 top-[calc(var(--site-header-height,3.5rem)+3.25rem)] flex flex-nowrap gap-1 overflow-x-auto overscroll-x-contain border-b border-gray-200 bg-white pb-2"
       >
-        {TABS.map((key) => (
+        {visibleTabs.map((key) => (
           <button
             key={key}
             type="button"
             role="tab"
-            aria-selected={tab === key}
+            aria-selected={activeTab === key}
             className={`min-h-11 shrink-0 rounded-lg px-3 text-sm font-semibold ${
-              tab === key
+              activeTab === key
                 ? "bg-opseu-blue text-white"
                 : "text-opseu-blue hover:bg-opseu-blue/5"
             }`}
@@ -469,7 +475,7 @@ export function CircleWorkspace({
       </div>
       <p className="text-xs text-gray-500">{t("keyboardHint")}</p>
 
-      {(tab === "bulletin" || tab === "actions") && (
+      {(activeTab === "bulletin" || activeTab === "actions") && (
         <input
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
@@ -479,11 +485,12 @@ export function CircleWorkspace({
         />
       )}
 
-      {tab === "bulletin" && (
+      {activeTab === "bulletin" && (
         <div className="space-y-4">
           {canWrite ? (
             <form
               className="space-y-2"
+              aria-label={t("writeBulletin")}
               onSubmit={(e) => {
                 e.preventDefault();
                 void postTool({
@@ -512,6 +519,9 @@ export function CircleWorkspace({
               <p className="text-xs text-gray-500">{t("mentionHint")}</p>
               <Button type="submit">{t("postBulletin")}</Button>
             </form>
+          ) : null}
+          {filteredBulletin.length === 0 ? (
+            <p className="text-sm text-gray-500">{t("emptyCircleBulletin")}</p>
           ) : null}
           <ul className="space-y-4">
             {filteredBulletin.map((p) => (
@@ -630,7 +640,7 @@ export function CircleWorkspace({
         </div>
       )}
 
-      {tab === "actions" && (
+      {activeTab === "actions" && (
         <div className="space-y-4">
           {canWrite ? (
             <form
@@ -745,7 +755,7 @@ export function CircleWorkspace({
         </div>
       )}
 
-      {tab === "calendar" && (
+      {activeTab === "calendar" && (
         <div className="space-y-4">
           {canWrite ? (
             <form
@@ -861,7 +871,7 @@ export function CircleWorkspace({
         </div>
       )}
 
-      {tab === "binder" && (
+      {activeTab === "binder" && (
         <div className="space-y-4">
           {canWrite ? (
             <form
@@ -931,10 +941,13 @@ export function CircleWorkspace({
         </div>
       )}
 
-      {tab === "floor" && (
+      {activeTab === "floor" && (
         <div className="space-y-4">
           <ul className="max-h-80 space-y-2 overflow-y-auto rounded-lg border border-gray-200 p-3">
-            {detail.floor.map((m) => (
+            {detail.floor.length === 0 ? (
+              <li className="text-sm text-gray-500">{t("emptyFloor")}</li>
+            ) : (
+              detail.floor.map((m) => (
               <li key={m.id} className="text-sm">
                 <span className="font-medium">{m.authorName}</span>
                 <span className="text-gray-500">
@@ -943,7 +956,8 @@ export function CircleWorkspace({
                 </span>
                 <p>{m.body}</p>
               </li>
-            ))}
+              ))
+            )}
           </ul>
           {canWrite ? (
             <form
@@ -969,7 +983,7 @@ export function CircleWorkspace({
         </div>
       )}
 
-      {tab === "rollCall" && (
+      {activeTab === "rollCall" && (
         <div className="space-y-4">
           {canAdmin ? (
             <form
@@ -1055,7 +1069,7 @@ export function CircleWorkspace({
         </div>
       )}
 
-      {tab === "pipeline" && (
+      {activeTab === "pipeline" && (
         <div className="space-y-4">
           {!detail.pipelineBoard ? (
             <p className="text-sm text-gray-500">{t("noPipeline")}</p>
@@ -1142,7 +1156,7 @@ export function CircleWorkspace({
         </div>
       )}
 
-      {tab === "momentum" && (
+      {activeTab === "momentum" && (
         <div className="space-y-4">
           <p className="text-sm text-gray-600">{t("momentumHint")}</p>
           {canWrite ? (
@@ -1236,7 +1250,7 @@ export function CircleWorkspace({
         </div>
       )}
 
-      {tab === "oversight" && oversight && (
+      {activeTab === "oversight" && oversight && (
         <div className="grid gap-4 sm:grid-cols-3">
           <div>
             <h3 className="text-sm font-medium text-gray-700">
@@ -1280,7 +1294,7 @@ export function CircleWorkspace({
         </div>
       )}
 
-      {tab === "roster" && (
+      {activeTab === "roster" && (
         <div className="space-y-4">
           <ul className="space-y-2">
             {detail.roster.map((m) => (

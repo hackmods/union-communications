@@ -3,6 +3,8 @@
  * Dispatch / Fronts / Sidebars / feedback stay top-level like Hub modules.
  */
 
+import type { CircleKind } from "@/types/portal";
+
 export type PortalNavLinkId =
   | "station"
   | "dispatch"
@@ -76,6 +78,43 @@ export function circleHrefForDispatch(
   kind: Parameters<typeof circleTabForDispatchKind>[0],
 ): string {
   return `/portal/circles/${circleId}?tab=${circleTabForDispatchKind(kind)}`;
+}
+
+export const CIRCLE_CORE_TABS = [
+  "bulletin",
+  "actions",
+  "calendar",
+  "binder",
+  "floor",
+  "roster",
+] as const;
+
+export type CircleWorkspaceTab =
+  | (typeof CIRCLE_CORE_TABS)[number]
+  | "rollCall"
+  | "pipeline"
+  | "momentum"
+  | "oversight";
+
+/**
+ * Hall keeps the core local tools. Roll Call, Pipeline, and Momentum only
+ * appear when that Circle already has them. Oversight stays on non-Hall
+ * Circles so committees can still see the Action picture.
+ */
+export function circleWorkspaceTabs(input: {
+  kind: CircleKind;
+  hasRollCall: boolean;
+  hasPipeline: boolean;
+  hasMomentum: boolean;
+}): CircleWorkspaceTab[] {
+  const tabs: CircleWorkspaceTab[] = [...CIRCLE_CORE_TABS];
+  const roster = tabs.pop()!;
+  if (input.hasRollCall) tabs.push("rollCall");
+  if (input.hasPipeline) tabs.push("pipeline");
+  if (input.hasMomentum) tabs.push("momentum");
+  if (input.kind !== "local_hall") tabs.push("oversight");
+  tabs.push(roster);
+  return tabs;
 }
 
 export type PortalNavCircle = {

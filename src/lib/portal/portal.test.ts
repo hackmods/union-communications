@@ -42,6 +42,17 @@ describe("portalStore", () => {
     expect(station.dispatchUnread).toBeGreaterThan(0);
   });
 
+  it("gives members a lived-in Station: digest, upcoming, Hall work", () => {
+    const station = portalStore.listStation("union-opseu", "user-member-243");
+    expect(station.weekDigest.bulletinPosts).toBeGreaterThan(0);
+    expect(station.weekDigest.floorMessages).toBeGreaterThan(0);
+    expect(station.weekDigest.actionsCompleted).toBeGreaterThan(0);
+    expect(station.upcomingEvents.some((e) => e.title.includes("Membership"))).toBe(
+      true,
+    );
+    expect(station.recentBulletin.length).toBeGreaterThan(1);
+  });
+
   it("loads Circle detail with solidarity toolkits", () => {
     const detail = portalStore.getCircleDetail(
       "union-opseu",
