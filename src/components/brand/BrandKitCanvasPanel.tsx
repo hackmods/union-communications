@@ -1,7 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
+import { canvasPreviewQrTarget } from "@/lib/brand/canvas-preview-qr";
+import { qrDataUrl } from "@/lib/export/qr";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { SegControl } from "@/components/tools/SegControl";
 import {
@@ -46,7 +49,24 @@ const FONT_OPTIONS = CANVAS_FONT_ORDER.map((id) => id);
 export function BrandKitCanvasPanel() {
   const t = useTranslations("brandKit.canvas");
   const brandKit = useBrandStore((s) => s.brandKit);
+  const hydrated = useBrandStore((s) => s.hydrated);
   const setBrandKit = useBrandStore((s) => s.setBrandKit);
+  const [qrSrc, setQrSrc] = useState<string | null>(null);
+  const qrTarget = canvasPreviewQrTarget(brandKit);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      void qrDataUrl(qrTarget, { width: 160 }).then((url) => {
+        if (!cancelled) setQrSrc(url);
+      });
+    }, 250);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [hydrated, qrTarget]);
 
   const tokens = resolveCanvasTokens(brandKit);
   const ink = pickContrastingInk(brandKit.primaryColor);
@@ -169,7 +189,7 @@ export function BrandKitCanvasPanel() {
         >
           <CanvasQrPlate
             tokens={tokens}
-            qrSrc={null}
+            qrSrc={qrSrc}
             widthPercent={28}
             accentColor={brandKit.secondaryColor}
           />

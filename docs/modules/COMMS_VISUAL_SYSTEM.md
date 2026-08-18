@@ -76,7 +76,7 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 - Solidarity stack: token padding + alignment bias; QR size responds to density
 - Flyer / Board Notice: meta blocks use `subtitleFontSizePx` / `gapPx`
 - Graphic `results`: alignment + padding from tokens
-- Brand Kit mini preview: QR placement follows alignment bias; `CanvasTypeBlock` asymmetric inset
+- Brand Kit mini preview: QR placement follows alignment bias; encodes local website or `https://unionops.org`; `CanvasTypeBlock` asymmetric inset
 
 ### Phase 4 notes
 

@@ -1,5 +1,10 @@
 # Progress Log
 
+## Brand Kit canvas preview QR (2026-08-18)
+
+- [x] Mini preview encodes the saved local website, or `https://unionops.org` when none is set (was a blank `qrSrc={null}` plate)
+- Verify: `npm run test:unit -- src/lib/brand/canvas-preview-qr.test.ts`
+
 ## Website guide two-part rewrite (2026-08-18)
 
 - [x] `/guide/website` split into Part 1 (write and download the ZIP) and Part 2 (publish)
