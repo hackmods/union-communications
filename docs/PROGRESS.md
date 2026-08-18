@@ -1,5 +1,13 @@
 # Progress Log
 
+## Tools catalog job groups (2026-08-18)
+
+- [x] Tools ▾ / `/tools` regrouped by job: Brand · Union boards · **Print & cards** · Social & web
+- [x] QR Card, Action Card, Pulse Poll moved out of Boards / Social into Print & cards (wallet/handouts)
+- [x] EN/FR group label `Print & cards` / `Impression et cartes`; four-column mega-menu kept
+- [x] Lesson: [`session-knowledge-2026-08-18-tools-catalog-ia.md`](audit/session-knowledge-2026-08-18-tools-catalog-ia.md) — do not 1:1-map catalog columns to First week channels
+- Verify: `npm run test:unit -- src/components/layout/nav/nav-config.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## HubNav drops redundant Comms toolbox (2026-08-18)
 
 - [x] Officer Hub menu no longer lists **Comms toolbox** (public Header already has Tools / Guides / home)

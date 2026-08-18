@@ -13,12 +13,12 @@ Top bar is slim and dual-audience oriented:
 | **Get started** | `/onboarding` when Brand Kit is not established; `/guide/social-media-plan` (First week) when it is — Brand Kit stays a separate link |
 | **Guides ▾** | **Start here:** Comms Resources, Blueprint, First week, Strike Guide, Photo Consent, Membership signup · **By channel:** Print, Union Boards, Website, **Email & outreach** · **Libraries:** Social Examples, Captions · **About:** Brand Assets, Why it's free, Install as an app |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Assets) |
-| **Tools ▾** | Mega-menu columns — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, QR Cards · **Print:** Flyer · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · footer **All tools** → `/tools` |
+| **Tools ▾** | Mega-menu columns grouped by **job** — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board · **Print & cards:** Flyer, QR Cards, Action Cards, Pulse Poll (signed-in) · **Social & web:** Graphic Maker, Share Kit, Quote Card, Meeting Backgrounds, Website, Alt-text · footer **All tools** → `/tools`. Do not 1:1-map these columns to First week channels; see [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../audit/session-knowledge-2026-08-18-tools-catalog-ia.md) |
 | **Officer Hub** | `/app` (auth) — filled primary CTA |
 
 Footer includes Blueprint, Tools, Print Guide, **Email & outreach**, Social Examples, Captions, Comms Resources, Brand Assets, Why it's free, Install, Privacy, Accessibility, Support.
 
-Social Examples and Captions are **not** top-level nav items. They remain under Guides, the home Social channel, footer links, and First week socials step. Channel guides (print / boards / website) live under Guides → By channel so the four-channel model is discoverable without flattening Guides into a long link bar.
+Social Examples and Captions are **not** top-level nav items. They remain under Guides, the home Social channel, footer links, and First week socials step. Channel guides (print / boards / website) live under Guides → By channel so the four-channel model is discoverable without flattening Guides into a long link bar. Tools ▾ columns are **jobs** (brand / boards / print & cards / social & web), not a second copy of those channels.
 
 Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview` board-notice product truth), Brand Kit primary CTA + “What’s next” roadmap secondary, dual-path cards when Officer Hub is public (Comms path uses `pathCommsCta` — `COPY-001` closed), Brand Kit link row, and a four-column toolbox (boards → print → social → website). Composition rules: [`.cursor/rules/public-marketing-ux.mdc`](../../.cursor/rules/public-marketing-ux.mdc). First week (`/guide/social-media-plan`) is the channel roadmap **after** Brand Kit. Optional fifth-channel email guide at `/guide/email-broadcast`. Operators verify deploys with `GET /api/health` (`npm run health:check`). Deferred content ideas: [`COMMS_BACKLOG.md`](COMMS_BACKLOG.md). Agent nav conventions: `.cursor/rules/comms-public-nav.mdc`.
 
@@ -65,8 +65,8 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | Channel | Tools & guides |
 |---------|----------------|
 | **Social** | Blueprint, crisis guide, captions, examples, graphic maker, resizer, quote card, alt-text |
-| **Print** | Flyer maker, print guide |
-| **Union boards** | Board notice maker, solidarity poster maker, QR link cards, action cards, QR board posters, union boards guide (bare-minimum + reference layouts) |
+| **Print** | Flyer maker, print guide; pocket QR / action cards live under Tools → Print & cards |
+| **Union boards** | Board banner, board notice, solidarity poster, QR board posters, union boards guide (bare-minimum + reference layouts) |
 | **Website** | Website template (based on local243.org model), website guide |
 | **Email (fifth channel)** | Email & outreach guide — complements boards/print/social/website; officer SMTP/cron stays Hub-only |
 

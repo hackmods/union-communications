@@ -59,9 +59,41 @@ describe("path helpers", () => {
       "/install",
     ]);
   });
+});
 
-  it("keeps four tool groups", () => {
-    expect(toolGroups).toHaveLength(4);
+describe("toolGroups", () => {
+  it("keeps four job-based tool groups", () => {
+    expect(toolGroups.map((g) => g.labelKey)).toEqual([
+      "toolsGroupBrand",
+      "toolsGroupBoards",
+      "toolsGroupPrint",
+      "toolsGroupSocialWeb",
+    ]);
+    expect(
+      toolGroups.find((g) => g.labelKey === "toolsGroupBoards")?.links.map(
+        (l) => l.href,
+      ),
+    ).toEqual([
+      "/tools/board-banner",
+      "/tools/board-notice",
+      "/tools/solidarity-poster",
+      "/tools/qr-board",
+    ]);
+    expect(
+      toolGroups.find((g) => g.labelKey === "toolsGroupPrint")?.links.map(
+        (l) => l.href,
+      ),
+    ).toEqual([
+      "/tools/flyer-maker",
+      "/tools/qr-card",
+      "/tools/action-card",
+      PULSE_POLL_HREF,
+    ]);
+    expect(
+      toolGroups
+        .find((g) => g.labelKey === "toolsGroupSocialWeb")
+        ?.links.map((l) => l.href),
+    ).not.toContain(PULSE_POLL_HREF);
   });
 });
 
@@ -85,5 +117,15 @@ describe("visibleToolGroups", () => {
     expect(
       hrefs({ officerHubPublic: false, authenticated: false }),
     ).not.toContain(PULSE_POLL_HREF);
+
+    const printAnon = visibleToolGroups({
+      officerHubPublic: false,
+      authenticated: false,
+    }).find((g) => g.labelKey === "toolsGroupPrint");
+    expect(printAnon?.links.map((l) => l.href)).toEqual([
+      "/tools/flyer-maker",
+      "/tools/qr-card",
+      "/tools/action-card",
+    ]);
   });
 });

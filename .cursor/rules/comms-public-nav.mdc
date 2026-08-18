@@ -25,12 +25,12 @@ Do not re-flatten channel guides into a long top-level link bar. Do not invent m
 
 ## Header Tools menu (keep this shape)
 
-Four groups in `nav-config.ts` `toolGroups` (mega-menu columns):
+Four groups in `nav-config.ts` `toolGroups` (mega-menu columns). Group by **job** (what the steward is making), not by First week channel. Lesson: [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../../docs/audit/session-knowledge-2026-08-18-tools-catalog-ia.md).
 
 1. **Brand** — Logo Builder, Resizer, Document & Slide Generator
-2. **Union boards** — Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board Posters, QR Link Cards, Action Cards
-3. **Print** — Flyer Maker
-4. **Social & web** — Graphic Maker, Quote Card, Meeting Backgrounds, Website Template, Alt-Text Assistant
+2. **Union boards** — Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board Posters
+3. **Print & cards** — Flyer Maker, QR Link Cards, Action Cards, Pulse Poll (Hub-signed-in only)
+4. **Social & web** — Graphic Maker, Share Kit, Quote Card, Meeting Backgrounds, Website Template, Alt-Text Assistant
 
 Footer row in the mega-menu: **All tools** → `/tools` index. Do not re-flatten Tools into a single ungrouped list. Keep one **Tools ▾** trigger — do not add extra top-level tool links.
 

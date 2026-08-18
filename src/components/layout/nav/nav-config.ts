@@ -98,6 +98,12 @@ export const learnGroups: readonly NavGroup[] = [
 /** Hub-backed authoring tool — hide unless Officer Hub login is on and the user is signed in. */
 export const PULSE_POLL_HREF = "/tools/pulse-poll" as const;
 
+/**
+ * Tools ▾ + `/tools` catalog. Group by **job**, not First week channel.
+ * Brand = set the look; boards = cork-board pieces; Print & cards = handouts
+ * (wallet pack folded in); Social & web = post and publish.
+ * @see docs/audit/session-knowledge-2026-08-18-tools-catalog-ia.md
+ */
 export const toolGroups: readonly NavGroup[] = [
   {
     labelKey: "toolsGroupBrand",
@@ -114,13 +120,16 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/board-notice", key: "boardNotice" },
       { href: "/tools/solidarity-poster", key: "solidarityPoster" },
       { href: "/tools/qr-board", key: "qrBoard" },
-      { href: "/tools/qr-card", key: "qrCard" },
-      { href: "/tools/action-card", key: "actionCard" },
     ],
   },
   {
     labelKey: "toolsGroupPrint",
-    links: [{ href: "/tools/flyer-maker", key: "flyerMaker" }],
+    links: [
+      { href: "/tools/flyer-maker", key: "flyerMaker" },
+      { href: "/tools/qr-card", key: "qrCard" },
+      { href: "/tools/action-card", key: "actionCard" },
+      { href: PULSE_POLL_HREF, key: "pulsePoll" },
+    ],
   },
   {
     labelKey: "toolsGroupSocialWeb",
@@ -131,7 +140,6 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/meeting-background", key: "meetingBackground" },
       { href: "/tools/website-template", key: "websiteTemplate" },
       { href: "/tools/alt-text", key: "altText" },
-      { href: PULSE_POLL_HREF, key: "pulsePoll" },
     ],
   },
 ] as const;
