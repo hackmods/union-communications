@@ -6,6 +6,12 @@ export interface WebsiteOfficer {
   location: string;
 }
 
+/** Public http(s) link bundled from Brand Kit onto the exported site. */
+export interface WebsiteNavLink {
+  label: string;
+  url: string;
+}
+
 export interface WebsiteTemplateData {
   localNumber: string;
   unionName: string;
@@ -14,6 +20,10 @@ export interface WebsiteTemplateData {
   about2: string;
   contactEmail: string;
   facebookUrl: string;
+  /** Extra Brand Kit social / resource links (not Facebook, not the site URL). */
+  customLinks?: WebsiteNavLink[];
+  /** Brand Kit membership application / update URLs. */
+  membershipLinks?: WebsiteNavLink[];
   officeAddress: string;
   primaryColor: string;
   secondaryColor: string;

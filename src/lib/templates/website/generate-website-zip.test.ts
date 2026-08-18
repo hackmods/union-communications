@@ -47,6 +47,35 @@ describe("generate-website-zip", () => {
     expect(html).toContain("North Pole, Arctic Circle");
   });
 
+  it("bundles Brand Kit custom and membership links and skips unsafe hrefs", () => {
+    const html = buildWebsiteHtml({
+      ...sampleData,
+      customLinks: [
+        { label: "Instagram", url: "https://instagram.com/local243" },
+        { label: "<script>x</script>", url: "https://example.com/ok" },
+        { label: "Nope", url: "javascript:alert(1)" },
+      ],
+      membershipLinks: [
+        { label: "Join full-time", url: "https://example.com/join-ft" },
+      ],
+    });
+    expect(html).toContain("Instagram");
+    expect(html).toContain("https://instagram.com/local243");
+    expect(html).toContain("Join full-time");
+    expect(html).toContain("https://example.com/join-ft");
+    expect(html).toContain("<h3>Membership</h3>");
+    expect(html).toContain("To apply or update your membership:");
+    expect(html).not.toContain("javascript:");
+    expect(html).toContain("&lt;script&gt;x&lt;/script&gt;");
+    expect(html).not.toContain("<script>x</script>");
+  });
+
+  it("omits the membership column when Brand Kit has no join links", () => {
+    const html = buildWebsiteHtml(sampleData);
+    expect(html).not.toContain("<h3>Membership</h3>");
+    expect(html).not.toContain("To apply or update your membership:");
+  });
+
   it("omits OPSEU resource links when theme is not OPSEU", () => {
     const html = buildWebsiteHtml({
       ...sampleData,

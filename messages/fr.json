@@ -1699,7 +1699,18 @@
     "preview": "Aperçu en direct",
     "downloadZip": "Télécharger le ZIP du site",
     "referenceNote": "Basé sur le site bénévole local243.org (GitHub Pages). L’export utilise le logo de la Trousse de marque dans la navigation. Liens OPSEU en pied seulement si le thème est OPSEU.",
-    "whenToUse": "À utiliser quand votre section a besoin d'un site Web simple et durable que les membres peuvent mettre dans leurs favoris."
+    "whenToUse": "À utiliser quand votre section a besoin d'un site Web simple et durable que les membres peuvent mettre dans leurs favoris.",
+    "heroDefault": "Les membres sont unis dans la solidarité pour l’équité, le respect et des services publics de qualité. Consultez les nouvelles et voyez comment joindre votre section.",
+    "about2Default": "Par l’action collective et la solidarité, nous veillons à ce que le travail essentiel de nos membres soit reconnu et respecté.",
+    "aboutSeedGeneric": "La section {localNumber} représente les membres de cette section. Nous protégeons les droits de nos membres, visons des conditions de travail justes et sûres, et renforçons notre communauté.",
+    "aboutSeedNamed": "La section {localNumber} représente {collections}. Nous protégeons les droits de nos membres, visons des conditions de travail justes et sûres, et renforçons notre communauté.",
+    "listAnd": "et",
+    "bundledHeading": "Liens depuis la Trousse de marque",
+    "bundledIntro": "Ces liens supplémentaires apparaissent sur le site automatiquement. Facebook est dans le champ ci-dessus ; modifiez les autres dans la Trousse de marque.",
+    "bundledEmpty": "Pas encore de liens sociaux ou d’adhésion supplémentaires dans la Trousse de marque. Ajoutez-y un groupe, Instagram ou un formulaire d’adhésion s’il y en a un, et ils s’afficheront sur le site.",
+    "bundledCustomHeading": "Autres liens",
+    "bundledMembershipHeading": "Adhésion",
+    "bundledEdit": "Ouvrir la Trousse de marque"
   },
   "sources": {
     "title": "Sources et références",
@@ -4690,6 +4701,8 @@
     "stepCaptions": "Légendes",
     "openRoadmap": "Feuille de route complète",
     "trailNavLabel": "Parcours de démo de 20 minutes",
+    "continueBrand": "Réglez les couleurs et le logo, puis ouvrez l’Avis d'affichage.",
+    "continueBoard": "Téléchargez un PDF, puis créez un graphique social.",
     "continueGraphic": "Téléchargez un PNG, puis copiez une légende.",
     "continueCaptions": "Copiez une légende à coller sous le graphique que vous venez de télécharger.",
     "nextCaption": "Copier une légende",

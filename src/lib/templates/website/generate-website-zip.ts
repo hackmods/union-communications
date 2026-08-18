@@ -1,5 +1,9 @@
-import type { WebsiteTemplateData } from "@/types/website-template";
+import type { WebsiteNavLink, WebsiteTemplateData } from "@/types/website-template";
 import { getOpseuWebsiteFooterSources } from "@/lib/constants/comms-sources";
+import {
+  isWebsiteHttpUrl,
+  toWebsiteNavLinks,
+} from "@/lib/templates/website/brand-kit-fields";
 import {
   buildWebsiteFontFaceCss,
   canvasFontCssFamily,
@@ -58,11 +62,41 @@ ${lines.map((line) => `          <li>${escapeHtml(line)}</li>`).join("\n")}
         </ul>`;
 }
 
+function buildExternalLinkItems(links: readonly WebsiteNavLink[]): string {
+  return toWebsiteNavLinks(links)
+    .map(
+      (link) =>
+        `          <li><a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a></li>`,
+    )
+    .join("\n");
+}
+
+function buildFooterColumn(title: string, itemsHtml: string): string {
+  if (!itemsHtml.trim()) return "";
+  return `      <div class="footer-col">
+        <h3>${title}</h3>
+        <ul>
+${itemsHtml}
+        </ul>
+      </div>
+`;
+}
+
 export function buildWebsiteHtml(data: WebsiteTemplateData): string {
   const officersHtml = buildOfficersHtml(data.officers);
   const aboutHtml = buildAboutHtml(data.about1, data.about2);
-  const facebookBlock = data.facebookUrl.trim()
-    ? `          <li><a href="${escapeHtml(data.facebookUrl)}" target="_blank" rel="noopener noreferrer">Facebook group</a></li>`
+  const facebookBlock =
+    data.facebookUrl.trim() && isWebsiteHttpUrl(data.facebookUrl)
+      ? `          <li><a href="${escapeHtml(data.facebookUrl.trim())}" target="_blank" rel="noopener noreferrer">Facebook group</a></li>`
+      : "";
+  const customLinkItems = buildExternalLinkItems(data.customLinks ?? []);
+  const membershipItems = buildExternalLinkItems(data.membershipLinks ?? []);
+  const membershipColumn = buildFooterColumn("Membership", membershipItems);
+  const membershipContactHtml = membershipItems
+    ? `      <p>To apply or update your membership:</p>
+      <ul class="contact-links">
+${membershipItems}
+      </ul>`
     : "";
   const officeAddressHtml = buildOfficeAddressHtml(data.unionName, data.officeAddress);
   const logoHtml = data.logoFileName.trim()
@@ -143,6 +177,7 @@ ${officersHtml}
     <div class="text-wrapper text-center">
       <p>For general inquiries, membership questions, or media requests:</p>
       <p class="contact-email"><a href="mailto:${escapeHtml(data.contactEmail)}">${escapeHtml(data.contactEmail)}</a></p>
+${membershipContactHtml}
       ${data.officeAddress.trim() ? `<p class="office-address">${escapeHtml(data.officeAddress)}</p>` : ""}
     </div>
   </section>
@@ -155,10 +190,11 @@ ${officeAddressHtml}
         <h3>Contact</h3>
         <ul>
 ${facebookBlock}
+${customLinkItems}
           <li><a href="mailto:${escapeHtml(data.contactEmail)}">${escapeHtml(data.contactEmail)}</a></li>
         </ul>
       </div>
-${opseuResourcesHtml}      <div class="footer-col">
+${membershipColumn}${opseuResourcesHtml}      <div class="footer-col">
         <h3>Rights &amp; Partners</h3>
         <ul>
           <li><a href="https://www.ontario.ca/document/your-guide-employment-standards-act-0" target="_blank" rel="noopener noreferrer">Employment Standards Act Guide</a></li>
@@ -411,6 +447,18 @@ h1, h2, h3, h4 {
   color: var(--color-primary);
   font-size: 1.25rem;
   font-weight: bold;
+}
+
+.contact-links {
+  list-style: none;
+  margin: var(--spacing-3) auto 0;
+  padding: 0;
+  max-width: 28rem;
+}
+
+.contact-links a {
+  color: var(--color-primary);
+  font-weight: 600;
 }
 
 .office-address { margin-top: var(--spacing-3); }

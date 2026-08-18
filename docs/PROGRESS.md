@@ -1,5 +1,11 @@
 # Progress Log
 
+## Website Template Brand Kit links and about seed (2026-08-18)
+
+- [x] Exported site footer/contact include Brand Kit custom links and membership URLs (http(s) only)
+- [x] Name + about paragraph seed from union preset and collection labels after Brand Kit hydrate — no more CAAT “support staff” default for every local
+- Verify: `npm run test:unit -- src/lib/templates/website/brand-kit-fields.test.ts src/lib/templates/website/generate-website-zip.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## OPSEU PT collection membership primary (2026-08-18)
 
 - [x] College Support Part-time collection selects **CAAT Support Part-Time** as the membership Primary link (FT collection keeps Full-Time)

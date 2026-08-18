@@ -1699,7 +1699,18 @@
     "preview": "Live preview",
     "downloadZip": "Download site ZIP",
     "referenceNote": "Based on the volunteer local243.org GitHub Pages site. Export uses your Brand Kit logo in the nav. OPSEU footer links appear only when the Brand Kit theme is OPSEU.",
-    "whenToUse": "Use when your local needs a simple lasting website members can bookmark."
+    "whenToUse": "Use when your local needs a simple lasting website members can bookmark.",
+    "heroDefault": "Members stand united in solidarity for fairness, respect, and quality public services. Get the latest updates and find out how to connect with your Local.",
+    "about2Default": "Through collective action and solidarity, we work to ensure the essential work our members perform is recognized and respected.",
+    "aboutSeedGeneric": "Local {localNumber} represents members of this local. We are dedicated to protecting our members' rights, ensuring fair and safe working conditions, and strengthening our community.",
+    "aboutSeedNamed": "Local {localNumber} represents {collections}. We are dedicated to protecting our members' rights, ensuring fair and safe working conditions, and strengthening our community.",
+    "listAnd": "and",
+    "bundledHeading": "Links from Brand Kit",
+    "bundledIntro": "These extra links appear on the site automatically. Facebook is in the field above; edit the rest in Brand Kit.",
+    "bundledEmpty": "No extra social or membership links in Brand Kit yet. Add a group, Instagram, or a join form there if you have one, and they will show on the site.",
+    "bundledCustomHeading": "Other links",
+    "bundledMembershipHeading": "Membership",
+    "bundledEdit": "Open Brand Kit"
   },
   "sources": {
     "title": "Sources & references",
@@ -4690,6 +4701,8 @@
     "stepCaptions": "Captions",
     "openRoadmap": "Full first-week roadmap",
     "trailNavLabel": "20-minute demo path",
+    "continueBrand": "Set colours and logo, then open Board Notice.",
+    "continueBoard": "Download a PDF, then make a social graphic.",
     "continueGraphic": "Download a PNG, then copy a caption.",
     "continueCaptions": "Copy a caption to paste under the graphic you just downloaded.",
     "nextCaption": "Copy a caption",
