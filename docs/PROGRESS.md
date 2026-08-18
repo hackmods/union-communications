@@ -1,5 +1,11 @@
 # Progress Log
 
+## Tools mega-menu viewport clamp (2026-08-18)
+
+- [x] Tools ▾ flyout is `fixed` and clamped so a 40/52rem panel cannot clip off lg/xl laptops (`html { overflow-x: clip }`)
+- [x] 4 visual columns only at 2xl; lg/xl stay 2-col. Width/height from `clampFlyoutToViewport`
+- Verify: `npm run test:unit -- src/lib/utils/flyout-geometry.test.ts`
+
 ## Brand Kit chrome FOUC (2026-08-18)
 
 - [x] Blocking `<head>` script (`BrandChromeInitScript`) applies saved Brand Kit colours to `--opseu-blue` / `--brand-*` before first paint — same contract as display prefs (not `next/script`)

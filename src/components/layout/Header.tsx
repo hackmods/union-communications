@@ -8,6 +8,7 @@ import { DisplaySettingsMenu } from "./DisplaySettingsMenu";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
+import { preferredToolsMegaMenuWidth } from "@/lib/utils/flyout-geometry";
 import { useBrandStore } from "@/store/brand-store";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import {
@@ -156,7 +157,7 @@ export function Header() {
             onToggle={() => toggleMenu("tools")}
             onClose={closeMenu}
             align="right"
-            panelClassName="max-h-[min(80vh,40rem)] overflow-y-auto"
+            preferredPanelWidth={preferredToolsMegaMenuWidth}
           >
             <ToolsMegaMenuContent pathname={pathname} onNavigate={closeMenu} />
           </NavDropdown>

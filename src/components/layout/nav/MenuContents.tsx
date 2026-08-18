@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { TOOLS_MEGA_MENU_GRID_CLASS } from "@/lib/utils/flyout-geometry";
 import {
   learnGroups,
   linkActive,
@@ -60,9 +61,9 @@ export function MenuLinkGroups({
 
   if (layout === "mega") {
     return (
-      <div className="grid gap-3 p-3 sm:grid-cols-2 xl:grid-cols-4">
+      <div className={TOOLS_MEGA_MENU_GRID_CLASS}>
         {groups.map((group) => (
-          <div key={group.labelKey} className="min-w-[10.5rem]">
+          <div key={group.labelKey} className="min-w-0">
             <p className="px-2 py-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
               {t(group.labelKey)}
             </p>
@@ -144,7 +145,7 @@ export function ToolsMegaMenuContent({
   const allActive = pathname === "/tools";
 
   return (
-    <div className="w-[min(90vw,40rem)] xl:w-[min(90vw,52rem)]">
+    <div className="w-full min-w-0">
       <MenuLinkGroups
         groups={groups}
         pathname={pathname}

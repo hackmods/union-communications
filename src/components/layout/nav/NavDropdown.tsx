@@ -3,12 +3,14 @@
 import {
   useEffect,
   useId,
+  useLayoutEffect,
   useRef,
   type KeyboardEvent as ReactKeyboardEvent,
   type ReactNode,
   type RefObject,
 } from "react";
 import { cn } from "@/lib/utils";
+import { clampFlyoutToViewport } from "@/lib/utils/flyout-geometry";
 import { getMenuItems } from "./focusables";
 
 type NavDropdownProps = {
@@ -22,6 +24,11 @@ type NavDropdownProps = {
   align?: "left" | "right";
   /** Extra classes on the menu panel (mega-menu width/grid). */
   panelClassName?: string;
+  /**
+   * When set, the panel is `fixed` and clamped to the viewport so a wide
+   * mega-menu cannot clip off the left edge on lg/xl desktops.
+   */
+  preferredPanelWidth?: (viewportWidth: number) => number;
   menuRef?: RefObject<HTMLDivElement | null>;
 };
 
@@ -34,6 +41,7 @@ export function NavDropdown({
   children,
   align = "left",
   panelClassName,
+  preferredPanelWidth,
   menuRef: externalMenuRef,
 }: NavDropdownProps) {
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -41,6 +49,41 @@ export function NavDropdown({
   const menuRef = externalMenuRef ?? internalMenuRef;
   const rootRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
+  const clampToViewport = Boolean(preferredPanelWidth);
+
+  useLayoutEffect(() => {
+    if (!open || !preferredPanelWidth) return;
+    const trigger = triggerRef.current;
+    const panel = menuRef.current;
+    if (!trigger || !panel) return;
+
+    const apply = () => {
+      const rect = trigger.getBoundingClientRect();
+      const box = clampFlyoutToViewport({
+        viewportWidth: window.innerWidth,
+        viewportHeight: window.innerHeight,
+        trigger: {
+          left: rect.left,
+          right: rect.right,
+          bottom: rect.bottom,
+        },
+        preferredWidth: preferredPanelWidth(window.innerWidth),
+        align,
+      });
+      panel.style.top = `${box.top}px`;
+      panel.style.left = `${box.left}px`;
+      panel.style.width = `${box.width}px`;
+      panel.style.maxHeight = `${box.maxHeight}px`;
+    };
+
+    apply();
+    window.addEventListener("resize", apply);
+    window.addEventListener("scroll", apply, true);
+    return () => {
+      window.removeEventListener("resize", apply);
+      window.removeEventListener("scroll", apply, true);
+    };
+  }, [open, preferredPanelWidth, align, menuRef]);
 
   useEffect(() => {
     if (!open) return;
@@ -151,10 +194,15 @@ export function NavDropdown({
           role="menu"
           onKeyDown={onPanelKeyDown}
           className={cn(
-            "absolute z-50 mt-1 rounded-lg border border-gray-200 bg-white py-1 shadow-lg",
+            "z-50 rounded-lg border border-gray-200 bg-white py-1 shadow-lg",
             "origin-top transition duration-150 ease-out",
-            align === "right" ? "right-0" : "left-0",
-            panelClassName ?? "min-w-[220px]",
+            clampToViewport
+              ? "fixed max-w-[calc(100vw-2rem)] overflow-y-auto"
+              : cn(
+                  "absolute mt-1",
+                  align === "right" ? "right-0" : "left-0",
+                ),
+            panelClassName ?? (clampToViewport ? undefined : "min-w-[220px]"),
           )}
         >
           {children}

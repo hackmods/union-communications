@@ -25,7 +25,9 @@ Channel packs already had a better split (`board` vs `print` vs `wallet` vs `soc
 
 ## Decision
 
-**Keep four columns.** Do not invent a fifth “Website” or “Cards” group (singleton problem again). Do not collapse to three (that buries board vs handout).
+**Keep four job groups.** Do not invent a fifth “Website” or “Cards” group (singleton problem again). Do not collapse to three (that buries board vs handout).
+
+The **catalog** stays four groups. The **flyout** is not four visual columns on every desktop: lg/xl are 2-col; `2xl:grid-cols-4` only. A right-aligned 40/52rem panel clips off the left of 1024–1440 windows (`clampFlyoutToViewport` in `flyout-geometry.ts`).
 
 **Group Tools by job, not by First week channel.**
 
@@ -81,6 +83,7 @@ Any regroup touches **all** of:
 3. `messages/en.json` + `messages/fr.json` `nav.toolsGroupPrint`
 4. `.cursor/rules/comms-public-nav.mdc` Tools menu list
 5. `docs/modules/COMMS.md` Tools ▾ row
+6. `src/lib/utils/flyout-geometry.ts` panel width / 2xl column count (do not restore `w-[min(90vw,52rem)]`)
 
 `/tools` and the mega-menu both call `visibleToolGroups()` — do not fork a second catalog.
 
@@ -95,5 +98,5 @@ Share Kit v0 was a workshop orchestrator (preset picker + links to Graphic Maker
 ## Verify
 
 ```bash
-npm run test:unit -- src/components/layout/nav/nav-config.test.ts src/lib/comms/public-copy-style.test.ts
+npm run test:unit -- src/components/layout/nav/nav-config.test.ts src/lib/comms/public-copy-style.test.ts src/lib/utils/flyout-geometry.test.ts
 ```
