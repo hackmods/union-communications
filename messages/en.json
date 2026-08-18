@@ -4772,6 +4772,7 @@
     "dispatchTitle": "Dispatch",
     "dispatchSubtitle": "Assignments, Bulletin, and due soon — muted Circles stay quiet.",
     "dispatchEmpty": "Nothing in Dispatch. Muted Circles stay quiet — open a Circle from Station if you expected a ping.",
+    "dispatchUnread": "You have {count} unread Dispatch item(s). Open Dispatch to catch up.",
     "markAllRead": "Mark all read",
     "hubLink": "Officer Hub",
     "loading": "Loading…",

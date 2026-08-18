@@ -4772,6 +4772,7 @@
     "dispatchTitle": "Relais",
     "dispatchSubtitle": "Assignations, babillard et échéances — les Cercles en sourdine restent calmes.",
     "dispatchEmpty": "Rien dans le Relais. Les Cercles en sourdine restent calmes — ouvrez un Cercle depuis le Poste si vous attendiez un avis.",
+    "dispatchUnread": "Vous avez {count} élément(s) non lu(s) dans le Relais. Ouvrez le Relais pour rattraper.",
     "markAllRead": "Tout marquer lu",
     "hubLink": "Hub des dirigeants",
     "loading": "Chargement…",
