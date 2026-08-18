@@ -56,7 +56,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | `/[locale]/tools/resizer` | Omnichannel resizer — Logo Builder plate (circle/square/rectangle) or upload; social + custom sizes at true pixels; ZIP/PNG |
 | `/[locale]/tools/quote-card` | Leadership quote cards |
 | `/[locale]/tools/flyer-maker` | Picket/rally flyers |
-| `/[locale]/tools/website-template` | GitHub Pages site ZIP export |
+| `/[locale]/tools/website-template` | GitHub Pages site ZIP export (not a CMS; WP/SS feasibility: [`plan-2026-08-18-website-export-wp-squarespace.md`](../audit/plan-2026-08-18-website-export-wp-squarespace.md)) |
 | `/[locale]/tools/document-generator` | Branded Word / Excel / PowerPoint + ZIP (simple letter, letterhead, welcome letter, event notice) |
 | `/[locale]/tools/alt-text` | Alt-text draft helper (starters, platform limits, checklist) |
 
@@ -67,10 +67,12 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | **Social** | Blueprint, crisis guide, captions, examples, graphic maker, resizer, quote card, alt-text |
 | **Print** | Flyer maker, print guide; pocket QR / action cards live under Tools → Print & cards |
 | **Union boards** | Board banner, board notice, solidarity poster, QR board posters, union boards guide (bare-minimum + reference layouts) |
-| **Website** | Website template (based on local243.org model), website guide |
+| **Website** | Website template (based on local243.org model), website guide — static one-page ZIP, not WordPress/Squarespace theme export |
 | **Email (fifth channel)** | Email & outreach guide — complements boards/print/social/website; officer SMTP/cron stays Hub-only |
 
 The four-channel model (boards → print → social → website) remains the First week roadmap. Email is documented as an optional fifth channel for officer outreach copy and Hub SMTP boundaries — not a member broadcast list.
+
+Website Template is a **fixed one-page static generator** (`WebsiteTemplateData` → HTML/CSS/JS ZIP for GitHub Pages). It is not a block CMS. WordPress classic-theme wrap is feasible later; **Squarespace 7.1 theme / developer-mode export is a non-option**. Do not advertise a Squarespace template. Full matrix: [`plan-2026-08-18-website-export-wp-squarespace.md`](../audit/plan-2026-08-18-website-export-wp-squarespace.md), [`.cursor/rules/website-export.mdc`](../../.cursor/rules/website-export.mdc).
 
 ## Multi-Union Migration Checklist (Phase 1)
 
@@ -112,7 +114,7 @@ v1: all public. Phase 1+: optional premium templates behind login; core tools st
 - `src/lib/constants/office-templates.ts` — Document Generator presets (incl. welcome letter, seniority worksheet)
 - `src/components/brand/MembershipUrlsEditor.tsx` — typed FT/PT membership application URLs on Brand Kit
 - `src/lib/utils/local-links.ts` — Brand Kit link normalize + membership preset destination resolve
-- `src/lib/templates/website/generate-website-zip.ts` — static site ZIP generator
+- `src/lib/templates/website/generate-website-zip.ts` — static site ZIP generator (GitHub Pages; not WP/SS themes — see website export plan)
 - `src/components/tools/*` — upload, contrast, consent, undo/redo, office export
 - `src/store/brand-store.ts` — brand state via DataAdapter
 - `src/lib/utils/canvas-tokens.ts` — Brand Kit canvas chrome resolver (`solid` / `field` / `workshop`, grain, duotone)

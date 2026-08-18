@@ -10,6 +10,7 @@
 **Flyer Maker QOL v2 + unified tools chrome / Share Kit v0 (2026-08-14):** [`session-knowledge-2026-08-14-flyer-unified-tools.md`](session-knowledge-2026-08-14-flyer-unified-tools.md)
 **QR Board canvas QOL + layout-class CI matrix + wallet FitWidth (2026-08-17):** [`session-knowledge-2026-08-17-qr-canvas-layout.md`](session-knowledge-2026-08-17-qr-canvas-layout.md) (lessons B1–B14, residual gaps, optional next steps), checklist [`plan-2026-08-17-qr-board-canvas-qol.md`](plan-2026-08-17-qr-board-canvas-qol.md)
 **Tools catalog regrouping (2026-08-18):** [`session-knowledge-2026-08-18-tools-catalog-ia.md`](session-knowledge-2026-08-18-tools-catalog-ia.md) — Tools ▾ / `/tools` columns are jobs (Brand / Union boards / Print & cards / Social & web), not a 1:1 of First week channels  
+**Website Template CMS export (2026-08-18):** [`plan-2026-08-18-website-export-wp-squarespace.md`](plan-2026-08-18-website-export-wp-squarespace.md), [`session-knowledge-2026-08-18-website-export.md`](session-knowledge-2026-08-18-website-export.md) — static one-page ZIP; WP classic theme wrap is feasible later; **Squarespace 7.1 theme export is a non-option**. Do not advertise a Squarespace template.  
 **Share Kit folded (2026-08-18):** `/tools/share-kit` redirects to Graphic Maker. Presets + Captions/Resizer related links cover the old orchestrator. Do not rebuild a third social canvas.
 
 ## Do not re-open as if missing

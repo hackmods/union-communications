@@ -1,0 +1,24 @@
+---
+description: Website Template is a static ZIP, not a CMS — WP theme wrap is feasible; Squarespace 7.1 theme export is a non-option
+globs: src/lib/templates/website/**,src/app/**/tools/website-template/**,src/types/website-template.ts,src/components/tools/WebsitePreviewFrame.tsx
+alwaysApply: false
+---
+
+# Website Template export (WP / Squarespace)
+
+Canonical plan: [`docs/audit/plan-2026-08-18-website-export-wp-squarespace.md`](../../docs/audit/plan-2026-08-18-website-export-wp-squarespace.md). Lessons: [`docs/audit/session-knowledge-2026-08-18-website-export.md`](../../docs/audit/session-knowledge-2026-08-18-website-export.md).
+
+## As-built
+
+Single-page GitHub Pages ZIP from `generateWebsiteZip()`. Flat `WebsiteTemplateData` — no blocks, no page list, no forms (`mailto:` only). Page copy is ephemeral. Default export stays the static ZIP.
+
+## Verdict
+
+- **WordPress:** feasible as a **classic PHP theme ZIP** wrapping current HTML/CSS/JS (Phase 1, Medium). WXR is content-only and drops media without hosted URLs. Do not start with FSE / `theme.json` until we have a block model.
+- **Squarespace 7.1:** **non-option** for theme, developer-mode, or template ZIP. No Developer Platform, no page import, no site-building API (Commerce APIs only). Do not scrape editor APIs. Do not target 7.0 Developer Mode. Do not advertise “Squarespace export.”
+
+## Do not
+
+- Replace GitHub Pages as the default export
+- Promise a Squarespace-compatible template
+- Invent a CMS/block tree solely to chase WP FSE or Squarespace Fluid Engine
