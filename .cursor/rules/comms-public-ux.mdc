@@ -34,7 +34,7 @@ Use `brandSetupHref(themeEstablished)` from `@/lib/utils/brand-setup` (`/onboard
 
 1. Brand Kit / onboarding → identity  
 2. First week: boards → print → socials → website ([`first-week-roadmap.ts`](src/lib/comms/first-week-roadmap.ts))  
-3. Live demos: [`WorkshopDemoPath`](src/components/comms/WorkshopDemoPath.tsx) (Brand Kit → Board Notice → Graphic Maker → Captions). The numbered pitch stays on home / First week / workshop. Graphic Maker and Captions show a quiet `variant="trail"` continuation only after a Demo Path click (tab session) — do not restamp “Demo this in about 20 minutes” on the tools.  
+3. Live demos: [`WorkshopDemoPath`](src/components/comms/WorkshopDemoPath.tsx) (Brand Kit → Board Notice → Graphic Maker → Captions). The numbered pitch stays on home / First week / workshop. Graphic Maker and Captions show a quiet `variant="trail"` continuation after a Demo Path click, a First week CTA to those tools, or the home hero Brand Kit / Get started button (tab session) — do not restamp “Demo this in about 20 minutes” on the tools. Header Brand Kit and Print / Website CTAs stay ordinary.  
 4. Facilitator docs: [`docs/guides/WORKSHOP_SOCIAL_COMMS.md`](../../docs/guides/WORKSHOP_SOCIAL_COMMS.md); public outline: `/guide/workshop`; orientation: `/guide/resources`
 5. Post-talk backlog / fit notes: [`docs/audit/workshop-gap-fit-2026-08.md`](../../docs/audit/workshop-gap-fit-2026-08.md)
 6. Session lessons (merge hygiene, BrandSetup toolbar, PowerShell `@smoke`): [`docs/audit/session-knowledge-2026-08-09-workshop-comms.md`](../../docs/audit/session-knowledge-2026-08-09-workshop-comms.md)

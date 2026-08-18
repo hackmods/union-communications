@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { markWorkshopDemoSession } from "@/lib/comms/workshop-demo-session";
+import { WorkshopDemoJoinLink } from "@/components/comms/WorkshopDemoJoinLink";
 
 export const WORKSHOP_DEMO_STEPS = [
   { href: "/brand-kit", labelKey: "stepBrand" as const },
@@ -66,13 +66,12 @@ export function WorkshopDemoPath({
                       {t(step.labelKey)}
                     </span>
                   ) : (
-                    <Link
+                    <WorkshopDemoJoinLink
                       href={step.href}
-                      onClick={markWorkshopDemoSession}
                       className="inline-flex min-h-11 items-center text-gray-600 underline-offset-2 hover:text-opseu-blue hover:underline"
                     >
                       {t(step.labelKey)}
-                    </Link>
+                    </WorkshopDemoJoinLink>
                   )}
                 </li>
               );
@@ -113,16 +112,15 @@ export function WorkshopDemoPath({
                 →
               </span>
             ) : null}
-            <Link
+            <WorkshopDemoJoinLink
               href={step.href}
-              onClick={markWorkshopDemoSession}
               className="inline-flex min-h-11 items-center rounded-lg border border-opseu-blue/20 bg-opseu-blue/5 px-3 text-sm font-semibold text-opseu-blue underline-offset-2 hover:underline"
             >
               <span className="mr-2 inline-flex size-6 items-center justify-center rounded-full bg-opseu-blue text-xs font-bold text-white">
                 {i + 1}
               </span>
               {t(step.labelKey)}
-            </Link>
+            </WorkshopDemoJoinLink>
           </li>
         ))}
       </ol>

@@ -1,15 +1,33 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import { WorkshopDemoJoinLink } from "@/components/comms/WorkshopDemoJoinLink";
+import { isWorkshopDemoJoinHref } from "@/lib/comms/workshop-demo-session";
 import { Button } from "@/components/ui/Button";
 import {
   FIRST_WEEK_STEP_KEYS,
   FIRST_WEEK_STEP_LINKS,
 } from "@/lib/comms/first-week-roadmap";
+
+function RoadmapStepLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: ReactNode;
+}) {
+  if (isWorkshopDemoJoinHref(href)) {
+    return (
+      <WorkshopDemoJoinLink href={href}>{children}</WorkshopDemoJoinLink>
+    );
+  }
+  return <Link href={href}>{children}</Link>;
+}
 
 export async function generateMetadata({
   params,
@@ -105,20 +123,20 @@ export default async function SocialMediaPlanPage({
               ))}
             </ul>
             <div className="button-row mt-4 max-w-lg">
-              <Link href={FIRST_WEEK_STEP_LINKS[key].primary}>
+              <RoadmapStepLink href={FIRST_WEEK_STEP_LINKS[key].primary}>
                 <Button size="sm">{t(`steps.${key}.cta`)}</Button>
-              </Link>
-              <Link href={FIRST_WEEK_STEP_LINKS[key].secondary}>
+              </RoadmapStepLink>
+              <RoadmapStepLink href={FIRST_WEEK_STEP_LINKS[key].secondary}>
                 <Button variant="outline" size="sm">
                   {t(`steps.${key}.secondaryCta`)}
                 </Button>
-              </Link>
+              </RoadmapStepLink>
               {FIRST_WEEK_STEP_LINKS[key].tertiary?.map((link) => (
-                <Link key={link.href} href={link.href}>
+                <RoadmapStepLink key={link.href} href={link.href}>
                   <Button variant="ghost" size="sm">
                     {t(`steps.${key}.${link.labelKey}`)}
                   </Button>
-                </Link>
+                </RoadmapStepLink>
               ))}
             </div>
           </li>

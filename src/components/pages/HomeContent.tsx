@@ -8,6 +8,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { ShareThisTool } from "@/components/share/ShareThisTool";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import { markWorkshopDemoSession } from "@/lib/comms/workshop-demo-session";
 import { HomeHeroPreview } from "@/components/pages/HomeHeroPreview";
 import { useBrandStore } from "@/store/brand-store";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
@@ -123,7 +124,7 @@ export function HomeContent() {
                 {t(hubPublic ? "subtitle" : "subtitleCommsOnly")}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href={brandHref}>
+                <Link href={brandHref} onClick={markWorkshopDemoSession}>
                   <Button
                     size="lg"
                     className={cn(

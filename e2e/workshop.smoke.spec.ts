@@ -68,6 +68,31 @@ test.describe("Workshop demo path E2E @smoke", () => {
     ).toHaveCount(0);
   });
 
+  test("home hero Brand Kit CTA joins the demo trail", async ({ page }) => {
+    await page.goto("/en/");
+    await page
+      .locator(".home-hero")
+      .getByRole("link", { name: /Set up your local brand|Open Brand Kit/i })
+      .click();
+    await page.goto("/en/tools/graphic-maker/");
+    await expect(
+      page.getByRole("navigation", { name: /20-minute demo path/i }),
+    ).toBeVisible();
+  });
+
+  test("First week demo chips join the trail", async ({ page }) => {
+    await page.goto("/en/guide/social-media-plan/");
+    const heading = page.getByRole("heading", {
+      name: /Demo this in about 20 minutes/i,
+    });
+    const demoSection = page.locator("section").filter({ has: heading });
+    await demoSection.getByRole("link", { name: /Brand Kit/i }).click();
+    await page.goto("/en/tools/graphic-maker/");
+    await expect(
+      page.getByRole("navigation", { name: /20-minute demo path/i }),
+    ).toBeVisible();
+  });
+
   test("workshop outline EN + FR render", async ({ page }) => {
     await page.goto("/en/guide/workshop/");
     await expect(

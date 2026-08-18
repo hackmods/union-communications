@@ -9,8 +9,8 @@ import {
 const subscribe = () => () => {};
 
 /**
- * True after the visitor clicks a Demo Path chip (or lands with ?demo=1).
- * Stays false for cold tool visits so Graphic Maker / Captions stay ordinary.
+ * True after the visitor joins the 20-minute path (Demo Path chip, First week
+ * tool CTA, home hero Brand Kit, or ?demo=1). Stays false for cold tool visits.
  */
 export function useWorkshopDemoSession(demoParam: string | null): boolean {
   const stored = useSyncExternalStore(
