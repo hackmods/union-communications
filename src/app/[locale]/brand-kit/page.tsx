@@ -155,46 +155,51 @@ export default function BrandKitPage() {
         </Callout>
       ) : null}
 
-      <div className="mt-6 grid gap-4 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] xl:items-start">
-        <Callout tone="brand" className="space-y-3">
-          <div>
-            <p className="text-sm font-semibold text-opseu-dark">
-              {t("purposeSets")}
-            </p>
-            <p className="mt-1 text-sm text-gray-700">{t("purposeSetsBody")}</p>
+      <Callout tone="brand" className="mt-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+          <div className="grid min-w-0 flex-1 gap-4 sm:grid-cols-2 sm:gap-6">
+            <div className="max-w-xl">
+              <p className="font-semibold text-opseu-dark">{t("purposeSets")}</p>
+              <p className="mt-1">{t("purposeSetsBody")}</p>
+            </div>
+            <div className="max-w-xl">
+              <p className="font-semibold text-opseu-dark">
+                {t("purposeUnlocks")}
+              </p>
+              <p className="mt-1">{t("purposeUnlocksBody")}</p>
+            </div>
           </div>
-          <div>
-            <p className="text-sm font-semibold text-opseu-dark">
-              {t("purposeUnlocks")}
-            </p>
-            <p className="mt-1 text-sm text-gray-700">{t("purposeUnlocksBody")}</p>
-          </div>
-          <div className="button-row">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 lg:shrink-0">
             {themeEstablished ? (
-              <Link href="/guide/social-media-plan">
+              <Link href="/guide/social-media-plan" className="inline-flex">
                 <Button size="sm">{t("continueRoadmap")}</Button>
               </Link>
             ) : (
-              <Link href="/onboarding">
+              <Link href="/onboarding" className="inline-flex">
                 <Button size="sm">{t("startSetup")}</Button>
               </Link>
             )}
             <Link
               href="/assets"
-              className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+              className="inline-flex min-h-11 items-center text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
             >
               {t("assetsLink")}
             </Link>
             <Link
               href="/guide/email-broadcast"
-              className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+              className="inline-flex min-h-11 items-center text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
             >
               {nav("emailBroadcastGuide")}
             </Link>
           </div>
-        </Callout>
+        </div>
+      </Callout>
 
-        <Card density="compact" className="space-y-3">
+      <div className="mt-4 grid items-start gap-4 lg:grid-cols-2 xl:grid-cols-3">
+        <Card
+          density="compact"
+          className="space-y-3 lg:col-start-1 lg:row-start-1"
+        >
           <CardTitle className="text-base">{t("unionPreset.title")}</CardTitle>
           <p className="text-sm text-gray-600">{t("unionPreset.description")}</p>
           <UnionPresetSelect
@@ -208,7 +213,7 @@ export default function BrandKitPage() {
           ) : null}
           {unionPresetId === "opseu" ? <OpseuSectorSelect /> : null}
           {selectedPreset && selectedLogos ? (
-            <div className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
+            <div className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start xl:grid-cols-1">
               <div className="flex flex-wrap items-center gap-4">
                 {selectedLogos.useOfficialPack ? (
                   <>
@@ -251,10 +256,11 @@ export default function BrandKitPage() {
             </div>
           ) : null}
         </Card>
-      </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <Card density="compact" className="space-y-3">
+        <Card
+          density="compact"
+          className="space-y-3 lg:col-start-2 lg:row-start-1 lg:row-span-2 xl:row-span-1"
+        >
           <CardTitle className="text-base">{t("currentSettings")}</CardTitle>
           <CollectionProfilesEditor />
           <div className={`grid gap-3 ${multiProfile ? "" : "sm:grid-cols-2"}`}>
@@ -291,7 +297,10 @@ export default function BrandKitPage() {
           />
         </Card>
 
-        <Card density="compact" className="space-y-3">
+        <Card
+          density="compact"
+          className="space-y-3 lg:col-start-1 lg:row-start-2 xl:col-start-3 xl:row-start-1"
+        >
           <CardTitle className="text-base">{t("logo.title")}</CardTitle>
           <p className="text-sm text-gray-600">{t("logo.description")}</p>
           <LogoSettings
