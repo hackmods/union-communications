@@ -52,7 +52,7 @@ Portrait forces Minimal. Switching back to Landscape restores the last Bold/Mini
 ## Toggles
 `showLeadIn` / `showHeadline` / `showCloser` / `includeBranding` / `edgeClearance` — when copy/brand toggles are off, remaining content reflows and empty bars/panels disappear.
 
-**Edge clearance** (default **on**): insets type and colour bars from the capture edge so Zoom/Teams cover-fit and a desktop taskbar crop empty brand field, not slogans. Colour, grain, and surface stay full-bleed on the capture root. Landscape uses the `meeting` profile; portrait uses `phone`. Dashed overlay is preview-only (outside `canvasRef`). Shared helper: `src/lib/utils/edge-clearance.ts`.
+**Edge clearance** (default **off**): when on, insets type and colour bars from the capture edge so Zoom/Teams cover-fit and a desktop taskbar crop empty brand field, not slogans. Colour, grain, and surface stay full-bleed on the capture root. Landscape uses the `meeting` profile; portrait uses `phone`. Dashed overlay is preview-only (outside `canvasRef`). Shared helper: `src/lib/utils/edge-clearance.ts`.
 
 ## Local branding
 Theme established when: onboarding complete, OR official/custom logo set, OR local number non-empty (`isBrandThemeEstablished`).

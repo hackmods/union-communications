@@ -120,7 +120,7 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 
 - Shared `src/lib/utils/edge-clearance.ts` profiles (`desktop` / `ultrawide` / `phone` / `meeting` / `print`) inset type/chrome via absolute box, not CSS padding-% (padding percentages are width-relative).
 - `CanvasEdgeClearanceFrame` (inside capture) + `CanvasSafeZoneOverlay` (outside capture). Colour/grain stay full-bleed.
-- Solidarity Poster: digital default on, print default off. Meeting Backgrounds: default on. Resizer keeps preview-only 10% overlay (`SOCIAL_SAFE_ZONE_INSETS`); no baked inset.
+- Solidarity Poster: digital default on, print default off. Meeting Backgrounds: default off. Resizer keeps preview-only 10% overlay (`SOCIAL_SAFE_ZONE_INSETS`); no baked inset.
 
 ## Channel packs (2026-08-14)
 
