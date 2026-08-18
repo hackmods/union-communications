@@ -3,6 +3,11 @@
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { WorkshopDemoJoinLink } from "@/components/comms/WorkshopDemoJoinLink";
+import {
+  useWorkshopDemoQuartetComplete,
+  useWorkshopDemoStepVisit,
+} from "@/hooks/use-workshop-demo-session";
+import { WORKSHOP_DEMO_WEBSITE_HREF } from "@/lib/comms/workshop-demo-session";
 
 export const WORKSHOP_DEMO_STEPS = [
   { href: "/brand-kit", labelKey: "stepBrand" as const },
@@ -11,12 +16,17 @@ export const WORKSHOP_DEMO_STEPS = [
   { href: "/captions", labelKey: "stepCaptions" as const },
 ] as const;
 
+const WEBSITE_STEP = {
+  href: WORKSHOP_DEMO_WEBSITE_HREF,
+  labelKey: "stepWebsite" as const,
+};
+
 type WorkshopDemoPathProps = {
   className?: string;
   showRoadmapLink?: boolean;
   /**
    * `card` is the First week / home pitch.
-   * `trail` is the quiet continuation on the four demo tools.
+   * `trail` is the quiet continuation on the demo tools.
    */
   variant?: "card" | "trail";
 };
@@ -27,7 +37,7 @@ function isCurrentDemoStep(pathname: string, href: string): boolean {
 
 /**
  * Compact “demo in ~20 minutes” path for home + First week, plus a quiet
- * in-tool trail on Brand Kit, Board Notice, Graphic Maker, and Captions.
+ * in-tool trail. Website Template appears as stop 5 only after the first four.
  */
 export function WorkshopDemoPath({
   className,
@@ -36,9 +46,14 @@ export function WorkshopDemoPath({
 }: WorkshopDemoPathProps) {
   const t = useTranslations("workshopDemo");
   const pathname = usePathname();
+  const quartetComplete = useWorkshopDemoQuartetComplete();
+  useWorkshopDemoStepVisit(variant === "trail");
 
   if (variant === "trail") {
-    const currentHref = WORKSHOP_DEMO_STEPS.find((step) =>
+    const trailSteps = quartetComplete
+      ? [...WORKSHOP_DEMO_STEPS, WEBSITE_STEP]
+      : WORKSHOP_DEMO_STEPS;
+    const currentHref = trailSteps.find((step) =>
       isCurrentDemoStep(pathname, step.href),
     )?.href;
 
@@ -46,7 +61,7 @@ export function WorkshopDemoPath({
       <div className={className}>
         <nav aria-label={t("trailNavLabel")}>
           <ol className="flex flex-wrap items-center gap-x-1 gap-y-1 text-sm">
-            {WORKSHOP_DEMO_STEPS.map((step, i) => {
+            {trailSteps.map((step, i) => {
               const current = step.href === currentHref;
               return (
                 <li
@@ -95,7 +110,12 @@ export function WorkshopDemoPath({
         ) : null}
         {currentHref === "/captions" ? (
           <p className="mt-1 max-w-prose text-sm text-gray-600">
-            {t("continueCaptions")}
+            {quartetComplete ? t("continueCaptionsThenWebsite") : t("continueCaptions")}
+          </p>
+        ) : null}
+        {currentHref === WORKSHOP_DEMO_WEBSITE_HREF ? (
+          <p className="mt-1 max-w-prose text-sm text-gray-600">
+            {t("continueWebsite")}
           </p>
         ) : null}
       </div>

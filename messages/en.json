@@ -4699,14 +4699,18 @@
     "stepBoard": "Board Notice",
     "stepGraphic": "Graphic Maker",
     "stepCaptions": "Captions",
+    "stepWebsite": "Website Template",
     "openRoadmap": "Full first-week roadmap",
     "trailNavLabel": "20-minute demo path",
     "continueBrand": "Set colours and logo, then open Board Notice.",
     "continueBoard": "Download a PDF, then make a social graphic.",
     "continueGraphic": "Download a PNG, then copy a caption.",
     "continueCaptions": "Copy a caption to paste under the graphic you just downloaded.",
+    "continueCaptionsThenWebsite": "Copy a caption, then optionally open Website Template.",
+    "continueWebsite": "Fill in officers and contact, then download the ZIP.",
     "nextCaption": "Copy a caption",
-    "done": "That's the 20-minute path. First week has print and a website when you want them."
+    "done": "That's the 20-minute path. First week has print and a website when you want them.",
+    "doneWithWebsite": "That's the 20-minute path. Optional next: a simple website."
   },
   "relatedTools": {
     "label": "Related tools",

@@ -4699,14 +4699,18 @@
     "stepBoard": "Avis d'affichage",
     "stepGraphic": "Créateur de graphiques",
     "stepCaptions": "Légendes",
+    "stepWebsite": "Modèle de site Web",
     "openRoadmap": "Feuille de route complète",
     "trailNavLabel": "Parcours de démo de 20 minutes",
     "continueBrand": "Réglez les couleurs et le logo, puis ouvrez l'Avis d'affichage.",
     "continueBoard": "Téléchargez un PDF, puis créez un graphique social.",
     "continueGraphic": "Téléchargez un PNG, puis copiez une légende.",
     "continueCaptions": "Copiez une légende à coller sous le graphique que vous venez de télécharger.",
+    "continueCaptionsThenWebsite": "Copiez une légende, puis ouvrez le Modèle de site Web si vous voulez un site.",
+    "continueWebsite": "Remplissez les dirigeants et le courriel, puis téléchargez le ZIP.",
     "nextCaption": "Copier une légende",
-    "done": "Voilà le parcours de 20 minutes. La première semaine ajoute l'impression et un site Web quand vous en aurez besoin."
+    "done": "Voilà le parcours de 20 minutes. La première semaine ajoute l'impression et un site Web quand vous en aurez besoin.",
+    "doneWithWebsite": "Voilà le parcours de 20 minutes. Ensuite, en option : un site Web simple."
   },
   "relatedTools": {
     "label": "Outils connexes",

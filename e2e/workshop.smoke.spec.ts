@@ -96,6 +96,27 @@ test.describe("Workshop demo path E2E @smoke", () => {
     ).toBeVisible();
   });
 
+  test("Website Template appears on the trail after the four demo stops", async ({
+    page,
+  }) => {
+    await page.goto("/en/guide/social-media-plan/");
+    const heading = page.getByRole("heading", {
+      name: /Demo this in about 20 minutes/i,
+    });
+    const demoSection = page.locator("section").filter({ has: heading });
+    await demoSection.getByRole("link", { name: /Brand Kit/i }).click();
+    await page.goto("/en/tools/board-notice/");
+    await page.goto("/en/tools/graphic-maker/");
+    await page.goto("/en/captions/");
+    const trail = page.getByRole("navigation", {
+      name: /20-minute demo path/i,
+    });
+    await expect(trail).toBeVisible();
+    await expect(
+      trail.getByRole("link", { name: /Website Template/i }),
+    ).toBeVisible();
+  });
+
   test("First week primary buttons join the trail", async ({ page }) => {
     await page.goto("/en/guide/social-media-plan/");
     await page

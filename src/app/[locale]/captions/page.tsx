@@ -14,7 +14,10 @@ import { PageShell } from "@/components/layout/PageShell";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
-import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
+import {
+  useWorkshopDemoQuartetComplete,
+  useWorkshopDemoSession,
+} from "@/hooks/use-workshop-demo-session";
 
 function resolveCaptionId(searchParams: URLSearchParams): string | null {
   const id = searchParams.get("caption");
@@ -28,6 +31,7 @@ function CaptionsPageContent() {
   const td = useTranslations("workshopDemo");
   const searchParams = useSearchParams();
   const inDemo = useWorkshopDemoSession(searchParams.get("demo"));
+  const quartetComplete = useWorkshopDemoQuartetComplete();
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const targetId = resolveCaptionId(searchParams);
@@ -115,8 +119,18 @@ function CaptionsPageContent() {
       <div className="mt-10 max-w-prose border-t border-gray-200 pt-6">
         {inDemo ? (
           <>
-            <p className="text-sm text-gray-600">{td("done")}</p>
-            <p className="mt-3">
+            <p className="text-sm text-gray-600">
+              {quartetComplete ? td("doneWithWebsite") : td("done")}
+            </p>
+            <p className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+              {quartetComplete ? (
+                <Link
+                  href="/tools/website-template"
+                  className="text-sm font-medium text-opseu-blue underline-offset-2 hover:underline"
+                >
+                  {td("stepWebsite")}
+                </Link>
+              ) : null}
               <Link
                 href="/guide/social-media-plan"
                 className="text-sm font-medium text-opseu-blue underline-offset-2 hover:underline"
