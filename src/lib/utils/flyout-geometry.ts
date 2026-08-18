@@ -49,6 +49,13 @@ export const TOOLS_MEGA_MENU = {
 export const TOOLS_MEGA_MENU_GRID_CLASS =
   "grid grid-cols-2 gap-3 p-3 2xl:grid-cols-4";
 
+/** Officer tools is a grouped list, not a 4-col mega-menu. */
+export const HUB_TOOLS_MENU_WIDTH_PX = 18 * 16;
+
+export function preferredHubToolsMenuWidth(): number {
+  return HUB_TOOLS_MENU_WIDTH_PX;
+}
+
 export function preferredToolsMegaMenuWidth(viewportWidth: number): number {
   for (const step of TOOLS_MEGA_MENU.widthSteps) {
     if (viewportWidth >= step.minViewport) return step.widthPx;

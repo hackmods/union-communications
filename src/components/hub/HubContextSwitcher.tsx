@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canCrossLocalGrievance } from "@/lib/grievance/access";
+import { cn } from "@/lib/utils";
 import type { TenantContext, UserRole } from "@/types/tenant";
 
 /**
@@ -13,7 +14,11 @@ import type { TenantContext, UserRole } from "@/types/tenant";
  * Updates JWT via session.update so list APIs filter by active context.
  * Merges GET /api/tenant so runtime overlay locals/collections appear.
  */
-export function HubContextSwitcher() {
+export function HubContextSwitcher({
+  variant = "bar",
+}: {
+  variant?: "bar" | "drawer";
+}) {
   const { data: session, update, status } = useSession();
   const t = useTranslations("hub");
   const mfaOk = useSessionMfaOk();
@@ -90,9 +95,22 @@ export function HubContextSwitcher() {
     });
   };
 
+  const stacked = variant === "drawer";
+  const selectClass = stacked
+    ? "min-h-11 w-full rounded-md border border-gray-300 bg-white px-2 text-base"
+    : "max-w-[9rem] rounded border border-gray-300 bg-white px-1.5 py-0.5 text-sm";
+  const collectionSelectClass = stacked
+    ? "min-h-11 w-full rounded-md border border-gray-300 bg-white px-2 text-base"
+    : "max-w-[11rem] rounded border border-gray-300 bg-white px-1.5 py-0.5 text-sm";
+
   if (!canSwitchLocal && collections.length <= 1) {
     return (
-      <span className="shrink-0 whitespace-nowrap text-gray-600">
+      <span
+        className={cn(
+          stacked ? "block text-sm leading-relaxed" : "shrink-0 whitespace-nowrap",
+          "text-gray-600",
+        )}
+      >
         {tenant.union.name}
         {tenant.division && ` · ${tenant.division.name}`}
         {tenant.local && ` · Local ${tenant.local.localNumber}`}
@@ -102,16 +120,29 @@ export function HubContextSwitcher() {
   }
 
   return (
-    <div className="flex min-w-0 shrink-0 flex-wrap items-center gap-1.5 text-gray-600">
-      <span className="whitespace-nowrap">{tenant.union.name}</span>
+    <div
+      className={cn(
+        stacked
+          ? "flex flex-col items-stretch gap-2"
+          : "flex min-w-0 shrink-0 flex-wrap items-center gap-1.5",
+        "text-gray-600",
+      )}
+    >
+      <span className={stacked ? "font-medium text-opseu-dark" : "whitespace-nowrap"}>
+        {tenant.union.name}
+      </span>
       {tenant.division && (
-        <span className="whitespace-nowrap">· {tenant.division.name}</span>
+        <span className={stacked ? "text-sm" : "whitespace-nowrap"}>
+          {stacked ? tenant.division.name : `· ${tenant.division.name}`}
+        </span>
       )}
       {canSwitchLocal ? (
-        <label className="inline-flex items-center gap-1">
-          <span className="sr-only">{t("contextLocal")}</span>
+        <label className={stacked ? "block" : "inline-flex items-center gap-1"}>
+          <span className={stacked ? "mb-1 block text-xs font-medium text-gray-500" : "sr-only"}>
+            {t("contextLocal")}
+          </span>
           <select
-            className="max-w-[9rem] rounded border border-gray-300 bg-white px-1.5 py-0.5 text-sm"
+            className={selectClass}
             value={activeLocalId ?? (crossLocal ? "__all__" : "")}
             onChange={(e) => void onLocalChange(e.target.value)}
             aria-label={t("contextLocal")}
@@ -128,17 +159,20 @@ export function HubContextSwitcher() {
         </label>
       ) : (
         activeLocalId && (
-          <span className="whitespace-nowrap">
-            · Local{" "}
+          <span className={stacked ? "text-sm" : "whitespace-nowrap"}>
+            {stacked ? "" : "· "}
+            Local{" "}
             {tenant.locals.find((l) => l.id === activeLocalId)?.localNumber}
           </span>
         )
       )}
       {collections.length > 0 && (
-        <label className="inline-flex items-center gap-1">
-          <span className="sr-only">{t("contextCollection")}</span>
+        <label className={stacked ? "block" : "inline-flex items-center gap-1"}>
+          <span className={stacked ? "mb-1 block text-xs font-medium text-gray-500" : "sr-only"}>
+            {t("contextCollection")}
+          </span>
           <select
-            className="max-w-[11rem] rounded border border-gray-300 bg-white px-1.5 py-0.5 text-sm"
+            className={collectionSelectClass}
             value={session.user.bargainingUnitId ?? ""}
             onChange={(e) => void onCollectionChange(e.target.value)}
             aria-label={t("contextCollection")}

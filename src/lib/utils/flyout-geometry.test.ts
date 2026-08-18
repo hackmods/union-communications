@@ -2,10 +2,12 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  HUB_TOOLS_MENU_WIDTH_PX,
   TOOLS_MEGA_MENU,
   TOOLS_MEGA_MENU_GRID_CLASS,
   clampFlyoutToViewport,
   flyoutBoxFitsViewport,
+  preferredHubToolsMenuWidth,
   preferredToolsMegaMenuWidth,
   toolsMegaMenuColumnCount,
 } from "./flyout-geometry";
@@ -126,6 +128,14 @@ describe("clampFlyoutToViewport", () => {
       700 - TOOLS_MEGA_MENU.gutterPx,
     );
     expect(box.maxHeight).toBeLessThanOrEqual(700 * TOOLS_MEGA_MENU.maxHeightVh);
+  });
+
+  it("keeps the Officer tools list on-screen on a short laptop", () => {
+    const vw = 1280;
+    const trigger = { left: 900, right: 1020, bottom: 104 };
+    const box = place(vw, trigger, preferredHubToolsMenuWidth(), 700);
+    expect(box.width).toBe(HUB_TOOLS_MENU_WIDTH_PX);
+    expect(flyoutBoxFitsViewport(box, vw, 700)).toBe(true);
   });
 });
 

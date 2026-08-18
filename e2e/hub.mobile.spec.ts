@@ -128,4 +128,18 @@ test.describe("Hub dashboards mobile @smoke @mobile", () => {
     ).toBeVisible();
     await assertNoHorizontalOverflow(page);
   });
+
+  test("hub menu drawer reaches modules and officer tools", async ({ page }) => {
+    await page.goto("/en/app");
+    await page.getByTestId("hub-nav-toggle").click();
+    const drawer = page.getByTestId("hub-nav-drawer");
+    await expect(drawer).toBeVisible();
+    await expect(
+      drawer.getByRole("link", { name: /Grievances|Griefs/i }),
+    ).toBeVisible();
+    await drawer.getByRole("button", { name: /Officer tools|Outils dirigeants/i }).click();
+    await drawer.getByRole("link", { name: /^Calendar$|^Calendrier$/i }).click();
+    await expect(page).toHaveURL(/\/en\/app\/calendar\/?/);
+    await expect(page.getByTestId("hub-nav-drawer")).toHaveCount(0);
+  });
 });

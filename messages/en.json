@@ -321,6 +321,7 @@
         "title": "Print",
         "navLabel": "Print",
         "description": "Hand out the same message as a flyer for meetings, walkabouts, and actions. Pair print with boards so members offline still get the facts.",
+        "demoNote": "The 20-minute demo skips print. Come back to Flyer Maker after Captions if you still have time.",
         "checklist": [
           "Open Flyer Maker with your Brand Kit colours and local number",
           "Keep text large and high-contrast for outdoor or hallway reading",
@@ -2925,6 +2926,14 @@
     "invitesLink": "Invites",
     "tenantOnboardingLink": "Union setup",
     "toolsMenu": "Officer tools",
+    "openHubMenu": "Open hub menu",
+    "closeHubMenu": "Close hub menu",
+    "mobileNav": "Hub menu",
+    "toolsGroupCasework": "Casework",
+    "toolsGroupRecords": "Records",
+    "toolsGroupFunds": "Funds",
+    "toolsGroupAdmin": "Administration",
+    "toolsGroupOther": "More",
     "qolCardTitle": "Officer tools",
     "qolCardDesc": "Calendar, overdue board, CA snippets, within-union templates, and officer handoff.",
     "modules": {

@@ -1,5 +1,12 @@
 # Progress Log
 
+## HubNav drawer + Officer tools clamp (2026-08-18)
+
+- [x] Hub chrome uses a **Hub menu** drawer below `lg` (no hidden horizontal scroll)
+- [x] Officer tools ▾ is grouped (Casework / Records / Funds / Administration) and viewport-clamped like public Tools
+- [x] Hub bar sticks under `--site-header-height`; Profile / Sign out live in the hub drawer on small screens
+- Verify: `npm run test:unit -- src/components/hub/hub-nav-model.test.ts src/lib/utils/flyout-geometry.test.ts`
+
 ## Brand Kit canvas preview QR (2026-08-18)
 
 - [x] Mini preview encodes the saved local website, or `https://unionops.org` when none is set (was a blank `qrSrc={null}` plate)

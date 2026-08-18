@@ -55,13 +55,21 @@ export function Header() {
     if (!el) return;
 
     const update = () => {
-      setHeaderHeight(Math.ceil(el.getBoundingClientRect().height));
+      const height = Math.ceil(el.getBoundingClientRect().height);
+      setHeaderHeight(height);
+      document.documentElement.style.setProperty(
+        "--site-header-height",
+        `${height}px`,
+      );
     };
     update();
     if (typeof ResizeObserver === "undefined") return;
     const observer = new ResizeObserver(update);
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty("--site-header-height");
+    };
   }, [drawerOpen]);
 
   const closeMenu = useCallback(() => setMenu(null), []);
