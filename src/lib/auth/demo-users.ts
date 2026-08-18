@@ -114,6 +114,8 @@ export async function findDemoUser(
     (u) => u.email.toLowerCase() === email.toLowerCase(),
   );
   if (!user) return null;
-  const ok = await verifyPassword(password, user.passwordHash);
+  // Canonical secret is lowercase `demo123` (matches the login hint). Also
+  // accept Demo123 / DEMO123 — phones often capitalize the first letter.
+  const ok = await verifyPassword(password.toLowerCase(), user.passwordHash);
   return ok ? user : null;
 }

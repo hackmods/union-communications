@@ -2721,7 +2721,7 @@
     "loginError": "That email or password is not right. Check them and try again.",
     "email": "Email",
     "password": "Password",
-    "demoHint": "Demo: president@local243.ca / demo123 · caat-admin@opseu.org / demo123 (multi-local) · steward-pt@local243.ca / demo123",
+    "demoHint": "Demo password is demo123. Accounts: president@local243.ca · caat-admin@opseu.org (multi-local) · steward-pt@local243.ca",
     "forgotPassword": "Forgot password?",
     "forgotPasswordEmailHint": "When email is enabled on this host, we’ll send a reset link to your inbox.",
     "magicLinkCta": "Email me a sign-in link",

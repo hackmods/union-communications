@@ -19,6 +19,9 @@ describe("password helpers", () => {
     await expect(verifyPassword("wrong", DEMO_PASSWORD_HASH)).resolves.toBe(
       false,
     );
+    await expect(verifyPassword("Demo123", DEMO_PASSWORD_HASH)).resolves.toBe(
+      false,
+    );
   });
 
   it("hashes and verifies a new password", async () => {
@@ -79,6 +82,9 @@ describe("findDemoUser", () => {
     expect(
       (user as { password?: string } | null)?.password,
     ).toBeUndefined();
+    await expect(
+      findDemoUser("president@local243.ca", "Demo123", { NODE_ENV: "test" }),
+    ).resolves.toMatchObject({ id: "user-president-243" });
     await expect(
       findDemoUser("president@local243.ca", "nope", { NODE_ENV: "test" }),
     ).resolves.toBeNull();

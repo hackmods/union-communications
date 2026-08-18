@@ -6,6 +6,7 @@
 - [x] Docker runner defaults `AUTH_ALLOW_DEMO_USERS` to the same `NEXT_PUBLIC_DEMO_SITE` build arg
 - [x] `/api/health` reports `demoAuthEnabled`
 - Verify: `npm run test:unit -- src/lib/auth/sec007.test.ts src/lib/ops/health-status.test.ts`
+- [x] Demo roster accepts `demo123` / `Demo123` (hint stays lowercase `demo123`)
 
 ## Brand Kit collection profiles (2026-08-17)
 
