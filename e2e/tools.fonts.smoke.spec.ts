@@ -21,6 +21,7 @@ import {
   sampleImageData,
 } from "../src/lib/export/fidelity";
 import { EXPORT_ROOT_SELECTOR } from "../src/lib/export/export-root";
+import { hexToRgb } from "../src/lib/utils/contrast";
 
 /**
  * Canvas brand fonts — rendering + export coverage.
@@ -150,16 +151,39 @@ test.describe("Canvas brand fonts rendering @smoke", () => {
   test("Graphic Maker with Barlow Condensed still exports branded PNG", async ({
     page,
   }) => {
+    const seededPrimary = "#003DA5";
+    const primaryRgb = hexToRgb(seededPrimary);
+    expect(primaryRgb, "seeded primary must parse").toBeTruthy();
+
     await seedCanvasFonts(page, {
       headlineFontId: "barlowCondensed",
       bodyFontId: "sourceSans",
-      primaryColor: "#003DA5",
+      primaryColor: seededPrimary,
     });
     await page.goto("/en/tools/graphic-maker/");
     await expect(
       page.getByRole("heading", { name: /Graphic Maker/i }),
     ).toBeVisible();
     await waitForExportRoot(page);
+    await awaitDocumentFonts(page);
+    await page.waitForFunction(
+      ({ sel, r, g, b }) => {
+        const root = document.querySelector(sel);
+        if (!root) return false;
+        const nodes = [root, ...Array.from(root.querySelectorAll("*"))];
+        return nodes.some((el) => {
+          const bg = getComputedStyle(el).backgroundColor;
+          const m = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+          if (!m) return false;
+          return (
+            Math.abs(Number(m[1]) - r) <= 8 &&
+            Math.abs(Number(m[2]) - g) <= 8 &&
+            Math.abs(Number(m[3]) - b) <= 8
+          );
+        });
+      },
+      { sel: EXPORT_ROOT_SELECTOR, ...primaryRgb! },
+    );
 
     const family = await exportRootHeadlineFontFamily(page);
     expect(
@@ -181,7 +205,7 @@ test.describe("Canvas brand fonts rendering @smoke", () => {
       Uint8ClampedArray.from(raw.data),
       raw.width,
       raw.height,
-      { step: 8 },
+      { step: 8, primaryRgb: primaryRgb! },
     );
     const check = assertCaptureHasBrandAndInk(sample, {
       minField: 40,
