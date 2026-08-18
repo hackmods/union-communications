@@ -148,6 +148,9 @@ test.describe("Workshop demo path E2E @smoke", () => {
     await expect(
       page.getByRole("heading", { name: /Demo this in about 20 minutes/i }),
     ).toBeVisible();
+    await expect(
+      page.getByText(/Website Template appears on that path as an optional fifth/i),
+    ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
 
     await page.goto("/fr/guide/workshop/");

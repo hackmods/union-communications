@@ -38,15 +38,20 @@ Public attendee-facing agenda (outline B as five timed blocks, about 8 / 10 / 8 
 
 ## Live demo click path (20 minutes)
 
+Numbered pitch (home, First week, `/guide/workshop`) stays **four** stops:
+
 1. [Brand Kit](/brand-kit) — colours, local number, logo  
 2. [Board Notice](/tools/board-notice) — download PDF  
 3. [Graphic Maker](/tools/graphic-maker) — download PNG  
 4. [Captions](/captions) — copy a caption  
 
-Optional fifth: [Website Template](/tools/website-template) ZIP.  
+Optional fifth: [Website Template](/tools/website-template) ZIP appears on the **in-tool trail** after this tab has visited all four. It is not a fifth numbered chip on the pitch card.
+
+Do **not** put Logo Builder or QR Board on the 20-minute chips. Logo Builder is a Brand Kit fallback when nobody brought a file (and a lab beat in the 60-minute hands-on). QR Board is a campaign poster, not the meeting notice.
+
 Fallback if Brand Kit is empty: complete [Onboarding](/onboarding) or import demo kit from Brand Kit.
 
-UI chip for the same path: `WorkshopDemoPath` on home, First week, and `/guide/workshop`.
+UI: `WorkshopDemoPath` `variant="card"` (four numbered chips) vs `variant="trail"` (unnumbered; Website unlocks after the quartet).
 
 ## Day-of checklist (Wednesday)
 
@@ -66,7 +71,7 @@ Do this the morning of the session (or the night before). Paths are locale-prefi
 | Captions | `/en/captions/` |
 | Tools index (backup) | `/en/tools/` |
 
-Optional: Website Template `/en/tools/website-template/`, Print Guide `/en/guide/print/`.
+Optional after the four live stops: Website Template `/en/tools/website-template/` (trail stop 5). Print Guide `/en/guide/print/` is First week, not the 20-minute path.
 
 ### Brand Kit backup
 
@@ -88,13 +93,16 @@ Optional: Website Template `/en/tools/website-template/`, Print Guide `/en/guide
 2. Board Notice: form + Download PDF visible.
 3. Graphic Maker: Download PNG visible.
 4. Captions: Copy on a template works.
-5. `/en/guide/workshop/` H1 loads; `/fr/guide/workshop/` H1 loads in French.
+5. After visiting 1–4, the in-tool trail shows Website Template.
+6. `/en/guide/workshop/` H1 loads; Quick links mention the optional fifth. `/fr/guide/workshop/` H1 loads in French.
 
 ### Do not demo live (mention only)
 
 - Pulse Poll publish (needs Officer Hub).
 - Officer Hub SMTP / cron.
 - Portal Circles (separate product surface).
+- QR Board as a stand-in for Board Notice (campaign poster, not the meeting notice).
+- Logo Builder as its own 20-minute chip (keep it inside Brand Kit).
 
 ## Backup if wifi or import fails
 
