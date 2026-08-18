@@ -50,6 +50,7 @@ export const PUBLIC_NS = [
   "printGuide",
   "websiteGuide",
   "emailBroadcastGuide",
+  "shortFormGuide",
   "photoConsentGuide",
   "crisisGuide",
   "membershipSignupGuide",

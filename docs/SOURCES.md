@@ -50,6 +50,8 @@ External resources cited across guides, tools, and exported materials. Canonical
 | Source | URL | Used in |
 |--------|-----|---------|
 | Facebook Groups | https://www.facebook.com/help/groups | Blueprint (platform choice) |
+| Record a Reel on Instagram | https://help.instagram.com/2720958398006062/ | Short-form video guide |
+| Get started creating YouTube Shorts | https://support.google.com/youtube/answer/10059070 | Short-form video guide |
 
 ## Internal / volunteer-authored
 

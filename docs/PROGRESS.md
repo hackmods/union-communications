@@ -1,5 +1,20 @@
 # Progress Log
 
+## Graphic Maker 9:16 stills (2026-08-18)
+
+- [x] Graphic Maker Format adds **Portrait (Reels)** (`aspect-[9/16]`) alongside landscape and square; `?aspect=portrait` deep-link from `/guide/short-form`
+- [x] Spotlight/results no longer clobber an explicit portrait choice; preview column caps width so layout-class fit still holds
+- [x] Social Examples `reel-picket` vertical post; Graphic Maker / Resizer / Captions reverse-link the short-form guide
+- Verify: `npm run test:unit -- src/lib/constants/examples.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts` · layout-class: `npx playwright test e2e/tools.layout-matrix.smoke.spec.ts -g "graphic maker"`
+
+## Short-form video guide (2026-08-18)
+
+- [x] `/guide/short-form` — filming, native-first phone editors, evergreen posting (one ask); EN/FR lockstep
+- [x] Guides → By channel + First week socials tertiary + Resources + Blueprint; Photo Consent video bullets
+- [x] `comms-sources` Instagram Reels + YouTube Shorts help (no product affiliate links; no embeds)
+- [x] Editor registry `short-form-editors.ts` (CapCut last, not default)
+- Verify: `npm run test:unit -- src/lib/constants/short-form-editors.test.ts src/components/layout/nav/nav-config.test.ts src/lib/comms/first-week-roadmap.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/comms-sources.test.ts`
+
 ## Local Portal lived-in Station (2026-08-18)
 
 - [x] Demo seed dates follow “now”, so Station week digest, Floor, and Bulletin look current

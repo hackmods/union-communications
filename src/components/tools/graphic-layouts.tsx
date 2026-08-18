@@ -7,7 +7,11 @@ import {
   CanvasGrainOverlay,
 } from "@/components/tools/canvas";
 import { cn } from "@/lib/utils";
-import type { ExampleAspect, ExampleLayout } from "@/lib/constants/examples";
+import {
+  graphicAspectClass,
+  type ExampleAspect,
+  type ExampleLayout,
+} from "@/lib/constants/examples";
 import { hexToRgba } from "@/lib/utils/contrast";
 import {
   inkWithAlpha,
@@ -217,7 +221,7 @@ export function GraphicLayoutCanvas({
     <div
       className={cn(
         "relative w-full overflow-hidden",
-        aspect === "square" ? "aspect-square" : "aspect-[1200/630]",
+        graphicAspectClass(aspect),
         className,
       )}
       style={{ ...surface, ...style }}

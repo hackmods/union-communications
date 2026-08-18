@@ -48,6 +48,7 @@ export const RELATED_BY_TOOL: Record<
     { href: "/captions", navKey: "captions" },
     { href: "/examples", navKey: "socialExamples" },
     { href: "/tools/resizer", navKey: "resizer" },
+    { href: "/guide/short-form", navKey: "shortFormGuide" },
   ],
   "flyer-maker": [
     { href: "/tools/board-notice", navKey: "boardNotice" },
@@ -71,6 +72,7 @@ export const RELATED_BY_TOOL: Record<
   resizer: [
     { href: "/tools/logo-builder", navKey: "logoBuilder" },
     { href: "/tools/graphic-maker", navKey: "graphicMaker" },
+    { href: "/guide/short-form", navKey: "shortFormGuide" },
   ],
   "logo-builder": [
     { href: "/brand-kit", navKey: "brandKit" },

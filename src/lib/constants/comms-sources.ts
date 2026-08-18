@@ -120,6 +120,22 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     url: "https://www.facebook.com/help/groups",
     note: "Many locals use a closed Facebook group as their primary member channel.",
   },
+  "instagram-reels": {
+    id: "instagram-reels",
+    category: "platform",
+    label: "Record a Reel on Instagram",
+    url: "https://help.instagram.com/2720958398006062/",
+    note: "Official Instagram help for recording and sharing Reels. Length limits change; read the live page, not a blog recap.",
+    lastVerified: "2026-08-18",
+  },
+  "youtube-shorts": {
+    id: "youtube-shorts",
+    category: "platform",
+    label: "Get started creating YouTube Shorts",
+    url: "https://support.google.com/youtube/answer/10059070",
+    note: "Official YouTube Help for Shorts. Vertical clips; do not treat ranking tips from third-party blogs as durable.",
+    lastVerified: "2026-08-18",
+  },
   "ofl": {
     id: "ofl",
     category: "union",
@@ -168,6 +184,13 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
   ],
   print: ["opseu-branding"],
   emailBroadcast: ["opseu-branding", "facebook-groups"],
+  shortForm: [
+    "facebook-groups",
+    "instagram-reels",
+    "youtube-shorts",
+    "wcag-21",
+    "aoda",
+  ],
   website: ["local243-website", "github-pages", "github-pages-custom-domain"],
   crisis: [
     "opseu-collective-agreements",

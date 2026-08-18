@@ -92,6 +92,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Copy-only meeting invites and officer reminders. UnionOps keeps no marketing lists and sends no mail for you.",
     },
+    "/guide/short-form": {
+      title: "Short-form Video Guide",
+      description:
+        "Film on a phone, keep member privacy, and point short videos at a meeting, petition, or your local site. Covers and captions stay in UnionOps.",
+    },
     "/guide/resources": {
       title: "Comms Resources",
       description:
@@ -208,6 +213,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Guide courriel et diffusion",
       description:
         "Invitations de réunion à copier-coller et rappels aux dirigeants. UnionOps ne tient aucune liste marketing et n'envoie rien à votre place.",
+    },
+    "/guide/short-form": {
+      title: "Guide de la vidéo courte",
+      description:
+        "Filmez au téléphone, protégez la vie privée des membres, et orientez les vidéos courtes vers une réunion, une pétition ou le site de votre section.",
     },
     "/guide/resources": {
       title: "Ressources de communication",

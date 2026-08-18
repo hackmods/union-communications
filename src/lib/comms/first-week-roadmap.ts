@@ -34,6 +34,7 @@ export const FIRST_WEEK_STEP_LINKS: Record<
     tertiary: [
       { href: "/examples", labelKey: "tertiaryExamples" },
       { href: "/guide", labelKey: "tertiaryBlueprint" },
+      { href: "/guide/short-form", labelKey: "tertiaryShortForm" },
     ],
   },
   website: {

@@ -47,6 +47,9 @@ export function ExampleCard({ post }: ExampleCardProps) {
         <ExamplePostMockup
           layout={post.layout}
           aspect={post.aspect}
+          className={
+            post.aspect === "portrait" ? "mx-auto max-w-[18rem]" : undefined
+          }
           platformLabel={t(`platforms.${post.platform}`)}
           copy={{ headline, body, detail, initials }}
         />
