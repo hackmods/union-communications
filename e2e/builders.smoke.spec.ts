@@ -63,6 +63,22 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(page.getByText(/stays in your browser/i).first()).toBeVisible();
   });
 
+  test("home has no horizontal overflow on a small laptop", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1366, height: 768 });
+    await page.goto("/en/");
+    await expect(page.getByTestId("home-hero-brand")).toBeVisible();
+    await expect(page.getByTestId("home-hero-preview")).toBeVisible();
+    // Raw scrollWidth vs clientWidth — do not subtract the scrollbar gutter,
+    // or 100vw leftovers look like a false positive (the Windows laptop bug).
+    const overflow = await page.evaluate(() => {
+      const root = document.scrollingElement ?? document.documentElement;
+      return root.scrollWidth - root.clientWidth;
+    });
+    expect(overflow).toBeLessThanOrEqual(1);
+  });
+
   test("graphic maker renders with download", async ({ page }) => {
     await page.goto("/en/tools/graphic-maker/");
     await expect(

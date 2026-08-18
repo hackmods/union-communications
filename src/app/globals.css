@@ -29,7 +29,7 @@
 html {
   font-size: calc(100% * var(--text-scale));
   /* 100vw includes the classic scrollbar gutter; clip leftover overflow so
-     desktop PWAs do not grow a phantom horizontal scroll at any window size. */
+     Windows browsers and installed PWAs do not grow a phantom horizontal scroll. */
   overflow-x: clip;
 }
 
