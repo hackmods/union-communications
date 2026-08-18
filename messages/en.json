@@ -4719,16 +4719,72 @@
   "workshopGuide": {
     "title": "Workshop: Starting local social communications",
     "subtitle": "A reusable outline for lunch-and-learns and hands-on workshops using UnionOps Comms.",
-    "intro": "Use this page with attendees. Facilitators can also follow the run sheet in the project docs.",
+    "intro": "Project this page or follow it on your own device. The numbered agenda is a 45 to 60 minute lunch-and-learn. Notes marked Facilitator are for the person at the front; Do this is for everyone else.",
+    "relatedLabel": "Also see",
+    "audienceFacilitatorLabel": "Facilitator",
+    "audienceFacilitator": "Share this browser tab, not the whole desktop. Use Quick links instead of typing addresses. Zoom to about 110 percent so type reads from the back of the room.",
+    "audienceAttendeeLabel": "Do this",
+    "audienceAttendee": "Keep this page open. When a tool is named, tap the matching Quick link and work in the same browser. Files you make stay on this device; you do not need an account.",
+    "prereqTitle": "What to bring",
+    "prereqIntro": "Have these ready before the hour starts so the first download is yours, not a demo.",
+    "prereq": {
+      "device": "A laptop, tablet, or phone with a current browser. A laptop is easier for typing; a phone is enough to follow along.",
+      "logo": "A digital copy of your local logo if you have one (PNG, JPG, or SVG). If you do not, <strong>Logo Builder</strong> can make a starter during the <strong>Brand Kit</strong> step.",
+      "colours": "A rough idea of your local's colours, from letterhead, a banner, or a printed notice. Exact colour codes are optional.",
+      "number": "Your local number, if it appears on your materials.",
+      "prompt": "Optional: one real meeting date or announcement you might post this week, so the practice is a real notice, not a placeholder."
+    },
+    "demoKicker": "Quick links",
+    "demoLead": "Keep this box in view. Tap a tool when the agenda names it. Same four stops as the 20-minute live demo.",
     "outlineTitle": "Suggested outline",
-    "outline": [
-      "Why brand-first communications matter for locals",
-      "Live Brand Kit (colours, local number, logo)",
-      "Board Notice for members offline",
-      "Graphic Maker + Captions for Facebook/Instagram",
-      "First-week roadmap and practice checklist"
-    ],
-    "demoTitle": "Live demo path",
+    "outlineIntro": "Times add up to about 50 minutes, with room for questions. If you have a full hour, linger on <strong>Graphic Maker</strong>. If you have 45 minutes, keep the downloads moving.",
+    "outlineNavLabel": "Agenda times",
+    "outlineItems": {
+      "why": {
+        "time": "8 min",
+        "navLabel": "Brand-first",
+        "title": "Why brand-first communications matter for locals",
+        "do": "Listen for the four channels: workplace boards, print, social, and a simple website. Name where members who are not on Facebook still see union news, so this hour is not only about social posts.",
+        "facilitator": "Pitch the problem in plain language: brand once, publish everywhere. Open the homepage. Do not start inside a tool yet."
+      },
+      "brand": {
+        "time": "10 min",
+        "navLabel": "Brand Kit",
+        "title": "Live Brand Kit (colours, local number, logo)",
+        "do": "Open <strong>Brand Kit</strong>. Set your local number, pick two colours, and upload a logo if you brought one. Later downloads reuse this identity, so you do not retype colours on every graphic.",
+        "facilitator": "Share the Brand Kit tab. If a laptop is empty, import the demo kit from Comms Resources before people sit down. Offer <strong>Logo Builder</strong> only when nobody has a file."
+      },
+      "board": {
+        "time": "8 min",
+        "navLabel": "Board Notice",
+        "title": "Board Notice for members offline",
+        "do": "Open <strong>Board Notice</strong>. Fill a short heading and a date, then download the PDF. Members who never open Facebook still walk past the workplace board.",
+        "facilitator": "Show Download PDF succeeding. Printing in the room is optional. Point to the Union Boards guide only if someone asks about layout."
+      },
+      "social": {
+        "time": "15 min",
+        "navLabel": "Graphic Maker",
+        "title": "Graphic Maker and Captions for Facebook and Instagram",
+        "do": "Open <strong>Graphic Maker</strong>, pick a preset, and download a PNG. Then copy a matching caption from <strong>Captions</strong>. You leave with a post you could actually publish, not only a slide about posting.",
+        "facilitator": "Pause on the photo consent dialog. Do not demo Pulse Poll publish. If a download fails, show a PNG you saved before the session."
+      },
+      "roadmap": {
+        "time": "7 min",
+        "navLabel": "First week",
+        "title": "First week roadmap and practice checklist",
+        "do": "Open the <strong>First week</strong> roadmap. Choose one real action for this week, usually the notice you just made, then one social post. The practice checklist on Comms Resources is homework, not extra talking time.",
+        "facilitator": "Ask what will go on the board this week. Point to Comms Resources and stop on time. Tinkering after the session is the point."
+      }
+    },
+    "wrapTitle": "Next steps",
+    "wrapIntro": "Do these before the week is out, while the files are still on this device.",
+    "wrap": {
+      "bookmark": "Bookmark <strong>Brand Kit</strong> in this browser so your colours are still here when you come back. If you share the computer, download the Brand Kit file from Brand Kit and keep it with your local records.",
+      "post": "Open the <strong>First week</strong> roadmap and attempt your first real post using the graphic and caption you made today.",
+      "board": "Get the Board Notice PDF onto the workplace board, or hand it to whoever updates the board.",
+      "checklist": "When you have a quiet half hour, work through the practice checklist on Comms Resources."
+    },
+    "wrapFacilitator": "Thank people. Remind them public Comms stay on the device. If something broke, the Feedback page on this site takes a note without a member mailing list.",
     "resourcesCta": "Comms Resources",
     "roadmapCta": "First week roadmap",
     "toolsCta": "Browse tools"

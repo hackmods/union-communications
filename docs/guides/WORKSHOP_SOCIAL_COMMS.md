@@ -1,6 +1,6 @@
 # Workshop: Starting Your Local Social Communications
 
-Facilitator run sheet for UnionOps public Comms. Attendees can follow the public outline at `/guide/workshop`. Practice checklist and lunch-and-learn copy also live on **Comms Resources** (`/guide/resources`).
+Facilitator run sheet for UnionOps public Comms. Prefer projecting the public outline at `/guide/workshop` over slides: it now carries what to bring, a timed 45–60 minute agenda with **Facilitator** / **Do this** notes, Quick links (Demo Path), and next steps. Practice checklist copy also lives on **Comms Resources** (`/guide/resources`).
 
 ## Audience
 
@@ -34,7 +34,7 @@ Mixed workshop — new volunteer communicators and experienced officers. Keep ja
 | Media | ~10–12 min | Graphic Maker live demo |
 | Close | ~5 min | Practice checklist; encourage tinkering after |
 
-Public strings for these outlines: `resources.facilitators` and `resources.presentation` in `messages/en.json` / `fr.json`.
+Public attendee-facing agenda (outline B as five timed blocks, about 8 / 10 / 8 / 15 / 7 min): `/guide/workshop`. Longer lab shape stays outline A above. Slide-style strings also live in `resources.facilitators` and `resources.presentation`.
 
 ## Live demo click path (20 minutes)
 

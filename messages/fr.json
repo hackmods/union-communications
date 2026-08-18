@@ -4718,17 +4718,73 @@
   },
   "workshopGuide": {
     "title": "Atelier : démarrer les communications sociales locales",
-    "subtitle": "Un plan réutilisable pour lunch-and-learns et ateliers pratiques avec les Comms UnionOps.",
-    "intro": "Utilisez cette page avec les participants. Les animateurs peuvent aussi suivre la feuille de route dans la documentation du projet.",
+    "subtitle": "Un plan réutilisable pour dîners-causeries et ateliers pratiques avec UnionOps Comms.",
+    "intro": "Projetez cette page ou suivez-la sur votre appareil. Le plan numéroté est un dîner-causerie de 45 à 60 minutes. Les notes marquées Animation s'adressent à la personne devant la salle ; À faire s'adresse à tout le monde.",
+    "relatedLabel": "Voir aussi",
+    "audienceFacilitatorLabel": "Animation",
+    "audienceFacilitator": "Partagez cet onglet du navigateur, pas tout le bureau. Utilisez les liens rapides plutôt que de taper les adresses. Zoomez à environ 110 % pour que le texte se lise du fond de la salle.",
+    "audienceAttendeeLabel": "À faire",
+    "audienceAttendee": "Gardez cette page ouverte. Quand un outil est nommé, touchez le lien rapide correspondant et travaillez dans le même navigateur. Les fichiers que vous créez restent sur cet appareil ; vous n'avez pas besoin de compte.",
+    "prereqTitle": "Quoi apporter",
+    "prereqIntro": "Préparez ceci avant le début de l'heure, pour que le premier téléchargement soit le vôtre, pas une démo.",
+    "prereq": {
+      "device": "Un portable, une tablette ou un téléphone avec un navigateur à jour. Un portable est plus facile pour taper ; un téléphone suffit pour suivre.",
+      "logo": "Une copie numérique du logo de votre section, si vous en avez une (PNG, JPG ou SVG). Sinon, le <strong>Créateur de logo</strong> peut en faire un de départ pendant l'étape <strong>Trousse de marque</strong>.",
+      "colours": "Une idée approximative des couleurs de votre section, d'après un en-tête, une bannière ou un avis imprimé. Les codes de couleur exacts sont facultatifs.",
+      "number": "Le numéro de votre section, s'il apparaît sur vos documents.",
+      "prompt": "Facultatif : une vraie date d'assemblée ou une annonce que vous pourriez publier cette semaine, pour que l'exercice soit un vrai avis, pas un exemple vide."
+    },
+    "demoKicker": "Liens rapides",
+    "demoLead": "Gardez cette boîte visible. Touchez un outil quand le plan le nomme. Ce sont les quatre mêmes arrêts que la démo de 20 minutes.",
     "outlineTitle": "Plan suggéré",
-    "outline": [
-      "Pourquoi les communications marque d'abord comptent pour les sections",
-      "Trousse de marque en direct (couleurs, numéro, logo)",
-      "Avis d'affichage pour les membres hors ligne",
-      "Créateur de graphiques + Légendes pour Facebook/Instagram",
-      "Feuille de route de la première semaine et liste de contrôle"
-    ],
-    "demoTitle": "Parcours de démo en direct",
+    "outlineIntro": "Les durées totalisent environ 50 minutes, avec de la place pour les questions. Si vous avez une heure complète, restez plus longtemps sur le <strong>Créateur de graphiques</strong>. Si vous avez 45 minutes, enchaînez les téléchargements.",
+    "outlineNavLabel": "Durées du plan",
+    "outlineItems": {
+      "why": {
+        "time": "8 min",
+        "navLabel": "La marque d'abord",
+        "title": "Pourquoi les communications fondées sur la marque comptent pour les sections",
+        "do": "Repérez les quatre canaux : tableaux au travail, impression, médias sociaux et un site simple. Nommez où les membres qui ne sont pas sur Facebook voient encore les nouvelles syndicales, pour que cette heure ne porte pas seulement sur les publications sociales.",
+        "facilitator": "Présentez le problème en langage simple : une marque, partout. Ouvrez la page d'accueil. Ne commencez pas encore dans un outil."
+      },
+      "brand": {
+        "time": "10 min",
+        "navLabel": "Trousse de marque",
+        "title": "Trousse de marque en direct (couleurs, numéro, logo)",
+        "do": "Ouvrez la <strong>Trousse de marque</strong>. Indiquez le numéro de section, choisissez deux couleurs et téléversez un logo si vous en avez apporté un. Les téléchargements suivants réutilisent cette identité, pour que vous n'ayez pas à retaper les couleurs sur chaque graphique.",
+        "facilitator": "Partagez l'onglet Trousse de marque. Si un portable est vide, importez le fichier de démo de la Trousse de marque depuis Ressources Comms avant que les gens s'assoient. Proposez le <strong>Créateur de logo</strong> seulement si personne n'a de fichier."
+      },
+      "board": {
+        "time": "8 min",
+        "navLabel": "Avis d'affichage",
+        "title": "Avis d'affichage pour les membres hors ligne",
+        "do": "Ouvrez l'<strong>Avis d'affichage</strong>. Rédigez un court titre et une date, puis téléchargez le PDF. Les membres qui n'ouvrent jamais Facebook passent encore devant le tableau au travail.",
+        "facilitator": "Montrez que Télécharger PDF fonctionne. Imprimer dans la salle est facultatif. Pointez le Guide des tableaux syndicaux seulement si quelqu'un demande la mise en page."
+      },
+      "social": {
+        "time": "15 min",
+        "navLabel": "Créateur de graphiques",
+        "title": "Créateur de graphiques et Légendes pour Facebook et Instagram",
+        "do": "Ouvrez le <strong>Créateur de graphiques</strong>, choisissez un modèle, puis téléchargez un PNG. Ensuite, copiez une légende correspondante dans <strong>Légendes</strong>. Vous partez avec une publication que vous pourriez vraiment mettre en ligne, pas seulement une diapositive sur le fait de publier.",
+        "facilitator": "Faites une pause sur le dialogue de consentement photo. Ne faites pas la démo de publication du Sondage éclair. Si un téléchargement échoue, montrez un PNG enregistré avant la séance."
+      },
+      "roadmap": {
+        "time": "7 min",
+        "navLabel": "Première semaine",
+        "title": "Feuille de route de la première semaine et liste de contrôle",
+        "do": "Ouvrez la feuille de route <strong>Première semaine</strong>. Choisissez une vraie action pour cette semaine, d'habitude l'avis que vous venez de faire, puis une publication sociale. La liste de pratique dans Ressources Comms est un devoir, pas du temps de parole en plus.",
+        "facilitator": "Demandez ce qui ira sur le tableau cette semaine. Pointez Ressources Comms et terminez à l'heure. Bricoler après la séance, c'est le but."
+      }
+    },
+    "wrapTitle": "Prochaines étapes",
+    "wrapIntro": "Faites ceci avant la fin de la semaine, pendant que les fichiers sont encore sur cet appareil.",
+    "wrap": {
+      "bookmark": "Ajoutez la <strong>Trousse de marque</strong> aux favoris de ce navigateur pour retrouver vos couleurs à votre retour. Si vous partagez l'ordinateur, téléchargez le fichier de la Trousse de marque et rangez-le avec les dossiers de la section.",
+      "post": "Ouvrez la feuille de route <strong>Première semaine</strong> et tentez votre première vraie publication avec le graphique et la légende faits aujourd'hui.",
+      "board": "Placez le PDF de l'Avis d'affichage sur le tableau au travail, ou remettez-le à la personne qui met le tableau à jour.",
+      "checklist": "Quand vous avez une demi-heure tranquille, parcourez la liste de pratique dans Ressources Comms."
+    },
+    "wrapFacilitator": "Remerciez les gens. Rappelez que les outils de communication publics restent sur l'appareil. Si quelque chose a cassé, la page Commentaires de ce site prend une note, sans liste d'envoi aux membres.",
     "resourcesCta": "Ressources Comms",
     "roadmapCta": "Feuille de route — première semaine",
     "toolsCta": "Parcourir les outils"

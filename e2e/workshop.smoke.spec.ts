@@ -137,7 +137,16 @@ test.describe("Workshop demo path E2E @smoke", () => {
       }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: /Suggested outline/i }),
+      page.getByRole("heading", { name: "What to bring" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Suggested outline" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Next steps" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Demo this in about 20 minutes/i }),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
 

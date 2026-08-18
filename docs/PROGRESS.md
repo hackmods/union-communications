@@ -1,5 +1,11 @@
 # Progress Log
 
+## Workshop outline lunch-and-learn QOL (2026-08-18)
+
+- [x] `/guide/workshop` is a standalone teaching page: what to bring, timed 45–60 min agenda with Facilitator / Do this notes, Quick links around Demo Path, and next steps
+- [x] EN/FR copy lockstep; smoke asserts the new headings
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/smoke-asserted-copy.test.ts`
+
 ## Website Template Brand Kit links and about seed (2026-08-18)
 
 - [x] Exported site footer/contact include Brand Kit custom links and membership URLs (http(s) only)
