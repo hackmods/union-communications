@@ -199,33 +199,33 @@
     "whenToUse": "Use first to build a local logo plate, then Save to Brand Kit so every tool matches."
   },
   "home": {
-    "title": "UnionOps: The Toolkit for Local Unions",
-    "headline": "The toolkit for local unions",
+    "title": "UnionOps: Professional comms for local unions",
+    "headline": "Look like the union you already are",
     "slogan": "Solidarity.",
-    "subtitle": "Free Comms tools for any local: brand, boards, print, social, and a simple website.",
-    "subtitleCommsOnly": "Comms tools for volunteers running a local. Built for any local, any union.",
+    "subtitle": "Free Comms tools that save time and give any local a professional voice, from the board to the web.",
+    "subtitleCommsOnly": "Comms tools that save volunteer officers time and give any local a professional voice.",
     "heroCta": "Set up your local brand",
     "openBrandKitCta": "Open Brand Kit",
     "whatsNextCta": "Open the first-week roadmap",
     "socialMediaPlanCta": "Continue the first-week roadmap",
     "socialMediaPlanDesc": "After Brand Kit: boards, print, socials, and a simple website.",
-    "pathCommsTitle": "New to running a local’s communications?",
+    "pathCommsTitle": "Communicate like a pro, right out of the gate",
     "pathCommsDesc": "Set your colours, local number, and logo once, and every graphic, notice, and poster picks them up.",
     "pathCommsCta": "Get started",
     "pathCommsHint": "You will find the channel guides, Social Examples, and Captions under Guides.",
-    "pathOfficerTitle": "President or steward managing cases?",
-    "pathOfficerDesc": "Track grievances, college bumping, overdue work, and handoffs in the Officer Hub.",
+    "pathOfficerTitle": "Track grievances and keep the local organized",
+    "pathOfficerDesc": "Grievances, college bumping, overdue work, and handoffs stay in the Officer Hub, ready for the next steward.",
     "pathOfficerCta": "Open Officer Hub",
     "pathOfficerTitleComingSoon": "Officer workflows on the way",
     "pathOfficerDescComingSoon": "Grievance tracking, college bumping, overdue boards, and handoffs are in progress. Comms tools are ready today.",
     "pathOfficerCtaComingSoon": "Officer Hub: coming soon",
     "channelsTitle": "The Toolbox",
-    "channelsIntro": "All four channels carry equal weight. Open a tool or guide below.",
+    "channelsIntro": "These tools work together so the local’s message stays consistent from the board to the web.",
     "brandRailDesc": "Colours, logo, and key links for every graphic. Browse the reference asset pack when you need starter files.",
-    "privacyNote": "Comms tools run in your browser. Host an Officer Hub and you control that instance.",
-    "privacyNoteCommsOnly": "Comms tools run in your browser. Your graphics and Brand Kit stay on your device.",
-    "trustBanner": "Your Comms work stays in your browser. If you host the Officer Hub, you are in charge of that instance.",
-    "trustBannerCommsOnly": "Your Comms work stays in your browser. No ads, no analytics, and nobody harvesting your data.",
+    "privacyNote": "Your Comms work never leaves your browser. Host an Officer Hub and you control who can see that data.",
+    "privacyNoteCommsOnly": "Your Comms work never leaves your browser. Your graphics and Brand Kit stay on your device.",
+    "trustBanner": "Private by design. Your Comms work never leaves your browser. If you host the Officer Hub, you control who can see that data.",
+    "trustBannerCommsOnly": "Private by design. Your Comms work never leaves your browser. No ads, no tracking, and nobody harvesting your data.",
     "trustManifestoLink": "Our promise",
     "heroPreview": {
       "swatchHint": "Live colours from your Brand Kit",
@@ -263,19 +263,19 @@
     "channels": {
       "social": {
         "title": "Social Media",
-        "description": "Graphics, examples, and captions for Facebook, Instagram, and more."
+        "description": "Graphics, examples, and captions for Facebook, Instagram, and more. Templates sized so you can post with confidence."
       },
       "print": {
         "title": "Print",
-        "description": "Flyers and printable materials for rallies, meetings, and events."
+        "description": "Ready-to-print flyers for rallies, meetings, and events. Templates that do the design work for you."
       },
       "boards": {
         "title": "Union Boards",
-        "description": "Board notices and solidarity posters for the workplace."
+        "description": "Ready-to-print notices and solidarity posters for the workplace. Fill in the details; the layout is already done."
       },
       "website": {
         "title": "Website",
-        "description": "A simple local website template you can host on GitHub Pages."
+        "description": "A simple local website template you can host on GitHub Pages. Fill in your details and publish."
       }
     }
   },

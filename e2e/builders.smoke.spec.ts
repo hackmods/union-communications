@@ -46,7 +46,7 @@ test.describe("Home hero & builders smoke @smoke", () => {
     // Hero owns brand setup; Comms path uses pathCommsCta ("Get started") — COPY-001.
     await expect(
       page
-        .getByRole("region", { name: /toolkit for local unions/i })
+        .getByRole("region", { name: /look like the union you already are/i })
         .getByRole("link", { name: "Set up your local brand" }),
     ).toBeVisible();
     await expect(
@@ -60,7 +60,7 @@ test.describe("Home hero & builders smoke @smoke", () => {
         pathComms.getByRole("link", { name: "Set up your local brand" }),
       ).toHaveCount(0);
     }
-    await expect(page.getByText(/stays in your browser/i).first()).toBeVisible();
+    await expect(page.getByText(/never leaves your browser/i).first()).toBeVisible();
   });
 
   test("home has no horizontal overflow on a small laptop", async ({

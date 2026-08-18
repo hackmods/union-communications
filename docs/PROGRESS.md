@@ -1,5 +1,13 @@
 # Progress Log
 
+## Home landing copy QOL (2026-08-18)
+
+- [x] Hero: benefit-driven H1 + cohesive subtitle (time + professional voice); path headers state the value
+- [x] Toolbox intro ties the four channels together; channel blurbs emphasize ready-to-use templates
+- [x] Privacy banner: private by design / Comms never leave the browser; Officer Hub host still controls that data
+- [x] EN/FR lockstep; smoke region + trust-banner assertions updated
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/smoke-asserted-copy.test.ts`
+
 ## Website Template preview fonts (2026-08-18)
 
 - [x] Preview iframe `allow-same-origin` so Brand Kit `@font-face` can load (`font-src 'self'` was blocking unique-origin sandbox → Arial fallback)

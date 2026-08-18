@@ -199,33 +199,33 @@
     "whenToUse": "À utiliser en premier pour créer une plaque logo locale, puis enregistrez-la dans la Trousse de marque pour que tous les outils s’accordent."
   },
   "home": {
-    "title": "UnionOps : La boîte à outils pour les sections locales",
-    "headline": "La boîte à outils pour les sections locales",
+    "title": "UnionOps : Des communications professionnelles pour les sections locales",
+    "headline": "Ressemblez au syndicat que vous êtes déjà",
     "slogan": "Solidarity.",
-    "subtitle": "Outils Comms gratuits pour toute section : marque, tableaux, imprimés, réseaux sociaux et un site simple.",
-    "subtitleCommsOnly": "Outils de communication pour les bénévoles qui font vivre une section. Pour toute section, tout syndicat.",
+    "subtitle": "Des outils Comms gratuits qui font gagner du temps et donnent à toute section une voix professionnelle, du tableau au Web.",
+    "subtitleCommsOnly": "Des outils de communication qui font gagner du temps aux dirigeants bénévoles et donnent à toute section une voix professionnelle.",
     "heroCta": "Configurer la marque de votre section",
     "openBrandKitCta": "Ouvrir la Trousse de marque",
     "whatsNextCta": "Ouvrir la feuille de route de la première semaine",
     "socialMediaPlanCta": "Continuer la feuille de route de la première semaine",
     "socialMediaPlanDesc": "Après la Trousse de marque : tableaux, impression, médias sociaux et site Web simple.",
-    "pathCommsTitle": "Nouveau aux communications de votre section ?",
+    "pathCommsTitle": "Communiquez comme un pro, dès le premier jour",
     "pathCommsDesc": "Réglez vos couleurs, votre numéro de section et votre logo une seule fois : chaque graphique, avis et affiche les reprend ensuite.",
     "pathCommsCta": "Commencer",
     "pathCommsHint": "Vous trouverez les guides par canal, les Exemples sociaux et les Légendes sous Guides.",
-    "pathOfficerTitle": "Président ou délégué qui gère des dossiers ?",
-    "pathOfficerDesc": "Suivez les griefs, le bumpage collégial, les retards et les passations dans le Hub des dirigeants.",
+    "pathOfficerTitle": "Suivez les griefs et gardez la section organisée",
+    "pathOfficerDesc": "Griefs, bumpage collégial, retards et passations restent dans le Hub des dirigeants, prêts pour le prochain délégué.",
     "pathOfficerCta": "Ouvrir le Hub des dirigeants",
     "pathOfficerTitleComingSoon": "Flux de travail dirigeants à venir",
     "pathOfficerDescComingSoon": "Le suivi des griefs, le bumpage collégial, les tableaux de retards et les passations sont en cours. Les outils de communication sont prêts dès maintenant.",
     "pathOfficerCtaComingSoon": "Hub des dirigeants : bientôt",
     "channelsTitle": "La boîte à outils",
-    "channelsIntro": "Les quatre canaux comptent autant les uns que les autres. Ouvrez un outil ou un guide ci-dessous.",
+    "channelsIntro": "Ces outils fonctionnent ensemble pour que le message de la section reste cohérent, du tableau au Web.",
     "brandRailDesc": "Couleurs, logo et liens clés pour chaque graphique. Consultez le pack d'actifs de référence pour des fichiers de départ.",
-    "privacyNote": "Les outils de communication tournent dans votre navigateur. Hébergez un Hub des dirigeants et vous contrôlez cette instance.",
-    "privacyNoteCommsOnly": "Les outils de communication tournent dans votre navigateur. Vos graphiques et votre Trousse de marque restent sur votre appareil.",
-    "trustBanner": "Votre travail Comms reste dans votre navigateur. Si vous hébergez le Hub des dirigeants, c’est vous qui gérez cette instance.",
-    "trustBannerCommsOnly": "Votre travail Comms reste dans votre navigateur. Pas de pubs, pas d’analytique et personne qui récolte vos données.",
+    "privacyNote": "Votre travail Comms ne quitte jamais votre navigateur. Hébergez un Hub des dirigeants et c’est vous qui contrôlez qui peut voir ces données.",
+    "privacyNoteCommsOnly": "Votre travail Comms ne quitte jamais votre navigateur. Vos graphiques et votre Trousse de marque restent sur votre appareil.",
+    "trustBanner": "Privé dès le départ. Votre travail Comms ne quitte jamais votre navigateur. Si vous hébergez le Hub des dirigeants, c’est vous qui contrôlez qui peut voir ces données.",
+    "trustBannerCommsOnly": "Privé dès le départ. Votre travail Comms ne quitte jamais votre navigateur. Pas de pubs, pas de pistage, et personne qui récolte vos données.",
     "trustManifestoLink": "Notre promesse",
     "heroPreview": {
       "swatchHint": "Couleurs en direct de votre Trousse de marque",
@@ -263,19 +263,19 @@
     "channels": {
       "social": {
         "title": "Médias sociaux",
-        "description": "Graphiques, exemples et légendes pour Facebook, Instagram et plus."
+        "description": "Graphiques, exemples et légendes pour Facebook, Instagram et plus. Des modèles déjà aux bons formats, pour publier en toute confiance."
       },
       "print": {
         "title": "Impression",
-        "description": "Affiches et documents imprimables pour rassemblements, réunions et événements."
+        "description": "Tracts prêts à imprimer pour rassemblements, réunions et événements. Des modèles qui font le travail graphique pour vous."
       },
       "boards": {
         "title": "Tableaux syndicaux",
-        "description": "Avis et affiches de solidarité pour le lieu de travail."
+        "description": "Avis et affiches de solidarité prêts à imprimer pour le lieu de travail. Vous remplissez les détails ; la mise en page est déjà faite."
       },
       "website": {
         "title": "Site Web",
-        "description": "Un modèle de site simple à héberger gratuitement sur GitHub Pages."
+        "description": "Un modèle de site simple à héberger sur GitHub Pages. Remplissez vos renseignements et publiez."
       }
     }
   },
