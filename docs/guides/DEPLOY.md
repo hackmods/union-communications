@@ -72,6 +72,7 @@ This repo includes [`captain-definition`](../../captain-definition) pointing at 
 |----------|---------|
 | `AUTH_SECRET` | output of `openssl rand -base64 32` |
 | `AUTH_URL` | **Public** HTTPS origin only (no trailing slash) — e.g. `https://unionops.org`. Never the CapRover/internal FQDN (`*.behind7proxies.com`); wrong value leaks internal hosts into locale redirects, Auth.js `callback-url` cookies, and GSC “Page with redirect” noise. |
+| `AUTH_ALLOW_DEMO_USERS` | `true` on the public demo host so `president@local243.ca` / `demo123` work. The image defaults this to match `NEXT_PUBLIC_DEMO_SITE`. Omit/`false` for live casework. |
 | `AUTH_MFA_ENABLED` | `true` for casework; omit/`false` for demos (default) |
 | `AUTH_MFA_MODE` | `totp` when MFA enabled; workshops: shared_code + break-glass |
 | `AUTH_ALLOW_SHARED_MFA_IN_PROD` | `true` only for workshop/demo hosts using shared code |
@@ -99,7 +100,7 @@ Optional brand defaults — bake into the image at **build** time (`NEXT_PUBLIC_
 | `NEXT_PUBLIC_DEFAULT_LOCAL_NUMBER` | `79` |
 | `NEXT_PUBLIC_DEFAULT_SUB_TEXT` | `Hospital Workers` |
 | `NEXT_PUBLIC_OFFICER_HUB_PUBLIC` | `true` (Docker soft-launch default) |
-| `NEXT_PUBLIC_DEMO_SITE` | `true` on demo hosts; `false` for live tenants |
+| `NEXT_PUBLIC_DEMO_SITE` | `true` on demo hosts; `false` for live tenants. Bake at **build** time (login hint). The runner image also sets `AUTH_ALLOW_DEMO_USERS` to the same value so production `authorize()` matches the hint. |
 
 3. Deploy via CapRover git push / webhook, or pull the GHCR tag if your CapRover setup uses a registry image.
 4. Health check: `GET /api/health`.

@@ -55,7 +55,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 | Topic | Reality |
 |-------|---------|
 | MFA-off Hub | `useSessionMfaOk()` / `MfaPolicyProvider` — not raw `mfaVerified` |
-| Demo on prod image | `AUTH_ALLOW_DEMO_USERS=true` |
+| Demo on prod image | Login hint is build-time `NEXT_PUBLIC_DEMO_SITE`. Roster login needs that flag **inlined** in `isDemoAuthEnabled` or runtime `AUTH_ALLOW_DEMO_USERS=true`. Image runner now defaults both. Health: `demoAuthEnabled`. |
 | Sandbox | CT 115 @ `192.168.0.115:3000`; **Postgres durable** compose stack @ `289bfb3` (`postgresFlipComplete: true`); `docker-db-1` + `docker-web-1`; demo users via `AUTH_ALLOW_DEMO_USERS` |
 | Cron | `CRON_SECRET` required; Bearer or `x-cron-secret`; `?dryRun=1` previews without send/audit |
 | React derived state | Do not sync `setState` in `useEffect` for consent flags — derive from roster |

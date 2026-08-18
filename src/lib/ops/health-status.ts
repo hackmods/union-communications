@@ -7,6 +7,7 @@ import {
   readEffectiveBackendFlags,
 } from "@/lib/db/backend";
 import { isPostgresConfigured } from "@/lib/db/client";
+import { isDemoAuthEnabled } from "@/lib/auth/demo-auth-gate";
 
 /** Non-secret runtime summary for `/api/health` (operators + smoke). */
 export type HealthStatus = {
@@ -20,6 +21,7 @@ export type HealthStatus = {
   emailEnabled: boolean;
   cronConfigured: boolean;
   mfaEnabled: boolean;
+  demoAuthEnabled: boolean;
 };
 
 let cachedVersion: string | undefined;
@@ -49,5 +51,6 @@ export function buildHealthStatus(): HealthStatus {
     emailEnabled: process.env.EMAIL_ENABLED === "true",
     cronConfigured: Boolean(process.env.CRON_SECRET?.trim()),
     mfaEnabled: process.env.AUTH_MFA_ENABLED === "true",
+    demoAuthEnabled: isDemoAuthEnabled(),
   };
 }

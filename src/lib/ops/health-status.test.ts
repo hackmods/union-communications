@@ -26,6 +26,7 @@ describe("buildHealthStatus", () => {
     expect(status.emailEnabled).toBe(false);
     expect(status.cronConfigured).toBe(false);
     expect(status.mfaEnabled).toBe(false);
+    expect(typeof status.demoAuthEnabled).toBe("boolean");
   });
 
   it("reads app version from package.json", () => {

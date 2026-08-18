@@ -1,4 +1,6 @@
 import { describe, expect, it, beforeEach } from "vitest";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { findDemoUser, DEMO_PASSWORD_HASH } from "@/lib/auth/demo-users";
 import { isDemoAuthEnabled } from "@/lib/auth/demo-auth-gate";
 import { verifyPassword, hashPassword } from "@/lib/auth/password";
@@ -38,6 +40,15 @@ describe("demo auth gate", () => {
     ).toBe(false);
   });
 
+  it("allows demo in production when AUTH_ALLOW_DEMO_USERS is true", () => {
+    expect(
+      isDemoAuthEnabled({
+        NODE_ENV: "production",
+        AUTH_ALLOW_DEMO_USERS: "true",
+      }),
+    ).toBe(true);
+  });
+
   it("allows demo in production when DEMO_SITE is true", () => {
     expect(
       isDemoAuthEnabled({
@@ -45,6 +56,17 @@ describe("demo auth gate", () => {
         NEXT_PUBLIC_DEMO_SITE: "true",
       }),
     ).toBe(true);
+  });
+
+  it("statically reads NEXT_PUBLIC_DEMO_SITE when env is process.env", () => {
+    const source = readFileSync(
+      join(__dirname, "demo-auth-gate.ts"),
+      "utf8",
+    );
+    expect(source).toMatch(/env === process\.env/);
+    expect(source).toMatch(
+      /NEXT_PUBLIC_DEMO_SITE:\s*process\.env\.NEXT_PUBLIC_DEMO_SITE/,
+    );
   });
 });
 

@@ -36,10 +36,16 @@ RUN npm run build
 # ---- runner: minimal production image ----
 FROM base AS runner
 ARG CAPROVER_GIT_COMMIT_SHA=unknown
+# Re-declare: ARG does not carry across FROM. Keep demo roster + login hint in
+# sync for the public image. White-label: --build-arg NEXT_PUBLIC_DEMO_SITE=false
+# (also sets AUTH_ALLOW_DEMO_USERS=false). CapRover can still override at runtime.
+ARG NEXT_PUBLIC_DEMO_SITE=true
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV BUILD_COMMIT_SHA=${CAPROVER_GIT_COMMIT_SHA}
+ENV NEXT_PUBLIC_DEMO_SITE=$NEXT_PUBLIC_DEMO_SITE
+ENV AUTH_ALLOW_DEMO_USERS=$NEXT_PUBLIC_DEMO_SITE
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public

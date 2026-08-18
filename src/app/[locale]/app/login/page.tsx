@@ -9,10 +9,7 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
-
-function isDemoSiteClient(): boolean {
-  return process.env.NEXT_PUBLIC_DEMO_SITE === "true";
-}
+import { isDemoSite } from "@/lib/features/demo-site";
 
 export default function LoginPage() {
   const t = useTranslations("hub");
@@ -27,7 +24,7 @@ export default function LoginPage() {
   const [magicDone, setMagicDone] = useState(false);
   const [magicEmailSent, setMagicEmailSent] = useState<boolean | null>(null);
   const [magicReason, setMagicReason] = useState<string | undefined>();
-  const showDemoHint = isDemoSiteClient();
+  const showDemoHint = isDemoSite();
 
   useEffect(() => {
     let cancelled = false;

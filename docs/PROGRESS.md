@@ -1,5 +1,12 @@
 # Progress Log
 
+## Demo login on production images (2026-08-18)
+
+- [x] `isDemoAuthEnabled(process.env)` statically reads `NEXT_PUBLIC_DEMO_SITE` so Next inlines the build-time demo flag into `authorize()` (login hint and roster stay in sync)
+- [x] Docker runner defaults `AUTH_ALLOW_DEMO_USERS` to the same `NEXT_PUBLIC_DEMO_SITE` build arg
+- [x] `/api/health` reports `demoAuthEnabled`
+- Verify: `npm run test:unit -- src/lib/auth/sec007.test.ts src/lib/ops/health-status.test.ts`
+
 ## Brand Kit collection profiles (2026-08-17)
 
 - [x] Fresh Brand Kit + `other` preset use one **Local** profile

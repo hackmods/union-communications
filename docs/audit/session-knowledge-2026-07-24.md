@@ -36,7 +36,9 @@ Server already used `sessionMfaOk()` when MFA is off. Client must use `useSessio
 
 ### 2. Production demo login needs `AUTH_ALLOW_DEMO_USERS=true`
 
-`NEXT_PUBLIC_DEMO_SITE` alone may not unlock demo roster on a production Node image. Without the server flag, login UI works while credentials fail.
+`NEXT_PUBLIC_DEMO_SITE` is inlined into the **client** login hint at build time. CapRover often does not set it (or `AUTH_ALLOW_DEMO_USERS`) on the **runner** process, so `NODE_ENV=production` used to reject `demo123` while the page still advertised those accounts.
+
+**Fixed 2026-08-18:** `isDemoAuthEnabled(process.env)` statically reads `NEXT_PUBLIC_DEMO_SITE` (same inlining as `isDemoSite`), and `docker/Dockerfile` runner sets `AUTH_ALLOW_DEMO_USERS` to match the demo-site build arg. Health reports `demoAuthEnabled`. Immediate CapRover workaround without a rebuild: set `AUTH_ALLOW_DEMO_USERS=true` and restart.
 
 ### 3. GHCR `:main` can lag — build from source for sandbox truth
 

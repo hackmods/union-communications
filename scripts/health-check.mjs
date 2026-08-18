@@ -58,7 +58,7 @@ if (!process.exitCode) {
           ([, value]) => value === "memory",
         );
         console.log(
-          `[health-check] ok commit=${body.commit ?? "unknown"} version=${body.version ?? "unknown"} email=${body.emailEnabled} cron=${body.cronConfigured} postgres=${body.postgresConfigured} durable=${body.postgresFlipComplete}`,
+          `[health-check] ok commit=${body.commit ?? "unknown"} version=${body.version ?? "unknown"} email=${body.emailEnabled} cron=${body.cronConfigured} postgres=${body.postgresConfigured} durable=${body.postgresFlipComplete} demoAuth=${body.demoAuthEnabled}`,
         );
         if (memoryBackends.length > 0) {
           console.log(
