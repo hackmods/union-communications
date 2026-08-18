@@ -8,6 +8,7 @@ import {
   type WebsiteZipHeroImage,
   type WebsiteZipLogo,
 } from "@/lib/templates/website/generate-website-zip";
+import { hexToRgb } from "@/lib/utils/contrast";
 
 const THEME_URI_PHP =
   "<?php echo esc_url( get_template_directory_uri() ); ?>/assets/";
@@ -52,6 +53,39 @@ export function extractWebsiteBodyMarkup(html: string): string {
   return `${inner.replace(/\s*<script[\s\S]*?<\/script>/gi, "").trimEnd()}\n`;
 }
 
+export function splitWebsiteChrome(bodyHtml: string): {
+  header: string;
+  main: string;
+  footer: string;
+} {
+  const headerMatch = /<header class="site-header"[\s\S]*?<\/header>/.exec(
+    bodyHtml,
+  );
+  const footerMatch = /<footer class="footer"[\s\S]*?<\/footer>/.exec(bodyHtml);
+  const header = headerMatch?.[0] ?? "";
+  const footer = footerMatch?.[0] ?? "";
+  let main = bodyHtml;
+  if (header) main = main.replace(header, "");
+  if (footer) main = main.replace(footer, "");
+  return { header, main: main.trim(), footer };
+}
+
+export function injectWordpressNav(headerHtml: string, phpPrefix: string): string {
+  const menu = `<?php
+      wp_nav_menu(array(
+        'theme_location' => 'primary',
+        'container' => false,
+        'menu_class' => 'nav-links',
+        'fallback_cb' => '${phpPrefix}_nav_fallback',
+        'depth' => 1,
+      ));
+    ?>`;
+  if (/<ul class="nav-links">[\s\S]*?<\/ul>/.test(headerHtml)) {
+    return headerHtml.replace(/<ul class="nav-links">[\s\S]*?<\/ul>/, menu);
+  }
+  return headerHtml;
+}
+
 export function rewriteWebsiteAssetsForWordpress(html: string): string {
   return html.replaceAll("./assets/", THEME_URI_PHP);
 }
@@ -86,7 +120,39 @@ License: GNU General Public License v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
-${css}`;
+${css}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0.75rem;
+  z-index: 100000;
+  padding: 0.6rem 1rem;
+  background: var(--color-secondary);
+  color: var(--color-dark);
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 4px;
+}
+.skip-link:focus {
+  left: 0.75rem;
+}
+.site-content--entry {
+  padding: var(--spacing-8) var(--spacing-4);
+  max-width: 48rem;
+  margin: 0 auto;
+}
+.entry h1 {
+  margin-bottom: var(--spacing-4);
+}
+.entry-content img {
+  max-width: 100%;
+  height: auto;
+}
+.nav-links .sub-menu {
+  display: none;
+}
+`;
 }
 
 export function buildWordpressFunctionsPhp(data: WebsiteTemplateData): string {
@@ -104,13 +170,29 @@ if (!defined('ABSPATH')) {
 function ${fn}_setup() {
   add_theme_support('title-tag');
   add_theme_support('html5', array('search-form', 'gallery', 'caption', 'style', 'script'));
+  register_nav_menus(array(
+    'primary' => 'Primary menu',
+  ));
 }
 add_action('after_setup_theme', '${fn}_setup');
 
 function ${fn}_document_title($title) {
-  return '${title}';
+  if (is_front_page()) {
+    return '${title}';
+  }
+  return $title;
 }
 add_filter('pre_get_document_title', '${fn}_document_title');
+
+function ${fn}_nav_fallback() {
+  $home = esc_url(home_url('/'));
+  echo '<ul class="nav-links">';
+  echo '<li><a href="' . $home . '#home">Home</a></li>';
+  echo '<li><a href="' . $home . '#about">About</a></li>';
+  echo '<li><a href="' . $home . '#leadership">Officers</a></li>';
+  echo '<li><a href="' . $home . '#contact">Contact</a></li>';
+  echo '</ul>';
+}
 
 function ${fn}_enqueue() {
   $theme = wp_get_theme();
@@ -139,7 +221,7 @@ add_action('wp_enqueue_scripts', '${fn}_dequeue_block_styles', 100);
 `;
 }
 
-export function buildWordpressHeaderPhp(): string {
+export function buildWordpressHeaderPhp(headerHtml: string): string {
   return `<?php
 if (!defined('ABSPATH')) {
   exit;
@@ -152,29 +234,80 @@ if (!defined('ABSPATH')) {
   <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
+<?php wp_body_open(); ?>
+<a class="skip-link" href="#content">Skip to content</a>
+${headerHtml}
 `;
 }
 
-export function buildWordpressFooterPhp(): string {
+export function buildWordpressFooterPhp(footerHtml: string): string {
   return `<?php
 if (!defined('ABSPATH')) {
   exit;
 }
-wp_footer();
 ?>
+${footerHtml}
+<?php wp_footer(); ?>
 </body>
 </html>
 `;
 }
 
-export function buildWordpressIndexPhp(bodyHtml: string): string {
+export function buildWordpressIndexPhp(mainHtml: string): string {
   return `<?php
 if (!defined('ABSPATH')) {
   exit;
 }
 get_header();
 ?>
-${bodyHtml}<?php
+<main id="content" class="site-content">
+${mainHtml}
+</main>
+<?php
+get_footer();
+`;
+}
+
+export function buildWordpressPagePhp(): string {
+  return `<?php
+if (!defined('ABSPATH')) {
+  exit;
+}
+get_header();
+?>
+<main id="content" class="site-content site-content--entry">
+<?php
+while (have_posts()) {
+  the_post();
+  ?>
+  <article <?php post_class('entry'); ?>>
+    <h1><?php the_title(); ?></h1>
+    <div class="entry-content">
+      <?php the_content(); ?>
+    </div>
+  </article>
+  <?php
+}
+?>
+</main>
+<?php
+get_footer();
+`;
+}
+
+export function buildWordpress404Php(): string {
+  return `<?php
+if (!defined('ABSPATH')) {
+  exit;
+}
+get_header();
+?>
+<main id="content" class="site-content site-content--entry">
+  <h1>Page not found</h1>
+  <p>That address is not on this site. Go back to the local homepage.</p>
+  <p><a href="<?php echo esc_url(home_url('/')); ?>">Home</a></p>
+</main>
+<?php
 get_footer();
 `;
 }
@@ -208,7 +341,135 @@ UnionOps does not host WordPress, update WordPress, or help with plugins, permal
 3. Open the site front page — it should match the Website Template preview
 
 Do not submit this theme to wordpress.org. Contact stays a mailto: link; add a form plugin yourself if you need one — we cannot help with that.
+
+## Extra pages
+
+Add a page under **Pages** in WordPress. It uses this theme’s layout.
+
+To show it in the header: **Appearance → Menus**, create a menu, and assign **Primary menu**. If you skip that, the header keeps Home / About / Officers / Contact.
+
+Unknown addresses show a short “page not found” screen, not the homepage.
 `;
+}
+
+const PNG_SIGNATURE = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]);
+
+function crc32(bytes: Uint8Array): number {
+  let crc = 0xffffffff;
+  for (let i = 0; i < bytes.length; i++) {
+    crc ^= bytes[i]!;
+    for (let b = 0; b < 8; b++) {
+      crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
+    }
+  }
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+function pngChunk(type: string, data: Uint8Array): Uint8Array {
+  const typeBytes = new TextEncoder().encode(type);
+  const out = new Uint8Array(8 + data.length + 4);
+  const view = new DataView(out.buffer);
+  view.setUint32(0, data.length);
+  out.set(typeBytes, 4);
+  out.set(data, 8);
+  const crcInput = out.subarray(4, 8 + data.length);
+  view.setUint32(8 + data.length, crc32(crcInput));
+  return out;
+}
+
+function adler32(bytes: Uint8Array): number {
+  let a = 1;
+  let b = 0;
+  for (let i = 0; i < bytes.length; i++) {
+    a = (a + bytes[i]!) % 65521;
+    b = (b + a) % 65521;
+  }
+  return ((b << 16) | a) >>> 0;
+}
+
+function zlibStore(bytes: Uint8Array): Uint8Array {
+  const blocks: Uint8Array[] = [];
+  const max = 65535;
+  for (let offset = 0; offset < bytes.length; offset += max) {
+    const slice = bytes.subarray(offset, offset + max);
+    const last = offset + max >= bytes.length;
+    const block = new Uint8Array(5 + slice.length);
+    block[0] = last ? 1 : 0;
+    block[1] = slice.length & 0xff;
+    block[2] = (slice.length >> 8) & 0xff;
+    const nlen = ~slice.length & 0xffff;
+    block[3] = nlen & 0xff;
+    block[4] = (nlen >> 8) & 0xff;
+    block.set(slice, 5);
+    blocks.push(block);
+  }
+  let total = 2 + 4;
+  for (const block of blocks) total += block.length;
+  const out = new Uint8Array(total);
+  out[0] = 0x78;
+  out[1] = 0x01;
+  let cursor = 2;
+  for (const block of blocks) {
+    out.set(block, cursor);
+    cursor += block.length;
+  }
+  const view = new DataView(out.buffer);
+  view.setUint32(cursor, adler32(bytes));
+  return out;
+}
+
+function rgbFromHex(hex: string, fallback: [number, number, number]): [number, number, number] {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return fallback;
+  return [rgb.r, rgb.g, rgb.b];
+}
+
+/** Compact branded tile for Appearance → Themes (not a full 1200×900 capture). */
+export function encodeWordpressScreenshotPng(
+  primaryColor: string,
+  secondaryColor: string,
+  width = 240,
+  height = 180,
+): Uint8Array {
+  const top = rgbFromHex(primaryColor, [0, 61, 165]);
+  const bottom = rgbFromHex(secondaryColor, [255, 255, 255]);
+  const split = Math.floor(height * 0.7);
+  const raw = new Uint8Array((width * 3 + 1) * height);
+  let i = 0;
+  for (let y = 0; y < height; y++) {
+    const [r, g, b] = y < split ? top : bottom;
+    raw[i++] = 0;
+    for (let x = 0; x < width; x++) {
+      raw[i++] = r;
+      raw[i++] = g;
+      raw[i++] = b;
+    }
+  }
+  const ihdr = new Uint8Array(13);
+  const ihdrView = new DataView(ihdr.buffer);
+  ihdrView.setUint32(0, width);
+  ihdrView.setUint32(4, height);
+  ihdr[8] = 8;
+  ihdr[9] = 2;
+  const idat = zlibStore(raw);
+  const ihdrChunk = pngChunk("IHDR", ihdr);
+  const idatChunk = pngChunk("IDAT", idat);
+  const iendChunk = pngChunk("IEND", new Uint8Array(0));
+  const out = new Uint8Array(
+    PNG_SIGNATURE.length +
+      ihdrChunk.length +
+      idatChunk.length +
+      iendChunk.length,
+  );
+  let o = 0;
+  out.set(PNG_SIGNATURE, o);
+  o += PNG_SIGNATURE.length;
+  out.set(ihdrChunk, o);
+  o += ihdrChunk.length;
+  out.set(idatChunk, o);
+  o += idatChunk.length;
+  out.set(iendChunk, o);
+  return out;
 }
 
 export async function generateWordpressThemeZip(
@@ -228,14 +489,23 @@ export async function generateWordpressThemeZip(
   const bodyHtml = rewriteWebsiteAssetsForWordpress(
     extractWebsiteBodyMarkup(buildWebsiteHtml(exportData)),
   );
+  const phpPrefix = phpFunctionPrefix(slug);
+  const parts = splitWebsiteChrome(bodyHtml);
+  const headerHtml = injectWordpressNav(parts.header, phpPrefix);
 
   root.file("style.css", buildWordpressStyleCss(exportData));
   root.file("functions.php", buildWordpressFunctionsPhp(exportData));
-  root.file("header.php", buildWordpressHeaderPhp());
-  root.file("footer.php", buildWordpressFooterPhp());
-  root.file("index.php", buildWordpressIndexPhp(bodyHtml));
+  root.file("header.php", buildWordpressHeaderPhp(headerHtml));
+  root.file("footer.php", buildWordpressFooterPhp(parts.footer));
+  root.file("index.php", buildWordpressIndexPhp(parts.main));
   root.file("front-page.php", buildWordpressFrontPagePhp());
+  root.file("page.php", buildWordpressPagePhp());
+  root.file("404.php", buildWordpress404Php());
   root.file("js/site.js", buildWebsiteJs());
+  root.file(
+    "screenshot.png",
+    encodeWordpressScreenshotPng(data.primaryColor, data.secondaryColor),
+  );
   root.file(
     "README.md",
     buildWordpressThemeReadme(data.unionName, data.localNumber),

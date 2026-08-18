@@ -3,6 +3,7 @@
 ## Website Template WordPress theme ZIP (2026-08-18)
 
 - [x] Second export: classic PHP theme wrap of the same HTML/CSS/JS (`generateWordpressThemeZip`) — Appearance → Themes upload folder
+- [x] Extra WordPress pages (`page.php`), 404, skip link, branded `screenshot.png`, and a Primary menu with Home/About/Officers/Contact fallback
 - [x] GitHub Pages site ZIP stays the default; copy states UnionOps does not support WordPress (tool + guide + theme README)
 - [x] No WXR, FSE, or Squarespace export
 - Verify: `npm run test:unit -- src/lib/templates/website/generate-wordpress-theme-zip.test.ts src/lib/templates/website/generate-website-zip.test.ts src/lib/comms/public-copy-style.test.ts`

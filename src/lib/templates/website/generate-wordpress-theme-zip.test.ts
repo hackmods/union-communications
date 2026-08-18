@@ -2,9 +2,12 @@ import { describe, it, expect } from "vitest";
 import {
   buildWordpressFunctionsPhp,
   buildWordpressStyleCss,
+  encodeWordpressScreenshotPng,
   extractWebsiteBodyMarkup,
   generateWordpressThemeZip,
+  injectWordpressNav,
   rewriteWebsiteAssetsForWordpress,
+  splitWebsiteChrome,
   wordpressThemeName,
   wordpressThemeSlug,
 } from "@/lib/templates/website/generate-wordpress-theme-zip";
@@ -77,6 +80,29 @@ describe("wordpress theme markup helpers", () => {
     expect(out).toContain("/assets/logo.png");
     expect(out).not.toContain("./assets/");
   });
+
+  it("splits the site header and footer from the main sections", () => {
+    const parts = splitWebsiteChrome(`
+<header class="site-header"><p>Nav</p></header>
+<section id="home">Hero</section>
+<footer class="footer"><p>Office</p></footer>
+`);
+    expect(parts.header).toContain("site-header");
+    expect(parts.footer).toContain("Office");
+    expect(parts.main).toContain('id="home"');
+    expect(parts.main).not.toContain("site-header");
+    expect(parts.main).not.toContain("class=\"footer\"");
+  });
+
+  it("swaps the hardcoded nav for a WordPress menu with fallback", () => {
+    const out = injectWordpressNav(
+      '<header><ul class="nav-links"><li><a href="#home">Home</a></li></ul></header>',
+      "unionops_local_243",
+    );
+    expect(out).toContain("wp_nav_menu");
+    expect(out).toContain("unionops_local_243_nav_fallback");
+    expect(out).not.toContain('href="#home"');
+  });
 });
 
 describe("generateWordpressThemeZip", () => {
@@ -92,6 +118,9 @@ describe("generateWordpressThemeZip", () => {
     expect(names).toContain(themePath("footer.php"));
     expect(names).toContain(themePath("index.php"));
     expect(names).toContain(themePath("front-page.php"));
+    expect(names).toContain(themePath("page.php"));
+    expect(names).toContain(themePath("404.php"));
+    expect(names).toContain(themePath("screenshot.png"));
     expect(names).toContain(themePath("js/site.js"));
     expect(names).toContain(themePath("README.md"));
     expect(names).toContain(themePath("assets/logo.png"));
@@ -109,6 +138,8 @@ describe("generateWordpressThemeZip", () => {
     expect(css).toContain("does not host, update, or support WordPress");
     expect(css).toContain("--color-primary: #003DA5");
     expect(css).toContain("url(\"assets/fonts/");
+    expect(css).toContain(".skip-link");
+    expect(css).toContain(".site-content--entry");
     const zip = await loadThemeZip({
       ...sampleData,
       canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
@@ -132,6 +163,11 @@ describe("generateWordpressThemeZip", () => {
     expect(php).toContain("Local O\\'Brien <script>");
     expect(php).toContain("unionops_local_243_enqueue");
     expect(php).toContain("wp_dequeue_style('wp-block-library')");
+    expect(php).toContain("register_nav_menus");
+    expect(php).toContain("'primary'");
+    expect(php).toContain("unionops_local_243_nav_fallback");
+    expect(php).toContain("is_front_page()");
+    expect(php).toContain("home_url('/')");
   });
 
   it("puts steward copy in index.php with escaped HTML and theme URI assets", async () => {
@@ -146,15 +182,24 @@ describe("generateWordpressThemeZip", () => {
     const index = await zip.file(themePath("index.php"))!.async("string");
     expect(index).toContain("get_header()");
     expect(index).toContain("get_footer()");
+    expect(index).toContain('id="content"');
     expect(index).toContain("OPSEU SEFPO Local 243");
     expect(index).toContain("Jane &lt;b&gt;Doe&lt;/b&gt;");
     expect(index).not.toContain("<b>Doe</b>");
     expect(index).toContain("mailto:local243@example.com");
-    expect(index).toContain("get_template_directory_uri()");
-    expect(index).toContain("/assets/logo.png");
-    expect(index).not.toContain("./assets/");
     expect(index).not.toContain("./js/site.js");
     expect(index).not.toContain("<script");
+    expect(index).not.toContain("site-header");
+    const header = await zip.file(themePath("header.php"))!.async("string");
+    expect(header).toContain("wp_body_open()");
+    expect(header).toContain('href="#content"');
+    expect(header).toContain("Skip to content");
+    expect(header).toContain("wp_nav_menu");
+    expect(header).toContain("unionops_local_243_nav_fallback");
+    expect(header).toContain("site-header");
+    expect(header).toContain("get_template_directory_uri()");
+    expect(header).toContain("/assets/logo.png");
+    expect(header).not.toContain("./assets/");
     const front = await zip.file(themePath("front-page.php"))!.async("string");
     expect(front).toContain("index.php");
   });
@@ -165,8 +210,8 @@ describe("generateWordpressThemeZip", () => {
       customLinks: [{ label: "Nope", url: "javascript:alert(1)" }],
       canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
     });
-    const index = await zip.file(themePath("index.php"))!.async("string");
-    expect(index).not.toContain("javascript:");
+    const footer = await zip.file(themePath("footer.php"))!.async("string");
+    expect(footer).not.toContain("javascript:");
   });
 
   it("README says UnionOps does not support WordPress", async () => {
@@ -178,6 +223,8 @@ describe("generateWordpressThemeZip", () => {
     expect(readme).toMatch(/does not support WordPress/i);
     expect(readme).toContain("Appearance");
     expect(readme).toContain("GitHub Pages");
+    expect(readme).toContain("Primary menu");
+    expect(readme).toContain("page not found");
   });
 
   it("bundles webfonts next to style.css at the theme root", async () => {
@@ -211,5 +258,32 @@ describe("generateWordpressThemeZip", () => {
     expect(names).not.toContain(themePath("assets/hero.svg"));
     const index = await zip.file(themePath("index.php"))!.async("string");
     expect(index).toContain("hero.jpg");
+  });
+
+  it("lets WordPress pages and 404s use the shared chrome", async () => {
+    const zip = await loadThemeZip({
+      ...sampleData,
+      canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
+    });
+    const page = await zip.file(themePath("page.php"))!.async("string");
+    expect(page).toContain("the_title()");
+    expect(page).toContain("the_content()");
+    expect(page).toContain('id="content"');
+    const missing = await zip.file(themePath("404.php"))!.async("string");
+    expect(missing).toContain("Page not found");
+    expect(missing).toContain("home_url('/')");
+    expect(missing).not.toContain("Your Executive Committee");
+  });
+
+  it("writes a valid PNG screenshot in brand colours", async () => {
+    const png = encodeWordpressScreenshotPng("#003DA5", "#FFFFFF");
+    expect([...png.slice(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10]);
+    expect(png.length).toBeGreaterThan(100);
+    const zip = await loadThemeZip({
+      ...sampleData,
+      canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
+    });
+    const packed = await zip.file(themePath("screenshot.png"))!.async("uint8array");
+    expect([...packed.slice(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10]);
   });
 });

@@ -14,7 +14,7 @@ Single-page GitHub Pages ZIP from `generateWebsiteZip()` is the **default** expo
 
 ## Verdict
 
-- **WordPress:** Phase 1 shipped — classic PHP theme wrap of current HTML/CSS/JS. UnionOps does **not** support WordPress hosting, updates, or plugins. Do not start with FSE / `theme.json`. WXR is still not a substitute.
+- **WordPress:** Phase 1 shipped — classic PHP theme wrap of current HTML/CSS/JS, plus `page.php`, `404.php`, skip link, screenshot, and a Primary menu with anchor fallback. UnionOps does **not** support WordPress hosting, updates, or plugins. Do not start with FSE / `theme.json`. WXR is still not a substitute.
 - **Squarespace 7.1:** **non-option** for theme, developer-mode, or template ZIP. Do not scrape editor APIs. Do not advertise “Squarespace export.”
 
 ## Do not
