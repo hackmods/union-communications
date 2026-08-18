@@ -38,10 +38,11 @@ describe("OPSEU sector catalog", () => {
     ]);
   });
 
-  it("gives OPS a single identity plus Other", () => {
+  it("gives OPS Unified and Crown agency collections plus Other", () => {
     const sector = getOpseuSector("ops");
-    expect(sector.profiles).toHaveLength(2);
-    expect(sector.profiles[0]?.label).toBe("Ontario Public Service");
+    expect(sector.profiles).toHaveLength(3);
+    expect(sector.profiles[0]?.label).toBe("OPS Unified");
+    expect(sector.profiles[1]?.label).toBe("Crown agency");
   });
 
   it("infers CAAT Support from legacy profile ids", () => {

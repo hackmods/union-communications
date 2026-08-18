@@ -50,6 +50,7 @@ describe("collectionProfilesForPreset", () => {
     expect(profiles.map((p) => p.label)).toEqual([
       "Full-time unit",
       "Part-time unit",
+      "Casual unit",
       "All-employee unit",
       "Other",
     ]);
@@ -62,15 +63,15 @@ describe("collectionProfilesForPreset", () => {
         opseuSectorId: "ops",
       });
     expect(opseuSectorId).toBe("ops");
-    expect(activeProfileId).toBe("profile-opseu-ops");
-    expect(profiles[0]?.label).toBe("Ontario Public Service");
+    expect(activeProfileId).toBe("profile-opseu-ops-unified");
+    expect(profiles[0]?.label).toBe("OPS Unified");
   });
 
   it("loads LCBO collections when OPSEU sector is lcbo", () => {
     const { profiles } = collectionProfilesForPreset("opseu", "100", "", {
       opseuSectorId: "lcbo",
     });
-    expect(profiles[0]?.label).toBe("Liquor Board Employees");
+    expect(profiles[0]?.label).toBe("Retail stores");
     expect(profiles.at(-1)?.id).toBe("profile-other");
   });
 
@@ -81,6 +82,7 @@ describe("collectionProfilesForPreset", () => {
       "tc",
       "eb",
       "sv",
+      "fb",
       "other",
     ]);
   });
@@ -111,7 +113,7 @@ describe("collectionPatchForPreset", () => {
   it("applies corrections sector onto local identity", () => {
     const patch = collectionPatchForOpseuSector("corrections", "649", "slogan");
     expect(patch.opseuSectorId).toBe("corrections");
-    expect(patch.local?.subText).toBe("Corrections");
+    expect(patch.local?.subText).toBe("Adult corrections");
   });
 });
 
@@ -130,7 +132,7 @@ describe("defaultProfilesForStoredKit", () => {
 
   it("uses the CUPE starter list for legacy stored presets", () => {
     const profiles = defaultProfilesForStoredKit("cupe", "100", "On the front line.");
-    expect(profiles).toHaveLength(4);
+    expect(profiles).toHaveLength(5);
     expect(profiles[0]?.label).toBe("Full-time unit");
     expect(profiles.at(-1)?.label).toBe("Other");
   });

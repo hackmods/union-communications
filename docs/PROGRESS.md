@@ -3,12 +3,13 @@
 ## Brand Kit collection profiles (2026-08-17)
 
 - [x] Fresh Brand Kit + `other` preset use one **Local** profile
-- [x] OPSEU preset applies **College Support Full-time / Part-time** (`ft` / `pt`)
-- [x] CUPE / Unifor / USW / ONA / PSAC ship starter collection lists + **Other** (`collection-profile-catalog.ts`)
+- [x] OPSEU sector picker (CAAT Support default; OPS, Corrections, LCBO, hospital, municipalities, and the other major sectors)
+- [x] CUPE / Unifor / USW / ONA / PSAC ship **named** starter collections + **Other** (no “Additional unit” stubs)
+- [x] Completeness CI: [`catalog-completeness.test.ts`](../src/lib/brand/catalog-completeness.test.ts) — codes, labels, sector URLs, EN/FR hints
 - [x] In-app add / remove / rename so amalgamated locals can model extra workplaces
 - [x] Active profile stays in sync when Local number, sub-text, or code change
 - [x] Sourced reference: [`.cursor/rules/brand-kit-collections.mdc`](../.cursor/rules/brand-kit-collections.mdc) + [`session-knowledge-2026-08-17-brand-kit-collections.md`](audit/session-knowledge-2026-08-17-brand-kit-collections.md)
-- Verify: `npm run test:unit -- src/lib/brand/collection-profiles.test.ts src/lib/constants/unionPresets.test.ts src/lib/utils/local-links.test.ts src/lib/comms/public-copy-style.test.ts`
+- Verify: `npm run test:unit -- src/lib/brand/catalog-completeness.test.ts src/lib/brand/collection-profiles.test.ts src/lib/constants/unionPresets.test.ts src/lib/utils/local-links.test.ts src/lib/comms/public-copy-style.test.ts`
 
 ## Wallet Letter FitWidth (2026-08-17)
 

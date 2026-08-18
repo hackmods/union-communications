@@ -44,15 +44,15 @@ Full URL list lives in the cursor rule. Short form:
 
 | Union | Starter profiles | Reference (homepage only) |
 |---|---|---|
-| **CUPE** | Full-time, Part-time, All-employee, Other | [cupe.ca](https://cupe.ca) |
-| **Unifor** | Bargaining unit, Additional bargaining unit, Other | [unifor.org](https://www.unifor.org) |
-| **USW** | Unit, Additional unit, Other | [usw.ca](https://usw.ca) |
-| **ONA** | Bargaining unit, Additional bargaining unit, Other | [ona.org](https://ona.org) |
-| **PSAC** | PA, TC, EB, SV, Other | [psacunion.ca](https://psacunion.ca) |
-| **OPSEU CAAT Support** | College Support Full-time, College Support Part-time | [opseu.org](https://opseu.org) |
+| **CUPE** | Full-time, Part-time, Casual, All-employee, Other | [cupe.ca](https://cupe.ca) |
+| **Unifor** | Production, Skilled trades, Office, Other | [unifor.org](https://www.unifor.org) |
+| **USW** | Production, Maintenance, Office, Other | [usw.ca](https://usw.ca) |
+| **ONA** | Hospital, Long-term care, Public health / community, Other | [ona.org](https://ona.org) |
+| **PSAC** | PA, TC, EB, SV, FB, Other | [psacunion.ca](https://psacunion.ca) |
+| **OPSEU** | Sector picker — each sector has named collections + Other | [opseu.org](https://opseu.org) |
 | **Other / unset** | Local | — |
 
-Catalog: [`src/lib/brand/collection-profile-catalog.ts`](../../src/lib/brand/collection-profile-catalog.ts). URLs are for docs/agents — not stored in Brand Kit.
+Completeness CI: [`src/lib/brand/catalog-completeness.test.ts`](../../src/lib/brand/catalog-completeness.test.ts). URLs are for docs/agents — not stored in Brand Kit.
 
 ---
 
@@ -83,6 +83,7 @@ Catalog: [`src/lib/brand/collection-profile-catalog.ts`](../../src/lib/brand/col
 ## Residual gaps
 
 - ~~No OPSEU *sector* picker~~ — **shipped 2026-08-17** — `opseu-sector-catalog.ts` + `OpseuSectorSelect`; default remains CAAT Support.
+- ~~Stub “Additional unit” catalogs~~ — **closed 2026-08-17** — named collections for every solidarity union and OPSEU sector; `catalog-completeness.test.ts` guards labels, codes, URLs, and EN/FR hints.
 - No Hub-onboarding bridge that seeds Brand Kit profiles from tenant `bargainingUnits`.
 - Stored profile labels are English data (same as before). Chrome is EN/FR.
 - Membership URL audiences remain `full_time` / `part_time` / `all` — fine for CAAT Support; other unions use `all` or custom links.

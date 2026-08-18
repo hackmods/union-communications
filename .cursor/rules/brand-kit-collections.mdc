@@ -40,11 +40,11 @@ Companion research: [`docs/audit/session-knowledge-2026-08-17-brand-kit-collecti
 |---|---|---|---|
 | *(none)* / `other` | 1 | Local | Local |
 | `opseu` | sector-dependent | **CAAT Support** default: College Support FT/PT + Other | See OPSEU sector table |
-| `cupe` | 4 | Full-time unit | Full-time (`ft`), Part-time (`pt`), All-employee (`all`), **Other** (`other`) |
-| `unifor` | 3 | Bargaining unit | Bargaining unit (`bu`), Additional bargaining unit (`bu-add`), **Other** |
-| `usw` | 3 | Unit | Unit (`unit`), Additional unit (`unit-add`), **Other** |
-| `ona` | 3 | Bargaining unit | Bargaining unit (`bu`), Additional bargaining unit (`bu-add`), **Other** |
-| `psac` | 5 | Program & Administration (PA) | PA, TC, EB, SV, **Other** |
+| `cupe` | 5 | Full-time unit | Full-time (`ft`), Part-time (`pt`), Casual (`casual`), All-employee (`all`), **Other** |
+| `unifor` | 4 | Production | Production, Skilled trades, Office, **Other** |
+| `usw` | 4 | Production | Production, Maintenance, Office, **Other** |
+| `ona` | 4 | Hospital | Hospital, Long-term care, Public health / community, **Other** |
+| `psac` | 6 | Program & Administration (PA) | PA, TC, EB, SV, FB, **Other** |
 
 ## Union reference URLs (docs / agents only)
 
@@ -66,15 +66,28 @@ Catalog: [`opseu-sector-catalog.ts`](../../src/lib/brand/opseu-sector-catalog.ts
 | Sector id | Starter collections | Reference |
 |---|---|---|
 | `caat-support` (default) | College Support FT, PT, Other | [college-support-full-time](https://opseu.org/sector/college-support-full-time) |
-| `caat-academic` | College Faculty FT, Part-time sessional, Other | [college-faculty](https://opseu.org/sector/college-faculty) |
-| `ops` | Ontario Public Service, Other | [opseu.org](https://opseu.org) |
-| `corrections` | Corrections, Other | [corrections](https://opseu.org/sector/corrections) |
-| `lcbo` | Liquor Board Employees, Other | [liquor-board-employees](https://opseu.org/sector/liquor-board-employees) |
-| `hospital-professionals` | HPD + additional BU + Other | [hospital-professionals](https://opseu.org/sector/hospital-professionals) |
-| `hospital-support` | Hospital Support + additional BU + Other | [hospital-support](https://opseu.org/sector/hospital-support) |
-| `municipalities` | Municipalities + additional workplace + Other | orientation booklet |
-| `long-term-care` | LTC + additional workplace + Other | orientation booklet |
-| `universities`, `boards-of-education`, `ambulance`, `mental-health`, `community-health`, `blood-services`, `community-agencies`, `developmental-services`, `childrens-aid`, `child-treatment`, `mpac`, `other` | sector identity + Other (or Local for `other`) | [opseu.org](https://opseu.org) |
+| `caat-academic` | College Faculty FT, Partial-load, Other | [college-faculty](https://opseu.org/sector/college-faculty) |
+| `universities` | Academic support, Campus services, Other | [universities](https://opseu.org/sector/universities) |
+| `boards-of-education` | Boards of Education, Cultural institutions, Other | [boards-of-education-and-cultural-institutions](https://opseu.org/sector/boards-of-education-and-cultural-institutions) |
+| `ops` | OPS Unified, Crown agency, Other | [ontario-public-service](https://opseu.org/sector/ontario-public-service) |
+| `corrections` | Adult corrections, Youth Justice, Other | [corrections](https://opseu.org/sector/corrections) |
+| `lcbo` | Retail stores, Logistics / head office, Other | [liquor-board-employees](https://opseu.org/sector/liquor-board-employees) |
+| `municipalities` | Inside workers, Outside workers, Other | [municipalities](https://opseu.org/sector/municipalities) |
+| `mpac` | Field assessment, Head office, Other | [municipal-property-assessment](https://opseu.org/sector/municipal-property-assessment) |
+| `hospital-professionals` | HPD central, Hospital local unit, Other | [hospital-professionals](https://opseu.org/sector/hospital-professionals) |
+| `hospital-support` | Hospital service, Hospital clerical, Other | [hospital-support](https://opseu.org/sector/hospital-support) |
+| `long-term-care` | Nursing / personal care, Support services, Other | [long-term-care](https://opseu.org/sector/long-term-care) |
+| `ambulance` | Paramedics, Emergency communication, Other | [ambulance](https://opseu.org/sector/ambulance) |
+| `mental-health` | Mental health, Addictions, Other | [mental-health](https://opseu.org/sector/mental-health) |
+| `community-health` | Community health professionals, Clinic / site, Other | [community-health-care-professionals](https://opseu.org/sector/community-health-care-professionals) |
+| `blood-services` | Canadian Blood Services, Diagnostics / labs, Other | [canadian-blood-services-and-diagnostics](https://opseu.org/sector/canadian-blood-services-and-diagnostics) |
+| `community-agencies` | Community agency, Shelter / housing, Other | [community-agencies](https://opseu.org/sector/community-agencies) |
+| `developmental-services` | Developmental services, Community living, Other | [developmental-services](https://opseu.org/sector/developmental-services) |
+| `childrens-aid` | Children's Aid Society, Youth services, Other | [childrens-aid-societies](https://opseu.org/sector/childrens-aid-societies) |
+| `child-treatment` | Child treatment, Residential, Other | [child-treatment-centres](https://opseu.org/sector/child-treatment-centres) |
+| `other` | Local | [opseu.org](https://opseu.org) |
+
+CI guard: [`catalog-completeness.test.ts`](../../src/lib/brand/catalog-completeness.test.ts) — every solidarity union and OPSEU sector must ship named collections, unique codes, a real `referenceUrl`, and **Other** (no “Additional unit” stubs).
 
 CAAT Support FT/PT statutory split — [OPSEU PT certification (2016)](https://opseu.org/news/opseu-applies-to-represent-part-time-college-support-staff/14462/). CEC bargaining — [FT Support](https://www.collegeemployercouncil.ca/bargaining/full-time_support_staff_2025), [PT Support](https://www.collegeemployercouncil.ca/bargaining/part-time-support-staff-bargaining).
 

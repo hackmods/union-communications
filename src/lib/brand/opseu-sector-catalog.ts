@@ -44,32 +44,6 @@ function withOther(
   ];
 }
 
-function singleIdentity(
-  id: string,
-  label: string,
-  code: string,
-): CollectionProfileTemplate[] {
-  return withOther([{ id, label, bargainingUnitCode: code }]);
-}
-
-function identityPlusAdditional(
-  primaryId: string,
-  primaryLabel: string,
-  primaryCode: string,
-  additionalId: string,
-  additionalLabel: string,
-  additionalCode: string,
-): CollectionProfileTemplate[] {
-  return withOther([
-    { id: primaryId, label: primaryLabel, bargainingUnitCode: primaryCode },
-    {
-      id: additionalId,
-      label: additionalLabel,
-      bargainingUnitCode: additionalCode,
-    },
-  ]);
-}
-
 /**
  * Sourced sectors — see `.cursor/rules/brand-kit-collections.mdc`.
  * Orientation booklet sector list: OPSEU Owners' Manual (2020).
@@ -81,7 +55,7 @@ export const OPSEU_SECTOR_CATALOG: Record<string, OpseuSectorDefinition> = {
     group: "education",
     referenceUrl: "https://opseu.org/sector/college-support-full-time",
     defaultActiveId: OPSEU_CAAT_SUPPORT_FT_ID,
-    profiles: [
+    profiles: withOther([
       {
         id: OPSEU_CAAT_SUPPORT_FT_ID,
         label: OPSEU_CAAT_SUPPORT_FT_LABEL,
@@ -92,8 +66,7 @@ export const OPSEU_SECTOR_CATALOG: Record<string, OpseuSectorDefinition> = {
         label: OPSEU_CAAT_SUPPORT_PT_LABEL,
         bargainingUnitCode: "pt",
       },
-      { id: PROFILE_OTHER_ID, label: PROFILE_OTHER_LABEL, bargainingUnitCode: "other" },
-    ],
+    ]),
   },
   "caat-academic": {
     id: "caat-academic",
@@ -101,7 +74,7 @@ export const OPSEU_SECTOR_CATALOG: Record<string, OpseuSectorDefinition> = {
     group: "education",
     referenceUrl: "https://opseu.org/sector/college-faculty",
     defaultActiveId: "profile-caat-a-ft",
-    profiles: [
+    profiles: withOther([
       {
         id: "profile-caat-a-ft",
         label: "College Faculty Full-time",
@@ -109,235 +82,354 @@ export const OPSEU_SECTOR_CATALOG: Record<string, OpseuSectorDefinition> = {
       },
       {
         id: "profile-caat-a-pt-sl",
-        label: "Part-time sessional",
-        bargainingUnitCode: "pt-sl",
+        label: "College Faculty Partial-load",
+        bargainingUnitCode: "partial-load",
       },
-      { id: PROFILE_OTHER_ID, label: PROFILE_OTHER_LABEL, bargainingUnitCode: "other" },
-    ],
+    ]),
   },
   universities: {
     id: "universities",
     label: "Universities",
     group: "education",
-    referenceUrl: "https://opseu.org",
-    defaultActiveId: "profile-opseu-universities",
-    profiles: singleIdentity(
-      "profile-opseu-universities",
-      "Universities",
-      "university",
-    ),
+    referenceUrl: "https://opseu.org/sector/universities",
+    defaultActiveId: "profile-opseu-university-academic",
+    profiles: withOther([
+      {
+        id: "profile-opseu-university-academic",
+        label: "Academic support",
+        bargainingUnitCode: "academic",
+      },
+      {
+        id: "profile-opseu-university-campus",
+        label: "Campus services",
+        bargainingUnitCode: "campus",
+      },
+    ]),
   },
   "boards-of-education": {
     id: "boards-of-education",
     label: "Boards of Education and Cultural Institutions",
     group: "education",
-    referenceUrl: "https://opseu.org/sector/boards-of-education-and-cultural-institutions",
+    referenceUrl:
+      "https://opseu.org/sector/boards-of-education-and-cultural-institutions",
     defaultActiveId: "profile-opseu-education",
-    profiles: singleIdentity(
-      "profile-opseu-education",
-      "Boards of Education",
-      "education",
-    ),
+    profiles: withOther([
+      {
+        id: "profile-opseu-education",
+        label: "Boards of Education",
+        bargainingUnitCode: "education",
+      },
+      {
+        id: "profile-opseu-cultural",
+        label: "Cultural institutions",
+        bargainingUnitCode: "cultural",
+      },
+    ]),
   },
   ops: {
     id: "ops",
     label: "Ontario Public Service",
     group: "public_service",
-    referenceUrl: "https://opseu.org",
-    defaultActiveId: "profile-opseu-ops",
-    profiles: singleIdentity(
-      "profile-opseu-ops",
-      "Ontario Public Service",
-      "ops",
-    ),
+    referenceUrl: "https://opseu.org/sector/ontario-public-service",
+    defaultActiveId: "profile-opseu-ops-unified",
+    profiles: withOther([
+      {
+        id: "profile-opseu-ops-unified",
+        label: "OPS Unified",
+        bargainingUnitCode: "unified",
+      },
+      {
+        id: "profile-opseu-ops-crown",
+        label: "Crown agency",
+        bargainingUnitCode: "crown",
+      },
+    ]),
   },
   corrections: {
     id: "corrections",
     label: "Corrections",
     group: "public_service",
     referenceUrl: "https://opseu.org/sector/corrections",
-    defaultActiveId: "profile-opseu-corrections",
-    profiles: singleIdentity(
-      "profile-opseu-corrections",
-      "Corrections",
-      "corrections",
-    ),
+    defaultActiveId: "profile-opseu-corrections-adult",
+    profiles: withOther([
+      {
+        id: "profile-opseu-corrections-adult",
+        label: "Adult corrections",
+        bargainingUnitCode: "adult",
+      },
+      {
+        id: "profile-opseu-corrections-youth",
+        label: "Youth Justice",
+        bargainingUnitCode: "youth",
+      },
+    ]),
   },
   lcbo: {
     id: "lcbo",
     label: "Liquor Board Employees",
     group: "public_service",
     referenceUrl: "https://opseu.org/sector/liquor-board-employees",
-    defaultActiveId: "profile-opseu-lcbo",
-    profiles: singleIdentity(
-      "profile-opseu-lcbo",
-      "Liquor Board Employees",
-      "lcbo",
-    ),
+    defaultActiveId: "profile-opseu-lcbo-retail",
+    profiles: withOther([
+      {
+        id: "profile-opseu-lcbo-retail",
+        label: "Retail stores",
+        bargainingUnitCode: "retail",
+      },
+      {
+        id: "profile-opseu-lcbo-logistics",
+        label: "Logistics / head office",
+        bargainingUnitCode: "logistics",
+      },
+    ]),
   },
   municipalities: {
     id: "municipalities",
     label: "Municipalities",
     group: "public_service",
-    referenceUrl: "https://opseu.org",
-    defaultActiveId: "profile-opseu-municipal",
-    profiles: identityPlusAdditional(
-      "profile-opseu-municipal",
-      "Municipalities",
-      "municipal",
-      "profile-opseu-municipal-add",
-      "Additional workplace",
-      "workplace-add",
-    ),
+    referenceUrl: "https://opseu.org/sector/municipalities",
+    defaultActiveId: "profile-opseu-municipal-inside",
+    profiles: withOther([
+      {
+        id: "profile-opseu-municipal-inside",
+        label: "Inside workers",
+        bargainingUnitCode: "inside",
+      },
+      {
+        id: "profile-opseu-municipal-outside",
+        label: "Outside workers",
+        bargainingUnitCode: "outside",
+      },
+    ]),
   },
   mpac: {
     id: "mpac",
     label: "Municipal Property Assessment",
     group: "public_service",
-    referenceUrl: "https://opseu.org",
-    defaultActiveId: "profile-opseu-mpac",
-    profiles: singleIdentity(
-      "profile-opseu-mpac",
-      "Municipal Property Assessment",
-      "mpac",
-    ),
+    referenceUrl: "https://opseu.org/sector/municipal-property-assessment",
+    defaultActiveId: "profile-opseu-mpac-field",
+    profiles: withOther([
+      {
+        id: "profile-opseu-mpac-field",
+        label: "Field assessment",
+        bargainingUnitCode: "field",
+      },
+      {
+        id: "profile-opseu-mpac-office",
+        label: "Head office",
+        bargainingUnitCode: "office",
+      },
+    ]),
   },
   "hospital-professionals": {
     id: "hospital-professionals",
     label: "Hospital Professionals",
     group: "healthcare",
     referenceUrl: "https://opseu.org/sector/hospital-professionals",
-    defaultActiveId: "profile-opseu-hpd",
-    profiles: identityPlusAdditional(
-      "profile-opseu-hpd",
-      "Hospital Professionals",
-      "hpd",
-      "profile-opseu-hpd-bu-add",
-      "Additional bargaining unit",
-      "bu-add",
-    ),
+    defaultActiveId: "profile-opseu-hpd-central",
+    profiles: withOther([
+      {
+        id: "profile-opseu-hpd-central",
+        label: "Hospital Professionals (central)",
+        bargainingUnitCode: "hpd",
+      },
+      {
+        id: "profile-opseu-hpd-local",
+        label: "Hospital local unit",
+        bargainingUnitCode: "hpd-local",
+      },
+    ]),
   },
   "hospital-support": {
     id: "hospital-support",
     label: "Hospital Support",
     group: "healthcare",
     referenceUrl: "https://opseu.org/sector/hospital-support",
-    defaultActiveId: "profile-opseu-hs",
-    profiles: identityPlusAdditional(
-      "profile-opseu-hs",
-      "Hospital Support",
-      "hs",
-      "profile-opseu-hs-bu-add",
-      "Additional bargaining unit",
-      "bu-add",
-    ),
+    defaultActiveId: "profile-opseu-hs-service",
+    profiles: withOther([
+      {
+        id: "profile-opseu-hs-service",
+        label: "Hospital service",
+        bargainingUnitCode: "service",
+      },
+      {
+        id: "profile-opseu-hs-clerical",
+        label: "Hospital clerical",
+        bargainingUnitCode: "clerical",
+      },
+    ]),
   },
   "long-term-care": {
     id: "long-term-care",
     label: "Long-Term Care",
     group: "healthcare",
-    referenceUrl: "https://opseu.org",
-    defaultActiveId: "profile-opseu-ltc",
-    profiles: identityPlusAdditional(
-      "profile-opseu-ltc",
-      "Long-Term Care",
-      "ltc",
-      "profile-opseu-ltc-add",
-      "Additional workplace",
-      "workplace-add",
-    ),
+    referenceUrl: "https://opseu.org/sector/long-term-care",
+    defaultActiveId: "profile-opseu-ltc-care",
+    profiles: withOther([
+      {
+        id: "profile-opseu-ltc-care",
+        label: "Nursing / personal care",
+        bargainingUnitCode: "care",
+      },
+      {
+        id: "profile-opseu-ltc-support",
+        label: "Support services",
+        bargainingUnitCode: "support",
+      },
+    ]),
   },
   ambulance: {
     id: "ambulance",
     label: "Ambulance",
     group: "healthcare",
-    referenceUrl: "https://opseu.org",
-    defaultActiveId: "profile-opseu-ambulance",
-    profiles: singleIdentity("profile-opseu-ambulance", "Ambulance", "ambulance"),
+    referenceUrl: "https://opseu.org/sector/ambulance",
+    defaultActiveId: "profile-opseu-paramedic",
+    profiles: withOther([
+      {
+        id: "profile-opseu-paramedic",
+        label: "Paramedics",
+        bargainingUnitCode: "paramedic",
+      },
+      {
+        id: "profile-opseu-ambulance-comms",
+        label: "Emergency communication",
+        bargainingUnitCode: "comms",
+      },
+    ]),
   },
   "mental-health": {
     id: "mental-health",
     label: "Mental Health",
     group: "healthcare",
-    referenceUrl: "https://opseu.org",
+    referenceUrl: "https://opseu.org/sector/mental-health",
     defaultActiveId: "profile-opseu-mental-health",
-    profiles: singleIdentity(
-      "profile-opseu-mental-health",
-      "Mental Health",
-      "mental-health",
-    ),
+    profiles: withOther([
+      {
+        id: "profile-opseu-mental-health",
+        label: "Mental health",
+        bargainingUnitCode: "mental-health",
+      },
+      {
+        id: "profile-opseu-addictions",
+        label: "Addictions",
+        bargainingUnitCode: "addictions",
+      },
+    ]),
   },
   "community-health": {
     id: "community-health",
     label: "Community Health Care Professionals",
     group: "healthcare",
-    referenceUrl: "https://opseu.org",
+    referenceUrl: "https://opseu.org/sector/community-health-care-professionals",
     defaultActiveId: "profile-opseu-community-health",
-    profiles: singleIdentity(
-      "profile-opseu-community-health",
-      "Community Health Care Professionals",
-      "community-health",
-    ),
+    profiles: withOther([
+      {
+        id: "profile-opseu-community-health",
+        label: "Community health professionals",
+        bargainingUnitCode: "community-health",
+      },
+      {
+        id: "profile-opseu-community-clinic",
+        label: "Clinic / site",
+        bargainingUnitCode: "clinic",
+      },
+    ]),
   },
   "blood-services": {
     id: "blood-services",
     label: "Canadian Blood Services and Diagnostics",
     group: "healthcare",
-    referenceUrl: "https://opseu.org",
+    referenceUrl:
+      "https://opseu.org/sector/canadian-blood-services-and-diagnostics",
     defaultActiveId: "profile-opseu-blood",
-    profiles: singleIdentity(
-      "profile-opseu-blood",
-      "Canadian Blood Services and Diagnostics",
-      "blood",
-    ),
+    profiles: withOther([
+      {
+        id: "profile-opseu-blood",
+        label: "Canadian Blood Services",
+        bargainingUnitCode: "blood",
+      },
+      {
+        id: "profile-opseu-diagnostics",
+        label: "Diagnostics / labs",
+        bargainingUnitCode: "diagnostics",
+      },
+    ]),
   },
   "community-agencies": {
     id: "community-agencies",
     label: "Community Agencies",
     group: "community",
-    referenceUrl: "https://opseu.org",
-    defaultActiveId: "profile-opseu-community-agencies",
-    profiles: singleIdentity(
-      "profile-opseu-community-agencies",
-      "Community Agencies",
-      "community",
-    ),
+    referenceUrl: "https://opseu.org/sector/community-agencies",
+    defaultActiveId: "profile-opseu-community-agency",
+    profiles: withOther([
+      {
+        id: "profile-opseu-community-agency",
+        label: "Community agency",
+        bargainingUnitCode: "agency",
+      },
+      {
+        id: "profile-opseu-community-housing",
+        label: "Shelter / housing",
+        bargainingUnitCode: "housing",
+      },
+    ]),
   },
   "developmental-services": {
     id: "developmental-services",
     label: "Developmental Services",
     group: "community",
-    referenceUrl: "https://opseu.org",
+    referenceUrl: "https://opseu.org/sector/developmental-services",
     defaultActiveId: "profile-opseu-dev-services",
-    profiles: singleIdentity(
-      "profile-opseu-dev-services",
-      "Developmental Services",
-      "dev-services",
-    ),
+    profiles: withOther([
+      {
+        id: "profile-opseu-dev-services",
+        label: "Developmental services",
+        bargainingUnitCode: "dev-services",
+      },
+      {
+        id: "profile-opseu-community-living",
+        label: "Community living",
+        bargainingUnitCode: "community-living",
+      },
+    ]),
   },
   "childrens-aid": {
     id: "childrens-aid",
     label: "Children's Aid Societies",
     group: "community",
-    referenceUrl: "https://opseu.org",
+    referenceUrl: "https://opseu.org/sector/childrens-aid-societies",
     defaultActiveId: "profile-opseu-cas",
-    profiles: singleIdentity(
-      "profile-opseu-cas",
-      "Children's Aid Societies",
-      "cas",
-    ),
+    profiles: withOther([
+      {
+        id: "profile-opseu-cas",
+        label: "Children's Aid Society",
+        bargainingUnitCode: "cas",
+      },
+      {
+        id: "profile-opseu-cas-youth",
+        label: "Youth services",
+        bargainingUnitCode: "youth",
+      },
+    ]),
   },
   "child-treatment": {
     id: "child-treatment",
     label: "Child Treatment Centres",
     group: "community",
-    referenceUrl: "https://opseu.org",
+    referenceUrl: "https://opseu.org/sector/child-treatment-centres",
     defaultActiveId: "profile-opseu-child-treatment",
-    profiles: singleIdentity(
-      "profile-opseu-child-treatment",
-      "Child Treatment Centres",
-      "child-treatment",
-    ),
+    profiles: withOther([
+      {
+        id: "profile-opseu-child-treatment",
+        label: "Child treatment",
+        bargainingUnitCode: "treatment",
+      },
+      {
+        id: "profile-opseu-child-residential",
+        label: "Residential",
+        bargainingUnitCode: "residential",
+      },
+    ]),
   },
   other: {
     id: "other",
@@ -345,7 +437,9 @@ export const OPSEU_SECTOR_CATALOG: Record<string, OpseuSectorDefinition> = {
     group: "community",
     referenceUrl: "https://opseu.org",
     defaultActiveId: "profile-local",
-    profiles: [{ id: "profile-local", label: "Local", bargainingUnitCode: "local" }],
+    profiles: [
+      { id: "profile-local", label: "Local", bargainingUnitCode: "local" },
+    ],
   },
 };
 
@@ -374,6 +468,20 @@ export function isOpseuSectorId(value: string | undefined): value is string {
 }
 
 /** Infer sector from saved profile ids when legacy kits omit `opseuSectorId`. */
+const LEGACY_PROFILE_SECTOR: Record<string, string> = {
+  "profile-opseu-universities": "universities",
+  "profile-opseu-ops": "ops",
+  "profile-opseu-corrections": "corrections",
+  "profile-opseu-lcbo": "lcbo",
+  "profile-opseu-municipal": "municipalities",
+  "profile-opseu-mpac": "mpac",
+  "profile-opseu-hpd": "hospital-professionals",
+  "profile-opseu-hs": "hospital-support",
+  "profile-opseu-ltc": "long-term-care",
+  "profile-opseu-ambulance": "ambulance",
+  "profile-opseu-community-agencies": "community-agencies",
+};
+
 export function inferOpseuSectorId(
   profiles: { id: string }[] | undefined,
 ): string {
@@ -383,6 +491,10 @@ export function inferOpseuSectorId(
   }
   if (ids.has("profile-caat-a-ft") || ids.has("profile-caat-a-pt-sl")) {
     return "caat-academic";
+  }
+  for (const profileId of ids) {
+    const legacy = LEGACY_PROFILE_SECTOR[profileId];
+    if (legacy) return legacy;
   }
   for (const sectorId of OPSEU_SECTOR_IDS) {
     const sector = OPSEU_SECTOR_CATALOG[sectorId];

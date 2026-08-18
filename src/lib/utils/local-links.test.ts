@@ -96,7 +96,7 @@ describe("normalizeBrandKit", () => {
       useOfficialLogo: false,
       updatedAt: "2026-01-01T00:00:00.000Z",
     });
-    expect(kit.profiles).toHaveLength(4);
+    expect(kit.profiles).toHaveLength(5);
     expect(kit.activeProfileId).toBe("profile-cupe-ft");
   });
 

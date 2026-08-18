@@ -96,8 +96,8 @@ describe("unionPresets", () => {
     expect(fields.membershipUrls).toEqual([]);
     expect(fields.profiles?.length).toBeGreaterThan(1);
     expect(fields.profiles?.some((p) => p.id === "profile-other")).toBe(true);
-    expect(fields.local?.subText).toBe("Bargaining unit");
-    expect(fields.local?.bargainingUnitCode).toBe("bu");
+    expect(fields.local?.subText).toBe("Production");
+    expect(fields.local?.bargainingUnitCode).toBe("production");
   });
 
   it("maps CUPE preset to FT / PT / all-employee starters", () => {
@@ -105,6 +105,7 @@ describe("unionPresets", () => {
     expect(fields.profiles?.map((p) => p.bargainingUnitCode)).toEqual([
       "ft",
       "pt",
+      "casual",
       "all",
       "other",
     ]);

@@ -45,14 +45,14 @@ describe("collection-profile-catalog", () => {
   it("includes PSAC Treasury Board classification starters", () => {
     expect(
       UNION_COLLECTION_CATALOGS.psac.profiles.map((row) => row.bargainingUnitCode),
-    ).toEqual(["pa", "tc", "eb", "sv", "other"]);
+    ).toEqual(["pa", "tc", "eb", "sv", "fb", "other"]);
   });
 
   it("guards catalog lookup helpers", () => {
     expect(isPresetWithCollectionCatalog("cupe")).toBe(true);
     expect(isPresetWithCollectionCatalog("opseu")).toBe(false);
     expect(getUnionCollectionCatalog("usw")?.defaultActiveId).toBe(
-      "profile-usw-unit",
+      "profile-usw-production",
     );
     expect(getUnionCollectionCatalog("missing")).toBeUndefined();
   });

@@ -1,18 +1,21 @@
 /**
  * Starter collection lists per union preset — comms identities only, not Hub tenancy.
  * Labels follow each union's common terminology; stewards rename/remove rows they do not use.
- * `referenceUrl` is for agent/docs context only — never written into Brand Kit.
+ * `referenceUrl` is the general homepage; `structureUrl` is the sourced structure page.
+ * Neither is written into Brand Kit.
  */
 
 export type CollectionProfileTemplate = {
   id: string;
   label: string;
-  bargainingUnitCode?: string;
+  bargainingUnitCode: string;
 };
 
 export type UnionCollectionCatalog = {
-  /** General union website for structure research — not a Brand Kit field */
+  /** General union website for agent/docs context — not a Brand Kit field */
   referenceUrl: string;
+  /** Sourced structure page (amalgamation, units, classification groups) */
+  structureUrl: string;
   profiles: CollectionProfileTemplate[];
   defaultActiveId: string;
 };
@@ -20,7 +23,7 @@ export type UnionCollectionCatalog = {
 export const PROFILE_OTHER_ID = "profile-other";
 export const PROFILE_OTHER_LABEL = "Other";
 
-/** Preset ids with a shipped starter collection list (excludes opseu — separate CAAT Support path). */
+/** Preset ids with a shipped starter collection list (excludes opseu — sector catalog). */
 export const PRESET_IDS_WITH_COLLECTION_CATALOG = [
   "cupe",
   "unifor",
@@ -34,10 +37,11 @@ export type PresetIdWithCollectionCatalog =
 
 /**
  * Sourced starter lists — see `.cursor/rules/brand-kit-collections.mdc`.
- * CUPE: FT / PT / all-employee splits are common but not universal (OLRB-dependent).
- * Unifor/USW: amalgamated locals use multiple bargaining units / units.
- * ONA: locals comprise one or more employer bargaining units.
- * PSAC: Treasury Board groups PA / TC / EB / SV are the familiar classification split.
+ * CUPE: OLRB may certify FT, PT, casual, or all-employee units.
+ * Unifor: amalgamated locals commonly split production / skilled trades / office.
+ * USW: amalgamated locals use units (production, maintenance, office).
+ * ONA: locals hold one or more employer units across hospital, LTC, and community.
+ * PSAC: Treasury Board groups PA / TC / EB / SV / FB.
  */
 export const UNION_COLLECTION_CATALOGS: Record<
   PresetIdWithCollectionCatalog,
@@ -45,6 +49,8 @@ export const UNION_COLLECTION_CATALOGS: Record<
 > = {
   cupe: {
     referenceUrl: "https://cupe.ca",
+    structureUrl:
+      "https://cupe.ca/counterpoint/three-locals-one-goal-how-coordination-transformed-their-bargaining-strategy",
     defaultActiveId: "profile-cupe-ft",
     profiles: [
       {
@@ -58,62 +64,107 @@ export const UNION_COLLECTION_CATALOGS: Record<
         bargainingUnitCode: "pt",
       },
       {
+        id: "profile-cupe-casual",
+        label: "Casual unit",
+        bargainingUnitCode: "casual",
+      },
+      {
         id: "profile-cupe-all",
         label: "All-employee unit",
         bargainingUnitCode: "all",
       },
-      { id: PROFILE_OTHER_ID, label: PROFILE_OTHER_LABEL, bargainingUnitCode: "other" },
+      {
+        id: PROFILE_OTHER_ID,
+        label: PROFILE_OTHER_LABEL,
+        bargainingUnitCode: "other",
+      },
     ],
   },
   unifor: {
     referenceUrl: "https://www.unifor.org",
-    defaultActiveId: "profile-unifor-bu",
+    structureUrl:
+      "https://www.unifor.org/sites/default/files/legacy/documents/document/unifor-amalgamatedlocals-en.pdf",
+    defaultActiveId: "profile-unifor-production",
     profiles: [
       {
-        id: "profile-unifor-bu",
-        label: "Bargaining unit",
-        bargainingUnitCode: "bu",
+        id: "profile-unifor-production",
+        label: "Production",
+        bargainingUnitCode: "production",
       },
       {
-        id: "profile-unifor-bu-add",
-        label: "Additional bargaining unit",
-        bargainingUnitCode: "bu-add",
+        id: "profile-unifor-trades",
+        label: "Skilled trades",
+        bargainingUnitCode: "trades",
       },
-      { id: PROFILE_OTHER_ID, label: PROFILE_OTHER_LABEL, bargainingUnitCode: "other" },
+      {
+        id: "profile-unifor-office",
+        label: "Office",
+        bargainingUnitCode: "office",
+      },
+      {
+        id: PROFILE_OTHER_ID,
+        label: PROFILE_OTHER_LABEL,
+        bargainingUnitCode: "other",
+      },
     ],
   },
   usw: {
     referenceUrl: "https://usw.ca",
-    defaultActiveId: "profile-usw-unit",
+    structureUrl: "https://usw.org/usw-convention/resolution-no-17-amalgamation/",
+    defaultActiveId: "profile-usw-production",
     profiles: [
-      { id: "profile-usw-unit", label: "Unit", bargainingUnitCode: "unit" },
       {
-        id: "profile-usw-unit-add",
-        label: "Additional unit",
-        bargainingUnitCode: "unit-add",
+        id: "profile-usw-production",
+        label: "Production",
+        bargainingUnitCode: "production",
       },
-      { id: PROFILE_OTHER_ID, label: PROFILE_OTHER_LABEL, bargainingUnitCode: "other" },
+      {
+        id: "profile-usw-maintenance",
+        label: "Maintenance",
+        bargainingUnitCode: "maintenance",
+      },
+      {
+        id: "profile-usw-office",
+        label: "Office",
+        bargainingUnitCode: "office",
+      },
+      {
+        id: PROFILE_OTHER_ID,
+        label: PROFILE_OTHER_LABEL,
+        bargainingUnitCode: "other",
+      },
     ],
   },
   ona: {
     referenceUrl: "https://ona.org",
-    defaultActiveId: "profile-ona-bu",
+    structureUrl: "https://ona.org/regions-locals-bargaining-units/",
+    defaultActiveId: "profile-ona-hospital",
     profiles: [
       {
-        id: "profile-ona-bu",
-        label: "Bargaining unit",
-        bargainingUnitCode: "bu",
+        id: "profile-ona-hospital",
+        label: "Hospital",
+        bargainingUnitCode: "hospital",
       },
       {
-        id: "profile-ona-bu-add",
-        label: "Additional bargaining unit",
-        bargainingUnitCode: "bu-add",
+        id: "profile-ona-ltc",
+        label: "Long-term care",
+        bargainingUnitCode: "ltc",
       },
-      { id: PROFILE_OTHER_ID, label: PROFILE_OTHER_LABEL, bargainingUnitCode: "other" },
+      {
+        id: "profile-ona-community",
+        label: "Public health / community",
+        bargainingUnitCode: "community",
+      },
+      {
+        id: PROFILE_OTHER_ID,
+        label: PROFILE_OTHER_LABEL,
+        bargainingUnitCode: "other",
+      },
     ],
   },
   psac: {
     referenceUrl: "https://psacunion.ca",
+    structureUrl: "https://psacunion.ca/which-bargaining-unit-am-i-in",
     defaultActiveId: "profile-psac-pa",
     profiles: [
       {
@@ -136,7 +187,16 @@ export const UNION_COLLECTION_CATALOGS: Record<
         label: "Operational Services (SV)",
         bargainingUnitCode: "sv",
       },
-      { id: PROFILE_OTHER_ID, label: PROFILE_OTHER_LABEL, bargainingUnitCode: "other" },
+      {
+        id: "profile-psac-fb",
+        label: "Border Services (FB)",
+        bargainingUnitCode: "fb",
+      },
+      {
+        id: PROFILE_OTHER_ID,
+        label: PROFILE_OTHER_LABEL,
+        bargainingUnitCode: "other",
+      },
     ],
   },
 };
