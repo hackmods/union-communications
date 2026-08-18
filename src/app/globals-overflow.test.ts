@@ -7,7 +7,7 @@ const srcRoot = join(__dirname, "..");
 describe("desktop / PWA horizontal overflow", () => {
   it("clips html overflow-x so 100vw leftovers cannot scroll the window", () => {
     const css = readFileSync(join(__dirname, "globals.css"), "utf8");
-    expect(css).toMatch(/html\s*\{[^}]*overflow-x:\s*clip/s);
+    expect(css).toMatch(/html\s*\{[^}]*overflow-x:\s*clip/);
   });
 
   it("does not full-bleed the home hero with 100vw (scrollbar-gutter overflow)", () => {
