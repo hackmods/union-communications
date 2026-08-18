@@ -69,7 +69,7 @@ export function HomeContent() {
   return (
     <>
       <section
-        className="home-hero relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-hidden"
+        className="home-hero relative w-full overflow-hidden"
         style={{
           backgroundImage: `linear-gradient(135deg, ${accent} 0%, ${primary} 48%, ${secondary} 100%)`,
         }}

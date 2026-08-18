@@ -28,6 +28,9 @@
 
 html {
   font-size: calc(100% * var(--text-scale));
+  /* 100vw includes the classic scrollbar gutter; clip leftover overflow so
+     desktop PWAs do not grow a phantom horizontal scroll at any window size. */
+  overflow-x: clip;
 }
 
 html[data-font-size="large"] {
@@ -47,6 +50,8 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   line-height: 1.625;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .skip-link {

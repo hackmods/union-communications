@@ -1,5 +1,11 @@
 # Progress Log
 
+## Desktop PWA horizontal overflow (2026-08-18)
+
+- [x] Home hero full-bleed uses `w-full` instead of `w-screen` / `100vw` (scrollbar gutter was always a few pixels wider than the window)
+- [x] `html { overflow-x: clip }` plus `min-w-0` on the flex shell so installed Edge/Chrome apps do not grow a phantom sideways scroll
+- Verify: `npm run test:unit -- src/app/globals-overflow.test.ts`
+
 ## Share Kit folded into Graphic Maker (2026-08-18)
 
 - [x] Removed the `/tools/share-kit` catalog item (orchestrator only; presets already live on Graphic Maker)

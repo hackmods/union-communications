@@ -94,7 +94,7 @@ export function Header() {
     <header
       ref={headerRef}
       className={cn(
-        "sticky top-0 border-b border-gray-200 bg-white/95 backdrop-blur",
+        "sticky top-0 min-w-0 border-b border-gray-200 bg-white/95 backdrop-blur",
         drawerOpen ? "z-[80]" : "z-50",
       )}
     >

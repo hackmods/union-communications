@@ -55,6 +55,7 @@ Within a shell, still constrain body copy (`max-w-prose` / `max-w-xl`) when need
 - **Breakpoint blindness** — only `px-4` + `max-w-*` and no intentional change at `sm` / `md` / `lg` / `xl`
 - **CTA row as afterthought** — buttons left-dumped with no wrap/stack plan across widths
 - **Repeated hero CTAs** — same primary action three times down the page
+- **100vw full-bleed** — `w-screen` / `100vw` is wider than the window when a classic scrollbar is present (Windows installed PWA). Use `w-full` when the parent is already viewport-wide; keep `html { overflow-x: clip }` as a backstop
 
 ## Do this instead
 

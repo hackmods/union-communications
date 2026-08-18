@@ -78,14 +78,14 @@ export default async function LocaleLayout({
         />
         <JsonLd data={buildSiteJsonLdGraph(locale)} />
       </head>
-      <body className="flex min-h-full flex-col antialiased" suppressHydrationWarning>
+      <body className="flex min-h-full min-w-0 flex-col antialiased" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <BrandProvider>
               <PreferencesProvider>
                 <SkipLink />
                 <Header />
-                <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+                <main id="main-content" tabIndex={-1} className="min-w-0 flex-1 outline-none">
                   {children}
                 </main>
                 <Footer />

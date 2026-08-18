@@ -14,7 +14,7 @@ export function Footer() {
   const nav = useTranslations("nav");
 
   return (
-    <footer className="mt-auto border-t border-gray-200 bg-white py-8">
+    <footer className="mt-auto min-w-0 border-t border-gray-200 bg-white py-8">
       <div
         className={cn(
           PAGE_SHELL.chrome,
