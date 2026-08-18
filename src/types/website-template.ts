@@ -35,6 +35,17 @@ export interface WebsiteTemplateData {
   logoAlt: string;
   /** OPSEU.org footer links — only when Brand Kit design theme is OPSEU. */
   includeOpseuResources: boolean;
+  /**
+   * Bundled hero pattern (`bands` / `mesh` / `horizon`) or `none`.
+   * Omitted in tests = colour-only. A photo upload wins over the pattern.
+   */
+  heroArtId?: string;
+  /** ZIP filename when the steward uploaded a photo (`hero.jpg`, …). */
+  heroImageFileName?: string;
+  /** Preview iframe src (data URL). Empty = use catalog pattern or none. */
+  heroImagePreviewSrc?: string;
+  /** Alt text for an uploaded photo. Patterns are decorative (empty alt). */
+  heroImageAlt?: string;
   /** Optional Brand Kit canvas knobs mapped into exported CSS. */
   canvas?: {
     surface?: "flat" | "soft-gradient" | "accent-band" | "grain" | "duotone";

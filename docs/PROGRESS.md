@@ -1,5 +1,19 @@
 # Progress Log
 
+## Local Portal QOL after chrome (2026-08-18)
+
+- [x] Rank-and-file sign-in lands on Station (`/portal`), not an empty Officer Hub dashboard
+- [x] Circle tool tabs write `?tab=` so refresh and share keep the same tool; Front dates move out of the heading
+- [x] Empty, error, and create-fail states name a next step; Dispatch unread count is labelled for assistive tech
+- Verify: `npm run test:unit -- src/lib/portal/portal.test.ts src/components/portal/portal-nav-model.test.ts src/lib/comms/public-copy-style.test.ts` · `npx playwright test e2e/portal.smoke.spec.ts`
+
+## Website Template hero art v0 (2026-08-18)
+
+- [x] Hero background picker: colour-only, three replaceable greyscale patterns (bands / mesh / horizon), or an optional photo upload
+- [x] Patterns ship under `public/assets/website-heroes/` and copy into the ZIP as `assets/hero.svg`; photo-consent link + alt on upload
+- [x] No member photos, officer headshots, or identifiable campus stills — patterns can be swapped later without changing ids
+- Verify: `npm run test:unit -- src/lib/templates/website/hero-art.test.ts src/lib/templates/website/generate-website-zip.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Local Portal chrome parity (2026-08-18)
 
 - [x] `/portal` matches Officer Hub chrome: Demo banner, session-data banner, sticky PortalNav + Portal menu drawer

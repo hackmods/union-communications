@@ -189,6 +189,73 @@ describe("generate-website-zip", () => {
     ).toBe(true);
   });
 
+  it("omits hero art when no catalog id is set", async () => {
+    const html = buildWebsiteHtml(sampleData);
+    expect(html).not.toContain("hero-art");
+    expect(html).not.toContain("has-art");
+    expect(html).toContain('class="hero-section"');
+    const blob = await generateWebsiteZip({
+      ...sampleData,
+      canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
+    });
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(blob);
+    expect(Object.keys(zip.files)).not.toContain("assets/hero.svg");
+  });
+
+  it("bundles a catalog pattern as assets/hero.svg", async () => {
+    const html = buildWebsiteHtml({ ...sampleData, heroArtId: "bands" });
+    expect(html).toContain('class="hero-section has-art has-pattern-art"');
+    expect(html).toContain('class="hero-art hero-art--pattern"');
+    expect(html).toContain('src="./assets/hero.svg"');
+    expect(html).toContain('alt=""');
+    const preview = buildPreviewHtml({ ...sampleData, heroArtId: "horizon" });
+    expect(preview).toContain('src="/assets/website-heroes/horizon.svg"');
+    expect(preview).not.toContain('src="./assets/hero.svg"');
+    const blob = await generateWebsiteZip({
+      ...sampleData,
+      heroArtId: "mesh",
+      canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
+    });
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(blob);
+    expect(Object.keys(zip.files)).toContain("assets/hero.svg");
+    const svg = await zip.file("assets/hero.svg")!.async("string");
+    expect(svg).toContain("<svg");
+    expect(svg.toLowerCase()).not.toContain("opseu");
+    expect(svg.toLowerCase()).not.toContain("niagara");
+  });
+
+  it("bundles an uploaded photo instead of a catalog pattern", async () => {
+    const bytes = new Uint8Array([0xff, 0xd8, 0xff, 0xd9]);
+    const html = buildWebsiteHtml({
+      ...sampleData,
+      heroArtId: "bands",
+      heroImagePreviewSrc: "data:image/jpeg;base64,abc",
+      heroImageFileName: "hero.jpg",
+      heroImageAlt: 'Rally <photo>',
+    });
+    expect(html).toContain("has-photo-art");
+    expect(html).toContain('src="./assets/hero.jpg"');
+    expect(html).toContain('alt="Rally &lt;photo&gt;"');
+    expect(html).not.toContain("<photo>");
+    const blob = await generateWebsiteZip(
+      {
+        ...sampleData,
+        heroArtId: "bands",
+        canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
+      },
+      null,
+      { fileName: "hero.jpg", bytes },
+    );
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(blob);
+    expect(Object.keys(zip.files)).toContain("assets/hero.jpg");
+    expect(Object.keys(zip.files)).not.toContain("assets/hero.svg");
+    const htmlZip = await zip.file("index.html")!.async("string");
+    expect(htmlZip).toContain('src="./assets/hero.jpg"');
+  });
+
   it("omits font assets when both faces are system residual", async () => {
     const blob = await generateWebsiteZip({
       ...sampleData,

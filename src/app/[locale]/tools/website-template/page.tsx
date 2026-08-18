@@ -13,6 +13,13 @@ import {
 } from "@/lib/export/brand-logo-bytes";
 import { buildPreviewHtml } from "@/lib/templates/website/generate-website-zip";
 import {
+  DEFAULT_WEBSITE_HERO_ART_ID,
+  isWebsiteHeroArtId,
+  websiteHeroDataUrlToBytes,
+  websiteHeroUploadFileName,
+  type WebsiteHeroArtId,
+} from "@/lib/templates/website/hero-art";
+import {
   joinWithConjunction,
   toWebsiteNavLinks,
   websiteCollectionLabels,
@@ -26,6 +33,8 @@ import {
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
+import { ImageUpload } from "@/components/tools/ImageUpload";
+import { SegControl } from "@/components/tools/SegControl";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { WebsitePreviewFrame } from "@/components/tools/WebsitePreviewFrame";
@@ -74,6 +83,11 @@ export default function WebsiteTemplatePage() {
   const [officers, setOfficers] = useState<WebsiteOfficer[]>(
     DEFAULT_WEBSITE_OFFICERS,
   );
+  const [heroArtId, setHeroArtId] = useState<WebsiteHeroArtId>(
+    DEFAULT_WEBSITE_HERO_ART_ID,
+  );
+  const [heroImagePreviewSrc, setHeroImagePreviewSrc] = useState("");
+  const [heroImageAlt, setHeroImageAlt] = useState("");
   const logoPreviewSrc = resolveBrandLogoSrc(brandKit);
   const includeOpseuResources = brandKit.unionPresetId === "opseu";
   const canvasTokens = resolveCanvasTokens(brandKit);
@@ -125,6 +139,12 @@ export default function WebsiteTemplatePage() {
       logoPreviewSrc,
       logoAlt: unionName,
       includeOpseuResources,
+      heroArtId,
+      heroImageFileName: heroImagePreviewSrc
+        ? websiteHeroUploadFileName(heroImagePreviewSrc)
+        : undefined,
+      heroImagePreviewSrc,
+      heroImageAlt,
       canvas: brandKit.canvas
         ? {
             surface: canvasTokens.surface,
@@ -160,6 +180,9 @@ export default function WebsiteTemplatePage() {
       officers,
       logoPreviewSrc,
       includeOpseuResources,
+      heroArtId,
+      heroImagePreviewSrc,
+      heroImageAlt,
     ],
   );
 
@@ -195,9 +218,21 @@ export default function WebsiteTemplatePage() {
       );
       const { saveAs } = await import("file-saver");
       const logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });
+      let heroImage: { fileName: string; bytes: Uint8Array } | null = null;
+      if (heroImagePreviewSrc.trim()) {
+        const bytes = websiteHeroDataUrlToBytes(heroImagePreviewSrc);
+        if (!bytes) {
+          throw new Error(tc("uploadFailed"));
+        }
+        heroImage = {
+          fileName: websiteHeroUploadFileName(heroImagePreviewSrc),
+          bytes,
+        };
+      }
       const blob = await generateWebsiteZip(
         templateData,
         logo ? { fileName: LOGO_FILE_NAME, bytes: logo.bytes } : null,
+        heroImage,
       );
       saveAs(blob, `local-${localNumber}-website.zip`);
     });
@@ -228,6 +263,51 @@ export default function WebsiteTemplatePage() {
             onChange={(e) => setHeroText(e.target.value)}
             rows={2}
           />
+          <SegControl
+            label={t("heroArt")}
+            value={heroArtId}
+            onChange={(value) => {
+              if (isWebsiteHeroArtId(value)) setHeroArtId(value);
+            }}
+            options={[
+              { value: "none", label: t("heroArtNone") },
+              { value: "bands", label: t("heroArtBands") },
+              { value: "mesh", label: t("heroArtMesh") },
+              { value: "horizon", label: t("heroArtHorizon") },
+            ]}
+          />
+          <p className="text-xs text-gray-500">{t("heroArtHint")}</p>
+          <ImageUpload
+            label={t("heroArtUpload")}
+            hint={t("heroArtUploadHint")}
+            preview={heroImagePreviewSrc}
+            onUpload={(dataUrl) => setHeroImagePreviewSrc(dataUrl)}
+            onClear={() => {
+              setHeroImagePreviewSrc("");
+              setHeroImageAlt("");
+            }}
+          />
+          <p className="text-sm leading-snug text-gray-600">
+            <Link
+              href="/guide/photo-consent"
+              className="text-opseu-blue underline"
+            >
+              {t("photoConsentLink")}
+            </Link>
+          </p>
+          {heroImagePreviewSrc ? (
+            <Input
+              label={t("heroArtAlt")}
+              value={heroImageAlt}
+              onChange={(e) => setHeroImageAlt(e.target.value)}
+              aria-describedby="website-hero-alt-hint"
+            />
+          ) : null}
+          {heroImagePreviewSrc ? (
+            <p id="website-hero-alt-hint" className="text-xs text-gray-500">
+              {t("heroArtAltHint")}
+            </p>
+          ) : null}
           <Textarea
             label={t("about1")}
             value={about1}
