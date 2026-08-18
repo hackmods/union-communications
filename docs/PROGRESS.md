@@ -1,5 +1,12 @@
 # Progress Log
 
+## HubNav drops redundant Comms toolbox (2026-08-18)
+
+- [x] Officer Hub menu no longer lists **Comms toolbox** (public Header already has Tools / Guides / home)
+- [x] Hub module links use each module’s real `href` (Local Portal is `/portal`, not `/`)
+- [x] Dashboard **Your modules** still includes the comms card
+- Verify: `npm run test:unit -- src/lib/tenant/tenant.test.ts`
+
 ## Board Banner independent corners (2026-08-18)
 
 - [x] Side/bottom rails stay straight when Corner is on (no coloured end caps standing in for joints)

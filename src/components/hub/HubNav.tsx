@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { getVisibleModules } from "@/lib/modules/registry";
+import { getHubNavModules } from "@/lib/modules/registry";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canInitiateHandoff } from "@/lib/handoff/package";
 import {
@@ -52,7 +52,7 @@ export function HubNav() {
   const enabledModules: HubModule[] =
     tenant?.union.enabledModules ?? ["comms"];
   const roles = (session.user.roles ?? []) as UserRole[];
-  const modules = getVisibleModules(enabledModules, roles);
+  const modules = getHubNavModules(enabledModules, roles);
   const hasGrievance = canAccessGrievanceModule(roles);
   const hasBumping =
     canAccessBumpingModule(roles) && enabledModules.includes("bumping");
@@ -196,7 +196,7 @@ export function HubNav() {
         <HubContextSwitcher />
         <span className="hidden min-w-2 flex-1 md:block" />
         {modules.map((mod) => {
-          const href = mod.href.startsWith("/app") ? mod.href : "/";
+          const href = mod.href;
           const active =
             pathname === href || pathname.startsWith(`${href}/`);
           return (

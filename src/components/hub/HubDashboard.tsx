@@ -94,7 +94,7 @@ export function HubDashboard() {
       <div className="mt-3 grid gap-2 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 xl:grid-cols-4">
         {modules.map((mod) => {
           const locked = Boolean(mod.requiresMfa) && !mfaOk;
-          const href = mod.href.startsWith("/app") ? mod.href : "/";
+          const href = mod.href;
           return (
             <Card
               key={mod.id}

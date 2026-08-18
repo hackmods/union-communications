@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { getTenantByUnionSlug, getTenantContext } from "@/lib/tenant/loader";
-import { getVisibleModules, canAccessModule } from "@/lib/modules/registry";
+import { getVisibleModules, getHubNavModules, canAccessModule } from "@/lib/modules/registry";
 
 describe("tenant loader", () => {
   it("loads reference tenant by slug", () => {
@@ -23,6 +23,18 @@ describe("module registry", () => {
     const mods = getVisibleModules(["comms", "grievance"], ["local_steward"]);
     expect(mods.map((m) => m.id)).toContain("comms");
     expect(mods.map((m) => m.id)).toContain("grievance");
+  });
+
+  it("omits comms from HubNav because public Header already hosts those tools", () => {
+    const nav = getHubNavModules(
+      ["comms", "grievance", "portal"],
+      ["local_president"],
+    );
+    expect(nav.map((m) => m.id)).not.toContain("comms");
+    expect(nav.map((m) => m.id)).toEqual(
+      expect.arrayContaining(["grievance", "portal"]),
+    );
+    expect(nav.find((m) => m.id === "portal")?.href).toBe("/portal");
   });
 
   it("hides bumping when not enabled", () => {
