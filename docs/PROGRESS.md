@@ -1,5 +1,12 @@
 # Progress Log
 
+## Website guide two-part rewrite (2026-08-18)
+
+- [x] `/guide/website` split into Part 1 (write and download the ZIP) and Part 2 (publish)
+- [x] At-a-glance jump cards, hand-off callout, jargon glossary (repository / commit / deploy), optional custom-domain band
+- [x] EN/FR copy lockstep; GitHub Pages and custom-domain docs still from `COMMS_SOURCES`
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/smoke-asserted-copy.test.ts`
+
 ## Tools mega-menu viewport clamp (2026-08-18)
 
 - [x] Tools ▾ flyout is `fixed` and clamped so a 40/52rem panel cannot clip off lg/xl laptops (`html { overflow-x: clip }`)

@@ -672,8 +672,8 @@
   },
   "websiteGuide": {
     "title": "Local Website Guide",
-    "subtitle": "One stable link for who you are, who to contact, and how to find you. Publish free on GitHub Pages.",
-    "intro": "A local site is a quiet home base behind boards and socials: contact, officers, and a short about. Fill Website Template from Brand Kit, download the ZIP, then deploy.",
+    "subtitle": "Write a simple local site, download a ZIP, then put it online. A volunteer can do the tech steps.",
+    "intro": "Boards and socials move messages. A website holds who you are, who to email, and how to find you. Start with Part 1. Stop when the ZIP is on your computer.",
     "relatedLabel": "Also see",
     "related": {
       "template": "Website Template",
@@ -681,17 +681,61 @@
       "plan": "First week",
       "qr": "QR Link Cards"
     },
-    "tocLabel": "Guide sections",
-    "toolCta": "Build your website template",
+    "glance": {
+      "title": "At a glance",
+      "intro": "Most locals only need Part 1. Stop when the ZIP is on your computer. Part 2 is for whoever will put those files on the internet.",
+      "templateCta": "Open Website Template",
+      "part1": {
+        "kicker": "Part 1",
+        "title": "Write and download",
+        "body": "Gather a few facts, fill Website Template, and download the ZIP. No hosting account yet.",
+        "cta": "Jump to writing the site"
+      },
+      "part2": {
+        "kicker": "Part 2",
+        "title": "Put it online",
+        "body": "Upload the ZIP to GitHub Pages for free. Skip this if a tech-savvy volunteer will do it.",
+        "cta": "Jump to publishing steps"
+      }
+    },
+    "part1": {
+      "kicker": "Part 1",
+      "title": "Planning and creating your site",
+      "intro": "Your job here is to write the content and download a ZIP. You can stop as soon as that file is on your computer.",
+      "tocLabel": "Part 1 sections"
+    },
+    "part2": {
+      "kicker": "Part 2",
+      "title": "Publishing your site (the tech steps)",
+      "intro": "These steps put your downloaded ZIP on the internet so members can open a real web address.",
+      "handoffTitle": "Hand this off if you want",
+      "handoff": "Now that you have your website ZIP file, it needs to be put on the internet. If you are not comfortable with technical web setup, you can hand your downloaded ZIP file and this guide to a tech-savvy volunteer.",
+      "tocLabel": "Part 2 sections"
+    },
+    "terms": {
+      "title": "A few words you will see",
+      "repository": {
+        "term": "Repository",
+        "meaning": "An online folder on GitHub that holds your site files."
+      },
+      "commit": {
+        "term": "Commit",
+        "meaning": "Save the files you just uploaded, so GitHub keeps them."
+      },
+      "deploy": {
+        "term": "Deploy",
+        "meaning": "Turn the site on so the public address starts working."
+      }
+    },
     "why": {
       "navLabel": "Why a site",
       "title": "Why a local website",
-      "intro": "Boards and socials move messages. A website holds answers members search months later.",
-      "tip": "One clear URL beats a pile of outdated Docs and posts. Put it on boards, QR cards, signatures, and event graphics.",
+      "intro": "A local website is not a news feed. It is the page members, media, and new hires still find months later.",
+      "tip": "One clear web address beats a pile of outdated Docs and posts. Put it on boards, QR cards, signatures, and event graphics.",
       "items": {
         "stable": {
-          "label": "Stable link",
-          "content": "Social feeds change and posts scroll away. A website stays put for contact email, officer names, and meeting basics."
+          "label": "A link that stays put",
+          "content": "Social feeds change and posts scroll away. A website keeps the contact email, officer names, and meeting basics in one place."
         },
         "search": {
           "label": "Search and credibility",
@@ -699,14 +743,14 @@
         },
         "control": {
           "label": "Your copy, your timeline",
-          "content": "You decide what stays live. No algorithm. The template uses mailto: so messages go straight to your inbox."
+          "content": "You decide what stays live. No algorithm. The template opens the member’s email app so messages go straight to your inbox."
         }
       }
     },
     "bareMinimum": {
       "navLabel": "What to include",
       "title": "Bare-minimum local site",
-      "intro": "Answer in under a minute: Who are you? Who runs the local? How do I reach you? Where do I follow updates?",
+      "intro": "A new member should answer these in under a minute: Who are you? Who runs the local? How do I reach you? Where do I follow updates?",
       "items": {
         "about": {
           "title": "About your local",
@@ -735,7 +779,7 @@
       },
       "whenActive": {
         "label": "Add during active rounds",
-        "content": "A short bargaining or strike update paragraph, plus links to official parent-union resources — not blow-by-blow chat logs."
+        "content": "A short bargaining or strike update paragraph, plus links to official parent-union resources. Not blow-by-blow chat logs."
       },
       "optional": {
         "label": "Optional later",
@@ -749,28 +793,29 @@
     "before": {
       "navLabel": "Before you start",
       "title": "Before you open the template",
-      "intro": "Five minutes of prep saves a broken-looking site. Gather these from your Brand Kit and local executive.",
-      "tip": "Save the live website URL in Brand Kit. QR cards and board posters can reuse it without retyping.",
+      "intro": "Five minutes of prep saves a broken-looking site. Gather these from Brand Kit and your local executive.",
+      "tip": "When the site is live, save that web address in Brand Kit. QR cards and board posters can reuse it without retyping.",
       "items": {
-        "brand": "Brand Kit set: local number, colours, and logo (the template picks up colours and logo automatically).",
+        "brand": "Brand Kit set: local number, colours, and logo. The template picks those up automatically.",
         "email": "A monitored contact email the local actually checks.",
         "officers": "Current officer names and roles approved for the public site.",
-        "facebook": "Facebook group URL (or leave blank until you have one)."
+        "facebook": "Facebook group address, or leave the field blank until you have one."
       }
     },
     "build": {
       "navLabel": "Build the ZIP",
       "title": "Build with Website Template",
-      "intro": "Website Template fills a static site. Preview in the browser, then download a ZIP. No hosting account until you publish.",
+      "intro": "Website Template fills a simple site in your browser. Preview it, then download a ZIP. You do not need a hosting account until someone publishes.",
       "cta": "Open Website Template",
+      "done": "You can stop here. The ZIP on your computer is the file a volunteer needs to put the site online. Part 2 is next only if you are doing that yourself.",
       "steps": {
         "open": {
-          "title": "Open the tool",
-          "content": "Go to Website Template. Confirm Brand Kit colours and logo look right in the live preview."
+          "title": "Open Website Template",
+          "content": "Confirm Brand Kit colours and logo look right in the live preview before you type anything else."
         },
         "fill": {
           "title": "Fill the fields",
-          "content": "Fill in the name, tagline, about text, contact, Facebook, address, and officers. Replace every placeholder before you publish."
+          "content": "Add the name, tagline, about text, contact, Facebook, address, and officers. Replace every sample line before anyone publishes."
         },
         "preview": {
           "title": "Check the preview",
@@ -778,55 +823,60 @@
         },
         "download": {
           "title": "Download the ZIP",
-          "content": "Download the ZIP: index.html, css/, js/, assets/, README deploy notes, and CNAME.example for custom domains."
+          "content": "Save the ZIP to your computer. It holds the site pages, a short README with the same publish steps, and a CNAME.example file if you later add a custom domain."
         }
       }
     },
     "deploy": {
       "navLabel": "Publish free",
       "title": "Publish on GitHub Pages (free)",
-      "intro": "GitHub Pages hosts static sites free. You need a free GitHub account and about fifteen minutes the first time. The ZIP README repeats these steps.",
-      "tip": "Project sites use https://yourusername.github.io/repository-name/. A GitHub organization can give a cleaner URL later. Either path works.",
+      "intro": "GitHub Pages puts a simple site on the internet for free. You need a free GitHub account and about fifteen minutes the first time. The README inside the ZIP repeats these steps.",
+      "tip": "The live address usually looks like https://yourusername.github.io/local243-site/. A GitHub organization can give a shorter address later. Either path works.",
+      "docsLead": "If a GitHub screen looks different from this guide, use GitHub’s own help:",
+      "docsLabel": "GitHub Pages documentation",
       "steps": {
         "account": {
-          "title": "Create a GitHub account",
+          "title": "Create a free GitHub account",
           "content": "Sign up at github.com with an email the local can keep. Prefer a shared officer account over one personal login."
         },
         "repo": {
-          "title": "Create a repository",
-          "content": "Create a new public repository (for example local243-site). Public repos can use free GitHub Pages. Skip a README if you will upload the ZIP next."
+          "title": "Create a public repository (an online folder)",
+          "content": "Click New repository. Name it something clear, for example local243-site. Make it public so free GitHub Pages works. Skip adding a README if you will upload the ZIP next."
         },
         "upload": {
-          "title": "Upload the ZIP contents",
-          "content": "Unzip locally. Upload index.html, css/, js/, assets/, and README.md to the repo root (not nested in an extra folder). Commit."
+          "title": "Upload the ZIP contents, then commit (save)",
+          "content": "Unzip the file on your computer. Upload index.html, css/, js/, assets/, and README.md to the root of the online folder, not inside an extra folder. Click Commit changes to save the upload."
         },
         "pages": {
-          "title": "Turn on Pages",
-          "content": "Settings → Pages → Deploy from a branch. Select main (or master) and / (root), then Save."
+          "title": "Turn the site on in Settings → Pages",
+          "content": "Open Settings → Pages. Under Source, choose Deploy from a branch. Select main (or master) and / (root), then Save. That is the deploy step: GitHub starts building the public site."
         },
         "wait": {
-          "title": "Wait for the green check",
-          "content": "GitHub builds in a few minutes. Check Settings → Pages for the live URL, then open it in a private window to confirm links."
+          "title": "Wait for the live address",
+          "content": "GitHub usually finishes in a few minutes. Check Settings → Pages for the address, then open it in a private window to confirm links and the contact email."
         }
       }
     },
     "domain": {
       "navLabel": "Custom domain",
-      "title": "Custom domain (optional)",
-      "intro": "A short domain (for example local243.org) is easier to say and print. Point it at GitHub Pages after the free github.io URL works.",
-      "tip": "The ZIP includes a file called CNAME.example. Rename it to CNAME (no file extension) and put only your domain on the first line before you set up DNS.",
+      "badge": "Optional — advanced",
+      "title": "Optional: custom domain for advanced users",
+      "intro": "Skip this unless you already own a short domain (for example local243.org) and someone can change the address book at the company that sold it. The free github.io address works fine on boards and QR cards.",
+      "tip": "The ZIP includes a file called CNAME.example. Rename it to CNAME with no file extension, and put only your domain on the first line before you change DNS.",
+      "docsLead": "GitHub’s step-by-step for pointing a bought domain at Pages:",
+      "docsLabel": "GitHub Pages custom domains",
       "steps": {
         "cname": {
-          "title": "Add a CNAME file",
-          "content": "In the repository root, add a file named CNAME containing only your domain (for example local243.org). Commit it."
+          "title": "Add a CNAME file (a one-line domain name)",
+          "content": "In the repository root (the online folder), add a file named CNAME with no file extension. Put only your domain on the first line, for example local243.org. Commit (save) it."
         },
         "dns": {
-          "title": "Configure DNS at your registrar",
-          "content": "Follow GitHub’s custom-domain docs (A records or CNAME). DNS can take minutes to a day."
+          "title": "Point the domain at GitHub (DNS)",
+          "content": "At the company where you bought the domain, add the records GitHub lists in its custom-domain help. DNS is the internet’s address book; changes can take minutes to a day."
         },
         "enable": {
-          "title": "Enable the domain in Pages settings",
-          "content": "In Settings → Pages, enter the custom domain, save, and wait for DNS/HTTPS. Then save the final URL in Brand Kit."
+          "title": "Enter the domain in Settings → Pages",
+          "content": "In Settings → Pages, type the custom domain, save, and wait until the secure lock (HTTPS) shows as ready. Then save the final address in Brand Kit."
         }
       }
     },
@@ -864,7 +914,7 @@
         },
         "qr": {
           "label": "QR link cards",
-          "content": "Print wallet or letter cards to the live URL. Save the website link in Brand Kit first so tools can pull it."
+          "content": "Print wallet or letter cards to the live address. Save the website link in Brand Kit first so tools can pull it."
         },
         "social": {
           "label": "Social posts",
@@ -872,7 +922,7 @@
         },
         "brand": {
           "label": "Brand Kit",
-          "content": "Keep colours and the website URL in Brand Kit so regenerating the template or printing new QR materials stays consistent."
+          "content": "Keep colours and the website address in Brand Kit so regenerating the template or printing new QR materials stays consistent."
         }
       }
     }

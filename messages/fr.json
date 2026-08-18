@@ -672,8 +672,8 @@
   },
   "websiteGuide": {
     "title": "Guide du site Web local",
-    "subtitle": "Un lien stable pour qui vous êtes, qui contacter et comment vous trouver. Publiez gratuitement sur GitHub Pages.",
-    "intro": "Un site de section est une base calme derrière tableaux et réseaux : contact, dirigeants et un court à propos. Remplissez le modèle depuis la Trousse de marque, téléchargez le ZIP, puis déployez.",
+    "subtitle": "Rédigez un site local simple, téléchargez un ZIP, puis mettez-le en ligne. Un volontaire peut faire les étapes techniques.",
+    "intro": "Les tableaux et les réseaux font circuler les messages. Un site garde qui vous êtes, à qui écrire et comment vous trouver. Commencez par la partie 1. Arrêtez-vous quand le ZIP est sur votre ordinateur.",
     "relatedLabel": "Voir aussi",
     "related": {
       "template": "Modèle de site Web",
@@ -681,152 +681,202 @@
       "plan": "Première semaine",
       "qr": "Cartes lien QR"
     },
-    "tocLabel": "Sections du guide",
-    "toolCta": "Créer votre modèle de site Web",
+    "glance": {
+      "title": "En un coup d’œil",
+      "intro": "La plupart des sections n’ont besoin que de la partie 1. Arrêtez-vous quand le ZIP est sur votre ordinateur. La partie 2 est pour la personne qui mettra ces fichiers sur Internet.",
+      "templateCta": "Ouvrir le modèle de site Web",
+      "part1": {
+        "kicker": "Partie 1",
+        "title": "Rédiger et télécharger",
+        "body": "Rassemblez quelques faits, remplissez le Modèle de site Web, puis téléchargez le ZIP. Pas de compte d’hébergement pour l’instant.",
+        "cta": "Aller à la rédaction du site"
+      },
+      "part2": {
+        "kicker": "Partie 2",
+        "title": "Le mettre en ligne",
+        "body": "Téléversez le ZIP vers GitHub Pages, gratuitement. Passez cette partie si un volontaire à l’aise avec la technique s’en charge.",
+        "cta": "Aller aux étapes de publication"
+      }
+    },
+    "part1": {
+      "kicker": "Partie 1",
+      "title": "Planifier et créer votre site",
+      "intro": "Votre tâche ici : rédiger le contenu et télécharger un ZIP. Vous pouvez vous arrêter dès que ce fichier est sur votre ordinateur.",
+      "tocLabel": "Sections de la partie 1"
+    },
+    "part2": {
+      "kicker": "Partie 2",
+      "title": "Publier votre site (les étapes techniques)",
+      "intro": "Ces étapes mettent le ZIP téléchargé sur Internet, pour que les membres puissent ouvrir une vraie adresse Web.",
+      "handoffTitle": "Passez le relais si vous le souhaitez",
+      "handoff": "Maintenant que vous avez le fichier ZIP de votre site, il faut le mettre sur Internet. Si la configuration technique du Web ne vous convient pas, vous pouvez donner le ZIP téléchargé et ce guide à un volontaire à l’aise avec la technique.",
+      "tocLabel": "Sections de la partie 2"
+    },
+    "terms": {
+      "title": "Quelques mots que vous verrez",
+      "repository": {
+        "term": "Repository",
+        "meaning": "Un dossier en ligne sur GitHub qui contient les fichiers du site."
+      },
+      "commit": {
+        "term": "Commit",
+        "meaning": "Enregistrer les fichiers que vous venez de téléverser, pour que GitHub les garde."
+      },
+      "deploy": {
+        "term": "Deploy",
+        "meaning": "Allumer le site, pour que l’adresse publique commence à fonctionner."
+      }
+    },
     "why": {
       "navLabel": "Pourquoi un site",
       "title": "Pourquoi un site local",
-      "intro": "Tableaux et réseaux font circuler les messages. Un site garde les réponses que les membres cherchent des mois plus tard.",
-      "tip": "Une URL claire vaut mieux qu’un tas de Docs et publications périmés. Mettez-la sur tableaux, QR, signatures et graphiques.",
+      "intro": "Un site local n’est pas un fil d’actualité. C’est la page que les membres, les médias et les nouvelles embauches trouvent encore des mois plus tard.",
+      "tip": "Une adresse Web claire vaut mieux qu’un tas de Docs et de publications périmés. Mettez-la sur les tableaux, les cartes QR, les signatures et les graphiques d’événement.",
       "items": {
         "stable": {
-          "label": "Lien stable",
-          "content": "Les fils sociaux changent et les publications défilent. Un site reste en place pour le courriel, les noms des dirigeants et les bases des réunions."
+          "label": "Un lien qui reste en place",
+          "content": "Les fils sociaux changent et les publications défilent. Un site garde le courriel de contact, les noms des dirigeants et les bases des réunions au même endroit."
         },
         "search": {
           "label": "Recherche et crédibilité",
-          "content": "Membres, médias et employeurs cherchent votre section. Une page publique simple bat un profil Facebook pauvre."
+          "content": "Les membres, les médias et les employeurs cherchent votre section. Une page publique simple bat un profil Facebook pauvre à lui seul."
         },
         "control": {
           "label": "Votre texte, votre rythme",
-          "content": "Vous décidez ce qui reste en ligne. Pas d’algorithme. Le modèle utilise mailto: vers votre boîte."
+          "content": "Vous décidez ce qui reste en ligne. Pas d’algorithme. Le modèle ouvre l’application courriel du membre, pour que les messages arrivent directement dans votre boîte."
         }
       }
     },
     "bareMinimum": {
       "navLabel": "Quoi inclure",
       "title": "Site local minimal",
-      "intro": "Répondez en moins d’une minute : Qui êtes-vous? Qui dirige la section? Comment vous joindre? Où suivre les nouvelles?",
+      "intro": "Un nouveau membre devrait répondre à ceci en moins d’une minute : Qui êtes-vous? Qui dirige la section? Comment vous joindre? Où suivre les nouvelles?",
       "items": {
         "about": {
           "title": "À propos de la section",
-          "content": "Deux courts paragraphes : qui vous représentez, où vous travaillez, pour quoi vous êtes. Orientation, pas un roman."
+          "content": "Deux courts paragraphes : qui vous représentez, où vous travaillez, et pour quoi vous êtes. Une orientation, pas un roman."
         },
         "officers": {
-          "title": "Dirigeants de l'exécutif",
-          "content": "Noms et rôles (président, coordonnateur des délégués, trésorier). Mettez à jour après chaque élection."
+          "title": "Dirigeants de l’exécutif",
+          "content": "Noms et rôles (président, coordonnateur des délégués, trésorier). Mettez à jour après chaque élection. Une liste périmée érode la confiance."
         },
         "contact": {
           "title": "Chemin de contact",
-          "content": "Un courriel local surveillé, plus adresse ou heures de délégué si vous en avez. Préférez une boîte à cinq adresses personnelles qui vieillissent."
+          "content": "Un courriel local surveillé, plus l’adresse du bureau ou les heures de délégué si vous en avez. Préférez une seule boîte à cinq adresses personnelles qui vieillissent."
         },
         "social": {
           "title": "Canal social ou membres",
-          "content": "Liez votre groupe Facebook ou autre canal. Le site y pointe ; le social peut renvoyer pour dirigeants et courriel."
+          "content": "Liez votre groupe Facebook ou un autre canal. Le site y pointe ; le social peut renvoyer vers les dirigeants et le courriel."
         }
       }
     },
     "include": {
-      "title": "Ce qui a sa place — et ce qui n'en a pas",
-      "intro": "Pensez en couches : identité permanente, mises à jour de campagne quand c'est actif, et une courte liste de choses qui appartiennent ailleurs.",
+      "title": "Ce qui a sa place — et ce qui n’en a pas",
+      "intro": "Pensez en couches : identité permanente, mises à jour de campagne quand c’est actif, et une courte liste de choses qui appartiennent ailleurs.",
       "always": {
         "label": "Toujours sur le site",
         "content": "Texte À propos, dirigeants actuels, courriel de contact et lien principal vers le groupe ou le réseau social."
       },
       "whenActive": {
         "label": "Ajouter pendant les rondes actives",
-        "content": "Un court paragraphe sur la négociation ou la grève, plus des liens vers les ressources officielles du syndicat parent — pas le journal de bord des discussions."
+        "content": "Un court paragraphe sur la négociation ou la grève, plus des liens vers les ressources officielles du syndicat parent. Pas le journal de bord des discussions."
       },
       "optional": {
         "label": "Optionnel plus tard",
-        "content": "Calendrier de réunions, aperçu comment déposer un grief, ou liens vers des faits saillants de la convention — seulement si quelqu'un les tiendra à jour."
+        "content": "Calendrier de réunions, aperçu comment déposer un grief, ou liens vers des faits saillants de la convention — seulement si quelqu’un les tiendra à jour."
       },
       "skip": {
         "label": "À garder hors du site public",
-        "content": "Données personnelles des membres, stratégie confidentielle, photos sans consentement, et tout ce que l'exécutif n'a pas approuvé pour publication."
+        "content": "Données personnelles des membres, stratégie confidentielle, photos sans consentement, et tout ce que l’exécutif n’a pas approuvé pour publication."
       }
     },
     "before": {
       "navLabel": "Avant de commencer",
-      "title": "Avant d'ouvrir le modèle",
-      "intro": "Cinq minutes de préparation évitent un site qui a l'air cassé. Rassemblez ceci depuis la Trousse de marque et l'exécutif local.",
-      "tip": "Enregistrez l’URL du site dans la Trousse de marque. Cartes QR et affiches peuvent la réutiliser.",
+      "title": "Avant d’ouvrir le modèle",
+      "intro": "Cinq minutes de préparation évitent un site qui a l’air cassé. Rassemblez ceci depuis la Trousse de marque et l’exécutif local.",
+      "tip": "Quand le site est en ligne, enregistrez cette adresse Web dans la Trousse de marque. Les cartes QR et les affiches peuvent la réutiliser sans la retaper.",
       "items": {
-        "brand": "Trousse de marque prête : numéro de section, couleurs et logo (le modèle reprend les couleurs et le logo automatiquement).",
+        "brand": "Trousse de marque prête : numéro de section, couleurs et logo. Le modèle les reprend automatiquement.",
         "email": "Un courriel de contact réellement surveillé par la section.",
         "officers": "Noms et rôles des dirigeants approuvés pour le site public.",
-        "facebook": "URL du groupe Facebook (ou laissez vide jusqu'à en avoir un)."
+        "facebook": "Adresse du groupe Facebook, ou laissez le champ vide jusqu’à en avoir un."
       }
     },
     "build": {
       "navLabel": "Créer le ZIP",
       "title": "Créer avec le modèle de site Web",
-      "intro": "Le modèle remplit un site statique. Prévisualisez, puis téléchargez un ZIP. Pas de compte d’hébergement avant la publication.",
+      "intro": "Le Modèle de site Web remplit un site simple dans votre navigateur. Prévisualisez-le, puis téléchargez un ZIP. Pas de compte d’hébergement tant que personne ne publie.",
       "cta": "Ouvrir le modèle de site Web",
+      "done": "Vous pouvez vous arrêter ici. Le ZIP sur votre ordinateur est le fichier dont un volontaire a besoin pour mettre le site en ligne. La partie 2 vient ensuite seulement si vous le faites vous-même.",
       "steps": {
         "open": {
-          "title": "Ouvrir l'outil",
-          "content": "Allez au Modèle de site Web. Vérifiez que les couleurs et le logo de la Trousse de marque sont corrects dans l'aperçu en direct."
+          "title": "Ouvrir le Modèle de site Web",
+          "content": "Vérifiez que les couleurs et le logo de la Trousse de marque sont corrects dans l’aperçu en direct avant de taper autre chose."
         },
         "fill": {
           "title": "Remplir les champs",
-          "content": "Remplissez le nom, le slogan, la section à propos, les coordonnées, Facebook, l’adresse et les dirigeants. Remplacez chaque espace réservé avant de publier."
+          "content": "Ajoutez le nom, le slogan, le texte à propos, les coordonnées, Facebook, l’adresse et les dirigeants. Remplacez chaque ligne d’exemple avant que quiconque publie."
         },
         "preview": {
-          "title": "Vérifier l'aperçu",
-          "content": "Lisez-le comme un nouveau membre : pouvez-vous trouver qui écrire et qui est président sans faire défiler indéfiniment?"
+          "title": "Vérifier l’aperçu",
+          "content": "Lisez-le comme un nouveau membre : pouvez-vous trouver à qui écrire et qui est président sans faire défiler indéfiniment?"
         },
         "download": {
           "title": "Télécharger le ZIP",
-          "content": "Téléchargez le ZIP : index.html, css/, js/, assets/, README et CNAME.example pour domaine personnalisé."
+          "content": "Enregistrez le ZIP sur votre ordinateur. Il contient les pages du site, un court README avec les mêmes étapes de publication, et un fichier CNAME.example si vous ajoutez plus tard un domaine personnalisé."
         }
       }
     },
     "deploy": {
       "navLabel": "Publier gratuitement",
       "title": "Publier sur GitHub Pages (gratuit)",
-      "intro": "GitHub Pages héberge gratuitement les sites statiques. Compte GitHub gratuit et environ quinze minutes la première fois. Le README du ZIP reprend les étapes.",
-      "tip": "Sites projet : https://votrepseudo.github.io/nom-du-depot/. Une organisation GitHub peut donner une URL plus propre plus tard.",
+      "intro": "GitHub Pages met un site simple sur Internet gratuitement. Il vous faut un compte GitHub gratuit et environ quinze minutes la première fois. Le README dans le ZIP reprend ces étapes.",
+      "tip": "L’adresse en ligne ressemble d’habitude à https://votrepseudo.github.io/local243-site/. Une organisation GitHub peut donner une adresse plus courte plus tard. Les deux chemins fonctionnent.",
+      "docsLead": "Si un écran GitHub est différent de ce guide, utilisez l’aide de GitHub :",
+      "docsLabel": "Documentation GitHub Pages",
       "steps": {
         "account": {
-          "title": "Créer un compte GitHub",
-          "content": "Inscrivez-vous sur github.com avec un courriel que la section peut garder. Préférez un compte partagé entre dirigeants plutôt qu'une seule connexion personnelle."
+          "title": "Créer un compte GitHub gratuit",
+          "content": "Inscrivez-vous sur github.com avec un courriel que la section peut garder. Préférez un compte partagé entre dirigeants plutôt qu’une seule connexion personnelle."
         },
         "repo": {
-          "title": "Créer un dépôt",
-          "content": "Créez un dépôt public (ex. local243-site). Les dépôts publics peuvent utiliser GitHub Pages gratuit. Sautez le README si vous téléversez le ZIP ensuite."
+          "title": "Créer un dépôt public (un dossier en ligne)",
+          "content": "Cliquez sur New repository. Donnez un nom clair, par ex. local243-site. Rendez-le public pour que GitHub Pages gratuit fonctionne. Sautez l’ajout d’un README si vous téléversez le ZIP ensuite."
         },
         "upload": {
-          "title": "Téléverser le contenu du ZIP",
-          "content": "Décompressez. Téléversez index.html, css/, js/, assets/ et README.md à la racine du dépôt (pas dans un dossier de plus). Validez."
+          "title": "Téléverser le contenu du ZIP, puis commit (enregistrer)",
+          "content": "Décompressez le fichier sur votre ordinateur. Téléversez index.html, css/, js/, assets/ et README.md à la racine du dossier en ligne, pas dans un dossier de plus. Cliquez sur Commit changes pour enregistrer le téléversement."
         },
         "pages": {
-          "title": "Activer Pages",
-          "content": "Paramètres → Pages → Déployer depuis une branche. Choisissez main (ou master) et / (racine), puis Enregistrer."
+          "title": "Allumer le site dans Settings → Pages",
+          "content": "Ouvrez Settings → Pages. Sous Source, choisissez Deploy from a branch. Sélectionnez main (ou master) et / (racine), puis Save. C’est l’étape deploy : GitHub commence à construire le site public."
         },
         "wait": {
-          "title": "Attendre la coche verte",
-          "content": "GitHub construit en quelques minutes. Vérifiez Paramètres → Pages pour l’URL, puis ouvrez-la en navigation privée pour confirmer les liens."
+          "title": "Attendre l’adresse en ligne",
+          "content": "GitHub termine d’habitude en quelques minutes. Vérifiez Settings → Pages pour l’adresse, puis ouvrez-la en navigation privée pour confirmer les liens et le courriel de contact."
         }
       }
     },
     "domain": {
       "navLabel": "Domaine personnalisé",
-      "title": "Domaine personnalisé (optionnel)",
-      "intro": "Un court domaine (ex. local243.org) est plus facile à dire et à imprimer. Pointez-le vers GitHub Pages une fois l’URL github.io en place.",
-      "tip": "Le ZIP contient un fichier nommé CNAME.example. Renommez-le en CNAME (sans extension) et inscrivez uniquement votre domaine sur la première ligne avant de configurer le DNS.",
+      "badge": "Optionnel — avancé",
+      "title": "Optionnel : domaine personnalisé pour utilisateurs avancés",
+      "intro": "Passez cette étape sauf si vous possédez déjà un court domaine (par ex. local243.org) et que quelqu’un peut modifier le carnet d’adresses chez l’entreprise qui l’a vendu. L’adresse github.io gratuite convient très bien aux tableaux et aux cartes QR.",
+      "tip": "Le ZIP contient un fichier nommé CNAME.example. Renommez-le en CNAME, sans extension, et inscrivez uniquement votre domaine sur la première ligne avant de modifier le DNS.",
+      "docsLead": "Le pas à pas de GitHub pour pointer un domaine acheté vers Pages :",
+      "docsLabel": "Domaines personnalisés GitHub Pages",
       "steps": {
         "cname": {
-          "title": "Ajouter un fichier CNAME",
-          "content": "À la racine du dépôt, ajoutez un fichier nommé CNAME contenant seulement votre domaine (par ex. local243.org). Validez le commit."
+          "title": "Ajouter un fichier CNAME (un nom de domaine d’une ligne)",
+          "content": "À la racine du dépôt (le dossier en ligne), ajoutez un fichier nommé CNAME, sans extension. Inscrivez uniquement votre domaine sur la première ligne, par ex. local243.org. Faites un commit (enregistrez-le)."
         },
         "dns": {
-          "title": "Configurer le DNS chez le registraire",
-          "content": "Suivez la doc GitHub (enregistrements A ou CNAME). Le DNS peut prendre de quelques minutes à un jour."
+          "title": "Pointer le domaine vers GitHub (DNS)",
+          "content": "Chez l’entreprise où vous avez acheté le domaine, ajoutez les enregistrements que GitHub liste dans son aide sur les domaines personnalisés. Le DNS est le carnet d’adresses d’Internet ; les changements peuvent prendre de quelques minutes à un jour."
         },
         "enable": {
-          "title": "Activer le domaine dans les paramètres Pages",
-          "content": "Paramètres → Pages : saisissez le domaine, enregistrez, attendez DNS/HTTPS. Puis enregistrez l’URL finale dans la Trousse de marque."
+          "title": "Saisir le domaine dans Settings → Pages",
+          "content": "Dans Settings → Pages, tapez le domaine personnalisé, enregistrez, et attendez que le cadenas sécurisé (HTTPS) s’affiche comme prêt. Puis enregistrez l’adresse finale dans la Trousse de marque."
         }
       }
     },
@@ -837,7 +887,7 @@
       "items": {
         "who": {
           "title": "Qui en est responsable",
-          "content": "Nommez un responsable du site. Partagez le compte GitHub ou ajoutez un second compte de confiance pour que les mises à jour ne meurent pas au départ d'une personne."
+          "content": "Nommez un responsable du site. Partagez le compte GitHub ou ajoutez un second compte de confiance pour que les mises à jour ne meurent pas au départ d’une personne."
         },
         "when": {
           "title": "Quand mettre à jour",
@@ -845,11 +895,11 @@
         },
         "how": {
           "title": "Comment modifier",
-          "content": "Le plus simple : mettez à jour le modèle et téléversez un ZIP frais. Ou modifiez index.html dans l’éditeur web GitHub."
+          "content": "Le plus simple : mettez à jour le Modèle de site Web et téléversez un ZIP frais. Ou modifiez index.html dans l’éditeur web de GitHub pour les petits correctifs."
         },
         "archive": {
           "title": "Quoi retirer",
-          "content": "Supprimez les textes de campagne expirés et les anciennes dates de réunion. Un lien vers une mise à jour « urgente » d'il y a un an apprend aux membres à ignorer le site."
+          "content": "Supprimez les textes de campagne expirés et les anciennes dates de réunion. Un lien vers une mise à jour « urgente » d’il y a un an apprend aux membres à ignorer le site."
         }
       }
     },
@@ -860,19 +910,19 @@
       "items": {
         "boards": {
           "label": "Tableaux syndicaux",
-          "content": "Placez un QR du site dans la zone réseaux du tableau minimal pour joindre les dirigeants hors social."
+          "content": "Placez un QR du site dans la zone réseaux du tableau minimal pour que les membres hors ligne joignent encore les dirigeants."
         },
         "qr": {
           "label": "Cartes lien QR",
-          "content": "Imprimez des cartes vers l’URL en ligne. Enregistrez d’abord le lien dans la Trousse de marque."
+          "content": "Imprimez des cartes portefeuille ou lettre vers l’adresse en ligne. Enregistrez d’abord le lien du site dans la Trousse de marque, pour que les outils puissent le reprendre."
         },
         "social": {
           "label": "Publications sociales",
-          "content": "Dans bios et publications épinglées, liez le site pour qui vous êtes et comment contacter. Social pour l’actualité ; site pour les faits stables."
+          "content": "Dans les bios et les publications épinglées, liez le site pour qui vous êtes et comment contacter. Le social pour l’actualité ; le site pour les faits stables."
         },
         "brand": {
           "label": "Trousse de marque",
-          "content": "Gardez couleurs et URL du site dans la Trousse de marque pour que régénérer le modèle ou imprimer de nouveaux QR reste cohérent."
+          "content": "Gardez les couleurs et l’adresse du site dans la Trousse de marque pour que régénérer le modèle ou imprimer de nouveaux QR reste cohérent."
         }
       }
     }

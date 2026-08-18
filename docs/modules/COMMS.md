@@ -37,7 +37,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | `/[locale]/guide/photo-consent` | Photo consent & member media checklist for stewards and workshops |
 | `/[locale]/guide/union-boards` | Workplace bulletin board guide (bare-minimum layout, ministry posters, anonymized templates, IRL reference patterns) |
 | `/[locale]/guide/print` | Print communications guide |
-| `/[locale]/guide/website` | Local website deploy guide |
+| `/[locale]/guide/website` | Local website guide: plan and write the ZIP, then publish on GitHub Pages |
 | `/[locale]/guide/email-broadcast` | Fifth-channel email & outreach guide — Comms copy/mailto vs Hub SMTP/cron; no marketing lists |
 | `/[locale]/install` | PWA / desktop install guide — Guides → About + footer |
 | `/[locale]/examples` | Social examples gallery — brand-aware mockups, why-it-works notes, handoff to Graphic Maker / Captions / Quote Card / Flyer |

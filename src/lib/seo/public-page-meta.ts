@@ -85,7 +85,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/website": {
       title: "Local Website Guide",
       description:
-        "Give members one stable link for who you are and how to find you, then publish it free on GitHub Pages.",
+        "Write a simple local site, download the ZIP from Website Template, then publish it free on GitHub Pages.",
     },
     "/guide/email-broadcast": {
       title: "Email & Member Outreach Guide",
@@ -202,7 +202,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/website": {
       title: "Guide du site Web local",
       description:
-        "Donnez aux membres un lien stable pour savoir qui vous êtes et où vous trouver, puis publiez-le gratuitement sur GitHub Pages.",
+        "Rédigez un site local simple, téléchargez le ZIP depuis le modèle, puis publiez-le gratuitement sur GitHub Pages.",
     },
     "/guide/email-broadcast": {
       title: "Guide courriel et diffusion",
