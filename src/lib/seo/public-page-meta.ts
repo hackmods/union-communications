@@ -80,7 +80,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/print": {
       title: "Print Communications Guide",
       description:
-        "When printing is worth it, which sizes actually read from across a hallway, and how to pair print with the digital channels your local already uses.",
+        "Why print still reaches members social media misses, how to design flyers that pass a three-second glance, and how to print on a local budget.",
     },
     "/guide/website": {
       title: "Local Website Guide",
@@ -197,7 +197,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/print": {
       title: "Guide des communications imprimées",
       description:
-        "Quand l'impression en vaut la peine, quels formats se lisent d'un bout à l'autre d'un corridor, et comment la combiner aux canaux numériques de votre section.",
+        "Pourquoi l'imprimé rejoint les membres hors réseaux sociaux, comment concevoir un tract lisible en trois secondes, et comment imprimer à petit budget.",
     },
     "/guide/website": {
       title: "Guide du site Web local",

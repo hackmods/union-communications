@@ -594,25 +594,126 @@
   },
   "printGuide": {
     "title": "Guide des communications imprimées",
-    "subtitle": "Quand imprimer, et comment jumeler l’imprimé à vos canaux numériques.",
+    "subtitle": "Pourquoi l’imprimé compte encore, comment concevoir des tracts efficaces, et comment imprimer avec un petit budget.",
+    "intro": "Le papier rejoint encore les membres qui ne voient jamais une publication. Servez-vous de cette page pour décider quand imprimer, comment concevoir pour le plancher, et comment étirer un petit budget.",
     "relatedLabel": "Voir aussi",
-    "sections": {
-      "when": {
-        "title": "Quand imprimer",
-        "content": "Imprimez quand les réseaux sociaux risquent de manquer des gens : les quarts de travail, les membres sans téléphone intelligent et les lieux très passants. Utilisez les tracts pour les rassemblements et les avis de tableau pour la visibilité continue."
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "when": {
+      "navLabel": "Quand imprimer",
+      "title": "Quand imprimer",
+      "whyTitle": "Pourquoi l’imprimé compte encore",
+      "intro": "L’imprimé n’est pas un plan B pour les sections qui se sentent en retard sur le numérique. C’est ainsi que vous rejoignez les gens que les réseaux sociaux ne voient jamais, et que vous rendez le syndicat visible dans le lieu de travail même.",
+      "items": {
+        "divide": {
+          "label": "Il comble le fossé numérique",
+          "content": "Tous les membres n’ont pas un téléphone intelligent, un forfait de données ou un moment calme pour faire défiler l’écran. Un tract dans la main ou un avis près de la pointeuse n’exige pas de connexion."
+        },
+        "offline": {
+          "label": "Il rejoint les membres qui évitent les réseaux sociaux",
+          "content": "Beaucoup de membres mettent en sourdine les groupes liés au travail, n’ont jamais rejoint le groupe de la section, ou n’utilisent ni Facebook ni Instagram. L’imprimé les trouve quand même sur le plancher."
+        },
+        "presence": {
+          "label": "C’est un rappel physique que le syndicat est là",
+          "content": "Un avis affiché est difficile à balayer du pouce. Il dit à toute personne qui passe que cette section est présente dans le lieu de travail, pas seulement en ligne."
+        }
       },
-      "flyers": {
-        "title": "Tracts et documents à distribuer",
-        "content": "Utilisez le Créateur de tracts pour les piquets et les rassemblements, puis exportez un PDF au format lettre, demi-lettre ou tabloïd. Gardez le texte grand et à fort contraste pour qu'il se lise dehors."
+      "tip": "Si le message compte et que la salle est mixte — quarts différents, langues différentes, ou aisance variable avec le téléphone — imprimez-le. Tracts pour les rassemblements et les tournées ; avis de tableau pour la visibilité continue."
+    },
+    "flyers": {
+      "navLabel": "Tracts",
+      "title": "Tracts et documents à distribuer",
+      "intro": "Utilisez le Créateur de tracts pour les piquets, les rassemblements, les assemblées et les tournées, puis exportez un PDF au format lettre, demi-lettre ou tabloïd. L’outil reprend les couleurs de votre Trousse de marque et le numéro de section, pour que la pile vous ressemble.",
+      "practicesTitle": "Bonnes pratiques",
+      "items": {
+        "glance": {
+          "label": "Test du coup d’œil",
+          "content": "Un membre peut-il comprendre l’idée principale en trois secondes, à bout de bras ? Sinon, agrandissez le titre ou coupez le texte jusqu’à ce que ce soit possible."
+        },
+        "words": {
+          "label": "Gardez le nombre de mots bas",
+          "content": "Visez un titre court, quelques lignes de texte, et les faits (quoi, quand, où). Si vous avez besoin d’un paragraphe, le tract fait le travail d’un bulletin. Coupez."
+        },
+        "action": {
+          "label": "Un seul appel à l’action",
+          "content": "Demandez une seule prochaine étape : se présenter, scanner le code, parler à un délégué, ou partager avec un collègue. Deux demandes sur un même tract veulent dire qu’aucune des deux ne se fait."
+        },
+        "qr": {
+          "label": "Les codes QR relient l’imprimé et le numérique",
+          "content": "Pointez le code vers le site de votre section, un formulaire d’adhésion, ou un lien RSVP du Hub des dirigeants. Le papier donne les faits ; scanner le code donne la page à jour si les détails changent."
+        },
+        "type": {
+          "label": "Caractères grands et à fort contraste",
+          "content": "Les corridors, les stationnements et les piquets ne sont pas un bureau. Gardez le texte grand et foncé sur un fond pâle (ou l’inverse) pour qu’il se lise encore dehors."
+        }
       },
-      "boards": {
-        "title": "Avis pour tableaux",
-        "content": "Créateur d’avis pour les babillards. Tabloïd (11×17) se lit de plus loin. Lettre convient aux tableaux standards."
+      "tip": "Imprimez une épreuve et faites le test du coup d’œil dans un corridor, pas à votre bureau. Testez chaque code QR sur un téléphone avant d’imprimer une pile."
+    },
+    "boards": {
+      "navLabel": "Avis pour tableaux",
+      "title": "Avis pour tableaux",
+      "intro": "Utilisez le Créateur d’avis pour les babillards du milieu de travail. Le tabloïd (11×17) se lit de plus loin. Le format lettre (8,5×11) convient à la plupart des tableaux standards. Complétez cette page avec le Guide des tableaux syndicaux pour la mise en page, les zones, et ce qu’il faut garder affiché à l’année.",
+      "realitiesTitle": "Réalités du milieu de travail",
+      "items": {
+        "place": {
+          "label": "Placez les tableaux là où les membres s’arrêtent déjà",
+          "content": "Les salles de pause, les pointeuses, et l’entrée que les gens utilisent vraiment valent mieux qu’un corridor tranquille. Si vous avez plus d’un site, donnez à chaque site un tableau que vous pouvez tenir à jour."
+        },
+        "expired": {
+          "label": "Retirez les avis périmés",
+          "content": "Un tract de réunion encore affiché une semaine plus tard donne l’impression que le syndicat dort. Retirez-le le lendemain, et tenez à jour les pièces permanentes (coordonnées, santé et sécurité, comment vous trouver)."
+        },
+        "agreement": {
+          "label": "Vérifiez votre convention collective",
+          "content": "Les règles de l’employeur sur les tableaux syndicaux se trouvent dans votre convention collective et dans toute politique d’affichage. Certains milieux n’autorisent le matériel syndical que sur les tableaux désignés."
+        }
       },
-      "digital": {
-        "title": "Impression plus numérique",
-        "content": "Même date, heure et lieu sur tableau, tract, social et site. Un message, quatre canaux."
-      }
+      "warningTitle": "Droit d’affichage",
+      "warning": "N’affichez pas un tract sur une porte, une fenêtre ou un tableau de la direction, sauf si votre convention collective ou une pratique d’affichage écrite le permet. En cas de doute, demandez à votre présidence ou à un délégué avant d’afficher."
+    },
+    "logistics": {
+      "navLabel": "Conseils d’impression",
+      "title": "Logistique d’impression et conseils",
+      "intro": "La plupart des sections impriment avec un budget serré, souvent sur le copieur du milieu de travail. Concevez pour la machine que vous avez vraiment, puis dépensez l’encre couleur seulement quand le tirage est officiel.",
+      "items": {
+        "bw": {
+          "label": "Concevez en noir et blanc",
+          "content": "L’encre couleur coûte cher, et beaucoup de copieurs d’atelier ne font que les niveaux de gris. Si le tract se lit encore sans couleur, il se lira aussi en couleur — et il survivra à une copie bon marché."
+        },
+        "contrast": {
+          "label": "Gardez un fort contraste du texte",
+          "content": "Le gris pâle sur blanc échoue sur un copieur fatigué et dans un corridor sombre. Du texte foncé sur un fond pâle (ou l’inverse) fait la différence entre un avis qu’on lit et un avis qu’on contourne."
+        },
+        "union": {
+          "label": "Choisissez une imprimerie syndiquée quand le tirage est grand",
+          "content": "L’impression lettre à la maison ou au centre de copies convient pour une pile de réunion. Pour les gros tirages ou une campagne officielle, préférez une imprimerie syndiquée quand il y en a une."
+        },
+        "proof": {
+          "label": "Imprimez d’abord une épreuve",
+          "content": "Le format lettre (8,5×11) est la pile la moins chère ; le tabloïd (11×17) en vaut la peine pour les tableaux qui doivent se lire d’un bout à l’autre de la pièce. Lisez l’épreuve à bout de bras, à la lumière d’un corridor, avant d’en copier cinquante."
+        }
+      },
+      "tip": "Un papier recyclé ou un peu plus épais dure plus longtemps sur un babillard que le papier mince de copieur. Gardez la feuille plus épaisse pour les avis permanents ; utilisez le papier lettre bon marché pour les tracts qui seront jetés après l’événement."
+    },
+    "digital": {
+      "navLabel": "Impression plus numérique",
+      "title": "Impression plus numérique",
+      "intro": "L’imprimé et le numérique ne sont pas des canaux en concurrence. Les mêmes faits doivent paraître sur le tableau, le tract, les réseaux sociaux et le site : un message, quatre canaux.",
+      "items": {
+        "facts": {
+          "label": "Fixez les faits une seule fois",
+          "content": "La date, l’heure, le lieu et la personne à joindre doivent correspondre partout. Si un canal se trompe, les membres ne feront confiance à aucun."
+        },
+        "order": {
+          "label": "Affichez le papier en premier quand vous le pouvez",
+          "content": "Remettez le tract ou épinglez l’avis, puis partagez une photo de la pièce imprimée sur les réseaux (avec le consentement photo de toute personne visible). Les membres qui ne voient que le fil voient quand même le syndicat au mur."
+        },
+        "qr": {
+          "label": "Laissez l’imprimé envoyer les gens vers le numérique",
+          "content": "Un code QR sur le tract ou le tableau peut ouvrir la page à jour, le RSVP ou le formulaire d’adhésion quand les détails changent après l’impression."
+        }
+      },
+      "tip": "Si vous n’avez le temps que d’une pièce imprimée, faites l’avis de tableau ou le tract — puis réutilisez le même titre dans le Créateur de graphiques pour que les réseaux n’inventent pas un second message."
     }
   },
   "emailBroadcastGuide": {

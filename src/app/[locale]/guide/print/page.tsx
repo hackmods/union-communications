@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
+import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 
@@ -14,8 +15,19 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/guide/print", params);
 }
 
+const TOC = [
+  ["when", "when"],
+  ["flyers", "flyers"],
+  ["boards", "boards"],
+  ["logistics", "logistics"],
+  ["digital", "digital"],
+] as const;
 
-const sectionKeys = ["when", "flyers", "boards", "digital"] as const;
+const whenItemKeys = ["divide", "offline", "presence"] as const;
+const flyerItemKeys = ["glance", "words", "action", "qr", "type"] as const;
+const boardItemKeys = ["place", "expired", "agreement"] as const;
+const logisticsItemKeys = ["bw", "contrast", "union", "proof"] as const;
+const digitalItemKeys = ["facts", "order", "qr"] as const;
 
 export default async function PrintGuidePage({
   params,
@@ -32,6 +44,7 @@ export default async function PrintGuidePage({
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
+      intro={t("intro")}
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },
@@ -42,30 +55,198 @@ export default async function PrintGuidePage({
         <SourcesBlock pageId="print" title={ts("title")} intro={ts("intro")} />
       }
     >
-      <div className="space-y-8">
-        {sectionKeys.map((key) => (
-          <section
-            key={key}
-            className="border-l-2 border-opseu-blue/30 pl-5"
+      <nav
+        className="mb-8 flex flex-wrap gap-2"
+        aria-label={t("tocLabel")}
+      >
+        {TOC.map(([id, key]) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
           >
-            <h2 className="text-xl font-bold text-opseu-dark">
-              {t(`sections.${key}.title`)}
-            </h2>
-            <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-              {t(`sections.${key}.content`)}
-            </p>
-          </section>
+            {t(`${key}.navLabel`)}
+          </a>
         ))}
-      </div>
+      </nav>
 
-      <div className="button-row mt-8 max-w-lg">
+      <section
+        id="when"
+        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        aria-labelledby="when-heading"
+      >
+        <h2 id="when-heading" className="text-xl font-bold text-opseu-dark md:text-2xl">
+          {t("when.title")}
+        </h2>
+        <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-opseu-blue">
+          {t("when.whyTitle")}
+        </p>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("when.intro")}
+        </p>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {whenItemKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`when.items.${key}.label`)}
+              content={t(`when.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("when.tip")}</p>
+        </Callout>
+      </section>
+
+      <section
+        id="flyers"
+        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        aria-labelledby="flyers-heading"
+      >
+        <h2 id="flyers-heading" className="text-xl font-bold text-opseu-dark md:text-2xl">
+          {t("flyers.title")}
+        </h2>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("flyers.intro")}
+        </p>
+        <h3 className="mt-6 text-lg font-bold text-opseu-dark">
+          {t("flyers.practicesTitle")}
+        </h3>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+          {flyerItemKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`flyers.items.${key}.label`)}
+              content={t(`flyers.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("flyers.tip")}</p>
+        </Callout>
+        <div className="button-row mt-5 max-w-lg">
+          <Link href="/tools/flyer-maker">
+            <Button>{nav("flyerMaker")}</Button>
+          </Link>
+          <Link href="/tools/qr-card">
+            <Button variant="outline">{nav("qrCard")}</Button>
+          </Link>
+        </div>
+      </section>
+
+      <section
+        id="boards"
+        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        aria-labelledby="boards-heading"
+      >
+        <h2 id="boards-heading" className="text-xl font-bold text-opseu-dark md:text-2xl">
+          {t("boards.title")}
+        </h2>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("boards.intro")}
+        </p>
+        <h3 className="mt-6 text-lg font-bold text-opseu-dark">
+          {t("boards.realitiesTitle")}
+        </h3>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+          {boardItemKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`boards.items.${key}.label`)}
+              content={t(`boards.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout tone="warning" className="mt-5 max-w-prose">
+          <p className="font-semibold text-amber-950">{t("boards.warningTitle")}</p>
+          <p className="mt-1">{t("boards.warning")}</p>
+        </Callout>
+        <div className="button-row mt-5 max-w-lg">
+          <Link href="/tools/board-notice">
+            <Button>{nav("boardNotice")}</Button>
+          </Link>
+          <Link href="/guide/union-boards">
+            <Button variant="outline">{nav("unionBoardsGuide")}</Button>
+          </Link>
+        </div>
+      </section>
+
+      <section
+        id="logistics"
+        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        aria-labelledby="logistics-heading"
+      >
+        <h2
+          id="logistics-heading"
+          className="text-xl font-bold text-opseu-dark md:text-2xl"
+        >
+          {t("logistics.title")}
+        </h2>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("logistics.intro")}
+        </p>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {logisticsItemKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`logistics.items.${key}.label`)}
+              content={t(`logistics.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout tone="muted" className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("logistics.tip")}</p>
+        </Callout>
+      </section>
+
+      <section
+        id="digital"
+        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        aria-labelledby="digital-heading"
+      >
+        <h2 id="digital-heading" className="text-xl font-bold text-opseu-dark md:text-2xl">
+          {t("digital.title")}
+        </h2>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("digital.intro")}
+        </p>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {digitalItemKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`digital.items.${key}.label`)}
+              content={t(`digital.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("digital.tip")}</p>
+        </Callout>
+      </section>
+
+      <div className="button-row mt-10 max-w-2xl">
         <Link href="/tools/flyer-maker">
           <Button variant="outline">{nav("flyerMaker")}</Button>
         </Link>
         <Link href="/tools/board-notice">
           <Button variant="outline">{nav("boardNotice")}</Button>
         </Link>
+        <Link href="/tools/qr-card">
+          <Button variant="outline">{nav("qrCard")}</Button>
+        </Link>
       </div>
     </GuideLayout>
+  );
+}
+
+function TipItem({ label, content }: { label: string; content: string }) {
+  return (
+    <li className="max-w-prose leading-relaxed">
+      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
+    </li>
   );
 }

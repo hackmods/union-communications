@@ -1,5 +1,11 @@
 # Progress Log
 
+## Print Communications Guide expansion (2026-08-18)
+
+- [x] `/guide/print` is a practical how-to: why print still matters, flyer Glance Test / one call to action / QR bridge, board posting realities, and budget printing logistics
+- [x] Callouts for takeaways and collective-agreement posting rights; EN/FR lockstep; Flyer Maker, Board Notice Maker, and QR Link Cards stay linked
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/smoke-asserted-copy.test.ts`
+
 ## Officer tools dashboard catalog (2026-08-18)
 
 - [x] Hub dashboard lists the full Officer tools kit (Casework / Records / Funds / Administration) with blurbs — no longer a leftover card of four links

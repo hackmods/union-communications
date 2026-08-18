@@ -594,25 +594,126 @@
   },
   "printGuide": {
     "title": "Print Communications Guide",
-    "subtitle": "When to print, and how to pair print with your digital channels.",
+    "subtitle": "Why print still matters, how to design flyers that work, and how to print on a local budget.",
+    "intro": "Paper still reaches members who never see a post. Use this page to decide when to print, how to design for the shop floor, and how to stretch a small budget.",
     "relatedLabel": "Also see",
-    "sections": {
-      "when": {
-        "title": "When to print",
-        "content": "Print when social may miss people: shift workers, members without smartphones, and high-traffic areas. Flyers for rallies; board notices for ongoing visibility."
+    "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
+    "when": {
+      "navLabel": "When to print",
+      "title": "When to print",
+      "whyTitle": "Why print still matters",
+      "intro": "Print is not a backup for locals that feel behind on digital. It is how you reach people social media never sees, and how you make the union visible in the workplace itself.",
+      "items": {
+        "divide": {
+          "label": "It bridges the digital divide",
+          "content": "Not every member has a smartphone, a data plan, or quiet time to scroll. A flyer in the hand or a notice by the time clock does not need a login."
+        },
+        "offline": {
+          "label": "It reaches members who skip social media",
+          "content": "Many members mute work-adjacent groups, never joined the local page, or do not use Facebook or Instagram at all. Print still finds them on the floor."
+        },
+        "presence": {
+          "label": "It is a physical reminder the union is here",
+          "content": "A posted notice is hard to swipe away. It tells everyone walking past that this local is present in the workplace, not only online."
+        }
       },
-      "flyers": {
-        "title": "Flyers and handouts",
-        "content": "Use Flyer Maker for picket lines and rallies, then export a PDF for letter, half-letter, or tabloid printing. Keep the text large and high-contrast so it reads outdoors."
+      "tip": "If the message matters and the room is mixed — different shifts, languages, or comfort with phones — print it. Flyers for rallies and walkabouts; board notices for ongoing visibility."
+    },
+    "flyers": {
+      "navLabel": "Flyers",
+      "title": "Flyers and handouts",
+      "intro": "Use Flyer Maker for picket lines, rallies, membership meetings, and walkabouts, then export a PDF for letter, half-letter, or tabloid printing. The tool carries your Brand Kit colours and local number so the stack looks like you.",
+      "practicesTitle": "Best practices",
+      "items": {
+        "glance": {
+          "label": "Glance Test",
+          "content": "Can a member understand the main point in three seconds, from arm's length? If not, enlarge the headline or cut copy until they can."
+        },
+        "words": {
+          "label": "Keep the word count low",
+          "content": "Aim for a short headline, a few lines of body, and the facts (what, when, where). If you need a paragraph, the flyer is doing a newsletter's job. Cut it."
+        },
+        "action": {
+          "label": "One clear call to action",
+          "content": "Ask for one next step: show up, scan the code, talk to a steward, or share with a coworker. Two asks on one flyer means neither gets done."
+        },
+        "qr": {
+          "label": "QR codes bridge print and digital",
+          "content": "Point the code at your local website, a membership form, or an Officer Hub RSVP link. Paper gives the facts; the scan gives the live page if details change."
+        },
+        "type": {
+          "label": "Large, high-contrast type",
+          "content": "Hallways, parking lots, and picket lines are not desks. Keep the text large and dark on a light field (or the reverse) so it still reads outdoors."
+        }
       },
-      "boards": {
-        "title": "Board notices",
-        "content": "Board Notice Maker for workplace corks. Tabloid (11×17) reads from farther away. Letter fits standard boards."
+      "tip": "Print one proof and do the Glance Test in a hallway, not at your desk. Test every QR on a phone before you print a stack."
+    },
+    "boards": {
+      "navLabel": "Board notices",
+      "title": "Board notices",
+      "intro": "Use Board Notice Maker for workplace corks. Tabloid (11×17) reads from farther away. Letter (8.5×11) fits most standard boards. Pair this page with the Union Boards Guide for layout, zones, and what to keep up year-round.",
+      "realitiesTitle": "Workplace realities",
+      "items": {
+        "place": {
+          "label": "Put boards where members already stop",
+          "content": "Break rooms, time clocks, and the entrance people actually use beat a quiet corridor. If you have more than one site, give each site a board you can keep current."
+        },
+        "expired": {
+          "label": "Take down expired notices",
+          "content": "A meeting flyer still up a week later makes the union look asleep. Pull it the day after, and keep standing pieces (contacts, health and safety, how to find you) current."
+        },
+        "agreement": {
+          "label": "Check your collective agreement",
+          "content": "Employer rules for union boards live in your collective agreement and any posting policy. Some workplaces only allow union materials on designated boards."
+        }
       },
-      "digital": {
-        "title": "Print plus digital",
-        "content": "Same date, time, and location on board, flyer, social, and website. One message, four channels."
-      }
+      "warningTitle": "Posting rights",
+      "warning": "Do not tape a flyer to a door, window, or management board unless your collective agreement or a written posting practice allows it. When you are unsure, ask your president or steward before you post."
+    },
+    "logistics": {
+      "navLabel": "Printing tips",
+      "title": "Printing logistics and tips",
+      "intro": "Most locals print on a tight budget, often on a workplace copier. Design for the machine you actually have, then spend colour money only when the run is official.",
+      "items": {
+        "bw": {
+          "label": "Design for black and white",
+          "content": "Colour ink is expensive, and many shop copiers only do greyscale. If the flyer still reads without colour, it will also read in colour — and it will survive a cheap copy."
+        },
+        "contrast": {
+          "label": "Keep text contrast high",
+          "content": "Pale grey on white fails on a tired copier and in a dim hallway. Dark text on a light field (or the reverse) is the difference between a notice people read and one they walk past."
+        },
+        "union": {
+          "label": "Use a unionized print shop when the run is big",
+          "content": "Home and copy-shop letter printing is fine for a meeting stack. For bulk runs or official campaign printing, prefer a unionized print shop when one is available."
+        },
+        "proof": {
+          "label": "Print one proof first",
+          "content": "Letter (8.5×11) is the cheapest stack; tabloid (11×17) is worth it for boards that must read from across a room. Read the proof at arm's length in hallway light before you copy fifty."
+        }
+      },
+      "tip": "Recycled or slightly heavier stock lasts longer on a cork board than thin copier paper. Save the heavier sheet for standing notices; use cheap letter paper for handouts that will be thrown out after the event."
+    },
+    "digital": {
+      "navLabel": "Print plus digital",
+      "title": "Print plus digital",
+      "intro": "Print and digital are not competing channels. The same facts should appear on the board, the flyer, social, and the website: one message, four channels.",
+      "items": {
+        "facts": {
+          "label": "Lock the facts once",
+          "content": "Date, time, place, and who to contact must match everywhere. If one channel is wrong, members will trust none of them."
+        },
+        "order": {
+          "label": "Post paper first when you can",
+          "content": "Hand the flyer or pin the notice, then share a photo of the printed piece on social (with photo consent for anyone visible). Members who only see the feed still see the union on the wall."
+        },
+        "qr": {
+          "label": "Let print send people digital",
+          "content": "A QR code on the flyer or board can open the live page, the RSVP, or the membership form when details change after you print."
+        }
+      },
+      "tip": "If you only have time for one printed piece, make it the board notice or the flyer — then reuse the same headline in Graphic Maker so social does not invent a second message."
     }
   },
   "emailBroadcastGuide": {
