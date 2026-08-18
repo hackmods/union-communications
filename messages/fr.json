@@ -4736,6 +4736,7 @@
     },
     "demoKicker": "Liens rapides",
     "demoLead": "Gardez cette boîte visible. Touchez un outil quand le plan le nomme. Ce sont les quatre mêmes arrêts que la démo de 20 minutes.",
+    "demoNote": "Après que ce navigateur a ouvert la Trousse de marque, l'Avis d'affichage, le Créateur de graphiques et les Légendes, le Modèle de site Web apparaît sur le parcours comme cinquième option. L'impression reste dans Première semaine.",
     "outlineTitle": "Plan suggéré",
     "outlineIntro": "Les durées totalisent environ 50 minutes, avec de la place pour les questions. Si vous avez une heure complète, restez plus longtemps sur le <strong>Créateur de graphiques</strong>. Si vous avez 45 minutes, enchaînez les téléchargements.",
     "outlineNavLabel": "Durées du plan",
@@ -4766,14 +4767,14 @@
         "navLabel": "Créateur de graphiques",
         "title": "Créateur de graphiques et Légendes pour Facebook et Instagram",
         "do": "Ouvrez le <strong>Créateur de graphiques</strong>, choisissez un modèle, puis téléchargez un PNG. Ensuite, copiez une légende correspondante dans <strong>Légendes</strong>. Vous partez avec une publication que vous pourriez vraiment mettre en ligne, pas seulement une diapositive sur le fait de publier.",
-        "facilitator": "Faites une pause sur le dialogue de consentement photo. Ne faites pas la démo de publication du Sondage éclair. Si un téléchargement échoue, montrez un PNG enregistré avant la séance."
+        "facilitator": "Faites une pause sur le dialogue de consentement photo. Ne faites pas la démo de publication du Sondage éclair. Si un téléchargement échoue, montrez un PNG enregistré avant la séance. Après les Légendes, le Modèle de site Web apparaît sur le parcours une fois les quatre arrêts ouverts."
       },
       "roadmap": {
         "time": "7 min",
         "navLabel": "Première semaine",
         "title": "Feuille de route de la première semaine et liste de contrôle",
         "do": "Ouvrez la feuille de route <strong>Première semaine</strong>. Choisissez une vraie action pour cette semaine, d'habitude l'avis que vous venez de faire, puis une publication sociale. La liste de pratique dans Ressources Comms est un devoir, pas du temps de parole en plus.",
-        "facilitator": "Demandez ce qui ira sur le tableau cette semaine. Pointez Ressources Comms et terminez à l'heure. Bricoler après la séance, c'est le but."
+        "facilitator": "Demandez ce qui ira sur le tableau cette semaine. Pointez Ressources Comms et terminez à l'heure. Bricoler après la séance, c'est le but. Le Modèle de site Web est déjà dans Première semaine ; ce n'est pas un cinquième arrêt numéroté sur cette page."
       }
     },
     "wrapTitle": "Prochaines étapes",
@@ -4782,6 +4783,7 @@
       "bookmark": "Ajoutez la <strong>Trousse de marque</strong> aux favoris de ce navigateur pour retrouver vos couleurs à votre retour. Si vous partagez l'ordinateur, téléchargez le fichier de la Trousse de marque et rangez-le avec les dossiers de la section.",
       "post": "Ouvrez la feuille de route <strong>Première semaine</strong> et tentez votre première vraie publication avec le graphique et la légende faits aujourd'hui.",
       "board": "Placez le PDF de l'Avis d'affichage sur le tableau au travail, ou remettez-le à la personne qui met le tableau à jour.",
+      "website": "Si vous avez ouvert les quatre arrêts en direct, ouvrez le Modèle de site Web et téléchargez le ZIP quand vous voulez une page locale simple.",
       "checklist": "Quand vous avez une demi-heure tranquille, parcourez la liste de pratique dans Ressources Comms."
     },
     "wrapFacilitator": "Remerciez les gens. Rappelez que les outils de communication publics restent sur l'appareil. Si quelque chose a cassé, la page Commentaires de ce site prend une note, sans liste d'envoi aux membres.",

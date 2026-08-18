@@ -4736,6 +4736,7 @@
     },
     "demoKicker": "Quick links",
     "demoLead": "Keep this box in view. Tap a tool when the agenda names it. Same four stops as the 20-minute live demo.",
+    "demoNote": "After this browser opens Brand Kit, Board Notice, Graphic Maker, and Captions, Website Template appears on that path as an optional fifth. Print stays on First week.",
     "outlineTitle": "Suggested outline",
     "outlineIntro": "Times add up to about 50 minutes, with room for questions. If you have a full hour, linger on <strong>Graphic Maker</strong>. If you have 45 minutes, keep the downloads moving.",
     "outlineNavLabel": "Agenda times",
@@ -4766,14 +4767,14 @@
         "navLabel": "Graphic Maker",
         "title": "Graphic Maker and Captions for Facebook and Instagram",
         "do": "Open <strong>Graphic Maker</strong>, pick a preset, and download a PNG. Then copy a matching caption from <strong>Captions</strong>. You leave with a post you could actually publish, not only a slide about posting.",
-        "facilitator": "Pause on the photo consent dialog. Do not demo Pulse Poll publish. If a download fails, show a PNG you saved before the session."
+        "facilitator": "Pause on the photo consent dialog. Do not demo Pulse Poll publish. If a download fails, show a PNG you saved before the session. After Captions, Website Template appears on that path once all four stops are open."
       },
       "roadmap": {
         "time": "7 min",
         "navLabel": "First week",
         "title": "First week roadmap and practice checklist",
         "do": "Open the <strong>First week</strong> roadmap. Choose one real action for this week, usually the notice you just made, then one social post. The practice checklist on Comms Resources is homework, not extra talking time.",
-        "facilitator": "Ask what will go on the board this week. Point to Comms Resources and stop on time. Tinkering after the session is the point."
+        "facilitator": "Ask what will go on the board this week. Point to Comms Resources and stop on time. Tinkering after the session is the point. Website Template is already on First week; it is not a fifth numbered stop on this page."
       }
     },
     "wrapTitle": "Next steps",
@@ -4782,6 +4783,7 @@
       "bookmark": "Bookmark <strong>Brand Kit</strong> in this browser so your colours are still here when you come back. If you share the computer, download the Brand Kit file from Brand Kit and keep it with your local records.",
       "post": "Open the <strong>First week</strong> roadmap and attempt your first real post using the graphic and caption you made today.",
       "board": "Get the Board Notice PDF onto the workplace board, or hand it to whoever updates the board.",
+      "website": "If you opened all four live stops, open Website Template and download the ZIP when you want a simple local page.",
       "checklist": "When you have a quiet half hour, work through the practice checklist on Comms Resources."
     },
     "wrapFacilitator": "Thank people. Remind them public Comms stay on the device. If something broke, the Feedback page on this site takes a note without a member mailing list.",
