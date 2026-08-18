@@ -1,5 +1,13 @@
 # Progress Log
 
+## Short-form video guide (2026-08-18)
+
+- [x] `/guide/short-form` — filming, native-first phone editors, evergreen posting (one ask); EN/FR lockstep
+- [x] Guides → By channel + First week socials tertiary + Resources + Blueprint; Photo Consent video bullets
+- [x] `comms-sources` Instagram Reels + YouTube Shorts help (no product affiliate links; no embeds)
+- [x] Editor registry `short-form-editors.ts` (CapCut last, not default)
+- Verify: `npm run test:unit -- src/lib/constants/short-form-editors.test.ts src/components/layout/nav/nav-config.test.ts src/lib/comms/first-week-roadmap.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/comms-sources.test.ts`
+
 ## Website Template WordPress theme ZIP (2026-08-18)
 
 - [x] Second export: classic PHP theme wrap of the same HTML/CSS/JS (`generateWordpressThemeZip`) — Appearance → Themes upload folder
@@ -7,6 +15,13 @@
 - [x] Website Guide + tool copy: WordPress is unsupported-optional; Squarespace cannot install a custom theme ZIP (no Squarespace export)
 - [x] No WXR, FSE, or Squarespace export
 - Verify: `npm run test:unit -- src/lib/templates/website/generate-wordpress-theme-zip.test.ts src/lib/templates/website/generate-website-zip.test.ts src/lib/comms/public-copy-style.test.ts`
+
+## Local Portal lived-in Station (2026-08-18)
+
+- [x] Demo Circles use dates relative to now so the week digest, Floor, and Bulletin are not a pile of zeros
+- [x] Station leads with Open Hall, upcoming Calendar, Actions, and Bulletin; search sits under a disclosure
+- [x] Hall hides empty committee tools (Pipeline / Roll Call / Momentum / Oversight)
+- Verify: `npm run test:unit -- src/lib/portal/portal.test.ts src/components/portal/portal-nav-model.test.ts src/lib/comms/public-copy-style.test.ts` · `npx playwright test e2e/portal.smoke.spec.ts`
 
 ## Local Portal QOL after chrome (2026-08-18)
 

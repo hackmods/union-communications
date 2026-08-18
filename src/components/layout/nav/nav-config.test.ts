@@ -67,6 +67,7 @@ describe("path helpers", () => {
       "/guide/union-boards",
       "/guide/website",
       "/guide/email-broadcast",
+      "/guide/short-form",
       "/guide/membership-signup",
     ]);
     expect(libraries?.links.map((l) => l.href)).toEqual([

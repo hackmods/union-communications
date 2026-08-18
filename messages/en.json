@@ -39,6 +39,7 @@
     "printGuide": "Print Guide",
     "websiteGuide": "Website Guide",
     "emailBroadcastGuide": "Email & outreach",
+    "shortFormGuide": "Short-form video",
     "resources": "Comms Resources",
     "photoConsent": "Photo Consent",
     "membershipSignupGuide": "Membership signup",
@@ -343,7 +344,8 @@
         "cta": "Graphic Maker",
         "secondaryCta": "Captions",
         "tertiaryExamples": "Social Examples",
-        "tertiaryBlueprint": "The Blueprint"
+        "tertiaryBlueprint": "The Blueprint",
+        "tertiaryShortForm": "Short-form video"
       },
       "website": {
         "title": "A website",
@@ -439,6 +441,7 @@
       "print": "Print",
       "website": "Website",
       "email": "Email & outreach",
+      "shortForm": "Short-form video",
       "membershipSignup": "Membership signup"
     },
     "labourGuides": {
@@ -743,6 +746,101 @@
       }
     }
   },
+  "shortFormGuide": {
+    "title": "Short-form Video Guide",
+    "subtitle": "Film on a phone, keep member privacy, and send people to a real ask.",
+    "intro": "UnionOps makes stills and captions. The camera and a phone editor make the clip. Use this page after Brand Kit and a social graphic, not instead of boards, print, or a closed Facebook group.",
+    "relatedLabel": "Also see",
+    "tocLabel": "On this page",
+    "aspect": {
+      "portrait": "9:16",
+      "square": "1:1",
+      "landscape": "16:9",
+      "caption": "Reels, Stories, and Shorts are tall. Graphic Maker is square or landscape today; crop a cover to Instagram Story size in Image Resizer, or export a 9:16 digital Solidarity Poster."
+    },
+    "filming": {
+      "navLabel": "Filming",
+      "title": "Filming on a phone",
+      "content": "Hold the phone upright for Reels, Stories, and Shorts. Face a window, not a ceiling light. Speak close to the mic, or record a voiceover later in a quiet room. Shop floors and picket lines are loud; a short clip with on-screen text often beats a long take.",
+      "items": {
+        "vertical": "Film tall unless you know the post is a Facebook landscape.",
+        "light": "Put faces toward a window or open shade. Avoid backlight that turns a speaker into a silhouette.",
+        "audio": "If the floor is noisy, shoot silent footage and add a voiceover. Do not shout over machines.",
+        "background": "Check who is behind the speaker. Faces, badges, and lanyards identify people too.",
+        "consent": "Do not film grievances, medical spaces, or papers on a desk. Run Photo Consent before any member is on camera."
+      },
+      "consentTitle": "Privacy is the same checklist as photos",
+      "consentBody": "Video is harder to crop after the fact. Get consent before you press record, including people clearly visible in the background."
+    },
+    "editing": {
+      "navLabel": "Editing",
+      "title": "Edit on the phone you already have",
+      "content": "Trim, captions on screen, and a voiceover belong in a phone editor. UnionOps does not edit video. Start with the camera app. Named apps below are common; none of them run inside this site, and some upload footage to a cloud.",
+      "stillsTitle": "What UnionOps stills are for",
+      "stillsBody": "Download a cover or end card from Graphic Maker or Image Resizer (Instagram Story is 1080×1920), then drop it on the first and last frames. Copy a caption from the library. Point a QR or link at an Action Card, meeting notice, or your local website."
+    },
+    "strategy": {
+      "navLabel": "Posting",
+      "title": "One ask, then a place to go",
+      "content": "Open with who, what, and when in the first second. One action per clip. Start with the platform members already use. Many locals still live in a closed Facebook group. TikTok is optional, not a First week step. Skip weekly ranking tips; they go stale. Official how-to pages are in Sources below.",
+      "items": {
+        "hook": "Put the ask on screen as well as in speech, so the clip works with the sound off.",
+        "oneAsk": "One meeting, one petition, or one website. Not all three.",
+        "handoff": "Send people to something you already made: a QR, an Action Card, Captions plus Graphic Maker, or the Website Template.",
+        "platform": "Do well on one channel before you split time across Instagram, YouTube Shorts, and TikTok."
+      }
+    },
+    "checklist": {
+      "navLabel": "Before you post",
+      "title": "Before you post",
+      "intro": "Work through these once per clip, the same way First week walks boards then print then socials.",
+      "items": {
+        "consent": "Photo Consent is done, including background faces and location tags turned off.",
+        "cover": "A tall cover or end card is exported (Image Resizer Story size, or a 9:16 Solidarity Poster).",
+        "caption": "A caption is copied from the library and edited for this ask. Hashtags stay generic, without a union name.",
+        "alt": "Alt text is drafted in Alt-Text Assistant for the cover still, then pasted into the platform field.",
+        "ask": "The clip points at one action members can take this week."
+      }
+    },
+    "pricing": {
+      "free": "Free",
+      "freemium": "Free tier, then paid extras",
+      "paid": "Paid"
+    },
+    "privacy": {
+      "on-device": "Stays on the phone unless you export",
+      "account-cloud": "Needs an account; files may upload",
+      "high-risk-cloud": "Cloud account; treat member footage as leaving the phone"
+    },
+    "useCases": {
+      "hook-still": "Cover or end card stills",
+      "captions-burn": "On-screen captions",
+      "voiceover": "Voiceover after a noisy shoot",
+      "campaign-cta": "Pointing at a campaign action"
+    },
+    "editors": {
+      "device-native": {
+        "name": "Phone camera editor",
+        "when": "Trim and titles without a new account. Prefer this when member footage should stay on the device."
+      },
+      "inshot": {
+        "name": "InShot",
+        "when": "Common for on-screen captions and simple cuts. Check whether a clip uploads before you sign in."
+      },
+      "canva": {
+        "name": "Canva",
+        "when": "Handy if the local already uses Canva for stills. Video and photos go to a cloud account; skip confidential casework."
+      },
+      "descript": {
+        "name": "Descript",
+        "when": "Uploads audio to make a transcript. Do not send grievance, medical, or bargaining talk."
+      },
+      "capcut": {
+        "name": "CapCut",
+        "when": "Widely used, and a cloud login. Do not treat it as the UnionOps default. Keep member faces and workplace audio off that account when you can."
+      }
+    }
+  },
   "photoConsentGuide": {
     "title": "Photo Consent & Member Media",
     "subtitle": "A short checklist to run before you post a member's photo.",
@@ -761,12 +859,14 @@
         "confidential": "The photo and caption do not contain confidential workplace, grievance, medical, or bargaining information",
         "group": "For group photos, everyone who is clearly identifiable has been covered — or crop, blur, or choose a different image",
         "minors": "Photos of minors or dependents follow your local executive and union policy before you publish them",
+        "background": "Faces in the background, badges, and lanyards are identifiable too — crop, wait, or get consent",
+        "location": "Turn off location tags before you post, and do not film confidential casework or medical spaces",
         "withdrawal": "You know who to contact if a member later asks for the photo to be taken down"
       }
     },
     "toolbox": {
       "title": "In the Toolbox",
-      "content": "Use the Graphic Maker consent step, keep a simple local log, and prefer group shots when individuals have not consented."
+      "content": "Use the Graphic Maker consent step, keep a simple local log, and prefer group shots when individuals have not consented. The same list applies before you film a Reel or Short."
     },
     "workshop": {
       "title": "Workshop tip",
@@ -1872,6 +1972,7 @@
         "print": "Print Guide",
         "website": "Website Guide",
         "email": "Email & outreach",
+        "shortForm": "Short-form video",
         "crisis": "Strike Guide",
         "photoConsent": "Photo Consent",
         "workshop": "Workshop outline"
@@ -1883,6 +1984,7 @@
         "print": "Flyers and print habits for meetings and actions.",
         "website": "What to put on a local site, build the ZIP, and publish on GitHub Pages.",
         "email": "Copy-only invites and officer reminders. No marketing lists.",
+        "shortForm": "Phone filming, member privacy, and pointing Reels or Shorts at a real ask.",
         "crisis": "High-stakes bargaining and strike communications.",
         "photoConsent": "Member photo checklist for stewards and workshops.",
         "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path."
@@ -4644,11 +4746,6 @@
   "portal": {
     "stationTitle": "Station",
     "stationSubtitle": "Your Circles, Actions, and recent Bulletin — solidarity collaboration for the local.",
-    "startHere": "Start in {hall} — that is the whole local. Committees are invited Circles.",
-    "openHall": "Open Hall",
-    "upcomingTitle": "Coming up",
-    "upcomingEmpty": "No upcoming Calendar events. Open a Circle to add one.",
-    "dispatchUnread": "You have {count} unread Dispatch item(s). Open Dispatch to catch up.",
     "navLabel": "Portal navigation",
     "openPortalMenu": "Open portal menu",
     "closePortalMenu": "Close portal menu",
@@ -4709,6 +4806,7 @@
     "binderBody": "Note or link…",
     "addBinder": "Add to Binder",
     "floorPlaceholder": "Message the Floor…",
+    "emptyFloor": "Quiet on the Floor. Send a short note when you need the room.",
     "sendFloor": "Send",
     "rollCallAnswer": "Your Roll Call answer",
     "submitAnswer": "Submit",
@@ -4803,7 +4901,7 @@
     "rosterInvitePick": "Invite someone…",
     "rosterInvite": "Add to Roster",
     "guestBanner": "Guest view — you can read this Circle but not post.",
-    "keyboardHint": "Shortcuts: 1–0 switch tools (when not typing).",
+    "keyboardHint": "Shortcuts: number keys switch tools (when not typing).",
     "mentionHint": "Tip: @Name someone on the Roster to ping them in Dispatch.",
     "softDelete": "Remove",
     "muteToolsTitle": "Quiet specific tools",

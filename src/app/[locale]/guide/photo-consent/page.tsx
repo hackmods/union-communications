@@ -22,6 +22,8 @@ const checklistKeys = [
   "confidential",
   "group",
   "minors",
+  "background",
+  "location",
   "withdrawal",
 ] as const;
 
@@ -41,7 +43,10 @@ export default async function PhotoConsentGuidePage({
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
-      relatedLinks={[{ href: "/guide", label: t("backToGuide") }]}
+      relatedLinks={[
+        { href: "/guide", label: t("backToGuide") },
+        { href: "/guide/short-form", label: nav("shortFormGuide") },
+      ]}
       footer={
         <SourcesBlock
           pageId="photoConsent"

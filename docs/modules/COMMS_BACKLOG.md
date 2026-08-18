@@ -6,6 +6,13 @@ Implementation surface today: [`HomeContent.tsx`](../../src/components/pages/Hom
 
 ## Deferred content
 
+### Short-form video guide — SHIPPED (2026-08-18)
+
+- **Shipped:** `/guide/short-form` (EN/FR) — filming, phone-editor comparison (native first; CapCut last), pointing Reels/Shorts at a campaign ask. Stills stay in Graphic Maker / Resizer; no in-browser editor, no platform embeds (ADR-006).
+- **Nav:** Guides → By channel (after Email); Blueprint channel links; Resources path; First week socials tertiary; Photo Consent extras; sitemap + sources (`instagram-reels`, `youtube-shorts`).
+- **Do not:** Add a Video Hub, fifth Tools column, hashtag generator, Instagram/TikTok iframe, or CapCut clone.
+- **Optional later:** Graphic Maker `portrait` 9:16 still (cover / end card) + vertical `/examples` — separate canvas train, not this guide.
+
 ### Email / member broadcast guide — SHIPPED (2026-07-26)
 
 - **Shipped:** `/guide/email-broadcast` (EN/FR) — copy-only Comms invites vs Hub SMTP/cron; no marketing lists.

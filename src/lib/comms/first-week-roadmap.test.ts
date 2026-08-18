@@ -37,6 +37,16 @@ describe("FIRST_WEEK_STEP_KEYS", () => {
     expect(fr.socialMediaPlan.steps.website.tertiaryEmailBroadcast).toBeTruthy();
   });
 
+  it("links socials tertiary to examples, Blueprint, and short-form video", () => {
+    expect(FIRST_WEEK_STEP_LINKS.socials.tertiary).toEqual([
+      { href: "/examples", labelKey: "tertiaryExamples" },
+      { href: "/guide", labelKey: "tertiaryBlueprint" },
+      { href: "/guide/short-form", labelKey: "tertiaryShortForm" },
+    ]);
+    expect(en.socialMediaPlan.steps.socials.tertiaryShortForm).toBeTruthy();
+    expect(fr.socialMediaPlan.steps.socials.tertiaryShortForm).toBeTruthy();
+  });
+
   it("has matching EN/FR step copy for every roadmap key", () => {
     for (const key of FIRST_WEEK_STEP_KEYS) {
       const enStep = en.socialMediaPlan.steps[key];

@@ -11,7 +11,7 @@ Top bar is slim and dual-audience oriented:
 | Item | Route / contents |
 |------|------------------|
 | **Get started** | `/onboarding` when Brand Kit is not established; `/guide/social-media-plan` (First week) when it is — Brand Kit stays a separate link |
-| **Guides ▾** | **Start here:** Blueprint, First week, Comms Resources, Workshop outline, Strike Guide · **By channel:** Print, Union Boards, Website, **Email & outreach**, Membership signup · **Libraries:** Social Examples, Captions, Photo Consent · **About:** Brand Assets, Why it's free, Install as an app |
+| **Guides ▾** | **Start here:** Blueprint, First week, Comms Resources, Workshop outline, Strike Guide · **By channel:** Print, Union Boards, Website, **Email & outreach**, **Short-form video**, Membership signup · **Libraries:** Social Examples, Captions, Photo Consent · **About:** Brand Assets, Why it's free, Install as an app |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Assets) |
 | **Tools ▾** | Mega-menu columns grouped by **job** — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board · **Print & cards:** Flyer, QR Cards, Action Cards, Pulse Poll (signed-in) · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · footer **All tools** → `/tools`. Do not 1:1-map these columns to First week channels; see [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../audit/session-knowledge-2026-08-18-tools-catalog-ia.md) |
 | **Officer Hub** | `/app` (auth) — filled primary CTA |
@@ -39,6 +39,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | `/[locale]/guide/print` | Print communications guide |
 | `/[locale]/guide/website` | Local website guide: plan and write the ZIP, then publish on GitHub Pages |
 | `/[locale]/guide/email-broadcast` | Fifth-channel email & outreach guide — Comms copy/mailto vs Hub SMTP/cron; no marketing lists |
+| `/[locale]/guide/short-form` | Short-form video practice — filming, phone editors, pointing Reels/Shorts at a campaign ask; stills stay in Graphic Maker / Resizer |
 | `/[locale]/install` | PWA / desktop install guide — Guides → About + footer |
 | `/[locale]/examples` | Social examples gallery — brand-aware mockups, why-it-works notes, handoff to Graphic Maker / Captions / Quote Card / Flyer |
 | `/[locale]/captions` | Caption & hashtag library |
@@ -64,13 +65,13 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 
 | Channel | Tools & guides |
 |---------|----------------|
-| **Social** | Blueprint, crisis guide, captions, examples, graphic maker, resizer, quote card, alt-text |
+| **Social** | Blueprint, crisis guide, captions, examples, graphic maker, resizer, quote card, alt-text, **short-form video guide** |
 | **Print** | Flyer maker, print guide; pocket QR / action cards live under Tools → Print & cards |
 | **Union boards** | Board banner, board notice, solidarity poster, QR board posters, union boards guide (bare-minimum + reference layouts) |
 | **Website** | Website template (based on local243.org model), website guide — GitHub Pages ZIP default; optional classic WordPress theme (unsupported hosting); not Squarespace |
 | **Email (fifth channel)** | Email & outreach guide — complements boards/print/social/website; officer SMTP/cron stays Hub-only |
 
-The four-channel model (boards → print → social → website) remains the First week roadmap. Email is documented as an optional fifth channel for officer outreach copy and Hub SMTP boundaries — not a member broadcast list.
+The four-channel model (boards → print → social → website) remains the First week roadmap. Email is documented as an optional fifth channel for officer outreach copy and Hub SMTP boundaries — not a member broadcast list. Short-form video is **channel practice** under social (not a fifth Tools column and not an in-browser editor).
 
 Website Template is a **fixed one-page static generator** (`WebsiteTemplateData` → HTML/CSS/JS ZIP for GitHub Pages by default). Optional classic WordPress theme ZIP wraps the same page; **UnionOps does not support WordPress** hosting or updates. **Squarespace 7.1 theme / developer-mode export is a non-option**. Do not advertise a Squarespace template. Full matrix: [`plan-2026-08-18-website-export-wp-squarespace.md`](../audit/plan-2026-08-18-website-export-wp-squarespace.md), [`.cursor/rules/website-export.mdc`](../../.cursor/rules/website-export.mdc).
 

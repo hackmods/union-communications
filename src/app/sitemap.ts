@@ -30,6 +30,7 @@ export const PUBLIC_PATHS = [
   "/guide/print",
   "/guide/website",
   "/guide/email-broadcast",
+  "/guide/short-form",
   "/guide/resources",
   "/guide/photo-consent",
   "/guide/crisis",

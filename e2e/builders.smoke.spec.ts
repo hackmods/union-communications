@@ -173,6 +173,10 @@ test.describe("Public secondary pages smoke @smoke", () => {
       path: "/en/guide/email-broadcast/",
       heading: /Email.*outreach/i,
     },
+    {
+      path: "/en/guide/short-form/",
+      heading: "Short-form Video Guide",
+    },
     { path: "/en/tools/", heading: "Tools" },
     { path: "/en/examples/", heading: "Social Examples" },
     { path: "/en/captions/", heading: "Caption & Hashtag Library" },
@@ -207,6 +211,14 @@ test.describe("Public secondary pages smoke @smoke", () => {
     page,
   }) => {
     await page.goto("/en/guide/email-broadcast/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
+
+  test("short-form video guide has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/en/guide/short-form/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });

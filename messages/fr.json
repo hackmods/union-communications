@@ -39,6 +39,7 @@
     "printGuide": "Guide impression",
     "websiteGuide": "Guide site Web",
     "emailBroadcastGuide": "Courriel et diffusion",
+    "shortFormGuide": "Vidéo courte",
     "resources": "Ressources de communication",
     "photoConsent": "Consentement photo",
     "membershipSignupGuide": "Adhésion",
@@ -343,7 +344,8 @@
         "cta": "Créateur graphique",
         "secondaryCta": "Légendes",
         "tertiaryExamples": "Exemples sociaux",
-        "tertiaryBlueprint": "Le Plan directeur"
+        "tertiaryBlueprint": "Le Plan directeur",
+        "tertiaryShortForm": "Vidéo courte"
       },
       "website": {
         "title": "Un site Web",
@@ -439,6 +441,7 @@
       "print": "Impression",
       "website": "Site Web",
       "email": "Courriel et diffusion",
+      "shortForm": "Vidéo courte",
       "membershipSignup": "Adhésion"
     },
     "labourGuides": {
@@ -743,6 +746,101 @@
       }
     }
   },
+  "shortFormGuide": {
+    "title": "Guide de la vidéo courte",
+    "subtitle": "Filmez au téléphone, protégez la vie privée des membres, et envoyez les gens vers une vraie demande.",
+    "intro": "UnionOps produit des images fixes et des légendes. La caméra et l’éditeur du téléphone font le clip. Utilisez cette page après la Trousse de marque et un graphique social, pas à la place des tableaux, de l’imprimé ou d’un groupe Facebook fermé.",
+    "relatedLabel": "Voir aussi",
+    "tocLabel": "Sur cette page",
+    "aspect": {
+      "portrait": "9:16",
+      "square": "1:1",
+      "landscape": "16:9",
+      "caption": "Les Reels, Stories et Shorts sont en hauteur. Le Créateur graphique est carré ou paysage aujourd’hui ; recadrez une couverture au format Story Instagram dans le Redimensionneur d’images, ou exportez une affiche solidarité numérique 9:16."
+    },
+    "filming": {
+      "navLabel": "Tournage",
+      "title": "Filmer au téléphone",
+      "content": "Tenez le téléphone à la verticale pour les Reels, Stories et Shorts. Placez-vous face à une fenêtre, pas sous un plafonnier. Parlez près du micro, ou enregistrez une voix hors champ plus tard dans une pièce calme. Les ateliers et les piquets sont bruyants ; un court clip avec du texte à l’écran bat souvent une longue prise.",
+      "items": {
+        "vertical": "Filmez en hauteur, sauf si vous savez que la publication est un paysage Facebook.",
+        "light": "Placez les visages vers une fenêtre ou une ombre ouverte. Évitez le contre-jour qui réduit la personne à une silhouette.",
+        "audio": "Si le plancher est bruyant, filmez des images et ajoutez une voix hors champ. Ne criez pas par-dessus les machines.",
+        "background": "Vérifiez qui se trouve derrière la personne qui parle. Les visages, les badges et les cordons identifient aussi les gens.",
+        "consent": "Ne filmez pas de griefs, d’espaces médicaux ou de papiers sur un bureau. Parcourez Consentement photo avant qu’un membre soit à l’écran."
+      },
+      "consentTitle": "La vie privée, c’est la même liste que pour les photos",
+      "consentBody": "La vidéo est plus difficile à recadrer après coup. Obtenez le consentement avant d’appuyer sur enregistrer, y compris pour les personnes clairement visibles en arrière-plan."
+    },
+    "editing": {
+      "navLabel": "Montage",
+      "title": "Montez sur le téléphone que vous avez déjà",
+      "content": "Couper, coller du texte à l’écran et ajouter une voix hors champ se font dans un éditeur de téléphone. UnionOps ne monte pas de vidéo. Commencez par l’appli caméra. Les applis nommées plus bas sont courantes ; aucune ne tourne dans ce site, et certaines téléversent les images vers un nuage.",
+      "stillsTitle": "À quoi servent les images UnionOps",
+      "stillsBody": "Téléchargez une couverture ou une carte de fin depuis le Créateur graphique ou le Redimensionneur d’images (Story Instagram : 1080×1920), puis placez-la sur les première et dernière images. Copiez une légende dans la bibliothèque. Orientez un QR ou un lien vers une Carte d’action, un avis de réunion ou le site de votre section."
+    },
+    "strategy": {
+      "navLabel": "Publication",
+      "title": "Une demande, puis un endroit où aller",
+      "content": "Ouvrez avec qui, quoi et quand dès la première seconde. Une action par clip. Commencez par la plateforme que les membres utilisent déjà. Beaucoup de sections vivent encore dans un groupe Facebook fermé. TikTok est facultatif, pas une étape de la Première semaine. Laissez tomber les trucs de classement de la semaine ; ils vieillissent vite. Les pages officielles sont dans les sources plus bas.",
+      "items": {
+        "hook": "Mettez la demande à l’écran autant que dans la voix, pour que le clip fonctionne sans le son.",
+        "oneAsk": "Une réunion, une pétition ou un site. Pas les trois.",
+        "handoff": "Envoyez les gens vers quelque chose que vous avez déjà fait : un QR, une Carte d’action, Légendes plus Créateur graphique, ou le Modèle de site Web.",
+        "platform": "Faites bien un canal avant de diviser votre temps entre Instagram, YouTube Shorts et TikTok."
+      }
+    },
+    "checklist": {
+      "navLabel": "Avant de publier",
+      "title": "Avant de publier",
+      "intro": "Parcourez ces points une fois par clip, comme la Première semaine parcourt tableaux, impression, puis réseaux.",
+      "items": {
+        "consent": "Consentement photo est fait, y compris les visages en arrière-plan et les étiquettes de lieu désactivées.",
+        "cover": "Une couverture ou une carte de fin en hauteur est exportée (format Story du Redimensionneur, ou une affiche solidarité 9:16).",
+        "caption": "Une légende est copiée depuis la bibliothèque et adaptée à cette demande. Les mot-clics restent sans nom de syndicat.",
+        "alt": "Le texte alternatif de l’image de couverture est rédigé dans l’Assistant texte alternatif, puis collé dans le champ de la plateforme.",
+        "ask": "Le clip pointe vers une action que les membres peuvent faire cette semaine."
+      }
+    },
+    "pricing": {
+      "free": "Gratuit",
+      "freemium": "Volet gratuit, puis extras payants",
+      "paid": "Payant"
+    },
+    "privacy": {
+      "on-device": "Reste sur le téléphone sauf si vous exportez",
+      "account-cloud": "Compte requis ; les fichiers peuvent être téléversés",
+      "high-risk-cloud": "Compte infonuagique ; traitez les images de membres comme si elles quittaient le téléphone"
+    },
+    "useCases": {
+      "hook-still": "Images de couverture ou de fin",
+      "captions-burn": "Légendes à l’écran",
+      "voiceover": "Voix hors champ après un tournage bruyant",
+      "campaign-cta": "Pointer vers une action de campagne"
+    },
+    "editors": {
+      "device-native": {
+        "name": "Éditeur de la caméra du téléphone",
+        "when": "Coupez et ajoutez des titres sans nouveau compte. Préférez ceci quand les images de membres doivent rester sur l’appareil."
+      },
+      "inshot": {
+        "name": "InShot",
+        "when": "Courant pour les légendes à l’écran et les coupes simples. Vérifiez si un clip est téléversé avant de vous connecter."
+      },
+      "canva": {
+        "name": "Canva",
+        "when": "Pratique si la section utilise déjà Canva pour les images. La vidéo et les photos vont vers un compte infonuagique ; évitez le travail confidentiel sur les dossiers."
+      },
+      "descript": {
+        "name": "Descript",
+        "when": "Téléverse l’audio pour produire une transcription. N’envoyez pas de propos de grief, de santé ou de négociation."
+      },
+      "capcut": {
+        "name": "CapCut",
+        "when": "Très utilisé, et un compte infonuagique. Ne le traitez pas comme le choix par défaut d’UnionOps. Gardez les visages des membres et l’audio du lieu de travail hors de ce compte quand vous le pouvez."
+      }
+    }
+  },
   "photoConsentGuide": {
     "title": "Consentement photo et médias des membres",
     "subtitle": "Une courte liste à parcourir avant de publier la photo d'un membre.",
@@ -761,12 +859,14 @@
         "confidential": "La photo et la légende ne contiennent pas de renseignements confidentiels sur le lieu de travail, un grief, la santé ou la négociation",
         "group": "Pour les photos de groupe, chaque personne clairement identifiable a donné son accord — sinon recadrez, floutez ou choisissez une autre image",
         "minors": "Les photos de mineurs ou de personnes à charge suivent la politique de la direction locale et du syndicat avant que vous les publiiez",
+        "background": "Les visages en arrière-plan, les badges et les cordons identifient aussi les gens — recadrez, attendez ou obtenez le consentement",
+        "location": "Désactivez les étiquettes de lieu avant de publier, et ne filmez pas de dossiers confidentiels ni d’espaces médicaux",
         "withdrawal": "Vous savez qui contacter si un membre demande plus tard le retrait de la photo"
       }
     },
     "toolbox": {
       "title": "Dans la boîte à outils",
-      "content": "Utilisez l’étape de consentement du créateur graphique, tenez un journal local simple, et privilégiez les photos de groupe lorsque des personnes n’ont pas donné leur consentement individuel."
+      "content": "Utilisez l’étape de consentement du créateur graphique, tenez un journal local simple, et privilégiez les photos de groupe lorsque des personnes n’ont pas donné leur consentement individuel. La même liste s’applique avant de filmer un Reel ou un Short."
     },
     "workshop": {
       "title": "Conseil pour atelier",
@@ -1872,6 +1972,7 @@
         "print": "Guide impression",
         "website": "Guide site Web",
         "email": "Courriel et diffusion",
+        "shortForm": "Vidéo courte",
         "crisis": "Guide de grève",
         "photoConsent": "Consentement photo",
         "workshop": "Plan d'atelier"
@@ -1883,6 +1984,7 @@
         "print": "Tracts et habitudes d'impression pour réunions et actions.",
         "website": "Quoi mettre sur un site local, créer le ZIP et publier sur GitHub Pages.",
         "email": "Invitations à copier-coller et rappels aux dirigeants. Pas de listes marketing.",
+        "shortForm": "Filmer au téléphone, protéger les membres, et orienter Reels ou Shorts vers une vraie demande.",
         "crisis": "Communications de négociation et de grève à enjeux élevés.",
         "photoConsent": "Liste photo membre pour délégués et ateliers.",
         "workshop": "Plan réutilisable pour lunch-and-learn et atelier pratique avec parcours de démo."
@@ -4644,11 +4746,6 @@
   "portal": {
     "stationTitle": "Poste",
     "stationSubtitle": "Vos Cercles, Actions et babillards récents — collaboration de solidarité pour la section locale.",
-    "startHere": "Commencez dans {hall} — c’est toute la section. Les comités sont des Cercles sur invitation.",
-    "openHall": "Ouvrir la Salle",
-    "upcomingTitle": "À venir",
-    "upcomingEmpty": "Aucun événement au calendrier. Ouvrez un Cercle pour en ajouter un.",
-    "dispatchUnread": "Vous avez {count} élément(s) non lu(s) dans le Relais. Ouvrez le Relais pour rattraper.",
     "navLabel": "Navigation du Portail",
     "openPortalMenu": "Ouvrir le menu du Portail",
     "closePortalMenu": "Fermer le menu du Portail",
@@ -4691,6 +4788,8 @@
     "toolsNav": "Outils du Cercle",
     "filterPlaceholder": "Filtrer le babillard ou les Actions",
     "bulletinTitle": "Titre du babillard",
+    "writeBulletin": "Écrire au babillard",
+    "emptyCircleBulletin": "Aucun babillard dans ce Cercle. Écrivez le premier ci-dessus.",
     "bulletinBody": "Écrire pour le dossier…",
     "postBulletin": "Publier au babillard",
     "promoteToAction": "Créer une Action",
@@ -4709,6 +4808,7 @@
     "binderBody": "Note ou lien…",
     "addBinder": "Ajouter au classeur",
     "floorPlaceholder": "Message au plancher…",
+    "emptyFloor": "Calme sur le plancher. Envoyez une courte note si vous avez besoin de la salle.",
     "sendFloor": "Envoyer",
     "rollCallAnswer": "Votre réponse à l’appel",
     "submitAnswer": "Soumettre",
@@ -4803,7 +4903,7 @@
     "rosterInvitePick": "Inviter quelqu’un…",
     "rosterInvite": "Ajouter à l’effectif",
     "guestBanner": "Vue invitée — vous pouvez lire ce Cercle, mais pas publier.",
-    "keyboardHint": "Raccourcis : 1–0 pour changer d’outil (hors saisie).",
+    "keyboardHint": "Raccourcis : les chiffres changent d’outil (hors saisie).",
     "mentionHint": "Astuce : @Nom quelqu’un de l’effectif pour le pinguer dans Relais.",
     "softDelete": "Retirer",
     "muteToolsTitle": "Mettre des outils en sourdine",
