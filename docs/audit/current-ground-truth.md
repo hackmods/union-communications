@@ -11,7 +11,8 @@
 **QR Board canvas QOL + layout-class CI matrix + wallet FitWidth (2026-08-17):** [`session-knowledge-2026-08-17-qr-canvas-layout.md`](session-knowledge-2026-08-17-qr-canvas-layout.md) (lessons B1–B14, residual gaps, optional next steps), checklist [`plan-2026-08-17-qr-board-canvas-qol.md`](plan-2026-08-17-qr-board-canvas-qol.md)
 **Tools catalog regrouping (2026-08-18):** [`session-knowledge-2026-08-18-tools-catalog-ia.md`](session-knowledge-2026-08-18-tools-catalog-ia.md) — Tools ▾ / `/tools` columns are jobs (Brand / Union boards / Print & cards / Social & web), not a 1:1 of First week channels  
 **Website Template CMS export (2026-08-18):** [`plan-2026-08-18-website-export-wp-squarespace.md`](plan-2026-08-18-website-export-wp-squarespace.md), [`session-knowledge-2026-08-18-website-export.md`](session-knowledge-2026-08-18-website-export.md) — GitHub Pages ZIP is default; optional classic WP theme ZIP (UnionOps does **not** support WordPress). **Squarespace 7.1 theme export is a non-option**. Do not advertise a Squarespace template.  
-**Share Kit folded (2026-08-18):** `/tools/share-kit` redirects to Graphic Maker. Presets + Captions/Resizer related links cover the old orchestrator. Do not rebuild a third social canvas.
+**Share Kit folded (2026-08-18):** `/tools/share-kit` redirects to Graphic Maker. Presets + Captions/Resizer related links cover the old orchestrator. Do not rebuild a third social canvas.  
+**Multi-union Hub signup + platform admin (2026-08-18):** [`session-knowledge-2026-08-18-multi-union-hub-signup.md`](session-knowledge-2026-08-18-multi-union-hub-signup.md) — public Comms presets ≠ Hub tenancy; Hub is invite-only; `create_union` overlay is not durable; `platform_admin` is seeded (`ryan@ryanmorris.ca`) not a demo login. Do not add `/app/register` without a product decision.
 
 ## Do not re-open as if missing
 
@@ -33,6 +34,7 @@
 | Check-ins (Basecamp Automatic Check-ins) | Shipped 2026-07-26 | HubModule `checkins`; dashboard unanswered widget; no email nudges |
 | Local 404 / route status | Shipped 2026-08-09 | `RouteStatusPanel`; Portal + root/`global-error`; poll/RSVP/meeting `notFound()`; quips + eggs |
 | Workshop Demo Path + multiphase UX | Shipped 2026-08-08/09 | `WorkshopDemoPath`; `/guide/workshop`; Day-of run sheet; exportSuccess / RelatedTools / BrandSetup; Gap Fit backlog |
+| Brand Kit union presets (CUPE/Unifor/…) | Shipped — **Comms only** | Not Officer Hub tenant signup. Hub stays invite-only; overlay `create_union` is not durable. See session-knowledge multi-union Hub signup |
 
 ## Three email/reminder surfaces (do not conflate)
 
