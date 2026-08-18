@@ -1,7 +1,7 @@
 # Plan — Website Template → WordPress / Squarespace export (2026-08-18)
 
 **Audience:** Ryan + future agents.  
-**Status:** Phase 0 documented. Phase 1 (classic WordPress theme ZIP) **shipped 2026-08-18**. GitHub Pages remains the default export. UnionOps does **not** support WordPress.  
+**Status:** Phase 0 documented. Phase 1 (classic WordPress theme ZIP + extras) **shipped 2026-08-18**. Steward-facing copy on `/guide/website` and `/tools/website-template` (no Squarespace export; WP is unsupported-optional). GitHub Pages remains the default export. UnionOps does **not** support WordPress.  
 **Companion:** [`session-knowledge-2026-08-18-website-export.md`](session-knowledge-2026-08-18-website-export.md), [`.cursor/rules/website-export.mdc`](../../.cursor/rules/website-export.mdc), [`../modules/COMMS.md`](../modules/COMMS.md).
 
 **Verdict:** WordPress export is **feasible** (classic theme wrap of today’s GitHub Pages ZIP; WXR is a weaker content-only path). Squarespace **7.1 theme / developer-mode / template ZIP export is a non-option**. A Squarespace “paste kit” is the only honest consolation, and it is not an importer.

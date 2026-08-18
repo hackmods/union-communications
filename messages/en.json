@@ -819,6 +819,10 @@
       "title": "Already on WordPress?",
       "body": "Website Template can also download a WordPress theme. UnionOps does not support WordPress. Use that file only if someone already runs your site. Everyone else should stay with the GitHub Pages ZIP in this part."
     },
+    "squarespace": {
+      "title": "On Squarespace?",
+      "body": "Squarespace does not let you install a custom theme from a file. UnionOps cannot export a Squarespace template. If you already pay for Squarespace, rebuild the same sections in their editor using your colours, logo, and copy."
+    },
     "terms": {
       "title": "A few words you will see",
       "repository": {
@@ -1806,6 +1810,7 @@
     "downloadWordpress": "Download WordPress theme",
     "wordpressHeading": "Already on WordPress?",
     "wordpressUnsupported": "UnionOps does not support WordPress. Use this only if someone already runs your WordPress site. If you are starting from scratch, download the site ZIP instead — we cannot help with WordPress hosting or updates.",
+    "squarespaceNote": "Squarespace does not accept a custom theme ZIP. There is no Squarespace export. If you already use Squarespace, rebuild the page in their editor.",
     "referenceNote": "Based on the volunteer local243.org GitHub Pages site. Export uses your Brand Kit logo in the nav. OPSEU footer links appear only when the Brand Kit theme is OPSEU.",
     "whenToUse": "Use when your local needs a simple lasting website members can bookmark.",
     "heroDefault": "Members stand united in solidarity for fairness, respect, and quality public services. Get the latest updates and find out how to connect with your Local.",
@@ -4639,6 +4644,11 @@
   "portal": {
     "stationTitle": "Station",
     "stationSubtitle": "Your Circles, Actions, and recent Bulletin — solidarity collaboration for the local.",
+    "startHere": "Start in {hall} — that is the whole local. Committees are invited Circles.",
+    "openHall": "Open Hall",
+    "upcomingTitle": "Coming up",
+    "upcomingEmpty": "No upcoming Calendar events. Open a Circle to add one.",
+    "dispatchUnread": "You have {count} unread Dispatch item(s). Open Dispatch to catch up.",
     "navLabel": "Portal navigation",
     "openPortalMenu": "Open portal menu",
     "closePortalMenu": "Close portal menu",

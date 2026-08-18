@@ -819,6 +819,10 @@
       "title": "Déjà sur WordPress?",
       "body": "Le modèle de site Web peut aussi télécharger un thème WordPress. UnionOps ne prend pas en charge WordPress. N’utilisez ce fichier que si quelqu’un gère déjà votre site. Les autres devraient rester avec le ZIP GitHub Pages de cette partie."
     },
+    "squarespace": {
+      "title": "Sur Squarespace?",
+      "body": "Squarespace ne permet pas d’installer un thème personnalisé à partir d’un fichier. UnionOps ne peut pas exporter un modèle Squarespace. Si vous payez déjà Squarespace, recréez les mêmes sections dans leur éditeur avec vos couleurs, votre logo et votre texte."
+    },
     "terms": {
       "title": "Quelques mots que vous verrez",
       "repository": {
@@ -1806,6 +1810,7 @@
     "downloadWordpress": "Télécharger le thème WordPress",
     "wordpressHeading": "Déjà sur WordPress?",
     "wordpressUnsupported": "UnionOps ne prend pas en charge WordPress. Utilisez ce fichier seulement si quelqu’un gère déjà votre site WordPress. Si vous partez de zéro, téléchargez plutôt le ZIP du site — nous ne pouvons pas aider pour l’hébergement ou les mises à jour WordPress.",
+    "squarespaceNote": "Squarespace n’accepte pas un ZIP de thème personnalisé. Il n’y a pas d’export Squarespace. Si vous utilisez déjà Squarespace, recréez la page dans leur éditeur.",
     "referenceNote": "Basé sur le site bénévole local243.org (GitHub Pages). L’export utilise le logo de la Trousse de marque dans la navigation. Liens OPSEU en pied seulement si le thème est OPSEU.",
     "whenToUse": "À utiliser quand votre section a besoin d'un site Web simple et durable que les membres peuvent mettre dans leurs favoris.",
     "heroDefault": "Les membres sont unis dans la solidarité pour l’équité, le respect et des services publics de qualité. Consultez les nouvelles et voyez comment joindre votre section.",
@@ -4639,6 +4644,11 @@
   "portal": {
     "stationTitle": "Poste",
     "stationSubtitle": "Vos Cercles, Actions et babillards récents — collaboration de solidarité pour la section locale.",
+    "startHere": "Commencez dans {hall} — c’est toute la section. Les comités sont des Cercles sur invitation.",
+    "openHall": "Ouvrir la Salle",
+    "upcomingTitle": "À venir",
+    "upcomingEmpty": "Aucun événement au calendrier. Ouvrez un Cercle pour en ajouter un.",
+    "dispatchUnread": "Vous avez {count} élément(s) non lu(s) dans le Relais. Ouvrez le Relais pour rattraper.",
     "navLabel": "Navigation du Portail",
     "openPortalMenu": "Ouvrir le menu du Portail",
     "closePortalMenu": "Fermer le menu du Portail",

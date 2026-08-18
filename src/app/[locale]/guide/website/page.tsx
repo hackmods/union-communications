@@ -279,6 +279,10 @@ export default async function WebsiteGuidePage({
           <p className="font-semibold text-opseu-dark">{t("wordpress.title")}</p>
           <p className="mt-1">{t("wordpress.body")}</p>
         </Callout>
+        <Callout tone="muted" className="mt-4">
+          <p className="font-semibold text-opseu-dark">{t("squarespace.title")}</p>
+          <p className="mt-1">{t("squarespace.body")}</p>
+        </Callout>
 
         <nav
           className="mt-5 flex flex-wrap gap-2"

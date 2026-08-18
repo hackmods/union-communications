@@ -478,6 +478,9 @@ export default function WebsiteTemplatePage() {
               {exporting ? tc("loading") : t("downloadWordpress")}
             </Button>
           </Callout>
+          <Callout tone="muted">
+            <p>{t("squarespaceNote")}</p>
+          </Callout>
         </Card>
       }
       previewActions={
