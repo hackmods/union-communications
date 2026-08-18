@@ -1,16 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { Callout } from "@/components/ui/Callout";
 import { Card } from "@/components/ui/Card";
 import type { Circle } from "@/types/portal";
+import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 
 export function PortalFronts() {
   const t = useTranslations("portal");
   const [fronts, setFronts] = useState<Circle[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    try {
+      const res = await fetch("/api/portal/fronts");
+      if (!res.ok) {
+        setError(t("loadError"));
+        return;
+      }
+      const data = (await res.json()) as { fronts: Circle[] };
+      setFronts(data.fronts);
+      setError(null);
+    } catch {
+      setError(t("loadError"));
+    }
+  }, [t]);
 
   useEffect(() => {
     let cancelled = false;
@@ -23,6 +38,7 @@ export function PortalFronts() {
         }
         const data = (await res.json()) as { fronts: Circle[] };
         setFronts(data.fronts);
+        setError(null);
       })
       .catch(() => {
         if (!cancelled) setError(t("loadError"));
@@ -32,7 +48,9 @@ export function PortalFronts() {
     };
   }, [t]);
 
-  if (error) return <Callout>{error}</Callout>;
+  if (error) {
+    return <PortalRetryCallout message={error} onRetry={() => void load()} />;
+  }
   if (!fronts) return <p className="text-gray-600">{t("loading")}</p>;
 
   const min = fronts.reduce(

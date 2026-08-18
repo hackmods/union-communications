@@ -81,6 +81,8 @@ Circle
 - [x] @mentions → Dispatch, soft-delete + audit, per-tool mute
 - [x] Pipeline drag-and-drop, Basecamp CSV import, activity pack export
 - [x] Keyboard shortcuts (1–0), Calendar external RSVP URL, guest banner
+- [x] Rank-and-file home is Station; `/app` dashboard redirects members to Portal when the module is on
+- [x] Circle tabs keep `?tab=` on refresh/share; Dispatch pings open the matching tool
 - [ ] Email→Bulletin, digest email, SSE Floor (see backlog)
 
 ## Future intent
@@ -99,6 +101,7 @@ Do not lose remaining design ideas — see:
 ## Access
 
 - Portal does **not** require MFA (Hub confidential modules still do).
+- Rank-and-file (`local_member` only) land on Station after sign-in. Visiting `/app` as a member redirects to `/portal` when the module is enabled. Officers and stewards still home to Officer Hub.
 - Writes: Circle `member`+; admin actions: `circle_admin` or Hub `local_president` / `local_exec` / elevated.
 - Rank-and-file role: `local_member` (portal + Hall; no grievance unless also steward).
 

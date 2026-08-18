@@ -6,6 +6,7 @@ import {
   canCreateCircle,
   canSeeOfficerHubLink,
   prefersPortalHome,
+  signedInHomeHref,
 } from "@/lib/portal/access";
 
 describe("portal access", () => {
@@ -22,6 +23,9 @@ describe("portal access", () => {
     expect(canSeeOfficerHubLink(["local_member"])).toBe(false);
     expect(prefersPortalHome(["local_steward"])).toBe(false);
     expect(canSeeOfficerHubLink(["local_president"])).toBe(true);
+    expect(signedInHomeHref(["local_member"])).toBe("/portal");
+    expect(signedInHomeHref(["local_president"])).toBe("/app");
+    expect(signedInHomeHref(["local_member"], ["comms"])).toBe("/app");
   });
 });
 

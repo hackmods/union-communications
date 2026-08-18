@@ -7,6 +7,9 @@ import { useParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Card } from "@/components/ui/Card";
+import { signedInHomeHref } from "@/lib/portal/access";
+import { getTenantContext } from "@/lib/tenant/loader";
+import type { UserRole } from "@/types/tenant";
 
 type Phase = "loading" | "signing" | "done" | "error";
 
@@ -65,9 +68,13 @@ export default function MagicSignInPage() {
           setPhase("error");
           return;
         }
-        await update();
+        const session = await update();
         setPhase("done");
-        router.push("/app");
+        const roles = (session?.user?.roles ?? []) as UserRole[];
+        const tenant = session?.user?.unionId
+          ? getTenantContext(session.user.unionId)
+          : null;
+        router.push(signedInHomeHref(roles, tenant?.union.enabledModules));
         router.refresh();
       } catch {
         if (!cancelled) {

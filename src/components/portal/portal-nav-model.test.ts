@@ -3,6 +3,8 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   PORTAL_NAV_LINKS,
+  circleHrefForDispatch,
+  circleIdFromPath,
   portalCirclesMenuActive,
   portalNavLinkActive,
   sortCirclesForNav,
@@ -39,6 +41,42 @@ describe("portalCirclesMenuActive", () => {
     );
     expect(portalCirclesMenuActive("/portal")).toBe(false);
     expect(portalCirclesMenuActive("/portal/dispatch")).toBe(false);
+  });
+});
+
+describe("circleIdFromPath", () => {
+  it("reads the Circle id from a workspace path", () => {
+    expect(circleIdFromPath("/portal/circles/circle-hall-243")).toBe(
+      "circle-hall-243",
+    );
+    expect(circleIdFromPath("/portal/circles/circle-hall-243/extra")).toBe(
+      "circle-hall-243",
+    );
+    expect(circleIdFromPath("/portal")).toBeNull();
+    expect(circleIdFromPath("/portal/dispatch")).toBeNull();
+  });
+});
+
+describe("circleHrefForDispatch", () => {
+  it("opens the Circle tool that matches the Dispatch kind", () => {
+    expect(circleHrefForDispatch("circle-hall-243", "assignment")).toBe(
+      "/portal/circles/circle-hall-243?tab=actions",
+    );
+    expect(circleHrefForDispatch("circle-hall-243", "due_soon")).toBe(
+      "/portal/circles/circle-hall-243?tab=actions",
+    );
+    expect(circleHrefForDispatch("circle-jhsc-243", "roll_call")).toBe(
+      "/portal/circles/circle-jhsc-243?tab=rollCall",
+    );
+    expect(circleHrefForDispatch("circle-lec-243", "pipeline")).toBe(
+      "/portal/circles/circle-lec-243?tab=pipeline",
+    );
+    expect(circleHrefForDispatch("circle-hall-243", "mention")).toBe(
+      "/portal/circles/circle-hall-243?tab=bulletin",
+    );
+    expect(circleHrefForDispatch("circle-hall-243", "bulletin")).toBe(
+      "/portal/circles/circle-hall-243?tab=bulletin",
+    );
   });
 });
 

@@ -1,4 +1,4 @@
-import type { UserRole } from "@/types/tenant";
+import type { HubModule, UserRole } from "@/types/tenant";
 import type { CircleMemberRole } from "@/types/portal";
 
 const PORTAL_ROLES: UserRole[] = [
@@ -37,6 +37,15 @@ export function canSeeOfficerHubLink(roles: UserRole[]): boolean {
 /** Rank-and-file: fill Local Portal in the public Header, not Officer Hub. */
 export function prefersPortalHome(roles: UserRole[]): boolean {
   return canAccessPortal(roles) && !canSeeOfficerHubLink(roles);
+}
+
+/** After sign-in: members land on Station, officers on the Officer Hub. */
+export function signedInHomeHref(
+  roles: UserRole[],
+  enabledModules?: readonly HubModule[],
+): "/portal" | "/app" {
+  if (enabledModules && !enabledModules.includes("portal")) return "/app";
+  return prefersPortalHome(roles) ? "/portal" : "/app";
 }
 
 export function canCreateCircle(roles: UserRole[]): boolean {

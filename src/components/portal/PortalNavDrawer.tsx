@@ -18,6 +18,7 @@ type PortalNavDrawerProps = {
   links: readonly PortalNavLink[];
   circles: PortalNavCircle[];
   circlesActive: boolean;
+  circlesLabel: string;
   hubHref?: string;
   hubLabel?: string;
   dispatchUnread: number;
@@ -32,6 +33,7 @@ export function PortalNavDrawer({
   links,
   circles,
   circlesActive,
+  circlesLabel,
   hubHref,
   hubLabel,
   dispatchUnread,
@@ -148,7 +150,10 @@ export function PortalNavDrawer({
               >
                 <span>{t(link.labelKey)}</span>
                 {link.id === "dispatch" && dispatchUnread > 0 ? (
-                  <span className="ml-2 rounded-full bg-opseu-blue px-2 py-0.5 text-xs text-white">
+                  <span
+                    className="ml-2 rounded-full bg-opseu-blue px-2 py-0.5 text-xs text-white"
+                    aria-label={t("unreadShort", { count: dispatchUnread })}
+                  >
                     {dispatchUnread}
                   </span>
                 ) : null}
@@ -157,7 +162,7 @@ export function PortalNavDrawer({
           })}
 
           <PortalAccordion
-            label={t("circlesMenu")}
+            label={circlesLabel}
             open={circlesOpen}
             panelId={circlesPanelId}
             active={circlesActive}

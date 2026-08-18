@@ -10,6 +10,9 @@ import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { isDemoSite } from "@/lib/features/demo-site";
+import { signedInHomeHref } from "@/lib/portal/access";
+import { getTenantContext } from "@/lib/tenant/loader";
+import type { UserRole } from "@/types/tenant";
 
 export default function LoginPage() {
   const t = useTranslations("hub");
@@ -58,8 +61,12 @@ export default function LoginPage() {
       return;
     }
 
-    await update();
-    router.push("/app");
+    const session = await update();
+    const roles = (session?.user?.roles ?? []) as UserRole[];
+    const tenant = session?.user?.unionId
+      ? getTenantContext(session.user.unionId)
+      : null;
+    router.push(signedInHomeHref(roles, tenant?.union.enabledModules));
     router.refresh();
   };
 

@@ -4,9 +4,10 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
-import { Callout } from "@/components/ui/Callout";
 import { Card } from "@/components/ui/Card";
 import type { DispatchItem } from "@/types/portal";
+import { circleHrefForDispatch } from "@/components/portal/portal-nav-model";
+import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 
 export function PortalDispatch() {
   const t = useTranslations("portal");
@@ -14,13 +15,18 @@ export function PortalDispatch() {
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    const res = await fetch("/api/portal/dispatch");
-    if (!res.ok) {
+    try {
+      const res = await fetch("/api/portal/dispatch");
+      if (!res.ok) {
+        setError(t("loadError"));
+        return;
+      }
+      const data = (await res.json()) as { items: DispatchItem[] };
+      setItems(data.items);
+      setError(null);
+    } catch {
       setError(t("loadError"));
-      return;
     }
-    const data = (await res.json()) as { items: DispatchItem[] };
-    setItems(data.items);
   }, [t]);
 
   useEffect(() => {
@@ -52,7 +58,9 @@ export function PortalDispatch() {
     await load();
   }
 
-  if (error) return <Callout>{error}</Callout>;
+  if (error) {
+    return <PortalRetryCallout message={error} onRetry={() => void load()} />;
+  }
   if (!items) return <p className="text-gray-600">{t("loading")}</p>;
 
   return (
@@ -88,7 +96,7 @@ export function PortalDispatch() {
               }`}
             >
               <Link
-                href={`/portal/circles/${item.circleId}`}
+                href={circleHrefForDispatch(item.circleId, item.kind)}
                 className="font-semibold text-opseu-dark hover:underline"
               >
                 {item.title}

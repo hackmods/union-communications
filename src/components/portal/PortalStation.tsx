@@ -8,6 +8,7 @@ import { Callout } from "@/components/ui/Callout";
 import { Card } from "@/components/ui/Card";
 import type { PortalSearchHit, StationPayload } from "@/types/portal";
 import { canCreateCircle } from "@/lib/portal/access";
+import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 import type { UserRole } from "@/types/tenant";
 
 export function PortalStation({ roles }: { roles: UserRole[] }) {
@@ -19,19 +20,24 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
     "blank",
   );
   const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [hits, setHits] = useState<PortalSearchHit[]>([]);
   const allowCreate = canCreateCircle(roles);
 
   const load = useCallback(async () => {
-    const res = await fetch("/api/portal/station");
-    if (!res.ok) {
+    try {
+      const res = await fetch("/api/portal/station");
+      if (!res.ok) {
+        setError(t("loadError"));
+        return;
+      }
+      const data = (await res.json()) as { station: StationPayload };
+      setStation(data.station);
+      setError(null);
+    } catch {
       setError(t("loadError"));
-      return;
     }
-    const data = (await res.json()) as { station: StationPayload };
-    setStation(data.station);
-    setError(null);
   }, [t]);
 
   useEffect(() => {
@@ -85,30 +91,40 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
     e.preventDefault();
     if (!name.trim()) return;
     setCreating(true);
+    setCreateError(null);
     const start = new Date();
     const end = new Date();
     end.setMonth(end.getMonth() + 3);
-    const res = await fetch("/api/portal/circles", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: name.trim(),
-        kind: template === "campaign" ? "campaign" : "committee",
-        template,
-        frontStartsAt: start.toISOString(),
-        frontEndsAt: end.toISOString(),
-      }),
-    });
-    setCreating(false);
-    if (res.ok) {
-      setName("");
-      setTemplate("blank");
-      await load();
+    try {
+      const res = await fetch("/api/portal/circles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          kind: template === "campaign" ? "campaign" : "committee",
+          template,
+          frontStartsAt: start.toISOString(),
+          frontEndsAt: end.toISOString(),
+        }),
+      });
+      if (res.ok) {
+        setName("");
+        setTemplate("blank");
+        await load();
+        return;
+      }
+      setCreateError(t("createError"));
+    } catch {
+      setCreateError(t("createError"));
+    } finally {
+      setCreating(false);
     }
   }
 
   if (error) {
-    return <Callout>{error}</Callout>;
+    return (
+      <PortalRetryCallout message={error} onRetry={() => void load()} />
+    );
   }
 
   if (!station) {
@@ -153,6 +169,9 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
             className="mt-1 min-h-11 w-full max-w-xl rounded-lg border border-gray-300 px-3"
           />
         </label>
+        {query.trim().length >= 2 && displayHits.length === 0 ? (
+          <p className="mt-2 text-sm text-gray-600">{t("searchEmpty")}</p>
+        ) : null}
         {displayHits.length > 0 ? (
           <ul className="mt-2 max-w-xl space-y-1 border-l-4 border-opseu-blue pl-3">
             {displayHits.map((h) => {
@@ -182,6 +201,9 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
 
       <Card density="compact">
         <h2 className="text-sm font-medium text-gray-700">{t("yourCircles")}</h2>
+        {station.circles.length === 0 ? (
+          <p className="mt-3 text-sm text-gray-600">{t("emptyCircles")}</p>
+        ) : (
         <ul className="mt-3 grid gap-3 sm:grid-cols-2">
           {station.circles.map((c) => (
             <li
@@ -218,6 +240,7 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
             </li>
           ))}
         </ul>
+        )}
       </Card>
 
       {allowCreate ? (
@@ -249,6 +272,11 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
               {t("createCircle")}
             </Button>
           </form>
+          {createError ? (
+            <Callout className="mt-3" tone="danger">
+              {createError}
+            </Callout>
+          ) : null}
         </Card>
       ) : null}
 
@@ -282,16 +310,20 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
             {t("recentBulletin")}
           </h2>
           <ul className="mt-2 space-y-2">
-            {station.recentBulletin.map((p) => (
-              <li key={p.id} className="text-sm">
-                <Link
-                  href={`/portal/circles/${p.circleId}?tab=bulletin`}
-                  className="font-medium text-opseu-dark hover:underline"
-                >
-                  {p.title}
-                </Link>
-              </li>
-            ))}
+            {station.recentBulletin.length === 0 ? (
+              <li className="text-sm text-gray-500">{t("emptyBulletin")}</li>
+            ) : (
+              station.recentBulletin.map((p) => (
+                <li key={p.id} className="text-sm">
+                  <Link
+                    href={`/portal/circles/${p.circleId}?tab=bulletin`}
+                    className="font-medium text-opseu-dark hover:underline"
+                  >
+                    {p.title}
+                  </Link>
+                </li>
+              ))
+            )}
           </ul>
         </Card>
       </section>

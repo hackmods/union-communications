@@ -2,9 +2,9 @@
 
 ## Local Portal QOL after chrome (2026-08-18)
 
-- [x] Rank-and-file sign-in lands on Station (`/portal`), not an empty Officer Hub dashboard
-- [x] Circle tool tabs write `?tab=` so refresh and share keep the same tool; Front dates move out of the heading
-- [x] Empty, error, and create-fail states name a next step; Dispatch unread count is labelled for assistive tech
+- [x] Rank-and-file sign-in lands on Station (`/portal`), not an empty Officer Hub dashboard; `/app` sends members to Station too
+- [x] Circle tool tabs write `?tab=` so refresh and share keep the same tool; Dispatch pings open that tool; Front dates live under Front dates, not the Circle heading
+- [x] Empty, error, and create-fail states name a next step (Try again); Dispatch unread count is labelled for assistive tech
 - Verify: `npm run test:unit -- src/lib/portal/portal.test.ts src/components/portal/portal-nav-model.test.ts src/lib/comms/public-copy-style.test.ts` · `npx playwright test e2e/portal.smoke.spec.ts`
 
 ## Website Template hero art v0 (2026-08-18)

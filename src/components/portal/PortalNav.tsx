@@ -17,6 +17,7 @@ import { NavDropdown } from "@/components/layout/nav/NavDropdown";
 import { PortalNavDrawer } from "@/components/portal/PortalNavDrawer";
 import {
   PORTAL_NAV_LINKS,
+  circleIdFromPath,
   portalCirclesMenuActive,
   portalNavLinkActive,
   sortCirclesForNav,
@@ -100,6 +101,9 @@ export function PortalNav() {
   const showHub =
     Boolean(tenant?.union.enabledModules.includes("portal")) &&
     canSeeOfficerHubLink(roles);
+  const currentCircleId = circleIdFromPath(pathname);
+  const currentCircle = circles.find((c) => c.id === currentCircleId);
+  const circlesLabel = currentCircle?.name ?? t("circlesMenu");
 
   const linkClass = (extra?: string) =>
     cn(
@@ -135,7 +139,7 @@ export function PortalNav() {
 
         <div className="hidden min-w-0 flex-1 flex-wrap items-center justify-end gap-1 lg:flex">
           <NavDropdown
-            label={t("circlesMenu")}
+            label={circlesLabel}
             open={circlesOpen}
             active={circlesActive}
             onToggle={() =>
@@ -192,7 +196,10 @@ export function PortalNav() {
                 >
                   {t(link.labelKey)}
                   {link.id === "dispatch" && dispatchUnread > 0 ? (
-                    <span className="ml-2 rounded-full bg-opseu-blue px-2 py-0.5 text-xs text-white">
+                    <span
+                      className="ml-2 rounded-full bg-opseu-blue px-2 py-0.5 text-xs text-white"
+                      aria-label={t("unreadShort", { count: dispatchUnread })}
+                    >
                       {dispatchUnread}
                     </span>
                   ) : null}
@@ -238,6 +245,7 @@ export function PortalNav() {
           links={PORTAL_NAV_LINKS}
           circles={circles}
           circlesActive={circlesActive}
+          circlesLabel={circlesLabel}
           hubHref={showHub ? "/app" : undefined}
           hubLabel={showHub ? t("hubLink") : undefined}
           dispatchUnread={dispatchUnread}

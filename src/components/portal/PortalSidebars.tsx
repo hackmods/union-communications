@@ -4,11 +4,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
-import { Callout } from "@/components/ui/Callout";
 import { Card } from "@/components/ui/Card";
 import type { SidebarMessage, SidebarThread } from "@/types/portal";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import { useSession } from "next-auth/react";
+import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 
 export function PortalSidebars() {
   const t = useTranslations("portal");
@@ -21,13 +21,18 @@ export function PortalSidebars() {
   const [error, setError] = useState<string | null>(null);
 
   const loadThreads = useCallback(async () => {
-    const res = await fetch("/api/portal/sidebars");
-    if (!res.ok) {
+    try {
+      const res = await fetch("/api/portal/sidebars");
+      if (!res.ok) {
+        setError(t("loadError"));
+        return;
+      }
+      const data = (await res.json()) as { threads: SidebarThread[] };
+      setThreads(data.threads);
+      setError(null);
+    } catch {
       setError(t("loadError"));
-      return;
     }
-    const data = (await res.json()) as { threads: SidebarThread[] };
-    setThreads(data.threads);
   }, [t]);
 
   useEffect(() => {
@@ -112,7 +117,11 @@ export function PortalSidebars() {
     }
   }
 
-  if (error) return <Callout>{error}</Callout>;
+  if (error) {
+    return (
+      <PortalRetryCallout message={error} onRetry={() => void loadThreads()} />
+    );
+  }
   if (!threads) return <p className="text-gray-600">{t("loading")}</p>;
 
   return (
@@ -135,6 +144,9 @@ export function PortalSidebars() {
           <h2 className="text-sm font-medium text-gray-700">
             {t("sidebarsThreads")}
           </h2>
+          {threads.length === 0 ? (
+            <p className="mt-2 text-sm text-gray-600">{t("sidebarsEmpty")}</p>
+          ) : (
           <ul className="mt-2 space-y-1">
             {threads.map((th) => {
               const other =
@@ -158,6 +170,7 @@ export function PortalSidebars() {
               );
             })}
           </ul>
+          )}
           <form onSubmit={startThread} className="mt-4 space-y-2">
             <label className="block text-xs font-medium text-gray-600">
               {t("sidebarsNew")}

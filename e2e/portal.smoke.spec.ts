@@ -21,6 +21,15 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page).toHaveURL(/\/en\/app\/login/);
   });
 
+  test("member visiting Officer Hub home is sent to Station", async ({
+    page,
+  }) => {
+    await loginAsMember(page);
+    await page.goto("/en/app");
+    await expect(page).toHaveURL(/\/en\/portal\/?(?:\?.*)?$/);
+    await expect(page.getByRole("heading", { name: "Station" })).toBeVisible();
+  });
+
   test("member reaches Station without MFA", async ({ page }) => {
     await loginAsMember(page);
     await page.goto("/en/portal");
@@ -154,7 +163,7 @@ test.describe("Local Portal smoke @smoke", () => {
 
   test("French Station uses solidarity labels", async ({ page }) => {
     await hubLogin(page, "member@local243.ca");
-    await expect(page).toHaveURL(/\/en\/app\/?$/);
+    await expect(page).toHaveURL(/\/en\/portal\/?$/);
     await page.goto("/fr/portal");
     await expect(page.getByRole("heading", { name: "Poste" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Vos Cercles" })).toBeVisible();
@@ -207,7 +216,13 @@ test.describe("Local Portal smoke @smoke", () => {
       "aria-selected",
       "true",
     );
-    await expect(page.getByPlaceholder("New Action")).toBeVisible();
+    await page.getByRole("tab", { name: "Bulletin" }).click();
+    await expect(page).toHaveURL(/tab=bulletin/);
+    await expect(page.getByRole("tab", { name: "Bulletin" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await expect(page.getByPlaceholder("Bulletin title")).toBeVisible();
   });
 
   test("member can soft-delete Bulletin and download activity pack", async ({

@@ -6,6 +6,8 @@ import {
   publicAbsoluteUrl,
   requestWithPublicOrigin,
 } from "@/lib/seo/public-origin";
+import { signedInHomeHref } from "@/lib/portal/access";
+import type { UserRole } from "@/types/tenant";
 
 const intlMiddleware = createIntlMiddleware(routing);
 
@@ -53,7 +55,9 @@ export default auth((req) => {
   const isPortalRoute = pathname.includes("/portal");
 
   if (req.auth && (isLogin || isMagicSignIn)) {
-    return NextResponse.redirect(publicAbsoluteUrl(req, `/${locale}/app`));
+    const roles = (req.auth.user?.roles ?? []) as UserRole[];
+    const home = signedInHomeHref(roles);
+    return NextResponse.redirect(publicAbsoluteUrl(req, `/${locale}${home}`));
   }
 
   if (!req.auth && (isAppRoute || isPortalRoute)) {

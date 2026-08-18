@@ -18,6 +18,7 @@ import type { UserRole } from "@/types/tenant";
 import { buildIcsEvent, downloadIcs } from "@/lib/calendar/ics";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import { useSession } from "next-auth/react";
+import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 
 type Tab =
   | "bulletin"
@@ -68,6 +69,14 @@ export function CircleWorkspace({
       : "bulletin",
   );
 
+  const selectTab = useCallback((key: Tab) => {
+    setTab(key);
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    url.searchParams.set("tab", key);
+    window.history.replaceState(null, "", `${url.pathname}${url.search}`);
+  }, []);
+
   const [detail, setDetail] = useState<CircleDetailPayload | null>(null);
   const [oversight, setOversight] = useState<Oversight | null>(null);
   const [filter, setFilter] = useState("");
@@ -109,18 +118,22 @@ export function CircleWorkspace({
   }
 
   const load = useCallback(async () => {
-    const res = await fetch(`/api/portal/circles/${circleId}`);
-    if (!res.ok) {
+    try {
+      const res = await fetch(`/api/portal/circles/${circleId}`);
+      if (!res.ok) {
+        setError(t("loadError"));
+        return;
+      }
+      const data = (await res.json()) as {
+        detail: CircleDetailPayload;
+        oversight: Oversight;
+      };
+      setDetail(data.detail);
+      setOversight(data.oversight);
+      setError(null);
+    } catch {
       setError(t("loadError"));
-      return;
     }
-    const data = (await res.json()) as {
-      detail: CircleDetailPayload;
-      oversight: Oversight;
-    };
-    setDetail(data.detail);
-    setOversight(data.oversight);
-    setError(null);
   }, [circleId, t]);
 
   useEffect(() => {
@@ -164,17 +177,17 @@ export function CircleWorkspace({
         const idx = Number(e.key) - 1;
         if (TABS[idx]) {
           e.preventDefault();
-          setTab(TABS[idx]);
+          selectTab(TABS[idx]);
         }
       }
       if (e.key === "0" && TABS[9]) {
         e.preventDefault();
-        setTab(TABS[9]);
+        selectTab(TABS[9]);
       }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [selectTab]);
 
   const canWrite = canWriteCircle(detail?.membership.role);
   const canAdmin = canAdminCircle(roles, detail?.membership.role);
@@ -215,7 +228,9 @@ export function CircleWorkspace({
     return detail.actions.filter((a) => a.title.toLowerCase().includes(q));
   }, [detail, filter]);
 
-  if (error) return <Callout>{error}</Callout>;
+  if (error) {
+    return <PortalRetryCallout message={error} onRetry={() => void load()} />;
+  }
   if (!detail) return <p className="text-gray-600">{t("loading")}</p>;
 
   return (
@@ -233,74 +248,14 @@ export function CircleWorkspace({
             {detail.circle.name}
           </h1>
           {isGuest ? (
-            <p className="mt-1 text-sm font-medium text-amber-800">
+            <Callout className="mt-2 max-w-prose" tone="warning">
               {t("guestBanner")}
-            </p>
+            </Callout>
           ) : null}
-          <p className="mt-1 text-xs text-gray-500">{t("keyboardHint")}</p>
           {detail.circle.description ? (
             <p className="mt-1 max-w-prose text-gray-600">
               {detail.circle.description}
             </p>
-          ) : null}
-          {canAdmin ? (
-            <form
-              className="mt-3 flex flex-wrap items-end gap-2"
-              onSubmit={(e) => {
-                e.preventDefault();
-                void postTool({
-                  tool: "set_fronts",
-                  frontStartsAt: (() => {
-                    const raw =
-                      draft.frontStartsAt ||
-                      detail.circle.frontStartsAt?.slice(0, 10);
-                    return raw ? new Date(raw).toISOString() : undefined;
-                  })(),
-                  frontEndsAt: (() => {
-                    const raw =
-                      draft.frontEndsAt ||
-                      detail.circle.frontEndsAt?.slice(0, 10);
-                    return raw ? new Date(raw).toISOString() : undefined;
-                  })(),
-                }).then(() => resetDraft());
-              }}
-            >
-              <label className="text-xs text-gray-600">
-                {t("frontStartsAt")}
-                <input
-                  type="date"
-                  className="mt-1 block min-h-11 rounded-lg border border-gray-300 px-2"
-                  value={
-                    draft.frontStartsAt ||
-                    (detail.circle.frontStartsAt
-                      ? detail.circle.frontStartsAt.slice(0, 10)
-                      : "")
-                  }
-                  onChange={(e) =>
-                    setDraft((d) => ({ ...d, frontStartsAt: e.target.value }))
-                  }
-                />
-              </label>
-              <label className="text-xs text-gray-600">
-                {t("frontEndsAt")}
-                <input
-                  type="date"
-                  className="mt-1 block min-h-11 rounded-lg border border-gray-300 px-2"
-                  value={
-                    draft.frontEndsAt ||
-                    (detail.circle.frontEndsAt
-                      ? detail.circle.frontEndsAt.slice(0, 10)
-                      : "")
-                  }
-                  onChange={(e) =>
-                    setDraft((d) => ({ ...d, frontEndsAt: e.target.value }))
-                  }
-                />
-              </label>
-              <Button type="submit" size="sm" variant="outline">
-                {t("saveFronts")}
-              </Button>
-            </form>
           ) : null}
         </div>
         <div className="flex flex-wrap gap-2">
@@ -395,6 +350,72 @@ export function CircleWorkspace({
       {canAdmin ? (
         <details className="rounded-lg border border-gray-200 p-3 text-sm">
           <summary className="cursor-pointer font-medium text-opseu-dark">
+            {t("frontsSettings")}
+          </summary>
+          <p className="mt-1 text-gray-600">{t("frontsSettingsHint")}</p>
+          <form
+            className="mt-3 flex flex-wrap items-end gap-2"
+            onSubmit={(e) => {
+              e.preventDefault();
+              void postTool({
+                tool: "set_fronts",
+                frontStartsAt: (() => {
+                  const raw =
+                    draft.frontStartsAt ||
+                    detail.circle.frontStartsAt?.slice(0, 10);
+                  return raw ? new Date(raw).toISOString() : undefined;
+                })(),
+                frontEndsAt: (() => {
+                  const raw =
+                    draft.frontEndsAt ||
+                    detail.circle.frontEndsAt?.slice(0, 10);
+                  return raw ? new Date(raw).toISOString() : undefined;
+                })(),
+              }).then(() => resetDraft());
+            }}
+          >
+            <label className="text-xs text-gray-600">
+              {t("frontStartsAt")}
+              <input
+                type="date"
+                className="mt-1 block min-h-11 rounded-lg border border-gray-300 px-2"
+                value={
+                  draft.frontStartsAt ||
+                  (detail.circle.frontStartsAt
+                    ? detail.circle.frontStartsAt.slice(0, 10)
+                    : "")
+                }
+                onChange={(e) =>
+                  setDraft((d) => ({ ...d, frontStartsAt: e.target.value }))
+                }
+              />
+            </label>
+            <label className="text-xs text-gray-600">
+              {t("frontEndsAt")}
+              <input
+                type="date"
+                className="mt-1 block min-h-11 rounded-lg border border-gray-300 px-2"
+                value={
+                  draft.frontEndsAt ||
+                  (detail.circle.frontEndsAt
+                    ? detail.circle.frontEndsAt.slice(0, 10)
+                    : "")
+                }
+                onChange={(e) =>
+                  setDraft((d) => ({ ...d, frontEndsAt: e.target.value }))
+                }
+              />
+            </label>
+            <Button type="submit" size="sm" variant="outline">
+              {t("saveFronts")}
+            </Button>
+          </form>
+        </details>
+      ) : null}
+
+      {canAdmin ? (
+        <details className="rounded-lg border border-gray-200 p-3 text-sm">
+          <summary className="cursor-pointer font-medium text-opseu-dark">
             {t("importTitle")}
           </summary>
           <p className="mt-1 text-gray-600">{t("importHint")}</p>
@@ -427,7 +448,7 @@ export function CircleWorkspace({
       <div
         role="tablist"
         aria-label={t("toolsNav")}
-        className="flex flex-nowrap gap-1 overflow-x-auto overscroll-x-contain border-b border-gray-200 pb-2"
+        className="sticky z-30 top-[calc(var(--site-header-height,3.5rem)+3.25rem)] flex flex-nowrap gap-1 overflow-x-auto overscroll-x-contain border-b border-gray-200 bg-white pb-2"
       >
         {TABS.map((key) => (
           <button
@@ -440,12 +461,13 @@ export function CircleWorkspace({
                 ? "bg-opseu-blue text-white"
                 : "text-opseu-blue hover:bg-opseu-blue/5"
             }`}
-            onClick={() => setTab(key)}
+            onClick={() => selectTab(key)}
           >
             {t(`tabs.${key}`)}
           </button>
         ))}
       </div>
+      <p className="text-xs text-gray-500">{t("keyboardHint")}</p>
 
       {(tab === "bulletin" || tab === "actions") && (
         <input

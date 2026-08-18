@@ -8,8 +8,8 @@ export const DEMO_OFFICER = {
   mfaCode: "000000",
 } as const;
 
-/** Hub home or MFA only — must not match `/app/login`. */
-const HUB_POST_LOGIN = /\/en\/app(?:\/mfa)?\/?(?:\?.*)?$/;
+/** Hub home, Portal home, or MFA — must not match `/app/login`. */
+const POST_LOGIN = /\/en\/(?:app(?:\/mfa)?|portal)\/?(?:\?.*)?$/;
 
 /**
  * Sign in as a demo officer. Completes MFA only when the host has
@@ -28,7 +28,7 @@ export async function loginAsDemoOfficer(
   await page.getByLabel(/Password|Mot de passe/i).fill(creds.password);
   await page.getByRole("button", { name: /Sign in|Connexion/i }).click();
 
-  await expect(page).toHaveURL(HUB_POST_LOGIN, { timeout: 20_000 });
+  await expect(page).toHaveURL(POST_LOGIN, { timeout: 20_000 });
 
   await page.goto("/en/app/mfa");
   const codeInput = page.getByLabel(/Verification code|Code de vérification/i);
@@ -62,7 +62,7 @@ export async function hubLogin(
   await page.getByLabel(/Email|Courriel/i).fill(email);
   await page.getByLabel(/Password|Mot de passe/i).fill(password);
   await page.getByRole("button", { name: /Sign in|Connexion/i }).click();
-  await expect(page).toHaveURL(HUB_POST_LOGIN, { timeout: 20_000 });
+  await expect(page).toHaveURL(POST_LOGIN, { timeout: 20_000 });
 }
 
 /** Complete MFA when landed on the verify page (dev code 000000). */
@@ -78,7 +78,7 @@ export async function completeMfaIfNeeded(page: Page) {
 /** Rank-and-file Local Portal demo account — no MFA. */
 export async function loginAsMember(page: Page) {
   await hubLogin(page, "member@local243.ca");
-  await expect(page).toHaveURL(/\/en\/app\/?(?:\?.*)?$/);
+  await expect(page).toHaveURL(/\/en\/portal\/?(?:\?.*)?$/);
 }
 
 export async function loginAsPresident(page: Page) {

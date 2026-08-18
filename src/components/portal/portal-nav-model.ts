@@ -43,6 +43,41 @@ export function portalCirclesMenuActive(pathname: string): boolean {
   return pathname.startsWith("/portal/circles/");
 }
 
+export function circleIdFromPath(pathname: string): string | null {
+  const match = pathname.match(/^\/portal\/circles\/([^/]+)/);
+  return match?.[1] ?? null;
+}
+
+/** Dispatch kinds map onto Circle tool tabs so a ping opens the right surface. */
+export function circleTabForDispatchKind(
+  kind:
+    | "mention"
+    | "assignment"
+    | "due_soon"
+    | "bulletin"
+    | "roll_call"
+    | "pipeline",
+): "bulletin" | "actions" | "rollCall" | "pipeline" {
+  switch (kind) {
+    case "assignment":
+    case "due_soon":
+      return "actions";
+    case "roll_call":
+      return "rollCall";
+    case "pipeline":
+      return "pipeline";
+    default:
+      return "bulletin";
+  }
+}
+
+export function circleHrefForDispatch(
+  circleId: string,
+  kind: Parameters<typeof circleTabForDispatchKind>[0],
+): string {
+  return `/portal/circles/${circleId}?tab=${circleTabForDispatchKind(kind)}`;
+}
+
 export type PortalNavCircle = {
   id: string;
   name: string;
