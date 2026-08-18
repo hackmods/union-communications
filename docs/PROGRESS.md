@@ -1,5 +1,11 @@
 # Progress Log
 
+## Brand Kit chrome FOUC (2026-08-18)
+
+- [x] Blocking `<head>` script (`BrandChromeInitScript`) applies saved Brand Kit colours to `--opseu-blue` / `--brand-*` before first paint — same contract as display prefs (not `next/script`)
+- [x] Header UnionOps mark uses CSS vars until hydrate so it does not stay on default orange while chrome tokens are already correct
+- Verify: `npm run test:unit -- src/app/[locale]/layout.hydration.test.ts`
+
 ## Desktop PWA horizontal overflow (2026-08-18)
 
 - [x] Home hero full-bleed uses `w-full` instead of `w-screen` / `100vw` (scrollbar gutter was always a few pixels wider than the window)

@@ -95,8 +95,8 @@ export function BrandLogo({
 
   const platformMark = (
     <UnionOpsMark
-      primaryColor={primaryColor}
-      secondaryColor={secondaryColor}
+      primaryColor={hydrated ? primaryColor : "var(--opseu-blue)"}
+      secondaryColor={hydrated ? secondaryColor : "var(--brand-secondary)"}
       size={size}
       className={className}
       ink={ink ?? undefined}

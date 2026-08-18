@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BrandProvider } from "@/components/providers/BrandProvider";
 import { PreferencesProvider } from "@/components/providers/PreferencesProvider";
+import { BrandChromeInitScript } from "@/components/providers/BrandChromeInitScript";
 import { PreferencesInitScript } from "@/components/providers/PreferencesInitScript";
 import { AuthProvider } from "@/components/providers/AuthProvider";
 import { SkipLink } from "@/components/layout/SkipLink";
@@ -62,7 +63,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const messages = await getMessages();
 
-  // PreferencesInitScript may set data-* prefs on <html> before hydrate (FOUC).
+  // Blocking head scripts may set prefs / Brand Kit chrome on <html> before hydrate (FOUC).
   return (
     <html
       lang={locale}
@@ -70,6 +71,7 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <head>
+        <BrandChromeInitScript />
         <PreferencesInitScript />
         <link
           rel="mask-icon"
