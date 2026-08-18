@@ -70,7 +70,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/workshop": {
       title: "Workshop outline",
       description:
-        "A beginner hour for volunteer executives: platforms and posting rhythm, a local logo, Social Examples, then Graphic Maker and Quote Card.",
+        "A beginner hour for volunteer executives: platforms and posting rhythm, a local logo, Social Examples, Graphic Maker, Quote Card, and a website ZIP.",
     },
     "/guide/union-boards": {
       title: "Union Boards Guide",
@@ -187,7 +187,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/workshop": {
       title: "Plan d'atelier",
       description:
-        "Une heure pour les cadres bénévoles : plateformes et rythme, un logo local, les Exemples sociaux, puis le Créateur de graphiques et la Carte de citation.",
+        "Une heure pour les cadres bénévoles : plateformes et rythme, un logo local, les Exemples sociaux, le Créateur de graphiques, la Carte de citation et un ZIP de site.",
     },
     "/guide/union-boards": {
       title: "Guide des tableaux syndicaux",

@@ -104,7 +104,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 
 | Topic | Reality |
 |-------|---------|
-| Live demo order | Logo Builder → Social Examples → Graphic Maker → Quote Card (From Scratch to Solidarity) |
+| Live demo order | Logo Builder → Social Examples → Graphic Maker → Quote Card → Website Template |
 | Facilitator | [`docs/guides/WORKSHOP_SOCIAL_COMMS.md`](../guides/WORKSHOP_SOCIAL_COMMS.md) Day-of section |
 | Public outline | `/guide/workshop`; First week calendar on `/guide/social-media-plan` |
 | UX contract | [`.cursor/rules/comms-public-ux.mdc`](../../.cursor/rules/comms-public-ux.mdc) |

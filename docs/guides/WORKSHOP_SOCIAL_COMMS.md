@@ -44,8 +44,9 @@ Numbered pitch (home, First week, `/guide/workshop`) is **four** stops matching 
 2. [Social Examples](/examples) — strike, AGM, member spotlight gallery  
 3. [Graphic Maker](/tools/graphic-maker) — download PNG  
 4. [Quote Card](/tools/quote-card) — download PNG  
+5. [Website Template](/tools/website-template) — download ZIP  
 
-Strategy is **First week**, not a chip. Print, Board Notice, Captions, and Website Template stay off the pitch card.
+Strategy is **First week**, not a chip. Print, Board Notice, and Captions stay off the pitch card.
 
 Do **not** put Board Notice or QR Board on the 20-minute chips. Social Examples is the inspiration gallery. QR Board is a campaign poster.
 
@@ -71,9 +72,10 @@ Do this the morning of the session (or the night before). Paths are locale-prefi
 | Social Examples | `/en/examples/` |
 | Graphic Maker | `/en/tools/graphic-maker/` |
 | Quote Card | `/en/tools/quote-card/` |
+| Website Template | `/en/tools/website-template/` |
 | Tools index (backup) | `/en/tools/` |
 
-Captions `/en/captions/` and Print Guide `/en/guide/print/` are extra if time. Board Notice and Website Template are First week, not this hour.
+Captions `/en/captions/` and Print Guide `/en/guide/print/` are extra if time. Board Notice is First week, not this hour.
 
 ### Brand Kit backup
 
@@ -91,12 +93,13 @@ Captions `/en/captions/` and Print Guide `/en/guide/print/` are extra if time. B
 
 ### Smoke before you speak (2 minutes)
 
-1. Home shows Demo Path: Logo Builder, Social Examples, Graphic Maker, Quote Card, and “Solidarity.”
+1. Home shows Demo Path: Logo Builder, Social Examples, Graphic Maker, Quote Card, Website Template, and “Solidarity.”
 2. Logo Builder: Download PNG visible.
 3. Social Examples: gallery cards visible.
 4. Graphic Maker: Download PNG visible.
 5. Quote Card: Download PNG visible.
-6. `/en/guide/workshop/` H1 is From Scratch to Solidarity; `/fr/guide/workshop/` H1 loads in French.
+6. Website Template: Download ZIP visible.
+7. `/en/guide/workshop/` H1 is From Scratch to Solidarity; `/fr/guide/workshop/` H1 loads in French.
 
 ### Do not demo live (mention only)
 
@@ -104,7 +107,6 @@ Captions `/en/captions/` and Print Guide `/en/guide/print/` are extra if time. B
 - Officer Hub SMTP / cron.
 - Portal Circles (separate product surface).
 - Board Notice or QR Board as the inspiration gallery (Social Examples is the gallery; QR Board is a campaign poster).
-- Website Template ZIP unless someone asks.
 
 ## Backup if wifi or import fails
 

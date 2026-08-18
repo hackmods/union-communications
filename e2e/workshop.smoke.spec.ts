@@ -15,7 +15,7 @@ test.describe("Workshop demo path E2E @smoke", () => {
     });
   });
 
-  test("home WorkshopDemoPath links Logo Builder → Social Examples → Graphic Maker → Quote Card", async ({
+  test("home WorkshopDemoPath links Logo Builder → Social Examples → Graphic Maker → Quote Card → Website Template", async ({
     page,
   }) => {
     await page.goto("/en/");
@@ -33,6 +33,9 @@ test.describe("Workshop demo path E2E @smoke", () => {
       name: /Graphic Maker/i,
     });
     const stepQuote = demoSection.getByRole("link", { name: /Quote Card/i });
+    const stepWebsite = demoSection.getByRole("link", {
+      name: /Website Template/i,
+    });
 
     await expect(stepLogo).toHaveAttribute("href", /\/tools\/logo-builder\/?$/);
     await expect(stepExamples).toHaveAttribute("href", /\/examples\/?$/);
@@ -41,6 +44,10 @@ test.describe("Workshop demo path E2E @smoke", () => {
       /\/tools\/graphic-maker\/?$/,
     );
     await expect(stepQuote).toHaveAttribute("href", /\/tools\/quote-card\/?$/);
+    await expect(stepWebsite).toHaveAttribute(
+      "href",
+      /\/tools\/website-template\/?$/,
+    );
 
     await stepGraphic.click();
     const trail = page.getByRole("navigation", {
@@ -48,9 +55,9 @@ test.describe("Workshop demo path E2E @smoke", () => {
     });
     await expect(trail).toBeVisible();
     await expect(trail.getByText("Graphic Maker")).toBeVisible();
-    await trail.getByRole("link", { name: /Quote Card/i }).click();
+    await trail.getByRole("link", { name: /Website Template/i }).click();
     await expect(
-      page.getByRole("heading", { name: /Quote Card/i }),
+      page.getByRole("heading", { name: /Website Template/i }),
     ).toBeVisible();
 
     await page.goto("/en/brand-kit/");
@@ -98,7 +105,7 @@ test.describe("Workshop demo path E2E @smoke", () => {
     ).toBeVisible();
   });
 
-  test("trail stays four stops after visiting Logo Builder, Examples, Graphic Maker, and Quote Card", async ({
+  test("Website Template is the fifth trail stop", async ({
     page,
   }) => {
     await page.goto("/en/guide/social-media-plan/");
@@ -107,20 +114,21 @@ test.describe("Workshop demo path E2E @smoke", () => {
     });
     const demoSection = page.locator("section").filter({ has: heading });
     await demoSection.getByRole("link", { name: /Logo Builder/i }).click();
-    await expect(
-      page.getByRole("heading", { name: /Logo Builder/i }),
-    ).toBeVisible();
-    await page.goto("/en/examples/");
-    await page.goto("/en/tools/graphic-maker/");
     await page.goto("/en/tools/quote-card/");
     const trail = page.getByRole("navigation", {
       name: /20-minute demo path/i,
     });
     await expect(trail).toBeVisible();
-    await expect(trail.getByText("Quote Card")).toBeVisible();
     await expect(
       trail.getByRole("link", { name: /Website Template/i }),
-    ).toHaveCount(0);
+    ).toBeVisible();
+    await trail.getByRole("link", { name: /Website Template/i }).click();
+    await expect(
+      page.getByRole("heading", { name: /Website Template/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("navigation", { name: /20-minute demo path/i }),
+    ).toBeVisible();
   });
 
   test("First week primary buttons join the trail", async ({ page }) => {
@@ -156,7 +164,7 @@ test.describe("Workshop demo path E2E @smoke", () => {
     ).toBeVisible();
     await expect(
       page.getByText(
-        /The live path is Logo Builder, Social Examples, Graphic Maker, then Quote Card/i,
+        /The live path is Logo Builder, Social Examples, Graphic Maker, Quote Card, then Website Template/i,
       ),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);

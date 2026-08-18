@@ -2,9 +2,9 @@
 
 ## From Scratch to Solidarity workshop path (2026-08-18)
 
-- [x] Public `/guide/workshop` hour matches the listing: strategy, Logo Builder, Social Examples, Graphic Maker + Quote Card
-- [x] 20-minute Demo Path chips/trail: Logo Builder → Social Examples → Graphic Maker → Quote Card (Brand Kit/onboarding count as the logo stop)
-- [x] Board Notice, Captions, and Website Template off the pitch card; First week still has print and boards
+- [x] Public `/guide/workshop` hour matches the listing: strategy, Logo Builder, Social Examples, Graphic Maker + Quote Card, Website Template last
+- [x] 20-minute Demo Path chips/trail: Logo Builder → Social Examples → Graphic Maker → Quote Card → Website Template (Brand Kit/onboarding count as the logo stop)
+- [x] Board Notice, Captions, and Flyer Maker stay off the pitch card; First week still has print and boards
 - Verify: `npm run test:unit -- src/lib/comms/workshop-demo-session.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/smoke-asserted-copy.test.ts src/lib/comms/first-week-roadmap.test.ts`
 
 ## Home landing copy QOL (2026-08-18)

@@ -26,6 +26,8 @@ import {
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
+import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
+import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { WebsitePreviewFrame } from "@/components/tools/WebsitePreviewFrame";
 import { Callout } from "@/components/ui/Callout";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -79,6 +81,7 @@ export default function WebsiteTemplatePage() {
     brandKit,
     onboardingComplete,
   );
+  const inDemo = useWorkshopDemoSession(null);
   const customLinks = useMemo(
     () => toWebsiteNavLinks(brandKit.customLinks ?? []),
     [brandKit.customLinks],
@@ -205,8 +208,9 @@ export default function WebsiteTemplatePage() {
   return (
     <ToolEditorLayout
       title={t("title")}
+      eyebrow={inDemo ? <WorkshopDemoPath variant="trail" /> : undefined}
       description={t("subtitle")}
-      purposeHint={t("whenToUse")}
+      purposeHint={inDemo ? undefined : t("whenToUse")}
       previewAccessibleName={t("previewAccessibleName")}
       exportError={exportError}
       exportSuccess={exportSuccess}

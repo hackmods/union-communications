@@ -4694,19 +4694,22 @@
   },
   "workshopDemo": {
     "title": "Demo this in about 20 minutes",
-    "intro": "A short live path: Logo Builder, Social Examples, Graphic Maker, then a quote card.",
+    "intro": "A short live path: Logo Builder, Social Examples, Graphic Maker, Quote Card, then Website Template.",
     "stepLogo": "Logo Builder",
     "stepExamples": "Social Examples",
     "stepGraphic": "Graphic Maker",
     "stepQuote": "Quote Card",
+    "stepWebsite": "Website Template",
     "openRoadmap": "First week: platforms and posting rhythm",
     "trailNavLabel": "20-minute demo path",
     "continueBrand": "Set colours and local number, then open Logo Builder.",
     "continueLogo": "Download a circular PNG, then browse Social Examples.",
     "continueExamples": "Pick a strike, AGM, or member spotlight, then open Graphic Maker.",
     "continueGraphic": "Download a PNG, then make a quote card.",
-    "continueQuote": "Download a PNG. Captions are extra if you still have time.",
+    "continueQuote": "Download a PNG, then open Website Template.",
+    "continueWebsite": "Fill officers and contact, then download the ZIP.",
     "nextQuote": "Make a quote card",
+    "nextWebsite": "Open Website Template",
     "done": "That's the 20-minute path. First week has print and boards when you want them."
   },
   "relatedTools": {
@@ -4715,7 +4718,7 @@
   },
   "workshopGuide": {
     "title": "From Scratch to Solidarity: Launching Your Local's Social Media",
-    "subtitle": "A beginner hour for volunteer executives: strategy, a local logo, example posts, then graphics and quote cards.",
+    "subtitle": "A beginner hour for volunteer executives: strategy, a local logo, example posts, graphics, quote cards, and a simple website ZIP.",
     "intro": "Project this page or follow it on your own device. The numbered agenda is a 45 to 60 minute lunch-and-learn. Notes marked Facilitator are for the person at the front; Do this is for everyone else.",
     "relatedLabel": "Also see",
     "audienceFacilitatorLabel": "Facilitator",
@@ -4732,8 +4735,8 @@
       "prompt": "Optional: one real announcement or quote you might post this week, so the practice is a real post, not a placeholder."
     },
     "demoKicker": "Quick links",
-    "demoLead": "Keep this box in view. Tap a tool when the agenda names it. Same four stops as the 20-minute live demo.",
-    "demoNote": "Strategy lives on First week, not on these numbered stops. The live path is Logo Builder, Social Examples, Graphic Maker, then Quote Card. Print and Board Notice stay on First week.",
+    "demoLead": "Keep this box in view. Tap a tool when the agenda names it. Same five stops as the 20-minute live demo.",
+    "demoNote": "Strategy lives on First week, not on these numbered stops. The live path is Logo Builder, Social Examples, Graphic Maker, Quote Card, then Website Template. Print and Board Notice stay on First week.",
     "outlineTitle": "Suggested outline",
     "outlineIntro": "Times add up to about 50 minutes, with room for questions. If you have a full hour, linger on <strong>Graphic Maker</strong>. If you have 45 minutes, keep the downloads moving.",
     "outlineNavLabel": "Agenda times",
@@ -4770,8 +4773,8 @@
         "time": "5 min",
         "navLabel": "Plan",
         "title": "Leave with a plan",
-        "do": "You should have a logo PNG, one graphic, and a quote card. Open <strong>First week</strong> for the written plan. The practice checklist on Comms Resources is homework, not extra talking time.",
-        "facilitator": "Thank people. Point to Comms Resources and stop on time. Tinkering after lunch is the point. No website ZIP unless someone asks."
+        "do": "You should have a logo PNG, one graphic, a quote card, and a Website Template ZIP. Open <strong>First week</strong> for the written plan. The practice checklist on Comms Resources is homework, not extra talking time.",
+        "facilitator": "Thank people. Show the ZIP download succeeding. Point to Comms Resources and stop on time. Skip GitHub Pages unless someone asks."
       }
     },
     "wrapTitle": "Next steps",
@@ -4780,6 +4783,7 @@
       "bookmark": "Bookmark <strong>Brand Kit</strong> in this browser so your colours are still here when you come back. If you share the computer, download the Brand Kit file from Brand Kit and keep it with your local records.",
       "logo": "Keep the Logo Builder PNG with your local records, and use it on the Facebook cover only after whoever must approve identity has said yes.",
       "post": "Open the <strong>First week</strong> roadmap and attempt your first real post using the graphic and quote card you made today.",
+      "website": "Open <strong>Website Template</strong> and download the ZIP when you want a simple local page you can host later.",
       "checklist": "When you have a quiet half hour, work through the practice checklist on Comms Resources."
     },
     "wrapFacilitator": "Thank people. Remind them public Comms stay on the device. If something broke, the Feedback page on this site takes a note without a member mailing list.",

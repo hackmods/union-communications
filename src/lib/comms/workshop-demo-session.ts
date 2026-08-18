@@ -10,6 +10,7 @@ export const WORKSHOP_DEMO_LOGO_HREF = "/tools/logo-builder";
 export const WORKSHOP_DEMO_EXAMPLES_HREF = "/examples";
 export const WORKSHOP_DEMO_GRAPHIC_HREF = "/tools/graphic-maker";
 export const WORKSHOP_DEMO_QUOTE_HREF = "/tools/quote-card";
+export const WORKSHOP_DEMO_WEBSITE_HREF = "/tools/website-template";
 
 /** Destinations that mean the visitor started the 20-minute path. */
 export const WORKSHOP_DEMO_JOIN_HREFS = [
@@ -19,6 +20,7 @@ export const WORKSHOP_DEMO_JOIN_HREFS = [
   WORKSHOP_DEMO_EXAMPLES_HREF,
   WORKSHOP_DEMO_GRAPHIC_HREF,
   WORKSHOP_DEMO_QUOTE_HREF,
+  WORKSHOP_DEMO_WEBSITE_HREF,
 ] as const;
 
 export const WORKSHOP_DEMO_CORE_HREFS = [
@@ -26,6 +28,7 @@ export const WORKSHOP_DEMO_CORE_HREFS = [
   WORKSHOP_DEMO_EXAMPLES_HREF,
   WORKSHOP_DEMO_GRAPHIC_HREF,
   WORKSHOP_DEMO_QUOTE_HREF,
+  WORKSHOP_DEMO_WEBSITE_HREF,
 ] as const;
 
 const listeners = new Set<() => void>();

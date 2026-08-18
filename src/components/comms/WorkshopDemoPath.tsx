@@ -10,6 +10,7 @@ import {
   WORKSHOP_DEMO_GRAPHIC_HREF,
   WORKSHOP_DEMO_LOGO_HREF,
   WORKSHOP_DEMO_QUOTE_HREF,
+  WORKSHOP_DEMO_WEBSITE_HREF,
 } from "@/lib/comms/workshop-demo-session";
 
 export const WORKSHOP_DEMO_STEPS = [
@@ -17,6 +18,7 @@ export const WORKSHOP_DEMO_STEPS = [
   { href: WORKSHOP_DEMO_EXAMPLES_HREF, labelKey: "stepExamples" as const },
   { href: WORKSHOP_DEMO_GRAPHIC_HREF, labelKey: "stepGraphic" as const },
   { href: WORKSHOP_DEMO_QUOTE_HREF, labelKey: "stepQuote" as const },
+  { href: WORKSHOP_DEMO_WEBSITE_HREF, labelKey: "stepWebsite" as const },
 ] as const;
 
 type WorkshopDemoPathProps = {
@@ -40,7 +42,7 @@ function isIdentitySetupPath(pathname: string): boolean {
 
 /**
  * Compact “demo in ~20 minutes” path for home + First week, plus a quiet
- * in-tool trail. Matches From Scratch to Solidarity: logo, examples, graphic, quote.
+ * in-tool trail. Matches From Scratch to Solidarity: logo, examples, graphic, quote, website.
  */
 export function WorkshopDemoPath({
   className,
@@ -113,6 +115,11 @@ export function WorkshopDemoPath({
         {currentHref === WORKSHOP_DEMO_QUOTE_HREF ? (
           <p className="mt-1 max-w-prose text-sm text-gray-600">
             {t("continueQuote")}
+          </p>
+        ) : null}
+        {currentHref === WORKSHOP_DEMO_WEBSITE_HREF ? (
+          <p className="mt-1 max-w-prose text-sm text-gray-600">
+            {t("continueWebsite")}
           </p>
         ) : null}
       </div>

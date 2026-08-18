@@ -8,7 +8,7 @@
 
 ## Session goal
 
-Give a clear high-level plan for launching a local's digital presence, demo UnionOps tools live (logo, Social Examples, Graphic Maker, Quote Card), and leave attendees with a plan and a custom logo. Project `/guide/workshop`. Do **not** follow the four-channel toolbox lab in this hour.
+Give a clear high-level plan for launching a local's digital presence, demo UnionOps tools live (logo, Social Examples, Graphic Maker, Quote Card, Website Template ZIP), and leave attendees with a plan and a custom logo. Project `/guide/workshop`. Do **not** follow the four-channel toolbox lab in this hour.
 
 ## Why this format
 
@@ -80,7 +80,8 @@ Do not require these during the call. After the session:
 - [ ] Open Social Examples and seed Graphic Maker from one post
 - [ ] Create one social graphic with Graphic Maker
 - [ ] Create one Quote Card
-- [ ] (Optional) Copy a caption; Board Notice PDF and website ZIP are First week homework
+- [ ] Download the Website Template ZIP
+- [ ] (Optional) Copy a caption; Board Notice PDF is First week homework
 
 ## Facilitator URLs (quick reference)
 
@@ -94,6 +95,7 @@ Do not require these during the call. After the session:
 /en/examples
 /en/tools/graphic-maker
 /en/tools/quote-card
+/en/tools/website-template
 /en/captions
 /en/guide/photo-consent
 ```

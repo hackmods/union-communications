@@ -34,7 +34,7 @@ Use `brandSetupHref(themeEstablished)` from `@/lib/utils/brand-setup` (`/onboard
 
 1. Brand Kit / onboarding → identity  
 2. First week: boards → print → socials → website ([`first-week-roadmap.ts`](src/lib/comms/first-week-roadmap.ts))  
-3. Live demos: [`WorkshopDemoPath`](src/components/comms/WorkshopDemoPath.tsx) (Logo Builder → Social Examples → Graphic Maker → Quote Card). Matches **From Scratch to Solidarity**. Strategy is First week, not a chip. Do not restamp “Demo this in about 20 minutes” on the tools.  
+3. Live demos: [`WorkshopDemoPath`](src/components/comms/WorkshopDemoPath.tsx) (Logo Builder → Social Examples → Graphic Maker → Quote Card → Website Template). Matches **From Scratch to Solidarity**. Strategy is First week, not a chip. Do not restamp “Demo this in about 20 minutes” on the tools.  
 4. Facilitator docs: [`docs/workshop/from-scratch-to-solidarity.md`](../../docs/workshop/from-scratch-to-solidarity.md) and [`docs/guides/WORKSHOP_SOCIAL_COMMS.md`](../../docs/guides/WORKSHOP_SOCIAL_COMMS.md); public outline: `/guide/workshop`; orientation: `/guide/resources`
 5. Post-talk backlog / fit notes: [`docs/audit/workshop-gap-fit-2026-08.md`](../../docs/audit/workshop-gap-fit-2026-08.md)
 6. Session lessons (merge hygiene, BrandSetup toolbar, PowerShell `@smoke`): [`docs/audit/session-knowledge-2026-08-09-workshop-comms.md`](../../docs/audit/session-knowledge-2026-08-09-workshop-comms.md)

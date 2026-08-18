@@ -20,6 +20,7 @@ import { ContrastChecker } from "@/components/tools/ContrastChecker";
 import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { PageShell } from "@/components/layout/PageShell";
+import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
@@ -42,6 +43,7 @@ interface QuoteState {
 function QuoteCardPageContent() {
   const t = useTranslations("common");
   const tq = useTranslations("quoteCard");
+  const td = useTranslations("workshopDemo");
   const te = useTranslations("examples");
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
@@ -126,7 +128,21 @@ function QuoteCardPageContent() {
         <BrandSetupPrompt themeEstablished={themeEstablished} />
       ) : undefined}
       exportError={exportError}
-      exportSuccess={exportSuccess}
+      exportSuccess={
+        exportSuccess && inDemo ? (
+          <>
+            {exportSuccess}{" "}
+            <Link
+              href="/tools/website-template"
+              className="font-semibold underline underline-offset-2"
+            >
+              {td("nextWebsite")}
+            </Link>
+          </>
+        ) : (
+          exportSuccess
+        )
+      }
       footer={<ToolRelatedFooter toolSlug="quote-card" />}
       form={
         <Card density="compact" className="space-y-5">

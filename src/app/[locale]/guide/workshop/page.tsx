@@ -18,7 +18,7 @@ export async function generateMetadata({
 
 const PREREQ_KEYS = ["device", "logo", "colours", "number", "prompt"] as const;
 const OUTLINE_KEYS = ["strategy", "identity", "inspiration", "media", "close"] as const;
-const WRAP_KEYS = ["bookmark", "logo", "post", "checklist"] as const;
+const WRAP_KEYS = ["bookmark", "logo", "post", "website", "checklist"] as const;
 
 const richMarks = {
   strong: (chunks: ReactNode) => (

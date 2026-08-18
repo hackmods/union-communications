@@ -4694,19 +4694,22 @@
   },
   "workshopDemo": {
     "title": "Démo en environ 20 minutes",
-    "intro": "Un court parcours en direct : Créateur de logo, Exemples sociaux, Créateur de graphiques, puis une carte de citation.",
+    "intro": "Un court parcours en direct : Créateur de logo, Exemples sociaux, Créateur de graphiques, Carte de citation, puis Modèle de site Web.",
     "stepLogo": "Créateur de logo",
     "stepExamples": "Exemples sociaux",
     "stepGraphic": "Créateur de graphiques",
     "stepQuote": "Carte de citation",
+    "stepWebsite": "Modèle de site Web",
     "openRoadmap": "Première semaine : plateformes et rythme de publication",
     "trailNavLabel": "Parcours de démo de 20 minutes",
     "continueBrand": "Réglez les couleurs et le numéro de section, puis ouvrez le Créateur de logo.",
     "continueLogo": "Téléchargez un PNG circulaire, puis parcourez les Exemples sociaux.",
     "continueExamples": "Choisissez une grève, une AGA ou un portrait de membre, puis ouvrez le Créateur de graphiques.",
     "continueGraphic": "Téléchargez un PNG, puis faites une carte de citation.",
-    "continueQuote": "Téléchargez un PNG. Les Légendes sont en extra si vous avez encore du temps.",
+    "continueQuote": "Téléchargez un PNG, puis ouvrez le Modèle de site Web.",
+    "continueWebsite": "Remplissez les dirigeants et le courriel, puis téléchargez le ZIP.",
     "nextQuote": "Faire une carte de citation",
+    "nextWebsite": "Ouvrir le Modèle de site Web",
     "done": "Voilà le parcours de 20 minutes. La première semaine ajoute l'impression et les tableaux quand vous en aurez besoin."
   },
   "relatedTools": {
@@ -4715,7 +4718,7 @@
   },
   "workshopGuide": {
     "title": "De zéro à la solidarité : lancer les médias sociaux de votre section",
-    "subtitle": "Une heure pour les cadres bénévoles : stratégie, logo local, exemples de publications, puis graphiques et cartes de citation.",
+    "subtitle": "Une heure pour les cadres bénévoles : stratégie, logo local, exemples de publications, graphiques, cartes de citation et un ZIP de site simple.",
     "intro": "Projetez cette page ou suivez-la sur votre appareil. Le plan numéroté est un dîner-causerie de 45 à 60 minutes. Les notes marquées Animation s'adressent à la personne devant la salle ; À faire s'adresse à tout le monde.",
     "relatedLabel": "Voir aussi",
     "audienceFacilitatorLabel": "Animation",
@@ -4732,8 +4735,8 @@
       "prompt": "Facultatif : une vraie annonce ou une citation que vous pourriez publier cette semaine, pour que l'exercice soit une vraie publication, pas un exemple vide."
     },
     "demoKicker": "Liens rapides",
-    "demoLead": "Gardez cette boîte visible. Touchez un outil quand le plan le nomme. Ce sont les quatre mêmes arrêts que la démo de 20 minutes.",
-    "demoNote": "La stratégie est dans Première semaine, pas sur ces arrêts numérotés. Le parcours en direct est Créateur de logo, Exemples sociaux, Créateur de graphiques, puis Carte de citation. L'impression et l'Avis d'affichage restent dans Première semaine.",
+    "demoLead": "Gardez cette boîte visible. Touchez un outil quand le plan le nomme. Ce sont les cinq mêmes arrêts que la démo de 20 minutes.",
+    "demoNote": "La stratégie est dans Première semaine, pas sur ces arrêts numérotés. Le parcours en direct est Créateur de logo, Exemples sociaux, Créateur de graphiques, Carte de citation, puis Modèle de site Web. L'impression et l'Avis d'affichage restent dans Première semaine.",
     "outlineTitle": "Plan suggéré",
     "outlineIntro": "Les durées totalisent environ 50 minutes, avec de la place pour les questions. Si vous avez une heure complète, restez plus longtemps sur le <strong>Créateur de graphiques</strong>. Si vous avez 45 minutes, enchaînez les téléchargements.",
     "outlineNavLabel": "Durées du plan",
@@ -4770,8 +4773,8 @@
         "time": "5 min",
         "navLabel": "Plan",
         "title": "Partir avec un plan",
-        "do": "Vous devriez avoir un PNG de logo, un graphique et une carte de citation. Ouvrez <strong>Première semaine</strong> pour le plan écrit. La liste de pratique dans Ressources Comms est un devoir, pas du temps de parole en plus.",
-        "facilitator": "Remerciez les gens. Pointez Ressources Comms et terminez à l'heure. Bricoler après le dîner, c'est le but. Pas de ZIP de site Web sauf si quelqu'un le demande."
+        "do": "Vous devriez avoir un PNG de logo, un graphique, une carte de citation et un ZIP du Modèle de site Web. Ouvrez <strong>Première semaine</strong> pour le plan écrit. La liste de pratique dans Ressources Comms est un devoir, pas du temps de parole en plus.",
+        "facilitator": "Remerciez les gens. Montrez que le téléchargement ZIP fonctionne. Pointez Ressources Comms et terminez à l'heure. Sautez GitHub Pages sauf si quelqu'un le demande."
       }
     },
     "wrapTitle": "Prochaines étapes",
@@ -4780,6 +4783,7 @@
       "bookmark": "Ajoutez la <strong>Trousse de marque</strong> aux favoris de ce navigateur pour retrouver vos couleurs à votre retour. Si vous partagez l'ordinateur, téléchargez le fichier de la Trousse de marque et rangez-le avec les dossiers de la section.",
       "logo": "Gardez le PNG du Créateur de logo avec les dossiers de la section, et ne l'utilisez sur la couverture Facebook qu'après l'accord de la personne qui doit approuver l'identité.",
       "post": "Ouvrez la feuille de route <strong>Première semaine</strong> et tentez votre première vraie publication avec le graphique et la carte de citation faits aujourd'hui.",
+      "website": "Ouvrez le <strong>Modèle de site Web</strong> et téléchargez le ZIP quand vous voulez une page locale simple à héberger plus tard.",
       "checklist": "Quand vous avez une demi-heure tranquille, parcourez la liste de pratique dans Ressources Comms."
     },
     "wrapFacilitator": "Remerciez les gens. Rappelez que les outils de communication publics restent sur l'appareil. Si quelque chose a cassé, la page Commentaires de ce site prend une note, sans liste d'envoi aux membres.",

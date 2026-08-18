@@ -31,7 +31,7 @@ export function useWorkshopDemoSession(demoParam: string | null): boolean {
   return demoParam === "1" || stored;
 }
 
-/** True once Logo Builder, Social Examples, Graphic Maker, and Quote Card were visited. */
+/** True once Logo Builder, Social Examples, Graphic Maker, Quote Card, and Website Template were visited. */
 export function useWorkshopDemoQuartetComplete(): boolean {
   return useSyncExternalStore(
     subscribeWorkshopDemoSession,

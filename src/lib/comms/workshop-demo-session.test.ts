@@ -29,18 +29,20 @@ describe("workshop demo session", () => {
     expect(isWorkshopDemoJoinHref("/examples")).toBe(true);
     expect(isWorkshopDemoJoinHref("/tools/graphic-maker")).toBe(true);
     expect(isWorkshopDemoJoinHref("/tools/quote-card")).toBe(true);
+    expect(isWorkshopDemoJoinHref("/tools/website-template")).toBe(true);
     expect(isWorkshopDemoJoinHref("/tools/board-notice")).toBe(false);
     expect(isWorkshopDemoJoinHref("/captions")).toBe(false);
     expect(isWorkshopDemoJoinHref("/tools/flyer-maker")).toBe(false);
   });
 
-  it("completes after logo, examples, graphic, and quote", () => {
+  it("completes after logo, examples, graphic, quote, and website", () => {
     expect(hasCompletedWorkshopDemoQuartet()).toBe(false);
     markWorkshopDemoStep("/tools/logo-builder");
     markWorkshopDemoStep("/examples");
     markWorkshopDemoStep("/tools/graphic-maker");
-    expect(hasCompletedWorkshopDemoQuartet()).toBe(false);
     markWorkshopDemoStep("/tools/quote-card");
+    expect(hasCompletedWorkshopDemoQuartet()).toBe(false);
+    markWorkshopDemoStep("/tools/website-template");
     expect(hasCompletedWorkshopDemoQuartet()).toBe(true);
   });
 
@@ -51,6 +53,7 @@ describe("workshop demo session", () => {
     markWorkshopDemoStep("/examples");
     markWorkshopDemoStep("/tools/graphic-maker");
     markWorkshopDemoStep("/tools/quote-card");
+    markWorkshopDemoStep("/tools/website-template");
     expect(hasCompletedWorkshopDemoQuartet()).toBe(true);
   });
 });
