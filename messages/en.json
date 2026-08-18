@@ -1961,6 +1961,7 @@
       "duotoneNote": "Duotone tints member photos in Graphic Maker (spotlight / solidarity / thanks).",
       "headlineFont": "Headline font",
       "bodyFont": "Body font",
+      "bodyFontHint": "Pick a reading face for body copy. Condensed and title faces look cramped in paragraphs.",
       "fonts": {
         "montserrat": "Montserrat",
         "sourceSans": "Source Sans",

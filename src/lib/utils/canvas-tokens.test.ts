@@ -71,9 +71,24 @@ describe("resolveCanvasTokens", () => {
     expect(tokens.bodyFontId).toBe("sourceSans");
     expect(tokens.headlineFontFamily).toContain("var(--font-montserrat)");
     expect(tokens.bodyFontFamily).toContain("var(--font-source-sans)");
+    expect(tokens.bodyFontWeight).toBe(400);
+    expect(tokens.bodyLineHeight).toBe(1.4);
+    expect(tokens.subtitleFontSizePx).toBeGreaterThanOrEqual(16);
     expect(tokens.grainOpacity).toBe(0);
     expect(tokens.qrPlateBg).toBe("#FFFFFF");
     expect(tokens.paddingPx).toBe(40);
+  });
+
+  it("optically enlarges condensed body copy and uses a loaded weight", () => {
+    const sans = resolveCanvasTokens(DEFAULT_BRAND_KIT);
+    const condensed = resolveCanvasTokens(
+      normalizeBrandKit({
+        ...DEFAULT_BRAND_KIT,
+        canvas: { bodyFontId: "barlowCondensed" },
+      }),
+    );
+    expect(condensed.subtitleFontSizePx).toBeGreaterThan(sans.subtitleFontSizePx);
+    expect(condensed.bodyFontWeight).toBe(600);
   });
 
   it("applies field package with grain", () => {
@@ -265,8 +280,8 @@ describe("wallet chrome helpers", () => {
         canvas: canvasFromStyleId("workshop"),
       }),
     );
-    expect(walletBodyFontSizePx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(9);
-    expect(walletMetaFontSizePx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(9);
+    expect(walletBodyFontSizePx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(11);
+    expect(walletMetaFontSizePx(tokens, compactPreviewPx)).toBeGreaterThanOrEqual(10);
     expect(walletMetaFontSizePx(tokens, letterPreviewPx)).toBeGreaterThan(
       walletMetaFontSizePx(tokens, compactPreviewPx),
     );

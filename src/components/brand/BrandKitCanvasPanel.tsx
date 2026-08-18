@@ -28,6 +28,8 @@ import type {
 } from "@/types/entities";
 import {
   CANVAS_FONT_ORDER,
+  canvasBodyFontChoices,
+  canvasFontFamily,
   type CanvasFontId,
 } from "@/lib/comms/canvas-fonts";
 
@@ -108,6 +110,7 @@ export function BrandKitCanvasPanel() {
         options={FONT_OPTIONS.map((id) => ({
           value: id,
           label: t(`fonts.${id}`),
+          fontFamily: canvasFontFamily(id),
         }))}
         onChange={(headlineFontId) =>
           setToken("headlineFontId", headlineFontId as CanvasFontId)
@@ -116,14 +119,16 @@ export function BrandKitCanvasPanel() {
       <SegControl
         label={t("bodyFont")}
         value={tokens.bodyFontId}
-        options={FONT_OPTIONS.map((id) => ({
+        options={canvasBodyFontChoices(tokens.bodyFontId).map((id) => ({
           value: id,
           label: t(`fonts.${id}`),
+          fontFamily: canvasFontFamily(id),
         }))}
         onChange={(bodyFontId) =>
           setToken("bodyFontId", bodyFontId as CanvasFontId)
         }
       />
+      <p className="text-xs text-gray-500">{t("bodyFontHint")}</p>
 
       <div
         className="relative overflow-hidden rounded-md"

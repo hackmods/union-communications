@@ -9,6 +9,8 @@ import type {
   CanvasTypeScale,
 } from "@/types/entities";
 import {
+  canvasBodyFontWeight,
+  canvasBodySizeFactor,
   canvasFontFamily,
   DEFAULT_BODY_FONT,
   DEFAULT_HEADLINE_FONT,
@@ -30,6 +32,10 @@ export interface CanvasTokens {
   headlineFontFamily: string;
   /** CSS font-family for body / supporting type */
   bodyFontFamily: string;
+  /** Weight that exists on the loaded body face (avoid faux-thin condensed). */
+  bodyFontWeight: number;
+  /** Reading line-height for body / subtitle copy */
+  bodyLineHeight: number;
   /** Outer padding (px) for letter-ish canvases */
   paddingPx: number;
   gapPx: number;
@@ -186,7 +192,7 @@ export function resolveCanvasTokens(brandKit: BrandKit): CanvasTokens {
           titleFontWeight: 900,
           titleLetterSpacing: "0.04em",
           titleTextTransform: "uppercase" as const,
-          subtitleFontSizePx: 14,
+          subtitleFontSizePx: 17,
         }
       : prefs.typeScale === "dense"
         ? {
@@ -194,14 +200,14 @@ export function resolveCanvasTokens(brandKit: BrandKit): CanvasTokens {
             titleFontWeight: 800,
             titleLetterSpacing: "0.01em",
             titleTextTransform: "none" as const,
-            subtitleFontSizePx: 12,
+            subtitleFontSizePx: 14,
           }
         : {
             titleFontSizePx: 28,
             titleFontWeight: 900,
             titleLetterSpacing: "0.02em",
             titleTextTransform: "uppercase" as const,
-            subtitleFontSizePx: 13,
+            subtitleFontSizePx: 16,
           };
 
   const plate =
@@ -235,9 +241,14 @@ export function resolveCanvasTokens(brandKit: BrandKit): CanvasTokens {
     bodyFontId,
     headlineFontFamily: canvasFontFamily(headlineFontId),
     bodyFontFamily: canvasFontFamily(bodyFontId),
+    bodyFontWeight: canvasBodyFontWeight(bodyFontId),
+    bodyLineHeight: 1.4,
     paddingPx: roomy ? 40 : 28,
     gapPx: roomy ? 16 : 10,
     ...type,
+    subtitleFontSizePx: Math.round(
+      type.subtitleFontSizePx * canvasBodySizeFactor(bodyFontId),
+    ),
     ...plate,
     grainOpacity: prefs.surface === "grain" ? 0.22 : 0,
     duotoneHighlightOpacity: 0.7,
@@ -358,7 +369,7 @@ export function walletBodyFontSizePx(
   opts?: Pick<WalletFontOpts, "square">,
 ): number {
   return Math.max(
-    9,
+    11,
     Math.round(
       tokens.subtitleFontSizePx *
         walletTypeScale(tokens, opts?.square) *
@@ -378,7 +389,7 @@ export function walletMetaFontSizePx(
       ? walletPreviewRatio(previewWidthPx, opts?.square)
       : 1;
   return Math.max(
-    9,
+    10,
     Math.round(
       tokens.subtitleFontSizePx *
         0.78 *

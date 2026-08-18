@@ -6,6 +6,8 @@ type SegOption<T extends string> = {
   value: T;
   label: string;
   disabled?: boolean;
+  /** Optional face for typeface pickers so the pill is readable in-context. */
+  fontFamily?: string;
 };
 
 type SegControlProps<T extends string> = {
@@ -45,12 +47,14 @@ export function SegControl<T extends string>({
               disabled={disabled}
               className={cn(
                 "min-h-11 rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+                opt.fontFamily && "text-base",
                 disabled && "cursor-not-allowed opacity-45",
                 selected
                   ? "bg-opseu-blue text-white"
                   : "border border-gray-300 bg-white text-opseu-dark hover:bg-gray-50",
                 disabled && !selected && "hover:bg-white",
               )}
+              style={opt.fontFamily ? { fontFamily: opt.fontFamily } : undefined}
               onClick={() => {
                 if (!disabled) onChange(opt.value);
               }}

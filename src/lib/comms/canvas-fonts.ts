@@ -28,6 +28,15 @@ export const CANVAS_FONT_ORDER: readonly CanvasFontId[] = [
   "systemSerif",
 ] as const;
 
+/** Reading faces for body copy — condensed/display webfonts ship no regular weight. */
+export const CANVAS_BODY_FONT_ORDER: readonly CanvasFontId[] = [
+  "sourceSans",
+  "sourceSerif",
+  "robotoSlab",
+  "systemSans",
+  "systemSerif",
+] as const;
+
 export const DEFAULT_HEADLINE_FONT: CanvasFontId = "montserrat";
 export const DEFAULT_BODY_FONT: CanvasFontId = "sourceSans";
 export const DEFAULT_FLYER_FONT: FlyerFontChoice = "inherit";
@@ -64,6 +73,32 @@ export const CANVAS_FONT_META: Record<
   systemSans: { isSystem: true, role: "body" },
   systemSerif: { isSystem: true, role: "serif" },
 };
+
+/** Body picker list, keeping a saved condensed/display id visible if already chosen. */
+export function canvasBodyFontChoices(current: CanvasFontId): CanvasFontId[] {
+  if ((CANVAS_BODY_FONT_ORDER as readonly string[]).includes(current)) {
+    return [...CANVAS_BODY_FONT_ORDER];
+  }
+  return [current, ...CANVAS_BODY_FONT_ORDER];
+}
+
+/**
+ * Regular (400) is missing from Montserrat / Oswald / Barlow files.
+ * Using 400 would faux-thin those faces into unreadable body copy.
+ */
+export function canvasBodyFontWeight(id: CanvasFontId): number {
+  const role = CANVAS_FONT_META[id].role;
+  if (role === "condensed" || role === "display") return 600;
+  return 400;
+}
+
+/** Condensed/display glyphs read smaller at the same px — bump optical size. */
+export function canvasBodySizeFactor(id: CanvasFontId): number {
+  const role = CANVAS_FONT_META[id].role;
+  if (role === "condensed") return 1.22;
+  if (role === "display") return 1.12;
+  return 1;
+}
 
 /** Legacy Flyer Maker stack ids → new catalog (or inherit Brand Kit). */
 const LEGACY_FLYER_FONT_MAP: Record<string, FlyerFontChoice> = {

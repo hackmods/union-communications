@@ -191,6 +191,8 @@ export function CanvasTypeBlock({
           style={{
             color: ink,
             fontSize: tokens.subtitleFontSizePx,
+            fontWeight: tokens.bodyFontWeight,
+            lineHeight: tokens.bodyLineHeight,
             margin: 0,
             opacity: 0.9,
             fontFamily: tokens.bodyFontFamily,

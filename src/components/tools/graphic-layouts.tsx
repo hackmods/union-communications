@@ -37,6 +37,8 @@ function layoutChrome(
   titleTransform?: "none" | "uppercase";
   headlineFontFamily?: string;
   bodyFontFamily?: string;
+  bodyFontWeight?: number;
+  bodyLineHeight?: number;
 } {
   const pad = tokens
     ? tokens.paddingPx * (exportMode ? 1 : 0.55)
@@ -47,8 +49,8 @@ function layoutChrome(
   return {
     pad,
     titlePx: Math.round(tokens.titleFontSizePx * (exportMode ? 1.05 : 0.72)),
-    bodyPx: Math.round(tokens.subtitleFontSizePx * (exportMode ? 1.2 : 0.95)),
-    metaPx: Math.max(9, Math.round(tokens.subtitleFontSizePx * 0.78)),
+    bodyPx: Math.round(tokens.subtitleFontSizePx * (exportMode ? 1.25 : 1)),
+    metaPx: Math.max(11, Math.round(tokens.subtitleFontSizePx * 0.85)),
     textAlign: textAlignFromBias(tokens.alignmentBias),
     alignItems: flexAlignFromBias(tokens.alignmentBias),
     titleWeight: tokens.titleFontWeight,
@@ -56,6 +58,8 @@ function layoutChrome(
     titleTransform: tokens.titleTextTransform,
     headlineFontFamily: tokens.headlineFontFamily,
     bodyFontFamily: tokens.bodyFontFamily,
+    bodyFontWeight: tokens.bodyFontWeight,
+    bodyLineHeight: tokens.bodyLineHeight,
   };
 }
 
@@ -382,7 +386,9 @@ function SolidarityLayout({
             "mt-1",
             !chrome.bodyPx && (exportMode ? "text-lg" : "text-xs sm:text-sm"),
           )}
-          style={{ color: ink.a90, fontSize: chrome.bodyPx, fontFamily: chrome.bodyFontFamily }}
+          style={{ color: ink.a90, fontSize: chrome.bodyPx, fontFamily: chrome.bodyFontFamily,
+            fontWeight: chrome.bodyFontWeight,
+            lineHeight: chrome.bodyLineHeight }}
         >
           {copy.body}
         </p>
@@ -392,7 +398,9 @@ function SolidarityLayout({
               "mt-2 font-semibold uppercase tracking-wide",
               !chrome.metaPx && (exportMode ? "text-sm" : "text-[10px]"),
             )}
-            style={{ color: ink.a80, fontSize: chrome.metaPx, fontFamily: chrome.bodyFontFamily }}
+            style={{ color: ink.a80, fontSize: chrome.metaPx, fontFamily: chrome.bodyFontFamily,
+            fontWeight: chrome.bodyFontWeight,
+            lineHeight: chrome.bodyLineHeight }}
           >
             {copy.detail}
           </p>
@@ -513,7 +521,9 @@ function SpotlightLayout({
             "mt-1 italic",
             !chrome.bodyPx && (exportMode ? "text-lg" : "text-xs sm:text-sm"),
           )}
-          style={{ color: ink.a90, fontSize: chrome.bodyPx, fontFamily: chrome.bodyFontFamily }}
+          style={{ color: ink.a90, fontSize: chrome.bodyPx, fontFamily: chrome.bodyFontFamily,
+            fontWeight: chrome.bodyFontWeight,
+            lineHeight: chrome.bodyLineHeight }}
         >
           &ldquo;{copy.body}&rdquo;
         </p>
@@ -600,6 +610,8 @@ function NoticeLayout({
               color: badgeInk,
               fontSize: metaPx ?? (exportMode ? 12 : 10),
               fontFamily: chrome.bodyFontFamily,
+            fontWeight: chrome.bodyFontWeight,
+            lineHeight: chrome.bodyLineHeight,
             }}
           >
             {copy.detail ?? "Notice"}
@@ -628,6 +640,8 @@ function NoticeLayout({
               color: ink.a90,
               fontSize: bodyPx,
               fontFamily: chrome.bodyFontFamily,
+            fontWeight: chrome.bodyFontWeight,
+            lineHeight: chrome.bodyLineHeight,
             }}
           >
             {copy.body}
@@ -725,6 +739,8 @@ export function QuoteLayout({
               ? Math.round(chrome.bodyPx * 1.15)
               : undefined,
             fontFamily: chrome.bodyFontFamily,
+            fontWeight: chrome.bodyFontWeight,
+            lineHeight: chrome.bodyLineHeight,
           }}
         >
           {copy.body}
@@ -753,7 +769,9 @@ export function QuoteLayout({
               "uppercase tracking-wide",
               !chrome.metaPx && (exportMode ? "text-xs" : "text-[10px]"),
             )}
-            style={{ color: accentInk.a80, fontSize: chrome.metaPx, fontFamily: chrome.bodyFontFamily }}
+            style={{ color: accentInk.a80, fontSize: chrome.metaPx, fontFamily: chrome.bodyFontFamily,
+            fontWeight: chrome.bodyFontWeight,
+            lineHeight: chrome.bodyLineHeight }}
           >
             {copy.detail}
           </p>
@@ -820,7 +838,9 @@ function ResultsLayout({
             "font-semibold uppercase tracking-widest",
             !chrome.metaPx && (exportMode ? "text-sm" : "text-[10px]"),
           )}
-          style={{ color: ink.a80, fontSize: chrome.metaPx, fontFamily: chrome.bodyFontFamily }}
+          style={{ color: ink.a80, fontSize: chrome.metaPx, fontFamily: chrome.bodyFontFamily,
+            fontWeight: chrome.bodyFontWeight,
+            lineHeight: chrome.bodyLineHeight }}
         >
           {copy.detail}
         </p>
@@ -855,6 +875,8 @@ function ResultsLayout({
             marginTop: exportMode ? 12 : 8,
             maxWidth: exportMode ? "28rem" : "14rem",
             fontFamily: chrome.bodyFontFamily,
+            fontWeight: chrome.bodyFontWeight,
+            lineHeight: chrome.bodyLineHeight,
           }}
         >
           {copy.body}

@@ -1961,6 +1961,7 @@
       "duotoneNote": "Le duotone teinte les photos de membres dans le Créateur graphique (projecteur / solidarité / merci).",
       "headlineFont": "Police des titres",
       "bodyFont": "Police du corps",
+      "bodyFontHint": "Choisissez une police de lecture pour le corps. Les faces condensées et les polices de titre deviennent illisibles dans un paragraphe.",
       "fonts": {
         "montserrat": "Montserrat",
         "sourceSans": "Source Sans",

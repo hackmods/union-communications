@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  CANVAS_BODY_FONT_ORDER,
   CANVAS_FONT_ORDER,
+  canvasBodyFontChoices,
+  canvasBodyFontWeight,
+  canvasBodySizeFactor,
   canvasFontCssFamily,
   canvasFontFamily,
   canvasFontOfficeName,
@@ -76,5 +80,21 @@ describe("canvas-fonts", () => {
     expect(files.some((f) => f.family === "Source Sans 3")).toBe(true);
     expect(files.every((f) => f.relativePath.endsWith(".woff2"))).toBe(true);
     expect(collectWebsiteZipFontFiles("systemSans", "systemSerif")).toEqual([]);
+  });
+
+  it("keeps condensed and display faces off the default body picker", () => {
+    expect(CANVAS_BODY_FONT_ORDER).toContain("sourceSans");
+    expect(CANVAS_BODY_FONT_ORDER).not.toContain("oswald");
+    expect(CANVAS_BODY_FONT_ORDER).not.toContain("barlowCondensed");
+    expect(canvasBodyFontChoices("sourceSans")).toEqual([...CANVAS_BODY_FONT_ORDER]);
+    expect(canvasBodyFontChoices("oswald")[0]).toBe("oswald");
+  });
+
+  it("uses a real loaded weight and larger optical size for condensed body", () => {
+    expect(canvasBodyFontWeight("sourceSans")).toBe(400);
+    expect(canvasBodyFontWeight("oswald")).toBe(600);
+    expect(canvasBodySizeFactor("barlowCondensed")).toBeGreaterThan(
+      canvasBodySizeFactor("sourceSans"),
+    );
   });
 });
