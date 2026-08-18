@@ -1,5 +1,12 @@
 # Progress Log
 
+## Local Portal chrome parity (2026-08-18)
+
+- [x] `/portal` matches Officer Hub chrome: Demo banner, session-data banner, sticky PortalNav + Portal menu drawer
+- [x] Header account cluster links Local Portal; members get it as the filled CTA, officers keep Officer Hub on public pages
+- [x] Station no longer duplicates Dispatch / Fronts / Sidebars chips; Circle tools scroll instead of wrapping
+- Verify: `npm run test:unit -- src/components/portal/portal-nav-model.test.ts src/lib/portal/portal.test.ts src/lib/comms/public-copy-style.test.ts` · `npm run test:smoke` (`e2e/portal.smoke.spec.ts`)
+
 ## Print Communications Guide expansion (2026-08-18)
 
 - [x] `/guide/print` is a practical how-to: why print still matters, flyer Glance Test / one call to action / QR bridge, board posting realities, and budget printing logistics

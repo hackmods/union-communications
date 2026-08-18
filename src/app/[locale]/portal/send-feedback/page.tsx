@@ -1,12 +1,8 @@
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { getTenantContext } from "@/lib/tenant/loader";
-import { canAccessPortal } from "@/lib/portal/access";
+import { requirePortalPage } from "@/lib/portal/portal-session";
 import { PageShell } from "@/components/layout/PageShell";
 import { SiteFeedbackForm } from "@/components/feedback/SiteFeedbackForm";
 import { isFeedbackMemoryBackend } from "@/lib/platform-feedback/durable";
-import type { UserRole } from "@/types/tenant";
 
 export default async function PortalSendFeedbackPage({
   params,
@@ -15,15 +11,7 @@ export default async function PortalSendFeedbackPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const session = await auth();
-  if (!session?.user) redirect(`/${locale}/app/login`);
-  if (!session.user.unionId) redirect(`/${locale}/app`);
-  const tenant = getTenantContext(session.user.unionId);
-  if (!tenant?.union.enabledModules.includes("portal")) {
-    redirect(`/${locale}/app`);
-  }
-  const roles = (session.user.roles ?? []) as UserRole[];
-  if (!canAccessPortal(roles)) redirect(`/${locale}/app`);
+  const { session } = await requirePortalPage(locale);
 
   const t = await getTranslations("portal");
 

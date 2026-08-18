@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
+import { Card } from "@/components/ui/Card";
 import type { CircleDetailPayload, PortalToolMute } from "@/types/portal";
 import {
   canAdminCircle,
@@ -228,7 +229,7 @@ export function CircleWorkspace({
             {" / "}
             {t(`kind.${detail.circle.kind}`)}
           </p>
-          <h1 className="text-3xl font-bold text-opseu-dark">
+          <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
             {detail.circle.name}
           </h1>
           {isGuest ? (
@@ -422,10 +423,11 @@ export function CircleWorkspace({
         </details>
       ) : null}
 
+      <Card density="compact" className="space-y-4">
       <div
         role="tablist"
         aria-label={t("toolsNav")}
-        className="flex flex-wrap gap-1 border-b border-gray-200 pb-2"
+        className="flex flex-nowrap gap-1 overflow-x-auto overscroll-x-contain border-b border-gray-200 pb-2"
       >
         {TABS.map((key) => (
           <button
@@ -433,7 +435,7 @@ export function CircleWorkspace({
             type="button"
             role="tab"
             aria-selected={tab === key}
-            className={`min-h-11 rounded-lg px-3 text-sm font-semibold ${
+            className={`min-h-11 shrink-0 rounded-lg px-3 text-sm font-semibold ${
               tab === key
                 ? "bg-opseu-blue text-white"
                 : "text-opseu-blue hover:bg-opseu-blue/5"
@@ -1307,6 +1309,7 @@ export function CircleWorkspace({
           ) : null}
         </div>
       )}
+      </Card>
     </div>
   );
 }

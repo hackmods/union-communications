@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Callout } from "@/components/ui/Callout";
+import { Card } from "@/components/ui/Card";
 import type { Circle } from "@/types/portal";
 
 export function PortalFronts() {
@@ -58,12 +59,17 @@ export function PortalFronts() {
             {t("stationTitle")}
           </Link>
         </p>
-        <h1 className="text-3xl font-bold text-opseu-dark">{t("frontsTitle")}</h1>
+        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+          {t("frontsTitle")}
+        </h1>
         <p className="mt-1 max-w-prose text-gray-600">{t("frontsSubtitle")}</p>
       </div>
       {fronts.length === 0 ? (
-        <p className="text-sm text-gray-500">{t("frontsEmpty")}</p>
+        <Card density="compact">
+          <p className="text-sm text-gray-500">{t("frontsEmpty")}</p>
+        </Card>
       ) : (
+        <Card density="compact">
         <ul className="space-y-4">
           {fronts.map((c) => {
             const start = new Date(c.frontStartsAt ?? c.createdAt).getTime();
@@ -104,13 +110,8 @@ export function PortalFronts() {
             );
           })}
         </ul>
+        </Card>
       )}
-      <Link
-        href="/portal"
-        className="inline-flex min-h-11 items-center rounded-lg border-2 border-opseu-blue px-4 py-2 text-sm font-semibold text-opseu-blue"
-      >
-        {t("backToStation")}
-      </Link>
     </div>
   );
 }

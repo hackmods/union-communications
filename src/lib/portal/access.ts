@@ -13,8 +13,30 @@ const PORTAL_ROLES: UserRole[] = [
   "solo_account",
 ];
 
+/** Roles that treat Officer Hub as home — not rank-and-file members. */
+const OFFICER_HOME_ROLES: UserRole[] = [
+  "local_steward",
+  "local_exec",
+  "local_president",
+  "stability_member",
+  "union_admin",
+  "division_admin",
+  "platform_admin",
+  "solo_account",
+];
+
 export function canAccessPortal(roles: UserRole[]): boolean {
   return roles.some((r) => PORTAL_ROLES.includes(r));
+}
+
+/** Officers see a Hub link in Portal chrome; members stay on Circles. */
+export function canSeeOfficerHubLink(roles: UserRole[]): boolean {
+  return roles.some((r) => OFFICER_HOME_ROLES.includes(r));
+}
+
+/** Rank-and-file: fill Local Portal in the public Header, not Officer Hub. */
+export function prefersPortalHome(roles: UserRole[]): boolean {
+  return canAccessPortal(roles) && !canSeeOfficerHubLink(roles);
 }
 
 export function canCreateCircle(roles: UserRole[]): boolean {

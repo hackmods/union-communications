@@ -2798,6 +2798,7 @@
   "hub": {
     "platformName": "UnionOps",
     "hubLink": "Hub des dirigeants",
+    "portalLink": "Portail local",
     "title": "Hub des dirigeants",
     "navLabel": "Navigation du hub",
     "dashboard": "Tableau de bord",
@@ -4620,6 +4621,14 @@
   "portal": {
     "stationTitle": "Poste",
     "stationSubtitle": "Vos Cercles, Actions et babillards récents — collaboration de solidarité pour la section locale.",
+    "navLabel": "Navigation du Portail",
+    "openPortalMenu": "Ouvrir le menu du Portail",
+    "closePortalMenu": "Fermer le menu du Portail",
+    "mobileNav": "Menu du Portail",
+    "circlesMenu": "Cercles",
+    "circlesEmpty": "Aucun Cercle pour l’instant. Ouvrez le Poste pour en rejoindre ou en créer un.",
+    "memoryBannerLabel": "Données de session",
+    "memoryBannerBody": "Les publications et Actions de ce Portail durent seulement jusqu’au redémarrage du serveur. Demandez à la personne qui gère ce site d’activer le stockage durable avant de vous y fier.",
     "dispatchLink": "Relais",
     "dispatchTitle": "Relais",
     "dispatchSubtitle": "Assignations, babillard et échéances — les Cercles en sourdine restent calmes.",

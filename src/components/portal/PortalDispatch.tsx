@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
+import { Card } from "@/components/ui/Card";
 import type { DispatchItem } from "@/types/portal";
 
 export function PortalDispatch() {
@@ -63,7 +64,7 @@ export function PortalDispatch() {
               {t("stationTitle")}
             </Link>
           </p>
-          <h1 className="text-3xl font-bold text-opseu-dark">
+          <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
             {t("dispatchTitle")}
           </h1>
           <p className="mt-1 text-gray-600">{t("dispatchSubtitle")}</p>
@@ -72,6 +73,7 @@ export function PortalDispatch() {
           {t("markAllRead")}
         </Button>
       </div>
+      <Card density="compact">
       <ul className="space-y-3">
         {items.length === 0 ? (
           <li className="text-sm text-gray-500">{t("dispatchEmpty")}</li>
@@ -98,6 +100,7 @@ export function PortalDispatch() {
           ))
         )}
       </ul>
+      </Card>
     </div>
   );
 }

@@ -5,6 +5,9 @@ import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import { canAccessPortal, prefersPortalHome } from "@/lib/portal/access";
+import { getTenantContext } from "@/lib/tenant/loader";
+import type { UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
 
 type AuthAccountControlsProps = {
@@ -26,22 +29,69 @@ export function AuthAccountControls({
 
   const authenticated = status === "authenticated" && Boolean(session?.user);
   const showHub = authenticated || isOfficerHubPublic();
-  const hubActive = pathname.startsWith("/app");
+  const roles = (session?.user?.roles ?? []) as UserRole[];
+  const tenant = session?.user?.unionId
+    ? getTenantContext(session.user.unionId)
+    : null;
+  const portalEnabled = Boolean(tenant?.union.enabledModules.includes("portal"));
+  const showPortal =
+    authenticated && portalEnabled && canAccessPortal(roles);
+
+  const portalCurrent = pathname.startsWith("/portal");
+  const hubCurrent = pathname.startsWith("/app");
   const profileActive = pathname.startsWith("/app/profile");
+  const memberPrefersPortal = prefersPortalHome(roles);
+  const portalFilled =
+    showPortal && (portalCurrent || (!hubCurrent && memberPrefersPortal));
+  const hubFilled = showHub && !portalFilled;
+  const hubFirst = !memberPrefersPortal && !portalCurrent;
 
-  if (!showHub && !authenticated) return null;
+  if (!showHub && !showPortal && !authenticated) return null;
 
-  const hubLinkClass = cn(
-    layout === "inline"
-      ? "rounded-lg bg-opseu-blue px-3 py-1.5 font-semibold text-white transition-colors duration-150 hover:bg-opseu-dark"
-      : "flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-3 py-2 font-semibold text-white hover:bg-opseu-dark",
-    hubActive && "bg-opseu-dark",
-  );
+  const filledClass = (current: boolean) =>
+    cn(
+      layout === "inline"
+        ? "rounded-lg bg-opseu-blue px-3 py-1.5 font-semibold text-white transition-colors duration-150 hover:bg-opseu-dark"
+        : "flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-3 py-2 font-semibold text-white hover:bg-opseu-dark",
+      current && "bg-opseu-dark",
+    );
+
+  const outlineClass = (current: boolean) =>
+    cn(
+      layout === "inline"
+        ? "rounded-lg border border-opseu-blue/40 px-3 py-1.5 font-semibold text-opseu-blue transition-colors duration-150 hover:bg-opseu-blue/5"
+        : "flex min-h-11 items-center justify-center rounded-lg border border-opseu-blue/40 px-3 py-2 font-semibold text-opseu-blue hover:bg-opseu-blue/5",
+      current && "border-opseu-blue bg-opseu-blue/10 text-opseu-dark",
+    );
 
   const secondaryClass =
     layout === "inline"
       ? "rounded-md px-2 py-1 text-sm font-medium text-opseu-dark transition-colors hover:bg-opseu-blue/5"
       : "flex min-h-11 items-center rounded-md px-3 py-2 text-sm font-medium text-opseu-dark hover:bg-opseu-blue/5";
+
+  const hubLink = showHub ? (
+    <Link
+      href="/app"
+      onClick={onNavigate}
+      aria-current={hubCurrent && !profileActive ? "page" : undefined}
+      className={hubFilled ? filledClass(hubCurrent) : outlineClass(hubCurrent)}
+    >
+      {t("hubLink")}
+    </Link>
+  ) : null;
+
+  const portalLink = showPortal ? (
+    <Link
+      href="/portal"
+      onClick={onNavigate}
+      aria-current={portalCurrent ? "page" : undefined}
+      className={
+        portalFilled ? filledClass(portalCurrent) : outlineClass(portalCurrent)
+      }
+    >
+      {t("portalLink")}
+    </Link>
+  ) : null;
 
   return (
     <div
@@ -52,16 +102,17 @@ export function AuthAccountControls({
         className,
       )}
     >
-      {showHub ? (
-        <Link
-          href="/app"
-          onClick={onNavigate}
-          aria-current={hubActive && !profileActive ? "page" : undefined}
-          className={hubLinkClass}
-        >
-          {t("hubLink")}
-        </Link>
-      ) : null}
+      {hubFirst ? (
+        <>
+          {hubLink}
+          {portalLink}
+        </>
+      ) : (
+        <>
+          {portalLink}
+          {hubLink}
+        </>
+      )}
 
       {authenticated ? (
         <>

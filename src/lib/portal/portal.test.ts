@@ -4,6 +4,8 @@ import {
   canAccessPortal,
   canAdminCircle,
   canCreateCircle,
+  canSeeOfficerHubLink,
+  prefersPortalHome,
 } from "@/lib/portal/access";
 
 describe("portal access", () => {
@@ -13,6 +15,13 @@ describe("portal access", () => {
     expect(canCreateCircle(["local_member"])).toBe(false);
     expect(canCreateCircle(["local_president"])).toBe(true);
     expect(canAdminCircle(["local_member"], "admin")).toBe(true);
+  });
+
+  it("sends rank-and-file home to Portal, officers to Hub", () => {
+    expect(prefersPortalHome(["local_member"])).toBe(true);
+    expect(canSeeOfficerHubLink(["local_member"])).toBe(false);
+    expect(prefersPortalHome(["local_steward"])).toBe(false);
+    expect(canSeeOfficerHubLink(["local_president"])).toBe(true);
   });
 });
 

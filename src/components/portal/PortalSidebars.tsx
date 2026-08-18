@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
+import { Card } from "@/components/ui/Card";
 import type { SidebarMessage, SidebarThread } from "@/types/portal";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import { useSession } from "next-auth/react";
@@ -122,12 +123,13 @@ export function PortalSidebars() {
             {t("stationTitle")}
           </Link>
         </p>
-        <h1 className="text-3xl font-bold text-opseu-dark">
+        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
           {t("sidebarsTitle")}
         </h1>
         <p className="mt-1 max-w-prose text-gray-600">{t("sidebarsSubtitle")}</p>
       </div>
 
+      <Card density="compact">
       <div className="grid gap-6 md:grid-cols-[14rem_1fr]">
         <div>
           <h2 className="text-sm font-medium text-gray-700">
@@ -208,6 +210,7 @@ export function PortalSidebars() {
           )}
         </div>
       </div>
+      </Card>
     </div>
   );
 }

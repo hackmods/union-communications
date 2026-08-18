@@ -2832,6 +2832,7 @@
   "hub": {
     "platformName": "UnionOps",
     "hubLink": "Officer Hub",
+    "portalLink": "Local Portal",
     "title": "Officer Hub",
     "navLabel": "Hub navigation",
     "dashboard": "Dashboard",
@@ -4620,6 +4621,14 @@
   "portal": {
     "stationTitle": "Station",
     "stationSubtitle": "Your Circles, Actions, and recent Bulletin — solidarity collaboration for the local.",
+    "navLabel": "Portal navigation",
+    "openPortalMenu": "Open portal menu",
+    "closePortalMenu": "Close portal menu",
+    "mobileNav": "Portal menu",
+    "circlesMenu": "Circles",
+    "circlesEmpty": "No Circles yet. Open Station to join or create one.",
+    "memoryBannerLabel": "Session data",
+    "memoryBannerBody": "Circle posts and Actions on this Portal last only until the server restarts. Ask whoever runs this site to turn on lasting storage before you rely on them.",
     "dispatchLink": "Dispatch",
     "dispatchTitle": "Dispatch",
     "dispatchSubtitle": "Assignments, Bulletin, and due soon — muted Circles stay quiet.",

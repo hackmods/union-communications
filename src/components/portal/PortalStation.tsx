@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
+import { Card } from "@/components/ui/Card";
 import type { PortalSearchHit, StationPayload } from "@/types/portal";
 import { canCreateCircle } from "@/lib/portal/access";
 import type { UserRole } from "@/types/tenant";
@@ -120,43 +121,14 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
   );
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-opseu-dark">{t("stationTitle")}</h1>
-          <p className="mt-1 max-w-prose text-gray-600">{t("stationSubtitle")}</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Link
-            href="/portal/dispatch"
-            className="inline-flex min-h-11 items-center rounded-lg border-2 border-opseu-blue px-4 py-2 text-sm font-semibold text-opseu-blue"
-          >
-            {t("dispatchLink")}
-            {station.dispatchUnread > 0 ? (
-              <span className="ml-2 rounded-full bg-opseu-blue px-2 py-0.5 text-xs text-white">
-                {station.dispatchUnread}
-              </span>
-            ) : null}
-          </Link>
-          <Link
-            href="/portal/fronts"
-            className="inline-flex min-h-11 items-center rounded-lg px-4 py-2 text-sm font-semibold text-opseu-blue hover:bg-opseu-blue/5"
-          >
-            {t("frontsLink")}
-          </Link>
-          <Link
-            href="/portal/sidebars"
-            className="inline-flex min-h-11 items-center rounded-lg px-4 py-2 text-sm font-semibold text-opseu-blue hover:bg-opseu-blue/5"
-          >
-            {t("sidebarsLink")}
-          </Link>
-          <Link
-            href="/app"
-            className="inline-flex min-h-11 items-center rounded-lg px-4 py-2 text-sm font-semibold text-opseu-blue hover:bg-opseu-blue/5"
-          >
-            {t("hubLink")}
-          </Link>
-        </div>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-opseu-dark sm:text-3xl">
+          {t("stationTitle")}
+        </h1>
+        <p className="mt-1 max-w-prose text-sm text-gray-600 sm:text-base">
+          {t("stationSubtitle")}
+        </p>
       </div>
 
       <Callout tone="muted">
@@ -171,7 +143,7 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
         <Callout>{t("overdueBadge", { count: overdueTotal })}</Callout>
       ) : null}
 
-      <div>
+      <Card density="compact">
         <label className="text-sm font-medium text-gray-700">
           {t("searchLabel")}
           <input
@@ -206,9 +178,9 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
             })}
           </ul>
         ) : null}
-      </div>
+      </Card>
 
-      <section>
+      <Card density="compact">
         <h2 className="text-sm font-medium text-gray-700">{t("yourCircles")}</h2>
         <ul className="mt-3 grid gap-3 sm:grid-cols-2">
           {station.circles.map((c) => (
@@ -246,40 +218,42 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
             </li>
           ))}
         </ul>
-      </section>
+      </Card>
 
       {allowCreate ? (
-        <form onSubmit={createCircle} className="flex flex-wrap items-end gap-2">
-          <label className="text-sm">
-            {t("templateLabel")}
-            <select
-              className="mt-1 block min-h-11 rounded-lg border border-gray-300 px-2"
-              value={template}
-              onChange={(e) =>
-                setTemplate(e.target.value as typeof template)
-              }
-            >
-              <option value="blank">{t("template.blank")}</option>
-              <option value="lec">{t("template.lec")}</option>
-              <option value="jhsc">{t("template.jhsc")}</option>
-              <option value="campaign">{t("template.campaign")}</option>
-            </select>
-          </label>
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder={t("newCirclePlaceholder")}
-            className="min-h-11 min-w-[12rem] flex-1 rounded-lg border border-gray-300 px-3"
-            aria-label={t("newCirclePlaceholder")}
-          />
-          <Button type="submit" disabled={creating || !name.trim()}>
-            {t("createCircle")}
-          </Button>
-        </form>
+        <Card density="compact">
+          <form onSubmit={createCircle} className="flex flex-wrap items-end gap-2">
+            <label className="text-sm">
+              {t("templateLabel")}
+              <select
+                className="mt-1 block min-h-11 rounded-lg border border-gray-300 px-2"
+                value={template}
+                onChange={(e) =>
+                  setTemplate(e.target.value as typeof template)
+                }
+              >
+                <option value="blank">{t("template.blank")}</option>
+                <option value="lec">{t("template.lec")}</option>
+                <option value="jhsc">{t("template.jhsc")}</option>
+                <option value="campaign">{t("template.campaign")}</option>
+              </select>
+            </label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={t("newCirclePlaceholder")}
+              className="min-h-11 min-w-[12rem] flex-1 rounded-lg border border-gray-300 px-3"
+              aria-label={t("newCirclePlaceholder")}
+            />
+            <Button type="submit" disabled={creating || !name.trim()}>
+              {t("createCircle")}
+            </Button>
+          </form>
+        </Card>
       ) : null}
 
       <section className="grid gap-6 md:grid-cols-2">
-        <div>
+        <Card density="compact">
           <h2 className="text-sm font-medium text-gray-700">{t("myActions")}</h2>
           <ul className="mt-2 space-y-2">
             {station.myActions.length === 0 ? (
@@ -302,8 +276,8 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
               ))
             )}
           </ul>
-        </div>
-        <div>
+        </Card>
+        <Card density="compact">
           <h2 className="text-sm font-medium text-gray-700">
             {t("recentBulletin")}
           </h2>
@@ -319,17 +293,8 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
               </li>
             ))}
           </ul>
-        </div>
+        </Card>
       </section>
-
-      <p className="text-sm text-gray-600">
-        <Link
-          href="/portal/send-feedback"
-          className="font-semibold text-opseu-blue hover:underline"
-        >
-          {t("sendFeedbackLink")}
-        </Link>
-      </p>
     </div>
   );
 }

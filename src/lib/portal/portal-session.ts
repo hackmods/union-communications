@@ -1,8 +1,9 @@
 import { auth } from "@/auth";
 import type { Session } from "next-auth";
+import { redirect } from "next/navigation";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canAccessPortal } from "@/lib/portal/access";
-import type { UserRole } from "@/types/tenant";
+import type { TenantContext, UserRole } from "@/types/tenant";
 
 export type PortalSessionResult =
   | { ok: true; session: Session }
@@ -25,4 +26,22 @@ export async function requirePortalSession(): Promise<PortalSessionResult> {
     return { ok: false, status: 403, error: "Forbidden" };
   }
   return { ok: true, session };
+}
+
+/** Server pages/layouts under `/portal` — same redirects as the previous per-page gates. */
+export async function requirePortalPage(locale: string): Promise<{
+  session: Session;
+  roles: UserRole[];
+  tenant: TenantContext;
+}> {
+  const session = await auth();
+  if (!session?.user) redirect(`/${locale}/app/login`);
+  if (!session.user.unionId) redirect(`/${locale}/app`);
+  const tenant = getTenantContext(session.user.unionId);
+  if (!tenant || !tenant.union.enabledModules.includes("portal")) {
+    redirect(`/${locale}/app`);
+  }
+  const roles = (session.user.roles ?? []) as UserRole[];
+  if (!canAccessPortal(roles)) redirect(`/${locale}/app`);
+  return { session, roles, tenant };
 }

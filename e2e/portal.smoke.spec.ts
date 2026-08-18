@@ -27,6 +27,12 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page.getByRole("heading", { name: "Station" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Your Circles" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Local 243 Hall" })).toBeVisible();
+    const portalNav = page.getByRole("navigation", { name: "Portal navigation" });
+    await expect(portalNav).toBeVisible();
+    await expect(portalNav.getByRole("link", { name: "Dispatch" })).toBeVisible();
+    await expect(
+      page.getByRole("banner").getByRole("link", { name: "Local Portal" }),
+    ).toHaveAttribute("aria-current", "page");
   });
 
   test("Station has no serious or critical a11y violations", async ({

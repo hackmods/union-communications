@@ -61,7 +61,9 @@ Circle
 ## Feature inventory
 
 ### P0 — Shell
-- Station landing, Circle list, Roster, create/invite (role-gated), context switcher
+- Station landing, Circle list, Roster, create/invite (role-gated)
+- PortalNav + Hub-style drawer (Station, Circles, Dispatch, Fronts, Sidebars, send-feedback; Officer Hub for officers)
+- Public Header keeps Guides / Tools; account cluster highlights Local Portal on `/portal`
 
 ### P1 — Core 4
 - Bulletin, Actions, Calendar, Binder + Station (my Actions + recent Bulletin)
