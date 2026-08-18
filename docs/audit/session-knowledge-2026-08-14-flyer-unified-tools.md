@@ -2,7 +2,8 @@
 
 **Audience:** future agents + Ryan.  
 **Companion:** [`current-ground-truth.md`](current-ground-truth.md), [`workshop-gap-fit-2026-08.md`](workshop-gap-fit-2026-08.md), [`../modules/COMMS_VISUAL_SYSTEM.md`](../modules/COMMS_VISUAL_SYSTEM.md), [`../PROGRESS.md`](../PROGRESS.md).  
-**Landed on:** `main` — `da1f669` (Flyer Maker QOL v2) → `23e819d` (unified chrome + Share Kit v0).
+**Landed on:** `main` — `da1f669` (Flyer Maker QOL v2) → `23e819d` (unified chrome + Share Kit v0).  
+**Later:** Share Kit v0 **folded 2026-08-18** into Graphic Maker — do not restore `/tools/share-kit` as a catalog item.
 
 ---
 

@@ -30,7 +30,7 @@ Four groups in `nav-config.ts` `toolGroups` (mega-menu columns). Group by **job*
 1. **Brand** — Logo Builder, Resizer, Document & Slide Generator
 2. **Union boards** — Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board Posters
 3. **Print & cards** — Flyer Maker, QR Link Cards, Action Cards, Pulse Poll (Hub-signed-in only)
-4. **Social & web** — Graphic Maker, Share Kit, Quote Card, Meeting Backgrounds, Website Template, Alt-Text Assistant
+4. **Social & web** — Graphic Maker, Quote Card, Meeting Backgrounds, Website Template, Alt-Text Assistant
 
 Footer row in the mega-menu: **All tools** → `/tools` index. Do not re-flatten Tools into a single ungrouped list. Keep one **Tools ▾** trigger — do not add extra top-level tool links.
 

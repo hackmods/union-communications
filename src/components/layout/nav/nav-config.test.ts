@@ -93,7 +93,13 @@ describe("toolGroups", () => {
       toolGroups
         .find((g) => g.labelKey === "toolsGroupSocialWeb")
         ?.links.map((l) => l.href),
-    ).not.toContain(PULSE_POLL_HREF);
+    ).toEqual([
+      "/tools/graphic-maker",
+      "/tools/quote-card",
+      "/tools/meeting-background",
+      "/tools/website-template",
+      "/tools/alt-text",
+    ]);
   });
 });
 

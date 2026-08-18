@@ -82,6 +82,11 @@ const nextConfig: NextConfig = {
         destination: "/:locale/guide/resources/",
         permanent: true,
       },
+      {
+        source: "/:locale/tools/share-kit/",
+        destination: "/:locale/tools/graphic-maker/",
+        permanent: true,
+      },
     ];
   },
 };

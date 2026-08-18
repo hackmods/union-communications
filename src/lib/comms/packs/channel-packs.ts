@@ -18,7 +18,6 @@ export const COMMS_CHANNEL_PACKS = {
       "resizer",
       "meeting-background",
       "alt-text",
-      "share-kit",
     ] as const,
   },
   board: {

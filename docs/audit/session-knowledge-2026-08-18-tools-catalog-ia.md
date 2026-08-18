@@ -34,7 +34,7 @@ Channel packs already had a better split (`board` vs `print` vs `wallet` vs `soc
 | **Brand** | Set the look | Logo Builder, Resizer, Document Generator |
 | **Union boards** | Dress the cork board | Board Banner, Board Notice, Solidarity Poster, QR Board |
 | **Print & cards** | Paper people can take | Flyer Maker, QR Card, Action Card, Pulse Poll (when Hub login is on) |
-| **Social & web** | Post and publish | Graphic Maker, Share Kit, Quote Card, Meeting Background, Website Template, Alt Text |
+| **Social & web** | Post and publish | Graphic Maker, Quote Card, Meeting Background, Website Template, Alt Text |
 
 Counts land about **3 / 4 / 3–4 / 6** instead of **3 / 6 / 1 / 6–7**. Social stays the longest column because most makers are digital.
 
@@ -83,6 +83,12 @@ Any regroup touches **all** of:
 5. `docs/modules/COMMS.md` Tools ▾ row
 
 `/tools` and the mega-menu both call `visibleToolGroups()` — do not fork a second catalog.
+
+---
+
+## Same day: Share Kit folded (2026-08-18)
+
+Share Kit v0 was a workshop orchestrator (preset picker + links to Graphic Maker / Captions / Resizer). Graphic Maker already has the same four `TOOL_PRESETS` buttons and related-tool links. The catalog item was removed; `/:locale/tools/share-kit/` permanently redirects to Graphic Maker (`?preset=` preserved). Do not rebuild a third social canvas.
 
 ---
 

@@ -1,5 +1,12 @@
 # Progress Log
 
+## Share Kit folded into Graphic Maker (2026-08-18)
+
+- [x] Removed the `/tools/share-kit` catalog item (orchestrator only; presets already live on Graphic Maker)
+- [x] Permanent redirect `/:locale/tools/share-kit/` → Graphic Maker (keeps `?preset=` for old links)
+- [x] Graphic Maker related tools: Captions → Examples → Resizer (workshop path without a second social maker)
+- Verify: `npm run test:unit -- src/components/layout/nav/nav-config.test.ts src/lib/comms/packs/channel-packs.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Tools catalog job groups (2026-08-18)
 
 - [x] Tools ▾ / `/tools` regrouped by job: Brand · Union boards · **Print & cards** · Social & web
@@ -139,7 +146,7 @@
 - [x] Wave 1 chrome: `purposeHint` / `previewActions` / BrandSetup toolbar on pulse-poll, board-banner, action-card, qr-board; Resizer `ConsentModal`; Flyer invite email in footer
 - [x] Wave 2: `ToolColourSection` + `ToolExportActions`; board-notice options collapse; shell checklist in `tool-editor-ux.mdc`
 - [x] Wave 3: ThemePicker tools via colour section (built-in ContrastChecker); `?preset=` deep links; channel packs doc + `channel-packs.ts`
-- [x] Wave 4: Share Kit v0 orchestrator (`/tools/share-kit`) — Graphic Maker + Captions + Resizer, no new canvas
+- [x] Wave 4: Share Kit v0 orchestrator (`/tools/share-kit`) — Graphic Maker + Captions + Resizer, no new canvas *(folded into Graphic Maker 2026-08-18)*
 - [x] Session knowledge: [`docs/audit/session-knowledge-2026-08-14-flyer-unified-tools.md`](audit/session-knowledge-2026-08-14-flyer-unified-tools.md)
 
 ## Flyer Maker QOL v2 (2026-08-14)

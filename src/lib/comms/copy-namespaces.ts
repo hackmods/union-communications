@@ -30,7 +30,6 @@ export const PUBLIC_NS = [
   "graphicMaker",
   "quoteCard",
   "flyerMaker",
-  "shareKit",
   "altTextAssistant",
   "websiteTemplate",
   "logoBuilder",

@@ -129,7 +129,7 @@ Thin **feature packs** compose the shared shell — they do **not** unify layout
 | Pack | Tools | Shared behaviours |
 |------|-------|-------------------|
 | **Print** | Flyer Maker, Document Generator | Paper sizes, invite email where event-like, print guide links |
-| **Social** | Graphic Maker, Quote Card, Resizer, Meeting Background, Alt-text, Share Kit | Platform sizes, photo consent, captions / examples handoffs |
+| **Social** | Graphic Maker, Quote Card, Resizer, Meeting Background, Alt-text | Platform sizes, photo consent, captions / examples handoffs |
 | **Board** | Board Notice, Banner, Solidarity, QR Board | Letter/tabloid, trim/ornaments, multi-QR, union-boards guide |
 | **Wallet** | QR Card, Action Card, Pulse Poll | Wallet type scale helpers, membership presets, size pills, QR plate |
 

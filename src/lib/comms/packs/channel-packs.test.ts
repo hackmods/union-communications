@@ -9,7 +9,8 @@ describe("channel-packs", () => {
       "board",
       "wallet",
     ]);
-    expect(COMMS_CHANNEL_PACKS.social.tools).toContain("share-kit");
+    expect(COMMS_CHANNEL_PACKS.social.tools).toContain("graphic-maker");
+    expect(COMMS_CHANNEL_PACKS.social.tools).not.toContain("share-kit");
     expect(COMMS_CHANNEL_PACKS.print.tools).toContain("flyer-maker");
     expect(COMMS_CHANNEL_PACKS.wallet.tools).toContain("action-card");
   });

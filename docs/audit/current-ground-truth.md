@@ -9,7 +9,8 @@
 **Workshop Comms multiphase + Gap Fit (talk ~2026-08-12):** [`session-knowledge-2026-08-09-workshop-comms.md`](session-knowledge-2026-08-09-workshop-comms.md), [`workshop-gap-fit-2026-08.md`](workshop-gap-fit-2026-08.md)
 **Flyer Maker QOL v2 + unified tools chrome / Share Kit v0 (2026-08-14):** [`session-knowledge-2026-08-14-flyer-unified-tools.md`](session-knowledge-2026-08-14-flyer-unified-tools.md)
 **QR Board canvas QOL + layout-class CI matrix + wallet FitWidth (2026-08-17):** [`session-knowledge-2026-08-17-qr-canvas-layout.md`](session-knowledge-2026-08-17-qr-canvas-layout.md) (lessons B1–B14, residual gaps, optional next steps), checklist [`plan-2026-08-17-qr-board-canvas-qol.md`](plan-2026-08-17-qr-board-canvas-qol.md)
-**Tools catalog regrouping (2026-08-18):** [`session-knowledge-2026-08-18-tools-catalog-ia.md`](session-knowledge-2026-08-18-tools-catalog-ia.md) — Tools ▾ / `/tools` columns are jobs (Brand / Union boards / Print & cards / Social & web), not a 1:1 of First week channels
+**Tools catalog regrouping (2026-08-18):** [`session-knowledge-2026-08-18-tools-catalog-ia.md`](session-knowledge-2026-08-18-tools-catalog-ia.md) — Tools ▾ / `/tools` columns are jobs (Brand / Union boards / Print & cards / Social & web), not a 1:1 of First week channels  
+**Share Kit folded (2026-08-18):** `/tools/share-kit` redirects to Graphic Maker. Presets + Captions/Resizer related links cover the old orchestrator. Do not rebuild a third social canvas.
 
 ## Do not re-open as if missing
 
@@ -108,9 +109,10 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 | Public outline | `/guide/workshop`; First week calendar on `/guide/social-media-plan` |
 | UX contract | [`.cursor/rules/comms-public-ux.mdc`](../../.cursor/rules/comms-public-ux.mdc) |
 | Smoke | `e2e/workshop.smoke.spec.ts` (`@smoke`, quote the tag in PowerShell) |
-| Wednesday pitch | Demo-complete boards/print/social — Share Kit v0 is an orchestrator only (no one-click campaign OS / mass email) |
+| Wednesday pitch | Demo-complete boards/print/social — **not** a one-click campaign OS / mass email |
 | Narrative | [`session-knowledge-2026-08-09-workshop-comms.md`](session-knowledge-2026-08-09-workshop-comms.md) |
-| Flyer + unified chrome (2026-08-14) | Flyer Maker QOL v2; Share Kit `/tools/share-kit`; shell checklist — [`session-knowledge-2026-08-14-flyer-unified-tools.md`](session-knowledge-2026-08-14-flyer-unified-tools.md) |
+| Flyer + unified chrome (2026-08-14) | Flyer Maker QOL v2; shell checklist — [`session-knowledge-2026-08-14-flyer-unified-tools.md`](session-knowledge-2026-08-14-flyer-unified-tools.md) |
+| Share Kit (2026-08-18) | Folded into Graphic Maker; old `/tools/share-kit` URLs redirect |
 
 ## Next — Phase 9 export integrity (shipped 2026-08-14)
 
