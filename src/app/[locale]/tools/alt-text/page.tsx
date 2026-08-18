@@ -201,13 +201,13 @@ export default function AltTextPage() {
 
       <Card density="compact">
         <CardTitle className="text-base">{t("checklistTitle")}</CardTitle>
-        <ul className="mt-2 space-y-1.5">
+        <ul className="mt-2 space-y-2">
           {CHECKLIST_IDS.map((id) => (
             <li key={id}>
-              <label className="flex min-h-11 cursor-pointer items-start gap-2 text-sm text-gray-700">
+              <label className="flex cursor-pointer items-start gap-2 py-0.5 text-sm leading-snug text-gray-700">
                 <input
                   type="checkbox"
-                  className="mt-1"
+                  className="mt-0.5 h-4 w-4 shrink-0 accent-opseu-blue"
                   checked={checked[id]}
                   onChange={() => toggleCheck(id)}
                 />
