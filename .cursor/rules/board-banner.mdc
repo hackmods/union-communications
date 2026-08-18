@@ -16,13 +16,14 @@ Route: `/tools/board-banner`. Printable cork-board **hardware polish** (header s
 
 ## Frame kit (locked)
 - Kit pieces: **Top**, **Side**, **Bottom**, **Corner** — all optional toggles
-- Default: top + side + bottom, **corners off** (continuous full-edge rails that butt together)
-- Corners on = L-miter tiles for joints; corners off = border runs the whole distance
+- Default: top + side + bottom, **corners off** (rails keep coloured end caps and run the full edge)
+- Corners on = **four upright square tiles** (top left / top right / bottom left / bottom right) packed on one sheet; side and bottom rails drop end caps and stay straight
+- Corners off = border runs the whole distance; end caps finish the rail joints
 - At least one piece must stay on (cannot clear the kit)
 - **Top** uses header banner layouts (`BoardBannerCanvas`) so the loop includes banner art inside trim
 - Standalone **Header banner** mode still exists for banner-only packs
 - Export: one pack sheet per selected piece type (multi-page PDF / ZIP of PNGs)
-- Side/bottom = dual-tone rails with end caps; corner = L-miter tiles
+- Side/bottom = dual-tone rails (end caps only when Corner is off); corner = L-tiles, one per board corner, type stays upright (do not rotate a single tile)
 
 ## Chevrons — deferred (do not reintroduce casually)
 - **No chevrons** in current banner or trim art

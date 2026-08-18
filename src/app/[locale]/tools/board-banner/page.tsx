@@ -34,17 +34,23 @@ import {
 } from "@/lib/constants/board-banner-formats";
 import {
   BANNER_LAYOUTS,
+  CORNER_POSITION_DEFS,
   DEFAULT_BANNER_LAYOUT,
   DEFAULT_BOARD_BANNER_MODE,
+  DEFAULT_CORNER_POSITION,
   DEFAULT_TRIM_KIT,
   bannerLayoutById,
   bannerLayoutUsesCallout,
+  cornerPositionAtIndex,
+  cornerPositionById,
+  railsUseEndCaps,
   resolveTrimFocus,
   selectedTrimPieces,
   toggleTrimPiece,
   trimPieceById,
   type BannerLayoutId,
   type BoardBannerMode,
+  type CornerPosition,
   type TrimKit,
   type TrimPieceId,
 } from "@/lib/constants/board-banner-layouts";
@@ -69,6 +75,8 @@ interface BoardBannerState {
   trimKit: TrimKit;
   /** Which kit piece is shown in the design / print preview */
   trimFocus: TrimPieceId;
+  /** Design-preview corner; print sheets still pack all four positions */
+  cornerPosition: CornerPosition;
   callout: string;
   showLocal: boolean;
   logoMode: BoardLogoMode;
@@ -129,6 +137,7 @@ export default function BoardBannerPage() {
     layout: DEFAULT_BANNER_LAYOUT,
     trimKit: DEFAULT_TRIM_KIT,
     trimFocus: "top",
+    cornerPosition: DEFAULT_CORNER_POSITION,
     callout: "Did you know?",
     showLocal: true,
     logoMode: "none",
@@ -168,6 +177,7 @@ export default function BoardBannerPage() {
 
   const kitPieces = selectedTrimPieces(state.trimKit);
   const trimFocus = resolveTrimFocus(state.trimKit, state.trimFocus);
+  const endCaps = railsUseEndCaps(state.trimKit);
 
   const packCount =
     state.mode === "banner"
@@ -217,7 +227,10 @@ export default function BoardBannerPage() {
     />
   );
 
-  const renderTrimPiece = (piece: TrimPieceId) =>
+  const renderTrimPiece = (
+    piece: TrimPieceId,
+    cornerPosition: CornerPosition = state.cornerPosition,
+  ) =>
     piece === "top" ? (
       renderBannerPiece()
     ) : (
@@ -228,9 +241,14 @@ export default function BoardBannerPage() {
         accentColor={state.accentColor}
         localNumber={localNum}
         edgeWidthInches={edgeWidthInches}
+        endCaps={endCaps}
+        cornerPosition={cornerPosition}
         tokens={tokens}
         accessibleName={t("trimCanvasAccessibleName", {
-          piece: t(trimPieceById(piece).labelKey),
+          piece:
+            piece === "corner"
+              ? t(cornerPositionById(cornerPosition).labelKey)
+              : t(trimPieceById(piece).labelKey),
           color: state.primaryColor,
         })}
         {...ornamentProps}
@@ -505,6 +523,19 @@ export default function BoardBannerPage() {
                     setState({ ...state, trimFocus: piece })
                   }
                 />
+                {trimFocus === "corner" ? (
+                  <SegControl
+                    label={t("cornerPosition")}
+                    value={state.cornerPosition}
+                    options={CORNER_POSITION_DEFS.map((pos) => ({
+                      value: pos.id,
+                      label: t(pos.labelKey),
+                    }))}
+                    onChange={(cornerPosition) =>
+                      setState({ ...state, cornerPosition })
+                    }
+                  />
+                ) : null}
                 <p className="text-sm leading-snug text-gray-600">
                   {activeHint}
                 </p>
@@ -773,7 +804,14 @@ export default function BoardBannerPage() {
                   }
                   stripHeightInches={stripHeightInches}
                   edgeWidthInches={edgeWidthInches}
-                  renderPiece={renderFocusedPiece}
+                  renderPiece={(index) =>
+                    state.mode === "trim" && trimFocus === "corner"
+                      ? renderTrimPiece(
+                          "corner",
+                          cornerPositionAtIndex(index),
+                        )
+                      : renderFocusedPiece()
+                  }
                 />
               </div>
             </div>
@@ -814,7 +852,11 @@ export default function BoardBannerPage() {
                 trimPiece={piece}
                 stripHeightInches={stripHeightInches}
                 edgeWidthInches={edgeWidthInches}
-                renderPiece={() => renderTrimPiece(piece)}
+                renderPiece={(index) =>
+                  piece === "corner"
+                    ? renderTrimPiece("corner", cornerPositionAtIndex(index))
+                    : renderTrimPiece(piece)
+                }
               />
             </div>
           ))}

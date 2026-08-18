@@ -7,6 +7,88 @@ export type BannerLayoutId = "slantCallout" | "centeredLockup" | "minimalStripe"
 /** Frame pieces: horizontal top/bottom, vertical side, optional corner tiles */
 export type TrimPieceId = "top" | "side" | "bottom" | "corner";
 
+/**
+ * Upright board-corner tiles. Side/bottom rails never bake these in when
+ * Corner is on — print a square for each joint instead of rotating one tile.
+ */
+export const CORNER_POSITIONS = [
+  "topLeft",
+  "topRight",
+  "bottomLeft",
+  "bottomRight",
+] as const;
+
+export type CornerPosition = (typeof CORNER_POSITIONS)[number];
+
+export const DEFAULT_CORNER_POSITION: CornerPosition = "topLeft";
+
+export type CornerPositionLabelKey =
+  | "cornerTopLeft"
+  | "cornerTopRight"
+  | "cornerBottomLeft"
+  | "cornerBottomRight";
+
+export interface CornerPositionDef {
+  id: CornerPosition;
+  labelKey: CornerPositionLabelKey;
+}
+
+export const CORNER_POSITION_DEFS: readonly CornerPositionDef[] = [
+  { id: "topLeft", labelKey: "cornerTopLeft" },
+  { id: "topRight", labelKey: "cornerTopRight" },
+  { id: "bottomLeft", labelKey: "cornerBottomLeft" },
+  { id: "bottomRight", labelKey: "cornerBottomRight" },
+] as const;
+
+/** Packed corner sheets cycle through all four upright positions. */
+export function cornerPositionAtIndex(index: number): CornerPosition {
+  const n = CORNER_POSITIONS.length;
+  const i = ((index % n) + n) % n;
+  return CORNER_POSITIONS[i];
+}
+
+export function cornerPositionById(id: CornerPosition): CornerPositionDef {
+  return CORNER_POSITION_DEFS.find((d) => d.id === id) ?? CORNER_POSITION_DEFS[0];
+}
+
+/** Rails keep coloured end caps only when Corner is off (butt-together loop). */
+export function railsUseEndCaps(kit: TrimKit): boolean {
+  return !kit.corner;
+}
+
+/** Primary / accent L-band polygons in a 100×100 viewBox (thickness 28 / 14). */
+export function cornerLPolygons(position: CornerPosition): {
+  primary: string;
+  accent: string;
+} {
+  const band = 28;
+  const accent = 14;
+  const inner = 100 - band;
+  const innerAccent = 100 - accent;
+  switch (position) {
+    case "topLeft":
+      return {
+        primary: `0,0 100,0 100,${band} ${band},${band} ${band},100 0,100`,
+        accent: `0,0 100,0 100,${accent} ${accent},${accent} ${accent},100 0,100`,
+      };
+    case "topRight":
+      return {
+        primary: `0,0 100,0 100,100 ${inner},100 ${inner},${band} 0,${band}`,
+        accent: `0,0 100,0 100,100 ${innerAccent},100 ${innerAccent},${accent} 0,${accent}`,
+      };
+    case "bottomLeft":
+      return {
+        primary: `0,0 ${band},0 ${band},${inner} 100,${inner} 100,100 0,100`,
+        accent: `0,0 ${accent},0 ${accent},${innerAccent} 100,${innerAccent} 100,100 0,100`,
+      };
+    case "bottomRight":
+      return {
+        primary: `${inner},0 100,0 100,100 0,100 0,${inner} ${inner},${inner}`,
+        accent: `${innerAccent},0 100,0 100,100 0,100 0,${innerAccent} ${innerAccent},${innerAccent}`,
+      };
+  }
+}
+
 export type BannerLayoutLabelKey =
   | "layoutSlantCallout"
   | "layoutCenteredLockup"
@@ -48,8 +130,9 @@ export const DEFAULT_TRIM_PIECE: TrimPieceId = "top";
 export const DEFAULT_BOARD_BANNER_MODE: BoardBannerMode = "trim";
 
 /**
- * Frame kit: rails for a continuous border loop; corners optional
- * (off = rails run the full edge distance and butt together).
+ * Frame kit: rails for a continuous border loop; corners optional.
+ * Off = rails keep end caps and run the full edge (butt together).
+ * On = rails are side/bottom only; Corner prints four upright tiles.
  */
 export interface TrimKit {
   top: boolean;

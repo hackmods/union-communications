@@ -19,8 +19,8 @@ export interface BoardBannerSheetProps {
   trimPiece: TrimPieceId;
   stripHeightInches: number;
   edgeWidthInches: number;
-  /** Render one piece (strip / column / corner) */
-  renderPiece: () => ReactNode;
+  /** Render one piece (strip / column / corner). Index is used to cycle corner positions. */
+  renderPiece: (index: number) => ReactNode;
   className?: string;
 }
 
@@ -100,7 +100,7 @@ export function BoardBannerSheet({
             overflow: "hidden",
           }}
         >
-          {renderPiece()}
+          {renderPiece(i)}
         </div>,
       );
     }
@@ -157,7 +157,7 @@ export function BoardBannerSheet({
             overflow: "hidden",
           }}
         >
-          {renderPiece()}
+          {renderPiece(i)}
         </div>,
       );
     }
@@ -229,7 +229,7 @@ export function BoardBannerSheet({
               overflow: "hidden",
             }}
           >
-            {renderPiece()}
+            {renderPiece(r * grid.cols + c)}
           </div>,
         );
       }

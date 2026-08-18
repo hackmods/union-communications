@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_TRIM_KIT,
+  cornerLPolygons,
+  cornerPositionAtIndex,
+  cornerPositionById,
+  railsUseEndCaps,
   resolveTrimFocus,
   selectedTrimPieces,
   toggleTrimPiece,
@@ -14,6 +18,7 @@ describe("trim kit", () => {
       "bottom",
     ]);
     expect(DEFAULT_TRIM_KIT.corner).toBe(false);
+    expect(railsUseEndCaps(DEFAULT_TRIM_KIT)).toBe(true);
   });
 
   it("includes corner only when toggled on", () => {
@@ -33,6 +38,17 @@ describe("trim kit", () => {
         corner: false,
       }),
     ).toEqual(["side"]);
+  });
+
+  it("drops rail end caps when Corner is in the kit", () => {
+    expect(
+      railsUseEndCaps({
+        top: true,
+        side: true,
+        bottom: true,
+        corner: true,
+      }),
+    ).toBe(false);
   });
 
   it("toggles pieces but refuses an empty kit", () => {
@@ -68,3 +84,30 @@ describe("trim kit", () => {
     ).toBe("corner");
   });
 });
+
+describe("corner positions", () => {
+  it("cycles packed tiles through all four upright corners", () => {
+    expect(cornerPositionAtIndex(0)).toBe("topLeft");
+    expect(cornerPositionAtIndex(1)).toBe("topRight");
+    expect(cornerPositionAtIndex(2)).toBe("bottomLeft");
+    expect(cornerPositionAtIndex(3)).toBe("bottomRight");
+    expect(cornerPositionAtIndex(4)).toBe("topLeft");
+    expect(cornerPositionAtIndex(-1)).toBe("bottomRight");
+  });
+
+  it("looks up corner labels", () => {
+    expect(cornerPositionById("bottomRight").labelKey).toBe("cornerBottomRight");
+  });
+
+  it("gives each corner a distinct L that covers that joint", () => {
+    const tl = cornerLPolygons("topLeft");
+    const tr = cornerLPolygons("topRight");
+    const bl = cornerLPolygons("bottomLeft");
+    const br = cornerLPolygons("bottomRight");
+    const all = [tl.primary, tr.primary, bl.primary, br.primary];
+    expect(new Set(all).size).toBe(4);
+    expect(tl.primary).toContain("0,0");
+    expect(br.primary).toContain("100,100");
+  });
+});
+

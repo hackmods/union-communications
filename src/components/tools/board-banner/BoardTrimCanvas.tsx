@@ -1,9 +1,14 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import {
   cornerAllowsByline,
   type BoardLogoMode,
 } from "@/lib/constants/board-banner-ornaments";
+import {
+  cornerLPolygons,
+  type CornerPosition,
+} from "@/lib/constants/board-banner-layouts";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import { clampTypeRem } from "@/lib/utils/canvas-tokens";
@@ -24,17 +29,74 @@ export interface BoardTrimCanvasProps {
   byline: string;
   /** Edge width in inches — gates corner byline */
   edgeWidthInches?: number;
+  /**
+   * Coloured end caps on side/bottom rails. Off when Corner is in the kit so
+   * each board corner is a separate square tile.
+   */
+  endCaps?: boolean;
+  /** Which board corner this L-tile covers (ignored for side/bottom). */
+  cornerPosition?: CornerPosition;
   /** Assistive summary of this trim graphic (UI-005). */
   accessibleName?: string;
   tokens?: CanvasTokens;
   className?: string;
 }
 
+function cornerOrnamentStyle(position: CornerPosition): {
+  local: CSSProperties;
+  logo: CSSProperties;
+  byline: CSSProperties;
+} {
+  const local: CSSProperties = {
+    position: "absolute",
+    margin: 0,
+    zIndex: 1,
+  };
+  const logo: CSSProperties = {
+    position: "absolute",
+    zIndex: 1,
+    maxWidth: "40%",
+    maxHeight: "40%",
+  };
+  const byline: CSSProperties = {
+    position: "absolute",
+    margin: 0,
+    zIndex: 1,
+    maxWidth: "45%",
+  };
+  switch (position) {
+    case "topLeft":
+      return {
+        local: { ...local, top: "8%", left: "8%" },
+        logo: { ...logo, right: "10%", bottom: "10%" },
+        byline: { ...byline, left: "8%", bottom: "8%" },
+      };
+    case "topRight":
+      return {
+        local: { ...local, top: "8%", right: "8%", textAlign: "right" },
+        logo: { ...logo, left: "10%", bottom: "10%" },
+        byline: { ...byline, right: "8%", bottom: "8%", textAlign: "right" },
+      };
+    case "bottomLeft":
+      return {
+        local: { ...local, bottom: "8%", left: "8%" },
+        logo: { ...logo, right: "10%", top: "10%" },
+        byline: { ...byline, left: "8%", top: "8%" },
+      };
+    case "bottomRight":
+      return {
+        local: { ...local, bottom: "8%", right: "8%", textAlign: "right" },
+        logo: { ...logo, left: "10%", top: "10%" },
+        byline: { ...byline, right: "8%", top: "8%", textAlign: "right" },
+      };
+  }
+}
+
 /**
  * Trim pieces sized by parent:
- * - side: dual-tone vertical rail + end caps
- * - bottom: dual-tone horizontal rail + end caps — side motif rotated
- * - corner: optional square L-miter (omit for continuous full-edge rails)
+ * - side: dual-tone vertical rail; optional end caps when Corner is off
+ * - bottom: dual-tone horizontal rail; optional end caps — side motif rotated
+ * - corner: square L-tile for one board corner (four upright positions)
  */
 export function BoardTrimCanvas({
   piece,
@@ -47,6 +109,8 @@ export function BoardTrimCanvas({
   showByline,
   byline,
   edgeWidthInches = 2,
+  endCaps = true,
+  cornerPosition = "topLeft",
   accessibleName,
   tokens,
   className,
@@ -83,10 +147,13 @@ export function BoardTrimCanvas({
         : showByline && bylineText
           ? bylineText
           : null;
+    const railLocal = !endCaps && showLocal ? localDisplay : null;
 
     return (
       <div
         className={className}
+        data-trim-piece="side"
+        data-end-caps={endCaps ? "true" : "false"}
         {...a11yProps}
         style={{
           boxSizing: "border-box",
@@ -99,33 +166,34 @@ export function BoardTrimCanvas({
           fontFamily: tokens?.bodyFontFamily,
         }}
       >
-        {/* Top cap — accent */}
-        <div
-          style={{
-            flex: "0 0 14%",
-            backgroundColor: accent,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "2% 4%",
-            boxSizing: "border-box",
-          }}
-        >
-          {topLabel ? (
-            <p
-              style={{
-                margin: 0,
-                color: accentInk,
-                fontSize: clampTypeRem(tokens, 0.45, 1.4, 0.75),
-                ...localCapType,
-                textAlign: "center",
-                lineHeight: 1.1,
-              }}
-            >
-              {topLabel}
-            </p>
-          ) : null}
-        </div>
+        {endCaps ? (
+          <div
+            style={{
+              flex: "0 0 14%",
+              backgroundColor: accent,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "2% 4%",
+              boxSizing: "border-box",
+            }}
+          >
+            {topLabel ? (
+              <p
+                style={{
+                  margin: 0,
+                  color: accentInk,
+                  fontSize: clampTypeRem(tokens, 0.45, 1.4, 0.75),
+                  ...localCapType,
+                  textAlign: "center",
+                  lineHeight: 1.1,
+                }}
+              >
+                {topLabel}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
 
         {/* Dual-tone rail body */}
         <div
@@ -149,6 +217,20 @@ export function BoardTrimCanvas({
               boxSizing: "border-box",
             }}
           >
+            {railLocal ? (
+              <p
+                style={{
+                  margin: 0,
+                  color: ink,
+                  fontSize: clampTypeRem(tokens, 0.45, 1.4, 0.75),
+                  ...localCapType,
+                  textAlign: "center",
+                  lineHeight: 1.1,
+                }}
+              >
+                {railLocal}
+              </p>
+            ) : null}
             {showLogo ? (
               <div style={{ maxWidth: "80%", maxHeight: "28%" }}>
                 <BrandLogo
@@ -182,33 +264,34 @@ export function BoardTrimCanvas({
           />
         </div>
 
-        {/* Bottom cap — secondary */}
-        <div
-          style={{
-            flex: "0 0 14%",
-            backgroundColor: secondaryColor,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "2% 4%",
-            boxSizing: "border-box",
-          }}
-        >
-          {bottomLabel ? (
-            <p
-              style={{
-                margin: 0,
-                color: secondaryInk,
-                fontSize: clampTypeRem(tokens, 0.45, 1.4, 0.75),
-                ...localCapType,
-                textAlign: "center",
-                lineHeight: 1.1,
-              }}
-            >
-              {bottomLabel}
-            </p>
-          ) : null}
-        </div>
+        {endCaps ? (
+          <div
+            style={{
+              flex: "0 0 14%",
+              backgroundColor: secondaryColor,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "2% 4%",
+              boxSizing: "border-box",
+            }}
+          >
+            {bottomLabel ? (
+              <p
+                style={{
+                  margin: 0,
+                  color: secondaryInk,
+                  fontSize: clampTypeRem(tokens, 0.45, 1.4, 0.75),
+                  ...localCapType,
+                  textAlign: "center",
+                  lineHeight: 1.1,
+                }}
+              >
+                {bottomLabel}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     );
   }
@@ -221,10 +304,13 @@ export function BoardTrimCanvas({
         : showByline && bylineText
           ? bylineText
           : null;
+    const railLocal = !endCaps && showLocal ? localDisplay : null;
 
     return (
       <div
         className={className}
+        data-trim-piece="bottom"
+        data-end-caps={endCaps ? "true" : "false"}
         {...a11yProps}
         style={{
           boxSizing: "border-box",
@@ -237,33 +323,34 @@ export function BoardTrimCanvas({
           fontFamily: tokens?.bodyFontFamily,
         }}
       >
-        {/* Left cap — accent (mirrors side top cap) */}
-        <div
-          style={{
-            flex: "0 0 14%",
-            backgroundColor: accent,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "2% 3%",
-            boxSizing: "border-box",
-          }}
-        >
-          {leftLabel ? (
-            <p
-              style={{
-                margin: 0,
-                color: accentInk,
-                fontSize: clampTypeRem(tokens, 0.55, 1.8, 0.95),
-                ...localCapType,
-                textAlign: "center",
-                lineHeight: 1.1,
-              }}
-            >
-              {leftLabel}
-            </p>
-          ) : null}
-        </div>
+        {endCaps ? (
+          <div
+            style={{
+              flex: "0 0 14%",
+              backgroundColor: accent,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "2% 3%",
+              boxSizing: "border-box",
+            }}
+          >
+            {leftLabel ? (
+              <p
+                style={{
+                  margin: 0,
+                  color: accentInk,
+                  fontSize: clampTypeRem(tokens, 0.55, 1.8, 0.95),
+                  ...localCapType,
+                  textAlign: "center",
+                  lineHeight: 1.1,
+                }}
+              >
+                {leftLabel}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
 
         {/* Dual-tone body — primary band + accent rail (mirrors side 70/30) */}
         <div
@@ -288,6 +375,20 @@ export function BoardTrimCanvas({
               minHeight: 0,
             }}
           >
+            {railLocal ? (
+              <p
+                style={{
+                  margin: 0,
+                  color: ink,
+                  fontSize: clampTypeRem(tokens, 0.55, 1.8, 0.95),
+                  ...localCapType,
+                  textAlign: "center",
+                  lineHeight: 1.1,
+                }}
+              >
+                {railLocal}
+              </p>
+            ) : null}
             {showLogo ? (
               <div style={{ maxHeight: "85%", display: "flex", alignItems: "center" }}>
                 <BrandLogo
@@ -319,43 +420,47 @@ export function BoardTrimCanvas({
           />
         </div>
 
-        {/* Right cap — secondary (mirrors side bottom cap) */}
-        <div
-          style={{
-            flex: "0 0 14%",
-            backgroundColor: secondaryColor,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "2% 3%",
-            boxSizing: "border-box",
-          }}
-        >
-          {rightLabel ? (
-            <p
-              style={{
-                margin: 0,
-                color: secondaryInk,
-                fontSize: clampTypeRem(tokens, 0.55, 1.8, 0.95),
-                ...localCapType,
-                textAlign: "center",
-                lineHeight: 1.1,
-              }}
-            >
-              {rightLabel}
-            </p>
-          ) : null}
-        </div>
+        {endCaps ? (
+          <div
+            style={{
+              flex: "0 0 14%",
+              backgroundColor: secondaryColor,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "2% 3%",
+              boxSizing: "border-box",
+            }}
+          >
+            {rightLabel ? (
+              <p
+                style={{
+                  margin: 0,
+                  color: secondaryInk,
+                  fontSize: clampTypeRem(tokens, 0.55, 1.8, 0.95),
+                  ...localCapType,
+                  textAlign: "center",
+                  lineHeight: 1.1,
+                }}
+              >
+                {rightLabel}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     );
   }
 
-  // corner
   const showCornerByline = cornerAllowsByline(showByline, edgeWidthInches);
+  const lPaths = cornerLPolygons(cornerPosition);
+  const ornaments = cornerOrnamentStyle(cornerPosition);
 
   return (
     <div
       className={className}
+      data-trim-piece="corner"
+      data-corner-position={cornerPosition}
       {...a11yProps}
       style={{
         boxSizing: "border-box",
@@ -380,23 +485,13 @@ export function BoardTrimCanvas({
         }}
       >
         <rect width="100" height="100" fill="#FFFFFF" />
-        <polygon
-          points="0,0 100,0 100,28 28,28 28,100 0,100"
-          fill={primaryColor}
-        />
-        <polygon
-          points="0,0 100,0 100,14 14,14 14,100 0,100"
-          fill={accent}
-        />
+        <polygon points={lPaths.primary} fill={primaryColor} />
+        <polygon points={lPaths.accent} fill={accent} />
       </svg>
       {showLocal ? (
         <p
           style={{
-            position: "absolute",
-            top: "8%",
-            left: "8%",
-            margin: 0,
-            zIndex: 1,
+            ...ornaments.local,
             color: ink,
             fontSize: clampTypeRem(tokens, 0.5, 1.8, 0.8),
             ...localCapType,
@@ -406,16 +501,7 @@ export function BoardTrimCanvas({
         </p>
       ) : null}
       {showLogo ? (
-        <div
-          style={{
-            position: "absolute",
-            right: "10%",
-            bottom: "10%",
-            zIndex: 1,
-            maxWidth: "40%",
-            maxHeight: "40%",
-          }}
-        >
+        <div style={ornaments.logo}>
           <BrandLogo
             size="sm"
             backgroundColor="#FFFFFF"
@@ -426,16 +512,11 @@ export function BoardTrimCanvas({
       {showCornerByline && bylineText ? (
         <p
           style={{
-            position: "absolute",
-            left: "8%",
-            bottom: "8%",
-            margin: 0,
-            zIndex: 1,
+            ...ornaments.byline,
             color: ink,
             fontWeight: 700,
             fontSize: clampTypeRem(tokens, 0.4, 1.2, 0.6),
             letterSpacing: tokens?.titleLetterSpacing ?? "0.03em",
-            maxWidth: "45%",
             lineHeight: 1.2,
           }}
         >

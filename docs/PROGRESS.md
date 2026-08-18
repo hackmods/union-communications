@@ -1,5 +1,13 @@
 # Progress Log
 
+## Board Banner independent corners (2026-08-18)
+
+- [x] Side/bottom rails stay straight when Corner is on (no coloured end caps standing in for joints)
+- [x] Corner kit piece prints four upright tiles: top left, top right, bottom left, bottom right
+- [x] Design preview picker inspects one corner; the pack sheet cycles all four
+- [x] Corners off still uses end-capped rails that run the full edge and meet
+- Verify: `npm run test:unit -- src/lib/constants/board-banner-layouts.test.ts src/components/tools/board-banner/BoardTrimCanvas.test.tsx src/lib/comms/public-copy-style.test.ts`
+
 ## Demo login on production images (2026-08-18)
 
 - [x] `isDemoAuthEnabled(process.env)` statically reads `NEXT_PUBLIC_DEMO_SITE` so Next inlines the build-time demo flag into `authorize()` (login hint and roster stay in sync)

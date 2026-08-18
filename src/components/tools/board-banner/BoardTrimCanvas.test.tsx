@@ -123,6 +123,7 @@ describe("BoardTrimCanvas", () => {
     );
 
     const group = screen.getByRole("group", { name: "Corner trim preview" });
+    expect(group).toHaveAttribute("data-corner-position", "topLeft");
     expect(within(group).getByText("LOCAL 243")).toBeInTheDocument();
     expect(within(group).getByText("Corner note")).toBeInTheDocument();
     expect(within(group).getByTestId("brand-logo")).toBeInTheDocument();
@@ -143,5 +144,61 @@ describe("BoardTrimCanvas", () => {
     expect(within(group).queryByText("LOCAL 243")).not.toBeInTheDocument();
     expect(within(group).queryByText("Corner note")).not.toBeInTheDocument();
     expect(within(group).queryByTestId("brand-logo")).not.toBeInTheDocument();
+  });
+
+  it("renders each board corner as its own upright tile", () => {
+    const { rerender } = render(
+      <BoardTrimCanvas
+        {...baseProps}
+        piece="corner"
+        cornerPosition="topRight"
+        accessibleName="Corner trim preview"
+      />,
+    );
+    expect(screen.getByRole("group")).toHaveAttribute(
+      "data-corner-position",
+      "topRight",
+    );
+
+    rerender(
+      <BoardTrimCanvas
+        {...baseProps}
+        piece="corner"
+        cornerPosition="bottomRight"
+        accessibleName="Corner trim preview"
+      />,
+    );
+    expect(screen.getByRole("group")).toHaveAttribute(
+      "data-corner-position",
+      "bottomRight",
+    );
+
+    rerender(
+      <BoardTrimCanvas
+        {...baseProps}
+        piece="corner"
+        cornerPosition="bottomLeft"
+        accessibleName="Corner trim preview"
+      />,
+    );
+    expect(screen.getByRole("group")).toHaveAttribute(
+      "data-corner-position",
+      "bottomLeft",
+    );
+  });
+
+  it("drops coloured end caps on side rails when Corner owns the joints", () => {
+    render(
+      <BoardTrimCanvas
+        {...baseProps}
+        piece="side"
+        endCaps={false}
+        accessibleName="Side trim preview"
+      />,
+    );
+
+    const group = screen.getByRole("group", { name: "Side trim preview" });
+    expect(group).toHaveAttribute("data-end-caps", "false");
+    expect(within(group).getAllByText("LOCAL 243")).toHaveLength(1);
   });
 });
