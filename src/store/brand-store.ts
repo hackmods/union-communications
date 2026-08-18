@@ -26,6 +26,8 @@ interface BrandState {
 
 let persistenceUnsub: (() => void) | null = null;
 let saveBrandKitTimer: ReturnType<typeof setTimeout> | null = null;
+/** Patches made before hydrate — applied onto the loaded kit, never onto defaults. */
+let pendingPatch: BrandKitPatch | null = null;
 
 function scheduleSaveBrandKit(kit: BrandKit) {
   if (saveBrandKitTimer) clearTimeout(saveBrandKitTimer);
@@ -33,6 +35,61 @@ function scheduleSaveBrandKit(kit: BrandKit) {
     saveBrandKitTimer = null;
     void dataAdapter.saveBrandKit(kit);
   }, 400);
+}
+
+function clearSaveTimer() {
+  if (saveBrandKitTimer) {
+    clearTimeout(saveBrandKitTimer);
+    saveBrandKitTimer = null;
+  }
+}
+
+function applyBrandKitPatch(current: BrandKit, partial: BrandKitPatch): BrandKit {
+  return syncBrandKitProfilesFromLocal(
+    normalizeBrandKit({
+      ...current,
+      ...partial,
+      local: { ...current.local, ...partial.local },
+      customLinks:
+        partial.customLinks !== undefined
+          ? partial.customLinks
+          : current.customLinks,
+      membershipUrls:
+        partial.membershipUrls !== undefined
+          ? partial.membershipUrls
+          : current.membershipUrls,
+      canvas: "canvas" in partial ? (partial.canvas ?? undefined) : current.canvas,
+      updatedAt: new Date().toISOString(),
+    }),
+  );
+}
+
+function queueBrandKitPatch(
+  queued: BrandKitPatch | null,
+  next: BrandKitPatch,
+): BrandKitPatch {
+  if (!queued) return next;
+  const canvas =
+    "canvas" in next
+      ? next.canvas == null
+        ? next.canvas
+        : { ...(queued.canvas ?? {}), ...next.canvas }
+      : queued.canvas;
+  return {
+    ...queued,
+    ...next,
+    local:
+      queued.local || next.local
+        ? { ...queued.local, ...next.local }
+        : undefined,
+    customLinks:
+      next.customLinks !== undefined ? next.customLinks : queued.customLinks,
+    membershipUrls:
+      next.membershipUrls !== undefined
+        ? next.membershipUrls
+        : queued.membershipUrls,
+    canvas,
+  };
 }
 
 function ensurePersistenceSubscription(
@@ -52,33 +109,18 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
   storageBlocked: false,
 
   setBrandKit: (partial) => {
-    const current = get().brandKit;
-    const updated = syncBrandKitProfilesFromLocal(
-      normalizeBrandKit({
-        ...current,
-        ...partial,
-        local: { ...current.local, ...partial.local },
-        customLinks:
-          partial.customLinks !== undefined
-            ? partial.customLinks
-            : current.customLinks,
-        membershipUrls:
-          partial.membershipUrls !== undefined
-            ? partial.membershipUrls
-            : current.membershipUrls,
-        canvas: "canvas" in partial ? (partial.canvas ?? undefined) : current.canvas,
-        updatedAt: new Date().toISOString(),
-      }),
-    );
+    if (!get().hydrated) {
+      pendingPatch = queueBrandKitPatch(pendingPatch, partial);
+      return;
+    }
+    const updated = applyBrandKitPatch(get().brandKit, partial);
     set({ brandKit: updated });
     scheduleSaveBrandKit(updated);
   },
 
   resetBrandKit: () => {
-    if (saveBrandKitTimer) {
-      clearTimeout(saveBrandKitTimer);
-      saveBrandKitTimer = null;
-    }
+    pendingPatch = null;
+    clearSaveTimer();
     const reset = normalizeBrandKit({
       ...DEFAULT_BRAND_KIT,
       updatedAt: new Date().toISOString(),
@@ -88,10 +130,8 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
   },
 
   importBrandKit: (kit) => {
-    if (saveBrandKitTimer) {
-      clearTimeout(saveBrandKitTimer);
-      saveBrandKitTimer = null;
-    }
+    pendingPatch = null;
+    clearSaveTimer();
     const updated = normalizeBrandKit({
       ...(kit as object),
       updatedAt: new Date().toISOString(),
@@ -116,7 +156,13 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     ensurePersistenceSubscription(set);
     const kit = await dataAdapter.getBrandKit();
     const onboardingComplete = await dataAdapter.isOnboardingComplete();
-    if (kit) set({ brandKit: kit });
-    set({ onboardingComplete, hydrated: true });
+    const queued = pendingPatch;
+    pendingPatch = null;
+    let brandKit = kit ?? get().brandKit;
+    if (queued) {
+      brandKit = applyBrandKitPatch(brandKit, queued);
+      scheduleSaveBrandKit(brandKit);
+    }
+    set({ brandKit, onboardingComplete, hydrated: true });
   },
 }));

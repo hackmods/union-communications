@@ -7,6 +7,7 @@ import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
 import { formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { getExamplePost } from "@/lib/constants/examples";
@@ -42,6 +43,7 @@ function QuoteCardPageContent() {
   const te = useTranslations("examples");
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
+  const hydrated = useBrandStore((s) => s.hydrated);
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const canvasRef = useRef<HTMLDivElement>(null);
   const tokens = resolveCanvasTokens(brandKit);
@@ -80,6 +82,23 @@ function QuoteCardPageContent() {
       textColor: pickContrastingInk(brandKit.primaryColor),
     }));
     return true;
+  }, "example", hydrated);
+
+  useOneShotBrandSeed(hydrated, () => {
+    const exampleId =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.search).get("example")
+        : null;
+    if (exampleId) {
+      const post = getExamplePost(exampleId);
+      if (post?.primaryTool === "quote-card") return;
+    }
+    reset({
+      ...initial,
+      primaryColor: brandKit.primaryColor,
+      accentColor: brandKit.accentColor,
+      textColor: pickContrastingInk(brandKit.primaryColor),
+    });
   });
 
   const handleExport = async () => {
