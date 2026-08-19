@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Circles still use the memory adapter — Hub's case-data banner would be
- * the wrong claim here (grievance/bumping, not Station).
+ * the wrong claim here (grievance/bumping, not Together).
  */
 export function PortalMemoryBanner() {
   const { status } = useSession();

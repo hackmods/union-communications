@@ -30,6 +30,13 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/tools/quote-card",
   },
   {
+    id: "portal-solidarity-names",
+    date: "2026-08-19",
+    kind: "improved",
+    audience: "hub",
+    href: "/portal",
+  },
+  {
     id: "comms-stay-free",
     date: "2026-08-19",
     kind: "improved",

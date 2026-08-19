@@ -8,15 +8,16 @@ alwaysApply: false
 
 Spec: `docs/modules/LOCAL_PORTAL.md`. Plan: `.cursor/plans/local_portal_future.plan.md`.
 
-## Shipped in memory (P3 + P4 — 2026-07-22)
+## Shipped in memory (P3 + P4 — 2026-07-22; solidarity names 2026-08-19)
 
-- **Momentum**, **Sidebars**, **Fronts**
-- Cross-Circle search, Station week digest, per-Circle unread badges
+- **One fight**, **Sidebars**, **Hold the line** (ids: `momentum`, Sidebars, `/portal/fronts`)
+- Cross-Circle search, Together week digest, per-Circle unread badges
 - Circle templates (LEC / JHSC / campaign), Bulletin pin + comments UI
 - Calendar `.ics` download, Roster invite (demo users), Roll Call question create (API + UI)
-- Deep-link Station/search hits via `?tab=`, Fronts date edit on Circle, Action assignee/due, Calendar datetime/location
-- **P4:** @mentions → Dispatch, soft-delete + Circle audit, per-tool mute, Pipeline drag-and-drop, Basecamp CSV import, activity pack export, keyboard 1–0 tool switch, Calendar RSVP/external URL, guest (viewer) banner
-- **Lived-in Station (2026-08-18):** relative demo seed, Open Hall + upcoming events, search off the fold, Hall hides empty committee tabs
+- Deep-link Together/search hits via `?tab=`, Hold-the-line date edit on Circle, Action assignee/due, Calendar datetime/location
+- **P4:** @mentions → Dispatch, soft-delete + Circle audit, per-tool mute, Many hands drag-and-drop, Basecamp CSV import, activity pack export, keyboard 1–0 tool switch, Calendar RSVP/external URL, guest (viewer) banner
+- **Lived-in Together (2026-08-18):** relative demo seed, Open Hall + upcoming events, search off the fold, Hall hides empty committee tabs
+- **Solidarity names (2026-08-19):** Together / Hold the line / One fight / Many hands — not Station / Fronts / Momentum / Pipeline, and not Locker / On the table / The push / Shop board. See session-knowledge-2026-08-19-portal-solidarity-names.md
 
 ## Production cutover (blocking)
 
@@ -45,4 +46,4 @@ Spec: `docs/modules/LOCAL_PORTAL.md`. Plan: `.cursor/plans/local_portal_future.p
 
 - `npm run lint` + `npm run typecheck` + `npm run test:unit`
 - `npm run test:smoke` (includes `e2e/portal.smoke.spec.ts` `@smoke`)
-- Keep axe serious/critical clean on Station + Circle workspace
+- Keep axe serious/critical clean on Together + Circle workspace

@@ -32,7 +32,7 @@ export interface Circle {
   name: string;
   description?: string;
   visibility: CircleVisibility;
-  /** Fronts portfolio window (optional) */
+  /** Hold-the-line live window (optional). Route remains `/portal/fronts`. */
   frontStartsAt?: string;
   frontEndsAt?: string;
   archivedAt?: string;
@@ -220,7 +220,7 @@ export interface StationPayload {
   };
 }
 
-/** Momentum = progress narrative (0 = stuck/uphill, 100 = shipped). */
+/** One fight = campaign progress (0 = stuck, 100 = moving / shipped). Tab id stays `momentum`. */
 export interface MomentumItem {
   id: string;
   circleId: string;

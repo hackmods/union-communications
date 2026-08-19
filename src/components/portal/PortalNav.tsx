@@ -73,7 +73,7 @@ export function PortalNav() {
         );
       })
       .catch(() => {
-        /* Station list is optional chrome — page body still loads. */
+        /* Together Circle list is optional chrome — page body still loads. */
       });
     return () => {
       cancelled = true;

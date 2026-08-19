@@ -267,6 +267,35 @@ describe("Officer Hub copy style", () => {
     expect(drifted, report(drifted)).toEqual([]);
   });
 
+  it("locks Local Portal solidarity names in both locales", () => {
+    expect(en.portal.stationTitle).toBe("Together");
+    expect(fr.portal.stationTitle).toBe("Ensemble");
+    expect(en.portal.frontsTitle).toBe("Hold the line");
+    expect(fr.portal.frontsTitle).toBe("Tenir la ligne");
+    expect(en.portal.frontsLink).toBe(en.portal.frontsTitle);
+    expect(fr.portal.frontsLink).toBe(fr.portal.frontsTitle);
+    expect(en.portal.tabs.momentum).toBe("One fight");
+    expect(fr.portal.tabs.momentum).toBe("Un seul combat");
+    expect(en.portal.tabs.pipeline).toBe("Many hands");
+    expect(fr.portal.tabs.pipeline).toBe(fr.portal.muteTool.pipeline);
+    expect(fr.portal.tabs.pipeline).toBe("Plusieurs mains");
+
+    const staleEn = EN_HUB.filter(
+      ([path, v]) =>
+        path.startsWith("portal.") &&
+        (/\b(?:Station|Fronts|Momentum|Pipeline|Locker)\b/.test(v) ||
+          /Shop board|On the table|The push/.test(v)),
+    );
+    const staleFr = FR_HUB.filter(
+      ([path, v]) =>
+        path.startsWith("portal.") &&
+        (/\b(?:Poste|Fronts|Élan|Chaîne|Casier)\b/.test(v) ||
+          /Sur la table|La poussée|Tableau d.atelier/.test(v)),
+    );
+    expect(staleEn, report(staleEn)).toEqual([]);
+    expect(staleFr, report(staleFr)).toEqual([]);
+  });
+
   it("puts a space before ':' and ';' in Hub French", () => {
     const tight = FR_HUB.filter(([, v]) => {
       if (/\S;(?= )/.test(v)) return true;

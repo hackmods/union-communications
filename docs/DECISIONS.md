@@ -110,16 +110,19 @@
 - When email is disabled or misconfigured, helpers return `{ ok: false, reason: "not_configured" }`; copy-link / mailto flows remain available.
 **Consequences:** Operators must configure SMTP for auto-send; Hub Invites can expose Send email when `NEXT_PUBLIC_EMAIL_ENABLED=true`. Password-reset and cron reminders can reuse this helper later without opening a marketing channel.
 
-## ADR-017: Local Portal Circles (solidarity Basecamp parody)
+## ADR-017: Local Portal Circles (solidarity collaboration)
 **Status:** Accepted  
 **Context:** Rank-and-file members, stewards, and committees need a calm collaboration surface without paying for generic PM tools or exposing confidential Hub casework (grievance notes, bumping strategy). An earlier experimental branch also shipped a Postgres identity/register/approvals fork that conflicted with main’s invite/onboarding and bcrypt demo auth.  
 **Decision:**
 - Ship **Local Portal** at `/[locale]/portal/*`, gated by `enabledModules.portal` and role set including `local_member`.
-- Use solidarity product names only (Circle, Hall, Bulletin, Floor, Actions, Binder, Station, Dispatch, Sidebars, Roll Call, Pipeline, Momentum, Fronts, Oversight) — never Basecamp labels in UI/i18n.
+- Frame the product as **solidarity collaboration**, not a Basecamp parody and not a shop-floor glossary. Similar jobs (discussions, to-dos, files) are fine; matching Basecamp’s naming system is not.
+- Use solidarity memes and names members already chant (Circle, Hall, Bulletin, Floor, Actions, Binder, Together, Dispatch, Sidebars, Roll Call, Many hands, One fight, Hold the line, Oversight, Roster) — never Basecamp labels (Campfire, Hey!, Lineup, Hill Chart, Card Table) in UI/i18n.
+- Prefer we/us/ours language over locker/shop/bargaining-table puns. French must carry the same *job*, not the same joke.
+- Implementation keys/routes may keep older slugs (`station`, `fronts`, `momentum`, `pipeline`, `/portal/fronts`) so bookmarks and `?tab=` stay stable.
 - Default persistence is the **memory** `portalStore` (same as other Hub modules until a Postgres + RLS adapter is flagged).
 - Portal does **not** require MFA; confidential Hub modules still do.
 - Do **not** land self-serve register / join-local / identity Drizzle schema in this Circles cut — keep main’s demo `passwordHash` auth and existing invite/onboarding.
-**Consequences:** Hub discussions/tasks/check-ins remain officer Hub surfaces; Portal is a parallel member-facing Circles product. Roster invites may use the demo user roster until a real directory exists.
+**Consequences:** Hub discussions/tasks/check-ins remain officer Hub surfaces; Portal is a parallel member-facing Circles product. Roster invites may use the demo user roster until a real directory exists. Do not restore analog brands (Station, Fronts, Momentum, Pipeline) or shop puns (Locker, On the table, The push, Shop board) as product titles.
 
 ## ADR-018: Site feedback (product mail, not union casework)
 **Status:** Accepted  

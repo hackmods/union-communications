@@ -1,6 +1,6 @@
 /**
- * Local Portal chrome IA — Station is home; Circles live in a dropdown;
- * Dispatch / Fronts / Sidebars / feedback stay top-level like Hub modules.
+ * Local Portal chrome IA — Together (`/portal`) is home; Circles live in a dropdown;
+ * Dispatch / Hold the line (`/portal/fronts`) / Sidebars / feedback stay top-level.
  */
 
 import type { CircleKind } from "@/types/portal";
@@ -35,7 +35,7 @@ export const PORTAL_NAV_LINKS: readonly PortalNavLink[] = [
   },
 ] as const;
 
-/** Station is exact-match so every `/portal/*` child does not light it up. */
+/** Together is exact-match so every `/portal/*` child does not light it up. */
 export function portalNavLinkActive(pathname: string, href: string): boolean {
   if (href === "/portal") return pathname === "/portal";
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -97,7 +97,7 @@ export type CircleWorkspaceTab =
   | "oversight";
 
 /**
- * Hall keeps the core local tools. Roll Call, Pipeline, and Momentum only
+ * Hall keeps the core local tools. Roll Call, Many hands, and One fight only
  * appear when that Circle already has them. Oversight stays on non-Hall
  * Circles so committees can still see the Action picture.
  */

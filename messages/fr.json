@@ -125,7 +125,7 @@
     "notFoundBody": "Cette page n’est pas sur la liste. Elle a peut-être été déplacée, ou le lien n’est plus à jour.",
     "hubNotFoundBody": "Cette page du Hub des dirigeants n’est pas sur la liste.",
     "portalNotFoundBody": "Cette page du Portail n’est pas sur le plan d’étage.",
-    "portalErrorBody": "Le Portail local a rencontré une erreur inattendue. Réessayez, ou retournez à la station.",
+    "portalErrorBody": "Le Portail local a rencontré une erreur inattendue. Réessayez, ou retournez à Ensemble.",
     "backToTools": "Parcourir les outils",
     "tellUsMissing": "Dites-nous que cette page manque",
     "backToHub": "Retour au tableau de bord",
@@ -161,8 +161,8 @@
         "Mauvaise porte sur le plancher — le tableau de bord est de ce côté."
       ],
       "portal": [
-        "Ce cercle / cette station n’est pas sur le plan d’étage.",
-        "Page du Portail introuvable — essayez l’accueil de la station.",
+        "Ce Cercle n’est pas sur le plan d’étage.",
+        "Page du Portail introuvable — essayez Ensemble.",
         "Aucun envoi sous ce chemin."
       ],
       "poll": [
@@ -3145,6 +3145,10 @@
         "title": "Formats Facebook et Reels pour la Carte de citation",
         "body": "La Carte de citation exporte maintenant le carré, le paysage Facebook et une image haute 9:16 pour Reels et Stories."
       },
+      "portal-solidarity-names": {
+        "title": "Noms du Portail local en solidarité",
+        "body": "Ensemble est l’accueil. Tenir la ligne montre quels Cercles sont actifs. Un seul combat suit le travail bloqué ou en mouvement, et Plusieurs mains est le tableau de cartes partagé."
+      },
       "comms-stay-free": {
         "title": "Les Comms restent gratuites",
         "body": "La page solidarité le dit clairement : les outils publics restent gratuits sur votre appareil. Si nous hébergeons le Hub des dirigeants ou le Portail local, l'hébergement a un coût. Vous pouvez toujours l'héberger vous-même."
@@ -3203,7 +3207,7 @@
       },
       "local-portal": {
         "title": "Portail local pour les membres",
-        "body": "Les membres connectés arrivent au Poste : Cercles, résumé de la semaine et avis du babillard, sans un tableau de bord vide du Hub des dirigeants."
+        "body": "Les membres connectés arrivent à Ensemble : Cercles, résumé de la semaine et avis du babillard, sans un tableau de bord vide du Hub des dirigeants."
       },
       "visual-system": {
         "title": "Une apparence partagée pour tableaux et graphiques",
@@ -5119,20 +5123,20 @@
     }
   },
   "portal": {
-    "stationTitle": "Poste",
+    "stationTitle": "Ensemble",
     "stationSubtitle": "Vos Cercles, Actions et babillards récents — collaboration de solidarité pour la section locale.",
     "navLabel": "Navigation du Portail",
     "openPortalMenu": "Ouvrir le menu du Portail",
     "closePortalMenu": "Fermer le menu du Portail",
     "mobileNav": "Menu du Portail",
     "circlesMenu": "Cercles",
-    "circlesEmpty": "Aucun Cercle pour l’instant. Ouvrez le Poste pour en rejoindre ou en créer un.",
+    "circlesEmpty": "Aucun Cercle pour l’instant. Ouvrez Ensemble pour en rejoindre ou en créer un.",
     "memoryBannerLabel": "Données de session",
     "memoryBannerBody": "Les publications et Actions de ce Portail durent seulement jusqu’au redémarrage du serveur. Demandez à la personne qui gère ce site d’activer le stockage durable avant de vous y fier.",
     "dispatchLink": "Relais",
     "dispatchTitle": "Relais",
     "dispatchSubtitle": "Assignations, babillard et échéances — les Cercles en sourdine restent calmes.",
-    "dispatchEmpty": "Rien dans le Relais. Les Cercles en sourdine restent calmes — ouvrez un Cercle depuis le Poste si vous attendiez un avis.",
+    "dispatchEmpty": "Rien dans le Relais. Les Cercles en sourdine restent calmes — ouvrez un Cercle depuis Ensemble si vous attendiez un avis.",
     "dispatchUnread": "Vous avez {count} élément(s) non lu(s) dans le Relais. Ouvrez le Relais pour rattraper.",
     "markAllRead": "Tout marquer lu",
     "hubLink": "Hub des dirigeants",
@@ -5145,8 +5149,8 @@
     "emptyCircleBulletin": "Aucun babillard dans ce Cercle pour l’instant. Écrivez-en un ci-dessus si vous pouvez publier.",
     "writeBulletin": "Rédiger un babillard",
     "createError": "Impossible de créer ce Cercle. Vérifiez le nom, puis réessayez.",
-    "frontsSettings": "Dates du Front",
-    "frontsSettingsHint": "Indiquez la période où ce Cercle est actif sur la chronologie des Fronts.",
+    "frontsSettings": "Dates sur la ligne",
+    "frontsSettingsHint": "Indiquez la période où ce Cercle tient la ligne.",
     "sendFeedbackLink": "Envoyer un commentaire sur le site",
     "sendFeedbackTitle": "Envoyer un commentaire à UnionOps",
     "sendFeedbackLead": "Cette note va au steward UnionOps qui gère ce site, pas aux dirigeants de votre section. Elle concerne le site, pas un Cercle ni un grief.",
@@ -5200,11 +5204,11 @@
       "biweekly": "Toutes les deux semaines",
       "monthly": "Mensuelle"
     },
-    "frontStartsAt": "Début du Front",
-    "frontEndsAt": "Fin du Front",
-    "saveFronts": "Enregistrer les dates",
+    "frontStartsAt": "Sur la ligne à partir du",
+    "frontEndsAt": "Sur la ligne jusqu’au",
+    "saveFronts": "Enregistrer les dates sur la ligne",
     "noRollCall": "Aucun appel dans ce Cercle pour l’instant.",
-    "noPipeline": "Aucune chaîne dans ce Cercle.",
+    "noPipeline": "Pas encore de Plusieurs mains dans ce Cercle.",
     "newCard": "Nouvelle carte",
     "addCard": "Ajouter une carte",
     "oversightOverdue": "En retard",
@@ -5226,8 +5230,8 @@
       "binder": "Classeur",
       "floor": "Plancher",
       "rollCall": "Appel",
-      "pipeline": "Chaîne",
-      "momentum": "Élan",
+      "pipeline": "Plusieurs mains",
+      "momentum": "Un seul combat",
       "oversight": "Bilan",
       "roster": "Effectif"
     },
@@ -5236,11 +5240,11 @@
       "member": "Membre",
       "admin": "Admin"
     },
-    "frontsLink": "Fronts",
-    "frontsTitle": "Fronts",
-    "frontsSubtitle": "Chronologie de vos Cercles — lesquels sont actifs, et jusqu’à quand.",
-    "frontsEmpty": "Aucun Cercle n’a encore de dates de Front. Créez-en un avec un modèle, ou ouvrez un Cercle pour définir les dates du Front.",
-    "backToStation": "Retour au Poste",
+    "frontsLink": "Tenir la ligne",
+    "frontsTitle": "Tenir la ligne",
+    "frontsSubtitle": "Quels Cercles tiennent la ligne — lesquels sont actifs, et jusqu’à quand.",
+    "frontsEmpty": "Aucun Cercle n’a encore de dates sur la ligne. Créez-en un avec un modèle, ou ouvrez un Cercle pour les définir.",
+    "backToStation": "Retour à Ensemble",
     "sidebarsLink": "Coulisses",
     "sidebarsTitle": "Coulisses",
     "sidebarsSubtitle": "Messages privés un-à-un — pas liés au Plancher d’un Cercle.",
@@ -5264,8 +5268,8 @@
     "templateLabel": "Modèle",
     "template": {
       "blank": "Vide",
-      "lec": "LEC (Chaîne + Appel)",
-      "jhsc": "CSS (Chaîne + Appel)",
+      "lec": "LEC (Plusieurs mains + Appel)",
+      "jhsc": "CSS (Plusieurs mains + Appel)",
       "campaign": "Campagne"
     },
     "pin": "Épingler",
@@ -5273,13 +5277,13 @@
     "commentPlaceholder": "Ajouter un commentaire…",
     "addComment": "Commenter",
     "downloadIcs": "Télécharger .ics",
-    "momentumHint": "Suivre les lots de travail de la montée (bloqué) à la descente (livraison).",
-    "momentumTitle": "Lot d’élan",
+    "momentumHint": "Voyez si un lot de travail est bloqué ou en mouvement. C’est un seul combat.",
+    "momentumTitle": "Lot de travail",
     "momentumProgress": "Progrès : {value} %",
-    "saveMomentum": "Enregistrer l’élan",
-    "momentumUphill": "Montée",
-    "momentumDownhill": "Descente",
-    "momentumEmpty": "Aucun lot d’élan pour l’instant.",
+    "saveMomentum": "Enregistrer le combat",
+    "momentumUphill": "Bloqué",
+    "momentumDownhill": "En mouvement",
+    "momentumEmpty": "Aucun lot de combat pour l’instant.",
     "rosterInvitePick": "Inviter quelqu’un…",
     "rosterInvite": "Ajouter à l’effectif",
     "guestBanner": "Vue invitée — vous pouvez lire ce Cercle, mais pas publier.",
@@ -5287,13 +5291,13 @@
     "mentionHint": "Astuce : @Nom quelqu’un de l’effectif pour le pinguer dans Relais.",
     "softDelete": "Retirer",
     "muteToolsTitle": "Mettre des outils en sourdine",
-    "muteToolsHint": "Couper Relais pour Babillard, Actions, Plancher, Appel ou Chaîne sans couper tout le Cercle.",
+    "muteToolsHint": "Couper Relais pour Babillard, Actions, Plancher, Appel ou Plusieurs mains sans couper tout le Cercle.",
     "muteTool": {
       "bulletin": "Babillard",
       "actions": "Actions",
       "floor": "Plancher",
       "rollCall": "Appel",
-      "pipeline": "Chaîne"
+      "pipeline": "Plusieurs mains"
     },
     "downloadActivityPack": "Télécharger le dossier d’activité",
     "importTitle": "Importer un CSV Basecamp",

@@ -30,7 +30,7 @@ describe("portal access", () => {
 });
 
 describe("portalStore", () => {
-  it("returns Station for steward with Circles and overdue Actions", () => {
+  it("returns Together payload for steward with Circles and overdue Actions", () => {
     const station = portalStore.listStation(
       "union-opseu",
       "user-steward-243",
@@ -42,7 +42,7 @@ describe("portalStore", () => {
     expect(station.dispatchUnread).toBeGreaterThan(0);
   });
 
-  it("gives members a lived-in Station: digest, upcoming, Hall work", () => {
+  it("gives members a lived-in Together: digest, upcoming, Hall work", () => {
     const station = portalStore.listStation("union-opseu", "user-member-243");
     expect(station.weekDigest.bulletinPosts).toBeGreaterThan(0);
     expect(station.weekDigest.floorMessages).toBeGreaterThan(0);
@@ -60,7 +60,7 @@ describe("portalStore", () => {
       "circle-jhsc-243",
     );
     expect(detail?.circle.name).toBe("JHSC");
-    expect(detail?.pipelineBoard?.name).toContain("pipeline");
+    expect(detail?.pipelineBoard?.name).toContain("many hands");
     expect(detail?.floor.length).toBeGreaterThan(0);
   });
 
@@ -132,7 +132,7 @@ describe("portalStore", () => {
     expect(unread).toHaveLength(0);
   });
 
-  it("searches across Circles and lists Fronts", () => {
+  it("searches across Circles and lists Hold the line", () => {
     const hits = portalStore.search(
       "union-opseu",
       "user-steward-243",
@@ -143,7 +143,7 @@ describe("portalStore", () => {
     expect(fronts.length).toBeGreaterThan(0);
   });
 
-  it("updates Momentum and Sidebars", () => {
+  it("updates One fight and Sidebars", () => {
     const item = portalStore.upsertMomentum({
       circleId: "circle-lec-243",
       unionId: "union-opseu",
@@ -170,7 +170,7 @@ describe("portalStore", () => {
     expect(msg?.body).toContain("Sidebar");
   });
 
-  it("creates Circle from JHSC template with Pipeline", () => {
+  it("creates Circle from JHSC template with Many hands", () => {
     const circle = portalStore.createCircle({
       unionId: "union-opseu",
       localId: "local-243",

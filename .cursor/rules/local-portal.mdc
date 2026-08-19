@@ -6,13 +6,21 @@ alwaysApply: false
 
 # Local Portal
 
-Spec: `docs/modules/LOCAL_PORTAL.md`. ADR-017.
+Spec: `docs/modules/LOCAL_PORTAL.md`. ADR-017. Session: `docs/audit/session-knowledge-2026-08-19-portal-solidarity-names.md`.
 
 ## Product language (required)
 
-Use solidarity names only: Circle, Hall, Bulletin, Floor, Actions, Calendar, Binder, Station, Dispatch, Sidebars, Roll Call, Pipeline, Oversight, Fronts, Momentum, Roster.
+This is solidarity collaboration, **not** a Basecamp parody and **not** a shop-floor glossary. Similar jobs are fine. Matching Basecamp’s naming system is not.
+
+Use solidarity memes and names:
+
+Circle, Hall, Bulletin, Floor, Actions, Calendar, Binder, **Together**, Dispatch, Sidebars, Roll Call, **Many hands**, Oversight, **Hold the line**, **One fight**, Roster.
 
 Never ship Basecamp labels (Campfire, Hey!, Lineup, Hill Chart, Card Table, Check-in as product titles) in UI or i18n.
+
+Never restore the analog titles **Station**, **Fronts**, **Momentum**, or **Pipeline**, or the shop puns **Locker**, **On the table**, **The push**, **Shop board**. Routes/IDs may keep old slugs (`/portal/fronts`, `?tab=momentum`, `StationPayload`).
+
+French must carry the same *job*, not the same joke: Together/Ensemble, Hold the line/Tenir la ligne, One fight/Un seul combat, Many hands/Plusieurs mains.
 
 ## Hard rules
 

@@ -85,6 +85,12 @@ Never rename these, and never let French invent a second name:
 | Duty of Fair Representation / DFR | devoir de représentation équitable / **DRE** |
 | OHSA | **LSST** |
 | ESA | **LNE** |
+| Local Portal **Together** | **Ensemble** |
+| **Hold the line** | **Tenir la ligne** |
+| **One fight** | **Un seul combat** |
+| **Many hands** | **Plusieurs mains** |
+
+Portal solidarity names (Circle/Cercle, Hall/Salle, Bulletin/Babillard, Floor/Plancher, Sidebars/Coulisses, Roll Call/Appel, Dispatch/Relais, Roster/Effectif) live with the full table in [`docs/modules/LOCAL_PORTAL.md`](../../docs/modules/LOCAL_PORTAL.md). Never restore Station/Fronts/Momentum/Pipeline or Locker/On the table/The push/Shop board as UI titles. French must match the *job*, not the joke — see [`session-knowledge-2026-08-19-portal-solidarity-names.md`](../../docs/audit/session-knowledge-2026-08-19-portal-solidarity-names.md).
 
 *Poster* is `affiche`, so `affiche` is correct for Solidarity Posters and QR Board
 Posters — the flyer rule is specifically about Flyer Maker output.

@@ -26,19 +26,19 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page).toHaveURL(/\/en\/app\/login/);
   });
 
-  test("member visiting Officer Hub home is sent to Station", async ({
+  test("member visiting Officer Hub home is sent to Together", async ({
     page,
   }) => {
     await loginAsMember(page);
     await page.goto("/en/app");
     await expect(page).toHaveURL(/\/en\/portal\/?(?:\?.*)?$/);
-    await expect(page.getByRole("heading", { name: "Station" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Together" })).toBeVisible();
   });
 
-  test("member reaches Station without MFA", async ({ page }) => {
+  test("member reaches Together without MFA", async ({ page }) => {
     await loginAsMember(page);
     await page.goto("/en/portal");
-    await expect(page.getByRole("heading", { name: "Station" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Together" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Your Circles" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Open Hall" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Coming up" })).toBeVisible();
@@ -54,12 +54,12 @@ test.describe("Local Portal smoke @smoke", () => {
     ).toHaveAttribute("aria-current", "page");
   });
 
-  test("Station has no serious or critical a11y violations", async ({
+  test("Together has no serious or critical a11y violations", async ({
     page,
   }) => {
     await loginAsMember(page);
     await page.goto("/en/portal");
-    await expect(page.getByRole("heading", { name: "Station" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Together" })).toBeVisible();
     const results = await new AxeBuilder({ page }).analyze();
     expect(seriousOrCriticalViolations(results.violations)).toEqual([]);
   });
@@ -72,7 +72,7 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(
       page.getByRole("heading", { name: "Local 243 Hall" }),
     ).toBeVisible();
-    await expect(page.getByRole("tab", { name: "Pipeline" })).toHaveCount(0);
+    await expect(page.getByRole("tab", { name: "Many hands" })).toHaveCount(0);
 
     await openBulletinWriter(page);
     const stamp = Date.now();
@@ -131,11 +131,11 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page.getByText("Floor smoke ping")).toBeVisible();
   });
 
-  test("member sees Pipeline and Oversight on JHSC", async ({ page }) => {
+  test("member sees Many hands and Oversight on JHSC", async ({ page }) => {
     await loginAsMember(page);
     await page.goto("/en/portal/circles/circle-jhsc-243");
 
-    await page.getByRole("tab", { name: "Pipeline" }).click();
+    await page.getByRole("tab", { name: "Many hands" }).click();
     await expect(page.getByRole("heading", { name: "Backlog" })).toBeVisible();
     await expect(page.getByText("North lot lighting")).toBeVisible();
 
@@ -162,10 +162,10 @@ test.describe("Local Portal smoke @smoke", () => {
     await page.getByRole("button", { name: /Mute Dispatch|Unmute Dispatch/ }).click();
   });
 
-  test("president creates a Circle from Station", async ({ page }) => {
+  test("president creates a Circle from Together", async ({ page }) => {
     await loginAsPresident(page);
     await page.goto("/en/portal");
-    await expect(page.getByRole("heading", { name: "Station" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Together" })).toBeVisible();
     const name = `Smoke Circle ${Date.now()}`;
     const nameField = page.getByPlaceholder("New committee Circle name");
     const createBtn = page.getByRole("button", { name: "Create Circle" });
@@ -188,11 +188,11 @@ test.describe("Local Portal smoke @smoke", () => {
     });
   });
 
-  test("French Station uses solidarity labels", async ({ page }) => {
+  test("French Together uses solidarity labels", async ({ page }) => {
     await hubLogin(page, "member@local243.ca");
     await expect(page).toHaveURL(/\/en\/portal\/?$/);
     await page.goto("/fr/portal");
-    await expect(page.getByRole("heading", { name: "Poste" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Ensemble" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Vos Cercles" })).toBeVisible();
   });
 
@@ -201,7 +201,7 @@ test.describe("Local Portal smoke @smoke", () => {
   }) => {
     await loginAsSteward(page);
     await page.goto("/en/portal");
-    await expect(page.getByRole("heading", { name: "Station" })).toBeVisible({
+    await expect(page.getByRole("heading", { name: "Together" })).toBeVisible({
       timeout: 15_000,
     });
     await expect(page.getByRole("link", { name: "LEC", exact: true })).toBeVisible();
@@ -219,24 +219,24 @@ test.describe("Local Portal smoke @smoke", () => {
     expect(seriousOrCriticalViolations(results.violations)).toEqual([]);
   });
 
-  test("member opens Fronts and Sidebars", async ({ page }) => {
+  test("member opens Hold the line and Sidebars", async ({ page }) => {
     await loginAsMember(page);
     await page.goto("/en/portal/fronts");
-    await expect(page.getByRole("heading", { name: "Fronts" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Hold the line" })).toBeVisible();
     await page.goto("/en/portal/sidebars");
     await expect(page.getByRole("heading", { name: "Sidebars" })).toBeVisible();
   });
 
-  test("steward sees Momentum on LEC", async ({ page }) => {
+  test("steward sees One fight on LEC", async ({ page }) => {
     await loginAsSteward(page);
     await page.goto("/en/portal/circles/circle-lec-243");
-    await page.getByRole("tab", { name: "Momentum" }).click();
+    await page.getByRole("tab", { name: "One fight" }).click();
     await expect(
       page.getByText("Membership meeting turnout plan"),
     ).toBeVisible();
   });
 
-  test("deep-link opens Actions tab from Station query", async ({ page }) => {
+  test("deep-link opens Actions tab from Together query", async ({ page }) => {
     await loginAsMember(page);
     await page.goto("/en/portal/circles/circle-hall-243?tab=actions");
     await expect(page.getByRole("tab", { name: "Actions" })).toHaveAttribute(

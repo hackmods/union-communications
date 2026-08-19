@@ -39,7 +39,7 @@ export function prefersPortalHome(roles: UserRole[]): boolean {
   return canAccessPortal(roles) && !canSeeOfficerHubLink(roles);
 }
 
-/** After sign-in: members land on Station, officers on the Officer Hub. */
+/** After sign-in: members land on Together (`/portal`), officers on the Officer Hub. */
 export function signedInHomeHref(
   roles: UserRole[],
   enabledModules?: readonly HubModule[],

@@ -228,7 +228,7 @@ const bulletin: BulletinPost[] = [
     authorId: "user-steward-243",
     authorName: "Local 243 Steward (FT)",
     title: "Inspection walk Friday",
-    body: "Meet at the north lot at 8:30. Lighting and the library ergonomics request are on the Pipeline.",
+    body: "Meet at the north lot at 8:30. Lighting and the library ergonomics request are on Many hands.",
     pinned: false,
     createdAt: daysFromNow(-2, 11),
     updatedAt: daysFromNow(-2, 11),
@@ -406,7 +406,7 @@ const pipelineBoard: PipelineBoard = {
   id: "pipe-1",
   circleId: jhsc.id,
   unionId: UNION,
-  name: "Inspection pipeline",
+  name: "Inspection many hands",
 };
 
 const pipelineColumns: PipelineColumn[] = [
@@ -475,7 +475,7 @@ const momentum: MomentumItem[] = [
     circleId: lec.id,
     unionId: UNION,
     title: "Membership meeting turnout plan",
-    notes: "Past the hard organizing climb — locking speakers and food.",
+    notes: "One fight is moving — locking speakers and food.",
     progress: 72,
     updatedById: "user-president-243",
     updatedByName: "Local 243 President",
@@ -487,7 +487,7 @@ const momentum: MomentumItem[] = [
     circleId: jhsc.id,
     unionId: UNION,
     title: "North lot lighting remediation",
-    notes: "Still uphill — employer quote pending.",
+    notes: "Still stuck — employer quote pending.",
     progress: 35,
     updatedById: "user-steward-243",
     updatedByName: "Local 243 Steward (FT)",
@@ -791,7 +791,7 @@ export class MemoryPortalAdapter {
     visibility: Circle["visibility"];
     createdById: string;
     createdByName: string;
-    /** Preset: seed Pipeline + Roll Call like JHSC/LEC templates */
+    /** Preset: seed Many hands + Roll Call like JHSC/LEC templates */
     template?: "blank" | "lec" | "jhsc" | "campaign";
     frontStartsAt?: string;
     frontEndsAt?: string;
@@ -831,10 +831,10 @@ export class MemoryPortalAdapter {
         unionId: input.unionId,
         name:
           tpl === "jhsc"
-            ? "Inspection pipeline"
+            ? "Inspection many hands"
             : tpl === "lec"
               ? "LEC follow-ups"
-              : "Campaign pipeline",
+              : "Campaign many hands",
       };
       boards.push(board);
       const cols = ["Backlog", "In progress", "Done"];

@@ -21,10 +21,15 @@ describe("updates catalog", () => {
   it("hides Officer Hub notes until the hub is advertised", () => {
     const publicIds = visibleUpdates({ officerHubPublic: false }).map((e) => e.id);
     const hubIds = visibleUpdates({ officerHubPublic: true }).map((e) => e.id);
+    const hubOnly = UPDATES.filter((e) => e.audience === "hub").map((e) => e.id);
 
-    expect(publicIds).not.toContain("local-portal");
-    expect(hubIds).toContain("local-portal");
-    expect(publicIds.length).toBe(hubIds.length - 1);
+    expect(hubOnly).toContain("local-portal");
+    expect(hubOnly).toContain("portal-solidarity-names");
+    for (const id of hubOnly) {
+      expect(publicIds).not.toContain(id);
+      expect(hubIds).toContain(id);
+    }
+    expect(publicIds.length).toBe(hubIds.length - hubOnly.length);
   });
 
   it("filters by kind without dropping later months", () => {

@@ -14,7 +14,7 @@ import {
 const srcRoot = join(__dirname, "../..");
 
 describe("portalNavLinkActive", () => {
-  it("lights Station only on the exact Station path", () => {
+  it("lights Together only on the exact /portal path", () => {
     expect(portalNavLinkActive("/portal", "/portal")).toBe(true);
     expect(portalNavLinkActive("/portal/dispatch", "/portal")).toBe(false);
     expect(portalNavLinkActive("/portal/circles/circle-hall-243", "/portal")).toBe(
@@ -134,7 +134,7 @@ describe("sortCirclesForNav", () => {
 });
 
 describe("PORTAL_NAV_LINKS catalog", () => {
-  it("keeps Station first and lists every chrome surface once", () => {
+  it("keeps Together first and lists every chrome surface once", () => {
     expect(PORTAL_NAV_LINKS.map((l) => l.id)).toEqual([
       "station",
       "dispatch",
