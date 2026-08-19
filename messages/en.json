@@ -2671,6 +2671,12 @@
     "title": "Quote Card Generator",
     "subtitle": "Quote cards for social feeds and boards.",
     "previewAccessibleName": "Quote card preview",
+    "aspect": "Format",
+    "aspects": {
+      "landscape": "Landscape (FB)",
+      "square": "Square (IG)",
+      "portrait": "Portrait (Reels)"
+    },
     "quote": "Quote",
     "author": "Attribution",
     "role": "Role or committee (optional)",
@@ -3169,6 +3175,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "quote-card-formats": {
+        "title": "Quote Card Facebook and Reels formats",
+        "body": "Quote Card now exports square, Facebook landscape, and a tall 9:16 still for Reels and Stories."
+      },
       "comms-stay-free": {
         "title": "Comms stay free",
         "body": "The solidarity page now says it plainly: public tools stay free on your device. If we host Officer Hub or Local Portal, hosting has a cost. You can still run the software yourself."

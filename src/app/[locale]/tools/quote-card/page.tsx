@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
@@ -9,8 +10,14 @@ import { useExportHandler } from "@/hooks/use-export-handler";
 import { useExamplePostSeed } from "@/hooks/use-example-post-seed";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { exportNodeAsPng } from "@/lib/export/image-export";
-import { formatFilename, resolveLocalNumber } from "@/lib/utils";
-import { getExamplePost } from "@/lib/constants/examples";
+import { cn, formatFilename, resolveLocalNumber } from "@/lib/utils";
+import {
+  EXAMPLE_ASPECTS,
+  aspectFromQuery,
+  getExamplePost,
+  graphicAspectClass,
+  type ExampleAspect,
+} from "@/lib/constants/examples";
 import { QuoteLayout } from "@/components/tools/graphic-layouts";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -27,6 +34,7 @@ import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
+import { SegControl } from "@/components/tools/SegControl";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
@@ -35,6 +43,7 @@ interface QuoteState {
   quote: string;
   author: string;
   role: string;
+  aspect: ExampleAspect;
   primaryColor: string;
   accentColor: string;
   textColor: string;
@@ -45,6 +54,7 @@ function QuoteCardPageContent() {
   const tq = useTranslations("quoteCard");
   const td = useTranslations("workshopDemo");
   const te = useTranslations("examples");
+  const searchParams = useSearchParams();
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const hydrated = useBrandStore((s) => s.hydrated);
@@ -57,6 +67,7 @@ function QuoteCardPageContent() {
     quote: "We will not accept anything less than a fair deal for our members.",
     author: "Local President",
     role: "",
+    aspect: "square",
     primaryColor: brandKit.primaryColor,
     accentColor: brandKit.accentColor,
     textColor: pickContrastingInk(brandKit.primaryColor),
@@ -82,6 +93,7 @@ function QuoteCardPageContent() {
       quote: te(`posts.${post.id}.mockup.body`),
       author: te(`posts.${post.id}.mockup.headline`),
       role,
+      aspect: aspectFromQuery(searchParams, post.aspect),
       primaryColor: brandKit.primaryColor,
       accentColor: brandKit.accentColor,
       textColor: pickContrastingInk(brandKit.primaryColor),
@@ -90,16 +102,14 @@ function QuoteCardPageContent() {
   }, "example", hydrated);
 
   useOneShotBrandSeed(hydrated, () => {
-    const exampleId =
-      typeof window !== "undefined"
-        ? new URLSearchParams(window.location.search).get("example")
-        : null;
+    const exampleId = searchParams.get("example");
     if (exampleId) {
       const post = getExamplePost(exampleId);
       if (post?.primaryTool === "quote-card") return;
     }
     reset({
       ...initial,
+      aspect: aspectFromQuery(searchParams, initial.aspect),
       primaryColor: brandKit.primaryColor,
       accentColor: brandKit.accentColor,
       textColor: pickContrastingInk(brandKit.primaryColor),
@@ -111,7 +121,11 @@ function QuoteCardPageContent() {
     await runExport(async () => {
       await exportNodeAsPng(
         canvasRef.current!,
-        formatFilename("quote-card", brandKit.local.localNumber, "png"),
+        formatFilename(
+          `quote-card-${state.aspect}`,
+          brandKit.local.localNumber,
+          "png",
+        ),
         { pixelRatio: 2, backgroundColor: state.primaryColor },
       );
     });
@@ -147,6 +161,15 @@ function QuoteCardPageContent() {
       form={
         <Card density="compact" className="space-y-5">
           <section className="space-y-3">
+          <SegControl
+            label={tq("aspect")}
+            value={state.aspect}
+            options={EXAMPLE_ASPECTS.map((aspect) => ({
+              value: aspect,
+              label: tq(`aspects.${aspect}`),
+            }))}
+            onChange={(aspect) => setState({ ...state, aspect })}
+          />
           <Textarea
             label={tq("quote")}
             value={state.quote}
@@ -217,11 +240,20 @@ function QuoteCardPageContent() {
       }
       preview={
         /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
-        <div className="shadow-lg">
+        <div
+          className={cn(
+            "shadow-lg",
+            state.aspect === "portrait" &&
+              "mx-auto w-full max-w-[280px] sm:max-w-[320px]",
+          )}
+        >
           <div
             ref={canvasRef}
                   data-export-root=""
-            className="relative aspect-square w-full overflow-hidden"
+            className={cn(
+              "relative w-full overflow-hidden",
+              graphicAspectClass(state.aspect),
+            )}
             style={surfaceStyle}
           >
             <QuoteLayout
@@ -236,6 +268,7 @@ function QuoteCardPageContent() {
               localNumber={resolveLocalNumber(brandKit.local.localNumber)}
               subText={brandKit.local.subText}
               size="export"
+              aspect={state.aspect}
               tokens={tokens}
             />
           </div>

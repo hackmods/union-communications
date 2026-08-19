@@ -207,6 +207,19 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     expectPreviewFitsColumn(await measurePreviewFit(page), "quote-card");
   });
 
+  test("quote card portrait export root fits the column", async ({ page }) => {
+    await seedCanvasFonts(page);
+    await page.goto("/en/tools/quote-card/?aspect=portrait");
+    await expect(
+      page.getByRole("heading", { name: "Quote Card Generator" }),
+    ).toBeVisible();
+    await waitForExportRoot(page);
+    expectPreviewFitsColumn(
+      await measurePreviewFit(page),
+      "quote-card-portrait",
+    );
+  });
+
   test("board notice default export root fits the column", async ({ page }) => {
     await seedCanvasFonts(page);
     await page.goto("/en/tools/board-notice/");

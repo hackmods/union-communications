@@ -30,6 +30,15 @@ export function isExampleAspect(value: string): value is ExampleAspect {
   return (EXAMPLE_ASPECTS as readonly string[]).includes(value);
 }
 
+/** `?aspect=` from Graphic Maker / Quote Card, else `fallback`. */
+export function aspectFromQuery(
+  searchParams: { get(name: string): string | null },
+  fallback: ExampleAspect,
+): ExampleAspect {
+  const raw = searchParams.get("aspect");
+  return raw && isExampleAspect(raw) ? raw : fallback;
+}
+
 /** Tailwind aspect class for Graphic Maker / Social Examples mockups. */
 export function graphicAspectClass(aspect: ExampleAspect): string {
   if (aspect === "square") return "aspect-square";

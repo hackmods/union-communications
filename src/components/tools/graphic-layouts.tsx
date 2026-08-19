@@ -251,6 +251,7 @@ export function GraphicLayoutCanvas({
           localNumber={localNumber}
           subText={subText}
           size={size}
+          aspect={aspect}
           tokens={tokens}
         />
       )}
@@ -680,6 +681,7 @@ export function QuoteLayout({
   localNumber,
   subText,
   size = "preview",
+  aspect = "square",
   tokens,
 }: {
   primary: string;
@@ -690,9 +692,11 @@ export function QuoteLayout({
   localNumber: string;
   subText: string;
   size?: "preview" | "export";
+  aspect?: ExampleAspect;
   tokens?: CanvasTokens;
 }) {
   const exportMode = size === "export";
+  const landscape = aspect === "landscape";
   const quoteInk = inkPalette(primary);
   const accentInk = textColor ? textPalette(textColor) : quoteInk;
   const surface = tokens
@@ -703,6 +707,14 @@ export function QuoteLayout({
       })
     : { backgroundColor: primary };
   const chrome = layoutChrome(tokens, exportMode);
+  const padScale = landscape
+    ? exportMode
+      ? 0.9
+      : 0.8
+    : exportMode
+      ? 1.15
+      : 1;
+  const bodyScale = landscape ? 0.95 : 1.15;
   return (
     <>
       <div className="absolute inset-0" style={surface} />
@@ -717,7 +729,7 @@ export function QuoteLayout({
       <div
         className="absolute inset-0 z-[2] flex flex-col justify-center"
         style={{
-          padding: chrome.pad * (exportMode ? 1.15 : 1),
+          padding: chrome.pad * padScale,
           textAlign: chrome.textAlign ?? "left",
           alignItems: chrome.alignItems ?? "flex-start",
         }}
@@ -725,7 +737,13 @@ export function QuoteLayout({
         <p
           className={cn(
             "font-bold leading-none",
-            exportMode ? "text-6xl" : "text-3xl",
+            landscape
+              ? exportMode
+                ? "text-4xl"
+                : "text-2xl"
+              : exportMode
+                ? "text-6xl"
+                : "text-3xl",
           )}
           style={{ color: quoteInk.a30 }}
           aria-hidden
@@ -735,12 +753,19 @@ export function QuoteLayout({
         <p
           className={cn(
             "font-medium leading-snug",
-            !chrome.bodyPx && (exportMode ? "text-xl" : "text-sm sm:text-base"),
+            !chrome.bodyPx &&
+              (landscape
+                ? exportMode
+                  ? "text-lg"
+                  : "text-sm"
+                : exportMode
+                  ? "text-xl"
+                  : "text-sm sm:text-base"),
           )}
           style={{
             color: quoteInk.full,
             fontSize: chrome.bodyPx
-              ? Math.round(chrome.bodyPx * 1.15)
+              ? Math.round(chrome.bodyPx * bodyScale)
               : undefined,
             fontFamily: chrome.bodyFontFamily,
             fontWeight: chrome.bodyFontWeight,
@@ -758,7 +783,7 @@ export function QuoteLayout({
           style={{
             color: accentInk.full,
             fontSize: chrome.metaPx
-              ? Math.round(chrome.metaPx * 1.15)
+              ? Math.round(chrome.metaPx * (landscape ? 1 : 1.15))
               : undefined,
             fontWeight: chrome.titleWeight,
             letterSpacing: chrome.titleTracking,
@@ -780,7 +805,7 @@ export function QuoteLayout({
             {copy.detail}
           </p>
         ) : null}
-        <div className={exportMode ? "mt-6" : "mt-4"}>
+        <div className={exportMode ? (landscape ? "mt-4" : "mt-6") : "mt-4"}>
           <BrandLogo size={exportMode ? "md" : "sm"} backgroundColor={primary} />
           <LocalFooter
             localNumber={localNumber}

@@ -3,6 +3,7 @@ import en from "../../../messages/en.json";
 import fr from "../../../messages/fr.json";
 import {
   EXAMPLE_POSTS,
+  aspectFromQuery,
   captionHref,
   coerceAspectForGraphicLayout,
   getExamplePost,
@@ -49,6 +50,19 @@ describe("examples handoff", () => {
     expect(graphicAspectClass("portrait")).toBe("aspect-[9/16]");
     expect(isExampleAspect("portrait")).toBe(true);
     expect(isExampleAspect("ultrawide")).toBe(false);
+  });
+
+  it("reads ?aspect= from the query with a fallback", () => {
+    expect(
+      aspectFromQuery(
+        { get: (name) => (name === "aspect" ? "portrait" : null) },
+        "square",
+      ),
+    ).toBe("portrait");
+    expect(aspectFromQuery({ get: () => null }, "square")).toBe("square");
+    expect(aspectFromQuery({ get: () => "ultrawide" }, "square")).toBe(
+      "square",
+    );
   });
 
   it("keeps portrait when spotlight or results would otherwise force square", () => {

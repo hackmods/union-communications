@@ -15,9 +15,9 @@ import { cn, formatFilename, resolveLocalNumber } from "@/lib/utils";
 import { TOOL_PRESETS, type ToolPresetKey } from "@/lib/constants/presets";
 import {
   EXAMPLE_ASPECTS,
+  aspectFromQuery,
   coerceAspectForGraphicLayout,
   getExamplePost,
-  isExampleAspect,
   layoutSupportsPhoto,
   type ExampleAspect,
 } from "@/lib/constants/examples";
@@ -57,14 +57,6 @@ function isGraphicLayoutId(value: string): value is GraphicLayoutId {
 
 function defaultAspectForPreset(key: ToolPresetKey): ExampleAspect {
   return key === "memberSpotlight" ? "square" : "landscape";
-}
-
-function aspectFromQuery(
-  searchParams: { get(name: string): string | null },
-  fallback: ExampleAspect,
-): ExampleAspect {
-  const raw = searchParams.get("aspect");
-  return raw && isExampleAspect(raw) ? raw : fallback;
 }
 
 interface GraphicState {

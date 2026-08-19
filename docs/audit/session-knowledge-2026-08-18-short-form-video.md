@@ -11,7 +11,7 @@
 
 Graphic Maker Format is now `landscape` | `square` | `portrait`. Deep-link: `/tools/graphic-maker?aspect=portrait` (and `?preset=strikeAction&aspect=portrait`). Social Examples `reel-picket` is the vertical gallery card. Preview width is capped (`max-w-[320px]`) so layout-class `expectPreviewFitsColumn` still holds.
 
-Quote Card portrait is still optional stretch. Resizer `?format=` deep-link is not shipped.
+Quote Card Format is the same three aspects (`?aspect=`). Default stays square. Resizer `?format=` deep-link is not shipped.
 
 ## Decisions
 
