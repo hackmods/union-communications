@@ -2896,6 +2896,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "opseu-membership-sector": {
+        "title": "Les liens d'adhésion OPSEU suivent votre secteur",
+        "body": "Le soutien collégial conserve les liens d'adhésion temps plein et temps partiel dans la Trousse de marque. Les autres secteurs OPSEU ont un seul lien Tous les membres vers le formulaire d'adhésion OPSEU."
+      },
       "graphic-portrait": {
         "title": "Format portrait du Créateur graphique pour Reels",
         "body": "Le Créateur graphique peut exporter une image haute 9:16 pour Reels, Shorts et Stories, en plus du format paysage et du carré. Le guide de la vidéo courte explique quand une image fixe suffit."

@@ -87,6 +87,10 @@ describe("unionPresets", () => {
     expect(fields.membershipUrls?.find((row) => row.primary)?.audience).toBe(
       "full_time",
     );
+    expect(fields.membershipUrls?.map((row) => row.label)).toEqual([
+      "CAAT Support Full-Time",
+      "CAAT Support Part-Time",
+    ]);
   });
 
   it("maps Unifor preset to starter bargaining units plus UnionOps mark", () => {

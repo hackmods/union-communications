@@ -2930,6 +2930,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "opseu-membership-sector": {
+        "title": "OPSEU membership links follow your sector",
+        "body": "College Support still gets Full-Time and Part-Time application links in Brand Kit. Other OPSEU sectors get one All members link to the OPSEU membership form."
+      },
       "graphic-portrait": {
         "title": "Graphic Maker portrait for Reels",
         "body": "Graphic Maker can export a tall 9:16 still for Reels, Shorts, and Stories, next to landscape and square. The short-form guide explains when a still is enough."

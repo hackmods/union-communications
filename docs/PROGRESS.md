@@ -1,5 +1,13 @@
 # Progress Log
 
+## OPSEU membership links by sector (2026-08-19)
+
+- [x] Brand Kit: OPSEU + CAAT Support still shows **CAAT Support Full-Time** and **CAAT Support Part-Time** membership application links
+- [x] Other OPSEU sectors show one **OPSEU Membership** link (audience All members) to `https://hub03.opseu.org/Forms/emaweb`
+- [x] Switching sector replaces membership starters; leftover CAAT FT/PT forms on a non-CAAT kit align on hydrate
+- [x] What's new: `opseu-membership-sector` on `/updates`
+- Verify: `npm run test:unit -- src/lib/brand/membership-primary.test.ts src/lib/brand/collection-profiles.test.ts src/lib/constants/unionPresets.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## What's new agent rule (2026-08-18)
 
 - [x] Always-on rule [`.cursor/rules/whats-new.mdc`](../.cursor/rules/whats-new.mdc): prepend `UPDATES` + EN/FR copy in the same change as a steward-facing ship

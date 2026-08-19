@@ -1,11 +1,16 @@
 import { describe, expect, it } from "vitest";
 import {
+  DEFAULT_OPSEU_SECTOR_ID,
   OPSEU_CAAT_SUPPORT_FT_ID,
   OPSEU_CAAT_SUPPORT_PT_ID,
 } from "@/lib/brand/opseu-sector-catalog";
 import { applyBrandKitProfile, normalizeBrandKit } from "@/lib/utils/local-links";
 import {
   alignOpseuMembershipPrimary,
+  membershipUrlsForOpseuSector,
+  OPSEU_GENERIC_MEMBERSHIP_ID,
+  OPSEU_GENERIC_MEMBERSHIP_LABEL,
+  OPSEU_MEMBERSHIP_FORM_URL,
   opseuCollectionMembershipAudience,
 } from "./membership-primary";
 import type { MembershipUrl } from "@/types/entities";
@@ -30,6 +35,7 @@ function opseuKit(activeProfileId: string) {
   return normalizeBrandKit({
     version: "2.0",
     unionPresetId: "opseu",
+    opseuSectorId: DEFAULT_OPSEU_SECTOR_ID,
     activeProfileId,
     local: { id: "x", localNumber: "243", subText: "Support" },
     primaryColor: "#003DA5",
@@ -53,6 +59,38 @@ describe("opseuCollectionMembershipAudience", () => {
   });
 });
 
+describe("membershipUrlsForOpseuSector", () => {
+  it("returns CAAT Support Full-Time and Part-Time for College Support", () => {
+    const urls = membershipUrlsForOpseuSector(
+      "caat-support",
+      OPSEU_CAAT_SUPPORT_FT_ID,
+    );
+    expect(urls.map((row) => row.label)).toEqual([
+      "CAAT Support Full-Time",
+      "CAAT Support Part-Time",
+    ]);
+    expect(urls.map((row) => row.audience)).toEqual(["full_time", "part_time"]);
+    expect(urls.every((row) => row.url === OPSEU_MEMBERSHIP_FORM_URL)).toBe(
+      true,
+    );
+    expect(urls.find((row) => row.primary)?.audience).toBe("full_time");
+  });
+
+  it("returns one All members OPSEU Membership link for other sectors", () => {
+    for (const sectorId of ["ops", "lcbo", "corrections", "other"]) {
+      const urls = membershipUrlsForOpseuSector(sectorId);
+      expect(urls, sectorId).toHaveLength(1);
+      expect(urls[0]).toMatchObject({
+        id: OPSEU_GENERIC_MEMBERSHIP_ID,
+        label: OPSEU_GENERIC_MEMBERSHIP_LABEL,
+        url: OPSEU_MEMBERSHIP_FORM_URL,
+        audience: "all",
+        primary: true,
+      });
+    }
+  });
+});
+
 describe("alignOpseuMembershipPrimary", () => {
   it("makes Support Part-Time primary when the PT collection is active", () => {
     const aligned = alignOpseuMembershipPrimary(
@@ -73,6 +111,56 @@ describe("alignOpseuMembershipPrimary", () => {
     expect(aligned.membershipUrls?.find((row) => row.primary)?.id).toBe(
       "membership-ft",
     );
+  });
+
+  it("replaces leftover CAAT forms with one All members link on other sectors", () => {
+    const kit = normalizeBrandKit({
+      version: "2.0",
+      unionPresetId: "opseu",
+      opseuSectorId: "ops",
+      activeProfileId: "profile-opseu-ops-unified",
+      local: { id: "x", localNumber: "649", subText: "OPS Unified" },
+      primaryColor: "#003DA5",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#002868",
+      useOfficialLogo: true,
+      membershipUrls: SEED_URLS,
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    });
+    const aligned = alignOpseuMembershipPrimary(kit);
+    expect(aligned.membershipUrls).toHaveLength(1);
+    expect(aligned.membershipUrls?.[0]).toMatchObject({
+      id: OPSEU_GENERIC_MEMBERSHIP_ID,
+      label: OPSEU_GENERIC_MEMBERSHIP_LABEL,
+      audience: "all",
+      url: OPSEU_MEMBERSHIP_FORM_URL,
+      primary: true,
+    });
+  });
+
+  it("restores CAAT Support FT/PT when switching back from a generic All members link", () => {
+    const kit = normalizeBrandKit({
+      version: "2.0",
+      unionPresetId: "opseu",
+      opseuSectorId: "caat-support",
+      activeProfileId: OPSEU_CAAT_SUPPORT_FT_ID,
+      local: {
+        id: "x",
+        localNumber: "243",
+        subText: "College Support Full-time",
+      },
+      primaryColor: "#003DA5",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#002868",
+      useOfficialLogo: true,
+      membershipUrls: membershipUrlsForOpseuSector("ops"),
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    });
+    const aligned = alignOpseuMembershipPrimary(kit);
+    expect(aligned.membershipUrls?.map((row) => row.label)).toEqual([
+      "CAAT Support Full-Time",
+      "CAAT Support Part-Time",
+    ]);
   });
 
   it("does not rewrite a non-OPSEU kit", () => {

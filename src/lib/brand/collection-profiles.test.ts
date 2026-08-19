@@ -114,12 +114,31 @@ describe("collectionPatchForPreset", () => {
     const patch = collectionPatchForOpseuSector("corrections", "649", "slogan");
     expect(patch.opseuSectorId).toBe("corrections");
     expect(patch.local?.subText).toBe("Adult corrections");
+    expect(patch.membershipUrls).toHaveLength(1);
+    expect(patch.membershipUrls?.[0]).toMatchObject({
+      label: "OPSEU Membership",
+      audience: "all",
+      url: "https://hub03.opseu.org/Forms/emaweb",
+      primary: true,
+    });
   });
 });
 
 describe("collectionPatchForOpseuSector", () => {
   it("is exported for sector picker", () => {
     expect(typeof collectionPatchForOpseuSector).toBe("function");
+  });
+
+  it("keeps CAAT Support Full-Time and Part-Time membership links", () => {
+    const patch = collectionPatchForOpseuSector("caat-support", "243", "slogan");
+    expect(patch.membershipUrls?.map((row) => row.label)).toEqual([
+      "CAAT Support Full-Time",
+      "CAAT Support Part-Time",
+    ]);
+    expect(patch.membershipUrls?.map((row) => row.audience)).toEqual([
+      "full_time",
+      "part_time",
+    ]);
   });
 });
 

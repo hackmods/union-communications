@@ -6,10 +6,6 @@
  */
 
 import { collectionPatchForPreset } from "@/lib/brand/collection-profiles";
-import {
-  opseuCollectionMembershipAudience,
-  withPrimaryMembershipForAudience,
-} from "@/lib/brand/membership-primary";
 import { getSeedMembershipUrlsForPreset } from "@/lib/tenant/loader";
 import type { BrandKitPatch } from "@/types/entities";
 
@@ -221,8 +217,8 @@ export function colorsFromUnionPreset(preset: UnionBranding): {
 /** Brand Kit colour + logo + collection + sub-text fields when applying a union preset.
  * OPSEU uses the official pack (mark by default) and CAAT Support FT/PT collections;
  * others default to the UnionOps mark and a single Local collection.
- * Always sets `membershipUrls` from the matching tenant seed (or `[]`) so
- * switching presets cannot leave another union's join forms behind.
+ * Always sets `membershipUrls` (OPSEU sector starters, or the matching tenant
+ * seed / `[]`) so switching presets cannot leave another union's join forms behind.
  */
 export function brandFieldsFromUnionPreset(
   preset: UnionBranding,
@@ -237,15 +233,8 @@ export function brandFieldsFromUnionPreset(
     options?.localNumber ?? "",
     subText,
   );
-  const seedMembership = getSeedMembershipUrlsForPreset(preset.id);
-  const collectionAudience =
-    preset.id === "opseu"
-      ? opseuCollectionMembershipAudience(collections.activeProfileId)
-      : null;
-  const membershipUrls = collectionAudience
-    ? (withPrimaryMembershipForAudience(seedMembership, collectionAudience) ??
-      seedMembership)
-    : seedMembership;
+  const membershipUrls =
+    collections.membershipUrls ?? getSeedMembershipUrlsForPreset(preset.id);
 
   if (logos.useOfficialPack) {
     return {
@@ -255,8 +244,8 @@ export function brandFieldsFromUnionPreset(
       customLogoDataUrl: undefined,
       logoText,
       unionPresetId: preset.id,
-      membershipUrls,
       ...collections,
+      membershipUrls,
     };
   }
 
@@ -267,7 +256,7 @@ export function brandFieldsFromUnionPreset(
     customLogoDataUrl: UNIONOPS_LOGOS.mark,
     logoText,
     unionPresetId: preset.id,
-    membershipUrls,
     ...collections,
+    membershipUrls,
   };
 }

@@ -86,4 +86,4 @@ Completeness CI: [`src/lib/brand/catalog-completeness.test.ts`](../../src/lib/br
 - ~~Stub “Additional unit” catalogs~~ — **closed 2026-08-17** — named collections for every solidarity union and OPSEU sector; `catalog-completeness.test.ts` guards labels, codes, URLs, and EN/FR hints.
 - No Hub-onboarding bridge that seeds Brand Kit profiles from tenant `bargainingUnits`.
 - Stored profile labels are English data (same as before). Chrome is EN/FR.
-- Membership URL audiences remain `full_time` / `part_time` / `all` — fine for CAAT Support; other unions use `all` or custom links.
+- **OPSEU membership starters follow sector (2026-08-19):** CAAT Support keeps **CAAT Support Full-Time** + **CAAT Support Part-Time**; other sectors get one All members **OPSEU Membership** link to `https://hub03.opseu.org/Forms/emaweb`. `membershipUrlsForOpseuSector` + sector patch + hydrate align.

@@ -5,6 +5,7 @@ import {
   PROFILE_OTHER_ID,
   type UnionCollectionCatalog,
 } from "@/lib/brand/collection-profile-catalog";
+import { membershipUrlsForOpseuSector } from "@/lib/brand/membership-primary";
 import {
   DEFAULT_OPSEU_SECTOR_ID,
   getOpseuSector,
@@ -93,7 +94,10 @@ export function collectionPatchForOpseuSector(
   sectorId: string | undefined,
   localNumber: string,
   fallbackSubText: string,
-): Pick<BrandKitPatch, "profiles" | "activeProfileId" | "local" | "opseuSectorId"> {
+): Pick<
+  BrandKitPatch,
+  "profiles" | "activeProfileId" | "local" | "opseuSectorId" | "membershipUrls"
+> {
   const { profiles, activeProfileId, opseuSectorId } =
     collectionProfilesForOpseuSector(sectorId, localNumber);
   const active = profiles.find((profile) => profile.id === activeProfileId);
@@ -101,6 +105,7 @@ export function collectionPatchForOpseuSector(
     profiles,
     activeProfileId,
     opseuSectorId,
+    membershipUrls: membershipUrlsForOpseuSector(opseuSectorId, activeProfileId),
     local: {
       subText: active?.subText ?? fallbackSubText,
       bargainingUnitCode: active?.bargainingUnitCode,
@@ -144,8 +149,16 @@ export function collectionPatchForPreset(
   options?: { opseuSectorId?: string },
 ): Pick<
   BrandKitPatch,
-  "profiles" | "activeProfileId" | "local" | "opseuSectorId"
+  "profiles" | "activeProfileId" | "local" | "opseuSectorId" | "membershipUrls"
 > {
+  if (presetId === "opseu") {
+    return collectionPatchForOpseuSector(
+      options?.opseuSectorId ?? DEFAULT_OPSEU_SECTOR_ID,
+      localNumber,
+      fallbackSubText,
+    );
+  }
+
   const result = collectionProfilesForPreset(
     presetId,
     localNumber,
