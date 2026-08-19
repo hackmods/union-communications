@@ -908,33 +908,58 @@
   "photoConsentGuide": {
     "title": "Consentement photo et médias des membres",
     "subtitle": "Une courte liste à parcourir avant de publier la photo d'un membre.",
-    "intro": "Le créateur graphique exige déjà le consentement au téléversement. Cette page aide les sections à écrire une pratique commune. Pas un avis juridique.",
+    "intro": "Le Créateur graphique exige déjà le consentement au téléversement. Cette page aide les sections à écrire une pratique commune. Pas un avis juridique.",
     "backToGuide": "Retour au Plan directeur",
     "why": {
       "title": "Pourquoi c'est important",
-      "content": "Les membres devraient savoir comment leur image sera utilisée avant qu’elle n’apparaisse sur tableaux ou réseaux."
+      "content": "Le consentement n'est pas seulement une question de vie privée. Un visage publié peut mettre en danger un travailleur en période de probation, un membre vulnérable, ou quiconque évite la surveillance de l'employeur. Demandez avant de publier.",
+      "retaliationTitle": "Surveillance de l'employeur",
+      "retaliationBody": "N'identifiez pas les membres au travail, n'activez pas les étiquettes de lieu, et ne publiez pas une photo qui prouve qu'ils étaient à une activité syndicale si cela peut se retourner contre eux. Dans le doute, recadrez ou ne publiez pas."
+    },
+    "tiers": {
+      "title": "Trois contextes",
+      "intro": "Adaptez la demande au lieu.",
+      "items": {
+        "rally": {
+          "label": "Rassemblements publics et piquets",
+          "content": "Les plans larges de foule conviennent quand personne n'est le sujet. Obtenez un oui verbal avant un gros plan d'un visage."
+        },
+        "meeting": {
+          "label": "Réunions internes et activités fermées",
+          "content": "Annoncez dès le début que des photos seront prises. Indiquez une zone sans photo ou un refus simple, et respectez-le."
+        },
+        "workplace": {
+          "label": "Lieux de travail à risque et petits groupes",
+          "content": "Par défaut, obtenez un oui explicite de chaque personne avant de publier. Les groupes sur le plancher sont faciles à identifier."
+        }
+      }
+    },
+    "takedown": {
+      "title": "Si un membre demande",
+      "rule": "Si un membre demande le retrait de sa photo des réseaux ou du site, retirez-la immédiatement. Pas de débat, pas de délai.",
+      "who": "Nommez un dirigeant qui s'occupe des retraits, pour que la demande ne rebondisse pas."
     },
     "checklist": {
       "title": "Avant de publier",
       "intro": "Confirmez chaque point avant d’utiliser une photo de membre dans graphiques, tracts ou photos de tableau où des visages sont visibles.",
       "items": {
-        "consent": "Vous avez le consentement écrit ou verbal du membre",
-        "public": "Le membre comprend que la photo sera publiée publiquement (ou sait quel public la verra)",
-        "confidential": "La photo et la légende ne contiennent pas de renseignements confidentiels sur le lieu de travail, un grief, la santé ou la négociation",
-        "group": "Pour les photos de groupe, chaque personne clairement identifiable a donné son accord — sinon recadrez, floutez ou choisissez une autre image",
-        "minors": "Les photos de mineurs ou de personnes à charge suivent la politique de la direction locale et du syndicat avant que vous les publiiez",
-        "background": "Les visages en arrière-plan, les badges et les cordons identifient aussi les gens — recadrez, attendez ou obtenez le consentement",
-        "location": "Désactivez les étiquettes de lieu avant de publier, et ne filmez pas de dossiers confidentiels ni d’espaces médicaux",
-        "withdrawal": "Vous savez qui contacter si un membre demande plus tard le retrait de la photo"
+        "consent": "Vous avez le consentement écrit ou verbal du membre.",
+        "public": "Le membre comprend que la photo sera publiée publiquement, ou sait quel public la verra.",
+        "confidential": "La photo et la légende ne contiennent pas de renseignements confidentiels sur le lieu de travail, un grief, la santé ou la négociation.",
+        "group": "Pour les photos de groupe, chaque personne clairement identifiable a donné son accord — sinon recadrez, floutez ou choisissez une autre image.",
+        "minors": "Les photos de mineurs ou de personnes à charge suivent la politique de la direction locale et du syndicat avant que vous les publiiez.",
+        "background": "Les visages en arrière-plan, les badges et les cordons identifient aussi les gens — recadrez, attendez ou obtenez le consentement.",
+        "location": "Désactivez les étiquettes de lieu avant de publier, et ne filmez pas de dossiers confidentiels ni d’espaces médicaux.",
+        "withdrawal": "Vous savez quel dirigeant retire les photos quand un membre le demande."
       }
     },
     "toolbox": {
       "title": "Dans la boîte à outils",
-      "content": "Utilisez l’étape de consentement du créateur graphique, tenez un journal local simple, et privilégiez les photos de groupe lorsque des personnes n’ont pas donné leur consentement individuel. La même liste s’applique avant de filmer un Reel ou un Short."
+      "content": "Utilisez l’étape de consentement du Créateur graphique, tenez un journal local simple, et privilégiez les photos de groupe lorsque des personnes n’ont pas donné leur consentement individuel. La même liste s’applique avant de filmer un Reel ou un Short."
     },
     "workshop": {
       "title": "Conseil pour atelier",
-      "content": "En atelier, arrêtez-vous sur le dialogue de consentement du créateur graphique, parcourez cette liste, puis pointez Ressources Comms et Confidentialité. Convenez qui consigne le consentement et où vont les retraits."
+      "content": "En atelier, arrêtez-vous sur le dialogue de consentement du Créateur graphique, parcourez cette liste, puis orientez les dirigeants vers Ressources de communication et Confidentialité. Convenez qui consigne le consentement et quel dirigeant retire les photos."
     }
   },
   "websiteGuide": {
@@ -3108,6 +3133,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "photo-consent-howto": {
+        "title": "Le consentement photo nomme maintenant le risque syndical",
+        "body": "Le guide de consentement photo couvre maintenant trois contextes et un retrait immédiat, pour protéger les membres qui doivent rester hors caméra."
+      },
       "email-outreach-howto": {
         "title": "Le guide courriel réécrit en mode pratique",
         "body": "Le Guide courriel et diffusion explique maintenant quand le courriel est le dossier officiel, comment rédiger un objet que les membres ouvriront, et comment protéger les adresses avec la CCI et des boîtes personnelles."

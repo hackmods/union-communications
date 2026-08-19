@@ -912,20 +912,45 @@
     "backToGuide": "Back to The Blueprint",
     "why": {
       "title": "Why it matters",
-      "content": "Members should know how their image will be used before it appears on boards or socials."
+      "content": "Consent is not only about privacy. A posted face can put a probationary worker, a vulnerable member, or anyone avoiding employer watch in harm's way. Ask before you post.",
+      "retaliationTitle": "Employer watch",
+      "retaliationBody": "Do not tag members at work, leave location on, or post a shot that shows they were at a union event if that could be used against them. When in doubt, crop or do not post."
+    },
+    "tiers": {
+      "title": "Three settings",
+      "intro": "Match the ask to the room.",
+      "items": {
+        "rally": {
+          "label": "Public rallies and picket lines",
+          "content": "Wide crowd shots are fine when no one person is the subject. Get a verbal yes before a close-up of a face."
+        },
+        "meeting": {
+          "label": "Closed meetings and internal events",
+          "content": "Say at the start that photos will be taken. Point to a no-photo zone or a simple opt-out, and honour it."
+        },
+        "workplace": {
+          "label": "High-risk workplaces and small groups",
+          "content": "Default to an explicit yes from each person before you post. Shop-floor groups are easy to identify."
+        }
+      }
+    },
+    "takedown": {
+      "title": "If a member asks",
+      "rule": "If a member asks for their photo to be removed from social media or the website, take it down immediately. No debate, no delay.",
+      "who": "Name one officer who handles take-downs so the request does not bounce around."
     },
     "checklist": {
       "title": "Before you post",
       "intro": "Confirm each item before using a member photo in graphics, flyers, or board photos where faces are visible.",
       "items": {
-        "consent": "You have written or verbal consent from the member",
-        "public": "The member understands the photo will be posted publicly (or knows which audience will see it)",
-        "confidential": "The photo and caption do not contain confidential workplace, grievance, medical, or bargaining information",
-        "group": "For group photos, everyone who is clearly identifiable has been covered — or crop, blur, or choose a different image",
-        "minors": "Photos of minors or dependents follow your local executive and union policy before you publish them",
-        "background": "Faces in the background, badges, and lanyards are identifiable too — crop, wait, or get consent",
-        "location": "Turn off location tags before you post, and do not film confidential casework or medical spaces",
-        "withdrawal": "You know who to contact if a member later asks for the photo to be taken down"
+        "consent": "You have written or verbal consent from the member.",
+        "public": "The member understands the photo will be posted publicly, or knows which audience will see it.",
+        "confidential": "The photo and caption do not contain confidential workplace, grievance, medical, or bargaining information.",
+        "group": "For group photos, everyone who is clearly identifiable has been covered — or crop, blur, or choose a different image.",
+        "minors": "Photos of minors or dependents follow your local executive and union policy before you publish them.",
+        "background": "Faces in the background, badges, and lanyards are identifiable too — crop, wait, or get consent.",
+        "location": "Turn off location tags before you post, and do not film confidential casework or medical spaces.",
+        "withdrawal": "You know which officer takes photos down when a member asks."
       }
     },
     "toolbox": {
@@ -934,7 +959,7 @@
     },
     "workshop": {
       "title": "Workshop tip",
-      "content": "In workshops, pause on Graphic Maker’s consent dialog, walk this checklist once, then point officers to Comms Resources and Privacy. Agree who records consent and where take-downs go."
+      "content": "In workshops, pause on Graphic Maker’s consent dialog, walk this checklist once, then point officers to Comms Resources and Privacy. Agree who records consent and which officer takes photos down."
     }
   },
   "websiteGuide": {
@@ -3142,6 +3167,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "photo-consent-howto": {
+        "title": "Photo consent now names the union risk",
+        "body": "The Photo Consent guide now covers three event settings and a take-it-down-now rule, so members who need to stay off camera stay protected."
+      },
       "email-outreach-howto": {
         "title": "Email guide rewritten as a how-to",
         "body": "The Email & Member Outreach Guide now covers when email is the official record, how to write a subject members will open, and how to protect addresses with BCC and personal inboxes."

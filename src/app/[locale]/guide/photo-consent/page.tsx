@@ -15,6 +15,7 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/guide/photo-consent", params);
 }
 
+const tierKeys = ["rally", "meeting", "workplace"] as const;
 
 const checklistKeys = [
   "consent",
@@ -61,16 +62,55 @@ export default async function PhotoConsentGuidePage({
           <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
             {t("why.content")}
           </p>
+          <Callout tone="warning" className="mt-5 max-w-prose">
+            <p className="font-semibold text-amber-950">
+              {t("why.retaliationTitle")}
+            </p>
+            <p className="mt-1">{t("why.retaliationBody")}</p>
+          </Callout>
+        </section>
+
+        <section className="border-l-2 border-opseu-blue/30 pl-5">
+          <h2 className="text-xl font-bold text-opseu-dark">{t("tiers.title")}</h2>
+          <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+            {t("tiers.intro")}
+          </p>
+          <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+            {tierKeys.map((key) => (
+              <li key={key} className="max-w-prose leading-relaxed">
+                <span className="font-semibold text-opseu-dark">
+                  {t(`tiers.items.${key}.label`)}.
+                </span>{" "}
+                {t(`tiers.items.${key}.content`)}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="border-l-2 border-opseu-blue/30 pl-5">
+          <h2 className="text-xl font-bold text-opseu-dark">
+            {t("takedown.title")}
+          </h2>
+          <Callout className="mt-4 max-w-prose">
+            <p className="font-semibold text-opseu-dark">{t("takedown.rule")}</p>
+            <p className="mt-2 leading-relaxed text-gray-700">
+              {t("takedown.who")}
+            </p>
+          </Callout>
         </section>
 
         <section className="border-l-2 border-opseu-blue/30 pl-5">
           <h2 className="text-xl font-bold text-opseu-dark">
             {t("checklist.title")}
           </h2>
-          <p className="mt-3 text-gray-700">{t("checklist.intro")}</p>
+          <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+            {t("checklist.intro")}
+          </p>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
             {checklistKeys.map((key) => (
-              <li key={key}>{t(`checklist.items.${key}`)}</li>
+              <li key={key} className="max-w-prose leading-relaxed">
+                {t(`checklist.items.${key}`)}
+              </li>
             ))}
           </ul>
         </section>

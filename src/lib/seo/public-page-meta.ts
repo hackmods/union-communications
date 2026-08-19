@@ -110,7 +110,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/photo-consent": {
       title: "Photo Consent & Member Media",
       description:
-        "A short checklist to run before you post a member's photo: consent, group shots, confidential details, and who to call for a later withdrawal.",
+        "Protect members before you post a photo: three consent settings, an immediate take-down, and a checklist for faces, minors, and workplace details.",
     },
     "/guide/crisis": {
       title: "Strike & Crisis Comms Guide",
@@ -237,7 +237,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/photo-consent": {
       title: "Consentement photo et médias des membres",
       description:
-        "Une courte liste à parcourir avant de publier la photo d'un membre : consentement, photos de groupe, détails confidentiels et retrait demandé plus tard.",
+        "Protégez les membres avant de publier une photo : trois contextes, un retrait immédiat, et une liste pour les visages, les mineurs et le lieu de travail.",
     },
     "/guide/crisis": {
       title: "Guide de communication - grève et crise",

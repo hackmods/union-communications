@@ -34,7 +34,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | `/[locale]/guide/social-media-plan` | First-week roadmap after Brand Kit: brand → boards → print → socials → website |
 | `/[locale]/guide/resources` | Comms Resources — orientation, practice checklist, presentation + workshop outlines, bibliography (`/guide/materials` redirects here) |
 | `/[locale]/guide/crisis` | Crisis comms playbook |
-| `/[locale]/guide/photo-consent` | Photo consent & member media checklist for stewards and workshops |
+| `/[locale]/guide/photo-consent` | Photo consent & member media — member protection, three event settings, immediate take-down, and a before-you-post checklist |
 | `/[locale]/guide/union-boards` | Workplace bulletin board guide (bare-minimum layout, ministry posters, anonymized templates, IRL reference patterns) |
 | `/[locale]/guide/print` | Print communications guide |
 | `/[locale]/guide/website` | Local website guide: plan and write the ZIP, then publish on GitHub Pages |
