@@ -96,4 +96,13 @@ describe("HubNav chrome contract", () => {
     expect(header).toContain("--site-header-height");
     expect(hubNav).toContain("--site-header-height");
   });
+
+  it("does not put Send feedback on the hub bar (footer / Support still have it)", () => {
+    const source = readFileSync(
+      join(srcRoot, "components/hub/HubNav.tsx"),
+      "utf8",
+    );
+    expect(source).not.toContain("/app/send-feedback");
+    expect(source).not.toContain("sendFeedbackLink");
+  });
 });
