@@ -54,6 +54,21 @@ const threads: DiscussionThread[] = [
     lastPostAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
     postCount: 1,
   },
+  {
+    id: "disc-thread-003",
+    unionId: "union-opseu",
+    localId: "local-243",
+    bargainingUnitId: "bu-243-pt",
+    title: "Grievance grev-002 — Step 2 discipline (PT Support)",
+    body: "Internal discussion linked to Member B. PT Support CA timelines (7 / 14 / 21), not the full-time steps. Keep member PII out of posts.",
+    grievanceId: "grev-002",
+    createdById: "user-steward-243-pt",
+    createdByName: "Local 243 Steward (PT)",
+    createdAt: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+    lastPostAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+    postCount: 1,
+  },
 ];
 
 const posts: DiscussionPost[] = [
@@ -91,6 +106,17 @@ const posts: DiscussionPost[] = [
     body: "Management response is overdue — drafting escalation checklist next.",
     createdAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
     ...emptyPostFields(new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString()),
+  },
+  {
+    id: "disc-post-004",
+    threadId: "disc-thread-003",
+    unionId: "union-opseu",
+    localId: "local-243",
+    authorId: "user-steward-243-pt",
+    authorName: "Local 243 Steward (PT)",
+    body: "Step 1 used the 7-working-day PT clock. Employer denied. Escalating to Step 2 (14 working days). Member needs an evening slot — they were skipped on Saturday additional hours the same week.",
+    createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+    ...emptyPostFields(new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString()),
   },
 ];
 
@@ -249,6 +275,6 @@ export const memoryDiscussionsStore = new MemoryDiscussionsAdapter();
 
 /** @internal test helper */
 export function resetMemoryDiscussions(): void {
-  threads.length = 2;
-  posts.length = 3;
+  threads.length = 3;
+  posts.length = 4;
 }

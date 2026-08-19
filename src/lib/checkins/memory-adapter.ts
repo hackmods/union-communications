@@ -42,6 +42,21 @@ const schedules: CheckinSchedule[] = [
     createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
     updatedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
   },
+  {
+    id: "checkin-sched-003",
+    unionId: "union-opseu",
+    localId: "local-243",
+    bargainingUnitId: "bu-243-pt",
+    question:
+      "Were any part-time members skipped on this week's additional-hours list?",
+    cadence: "weekly",
+    weekday: 3,
+    active: true,
+    createdById: "user-president-243",
+    createdByName: "Local 243 President",
+    createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+  },
 ];
 
 const answers: CheckinAnswer[] = [];

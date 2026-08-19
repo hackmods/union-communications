@@ -46,6 +46,20 @@ const snippets: CaSnippet[] = [
     createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
     updatedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
   },
+  {
+    id: "snip-004",
+    unionId: "union-opseu",
+    localId: "local-243",
+    bargainingUnitId: "bu-243-pt",
+    title: "Additional hours by seniority (PT)",
+    clauseRef: "Article 15.03",
+    body: "Additional hours shall be offered to part-time employees by seniority on the part-time additional-hours list before they are offered as overtime to full-time employees, except where operational requirements make that impracticable.",
+    tags: ["hours", "seniority", "additional-hours", "pt"],
+    createdById: "user-steward-243-pt",
+    createdByName: "Local 243 Steward (PT)",
+    createdAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
+  },
 ];
 
 function id(prefix: string): string {

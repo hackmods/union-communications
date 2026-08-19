@@ -1,5 +1,17 @@
 # Progress Log
 
+## Hub demo PT collection seeds (2026-08-19)
+
+- [x] Memory demo now has **distinct PT Support examples** (not FT clones): grev-002 note/comm/evening Step 2 meeting, additional-hours informal log + snippet, PT task, PT check-in, PT discussion, PT steward on the officer roster
+- [x] Local-wide rows (LEC booking, untagged informal log) still appear in both collections; bumping stays FT-only
+- [x] Switch collection to PT or log in as `steward-pt@local243.ca` to see the split
+- Verify: `npm run test:unit -- src/lib/hub/demo-collection-seed.test.ts`
+## Install page QoL (2026-08-19)
+
+- [x] `/install` rewritten phone-first: why (home screen, honest offline shell, no store/login), numbered iPhone / Android / computer steps, privacy + missing-Install Callout
+- [x] H1 matches footer/nav (“Install as an app”); Mac Safari Add to Dock kept as a computer aside; Android Install vs shortcut still named
+- Verify: `npm run test:unit -- src/lib/pwa/install-copy.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/comms/smoke-asserted-copy.test.ts`
+
 ## Email & outreach guide how-to (2026-08-19)
 
 - [x] `/guide/email-broadcast` rewritten as a practical how-to: email as the official record, anatomy of a readable union mail, BCC and employer-inbox warnings, privacy-by-design toolkit framing

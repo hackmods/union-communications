@@ -54,6 +54,24 @@ const tasks: Task[] = [
     mentionedUserIds: [],
     reactions: [],
   },
+  {
+    id: "task-004",
+    unionId: "union-opseu",
+    localId: "local-243",
+    bargainingUnitId: "bu-243-pt",
+    title: "Draft Step 2 letter for Member B discipline (PT 14-day response)",
+    notes:
+      "Use the part-time Support timelines, not the full-time 10-day step. Coordinate with @Local 243 President on the evening meeting slot.",
+    assigneeId: "user-steward-243-pt",
+    dueAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+    status: "open",
+    relatedGrievanceId: "grev-002",
+    createdById: "user-president-243",
+    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    mentionedUserIds: ["user-president-243"],
+    reactions: [],
+  },
 ];
 
 function id(prefix: string): string {

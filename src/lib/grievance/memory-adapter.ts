@@ -98,6 +98,14 @@ const notes: GrievanceNote[] = [
     body: "Initial meeting scheduled with member. Awaiting management response.",
     createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
   },
+  {
+    id: "note-002",
+    grievanceId: "grev-002",
+    authorId: "user-steward-243-pt",
+    authorName: "Local 243 Steward (PT)",
+    body: "Step 1 held on day 6 of 7 (PT Support CA). Employer denied without written reasons. Filing Step 2 — 14 working days.",
+    createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
+  },
 ];
 
 const communications: MemberCommunication[] = [
@@ -113,6 +121,20 @@ const communications: MemberCommunication[] = [
     loggedById: "user-steward-243",
     loggedByName: "Local 243 Steward",
     createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "comm-002",
+    grievanceId: "grev-002",
+    unionId: "union-opseu",
+    localId: "local-243",
+    channel: "email",
+    direction: "inbound",
+    summary:
+      "Member emailed after a cancelled evening shift: they want to proceed to Step 2 and cannot attend daytime meetings.",
+    occurredAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    loggedById: "user-steward-243-pt",
+    loggedByName: "Local 243 Steward (PT)",
+    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
   },
 ];
 
@@ -130,6 +152,22 @@ const meetings: ScheduledMeeting[] = [
     location: "College boardroom",
     description: "Initial step meeting with employer representative.",
     createdById: "user-steward-243",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "meet-002",
+    grievanceId: "grev-002",
+    unionId: "union-opseu",
+    localId: "local-243",
+    title: "Step 2 meeting — Member B (PT Support)",
+    startsAt: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+    endsAt: new Date(
+      Date.now() + 4 * 24 * 60 * 60 * 1000 + 60 * 60 * 1000,
+    ).toISOString(),
+    location: "HR room B · 6:30 p.m. (evening slot)",
+    description:
+      "Step 2 under the part-time Support CA. Evening slot so the member is not pulled off a scheduled shift.",
+    createdById: "user-steward-243-pt",
     createdAt: new Date().toISOString(),
   },
 ];

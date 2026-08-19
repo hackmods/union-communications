@@ -35,6 +35,19 @@ const entries: OfficerRosterEntry[] = [
     createdAt: "2024-07-01T12:00:00.000Z",
     updatedAt: "2024-07-01T12:00:00.000Z",
   },
+  {
+    id: "off-003",
+    unionId: "union-opseu",
+    localId: "local-243",
+    name: "Riley Santos",
+    role: "Steward (Part-time Support)",
+    termStart: "2025-01-15",
+    termEnd: "2027-01-14",
+    email: "steward-pt@local243.ca",
+    committees: ["Grievance"],
+    createdAt: "2025-01-15T12:00:00.000Z",
+    updatedAt: "2025-01-15T12:00:00.000Z",
+  },
 ];
 
 function id(prefix: string): string {

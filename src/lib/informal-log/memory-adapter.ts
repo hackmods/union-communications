@@ -26,7 +26,7 @@ const entries: InformalLogEntry[] = [
     id: "ilog-002",
     unionId: "union-opseu",
     localId: "local-243",
-    memberPseudonym: "Member B",
+    memberPseudonym: "Member D",
     topic: "Workplace accommodation follow-up",
     channel: "email",
     summary:
@@ -35,6 +35,21 @@ const entries: InformalLogEntry[] = [
     loggedById: "user-steward-243",
     loggedByName: "Local 243 Steward",
     createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "ilog-003",
+    unionId: "union-opseu",
+    localId: "local-243",
+    bargainingUnitId: "bu-243-pt",
+    memberPseudonym: "Member B",
+    topic: "Additional hours / call-in list",
+    channel: "phone",
+    summary:
+      "Member asked why they were skipped for Saturday coverage. Supervisor used the full-time overtime list instead of the part-time additional-hours list.",
+    occurredAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+    loggedById: "user-steward-243-pt",
+    loggedByName: "Local 243 Steward (PT)",
+    createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
   },
 ];
 
