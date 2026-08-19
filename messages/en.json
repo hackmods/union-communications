@@ -2124,33 +2124,174 @@
     "removeLink": "Remove"
   },
   "membershipSignupGuide": {
-    "title": "Grow membership with scan-to-sign materials",
-    "subtitle": "From Brand Kit links to board QR and a welcome letter",
-    "intro": "Coverage under a CA is not the same as a signed member. Set membership URLs in Brand Kit, put QR on boards, then send a welcome letter.",
+    "title": "Membership signup playbook",
+    "subtitle": "Build density with real conversations, safe records, and scan-to-sign materials",
+    "intro": "Coverage under a CA is not the same as a signed member. This playbook walks stewards from the first conversation through safe record-keeping and welcome materials.",
     "relatedLabel": "Tools & related guides",
-    "whyTitle": "Why this matters",
-    "whyBody": "Part-time and dispersed workplaces miss hallway signup. A phone QR that opens the right form strengthens the local.",
-    "steps": {
-      "brandKit": {
-        "title": "Save membership URLs in Brand Kit",
-        "body": "Paste membership form URLs in Brand Kit — one link or separate links per collection. Reuse them on QR cards and the welcome letter.",
-        "cta": "Open Brand Kit"
-      },
-      "printMaterials": {
-        "title": "Print posters and cards",
-        "body": "Print a QR Board poster, pocket QR cards, and a Solidarity Poster with a clear signup ask.",
-        "qrBoard": "QR Board Posters",
-        "qrCard": "QR Link Cards",
-        "poster": "Solidarity Posters"
-      },
-      "welcome": {
-        "title": "Hand out a welcome letter",
-        "body": "Document Generator welcome letter pulls your membership URL and collection from Brand Kit.",
-        "cta": "Open Document Generator"
+    "tocLabel": "On this page",
+    "why": {
+      "navLabel": "Why density",
+      "title": "Why signed membership matters",
+      "intro": "Member signup is not paperwork for its own sake. Every signed card strengthens the local's bargaining power, voting quorum, and ability to reach workers who rarely share a hallway.",
+      "items": {
+        "density": {
+          "label": "Density is power",
+          "content": "Employers notice when a majority of workers are signed members in good standing. Higher density gives your bargaining team a stronger mandate at the table."
+        },
+        "vote": {
+          "label": "Voting rights",
+          "content": "Many locals require signed membership before a worker can vote on strikes, ratification, or executive elections. An unsigned coworker may be covered by the CA but locked out of those decisions."
+        },
+        "bargain": {
+          "label": "Bargaining strength",
+          "content": "National and regional staff track membership numbers when they allocate resources to a local. Accurate signed counts help your local get attention during bargaining and disputes."
+        },
+        "comms": {
+          "label": "Member-only communication",
+          "content": "Signed members can be added to private broadcast lists, steward networks, and meeting notices. That reach does not extend to coworkers who are only CA-covered."
+        }
       }
     },
-    "tipTitle": "Board tip",
-    "tipBody": "Test every QR on a phone before you print a stack."
+    "conversation": {
+      "navLabel": "1-on-1 talk",
+      "title": "The 1-on-1 conversation",
+      "intro": "The best signups happen in a short, respectful conversation — not a lecture in the break room. Use this four-step frame on the shop floor or over coffee.",
+      "items": {
+        "listen": {
+          "label": "Listen first",
+          "content": "Ask what is frustrating them at work right now. Pay attention to scheduling, workload, safety, favouritism, or pay — whatever they raise first."
+        },
+        "connect": {
+          "label": "Connect the issue to collective action",
+          "content": "Explain that the problem they named is exactly what a union solves together. One person complaining alone rarely moves management; a organized local does."
+        },
+        "explain": {
+          "label": "Explain what the union does",
+          "content": "Keep it concrete: stewards, grievances, bargaining, training, and solidarity when someone is disciplined or laid off. Avoid abstract slogans."
+        },
+        "ask": {
+          "label": "Ask directly",
+          "content": "Hand them a card or point to the QR and say: \"Will you sign up today?\" A clear ask beats hoping they find the form on their own."
+        }
+      }
+    },
+    "paper": {
+      "navLabel": "Paper cards",
+      "title": "Paper signup workflow",
+      "intro": "Many locals still use physical membership cards or paper application forms. Treat every completed card like confidential personal information from the moment it is signed.",
+      "items": {
+        "legible": {
+          "label": "Check legibility on the spot",
+          "content": "Confirm name, employee ID, personal phone, and personal email are readable before the coworker walks away. Illegible cards delay processing at the union office."
+        },
+        "handoff": {
+          "label": "Same-day handoff",
+          "content": "Deliver completed cards to your secretary-treasurer or membership officer the same shift when possible. Do not leave a stack in a shared steward locker overnight."
+        },
+        "storage": {
+          "label": "Secure local storage",
+          "content": "Keep blank and completed cards in a locked drawer or cabinet the employer does not control — union office, steward's personal bag, or a local-only storage space."
+        },
+        "processing": {
+          "label": "Confirm receipt",
+          "content": "Ask the membership officer to acknowledge when cards are logged. New members should know their signup reached the right person."
+        }
+      }
+    },
+    "digital": {
+      "navLabel": "Digital signup",
+      "title": "Digital and scan-to-sign workflow",
+      "intro": "QR posters and online forms reach part-time and remote workers who never pass a union board. Point every QR to a form your national or local union hosts — not a spreadsheet on a work account.",
+      "items": {
+        "urls": {
+          "label": "Use your union's official form",
+          "content": "Paste the membership URL your national or local union approved into Brand Kit. If your local has separate collections, add one link per group."
+        },
+        "qr": {
+          "label": "Put QR where people pause",
+          "content": "Boards, break rooms, and event tables work best. A pocket QR card lets stewards start the conversation and hand over a scannable link in the same breath."
+        },
+        "test": {
+          "label": "Test before you print",
+          "content": "Scan every QR on your own phone before you print a stack. Confirm it opens the correct form for the right collection."
+        },
+        "collection": {
+          "label": "Match the collection",
+          "content": "Full-time and part-time groups often have different signup URLs. Label each QR clearly so a worker lands on the form meant for their job class."
+        }
+      },
+      "testTip": "If a QR fails on your phone, it will fail for every coworker. Fix the link in Brand Kit before you reprint."
+    },
+    "privacy": {
+      "navLabel": "Privacy",
+      "title": "Protect member data",
+      "intro": "A membership list is personal information. Treat every signup card, spreadsheet, and contact list as if management could see it — because on employer systems, they often can.",
+      "employerDriveTitle": "Never use employer cloud drives",
+      "employerDriveBody": "Do not store completed membership cards, signup spreadsheets, or contact lists on Google Drive, OneDrive, or SharePoint tied to a work email. Your employer can access those accounts. Use a personal device, a union-only account, or paper locked at the local.",
+      "personalContactTitle": "Collect personal contact info",
+      "personalContactBody": "Ask for a personal email address and personal phone number — not the employer-provided inbox or extension. Management can read work email and monitor work phones.",
+      "cases": "UnionOps Comms tools stay on your device and do not store member lists. For broadcast email after signup, follow the privacy steps in the Email & outreach guide."
+    },
+    "materials": {
+      "navLabel": "Materials",
+      "title": "Build scan-to-sign materials",
+      "intro": "Once your membership URLs are in Brand Kit, these three UnionOps steps produce matching posters, cards, and a welcome letter — all pulling from the same links.",
+      "steps": {
+        "brandKit": {
+          "title": "Save membership URLs in Brand Kit",
+          "body": "Paste membership form URLs in Brand Kit — one link or separate links per collection. Every QR tool and the welcome letter reuse them automatically.",
+          "cta": "Open Brand Kit"
+        },
+        "printMaterials": {
+          "title": "Print posters and cards",
+          "body": "Print a QR Board poster for the break room, pocket QR cards for stewards, and a Solidarity Poster with a clear signup ask. Use collection-specific presets when your local has more than one group.",
+          "qrBoard": "Open QR Board",
+          "qrCard": "Open QR Link Cards",
+          "poster": "Open Solidarity Poster"
+        },
+        "welcome": {
+          "title": "Hand out a welcome letter",
+          "body": "Document Generator welcome letter pulls your membership URL and collection from Brand Kit. Hand it to new members the same day they sign.",
+          "cta": "Open welcome letter"
+        }
+      }
+    },
+    "onboarding": {
+      "navLabel": "After signup",
+      "title": "Next steps after someone signs",
+      "intro": "A signature is the start, not the finish. These steps turn a new signup into an active member who knows how to reach the local.",
+      "items": {
+        "welcome": {
+          "label": "Send a welcome",
+          "content": "Hand them a printed welcome letter or email the text from Document Generator. Include the steward contact, next meeting date, and how to finish any remaining application steps."
+        },
+        "steward": {
+          "label": "Introduce their steward",
+          "content": "Give them a steward name, phone number, or QR card for local support. New members should know who to call before a problem becomes a crisis."
+        },
+        "broadcast": {
+          "label": "Add to the member list",
+          "content": "Add their personal email to the local's private broadcast list — using BCC, never employer email. See the Email & outreach guide for safe sending."
+        },
+        "confirm": {
+          "label": "Confirm with the membership officer",
+          "content": "Check that the card or online form reached the secretary-treasurer and was logged. Follow up if the worker asks whether they are in good standing."
+        }
+      }
+    },
+    "checklist": {
+      "navLabel": "Before you print",
+      "title": "Before you print a stack",
+      "intro": "Run through this list once per batch — the same way First week walks boards, then print, then socials.",
+      "items": {
+        "url": "Every QR points to the correct membership URL for the right collection.",
+        "phone": "You scanned each QR on your own phone and the form loaded.",
+        "readable": "Type size and contrast are readable from a normal standing distance.",
+        "contact": "The poster or card shows a steward or local contact — not just a bare QR.",
+        "privacy": "No completed cards or signup lists are stored on employer cloud drives.",
+        "handoff": "You know who receives completed paper cards the same day."
+      }
+    }
   },
   "brandKit": {
     "title": "Your local Brand Kit",
@@ -2508,10 +2649,18 @@
       "dense": "Dense"
     },
     "presets": {
-      "picket": { "label": "Picket line" },
-      "rally": { "label": "Rally" },
-      "meeting": { "label": "Membership meeting" },
-      "walkabout": { "label": "Walkabout handbill" }
+      "picket": {
+        "label": "Picket line"
+      },
+      "rally": {
+        "label": "Rally"
+      },
+      "meeting": {
+        "label": "Membership meeting"
+      },
+      "walkabout": {
+        "label": "Walkabout handbill"
+      }
     },
     "inviteEmail": {
       "title": "Invite email draft",
@@ -2930,6 +3079,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "email-outreach-howto": {
+        "title": "Email guide rewritten as a how-to",
+        "body": "The Email & Member Outreach Guide now covers when email is the official record, how to write a subject members will open, and how to protect addresses with BCC and personal inboxes."
+      },
       "opseu-membership-sector": {
         "title": "OPSEU membership links follow your sector",
         "body": "College Support still gets Full-Time and Part-Time application links in Brand Kit. Other OPSEU sectors get one All members link to the OPSEU membership form."

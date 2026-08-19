@@ -2124,33 +2124,174 @@
     "removeLink": "Retirer"
   },
   "membershipSignupGuide": {
-    "title": "Faire croître l'adhésion avec du matériel à scanner",
-    "subtitle": "Des liens de la Trousse de marque au QR de tableau et à la lettre de bienvenue",
-    "intro": "Être couvert par une convention n’est pas la même chose qu’être membre signé. Mettez les URL d’adhésion dans la Trousse de marque, le QR sur les tableaux, puis une lettre de bienvenue.",
+    "title": "Guide pratique d'adhésion",
+    "subtitle": "Renforcer la densité par des conversations, des dossiers sécurisés et du matériel à scanner",
+    "intro": "Être couvert par une convention n'est pas la même chose qu'être membre signé. Ce guide accompagne les délégués de la première conversation jusqu'à l'accueil et la conservation sécurisée des dossiers.",
     "relatedLabel": "Outils et guides connexes",
-    "whyTitle": "Pourquoi c'est important",
-    "whyBody": "Les milieux à temps partiel et dispersés ratent l’adhésion de corridor. Un QR sur téléphone vers le bon formulaire renforce la section.",
-    "steps": {
-      "brandKit": {
-        "title": "Enregistrer les URL d'adhésion",
-        "body": "Collez les URL de formulaire d’adhésion dans la Trousse de marque — un lien ou des liens distincts par collection. Réutilisez-les sur les cartes QR et la lettre de bienvenue.",
-        "cta": "Ouvrir la Trousse de marque"
-      },
-      "printMaterials": {
-        "title": "Imprimer affiches et cartes",
-        "body": "Imprimez une affiche QR Board, des cartes QR et une affiche de solidarité avec une demande d’adhésion claire.",
-        "qrBoard": "Affiches QR tableau",
-        "qrCard": "Cartes lien QR",
-        "poster": "Affiches solidarité"
-      },
-      "welcome": {
-        "title": "Remettre une lettre de bienvenue",
-        "body": "La lettre de bienvenue du générateur de documents tire l’URL d’adhésion et la collection depuis la Trousse de marque.",
-        "cta": "Ouvrir le générateur de documents"
+    "tocLabel": "Sur cette page",
+    "why": {
+      "navLabel": "Pourquoi la densité",
+      "title": "Pourquoi l'adhésion signée compte",
+      "intro": "L'adhésion n'est pas une paperasse pour elle-même. Chaque carte signée renforce le pouvoir de négociation de la section, le quorum de vote et la capacité d'atteindre les travailleurs qui ne se croisent jamais dans un corridor.",
+      "items": {
+        "density": {
+          "label": "La densité, c'est le pouvoir",
+          "content": "Les employeurs remarquent quand une majorité de travailleurs sont des membres en règle. Une densité plus élevée donne à votre équipe de négociation un mandat plus fort à la table."
+        },
+        "vote": {
+          "label": "Droit de vote",
+          "content": "Plusieurs sections exigent une adhésion signée avant qu'un travailleur puisse voter sur une grève, une ratification ou une élection exécutive. Un collègue non signé peut être couvert par la convention, mais exclu de ces décisions."
+        },
+        "bargain": {
+          "label": "Force de négociation",
+          "content": "Le personnel national et régional suit les chiffres d'adhésion quand il alloue des ressources à une section. Des décomptes signés exacts aident votre section à obtenir de l'attention pendant la négociation et les conflits."
+        },
+        "comms": {
+          "label": "Communication réservée aux membres",
+          "content": "Les membres signés peuvent être ajoutés aux listes de diffusion privées, aux réseaux de délégués et aux avis de réunion. Cette portée n'atteint pas les collègues qui ne sont que couverts par la convention."
+        }
       }
     },
-    "tipTitle": "Conseil tableau",
-    "tipBody": "Testez chaque QR sur un téléphone avant d’imprimer une pile."
+    "conversation": {
+      "navLabel": "Entretien individuel",
+      "title": "L'entretien individuel",
+      "intro": "Les meilleures adhésions viennent d'une conversation courte et respectueuse — pas d'un discours dans la salle de pause. Utilisez ce cadre en quatre étapes sur le plancher ou autour d'un café.",
+      "items": {
+        "listen": {
+          "label": "Écouter d'abord",
+          "content": "Demandez ce qui les frustre au travail en ce moment. Portez attention à l'horaire, la charge de travail, la sécurité, la favoritisme ou la paie — ce qu'ils soulèvent en premier."
+        },
+        "connect": {
+          "label": "Relier le problème à l'action collective",
+          "content": "Expliquez que le problème qu'ils ont nommé est exactement ce qu'un syndicat règle ensemble. Une personne qui se plaint seule déplace rarement la direction ; une section organisée, oui."
+        },
+        "explain": {
+          "label": "Expliquer ce que fait le syndicat",
+          "content": "Restez concret : délégués, griefs, négociation, formation et solidarité quand quelqu'un est discipliné ou mis à pied. Évitez les slogans abstraits."
+        },
+        "ask": {
+          "label": "Demander directement",
+          "content": "Tendez une carte ou montrez le QR et dites : « Voulez-vous vous inscrire aujourd'hui? » Une demande claire vaut mieux qu'espérer qu'ils trouveront le formulaire seuls."
+        }
+      }
+    },
+    "paper": {
+      "navLabel": "Cartes papier",
+      "title": "Adhésion sur carte papier",
+      "intro": "Plusieurs sections utilisent encore des cartes d'adhésion physiques ou des formulaires papier. Traitez chaque carte remplie comme une information personnelle confidentielle dès qu'elle est signée.",
+      "items": {
+        "legible": {
+          "label": "Vérifier la lisibilité sur place",
+          "content": "Confirmez que le nom, le numéro d'employé, le téléphone personnel et le courriel personnel sont lisibles avant que le collègue parte. Une carte illisible retarde le traitement au bureau syndical."
+        },
+        "handoff": {
+          "label": "Remise le jour même",
+          "content": "Remettez les cartes complétées au secrétaire-trésorier ou au responsable de l'adhésion le même quart de travail si possible. Ne laissez pas une pile dans un casier partagé de délégués pendant la nuit."
+        },
+        "storage": {
+          "label": "Entreposage sécurisé à la section",
+          "content": "Gardez les cartes vierges et complétées dans un tiroir ou un classeur verrouillé que l'employeur ne contrôle pas — bureau syndical, sac personnel du délégué ou espace réservé à la section."
+        },
+        "processing": {
+          "label": "Confirmer la réception",
+          "content": "Demandez au responsable de l'adhésion d'accuser réception quand les cartes sont enregistrées. Les nouveaux membres doivent savoir que leur inscription a atteint la bonne personne."
+        }
+      }
+    },
+    "digital": {
+      "navLabel": "Adhésion numérique",
+      "title": "Adhésion numérique et à scanner",
+      "intro": "Les affiches QR et les formulaires en ligne atteignent les travailleurs à temps partiel et à distance qui ne passent jamais devant un tableau syndical. Chaque QR doit mener à un formulaire hébergé par votre syndicat national ou local — pas un tableur sur un compte de travail.",
+      "items": {
+        "urls": {
+          "label": "Utiliser le formulaire officiel de votre syndicat",
+          "content": "Collez l'URL d'adhésion approuvée par votre syndicat national ou local dans la Trousse de marque. Si votre section a des collections distinctes, ajoutez un lien par groupe."
+        },
+        "qr": {
+          "label": "Placer le QR où les gens s'arrêtent",
+          "content": "Tableaux, salles de pause et tables d'événement fonctionnent le mieux. Une carte QR de poche permet au délégué d'entamer la conversation et de remettre un lien scannable dans le même élan."
+        },
+        "test": {
+          "label": "Tester avant d'imprimer",
+          "content": "Scannez chaque QR sur votre propre téléphone avant d'imprimer une pile. Confirmez qu'il ouvre le bon formulaire pour la bonne collection."
+        },
+        "collection": {
+          "label": "Correspondre à la collection",
+          "content": "Les groupes à temps plein et à temps partiel ont souvent des URL d'adhésion différentes. Étiquetez chaque QR clairement pour que le travailleur arrive sur le formulaire prévu pour sa catégorie d'emploi."
+        }
+      },
+      "testTip": "Si un QR échoue sur votre téléphone, il échouera pour chaque collègue. Corrigez le lien dans la Trousse de marque avant de réimprimer."
+    },
+    "privacy": {
+      "navLabel": "Confidentialité",
+      "title": "Protéger les données des membres",
+      "intro": "Une liste de membres est une information personnelle. Traitez chaque carte d'adhésion, tableur et liste de contacts comme si la direction pouvait la voir — parce que sur les systèmes de l'employeur, c'est souvent le cas.",
+      "employerDriveTitle": "N'utilisez jamais les nuages de l'employeur",
+      "employerDriveBody": "Ne stockez pas de cartes d'adhésion complétées, de tableurs d'inscription ou de listes de contacts sur Google Drive, OneDrive ou SharePoint liés à un courriel de travail. Votre employeur peut accéder à ces comptes. Utilisez un appareil personnel, un compte réservé au syndicat ou du papier verrouillé à la section.",
+      "personalContactTitle": "Recueillir des coordonnées personnelles",
+      "personalContactBody": "Demandez une adresse courriel personnelle et un numéro de téléphone personnel — pas la boîte ou le poste fournis par l'employeur. La direction peut lire le courriel de travail et surveiller les téléphones professionnels.",
+      "cases": "Les outils Comms de UnionOps restent sur votre appareil et ne stockent pas de listes de membres. Pour la diffusion par courriel après l'adhésion, suivez les étapes de confidentialité du guide Courriel et sensibilisation."
+    },
+    "materials": {
+      "navLabel": "Matériel",
+      "title": "Créer du matériel à scanner",
+      "intro": "Une fois vos URL d'adhésion dans la Trousse de marque, ces trois étapes UnionOps produisent des affiches, cartes et une lettre de bienvenue assorties — toutes tirées des mêmes liens.",
+      "steps": {
+        "brandKit": {
+          "title": "Enregistrer les URL d'adhésion",
+          "body": "Collez les URL de formulaire d'adhésion dans la Trousse de marque — un lien ou des liens distincts par collection. Chaque outil QR et la lettre de bienvenue les réutilisent automatiquement.",
+          "cta": "Ouvrir la Trousse de marque"
+        },
+        "printMaterials": {
+          "title": "Imprimer affiches et cartes",
+          "body": "Imprimez une affiche QR Board pour la salle de pause, des cartes QR de poche pour les délégués et une affiche de solidarité avec une demande d'adhésion claire. Utilisez les préréglages par collection quand votre section compte plus d'un groupe.",
+          "qrBoard": "Ouvrir l'affiche QR",
+          "qrCard": "Ouvrir les cartes lien QR",
+          "poster": "Ouvrir l'affiche solidarité"
+        },
+        "welcome": {
+          "title": "Remettre une lettre de bienvenue",
+          "body": "La lettre de bienvenue du générateur de documents tire l'URL d'adhésion et la collection depuis la Trousse de marque. Remettez-la aux nouveaux membres le jour même de leur inscription.",
+          "cta": "Ouvrir la lettre de bienvenue"
+        }
+      }
+    },
+    "onboarding": {
+      "navLabel": "Après l'inscription",
+      "title": "Prochaines étapes après une inscription",
+      "intro": "Une signature est un début, pas une fin. Ces étapes transforment une nouvelle adhésion en membre actif qui sait comment joindre la section.",
+      "items": {
+        "welcome": {
+          "label": "Envoyer un accueil",
+          "content": "Remettez une lettre de bienvenue imprimée ou envoyez le texte du générateur de documents par courriel. Incluez le contact du délégué, la prochaine date de réunion et comment compléter les étapes restantes du formulaire."
+        },
+        "steward": {
+          "label": "Présenter leur délégué",
+          "content": "Donnez-leur le nom d'un délégué, un numéro de téléphone ou une carte QR pour le soutien local. Les nouveaux membres doivent savoir qui appeler avant qu'un problème devienne une crise."
+        },
+        "broadcast": {
+          "label": "Ajouter à la liste de membres",
+          "content": "Ajoutez leur courriel personnel à la liste de diffusion privée de la section — en Cci, jamais via le courriel de l'employeur. Consultez le guide Courriel et sensibilisation pour l'envoi sécurisé."
+        },
+        "confirm": {
+          "label": "Confirmer avec le responsable de l'adhésion",
+          "content": "Vérifiez que la carte ou le formulaire en ligne a atteint le secrétaire-trésorier et a été enregistré. Faites un suivi si le travailleur demande s'il est en règle."
+        }
+      }
+    },
+    "checklist": {
+      "navLabel": "Avant d'imprimer",
+      "title": "Avant d'imprimer une pile",
+      "intro": "Parcourez cette liste une fois par lot — comme la Première semaine enchaîne tableaux, impression et réseaux sociaux.",
+      "items": {
+        "url": "Chaque QR mène à la bonne URL d'adhésion pour la bonne collection.",
+        "phone": "Vous avez scanné chaque QR sur votre téléphone et le formulaire s'est ouvert.",
+        "readable": "La taille et le contraste du texte sont lisibles à distance normale debout.",
+        "contact": "L'affiche ou la carte montre un délégué ou un contact local — pas seulement un QR nu.",
+        "privacy": "Aucune carte complétée ni liste d'inscription n'est stockée sur les nuages de l'employeur.",
+        "handoff": "Vous savez qui reçoit les cartes papier complétées le jour même."
+      }
+    }
   },
   "brandKit": {
     "title": "Trousse de marque de votre section",
@@ -2474,10 +2615,18 @@
       "dense": "Dense"
     },
     "presets": {
-      "picket": { "label": "Ligne de piquetage" },
-      "rally": { "label": "Rassemblement" },
-      "meeting": { "label": "Assemblée des membres" },
-      "walkabout": { "label": "Tract de tournée" }
+      "picket": {
+        "label": "Ligne de piquetage"
+      },
+      "rally": {
+        "label": "Rassemblement"
+      },
+      "meeting": {
+        "label": "Assemblée des membres"
+      },
+      "walkabout": {
+        "label": "Tract de tournée"
+      }
     },
     "inviteEmail": {
       "title": "Brouillon d'invitation par courriel",
@@ -2644,7 +2793,7 @@
       "items": [
         "Trousse de marque - numéro de section, couleurs et logo prêts pour des graphiques rapides",
         "Avis pour tableau syndical - mises à jour sur les tableaux d'affichage pendant les grèves",
-          "Créateur de tracts et carte de citation - déclarations des dirigeants et mises à jour de piquetage",
+        "Créateur de tracts et carte de citation - déclarations des dirigeants et mises à jour de piquetage",
         "Créateur de graphiques - mise en vedette des membres avec l'étape de consentement",
         "Modèle de site Web - un lien stable pour les membres et les médias",
         "Bibliothèque de légendes - publications de solidarité et de négociation réutilisables"
@@ -2896,6 +3045,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "email-outreach-howto": {
+        "title": "Le guide courriel réécrit en mode pratique",
+        "body": "Le Guide courriel et diffusion explique maintenant quand le courriel est le dossier officiel, comment rédiger un objet que les membres ouvriront, et comment protéger les adresses avec la CCI et des boîtes personnelles."
+      },
       "opseu-membership-sector": {
         "title": "Les liens d'adhésion OPSEU suivent votre secteur",
         "body": "Le soutien collégial conserve les liens d'adhésion temps plein et temps partiel dans la Trousse de marque. Les autres secteurs OPSEU ont un seul lien Tous les membres vers le formulaire d'adhésion OPSEU."

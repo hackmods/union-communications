@@ -168,7 +168,7 @@ test.describe("Public secondary pages smoke @smoke", () => {
     { path: "/en/guide/resources/", heading: "Comms Resources" },
     {
       path: "/en/guide/membership-signup/",
-      heading: "Grow membership with scan-to-sign materials",
+      heading: "Membership signup playbook",
     },
     {
       path: "/en/guide/email-broadcast/",

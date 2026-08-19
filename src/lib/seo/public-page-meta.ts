@@ -118,9 +118,9 @@ export const PUBLIC_PAGE_SEO: Record<
         "How to keep local messaging calm and clear during strikes, bargaining, layoffs, and management pushback.",
     },
     "/guide/membership-signup": {
-      title: "Grow membership with scan-to-sign materials",
+      title: "Membership signup playbook",
       description:
-        "Posters, wallet cards, and a welcome letter for members you rarely see in a hallway, especially part-time staff.",
+        "Build density with real conversations, safe records, and scan-to-sign materials for stewards signing up coworkers.",
     },
     "/guide/dfr": {
       title: "Duty of Fair Representation",
@@ -245,9 +245,9 @@ export const PUBLIC_PAGE_SEO: Record<
         "Comment garder des messages locaux calmes et clairs pendant les grèves, la négociation, les mises à pied et les réactions de la direction.",
     },
     "/guide/membership-signup": {
-      title: "Faire croître l'adhésion avec du matériel à scanner",
+      title: "Guide pratique d'adhésion",
       description:
-        "Affiches, cartes de poche et lettre de bienvenue pour les membres que vous croisez rarement, surtout le personnel à temps partiel.",
+        "Renforcer la densité par des conversations, des dossiers sécurisés et du matériel à scanner pour les délégués qui inscrivent des collègues.",
     },
     "/guide/dfr": {
       title: "Devoir de représentation équitable",

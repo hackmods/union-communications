@@ -1,5 +1,12 @@
 # Progress Log
 
+## Membership signup playbook revamp (2026-08-19)
+
+- [x] `/guide/membership-signup` expanded from 3-step tool funnel to full steward playbook: density framing, 1-on-1 conversation, paper vs digital workflows, privacy warnings, materials steps, post-signup onboarding, pre-print checklist
+- [x] TOC jump nav, warning callouts, preset deep links (`membershipFtPt`, `joinUnion`, `welcome-letter`), cross-links to Print and Email & outreach guides
+- [x] EN/FR copy + SEO meta aligned to new title/subtitle
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts` · smoke: `e2e/builders.smoke.spec.ts` membership-signup heading
+
 ## OPSEU membership links by sector (2026-08-19)
 
 - [x] Brand Kit: OPSEU + CAAT Support still shows **CAAT Support Full-Time** and **CAAT Support Part-Time** membership application links
