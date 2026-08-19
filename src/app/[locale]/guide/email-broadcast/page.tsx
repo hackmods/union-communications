@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
+import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 
@@ -14,8 +15,26 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/guide/email-broadcast", params);
 }
 
+const TOC = [
+  ["when", "when"],
+  ["anatomy", "anatomy"],
+  ["protect", "protect"],
+  ["toolkit", "toolkit"],
+  ["checklist", "checklist"],
+] as const;
 
-const sectionKeys = ["when", "comms", "hub", "lists", "checklist"] as const;
+const whenItemKeys = ["meeting", "rsvp", "vote", "bargaining"] as const;
+const anatomyItemKeys = ["subject", "facts", "ask", "local"] as const;
+const checklistItemKeys = [
+  "subject",
+  "facts",
+  "ask",
+  "local",
+  "bcc",
+  "personal",
+  "rsvp",
+  "cases",
+] as const;
 
 export default async function EmailBroadcastGuidePage({
   params,
@@ -32,14 +51,16 @@ export default async function EmailBroadcastGuidePage({
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
+      intro={t("intro")}
+      relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/print", label: nav("printGuide") },
         { href: "/guide/website", label: nav("websiteGuide") },
         { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },
         { href: "/tools/document-generator", label: nav("documentGenerator") },
+        { href: "/tools/flyer-maker", label: nav("flyerMaker") },
         { href: "/guide/crisis", label: nav("strikeGuide") },
       ]}
-      relatedLabel={t("relatedLabel")}
       footer={
         <SourcesBlock
           pageId="emailBroadcast"
@@ -48,30 +69,172 @@ export default async function EmailBroadcastGuidePage({
         />
       }
     >
-      <div className="space-y-8">
-        {sectionKeys.map((key) => (
-          <section
-            key={key}
-            className="border-l-2 border-opseu-blue/30 pl-5"
+      <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
+        {TOC.map(([id, key]) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
           >
-            <h2 className="text-xl font-bold text-opseu-dark">
-              {t(`sections.${key}.title`)}
-            </h2>
-            <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-              {t(`sections.${key}.content`)}
-            </p>
-          </section>
+            {t(`${key}.navLabel`)}
+          </a>
         ))}
-      </div>
+      </nav>
 
-      <div className="button-row mt-8 max-w-lg">
+      <section
+        id="when"
+        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        aria-labelledby="when-heading"
+      >
+        <h2
+          id="when-heading"
+          className="text-xl font-bold text-opseu-dark md:text-2xl"
+        >
+          {t("when.title")}
+        </h2>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("when.intro")}
+        </p>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {whenItemKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`when.items.${key}.label`)}
+              content={t(`when.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("when.tip")}</p>
+        </Callout>
+      </section>
+
+      <section
+        id="anatomy"
+        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        aria-labelledby="anatomy-heading"
+      >
+        <h2
+          id="anatomy-heading"
+          className="text-xl font-bold text-opseu-dark md:text-2xl"
+        >
+          {t("anatomy.title")}
+        </h2>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("anatomy.intro")}
+        </p>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {anatomyItemKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`anatomy.items.${key}.label`)}
+              content={t(`anatomy.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+      </section>
+
+      <section
+        id="protect"
+        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        aria-labelledby="protect-heading"
+      >
+        <h2
+          id="protect-heading"
+          className="text-xl font-bold text-opseu-dark md:text-2xl"
+        >
+          {t("protect.title")}
+        </h2>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("protect.intro")}
+        </p>
+        <Callout tone="warning" className="mt-5 max-w-prose">
+          <p className="font-semibold text-amber-950">{t("protect.bccTitle")}</p>
+          <p className="mt-1">{t("protect.bccBody")}</p>
+        </Callout>
+        <Callout tone="warning" className="mt-4 max-w-prose">
+          <p className="font-semibold text-amber-950">
+            {t("protect.employerTitle")}
+          </p>
+          <p className="mt-1">{t("protect.employerBody")}</p>
+        </Callout>
+        <p className="mt-5 max-w-prose leading-relaxed text-gray-700">
+          {t("protect.cases")}
+        </p>
+      </section>
+
+      <section
+        id="toolkit"
+        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        aria-labelledby="toolkit-heading"
+      >
+        <h2
+          id="toolkit-heading"
+          className="text-xl font-bold text-opseu-dark md:text-2xl"
+        >
+          {t("toolkit.title")}
+        </h2>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("toolkit.intro")}
+        </p>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("toolkit.tools")}
+        </p>
+        <Callout className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">
+            {t("toolkit.privacyTitle")}
+          </p>
+          <p className="mt-1">{t("toolkit.privacyBody")}</p>
+        </Callout>
+        <Callout tone="muted" className="mt-4 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("toolkit.hubTitle")}</p>
+          <p className="mt-1">{t("toolkit.hubBody")}</p>
+        </Callout>
+      </section>
+
+      <section
+        id="checklist"
+        className="mt-12 scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+        aria-labelledby="checklist-heading"
+      >
+        <h2
+          id="checklist-heading"
+          className="text-xl font-bold text-opseu-dark md:text-2xl"
+        >
+          {t("checklist.title")}
+        </h2>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("checklist.intro")}
+        </p>
+        <ul className="mt-4 list-disc space-y-2 pl-5 text-gray-700">
+          {checklistItemKeys.map((key) => (
+            <li key={key} className="max-w-prose leading-relaxed">
+              {t(`checklist.items.${key}`)}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <div className="button-row mt-10 max-w-2xl">
         <Link href="/tools/document-generator">
           <Button variant="outline">{nav("documentGenerator")}</Button>
         </Link>
         <Link href="/tools/board-notice">
           <Button variant="outline">{nav("boardNotice")}</Button>
         </Link>
+        <Link href="/tools/flyer-maker">
+          <Button variant="outline">{nav("flyerMaker")}</Button>
+        </Link>
       </div>
     </GuideLayout>
+  );
+}
+
+function TipItem({ label, content }: { label: string; content: string }) {
+  return (
+    <li className="max-w-prose leading-relaxed">
+      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
+    </li>
   );
 }

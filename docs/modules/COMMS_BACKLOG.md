@@ -13,9 +13,10 @@ Implementation surface today: [`HomeContent.tsx`](../../src/components/pages/Hom
 - **Shipped (2026-08-18 follow-up):** Graphic Maker `portrait` 9:16 still + `/examples` `reel-picket`; guide deep-link `?aspect=portrait`.
 - **Do not:** Add a Video Hub, fifth Tools column, hashtag generator, Instagram/TikTok iframe, or CapCut clone.
 
-### Email / member broadcast guide — SHIPPED (2026-07-26)
+### Email / member broadcast guide — SHIPPED (2026-07-26); HOW-TO EXPANDED (2026-08-19)
 
-- **Shipped:** `/guide/email-broadcast` (EN/FR) — copy-only Comms invites vs Hub SMTP/cron; no marketing lists.
+- **Shipped:** `/guide/email-broadcast` (EN/FR) — copy-only Comms invites vs Hub reminder draft; no marketing lists.
+- **Expanded 2026-08-19:** practical how-to — email as official record vs social, anatomy of a readable mail, BCC and employer-inbox warnings, privacy-by-design toolkit framing (Flyer Maker included). No in-app mailer.
 - **Nav:** Guides → By channel; Blueprint channel links; Resources path; sitemap; home website channel + footer + First week tertiary + tools index (train #2); guide cross-links (train #3).
 
 ### Printable seniority worksheet + right-to-refuse pocket card — SHIPPED (2026-07-26)

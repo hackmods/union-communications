@@ -722,28 +722,91 @@
   },
   "emailBroadcastGuide": {
     "title": "Email & Member Outreach Guide",
-    "subtitle": "Copy-only invites and officer reminders. No marketing lists in UnionOps.",
+    "subtitle": "Write the official meeting or vote note here, then send it from your inbox.",
+    "intro": "Email is the official record: date, time, place, and the vote link. Social posts are for speed and photos; this page is how you write mail members will actually read.",
     "relatedLabel": "Also see",
-    "sections": {
-      "when": {
-        "title": "When email fits",
-        "content": "Reach for email when members already trust that inbox — meeting notices, RSVPs, and reminders."
+    "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
+    "when": {
+      "navLabel": "When email fits",
+      "title": "When email fits",
+      "intro": "Email is the anchor of digital communications. Put the final, official details here so they still hold if a social post disappears.",
+      "items": {
+        "meeting": {
+          "label": "Meeting notices",
+          "content": "Send the date, time, and place in mail members already trust, not only in a Facebook post."
+        },
+        "rsvp": {
+          "label": "RSVPs and reminders",
+          "content": "Ask people to reply or open a link. A reminder in the inbox is easier to find than a story that vanished overnight."
+        },
+        "vote": {
+          "label": "Votes and ratification",
+          "content": "Put the voting link and the deadline in the first line. Members should not hunt through a thread for the mandate."
+        },
+        "bargaining": {
+          "label": "Bargaining updates",
+          "content": "Use email for the update members must be able to find later. Use social for a photo from the table or the picket."
+        }
       },
-      "comms": {
-        "title": "Public Comms tools (copy / mailto)",
-        "content": "Document Generator, Board Notice, and Graphic Maker have a copy-only invite step. You paste into your inbox. UnionOps does not send mail."
-      },
-      "hub": {
-        "title": "Officer Hub (separate surfaces)",
-        "content": "Officer Hub can draft membership-meeting reminder copy for officers. That is separate from the public invite email builders."
-      },
-      "lists": {
-        "title": "What UnionOps does not do",
-        "content": "UnionOps does not keep member marketing lists, send automatic broadcasts, or handle dues or card payments. For newsletters, use your union’s approved mass-email provider and export the graphics from Comms separately."
-      },
-      "checklist": {
-        "title": "Before you hit send",
-        "content": "Make the subject line clear, put your local number in the body, and add a link or QR code for RSVPs. Keep sensitive case details out of any open broadcast."
+      "tip": "A social post can carry a photo from the meeting. Email carries the minutes, the vote link, and the time. Do both, and keep the facts the same."
+    },
+    "anatomy": {
+      "navLabel": "Writing",
+      "title": "Write an email members will read",
+      "intro": "Officers skim. Members skim faster. Put the facts first and ask for one action.",
+      "items": {
+        "subject": {
+          "label": "Subject line",
+          "content": "Keep it short and specific. \"ACTION REQUIRED: Ratification vote Thursday\" gets opened. \"Local newsletter Q3\" does not."
+        },
+        "facts": {
+          "label": "Lead with the facts",
+          "content": "Date, time, location, or the vote link belongs in the first sentence. Do not bury it under three paragraphs of history."
+        },
+        "ask": {
+          "label": "One ask",
+          "content": "Tell members exactly what to do: reply to RSVP, open the mandate, or bring a steward. One email, one action."
+        },
+        "local": {
+          "label": "Name the local",
+          "content": "Put the local number in the body so the message is recognizable if it is forwarded."
+        }
+      }
+    },
+    "protect": {
+      "navLabel": "Privacy",
+      "title": "Protect member addresses",
+      "intro": "A membership list is personal information. Treat every send as if a member's neighbour or employer might see the message.",
+      "bccTitle": "Use BCC from a personal inbox",
+      "bccBody": "When you email a list from Outlook or Gmail, put every member in BCC (blind carbon copy). To and CC show every address to every recipient. BCC keeps those addresses private.",
+      "employerTitle": "Do not use employer email",
+      "employerBody": "Never send union business to an address the employer provides. The employer can read that inbox. Collect and use personal email addresses.",
+      "cases": "Keep grievance files, medical details, and other case notes out of any open broadcast. Those belong in a private channel with the member, not in a local-wide mail."
+    },
+    "toolkit": {
+      "navLabel": "Sending",
+      "title": "Write here, send from your inbox",
+      "intro": "UnionOps is a toolkit, not an email server. You write the content here. You keep the list. You hit send from an inbox you already trust.",
+      "tools": "Document Generator, Board Notice, Graphic Maker, and Flyer Maker include a copy-only invite step. Paste that text into Outlook, Gmail, or the mass-email tool your union already approved.",
+      "privacyTitle": "Privacy by design",
+      "privacyBody": "UnionOps does not store member marketing lists, send automatic broadcasts, or handle dues or card payments. For a newsletter, use your union's approved mass-email provider and export graphics from Comms separately.",
+      "hubTitle": "Officer Hub is a separate draft",
+      "hubBody": "Officer Hub can draft a membership-meeting reminder for officers. That is not mass mail from this site, and it is separate from the public invite builders."
+    },
+    "checklist": {
+      "navLabel": "Before you send",
+      "title": "Before you hit send",
+      "intro": "Work through these once per mail, the same way First week walks boards then print then socials.",
+      "items": {
+        "subject": "The subject line names the action and the day, not a generic newsletter.",
+        "facts": "The first sentence has the date, time, place, or vote link.",
+        "ask": "There is one clear ask.",
+        "local": "The local number is in the body.",
+        "bcc": "Members are in BCC, or you are using the union's approved mass-email tool.",
+        "personal": "You are sending to personal addresses, not employer inboxes.",
+        "rsvp": "A link or QR code is in the mail if people need to RSVP or vote.",
+        "cases": "Sensitive case details are not in this broadcast."
       }
     }
   },

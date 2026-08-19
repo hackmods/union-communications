@@ -183,7 +183,7 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "ontario-ohsa",
   ],
   print: ["opseu-branding"],
-  emailBroadcast: ["opseu-branding", "facebook-groups"],
+  emailBroadcast: ["opseu-branding"],
   shortForm: [
     "facebook-groups",
     "instagram-reels",

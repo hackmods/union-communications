@@ -722,28 +722,91 @@
   },
   "emailBroadcastGuide": {
     "title": "Guide courriel et diffusion",
-    "subtitle": "Invitations à copier-coller et rappels aux dirigeants. Pas de listes marketing dans UnionOps.",
+    "subtitle": "Rédigez ici l'avis officiel de réunion ou de vote, puis envoyez-le depuis votre boîte.",
+    "intro": "Le courriel est le dossier officiel : date, heure, lieu et lien de vote. Les publications sociales servent à la vitesse et aux photos ; cette page explique comment rédiger un courriel que les membres liront vraiment.",
     "relatedLabel": "Voir aussi",
-    "sections": {
-      "when": {
-        "title": "Quand utiliser le courriel",
-        "content": "Optez pour le courriel quand les membres font déjà confiance à cette boîte — avis de réunion, RSVP et rappels."
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "when": {
+      "navLabel": "Quand le courriel convient",
+      "title": "Quand le courriel convient",
+      "intro": "Le courriel est l'ancre des communications numériques. Mettez-y les derniers détails officiels, pour qu'ils tiennent encore si une publication sociale disparaît.",
+      "items": {
+        "meeting": {
+          "label": "Avis de réunion",
+          "content": "Envoyez la date, l'heure et le lieu dans un courriel auquel les membres font déjà confiance, pas seulement dans une publication Facebook."
+        },
+        "rsvp": {
+          "label": "RSVP et rappels",
+          "content": "Demandez aux gens de répondre ou d'ouvrir un lien. Un rappel dans la boîte est plus facile à retrouver qu'une story disparue du jour au lendemain."
+        },
+        "vote": {
+          "label": "Votes et ratification",
+          "content": "Mettez le lien de vote et l'échéance dès la première ligne. Les membres ne devraient pas fouiller un fil pour trouver le mandat."
+        },
+        "bargaining": {
+          "label": "Mises à jour de négociation",
+          "content": "Utilisez le courriel pour la mise à jour que les membres devront retrouver plus tard. Utilisez les réseaux pour une photo de la table ou du piquet."
+        }
       },
-      "comms": {
-        "title": "Outils Comms publics (copier / mailto)",
-        "content": "Générateur de documents, avis de tableau et créateur graphique offrent une invitation à copier. Vous collez dans votre boîte. UnionOps n’envoie rien."
-      },
-      "hub": {
-        "title": "Hub des dirigeants (surfaces distinctes)",
-        "content": "Le Hub des dirigeants peut rédiger un rappel de réunion pour les dirigeants. C’est distinct des constructeurs d’invitation publics."
-      },
-      "lists": {
-        "title": "Ce qu'UnionOps ne fait pas",
-        "content": "UnionOps ne tient pas de listes de marketing pour les membres, n’envoie pas de diffusions automatiques et ne gère ni les cotisations ni les paiements par carte. Pour un bulletin, utilisez le fournisseur de courriel de masse approuvé par votre syndicat et exportez les graphiques depuis Comms séparément."
-      },
-      "checklist": {
-        "title": "Avant d'envoyer",
-        "content": "Rédigez un objet clair, inscrivez le numéro de votre section dans le corps du message et ajoutez un lien ou un code QR pour les RSVP. Ne mettez jamais de détails de dossier sensibles dans une diffusion ouverte."
+      "tip": "Une publication sociale peut porter une photo de la réunion. Le courriel porte le procès-verbal, le lien de vote et l'heure. Faites les deux, et gardez les mêmes faits."
+    },
+    "anatomy": {
+      "navLabel": "Rédaction",
+      "title": "Rédiger un courriel que les membres liront",
+      "intro": "Les dirigeants survolent. Les membres survolent plus vite. Mettez les faits en premier et demandez une seule action.",
+      "items": {
+        "subject": {
+          "label": "Objet",
+          "content": "Gardez-le court et précis. « ACTION REQUISE : Vote de ratification jeudi » se fait ouvrir. « Bulletin local T3 » non."
+        },
+        "facts": {
+          "label": "Les faits d'abord",
+          "content": "La date, l'heure, le lieu ou le lien de vote appartiennent à la première phrase. Ne les enterrez pas sous trois paragraphes d'historique."
+        },
+        "ask": {
+          "label": "Une seule demande",
+          "content": "Dites aux membres exactement quoi faire : répondre pour RSVP, ouvrir le mandat, ou amener un délégué. Un courriel, une action."
+        },
+        "local": {
+          "label": "Nommez la section",
+          "content": "Inscrivez le numéro de la section dans le corps, pour que le message reste reconnaissable s'il est transféré."
+        }
+      }
+    },
+    "protect": {
+      "navLabel": "Vie privée",
+      "title": "Protéger les adresses des membres",
+      "intro": "Une liste de membres est une information personnelle. Traitez chaque envoi comme si le voisin ou l'employeur d'un membre pouvait voir le message.",
+      "bccTitle": "Utilisez la CCI depuis une boîte personnelle",
+      "bccBody": "Quand vous écrivez à une liste depuis Outlook ou Gmail, placez chaque membre en CCI (copie carbone invisible). Les champs À et Cc montrent toutes les adresses à chaque destinataire. La CCI garde ces adresses privées.",
+      "employerTitle": "N'utilisez pas le courriel de l'employeur",
+      "employerBody": "N'envoyez jamais d'affaires syndicales à une adresse fournie par l'employeur. L'employeur peut lire cette boîte. Recueillez et utilisez des adresses personnelles.",
+      "cases": "Gardez les dossiers de grief, les détails médicaux et les autres notes de cas hors de toute diffusion ouverte. Cela appartient à un canal privé avec le membre, pas à un courriel à toute la section."
+    },
+    "toolkit": {
+      "navLabel": "Envoi",
+      "title": "Rédigez ici, envoyez depuis votre boîte",
+      "intro": "UnionOps est une boîte à outils, pas un serveur de courriel. Vous rédigez le contenu ici. Vous gardez la liste. Vous envoyez depuis une boîte à laquelle vous faites déjà confiance.",
+      "tools": "Documents et diapositives, l'Avis pour tableau syndical, le Créateur graphique et le Créateur de tracts incluent une étape d'invitation à copier. Collez ce texte dans Outlook, Gmail, ou l'outil de courriel de masse déjà approuvé par votre syndicat.",
+      "privacyTitle": "La vie privée, dès la conception",
+      "privacyBody": "UnionOps ne stocke pas de listes marketing de membres, n'envoie pas de diffusions automatiques et ne gère ni les cotisations ni les paiements par carte. Pour un bulletin, utilisez le fournisseur de courriel de masse approuvé par votre syndicat et exportez les graphiques depuis Comms séparément.",
+      "hubTitle": "Le Hub des dirigeants est un brouillon distinct",
+      "hubBody": "Le Hub des dirigeants peut rédiger un rappel de réunion pour les dirigeants. Ce n'est pas un courriel de masse depuis ce site, et c'est distinct des constructeurs d'invitation publics."
+    },
+    "checklist": {
+      "navLabel": "Avant d'envoyer",
+      "title": "Avant d'envoyer",
+      "intro": "Parcourez ces points une fois par courriel, comme la Première semaine parcourt tableaux, impression, puis réseaux.",
+      "items": {
+        "subject": "L'objet nomme l'action et le jour, pas un bulletin générique.",
+        "facts": "La première phrase contient la date, l'heure, le lieu ou le lien de vote.",
+        "ask": "Il y a une seule demande claire.",
+        "local": "Le numéro de la section est dans le corps du message.",
+        "bcc": "Les membres sont en CCI, ou vous utilisez l'outil de courriel de masse approuvé par le syndicat.",
+        "personal": "Vous envoyez à des adresses personnelles, pas aux boîtes de l'employeur.",
+        "rsvp": "Un lien ou un code QR est dans le courriel si les gens doivent confirmer leur présence ou voter.",
+        "cases": "Aucun détail de dossier sensible n'est dans cette diffusion."
       }
     }
   },

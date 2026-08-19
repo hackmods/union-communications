@@ -95,7 +95,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/email-broadcast": {
       title: "Email & Member Outreach Guide",
       description:
-        "Copy-only meeting invites and officer reminders. UnionOps keeps no marketing lists and sends no mail for you.",
+        "Write the official meeting, vote, or bargaining note here, then paste it into your inbox. Use BCC and personal addresses. UnionOps does not keep your list.",
     },
     "/guide/short-form": {
       title: "Short-form Video Guide",
@@ -222,7 +222,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/email-broadcast": {
       title: "Guide courriel et diffusion",
       description:
-        "Invitations de réunion à copier-coller et rappels aux dirigeants. UnionOps ne tient aucune liste marketing et n'envoie rien à votre place.",
+        "Rédigez l'avis officiel de réunion ou de vote, puis collez-le dans votre boîte. Utilisez la CCI et des adresses personnelles. UnionOps ne tient pas votre liste.",
     },
     "/guide/short-form": {
       title: "Guide de la vidéo courte",

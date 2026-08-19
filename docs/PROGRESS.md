@@ -1,5 +1,12 @@
 # Progress Log
 
+## Email & outreach guide how-to (2026-08-19)
+
+- [x] `/guide/email-broadcast` rewritten as a practical how-to: email as the official record, anatomy of a readable union mail, BCC and employer-inbox warnings, privacy-by-design toolkit framing
+- [x] Flyer Maker added to the copy/mailto tool list; Officer Hub reminder draft stays a muted separate-surface note (no SMTP/cron in volunteer copy)
+- [x] What's new: `email-outreach-howto` on `/updates`
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/updates.test.ts src/lib/comms/smoke-asserted-copy.test.ts src/lib/constants/comms-sources.test.ts`
+
 ## Membership signup playbook revamp (2026-08-19)
 
 - [x] `/guide/membership-signup` expanded from 3-step tool funnel to full steward playbook: density framing, 1-on-1 conversation, paper vs digital workflows, privacy warnings, materials steps, post-signup onboarding, pre-print checklist
