@@ -50,6 +50,7 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 - Tests: `npm run test:unit` + `npm run test:smoke` after major changes
 - Before committing large / multi-file changes: run `npm run lint` and the relevant test suite(s); fix failures before push
 - Update `docs/PROGRESS.md` at milestone end; conventional commits
+- Steward-facing product changes also get a What's new note on `/updates` in the same change — [`.cursor/rules/whats-new.mdc`](.cursor/rules/whats-new.mdc)
 
 ## Do Not
 

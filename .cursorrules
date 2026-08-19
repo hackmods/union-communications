@@ -58,4 +58,5 @@ This file is a flat, tool-agnostic mirror of the most load-bearing rules already
 
 - Before committing large or multi-file changes: run `npm run lint` and the relevant test suite(s) (`npm run test:unit`; `npm run test:smoke` when UI/routes change). Fix failures before committing or pushing.
 - Update `docs/PROGRESS.md` at milestone end; keep `docs/audit/execution-backlog.md` tickets in sync (mark closed, don't delete) as they're resolved.
+- Steward-facing product changes also get a What's new note on `/updates` in the same change — [`.cursor/rules/whats-new.mdc`](.cursor/rules/whats-new.mdc).
 - Commit with conventional-commit messages focused on *why*; never amend pushed commits; never force-push `main`; never commit secrets.

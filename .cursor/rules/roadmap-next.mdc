@@ -90,5 +90,5 @@ Union → Division? → Local → Collection/BargainingUnit? → data
 - Prefer extending memory adapters + APIs first; Postgres flip is ops
 - Three reminder/email surfaces stay separate (public invite vs Hub copy draft vs SMTP) — see ground-truth doc
 - Gate write CTAs by role; steward mobile read-only via `useStewardReadOnly`
-- Update `docs/PROGRESS.md` + module specs + relevant `.cursor/rules` when closing a milestone
+- Update `docs/PROGRESS.md` + module specs + relevant `.cursor/rules` when closing a milestone; steward-facing changes also get a What's new note (`/updates`, [`whats-new.mdc`](whats-new.mdc))
 - Before large commits: `npm run lint` + `npm run test:unit` (smoke when UI/routes change)

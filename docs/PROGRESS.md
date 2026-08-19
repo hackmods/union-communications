@@ -1,5 +1,11 @@
 # Progress Log
 
+## What's new agent rule (2026-08-18)
+
+- [x] Always-on rule [`.cursor/rules/whats-new.mdc`](../.cursor/rules/whats-new.mdc): prepend `UPDATES` + EN/FR copy in the same change as a steward-facing ship
+- [x] Cross-linked from `AGENTS.md`, `.cursorrules`, `platform.mdc`, `roadmap-next.mdc`
+- Verify: `npm run test:unit -- src/lib/constants/updates.test.ts`
+
 ## What's new page (2026-08-18)
 
 - [x] Public `/updates` — dated, filterable notes of new tools, guides, and improvements (newest first; Hub notes hide unless Officer Hub is advertised)

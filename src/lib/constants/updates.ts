@@ -1,6 +1,8 @@
 /**
  * Public "What's new" catalog — steward-facing growth notes, not an
  * engineering changelog. Copy lives in `messages/*.json` under `updates.items`.
+ * When you ship a steward-facing change, prepend here + EN/FR copy in the
+ * same change. Rule: `.cursor/rules/whats-new.mdc`.
  */
 
 export const UPDATE_KINDS = ["added", "improved", "guide"] as const;

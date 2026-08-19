@@ -1,0 +1,35 @@
+---
+description: Keep the public What's new page in lockstep with steward-facing product changes
+alwaysApply: true
+---
+
+# What's new (`/updates`)
+
+When you ship something a steward or officer can **see or use** (new tool, guide, export, Brand Kit capability, advertised Hub/Portal surface), add a What's new note **in the same change**. `docs/PROGRESS.md` is the engineering log. `/updates` is the public growth list.
+
+Do not add a Home or hero CTA for this page.
+
+## How to add a note
+
+1. Prepend a row to `UPDATES` in [`src/lib/constants/updates.ts`](../../src/lib/constants/updates.ts) (newest first): kebab `id`, `YYYY-MM-DD`, `kind` (`added` | `improved` | `guide`), in-app `href` when there is a page to open.
+2. Set `audience: "hub"` only for Officer Hub / Local Portal notes (they hide until the Hub is advertised).
+3. Add matching `updates.items.<id>.title` and `body` in `messages/en.json` and `messages/fr.json`. French must match the English *claim*. Follow [`i18n-public-copy.mdc`](i18n-public-copy.mdc).
+4. Run `npm run test:unit -- src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`.
+
+```ts
+// ✅ newest-first, one volunteer outcome, links to the tool
+{ id: "graphic-portrait", date: "2026-08-18", kind: "added", href: "/tools/graphic-maker" }
+
+// ❌ engineering log on the public page
+{ id: "fix-ci", date: "2026-08-18", kind: "improved" }
+```
+
+## Write for volunteers
+
+- One outcome per note. Name the tool or guide and what they can do now.
+- No CI, lint, migrations, memory vs Postgres, ticket IDs, or "QOL" labels.
+- Prefer editing an existing same-day note over stacking three polish items.
+
+## Skip
+
+Tests, copy typos, refactors with no new capability, ops/deploy, and docs that are not a public guide.
