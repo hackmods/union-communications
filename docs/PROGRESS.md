@@ -1,5 +1,11 @@
 # Progress Log
 
+## What's new page (2026-08-18)
+
+- [x] Public `/updates` — dated, filterable notes of new tools, guides, and improvements (newest first; Hub notes hide unless Officer Hub is advertised)
+- [x] Quiet placement: Guides → About + footer; sitemap + EN/FR SEO; catalog in `src/lib/constants/updates.ts`
+- Verify: `npm run test:unit -- src/lib/constants/updates.test.ts src/components/layout/nav/nav-config.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts` · smoke: `e2e/builders.smoke.spec.ts` updates heading + axe
+
 ## Graphic Maker 9:16 stills (2026-08-18)
 
 - [x] Graphic Maker Format adds **Portrait (Reels)** (`aspect-[9/16]`) alongside landscape and square; `?aspect=portrait` deep-link from `/guide/short-form`

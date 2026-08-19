@@ -53,6 +53,7 @@
     "toolsGroupPrint": "Impression et cartes",
     "toolsGroupSocialWeb": "Social et web",
     "manifesto": "Pourquoi c'est gratuit",
+    "whatsNew": "Nouveautés",
     "support": "Soutien",
     "privacy": "Confidentialité",
     "accessibility": "Accessibilité",
@@ -2877,6 +2878,93 @@
     "feedbackBody": "Pour une note privée sur le site UnionOps — une idée, un bogue, un obstacle d'accessibilité ou un retour d'atelier — utilisez la page de commentaires. GitHub reste disponible si vous voulez une issue publique.",
     "feedbackCta": "Envoyer un commentaire sur le site",
     "backHome": "Retour à UnionOps"
+  },
+  "updates": {
+    "title": "Nouveautés",
+    "subtitle": "Nouveaux outils, guides et améliorations à mesure qu'UnionOps grandit.",
+    "intro": "Ceci est une liste vivante, du plus récent au plus ancien. Chaque note mène à l'outil ou au guide quand il y en a un à ouvrir. Les correctifs du quotidien n'apparaissent pas ici, pour que la croissance soit plus facile à voir.",
+    "filterLabel": "Afficher",
+    "kinds": {
+      "all": "Tout",
+      "added": "Nouveau",
+      "improved": "Amélioré",
+      "guide": "Guide"
+    },
+    "openLink": "Ouvrir",
+    "emptyTitle": "Rien dans ce filtre",
+    "emptyBody": "Ce filtre n'a pas encore de notes. Choisissez Tout pour voir la liste complète, ou revenez après la prochaine mise à jour.",
+    "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
+    "feedbackLink": "Envoyer un commentaire sur le site",
+    "items": {
+      "graphic-portrait": {
+        "title": "Format portrait du Créateur graphique pour Reels",
+        "body": "Le Créateur graphique peut exporter une image haute 9:16 pour Reels, Shorts et Stories, en plus du format paysage et du carré. Le guide de la vidéo courte explique quand une image fixe suffit."
+      },
+      "short-form-guide": {
+        "title": "Guide de la vidéo courte",
+        "body": "Un nouveau manuel pour filmer au téléphone, protéger la vie privée des membres, et orienter Reels ou Shorts vers une réunion, une pétition ou le site de votre section."
+      },
+      "website-wordpress": {
+        "title": "Thème WordPress depuis le modèle de site",
+        "body": "Le modèle de site Web peut télécharger un thème WordPress classique de la même page locale. L'hébergement WordPress n'est toujours pas pris en charge. GitHub Pages reste le chemin habituel."
+      },
+      "website-hero-art": {
+        "title": "Image d'en-tête du modèle de site",
+        "body": "Le site local exporté peut utiliser un fond de couleur, trois motifs en niveaux de gris, ou une photo que vous téléversez avec consentement. Aucune photo de membre n'est fournie dans le modèle."
+      },
+      "print-guide-howto": {
+        "title": "Guide impression réécrit en mode pratique",
+        "body": "Le guide des communications imprimées explique maintenant pourquoi l'imprimé rejoint les membres hors réseaux sociaux, le test du regard de trois secondes pour un tract, et l'impression à petit budget."
+      },
+      "workshop-hour": {
+        "title": "Atelier d'une heure aligné sur les outils",
+        "body": "Le plan d'atelier est un dîner-causerie chronométré : stratégie, logo local, Exemples sociaux, Créateur graphique, Carte de citation, puis un téléchargement de site. Un parcours démo de 20 minutes suit les mêmes arrêts."
+      },
+      "collection-profiles": {
+        "title": "Profils de collection dans la Trousse de marque",
+        "body": "La Trousse de marque peut garder plus d'une collection quand une section couvre plus d'un lieu de travail, avec des noms de départ tirés des structures syndicales publiées."
+      },
+      "site-feedback": {
+        "title": "Formulaire de commentaires du site",
+        "body": "Envoyez une idée, un bogue, un obstacle d'accessibilité ou une note d'atelier sans ouvrir GitHub. Le courriel facultatif sert seulement à une réponse, jamais à une liste."
+      },
+      "brand-fonts": {
+        "title": "Polices de la Trousse de marque pour les créateurs",
+        "body": "La Trousse de marque vous laisse maintenant choisir les polices de titre et de texte. Le Créateur graphique, le Créateur de tracts et les autres outils les utilisent sur ce que vous téléchargez."
+      },
+      "flyer-layouts": {
+        "title": "Mises en page et formats papier du Créateur de tracts",
+        "body": "Le Créateur de tracts a gagné les mises en page empilée, bande de couleur, partagée et photo, plus les formats lettre, demi-lettre et tabloïd. Un QR facultatif et une photo avec consentement peuvent figurer sur le même tract."
+      },
+      "local-portal": {
+        "title": "Portail local pour les membres",
+        "body": "Les membres connectés arrivent au Poste : Cercles, résumé de la semaine et avis du babillard, sans un tableau de bord vide du Hub des dirigeants."
+      },
+      "visual-system": {
+        "title": "Une apparence partagée pour tableaux et graphiques",
+        "body": "Les avis de tableau, les tracts et les graphiques sociaux partagent maintenant l'espacement, le lettrage et les codes QR de la Trousse de marque, pour qu'un ensemble de matériaux ressemble à une seule section."
+      },
+      "brand-assets-unions": {
+        "title": "Actifs de marque pour chaque syndicat",
+        "body": "Les Actifs de marque montrent maintenant les couleurs et fichiers de départ de votre syndicat dans la Trousse de marque, pas seulement le paquet collégial de référence."
+      },
+      "seniority-worksheet": {
+        "title": "Feuille d'ancienneté à télécharger",
+        "body": "Le générateur de documents peut télécharger une feuille d'ancienneté pour les comités de stabilité. C'est une aide papier, pas un calculateur de bumping."
+      },
+      "rtr-pocket-card": {
+        "title": "Carte de poche du droit de refuser",
+        "body": "Les cartes lien QR ont gagné une carte de référence sur le droit de refuser, à imprimer pour les délégués. Ontario et LSST seulement, et pas un avis juridique."
+      },
+      "email-outreach-guide": {
+        "title": "Guide courriel et diffusion aux membres",
+        "body": "Invitations de réunion à copier-coller et rappels aux dirigeants. UnionOps ne tient aucune liste marketing et n'envoie rien à votre place."
+      },
+      "first-week-print": {
+        "title": "Étape impression dans Première semaine",
+        "body": "Le parcours Première semaine inclut maintenant l'impression après les tableaux syndicaux et avant les publications sociales, pour qu'un tract fasse partie du même message que le tableau et le graphique."
+      }
+    }
   },
   "footer": {
     "madeBy": "UnionOps. Bâti en solidarité pour les sections locales, par des bénévoles syndicaux.",

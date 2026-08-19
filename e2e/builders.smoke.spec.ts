@@ -157,6 +157,7 @@ test.describe("Public secondary pages smoke @smoke", () => {
     { path: "/en/onboarding/", heading: "Set up your local brand" },
     { path: "/en/assets/", heading: "Brand Assets" },
     { path: "/en/manifesto/", heading: /Why UnionOps is free/i },
+    { path: "/en/updates/", heading: "What's new" },
     { path: "/en/install/", heading: "Install UnionOps on your desktop" },
     { path: "/en/guide/print/", heading: "Print Communications Guide" },
     { path: "/en/guide/crisis/", heading: "Strike & Crisis Comms Guide" },
@@ -243,6 +244,14 @@ test.describe("Public secondary pages smoke @smoke", () => {
     page,
   }) => {
     await page.goto("/en/examples/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
+
+  test("updates page has no serious or critical a11y violations", async ({
+    page,
+  }) => {
+    await page.goto("/en/updates/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });

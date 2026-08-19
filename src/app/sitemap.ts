@@ -12,6 +12,7 @@ const NON_PUBLIC_TOOL_SLUGS = new Set(["pulse-poll"]);
 export const PUBLIC_PATHS = [
   "/",
   "/manifesto",
+  "/updates",
   "/support",
   "/install",
   "/privacy",

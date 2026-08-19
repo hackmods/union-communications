@@ -42,6 +42,7 @@ export const PUBLIC_NS = [
   "examples",
   "captions",
   "manifesto",
+  "updates",
   "supportPage",
   "accessibility",
   "installPage",

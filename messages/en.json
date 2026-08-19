@@ -53,6 +53,7 @@
     "toolsGroupPrint": "Print & cards",
     "toolsGroupSocialWeb": "Social & web",
     "manifesto": "Why it's free",
+    "whatsNew": "What's new",
     "support": "Support",
     "privacy": "Privacy",
     "accessibility": "Accessibility",
@@ -2911,6 +2912,93 @@
     "feedbackBody": "For a private note about the UnionOps website — an idea, a bug, an accessibility barrier, or something from a workshop — use the feedback page. GitHub stays available when you want a public issue.",
     "feedbackCta": "Send site feedback",
     "backHome": "Back to UnionOps"
+  },
+  "updates": {
+    "title": "What's new",
+    "subtitle": "New tools, guides, and improvements as UnionOps grows.",
+    "intro": "This is a living list, newest first. Each note links to the tool or guide when there is one to open. Day-to-day fixes stay off this page so the growth is easier to see.",
+    "filterLabel": "Show",
+    "kinds": {
+      "all": "All",
+      "added": "New",
+      "improved": "Improved",
+      "guide": "Guide"
+    },
+    "openLink": "Open",
+    "emptyTitle": "Nothing in this filter",
+    "emptyBody": "This filter has no notes yet. Choose All to see the full list, or check back after the next update.",
+    "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
+    "feedbackLink": "Send site feedback",
+    "items": {
+      "graphic-portrait": {
+        "title": "Graphic Maker portrait for Reels",
+        "body": "Graphic Maker can export a tall 9:16 still for Reels, Shorts, and Stories, next to landscape and square. The short-form guide explains when a still is enough."
+      },
+      "short-form-guide": {
+        "title": "Short-form video guide",
+        "body": "A new handbook for filming on a phone, keeping member privacy, and pointing Reels or Shorts at a meeting, petition, or your local site."
+      },
+      "website-wordpress": {
+        "title": "WordPress theme from Website Template",
+        "body": "Website Template can download a classic WordPress theme of the same local page. WordPress hosting is still unsupported. GitHub Pages remains the usual path."
+      },
+      "website-hero-art": {
+        "title": "Website Template header art",
+        "body": "The exported local site can use a colour field, three greyscale patterns, or a photo you upload with consent. No member photos ship in the template."
+      },
+      "print-guide-howto": {
+        "title": "Print guide rewritten as a how-to",
+        "body": "The Print Communications Guide now covers why print still reaches members social media misses, a three-second glance test for flyers, and printing on a local budget."
+      },
+      "workshop-hour": {
+        "title": "Workshop hour that matches the tools",
+        "body": "The workshop outline is a timed lunch-and-learn: strategy, a local logo, Social Examples, Graphic Maker, Quote Card, then a website download. A 20-minute Demo Path walks the same stops."
+      },
+      "collection-profiles": {
+        "title": "Brand Kit collection profiles",
+        "body": "Brand Kit can hold more than one collection when a local covers more than one workplace, with starter names from published union structures."
+      },
+      "site-feedback": {
+        "title": "Site feedback form",
+        "body": "Send an idea, a bug, an accessibility barrier, or a workshop note without opening GitHub. Optional email is for a reply only, never a mailing list."
+      },
+      "brand-fonts": {
+        "title": "Brand Kit fonts for makers",
+        "body": "Brand Kit now lets you pick headline and body fonts. Graphic Maker, Flyer Maker, and the other makers use those faces on what you download."
+      },
+      "flyer-layouts": {
+        "title": "Flyer Maker layouts and paper sizes",
+        "body": "Flyer Maker gained stack, colour-band, split, and photo-hero layouts, plus letter, half-letter, and tabloid paper. Optional QR and a photo with consent can sit on the same flyer."
+      },
+      "local-portal": {
+        "title": "Local Portal for members",
+        "body": "Signed-in members land on Station: Circles, a week digest, and bulletin items, without an empty Officer Hub dashboard."
+      },
+      "visual-system": {
+        "title": "A shared look across boards and graphics",
+        "body": "Board notices, flyers, and social graphics now share Brand Kit spacing, lettering, and QR codes, so a set of materials looks like one local."
+      },
+      "brand-assets-unions": {
+        "title": "Brand Assets for every union",
+        "body": "Brand Assets now shows colours and starter files from your Brand Kit union, not only the reference college pack."
+      },
+      "seniority-worksheet": {
+        "title": "Seniority worksheet download",
+        "body": "Document Generator can download a seniority worksheet for stability committees. It is a paper aid, not a bumping calculator."
+      },
+      "rtr-pocket-card": {
+        "title": "Right-to-refuse pocket card",
+        "body": "QR Link Cards gained a right-to-refuse reference card you can print for stewards. Ontario OHSA only, and not legal advice."
+      },
+      "email-outreach-guide": {
+        "title": "Email and member outreach guide",
+        "body": "Copy-only meeting invites and officer reminders. UnionOps keeps no marketing lists and sends no mail for you."
+      },
+      "first-week-print": {
+        "title": "Print step on First week",
+        "body": "The First week roadmap now includes print after union boards and before social posts, so a flyer is part of the same message as the board and the graphic."
+      }
+    }
   },
   "footer": {
     "madeBy": "UnionOps. Built in solidarity for union locals by union volunteers.",

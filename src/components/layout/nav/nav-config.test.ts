@@ -37,6 +37,7 @@ describe("path helpers", () => {
     expect(isLearnPath("/examples")).toBe(true);
     expect(isLearnPath("/assets")).toBe(true);
     expect(isLearnPath("/manifesto")).toBe(true);
+    expect(isLearnPath("/updates")).toBe(true);
     expect(isLearnPath("/install")).toBe(true);
     expect(isLearnPath("/tools/logo-builder")).toBe(false);
     expect(isToolsPath("/tools")).toBe(true);
@@ -77,10 +78,11 @@ describe("path helpers", () => {
     ]);
   });
 
-  it("includes About group with assets manifesto install", () => {
+  it("includes About group with assets updates manifesto install", () => {
     const about = learnGroups.find((g) => g.labelKey === "learnGroupAbout");
     expect(about?.links.map((l) => l.href)).toEqual([
       "/assets",
+      "/updates",
       "/manifesto",
       "/install",
     ]);

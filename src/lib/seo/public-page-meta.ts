@@ -42,6 +42,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Browse post patterns that work for real locals, read why each one works, then build your own version with the UnionOps tools in your local's colours.",
     },
+    "/updates": {
+      title: "What's new",
+      description:
+        "New tools, guides, and improvements as UnionOps grows. Newest first, with links into the makers and handbooks they mention.",
+    },
     "/captions": {
       title: "Caption & Hashtag Library",
       description:
@@ -163,6 +168,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Exemples sociaux",
       description:
         "Parcourez des modèles de publications qui fonctionnent pour de vraies sections, voyez pourquoi, puis créez votre version avec les outils UnionOps à vos couleurs.",
+    },
+    "/updates": {
+      title: "Nouveautés",
+      description:
+        "Nouveaux outils, guides et améliorations à mesure qu'UnionOps grandit. Du plus récent au plus ancien, avec des liens vers les créateurs et les manuels.",
     },
     "/captions": {
       title: "Bibliothèque de légendes et de mot-clics",

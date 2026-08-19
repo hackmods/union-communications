@@ -15,6 +15,7 @@ export type NavLinkKey =
   | "captions"
   | "assets"
   | "manifesto"
+  | "whatsNew"
   | "install"
   | "logoBuilder"
   | "resizer"
@@ -90,6 +91,7 @@ export const learnGroups: readonly NavGroup[] = [
     labelKey: "learnGroupAbout",
     links: [
       { href: "/assets", key: "assets" },
+      { href: "/updates", key: "whatsNew" },
       { href: "/manifesto", key: "manifesto" },
       { href: "/install", key: "install" },
     ],
