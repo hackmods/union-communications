@@ -7,28 +7,28 @@ import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { cn } from "@/lib/utils";
 
 const footerLinkClass =
-  "inline-flex min-h-11 items-center hover:text-opseu-blue";
+  "inline-flex min-h-11 items-center hover:text-opseu-blue sm:min-h-8";
 
 export function Footer() {
   const t = useTranslations("footer");
   const nav = useTranslations("nav");
 
   return (
-    <footer className="mt-auto min-w-0 border-t border-gray-200 bg-white py-8">
+    <footer className="mt-auto min-w-0 border-t border-gray-200 bg-white py-4 sm:py-5">
       <div
         className={cn(
           PAGE_SHELL.chrome,
-          "flex min-w-0 flex-col gap-4 text-base text-gray-600 sm:flex-row sm:items-start sm:justify-between sm:gap-6",
+          "flex min-w-0 flex-col gap-3 text-sm text-gray-600 lg:flex-row lg:items-center lg:justify-between lg:gap-8",
         )}
       >
-        <div className="min-w-0 shrink-0">
-          <p>{t("madeBy")}</p>
-          <p className="text-opseu-blue">
+        <p className="min-w-0 leading-snug lg:max-w-sm lg:shrink-0">
+          {t("madeBy")}{" "}
+          <span className="text-opseu-blue">
             {t(isOfficerHubPublic() ? "privacy" : "privacyCommsOnly")}
-          </p>
-        </div>
+          </span>
+        </p>
         <nav
-          className="flex min-w-0 flex-wrap gap-x-4 gap-y-1 sm:max-w-xl sm:justify-end md:max-w-2xl"
+          className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-0 lg:flex-1 lg:justify-end"
           aria-label={nav("footerNav")}
         >
           <Link href="/guide" className={footerLinkClass}>
