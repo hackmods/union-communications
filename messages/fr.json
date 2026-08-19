@@ -2637,16 +2637,28 @@
     "title": "Générateur de carte citation",
     "subtitle": "Cartes citation pour fils sociaux et tableaux.",
     "previewAccessibleName": "Aperçu de carte citation",
+    "layout": "Mise en page",
+    "layouts": {
+      "stripe": "Barre",
+      "centered": "Centré",
+      "mark": "Grand guillemet"
+    },
     "aspect": "Format",
     "aspects": {
       "landscape": "Paysage (FB)",
       "square": "Carré (IG)",
       "portrait": "Portrait (Reels)"
     },
+    "presets": {
+      "bargaining": "Négociation",
+      "solidarity": "Solidarité",
+      "member": "Membre"
+    },
     "quote": "Citation",
     "author": "Attribution",
     "role": "Rôle ou comité (optionnel)",
     "primaryColor": "Couleur primaire",
+    "secondaryColor": "Couleur secondaire",
     "accentColor": "Barre d'accent",
     "textColor": "Couleur du texte d'accent",
     "whenToUse": "À utiliser quand une citation de membre ou de dirigeant doit devenir une carte partageable pour les réseaux sociaux ou les tableaux."
@@ -3142,8 +3154,8 @@
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
       "quote-card-formats": {
-        "title": "Formats Facebook et Reels pour la Carte de citation",
-        "body": "La Carte de citation exporte maintenant le carré, le paysage Facebook et une image haute 9:16 pour Reels et Stories."
+        "title": "Mises en page et formats sociaux pour la Carte de citation",
+        "body": "La Carte de citation a maintenant les mises en page barre, centré et grand guillemet, plus le carré, le paysage Facebook et le 9:16. Les puces de départ chargent une citation de négociation, de solidarité ou de membre."
       },
       "portal-solidarity-names": {
         "title": "Noms du Portail local en solidarité",

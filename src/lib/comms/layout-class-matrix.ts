@@ -46,3 +46,10 @@ export const LAYOUT_CLASS_SOLIDARITY = [
 
 /** Bold lower-third via deep link; tests then switch Design → Minimal (footer). */
 export const LAYOUT_CLASS_MEETING = "solidarity-forever";
+
+/** Unique Quote Card geometries via `?preset=` (stripe / mark / centered). */
+export const LAYOUT_CLASS_QUOTE = [
+  "bargaining",
+  "solidarity",
+  "member",
+] as const;

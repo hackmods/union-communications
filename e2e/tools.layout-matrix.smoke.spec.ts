@@ -1,10 +1,12 @@
 import { test, expect } from "@playwright/test";
 import { FLYER_PRESETS } from "../src/lib/comms/flyer-presets";
+import { QUOTE_PRESETS } from "../src/lib/comms/quote-presets";
 import {
   LAYOUT_CLASS_FLYER,
   LAYOUT_CLASS_GRAPHIC,
   LAYOUT_CLASS_GRAPHIC_LAYOUT,
   LAYOUT_CLASS_MEETING,
+  LAYOUT_CLASS_QUOTE,
   LAYOUT_CLASS_SOLIDARITY,
 } from "../src/lib/comms/layout-class-matrix";
 import { seedCanvasFonts } from "./helpers/canvas-fonts";
@@ -30,6 +32,12 @@ const GRAPHIC_LAYOUT_RADIO: Record<string, RegExp> = {
   notice: /^Notice$/i,
   solidarity: /^Solidarity$/i,
   spotlight: /^Spotlight$/i,
+};
+
+const QUOTE_LAYOUT_RADIO: Record<string, RegExp> = {
+  stripe: /^Stripe$/i,
+  centered: /^Centered$/i,
+  mark: /^Large mark$/i,
 };
 
 async function expectLayoutRadio(
@@ -195,6 +203,24 @@ test.describe("Canvas layout-class matrix @smoke", () => {
       .toBe(true);
     await waitForExportRoot(page);
     expectPreviewFitsColumn(await measurePreviewFit(page), "meeting-minimal");
+  });
+
+  test("quote card presets apply unique layouts without cropping", async ({
+    page,
+  }) => {
+    test.setTimeout(90_000);
+    await seedCanvasFonts(page);
+
+    for (const id of LAYOUT_CLASS_QUOTE) {
+      const preset = QUOTE_PRESETS[id];
+      await page.goto(`/en/tools/quote-card/?preset=${id}`);
+      await expect(
+        page.getByRole("heading", { name: "Quote Card Generator" }),
+      ).toBeVisible();
+      await expectLayoutRadio(page, QUOTE_LAYOUT_RADIO[preset.layout]);
+      await waitForExportRoot(page);
+      expectPreviewFitsColumn(await measurePreviewFit(page), `quote-${id}`);
+    }
   });
 
   test("quote card default export root fits the column", async ({ page }) => {

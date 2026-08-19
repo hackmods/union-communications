@@ -18,6 +18,7 @@ import {
   mutedInkOnBackground,
   pickContrastingInk,
 } from "@/lib/utils/ink";
+import type { QuoteLayoutId } from "@/lib/comms/quote-layouts";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
 import {
   flexAlignFromBias,
@@ -119,6 +120,7 @@ function inkPalette(background: string) {
     a70: mutedInkOnBackground(background, 0.7),
     a60: inkWithAlpha(ink, 0.6),
     a30: inkWithAlpha(ink, 0.3),
+    a12: inkWithAlpha(ink, 0.12),
   };
 }
 
@@ -247,6 +249,7 @@ export function GraphicLayoutCanvas({
         <QuoteLayout
           primary={primary}
           accent={accent}
+          secondary={secondary}
           copy={copy}
           localNumber={localNumber}
           subText={subText}
@@ -676,16 +679,20 @@ function NoticeLayout({
 export function QuoteLayout({
   primary,
   accent,
+  secondary,
   textColor,
   copy,
   localNumber,
   subText,
   size = "preview",
   aspect = "square",
+  layout = "stripe",
   tokens,
 }: {
   primary: string;
   accent: string;
+  /** Soft-gradient stop. Defaults to primary when omitted. */
+  secondary?: string;
   /** Attribution, role, and footer ink. Defaults to auto-contrast on primary. */
   textColor?: string;
   copy: GraphicLayoutCopy;
@@ -693,16 +700,19 @@ export function QuoteLayout({
   subText: string;
   size?: "preview" | "export";
   aspect?: ExampleAspect;
+  layout?: QuoteLayoutId;
   tokens?: CanvasTokens;
 }) {
   const exportMode = size === "export";
   const landscape = aspect === "landscape";
+  const centered = layout === "centered";
+  const mark = layout === "mark";
   const quoteInk = inkPalette(primary);
   const accentInk = textColor ? textPalette(textColor) : quoteInk;
   const surface = tokens
     ? canvasSurfaceStyle(tokens, {
         primary,
-        secondary: primary,
+        secondary: secondary ?? primary,
         accent,
       })
     : { backgroundColor: primary };
@@ -715,41 +725,74 @@ export function QuoteLayout({
       ? 1.15
       : 1;
   const bodyScale = landscape ? 0.95 : 1.15;
+  const textAlign = centered ? "center" : (chrome.textAlign ?? "left");
+  const alignItems = centered ? "center" : (chrome.alignItems ?? "flex-start");
   return (
     <>
       <div className="absolute inset-0" style={surface} />
       {tokens ? <CanvasGrainOverlay opacity={tokens.grainOpacity} /> : null}
-      <div
-        className={cn(
-          "absolute left-0 top-0 z-[2] h-full",
-          exportMode ? "w-2" : "w-1.5",
-        )}
-        style={{ backgroundColor: accent }}
-      />
-      <div
-        className="absolute inset-0 z-[2] flex flex-col justify-center"
-        style={{
-          padding: chrome.pad * padScale,
-          textAlign: chrome.textAlign ?? "left",
-          alignItems: chrome.alignItems ?? "flex-start",
-        }}
-      >
+      {layout === "stripe" ? (
+        <div
+          className={cn(
+            "absolute left-0 top-0 z-[2] h-full",
+            exportMode ? "w-2" : "w-1.5",
+          )}
+          style={{ backgroundColor: accent }}
+        />
+      ) : null}
+      {centered ? (
+        <div
+          className="absolute left-0 right-0 top-0 z-[2]"
+          style={{
+            height: exportMode ? 10 : 6,
+            backgroundColor: accent,
+          }}
+        />
+      ) : null}
+      {mark ? (
         <p
           className={cn(
-            "font-bold leading-none",
+            "pointer-events-none absolute z-[2] font-bold leading-none",
             landscape
               ? exportMode
-                ? "text-4xl"
-                : "text-2xl"
+                ? "left-4 top-0 text-[5.5rem]"
+                : "left-2 top-0 text-5xl"
               : exportMode
-                ? "text-6xl"
-                : "text-3xl",
+                ? "left-4 top-[-0.15em] text-[10rem]"
+                : "left-2 top-[-0.1em] text-7xl",
           )}
-          style={{ color: quoteInk.a30 }}
+          style={{ color: quoteInk.a12 }}
           aria-hidden
         >
           &ldquo;
         </p>
+      ) : null}
+      <div
+        className="absolute inset-0 z-[2] flex flex-col justify-center"
+        style={{
+          padding: chrome.pad * padScale,
+          textAlign,
+          alignItems,
+        }}
+      >
+        {mark ? null : (
+          <p
+            className={cn(
+              "font-bold leading-none",
+              landscape
+                ? exportMode
+                  ? "text-4xl"
+                  : "text-2xl"
+                : exportMode
+                  ? "text-6xl"
+                  : "text-3xl",
+            )}
+            style={{ color: quoteInk.a30 }}
+            aria-hidden
+          >
+            &ldquo;
+          </p>
+        )}
         <p
           className={cn(
             "font-medium leading-snug",
@@ -798,9 +841,13 @@ export function QuoteLayout({
               "uppercase tracking-wide",
               !chrome.metaPx && (exportMode ? "text-xs" : "text-[10px]"),
             )}
-            style={{ color: accentInk.a80, fontSize: chrome.metaPx, fontFamily: chrome.bodyFontFamily,
-            fontWeight: chrome.bodyFontWeight,
-            lineHeight: chrome.bodyLineHeight }}
+            style={{
+              color: accentInk.a80,
+              fontSize: chrome.metaPx,
+              fontFamily: chrome.bodyFontFamily,
+              fontWeight: chrome.bodyFontWeight,
+              lineHeight: chrome.bodyLineHeight,
+            }}
           >
             {copy.detail}
           </p>

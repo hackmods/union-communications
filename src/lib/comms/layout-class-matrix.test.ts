@@ -5,6 +5,7 @@ import { MEETING_BACKGROUND_PRESETS } from "@/lib/constants/meeting-background-p
 import { QR_BOARD_PRESETS } from "@/lib/constants/qr-board-presets";
 import { QR_CARD_PRESETS } from "@/lib/constants/qr-card-presets";
 import { SOLIDARITY_SLOGANS } from "@/lib/constants/solidarity-slogans";
+import { QUOTE_PRESETS } from "@/lib/comms/quote-presets";
 import { TOOL_PRESETS } from "@/lib/constants/presets";
 import {
   LAYOUT_CLASS_ACTION_CARD,
@@ -14,6 +15,7 @@ import {
   LAYOUT_CLASS_MEETING,
   LAYOUT_CLASS_QR_BOARD,
   LAYOUT_CLASS_QR_CARD,
+  LAYOUT_CLASS_QUOTE,
   LAYOUT_CLASS_SOLIDARITY,
 } from "./layout-class-matrix";
 
@@ -76,5 +78,14 @@ describe("layout-class matrix ids exist in source constants", () => {
     expect(preset).toBeDefined();
     expect(preset?.layout).toBe("lower-third");
     expect(preset?.minimalLayout).toBe("footer");
+  });
+
+  it("Quote Card preset ids map to unique layouts", () => {
+    expect(QUOTE_PRESETS.bargaining.layout).toBe("stripe");
+    expect(QUOTE_PRESETS.solidarity.layout).toBe("mark");
+    expect(QUOTE_PRESETS.member.layout).toBe("centered");
+    for (const id of LAYOUT_CLASS_QUOTE) {
+      expect(QUOTE_PRESETS[id], id).toBeDefined();
+    }
   });
 });

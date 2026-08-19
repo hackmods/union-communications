@@ -2671,16 +2671,28 @@
     "title": "Quote Card Generator",
     "subtitle": "Quote cards for social feeds and boards.",
     "previewAccessibleName": "Quote card preview",
+    "layout": "Layout",
+    "layouts": {
+      "stripe": "Stripe",
+      "centered": "Centered",
+      "mark": "Large mark"
+    },
     "aspect": "Format",
     "aspects": {
       "landscape": "Landscape (FB)",
       "square": "Square (IG)",
       "portrait": "Portrait (Reels)"
     },
+    "presets": {
+      "bargaining": "Bargaining",
+      "solidarity": "Solidarity",
+      "member": "Member"
+    },
     "quote": "Quote",
     "author": "Attribution",
     "role": "Role or committee (optional)",
     "primaryColor": "Primary colour",
+    "secondaryColor": "Secondary colour",
     "accentColor": "Accent bar",
     "textColor": "Accent text colour",
     "whenToUse": "Use when a member or leader quote should become a shareable card for social or boards."
@@ -3176,8 +3188,8 @@
     "feedbackLink": "Send site feedback",
     "items": {
       "quote-card-formats": {
-        "title": "Quote Card Facebook and Reels formats",
-        "body": "Quote Card now exports square, Facebook landscape, and a tall 9:16 still for Reels and Stories."
+        "title": "Quote Card layouts and social formats",
+        "body": "Quote Card now has stripe, centered, and large-mark layouts, plus square, Facebook landscape, and 9:16. Starter chips load a bargaining, solidarity, or member quote."
       },
       "portal-solidarity-names": {
         "title": "Local Portal names in solidarity",

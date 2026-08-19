@@ -12,8 +12,9 @@
 
 - [x] Quote Card Format SegControl: square (default), landscape (FB), portrait 9:16 — same `?aspect=` helper as Graphic Maker
 - [x] Landscape chrome tightened so long quotes fit `1200/630`; portrait preview width capped like Graphic Maker
-- [x] What's new: `quote-card-formats` on `/updates`
-- Verify: `npm run test:unit -- src/lib/constants/examples.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts`
+- [x] QOL: stripe / centered / large-mark layouts; bargaining / solidarity / member starters (`?preset=`); ToolColourSection + PNG `ToolExportActions`
+- [x] What's new: `quote-card-formats` on `/updates` (updated same day)
+- Verify: `npm run test:unit -- src/lib/comms/quote-card.test.ts src/lib/comms/layout-class-matrix.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts`
 
 ## Comms stay free / hosted Hub cost (2026-08-19)
 

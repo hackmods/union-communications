@@ -57,7 +57,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | `/[locale]/guide/membership-signup` | Membership growth guide — Brand Kit links → QR materials → welcome letter |
 | `/[locale]/tools/graphic-maker` | Social graphics (landscape, square, 9:16 portrait) |
 | `/[locale]/tools/resizer` | Omnichannel resizer — Logo Builder plate (circle/square/rectangle) or upload; social + custom sizes at true pixels; ZIP/PNG |
-| `/[locale]/tools/quote-card` | Leadership quote cards (square, landscape, 9:16) |
+| `/[locale]/tools/quote-card` | Leadership quote cards (stripe / centered / large mark; square, landscape, 9:16; `?preset=` / `?aspect=` / `?layout=`) |
 | `/[locale]/tools/flyer-maker` | Picket/rally flyers |
 | `/[locale]/tools/website-template` | GitHub Pages site ZIP (default) + optional classic WordPress theme ZIP; not a CMS. **UnionOps does not support WordPress.** Squarespace 7.1 theme export is a non-option: [`plan-2026-08-18-website-export-wp-squarespace.md`](../audit/plan-2026-08-18-website-export-wp-squarespace.md) |
 | `/[locale]/tools/document-generator` | Branded Word / Excel / PowerPoint + ZIP (simple letter, letterhead, welcome letter, event notice) |

@@ -139,7 +139,7 @@ Same English words (`stack`, `split`, `banner`) are **coincidental labels**, not
 |------|--------------------------|-------|
 | **Flyer Maker** | `stack` · `band` · `split` · `photoHero` | Photo on `split` / `photoHero`; paper = letter / half-letter / tabloid |
 | **Graphic Maker** | `solidarity` · `thanks` · `spotlight` · `notice` · `results` | Photo on solidarity / spotlight / thanks; Quote is a sibling tool |
-| **Quote Card** | single `QuoteLayout` | No multi-layout picker |
+| **Quote Card** | `stripe` · `centered` · `mark` | Per-tool IDs; default stripe. Not Flyer `band`. |
 | **Solidarity Poster** | `stack` · `split` · `banner` | Print + digital formats; QR optional |
 | **Board Banner** | `slantCallout` · `centeredLockup` · `minimalStripe` (+ trim kit pieces) | Banner vs trim mode |
 | **Board Notice** | **no layout picker** — letter / tabloid format only | Intentional single workplace notice composition |
@@ -180,7 +180,7 @@ Three different “placement” questions; agents often conflate them.
 | Affordance | Print | Social | Board | Wallet |
 |------------|-------|--------|-------|--------|
 | System font family picker | Flyer **yes** | no | no | no |
-| Multi layout SegControl | Flyer **yes** | Graphic / Meeting **yes** | Solidarity / Banner **yes**; Notice **no** | size/preset, not layout enum |
+| Multi layout SegControl | Flyer **yes** | Graphic / Quote / Meeting **yes** | Solidarity / Banner **yes**; Notice **no** | size/preset, not layout enum |
 | Paper / sheet size | Flyer + Doc Gen; Notice letter/tabloid | platform aspects | letter/tabloid common | wallet sizes |
 | InviteEmailPanel (footer) | Flyer (event-like) | Graphic notice | Board Notice | — |
 | Photo + consent | Flyer (photo layouts) | Graphic / Resizer | Solidarity (digital) | — |

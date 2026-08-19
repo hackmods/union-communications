@@ -60,7 +60,7 @@ QR **modules stay black/white** for scan reliability; only the plate chrome is t
 | Solidarity Poster (surface + grain + QR plate) | done |
 | Meeting Background (surface + grain on capture root) | done |
 | Document Generator `OfficePresetMock` type scale | done |
-| Quote Card (`QuoteLayout` tokens) | done |
+| Quote Card (`stripe` / `centered` / `mark`) | done |
 | Phase 3 — layout matrix tokenization (`typeScale` / `density` / `asymmetric`) | done |
 | Phase 4 — wallet family + Notice + Pulse type chrome | done |
 | Phase 5 — remaining tools + QR plate chrome | done |

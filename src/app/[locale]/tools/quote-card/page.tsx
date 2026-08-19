@@ -18,13 +18,24 @@ import {
   graphicAspectClass,
   type ExampleAspect,
 } from "@/lib/constants/examples";
+import {
+  DEFAULT_QUOTE_LAYOUT,
+  QUOTE_LAYOUT_ORDER,
+  quoteLayoutFromQuery,
+  type QuoteLayoutId,
+} from "@/lib/comms/quote-layouts";
+import {
+  QUOTE_PRESET_ORDER,
+  QUOTE_PRESETS,
+  isQuotePresetKey,
+  type QuotePresetKey,
+} from "@/lib/comms/quote-presets";
 import { QuoteLayout } from "@/components/tools/graphic-layouts";
 import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ColorField } from "@/components/tools/ColorField";
 import { ContrastChecker } from "@/components/tools/ContrastChecker";
-import { ThemePicker } from "@/components/tools/ThemePicker";
 import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { PageShell } from "@/components/layout/PageShell";
 import { Link } from "@/i18n/navigation";
@@ -33,7 +44,8 @@ import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
-import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
+import { ToolColourSection } from "@/components/tools/ToolColourSection";
+import { ToolExportActions } from "@/components/tools/ToolExportActions";
 import { SegControl } from "@/components/tools/SegControl";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
@@ -43,14 +55,15 @@ interface QuoteState {
   quote: string;
   author: string;
   role: string;
+  layout: QuoteLayoutId;
   aspect: ExampleAspect;
   primaryColor: string;
+  secondaryColor: string;
   accentColor: string;
   textColor: string;
 }
 
 function QuoteCardPageContent() {
-  const t = useTranslations("common");
   const tq = useTranslations("quoteCard");
   const td = useTranslations("workshopDemo");
   const te = useTranslations("examples");
@@ -67,8 +80,10 @@ function QuoteCardPageContent() {
     quote: "We will not accept anything less than a fair deal for our members.",
     author: "Local President",
     role: "",
+    layout: DEFAULT_QUOTE_LAYOUT,
     aspect: "square",
     primaryColor: brandKit.primaryColor,
+    secondaryColor: brandKit.secondaryColor,
     accentColor: brandKit.accentColor,
     textColor: pickContrastingInk(brandKit.primaryColor),
   };
@@ -78,9 +93,21 @@ function QuoteCardPageContent() {
   const { exportError, exportSuccess, exporting, runExport } = useExportHandler();
   const surfaceStyle = canvasSurfaceStyle(tokens, {
     primary: state.primaryColor,
-    secondary: brandKit.secondaryColor,
+    secondary: state.secondaryColor,
     accent: state.accentColor,
   });
+
+  const applyPreset = (key: QuotePresetKey) => {
+    const preset = QUOTE_PRESETS[key];
+    setState({
+      ...state,
+      quote: preset.quote,
+      author: preset.author,
+      role: preset.role,
+      layout: preset.layout,
+      aspect: preset.aspect,
+    });
+  };
 
   useExamplePostSeed((exampleId) => {
     const post = getExamplePost(exampleId);
@@ -93,8 +120,10 @@ function QuoteCardPageContent() {
       quote: te(`posts.${post.id}.mockup.body`),
       author: te(`posts.${post.id}.mockup.headline`),
       role,
+      layout: quoteLayoutFromQuery(searchParams, DEFAULT_QUOTE_LAYOUT),
       aspect: aspectFromQuery(searchParams, post.aspect),
       primaryColor: brandKit.primaryColor,
+      secondaryColor: brandKit.secondaryColor,
       accentColor: brandKit.accentColor,
       textColor: pickContrastingInk(brandKit.primaryColor),
     }));
@@ -107,12 +136,34 @@ function QuoteCardPageContent() {
       const post = getExamplePost(exampleId);
       if (post?.primaryTool === "quote-card") return;
     }
-    reset({
-      ...initial,
-      aspect: aspectFromQuery(searchParams, initial.aspect),
+    const colours = {
       primaryColor: brandKit.primaryColor,
+      secondaryColor: brandKit.secondaryColor,
       accentColor: brandKit.accentColor,
       textColor: pickContrastingInk(brandKit.primaryColor),
+    };
+    const deepPreset = searchParams.get("preset");
+    const fromDeep =
+      deepPreset && isQuotePresetKey(deepPreset)
+        ? QUOTE_PRESETS[deepPreset]
+        : null;
+    if (fromDeep) {
+      reset({
+        ...initial,
+        ...colours,
+        quote: fromDeep.quote,
+        author: fromDeep.author,
+        role: fromDeep.role,
+        layout: quoteLayoutFromQuery(searchParams, fromDeep.layout),
+        aspect: aspectFromQuery(searchParams, fromDeep.aspect),
+      });
+      return;
+    }
+    reset({
+      ...initial,
+      ...colours,
+      layout: quoteLayoutFromQuery(searchParams, initial.layout),
+      aspect: aspectFromQuery(searchParams, initial.aspect),
     });
   });
 
@@ -122,7 +173,7 @@ function QuoteCardPageContent() {
       await exportNodeAsPng(
         canvasRef.current!,
         formatFilename(
-          `quote-card-${state.aspect}`,
+          `quote-card-${state.layout}-${state.aspect}`,
           brandKit.local.localNumber,
           "png",
         ),
@@ -131,6 +182,13 @@ function QuoteCardPageContent() {
     });
   };
 
+  const exportActions = (
+    <ToolExportActions
+      exporting={exporting}
+      onPng={() => void handleExport()}
+    />
+  );
+
   return (
     <ToolEditorLayout
       title={tq("title")}
@@ -138,9 +196,25 @@ function QuoteCardPageContent() {
       description={tq("subtitle")}
       purposeHint={inDemo ? undefined : tq("whenToUse")}
       previewAccessibleName={tq("previewAccessibleName")}
-      toolbar={!themeEstablished ? (
-        <BrandSetupPrompt themeEstablished={themeEstablished} />
-      ) : undefined}
+      toolbar={
+        <div className="space-y-3">
+          {!themeEstablished ? (
+            <BrandSetupPrompt themeEstablished={themeEstablished} />
+          ) : null}
+          <div className="flex flex-wrap gap-2">
+            {QUOTE_PRESET_ORDER.map((key) => (
+              <Button
+                key={key}
+                size="sm"
+                variant="outline"
+                onClick={() => applyPreset(key)}
+              >
+                {tq(`presets.${key}`)}
+              </Button>
+            ))}
+          </div>
+        </div>
+      }
       exportError={exportError}
       exportSuccess={
         exportSuccess && inDemo ? (
@@ -161,6 +235,15 @@ function QuoteCardPageContent() {
       form={
         <Card density="compact" className="space-y-5">
           <section className="space-y-3">
+          <SegControl
+            label={tq("layout")}
+            value={state.layout}
+            options={QUOTE_LAYOUT_ORDER.map((id) => ({
+              value: id,
+              label: tq(`layouts.${id}`),
+            }))}
+            onChange={(layout) => setState({ ...state, layout })}
+          />
           <SegControl
             label={tq("aspect")}
             value={state.aspect}
@@ -187,20 +270,27 @@ function QuoteCardPageContent() {
             onChange={(e) => setState({ ...state, role: e.target.value })}
           />
           </section>
-          <ToolFormDetails title={t("sectionColours")}>
-            <ThemePicker
-              primaryColor={state.primaryColor}
-              secondaryColor={state.accentColor}
-              onPrimaryChange={(c) =>
-                setState({
-                  ...state,
-                  primaryColor: c,
-                  textColor: pickContrastingInk(c),
-                })
-              }
-              onSecondaryChange={(c) => setState({ ...state, accentColor: c })}
-              primaryLabel={tq("primaryColor")}
-              secondaryLabel={tq("accentColor")}
+          <ToolColourSection
+            primaryColor={state.primaryColor}
+            secondaryColor={state.secondaryColor}
+            accentColor={state.accentColor}
+            onPrimaryChange={(c) =>
+              setState({
+                ...state,
+                primaryColor: c,
+                textColor: pickContrastingInk(c),
+              })
+            }
+            onSecondaryChange={(c) =>
+              setState({ ...state, secondaryColor: c })
+            }
+            primaryLabel={tq("primaryColor")}
+            secondaryLabel={tq("secondaryColor")}
+          >
+            <ColorField
+              label={tq("accentColor")}
+              value={state.accentColor}
+              onChange={(c) => setState({ ...state, accentColor: c })}
             />
             <ColorField
               label={tq("textColor")}
@@ -211,7 +301,7 @@ function QuoteCardPageContent() {
               foreground={state.textColor}
               background={state.primaryColor}
             />
-          </ToolFormDetails>
+          </ToolColourSection>
           <div className="space-y-3 border-t border-gray-200 pt-5">
           <UndoRedoBar
             canUndo={canUndo}
@@ -222,22 +312,17 @@ function QuoteCardPageContent() {
               reset({
                 ...initial,
                 primaryColor: brandKit.primaryColor,
+                secondaryColor: brandKit.secondaryColor,
                 accentColor: brandKit.accentColor,
                 textColor: pickContrastingInk(brandKit.primaryColor),
               })
             }
           />
-          <Button onClick={handleExport} disabled={exporting}>
-            {exporting ? t("exporting") : t("downloadPng")}
-          </Button>
+          {exportActions}
           </div>
         </Card>
       }
-      previewActions={
-        <Button onClick={handleExport} disabled={exporting}>
-          {exporting ? t("exporting") : t("downloadPng")}
-        </Button>
-      }
+      previewActions={exportActions}
       preview={
         /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
         <div
@@ -259,6 +344,7 @@ function QuoteCardPageContent() {
             <QuoteLayout
               primary={state.primaryColor}
               accent={state.accentColor}
+              secondary={state.secondaryColor}
               textColor={state.textColor}
               copy={{
                 headline: state.author,
@@ -269,6 +355,7 @@ function QuoteCardPageContent() {
               subText={brandKit.local.subText}
               size="export"
               aspect={state.aspect}
+              layout={state.layout}
               tokens={tokens}
             />
           </div>
