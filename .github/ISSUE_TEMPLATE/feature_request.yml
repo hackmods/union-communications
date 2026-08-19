@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        UnionOps is source-available and stewarded by Ryan Morris. Ideas are welcome; acceptance is discretionary.
+        UnionOps is source-available and stewarded by Ryan Morris. Ideas are welcome; acceptance is discretionary. Comms stay free. Hosted Officer Hub / Local Portal may need to cover hosting. See [the solidarity page](https://unionops.org/en/manifesto/).
   - type: textarea
     id: problem
     attributes:
