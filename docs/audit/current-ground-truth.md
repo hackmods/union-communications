@@ -14,6 +14,7 @@
 **Share Kit folded (2026-08-18):** `/tools/share-kit` redirects to Graphic Maker. Presets + Captions/Resizer related links cover the old orchestrator. Do not rebuild a third social canvas.  
 **Short-form video (2026-08-18):** [`session-knowledge-2026-08-18-short-form-video.md`](session-knowledge-2026-08-18-short-form-video.md) — `/guide/short-form` is channel practice, not a Video Hub. Graphic Maker `portrait` 9:16 stills + `reel-picket` example. Do not add an in-browser editor or platform embeds.  
 **Multi-union Hub signup + platform admin (2026-08-18):** [`session-knowledge-2026-08-18-multi-union-hub-signup.md`](session-knowledge-2026-08-18-multi-union-hub-signup.md) — public Comms presets ≠ Hub tenancy; Hub is invite-only; `create_union` overlay is not durable; `platform_admin` is seeded (`ryan@ryanmorris.ca`) not a demo login. Do not add `/app/register` without a product decision.
+**Comms stay free / hosted Hub cost (2026-08-19):** [`session-knowledge-2026-08-19-comms-stay-free.md`](session-knowledge-2026-08-19-comms-stay-free.md), ADR-019 — public Comms stay free; UnionOps-hosted Officer Hub / Local Portal recovers hosting cost; self-host stays an option. Do not restore “free forever” as a whole-platform promise.
 
 ## Do not re-open as if missing
 
@@ -36,6 +37,7 @@
 | Local 404 / route status | Shipped 2026-08-09 | `RouteStatusPanel`; Portal + root/`global-error`; poll/RSVP/meeting `notFound()`; quips + eggs |
 | Workshop Demo Path + multiphase UX | Shipped 2026-08-08/09 | `WorkshopDemoPath`; `/guide/workshop`; Day-of run sheet; exportSuccess / RelatedTools / BrandSetup; Gap Fit backlog |
 | Brand Kit union presets (CUPE/Unifor/…) | Shipped — **Comms only** | Not Officer Hub tenant signup. Hub stays invite-only; overlay `create_union` is not durable. See session-knowledge multi-union Hub signup |
+| Whole-platform “free forever” | **Rejected 2026-08-19** | Comms stay free; hosted Officer Hub / Local Portal may recover hosting costs. `/manifesto` + ADR-019 |
 
 ## Three email/reminder surfaces (do not conflate)
 
@@ -61,6 +63,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 | Topic | Reality |
 |-------|---------|
 | MFA-off Hub | `useSessionMfaOk()` / `MfaPolicyProvider` — not raw `mfaVerified` |
+| Memory demo FT/PT | Distinct PT seeds (grev-002 + additional-hours log/snippet/check-in/task/discussion). Collection is a list filter; steward isolation is assignment. Bumping stays FT. |
 | Demo on prod image | Login hint is build-time `NEXT_PUBLIC_DEMO_SITE`. Roster login needs that flag **inlined** in `isDemoAuthEnabled` or runtime `AUTH_ALLOW_DEMO_USERS=true`. Image runner now defaults both. Health: `demoAuthEnabled`. |
 | Sandbox | CT 115 @ `192.168.0.115:3000`; **Postgres durable** compose stack @ `289bfb3` (`postgresFlipComplete: true`); `docker-db-1` + `docker-web-1`; demo users via `AUTH_ALLOW_DEMO_USERS` |
 | Cron | `CRON_SECRET` required; Bearer or `x-cron-secret`; `?dryRun=1` previews without send/audit |

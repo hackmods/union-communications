@@ -14,7 +14,7 @@
 - **PIPEDA** — consent, breach notification (72h), access rights
 - **FIPPA** — public-sector members; data minimization, pseudonym option
 - **Privacy by design** — Comms tools: no analytics, client-side processing, brand kit in browser storage
-- **Hosted Officer Hub** — the **instance operator** is the data controller for sessions and hub records on that host; prefer Canadian data residency
+- **Hosted Officer Hub** — the **instance operator** is the data controller for sessions and hub records on that host; prefer Canadian data residency. If UnionOps hosts Officer Hub or Local Portal for a local, hosting has a cost (ADR-019); that does not change who the controller is on that instance.
 - **Evaluation builds** — may use in-memory stores and demo accounts; not for real member case files without production hardening
 - **Site feedback (ADR-018)** — optional public/Hub notes about the UnionOps website (text + optional name/email). The instance operator is the controller. Reply-only contact; not a mailing list. Prefer `FEEDBACK_DB_BACKEND=postgres` for real collection; operators may delete on request. Default keep 24 months.
 

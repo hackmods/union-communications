@@ -35,6 +35,7 @@ By submitting a contribution, you assign copyright in that contribution to Ryan 
 - `dangerouslySetInnerHTML`
 - Hardcoded OPSEU/CAAT as defaults for new tenant signups
 - Secrets, credentials, or real PII
+- Public copy that promises the whole platform is free forever (Comms stay free; hosted Officer Hub / Local Portal may recover hosting costs — see ADR-019)
 
 ## Code of conduct
 

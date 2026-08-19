@@ -51,7 +51,7 @@ test.describe("Smoke tests @smoke", () => {
       main.getByRole("menuitem", { name: "Brand Assets" }),
     ).toBeVisible();
     await expect(
-      main.getByRole("menuitem", { name: "Why it's free" }),
+      main.getByRole("menuitem", { name: "Built in solidarity" }),
     ).toBeVisible();
     await expect(
       main.getByRole("menuitem", { name: "Install as an app" }),
@@ -377,7 +377,7 @@ test.describe("Smoke tests @smoke", () => {
   test("install page renders and stays out of header nav", async ({ page }) => {
     await page.goto("/en/install/");
     await expect(
-      page.getByRole("heading", { name: "Install UnionOps on your desktop" }),
+      page.getByRole("heading", { name: "Install UnionOps as an app" }),
     ).toBeVisible();
     // Body + footer both link Privacy; assert the in-page related link.
     await expect(

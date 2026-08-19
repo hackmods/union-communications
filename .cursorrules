@@ -6,6 +6,7 @@ This file is a flat, tool-agnostic mirror of the most load-bearing rules already
 
 - **UnionOps** is multi-union by design. OPSEU/CAAT is reference tenant #1 (seed data only) — never hardcode a union name, colour, or local number in core code (`src/lib`, `src/app` outside seed/config files).
 - The platform is a **union casework + communications toolkit**. Basecamp-parity modules (discussions, tasks, documents) and many org-ops surfaces **have since shipped** — check `docs/PROGRESS.md` / `docs/audit/current-ground-truth.md` before assuming they are greenfield.
+- **Comms stay free** (on-device, no ads). Hosted Officer Hub / Local Portal may recover hosting costs; self-host remains an option. Do not promise the whole platform is free forever — `/manifesto` and ADR-019.
 
 ## Data & persistence — read this before touching any grievance/bumping/time/attachment code
 

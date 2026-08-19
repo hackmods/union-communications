@@ -18,8 +18,8 @@ export async function generateMetadata({
   const title = locale === "fr" ? "Soutenir UnionOps" : "Support UnionOps";
   const description =
     locale === "fr"
-      ? "UnionOps est gratuit et le restera. Des pourboires café optionnels aident à couvrir l'hébergement."
-      : "UnionOps is free and always will be. Optional coffee tips help cover hosting and keep the tools going.";
+      ? "Les outils Comms restent gratuits. Un café optionnel aide le site public. Un Hub des dirigeants ou Portail local hébergé est un coût distinct."
+      : "Comms tools stay free. Optional coffee tips help cover the public site. Hosted Officer Hub or Local Portal is a separate hosting cost.";
   return buildPageMetadata({
     locale,
     path: "/support",

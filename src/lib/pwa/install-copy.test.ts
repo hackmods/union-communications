@@ -44,7 +44,7 @@ describe("install page i18n", () => {
   });
 
   it("keeps support and manifesto cross-links without arrow footers", () => {
-    expect(en.supportPage.p1ManifestoLink).toMatch(/manifesto/i);
+    expect(en.supportPage.p1ManifestoLink).toMatch(/solidarity/i);
     expect(fr.supportPage.p1ManifestoLink.length).toBeGreaterThan(0);
     expect(en.supportPage.backHome).not.toMatch(/[←→]/);
     expect(fr.supportPage.backHome).not.toMatch(/[←→]/);

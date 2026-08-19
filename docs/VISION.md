@@ -54,6 +54,12 @@ This hub fills the gap without replacing national union systems.
 2. **Solo accounts** - Individual stewards without full local setup
 3. **Hybrid** (Phase 4) - Paranoid locals: encrypted export + optional self-hosted data slice for grievance/bumping data while using central comms
 
+## What stays free
+
+Public **Comms** tools stay free: they run on the volunteer’s device, with no ads and no paywall on a poster. Self-host remains permitted under [`LICENSE`](../LICENSE) — the local pays its own server.
+
+**Officer Hub** and **Local Portal** hold real case files. If UnionOps hosts those for a local, hosting has a cost (enough to keep the service online, not a lock-in subscription). Do not tell volunteers the whole platform is “free forever.” Public copy lives on `/manifesto` (ADR-019).
+
 ## Non-Goals
 
 - Replacing national union ERP/HR systems

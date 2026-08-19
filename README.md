@@ -7,9 +7,9 @@
 <p align="center"><strong>Solidarity.</strong></p>
 
 <p align="center">
-  Free tools for union stewards and officers — on-device communications,<br />
-  grievance tracking, sector workflows, and workforce time.<br />
-  Multi-union by design. Self-host the Officer Hub.
+  Free Comms tools for union stewards and officers — on-device communications,<br />
+  plus Officer Hub and Local Portal for casework. Multi-union by design.<br />
+  Comms stay free. Hosted Officer Hub or Local Portal has a cost. Self-host stays an option.
 </p>
 
 <p align="center">
@@ -44,7 +44,8 @@ OPSEU/CAAT is the **first adopter** (reference tenant seed), not a platform defa
 |---|---|---|
 | **Who** | Stewards, communicators, any local | Officers, stewards, stability committees |
 | **Where** | Public site — no account required | Authenticated `/app` (Auth.js + MFA) |
-| **Data** | Browser-side; Brand Kit in `localStorage` | Hosted by **you**; you are the data controller |
+| **Data** | Browser-side; Brand Kit in `localStorage` | Hosted by **you** or by UnionOps; that host is the data controller |
+| **Cost** | **Free.** No ads, no paywall on a poster. | Self-host: your server. If UnionOps hosts it for a local, hosting has a cost — enough to cover it, not a lock-in fee. |
 | **Try it** | [unionops.org](https://unionops.org/en) | Self-host or local demo logins below |
 
 ---
@@ -59,7 +60,7 @@ Guides and generators for **social, print, union boards, and websites**. Everyth
 | **Union boards** | Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board / Link Cards |
 | **Print & social** | Flyer Maker, Graphic Maker, Quote Cards, Meeting Backgrounds, Alt-text helper |
 | **Website** | Static site ZIP (GitHub Pages–ready) + deploy guide |
-| **Guides** | First week, Blueprint, Strike Guide, Photo Consent, Comms Resources, channel guides, captions & examples, Brand Assets, manifesto, install |
+| **Guides** | First week, Blueprint, Strike Guide, Photo Consent, Comms Resources, channel guides, captions & examples, Brand Assets, solidarity page, install |
 
 Accessibility: font scaling, high contrast, reduced motion — EN/FR throughout.
 
@@ -177,5 +178,7 @@ Agent entry point: [`AGENTS.md`](AGENTS.md)
 ## Stewardship
 
 UnionOps is stewarded by **Ryan Morris**, intended as a Canadian non-profit / community labour project. The code is source-available under [`LICENSE`](LICENSE): you may run and self-host for your local; redistribution and competing commercial hosting require written permission.
+
+**Comms stay free** (on-device, no ads). If UnionOps hosts Officer Hub or Local Portal for a local, that hosting has a cost — enough to keep the service online, not a lock-in subscription. Self-host remains an option. Public promise: [unionops.org/en/manifesto](https://unionops.org/en/manifesto/).
 
 Solidarity.

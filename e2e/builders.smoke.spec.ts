@@ -156,9 +156,9 @@ test.describe("Public secondary pages smoke @smoke", () => {
   const pages: { path: string; heading: string | RegExp }[] = [
     { path: "/en/onboarding/", heading: "Set up your local brand" },
     { path: "/en/assets/", heading: "Brand Assets" },
-    { path: "/en/manifesto/", heading: /Why UnionOps is free/i },
+    { path: "/en/manifesto/", heading: /Built in solidarity/i },
     { path: "/en/updates/", heading: "What's new" },
-    { path: "/en/install/", heading: "Install UnionOps on your desktop" },
+    { path: "/en/install/", heading: "Install UnionOps as an app" },
     { path: "/en/guide/print/", heading: "Print Communications Guide" },
     { path: "/en/guide/crisis/", heading: "Strike & Crisis Comms Guide" },
     { path: "/en/guide/website/", heading: "Local Website Guide" },

@@ -13,11 +13,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const title =
-    locale === "fr" ? "Pourquoi UnionOps est gratuit" : "Why UnionOps is Free";
+    locale === "fr"
+      ? "Bâti par solidarité, pas pour le profit"
+      : "Built in solidarity, not for profit";
   const description =
     locale === "fr"
-      ? "UnionOps a été bâti par solidarité, pas pour le profit. Pas d'abonnements, pas de collecte de données, pas de pubs."
-      : "UnionOps was built out of solidarity, not for profit. No subscriptions, no data harvesting, no ads.";
+      ? "Les Comms restent gratuites sur votre appareil. Un Hub des dirigeants ou Portail local hébergé a un coût. L'auto-hébergement reste possible."
+      : "Comms stay free on your device. Hosted Officer Hub or Local Portal has a hosting cost. Self-host stays an option.";
   return buildPageMetadata({
     locale,
     path: "/manifesto",
@@ -52,6 +54,10 @@ export default async function ManifestoPage({
           <li>
             <strong className="text-opseu-dark">{t("noSubsTitle")}</strong>{" "}
             {t("noSubsBody")}
+          </li>
+          <li>
+            <strong className="text-opseu-dark">{t("hostingTitle")}</strong>{" "}
+            {t("hostingBody")}
           </li>
           <li>
             <strong className="text-opseu-dark">{t("noDataTitle")}</strong>{" "}

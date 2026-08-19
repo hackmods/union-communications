@@ -1,5 +1,12 @@
 # Progress Log
 
+## Comms stay free / hosted Hub cost (2026-08-19)
+
+- [x] `/manifesto` narrowed: Comms stay free; hosted Officer Hub / Local Portal has a hosting cost; self-host stays an option. Nav label **Built in solidarity**. Dropped “always will be” / “no premium tiers”
+- [x] Support, Home/PWA/share SEO, README, VISION, ADR-019, CONTRIBUTING, AGENTS, COMMS nav
+- [x] What's new: `comms-stay-free` on `/updates`
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/updates.test.ts src/lib/pwa/install-copy.test.ts src/lib/comms/smoke-asserted-copy.test.ts`
+
 ## Photo Consent guide revamp (2026-08-19)
 
 - [x] `/guide/photo-consent` now names member protection (probation, employer watch), three event settings, and an immediate take-down rule, then the existing before-you-post checklist
