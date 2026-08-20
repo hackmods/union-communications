@@ -106,6 +106,7 @@ describe("toolGroups", () => {
       "/tools/board-notice",
       "/tools/solidarity-poster",
       "/tools/qr-board",
+      "/tools/org-chart",
     ]);
     expect(
       toolGroups.find((g) => g.labelKey === "toolsGroupPrint")?.links.map(

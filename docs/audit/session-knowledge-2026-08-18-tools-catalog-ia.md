@@ -34,7 +34,7 @@ The **catalog** stays four groups. The **flyout** is not four visual columns on 
 | Group | Job | Tools |
 |---|---|---|
 | **Brand** | Set the look | Logo Builder, Resizer, Document Generator |
-| **Union boards** | Dress the cork board | Board Banner, Board Notice, Solidarity Poster, QR Board |
+| **Union boards** | Dress the cork board | Board Banner, Board Notice, Solidarity Poster, QR Board, Org Chart |
 | **Print & cards** | Paper people can take | Flyer Maker, QR Card, Action Card, Pulse Poll (when Hub login is on) |
 | **Social & web** | Post and publish | Graphic Maker, Quote Card, Meeting Background, Website Template, Alt Text |
 

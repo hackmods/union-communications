@@ -209,4 +209,41 @@ test.describe("Tool export output smoke @smoke", () => {
     });
     expect(check.ok, check.reason).toBe(true);
   });
+
+  test("Org Chart PNG keeps brand field and type ink", async ({ page }) => {
+    test.setTimeout(90_000);
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto("/en/tools/org-chart/");
+    await expect(page.getByRole("heading", { name: "Org Chart" })).toBeVisible();
+    // Wait for lg preview (tabs hide) so html-to-image is not capturing a scaled mini stage.
+    await expect(page.getByRole("tab", { name: "Edit" })).toBeHidden();
+    await expect(page.locator("[data-export-root]")).toBeVisible();
+
+    const downloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Download PNG" }).click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/\.png$/i);
+
+    const outDir = path.join("test-results", "tool-export-smoke");
+    fs.mkdirSync(outDir, { recursive: true });
+    const filePath = path.join(
+      outDir,
+      `org-chart-${download.suggestedFilename()}`,
+    );
+    await download.saveAs(filePath);
+    expect(fs.statSync(filePath).size).toBeGreaterThan(5_000);
+
+    const raw = await sampleDownloadedPng(page, filePath);
+    const sample = sampleImageData(
+      Uint8ClampedArray.from(raw.data),
+      raw.width,
+      raw.height,
+      { step: 8 },
+    );
+    const check = assertCaptureHasBrandAndInk(sample, {
+      minField: 30,
+      minInk: 8,
+    });
+    expect(check.ok, check.reason).toBe(true);
+  });
 });

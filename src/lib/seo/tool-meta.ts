@@ -73,6 +73,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       description:
         "Print multi-QR posters for union boards: two campaigns or a full set of core links, in letter or tabloid size, on your device.",
     },
+    "org-chart": {
+      title: "Free Union Org Chart Maker",
+      description:
+        "Print a who-to-contact poster for your union board, save officers and stewards as JSON or CSV, and reuse those names on your local website.",
+    },
     "website-template": {
       title: "Free Union Website Template",
       description:
@@ -154,6 +159,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       title: "Créateur d'affiches QR pour babillard gratuit",
       description:
         "Imprimez des affiches multi-QR pour babillards : deux campagnes ou un ensemble de liens clés, en format lettre ou tabloïd, sur votre appareil.",
+    },
+    "org-chart": {
+      title: "Créateur d’organigramme syndical gratuit",
+      description:
+        "Imprimez une affiche « qui contacter » pour le babillard, gardez dirigeants et délégués en JSON ou CSV, et réutilisez ces noms sur le site de votre section.",
     },
     "website-template": {
       title: "Modèle de site web syndical gratuit",

@@ -31,6 +31,7 @@
     "actionCard": "Action Cards",
     "pulsePoll": "Pulse Poll",
     "qrBoard": "QR Board Posters",
+    "orgChart": "Org Chart",
     "websiteTemplate": "Website Template",
     "documentGenerator": "Document & Slide Generator",
     "socialMediaPlan": "First week",
@@ -969,6 +970,7 @@
     "relatedLabel": "Also see",
     "related": {
       "template": "Website Template",
+      "orgChart": "Org Chart",
       "brandKit": "Brand Kit",
       "plan": "First week",
       "qr": "QR Link Cards"
@@ -1058,7 +1060,7 @@
         },
         "officers": {
           "title": "Executive officers",
-          "content": "Names and roles (president, steward coordinator, treasurer). Update after every election. Stale lists erode trust."
+          "content": "Names and roles (president, steward coordinator, treasurer). Keep them in Org Chart, then use those names in Website Template after every election."
         },
         "contact": {
           "title": "Contact path",
@@ -1098,7 +1100,7 @@
       "items": {
         "brand": "Brand Kit set: local number, colours, and logo. The template picks those up automatically.",
         "email": "A monitored contact email the local actually checks.",
-        "officers": "Current officer names and roles approved for the public site.",
+        "officers": "Current officer names and roles approved for the public site. Org Chart can fill Website Template.",
         "facebook": "Facebook group address, or leave the field blank until you have one."
       }
     },
@@ -2042,7 +2044,57 @@
     "importHint": "To update a site you already downloaded, import the site file from that ZIP. Colours and extra links in the file apply here only — they do not change Brand Kit.",
     "importSuccess": "Site restored. Edit the fields and download a fresh ZIP. This does not change Brand Kit.",
     "importError": "That file is not a Website Template export. Pick the site file from your last ZIP, or the ZIP itself, and try again.",
-    "importPhotoMissing": "The site file loaded, but the header photo was not in this file. Choose a photo below, or keep the pattern."
+    "importPhotoMissing": "The site file loaded, but the header photo was not in this file. Choose a photo below, or keep the pattern.",
+    "orgChartHint": "Names marked in Org Chart fill this list. You can still edit them here before you download the ZIP.",
+    "useOrgChart": "Use Org Chart names",
+    "orgChartLink": "Open Org Chart"
+  },
+  "orgChart": {
+    "title": "Org Chart",
+    "subtitle": "Print a who-to-contact poster and reuse the same names on your local website.",
+    "whenToUse": "Use after elections, or when the LEC list on the union board is out of date.",
+    "previewAccessibleName": "Org chart poster preview",
+    "posterTitle": "Poster title",
+    "posterTitleDefault": "Who to contact",
+    "format": "Print size",
+    "formatLetter": "Letter",
+    "formatTabloid": "Tabloid",
+    "peopleHeading": "Officers and stewards",
+    "peopleIntro": "Names stay on this device. Tick the box for anyone who should also appear on the Website Template.",
+    "name": "Name",
+    "role": "Role",
+    "location": "Location (optional)",
+    "group": "Group",
+    "groups": {
+      "executive": "Executive",
+      "stewards": "Stewards",
+      "committee": "Committee"
+    },
+    "committeeName": "Committee name",
+    "reportsTo": "Reports to (optional)",
+    "reportsToNone": "No one listed",
+    "showOnWebsite": "Show on the website",
+    "removePerson": "Remove",
+    "addExecutive": "Add executive",
+    "addSteward": "Add steward",
+    "addCommittee": "Add committee role",
+    "websiteHint": "People marked for the website fill the officers section in Website Template. Stewards can stay on the poster only.",
+    "websiteLink": "Open Website Template",
+    "dataHeading": "Save for next year",
+    "dataIntro": "Download JSON to keep roles and website flags. Use CSV if you edit names in Excel after an election.",
+    "exportJson": "Download JSON",
+    "exportCsv": "Download CSV",
+    "importFile": "Import JSON or CSV",
+    "importSuccess": "Officers and stewards loaded. Check the poster, then download PNG or PDF.",
+    "importBrandKit": "That file is a Brand Kit export. Pick the JSON or CSV you downloaded from Org Chart and try again.",
+    "importInvalidJson": "That file is not readable JSON. Pick the .json file you downloaded from Org Chart, or a CSV with name and role columns.",
+    "importInvalidCsv": "That CSV needs name and role columns. Download a CSV from Org Chart to see the expected headers, then try again.",
+    "importEmpty": "That file has no officers or stewards. Add a name and role in Org Chart, or pick a different JSON or CSV.",
+    "importInvalidSchema": "That file is not an Org Chart export. Pick the JSON or CSV you downloaded from this tool and try again.",
+    "bandExecutive": "Executive",
+    "bandStewards": "Stewards",
+    "bandCommittee": "Committees",
+    "canvasEmpty": "Add officers and stewards in the editor, or import last year’s JSON."
   },
   "sources": {
     "title": "Sources & references",
@@ -3193,6 +3245,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "org-chart": {
+        "title": "Org Chart for the union board",
+        "body": "Print a who-to-contact poster, save officers and stewards as JSON or CSV after elections, and reuse those names on Website Template."
+      },
       "website-config-roundtrip": {
         "title": "Reopen a downloaded local site",
         "body": "Website Template can import the site file from a ZIP you already downloaded, so you can update officers or copy and download a fresh ZIP."
@@ -5182,6 +5238,7 @@
       "boardNotice": "Workplace bulletin notices with date, time, and location.",
       "solidarityPoster": "Bold solidarity posters and optional wallpapers.",
       "qrBoard": "Multi-QR posters for campaigns and core links.",
+      "orgChart": "Print who to contact, then reuse the names on your website.",
       "qrCard": "Pocket QR cards for website, group, or support.",
       "actionCard": "Print cards that point to petitions or sign-ons.",
       "flyerMaker": "High-contrast flyers for rallies and meetings.",

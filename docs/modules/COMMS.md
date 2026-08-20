@@ -13,7 +13,7 @@ Top bar is slim and dual-audience oriented:
 | **Get started** | `/onboarding` when Brand Kit is not established; `/guide/social-media-plan` (First week) when it is — Brand Kit stays a separate link |
 | **Guides ▾** | **Start here:** Blueprint, First week, Comms Resources, Workshop outline, Strike Guide · **By channel:** Print, Union Boards, Website, **Email & outreach**, **Short-form video**, Membership signup · **Libraries:** Social Examples, Captions, Photo Consent · **About:** Brand Assets, **What's new**, Built in solidarity, Install as an app |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Assets) |
-| **Tools ▾** | Mega-menu columns grouped by **job** — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board · **Print & cards:** Flyer, QR Cards, Action Cards, Pulse Poll (signed-in) · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · footer **All tools** → `/tools`. Do not 1:1-map these columns to First week channels; see [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../audit/session-knowledge-2026-08-18-tools-catalog-ia.md) |
+| **Tools ▾** | Mega-menu columns grouped by **job** — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, **Org Chart** · **Print & cards:** Flyer, QR Cards, Action Cards, Pulse Poll (signed-in) · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · footer **All tools** → `/tools`. Do not 1:1-map these columns to First week channels; see [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../audit/session-knowledge-2026-08-18-tools-catalog-ia.md) |
 | **Officer Hub** | `/app` (auth) — filled primary CTA |
 
 Footer includes Blueprint, Tools, Print Guide, **Email & outreach**, Social Examples, Captions, Comms Resources, Brand Assets, **What's new**, Built in solidarity, Install, Privacy, Accessibility, Support.
@@ -54,6 +54,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | `/[locale]/tools/qr-card` | QR link cards (title, tagline, multi-size print; join / FT / PT membership presets) |
 | `/[locale]/tools/action-card` | Action / petition QR cards (headline, ask, deadline; QR → officer-supplied external sign-on URL; PNG + PDF) |
 | `/[locale]/tools/qr-board` | Multi-QR board posters (2–8 links; letter/tabloid; PNG + PDF; Membership FT+PT preset) |
+| `/[locale]/tools/org-chart` | Who-to-contact poster (letter/tabloid PNG + PDF); on-device officers/stewards roster; JSON/CSV round-trip; hydrates Website Template |
 | `/[locale]/guide/membership-signup` | Membership growth guide — Brand Kit links → QR materials → welcome letter |
 | `/[locale]/tools/graphic-maker` | Social graphics (landscape, square, 9:16 portrait) |
 | `/[locale]/tools/resizer` | Omnichannel resizer — Logo Builder plate (circle/square/rectangle) or upload; social + custom sizes at true pixels; ZIP/PNG |
@@ -69,7 +70,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 |---------|----------------|
 | **Social** | Blueprint, crisis guide, captions, examples, graphic maker, resizer, quote card, alt-text, **short-form video guide** |
 | **Print** | Flyer maker, print guide; pocket QR / action cards live under Tools → Print & cards |
-| **Union boards** | Board banner, board notice, solidarity poster, QR board posters, union boards guide (bare-minimum + reference layouts) |
+| **Union boards** | Board banner, board notice, solidarity poster, QR board posters, **Org Chart**, union boards guide (bare-minimum + reference layouts) |
 | **Website** | Website template (based on local243.org model), website guide — GitHub Pages ZIP default; optional classic WordPress theme (unsupported hosting); not Squarespace |
 | **Email (fifth channel)** | Email & outreach guide — complements boards/print/social/website; officer SMTP/cron stays Hub-only |
 

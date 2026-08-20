@@ -305,6 +305,9 @@ export default async function UnionBoardsGuidePage({
         <Link href="/tools/solidarity-poster">
           <Button variant="outline">{nav("solidarityPoster")}</Button>
         </Link>
+        <Link href="/tools/org-chart">
+          <Button variant="outline">{nav("orgChart")}</Button>
+        </Link>
         <Link href="/tools/qr-card">
           <Button variant="outline">{nav("qrCard")}</Button>
         </Link>

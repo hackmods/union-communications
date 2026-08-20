@@ -31,6 +31,7 @@
     "actionCard": "Cartes d'action",
     "pulsePoll": "Sondage éclair",
     "qrBoard": "Affiches QR tableau",
+    "orgChart": "Organigramme",
     "websiteTemplate": "Modèle de site Web",
     "documentGenerator": "Documents et diapositives",
     "socialMediaPlan": "Première semaine",
@@ -482,7 +483,7 @@
         },
         "lec": {
           "title": "Liste de l'exécutif et des délégués",
-          "content": "Rôles de l'exécutif local avec noms et contacts au travail (ou heures de bureau des délégués). Mettez à jour après les élections - une liste périmée mine la confiance."
+          "content": "Rôles de l'exécutif local avec noms et contacts au travail (ou heures de bureau des délégués). Mettez à jour après les élections avec l’Organigramme pour que le babillard suive les noms actuels."
         },
         "events": {
           "title": "Événements ou zone rotative",
@@ -969,6 +970,7 @@
     "relatedLabel": "Voir aussi",
     "related": {
       "template": "Modèle de site Web",
+      "orgChart": "Organigramme",
       "brandKit": "Trousse de marque",
       "plan": "Première semaine",
       "qr": "Cartes lien QR"
@@ -1058,7 +1060,7 @@
         },
         "officers": {
           "title": "Dirigeants de l’exécutif",
-          "content": "Noms et rôles (président, coordonnateur des délégués, trésorier). Mettez à jour après chaque élection. Une liste périmée érode la confiance."
+          "content": "Noms et rôles (président, coordonnateur des délégués, trésorier). Gardez-les dans l’Organigramme, puis utilisez ces noms dans le Modèle de site Web après chaque élection."
         },
         "contact": {
           "title": "Chemin de contact",
@@ -1098,7 +1100,7 @@
       "items": {
         "brand": "Trousse de marque prête : numéro de section, couleurs et logo. Le modèle les reprend automatiquement.",
         "email": "Un courriel de contact réellement surveillé par la section.",
-        "officers": "Noms et rôles des dirigeants approuvés pour le site public.",
+        "officers": "Noms et rôles des dirigeants approuvés pour le site public. L’Organigramme peut remplir le Modèle de site Web.",
         "facebook": "Adresse du groupe Facebook, ou laissez le champ vide jusqu’à en avoir un."
       }
     },
@@ -2042,7 +2044,57 @@
     "importHint": "Pour mettre à jour un site déjà téléchargé, importez le fichier du site depuis ce ZIP. Les couleurs et les liens supplémentaires du fichier s’appliquent ici seulement — ils ne changent pas la Trousse de marque.",
     "importSuccess": "Site restauré. Modifiez les champs et téléchargez un ZIP frais. Cela ne change pas la Trousse de marque.",
     "importError": "Ce fichier n’est pas un export du Modèle de site Web. Choisissez le fichier du site dans votre dernier ZIP, ou le ZIP lui-même, puis réessayez.",
-    "importPhotoMissing": "Le fichier du site s’est chargé, mais la photo d’en-tête n’était pas dans ce fichier. Choisissez une photo ci-dessous, ou gardez le motif."
+    "importPhotoMissing": "Le fichier du site s’est chargé, mais la photo d’en-tête n’était pas dans ce fichier. Choisissez une photo ci-dessous, ou gardez le motif.",
+    "orgChartHint": "Les noms cochés dans l’Organigramme remplissent cette liste. Vous pouvez encore les modifier ici avant de télécharger le ZIP.",
+    "useOrgChart": "Utiliser les noms de l’Organigramme",
+    "orgChartLink": "Ouvrir l’Organigramme"
+  },
+  "orgChart": {
+    "title": "Organigramme",
+    "subtitle": "Imprimez une affiche « qui contacter » et réutilisez les mêmes noms sur le site de votre section.",
+    "whenToUse": "À utiliser après les élections, ou quand la liste du CÉL sur le babillard est périmée.",
+    "previewAccessibleName": "Aperçu de l’affiche organigramme",
+    "posterTitle": "Titre de l’affiche",
+    "posterTitleDefault": "Qui contacter",
+    "format": "Format d’impression",
+    "formatLetter": "Lettre",
+    "formatTabloid": "Tabloïd",
+    "peopleHeading": "Dirigeants et délégués syndicaux",
+    "peopleIntro": "Les noms restent sur cet appareil. Cochez la case pour toute personne qui doit aussi apparaître dans le Modèle de site Web.",
+    "name": "Nom",
+    "role": "Rôle",
+    "location": "Lieu (optionnel)",
+    "group": "Groupe",
+    "groups": {
+      "executive": "Exécutif",
+      "stewards": "Délégués syndicaux",
+      "committee": "Comité"
+    },
+    "committeeName": "Nom du comité",
+    "reportsTo": "Relève de (optionnel)",
+    "reportsToNone": "Personne indiquée",
+    "showOnWebsite": "Afficher sur le site",
+    "removePerson": "Supprimer",
+    "addExecutive": "Ajouter à l’exécutif",
+    "addSteward": "Ajouter un délégué",
+    "addCommittee": "Ajouter un rôle de comité",
+    "websiteHint": "Les personnes cochées pour le site remplissent la section des dirigeants dans le Modèle de site Web. Les délégués peuvent rester seulement sur l’affiche.",
+    "websiteLink": "Ouvrir le Modèle de site Web",
+    "dataHeading": "Garder pour l’année suivante",
+    "dataIntro": "Téléchargez le JSON pour garder les rôles et les cases du site. Utilisez le CSV si vous modifiez les noms dans Excel après une élection.",
+    "exportJson": "Télécharger le JSON",
+    "exportCsv": "Télécharger le CSV",
+    "importFile": "Importer JSON ou CSV",
+    "importSuccess": "Dirigeants et délégués chargés. Vérifiez l’affiche, puis téléchargez le PNG ou le PDF.",
+    "importBrandKit": "Ce fichier est un export de Trousse de marque. Choisissez le JSON ou le CSV téléchargé depuis l’Organigramme, puis réessayez.",
+    "importInvalidJson": "Ce fichier n’est pas un JSON lisible. Choisissez le fichier .json téléchargé depuis l’Organigramme, ou un CSV avec les colonnes nom et rôle.",
+    "importInvalidCsv": "Ce CSV a besoin des colonnes nom et rôle. Téléchargez un CSV depuis l’Organigramme pour voir les en-têtes attendus, puis réessayez.",
+    "importEmpty": "Ce fichier n’a pas de dirigeants ni de délégués. Ajoutez un nom et un rôle dans l’Organigramme, ou choisissez un autre JSON ou CSV.",
+    "importInvalidSchema": "Ce fichier n’est pas un export d’Organigramme. Choisissez le JSON ou le CSV téléchargé depuis cet outil, puis réessayez.",
+    "bandExecutive": "Exécutif",
+    "bandStewards": "Délégués syndicaux",
+    "bandCommittee": "Comités",
+    "canvasEmpty": "Ajoutez des dirigeants et des délégués dans l’éditeur, ou importez le JSON de l’an dernier."
   },
   "sources": {
     "title": "Sources et références",
@@ -3159,6 +3211,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "org-chart": {
+        "title": "Organigramme pour le babillard",
+        "body": "Imprimez une affiche « qui contacter », gardez dirigeants et délégués en JSON ou CSV après les élections, et réutilisez ces noms dans le Modèle de site Web."
+      },
       "website-config-roundtrip": {
         "title": "Rouvrir un site local déjà téléchargé",
         "body": "Le Modèle de site Web peut importer le fichier du site depuis un ZIP déjà téléchargé, pour mettre à jour les dirigeants ou le texte et télécharger un ZIP frais."
@@ -5182,6 +5238,7 @@
       "boardNotice": "Avis d'affichage avec date, heure et lieu.",
       "solidarityPoster": "Affiches de solidarité et fonds d'écran optionnels.",
       "qrBoard": "Affiches multi-QR pour campagnes et liens clés.",
+      "orgChart": "Imprimez qui contacter, puis réutilisez les noms sur votre site.",
       "qrCard": "Cartes QR de poche pour site, groupe ou soutien.",
       "actionCard": "Cartes imprimées vers pétitions ou inscriptions.",
       "flyerMaker": "Tracts contrastés pour rassemblements et réunions.",

@@ -58,6 +58,7 @@ export default async function WebsiteGuidePage({
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/tools/website-template", label: t("related.template") },
+        { href: "/tools/org-chart", label: t("related.orgChart") },
         { href: "/brand-kit", label: t("related.brandKit") },
         { href: "/guide/social-media-plan", label: t("related.plan") },
         { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },

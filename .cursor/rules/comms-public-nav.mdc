@@ -28,7 +28,7 @@ Do not re-flatten channel guides into a long top-level link bar. Do not invent m
 Four groups in `nav-config.ts` `toolGroups` (mega-menu columns). Group by **job** (what the steward is making), not by First week channel. Lesson: [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../../docs/audit/session-knowledge-2026-08-18-tools-catalog-ia.md). Visual 4-col only at `2xl`; lg/xl stay 2-col and the panel is viewport-clamped (`flyout-geometry.ts`) so it cannot run off medium desktops.
 
 1. **Brand** — Logo Builder, Resizer, Document & Slide Generator
-2. **Union boards** — Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board Posters
+2. **Union boards** — Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board Posters, Org Chart
 3. **Print & cards** — Flyer Maker, QR Link Cards, Action Cards, Pulse Poll (Hub-signed-in only)
 4. **Social & web** — Graphic Maker, Quote Card, Meeting Backgrounds, Website Template, Alt-Text Assistant
 

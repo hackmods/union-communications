@@ -27,6 +27,7 @@ export const PUBLIC_NS = [
   "actionCard",
   "pulsePoll",
   "qrBoard",
+  "orgChart",
   "graphicMaker",
   "quoteCard",
   "flyerMaker",

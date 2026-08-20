@@ -2,18 +2,21 @@
 
 import { useEffect } from "react";
 import { useBrandStore } from "@/store/brand-store";
+import { usePublicRosterStore } from "@/store/public-roster-store";
 import { BRAND_COLORS } from "@/lib/constants/brand";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { syncPwaBrandChrome } from "@/lib/pwa/brand-chrome";
 
 export function BrandProvider({ children }: { children: React.ReactNode }) {
   const hydrate = useBrandStore((s) => s.hydrate);
+  const hydrateRoster = usePublicRosterStore((s) => s.hydrate);
   const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
 
   useEffect(() => {
     void hydrate();
-  }, [hydrate]);
+    void hydrateRoster();
+  }, [hydrate, hydrateRoster]);
 
   useEffect(() => {
     if (!hydrated) return;

@@ -75,6 +75,7 @@ describe("public Comms copy style", () => {
       "actionCard",
       "pulsePoll",
       "qrBoard",
+      "orgChart",
       "graphicMaker",
       "quoteCard",
       "flyerMaker",
@@ -190,6 +191,30 @@ describe("locked product terms", () => {
       /\bDJR\b/.test(v),
     );
     expect(drifted, report(drifted)).toEqual([]);
+  });
+
+  it("locks Org Chart as Organigramme", () => {
+    expect(en.nav.orgChart).toBe("Org Chart");
+    expect(fr.nav.orgChart).toBe("Organigramme");
+    const drifted = FR_LEAVES.filter(
+      ([path, v]) =>
+        path.startsWith("orgChart.") &&
+        /graphique organisationnel|chartre d.organisation/i.test(v),
+    );
+    expect(drifted, report(drifted)).toEqual([]);
+  });
+
+  it("Org Chart copy names officers and stewards, not a member list", () => {
+    const hits = [...EN_LEAVES, ...FR_LEAVES].filter(([path, value]) => {
+      if (
+        !path.startsWith("orgChart.") &&
+        !path.startsWith("websiteTemplate.orgChart")
+      ) {
+        return false;
+      }
+      return /\bmember lists?\b/i.test(value) || /liste des membres/i.test(value);
+    });
+    expect(hits, report(hits)).toEqual([]);
   });
 });
 

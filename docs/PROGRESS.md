@@ -1,5 +1,12 @@
 # Progress Log
 
+## Org Chart (2026-08-20)
+
+- [x] Public `/tools/org-chart`: officers and stewards editor, letter/tabloid who-to-contact poster (PNG + PDF), on-device JSON/CSV round-trip
+- [x] Shared `PublicRoster` hydrates Website Template (`showOnWebsite`); sanity cap 24; no Hub roster pull, no photos, no member lists
+- [x] Nav Union boards; What's new `org-chart`; EN **Org Chart** / FR **Organigramme**
+- Verify: `npm run test:unit -- src/lib/org-chart/org-chart.test.ts src/lib/data/local-storage-adapter.roster.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/updates.test.ts src/components/layout/nav/nav-config.test.ts`
+
 ## Website Template config round-trip (2026-08-20)
 
 - [x] Both site ZIPs include `unionops-website.json` (GitHub Pages root; WordPress theme folder)

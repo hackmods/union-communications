@@ -61,6 +61,7 @@ export const RELATED_BY_TOOL: Record<
     { href: "/guide/union-boards", navKey: "unionBoardsGuide" },
   ],
   "website-template": [
+    { href: "/tools/org-chart", navKey: "orgChart" },
     { href: "/brand-kit", navKey: "brandKit" },
     { href: "/tools/qr-card", navKey: "qrCard" },
     { href: "/guide/website", navKey: "websiteGuide" },
@@ -90,6 +91,11 @@ export const RELATED_BY_TOOL: Record<
   "qr-board": [
     { href: "/tools/qr-card", navKey: "qrCard" },
     { href: "/tools/solidarity-poster", navKey: "solidarityPoster" },
+  ],
+  "org-chart": [
+    { href: "/tools/website-template", navKey: "websiteTemplate" },
+    { href: "/tools/board-notice", navKey: "boardNotice" },
+    { href: "/guide/union-boards", navKey: "unionBoardsGuide" },
   ],
   "solidarity-poster": [
     { href: "/tools/meeting-background", navKey: "meetingBackground" },

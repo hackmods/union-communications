@@ -24,6 +24,7 @@ export type NavLinkKey =
   | "boardNotice"
   | "solidarityPoster"
   | "qrBoard"
+  | "orgChart"
   | "qrCard"
   | "actionCard"
   | "pulsePoll"
@@ -123,6 +124,7 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/board-notice", key: "boardNotice" },
       { href: "/tools/solidarity-poster", key: "solidarityPoster" },
       { href: "/tools/qr-board", key: "qrBoard" },
+      { href: "/tools/org-chart", key: "orgChart" },
     ],
   },
   {

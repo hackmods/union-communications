@@ -1,14 +1,17 @@
 import type { BrandKit } from "@/types/entities";
 import type { UserPreferences } from "@/types/preferences";
+import type { PublicRoster } from "@/types/public-roster";
 import {
   BRAND_KIT_KEY,
   LEGACY_BRAND_KIT_KEY,
   LEGACY_ONBOARDING_KEY,
   ONBOARDING_KEY,
+  PUBLIC_ROSTER_KEY,
   USER_PREFERENCES_KEY,
   type DataAdapter,
 } from "./adapter";
 import { normalizeBrandKit } from "@/lib/utils/local-links";
+import { parsePublicRosterJson } from "@/lib/org-chart/schema";
 
 type PersistenceListener = (blocked: boolean) => void;
 
@@ -124,6 +127,32 @@ export class LocalStorageAdapter implements DataAdapter {
   async saveUserPreferences(prefs: UserPreferences): Promise<void> {
     if (typeof window === "undefined") return;
     this.safeSet(USER_PREFERENCES_KEY, JSON.stringify(prefs));
+  }
+
+  /**
+   * Public officer/steward directory. Local-only — never added to DataAdapter /
+   * ApiAdapter so names stay on the volunteer’s device.
+   */
+  async getPublicRoster(): Promise<PublicRoster | null> {
+    if (typeof window === "undefined") return null;
+    const raw = this.safeGet(PUBLIC_ROSTER_KEY);
+    if (!raw) return null;
+    try {
+      const parsed = parsePublicRosterJson(JSON.parse(raw) as unknown);
+      return parsed.ok ? parsed.roster : null;
+    } catch {
+      return null;
+    }
+  }
+
+  async savePublicRoster(roster: PublicRoster): Promise<void> {
+    if (typeof window === "undefined") return;
+    this.safeSet(PUBLIC_ROSTER_KEY, JSON.stringify(roster));
+  }
+
+  async clearPublicRoster(): Promise<void> {
+    if (typeof window === "undefined") return;
+    this.safeRemove(PUBLIC_ROSTER_KEY);
   }
 
   private safeGet(key: string): string | null {
