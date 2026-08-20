@@ -482,7 +482,7 @@
         },
         "lec": {
           "title": "LEC and steward list",
-          "content": "Local Executive Committee roles with names and work contacts (or steward office hours). Update after elections - outdated lists erode trust."
+          "content": "Local Executive Committee roles with names and work contacts (or steward office hours). Update after elections with Org Chart so the cork matches the current names."
         },
         "events": {
           "title": "Events or rotating spot",
@@ -1195,7 +1195,7 @@
         },
         "how": {
           "title": "How to edit",
-          "content": "Easiest: update Website Template and upload a fresh ZIP. Or edit index.html in GitHub’s web editor for small fixes."
+          "content": "Easiest: import the site file from last year’s ZIP in Website Template, edit, and upload a fresh ZIP. Or edit index.html in GitHub’s web editor for small fixes."
         },
         "archive": {
           "title": "What to remove",
@@ -2036,7 +2036,13 @@
     "heroArtUploadHint": "A wide landscape photo works best. Skip this if you are using a pattern.",
     "photoConsentLink": "Photo consent guide",
     "heroArtAlt": "Photo description",
-    "heroArtAltHint": "Describe the photo for people who cannot see it. Leave this blank for a decorative pattern."
+    "heroArtAltHint": "Describe the photo for people who cannot see it. Leave this blank for a decorative pattern.",
+    "import": "Import a saved site",
+    "downloadConfig": "Download site file",
+    "importHint": "To update a site you already downloaded, import the site file from that ZIP. Colours and extra links in the file apply here only — they do not change Brand Kit.",
+    "importSuccess": "Site restored. Edit the fields and download a fresh ZIP. This does not change Brand Kit.",
+    "importError": "That file is not a Website Template export. Pick the site file from your last ZIP, or the ZIP itself, and try again.",
+    "importPhotoMissing": "The site file loaded, but the header photo was not in this file. Choose a photo below, or keep the pattern."
   },
   "sources": {
     "title": "Sources & references",
@@ -3187,6 +3193,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "website-config-roundtrip": {
+        "title": "Reopen a downloaded local site",
+        "body": "Website Template can import the site file from a ZIP you already downloaded, so you can update officers or copy and download a fresh ZIP."
+      },
       "quote-card-formats": {
         "title": "Quote Card layouts and social formats",
         "body": "Quote Card now has stripe, centered, and large-mark layouts, plus square, Facebook landscape, and 9:16. Starter chips load a bargaining, solidarity, or member quote."

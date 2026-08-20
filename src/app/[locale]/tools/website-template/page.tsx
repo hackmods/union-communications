@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, type ChangeEvent } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { Button } from "@/components/ui/Button";
@@ -26,6 +26,11 @@ import {
   websiteDisplayName,
 } from "@/lib/templates/website/brand-kit-fields";
 import {
+  isWebsiteHeroPhotoFileName,
+  type WebsiteConfigData,
+  type WebsiteImportedAsset,
+} from "@/lib/templates/website/website-config";
+import {
   DEFAULT_WEBSITE_OFFICERS,
   type WebsiteOfficer,
   type WebsiteTemplateData,
@@ -46,6 +51,9 @@ import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { brandSetupHref } from "@/lib/utils/brand-setup";
 import { listMembershipDestinations } from "@/lib/utils/local-links";
 import { Link } from "@/i18n/navigation";
+import { usePublicRosterStore } from "@/store/public-roster-store";
+import { officersFromRoster } from "@/lib/org-chart/website";
+import { MAX_WEBSITE_OFFICERS } from "@/types/public-roster";
 
 const LOGO_FILE_NAME = "logo.png";
 
@@ -55,10 +63,24 @@ export default function WebsiteTemplatePage() {
   const ts = useTranslations("sources");
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
+  const rosterHydrated = usePublicRosterStore((s) => s.hydrated);
+  const roster = usePublicRosterStore((s) => s.roster);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
   const localNumber = resolveLocalNumber(brandKit.local.localNumber);
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [overlay, setOverlay] = useState<WebsiteConfigData | null>(null);
+  const [importedLogo, setImportedLogo] = useState<WebsiteImportedAsset | null>(
+    null,
+  );
+  const [importedHero, setImportedHero] = useState<WebsiteImportedAsset | null>(
+    null,
+  );
+  const [importing, setImporting] = useState(false);
+  const [importMessage, setImportMessage] = useState<string | null>(null);
+  const [importError, setImportError] = useState<string | null>(null);
+  const [importPhotoMissing, setImportPhotoMissing] = useState(false);
 
   const [unionName, setUnionName] = useState(`Local ${localNumber}`);
   const [heroText, setHeroText] = useState(t("heroDefault"));
@@ -74,9 +96,11 @@ export default function WebsiteTemplatePage() {
   const facebookUrl =
     facebookDraft !== null
       ? facebookDraft
-      : hydrated
-        ? (brandKit.facebookUrl?.trim() ?? "")
-        : "";
+      : overlay
+        ? overlay.facebookUrl
+        : hydrated
+          ? (brandKit.facebookUrl?.trim() ?? "")
+          : "";
   const [officeAddress, setOfficeAddress] = useState(
     "North Pole, Arctic Circle\n1 Santa Claus Lane\nH0H 0H0, Canada",
   );
@@ -88,21 +112,34 @@ export default function WebsiteTemplatePage() {
   );
   const [heroImagePreviewSrc, setHeroImagePreviewSrc] = useState("");
   const [heroImageAlt, setHeroImageAlt] = useState("");
-  const logoPreviewSrc = resolveBrandLogoSrc(brandKit);
-  const includeOpseuResources = brandKit.unionPresetId === "opseu";
+  const displayLocalNumber = overlay?.localNumber
+    ? resolveLocalNumber(overlay.localNumber)
+    : localNumber;
+  const logoPreviewSrc =
+    importedLogo?.previewSrc ?? resolveBrandLogoSrc(brandKit);
+  const includeOpseuResources = overlay
+    ? overlay.includeOpseuResources
+    : brandKit.unionPresetId === "opseu";
   const canvasTokens = resolveCanvasTokens(brandKit);
+  const busy = exporting || importing;
   const themeEstablished = isBrandThemeEstablished(
     brandKit,
     onboardingComplete,
   );
   const inDemo = useWorkshopDemoSession(null);
   const customLinks = useMemo(
-    () => toWebsiteNavLinks(brandKit.customLinks ?? []),
-    [brandKit.customLinks],
+    () =>
+      overlay
+        ? overlay.customLinks
+        : toWebsiteNavLinks(brandKit.customLinks ?? []),
+    [overlay, brandKit.customLinks],
   );
   const membershipLinks = useMemo(
-    () => toWebsiteNavLinks(listMembershipDestinations(brandKit)),
-    [brandKit],
+    () =>
+      overlay
+        ? overlay.membershipLinks
+        : toWebsiteNavLinks(listMembershipDestinations(brandKit)),
+    [overlay, brandKit],
   );
 
   useOneShotBrandSeed(hydrated, () => {
@@ -118,11 +155,18 @@ export default function WebsiteTemplatePage() {
           })
         : t("aboutSeedGeneric", { localNumber: number }),
     );
-  });
+  }, overlay === null);
+
+  const applyRosterOfficers = () => {
+    const next = officersFromRoster(roster);
+    if (next.length) setOfficers(next);
+  };
+
+  useOneShotBrandSeed(rosterHydrated, applyRosterOfficers, overlay === null);
 
   const templateData: WebsiteTemplateData = useMemo(
     () => ({
-      localNumber,
+      localNumber: displayLocalNumber,
       unionName,
       heroText,
       about1,
@@ -132,34 +176,36 @@ export default function WebsiteTemplatePage() {
       customLinks,
       membershipLinks,
       officeAddress,
-      primaryColor: brandKit.primaryColor,
-      secondaryColor: brandKit.secondaryColor,
+      primaryColor: overlay?.primaryColor ?? brandKit.primaryColor,
+      secondaryColor: overlay?.secondaryColor ?? brandKit.secondaryColor,
       officers,
-      logoFileName: LOGO_FILE_NAME,
+      logoFileName: importedLogo?.fileName ?? LOGO_FILE_NAME,
       logoPreviewSrc,
-      logoAlt: unionName,
+      logoAlt: overlay?.logoAlt || unionName,
       includeOpseuResources,
       heroArtId,
       heroImageFileName: heroImagePreviewSrc
-        ? websiteHeroUploadFileName(heroImagePreviewSrc)
+        ? importedHero?.fileName ?? websiteHeroUploadFileName(heroImagePreviewSrc)
         : undefined,
       heroImagePreviewSrc,
       heroImageAlt,
-      canvas: brandKit.canvas
-        ? {
-            surface: canvasTokens.surface,
-            typeScale: canvasTokens.typeScale,
-            density: canvasTokens.density,
-            headlineFontId: canvasTokens.headlineFontId,
-            bodyFontId: canvasTokens.bodyFontId,
-          }
-        : {
-            headlineFontId: canvasTokens.headlineFontId,
-            bodyFontId: canvasTokens.bodyFontId,
-          },
+      canvas: overlay?.canvas
+        ? overlay.canvas
+        : brandKit.canvas
+          ? {
+              surface: canvasTokens.surface,
+              typeScale: canvasTokens.typeScale,
+              density: canvasTokens.density,
+              headlineFontId: canvasTokens.headlineFontId,
+              bodyFontId: canvasTokens.bodyFontId,
+            }
+          : {
+              headlineFontId: canvasTokens.headlineFontId,
+              bodyFontId: canvasTokens.bodyFontId,
+            },
     }),
     [
-      localNumber,
+      displayLocalNumber,
       unionName,
       heroText,
       about1,
@@ -169,6 +215,7 @@ export default function WebsiteTemplatePage() {
       customLinks,
       membershipLinks,
       officeAddress,
+      overlay,
       brandKit.primaryColor,
       brandKit.secondaryColor,
       brandKit.canvas,
@@ -178,6 +225,8 @@ export default function WebsiteTemplatePage() {
       canvasTokens.headlineFontId,
       canvasTokens.bodyFontId,
       officers,
+      importedLogo,
+      importedHero,
       logoPreviewSrc,
       includeOpseuResources,
       heroArtId,
@@ -202,7 +251,7 @@ export default function WebsiteTemplatePage() {
   };
 
   const addOfficer = () => {
-    if (officers.length >= 12) return;
+    if (officers.length >= MAX_WEBSITE_OFFICERS) return;
     setOfficers((prev) => [...prev, { name: "", role: "", location: "" }]);
   };
 
@@ -212,22 +261,34 @@ export default function WebsiteTemplatePage() {
   };
 
   const collectExportMedia = async () => {
-    const logo = await resolveBrandLogoBytes(brandKit, { includeLogo: true });
+    let logo: { fileName: string; bytes: Uint8Array } | null = null;
+    if (importedLogo) {
+      logo = { fileName: importedLogo.fileName, bytes: importedLogo.bytes };
+    } else {
+      const resolved = await resolveBrandLogoBytes(brandKit, {
+        includeLogo: true,
+      });
+      logo = resolved ? { fileName: LOGO_FILE_NAME, bytes: resolved.bytes } : null;
+    }
     let heroImage: { fileName: string; bytes: Uint8Array } | null = null;
     if (heroImagePreviewSrc.trim()) {
-      const bytes = websiteHeroDataUrlToBytes(heroImagePreviewSrc);
-      if (!bytes) {
-        throw new Error(tc("uploadFailed"));
+      if (importedHero && importedHero.previewSrc === heroImagePreviewSrc) {
+        heroImage = {
+          fileName: importedHero.fileName,
+          bytes: importedHero.bytes,
+        };
+      } else {
+        const bytes = websiteHeroDataUrlToBytes(heroImagePreviewSrc);
+        if (!bytes) {
+          throw new Error(tc("uploadFailed"));
+        }
+        heroImage = {
+          fileName: websiteHeroUploadFileName(heroImagePreviewSrc),
+          bytes,
+        };
       }
-      heroImage = {
-        fileName: websiteHeroUploadFileName(heroImagePreviewSrc),
-        bytes,
-      };
     }
-    return {
-      logo: logo ? { fileName: LOGO_FILE_NAME, bytes: logo.bytes } : null,
-      heroImage,
-    };
+    return { logo, heroImage };
   };
 
   const handleDownload = () => {
@@ -238,7 +299,7 @@ export default function WebsiteTemplatePage() {
       const { saveAs } = await import("file-saver");
       const { logo, heroImage } = await collectExportMedia();
       const blob = await generateWebsiteZip(templateData, logo, heroImage);
-      saveAs(blob, `local-${localNumber}-website.zip`);
+      saveAs(blob, `local-${displayLocalNumber}-website.zip`);
     });
   };
 
@@ -254,8 +315,84 @@ export default function WebsiteTemplatePage() {
         logo,
         heroImage,
       );
-      saveAs(blob, `local-${localNumber}-wordpress-theme.zip`);
+      saveAs(blob, `local-${displayLocalNumber}-wordpress-theme.zip`);
     });
+  };
+
+  const handleDownloadConfig = () => {
+    void runExport(async () => {
+      const { buildWebsiteConfigJson } = await import(
+        "@/lib/templates/website/website-config"
+      );
+      const { saveAs } = await import("file-saver");
+      const blob = new Blob([buildWebsiteConfigJson(templateData)], {
+        type: "application/json",
+      });
+      saveAs(blob, `local-${displayLocalNumber}-website.json`);
+    });
+  };
+
+  const applyImportedSite = (imported: {
+    envelope: { data: WebsiteConfigData };
+    logo?: WebsiteImportedAsset;
+    heroImage?: WebsiteImportedAsset;
+  }) => {
+    const data = imported.envelope.data;
+    setOverlay(data);
+    setUnionName(data.unionName);
+    setHeroText(data.heroText);
+    setAbout1(data.about1);
+    setAbout2(data.about2);
+    setContactEmail(data.contactEmail);
+    setFacebookDraft(data.facebookUrl);
+    setOfficeAddress(data.officeAddress);
+    setOfficers(data.officers);
+    setHeroArtId(
+      data.heroArtId && isWebsiteHeroArtId(data.heroArtId)
+        ? data.heroArtId
+        : "none",
+    );
+    setImportedLogo(imported.logo ?? null);
+    if (imported.heroImage) {
+      setImportedHero(imported.heroImage);
+      setHeroImagePreviewSrc(imported.heroImage.previewSrc);
+      setHeroImageAlt(data.heroImageAlt ?? "");
+      setImportPhotoMissing(false);
+    } else {
+      setImportedHero(null);
+      setHeroImagePreviewSrc("");
+      setHeroImageAlt(data.heroImageAlt ?? "");
+      setImportPhotoMissing(
+        Boolean(
+          data.heroImageFileName &&
+            isWebsiteHeroPhotoFileName(data.heroImageFileName),
+        ),
+      );
+    }
+  };
+
+  const handleImport = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setImportError(null);
+    setImportMessage(null);
+    setImportPhotoMissing(false);
+    setImporting(true);
+    void (async () => {
+      try {
+        const { parseWebsiteConfigFile } = await import(
+          "@/lib/templates/website/website-config"
+        );
+        const imported = await parseWebsiteConfigFile(file);
+        applyImportedSite(imported);
+        setImportMessage(t("importSuccess"));
+      } catch {
+        setImportError(t("importError"));
+      } finally {
+        setImporting(false);
+      }
+    })();
   };
 
   const bundledCount = customLinks.length + membershipLinks.length;
@@ -301,8 +438,14 @@ export default function WebsiteTemplatePage() {
             label={t("heroArtUpload")}
             hint={t("heroArtUploadHint")}
             preview={heroImagePreviewSrc}
-            onUpload={(dataUrl) => setHeroImagePreviewSrc(dataUrl)}
+            onUpload={(dataUrl) => {
+              setImportedHero(null);
+              setImportPhotoMissing(false);
+              setHeroImagePreviewSrc(dataUrl);
+            }}
             onClear={() => {
+              setImportedHero(null);
+              setImportPhotoMissing(false);
               setHeroImagePreviewSrc("");
               setHeroImageAlt("");
             }}
@@ -326,6 +469,11 @@ export default function WebsiteTemplatePage() {
           {heroImagePreviewSrc ? (
             <p id="website-hero-alt-hint" className="text-xs text-gray-500">
               {t("heroArtAltHint")}
+            </p>
+          ) : null}
+          {importPhotoMissing ? (
+            <p className="text-sm text-gray-700" role="status">
+              {t("importPhotoMissing")}
             </p>
           ) : null}
           <Textarea
@@ -401,6 +549,23 @@ export default function WebsiteTemplatePage() {
 
           <div>
             <p className="mb-2 text-sm font-medium">{t("officers")}</p>
+            <p className="mb-2 text-sm text-gray-600">{t("orgChartHint")}</p>
+            <div className="mb-3 flex flex-wrap gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={applyRosterOfficers}
+              >
+                {t("useOrgChart")}
+              </Button>
+              <Link
+                href="/tools/org-chart"
+                className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline underline-offset-2"
+              >
+                {t("orgChartLink")}
+              </Link>
+            </div>
             <div className="space-y-3">
               {officers.map((officer, index) => (
                 <div
@@ -442,7 +607,7 @@ export default function WebsiteTemplatePage() {
                 </div>
               ))}
             </div>
-            {officers.length < 12 && (
+            {officers.length < MAX_WEBSITE_OFFICERS && (
               <Button
                 type="button"
                 variant="outline"
@@ -460,7 +625,46 @@ export default function WebsiteTemplatePage() {
               {exportError}
             </p>
           ) : null}
-          <Button onClick={handleDownload} disabled={exporting}>
+          {importError ? (
+            <p className="text-sm text-red-700" role="alert">
+              {importError}
+            </p>
+          ) : null}
+          {importMessage ? (
+            <p className="text-sm text-opseu-blue" role="status">
+              {importMessage}
+            </p>
+          ) : null}
+          <Callout tone="muted">
+            <p>{t("importHint")}</p>
+          </Callout>
+          <input
+            ref={fileRef}
+            type="file"
+            accept=".json,.zip,application/json,application/zip"
+            className="sr-only"
+            aria-label={t("import")}
+            onChange={handleImport}
+          />
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => fileRef.current?.click()}
+              disabled={busy}
+            >
+              {importing ? tc("loading") : t("import")}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleDownloadConfig}
+              disabled={busy}
+            >
+              {exporting ? tc("loading") : t("downloadConfig")}
+            </Button>
+          </div>
+          <Button onClick={handleDownload} disabled={busy}>
             {exporting ? tc("loading") : t("downloadZip")}
           </Button>
           <Callout tone="muted">
@@ -473,7 +677,7 @@ export default function WebsiteTemplatePage() {
               variant="outline"
               className="mt-3"
               onClick={handleWordpressDownload}
-              disabled={exporting}
+              disabled={busy}
             >
               {exporting ? tc("loading") : t("downloadWordpress")}
             </Button>
@@ -485,14 +689,30 @@ export default function WebsiteTemplatePage() {
       }
       previewActions={
         <>
-          <Button onClick={handleDownload} disabled={exporting}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => fileRef.current?.click()}
+            disabled={busy}
+          >
+            {importing ? tc("loading") : t("import")}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleDownloadConfig}
+            disabled={busy}
+          >
+            {exporting ? tc("loading") : t("downloadConfig")}
+          </Button>
+          <Button onClick={handleDownload} disabled={busy}>
             {exporting ? tc("loading") : t("downloadZip")}
           </Button>
           <Button
             type="button"
             variant="outline"
             onClick={handleWordpressDownload}
-            disabled={exporting}
+            disabled={busy}
           >
             {exporting ? tc("loading") : t("downloadWordpress")}
           </Button>

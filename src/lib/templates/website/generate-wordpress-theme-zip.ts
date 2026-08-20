@@ -8,6 +8,10 @@ import {
   type WebsiteZipHeroImage,
   type WebsiteZipLogo,
 } from "@/lib/templates/website/generate-website-zip";
+import {
+  WEBSITE_CONFIG_FILE,
+  buildWebsiteConfigJson,
+} from "@/lib/templates/website/website-config";
 import { hexToRgb } from "@/lib/utils/contrast";
 
 const THEME_URI_PHP =
@@ -349,6 +353,10 @@ Add a page under **Pages** in WordPress. It uses this theme’s layout.
 To show it in the header: **Appearance → Menus**, create a menu, and assign **Primary menu**. If you skip that, the header keeps Home / About / Officers / Contact.
 
 Unknown addresses show a short “page not found” screen, not the homepage.
+
+## Editing content later
+
+To update copy, open https://unionops.org/tools/website-template and import \`${WEBSITE_CONFIG_FILE}\` from this ZIP (or import the ZIP itself). Edit the fields and download a fresh theme ZIP. UnionOps still does not support WordPress.
 `;
 }
 
@@ -510,6 +518,7 @@ export async function generateWordpressThemeZip(
     "README.md",
     buildWordpressThemeReadme(data.unionName, data.localNumber),
   );
+  root.file(WEBSITE_CONFIG_FILE, buildWebsiteConfigJson(exportData));
   await addWebsiteMediaToZip(root, exportData, logo, heroImage);
 
   return zip.generateAsync({ type: "blob" });

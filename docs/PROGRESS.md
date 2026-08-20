@@ -1,5 +1,12 @@
 # Progress Log
 
+## Website Template config round-trip (2026-08-20)
+
+- [x] Both site ZIPs include `unionops-website.json` (GitHub Pages root; WordPress theme folder)
+- [x] Import JSON or the ZIP on `/tools/website-template` restores copy/officers/hero as a session overlay — does not write Brand Kit
+- [x] Standalone site-file download; Website Guide “How to edit” + What’s new `website-config-roundtrip`
+- Verify: `npm run test:unit -- src/lib/templates/website src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts`
+
 ## OPSEU / SEFPO lockup (2026-08-20)
 
 - [x] Volunteer-facing copy, Brand Kit union picker, reference tenant name, membership label, and bibliography rows use **OPSEU / SEFPO** (spaces around the slash)

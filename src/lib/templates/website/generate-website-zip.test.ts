@@ -265,5 +265,15 @@ describe("generate-website-zip", () => {
     const zip = await JSZip.loadAsync(blob);
     const names = Object.keys(zip.files);
     expect(names.some((n) => n.startsWith("assets/fonts/"))).toBe(false);
+    expect(names).toContain("unionops-website.json");
+    const config = JSON.parse(
+      await zip.file("unionops-website.json")!.async("string"),
+    ) as { kind: string; data: { unionName: string; logoPreviewSrc?: string } };
+    expect(config.kind).toBe("unionops-website");
+    expect(config.data.unionName).toBe("OPSEU SEFPO Local 243");
+    expect(config.data.logoPreviewSrc).toBeUndefined();
+    const readme = await zip.file("README.md")!.async("string");
+    expect(readme).toContain("unionops.org/tools/website-template");
+    expect(readme).not.toContain("Support Hub");
   });
 });

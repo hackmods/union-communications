@@ -1195,7 +1195,7 @@
         },
         "how": {
           "title": "Comment modifier",
-          "content": "Le plus simple : mettez à jour le Modèle de site Web et téléversez un ZIP frais. Ou modifiez index.html dans l’éditeur web de GitHub pour les petits correctifs."
+          "content": "Le plus simple : importez le fichier du site depuis le ZIP de l’an dernier dans le Modèle de site Web, modifiez, puis téléversez un ZIP frais. Ou modifiez index.html dans l’éditeur web de GitHub pour les petits correctifs."
         },
         "archive": {
           "title": "Quoi retirer",
@@ -2036,7 +2036,13 @@
     "heroArtUploadHint": "Une photo large en paysage convient le mieux. Passez cette étape si vous utilisez un motif.",
     "photoConsentLink": "Guide de consentement photo",
     "heroArtAlt": "Description de la photo",
-    "heroArtAltHint": "Décrivez la photo pour les personnes qui ne peuvent pas la voir. Laissez ce champ vide pour un motif décoratif."
+    "heroArtAltHint": "Décrivez la photo pour les personnes qui ne peuvent pas la voir. Laissez ce champ vide pour un motif décoratif.",
+    "import": "Importer un site enregistré",
+    "downloadConfig": "Télécharger le fichier du site",
+    "importHint": "Pour mettre à jour un site déjà téléchargé, importez le fichier du site depuis ce ZIP. Les couleurs et les liens supplémentaires du fichier s’appliquent ici seulement — ils ne changent pas la Trousse de marque.",
+    "importSuccess": "Site restauré. Modifiez les champs et téléchargez un ZIP frais. Cela ne change pas la Trousse de marque.",
+    "importError": "Ce fichier n’est pas un export du Modèle de site Web. Choisissez le fichier du site dans votre dernier ZIP, ou le ZIP lui-même, puis réessayez.",
+    "importPhotoMissing": "Le fichier du site s’est chargé, mais la photo d’en-tête n’était pas dans ce fichier. Choisissez une photo ci-dessous, ou gardez le motif."
   },
   "sources": {
     "title": "Sources et références",
@@ -3153,6 +3159,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "website-config-roundtrip": {
+        "title": "Rouvrir un site local déjà téléchargé",
+        "body": "Le Modèle de site Web peut importer le fichier du site depuis un ZIP déjà téléchargé, pour mettre à jour les dirigeants ou le texte et télécharger un ZIP frais."
+      },
       "quote-card-formats": {
         "title": "Mises en page et formats sociaux pour la Carte de citation",
         "body": "La Carte de citation a maintenant les mises en page barre, centré et grand guillemet, plus le carré, le paysage Facebook et le 9:16. Les puces de départ chargent une citation de négociation, de solidarité ou de membre."

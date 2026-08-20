@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "website-config-roundtrip",
+    date: "2026-08-20",
+    kind: "added",
+    href: "/tools/website-template",
+  },
+  {
     id: "quote-card-formats",
     date: "2026-08-19",
     kind: "improved",

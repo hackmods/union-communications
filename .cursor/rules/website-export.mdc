@@ -10,7 +10,7 @@ Canonical plan: [`docs/audit/plan-2026-08-18-website-export-wp-squarespace.md`](
 
 ## As-built
 
-Single-page GitHub Pages ZIP from `generateWebsiteZip()` is the **default** export. Classic WordPress theme ZIP from `generateWordpressThemeZip()` is a second button for locals who already run WordPress. Flat `WebsiteTemplateData` — no blocks, no page list, no forms (`mailto:` only). Page copy is ephemeral.
+Single-page GitHub Pages ZIP from `generateWebsiteZip()` is the **default** export. Classic WordPress theme ZIP from `generateWordpressThemeZip()` is a second button for locals who already run WordPress. Flat `WebsiteTemplateData` — no blocks, no page list, no forms (`mailto:` only). Page copy is session state; both ZIPs include `unionops-website.json` so a steward can import the site file (or the ZIP) and regenerate.
 
 ## Verdict
 

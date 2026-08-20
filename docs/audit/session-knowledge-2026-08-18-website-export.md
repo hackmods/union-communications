@@ -11,7 +11,7 @@
 
 Ask: can Website Template export a native WordPress theme (WXR / block-theme zip) or a Squarespace 7.1 developer/template package?
 
-The tool is a **single-page static ZIP** (`generateWebsiteZip`), not a CMS. Layout is fixed HTML in `buildWebsiteHtml()`. Content is a flat `WebsiteTemplateData` form. Page copy is ephemeral React state. There is no block tree, no page list, and no forms (contact is `mailto:`).
+The tool is a **single-page static ZIP** (`generateWebsiteZip`), not a CMS. Layout is fixed HTML in `buildWebsiteHtml()`. Content is a flat `WebsiteTemplateData` form. Page copy is session React state; `unionops-website.json` in both ZIPs round-trips that copy without writing Brand Kit. There is no block tree, no page list, and no forms (contact is `mailto:`).
 
 ---
 
@@ -50,7 +50,8 @@ Do not put the mapping matrix in `AGENTS.md` or an always-apply rule.
 | File | Role |
 |------|------|
 | [`src/types/website-template.ts`](../../src/types/website-template.ts) | Flat `WebsiteTemplateData` |
+| [`src/lib/templates/website/website-config.ts`](../../src/lib/templates/website/website-config.ts) | `unionops-website.json` serialize / parse / ZIP lookup |
 | [`src/lib/templates/website/generate-website-zip.ts`](../../src/lib/templates/website/generate-website-zip.ts) | HTML/CSS/JS + GitHub Pages ZIP |
 | [`src/lib/templates/website/generate-wordpress-theme-zip.ts`](../../src/lib/templates/website/generate-wordpress-theme-zip.ts) | Classic WP theme ZIP |
-| [`src/app/[locale]/tools/website-template/page.tsx`](../../src/app/[locale]/tools/website-template/page.tsx) | Form UI; copy not persisted |
+| [`src/app/[locale]/tools/website-template/page.tsx`](../../src/app/[locale]/tools/website-template/page.tsx) | Form UI; copy is session state + importable site file |
 | [`src/app/[locale]/guide/website/page.tsx`](../../src/app/[locale]/guide/website/page.tsx) | Steward Website Guide (WP + Squarespace callouts) |

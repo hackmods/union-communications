@@ -123,6 +123,7 @@ describe("generateWordpressThemeZip", () => {
     expect(names).toContain(themePath("screenshot.png"));
     expect(names).toContain(themePath("js/site.js"));
     expect(names).toContain(themePath("README.md"));
+    expect(names).toContain(themePath("unionops-website.json"));
     expect(names).toContain(themePath("assets/logo.png"));
     expect(names.some((n) => n.endsWith("index.html"))).toBe(false);
     expect(names.some((n) => n === "style.css" || n === "index.php")).toBe(
@@ -225,6 +226,8 @@ describe("generateWordpressThemeZip", () => {
     expect(readme).toContain("GitHub Pages");
     expect(readme).toContain("Primary menu");
     expect(readme).toContain("page not found");
+    expect(readme).toContain("unionops.org/tools/website-template");
+    expect(readme).toContain("unionops-website.json");
   });
 
   it("bundles webfonts next to style.css at the theme root", async () => {
