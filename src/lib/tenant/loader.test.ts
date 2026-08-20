@@ -34,4 +34,12 @@ describe("tenant loader multi-scope", () => {
     const cfg = resolveGrievanceConfig("union-opseu");
     expect(cfg?.steps).toHaveLength(4);
   });
+
+  it("selects the session local instead of locals[0]", () => {
+    const seeded = getTenantContext("union-opseu");
+    expect(seeded?.local?.localNumber).toBe("243");
+    const other = getTenantContext("union-opseu", "local-560");
+    expect(other?.local?.localNumber).toBe("560");
+    expect(other?.locals.map((l) => l.localNumber)).toEqual(["243", "560"]);
+  });
 });

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { getTenantContext } from "@/lib/tenant/loader";
 import {
   canSeeOfficerHubLink,
@@ -28,6 +29,7 @@ export function PortalNav() {
   const { data: session, status } = useSession();
   const t = useTranslations("portal");
   const pathname = usePathname();
+  const liveTenant = useLiveTenant();
   const barRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const drawerId = useId();
@@ -94,9 +96,11 @@ export function PortalNav() {
 
   if (status !== "authenticated" || !session?.user) return null;
 
-  const tenant = session.user.unionId
-    ? getTenantContext(session.user.unionId)
-    : null;
+  const tenant =
+    liveTenant ??
+    (session.user.unionId
+      ? getTenantContext(session.user.unionId, session.user.localId)
+      : null);
   const roles = (session.user.roles ?? []) as UserRole[];
   const showHub =
     Boolean(tenant?.union.enabledModules.includes("portal")) &&

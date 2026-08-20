@@ -78,7 +78,7 @@ export async function GET() {
     return NextResponse.json({ error: "Missing union context" }, { status: 400 });
   }
   await hydrateTenantOverlayFromPostgres();
-  const ctx = getTenantContext(unionId);
+  const ctx = getTenantContext(unionId, session.user.localId);
   if (!ctx) {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
   }

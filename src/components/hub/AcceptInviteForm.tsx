@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { loginHrefForInviteRoles } from "@/lib/auth/post-login-path";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -117,7 +118,14 @@ export function AcceptInviteForm({ token }: { token: string }) {
               ? t("expired")
               : t("unavailable")}
         </Callout>
-        <Link href="/app/login" className="text-opseu-blue underline">
+        <Link
+          href={
+            preview.status === "accepted"
+              ? loginHrefForInviteRoles(preview.roles)
+              : "/app/login"
+          }
+          className="text-opseu-blue underline"
+        >
           {t("goLogin")}
         </Link>
       </PageShell>
@@ -125,15 +133,30 @@ export function AcceptInviteForm({ token }: { token: string }) {
   }
 
   if (done) {
+    const loginHref = loginHrefForInviteRoles(preview.roles);
+    const isPresident = preview.roles.includes("local_president");
+    const isMember =
+      preview.roles.length > 0 &&
+      preview.roles.every((role) => role === "local_member");
     return (
       <PageShell size="nestedFocus" className="space-y-4">
         <h1 className="text-2xl font-bold text-opseu-dark">{t("title")}</h1>
-        <p className="text-gray-700">{t("success")}</p>
+        <p className="text-gray-700">
+          {isPresident
+            ? t("successPresident")
+            : isMember
+              ? t("successMember")
+              : t("success")}
+        </p>
         <Link
-          href="/app/login"
+          href={loginHref}
           className="inline-flex min-h-11 items-center rounded-lg bg-opseu-blue px-4 text-white"
         >
-          {t("goLogin")}
+          {isPresident
+            ? t("goSetup")
+            : isMember
+              ? t("goPortal")
+              : t("goLogin")}
         </Link>
       </PageShell>
     );

@@ -7,6 +7,13 @@
 
 Operator (platform admin) emails a local president **before** Officer Hub is advertised nationally (`NEXT_PUBLIC_OFFICER_HUB_PUBLIC=false`). The president sets up the local + Hall, then invites officers and members. Login and `/app/invite/[token]` stay reachable. No public `/app/register`.
 
+## First-run QOL (same day)
+
+- Hub/Portal layouts hydrate Postgres overlay; dashboard/nav use live tenant + **session `localId`**, not seed Local 243.
+- President accept CTA signs in with `?next=/app/onboarding` (allowlisted). Later logins still go to `/app`. Unadvertised Hub shows a dashboard **Set up your local** card.
+- Pending invites expose copy/resend to managers; president form can add a first collection.
+- Together / Create Hall rebuilds Hall membership from demo roster (when on), in-process invitees, and durable `users` rows so the Hall is not empty after restart.
+
 ## Durable tenants
 
 `create_local` / `create_collection` / `create_union` write Postgres `unions` / `locals` / `bargaining_units` when `DATABASE_URL` is set ([`src/lib/tenant/persist.ts`](../../src/lib/tenant/persist.ts)). The loader still reads static seed + overlay; overlay is hydrated from those tables once per process. Overlay-only remains the fallback without Postgres.

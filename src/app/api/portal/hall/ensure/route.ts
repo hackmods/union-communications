@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { requirePortalSession } from "@/lib/portal/portal-session";
-import { portalStore } from "@/lib/portal/memory-adapter";
 import { canCreateCircle } from "@/lib/portal/access";
+import { hydrateLocalHall } from "@/lib/portal/hall-roster";
 import { getLocalById } from "@/lib/tenant/loader";
 import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
 import type { UserRole } from "@/types/tenant";
 
-/** Ensure this session's local has a Hall and the current user is on the roster. */
+/** Ensure this session's local has a Hall and the known roster is joined. */
 export async function POST() {
   const authResult = await requirePortalSession();
   if (!authResult.ok) {
@@ -24,13 +24,15 @@ export async function POST() {
   const unionId = session.user.unionId!;
   const roles = (session.user.roles ?? []) as UserRole[];
   const local = getLocalById(unionId, localId);
-  const { circle } = portalStore.ensureHallAndJoin({
+  const { circle } = await hydrateLocalHall({
     unionId,
     localId,
     localNumber: local?.localNumber,
-    userId: session.user.id,
-    userName: session.user.name ?? "Member",
-    admin: canCreateCircle(roles),
+    currentUser: {
+      userId: session.user.id,
+      userName: session.user.name ?? "Member",
+      admin: canCreateCircle(roles),
+    },
   });
   return NextResponse.json({ circle });
 }

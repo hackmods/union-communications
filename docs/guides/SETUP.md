@@ -130,7 +130,7 @@ Demo accounts (password `demo123`) exist for local CI and workshops. They are do
 1. Keep `NEXT_PUBLIC_OFFICER_HUB_PUBLIC=false` and turn the demo roster **off** (`AUTH_ALLOW_DEMO_USERS=false`, `NEXT_PUBLIC_DEMO_SITE=false`, `SEED_DEMO_USERS=false`).
 2. Durable auth + tenant rows: `AUTH_USERS_BACKEND=postgres` and `DATABASE_URL` (see [POSTGRES_OPS.md](POSTGRES_OPS.md)). Creating a local then survives restart and can be used on invite foreign keys.
 3. Seed `platform_admin` (`npm run db:seed` / `db:seed-admin`). Sign in, open **Invites**, and use **Invite a local president** (local number + email). That creates the local if needed and emails an accept link when SMTP is on.
-4. The president accepts, runs **Union setup** (`/app/onboarding`) to confirm the local, Brand Kit, and Hall, then invites officers (`local_exec` / `local_steward`) and members (`local_member`). Members land on Local Portal.
+4. The president accepts, signs in (first time lands on **Union setup**), confirms the local, Brand Kit, and Hall, then invites officers (`local_exec` / `local_steward`) and members (`local_member`). Members land on Local Portal. Later logins go to the dashboard, which still shows **Set up your local** while Hub is unadvertised.
 5. Transactional email: `EMAIL_ENABLED=true` + SMTP + `NEXT_PUBLIC_EMAIL_ENABLED=true`. Copy-link still works if SMTP is off.
 6. Confidential casework backends (`GRIEVANCE_DB_BACKEND`, and so on) are a separate ops flip. Soft-launch invites work with durable users + tenant tables even while grievance stays in memory — do not use memory grievance for real member casework.
 

@@ -272,6 +272,16 @@ export function findInvitedUserRecordById(
   return invitedUsers.find((u) => u.id === userId) ?? null;
 }
 
+/** In-process accepted invitees for Hall roster rebuild (memory auth). */
+export function listInvitedUsersForLocal(
+  unionId: string,
+  localId: string,
+): InvitedUserRecord[] {
+  return invitedUsers.filter(
+    (user) => user.unionId === unionId && user.localId === localId,
+  );
+}
+
 /** Update password hash for an accepted invitee (memory auth). */
 export function updateInvitedUserPasswordHash(
   email: string,

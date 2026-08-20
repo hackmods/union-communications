@@ -27,6 +27,7 @@ import {
   useMfaEnabled,
   useSessionMfaOk,
 } from "@/components/hub/MfaPolicyProvider";
+import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { NavDropdown } from "@/components/layout/nav/NavDropdown";
 
 export function HubNav() {
@@ -35,6 +36,7 @@ export function HubNav() {
   const pathname = usePathname();
   const mfaEnabled = useMfaEnabled();
   const mfaOk = useSessionMfaOk();
+  const liveTenant = useLiveTenant();
   const barRef = useRef<HTMLElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const drawerId = useId();
@@ -72,9 +74,11 @@ export function HubNav() {
 
   if (status !== "authenticated" || !session?.user) return null;
 
-  const tenant = session.user.unionId
-    ? getTenantContext(session.user.unionId)
-    : null;
+  const tenant =
+    liveTenant ??
+    (session.user.unionId
+      ? getTenantContext(session.user.unionId, session.user.localId)
+      : null);
   const enabledModules: HubModule[] =
     tenant?.union.enabledModules ?? ["comms"];
   const roles = (session.user.roles ?? []) as UserRole[];

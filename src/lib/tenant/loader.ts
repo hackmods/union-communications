@@ -82,14 +82,31 @@ export function normalizeBargainingUnits(seed: TenantSeed): BargainingUnit[] {
   return seed.bargainingUnits ?? [];
 }
 
-export function getTenantContext(unionId: string): TenantContext | null {
+/** Prefer the session local over `locals[0]` (seed Local 243). */
+export function withActiveLocal(
+  ctx: TenantContext | null,
+  localId?: string | null,
+): TenantContext | null {
+  if (!ctx || !localId) return ctx;
+  const local = ctx.locals.find((row) => row.id === localId);
+  return local ? { ...ctx, local } : ctx;
+}
+
+export function getTenantContext(
+  unionId: string,
+  localId?: string | null,
+): TenantContext | null {
   const seed = getTenantByUnionId(unionId);
   if (!seed) return null;
   const locals = normalizeLocals(seed);
+  const local =
+    (localId ? locals.find((row) => row.id === localId) : undefined) ??
+    locals[0] ??
+    seed.local;
   return {
     union: seed.union,
     division: seed.division,
-    local: locals[0] ?? seed.local,
+    local,
     locals,
     bargainingUnits: normalizeBargainingUnits(seed),
     brandDefaults: seed.brandDefaults,

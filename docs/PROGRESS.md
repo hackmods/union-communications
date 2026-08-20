@@ -7,7 +7,8 @@
 - [x] Server-side invite ladder + `local_member` email invites (members land on Local Portal)
 - [x] Union setup checklist: local, Brand Kit, Hall, invites; early-access Hub/Portal banner while Hub is unadvertised
 - [x] `ensureHall` + auto-join on Together, invite accept, and `/api/portal/hall/ensure` (Bulletin/Floor stay memory)
-- Verify: `npm run test:unit -- src/lib/tenant/access.test.ts src/lib/tenant/persist.test.ts src/lib/tenant/overlay.test.ts src/lib/auth/invites.test.ts src/lib/email/messages.test.ts src/lib/portal/portal.test.ts src/lib/comms/public-copy-style.test.ts`
+- [x] Soft-launch QOL: session local (not 243) on Hub chrome; president first-run `?next=/app/onboarding` + dashboard setup card; pending copy/resend; Hall roster rebuild from users
+- Verify: `npm run test:unit -- src/lib/tenant/access.test.ts src/lib/tenant/persist.test.ts src/lib/tenant/overlay.test.ts src/lib/tenant/loader.test.ts src/lib/auth/invites.test.ts src/lib/auth/post-login-path.test.ts src/lib/email/messages.test.ts src/lib/portal/portal.test.ts src/lib/portal/hall-roster.test.ts src/lib/comms/public-copy-style.test.ts`
 
 ## Local Portal solidarity names (2026-08-19)
 

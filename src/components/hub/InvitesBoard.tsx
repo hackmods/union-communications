@@ -29,6 +29,8 @@ type PendingInvite = {
   localId?: string;
   expiresAt: string;
   createdAt: string;
+  token?: string;
+  acceptPath?: string;
 };
 
 type InviteLocal = {
@@ -73,8 +75,15 @@ export function InvitesBoard() {
   const [presidentEmail, setPresidentEmail] = useState("");
   const [presidentLocalNumber, setPresidentLocalNumber] = useState("");
   const [presidentSubText, setPresidentSubText] = useState("");
+  const [presidentCollectionCode, setPresidentCollectionCode] = useState("");
+  const [presidentCollectionName, setPresidentCollectionName] = useState("");
   const [presidentBusy, setPresidentBusy] = useState(false);
   const [presidentError, setPresidentError] = useState<string | null>(null);
+  const [pendingCopiedId, setPendingCopiedId] = useState<string | null>(null);
+  const [pendingSendingId, setPendingSendingId] = useState<string | null>(null);
+  const [pendingEmailById, setPendingEmailById] = useState<
+    Record<string, string>
+  >({});
 
   async function refresh() {
     const res = await fetch("/api/invites");
@@ -115,7 +124,6 @@ export function InvitesBoard() {
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- initial load
   }, [t]);
 
   function toggleRole(role: InviteRoleOption) {
@@ -197,6 +205,12 @@ export function InvitesBoard() {
           ...(presidentSubText.trim()
             ? { localSubText: presidentSubText.trim() }
             : {}),
+          ...(presidentCollectionCode.trim() && presidentCollectionName.trim()
+            ? {
+                collectionCode: presidentCollectionCode.trim(),
+                collectionName: presidentCollectionName.trim(),
+              }
+            : {}),
           ...(emailUiEnabled ? { sendEmail: true } : {}),
         }),
       });
@@ -210,6 +224,8 @@ export function InvitesBoard() {
       setPresidentName("");
       setPresidentLocalNumber("");
       setPresidentSubText("");
+      setPresidentCollectionCode("");
+      setPresidentCollectionName("");
       await refresh();
     } catch {
       setPresidentError(t("presidentCreateError"));
@@ -257,6 +273,50 @@ export function InvitesBoard() {
       setEmailStatus(t("emailSendError"));
     } finally {
       setSendingEmail(false);
+    }
+  }
+
+  async function copyPendingLink(row: PendingInvite) {
+    if (!row.acceptPath) return;
+    const url =
+      typeof window !== "undefined"
+        ? `${window.location.origin}${row.acceptPath}`
+        : row.acceptPath;
+    try {
+      await navigator.clipboard.writeText(url);
+      setPendingCopiedId(row.id);
+    } catch {
+      setError(t("copyError"));
+    }
+  }
+
+  async function resendPendingEmail(row: PendingInvite) {
+    if (!row.token) return;
+    setPendingSendingId(row.id);
+    setPendingEmailById((prev) => ({ ...prev, [row.id]: "" }));
+    try {
+      const res = await fetch(
+        `/api/invites/${encodeURIComponent(row.token)}/email`,
+        { method: "POST" },
+      );
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        reason?: string;
+      };
+      const status =
+        res.ok && data.ok
+          ? t("emailSent")
+          : data.reason === "not_configured" || res.status === 503
+            ? t("emailNotConfigured")
+            : t("emailSendError");
+      setPendingEmailById((prev) => ({ ...prev, [row.id]: status }));
+    } catch {
+      setPendingEmailById((prev) => ({
+        ...prev,
+        [row.id]: t("emailSendError"),
+      }));
+    } finally {
+      setPendingSendingId(null);
     }
   }
 
@@ -327,6 +387,19 @@ export function InvitesBoard() {
               label={t("localSubText")}
               value={presidentSubText}
               onChange={(e) => setPresidentSubText(e.target.value)}
+              autoComplete="off"
+            />
+            <p className="text-sm text-gray-600">{t("presidentCollectionHint")}</p>
+            <Input
+              label={t("optionalCollectionCode")}
+              value={presidentCollectionCode}
+              onChange={(e) => setPresidentCollectionCode(e.target.value)}
+              autoComplete="off"
+            />
+            <Input
+              label={t("optionalCollectionName")}
+              value={presidentCollectionName}
+              onChange={(e) => setPresidentCollectionName(e.target.value)}
               autoComplete="off"
             />
             {presidentError && (
@@ -491,6 +564,38 @@ export function InvitesBoard() {
                         date: new Date(row.expiresAt).toLocaleString(),
                       })}
                     </p>
+                    {row.status === "pending" && row.acceptPath && (
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="min-h-11"
+                          onClick={() => void copyPendingLink(row)}
+                        >
+                          {pendingCopiedId === row.id
+                            ? t("copied")
+                            : t("copyLink")}
+                        </Button>
+                        {emailUiEnabled && row.token && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            className="min-h-11"
+                            disabled={pendingSendingId === row.id}
+                            onClick={() => void resendPendingEmail(row)}
+                          >
+                            {pendingSendingId === row.id
+                              ? t("sendingEmail")
+                              : t("resendEmail")}
+                          </Button>
+                        )}
+                      </div>
+                    )}
+                    {pendingEmailById[row.id] && (
+                      <p className="mt-1 text-xs text-gray-600" role="status">
+                        {pendingEmailById[row.id]}
+                      </p>
+                    )}
                   </li>
                 ))}
               </ul>

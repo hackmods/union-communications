@@ -1,18 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { useSessionMfaOk } from "@/components/hub/MfaPolicyProvider";
+import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
 import { getTenantContext } from "@/lib/tenant/loader";
 import { canCrossLocalGrievance } from "@/lib/grievance/access";
 import { cn } from "@/lib/utils";
-import type { TenantContext, UserRole } from "@/types/tenant";
+import type { UserRole } from "@/types/tenant";
 
 /**
  * Hub local + collection (bargaining unit) switcher.
  * Updates JWT via session.update so list APIs filter by active context.
- * Merges GET /api/tenant so runtime overlay locals/collections appear.
+ * Reads live tenant from TenantLiveProvider (GET /api/tenant + overlay locals).
  */
 export function HubContextSwitcher({
   variant = "bar",
@@ -21,40 +20,12 @@ export function HubContextSwitcher({
 }) {
   const { data: session, update, status } = useSession();
   const t = useTranslations("hub");
-  const mfaOk = useSessionMfaOk();
+  const liveTenant = useLiveTenant();
   const unionId = session?.user?.unionId;
-  const seedTenant = unionId ? getTenantContext(unionId) : null;
-  const [tenant, setTenant] = useState<TenantContext | null>(seedTenant);
-
-  useEffect(() => {
-    if (status !== "authenticated" || !mfaOk || !unionId) {
-      return;
-    }
-
-    let cancelled = false;
-
-    async function load() {
-      try {
-        const res = await fetch("/api/tenant");
-        if (!res.ok) return;
-        const data = (await res.json()) as { context: TenantContext };
-        if (!cancelled) setTenant(data.context);
-      } catch {
-        if (!cancelled && unionId) setTenant(getTenantContext(unionId));
-      }
-    }
-
-    const onUpdate = () => {
-      void load();
-    };
-
-    void load();
-    window.addEventListener("unionops:tenant-updated", onUpdate);
-    return () => {
-      cancelled = true;
-      window.removeEventListener("unionops:tenant-updated", onUpdate);
-    };
-  }, [status, mfaOk, unionId]);
+  const seedTenant = unionId
+    ? getTenantContext(unionId, session?.user?.localId)
+    : null;
+  const tenant = liveTenant ?? seedTenant;
 
   if (status !== "authenticated" || !session?.user?.unionId || !tenant) {
     return null;
@@ -113,7 +84,12 @@ export function HubContextSwitcher({
       >
         {tenant.union.name}
         {tenant.division && ` · ${tenant.division.name}`}
-        {tenant.local && ` · Local ${tenant.local.localNumber}`}
+        {activeLocalId &&
+          ` · Local ${
+            tenant.locals.find((l) => l.id === activeLocalId)?.localNumber ??
+            tenant.local?.localNumber ??
+            ""
+          }`}
         {collections[0] && ` · ${collections[0].code.toUpperCase()}`}
       </span>
     );

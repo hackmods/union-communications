@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { isDemoSite } from "@/lib/features/demo-site";
-import { signedInHomeHref } from "@/lib/portal/access";
+import { resolvePostLoginHref } from "@/lib/auth/post-login-path";
 import { getTenantContext } from "@/lib/tenant/loader";
 import type { UserRole } from "@/types/tenant";
 
@@ -64,9 +64,19 @@ export default function LoginPage() {
     const session = await update();
     const roles = (session?.user?.roles ?? []) as UserRole[];
     const tenant = session?.user?.unionId
-      ? getTenantContext(session.user.unionId)
+      ? getTenantContext(session.user.unionId, session.user.localId)
       : null;
-    router.push(signedInHomeHref(roles, tenant?.union.enabledModules));
+    const next =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.search).get("next")
+        : null;
+    router.push(
+      resolvePostLoginHref({
+        roles,
+        enabledModules: tenant?.union.enabledModules,
+        next,
+      }),
+    );
     router.refresh();
   };
 

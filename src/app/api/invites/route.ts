@@ -83,6 +83,12 @@ export async function GET() {
       localId: row.localId,
       expiresAt: row.expiresAt,
       createdAt: row.createdAt,
+      ...(row.status === "pending"
+        ? {
+            token: row.token,
+            acceptPath: `/app/invite/${row.token}`,
+          }
+        : {}),
     })),
     locals: ctx.locals.map((local) => ({
       id: local.id,

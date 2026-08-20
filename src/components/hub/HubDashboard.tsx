@@ -12,12 +12,15 @@ import { Emoji } from "@/components/ui/Emoji";
 import { HubOfficerToolsCatalog } from "@/components/hub/HubOfficerToolsCatalog";
 import { MyTasksWidget } from "@/components/hub/MyTasksWidget";
 import { MyCheckinsWidget } from "@/components/hub/MyCheckinsWidget";
+import { useLiveTenant } from "@/components/hub/TenantLiveProvider";
+import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import type { HubModule, UserRole } from "@/types/tenant";
 
 export function HubDashboard() {
   const { data: session } = useSession();
   const t = useTranslations("hub");
   const mfaOk = useSessionMfaOk();
+  const liveTenant = useLiveTenant();
 
   if (!session?.user) {
     return (
@@ -27,13 +30,17 @@ export function HubDashboard() {
     );
   }
 
-  const tenant = session.user.unionId
-    ? getTenantContext(session.user.unionId)
-    : null;
+  const tenant =
+    liveTenant ??
+    (session.user.unionId
+      ? getTenantContext(session.user.unionId, session.user.localId)
+      : null);
   const enabledModules: HubModule[] =
     tenant?.union.enabledModules ?? ["comms"];
   const roles = (session.user.roles ?? []) as UserRole[];
   const modules = getVisibleModules(enabledModules, roles);
+  const showSetupCard =
+    roles.includes("local_president") && !isOfficerHubPublic();
 
   return (
     <div>
@@ -56,6 +63,29 @@ export function HubDashboard() {
           {t("signOut")}
         </Button>
       </div>
+
+      {showSetupCard && (
+        <Card density="compact" className="mt-4 border-opseu-blue/30 bg-white">
+          <h2 className="text-lg font-semibold text-opseu-dark">
+            {t("setupCardTitle")}
+          </h2>
+          <p className="mt-1 text-sm text-gray-600">{t("setupCardBody")}</p>
+          <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+            <Link
+              href="/app/onboarding"
+              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-opseu-blue px-4 text-sm font-medium text-white"
+            >
+              {t("setupCardOnboarding")}
+            </Link>
+            <Link
+              href="/app/invites"
+              className="inline-flex min-h-11 items-center justify-center rounded-lg border border-gray-300 px-4 text-sm font-medium text-opseu-dark"
+            >
+              {t("setupCardInvites")}
+            </Link>
+          </div>
+        </Card>
+      )}
 
       {tenant && (
         <Card density="compact" className="mt-4">

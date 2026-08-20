@@ -17,7 +17,7 @@ export default async function HubDashboardPage({
   if (!session?.user) redirect(`/${locale}/app/login`);
   const roles = (session.user.roles ?? []) as UserRole[];
   const tenant = session.user.unionId
-    ? getTenantContext(session.user.unionId)
+    ? getTenantContext(session.user.unionId, session.user.localId)
     : null;
   if (signedInHomeHref(roles, tenant?.union.enabledModules) === "/portal") {
     redirect(`/${locale}/portal`);

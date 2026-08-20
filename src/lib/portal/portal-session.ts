@@ -19,7 +19,7 @@ export async function requirePortalSession(): Promise<PortalSessionResult> {
     return { ok: false, status: 403, error: "No union context" };
   }
   await hydrateTenantOverlayFromPostgres();
-  const tenant = getTenantContext(session.user.unionId);
+  const tenant = getTenantContext(session.user.unionId, session.user.localId);
   if (!tenant?.union.enabledModules.includes("portal")) {
     return { ok: false, status: 403, error: "Portal module disabled" };
   }
@@ -40,7 +40,7 @@ export async function requirePortalPage(locale: string): Promise<{
   if (!session?.user) redirect(`/${locale}/app/login`);
   if (!session.user.unionId) redirect(`/${locale}/app`);
   await hydrateTenantOverlayFromPostgres();
-  const tenant = getTenantContext(session.user.unionId);
+  const tenant = getTenantContext(session.user.unionId, session.user.localId);
   if (!tenant || !tenant.union.enabledModules.includes("portal")) {
     redirect(`/${locale}/app`);
   }

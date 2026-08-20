@@ -3,6 +3,9 @@
 #   cd docker
 #   docker compose -f docker-compose.yml -f docker-compose.durable.yml up -d
 #
+# Soft launch: keep NEXT_PUBLIC_OFFICER_HUB_PUBLIC=false at image *build* time
+# (Dockerfile ARG / NEXT_PUBLIC_*). Runtime env cannot hide the public Hub CTA.
+#
 # Demo hosts can keep the base compose (memory defaults) without this file.
 
 services:
