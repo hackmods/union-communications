@@ -186,6 +186,14 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page.getByRole("link", { name, exact: true })).toBeVisible({
       timeout: 15_000,
     });
+    await page.getByRole("link", { name, exact: true }).click();
+    await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
+    await expect(page.getByRole("tab", { name: "Many hands" })).toBeVisible();
+    await expect(page.getByRole("tab", { name: "One fight" })).toBeVisible();
+    await expect(page.getByRole("tab", { name: "Roll Call" })).toBeVisible();
+    await page.getByRole("tab", { name: "Many hands" }).click();
+    await page.getByRole("button", { name: "Start Many hands" }).click();
+    await expect(page.getByRole("button", { name: "Add card" }).first()).toBeVisible();
   });
 
   test("French Together uses solidarity labels", async ({ page }) => {

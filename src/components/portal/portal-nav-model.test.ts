@@ -77,13 +77,32 @@ describe("circleWorkspaceTabs", () => {
     ]);
   });
 
-  it("adds Oversight on committees and only extras that exist", () => {
+  it("still shows Hall extras once they have data", () => {
+    expect(
+      circleWorkspaceTabs({
+        kind: "local_hall",
+        hasRollCall: false,
+        hasPipeline: true,
+        hasMomentum: false,
+      }),
+    ).toEqual([
+      "bulletin",
+      "actions",
+      "calendar",
+      "binder",
+      "floor",
+      "pipeline",
+      "roster",
+    ]);
+  });
+
+  it("adds Oversight and empty extras on committees so officers can start them", () => {
     expect(
       circleWorkspaceTabs({
         kind: "committee",
-        hasRollCall: true,
+        hasRollCall: false,
         hasPipeline: false,
-        hasMomentum: true,
+        hasMomentum: false,
       }),
     ).toEqual([
       "bulletin",
@@ -92,6 +111,7 @@ describe("circleWorkspaceTabs", () => {
       "binder",
       "floor",
       "rollCall",
+      "pipeline",
       "momentum",
       "oversight",
       "roster",

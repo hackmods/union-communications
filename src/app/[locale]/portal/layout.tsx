@@ -5,11 +5,20 @@ import { PAGE_SHELL } from "@/lib/constants/page-shell";
 import { requirePortalPage } from "@/lib/portal/portal-session";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
-export const metadata: Metadata = {
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "hub" });
+  return {
+    robots: { index: false, follow: false },
+    title: t("portalLink"),
+  };
+}
 
 export default async function PortalLayout({
   children,

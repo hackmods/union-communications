@@ -98,8 +98,9 @@ export type CircleWorkspaceTab =
 
 /**
  * Hall keeps the core local tools. Roll Call, Many hands, and One fight only
- * appear when that Circle already has them. Oversight stays on non-Hall
- * Circles so committees can still see the Action picture.
+ * appear on Hall when that Circle already has them. Committee, campaign, and
+ * ad-hoc Circles always show those tabs (empty) so officers can start them.
+ * Oversight stays on non-Hall Circles so committees can still see the Action picture.
  */
 export function circleWorkspaceTabs(input: {
   kind: CircleKind;
@@ -109,9 +110,10 @@ export function circleWorkspaceTabs(input: {
 }): CircleWorkspaceTab[] {
   const tabs: CircleWorkspaceTab[] = [...CIRCLE_CORE_TABS];
   const roster = tabs.pop()!;
-  if (input.hasRollCall) tabs.push("rollCall");
-  if (input.hasPipeline) tabs.push("pipeline");
-  if (input.hasMomentum) tabs.push("momentum");
+  const showExtras = input.kind !== "local_hall";
+  if (showExtras || input.hasRollCall) tabs.push("rollCall");
+  if (showExtras || input.hasPipeline) tabs.push("pipeline");
+  if (showExtras || input.hasMomentum) tabs.push("momentum");
   if (input.kind !== "local_hall") tabs.push("oversight");
   tabs.push(roster);
   return tabs;

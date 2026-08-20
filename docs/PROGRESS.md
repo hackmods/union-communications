@@ -4,6 +4,7 @@
 
 - [x] Steward-facing Portal labels: **Together** / **Hold the line** / **One fight** / **Many hands** (FR Ensemble / Tenir la ligne / Un seul combat / Plusieurs mains). Routes and ids unchanged
 - [x] Dropped Hill Chart uphill/downhill copy and shop-floor puns (Locker, On the table, Shop board, The push)
+- [x] Committee Circles show empty Roll Call / Many hands / One fight so officers can start them; Hall still hides empty extras. **Start Many hands** creates the first board
 - [x] ADR-017 frames solidarity collaboration, not a Basecamp parody
 - [x] What's new: `portal-solidarity-names` (Hub audience) on `/updates`
 - Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts src/lib/portal/portal.test.ts src/components/portal/portal-nav-model.test.ts`

@@ -38,3 +38,4 @@ French must carry the same *job*, not the same joke: Together/Ensemble, Hold the
 - Hub stays `/app/*`; link Portal from Hub dashboard when module enabled
 - Future ideas: `.cursor/rules/local-portal-backlog.mdc` + `.cursor/plans/local_portal_future.plan.md` (do not implement unless asked)
 - Smoke: `e2e/portal.smoke.spec.ts`
+- Committee / campaign / ad-hoc Circles always show Roll Call, Many hands, and One fight (empty) so officers can start them. Hall still hides those until they have data.

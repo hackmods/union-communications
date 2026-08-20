@@ -93,7 +93,7 @@ Circle
 - [x] Keyboard shortcuts (1–0), Calendar external RSVP URL, guest banner
 - [x] Rank-and-file home is Together; `/app` dashboard redirects members to Portal when the module is on
 - [x] Circle tabs keep `?tab=` on refresh/share; Dispatch pings open the matching tool
-- [x] Together opens on Hall work (not an empty search); demo seed is current-week; Hall hides empty committee tools
+- [x] Together opens on Hall work (not an empty search); demo seed is current-week; Hall hides empty extras; committee Circles show empty Roll Call / Many hands / One fight so officers can start them
 - [ ] Email→Bulletin, digest email, SSE Floor (see backlog)
 
 ## Future intent

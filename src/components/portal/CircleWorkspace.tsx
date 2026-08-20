@@ -75,6 +75,7 @@ export function CircleWorkspace({
   const [oversight, setOversight] = useState<Oversight | null>(null);
   const [filter, setFilter] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [writeError, setWriteError] = useState<string | null>(null);
   const [draft, setDraft] = useState({
     title: "",
     body: "",
@@ -200,21 +201,39 @@ export function CircleWorkspace({
   const isGuest = isCircleGuest(detail?.membership.role);
 
   async function postTool(payload: Record<string, unknown>) {
-    const res = await fetch(`/api/portal/circles/${circleId}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    if (res.ok) await load();
+    try {
+      const res = await fetch(`/api/portal/circles/${circleId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        setWriteError(t("writeError"));
+        return;
+      }
+      setWriteError(null);
+      await load();
+    } catch {
+      setWriteError(t("writeError"));
+    }
   }
 
   async function patchCircle(body: Record<string, unknown>) {
-    await fetch(`/api/portal/circles/${circleId}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    await load();
+    try {
+      const res = await fetch(`/api/portal/circles/${circleId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) {
+        setWriteError(t("writeError"));
+        return;
+      }
+      setWriteError(null);
+      await load();
+    } catch {
+      setWriteError(t("writeError"));
+    }
   }
 
   const filteredBulletin = useMemo(() => {
@@ -448,6 +467,12 @@ export function CircleWorkspace({
             </Button>
           </form>
         </details>
+      ) : null}
+
+      {writeError ? (
+        <Callout tone="warning">
+          {writeError}
+        </Callout>
       ) : null}
 
       <Card density="compact" className="space-y-4">
@@ -1072,7 +1097,17 @@ export function CircleWorkspace({
       {activeTab === "pipeline" && (
         <div className="space-y-4">
           {!detail.pipelineBoard ? (
-            <p className="text-sm text-gray-500">{t("noPipeline")}</p>
+            <div className="space-y-3">
+              <p className="text-sm text-gray-500">{t("noPipeline")}</p>
+              {canAdmin ? (
+                <Button
+                  type="button"
+                  onClick={() => void postTool({ tool: "pipeline_board" })}
+                >
+                  {t("startPipeline")}
+                </Button>
+              ) : null}
+            </div>
           ) : (
             <div className="grid gap-3 md:grid-cols-3">
               {detail.pipelineColumns.map((col) => (

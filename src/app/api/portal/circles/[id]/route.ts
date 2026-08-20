@@ -110,6 +110,7 @@ export async function POST(request: Request, ctx: Ctx) {
       | "floor"
       | "roll_call"
       | "roll_call_question"
+      | "pipeline_board"
       | "pipeline_card"
       | "pipeline_move"
       | "pin_bulletin"
@@ -300,6 +301,19 @@ export async function POST(request: Request, ctx: Ctx) {
         body: body.body.trim(),
       });
       return NextResponse.json({ answer }, { status: 201 });
+    }
+    case "pipeline_board": {
+      if (!canAdminCircle(roles, detail.membership.role)) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+      const board = portalStore.ensurePipelineBoard({
+        circleId: id,
+        unionId,
+      });
+      if (!board) {
+        return NextResponse.json({ error: "Not found" }, { status: 404 });
+      }
+      return NextResponse.json({ board }, { status: 201 });
     }
     case "pipeline_card": {
       if (!body.boardId || !body.columnId || !body.title?.trim()) {

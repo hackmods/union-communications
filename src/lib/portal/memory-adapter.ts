@@ -406,7 +406,7 @@ const pipelineBoard: PipelineBoard = {
   id: "pipe-1",
   circleId: jhsc.id,
   unionId: UNION,
-  name: "Inspection many hands",
+  name: "Inspection walk",
 };
 
 const pipelineColumns: PipelineColumn[] = [
@@ -606,6 +606,33 @@ function notifyMentions(input: {
       body: `@${person.userName}`,
     });
   }
+}
+
+function seedPipelineBoard(
+  circleId: string,
+  unionId: string,
+  name: string,
+): PipelineBoard {
+  const existing = boards.find(
+    (b) => b.circleId === circleId && b.unionId === unionId,
+  );
+  if (existing) return existing;
+  const board: PipelineBoard = {
+    id: id("pipe"),
+    circleId,
+    unionId,
+    name,
+  };
+  boards.push(board);
+  ["Backlog", "In progress", "Done"].forEach((colName, position) => {
+    pipelineColumns.push({
+      id: id("col"),
+      boardId: board.id,
+      name: colName,
+      position,
+    });
+  });
+  return board;
 }
 
 export class MemoryPortalAdapter {
@@ -825,27 +852,15 @@ export class MemoryPortalAdapter {
 
     const tpl = input.template ?? "blank";
     if (tpl === "jhsc" || tpl === "lec" || tpl === "campaign") {
-      const board: PipelineBoard = {
-        id: id("pipe"),
-        circleId: circle.id,
-        unionId: input.unionId,
-        name:
-          tpl === "jhsc"
-            ? "Inspection many hands"
-            : tpl === "lec"
-              ? "LEC follow-ups"
-              : "Campaign many hands",
-      };
-      boards.push(board);
-      const cols = ["Backlog", "In progress", "Done"];
-      cols.forEach((name, position) => {
-        pipelineColumns.push({
-          id: id("col"),
-          boardId: board.id,
-          name,
-          position,
-        });
-      });
+      seedPipelineBoard(
+        circle.id,
+        input.unionId,
+        tpl === "jhsc"
+          ? "Inspection walk"
+          : tpl === "lec"
+            ? "LEC follow-ups"
+            : "Campaign work",
+      );
       rollQuestions.push({
         id: id("rcq"),
         circleId: circle.id,
@@ -1102,6 +1117,22 @@ export class MemoryPortalAdapter {
     if (!board) return null;
     card.columnId = columnId;
     return card;
+  }
+
+  ensurePipelineBoard(input: {
+    circleId: string;
+    unionId: string;
+    name?: string;
+  }): PipelineBoard | null {
+    const circle = circles.find(
+      (c) => c.id === input.circleId && c.unionId === input.unionId,
+    );
+    if (!circle || circle.archivedAt) return null;
+    return seedPipelineBoard(
+      input.circleId,
+      input.unionId,
+      input.name?.trim() || circle.name,
+    );
   }
 
   addPipelineCard(input: {

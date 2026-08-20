@@ -41,3 +41,8 @@ French must carry the same **job**, not the same joke. Key parity is not meaning
 - Rename Circle / Hall / Bulletin / Floor / Binder / Dispatch / Sidebars / Roll Call “for consistency”
 - Put uphill/downhill Hill Chart copy back on One fight
 - Treat ADR-017 as a parody brief or a trades-glossary brief — it is solidarity collaboration
+- Hide Roll Call / Many hands / One fight on committee Circles until they already have data — officers must be able to start them empty. Hall still hides those extras until they exist.
+
+## Fit gap closed (same day)
+
+Blank committee Circles now show Roll Call, Many hands, and One fight. Officers get **Start Many hands**, which calls `ensurePipelineBoard`. Hall still hides empty extras. Empty-state copy names the next action. Live dates on a Circle are labeled Live from / Live until, not “on the line.”

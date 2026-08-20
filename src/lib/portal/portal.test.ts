@@ -60,7 +60,7 @@ describe("portalStore", () => {
       "circle-jhsc-243",
     );
     expect(detail?.circle.name).toBe("JHSC");
-    expect(detail?.pipelineBoard?.name).toContain("many hands");
+    expect(detail?.pipelineBoard?.name).toContain("walk");
     expect(detail?.floor.length).toBeGreaterThan(0);
   });
 
@@ -187,7 +187,44 @@ describe("portalStore", () => {
       circle.id,
     );
     expect(detail?.pipelineBoard).not.toBeNull();
+    expect(detail?.pipelineBoard?.name).toContain("walk");
     expect(detail?.rollCallQuestions.length).toBeGreaterThan(0);
+  });
+
+  it("starts Many hands on a blank committee Circle", () => {
+    const circle = portalStore.createCircle({
+      unionId: "union-opseu",
+      localId: "local-243",
+      kind: "committee",
+      name: "Blank committee",
+      visibility: "invited",
+      createdById: "user-president-243",
+      createdByName: "President",
+      template: "blank",
+    });
+    const before = portalStore.getCircleDetail(
+      "union-opseu",
+      "user-president-243",
+      circle.id,
+    );
+    expect(before?.pipelineBoard).toBeNull();
+    const board = portalStore.ensurePipelineBoard({
+      circleId: circle.id,
+      unionId: "union-opseu",
+    });
+    expect(board?.name).toBe("Blank committee");
+    const after = portalStore.getCircleDetail(
+      "union-opseu",
+      "user-president-243",
+      circle.id,
+    );
+    expect(after?.pipelineBoard?.id).toBe(board?.id);
+    expect(after?.pipelineColumns).toHaveLength(3);
+    const again = portalStore.ensurePipelineBoard({
+      circleId: circle.id,
+      unionId: "union-opseu",
+    });
+    expect(again?.id).toBe(board?.id);
   });
 
   it("resolves @mentions into Dispatch and soft-deletes Bulletin", () => {
