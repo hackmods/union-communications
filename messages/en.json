@@ -2013,7 +2013,7 @@
     "wordpressHeading": "Already on WordPress?",
     "wordpressUnsupported": "UnionOps does not support WordPress. Use this only if someone already runs your WordPress site. If you are starting from scratch, download the site ZIP instead — we cannot help with WordPress hosting or updates.",
     "squarespaceNote": "Squarespace does not accept a custom theme ZIP. There is no Squarespace export. If you already use Squarespace, rebuild the page in their editor.",
-    "referenceNote": "Based on the volunteer local243.org GitHub Pages site. Export uses your Brand Kit logo in the nav. OPSEU footer links appear only when the Brand Kit theme is OPSEU.",
+    "referenceNote": "Based on the volunteer local243.org GitHub Pages site. Export uses your Brand Kit logo in the nav. OPSEU / SEFPO footer links appear only when the Brand Kit theme is OPSEU / SEFPO.",
     "whenToUse": "Use when your local needs a simple lasting website members can bookmark.",
     "heroDefault": "Members stand united in solidarity for fairness, respect, and quality public services. Get the latest updates and find out how to connect with your Local.",
     "about2Default": "Through collective action and solidarity, we work to ensure the essential work our members perform is recognized and respected.",
@@ -2157,7 +2157,7 @@
     "allSources": {
       "title": "Full source bibliography",
       "intro": "National and government links cited across Comms guides.",
-      "scopedNote": "National OPSEU citations are hidden because your Brand Kit is set to another union. Change the union preset in",
+      "scopedNote": "National OPSEU / SEFPO citations are hidden because your Brand Kit is set to another union. Change the union preset in",
       "brandKitLink": "Brand Kit"
     }
   },
@@ -2176,7 +2176,7 @@
     "collectionsHeading": "Collections",
     "primaryColor": "Primary brand colour",
     "secondaryColor": "Graphics accent",
-    "useOfficialLogo": "Use OPSEU logo",
+    "useOfficialLogo": "Use OPSEU / SEFPO logo",
     "uploadCustomLogo": "Upload custom logo",
     "complete": "Finish setup",
     "step3Description": "Pick how your local appears in the header and on graphics. The header updates as you choose."
@@ -2438,7 +2438,7 @@
       "psac": "Treasury Board groups are PA, TC, EB, SV, and FB. Keep the classifications you represent and remove the rest."
     },
     "opseuSector": {
-      "label": "OPSEU sector",
+      "label": "OPSEU / SEFPO sector",
       "hint": "Pick the sector that matches your workplace. Starter collections load below — remove any you do not use.",
       "caat-support": "College Support (CAAT-S)",
       "caat-academic": "College Faculty (CAAT-A)",
@@ -2460,7 +2460,7 @@
       "developmental-services": "Developmental Services",
       "childrens-aid": "Children's Aid Societies",
       "child-treatment": "Child Treatment Centres",
-      "other": "Other OPSEU sector"
+      "other": "Other OPSEU / SEFPO sector"
     },
     "opseuSectorGroup": {
       "education": "Education",
@@ -2561,22 +2561,22 @@
     "logo": {
       "title": "Logo",
       "description": "If your preset includes bundled logos, pick one. Otherwise use the UnionOps mark (tinted) or upload your own.",
-      "useOfficialLogo": "Use OPSEU logo",
+      "useOfficialLogo": "Use OPSEU / SEFPO logo",
       "uploadCustomLogo": "Upload logo",
       "uploadHint": "PNG, JPEG, WebP, or SVG up to 10 MB.",
-      "useOfficialLogoHint": "Official OPSEU/SEFPO lockup - recommended when OPSEU is your union.",
+      "useOfficialLogoHint": "Official OPSEU / SEFPO lockup - recommended when OPSEU / SEFPO is your union.",
       "noImage": "No image",
       "noImageHint": "Falls back to the UnionOps mark tinted to your primary brand colour.",
       "logoText": "Header text mark",
       "logoTextHint": "Up to 4 characters - e.g. LU or your local number.",
       "preview": "Preview",
-      "useLockup": "OPSEU wordmark",
-      "useLockupHint": "Full OPSEU/SEFPO lockup from the reference asset pack.",
-      "useMark": "OPSEU emblem",
+      "useLockup": "OPSEU / SEFPO wordmark",
+      "useLockupHint": "Full OPSEU / SEFPO lockup from the reference asset pack.",
+      "useMark": "OPSEU / SEFPO emblem",
       "useMarkHint": "Bars and trillium mark - compact for headers and circular logos.",
-      "useSlitBlue": "OPSEU slit mark (blue)",
-      "useSlitBlueHint": "Bars and trillium with OPSEU/SEFPO cut through - for light backgrounds.",
-      "useSlitWhite": "OPSEU slit mark (white)",
+      "useSlitBlue": "OPSEU / SEFPO slit mark (blue)",
+      "useSlitBlueHint": "Bars and trillium with OPSEU / SEFPO cut through - for light backgrounds.",
+      "useSlitWhite": "OPSEU / SEFPO slit mark (white)",
       "useSlitWhiteHint": "Same slit mark in white - for dark or brand-coloured backgrounds.",
       "useUnionLockup": "{union} wordmark",
       "useUnionLockupHint": "Bundled starter wordmark for {union}. Replace with your official logo when publishing.",
@@ -2596,8 +2596,8 @@
     "copyHex": "Copy",
     "copied": "Copied",
     "downloadUnavailable": "Download unavailable right now. Try again later.",
-    "referencePackTitle": "Reference pack (OPSEU/SEFPO)",
-    "referenceNote": "Bundled files are the OPSEU/SEFPO reference pack (not an endorsement). We do not ship other national locks without a clear license.",
+    "referencePackTitle": "Reference pack (OPSEU / SEFPO)",
+    "referenceNote": "Bundled files are the OPSEU / SEFPO reference pack (not an endorsement). We do not ship other national locks without a clear license.",
     "primaryLogo": "Primary logo",
     "downloadPng": "Download PNG",
     "logoAlt": "Your brand logo",
@@ -2617,7 +2617,7 @@
       "questions": "For questions about brand usage, contact your local or division communications chair",
       "sourceLabel": "Reference source (current defaults):"
     },
-    "markAlt": "OPSEU emblem (bars and trillium)",
+    "markAlt": "OPSEU / SEFPO emblem (bars and trillium)",
     "downloadMark": "Download emblem PNG"
   },
   "graphicMaker": {
@@ -3208,8 +3208,8 @@
         "body": "The Email & Member Outreach Guide now covers when email is the official record, how to write a subject members will open, and how to protect addresses with BCC and personal inboxes."
       },
       "opseu-membership-sector": {
-        "title": "OPSEU membership links follow your sector",
-        "body": "College Support still gets Full-Time and Part-Time application links in Brand Kit. Other OPSEU sectors get one All members link to the OPSEU membership form."
+        "title": "OPSEU / SEFPO membership links follow your sector",
+        "body": "College Support still gets Full-Time and Part-Time application links in Brand Kit. Other OPSEU / SEFPO sectors get one All members link to the OPSEU / SEFPO membership form."
       },
       "graphic-portrait": {
         "title": "Graphic Maker portrait for Reels",

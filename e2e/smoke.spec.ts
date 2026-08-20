@@ -253,7 +253,7 @@ test.describe("Smoke tests @smoke", () => {
     ).toBeVisible();
     await expect(page.getByRole("heading", { name: "Running a workshop" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Full source bibliography" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "OPSEU/SEFPO graphics, logos & letterhead" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "OPSEU / SEFPO graphics, logos & letterhead" })).toBeVisible();
   });
 
   test("photo consent guide renders", async ({ page }) => {

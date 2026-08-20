@@ -29,16 +29,16 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
   "opseu-branding": {
     id: "opseu-branding",
     category: "branding",
-    label: "OPSEU/SEFPO graphics, logos & letterhead",
+    label: "OPSEU / SEFPO graphics, logos & letterhead",
     url: "https://opseu.org/about/",
-    note: "About page links to downloadable logos, letterhead, and colour specs. Official OPSEU blue (#003DA5, Pantone 285). White is the graphics accent on blue/dark backgrounds. Mirrored PNGs on UnionOps /assets.",
+    note: "About page links to downloadable logos, letterhead, and colour specs. Official OPSEU / SEFPO blue (#003DA5, Pantone 285). White is the graphics accent on blue/dark backgrounds. Mirrored PNGs on UnionOps /assets.",
     unionIds: OPSEU_SCOPE,
     lastVerified: "2026-07-30",
   },
   "opseu-home": {
     id: "opseu-home",
     category: "union",
-    label: "OPSEU/SEFPO",
+    label: "OPSEU / SEFPO",
     url: "https://opseu.org/",
     note: "National union homepage — exported local website footer.",
     unionIds: OPSEU_SCOPE,
@@ -47,7 +47,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
   "opseu-contact": {
     id: "opseu-contact",
     category: "union",
-    label: "OPSEU Head Office",
+    label: "OPSEU / SEFPO Head Office",
     url: "https://opseu.org/contact/",
     note: "National contact page — exported local website footer.",
     unionIds: OPSEU_SCOPE,
@@ -56,7 +56,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
   "opseu-member-portal": {
     id: "opseu-member-portal",
     category: "union",
-    label: "OPSEU/SEFPO Member Portal",
+    label: "OPSEU / SEFPO Member Portal",
     url: "https://members.opseu.org/",
     note: "National member resources linked from local websites and crisis comms.",
     unionIds: OPSEU_SCOPE,
@@ -64,7 +64,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
   "opseu-collective-agreements": {
     id: "opseu-collective-agreements",
     category: "union",
-    label: "OPSEU/SEFPO collective agreements",
+    label: "OPSEU / SEFPO collective agreements",
     url: "https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/",
     note: "Public CA documents for citing contract language in comms - never post confidential bargaining details.",
     unionIds: OPSEU_SCOPE,
@@ -72,7 +72,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
   "opseu-forms": {
     id: "opseu-forms",
     category: "union",
-    label: "OPSEU/SEFPO forms and documents",
+    label: "OPSEU / SEFPO forms and documents",
     url: "https://opseu.org/about-opseu-sefpo/forms-documents/",
     note: "National forms referenced in footer links on exported local websites.",
     unionIds: OPSEU_SCOPE,
@@ -80,7 +80,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
   "local243-website": {
     id: "local243-website",
     category: "website",
-    label: "OPSEU SEFPO Local 243 website (reference)",
+    label: "OPSEU / SEFPO Local 243 website (reference)",
     url: "https://local243.org",
     note: "Live example local site built by Local 243 volunteers. The Website Template tool is a simplified, parameterised version of this GitHub Pages site.",
     unionIds: OPSEU_SCOPE,

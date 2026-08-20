@@ -9,6 +9,9 @@ import { collectionPatchForPreset } from "@/lib/brand/collection-profiles";
 import { getSeedMembershipUrlsForPreset } from "@/lib/tenant/loader";
 import type { BrandKitPatch } from "@/types/entities";
 
+/** Volunteer-facing bilingual lockup. Preset and tenant ids stay `opseu`. */
+export const OPSEU_DISPLAY_NAME = "OPSEU / SEFPO";
+
 export interface UnionLogoPack {
   /** Wide wordmark / lockup */
   lockup?: string;
@@ -127,7 +130,7 @@ export function unionOpsLogoSrc(onDark = false): string {
 export const UNION_PRESETS: UnionBranding[] = [
   {
     id: "opseu",
-    name: "OPSEU",
+    name: OPSEU_DISPLAY_NAME,
     primaryColor: "#003DA5",
     secondaryColor: "#FFFFFF",
     accentColor: "#002868",

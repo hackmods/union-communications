@@ -116,7 +116,7 @@ describe("collectionPatchForPreset", () => {
     expect(patch.local?.subText).toBe("Adult corrections");
     expect(patch.membershipUrls).toHaveLength(1);
     expect(patch.membershipUrls?.[0]).toMatchObject({
-      label: "OPSEU Membership",
+      label: "OPSEU / SEFPO Membership",
       audience: "all",
       url: "https://hub03.opseu.org/Forms/emaweb",
       primary: true,

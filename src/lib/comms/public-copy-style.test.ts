@@ -147,6 +147,33 @@ describe("locked product terms", () => {
     expect(bare, report(bare)).toEqual([]);
   });
 
+  /**
+   * Official bilingual lockup. A leftover OPSEU or SEFPO after stripping
+   * `OPSEU / SEFPO` (or the French-order `SEFPO / OPSEU`) is a miss —
+   * including the tight `OPSEU/SEFPO` form this guard was written to catch.
+   */
+  function withoutOpseuSefpoLockup(value: string): string {
+    return value.replace(/OPSEU \/ SEFPO/g, "").replace(/SEFPO \/ OPSEU/g, "");
+  }
+
+  function hasBareOpseuOrSefpo(value: string): boolean {
+    return /\b(?:OPSEU|SEFPO)\b/.test(withoutOpseuSefpoLockup(value));
+  }
+
+  it("treats a bare OPSEU as a lockup miss", () => {
+    expect(hasBareOpseuOrSefpo("Use OPSEU logo")).toBe(true);
+    expect(hasBareOpseuOrSefpo("Use OPSEU/SEFPO logo")).toBe(true);
+    expect(hasBareOpseuOrSefpo("Use OPSEU / SEFPO logo")).toBe(false);
+    expect(hasBareOpseuOrSefpo("Utiliser le logo SEFPO / OPSEU")).toBe(false);
+  });
+
+  it("uses OPSEU / SEFPO, not a bare OPSEU, in public copy", () => {
+    const hits = [...EN_LEAVES, ...FR_LEAVES].filter(([, value]) =>
+      hasBareOpseuOrSefpo(value),
+    );
+    expect(hits, report(hits)).toEqual([]);
+  });
+
   it("uses one French name per locked term", () => {
     const drifted = FR_LEAVES.filter(([, v]) =>
       // Officer Hub -> "Hub des dirigeants" (not Portail/Centre des dirigeants)

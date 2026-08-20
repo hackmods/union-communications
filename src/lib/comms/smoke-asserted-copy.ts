@@ -21,7 +21,7 @@ export const PUBLIC_COMMS_SMOKE_SPECS = [
  */
 export const SMOKE_COPY_ALLOWLIST = new Set([
   // Bibliography row title from COMMS_SOURCES (registry), not messages/*.json
-  "OPSEU/SEFPO graphics, logos & letterhead",
+  "OPSEU / SEFPO graphics, logos & letterhead",
 ]);
 
 const ROLE_NAME_LITERAL =

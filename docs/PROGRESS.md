@@ -1,5 +1,12 @@
 # Progress Log
 
+## OPSEU / SEFPO lockup (2026-08-20)
+
+- [x] Volunteer-facing copy, Brand Kit union picker, reference tenant name, membership label, and bibliography rows use **OPSEU / SEFPO** (spaces around the slash)
+- [x] Preset id, tenant slug, and code paths stay `opseu`
+- [x] Copy guard in `public-copy-style.test.ts` rejects a bare OPSEU/SEFPO
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/comms/smoke-asserted-copy.test.ts src/lib/constants/unionPresets.test.ts src/lib/constants/comms-sources.test.ts src/lib/templates/website/brand-kit-fields.test.ts src/lib/tenant/tenant.test.ts src/lib/brand/collection-profiles.test.ts src/lib/brand/membership-primary.test.ts`
+
 ## President soft launch (2026-08-19)
 
 - [x] Durable tenant writes: `create_local` / `create_collection` / `create_union` persist to Postgres when `DATABASE_URL` is set; overlay hydrates on Hub/Portal request

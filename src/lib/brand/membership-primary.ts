@@ -17,7 +17,7 @@ export const OPSEU_MEMBERSHIP_FORM_URL =
   "https://hub03.opseu.org/Forms/emaweb";
 
 export const OPSEU_GENERIC_MEMBERSHIP_ID = "membership-all";
-export const OPSEU_GENERIC_MEMBERSHIP_LABEL = "OPSEU Membership";
+export const OPSEU_GENERIC_MEMBERSHIP_LABEL = "OPSEU / SEFPO Membership";
 
 /**
  * CAAT Support collections carry matching OPSEU join forms.

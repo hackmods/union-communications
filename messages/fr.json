@@ -2013,7 +2013,7 @@
     "wordpressHeading": "Déjà sur WordPress?",
     "wordpressUnsupported": "UnionOps ne prend pas en charge WordPress. Utilisez ce fichier seulement si quelqu’un gère déjà votre site WordPress. Si vous partez de zéro, téléchargez plutôt le ZIP du site — nous ne pouvons pas aider pour l’hébergement ou les mises à jour WordPress.",
     "squarespaceNote": "Squarespace n’accepte pas un ZIP de thème personnalisé. Il n’y a pas d’export Squarespace. Si vous utilisez déjà Squarespace, recréez la page dans leur éditeur.",
-    "referenceNote": "Basé sur le site bénévole local243.org (GitHub Pages). L’export utilise le logo de la Trousse de marque dans la navigation. Liens OPSEU en pied seulement si le thème est OPSEU.",
+    "referenceNote": "Basé sur le site bénévole local243.org (GitHub Pages). L’export utilise le logo de la Trousse de marque dans la navigation. Liens OPSEU / SEFPO en pied seulement si le thème est OPSEU / SEFPO.",
     "whenToUse": "À utiliser quand votre section a besoin d'un site Web simple et durable que les membres peuvent mettre dans leurs favoris.",
     "heroDefault": "Les membres sont unis dans la solidarité pour l’équité, le respect et des services publics de qualité. Consultez les nouvelles et voyez comment joindre votre section.",
     "about2Default": "Par l’action collective et la solidarité, nous veillons à ce que le travail essentiel de nos membres soit reconnu et respecté.",
@@ -2157,7 +2157,7 @@
     "allSources": {
       "title": "Bibliographie complète des sources",
       "intro": "Liens nationaux et gouvernementaux cités dans les guides Comms.",
-      "scopedNote": "Les citations nationales OPSEU sont masquées parce que votre Trousse de marque est réglée sur un autre syndicat. Changez le préréglage dans la",
+      "scopedNote": "Les citations nationales OPSEU / SEFPO sont masquées parce que votre Trousse de marque est réglée sur un autre syndicat. Changez le préréglage dans la",
       "brandKitLink": "Trousse de marque"
     }
   },
@@ -2176,7 +2176,7 @@
     "collectionsHeading": "Collections",
     "primaryColor": "Couleur de marque principale",
     "secondaryColor": "Accent graphique",
-    "useOfficialLogo": "Utiliser le logo OPSEU",
+    "useOfficialLogo": "Utiliser le logo OPSEU / SEFPO",
     "uploadCustomLogo": "Téléverser un logo personnalisé",
     "complete": "Terminer la configuration",
     "step3Description": "Choisissez comment votre section apparaît dans l'en-tête et sur les graphiques. L'en-tête se met à jour au fur et à mesure."
@@ -2438,7 +2438,7 @@
       "psac": "Les groupes du Conseil du Trésor sont PA, TC, EB, SV et FB. Gardez les classifications que vous représentez et retirez le reste."
     },
     "opseuSector": {
-      "label": "Secteur SEFPO",
+      "label": "Secteur OPSEU / SEFPO",
       "hint": "Choisissez le secteur qui correspond à votre milieu. Des collections de départ se chargent ci-dessous — retirez celles que vous n’utilisez pas.",
       "caat-support": "Soutien collégial (CAAT-S)",
       "caat-academic": "Personnel enseignant collégial (CAAT-A)",
@@ -2460,7 +2460,7 @@
       "developmental-services": "Services à la personne",
       "childrens-aid": "Sociétés d’aide à l’enfance",
       "child-treatment": "Centres de traitement pour enfants",
-      "other": "Autre secteur SEFPO"
+      "other": "Autre secteur OPSEU / SEFPO"
     },
     "opseuSectorGroup": {
       "education": "Éducation",
@@ -2561,22 +2561,22 @@
     "logo": {
       "title": "Logo",
       "description": "Si le préréglage inclut des logos, choisissez-en un. Sinon, marque UnionOps (teintée) ou téléversement local.",
-      "useOfficialLogo": "Utiliser le logo OPSEU",
+      "useOfficialLogo": "Utiliser le logo OPSEU / SEFPO",
       "uploadCustomLogo": "Téléverser un logo",
       "uploadHint": "PNG, JPEG, WebP ou SVG jusqu'à 10 Mo.",
-      "useOfficialLogoHint": "Lockup officiel OPSEU/SEFPO - recommandé lorsque OPSEU est votre syndicat.",
+      "useOfficialLogoHint": "Lockup officiel OPSEU / SEFPO - recommandé lorsque OPSEU / SEFPO est votre syndicat.",
       "noImage": "Aucune image",
       "noImageHint": "Revient au monogramme UnionOps teinté de votre couleur de marque principale.",
       "logoText": "Monogramme d'en-tête",
       "logoTextHint": "Jusqu'à 4 caractères - p. ex. LU ou votre numéro de section.",
       "preview": "Aperçu",
-      "useLockup": "Mot-symbole OPSEU",
-      "useLockupHint": "Lockup complet OPSEU/SEFPO du lot d'actifs de référence.",
-      "useMark": "Emblème OPSEU",
+      "useLockup": "Mot-symbole OPSEU / SEFPO",
+      "useLockupHint": "Lockup complet OPSEU / SEFPO du lot d'actifs de référence.",
+      "useMark": "Emblème OPSEU / SEFPO",
       "useMarkHint": "Barres et trille - compact pour les en-têtes et logos circulaires.",
-      "useSlitBlue": "Emblème fendu OPSEU (bleu)",
-      "useSlitBlueHint": "Barres et trille avec OPSEU/SEFPO découpés - pour fonds clairs.",
-      "useSlitWhite": "Emblème fendu OPSEU (blanc)",
+      "useSlitBlue": "Emblème fendu OPSEU / SEFPO (bleu)",
+      "useSlitBlueHint": "Barres et trille avec OPSEU / SEFPO découpés - pour fonds clairs.",
+      "useSlitWhite": "Emblème fendu OPSEU / SEFPO (blanc)",
       "useSlitWhiteHint": "Même emblème fendu en blanc - pour fonds foncés ou couleur de marque.",
       "useUnionLockup": "Mot-symbole {union}",
       "useUnionLockupHint": "Wordmark de départ fourni pour {union}. Remplacez-le par votre logo officiel avant de publier.",
@@ -3174,8 +3174,8 @@
         "body": "Le Guide courriel et diffusion explique maintenant quand le courriel est le dossier officiel, comment rédiger un objet que les membres ouvriront, et comment protéger les adresses avec la CCI et des boîtes personnelles."
       },
       "opseu-membership-sector": {
-        "title": "Les liens d'adhésion OPSEU suivent votre secteur",
-        "body": "Le soutien collégial conserve les liens d'adhésion temps plein et temps partiel dans la Trousse de marque. Les autres secteurs OPSEU ont un seul lien Tous les membres vers le formulaire d'adhésion OPSEU."
+        "title": "Les liens d'adhésion OPSEU / SEFPO suivent votre secteur",
+        "body": "Le soutien collégial conserve les liens d'adhésion temps plein et temps partiel dans la Trousse de marque. Les autres secteurs OPSEU / SEFPO ont un seul lien Tous les membres vers le formulaire d'adhésion OPSEU / SEFPO."
       },
       "graphic-portrait": {
         "title": "Format portrait du Créateur graphique pour Reels",
@@ -5101,8 +5101,8 @@
     "copyHex": "Copier",
     "copied": "Copié",
     "downloadUnavailable": "Téléchargement indisponible pour le moment. Réessayez plus tard.",
-    "referencePackTitle": "Trousse de référence (OPSEU/SEFPO)",
-    "referenceNote": "Les fichiers groupés sont la trousse de référence OPSEU/SEFPO (pas une approbation). Nous n’expédions pas d’autres marques nationales sans licence claire.",
+    "referencePackTitle": "Trousse de référence (OPSEU / SEFPO)",
+    "referenceNote": "Les fichiers groupés sont la trousse de référence OPSEU / SEFPO (pas une approbation). Nous n’expédions pas d’autres marques nationales sans licence claire.",
     "primaryLogo": "Logo principal",
     "downloadPng": "Télécharger PNG",
     "logoAlt": "Votre logo de marque",
@@ -5122,7 +5122,7 @@
       "questions": "Pour toute question sur l'usage de la marque, contactez le responsable des communications de votre section ou division",
       "sourceLabel": "Source de référence (valeurs actuelles) :"
     },
-    "markAlt": "Emblème OPSEU (barres et trille)",
+    "markAlt": "Emblème OPSEU / SEFPO (barres et trille)",
     "downloadMark": "Télécharger l'emblème PNG"
   },
   "installPage": {

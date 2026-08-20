@@ -24,7 +24,7 @@ describe("websiteDisplayName", () => {
 
   it("prefixes the Brand Kit union preset name", () => {
     expect(websiteDisplayName(kit({ unionPresetId: "opseu" }), "243")).toBe(
-      "OPSEU Local 243",
+      "OPSEU / SEFPO Local 243",
     );
     expect(websiteDisplayName(kit({ unionPresetId: "cupe" }), "123")).toBe(
       "CUPE Local 123",
@@ -34,10 +34,10 @@ describe("websiteDisplayName", () => {
   it("prefers an explicit Brand Kit unionName", () => {
     expect(
       websiteDisplayName(
-        kit({ unionPresetId: "opseu", unionName: "OPSEU/SEFPO" }),
+        kit({ unionPresetId: "opseu", unionName: "OPSEU / SEFPO" }),
         "243",
       ),
-    ).toBe("OPSEU/SEFPO Local 243");
+    ).toBe("OPSEU / SEFPO Local 243");
   });
 
   it("does not title a site Other Local N", () => {

@@ -433,7 +433,7 @@ export const OPSEU_SECTOR_CATALOG: Record<string, OpseuSectorDefinition> = {
   },
   other: {
     id: "other",
-    label: "Other OPSEU sector",
+    label: "Other OPSEU / SEFPO sector",
     group: "community",
     referenceUrl: "https://opseu.org",
     defaultActiveId: "profile-local",

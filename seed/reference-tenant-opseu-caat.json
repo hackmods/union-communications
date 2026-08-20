@@ -3,7 +3,7 @@
   "description": "Reference tenant seed for OPSEU CAAT division — multi-local + FT/PT collections; first adopter, not platform default",
   "union": {
     "id": "union-opseu",
-    "name": "OPSEU",
+    "name": "OPSEU / SEFPO",
     "slug": "opseu",
     "defaultLocale": "en",
     "enabledModules": ["comms", "grievance", "bumping", "time", "discussions", "tasks", "informalLog", "checkins", "portal"]

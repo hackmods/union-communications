@@ -36,6 +36,7 @@ describe("unionPresets", () => {
 
   it("keeps OPSEU on the official pack and leaves other presets without attached logos", () => {
     const opseu = getUnionPreset("opseu")!;
+    expect(opseu.name).toBe("OPSEU / SEFPO");
     expect(opseu.logos?.useOfficialPack).toBe(true);
     expect(opseu.logos?.lockup).toContain("caat-opseu");
     expect(opseu.logos?.mark).toContain("caat-opseu");

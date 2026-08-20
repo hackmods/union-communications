@@ -10,7 +10,7 @@ External resources cited across guides, tools, and exported materials. Canonical
 
 | Source | URL | Used in |
 |--------|-----|---------|
-| OPSEU/SEFPO graphics, logos & letterhead | https://opseu.org/about/ | Asset pack, Brand Kit defaults, all graphic tools (About → Download graphics) |
+| OPSEU / SEFPO graphics, logos & letterhead | https://opseu.org/about/ | Asset pack, Brand Kit defaults, all graphic tools (About → Download graphics) |
 
 **Notes:** OPSEU blue `#003DA5` (Pantone 285). White `#FFFFFF` is the graphics accent on blue/dark backgrounds. See `.cursor/rules/opseu-branding.mdc`.
 
@@ -28,7 +28,7 @@ External resources cited across guides, tools, and exported materials. Canonical
 
 | Source | URL | Used in |
 |--------|-----|---------|
-| OPSEU Member Portal | https://members.opseu.org/ | Crisis guide, exported site footer |
+| OPSEU / SEFPO Member Portal | https://members.opseu.org/ | Crisis guide, exported site footer |
 | Collective agreements | https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/ | Union boards guide, crisis guide |
 | Forms and documents | https://opseu.org/about-opseu-sefpo/forms-documents/ | Crisis guide, exported site footer |
 | Ontario Federation of Labour | https://ofl.ca/ | Exported site footer (optional) |

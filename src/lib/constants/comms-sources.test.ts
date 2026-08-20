@@ -75,6 +75,17 @@ describe("comms-sources", () => {
     expect(new Set(urls).size).toBe(urls.length);
   });
 
+  it("uses the bilingual OPSEU / SEFPO lockup on OPSEU-scoped labels and notes", () => {
+    for (const source of Object.values(COMMS_SOURCES)) {
+      if (!source.unionIds?.includes("opseu")) continue;
+      const stripped = `${source.label} ${source.note}`.replace(
+        /OPSEU \/ SEFPO/g,
+        "",
+      );
+      expect(stripped, source.id).not.toMatch(/\b(?:OPSEU|SEFPO)\b/);
+    }
+  });
+
   it("points opseu-branding at the About hub (not legacy /12263 deep link)", () => {
     expect(COMMS_SOURCES["opseu-branding"].url).toBe("https://opseu.org/about/");
     expect(COMMS_SOURCES["opseu-branding"].url).not.toContain("12263");

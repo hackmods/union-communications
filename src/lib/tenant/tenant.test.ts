@@ -5,7 +5,7 @@ import { getVisibleModules, getHubNavModules, canAccessModule } from "@/lib/modu
 describe("tenant loader", () => {
   it("loads reference tenant by slug", () => {
     const tenant = getTenantByUnionSlug("opseu");
-    expect(tenant?.union.name).toBe("OPSEU");
+    expect(tenant?.union.name).toBe("OPSEU / SEFPO");
     expect(tenant?.locals?.[0]?.localNumber).toBe("243");
     expect(tenant?.locals).toHaveLength(2);
     expect(tenant?.bargainingUnits?.length).toBeGreaterThanOrEqual(2);
