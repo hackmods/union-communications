@@ -1,5 +1,14 @@
 # Progress Log
 
+## President soft launch (2026-08-19)
+
+- [x] Durable tenant writes: `create_local` / `create_collection` / `create_union` persist to Postgres when `DATABASE_URL` is set; overlay hydrates on Hub/Portal request
+- [x] Operator **Invite a local president** (find-or-create local number + email); pending invite list; local picker for elevated roles
+- [x] Server-side invite ladder + `local_member` email invites (members land on Local Portal)
+- [x] Union setup checklist: local, Brand Kit, Hall, invites; early-access Hub/Portal banner while Hub is unadvertised
+- [x] `ensureHall` + auto-join on Together, invite accept, and `/api/portal/hall/ensure` (Bulletin/Floor stay memory)
+- Verify: `npm run test:unit -- src/lib/tenant/access.test.ts src/lib/tenant/persist.test.ts src/lib/tenant/overlay.test.ts src/lib/auth/invites.test.ts src/lib/email/messages.test.ts src/lib/portal/portal.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Local Portal solidarity names (2026-08-19)
 
 - [x] Steward-facing Portal labels: **Together** / **Hold the line** / **One fight** / **Many hands** (FR Ensemble / Tenir la ligne / Un seul combat / Plusieurs mains). Routes and ids unchanged

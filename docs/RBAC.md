@@ -55,10 +55,11 @@ Small one-off accounts for individual stewards without full local setup:
 
 ## Invitation Flow (Phase 6 onboarding)
 
-1. `union_admin` creates union (or platform admin onboards)
-2. Invites `division_admin` or `local_president` via email
-3. Local president invites stewards and exec; may assign collection (FT/PT)
-4. Users accept → role assigned → MFA setup for confidential modules
+1. `platform_admin` (or `union_admin`) creates or finds a local, then invites `local_president` by email
+2. Local president confirms the local, opens Hall, and invites stewards, exec, and `local_member` (Portal)
+3. Users accept → role assigned → MFA setup for confidential Hub modules
+
+Hub stays invite-only. There is no public `/app/register`.
 
 ## Audit Log
 

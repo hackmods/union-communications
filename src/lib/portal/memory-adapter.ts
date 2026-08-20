@@ -43,6 +43,11 @@ function id(prefix: string) {
   return `${prefix}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
+/** Deterministic Hall id for a local. Seeded Local 243 keeps `circle-hall-243`. */
+export function hallCircleId(localId: string): string {
+  return `circle-hall-${localId}`;
+}
+
 const UNION = "union-opseu";
 const LOCAL = "local-243";
 
@@ -1423,6 +1428,71 @@ export class MemoryPortalAdapter {
     };
     memberships.push(m);
     return m;
+  }
+
+  /**
+   * Create (or return) the Hall Circle for a local. Membership is derived:
+   * callers auto-join the current user so Together lists Hall after restart.
+   */
+  ensureHall(input: {
+    unionId: string;
+    localId: string;
+    localNumber?: string;
+  }): Circle {
+    const existing = circles.find(
+      (c) =>
+        c.unionId === input.unionId &&
+        c.localId === input.localId &&
+        c.kind === "local_hall" &&
+        !c.archivedAt,
+    );
+    if (existing) return existing;
+    const nowIso = now();
+    const number = input.localNumber?.trim();
+    const circle: Circle = {
+      id: hallCircleId(input.localId),
+      unionId: input.unionId,
+      localId: input.localId,
+      kind: "local_hall",
+      name: number ? `Local ${number} Hall` : "Hall",
+      description: "Default Hall for members and officers of this local.",
+      visibility: "local_members",
+      createdById: "system",
+      createdAt: nowIso,
+      updatedAt: nowIso,
+    };
+    circles.push(circle);
+    return circle;
+  }
+
+  ensureHallAndJoin(input: {
+    unionId: string;
+    localId: string;
+    localNumber?: string;
+    userId: string;
+    userName: string;
+    admin?: boolean;
+  }): { circle: Circle; membership: CircleMembership } {
+    const circle = this.ensureHall({
+      unionId: input.unionId,
+      localId: input.localId,
+      localNumber: input.localNumber,
+    });
+    const existing = membershipFor(input.userId, circle.id);
+    if (existing) return { circle, membership: existing };
+    const membership: CircleMembership = {
+      id: id("cm"),
+      circleId: circle.id,
+      userId: input.userId,
+      userName: input.userName,
+      role: input.admin ? "admin" : "member",
+      muted: false,
+      mutedTools: [],
+      starred: true,
+      joinedAt: now(),
+    };
+    memberships.push(membership);
+    return { circle, membership };
   }
 
   addRollCallQuestion(input: {

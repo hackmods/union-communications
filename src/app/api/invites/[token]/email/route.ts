@@ -8,12 +8,7 @@ import {
 } from "@/lib/email/messages";
 import { sendTransactionalEmail } from "@/lib/email/send";
 
-const INVITE_ROLES = new Set([
-  "union_admin",
-  "division_admin",
-  "local_president",
-  "platform_admin",
-]);
+import { canManageInvites } from "@/lib/tenant/access";
 
 /**
  * Send (or re-send) the invite accept link for a pending invite token.
@@ -28,7 +23,7 @@ export async function POST(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const roles = session.user.roles ?? [];
-  if (!roles.some((r) => INVITE_ROLES.has(r))) {
+  if (!canManageInvites(roles)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   if (!session.user.unionId) {
@@ -56,6 +51,11 @@ export async function POST(
     inviteeName: invite.name,
     acceptUrl,
     expiresAt: invite.expiresAt,
+    kind: invite.roles.includes("local_president")
+      ? "president"
+      : invite.roles.every((r) => r === "local_member")
+        ? "member"
+        : "officer",
   });
 
   const result = await sendTransactionalEmail({

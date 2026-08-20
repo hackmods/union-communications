@@ -52,6 +52,10 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
 
 `platform_feedback_submissions` (migration `0033`) is a **platform** table like password-reset tokens: no tenant RLS. `unionops_app` can INSERT/SELECT via default grants; **API RBAC** (`platform_admin`) is the read boundary.
 
+**Tenant rows:** `POST /api/tenant` (`create_local` / `create_collection` / `create_union`) writes `unions` / `locals` / `bargaining_units` when `DATABASE_URL` is set, and the tenant loader hydrates those rows into the in-process overlay on first Hub/Portal request. Soft-launch invites need this so a new local’s `user_invites.local_id` FK survives restart. Overlay remains the fallback when Postgres is off.
+
+**Soft-launch invites** (Hub still unadvertised): `AUTH_USERS_BACKEND=postgres` + `DATABASE_URL` + optional SMTP (`EMAIL_ENABLED` / `NEXT_PUBLIC_EMAIL_ENABLED`). Keep `NEXT_PUBLIC_OFFICER_HUB_PUBLIC=false`. Platform admin invites a president by local number; they set up Hall and invite officers/members. Casework `*_DB_BACKEND=postgres` flips remain optional for that invite path — turn them on before real grievance/time data.
+
 5. **All-at-once Docker flip:** after migrate + seed, use the durable overlay:
 
 ```bash

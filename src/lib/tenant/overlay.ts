@@ -17,6 +17,31 @@ const overlaySeeds = new Map<string, TenantSeed>();
 /** Locals / collections patched onto an existing seed (by unionId). */
 const localPatches = new Map<string, TenantLocal[]>();
 const unitPatches = new Map<string, BargainingUnit[]>();
+/** True after Postgres tenant rows were merged into this process overlay. */
+let hydratedFromDb = false;
+
+export const DEFAULT_OVERLAY_MODULES: HubModule[] = [
+  "comms",
+  "grievance",
+  "portal",
+];
+
+export const DEFAULT_OVERLAY_GRIEVANCE = {
+  steps: [
+    { number: 1, name: "Step 1", responseDays: 5 },
+    { number: 2, name: "Step 2", responseDays: 10 },
+    { number: 3, name: "Step 3", responseDays: 15 },
+    { number: 4, name: "Arbitration", responseDays: null },
+  ],
+};
+
+export function isOverlayHydratedFromDb(): boolean {
+  return hydratedFromDb;
+}
+
+export function markOverlayHydratedFromDb(): void {
+  hydratedFromDb = true;
+}
 
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${randomBytes(4).toString("hex")}`;
@@ -120,7 +145,7 @@ export function createOverlayUnion(input: {
   const modules: HubModule[] =
     input.enabledModules && input.enabledModules.length > 0
       ? input.enabledModules
-      : ["comms", "grievance"];
+      : DEFAULT_OVERLAY_MODULES;
 
   const locals: TenantLocal[] = [];
   const bargainingUnits: BargainingUnit[] = [];
@@ -157,14 +182,7 @@ export function createOverlayUnion(input: {
     locals,
     bargainingUnits,
     brandDefaults: neutralBrandDefaultsForNewTenant(),
-    grievanceConfig: {
-      steps: [
-        { number: 1, name: "Step 1", responseDays: 5 },
-        { number: 2, name: "Step 2", responseDays: 10 },
-        { number: 3, name: "Step 3", responseDays: 15 },
-        { number: 4, name: "Arbitration", responseDays: null },
-      ],
-    },
+    grievanceConfig: DEFAULT_OVERLAY_GRIEVANCE,
   };
 
   overlaySeeds.set(unionId, seed);
@@ -173,9 +191,61 @@ export function createOverlayUnion(input: {
   return seed;
 }
 
+/**
+ * Merge a local that already has an id (Postgres hydrate / durable create).
+ * No-op when that id is already in the overlay for the union.
+ */
+export function importOverlayLocal(local: TenantLocal): void {
+  const list = localPatches.get(local.unionId) ?? [];
+  if (list.some((row) => row.id === local.id)) return;
+  list.push(local);
+  localPatches.set(local.unionId, list);
+  const seed = overlaySeeds.get(local.unionId);
+  if (seed) {
+    seed.locals = [...(seed.locals ?? []).filter((row) => row.id !== local.id), local];
+  }
+}
+
+/** Merge a collection that already has an id. */
+export function importOverlayCollection(unit: BargainingUnit): void {
+  const list = unitPatches.get(unit.unionId) ?? [];
+  if (list.some((row) => row.id === unit.id)) return;
+  list.push(unit);
+  unitPatches.set(unit.unionId, list);
+  const seed = overlaySeeds.get(unit.unionId);
+  if (seed) {
+    seed.bargainingUnits = [
+      ...(seed.bargainingUnits ?? []).filter((row) => row.id !== unit.id),
+      unit,
+    ];
+  }
+}
+
+/** Merge a runtime-provisioned union seed (never overwrites an existing overlay id). */
+export function importOverlayUnion(seed: TenantSeed): void {
+  const existing = overlaySeeds.get(seed.union.id);
+  if (existing) {
+    for (const local of seed.locals ?? []) importOverlayLocal(local);
+    for (const unit of seed.bargainingUnits ?? []) importOverlayCollection(unit);
+    return;
+  }
+  overlaySeeds.set(seed.union.id, {
+    ...seed,
+    locals: [...(seed.locals ?? [])],
+    bargainingUnits: [...(seed.bargainingUnits ?? [])],
+  });
+  if (seed.locals?.length) {
+    localPatches.set(seed.union.id, [...seed.locals]);
+  }
+  if (seed.bargainingUnits?.length) {
+    unitPatches.set(seed.union.id, [...seed.bargainingUnits]);
+  }
+}
+
 /** @internal test helper */
 export function resetTenantOverlayForTests(): void {
   overlaySeeds.clear();
   localPatches.clear();
   unitPatches.clear();
+  hydratedFromDb = false;
 }

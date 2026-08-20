@@ -5,6 +5,8 @@
 
 Do **not** treat Brand Kit union presets as Officer Hub tenant signup. Do **not** add a public `/app/register` page without an explicit product decision — Hub is invite-only.
 
+**Update 2026-08-19:** `create_local` / `create_union` persist to Postgres when `DATABASE_URL` is set. See [`session-knowledge-2026-08-19-president-soft-launch.md`](session-knowledge-2026-08-19-president-soft-launch.md). Overlay remains the memory fallback.
+
 ---
 
 ## What Ryan asked

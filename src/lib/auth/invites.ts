@@ -1,11 +1,15 @@
 import { randomBytes } from "crypto";
 import type { UserRole } from "@/types/tenant";
+import { getLocalById } from "@/lib/tenant/loader";
+import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
+import { portalStore } from "@/lib/portal/memory-adapter";
 import { hashPassword } from "@/lib/auth/password";
 import {
   acceptInvitePostgres,
   createInvitePostgres,
   getInviteByTokenPostgres,
   invitesPostgresEnabled,
+  listInvitesPostgres,
 } from "@/lib/auth/invite-postgres";
 
 export type InviteStatus = "pending" | "accepted" | "revoked" | "expired";
@@ -107,6 +111,58 @@ export async function getInviteByToken(
   return invites.find((i) => i.token === token) ?? null;
 }
 
+function withListExpiry(row: InviteRecord): InviteRecord {
+  if (
+    row.status === "pending" &&
+    new Date(row.expiresAt).getTime() < Date.now()
+  ) {
+    return { ...row, status: "expired" };
+  }
+  return row;
+}
+
+export async function listInvitesForUnion(input: {
+  unionId: string;
+  localId?: string;
+}): Promise<InviteRecord[]> {
+  const rows = invitesPostgresEnabled()
+    ? await listInvitesPostgres(input)
+    : invites.filter(
+        (row) =>
+          row.unionId === input.unionId &&
+          (!input.localId || row.localId === input.localId),
+      );
+  return rows.map(withListExpiry);
+}
+
+function joinHallForInvitee(input: {
+  userId: string;
+  userName: string;
+  unionId: string;
+  localId?: string;
+  roles: UserRole[];
+}): void {
+  if (!input.localId) return;
+  const local = getLocalById(input.unionId, input.localId);
+  const hallAdmin = input.roles.some((r) =>
+    [
+      "local_president",
+      "local_exec",
+      "union_admin",
+      "division_admin",
+      "platform_admin",
+    ].includes(r),
+  );
+  portalStore.ensureHallAndJoin({
+    unionId: input.unionId,
+    localId: input.localId,
+    localNumber: local?.localNumber,
+    userId: input.userId,
+    userName: input.userName,
+    admin: hallAdmin,
+  });
+}
+
 async function acceptInviteMemory(
   token: string,
   password: string,
@@ -141,6 +197,13 @@ async function acceptInviteMemory(
   invitedUsers.push(user);
   invite.status = "accepted";
   invite.acceptedAt = user.createdAt;
+  joinHallForInvitee({
+    userId: user.id,
+    userName: user.name,
+    unionId: user.unionId,
+    localId: user.localId,
+    roles: user.roles,
+  });
   return { user };
 }
 
@@ -148,6 +211,7 @@ export async function acceptInvite(
   token: string,
   password: string,
 ): Promise<{ user?: InvitedUserRecord; error?: string }> {
+  await hydrateTenantOverlayFromPostgres();
   if (invitesPostgresEnabled()) {
     const result = await acceptInvitePostgres(token, password);
     if (result.error || !result.userId) {
@@ -155,6 +219,13 @@ export async function acceptInvite(
     }
     const invite = await getInviteByTokenPostgres(token);
     if (!invite) return { error: "Invite not found" };
+    joinHallForInvitee({
+      userId: result.userId,
+      userName: invite.name,
+      unionId: invite.unionId,
+      localId: invite.localId,
+      roles: invite.roles,
+    });
     return {
       user: {
         id: result.userId,

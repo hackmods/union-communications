@@ -7,14 +7,28 @@ export function buildInviteAcceptEmail(input: {
   inviteeName: string;
   acceptUrl: string;
   expiresAt: string;
+  kind?: "officer" | "member" | "president";
 }): { subject: string; text: string } {
   const expires = new Date(input.expiresAt).toLocaleString();
+  const kind = input.kind ?? "officer";
+  const subject =
+    kind === "member"
+      ? "You're invited to your local on UnionOps"
+      : kind === "president"
+        ? "Set up your local on UnionOps"
+        : "You're invited to UnionOps Officer Hub";
+  const intro =
+    kind === "member"
+      ? "You've been invited to join your local's Hall on UnionOps (Local Portal)."
+      : kind === "president"
+        ? "You've been invited to set up your local on UnionOps before a wider launch. Accept the invite, then invite your officers and members."
+        : "You've been invited to join the Officer Hub for your local. This is an early local setup — not a national announcement.";
   return {
-    subject: "You're invited to UnionOps Officer Hub",
+    subject,
     text: [
       `Hello ${input.inviteeName},`,
       "",
-      "You've been invited to join the Officer Hub.",
+      intro,
       `Accept your invite here: ${input.acceptUrl}`,
       "",
       `This link expires on ${expires}.`,

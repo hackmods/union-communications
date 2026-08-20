@@ -104,6 +104,17 @@ export function getLocalById(
   return getTenantContext(unionId)?.locals.find((l) => l.id === localId);
 }
 
+export function findLocalByNumber(
+  unionId: string,
+  localNumber: string,
+): TenantLocal | undefined {
+  const n = localNumber.trim();
+  if (!n) return undefined;
+  return getTenantContext(unionId)?.locals.find(
+    (l) => l.localNumber.trim() === n,
+  );
+}
+
 export function getBargainingUnitById(
   unionId: string,
   bargainingUnitId: string,

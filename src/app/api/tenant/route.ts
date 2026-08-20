@@ -9,10 +9,12 @@ import {
 import { canManageTenantOnboarding } from "@/lib/tenant/access";
 import { getTenantContext } from "@/lib/tenant/loader";
 import {
-  createOverlayCollection,
-  createOverlayLocal,
-  createOverlayUnion,
-} from "@/lib/tenant/overlay";
+  createCollectionDurable,
+  createLocalDurable,
+  createUnionDurable,
+  hydrateTenantOverlayFromPostgres,
+  tenantsPostgresEnabled,
+} from "@/lib/tenant/persist";
 import { parseJsonBody } from "@/lib/validation/parse";
 import type { HubModule, UserRole } from "@/types/tenant";
 
@@ -25,6 +27,7 @@ const hubModuleSchema = z.enum([
   "tasks",
   "informalLog",
   "checkins",
+  "portal",
 ]);
 
 const createLocalSchema = z.object({
@@ -74,6 +77,7 @@ export async function GET() {
   if (!unionId) {
     return NextResponse.json({ error: "Missing union context" }, { status: 400 });
   }
+  await hydrateTenantOverlayFromPostgres();
   const ctx = getTenantContext(unionId);
   if (!ctx) {
     return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
@@ -83,6 +87,7 @@ export async function GET() {
     context: ctx,
     canManageOnboarding: canManageTenantOnboarding(roles),
     canCreateUnion: sessionCanCreateUnion(session),
+    durableTenants: tenantsPostgresEnabled(),
   });
 }
 
@@ -109,6 +114,8 @@ export async function POST(req: Request) {
     );
   }
 
+  await hydrateTenantOverlayFromPostgres();
+
   const data = parsed.data;
   const unionId = authResult.session.user.unionId;
 
@@ -116,7 +123,7 @@ export async function POST(req: Request) {
     if (!sessionCanCreateUnion(authResult.session)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
-    const seed = createOverlayUnion({
+    const seed = await createUnionDurable({
       name: data.name,
       slug: data.slug,
       defaultLocale: data.defaultLocale,
@@ -138,7 +145,7 @@ export async function POST(req: Request) {
   }
 
   if (data.action === "create_local") {
-    const local = createOverlayLocal({
+    const local = await createLocalDurable({
       unionId,
       localNumber: data.localNumber,
       subText: data.subText ?? "",
@@ -146,7 +153,7 @@ export async function POST(req: Request) {
     });
     let collection = null;
     if (data.collectionCode && data.collectionName) {
-      collection = createOverlayCollection({
+      collection = await createCollectionDurable({
         unionId,
         localId: local.id,
         code: data.collectionCode,
@@ -167,7 +174,7 @@ export async function POST(req: Request) {
   if (!localExists) {
     return NextResponse.json({ error: "Local not found" }, { status: 404 });
   }
-  const collection = createOverlayCollection({
+  const collection = await createCollectionDurable({
     unionId,
     localId: data.localId,
     code: data.code,

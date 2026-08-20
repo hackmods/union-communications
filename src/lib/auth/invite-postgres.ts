@@ -171,6 +171,21 @@ export async function getInviteByTokenPostgres(
   return rows[0] ? mapInvite(rows[0]) : null;
 }
 
+export async function listInvitesPostgres(input: {
+  unionId: string;
+  localId?: string;
+}): Promise<InviteRow[]> {
+  const db = getDb();
+  const rows = await db
+    .select()
+    .from(userInvites)
+    .where(eq(userInvites.unionId, input.unionId));
+  return rows
+    .map(mapInvite)
+    .filter((row) => !input.localId || row.localId === input.localId)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
 export async function acceptInvitePostgres(
   token: string,
   password: string,

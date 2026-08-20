@@ -2,18 +2,21 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Callout } from "@/components/ui/Callout";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import type { TenantContext, TenantSeed } from "@/types/tenant";
 
 type TenantGetResponse = {
   context: TenantContext;
   canManageOnboarding: boolean;
   canCreateUnion: boolean;
+  durableTenants?: boolean;
 };
 
 export function TenantOnboardingWizard() {
@@ -23,6 +26,10 @@ export function TenantOnboardingWizard() {
   const [message, setMessage] = useState<string | null>(null);
   const [ctx, setCtx] = useState<TenantContext | null>(null);
   const [canCreateUnion, setCanCreateUnion] = useState(false);
+  const [durableTenants, setDurableTenants] = useState(false);
+  const [hallStatus, setHallStatus] = useState<string | null>(null);
+  const [hallBusy, setHallBusy] = useState(false);
+  const hubPublic = isOfficerHubPublic();
 
   const [localNumber, setLocalNumber] = useState("");
   const [subText, setSubText] = useState("");
@@ -44,6 +51,7 @@ export function TenantOnboardingWizard() {
     const data = (await res.json()) as TenantGetResponse;
     setCtx(data.context);
     setCanCreateUnion(data.canCreateUnion);
+    setDurableTenants(data.durableTenants === true);
     if (!addUnitLocalId && data.context.locals[0]) {
       setAddUnitLocalId(data.context.locals[0].id);
     }
@@ -155,6 +163,24 @@ export function TenantOnboardingWizard() {
     setNewLocalNumber("");
   }
 
+  async function handleEnsureHall() {
+    setHallBusy(true);
+    setHallStatus(null);
+    setError(null);
+    try {
+      const res = await fetch("/api/portal/hall/ensure", { method: "POST" });
+      if (!res.ok) {
+        setHallStatus(t("hallError"));
+        return;
+      }
+      setHallStatus(t("hallReady"));
+    } catch {
+      setHallStatus(t("hallError"));
+    } finally {
+      setHallBusy(false);
+    }
+  }
+
   if (loading) {
     return (
       <PageShell size="nestedFocus" className="space-y-4">
@@ -173,10 +199,66 @@ export function TenantOnboardingWizard() {
         <p className="mt-2 text-gray-600">{t("subtitle")}</p>
       </header>
 
-      <Callout tone="muted">
-        <p className="font-medium text-gray-800">{t("memoryNoteTitle")}</p>
-        <p className="mt-1">{t("memoryNoteBody")}</p>
+      {!hubPublic && (
+        <Callout tone="brand">
+          <p className="font-medium text-gray-800">{t("earlyAccessTitle")}</p>
+          <p className="mt-1">{t("earlyAccessBody")}</p>
+        </Callout>
+      )}
+
+      <Callout tone={durableTenants ? "success" : "muted"}>
+        <p className="font-medium text-gray-800">
+          {durableTenants ? t("durableNoteTitle") : t("memoryNoteTitle")}
+        </p>
+        <p className="mt-1">
+          {durableTenants ? t("durableNoteBody") : t("memoryNoteBody")}
+        </p>
       </Callout>
+
+      <section className="space-y-3" aria-labelledby="launch-checklist-heading">
+        <h2
+          id="launch-checklist-heading"
+          className="text-lg font-semibold text-opseu-dark"
+        >
+          {t("checklistTitle")}
+        </h2>
+        <p className="text-sm text-gray-600">{t("checklistHint")}</p>
+        <ol className="list-decimal space-y-2 pl-5 text-sm text-gray-800">
+          <li>{t("checklistLocal")}</li>
+          <li>
+            <Link href="/brand-kit" className="text-opseu-blue underline">
+              {t("checklistBrand")}
+            </Link>
+          </li>
+          <li>
+            <div className="flex flex-wrap items-center gap-2">
+              <span>{t("checklistHall")}</span>
+              <Button
+                type="button"
+                variant="outline"
+                className="min-h-11"
+                disabled={hallBusy}
+                onClick={() => void handleEnsureHall()}
+              >
+                {hallBusy ? t("hallWorking") : t("openHall")}
+              </Button>
+              <Link href="/portal" className="text-opseu-blue underline">
+                {t("hallLink")}
+              </Link>
+            </div>
+            {hallStatus && (
+              <p className="mt-1 text-gray-700" role="status">
+                {hallStatus}
+              </p>
+            )}
+          </li>
+          <li>
+            <Link href="/app/invites" className="text-opseu-blue underline">
+              {t("checklistInvites")}
+            </Link>
+          </li>
+        </ol>
+      </section>
 
       {error && (
         <p className="text-sm text-red-600" role="alert">

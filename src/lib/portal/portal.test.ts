@@ -304,4 +304,34 @@ describe("portalStore", () => {
       ),
     ).toBe(true);
   });
+
+  it("reuses the seeded Local 243 Hall and joins a new local Hall", () => {
+    const existing = portalStore.ensureHall({
+      unionId: "union-opseu",
+      localId: "local-243",
+      localNumber: "243",
+    });
+    expect(existing.id).toBe("circle-hall-243");
+
+    const first = portalStore.ensureHallAndJoin({
+      unionId: "union-opseu",
+      localId: "local-415",
+      localNumber: "415",
+      userId: "user-pres-415",
+      userName: "President 415",
+      admin: true,
+    });
+    expect(first.circle.kind).toBe("local_hall");
+    expect(first.circle.id).toBe("circle-hall-local-415");
+    expect(first.membership.role).toBe("admin");
+
+    const again = portalStore.ensureHall({
+      unionId: "union-opseu",
+      localId: "local-415",
+    });
+    expect(again.id).toBe(first.circle.id);
+
+    const station = portalStore.listStation("union-opseu", "user-pres-415");
+    expect(station.circles.some((c) => c.id === first.circle.id)).toBe(true);
+  });
 });

@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import type { Session } from "next-auth";
 import { redirect } from "next/navigation";
 import { getTenantContext } from "@/lib/tenant/loader";
+import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
 import { canAccessPortal } from "@/lib/portal/access";
 import type { TenantContext, UserRole } from "@/types/tenant";
 
@@ -17,6 +18,7 @@ export async function requirePortalSession(): Promise<PortalSessionResult> {
   if (!session.user.unionId) {
     return { ok: false, status: 403, error: "No union context" };
   }
+  await hydrateTenantOverlayFromPostgres();
   const tenant = getTenantContext(session.user.unionId);
   if (!tenant?.union.enabledModules.includes("portal")) {
     return { ok: false, status: 403, error: "Portal module disabled" };
@@ -37,6 +39,7 @@ export async function requirePortalPage(locale: string): Promise<{
   const session = await auth();
   if (!session?.user) redirect(`/${locale}/app/login`);
   if (!session.user.unionId) redirect(`/${locale}/app`);
+  await hydrateTenantOverlayFromPostgres();
   const tenant = getTenantContext(session.user.unionId);
   if (!tenant || !tenant.union.enabledModules.includes("portal")) {
     redirect(`/${locale}/app`);

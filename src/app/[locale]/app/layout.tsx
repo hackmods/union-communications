@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DemoSiteBanner } from "@/components/hub/DemoSiteBanner";
 import { MemoryDataBanner } from "@/components/hub/MemoryDataBanner";
 import { MeetingReminderBanner } from "@/components/hub/MeetingReminderBanner";
+import { SoftLaunchBanner } from "@/components/hub/SoftLaunchBanner";
 import { MfaPolicyProvider } from "@/components/hub/MfaPolicyProvider";
 import { TotpEnrollmentGate } from "@/components/hub/TotpEnrollmentGate";
 import { HubNav } from "@/components/hub/HubNav";
@@ -23,6 +24,7 @@ export default function AppLayout({
     <MfaPolicyProvider mfaEnabled={mfaEnabled}>
       <TotpEnrollmentGate>
         <DemoSiteBanner />
+        <SoftLaunchBanner />
         <MemoryDataBanner />
         <MeetingReminderBanner />
         <HubNav />

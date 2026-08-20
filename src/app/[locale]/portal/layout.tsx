@@ -1,4 +1,5 @@
 import { DemoSiteBanner } from "@/components/hub/DemoSiteBanner";
+import { SoftLaunchBanner } from "@/components/hub/SoftLaunchBanner";
 import { PortalMemoryBanner } from "@/components/portal/PortalMemoryBanner";
 import { PortalNav } from "@/components/portal/PortalNav";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
@@ -34,6 +35,7 @@ export default async function PortalLayout({
   return (
     <>
       <DemoSiteBanner />
+      <SoftLaunchBanner />
       <PortalMemoryBanner />
       <PortalNav />
       <div className={cn(PAGE_SHELL.wide, "py-4 sm:py-6 md:py-8")}>
