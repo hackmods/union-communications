@@ -28,10 +28,16 @@ export type OpseuSectorDefinition = {
   defaultActiveId: string;
 };
 
-/** Stable CAAT Support profile ids (reference tenant compatibility). */
+/** Stable CAAT Support profile id — FT and PT members share the same locals. */
+export const OPSEU_CAAT_SUPPORT_ID = "profile-caat-s";
+export const OPSEU_CAAT_SUPPORT_LABEL = "College Support";
+/** @deprecated Legacy kits only — infer sector and membership audience. */
 export const OPSEU_CAAT_SUPPORT_FT_ID = "profile-caat-s-ft";
+/** @deprecated Legacy kits only — infer sector and membership audience. */
 export const OPSEU_CAAT_SUPPORT_PT_ID = "profile-caat-s-pt";
+/** @deprecated Legacy kits only. */
 export const OPSEU_CAAT_SUPPORT_FT_LABEL = "College Support Full-time";
+/** @deprecated Legacy kits only. */
 export const OPSEU_CAAT_SUPPORT_PT_LABEL = "College Support Part-time";
 
 function withOther(
@@ -54,17 +60,12 @@ export const OPSEU_SECTOR_CATALOG: Record<string, OpseuSectorDefinition> = {
     label: "College Support (CAAT-S)",
     group: "education",
     referenceUrl: "https://opseu.org/sector/college-support-full-time",
-    defaultActiveId: OPSEU_CAAT_SUPPORT_FT_ID,
+    defaultActiveId: OPSEU_CAAT_SUPPORT_ID,
     profiles: withOther([
       {
-        id: OPSEU_CAAT_SUPPORT_FT_ID,
-        label: OPSEU_CAAT_SUPPORT_FT_LABEL,
-        bargainingUnitCode: "ft",
-      },
-      {
-        id: OPSEU_CAAT_SUPPORT_PT_ID,
-        label: OPSEU_CAAT_SUPPORT_PT_LABEL,
-        bargainingUnitCode: "pt",
+        id: OPSEU_CAAT_SUPPORT_ID,
+        label: OPSEU_CAAT_SUPPORT_LABEL,
+        bargainingUnitCode: "support",
       },
     ]),
   },
@@ -486,7 +487,11 @@ export function inferOpseuSectorId(
   profiles: { id: string }[] | undefined,
 ): string {
   const ids = new Set((profiles ?? []).map((profile) => profile.id));
-  if (ids.has(OPSEU_CAAT_SUPPORT_FT_ID) || ids.has(OPSEU_CAAT_SUPPORT_PT_ID)) {
+  if (
+    ids.has(OPSEU_CAAT_SUPPORT_ID) ||
+    ids.has(OPSEU_CAAT_SUPPORT_FT_ID) ||
+    ids.has(OPSEU_CAAT_SUPPORT_PT_ID)
+  ) {
     return "caat-support";
   }
   if (ids.has("profile-caat-a-ft") || ids.has("profile-caat-a-pt-sl")) {

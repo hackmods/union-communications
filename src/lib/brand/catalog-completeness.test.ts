@@ -47,6 +47,30 @@ describe("starter list completeness", () => {
     expect(gaps.some((gap) => gap.includes("stub label"))).toBe(true);
   });
 
+  it("allows one named collection plus Other when flagged", () => {
+    const namedPlusOther = {
+      id: "one-named",
+      referenceUrl: "https://example.org",
+      profiles: [
+        {
+          id: "profile-a",
+          label: "College Support",
+          bargainingUnitCode: "support",
+        },
+        { id: PROFILE_OTHER_ID, label: "Other", bargainingUnitCode: "other" },
+      ],
+      defaultActiveId: "profile-a",
+    };
+    expect(
+      starterListGaps(namedPlusOther).some((gap) =>
+        gap.includes("need at least"),
+      ),
+    ).toBe(true);
+    expect(starterListGaps({ ...namedPlusOther, allowSingleNamed: true })).toEqual(
+      [],
+    );
+  });
+
   it("requires a named code on every row", () => {
     const gaps = starterListGaps({
       id: "no-code",
@@ -88,6 +112,7 @@ describe("starter list completeness", () => {
           profiles: sector.profiles,
           defaultActiveId: sector.defaultActiveId,
           allowSingleLocal: id === "other",
+          allowSingleNamed: id === "caat-support",
         };
       }),
     );

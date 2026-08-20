@@ -7,6 +7,13 @@
 - [x] Nav Union boards; What's new `org-chart`; EN **Org Chart** / FR **Organigramme**
 - Verify: `npm run test:unit -- src/lib/org-chart/org-chart.test.ts src/lib/data/local-storage-adapter.roster.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/updates.test.ts src/components/layout/nav/nav-config.test.ts`
 
+## CAAT-S Brand Kit collection (2026-08-20)
+
+- [x] College Support (CAAT-S) starter is one **College Support** identity + Other — FT/PT members share the same locals
+- [x] Membership still lists Full-Time and Part-Time join links; legacy FT/PT profile ids still select the matching primary
+- [x] What's new: `caat-support-collection` on `/updates`
+- Verify: `npm run test:unit -- src/lib/brand/catalog-completeness.test.ts src/lib/brand/collection-profiles.test.ts src/lib/brand/opseu-sector-catalog.test.ts src/lib/brand/membership-primary.test.ts src/lib/constants/unionPresets.test.ts src/lib/utils/local-links.test.ts src/lib/data/local-storage-adapter.test.ts src/lib/templates/website/brand-kit-fields.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Website Template config round-trip (2026-08-20)
 
 - [x] Both site ZIPs include `unionops-website.json` (GitHub Pages root; WordPress theme folder)

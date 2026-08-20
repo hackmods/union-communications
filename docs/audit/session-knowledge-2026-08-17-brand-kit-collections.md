@@ -6,6 +6,12 @@
 
 ---
 
+## Correction (2026-08-20)
+
+CAAT-S full-time and part-time members are in the **same locals**, so Brand Kit no longer ships two collection identities. Default is **College Support** + Other (`profile-caat-s`, code `support`). Hub seed still has two bargaining units for CA/grievance. Membership still lists Full-Time and Part-Time join forms. Legacy `profile-caat-s-ft` / `profile-caat-s-pt` kits keep working until the steward re-applies the sector. Completeness flag: `allowSingleNamed` on CAAT Support.
+
+---
+
 ## What happened
 
 Brand Kit v2 shipped two **CAAT Support** profiles (`Full-time Support Staff` / `Part-time Support Staff`) on `DEFAULT_BRAND_KIT`. Applying CUPE, Unifor, or any other preset did **not** replace them. The switcher hint assumed every steward had FT/PT identities.
@@ -86,4 +92,4 @@ Completeness CI: [`src/lib/brand/catalog-completeness.test.ts`](../../src/lib/br
 - ~~Stub “Additional unit” catalogs~~ — **closed 2026-08-17** — named collections for every solidarity union and OPSEU sector; `catalog-completeness.test.ts` guards labels, codes, URLs, and EN/FR hints.
 - No Hub-onboarding bridge that seeds Brand Kit profiles from tenant `bargainingUnits`.
 - Stored profile labels are English data (same as before). Chrome is EN/FR.
-- **OPSEU membership starters follow sector (2026-08-19):** CAAT Support keeps **CAAT Support Full-Time** + **CAAT Support Part-Time**; other sectors get one All members **OPSEU Membership** link to `https://hub03.opseu.org/Forms/emaweb`. `membershipUrlsForOpseuSector` + sector patch + hydrate align.
+- **OPSEU membership starters follow sector (2026-08-19):** CAAT Support keeps **CAAT Support Full-Time** + **CAAT Support Part-Time** join links (two applications, one local); other sectors get one All members **OPSEU Membership** link to `https://hub03.opseu.org/Forms/emaweb`. `membershipUrlsForOpseuSector` + sector patch + hydrate align. Primary no longer follows a Brand Kit collection unless a legacy FT/PT profile is still saved.

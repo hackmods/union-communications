@@ -2467,7 +2467,7 @@
     "profileStarterNote": "Starter collections from your union preset. Remove any you do not use and rename the active one to match your workplace.",
     "profileOtherHint": "Rename this collection to match your workplace or bargaining unit.",
     "profilePresetHint": {
-      "opseu-caat-support": "College support locals often split full-time and part-time. Switch collections without losing colours or logo.",
+      "opseu-caat-support": "Full-time and part-time College Support members share the same local. Keep this collection, and rename Other if you speak for another workplace.",
       "opseu-caat-academic": "College faculty locals often split full-time and partial-load. Rename collections to match your college.",
       "opseu-universities": "University locals often split academic support and campus services. Keep only the groups you represent.",
       "opseu-boards-of-education": "Sector 3 covers school boards and cultural institutions. Keep the collections that match your workplace.",
@@ -3248,6 +3248,10 @@
       "org-chart": {
         "title": "Org Chart for the union board",
         "body": "Print a who-to-contact poster, save officers and stewards as JSON or CSV after elections, and reuse those names on Website Template."
+      },
+      "caat-support-collection": {
+        "title": "College Support is one collection",
+        "body": "College Support locals now start with one collection in Brand Kit. Full-time and part-time members share the same local. Membership still has Full-Time and Part-Time join links."
       },
       "website-config-roundtrip": {
         "title": "Reopen a downloaded local site",

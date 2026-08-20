@@ -6,7 +6,7 @@ import {
   resolveLocalWebsiteUrl,
   resolvePresetDestination,
 } from "./local-links";
-import { OPSEU_CAAT_SUPPORT_PT_ID } from "@/lib/brand/collection-profiles";
+import { PROFILE_OTHER_ID } from "@/lib/brand/collection-profile-catalog";
 
 describe("normalizeBrandKit", () => {
   it("upgrades a 1.0 kit to 2.0 with empty links", () => {
@@ -111,9 +111,9 @@ describe("normalizeBrandKit", () => {
       useOfficialLogo: true,
       updatedAt: "2026-01-01T00:00:00.000Z",
     });
-    expect(kit.profiles).toHaveLength(3);
+    expect(kit.profiles).toHaveLength(2);
     expect(kit.opseuSectorId).toBe("caat-support");
-    expect(kit.local.bargainingUnitCode).toBe("ft");
+    expect(kit.local.bargainingUnitCode).toBe("support");
   });
 
   it("keeps an explicit empty profiles list", () => {
@@ -142,7 +142,7 @@ describe("normalizeBrandKit", () => {
       useOfficialLogo: true,
       updatedAt: "2026-01-01T00:00:00.000Z",
     });
-    expect(kit.activeProfileId).toBe("profile-caat-s-ft");
+    expect(kit.activeProfileId).toBe("profile-caat-s");
   });
 });
 
@@ -158,10 +158,10 @@ describe("applyBrandKitProfile", () => {
       useOfficialLogo: true,
       updatedAt: "2026-01-01T00:00:00.000Z",
     });
-    const switched = applyBrandKitProfile(base, OPSEU_CAAT_SUPPORT_PT_ID);
-    expect(switched.activeProfileId).toBe(OPSEU_CAAT_SUPPORT_PT_ID);
-    expect(switched.local.bargainingUnitCode).toBe("pt");
-    expect(switched.local.subText).toBe("College Support Part-time");
+    const switched = applyBrandKitProfile(base, PROFILE_OTHER_ID);
+    expect(switched.activeProfileId).toBe(PROFILE_OTHER_ID);
+    expect(switched.local.bargainingUnitCode).toBe("other");
+    expect(switched.local.subText).toBe("Other");
   });
 });
 

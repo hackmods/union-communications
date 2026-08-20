@@ -39,7 +39,7 @@ Use `BrandLogo` for display; use `LogoSettings` for the official/custom toggle +
 ## Defaults
 First-visit Brand Kit colours come from `config/host-brand.json` / `NEXT_PUBLIC_BRAND_*` via `resolveHostBrandDefaults()` → `BRAND_COLORS` / `DEFAULT_BRAND_KIT`. OPSEU blue lives in the reference tenant seed and the OPSEU union preset — not as the platform default for new hosts.
 
-**Collection profiles:** first visit is one generic Local identity. Applying the OPSEU preset loads College Support Full-time / Part-time. Do not put those CAAT collections on `DEFAULT_BRAND_KIT`. See [`brand-kit-collections.mdc`](brand-kit-collections.mdc).
+**Collection profiles:** first visit is one generic Local identity. Applying the OPSEU preset loads College Support (CAAT-S) + Other — not separate full-time and part-time collections, because both groups are in the same locals. Do not put those CAAT collections on `DEFAULT_BRAND_KIT`. See [`brand-kit-collections.mdc`](brand-kit-collections.mdc).
 
 **`/assets` Brand Assets** always shows the steward’s live Brand Kit colours and logo. The bundled OPSEU reference pack (logos + `ASSET_PACK_COLORS` from seed `brandDefaults`) appears only when the Brand Kit preset is unset or `opseu` — not host chrome (`BRAND_COLORS` / platform orange).
 

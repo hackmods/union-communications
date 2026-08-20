@@ -2,10 +2,8 @@ import { describe, expect, it } from "vitest";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import {
   GENERIC_COLLECTION_PROFILE_ID,
-  OPSEU_CAAT_SUPPORT_FT_ID,
-  OPSEU_CAAT_SUPPORT_FT_LABEL,
-  OPSEU_CAAT_SUPPORT_PT_ID,
-  OPSEU_CAAT_SUPPORT_PT_LABEL,
+  OPSEU_CAAT_SUPPORT_ID,
+  OPSEU_CAAT_SUPPORT_LABEL,
   addBrandKitProfile,
   collectionPatchForOpseuSector,
   collectionPatchForPreset,
@@ -19,24 +17,19 @@ import {
 } from "./collection-profiles";
 
 describe("collectionProfilesForPreset", () => {
-  it("gives OPSEU the CAAT Support Full-time and Part-time collections by default", () => {
+  it("gives OPSEU one College Support collection by default", () => {
     const { profiles, activeProfileId, opseuSectorId } =
       collectionProfilesForPreset("opseu", "243", "Educate. Advocate. Organize.");
     expect(opseuSectorId).toBe("caat-support");
-    expect(activeProfileId).toBe(OPSEU_CAAT_SUPPORT_FT_ID);
+    expect(activeProfileId).toBe(OPSEU_CAAT_SUPPORT_ID);
     expect(profiles.map((p) => p.id)).toEqual([
-      OPSEU_CAAT_SUPPORT_FT_ID,
-      OPSEU_CAAT_SUPPORT_PT_ID,
+      OPSEU_CAAT_SUPPORT_ID,
       "profile-other",
     ]);
     expect(profiles[0]).toMatchObject({
-      label: OPSEU_CAAT_SUPPORT_FT_LABEL,
-      bargainingUnitCode: "ft",
+      label: OPSEU_CAAT_SUPPORT_LABEL,
+      bargainingUnitCode: "support",
       localNumber: "243",
-    });
-    expect(profiles[1]).toMatchObject({
-      label: OPSEU_CAAT_SUPPORT_PT_LABEL,
-      bargainingUnitCode: "pt",
     });
   });
 
@@ -104,9 +97,9 @@ describe("collectionProfilesForPreset", () => {
 describe("collectionPatchForPreset", () => {
   it("applies the active OPSEU collection onto local identity", () => {
     const patch = collectionPatchForPreset("opseu", "243", "slogan");
-    expect(patch.local?.subText).toBe(OPSEU_CAAT_SUPPORT_FT_LABEL);
-    expect(patch.local?.bargainingUnitCode).toBe("ft");
-    expect(patch.activeProfileId).toBe(OPSEU_CAAT_SUPPORT_FT_ID);
+    expect(patch.local?.subText).toBe(OPSEU_CAAT_SUPPORT_LABEL);
+    expect(patch.local?.bargainingUnitCode).toBe("support");
+    expect(patch.activeProfileId).toBe(OPSEU_CAAT_SUPPORT_ID);
     expect(patch.opseuSectorId).toBe("caat-support");
   });
 
@@ -145,8 +138,8 @@ describe("collectionPatchForOpseuSector", () => {
 describe("defaultProfilesForStoredKit", () => {
   it("restores OPSEU CAAT Support collections for legacy kits without profiles", () => {
     const profiles = defaultProfilesForStoredKit("opseu", "243", "ignored");
-    expect(profiles).toHaveLength(3);
-    expect(profiles[0]?.id).toBe(OPSEU_CAAT_SUPPORT_FT_ID);
+    expect(profiles).toHaveLength(2);
+    expect(profiles[0]?.id).toBe(OPSEU_CAAT_SUPPORT_ID);
   });
 
   it("uses the CUPE starter list for legacy stored presets", () => {
@@ -162,7 +155,7 @@ describe("reconcileActiveProfileId", () => {
     const profiles = defaultProfilesForStoredKit("opseu", "243", "");
     expect(
       reconcileActiveProfileId(profiles, "profile-missing"),
-    ).toBe(OPSEU_CAAT_SUPPORT_FT_ID);
+    ).toBe(OPSEU_CAAT_SUPPORT_ID);
   });
 
   it("returns undefined when there are no profiles", () => {

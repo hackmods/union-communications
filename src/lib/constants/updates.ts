@@ -30,6 +30,12 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/tools/org-chart",
   },
   {
+    id: "caat-support-collection",
+    date: "2026-08-20",
+    kind: "improved",
+    href: "/brand-kit",
+  },
+  {
     id: "website-config-roundtrip",
     date: "2026-08-20",
     kind: "added",

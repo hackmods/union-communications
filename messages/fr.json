@@ -2467,7 +2467,7 @@
     "profileStarterNote": "Collections de départ selon votre préréglage syndical. Retirez celles que vous n’utilisez pas et renommez la collection active pour qu’elle corresponde à votre milieu.",
     "profileOtherHint": "Renommez cette collection pour qu’elle corresponde à votre milieu de travail ou à votre unité de négociation.",
     "profilePresetHint": {
-      "opseu-caat-support": "Les sections de soutien collégial séparent souvent temps plein et temps partiel. Changez de collection sans perdre vos couleurs ni votre logo.",
+      "opseu-caat-support": "Les membres du soutien collégial à temps plein et à temps partiel partagent la même section. Gardez cette collection, et renommez Autre si vous parlez pour un autre milieu.",
       "opseu-caat-academic": "Les sections de personnel enseignant séparent souvent temps plein et charge partielle. Renommez les collections selon votre collège.",
       "opseu-universities": "Les sections universitaires séparent souvent le soutien pédagogique et les services au campus. Gardez seulement les groupes que vous représentez.",
       "opseu-boards-of-education": "Le secteur 3 couvre les conseils scolaires et les institutions culturelles. Gardez les collections qui correspondent à votre milieu.",
@@ -3214,6 +3214,10 @@
       "org-chart": {
         "title": "Organigramme pour le babillard",
         "body": "Imprimez une affiche « qui contacter », gardez dirigeants et délégués en JSON ou CSV après les élections, et réutilisez ces noms dans le Modèle de site Web."
+      },
+      "caat-support-collection": {
+        "title": "Le soutien collégial est une seule collection",
+        "body": "Les sections de soutien collégial commencent maintenant avec une seule identité dans la Trousse de marque. Les membres à temps plein et à temps partiel partagent la même section. L'adhésion conserve les liens temps plein et temps partiel."
       },
       "website-config-roundtrip": {
         "title": "Rouvrir un site local déjà téléchargé",

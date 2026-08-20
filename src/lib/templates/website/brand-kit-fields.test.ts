@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
-import {
-  OPSEU_CAAT_SUPPORT_FT_LABEL,
-  OPSEU_CAAT_SUPPORT_PT_LABEL,
-} from "@/lib/brand/opseu-sector-catalog";
+import { OPSEU_CAAT_SUPPORT_LABEL } from "@/lib/brand/opseu-sector-catalog";
 import type { BrandKit } from "@/types/entities";
 import {
   isWebsiteHttpUrl,
@@ -52,21 +49,15 @@ describe("websiteCollectionLabels", () => {
     expect(websiteCollectionLabels(kit())).toEqual([]);
   });
 
-  it("keeps named FT/PT collections and drops Other", () => {
+  it("keeps named College Support and drops Other", () => {
     const labels = websiteCollectionLabels(
       kit({
         profiles: [
           {
-            id: "ft",
-            label: OPSEU_CAAT_SUPPORT_FT_LABEL,
+            id: "profile-caat-s",
+            label: OPSEU_CAAT_SUPPORT_LABEL,
             localNumber: "243",
-            subText: OPSEU_CAAT_SUPPORT_FT_LABEL,
-          },
-          {
-            id: "pt",
-            label: OPSEU_CAAT_SUPPORT_PT_LABEL,
-            localNumber: "243",
-            subText: OPSEU_CAAT_SUPPORT_PT_LABEL,
+            subText: OPSEU_CAAT_SUPPORT_LABEL,
           },
           {
             id: "profile-other",
@@ -77,10 +68,7 @@ describe("websiteCollectionLabels", () => {
         ],
       }),
     );
-    expect(labels).toEqual([
-      OPSEU_CAAT_SUPPORT_FT_LABEL,
-      OPSEU_CAAT_SUPPORT_PT_LABEL,
-    ]);
+    expect(labels).toEqual([OPSEU_CAAT_SUPPORT_LABEL]);
     expect(labels.join(" ")).not.toMatch(/support staff/i);
   });
 });

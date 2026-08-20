@@ -32,6 +32,8 @@ export type StarterListSnapshot = {
   defaultActiveId: string;
   /** OPSEU "Other sector" may ship a single Local row */
   allowSingleLocal?: boolean;
+  /** One named collection + Other — CAAT Support FT/PT share a local */
+  allowSingleNamed?: boolean;
 };
 
 function isStubLabel(label: string): boolean {
@@ -69,9 +71,14 @@ export function starterListGaps(list: StarterListSnapshot): string[] {
     return gaps;
   }
 
-  if (profiles.length < 3) {
+  const minNamedPlusOther = list.allowSingleNamed ? 2 : 3;
+  if (profiles.length < minNamedPlusOther) {
     gaps.push(
-      `${prefix}: need at least two named collections plus Other (got ${profiles.length})`,
+      `${prefix}: need at least ${
+        list.allowSingleNamed
+          ? "one named collection plus Other"
+          : "two named collections plus Other"
+      } (got ${profiles.length})`,
     );
   }
 

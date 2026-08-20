@@ -20,9 +20,9 @@ export const OPSEU_GENERIC_MEMBERSHIP_ID = "membership-all";
 export const OPSEU_GENERIC_MEMBERSHIP_LABEL = "OPSEU / SEFPO Membership";
 
 /**
- * CAAT Support collections carry matching OPSEU join forms.
- * PT is primary when that collection is active so part-time staff are not
- * sent to the full-time application by default.
+ * Legacy CAAT Support FT/PT collections still select the matching join form.
+ * The current College Support identity does not — both groups share a local,
+ * and both application links stay listed in Brand Kit.
  */
 export function opseuCollectionMembershipAudience(
   profileId: string | undefined,
@@ -103,8 +103,8 @@ function looksLikeGenericOpseuMembership(
 
 /**
  * Starter membership application links for an OPSEU/SEFPO sector.
- * CAAT Support keeps FT + PT join forms; every other sector gets one
- * All members link to the same national EMA form.
+ * CAAT Support keeps FT + PT join forms (two applications, one local);
+ * every other sector gets one All members link to the same national EMA form.
  */
 export function membershipUrlsForOpseuSector(
   sectorId: string | undefined,
@@ -129,8 +129,9 @@ function resolveOpseuSectorFromKit(kit: BrandKit): string {
 
 /**
  * Keep OPSEU membership starters in step with the active sector:
- * CAAT Support FT/PT collections select the matching primary; other
- * sectors swap leftover CAAT forms for one All members link.
+ * CAAT Support keeps both join forms (legacy FT/PT collections still
+ * select the matching primary); other sectors swap leftover CAAT forms
+ * for one All members link.
  */
 export function alignOpseuMembershipPrimary(kit: BrandKit): BrandKit {
   if (kit.unionPresetId !== "opseu") return kit;
