@@ -14,11 +14,16 @@ export const INK_BLACK = BRAND_COLORS.black;
 
 /**
  * Pick white or black for best contrast against a background.
- * Ties (or invalid hex) prefer white so dark brand fields stay readable.
+ * Prefers white when it meets large-text AA (≥3:1) so saturated brand
+ * fields (e.g. CAAT-S coral) get light ink instead of vibrating black text.
+ * Ties (or invalid hex) also prefer white.
  */
 export function pickContrastingInk(background: string): InkTone {
   const whiteRatio = contrastRatio(INK_WHITE, background) ?? 0;
   const blackRatio = contrastRatio(INK_BLACK, background) ?? 0;
+  // Brand canvases: light ink when it clears large-text AA, even if black
+  // scores higher for normal text (coral/gold plates).
+  if (whiteRatio >= 3) return INK_WHITE;
   return whiteRatio >= blackRatio ? INK_WHITE : INK_BLACK;
 }
 

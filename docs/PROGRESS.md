@@ -6,8 +6,9 @@
 - [x] Look gallery on Brand Kit + onboarding; LogoSettings variants from active pack; reverse lockup on coral plates
 - [x] Real SVG assets under `public/assets/caat-s/` from bilingual-01…06; `assetVariants` catalog for downloads
 - [x] `/assets` lists every Look pack file (colour / plate treatments) for OPSEU + CAAT-S — reusable shape for future campaign packs
+- [x] Chrome tokens: `--opseu-dark` / `--opseu-blue` stay readable on white UI even when Brand Kit accent is light gold; canvas ink prefers white on saturated coral
 - [x] What's new `caat-s-look`; collections stay text-only
-- Verify: `npm run test:unit -- src/lib/brand/identity-packs.test.ts src/lib/brand/resolve-logo-presentation.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+- Verify: `npm run test:unit -- src/lib/brand/chrome-tokens.test.ts src/lib/brand/identity-packs.test.ts src/lib/utils/utils.test.ts`
 
 ## Org Chart (2026-08-20)
 

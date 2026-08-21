@@ -105,7 +105,7 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
               </span>
               <span className="block space-y-2 border-t border-black/5 bg-white p-3">
                 <span className="flex items-center justify-between gap-2">
-                  <span className="font-semibold text-opseu-dark">
+                  <span className="font-semibold text-gray-900">
                     {t(`packs.${packNameKey(pack.id)}.name`)}
                   </span>
                   {selected ? (

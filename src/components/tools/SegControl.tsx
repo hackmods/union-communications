@@ -51,7 +51,7 @@ export function SegControl<T extends string>({
                 disabled && "cursor-not-allowed opacity-45",
                 selected
                   ? "bg-opseu-blue text-white"
-                  : "border border-gray-300 bg-white text-opseu-dark hover:bg-gray-50",
+                  : "border border-gray-300 bg-white text-gray-800 hover:bg-gray-50",
                 disabled && !selected && "hover:bg-white",
               )}
               style={opt.fontFamily ? { fontFamily: opt.fontFamily } : undefined}
