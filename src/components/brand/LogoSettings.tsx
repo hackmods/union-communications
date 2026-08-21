@@ -225,6 +225,8 @@ export function LogoSettings({
       height: number;
       onDark?: boolean;
       platformMark?: boolean;
+      /** Override preview plate (e.g. CAAT-S coral behind knockout lockup) */
+      plateColor?: string;
     };
   };
 
@@ -233,15 +235,23 @@ export function LogoSettings({
   if (showOfficialPack && officialLogos) {
     const isCaatS = officialLogos.packId === "opseu-caat-s";
     if (officialLogos.selectableVariants.includes("lockup")) {
+      const onDarkPreview = Boolean(
+        isCaatS && officialLogos.lockup.srcOnDark,
+      );
       options.push({
         id: "lockup",
         title: isCaatS ? t("useCaatSLockup") : t("useLockup"),
         description: isCaatS ? t("useCaatSLockupHint") : t("useLockupHint"),
         preview: {
-          src: officialLogos.lockup.src,
-          // CAAT-S bilingual lockup is wide — give it more plate than the national mark.
+          // CAAT-S: show knockout on coral so the preview matches Look cards
+          // and never collapses to an empty white ring.
+          src: onDarkPreview
+            ? officialLogos.lockup.srcOnDark!
+            : officialLogos.lockup.src,
           width: isCaatS ? 220 : 160,
           height: isCaatS ? 72 : 64,
+          onDark: onDarkPreview,
+          plateColor: onDarkPreview ? primaryColor : undefined,
         },
       });
     }
@@ -345,10 +355,20 @@ export function LogoSettings({
                 {option.preview && (
                   <span
                     className={cn(
-                      "mt-3 inline-flex max-w-full items-center justify-center rounded-md ring-1 ring-black/10",
-                      option.preview.platformMark ? "p-2" : "p-1",
-                      option.preview.onDark ? "bg-opseu-dark" : "bg-white",
+                      "mt-3 inline-flex max-w-full items-center justify-center rounded-md",
+                      option.preview.platformMark ? "p-2" : "px-2 py-1.5",
+                      !option.preview.plateColor && "ring-1 ring-black/10",
+                      option.preview.onDark && !option.preview.plateColor
+                        ? "bg-opseu-dark"
+                        : !option.preview.plateColor
+                          ? "bg-white"
+                          : undefined,
                     )}
+                    style={
+                      option.preview.plateColor
+                        ? { backgroundColor: option.preview.plateColor }
+                        : undefined
+                    }
                   >
                     {option.preview.platformMark ? (
                       <span className="flex flex-wrap items-center gap-3">
@@ -373,7 +393,7 @@ export function LogoSettings({
                         width={option.preview.width}
                         height={option.preview.height}
                         onDark={option.preview.onDark}
-                        className="max-h-16 w-auto max-w-full"
+                        className="h-14 w-auto max-w-[min(100%,14rem)] shrink-0"
                       />
                     )}
                   </span>
