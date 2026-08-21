@@ -52,8 +52,9 @@ export function pickFieldInk(stops: readonly string[]): InkTone {
     blackMin = Math.min(blackMin, contrastRatio(INK_BLACK, bg) ?? 0);
   }
 
-  // Prefer white only when every sampled region still clears large-text AA.
-  if (whiteMin >= 3 && whiteMin + 0.15 >= blackMin) return INK_WHITE;
+  // Prefer white when every sampled region still clears large-text AA —
+  // don't lose to black merely because black scores higher on mid-tones.
+  if (whiteMin >= 3) return INK_WHITE;
   return whiteMin >= blackMin ? INK_WHITE : INK_BLACK;
 }
 
