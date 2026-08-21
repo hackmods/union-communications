@@ -43,10 +43,10 @@ describe("resolveBrandLogoPresentation", () => {
       identityPackId: "opseu-caat-s",
       useOfficialLogo: true,
       officialLogoVariant: "lockup",
-      primaryColor: "#EA5A4E",
+      primaryColor: "#EA5A4F",
     };
-    const { src, cssFilter } = resolveBrandLogoPresentation(kit, "#EA5A4E");
-    expect(src).toContain("logo-lockup-reverse");
+    const { src, cssFilter } = resolveBrandLogoPresentation(kit, "#EA5A4F");
+    expect(src).toContain("knockout");
     expect(cssFilter).toBeUndefined();
   });
 });

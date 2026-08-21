@@ -93,7 +93,7 @@ describe("identity-packs", () => {
     };
     const logos = resolveOfficialLogos(kit);
     expect(logos?.lockup.src).toContain("caat-s");
-    expect(logos?.lockup.srcOnDark).toContain("reverse");
+    expect(logos?.lockup.srcOnDark).toContain("knockout");
     expect(logos?.selectableVariants).toEqual(["lockup"]);
     expect(logos?.mark).toBeUndefined();
   });

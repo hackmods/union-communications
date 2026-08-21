@@ -60,7 +60,7 @@ export type IdentityPack = {
  * mortarboard / OPSEU lockup in bilingual-01. Hex lives only in this catalog.
  */
 export const CAAT_S_COLORS: IdentityPackColors = {
-  primaryColor: "#EA5A4E",
+  primaryColor: "#EA5A4F",
   secondaryColor: "#FFFFFF",
   accentColor: "#FFB837",
 };
@@ -88,9 +88,10 @@ export const IDENTITY_PACKS: readonly IdentityPack[] = [
     sectorIds: ["caat-support"],
     colors: CAAT_S_COLORS,
     logos: {
-      lockup: "/assets/caat-s/logo-lockup-color.png",
-      lockupOnDark: "/assets/caat-s/logo-lockup-reverse.png",
-      oneColor: "/assets/caat-s/logo-lockup-one-color.png",
+      lockup: "/assets/caat-s/logo-lockup-color.svg",
+      // White + gold knockout from bilingual-02 (no coral plate) for primary fills
+      lockupOnDark: "/assets/caat-s/logo-lockup-on-primary-knockout.svg",
+      oneColor: "/assets/caat-s/logo-lockup-one-color.svg",
     },
     selectableVariants: ["lockup"],
     defaultVariant: "lockup",
