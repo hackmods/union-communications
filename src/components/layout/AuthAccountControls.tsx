@@ -5,7 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
-import { canAccessPortal, prefersPortalHome } from "@/lib/portal/access";
+import { canAccessPortal } from "@/lib/portal/access";
 import { getTenantContext } from "@/lib/tenant/loader";
 import type { UserRole } from "@/types/tenant";
 import { cn } from "@/lib/utils";
@@ -40,15 +40,11 @@ export function AuthAccountControls({
   const portalCurrent = pathname.startsWith("/portal");
   const hubCurrent = pathname.startsWith("/app");
   const profileActive = pathname.startsWith("/app/profile");
-  const memberPrefersPortal = prefersPortalHome(roles);
-  const portalFilled =
-    showPortal && (portalCurrent || (!hubCurrent && memberPrefersPortal));
-  const hubFilled = showHub && !portalFilled;
-  const hubFirst = !memberPrefersPortal && !portalCurrent;
 
   if (!showHub && !showPortal && !authenticated) return null;
 
-  const filledClass = (current: boolean) =>
+  /** Officer Hub stays primary; Local Portal stays outline — order never swaps. */
+  const hubPrimaryClass = (current: boolean) =>
     cn(
       layout === "inline"
         ? "rounded-lg bg-opseu-blue px-3 py-1.5 font-semibold text-white transition-colors duration-150 hover:bg-opseu-dark"
@@ -56,7 +52,7 @@ export function AuthAccountControls({
       current && "bg-opseu-dark",
     );
 
-  const outlineClass = (current: boolean) =>
+  const portalOutlineClass = (current: boolean) =>
     cn(
       layout === "inline"
         ? "rounded-lg border border-opseu-blue/40 px-3 py-1.5 font-semibold text-opseu-blue transition-colors duration-150 hover:bg-opseu-blue/5"
@@ -74,7 +70,7 @@ export function AuthAccountControls({
       href="/app"
       onClick={onNavigate}
       aria-current={hubCurrent && !profileActive ? "page" : undefined}
-      className={hubFilled ? filledClass(hubCurrent) : outlineClass(hubCurrent)}
+      className={hubPrimaryClass(hubCurrent)}
     >
       {t("hubLink")}
     </Link>
@@ -85,9 +81,7 @@ export function AuthAccountControls({
       href="/portal"
       onClick={onNavigate}
       aria-current={portalCurrent ? "page" : undefined}
-      className={
-        portalFilled ? filledClass(portalCurrent) : outlineClass(portalCurrent)
-      }
+      className={portalOutlineClass(portalCurrent)}
     >
       {t("portalLink")}
     </Link>
@@ -102,17 +96,8 @@ export function AuthAccountControls({
         className,
       )}
     >
-      {hubFirst ? (
-        <>
-          {hubLink}
-          {portalLink}
-        </>
-      ) : (
-        <>
-          {portalLink}
-          {hubLink}
-        </>
-      )}
+      {hubLink}
+      {portalLink}
 
       {authenticated ? (
         <>
