@@ -51,8 +51,15 @@ export const TOOLS_MEGA_MENU_GRID_CLASS =
 /** Officer tools is a grouped list, not a 4-col mega-menu. */
 export const HUB_TOOLS_MENU_WIDTH_PX = 18 * 16;
 
+/** Guides ▾ stacked list — clamp like Tools so About links stay in-viewport. */
+export const GUIDES_MENU_WIDTH_PX = 18 * 16;
+
 export function preferredHubToolsMenuWidth(): number {
   return HUB_TOOLS_MENU_WIDTH_PX;
+}
+
+export function preferredGuidesMenuWidth(): number {
+  return GUIDES_MENU_WIDTH_PX;
 }
 
 export function preferredToolsMegaMenuWidth(viewportWidth: number): number {

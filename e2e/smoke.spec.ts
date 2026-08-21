@@ -56,8 +56,16 @@ test.describe("Smoke tests @smoke", () => {
     await expect(
       main.getByRole("menuitem", { name: "Install as an app" }),
     ).toBeVisible();
-    await main.getByRole("menuitem", { name: "Brand Assets" }).click();
-    await expect(page).toHaveURL(/\/en\/assets\/?/);
+    // About sits near the bottom of a tall, viewport-clamped Guides panel —
+    // scroll the menuitem into the panel before Playwright's click action.
+    const assets = main.getByRole("menuitem", { name: "Brand Assets" });
+    await assets.evaluate((el) => {
+      el.scrollIntoView({ block: "nearest", inline: "nearest" });
+    });
+    await Promise.all([
+      page.waitForURL(/\/en\/assets\/?/),
+      assets.click(),
+    ]);
   });
 
   test("social media plan page renders", async ({ page }) => {

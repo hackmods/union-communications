@@ -2,11 +2,13 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  GUIDES_MENU_WIDTH_PX,
   HUB_TOOLS_MENU_WIDTH_PX,
   TOOLS_MEGA_MENU,
   TOOLS_MEGA_MENU_GRID_CLASS,
   clampFlyoutToViewport,
   flyoutBoxFitsViewport,
+  preferredGuidesMenuWidth,
   preferredHubToolsMenuWidth,
   preferredToolsMegaMenuWidth,
   toolsMegaMenuColumnCount,
@@ -161,6 +163,12 @@ describe("Tools mega-menu source stays clamped", () => {
       "utf8",
     );
     expect(source).toMatch(/preferredPanelWidth=\{preferredToolsMegaMenuWidth\}/);
+    expect(source).toMatch(/preferredPanelWidth=\{preferredGuidesMenuWidth\}/);
+  });
+
+  it("exposes a fixed Guides list width for clamping", () => {
+    expect(preferredGuidesMenuWidth()).toBe(GUIDES_MENU_WIDTH_PX);
+    expect(GUIDES_MENU_WIDTH_PX).toBe(18 * 16);
   });
 
   it("uses 2 columns until 2xl (not xl:grid-cols-4)", () => {
