@@ -32,6 +32,7 @@ export function TenantLiveProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (status !== "authenticated" || !mfaOk || !unionId) return;
+    const activeUnionId = unionId;
 
     let cancelled = false;
 
@@ -41,7 +42,7 @@ export function TenantLiveProvider({ children }: { children: ReactNode }) {
         if (!res.ok) return;
         const data = (await res.json()) as { context: TenantContext };
         if (!cancelled) {
-          setFetched({ unionId, context: data.context });
+          setFetched({ unionId: activeUnionId, context: data.context });
         }
       } catch {
         /* Keep seed until a later retry (tenant-updated). */

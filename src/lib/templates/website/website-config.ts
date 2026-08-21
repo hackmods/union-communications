@@ -405,9 +405,9 @@ async function readZipAsset(
 ): Promise<WebsiteImportedAsset | undefined> {
   const entry = zip.file(path);
   if (!entry) return undefined;
-  const bytes = new Uint8Array(await entry.async("uint8array"));
-  if (bytes.length === 0) return undefined;
-  return toImportedAsset(fileName, bytes);
+  const raw = await entry.async("uint8array");
+  if (!(raw instanceof Uint8Array) || raw.length === 0) return undefined;
+  return toImportedAsset(fileName, raw);
 }
 
 export async function parseWebsiteConfigZip(

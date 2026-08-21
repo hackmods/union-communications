@@ -5,21 +5,29 @@ import fr from "../../../messages/fr.json";
 const REQUIRED_INSTALL_KEYS = [
   "title",
   "intro",
-  "whereTitle",
-  "whereBody",
-  "chromeTitle",
-  "chromeStep1",
-  "chromeStep2",
-  "chromeStep3",
+  "whyTitle",
+  "whyHome",
+  "whyOffline",
+  "whyStore",
+  "iosTitle",
+  "iosStep1",
+  "iosStep2",
+  "iosStep3",
   "androidTitle",
-  "androidBody",
-  "safariTitle",
-  "safariBody",
+  "androidStep1",
+  "androidStep2",
+  "androidStep3",
+  "desktopTitle",
+  "desktopStep1",
+  "desktopStep2",
+  "desktopStep3",
+  "desktopSafari",
+  "privacyTitle",
+  "privacyBody",
+  "troubleTitle",
+  "troubleBody",
   "limitsTitle",
-  "limitsOffline",
   "limitsNetwork",
-  "limitsBrand",
-  "limitsNoStore",
   "relatedLead",
   "relatedPrivacy",
   "relatedMid",
@@ -30,6 +38,9 @@ const REQUIRED_INSTALL_KEYS = [
 
 describe("install page i18n", () => {
   it("ships matching EN/FR installPage keys", () => {
+    expect(Object.keys(en.installPage).sort()).toEqual(
+      Object.keys(fr.installPage).sort(),
+    );
     for (const key of REQUIRED_INSTALL_KEYS) {
       expect(en.installPage[key], `en.installPage.${key}`).toBeTypeOf("string");
       expect(fr.installPage[key], `fr.installPage.${key}`).toBeTypeOf("string");
@@ -44,7 +55,7 @@ describe("install page i18n", () => {
   });
 
   it("keeps support and manifesto cross-links without arrow footers", () => {
-    expect(en.supportPage.p1ManifestoLink).toMatch(/solidarity/i);
+    expect(en.supportPage.p1ManifestoLink).toMatch(/manifesto|solidarity/i);
     expect(fr.supportPage.p1ManifestoLink.length).toBeGreaterThan(0);
     expect(en.supportPage.backHome).not.toMatch(/[←→]/);
     expect(fr.supportPage.backHome).not.toMatch(/[←→]/);
@@ -53,13 +64,15 @@ describe("install page i18n", () => {
   });
 
   it("documents apex-only install and platform differences", () => {
-    expect(en.installPage.whereBody).toMatch(/unionops\.org/i);
-    expect(en.installPage.whereBody).toMatch(/www/i);
-    expect(en.installPage.chromeStep2).toMatch(/address bar|omnibox/i);
-    expect(en.installPage.androidBody).toMatch(/Install app/i);
-    expect(en.installPage.androidBody).toMatch(/shortcut/i);
-    expect(en.installPage.safariBody).toMatch(/does not show|never|automatic/i);
+    expect(en.installPage.troubleBody).toMatch(/unionops\.org/i);
+    expect(en.installPage.troubleBody).toMatch(/www/i);
+    expect(en.installPage.desktopStep2).toMatch(/address bar|omnibox/i);
+    expect(en.installPage.androidStep3).toMatch(/Install app/i);
+    expect(en.installPage.androidStep3).toMatch(/shortcut/i);
+    expect(en.installPage.desktopSafari).toMatch(/does not show|never|automatic/i);
+    expect(en.installPage.iosStep1).toMatch(/Safari/i);
     expect(fr.installPage.androidTitle.length).toBeGreaterThan(0);
-    expect(fr.installPage.safariBody).toMatch(/automatique|manuel/i);
+    expect(fr.installPage.desktopSafari).toMatch(/automatique|manuel/i);
+    expect(fr.installPage.iosStep3).toMatch(/écran d’accueil|écran d'accueil/i);
   });
 });
