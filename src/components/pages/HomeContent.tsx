@@ -13,7 +13,15 @@ import { HomeHeroPreview } from "@/components/pages/HomeHeroPreview";
 import { useBrandStore } from "@/store/brand-store";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
-import { inkWithAlpha, isLightInk, pickContrastingInk } from "@/lib/utils/ink";
+import { softGradientEndColor } from "@/lib/utils/canvas-surface";
+import { blendHex } from "@/lib/utils/contrast";
+import {
+  inkWithAlpha,
+  isLightInk,
+  mutedInkOnBackground,
+  pickContrastingInk,
+  pickFieldInk,
+} from "@/lib/utils/ink";
 import { cn } from "@/lib/utils";
 
 type ChannelId = "boards" | "print" | "social" | "website";
@@ -62,9 +70,12 @@ export function HomeContent() {
   const primary = brandKit.primaryColor;
   const secondary = brandKit.secondaryColor;
   const accent = brandKit.accentColor;
-  const ink = pickContrastingInk(primary);
-  const inkMuted = inkWithAlpha(ink, 0.82);
-  const inkSoft = inkWithAlpha(ink, 0.7);
+  // Primary-led band — gold-first + paper end bleach white type (long-standing).
+  const heroMid = blendHex(accent, primary, 0.35);
+  const heroEnd = softGradientEndColor(primary, secondary);
+  const ink = pickFieldInk([primary, heroMid, heroEnd]);
+  const inkMuted = mutedInkOnBackground(primary, 0.9);
+  const inkSoft = mutedInkOnBackground(primary, 0.78);
   const lightInk = isLightInk(ink);
 
   return (
@@ -72,14 +83,14 @@ export function HomeContent() {
       <section
         className="home-hero relative w-full overflow-hidden"
         style={{
-          backgroundImage: `linear-gradient(135deg, ${accent} 0%, ${primary} 48%, ${secondary} 100%)`,
+          backgroundImage: `linear-gradient(135deg, ${primary} 0%, ${heroMid} 52%, ${heroEnd} 100%)`,
         }}
         aria-labelledby="home-hero-heading"
       >
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            backgroundImage: `radial-gradient(ellipse 80% 60% at 72% 38%, ${inkWithAlpha(ink, 0.14)}, transparent 55%)`,
+            backgroundImage: `radial-gradient(ellipse 80% 60% at 72% 38%, ${inkWithAlpha(pickContrastingInk(primary), 0.14)}, transparent 55%)`,
           }}
           aria-hidden
         />

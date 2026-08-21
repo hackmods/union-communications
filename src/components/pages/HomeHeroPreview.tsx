@@ -9,8 +9,14 @@ import {
   pickHeroPreviewVariant,
   type HeroPreviewVariant,
 } from "@/lib/comms/home-hero-preview";
+import { softGradientEndColor } from "@/lib/utils/canvas-surface";
+import { blendHex } from "@/lib/utils/contrast";
 import { resolveLocalNumber } from "@/lib/utils/local";
-import { inkWithAlpha, pickContrastingInk } from "@/lib/utils/ink";
+import {
+  mutedInkOnBackground,
+  pickContrastingInk,
+  pickFieldInk,
+} from "@/lib/utils/ink";
 import { cn } from "@/lib/utils";
 
 type HomeHeroPreviewProps = {
@@ -35,10 +41,10 @@ function useHeroPreviewVariant(): HeroPreviewVariant {
 type VariantBodyProps = {
   variant: HeroPreviewVariant;
   primary: string;
-  secondary: string;
   accent: string;
   ink: string;
   inkSoft: string;
+  fieldEnd: string;
   localLabel: string;
 };
 
@@ -53,8 +59,10 @@ export function HomeHeroPreview({ className }: HomeHeroPreviewProps) {
   const primary = brandKit.primaryColor;
   const secondary = brandKit.secondaryColor;
   const accent = brandKit.accentColor;
-  const ink = pickContrastingInk(primary);
-  const inkSoft = inkWithAlpha(ink, 0.78);
+  const fieldEnd = softGradientEndColor(primary, secondary);
+  const fieldMid = blendHex(accent, primary, 0.4);
+  const ink = pickFieldInk([primary, fieldMid, fieldEnd]);
+  const inkSoft = mutedInkOnBackground(primary, 0.82);
   const localLabel = resolveLocalNumber(brandKit.local.localNumber);
 
   const variant = useHeroPreviewVariant();
@@ -70,7 +78,7 @@ export function HomeHeroPreview({ className }: HomeHeroPreviewProps) {
         <div
           className="absolute -inset-3 rounded-3xl opacity-40 blur-2xl sm:-inset-4"
           style={{
-            backgroundImage: `linear-gradient(135deg, ${accent}, ${secondary})`,
+            backgroundImage: `linear-gradient(135deg, ${accent}, ${fieldEnd})`,
           }}
           aria-hidden
         />
@@ -78,10 +86,10 @@ export function HomeHeroPreview({ className }: HomeHeroPreviewProps) {
           <HeroPreviewBody
             variant={variant}
             primary={primary}
-            secondary={secondary}
             accent={accent}
             ink={ink}
             inkSoft={inkSoft}
+            fieldEnd={fieldEnd}
             localLabel={localLabel}
           />
           <div className="flex flex-wrap items-center gap-3 border-t border-gray-100 bg-white px-4 py-3">
@@ -111,23 +119,25 @@ export function HomeHeroPreview({ className }: HomeHeroPreviewProps) {
 function HeroPreviewBody({
   variant,
   primary,
-  secondary,
   accent,
   ink,
   inkSoft,
+  fieldEnd,
   localLabel,
 }: VariantBodyProps) {
   const t = useTranslations("home.heroPreview");
+  const headerInk = pickContrastingInk(primary);
+  const headerInkSoft = mutedInkOnBackground(primary, 0.82);
 
   if (variant === "graphicMaker") {
     return (
       <>
         <div
           className="flex items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
-          style={{ backgroundColor: primary, color: ink }}
+          style={{ backgroundColor: primary, color: headerInk }}
         >
           <span>{t("graphicMaker.eyebrow")}</span>
-          <span style={{ color: inkSoft }}>
+          <span style={{ color: headerInkSoft }}>
             {t("graphicMaker.localLabel", { number: localLabel })}
           </span>
         </div>
@@ -135,7 +145,9 @@ function HeroPreviewBody({
           <div
             className="mx-auto flex aspect-square max-w-[14rem] flex-col justify-between overflow-hidden rounded-xl shadow-md ring-1 ring-black/10 sm:max-w-[15rem]"
             style={{
-              backgroundImage: `linear-gradient(145deg, ${primary} 0%, ${secondary} 55%, ${accent} 100%)`,
+              // Stay on primary → tinted end → accent; never wash through paper
+              // under light ink (the long-standing washed-out headline bug).
+              backgroundImage: `linear-gradient(145deg, ${primary} 0%, ${fieldEnd} 58%, ${blendHex(accent, primary, 0.45)} 100%)`,
             }}
           >
             <div className="space-y-2 p-4">
@@ -175,10 +187,10 @@ function HeroPreviewBody({
       <>
         <div
           className="flex items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
-          style={{ backgroundColor: primary, color: ink }}
+          style={{ backgroundColor: primary, color: headerInk }}
         >
           <span>{t("flyerMaker.eyebrow")}</span>
-          <span style={{ color: inkSoft }}>
+          <span style={{ color: headerInkSoft }}>
             {t("flyerMaker.localLabel", { number: localLabel })}
           </span>
         </div>
@@ -189,7 +201,7 @@ function HeroPreviewBody({
           >
             <div
               className="px-3 py-2.5 text-[0.6rem] font-semibold uppercase tracking-wide"
-              style={{ backgroundColor: primary, color: ink }}
+              style={{ backgroundColor: primary, color: headerInk }}
             >
               {t("flyerMaker.lead")}
             </div>
@@ -223,17 +235,17 @@ function HeroPreviewBody({
     <>
       <div
         className="flex items-center justify-between gap-3 px-4 py-2.5 text-xs font-semibold uppercase tracking-wide"
-        style={{ backgroundColor: primary, color: ink }}
+        style={{ backgroundColor: primary, color: headerInk }}
       >
         <span>{t("boardNotice.eyebrow")}</span>
-        <span style={{ color: inkSoft }}>
+        <span style={{ color: headerInkSoft }}>
           {t("boardNotice.localLabel", { number: localLabel })}
         </span>
       </div>
       <div
         className="space-y-3 px-4 py-5 sm:px-5"
         style={{
-          backgroundImage: `linear-gradient(160deg, ${primary} 0%, ${secondary} 100%)`,
+          backgroundImage: `linear-gradient(160deg, ${primary} 0%, ${fieldEnd} 100%)`,
         }}
       >
         <p

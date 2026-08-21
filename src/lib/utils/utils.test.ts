@@ -16,9 +16,11 @@ import {
   logoRasterFilter,
   mutedInkOnBackground,
   pickContrastingInk,
+  pickFieldInk,
   INK_BLACK,
   INK_WHITE,
 } from "@/lib/utils/ink";
+import { softGradientEndColor } from "@/lib/utils/canvas-surface";
 import { validateImageFile } from "@/lib/utils/validation";
 import { formatFilename, slugify, resolveLocalNumber } from "@/lib/utils";
 
@@ -63,6 +65,27 @@ describe("ink utilities", () => {
   it("prefers white on mid-grey ties", () => {
     // #777777 is roughly equidistant; white wins on ties
     expect(pickContrastingInk("#777777")).toBe(INK_WHITE);
+  });
+
+  it("prefers white on CAAT-S coral (large-text AA)", () => {
+    expect(pickContrastingInk("#EA5A4F")).toBe(INK_WHITE);
+  });
+
+  it("picks black across a coral→paper→gold wash (home preview bug)", () => {
+    expect(pickFieldInk(["#EA5A4F", "#FFFFFF", "#FFB837"])).toBe(INK_BLACK);
+  });
+
+  it("keeps soft-gradient ends chromatic under light ink", () => {
+    const end = softGradientEndColor("#EA5A4F", "#FFFFFF");
+    expect(end.toUpperCase()).not.toBe("#FFFFFF");
+    // Paper secondary deepens the plate — white ink stays crisp, not washed
+    expect(pickContrastingInk(end)).toBe(INK_WHITE);
+    expect(pickFieldInk(["#EA5A4F", end])).toBe(INK_WHITE);
+  });
+
+  it("keeps OPSEU soft-gradient ends readable with white ink", () => {
+    const end = softGradientEndColor("#003DA5", "#FFFFFF");
+    expect(pickContrastingInk(end)).toBe(INK_WHITE);
   });
 
   it("blends foreground over background", () => {

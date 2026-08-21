@@ -27,6 +27,36 @@ export function pickContrastingInk(background: string): InkTone {
   return whiteRatio >= blackRatio ? INK_WHITE : INK_BLACK;
 }
 
+/**
+ * Ink for type sitting across a multi-stop brand field (hero / soft washes).
+ * Samples stops and mid-blends, then picks the tone with the better
+ * worst-case contrast so white does not wash out over paper/gold mids.
+ */
+export function pickFieldInk(stops: readonly string[]): InkTone {
+  if (stops.length === 0) return INK_WHITE;
+  if (stops.length === 1) return pickContrastingInk(stops[0]!);
+
+  const samples: string[] = [];
+  for (let i = 0; i < stops.length; i++) {
+    const stop = stops[i]!;
+    samples.push(stop);
+    if (i < stops.length - 1) {
+      samples.push(blendHex(stops[i + 1]!, stop, 0.5));
+    }
+  }
+
+  let whiteMin = Number.POSITIVE_INFINITY;
+  let blackMin = Number.POSITIVE_INFINITY;
+  for (const bg of samples) {
+    whiteMin = Math.min(whiteMin, contrastRatio(INK_WHITE, bg) ?? 0);
+    blackMin = Math.min(blackMin, contrastRatio(INK_BLACK, bg) ?? 0);
+  }
+
+  // Prefer white only when every sampled region still clears large-text AA.
+  if (whiteMin >= 3 && whiteMin + 0.15 >= blackMin) return INK_WHITE;
+  return whiteMin >= blackMin ? INK_WHITE : INK_BLACK;
+}
+
 /** True when ink resolves to white (light mark / light text). */
 export function isLightInk(ink: InkTone): boolean {
   return ink === INK_WHITE;
