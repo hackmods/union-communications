@@ -2526,6 +2526,22 @@
       "healthcare": "Soins de santé",
       "community": "Services communautaires"
     },
+    "identityPack": {
+      "label": "Apparence",
+      "hint": "Choisissez les couleurs et le logo collectif que les sections utilisent sur les tableaux et graphiques. Les collections ci-dessous changent seulement le texte — pas cette apparence.",
+      "coloursDiffer": "Vos couleurs ne correspondent plus à cette apparence.",
+      "resetToPack": "Rétablir les couleurs de l'apparence",
+      "packs": {
+        "opseu-national": {
+          "name": "Bleu OPSEU / SEFPO",
+          "description": "Logo et emblème bleu national — le choix par défaut pour la plupart des sections."
+        },
+        "opseu-caat-s": {
+          "name": "Soutien collégial (CAAT-S)",
+          "description": "Logo bilingue corail et or du Soutien collégial, préféré par plusieurs sections CAAT-S."
+        }
+      }
+    },
     "profileAdd": "Ajouter une collection",
     "profileRemove": "Retirer cette collection",
     "profileAddedLabel": "Collection {n}",
@@ -2630,6 +2646,8 @@
       "preview": "Aperçu",
       "useLockup": "Mot-symbole OPSEU / SEFPO",
       "useLockupHint": "Lockup complet OPSEU / SEFPO du lot d'actifs de référence.",
+      "useCaatSLockup": "Logo Soutien collégial",
+      "useCaatSLockupHint": "Logo bilingue College Support / Soutien avec la marque OPSEU / SEFPO.",
       "useMark": "Emblème OPSEU / SEFPO",
       "useMarkHint": "Barres et trille - compact pour les en-têtes et logos circulaires.",
       "useSlitBlue": "Emblème fendu OPSEU / SEFPO (bleu)",
@@ -3211,6 +3229,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "caat-s-look": {
+        "title": "Apparence Soutien collégial dans la Trousse de marque",
+        "body": "Les sections de soutien collégial peuvent choisir le logo corail CAAT-S et ses couleurs dans la Trousse de marque, ou garder le bleu national OPSEU / SEFPO. Les collections changent encore seulement le texte sur vos graphiques."
+      },
       "org-chart": {
         "title": "Organigramme pour le babillard",
         "body": "Imprimez une affiche « qui contacter », gardez dirigeants et délégués en JSON ou CSV après les élections, et réutilisez ces noms dans le Modèle de site Web."

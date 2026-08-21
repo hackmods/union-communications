@@ -15,12 +15,13 @@ Companion research: [`docs/audit/session-knowledge-2026-08-17-brand-kit-collecti
 1. **Preset starter lists ship in** [`collection-profile-catalog.ts`](../../src/lib/brand/collection-profile-catalog.ts). Each list ends with **Other** so stewards rename/remove rows they do not use.
 2. **Fresh Brand Kit / `other` preset:** one **Local** profile until a union preset is chosen.
 3. **OPSEU preset:** sector picker + starter collections from [`opseu-sector-catalog.ts`](../../src/lib/brand/opseu-sector-catalog.ts). Default sector **CAAT Support** (`caat-support`) — College Support + Other (FT/PT members share the same locals). Legacy kits infer sector from profile ids.
-4. **Applying a preset replaces profiles.** Switching presets must not leave the prior union’s collection labels behind.
-5. **Saved kits are not rewritten on hydrate** except via `normalizeBrandKit` when `profiles` is missing — then preset catalog applies.
-6. **Reference URLs** in the catalog are **general union homepages** for agent/docs context — never stored in Brand Kit or membership URLs.
-7. **No union names in generic chrome.** Preset-specific hints live under `brandKit.profilePresetHint.{presetId}` only when that preset is selected.
-8. **Local number is shared** across all saved profiles; sub-text/code follow the active profile. Onboarding and Brand Kit hide the standalone sub-text field when `profiles.length > 1`.
-9. **OPSEU CAAT Support membership keeps both join forms** (Full-Time and Part-Time applications) even though Brand Kit ships one College Support identity — both groups are in the same local. Legacy kits that still have separate FT/PT collections continue to select the matching primary. **Other OPSEU sectors** get one All members link labelled **OPSEU Membership** (`https://hub03.opseu.org/Forms/emaweb`). Switching sector replaces membership starters the same way it replaces collections.
+4. **Identity packs (Look)** are separate from collection profiles — colours + official logos live in [`identity-packs.ts`](../../src/lib/brand/identity-packs.ts). National OPSEU blue remains the default; College Support may opt into the CAAT-S coral lockup. Switching collections never changes Look.
+5. **Applying a preset replaces profiles.** Switching presets must not leave the prior union’s collection labels behind.
+6. **Saved kits are not rewritten on hydrate** except via `normalizeBrandKit` when `profiles` is missing — then preset catalog applies. Missing `identityPackId` does not rewrite colours.
+7. **Reference URLs** in the catalog are **general union homepages** for agent/docs context — never stored in Brand Kit or membership URLs.
+8. **No union names in generic chrome.** Preset-specific hints live under `brandKit.profilePresetHint.{presetId}` only when that preset is selected; Look labels live under `brandKit.identityPack.*`.
+9. **Local number is shared** across all saved profiles; sub-text/code follow the active profile. Onboarding and Brand Kit hide the standalone sub-text field when `profiles.length > 1`.
+10. **OPSEU CAAT Support membership keeps both join forms** (Full-Time and Part-Time applications) even though Brand Kit ships one College Support identity — both groups are in the same local. Legacy kits that still have separate FT/PT collections continue to select the matching primary. **Other OPSEU sectors** get one All members link labelled **OPSEU Membership** (`https://hub03.opseu.org/Forms/emaweb`). Switching sector replaces membership starters the same way it replaces collections.
 
 ## Code map
 

@@ -15,6 +15,7 @@ import {
   type LogoMode,
 } from "@/components/brand/LogoSettings";
 import { OpseuSectorSelect } from "@/components/brand/OpseuSectorSelect";
+import { IdentityPackPicker } from "@/components/brand/IdentityPackPicker";
 import { CollectionProfilesEditor } from "@/components/brand/CollectionProfilesEditor";
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import { hasStarterCollectionList } from "@/lib/brand/collection-profiles";
@@ -114,6 +115,7 @@ export default function OnboardingPage() {
               }
             />
             {isOpseu ? <OpseuSectorSelect compact /> : null}
+            {isOpseu ? <IdentityPackPicker compact /> : null}
             {showCollections ? (
               <div className="space-y-2">
                 <h3 className="text-sm font-semibold text-gray-700">
@@ -171,6 +173,8 @@ export default function OnboardingPage() {
               customLogoDataUrl={brandKit.customLogoDataUrl}
               logoText={brandKit.logoText}
               unionPresetId={brandKit.unionPresetId}
+              identityPackId={brandKit.identityPackId}
+              opseuSectorId={brandKit.opseuSectorId}
               primaryColor={brandKit.primaryColor}
               secondaryColor={brandKit.secondaryColor}
               onModeChange={handleLogoModeChange}

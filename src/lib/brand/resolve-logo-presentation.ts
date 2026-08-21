@@ -2,9 +2,12 @@ import type { BrandKit } from "@/types/entities";
 import {
   OFFICIAL_LOGOS,
   isOfficialLogoVariant,
-  isSelectableOfficialLogoVariant,
   type OfficialLogoVariant,
 } from "@/lib/constants/brand";
+import {
+  coerceOfficialVariantForPack,
+  resolveOfficialLogos,
+} from "@/lib/brand/identity-packs";
 import {
   isUnionOpsLogoSrc,
   UNIONOPS_LOGOS,
@@ -29,38 +32,57 @@ function resolveInk(backgroundColor?: string): InkTone | null {
 }
 
 function resolveOfficialPresentation(
+  kit: BrandKit,
   variant: OfficialLogoVariant,
   ink: InkTone | null,
+  backgroundColor?: string,
 ): BrandLogoPresentation {
-  const effective: OfficialLogoVariant = isSelectableOfficialLogoVariant(variant)
-    ? variant
-    : "mark";
+  const logos = resolveOfficialLogos(kit);
+  const effective = coerceOfficialVariantForPack(logos, variant);
   const filter = ink ? logoRasterFilter(ink) : undefined;
 
   if (effective === "lockup") {
-    return {
+    const lockup = logos?.lockup ?? {
       src: OFFICIAL_LOGOS.lockup.src,
-      cssFilter: ink !== null ? filter : undefined,
+      srcOnDark: undefined as string | undefined,
     };
+    if (lockup.srcOnDark && backgroundColor?.trim()) {
+      const bg = backgroundColor.trim().toUpperCase();
+      const primary = kit.primaryColor.trim().toUpperCase();
+      // Knockout on dark plates, and on the kit primary plate even when ink is
+      // dark (CAAT-S coral uses white/gold lockup on coral fills).
+      const useReverse =
+        (ink !== null && isLightInk(ink)) || bg === primary;
+      if (useReverse) return { src: lockup.srcOnDark };
+    }
+    if (ink && isLightInk(ink)) {
+      return { src: lockup.src, cssFilter: filter };
+    }
+    return { src: lockup.src };
   }
+
   if (effective === "slitBlue") {
     return {
-      src: OFFICIAL_LOGOS.slitBlue.src,
+      src: logos?.slitBlue?.src ?? OFFICIAL_LOGOS.slitBlue.src,
       cssFilter: ink !== null ? filter : undefined,
     };
   }
   if (effective === "slitWhite") {
     return {
-      src: OFFICIAL_LOGOS.slitWhite.src,
+      src: logos?.slitWhite?.src ?? OFFICIAL_LOGOS.slitWhite.src,
       cssFilter: ink !== null && !isLightInk(ink) ? filter : undefined,
     };
   }
 
+  const mark = logos?.mark ?? {
+    src: OFFICIAL_LOGOS.mark.src,
+    srcOnDark: OFFICIAL_LOGOS.mark.srcOnDark,
+  };
   if (ink && isLightInk(ink)) {
-    return { src: OFFICIAL_LOGOS.mark.srcOnDark };
+    return { src: mark.srcOnDark ?? mark.src };
   }
   return {
-    src: OFFICIAL_LOGOS.mark.src,
+    src: mark.src,
     cssFilter: ink !== null ? filter : undefined,
   };
 }
@@ -77,14 +99,16 @@ export function resolveBrandLogoPresentation(
   const ink = resolveInk(backgroundColor);
 
   if (brandKit.useOfficialLogo) {
+    const logos = resolveOfficialLogos(brandKit);
     const kitVariant = isOfficialLogoVariant(brandKit.officialLogoVariant)
       ? brandKit.officialLogoVariant
       : "lockup";
-    const variant: OfficialLogoVariant =
+    const requested: OfficialLogoVariant =
       variantOverride === "lockup" || variantOverride === "mark"
         ? variantOverride
         : kitVariant;
-    return resolveOfficialPresentation(variant, ink);
+    const variant = coerceOfficialVariantForPack(logos, requested);
+    return resolveOfficialPresentation(brandKit, variant, ink, backgroundColor);
   }
 
   const customSrc = brandKit.customLogoDataUrl?.trim();
@@ -92,7 +116,8 @@ export function resolveBrandLogoPresentation(
     const looksLikeWhiteMark =
       customSrc.includes("logo-mark-white") ||
       customSrc.includes("mark-on-dark") ||
-      customSrc.includes("on-dark");
+      customSrc.includes("on-dark") ||
+      customSrc.includes("lockup-reverse");
     const filter =
       ink !== null && !(ink && isLightInk(ink) && looksLikeWhiteMark)
         ? logoRasterFilter(ink)

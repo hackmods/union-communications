@@ -41,6 +41,8 @@ First-visit Brand Kit colours come from `config/host-brand.json` / `NEXT_PUBLIC_
 
 **Collection profiles:** first visit is one generic Local identity. Applying the OPSEU preset loads College Support (CAAT-S) + Other — not separate full-time and part-time collections, because both groups are in the same locals. Do not put those CAAT collections on `DEFAULT_BRAND_KIT`. See [`brand-kit-collections.mdc`](brand-kit-collections.mdc).
 
+**Identity packs (Look):** OPSEU national blue (`#003DA5`) remains the default Look. College Support locals may opt into the CAAT-S coral / gold bilingual lockup via the Brand Kit Look gallery (`identity-packs.ts`). Collection switches never change colours or logos.
+
 **`/assets` Brand Assets** always shows the steward’s live Brand Kit colours and logo. The bundled OPSEU reference pack (logos + `ASSET_PACK_COLORS` from seed `brandDefaults`) appears only when the Brand Kit preset is unset or `opseu` — not host chrome (`BRAND_COLORS` / platform orange).
 
 ## Multi-union rule

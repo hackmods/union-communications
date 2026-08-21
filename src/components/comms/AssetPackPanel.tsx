@@ -14,6 +14,10 @@ import {
   isOfficialLogoVariant,
 } from "@/lib/constants/brand";
 import {
+  coerceOfficialVariantForPack,
+  resolveOfficialLogos,
+} from "@/lib/brand/identity-packs";
+import {
   COMMS_SOURCES,
   isReferenceAssetPackVisible,
 } from "@/lib/constants/comms-sources";
@@ -21,6 +25,7 @@ import { isUnionOpsLogoSrc } from "@/lib/constants/unionPresets";
 import { copyToClipboard, cn } from "@/lib/utils";
 import { INK_BLACK, pickContrastingInk } from "@/lib/utils/ink";
 import { useBrandStore } from "@/store/brand-store";
+import type { BrandKit } from "@/types/entities";
 
 const guidelineKeys = [
   "clearSpace",
@@ -43,30 +48,42 @@ function needsChecker(hex: string): boolean {
   return pickContrastingInk(hex) === INK_BLACK;
 }
 
-function resolveKitLogoDownload(kit: {
-  useOfficialLogo: boolean;
-  officialLogoVariant?: string;
-  customLogoDataUrl?: string;
-}): LogoDownload | null {
+function resolveKitLogoDownload(
+  kit: Pick<
+    BrandKit,
+    | "useOfficialLogo"
+    | "officialLogoVariant"
+    | "customLogoDataUrl"
+    | "identityPackId"
+    | "unionPresetId"
+    | "opseuSectorId"
+  >,
+): LogoDownload | null {
   if (kit.useOfficialLogo) {
-    const variant = isOfficialLogoVariant(kit.officialLogoVariant)
-      ? kit.officialLogoVariant
-      : "lockup";
+    const logos = resolveOfficialLogos(kit);
+    const variant = coerceOfficialVariantForPack(
+      logos,
+      isOfficialLogoVariant(kit.officialLogoVariant)
+        ? kit.officialLogoVariant
+        : "lockup",
+    );
     if (variant === "lockup") {
+      const href = logos?.lockup.src ?? OFFICIAL_LOGOS.lockup.src;
       return {
-        href: OFFICIAL_LOGOS.lockup.src,
-        downloadName: "logo-primary.png",
+        href,
+        downloadName: href.split("/").pop() ?? "logo-lockup.png",
       };
     }
     if (variant === "mark" || variant === "slitBlue") {
+      const href = logos?.mark?.src ?? OFFICIAL_LOGOS.mark.src;
       return {
-        href: OFFICIAL_LOGOS.mark.src,
-        downloadName: "logo-mark.png",
+        href,
+        downloadName: href.split("/").pop() ?? "logo-mark.png",
       };
     }
     if (variant === "slitWhite") {
       return {
-        href: OFFICIAL_LOGOS.mark.srcOnDark,
+        href: logos?.mark?.srcOnDark ?? OFFICIAL_LOGOS.mark.srcOnDark,
         downloadName: "logo-mark-white.png",
       };
     }

@@ -6,6 +6,11 @@
  */
 
 import { collectionPatchForPreset } from "@/lib/brand/collection-profiles";
+import {
+  applyIdentityPack,
+  defaultIdentityPackId,
+  getIdentityPack,
+} from "@/lib/brand/identity-packs";
 import { getSeedMembershipUrlsForPreset } from "@/lib/tenant/loader";
 import type { BrandKitPatch } from "@/types/entities";
 
@@ -240,11 +245,18 @@ export function brandFieldsFromUnionPreset(
     collections.membershipUrls ?? getSeedMembershipUrlsForPreset(preset.id);
 
   if (logos.useOfficialPack) {
+    const packId = defaultIdentityPackId(preset.id);
+    const pack = getIdentityPack(packId);
+    const fromPack = pack ? applyIdentityPack(pack) : null;
     return {
-      ...colors,
-      useOfficialLogo: true,
-      officialLogoVariant: preset.logos?.officialLogoVariant ?? "lockup",
-      customLogoDataUrl: undefined,
+      ...(fromPack ?? {
+        ...colors,
+        useOfficialLogo: true,
+        officialLogoVariant: preset.logos?.officialLogoVariant ?? "lockup",
+        customLogoDataUrl: undefined,
+      }),
+      // Preset apply always starts on the union default Look (national for OPSEU)
+      identityPackId: packId,
       logoText,
       unionPresetId: preset.id,
       ...collections,
@@ -255,6 +267,7 @@ export function brandFieldsFromUnionPreset(
   return {
     ...colors,
     useOfficialLogo: false,
+    identityPackId: undefined,
     // Platform mark — BrandLogo / UnionOpsMark CSS-masks logo-mark-interlock.png
     customLogoDataUrl: UNIONOPS_LOGOS.mark,
     logoText,

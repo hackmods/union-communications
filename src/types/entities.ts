@@ -104,6 +104,11 @@ export interface BrandKit {
   unionPresetId?: string;
   /** OPSEU/SEFPO sector when `unionPresetId` is `opseu` — drives starter collections */
   opseuSectorId?: string;
+  /**
+   * Collective Look pack (colours + official logos). Separate from collection
+   * profiles. OPSEU defaults to national blue; College Support may pick CAAT-S.
+   */
+  identityPackId?: string;
   divisionId?: string;
   /** Local website (optional) - used by QR cards, posters, website template */
   websiteUrl?: string;

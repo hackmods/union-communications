@@ -75,6 +75,7 @@ describe("unionPresets", () => {
     const fields = brandFieldsFromUnionPreset(getUnionPreset("opseu")!);
     expect(fields.useOfficialLogo).toBe(true);
     expect(fields.officialLogoVariant).toBe("mark");
+    expect(fields.identityPackId).toBe("opseu-national");
     expect(fields.customLogoDataUrl).toBeUndefined();
     expect(fields.membershipUrls?.length).toBeGreaterThan(0);
     expect(fields.membershipUrls?.[0].url).toContain("opseu.org");

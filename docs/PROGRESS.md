@@ -1,5 +1,13 @@
 # Progress Log
 
+## Brand Kit identity packs / CAAT-S Look (2026-08-21)
+
+- [x] Data-driven identity packs (`identity-packs.ts`): OPSEU national blue default + CAAT-S coral Look for College Support
+- [x] Look gallery on Brand Kit + onboarding; LogoSettings variants from active pack; reverse lockup on coral plates
+- [x] Assets under `public/assets/caat-s/` (bilingual-01 colour + bilingual-06 reverse; bilingual-02/04 as variants) — swap for true SVG when available
+- [x] What's new `caat-s-look`; collections stay text-only
+- Verify: `npm run test:unit -- src/lib/brand/identity-packs.test.ts src/lib/brand/resolve-logo-presentation.test.ts src/lib/constants/unionPresets.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Org Chart (2026-08-20)
 
 - [x] Public `/tools/org-chart`: officers and stewards editor, letter/tabloid who-to-contact poster (PNG + PDF), on-device JSON/CSV round-trip

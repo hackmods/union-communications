@@ -2526,6 +2526,22 @@
       "healthcare": "Health care",
       "community": "Community services"
     },
+    "identityPack": {
+      "label": "Look",
+      "hint": "Pick the collective colours and lockup locals use on boards and graphics. Collections below only change the words — not this Look.",
+      "coloursDiffer": "Your colours no longer match this Look.",
+      "resetToPack": "Reset to Look colours",
+      "packs": {
+        "opseu-national": {
+          "name": "OPSEU / SEFPO blue",
+          "description": "National blue lockup and mark — the default for most locals."
+        },
+        "opseu-caat-s": {
+          "name": "College Support (CAAT-S)",
+          "description": "Coral and gold bilingual College Support lockup preferred by many CAAT-S locals."
+        }
+      }
+    },
     "profileAdd": "Add a collection",
     "profileRemove": "Remove this collection",
     "profileAddedLabel": "Collection {n}",
@@ -2630,6 +2646,8 @@
       "preview": "Preview",
       "useLockup": "OPSEU / SEFPO wordmark",
       "useLockupHint": "Full OPSEU / SEFPO lockup from the reference asset pack.",
+      "useCaatSLockup": "College Support lockup",
+      "useCaatSLockupHint": "Bilingual College Support / Soutien lockup with the OPSEU / SEFPO mark.",
       "useMark": "OPSEU / SEFPO emblem",
       "useMarkHint": "Bars and trillium mark - compact for headers and circular logos.",
       "useSlitBlue": "OPSEU / SEFPO slit mark (blue)",
@@ -3245,6 +3263,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "caat-s-look": {
+        "title": "College Support Look in Brand Kit",
+        "body": "College Support locals can pick the CAAT-S coral lockup and colours in Brand Kit, or keep national OPSEU / SEFPO blue. Collections still only change the words on your graphics."
+      },
       "org-chart": {
         "title": "Org Chart for the union board",
         "body": "Print a who-to-contact poster, save officers and stewards as JSON or CSV after elections, and reuse those names on Website Template."

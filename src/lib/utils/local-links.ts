@@ -4,6 +4,7 @@ import {
   reconcileActiveProfileId,
   resolveOpseuSectorId,
 } from "@/lib/brand/collection-profiles";
+import { normalizeIdentityPackId } from "@/lib/brand/identity-packs";
 import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { normalizeBrandKitCanvas } from "@/lib/utils/canvas-tokens";
@@ -211,6 +212,7 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
         : base.useOfficialLogo,
     unionPresetId,
     opseuSectorId,
+    identityPackId: normalizeIdentityPackId(input.identityPackId, unionPresetId),
     websiteUrl: trimUrl(input.websiteUrl),
     facebookUrl: trimUrl(input.facebookUrl),
     customLinks: normalizeCustomLinks(input.customLinks),

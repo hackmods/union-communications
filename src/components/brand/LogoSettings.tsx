@@ -5,12 +5,15 @@ import { ImageUpload } from "@/components/tools/ImageUpload";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import {
-  OFFICIAL_LOGOS,
   BRAND_COLORS,
   isOfficialLogoVariant,
-  isSelectableOfficialLogoVariant,
   type OfficialLogoVariant,
 } from "@/lib/constants/brand";
+import {
+  coerceOfficialVariantForPack,
+  resolveOfficialLogos,
+  type ResolvedOfficialLogos,
+} from "@/lib/brand/identity-packs";
 import {
   UNIONOPS_LOGOS,
   getUnionPreset,
@@ -35,13 +38,17 @@ export function resolveLogoMode(
   officialLogoVariant: OfficialLogoVariant | undefined,
   customLogoDataUrl?: string,
   presetLogos?: ResolvedUnionLogoPack | null,
+  officialLogos?: ResolvedOfficialLogos | null,
 ): LogoMode {
   if (useOfficialLogo) {
-    // Official OPSEU pack only when this preset owns it
     if (!presetLogos || presetLogos.useOfficialPack) {
-      return isOfficialLogoVariant(officialLogoVariant)
-        ? officialLogoVariant
-        : "lockup";
+      const coerced = coerceOfficialVariantForPack(
+        officialLogos,
+        isOfficialLogoVariant(officialLogoVariant)
+          ? officialLogoVariant
+          : "lockup",
+      );
+      return coerced;
     }
   }
 
@@ -51,7 +58,6 @@ export function resolveLogoMode(
   const src = customLogoDataUrl.trim();
   if (isUnionOpsLogoSrc(src)) return "platform";
   if (presetLogos && !presetLogos.useOfficialPack) {
-    // Only treat as union modes when paths are distinct from UnionOps fallbacks
     if (
       src === presetLogos.lockup &&
       !isUnionOpsLogoSrc(presetLogos.lockup)
@@ -74,17 +80,19 @@ export function resolveSelectableLogoMode(
   officialLogoVariant: OfficialLogoVariant | undefined,
   customLogoDataUrl?: string,
   presetLogos?: ResolvedUnionLogoPack | null,
+  officialLogos?: ResolvedOfficialLogos | null,
 ): LogoMode {
   let mode = resolveLogoMode(
     useOfficialLogo,
     officialLogoVariant,
     customLogoDataUrl,
     presetLogos,
+    officialLogos,
   );
-  if (isOfficialLogoVariant(mode) && !isSelectableOfficialLogoVariant(mode)) {
-    mode = "lockup";
+  if (isOfficialLogoVariant(mode)) {
+    mode = coerceOfficialVariantForPack(officialLogos, mode);
   }
-  // OPSEU options aren't offered for other unions — remount onto platform/union paths
+  // Official options aren't offered for other unions — remount onto platform/union paths
   if (
     presetLogos &&
     !presetLogos.useOfficialPack &&
@@ -95,6 +103,7 @@ export function resolveSelectableLogoMode(
       officialLogoVariant,
       customLogoDataUrl ?? UNIONOPS_LOGOS.mark,
       presetLogos,
+      null,
     );
   }
   return mode;
@@ -107,7 +116,6 @@ export function brandKitPatchForLogoMode(
   presetLogos?: ResolvedUnionLogoPack | null,
 ): BrandKitPatch {
   if (mode === "union-lockup" && presetLogos && !presetLogos.useOfficialPack) {
-    // Guard: never persist UnionOps fallbacks as a "union" selection
     if (!isUnionOpsLogoSrc(presetLogos.lockup)) {
       return {
         useOfficialLogo: false,
@@ -142,7 +150,6 @@ export function brandKitPatchForLogoMode(
       customLogoDataUrl: currentCustomLogoDataUrl ?? "",
     };
   }
-  // No logo selected → UnionOps mark tinted to Brand Kit colours
   return {
     useOfficialLogo: false,
     customLogoDataUrl: UNIONOPS_LOGOS.mark,
@@ -157,6 +164,9 @@ interface LogoSettingsProps {
   logoText?: string;
   /** Drives which bundled union logos appear (OPSEU pack vs starter wordmarks) */
   unionPresetId?: string;
+  /** Active identity pack — official logo variants come from this Look */
+  identityPackId?: string;
+  opseuSectorId?: string;
   primaryColor?: string;
   secondaryColor?: string;
   onModeChange: (mode: LogoMode) => void;
@@ -170,6 +180,8 @@ export function LogoSettings({
   officialLogoVariant = "lockup",
   customLogoDataUrl,
   unionPresetId,
+  identityPackId,
+  opseuSectorId,
   primaryColor = BRAND_COLORS.primary,
   secondaryColor = BRAND_COLORS.secondary,
   onModeChange,
@@ -179,9 +191,15 @@ export function LogoSettings({
   const t = useTranslations("brandKit.logo");
   const preset = unionPresetId ? getUnionPreset(unionPresetId) : undefined;
   const presetLogos = preset ? resolvePresetLogos(preset.logos) : null;
-  const showOpseuPack = Boolean(presetLogos?.useOfficialPack);
-  // Only offer union wordmark/mark when the preset has real assets attached.
-  // Otherwise those radios pointed at UnionOps fallbacks and couldn't stay selected.
+  const officialLogos = resolveOfficialLogos({
+    identityPackId,
+    unionPresetId,
+    opseuSectorId,
+    useOfficialLogo,
+  });
+  const showOfficialPack = Boolean(
+    presetLogos?.useOfficialPack && officialLogos,
+  );
   const showUnionPack = Boolean(
     preset &&
       hasAttachedUnionLogos(preset.logos) &&
@@ -194,6 +212,7 @@ export function LogoSettings({
     officialLogoVariant,
     customLogoDataUrl,
     presetLogos,
+    officialLogos,
   );
 
   type Option = {
@@ -211,29 +230,35 @@ export function LogoSettings({
 
   const options: Option[] = [];
 
-  if (showOpseuPack) {
-    options.push(
-      {
+  if (showOfficialPack && officialLogos) {
+    const isCaatS = officialLogos.packId === "opseu-caat-s";
+    if (officialLogos.selectableVariants.includes("lockup")) {
+      options.push({
         id: "lockup",
-        title: t("useLockup"),
-        description: t("useLockupHint"),
+        title: isCaatS ? t("useCaatSLockup") : t("useLockup"),
+        description: isCaatS ? t("useCaatSLockupHint") : t("useLockupHint"),
         preview: {
-          src: OFFICIAL_LOGOS.lockup.src,
+          src: officialLogos.lockup.src,
           width: 160,
           height: 64,
         },
-      },
-      {
+      });
+    }
+    if (
+      officialLogos.selectableVariants.includes("mark") &&
+      officialLogos.mark
+    ) {
+      options.push({
         id: "mark",
         title: t("useMark"),
         description: t("useMarkHint"),
         preview: {
-          src: OFFICIAL_LOGOS.mark.src,
+          src: officialLogos.mark.src,
           width: 56,
           height: 56,
         },
-      },
-    );
+      });
+    }
   }
 
   if (showUnionPack && preset && presetLogos) {

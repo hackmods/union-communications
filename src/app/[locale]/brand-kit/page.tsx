@@ -19,8 +19,10 @@ import {
 import { LocalLinksEditor } from "@/components/brand/LocalLinksEditor";
 import { MembershipUrlsEditor } from "@/components/brand/MembershipUrlsEditor";
 import { OpseuSectorSelect } from "@/components/brand/OpseuSectorSelect";
+import { IdentityPackPicker } from "@/components/brand/IdentityPackPicker";
 import { CollectionProfilesEditor } from "@/components/brand/CollectionProfilesEditor";
 import { hasStarterCollectionList } from "@/lib/brand/collection-profiles";
+import { resolveIdentityPackForKit } from "@/lib/brand/identity-packs";
 import { BrandKitCanvasPanel } from "@/components/brand/BrandKitCanvasPanel";
 import {
   brandFieldsFromUnionPreset,
@@ -62,6 +64,7 @@ export default function BrandKitPage() {
   const selectedLogos = selectedPreset
     ? resolvePresetLogos(selectedPreset.logos)
     : null;
+  const activeIdentityPack = resolveIdentityPackForKit(brandKit);
   const multiProfile = (brandKit.profiles?.length ?? 0) > 1;
   const showPresetCollectionsNote = hasStarterCollectionList(unionPresetId);
 
@@ -229,25 +232,30 @@ export default function BrandKitPage() {
             <p className="text-sm text-gray-600">{t("unionPreset.collectionsNote")}</p>
           ) : null}
           {unionPresetId === "opseu" ? <OpseuSectorSelect /> : null}
+          {unionPresetId === "opseu" ? <IdentityPackPicker /> : null}
           {selectedPreset && selectedLogos ? (
             <div className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start xl:grid-cols-1">
               <div className="flex flex-wrap items-center gap-4">
                 {selectedLogos.useOfficialPack ? (
                   <>
                     <SafeLogoImage
-                      src={selectedLogos.lockup}
+                      src={
+                        activeIdentityPack?.logos.lockup ?? selectedLogos.lockup
+                      }
                       alt={selectedPreset.name}
                       width={200}
                       height={48}
                       className="h-12 max-w-[200px]"
                     />
-                    <SafeLogoImage
-                      src={selectedLogos.mark}
-                      alt={selectedPreset.name}
-                      width={48}
-                      height={48}
-                      className="h-12 w-12"
-                    />
+                    {activeIdentityPack?.logos.mark ? (
+                      <SafeLogoImage
+                        src={activeIdentityPack.logos.mark}
+                        alt={selectedPreset.name}
+                        width={48}
+                        height={48}
+                        className="h-12 w-12"
+                      />
+                    ) : null}
                   </>
                 ) : (
                   <UnionOpsMark
@@ -326,6 +334,8 @@ export default function BrandKitPage() {
             customLogoDataUrl={brandKit.customLogoDataUrl}
             logoText={brandKit.logoText}
             unionPresetId={brandKit.unionPresetId}
+            identityPackId={brandKit.identityPackId}
+            opseuSectorId={brandKit.opseuSectorId}
             primaryColor={brandKit.primaryColor}
             secondaryColor={brandKit.secondaryColor}
             onModeChange={(mode) => {
