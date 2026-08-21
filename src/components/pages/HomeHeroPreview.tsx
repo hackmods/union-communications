@@ -13,9 +13,10 @@ import { softGradientEndColor } from "@/lib/utils/canvas-surface";
 import { blendHex } from "@/lib/utils/contrast";
 import { resolveLocalNumber } from "@/lib/utils/local";
 import {
+  inkWithAlpha,
+  isLightInk,
   mutedInkOnBackground,
   pickContrastingInk,
-  pickFieldInk,
 } from "@/lib/utils/ink";
 import { cn } from "@/lib/utils";
 
@@ -60,9 +61,9 @@ export function HomeHeroPreview({ className }: HomeHeroPreviewProps) {
   const secondary = brandKit.secondaryColor;
   const accent = brandKit.accentColor;
   const fieldEnd = softGradientEndColor(primary, secondary);
-  const fieldMid = blendHex(accent, primary, 0.4);
-  const ink = pickFieldInk([primary, fieldMid, fieldEnd]);
-  const inkSoft = mutedInkOnBackground(primary, 0.82);
+  // Match hero: one ink on the primary plate — don't mix black headlines + white body.
+  const ink = pickContrastingInk(primary);
+  const inkSoft = inkWithAlpha(ink, isLightInk(ink) ? 0.84 : 0.78);
   const localLabel = resolveLocalNumber(brandKit.local.localNumber);
 
   const variant = useHeroPreviewVariant();

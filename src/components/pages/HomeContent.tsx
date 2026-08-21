@@ -18,9 +18,7 @@ import { blendHex } from "@/lib/utils/contrast";
 import {
   inkWithAlpha,
   isLightInk,
-  mutedInkOnBackground,
   pickContrastingInk,
-  pickFieldInk,
 } from "@/lib/utils/ink";
 import { cn } from "@/lib/utils";
 
@@ -73,9 +71,11 @@ export function HomeContent() {
   // Primary-led band — gold-first + paper end bleach white type (long-standing).
   const heroMid = blendHex(accent, primary, 0.35);
   const heroEnd = softGradientEndColor(primary, secondary);
-  const ink = pickFieldInk([primary, heroMid, heroEnd]);
-  const inkMuted = mutedInkOnBackground(primary, 0.9);
-  const inkSoft = mutedInkOnBackground(primary, 0.78);
+  // One ink family for the whole hero copy. Mixing pickFieldInk (black) with
+  // mutedInkOnBackground(primary) (white on coral) looked accidental.
+  const ink = pickContrastingInk(primary);
+  const inkMuted = inkWithAlpha(ink, isLightInk(ink) ? 0.92 : 0.88);
+  const inkSoft = inkWithAlpha(ink, isLightInk(ink) ? 0.84 : 0.78);
   const lightInk = isLightInk(ink);
 
   return (
@@ -90,7 +90,7 @@ export function HomeContent() {
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            backgroundImage: `radial-gradient(ellipse 80% 60% at 72% 38%, ${inkWithAlpha(pickContrastingInk(primary), 0.14)}, transparent 55%)`,
+            backgroundImage: `radial-gradient(ellipse 80% 60% at 72% 38%, ${inkWithAlpha(ink, 0.14)}, transparent 55%)`,
           }}
           aria-hidden
         />
