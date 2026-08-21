@@ -188,6 +188,27 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
       ? normalizeMembershipUrls(input.membershipUrls)
       : (base.membershipUrls ?? []);
 
+  const useOfficialLogo =
+    typeof input.useOfficialLogo === "boolean"
+      ? input.useOfficialLogo
+      : base.useOfficialLogo;
+
+  // Official Look kits must not revive DEFAULT_BRAND_KIT's UnionOps mark after
+  // JSON round-trips (undefined keys are dropped on save).
+  let customLogoDataUrl: string | undefined;
+  if ("customLogoDataUrl" in input) {
+    customLogoDataUrl =
+      typeof input.customLogoDataUrl === "string"
+        ? input.customLogoDataUrl
+        : undefined;
+  } else if (useOfficialLogo) {
+    customLogoDataUrl = undefined;
+  } else if (typeof base.customLogoDataUrl === "string") {
+    customLogoDataUrl = base.customLogoDataUrl;
+  } else {
+    customLogoDataUrl = undefined;
+  }
+
   return {
     ...base,
     ...input,
@@ -206,10 +227,8 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
     primaryColor: asBrandHex(input.primaryColor, base.primaryColor),
     secondaryColor: asBrandHex(input.secondaryColor, base.secondaryColor),
     accentColor: asBrandHex(input.accentColor, base.accentColor),
-    useOfficialLogo:
-      typeof input.useOfficialLogo === "boolean"
-        ? input.useOfficialLogo
-        : base.useOfficialLogo,
+    useOfficialLogo,
+    customLogoDataUrl,
     unionPresetId,
     opseuSectorId,
     identityPackId: normalizeIdentityPackId(input.identityPackId, unionPresetId),

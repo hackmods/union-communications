@@ -237,6 +237,7 @@ export function applyIdentityPack(pack: IdentityPack): BrandKitPatch {
     accentColor: pack.colors.accentColor,
     useOfficialLogo: true,
     officialLogoVariant: pack.defaultVariant,
+    // Clear any prior UnionOps / upload path so BrandLogo + picker stay in sync
     customLogoDataUrl: undefined,
   };
 }

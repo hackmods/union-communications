@@ -7,7 +7,8 @@ import {
   resolvePresetDestination,
 } from "./local-links";
 import { PROFILE_OTHER_ID } from "@/lib/brand/collection-profile-catalog";
-
+import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
+import { UNIONOPS_LOGOS } from "@/lib/constants/unionPresets";
 describe("normalizeBrandKit", () => {
   it("upgrades a 1.0 kit to 2.0 with empty links", () => {
     const kit = normalizeBrandKit({
@@ -246,5 +247,47 @@ describe("listSavedLinks / resolve helpers", () => {
         "https://hub",
       ),
     ).toBe("https://example.com/join-pt");
+  });
+});
+
+describe("normalizeBrandKit official logo vs custom mark", () => {
+  it("does not revive the default UnionOps mark after a JSON round-trip with an official Look", () => {
+    const saved = normalizeBrandKit({
+      ...DEFAULT_BRAND_KIT,
+      unionPresetId: "opseu",
+      identityPackId: "opseu-caat-s",
+      useOfficialLogo: true,
+      officialLogoVariant: "lockup",
+      customLogoDataUrl: undefined,
+      primaryColor: "#EA5A4F",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#FFB837",
+    });
+    const roundTripped = normalizeBrandKit(JSON.parse(JSON.stringify(saved)));
+    expect(roundTripped.useOfficialLogo).toBe(true);
+    expect(roundTripped.identityPackId).toBe("opseu-caat-s");
+    expect(roundTripped.customLogoDataUrl).toBeUndefined();
+  });
+
+  it("keeps a custom upload when official logo is off", () => {
+    const kit = normalizeBrandKit({
+      ...DEFAULT_BRAND_KIT,
+      useOfficialLogo: false,
+      customLogoDataUrl: "data:image/png;base64,abc",
+    });
+    expect(kit.customLogoDataUrl).toBe("data:image/png;base64,abc");
+  });
+
+  it("still supplies the default UnionOps mark for brand-new non-official kits", () => {
+    const kit = normalizeBrandKit({
+      version: "2.0",
+      local: { id: "x", localNumber: "", subText: "" },
+      primaryColor: "#C2410C",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#9A3412",
+      useOfficialLogo: false,
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    });
+    expect(kit.customLogoDataUrl).toBe(UNIONOPS_LOGOS.mark);
   });
 });

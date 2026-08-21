@@ -109,12 +109,9 @@ export function BrandLogo({
     return platformMark;
   }
 
-  const customSrc = brandKit.customLogoDataUrl?.trim();
-  if (customSrc && isUnionOpsLogoSrc(customSrc)) {
-    return platformMark;
-  }
-
-  if (brandKit.useOfficialLogo || customSrc) {
+  // Official Look / pack logos win over a leftover UnionOps customLogoDataUrl
+  // (DEFAULT_BRAND_KIT mark used to resurrect after localStorage round-trips).
+  if (brandKit.useOfficialLogo) {
     const { src, cssFilter } = resolveBrandLogoPresentation(
       brandKit,
       backgroundColor,
@@ -124,6 +121,34 @@ export function BrandLogo({
 
     return (
       <SafeLogoImage
+        key={src}
+        src={src}
+        alt={alt}
+        width={officialDims.width}
+        height={officialDims.height}
+        className={className}
+        onDark={ink ? isLightInk(ink) : onDark}
+        style={cssFilter ? { filter: cssFilter } : undefined}
+      />
+    );
+  }
+
+  const customSrc = brandKit.customLogoDataUrl?.trim();
+  if (customSrc && isUnionOpsLogoSrc(customSrc)) {
+    return platformMark;
+  }
+
+  if (customSrc) {
+    const { src, cssFilter } = resolveBrandLogoPresentation(
+      brandKit,
+      backgroundColor,
+      variantOverride,
+    );
+    const officialDims = logoDims(brandKit, size, variantOverride);
+
+    return (
+      <SafeLogoImage
+        key={src}
         src={src}
         alt={alt}
         width={officialDims.width}

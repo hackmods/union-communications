@@ -368,6 +368,7 @@ export function LogoSettings({
                       </span>
                     ) : (
                       <SafeLogoImage
+                        key={option.preview.src}
                         src={option.preview.src!}
                         width={option.preview.width}
                         height={option.preview.height}
