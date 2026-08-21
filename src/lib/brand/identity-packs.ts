@@ -23,6 +23,29 @@ export const OPSEU_CAAT_S_PACK_ID = "opseu-caat-s";
 
 export type IdentityLogoVariant = "lockup" | "mark";
 
+/** Preview plate behind a downloadable asset on /assets */
+export type IdentityAssetPlate =
+  | "transparent"
+  | "primary"
+  | "accent"
+  | "dark"
+  | "light";
+
+/**
+ * Downloadable / campaign colour treatments for a Look.
+ * Future event packs add rows here — UI reads the catalog, no new if/else.
+ */
+export type IdentityAssetVariant = {
+  id: string;
+  src: string;
+  plate: IdentityAssetPlate;
+  /** When set, overrides pack colour for the preview plate */
+  plateColor?: string;
+  downloadName: string;
+  /** Key under `assets.variantLabels.*` */
+  labelKey: string;
+};
+
 export type IdentityPackColors = {
   primaryColor: string;
   secondaryColor: string;
@@ -53,6 +76,11 @@ export type IdentityPack = {
   logos: IdentityPackLogos;
   selectableVariants: IdentityLogoVariant[];
   defaultVariant: IdentityLogoVariant;
+  /**
+   * Full set of colour / plate treatments for Brand Assets downloads.
+   * Campaign and event packs ship the same shape.
+   */
+  assetVariants: IdentityAssetVariant[];
 };
 
 /**
@@ -81,6 +109,29 @@ export const IDENTITY_PACKS: readonly IdentityPack[] = [
     },
     selectableVariants: ["lockup", "mark"],
     defaultVariant: "mark",
+    assetVariants: [
+      {
+        id: "lockup",
+        src: OPSEU_NATIONAL_LOCKUP,
+        plate: "light",
+        downloadName: "opseu-logo-primary.png",
+        labelKey: "lockup",
+      },
+      {
+        id: "mark",
+        src: OPSEU_NATIONAL_MARK,
+        plate: "light",
+        downloadName: "opseu-logo-mark.png",
+        labelKey: "mark",
+      },
+      {
+        id: "mark-on-dark",
+        src: OPSEU_NATIONAL_MARK_ON_DARK,
+        plate: "primary",
+        downloadName: "opseu-logo-mark-white.png",
+        labelKey: "markOnDark",
+      },
+    ],
   },
   {
     id: OPSEU_CAAT_S_PACK_ID,
@@ -95,6 +146,50 @@ export const IDENTITY_PACKS: readonly IdentityPack[] = [
     },
     selectableVariants: ["lockup"],
     defaultVariant: "lockup",
+    assetVariants: [
+      {
+        id: "color",
+        src: "/assets/caat-s/logo-lockup-color.svg",
+        plate: "dark",
+        downloadName: "caat-s-bilingual-01-color.svg",
+        labelKey: "color",
+      },
+      {
+        id: "on-primary",
+        src: "/assets/caat-s/logo-lockup-on-primary.svg",
+        plate: "primary",
+        downloadName: "caat-s-bilingual-02-on-coral.svg",
+        labelKey: "onPrimary",
+      },
+      {
+        id: "knockout",
+        src: "/assets/caat-s/logo-lockup-on-primary-knockout.svg",
+        plate: "primary",
+        downloadName: "caat-s-bilingual-02-knockout.svg",
+        labelKey: "knockout",
+      },
+      {
+        id: "on-gold",
+        src: "/assets/caat-s/logo-lockup-on-gold.svg",
+        plate: "accent",
+        downloadName: "caat-s-bilingual-03-on-gold.svg",
+        labelKey: "onGold",
+      },
+      {
+        id: "one-color",
+        src: "/assets/caat-s/logo-lockup-one-color.svg",
+        plate: "dark",
+        downloadName: "caat-s-bilingual-04-one-color.svg",
+        labelKey: "oneColor",
+      },
+      {
+        id: "reverse",
+        src: "/assets/caat-s/logo-lockup-reverse.svg",
+        plate: "dark",
+        downloadName: "caat-s-bilingual-06-reverse.svg",
+        labelKey: "reverse",
+      },
+    ],
   },
 ] as const;
 
@@ -292,6 +387,54 @@ export function identityPackSectorGaps(): string[] {
     for (const sectorId of pack.sectorIds) {
       if (!isOpseuSectorId(sectorId)) {
         gaps.push(`${pack.id}: unknown sectorId ${sectorId}`);
+      }
+    }
+  }
+  return gaps;
+}
+
+/** Preview fill for an asset variant card. */
+export function identityAssetPlateColor(
+  pack: IdentityPack,
+  variant: IdentityAssetVariant,
+): string {
+  if (variant.plateColor) return variant.plateColor;
+  switch (variant.plate) {
+    case "primary":
+      return pack.colors.primaryColor;
+    case "accent":
+      return pack.colors.accentColor;
+    case "dark":
+      return "#1A1A1A";
+    case "light":
+    case "transparent":
+    default:
+      return "#FFFFFF";
+  }
+}
+
+/** Gaps when a pack ships empty or broken download rows. */
+export function identityPackAssetGaps(): string[] {
+  const gaps: string[] = [];
+  for (const pack of IDENTITY_PACKS) {
+    if (!pack.assetVariants.length) {
+      gaps.push(`${pack.id}: needs at least one assetVariants row`);
+      continue;
+    }
+    const ids = new Set<string>();
+    for (const variant of pack.assetVariants) {
+      if (ids.has(variant.id)) {
+        gaps.push(`${pack.id}: duplicate asset variant ${variant.id}`);
+      }
+      ids.add(variant.id);
+      if (!variant.src.startsWith("/")) {
+        gaps.push(`${pack.id}/${variant.id}: src must be a public path`);
+      }
+      if (!variant.downloadName.trim()) {
+        gaps.push(`${pack.id}/${variant.id}: missing downloadName`);
+      }
+      if (!variant.labelKey.trim()) {
+        gaps.push(`${pack.id}/${variant.id}: missing labelKey`);
       }
     }
   }

@@ -15,8 +15,13 @@ import {
 } from "@/lib/constants/brand";
 import {
   coerceOfficialVariantForPack,
+  identityAssetPlateColor,
+  identityPacksFor,
+  resolveIdentityPackForKit,
   resolveOfficialLogos,
+  type IdentityPack,
 } from "@/lib/brand/identity-packs";
+import { resolveOpseuSectorId } from "@/lib/brand/collection-profiles";
 import {
   COMMS_SOURCES,
   isReferenceAssetPackVisible,
@@ -26,6 +31,7 @@ import { copyToClipboard, cn } from "@/lib/utils";
 import { INK_BLACK, pickContrastingInk } from "@/lib/utils/ink";
 import { useBrandStore } from "@/store/brand-store";
 import type { BrandKit } from "@/types/entities";
+import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 
 const guidelineKeys = [
   "clearSpace",
@@ -205,8 +211,68 @@ function LogoDownloadCard({
   );
 }
 
+function packTitleKey(packId: string): "opseu-national" | "opseu-caat-s" {
+  return packId === "opseu-caat-s" ? "opseu-caat-s" : "opseu-national";
+}
+
+function LookPackDownloads({
+  pack,
+  title,
+  hint,
+  downloadSvg,
+  downloadPng,
+  variantLabel,
+}: {
+  pack: IdentityPack;
+  title: string;
+  hint: string;
+  downloadSvg: string;
+  downloadPng: string;
+  variantLabel: (key: string) => string;
+}) {
+  return (
+    <section className="mt-10 border-t border-gray-200 pt-8">
+      <h2 className="text-xl font-bold text-opseu-dark">{title}</h2>
+      <p className="mt-2 max-w-3xl text-sm text-gray-600">{hint}</p>
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {pack.assetVariants.map((variant) => {
+          const plate = identityAssetPlateColor(pack, variant);
+          const isSvg = variant.src.toLowerCase().endsWith(".svg");
+          return (
+            <LogoDownloadCard
+              key={`${pack.id}-${variant.id}`}
+              href={variant.src}
+              downloadName={variant.downloadName}
+              label={`${isSvg ? downloadSvg : downloadPng} — ${variantLabel(variant.labelKey)}`}
+            >
+              <span
+                className="flex min-h-24 w-full items-center justify-center rounded-md px-3 py-4"
+                style={{ backgroundColor: plate }}
+              >
+                <SafeLogoImage
+                  src={variant.src}
+                  alt=""
+                  width={180}
+                  height={72}
+                  className="h-14 max-w-[180px]"
+                  onDark={
+                    variant.plate === "dark" ||
+                    variant.plate === "primary" ||
+                    variant.plate === "accent"
+                  }
+                />
+              </span>
+            </LogoDownloadCard>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 export function AssetPackPanel() {
   const t = useTranslations("assets");
+  const tPack = useTranslations("brandKit.identityPack");
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
   const showReferencePack = isReferenceAssetPackVisible(
@@ -239,6 +305,27 @@ export function AssetPackPanel() {
     { name: t("swatchBlack"), hex: ASSET_PACK_COLORS.black },
   ];
   const opseuBranding = COMMS_SOURCES["opseu-branding"];
+  const sectorId = resolveOpseuSectorId(
+    brandKit.unionPresetId,
+    brandKit.opseuSectorId,
+    brandKit.profiles,
+  );
+  const lookPacks = showReferencePack
+    ? identityPacksFor(
+        brandKit.unionPresetId ?? "opseu",
+        sectorId,
+        brandKit.identityPackId,
+      )
+    : [];
+  const activePack = resolveIdentityPackForKit(brandKit);
+  // Prefer CAAT-S (and other sector packs) ahead of national when both are offered
+  const packsForDownloads = [...lookPacks].sort((a, b) => {
+    if (a.id === activePack?.id) return -1;
+    if (b.id === activePack?.id) return 1;
+    if (a.id === "opseu-national") return 1;
+    if (b.id === "opseu-national") return -1;
+    return 0;
+  });
 
   return (
     <>
@@ -275,7 +362,9 @@ export function AssetPackPanel() {
                   download={kitDownload.downloadName}
                   className="text-sm font-medium text-opseu-blue underline"
                 >
-                  {t("downloadPng")}
+                  {kitDownload.href.toLowerCase().endsWith(".svg")
+                    ? t("downloadSvg")
+                    : t("downloadPng")}
                 </a>
               ) : (
                 <p className="text-sm text-gray-600">
@@ -308,7 +397,23 @@ export function AssetPackPanel() {
         </Link>
       </div>
 
-      {showReferencePack && (
+      {packsForDownloads.map((pack) => (
+        <LookPackDownloads
+          key={pack.id}
+          pack={pack}
+          title={t("lookPackTitle", {
+            name: tPack(`packs.${packTitleKey(pack.id)}.name`),
+          })}
+          hint={t("lookPackHint")}
+          downloadSvg={t("downloadSvg")}
+          downloadPng={t("downloadPng")}
+          variantLabel={(key) =>
+            t(`variantLabels.${key}` as "variantLabels.color")
+          }
+        />
+      ))}
+
+      {showReferencePack && packsForDownloads.length === 0 ? (
         <section className="mt-12 border-t border-gray-200 pt-10">
           <h2 className="text-xl font-bold text-opseu-dark">
             {t("referencePackTitle")}
@@ -380,7 +485,23 @@ export function AssetPackPanel() {
             </p>
           </Callout>
         </section>
-      )}
+      ) : null}
+
+      {showReferencePack && packsForDownloads.length > 0 ? (
+        <Callout tone="muted" className="mt-8 max-w-3xl">
+          <p className="text-sm text-gray-700">
+            {t("guidelines.sourceLabel")}{" "}
+            <a
+              href={opseuBranding.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-opseu-blue underline"
+            >
+              {opseuBranding.label}
+            </a>
+          </p>
+        </Callout>
+      ) : null}
     </>
   );
 }

@@ -10,6 +10,7 @@ import {
   colorsMatchIdentityPack,
   defaultIdentityPackId,
   getIdentityPack,
+  identityPackAssetGaps,
   identityPackSectorGaps,
   identityPacksFor,
   resolveIdentityPackForKit,
@@ -44,6 +45,7 @@ describe("identity-packs", () => {
       }
     }
     expect(identityPackSectorGaps()).toEqual([]);
+    expect(identityPackAssetGaps()).toEqual([]);
   });
 
   it("defaults OPSEU to national and offers CAAT-S only for College Support", () => {
@@ -120,5 +122,21 @@ describe("identity-packs", () => {
         pack,
       ),
     ).toBe(false);
+  });
+
+  it("ships downloadable asset variants with files on disk", () => {
+    const caat = getIdentityPack(OPSEU_CAAT_S_PACK_ID)!;
+    expect(caat.assetVariants.map((v) => v.id)).toEqual([
+      "color",
+      "on-primary",
+      "knockout",
+      "on-gold",
+      "one-color",
+      "reverse",
+    ]);
+    for (const variant of caat.assetVariants) {
+      const disk = join(process.cwd(), "public", variant.src.replace(/^\//, ""));
+      expect(existsSync(disk), `missing ${variant.src}`).toBe(true);
+    }
   });
 });

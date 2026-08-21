@@ -3231,7 +3231,7 @@
     "items": {
       "caat-s-look": {
         "title": "Apparence Soutien collégial dans la Trousse de marque",
-        "body": "Les sections de soutien collégial peuvent choisir le logo corail CAAT-S et ses couleurs dans la Trousse de marque, ou garder le bleu national OPSEU / SEFPO. Les collections changent encore seulement le texte sur vos graphiques."
+        "body": "Les sections de soutien collégial peuvent choisir l'apparence corail CAAT-S dans la Trousse de marque, ou garder le bleu national OPSEU / SEFPO. Les Actifs de marque offrent maintenant chaque variante de couleur et de fond à télécharger — pour babillards, réseaux sociaux et campagnes."
       },
       "org-chart": {
         "title": "Organigramme pour le babillard",
@@ -5193,6 +5193,20 @@
     "copyHex": "Copier",
     "copied": "Copié",
     "downloadUnavailable": "Téléchargement indisponible pour le moment. Réessayez plus tard.",
+    "downloadSvg": "Télécharger SVG",
+    "lookPackTitle": "Fichiers {name}",
+    "lookPackHint": "Variantes de couleur et de fond pour babillards, réseaux sociaux et campagnes. Choisissez le traitement qui convient à votre fond — les futures trousses d'événements apparaîtront ici de la même façon.",
+    "variantLabels": {
+      "lockup": "Mot-symbole",
+      "mark": "Emblème",
+      "markOnDark": "Emblème sur fond foncé",
+      "color": "Couleurs complètes",
+      "onPrimary": "Sur plaque corail",
+      "knockout": "Blanc et or (sans plaque)",
+      "onGold": "Sur plaque or",
+      "oneColor": "Une seule couleur",
+      "reverse": "Version blanche"
+    },
     "referencePackTitle": "Trousse de référence (OPSEU / SEFPO)",
     "referenceNote": "Les fichiers groupés sont la trousse de référence OPSEU / SEFPO (pas une approbation). Nous n’expédions pas d’autres marques nationales sans licence claire.",
     "primaryLogo": "Logo principal",

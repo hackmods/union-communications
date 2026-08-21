@@ -2672,6 +2672,20 @@
     "copyHex": "Copy",
     "copied": "Copied",
     "downloadUnavailable": "Download unavailable right now. Try again later.",
+    "downloadSvg": "Download SVG",
+    "lookPackTitle": "{name} files",
+    "lookPackHint": "Colour and plate variants for boards, social, and campaigns. Pick the treatment that matches your background — future event packs will appear here the same way.",
+    "variantLabels": {
+      "lockup": "Wordmark",
+      "mark": "Emblem",
+      "markOnDark": "Emblem on dark",
+      "color": "Full colour",
+      "onPrimary": "On coral plate",
+      "knockout": "White and gold (no plate)",
+      "onGold": "On gold plate",
+      "oneColor": "One colour",
+      "reverse": "White reverse"
+    },
     "referencePackTitle": "Reference pack (OPSEU / SEFPO)",
     "referenceNote": "Bundled files are the OPSEU / SEFPO reference pack (not an endorsement). We do not ship other national locks without a clear license.",
     "primaryLogo": "Primary logo",
@@ -3265,7 +3279,7 @@
     "items": {
       "caat-s-look": {
         "title": "College Support Look in Brand Kit",
-        "body": "College Support locals can pick the CAAT-S coral lockup and colours in Brand Kit, or keep national OPSEU / SEFPO blue. Collections still only change the words on your graphics."
+        "body": "College Support locals can pick the CAAT-S coral Look in Brand Kit, or keep national OPSEU / SEFPO blue. Brand Assets now ships every colour and plate variant for download — ready for boards, social, and campaigns."
       },
       "org-chart": {
         "title": "Org Chart for the union board",
