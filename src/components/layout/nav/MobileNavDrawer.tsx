@@ -327,22 +327,26 @@ function MobileGroup({
   linkLabel: (key: NavLinkKey) => string;
 }) {
   return (
-    <div className="mt-1">
-      <p className="px-3 py-1 text-xs font-medium text-gray-500">{label}</p>
-      {group.links.map(({ href, key }) => {
-        const active = linkActive(pathname, href);
-        return (
-          <Link
-            key={href}
-            href={href}
-            onClick={onNavigate}
-            aria-current={active ? "page" : undefined}
-            className={linkClass(active)}
-          >
-            {linkLabel(key)}
-          </Link>
-        );
-      })}
+    <div className="mt-2 first:mt-1">
+      <p className="mx-3 mb-1 border-b border-gray-100 pb-1.5 text-[0.7rem] font-semibold tracking-wide text-gray-500">
+        {label}
+      </p>
+      <div className="space-y-0.5">
+        {group.links.map(({ href, key }) => {
+          const active = linkActive(pathname, href);
+          return (
+            <Link
+              key={href}
+              href={href}
+              onClick={onNavigate}
+              aria-current={active ? "page" : undefined}
+              className={linkClass(active)}
+            >
+              {linkLabel(key)}
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }

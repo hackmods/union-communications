@@ -168,7 +168,7 @@ export function NavDropdown({
         ref={triggerRef}
         type="button"
         className={cn(
-          "inline-flex items-center gap-1 rounded-md px-2 py-1 transition-colors duration-150",
+          "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 transition-colors duration-150",
           triggerClassName ?? "hover:bg-opseu-blue/5",
           open
             ? cn(
@@ -187,15 +187,23 @@ export function NavDropdown({
         onKeyDown={onTriggerKeyDown}
       >
         {label}
-        <span
+        <svg
           aria-hidden="true"
+          viewBox="0 0 12 12"
           className={cn(
-            "inline-block text-[0.65em] leading-none transition-transform duration-150",
+            "h-3 w-3 shrink-0 text-current opacity-70 transition-transform duration-150",
             open && "rotate-180",
           )}
         >
-          ▾
-        </span>
+          <path
+            d="M2.5 4.25 6 7.75l3.5-3.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </button>
       {open ? (
         <div
@@ -204,12 +212,13 @@ export function NavDropdown({
           role="menu"
           onKeyDown={onPanelKeyDown}
           className={cn(
-            "z-50 rounded-lg border border-gray-200 bg-white py-1 shadow-lg",
+            "z-50 overflow-hidden rounded-xl border border-gray-200/90 bg-white",
+            "shadow-[0_12px_40px_-16px_rgba(15,23,42,0.22),0_4px_12px_-4px_rgba(15,23,42,0.08)]",
             "origin-top transition duration-150 ease-out",
             clampToViewport
               ? "fixed max-w-[calc(100vw-2rem)] overflow-y-auto"
               : cn(
-                  "absolute mt-1",
+                  "absolute mt-1.5 py-1.5",
                   align === "right" ? "right-0" : "left-0",
                 ),
             panelClassName ?? (clampToViewport ? undefined : "min-w-[220px]"),

@@ -5,7 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
-import { TOOLS_MEGA_MENU_GRID_CLASS } from "@/lib/utils/flyout-geometry";
+import { NAV_MEGA_MENU_GRID_CLASS } from "@/lib/utils/flyout-geometry";
 import {
   learnGroups,
   linkActive,
@@ -25,11 +25,13 @@ function MenuItemLink({
   label,
   active,
   onNavigate,
+  dense = false,
 }: {
   href: string;
   label: string;
   active: boolean;
   onNavigate: () => void;
+  dense?: boolean;
 }) {
   return (
     <Link
@@ -42,12 +44,61 @@ function MenuItemLink({
         window.setTimeout(onNavigate, 0);
       }}
       className={cn(
-        "block rounded-md px-2 py-2 outline-none hover:bg-opseu-blue/5 focus-visible:bg-opseu-blue/10 focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+        "block rounded-lg outline-none transition-colors duration-150",
+        "hover:bg-opseu-blue/5 focus-visible:bg-opseu-blue/10 focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+        dense ? "px-2.5 py-1.5 text-sm" : "min-h-10 px-2.5 py-2 text-sm leading-snug",
         active && "bg-opseu-blue/10 font-semibold text-opseu-dark",
       )}
     >
       {label}
     </Link>
+  );
+}
+
+function MegaFooterLink({
+  href,
+  label,
+  active,
+  onNavigate,
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+  onNavigate: () => void;
+}) {
+  return (
+    <div className="border-t border-gray-100 bg-gray-50/80 px-3 py-2.5">
+      <Link
+        href={href}
+        role="menuitem"
+        tabIndex={-1}
+        aria-current={active ? "page" : undefined}
+        onClick={() => {
+          window.setTimeout(onNavigate, 0);
+        }}
+        className={cn(
+          "flex min-h-10 items-center justify-between gap-3 rounded-lg px-2.5 py-2 text-sm font-semibold outline-none transition-colors duration-150",
+          "text-opseu-blue hover:bg-white focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+          active && "bg-white text-opseu-dark",
+        )}
+      >
+        <span>{label}</span>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 12 12"
+          className="h-3.5 w-3.5 shrink-0 opacity-70"
+        >
+          <path
+            d="M4.25 2.5 7.75 6l-3.5 3.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </Link>
+    </div>
   );
 }
 
@@ -61,13 +112,13 @@ export function MenuLinkGroups({
 
   if (layout === "mega") {
     return (
-      <div className={TOOLS_MEGA_MENU_GRID_CLASS}>
+      <div className={NAV_MEGA_MENU_GRID_CLASS}>
         {groups.map((group) => (
           <div key={group.labelKey} className="min-w-0">
-            <p className="px-2 py-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
+            <p className="border-b border-gray-100 px-2.5 pb-2 text-[0.7rem] font-semibold tracking-wide text-gray-500">
               {t(group.labelKey)}
             </p>
-            <ul className="mt-0.5">
+            <ul className="mt-2 space-y-0.5">
               {group.links.map(({ href, key }) => (
                 <li key={href}>
                   <MenuItemLink
@@ -92,7 +143,7 @@ export function MenuLinkGroups({
           key={group.labelKey}
           className={cn(groupIndex > 0 && "mt-1 border-t border-gray-100 pt-1")}
         >
-          <p className="px-3 py-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
+          <p className="px-3 py-1.5 text-[0.7rem] font-semibold tracking-wide text-gray-500">
             {t(group.labelKey)}
           </p>
           {group.links.map(({ href, key }) => (
@@ -102,6 +153,7 @@ export function MenuLinkGroups({
               label={t(key)}
               active={linkActive(pathname, href)}
               onNavigate={onNavigate}
+              dense
             />
           ))}
         </div>
@@ -117,13 +169,24 @@ export function LearnMenuContent({
   pathname: string;
   onNavigate: () => void;
 }) {
+  const t = useTranslations("nav");
+  const allActive = pathname === "/guide";
+
   return (
-    <MenuLinkGroups
-      groups={learnGroups}
-      pathname={pathname}
-      onNavigate={onNavigate}
-      layout="list"
-    />
+    <div className="w-full min-w-0">
+      <MenuLinkGroups
+        groups={learnGroups}
+        pathname={pathname}
+        onNavigate={onNavigate}
+        layout="mega"
+      />
+      <MegaFooterLink
+        href="/guide"
+        label={t("allGuides")}
+        active={allActive}
+        onNavigate={onNavigate}
+      />
+    </div>
   );
 }
 
@@ -152,23 +215,12 @@ export function ToolsMegaMenuContent({
         onNavigate={onNavigate}
         layout="mega"
       />
-      <div className="border-t border-gray-100 px-3 py-2">
-        <Link
-          href="/tools"
-          role="menuitem"
-          tabIndex={-1}
-          aria-current={allActive ? "page" : undefined}
-          onClick={() => {
-            window.setTimeout(onNavigate, 0);
-          }}
-          className={cn(
-            "block rounded-md px-2 py-2 text-sm font-semibold text-opseu-blue outline-none hover:bg-opseu-blue/5 focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
-            allActive && "bg-opseu-blue/10 text-opseu-dark",
-          )}
-        >
-          {t("allTools")}
-        </Link>
-      </div>
+      <MegaFooterLink
+        href="/tools"
+        label={t("allTools")}
+        active={allActive}
+        onNavigate={onNavigate}
+      />
     </div>
   );
 }

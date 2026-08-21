@@ -4,14 +4,15 @@ import { describe, expect, it } from "vitest";
 import {
   GUIDES_MENU_WIDTH_PX,
   HUB_TOOLS_MENU_WIDTH_PX,
+  NAV_MEGA_MENU,
+  NAV_MEGA_MENU_GRID_CLASS,
   TOOLS_MEGA_MENU,
-  TOOLS_MEGA_MENU_GRID_CLASS,
   clampFlyoutToViewport,
   flyoutBoxFitsViewport,
+  navMegaMenuColumnCount,
   preferredGuidesMenuWidth,
   preferredHubToolsMenuWidth,
   preferredToolsMegaMenuWidth,
-  toolsMegaMenuColumnCount,
 } from "./flyout-geometry";
 
 const srcRoot = join(__dirname, "../..");
@@ -38,18 +39,24 @@ function leftishToolsTrigger() {
   return { left: 360, right: 432, bottom: 56 };
 }
 
+function typicalGuidesTrigger(viewportWidth: number) {
+  const pad = viewportWidth >= 1280 ? 32 : 24;
+  return { left: pad + 200, right: pad + 280, bottom: 56 };
+}
+
 function place(
   viewportWidth: number,
   trigger: { left: number; right: number; bottom: number },
   preferredWidth = preferredToolsMegaMenuWidth(viewportWidth),
   viewportHeight = 768,
+  align: "left" | "right" = "right",
 ) {
   return clampFlyoutToViewport({
     viewportWidth,
     viewportHeight,
     trigger,
     preferredWidth,
-    align: "right",
+    align,
   });
 }
 
@@ -60,15 +67,40 @@ describe("preferredToolsMegaMenuWidth", () => {
     expect(preferredToolsMegaMenuWidth(1280)).toBe(36 * 16);
     expect(preferredToolsMegaMenuWidth(1535)).toBe(36 * 16);
     expect(preferredToolsMegaMenuWidth(1536)).toBe(52 * 16);
-    expect(toolsMegaMenuColumnCount(1024)).toBe(2);
-    expect(toolsMegaMenuColumnCount(1440)).toBe(2);
-    expect(toolsMegaMenuColumnCount(1536)).toBe(4);
+    expect(navMegaMenuColumnCount(1024)).toBe(2);
+    expect(navMegaMenuColumnCount(1440)).toBe(2);
+    expect(navMegaMenuColumnCount(1536)).toBe(4);
   });
 
   it("never prefers a width wider than a medium desktop minus gutters", () => {
     for (const vw of MEDIUM_DESKTOPS) {
       const width = preferredToolsMegaMenuWidth(vw);
-      expect(width).toBeLessThanOrEqual(vw - TOOLS_MEGA_MENU.gutterPx * 2);
+      expect(width).toBeLessThanOrEqual(vw - NAV_MEGA_MENU.gutterPx * 2);
+    }
+  });
+});
+
+describe("preferredGuidesMenuWidth", () => {
+  it("matches the Tools mega stepped widths", () => {
+    for (const vw of ALL_DESKTOPS) {
+      expect(preferredGuidesMenuWidth(vw)).toBe(preferredToolsMegaMenuWidth(vw));
+    }
+  });
+
+  it("keeps the Guides mega-menu on-screen when left-aligned", () => {
+    for (const vw of ALL_DESKTOPS) {
+      const trigger = typicalGuidesTrigger(vw);
+      const box = place(
+        vw,
+        trigger,
+        preferredGuidesMenuWidth(vw),
+        768,
+        "left",
+      );
+      expect(
+        flyoutBoxFitsViewport(box, vw, 768),
+        `${vw}px Guides → ${JSON.stringify(box)}`,
+      ).toBe(true);
     }
   });
 });
@@ -113,7 +145,7 @@ describe("clampFlyoutToViewport", () => {
     const trigger = leftishToolsTrigger();
     const box = place(vw, trigger, 40 * 16);
     expect(box.left + box.width).toBe(trigger.right);
-    expect(box.left).toBeGreaterThanOrEqual(TOOLS_MEGA_MENU.gutterPx);
+    expect(box.left).toBeGreaterThanOrEqual(NAV_MEGA_MENU.gutterPx);
   });
 
   it("caps height so a tall panel cannot extend past the viewport", () => {
@@ -125,9 +157,9 @@ describe("clampFlyoutToViewport", () => {
       align: "right",
     });
     expect(box.top + box.maxHeight).toBeLessThanOrEqual(
-      700 - TOOLS_MEGA_MENU.gutterPx,
+      700 - NAV_MEGA_MENU.gutterPx,
     );
-    expect(box.maxHeight).toBeLessThanOrEqual(700 * TOOLS_MEGA_MENU.maxHeightVh);
+    expect(box.maxHeight).toBeLessThanOrEqual(700 * NAV_MEGA_MENU.maxHeightVh);
   });
 
   it("keeps the Officer tools list under the trigger, not floated left", () => {
@@ -146,7 +178,7 @@ describe("clampFlyoutToViewport", () => {
   });
 });
 
-describe("Tools mega-menu source stays clamped", () => {
+describe("Nav mega-menu source stays clamped", () => {
   it("does not hard-set a 90vw/40rem/52rem panel width", () => {
     const source = readFileSync(
       join(srcRoot, "components/layout/nav/MenuContents.tsx"),
@@ -154,10 +186,10 @@ describe("Tools mega-menu source stays clamped", () => {
     );
     expect(source).not.toMatch(/w-\[min\(90vw/);
     expect(source).not.toMatch(/xl:w-\[min\(90vw/);
-    expect(source).toContain("TOOLS_MEGA_MENU_GRID_CLASS");
+    expect(source).toContain("NAV_MEGA_MENU_GRID_CLASS");
   });
 
-  it("wires the header Tools flyout through viewport clamp", () => {
+  it("wires the header Guides and Tools flyouts through viewport clamp", () => {
     const source = readFileSync(
       join(srcRoot, "components/layout/Header.tsx"),
       "utf8",
@@ -166,13 +198,13 @@ describe("Tools mega-menu source stays clamped", () => {
     expect(source).toMatch(/preferredPanelWidth=\{preferredGuidesMenuWidth\}/);
   });
 
-  it("exposes a fixed Guides list width for clamping", () => {
-    expect(preferredGuidesMenuWidth()).toBe(GUIDES_MENU_WIDTH_PX);
-    expect(GUIDES_MENU_WIDTH_PX).toBe(18 * 16);
+  it("exposes a Guides fallback width for clamping", () => {
+    expect(preferredGuidesMenuWidth(800)).toBe(GUIDES_MENU_WIDTH_PX);
+    expect(GUIDES_MENU_WIDTH_PX).toBe(NAV_MEGA_MENU.fallbackWidthPx);
   });
 
   it("uses 2 columns until 2xl (not xl:grid-cols-4)", () => {
-    const tokens = TOOLS_MEGA_MENU_GRID_CLASS.split(/\s+/);
+    const tokens = NAV_MEGA_MENU_GRID_CLASS.split(/\s+/);
     expect(tokens).toContain("grid-cols-2");
     expect(tokens).toContain("2xl:grid-cols-4");
     expect(tokens).not.toContain("xl:grid-cols-4");

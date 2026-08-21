@@ -20,17 +20,17 @@ export type FlyoutBox = {
   maxHeight: number;
 };
 
-export type ToolsMegaMenuWidthStep = {
+export type MegaMenuWidthStep = {
   minViewport: number;
   widthPx: number;
   columns: 2 | 4;
 };
 
 /**
- * Preferred Tools mega-menu size by Tailwind breakpoint.
+ * Preferred Guides / Tools mega-menu size by Tailwind breakpoint.
  * 4 visual columns only at 2xl — lg/xl stay 2-col so the panel fits laptops.
  */
-export const TOOLS_MEGA_MENU = {
+export const NAV_MEGA_MENU = {
   gutterPx: 16,
   gapBelowTriggerPx: 4,
   maxHeightPx: 40 * 16,
@@ -39,41 +39,59 @@ export const TOOLS_MEGA_MENU = {
     { minViewport: 1536, widthPx: 52 * 16, columns: 4 },
     { minViewport: 1280, widthPx: 36 * 16, columns: 2 },
     { minViewport: 1024, widthPx: 28 * 16, columns: 2 },
-  ] as const satisfies readonly ToolsMegaMenuWidthStep[],
+  ] as const satisfies readonly MegaMenuWidthStep[],
   fallbackWidthPx: 20 * 16,
   fallbackColumns: 2 as const,
 } as const;
 
-/** Inner mega-menu grid — keep in sync with `toolsMegaMenuColumnCount`. */
-export const TOOLS_MEGA_MENU_GRID_CLASS =
-  "grid grid-cols-2 gap-3 p-3 2xl:grid-cols-4";
+/** @deprecated Prefer NAV_MEGA_MENU — same values, kept for older imports. */
+export const TOOLS_MEGA_MENU = NAV_MEGA_MENU;
+
+/** Inner mega-menu grid — keep in sync with `navMegaMenuColumnCount`. */
+export const NAV_MEGA_MENU_GRID_CLASS =
+  "grid grid-cols-2 gap-x-4 gap-y-5 p-4 2xl:grid-cols-4";
+
+/** @deprecated Prefer NAV_MEGA_MENU_GRID_CLASS. */
+export const TOOLS_MEGA_MENU_GRID_CLASS = NAV_MEGA_MENU_GRID_CLASS;
 
 /** Officer tools is a grouped list, not a 4-col mega-menu. */
 export const HUB_TOOLS_MENU_WIDTH_PX = 18 * 16;
 
-/** Guides ▾ stacked list — clamp like Tools so About links stay in-viewport. */
-export const GUIDES_MENU_WIDTH_PX = 18 * 16;
+/**
+ * @deprecated Guides is a stepped mega-menu; use preferredGuidesMenuWidth(vw).
+ * Kept as the lg fallback width for older tests/callers.
+ */
+export const GUIDES_MENU_WIDTH_PX = NAV_MEGA_MENU.fallbackWidthPx;
 
 export function preferredHubToolsMenuWidth(): number {
   return HUB_TOOLS_MENU_WIDTH_PX;
 }
 
-export function preferredGuidesMenuWidth(): number {
-  return GUIDES_MENU_WIDTH_PX;
+export function preferredGuidesMenuWidth(viewportWidth: number): number {
+  return preferredNavMegaMenuWidth(viewportWidth);
 }
 
 export function preferredToolsMegaMenuWidth(viewportWidth: number): number {
-  for (const step of TOOLS_MEGA_MENU.widthSteps) {
-    if (viewportWidth >= step.minViewport) return step.widthPx;
-  }
-  return TOOLS_MEGA_MENU.fallbackWidthPx;
+  return preferredNavMegaMenuWidth(viewportWidth);
 }
 
-export function toolsMegaMenuColumnCount(viewportWidth: number): 2 | 4 {
-  for (const step of TOOLS_MEGA_MENU.widthSteps) {
+export function preferredNavMegaMenuWidth(viewportWidth: number): number {
+  for (const step of NAV_MEGA_MENU.widthSteps) {
+    if (viewportWidth >= step.minViewport) return step.widthPx;
+  }
+  return NAV_MEGA_MENU.fallbackWidthPx;
+}
+
+export function navMegaMenuColumnCount(viewportWidth: number): 2 | 4 {
+  for (const step of NAV_MEGA_MENU.widthSteps) {
     if (viewportWidth >= step.minViewport) return step.columns;
   }
-  return TOOLS_MEGA_MENU.fallbackColumns;
+  return NAV_MEGA_MENU.fallbackColumns;
+}
+
+/** @deprecated Prefer navMegaMenuColumnCount. */
+export function toolsMegaMenuColumnCount(viewportWidth: number): 2 | 4 {
+  return navMegaMenuColumnCount(viewportWidth);
 }
 
 export function clampFlyoutToViewport(input: {
@@ -87,10 +105,10 @@ export function clampFlyoutToViewport(input: {
   maxHeightPx?: number;
   maxHeightVh?: number;
 }): FlyoutBox {
-  const gutter = input.gutter ?? TOOLS_MEGA_MENU.gutterPx;
-  const gap = input.gapBelowTrigger ?? TOOLS_MEGA_MENU.gapBelowTriggerPx;
-  const maxHeightPx = input.maxHeightPx ?? TOOLS_MEGA_MENU.maxHeightPx;
-  const maxHeightVh = input.maxHeightVh ?? TOOLS_MEGA_MENU.maxHeightVh;
+  const gutter = input.gutter ?? NAV_MEGA_MENU.gutterPx;
+  const gap = input.gapBelowTrigger ?? NAV_MEGA_MENU.gapBelowTriggerPx;
+  const maxHeightPx = input.maxHeightPx ?? NAV_MEGA_MENU.maxHeightPx;
+  const maxHeightVh = input.maxHeightVh ?? NAV_MEGA_MENU.maxHeightVh;
   const align = input.align ?? "left";
 
   const maxWidth = Math.max(0, input.viewportWidth - gutter * 2);
@@ -123,7 +141,7 @@ export function flyoutBoxFitsViewport(
   box: FlyoutBox,
   viewportWidth: number,
   viewportHeight: number,
-  gutter: number = TOOLS_MEGA_MENU.gutterPx,
+  gutter: number = NAV_MEGA_MENU.gutterPx,
   epsilon: number = 0.5,
 ): boolean {
   return (
