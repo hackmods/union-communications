@@ -91,15 +91,15 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
               }
             >
               <span
-                className="flex h-28 items-center justify-center px-4"
+                className="flex h-24 items-center justify-center px-2 py-2 sm:h-28 sm:px-3"
                 style={{ backgroundColor: plate }}
               >
                 <SafeLogoImage
                   src={previewSrc}
                   alt=""
-                  width={168}
-                  height={56}
-                  className="h-12 max-w-[168px]"
+                  width={220}
+                  height={72}
+                  className="h-[4.25rem] w-auto max-w-[92%] object-contain sm:h-[4.75rem]"
                   onDark={hasReverse}
                 />
               </span>

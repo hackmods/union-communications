@@ -239,8 +239,9 @@ export function LogoSettings({
         description: isCaatS ? t("useCaatSLockupHint") : t("useLockupHint"),
         preview: {
           src: officialLogos.lockup.src,
-          width: 160,
-          height: 64,
+          // CAAT-S bilingual lockup is wide — give it more plate than the national mark.
+          width: isCaatS ? 220 : 160,
+          height: isCaatS ? 72 : 64,
         },
       });
     }
@@ -344,7 +345,8 @@ export function LogoSettings({
                 {option.preview && (
                   <span
                     className={cn(
-                      "mt-3 inline-flex items-center justify-center rounded-lg p-2",
+                      "mt-3 inline-flex max-w-full items-center justify-center rounded-md ring-1 ring-black/10",
+                      option.preview.platformMark ? "p-2" : "p-1",
                       option.preview.onDark ? "bg-opseu-dark" : "bg-white",
                     )}
                   >
@@ -370,6 +372,7 @@ export function LogoSettings({
                         width={option.preview.width}
                         height={option.preview.height}
                         onDark={option.preview.onDark}
+                        className="max-h-16 w-auto max-w-full"
                       />
                     )}
                   </span>

@@ -246,15 +246,15 @@ function LookPackDownloads({
               label={`${isSvg ? downloadSvg : downloadPng} — ${variantLabel(variant.labelKey)}`}
             >
               <span
-                className="flex min-h-24 w-full items-center justify-center rounded-md px-3 py-4"
+                className="flex min-h-24 w-full items-center justify-center rounded-md px-2 py-2"
                 style={{ backgroundColor: plate }}
               >
                 <SafeLogoImage
                   src={variant.src}
                   alt=""
-                  width={180}
+                  width={220}
                   height={72}
-                  className="h-14 max-w-[180px]"
+                  className="h-16 w-auto max-w-[92%] object-contain"
                   onDark={
                     variant.plate === "dark" ||
                     variant.plate === "primary" ||
