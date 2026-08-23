@@ -181,7 +181,7 @@ describe("identity-packs", () => {
 
   it("normalizes CAAT-S SVG artboards so plated downloads cover the viewBox", () => {
     const caat = getIdentityPack(OPSEU_CAAT_S_PACK_ID)!;
-    const platedIds = new Set(["on-primary", "on-gold"]);
+    const platedIds = new Set(["on-primary", "on-gold", "reverse"]);
 
     for (const variant of caat.assetVariants) {
       if (!variant.src.endsWith(".svg")) continue;
@@ -205,6 +205,9 @@ describe("identity-packs", () => {
         expect(Number(first[2])).toBe(97);
         expect(svg).toMatch(/<rect[^>]*\bx="0"/);
         expect(svg).toMatch(/<rect[^>]*\by="0"/);
+        if (variant.id === "reverse") {
+          expect(svg).toMatch(/<rect[^>]*fill="#231f20"/);
+        }
       } else {
         expect(rects.length, `${variant.id} should be plate-free`).toBe(0);
       }
