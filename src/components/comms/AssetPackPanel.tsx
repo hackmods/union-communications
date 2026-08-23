@@ -60,6 +60,8 @@ function resolveKitLogoDownload(
     | "identityPackId"
     | "unionPresetId"
     | "opseuSectorId"
+    | "primaryColor"
+    | "campaignPlate"
   >,
 ): LogoDownload | null {
   if (kit.useOfficialLogo) {

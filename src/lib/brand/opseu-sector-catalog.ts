@@ -464,7 +464,9 @@ export function getOpseuSector(
   return OPSEU_SECTOR_CATALOG[DEFAULT_OPSEU_SECTOR_ID];
 }
 
-export function isOpseuSectorId(value: string | undefined): value is string {
+export function isOpseuSectorId(
+  value: string | null | undefined,
+): value is string {
   return !!value && value in OPSEU_SECTOR_CATALOG;
 }
 

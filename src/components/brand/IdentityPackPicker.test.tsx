@@ -5,6 +5,7 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { applyIdentityPack, getIdentityPack } from "@/lib/brand/identity-packs";
 import { useBrandStore } from "@/store/brand-store";
+import type { BrandKit } from "@/types/entities";
 import { IdentityPackPicker } from "./IdentityPackPicker";
 
 vi.mock("next-intl", () => ({
@@ -37,7 +38,7 @@ function seedOpseuCaatSKit() {
       unionPresetId: "opseu",
       opseuSectorId: "caat-support",
       ...applyIdentityPack(pack),
-    },
+    } as BrandKit,
   });
 }
 
