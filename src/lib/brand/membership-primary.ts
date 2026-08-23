@@ -122,6 +122,25 @@ export function membershipUrlsForOpseuSector(
   return genericOpseuMembershipUrls();
 }
 
+/**
+ * Audience choices on Brand Kit membership links.
+ * College Support is the only OPSEU / SEFPO sector with separate FT/PT
+ * application forms. Other unions and sectors stay on All members.
+ */
+export function membershipAudienceOptions(
+  unionPresetId?: string | null,
+  sectorId?: string | null,
+): MembershipUrlAudience[] {
+  if (unionPresetId !== "opseu") return ["all"];
+  const resolved = isOpseuSectorId(sectorId)
+    ? sectorId
+    : DEFAULT_OPSEU_SECTOR_ID;
+  if (resolved === DEFAULT_OPSEU_SECTOR_ID) {
+    return ["all", "full_time", "part_time"];
+  }
+  return ["all"];
+}
+
 function resolveOpseuSectorFromKit(kit: BrandKit): string {
   if (isOpseuSectorId(kit.opseuSectorId)) return kit.opseuSectorId;
   return inferOpseuSectorId(kit.profiles);

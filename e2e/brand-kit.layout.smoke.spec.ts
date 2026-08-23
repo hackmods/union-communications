@@ -104,3 +104,28 @@ test.describe("Brand Kit layout — OPSEU CAAT-S Look @smoke @mobile", () => {
     await assertCaatSLookFits(page);
   });
 });
+
+test.describe("Brand Kit membership audience @smoke", () => {
+  test("hides Full-time / Part-time unless the sector is College Support", async ({
+    page,
+  }) => {
+    await page.goto("/en/brand-kit/");
+    await expect(
+      page.getByRole("heading", { name: /Brand Kit|Trousse/i }),
+    ).toBeVisible();
+    await page.getByLabel(/^Union preset$|^Union$/).selectOption("opseu");
+    await expect(page.getByLabel("OPSEU / SEFPO sector")).toBeVisible();
+
+    await page.getByLabel("OPSEU / SEFPO sector").selectOption("ops");
+    await expect(
+      page.getByRole("heading", { name: "Membership application links" }),
+    ).toBeVisible();
+    await expect(page.getByLabel("Audience")).toHaveCount(0);
+
+    await page.getByLabel("OPSEU / SEFPO sector").selectOption("caat-support");
+    const audience = page.getByLabel("Audience").first();
+    await expect(audience).toBeVisible();
+    await expect(audience).toContainText("Full-time");
+    await expect(audience).toContainText("Part-time");
+  });
+});

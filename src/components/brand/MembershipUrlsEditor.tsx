@@ -11,20 +11,26 @@ interface MembershipUrlsEditorProps {
   onChange: (urls: MembershipUrl[]) => void;
   /** Compact mode for onboarding */
   compact?: boolean;
+  /**
+   * Audience values offered on each row. Full-time / Part-time only when
+   * College Support (CAAT-S) uses separate application forms.
+   */
+  audienceOptions?: MembershipUrlAudience[];
 }
 
-const AUDIENCE_OPTIONS: MembershipUrlAudience[] = [
-  "all",
-  "full_time",
-  "part_time",
-];
+const DEFAULT_AUDIENCE_OPTIONS: MembershipUrlAudience[] = ["all"];
 
 export function MembershipUrlsEditor({
   membershipUrls,
   onChange,
   compact = false,
+  audienceOptions = DEFAULT_AUDIENCE_OPTIONS,
 }: MembershipUrlsEditorProps) {
   const t = useTranslations("membershipUrls");
+  const showAudienceSelect = audienceOptions.length > 1;
+  const description = showAudienceSelect
+    ? `${t("description")} ${t("descriptionStatusSplit")}`
+    : t("description");
 
   const update = (id: string, patch: Partial<MembershipUrl>) => {
     onChange(
@@ -63,7 +69,7 @@ export function MembershipUrlsEditor({
       {!compact ? (
         <div>
           <h3 className="text-lg font-bold text-opseu-dark">{t("title")}</h3>
-          <p className="mt-1 text-sm text-gray-600">{t("description")}</p>
+          <p className="mt-1 text-sm text-gray-600">{description}</p>
         </div>
       ) : (
         <p className="text-sm text-gray-600">{t("optionalHint")}</p>
@@ -87,30 +93,36 @@ export function MembershipUrlsEditor({
               onChange={(e) => update(row.id, { url: e.target.value })}
               placeholder="https://"
             />
-            <div>
-              <label
-                htmlFor={`membership-audience-${row.id}`}
-                className="mb-1 block text-sm font-medium text-gray-700"
-              >
-                {t("audience")}
-              </label>
-              <select
-                id={`membership-audience-${row.id}`}
-                className="min-h-11 w-full rounded-md border border-gray-300 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
-                value={row.audience}
-                onChange={(e) =>
-                  update(row.id, {
-                    audience: e.target.value as MembershipUrlAudience,
-                  })
-                }
-              >
-                {AUDIENCE_OPTIONS.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {t(`audiences.${opt}`)}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {showAudienceSelect ? (
+              <div>
+                <label
+                  htmlFor={`membership-audience-${row.id}`}
+                  className="mb-1 block text-sm font-medium text-gray-700"
+                >
+                  {t("audience")}
+                </label>
+                <select
+                  id={`membership-audience-${row.id}`}
+                  className="min-h-11 w-full rounded-md border border-gray-300 px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40"
+                  value={
+                    audienceOptions.includes(row.audience)
+                      ? row.audience
+                      : "all"
+                  }
+                  onChange={(e) =>
+                    update(row.id, {
+                      audience: e.target.value as MembershipUrlAudience,
+                    })
+                  }
+                >
+                  {audienceOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {t(`audiences.${opt}`)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : null}
             <div className="flex flex-wrap items-end gap-2">
               <label className="flex min-h-11 items-center gap-2 text-sm">
                 <input

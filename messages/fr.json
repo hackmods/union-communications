@@ -2286,7 +2286,8 @@
   },
   "membershipUrls": {
     "title": "Liens de demande d'adhésion",
-    "description": "URL d'inscription typées pour les cartes QR, affiches de tableau et lettre de bienvenue. Ajoutez un lien pour tout le monde, ou des liens distincts lorsque votre syndicat utilise des formulaires différents selon la collection ou le statut.",
+    "description": "URL d'inscription typées pour les cartes QR, affiches de tableau et lettre de bienvenue.",
+    "descriptionStatusSplit": "Le soutien collégial utilise des formulaires distincts pour le temps plein et le temps partiel.",
     "optionalHint": "Facultatif — ajoutez les URL d'adhésion pour que les préréglages et la lettre de bienvenue les réutilisent.",
     "linkLabel": "Libellé",
     "linkLabelPlaceholder": "p. ex. Adhésion temps plein",

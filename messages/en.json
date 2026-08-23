@@ -2286,7 +2286,8 @@
   },
   "membershipUrls": {
     "title": "Membership application links",
-    "description": "Typed signup URLs for QR cards, board posters, and the welcome letter. Add one link for everyone, or separate links when your union uses different forms by collection or status.",
+    "description": "Typed signup URLs for QR cards, board posters, and the welcome letter.",
+    "descriptionStatusSplit": "College Support uses separate full-time and part-time application forms.",
     "optionalHint": "Optional — add membership application URLs so join presets and welcome letters can reuse them.",
     "linkLabel": "Label",
     "linkLabelPlaceholder": "e.g. Full-time membership",

@@ -10,6 +10,7 @@ import {
 import { applyBrandKitProfile, normalizeBrandKit } from "@/lib/utils/local-links";
 import {
   alignOpseuMembershipPrimary,
+  membershipAudienceOptions,
   membershipUrlsForOpseuSector,
   OPSEU_GENERIC_MEMBERSHIP_ID,
   OPSEU_GENERIC_MEMBERSHIP_LABEL,
@@ -87,6 +88,30 @@ describe("opseuCollectionMembershipAudience", () => {
     );
     expect(opseuCollectionMembershipAudience(OPSEU_CAAT_SUPPORT_ID)).toBeNull();
     expect(opseuCollectionMembershipAudience("profile-other")).toBeNull();
+  });
+});
+
+describe("membershipAudienceOptions", () => {
+  it("offers Full-time and Part-time only for College Support", () => {
+    expect(membershipAudienceOptions("opseu", "caat-support")).toEqual([
+      "all",
+      "full_time",
+      "part_time",
+    ]);
+    expect(membershipAudienceOptions("opseu", undefined)).toEqual([
+      "all",
+      "full_time",
+      "part_time",
+    ]);
+  });
+
+  it("keeps All members only for other OPSEU sectors and other unions", () => {
+    expect(membershipAudienceOptions("opseu", "ops")).toEqual(["all"]);
+    expect(membershipAudienceOptions("opseu", "caat-academic")).toEqual([
+      "all",
+    ]);
+    expect(membershipAudienceOptions("cupe")).toEqual(["all"]);
+    expect(membershipAudienceOptions(undefined)).toEqual(["all"]);
   });
 });
 

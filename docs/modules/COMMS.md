@@ -116,7 +116,7 @@ v1: all public. Phase 1+: optional premium templates behind login; core tools st
 - `src/components/tools/OfficePresetMock.tsx` — live CSS document preview + example tiles
 - Document Generator builds Word/Excel/PowerPoint via `src/lib/export/office-export.ts` (Brand Kit colours/logo; ExcelJS RSVP sheets; pptxgenjs decks; ZIP bundles). Route: `/tools/document-generator`
 - `src/lib/constants/office-templates.ts` — Document Generator presets (incl. welcome letter, seniority worksheet, blank branded **LEC directory** — no roster pull)
-- `src/components/brand/MembershipUrlsEditor.tsx` — typed FT/PT membership application URLs on Brand Kit
+- `src/components/brand/MembershipUrlsEditor.tsx` — membership application URLs on Brand Kit (FT/PT audience only for College Support)
 - `src/lib/utils/local-links.ts` — Brand Kit link normalize + membership preset destination resolve
 - `src/lib/templates/website/generate-website-zip.ts` — static site ZIP generator (GitHub Pages default)
 - `src/lib/templates/website/generate-wordpress-theme-zip.ts` — classic WordPress theme ZIP (unsupported hosting; not FSE)

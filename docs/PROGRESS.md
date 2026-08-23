@@ -1,5 +1,10 @@
 # Progress Log
 
+## Membership audience by sector (2026-08-23)
+
+- [x] Brand Kit Audience (Full-time / Part-time) only for College Support; other sectors and unions keep All members and hide the dropdown
+- Verify: `npm run test:unit -- src/lib/brand/membership-primary.test.ts src/components/brand/MembershipUrlsEditor.test.tsx src/lib/comms/public-copy-style.test.ts`; smoke: `npx playwright test e2e/brand-kit.layout.smoke.spec.ts --grep "membership audience"`
+
 ## OPSEU bibliography URL refresh (2026-08-23)
 
 - [x] `opseu-contact` → `https://opseu.org/contact-us/` (retired `/contact/`)

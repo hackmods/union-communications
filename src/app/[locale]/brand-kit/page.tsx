@@ -5,7 +5,10 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
-import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
+import {
+  alignOpseuMembershipPrimary,
+  membershipAudienceOptions,
+} from "@/lib/brand/membership-primary";
 import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Callout } from "@/components/ui/Callout";
@@ -378,6 +381,10 @@ export default function BrandKitPage() {
           <MembershipUrlsEditor
             membershipUrls={brandKit.membershipUrls ?? []}
             onChange={(urls) => setBrandKit({ membershipUrls: urls })}
+            audienceOptions={membershipAudienceOptions(
+              brandKit.unionPresetId,
+              brandKit.opseuSectorId,
+            )}
           />
         </Card>
       </div>
