@@ -215,7 +215,7 @@ export default function BrandKitPage() {
         </div>
       </Callout>
 
-      <div className="mt-4 grid items-start gap-4 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-4 grid min-w-0 items-start gap-4 lg:grid-cols-2 xl:grid-cols-3">
         <Card
           density="compact"
           className="space-y-3 lg:col-start-1 lg:row-start-1"
@@ -235,7 +235,7 @@ export default function BrandKitPage() {
           {unionPresetId === "opseu" ? <IdentityPackPicker /> : null}
           {selectedPreset && selectedLogos ? (
             <div className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start xl:grid-cols-1">
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex min-w-0 flex-wrap items-center gap-4">
                 {selectedLogos.useOfficialPack ? (
                   <>
                     <SafeLogoImage
@@ -245,7 +245,7 @@ export default function BrandKitPage() {
                       alt={selectedPreset.name}
                       width={200}
                       height={48}
-                      className="h-12 max-w-[200px]"
+                      className="h-12 w-auto max-w-full"
                     />
                     {activeIdentityPack?.logos.mark ? (
                       <SafeLogoImage

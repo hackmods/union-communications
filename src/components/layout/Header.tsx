@@ -121,7 +121,10 @@ export function Header() {
           className="flex min-w-0 items-center gap-2 font-bold text-opseu-blue"
           onClick={drawerOpen ? closeDrawerAfterNav : undefined}
         >
-          <BrandLogo size="sm" />
+          <BrandLogo
+            size="sm"
+            className="h-8 w-auto max-w-[10rem] shrink-0 object-contain"
+          />
           <span className="truncate">{th("platformName")}</span>
         </Link>
 

@@ -163,9 +163,12 @@ export function MobileNavDrawer({
           <Link
             href="/"
             onClick={onCloseAfterNav}
-            className="mb-4 flex items-center gap-2 rounded-md px-3 py-2 font-bold text-opseu-blue hover:bg-opseu-blue/5"
+            className="mb-4 flex min-w-0 items-center gap-2 rounded-md px-3 py-2 font-bold text-opseu-blue hover:bg-opseu-blue/5"
           >
-            <BrandLogo size="sm" />
+            <BrandLogo
+              size="sm"
+              className="h-8 w-auto max-w-[10rem] shrink-0 object-contain"
+            />
             <span>{th("platformName")}</span>
           </Link>
 

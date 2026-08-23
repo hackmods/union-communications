@@ -50,16 +50,17 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
   };
 
   return (
-    <div className={compact ? "space-y-2" : "space-y-3"}>
+    <div className={cn("min-w-0", compact ? "space-y-2" : "space-y-3")}>
       <div>
         <p className="text-sm font-medium text-gray-700">{t("label")}</p>
         <p className="mt-1 text-xs text-gray-500">{t("hint")}</p>
       </div>
 
       <div
-        className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 md:grid md:grid-cols-2 md:overflow-visible md:pb-0"
+        className="flex min-w-0 max-w-full snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-1 md:grid md:grid-cols-2 md:overflow-visible md:pb-0"
         role="radiogroup"
         aria-label={t("label")}
+        data-testid="identity-pack-gallery"
       >
         {packs.map((pack) => {
           const selected = active?.id === pack.id;
@@ -76,7 +77,9 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
               aria-checked={selected}
               onClick={() => selectPack(pack)}
               className={cn(
-                "min-w-[14rem] shrink-0 snap-start overflow-hidden rounded-xl border text-left transition-shadow md:min-w-0",
+                // Cap width so long CAAT-S copy wraps instead of sizing the
+                // flex item to max-content and blowing out the Brand Kit card.
+                "w-[min(18rem,100%)] max-w-full min-w-0 shrink-0 snap-start overflow-hidden rounded-xl border text-left transition-shadow md:w-auto",
                 selected
                   ? "ring-2 ring-offset-2"
                   : "border-gray-200 hover:border-gray-300",
@@ -91,7 +94,7 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
               }
             >
               <span
-                className="flex h-24 items-center justify-center px-2 py-2 sm:h-28 sm:px-3"
+                className="flex h-24 w-full min-w-0 items-center justify-center overflow-hidden px-2 py-2 sm:h-28 sm:px-3"
                 style={{ backgroundColor: plate }}
               >
                 <SafeLogoImage
@@ -99,18 +102,18 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
                   alt=""
                   width={220}
                   height={72}
-                  className="h-[4.25rem] w-auto max-w-[92%] object-contain sm:h-[4.75rem]"
+                  className="h-[4.25rem] w-auto max-w-full object-contain sm:h-[4.75rem]"
                   onDark={hasReverse}
                 />
               </span>
-              <span className="block space-y-2 border-t border-black/5 bg-white p-3">
+              <span className="block min-w-0 space-y-2 border-t border-black/5 bg-white p-3">
                 <span className="flex items-center justify-between gap-2">
-                  <span className="font-semibold text-gray-900">
+                  <span className="min-w-0 font-semibold break-words text-gray-900">
                     {t(`packs.${packNameKey(pack.id)}.name`)}
                   </span>
                   {selected ? (
                     <span
-                      className="flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-white"
+                      className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white"
                       style={{ backgroundColor: pack.colors.primaryColor }}
                       aria-hidden
                     >
@@ -118,7 +121,7 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
                     </span>
                   ) : null}
                 </span>
-                <span className="block text-xs text-gray-600">
+                <span className="block text-xs break-words text-gray-600">
                   {t(`packs.${packNameKey(pack.id)}.description`)}
                 </span>
                 <span className="flex gap-1.5" aria-hidden>
@@ -131,7 +134,7 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
                   ).map((hex) => (
                     <span
                       key={hex}
-                      className="h-4 w-4 rounded-full border border-black/10"
+                      className="h-4 w-4 shrink-0 rounded-full border border-black/10"
                       style={{ backgroundColor: hex }}
                       title={hex}
                     />

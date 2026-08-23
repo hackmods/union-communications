@@ -7,6 +7,7 @@ import { Dialog } from "./Dialog";
 import { Badge } from "./Badge";
 import { EmptyState } from "./EmptyState";
 import { Skeleton } from "./Skeleton";
+import { Card } from "./Card";
 
 describe("ui primitives", () => {
   it("Select associates label via htmlFor", () => {
@@ -72,5 +73,10 @@ describe("ui primitives", () => {
   it("Skeleton is decorative", () => {
     const { container } = render(<Skeleton className="h-4 w-24" />);
     expect(container.firstChild).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("Card can shrink inside CSS grid instead of expanding to max-content", () => {
+    const { container } = render(<Card>Look gallery</Card>);
+    expect(container.firstChild).toHaveClass("min-w-0");
   });
 });

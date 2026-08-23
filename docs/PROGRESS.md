@@ -1,5 +1,12 @@
 # Progress Log
 
+## Brand Kit CAAT-S Look mobile overflow (2026-08-23)
+
+- [x] Look gallery cards no longer size to max-content of the long CAAT-S description — width-capped + wrapping copy, `min-w-0` on Card / Brand Kit grid
+- [x] Wide bilingual lockup clipped in header chrome; coral plate and logos stay inside the card on phones
+- [x] Unit + smoke coverage at phone / tablet / desktop for OPSEU + College Support Look
+- Verify: `npm run test:unit -- src/components/brand/IdentityPackPicker.test.tsx src/components/ui/primitives.test.tsx src/app/globals-overflow.test.ts`; `npx playwright test e2e/brand-kit.layout.smoke.spec.ts`
+
 ## Brand Kit identity packs / CAAT-S Look (2026-08-21)
 
 - [x] Data-driven identity packs (`identity-packs.ts`): OPSEU national blue default + CAAT-S coral Look for College Support

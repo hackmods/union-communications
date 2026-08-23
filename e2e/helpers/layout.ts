@@ -11,3 +11,16 @@ export async function assertNoHorizontalOverflow(page: Page) {
   });
   expect(overflow).toBeLessThanOrEqual(1);
 }
+
+/** Element's border box must sit inside the layout viewport (1px slack). */
+export async function assertFitsViewport(
+  page: Page,
+  locator: { boundingBox: () => Promise<{ x: number; y: number; width: number; height: number } | null> },
+) {
+  const viewport = page.viewportSize();
+  expect(viewport).toBeTruthy();
+  const box = await locator.boundingBox();
+  expect(box).toBeTruthy();
+  expect(box!.x).toBeGreaterThanOrEqual(-1);
+  expect(box!.x + box!.width).toBeLessThanOrEqual(viewport!.width + 1);
+}

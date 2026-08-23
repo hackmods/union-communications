@@ -355,7 +355,7 @@ export function LogoSettings({
                 {option.preview && (
                   <span
                     className={cn(
-                      "mt-3 inline-flex max-w-full items-center justify-center rounded-md",
+                      "mt-3 inline-flex max-w-full items-center justify-center overflow-hidden rounded-md",
                       option.preview.platformMark ? "p-2" : "px-2 py-1.5",
                       !option.preview.plateColor && "ring-1 ring-black/10",
                       option.preview.onDark && !option.preview.plateColor

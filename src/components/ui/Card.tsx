@@ -13,7 +13,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "rounded-xl border border-gray-200 bg-white shadow-sm",
+        "min-w-0 rounded-xl border border-gray-200 bg-white shadow-sm",
         density === "compact" ? "p-4 md:p-5" : "p-6",
         className,
       )}

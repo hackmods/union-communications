@@ -19,4 +19,17 @@ describe("desktop / PWA horizontal overflow", () => {
     expect(source).not.toMatch(/100vw/);
     expect(source).toMatch(/home-hero[^"]*w-full/);
   });
+
+  it("lets Brand Kit workspace cards shrink in CSS grid", () => {
+    const card = readFileSync(
+      join(srcRoot, "components/ui/Card.tsx"),
+      "utf8",
+    );
+    const page = readFileSync(
+      join(srcRoot, "app/[locale]/brand-kit/page.tsx"),
+      "utf8",
+    );
+    expect(card).toMatch(/min-w-0 rounded-xl border/);
+    expect(page).toMatch(/grid min-w-0 items-start/);
+  });
 });
