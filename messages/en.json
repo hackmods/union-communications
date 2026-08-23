@@ -2062,7 +2062,7 @@
   },
   "orgChart": {
     "title": "Org Chart",
-    "subtitle": "Print a who-to-contact poster and reuse the same names on your local website.",
+    "subtitle": "Print a who-to-contact poster or a Position | Name list, with campus codes when you need them, and reuse the same names on your website.",
     "whenToUse": "Use after elections, or when the LEC list on the union board is out of date.",
     "previewAccessibleName": "Org chart poster preview",
     "posterTitle": "Poster title",
@@ -2074,7 +2074,7 @@
     "peopleIntro": "Names stay on this device. Tick the box for anyone who should also appear on the Website Template.",
     "name": "Name",
     "role": "Role",
-    "location": "Location (optional)",
+    "location": "Campus / location",
     "group": "Group",
     "groups": {
       "executive": "Executive",
@@ -2108,7 +2108,7 @@
     "canvasEmpty": "Add officers and stewards in the editor, or import last year’s JSON.",
     "layout": "Layout",
     "layoutPoster": "Poster",
-    "layoutDirectory": "Directory",
+    "layoutDirectory": "List + location",
     "formatLetterLandscape": "Letter landscape",
     "formatTabloidLandscape": "Tabloid landscape",
     "personMore": "More options",
@@ -2118,10 +2118,15 @@
     "unitPt": "Part-time (PT)",
     "columnPosition": "Position",
     "columnName": "Name",
-    "columnLocation": "Location",
+    "columnLocation": "Campus",
     "stewardsPosition": "Stewards",
     "docGenHint": "Need a blank Word sheet after elections? Use Document Generator — it does not pull these names.",
-    "docGenLink": "Open LEC directory template"
+    "docGenLink": "Open LEC directory template",
+    "layoutList": "List",
+    "layoutListLocation": "List + location",
+    "layoutHint": "Poster uses contact cards. List is a Position | Name sheet. List + location adds a campus (or site) column; use a short code when you have one.",
+    "locationOptional": "Campus / location (optional)",
+    "locationPlaceholder": "e.g. 01"
   },
   "sources": {
     "title": "Sources & references",
@@ -3422,8 +3427,8 @@
         "body": "The First week roadmap now includes print after union boards and before social posts, so a flyer is part of the same message as the board and the graphic."
       },
       "org-chart-directory": {
-        "title": "Org Chart directory layout + blank LEC Word sheet",
-        "body": "Print a Position | Name | Location directory or a poster, including landscape letter and tabloid. Need a blank branded Word table? Document Generator has an LEC directory template that does not pull your on-device names."
+        "title": "Org Chart list layouts + blank LEC Word sheet",
+        "body": "Print a poster, a Position | Name list, or a list with campus codes. Need a blank branded Word table? Document Generator has an LEC directory template that does not pull your on-device names."
       }
     }
   },

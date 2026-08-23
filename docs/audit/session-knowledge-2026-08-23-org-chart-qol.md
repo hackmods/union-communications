@@ -3,6 +3,18 @@
 **Audience:** future agents + Ryan.
 **Companion:** [`session-knowledge-2026-08-20-org-chart.md`](session-knowledge-2026-08-20-org-chart.md), plan Org Chart QOL (do not edit the plan file).
 
+## Layouts (2026-08-23 follow-up)
+
+Three SegControl options on Org Chart:
+
+| Id | Canvas |
+|---|---|
+| `poster` | Contact-card bands |
+| `list` | Position \| Name table |
+| `list-location` | Position \| Name \| Campus (short codes) — Local-243-style sheet |
+
+Legacy `directory` coerces to `list-location`. Location column is **not** shown on plain List.
+
 ## Two surfaces, two jobs
 
 | Surface | Job |

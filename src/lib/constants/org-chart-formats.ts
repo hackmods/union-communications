@@ -10,7 +10,17 @@ export type OrgChartFormatLabelKey =
   | "formatTabloid"
   | "formatTabloidLandscape";
 
-export type OrgChartLayoutId = "poster" | "directory";
+/**
+ * poster — executive / steward / committee card bands
+ * list — Position | Name table (no campus column)
+ * list-location — Position | Name | Location (campus codes), Local-243-style sheet
+ */
+export type OrgChartLayoutId = "poster" | "list" | "list-location";
+
+export type OrgChartLayoutLabelKey =
+  | "layoutPoster"
+  | "layoutList"
+  | "layoutListLocation";
 
 export interface OrgChartFormat {
   id: OrgChartFormatId;
@@ -24,6 +34,33 @@ export interface OrgChartFormat {
 export const DEFAULT_ORG_CHART_FORMAT: OrgChartFormatId = "letter";
 
 export const DEFAULT_ORG_CHART_LAYOUT: OrgChartLayoutId = "poster";
+
+export const ORG_CHART_LAYOUT_ORDER: readonly OrgChartLayoutId[] = [
+  "poster",
+  "list",
+  "list-location",
+];
+
+export function orgChartLayoutShowsLocation(
+  layoutId: OrgChartLayoutId,
+): boolean {
+  return layoutId === "list-location";
+}
+
+export function isOrgChartListLayout(layoutId: OrgChartLayoutId): boolean {
+  return layoutId === "list" || layoutId === "list-location";
+}
+
+/** Map legacy `directory` id from early builds onto list-location. */
+export function coerceOrgChartLayoutId(
+  value: string | null | undefined,
+): OrgChartLayoutId {
+  if (value === "list" || value === "list-location" || value === "poster") {
+    return value;
+  }
+  if (value === "directory") return "list-location";
+  return DEFAULT_ORG_CHART_LAYOUT;
+}
 
 export const ORG_CHART_FORMAT_ORDER: readonly OrgChartFormatId[] = [
   "letter",

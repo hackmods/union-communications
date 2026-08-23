@@ -2062,7 +2062,7 @@
   },
   "orgChart": {
     "title": "Organigramme",
-    "subtitle": "Imprimez une affiche « qui contacter » et réutilisez les mêmes noms sur le site de votre section.",
+    "subtitle": "Imprimez une affiche qui-contacter ou une liste Poste | Nom, avec codes de campus au besoin, et réutilisez les mêmes noms sur votre site.",
     "whenToUse": "À utiliser après les élections, ou quand la liste du CLE sur le tableau syndical est périmée.",
     "previewAccessibleName": "Aperçu de l’affiche organigramme",
     "posterTitle": "Titre de l’affiche",
@@ -2074,7 +2074,7 @@
     "peopleIntro": "Les noms restent sur cet appareil. Cochez la case pour toute personne qui doit aussi apparaître dans le Modèle de site Web.",
     "name": "Nom",
     "role": "Rôle",
-    "location": "Lieu (optionnel)",
+    "location": "Campus / lieu",
     "group": "Groupe",
     "groups": {
       "executive": "Exécutif",
@@ -2108,7 +2108,7 @@
     "canvasEmpty": "Ajoutez des dirigeants et des délégués dans l’éditeur, ou importez le JSON de l’an dernier.",
     "layout": "Mise en page",
     "layoutPoster": "Affiche",
-    "layoutDirectory": "Répertoire",
+    "layoutDirectory": "Liste + lieu",
     "formatLetterLandscape": "Lettre paysage",
     "formatTabloidLandscape": "Tabloïd paysage",
     "personMore": "Plus d'options",
@@ -2118,10 +2118,15 @@
     "unitPt": "Temps partiel (PT)",
     "columnPosition": "Poste",
     "columnName": "Nom",
-    "columnLocation": "Lieu",
+    "columnLocation": "Campus",
     "stewardsPosition": "Délégués",
     "docGenHint": "Besoin d'une feuille Word vide après les élections? Utilisez le générateur de documents — il ne récupère pas ces noms.",
-    "docGenLink": "Ouvrir le modèle de répertoire du CLE"
+    "docGenLink": "Ouvrir le modèle de répertoire du CLE",
+    "layoutList": "Liste",
+    "layoutListLocation": "Liste + lieu",
+    "layoutHint": "L'affiche utilise des cartes de contact. La liste est une feuille Poste | Nom. Liste + lieu ajoute une colonne campus (ou site) ; utilisez un code court si vous en avez un.",
+    "locationOptional": "Campus / lieu (facultatif)",
+    "locationPlaceholder": "ex. 01"
   },
   "sources": {
     "title": "Sources et références",
@@ -3374,8 +3379,8 @@
         "body": "Le parcours Première semaine inclut maintenant l'impression après les tableaux syndicaux et avant les publications sociales, pour qu'un tract fasse partie du même message que le tableau et le graphique."
       },
       "org-chart-directory": {
-        "title": "Organigramme en répertoire + feuille CLE Word vide",
-        "body": "Imprimez un répertoire Poste | Nom | Lieu ou une affiche, y compris lettre et tabloïd en paysage. Besoin d'un tableau Word de marque vide? Le générateur de documents offre un modèle de répertoire du CLE qui ne récupère pas vos noms sur l'appareil."
+        "title": "Organigramme en liste + feuille CLE Word vide",
+        "body": "Imprimez une affiche, une liste Poste | Nom, ou une liste avec codes de campus. Besoin d’un tableau Word de marque vide? Le générateur de documents offre un modèle de répertoire du CLE qui ne récupère pas vos noms sur l’appareil."
       }
     }
   },

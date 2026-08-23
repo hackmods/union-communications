@@ -4,7 +4,11 @@ import {
   DEFAULT_ORG_CHART_LAYOUT,
   ORG_CHART_FORMATS,
   ORG_CHART_FORMAT_ORDER,
+  ORG_CHART_LAYOUT_ORDER,
+  coerceOrgChartLayoutId,
+  isOrgChartListLayout,
   isPortraitOrgChartFormat,
+  orgChartLayoutShowsLocation,
 } from "./org-chart-formats";
 
 describe("org-chart-formats", () => {
@@ -22,5 +26,19 @@ describe("org-chart-formats", () => {
     expect(isPortraitOrgChartFormat("letter-landscape")).toBe(false);
     expect(DEFAULT_ORG_CHART_FORMAT).toBe("letter");
     expect(DEFAULT_ORG_CHART_LAYOUT).toBe("poster");
+  });
+
+  it("offers poster, list, and list-location layouts", () => {
+    expect(ORG_CHART_LAYOUT_ORDER).toEqual([
+      "poster",
+      "list",
+      "list-location",
+    ]);
+    expect(isOrgChartListLayout("list")).toBe(true);
+    expect(isOrgChartListLayout("list-location")).toBe(true);
+    expect(isOrgChartListLayout("poster")).toBe(false);
+    expect(orgChartLayoutShowsLocation("list-location")).toBe(true);
+    expect(orgChartLayoutShowsLocation("list")).toBe(false);
+    expect(coerceOrgChartLayoutId("directory")).toBe("list-location");
   });
 });

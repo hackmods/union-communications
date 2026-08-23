@@ -16,6 +16,8 @@ import {
   DEFAULT_ORG_CHART_LAYOUT,
   ORG_CHART_FORMAT_ORDER,
   ORG_CHART_FORMATS,
+  ORG_CHART_LAYOUT_ORDER,
+  orgChartLayoutShowsLocation,
   type OrgChartFormatId,
   type OrgChartLayoutId,
 } from "@/lib/constants/org-chart-formats";
@@ -66,6 +68,7 @@ function PersonEditor({
   updatePerson,
   removePerson,
   canRemove,
+  showLocationColumn,
 }: {
   person: PublicRosterPerson;
   people: PublicRosterPerson[];
@@ -74,6 +77,7 @@ function PersonEditor({
   updatePerson: (id: string, patch: Partial<PublicRosterPerson>) => void;
   removePerson: (id: string) => void;
   canRemove: boolean;
+  showLocationColumn: boolean;
 }) {
   return (
     <div className="space-y-2 rounded-md border border-gray-200 p-3">
@@ -89,8 +93,11 @@ function PersonEditor({
           onChange={(e) => updatePerson(person.id, { role: e.target.value })}
         />
         <Input
-          label={t("location")}
+          label={showLocationColumn ? t("location") : t("locationOptional")}
           value={person.location}
+          placeholder={t("locationPlaceholder")}
+          maxLength={8}
+          autoComplete="off"
           onChange={(e) =>
             updatePerson(person.id, { location: e.target.value })
           }
@@ -334,12 +341,19 @@ export default function OrgChartPage() {
           <SegControl
             label={t("layout")}
             value={layoutId}
-            options={[
-              { value: "poster" as const, label: t("layoutPoster") },
-              { value: "directory" as const, label: t("layoutDirectory") },
-            ]}
+            options={ORG_CHART_LAYOUT_ORDER.map((id) => ({
+              value: id,
+              label: t(
+                id === "poster"
+                  ? "layoutPoster"
+                  : id === "list"
+                    ? "layoutList"
+                    : "layoutListLocation",
+              ),
+            }))}
             onChange={setLayoutId}
           />
+          <p className="text-sm text-gray-600">{t("layoutHint")}</p>
           <SegControl
             label={t("format")}
             value={formatId}
@@ -371,6 +385,7 @@ export default function OrgChartPage() {
                       updatePerson={updatePerson}
                       removePerson={removePerson}
                       canRemove={people.length > 1}
+                      showLocationColumn={orgChartLayoutShowsLocation(layoutId)}
                     />
                   ))}
                   {people.length < MAX_ROSTER_PEOPLE ? (

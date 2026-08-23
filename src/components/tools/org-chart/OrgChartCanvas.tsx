@@ -5,7 +5,9 @@ import type { BrandKit } from "@/types/entities";
 import type { PublicRosterPerson } from "@/types/public-roster";
 import {
   ORG_CHART_FORMATS,
+  isOrgChartListLayout,
   isPortraitOrgChartFormat,
+  orgChartLayoutShowsLocation,
   type OrgChartFormatId,
   type OrgChartLayoutId,
 } from "@/lib/constants/org-chart-formats";
@@ -106,6 +108,8 @@ export function OrgChartCanvas({
   const muted = mutedInkOnBackground(brandKit.primaryColor, 0.85);
   const bands = groupOrgChartPeople(people);
   const directoryRows = directoryRowsFromPeople(people, stewardsPositionLabel);
+  const listLayout = isOrgChartListLayout(layoutId);
+  const showLocation = orgChartLayoutShowsLocation(layoutId);
   const namedCount = people.filter(
     (person) => person.name.trim() || person.role.trim(),
   ).length;
@@ -120,6 +124,9 @@ export function OrgChartCanvas({
   ]
     .filter(Boolean)
     .join(" — ");
+  const columnLabels = showLocation
+    ? [positionColumnLabel, nameColumnLabel, locationColumnLabel]
+    : [positionColumnLabel, nameColumnLabel];
 
   return (
     <div className="shadow-lg">
@@ -160,7 +167,7 @@ export function OrgChartCanvas({
         >
           {title}
         </h2>
-        {layoutId === "directory" && localLabel ? (
+        {listLayout && localLabel ? (
           <p
             className="relative z-[2]"
             style={{
@@ -189,7 +196,7 @@ export function OrgChartCanvas({
             >
               {emptyLabel}
             </p>
-          ) : layoutId === "directory" ? (
+          ) : listLayout ? (
             <table
               style={{
                 width: "100%",
@@ -200,11 +207,7 @@ export function OrgChartCanvas({
             >
               <thead>
                 <tr>
-                  {[
-                    positionColumnLabel,
-                    nameColumnLabel,
-                    locationColumnLabel,
-                  ].map((label) => (
+                  {columnLabels.map((label) => (
                     <th
                       key={label}
                       style={{
@@ -231,7 +234,7 @@ export function OrgChartCanvas({
                         padding: compact ? "4px 6px" : "6px 8px",
                         borderBottom: `1px solid ${muted}`,
                         fontWeight: 600,
-                        width: "34%",
+                        width: showLocation ? "34%" : "42%",
                       }}
                     >
                       {row.position}
@@ -240,21 +243,25 @@ export function OrgChartCanvas({
                       style={{
                         padding: compact ? "4px 6px" : "6px 8px",
                         borderBottom: `1px solid ${muted}`,
-                        width: "40%",
+                        width: showLocation ? "40%" : "58%",
                       }}
                     >
                       {row.name}
                     </td>
-                    <td
-                      style={{
-                        padding: compact ? "4px 6px" : "6px 8px",
-                        borderBottom: `1px solid ${muted}`,
-                        width: "26%",
-                        opacity: 0.9,
-                      }}
-                    >
-                      {row.location}
-                    </td>
+                    {showLocation ? (
+                      <td
+                        style={{
+                          padding: compact ? "4px 6px" : "6px 8px",
+                          borderBottom: `1px solid ${muted}`,
+                          width: "26%",
+                          opacity: 0.9,
+                          fontVariantNumeric: "tabular-nums",
+                          letterSpacing: "0.04em",
+                        }}
+                      >
+                        {row.location}
+                      </td>
+                    ) : null}
                   </tr>
                 ))}
               </tbody>

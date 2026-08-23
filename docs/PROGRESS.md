@@ -8,6 +8,12 @@
 - [x] Home + Member Portal still current; `hub03` EMA join links kept pending steward confirm
 - Verify: `npm run test:unit -- src/lib/constants/comms-sources.test.ts src/lib/templates/website/generate-website-zip.test.ts`
 
+## Org Chart list + campus layouts (2026-08-23)
+
+- [x] Layouts: **Poster** | **List** (Position | Name) | **List + location** (campus / site codes)
+- [x] Campus-oriented location field (short-code placeholder); location column only on List + location
+- Verify: `npm run test:unit -- src/lib/constants/org-chart-formats.test.ts src/lib/org-chart/layout.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Org Chart QOL + LEC Doc Gen template (2026-08-23)
 
 - [x] Org Chart: `poster` | `directory` layout; letter/tabloid landscape sizes; directory canvas Position | Name | Location
