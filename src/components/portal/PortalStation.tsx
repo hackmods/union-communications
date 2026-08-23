@@ -19,6 +19,7 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
   const [template, setTemplate] = useState<"blank" | "lec" | "jhsc" | "campaign">(
     "blank",
   );
+  const [unionScope, setUnionScope] = useState(false);
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
@@ -111,6 +112,7 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
           name: name.trim(),
           kind: isCampaign ? "campaign" : "committee",
           template,
+          ...(unionScope ? { scope: "union" } : {}),
           ...(isCampaign
             ? {
                 frontStartsAt: start.toISOString(),
@@ -122,6 +124,7 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
       if (res.ok) {
         setName("");
         setTemplate("blank");
+        setUnionScope(false);
         await load();
         return;
       }
@@ -267,6 +270,9 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
                 </Link>
                 <p className="text-sm text-gray-600">
                   {t(`kind.${c.kind}`)}
+                  {!c.localId && c.kind !== "local_hall"
+                    ? ` · ${t("unionScopeBadge")}`
+                    : ""}
                   {c.overdueActions > 0
                     ? ` · ${t("overdueShort", { count: c.overdueActions })}`
                     : ""}
@@ -322,6 +328,18 @@ export function PortalStation({ roles }: { roles: UserRole[] }) {
             <Button type="submit" disabled={creating || !name.trim()}>
               {t("createCircle")}
             </Button>
+            <label className="flex min-h-11 w-full items-center gap-2 text-sm text-gray-700">
+              <input
+                type="checkbox"
+                className="size-4 rounded border-gray-300"
+                checked={unionScope}
+                onChange={(e) => setUnionScope(e.target.checked)}
+              />
+              {t("unionScopeLabel")}
+            </label>
+            {unionScope ? (
+              <p className="w-full text-sm text-gray-600">{t("unionScopeHint")}</p>
+            ) : null}
           </form>
           {createError ? (
             <Callout className="mt-3" tone="danger">

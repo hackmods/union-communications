@@ -414,7 +414,8 @@
       "crisis": "Strike Guide - high-stakes bargaining and strike communications",
       "dfr": "Duty of Fair Representation - steward and officer literacy",
       "seniority": "Seniority & bumping playbook - manual walkthrough aid",
-      "rightToRefuse": "Right to refuse unsafe work - Ontario OHSA s.43"
+      "rightToRefuse": "Right to refuse unsafe work - Ontario OHSA s.43",
+      "jointCommittee": "Joint committee playbook - campus talk, provincial table, member note"
     },
     "chapters": {
       "platforms": {
@@ -451,7 +452,8 @@
       "title": "Labour rights guides",
       "dfr": "Duty of Fair Representation",
       "seniority": "Seniority & bumping",
-      "rightToRefuse": "Right to refuse (Ontario)"
+      "rightToRefuse": "Right to refuse (Ontario)",
+      "jointCommittee": "Joint committee playbook"
     }
   },
   "unionBoardsGuide": {
@@ -3191,6 +3193,73 @@
       "body": "In the Officer Hub, College Bumping keeps your notes, PDF comparisons, and sessions in one place. Treat any ranking aid as a double-check, and re-run the paper worksheet if a result surprises you."
     }
   },
+  "jointCommitteeGuide": {
+    "title": "Joint committee playbook",
+    "subtitle": "Campus talk first, then the provincial table, then a member note after minutes are signed.",
+    "backToGuide": "Back to The Blueprint",
+    "intro": "For volunteers on a joint labour-management committee. Keep union caucus notes private. Point members at signed minutes, then explain what happens next.",
+    "disclaimer": {
+      "title": "Not the official record. Not legal advice.",
+      "body": "The employer side usually records joint minutes. Both parties post the signed copy. This site helps your union caucus and member explainers. Do not re-host the signed record here, and do not treat a draft as public."
+    },
+    "related": {
+      "email": "Email & outreach",
+      "letterhead": "Document & Slide Generator",
+      "flyer": "Flyer Maker"
+    },
+    "sections": {
+      "localFirst": {
+        "title": "Start on campus",
+        "content": "Most provincial tables will not take a local issue until the campus committee has already tried. Write what was asked, what was answered, and why it still needs a wider look.",
+        "items": [
+          "Take the issue to your local union-college or labour-management committee first",
+          "Record dates, who attended, and the articles you cited",
+          "If it is already a formal grievance, stop — the joint table is not a grievance forum",
+          "Tell the other party when you plan to refer the item, so nobody is surprised"
+        ]
+      },
+      "caucus": {
+        "title": "Prepare as the union side",
+        "content": "Meet your own side before the joint table. Caucus notes are strategy. They are not minutes, and they must never mix with the signed record.",
+        "items": [
+          "Agree the ask, the facts, and what you will not trade away",
+          "Assign who speaks, who takes notes, and who follows up",
+          "Keep employer names off this draft unless you already share them in the room",
+          "Do not invite the employer into the caucus workspace"
+        ]
+      },
+      "jointTable": {
+        "title": "At the joint meeting",
+        "content": "The committee recommends. It does not replace bargaining. Management records the major subjects. Co-chairs sign. Drafts stay inside the committee until both sides agree.",
+        "items": [
+          "Refuse items that are already a formal grievance",
+          "Ask for the draft minutes in writing, then send corrections through your co-chair",
+          "If you reach consensus, send the recommendation to the bargaining team or the body named in your CA",
+          "If you do not reach consensus, each side may still send its own brief through its co-chair"
+        ]
+      },
+      "afterMinutes": {
+        "title": "After minutes are signed",
+        "content": "Point locals at the official posting. Then say in plain words what was decided and what members should do next. Drafts stay off boards and social.",
+        "items": [
+          "Link the signed minutes from your provincial or national union, and from the employer council when they post them",
+          "Write a short member note: what changed, what did not, and who to call",
+          "Use letterhead for a briefing to locals or the bargaining team",
+          "Use a flyer or board notice only after the minutes are approved"
+        ],
+        "letterCta": "Open letterhead in Document Generator",
+        "emailCta": "Read the email outreach guide"
+      }
+    },
+    "example": {
+      "title": "One Ontario example",
+      "body": "College support staff at OPSEU / SEFPO have a provincial Employee/Employer Relations Committee. The CA says management records the minutes and both parties post the signed copy. Use the sources below. The same path fits other joint committees in other unions."
+    },
+    "portal": {
+      "title": "Local Portal for a caucus from more than one local",
+      "body": "If your union uses Local Portal, create a Circle and tick members from more than one local. Invite the union side only. Hall still belongs to one local. Public Comms tools stay free on your device either way."
+    }
+  },
   "rightToRefuseGuide": {
     "title": "Right to refuse unsafe work",
     "subtitle": "OHSA s.43 refusal steps for stewards and JHSC members. Not legal advice.",
@@ -3315,6 +3384,14 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "joint-committee-guide": {
+        "title": "Joint committee playbook",
+        "body": "Walk a campus issue to the provincial table, keep union caucus notes private, then explain signed minutes to members with letterhead, flyers, and email."
+      },
+      "portal-union-circles": {
+        "title": "Circles for more than one local",
+        "body": "In Local Portal, tick members from more than one local when you create a committee Circle. Invite the union side from other locals. Hall still belongs to one local."
+      },
       "caat-s-gold-plate": {
         "title": "Gold plate for College Support",
         "body": "College Support locals can pick coral or gold plate in Brand Kit. Gold plate uses gold as the campaign colour and the white-and-coral lockup, so posters and boards match the official CAAT-S gold treatment."
@@ -4292,6 +4369,8 @@
     "title": "Committees",
     "subtitle": "Internal committee roster — Health & Safety, Social, Equity, and other local groups.",
     "disclaimer": "Member IDs reference the officer roster. Meeting motions belong in Meeting minutes, not here.",
+    "jointCommitteeHint": "This page is this local only — Health & Safety, Social, and other standing groups. A joint union-employer table with people from more than one local is a different job.",
+    "jointCommitteeLink": "Joint committee playbook",
     "loading": "Loading committees…",
     "loadError": "Could not load committees. Refresh and try again.",
     "createError": "Could not create this committee. Check the name and try again.",
@@ -5378,6 +5457,9 @@
     "recentBulletin": "Recent Bulletin",
     "emptyActions": "No open Actions assigned to you. Open a Circle to add or pick one up.",
     "createCircle": "Create Circle",
+    "unionScopeLabel": "Members from more than one local",
+    "unionScopeHint": "Invite officers from other locals in your union. Do not invite the employer. Hall stays with this local.",
+    "unionScopeBadge": "More than one local",
     "newCirclePlaceholder": "New committee Circle name",
     "star": "Star Circle",
     "unstar": "Unstar Circle",
@@ -5502,6 +5584,9 @@
     "momentumEmpty": "Nothing in One fight yet. Add a work package above if you can write.",
     "rosterInvitePick": "Invite someone…",
     "rosterInvite": "Add to Roster",
+    "rosterInviteHint": "People from other locals in this union can join this Circle once you add them.",
+    "rosterInviteEmpty": "Nobody else to invite yet. They need an account in this union first.",
+    "rosterInviteLoadError": "Could not load people to invite. Refresh this tab and try again.",
     "guestBanner": "Guest view — you can read this Circle but not post.",
     "keyboardHint": "Shortcuts: number keys switch tools (when not typing).",
     "mentionHint": "Tip: @Name someone on the Roster to ping them in Dispatch.",

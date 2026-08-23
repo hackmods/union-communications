@@ -2,7 +2,7 @@
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
 
-**Joint committees / EERC fit-gap (2026-08-23):** [`session-knowledge-2026-08-23-eerc-committees.md`](session-knowledge-2026-08-23-eerc-committees.md) — PT/FT EERC is a provincial joint union–employer body. Hub `/app/committees` is a local internal roster. Do not add an OPSEU-named module or host official joint minutes. Public Comms (letterhead, flyers, email-broadcast) and local UCC are the usable pieces today. Portal `Circle.localId` is optional in the type but `POST /api/portal/circles` still stamps session local.
+**Joint committees / EERC fit-gap (2026-08-23):** [`session-knowledge-2026-08-23-eerc-committees.md`](session-knowledge-2026-08-23-eerc-committees.md) — PT/FT EERC is a provincial joint union–employer body. Hub `/app/committees` is a local internal roster. Do not add an OPSEU-named module or host official joint minutes. Public guide: `/guide/joint-committee`. Portal invited Circles may omit `localId` (`scope: "union"`). Public Comms (letterhead, flyers, email-broadcast) and local UCC remain the other usable pieces.
 
 **Org Chart (2026-08-20):** [`session-knowledge-2026-08-20-org-chart.md`](session-knowledge-2026-08-20-org-chart.md) — `/tools/org-chart` is a public on-device officers/stewards poster + JSON/CSV. It hydrates Website Template. Do not pull Hub `/app/officers` or call it a member list. Lives under Union boards, not a fifth Tools column.
 

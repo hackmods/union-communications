@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requirePortalSession } from "@/lib/portal/portal-session";
 import { portalStore } from "@/lib/portal/memory-adapter";
 import { canAdminCircle, canWriteCircle } from "@/lib/portal/access";
+import { listCircleInviteCandidates } from "@/lib/portal/circle-invitees";
 import type { UserRole } from "@/types/tenant";
 
 type Ctx = { params: Promise<{ id: string }> };
@@ -374,13 +375,22 @@ export async function POST(request: Request, ctx: Ctx) {
       if (!canAdminCircle(roles, detail.membership.role)) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
-      if (!body.userId || !body.userName) {
+      if (!body.userId) {
         return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+      }
+      const peer = (await listCircleInviteCandidates(unionId)).find(
+        (user) => user.id === body.userId,
+      );
+      if (!peer) {
+        return NextResponse.json(
+          { error: "That person is not in this union." },
+          { status: 400 },
+        );
       }
       const membership = portalStore.inviteToRoster({
         circleId: id,
-        userId: body.userId,
-        userName: body.userName,
+        userId: peer.id,
+        userName: peer.name,
       });
       return NextResponse.json({ membership }, { status: 201 });
     }

@@ -20,8 +20,6 @@ import {
 } from "@/components/portal/portal-nav-model";
 import type { UserRole } from "@/types/tenant";
 import { buildIcsEvent, downloadIcs } from "@/lib/calendar/ics";
-import { DEMO_USERS } from "@/lib/auth/demo-users";
-import { useSession } from "next-auth/react";
 import { PortalRetryCallout } from "@/components/portal/PortalRetryCallout";
 
 type Tab = CircleWorkspaceTab;
@@ -54,7 +52,6 @@ export function CircleWorkspace({
   roles: UserRole[];
 }) {
   const t = useTranslations("portal");
-  const { data: session } = useSession();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
   const [tab, setTab] = useState<Tab>(
@@ -94,6 +91,9 @@ export function CircleWorkspace({
     {},
   );
   const [dragCardId, setDragCardId] = useState<string | null>(null);
+  const [invitees, setInvitees] = useState<{ id: string; name: string }[]>([]);
+  const [inviteesError, setInviteesError] = useState<string | null>(null);
+  const [inviteesTick, setInviteesTick] = useState(0);
 
   function resetDraft() {
     setDraft({
@@ -200,6 +200,32 @@ export function CircleWorkspace({
   const canAdmin = canAdminCircle(roles, detail?.membership.role);
   const isGuest = isCircleGuest(detail?.membership.role);
 
+  useEffect(() => {
+    if (tab !== "roster" || !canAdmin) return;
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch(`/api/portal/circles/${circleId}/invitees`);
+        if (!res.ok) {
+          if (!cancelled) setInviteesError(t("rosterInviteLoadError"));
+          return;
+        }
+        const data = (await res.json()) as {
+          invitees: { id: string; name: string }[];
+        };
+        if (!cancelled) {
+          setInvitees(data.invitees);
+          setInviteesError(null);
+        }
+      } catch {
+        if (!cancelled) setInviteesError(t("rosterInviteLoadError"));
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [tab, canAdmin, circleId, inviteesTick, t]);
+
   async function postTool(payload: Record<string, unknown>) {
     try {
       const res = await fetch(`/api/portal/circles/${circleId}`, {
@@ -281,6 +307,9 @@ export function CircleWorkspace({
             <p className="mt-1 max-w-prose text-gray-600">
               {detail.circle.description}
             </p>
+          ) : null}
+          {!detail.circle.localId && detail.circle.kind !== "local_hall" ? (
+            <p className="mt-1 text-sm text-gray-600">{t("unionScopeBadge")}</p>
           ) : null}
         </div>
         <div className="flex flex-wrap gap-2">
@@ -1346,13 +1375,14 @@ export function CircleWorkspace({
               className="flex flex-wrap gap-2"
               onSubmit={(e) => {
                 e.preventDefault();
-                const peer = DEMO_USERS.find((u) => u.id === draft.title);
-                if (!peer) return;
+                if (!draft.title) return;
                 void postTool({
                   tool: "roster_invite",
-                  userId: peer.id,
-                  userName: peer.name,
-                }).then(() => resetDraft());
+                  userId: draft.title,
+                }).then(() => {
+                  resetDraft();
+                  setInviteesTick((n) => n + 1);
+                });
               }}
             >
               <select
@@ -1363,11 +1393,7 @@ export function CircleWorkspace({
                 }
               >
                 <option value="">{t("rosterInvitePick")}</option>
-                {DEMO_USERS.filter(
-                  (u) =>
-                    u.unionId === session?.user?.unionId &&
-                    !detail.roster.some((r) => r.userId === u.id),
-                ).map((u) => (
+                {invitees.map((u) => (
                   <option key={u.id} value={u.id}>
                     {u.name}
                   </option>
@@ -1376,6 +1402,19 @@ export function CircleWorkspace({
               <Button type="submit" size="sm">
                 {t("rosterInvite")}
               </Button>
+              <p className="w-full text-sm text-gray-600">
+                {t("rosterInviteHint")}
+              </p>
+              {inviteesError ? (
+                <Callout className="w-full" tone="danger">
+                  {inviteesError}
+                </Callout>
+              ) : null}
+              {!inviteesError && invitees.length === 0 ? (
+                <p className="w-full text-sm text-gray-600">
+                  {t("rosterInviteEmpty")}
+                </p>
+              ) : null}
             </form>
           ) : null}
         </div>

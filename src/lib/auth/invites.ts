@@ -282,6 +282,11 @@ export function listInvitedUsersForLocal(
   );
 }
 
+/** Accepted invitees in this union, any local — Portal caucus Roster. */
+export function listInvitedUsersForUnion(unionId: string): InvitedUserRecord[] {
+  return invitedUsers.filter((user) => user.unionId === unionId);
+}
+
 /** Update password hash for an accepted invitee (memory auth). */
 export function updateInvitedUserPasswordHash(
   email: string,

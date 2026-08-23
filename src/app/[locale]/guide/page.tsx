@@ -29,6 +29,7 @@ const pathLinks = [
   { href: "/guide/dfr", key: "dfr" as const },
   { href: "/guide/seniority-bumping", key: "seniority" as const },
   { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },
+  { href: "/guide/joint-committee", key: "jointCommittee" as const },
 ];
 
 export default async function GuidePage({
@@ -140,6 +141,10 @@ export default async function GuidePage({
                 {
                   href: "/guide/right-to-refuse",
                   key: "rightToRefuse" as const,
+                },
+                {
+                  href: "/guide/joint-committee",
+                  key: "jointCommittee" as const,
                 },
               ] as const
             ).map((link, i) => (

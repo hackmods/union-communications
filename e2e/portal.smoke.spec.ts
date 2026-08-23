@@ -196,6 +196,45 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page.getByRole("button", { name: "Add card" }).first()).toBeVisible();
   });
 
+  test("president can create a Circle for more than one local", async ({
+    page,
+  }) => {
+    await loginAsPresident(page);
+    await page.goto("/en/portal");
+    await expect(
+      page.getByRole("checkbox", { name: "Members from more than one local" }),
+    ).toBeVisible();
+    const name = `Union Caucus ${Date.now()}`;
+    const posted = await page.request.post("/api/portal/circles/", {
+      data: {
+        name,
+        kind: "committee",
+        scope: "union",
+      },
+    });
+    expect(posted.status()).toBe(201);
+    const body = (await posted.json()) as {
+      circle: { id: string; localId?: string; name: string };
+    };
+    expect(body.circle.localId).toBeFalsy();
+    expect(body.circle.name).toBe(name);
+
+    const invited = await page.request.post(
+      `/api/portal/circles/${body.circle.id}`,
+      {
+        data: {
+          tool: "roster_invite",
+          userId: "user-president-560",
+        },
+      },
+    );
+    expect(invited.status()).toBe(201);
+
+    await page.goto(`/en/portal/circles/${body.circle.id}`);
+    await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
+    await expect(page.getByText("More than one local")).toBeVisible();
+  });
+
   test("French Together uses solidarity labels", async ({ page }) => {
     await hubLogin(page, "member@local243.ca");
     await expect(page).toHaveURL(/\/en\/portal\/?$/);

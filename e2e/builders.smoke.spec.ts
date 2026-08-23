@@ -176,9 +176,10 @@ test.describe("Public secondary pages smoke @smoke", () => {
       path: "/en/guide/email-broadcast/",
       heading: /Email.*outreach/i,
     },
+    { path: "/en/guide/short-form/", heading: "Short-form Video Guide" },
     {
-      path: "/en/guide/short-form/",
-      heading: "Short-form Video Guide",
+      path: "/en/guide/joint-committee/",
+      heading: "Joint committee playbook",
     },
     { path: "/en/tools/", heading: "Tools" },
     { path: "/en/examples/", heading: "Social Examples" },

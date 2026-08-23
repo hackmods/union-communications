@@ -137,6 +137,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "The Ontario OHSA section 43 refusal steps, written for stewards and JHSC members. Ontario only, and not legal advice.",
     },
+    "/guide/joint-committee": {
+      title: "Joint committee playbook",
+      description:
+        "Walk a campus issue to the provincial table, keep caucus notes private, then explain signed minutes to members with flyers and email.",
+    },
   },
   fr: {
     "/privacy": {
@@ -263,6 +268,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Droit de refuser un travail dangereux",
       description:
         "Les étapes de refus prévues à l'article 43 de la LSST de l'Ontario, pour les délégués et les membres du CSS. Ontario seulement, et pas un avis juridique.",
+    },
+    "/guide/joint-committee": {
+      title: "Guide des comités conjoints",
+      description:
+        "Passez d'un dossier de campus à la table provinciale, gardez le caucus privé, puis expliquez les procès-verbaux signés aux membres par tracts et courriel.",
     },
   },
 };

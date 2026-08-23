@@ -414,7 +414,8 @@
       "crisis": "Guide de grève - communications de négociation et de grève",
       "dfr": "Devoir de représentation équitable - littératie pour délégués et dirigeants",
       "seniority": "Guide d'ancienneté et de bumping - aide manuelle",
-      "rightToRefuse": "Droit de refuser un travail dangereux - LSST Ont. art. 43"
+      "rightToRefuse": "Droit de refuser un travail dangereux - LSST Ont. art. 43",
+      "jointCommittee": "Guide des comités conjoints - campus, table provinciale, note aux membres"
     },
     "chapters": {
       "platforms": {
@@ -451,7 +452,8 @@
       "title": "Guides de droits au travail",
       "dfr": "Devoir de représentation équitable",
       "seniority": "Ancienneté et bumping",
-      "rightToRefuse": "Droit de refuser (Ontario)"
+      "rightToRefuse": "Droit de refuser (Ontario)",
+      "jointCommittee": "Guide des comités conjoints"
     }
   },
   "unionBoardsGuide": {
@@ -3143,6 +3145,73 @@
       "body": "Dans le Hub des dirigeants, le déplacement collégial regroupe vos notes, comparaisons PDF et séances au même endroit. Traitez toute aide de classement comme une vérification, et refaites la feuille papier si un résultat vous surprend."
     }
   },
+  "jointCommitteeGuide": {
+    "title": "Guide des comités conjoints",
+    "subtitle": "D'abord le campus, puis la table provinciale, puis une note aux membres une fois les procès-verbaux signés.",
+    "backToGuide": "Retour au Plan directeur",
+    "intro": "Pour les bénévoles d'un comité conjoint syndicat-employeur. Gardez les notes de caucus privées. Pointez les membres vers les procès-verbaux signés, puis expliquez la suite.",
+    "disclaimer": {
+      "title": "Pas le dossier officiel. Pas un avis juridique.",
+      "body": "Le côté employeur rédige d'habitude les procès-verbaux conjoints. Les deux parties affichent la copie signée. Ce site aide votre caucus syndical et vos notes aux membres. N'hébergez pas ici le dossier signé, et ne traitez pas un brouillon comme public."
+    },
+    "related": {
+      "email": "Courriel et rayonnement",
+      "letterhead": "Générateur de documents et de diapositives",
+      "flyer": "Créateur de tracts"
+    },
+    "sections": {
+      "localFirst": {
+        "title": "Commencez sur le campus",
+        "content": "La plupart des tables provinciales n'acceptent un dossier local qu'après l'essai du comité de campus. Écrivez ce qui a été demandé, la réponse, et pourquoi un regard plus large est encore nécessaire.",
+        "items": [
+          "Portez d'abord le dossier au comité local syndicat-collège ou syndicat-employeur",
+          "Notez les dates, les personnes présentes et les articles cités",
+          "S'il s'agit déjà d'un grief formel, arrêtez : la table conjointe n'est pas un forum de griefs",
+          "Prévenez l'autre partie quand vous comptez renvoyer le point, pour que personne ne soit surpris"
+        ]
+      },
+      "caucus": {
+        "title": "Préparez le côté syndical",
+        "content": "Réunissez votre propre côté avant la table conjointe. Les notes de caucus sont de la stratégie. Ce ne sont pas des procès-verbaux, et elles ne doivent jamais se mêler au dossier signé.",
+        "items": [
+          "Entendez-vous sur la demande, les faits, et ce que vous ne céderez pas",
+          "Décidez qui parle, qui prend des notes, et qui fait le suivi",
+          "Gardez les noms d'employeur hors de ce brouillon, sauf s'ils sont déjà partagés dans la salle",
+          "N'invitez pas l'employeur dans l'espace de caucus"
+        ]
+      },
+      "jointTable": {
+        "title": "À la réunion conjointe",
+        "content": "Le comité recommande. Il ne remplace pas la négociation. La direction consigne les sujets principaux. Les coprésidences signent. Les brouillons restent au comité jusqu'à l'accord des deux côtés.",
+        "items": [
+          "Refusez les points qui sont déjà un grief formel",
+          "Demandez le brouillon par écrit, puis envoyez les corrections par votre coprésidence",
+          "S'il y a consensus, envoyez la recommandation à l'équipe de négociation ou à l'instance nommée dans votre convention",
+          "S'il n'y a pas consensus, chaque côté peut quand même envoyer son propre mémoire par sa coprésidence"
+        ]
+      },
+      "afterMinutes": {
+        "title": "Une fois les procès-verbaux signés",
+        "content": "Pointez les sections vers l'affichage officiel. Dites ensuite en mots simples ce qui a été décidé et ce que les membres doivent faire. Les brouillons restent hors des tableaux et des réseaux.",
+        "items": [
+          "Liez les procès-verbaux signés de votre syndicat provincial ou national, et du conseil patronal quand il les affiche",
+          "Rédigez une courte note aux membres : ce qui a changé, ce qui n'a pas changé, et qui appeler",
+          "Utilisez un papier en-tête pour un briefing aux sections ou à l'équipe de négociation",
+          "N'utilisez un tract ou un avis de tableau qu'après l'approbation des procès-verbaux"
+        ],
+        "letterCta": "Ouvrir le papier en-tête dans le générateur de documents",
+        "emailCta": "Lire le guide de rayonnement par courriel"
+      }
+    },
+    "example": {
+      "title": "Un exemple ontarien",
+      "body": "Le personnel de soutien collégial d'OPSEU / SEFPO a un comité provincial des relations employé-employeur. La convention dit que la direction consigne les procès-verbaux et que les deux parties affichent la copie signée. Utilisez les sources ci-dessous. Le même parcours convient à d'autres comités conjoints dans d'autres syndicats."
+    },
+    "portal": {
+      "title": "Portail local pour un caucus de plusieurs sections",
+      "body": "Si votre syndicat utilise le Portail local, créez un Cercle et cochez les membres de plus d'une section. Invitez seulement le côté syndical. La Salle reste à une section. Les outils Comms publics restent gratuits sur votre appareil dans les deux cas."
+    }
+  },
   "rightToRefuseGuide": {
     "title": "Droit de refuser un travail dangereux",
     "subtitle": "Étapes de refus selon la LSST art. 43, pour délégués et CSS. Pas un avis juridique.",
@@ -3267,6 +3336,14 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "joint-committee-guide": {
+        "title": "Guide des comités conjoints",
+        "body": "Passez d'un dossier de campus à la table provinciale, gardez les notes de caucus privées, puis expliquez les procès-verbaux signés aux membres avec papier en-tête, tracts et courriel."
+      },
+      "portal-union-circles": {
+        "title": "Cercles pour plus d'une section",
+        "body": "Dans le Portail local, cochez les membres de plus d'une section quand vous créez un Cercle de comité. Invitez le côté syndical des autres sections. La Salle reste à une section."
+      },
       "caat-s-gold-plate": {
         "title": "Plaque or pour le Soutien collégial",
         "body": "Les sections de soutien collégial peuvent choisir la plaque corail ou la plaque or dans la Trousse de marque. La plaque or utilise l'or comme couleur de campagne et le logo blanc et corail, pour que les affiches et babillards suivent le traitement or officiel CAAT-S."
@@ -4244,6 +4321,8 @@
     "title": "Comités",
     "subtitle": "Registre des comités internes — Santé et sécurité, Social, Équité et autres groupes locaux.",
     "disclaimer": "Les identifiants de membres renvoient à la liste des dirigeants. Les motions de réunion appartiennent aux procès-verbaux.",
+    "jointCommitteeHint": "Cette page est limitée à cette section — Santé et sécurité, Social et autres groupes permanents. Une table conjointe syndicat-employeur avec des gens de plus d'une section est un autre travail.",
+    "jointCommitteeLink": "Guide des comités conjoints",
     "loading": "Chargement des comités…",
     "loadError": "Impossible de charger les comités. Actualisez la page et réessayez.",
     "createError": "Impossible de créer ce comité. Vérifiez le nom et réessayez.",
@@ -5378,6 +5457,9 @@
     "recentBulletin": "Babillard récent",
     "emptyActions": "Aucune Action ouverte qui vous est assignée. Ouvrez un Cercle pour en ajouter ou en prendre une.",
     "createCircle": "Créer un Cercle",
+    "unionScopeLabel": "Membres de plus d'une section",
+    "unionScopeHint": "Invitez des dirigeantes et dirigeants d'autres sections de votre syndicat. N'invitez pas l'employeur. La Salle reste à cette section.",
+    "unionScopeBadge": "Plus d'une section",
     "newCirclePlaceholder": "Nom du nouveau Cercle de comité",
     "star": "Étoiler le Cercle",
     "unstar": "Retirer l’étoile",
@@ -5502,6 +5584,9 @@
     "momentumEmpty": "Rien dans Un seul combat pour l’instant. Ajoutez un lot ci-dessus si vous pouvez écrire.",
     "rosterInvitePick": "Inviter quelqu’un…",
     "rosterInvite": "Ajouter à l’effectif",
+    "rosterInviteHint": "Les personnes d'autres sections de ce syndicat peuvent joindre ce Cercle une fois ajoutées.",
+    "rosterInviteEmpty": "Personne d'autre à inviter pour l'instant. Il leur faut d'abord un compte dans ce syndicat.",
+    "rosterInviteLoadError": "Impossible de charger les personnes à inviter. Actualisez cet onglet et réessayez.",
     "guestBanner": "Vue invitée — vous pouvez lire ce Cercle, mais pas publier.",
     "keyboardHint": "Raccourcis : les chiffres changent d’outil (hors saisie).",
     "mentionHint": "Astuce : @Nom quelqu’un de l’effectif pour le pinguer dans Relais.",

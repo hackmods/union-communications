@@ -67,11 +67,12 @@ Circle
 - One account may belong to **multiple locals and Circles**.
 - Session: `activeLocalId` + optional `activeCircleId` (Hub local/collection switcher remains separate).
 - No cross-union Circles. Cross-local only via explicit membership or elevated Hub admin roles.
+- Invited committee / campaign Circles may omit `localId` (`scope: "union"` on create). Hall stays local (`local_members`). Roster invite lists people in the **union**, not only the session local. Do not invite the employer.
 
 ## Feature inventory
 
 ### P0 — Shell
-- Together landing (`/portal`), Circle list, Roster, create/invite (role-gated)
+- Together landing (`/portal`), Circle list, Roster, create/invite (role-gated); invited Circles may omit `localId` so members from more than one local can join
 - PortalNav + Hub-style drawer (Together, Circles, Dispatch, Hold the line, Sidebars, send-feedback; Officer Hub for officers)
 - Public Header keeps Guides / Tools; account cluster highlights Local Portal on `/portal`
 
@@ -105,7 +106,7 @@ Do not lose remaining design ideas — see:
 
 ## Testing
 
-- Unit: `src/lib/portal/portal.test.ts`
+- Unit: `src/lib/portal/portal.test.ts`, `circle-create.test.ts`, `circle-invitees.test.ts`
 - Smoke E2E: `e2e/portal.smoke.spec.ts` (`@smoke`) — auth redirect, member Together, Bulletin→Action, Calendar/Binder/Floor, Many hands/Oversight, Dispatch, create Circle, FR Ensemble, axe on Together + Circle
 - Gate: `npm run lint` · `npm run typecheck` · `npm run test:unit` · `npm run test:smoke`
 

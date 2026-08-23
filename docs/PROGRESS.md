@@ -1,10 +1,19 @@
 # Progress Log
 
+## Joint committee playbook + union-scoped Circles (2026-08-23)
+
+- [x] Public `/guide/joint-committee` — campus → provincial table → member explainer after signed minutes; OPSEU / SEFPO EERC as example only
+- [x] Registry: `opseu-eerc-minutes`, `cec-pteerc-minutes`; What's new `joint-committee-guide`
+- [x] Local Portal: create Circle with members from more than one local (`scope: "union"` omits `localId`); Roster invite is union-wide; demo Local 560 president
+- [x] Hub `/app/committees` points at the playbook so a provincial table is not filed on the local roster
+- [x] What's new `portal-union-circles` (Hub audience until Officer Hub is advertised)
+- Verify: `npm run test:unit -- src/lib/portal/circle-create.test.ts src/lib/portal/circle-invitees.test.ts src/lib/portal/portal.test.ts src/lib/constants/updates.test.ts src/lib/constants/comms-sources.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/app/sitemap.test.ts`
+
 ## Joint committees / EERC fit-gap (2026-08-23)
 
 - [x] Mapping only: PT/FT EERC is a provincial joint body; Hub org modules are local-scoped
-- [x] Session knowledge + ground truth — no public guide, no Home CTA, no OPSEU-named module
-- [x] Usable today: public Comms (letterhead / flyers / email-broadcast) + local UCC; Portal Circle type allows omitted `localId` but create API still stamps session local
+- [x] Session knowledge + ground truth — no Home CTA, no OPSEU-named module
+- [x] Usable today: public Comms (letterhead / flyers / email-broadcast) + local UCC; see playbook + union-scoped Circles above
 - Verify: `git ls-files docs/audit/session-knowledge-2026-08-23-eerc-committees.md`
 
 ## Membership audience by sector (2026-08-23)

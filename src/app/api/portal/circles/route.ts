@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { requirePortalSession } from "@/lib/portal/portal-session";
 import { portalStore } from "@/lib/portal/memory-adapter";
 import { canCreateCircle } from "@/lib/portal/access";
+import {
+  resolveCircleCreate,
+  type CircleCreateScope,
+} from "@/lib/portal/circle-create";
 import type { UserRole } from "@/types/tenant";
 import type { CircleKind, CircleVisibility } from "@/types/portal";
 
@@ -23,6 +27,7 @@ export async function POST(request: Request) {
     description?: string;
     kind?: CircleKind;
     visibility?: CircleVisibility;
+    scope?: CircleCreateScope;
     template?: "blank" | "lec" | "jhsc" | "campaign";
     frontStartsAt?: string;
     frontEndsAt?: string;
@@ -30,16 +35,23 @@ export async function POST(request: Request) {
   if (!body.name?.trim()) {
     return NextResponse.json({ error: "Name required" }, { status: 400 });
   }
-  const kind =
-    body.kind ??
-    (body.template === "campaign" ? "campaign" : "committee");
+  const resolved = resolveCircleCreate({
+    kind: body.kind,
+    template: body.template,
+    visibility: body.visibility,
+    scope: body.scope,
+    sessionLocalId: session.user.localId,
+  });
+  if (!resolved.ok) {
+    return NextResponse.json({ error: resolved.error }, { status: 400 });
+  }
   const circle = portalStore.createCircle({
     unionId: session.user.unionId!,
-    localId: session.user.localId,
-    kind,
+    localId: resolved.localId,
+    kind: resolved.kind,
     name: body.name.trim(),
     description: body.description?.trim(),
-    visibility: body.visibility ?? "invited",
+    visibility: resolved.visibility,
     createdById: session.user.id,
     createdByName: session.user.name ?? "Officer",
     template: body.template ?? "blank",

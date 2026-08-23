@@ -3,7 +3,7 @@
 **Audience:** future agents + Ryan.  
 **Companions:** [`docs/VISION.md`](../VISION.md) (fill the gap without replacing national systems), [`session-knowledge-2026-07-30.md`](session-knowledge-2026-07-30.md) (LINK-001 national URL rot), [`session-knowledge-2026-08-19-comms-stay-free.md`](session-knowledge-2026-08-19-comms-stay-free.md) (ADR-019), [`session-knowledge-2026-08-19-portal-solidarity-names.md`](session-knowledge-2026-08-19-portal-solidarity-names.md), [`docs/modules/LOCAL_PORTAL.md`](../modules/LOCAL_PORTAL.md), [`seed/reference-tenant-opseu-caat.json`](../../seed/reference-tenant-opseu-caat.json).
 
-This is a **product mapping**, not a shipped feature. No public guide, no Home CTA, no OPSEU-named Hub module.
+Product mapping plus two shipped slices (2026-08-23): public `/guide/joint-committee`, and Portal Circles that omit `localId` when created with members from more than one local. Still no Home CTA and no OPSEU-named Hub module.
 
 ---
 
@@ -43,7 +43,7 @@ The OPSEU taxonomy page did not load in the 2026-08-23 review (Cloudflare bot wa
 | Comms stay free | On-device tools. A hosted committee workspace is Officer Hub / Local Portal (hosting cost, invite-only, Hub still unadvertised). |
 | No employer login, no joint-minutes CMS, no grievance→EERC automation | Would replace national systems and violate the CA’s “not a grievance forum” rule. |
 
-If a public guide is ever added: generic “joint committee caucus + member explainers”; OPSEU/EERC as *example* copy; EN/FR claim parity; What’s new in the same change. Do not add a Home CTA.
+The public guide is generic “joint committee caucus + member explainers”; OPSEU/EERC is *example* copy. EN/FR claim parity; What’s new in the same change. Do not add a Home CTA.
 
 ---
 
@@ -68,13 +68,12 @@ EERC sits at **union + division + provincial bargaining group** (PT CAAT-S acros
 
 Do not confuse **ORG-002** (`/app/officers`) with **ORG-004** (`/app/committees`). Minutes `meetingType: "committee"` is an enum tag only — there is no FK to `Committee`.
 
-Portal `Circle` is the only collaboration type with optional `localId` ([`src/types/portal.ts`](../../src/types/portal.ts)). In practice:
+Portal `Circle` is the only collaboration type with optional `localId` ([`src/types/portal.ts`](../../src/types/portal.ts)).
 
 - Seed Circles (Hall, LEC, JHSC) are all `local-243` ([`memory-adapter.ts`](../../src/lib/portal/memory-adapter.ts))
-- `POST /api/portal/circles` always stamps `session.user.localId` ([`circles/route.ts`](../../src/app/api/portal/circles/route.ts))
+- Default create still stamps session `localId`. `scope: "union"` omits it. Hall and `local_members` stay local ([`circle-create.ts`](../../src/lib/portal/circle-create.ts)).
+- Roster invite lists the whole union (`GET .../invitees`). Demo `user-president-560` exists so a Local 243 president can invite another local. `db:seed` upserts `DEMO_USERS`.
 - Portal is **memory-only** — there is no `PORTAL_DB_BACKEND` in [`backend.ts`](../../src/lib/db/backend.ts)
-
-So the type allows a union-only Circle; the API does not.
 
 ---
 
@@ -116,7 +115,7 @@ Do **not** reuse bumping `CommitteeSession` / `CommitteeNote` ([`src/types/bumpi
 
 `kind: "committee"`, `visibility: "invited"`, Bulletin / Actions / Binder / Calendar / Many hands. Seed already has invited LEC and JHSC Circles — **local** templates, not provincial.
 
-An invited committee Circle with members from several colleges is the nearest “union caucus of 5” **if** create/list stop requiring a single `localId`. Until then, a partner can still use Comms tools solo, or a Circle that happens to live on their home local (other colleges’ members may not belong to that Hall).
+Create with **Members from more than one local**, then Roster-invite the union side. Do not invite the employer. Hub `/app/committees` stays the local H&S/Social roster and links to the playbook so officers do not file a provincial table there.
 
 Caveats: Portal is hosted (not free-forever); Hub invite-only; **memory-only** (no Portal Postgres flag). Floor/Bulletin must never be the joint table with the employer.
 
@@ -124,7 +123,7 @@ Caveats: Portal is hosted (not free-forever); Hub invite-only; **memory-only** (
 
 ## Fit-gaps (do not pretend these exist)
 
-1. Division-scoped workspace for people from many locals (actual EERC union side)
+1. Division-scoped workspace for people from many locals (union-scoped Portal Circle is the stop-gap, not a Hub org entity)
 2. Issue docket that is **not** a grievance (UCC referral, system-wide problem, bargaining-prep note, “not a grievance” guard)
 3. Union caucus vs joint minutes split (confidential prep vs signed public minutes)
 4. Recommendation-brief workflow (letterhead exists; docket → brief does not)
@@ -139,19 +138,15 @@ Caveats: Portal is hosted (not free-forever); Hub invite-only; **memory-only** (
 1. Brand Kit + Document Generator letterhead for union-side briefs and UCC opinion letters; `quick-event` for a local meeting notice if they also sit on UCC.
 2. After approved minutes: Graphic / Flyer / email-broadcast explainer **for locals**, linking to official union/employer posts (registry URLs only when those IDs exist).
 3. `/app/snippets` for PT CA clause cites on system-wide issues (if they have Hub).
-4. Invited Portal Circle only if the five union members can actually sign in to the same tenant — today that Circle will still be stamped with one `localId`.
+4. Invited Portal Circle: create with **Members from more than one local**, then Roster-invite the union side from other locals. Do not invite the employer.
 5. Travel module only if the **home local** is paying; otherwise keep expenses off-platform.
 
 ---
 
-## Optional slices (not built 2026-08-23)
+## Shipped 2026-08-23 (was optional)
 
-Deferred until an explicit product cut — **not** implied by this note:
-
-1. Public generic guide: joint committee caucus + member explainers (UCC → provincial table → approved minutes → local boards). Registry rows for official minutes pages. What’s new. No Home CTA.
-2. Honor optional `Circle.localId` on create/list/invite so an invited committee Circle can be union-scoped (members from many locals). Reuse Portal; **no new EERC entity.**
-
-Do not start either slice from this document alone.
+1. Public guide `/guide/joint-committee` — generic joint-committee playbook; OPSEU / SEFPO EERC as one example; sources in `comms-sources.ts`. What’s new `joint-committee-guide`. No Home CTA.
+2. Portal `scope: "union"` omits `Circle.localId`. Roster invite uses union-wide candidates (`GET .../invitees`). Demo `user-president-560` exists so cross-local invite can be tested. What’s new `portal-union-circles` (`audience: "hub"`).
 
 ---
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -121,6 +122,15 @@ export function CommitteesBoard() {
       <h1 className="text-2xl font-semibold text-opseu-dark">{t("title")}</h1>
       <p className="mt-1 text-sm text-gray-600">{t("subtitle")}</p>
       <p className="mt-2 text-xs text-gray-500">{t("disclaimer")}</p>
+      <p className="mt-2 text-sm text-gray-600">
+        {t("jointCommitteeHint")}{" "}
+        <Link
+          href="/guide/joint-committee"
+          className="font-medium text-opseu-blue underline"
+        >
+          {t("jointCommitteeLink")}
+        </Link>
+      </p>
 
       <div className="mt-4 flex flex-wrap gap-2">
         <Button

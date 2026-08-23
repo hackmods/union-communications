@@ -119,6 +119,35 @@ describe("portalStore", () => {
     expect(Array.isArray(oversight.overdue)).toBe(true);
   });
 
+  it("lets a member from another local see a union-scoped committee Circle", () => {
+    const caucus = portalStore.createCircle({
+      unionId: "union-opseu",
+      kind: "committee",
+      name: "Provincial caucus",
+      visibility: "invited",
+      createdById: "user-president-243",
+      createdByName: "Local 243 President",
+    });
+    expect(caucus.localId).toBeUndefined();
+    portalStore.inviteToRoster({
+      circleId: caucus.id,
+      userId: "user-president-560",
+      userName: "Local 560 President",
+    });
+    const station = portalStore.listStation(
+      "union-opseu",
+      "user-president-560",
+    );
+    expect(station.circles.some((c) => c.id === caucus.id)).toBe(true);
+    expect(
+      portalStore.getCircleDetail(
+        "union-opseu",
+        "user-president-560",
+        caucus.id,
+      )?.circle.name,
+    ).toBe("Provincial caucus");
+  });
+
   it("marks Dispatch read", () => {
     const n = portalStore.markDispatchRead(
       "union-opseu",
