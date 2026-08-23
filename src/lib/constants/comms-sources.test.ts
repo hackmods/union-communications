@@ -96,6 +96,29 @@ describe("comms-sources", () => {
     );
   });
 
+  it("points OPSEU footer hubs at current national slugs (not retired paths)", () => {
+    expect(COMMS_SOURCES["opseu-contact"].url).toBe(
+      "https://opseu.org/contact-us/",
+    );
+    expect(COMMS_SOURCES["opseu-contact"].url).not.toMatch(
+      /opseu\.org\/contact\/?$/,
+    );
+    expect(COMMS_SOURCES["opseu-collective-agreements"].url).toBe(
+      "https://opseu.org/information/general/find-your-collective-agreement/12967/",
+    );
+    expect(COMMS_SOURCES["opseu-collective-agreements"].url).not.toContain(
+      "bargaining/collective-agreements-and-arbitration-awards",
+    );
+    expect(COMMS_SOURCES["opseu-forms"].url).toBe(
+      "https://opseu.org/opseu-members-tools-and-resources/",
+    );
+    expect(COMMS_SOURCES["opseu-forms"].url).not.toContain("forms-documents");
+    expect(COMMS_SOURCES["opseu-home"].url).toBe("https://opseu.org/");
+    expect(COMMS_SOURCES["opseu-member-portal"].url).toBe(
+      "https://members.opseu.org/",
+    );
+  });
+
   it("resolves OPSEU website ZIP footer links from the registry", () => {
     const footer = getOpseuWebsiteFooterSources();
     expect(footer).toHaveLength(OPSEU_WEBSITE_FOOTER_SOURCE_IDS.length);

@@ -44,6 +44,11 @@ describe("generate-website-zip", () => {
       expect(html).toContain(`href="${source.url}"`);
     }
     expect(html).not.toContain("12263");
+    expect(html).not.toContain("opseu.org/contact/");
+    expect(html).not.toContain(
+      "bargaining/collective-agreements-and-arbitration-awards",
+    );
+    expect(html).not.toContain("about-opseu-sefpo/forms-documents");
     expect(html).toContain("North Pole, Arctic Circle");
   });
 

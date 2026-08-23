@@ -43,6 +43,8 @@ National union websites reorganize often — **broken cited URLs are usually ups
 
 Registry id `opseu-branding` → `https://opseu.org/about-opseu-sefpo/` (2026-08-23). The bare `/about/` slug landed on an unrelated OCOT page. Legacy `/12263` deep links must not return. Re-check in browser if national site reorganizes again.
 
+Footer hubs (2026-08-23): `opseu-contact` → `/contact-us/` (not `/contact/`); `opseu-collective-agreements` → Find Your Collective Agreement; `opseu-forms` → `/opseu-members-tools-and-resources/` (not `/about-opseu-sefpo/forms-documents/`).
+
 ## Multi-union
 
 - National union URLs belong in **`COMMS_SOURCES`** with optional `unionIds` (e.g. `["opseu"]`), not in generic core components.

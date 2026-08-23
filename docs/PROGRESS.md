@@ -1,5 +1,13 @@
 # Progress Log
 
+## OPSEU bibliography URL refresh (2026-08-23)
+
+- [x] `opseu-contact` → `https://opseu.org/contact-us/` (retired `/contact/`)
+- [x] `opseu-collective-agreements` → Find Your Collective Agreement (retired `/bargaining/collective-agreements-and-arbitration-awards/`)
+- [x] `opseu-forms` → Members tools hub (retired guessed `/about-opseu-sefpo/forms-documents/`)
+- [x] Home + Member Portal still current; `hub03` EMA join links kept pending steward confirm
+- Verify: `npm run test:unit -- src/lib/constants/comms-sources.test.ts src/lib/templates/website/generate-website-zip.test.ts`
+
 ## Org Chart QOL + LEC Doc Gen template (2026-08-23)
 
 - [x] Org Chart: `poster` | `directory` layout; letter/tabloid landscape sizes; directory canvas Position | Name | Location

@@ -28,9 +28,11 @@ External resources cited across guides, tools, and exported materials. Canonical
 
 | Source | URL | Used in |
 |--------|-----|---------|
+| OPSEU / SEFPO homepage | https://opseu.org/ | Exported site footer |
+| OPSEU / SEFPO Head Office | https://opseu.org/contact-us/ | Exported site footer |
 | OPSEU / SEFPO Member Portal | https://members.opseu.org/ | Crisis guide, exported site footer |
-| Collective agreements | https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/ | Union boards guide, crisis guide |
-| Forms and documents | https://opseu.org/about-opseu-sefpo/forms-documents/ | Crisis guide, exported site footer |
+| Collective agreements | https://opseu.org/information/general/find-your-collective-agreement/12967/ | Union boards guide, crisis guide, exported site footer |
+| Forms and documents | https://opseu.org/opseu-members-tools-and-resources/ | Crisis guide, exported site footer |
 | Ontario Federation of Labour | https://ofl.ca/ | Exported site footer (optional) |
 | Posters required in the workplace | https://www.ontario.ca/page/posters-required-workplace | Union boards guide — feed empty boards |
 | ESA mandatory information | https://www.ontario.ca/document/your-guide-employment-standards-act-0/mandatory-information-employees | Union boards guide + printable PDF mirror |
