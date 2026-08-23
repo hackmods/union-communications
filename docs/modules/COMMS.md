@@ -54,7 +54,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | `/[locale]/tools/qr-card` | QR link cards (title, tagline, multi-size print; join / FT / PT membership presets) |
 | `/[locale]/tools/action-card` | Action / petition QR cards (headline, ask, deadline; QR → officer-supplied external sign-on URL; PNG + PDF) |
 | `/[locale]/tools/qr-board` | Multi-QR board posters (2–8 links; letter/tabloid; PNG + PDF; Membership FT+PT preset) |
-| `/[locale]/tools/org-chart` | Who-to-contact poster (letter/tabloid PNG + PDF); on-device officers/stewards roster; JSON/CSV round-trip; hydrates Website Template |
+| `/[locale]/tools/org-chart` | Who-to-contact **poster** or **directory** (letter/tabloid portrait + landscape PNG + PDF); on-device officers/stewards roster; JSON/CSV; hydrates Website Template |
 | `/[locale]/guide/membership-signup` | Membership growth guide — Brand Kit links → QR materials → welcome letter |
 | `/[locale]/tools/graphic-maker` | Social graphics (landscape, square, 9:16 portrait) |
 | `/[locale]/tools/resizer` | Omnichannel resizer — Logo Builder plate (circle/square/rectangle) or upload; social + custom sizes at true pixels; ZIP/PNG |
@@ -115,7 +115,7 @@ v1: all public. Phase 1+: optional premium templates behind login; core tools st
 - `src/lib/export/brand-logo-bytes.ts` — Brand Kit → PNG bytes for Word/PPT
 - `src/components/tools/OfficePresetMock.tsx` — live CSS document preview + example tiles
 - Document Generator builds Word/Excel/PowerPoint via `src/lib/export/office-export.ts` (Brand Kit colours/logo; ExcelJS RSVP sheets; pptxgenjs decks; ZIP bundles). Route: `/tools/document-generator`
-- `src/lib/constants/office-templates.ts` — Document Generator presets (incl. welcome letter, seniority worksheet)
+- `src/lib/constants/office-templates.ts` — Document Generator presets (incl. welcome letter, seniority worksheet, blank branded **LEC directory** — no roster pull)
 - `src/components/brand/MembershipUrlsEditor.tsx` — typed FT/PT membership application URLs on Brand Kit
 - `src/lib/utils/local-links.ts` — Brand Kit link normalize + membership preset destination resolve
 - `src/lib/templates/website/generate-website-zip.ts` — static site ZIP generator (GitHub Pages default)

@@ -289,6 +289,20 @@ function DocumentGeneratorPageContent() {
       });
       return;
     }
+    if (state.presetId === "lec-directory") {
+      void run(async () => {
+        const { exportLecDirectoryXlsx } = await import(
+          "@/lib/export/office-export"
+        );
+        await exportLecDirectoryXlsx({
+          palette,
+          localNumber: local,
+          fields,
+          filename,
+        });
+      });
+      return;
+    }
     void run(async () => {
       const { exportEventRsvpXlsx } = await import("@/lib/export/office-export");
       await exportEventRsvpXlsx({
@@ -339,6 +353,7 @@ function DocumentGeneratorPageContent() {
         renderEventRsvpXlsx,
         renderPptx,
         renderSeniorityWorksheetXlsx,
+        renderLecDirectoryXlsx,
       } = await import("@/lib/export/office-export");
 
       let logo: BrandLogoBytes | null = null;
@@ -376,11 +391,17 @@ function DocumentGeneratorPageContent() {
                   fields,
                   labels: seniorityLabels(),
                 })
-              : renderEventRsvpXlsx({
-                  palette,
-                  localNumber: local,
-                  fields,
-                }),
+              : state.presetId === "lec-directory"
+                ? renderLecDirectoryXlsx({
+                    palette,
+                    localNumber: local,
+                    fields,
+                  })
+                : renderEventRsvpXlsx({
+                    palette,
+                    localNumber: local,
+                    fields,
+                  }),
         });
       }
       if (state.includeIcs && preset.outputs.ics) {

@@ -93,6 +93,7 @@ export const RELATED_BY_TOOL: Record<
     { href: "/tools/solidarity-poster", navKey: "solidarityPoster" },
   ],
   "org-chart": [
+    { href: "/tools/document-generator?preset=lec-directory", navKey: "documentGenerator" },
     { href: "/tools/website-template", navKey: "websiteTemplate" },
     { href: "/tools/board-notice", navKey: "boardNotice" },
     { href: "/guide/union-boards", navKey: "unionBoardsGuide" },
@@ -116,6 +117,7 @@ export const RELATED_BY_TOOL: Record<
     { href: "/tools/graphic-maker", navKey: "graphicMaker" },
   ],
   "document-generator": [
+    { href: "/tools/org-chart", navKey: "orgChart" },
     { href: "/brand-kit", navKey: "brandKit" },
     { href: "/tools/board-notice", navKey: "boardNotice" },
   ],

@@ -190,7 +190,7 @@ function letterheadHeader(opts: DocxBuildInput): Header {
 
 function baseDocument(
   opts: DocxBuildInput,
-  children: Paragraph[],
+  children: (Paragraph | Table)[],
 ): Document {
   return new Document({
     sections: [
@@ -212,6 +212,182 @@ function baseDocument(
       },
     ],
   });
+}
+
+/** Blank LEC directory positions — Brand Kit chrome only; no roster pull. */
+export const LEC_DIRECTORY_PLACEHOLDER_POSITIONS: readonly string[] = [
+  "President",
+  "Vice-President",
+  "Secretary",
+  "Treasurer",
+  "Steward",
+  "",
+  "",
+  "",
+  "Trustee",
+  "",
+  "",
+];
+
+function lecDirectoryCell(
+  text: string,
+  opts: { bold?: boolean; fill?: string; ink?: string; font: string; width: number },
+): TableCell {
+  return new TableCell({
+    width: { size: opts.width, type: WidthType.DXA },
+    shading: opts.fill
+      ? { type: ShadingType.CLEAR, fill: opts.fill }
+      : undefined,
+    borders: {
+      top: { style: BorderStyle.SINGLE, size: 4, color: "CCCCCC" },
+      bottom: { style: BorderStyle.SINGLE, size: 4, color: "CCCCCC" },
+      left: { style: BorderStyle.SINGLE, size: 4, color: "CCCCCC" },
+      right: { style: BorderStyle.SINGLE, size: 4, color: "CCCCCC" },
+    },
+    children: [
+      new Paragraph({
+        spacing: { before: 60, after: 60 },
+        children: [
+          new TextRun({
+            text: text || " ",
+            bold: opts.bold,
+            color: opts.ink,
+            font: opts.font,
+            size: opts.bold ? 18 : 20,
+          }),
+        ],
+      }),
+    ],
+  });
+}
+
+/**
+ * Blank branded LEC directory (Position | Name | Location).
+ * Placeholder rows only — never pulls Org Chart / Hub member data.
+ */
+export async function buildLecDirectoryDocx(
+  opts: DocxBuildInput,
+): Promise<Blob> {
+  const primary = hexNoHash(opts.palette.primary);
+  const ink = hexNoHash(pickContrastingInk(opts.palette.primary));
+  const hFont = headlineFace(opts);
+  const bFont = bodyFace(opts);
+  const term = opts.fields.termYears?.trim() || "";
+  const subtitle = opts.fields.subtitle?.trim() || "";
+  const colW = [2400, 3200, 2400] as const;
+
+  const headerRow = new TableRow({
+    children: [
+      lecDirectoryCell("Position", {
+        bold: true,
+        fill: primary,
+        ink,
+        font: hFont,
+        width: colW[0],
+      }),
+      lecDirectoryCell("Name", {
+        bold: true,
+        fill: primary,
+        ink,
+        font: hFont,
+        width: colW[1],
+      }),
+      lecDirectoryCell("Location", {
+        bold: true,
+        fill: primary,
+        ink,
+        font: hFont,
+        width: colW[2],
+      }),
+    ],
+  });
+
+  const dataRows = LEC_DIRECTORY_PLACEHOLDER_POSITIONS.map(
+    (position) =>
+      new TableRow({
+        children: [
+          lecDirectoryCell(position, { font: bFont, width: colW[0], bold: true }),
+          lecDirectoryCell("", { font: bFont, width: colW[1] }),
+          lecDirectoryCell("", { font: bFont, width: colW[2] }),
+        ],
+      }),
+  );
+
+  const table = new Table({
+    width: { size: 8000, type: WidthType.DXA },
+    rows: [headerRow, ...dataRows],
+  });
+
+  const footerBits = [
+    opts.fields.officeEmail?.trim(),
+    opts.fields.officePhone?.trim(),
+    opts.fields.officeAddress?.trim(),
+  ].filter(Boolean);
+
+  const children: (Paragraph | Table)[] = [
+    new Paragraph({
+      spacing: { after: 80 },
+      children: [
+        new TextRun({
+          text: "LOCAL EXECUTIVE COMMITTEE",
+          bold: true,
+          font: hFont,
+          size: 32,
+          color: hexNoHash(opts.palette.secondary),
+        }),
+      ],
+    }),
+    ...(term
+      ? [
+          new Paragraph({
+            spacing: { after: 80 },
+            children: [
+              new TextRun({
+                text: `Term ${term}`,
+                font: bFont,
+                size: 22,
+              }),
+            ],
+          }),
+        ]
+      : []),
+    ...(subtitle
+      ? [
+          new Paragraph({
+            spacing: { after: 200 },
+            children: [
+              new TextRun({
+                text: subtitle,
+                font: bFont,
+                size: 20,
+                color: "555555",
+              }),
+            ],
+          }),
+        ]
+      : [
+          new Paragraph({
+            spacing: { after: 200 },
+            children: [],
+          }),
+        ]),
+    table,
+    new Paragraph({
+      spacing: { before: 280 },
+      children: [
+        new TextRun({
+          text: footerBits.length
+            ? footerBits.join("  ·  ")
+            : "Office email / phone / address",
+          color: "666666",
+          font: bFont,
+          size: 18,
+        }),
+      ],
+    }),
+  ];
+
+  return Packer.toBlob(baseDocument(opts, children));
 }
 
 export async function buildSimpleLetterDocx(

@@ -8,13 +8,14 @@ import {
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 
 describe("office-templates", () => {
-  it("ships five high-quality presets including seniority worksheet", () => {
+  it("ships six high-quality presets including seniority worksheet", () => {
     expect(OFFICE_PRESETS.map((p) => p.id)).toEqual([
       "simple-letter",
       "letterhead",
       "quick-event",
       "welcome-letter",
       "seniority-worksheet",
+      "lec-directory",
     ]);
   });
 
@@ -56,6 +57,16 @@ describe("office-templates", () => {
     expect(event.fields.some((f) => f.key === "quorumNeeded")).toBe(true);
     expect(getPreset("simple-letter").outputs.xlsx).toBe(false);
     expect(getPreset("simple-letter").outputs.ics).toBe(false);
+  });
+
+
+  it("lec-directory is Brand Kit chrome only (docx+xlsx, no roster fields)", () => {
+    const sheet = getPreset("lec-directory");
+    expect(sheet.outputs.docx).toBe(true);
+    expect(sheet.outputs.xlsx).toBe(true);
+    expect(sheet.outputs.pptx).toBe(false);
+    expect(sheet.fields.some((f) => f.key === "termYears")).toBe(true);
+    expect(sheet.fields.every((f) => f.key !== "memberName")).toBe(true);
   });
 
   it("seniority worksheet is Excel-only with session footer fields", () => {

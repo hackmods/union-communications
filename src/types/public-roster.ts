@@ -13,6 +13,11 @@ export const PUBLIC_ROSTER_GROUPS = [
 
 export type PublicRosterGroup = (typeof PUBLIC_ROSTER_GROUPS)[number];
 
+/** Optional FT/PT tag on the directory sheet (not a membership record). */
+export const PUBLIC_ROSTER_UNITS = ["ft", "pt"] as const;
+
+export type PublicRosterUnit = (typeof PUBLIC_ROSTER_UNITS)[number];
+
 export interface PublicRosterPerson {
   id: string;
   name: string;
@@ -25,6 +30,8 @@ export interface PublicRosterPerson {
   reportsToId?: string | null;
   /** When true, Website Template can copy this row onto the public site. */
   showOnWebsite: boolean;
+  /** Optional unit tag shown as (FT) / (PT) on directory layouts. */
+  unit?: PublicRosterUnit | null;
 }
 
 export interface PublicRoster {

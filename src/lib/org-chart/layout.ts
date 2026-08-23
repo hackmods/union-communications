@@ -98,3 +98,60 @@ export function groupOrgChartPeople(
 export function rosterHasNamedPeople(people: PublicRosterPerson[]): boolean {
   return named(people).length > 0;
 }
+
+export type OrgChartDirectoryRow = {
+  personId: string;
+  /** Position cell; blank for steward continuation rows. */
+  position: string;
+  name: string;
+  location: string;
+};
+
+export function formatRosterUnitTag(
+  unit: PublicRosterPerson["unit"],
+): string {
+  if (unit === "ft") return " (FT)";
+  if (unit === "pt") return " (PT)";
+  return "";
+}
+
+/**
+ * Flat directory rows for the Local-243-style Position | Name | Location sheet.
+ * Stewards share one position label, then blank continuation cells.
+ */
+export function directoryRowsFromPeople(
+  people: PublicRosterPerson[],
+  stewardsPositionLabel: string,
+): OrgChartDirectoryRow[] {
+  const visible = named(people);
+  const rows: OrgChartDirectoryRow[] = [];
+
+  const pushPerson = (person: PublicRosterPerson, position: string) => {
+    const name = `${person.name.trim() || person.role.trim()}${formatRosterUnitTag(person.unit)}`;
+    rows.push({
+      personId: person.id,
+      position,
+      name,
+      location: person.location.trim(),
+    });
+  };
+
+  for (const person of visible.filter((row) => row.group === "executive")) {
+    pushPerson(person, person.role.trim());
+  }
+
+  const stewards = visible.filter((row) => row.group === "stewards");
+  stewards.forEach((person, index) => {
+    pushPerson(person, index === 0 ? stewardsPositionLabel : "");
+  });
+
+  for (const person of visible.filter((row) => row.group === "committee")) {
+    const position =
+      person.role.trim() ||
+      person.committeeName?.trim() ||
+      "";
+    pushPerson(person, position);
+  }
+
+  return rows;
+}

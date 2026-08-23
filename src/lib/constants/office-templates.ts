@@ -9,7 +9,8 @@ export type OfficePresetId =
   | "letterhead"
   | "quick-event"
   | "welcome-letter"
-  | "seniority-worksheet";
+  | "seniority-worksheet"
+  | "lec-directory";
 
 export type FieldDef = {
   key: string;
@@ -249,6 +250,44 @@ export const OFFICE_PRESETS: OfficePreset[] = [
         key: "committeeNotes",
         labelKey: "fields.committeeNotes",
         multiline: true,
+        defaultValue: "",
+      },
+    ],
+  },
+  {
+    id: "lec-directory",
+    titleKey: "presets.lecDirectory.title",
+    blurbKey: "presets.lecDirectory.blurb",
+    fileStem: "lec-directory",
+    outputs: { docx: true, xlsx: true, pptx: false, ics: false },
+    structureKeys: [
+      "structure.lecDirectoryDocx",
+      "structure.lecDirectoryXlsx",
+    ],
+    fields: [
+      {
+        key: "termYears",
+        labelKey: "fields.termYears",
+        defaultValue: "2026–2028",
+      },
+      {
+        key: "subtitle",
+        labelKey: "fields.subtitle",
+        defaultValue: "",
+      },
+      {
+        key: "officeEmail",
+        labelKey: "fields.officeEmail",
+        defaultValue: "",
+      },
+      {
+        key: "officePhone",
+        labelKey: "fields.officePhone",
+        defaultValue: "",
+      },
+      {
+        key: "officeAddress",
+        labelKey: "fields.officeAddress",
         defaultValue: "",
       },
     ],

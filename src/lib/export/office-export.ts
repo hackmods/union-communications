@@ -68,6 +68,7 @@ export async function renderDocxFromPreset(
   const {
     buildEventNoticeDocx,
     buildLetterheadDocx,
+    buildLecDirectoryDocx,
     buildSimpleLetterDocx,
     buildWelcomeLetterDocx,
   } = await import("@/lib/export/office-docx-builders");
@@ -88,6 +89,8 @@ export async function renderDocxFromPreset(
       return buildLetterheadDocx(input);
     case "quick-event":
       return buildEventNoticeDocx(input);
+    case "lec-directory":
+      return buildLecDirectoryDocx(input);
     case "seniority-worksheet":
       throw new Error("Seniority worksheet exports Excel only");
   }
@@ -435,6 +438,111 @@ export async function exportSeniorityWorksheetXlsx(
   const { filename, ...rest } = opts;
   await downloadBlob(await renderSeniorityWorksheetXlsx(rest), filename);
 }
+
+
+const LEC_DIRECTORY_XLSX_POSITIONS = [
+  "President",
+  "Vice-President",
+  "Secretary",
+  "Treasurer",
+  "Steward",
+  "",
+  "",
+  "",
+  "Trustee",
+  "",
+  "",
+] as const;
+
+/** Blank branded LEC directory sheet — placeholder rows only, no roster pull. */
+export async function renderLecDirectoryXlsx(opts: {
+  palette: BrandPalette;
+  localNumber: string;
+  fields: Record<string, string>;
+}): Promise<Blob> {
+  const excelMod = await import("exceljs");
+  const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
+  const workbook = new ExcelNS.Workbook();
+  const ws = workbook.addWorksheet("LEC directory");
+  const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
+
+  ws.getCell("A1").value = "LOCAL EXECUTIVE COMMITTEE";
+  ws.getCell("A1").font = { bold: true, size: 14, color: { argb: "FFFFFFFF" } };
+  ws.getCell("A1").fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: `FF${fill}` },
+  };
+  ws.mergeCells("A1:C1");
+
+  ws.getCell("A2").value = "Local";
+  ws.getCell("B2").value = opts.localNumber;
+  ws.getCell("A3").value = "Term";
+  ws.getCell("B3").value = opts.fields.termYears ?? "";
+  ws.getCell("A4").value = "Subtitle";
+  ws.getCell("B4").value = opts.fields.subtitle ?? "";
+  ws.mergeCells("B4:C4");
+
+  for (const r of [2, 3, 4]) {
+    ws.getCell(`A${r}`).font = { bold: true };
+  }
+
+  const headerRow = 6;
+  (
+    [
+      [1, "Position"],
+      [2, "Name"],
+      [3, "Location"],
+    ] as const
+  ).forEach(([col, label]) => {
+    const cell = ws.getCell(headerRow, col);
+    cell.value = label;
+    cell.font = { bold: true, color: { argb: "FFFFFFFF" } };
+    cell.fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: `FF${fill}` },
+    };
+  });
+
+  LEC_DIRECTORY_XLSX_POSITIONS.forEach((position, i) => {
+    const row = headerRow + 1 + i;
+    ws.getCell(row, 1).value = position;
+    ws.getCell(row, 2).value = "";
+    ws.getCell(row, 3).value = "";
+  });
+
+  const footerRow = headerRow + 1 + LEC_DIRECTORY_XLSX_POSITIONS.length + 1;
+  const footer = [
+    opts.fields.officeEmail?.trim(),
+    opts.fields.officePhone?.trim(),
+    opts.fields.officeAddress?.trim(),
+  ]
+    .filter(Boolean)
+    .join("  ·  ");
+  ws.getCell(`A${footerRow}`).value =
+    footer || "Office email / phone / address";
+  ws.getCell(`A${footerRow}`).font = { color: { argb: "FF666666" }, size: 10 };
+  ws.mergeCells(`A${footerRow}:C${footerRow}`);
+
+  ws.getColumn(1).width = 22;
+  ws.getColumn(2).width = 28;
+  ws.getColumn(3).width = 24;
+
+  const out = await workbook.xlsx.writeBuffer();
+  return new Blob([new Uint8Array(out)], { type: XLSX_MIME });
+}
+
+export async function exportLecDirectoryXlsx(opts: {
+  palette: BrandPalette;
+  localNumber: string;
+  fields: Record<string, string>;
+  filename: string;
+}): Promise<void> {
+  const { filename, ...rest } = opts;
+  await downloadBlob(await renderLecDirectoryXlsx(rest), filename);
+}
+
 
 /** Legacy XLSX template fill (sample-roster tests). */
 export async function renderXlsx(opts: {

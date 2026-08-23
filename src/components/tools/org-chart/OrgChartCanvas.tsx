@@ -5,9 +5,12 @@ import type { BrandKit } from "@/types/entities";
 import type { PublicRosterPerson } from "@/types/public-roster";
 import {
   ORG_CHART_FORMATS,
+  isPortraitOrgChartFormat,
   type OrgChartFormatId,
+  type OrgChartLayoutId,
 } from "@/lib/constants/org-chart-formats";
 import {
+  directoryRowsFromPeople,
   groupOrgChartPeople,
   rosterHasNamedPeople,
   type OrgChartBand,
@@ -26,18 +29,26 @@ type OrgChartCanvasProps = {
   brandKit: BrandKit;
   people: PublicRosterPerson[];
   formatId: OrgChartFormatId;
+  layoutId: OrgChartLayoutId;
   title: string;
   executiveLabel: string;
   stewardsLabel: string;
   committeeLabel: string;
   emptyLabel: string;
+  positionColumnLabel: string;
+  nameColumnLabel: string;
+  locationColumnLabel: string;
+  stewardsPositionLabel: string;
 };
 
-function bandHeading(band: OrgChartBand, labels: {
-  executiveLabel: string;
-  stewardsLabel: string;
-  committeeLabel: string;
-}): string | undefined {
+function bandHeading(
+  band: OrgChartBand,
+  labels: {
+    executiveLabel: string;
+    stewardsLabel: string;
+    committeeLabel: string;
+  },
+): string | undefined {
   if (band.kind === "executive-lead") return undefined;
   if (band.kind === "executive") return labels.executiveLabel;
   if (band.kind === "stewards") {
@@ -72,11 +83,16 @@ export function OrgChartCanvas({
   brandKit,
   people,
   formatId,
+  layoutId,
   title,
   executiveLabel,
   stewardsLabel,
   committeeLabel,
   emptyLabel,
+  positionColumnLabel,
+  nameColumnLabel,
+  locationColumnLabel,
+  stewardsPositionLabel,
 }: OrgChartCanvasProps) {
   const format = ORG_CHART_FORMATS[formatId];
   const tokens = resolveCanvasTokens(brandKit);
@@ -89,11 +105,21 @@ export function OrgChartCanvas({
   const plateInk = pickContrastingInk(brandKit.secondaryColor);
   const muted = mutedInkOnBackground(brandKit.primaryColor, 0.85);
   const bands = groupOrgChartPeople(people);
+  const directoryRows = directoryRowsFromPeople(people, stewardsPositionLabel);
   const namedCount = people.filter(
     (person) => person.name.trim() || person.role.trim(),
   ).length;
-  const compact = namedCount > 12 || formatId === "letter";
+  const compact =
+    namedCount > 12 || (isPortraitOrgChartFormat(formatId) && namedCount > 8);
   const hasPeople = rosterHasNamedPeople(people);
+  const localLabel = [
+    brandKit.local.localNumber?.trim()
+      ? `Local ${brandKit.local.localNumber.trim()}`
+      : "",
+    brandKit.local.subText?.trim() ?? "",
+  ]
+    .filter(Boolean)
+    .join(" — ");
 
   return (
     <div className="shadow-lg">
@@ -134,6 +160,21 @@ export function OrgChartCanvas({
         >
           {title}
         </h2>
+        {layoutId === "directory" && localLabel ? (
+          <p
+            className="relative z-[2]"
+            style={{
+              color: muted,
+              fontSize: Math.max(
+                11,
+                Math.round(tokens.subtitleFontSizePx * 0.9),
+              ),
+              margin: 0,
+            }}
+          >
+            {localLabel}
+          </p>
+        ) : null}
         <div
           className="relative z-[2] flex min-h-0 flex-1 flex-col"
           style={{ gap: compact ? 8 : 12 }}
@@ -148,6 +189,76 @@ export function OrgChartCanvas({
             >
               {emptyLabel}
             </p>
+          ) : layoutId === "directory" ? (
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "collapse",
+                fontSize: compact ? 11 : 13,
+                color: ink,
+              }}
+            >
+              <thead>
+                <tr>
+                  {[
+                    positionColumnLabel,
+                    nameColumnLabel,
+                    locationColumnLabel,
+                  ].map((label) => (
+                    <th
+                      key={label}
+                      style={{
+                        textAlign: "left",
+                        padding: compact ? "4px 6px" : "6px 8px",
+                        borderBottom: `2px solid ${brandKit.secondaryColor}`,
+                        fontFamily: tokens.headlineFontFamily,
+                        fontSize: compact ? 10 : 11,
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        color: muted,
+                      }}
+                    >
+                      {label}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {directoryRows.map((row) => (
+                  <tr key={row.personId}>
+                    <td
+                      style={{
+                        padding: compact ? "4px 6px" : "6px 8px",
+                        borderBottom: `1px solid ${muted}`,
+                        fontWeight: 600,
+                        width: "34%",
+                      }}
+                    >
+                      {row.position}
+                    </td>
+                    <td
+                      style={{
+                        padding: compact ? "4px 6px" : "6px 8px",
+                        borderBottom: `1px solid ${muted}`,
+                        width: "40%",
+                      }}
+                    >
+                      {row.name}
+                    </td>
+                    <td
+                      style={{
+                        padding: compact ? "4px 6px" : "6px 8px",
+                        borderBottom: `1px solid ${muted}`,
+                        width: "26%",
+                        opacity: 0.9,
+                      }}
+                    >
+                      {row.location}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           ) : (
             bands.map((band, index) => {
               const heading = bandHeading(band, {

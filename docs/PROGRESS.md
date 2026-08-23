@@ -1,5 +1,13 @@
 # Progress Log
 
+## Org Chart QOL + LEC Doc Gen template (2026-08-23)
+
+- [x] Org Chart: `poster` | `directory` layout; letter/tabloid landscape sizes; directory canvas Position | Name | Location
+- [x] Org Chart editor: group sections, slim Name|Role|Location rows, More options (unit FT/PT, reports-to, website)
+- [x] Document Generator: standalone `lec-directory` preset (DOCX + XLSX) — Brand Kit chrome + placeholder rows only; **no** PublicRoster / Hub pull
+- [x] Related tools Org Chart ↔ Doc Gen; What's new `org-chart-directory`; EN/FR + session knowledge
+- Verify: `npm run test:unit -- src/lib/constants/org-chart-formats.test.ts src/lib/org-chart/layout.test.ts src/lib/constants/office-templates.test.ts src/lib/export/office-docx-builders.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## CAAT-S president feedback (2026-08-23)
 
 - [x] CAAT-S SVG downloads use a shared 174×97 artboard; coral and gold plates cover the full viewBox

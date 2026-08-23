@@ -13,8 +13,11 @@ import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { brandSetupHref } from "@/lib/utils/brand-setup";
 import {
   DEFAULT_ORG_CHART_FORMAT,
+  DEFAULT_ORG_CHART_LAYOUT,
+  ORG_CHART_FORMAT_ORDER,
   ORG_CHART_FORMATS,
   type OrgChartFormatId,
+  type OrgChartLayoutId,
 } from "@/lib/constants/org-chart-formats";
 import {
   emptyRosterPerson,
@@ -24,8 +27,13 @@ import {
   serializePublicRosterCsv,
   type RosterImportCode,
 } from "@/lib/org-chart";
-import { MAX_ROSTER_PEOPLE } from "@/types/public-roster";
-import type { PublicRosterGroup, PublicRosterPerson } from "@/types/public-roster";
+import {
+  MAX_ROSTER_PEOPLE,
+  PUBLIC_ROSTER_GROUPS,
+  type PublicRosterGroup,
+  type PublicRosterPerson,
+  type PublicRosterUnit,
+} from "@/types/public-roster";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -50,6 +58,132 @@ function downloadText(filename: string, text: string, mime: string) {
   URL.revokeObjectURL(url);
 }
 
+function PersonEditor({
+  person,
+  people,
+  t,
+  groupLabel,
+  updatePerson,
+  removePerson,
+  canRemove,
+}: {
+  person: PublicRosterPerson;
+  people: PublicRosterPerson[];
+  t: ReturnType<typeof useTranslations<"orgChart">>;
+  groupLabel: (group: PublicRosterGroup) => string;
+  updatePerson: (id: string, patch: Partial<PublicRosterPerson>) => void;
+  removePerson: (id: string) => void;
+  canRemove: boolean;
+}) {
+  return (
+    <div className="space-y-2 rounded-md border border-gray-200 p-3">
+      <div className="grid gap-2 sm:grid-cols-3">
+        <Input
+          label={t("name")}
+          value={person.name}
+          onChange={(e) => updatePerson(person.id, { name: e.target.value })}
+        />
+        <Input
+          label={t("role")}
+          value={person.role}
+          onChange={(e) => updatePerson(person.id, { role: e.target.value })}
+        />
+        <Input
+          label={t("location")}
+          value={person.location}
+          onChange={(e) =>
+            updatePerson(person.id, { location: e.target.value })
+          }
+        />
+      </div>
+      <ToolFormDetails title={t("personMore")}>
+        <div className="space-y-2">
+          <Select
+            label={t("group")}
+            value={person.group}
+            onChange={(e) =>
+              updatePerson(person.id, {
+                group: e.target.value as PublicRosterGroup,
+                showOnWebsite:
+                  e.target.value === "executive"
+                    ? person.showOnWebsite
+                    : person.group === "executive"
+                      ? false
+                      : person.showOnWebsite,
+              })
+            }
+          >
+            <option value="executive">{groupLabel("executive")}</option>
+            <option value="stewards">{groupLabel("stewards")}</option>
+            <option value="committee">{groupLabel("committee")}</option>
+          </Select>
+          {person.group === "committee" ? (
+            <Input
+              label={t("committeeName")}
+              value={person.committeeName ?? ""}
+              onChange={(e) =>
+                updatePerson(person.id, {
+                  committeeName: e.target.value,
+                })
+              }
+            />
+          ) : null}
+          <Select
+            label={t("unit")}
+            value={person.unit ?? ""}
+            onChange={(e) =>
+              updatePerson(person.id, {
+                unit: (e.target.value || null) as PublicRosterUnit | null,
+              })
+            }
+          >
+            <option value="">{t("unitNone")}</option>
+            <option value="ft">{t("unitFt")}</option>
+            <option value="pt">{t("unitPt")}</option>
+          </Select>
+          <Checkbox
+            label={t("showOnWebsite")}
+            checked={person.showOnWebsite}
+            onChange={(e) =>
+              updatePerson(person.id, {
+                showOnWebsite: e.target.checked,
+              })
+            }
+          />
+          <Select
+            label={t("reportsTo")}
+            value={person.reportsToId ?? ""}
+            onChange={(e) =>
+              updatePerson(person.id, {
+                reportsToId: e.target.value || null,
+              })
+            }
+          >
+            <option value="">{t("reportsToNone")}</option>
+            {people
+              .filter((other) => other.id !== person.id)
+              .map((other) => (
+                <option key={other.id} value={other.id}>
+                  {other.name.trim() || other.role.trim() || other.id}
+                </option>
+              ))}
+          </Select>
+        </div>
+      </ToolFormDetails>
+      {canRemove ? (
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => removePerson(person.id)}
+        >
+          {t("removePerson")}
+        </Button>
+      ) : null}
+    </div>
+  );
+}
+
 export default function OrgChartPage() {
   const t = useTranslations("orgChart");
   const tc = useTranslations("common");
@@ -63,6 +197,9 @@ export default function OrgChartPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [formatId, setFormatId] = useState<OrgChartFormatId>(
     DEFAULT_ORG_CHART_FORMAT,
+  );
+  const [layoutId, setLayoutId] = useState<OrgChartLayoutId>(
+    DEFAULT_ORG_CHART_LAYOUT,
   );
   const [title, setTitle] = useState(t("posterTitleDefault"));
   const [importMessage, setImportMessage] = useState<string | null>(null);
@@ -168,6 +305,12 @@ export default function OrgChartPage() {
 
   const groupLabel = (group: PublicRosterGroup) => t(`groups.${group}`);
 
+  const addLabel = (group: PublicRosterGroup) => {
+    if (group === "executive") return t("addExecutive");
+    if (group === "stewards") return t("addSteward");
+    return t("addCommittee");
+  };
+
   return (
     <ToolEditorLayout
       title={t("title")}
@@ -189,144 +332,61 @@ export default function OrgChartPage() {
             onChange={(e) => setTitle(e.target.value)}
           />
           <SegControl
+            label={t("layout")}
+            value={layoutId}
+            options={[
+              { value: "poster" as const, label: t("layoutPoster") },
+              { value: "directory" as const, label: t("layoutDirectory") },
+            ]}
+            onChange={setLayoutId}
+          />
+          <SegControl
             label={t("format")}
             value={formatId}
-            options={[
-              { value: "letter" as const, label: t("formatLetter") },
-              { value: "tabloid" as const, label: t("formatTabloid") },
-            ]}
+            options={ORG_CHART_FORMAT_ORDER.map((id) => ({
+              value: id,
+              label: t(ORG_CHART_FORMATS[id].labelKey),
+            }))}
             onChange={setFormatId}
           />
 
           <p className="text-sm font-medium text-gray-800">{t("peopleHeading")}</p>
           <p className="text-sm text-gray-600">{t("peopleIntro")}</p>
 
-          <div className="space-y-3">
-            {people.map((person) => (
-              <div
-                key={person.id}
-                className="space-y-2 rounded-md border border-gray-200 p-3"
-              >
-                <Input
-                  label={t("name")}
-                  value={person.name}
-                  onChange={(e) =>
-                    updatePerson(person.id, { name: e.target.value })
-                  }
-                />
-                <Input
-                  label={t("role")}
-                  value={person.role}
-                  onChange={(e) =>
-                    updatePerson(person.id, { role: e.target.value })
-                  }
-                />
-                <Input
-                  label={t("location")}
-                  value={person.location}
-                  onChange={(e) =>
-                    updatePerson(person.id, { location: e.target.value })
-                  }
-                />
-                <Select
-                  label={t("group")}
-                  value={person.group}
-                  onChange={(e) =>
-                    updatePerson(person.id, {
-                      group: e.target.value as PublicRosterGroup,
-                      showOnWebsite:
-                        e.target.value === "executive"
-                          ? person.showOnWebsite
-                          : person.group === "executive"
-                            ? false
-                            : person.showOnWebsite,
-                    })
-                  }
-                >
-                  <option value="executive">{groupLabel("executive")}</option>
-                  <option value="stewards">{groupLabel("stewards")}</option>
-                  <option value="committee">{groupLabel("committee")}</option>
-                </Select>
-                {person.group === "committee" ? (
-                  <Input
-                    label={t("committeeName")}
-                    value={person.committeeName ?? ""}
-                    onChange={(e) =>
-                      updatePerson(person.id, {
-                        committeeName: e.target.value,
-                      })
-                    }
-                  />
-                ) : null}
-                <Select
-                  label={t("reportsTo")}
-                  value={person.reportsToId ?? ""}
-                  onChange={(e) =>
-                    updatePerson(person.id, {
-                      reportsToId: e.target.value || null,
-                    })
-                  }
-                >
-                  <option value="">{t("reportsToNone")}</option>
-                  {people
-                    .filter((other) => other.id !== person.id)
-                    .map((other) => (
-                      <option key={other.id} value={other.id}>
-                        {other.name.trim() || other.role.trim() || other.id}
-                      </option>
-                    ))}
-                </Select>
-                <Checkbox
-                  label={t("showOnWebsite")}
-                  checked={person.showOnWebsite}
-                  onChange={(e) =>
-                    updatePerson(person.id, {
-                      showOnWebsite: e.target.checked,
-                    })
-                  }
-                />
-                {people.length > 1 ? (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => removePerson(person.id)}
-                  >
-                    {t("removePerson")}
-                  </Button>
-                ) : null}
-              </div>
-            ))}
+          <div className="space-y-4">
+            {PUBLIC_ROSTER_GROUPS.map((group) => {
+              const sectionPeople = people.filter((row) => row.group === group);
+              return (
+                <section key={group} className="space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-600">
+                    {groupLabel(group)}
+                  </p>
+                  {sectionPeople.map((person) => (
+                    <PersonEditor
+                      key={person.id}
+                      person={person}
+                      people={people}
+                      t={t}
+                      groupLabel={groupLabel}
+                      updatePerson={updatePerson}
+                      removePerson={removePerson}
+                      canRemove={people.length > 1}
+                    />
+                  ))}
+                  {people.length < MAX_ROSTER_PEOPLE ? (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => addPerson(group)}
+                    >
+                      {addLabel(group)}
+                    </Button>
+                  ) : null}
+                </section>
+              );
+            })}
           </div>
-
-          {people.length < MAX_ROSTER_PEOPLE ? (
-            <div className="flex flex-wrap gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => addPerson("executive")}
-              >
-                {t("addExecutive")}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => addPerson("stewards")}
-              >
-                {t("addSteward")}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => addPerson("committee")}
-              >
-                {t("addCommittee")}
-              </Button>
-            </div>
-          ) : null}
 
           <Callout tone="muted">
             <p>{t("websiteHint")}</p>
@@ -336,6 +396,15 @@ export default function OrgChartPage() {
                 className="font-semibold text-opseu-blue underline underline-offset-2"
               >
                 {t("websiteLink")}
+              </Link>
+            </p>
+            <p className="mt-2">{t("docGenHint")}</p>
+            <p className="mt-1">
+              <Link
+                href="/tools/document-generator?preset=lec-directory"
+                className="font-semibold text-opseu-blue underline underline-offset-2"
+              >
+                {t("docGenLink")}
               </Link>
             </p>
           </Callout>
@@ -413,11 +482,16 @@ export default function OrgChartPage() {
           brandKit={brandKit}
           people={people}
           formatId={formatId}
+          layoutId={layoutId}
           title={title}
           executiveLabel={t("bandExecutive")}
           stewardsLabel={t("bandStewards")}
           committeeLabel={t("bandCommittee")}
           emptyLabel={t("canvasEmpty")}
+          positionColumnLabel={t("columnPosition")}
+          nameColumnLabel={t("columnName")}
+          locationColumnLabel={t("columnLocation")}
+          stewardsPositionLabel={t("stewardsPosition")}
         />
       }
       footer={<ToolRelatedFooter toolSlug="org-chart" />}

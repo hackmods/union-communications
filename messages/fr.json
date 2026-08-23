@@ -1588,7 +1588,9 @@
       "eventIcs": "Invitation calendrier (.ics) à partir du début/fin",
       "eventEmail": "Courriel d'invitation RSVP (copie seulement)",
       "eventPptx": "3 diapositives PowerPoint",
-      "seniorityWorksheetXlsx": "Feuille d'ancienneté / bumping imprimable — lignes vides + colonne Admissible O/N/?"
+      "seniorityWorksheetXlsx": "Feuille d'ancienneté / bumping imprimable — lignes vides + colonne Admissible O/N/?",
+      "lecDirectoryDocx": "Répertoire CLE Word avec les couleurs de la Trousse de marque et des lignes vides Poste | Nom | Lieu",
+      "lecDirectoryXlsx": "Répertoire CLE Excel avec les mêmes lignes vides"
     },
     "senioritySheet": {
       "sheetName": "Ancienneté",
@@ -1636,6 +1638,10 @@
       "seniorityWorksheet": {
         "title": "Feuille d'ancienneté",
         "blurb": "Feuille d’ancienneté pour les dossiers de déplacement. Pas une calculatrice."
+      },
+      "lecDirectory": {
+        "title": "Répertoire du CLE",
+        "blurb": "Tableau d'officiers vide avec les couleurs et le logo de votre section — remplissez les noms dans Word après les élections. Ne tire pas les données de l'organigramme ni du Hub."
       }
     },
     "fields": {
@@ -1660,7 +1666,11 @@
       "sessionDate": "Date de séance",
       "chair": "Président / animateur",
       "caseId": "ID du dossier de bumping (Hub)",
-      "committeeNotes": "Notes du comité"
+      "committeeNotes": "Notes du comité",
+      "termYears": "Années du mandat",
+      "officeEmail": "Courriel du bureau",
+      "officePhone": "Téléphone du bureau",
+      "officeAddress": "Adresse du bureau"
     }
   },
   "solidarityPoster": {
@@ -2053,7 +2063,7 @@
   "orgChart": {
     "title": "Organigramme",
     "subtitle": "Imprimez une affiche « qui contacter » et réutilisez les mêmes noms sur le site de votre section.",
-    "whenToUse": "À utiliser après les élections, ou quand la liste du CÉL sur le babillard est périmée.",
+    "whenToUse": "À utiliser après les élections, ou quand la liste du CLE sur le tableau syndical est périmée.",
     "previewAccessibleName": "Aperçu de l’affiche organigramme",
     "posterTitle": "Titre de l’affiche",
     "posterTitleDefault": "Qui contacter",
@@ -2095,7 +2105,23 @@
     "bandExecutive": "Exécutif",
     "bandStewards": "Délégués syndicaux",
     "bandCommittee": "Comités",
-    "canvasEmpty": "Ajoutez des dirigeants et des délégués dans l’éditeur, ou importez le JSON de l’an dernier."
+    "canvasEmpty": "Ajoutez des dirigeants et des délégués dans l’éditeur, ou importez le JSON de l’an dernier.",
+    "layout": "Mise en page",
+    "layoutPoster": "Affiche",
+    "layoutDirectory": "Répertoire",
+    "formatLetterLandscape": "Lettre paysage",
+    "formatTabloidLandscape": "Tabloïd paysage",
+    "personMore": "Plus d'options",
+    "unit": "Unité (facultatif)",
+    "unitNone": "Sans étiquette",
+    "unitFt": "Temps plein (FT)",
+    "unitPt": "Temps partiel (PT)",
+    "columnPosition": "Poste",
+    "columnName": "Nom",
+    "columnLocation": "Lieu",
+    "stewardsPosition": "Délégués",
+    "docGenHint": "Besoin d'une feuille Word vide après les élections? Utilisez le générateur de documents — il ne récupère pas ces noms.",
+    "docGenLink": "Ouvrir le modèle de répertoire du CLE"
   },
   "sources": {
     "title": "Sources et références",
@@ -3346,6 +3372,10 @@
       "first-week-print": {
         "title": "Étape impression dans Première semaine",
         "body": "Le parcours Première semaine inclut maintenant l'impression après les tableaux syndicaux et avant les publications sociales, pour qu'un tract fasse partie du même message que le tableau et le graphique."
+      },
+      "org-chart-directory": {
+        "title": "Organigramme en répertoire + feuille CLE Word vide",
+        "body": "Imprimez un répertoire Poste | Nom | Lieu ou une affiche, y compris lettre et tabloïd en paysage. Besoin d'un tableau Word de marque vide? Le générateur de documents offre un modèle de répertoire du CLE qui ne récupère pas vos noms sur l'appareil."
       }
     }
   },

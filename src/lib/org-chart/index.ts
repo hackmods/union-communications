@@ -18,9 +18,12 @@ export {
   PUBLIC_ROSTER_CSV_COLUMNS,
 } from "./csv";
 export {
+  directoryRowsFromPeople,
+  formatRosterUnitTag,
   groupOrgChartPeople,
   rosterHasNamedPeople,
   type OrgChartBand,
   type OrgChartBandKind,
+  type OrgChartDirectoryRow,
 } from "./layout";
 export { officersFromRoster, personToWebsiteOfficer } from "./website";

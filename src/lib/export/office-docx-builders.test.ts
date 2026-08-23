@@ -4,6 +4,7 @@ import {
   buildLetterheadDocx,
   buildSimpleLetterDocx,
   buildWelcomeLetterDocx,
+  buildLecDirectoryDocx,
 } from "./office-docx-builders";
 import { transparentPngBytes } from "./brand-logo-bytes";
 
@@ -108,4 +109,25 @@ describe("office-docx-builders", () => {
     expect(blob).toBeInstanceOf(Blob);
     expect(blob.size).toBeGreaterThan(8000);
   });
+
+  it("builds a blank LEC directory with placeholder rows and brand tokens", async () => {
+    const blob = await buildLecDirectoryDocx({
+      palette,
+      localLabel: "Local 110",
+      logo,
+      fields: {
+        termYears: "2026–2028",
+        subtitle: "Board copy",
+        officeEmail: "local@example.org",
+      },
+    });
+    expect(blob.size).toBeGreaterThan(5000);
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const docXml = await zip.file("word/document.xml")!.async("string");
+    expect(docXml).toContain("LOCAL EXECUTIVE COMMITTEE");
+    expect(docXml).toContain("Position");
+    expect(docXml).toContain("President");
+  });
+
 });

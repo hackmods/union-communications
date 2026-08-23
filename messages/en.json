@@ -1588,7 +1588,9 @@
       "eventIcs": "Calendar invite (.ics) from Calendar start/end",
       "eventEmail": "Copy-only RSVP invite email (on site / remote)",
       "eventPptx": "3 PowerPoint slides",
-      "seniorityWorksheetXlsx": "Seniority worksheet (Excel)"
+      "seniorityWorksheetXlsx": "Seniority worksheet (Excel)",
+      "lecDirectoryDocx": "Word LEC directory with Brand Kit colours and blank Position | Name | Location rows",
+      "lecDirectoryXlsx": "Excel LEC directory with the same blank rows"
     },
     "senioritySheet": {
       "sheetName": "Seniority",
@@ -1636,6 +1638,10 @@
       "seniorityWorksheet": {
         "title": "Seniority worksheet",
         "blurb": "Seniority worksheet for bumping files. Not a calculator."
+      },
+      "lecDirectory": {
+        "title": "LEC directory",
+        "blurb": "Blank officer table with your local colours and logo — fill names in Word after elections. Does not pull Org Chart or Hub data."
       }
     },
     "fields": {
@@ -1660,7 +1666,11 @@
       "sessionDate": "Session date",
       "chair": "Chair / facilitator",
       "caseId": "Hub bumping case ID",
-      "committeeNotes": "Committee notes"
+      "committeeNotes": "Committee notes",
+      "termYears": "Term years",
+      "officeEmail": "Office email",
+      "officePhone": "Office phone",
+      "officeAddress": "Office address"
     }
   },
   "solidarityPoster": {
@@ -2095,7 +2105,23 @@
     "bandExecutive": "Executive",
     "bandStewards": "Stewards",
     "bandCommittee": "Committees",
-    "canvasEmpty": "Add officers and stewards in the editor, or import last year’s JSON."
+    "canvasEmpty": "Add officers and stewards in the editor, or import last year’s JSON.",
+    "layout": "Layout",
+    "layoutPoster": "Poster",
+    "layoutDirectory": "Directory",
+    "formatLetterLandscape": "Letter landscape",
+    "formatTabloidLandscape": "Tabloid landscape",
+    "personMore": "More options",
+    "unit": "Unit (optional)",
+    "unitNone": "Not tagged",
+    "unitFt": "Full-time (FT)",
+    "unitPt": "Part-time (PT)",
+    "columnPosition": "Position",
+    "columnName": "Name",
+    "columnLocation": "Location",
+    "stewardsPosition": "Stewards",
+    "docGenHint": "Need a blank Word sheet after elections? Use Document Generator — it does not pull these names.",
+    "docGenLink": "Open LEC directory template"
   },
   "sources": {
     "title": "Sources & references",
@@ -3394,6 +3420,10 @@
       "first-week-print": {
         "title": "Print step on First week",
         "body": "The First week roadmap now includes print after union boards and before social posts, so a flyer is part of the same message as the board and the graphic."
+      },
+      "org-chart-directory": {
+        "title": "Org Chart directory layout + blank LEC Word sheet",
+        "body": "Print a Position | Name | Location directory or a poster, including landscape letter and tabloid. Need a blank branded Word table? Document Generator has an LEC directory template that does not pull your on-device names."
       }
     }
   },

@@ -2,6 +2,7 @@ import { z } from "zod";
 import {
   MAX_ROSTER_PEOPLE,
   PUBLIC_ROSTER_GROUPS,
+  PUBLIC_ROSTER_UNITS,
   PUBLIC_ROSTER_VERSION,
   type PublicRoster,
   type PublicRosterPerson,
@@ -17,6 +18,7 @@ const personSchema = z.object({
   committeeName: z.string().max(120).optional(),
   reportsToId: z.string().max(80).nullable().optional(),
   showOnWebsite: z.boolean(),
+  unit: z.enum(PUBLIC_ROSTER_UNITS).nullable().optional(),
 });
 
 const rosterSchema = z.object({
@@ -47,6 +49,7 @@ function looksLikeBrandKit(value: unknown): boolean {
 function normalizePerson(raw: z.infer<typeof personSchema>): PublicRosterPerson {
   const committeeName = raw.committeeName?.trim();
   const reportsToId = raw.reportsToId?.trim() || null;
+  const unit = raw.unit ?? null;
   const person: PublicRosterPerson = {
     id: raw.id,
     name: raw.name,
@@ -57,6 +60,7 @@ function normalizePerson(raw: z.infer<typeof personSchema>): PublicRosterPerson 
   };
   if (committeeName) person.committeeName = committeeName;
   if (reportsToId) person.reportsToId = reportsToId;
+  if (unit) person.unit = unit;
   return person;
 }
 

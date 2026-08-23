@@ -1,9 +1,11 @@
 import {
   MAX_ROSTER_PEOPLE,
   PUBLIC_ROSTER_GROUPS,
+  PUBLIC_ROSTER_UNITS,
   type PublicRoster,
   type PublicRosterGroup,
   type PublicRosterPerson,
+  type PublicRosterUnit,
 } from "@/types/public-roster";
 import { newRosterPersonId } from "./defaults";
 import {
@@ -19,6 +21,7 @@ export const PUBLIC_ROSTER_CSV_COLUMNS = [
   "committee",
   "showOnWebsite",
   "reportsTo",
+  "unit",
 ] as const;
 
 function parseCsvRows(text: string): string[][] {
@@ -114,10 +117,25 @@ export function serializePublicRosterCsv(roster: PublicRoster): string {
         csvEscape(person.committeeName ?? ""),
         person.showOnWebsite ? "true" : "false",
         csvEscape(reportsTo),
+        person.unit ?? "",
       ].join(","),
     );
   }
   return `${lines.join("\n")}\n`;
+}
+
+function parseUnit(raw: string): PublicRosterUnit | null {
+  const value = raw.trim().toLowerCase();
+  if ((PUBLIC_ROSTER_UNITS as readonly string[]).includes(value)) {
+    return value as PublicRosterUnit;
+  }
+  if (value === "full-time" || value === "fulltime" || value === "f/t") {
+    return "ft";
+  }
+  if (value === "part-time" || value === "parttime" || value === "p/t") {
+    return "pt";
+  }
+  return null;
 }
 
 function headerIndex(header: string[]): Record<string, number> {
@@ -152,6 +170,7 @@ export function parsePublicRosterCsv(text: string): RosterImportResult {
       parseGroup(cellAt(row, header.group)) ??
       (cellAt(row, header.committee) ? "committee" : "executive");
     const showDefault = group === "executive";
+    const unit = parseUnit(cellAt(row, header.unit));
     draft.push({
       id: newRosterPersonId(),
       name,
@@ -160,6 +179,7 @@ export function parsePublicRosterCsv(text: string): RosterImportResult {
       group,
       committeeName: cellAt(row, header.committee) || undefined,
       showOnWebsite: parseBool(cellAt(row, header.showonwebsite), showDefault),
+      ...(unit ? { unit } : {}),
       reportsToLabel: cellAt(row, header.reportsto),
     });
   }
