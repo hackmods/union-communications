@@ -1,5 +1,12 @@
 # Progress Log
 
+## Joint committees / EERC fit-gap (2026-08-23)
+
+- [x] Mapping only: PT/FT EERC is a provincial joint body; Hub org modules are local-scoped
+- [x] Session knowledge + ground truth — no public guide, no Home CTA, no OPSEU-named module
+- [x] Usable today: public Comms (letterhead / flyers / email-broadcast) + local UCC; Portal Circle type allows omitted `localId` but create API still stamps session local
+- Verify: `git ls-files docs/audit/session-knowledge-2026-08-23-eerc-committees.md`
+
 ## Membership audience by sector (2026-08-23)
 
 - [x] Brand Kit Audience (Full-time / Part-time) only for College Support; other sectors and unions keep All members and hide the dropdown

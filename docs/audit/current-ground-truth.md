@@ -2,6 +2,8 @@
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
 
+**Joint committees / EERC fit-gap (2026-08-23):** [`session-knowledge-2026-08-23-eerc-committees.md`](session-knowledge-2026-08-23-eerc-committees.md) — PT/FT EERC is a provincial joint union–employer body. Hub `/app/committees` is a local internal roster. Do not add an OPSEU-named module or host official joint minutes. Public Comms (letterhead, flyers, email-broadcast) and local UCC are the usable pieces today. Portal `Circle.localId` is optional in the type but `POST /api/portal/circles` still stamps session local.
+
 **Org Chart (2026-08-20):** [`session-knowledge-2026-08-20-org-chart.md`](session-knowledge-2026-08-20-org-chart.md) — `/tools/org-chart` is a public on-device officers/stewards poster + JSON/CSV. It hydrates Website Template. Do not pull Hub `/app/officers` or call it a member list. Lives under Union boards, not a fifth Tools column.
 
 **Session narrative + lessons (Hub → Proxmox → password-reset → Time 8c–8e → cron → GM invite):** [`session-knowledge-2026-07-24.md`](session-knowledge-2026-07-24.md)  
@@ -42,6 +44,7 @@
 | Workshop Demo Path + multiphase UX | Shipped 2026-08-08/09 | `WorkshopDemoPath`; `/guide/workshop`; Day-of run sheet; exportSuccess / RelatedTools / BrandSetup; Gap Fit backlog |
 | Brand Kit union presets (CUPE/Unifor/…) | Shipped — **Comms only** | Not Officer Hub tenant signup. Hub stays invite-only. `create_union` / `create_local` persist to Postgres when `DATABASE_URL` is set; overlay is the memory fallback. See session-knowledge president soft launch |
 | Whole-platform “free forever” | **Rejected 2026-08-19** | Comms stay free; hosted Officer Hub / Local Portal may recover hosting costs. `/manifesto` + ADR-019 |
+| OPSEU EERC Hub module | **Not a gap to build** | Provincial joint committee. Use Comms + local UCC; see [`session-knowledge-2026-08-23-eerc-committees.md`](session-knowledge-2026-08-23-eerc-committees.md). Do not host official minutes or name a core module EERC. |
 
 ## Three email/reminder surfaces (do not conflate)
 
