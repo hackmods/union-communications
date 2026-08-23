@@ -63,12 +63,16 @@ EERC sits at **union + division + provincial bargaining group** (PT CAAT-S acros
 | Seed PT exists only on Local 243 | [`seed/reference-tenant-opseu-caat.json`](../../seed/reference-tenant-opseu-caat.json); Local 560 is FT-only in seed |
 | `HubModule` has no committees/minutes flag | [`src/types/tenant.ts`](../../src/types/tenant.ts) — org tools are always-on Hub chrome, still local-scoped |
 | `stability_member` is bumping | [`docs/RBAC.md`](../RBAC.md) — not a provincial joint-committee role |
-| `division_admin` exists | Can cross-local some Hub lists; does **not** create a division-scoped committee workspace |
+| `division_admin` exists | Can **list** some Hub rows across locals when session `localId` is cleared; **create** still needs a local (`POST /api/committees` → 400 “Local required”). RBAC “Configure committee” on this role is **bumping/stability**, not ORG-004. |
+| Hub `/app/calendar` | Aggregates **grievance meetings + bumping sessions only** ([`hub-events.ts`](../../src/lib/calendar/hub-events.ts)). It does **not** show `/app/meetings` `UnionMeeting` rows. |
+
+Do not confuse **ORG-002** (`/app/officers`) with **ORG-004** (`/app/committees`). Minutes `meetingType: "committee"` is an enum tag only — there is no FK to `Committee`.
 
 Portal `Circle` is the only collaboration type with optional `localId` ([`src/types/portal.ts`](../../src/types/portal.ts)). In practice:
 
 - Seed Circles (Hall, LEC, JHSC) are all `local-243` ([`memory-adapter.ts`](../../src/lib/portal/memory-adapter.ts))
 - `POST /api/portal/circles` always stamps `session.user.localId` ([`circles/route.ts`](../../src/app/api/portal/circles/route.ts))
+- Portal is **memory-only** — there is no `PORTAL_DB_BACKEND` in [`backend.ts`](../../src/lib/db/backend.ts)
 
 So the type allows a union-only Circle; the API does not.
 
@@ -83,6 +87,7 @@ Use after **approved** official minutes, or for **union-side** drafts that never
 | Tool | Job for a committee volunteer |
 |---|---|
 | Document Generator `letterhead` / `simple-letter` | Recommendation letters, UCC opinion letters, bargaining-team briefs |
+| Document Generator `quick-event` | Local meeting notice + ICS / RSVP copy — LEC-shaped, not a provincial table |
 | Document Generator `lec-directory` | Empty branded roster sheet — LEC-shaped fields, not an EERC roster sync |
 | Graphic Maker, Flyer Maker, Board Notice, QR Card/Board | Member-facing “what was decided / what happens next” for **locals** |
 | `/guide/email-broadcast`, `/guide/workshop` | How to get an explainer out without a member marketing list |
@@ -97,7 +102,7 @@ Use after **approved** official minutes, or for **union-side** drafts that never
 |---|---|---|
 | Who is on the committee | `/app/committees` | Required `localId`; officer IDs from the **local** roster |
 | Motions / votes | `/app/minutes` | Robert’s Rules. EERC minutes are jointly signed subject summaries recorded by management |
-| Meeting dates / RSVP | `/app/meetings`, `/app/calendar` | Local membership meetings, not a 6×/year provincial table |
+| Meeting dates / RSVP | `/app/meetings` | Local membership events + token RSVP. Hub `/app/calendar` does **not** list these. |
 | Caucus to-dos | `/app/tasks`, discussions, check-ins | Required `localId` |
 | CA clause lookup | `/app/snippets` | Union-scoped snippets **can** omit `localId` — useful for system-wide issue cites |
 | “Is this already a grievance?” | `/app/grievances` | EERC must refuse live grievances; Hub cannot see another local’s cases unless elevated |
@@ -113,7 +118,7 @@ Do **not** reuse bumping `CommitteeSession` / `CommitteeNote` ([`src/types/bumpi
 
 An invited committee Circle with members from several colleges is the nearest “union caucus of 5” **if** create/list stop requiring a single `localId`. Until then, a partner can still use Comms tools solo, or a Circle that happens to live on their home local (other colleges’ members may not belong to that Hall).
 
-Caveats: Portal is hosted (not free-forever); Hub invite-only; default persistence is memory unless `*_DB_BACKEND` flips. Floor/Bulletin must never be the joint table with the employer.
+Caveats: Portal is hosted (not free-forever); Hub invite-only; **memory-only** (no Portal Postgres flag). Floor/Bulletin must never be the joint table with the employer.
 
 ---
 
@@ -131,7 +136,7 @@ Caveats: Portal is hosted (not free-forever); Hub invite-only; default persisten
 
 ## How to support a partner on PT EERC **now** (no new product)
 
-1. Brand Kit + Document Generator letterhead for union-side briefs and UCC opinion letters.
+1. Brand Kit + Document Generator letterhead for union-side briefs and UCC opinion letters; `quick-event` for a local meeting notice if they also sit on UCC.
 2. After approved minutes: Graphic / Flyer / email-broadcast explainer **for locals**, linking to official union/employer posts (registry URLs only when those IDs exist).
 3. `/app/snippets` for PT CA clause cites on system-wide issues (if they have Hub).
 4. Invited Portal Circle only if the five union members can actually sign in to the same tenant — today that Circle will still be stamped with one `localId`.
