@@ -167,6 +167,7 @@ interface LogoSettingsProps {
   /** Active identity pack — official logo variants come from this Look */
   identityPackId?: string;
   opseuSectorId?: string;
+  campaignPlate?: "primary" | "accent";
   primaryColor?: string;
   secondaryColor?: string;
   onModeChange: (mode: LogoMode) => void;
@@ -182,6 +183,7 @@ export function LogoSettings({
   unionPresetId,
   identityPackId,
   opseuSectorId,
+  campaignPlate,
   primaryColor = BRAND_COLORS.primary,
   secondaryColor = BRAND_COLORS.secondary,
   onModeChange,
@@ -196,6 +198,8 @@ export function LogoSettings({
     unionPresetId,
     opseuSectorId,
     useOfficialLogo,
+    campaignPlate,
+    primaryColor,
   });
   const showOfficialPack = Boolean(
     presetLogos?.useOfficialPack && officialLogos,

@@ -86,9 +86,14 @@ describe("comms-sources", () => {
     }
   });
 
-  it("points opseu-branding at the About hub (not legacy /12263 deep link)", () => {
-    expect(COMMS_SOURCES["opseu-branding"].url).toBe("https://opseu.org/about/");
+  it("points opseu-branding at the About OPSEU / SEFPO hub (not /about or legacy /12263)", () => {
+    expect(COMMS_SOURCES["opseu-branding"].url).toBe(
+      "https://opseu.org/about-opseu-sefpo/",
+    );
     expect(COMMS_SOURCES["opseu-branding"].url).not.toContain("12263");
+    expect(COMMS_SOURCES["opseu-branding"].url).not.toMatch(
+      /opseu\.org\/about\/?$/,
+    );
   });
 
   it("resolves OPSEU website ZIP footer links from the registry", () => {

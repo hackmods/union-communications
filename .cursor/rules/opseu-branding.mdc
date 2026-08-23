@@ -14,7 +14,7 @@ Strike/crisis comms live at `/guide/crisis` (not top nav) — OPSEU/local-focuse
 ## Official OPSEU colours
 **Canonical citation URL:** registry id `opseu-branding` in [`src/lib/constants/comms-sources.ts`](../../src/lib/constants/comms-sources.ts) — do not duplicate hrefs in pages; sync this rule when that URL changes.
 
-**Link health:** Registry id `opseu-branding` → `https://opseu.org/about/` (2026-07-30). Playbook: [`LINK-001`](../../docs/audit/execution-backlog.md) / [`external-links-audit-plan.md`](../../docs/audit/external-links-audit-plan.md) / [`.cursor/rules/external-links.mdc`](external-links.mdc).
+**Link health:** Registry id `opseu-branding` → `https://opseu.org/about-opseu-sefpo/` (2026-08-23). Playbook: [`LINK-001`](../../docs/audit/execution-backlog.md) / [`external-links.mdc`](external-links.mdc). Do not use `https://opseu.org/about/` — that slug currently lands on an unrelated OCOT page.
 
 | Token | Hex | Use |
 |-------|-----|-----|

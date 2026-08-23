@@ -49,4 +49,20 @@ describe("resolveBrandLogoPresentation", () => {
     expect(src).toContain("knockout");
     expect(cssFilter).toBeUndefined();
   });
+
+  it("uses the CAAT-S gold-plate lockup on gold primary without CSS filter", () => {
+    const kit: BrandKit = {
+      ...DEFAULT_BRAND_KIT,
+      unionPresetId: "opseu",
+      identityPackId: "opseu-caat-s",
+      campaignPlate: "accent",
+      useOfficialLogo: true,
+      officialLogoVariant: "lockup",
+      primaryColor: "#FFB837",
+      accentColor: "#EA5A4F",
+    };
+    const { src, cssFilter } = resolveBrandLogoPresentation(kit, "#FFB837");
+    expect(src).toContain("on-gold");
+    expect(cssFilter).toBeUndefined();
+  });
 });

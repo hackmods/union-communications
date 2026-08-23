@@ -175,6 +175,7 @@ export default function OnboardingPage() {
               unionPresetId={brandKit.unionPresetId}
               identityPackId={brandKit.identityPackId}
               opseuSectorId={brandKit.opseuSectorId}
+              campaignPlate={brandKit.campaignPlate}
               primaryColor={brandKit.primaryColor}
               secondaryColor={brandKit.secondaryColor}
               onModeChange={handleLogoModeChange}

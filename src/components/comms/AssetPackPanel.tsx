@@ -22,10 +22,7 @@ import {
   type IdentityPack,
 } from "@/lib/brand/identity-packs";
 import { resolveOpseuSectorId } from "@/lib/brand/collection-profiles";
-import {
-  COMMS_SOURCES,
-  isReferenceAssetPackVisible,
-} from "@/lib/constants/comms-sources";
+import { isReferenceAssetPackVisible } from "@/lib/constants/comms-sources";
 import { isUnionOpsLogoSrc } from "@/lib/constants/unionPresets";
 import { copyToClipboard, cn } from "@/lib/utils";
 import { INK_BLACK, pickContrastingInk } from "@/lib/utils/ink";
@@ -304,7 +301,6 @@ export function AssetPackPanel() {
     { name: t("swatchSecondary"), hex: ASSET_PACK_COLORS.secondary },
     { name: t("swatchBlack"), hex: ASSET_PACK_COLORS.black },
   ];
-  const opseuBranding = COMMS_SOURCES["opseu-branding"];
   const sectorId = resolveOpseuSectorId(
     brandKit.unionPresetId,
     brandKit.opseuSectorId,
@@ -470,37 +466,7 @@ export function AssetPackPanel() {
               />
             </div>
           </div>
-
-          <Callout tone="muted" className="mt-8 max-w-3xl">
-            <p className="text-sm text-gray-700">
-              {t("guidelines.sourceLabel")}{" "}
-              <a
-                href={opseuBranding.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-opseu-blue underline"
-              >
-                {opseuBranding.label}
-              </a>
-            </p>
-          </Callout>
         </section>
-      ) : null}
-
-      {showReferencePack && packsForDownloads.length > 0 ? (
-        <Callout tone="muted" className="mt-8 max-w-3xl">
-          <p className="text-sm text-gray-700">
-            {t("guidelines.sourceLabel")}{" "}
-            <a
-              href={opseuBranding.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-opseu-blue underline"
-            >
-              {opseuBranding.label}
-            </a>
-          </p>
-        </Callout>
       ) : null}
     </>
   );

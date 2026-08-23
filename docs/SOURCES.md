@@ -10,7 +10,7 @@ External resources cited across guides, tools, and exported materials. Canonical
 
 | Source | URL | Used in |
 |--------|-----|---------|
-| OPSEU / SEFPO graphics, logos & letterhead | https://opseu.org/about/ | Asset pack, Brand Kit defaults, all graphic tools (About → Download graphics) |
+| OPSEU / SEFPO graphics, logos & letterhead | https://opseu.org/about-opseu-sefpo/ | Asset pack, Brand Kit defaults, all graphic tools (national About hub; graphics pages move) |
 
 **Notes:** OPSEU blue `#003DA5` (Pantone 285). White `#FFFFFF` is the graphics accent on blue/dark backgrounds. See `.cursor/rules/opseu-branding.mdc`.
 

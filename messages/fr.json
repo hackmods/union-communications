@@ -2532,6 +2532,11 @@
       "hint": "Choisissez les couleurs et le logo collectif que les sections utilisent sur les tableaux et graphiques. Les collections ci-dessous changent seulement le texte — pas cette apparence.",
       "coloursDiffer": "Vos couleurs ne correspondent plus à cette apparence.",
       "resetToPack": "Rétablir les couleurs de l'apparence",
+      "platesLabel": "Fond de campagne",
+      "plates": {
+        "primary": "Plaque corail",
+        "accent": "Plaque or"
+      },
       "packs": {
         "opseu-national": {
           "name": "Bleu OPSEU / SEFPO",
@@ -3230,6 +3235,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "caat-s-gold-plate": {
+        "title": "Plaque or pour le Soutien collégial",
+        "body": "Les sections de soutien collégial peuvent choisir la plaque corail ou la plaque or dans la Trousse de marque. La plaque or utilise l'or comme couleur de campagne et le logo blanc et corail, pour que les affiches et babillards suivent le traitement or officiel CAAT-S."
+      },
       "caat-s-look": {
         "title": "Apparence Soutien collégial dans la Trousse de marque",
         "body": "Les sections de soutien collégial peuvent choisir l'apparence corail CAAT-S dans la Trousse de marque, ou garder le bleu national OPSEU / SEFPO. Les Actifs de marque offrent maintenant chaque variante de couleur et de fond à télécharger — pour babillards, réseaux sociaux et campagnes."

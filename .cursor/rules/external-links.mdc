@@ -41,7 +41,7 @@ National union websites reorganize often — **broken cited URLs are usually ups
 
 ## OPSEU branding URL
 
-Registry id `opseu-branding` → `https://opseu.org/about/` (2026-07-30). Legacy `/12263` deep links must not return. Re-check in browser if national site reorganizes again.
+Registry id `opseu-branding` → `https://opseu.org/about-opseu-sefpo/` (2026-08-23). The bare `/about/` slug landed on an unrelated OCOT page. Legacy `/12263` deep links must not return. Re-check in browser if national site reorganizes again.
 
 ## Multi-union
 

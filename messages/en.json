@@ -2532,6 +2532,11 @@
       "hint": "Pick the collective colours and lockup locals use on boards and graphics. Collections below only change the words — not this Look.",
       "coloursDiffer": "Your colours no longer match this Look.",
       "resetToPack": "Reset to Look colours",
+      "platesLabel": "Campaign plate",
+      "plates": {
+        "primary": "Coral plate",
+        "accent": "Gold plate"
+      },
       "packs": {
         "opseu-national": {
           "name": "OPSEU / SEFPO blue",
@@ -3278,6 +3283,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "caat-s-gold-plate": {
+        "title": "Gold plate for College Support",
+        "body": "College Support locals can pick coral or gold plate in Brand Kit. Gold plate uses gold as the campaign colour and the white-and-coral lockup, so posters and boards match the official CAAT-S gold treatment."
+      },
       "caat-s-look": {
         "title": "College Support Look in Brand Kit",
         "body": "College Support locals can pick the CAAT-S coral Look in Brand Kit, or keep national OPSEU / SEFPO blue. Brand Assets now ships every colour and plate variant for download — ready for boards, social, and campaigns."

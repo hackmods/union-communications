@@ -23,6 +23,14 @@ export const OPSEU_CAAT_S_PACK_ID = "opseu-caat-s";
 
 export type IdentityLogoVariant = "lockup" | "mark";
 
+/** Campaign plate for Looks that ship more than one official colour field. */
+export const CAMPAIGN_PLATES = ["primary", "accent"] as const;
+export type CampaignPlate = (typeof CAMPAIGN_PLATES)[number];
+
+export function isCampaignPlate(value: unknown): value is CampaignPlate {
+  return value === "primary" || value === "accent";
+}
+
 /** Preview plate behind a downloadable asset on /assets */
 export type IdentityAssetPlate =
   | "transparent"
@@ -57,6 +65,8 @@ export type IdentityPackLogos = {
   lockup: string;
   /** Knockout / reverse for dark or brand-coloured plates */
   lockupOnDark?: string;
+  /** Knockout / reverse for the accent campaign plate (e.g. CAAT-S gold) */
+  lockupOnAccent?: string;
   mark?: string;
   markOnDark?: string;
   /** Single-ink treatment (optional download / future variant) */
@@ -74,6 +84,12 @@ export type IdentityPack = {
   sectorIds?: string[];
   colors: IdentityPackColors;
   logos: IdentityPackLogos;
+  /**
+   * When more than one plate is listed, Brand Kit offers coral vs gold (etc.)
+   * without a second Look card. Omit for single-palette packs.
+   */
+  campaignPlates?: CampaignPlate[];
+  defaultCampaignPlate?: CampaignPlate;
   selectableVariants: IdentityLogoVariant[];
   defaultVariant: IdentityLogoVariant;
   /**
@@ -142,8 +158,12 @@ export const IDENTITY_PACKS: readonly IdentityPack[] = [
       lockup: "/assets/caat-s/logo-lockup-color.svg",
       // White + gold knockout from bilingual-02 (no coral plate) for primary fills
       lockupOnDark: "/assets/caat-s/logo-lockup-on-primary-knockout.svg",
+      // White + coral lockup on gold plate (bilingual-03)
+      lockupOnAccent: "/assets/caat-s/logo-lockup-on-gold.svg",
       oneColor: "/assets/caat-s/logo-lockup-one-color.svg",
     },
+    campaignPlates: ["primary", "accent"],
+    defaultCampaignPlate: "primary",
     selectableVariants: ["lockup"],
     defaultVariant: "lockup",
     assetVariants: [
@@ -229,12 +249,51 @@ export function identityPacksFor(
   return offered;
 }
 
-export function applyIdentityPack(pack: IdentityPack): BrandKitPatch {
+export function packOffersCampaignPlates(
+  pack: IdentityPack | undefined,
+): pack is IdentityPack & { campaignPlates: CampaignPlate[] } {
+  return Boolean(pack?.campaignPlates && pack.campaignPlates.length > 1);
+}
+
+export function coerceCampaignPlate(
+  pack: IdentityPack | undefined,
+  plate: string | undefined,
+): CampaignPlate {
+  if (packOffersCampaignPlates(pack)) {
+    if (isCampaignPlate(plate) && pack.campaignPlates.includes(plate)) {
+      return plate;
+    }
+    return pack.defaultCampaignPlate ?? pack.campaignPlates[0] ?? "primary";
+  }
+  return "primary";
+}
+
+export function colorsForCampaignPlate(
+  pack: IdentityPack,
+  plate: CampaignPlate,
+): IdentityPackColors {
+  if (plate === "accent") {
+    return {
+      primaryColor: pack.colors.accentColor,
+      secondaryColor: pack.colors.secondaryColor,
+      accentColor: pack.colors.primaryColor,
+    };
+  }
+  return { ...pack.colors };
+}
+
+export function applyIdentityPack(
+  pack: IdentityPack,
+  plate?: CampaignPlate,
+): BrandKitPatch {
+  const resolved = coerceCampaignPlate(pack, plate);
+  const colors = colorsForCampaignPlate(pack, resolved);
   return {
     identityPackId: pack.id,
-    primaryColor: pack.colors.primaryColor,
-    secondaryColor: pack.colors.secondaryColor,
-    accentColor: pack.colors.accentColor,
+    campaignPlate: packOffersCampaignPlates(pack) ? resolved : undefined,
+    primaryColor: colors.primaryColor,
+    secondaryColor: colors.secondaryColor,
+    accentColor: colors.accentColor,
     useOfficialLogo: true,
     officialLogoVariant: pack.defaultVariant,
     // Clear any prior UnionOps / upload path so BrandLogo + picker stay in sync
@@ -246,11 +305,45 @@ export function colorsMatchIdentityPack(
   kit: Pick<BrandKit, "primaryColor" | "secondaryColor" | "accentColor">,
   pack: IdentityPack,
 ): boolean {
-  return (
-    kit.primaryColor.toUpperCase() === pack.colors.primaryColor.toUpperCase() &&
-    kit.secondaryColor.toUpperCase() === pack.colors.secondaryColor.toUpperCase() &&
-    kit.accentColor.toUpperCase() === pack.colors.accentColor.toUpperCase()
-  );
+  const plates: CampaignPlate[] = packOffersCampaignPlates(pack)
+    ? pack.campaignPlates
+    : ["primary"];
+  return plates.some((plate) => {
+    const colors = colorsForCampaignPlate(pack, plate);
+    return (
+      kit.primaryColor.toUpperCase() === colors.primaryColor.toUpperCase() &&
+      kit.secondaryColor.toUpperCase() === colors.secondaryColor.toUpperCase() &&
+      kit.accentColor.toUpperCase() === colors.accentColor.toUpperCase()
+    );
+  });
+}
+
+export function resolveCampaignPlateForKit(
+  kit: Pick<BrandKit, "identityPackId" | "campaignPlate" | "primaryColor">,
+): CampaignPlate {
+  const pack = getIdentityPack(kit.identityPackId);
+  if (!packOffersCampaignPlates(pack)) return "primary";
+  if (
+    isCampaignPlate(kit.campaignPlate) &&
+    pack.campaignPlates.includes(kit.campaignPlate)
+  ) {
+    return kit.campaignPlate;
+  }
+  if (
+    kit.primaryColor?.toUpperCase() === pack.colors.accentColor.toUpperCase()
+  ) {
+    return "accent";
+  }
+  return coerceCampaignPlate(pack, kit.campaignPlate);
+}
+
+export function normalizeCampaignPlate(
+  raw: unknown,
+  identityPackId: string | undefined,
+): CampaignPlate | undefined {
+  const pack = getIdentityPack(identityPackId);
+  if (!packOffersCampaignPlates(pack)) return undefined;
+  return coerceCampaignPlate(pack, typeof raw === "string" ? raw : undefined);
 }
 
 /**
@@ -295,15 +388,26 @@ export type ResolvedOfficialLogos = {
 export function resolveOfficialLogos(
   kit: Pick<
     BrandKit,
-    "identityPackId" | "unionPresetId" | "opseuSectorId" | "useOfficialLogo"
+    | "identityPackId"
+    | "unionPresetId"
+    | "opseuSectorId"
+    | "useOfficialLogo"
+    | "campaignPlate"
+    | "primaryColor"
   >,
 ): ResolvedOfficialLogos | null {
   const pack = resolveIdentityPackForKit(kit);
   if (!pack) return null;
 
+  const plate = resolveCampaignPlateForKit(kit);
+  const lockupOnPlate =
+    plate === "accent" && pack.logos.lockupOnAccent
+      ? pack.logos.lockupOnAccent
+      : pack.logos.lockupOnDark;
+
   const lockup: ResolvedOfficialLogoAsset = {
     src: pack.logos.lockup,
-    srcOnDark: pack.logos.lockupOnDark,
+    srcOnDark: lockupOnPlate,
     aspect: "wide",
     selectable: pack.selectableVariants.includes("lockup"),
   };
@@ -437,6 +541,12 @@ export function identityPackAssetGaps(): string[] {
       if (!variant.labelKey.trim()) {
         gaps.push(`${pack.id}/${variant.id}: missing labelKey`);
       }
+    }
+    if (
+      pack.campaignPlates?.includes("accent") &&
+      !pack.logos.lockupOnAccent
+    ) {
+      gaps.push(`${pack.id}: accent plate needs logos.lockupOnAccent`);
     }
   }
   return gaps;

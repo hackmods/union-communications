@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { applyIdentityPack, getIdentityPack } from "@/lib/brand/identity-packs";
 import { useBrandStore } from "@/store/brand-store";
@@ -20,6 +20,9 @@ vi.mock("next-intl", () => ({
       "packs.opseu-caat-s.name": "College Support (CAAT-S)",
       "packs.opseu-caat-s.description":
         "Coral and gold bilingual College Support lockup preferred by many CAAT-S locals.",
+      platesLabel: "Campaign plate",
+      "plates.primary": "Coral plate",
+      "plates.accent": "Gold plate",
     };
     return copy[key] ?? key;
   },
@@ -28,6 +31,7 @@ vi.mock("next-intl", () => ({
 function seedOpseuCaatSKit() {
   const pack = getIdentityPack("opseu-caat-s")!;
   useBrandStore.setState({
+    hydrated: true,
     brandKit: {
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
@@ -44,7 +48,7 @@ describe("IdentityPackPicker layout", () => {
 
   afterEach(() => {
     cleanup();
-    useBrandStore.setState({ brandKit: DEFAULT_BRAND_KIT });
+    useBrandStore.setState({ brandKit: DEFAULT_BRAND_KIT, hydrated: false });
   });
 
   it("keeps Look cards width-capped so CAAT-S copy wraps instead of overflowing", () => {
@@ -80,6 +84,19 @@ describe("IdentityPackPicker layout", () => {
     expect(
       screen.getByRole("radio", { name: /College Support \(CAAT-S\)/ }),
     ).toBeChecked();
+  });
+
+  it("lets a steward pick the gold campaign plate", () => {
+    render(<IdentityPackPicker />);
+
+    const gold = screen.getByRole("radio", { name: /Gold plate/ });
+    expect(gold).toHaveAttribute("aria-checked", "false");
+    fireEvent.click(gold);
+
+    expect(useBrandStore.getState().brandKit.campaignPlate).toBe("accent");
+    expect(useBrandStore.getState().brandKit.primaryColor).toBe("#FFB837");
+    expect(useBrandStore.getState().brandKit.accentColor).toBe("#EA5A4F");
+    expect(gold).toHaveAttribute("aria-checked", "true");
   });
 });
 

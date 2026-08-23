@@ -93,7 +93,7 @@ When Graphic Maker asks for photo consent, pause and point to `/guide/photo-cons
 Full bibliography: `/en/guide/resources` (also in [`docs/SOURCES.md`](../SOURCES.md)).
 
 Key references for facilitators:
-- **Branding:** [OPSEU graphics & letterhead](https://opseu.org/about/) (About page → Download graphics)
+- **Branding:** [OPSEU graphics & letterhead](https://opseu.org/about-opseu-sefpo/) (national About hub; graphics pages move)
 - **Website example:** [local243.org](https://local243.org)
 - **Hosting:** [GitHub Pages docs](https://docs.github.com/en/pages)
 - **Accessibility:** [WCAG 2.1](https://www.w3.org/TR/WCAG21/), [AODA](https://www.ontario.ca/page/accessibility-laws)

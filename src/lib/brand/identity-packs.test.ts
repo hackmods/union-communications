@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   CAAT_S_COLORS,
@@ -34,6 +34,7 @@ describe("identity-packs", () => {
       for (const src of [
         pack.logos.lockup,
         pack.logos.lockupOnDark,
+        pack.logos.lockupOnAccent,
         pack.logos.mark,
         pack.logos.markOnDark,
         pack.logos.oneColor,
@@ -69,8 +70,32 @@ describe("identity-packs", () => {
     expect(patch.identityPackId).toBe(OPSEU_CAAT_S_PACK_ID);
     expect(patch.primaryColor).toBe(CAAT_S_COLORS.primaryColor);
     expect(patch.accentColor).toBe(CAAT_S_COLORS.accentColor);
+    expect(patch.campaignPlate).toBe("primary");
     expect(patch.useOfficialLogo).toBe(true);
     expect(patch.officialLogoVariant).toBe("lockup");
+  });
+
+  it("swaps coral and gold when the accent plate is applied", () => {
+    const caat = getIdentityPack(OPSEU_CAAT_S_PACK_ID)!;
+    const patch = applyIdentityPack(caat, "accent");
+    expect(patch.campaignPlate).toBe("accent");
+    expect(patch.primaryColor).toBe(CAAT_S_COLORS.accentColor);
+    expect(patch.accentColor).toBe(CAAT_S_COLORS.primaryColor);
+    expect(
+      colorsMatchIdentityPack(
+        {
+          primaryColor: patch.primaryColor!,
+          secondaryColor: patch.secondaryColor!,
+          accentColor: patch.accentColor!,
+        },
+        caat,
+      ),
+    ).toBe(true);
+  });
+
+  it("clears campaignPlate when applying a single-palette Look", () => {
+    const national = getIdentityPack(OPSEU_NATIONAL_PACK_ID)!;
+    expect(applyIdentityPack(national).campaignPlate).toBeUndefined();
   });
 
   it("resolves missing identityPackId to national for OPSEU official kits", () => {
@@ -98,6 +123,20 @@ describe("identity-packs", () => {
     expect(logos?.lockup.srcOnDark).toContain("knockout");
     expect(logos?.selectableVariants).toEqual(["lockup"]);
     expect(logos?.mark).toBeUndefined();
+  });
+
+  it("uses the gold-plate lockup when the accent campaign plate is active", () => {
+    const kit = {
+      ...DEFAULT_BRAND_KIT,
+      unionPresetId: "opseu",
+      identityPackId: OPSEU_CAAT_S_PACK_ID,
+      campaignPlate: "accent" as const,
+      useOfficialLogo: true,
+      primaryColor: CAAT_S_COLORS.accentColor,
+      accentColor: CAAT_S_COLORS.primaryColor,
+    };
+    const logos = resolveOfficialLogos(kit);
+    expect(logos?.lockup.srcOnDark).toContain("on-gold");
   });
 
   it("detects colour drift from the active pack", () => {
@@ -137,6 +176,38 @@ describe("identity-packs", () => {
     for (const variant of caat.assetVariants) {
       const disk = join(process.cwd(), "public", variant.src.replace(/^\//, ""));
       expect(existsSync(disk), `missing ${variant.src}`).toBe(true);
+    }
+  });
+
+  it("normalizes CAAT-S SVG artboards so plated downloads cover the viewBox", () => {
+    const caat = getIdentityPack(OPSEU_CAAT_S_PACK_ID)!;
+    const platedIds = new Set(["on-primary", "on-gold"]);
+
+    for (const variant of caat.assetVariants) {
+      if (!variant.src.endsWith(".svg")) continue;
+      const disk = join(process.cwd(), "public", variant.src.replace(/^\//, ""));
+      const svg = readFileSync(disk, "utf8");
+      expect(svg, variant.src).toMatch(/viewBox="0 0 174 97"/);
+      expect(svg, variant.src).toMatch(/width="174"/);
+      expect(svg, variant.src).toMatch(/height="97"/);
+      expect(svg, variant.src).toMatch(/<g transform="translate\(/);
+
+      const rects = [
+        ...svg.matchAll(
+          /<rect\b[^>]*\bwidth="([^"]+)"[^>]*\bheight="([^"]+)"[^>]*\/>/g,
+        ),
+      ];
+      const isPlated = platedIds.has(variant.id);
+      if (isPlated) {
+        expect(rects.length, `${variant.id} plate rect`).toBeGreaterThan(0);
+        const first = rects[0]!;
+        expect(Number(first[1])).toBe(174);
+        expect(Number(first[2])).toBe(97);
+        expect(svg).toMatch(/<rect[^>]*\bx="0"/);
+        expect(svg).toMatch(/<rect[^>]*\by="0"/);
+      } else {
+        expect(rects.length, `${variant.id} should be plate-free`).toBe(0);
+      }
     }
   });
 });

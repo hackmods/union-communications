@@ -13,8 +13,8 @@ Source: `2017-05 CAAT-S-bilingual-*.eps` / matching SVG exports.
 
 Brand tokens from the art: primary `#EA5A4F`, accent `#FFB837`.
 
-SVG `viewBox` values are cropped to the lockup content (Illustrator exports
-shipped as 252×252 squares with large empty margin). Each file also sets
-explicit `width`/`height` and inline `fill` attributes (no `<style>` classes)
-so Brand Kit `<img>` previews do not collapse. Keep crops tight when replacing
-assets so Look cards stay OPSEU-tight in the UI.
+SVG files share a single artboard (`viewBox="0 0 174 97"` with matching
+`width`/`height`). Plated variants (`on-primary`, `on-gold`) draw a colour
+`<rect>` that covers that viewBox so downloads match the Brand Assets preview.
+Transparent variants stay plate-free. Keep crops tight when replacing assets
+so Look cards stay OPSEU-tight in the UI.

@@ -1,5 +1,12 @@
 # Progress Log
 
+## CAAT-S president feedback (2026-08-23)
+
+- [x] CAAT-S SVG downloads use a shared 174×97 artboard; coral and gold plates cover the full viewBox
+- [x] `opseu-branding` → `https://opseu.org/about-opseu-sefpo/` (bare `/about/` landed on OCOT); `/assets` keeps a single SourcesBlock citation
+- [x] College Support Look offers coral or gold campaign plate in Brand Kit (gold swaps primary/accent and uses the on-gold lockup)
+- Verify: `npm run test:unit -- src/lib/brand/identity-packs.test.ts src/lib/brand/resolve-logo-presentation.test.ts src/lib/constants/comms-sources.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts src/components/brand/IdentityPackPicker.test.tsx`
+
 ## Brand Kit CAAT-S Look mobile overflow (2026-08-23)
 
 - [x] Look gallery cards no longer size to max-content of the long CAAT-S description — width-capped + wrapping copy, `min-w-0` on Card / Brand Kit grid

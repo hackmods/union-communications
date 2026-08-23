@@ -4,7 +4,10 @@ import {
   reconcileActiveProfileId,
   resolveOpseuSectorId,
 } from "@/lib/brand/collection-profiles";
-import { normalizeIdentityPackId } from "@/lib/brand/identity-packs";
+import {
+  normalizeCampaignPlate,
+  normalizeIdentityPackId,
+} from "@/lib/brand/identity-packs";
 import { alignOpseuMembershipPrimary } from "@/lib/brand/membership-primary";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { normalizeBrandKitCanvas } from "@/lib/utils/canvas-tokens";
@@ -209,6 +212,11 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
     customLogoDataUrl = undefined;
   }
 
+  const identityPackId = normalizeIdentityPackId(
+    input.identityPackId,
+    unionPresetId,
+  );
+
   return {
     ...base,
     ...input,
@@ -231,7 +239,8 @@ export function normalizeBrandKit(raw: unknown): BrandKit {
     customLogoDataUrl,
     unionPresetId,
     opseuSectorId,
-    identityPackId: normalizeIdentityPackId(input.identityPackId, unionPresetId),
+    identityPackId,
+    campaignPlate: normalizeCampaignPlate(input.campaignPlate, identityPackId),
     websiteUrl: trimUrl(input.websiteUrl),
     facebookUrl: trimUrl(input.facebookUrl),
     customLinks: normalizeCustomLinks(input.customLinks),

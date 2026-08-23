@@ -52,7 +52,7 @@ flowchart TD
 
 | `id` / key | URL (as in repo) | Locations beyond registry |
 |------------|------------------|---------------------------|
-| `opseu-branding` | `https://opseu.org/about/` | Registry only ( `/assets` imports `COMMS_SOURCES`) |
+| `opseu-branding` | `https://opseu.org/about-opseu-sefpo/` | Registry only; `/assets` SourcesBlock (duplicate Callout removed 2026-08-23) |
 | `opseu-member-portal` | `https://members.opseu.org/` | `generate-website-zip.ts` |
 | `opseu-collective-agreements` | `https://opseu.org/bargaining/collective-agreements-and-arbitration-awards/` | `generate-website-zip.ts` |
 | `opseu-forms` | `https://opseu.org/about-opseu-sefpo/forms-documents/` | `generate-website-zip.ts` |
@@ -70,7 +70,8 @@ flowchart TD
 **Replacement candidates to verify in browser before editing registry:**
 
 - Same path with trailing slash
-- `https://opseu.org/about/` (“Download graphics”)
+- `https://opseu.org/about-opseu-sefpo/` (About OPSEU / SEFPO hub)
+- `https://opseu.org/about/` — **do not use**; lands on an unrelated OCOT page (president report 2026-08-23)
 - `https://opseu.org/opseu-members-tools-and-resources/`
 
 ---
@@ -133,3 +134,4 @@ Merge output with `docs/SOURCES.md` table.
 | Date | URL | Outcome | Notes |
 |------|-----|---------|-------|
 | 2026-07-30 | `…/12263` (opseu-branding) | **Replaced** | → `https://opseu.org/about/` (About → Download graphics); `lastVerified` on registry |
+| 2026-08-23 | `https://opseu.org/about/` (opseu-branding) | **Replaced** | Steward report: slug landed on About OCOT. → `https://opseu.org/about-opseu-sefpo/`; still forbid `/12263` |

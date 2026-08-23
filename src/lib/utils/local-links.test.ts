@@ -269,6 +269,35 @@ describe("normalizeBrandKit official logo vs custom mark", () => {
     expect(roundTripped.customLogoDataUrl).toBeUndefined();
   });
 
+  it("keeps a CAAT-S gold campaign plate through a JSON round-trip", () => {
+    const saved = normalizeBrandKit({
+      ...DEFAULT_BRAND_KIT,
+      unionPresetId: "opseu",
+      identityPackId: "opseu-caat-s",
+      campaignPlate: "accent",
+      useOfficialLogo: true,
+      officialLogoVariant: "lockup",
+      customLogoDataUrl: undefined,
+      primaryColor: "#FFB837",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#EA5A4F",
+    });
+    const roundTripped = normalizeBrandKit(JSON.parse(JSON.stringify(saved)));
+    expect(roundTripped.campaignPlate).toBe("accent");
+    expect(roundTripped.primaryColor).toBe("#FFB837");
+  });
+
+  it("drops campaignPlate when the Look does not offer plates", () => {
+    const kit = normalizeBrandKit({
+      ...DEFAULT_BRAND_KIT,
+      unionPresetId: "opseu",
+      identityPackId: "opseu-national",
+      campaignPlate: "accent",
+      useOfficialLogo: true,
+    });
+    expect(kit.campaignPlate).toBeUndefined();
+  });
+
   it("keeps a custom upload when official logo is off", () => {
     const kit = normalizeBrandKit({
       ...DEFAULT_BRAND_KIT,

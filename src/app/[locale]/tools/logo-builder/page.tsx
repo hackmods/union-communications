@@ -208,6 +208,8 @@ export default function LogoBuilderPage() {
               customLogoDataUrl={brandKit.customLogoDataUrl}
               logoText={brandKit.logoText}
               unionPresetId={brandKit.unionPresetId}
+              identityPackId={brandKit.identityPackId}
+              campaignPlate={brandKit.campaignPlate}
               primaryColor={state.primaryColor}
               secondaryColor={state.secondaryColor}
               onModeChange={(mode) => {

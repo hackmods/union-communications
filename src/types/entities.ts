@@ -109,6 +109,11 @@ export interface BrandKit {
    * profiles. OPSEU defaults to national blue; College Support may pick CAAT-S.
    */
   identityPackId?: string;
+  /**
+   * Campaign plate for Looks that ship coral vs gold (etc.).
+   * `"primary"` is the pack default; `"accent"` swaps primary/accent colours.
+   */
+  campaignPlate?: "primary" | "accent";
   divisionId?: string;
   /** Local website (optional) - used by QR cards, posters, website template */
   websiteUrl?: string;

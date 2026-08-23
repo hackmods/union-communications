@@ -30,10 +30,10 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     id: "opseu-branding",
     category: "branding",
     label: "OPSEU / SEFPO graphics, logos & letterhead",
-    url: "https://opseu.org/about/",
-    note: "About page links to downloadable logos, letterhead, and colour specs. Official OPSEU / SEFPO blue (#003DA5, Pantone 285). White is the graphics accent on blue/dark backgrounds. Mirrored PNGs on UnionOps /assets.",
+    url: "https://opseu.org/about-opseu-sefpo/",
+    note: "National About hub. Graphics downloads move when the national site reorganizes — Brand Assets on this site mirrors logos and colour specs.",
     unionIds: OPSEU_SCOPE,
-    lastVerified: "2026-07-30",
+    lastVerified: "2026-08-23",
   },
   "opseu-home": {
     id: "opseu-home",
