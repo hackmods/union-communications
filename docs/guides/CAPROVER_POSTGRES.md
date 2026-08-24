@@ -101,6 +101,15 @@ You can leave `*_DB_BACKEND` unset (memory) for this step — the goal is to con
 
 If migrate fails, the container **refuses to start** unless `MIGRATE_CONTINUE_ON_ERROR=true` (debug only).
 
+**Droplet check** (optional — if App Logs are noisy):
+
+```bash
+export MIGRATE_DATABASE_URL='postgres://postgres:OWNER_PASSWORD@srv-captain--postgres-unionops:5432/unionops'
+bash scripts/caprover-verify-migrate.sh
+```
+
+Expect `drizzle_table=1`, `migration_rows>0`, `app_role=1`.
+
 ### Step C — One-shot seed (reference tenant + platform admin)
 
 Seeding is **not** automatic on boot (would upsert demo users). Run once:
