@@ -1,16 +1,16 @@
-import { NextResponse } from "next/server";
 import { requirePortalSession } from "@/lib/portal/portal-session";
 import { portalStore } from "@/lib/portal/memory-adapter";
 import { canCreateCircle } from "@/lib/portal/access";
 import { hydrateLocalHall } from "@/lib/portal/hall-roster";
 import { getLocalById } from "@/lib/tenant/loader";
 import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
+import { portalJson } from "@/lib/portal/portal-json";
 import type { UserRole } from "@/types/tenant";
 
 export async function GET() {
   const authResult = await requirePortalSession();
   if (!authResult.ok) {
-    return NextResponse.json(
+    return portalJson(
       { error: authResult.error },
       { status: authResult.status },
     );
@@ -34,5 +34,5 @@ export async function GET() {
     });
   }
   const station = portalStore.listStation(unionId, session.user.id);
-  return NextResponse.json({ station });
+  return portalJson({ station });
 }

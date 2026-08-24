@@ -1,16 +1,16 @@
-import { NextResponse } from "next/server";
 import { requirePortalSession } from "@/lib/portal/portal-session";
 import { canCreateCircle } from "@/lib/portal/access";
 import { hydrateLocalHall } from "@/lib/portal/hall-roster";
 import { getLocalById } from "@/lib/tenant/loader";
 import { hydrateTenantOverlayFromPostgres } from "@/lib/tenant/persist";
+import { portalJson } from "@/lib/portal/portal-json";
 import type { UserRole } from "@/types/tenant";
 
 /** Ensure this session's local has a Hall and the known roster is joined. */
 export async function POST() {
   const authResult = await requirePortalSession();
   if (!authResult.ok) {
-    return NextResponse.json(
+    return portalJson(
       { error: authResult.error },
       { status: authResult.status },
     );
@@ -18,7 +18,7 @@ export async function POST() {
   const { session } = authResult;
   const localId = session.user.localId;
   if (!localId) {
-    return NextResponse.json({ error: "Missing local context" }, { status: 400 });
+    return portalJson({ error: "Missing local context" }, { status: 400 });
   }
   await hydrateTenantOverlayFromPostgres();
   const unionId = session.user.unionId!;
@@ -34,5 +34,5 @@ export async function POST() {
       admin: canCreateCircle(roles),
     },
   });
-  return NextResponse.json({ circle });
+  return portalJson({ circle });
 }

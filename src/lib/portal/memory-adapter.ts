@@ -1338,15 +1338,27 @@ export class MemoryPortalAdapter {
   }
 
   addComment(input: {
+    circleId: string;
+    unionId: string;
     postId: string;
     authorId: string;
     authorName: string;
     body: string;
-  }): BulletinComment {
-    const post = bulletin.find((p) => p.id === input.postId && !p.deletedAt);
+  }): BulletinComment | null {
+    const post = bulletin.find(
+      (p) =>
+        p.id === input.postId &&
+        p.circleId === input.circleId &&
+        p.unionId === input.unionId &&
+        !p.deletedAt,
+    );
+    if (!post) return null;
     const comment: BulletinComment = {
       id: id("bc"),
-      ...input,
+      postId: input.postId,
+      authorId: input.authorId,
+      authorName: input.authorName,
+      body: input.body,
       createdAt: now(),
     };
     comments.push(comment);
@@ -1395,8 +1407,15 @@ export class MemoryPortalAdapter {
     return item;
   }
 
-  completeAction(actionId: string, unionId: string): ActionItem | null {
-    const a = actions.find((x) => x.id === actionId && x.unionId === unionId);
+  completeAction(
+    actionId: string,
+    circleId: string,
+    unionId: string,
+  ): ActionItem | null {
+    const a = actions.find(
+      (x) =>
+        x.id === actionId && x.circleId === circleId && x.unionId === unionId,
+    );
     if (!a) return null;
     a.completedAt = now();
     a.updatedAt = now();
@@ -1471,7 +1490,14 @@ export class MemoryPortalAdapter {
     authorId: string;
     authorName: string;
     body: string;
-  }): RollCallAnswer {
+  }): RollCallAnswer | null {
+    const question = rollQuestions.find(
+      (q) =>
+        q.id === input.questionId &&
+        q.circleId === input.circleId &&
+        q.active,
+    );
+    if (!question) return null;
     const answer: RollCallAnswer = {
       id: id("rca"),
       ...input,
@@ -1484,12 +1510,16 @@ export class MemoryPortalAdapter {
   movePipelineCard(
     cardId: string,
     columnId: string,
+    circleId: string,
     unionId: string,
   ): PipelineCard | null {
     const card = pipelineCards.find((c) => c.id === cardId);
     if (!card) return null;
     const board = boards.find(
-      (b) => b.id === card.boardId && b.unionId === unionId,
+      (b) =>
+        b.id === card.boardId &&
+        b.circleId === circleId &&
+        b.unionId === unionId,
     );
     if (!board) return null;
     card.columnId = columnId;
@@ -1513,12 +1543,19 @@ export class MemoryPortalAdapter {
   }
 
   addPipelineCard(input: {
+    circleId: string;
+    unionId: string;
     boardId: string;
     columnId: string;
     title: string;
     body?: string;
   }): PipelineCard | null {
-    const board = boards.find((b) => b.id === input.boardId);
+    const board = boards.find(
+      (b) =>
+        b.id === input.boardId &&
+        b.circleId === input.circleId &&
+        b.unionId === input.unionId,
+    );
     if (!board) return null;
     const card: PipelineCard = {
       id: id("pc"),
@@ -1577,12 +1614,17 @@ export class MemoryPortalAdapter {
   softDelete(
     resourceType: "bulletin" | "action" | "binder",
     resourceId: string,
+    circleId: string,
     unionId: string,
     userId: string,
   ): boolean {
     if (resourceType === "bulletin") {
       const post = bulletin.find(
-        (p) => p.id === resourceId && p.unionId === unionId && !p.deletedAt,
+        (p) =>
+          p.id === resourceId &&
+          p.circleId === circleId &&
+          p.unionId === unionId &&
+          !p.deletedAt,
       );
       if (!post) return false;
       post.deletedAt = now();
@@ -1599,7 +1641,11 @@ export class MemoryPortalAdapter {
     }
     if (resourceType === "action") {
       const a = actions.find(
-        (x) => x.id === resourceId && x.unionId === unionId && !x.deletedAt,
+        (x) =>
+          x.id === resourceId &&
+          x.circleId === circleId &&
+          x.unionId === unionId &&
+          !x.deletedAt,
       );
       if (!a) return false;
       a.deletedAt = now();
@@ -1615,7 +1661,11 @@ export class MemoryPortalAdapter {
       return true;
     }
     const item = binder.find(
-      (b) => b.id === resourceId && b.unionId === unionId && !b.deletedAt,
+      (b) =>
+        b.id === resourceId &&
+        b.circleId === circleId &&
+        b.unionId === unionId &&
+        !b.deletedAt,
     );
     if (!item) return false;
     item.deletedAt = now();
@@ -1728,8 +1778,19 @@ export class MemoryPortalAdapter {
     return { created: result.created, rows: rows.length };
   }
 
-  pinBulletin(postId: string, unionId: string, pinned: boolean): BulletinPost | null {
-    const post = bulletin.find((p) => p.id === postId && p.unionId === unionId);
+  pinBulletin(
+    postId: string,
+    circleId: string,
+    unionId: string,
+    pinned: boolean,
+  ): BulletinPost | null {
+    const post = bulletin.find(
+      (p) =>
+        p.id === postId &&
+        p.circleId === circleId &&
+        p.unionId === unionId &&
+        !p.deletedAt,
+    );
     if (!post) return null;
     post.pinned = pinned;
     post.updatedAt = now();
@@ -1745,11 +1806,14 @@ export class MemoryPortalAdapter {
     progress: number;
     updatedById: string;
     updatedByName: string;
-  }): MomentumItem {
+  }): MomentumItem | null {
     const progress = Math.max(0, Math.min(100, Math.round(input.progress)));
     if (input.id) {
       const existing = momentum.find(
-        (m) => m.id === input.id && m.unionId === input.unionId,
+        (m) =>
+          m.id === input.id &&
+          m.circleId === input.circleId &&
+          m.unionId === input.unionId,
       );
       if (existing) {
         existing.title = input.title;
@@ -1760,6 +1824,7 @@ export class MemoryPortalAdapter {
         existing.updatedAt = now();
         return existing;
       }
+      return null;
     }
     const item: MomentumItem = {
       id: id("mom"),

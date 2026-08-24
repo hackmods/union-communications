@@ -1,11 +1,12 @@
-import { NextResponse } from "next/server";
 import { requirePortalSession } from "@/lib/portal/portal-session";
 import { portalStore } from "@/lib/portal/memory-adapter";
+import { listCircleInviteCandidates } from "@/lib/portal/circle-invitees";
+import { portalJson } from "@/lib/portal/portal-json";
 
 export async function GET(request: Request) {
   const authResult = await requirePortalSession();
   if (!authResult.ok) {
-    return NextResponse.json(
+    return portalJson(
       { error: authResult.error },
       { status: authResult.status },
     );
@@ -19,21 +20,21 @@ export async function GET(request: Request) {
       threadId,
     );
     if (!messages) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return portalJson({ error: "Not found" }, { status: 404 });
     }
-    return NextResponse.json({ messages });
+    return portalJson({ messages });
   }
   const threads = portalStore.listSidebarThreads(
     session.user.unionId!,
     session.user.id,
   );
-  return NextResponse.json({ threads });
+  return portalJson({ threads });
 }
 
 export async function POST(request: Request) {
   const authResult = await requirePortalSession();
   if (!authResult.ok) {
-    return NextResponse.json(
+    return portalJson(
       { error: authResult.error },
       { status: authResult.status },
     );
@@ -55,29 +56,40 @@ export async function POST(request: Request) {
       body: body.message.trim(),
     });
     if (!msg) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      return portalJson({ error: "Forbidden" }, { status: 403 });
     }
-    return NextResponse.json({ message: msg }, { status: 201 });
+    return portalJson({ message: msg }, { status: 201 });
   }
 
   if (!body.toId || !body.toName) {
-    return NextResponse.json({ error: "Missing recipient" }, { status: 400 });
+    return portalJson({ error: "Missing recipient" }, { status: 400 });
   }
   if (body.toId === session.user.id) {
-    return NextResponse.json({ error: "Cannot message yourself" }, { status: 400 });
+    return portalJson({ error: "Cannot message yourself" }, { status: 400 });
+  }
+
+  const unionId = session.user.unionId!;
+  const peer = (await listCircleInviteCandidates(unionId)).find(
+    (user) => user.id === body.toId,
+  );
+  if (!peer) {
+    return portalJson(
+      { error: "That person is not in this union." },
+      { status: 400 },
+    );
   }
 
   const thread = portalStore.ensureSidebarThread({
-    unionId: session.user.unionId!,
+    unionId,
     fromId: session.user.id,
     fromName: session.user.name ?? "Member",
-    toId: body.toId,
-    toName: body.toName,
+    toId: peer.id,
+    toName: peer.name,
   });
 
   if (body.message?.trim()) {
     portalStore.sendSidebarMessage({
-      unionId: session.user.unionId!,
+      unionId,
       threadId: thread.id,
       authorId: session.user.id,
       authorName: session.user.name ?? "Member",
@@ -85,5 +97,5 @@ export async function POST(request: Request) {
     });
   }
 
-  return NextResponse.json({ thread }, { status: 201 });
+  return portalJson({ thread }, { status: 201 });
 }

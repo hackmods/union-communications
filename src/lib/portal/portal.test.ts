@@ -318,6 +318,7 @@ describe("portalStore", () => {
       portalStore.softDelete(
         "bulletin",
         post.id,
+        "circle-hall-243",
         "union-opseu",
         "user-president-243",
       ),

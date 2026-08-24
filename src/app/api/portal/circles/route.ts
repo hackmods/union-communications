@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { requirePortalSession } from "@/lib/portal/portal-session";
 import { portalStore } from "@/lib/portal/memory-adapter";
 import { canCreateCircle } from "@/lib/portal/access";
@@ -6,13 +5,14 @@ import {
   resolveCircleCreate,
   type CircleCreateScope,
 } from "@/lib/portal/circle-create";
+import { portalJson } from "@/lib/portal/portal-json";
 import type { UserRole } from "@/types/tenant";
 import type { CircleKind, CircleVisibility } from "@/types/portal";
 
 export async function POST(request: Request) {
   const authResult = await requirePortalSession();
   if (!authResult.ok) {
-    return NextResponse.json(
+    return portalJson(
       { error: authResult.error },
       { status: authResult.status },
     );
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
   const { session } = authResult;
   const roles = (session.user.roles ?? []) as UserRole[];
   if (!canCreateCircle(roles)) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return portalJson({ error: "Forbidden" }, { status: 403 });
   }
   const body = (await request.json()) as {
     name?: string;
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     frontEndsAt?: string;
   };
   if (!body.name?.trim()) {
-    return NextResponse.json({ error: "Name required" }, { status: 400 });
+    return portalJson({ error: "Name required" }, { status: 400 });
   }
   const resolved = resolveCircleCreate({
     kind: body.kind,
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     sessionLocalId: session.user.localId,
   });
   if (!resolved.ok) {
-    return NextResponse.json({ error: resolved.error }, { status: 400 });
+    return portalJson({ error: resolved.error }, { status: 400 });
   }
   const circle = portalStore.createCircle({
     unionId: session.user.unionId!,
@@ -58,5 +58,5 @@ export async function POST(request: Request) {
     frontStartsAt: body.frontStartsAt,
     frontEndsAt: body.frontEndsAt,
   });
-  return NextResponse.json({ circle }, { status: 201 });
+  return portalJson({ circle }, { status: 201 });
 }

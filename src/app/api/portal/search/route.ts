@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
 import { requirePortalSession } from "@/lib/portal/portal-session";
 import { portalStore } from "@/lib/portal/memory-adapter";
+import { portalJson } from "@/lib/portal/portal-json";
 
 export async function GET(request: Request) {
   const authResult = await requirePortalSession();
   if (!authResult.ok) {
-    return NextResponse.json(
+    return portalJson(
       { error: authResult.error },
       { status: authResult.status },
     );
@@ -17,5 +17,5 @@ export async function GET(request: Request) {
     session.user.id,
     q,
   );
-  return NextResponse.json({ hits });
+  return portalJson({ hits });
 }

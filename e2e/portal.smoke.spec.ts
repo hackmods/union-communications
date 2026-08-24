@@ -300,7 +300,7 @@ test.describe("Local Portal smoke @smoke", () => {
     await expect(page.getByPlaceholder("Bulletin title")).toBeVisible();
   });
 
-  test("member can soft-delete Bulletin and download activity pack", async ({
+  test("member can soft-delete Bulletin; president downloads activity pack", async ({
     page,
   }) => {
     await loginAsMember(page);
@@ -317,6 +317,8 @@ test.describe("Local Portal smoke @smoke", () => {
     await row.getByRole("button", { name: "Remove" }).click();
     await expect(page.getByText(`Delete me ${stamp}`)).toHaveCount(0);
 
+    await loginAsPresident(page);
+    await page.goto("/en/portal/circles/circle-hall-243");
     const downloadPromise = page.waitForEvent("download");
     await page.getByRole("button", { name: "Download activity pack" }).click();
     const download = await downloadPromise;
