@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
+import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 
 export async function generateMetadata({
@@ -15,20 +16,34 @@ export async function generateMetadata({
 }
 
 const TOC = [
+  ["gate", "gate"],
   ["compare", "compare"],
-  ["cascade", "cascade"],
+  ["cascade1", "cascade1"],
   ["cascade2", "cascade2"],
+  ["meeting", "meeting"],
   ["pitfalls", "pitfalls"],
   ["worksheet", "worksheet"],
 ] as const;
 
-const sectionKeys = [
-  "compare",
-  "cascade",
-  "cascade2",
-  "pitfalls",
+const gateKeys = ["bumping", "posting", "grievance", "committee"] as const;
+const compareKeys = ["setup", "dates", "clock", "tie", "qualify"] as const;
+const cascade1Keys = ["vacancy", "bumper", "displaced", "floor", "log"] as const;
+const cascade2Keys = ["roleX", "memberA", "memberB", "memberC", "worksheet"] as const;
+const meetingKeys = [
+  "open",
   "worksheet",
+  "oneChain",
+  "vote",
+  "minutes",
+  "file",
 ] as const;
+const pitfallsKeys = [
+  "postingDate",
+  "classification",
+  "probation",
+  "earlierWins",
+] as const;
+const worksheetKeys = ["columns", "rows", "footer"] as const;
 
 export default async function SeniorityBumpingGuidePage({
   params,
@@ -65,57 +80,188 @@ export default async function SeniorityBumpingGuidePage({
         </p>
       </Callout>
 
-      <nav
-        className="mb-8 flex flex-wrap gap-2"
-        aria-label={t("tocLabel")}
-      >
+      <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
         {TOC.map(([id, key]) => (
           <a
             key={id}
             href={`#${id}`}
             className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
           >
-            {t(`sections.${key}.navLabel`)}
+            {t(`${key}.navLabel`)}
           </a>
         ))}
       </nav>
 
-      {sectionKeys.map((key) => (
-        <section
-          key={key}
-          id={key}
-          className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
-        >
-          <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
-            {t(`sections.${key}.title`)}
-          </h2>
-          <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-            {t(`sections.${key}.content`)}
-          </p>
-          <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-            {(t.raw(`sections.${key}.items`) as string[]).map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          {key === "worksheet" ? (
-            <p className="mt-4 text-sm text-gray-700">
-              <Link
-                href="/tools/document-generator?preset=seniority-worksheet"
-                className="font-medium text-opseu-blue underline"
-              >
-                {t("sections.worksheet.exportCta")}
-              </Link>
-              {" · "}
-              {t("sections.worksheet.exportHint")}
-            </p>
-          ) : null}
-        </section>
-      ))}
+      <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {gateKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`gate.items.${key}.label`)}
+              content={t(`gate.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout tone="warning" className="mt-5 max-w-prose">
+          <p className="font-semibold text-amber-950">{t("gate.warningTitle")}</p>
+          <p className="mt-1">{t("gate.warning")}</p>
+        </Callout>
+      </GuideSection>
+
+      <GuideSection
+        id="compare"
+        title={t("compare.title")}
+        intro={t("compare.intro")}
+      >
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {compareKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`compare.items.${key}.label`)}
+              content={t(`compare.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("compare.tip")}</p>
+        </Callout>
+      </GuideSection>
+
+      <GuideSection
+        id="cascade1"
+        title={t("cascade1.title")}
+        intro={t("cascade1.intro")}
+      >
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {cascade1Keys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`cascade1.items.${key}.label`)}
+              content={t(`cascade1.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+      </GuideSection>
+
+      <GuideSection
+        id="cascade2"
+        title={t("cascade2.title")}
+        intro={t("cascade2.intro")}
+      >
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {cascade2Keys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`cascade2.items.${key}.label`)}
+              content={t(`cascade2.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout tone="muted" className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("cascade2.tip")}</p>
+        </Callout>
+      </GuideSection>
+
+      <GuideSection
+        id="meeting"
+        title={t("meeting.title")}
+        intro={t("meeting.intro")}
+      >
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {meetingKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`meeting.items.${key}.label`)}
+              content={t(`meeting.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("meeting.tip")}</p>
+        </Callout>
+      </GuideSection>
+
+      <GuideSection
+        id="pitfalls"
+        title={t("pitfalls.title")}
+        intro={t("pitfalls.intro")}
+      >
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {pitfallsKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`pitfalls.items.${key}.label`)}
+              content={t(`pitfalls.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+      </GuideSection>
+
+      <section
+        id="worksheet"
+        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
+      >
+        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
+          {t("worksheet.title")}
+        </h2>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("worksheet.intro")}
+        </p>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {worksheetKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`worksheet.items.${key}.label`)}
+              content={t(`worksheet.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <div className="button-row mt-5 max-w-lg">
+          <Link href="/tools/document-generator?preset=seniority-worksheet">
+            <Button>{t("worksheet.exportCta")}</Button>
+          </Link>
+        </div>
+        <p className="mt-3 text-sm text-gray-700">{t("worksheet.exportHint")}</p>
+      </section>
 
       <Callout tone="muted" className="mt-10">
         <p className="font-semibold text-opseu-dark">{t("hub.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("hub.body")}</p>
       </Callout>
     </GuideLayout>
+  );
+}
+
+function GuideSection({
+  id,
+  title,
+  intro,
+  children,
+}: {
+  id: string;
+  title: string;
+  intro: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section
+      id={id}
+      className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
+    >
+      <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">{title}</h2>
+      <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
+      {children}
+    </section>
+  );
+}
+
+function TipItem({ label, content }: { label: string; content: string }) {
+  return (
+    <li className="max-w-prose leading-relaxed">
+      <span className="font-semibold text-opseu-dark">{label}.</span> {content}
+    </li>
   );
 }

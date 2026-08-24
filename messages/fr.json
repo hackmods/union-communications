@@ -3338,9 +3338,11 @@
   },
   "seniorityGuide": {
     "title": "Guide d'ancienneté et de bumping",
-    "subtitle": "Feuilles d’ancienneté pour les dossiers de déplacement. Aide seulement.",
+    "subtitle": "Feuilles d'ancienneté pour les dossiers de déplacement. Aide seulement.",
     "backToGuide": "Retour au Plan directeur",
-    "intro": "Les dossiers de déplacement reposent sur dates d’ancienneté, limites de classification et règles d’affichage. Organisez les faits avec la feuille, puis vérifiez chaque règle dans votre convention collective.",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "intro": "Les dossiers de déplacement reposent sur les dates d'ancienneté, les limites de classification et les règles d'affichage — pas sur l'énergie du débat. Ce guide accompagne les délégués pour comparer deux membres, cartographier des cascades à un ou deux maillons et animer une réunion de comité avec la feuille de travail. Vérifiez chaque règle dans votre convention collective.",
     "disclaimer": {
       "title": "Pas un avis juridique. Aide seulement.",
       "body": "Pas une calculatrice et pas un avis juridique. Confirmez dates et droits contre la convention et la pratique locale."
@@ -3349,69 +3351,194 @@
       "dfr": "Devoir de représentation équitable",
       "rightToRefuse": "Droit de refuser un travail dangereux"
     },
-    "sections": {
-      "compare": {
-        "title": "Exemple commenté : comparer l'ancienneté",
-        "content": "Commencez avec deux membres et un poste cible. Notez la date d’ancienneté, la classification et le statut sur une seule feuille avant de débattre.",
-        "items": [
-          "Listez le membre A et le membre B avec date d'ancienneté (AAAA-MM-JJ) et classification",
-          "Confirmez quelle date utilise la CC — service continu, ancienneté de classification ou autre horloge",
-          "Notez les égalités et comment votre CC les départage",
-          "Seulement ensuite comparez qualifications, heures et admissibilité à l'affichage selon le libellé de la CC"
-        ],
-        "navLabel": "Comparer l'ancienneté"
+    "gate": {
+      "navLabel": "Déplacement ou grief?",
+      "title": "Avant d'ouvrir un dossier de déplacement",
+      "intro": "Les litiges d'affichage, les déplacements lors de mises à pied et les griefs de classification partagent le vocabulaire, mais pas la même procédure. Passez ce filtre pour que le comité ne débatte pas du mauvais problème.",
+      "items": {
+        "bumping": {
+          "label": "S'agit-il d'un déplacement par mise à pied?",
+          "content": "Un dossier de déplacement s'applique lorsque la CC permet à un membre déplacé de réclamer un poste inférieur ou latéral par ancienneté lors d'une mise à pied ou d'une restructuration. Il faut une chaîne de postes vacants — pas seulement « je voulais cet affichage »."
+        },
+        "posting": {
+          "label": "S'agit-il seulement d'une plainte d'affichage?",
+          "content": "Si la question est de savoir si un poste a été affiché correctement ou si les qualifications ont été appliquées équitablement, commencez par les articles d'affichage — ce peut être un grief, pas une séance de classement du comité d'ancienneté."
+        },
+        "grievance": {
+          "label": "Déjà déposé comme grief?",
+          "content": "Si un grief formel est en cours sur les mêmes faits, coordonnez avec le délégué responsable. Ne laissez pas le comité préjuger un résultat que la voie du grief possède."
+        },
+        "committee": {
+          "label": "La CC exige-t-elle un comité?",
+          "content": "Certaines collections exigent un vote du comité d'ancienneté ; d'autres sont menées par le délégué avec avis à l'employeur. Confirmez qui préside, qui consigne, et que faire si le comité ne s'entend pas."
+        }
       },
-      "cascade": {
-        "title": "Exemple commenté : première cascade",
-        "content": "Un déplacement peut en entraîner un autre. Cartographiez la chaîne avant le vote du comité.",
-        "items": [
-          "Dessinez la chaîne : poste vacant → premier bumper → titulaire déplacé → bump suivant (s'il y a lieu)",
-          "Arrêtez lorsque la CC met fin à la chaîne (plancher de classification, probation, statut temporaire)",
-          "Signalez quiconque ne peut pas bumper (mauvaise classification, ancienneté insuffisante, options refusées)",
-          "Consignez chaque étape dans le journal du comité avec dates et articles de la CC"
-        ],
-        "navLabel": "Première cascade"
+      "warningTitle": "Si le filtre est flou",
+      "warning": "Suspendez la réunion. Lisez ensemble les articles de mise à pied, d'affichage et d'ancienneté. Un grief d'affichage déguisé en déplacement gaspille les dates d'ancienneté de tout le monde."
+    },
+    "compare": {
+      "navLabel": "Comparer l'ancienneté",
+      "title": "Exemple commenté : deux membres, un poste cible",
+      "intro": "Le poste « coordonnateur des installations » est éliminé. Les membres A et B réclament tous deux un déplacement vers « commis à l'entretien » affiché. Notez les dates avant de débattre des qualifications.",
+      "items": {
+        "setup": {
+          "label": "Préparer la feuille",
+          "content": "Deux lignes seulement : membre A et membre B. Colonnes pour date d'ancienneté, classification, poste actuel et poste cible. Pas encore de noms d'autres campus."
+        },
+        "dates": {
+          "label": "Entrer des dates d'exemple",
+          "content": "Membre A — ancienneté 2014-03-12, chef d'entretien. Membre B — ancienneté 2016-09-01, coordonnateur des installations (éliminé). Cible : commis à l'entretien (affiché 2026-02-01)."
+        },
+        "clock": {
+          "label": "Confirmer quelle horloge la CC utilise",
+          "content": "Ouvrez la CC : s'agit-il de service continu, d'ancienneté de classification ou d'une autre date? Si l'élimination de B déclenche des droits de déplacement, notez l'article avant de comparer."
+        },
+        "tie": {
+          "label": "Départager par écrit",
+          "content": "En cas d'égalité de dates, inscrivez le départage de la CC (numéro d'embauche, tirage au sort, heures dans la classification). Ne supposez pas que « plus longtemps dans le bâtiment » gagne sans l'article."
+        },
+        "qualify": {
+          "label": "Ensuite vérifier les qualifications",
+          "content": "Seulement après avoir esquissé l'ordre d'ancienneté, marquez Oui, Non ou Inconnu sur l'aptitude, les permis et l'admissibilité à l'affichage. Un membre plus ancien qui échoue à l'aptitude peut ne pas conserver le déplacement."
+        }
       },
-      "pitfalls": {
-        "title": "Pièges courants",
-        "content": "La plupart des erreurs de comité viennent du mélange des horloges ou de l'ignorance des frontières déjà définies par la CC.",
-        "items": [
-          "Date d'affichage vs date d'ancienneté — ne traitez pas la date d'affichage d'un poste comme l'ancienneté de quelqu'un",
-          "Frontières de classification — les collections TP/TPa ou du personnel de soutien ne permettent pas toujours de se déplacer librement",
-          "Statut probatoire ou temporaire — confirmez les droits de bumping avant de classer quelqu'un",
-          "Supposer que « la date la plus ancienne gagne toujours » sans lire le départage et le langage d'aptitude de la CC"
-        ],
-        "navLabel": "Pièges"
-      },
-      "worksheet": {
-        "title": "Feuille de travail papier (imprimer ou copier)",
-        "content": "Utilisez cette disposition de colonnes sur une page blanche ou un tableur pendant la réunion. Gardez une copie au dossier.",
-        "items": [
-          "Colonnes : Réf. membre · Date d'ancienneté · Classification · Poste actuel · Cible / réclamation · Admissible? (O/N/?) · Notes / article CC",
-          "Lignes : une par personne dans la chaîne, plus une ligne vide pour les candidats de rechange",
-          "Pied de page : date de séance, président, résumé de décision et lien vers l'ID du dossier de bumping du Hub des dirigeants"
-        ],
-        "exportCta": "Télécharger la feuille Excel",
-        "exportHint": "Ouvre le générateur de documents avec une grille d'ancienneté de marque prête à exporter.",
-        "navLabel": "Feuille de travail"
-      },
-      "cascade2": {
-        "navLabel": "Deuxième cascade",
-        "title": "Exemple commenté : deuxième cascade (chaîne à trois maillons)",
-        "content": "Un poste vacant au rôle X déplace le titulaire, qui bump au rôle Y et déplace un troisième membre. Cartographiez avant que quiconque signe.",
-        "items": [
-          "Rôle X vacant — le membre A (le plus ancien admissible) réclame le bump vers X",
-          "Le titulaire de X (membre B) peut bumper vers le rôle Y affiché si l'ancienneté et la classification le permettent",
-          "Le titulaire de Y (membre C) est le dernier maillon — confirmez si C peut bumper plus loin ou atteint un plancher de la CC",
-          "Une ligne par personne sur la feuille ; marquez « chaîne se termine ici » lorsque la CC bloque un autre bump"
-        ]
+      "tip": "Si vous ne pouvez pas inscrire les deux dates d'ancienneté et le poste cible sur une ligne chacun, vous n'êtes pas prêt à voter."
+    },
+    "cascade1": {
+      "navLabel": "Première cascade",
+      "title": "Exemple commenté : chaîne à deux personnes",
+      "intro": "Un poste vacant, un bumper, un titulaire déplacé. Cartographiez ceci avant d'envisager une chaîne à trois maillons.",
+      "items": {
+        "vacancy": {
+          "label": "Commencer par le poste vacant",
+          "content": "Commis à l'entretien affiché et pourvu — puis la mise à pied élimine le coordonnateur des installations (membre B). Le poste cible du déplacement est le rôle de commis que B veut."
+        },
+        "bumper": {
+          "label": "Nommer le bumper",
+          "content": "Membre B (2016-09-01) réclame un déplacement vers commis à l'entretien. Confirmez que B est dans la bonne classification et respecte le libellé d'aptitude."
+        },
+        "displaced": {
+          "label": "Nommer qui est déplacé",
+          "content": "Membre C (2019-11-15) occupe actuellement commis à l'entretien — le titulaire que B déplacerait. C peut avoir ses propres droits de déplacement vers un autre poste affiché."
+        },
+        "floor": {
+          "label": "Marquer le plancher",
+          "content": "Si C ne peut pas bumper plus loin — probation, statut temporaire ou plancher de la CC — inscrivez « chaîne se termine à C » sur la feuille. N'inventez pas d'étapes supplémentaires."
+        },
+        "log": {
+          "label": "Consigner l'étape",
+          "content": "Ligne du journal du comité : « B bump vers commis, déplaçant C — articles cités, prochaine date de réunion si C réclame un bump supplémentaire. »"
+        }
       }
+    },
+    "cascade2": {
+      "navLabel": "Chaîne à trois maillons",
+      "title": "Exemple commenté : membres A, B et C",
+      "intro": "Poste X vacant, poste Y affiché. Une chaîne à trois maillons déplace deux titulaires. Cartographiez chaque saut avant que quiconque signe.",
+      "items": {
+        "roleX": {
+          "label": "Vacance au poste X",
+          "content": "Technicien de labo II (poste X) est éliminé lors d'une mise à pied. Le chemin de remplacement affiché passe par le poste Y (technicien de labo I)."
+        },
+        "memberA": {
+          "label": "Membre A — premier bumper",
+          "content": "Membre A (2013-06-01, tech labo I) est le plus ancien admissible et réclame un bump vers le poste X. A respecte la classification et l'aptitude pour X."
+        },
+        "memberB": {
+          "label": "Membre B — titulaire déplacé",
+          "content": "Membre B (2015-02-14) occupait le poste X et bump vers le poste Y affiché (tech labo I) si l'ancienneté et la classification le permettent."
+        },
+        "memberC": {
+          "label": "Membre C — dernier maillon",
+          "content": "Membre C (2018-10-30) occupe le poste Y. Confirmez si C peut bumper vers un poste Z affiché ou atteint un plancher de la CC (probation, temporaire ou limite de classification)."
+        },
+        "worksheet": {
+          "label": "Une ligne par saut sur la feuille",
+          "content": "Lignes : A → X, B → Y, C → ? Marquez « chaîne se termine ici » à côté de C s'il n'y a pas d'autre bump. Les candidats de rechange ont une ligne vide — pas un débat parallèle."
+        }
+      },
+      "tip": "Si vous ne pouvez pas nommer A, B et C avec dates sur la feuille, reportez le vote."
+    },
+    "meeting": {
+      "navLabel": "Animer la réunion",
+      "title": "Comment animer le comité d'ancienneté",
+      "intro": "Une réunion disciplinée vaut mieux qu'un long débat. Utilisez la feuille comme ordre du jour — pas comme décoration.",
+      "items": {
+        "open": {
+          "label": "Ouvrir avec les articles de la CC",
+          "content": "Le président lit à voix haute les articles de mise à pied, de déplacement et de comité. Notez quelle collection (TP/TPa/personnel de soutien) s'applique avant tout nom."
+        },
+        "worksheet": {
+          "label": "Projeter ou distribuer la feuille",
+          "content": "Chaque personne de la chaîne a une ligne. Les délégués inscrivent les dates ; les membres confirment ou contestent avec des documents — pas de mémoire."
+        },
+        "oneChain": {
+          "label": "Régler une chaîne à la fois",
+          "content": "Terminez X → Y → Z avant d'ouvrir un deuxième poste vacant. Mélanger les chaînes sur une feuille transpose les dates."
+        },
+        "vote": {
+          "label": "Voter sur les faits, puis le résultat",
+          "content": "D'abord convenir de l'ordre d'ancienneté et des drapeaux d'admissibilité. Ensuite voter le résultat du bump. Les dissidences vont au journal avec le nom et la raison du membre."
+        },
+        "minutes": {
+          "label": "Procès-verbaux = feuille + décision",
+          "content": "Joignez la feuille complétée (ou export Hub) aux procès-verbaux : date, président, participants, articles cités et « chaîne se termine au membre C »."
+        },
+        "file": {
+          "label": "Classer une copie au dossier",
+          "content": "Le délégué conserve la feuille signée au dossier de déplacement et lie l'ID du dossier Hub des dirigeants si votre section utilise le déplacement collégial."
+        }
+      },
+      "tip": "Si la salle débat des qualifications avant que les dates soient sur la feuille, faites une pause de cinq minutes et reprenez."
+    },
+    "pitfalls": {
+      "navLabel": "Pièges",
+      "title": "Pièges courants",
+      "intro": "La plupart des erreurs de comité viennent du mélange des horloges ou de l'ignorance des limites déjà définies par la CC.",
+      "items": {
+        "postingDate": {
+          "label": "Date d'affichage vs date d'ancienneté",
+          "content": "Un poste affiché le 2026-02-01 n'est pas l'ancienneté de quelqu'un. Ne classez pas les membres par date d'affichage."
+        },
+        "classification": {
+          "label": "Limites de classification",
+          "content": "Les collections TP/TPa ou du personnel de soutien ne permettent pas toujours de se déplacer librement. Confirmez la collection avant de classer."
+        },
+        "probation": {
+          "label": "Statut probatoire ou temporaire",
+          "content": "Confirmez les droits de bumping avant de classer quelqu'un. La probation et le statut temporaire bloquent souvent les déplacements."
+        },
+        "earlierWins": {
+          "label": "« La date la plus ancienne gagne toujours »",
+          "content": "Lisez le départage et le libellé d'aptitude. L'ordre d'ancienneté est nécessaire — pas toujours suffisant."
+        }
+      }
+    },
+    "worksheet": {
+      "navLabel": "Feuille de travail",
+      "title": "Feuille papier (imprimer ou exporter)",
+      "intro": "Utilisez cette disposition de colonnes sur une page blanche, un tableur ou un export de marque pendant la réunion. Gardez une copie signée au dossier.",
+      "items": {
+        "columns": {
+          "label": "Colonnes",
+          "content": "Réf. membre · Date d'ancienneté · Classification · Poste actuel · Cible / réclamation · Admissible? (O/N/?) · Notes / article CC"
+        },
+        "rows": {
+          "label": "Lignes",
+          "content": "Une par personne dans la chaîne, plus une ligne vide pour les candidats de rechange. Marquez « chaîne se termine ici » lorsque la CC bloque un autre bump."
+        },
+        "footer": {
+          "label": "Pied de page",
+          "content": "Date de séance, président, résumé de décision et ID du dossier de bumping du Hub des dirigeants si votre section en utilise un."
+        }
+      },
+      "exportCta": "Télécharger la feuille Excel",
+      "exportHint": "Ouvre le générateur de documents avec une grille d'ancienneté de marque prête à exporter."
     },
     "hub": {
       "title": "Module de bumping du Hub des dirigeants",
       "body": "Dans le Hub des dirigeants, le déplacement collégial regroupe vos notes, comparaisons PDF et séances au même endroit. Traitez toute aide de classement comme une vérification, et refaites la feuille papier si un résultat vous surprend."
-    },
-    "tocLabel": "Sur cette page"
+    }
   },
   "jointCommitteeGuide": {
     "title": "Guide pratique des comités conjoints",
@@ -3683,79 +3810,240 @@
     "title": "Droit de refuser un travail dangereux",
     "subtitle": "Étapes de refus selon la LSST art. 43, pour délégués et CSS. Pas un avis juridique.",
     "backToGuide": "Retour au Plan directeur",
-    "intro": "Résumé de la procédure de refus selon la LSST art. 43 (Ontario), pour délégués et membres du CSS du collégial. Vérifiez dans la loi à jour et le guide Partie V du ministère dans les sources ci-dessous.",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "intro": "La LSST art. 43 de l'Ontario donne aux travailleurs une procédure structurée de refus — signalement, enquête de l'employeur, puis inspecteur du ministère si le danger persiste. Ce guide s'adresse aux délégués et aux membres travailleurs du CSS qui doivent appuyer un membre sans confondre grief, travail du CSS sur les dangers et la procédure de refus en cours. Confirmez avec la législation à jour et le guide Partie V du ministère dans les sources ci-dessous.",
     "disclaimer": {
       "title": "Pas un avis juridique",
       "body": "Aperçu de procédure seulement. Confirmez avec la pratique CSS, les dirigeants locaux et le texte actuel de la LSST."
     },
     "related": {
       "dfr": "Devoir de représentation équitable",
-      "seniority": "Guide d'ancienneté et de bumping"
+      "seniority": "Guide d'ancienneté et de bumping",
+      "jointCommittee": "Guide des comités conjoints"
     },
-    "sections": {
-      "ontarioScope": {
-        "title": "Portée ontarienne (lisez d'abord)",
-        "content": "La LSST art. 43 couvre la plupart des milieux régis par l’Ontario, avec des exceptions. Vérifiez la couverture de votre type de milieu avant de conseiller.",
-        "items": [
-          "Étiquetez ce guide « Ontario seulement » dans tout matériel de formation local que vous réimprimez",
-          "Les lieux de travail fédéraux et les autres provinces suivent d'autres cadres de refus",
-          "Certains travailleurs ont des droits modifiés — vérifiez le texte actuel de la LSST et les documents du ministère",
-          "La représentation syndicale appuie le membre ; elle ne remplace pas le CSS ni le ministère"
-        ],
-        "navLabel": "Portée ontarienne"
+    "gate": {
+      "navLabel": "LSST, grief ou CSS?",
+      "title": "Avant de conseiller — choisissez la bonne voie",
+      "intro": "Un signalement de danger, un refus en cours et un grief d'horaire exigent des forums différents. Passez ce filtre avant de dire au membre quoi faire ensuite.",
+      "items": {
+        "ohsa": {
+          "label": "Quelqu'un refuse-t-il le travail maintenant?",
+          "content": "La LSST art. 43 s'applique lorsqu'un travailleur croit qu'un travail risque de le mettre en danger ou d'en mettre un autre. Suivez les étapes de refus de ce guide — signalement, disponibilité, enquête étape 1, puis inspecteur étape 2 si nécessaire."
+        },
+        "jhsc": {
+          "label": "S'agit-il d'un danger à corriger, pas d'un refus en cours?",
+          "content": "Le CSS inspecte, recommande et suit les dangers dans le système de responsabilité interne. Un membre peut signaler par le CSS sans refuser le travail — mais une fois le refus exercé, l'horloge art. 43 court séparément des réunions du comité."
+        },
+        "grievance": {
+          "label": "S'agit-il vraiment d'un enjeu de CC ou de discipline?",
+          "content": "Les heures supplémentaires forcées, l'intimidation ou les violations de contrat peuvent être des griefs — pas des refus. Ne dites pas à un membre de « refuser » pour contourner la procédure de grief à moins qu'un vrai danger pour la santé et la sécurité existe."
+        },
+        "both": {
+          "label": "Les deux voies peuvent-elles coexister?",
+          "content": "Oui — un refus en cours peut chevaucher une recommandation du CSS ou un grief pour représailles. Gardez des dossiers séparés : notes LSST avec heures et témoins ; faits de grief avec articles de la CC."
+        }
       },
-      "reassignment": {
-        "title": "Règles de réaffectation (aperçu)",
-        "content": "Pendant un refus, l’employeur ne peut en général pas assigner le même travail sans informer l’autre travailleur, sous réserve de la LSST. Vérifiez le texte actuel avant de conseiller.",
-        "items": [
-          "Les autres travailleurs assignés au travail doivent être informés du refus et des motifs",
-          "Le travailleur qui refuse est généralement payé en attendant le résultat de l'enquête, sous réserve des règles de la Loi",
-          "Affichez les contacts actuels du CSS et les étapes de signalement de danger sur le tableau syndical"
-        ],
-        "navLabel": "Réaffectation"
+      "warningTitle": "La mauvaise voie coûte du temps",
+      "warning": "Faire passer un litige contractuel par un refus, ou traiter un refus en cours comme « juste un point CSS », brûle la confiance et peut laisser le membre sans salaire ni protection. Corrigez la voie d'abord."
+    },
+    "ontarioScope": {
+      "navLabel": "Portée ontarienne",
+      "title": "Portée ontarienne (lisez d'abord)",
+      "intro": "La LSST art. 43 couvre la plupart des milieux régis par l'Ontario, avec des exceptions. Vérifiez la couverture de votre type de milieu avant de conseiller.",
+      "items": {
+        "coverage": {
+          "label": "Étiqueter le matériel de formation",
+          "content": "Marquez ce guide « Ontario seulement » dans tout document de formation local que vous réimprimez. Les autres provinces et les milieux fédéraux utilisent d'autres cadres de refus."
+        },
+        "federal": {
+          "label": "Fédéral et autres provinces",
+          "content": "Les milieux fédéraux et les autres provinces suivent d'autres cadres de refus. Ne supposez pas que les étapes ontariennes s'appliquent sur un autre plancher d'usine."
+        },
+        "modified": {
+          "label": "Droits modifiés",
+          "content": "Certaines catégories de travailleurs ont des droits modifiés sous la Loi. Vérifiez le texte actuel de la LSST et les documents du ministère avant de conseiller policiers, pompiers ou autres groupes listés."
+        },
+        "unionRole": {
+          "label": "Rôle syndical",
+          "content": "La représentation syndicale appuie le membre aux étapes d'enquête où la Loi le permet. Elle ne remplace pas le membre travailleur du CSS ni le rôle de l'inspecteur du ministère."
+        }
+      }
+    },
+    "stageOne": {
+      "navLabel": "Étape 1",
+      "title": "Étape 1 — signalement et enquête de l'employeur",
+      "intro": "Un travailleur qui croit qu'un travail risque de le mettre en danger (ou un autre) peut refuser. Signalez promptement. Ne partez pas en silence.",
+      "items": {
+        "report": {
+          "label": "Signaler au superviseur / employeur",
+          "content": "Le travailleur signale rapidement les circonstances — quelle tâche, quel danger, qui d'autre est touché. Les délégués aident le membre à énoncer des faits, pas des slogans."
+        },
+        "safePlace": {
+          "label": "Rester dans un lieu sûr à proximité",
+          "content": "Le travailleur demeure disponible pour les étapes d'enquête. Quitter le campus sans avis peut être traité comme abandon — confirmez la pratique locale avec votre président."
+        },
+        "accompany": {
+          "label": "Accompagner lorsque la Loi le permet",
+          "content": "Le travailleur peut être accompagné d'un membre travailleur du CSS ou d'un représentant syndical SST pendant l'enquête de l'employeur. Délégués : confirmez votre droit d'être présents avant le début de la rencontre."
+        },
+        "investigate": {
+          "label": "L'employeur enquête en présence du travailleur",
+          "content": "L'employeur enquête avec le travailleur et le représentant des travailleurs présents. Prenez des notes : heure de début, participants, danger décrit, mesures provisoires offertes."
+        },
+        "stewardNotes": {
+          "label": "Notes du délégué pour le dossier local",
+          "content": "Consignez les mots exacts du membre sur le danger, des photos si c'est sûr, les fiches SDS pour les produits chimiques, et si l'employeur a arrêté le travail ou offert d'autres tâches."
+        },
+        "resolve": {
+          "label": "Si réglé, documenter",
+          "content": "Si le danger est corrigé ou si le travailleur convient que c'est réglé, le travail peut reprendre — mais écrivez le résultat : qui a dit quoi, ce qui a changé, date et heure. Ne comptez pas sur un « c'est correct maintenant » verbal."
+        }
       },
-      "stageOne": {
-        "navLabel": "Étape 1",
-        "title": "Étape 1 — signalement et enquête de l'employeur",
-        "content": "Un travailleur qui croit qu'un travail risque de le mettre en danger (ou un autre) peut refuser. Signalez promptement. Ne partez pas en silence.",
-        "items": [
-          "Le travailleur signale rapidement les circonstances au superviseur / employeur",
-          "Le travailleur demeure dans un lieu sûr à proximité et disponible pour l'enquête",
-          "Le travailleur peut être accompagné d'un membre travailleur du CSS ou d'un représentant syndical SST lorsque la Loi le prévoit",
-          "L'employeur enquête en présence du travailleur et du représentant des travailleurs",
-          "Si le danger est corrigé ou si le travailleur convient que c'est réglé, le travail peut reprendre — documentez le résultat"
-        ]
+      "tip": "Si le membre n'a pas encore signalé à un superviseur, votre premier travail est de mettre le signalement au dossier — pas de débattre si le danger est réel."
+    },
+    "stageTwo": {
+      "navLabel": "Étape 2",
+      "title": "Étape 2 — inspecteur du ministère",
+      "intro": "Lorsque le travailleur croit encore qu'un danger existe après l'étape 1, l'affaire est renvoyée à un inspecteur du ministère du Travail, de l'Immigration, de la Formation et du Développement des compétences.",
+      "items": {
+        "trigger": {
+          "label": "Quand l'étape 2 s'ouvre",
+          "content": "L'étape 2 commence lorsque le travailleur continue de croire que le danger existe après l'enquête étape 1 de l'employeur. Le membre n'a pas besoin d'accepter « nous ne sommes pas d'accord »."
+        },
+        "whoCalls": {
+          "label": "Qui peut aviser l'inspecteur",
+          "content": "L'employeur, le travailleur ou un membre du CSS peut aviser le ministère. Délégués : connaissez le chemin de contact du ministère avant le quart — ne perdez pas des heures à chercher en plein refus."
+        },
+        "inspector": {
+          "label": "L'inspecteur enquête",
+          "content": "L'inspecteur enquête et décide si le refus est susceptible de mettre en danger. Restez factuel. Fournissez heures, témoins et documents — pas de discours de plaidoyer."
+        },
+        "stewardRecords": {
+          "label": "Ce que les délégués consignent",
+          "content": "Nom/badge de l'inspecteur si montré, heure d'arrivée, personnes interrogées, ordres ou directives donnés, et si le travail a repris. Photographiez l'ordre affiché s'il y en a un."
+        },
+        "factsOnly": {
+          "label": "Faits seulement — pas de dangers inventés",
+          "content": "N'incitez pas les membres à inventer des dangers. La fausse représentation nuit au membre et à la section. Si le danger est faible, dites-le en caucus — ne fabriquez pas."
+        }
       },
-      "stageTwo": {
-        "navLabel": "Étape 2",
-        "title": "Étape 2 — inspecteur du ministère",
-        "content": "Lorsque le travailleur croit encore qu'un danger existe après l'étape 1, l'affaire est renvoyée à un inspecteur du ministère du Travail.",
-        "items": [
-          "Avis à un inspecteur du ministère du Travail — l'employeur, le travailleur ou un membre du CSS peut déclencher cette étape",
-          "L'inspecteur enquête et décide si le refus est susceptible de mettre en danger",
-          "N'incitez pas les membres à inventer des dangers — les faits, dates et témoins comptent",
-          "Conservez des notes sur les heures, les personnes présentes et ce qui a été dit pour le dossier local"
-        ]
+      "warningTitle": "Ne retardez pas l'appel",
+      "warning": "Si l'étape 1 s'est terminée par « faites juste la tâche » et que le membre croit encore être en danger, l'étape 2 n'est pas une politesse optionnelle — c'est la voie d'escalade prévue par la loi."
+    },
+    "reassignment": {
+      "navLabel": "Réaffectation",
+      "title": "Réaffectation du travail et salaire pendant le refus",
+      "intro": "Pendant un refus actif, les règles de réaffectation et de salaire protègent le travailleur qui refuse et toute autre personne assignée au travail. Vérifiez le texte actuel de la Loi avant de conseiller.",
+      "items": {
+        "inform": {
+          "label": "Informer le prochain travailleur",
+          "content": "Les autres travailleurs assignés à la même tâche doivent être informés qu'un refus est en cours et pourquoi. Pas de réaffectation silencieuse — la personne suivante hérite du même danger sans le savoir."
+        },
+        "pay": {
+          "label": "Statut salarial du travailleur qui refuse",
+          "content": "Le travailleur qui refuse est généralement payé en attendant le résultat de l'enquête, sous réserve des règles actuelles de la LSST. Suivez le salaire dès le premier quart — ne découvrez pas un chèque réduit des semaines plus tard."
+        },
+        "noSilent": {
+          "label": "Pas de pression pour « faire juste la tâche »",
+          "content": "Les superviseurs ne peuvent pas utiliser la réaffectation pour contourner le refus. Si quelqu'un d'autre est envoyé sans être informé, documentez pour l'inspecteur et le dossier local."
+        },
+        "board": {
+          "label": "Afficher les contacts au tableau",
+          "content": "Gardez les contacts CSS actuels, les numéros de délégués et les étapes de signalement de danger sur le tableau syndical — lien vers e-Laws à jour, pas une photocopie fanée de 2019."
+        }
+      }
+    },
+    "reprisal": {
+      "navLabel": "Représailles",
+      "title": "Représailles et escalade urgente",
+      "intro": "La LSST interdit les représailles pour l'exercice du droit de refus. Traitez toute représaille soupçonnée comme urgente — pas comme un délai de grief ordinaire.",
+      "items": {
+        "document": {
+          "label": "Documenter tout lié à la date du refus",
+          "content": "Discipline, changements d'horaire, harcèlement, exclusion des quarts ou rencontres « de performance » dans les jours du refus — inscrivez dates, noms et mots exacts."
+        },
+        "sameDay": {
+          "label": "Escalade le jour même",
+          "content": "Les représailles alléguées vont au président local et au représentant syndical SST le jour même. N'attendez pas la prochaine réunion des délégués."
+        },
+        "sources": {
+          "label": "Combiner avec les sources officielles",
+          "content": "Utilisez le parcours Partie V du ministère et le texte e-Laws art. 43 à jour avec ce guide. Les délégués citent la procédure ; les avocats citent les ordres."
+        },
+        "notRoutine": {
+          "label": "Pas un délai de grief ordinaire",
+          "content": "Les représailles peuvent chevaucher grief et plainte LSST. Les voies parallèles sont normales — « nous avons déposé un grief » n'est pas une excuse pour retarder une réponse aux représailles."
+        }
       },
-      "reprisal": {
-        "navLabel": "Représailles",
-        "title": "Représailles et suivi",
-        "content": "La LSST interdit les représailles pour l'exercice du droit de refus. Traitez toute représaille soupçonnée comme urgente — pas comme un délai de grief ordinaire.",
-        "items": [
-          "Documentez toute mesure disciplinaire, changement d'horaire ou harcèlement lié à la date du refus",
-          "Faites remonter au président local et au représentant syndical SST le jour même si une représaille est alléguée",
-          "Combinez ce guide avec le parcours Partie V du ministère et le texte e-Laws art. 43 à jour",
-          "Utilisez le préréglage carte de poche pour garder les étapes 1 et 2 visibles sur le tableau"
-        ]
+      "warningTitle": "Traitez les représailles comme un danger actif",
+      "warning": "Un membre qui a refusé puis reçoit une discipline a besoin de la même urgence que le danger original. Documentez aujourd'hui ; escaladez aujourd'hui."
+    },
+    "fullScenario": {
+      "navLabel": "Parcours complet",
+      "title": "Exemple commenté : refus pour exposition chimique",
+      "intro": "Un préposé à l'entretien doit mélanger deux produits de nettoyage dans une salle de stockage mal ventilée. Il sent des vapeurs fortes, se sent étourdi et refuse de continuer. Aucun grief n'est déposé — c'est un refus LSST en cours.",
+      "phases": {
+        "t0": {
+          "label": "Début de quart — le danger apparaît",
+          "content": "Le membre signale étourdissement et vapeurs au superviseur à 09 h 15. Le délégué arrive à 09 h 30. Le membre reste dans le corridor — disponible, pas en tâche."
+        },
+        "t1": {
+          "label": "Étape 1 — enquête de l'employeur (même jour)",
+          "content": "Superviseur, membre travailleur du CSS et délégué se rencontrent à 10 h 00. L'employeur offre un autre chiffon et une porte ouverte — le membre dit que le danger persiste sans ventilation et examen SDS compatible. Notes prises ; SDS photographiée."
+        },
+        "t2": {
+          "label": "Étape 2 — inspecteur appelé (même jour)",
+          "content": "Le membre refuse encore à 11 h 00. Le membre travailleur du CSS avise le ministère. L'inspecteur arrive l'après-midi ; interroge membre et superviseur ; ordonne une vérification de ventilation avant reprise du travail."
+        },
+        "t3": {
+          "label": "Réaffectation — autre travailleur non informé",
+          "content": "À 14 h 00 un intérimaire est envoyé finir la salle sans être informé du refus. Le délégué documente ; informe l'intérimaire ; ajoute une note au dossier de l'inspecteur."
+        },
+        "t4": {
+          "label": "Suivi — salaire et tableau",
+          "content": "Membre payé pour le quart. La section affiche un QR de carte de poche avec les étapes art. 43 et contacts CSS. Surveillance des représailles 30 jours — aucune mesure disciplinaire liée à la date du refus."
+        }
+      },
+      "tip": "Si votre chronologie omet le signalement écrit ou la liste de présence étape 1, reconstruisez-la avant l'entrevue de l'inspecteur."
+    },
+    "stewardChecklist": {
+      "navLabel": "Liste du délégué",
+      "title": "Avant, pendant et après un refus",
+      "intro": "Utilisez cette liste sur papier ou au dossier local. Un refus bien géré évite trois mauvais précédents.",
+      "items": {
+        "beforeKnow": {
+          "label": "Avant — connaître la voie",
+          "content": "Lisez le résumé art. 43, les contacts CSS et la voie d'avis au ministère avant votre prochain quart — pas après l'appel du membre."
+        },
+        "beforeContacts": {
+          "label": "Avant — carte de poche au tableau",
+          "content": "Préréglage QR de carte de poche affiché avec les étapes 1 et 2. Lien vers le texte LSST e-Laws à jour."
+        },
+        "duringPresent": {
+          "label": "Pendant — être présent à l'étape 1",
+          "content": "Assistez à l'enquête de l'employeur lorsque la Loi le permet. Prenez des notes neutres : heures, noms, danger tel que décrit par le membre."
+        },
+        "duringNotes": {
+          "label": "Pendant — séparer notes LSST et grief",
+          "content": "Si un grief peut suivre, ouvrez un dossier séparé. Ne mélangez pas « le superviseur est toujours comme ça » dans la chronologie de l'inspecteur."
+        },
+        "afterFile": {
+          "label": "Après — fermer le dossier",
+          "content": "Écrivez le résultat : travail repris, tâche alternative, ordre de l'inspecteur ou étape 2 en cours. Joignez confirmation de salaire et documentation du ministère."
+        },
+        "afterBoard": {
+          "label": "Après — débrief sans noms",
+          "content": "Débrief du conseil des délégués sur les leçons — ventilation, SDS, réaffectation — sans identifier le membre sur un tableau public."
+        }
       }
     },
     "boards": {
       "title": "Tableaux syndicaux et cartes de poche",
-      "body": "Gardez les contacts CSS et une courte bande danger / refus sur le tableau. Liez les QR au texte officiel e-Laws de la LSST, pas à d’anciennes photocopies.",
+      "body": "Gardez les contacts CSS et une courte bande danger / refus sur le tableau. Liez les QR au texte officiel e-Laws de la LSST, pas à d'anciennes photocopies.",
       "exportCta": "Créer une carte de poche",
       "exportHint": "Ouvre les cartes QR avec le préréglage de procédure de refus (Ontario) — exportez PNG/PDF pour portefeuilles ou tableaux."
-    },
-    "tocLabel": "Sur cette page"
+    }
   },
   "share": {
     "button": "Partager cet outil",

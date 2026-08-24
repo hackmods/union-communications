@@ -3389,7 +3389,8 @@
     "subtitle": "Seniority worksheets for bumping files. Aid only.",
     "backToGuide": "Back to The Blueprint",
     "tocLabel": "On this page",
-    "intro": "Bumping files turn on seniority dates, classification boundaries, and posting rules. Use the worksheet to organize facts. Verify against your CA.",
+    "tipLabel": "Takeaway",
+    "intro": "Bumping files turn on seniority dates, classification boundaries, and posting rules — not debate energy. This playbook walks stewards through comparing two members, mapping one- and two-step cascades, and running a committee meeting with the worksheet. Verify every rule against your CA.",
     "disclaimer": {
       "title": "Not legal advice. Aid only.",
       "body": "Not a calculator and not legal advice. Confirm dates and rights against the CA and local practice."
@@ -3398,63 +3399,189 @@
       "dfr": "Duty of Fair Representation",
       "rightToRefuse": "Right to refuse unsafe work"
     },
-    "sections": {
-      "compare": {
-        "navLabel": "Compare seniority",
-        "title": "Worked example: comparing seniority",
-        "content": "Start with two members and one target role. Write seniority date, classification, and status on one sheet before debating.",
-        "items": [
-          "List Member A and Member B with seniority date (YYYY-MM-DD) and classification",
-          "Confirm which date the CA uses — continuous service, classification seniority, or another clock",
-          "Note ties and how your CA breaks them (e.g. earlier hire number, draw)",
-          "Only then compare qualifications, hours, and posting eligibility against the CA language"
-        ]
+    "gate": {
+      "navLabel": "Bumping or grievance?",
+      "title": "Before you open a bumping file",
+      "intro": "Posting disputes, layoff bumps, and classification grievances share vocabulary but not the same procedure. Run this gate so the committee does not debate the wrong problem.",
+      "items": {
+        "bumping": {
+          "label": "Is this a layoff or displacement bump?",
+          "content": "A bumping file applies when the CA lets a displaced member claim a lower or lateral role by seniority during a layoff or restructuring. You need a vacancy chain, not just “I wanted that posting.”"
+        },
+        "posting": {
+          "label": "Is this only a posting complaint?",
+          "content": "If the issue is whether a vacancy was posted correctly or qualifications were applied fairly, start with posting articles and may be a grievance — not a seniority committee ranking session."
+        },
+        "grievance": {
+          "label": "Already filed as a grievance?",
+          "content": "If a formal grievance is live on the same facts, coordinate with the steward handling it. Do not let the committee pre-judge an outcome the grievance path owns."
+        },
+        "committee": {
+          "label": "Does the CA require a committee?",
+          "content": "Some collections require a seniority committee vote; others are steward-led with employer notice. Confirm who chairs, who records, and what happens if the committee cannot agree."
+        }
       },
-      "cascade": {
-        "navLabel": "First cascade",
-        "title": "Worked example: first cascade",
-        "content": "A bump can displace another member, who may bump further. Map the chain before the committee votes.",
-        "items": [
-          "Draw the chain: vacancy → first bumper → displaced incumbent → next bump (if any)",
-          "Stop when the CA says the chain ends (classification floor, probation, temporary status)",
-          "Flag anyone who cannot bump (wrong classification, insufficient seniority, refused options)",
-          "Record each step in the committee log with dates and CA articles cited"
-        ]
+      "warningTitle": "If the gate is unclear",
+      "warning": "Pause the meeting. Read the layoff, posting, and seniority articles together. A posting grievance dressed as a bump wastes everyone's seniority dates."
+    },
+    "compare": {
+      "navLabel": "Compare seniority",
+      "title": "Worked example: two members, one target role",
+      "intro": "Role “Facilities Coordinator” is eliminated. Member A and Member B both claim bump into posted “Maintenance Clerk.” Write dates before anyone argues qualifications.",
+      "items": {
+        "setup": {
+          "label": "Set up the sheet",
+          "content": "Two rows only: Member A and Member B. Columns for seniority date, classification, current role, and target role. No names from other campuses yet."
+        },
+        "dates": {
+          "label": "Enter sample dates",
+          "content": "Member A — seniority 2014-03-12, Maintenance Lead. Member B — seniority 2016-09-01, Facilities Coordinator (eliminated). Target: Maintenance Clerk (posted 2026-02-01)."
+        },
+        "clock": {
+          "label": "Confirm which clock the CA uses",
+          "content": "Open the CA: is this continuous service, classification seniority, or another date? If B's elimination triggers bumping rights, note the article before comparing."
+        },
+        "tie": {
+          "label": "Break ties on paper",
+          "content": "If dates tie, write the CA tie-break (hire number, draw, hours in classification). Do not assume “longer in the building” wins without the article."
+        },
+        "qualify": {
+          "label": "Then check qualifications",
+          "content": "Only after seniority order is drafted, mark Yes, No, or Unknown on ability, licensing, and posting eligibility. A more senior member who fails ability may not hold the bump."
+        }
       },
-      "cascade2": {
-        "navLabel": "Second cascade",
-        "title": "Worked example: second cascade (three-deep chain)",
-        "content": "Vacancy at Role X displaces the incumbent, who bumps into Role Y and displaces a third member. Map before anyone signs.",
-        "items": [
-          "Role X vacant — Member A (most senior eligible) claims bump into X",
-          "Incumbent of X (Member B) may bump into posted Role Y if seniority and classification allow",
-          "Incumbent of Y (Member C) is last in chain — confirm whether C can bump further or hits a CA floor",
-          "Worksheet one row per person; mark “chain ends here” when the CA blocks another bump"
-        ]
-      },
-      "pitfalls": {
-        "navLabel": "Pitfalls",
-        "title": "Common pitfalls",
-        "content": "Most committee errors come from mixing clocks or ignoring boundaries the CA already defines.",
-        "items": [
-          "Posting date vs. seniority date — do not treat a vacancy posting date as someone’s seniority",
-          "Classification boundaries — FT/PT or support-staff collections may not bump across freely",
-          "Probationary or temporary status — confirm bumping rights before ranking someone",
-          "Assuming “earlier date always wins” without reading the CA’s tie-break and ability language"
-        ]
-      },
-      "worksheet": {
-        "navLabel": "Worksheet",
-        "title": "Paper worksheet (print or copy)",
-        "content": "Use this column layout on a blank page or spreadsheet during the meeting. Keep one copy in the case file.",
-        "items": [
-          "Columns: Member ref · Seniority date · Classification · Current position · Target / bump claim · Eligible? (Y/N/?) · Notes / CA article",
-          "Rows: one per person in the chain, plus a blank row for alternate candidates",
-          "Footer: session date, chair, decision summary, and link to the Officer Hub bumping case ID"
-        ],
-        "exportCta": "Download Excel worksheet",
-        "exportHint": "Opens Document Generator with a blank branded seniority grid ready to export."
+      "tip": "If you cannot write both seniority dates and the target role on one row each, you are not ready to vote."
+    },
+    "cascade1": {
+      "navLabel": "First cascade",
+      "title": "Worked example: two-person chain",
+      "intro": "One vacancy, one bumper, one displaced incumbent. Map this before calling a three-deep scenario.",
+      "items": {
+        "vacancy": {
+          "label": "Start with the vacancy",
+          "content": "Maintenance Clerk posted and filled — then the layoff removes Facilities Coordinator (Member B). The bump target is the clerk role Member B wants."
+        },
+        "bumper": {
+          "label": "Name the bumper",
+          "content": "Member B (2016-09-01) claims bump into Maintenance Clerk. Confirm B is in the right classification and meets ability language."
+        },
+        "displaced": {
+          "label": "Name who gets displaced",
+          "content": "Member C (2019-11-15) currently holds Maintenance Clerk — the incumbent B would displace. C may have their own bump rights into another posted role."
+        },
+        "floor": {
+          "label": "Mark the floor",
+          "content": "If C cannot bump further — probation, temporary status, or CA floor — write “chain ends at C” on the worksheet. Stop inventing extra steps."
+        },
+        "log": {
+          "label": "Log the step",
+          "content": "Committee log line: “B bumps to Clerk, displacing C — articles cited, next meeting date if C claims further bump.”"
+        }
       }
+    },
+    "cascade2": {
+      "navLabel": "Three-deep chain",
+      "title": "Worked example: Members A, B, and C",
+      "intro": "Role X vacant, Role Y posted. A three-deep chain displaces two incumbents. Map every hop before anyone signs.",
+      "items": {
+        "roleX": {
+          "label": "Vacancy at Role X",
+          "content": "Lab Technician II (Role X) is eliminated in a layoff. The posted replacement path runs through Role Y (Lab Technician I)."
+        },
+        "memberA": {
+          "label": "Member A — first bumper",
+          "content": "Member A (2013-06-01, Lab Tech I) is most senior eligible and claims bump into Role X. A meets classification and ability for X."
+        },
+        "memberB": {
+          "label": "Member B — displaced incumbent",
+          "content": "Member B (2015-02-14) held Role X and bumps into posted Role Y (Lab Tech I) if seniority and classification allow."
+        },
+        "memberC": {
+          "label": "Member C — last link",
+          "content": "Member C (2018-10-30) holds Role Y. Confirm whether C can bump into a posted Role Z or hits a CA floor (probation, temp, or classification boundary)."
+        },
+        "worksheet": {
+          "label": "Worksheet one row per hop",
+          "content": "Rows: A → X, B → Y, C → ? Mark “chain ends here” beside C if no further bump. Alternate candidates get a blank row — not a side debate."
+        }
+      },
+      "tip": "If you cannot name A, B, and C with dates on the worksheet, postpone the vote."
+    },
+    "meeting": {
+      "navLabel": "Run the meeting",
+      "title": "How to run the seniority committee",
+      "intro": "A disciplined meeting beats a long argument. Use the worksheet as the agenda — not as decoration.",
+      "items": {
+        "open": {
+          "label": "Open with the CA articles",
+          "content": "Chair reads the layoff, bumping, and committee articles aloud. Note which collection (FT/PT/support) applies before any names."
+        },
+        "worksheet": {
+          "label": "Project or pass the worksheet",
+          "content": "Every person in the chain gets a row. Stewards fill dates; members confirm or challenge with documents — not memory."
+        },
+        "oneChain": {
+          "label": "Resolve one chain at a time",
+          "content": "Finish Role X → Y → Z before opening a second vacancy. Mixing chains on one sheet causes transposed dates."
+        },
+        "vote": {
+          "label": "Vote on facts, then outcome",
+          "content": "First agree seniority order and eligibility flags. Then vote the bump outcome. Dissents go in the log with the member's name and reason."
+        },
+        "minutes": {
+          "label": "Minutes = worksheet + decision",
+          "content": "Attach the completed worksheet (or Hub export) to minutes: date, chair, attendees, articles cited, and “chain ends at Member C.”"
+        },
+        "file": {
+          "label": "File one copy in the case",
+          "content": "Steward keeps the signed worksheet in the bumping file and links the Officer Hub case ID if your local uses College Bumping."
+        }
+      },
+      "tip": "If the room argues qualifications before dates are on the sheet, call a five-minute break and reset."
+    },
+    "pitfalls": {
+      "navLabel": "Pitfalls",
+      "title": "Common pitfalls",
+      "intro": "Most committee errors come from mixing clocks or ignoring boundaries the CA already defines.",
+      "items": {
+        "postingDate": {
+          "label": "Posting date vs. seniority date",
+          "content": "A vacancy posted 2026-02-01 is not someone's seniority. Do not rank members by posting date."
+        },
+        "classification": {
+          "label": "Classification boundaries",
+          "content": "FT/PT or support-staff collections may not bump across freely. Confirm the collection before ranking."
+        },
+        "probation": {
+          "label": "Probationary or temporary status",
+          "content": "Confirm bumping rights before ranking someone. Probation and temp status often block bumps entirely."
+        },
+        "earlierWins": {
+          "label": "“Earlier date always wins”",
+          "content": "Read tie-break and ability language. Seniority order is necessary — not always sufficient."
+        }
+      }
+    },
+    "worksheet": {
+      "navLabel": "Worksheet",
+      "title": "Paper worksheet (print or export)",
+      "intro": "Use this column layout on a blank page, spreadsheet, or branded export during the meeting. Keep one signed copy in the case file.",
+      "items": {
+        "columns": {
+          "label": "Columns",
+          "content": "Member ref · Seniority date · Classification · Current position · Target / bump claim · Eligible? (Y/N/?) · Notes / CA article"
+        },
+        "rows": {
+          "label": "Rows",
+          "content": "One per person in the chain, plus a blank row for alternate candidates. Mark “chain ends here” when the CA blocks another bump."
+        },
+        "footer": {
+          "label": "Footer",
+          "content": "Session date, chair, decision summary, and Officer Hub bumping case ID if your local uses one."
+        }
+      },
+      "exportCta": "Download Excel worksheet",
+      "exportHint": "Opens Document Generator with a blank branded seniority grid ready to export."
     },
     "hub": {
       "title": "Officer Hub bumping module",
