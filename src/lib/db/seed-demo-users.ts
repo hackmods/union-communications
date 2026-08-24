@@ -1,13 +1,14 @@
 /**
- * Upsert DEMO_USERS into Postgres so durable hosts match the login demo hint
+ * Upsert DEMO_USERS into Postgres so durable hosts match the login Callout
  * (president.243@unionops.test / demo123, etc.). Skip with SEED_DEMO_USERS=false.
  */
+import { DEMO_SHARED_PASSWORD } from "@/lib/auth/demo-login-accounts";
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import { upsertPostgresUser } from "@/lib/auth/invite-postgres";
 import type { UserRole } from "@/types/tenant";
 
-/** Plaintext shared by the demo roster — same as login page hint. */
-export const DEMO_ROSTER_PASSWORD = "demo123";
+/** Plaintext shared by the demo roster — same as the login Callout. */
+export const DEMO_ROSTER_PASSWORD = DEMO_SHARED_PASSWORD;
 
 export function shouldSeedDemoUsers(
   env: NodeJS.ProcessEnv = process.env,

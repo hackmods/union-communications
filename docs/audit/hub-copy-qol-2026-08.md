@@ -58,8 +58,9 @@ These are wrong, not just awkward.
 | `discussions.mentionedCount` (FR) | Byte-identical to EN ICU string | French wording (`personnes citées`) |
 | `grievance.outcome.appealHint` (FR) | "**vérifier** la convention" (infinitive) | "**Vérifiez** … dans votre convention" |
 
-Demo credentials (`hub.demoHint`) use the reserved `unionops.test` domain so
-demo mailboxes cannot collide with a real union or local address.
+Demo credentials (`hub.demoAccounts`) use the reserved `unionops.test` domain so
+demo mailboxes cannot collide with a real union or local address. Emails live in
+code (`DEMO_LOGIN_ACCOUNTS`), not the message catalog.
 
 ## 2. Locked-term / bare-"hub" drift
 
@@ -91,7 +92,7 @@ or DJR hits in Hub FR (mechanical scan clean). Flyer/`affiche` in `localLinks` /
 | `hybrid.dataModeHonest` | "**QOL** tools" | "officer tools (snippets, marketplace, handoff)" |
 
 **Deliberate keeps:** union words (grievance, bumping, seniority, bargaining unit /
-collection, DFR). `hub.demoHint` reference emails. Hybrid still says "live-local"
+collection, DFR). `hub.demoAccounts` role labels (no emails in the catalog). Hybrid still says "live-local"
 as the product name for that mode (shown on the Hybrid settings page itself).
 
 ## 4. Weak error / empty / success states
@@ -142,7 +143,7 @@ Prefer a sibling **`HUB_NS`** sweep in `public-copy-style.test.ts` (or a thin
 | Untranslated FR | Same; ICU plurals must differ or stay ≤4 words |
 | Bare "the hub" | **Yes** on Hub too — say Officer Hub |
 | Jargon | Hub list: `tenant`, `slug`, `payload`, `adapter`, `overlay`, `RLS`, `memory store`, `*_DB_BACKEND`, `CTA`, `utilize`, `leverage` — **not** grievance/CA/bumping |
-| OPSEU/CAAT hardcode | Hub-specific: no national union names outside `hub.demoHint` |
+| OPSEU/CAAT hardcode | Hub-specific: no national union names in Hub copy |
 
 Then move `rsvpPublic`, `meetingPublic`, `localLinks`, `membershipUrls` into
 `PUBLIC_NS`.
@@ -160,7 +161,7 @@ Verify every new check with the throwaway injection harness from
 
 ## Deliberately left
 
-- `hub.demoHint` demo emails (reserved `unionops.test` domain)
+- `hub.demoAccounts` sample-account labels (emails live in `DEMO_LOGIN_ACCOUNTS`)
 - Hybrid product term "live-local" on the Hybrid page itself
 - Playful `routeUi` quips (out of Hub NS scope; already public-pass owned)
 - Structural home-hero CTA de-dup (`COPY-001`)

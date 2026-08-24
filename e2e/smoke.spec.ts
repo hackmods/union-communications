@@ -414,6 +414,20 @@ test.describe("Smoke tests @smoke", () => {
     await expectNoSeriousA11yViolations(page);
   });
 
+  test("demo login lists sample accounts that fill the form", async ({ page }) => {
+    await page.goto("/en/app/login");
+    await expect(
+      page.getByRole("heading", { name: "Sample accounts" }),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: /Fill Local 243 president/i })
+      .click();
+    await expect(page.getByLabel(/^Email$/i)).toHaveValue(
+      "president.243@unionops.test",
+    );
+    await expect(page.getByLabel(/^Password$/i)).toHaveValue("demo123");
+  });
+
   test("officer can sign in and reach MFA", async ({ page }) => {
     await page.goto("/en/app/login");
     await page.getByLabel(/Email|Courriel/i).fill("president.243@unionops.test");

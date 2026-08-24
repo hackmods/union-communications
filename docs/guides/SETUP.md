@@ -121,7 +121,7 @@ npm run test:smoke   # Playwright; needs browsers installed once
 
 ## Demo Officer Hub (development only)
 
-Demo accounts (password `demo123`) exist for local CI and workshops. They use the reserved `unionops.test` domain so they cannot collide with a real union or local address. They are documented in the README.
+Demo accounts (password `demo123`) exist for local CI and workshops. They use the reserved `unionops.test` domain so they cannot collide with a real union or local address. When the demo roster can sign in, Officer login lists every sample account above the form. They are also documented in the README.
 
 **Public launch toggle:** set `NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true` in `.env.local` (or leave Docker’s default) to show the Officer Hub header CTA and hub-forward marketing copy. When unset/false, the public site stays Comms-focused; `/app/login` and `/app/invite/[token]` stay reachable so you can invite local presidents before a national announcement.
 

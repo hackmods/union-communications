@@ -1,6 +1,12 @@
 import type { DemoUser } from "@/types/auth";
 import { isDemoAuthEnabled } from "@/lib/auth/demo-auth-gate";
+import { demoEmail } from "@/lib/auth/demo-login-accounts";
 import { verifyPassword } from "@/lib/auth/password";
+
+export {
+  DEMO_EMAIL_DOMAIN,
+  demoEmail,
+} from "@/lib/auth/demo-login-accounts";
 
 /**
  * bcrypt hash of plaintext `demo123` (cost 10).
@@ -8,16 +14,6 @@ import { verifyPassword } from "@/lib/auth/password";
  */
 export const DEMO_PASSWORD_HASH =
   "$2b$10$f09Lh9HIYNa/jyqKg1XVku27IJ4amiXw/ypJeL2SATVlXpn0l3jTW";
-
-/**
- * Reserved RFC 2606 `.test` domain so demo mailboxes cannot collide with a
- * real union, local, or `example.ca` registration.
- */
-export const DEMO_EMAIL_DOMAIN = "unionops.test";
-
-export function demoEmail(localPart: string): string {
-  return `${localPart}@${DEMO_EMAIL_DOMAIN}`;
-}
 
 /** Dev/demo roster — passwords are bcrypt hashes only (SEC-007). */
 export const DEMO_USERS: DemoUser[] = [

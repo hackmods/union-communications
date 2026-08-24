@@ -387,16 +387,12 @@ describe("Officer Hub copy style", () => {
     ["AUTH_ env", /\bAUTH_[A-Z0-9_]+\b/],
   ];
 
-  /** Demo login hint keeps reference-tenant email addresses by design. */
-  const HUB_EXEMPT = new Set(["hub.demoHint"]);
-
   it("keeps developer jargon out of Hub strings", () => {
     for (const [locale, rows] of [
       ["en", EN_HUB],
       ["fr", FR_HUB],
     ] as const) {
       const hits = rows.flatMap(([path, value]) => {
-        if (HUB_EXEMPT.has(path)) return [];
         const found = HUB_JARGON.filter(([, pattern]) => pattern.test(value));
         return found.map(
           ([label]) => [path, `[${label}] ${value}`] as const satisfies CopyLeaf,
@@ -406,11 +402,10 @@ describe("Officer Hub copy style", () => {
     }
   });
 
-  it("does not hardcode national union names outside the demo hint", () => {
-    const hits = [...EN_HUB, ...FR_HUB].filter(([path, value]) => {
-      if (HUB_EXEMPT.has(path)) return false;
-      return /\b(?:OPSEU|CAAT)\b/i.test(value);
-    });
+  it("does not hardcode national union names in Hub copy", () => {
+    const hits = [...EN_HUB, ...FR_HUB].filter(([, value]) =>
+      /\b(?:OPSEU|CAAT)\b/i.test(value),
+    );
     expect(hits, report(hits)).toEqual([]);
   });
 });

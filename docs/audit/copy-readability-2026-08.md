@@ -27,7 +27,8 @@ Legal/OHSA guide bullets and multi-clause skip lists dominate — expected. Opti
 
 ## Hub (informational)
 
-`hub.demoHint` ranks first (~26.5) because demo emails/passwords inflate syllable density — ignore for voice work. Real Hub density lives in fund/portal/travel subtitles and grievance outcome hints.
+`hub.demoAccounts` role labels are short on purpose. Older `hub.demoHint` density
+notes no longer apply — emails are not in the catalog.
 
 ## Follow-up (not this ticket)
 

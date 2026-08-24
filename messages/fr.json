@@ -3558,7 +3558,24 @@
     "loginError": "Ce courriel ou ce mot de passe n’est pas le bon. Vérifiez-les et réessayez.",
     "email": "Courriel",
     "password": "Mot de passe",
-    "demoHint": "Le mot de passe démo est demo123. Comptes : president.243@unionops.test · eerc.145@unionops.test (caucus de comité conjoint) · caat-admin@unionops.test (multi-local) · steward-pt.243@unionops.test",
+    "demoAccounts": {
+      "title": "Comptes d’exemple",
+      "lead": "Ce site de démonstration comprend des connexions toutes prêtes. Ce ne sont pas de vraies boîtes de courriel. Choisissez une ligne pour remplir le courriel et le mot de passe.",
+      "password": "Mot de passe pour chaque compte d’exemple : {password}",
+      "fill": "Remplir {role}",
+      "roles": {
+        "president243": "Président de la section 243",
+        "steward243": "Délégué de la section 243 (temps plein)",
+        "stewardPt243": "Délégué de la section 243 (temps partiel)",
+        "jointLead145": "Responsable de comité conjoint, section 145",
+        "divisionAdmin": "Administrateur de division (plusieurs sections)",
+        "president415": "Président de la section 415",
+        "president560": "Président de la section 560",
+        "stability243": "Comité de stabilité, section 243",
+        "member243": "Membre de la section 243",
+        "solo": "Délégué sans section"
+      }
+    },
     "forgotPassword": "Mot de passe oublié ?",
     "forgotPasswordEmailHint": "Lorsque le courriel est activé sur cet hôte, nous enverrons un lien de réinitialisation.",
     "magicLinkCta": "M’envoyer un lien de connexion",

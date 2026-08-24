@@ -3606,7 +3606,24 @@
     "loginError": "That email or password is not right. Check them and try again.",
     "email": "Email",
     "password": "Password",
-    "demoHint": "Demo password is demo123. Accounts: president.243@unionops.test · eerc.145@unionops.test (joint-committee caucus) · caat-admin@unionops.test (multi-local) · steward-pt.243@unionops.test",
+    "demoAccounts": {
+      "title": "Sample accounts",
+      "lead": "This demonstration site includes ready-made logins. They are not real inboxes. Choose a row to fill email and password.",
+      "password": "Password for every sample account: {password}",
+      "fill": "Fill {role}",
+      "roles": {
+        "president243": "Local 243 president",
+        "steward243": "Local 243 steward (full-time)",
+        "stewardPt243": "Local 243 steward (part-time)",
+        "jointLead145": "Local 145 joint-committee lead",
+        "divisionAdmin": "Division administrator (several locals)",
+        "president415": "Local 415 president",
+        "president560": "Local 560 president",
+        "stability243": "Local 243 stability committee",
+        "member243": "Local 243 member",
+        "solo": "Solo steward (no local)"
+      }
+    },
     "forgotPassword": "Forgot password?",
     "forgotPasswordEmailHint": "When email is enabled on this host, we’ll send a reset link to your inbox.",
     "magicLinkCta": "Email me a sign-in link",

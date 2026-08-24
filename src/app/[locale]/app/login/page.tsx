@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 import { PageShell } from "@/components/layout/PageShell";
-import { isDemoSite } from "@/lib/features/demo-site";
+import { DemoLoginAccounts } from "@/components/hub/DemoLoginAccounts";
+import { isDemoAuthEnabled } from "@/lib/auth/demo-auth-gate";
 import { resolvePostLoginHref } from "@/lib/auth/post-login-path";
 import { getTenantContext } from "@/lib/tenant/loader";
 import type { UserRole } from "@/types/tenant";
@@ -27,7 +28,7 @@ export default function LoginPage() {
   const [magicDone, setMagicDone] = useState(false);
   const [magicEmailSent, setMagicEmailSent] = useState<boolean | null>(null);
   const [magicReason, setMagicReason] = useState<string | undefined>();
-  const showDemoHint = isDemoSite();
+  const showDemoAccounts = isDemoAuthEnabled();
 
   useEffect(() => {
     let cancelled = false;
@@ -118,6 +119,16 @@ export default function LoginPage() {
       </h1>
       <p className="mt-2 text-gray-600">{t("loginSubtitle")}</p>
 
+      {showDemoAccounts ? (
+        <DemoLoginAccounts
+          onPick={(nextEmail, nextPassword) => {
+            setEmail(nextEmail);
+            setPassword(nextPassword);
+            setError(null);
+          }}
+        />
+      ) : null}
+
       <Card density="compact" className="mt-6">
         <form onSubmit={handleSubmit} className="space-y-3">
           <Input
@@ -185,10 +196,6 @@ export default function LoginPage() {
               </Button>
             )}
           </div>
-        ) : null}
-
-        {showDemoHint ? (
-          <p className="mt-4 text-xs text-gray-500">{t("demoHint")}</p>
         ) : null}
       </Card>
 
