@@ -405,39 +405,211 @@
   },
   "guide": {
     "title": "Le Plan directeur",
-    "subtitle": "Un manuel pour la pratique continue des communications locales - plateformes, ton, rythme et accessibilité.",
-    "intro": "À utiliser une fois votre Trousse de marque configurée et un premier message envoyé. Nouveau ici? Commencez par la Trousse de marque, puis Première semaine.",
+    "subtitle": "Pratique continue des communications après la Trousse de marque et Première semaine — canaux, rythme, ton et modération",
+    "intro": "Première semaine vous met en ligne. Le Plan directeur vous garde constant : quels canaux alimenter, à quelle fréquence publier, comment sonner comme un syndicat sur un écran de téléphone, et quoi faire quand la direction ou les trolls apparaissent. Utilisez-le avec les guides par canal pour tableaux, impression, Web et réseaux sociaux.",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
     "path": {
       "title": "Parcours connexes",
-      "plan": "Commencer - Trousse de marque d'abord, puis la feuille de route Première semaine",
-      "resources": "Ressources de communication - orientation, pratique, sources",
-      "crisis": "Guide de grève - communications de négociation et de grève",
-      "dfr": "Devoir de représentation équitable - littératie pour délégués et dirigeants",
-      "seniority": "Guide d'ancienneté et de bumping - aide manuelle",
-      "rightToRefuse": "Droit de refuser un travail dangereux - LSST Ont. art. 43",
-      "jointCommittee": "Guide des comités conjoints - campus, table provinciale, note aux membres"
+      "plan": "Commencer — Trousse de marque d'abord, puis la feuille de route Première semaine",
+      "resources": "Ressources de communication — orientation, pratique, sources",
+      "crisis": "Guide de grève — communications de négociation et de grève à enjeux élevés",
+      "dfr": "Devoir de représentation équitable — guide pratique",
+      "seniority": "Guide d'ancienneté et de bumping",
+      "rightToRefuse": "Droit de refuser un travail dangereux — LSST Ont. art. 43",
+      "jointCommittee": "Guide des comités conjoints"
     },
-    "chapters": {
-      "platforms": {
-        "title": "Quelles plateformes choisir",
-        "content": "Facebook convient aux grands publics, aux textes longs et aux événements. Instagram au récit visuel et aux Reels. Commencez par une plateforme et faites-la bien — beaucoup de sections misent sur un groupe Facebook fermé. Ajoutez un site Web pour des coordonnées stables ; servez-vous de l'imprimé et des tableaux pour les membres qui ne font jamais défiler."
+    "startHere": {
+      "navLabel": "Commencer ici",
+      "title": "Avant d'utiliser ce manuel",
+      "intro": "Le Plan directeur suppose que vous avez déjà les couleurs, un logo et un message sorti.",
+      "items": {
+        "brand": {
+          "label": "Trousse de marque complète",
+          "content": "Numéro de section, couleurs et logo verrouillés. Chaque export doit ressembler à la même section sans retaper."
+        },
+        "firstWeek": {
+          "label": "Première semaine faite ou en cours",
+          "content": "Tableau, impression, réseaux sociaux et site Web touchés une fois. Le Plan directeur, c'est l'entretien — pas la mise en place du premier jour."
+        },
+        "resources": {
+          "label": "Ressources de communication pour la pratique",
+          "content": "Liste d'atelier, trousse de démo et liens sources quand vous formez de nouveaux dirigeants."
+        },
+        "officers": {
+          "label": "Nommer un responsable des communications",
+          "content": "Même deux heures par semaine exigent un responsable. Le président approuve ; le responsable des communications rédige."
+        }
       },
-      "tone": {
-        "title": "Ton de voix",
-        "content": "Professionnel mais humain. Parlez au collectif (« nous », « nos membres »). Célébrez les gains, expliquez les reculs honnêtement et centrez les voix des membres. Évitez le jargon : écrivez pour un téléphone en pause. En crise, des phrases plus courtes et moins d'adjectifs."
+      "tip": "Si la Trousse de marque est vide, arrêtez-vous ici et ouvrez Première semaine — cette page sera toujours là à votre retour."
+    },
+    "channels": {
+      "navLabel": "Quatre canaux",
+      "title": "Quatre canaux, un message",
+      "intro": "Les membres découvrent le syndicat à différents endroits. Les faits doivent concorder partout.",
+      "items": {
+        "social": {
+          "label": "Réseaux sociaux",
+          "content": "Mises à jour rapides et récits de membres. Les groupes Facebook fermés sont courants — voir les plateformes ci-dessous."
+        },
+        "print": {
+          "label": "Impression",
+          "content": "Tracts et documents à distribuer pour les réunions, les portes et les membres qui ne font jamais défiler. Guide de l'impression pour la mise en page."
+        },
+        "boards": {
+          "label": "Tableaux syndicaux",
+          "content": "Liège au milieu de travail pour contacts, S&S et événements. Guide des tableaux syndicaux pour les zones."
+        },
+        "web": {
+          "label": "Site Web",
+          "content": "Lien stable qui-sommes-nous et comment-nous-joindre pour les codes QR et les médias. Guide du site Web pour le ZIP."
+        }
       },
-      "frequency": {
-        "title": "Fréquence de publication",
-        "content": "Visez 2 à 3 publications par semaine en temps normal ; augmentez en négociation ou en grève. La constance bat le volume. Mélange simple : 40 % nouvelles, 30 % récits, 20 % éducation, 10 % solidarité. Pendant une grève, une mise à jour officielle vaut mieux que cinq fils réactifs."
+      "warningTitle": "Un message, quatre surfaces",
+      "warning": "Si l'heure de réunion sur le tract ne correspond pas à la publication Facebook, les membres cessent de faire confiance aux quatre."
+    },
+    "platforms": {
+      "navLabel": "Plateformes",
+      "title": "Quelles plateformes choisir",
+      "intro": "Commencez par un canal social et faites-le bien. Ajoutez d'autres quand le premier est soutenable.",
+      "items": {
+        "facebook": {
+          "label": "Facebook / groupe fermé",
+          "content": "Grande portée, événements, publications plus longues. Beaucoup de sections utilisent un groupe réservé aux membres comme canal principal."
+        },
+        "instagram": {
+          "label": "Instagram",
+          "content": "Récit visuel et Reels. À combiner avec Consentement photo et les guides vidéo courte."
+        },
+        "website": {
+          "label": "Site Web comme ancre",
+          "content": "Pas un fil quotidien — une page de contact durable et une FAQ de grève quand la crise frappe."
+        },
+        "startOne": {
+          "label": "Commencez par un seul",
+          "content": "Un Instagram mort à côté d'un groupe Facebook actif fait plus de mal qu'un seul canal."
+        }
       },
-      "trolls": {
-        "title": "Gérer les trolls et la direction",
-        "content": "N'alimentez pas la mauvaise foi. Masquez ou supprimez les pourriels, le harcèlement et la désinformation. Face à la direction, tenez-vous aux faits, citez la convention collective et faites remonter le dossier. Ne publiez jamais de détails confidentiels de négociation. Une correction épinglée vaut mieux qu'une guerre de commentaires."
-      },
-      "accessibility": {
-        "title": "Accessibilité - texte alternatif",
-        "content": "Chaque image a besoin d'un texte alternatif. Rédigez avec l'assistant, collez dans le champ plateforme (pas la légende). Qui, quoi, où, et le texte du graphique. Les couleurs à fort contraste de la Trousse de marque aident la lisibilité au plancher — passez par le vérificateur de contraste avant d'exporter."
+      "tip": "Mettez le même code QR sur les tableaux et les tracts — il doit mener vers votre site Web ou le lien d'adhésion au groupe, pas une courte URL brisée."
+    },
+    "tone": {
+      "navLabel": "Ton",
+      "title": "Ton de voix",
+      "intro": "Écrivez pour un délégué qui lit en pause — pas pour un diplôme en communications.",
+      "items": {
+        "we": {
+          "label": "Parlez au « nous »",
+          "content": "Nos membres, notre section, notre équipe de négociation — voix collective, pas l'opinion chaude d'un seul dirigeant."
+        },
+        "honest": {
+          "label": "Honnête sur les reculs",
+          "content": "Les membres pardonnent les mauvaises nouvelles qu'ils comprennent. Ils ne pardonnent pas le vernis."
+        },
+        "plain": {
+          "label": "Langage clair",
+          "content": "Coupez le jargon et les acronymes sauf si votre public les utilise chaque jour. Définissez les articles de la convention collective quand vous les citez."
+        },
+        "crisis": {
+          "label": "Plus court en crise",
+          "content": "Mode grève : moins d'adjectifs, un porte-parole, le président approuve. Voir le Guide de grève."
+        }
       }
+    },
+    "frequency": {
+      "navLabel": "Rythme",
+      "title": "Fréquence de publication et mix",
+      "intro": "La constance bat le volume. Les membres doivent savoir à peu près quand vous attendre.",
+      "items": {
+        "normal": {
+          "label": "Temps normaux",
+          "content": "Deux ou trois publications par semaine suffisent pour la plupart des sections entre les rondes de négociation."
+        },
+        "mix": {
+          "label": "Mix de contenu simple",
+          "content": "Guide approximatif : 40 % mises à jour, 30 % récits de membres (avec consentement), 20 % éducation, 10 % solidarité."
+        },
+        "strike": {
+          "label": "Grève ou décompte",
+          "content": "Passez au rythme trois messages du Guide de grève — pas des publications réactives sans fin."
+        },
+        "quiet": {
+          "label": "Les semaines calmes, c'est correct",
+          "content": "Publiez seulement quand vous avez des nouvelles. Une page vide vaut mieux que du bruit."
+        }
+      },
+      "tip": "Rédigez les brouillons le dimanche soir ; le président approuve le lundi. Évite les publications paniquées le mercredi."
+    },
+    "trolls": {
+      "navLabel": "Modération",
+      "title": "Trolls, pourriels et direction",
+      "intro": "Des commentaires de mauvaise foi arriveront. Votre travail est de protéger l'espace, pas de gagner chaque fil.",
+      "items": {
+        "spam": {
+          "label": "Masquer pourriels et harcèlement",
+          "content": "Supprimez les insultes et les menaces. Conservez des captures d'écran pour l'exécutif si nécessaire."
+        },
+        "management": {
+          "label": "Comptes de la direction",
+          "content": "Répondez une fois avec les faits et le langage de la convention collective si le président approuve. Pas de pile-ons."
+        },
+        "pin": {
+          "label": "Épinglez la correction",
+          "content": "Une publication épinglée vaut mieux que vingt réponses. Liez la section direction du Guide de grève en crise."
+        },
+        "never": {
+          "label": "Ne publiez jamais",
+          "content": "Négociation confidentielle, détails de discipline de membres ou adresses domiciliaires — en ligne ou en messages privés."
+        }
+      },
+      "warningTitle": "N'alimentez pas les trolls",
+      "warning": "Si vous tapez en colère, remettez le brouillon à un autre dirigeant ou attendez l'approbation du président."
+    },
+    "accessibility": {
+      "navLabel": "Accessibilité",
+      "title": "Texte alternatif, contraste et mobile",
+      "intro": "Les membres au plancher utilisent de petits écrans dans des couloirs lumineux. Concevez pour ça.",
+      "items": {
+        "alt": {
+          "label": "Texte alternatif sur chaque image",
+          "content": "Rédigez dans l'assistant Texte alternatif ; collez dans le champ texte alternatif de la plateforme, pas la légende. Incluez les mots sur l'image."
+        },
+        "contrast": {
+          "label": "Contraste avant export",
+          "content": "Passez par les vérifications de contraste de la Trousse de marque. Le gris pâle sur blanc échoue sur les téléphones et les copieurs."
+        },
+        "captions": {
+          "label": "Sous-titres sur la vidéo",
+          "content": "Les Reels et Shorts ont besoin de sous-titres pour les membres qui regardent en sourdine au travail."
+        },
+        "mobile": {
+          "label": "Mise en page mobile d'abord",
+          "content": "Tracts et graphiques : gros caractères, une seule demande, lisible à bout de bras — même test du coup d'œil que l'impression."
+        }
+      }
+    },
+    "fullWeek": {
+      "navLabel": "Semaine type",
+      "title": "Exemple concret : une semaine de communications normale",
+      "intro": "Pas de grève, pas d'échéance de négociation — juste garder la section visible entre les réunions.",
+      "phases": {
+        "mon": {
+          "label": "Lundi — planifier",
+          "content": "Le responsable des communications rédige deux publications : rappel de réunion mercredi, portrait de membre vendredi (consentement confirmé). Le président approuve les deux."
+        },
+        "wed": {
+          "label": "Mercredi — poussée de réunion",
+          "content": "Export Créateur graphique vers le groupe ; PDF Avis pour tableau sur le liège ; même heure et salle sur les deux."
+        },
+        "thu": {
+          "label": "Jeudi — rafraîchir le tableau",
+          "content": "Retirez le tract du mois dernier. Laissez les contacts et la bande S&S. Ajoutez une affiche de solidarité si le tableau semble vide."
+        },
+        "fri": {
+          "label": "Vendredi — portrait",
+          "content": "Publiez le portrait avec texte alternatif. Pas de géolocalisation. Consignez le consentement dans le carnet du dirigeant."
+        }
+      },
+      "tip": "Quatre points de contact, un responsable des communications, zéro course de dernière minute — voilà le Plan directeur en pratique."
     },
     "channelGuides": {
       "title": "Plus de guides par canal",
@@ -4497,7 +4669,7 @@
     "items": {
       "labour-guides-rewrite": {
         "title": "Guides de pratique réécrits pour délégués et comms",
-        "body": "Guides syndicaux, grève et consentement photo proposent maintenant des scénarios pas à pas — filtres de décision, scripts de demande, rythme quotidien et liens vers les outils sous pression."
+        "body": "Le Plan directeur, les guides syndicaux, la grève et le consentement photo proposent maintenant des scénarios concrets — quatre canaux, une semaine type, filtres de décision et liens vers les outils sur le plancher."
       },
       "graphic-gradient-ink": {
         "title": "Fonds de graphiques plus nets",

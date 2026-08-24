@@ -405,39 +405,211 @@
   },
   "guide": {
     "title": "The Blueprint",
-    "subtitle": "A handbook for ongoing local communications practice - platforms, tone, rhythm, and accessibility.",
-    "intro": "Use this once your Brand Kit is set up and a first message is out. New here? Start with Brand Kit, then First week.",
+    "subtitle": "Ongoing comms practice after Brand Kit and First week — channels, rhythm, tone, and moderation",
+    "intro": "First week gets you live. The Blueprint keeps you consistent: which channels to feed, how often to post, how to sound like a union on a phone screen, and what to do when management or trolls show up. Use it with channel guides for boards, print, web, and social depth.",
+    "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
     "path": {
       "title": "Related paths",
-      "plan": "Get started - Brand Kit first, then the First week roadmap",
-      "resources": "Comms Resources - orientation, practice, sources",
-      "crisis": "Strike Guide - high-stakes bargaining and strike communications",
-      "dfr": "Duty of Fair Representation - steward and officer literacy",
-      "seniority": "Seniority & bumping playbook - manual walkthrough aid",
-      "rightToRefuse": "Right to refuse unsafe work - Ontario OHSA s.43",
-      "jointCommittee": "Joint committee playbook - campus talk, provincial table, member note"
+      "plan": "Get started — Brand Kit first, then the First week roadmap",
+      "resources": "Comms Resources — orientation, practice, sources",
+      "crisis": "Strike Guide — high-stakes bargaining and strike communications",
+      "dfr": "Duty of Fair Representation playbook",
+      "seniority": "Seniority & bumping playbook",
+      "rightToRefuse": "Right to refuse unsafe work — Ontario OHSA s.43",
+      "jointCommittee": "Joint committee playbook"
     },
-    "chapters": {
-      "platforms": {
-        "title": "Which platforms to choose",
-        "content": "Facebook fits broad demographics, longer posts, and events. Instagram fits visual storytelling and Reels. Start with one platform and do it well — many locals rely on a closed Facebook group. Add a website for stable contact info; use print and boards for members who never scroll."
+    "startHere": {
+      "navLabel": "Start here",
+      "title": "Before you use this handbook",
+      "intro": "The Blueprint assumes you already have colours, a logo, and one message out the door.",
+      "items": {
+        "brand": {
+          "label": "Brand Kit complete",
+          "content": "Local number, colours, and logo locked. Every export should look like the same local without retyping."
+        },
+        "firstWeek": {
+          "label": "First week done or underway",
+          "content": "Board, print, social, and website touched once. The Blueprint is maintenance — not day-one setup."
+        },
+        "resources": {
+          "label": "Comms Resources for practice",
+          "content": "Workshop checklist, demo kit, and source links when you train new officers."
+        },
+        "officers": {
+          "label": "Name a comms lead",
+          "content": "Even two hours a week needs an owner. President approves; comms lead drafts."
+        }
       },
-      "tone": {
-        "title": "Tone of voice",
-        "content": "Professional but human. Speak as a collective (“we”, “our members”). Celebrate wins, explain setbacks honestly, and centre member voices. Avoid jargon: write for a phone screen on break. In crisis, shorter sentences and fewer adjectives."
+      "tip": "If Brand Kit is empty, stop here and open First week — this page will still be here when you return."
+    },
+    "channels": {
+      "navLabel": "Four channels",
+      "title": "Four channels, one message",
+      "intro": "Members learn the union in different places. The facts should match everywhere.",
+      "items": {
+        "social": {
+          "label": "Social",
+          "content": "Fast updates and member stories. Closed Facebook groups are common — see platforms below."
+        },
+        "print": {
+          "label": "Print",
+          "content": "Flyers and handouts for meetings, gates, and members who never scroll. Print Guide for layout."
+        },
+        "boards": {
+          "label": "Union boards",
+          "content": "Workplace cork for contacts, H&S, and events. Union Boards Guide for zones."
+        },
+        "web": {
+          "label": "Website",
+          "content": "Stable who-we-are and how-to-reach-us link for QR codes and media. Website Guide for the ZIP."
+        }
       },
-      "frequency": {
-        "title": "Posting frequency",
-        "content": "Aim for 2-3 posts per week in normal times; increase during bargaining or strike. Consistency beats volume. Simple mix: 40% updates, 30% member stories, 20% education, 10% solidarity. During a strike, one official update beats five reactive threads."
+      "warningTitle": "One message, four surfaces",
+      "warning": "If the meeting time on the flyer does not match the Facebook post, members stop trusting all four."
+    },
+    "platforms": {
+      "navLabel": "Platforms",
+      "title": "Which platforms to choose",
+      "intro": "Start with one social channel and do it well. Add others when the first one is sustainable.",
+      "items": {
+        "facebook": {
+          "label": "Facebook / closed group",
+          "content": "Broad reach, events, longer posts. Many locals use a members-only group as the primary channel."
+        },
+        "instagram": {
+          "label": "Instagram",
+          "content": "Visual storytelling and Reels. Pair with Photo Consent and short-form video guides."
+        },
+        "website": {
+          "label": "Website as anchor",
+          "content": "Not a daily feed — a durable contact page and strike FAQ when crisis hits."
+        },
+        "startOne": {
+          "label": "Start with one",
+          "content": "A dead Instagram beside a lively Facebook group hurts more than having one channel."
+        }
       },
-      "trolls": {
-        "title": "Dealing with trolls and management",
-        "content": "Do not engage bad-faith comments. Hide or delete spam, harassment, and misinformation. For management pushback, stick to facts, cite the CA, and escalate. Never post confidential bargaining details. One pinned correction beats a comment war."
-      },
-      "accessibility": {
-        "title": "Accessibility - alt-text",
-        "content": "Every image needs alt text. Draft with Alt-Text Assistant, paste into the platform field (not the caption). Cover who, what, where, and on-image text. High-contrast Brand Kit colours help shop-floor readability — run the contrast checker before you export."
+      "tip": "Put the same QR on boards and flyers — it should land on your website or group join link, not a broken short URL."
+    },
+    "tone": {
+      "navLabel": "Tone",
+      "title": "Tone of voice",
+      "intro": "Write for a steward reading on break — not a comms degree.",
+      "items": {
+        "we": {
+          "label": "Speak as we",
+          "content": "Our members, our local, our bargaining team — collective voice, not a single officer’s hot take."
+        },
+        "honest": {
+          "label": "Honest about setbacks",
+          "content": "Members forgive bad news they understand. They do not forgive spin."
+        },
+        "plain": {
+          "label": "Plain language",
+          "content": "Cut jargon and acronyms unless your audience uses them daily. Define CA articles when you cite them."
+        },
+        "crisis": {
+          "label": "Shorter in crisis",
+          "content": "Strike mode: fewer adjectives, one spokesperson, president approves. See the Strike Guide."
+        }
       }
+    },
+    "frequency": {
+      "navLabel": "Rhythm",
+      "title": "Posting frequency and mix",
+      "intro": "Consistency beats volume. Members should know roughly when to expect you.",
+      "items": {
+        "normal": {
+          "label": "Normal times",
+          "content": "Two or three posts per week is enough for most locals between bargaining rounds."
+        },
+        "mix": {
+          "label": "Simple content mix",
+          "content": "Rough guide: 40% updates, 30% member stories (with consent), 20% education, 10% solidarity."
+        },
+        "strike": {
+          "label": "Strike or countdown",
+          "content": "Switch to the Strike Guide three-messages rhythm — not endless reactive posting."
+        },
+        "quiet": {
+          "label": "Quiet weeks are fine",
+          "content": "Post only when you have news. An empty page beats noise."
+        }
+      },
+      "tip": "Batch drafts Sunday night; president approves Monday. Saves panic posts on Wednesday."
+    },
+    "trolls": {
+      "navLabel": "Moderation",
+      "title": "Trolls, spam, and management",
+      "intro": "Bad-faith comments will come. Your job is to protect the space, not win every thread.",
+      "items": {
+        "spam": {
+          "label": "Hide spam and harassment",
+          "content": "Delete slurs and threats. Document screenshots for executive if needed."
+        },
+        "management": {
+          "label": "Management accounts",
+          "content": "Respond once with facts and CA language if president approves. No pile-ons."
+        },
+        "pin": {
+          "label": "Pin the correction",
+          "content": "One pinned post beats twenty replies. Link the Strike Guide management section in crisis."
+        },
+        "never": {
+          "label": "Never post",
+          "content": "Confidential bargaining, member discipline details, or home addresses — online or in DMs."
+        }
+      },
+      "warningTitle": "Do not feed trolls",
+      "warning": "If you are typing angry, hand the draft to another officer or wait for president sign-off."
+    },
+    "accessibility": {
+      "navLabel": "Accessibility",
+      "title": "Alt-text, contrast, and mobile",
+      "intro": "Shop-floor members use small screens in bright hallways. Design for that.",
+      "items": {
+        "alt": {
+          "label": "Alt-text on every image",
+          "content": "Draft in Alt-Text Assistant; paste in the platform alt field, not the caption. Include on-image words."
+        },
+        "contrast": {
+          "label": "Contrast before export",
+          "content": "Run Brand Kit contrast checks. Pale grey on white fails on phones and copiers."
+        },
+        "captions": {
+          "label": "Captions on video",
+          "content": "Reels and Shorts need captions for members who watch muted at work."
+        },
+        "mobile": {
+          "label": "Mobile-first layout",
+          "content": "Flyers and graphics: large type, one ask, readable at arm's length — same Glance Test as print."
+        }
+      }
+    },
+    "fullWeek": {
+      "navLabel": "Worked week",
+      "title": "Worked example: a normal comms week",
+      "intro": "No strike, no bargaining deadline — just keeping the local visible between meetings.",
+      "phases": {
+        "mon": {
+          "label": "Monday — plan",
+          "content": "Comms lead drafts two posts: Wednesday meeting reminder, Friday member spotlight (consent confirmed). President approves both."
+        },
+        "wed": {
+          "label": "Wednesday — meeting push",
+          "content": "Graphic Maker export to group; Board Notice PDF to cork; same time and room on both."
+        },
+        "thu": {
+          "label": "Thursday — board refresh",
+          "content": "Pull last month’s flyer. Leave contacts and H&S strip up. Add solidarity poster if the board looks bare."
+        },
+        "fri": {
+          "label": "Friday — spotlight",
+          "content": "Post spotlight with alt-text. No location tag. Log consent in officer notebook."
+        }
+      },
+      "tip": "Four touchpoints, one comms lead, zero last-minute scrambles — that is the Blueprint in practice."
     },
     "channelGuides": {
       "title": "More guides by channel",
@@ -4545,7 +4717,7 @@
     "items": {
       "labour-guides-rewrite": {
         "title": "Steward and comms playbooks rewritten",
-        "body": "Labour guides plus Strike and Photo Consent now walk real scenarios step by step — decision gates, ask scripts, daily rhythm, and tool links you can use under pressure."
+        "body": "The Blueprint, labour guides, Strike, and Photo Consent now walk real scenarios — four channels, a sample comms week, decision gates, and tool links you can use on the floor."
       },
       "graphic-gradient-ink": {
         "title": "Cleaner graphic backgrounds",
