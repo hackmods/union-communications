@@ -73,4 +73,4 @@ If the work feels bleak, look at [`.cursor/easter-eggs/just-be-loved-snowmobile.
 
 ## Stewardship
 
-UnionOps is source-available (see `LICENSE`), stewarded by Ryan Morris. Operator guides: `docs/guides/SETUP.md`, `docs/guides/DEPLOY.md`. Privacy is two-tier: Comms on-device; hosted Officer Hub → instance operator is data controller. **Comms stay free.** Hosted Officer Hub / Local Portal may recover hosting costs; self-host remains an option. Never promise the whole platform is free forever — public copy is `/manifesto` (ADR-019).
+UnionOps is source-available (see `LICENSE`), stewarded by Ryan Morris. Operator guides: `docs/guides/SETUP.md`, `docs/guides/DEPLOY.md`, `docs/guides/CAPROVER_POSTGRES.md` (CapRover + Postgres flip). Privacy is two-tier: Comms on-device; hosted Officer Hub → instance operator is data controller. **Comms stay free.** Hosted Officer Hub / Local Portal may recover hosting costs; self-host remains an option. Never promise the whole platform is free forever — public copy is `/manifesto` (ADR-019).

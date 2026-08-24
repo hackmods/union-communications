@@ -66,6 +66,9 @@ jobs:
       - name: Docker build smoke
         run: docker build -f docker/Dockerfile -t union-communications:ci .
 
+      - name: Docker migrate smoke
+        run: bash scripts/docker-migrate-smoke.sh union-communications:ci
+
       - name: Dependency audit
         run: npm audit --audit-level=high
         continue-on-error: true

@@ -77,7 +77,7 @@ npm run db:rls-smoke          # cross-union SELECT returns 0 under RLS
 GRIEVANCE_DB_BACKEND=postgres npm run db:durability-smoke
 ```
 
-Compose creates `unionops_app` via `docker/db-init/` + migration `0008_app_role.sql`. Set `POSTGRES_APP_PASSWORD` (or reuse `POSTGRES_PASSWORD` for demos). Migrations run as the owner via `MIGRATE_DATABASE_URL` in `docker/entrypoint.sh`.
+Compose creates `unionops_app` via `docker/db-init/` + migration `0008_app_role.sql`. Set `POSTGRES_APP_PASSWORD` (or reuse `POSTGRES_PASSWORD` for demos). Production images ship migrations under `/app/db-migrate/`; `docker/entrypoint.sh` runs migrate as the owner when `MIGRATE_DATABASE_URL` is set and syncs the app-role password when `POSTGRES_APP_PASSWORD` is set. CapRover hosts without `db-init`: see [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md).
 
 ## Attachment storage & ClamAV (optional — FEAT-001)
 

@@ -6,7 +6,7 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
 
 - PostgreSQL 16+ (see `docker/docker-compose.yml` for a reference stack)
 - Unique `AUTH_SECRET` and `POSTGRES_PASSWORD` (never commit)
-- Migrations applied via `MIGRATE_DATABASE_URL` (table owner) on container boot or `npm run db:migrate`
+- Migrations applied via `MIGRATE_DATABASE_URL` (table owner) on **container boot** (`docker/entrypoint.sh` ships migrations in the production image) or manually via `npm run db:migrate`
 
 ## Flip checklist
 
@@ -15,7 +15,7 @@ UnionOps ships Drizzle adapters behind `*_DB_BACKEND` flags (default **memory**)
    - `MIGRATE_DATABASE_URL` — owner role (DDL + migrations)
    - `DATABASE_URL` — `unionops_app` when `POSTGRES_APP_PASSWORD` is set (RLS binds at runtime)
    - **URL-encode passwords** in connection strings (`encodeURIComponent` / `[uri]::EscapeDataString`). A raw `+` or `/` in the password will break migrate/seed.
-3. **Run migrations + seed once:** `npm run db:migrate` then `npm run db:seed` (or rely on `docker/entrypoint.sh` migrate on boot).
+3. **Run migrations + seed once:** Production Docker images apply migrations on boot when `MIGRATE_DATABASE_URL` is set (and sync `unionops_app` when `POSTGRES_APP_PASSWORD` is set). Run **`npm run db:seed` once** after first migrate — seed is not automatic on boot. CapRover walkthrough: [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md). Local/manual: `npm run db:migrate` then `npm run db:seed`.
 
    **One-shot local verify** (db already healthy, `docker/.env` filled):
 
@@ -106,5 +106,6 @@ Set `*_DB_BACKEND=memory` and restart — **data in Postgres is not read** until
 ## Related
 
 - [`DEPLOY.md`](DEPLOY.md) — production checklist, SMTP, MFA
+- [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md) — CapRover two-app Postgres flip walkthrough
 - [`SETUP.md`](SETUP.md) — local dev, sandbox smoke, cron dry-run
 - [`docs/RBAC.md`](../RBAC.md) — tenancy and RLS expectations

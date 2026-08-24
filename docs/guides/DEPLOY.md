@@ -65,6 +65,8 @@ Compose **requires** `AUTH_SECRET` in the environment (or `docker/.env`). MFA st
 
 This repo includes [`captain-definition`](../../captain-definition) pointing at `./docker/Dockerfile`.
 
+**Durable Postgres on CapRover:** step-by-step walkthrough in [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md) (two-app setup, env template, bootstrap seed, verify). Paste-ready env: [`docker/.env.production.example`](../../docker/.env.production.example).
+
 1. Create an app; set **Container HTTP Port** to **3000** (not 80). A wrong port yields CapRover NGINX 502 even when logs say Ready.
 2. App Configs (minimum):
 
@@ -116,6 +118,7 @@ CI on `main` can POST `CAPROVER_WEBHOOK_URL` (GitHub Actions secret) after tests
 
 - Local setup: [`SETUP.md`](SETUP.md)
 - Postgres durability: [`POSTGRES_OPS.md`](POSTGRES_OPS.md)
+- CapRover + Postgres flip: [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md)
 - Security reporting: [`SECURITY.md`](../../SECURITY.md)
 
 ## Proxmox sandbox (internal)

@@ -68,7 +68,7 @@ Accessibility: font scaling, high contrast, reduced motion — EN/FR throughout.
 
 ## Officer Hub — what's shipped
 
-Phases **0–5 complete**, plus Workforce Time 8-lite. Memory adapters today; Postgres + RLS is next.
+Phases **0–5 complete**, plus Workforce Time 8-lite. **Postgres + RLS adapters ship behind `*_DB_BACKEND` flags** (default memory for demos; production flip via [`docs/guides/POSTGRES_OPS.md`](docs/guides/POSTGRES_OPS.md) or [`docs/guides/CAPROVER_POSTGRES.md`](docs/guides/CAPROVER_POSTGRES.md)).
 
 ### Casework & deadlines
 
@@ -164,6 +164,7 @@ See [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/PROGRESS.md`](docs/PROGRESS.
 | [Vision](docs/VISION.md) | Multi-union product scope |
 | [Architecture](docs/ARCHITECTURE.md) | Stack, tenancy, DataAdapter |
 | [Setup](docs/guides/SETUP.md) / [Deploy](docs/guides/DEPLOY.md) | Operator guides |
+| [CapRover + Postgres](docs/guides/CAPROVER_POSTGRES.md) | Durable self-host on CapRover |
 | [RBAC](docs/RBAC.md) | Roles — never cross-union data |
 | [Compliance](docs/COMPLIANCE.md) | Privacy, AODA |
 | [Roadmap](docs/ROADMAP.md) / [Progress](docs/PROGRESS.md) | Phase status |

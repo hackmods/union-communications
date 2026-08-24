@@ -1,5 +1,14 @@
 # Progress Log
 
+## Production migrate in Docker image (2026-08-24)
+
+- [x] `docker/Dockerfile` migrate stage — ship SQL journal + `drizzle-kit` in `/app/db-migrate/`
+- [x] `drizzle.migrate.config.ts` — migrate-only config (no schema TS in runner)
+- [x] `docker/entrypoint.sh` — explicit drizzle-kit path, fail-fast migrate, `sync-app-role-password.mjs`
+- [x] `scripts/docker-migrate-smoke.sh` + CI step — prove entrypoint applies migrations
+- [x] `scripts/caprover-bootstrap-seed.sh` — one-shot seed on CapRover network
+- [x] `docker/.env.production.example` + [`docs/guides/CAPROVER_POSTGRES.md`](guides/CAPROVER_POSTGRES.md)
+
 ## Hub copy sequel (2026-08-24) — COPY-003
 
 - [x] Time 8c–8f + QOL handoff/calendar/snippets/marketplace error strings — EN/FR remedy clauses (refresh, check fields, try again)

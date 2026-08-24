@@ -9,6 +9,15 @@ ENV NPM_CONFIG_UPDATE_NOTIFIER=false
 COPY package.json package-lock.json ./
 RUN npm ci
 
+# ---- migrate: drizzle-kit + migrations for entrypoint auto-migrate ----
+FROM base AS migrate
+ENV NPM_CONFIG_UPDATE_NOTIFIER=false
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev && npm install drizzle-kit@0.31.10 --no-save
+COPY drizzle.migrate.config.ts ./
+COPY src/lib/db/migrations ./src/lib/db/migrations
+COPY scripts/sync-app-role-password.mjs ./scripts/sync-app-role-password.mjs
+
 # ---- builder: compile the Next.js standalone output ----
 FROM base AS builder
 # CapRover injects these as build-args; declare them to avoid unconsumed warnings.
@@ -51,6 +60,10 @@ RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=migrate --chown=nextjs:nodejs /app/node_modules ./db-migrate/node_modules
+COPY --from=migrate --chown=nextjs:nodejs /app/drizzle.migrate.config.ts ./db-migrate/drizzle.migrate.config.ts
+COPY --from=migrate --chown=nextjs:nodejs /app/src/lib/db/migrations ./db-migrate/src/lib/db/migrations
+COPY --from=migrate --chown=nextjs:nodejs /app/scripts/sync-app-role-password.mjs ./scripts/sync-app-role-password.mjs
 COPY docker/entrypoint.sh /entrypoint.sh
 
 USER root
