@@ -911,69 +911,256 @@
   },
   "photoConsentGuide": {
     "title": "Consentement photo et médias des membres",
-    "subtitle": "Une courte liste à parcourir avant de publier la photo d'un membre.",
-    "intro": "Le Créateur graphique exige déjà le consentement au téléversement. Cette page aide les sections à écrire une pratique commune. Pas un avis juridique.",
+    "subtitle": "Demandez avant de publier — scripts, journaux et retraits pour délégués et volontaires Comms",
     "backToGuide": "Retour au Plan directeur",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "intro": "Le Créateur graphique bloque le téléversement tant que vous n'avez pas confirmé le consentement — mais les sections ont quand même besoin d'une pratique commune pour les appareils photo, les Reels, les photos de tableau et les publications Facebook. Ce guide aide les dirigeants à s'entendre sur la façon de demander, quoi consigner et qui retire les images. Pas un avis juridique.",
+    "disclaimer": {
+      "title": "Pas un avis juridique",
+      "body": "Les lois sur la vie privée et les règles d'affichage de la convention collective varient. Confirmez avec l'exécutif local et votre représentant de service avant de filmer au travail."
+    },
+    "gate": {
+      "navLabel": "Publier ou passer?",
+      "title": "Avant de lever l'appareil",
+      "intro": "Chaque moment syndical n'a pas besoin d'un visage en ligne. Passez ce filtre avant de filmer ou d'exporter.",
+      "items": {
+        "crowd": {
+          "label": "Foule large, aucun sujet unique",
+          "content": "Piquets et rassemblements : dos et pancartes suffisent souvent. Évitez quand même d'identifier des personnes ou de géolocaliser l'entrée."
+        },
+        "spotlight": {
+          "label": "Un membre est le sujet",
+          "content": "Graphiques de mise en vedette, cartes de citation avec visage et Reels exigent un consentement explicite et la liste ci-dessous."
+        },
+        "workplace": {
+          "label": "Filmer à l'intérieur du lieu de travail",
+          "content": "Vérifiez d'abord la CC et la politique de l'employeur. Les travailleurs en probation ou en précarité courent un vrai risque de représailles — par défaut, non, sauf si le membre prend l'initiative."
+        },
+        "crisis": {
+          "label": "Contexte de grève ou de discipline",
+          "content": "Prudence accrue. Une photo de solidarité peut devenir une preuve que la direction exploite. Lisez les lignes sur le consentement du Guide de grève avant de publier."
+        }
+      },
+      "warningTitle": "En cas de doute",
+      "warning": "Recadrez sur les mains, les pancartes ou les plans larges. Un moment manqué vaut mieux qu'un membre lésé."
+    },
     "why": {
-      "title": "Pourquoi c'est important",
-      "content": "Le consentement n'est pas seulement une question de vie privée. Un visage publié peut mettre en danger un travailleur en période de probation, un membre vulnérable, ou quiconque évite la surveillance de l'employeur. Demandez avant de publier.",
+      "navLabel": "Pourquoi c'est important",
+      "title": "Pourquoi le consentement, c'est la solidarité",
+      "intro": "Le consentement protège les membres de la surveillance de l'employeur et des bonnes intentions des autres.",
       "retaliationTitle": "Surveillance de l'employeur",
       "retaliationBody": "N'identifiez pas les membres au travail, n'activez pas les étiquettes de lieu, et ne publiez pas une photo qui prouve qu'ils étaient à une activité syndicale si cela peut se retourner contre eux. Dans le doute, recadrez ou ne publiez pas."
     },
     "tiers": {
-      "title": "Trois contextes",
-      "intro": "Adaptez la demande au lieu.",
+      "navLabel": "Trois contextes",
+      "title": "Adaptez la demande à la salle",
+      "intro": "Les mêmes règles photo ne valent pas dans chaque espace.",
       "items": {
         "rally": {
           "label": "Rassemblements publics et piquets",
-          "content": "Les plans larges de foule conviennent quand personne n'est le sujet. Obtenez un oui verbal avant un gros plan d'un visage."
+          "content": "Plans larges quand aucune personne n'est le sujet. Oui verbal avant un gros plan. Dites aux gens que vous pourriez publier sur la page de la section."
         },
         "meeting": {
-          "label": "Réunions internes et activités fermées",
-          "content": "Annoncez dès le début que des photos seront prises. Indiquez une zone sans photo ou un refus simple, et respectez-le."
+          "label": "Réunions fermées et activités internes",
+          "content": "Annoncez dès le début que des photos pourraient être prises. Indiquez une zone sans photo. Respectez les refus sans débat."
         },
         "workplace": {
           "label": "Lieux de travail à risque et petits groupes",
-          "content": "Par défaut, obtenez un oui explicite de chaque personne avant de publier. Les groupes sur le plancher sont faciles à identifier."
+          "content": "Oui explicite de chaque personne identifiable avant de publier. Les petits groupes sont faciles à reconnaître pour la direction."
+        }
+      },
+      "tip": "Dites où la photo ira — groupe Facebook, site Web, PDF pour tableau — pas seulement « est-ce que je peux en prendre une? »"
+    },
+    "askScript": {
+      "navLabel": "Comment demander",
+      "title": "Quoi dire à voix haute",
+      "intro": "Des demandes courtes et directes fonctionnent mieux que des formulaires que personne ne lit.",
+      "items": {
+        "spotlight": {
+          "label": "Mise en vedette d'un membre",
+          "content": "« Nous aimerions vous mettre en vedette sur la page Facebook de la section et peut-être le site Web. Vous pouvez refuser ou nous demander de retirer l'image en tout temps. Est-ce correct? »"
+        },
+        "meeting": {
+          "label": "Début de réunion",
+          "content": "« Des photos pourraient être prises pour la page de la section. Si vous ne voulez pas être dans le cadre, asseyez-vous dans le coin sans photo ou dites-le à n'importe quel dirigeant. »"
+        },
+        "group": {
+          "label": "Photo de groupe",
+          "content": "« Tout le monde dans le cadre — nous publions ceci dans le groupe des membres. Quelqu'un doit sortir du cadre? » Attendez que les têtes hochent."
+        },
+        "video": {
+          "label": "Reels et Shorts",
+          "content": "La même demande, plus : « Cela pourrait inclure votre voix et votre visage sur Instagram ou YouTube. » Pointez vers le guide vidéo courte pour les bases du tournage."
+        }
+      }
+    },
+    "recordKeeping": {
+      "navLabel": "Journal de consentement",
+      "title": "Consigner le consentement localement",
+      "intro": "Vous n'avez pas besoin d'une base de données. Vous avez besoin d'une trace écrite quand quelqu'un demande qui a approuvé une publication.",
+      "items": {
+        "who": {
+          "label": "Qui a consenti",
+          "content": "Nom (ou numéro de membre si votre section utilise des numéros), date et quel dirigeant a demandé."
+        },
+        "where": {
+          "label": "Où cela paraîtra",
+          "content": "Facebook, site Web, PDF pour tableau, Reel — listez les canaux. Mettez le journal à jour si vous republiez ailleurs plus tard."
+        },
+        "how": {
+          "label": "Verbal ou écrit",
+          "content": "Texto ou courriel compte. Notez « oui verbal à l'assemblée des membres » si c'est ce qui s'est passé."
+        },
+        "storage": {
+          "label": "Garder les journaux avec les dirigeants",
+          "content": "Feuille de calcul ou carnet sous garde syndicale — pas sur les systèmes de l'employeur ni sur des comptes Google publics liés au courriel de travail."
+        }
+      },
+      "tip": "L'étape de consentement du Créateur graphique vous rappelle au moment de l'export — le journal est votre preuve si un membre demande plus tard."
+    },
+    "checklist": {
+      "navLabel": "Liste de vérification",
+      "title": "Avant de publier",
+      "intro": "Confirmez chaque point avant d'utiliser une photo de membre dans des graphiques, tracts, avis de tableau ou publications sociales.",
+      "items": {
+        "consent": {
+          "label": "Consentement consigné",
+          "content": "Oui écrit ou verbal du membre — inscrit avec la date et le nom du dirigeant."
+        },
+        "public": {
+          "label": "Public clair",
+          "content": "Le membre sait quels canaux verront l'image et qu'il peut retirer son consentement."
+        },
+        "confidential": {
+          "label": "Aucun contexte confidentiel",
+          "content": "Légende et arrière-plan sans détails de grief, renseignements médicaux ni fuites de négociation."
+        },
+        "group": {
+          "label": "Vérification photo de groupe",
+          "content": "Chaque personne identifiable est couverte — ou recadrez, floutez ou choisissez une autre image."
+        },
+        "minors": {
+          "label": "Mineurs et personnes à charge",
+          "content": "Suivez la politique de l'exécutif local et du syndicat avant de publier."
+        },
+        "background": {
+          "label": "Vérification de l'arrière-plan",
+          "content": "Badges, cordons et visages derrière le sujet comptent. Recadrez ou attendez."
+        },
+        "location": {
+          "label": "Lieu désactivé",
+          "content": "Retirez les géoétiquettes avant de publier. Ne filmez pas de dossiers confidentiels ni d'espaces médicaux."
+        },
+        "withdrawal": {
+          "label": "Dirigeant de retrait nommé",
+          "content": "Les membres savent à qui envoyer un texto pour retirer — voir ci-dessous."
         }
       }
     },
     "takedown": {
-      "title": "Si un membre demande",
-      "rule": "Si un membre demande le retrait de sa photo des réseaux ou du site, retirez-la immédiatement. Pas de débat, pas de délai.",
-      "who": "Nommez un dirigeant qui s'occupe des retraits, pour que la demande ne rebondisse pas."
-    },
-    "checklist": {
-      "title": "Avant de publier",
-      "intro": "Confirmez chaque point avant d’utiliser une photo de membre dans graphiques, tracts ou photos de tableau où des visages sont visibles.",
+      "navLabel": "Retrait",
+      "title": "Si un membre demande le retrait",
+      "rule": "Retirez la photo de chaque canal le jour même — réseaux sociaux, site Web, PDF pour tableau si vous pouvez réimprimer. Pas de débat, pas de délai.",
+      "who": "Nommez un dirigeant et un remplaçant dans votre document de pratique locale pour que les demandes ne rebondissent pas.",
       "items": {
-        "consent": "Vous avez le consentement écrit ou verbal du membre.",
-        "public": "Le membre comprend que la photo sera publiée publiquement, ou sait quel public la verra.",
-        "confidential": "La photo et la légende ne contiennent pas de renseignements confidentiels sur le lieu de travail, un grief, la santé ou la négociation.",
-        "group": "Pour les photos de groupe, chaque personne clairement identifiable a donné son accord — sinon recadrez, floutez ou choisissez une autre image.",
-        "minors": "Les photos de mineurs ou de personnes à charge suivent la politique de la direction locale et du syndicat avant que vous les publiiez.",
-        "background": "Les visages en arrière-plan, les badges et les cordons identifient aussi les gens — recadrez, attendez ou obtenez le consentement.",
-        "location": "Désactivez les étiquettes de lieu avant de publier, et ne filmez pas de dossiers confidentiels ni d’espaces médicaux.",
-        "withdrawal": "Vous savez quel dirigeant retire les photos quand un membre le demande."
+        "speed": {
+          "label": "Le jour même",
+          "content": "Supprimez ou remplacez la publication. Archivez les exports sur les appareils des dirigeants si nécessaire — ne laissez pas d'anciens graphiques dans l'album du groupe."
+        },
+        "everywhere": {
+          "label": "Chaque copie",
+          "content": "Facebook, Instagram, bannière du site Web, tableau imprimé — vérifiez chaque endroit où vous avez republié."
+        },
+        "log": {
+          "label": "Noter le retrait",
+          "content": "Mettez le journal de consentement à jour pour que les volontaires ne republient pas la même image le mois prochain."
+        },
+        "thanks": {
+          "label": "Remercier le membre",
+          "content": "« C'est fait — merci de nous l'avoir dit. » Pas de culpabilisation."
+        }
       }
     },
-    "toolbox": {
-      "title": "Dans la boîte à outils",
-      "content": "Utilisez l’étape de consentement du Créateur graphique, tenez un journal local simple, et privilégiez les photos de groupe lorsque des personnes n’ont pas donné leur consentement individuel. La même liste s’applique avant de filmer un Reel ou un Short."
+    "privacy": {
+      "navLabel": "Sources vie privée",
+      "title": "Confidentialité et surveillance de l'employeur",
+      "intro": "Les visages des membres sont des renseignements personnels. Le consentement doit être éclairé.",
+      "items": {
+        "ipc": {
+          "label": "CIPVP Ontario",
+          "content": "La capture vidéo et photo au travail devrait respecter les principes de proportionnalité et d'avis — voir les sources ci-dessous."
+        },
+        "pipeda": {
+          "label": "Base PIPEDA",
+          "content": "Quand l'employeur ou un fournisseur collecte des images, le consentement doit être significatif — la pratique syndicale devrait être au moins aussi prudente."
+        },
+        "ca": {
+          "label": "Convention collective",
+          "content": "Les règles d'affichage et de tournage peuvent figurer dans votre CC ou la politique de l'employeur. Les délégués vérifient avant de filmer sur la propriété de l'employeur."
+        },
+        "crisis": {
+          "label": "Grève et discipline",
+          "content": "Risque accru en période de crise. À combiner avec le Guide de grève — une photo de solidarité ne vaut pas l'emploi d'un membre."
+        }
+      }
+    },
+    "fullScenario": {
+      "navLabel": "Parcours complet",
+      "title": "Parcours commenté : graphique de mise en vedette",
+      "intro": "Un délégué veut célébrer un membre qui a pris la parole à un rassemblement. Vous publierez un portrait du Créateur graphique dans le groupe Facebook fermé et sur le site Web de la section.",
+      "phases": {
+        "ask": {
+          "label": "Avant l'événement",
+          "content": "Le délégué utilise le script de mise en vedette. Le membre accepte Facebook et le site Web. Le dirigeant inscrit nom, date et canaux dans le carnet de consentement."
+        },
+        "shoot": {
+          "label": "Au rassemblement",
+          "content": "Plans larges pendant les discours. Ensuite, prenez le portrait loin des logos de l'employeur. Le membre vérifie le cadre sur le téléphone."
+        },
+        "export": {
+          "label": "Dans le Créateur graphique",
+          "content": "Téléversez la photo — complétez le dialogue de consentement. Exportez en PNG. Un second dirigeant lit la légende pour détecter les détails confidentiels."
+        },
+        "post": {
+          "label": "Publier",
+          "content": "Publiez dans le groupe avec texte alternatif. Téléversez dans la section nouvelles du site Web. Pas d'étiquette de lieu."
+        },
+        "later": {
+          "label": "S'ils demandent le retrait",
+          "content": "Le responsable Comms supprime les deux publications avant la fin de la journée, met le journal à jour, confirme par texto."
+        }
+      },
+      "tip": "Deux dirigeants qui vérifient valent mieux qu'un seul publieur enthousiaste."
     },
     "workshop": {
-      "title": "Conseil pour atelier",
-      "content": "En atelier, arrêtez-vous sur le dialogue de consentement du Créateur graphique, parcourez cette liste, puis orientez les dirigeants vers Ressources de communication et Confidentialité. Convenez qui consigne le consentement et quel dirigeant retire les photos."
+      "navLabel": "Atelier",
+      "title": "Note pour animateur",
+      "intro": "En lunch-and-learn, pratiquez le script de demande et le dialogue de consentement du Créateur graphique ensemble.",
+      "content": "Arrêtez-vous à l'étape de consentement, parcourez la liste une fois, désignez les dirigeants de retrait, et liez Ressources Comms plus Confidentialité. Les mêmes règles s'appliquent avant de filmer un Reel — voir le guide vidéo courte."
     },
-    "privacy": {
-      "title": "Confidentialité et surveillance de l'employeur",
-      "content": "Les visages des membres dans les Comms syndicales sont des renseignements personnels. Le consentement doit être éclairé — le membre doit savoir où l'image paraîtra et qu'il peut demander le retrait.",
-      "items": [
-        "Les lignes directrices de la CIPVP Ontario sur la vidéosurveillance s'appliquent lorsque vous capturez des images identifiables au travail",
-        "PIPEDA fixe une base fédérale lorsque l'employeur ou un fournisseur collecte des images — le consentement doit être significatif",
-        "Votre convention collective peut ajouter des règles d'affichage — vérifiez avant de filmer au travail",
-        "Consultez le guide Consentement photo pour la liste des délégués et la règle de retrait immédiat"
-      ]
+    "tools": {
+      "navLabel": "Boîte à outils",
+      "title": "Outils et guides connexes",
+      "intro": "Le consentement est intégré aux chemins d'export — utilisez-les.",
+      "items": {
+        "graphic": {
+          "label": "Créateur graphique",
+          "content": "Filtre de consentement au téléversement de photo de membre avant l'export."
+        },
+        "shortForm": {
+          "label": "Guide vidéo courte",
+          "content": "Tournage et vie privée pour Reels et Shorts."
+        },
+        "crisis": {
+          "label": "Guide de grève",
+          "content": "Règles de consentement quand la section est sous pression."
+        },
+        "privacy": {
+          "label": "Page Confidentialité",
+          "content": "Comment les données Comms restent sur l'appareil et qui contrôle les données du Hub."
+        }
+      }
     }
   },
   "websiteGuide": {
@@ -2982,99 +3169,300 @@
     "ratio": "Ratio de contraste : {ratio}:1"
   },
   "crisisGuide": {
-    "title": "Guide de communication - grève et crise",
-    "subtitle": "Orientation de haut niveau pour les sections locales pendant les grèves, la négociation et les crises en milieu de travail",
+    "title": "Guide de communication — grève et crise",
+    "subtitle": "Une voix, trois messages par jour et un plan de canaux quand la section est sous pression",
     "backToGuide": "Retour au Plan directeur",
-    "intro": "Ce guide vous aide à garder des messages locaux calmes et clairs sous pression. Votre section gère d’ordinaire le quotidien pendant que votre syndicat provincial ou national appuie la négociation sectorielle.",
-    "scenarios": {
-      "strike": {
-        "title": "Grève",
-        "items": [
-          "Confirmez tout message public avec votre président(e) de section et votre représentant de service syndical avant de publier",
-          "Désignez un ou deux porte-parole - les membres et les médias doivent entendre une seule voix locale cohérente",
-          "Publiez quotidiennement les horaires de piquetage, les entrées et les rappels de sécurité avec les graphiques de cette trousse",
-          "Partagez la solidarité et les témoignages des membres avec consentement - ne publiez jamais de photos sans permission",
-          "Utilisez les couleurs de votre Trousse de marque ; suivez les matériels de campagne de division ou de secteur lors d'une coordination divisionnelle",
-          "Ne partagez pas les détails de négociation, les adresses des membres ni la stratégie interne sur les canaux publics",
-          "Orientez les questions sur la paie, les tâches et le retour au travail vers le comité de grève - pas les fils de commentaires"
-        ],
-        "navLabel": "Grève"
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "intro": "Les communications de crise, ce n'est pas « publier plus ». C'est qui peut parler, ce que les membres doivent entendre et ce qui ne doit jamais aller sur un canal public. Les sections gèrent le quotidien ; votre syndicat provincial ou national appuie la négociation sectorielle — mais le groupe Facebook a quand même besoin d'une voix locale unique.",
+    "disclaimer": {
+      "title": "Approbation du président",
+      "body": "Rien dans ce guide ne remplace l'exécutif local ni le représentant de service. En cas de doute, rédigez hors ligne et attendez l'approbation du président avant de publier."
+    },
+    "gate": {
+      "navLabel": "Crise ou normal?",
+      "title": "Avant de publier — est-ce une communication de crise?",
+      "intro": "Les communications normales peuvent être menées par les délégués. Les communications de crise exigent une courte chaîne de commandement pour que les membres ne lisent pas cinq voix contradictoires.",
+      "items": {
+        "strike": {
+          "label": "Grève ou lock-out en cours",
+          "content": "Utilisez ce guide. Un responsable Comms, un porte-parole, le président approuve chaque publication publique."
+        },
+        "bargaining": {
+          "label": "Compte à rebours de négociation",
+          "content": "Utilisez la section négociation et la règle des trois messages. Partagez seulement ce que l'équipe de négociation a autorisé pour diffusion."
+        },
+        "layoff": {
+          "label": "Mises à pied ou restructuration annoncées",
+          "content": "Ton calme et factuel. Orientez vers les délégués et le PAE. Pas de suppositions sur qui est touché."
+        },
+        "normal": {
+          "label": "Mise à jour locale de routine",
+          "content": "Utilisez plutôt le Plan directeur et les guides de canaux. Les règles de crise sont plus lourdes qu'il ne faut pour un rappel de réunion."
+        }
       },
-      "bargaining": {
-        "title": "Négociation et compte à rebours",
-        "items": [
-          "Créez de l'élan avec des mises à jour factuelles - sécurité d'emploi, charge de travail, salaires et priorités des membres",
-          "Utilisez des mots-clics et graphiques cohérents pour que les membres reconnaissent les publications officielles",
-          "Encouragez les membres à porter les couleurs du syndicat et à assister aux assemblées d'information - publiez les horaires tôt",
-          "Partagez seulement ce que l'équipe de négociation a autorisé pour diffusion publique",
-          "Rappelez aux membres d'éviter de débattre des allégations de l'employeur dans les commentaires publics",
-          "Liez aux pages de négociation officielles du syndicat lorsqu'elles existent plutôt que de paraphraser de mémoire"
-        ],
-        "navLabel": "Négociation"
+      "warningTitle": "Si deux dirigeants publient des faits différents",
+      "warning": "Arrêtez les publications publiques jusqu'à ce que le président et le responsable Comms s'alignent sur une seule correction. Les membres font moins confiance au silence qu'ils détestent la contradiction — mais la contradiction détruit la confiance le plus vite."
+    },
+    "roles": {
+      "navLabel": "Rôles",
+      "title": "Qui fait quoi",
+      "intro": "Inscrivez les noms sur un post-it avant l'ouverture du piquet. Les volontaires tournent ; les rôles, non.",
+      "items": {
+        "president": {
+          "label": "Président",
+          "content": "Oui final sur chaque publication publique, rappel média et correction. Peut déléguer la rédaction, pas l'approbation."
+        },
+        "comms": {
+          "label": "Responsable Comms",
+          "content": "Possède la file de brouillons, les exports de la Trousse de marque et la page grève du site Web. N'improvise pas les faits de négociation."
+        },
+        "spokesperson": {
+          "label": "Porte-parole",
+          "content": "Une ou deux personnes pour les médias et les questions des membres à l'entrée. Tous les autres renvoient les journalistes vers eux."
+        },
+        "servicing": {
+          "label": "Représentant de service",
+          "content": "Contexte juridique et de négociation. Pas le publieur quotidien en général — mais valide le langage sur les droits et le processus."
+        }
       },
-      "layoffs": {
-        "title": "Mises à pied et restructuration",
-        "items": [
-          "Reconnaissez l'anxiété des membres - soyez empathique, factuel et calme",
-          "Orientez les membres touchés vers les délégués, les représentants de service syndicaux et le PAE",
-          "Ne spéculez pas sur les résultats - partagez seulement les déclarations confirmées",
-          "Utilisez des cartes de citation des dirigeants élus pour montrer une voix locale unifiée",
-          "Documentez hors ligne les communications de la direction pour les griefs et la consultation",
-          "Évitez de nommer des personnes à risque sauf si elles ont demandé à être identifiées publiquement"
-        ],
-        "navLabel": "Mises à pied"
-      },
-      "management": {
-        "title": "Réaction de la direction et désinformation",
-        "items": [
-          "Répondez avec des faits et le langage de la convention collective - jamais d'attaques personnelles",
-          "Si la direction publie de la désinformation, publiez une brève correction et épinglez-la au besoin",
-          "Escaladez immédiatement le harcèlement, les menaces ou la surveillance à votre représentant de service syndical",
-          "N'engagez pas de longs débats publics avec les comptes de la direction",
-          "Gardez les dossiers sensibles des membres dans les canaux des délégués, pas en public",
-          "Capturez les publications problématiques de l'employeur pour l'exécutif local et le représentant"
-        ],
-        "navLabel": "Réaction de la direction"
+      "tip": "Publiez le numéro du porte-parole sur la page grève et une publication sociale épinglée — puis arrêtez de répondre aux questions de négociation dans les commentaires."
+    },
+    "strike": {
+      "navLabel": "Grève",
+      "title": "Communications d'action de grève",
+      "intro": "Les membres ont besoin d'horaires, de sécurité et de réponses sur la paie depuis un seul endroit. La direction testera si vous vous fracturez en public.",
+      "items": {
+        "approve": {
+          "label": "Le président approuve chaque publication",
+          "content": "Rédigez dans le Créateur graphique ou le Créateur de tracts, exportez, puis envoyez le PNG/PDF au président avant la mise en ligne."
+        },
+        "schedule": {
+          "label": "Horaire de piquetage quotidien",
+          "content": "Emplacements des entrées, heures de début et rappels météo/sécurité. Avis pour tableau syndical à chaque entrée ; mêmes faits sur le site Web."
+        },
+        "safety": {
+          "label": "La sécurité d'abord sur la ligne",
+          "content": "Pas d'adresses de membres, pas de publications provocantes, pas de diffusion en direct de confrontations. Incident? Suivez le protocole d'urgence avant de publier."
+        },
+        "consent": {
+          "label": "Photos avec consentement",
+          "content": "Les photos de solidarité exigent la liste de consentement photo. Les plans larges de foule valent mieux que les gros plans quand le consentement est incertain."
+        },
+        "sector": {
+          "label": "Suivre les matériels sectoriels en coordination",
+          "content": "Utilisez les mots-clics et graphiques de campagne de division ou nationaux quand vous êtes alignés — n'inventez pas une image de marque parallèle."
+        },
+        "questions": {
+          "label": "Questions sur la paie et le retour au travail",
+          "content": "Envoyez au comité de grève ou au porte-parole — pas aux fils de commentaires. Liez la FAQ officielle quand vous en avez une."
+        }
       }
     },
+    "bargaining": {
+      "navLabel": "Négociation",
+      "title": "Communications du compte à rebours de négociation",
+      "intro": "Créez l'urgence sans fuiter le langage de table. Les membres doivent se sentir informés, pas briefés sur des propositions confidentielles.",
+      "items": {
+        "facts": {
+          "label": "Priorités factuelles seulement",
+          "content": "Sécurité d'emploi, charge de travail, salaires — en langage de membre. Pas de numéros d'articles ni de chiffres de contre-propositions sauf si l'équipe les a autorisés."
+        },
+        "hashtag": {
+          "label": "Un système visuel",
+          "content": "Mêmes couleurs de la Trousse de marque et mot-clic sur chaque graphique pour que les membres reconnaissent instantanément les publications officielles."
+        },
+        "meetings": {
+          "label": "Horaires de réunion tôt",
+          "content": "Les assemblées d'information demandent deux semaines d'avis quand c'est possible. Tract + tableau + social + site Web avec des horaires identiques."
+        },
+        "approved": {
+          "label": "L'équipe de négociation valide les communiqués",
+          "content": "Si ça ne vient pas de l'équipe, ça ne va pas en public — y compris les délégués enthousiastes qui paraphrasent de mémoire."
+        },
+        "comments": {
+          "label": "Ignorer les appâts de la direction",
+          "content": "Une correction épinglée vaut mieux que vingt réponses furieuses. Voir la réaction de la direction ci-dessous."
+        },
+        "link": {
+          "label": "Lier les pages officielles de négociation",
+          "content": "Pointez vers les centres de négociation nationaux ou divisionnels plutôt que de retaper des mises à jour qui peuvent changer du jour au lendemain."
+        }
+      }
+    },
+    "layoffs": {
+      "navLabel": "Mises à pied",
+      "title": "Mises à pied et restructuration",
+      "intro": "Les membres ont peur. Votre rôle est de les orienter calmement vers les délégués et les faits — pas de spéculer sur qui figure sur une liste.",
+      "items": {
+        "empathy": {
+          "label": "Reconnaître la peur",
+          "content": "Publications courtes et humaines. « Nous savons que c'est stressant » bat une fausse certitude."
+        },
+        "route": {
+          "label": "Orienter vers délégués et PAE",
+          "content": "Numéros de téléphone et horaires de réunion dans une publication épinglée. Répétez sur les tableaux où passent réellement les membres touchés."
+        },
+        "facts": {
+          "label": "Faits de l'employeur et du syndicat seulement",
+          "content": "Citez les lettres confirmées et les déclarations de l'exécutif local. Capture d'écran du courriel de la direction pour le dossier — ne transférez pas de noms de membres en public."
+        },
+        "leaders": {
+          "label": "Voix locale unifiée",
+          "content": "Carte de citation du président ou du délégué en chef. Une déclaration, pas cinq dirigeants qui ventilent."
+        },
+        "record": {
+          "label": "Documenter hors ligne",
+          "content": "Conservez les communications de l'employeur pour la consultation et les dossiers de grief. Les publications publiques ne sont pas l'archive."
+        },
+        "names": {
+          "label": "Ne pas nommer des individus",
+          "content": "Sauf si un membre a demandé à être identifié. La peur des mises à pied se propage plus vite quand on voit un collègue identifié."
+        }
+      }
+    },
+    "management": {
+      "navLabel": "Réaction",
+      "title": "Réaction de la direction et désinformation",
+      "intro": "Les employeurs publient pour effrayer les membres. Vous répondez une fois, factuellement, puis revenez à votre horaire.",
+      "items": {
+        "facts": {
+          "label": "Langage de la CC et dates",
+          "content": "Citez la convention ou la lettre de l'employeur. Pas d'attaques personnelles contre les gestionnaires."
+        },
+        "correction": {
+          "label": "Une publication de correction",
+          "content": "Brève carte de citation ou graphique. Épinglez-la. Ne vous lancez pas dans une guerre de fils avec le compte du collège."
+        },
+        "harassment": {
+          "label": "Escalader les menaces immédiatement",
+          "content": "Harcèlement, surveillance ou lettres juridiques vont au président et au représentant de service la même heure — pas après le quart."
+        },
+        "screenshot": {
+          "label": "Capture d'écran pour le dossier",
+          "content": "Envoyez les publications problématiques de l'employeur à l'exécutif hors ligne. Les répliques publiques ne sont pas des preuves."
+        },
+        "stewards": {
+          "label": "Les dossiers des membres restent privés",
+          "content": "Discipline, médical et détails de négociation appartiennent aux canaux des délégués — jamais dans une réponse publique."
+        }
+      },
+      "warningTitle": "Ne publiez pas la négociation en direct",
+      "warning": "Le journal minute par minute de la table est satisfaisant et aide la direction. Si ce n'est pas sur la feuille de communiqué de l'équipe de négociation, ça reste hors ligne."
+    },
+    "rhythm": {
+      "navLabel": "Rythme quotidien",
+      "title": "Trois messages par jour",
+      "intro": "Pendant une grève ou une négociation tardive, les membres consultent leur téléphone constamment. Donnez-leur un rythme prévisible plutôt que des publications paniquées.",
+      "items": {
+        "morning": {
+          "label": "Matin — horaire et sécurité",
+          "content": "Entrées de piquet, météo, tout changement de protocole sur la ligne. PDF d'avis pour tableau plus une publication sociale."
+        },
+        "midday": {
+          "label": "Midi — seulement si les faits ont changé",
+          "content": "Passez si rien de nouveau. Le silence bat le bruit quand les faits sont stables."
+        },
+        "evening": {
+          "label": "Soir — récap et demain",
+          "content": "Remerciez les membres, confirmez l'horaire de demain, liez la FAQ du site Web. Pas de nouveaux détails de négociation sauf si autorisés."
+        },
+        "queue": {
+          "label": "File de brouillons dans un seul document",
+          "content": "Le responsable Comms garde les brouillons ; le président approuve par lot. Évite les publications en double de volontaires bien intentionnés."
+        }
+      },
+      "tip": "Rédigez les trois messages de demain ce soir. Les matins de crise ne sont pas faits pour rédiger de zéro."
+    },
+    "fullScenario": {
+      "navLabel": "Parcours complet",
+      "title": "Parcours commenté : jour 3 de grève après un mémo de la direction",
+      "intro": "La direction a envoyé par courriel une offre de retour au travail trompeuse à 7 h. Piquet ouvert à 6 h 30. Le groupe Facebook s'emballe.",
+      "phases": {
+        "t715": {
+          "label": "7 h 15 — tenir le canal",
+          "content": "Le responsable Comms publie « Attendez la mise à jour officielle de la section » dans le groupe. Coupez les notifications sur les commentaires provocateurs. Le président et le représentant de service lisent le mémo."
+        },
+        "t730": {
+          "label": "7 h 30 — une correction",
+          "content": "Carte de citation avec trois points approuvés. Épinglez au groupe. Même texte sur la page grève du site Web. Pas d'analyse de négociation."
+        },
+        "t800": {
+          "label": "8 h 00 — entrées",
+          "content": "Avis pour tableau syndical à chaque entrée : horaire du jour + « Ignorez le mémo de la direction — lisez la publication épinglée. »"
+        },
+        "t1000": {
+          "label": "10 h 00 — synchro exécutif",
+          "content": "Le représentant de service rejoint un appel de 10 minutes. Décidez si une deuxième publication est nécessaire. Par défaut, non sauf si les faits ont changé."
+        },
+        "t1400": {
+          "label": "14 h 00 — témoignage membre",
+          "content": "Mise en vedette du Créateur graphique seulement après consentement écrit. Pas de logos d'employeur dans le cadre."
+        },
+        "t1700": {
+          "label": "17 h 00 — tableaux",
+          "content": "Retirez les tracts de réunion expirés. Laissez la bande de contacts en place pour la nuit."
+        }
+      },
+      "tip": "Si vous avez publié plus de trois fois avant le dîner, vous avez probablement trop publié."
+    },
     "escalation": {
-      "title": "Quand escalader",
-      "items": [
-        "Demandes des médias - orientez vers le porte-parole désigné ou les communications syndicales",
-        "Menaces juridiques, injonctions ou lettres de l'employeur sur la conduite - exécutif et représentant immédiatement",
-        "Incidents de sécurité des membres sur la ligne ou au travail - suivez d'abord les protocoles d'urgence locaux",
-        "Documents confidentiels divulgués ou mauvaise foi suspectée - ne publiez pas ; alertez la direction",
-        "Désinformation virale sur votre section - coordonnez une seule correction plutôt que plusieurs réponses"
-      ],
-      "navLabel": "Escalade"
+      "navLabel": "Escalade",
+      "title": "Quand escalader immédiatement",
+      "intro": "Certains événements contournent la file de brouillons et vont directement au président et au représentant de service.",
+      "items": {
+        "media": {
+          "label": "Appels des médias",
+          "content": "Orientez vers le porte-parole. Ne « répondez jamais à une seule question » sans que le président le sache."
+        },
+        "legal": {
+          "label": "Menaces juridiques ou injonctions",
+          "content": "Arrêtez de publier. Transférez la lettre. Attendez l'avis juridique."
+        },
+        "safety": {
+          "label": "Incident de sécurité sur la ligne ou au travail",
+          "content": "Protocoles d'urgence d'abord. Comms seulement après que les membres sont en sécurité et que la direction s'entend sur les faits."
+        },
+        "leak": {
+          "label": "Documents confidentiels divulgués",
+          "content": "Ne partagez pas. Alertez le président et le représentant de service. La spéculation publique aide l'employeur."
+        },
+        "viral": {
+          "label": "Désinformation virale",
+          "content": "Une correction coordonnée depuis le compte de la section. Dites aux délégués de partager la publication épinglée, pas d'inventer leur propre réfutation."
+        }
+      }
     },
     "tools": {
-      "title": "Ressources de la trousse pour les communications de crise",
-      "description": "Utilisez ces outils locaux pour garder des visuels cohérents quand votre section est sous pression :",
-      "items": [
-        "Trousse de marque - numéro de section, couleurs et logo prêts pour des graphiques rapides",
-        "Avis pour tableau syndical - mises à jour sur les tableaux d'affichage pendant les grèves",
-        "Créateur de tracts et carte de citation - déclarations des dirigeants et mises à jour de piquetage",
-        "Créateur de graphiques - mise en vedette des membres avec l'étape de consentement",
-        "Modèle de site Web - un lien stable pour les membres et les médias",
-        "Bibliothèque de légendes - publications de solidarité et de négociation réutilisables"
-      ],
-      "navLabel": "Trousse"
-    },
-    "tocLabel": "Sur cette page",
-    "workedDay": {
-      "navLabel": "Journée commentée",
-      "title": "Exemple commenté : une journée à enjeux élevés",
-      "content": "Jour 3 de grève. La direction publie un mémo trompeur à 7 h. Piquet de ligne à 6 h 30. Les membres sont anxieux dans le groupe Facebook.",
-      "items": [
-        "7 h 15 — Le président et le responsable Comms conviennent d'une seule publication de correction, pas de dix réponses",
-        "7 h 30 — Carte de citation avec les faits approuvés ; épingler au groupe ; lien vers la page grève du site",
-        "8 h 00 — PDF d'avis pour tableau à chaque entrée avec horaire de piquetage et rappel de sécurité",
-        "10 h 00 — Représentant de service informe l'exécutif ; aucun détail de négociation sur les canaux publics",
-        "14 h 00 — Graphique témoignage membre seulement après consentement écrit ; pas de logos d'employeur dans le cadre",
-        "17 h 00 — Retirer le tract de réunion expiré des tableaux ; laisser la bande de contacts en place pour la nuit"
-      ],
-      "tip": "Rédigez les trois messages autorisés de la journée avant le déjeuner. Tout le reste attend l'approbation du président."
+      "navLabel": "Boîte à outils",
+      "title": "Outils sur appareil pour les communications de crise",
+      "intro": "Gardez les visuels cohérents quand les volontaires tournent. Tout fonctionne sur votre appareil — pas de comptes Canva improvisés.",
+      "items": {
+        "brand": {
+          "label": "Trousse de marque",
+          "content": "Numéro de section, couleurs et logo verrouillés avant le jour un de la grève."
+        },
+        "board": {
+          "label": "Avis pour tableau syndical",
+          "content": "Avis tabloïd d'horaire pour les entrées et salles de pause."
+        },
+        "flyer": {
+          "label": "Créateur de tracts et Carte de citation",
+          "content": "Déclarations des dirigeants et FAQ d'une page pour les membres."
+        },
+        "graphic": {
+          "label": "Créateur graphique",
+          "content": "Mises en vedette de membres avec filtre de consentement intégré."
+        },
+        "web": {
+          "label": "Modèle de site Web",
+          "content": "Une URL stable pour médias et membres — mettez à jour la page grève, pas cinq liens différents."
+        },
+        "captions": {
+          "label": "Bibliothèque de légendes",
+          "content": "Publications de solidarité pré-rédigées que vous pouvez adapter après approbation du président."
+        }
+      }
     }
   },
   "dfrGuide": {
@@ -4108,8 +4496,8 @@
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
       "labour-guides-rewrite": {
-        "title": "Guides de pratique syndicaux réécrits",
-        "body": "Comité paritaire, devoir de représentation équitable, droit de refuser et bumping proposent maintenant des scénarios pas à pas — avec filtres de décision, listes de contrôle et liens vers les outils à utiliser sur le plancher."
+        "title": "Guides de pratique réécrits pour délégués et comms",
+        "body": "Guides syndicaux, grève et consentement photo proposent maintenant des scénarios pas à pas — filtres de décision, scripts de demande, rythme quotidien et liens vers les outils sous pression."
       },
       "graphic-gradient-ink": {
         "title": "Fonds de graphiques plus nets",

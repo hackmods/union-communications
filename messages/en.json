@@ -911,69 +911,256 @@
   },
   "photoConsentGuide": {
     "title": "Photo Consent & Member Media",
-    "subtitle": "A short checklist to run before you post a member's photo.",
-    "intro": "Graphic Maker already gates consent on member photo upload. This page helps locals write a shared practice. Not legal advice.",
+    "subtitle": "Ask before you post — scripts, logs, and takedowns for stewards and comms volunteers",
     "backToGuide": "Back to The Blueprint",
+    "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
+    "intro": "Graphic Maker blocks upload until you acknowledge consent — but locals still need a shared practice for phone cameras, Reels, board photos, and Facebook posts. This playbook helps officers agree on how to ask, what to record, and who takes images down. Not legal advice.",
+    "disclaimer": {
+      "title": "Not legal advice",
+      "body": "Privacy law and collective agreement posting rules vary. Confirm with your local executive and servicing rep before you film in the workplace."
+    },
+    "gate": {
+      "navLabel": "Post or skip?",
+      "title": "Before you raise the camera",
+      "intro": "Not every union moment needs a face online. Run this gate before you shoot or export.",
+      "items": {
+        "crowd": {
+          "label": "Wide crowd, no single subject",
+          "content": "Picket lines and rallies: backs and signs often suffice. Still avoid tagging individuals or geotagging the gate."
+        },
+        "spotlight": {
+          "label": "One member is the story",
+          "content": "Spotlight graphics, quote cards with a face, and Reels need explicit consent and the checklist below."
+        },
+        "workplace": {
+          "label": "Filming inside the workplace",
+          "content": "Check CA and employer policy first. Probationary and precarious workers face real retaliation risk — default to no unless the member initiates."
+        },
+        "crisis": {
+          "label": "Strike or discipline context",
+          "content": "Extra caution. A solidarity photo can become evidence management uses. Read the Strike Guide consent lines before you post."
+        }
+      },
+      "warningTitle": "When in doubt",
+      "warning": "Crop to hands, signs, or wide shots. A missed moment beats harming a member."
+    },
     "why": {
-      "title": "Why it matters",
-      "content": "Consent is not only about privacy. A posted face can put a probationary worker, a vulnerable member, or anyone avoiding employer watch in harm's way. Ask before you post.",
+      "navLabel": "Why it matters",
+      "title": "Why consent is solidarity",
+      "intro": "Consent protects members from employer watch and from each other’s good intentions.",
       "retaliationTitle": "Employer watch",
-      "retaliationBody": "Do not tag members at work, leave location on, or post a shot that shows they were at a union event if that could be used against them. When in doubt, crop or do not post."
+      "retaliationBody": "Do not tag members at work, leave location on, or post proof they attended a union event if that could be used against them. When in doubt, crop or do not post."
     },
     "tiers": {
-      "title": "Three settings",
-      "intro": "Match the ask to the room.",
+      "navLabel": "Three settings",
+      "title": "Match the ask to the room",
+      "intro": "The same photo rules are not the same in every space.",
       "items": {
         "rally": {
           "label": "Public rallies and picket lines",
-          "content": "Wide crowd shots are fine when no one person is the subject. Get a verbal yes before a close-up of a face."
+          "content": "Wide shots when no one person is the subject. Verbal yes before a close-up. Tell people you may post to the local page."
         },
         "meeting": {
           "label": "Closed meetings and internal events",
-          "content": "Say at the start that photos will be taken. Point to a no-photo zone or a simple opt-out, and honour it."
+          "content": "Announce at the start that photos may be taken. Point to a no-photo zone. Honour opt-outs without debate."
         },
         "workplace": {
-          "label": "High-risk workplaces and small groups",
-          "content": "Default to an explicit yes from each person before you post. Shop-floor groups are easy to identify."
+          "label": "High-risk workplaces and small shops",
+          "content": "Explicit yes from each identifiable person before you post. Small groups are easy for management to recognize."
+        }
+      },
+      "tip": "Say where the photo will go — Facebook group, website, board PDF — not just “is it okay if I take one?”"
+    },
+    "askScript": {
+      "navLabel": "How to ask",
+      "title": "What to say out loud",
+      "intro": "Short, direct asks work better than forms nobody reads.",
+      "items": {
+        "spotlight": {
+          "label": "Member spotlight",
+          "content": "“We would like to feature you on the local Facebook page and maybe the website. You can say no or ask us to take it down anytime. Is that okay?”"
+        },
+        "meeting": {
+          "label": "Start of meeting",
+          "content": "“Photos may be taken for the local page. If you do not want to be in frame, sit in the no-photo corner or tell any officer.”"
+        },
+        "group": {
+          "label": "Group photo",
+          "content": "“Everyone in frame — we are posting this to the member group. Anyone need to step out?” Wait for heads to nod."
+        },
+        "video": {
+          "label": "Reels and Shorts",
+          "content": "Same ask, plus: “This may include your voice and face on Instagram or YouTube.” Point to the short-form video guide for filming basics."
+        }
+      }
+    },
+    "recordKeeping": {
+      "navLabel": "Consent log",
+      "title": "Record consent locally",
+      "intro": "You do not need a database. You need a paper trail when someone asks who approved a post.",
+      "items": {
+        "who": {
+          "label": "Who consented",
+          "content": "Name (or member ID if your local uses numbers), date, and which officer asked."
+        },
+        "where": {
+          "label": "Where it will appear",
+          "content": "Facebook, website, board PDF, Reel — list channels. Update the log if you cross-post later."
+        },
+        "how": {
+          "label": "Verbal or written",
+          "content": "Text or email counts. Note “verbal yes at membership meeting” if that is what happened."
+        },
+        "storage": {
+          "label": "Keep logs with officers",
+          "content": "Spreadsheet or notebook in union custody — not on employer systems or public Google accounts tied to work email."
+        }
+      },
+      "tip": "Graphic Maker’s consent step is your reminder at export time — the log is your proof if a member asks later."
+    },
+    "checklist": {
+      "navLabel": "Checklist",
+      "title": "Before you post",
+      "intro": "Confirm each item before using a member photo in graphics, flyers, board notices, or social posts.",
+      "items": {
+        "consent": {
+          "label": "Consent captured",
+          "content": "Written or verbal yes from the member — logged with date and officer name."
+        },
+        "public": {
+          "label": "Audience clear",
+          "content": "The member knows which channels will see the image and that they can withdraw consent."
+        },
+        "confidential": {
+          "label": "No confidential context",
+          "content": "Caption and background free of grievance details, medical info, or bargaining leaks."
+        },
+        "group": {
+          "label": "Group photo sweep",
+          "content": "Everyone identifiable is covered — or crop, blur, or pick another image."
+        },
+        "minors": {
+          "label": "Minors and dependents",
+          "content": "Follow local executive and union policy before you publish."
+        },
+        "background": {
+          "label": "Background check",
+          "content": "Badges, lanyards, and faces behind the subject count. Crop or wait."
+        },
+        "location": {
+          "label": "Location off",
+          "content": "Strip geotags before publish. Do not film confidential casework or medical spaces."
+        },
+        "withdrawal": {
+          "label": "Takedown officer named",
+          "content": "Members know who to text for removal — see below."
         }
       }
     },
     "takedown": {
-      "title": "If a member asks",
-      "rule": "If a member asks for their photo to be removed from social media or the website, take it down immediately. No debate, no delay.",
-      "who": "Name one officer who handles take-downs so the request does not bounce around."
-    },
-    "checklist": {
-      "title": "Before you post",
-      "intro": "Confirm each item before using a member photo in graphics, flyers, or board photos where faces are visible.",
+      "navLabel": "Takedown",
+      "title": "If a member asks to come down",
+      "rule": "Remove the photo from every channel the same day — social, website, board PDF if you can reprint. No debate, no delay.",
+      "who": "Name one officer and a backup in your local practice doc so requests do not bounce.",
       "items": {
-        "consent": "You have written or verbal consent from the member.",
-        "public": "The member understands the photo will be posted publicly, or knows which audience will see it.",
-        "confidential": "The photo and caption do not contain confidential workplace, grievance, medical, or bargaining information.",
-        "group": "For group photos, everyone who is clearly identifiable has been covered — or crop, blur, or choose a different image.",
-        "minors": "Photos of minors or dependents follow your local executive and union policy before you publish them.",
-        "background": "Faces in the background, badges, and lanyards are identifiable too — crop, wait, or get consent.",
-        "location": "Turn off location tags before you post, and do not film confidential casework or medical spaces.",
-        "withdrawal": "You know which officer takes photos down when a member asks."
+        "speed": {
+          "label": "Same day",
+          "content": "Delete or replace the post. Archive exports on officers’ devices if needed — do not leave old graphics in the group photo album."
+        },
+        "everywhere": {
+          "label": "Every copy",
+          "content": "Facebook, Instagram, website hero, printed board — check each place you cross-posted."
+        },
+        "log": {
+          "label": "Note the withdrawal",
+          "content": "Update the consent log so volunteers do not repost the same image next month."
+        },
+        "thanks": {
+          "label": "Thank the member",
+          "content": "“Done — thanks for telling us.” No guilt trip."
+        }
       }
     },
     "privacy": {
+      "navLabel": "Privacy sources",
       "title": "Privacy and employer watch",
-      "content": "Member faces in union comms are personal information. Consent must be informed — the member needs to know where the image will appear and that they can ask for removal.",
-      "items": [
-        "IPC Ontario video-surveillance guidelines apply when you capture identifiable images in workplaces",
-        "PIPEDA sets a federal baseline when employers or vendors collect images — consent must be meaningful",
-        "Your CA may add posting rules — check before filming in the workplace",
-        "See the Photo Consent guide for the steward checklist and takedown rule"
-      ]
+      "intro": "Member faces are personal information. Consent must be informed.",
+      "items": {
+        "ipc": {
+          "label": "IPC Ontario",
+          "content": "Video and photo capture in workplaces should follow proportionality and notice principles — see sources below."
+        },
+        "pipeda": {
+          "label": "PIPEDA baseline",
+          "content": "When employers or vendors collect images, consent must be meaningful — union practice should be at least as careful."
+        },
+        "ca": {
+          "label": "Collective agreement",
+          "content": "Posting and filming rules may live in your CA or employer policy. Stewards check before filming on employer property."
+        },
+        "crisis": {
+          "label": "Strike and discipline",
+          "content": "Extra risk during crises. Pair with the Strike Guide — solidarity photos are not worth a member’s job."
+        }
+      }
     },
-    "toolbox": {
-      "title": "In the Toolbox",
-      "content": "Use the Graphic Maker consent step, keep a simple local log, and prefer group shots when individuals have not consented. The same list applies before you film a Reel or Short."
+    "fullScenario": {
+      "navLabel": "Full walk-through",
+      "title": "Worked walk-through: member spotlight graphic",
+      "intro": "A steward wants to celebrate a member who spoke at a rally. You will post a Graphic Maker portrait to the closed Facebook group and the local website.",
+      "phases": {
+        "ask": {
+          "label": "Before the event",
+          "content": "Steward uses the spotlight script. Member agrees to Facebook and website. Officer logs name, date, and channels in the consent notebook."
+        },
+        "shoot": {
+          "label": "At the rally",
+          "content": "Wide shots during speeches. After, take the portrait away from employer logos. Member reviews the frame on the phone."
+        },
+        "export": {
+          "label": "In Graphic Maker",
+          "content": "Upload photo — complete the consent dialog. Export PNG. Second officer reads caption for confidential details."
+        },
+        "post": {
+          "label": "Publish",
+          "content": "Post to group with alt text. Upload to website news section. No location tag."
+        },
+        "later": {
+          "label": "If they ask to remove",
+          "content": "Comms officer deletes both posts before end of day, updates log, confirms by text."
+        }
+      },
+      "tip": "Two officers checking beats one enthusiastic poster working alone."
     },
     "workshop": {
-      "title": "Workshop tip",
-      "content": "In workshops, pause on Graphic Maker’s consent dialog, walk this checklist once, then point officers to Comms Resources and Privacy. Agree who records consent and which officer takes photos down."
+      "navLabel": "Workshop",
+      "title": "Facilitator note",
+      "intro": "In lunch-and-learns, practice the ask script and the Graphic Maker consent dialog together.",
+      "content": "Pause on the consent step, walk the checklist once, assign takedown officers, and link Comms Resources plus Privacy. Same rules apply before filming a Reel — see the short-form video guide."
+    },
+    "tools": {
+      "navLabel": "Toolbox",
+      "title": "Tools and related guides",
+      "intro": "Consent is built into export paths — use them.",
+      "items": {
+        "graphic": {
+          "label": "Graphic Maker",
+          "content": "Consent gate on member photo upload before export."
+        },
+        "shortForm": {
+          "label": "Short-form video guide",
+          "content": "Filming and privacy for Reels and Shorts."
+        },
+        "crisis": {
+          "label": "Strike Guide",
+          "content": "Consent rules when the local is under pressure."
+        },
+        "privacy": {
+          "label": "Privacy page",
+          "content": "How Comms data stays on-device and who controls Hub data."
+        }
+      }
     }
   },
   "websiteGuide": {
@@ -3031,98 +3218,299 @@
   },
   "crisisGuide": {
     "title": "Strike & Crisis Comms Guide",
-    "subtitle": "High-level guidance for local unions during strikes, bargaining, and workplace crises",
+    "subtitle": "One voice, three messages a day, and a channel plan when the local is under pressure",
     "backToGuide": "Back to The Blueprint",
     "tocLabel": "On this page",
-    "intro": "This guide helps you keep local messaging calm and clear under pressure. Your local usually handles day-to-day Comms while your provincial or national union supports sector bargaining.",
-    "scenarios": {
-      "strike": {
-        "navLabel": "Strike action",
-        "title": "Strike action",
-        "items": [
-          "Confirm all public messaging with your local president and union servicing rep before posting",
-          "Designate one or two spokespersons - members and media should hear one consistent local voice",
-          "Post daily picket schedules, gate locations, and safety reminders using branded graphics from this toolbox",
-          "Share solidarity and member stories with consent - never post photos without permission",
-          "Use your Brand Kit colours; follow division or sector campaign materials when coordinating beyond the local",
-          "Do not share negotiation details, member home addresses, or internal strategy on public channels",
-          "Direct questions about pay, duties, and return-to-work to the local strike committee - not comment threads"
-        ]
+    "tipLabel": "Takeaway",
+    "intro": "Crisis comms is not “post more.” It is who may speak, what members need to hear, and what never goes on a public channel. Locals handle day-to-day messaging; your provincial or national union supports sector bargaining — but the Facebook group still needs one local voice.",
+    "disclaimer": {
+      "title": "President sign-off",
+      "body": "Nothing in this guide replaces your local executive or servicing rep. When in doubt, draft offline and wait for president approval before you publish."
+    },
+    "gate": {
+      "navLabel": "Crisis or normal?",
+      "title": "Before you post — is this crisis comms?",
+      "intro": "Normal comms can be steward-led. Crisis comms needs a short chain of command so members are not reading five conflicting voices.",
+      "items": {
+        "strike": {
+          "label": "Strike or lockout live",
+          "content": "Use this guide. One comms lead, one spokesperson, president approves every public post."
+        },
+        "bargaining": {
+          "label": "Bargaining countdown",
+          "content": "Use the bargaining section and the three-messages rule. Share only what the bargaining team cleared for release."
+        },
+        "layoff": {
+          "label": "Layoffs or restructuring announced",
+          "content": "Calm, factual tone. Point to stewards and EAP. No guessing about who is affected."
+        },
+        "normal": {
+          "label": "Routine local update",
+          "content": "Use The Blueprint and channel guides instead. Crisis rules are heavier than you need for a meeting reminder."
+        }
       },
-      "bargaining": {
-        "navLabel": "Bargaining",
-        "title": "Bargaining and countdown",
-        "items": [
-          "Build momentum with factual updates - job security, workload, wages, and member priorities",
-          "Use consistent hashtags and graphics so members recognize official local posts",
-          "Encourage members to wear union colours and attend information meetings - post times and locations early",
-          "Share only what the bargaining team has approved for public release",
-          "Remind members to avoid debating management claims in public comment sections",
-          "Link to official union bargaining pages when available rather than paraphrasing from memory"
-        ]
+      "warningTitle": "If two officers are posting different facts",
+      "warning": "Stop public posting until president and comms lead align on one correction. Members trust silence less than they hate contradiction — but contradiction kills trust fastest."
+    },
+    "roles": {
+      "navLabel": "Roles",
+      "title": "Who does what",
+      "intro": "Write names on a sticky note before the picket line opens. Volunteers rotate; roles do not.",
+      "items": {
+        "president": {
+          "label": "President",
+          "content": "Final yes on every public post, media callback, and correction. Can delegate drafting, not approval."
+        },
+        "comms": {
+          "label": "Comms lead",
+          "content": "Owns the draft queue, Brand Kit exports, and the website strike page. Does not improvise bargaining facts."
+        },
+        "spokesperson": {
+          "label": "Spokesperson",
+          "content": "One or two people for media and member questions at the gate. Everyone else sends reporters to them."
+        },
+        "servicing": {
+          "label": "Servicing rep",
+          "content": "Legal and bargaining context. Not usually the daily poster — but clears language about rights and process."
+        }
       },
-      "layoffs": {
-        "navLabel": "Layoffs",
-        "title": "Layoffs and restructuring",
-        "items": [
-          "Acknowledge member anxiety - be empathetic, factual, and calm",
-          "Direct affected members to stewards, union servicing reps, and EAP resources",
-          "Do not speculate about outcomes - share only confirmed local and employer statements",
-          "Use quote cards from elected leaders to show a unified local voice",
-          "Document management communications offline for grievance and consultation records",
-          "Avoid naming individuals at risk unless they have asked to be identified publicly"
-        ]
-      },
-      "management": {
-        "navLabel": "Management pushback",
-        "title": "Management pushback and misinformation",
-        "items": [
-          "Respond with facts and collective agreement language - never personal attacks",
-          "If management posts misinformation, publish one brief correction and pin it if needed",
-          "Escalate harassment, threats, or surveillance concerns to your union servicing rep immediately",
-          "Do not engage in prolonged public arguments with management accounts",
-          "Keep sensitive member issues in steward channels, not public posts",
-          "Screenshot problematic employer posts for the local executive and servicing rep"
-        ]
+      "tip": "Post the spokesperson phone number on the strike page and one pinned social post — then stop answering bargaining questions in comments."
+    },
+    "strike": {
+      "navLabel": "Strike",
+      "title": "Strike action comms",
+      "intro": "Members need schedule, safety, and pay questions answered from one place. Management will test whether you fracture in public.",
+      "items": {
+        "approve": {
+          "label": "President approves every post",
+          "content": "Draft in Graphic Maker or Flyer Maker, export, then send the PNG/PDF to president before it goes live."
+        },
+        "schedule": {
+          "label": "Daily picket schedule",
+          "content": "Gate locations, start times, and weather/safety reminders. Board Notice at each gate; same facts on the website."
+        },
+        "safety": {
+          "label": "Safety first on the line",
+          "content": "No member addresses, no dare posts, no live-streaming confrontations. Incident? Follow emergency protocol before you post."
+        },
+        "consent": {
+          "label": "Photos with consent",
+          "content": "Solidarity shots need the Photo Consent checklist. Wide crowd frames beat close-ups when consent is unclear."
+        },
+        "sector": {
+          "label": "Follow sector materials when coordinating",
+          "content": "Use division or national campaign hashtags and graphics when you are aligned — do not invent parallel branding."
+        },
+        "questions": {
+          "label": "Pay and return-to-work questions",
+          "content": "Send to the strike committee or spokesperson — not comment threads. Link the official FAQ when you have one."
+        }
       }
     },
-    "workedDay": {
-      "navLabel": "Worked day",
-      "title": "Worked example: one high-stakes day",
-      "content": "Strike day 3. Management posts a misleading memo at 7 a.m. Picket line at 6:30. Members are anxious in the Facebook group.",
-      "items": [
-        "7:15 — President and comms lead agree one correction post, not ten replies",
-        "7:30 — Quote Card with approved facts; pin to group; link to website strike page",
-        "8:00 — Board Notice PDF at each gate with picket schedule and safety reminder",
-        "10:00 — Servicing rep briefs executive; no negotiation details on public channels",
-        "14:00 — Member story graphic only after written consent; no employer logos in frame",
-        "17:00 — Pull expired meeting flyer from boards; leave contacts strip up overnight"
-      ],
-      "tip": "Write the day’s three allowed messages before breakfast. Everything else waits for president sign-off."
+    "bargaining": {
+      "navLabel": "Bargaining",
+      "title": "Bargaining countdown comms",
+      "intro": "Build urgency without leaking table language. Members should feel informed, not briefed on confidential proposals.",
+      "items": {
+        "facts": {
+          "label": "Factual priorities only",
+          "content": "Job security, workload, wages — in member language. No article numbers or counter-proposal figures unless the team cleared them."
+        },
+        "hashtag": {
+          "label": "One visual system",
+          "content": "Same Brand Kit colours and hashtag on every graphic so members recognize official posts instantly."
+        },
+        "meetings": {
+          "label": "Meeting times early",
+          "content": "Information meetings need two weeks’ notice when you can. Flyer + board + social + website with identical times."
+        },
+        "approved": {
+          "label": "Bargaining team clears releases",
+          "content": "If it did not come from the team, it does not go public — including enthusiastic stewards paraphrasing from memory."
+        },
+        "comments": {
+          "label": "Ignore management bait",
+          "content": "One pinned correction beats twenty angry replies. See management pushback below."
+        },
+        "link": {
+          "label": "Link official bargaining pages",
+          "content": "Point to national or divisional bargaining hubs rather than retyping updates that may change overnight."
+        }
+      }
+    },
+    "layoffs": {
+      "navLabel": "Layoffs",
+      "title": "Layoffs and restructuring",
+      "intro": "Members are scared. Your job is calm routing to stewards and facts — not speculation about who is on a list.",
+      "items": {
+        "empathy": {
+          "label": "Acknowledge fear",
+          "content": "Short, human posts. “We know this is stressful” beats false certainty."
+        },
+        "route": {
+          "label": "Route to stewards and EAP",
+          "content": "Phone numbers and meeting times in one pinned post. Repeat on boards where affected members actually walk."
+        },
+        "facts": {
+          "label": "Employer and union facts only",
+          "content": "Quote confirmed letters and local executive statements. Screenshot management email for the file — do not forward member names publicly."
+        },
+        "leaders": {
+          "label": "Unified local voice",
+          "content": "Quote Card from president or chief steward. One statement, not five officers venting."
+        },
+        "record": {
+          "label": "Document offline",
+          "content": "Save employer comms for consultation and grievance records. Public posts are not the archive."
+        },
+        "names": {
+          "label": "No naming individuals",
+          "content": "Unless a member asked to be identified. Layoff fear spreads faster when people see a coworker tagged."
+        }
+      }
+    },
+    "management": {
+      "navLabel": "Pushback",
+      "title": "Management pushback and misinformation",
+      "intro": "Employers post to spook members. You respond once, factually, then return to your schedule.",
+      "items": {
+        "facts": {
+          "label": "CA language and dates",
+          "content": "Quote the agreement or the employer’s own letter. No personal attacks on managers."
+        },
+        "correction": {
+          "label": "One correction post",
+          "content": "Brief Quote Card or graphic. Pin it. Do not thread-war with the college account."
+        },
+        "harassment": {
+          "label": "Escalate threats immediately",
+          "content": "Harassment, surveillance, or legal letters go to president and servicing rep the same hour — not after the shift."
+        },
+        "screenshot": {
+          "label": "Screenshot for the file",
+          "content": "Send problematic employer posts to executive offline. Public clapbacks are not evidence."
+        },
+        "stewards": {
+          "label": "Member issues stay private",
+          "content": "Discipline, medical, and bargaining details belong in steward channels — never in a public reply."
+        }
+      },
+      "warningTitle": "Do not live-post negotiations",
+      "warning": "Table blow-by-blow feels satisfying and helps management. If it is not on the bargaining team release sheet, it stays offline."
+    },
+    "rhythm": {
+      "navLabel": "Daily rhythm",
+      "title": "Three messages a day",
+      "intro": "During strike or late bargaining, members check phones constantly. Give them a predictable rhythm instead of panic posting.",
+      "items": {
+        "morning": {
+          "label": "Morning — schedule and safety",
+          "content": "Picket gates, weather, any line protocol change. Board Notice PDF plus one social post."
+        },
+        "midday": {
+          "label": "Midday — only if facts changed",
+          "content": "Skip if nothing new. Silence beats noise when the facts are stable."
+        },
+        "evening": {
+          "label": "Evening — recap and tomorrow",
+          "content": "Thank members, confirm tomorrow’s schedule, link website FAQ. No new bargaining details unless cleared."
+        },
+        "queue": {
+          "label": "Draft queue in one doc",
+          "content": "Comms lead holds drafts; president batch-approves. Prevents duplicate posts from well-meaning volunteers."
+        }
+      },
+      "tip": "Write tomorrow’s three messages tonight. Crisis mornings are not for drafting from scratch."
+    },
+    "fullScenario": {
+      "navLabel": "Full walk-through",
+      "title": "Worked walk-through: strike day 3 after a management memo",
+      "intro": "Management emailed a misleading return-to-work offer at 7 a.m. Picket line opened at 6:30. The Facebook group is spiraling.",
+      "phases": {
+        "t715": {
+          "label": "7:15 — hold the channel",
+          "content": "Comms lead posts “Hold for official local update” in the group. Mute notifications on bait comments. President and servicing rep read the memo."
+        },
+        "t730": {
+          "label": "7:30 — one correction",
+          "content": "Quote Card with three approved bullets. Pin to group. Same text on website strike page. No negotiation analysis."
+        },
+        "t800": {
+          "label": "8:00 — gates",
+          "content": "Board Notice at each gate: today’s schedule + “Ignore management memo — read pinned post.”"
+        },
+        "t1000": {
+          "label": "10:00 — executive sync",
+          "content": "Servicing rep joins a 10-minute call. Decide if a second post is needed. Default no unless facts changed."
+        },
+        "t1400": {
+          "label": "14:00 — member story",
+          "content": "Graphic Maker spotlight only after written consent. No employer logos in frame."
+        },
+        "t1700": {
+          "label": "17:00 — boards",
+          "content": "Pull expired meeting flyers. Leave contacts strip up overnight."
+        }
+      },
+      "tip": "If you posted more than three times before lunch, you probably posted too much."
     },
     "escalation": {
       "navLabel": "Escalation",
-      "title": "When to escalate",
-      "items": [
-        "Media inquiries - route to your designated spokesperson or union communications",
-        "Legal threats, injunctions, or employer letters about conduct - executive and servicing rep immediately",
-        "Member safety incidents on the line or in the workplace - follow local emergency protocols first",
-        "Leaked confidential documents or suspected bad-faith bargaining - do not post; alert leadership",
-        "Viral misinformation about your local - coordinate a single correction rather than multiple replies"
-      ]
+      "title": "When to escalate immediately",
+      "intro": "Some events skip the draft queue and go straight to president and servicing rep.",
+      "items": {
+        "media": {
+          "label": "Media calls",
+          "content": "Route to spokesperson. Never “just answer one question” without president aware."
+        },
+        "legal": {
+          "label": "Legal threats or injunctions",
+          "content": "Stop posting. Forward the letter. Wait for legal guidance."
+        },
+        "safety": {
+          "label": "Line or workplace safety incident",
+          "content": "Emergency protocols first. Comms only after members are safe and leadership agrees on facts."
+        },
+        "leak": {
+          "label": "Leaked confidential documents",
+          "content": "Do not share. Alert president and servicing rep. Public speculation helps the employer."
+        },
+        "viral": {
+          "label": "Viral misinformation",
+          "content": "One coordinated correction from the local account. Tell stewards to share the pinned post, not invent their own rebuttal."
+        }
+      }
     },
     "tools": {
       "navLabel": "Toolbox",
-      "title": "Toolbox resources for crisis comms",
-      "description": "Use these on-device tools to keep visuals consistent when your local is under pressure:",
-      "items": [
-        "Brand Kit - local number, colours, and logo ready for fast graphics",
-        "Board Notice Maker - workplace bulletin updates during strikes",
-        "Flyer Maker and Quote Card - leadership statements and picket updates",
-        "Graphic Maker - member spotlights with consent flow",
-        "Website Template - one stable link for members and media",
-        "Captions library - pre-written solidarity and bargaining posts"
-      ]
+      "title": "On-device tools for crisis comms",
+      "intro": "Keep visuals consistent when volunteers rotate. Everything runs on your device — no ad hoc Canva accounts.",
+      "items": {
+        "brand": {
+          "label": "Brand Kit",
+          "content": "Local number, colours, and logo locked before day one of the strike."
+        },
+        "board": {
+          "label": "Board Notice Maker",
+          "content": "Tabloid schedule notices for gates and break rooms."
+        },
+        "flyer": {
+          "label": "Flyer Maker and Quote Card",
+          "content": "Leadership statements and one-page member FAQs."
+        },
+        "graphic": {
+          "label": "Graphic Maker",
+          "content": "Member spotlights with built-in consent gate."
+        },
+        "web": {
+          "label": "Website Template",
+          "content": "One stable URL for media and members — update the strike page, not five different links."
+        },
+        "captions": {
+          "label": "Captions library",
+          "content": "Pre-written solidarity posts you can adapt after president approval."
+        }
+      }
     }
   },
   "dfrGuide": {
@@ -4156,8 +4544,8 @@
     "feedbackLink": "Send site feedback",
     "items": {
       "labour-guides-rewrite": {
-        "title": "Labour playbooks rewritten",
-        "body": "Joint committee, duty of fair representation, right to refuse, and seniority bumping guides now walk real scenarios step by step — with decision gates, checklists, and tool links stewards can use in the room."
+        "title": "Steward and comms playbooks rewritten",
+        "body": "Labour guides plus Strike and Photo Consent now walk real scenarios step by step — decision gates, ask scripts, daily rhythm, and tool links you can use under pressure."
       },
       "graphic-gradient-ink": {
         "title": "Cleaner graphic backgrounds",
