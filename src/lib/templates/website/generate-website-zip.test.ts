@@ -5,7 +5,7 @@ import {
   buildPreviewHtml,
   generateWebsiteZip,
 } from "@/lib/templates/website/generate-website-zip";
-import { getOpseuWebsiteFooterSources } from "@/lib/constants/comms-sources";
+import { getOpseuWebsiteFooterSources, getWebsiteRightsPartnersFederationSources } from "@/lib/constants/comms-sources";
 import type { WebsiteTemplateData } from "@/types/website-template";
 
 const sampleData: WebsiteTemplateData = {
@@ -42,6 +42,10 @@ describe("generate-website-zip", () => {
     expect(html).toContain("Union Resources");
     for (const source of getOpseuWebsiteFooterSources()) {
       expect(html).toContain(`href="${source.url}"`);
+    }
+    for (const source of getWebsiteRightsPartnersFederationSources()) {
+      expect(html).toContain(`href="${source.url}"`);
+      expect(html).toContain(source.label);
     }
     expect(html).not.toContain("12263");
     expect(html).not.toContain("opseu.org/contact/");

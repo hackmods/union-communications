@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "federation-sources",
+    date: "2026-08-24",
+    kind: "improved",
+    href: "/guide/resources",
+  },
+  {
     id: "caat-s-gold-plate",
     date: "2026-08-24",
     kind: "improved",

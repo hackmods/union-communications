@@ -4,10 +4,12 @@ import {
   getOpseuWebsiteFooterSources,
   getSourcesForPage,
   getSourcesByCategory,
+  getWebsiteRightsPartnersFederationSources,
   isReferenceAssetPackVisible,
   OPSEU_WEBSITE_FOOTER_SOURCE_IDS,
   PAGE_SOURCE_IDS,
   sourceMatchesUnion,
+  WEBSITE_RIGHTS_PARTNERS_FEDERATION_SOURCE_IDS,
 } from "@/lib/constants/comms-sources";
 
 describe("comms-sources", () => {
@@ -33,6 +35,9 @@ describe("comms-sources", () => {
     expect(getSourcesForPage("blueprint", "cupe").map((s) => s.id)).toEqual([
       "wcag-21",
       "facebook-groups",
+      "ofl",
+      "nupge",
+      "clc",
     ]);
     expect(
       getSourcesForPage("websiteTemplate", "unifor").map((s) => s.id),
@@ -123,5 +128,19 @@ describe("comms-sources", () => {
     const footer = getOpseuWebsiteFooterSources();
     expect(footer).toHaveLength(OPSEU_WEBSITE_FOOTER_SOURCE_IDS.length);
     expect(footer.map((s) => s.id)).toEqual([...OPSEU_WEBSITE_FOOTER_SOURCE_IDS]);
+  });
+
+  it("resolves Rights & Partners federation links from the registry", () => {
+    const federations = getWebsiteRightsPartnersFederationSources();
+    expect(federations).toHaveLength(
+      WEBSITE_RIGHTS_PARTNERS_FEDERATION_SOURCE_IDS.length,
+    );
+    expect(federations.map((s) => s.id)).toEqual([
+      ...WEBSITE_RIGHTS_PARTNERS_FEDERATION_SOURCE_IDS,
+    ]);
+    for (const source of federations) {
+      expect(source.unionIds).toBeUndefined();
+      expect(source.url).toMatch(/^https:\/\//);
+    }
   });
 });

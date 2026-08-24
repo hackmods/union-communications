@@ -2246,6 +2246,10 @@
         "Accessibilité - engagements WCAG 2.1 AA et AODA dans l'énoncé d'accessibilité de UnionOps"
       ]
     },
+    "federations": {
+      "title": "Fédérations provinciales et nationales",
+      "body": "Les sections ontariennes relèvent souvent d'une fédération provinciale (Fédération du travail de l'Ontario) et peuvent aussi appartenir à un affilié national et au Congrès du travail du Canada. NUPGE est un affilié national. Consultez leurs sites pour l'éducation du mouvement ; cette boîte à outils reste sur les Comms locales et la pratique des délégués. Les liens officiels sont dans la bibliographie ci-dessous."
+    },
     "allSources": {
       "title": "Bibliographie complète des sources",
       "intro": "Liens nationaux et gouvernementaux cités dans les guides Comms.",
@@ -3348,6 +3352,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "federation-sources": {
+        "title": "OFL, NUPGE et CTC dans les Sources",
+        "body": "Les Ressources Comms pointent maintenant vers la Fédération du travail de l'Ontario, NUPGE et le Congrès du travail du Canada pour l'éducation du mouvement. Les mêmes liens figurent dans les guides d'adhésion, babillards, Plan directeur et crise — et dans le pied de page du ZIP du site."
+      },
       "joint-committee-guide": {
         "title": "Guide des comités conjoints",
         "body": "Passez d'un dossier de campus à la table provinciale, gardez les notes de caucus privées, puis expliquez les procès-verbaux signés aux membres avec papier en-tête, tracts et courriel."

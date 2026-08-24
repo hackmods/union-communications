@@ -2246,6 +2246,10 @@
         "Accessibility - WCAG 2.1 AA and AODA commitments in the UnionOps accessibility statement"
       ]
     },
+    "federations": {
+      "title": "Provincial and national federations",
+      "body": "Ontario locals often sit under a provincial federation (Ontario Federation of Labour) and may also belong to a national affiliate and the Canadian Labour Congress. NUPGE is one national affiliate. Use those sites for movement education; this toolbox stays on local Comms and steward practice. Official links are in the bibliography below."
+    },
     "allSources": {
       "title": "Full source bibliography",
       "intro": "National and government links cited across Comms guides.",
@@ -3396,6 +3400,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "federation-sources": {
+        "title": "OFL, NUPGE, and CLC in Sources",
+        "body": "Comms Resources now points to the Ontario Federation of Labour, NUPGE, and the Canadian Labour Congress for movement education. The same links appear on membership, boards, Blueprint, and crisis guides — and in the website ZIP footer."
+      },
       "joint-committee-guide": {
         "title": "Joint committee playbook",
         "body": "Walk a campus issue to the provincial table, keep union caucus notes private, then explain signed minutes to members with letterhead, flyers, and email."

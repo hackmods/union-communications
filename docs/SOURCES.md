@@ -33,7 +33,9 @@ External resources cited across guides, tools, and exported materials. Canonical
 | OPSEU / SEFPO Member Portal | https://members.opseu.org/ | Crisis guide, exported site footer |
 | Collective agreements | https://opseu.org/information/general/find-your-collective-agreement/12967/ | Union boards guide, crisis guide, exported site footer |
 | Forms and documents | https://opseu.org/opseu-members-tools-and-resources/ | Crisis guide, exported site footer |
-| Ontario Federation of Labour | https://ofl.ca/ | Exported site footer (optional) |
+| Ontario Federation of Labour | https://ofl.ca/ | Universal; Resources, Blueprint, boards, crisis, membership signup; website ZIP Rights & Partners |
+| NUPGE | https://nupge.ca/ | Universal; same pages + website ZIP Rights & Partners |
+| Canadian Labour Congress | https://canadianlabour.ca/ | Universal; same pages + website ZIP Rights & Partners |
 | Posters required in the workplace | https://www.ontario.ca/page/posters-required-workplace | Union boards guide — feed empty boards |
 | ESA mandatory information | https://www.ontario.ca/document/your-guide-employment-standards-act-0/mandatory-information-employees | Union boards guide + printable PDF mirror |
 | OHSA (e-Laws) | https://www.ontario.ca/laws/statute/90o01 | Union boards guide — QR to live statute |

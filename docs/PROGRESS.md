@@ -1,5 +1,11 @@
 # Progress Log
 
+## Federation sources QOL (2026-08-24)
+
+- Registered universal `nupge` + `clc` beside `ofl` in `comms-sources.ts`; website ZIP Rights & Partners federations resolve via `getWebsiteRightsPartnersFederationSources()`.
+- Wired OFL/NUPGE/CLC onto Blueprint, union boards, crisis, and membership signup SourcesBlocks; short federations callout on `/guide/resources`.
+- What's new: `federation-sources`.
+
 ## Demo login sample accounts (2026-08-23)
 
 - [x] Officer login shows a Sample accounts Callout when the demo roster can sign in, with every seed role, shared password, and tap-to-fill — replaces the one-liner under Forgot password

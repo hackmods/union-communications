@@ -1,5 +1,5 @@
 import type { WebsiteNavLink, WebsiteTemplateData } from "@/types/website-template";
-import { getOpseuWebsiteFooterSources } from "@/lib/constants/comms-sources";
+import { getOpseuWebsiteFooterSources, getWebsiteRightsPartnersFederationSources } from "@/lib/constants/comms-sources";
 import {
   isWebsiteHttpUrl,
   toWebsiteNavLinks,
@@ -125,6 +125,12 @@ ${membershipItems}
         `          <li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)}</a></li>`,
     )
     .join("\n");
+  const federationFooterLinks = getWebsiteRightsPartnersFederationSources()
+    .map(
+      (source) =>
+        `          <li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)}</a></li>`,
+    )
+    .join("\n");
   const opseuResourcesHtml = data.includeOpseuResources
     ? `      <div class="footer-col">
         <h3>Union Resources</h3>
@@ -220,9 +226,7 @@ ${membershipColumn}${opseuResourcesHtml}      <div class="footer-col">
           <li><a href="https://www.ontario.ca/laws/statute/90h19" target="_blank" rel="noopener noreferrer">Ontario Human Rights Code</a></li>
           <li><a href="https://www.ontario.ca/laws/statute/90o01" target="_blank" rel="noopener noreferrer">Occupational Health &amp; Safety</a></li>
           <li><a href="https://www.wsib.ca/en" target="_blank" rel="noopener noreferrer">WSIB - Ontario</a></li>
-          <li><a href="https://ofl.ca" target="_blank" rel="noopener noreferrer">Ontario Federation of Labour</a></li>
-          <li><a href="https://nupge.ca/" target="_blank" rel="noopener noreferrer">NUPGE</a></li>
-          <li><a href="https://canadianlabour.ca/" target="_blank" rel="noopener noreferrer">Canadian Labour Congress</a></li>
+${federationFooterLinks}
         </ul>
       </div>
     </div>

@@ -168,6 +168,15 @@ export default async function ResourcesPage({
         </ul>
       </section>
 
+      <section className="mt-8 border-l-2 border-opseu-blue/30 pl-5">
+        <h2 className="text-xl font-bold text-opseu-dark">
+          {t("federations.title")}
+        </h2>
+        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
+          {t("federations.body")}
+        </p>
+      </section>
+
       <ResourcesSourcesList />
     </GuideLayout>
   );

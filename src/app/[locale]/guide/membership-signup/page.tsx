@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
 
@@ -49,6 +50,7 @@ export default async function MembershipSignupGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("membershipSignupGuide");
   const nav = await getTranslations("nav");
+  const ts = await getTranslations("sources");
 
   return (
     <GuideLayout
@@ -69,6 +71,13 @@ export default async function MembershipSignupGuidePage({
         { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
         { href: "/guide/union-boards", label: nav("unionBoardsGuide") },
       ]}
+      footer={
+        <SourcesBlock
+          pageId="membershipSignup"
+          title={ts("title")}
+          intro={ts("intro")}
+        />
+      }
     >
       <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
         {TOC.map(([id, key]) => (

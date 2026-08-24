@@ -162,7 +162,24 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     category: "union",
     label: "Ontario Federation of Labour",
     url: "https://ofl.ca/",
-    note: "Provincial labour federation - solidarity links on local sites.",
+    note: "Provincial labour federation — solidarity and movement education; cite, do not mirror.",
+    lastVerified: "2026-08-24",
+  },
+  "nupge": {
+    id: "nupge",
+    category: "union",
+    label: "National Union of Public and General Employees (NUPGE)",
+    url: "https://nupge.ca/",
+    note: "National affiliate federation — solidarity links on local sites; cite, do not mirror.",
+    lastVerified: "2026-08-24",
+  },
+  "clc": {
+    id: "clc",
+    category: "union",
+    label: "Canadian Labour Congress",
+    url: "https://canadianlabour.ca/",
+    note: "National labour congress — solidarity links on local sites; cite, do not mirror.",
+    lastVerified: "2026-08-24",
   },
   "ontario-required-posters": {
     id: "ontario-required-posters",
@@ -189,7 +206,7 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
 
 /** Which sources to cite on each guide or tool page. */
 export const PAGE_SOURCE_IDS: Record<string, string[]> = {
-  blueprint: ["opseu-branding", "wcag-21", "facebook-groups"],
+  blueprint: ["opseu-branding", "wcag-21", "facebook-groups", "ofl", "nupge", "clc"],
   socialMediaPlan: [
     "opseu-branding",
     "local243-website",
@@ -202,6 +219,9 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "ontario-required-posters",
     "ontario-esa-poster",
     "ontario-ohsa",
+    "ofl",
+    "nupge",
+    "clc",
   ],
   print: ["opseu-branding"],
   emailBroadcast: ["opseu-branding"],
@@ -217,6 +237,9 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "opseu-collective-agreements",
     "opseu-forms",
     "opseu-member-portal",
+    "ofl",
+    "nupge",
+    "clc",
   ],
   photoConsent: ["wcag-21", "aoda", "opseu-collective-agreements"],
   dfr: ["opseu-collective-agreements", "opseu-forms", "opseu-member-portal"],
@@ -227,6 +250,7 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "cec-pteerc-minutes",
   ],
   rightToRefuse: ["ontario-ohsa", "ontario-required-posters"],
+  membershipSignup: ["ofl", "nupge", "clc"],
   assets: ["opseu-branding"],
   websiteTemplate: ["local243-website", "github-pages", "opseu-branding"],
   boardNotice: ["opseu-branding"],
@@ -241,6 +265,13 @@ export const OPSEU_WEBSITE_FOOTER_SOURCE_IDS = [
   "opseu-forms",
   "opseu-collective-agreements",
   "opseu-contact",
+] as const;
+
+/** Universal federation links in the website ZIP “Rights & Partners” column. */
+export const WEBSITE_RIGHTS_PARTNERS_FEDERATION_SOURCE_IDS = [
+  "ofl",
+  "nupge",
+  "clc",
 ] as const;
 
 /**
@@ -279,6 +310,12 @@ export function getOpseuWebsiteFooterSources(): CommsSource[] {
   return OPSEU_WEBSITE_FOOTER_SOURCE_IDS.map((id) => COMMS_SOURCES[id]).filter(
     Boolean,
   );
+}
+
+export function getWebsiteRightsPartnersFederationSources(): CommsSource[] {
+  return WEBSITE_RIGHTS_PARTNERS_FEDERATION_SOURCE_IDS.map(
+    (id) => COMMS_SOURCES[id],
+  ).filter(Boolean);
 }
 
 export function getSourcesForPage(
