@@ -104,7 +104,7 @@ UnionOps is **local-first for Comms**, not “no servers ever.”
 | **Officer Hub you host** | Sessions and hub records live on **that instance**. You are the data controller. Prefer Canadian hosting for confidential modules. |
 | **Demo / CI accounts** | Workshop and test only — not for real member case files. |
 
-Full policy: [Privacy](https://unionops.org/en/privacy) · [`docs/COMPLIANCE.md`](docs/COMPLIANCE.md) · [`SECURITY.md`](SECURITY.md)
+Full policy: [Privacy](https://unionops.org/en/privacy) · [Security](https://unionops.org/en/security) · [`docs/COMPLIANCE.md`](docs/COMPLIANCE.md) · [`docs/guides/HOSTED_SECURITY.md`](docs/guides/HOSTED_SECURITY.md) · [`SECURITY.md`](SECURITY.md)
 
 ---
 

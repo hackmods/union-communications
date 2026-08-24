@@ -28,6 +28,8 @@ Separation of duties, immutable audit trail, 7-year retention default, member ph
 
 ## Security Controls
 
+See also: [`docs/guides/HOSTED_SECURITY.md`](guides/HOSTED_SECURITY.md) (operator checklist + encryption claim vs reality).
+
 | Control | Comms | Officer Hub |
 |---------|-------|-------------|
 | CSP headers | Yes (`next.config.ts`) | Yes (`next.config.ts`) |

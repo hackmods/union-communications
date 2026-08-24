@@ -17,6 +17,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "How UnionOps handles privacy: Comms tools stay on your device; if you host an Officer Hub, you control that instance.",
     },
+    "/security": {
+      title: "Security",
+      description:
+        "How UnionOps protects hosted sign-in: HTTPS, access control, and honest limits on encryption for Comms, Officer Hub, and Local Portal.",
+    },
     "/accessibility": {
       title: "Accessibility Statement",
       description:
@@ -148,6 +153,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Politique de confidentialité",
       description:
         "Comment UnionOps traite la confidentialité : les outils Comms restent sur votre appareil ; si vous hébergez un Hub, vous contrôlez cette instance.",
+    },
+    "/security": {
+      title: "Sécurité",
+      description:
+        "Comment UnionOps protège la connexion hébergée : HTTPS, contrôle d'accès et limites honnêtes sur le chiffrement pour Comms, Hub et Portail local.",
     },
     "/accessibility": {
       title: "Déclaration d'accessibilité",

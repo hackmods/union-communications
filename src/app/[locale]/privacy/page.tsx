@@ -108,6 +108,17 @@ export default async function PrivacyPage({
             .
           </p>
         </Callout>
+
+        <Callout tone="plain">
+          <p className="font-semibold text-opseu-dark">{t("securityTitle")}</p>
+          <p className="mt-2 text-gray-700">
+            {t("securityBody")}{" "}
+            <Link href="/security" className="text-opseu-blue underline">
+              {t("securityLink")}
+            </Link>
+            .
+          </p>
+        </Callout>
       </div>
     </GuideLayout>
   );

@@ -3,7 +3,7 @@
 **Date:** 2026-08-24  
 **Scope:** Local Portal only (`/[locale]/portal/*`, `/api/portal/**`, Portal send-feedback surface)  
 **Auditor:** Agent security pass (code-verified; production health cross-check)  
-**References:** [COMPLIANCE.md](../COMPLIANCE.md), [RBAC.md](../RBAC.md), [LOCAL_PORTAL.md](../modules/LOCAL_PORTAL.md), ADR-017, ADR-018, [session-knowledge-2026-08-23-eerc-committees.md](session-knowledge-2026-08-23-eerc-committees.md)
+**References:** [COMPLIANCE.md](../COMPLIANCE.md), [RBAC.md](../RBAC.md), [LOCAL_PORTAL.md](../modules/LOCAL_PORTAL.md), ADR-017, ADR-018, [HOSTED_SECURITY.md](../guides/HOSTED_SECURITY.md), [session-knowledge-2026-08-23-eerc-committees.md](session-knowledge-2026-08-23-eerc-committees.md)
 
 ---
 
