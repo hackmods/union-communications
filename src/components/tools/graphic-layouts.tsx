@@ -26,6 +26,9 @@ import {
   textAlignFromBias,
 } from "@/lib/utils/canvas-tokens";
 import {
+  brandFieldBottomLiftStyle,
+  brandFieldEndColor,
+  brandFieldFillStyle,
   canvasSurfaceStyle,
   softGradientEndColor,
 } from "@/lib/utils/canvas-surface";
@@ -326,11 +329,11 @@ export function GraphicLayoutCanvas({
 function SolidarityLayout({
   primary,
   accent,
-  secondary,
+  secondary: _secondary,
   copy,
   localNumber,
   subText,
-  thanks,
+  thanks: _thanks,
   photoUrl,
   photoScale,
   size,
@@ -356,20 +359,10 @@ function SolidarityLayout({
   // Bottom copy always sits on the dark lift scrim (with or without a photo).
   const footerBg = BOTTOM_SCRIM_INK_BG;
   const ink = inkPalette(footerBg);
-  const fieldEnd = thanks
-    ? softGradientEndColor(primary, secondary)
-    : softGradientEndColor(primary, accent);
   const chrome = layoutChrome(tokens, exportMode);
   return (
     <>
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: thanks
-            ? `linear-gradient(135deg, ${primary}, ${fieldEnd})`
-            : `linear-gradient(160deg, ${primary} 0%, ${primary} 55%, ${fieldEnd} 100%)`,
-        }}
-      />
+      <div className="absolute inset-0" style={brandFieldFillStyle(primary)} />
       <PhotoLayer
         photoUrl={photoUrl}
         photoScale={photoScale}
@@ -380,10 +373,7 @@ function SolidarityLayout({
       />
       <div
         className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(to top, rgba(0,0,0,0.55), transparent 55%)",
-        }}
+        style={brandFieldBottomLiftStyle("solidarity")}
       />
       <div
         className="absolute bottom-0 left-0 right-0"
@@ -451,7 +441,7 @@ function SolidarityLayout({
 function SpotlightLayout({
   primary,
   accent,
-  secondary,
+  secondary: _secondary,
   copy,
   localNumber,
   subText,
@@ -480,17 +470,10 @@ function SpotlightLayout({
   const footerBg = BOTTOM_SCRIM_INK_BG;
   const ink = inkPalette(footerBg);
   const badgeInk = pickContrastingInk(accent);
-  const fieldMid = softGradientEndColor(secondary, primary);
-  const fieldEnd = softGradientEndColor(primary, accent);
   const chrome = layoutChrome(tokens, exportMode);
   return (
     <>
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `linear-gradient(145deg, ${secondary}, ${fieldMid} 60%, ${fieldEnd})`,
-        }}
-      />
+      <div className="absolute inset-0" style={brandFieldFillStyle(primary)} />
       <PhotoLayer
         photoUrl={photoUrl}
         photoScale={photoScale}
@@ -517,10 +500,7 @@ function SpotlightLayout({
       ) : null}
       <div
         className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(to top, rgba(0,0,0,0.7), transparent 50%)",
-        }}
+        style={brandFieldBottomLiftStyle("spotlight")}
       />
       <div
         className="absolute bottom-0 left-0 right-0"
@@ -919,7 +899,7 @@ function ResultsLayout({
   tokens?: CanvasTokens;
 }) {
   const exportMode = size === "export";
-  const fieldEnd = softGradientEndColor(primary, accent);
+  const fieldEnd = brandFieldEndColor(primary, 0.22);
   const ink = inkPalette(primary, [primary, fieldEnd]);
   const chrome = layoutChrome(tokens, exportMode);
   const alignItems = chrome.alignItems ?? "center";
@@ -928,9 +908,7 @@ function ResultsLayout({
     <>
       <div
         className="absolute inset-0"
-        style={{
-          backgroundImage: `linear-gradient(180deg, ${primary}, ${fieldEnd})`,
-        }}
+        style={brandFieldFillStyle(primary, 0.22)}
       />
       <div
         className="absolute inset-0 flex flex-col justify-center"

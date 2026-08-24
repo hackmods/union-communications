@@ -2,8 +2,8 @@
 
 ## Graphic gradient ink (2026-08-24)
 
-- Solidarity / spotlight / thanks layouts always resolve type ink against the bottom lift scrim (`#1A1A1A`), not primary — fixes black-on-brown CAAT-S gold Examples.
-- Results / soft-gradient notice & quote use `pickFieldInk` + `softGradientEndColor` stops.
+- Solidarity / spotlight / thanks / results full-bleed fields use `brandFieldFillStyle` (same-hue primary deepen) instead of primary→white/accent washes that muddy midtones.
+- Bottom lift shortened via `brandFieldBottomLiftStyle`; type ink still samples `#1A1A1A`.
 - What's new: `graphic-gradient-ink`.
 
 ## Federation sources QOL (2026-08-24)

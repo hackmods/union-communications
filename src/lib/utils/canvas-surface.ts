@@ -41,6 +41,45 @@ export function softGradientEndColor(
 }
 
 /**
+ * Same-hue field fill for full-bleed social layouts.
+ * Avoids primary→white / primary→accent washes that muddy midtones and look
+ * trashy on volunteer graphics — accent belongs on badges and stripes, not the plate.
+ */
+export function brandFieldEndColor(primary: string, deepen = 0.18): string {
+  return blendHex("#000000", primary, Math.min(0.35, Math.max(0.08, deepen)));
+}
+
+export function brandFieldFillStyle(
+  primary: string,
+  deepen = 0.18,
+): CSSProperties {
+  const end = brandFieldEndColor(primary, deepen);
+  return {
+    backgroundColor: primary,
+    backgroundImage: `linear-gradient(160deg, ${primary} 0%, ${end} 100%)`,
+  };
+}
+
+/**
+ * Short bottom lift under bottom-anchored copy — keeps type readable without
+ * greying out most of the plate the way a tall black wash does.
+ */
+export function brandFieldBottomLiftStyle(
+  strength: "solidarity" | "spotlight" = "solidarity",
+): CSSProperties {
+  if (strength === "spotlight") {
+    return {
+      backgroundImage:
+        "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.4) 32%, transparent 52%)",
+    };
+  }
+  return {
+    backgroundImage:
+      "linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.35) 30%, transparent 48%)",
+  };
+}
+
+/**
  * Base background style for a capture root (inline hex/rgba only).
  * Grain is applied via {@link CanvasGrainOverlay}, not here —
  * background-image stacking can fight soft-gradient + accent-band.

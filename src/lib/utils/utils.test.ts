@@ -20,7 +20,11 @@ import {
   INK_BLACK,
   INK_WHITE,
 } from "@/lib/utils/ink";
-import { softGradientEndColor } from "@/lib/utils/canvas-surface";
+import {
+  brandFieldEndColor,
+  brandFieldFillStyle,
+  softGradientEndColor,
+} from "@/lib/utils/canvas-surface";
 import { validateImageFile } from "@/lib/utils/validation";
 import { formatFilename, slugify, resolveLocalNumber } from "@/lib/utils";
 
@@ -89,6 +93,16 @@ describe("ink utilities", () => {
     expect(softGradientEndColor("#FFB837", "#EA5A4F")).toBe("#EA5A4F");
     expect(pickContrastingInk("#FFB837")).toBe(INK_BLACK);
     expect(pickContrastingInk("#1A1A1A")).toBe(INK_WHITE);
+  });
+
+  it("keeps brand field fills on the same hue (no white/accent wash)", () => {
+    const coralEnd = brandFieldEndColor("#EA5A4F", 0.18);
+    expect(coralEnd.toUpperCase()).not.toBe("#FFFFFF");
+    expect(coralEnd.toUpperCase()).not.toBe("#FFB837");
+    expect(pickFieldInk(["#EA5A4F", coralEnd])).toBe(INK_WHITE);
+    const fill = brandFieldFillStyle("#EA5A4F");
+    expect(fill.backgroundColor).toBe("#EA5A4F");
+    expect(String(fill.backgroundImage)).toContain(coralEnd);
   });
 
   it("keeps OPSEU soft-gradient ends readable with white ink", () => {

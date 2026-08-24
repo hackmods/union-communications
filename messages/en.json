@@ -3401,8 +3401,8 @@
     "feedbackLink": "Send site feedback",
     "items": {
       "graphic-gradient-ink": {
-        "title": "Clearer type on gradient graphics",
-        "body": "Graphic Maker and Examples now pick light type over the dark bottom of picket, spotlight, and thanks layouts — so headlines stay readable on gold, coral, and other Brand Kit plates."
+        "title": "Cleaner graphic backgrounds",
+        "body": "Picket, thanks, spotlight, and results graphics use a solid brand colour with light depth — not multi-colour washes that muddy the plate. Type stays light over a short bottom lift."
       },
       "federation-sources": {
         "title": "OFL, NUPGE, and CLC in Sources",

@@ -3353,8 +3353,8 @@
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
       "graphic-gradient-ink": {
-        "title": "Texte plus lisible sur les graphiques en dégradé",
-        "body": "Le Créateur de graphiques et les Exemples choisissent maintenant un texte clair sur le bas sombre des mises en page piquet, membre en vedette et remerciement — pour que les titres restent lisibles sur les fonds or, corail et autres de la Trousse de marque."
+        "title": "Fonds de graphiques plus nets",
+        "body": "Les graphiques piquet, remerciement, membre en vedette et résultats utilisent une couleur de marque unie avec un léger relief — pas des dégradés multicolores qui salissent le fond. Le texte reste clair sur un léger assombrissement en bas."
       },
       "federation-sources": {
         "title": "OFL, NUPGE et CTC dans les Sources",
