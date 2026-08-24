@@ -5,6 +5,7 @@ import {
   loginAsPresident,
   loginAsSteward,
   hubLogin,
+  clearAuthSession,
 } from "./helpers/auth";
 
 function seriousOrCriticalViolations(
@@ -317,6 +318,7 @@ test.describe("Local Portal smoke @smoke", () => {
     await row.getByRole("button", { name: "Remove" }).click();
     await expect(page.getByText(`Delete me ${stamp}`)).toHaveCount(0);
 
+    await clearAuthSession(page);
     await loginAsPresident(page);
     await page.goto("/en/portal/circles/circle-hall-243");
     const downloadPromise = page.waitForEvent("download");

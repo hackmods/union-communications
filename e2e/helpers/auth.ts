@@ -52,6 +52,11 @@ export async function loginAsDemoOfficer(
   }
 }
 
+/** Clear Auth.js session cookies before switching demo accounts in one test. */
+export async function clearAuthSession(page: Page) {
+  await page.context().clearCookies();
+}
+
 /** Sign in via hub login. Does not clear MFA unless the account skips it. */
 export async function hubLogin(
   page: Page,

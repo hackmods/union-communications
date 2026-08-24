@@ -4393,6 +4393,7 @@
       }
     },
     "tools": {
+      "navLabel": "Toolbox",
       "title": "Tools for union-side work",
       "intro": "Use Comms tools after signed minutes or for union-only drafts. Hub snippets and grievances stay separate from joint table items.",
       "items": {

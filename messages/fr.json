@@ -4345,6 +4345,7 @@
       }
     },
     "tools": {
+      "navLabel": "Boîte à outils",
       "title": "Outils pour le travail du côté syndical",
       "intro": "Utilisez les outils Comms après signature des procès-verbaux ou pour les brouillons syndicaux seulement. Les extraits et griefs du Hub restent séparés des points de table conjointe.",
       "items": {
