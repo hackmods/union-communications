@@ -109,10 +109,13 @@ describe("comms-sources", () => {
       /opseu\.org\/contact\/?$/,
     );
     expect(COMMS_SOURCES["opseu-collective-agreements"].url).toBe(
-      "https://opseu.org/information/general/find-your-collective-agreement/12967/",
+      "https://opseu.org/information/find-your-collective-agreement/12967/",
     );
     expect(COMMS_SOURCES["opseu-collective-agreements"].url).not.toContain(
       "bargaining/collective-agreements-and-arbitration-awards",
+    );
+    expect(COMMS_SOURCES["opseu-collective-agreements"].url).not.toContain(
+      "/information/general/",
     );
     expect(COMMS_SOURCES["opseu-forms"].url).toBe(
       "https://opseu.org/opseu-members-tools-and-resources/",
@@ -122,6 +125,39 @@ describe("comms-sources", () => {
     expect(COMMS_SOURCES["opseu-member-portal"].url).toBe(
       "https://members.opseu.org/",
     );
+  });
+
+  it("does not use known-retired OPSEU URL patterns in the registry", () => {
+    const forbidden: Array<string | RegExp> = [
+      "12263",
+      /opseu\.org\/contact\/?$/,
+      "bargaining/collective-agreements-and-arbitration-awards",
+      "about-opseu-sefpo/forms-documents",
+      "/information/general/find-your-collective-agreement",
+      /opseu\.org\/about\/?$/,
+    ];
+    for (const source of Object.values(COMMS_SOURCES)) {
+      for (const pattern of forbidden) {
+        if (typeof pattern === "string") {
+          expect(source.url, source.id).not.toContain(pattern);
+        } else {
+          expect(source.url, source.id).not.toMatch(pattern);
+        }
+      }
+    }
+  });
+
+  it("points local243 reference site at the live canonical host", () => {
+    expect(COMMS_SOURCES["local243-website"].url).toBe("https://opseu243.org/");
+  });
+
+  it("includes full-time and part-time CEC EERC archives on joint committee guide", () => {
+    expect(getSourcesForPage("jointCommittee").map((s) => s.id)).toEqual([
+      "opseu-collective-agreements",
+      "opseu-eerc-minutes",
+      "cec-pteerc-minutes",
+      "cec-fteerc-minutes",
+    ]);
   });
 
   it("resolves OPSEU website ZIP footer links from the registry", () => {

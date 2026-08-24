@@ -18,7 +18,7 @@ External resources cited across guides, tools, and exported materials. Canonical
 
 | Source | URL | Used in |
 |--------|-----|---------|
-| Local 243 website (reference) | https://local243.org | Website Template tool, website guide |
+| Local 243 website (reference) | https://opseu243.org/ | Website Template tool, website guide (`local243.org` redirects) |
 | GitHub Pages | https://docs.github.com/en/pages | Website guide, exported README |
 | GitHub Pages custom domains | https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site | Website guide |
 
@@ -31,7 +31,7 @@ External resources cited across guides, tools, and exported materials. Canonical
 | OPSEU / SEFPO homepage | https://opseu.org/ | Exported site footer |
 | OPSEU / SEFPO Head Office | https://opseu.org/contact-us/ | Exported site footer |
 | OPSEU / SEFPO Member Portal | https://members.opseu.org/ | Crisis guide, exported site footer |
-| Collective agreements | https://opseu.org/information/general/find-your-collective-agreement/12967/ | Union boards guide, crisis guide, exported site footer |
+| Collective agreements | https://opseu.org/information/find-your-collective-agreement/12967/ | Union boards guide, crisis guide, exported site footer |
 | Forms and documents | https://opseu.org/opseu-members-tools-and-resources/ | Crisis guide, exported site footer |
 | Ontario Federation of Labour | https://ofl.ca/ | Universal; Resources, Blueprint, boards, crisis, membership signup; website ZIP Rights & Partners |
 | NUPGE | https://nupge.ca/ | Universal; same pages + website ZIP Rights & Partners |
@@ -47,7 +47,7 @@ External resources cited across guides, tools, and exported materials. Canonical
 | Source | URL | Used in |
 |--------|-----|---------|
 | WCAG 2.1 | https://www.w3.org/TR/WCAG21/ | Contrast checker, alt-text tool, accessibility statement |
-| AODA | https://www.ontario.ca/page/accessibility-laws | Accessibility statement |
+| AODA | https://www.ontario.ca/page/accessibility-in-ontario | Accessibility statement |
 
 ## Platforms
 

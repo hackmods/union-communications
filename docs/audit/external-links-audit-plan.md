@@ -56,9 +56,9 @@ flowchart TD
 | `opseu-home` | `https://opseu.org/` | `generate-website-zip.ts` |
 | `opseu-contact` | `https://opseu.org/contact-us/` | `generate-website-zip.ts` |
 | `opseu-member-portal` | `https://members.opseu.org/` | `generate-website-zip.ts` |
-| `opseu-collective-agreements` | `https://opseu.org/information/general/find-your-collective-agreement/12967/` | `generate-website-zip.ts` |
+| `opseu-collective-agreements` | `https://opseu.org/information/find-your-collective-agreement/12967/` | `generate-website-zip.ts` |
 | `opseu-forms` | `https://opseu.org/opseu-members-tools-and-resources/` | `generate-website-zip.ts` |
-| `local243-website` | `https://local243.org` | workshop doc |
+| `local243-website` | `https://opseu243.org/` | workshop doc (`local243.org` redirects) |
 | Platform / a11y / Ontario | see `COMMS_SOURCES` | QR presets (`qr-card-presets.ts`) overlap Ontario URLs — separate pass if needed |
 
 **Registry consumers:** `PAGE_SOURCE_IDS` maps guides/tools → source ids; `SourcesBlock` renders Tier A links on blueprint, print, union-boards, crisis, assets, board tools, `/guide/resources`, etc.
@@ -138,5 +138,9 @@ Merge output with `docs/SOURCES.md` table.
 | 2026-07-30 | `…/12263` (opseu-branding) | **Replaced** | → `https://opseu.org/about/` (About → Download graphics); `lastVerified` on registry |
 | 2026-08-23 | `https://opseu.org/about/` (opseu-branding) | **Replaced** | Steward report: slug landed on About OCOT. → `https://opseu.org/about-opseu-sefpo/`; still forbid `/12263` |
 | 2026-08-23 | `https://opseu.org/contact/` (opseu-contact) | **Replaced** | Live page is Contact Us → `https://opseu.org/contact-us/` |
-| 2026-08-23 | `…/bargaining/collective-agreements-and-arbitration-awards/` | **Replaced** | Retired pretty URL. → Find Your Collective Agreement `…/information/general/find-your-collective-agreement/12967/` |
+| 2026-08-23 | `…/bargaining/collective-agreements-and-arbitration-awards/` | **Replaced** | Retired pretty URL. → Find Your Collective Agreement `…/information/find-your-collective-agreement/12967/` |
+| 2026-08-24 | `…/information/general/find-your-collective-agreement/12967/` | **Replaced** | Indexed legacy `/general/` segment; live Members hub links to `/information/find-your-collective-agreement/12967/` |
+| 2026-08-24 | `https://local243.org` (local243-website) | **Replaced** | Redirects to `https://opseu243.org/` |
+| 2026-08-24 | `https://www.ontario.ca/page/accessibility-laws` (aoda) | **Replaced** | Redirects to accessibility-in-ontario hub |
+| 2026-08-24 | — | **Added** | `cec-fteerc-minutes` on joint-committee guide (FT archive beside PT) |
 | 2026-08-23 | `…/about-opseu-sefpo/forms-documents/` (opseu-forms) | **Replaced** | Guessed child of About hub; not indexed. → Members tools `https://opseu.org/opseu-members-tools-and-resources/` |
