@@ -33,6 +33,8 @@ describe("comms-sources", () => {
   it("hides OPSEU-scoped sources when Brand Kit preset is another union", () => {
     expect(getSourcesForPage("print", "cupe").map((s) => s.id)).toEqual([
       "ontario-required-posters",
+      "ontario-esa-poster",
+      "wcag-21",
       "facebook-groups",
     ]);
     expect(getSourcesForPage("blueprint", "cupe").map((s) => s.id)).toEqual([

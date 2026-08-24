@@ -2501,7 +2501,7 @@
   },
   "sources": {
     "title": "Sources et références",
-    "intro": "Ressources externes citées ici. Les URL nationales et gouvernementales bougent souvent ; en cas de 404, cherchez depuis la page d’accueil de l’organisation.",
+    "intro": "Ressources externes citées ici. Les URL nationales et gouvernementales bougent souvent ; en cas de 404, cherchez depuis la page d’accueil de l’organisation. Les pages OPSEU / SEFPO sur opseu.org peuvent bloquer les vérifications automatiques — ouvrez ces liens dans un navigateur avant de les partager en atelier.",
     "categories": {
       "branding": "Image de marque",
       "website": "Site Web",
@@ -2527,7 +2527,7 @@
     },
     "path": {
       "title": "Comment apprendre les Comms UnionOps",
-      "intro": "Choisissez un parcours selon ce dont vous avez besoin aujourd'hui.",
+      "intro": "Choisissez un parcours de communication selon ce dont vous avez besoin aujourd'hui — canaux, crise et pratique d'atelier.",
       "links": {
         "plan": "Première semaine",
         "blueprint": "Le Plan directeur",
@@ -2538,11 +2538,7 @@
         "shortForm": "Vidéo courte",
         "crisis": "Guide de grève",
         "photoConsent": "Consentement photo",
-        "workshop": "Plan d'atelier",
-        "dfr": "Devoir de représentation équitable",
-        "seniority": "Ancienneté et bumping",
-        "rightToRefuse": "Droit de refuser (Ontario)",
-        "jointCommittee": "Guide des comités conjoints"
+        "workshop": "Plan d'atelier"
       },
       "blurb": {
         "plan": "Après la Trousse de marque : tableaux, impression, réseaux et site dans l'ordre.",
@@ -2554,7 +2550,19 @@
         "shortForm": "Filmer au téléphone, protéger les membres, et orienter Reels ou Shorts vers une vraie demande.",
         "crisis": "Communications de négociation et de grève à enjeux élevés.",
         "photoConsent": "Liste photo membre pour délégués et ateliers.",
-        "workshop": "Plan réutilisable pour lunch-and-learn et atelier pratique avec parcours de démo.",
+        "workshop": "Plan réutilisable pour lunch-and-learn et atelier pratique avec parcours de démo."
+      }
+    },
+    "labourPath": {
+      "title": "Guides des droits du travail",
+      "intro": "Guides pratiques pour délégués en Ontario — pas un avis juridique. Même profondeur qu'une fiche de formation : seuil, étapes, exemple commenté et sources. Pas encore dans le menu Guides principal ; mettez cette section en favori ou retrouvez-les dans le Plan directeur.",
+      "links": {
+        "dfr": "Devoir de représentation équitable",
+        "seniority": "Ancienneté et bumping",
+        "rightToRefuse": "Droit de refuser (Ontario)",
+        "jointCommittee": "Guide des comités conjoints"
+      },
+      "blurb": {
         "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
         "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",

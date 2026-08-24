@@ -2501,7 +2501,7 @@
   },
   "sources": {
     "title": "Sources & references",
-    "intro": "External resources cited in this guide. National and government URLs often move; if a link 404s, search from that organization’s home page.",
+    "intro": "External resources cited in this guide. National and government URLs often move; if a link 404s, search from that organization’s home page. OPSEU / SEFPO pages on opseu.org may block automated checks — open those links in a browser before you share them in a workshop.",
     "categories": {
       "branding": "Branding",
       "website": "Website",
@@ -2527,7 +2527,7 @@
     },
     "path": {
       "title": "How to learn UnionOps Comms",
-      "intro": "Pick a path based on what you need today.",
+      "intro": "Pick a comms path based on what you need today — channels, crisis, and workshop practice.",
       "links": {
         "plan": "First week",
         "blueprint": "The Blueprint",
@@ -2538,11 +2538,7 @@
         "shortForm": "Short-form video",
         "crisis": "Strike Guide",
         "photoConsent": "Photo Consent",
-        "workshop": "Workshop outline",
-        "dfr": "Duty of Fair Representation",
-        "seniority": "Seniority & bumping",
-        "rightToRefuse": "Right to refuse (Ontario)",
-        "jointCommittee": "Joint committee playbook"
+        "workshop": "Workshop outline"
       },
       "blurb": {
         "plan": "After Brand Kit: boards, print, socials, and website in order.",
@@ -2554,7 +2550,19 @@
         "shortForm": "Phone filming, member privacy, and pointing Reels or Shorts at a real ask.",
         "crisis": "High-stakes bargaining and strike communications.",
         "photoConsent": "Member photo checklist for stewards and workshops.",
-        "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path.",
+        "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path."
+      }
+    },
+    "labourPath": {
+      "title": "Labour rights playbooks",
+      "intro": "Steward-facing Ontario playbooks — not legal advice. Same depth as a training handout: gate, steps, worked example, and sources. Not in the main Guides menu yet; bookmark this section or find them on The Blueprint.",
+      "links": {
+        "dfr": "Duty of Fair Representation",
+        "seniority": "Seniority & bumping",
+        "rightToRefuse": "Right to refuse (Ontario)",
+        "jointCommittee": "Joint committee playbook"
+      },
+      "blurb": {
         "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
         "seniority": "Two cascade examples and a printable seniority worksheet.",
         "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",

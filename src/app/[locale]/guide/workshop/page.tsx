@@ -4,6 +4,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
@@ -34,6 +35,7 @@ export default async function WorkshopGuidePage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("workshopGuide");
+  const ts = await getTranslations("sources");
 
   return (
     <GuideLayout
@@ -46,6 +48,9 @@ export default async function WorkshopGuidePage({
         { href: "/guide/social-media-plan", label: t("roadmapCta") },
         { href: "/tools", label: t("toolsCta") },
       ]}
+      footer={
+        <SourcesBlock pageId="workshop" title={ts("title")} intro={ts("intro")} />
+      }
     >
       <div className="grid gap-3 sm:grid-cols-2">
         <WorkshopNote tone="facilitator" label={t("audienceFacilitatorLabel")}>

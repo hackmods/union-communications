@@ -19,28 +19,36 @@ Channel guides **print**, **union-boards**, **website**, **membership-signup**, 
 
 ---
 
-## Verdict summary
+## Verdict summary (post-rewrite — 2026-08-24)
 
-| Route | Verdict | Rewrite | EN words | Why |
-|---|---|---|---:|---|
-| `/guide/dfr` | **Fluff** | **P0** | 359 | Generic 4-section pamphlet; sources are OPSEU CA/forms/portal, not DFR law |
-| `/guide/joint-committee` | **Thin playbook** | **P1** | 530 | Real campus → caucus → table → post-minutes path; needs depth + CA cites |
-| `/guide/right-to-refuse` | **Thin playbook** | **P1** | 418 | OHSA s.43 scoped; missing stage 1 vs 2, MOL guide |
-| `/guide/seniority-bumping` | **Thin playbook** | **P1** | 411 | Worksheet CTA saves it; one comparison, one source |
-| `/guide/crisis` | **Thin playbook** | **P2** | 519 | Useful scenario bullets; no TOC or worked day |
-| `/guide/photo-consent` | **Usable** | **P2** | 439 | Strong checklist; sources are WCAG/AODA, not photo law |
-| `/guide/resources` | **Usable hub** | **P2** | 697 | Good index; **labour guides omitted** from path links |
-| `/guide` (Blueprint) | **Usable index** | **P3** | 287 | Five orientation chapters, not a handbook |
-| `/guide/print` | **Usable** | **P3** | 1,022 | TOC + five jobs; branding-only sources |
-| `/guide/email-broadcast` | **Usable** | **P3** | 660 | TOC + BCC checklist; branding-only sources |
-| `/guide/membership-signup` | **Usable** | **P3** | 1,188 | Eight-section TOC; federation homepages only |
-| `/guide/social-media-plan` | **Gold** | Hold | 417 | Ordered first-week roadmap + demo path |
-| `/guide/workshop` | **Gold** | Hold | 818 | Facilitator hour; no `SourcesBlock` (acceptable) |
-| `/guide/union-boards` | **Gold** | Hold | 1,032 | Diagrams, materials, ministry posters |
-| `/guide/website` | **Gold** | Hold | 1,669 | ZIP → GitHub Pages → custom domain |
-| `/guide/short-form` | **Gold** | Hold | 721 | Film, consent, one ask, platform help |
+| Route | Tier | Launch | Notes |
+|---|---|---|---|
+| `/guide/dfr` | Playbook | ✅ | LRA s.74, OLRB IB 11/12, worked intake, Hub link |
+| `/guide/joint-committee` | Playbook | ✅ | Gate → table → member note; CA refs; on-topic sources |
+| `/guide/right-to-refuse` | Playbook | ✅ | OHSA s.43 stage 1/2; ministry Part V guide |
+| `/guide/seniority-bumping` | Playbook | ✅ | Two cascades; worksheet CTA |
+| `/guide/crisis` | Playbook | ✅ | TOC + worked high-stakes day |
+| `/guide/photo-consent` | Playbook | ✅ | IPC / PIPEDA sources; checklist retained |
+| `/guide` (Blueprint) | Playbook | ✅ | Four channels + worked comms week |
+| `/guide/resources` | Hub | ✅ | Comms path + **Labour rights** section |
+| `/guide/print` | **Channel** | ✅ | TOC + five jobs; channel-tier (not playbook depth) |
+| `/guide/email-broadcast` | **Channel** | ✅ | TOC + BCC checklist; channel-tier |
+| `/guide/membership-signup` | Gold | ✅ | Eight-section TOC |
+| `/guide/social-media-plan` | Gold | ✅ | First-week roadmap + demo path |
+| `/guide/workshop` | Gold | ✅ | Facilitator hour; `SourcesBlock` added 2026-08-24 |
+| `/guide/union-boards` | Gold | ✅ | Diagrams, materials, ministry posters |
+| `/guide/website` | Gold | ✅ | ZIP → GitHub Pages → custom domain |
+| `/guide/short-form` | Gold | ✅ | Film, consent, one ask, platform help |
 
-**Labour guides** are sitemap-indexed and linked from The Blueprint labour strip (`/guide/page.tsx`) but **not** in Guides nav (`nav-config.ts`) — intentional product choice per `prod-readiness-sweep-2026-07-29.md`.
+**Labour guides** are sitemap-indexed, on Comms Resources (labour section), and linked from The Blueprint labour strip — **not** in Guides nav (`nav-config.ts`) unless product opts in. See [`session-knowledge-2026-08-24-guides-launch-readiness.md`](session-knowledge-2026-08-24-guides-launch-readiness.md).
+
+### Launch defaults (channel + OPSEU)
+
+| Topic | Default |
+|---|---|
+| Print & email | **Channel-tier** — launch-ready; optional future playbook depth |
+| Workshop | Gold + `SourcesBlock`; dated run sheets stay in `docs/guides/` |
+| OPSEU URLs | Registry paths fixed; **browser verify** before workshops (`verify-comms-sources.mjs` → 403 = WARN) |
 
 ---
 
@@ -101,12 +109,11 @@ Automated GET of registry URLs cited across guide pages. **Browser verification 
 
 **Off-topic source mappings (rewrite bibliography, not just copy):**
 
-| Page | Problem |
+| Page | Status (2026-08-24) |
 |---|---|
-| `dfr` | CA / forms / portal — not DFR |
-| `photoConsent` | WCAG / AODA / CA — not photo consent law |
-| `print`, `emailBroadcast` | Branding only — weak for channel practice |
-| `membershipSignup` | Federation homepages only |
+| `dfr`, `photoConsent`, labour playbooks | Fixed — on-topic sources |
+| `print`, `emailBroadcast` | **Channel-tier** — branding + ministry posters / member portal + WCAG; sufficient for launch |
+| `membershipSignup` | Federation homepages + member portal — sufficient for launch |
 
 ---
 

@@ -16,7 +16,7 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/guide/resources", params);
 }
 
-const pathLinks = [
+const commsPathLinks = [
   { href: "/guide", key: "blueprint" as const },
   { href: "/guide/social-media-plan", key: "plan" as const },
   { href: "/guide/workshop", key: "workshop" as const },
@@ -27,6 +27,9 @@ const pathLinks = [
   { href: "/guide/short-form", key: "shortForm" as const },
   { href: "/guide/crisis", key: "crisis" as const },
   { href: "/guide/photo-consent", key: "photoConsent" as const },
+];
+
+const labourPathLinks = [
   { href: "/guide/dfr", key: "dfr" as const },
   { href: "/guide/seniority-bumping", key: "seniority" as const },
   { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },
@@ -76,7 +79,7 @@ export default async function ResourcesPage({
         <h2 className="text-xl font-bold text-opseu-dark">{t("path.title")}</h2>
         <p className="mt-2 text-gray-700">{t("path.intro")}</p>
         <ul className="mt-4 space-y-3">
-          {pathLinks.map(({ href, key }) => (
+          {commsPathLinks.map(({ href, key }) => (
             <li key={href}>
               <Link
                 href={href}
@@ -86,6 +89,28 @@ export default async function ResourcesPage({
               </Link>
               <p className="mt-0.5 text-sm text-gray-600">
                 {t(`path.blurb.${key}`)}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-8 border-l-2 border-amber-500/40 pl-5">
+        <h2 className="text-xl font-bold text-opseu-dark">
+          {t("labourPath.title")}
+        </h2>
+        <p className="mt-2 text-gray-700">{t("labourPath.intro")}</p>
+        <ul className="mt-4 space-y-3">
+          {labourPathLinks.map(({ href, key }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                className="font-medium text-opseu-blue underline"
+              >
+                {t(`labourPath.links.${key}`)}
+              </Link>
+              <p className="mt-0.5 text-sm text-gray-600">
+                {t(`labourPath.blurb.${key}`)}
               </p>
             </li>
           ))}
