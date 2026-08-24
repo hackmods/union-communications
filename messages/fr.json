@@ -3078,112 +3078,261 @@
     }
   },
   "dfrGuide": {
-    "title": "Devoir de représentation équitable",
-    "subtitle": "Lois, bulletins de la CRO et dossier d'accueil commenté pour délégués et dirigeants locaux",
+    "title": "Guide du devoir de représentation équitable",
+    "subtitle": "Du premier appel du membre au dossier défendable — lois, délais et mises à jour en langage clair",
     "backToGuide": "Retour au Plan directeur",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
-    "intro": "Le devoir de représentation équitable (DRE) est l'obligation légale du syndicat de traiter la représentation de chaque membre sans arbitraire, discrimination ni mauvaise foi. La plupart des plaintes naissent de délais manqués et du silence, pas de la malveillance. Ce guide cite les lois, présente un dossier d'accueil propre et renvoie aux bulletins de la CRO — orientation seulement, pas un avis juridique.",
+    "intro": "Le devoir de représentation équitable (DRE) est l’obligation légale du syndicat de traiter la représentation de chaque membre sans arbitraire, discrimination ni mauvaise foi. La plupart des plaintes devant une commission naissent de délais manqués et du silence, pas de la malveillance. Ce guide accompagne les délégués de l’accueil à l’enquête, aux échéances et aux conversations avec les membres, selon le régime ontarien du secteur privé (LRT), collégial (LNCC) ou fédéral (CTC). Orientation seulement — pas un avis juridique.",
     "disclaimer": {
       "title": "Pas un avis juridique",
-      "body": "Cette page aide les délégués à mener un processus équitable. Elle n'incite pas les membres à déposer une plainte contre le syndicat. Confirmez la procédure avec vos dirigeants locaux et vos conseillers."
+      "body": "Cette page aide les délégués à mener un processus équitable. Elle n’incite pas les membres à déposer une plainte contre le syndicat. Confirmez la procédure avec vos dirigeants locaux et vos conseillers."
     },
     "related": {
-      "seniority": "Guide d'ancienneté et de bumping",
-      "rightToRefuse": "Droit de refuser un travail dangereux"
+      "seniority": "Guide d’ancienneté et de bumping",
+      "rightToRefuse": "Droit de refuser un travail dangereux",
+      "jointCommittee": "Guide des comités conjoints"
+    },
+    "gate": {
+      "navLabel": "Quand le DRE s’applique",
+      "title": "Avant d’ouvrir un dossier — qui doit quoi",
+      "intro": "Le DRE lie le syndicat, pas les délégués personnellement — mais les délégués créent la trace écrite que les dirigeants et les commissions liront. Passez ce filtre à chaque nouveau contact d’un membre.",
+      "items": {
+        "steward": {
+          "label": "Rôle du délégué",
+          "content": "Vous recueillez les faits, déclenchez l’horloge et documentez vos actions. Vous ne promettez pas de résultat. Remettez les dossiers complexes ou en conflit à un dirigeant le jour même."
+        },
+        "member": {
+          "label": "Droits du membre",
+          "content": "Les membres peuvent demander comment leur dossier est traité et obtenir une réponse écrite si le syndicat refuse de porter un grief. Ils ne peuvent pas exiger que chaque plainte devienne un grief."
+        },
+        "officer": {
+          "label": "Décision des dirigeants",
+          "content": "Les dirigeants locaux (ou le décideur nommé dans votre CC) choisissent de déposer, d’avancer ou de régler. Cette décision doit suivre une vraie enquête — pas un vote de couloir sans notes."
+        },
+        "conflict": {
+          "label": "Conflit d’intérêts",
+          "content": "Si vous ne pouvez pas représenter le membre équitablement — querelle de service, lien familial ou vous êtes témoin — retirez-vous par écrit et indiquez qui a pris le dossier."
+        }
+      },
+      "warningTitle": "Le silence est le manquement",
+      "warning": "Un « non » réfléchi avec explication écrite perd rarement une plainte DRE. Ignorer le membre après l’accueil, ou manquer un délai de la CC pendant la décision, c’est ce que les commissions sanctionnent."
     },
     "scope": {
-      "navLabel": "Quelle loi s'applique",
-      "title": "Quelle loi s'applique",
-      "content": "Le langage du DRE se ressemble d'un régime à l'autre, mais la commission et la loi diffèrent. Confirmez la couverture avant de citer un article dans une lettre au membre.",
+      "navLabel": "Quelle loi s’applique",
+      "title": "Quelle loi et quelle commission",
+      "intro": "Le langage du DRE se ressemble d’un régime à l’autre, mais la loi et la commission diffèrent. Confirmez la couverture avant de citer un article dans une lettre au membre.",
       "items": {
         "ontario": {
           "label": "La plupart des syndicats ontariens du secteur privé",
-          "content": "Loi sur les relations de travail de 1995, art. 74 — les plaintes vont à la Commission des relations de travail de l'Ontario (CRO). Lisez le BI 12 pour le critère à l'intention des membres."
+          "content": "Loi sur les relations de travail de 1995, art. 74 — les plaintes vont à la Commission des relations de travail de l’Ontario (CRO). Lisez le bulletin d’information 12 pour le critère à l’intention des membres."
         },
         "college": {
-          "label": "Personnel de soutien collégial ontarien (CAAT)",
-          "content": "Loi de 2008 sur la négociation collective dans les collèges — pas la LRT. Confirmez la loi applicable à votre unité avec votre représentant de service avant de citer un numéro d'article."
+          "label": "Personnel de soutien collégial ontarien",
+          "content": "Loi de 2008 sur la négociation collective dans les collèges — pas la LRT. Confirmez la loi applicable à votre unité avec votre représentant de service avant de citer un numéro d’article."
         },
         "federal": {
           "label": "Lieux de travail à compétence fédérale",
-          "content": "Code canadien du travail art. 37 — les plaintes vont à la Commission des relations du travail industrielles (CRTCI). Même langage arbitraire / discriminatoire / mauvaise foi, autre commission."
+          "content": "Code canadien du travail art. 37 — les plaintes vont à la Commission des relations du travail industrielles (CRTCI). Même langage arbitraire / discriminatoire / mauvaise foi, autre commission et autres formulaires."
         }
       }
     },
-    "whatItMeans": {
-      "navLabel": "Ce que signifie le DRE",
-      "title": "Ce que signifie le DRE en pratique",
-      "content": "Le DRE porte sur la façon dont le syndicat gère la représentation — pas sur le fait que chaque grief soit gagné. Un membre peut contester le résultat si le processus a été réel.",
-      "items": [
-        "Enquêtez rapidement sur les plaintes et documentez ce que vous avez fait",
-        "Communiquez les mises à jour au membre en langage clair",
-        "Appliquez la convention collective de façon cohérente dans des dossiers similaires",
-        "Escaladez tôt lorsque des délais, une complexité ou un conflit d'intérêts apparaissent"
-      ]
-    },
     "legalTest": {
       "navLabel": "Critère juridique",
-      "title": "Le critère « arbitraire / discriminatoire / mauvaise foi »",
-      "content": "Les commissions et les tribunaux recherchent l'honnêteté du but, la non-discrimination et un processus non arbitraire. La perfection n'est pas exigée.",
-      "items": [
-        "Arbitraire — avaliser mécaniquement un refus, ne jamais lire le dossier, manquer un délai connu",
-        "Discriminatoire — traiter des membres différemment en raison de motifs protégés ou d'une antipathie personnelle",
-        "Mauvaise foi — mentir au membre, enterrer des preuves ou poursuivre un agenda personnel",
-        "Un désaccord honnête avec un membre après une vraie enquête n'est généralement pas un manquement au DRE"
-      ]
+      "title": "Le critère arbitraire / discriminatoire / mauvaise foi",
+      "intro": "Les commissions et les tribunaux recherchent l’honnêteté du but, la non-discrimination et un processus non arbitraire. La perfection n’est pas exigée — un processus sérieux, oui.",
+      "items": {
+        "arbitrary": {
+          "label": "Arbitraire",
+          "content": "Avaliser mécaniquement un refus, ne jamais lire le dossier, traiter des dossiers similaires différemment sans raison documentée, ou manquer un délai connu de la CC sans prolongation au dossier."
+        },
+        "discriminatory": {
+          "label": "Discriminatoire",
+          "content": "Traiter des membres différemment en raison de motifs protégés, de politique locale ou d’antipathie personnelle. Appliquez les mêmes étapes d’accueil et d’enquête à chaque membre."
+        },
+        "badFaith": {
+          "label": "Mauvaise foi",
+          "content": "Mentir au membre, enterrer des preuves, poursuivre un agenda personnel ou punir un membre pour avoir critiqué la section locale."
+        },
+        "honest": {
+          "label": "Désaccord honnête",
+          "content": "Après une vraie enquête, les dirigeants peuvent refuser raisonnablement un grief. Documentez ce que vous avez examiné et pourquoi — un membre peut ne pas être d’accord sans que ce soit un manquement au DRE."
+        }
+      }
     },
-    "failureModes": {
-      "navLabel": "Modes d'échec",
-      "title": "Modes d'échec courants",
-      "content": "La plupart des plaintes DRE naissent du silence et des délais manqués, pas de la malveillance. Laissez une trace écrite d'un examen sérieux.",
-      "items": [
-        "Délais d'étape / de renvoi manqués dans la convention collective",
-        "Aucune note d'enquête, entrevue ou demande de documents au dossier",
-        "Aucune explication écrite lorsqu'on refuse d'avancer un grief",
-        "Promettre des résultats que vous ne contrôlez pas (« nous gagnerons »)",
-        "Mélanger un conflit personnel avec les décisions de représentation"
-      ]
-    },
-    "workedExample": {
-      "navLabel": "Exemple commenté",
-      "title": "Exemple commenté : un dossier d'accueil en discipline",
-      "content": "Le membre M signale un avertissement écrit qu'il croit contraire à la CC. Il vous reste dix jours avant l'expiration du délai de l'étape 1. Voici un dossier propre que les délégués peuvent copier.",
-      "steps": {
-        "day0": {
-          "label": "Le jour même — journaliser et calendrier",
-          "content": "Ouvrez une note d'accueil de grief : date, nom du membre, superviseur, violation alléguée et article de la CC. Calculez chaque délai à partir de l'événement déclencheur et inscrivez chaque date à votre calendrier."
+    "intake": {
+      "navLabel": "Accueil",
+      "title": "Jour zéro — ouvrir le dossier",
+      "intro": "Le premier appel du membre déclenche toutes les horloges. Recueillez les faits avant les opinions, et inscrivez le contact avant de raccrocher.",
+      "items": {
+        "log": {
+          "label": "Entrée le jour même",
+          "content": "Inscrivez la date, le nom du membre, ses coordonnées, le superviseur ou gestionnaire, ce qui s’est passé et les articles de la CC possibles. Un paragraphe suffit — mais il doit exister."
         },
-        "investigate": {
-          "label": "Jours 1 à 3 — enquêter",
-          "content": "Entrevuez le membre. Demandez la lettre d'avertissement et toute note de l'employeur. Vérifiez s'il y a des témoins. Rédigez des résumés neutres — pas de conclusions — au dossier."
+        "calendar": {
+          "label": "Calendrier pour chaque délai",
+          "content": "Calculez à partir de l’événement déclencheur : dépôt à l’étape 1, renvoi à l’arbitrage, fenêtres de grief de principe. Inscrivez chaque date à votre calendrier et au Hub des dirigeants si vous l’utilisez."
         },
-        "decide": {
-          "label": "Jour 4 — décision des dirigeants",
-          "content": "Les dirigeants locaux examinent les faits à la lumière de la CC. Si vous avez besoin d'une prolongation, obtenez-la par écrit avant l'expiration du délai. Documentez qui a décidié et pourquoi."
+        "member": {
+          "label": "Fixer les attentes",
+          "content": "Dites au membre que vous enquêterez avant de décider. Ne dites pas « nous gagnerons » ou « c’est clairement un grief ». Donnez une date réaliste pour votre prochaine mise à jour."
         },
-        "decline": {
-          "label": "Si vous refusez de déposer",
-          "content": "Donnez au membre une explication écrite en langage clair : ce que vous avez examiné, pourquoi le dossier ne répond pas au critère du grief, et comment joindre le président ou le représentant de service. Le silence est le risque — pas le « non »."
+        "conflict": {
+          "label": "Transférer les conflits",
+          "content": "Si vous ne pouvez pas agir équitablement, écrivez au président ou au délégué en chef le jour même : nom du membre, résumé du problème et qui prend le dossier. Ne laissez pas le membre attendre pendant que vous « y réfléchissez »."
         }
       },
-      "tip": "Si le membre n'est toujours pas d'accord, votre trace écrite montre un processus sérieux. C'est l'objectif — pas de gagner chaque discussion sur le champ."
+      "tip": "Si vous ne faites qu’une chose : rédigez la note d’accueil avant la fin du quart. La mémoire n’est pas un dossier."
     },
-    "practice": {
-      "navLabel": "Liste de contrôle",
-      "title": "Liste de pratique pour délégués et dirigeants",
-      "content": "Les outils de griefs du Hub des dirigeants suivent les étapes et les dates. La convention collective et votre représentant de service restent l'autorité. En cas de doute, documentez la question et faites-la remonter.",
-      "items": [
-        "Inscrivez la préoccupation du membre le jour même où vous l'entendez",
-        "Inscrivez chaque délai de la CC à votre calendrier, calculé à partir de l'événement déclencheur",
-        "Confirmez les prolongations par écrit",
-        "Gardez les notes confidentielles à l'interne — jamais sur les réseaux publics",
-        "Si vous ne pouvez pas agir équitablement (conflit), confiez le dossier à un autre dirigeant"
-      ]
+    "investigate": {
+      "navLabel": "Enquêter",
+      "title": "Jours 1 à 3 — construire le dossier",
+      "intro": "Les commissions demandent ce que le syndicat a fait, pas ce qu’il croyait. Des notes neutres valent mieux que des arguments habiles.",
+      "items": {
+        "interview": {
+          "label": "Entrevue du membre",
+          "content": "Demandez ce qui s’est passé, qui était présent et quels documents existent. Résumez en langage neutre — « Le membre affirme que… » — pas « Le membre a raison »."
+        },
+        "documents": {
+          "label": "Demander les documents de l’employeur",
+          "content": "Lettres disciplinaires, courriels, horaires, dossiers de présence — tout ce que la CC permet de demander. Inscrivez la date d’envoi et la date de réception."
+        },
+        "witnesses": {
+          "label": "Repérer les témoins",
+          "content": "Listez les noms et ce que chacun pourrait savoir. Vous n’avez pas besoin de chaque déclaration avant la décision des dirigeants, mais vous devez montrer que vous avez demandé."
+        },
+        "notes": {
+          "label": "Garder les notes internes",
+          "content": "La stratégie va au dossier des dirigeants — pas dans les fils de groupe, pas sur les réseaux publics, pas en copie à l’employeur. Caviardez avant de partager quoi que ce soit avec le membre."
+        }
+      }
+    },
+    "clocks": {
+      "navLabel": "Délais",
+      "title": "Délais de la CC — calculer en avant",
+      "intro": "Les horloges de grief manquées mènent le plus vite à une plainte DRE. Votre CC définit le déclencheur ; cette section concerne les dossiers disciplinaires où l’événement lance l’horloge.",
+      "items": {
+        "trigger": {
+          "label": "Trouver l’événement déclencheur",
+          "content": "En général la date de la mesure disciplinaire, la date où le membre a connu la décision ou la date de la violation alléguée — votre CC précise laquelle. Inscrivez cette date en tête de dossier."
+        },
+        "count": {
+          "label": "Compter jours ouvrables ou civils",
+          "content": "Lisez la CC à la lettre : jours ouvrables ou civils, week-ends inclus ou non, et si l’horloge court contre l’employeur ou le syndicat. En cas de doute, demandez à votre représentant de service avant la fermeture de la fenêtre."
+        },
+        "extension": {
+          "label": "Prolongations par écrit",
+          "content": "Si l’employeur accepte de prolonger une rencontre à l’étape 1 ou une fenêtre de dépôt, obtenez-le par courriel ou lettre avant la date initiale. « Ils ont dit que c’était correct au téléphone » n’est pas un dossier."
+        },
+        "late": {
+          "label": "Si vous êtes déjà en retard",
+          "content": "Arrêtez et faites remonter à un dirigeant immédiatement. Documentez quand vous avez découvert le retard et quel recours la CC permet — parfois un dépôt tardif peut encore être argumenté, mais seulement avec un conseiller."
+        }
+      },
+      "warningTitle": "Le calendrier bat la mémoire",
+      "warning": "Les outils de griefs du Hub des dirigeants suivent les étapes et les échéances — utilisez-les. Un post-it sur votre écran ne survit pas à la relève de vacances."
+    },
+    "decline": {
+      "navLabel": "Refuser de porter",
+      "title": "Quand le syndicat dit non — le dire par écrit",
+      "intro": "Refuser est légal lorsque le processus a été réel. Le silence ou un refus verbal vague mène les membres devant la commission.",
+      "items": {
+        "written": {
+          "label": "Explication écrite",
+          "content": "Langage clair : ce que vous avez examiné (dates, documents, entrevues), pourquoi les faits ne répondent pas au critère du grief selon la CC, et la date effective de la décision."
+        },
+        "review": {
+          "label": "Offrir une voie de révision",
+          "content": "Nommez qui peut réexaminer — président, exécutif, représentant de service — et comment les joindre. Suivez votre constitution locale si elle ajoute des étapes."
+        },
+        "escalate": {
+          "label": "Faire remonter en interne d’abord",
+          "content": "Si le membre demande une révision, traitez-la sérieusement. Un second regard sur les mêmes faits coûte peu et évite une plainte DRE."
+        },
+        "silence": {
+          "label": "Ne jamais disparaître",
+          "content": "Même un court courriel — « Nous avons examiné votre dossier le [date] et ne déposerons pas de grief parce que… » — ferme la boucle. Aucune réponse ressemble à de la mauvaise foi."
+        }
+      },
+      "tip": "Les membres se souviennent du ton, mais les commissions lisent les horodatages. Envoyez la lettre dans les jours qui suivent la décision des dirigeants."
+    },
+    "fullScenario": {
+      "navLabel": "Dossier commenté",
+      "title": "Exemple commenté : accueil d’un avertissement écrit",
+      "intro": "Le membre Alex reçoit un avertissement écrit le lundi 3 mars 2026 pour « manquement à la procédure d’horaire ». Alex croit que l’avertissement est sans cause juste et suffisante. Votre CC accorde dix jours civils à partir de la réception pour déposer à l’étape 1. Échéance de l’étape 1 : jeudi 13 mars 2026.",
+      "phases": {
+        "d0": {
+          "label": "Jour 0 — lundi 3 mars",
+          "content": "Alex appelle à 16 h. Vous journalisez l’accueil : date de la lettre, nom du superviseur, article disciplinaire de la CC et échéance de l’étape 1 le 13 mars. Vous inscrivez au calendrier le 11 mars comme date interne de « décision des dirigeants » pour garder deux jours de marge."
+        },
+        "d2": {
+          "label": "Jour 2 — mercredi 5 mars",
+          "content": "Vous entrevuez Alex et demandez la lettre d’avertissement plus les courriels d’horaire des RH. Un collègue témoin pourrait confirmer que le quart a changé après l’arrivée d’Alex. Les notes vont au dossier — faits seulement."
+        },
+        "d4": {
+          "label": "Jour 4 — vendredi 7 mars",
+          "content": "Les documents arrivent. Les dirigeants examinent : l’avertissement cite une procédure qu’Alex n’a jamais reçue en formation. Décision : déposer à l’étape 1. Si les faits avaient été faibles, vous rédigeriez la lettre de refus maintenant — pas après le 13."
+        },
+        "d6": {
+          "label": "Jour 8 — mardi 11 mars",
+          "content": "Rencontre à l’étape 1 prévue avec l’employeur le 12 mars. Alex reçoit une mise à jour en langage clair : ce qui a été déposé, date de rencontre et présence du délégué. Si vous aviez refusé, Alex aurait l’explication écrite aujourd’hui."
+        }
+      },
+      "tip": "Copiez cette structure de calendrier pour tout dossier disciplinaire — changez les dates, gardez l’écart entre accueil, enquête, décision et mise à jour au membre."
+    },
+    "failureModes": {
+      "navLabel": "Modes d’échec",
+      "title": "Ce qui fait perdre les plaintes DRE en pratique",
+      "intro": "La plupart des cas sont des échecs de processus, pas de mauvaise intention. Laissez une trace écrite d’un examen sérieux.",
+      "items": {
+        "missedClock": {
+          "label": "Délai d’étape ou de renvoi manqué",
+          "content": "L’horloge de la CC a expiré pendant que le dossier dormait dans une boîte de réception. Aucune prolongation au dossier. Correctif : calendrier à l’accueil ; faire remonter dès que vous voyez le risque."
+        },
+        "noFile": {
+          "label": "Aucune enquête au dossier",
+          "content": "Aucune note d’entrevue, demande de documents ou mémo de décision des dirigeants. Correctif : quatre paragraphes neutres au dossier valent mieux qu’un argument oral parfait sans écrit."
+        },
+        "noLetter": {
+          "label": "Non verbal sans suivi",
+          "content": "Membre informé « on ne porte pas ça en grief » dans un stationnement, sans courrier ni courriel. Correctif : envoyez le modèle de refus la même semaine que la décision des dirigeants."
+        },
+        "overPromise": {
+          "label": "Promettre la victoire",
+          "content": "« On va faire annuler ça » — puis un refus arrive. Correctif : promettez le processus et les délais, pas le résultat."
+        },
+        "personalBias": {
+          "label": "Conflit personnel à la base de la décision",
+          "content": "Le délégué n’aime pas le membre ou favorise le superviseur. Correctif : retirez-vous tôt ; laissez un autre délégué ou dirigeant gérer le dossier avec des notes propres."
+        }
+      }
+    },
+    "memberTalk": {
+      "navLabel": "Parler au membre",
+      "title": "Quoi dire — et ne pas dire — au membre",
+      "intro": "Une bonne communication avec le membre évite autant de plaintes DRE qu’un bon dossier. Langage clair, délais réalistes, confidentialité.",
+      "items": {
+        "promise": {
+          "label": "Ne pas promettre de résultat",
+          "content": "Dites : « J’enquêterai et l’exécutif décidera s’il y a dépôt. » Pas : « C’est un grief évident » ou « Les RH reculeront quand ils verront notre lettre. »"
+        },
+        "status": {
+          "label": "Mises à jour selon un calendrier",
+          "content": "Si vous promettez une mise à jour vendredi, envoyez-la — même si la réponse est « toujours en attente de documents ». Le silence ressemble à de l’abandon."
+        },
+        "confidential": {
+          "label": "Garder son histoire confidentielle",
+          "content": "Ne discutez pas du dossier du membre à la salle à manger ni sur les canaux sociaux de la section. Partagez les faits seulement avec les dirigeants qui en ont besoin pour le dossier."
+        },
+        "respect": {
+          "label": "Le désaccord est permis",
+          "content": "Un membre peut être en colère quand vous refusez. Restez professionnel, renvoyez à l’explication écrite et nommez la voie de révision. N’argumentez pas dans des fils de textos."
+        }
+      }
     },
     "hub": {
-      "title": "Où cela se connecte dans UnionOps",
-      "body": "Les outils de griefs du Hub des dirigeants aident pour les dates, les étapes et les transferts. Ils ne remplacent pas le jugement juridique.",
+      "title": "Suivre les dossiers dans le Hub des dirigeants",
+      "body": "Les outils de griefs du Hub des dirigeants consignent les étapes, les échéances et les transferts pour que les délégués de relève voient les mêmes horloges que vous. Ils soutiennent un processus équitable — ils ne remplacent pas le jugement juridique ni votre représentant de service.",
       "cta": "Ouvrir les griefs dans le Hub des dirigeants"
     }
   },
@@ -3265,98 +3414,270 @@
     "tocLabel": "Sur cette page"
   },
   "jointCommitteeGuide": {
-    "title": "Guide des comités conjoints",
-    "subtitle": "D'abord le campus, puis la table provinciale, puis une note aux membres une fois les procès-verbaux signés.",
+    "title": "Guide pratique des comités conjoints",
+    "subtitle": "D'un dossier de campus à une recommandation provinciale — et une note aux membres qu'ils peuvent vraiment utiliser",
     "backToGuide": "Retour au Plan directeur",
-    "intro": "Pour les bénévoles d'un comité conjoint syndicat-employeur. Gardez les notes de caucus privées. Pointez les membres vers les procès-verbaux signés, puis expliquez la suite.",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "intro": "Les comités paritaires syndicat-employeur recommandent ; ils ne négocient pas et n'entendent pas de griefs en direct. Ce guide s'adresse aux bénévoles du côté syndical qui doivent faire remonter un dossier systémique du campus à une table provinciale, garder la stratégie de caucus privée, et expliquer les procès-verbaux signés aux membres sans réhéberger le dossier officiel.",
     "disclaimer": {
       "title": "Pas le dossier officiel. Pas un avis juridique.",
-      "body": "Le côté employeur rédige d'habitude les procès-verbaux conjoints. Les deux parties affichent la copie signée. Ce site aide votre caucus syndical et vos notes aux membres. N'hébergez pas ici le dossier signé, et ne traitez pas un brouillon comme public."
+      "body": "La direction consigne d'habitude les procès-verbaux conjoints. Les deux parties affichent la copie signée. UnionOps aide la préparation du caucus syndical et les notes explicatives aux membres — pas la rédaction des procès-verbaux, pas la connexion employeur, et pas un substitut à votre représentant de service."
     },
     "related": {
       "email": "Courriel et rayonnement",
       "letterhead": "Générateur de documents et de diapositives",
       "flyer": "Créateur de tracts"
     },
-    "sections": {
-      "localFirst": {
-        "title": "Commencez sur le campus",
-        "content": "La plupart des tables provinciales n'acceptent un dossier local qu'après l'essai du comité de campus. Écrivez ce qui a été demandé, la réponse, et pourquoi un regard plus large est encore nécessaire.",
-        "items": [
-          "Portez d'abord le dossier au comité local syndicat-collège ou syndicat-employeur",
-          "Notez les dates, les personnes présentes et les articles cités",
-          "S'il s'agit déjà d'un grief formel, arrêtez : la table conjointe n'est pas un forum de griefs",
-          "Prévenez l'autre partie quand vous comptez renvoyer le point, pour que personne ne soit surpris"
-        ],
-        "navLabel": "Commencer sur le campus"
+    "gate": {
+      "navLabel": "Grief ou comité?",
+      "title": "Avant de convoquer une réunion conjointe",
+      "intro": "Le mauvais forum fait perdre des mois. Passez ce filtre sur chaque nouveau point avant de le mettre à l'ordre du jour conjoint.",
+      "items": {
+        "grievance": {
+          "label": "Déjà un grief formel?",
+          "content": "Arrêtez. Les comités conjoints doivent refuser les points qui relèvent de la procédure de grief. Passez plutôt par les délégués et le parcours de grief — voir le guide DRE pour la discipline d'intake."
+        },
+        "local": {
+          "label": "Le campus a-t-il déjà tenté?",
+          "content": "Les tables provinciales s'attendent à ce qu'un comité local syndicat-collège ou syndicat-employeur se soit réuni d'abord. Vous devez avoir les dates, les participants et ce que l'employeur a dit avant de renvoyer vers le haut."
+        },
+        "system": {
+          "label": "Est-ce systémique?",
+          "content": "Les comités conjoints traitent les problèmes qui touchent plusieurs campus ou qui exigent une recommandation provinciale à la négociation — pas l'habitude d'un seul gestionnaire sur un seul étage."
+        },
+        "hs": {
+          "label": "S'agit-il vraiment de santé et sécurité?",
+          "content": "Le CSS et une table conjointe de type CREE sont des instances différentes. Les dangers et les refus passent par la LSST et votre CSS ; les politiques et les tendances de charge de travail peuvent convenir à un comité conjoint après les tentatives locales."
+        }
       },
-      "caucus": {
-        "title": "Préparez le côté syndical",
-        "content": "Réunissez votre propre côté avant la table conjointe. Les notes de caucus sont de la stratégie. Ce ne sont pas des procès-verbaux, et elles ne doivent jamais se mêler au dossier signé.",
-        "items": [
-          "Entendez-vous sur la demande, les faits, et ce que vous ne céderez pas",
-          "Décidez qui parle, qui prend des notes, et qui fait le suivi",
-          "Gardez les noms d'employeur hors de ce brouillon, sauf s'ils sont déjà partagés dans la salle",
-          "N'invitez pas l'employeur dans l'espace de caucus"
-        ],
-        "navLabel": "Caucus syndical"
+      "warningTitle": "Si un filtre échoue",
+      "warning": "Ne mettez pas le point à l'ordre du jour provincial « pour voir ce qui se passe ». Corrigez d'abord le parcours — comité local, grief ou CSS — ou vous risquez de brûler la confiance des deux côtés de la table."
+    },
+    "localFirst": {
+      "navLabel": "Campus d'abord",
+      "title": "Étape 1 — comité local syndicat-collège",
+      "intro": "Documentez la tentative au campus avant de demander du temps provincial. Les directions et les coprésidences demanderont ce qui s'est passé localement.",
+      "items": {
+        "schedule": {
+          "label": "Convoquez la réunion locale",
+          "content": "Convoquez le comité local syndicat-collège ou syndicat-employeur. Apportez les faits du membre par écrit — dates, courriels, articles de la CC et la demande."
+        },
+        "record": {
+          "label": "Consignez ce qui a été dit",
+          "content": "Notez qui était présent, ce que l'employeur a répondu, et s'il a accepté de corriger, d'étudier ou de refuser. Notes neutres seulement — pas votre stratégie provinciale."
+        },
+        "deadline": {
+          "label": "Fixez une date de suivi",
+          "content": "Si l'employeur demande du temps, mettez une date de retour par écrit. Le silence n'est pas une solution que vous pouvez renvoyer vers le haut."
+        },
+        "refer": {
+          "label": "Préparez le renvoi",
+          "content": "Si le local échoue ou stagne, rédigez un renvoi d'une page : enjeu, dates locales, réponse de l'employeur, et pourquoi un regard provincial est nécessaire. Votre coprésidence l'envoie par les canaux syndicaux."
+        }
       },
-      "jointTable": {
-        "title": "À la réunion conjointe",
-        "content": "Le comité recommande. Il ne remplace pas la négociation. La direction consigne les sujets principaux. Les coprésidences signent. Les brouillons restent au comité jusqu'à l'accord des deux côtés.",
-        "items": [
-          "Refusez les points qui sont déjà un grief formel",
-          "Demandez le brouillon par écrit, puis envoyez les corrections par votre coprésidence",
-          "S'il y a consensus, envoyez la recommandation à l'équipe de négociation ou à l'instance nommée dans votre convention",
-          "S'il n'y a pas consensus, chaque côté peut quand même envoyer son propre mémoire par sa coprésidence"
-        ],
-        "navLabel": "Réunion conjointe"
+      "tip": "Si vous ne pouvez pas nommer une date de réunion locale et un résultat, vous n'êtes pas prêt pour un créneau provincial."
+    },
+    "referUp": {
+      "navLabel": "Renvoi vers le haut",
+      "title": "Étape 2 — dossier de renvoi provincial",
+      "intro": "Les tables conjointes provinciales ont peu de temps de réunion. Envoyez un dossier serré pour que les coprésidences syndicales puissent placer le point sans réinterroger le membre.",
+      "items": {
+        "facts": {
+          "label": "Résumé des faits d'une page",
+          "content": "Ce qui s'est passé, combien de campus sont touchés, quels articles de la CC s'appliquent, et ce que vous voulez que le comité recommande."
+        },
+        "localLog": {
+          "label": "Journal des tentatives locales",
+          "content": "Dates des réunions de campus, participants patronaux, et réponses. Joignez des courriels expurgés si vous en avez."
+        },
+        "ask": {
+          "label": "Demande syndicale claire",
+          "content": "Recommander à la négociation? Demander une lettre conjointe? Demander au conseil patronal d'étudier? Nommez le résultat — pas « sensibiliser »."
+        },
+        "notify": {
+          "label": "Prévenez l'autre partie",
+          "content": "La CC exige un préavis avant un renvoi. Ne surprenez pas la direction à la table provinciale."
+        }
+      }
+    },
+    "caucus": {
+      "navLabel": "Caucus syndical",
+      "title": "Étape 3 — caucus syndical avant la table conjointe",
+      "intro": "Réunissez votre côté seul. Les notes de caucus sont de la stratégie — jamais des procès-verbaux conjoints, jamais visibles par l'employeur.",
+      "practicesTitle": "Liste de contrôle du caucus",
+      "items": {
+        "ask": {
+          "label": "Entendez-vous sur la demande et les lignes rouges",
+          "content": "Ce que vous voulez, ce que vous pouvez échanger, et ce qui est non négociable. Si vous ne pouvez pas formuler la demande en une phrase, reportez la réunion conjointe."
+        },
+        "roles": {
+          "label": "Répartissez les rôles",
+          "content": "Orateur, preneur de notes, gardien du temps, et qui fait le suivi avec les sections après. Une voix dans la salle vaut mieux que cinq histoires partielles."
+        },
+        "brief": {
+          "label": "Rédigez le mémoire syndical",
+          "content": "Utilisez le papier en-tête du Générateur de documents pour les notes de parole du côté syndical. Ne collez pas les notes de caucus dans le dossier conjoint."
+        },
+        "private": {
+          "label": "Gardez le caucus privé",
+          "content": "Utilisez un Cercle du Portail local ou une réunion en personne — invitez seulement le côté syndical. N'invitez jamais l'employeur dans l'espace de caucus."
+        }
       },
-      "afterMinutes": {
-        "title": "Une fois les procès-verbaux signés",
-        "content": "Pointez les sections vers l'affichage officiel. Dites ensuite en mots simples ce qui a été décidé et ce que les membres doivent faire. Les brouillons restent hors des tableaux et des réseaux.",
-        "items": [
-          "Liez les procès-verbaux signés de votre syndicat provincial ou national, et du conseil patronal quand il les affiche",
-          "Rédigez une courte note aux membres : ce qui a changé, ce qui n'a pas changé, et qui appeler",
-          "Utilisez un papier en-tête pour un briefing aux sections ou à l'équipe de négociation",
-          "N'utilisez un tract ou un avis de tableau qu'après l'approbation des procès-verbaux"
-        ],
-        "letterCta": "Ouvrir le papier en-tête dans le générateur de documents",
-        "emailCta": "Lire le guide de rayonnement par courriel",
-        "navLabel": "Après les procès-verbaux"
+      "tip": "Si les notes de caucus pourraient être prises pour des procès-verbaux officiels, réécrivez-les. Une fuite de stratégie détruit la prochaine réunion."
+    },
+    "jointTable": {
+      "navLabel": "Réunion conjointe",
+      "title": "Étape 4 — à la table conjointe",
+      "intro": "Le comité recommande à la négociation ou à une autre instance nommée. La direction consigne les sujets principaux ; les coprésidences signent. Les brouillons restent au comité jusqu'à l'accord des deux côtés.",
+      "items": {
+        "refuse": {
+          "label": "Refusez les griefs",
+          "content": "Si le point s'est glissé comme grief en direct, arrêtez et reroutez. La table n'est pas une audience de grief."
+        },
+        "speak": {
+          "label": "Tenez-vous à la demande convenue",
+          "content": "L'orateur présente le mémoire syndical. Les autres ajoutent des faits seulement sur demande. Débattez du spin patronal en caucus, pas de l'autre côté de la table."
+        },
+        "minutes": {
+          "label": "Corrigez le brouillon des procès-verbaux",
+          "content": "La direction rédige. Envoyez les corrections par votre coprésidence par écrit — corrections factuelles seulement, pas d'argumentation."
+        },
+        "consensus": {
+          "label": "Consensus ou mémoires séparés",
+          "content": "Si vous êtes d'accord, la recommandation va à l'instance nommée dans votre CC. Sinon, chaque côté peut envoyer son propre mémoire par sa coprésidence."
+        },
+        "noBargain": {
+          "label": "Ne négociez pas ici",
+          "content": "Les plafonds de charge de travail, les salaires et les changements de langue appartiennent à la négociation, sauf si la CC les route explicitement par ce comité."
+        }
       },
-      "caArticles": {
-        "navLabel": "Articles de la CC",
-        "title": "Où chercher dans la CC (exemple collégial ontarien)",
-        "content": "Les numéros d'articles diffèrent selon la collection. Ouvrez votre CC à partir des sources ci-dessous — ne vous fiez pas à la mémoire.",
-        "items": [
-          "Personnel de soutien à temps partiel — art. 5.4 et annexe 4 (Comité des relations employé-employeur)",
-          "Personnel de soutien à temps plein — art. 4.7 et annexe J (Comité des relations employé-employeur)",
-          "Les deux collections : la direction consigne les procès-verbaux ; le syndicat et l'employeur affichent la copie signée",
-          "Autres syndicats : trouvez votre article et annexe de comité conjoint de la même façon"
-        ]
+      "warningTitle": "Les brouillons ne sont pas publics",
+      "warning": "N'affichez pas les brouillons aux sections, aux conseils ou sur les réseaux. Les membres attendent la copie signée sur les sites officiels du syndicat et du conseil patronal."
+    },
+    "afterMinutes": {
+      "navLabel": "Après les procès-verbaux",
+      "title": "Étape 5 — après signature des procès-verbaux",
+      "intro": "Pointez les membres vers l'affichage officiel, puis expliquez en langage clair ce qui a changé et ce qu'ils doivent faire ensuite.",
+      "items": {
+        "link": {
+          "label": "Liez les procès-verbaux officiels",
+          "content": "Utilisez les URL du côté syndical et du conseil patronal du bloc Sources. Ne réhébergez pas le PDF sur un site local comme si UnionOps était l'éditeur."
+        },
+        "note": {
+          "label": "Rédigez la note aux membres",
+          "content": "Trois parties : ce qui a été demandé, ce que le comité a décidé, ce qui se passe ensuite. Un contact pour le suivi — pas un débat en fil de commentaires."
+        },
+        "locals": {
+          "label": "Briefez les sections touchées",
+          "content": "Papier en-tête aux présidents ou délégués des campus qui ont soulevé l'enjeu. Incluez le même lien et la même demande."
+        },
+        "comms": {
+          "label": "Comms seulement après approbation",
+          "content": "Tract ou avis de tableau après signature des procès-verbaux — jamais à partir d'un brouillon. Voir le guide de rayonnement par courriel pour des envois copie seulement sans listes marketing."
+        }
       },
-      "workedExample": {
-        "navLabel": "Exemple commenté",
-        "title": "Exemple commenté : note aux membres après procès-verbaux signés",
-        "content": "Un CREE provincial convient d'examiner les plafonds de charge de travail. Procès-verbaux signés vendredi. Lundi, vous devez aux membres une note en langage clair — pas le brouillon des procès-verbaux.",
-        "items": [
-          "Objet : « Mise à jour CREE — examen de la charge de travail renvoyé à la négociation »",
-          "Trois phrases : ce qui a été demandé, ce que le comité a décidé, ce qui se passe ensuite",
-          "Un lien : procès-verbaux signés officiels sur le site du syndicat ou du conseil patronal",
-          "Un contact : délégué ou président pour les questions de suivi — pas un débat en fil de commentaires"
-        ]
+      "tip": "Exemple d'objet : « Mise à jour du comité provincial — examen de la charge de travail renvoyé à la négociation. » Corps : trois phrases et un lien officiel.",
+      "letterCta": "Ouvrir le papier en-tête dans le Générateur de documents",
+      "emailCta": "Lire le guide de rayonnement par courriel",
+      "flyerCta": "Ouvrir le Créateur de tracts"
+    },
+    "fullScenario": {
+      "navLabel": "Parcours complet",
+      "title": "Exemple commenté : courriels d'heures supplémentaires à une note aux membres",
+      "intro": "Des membres de trois campus signalent une planification obligatoire d'heures supplémentaires par courriel hors des règles d'affichage de la CC. Aucun grief n'est déposé — c'est une tendance systémique.",
+      "phases": {
+        "w1": {
+          "label": "Semaine 1 — comités de campus",
+          "content": "Chaque comité syndicat-collège local se réunit. Les délégués apportent des courriels expurgés et les articles d'affichage de la CC. L'employeur demande deux semaines pour « examiner centralement ». Les sections consignent dates et participants."
+        },
+        "w3": {
+          "label": "Semaine 3 — échec du renvoi local",
+          "content": "Deux campus n'obtiennent aucun suivi ; un reçoit une réponse vague. Les coprésidences syndicales préparent un renvoi provincial : résumé des faits, journal local, demande syndicale de recommandation conjointe à la négociation."
+        },
+        "w5": {
+          "label": "Semaine 5 — caucus et table conjointe",
+          "content": "Le caucus syndical convient de la demande : recommander des fenêtres d'affichage normalisées. L'orateur utilise un mémoire sur papier en-tête. La table conjointe consigne un consensus pour renvoyer aux équipes de négociation ; la direction rédige les procès-verbaux."
+        },
+        "w7": {
+          "label": "Semaine 7 — procès-verbaux signés et note aux membres",
+          "content": "Les coprésidences signent. Le syndicat et le conseil patronal affichent les PDF. Les Comms syndicales envoient une note de trois phrases avec les deux liens et le contact du délégué — pas de langage de brouillon, pas de détails de négociation."
+        }
+      },
+      "tip": "Si votre calendrier saute les tentatives de campus, attendez-vous à ce que la coprésidence provinciale renvoie le dossier."
+    },
+    "caArticles": {
+      "navLabel": "Articles de la CC",
+      "title": "Où chercher dans la CC (exemple collégial ontarien)",
+      "intro": "Les numéros d'articles diffèrent selon la collection. Ouvrez votre CC à partir des sources ci-dessous — ne vous fiez pas à la mémoire.",
+      "items": {
+        "pt": {
+          "label": "Personnel de soutien à temps partiel",
+          "content": "Art. 5.4 et annexe 4 — Comité des relations employé-employeur. Enjeux locaux après le comité syndicat-collège ; la direction consigne les procès-verbaux ; les deux parties affichent les copies signées."
+        },
+        "ft": {
+          "label": "Personnel de soutien à temps plein",
+          "content": "Art. 4.7 et annexe J — même forme de comité pour la collection TP. La fréquence des réunions et les règles de déplacement diffèrent — lisez l'annexe."
+        },
+        "other": {
+          "label": "Autres syndicats",
+          "content": "Trouvez votre article et annexe de comité conjoint de la même façon. Le parcours campus → caucus → table → procès-verbaux signés s'applique toujours."
+        }
+      }
+    },
+    "notThis": {
+      "navLabel": "Pas cette instance",
+      "title": "Ce que les comités conjoints ne sont pas",
+      "intro": "Les bénévoles siègent souvent à plus d'un comité. Gardez les rôles séparés.",
+      "items": {
+        "grievance": {
+          "label": "Pas un forum de griefs",
+          "content": "Les griefs en direct restent dans la procédure de grief. Les outils de grief du Hub des dirigeants suivent ces dossiers — pas les ordres du jour des comités conjoints."
+        },
+        "jhsc": {
+          "label": "Pas le CSS",
+          "content": "Les dangers au travail et les refus LSST passent par la représentation SST et le guide du droit de refuser."
+        },
+        "lec": {
+          "label": "Pas le CLE",
+          "content": "Le comité local exécutif dirige la section — élections, finances et coordination des délégués. Les tables conjointes sont des recommandeurs provinciaux ou divisionnaires."
+        },
+        "bargain": {
+          "label": "Pas la table de négociation",
+          "content": "Les comités recommandent aux équipes de négociation ; ils ne règlent pas les salaires ni les clauses."
+        }
+      }
+    },
+    "tools": {
+      "title": "Outils pour le travail du côté syndical",
+      "intro": "Utilisez les outils Comms après signature des procès-verbaux ou pour les brouillons syndicaux seulement. Les extraits et griefs du Hub restent séparés des points de table conjointe.",
+      "items": {
+        "letterhead": {
+          "label": "Papier en-tête et mémoires",
+          "content": "Papier en-tête du Générateur de documents pour les mémoires de caucus syndical et les dossiers de renvoi locaux."
+        },
+        "explainer": {
+          "label": "Note explicative aux membres",
+          "content": "Créateur de tracts ou Créateur graphique après publication des procès-verbaux — une demande, un lien officiel."
+        },
+        "email": {
+          "label": "Courriel aux sections",
+          "content": "Guide de rayonnement par courriel pour des envois copie seulement — pas de listes marketing."
+        },
+        "portal": {
+          "label": "Caucus multi-sections",
+          "content": "Cercle du Portail local avec des membres de plus d'une section — invités syndicaux seulement."
+        }
       }
     },
     "example": {
       "title": "Un exemple ontarien",
-      "body": "Le personnel de soutien collégial d'OPSEU / SEFPO a un comité provincial des relations employé-employeur. La convention dit que la direction consigne les procès-verbaux et que les deux parties affichent la copie signée. Utilisez les sources ci-dessous. Le même parcours convient à d'autres comités conjoints dans d'autres syndicats."
+      "body": "Le personnel de soutien collégial d'OPSEU / SEFPO a des comités provinciaux des relations employé-employeur (collections TP et PT). La CC dit que la direction consigne les procès-verbaux et que les deux parties affichent la copie signée. Utilisez les sources ci-dessous — le même guide convient à d'autres comités conjoints dans d'autres syndicats."
     },
     "portal": {
       "title": "Portail local pour un caucus de plusieurs sections",
       "body": "Si votre syndicat utilise le Portail local, créez un Cercle et cochez les membres de plus d'une section. Invitez seulement le côté syndical. La Salle reste à une section. Les outils Comms publics restent gratuits sur votre appareil dans les deux cas."
-    },
-    "tocLabel": "Sur cette page"
+    }
   },
   "rightToRefuseGuide": {
     "title": "Droit de refuser un travail dangereux",
