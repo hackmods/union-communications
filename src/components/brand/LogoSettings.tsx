@@ -167,7 +167,7 @@ interface LogoSettingsProps {
   /** Active identity pack — official logo variants come from this Look */
   identityPackId?: string;
   opseuSectorId?: string;
-  campaignPlate?: "primary" | "accent";
+  campaignPlate?: string;
   primaryColor?: string;
   secondaryColor?: string;
   onModeChange: (mode: LogoMode) => void;

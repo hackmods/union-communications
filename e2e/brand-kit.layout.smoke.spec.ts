@@ -4,8 +4,8 @@ import {
   assertNoHorizontalOverflow,
 } from "./helpers/layout";
 
-const CAAT_S_LOOK_COPY =
-  /Coral and gold bilingual College Support lockup preferred by many CAAT-S locals/;
+const CAAT_S_CORAL_COPY =
+  /Coral campaign field with the white-and-gold College Support lockup/;
 
 const DESKTOP_VIEWPORTS = [
   { width: 768, height: 1024 },
@@ -21,11 +21,14 @@ async function selectOpseuCaatSLook(page: Page) {
   const gallery = page.getByTestId("identity-pack-gallery");
   await expect(gallery).toBeVisible();
   await gallery
-    .getByRole("radio", { name: /College Support \(CAAT-S\)/i })
+    .getByRole("radio", { name: /College Support — coral/i })
     .click();
   await expect(
-    gallery.getByRole("radio", { name: /College Support \(CAAT-S\)/i }),
+    gallery.getByRole("radio", { name: /College Support — coral/i }),
   ).toBeChecked();
+  await expect(
+    gallery.getByRole("radio", { name: /College Support — gold/i }),
+  ).toBeVisible();
 }
 
 async function assertCaatSLookFits(page: Page) {
@@ -34,12 +37,12 @@ async function assertCaatSLookFits(page: Page) {
   await expect(gallery).toBeVisible();
   await assertFitsViewport(page, gallery);
 
-  const description = page.getByText(CAAT_S_LOOK_COPY);
+  const description = page.getByText(CAAT_S_CORAL_COPY);
   await expect(description).toBeVisible();
   await assertFitsViewport(page, description);
 
   const card = gallery.getByRole("radio", {
-    name: /College Support \(CAAT-S\)/i,
+    name: /College Support — coral/i,
   });
   await expect(card).toBeVisible();
   await assertFitsViewport(page, card);

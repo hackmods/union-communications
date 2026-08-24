@@ -55,7 +55,7 @@ describe("resolveBrandLogoPresentation", () => {
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
       identityPackId: "opseu-caat-s",
-      campaignPlate: "accent",
+      campaignPlate: "gold",
       useOfficialLogo: true,
       officialLogoVariant: "lockup",
       primaryColor: "#FFB837",

@@ -110,10 +110,11 @@ export interface BrandKit {
    */
   identityPackId?: string;
   /**
-   * Campaign plate for Looks that ship coral vs gold (etc.).
-   * `"primary"` is the pack default; `"accent"` swaps primary/accent colours.
+   * Named campaign plate id for Looks that ship multiple field treatments
+   * (e.g. CAAT-S `coral` / `gold`). Legacy kits may still store `primary` /
+   * `accent` — hydrate coerces them onto named ids.
    */
-  campaignPlate?: "primary" | "accent";
+  campaignPlate?: string;
   divisionId?: string;
   /** Local website (optional) - used by QR cards, posters, website template */
   websiteUrl?: string;

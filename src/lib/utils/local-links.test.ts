@@ -274,7 +274,7 @@ describe("normalizeBrandKit official logo vs custom mark", () => {
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
       identityPackId: "opseu-caat-s",
-      campaignPlate: "accent",
+      campaignPlate: "gold",
       useOfficialLogo: true,
       officialLogoVariant: "lockup",
       customLogoDataUrl: undefined,
@@ -283,8 +283,19 @@ describe("normalizeBrandKit official logo vs custom mark", () => {
       accentColor: "#EA5A4F",
     });
     const roundTripped = normalizeBrandKit(JSON.parse(JSON.stringify(saved)));
-    expect(roundTripped.campaignPlate).toBe("accent");
+    expect(roundTripped.campaignPlate).toBe("gold");
     expect(roundTripped.primaryColor).toBe("#FFB837");
+  });
+
+  it("coerces legacy accent campaign plate onto gold", () => {
+    const kit = normalizeBrandKit({
+      ...DEFAULT_BRAND_KIT,
+      unionPresetId: "opseu",
+      identityPackId: "opseu-caat-s",
+      campaignPlate: "accent",
+      useOfficialLogo: true,
+    });
+    expect(kit.campaignPlate).toBe("gold");
   });
 
   it("drops campaignPlate when the Look does not offer plates", () => {

@@ -5,12 +5,15 @@ import { useBrandStore } from "@/store/brand-store";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import {
   applyIdentityPack,
+  colorsForCampaignPlate,
   colorsMatchIdentityPack,
+  identityPackGalleryTiles,
   identityPacksFor,
-  packOffersCampaignPlates,
+  lockupOnPlateFor,
   resolveCampaignPlateForKit,
   resolveIdentityPackForKit,
   type CampaignPlate,
+  type IdentityCampaignPlate,
   type IdentityPack,
 } from "@/lib/brand/identity-packs";
 import { resolveOpseuSectorId } from "@/lib/brand/collection-profiles";
@@ -22,6 +25,35 @@ type IdentityPackPickerProps = {
 
 function packNameKey(packId: string): "opseu-national" | "opseu-caat-s" {
   return packId === "opseu-caat-s" ? "opseu-caat-s" : "opseu-national";
+}
+
+function tileTitle(
+  t: (key: string) => string,
+  pack: IdentityPack,
+  plate: IdentityCampaignPlate | null,
+): string {
+  const packKey = packNameKey(pack.id);
+  if (plate) {
+    const plateTitleKey = `packs.${packKey}.plates.${plate.labelKey}.name`;
+    const plateTitle = t(plateTitleKey);
+    if (plateTitle !== plateTitleKey) return plateTitle;
+    return `${t(`packs.${packKey}.name`)} — ${t(`plates.${plate.labelKey}`)}`;
+  }
+  return t(`packs.${packKey}.name`);
+}
+
+function tileDescription(
+  t: (key: string) => string,
+  pack: IdentityPack,
+  plate: IdentityCampaignPlate | null,
+): string {
+  const packKey = packNameKey(pack.id);
+  if (plate) {
+    const plateDescKey = `packs.${packKey}.plates.${plate.labelKey}.description`;
+    const plateDesc = t(plateDescKey);
+    if (plateDesc !== plateDescKey) return plateDesc;
+  }
+  return t(`packs.${packKey}.description`);
 }
 
 /** Visual Look gallery — collective colours + official logos (not collection text). */
@@ -40,8 +72,9 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
     sectorId,
     brandKit.identityPackId,
   );
+  const tiles = identityPackGalleryTiles(packs);
 
-  if (packs.length < 2) return null;
+  if (tiles.length < 2) return null;
 
   const active =
     resolveIdentityPackForKit(brandKit) ??
@@ -62,34 +95,35 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
       </div>
 
       <div
-        className="flex min-w-0 max-w-full snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-1 md:grid md:grid-cols-2 md:overflow-visible md:pb-0"
+        className="flex min-w-0 max-w-full snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-1 md:grid md:grid-cols-2 md:overflow-visible md:pb-0 xl:grid-cols-3"
         role="radiogroup"
         aria-label={t("label")}
         data-testid="identity-pack-gallery"
       >
-        {packs.map((pack) => {
-          const selected = active?.id === pack.id;
-          const previewPlate =
-            selected && packOffersCampaignPlates(pack) ? activePlate : "primary";
-          const previewOnAccent =
-            previewPlate === "accent" && Boolean(pack.logos.lockupOnAccent);
-          const previewSrc = previewOnAccent
-            ? pack.logos.lockupOnAccent!
-            : pack.logos.lockupOnDark
-              ? pack.logos.lockupOnDark
-              : pack.logos.lockup;
-          const plate = previewOnAccent
-            ? pack.colors.accentColor
+        {tiles.map(({ pack, plate, key }) => {
+          const selected =
+            active?.id === pack.id &&
+            (plate ? activePlate === plate.id : true);
+          const colors = plate
+            ? colorsForCampaignPlate(pack, plate.id)
+            : pack.colors;
+          const previewSrc =
+            lockupOnPlateFor(pack, plate?.id) ?? pack.logos.lockup;
+          const plateFill = plate
+            ? colors.primaryColor
             : pack.logos.lockupOnDark
               ? pack.colors.primaryColor
               : "#FFFFFF";
+          const onDarkPreview = Boolean(
+            lockupOnPlateFor(pack, plate?.id) || pack.logos.lockupOnDark,
+          );
           return (
             <button
-              key={pack.id}
+              key={key}
               type="button"
               role="radio"
               aria-checked={selected}
-              onClick={() => selectPack(pack)}
+              onClick={() => selectPack(pack, plate?.id)}
               className={cn(
                 // Cap width so long CAAT-S copy wraps instead of sizing the
                 // flex item to max-content and blowing out the Brand Kit card.
@@ -102,20 +136,20 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
                 selected
                   ? {
                       borderColor:
-                        plate === "#FFFFFF"
+                        plateFill === "#FFFFFF"
                           ? pack.colors.primaryColor
-                          : plate,
+                          : plateFill,
                       ["--tw-ring-color" as string]:
-                        plate === "#FFFFFF"
+                        plateFill === "#FFFFFF"
                           ? pack.colors.primaryColor
-                          : plate,
+                          : plateFill,
                     }
                   : undefined
               }
             >
               <span
                 className="flex h-24 w-full min-w-0 items-center justify-center overflow-hidden px-2 py-2 sm:h-28 sm:px-3"
-                style={{ backgroundColor: plate }}
+                style={{ backgroundColor: plateFill }}
               >
                 <SafeLogoImage
                   src={previewSrc}
@@ -123,24 +157,22 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
                   width={220}
                   height={72}
                   className="h-[4.25rem] w-auto max-w-full object-contain sm:h-[4.75rem]"
-                  onDark={Boolean(
-                    pack.logos.lockupOnDark || pack.logos.lockupOnAccent,
-                  )}
+                  onDark={onDarkPreview}
                 />
               </span>
               <span className="block min-w-0 space-y-2 border-t border-black/5 bg-white p-3">
                 <span className="flex items-center justify-between gap-2">
                   <span className="min-w-0 font-semibold break-words text-gray-900">
-                    {t(`packs.${packNameKey(pack.id)}.name`)}
+                    {tileTitle(t, pack, plate)}
                   </span>
                   {selected ? (
                     <span
                       className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white"
                       style={{
                         backgroundColor:
-                          plate === "#FFFFFF"
+                          plateFill === "#FFFFFF"
                             ? pack.colors.primaryColor
-                            : plate,
+                            : plateFill,
                       }}
                       aria-hidden
                     >
@@ -149,18 +181,18 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
                   ) : null}
                 </span>
                 <span className="block text-xs break-words text-gray-600">
-                  {t(`packs.${packNameKey(pack.id)}.description`)}
+                  {tileDescription(t, pack, plate)}
                 </span>
                 <span className="flex gap-1.5" aria-hidden>
                   {(
                     [
-                      pack.colors.primaryColor,
-                      pack.colors.accentColor,
-                      pack.colors.secondaryColor,
+                      colors.primaryColor,
+                      colors.accentColor,
+                      colors.secondaryColor,
                     ] as const
                   ).map((hex) => (
                     <span
-                      key={hex}
+                      key={`${key}-${hex}`}
                       className="h-4 w-4 shrink-0 rounded-full border border-black/10"
                       style={{ backgroundColor: hex }}
                       title={hex}
@@ -173,60 +205,13 @@ export function IdentityPackPicker({ compact = false }: IdentityPackPickerProps)
         })}
       </div>
 
-      {active && packOffersCampaignPlates(active) ? (
-        <div
-          className="flex min-w-0 flex-wrap gap-2"
-          role="radiogroup"
-          aria-label={t("platesLabel")}
-          data-testid="campaign-plate-picker"
-        >
-          {active.campaignPlates.map((plate) => {
-            const selected = activePlate === plate;
-            const swatch =
-              plate === "accent"
-                ? active.colors.accentColor
-                : active.colors.primaryColor;
-            return (
-              <button
-                key={plate}
-                type="button"
-                role="radio"
-                aria-checked={selected}
-                onClick={() => selectPack(active, plate)}
-                className={cn(
-                  "inline-flex min-w-0 items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition-shadow",
-                  selected
-                    ? "ring-2 ring-offset-2"
-                    : "border-gray-200 text-gray-700 hover:border-gray-300",
-                )}
-                style={
-                  selected
-                    ? {
-                        borderColor: swatch,
-                        ["--tw-ring-color" as string]: swatch,
-                      }
-                    : undefined
-                }
-              >
-                <span
-                  className="h-3.5 w-3.5 shrink-0 rounded-full border border-black/10"
-                  style={{ backgroundColor: swatch }}
-                  aria-hidden
-                />
-                {t(`plates.${plate}`)}
-              </button>
-            );
-          })}
-        </div>
-      ) : null}
-
       {active && !colorsMatchIdentityPack(brandKit, active) ? (
         <p className="text-xs text-gray-600">
           {t("coloursDiffer")}{" "}
           <button
             type="button"
             className="font-medium text-opseu-blue underline underline-offset-2"
-            onClick={() => selectPack(active, activePlate)}
+            onClick={() => selectPack(active, activePlate || undefined)}
           >
             {t("resetToPack")}
           </button>

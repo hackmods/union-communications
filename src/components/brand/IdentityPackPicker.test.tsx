@@ -3,7 +3,11 @@ import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
-import { applyIdentityPack, getIdentityPack } from "@/lib/brand/identity-packs";
+import {
+  CAAT_S_GOLD_PLATE_ID,
+  applyIdentityPack,
+  getIdentityPack,
+} from "@/lib/brand/identity-packs";
 import { useBrandStore } from "@/store/brand-store";
 import type { BrandKit } from "@/types/entities";
 import { IdentityPackPicker } from "./IdentityPackPicker";
@@ -21,9 +25,14 @@ vi.mock("next-intl", () => ({
       "packs.opseu-caat-s.name": "College Support (CAAT-S)",
       "packs.opseu-caat-s.description":
         "Coral and gold bilingual College Support lockup preferred by many CAAT-S locals.",
-      platesLabel: "Campaign plate",
-      "plates.primary": "Coral plate",
-      "plates.accent": "Gold plate",
+      "packs.opseu-caat-s.plates.coral.name": "College Support — coral",
+      "packs.opseu-caat-s.plates.coral.description":
+        "Coral campaign field with the white-and-gold College Support lockup.",
+      "packs.opseu-caat-s.plates.gold.name": "College Support — gold",
+      "packs.opseu-caat-s.plates.gold.description":
+        "Gold campaign field with the white-and-coral College Support lockup.",
+      "plates.coral": "Coral",
+      "plates.gold": "Gold",
     };
     return copy[key] ?? key;
   },
@@ -60,7 +69,7 @@ describe("IdentityPackPicker layout", () => {
     expect(gallery.className).toContain("min-w-0");
 
     const caatS = screen.getByRole("radio", {
-      name: /College Support \(CAAT-S\)/,
+      name: /College Support — coral/,
     });
     expect(caatS).toHaveClass(
       "max-w-full",
@@ -71,30 +80,36 @@ describe("IdentityPackPicker layout", () => {
     expect(caatS.className).not.toMatch(/min-w-\[14rem\]/);
 
     const description = screen.getByText(
-      /Coral and gold bilingual College Support lockup preferred by many CAAT-S locals/,
+      /Coral campaign field with the white-and-gold College Support lockup/,
     );
     expect(description).toHaveClass("break-words");
   });
 
-  it("still offers both OPSEU Looks for College Support", () => {
+  it("offers national plus coral and gold as peer Look cards", () => {
     render(<IdentityPackPicker />);
 
     expect(
       screen.getByRole("radio", { name: /OPSEU \/ SEFPO blue/ }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("radio", { name: /College Support \(CAAT-S\)/ }),
+      screen.getByRole("radio", { name: /College Support — coral/ }),
     ).toBeChecked();
+    expect(
+      screen.getByRole("radio", { name: /College Support — gold/ }),
+    ).toBeInTheDocument();
+    expect(screen.queryByTestId("campaign-plate-picker")).not.toBeInTheDocument();
   });
 
-  it("lets a steward pick the gold campaign plate", () => {
+  it("lets a steward pick gold from the Look gallery in one click", () => {
     render(<IdentityPackPicker />);
 
-    const gold = screen.getByRole("radio", { name: /Gold plate/ });
+    const gold = screen.getByRole("radio", { name: /College Support — gold/ });
     expect(gold).toHaveAttribute("aria-checked", "false");
     fireEvent.click(gold);
 
-    expect(useBrandStore.getState().brandKit.campaignPlate).toBe("accent");
+    expect(useBrandStore.getState().brandKit.campaignPlate).toBe(
+      CAAT_S_GOLD_PLATE_ID,
+    );
     expect(useBrandStore.getState().brandKit.primaryColor).toBe("#FFB837");
     expect(useBrandStore.getState().brandKit.accentColor).toBe("#EA5A4F");
     expect(gold).toHaveAttribute("aria-checked", "true");

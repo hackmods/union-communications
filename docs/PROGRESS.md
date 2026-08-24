@@ -62,6 +62,14 @@
 - [x] Related tools Org Chart ↔ Doc Gen; What's new `org-chart-directory`; EN/FR + session knowledge
 - Verify: `npm run test:unit -- src/lib/constants/org-chart-formats.test.ts src/lib/org-chart/layout.test.ts src/lib/constants/office-templates.test.ts src/lib/export/office-docx-builders.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
 
+## Brand Kit Look gallery plates (2026-08-24)
+
+- [x] CAAT-S coral and gold appear as peer Look-gallery cards (one click); nested campaign-plate radios removed as primary path
+- [x] Named plate records on `opseu-caat-s` (`coral` / `gold`) with explicit colours + lockup — no primary↔accent invert
+- [x] Legacy saved `primary` / `accent` coerce to `coral` / `gold` on hydrate
+- [x] What's new `caat-s-gold-plate` updated; rule: new brand systems → Look rows; field treatments → gallery tiles from plates
+- Verify: `npm run test:unit -- src/lib/brand/identity-packs.test.ts src/lib/brand/resolve-logo-presentation.test.ts src/lib/utils/local-links.test.ts src/components/brand/IdentityPackPicker.test.tsx src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## CAAT-S president feedback (2026-08-23)
 
 - [x] CAAT-S SVG downloads use a shared 174×97 artboard; coral and gold plates cover the full viewBox

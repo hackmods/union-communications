@@ -2568,8 +2568,10 @@
       "resetToPack": "Reset to Look colours",
       "platesLabel": "Campaign plate",
       "plates": {
-        "primary": "Coral plate",
-        "accent": "Gold plate"
+        "coral": "Coral",
+        "gold": "Gold",
+        "primary": "Coral",
+        "accent": "Gold"
       },
       "packs": {
         "opseu-national": {
@@ -2578,7 +2580,17 @@
         },
         "opseu-caat-s": {
           "name": "College Support (CAAT-S)",
-          "description": "Coral and gold bilingual College Support lockup preferred by many CAAT-S locals."
+          "description": "Coral and gold bilingual College Support lockup preferred by many CAAT-S locals.",
+          "plates": {
+            "coral": {
+              "name": "College Support — coral",
+              "description": "Coral campaign field with the white-and-gold College Support lockup."
+            },
+            "gold": {
+              "name": "College Support — gold",
+              "description": "Gold campaign field with the white-and-coral College Support lockup."
+            }
+          }
         }
       }
     },
@@ -3393,8 +3405,8 @@
         "body": "In Local Portal, tick members from more than one local when you create a committee Circle. Invite the union side from other locals. Hall still belongs to one local."
       },
       "caat-s-gold-plate": {
-        "title": "Gold plate for College Support",
-        "body": "College Support locals can pick coral or gold plate in Brand Kit. Gold plate uses gold as the campaign colour and the white-and-coral lockup, so posters and boards match the official CAAT-S gold treatment."
+        "title": "Coral or gold for College Support",
+        "body": "In Brand Kit, College Support coral and gold appear as separate Look cards. Pick gold for the gold campaign field and white-and-coral lockup, or coral for the coral field."
       },
       "caat-s-look": {
         "title": "College Support Look in Brand Kit",

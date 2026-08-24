@@ -2568,8 +2568,10 @@
       "resetToPack": "Rétablir les couleurs de l'apparence",
       "platesLabel": "Fond de campagne",
       "plates": {
-        "primary": "Plaque corail",
-        "accent": "Plaque or"
+        "coral": "Corail",
+        "gold": "Or",
+        "primary": "Corail",
+        "accent": "Or"
       },
       "packs": {
         "opseu-national": {
@@ -2578,7 +2580,17 @@
         },
         "opseu-caat-s": {
           "name": "Soutien collégial (CAAT-S)",
-          "description": "Logo bilingue corail et or du Soutien collégial, préféré par plusieurs sections CAAT-S."
+          "description": "Logo bilingue corail et or du Soutien collégial, préféré par plusieurs sections CAAT-S.",
+          "plates": {
+            "coral": {
+              "name": "Soutien collégial — corail",
+              "description": "Fond de campagne corail avec le logo Soutien collégial blanc et or."
+            },
+            "gold": {
+              "name": "Soutien collégial — or",
+              "description": "Fond de campagne or avec le logo Soutien collégial blanc et corail."
+            }
+          }
         }
       }
     },
@@ -3345,8 +3357,8 @@
         "body": "Dans le Portail local, cochez les membres de plus d'une section quand vous créez un Cercle de comité. Invitez le côté syndical des autres sections. La Salle reste à une section."
       },
       "caat-s-gold-plate": {
-        "title": "Plaque or pour le Soutien collégial",
-        "body": "Les sections de soutien collégial peuvent choisir la plaque corail ou la plaque or dans la Trousse de marque. La plaque or utilise l'or comme couleur de campagne et le logo blanc et corail, pour que les affiches et babillards suivent le traitement or officiel CAAT-S."
+        "title": "Corail ou or pour le Soutien collégial",
+        "body": "Dans la Trousse de marque, le corail et l'or du Soutien collégial apparaissent comme des cartes Apparence séparées. Choisissez l'or pour le fond de campagne or et le logo blanc et corail, ou le corail pour le fond corail."
       },
       "caat-s-look": {
         "title": "Apparence Soutien collégial dans la Trousse de marque",

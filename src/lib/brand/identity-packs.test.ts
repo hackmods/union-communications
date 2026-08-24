@@ -3,6 +3,9 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   CAAT_S_COLORS,
+  CAAT_S_CORAL_PLATE_ID,
+  CAAT_S_GOLD_COLORS,
+  CAAT_S_GOLD_PLATE_ID,
   IDENTITY_PACKS,
   OPSEU_CAAT_S_PACK_ID,
   OPSEU_NATIONAL_PACK_ID,
@@ -11,8 +14,11 @@ import {
   defaultIdentityPackId,
   getIdentityPack,
   identityPackAssetGaps,
+  identityPackGalleryTiles,
   identityPackSectorGaps,
   identityPacksFor,
+  normalizeCampaignPlate,
+  resolveCampaignPlateForKit,
   resolveIdentityPackForKit,
   resolveOfficialLogos,
 } from "./identity-packs";
@@ -34,10 +40,10 @@ describe("identity-packs", () => {
       for (const src of [
         pack.logos.lockup,
         pack.logos.lockupOnDark,
-        pack.logos.lockupOnAccent,
         pack.logos.mark,
         pack.logos.markOnDark,
         pack.logos.oneColor,
+        ...(pack.plates ?? []).map((p) => p.lockupOnPlate),
       ]) {
         if (!src) continue;
         expect(src.startsWith("/")).toBe(true);
@@ -64,23 +70,32 @@ describe("identity-packs", () => {
     expect(identityPacksFor("cupe")).toEqual([]);
   });
 
+  it("expands CAAT-S into coral and gold gallery tiles", () => {
+    const packs = identityPacksFor("opseu", "caat-support");
+    expect(identityPackGalleryTiles(packs).map((t) => t.key)).toEqual([
+      OPSEU_NATIONAL_PACK_ID,
+      `${OPSEU_CAAT_S_PACK_ID}:${CAAT_S_CORAL_PLATE_ID}`,
+      `${OPSEU_CAAT_S_PACK_ID}:${CAAT_S_GOLD_PLATE_ID}`,
+    ]);
+  });
+
   it("applies pack colours and official logo fields", () => {
     const caat = getIdentityPack(OPSEU_CAAT_S_PACK_ID)!;
     const patch = applyIdentityPack(caat);
     expect(patch.identityPackId).toBe(OPSEU_CAAT_S_PACK_ID);
     expect(patch.primaryColor).toBe(CAAT_S_COLORS.primaryColor);
     expect(patch.accentColor).toBe(CAAT_S_COLORS.accentColor);
-    expect(patch.campaignPlate).toBe("primary");
+    expect(patch.campaignPlate).toBe(CAAT_S_CORAL_PLATE_ID);
     expect(patch.useOfficialLogo).toBe(true);
     expect(patch.officialLogoVariant).toBe("lockup");
   });
 
-  it("swaps coral and gold when the accent plate is applied", () => {
+  it("applies explicit gold plate colours without an invert shortcut", () => {
     const caat = getIdentityPack(OPSEU_CAAT_S_PACK_ID)!;
-    const patch = applyIdentityPack(caat, "accent");
-    expect(patch.campaignPlate).toBe("accent");
-    expect(patch.primaryColor).toBe(CAAT_S_COLORS.accentColor);
-    expect(patch.accentColor).toBe(CAAT_S_COLORS.primaryColor);
+    const patch = applyIdentityPack(caat, CAAT_S_GOLD_PLATE_ID);
+    expect(patch.campaignPlate).toBe(CAAT_S_GOLD_PLATE_ID);
+    expect(patch.primaryColor).toBe(CAAT_S_GOLD_COLORS.primaryColor);
+    expect(patch.accentColor).toBe(CAAT_S_GOLD_COLORS.accentColor);
     expect(
       colorsMatchIdentityPack(
         {
@@ -91,6 +106,22 @@ describe("identity-packs", () => {
         caat,
       ),
     ).toBe(true);
+  });
+
+  it("coerces legacy primary/accent plate ids onto coral/gold", () => {
+    expect(normalizeCampaignPlate("primary", OPSEU_CAAT_S_PACK_ID)).toBe(
+      CAAT_S_CORAL_PLATE_ID,
+    );
+    expect(normalizeCampaignPlate("accent", OPSEU_CAAT_S_PACK_ID)).toBe(
+      CAAT_S_GOLD_PLATE_ID,
+    );
+    expect(
+      resolveCampaignPlateForKit({
+        identityPackId: OPSEU_CAAT_S_PACK_ID,
+        campaignPlate: "accent",
+        primaryColor: CAAT_S_GOLD_COLORS.primaryColor,
+      }),
+    ).toBe(CAAT_S_GOLD_PLATE_ID);
   });
 
   it("clears campaignPlate when applying a single-palette Look", () => {
@@ -125,15 +156,15 @@ describe("identity-packs", () => {
     expect(logos?.mark).toBeUndefined();
   });
 
-  it("uses the gold-plate lockup when the accent campaign plate is active", () => {
+  it("uses the gold-plate lockup when the gold campaign plate is active", () => {
     const kit = {
       ...DEFAULT_BRAND_KIT,
       unionPresetId: "opseu",
       identityPackId: OPSEU_CAAT_S_PACK_ID,
-      campaignPlate: "accent" as const,
+      campaignPlate: CAAT_S_GOLD_PLATE_ID,
       useOfficialLogo: true,
-      primaryColor: CAAT_S_COLORS.accentColor,
-      accentColor: CAAT_S_COLORS.primaryColor,
+      primaryColor: CAAT_S_GOLD_COLORS.primaryColor,
+      accentColor: CAAT_S_GOLD_COLORS.accentColor,
     };
     const logos = resolveOfficialLogos(kit);
     expect(logos?.lockup.srcOnDark).toContain("on-gold");
