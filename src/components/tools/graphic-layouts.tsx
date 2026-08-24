@@ -17,6 +17,7 @@ import {
   inkWithAlpha,
   mutedInkOnBackground,
   pickContrastingInk,
+  pickFieldInk,
 } from "@/lib/utils/ink";
 import type { QuoteLayoutId } from "@/lib/comms/quote-layouts";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
@@ -24,7 +25,10 @@ import {
   flexAlignFromBias,
   textAlignFromBias,
 } from "@/lib/utils/canvas-tokens";
-import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import {
+  canvasSurfaceStyle,
+  softGradientEndColor,
+} from "@/lib/utils/canvas-surface";
 
 /** Shared pad / type metrics for Graphic Maker layouts (preview vs export). */
 function layoutChrome(
@@ -109,15 +113,32 @@ export interface GraphicLayoutCanvasProps {
   tokens?: CanvasTokens;
 }
 
+/**
+ * Effective canvas under bottom-anchored copy on solidarity / spotlight /
+ * thanks. Those layouts always paint a dark lift scrim; ink must sample the
+ * scrim, not primary — gold/coral plates otherwise keep black type on brown.
+ */
+const BOTTOM_SCRIM_INK_BG = "#1A1A1A";
+
 /** Inline hex/rgba only — Tailwind v4 oklch utilities wash out html-to-image PNGs */
-function inkPalette(background: string) {
-  const ink = pickContrastingInk(background);
+function inkPalette(background: string, fieldStops?: readonly string[]) {
+  const stops = fieldStops?.filter(Boolean) ?? [];
+  const ink =
+    stops.length > 1
+      ? pickFieldInk(stops)
+      : pickContrastingInk(stops[0] ?? background);
+  // Field ink is a compromise across stops — keep muted tones on that same
+  // ink. Solid backgrounds still bump alpha via mutedInkOnBackground for AA.
+  const mute = (alpha: number) =>
+    stops.length > 1
+      ? inkWithAlpha(ink, alpha)
+      : mutedInkOnBackground(stops[0] ?? background, alpha);
   return {
     ink,
     full: ink,
-    a90: mutedInkOnBackground(background, 0.9),
-    a80: mutedInkOnBackground(background, 0.8),
-    a70: mutedInkOnBackground(background, 0.7),
+    a90: mute(0.9),
+    a80: mute(0.8),
+    a70: mute(0.7),
     a60: inkWithAlpha(ink, 0.6),
     a30: inkWithAlpha(ink, 0.3),
     a12: inkWithAlpha(ink, 0.12),
@@ -332,9 +353,12 @@ function SolidarityLayout({
   tokens?: CanvasTokens;
 }) {
   const exportMode = size === "export";
-  // Dark photo overlay → ink against the scrim, not raw primary
-  const footerBg = photoUrl ? "#1A1A1A" : primary;
+  // Bottom copy always sits on the dark lift scrim (with or without a photo).
+  const footerBg = BOTTOM_SCRIM_INK_BG;
   const ink = inkPalette(footerBg);
+  const fieldEnd = thanks
+    ? softGradientEndColor(primary, secondary)
+    : softGradientEndColor(primary, accent);
   const chrome = layoutChrome(tokens, exportMode);
   return (
     <>
@@ -342,8 +366,8 @@ function SolidarityLayout({
         className="absolute inset-0"
         style={{
           backgroundImage: thanks
-            ? `linear-gradient(135deg, ${primary}, ${secondary})`
-            : `linear-gradient(160deg, ${primary} 0%, ${primary} 55%, ${accent} 100%)`,
+            ? `linear-gradient(135deg, ${primary}, ${fieldEnd})`
+            : `linear-gradient(160deg, ${primary} 0%, ${primary} 55%, ${fieldEnd} 100%)`,
         }}
       />
       <PhotoLayer
@@ -453,16 +477,18 @@ function SpotlightLayout({
 }) {
   const initials = copy.initials ?? "M";
   const exportMode = size === "export";
-  const footerBg = photoUrl ? "#1A1A1A" : primary;
+  const footerBg = BOTTOM_SCRIM_INK_BG;
   const ink = inkPalette(footerBg);
   const badgeInk = pickContrastingInk(accent);
+  const fieldMid = softGradientEndColor(secondary, primary);
+  const fieldEnd = softGradientEndColor(primary, accent);
   const chrome = layoutChrome(tokens, exportMode);
   return (
     <>
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `linear-gradient(145deg, ${secondary}, ${primary} 60%, ${accent})`,
+          backgroundImage: `linear-gradient(145deg, ${secondary}, ${fieldMid} 60%, ${fieldEnd})`,
         }}
       />
       <PhotoLayer
@@ -566,7 +592,11 @@ function NoticeLayout({
   tokens?: CanvasTokens;
 }) {
   const exportMode = size === "export";
-  const ink = inkPalette(primary);
+  const fieldEnd = softGradientEndColor(primary, secondary);
+  const ink =
+    tokens?.surface === "soft-gradient"
+      ? inkPalette(primary, [primary, fieldEnd])
+      : inkPalette(primary);
   const badgeInk = pickContrastingInk(accent);
   const surface = tokens
     ? canvasSurfaceStyle(tokens, {
@@ -707,7 +737,12 @@ export function QuoteLayout({
   const landscape = aspect === "landscape";
   const centered = layout === "centered";
   const mark = layout === "mark";
-  const quoteInk = inkPalette(primary);
+  const fieldSecondary = secondary ?? primary;
+  const fieldEnd = softGradientEndColor(primary, fieldSecondary);
+  const quoteInk =
+    tokens?.surface === "soft-gradient"
+      ? inkPalette(primary, [primary, fieldEnd])
+      : inkPalette(primary);
   const accentInk = textColor ? textPalette(textColor) : quoteInk;
   const surface = tokens
     ? canvasSurfaceStyle(tokens, {
@@ -884,7 +919,8 @@ function ResultsLayout({
   tokens?: CanvasTokens;
 }) {
   const exportMode = size === "export";
-  const ink = inkPalette(primary);
+  const fieldEnd = softGradientEndColor(primary, accent);
+  const ink = inkPalette(primary, [primary, fieldEnd]);
   const chrome = layoutChrome(tokens, exportMode);
   const alignItems = chrome.alignItems ?? "center";
   const textAlign = chrome.textAlign ?? "center";
@@ -893,7 +929,7 @@ function ResultsLayout({
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `linear-gradient(180deg, ${primary}, ${accent})`,
+          backgroundImage: `linear-gradient(180deg, ${primary}, ${fieldEnd})`,
         }}
       />
       <div

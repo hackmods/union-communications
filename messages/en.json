@@ -3400,6 +3400,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "graphic-gradient-ink": {
+        "title": "Clearer type on gradient graphics",
+        "body": "Graphic Maker and Examples now pick light type over the dark bottom of picket, spotlight, and thanks layouts — so headlines stay readable on gold, coral, and other Brand Kit plates."
+      },
       "federation-sources": {
         "title": "OFL, NUPGE, and CLC in Sources",
         "body": "Comms Resources now points to the Ontario Federation of Labour, NUPGE, and the Canadian Labour Congress for movement education. The same links appear on membership, boards, Blueprint, and crisis guides — and in the website ZIP footer."

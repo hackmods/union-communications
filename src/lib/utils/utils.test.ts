@@ -83,6 +83,14 @@ describe("ink utilities", () => {
     expect(pickFieldInk(["#EA5A4F", end])).toBe(INK_WHITE);
   });
 
+  it("leaves CAAT-S gold→coral ends chromatic (scrim layouts own bottom ink)", () => {
+    // Gold primary resolves black ink; coral still clears black large-text AA.
+    // Bottom-anchored copy uses the dark lift scrim for ink, not this end stop.
+    expect(softGradientEndColor("#FFB837", "#EA5A4F")).toBe("#EA5A4F");
+    expect(pickContrastingInk("#FFB837")).toBe(INK_BLACK);
+    expect(pickContrastingInk("#1A1A1A")).toBe(INK_WHITE);
+  });
+
   it("keeps OPSEU soft-gradient ends readable with white ink", () => {
     const end = softGradientEndColor("#003DA5", "#FFFFFF");
     expect(pickContrastingInk(end)).toBe(INK_WHITE);

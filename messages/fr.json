@@ -3352,6 +3352,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "graphic-gradient-ink": {
+        "title": "Texte plus lisible sur les graphiques en dégradé",
+        "body": "Le Créateur de graphiques et les Exemples choisissent maintenant un texte clair sur le bas sombre des mises en page piquet, membre en vedette et remerciement — pour que les titres restent lisibles sur les fonds or, corail et autres de la Trousse de marque."
+      },
       "federation-sources": {
         "title": "OFL, NUPGE et CTC dans les Sources",
         "body": "Les Ressources Comms pointent maintenant vers la Fédération du travail de l'Ontario, NUPGE et le Congrès du travail du Canada pour l'éducation du mouvement. Les mêmes liens figurent dans les guides d'adhésion, babillards, Plan directeur et crise — et dans le pied de page du ZIP du site."

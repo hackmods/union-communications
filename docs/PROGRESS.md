@@ -1,5 +1,11 @@
 # Progress Log
 
+## Graphic gradient ink (2026-08-24)
+
+- Solidarity / spotlight / thanks layouts always resolve type ink against the bottom lift scrim (`#1A1A1A`), not primary — fixes black-on-brown CAAT-S gold Examples.
+- Results / soft-gradient notice & quote use `pickFieldInk` + `softGradientEndColor` stops.
+- What's new: `graphic-gradient-ink`.
+
 ## Federation sources QOL (2026-08-24)
 
 - Registered universal `nupge` + `clc` beside `ofl` in `comms-sources.ts`; website ZIP Rights & Partners federations resolve via `getWebsiteRightsPartnersFederationSources()`.
