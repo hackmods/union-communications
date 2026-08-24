@@ -2,7 +2,7 @@
 
 Operator and steward reference for **UnionOps security on a hosted instance** (CapRover, Docker, self-host). Public summary: [`/security`](https://unionops.org/en/security/). Vulnerability reporting: [`SECURITY.md`](../../SECURITY.md).
 
-**Related:** [`COMPLIANCE.md`](../COMPLIANCE.md) · [`DEPLOY.md`](DEPLOY.md) · [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md) · [`POSTGRES_OPS.md`](POSTGRES_OPS.md) · Portal audit [`portal-encryption-security-audit-2026-08-24.md`](../audit/portal-encryption-security-audit-2026-08-24.md)
+**Related:** [`COMPLIANCE.md`](../COMPLIANCE.md) · [`DEPLOY.md`](DEPLOY.md) · [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md) · [`POSTGRES_OPS.md`](POSTGRES_OPS.md) · **Live flip runbook:** [`COMPLIANCE_HARDENING_LIVE.md`](COMPLIANCE_HARDENING_LIVE.md) · Portal audit [`portal-encryption-security-audit-2026-08-24.md`](../audit/portal-encryption-security-audit-2026-08-24.md)
 
 ---
 

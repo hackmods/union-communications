@@ -1,5 +1,19 @@
 # Progress Log
 
+## Live compliance hardening runbook (2026-08-24)
+
+- [x] [`docs/guides/COMPLIANCE_HARDENING_LIVE.md`](guides/COMPLIANCE_HARDENING_LIVE.md) — phased CapRover Postgres flip + MFA + demo-off checklist for unionops.org
+- [x] Session knowledge [`session-knowledge-2026-08-24-portal-security-hardening.md`](audit/session-knowledge-2026-08-24-portal-security-hardening.md)
+- **Next (ops):** execute runbook Phases 0–3; Portal stays evaluation until `PORTAL-DB-001`
+
+## Portal security audit + hosted security page (2026-08-24)
+
+- [x] Evidence audit [`portal-encryption-security-audit-2026-08-24.md`](audit/portal-encryption-security-audit-2026-08-24.md) — explicit **no encryption at rest** verdict for Portal
+- [x] IDOR fixes in `memory-adapter.ts`; `portalJson` `Cache-Control: private, no-store`; sidebar roster validation; `activity_pack` admin gate
+- [x] Unit tests `portal-idor.test.ts` (7 cases); security-review pass on diff
+- [x] Operator guide [`HOSTED_SECURITY.md`](guides/HOSTED_SECURITY.md); public `/security` EN/FR; footer + sitemap
+- Verify: `npm run test:unit -- src/lib/portal/portal-idor.test.ts src/lib/auth/api-route-auth.test.ts`
+
 ## Production migrate in Docker image (2026-08-24)
 
 - [x] `docker/Dockerfile` migrate stage — ship SQL journal + `drizzle-kit` in `/app/db-migrate/`
