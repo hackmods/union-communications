@@ -214,6 +214,8 @@ describe("portalStore", () => {
       updatedById: "user-president-243",
       updatedByName: "President",
     });
+    expect(item).not.toBeNull();
+    if (!item) return;
     expect(item.progress).toBe(40);
     const thread = portalStore.ensureSidebarThread({
       unionId: "union-opseu",

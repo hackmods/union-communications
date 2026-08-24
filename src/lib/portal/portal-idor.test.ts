@@ -141,6 +141,8 @@ describe("portal circle-scoped mutations (IDOR guards)", () => {
       updatedById: "user-president-243",
       updatedByName: "President",
     });
+    expect(item).not.toBeNull();
+    if (!item) return;
 
     const cross = portalStore.upsertMomentum({
       id: item.id,
