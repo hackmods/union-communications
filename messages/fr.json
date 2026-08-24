@@ -420,23 +420,23 @@
     "chapters": {
       "platforms": {
         "title": "Quelles plateformes choisir",
-        "content": "Facebook convient aux grands groupes, textes longs et événements. Instagram au récit visuel. Commencez par une plateforme et faites-la bien. Beaucoup de sections misent sur un groupe Facebook fermé."
+        "content": "Facebook convient aux grands publics, aux textes longs et aux événements. Instagram au récit visuel et aux Reels. Commencez par une plateforme et faites-la bien — beaucoup de sections misent sur un groupe Facebook fermé. Ajoutez un site Web pour des coordonnées stables ; servez-vous de l'imprimé et des tableaux pour les membres qui ne font jamais défiler."
       },
       "tone": {
         "title": "Ton de voix",
-        "content": "Professionnel mais humain. Parlez au collectif (« nous », « nos membres »). Célébrez les gains, expliquez les reculs, centrez les voix des membres. Évitez le jargon : écrivez pour un téléphone en pause."
+        "content": "Professionnel mais humain. Parlez au collectif (« nous », « nos membres »). Célébrez les gains, expliquez les reculs honnêtement et centrez les voix des membres. Évitez le jargon : écrivez pour un téléphone en pause. En crise, des phrases plus courtes et moins d'adjectifs."
       },
       "frequency": {
         "title": "Fréquence de publication",
-        "content": "Visez 2-3 publications par semaine en temps normal ; augmentez en négociation ou grève. La constance bat le volume. Mélange simple : 40 % nouvelles, 30 % récits, 20 % éducation, 10 % solidarité."
+        "content": "Visez 2 à 3 publications par semaine en temps normal ; augmentez en négociation ou en grève. La constance bat le volume. Mélange simple : 40 % nouvelles, 30 % récits, 20 % éducation, 10 % solidarité. Pendant une grève, une mise à jour officielle vaut mieux que cinq fils réactifs."
       },
       "trolls": {
         "title": "Gérer les trolls et la direction",
-        "content": "N’alimentez pas la mauvaise foi. Masquez ou supprimez les pourriels, le harcèlement et la désinformation. Face à la direction, tenez-vous aux faits, citez la convention et faites remonter le dossier. Ne publiez jamais de détails confidentiels de négociation."
+        "content": "N'alimentez pas la mauvaise foi. Masquez ou supprimez les pourriels, le harcèlement et la désinformation. Face à la direction, tenez-vous aux faits, citez la convention collective et faites remonter le dossier. Ne publiez jamais de détails confidentiels de négociation. Une correction épinglée vaut mieux qu'une guerre de commentaires."
       },
       "accessibility": {
         "title": "Accessibilité - texte alternatif",
-        "content": "Chaque image a besoin d’un texte alternatif. Rédigez avec l’assistant, collez dans le champ plateforme (pas la légende). Qui, quoi, où, et le texte du graphique."
+        "content": "Chaque image a besoin d'un texte alternatif. Rédigez avec l'assistant, collez dans le champ plateforme (pas la légende). Qui, quoi, où, et le texte du graphique. Les couleurs à fort contraste de la Trousse de marque aident la lisibilité au plancher — passez par le vérificateur de contraste avant d'exporter."
       }
     },
     "channelGuides": {
@@ -964,6 +964,16 @@
     "workshop": {
       "title": "Conseil pour atelier",
       "content": "En atelier, arrêtez-vous sur le dialogue de consentement du Créateur graphique, parcourez cette liste, puis orientez les dirigeants vers Ressources de communication et Confidentialité. Convenez qui consigne le consentement et quel dirigeant retire les photos."
+    },
+    "privacy": {
+      "title": "Confidentialité et surveillance de l'employeur",
+      "content": "Les visages des membres dans les Comms syndicales sont des renseignements personnels. Le consentement doit être éclairé — le membre doit savoir où l'image paraîtra et qu'il peut demander le retrait.",
+      "items": [
+        "Les lignes directrices de la CIPVP Ontario sur la vidéosurveillance s'appliquent lorsque vous capturez des images identifiables au travail",
+        "PIPEDA fixe une base fédérale lorsque l'employeur ou un fournisseur collecte des images — le consentement doit être significatif",
+        "Votre convention collective peut ajouter des règles d'affichage — vérifiez avant de filmer au travail",
+        "Consultez le guide Consentement photo pour la liste des délégués et la règle de retrait immédiat"
+      ]
     }
   },
   "websiteGuide": {
@@ -2169,7 +2179,11 @@
         "shortForm": "Vidéo courte",
         "crisis": "Guide de grève",
         "photoConsent": "Consentement photo",
-        "workshop": "Plan d'atelier"
+        "workshop": "Plan d'atelier",
+        "dfr": "Devoir de représentation équitable",
+        "seniority": "Ancienneté et bumping",
+        "rightToRefuse": "Droit de refuser (Ontario)",
+        "jointCommittee": "Guide des comités conjoints"
       },
       "blurb": {
         "plan": "Après la Trousse de marque : tableaux, impression, réseaux et site dans l'ordre.",
@@ -2181,7 +2195,11 @@
         "shortForm": "Filmer au téléphone, protéger les membres, et orienter Reels ou Shorts vers une vraie demande.",
         "crisis": "Communications de négociation et de grève à enjeux élevés.",
         "photoConsent": "Liste photo membre pour délégués et ateliers.",
-        "workshop": "Plan réutilisable pour lunch-and-learn et atelier pratique avec parcours de démo."
+        "workshop": "Plan réutilisable pour lunch-and-learn et atelier pratique avec parcours de démo.",
+        "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
+        "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
+        "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
+        "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés."
       }
     },
     "checklist": {
@@ -2979,7 +2997,8 @@
           "Utilisez les couleurs de votre Trousse de marque ; suivez les matériels de campagne de division ou de secteur lors d'une coordination divisionnelle",
           "Ne partagez pas les détails de négociation, les adresses des membres ni la stratégie interne sur les canaux publics",
           "Orientez les questions sur la paie, les tâches et le retour au travail vers le comité de grève - pas les fils de commentaires"
-        ]
+        ],
+        "navLabel": "Grève"
       },
       "bargaining": {
         "title": "Négociation et compte à rebours",
@@ -2990,7 +3009,8 @@
           "Partagez seulement ce que l'équipe de négociation a autorisé pour diffusion publique",
           "Rappelez aux membres d'éviter de débattre des allégations de l'employeur dans les commentaires publics",
           "Liez aux pages de négociation officielles du syndicat lorsqu'elles existent plutôt que de paraphraser de mémoire"
-        ]
+        ],
+        "navLabel": "Négociation"
       },
       "layoffs": {
         "title": "Mises à pied et restructuration",
@@ -3001,7 +3021,8 @@
           "Utilisez des cartes de citation des dirigeants élus pour montrer une voix locale unifiée",
           "Documentez hors ligne les communications de la direction pour les griefs et la consultation",
           "Évitez de nommer des personnes à risque sauf si elles ont demandé à être identifiées publiquement"
-        ]
+        ],
+        "navLabel": "Mises à pied"
       },
       "management": {
         "title": "Réaction de la direction et désinformation",
@@ -3012,7 +3033,8 @@
           "N'engagez pas de longs débats publics avec les comptes de la direction",
           "Gardez les dossiers sensibles des membres dans les canaux des délégués, pas en public",
           "Capturez les publications problématiques de l'employeur pour l'exécutif local et le représentant"
-        ]
+        ],
+        "navLabel": "Réaction de la direction"
       }
     },
     "escalation": {
@@ -3023,7 +3045,8 @@
         "Incidents de sécurité des membres sur la ligne ou au travail - suivez d'abord les protocoles d'urgence locaux",
         "Documents confidentiels divulgués ou mauvaise foi suspectée - ne publiez pas ; alertez la direction",
         "Désinformation virale sur votre section - coordonnez une seule correction plutôt que plusieurs réponses"
-      ]
+      ],
+      "navLabel": "Escalade"
     },
     "tools": {
       "title": "Ressources de la trousse pour les communications de crise",
@@ -3035,69 +3058,133 @@
         "Créateur de graphiques - mise en vedette des membres avec l'étape de consentement",
         "Modèle de site Web - un lien stable pour les membres et les médias",
         "Bibliothèque de légendes - publications de solidarité et de négociation réutilisables"
-      ]
+      ],
+      "navLabel": "Trousse"
+    },
+    "tocLabel": "Sur cette page",
+    "workedDay": {
+      "navLabel": "Journée commentée",
+      "title": "Exemple commenté : une journée à enjeux élevés",
+      "content": "Jour 3 de grève. La direction publie un mémo trompeur à 7 h. Piquet de ligne à 6 h 30. Les membres sont anxieux dans le groupe Facebook.",
+      "items": [
+        "7 h 15 — Le président et le responsable Comms conviennent d'une seule publication de correction, pas de dix réponses",
+        "7 h 30 — Carte de citation avec les faits approuvés ; épingler au groupe ; lien vers la page grève du site",
+        "8 h 00 — PDF d'avis pour tableau à chaque entrée avec horaire de piquetage et rappel de sécurité",
+        "10 h 00 — Représentant de service informe l'exécutif ; aucun détail de négociation sur les canaux publics",
+        "14 h 00 — Graphique témoignage membre seulement après consentement écrit ; pas de logos d'employeur dans le cadre",
+        "17 h 00 — Retirer le tract de réunion expiré des tableaux ; laisser la bande de contacts en place pour la nuit"
+      ],
+      "tip": "Rédigez les trois messages autorisés de la journée avant le déjeuner. Tout le reste attend l'approbation du président."
     }
   },
   "dfrGuide": {
     "title": "Devoir de représentation équitable",
-    "subtitle": "Littératie de base pour les délégués et dirigeants locaux",
+    "subtitle": "Lois, bulletins de la CRO et dossier d'accueil commenté pour délégués et dirigeants locaux",
     "backToGuide": "Retour au Plan directeur",
-    "intro": "Le devoir de représentation équitable (DRE) est l’obligation du syndicat de représenter chaque membre équitablement. Délais manqués et refus silencieux sont des risques courants. Orientation seulement, pas un avis juridique.",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "intro": "Le devoir de représentation équitable (DRE) est l'obligation légale du syndicat de traiter la représentation de chaque membre sans arbitraire, discrimination ni mauvaise foi. La plupart des plaintes naissent de délais manqués et du silence, pas de la malveillance. Ce guide cite les lois, présente un dossier d'accueil propre et renvoie aux bulletins de la CRO — orientation seulement, pas un avis juridique.",
     "disclaimer": {
       "title": "Pas un avis juridique",
-      "body": "Pas un avis juridique. Confirmez la procédure avec vos dirigeants et conseillers."
+      "body": "Cette page aide les délégués à mener un processus équitable. Elle n'incite pas les membres à déposer une plainte contre le syndicat. Confirmez la procédure avec vos dirigeants locaux et vos conseillers."
     },
     "related": {
       "seniority": "Guide d'ancienneté et de bumping",
       "rightToRefuse": "Droit de refuser un travail dangereux"
     },
-    "sections": {
-      "whatItMeans": {
-        "title": "Ce que signifie le DRE en pratique",
-        "content": "Le DRE exige une représentation sans mauvaise foi, discrimination ni refus arbitraire.",
-        "items": [
-          "Enquêtez rapidement sur les plaintes et documentez ce que vous avez fait",
-          "Communiquez les mises à jour au membre en langage clair",
-          "Appliquez la convention collective de façon cohérente dans des dossiers similaires",
-          "Escaladez tôt lorsque des délais, une complexité ou un conflit d'intérêts apparaissent"
-        ]
-      },
-      "legalTest": {
-        "title": "Le critère « arbitraire / discriminatoire / mauvaise foi »",
-        "content": "Les tribunaux examinent l’honnêteté du but, la non-discrimination et un processus non arbitraire. La perfection n’est pas exigée.",
-        "items": [
-          "Arbitraire — refuser sans lire le dossier, manquer un délai connu",
-          "Discriminatoire — traiter des membres différemment pour des motifs illicites ou une antipathie personnelle",
-          "Mauvaise foi — mentir au membre, enterrer des preuves ou poursuivre un agenda personnel",
-          "Un désaccord honnête après une vraie enquête n'est généralement pas un manquement au DRE"
-        ]
-      },
-      "failureModes": {
-        "title": "Modes d'échec courants",
-        "content": "La plupart des plaintes DRE naissent du silence et des délais manqués, pas de la malice. Laissez une trace écrite.",
-        "items": [
-          "Délais d'étape / de renvoi manqués dans la convention collective",
-          "Aucune note d'enquête, entrevue ou demande de documents au dossier",
-          "Aucune explication écrite lorsqu'on refuse d'avancer un grief",
-          "Promettre des résultats que vous ne contrôlez pas (« nous gagnerons »)",
-          "Mélanger un conflit personnel avec les décisions de représentation"
-        ]
-      },
-      "practice": {
-        "title": "Liste de pratique pour délégués et dirigeants",
-        "content": "Les outils de griefs du Hub des dirigeants suivent les étapes et les dates. La convention collective et votre représentant de service restent l’autorité. En cas de doute, documentez la question et faites-la remonter.",
-        "items": [
-          "Inscrivez la préoccupation du membre le jour même où vous l'entendez",
-          "Inscrivez chaque délai de la CC à votre calendrier, calculé à partir de l'événement déclencheur",
-          "Confirmez les prolongations par écrit",
-          "Gardez les notes confidentielles à l'interne — jamais sur les réseaux publics",
-          "Si vous ne pouvez pas agir équitablement (conflit), confiez le dossier à un autre dirigeant"
-        ]
+    "scope": {
+      "navLabel": "Quelle loi s'applique",
+      "title": "Quelle loi s'applique",
+      "content": "Le langage du DRE se ressemble d'un régime à l'autre, mais la commission et la loi diffèrent. Confirmez la couverture avant de citer un article dans une lettre au membre.",
+      "items": {
+        "ontario": {
+          "label": "La plupart des syndicats ontariens du secteur privé",
+          "content": "Loi sur les relations de travail de 1995, art. 74 — les plaintes vont à la Commission des relations de travail de l'Ontario (CRO). Lisez le BI 12 pour le critère à l'intention des membres."
+        },
+        "college": {
+          "label": "Personnel de soutien collégial ontarien (CAAT)",
+          "content": "Loi de 2008 sur la négociation collective dans les collèges — pas la LRT. Confirmez la loi applicable à votre unité avec votre représentant de service avant de citer un numéro d'article."
+        },
+        "federal": {
+          "label": "Lieux de travail à compétence fédérale",
+          "content": "Code canadien du travail art. 37 — les plaintes vont à la Commission des relations du travail industrielles (CRTCI). Même langage arbitraire / discriminatoire / mauvaise foi, autre commission."
+        }
       }
     },
+    "whatItMeans": {
+      "navLabel": "Ce que signifie le DRE",
+      "title": "Ce que signifie le DRE en pratique",
+      "content": "Le DRE porte sur la façon dont le syndicat gère la représentation — pas sur le fait que chaque grief soit gagné. Un membre peut contester le résultat si le processus a été réel.",
+      "items": [
+        "Enquêtez rapidement sur les plaintes et documentez ce que vous avez fait",
+        "Communiquez les mises à jour au membre en langage clair",
+        "Appliquez la convention collective de façon cohérente dans des dossiers similaires",
+        "Escaladez tôt lorsque des délais, une complexité ou un conflit d'intérêts apparaissent"
+      ]
+    },
+    "legalTest": {
+      "navLabel": "Critère juridique",
+      "title": "Le critère « arbitraire / discriminatoire / mauvaise foi »",
+      "content": "Les commissions et les tribunaux recherchent l'honnêteté du but, la non-discrimination et un processus non arbitraire. La perfection n'est pas exigée.",
+      "items": [
+        "Arbitraire — avaliser mécaniquement un refus, ne jamais lire le dossier, manquer un délai connu",
+        "Discriminatoire — traiter des membres différemment en raison de motifs protégés ou d'une antipathie personnelle",
+        "Mauvaise foi — mentir au membre, enterrer des preuves ou poursuivre un agenda personnel",
+        "Un désaccord honnête avec un membre après une vraie enquête n'est généralement pas un manquement au DRE"
+      ]
+    },
+    "failureModes": {
+      "navLabel": "Modes d'échec",
+      "title": "Modes d'échec courants",
+      "content": "La plupart des plaintes DRE naissent du silence et des délais manqués, pas de la malveillance. Laissez une trace écrite d'un examen sérieux.",
+      "items": [
+        "Délais d'étape / de renvoi manqués dans la convention collective",
+        "Aucune note d'enquête, entrevue ou demande de documents au dossier",
+        "Aucune explication écrite lorsqu'on refuse d'avancer un grief",
+        "Promettre des résultats que vous ne contrôlez pas (« nous gagnerons »)",
+        "Mélanger un conflit personnel avec les décisions de représentation"
+      ]
+    },
+    "workedExample": {
+      "navLabel": "Exemple commenté",
+      "title": "Exemple commenté : un dossier d'accueil en discipline",
+      "content": "Le membre M signale un avertissement écrit qu'il croit contraire à la CC. Il vous reste dix jours avant l'expiration du délai de l'étape 1. Voici un dossier propre que les délégués peuvent copier.",
+      "steps": {
+        "day0": {
+          "label": "Le jour même — journaliser et calendrier",
+          "content": "Ouvrez une note d'accueil de grief : date, nom du membre, superviseur, violation alléguée et article de la CC. Calculez chaque délai à partir de l'événement déclencheur et inscrivez chaque date à votre calendrier."
+        },
+        "investigate": {
+          "label": "Jours 1 à 3 — enquêter",
+          "content": "Entrevuez le membre. Demandez la lettre d'avertissement et toute note de l'employeur. Vérifiez s'il y a des témoins. Rédigez des résumés neutres — pas de conclusions — au dossier."
+        },
+        "decide": {
+          "label": "Jour 4 — décision des dirigeants",
+          "content": "Les dirigeants locaux examinent les faits à la lumière de la CC. Si vous avez besoin d'une prolongation, obtenez-la par écrit avant l'expiration du délai. Documentez qui a décidié et pourquoi."
+        },
+        "decline": {
+          "label": "Si vous refusez de déposer",
+          "content": "Donnez au membre une explication écrite en langage clair : ce que vous avez examiné, pourquoi le dossier ne répond pas au critère du grief, et comment joindre le président ou le représentant de service. Le silence est le risque — pas le « non »."
+        }
+      },
+      "tip": "Si le membre n'est toujours pas d'accord, votre trace écrite montre un processus sérieux. C'est l'objectif — pas de gagner chaque discussion sur le champ."
+    },
+    "practice": {
+      "navLabel": "Liste de contrôle",
+      "title": "Liste de pratique pour délégués et dirigeants",
+      "content": "Les outils de griefs du Hub des dirigeants suivent les étapes et les dates. La convention collective et votre représentant de service restent l'autorité. En cas de doute, documentez la question et faites-la remonter.",
+      "items": [
+        "Inscrivez la préoccupation du membre le jour même où vous l'entendez",
+        "Inscrivez chaque délai de la CC à votre calendrier, calculé à partir de l'événement déclencheur",
+        "Confirmez les prolongations par écrit",
+        "Gardez les notes confidentielles à l'interne — jamais sur les réseaux publics",
+        "Si vous ne pouvez pas agir équitablement (conflit), confiez le dossier à un autre dirigeant"
+      ]
+    },
     "hub": {
-      "title": "Lien avec UnionOps",
-      "body": "Les outils de griefs du Hub des dirigeants aident pour les dates et les transferts. Ils ne remplacent pas le jugement juridique."
+      "title": "Où cela se connecte dans UnionOps",
+      "body": "Les outils de griefs du Hub des dirigeants aident pour les dates, les étapes et les transferts. Ils ne remplacent pas le jugement juridique.",
+      "cta": "Ouvrir les griefs dans le Hub des dirigeants"
     }
   },
   "seniorityGuide": {
@@ -3115,24 +3202,26 @@
     },
     "sections": {
       "compare": {
-        "title": "Exemple : comparer l'ancienneté",
+        "title": "Exemple commenté : comparer l'ancienneté",
         "content": "Commencez avec deux membres et un poste cible. Notez la date d’ancienneté, la classification et le statut sur une seule feuille avant de débattre.",
         "items": [
           "Listez le membre A et le membre B avec date d'ancienneté (AAAA-MM-JJ) et classification",
           "Confirmez quelle date utilise la CC — service continu, ancienneté de classification ou autre horloge",
           "Notez les égalités et comment votre CC les départage",
           "Seulement ensuite comparez qualifications, heures et admissibilité à l'affichage selon le libellé de la CC"
-        ]
+        ],
+        "navLabel": "Comparer l'ancienneté"
       },
       "cascade": {
-        "title": "Parcours de déplacement en cascade",
+        "title": "Exemple commenté : première cascade",
         "content": "Un déplacement peut en entraîner un autre. Cartographiez la chaîne avant le vote du comité.",
         "items": [
           "Dessinez la chaîne : poste vacant → premier bumper → titulaire déplacé → bump suivant (s'il y a lieu)",
           "Arrêtez lorsque la CC met fin à la chaîne (plancher de classification, probation, statut temporaire)",
           "Signalez quiconque ne peut pas bumper (mauvaise classification, ancienneté insuffisante, options refusées)",
           "Consignez chaque étape dans le journal du comité avec dates et articles de la CC"
-        ]
+        ],
+        "navLabel": "Première cascade"
       },
       "pitfalls": {
         "title": "Pièges courants",
@@ -3142,7 +3231,8 @@
           "Frontières de classification — les collections TP/TPa ou du personnel de soutien ne permettent pas toujours de se déplacer librement",
           "Statut probatoire ou temporaire — confirmez les droits de bumping avant de classer quelqu'un",
           "Supposer que « la date la plus ancienne gagne toujours » sans lire le départage et le langage d'aptitude de la CC"
-        ]
+        ],
+        "navLabel": "Pièges"
       },
       "worksheet": {
         "title": "Feuille de travail papier (imprimer ou copier)",
@@ -3153,13 +3243,26 @@
           "Pied de page : date de séance, président, résumé de décision et lien vers l'ID du dossier de bumping du Hub des dirigeants"
         ],
         "exportCta": "Télécharger la feuille Excel",
-        "exportHint": "Ouvre le générateur de documents avec une grille d'ancienneté de marque prête à exporter."
+        "exportHint": "Ouvre le générateur de documents avec une grille d'ancienneté de marque prête à exporter.",
+        "navLabel": "Feuille de travail"
+      },
+      "cascade2": {
+        "navLabel": "Deuxième cascade",
+        "title": "Exemple commenté : deuxième cascade (chaîne à trois maillons)",
+        "content": "Un poste vacant au rôle X déplace le titulaire, qui bump au rôle Y et déplace un troisième membre. Cartographiez avant que quiconque signe.",
+        "items": [
+          "Rôle X vacant — le membre A (le plus ancien admissible) réclame le bump vers X",
+          "Le titulaire de X (membre B) peut bumper vers le rôle Y affiché si l'ancienneté et la classification le permettent",
+          "Le titulaire de Y (membre C) est le dernier maillon — confirmez si C peut bumper plus loin ou atteint un plancher de la CC",
+          "Une ligne par personne sur la feuille ; marquez « chaîne se termine ici » lorsque la CC bloque un autre bump"
+        ]
       }
     },
     "hub": {
       "title": "Module de bumping du Hub des dirigeants",
       "body": "Dans le Hub des dirigeants, le déplacement collégial regroupe vos notes, comparaisons PDF et séances au même endroit. Traitez toute aide de classement comme une vérification, et refaites la feuille papier si un résultat vous surprend."
-    }
+    },
+    "tocLabel": "Sur cette page"
   },
   "jointCommitteeGuide": {
     "title": "Guide des comités conjoints",
@@ -3184,7 +3287,8 @@
           "Notez les dates, les personnes présentes et les articles cités",
           "S'il s'agit déjà d'un grief formel, arrêtez : la table conjointe n'est pas un forum de griefs",
           "Prévenez l'autre partie quand vous comptez renvoyer le point, pour que personne ne soit surpris"
-        ]
+        ],
+        "navLabel": "Commencer sur le campus"
       },
       "caucus": {
         "title": "Préparez le côté syndical",
@@ -3194,7 +3298,8 @@
           "Décidez qui parle, qui prend des notes, et qui fait le suivi",
           "Gardez les noms d'employeur hors de ce brouillon, sauf s'ils sont déjà partagés dans la salle",
           "N'invitez pas l'employeur dans l'espace de caucus"
-        ]
+        ],
+        "navLabel": "Caucus syndical"
       },
       "jointTable": {
         "title": "À la réunion conjointe",
@@ -3204,7 +3309,8 @@
           "Demandez le brouillon par écrit, puis envoyez les corrections par votre coprésidence",
           "S'il y a consensus, envoyez la recommandation à l'équipe de négociation ou à l'instance nommée dans votre convention",
           "S'il n'y a pas consensus, chaque côté peut quand même envoyer son propre mémoire par sa coprésidence"
-        ]
+        ],
+        "navLabel": "Réunion conjointe"
       },
       "afterMinutes": {
         "title": "Une fois les procès-verbaux signés",
@@ -3216,7 +3322,30 @@
           "N'utilisez un tract ou un avis de tableau qu'après l'approbation des procès-verbaux"
         ],
         "letterCta": "Ouvrir le papier en-tête dans le générateur de documents",
-        "emailCta": "Lire le guide de rayonnement par courriel"
+        "emailCta": "Lire le guide de rayonnement par courriel",
+        "navLabel": "Après les procès-verbaux"
+      },
+      "caArticles": {
+        "navLabel": "Articles de la CC",
+        "title": "Où chercher dans la CC (exemple collégial ontarien)",
+        "content": "Les numéros d'articles diffèrent selon la collection. Ouvrez votre CC à partir des sources ci-dessous — ne vous fiez pas à la mémoire.",
+        "items": [
+          "Personnel de soutien à temps partiel — art. 5.4 et annexe 4 (Comité des relations employé-employeur)",
+          "Personnel de soutien à temps plein — art. 4.7 et annexe J (Comité des relations employé-employeur)",
+          "Les deux collections : la direction consigne les procès-verbaux ; le syndicat et l'employeur affichent la copie signée",
+          "Autres syndicats : trouvez votre article et annexe de comité conjoint de la même façon"
+        ]
+      },
+      "workedExample": {
+        "navLabel": "Exemple commenté",
+        "title": "Exemple commenté : note aux membres après procès-verbaux signés",
+        "content": "Un CREE provincial convient d'examiner les plafonds de charge de travail. Procès-verbaux signés vendredi. Lundi, vous devez aux membres une note en langage clair — pas le brouillon des procès-verbaux.",
+        "items": [
+          "Objet : « Mise à jour CREE — examen de la charge de travail renvoyé à la négociation »",
+          "Trois phrases : ce qui a été demandé, ce que le comité a décidé, ce qui se passe ensuite",
+          "Un lien : procès-verbaux signés officiels sur le site du syndicat ou du conseil patronal",
+          "Un contact : délégué ou président pour les questions de suivi — pas un débat en fil de commentaires"
+        ]
       }
     },
     "example": {
@@ -3226,13 +3355,14 @@
     "portal": {
       "title": "Portail local pour un caucus de plusieurs sections",
       "body": "Si votre syndicat utilise le Portail local, créez un Cercle et cochez les membres de plus d'une section. Invitez seulement le côté syndical. La Salle reste à une section. Les outils Comms publics restent gratuits sur votre appareil dans les deux cas."
-    }
+    },
+    "tocLabel": "Sur cette page"
   },
   "rightToRefuseGuide": {
     "title": "Droit de refuser un travail dangereux",
     "subtitle": "Étapes de refus selon la LSST art. 43, pour délégués et CSS. Pas un avis juridique.",
     "backToGuide": "Retour au Plan directeur",
-    "intro": "Résumé de la procédure de refus selon la LSST art. 43 (Ontario), pour délégués et CSS du collégial. Vérifiez toujours dans la loi à jour.",
+    "intro": "Résumé de la procédure de refus selon la LSST art. 43 (Ontario), pour délégués et membres du CSS du collégial. Vérifiez dans la loi à jour et le guide Partie V du ministère dans les sources ci-dessous.",
     "disclaimer": {
       "title": "Pas un avis juridique",
       "body": "Aperçu de procédure seulement. Confirmez avec la pratique CSS, les dirigeants locaux et le texte actuel de la LSST."
@@ -3250,27 +3380,8 @@
           "Les lieux de travail fédéraux et les autres provinces suivent d'autres cadres de refus",
           "Certains travailleurs ont des droits modifiés — vérifiez le texte actuel de la LSST et les documents du ministère",
           "La représentation syndicale appuie le membre ; elle ne remplace pas le CSS ni le ministère"
-        ]
-      },
-      "procedure": {
-        "title": "Refus étape par étape (signalement)",
-        "content": "Un travailleur qui croit qu’un travail risque de le mettre en danger (ou un autre) peut refuser. Signalez promptement. Ne partez pas en silence.",
-        "items": [
-          "Le travailleur signale rapidement les circonstances au superviseur / employeur",
-          "Le travailleur demeure dans un lieu sûr à proximité et disponible pour l'enquête",
-          "Le travailleur peut être accompagné d'un membre travailleur du CSS ou d'un représentant syndical SST lorsque la Loi le prévoit",
-          "L'employeur enquête en présence du travailleur et du représentant des travailleurs"
-        ]
-      },
-      "investigation": {
-        "title": "Si le travailleur refuse encore",
-        "content": "Lorsque le danger n'est pas résolu à la satisfaction du travailleur, l'affaire dépasse l'enquête interne.",
-        "items": [
-          "Avis à un inspecteur du ministère du Travail — l'employeur, le travailleur ou un membre du CSS peut déclencher cette étape",
-          "L'inspecteur enquête et décide si le refus est susceptible de mettre en danger",
-          "N'incitez pas les membres à inventer des dangers — les faits, dates et témoins comptent",
-          "Conservez des notes sur les heures, les personnes présentes et ce qui a été dit pour le dossier local"
-        ]
+        ],
+        "navLabel": "Portée ontarienne"
       },
       "reassignment": {
         "title": "Règles de réaffectation (aperçu)",
@@ -3278,8 +3389,42 @@
         "items": [
           "Les autres travailleurs assignés au travail doivent être informés du refus et des motifs",
           "Le travailleur qui refuse est généralement payé en attendant le résultat de l'enquête, sous réserve des règles de la Loi",
-          "Les représailles pour l'exercice de droits LSST sont interdites — escaladez immédiatement toute représaille soupçonnée",
           "Affichez les contacts actuels du CSS et les étapes de signalement de danger sur le tableau syndical"
+        ],
+        "navLabel": "Réaffectation"
+      },
+      "stageOne": {
+        "navLabel": "Étape 1",
+        "title": "Étape 1 — signalement et enquête de l'employeur",
+        "content": "Un travailleur qui croit qu'un travail risque de le mettre en danger (ou un autre) peut refuser. Signalez promptement. Ne partez pas en silence.",
+        "items": [
+          "Le travailleur signale rapidement les circonstances au superviseur / employeur",
+          "Le travailleur demeure dans un lieu sûr à proximité et disponible pour l'enquête",
+          "Le travailleur peut être accompagné d'un membre travailleur du CSS ou d'un représentant syndical SST lorsque la Loi le prévoit",
+          "L'employeur enquête en présence du travailleur et du représentant des travailleurs",
+          "Si le danger est corrigé ou si le travailleur convient que c'est réglé, le travail peut reprendre — documentez le résultat"
+        ]
+      },
+      "stageTwo": {
+        "navLabel": "Étape 2",
+        "title": "Étape 2 — inspecteur du ministère",
+        "content": "Lorsque le travailleur croit encore qu'un danger existe après l'étape 1, l'affaire est renvoyée à un inspecteur du ministère du Travail.",
+        "items": [
+          "Avis à un inspecteur du ministère du Travail — l'employeur, le travailleur ou un membre du CSS peut déclencher cette étape",
+          "L'inspecteur enquête et décide si le refus est susceptible de mettre en danger",
+          "N'incitez pas les membres à inventer des dangers — les faits, dates et témoins comptent",
+          "Conservez des notes sur les heures, les personnes présentes et ce qui a été dit pour le dossier local"
+        ]
+      },
+      "reprisal": {
+        "navLabel": "Représailles",
+        "title": "Représailles et suivi",
+        "content": "La LSST interdit les représailles pour l'exercice du droit de refus. Traitez toute représaille soupçonnée comme urgente — pas comme un délai de grief ordinaire.",
+        "items": [
+          "Documentez toute mesure disciplinaire, changement d'horaire ou harcèlement lié à la date du refus",
+          "Faites remonter au président local et au représentant syndical SST le jour même si une représaille est alléguée",
+          "Combinez ce guide avec le parcours Partie V du ministère et le texte e-Laws art. 43 à jour",
+          "Utilisez le préréglage carte de poche pour garder les étapes 1 et 2 visibles sur le tableau"
         ]
       }
     },
@@ -3288,7 +3433,8 @@
       "body": "Gardez les contacts CSS et une courte bande danger / refus sur le tableau. Liez les QR au texte officiel e-Laws de la LSST, pas à d’anciennes photocopies.",
       "exportCta": "Créer une carte de poche",
       "exportHint": "Ouvre les cartes QR avec le préréglage de procédure de refus (Ontario) — exportez PNG/PDF pour portefeuilles ou tableaux."
-    }
+    },
+    "tocLabel": "Sur cette page"
   },
   "share": {
     "button": "Partager cet outil",
@@ -3352,6 +3498,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "labour-guides-rewrite": {
+        "title": "Guides syndicaux approfondis",
+        "body": "Devoir de représentation équitable, comité paritaire, droit de refuser, bumping et guides connexes incluent maintenant des exemples concrets, une navigation sur la page et des sources qui correspondent au sujet."
+      },
       "graphic-gradient-ink": {
         "title": "Fonds de graphiques plus nets",
         "body": "Les graphiques piquet, remerciement, membre en vedette et résultats utilisent une couleur de marque unie avec un léger relief — pas des dégradés multicolores qui salissent le fond. Le texte reste clair sur un léger assombrissement en bas."

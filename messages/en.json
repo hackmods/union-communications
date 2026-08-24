@@ -420,23 +420,23 @@
     "chapters": {
       "platforms": {
         "title": "Which platforms to choose",
-        "content": "Facebook fits broad demographics, longer posts, and events. Instagram fits visual storytelling. Start with one platform and do it well. Many locals rely on a closed Facebook group."
+        "content": "Facebook fits broad demographics, longer posts, and events. Instagram fits visual storytelling and Reels. Start with one platform and do it well — many locals rely on a closed Facebook group. Add a website for stable contact info; use print and boards for members who never scroll."
       },
       "tone": {
         "title": "Tone of voice",
-        "content": "Professional but human. Speak as a collective (“we”, “our members”). Celebrate wins, explain setbacks honestly, and centre member voices. Avoid jargon: write for a phone screen on break."
+        "content": "Professional but human. Speak as a collective (“we”, “our members”). Celebrate wins, explain setbacks honestly, and centre member voices. Avoid jargon: write for a phone screen on break. In crisis, shorter sentences and fewer adjectives."
       },
       "frequency": {
         "title": "Posting frequency",
-        "content": "Aim for 2-3 posts per week in normal times; increase during bargaining or strike. Consistency beats volume. Simple mix: 40% updates, 30% member stories, 20% education, 10% solidarity."
+        "content": "Aim for 2-3 posts per week in normal times; increase during bargaining or strike. Consistency beats volume. Simple mix: 40% updates, 30% member stories, 20% education, 10% solidarity. During a strike, one official update beats five reactive threads."
       },
       "trolls": {
         "title": "Dealing with trolls and management",
-        "content": "Do not engage bad-faith comments. Hide or delete spam, harassment, and misinformation. For management pushback, stick to facts, cite the CA, and escalate. Never post confidential bargaining details."
+        "content": "Do not engage bad-faith comments. Hide or delete spam, harassment, and misinformation. For management pushback, stick to facts, cite the CA, and escalate. Never post confidential bargaining details. One pinned correction beats a comment war."
       },
       "accessibility": {
         "title": "Accessibility - alt-text",
-        "content": "Every image needs alt text. Draft with Alt-Text Assistant, paste into the platform field (not the caption). Cover who, what, where, and on-image text."
+        "content": "Every image needs alt text. Draft with Alt-Text Assistant, paste into the platform field (not the caption). Cover who, what, where, and on-image text. High-contrast Brand Kit colours help shop-floor readability — run the contrast checker before you export."
       }
     },
     "channelGuides": {
@@ -956,6 +956,16 @@
         "location": "Turn off location tags before you post, and do not film confidential casework or medical spaces.",
         "withdrawal": "You know which officer takes photos down when a member asks."
       }
+    },
+    "privacy": {
+      "title": "Privacy and employer watch",
+      "content": "Member faces in union comms are personal information. Consent must be informed — the member needs to know where the image will appear and that they can ask for removal.",
+      "items": [
+        "IPC Ontario video-surveillance guidelines apply when you capture identifiable images in workplaces",
+        "PIPEDA sets a federal baseline when employers or vendors collect images — consent must be meaningful",
+        "Your CA may add posting rules — check before filming in the workplace",
+        "See the Photo Consent guide for the steward checklist and takedown rule"
+      ]
     },
     "toolbox": {
       "title": "In the Toolbox",
@@ -2169,7 +2179,11 @@
         "shortForm": "Short-form video",
         "crisis": "Strike Guide",
         "photoConsent": "Photo Consent",
-        "workshop": "Workshop outline"
+        "workshop": "Workshop outline",
+        "dfr": "Duty of Fair Representation",
+        "seniority": "Seniority & bumping",
+        "rightToRefuse": "Right to refuse (Ontario)",
+        "jointCommittee": "Joint committee playbook"
       },
       "blurb": {
         "plan": "After Brand Kit: boards, print, socials, and website in order.",
@@ -2181,7 +2195,11 @@
         "shortForm": "Phone filming, member privacy, and pointing Reels or Shorts at a real ask.",
         "crisis": "High-stakes bargaining and strike communications.",
         "photoConsent": "Member photo checklist for stewards and workshops.",
-        "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path."
+        "workshop": "Reusable lunch-and-learn and hands-on workshop outline with live demo path.",
+        "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
+        "seniority": "Two cascade examples and a printable seniority worksheet.",
+        "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
+        "jointCommittee": "Campus → caucus → table → member note after signed minutes."
       }
     },
     "checklist": {
@@ -3015,9 +3033,11 @@
     "title": "Strike & Crisis Comms Guide",
     "subtitle": "High-level guidance for local unions during strikes, bargaining, and workplace crises",
     "backToGuide": "Back to The Blueprint",
+    "tocLabel": "On this page",
     "intro": "This guide helps you keep local messaging calm and clear under pressure. Your local usually handles day-to-day Comms while your provincial or national union supports sector bargaining.",
     "scenarios": {
       "strike": {
+        "navLabel": "Strike action",
         "title": "Strike action",
         "items": [
           "Confirm all public messaging with your local president and union servicing rep before posting",
@@ -3030,6 +3050,7 @@
         ]
       },
       "bargaining": {
+        "navLabel": "Bargaining",
         "title": "Bargaining and countdown",
         "items": [
           "Build momentum with factual updates - job security, workload, wages, and member priorities",
@@ -3041,6 +3062,7 @@
         ]
       },
       "layoffs": {
+        "navLabel": "Layoffs",
         "title": "Layoffs and restructuring",
         "items": [
           "Acknowledge member anxiety - be empathetic, factual, and calm",
@@ -3052,6 +3074,7 @@
         ]
       },
       "management": {
+        "navLabel": "Management pushback",
         "title": "Management pushback and misinformation",
         "items": [
           "Respond with facts and collective agreement language - never personal attacks",
@@ -3063,7 +3086,22 @@
         ]
       }
     },
+    "workedDay": {
+      "navLabel": "Worked day",
+      "title": "Worked example: one high-stakes day",
+      "content": "Strike day 3. Management posts a misleading memo at 7 a.m. Picket line at 6:30. Members are anxious in the Facebook group.",
+      "items": [
+        "7:15 — President and comms lead agree one correction post, not ten replies",
+        "7:30 — Quote Card with approved facts; pin to group; link to website strike page",
+        "8:00 — Board Notice PDF at each gate with picket schedule and safety reminder",
+        "10:00 — Servicing rep briefs executive; no negotiation details on public channels",
+        "14:00 — Member story graphic only after written consent; no employer logos in frame",
+        "17:00 — Pull expired meeting flyer from boards; leave contacts strip up overnight"
+      ],
+      "tip": "Write the day’s three allowed messages before breakfast. Everything else waits for president sign-off."
+    },
     "escalation": {
+      "navLabel": "Escalation",
       "title": "When to escalate",
       "items": [
         "Media inquiries - route to your designated spokesperson or union communications",
@@ -3074,6 +3112,7 @@
       ]
     },
     "tools": {
+      "navLabel": "Toolbox",
       "title": "Toolbox resources for crisis comms",
       "description": "Use these on-device tools to keep visuals consistent when your local is under pressure:",
       "items": [
@@ -3088,70 +3127,119 @@
   },
   "dfrGuide": {
     "title": "Duty of Fair Representation",
-    "subtitle": "Foundational literacy for stewards and local officers",
+    "subtitle": "Statute, OLRB bulletins, and a worked intake file for stewards and local officers",
     "backToGuide": "Back to The Blueprint",
-    "intro": "Duty of fair representation is the union’s duty to represent each member fairly. Missed deadlines and silent refusals are common risk points. This guide is orientation, not legal advice.",
+    "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
+    "intro": "Duty of fair representation (DFR) is the union’s legal duty to handle each member’s representation without arbitrariness, discrimination, or bad faith. Most complaints grow from missed clocks and silence, not malice. This guide names the statutes, walks a clean intake file, and points to OLRB bulletins — orientation only, not legal advice.",
     "disclaimer": {
       "title": "Not legal advice",
-      "body": "Not legal advice. Confirm procedure with your local officers and counsel."
+      "body": "This page helps stewards run a fair process. It does not coach members to file against the union. Confirm procedure with your local officers and counsel."
     },
     "related": {
       "seniority": "Seniority & bumping playbook",
       "rightToRefuse": "Right to refuse unsafe work"
     },
-    "sections": {
-      "whatItMeans": {
-        "title": "What DFR means in practice",
-        "content": "DFR means the union must handle representation without bad faith, discrimination, or arbitrary refusal.",
-        "items": [
-          "Investigate complaints promptly and document what you did",
-          "Communicate status updates to the member in plain language",
-          "Apply the collective agreement consistently across similar cases",
-          "Escalate early when deadlines, complexity, or conflict of interest appear"
-        ]
-      },
-      "legalTest": {
-        "title": "The “arbitrary / discriminatory / bad faith” test",
-        "content": "Courts look for honesty of purpose, non-discrimination, and a non-arbitrary process. Perfect outcomes are not required.",
-        "items": [
-          "Arbitrary — rubber-stamping a refusal, never reading the file, missing a known deadline",
-          "Discriminatory — treating members differently because of protected grounds or personal dislike",
-          "Bad faith — lying to the member, burying evidence, or advancing a personal agenda",
-          "Honest disagreement with a member after a real investigation is usually not a DFR breach"
-        ]
-      },
-      "failureModes": {
-        "title": "Common failure modes",
-        "content": "Most DFR complaints grow from silence and missed clocks, not malice. Leave a paper trail of serious consideration.",
-        "items": [
-          "Missed Step / referral deadlines in the collective agreement",
-          "No investigation notes, interviews, or document requests on file",
-          "No written explanation when declining to advance a grievance",
-          "Promising outcomes you cannot control (“we will win this”)",
-          "Mixing personal conflict with representation decisions"
-        ]
-      },
-      "practice": {
-        "title": "Steward and officer practice checklist",
-        "content": "Hub grievance tools track steps and dates. The CA and your servicing rep stay authoritative. When unsure, document the question and escalate.",
-        "items": [
-          "Log the member’s concern the same day you hear it",
-          "Put every CA deadline in your calendar, counted forward from the triggering event",
-          "Confirm extension agreements in writing",
-          "Keep confidential notes internal — never on public social channels",
-          "If you cannot act fairly (conflict), hand the file to another officer"
-        ]
+    "scope": {
+      "navLabel": "Which law applies",
+      "title": "Which law applies",
+      "content": "DFR language is similar across regimes, but the board and statute differ. Confirm coverage before you cite a section in a member letter.",
+      "items": {
+        "ontario": {
+          "label": "Most Ontario private-sector unions",
+          "content": "Labour Relations Act, 1995 s.74 — complaints go to the Ontario Labour Relations Board (OLRB). Read IB 12 for the member-facing test."
+        },
+        "college": {
+          "label": "Ontario college support staff (CAAT)",
+          "content": "Colleges Collective Bargaining Act, 2008 — not the LRA. Confirm your unit’s act with your servicing rep before quoting a section number."
+        },
+        "federal": {
+          "label": "Federally regulated workplaces",
+          "content": "Canada Labour Code s.37 — complaints go to the Canada Industrial Relations Board (CIRB). Same arbitrary / discriminatory / bad faith language, different board."
+        }
       }
+    },
+    "whatItMeans": {
+      "navLabel": "What DFR means",
+      "title": "What DFR means in practice",
+      "content": "DFR is about how the union handles representation — not whether every grievance wins. A member can disagree with the outcome if the process was real.",
+      "items": [
+        "Investigate complaints promptly and document what you did",
+        "Communicate status updates to the member in plain language",
+        "Apply the collective agreement consistently across similar cases",
+        "Escalate early when deadlines, complexity, or conflict of interest appear"
+      ]
+    },
+    "legalTest": {
+      "navLabel": "Legal test",
+      "title": "The “arbitrary / discriminatory / bad faith” test",
+      "content": "Boards and courts look for honesty of purpose, non-discrimination, and a non-arbitrary process. Perfect outcomes are not required.",
+      "items": [
+        "Arbitrary — rubber-stamping a refusal, never reading the file, missing a known deadline",
+        "Discriminatory — treating members differently because of protected grounds or personal dislike",
+        "Bad faith — lying to the member, burying evidence, or advancing a personal agenda",
+        "Honest disagreement with a member after a real investigation is usually not a DFR breach"
+      ]
+    },
+    "failureModes": {
+      "navLabel": "Failure modes",
+      "title": "Common failure modes",
+      "content": "Most DFR complaints grow from silence and missed clocks, not malice. Leave a paper trail of serious consideration.",
+      "items": [
+        "Missed Step / referral deadlines in the collective agreement",
+        "No investigation notes, interviews, or document requests on file",
+        "No written explanation when declining to advance a grievance",
+        "Promising outcomes you cannot control (“we will win this”)",
+        "Mixing personal conflict with representation decisions"
+      ]
+    },
+    "workedExample": {
+      "navLabel": "Worked example",
+      "title": "Worked example: a discipline intake file",
+      "content": "Member M reports a written warning they believe violates the CA. You have ten days before the Step 1 clock expires. Here is a clean file stewards can copy.",
+      "steps": {
+        "day0": {
+          "label": "Same day — log and calendar",
+          "content": "Open a grievance intake note: date, member name, supervisor, alleged violation, and the CA article. Count forward every deadline from the triggering event and put each date in your calendar."
+        },
+        "investigate": {
+          "label": "Days 1–3 — investigate",
+          "content": "Interview the member. Request the warning letter and any employer notes. Ask whether witnesses exist. Write neutral summaries — not conclusions — in the file."
+        },
+        "decide": {
+          "label": "Day 4 — officer decision",
+          "content": "Local officers review facts against the CA. If you need an extension, get it in writing before the clock runs. Document who decided and why."
+        },
+        "decline": {
+          "label": "If you decline to file",
+          "content": "Give the member a written explanation in plain language: what you reviewed, why the file does not meet the grievance test, and how to reach the president or servicing rep. Silence is the risk — not the “no.”"
+        }
+      },
+      "tip": "If the member still disagrees, your written trail shows a serious process. That is the goal — not winning every argument on the spot."
+    },
+    "practice": {
+      "navLabel": "Checklist",
+      "title": "Steward and officer practice checklist",
+      "content": "Officer Hub grievance tools track steps and dates. The CA and your servicing rep stay authoritative. When unsure, document the question and escalate.",
+      "items": [
+        "Log the member’s concern the same day you hear it",
+        "Put every CA deadline in your calendar, counted forward from the triggering event",
+        "Confirm extension agreements in writing",
+        "Keep confidential notes internal — never on public social channels",
+        "If you cannot act fairly (conflict), hand the file to another officer"
+      ]
     },
     "hub": {
       "title": "Where this connects in UnionOps",
-      "body": "Officer Hub grievance tools help with dates and handoffs. They do not replace legal judgment."
+      "body": "Officer Hub grievance tools help with dates, steps, and handoffs. They do not replace legal judgment.",
+      "cta": "Open grievances in Officer Hub"
     }
   },
   "seniorityGuide": {
     "title": "Seniority & bumping playbook",
     "subtitle": "Seniority worksheets for bumping files. Aid only.",
     "backToGuide": "Back to The Blueprint",
+    "tocLabel": "On this page",
     "intro": "Bumping files turn on seniority dates, classification boundaries, and posting rules. Use the worksheet to organize facts. Verify against your CA.",
     "disclaimer": {
       "title": "Not legal advice. Aid only.",
@@ -3163,6 +3251,7 @@
     },
     "sections": {
       "compare": {
+        "navLabel": "Compare seniority",
         "title": "Worked example: comparing seniority",
         "content": "Start with two members and one target role. Write seniority date, classification, and status on one sheet before debating.",
         "items": [
@@ -3173,7 +3262,8 @@
         ]
       },
       "cascade": {
-        "title": "Cascading displacement walk-through",
+        "navLabel": "First cascade",
+        "title": "Worked example: first cascade",
         "content": "A bump can displace another member, who may bump further. Map the chain before the committee votes.",
         "items": [
           "Draw the chain: vacancy → first bumper → displaced incumbent → next bump (if any)",
@@ -3182,7 +3272,19 @@
           "Record each step in the committee log with dates and CA articles cited"
         ]
       },
+      "cascade2": {
+        "navLabel": "Second cascade",
+        "title": "Worked example: second cascade (three-deep chain)",
+        "content": "Vacancy at Role X displaces the incumbent, who bumps into Role Y and displaces a third member. Map before anyone signs.",
+        "items": [
+          "Role X vacant — Member A (most senior eligible) claims bump into X",
+          "Incumbent of X (Member B) may bump into posted Role Y if seniority and classification allow",
+          "Incumbent of Y (Member C) is last in chain — confirm whether C can bump further or hits a CA floor",
+          "Worksheet one row per person; mark “chain ends here” when the CA blocks another bump"
+        ]
+      },
       "pitfalls": {
+        "navLabel": "Pitfalls",
         "title": "Common pitfalls",
         "content": "Most committee errors come from mixing clocks or ignoring boundaries the CA already defines.",
         "items": [
@@ -3193,6 +3295,7 @@
         ]
       },
       "worksheet": {
+        "navLabel": "Worksheet",
         "title": "Paper worksheet (print or copy)",
         "content": "Use this column layout on a blank page or spreadsheet during the meeting. Keep one copy in the case file.",
         "items": [
@@ -3213,6 +3316,7 @@
     "title": "Joint committee playbook",
     "subtitle": "Campus talk first, then the provincial table, then a member note after minutes are signed.",
     "backToGuide": "Back to The Blueprint",
+    "tocLabel": "On this page",
     "intro": "For volunteers on a joint labour-management committee. Keep union caucus notes private. Point members at signed minutes, then explain what happens next.",
     "disclaimer": {
       "title": "Not the official record. Not legal advice.",
@@ -3225,6 +3329,7 @@
     },
     "sections": {
       "localFirst": {
+        "navLabel": "Start on campus",
         "title": "Start on campus",
         "content": "Most provincial tables will not take a local issue until the campus committee has already tried. Write what was asked, what was answered, and why it still needs a wider look.",
         "items": [
@@ -3235,6 +3340,7 @@
         ]
       },
       "caucus": {
+        "navLabel": "Union caucus",
         "title": "Prepare as the union side",
         "content": "Meet your own side before the joint table. Caucus notes are strategy. They are not minutes, and they must never mix with the signed record.",
         "items": [
@@ -3245,6 +3351,7 @@
         ]
       },
       "jointTable": {
+        "navLabel": "Joint meeting",
         "title": "At the joint meeting",
         "content": "The committee recommends. It does not replace bargaining. Management records the major subjects. Co-chairs sign. Drafts stay inside the committee until both sides agree.",
         "items": [
@@ -3255,6 +3362,7 @@
         ]
       },
       "afterMinutes": {
+        "navLabel": "After minutes",
         "title": "After minutes are signed",
         "content": "Point locals at the official posting. Then say in plain words what was decided and what members should do next. Drafts stay off boards and social.",
         "items": [
@@ -3265,6 +3373,28 @@
         ],
         "letterCta": "Open letterhead in Document Generator",
         "emailCta": "Read the email outreach guide"
+      },
+      "caArticles": {
+        "navLabel": "CA articles",
+        "title": "Where to look in the CA (Ontario college example)",
+        "content": "Article numbers differ by collection. Open your CA from the sources below — do not rely on memory.",
+        "items": [
+          "Part-time Support Staff — Art. 5.4 and Appendix 4 (Employee/Employer Relations Committee)",
+          "Full-time Support Staff — Art. 4.7 and Appendix J (Employee/Employer Relations Committee)",
+          "Both collections: management records minutes; union and employer post the signed copy",
+          "Other unions: find your joint-committee article and appendix the same way"
+        ]
+      },
+      "workedExample": {
+        "navLabel": "Worked example",
+        "title": "Worked example: member explainer after signed minutes",
+        "content": "A provincial EERC agrees to review workload caps. Minutes are signed Friday. Monday you owe members a plain-language note — not the draft minutes.",
+        "items": [
+          "Subject line: “EERC update — workload review referred to bargaining”",
+          "Three sentences: what was asked, what the committee decided, what happens next",
+          "One link: official signed minutes on the union or employer council site",
+          "One contact: steward or chair for follow-up questions — not a comment thread debate"
+        ]
       }
     },
     "example": {
@@ -3280,7 +3410,8 @@
     "title": "Right to refuse unsafe work",
     "subtitle": "OHSA s.43 refusal steps for stewards and JHSC members. Not legal advice.",
     "backToGuide": "Back to The Blueprint",
-    "intro": "Summary of the Ontario OHSA s.43 refusal procedure for college-sector stewards and JHSC members. Confirm against current legislation.",
+    "tocLabel": "On this page",
+    "intro": "Summary of the Ontario OHSA s.43 refusal procedure for college-sector stewards and JHSC members. Confirm against current legislation and the ministry Part V guide in the sources below.",
     "disclaimer": {
       "title": "Not legal advice",
       "body": "Procedure overview only. Confirm with JHSC practice, local officers, and current OHSA text."
@@ -3291,6 +3422,7 @@
     },
     "sections": {
       "ontarioScope": {
+        "navLabel": "Ontario scope",
         "title": "Ontario scope (read this first)",
         "content": "OHSA s.43 covers most provincially regulated Ontario workplaces, with exceptions. Verify coverage for your workplace type before advising.",
         "items": [
@@ -3300,34 +3432,48 @@
           "Union representation supports the member; it does not replace JHSC or ministry roles"
         ]
       },
-      "procedure": {
-        "title": "Step-by-step refusal (report)",
+      "stageOne": {
+        "navLabel": "Stage 1",
+        "title": "Stage 1 — report and employer investigation",
         "content": "A worker who believes work is likely to endanger them (or another) may refuse. Report promptly. Do not walk out in silence.",
         "items": [
           "Worker promptly reports the circumstances to the supervisor / employer",
           "Worker remains in a safe place nearby and available for investigation steps",
           "Worker may be accompanied by a JHSC worker member or union health-and-safety rep where the Act provides",
-          "Employer investigates in the presence of the worker and the worker representative"
+          "Employer investigates in the presence of the worker and the worker representative",
+          "If the danger is fixed or the worker agrees it is resolved, work may resume — document the outcome"
         ]
       },
-      "investigation": {
-        "title": "If the worker still refuses",
-        "content": "When the danger is not resolved to the worker’s satisfaction, the matter escalates beyond the internal investigation.",
+      "stageTwo": {
+        "navLabel": "Stage 2",
+        "title": "Stage 2 — ministry inspector",
+        "content": "When the worker still believes the danger exists after stage 1, the matter escalates to a Ministry of Labour inspector.",
         "items": [
-          "Notify a Ministry of Labour inspector — the employer or worker (or JHSC member) can trigger this",
+          "Notify a Ministry of Labour inspector — the employer, worker, or JHSC member can trigger this",
           "Inspector investigates and decides whether the refusal is likely to endanger",
           "Do not coach members to invent hazards — facts, dates, and witnesses matter",
           "Keep notes of times, who was present, and what was said for the local file"
         ]
       },
       "reassignment": {
+        "navLabel": "Reassignment",
         "title": "Work reassignment rules (high level)",
         "content": "While a refusal is live, employers generally cannot assign the same work to another worker without informing them, subject to OHSA. Verify current Act language before advising.",
         "items": [
           "Other workers assigned the work must be informed of the refusal and reasons",
           "The refusing worker is typically paid pending the investigation outcome, subject to Act rules",
-          "Reprisals for exercising OHSA rights are prohibited — escalate suspected reprisals immediately",
           "Post current JHSC contacts and hazard-reporting steps on the union board"
+        ]
+      },
+      "reprisal": {
+        "navLabel": "Reprisal",
+        "title": "Reprisal and follow-up",
+        "content": "OHSA prohibits reprisals for exercising refusal rights. Treat suspected reprisal as urgent — not a routine grievance delay.",
+        "items": [
+          "Document any discipline, schedule change, or harassment tied to the refusal date",
+          "Escalate to the local president and union health-and-safety rep the same day if reprisal is alleged",
+          "Pair this guide with the ministry Part V walkthrough and live e-Laws s.43 text",
+          "Use the pocket card preset to keep stage 1 and 2 steps visible on the board"
         ]
       }
     },
@@ -3400,6 +3546,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "labour-guides-rewrite": {
+        "title": "Labour guides expanded",
+        "body": "Duty of Fair Representation, joint committee, right to refuse, seniority bumping, and related guides now include worked examples, on-page navigation, and sources that match the topic."
+      },
       "graphic-gradient-ink": {
         "title": "Cleaner graphic backgrounds",
         "body": "Picket, thanks, spotlight, and results graphics use a solid brand colour with light depth — not multi-colour washes that muddy the plate. Type stays light over a short bottom lift."

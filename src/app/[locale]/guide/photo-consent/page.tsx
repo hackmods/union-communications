@@ -115,6 +115,20 @@ export default async function PhotoConsentGuidePage({
           </ul>
         </section>
 
+        <section className="border-l-2 border-opseu-blue/30 pl-5">
+          <h2 className="text-xl font-bold text-opseu-dark">
+            {t("privacy.title")}
+          </h2>
+          <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+            {t("privacy.content")}
+          </p>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+            {(t.raw("privacy.items") as string[]).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+
         <Callout>
           <p className="font-semibold text-opseu-dark">{t("toolbox.title")}</p>
           <p className="mt-2 leading-relaxed text-gray-700">

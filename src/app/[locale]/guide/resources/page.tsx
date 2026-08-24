@@ -27,6 +27,10 @@ const pathLinks = [
   { href: "/guide/short-form", key: "shortForm" as const },
   { href: "/guide/crisis", key: "crisis" as const },
   { href: "/guide/photo-consent", key: "photoConsent" as const },
+  { href: "/guide/dfr", key: "dfr" as const },
+  { href: "/guide/seniority-bumping", key: "seniority" as const },
+  { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },
+  { href: "/guide/joint-committee", key: "jointCommittee" as const },
 ];
 
 const exploreLinks = [

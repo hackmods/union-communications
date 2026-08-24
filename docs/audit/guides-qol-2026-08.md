@@ -112,14 +112,16 @@ Automated GET of registry URLs cited across guide pages. **Browser verification 
 
 ## Rewrite queue
 
-1. **P0 — `/guide/dfr`:** Full rewrite with LRA s.74 + OLRB IB 11/12, worked intake file, on-topic registry entries, Hub grievance deep link.
-2. **P1 — `/guide/joint-committee`:** CA article refs, worked member explainer after signed minutes, confirm OPSEU EERC URL in browser; keep CEC cite.
-3. **P1 — `/guide/right-to-refuse`:** Stage 1 vs 2, MOL inspector, reprisal; add [Ontario OHSA Part V guide](https://www.ontario.ca/document/guide-occupational-health-and-safety-act/part-v-right-refuse-or-stop-work-where-health-and-safety-danger).
-4. **P1 — `/guide/seniority-bumping`:** Second cascade example; more than CA finder as source.
-5. **P2 — `/guide/crisis`:** TOC + one worked high-stakes day.
-6. **P2 — `/guide/photo-consent`:** Keep checklist; replace primary cites with photo/privacy sources.
-7. **P2 — `/guide/resources`:** Add four labour guides to `pathLinks`.
-8. **P3 — print, email, membership, Blueprint:** Deepen copy or bibliography to match gold guides.
+**Status: closed 2026-08-24** — P0–P3 rewrites landed (TOC, worked examples, on-topic `comms-sources`, resources labour path links, EN/FR parity).
+
+1. ~~**P0 — `/guide/dfr`**~~ — LRA s.74 + OLRB IB 11/12, worked intake file, Hub grievance link.
+2. ~~**P1 — `/guide/joint-committee`**~~ — CA article refs, worked member explainer, TOC.
+3. ~~**P1 — `/guide/right-to-refuse`**~~ — Stage 1 vs 2, reprisal, ministry Part V guide source.
+4. ~~**P1 — `/guide/seniority-bumping`**~~ — Second cascade example; CCBA source.
+5. ~~**P2 — `/guide/crisis`**~~ — TOC + worked high-stakes day.
+6. ~~**P2 — `/guide/photo-consent`**~~ — Privacy sources (IPC, PIPEDA); checklist retained.
+7. ~~**P2 — `/guide/resources`**~~ — Four labour guides in path links.
+8. ~~**P3 — print, email, membership, Blueprint**~~ — Deepened bibliography and Blueprint chapters.
 
 ---
 

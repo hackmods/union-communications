@@ -14,12 +14,20 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/guide/right-to-refuse", params);
 }
 
+const TOC = [
+  ["ontarioScope", "ontarioScope"],
+  ["stageOne", "stageOne"],
+  ["stageTwo", "stageTwo"],
+  ["reassignment", "reassignment"],
+  ["reprisal", "reprisal"],
+] as const;
 
 const sectionKeys = [
   "ontarioScope",
-  "procedure",
-  "investigation",
+  "stageOne",
+  "stageTwo",
   "reassignment",
+  "reprisal",
 ] as const;
 
 export default async function RightToRefuseGuidePage({
@@ -50,50 +58,64 @@ export default async function RightToRefuseGuidePage({
         />
       }
     >
-      <div className="space-y-8">
-        <Callout>
-          <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
-          <p className="mt-2 leading-relaxed text-gray-700">
-            {t("disclaimer.body")}
-          </p>
-        </Callout>
+      <Callout className="mb-8">
+        <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
+        <p className="mt-2 leading-relaxed text-gray-700">
+          {t("disclaimer.body")}
+        </p>
+      </Callout>
 
-        {sectionKeys.map((key) => (
-          <section
-            key={key}
-            className="border-l-2 border-opseu-blue/30 pl-5"
+      <nav
+        className="mb-8 flex flex-wrap gap-2"
+        aria-label={t("tocLabel")}
+      >
+        {TOC.map(([id, key]) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
           >
-            <h2 className="text-xl font-bold text-opseu-dark">
-              {t(`sections.${key}.title`)}
-            </h2>
-            <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-              {t(`sections.${key}.content`)}
-            </p>
-            <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-              {(t.raw(`sections.${key}.items`) as string[]).map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </section>
+            {t(`sections.${key}.navLabel`)}
+          </a>
         ))}
+      </nav>
 
-        <Callout tone="muted">
-          <p className="font-semibold text-opseu-dark">{t("boards.title")}</p>
-          <p className="mt-2 leading-relaxed text-gray-700">
-            {t("boards.body")}
+      {sectionKeys.map((key) => (
+        <section
+          key={key}
+          id={key}
+          className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
+        >
+          <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
+            {t(`sections.${key}.title`)}
+          </h2>
+          <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+            {t(`sections.${key}.content`)}
           </p>
-          <p className="mt-3 text-sm text-gray-700">
-            <Link
-              href="/tools/qr-card?preset=rightToRefuse"
-              className="font-medium text-opseu-blue underline"
-            >
-              {t("boards.exportCta")}
-            </Link>
-            {" · "}
-            {t("boards.exportHint")}
-          </p>
-        </Callout>
-      </div>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+            {(t.raw(`sections.${key}.items`) as string[]).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+      ))}
+
+      <Callout tone="muted" className="mt-10">
+        <p className="font-semibold text-opseu-dark">{t("boards.title")}</p>
+        <p className="mt-2 leading-relaxed text-gray-700">
+          {t("boards.body")}
+        </p>
+        <p className="mt-3 text-sm text-gray-700">
+          <Link
+            href="/tools/qr-card?preset=rightToRefuse"
+            className="font-medium text-opseu-blue underline"
+          >
+            {t("boards.exportCta")}
+          </Link>
+          {" · "}
+          {t("boards.exportHint")}
+        </p>
+      </Callout>
     </GuideLayout>
   );
 }

@@ -14,11 +14,22 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/guide/joint-committee", params);
 }
 
+const TOC = [
+  ["localFirst", "localFirst"],
+  ["caucus", "caucus"],
+  ["jointTable", "jointTable"],
+  ["afterMinutes", "afterMinutes"],
+  ["caArticles", "caArticles"],
+  ["workedExample", "workedExample"],
+] as const;
+
 const sectionKeys = [
   "localFirst",
   "caucus",
   "jointTable",
   "afterMinutes",
+  "caArticles",
+  "workedExample",
 ] as const;
 
 export default async function JointCommitteeGuidePage({
@@ -50,57 +61,74 @@ export default async function JointCommitteeGuidePage({
         />
       }
     >
-      <div className="space-y-8">
-        <Callout>
-          <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
-          <p className="mt-2 leading-relaxed text-gray-700">
-            {t("disclaimer.body")}
-          </p>
-        </Callout>
+      <Callout className="mb-8">
+        <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
+        <p className="mt-2 leading-relaxed text-gray-700">
+          {t("disclaimer.body")}
+        </p>
+      </Callout>
 
-        {sectionKeys.map((key) => (
-          <section key={key} className="border-l-2 border-opseu-blue/30 pl-5">
-            <h2 className="text-xl font-bold text-opseu-dark">
-              {t(`sections.${key}.title`)}
-            </h2>
-            <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
-              {t(`sections.${key}.content`)}
-            </p>
-            <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-              {(t.raw(`sections.${key}.items`) as string[]).map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-            {key === "afterMinutes" ? (
-              <p className="mt-4 text-sm text-gray-700">
-                <Link
-                  href="/tools/document-generator?preset=letterhead"
-                  className="font-medium text-opseu-blue underline"
-                >
-                  {t("sections.afterMinutes.letterCta")}
-                </Link>
-                {" · "}
-                <Link
-                  href="/guide/email-broadcast"
-                  className="font-medium text-opseu-blue underline"
-                >
-                  {t("sections.afterMinutes.emailCta")}
-                </Link>
-              </p>
-            ) : null}
-          </section>
+      <nav
+        className="mb-8 flex flex-wrap gap-2"
+        aria-label={t("tocLabel")}
+      >
+        {TOC.map(([id, key]) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
+          >
+            {t(`sections.${key}.navLabel`)}
+          </a>
         ))}
+      </nav>
 
-        <Callout tone="muted">
-          <p className="font-semibold text-opseu-dark">{t("example.title")}</p>
-          <p className="mt-2 leading-relaxed text-gray-700">{t("example.body")}</p>
-        </Callout>
+      {sectionKeys.map((key) => (
+        <section
+          key={key}
+          id={key}
+          className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5 not-first:mt-12"
+        >
+          <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
+            {t(`sections.${key}.title`)}
+          </h2>
+          <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+            {t(`sections.${key}.content`)}
+          </p>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-gray-700">
+            {(t.raw(`sections.${key}.items`) as string[]).map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          {key === "afterMinutes" ? (
+            <p className="mt-4 text-sm text-gray-700">
+              <Link
+                href="/tools/document-generator?preset=letterhead"
+                className="font-medium text-opseu-blue underline"
+              >
+                {t("sections.afterMinutes.letterCta")}
+              </Link>
+              {" · "}
+              <Link
+                href="/guide/email-broadcast"
+                className="font-medium text-opseu-blue underline"
+              >
+                {t("sections.afterMinutes.emailCta")}
+              </Link>
+            </p>
+          ) : null}
+        </section>
+      ))}
 
-        <Callout>
-          <p className="font-semibold text-opseu-dark">{t("portal.title")}</p>
-          <p className="mt-2 leading-relaxed text-gray-700">{t("portal.body")}</p>
-        </Callout>
-      </div>
+      <Callout tone="muted" className="mt-10">
+        <p className="font-semibold text-opseu-dark">{t("example.title")}</p>
+        <p className="mt-2 leading-relaxed text-gray-700">{t("example.body")}</p>
+      </Callout>
+
+      <Callout className="mt-8">
+        <p className="font-semibold text-opseu-dark">{t("portal.title")}</p>
+        <p className="mt-2 leading-relaxed text-gray-700">{t("portal.body")}</p>
+      </Callout>
     </GuideLayout>
   );
 }

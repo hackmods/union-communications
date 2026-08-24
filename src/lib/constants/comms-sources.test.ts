@@ -31,10 +31,14 @@ describe("comms-sources", () => {
   });
 
   it("hides OPSEU-scoped sources when Brand Kit preset is another union", () => {
-    expect(getSourcesForPage("print", "cupe")).toHaveLength(0);
+    expect(getSourcesForPage("print", "cupe").map((s) => s.id)).toEqual([
+      "ontario-required-posters",
+      "facebook-groups",
+    ]);
     expect(getSourcesForPage("blueprint", "cupe").map((s) => s.id)).toEqual([
       "wcag-21",
       "facebook-groups",
+      "instagram-reels",
       "ofl",
       "nupge",
       "clc",
@@ -42,9 +46,11 @@ describe("comms-sources", () => {
     expect(
       getSourcesForPage("websiteTemplate", "unifor").map((s) => s.id),
     ).toEqual(["github-pages"]);
-    expect(getSourcesForPage("rightToRefuse", "cupe").map((s) => s.id)).toEqual(
-      ["ontario-ohsa", "ontario-required-posters"],
-    );
+    expect(getSourcesForPage("rightToRefuse", "cupe").map((s) => s.id)).toEqual([
+      "ontario-ohsa",
+      "ontario-ohsa-refusal-guide",
+      "ontario-required-posters",
+    ]);
   });
 
   it("keeps OPSEU-scoped sources when preset is opseu", () => {
@@ -157,6 +163,24 @@ describe("comms-sources", () => {
       "opseu-eerc-minutes",
       "cec-pteerc-minutes",
       "cec-fteerc-minutes",
+    ]);
+  });
+
+  it("maps DFR guide to statute and OLRB bulletins, not CA finder", () => {
+    expect(getSourcesForPage("dfr").map((s) => s.id)).toEqual([
+      "ontario-lra-s74",
+      "ontario-ccba",
+      "olrb-dfr-meaning",
+      "olrb-dfr-applications",
+      "clc-s37",
+    ]);
+  });
+
+  it("maps photo consent guide to privacy sources, not WCAG", () => {
+    expect(getSourcesForPage("photoConsent").map((s) => s.id)).toEqual([
+      "ipc-video-surveillance",
+      "pipeda-consent",
+      "opseu-collective-agreements",
     ]);
   });
 
