@@ -112,92 +112,116 @@ export default function LoginPage() {
     }
   };
 
+  const fillDemoAccount = (nextEmail: string, nextPassword: string) => {
+    setEmail(nextEmail);
+    setPassword(nextPassword);
+    setError(null);
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(max-width: 767px)").matches
+    ) {
+      document
+        .getElementById("officer-login-form")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
-    <PageShell size="nestedAuth" className="py-4 md:py-6">
+    <PageShell
+      size={showDemoAccounts ? "nestedFocus" : "nestedAuth"}
+      className="py-4 md:py-6"
+    >
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("login")}
       </h1>
       <p className="mt-2 text-gray-600">{t("loginSubtitle")}</p>
 
-      {showDemoAccounts ? (
-        <DemoLoginAccounts
-          onPick={(nextEmail, nextPassword) => {
-            setEmail(nextEmail);
-            setPassword(nextPassword);
-            setError(null);
-          }}
-        />
-      ) : null}
-
-      <Card density="compact" className="mt-6">
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <Input
-            label={t("email")}
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="email"
-            autoCapitalize="none"
-            autoCorrect="off"
-            spellCheck={false}
-          />
-          <Input
-            label={t("password")}
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            autoComplete="current-password"
-            autoCapitalize="none"
-            autoCorrect="off"
-            spellCheck={false}
-          />
-          {error && (
-            <p className="text-sm text-red-600" role="alert">
-              {error}
-            </p>
-          )}
-          <Button type="submit" disabled={loading} className="min-h-11 w-full">
-            {loading ? t("signingIn") : t("signIn")}
-          </Button>
-        </form>
-
-        <p className="mt-3 text-center text-sm">
-          <Link href="/app/forgot-password" className="text-opseu-blue underline">
-            {t("forgotPassword")}
-          </Link>
-        </p>
-        {emailEnabled ? (
-          <p className="mt-1 text-center text-xs text-gray-500">
-            {t("forgotPasswordEmailHint")}
-          </p>
-        ) : null}
-
-        {emailEnabled ? (
-          <div className="mt-4 border-t border-gray-100 pt-4">
-            {magicDone ? (
-              <div className="space-y-2 text-sm text-gray-700">
-                <p>{t("magicLinkSentGeneric")}</p>
-                {magicEmailSent === false &&
-                  magicReason === "not_configured" && (
-                    <p className="text-gray-600">{t("magicLinkSmtpOff")}</p>
-                  )}
-              </div>
-            ) : (
-              <Button
-                type="button"
-                variant="outline"
-                className="min-h-11 w-full"
-                disabled={magicBusy}
-                onClick={() => void handleMagicLink()}
-              >
-                {magicBusy ? t("magicLinkSending") : t("magicLinkCta")}
+      <div
+        className={
+          showDemoAccounts
+            ? "mt-6 grid items-start gap-6 md:grid-cols-2"
+            : "mt-6"
+        }
+      >
+        <div id="officer-login-form">
+          <Card density="compact">
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <Input
+                label={t("email")}
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+              />
+              <Input
+                label={t("password")}
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+              />
+              {error && (
+                <p className="text-sm text-red-600" role="alert">
+                  {error}
+                </p>
+              )}
+              <Button type="submit" disabled={loading} className="min-h-11 w-full">
+                {loading ? t("signingIn") : t("signIn")}
               </Button>
-            )}
-          </div>
+            </form>
+
+            <p className="mt-3 text-center text-sm">
+              <Link
+                href="/app/forgot-password"
+                className="text-opseu-blue underline"
+              >
+                {t("forgotPassword")}
+              </Link>
+            </p>
+            {emailEnabled ? (
+              <p className="mt-1 text-center text-xs text-gray-500">
+                {t("forgotPasswordEmailHint")}
+              </p>
+            ) : null}
+
+            {emailEnabled ? (
+              <div className="mt-4 border-t border-gray-100 pt-4">
+                {magicDone ? (
+                  <div className="space-y-2 text-sm text-gray-700">
+                    <p>{t("magicLinkSentGeneric")}</p>
+                    {magicEmailSent === false &&
+                      magicReason === "not_configured" && (
+                        <p className="text-gray-600">{t("magicLinkSmtpOff")}</p>
+                      )}
+                  </div>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="min-h-11 w-full"
+                    disabled={magicBusy}
+                    onClick={() => void handleMagicLink()}
+                  >
+                    {magicBusy ? t("magicLinkSending") : t("magicLinkCta")}
+                  </Button>
+                )}
+              </div>
+            ) : null}
+          </Card>
+        </div>
+
+        {showDemoAccounts ? (
+          <DemoLoginAccounts onPick={fillDemoAccount} />
         ) : null}
-      </Card>
+      </div>
 
       <p className="mt-4 text-center text-sm">
         <Link href="/" className="text-opseu-blue underline">

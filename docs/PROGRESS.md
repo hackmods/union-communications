@@ -3,6 +3,7 @@
 ## Demo login sample accounts (2026-08-23)
 
 - [x] Officer login shows a Sample accounts Callout when the demo roster can sign in, with every seed role, shared password, and tap-to-fill — replaces the one-liner under Forgot password
+- [x] Form first; sample accounts sit beside it from `md` (`nestedFocus`) and in a compact two-column grid on phones
 - Verify: `npm run test:unit -- src/lib/auth/demo-users.test.ts src/lib/comms/public-copy-style.test.ts`; smoke: `npx playwright test e2e/smoke.spec.ts --grep "sample accounts"`
 
 ## Demo login domain (2026-08-23)

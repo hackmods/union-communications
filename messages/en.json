@@ -3608,8 +3608,8 @@
     "password": "Password",
     "demoAccounts": {
       "title": "Sample accounts",
-      "lead": "This demonstration site includes ready-made logins. They are not real inboxes. Choose a row to fill email and password.",
-      "password": "Password for every sample account: {password}",
+      "lead": "Choose a role to fill the form. These are not real inboxes.",
+      "password": "Shared password: {password}",
       "fill": "Fill {role}",
       "roles": {
         "president243": "Local 243 president",

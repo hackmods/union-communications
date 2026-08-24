@@ -3560,8 +3560,8 @@
     "password": "Mot de passe",
     "demoAccounts": {
       "title": "Comptes d’exemple",
-      "lead": "Ce site de démonstration comprend des connexions toutes prêtes. Ce ne sont pas de vraies boîtes de courriel. Choisissez une ligne pour remplir le courriel et le mot de passe.",
-      "password": "Mot de passe pour chaque compte d’exemple : {password}",
+      "lead": "Choisissez un rôle pour remplir le formulaire. Ce ne sont pas de vraies boîtes de courriel.",
+      "password": "Mot de passe commun : {password}",
       "fill": "Remplir {role}",
       "roles": {
         "president243": "Président de la section 243",
