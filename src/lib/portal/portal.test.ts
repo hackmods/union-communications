@@ -148,6 +148,39 @@ describe("portalStore", () => {
     ).toBe("Provincial caucus");
   });
 
+  it("seeds a Local 145 joint-committee lead on a union-scoped caucus with chats", () => {
+    const station = portalStore.listStation("union-opseu", "user-eerc-145");
+    expect(station.circles.some((c) => c.id === "circle-caucus-joint")).toBe(
+      true,
+    );
+    expect(station.circles.some((c) => c.id === "circle-hall-local-145")).toBe(
+      true,
+    );
+    const detail = portalStore.getCircleDetail(
+      "union-opseu",
+      "user-eerc-145",
+      "circle-caucus-joint",
+    );
+    expect(detail?.circle.localId).toBeUndefined();
+    expect(detail?.roster.map((row) => row.userId).sort()).toEqual([
+      "user-eerc-145",
+      "user-president-243",
+      "user-president-415",
+      "user-president-560",
+    ].sort());
+    expect(detail?.floor.length).toBeGreaterThanOrEqual(5);
+    expect(detail?.bulletin.some((p) => p.title.includes("Caucus agenda"))).toBe(
+      true,
+    );
+    const threads = portalStore.listSidebarThreads(
+      "union-opseu",
+      "user-eerc-145",
+    );
+    expect(
+      threads.some((thread) => thread.id === "sb-caucus-1"),
+    ).toBe(true);
+  });
+
   it("marks Dispatch read", () => {
     const n = portalStore.markDispatchRead(
       "union-opseu",

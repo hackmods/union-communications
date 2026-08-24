@@ -7,6 +7,8 @@ describe("listCircleInviteCandidates", () => {
     const ids = invitees.map((user) => user.id);
     expect(ids).toContain("user-president-243");
     expect(ids).toContain("user-president-560");
+    expect(ids).toContain("user-eerc-145");
+    expect(ids).toContain("user-president-415");
     expect(ids).not.toContain("user-solo");
   });
 });

@@ -96,7 +96,70 @@ const jhsc: Circle = {
   updatedAt: "2026-07-02T12:00:00.000Z",
 };
 
-const circles: Circle[] = [hall, lec, jhsc];
+const hall145: Circle = {
+  id: hallCircleId("local-145"),
+  unionId: UNION,
+  localId: "local-145",
+  kind: "local_hall",
+  name: "Local 145 Hall",
+  description: "Default Hall for Local 145 members and officers.",
+  visibility: "local_members",
+  createdById: "user-eerc-145",
+  createdAt: "2026-07-01T12:00:00.000Z",
+  updatedAt: "2026-07-01T12:00:00.000Z",
+};
+
+const hall415: Circle = {
+  id: hallCircleId("local-415"),
+  unionId: UNION,
+  localId: "local-415",
+  kind: "local_hall",
+  name: "Local 415 Hall",
+  description: "Default Hall for Local 415 members and officers.",
+  visibility: "local_members",
+  createdById: "user-president-415",
+  createdAt: "2026-07-01T12:00:00.000Z",
+  updatedAt: "2026-07-01T12:00:00.000Z",
+};
+
+const hall560: Circle = {
+  id: hallCircleId("local-560"),
+  unionId: UNION,
+  localId: "local-560",
+  kind: "local_hall",
+  name: "Local 560 Hall",
+  description: "Default Hall for Local 560 members and officers.",
+  visibility: "local_members",
+  createdById: "user-president-560",
+  createdAt: "2026-07-01T12:00:00.000Z",
+  updatedAt: "2026-07-01T12:00:00.000Z",
+};
+
+/** Union-side caucus for a provincial joint table. Not official minutes. */
+const caucus: Circle = {
+  id: "circle-caucus-joint",
+  unionId: UNION,
+  kind: "committee",
+  name: "Provincial joint-committee caucus",
+  description:
+    "Union side only — members from more than one local. Do not invite the employer. Point locals at signed minutes after both chairs agree; do not re-host the record here.",
+  visibility: "invited",
+  frontStartsAt: "2026-08-01T00:00:00.000Z",
+  frontEndsAt: "2026-12-31T23:59:59.000Z",
+  createdById: "user-eerc-145",
+  createdAt: "2026-08-01T12:00:00.000Z",
+  updatedAt: "2026-08-15T12:00:00.000Z",
+};
+
+const circles: Circle[] = [
+  hall,
+  lec,
+  jhsc,
+  hall145,
+  hall415,
+  hall560,
+  caucus,
+];
 
 const memberships: CircleMembership[] = [
   {
@@ -187,6 +250,83 @@ const memberships: CircleMembership[] = [
     starred: false,
     joinedAt: hall.createdAt,
   },
+  {
+    id: "cm-145-hall",
+    circleId: hall145.id,
+    userId: "user-eerc-145",
+    userName: "Local 145 joint-committee lead",
+    role: "admin",
+    muted: false,
+    mutedTools: [],
+    starred: true,
+    joinedAt: hall145.createdAt,
+  },
+  {
+    id: "cm-415-hall",
+    circleId: hall415.id,
+    userId: "user-president-415",
+    userName: "Local 415 President",
+    role: "admin",
+    muted: false,
+    mutedTools: [],
+    starred: true,
+    joinedAt: hall415.createdAt,
+  },
+  {
+    id: "cm-560-hall",
+    circleId: hall560.id,
+    userId: "user-president-560",
+    userName: "Local 560 President",
+    role: "admin",
+    muted: false,
+    mutedTools: [],
+    starred: true,
+    joinedAt: hall560.createdAt,
+  },
+  {
+    id: "cm-caucus-145",
+    circleId: caucus.id,
+    userId: "user-eerc-145",
+    userName: "Local 145 joint-committee lead",
+    role: "admin",
+    muted: false,
+    mutedTools: [],
+    starred: true,
+    joinedAt: caucus.createdAt,
+  },
+  {
+    id: "cm-caucus-243",
+    circleId: caucus.id,
+    userId: "user-president-243",
+    userName: "Local 243 President",
+    role: "member",
+    muted: false,
+    mutedTools: [],
+    starred: true,
+    joinedAt: caucus.createdAt,
+  },
+  {
+    id: "cm-caucus-415",
+    circleId: caucus.id,
+    userId: "user-president-415",
+    userName: "Local 415 President",
+    role: "member",
+    muted: false,
+    mutedTools: [],
+    starred: false,
+    joinedAt: caucus.createdAt,
+  },
+  {
+    id: "cm-caucus-560",
+    circleId: caucus.id,
+    userId: "user-president-560",
+    userName: "Local 560 President",
+    role: "member",
+    muted: false,
+    mutedTools: [],
+    starred: true,
+    joinedAt: caucus.createdAt,
+  },
 ];
 
 const bulletin: BulletinPost[] = [
@@ -238,6 +378,18 @@ const bulletin: BulletinPost[] = [
     createdAt: daysFromNow(-2, 11),
     updatedAt: daysFromNow(-2, 11),
   },
+  {
+    id: "bp-caucus-1",
+    circleId: caucus.id,
+    unionId: UNION,
+    authorId: "user-eerc-145",
+    authorName: "Local 145 joint-committee lead",
+    title: "Caucus agenda before the next joint table",
+    body: "Union side only. Local 145: parking-pass item after two UCC meetings, still no system answer. Local 560: classification delay — confirm nobody has already filed a grievance. Local 243: PT additional-hours letter. Local 415: intake wording so campus issues stay at UCC first. Drafts stay here. Signed minutes stay on the union and employer postings.",
+    pinned: true,
+    createdAt: daysFromNow(-2, 9),
+    updatedAt: daysFromNow(-1, 16),
+  },
 ];
 
 const comments: BulletinComment[] = [
@@ -248,6 +400,30 @@ const comments: BulletinComment[] = [
     authorName: "Local 243 Steward (FT)",
     body: "I'll draft the coverage grid.",
     createdAt: daysFromNow(-1, 10),
+  },
+  {
+    id: "bc-caucus-1",
+    postId: "bp-caucus-1",
+    authorId: "user-president-560",
+    authorName: "Local 560 President",
+    body: "Classification is not a grievance at 560. I can speak to the dates at caucus.",
+    createdAt: daysFromNow(-1, 17),
+  },
+  {
+    id: "bc-caucus-2",
+    postId: "bp-caucus-1",
+    authorId: "user-president-243",
+    authorName: "Local 243 President",
+    body: "PT hours letter is in Binder as a union-side draft — not for the joint table yet.",
+    createdAt: daysFromNow(-1, 18),
+  },
+  {
+    id: "bc-caucus-3",
+    postId: "bp-caucus-1",
+    authorId: "user-president-415",
+    authorName: "Local 415 President",
+    body: "I'll bring the UCC referral wording so we do not skip campus.",
+    createdAt: daysFromNow(-1, 19),
   },
 ];
 
@@ -297,6 +473,32 @@ const actions: ActionItem[] = [
     createdAt: daysFromNow(-3, 12),
     updatedAt: daysFromNow(-1, 14),
   },
+  {
+    id: "act-caucus-1",
+    circleId: caucus.id,
+    unionId: UNION,
+    listName: "Referrals",
+    title: "Draft the Local 145 parking-pass UCC brief",
+    assigneeId: "user-eerc-145",
+    assigneeName: "Local 145 joint-committee lead",
+    dueAt: daysFromNow(3, 12),
+    createdById: "user-eerc-145",
+    createdAt: daysFromNow(-2, 10),
+    updatedAt: daysFromNow(-2, 10),
+  },
+  {
+    id: "act-caucus-2",
+    circleId: caucus.id,
+    unionId: UNION,
+    listName: "Referrals",
+    title: "Confirm Local 560 classification is not already a grievance",
+    assigneeId: "user-president-560",
+    assigneeName: "Local 560 President",
+    dueAt: daysFromNow(2, 12),
+    createdById: "user-eerc-145",
+    createdAt: daysFromNow(-2, 10),
+    updatedAt: daysFromNow(-2, 10),
+  },
 ];
 
 const calendar: CalendarEvent[] = [
@@ -321,6 +523,18 @@ const calendar: CalendarEvent[] = [
     location: "Steward office",
     createdById: "user-steward-243",
     createdAt: daysFromNow(-2, 10),
+  },
+  {
+    id: "cal-caucus-1",
+    circleId: caucus.id,
+    unionId: UNION,
+    title: "Union caucus (before joint table)",
+    description:
+      "Union side only. Confirm asks and who speaks. Official joint meeting is recorded by the employer side.",
+    startsAt: daysFromNow(5, 9),
+    location: "Caucus room — not the joint table",
+    createdById: "user-eerc-145",
+    createdAt: daysFromNow(-3, 12),
   },
 ];
 
@@ -350,6 +564,32 @@ const binder: BinderItem[] = [
     createdById: "user-steward-243",
     createdByName: "Local 243 Steward (FT)",
     createdAt: daysFromNow(-2, 13),
+  },
+  {
+    id: "bind-caucus-1",
+    circleId: caucus.id,
+    unionId: UNION,
+    title: "Union-side draft — PT hours letter (Local 243)",
+    folder: "Caucus drafts",
+    content:
+      "Draft only. Do not treat this as joint minutes. After both chairs sign, point locals at the official union and employer postings, then write a member note.",
+    contentType: "note",
+    createdById: "user-president-243",
+    createdByName: "Local 243 President",
+    createdAt: daysFromNow(-4, 14),
+  },
+  {
+    id: "bind-caucus-2",
+    circleId: caucus.id,
+    unionId: UNION,
+    title: "UCC referral notes — parking pass (Local 145)",
+    folder: "Caucus drafts",
+    content:
+      "Asked at UCC in June and July. Employer said the pass rules are system-wide. No grievance filed. Ready for the provincial table if the caucus agrees.",
+    contentType: "note",
+    createdById: "user-eerc-145",
+    createdByName: "Local 145 joint-committee lead",
+    createdAt: daysFromNow(-3, 11),
   },
 ];
 
@@ -381,6 +621,51 @@ const floor: FloorMessage[] = [
     body: "Keys are in the steward office. Hang the new notice under last month's.",
     createdAt: daysFromNow(0, 10),
   },
+  {
+    id: "fl-caucus-1",
+    circleId: caucus.id,
+    unionId: UNION,
+    authorId: "user-eerc-145",
+    authorName: "Local 145 joint-committee lead",
+    body: "UCC at 145 closed the parking-pass item twice. Still no system answer — that's why it is on the list.",
+    createdAt: daysFromNow(-1, 9),
+  },
+  {
+    id: "fl-caucus-2",
+    circleId: caucus.id,
+    unionId: UNION,
+    authorId: "user-president-243",
+    authorName: "Local 243 President",
+    body: "Same pattern here on PT hours. I'll bring the dates, not a live grievance.",
+    createdAt: daysFromNow(-1, 10),
+  },
+  {
+    id: "fl-caucus-3",
+    circleId: caucus.id,
+    unionId: UNION,
+    authorId: "user-president-560",
+    authorName: "Local 560 President",
+    body: "Classification delay at 560 is not filed. Flag me if anyone at your college already grieved it.",
+    createdAt: daysFromNow(-1, 11),
+  },
+  {
+    id: "fl-caucus-4",
+    circleId: caucus.id,
+    unionId: UNION,
+    authorId: "user-president-415",
+    authorName: "Local 415 President",
+    body: "Keep signed minutes out of Binder. Link the official post after both chairs sign.",
+    createdAt: daysFromNow(-1, 12),
+  },
+  {
+    id: "fl-caucus-5",
+    circleId: caucus.id,
+    unionId: UNION,
+    authorId: "user-eerc-145",
+    authorName: "Local 145 joint-committee lead",
+    body: "Agenda is pinned on Bulletin. Floor stays union side — do not invite the employer into this Circle.",
+    createdAt: daysFromNow(0, 8),
+  },
 ];
 
 const rollQuestions: RollCallQuestion[] = [
@@ -389,6 +674,15 @@ const rollQuestions: RollCallQuestion[] = [
     circleId: lec.id,
     unionId: UNION,
     question: "Any campus issues that need LEC eyes this week?",
+    cadence: "weekly",
+    active: true,
+    createdAt: daysFromNow(-20, 12),
+  },
+  {
+    id: "rcq-caucus-1",
+    circleId: caucus.id,
+    unionId: UNION,
+    question: "Any campus UCC leftover for the provincial table this week?",
     cadence: "weekly",
     active: true,
     createdAt: daysFromNow(-20, 12),
@@ -404,6 +698,24 @@ const rollAnswers: RollCallAnswer[] = [
     authorName: "Local 243 Steward (FT)",
     body: "Parking enforcement complaints on north lot — watching.",
     createdAt: daysFromNow(-1, 11),
+  },
+  {
+    id: "rca-caucus-1",
+    questionId: "rcq-caucus-1",
+    circleId: caucus.id,
+    authorId: "user-eerc-145",
+    authorName: "Local 145 joint-committee lead",
+    body: "Parking-pass leftover from UCC — on the agenda.",
+    createdAt: daysFromNow(-1, 12),
+  },
+  {
+    id: "rca-caucus-2",
+    questionId: "rcq-caucus-1",
+    circleId: caucus.id,
+    authorId: "user-president-415",
+    authorName: "Local 415 President",
+    body: "Nothing new from campus this week. Watching intake wording.",
+    createdAt: daysFromNow(-1, 13),
   },
 ];
 
@@ -472,6 +784,26 @@ const dispatch: DispatchItem[] = [
     title: "Overdue Action: Draft steward coverage grid",
     createdAt: yesterday.toISOString(),
   },
+  {
+    id: "di-caucus-1",
+    unionId: UNION,
+    userId: "user-eerc-145",
+    circleId: caucus.id,
+    circleName: "Provincial joint-committee caucus",
+    kind: "assignment",
+    title: "Action assigned: Draft the Local 145 parking-pass UCC brief",
+    createdAt: daysFromNow(-2, 10),
+  },
+  {
+    id: "di-caucus-2",
+    unionId: UNION,
+    userId: "user-president-560",
+    circleId: caucus.id,
+    circleName: "Provincial joint-committee caucus",
+    kind: "assignment",
+    title: "Action assigned: Confirm Local 560 classification is not already a grievance",
+    createdAt: daysFromNow(-2, 10),
+  },
 ];
 
 const momentum: MomentumItem[] = [
@@ -499,6 +831,18 @@ const momentum: MomentumItem[] = [
     createdAt: "2026-07-12T12:00:00.000Z",
     updatedAt: "2026-07-19T12:00:00.000Z",
   },
+  {
+    id: "mom-caucus-1",
+    circleId: caucus.id,
+    unionId: UNION,
+    title: "UCC leftovers ready for the provincial table",
+    notes: "Parking pass (145), classification (560), PT hours (243). Intake wording (415) still open.",
+    progress: 40,
+    updatedById: "user-eerc-145",
+    updatedByName: "Local 145 joint-committee lead",
+    createdAt: "2026-08-08T12:00:00.000Z",
+    updatedAt: "2026-08-15T12:00:00.000Z",
+  },
 ];
 
 const sidebarThreads: SidebarThread[] = [
@@ -508,6 +852,16 @@ const sidebarThreads: SidebarThread[] = [
     participantIds: ["user-president-243", "user-steward-243"],
     participantNames: ["Local 243 President", "Local 243 Steward (FT)"],
     updatedAt: "2026-07-20T16:00:00.000Z",
+  },
+  {
+    id: "sb-caucus-1",
+    unionId: UNION,
+    participantIds: ["user-eerc-145", "user-president-243"],
+    participantNames: [
+      "Local 145 joint-committee lead",
+      "Local 243 President",
+    ],
+    updatedAt: daysFromNow(-1, 14),
   },
 ];
 
@@ -529,6 +883,24 @@ const sidebarMessages: SidebarMessage[] = [
     authorName: "Local 243 Steward (FT)",
     body: "Yes — I'll post to Bulletin tonight.",
     createdAt: "2026-07-20T16:00:00.000Z",
+  },
+  {
+    id: "sbm-caucus-1",
+    threadId: "sb-caucus-1",
+    unionId: UNION,
+    authorId: "user-eerc-145",
+    authorName: "Local 145 joint-committee lead",
+    body: "Can you speak to the PT hours letter at caucus? I'll take parking-pass.",
+    createdAt: daysFromNow(-1, 13),
+  },
+  {
+    id: "sbm-caucus-2",
+    threadId: "sb-caucus-1",
+    unionId: UNION,
+    authorId: "user-president-243",
+    authorName: "Local 243 President",
+    body: "Yes. I'll keep it union-side until we agree the ask.",
+    createdAt: daysFromNow(-1, 14),
   },
 ];
 

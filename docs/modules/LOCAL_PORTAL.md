@@ -68,6 +68,7 @@ Circle
 - Session: `activeLocalId` + optional `activeCircleId` (Hub local/collection switcher remains separate).
 - No cross-union Circles. Cross-local only via explicit membership or elevated Hub admin roles.
 - Invited committee / campaign Circles may omit `localId` (`scope: "union"` on create). Hall stays local (`local_members`). Roster invite lists people in the **union**, not only the session local. Do not invite the employer.
+- Demo seed includes union-scoped `circle-caucus-joint` (Local 145 joint-committee lead + Locals 243 / 415 / 560) with Floor and Sidebars so a provincial caucus is visible without creating one.
 
 ## Feature inventory
 

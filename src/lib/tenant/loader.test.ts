@@ -9,13 +9,23 @@ describe("tenant loader multi-scope", () => {
   it("loads multiple locals for the reference union", () => {
     const ctx = getTenantContext("union-opseu");
     expect(ctx).not.toBeNull();
-    expect(ctx!.locals.map((l) => l.localNumber)).toEqual(["243", "560"]);
+    expect(ctx!.locals.map((l) => l.localNumber)).toEqual([
+      "243",
+      "145",
+      "415",
+      "560",
+    ]);
     expect(ctx!.local?.localNumber).toBe("243");
     expect(ctx!.division?.code).toBe("caat");
   });
 
   it("lists FT and PT collections for Local 243", () => {
     const units = listBargainingUnitsForLocal("union-opseu", "local-243");
+    expect(units.map((u) => u.code).sort()).toEqual(["ft", "pt"]);
+  });
+
+  it("lists FT and PT collections for Local 145", () => {
+    const units = listBargainingUnitsForLocal("union-opseu", "local-145");
     expect(units.map((u) => u.code).sort()).toEqual(["ft", "pt"]);
   });
 
@@ -40,6 +50,11 @@ describe("tenant loader multi-scope", () => {
     expect(seeded?.local?.localNumber).toBe("243");
     const other = getTenantContext("union-opseu", "local-560");
     expect(other?.local?.localNumber).toBe("560");
-    expect(other?.locals.map((l) => l.localNumber)).toEqual(["243", "560"]);
+    expect(other?.locals.map((l) => l.localNumber)).toEqual([
+      "243",
+      "145",
+      "415",
+      "560",
+    ]);
   });
 });

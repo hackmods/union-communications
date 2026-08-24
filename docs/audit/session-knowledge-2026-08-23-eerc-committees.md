@@ -60,7 +60,7 @@ EERC sits at **union + division + provincial bargaining group** (PT CAAT-S acros
 | `Committee` requires `localId` | [`src/types/committees.ts`](../../src/types/committees.ts) — “Internal (non-bargaining) committee roster” |
 | Minutes, meetings, tasks, discussions, travel, documents vault require `localId` | [`minutes.ts`](../../src/types/minutes.ts), [`meetings.ts`](../../src/types/meetings.ts), [`task.ts`](../../src/types/task.ts), [`discussions.ts`](../../src/types/discussions.ts), [`travel.ts`](../../src/types/travel.ts), [`attachments.ts`](../../src/types/attachments.ts) `DocumentRecord` |
 | `BargainingUnit` is per local | [`src/types/tenant.ts`](../../src/types/tenant.ts) — `bu-243-pt` is Local 243’s PT collection, not “PT CAAT-S provincial” |
-| Seed PT exists only on Local 243 | [`seed/reference-tenant-opseu-caat.json`](../../seed/reference-tenant-opseu-caat.json); Local 560 is FT-only in seed |
+| Seed PT exists on Locals 243 and 145 | [`seed/reference-tenant-opseu-caat.json`](../../seed/reference-tenant-opseu-caat.json); Locals 415 and 560 are FT-only in seed |
 | `HubModule` has no committees/minutes flag | [`src/types/tenant.ts`](../../src/types/tenant.ts) — org tools are always-on Hub chrome, still local-scoped |
 | `stability_member` is bumping | [`docs/RBAC.md`](../RBAC.md) — not a provincial joint-committee role |
 | `division_admin` exists | Can **list** some Hub rows across locals when session `localId` is cleared; **create** still needs a local (`POST /api/committees` → 400 “Local required”). RBAC “Configure committee” on this role is **bumping/stability**, not ORG-004. |
@@ -70,9 +70,9 @@ Do not confuse **ORG-002** (`/app/officers`) with **ORG-004** (`/app/committees`
 
 Portal `Circle` is the only collaboration type with optional `localId` ([`src/types/portal.ts`](../../src/types/portal.ts)).
 
-- Seed Circles (Hall, LEC, JHSC) are all `local-243` ([`memory-adapter.ts`](../../src/lib/portal/memory-adapter.ts))
+- Seed Circles: Local 243 Hall/LEC/JHSC, Halls for 145/415/560, and union-scoped `circle-caucus-joint` ([`memory-adapter.ts`](../../src/lib/portal/memory-adapter.ts))
 - Default create still stamps session `localId`. `scope: "union"` omits it. Hall and `local_members` stay local ([`circle-create.ts`](../../src/lib/portal/circle-create.ts)).
-- Roster invite lists the whole union (`GET .../invitees`). Demo `user-president-560` exists so a Local 243 president can invite another local. `db:seed` upserts `DEMO_USERS`.
+- Roster invite lists the whole union (`GET .../invitees`). Demo `eerc@local145.ca` (`user-eerc-145`) is the joint-committee lead on seeded Circle `circle-caucus-joint` (no `localId`), with Floor/Sidebars chats from Locals 243 / 145 / 415 / 560. `db:seed` upserts `DEMO_USERS`.
 - Portal is **memory-only** — there is no `PORTAL_DB_BACKEND` in [`backend.ts`](../../src/lib/db/backend.ts)
 
 ---
@@ -146,7 +146,7 @@ Caveats: Portal is hosted (not free-forever); Hub invite-only; **memory-only** (
 ## Shipped 2026-08-23 (was optional)
 
 1. Public guide `/guide/joint-committee` — generic joint-committee playbook; OPSEU / SEFPO EERC as one example; sources in `comms-sources.ts`. What’s new `joint-committee-guide`. No Home CTA.
-2. Portal `scope: "union"` omits `Circle.localId`. Roster invite uses union-wide candidates (`GET .../invitees`). Demo `user-president-560` exists so cross-local invite can be tested. What’s new `portal-union-circles` (`audience: "hub"`).
+2. Portal `scope: "union"` omits `Circle.localId`. Seeded `circle-caucus-joint` is the demo union-side caucus (`eerc@local145.ca`). Roster invite uses union-wide candidates. What’s new `portal-union-circles` (`audience: "hub"`).
 
 ---
 

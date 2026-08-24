@@ -1,5 +1,12 @@
 # Progress Log
 
+## Joint-committee demo roster (2026-08-23)
+
+- [x] Demo `eerc@local145.ca` (Local 145, PT) plus Local 415 president; tenant locals 145 / 415
+- [x] Seeded union-scoped Portal Circle `circle-caucus-joint` with Floor, Sidebars, Bulletin, and Actions from four locals
+- [x] Login hint lists the joint-committee caucus account
+- Verify: `npm run test:unit -- src/lib/portal/portal.test.ts src/lib/portal/circle-invitees.test.ts src/lib/tenant/loader.test.ts src/lib/tenant/tenant.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Joint committee playbook + union-scoped Circles (2026-08-23)
 
 - [x] Public `/guide/joint-committee` — campus → provincial table → member explainer after signed minutes; OPSEU / SEFPO EERC as example only
