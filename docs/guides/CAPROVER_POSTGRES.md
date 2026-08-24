@@ -76,6 +76,8 @@ openssl rand -base64 32   # POSTGRES_APP_PASSWORD (unionops_app runtime role)
 
 Use a separate strong password for the Postgres **owner** (`POSTGRES_PASSWORD` on the Postgres app).
 
+**Two roles, two env vars:** `MIGRATE_DATABASE_URL` authenticates as the owner (`postgres` / `POSTGRES_PASSWORD`). `POSTGRES_APP_PASSWORD` is for the limited `unionops_app` role (RLS at runtime). You *may* set them to the same string to reduce secret sprawl; still set both variables — never put the owner role in runtime `DATABASE_URL`.
+
 **URL-encode** passwords in connection strings if they contain `+`, `/`, `@`, etc.
 
 ### Step B — First deploy (migrate only)
