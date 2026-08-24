@@ -3558,7 +3558,7 @@
     "loginError": "Ce courriel ou ce mot de passe n’est pas le bon. Vérifiez-les et réessayez.",
     "email": "Courriel",
     "password": "Mot de passe",
-    "demoHint": "Le mot de passe démo est demo123. Comptes : president@local243.ca · eerc@local145.ca (caucus de comité conjoint) · caat-admin@opseu.org (multi-local) · steward-pt@local243.ca",
+    "demoHint": "Le mot de passe démo est demo123. Comptes : president.243@unionops.test · eerc.145@unionops.test (caucus de comité conjoint) · caat-admin@unionops.test (multi-local) · steward-pt.243@unionops.test",
     "forgotPassword": "Mot de passe oublié ?",
     "forgotPasswordEmailHint": "Lorsque le courriel est activé sur cet hôte, nous enverrons un lien de réinitialisation.",
     "magicLinkCta": "M’envoyer un lien de connexion",

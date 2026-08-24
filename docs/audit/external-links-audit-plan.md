@@ -21,7 +21,7 @@ Opened **2026-07-30** after stewards reported dead national-union citations. **R
 | Exported website ZIP footer (reference tenant) | **Replace** when national URLs change; long-term wire from `COMMS_SOURCES` or tenant config |
 | Seed `membershipUrls` to national forms | **Replace** when dead; keep row so stewards edit in Brand Kit |
 | Docs / workshop / `.cursor` only | **Replace** when Tier A changes; lower urgency |
-| Demo emails (`caat-admin@opseu.org`) | **Keep** — not navigational |
+| Demo emails (`caat-admin@unionops.test`) | **Keep** — reserved `.test` domain, not navigational |
 | `localhost`, `example.com`, XML namespaces | **Exempt** from external checks |
 
 **Do not remove** branding citations from guides without replacement text — they document alignment with national guidelines, not sole access to files (`public/assets/caat-opseu/`, `/assets`).

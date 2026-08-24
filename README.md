@@ -120,14 +120,14 @@ More detail: [`docs/guides/SETUP.md`](docs/guides/SETUP.md)
 
 ### Demo Officer Hub logins (dev / CI only)
 
-Password `demo123`:
+Password `demo123`. Addresses use reserved `unionops.test` (RFC 2606) so they are not real union or local mailboxes.
 
 | Account | Notes |
 |---------|--------|
-| `president@local243.ca` | MFA gate (dev accepts any 6-digit code) |
-| `stability@local243.ca` | Bumping / stability |
-| `steward@local243.ca` | Steward |
-| `solo@example.ca` | Solo account — no MFA |
+| `president.243@unionops.test` | MFA gate (dev accepts any 6-digit code) |
+| `stability.243@unionops.test` | Bumping / stability |
+| `steward.243@unionops.test` | Steward |
+| `solo@unionops.test` | Solo account — no MFA |
 
 Routes: `/en/app/login` · `/en/app` · `/en/app/mfa`
 

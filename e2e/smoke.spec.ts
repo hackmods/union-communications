@@ -416,7 +416,7 @@ test.describe("Smoke tests @smoke", () => {
 
   test("officer can sign in and reach MFA", async ({ page }) => {
     await page.goto("/en/app/login");
-    await page.getByLabel(/Email|Courriel/i).fill("president@local243.ca");
+    await page.getByLabel(/Email|Courriel/i).fill("president.243@unionops.test");
     await page.getByLabel(/Password|Mot de passe/i).fill("demo123");
     await page.getByRole("button", { name: /Sign in|Connexion/i }).click();
     await expect(page).toHaveURL(/\/en\/app(\/mfa)?/);

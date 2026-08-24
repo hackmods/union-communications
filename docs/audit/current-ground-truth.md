@@ -72,6 +72,7 @@ Never member broadcast lists. Never put public invite copy on grievance email-dr
 | MFA-off Hub | `useSessionMfaOk()` / `MfaPolicyProvider` — not raw `mfaVerified` |
 | Memory demo FT/PT | Distinct PT seeds (grev-002 + additional-hours log/snippet/check-in/task/discussion). Collection is a list filter; steward isolation is assignment. Bumping stays FT. |
 | Demo on prod image | Login hint is build-time `NEXT_PUBLIC_DEMO_SITE`. Roster login needs that flag **inlined** in `isDemoAuthEnabled` or runtime `AUTH_ALLOW_DEMO_USERS=true`. Image runner now defaults both. Health: `demoAuthEnabled`. |
+| Demo emails | Reserved `unionops.test` (`DEMO_EMAIL_DOMAIN`). Do not use real union/local domains (`opseu.org`, `local243.ca`). Password `demo123`. |
 | Sandbox | CT 115 @ `192.168.0.115:3000`; **Postgres durable** compose stack @ `289bfb3` (`postgresFlipComplete: true`); `docker-db-1` + `docker-web-1`; demo users via `AUTH_ALLOW_DEMO_USERS` |
 | Cron | `CRON_SECRET` required; Bearer or `x-cron-secret`; `?dryRun=1` previews without send/audit |
 | React derived state | Do not sync `setState` in `useEffect` for consent flags — derive from roster |

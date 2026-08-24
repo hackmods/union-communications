@@ -77,7 +77,7 @@ The **role** `platform_admin` exists. It is the operator inbox (`/app/feedback`)
 
 Seeded platform admin roles: `platform_admin` + `union_admin`. Default FK pin is `union-opseu` / `local-243` / `division-caat` — **not** a product default for new unions; it is so the `users` row satisfies existing FKs.
 
-Demo login hint (only when `isDemoSite()`): password `demo123`; accounts `president@local243.ca` · `caat-admin@opseu.org` (multi-local) · `steward-pt@local243.ca`. Highest demo role is **division_admin**, not platform admin.
+Demo login hint (only when `isDemoSite()`): password `demo123`; accounts `president.243@unionops.test` · `caat-admin@unionops.test` (multi-local) · `steward-pt.243@unionops.test`. Highest demo role is **division_admin**, not platform admin.
 
 If the host is memory-auth, `ryan@ryanmorris.ca` will not log in. Create one with:
 

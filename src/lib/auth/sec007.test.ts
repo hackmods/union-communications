@@ -75,7 +75,7 @@ describe("demo auth gate", () => {
 
 describe("findDemoUser", () => {
   it("authenticates with bcrypt, not plaintext equality", async () => {
-    const user = await findDemoUser("president@local243.ca", "demo123", {
+    const user = await findDemoUser("president.243@unionops.test", "demo123", {
       NODE_ENV: "test",
     });
     expect(user?.id).toBe("user-president-243");
@@ -83,16 +83,16 @@ describe("findDemoUser", () => {
       (user as { password?: string } | null)?.password,
     ).toBeUndefined();
     await expect(
-      findDemoUser("president@local243.ca", "Demo123", { NODE_ENV: "test" }),
+      findDemoUser("president.243@unionops.test", "Demo123", { NODE_ENV: "test" }),
     ).resolves.toMatchObject({ id: "user-president-243" });
     await expect(
-      findDemoUser("president@local243.ca", "nope", { NODE_ENV: "test" }),
+      findDemoUser("president.243@unionops.test", "nope", { NODE_ENV: "test" }),
     ).resolves.toBeNull();
   });
 
   it("refuses demo login when production gate is closed", async () => {
     await expect(
-      findDemoUser("president@local243.ca", "demo123", {
+      findDemoUser("president.243@unionops.test", "demo123", {
         NODE_ENV: "production",
       }),
     ).resolves.toBeNull();

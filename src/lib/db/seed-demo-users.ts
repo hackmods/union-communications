@@ -1,6 +1,6 @@
 /**
  * Upsert DEMO_USERS into Postgres so durable hosts match the login demo hint
- * (president@… / demo123, etc.). Skip with SEED_DEMO_USERS=false.
+ * (president.243@unionops.test / demo123, etc.). Skip with SEED_DEMO_USERS=false.
  */
 import { DEMO_USERS } from "@/lib/auth/demo-users";
 import { upsertPostgresUser } from "@/lib/auth/invite-postgres";

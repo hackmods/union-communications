@@ -72,7 +72,7 @@ This repo includes [`captain-definition`](../../captain-definition) pointing at 
 |----------|---------|
 | `AUTH_SECRET` | output of `openssl rand -base64 32` |
 | `AUTH_URL` | **Public** HTTPS origin only (no trailing slash) — e.g. `https://unionops.org`. Never the CapRover/internal FQDN (`*.behind7proxies.com`); wrong value leaks internal hosts into locale redirects, Auth.js `callback-url` cookies, and GSC “Page with redirect” noise. |
-| `AUTH_ALLOW_DEMO_USERS` | `true` on the public demo host so `president@local243.ca` / `demo123` work. The image defaults this to match `NEXT_PUBLIC_DEMO_SITE`. Omit/`false` for live casework. |
+| `AUTH_ALLOW_DEMO_USERS` | `true` on the public demo host so `president.243@unionops.test` / `demo123` work. The image defaults this to match `NEXT_PUBLIC_DEMO_SITE`. Omit/`false` for live casework. |
 | `AUTH_MFA_ENABLED` | `true` for casework; omit/`false` for demos (default) |
 | `AUTH_MFA_MODE` | `totp` when MFA enabled; workshops: shared_code + break-glass |
 | `AUTH_ALLOW_SHARED_MFA_IN_PROD` | `true` only for workshop/demo hosts using shared code |

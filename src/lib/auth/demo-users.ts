@@ -9,11 +9,21 @@ import { verifyPassword } from "@/lib/auth/password";
 export const DEMO_PASSWORD_HASH =
   "$2b$10$f09Lh9HIYNa/jyqKg1XVku27IJ4amiXw/ypJeL2SATVlXpn0l3jTW";
 
+/**
+ * Reserved RFC 2606 `.test` domain so demo mailboxes cannot collide with a
+ * real union, local, or `example.ca` registration.
+ */
+export const DEMO_EMAIL_DOMAIN = "unionops.test";
+
+export function demoEmail(localPart: string): string {
+  return `${localPart}@${DEMO_EMAIL_DOMAIN}`;
+}
+
 /** Dev/demo roster — passwords are bcrypt hashes only (SEC-007). */
 export const DEMO_USERS: DemoUser[] = [
   {
     id: "user-president-243",
-    email: "president@local243.ca",
+    email: demoEmail("president.243"),
     passwordHash: DEMO_PASSWORD_HASH,
     name: "Local 243 President",
     unionId: "union-opseu",
@@ -28,7 +38,7 @@ export const DEMO_USERS: DemoUser[] = [
   },
   {
     id: "user-steward-243",
-    email: "steward@local243.ca",
+    email: demoEmail("steward.243"),
     passwordHash: DEMO_PASSWORD_HASH,
     name: "Local 243 Steward (FT)",
     unionId: "union-opseu",
@@ -42,7 +52,7 @@ export const DEMO_USERS: DemoUser[] = [
   },
   {
     id: "user-steward-243-pt",
-    email: "steward-pt@local243.ca",
+    email: demoEmail("steward-pt.243"),
     passwordHash: DEMO_PASSWORD_HASH,
     name: "Local 243 Steward (PT)",
     unionId: "union-opseu",
@@ -56,7 +66,7 @@ export const DEMO_USERS: DemoUser[] = [
   },
   {
     id: "user-division-admin",
-    email: "caat-admin@opseu.org",
+    email: demoEmail("caat-admin"),
     passwordHash: DEMO_PASSWORD_HASH,
     name: "CAAT Division Admin",
     unionId: "union-opseu",
@@ -70,7 +80,7 @@ export const DEMO_USERS: DemoUser[] = [
   },
   {
     id: "user-eerc-145",
-    email: "eerc@local145.ca",
+    email: demoEmail("eerc.145"),
     passwordHash: DEMO_PASSWORD_HASH,
     name: "Local 145 joint-committee lead",
     unionId: "union-opseu",
@@ -84,7 +94,7 @@ export const DEMO_USERS: DemoUser[] = [
   },
   {
     id: "user-president-415",
-    email: "president@local415.ca",
+    email: demoEmail("president.415"),
     passwordHash: DEMO_PASSWORD_HASH,
     name: "Local 415 President",
     unionId: "union-opseu",
@@ -98,7 +108,7 @@ export const DEMO_USERS: DemoUser[] = [
   },
   {
     id: "user-president-560",
-    email: "president@local560.ca",
+    email: demoEmail("president.560"),
     passwordHash: DEMO_PASSWORD_HASH,
     name: "Local 560 President",
     unionId: "union-opseu",
@@ -112,7 +122,7 @@ export const DEMO_USERS: DemoUser[] = [
   },
   {
     id: "user-stability-243",
-    email: "stability@local243.ca",
+    email: demoEmail("stability.243"),
     passwordHash: DEMO_PASSWORD_HASH,
     name: "Stability Committee Rep",
     unionId: "union-opseu",
@@ -125,7 +135,7 @@ export const DEMO_USERS: DemoUser[] = [
   },
   {
     id: "user-member-243",
-    email: "member@local243.ca",
+    email: demoEmail("member.243"),
     passwordHash: DEMO_PASSWORD_HASH,
     name: "Local 243 Member",
     unionId: "union-opseu",
@@ -138,7 +148,7 @@ export const DEMO_USERS: DemoUser[] = [
   },
   {
     id: "user-solo",
-    email: "solo@example.ca",
+    email: demoEmail("solo"),
     passwordHash: DEMO_PASSWORD_HASH,
     name: "Solo Steward",
     roles: ["solo_account"],

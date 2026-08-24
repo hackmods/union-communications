@@ -72,7 +72,7 @@ Portal `Circle` is the only collaboration type with optional `localId` ([`src/ty
 
 - Seed Circles: Local 243 Hall/LEC/JHSC, Halls for 145/415/560, and union-scoped `circle-caucus-joint` ([`memory-adapter.ts`](../../src/lib/portal/memory-adapter.ts))
 - Default create still stamps session `localId`. `scope: "union"` omits it. Hall and `local_members` stay local ([`circle-create.ts`](../../src/lib/portal/circle-create.ts)).
-- Roster invite lists the whole union (`GET .../invitees`). Demo `eerc@local145.ca` (`user-eerc-145`) is the joint-committee lead on seeded Circle `circle-caucus-joint` (no `localId`), with Floor/Sidebars chats from Locals 243 / 145 / 415 / 560. `db:seed` upserts `DEMO_USERS`.
+- Roster invite lists the whole union (`GET .../invitees`). Demo `eerc.145@unionops.test` (`user-eerc-145`) is the joint-committee lead on seeded Circle `circle-caucus-joint` (no `localId`), with Floor/Sidebars chats from Locals 243 / 145 / 415 / 560. `db:seed` upserts `DEMO_USERS`.
 - Portal is **memory-only** — there is no `PORTAL_DB_BACKEND` in [`backend.ts`](../../src/lib/db/backend.ts)
 
 ---
@@ -146,7 +146,7 @@ Caveats: Portal is hosted (not free-forever); Hub invite-only; **memory-only** (
 ## Shipped 2026-08-23 (was optional)
 
 1. Public guide `/guide/joint-committee` — generic joint-committee playbook; OPSEU / SEFPO EERC as one example; sources in `comms-sources.ts`. What’s new `joint-committee-guide`. No Home CTA.
-2. Portal `scope: "union"` omits `Circle.localId`. Seeded `circle-caucus-joint` is the demo union-side caucus (`eerc@local145.ca`). Roster invite uses union-wide candidates. What’s new `portal-union-circles` (`audience: "hub"`).
+2. Portal `scope: "union"` omits `Circle.localId`. Seeded `circle-caucus-joint` is the demo union-side caucus (`eerc.145@unionops.test`). Roster invite uses union-wide candidates. What’s new `portal-union-circles` (`audience: "hub"`).
 
 ---
 

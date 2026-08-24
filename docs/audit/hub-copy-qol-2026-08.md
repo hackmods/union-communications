@@ -58,9 +58,8 @@ These are wrong, not just awkward.
 | `discussions.mentionedCount` (FR) | Byte-identical to EN ICU string | French wording (`personnes citées`) |
 | `grievance.outcome.appealHint` (FR) | "**vérifier** la convention" (infinitive) | "**Vérifiez** … dans votre convention" |
 
-Demo credentials (`hub.demoHint`) still mention `opseu.org` email addresses — those are
-literal login IDs for the reference seed, not product defaults. **Left as-is**
-(deliberately).
+Demo credentials (`hub.demoHint`) use the reserved `unionops.test` domain so
+demo mailboxes cannot collide with a real union or local address.
 
 ## 2. Locked-term / bare-"hub" drift
 
@@ -161,7 +160,7 @@ Verify every new check with the throwaway injection harness from
 
 ## Deliberately left
 
-- `hub.demoHint` reference-tenant demo emails (`opseu.org`, `local243`)
+- `hub.demoHint` demo emails (reserved `unionops.test` domain)
 - Hybrid product term "live-local" on the Hybrid page itself
 - Playful `routeUi` quips (out of Hub NS scope; already public-pass owned)
 - Structural home-hero CTA de-dup (`COPY-001`)

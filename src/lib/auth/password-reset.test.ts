@@ -106,7 +106,7 @@ describe("persist password for invitees", () => {
 
   it("does not treat demo roster as resettable", async () => {
     await expect(
-      findResettableAccountByEmail("president@local243.ca"),
+      findResettableAccountByEmail("president.243@unionops.test"),
     ).resolves.toBeNull();
   });
 });

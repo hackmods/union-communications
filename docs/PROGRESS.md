@@ -1,8 +1,14 @@
 # Progress Log
 
+## Demo login domain (2026-08-23)
+
+- [x] Demo roster emails use reserved RFC 2606 `unionops.test` (`DEMO_EMAIL_DOMAIN`) so they cannot collide with a real union or local mailbox
+- [x] Login hint, README, e2e helpers, officer seed roster, and Hub docs updated
+- Verify: `npm run test:unit -- src/lib/auth/demo-users.test.ts src/lib/auth/sec007.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Joint-committee demo roster (2026-08-23)
 
-- [x] Demo `eerc@local145.ca` (Local 145, PT) plus Local 415 president; tenant locals 145 / 415
+- [x] Demo `eerc.145@unionops.test` (Local 145, PT) plus Local 415 president; tenant locals 145 / 415
 - [x] Seeded union-scoped Portal Circle `circle-caucus-joint` with Floor, Sidebars, Bulletin, and Actions from four locals
 - [x] Login hint lists the joint-committee caucus account
 - Verify: `npm run test:unit -- src/lib/portal/portal.test.ts src/lib/portal/circle-invitees.test.ts src/lib/tenant/loader.test.ts src/lib/tenant/tenant.test.ts src/lib/comms/public-copy-style.test.ts`
@@ -149,7 +155,7 @@
 
 - [x] Memory demo now has **distinct PT Support examples** (not FT clones): grev-002 note/comm/evening Step 2 meeting, additional-hours informal log + snippet, PT task, PT check-in, PT discussion, PT steward on the officer roster
 - [x] Local-wide rows (LEC booking, untagged informal log) still appear in both collections; bumping stays FT-only
-- [x] Switch collection to PT or log in as `steward-pt@local243.ca` to see the split
+- [x] Switch collection to PT or log in as `steward-pt.243@unionops.test` to see the split
 - Verify: `npm run test:unit -- src/lib/hub/demo-collection-seed.test.ts`
 ## Install page QoL (2026-08-19)
 
@@ -951,7 +957,7 @@ Scaffold through testing/CI — all complete.
 - [x] Committee sessions and notes
 - [x] Decision record (committee decides — not auto-decided)
 - [x] Decision log export (JSON + PDF in ZIP)
-- [x] Demo user: `stability@local243.ca`
+- [x] Demo user: `stability.243@unionops.test`
 - [ ] Server-side PDF storage + virus scan (deferred)
 - [ ] Persistent DB storage (memory adapter for MVP)
 

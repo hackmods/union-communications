@@ -18,7 +18,7 @@ afterEach(() => {
 describe("sign-in link tokens (memory)", () => {
   it("creates and consumes a one-time token", async () => {
     const row = await createSignInToken({
-      email: "president@local243.ca",
+      email: "president.243@unionops.test",
       userId: "user-president-243",
     });
     expect(row.token.length).toBeGreaterThan(10);

@@ -236,7 +236,7 @@ test.describe("Local Portal smoke @smoke", () => {
   });
 
   test("French Together uses solidarity labels", async ({ page }) => {
-    await hubLogin(page, "member@local243.ca");
+    await hubLogin(page, "member.243@unionops.test");
     await expect(page).toHaveURL(/\/en\/portal\/?$/);
     await page.goto("/fr/portal");
     await expect(page.getByRole("heading", { name: "Ensemble" })).toBeVisible();
