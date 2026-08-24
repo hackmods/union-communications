@@ -329,11 +329,9 @@ export function GraphicLayoutCanvas({
 function SolidarityLayout({
   primary,
   accent,
-  secondary: _secondary,
   copy,
   localNumber,
   subText,
-  thanks: _thanks,
   photoUrl,
   photoScale,
   size,
@@ -441,7 +439,6 @@ function SolidarityLayout({
 function SpotlightLayout({
   primary,
   accent,
-  secondary: _secondary,
   copy,
   localNumber,
   subText,
@@ -883,7 +880,6 @@ export function QuoteLayout({
 
 function ResultsLayout({
   primary,
-  accent,
   copy,
   localNumber,
   subText,
