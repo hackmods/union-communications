@@ -60,6 +60,7 @@ RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=migrate --chown=nextjs:nodejs /app/package.json ./db-migrate/package.json
 COPY --from=migrate --chown=nextjs:nodejs /app/node_modules ./db-migrate/node_modules
 COPY --from=migrate --chown=nextjs:nodejs /app/drizzle.migrate.config.ts ./db-migrate/drizzle.migrate.config.ts
 COPY --from=migrate --chown=nextjs:nodejs /app/src/lib/db/migrations ./db-migrate/src/lib/db/migrations

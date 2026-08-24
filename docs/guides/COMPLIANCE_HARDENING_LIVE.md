@@ -47,7 +47,9 @@ MIGRATE_DATABASE_URL=postgres://postgres:OWNER_PASSWORD@srv-captain--postgres-un
 POSTGRES_APP_PASSWORD=<app-role-password>
 ```
 
-Leave `*_DB_BACKEND` unset. Redeploy. Confirm logs: `migrate finished`, `unionops_app password synced`.
+Leave `*_DB_BACKEND` unset. Redeploy. Confirm logs: `migrate finished`, then `unionops_app password synced`.
+
+If the image predates the `sync-app-role` ESM fix, omit `POSTGRES_APP_PASSWORD` for the first migrate boot (migrate still runs), redeploy a build that includes that fix, then add `POSTGRES_APP_PASSWORD` and redeploy once more.
 
 ### Seed once
 

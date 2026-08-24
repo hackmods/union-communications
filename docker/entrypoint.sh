@@ -34,7 +34,7 @@ if [ -n "${MIGRATE_URL}" ] && [ -d "${MIGRATE_DIR}/src/lib/db/migrations" ]; the
     echo "[entrypoint] migrate finished"
     if [ -n "${POSTGRES_APP_PASSWORD:-}" ]; then
       echo "[entrypoint] syncing unionops_app password"
-      NODE_PATH="${MIGRATE_DIR}/node_modules" node /app/scripts/sync-app-role-password.mjs
+      MIGRATE_DIR="${MIGRATE_DIR}" node /app/scripts/sync-app-role-password.mjs
     fi
   fi
 elif [ -n "${MIGRATE_URL}" ]; then
