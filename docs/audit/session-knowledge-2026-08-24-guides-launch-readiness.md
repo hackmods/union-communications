@@ -70,4 +70,4 @@ No minute-by-minute run sheet on the public page — dated run sheets stay in `d
 1. **Ops Postgres flip** — `docker-compose.durable.yml`, `npm run ops:verify-durable`
 2. **Optional:** labour guides in Guides nav when launch audience is CAAT stewards
 3. **Optional:** print/email playbook depth if channel guides get feedback
-4. **Hub copy** — `COPY-003` voice pass (authenticated; not public Comms)
+4. **Hub copy** — `COPY-003` closed; sequel pass 2026-08-24 (Time/QOL error remedies + operator wording)

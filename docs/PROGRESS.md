@@ -1,5 +1,12 @@
 # Progress Log
 
+## Hub copy sequel (2026-08-24) — COPY-003
+
+- [x] Time 8c–8f + QOL handoff/calendar/snippets/marketplace error strings — EN/FR remedy clauses (refresh, check fields, try again)
+- [x] Site feedback / Portal feedback — “steward” → **operator** (product mail, not local steward)
+- [x] Hub guard: `*Error` keys in `HUB_NS` must include a remedy clause
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts`
+
 ## Graphic gradient ink (2026-08-24)
 
 - Solidarity / spotlight / thanks / results full-bleed fields use `brandFieldFillStyle` (same-hue primary deepen) instead of primary→white/accent washes that muddy midtones.

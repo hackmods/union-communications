@@ -1,6 +1,6 @@
 # Hub copy QOL audit — 2026-08
 
-**Status: implemented 2026-08-11.** Closes `COPY-003`. Sequel to
+**Status: implemented 2026-08-11; sequel 2026-08-24.** Closes `COPY-003`. Sequel to
 [`public-copy-qol-2026-08.md`](public-copy-qol-2026-08.md). Lessons from that pass
 still apply — especially “EN/FR key parity is not translation quality” and “verify
 a new guard by injecting the regression.”
@@ -158,6 +158,12 @@ Verify every new check with the throwaway injection harness from
 - `e2e/hybrid.smoke.spec.ts` heading `/Hybrid data mode|Mode de donn/i` — keep
   unless title changes
 - `e2e/rsvp.smoke.spec.ts` `/Submit RSVP|Envoyer le RSVP/i` — keep
+
+## Sequel (2026-08-24)
+
+Residual weak error states from Time 8c–8f and QOL modules — telegraphic `loadError` / `*Error` keys without a remedy clause. Fixed EN/FR (~40 keys) plus site-feedback “steward” → **operator** wording (Hub inbox is product mail, not a local steward).
+
+**Guard added:** `public-copy-style.test.ts` — Hub `*Error` keys must include try-again / refresh / check-your remedy text.
 
 ## Deliberately left
 

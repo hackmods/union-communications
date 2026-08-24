@@ -408,4 +408,22 @@ describe("Officer Hub copy style", () => {
     );
     expect(hits, report(hits)).toEqual([]);
   });
+
+  /** Load/action errors should tell officers what to do next (COPY-003 §4). */
+  it("Hub load and action errors include a remedy clause", () => {
+    const REMEDY = /try again|réessayez|refresh|actualisez|check your|vérifiez/i;
+    const ERROR_KEY =
+      /(?:^|\.)((?:load|Load|Create|Action|complete|publish|manual|bulk|window|worker|report|site|Approve|Balance|Series|Expand|Accrual|Payroll|Ot|Group)Error)$/;
+    for (const [locale, rows] of [
+      ["en", EN_HUB],
+      ["fr", FR_HUB],
+    ] as const) {
+      const weak = rows.filter(([path, value]) => {
+        const key = path.split(".").pop() ?? path;
+        if (!ERROR_KEY.test(`.${key}`)) return false;
+        return !REMEDY.test(value);
+      });
+      expect(weak, `${locale}\n${report(weak)}`).toEqual([]);
+    }
+  });
 });
