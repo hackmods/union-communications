@@ -115,7 +115,7 @@ jobs:
             type=raw,value=main
             type=sha,prefix=sha-
 
-      - name: Build and push
+      - name: Build and push (demo / workshop)
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -128,3 +128,16 @@ jobs:
             CAPROVER_GIT_COMMIT_SHA=${{ github.sha }}
             NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true
             NEXT_PUBLIC_DEMO_SITE=true
+
+      - name: Build and push (production hardened)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository }}:production
+          build-args: |
+            AUTH_SECRET=build-time-placeholder-not-used-at-runtime
+            CAPROVER_GIT_COMMIT_SHA=${{ github.sha }}
+            NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true
+            NEXT_PUBLIC_DEMO_SITE=false

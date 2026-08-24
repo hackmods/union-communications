@@ -32,3 +32,6 @@ services:
       MEETINGS_RSVP_DB_BACKEND: postgres
       CHECKINS_DB_BACKEND: postgres
       AUTH_USERS_BACKEND: postgres
+      AUTH_ALLOW_DEMO_USERS: "false"
+      AUTH_MFA_ENABLED: "true"
+      AUTH_MFA_MODE: totp

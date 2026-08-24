@@ -28,6 +28,7 @@
     "test:export": "playwright test --grep @export",
     "test:smoke:sandbox": "node scripts/smoke-sandbox.mjs",
     "health:check": "node scripts/health-check.mjs",
+    "health:check:production": "node scripts/verify-prod-health.mjs",
     "package:sandbox": "node scripts/package-sandbox-src.mjs",
     "brand:set": "node scripts/set-host-brand.mjs",
     "brand:favicons": "node scripts/generate-favicons.mjs",

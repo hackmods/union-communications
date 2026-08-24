@@ -166,6 +166,16 @@ AUTH_MFA_MODE=totp
 
 **Build args** (rebuild image — not runtime env):
 
+**Option A — pull hardened image from GHCR (recommended):**
+
+```text
+ghcr.io/hackmods/union-communications:production
+```
+
+CI publishes `:production` on every `main` push with demo UI off. Keep `:main` for workshop hosts.
+
+**Option B — git deploy build args** in CapRover App Configs:
+
 ```env
 NEXT_PUBLIC_DEMO_SITE=false
 NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true

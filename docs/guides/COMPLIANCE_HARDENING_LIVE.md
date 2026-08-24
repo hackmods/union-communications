@@ -96,12 +96,28 @@ AUTH_MFA_ENABLED=true
 AUTH_MFA_MODE=totp
 ```
 
-### Build args (rebuild image)
+### Image (pick one)
+
+**Option A — GHCR production tag (recommended on Digital Ocean):**
+
+CapRover → Deployment → **Method 3: Deploy via ImageName** (or App Configs image field):
+
+```text
+ghcr.io/hackmods/union-communications:production
+```
+
+CI publishes `:production` on every `main` push with `NEXT_PUBLIC_DEMO_SITE=false` baked in. `:main` stays demo/workshop.
+
+**Option B — Git deploy with build args:**
+
+CapRover → App Configs → **Build arguments**:
 
 ```env
 NEXT_PUBLIC_DEMO_SITE=false
 NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true
 ```
+
+Then trigger deploy (webhook or manual).
 
 ### Recommended extras
 
@@ -125,6 +141,12 @@ Redeploy web app.
 
 ```powershell
 curl.exe -sL https://unionops.org/api/health/
+```
+
+Or from repo checkout:
+
+```bash
+HEALTH_URL=https://unionops.org npm run health:check:production
 ```
 
 | Field | Pass |
