@@ -37,26 +37,26 @@ describe("applyPersistedSnapshotToOverlay", () => {
       divisions: [],
       locals: [
         {
-          id: "local-415",
+          id: "local-777",
           unionId: "union-opseu",
-          localNumber: "415",
+          localNumber: "777",
           subText: "Pilot local",
         },
       ],
       bargainingUnits: [
         {
-          id: "bu-415-ft",
+          id: "bu-777-ft",
           unionId: "union-opseu",
-          localId: "local-415",
+          localId: "local-777",
           code: "ft",
           name: "Full-time",
         },
       ],
     });
     expect(findLocalByNumber("union-opseu", "243")?.id).toBe("local-243");
-    expect(findLocalByNumber("union-opseu", "415")?.subText).toBe("Pilot local");
+    expect(findLocalByNumber("union-opseu", "777")?.subText).toBe("Pilot local");
     const ctx = getTenantByUnionId("union-opseu");
-    expect(ctx?.bargainingUnits?.some((u) => u.id === "bu-415-ft")).toBe(true);
+    expect(ctx?.bargainingUnits?.some((u) => u.id === "bu-777-ft")).toBe(true);
     expect(ctx?.brandDefaults.assetPackPath).toContain("caat-opseu");
   });
 
