@@ -268,6 +268,7 @@ Set all `*_DB_BACKEND=memory` and restart — Postgres data is **not read** unti
 
 | Symptom | Fix |
 |---------|-----|
+| Build fails `unknown parent image ID` on `COPY --from=…` | CapRover droplet BuildKit/disk issue — **prefer GHCR pull deploy** (`ghcr.io/hackmods/union-communications:main`) via CapRover **Method 3: Deploy via ImageName**, or set GitHub secrets `CAPROVER_SERVER`, `CAPROVER_PASSWORD`, `CAPROVER_APP` so CI deploys the pre-built image. On the host: `df -h`, `docker builder prune -af`, ensure no cron runs `docker system prune` during builds. |
 | CapRover NGINX **502** | Web app Container HTTP Port = **3000** |
 | Redirects to `*.captain…` / wrong cookies | `AUTH_URL=https://unionops.org` (browser-facing HTTPS, no trailing slash) |
 | `migrate failed — refusing to start` | Check owner URL, network reachability to `srv-captain--…`, Postgres logs; use `MIGRATE_CONTINUE_ON_ERROR=true` only to debug |

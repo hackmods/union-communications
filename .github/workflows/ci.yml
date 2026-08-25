@@ -63,73 +63,48 @@ jobs:
           NEXT_PUBLIC_OFFICER_HUB_PUBLIC: "true"
         run: npm run test:smoke
 
-      - name: Docker build smoke
-        run: docker build -f docker/Dockerfile -t union-communications:ci .
-
-      - name: Docker migrate smoke
-        run: bash scripts/docker-migrate-smoke.sh union-communications:ci
-
       - name: Dependency audit
         run: npm audit --audit-level=high
         continue-on-error: true
 
-  deploy:
-    needs: test-and-build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger CapRover build
-        env:
-          CAPROVER_WEBHOOK_URL: ${{ secrets.CAPROVER_WEBHOOK_URL }}
-        run: |
-          if [ -z "$CAPROVER_WEBHOOK_URL" ]; then
-            echo "::warning::CAPROVER_WEBHOOK_URL not set — skipping deploy trigger. Set it once the CapRover app exists."
-            exit 0
-          fi
-          curl -fsS -X POST "$CAPROVER_WEBHOOK_URL"
-          echo "CapRover build triggered."
-
-  publish-ghcr:
-    needs: test-and-build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  # Docker build + GHCR publish run independently of E2E so CapRover can pull a
+  # pre-built image instead of rebuilding on a small droplet (BuildKit export failures).
+  docker-image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Docker build smoke
+        run: |
+          docker build -f docker/Dockerfile -t union-communications:ci \
+            --build-arg AUTH_SECRET=build-time-placeholder-not-used-at-runtime \
+            --build-arg CAPROVER_GIT_COMMIT_SHA=${{ github.sha }} \
+            --build-arg NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true \
+            --build-arg NEXT_PUBLIC_DEMO_SITE=true \
+            .
+
+      - name: Docker migrate smoke
+        run: bash scripts/docker-migrate-smoke.sh union-communications:ci
 
       - name: Log in to GHCR
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Docker metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}
-          tags: |
-            type=raw,value=main
-            type=sha,prefix=sha-
+      - name: Push demo / workshop image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          IMAGE="ghcr.io/${{ github.repository }}"
+          docker tag union-communications:ci "${IMAGE}:main"
+          docker tag union-communications:ci "${IMAGE}:sha-${GITHUB_SHA::7}"
+          docker push "${IMAGE}:main"
+          docker push "${IMAGE}:sha-${GITHUB_SHA::7}"
 
-      - name: Build and push (demo / workshop)
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: docker/Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            AUTH_SECRET=build-time-placeholder-not-used-at-runtime
-            CAPROVER_GIT_COMMIT_SHA=${{ github.sha }}
-            NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true
-            NEXT_PUBLIC_DEMO_SITE=true
-
-      - name: Build and push (production hardened)
+      - name: Build and push production hardened image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -141,3 +116,34 @@ jobs:
             CAPROVER_GIT_COMMIT_SHA=${{ github.sha }}
             NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true
             NEXT_PUBLIC_DEMO_SITE=false
+
+  deploy:
+    needs: docker-image
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy pre-built GHCR image to CapRover
+        env:
+          CAPROVER_SERVER: ${{ secrets.CAPROVER_SERVER }}
+          CAPROVER_PASSWORD: ${{ secrets.CAPROVER_PASSWORD }}
+          CAPROVER_APP: ${{ secrets.CAPROVER_APP }}
+          CAPROVER_WEBHOOK_URL: ${{ secrets.CAPROVER_WEBHOOK_URL }}
+          IMAGE: ghcr.io/${{ github.repository }}:main
+        run: |
+          if [ -n "$CAPROVER_SERVER" ] && [ -n "$CAPROVER_PASSWORD" ] && [ -n "$CAPROVER_APP" ]; then
+            echo "Deploying ${IMAGE} to CapRover app ${CAPROVER_APP} (pull only — no on-host build)."
+            docker run --rm caprover/caprover-cli:2.2.3 caprover deploy \
+              --caproverUrl "$CAPROVER_SERVER" \
+              --caproverPassword "$CAPROVER_PASSWORD" \
+              --caproverApp "$CAPROVER_APP" \
+              --imageName "$IMAGE"
+            echo "CapRover image deploy triggered."
+            exit 0
+          fi
+          if [ -n "$CAPROVER_WEBHOOK_URL" ]; then
+            echo "::warning::CAPROVER_SERVER/PASSWORD/APP not set — falling back to git webhook (rebuilds on CapRover; may fail on small hosts)."
+            curl -fsS -X POST "$CAPROVER_WEBHOOK_URL"
+            echo "CapRover git build webhook triggered."
+            exit 0
+          fi
+          echo "::warning::No CapRover deploy secrets — skipping deploy. Set CAPROVER_SERVER, CAPROVER_PASSWORD, CAPROVER_APP for image deploy."
