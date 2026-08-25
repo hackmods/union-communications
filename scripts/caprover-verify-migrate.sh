@@ -28,7 +28,7 @@ docker run --rm --network "${NET}" postgres:16-alpine \
   psql "${MIGRATE_URL}" -v ON_ERROR_STOP=1 -c "
 SELECT
   (SELECT count(*) FROM information_schema.tables
-     WHERE table_schema = 'public' AND table_name = '__drizzle_migrations') AS drizzle_table,
+     WHERE table_name = '__drizzle_migrations') AS drizzle_table,
   (SELECT count(*) FROM __drizzle_migrations) AS migration_rows,
   (SELECT count(*) FROM pg_roles WHERE rolname = 'unionops_app') AS app_role;
 "

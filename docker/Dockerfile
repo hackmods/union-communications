@@ -58,15 +58,9 @@ COPY src/lib/db/migrations ./db-migrate/src/lib/db/migrations
 COPY scripts/sync-app-role-password.mjs ./scripts/sync-app-role-password.mjs
 
 USER root
-# #region agent log
-RUN echo "[build-debug session=3d0783 hypothesis=E] runner disk before migrate npm:" && df -h /
-# #endregion
 RUN cd /app/db-migrate \
   && npm install --omit=dev \
   && npm cache clean --force
-# #region agent log
-RUN echo "[build-debug session=3d0783 hypothesis=E] migrate deps installed:" && du -sh /app/db-migrate/node_modules && ls /app/db-migrate/node_modules/drizzle-kit/bin.cjs
-# #endregion
 RUN chown -R nextjs:nodejs /app/db-migrate \
   && chmod +x /entrypoint.sh
 

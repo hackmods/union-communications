@@ -85,7 +85,7 @@ if ! grep -q "migrate finished" "${LOG_FILE}"; then
 fi
 
 TABLE_COUNT="$(${COMPOSE} exec -T db psql -U "${POSTGRES_USER:-unionops}" -d "${POSTGRES_DB:-unionops}" -tAc \
-  "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name = '__drizzle_migrations'")"
+  "SELECT count(*) FROM information_schema.tables WHERE table_name = '__drizzle_migrations'")"
 
 if [[ "${TABLE_COUNT}" != "1" ]]; then
   echo "[docker-migrate-smoke] __drizzle_migrations table missing (got: ${TABLE_COUNT})" >&2
