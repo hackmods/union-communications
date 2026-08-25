@@ -103,13 +103,22 @@ function FlyerMakerPageContent() {
 
   const brandColors = coloursFromBrandKit(brandKit);
 
-  const initial: FlyerState = {
-    message: "PICKET LINE - ALL MEMBERS WELCOME",
-    body: "",
-    date: "Monday, March 15",
-    time: "7:00 AM - 4:00 PM",
-    location: "123 Main Street, Toronto",
-    contact: "",
+  const baseFlyerFields = (): Pick<
+    FlyerState,
+    "message" | "body" | "date" | "time" | "location" | "contact"
+  > => ({
+    message: tf("defaults.message"),
+    body: tf("defaults.body"),
+    date: tf("defaults.date"),
+    time: tf("defaults.time"),
+    location: tf("defaults.location"),
+    contact: tf("defaults.contact"),
+  });
+
+  const buildInitial = (
+    colours: ReturnType<typeof coloursFromBrandKit>,
+  ): FlyerState => ({
+    ...baseFlyerFields(),
     layout: DEFAULT_FLYER_LAYOUT,
     format: DEFAULT_FLYER_FORMAT,
     fontStack: DEFAULT_FLYER_FONT,
@@ -118,10 +127,12 @@ function FlyerMakerPageContent() {
     showQr: false,
     qrUrl: "",
     photoScale: 1,
-    primaryColor: brandColors.primary,
-    accentColor: brandColors.accent,
-    secondaryColor: brandColors.secondary,
-  };
+    primaryColor: colours.primary,
+    accentColor: colours.accent,
+    secondaryColor: colours.secondary,
+  });
+
+  const initial = buildInitial(brandColors);
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<FlyerState>(initial);
@@ -222,10 +233,7 @@ function FlyerMakerPageContent() {
       return;
     }
     reset({
-      ...initial,
-      primaryColor: colours.primary,
-      accentColor: colours.accent,
-      secondaryColor: colours.secondary,
+      ...buildInitial(colours),
     });
   });
 
@@ -365,54 +373,57 @@ function FlyerMakerPageContent() {
                   })
                 }
               />
-                <SegControl
-                  label={tf("format")}
-                  value={state.format}
-                  options={FLYER_FORMAT_ORDER.map((id) => ({
-                    value: id,
-                    label: tf(`formats.${id}`),
-                  }))}
-                  onChange={(id) => setState({ ...state, format: id })}
-                />
-                <Textarea
-                  label={tf("message")}
-                  value={state.message}
-                  onChange={(e) =>
-                    setState({ ...state, message: e.target.value })
-                  }
-                  rows={2}
-                />
-                <Textarea
-                  label={tf("body")}
-                  value={state.body}
-                  onChange={(e) => setState({ ...state, body: e.target.value })}
-                  rows={3}
-                />
-                <Input
-                  label={tf("date")}
-                  value={state.date}
-                  onChange={(e) => setState({ ...state, date: e.target.value })}
-                />
-                <Input
-                  label={tf("time")}
-                  value={state.time}
-                  onChange={(e) => setState({ ...state, time: e.target.value })}
-                />
-                <Input
-                  label={tf("location")}
-                  value={state.location}
-                  onChange={(e) =>
-                    setState({ ...state, location: e.target.value })
-                  }
-                />
-                <Input
-                  label={tf("contact")}
-                  value={state.contact}
-                  onChange={(e) =>
-                    setState({ ...state, contact: e.target.value })
-                  }
-                />
-              </section>
+              <SegControl
+                label={tf("format")}
+                value={state.format}
+                options={FLYER_FORMAT_ORDER.map((id) => ({
+                  value: id,
+                  label: tf(`formats.${id}`),
+                }))}
+                onChange={(id) => setState({ ...state, format: id })}
+              />
+            </section>
+
+            <ToolFormDetails title={tf("sectionEventDetails")} defaultOpen>
+              <Textarea
+                label={tf("message")}
+                value={state.message}
+                onChange={(e) =>
+                  setState({ ...state, message: e.target.value })
+                }
+                rows={2}
+              />
+              <Textarea
+                label={tf("body")}
+                value={state.body}
+                onChange={(e) => setState({ ...state, body: e.target.value })}
+                rows={3}
+              />
+              <Input
+                label={tf("date")}
+                value={state.date}
+                onChange={(e) => setState({ ...state, date: e.target.value })}
+              />
+              <Input
+                label={tf("time")}
+                value={state.time}
+                onChange={(e) => setState({ ...state, time: e.target.value })}
+              />
+              <Input
+                label={tf("location")}
+                value={state.location}
+                onChange={(e) =>
+                  setState({ ...state, location: e.target.value })
+                }
+              />
+              <Input
+                label={tf("contact")}
+                value={state.contact}
+                onChange={(e) =>
+                  setState({ ...state, contact: e.target.value })
+                }
+              />
+            </ToolFormDetails>
 
               <ToolFormDetails title={tf("sectionTypography")}>
                 <SegControl
@@ -546,12 +557,7 @@ function FlyerMakerPageContent() {
                   onRedo={redo}
                   onReset={() => {
                     const colours = coloursFromBrandKit(brandKit);
-                    reset({
-                      ...initial,
-                      primaryColor: colours.primary,
-                      accentColor: colours.accent,
-                      secondaryColor: colours.secondary,
-                    });
+                    reset(buildInitial(colours));
                   }}
                 />
                 <div className="flex flex-wrap gap-3">
@@ -585,7 +591,7 @@ function FlyerMakerPageContent() {
         }
         preview={
           /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
-          <div className="shadow-lg">
+          <div className="mx-auto w-full max-w-md shadow-lg lg:max-w-lg">
             <FlyerLayoutCanvas
               canvasRef={canvasRef}
               layout={state.layout}

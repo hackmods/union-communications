@@ -18,6 +18,7 @@ import {
   type PlatformId,
 } from "@/lib/alt-text/draft";
 import { PageShell } from "@/components/layout/PageShell";
+import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 
 const CHECKLIST_IDS = [
   "visual",
@@ -80,6 +81,7 @@ export default function AltTextPage() {
         {t("title")}
       </h1>
       <p className="mt-1 max-w-prose text-gray-600">{t("subtitle")}</p>
+      <p className="mt-2 max-w-2xl text-sm text-gray-500">{t("whenToUse")}</p>
 
       <div className="mt-6 grid items-start gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] xl:gap-6">
       <Card density="compact" className="space-y-3">
@@ -235,6 +237,8 @@ export default function AltTextPage() {
       </Card>
       </div>
       </div>
+
+      <ToolRelatedFooter toolSlug="alt-text" className="mt-8" />
     </PageShell>
   );
 }

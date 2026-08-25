@@ -89,7 +89,7 @@ Update when a surface ships.
 | resizer | done |
 | website-template | done |
 | board-banner | done |
-| alt-text | done |
+| alt-text | done (PageShell exception; purposeHint + RelatedTools 2026-08-25) |
 | document-generator | done (layout exception; success Callout + RelatedTools 2026-08) |
 | pulse-poll | done (RelatedTools + exportSuccess; Hub publish remains advanced) |
 | share-kit | **folded 2026-08-18** — redirect to Graphic Maker; do not rebuild |

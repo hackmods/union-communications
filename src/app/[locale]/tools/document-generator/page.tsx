@@ -440,6 +440,7 @@ function DocumentGeneratorPageContent() {
           {t("title")}
         </h1>
         <p className="mt-1 text-gray-600">{t("subtitle")}</p>
+        <p className="mt-2 max-w-2xl text-sm text-gray-500">{t("whenToUse")}</p>
       </div>
 
       <div

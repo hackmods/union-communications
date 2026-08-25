@@ -43,6 +43,7 @@ import { SegControl } from "@/components/tools/SegControl";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { WebsitePreviewFrame } from "@/components/tools/WebsitePreviewFrame";
+import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { Callout } from "@/components/ui/Callout";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
@@ -406,7 +407,14 @@ export default function WebsiteTemplatePage() {
       previewAccessibleName={t("previewAccessibleName")}
       exportError={exportError}
       exportSuccess={exportSuccess}
-      toolbar={<Callout tone="brand">{t("referenceNote")}</Callout>}
+      toolbar={
+        <div className="space-y-3">
+          {!themeEstablished ? (
+            <BrandSetupPrompt themeEstablished={themeEstablished} />
+          ) : null}
+          <Callout tone="brand">{t("referenceNote")}</Callout>
+        </div>
+      }
       form={
         <Card density="compact" className="space-y-3">
           <Input

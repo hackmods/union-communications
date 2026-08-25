@@ -1928,6 +1928,7 @@
   "documentGenerator": {
     "title": "Document & Slide Generator",
     "subtitle": "Build branded documents with a live preview. Download Word — plus Excel or PowerPoint when the example includes them.",
+    "whenToUse": "Use for branded Word packs, seniority worksheets, invite emails, and slide decks — when you need editable office files, not a PNG.",
     "examples": "Examples",
     "settings": "Edit & download",
     "designPreset": "Example",
@@ -2268,6 +2269,10 @@
     "subtitle": "Author a short pulse poll, brand it, print a QR card, and publish for responses.",
     "previewAccessibleName": "Pulse poll preview",
     "whenToUse": "Use for a short branded poll with a printable QR card. Publishing needs Officer Hub sign-in; members answer on a privacy-respecting share link.",
+    "demoTitle": "Quick member pulse",
+    "demoIntro": "Two short questions — answers stay anonymous on the share link.",
+    "demoQuestion1": "What issue should we prioritize this month?",
+    "demoQuestion2": "How confident do you feel about our bargaining team?",
     "privacyNotice": "Publishing needs an Officer Hub sign-in. Members answer on a privacy-respecting share link (consent required). No third-party analytics.",
     "pollTitle": "Poll title",
     "intro": "Intro / context (optional)",
@@ -3260,6 +3265,15 @@
     "accentColor": "Accent colour",
     "secondaryColor": "Secondary colour",
     "whenToUse": "Use for handouts at meetings, walkabouts, and actions. Pair with boards so offline members still get the facts.",
+    "sectionEventDetails": "Event details",
+    "defaults": {
+      "message": "PICKET LINE — ALL MEMBERS WELCOME",
+      "body": "",
+      "date": "Monday, March 15",
+      "time": "7:00 AM – 4:00 PM",
+      "location": "123 Main Street, Toronto",
+      "contact": ""
+    },
     "layouts": {
       "stack": "Stack",
       "band": "Colour band",
@@ -3316,6 +3330,7 @@
   "altTextAssistant": {
     "title": "Alt-Text Assistant",
     "subtitle": "Draft alt text for social posts, then paste into each platform. The tool does not analyze images.",
+    "whenToUse": "Use after you export a graphic from Graphic Maker, Quote Card, or Flyer — paste the alt text into each platform's accessibility field (not the caption).",
     "starterLabel": "Start from a common graphic type",
     "altLabel": "Alt text (for the image accessibility field)",
     "altPlaceholder": "Describe who or what is shown, the setting, and any text on the graphic…",

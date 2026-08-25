@@ -87,7 +87,12 @@ export default function PulsePollPage() {
           secondaryColor: brandKit.secondaryColor,
         }),
         includeBranding: themeEstablished,
-        title: "",
+        title: t("demoTitle"),
+        intro: t("demoIntro"),
+        questions: [
+          { id: "q-demo-1", text: t("demoQuestion1") },
+          { id: "q-demo-2", text: t("demoQuestion2") },
+        ],
       });
     }
   });
@@ -207,7 +212,7 @@ export default function PulsePollPage() {
   }
 
   const ink = pickContrastingInk(state.primaryColor);
-  const pollPreviewWidthPx = 384; // max-w-sm
+  const pollPreviewWidthPx = 448; // max-w-md (28rem)
   const titleFontPx = walletTitleFontSizePx(tokens, pollPreviewWidthPx);
   const bodyFontPx = walletBodyFontSizePx(tokens, pollPreviewWidthPx);
   const metaFontPx = walletMetaFontSizePx(tokens);
@@ -358,12 +363,19 @@ export default function PulsePollPage() {
         canUndo={canUndo}
         canRedo={canRedo}
         onReset={() =>
-          reset(
-            createEmptyPulsePollDraft({
+          reset({
+            ...createEmptyPulsePollDraft({
               primaryColor: brandKit.primaryColor,
               secondaryColor: brandKit.secondaryColor,
             }),
-          )
+            includeBranding: themeEstablished,
+            title: t("demoTitle"),
+            intro: t("demoIntro"),
+            questions: [
+              { id: `q-${Date.now()}-1`, text: t("demoQuestion1") },
+              { id: `q-${Date.now()}-2`, text: t("demoQuestion2") },
+            ],
+          })
         }
       />
 
@@ -414,7 +426,7 @@ export default function PulsePollPage() {
       <div
         ref={canvasRef}
                   data-export-root=""
-        className="relative mx-auto flex w-full max-w-sm flex-col rounded-lg shadow-sm"
+        className="relative mx-auto flex w-full max-w-md flex-col rounded-lg shadow-sm"
         style={previewStyle}
       >
         <CanvasGrainOverlay opacity={tokens.grainOpacity} />

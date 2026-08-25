@@ -1928,6 +1928,7 @@
   "documentGenerator": {
     "title": "Générateur de documents et diapositives",
     "subtitle": "Créez des documents à votre marque avec aperçu en direct. Téléchargez Word — plus Excel ou PowerPoint quand l’exemple les inclut.",
+    "whenToUse": "Utilisez-le pour des packs Word à votre marque, des feuilles d’ancienneté, des courriels d’invitation et des diapositives — quand vous avez besoin de fichiers modifiables, pas d’un PNG.",
     "examples": "Exemples",
     "settings": "Modifier et télécharger",
     "designPreset": "Exemple",
@@ -2268,6 +2269,10 @@
     "subtitle": "Rédigez un sondage éclair, marquez-le, imprimez une carte QR et publiez pour les réponses.",
     "previewAccessibleName": "Aperçu du sondage éclair",
     "whenToUse": "À utiliser pour un court sondage aux couleurs de la section avec une carte QR imprimable. La publication exige une connexion au Hub des dirigeants ; les membres répondent via un lien respectueux de la vie privée.",
+    "demoTitle": "Sondage éclair des membres",
+    "demoIntro": "Deux questions courtes — les réponses restent anonymes sur le lien de partage.",
+    "demoQuestion1": "Quel enjeu devrions-nous prioriser ce mois-ci ?",
+    "demoQuestion2": "Dans quelle mesure avez-vous confiance en notre équipe de négociation ?",
     "privacyNotice": "La publication exige une connexion au Hub des dirigeants. Les membres répondent via un lien respectueux de la vie privée (consentement requis). Pas d'analytique tierce.",
     "pollTitle": "Titre du sondage",
     "intro": "Intro / contexte (facultatif)",
@@ -3210,6 +3215,15 @@
     "accentColor": "Couleur d'accent",
     "secondaryColor": "Couleur secondaire",
     "whenToUse": "À utiliser pour les tracts distribués aux réunions, aux tournées et aux actions. Associez-les aux tableaux pour que les membres hors ligne aient aussi les faits.",
+    "sectionEventDetails": "Détails de l'événement",
+    "defaults": {
+      "message": "LIGNE DE PIQUETAGE — TOUS LES MEMBRES SONT LES BIENVENUS",
+      "body": "",
+      "date": "Lundi 15 mars",
+      "time": "7 h – 16 h",
+      "location": "123, rue Principale, Toronto",
+      "contact": ""
+    },
     "layouts": {
       "stack": "Empilé",
       "band": "Bande couleur",
@@ -3266,6 +3280,7 @@
   "altTextAssistant": {
     "title": "Assistant texte alternatif",
     "subtitle": "Rédigez le texte alternatif pour les publications, puis collez-le dans chaque plateforme. L’outil n’analyse pas les images.",
+    "whenToUse": "Utilisez-le après avoir exporté un graphique depuis le Créateur graphique, la Carte de citation ou le Créateur de tracts — collez le texte alternatif dans le champ d’accessibilité de chaque plateforme (pas dans la légende).",
     "starterLabel": "Partir d'un type de graphique courant",
     "altLabel": "Texte alternatif (pour le champ d'accessibilité de l'image)",
     "altPlaceholder": "Décrivez qui ou ce qui est montré, le contexte, et tout texte sur le graphique…",
