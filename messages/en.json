@@ -1830,6 +1830,7 @@
     "cornerBottomLeft": "Bottom left",
     "cornerBottomRight": "Bottom right",
     "bannerDesign": "Banner design",
+    "sectionTrimPreview": "Preview and corner position",
     "callout": "Callout text",
     "ornaments": "Ornaments",
     "ornamentsHint": "Applies to the header banner and all frame trim pieces.",
@@ -2127,6 +2128,8 @@
     "formatUhd": "UHD 16:9 (3840×2160)",
     "formatPortraitHd": "HD 9:16 (1080×1920)",
     "formatPortraitUhd": "UHD 9:16 (2160×3840)",
+    "sectionOptionalCopy": "Optional lead-in and closer",
+    "sectionLayout": "Layout and design",
     "sizeHint": "HD matches typical Zoom and Teams recommendations. Use UHD for large or high-DPI displays.",
     "sizeHintPortrait": "HD suits phones and most portrait webcam setups. Use UHD for tall monitors or high-DPI screens.",
     "includeBranding": "Include local branding",
@@ -2303,7 +2306,10 @@
     "published": "Poll published. Share the link with members.",
     "publishError": "Could not publish this poll. Check the question and share link name, then try again.",
     "publishAuthRequired": "Sign in to the Officer Hub (with MFA) to publish.",
-    "publishSlugTaken": "That share link name is already in use. Try another one."
+    "publishSlugTaken": "That share link name is already in use. Try another one.",
+    "hubSignInTitle": "Officer Hub required to publish",
+    "hubSignInBody": "Drafting and PNG/PDF export work on this device. To collect member answers, sign in to the Officer Hub, then tap Publish and share the link.",
+    "hubSignInLink": "Sign in to Officer Hub"
   },
   "pollPublic": {
     "notFoundTitle": "Poll not found",
@@ -2439,7 +2445,11 @@
     "orgChartLink": "Open Org Chart",
     "sectionOfficers": "Executive officers",
     "sectionImportExport": "Import and download",
-    "sectionOtherPlatforms": "Other website platforms"
+    "sectionOtherPlatforms": "Other website platforms",
+    "sectionHero": "Hero section",
+    "sectionAbout": "About page",
+    "sectionContact": "Contact details",
+    "officeAddressPlaceholder": "Campus or office address (optional)"
   },
   "orgChart": {
     "title": "Org Chart",

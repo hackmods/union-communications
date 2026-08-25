@@ -846,11 +846,6 @@ export default function MeetingBackgroundPage() {
               </select>
             </div>
 
-            <Input
-              label={t("leadIn")}
-              value={state.leadIn}
-              onChange={(e) => setState({ ...state, leadIn: e.target.value })}
-            />
             <div>
               <label
                 htmlFor="meeting-headline"
@@ -871,14 +866,22 @@ export default function MeetingBackgroundPage() {
                 {t("headlineHint")}
               </p>
             </div>
-            <Input
-              label={t("closer")}
-              value={state.closer}
-              onChange={(e) => setState({ ...state, closer: e.target.value })}
-            />
+
+            <ToolFormDetails title={t("sectionOptionalCopy")}>
+              <Input
+                label={t("leadIn")}
+                value={state.leadIn}
+                onChange={(e) => setState({ ...state, leadIn: e.target.value })}
+              />
+              <Input
+                label={t("closer")}
+                value={state.closer}
+                onChange={(e) => setState({ ...state, closer: e.target.value })}
+              />
+            </ToolFormDetails>
           </section>
 
-          <section className="space-y-4 border-t border-gray-200 pt-5">
+          <ToolFormDetails title={t("sectionLayout")}>
             <SegControl
               label={t("design")}
               value={isPortrait ? "minimal" : designSet}
@@ -918,7 +921,7 @@ export default function MeetingBackgroundPage() {
               }))}
               onChange={(layout) => setState({ ...state, layout })}
             />
-          </section>
+          </ToolFormDetails>
 
           <ToolFormDetails title={t("toggles")}>
             <div

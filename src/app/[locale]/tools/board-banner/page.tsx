@@ -512,47 +512,40 @@ export default function BoardBannerPage() {
                   </p>
                 </div>
 
-                <SegControl
-                  label={t("previewPiece")}
-                  value={trimFocus}
-                  options={kitPieces.map((piece) => ({
-                    value: piece,
-                    label: t(trimPieceById(piece).labelKey),
-                  }))}
-                  onChange={(piece) =>
-                    setState({ ...state, trimFocus: piece })
-                  }
-                />
-                {trimFocus === "corner" ? (
+                <ToolFormDetails title={t("sectionTrimPreview")}>
                   <SegControl
-                    label={t("cornerPosition")}
-                    value={state.cornerPosition}
-                    options={CORNER_POSITION_DEFS.map((pos) => ({
-                      value: pos.id,
-                      label: t(pos.labelKey),
+                    label={t("previewPiece")}
+                    value={trimFocus}
+                    options={kitPieces.map((piece) => ({
+                      value: piece,
+                      label: t(trimPieceById(piece).labelKey),
                     }))}
-                    onChange={(cornerPosition) =>
-                      setState({ ...state, cornerPosition })
+                    onChange={(piece) =>
+                      setState({ ...state, trimFocus: piece })
                     }
                   />
-                ) : null}
-                <p className="text-sm leading-snug text-gray-600">
-                  {activeHint}
-                </p>
+                  {trimFocus === "corner" ? (
+                    <SegControl
+                      label={t("cornerPosition")}
+                      value={state.cornerPosition}
+                      options={CORNER_POSITION_DEFS.map((pos) => ({
+                        value: pos.id,
+                        label: t(pos.labelKey),
+                      }))}
+                      onChange={(cornerPosition) =>
+                        setState({ ...state, cornerPosition })
+                      }
+                    />
+                  ) : null}
+                  <p className="text-sm leading-snug text-gray-600">
+                    {activeHint}
+                  </p>
+                </ToolFormDetails>
               </section>
             ) : null}
 
             {showBannerArt ? (
-              <section
-                className="space-y-3 border-t border-gray-200 pt-5"
-                aria-labelledby="banner-design-label"
-              >
-                <p
-                  className="text-sm font-semibold text-opseu-dark"
-                  id="banner-design-label"
-                >
-                  {t("bannerDesign")}
-                </p>
+              <ToolFormDetails title={t("bannerDesign")}>
                 <SegControl
                   label={t("layout")}
                   value={state.layout}
@@ -576,7 +569,7 @@ export default function BoardBannerPage() {
                     }
                   />
                 ) : null}
-              </section>
+              </ToolFormDetails>
             ) : null}
 
             <ToolFormDetails title={t("ornaments")}>

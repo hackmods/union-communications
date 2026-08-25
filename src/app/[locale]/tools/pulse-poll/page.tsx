@@ -21,6 +21,8 @@ import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
+import { Callout } from "@/components/ui/Callout";
+import { Link } from "@/i18n/navigation";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import {
   resolveCanvasTokens,
@@ -348,45 +350,6 @@ export default function PulsePollPage() {
           })
         }
       />
-
-      <div className="flex flex-wrap gap-2">
-        <ToolExportActions
-          exporting={exporting}
-          pngLabel={t("exportPng")}
-          pdfLabel={t("exportPdf")}
-          onPng={() =>
-            void runExport(async () => {
-              if (!canvasRef.current) return;
-              await exportNodeAsPng(
-                canvasRef.current,
-                formatFilename(
-                  "pulse-poll",
-                  brandKit.local.localNumber,
-                  "png",
-                ),
-              );
-            })
-          }
-          onPdf={() =>
-            void runExport(async () => {
-              if (!canvasRef.current) return;
-              await nodeToPdf(
-                canvasRef.current,
-                formatFilename(
-                  "pulse-poll",
-                  brandKit.local.localNumber,
-                  "pdf",
-                ),
-              );
-            })
-          }
-        />
-      </div>
-      {exportError && (
-        <p className="text-sm text-red-700" role="alert">
-          {exportError}
-        </p>
-      )}
     </div>
   );
 
@@ -468,6 +431,18 @@ export default function PulsePollPage() {
           {!themeEstablished ? (
             <BrandSetupPrompt themeEstablished={themeEstablished} />
           ) : null}
+          <Callout tone="brand">
+            <p className="font-semibold text-opseu-dark">{t("hubSignInTitle")}</p>
+            <p className="mt-1">{t("hubSignInBody")}</p>
+            <p className="mt-2">
+              <Link
+                href="/app/login"
+                className="font-semibold text-opseu-blue underline underline-offset-2"
+              >
+                {t("hubSignInLink")}
+              </Link>
+            </p>
+          </Callout>
           <div className="flex flex-wrap gap-2">
             <Button type="button" onClick={persist}>
               {tc("save")}

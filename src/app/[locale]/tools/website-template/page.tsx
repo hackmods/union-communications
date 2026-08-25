@@ -103,9 +103,7 @@ export default function WebsiteTemplatePage() {
         : hydrated
           ? (brandKit.facebookUrl?.trim() ?? "")
           : "";
-  const [officeAddress, setOfficeAddress] = useState(
-    "North Pole, Arctic Circle\n1 Santa Claus Lane\nH0H 0H0, Canada",
-  );
+  const [officeAddress, setOfficeAddress] = useState("");
   const [officers, setOfficers] = useState<WebsiteOfficer[]>(
     DEFAULT_WEBSITE_OFFICERS,
   );
@@ -414,6 +412,19 @@ export default function WebsiteTemplatePage() {
             <BrandSetupPrompt themeEstablished={themeEstablished} />
           ) : null}
           <Callout tone="brand">{t("referenceNote")}</Callout>
+          <div className="flex flex-wrap gap-2">
+            <Button onClick={handleDownload} disabled={busy}>
+              {exporting ? tc("loading") : t("downloadZip")}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleWordpressDownload}
+              disabled={busy}
+            >
+              {exporting ? tc("loading") : t("downloadWordpress")}
+            </Button>
+          </div>
         </div>
       }
       form={
@@ -423,98 +434,109 @@ export default function WebsiteTemplatePage() {
             value={unionName}
             onChange={(e) => setUnionName(e.target.value)}
           />
-          <Textarea
-            label={t("heroText")}
-            value={heroText}
-            onChange={(e) => setHeroText(e.target.value)}
-            rows={2}
-          />
-          <SegControl
-            label={t("heroArt")}
-            value={heroArtId}
-            onChange={(value) => {
-              if (isWebsiteHeroArtId(value)) setHeroArtId(value);
-            }}
-            options={[
-              { value: "none", label: t("heroArtNone") },
-              { value: "bands", label: t("heroArtBands") },
-              { value: "mesh", label: t("heroArtMesh") },
-              { value: "horizon", label: t("heroArtHorizon") },
-            ]}
-          />
-          <p className="text-xs text-gray-500">{t("heroArtHint")}</p>
-          <ImageUpload
-            label={t("heroArtUpload")}
-            hint={t("heroArtUploadHint")}
-            preview={heroImagePreviewSrc}
-            onUpload={(dataUrl) => {
-              setImportedHero(null);
-              setImportPhotoMissing(false);
-              setHeroImagePreviewSrc(dataUrl);
-            }}
-            onClear={() => {
-              setImportedHero(null);
-              setImportPhotoMissing(false);
-              setHeroImagePreviewSrc("");
-              setHeroImageAlt("");
-            }}
-          />
-          <p className="text-sm leading-snug text-gray-600">
-            <Link
-              href="/guide/photo-consent"
-              className="text-opseu-blue underline"
-            >
-              {t("photoConsentLink")}
-            </Link>
-          </p>
-          {heroImagePreviewSrc ? (
-            <Input
-              label={t("heroArtAlt")}
-              value={heroImageAlt}
-              onChange={(e) => setHeroImageAlt(e.target.value)}
-              aria-describedby="website-hero-alt-hint"
-            />
-          ) : null}
-          {heroImagePreviewSrc ? (
-            <p id="website-hero-alt-hint" className="text-xs text-gray-500">
-              {t("heroArtAltHint")}
-            </p>
-          ) : null}
-          {importPhotoMissing ? (
-            <p className="text-sm text-gray-700" role="status">
-              {t("importPhotoMissing")}
-            </p>
-          ) : null}
-          <Textarea
-            label={t("about1")}
-            value={about1}
-            onChange={(e) => setAbout1(e.target.value)}
-            rows={3}
-          />
-          <Textarea
-            label={t("about2")}
-            value={about2}
-            onChange={(e) => setAbout2(e.target.value)}
-            rows={2}
-          />
-          <Input
-            label={t("contactEmail")}
-            type="email"
-            value={contactEmail}
-            onChange={(e) => setContactEmail(e.target.value)}
-          />
-          <Input
-            label={t("facebookUrl")}
-            value={facebookUrl}
-            onChange={(e) => setFacebookDraft(e.target.value)}
-          />
-          <Textarea
-            label={t("officeAddress")}
-            value={officeAddress}
-            onChange={(e) => setOfficeAddress(e.target.value)}
-            rows={2}
-          />
 
+          <ToolFormDetails title={t("sectionHero")}>
+            <Textarea
+              label={t("heroText")}
+              value={heroText}
+              onChange={(e) => setHeroText(e.target.value)}
+              rows={2}
+            />
+            <SegControl
+              label={t("heroArt")}
+              value={heroArtId}
+              onChange={(value) => {
+                if (isWebsiteHeroArtId(value)) setHeroArtId(value);
+              }}
+              options={[
+                { value: "none", label: t("heroArtNone") },
+                { value: "bands", label: t("heroArtBands") },
+                { value: "mesh", label: t("heroArtMesh") },
+                { value: "horizon", label: t("heroArtHorizon") },
+              ]}
+            />
+            <p className="text-xs text-gray-500">{t("heroArtHint")}</p>
+            <ImageUpload
+              label={t("heroArtUpload")}
+              hint={t("heroArtUploadHint")}
+              preview={heroImagePreviewSrc}
+              onUpload={(dataUrl) => {
+                setImportedHero(null);
+                setImportPhotoMissing(false);
+                setHeroImagePreviewSrc(dataUrl);
+              }}
+              onClear={() => {
+                setImportedHero(null);
+                setImportPhotoMissing(false);
+                setHeroImagePreviewSrc("");
+                setHeroImageAlt("");
+              }}
+            />
+            <p className="text-sm leading-snug text-gray-600">
+              <Link
+                href="/guide/photo-consent"
+                className="text-opseu-blue underline"
+              >
+                {t("photoConsentLink")}
+              </Link>
+            </p>
+            {heroImagePreviewSrc ? (
+              <Input
+                label={t("heroArtAlt")}
+                value={heroImageAlt}
+                onChange={(e) => setHeroImageAlt(e.target.value)}
+                aria-describedby="website-hero-alt-hint"
+              />
+            ) : null}
+            {heroImagePreviewSrc ? (
+              <p id="website-hero-alt-hint" className="text-xs text-gray-500">
+                {t("heroArtAltHint")}
+              </p>
+            ) : null}
+            {importPhotoMissing ? (
+              <p className="text-sm text-gray-700" role="status">
+                {t("importPhotoMissing")}
+              </p>
+            ) : null}
+          </ToolFormDetails>
+
+          <ToolFormDetails title={t("sectionAbout")}>
+            <Textarea
+              label={t("about1")}
+              value={about1}
+              onChange={(e) => setAbout1(e.target.value)}
+              rows={3}
+            />
+            <Textarea
+              label={t("about2")}
+              value={about2}
+              onChange={(e) => setAbout2(e.target.value)}
+              rows={2}
+            />
+          </ToolFormDetails>
+
+          <ToolFormDetails title={t("sectionContact")}>
+            <Input
+              label={t("contactEmail")}
+              type="email"
+              value={contactEmail}
+              onChange={(e) => setContactEmail(e.target.value)}
+            />
+            <Input
+              label={t("facebookUrl")}
+              value={facebookUrl}
+              onChange={(e) => setFacebookDraft(e.target.value)}
+            />
+            <Textarea
+              label={t("officeAddress")}
+              value={officeAddress}
+              onChange={(e) => setOfficeAddress(e.target.value)}
+              rows={2}
+              placeholder={t("officeAddressPlaceholder")}
+            />
+          </ToolFormDetails>
+
+          <ToolFormDetails title={t("bundledHeading")}>
           <Callout tone={bundledCount > 0 ? "muted" : "brand"}>
             <p className="font-semibold text-opseu-dark">
               {t("bundledHeading")}
@@ -555,6 +577,7 @@ export default function WebsiteTemplatePage() {
               </Link>
             </p>
           </Callout>
+          </ToolFormDetails>
 
           <ToolFormDetails title={t("sectionOfficers")}>
             <p className="text-sm text-gray-600">{t("orgChartHint")}</p>
@@ -667,9 +690,6 @@ export default function WebsiteTemplatePage() {
                 {exporting ? tc("loading") : t("downloadConfig")}
               </Button>
             </div>
-            <Button onClick={handleDownload} disabled={busy}>
-              {exporting ? tc("loading") : t("downloadZip")}
-            </Button>
           </ToolFormDetails>
 
           <ToolFormDetails title={t("sectionOtherPlatforms")}>
@@ -678,15 +698,6 @@ export default function WebsiteTemplatePage() {
                 {t("wordpressHeading")}
               </p>
               <p className="mt-1">{t("wordpressUnsupported")}</p>
-              <Button
-                type="button"
-                variant="outline"
-                className="mt-3"
-                onClick={handleWordpressDownload}
-                disabled={busy}
-              >
-                {exporting ? tc("loading") : t("downloadWordpress")}
-              </Button>
             </Callout>
             <Callout tone="muted">
               <p>{t("squarespaceNote")}</p>
@@ -701,35 +712,9 @@ export default function WebsiteTemplatePage() {
         </Card>
       }
       previewActions={
-        <>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => fileRef.current?.click()}
-            disabled={busy}
-          >
-            {importing ? tc("loading") : t("import")}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleDownloadConfig}
-            disabled={busy}
-          >
-            {exporting ? tc("loading") : t("downloadConfig")}
-          </Button>
-          <Button onClick={handleDownload} disabled={busy}>
-            {exporting ? tc("loading") : t("downloadZip")}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleWordpressDownload}
-            disabled={busy}
-          >
-            {exporting ? tc("loading") : t("downloadWordpress")}
-          </Button>
-        </>
+        <Button onClick={handleDownload} disabled={busy}>
+          {exporting ? tc("loading") : t("downloadZip")}
+        </Button>
       }
       preview={
         <div>

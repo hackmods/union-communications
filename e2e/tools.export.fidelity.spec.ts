@@ -81,6 +81,7 @@ test.describe("Tool export fidelity @export", () => {
       captureMaxDiff: 0.06,
       previewMaxDiff: 0.14,
     },
+    { name: "org-chart", path: "/en/tools/org-chart/" },
   ];
 
   for (const c of pngCases) {

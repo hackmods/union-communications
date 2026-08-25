@@ -1830,6 +1830,7 @@
     "cornerBottomLeft": "Bas gauche",
     "cornerBottomRight": "Bas droit",
     "bannerDesign": "Design du bandeau",
+    "sectionTrimPreview": "Aperçu et position du coin",
     "callout": "Texte d'appel",
     "ornaments": "Ornements",
     "ornamentsHint": "S'applique au bandeau d'en-tête et à toutes les pièces de bordure.",
@@ -2127,6 +2128,8 @@
     "formatUhd": "UHD 16:9 (3840×2160)",
     "formatPortraitHd": "HD 9:16 (1080×1920)",
     "formatPortraitUhd": "UHD 9:16 (2160×3840)",
+    "sectionOptionalCopy": "Accroche et conclusion (facultatif)",
+    "sectionLayout": "Mise en page et design",
     "sizeHint": "Le HD correspond aux recommandations typiques de Zoom et Teams. Utilisez l'UHD pour les grands écrans ou haute densité.",
     "sizeHintPortrait": "Le HD convient aux téléphones et à la plupart des webcams portrait. Utilisez l'UHD pour les moniteurs verticaux ou haute densité.",
     "includeBranding": "Inclure l'image de marque locale",
@@ -2303,7 +2306,10 @@
     "published": "Sondage publié. Partagez le lien avec les membres.",
     "publishError": "Impossible de publier ce sondage. Vérifiez la question et le nom du lien de partage, puis réessayez.",
     "publishAuthRequired": "Connectez-vous au Hub des dirigeants (avec MFA) pour publier.",
-    "publishSlugTaken": "Ce nom de lien de partage est déjà pris. Essayez-en un autre."
+    "publishSlugTaken": "Ce nom de lien de partage est déjà pris. Essayez-en un autre.",
+    "hubSignInTitle": "Hub des dirigeants requis pour publier",
+    "hubSignInBody": "La rédaction et l’export PNG/PDF fonctionnent sur cet appareil. Pour recueillir les réponses des membres, connectez-vous au Hub des dirigeants, puis appuyez sur Publier et partagez le lien.",
+    "hubSignInLink": "Connexion au Hub des dirigeants"
   },
   "pollPublic": {
     "notFoundTitle": "Sondage introuvable",
@@ -2439,7 +2445,11 @@
     "orgChartLink": "Ouvrir l’Organigramme",
     "sectionOfficers": "Dirigeants exécutifs",
     "sectionImportExport": "Importer et télécharger",
-    "sectionOtherPlatforms": "Autres plateformes Web"
+    "sectionOtherPlatforms": "Autres plateformes Web",
+    "sectionHero": "Section d’accueil",
+    "sectionAbout": "Page À propos",
+    "sectionContact": "Coordonnées",
+    "officeAddressPlaceholder": "Adresse du campus ou du bureau (facultatif)"
   },
   "orgChart": {
     "title": "Organigramme",
