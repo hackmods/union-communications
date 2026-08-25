@@ -327,36 +327,6 @@ export default function PulsePollPage() {
         }
       />
 
-      <div className="flex flex-wrap gap-2 border-t border-gray-200 pt-5">
-        <Button type="button" onClick={persist}>
-          {tc("save")}
-        </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          disabled={publishing}
-          onClick={() => void publish()}
-        >
-          {publishing ? t("publishing") : t("publish")}
-        </Button>
-        <Button type="button" variant="outline" onClick={() => void copyLink()}>
-          {copied ? t("linkCopied") : t("copyLink")}
-        </Button>
-      </div>
-      {saveMsg && (
-        <p className="text-sm text-gray-600" role="status">
-          {saveMsg}
-        </p>
-      )}
-      {publishMsg && (
-        <p className="text-sm text-gray-600" role="status">
-          {publishMsg}
-        </p>
-      )}
-      <p className="break-all text-xs text-gray-500">
-        {t("shareUrl")}: {shareUrl}
-      </p>
-
       <UndoRedoBar
         onUndo={undo}
         onRedo={redo}
@@ -494,9 +464,40 @@ export default function PulsePollPage() {
       purposeHint={t("whenToUse")}
       previewAccessibleName={t("previewAccessibleName")}
       toolbar={
-        !themeEstablished ? (
-          <BrandSetupPrompt themeEstablished={themeEstablished} />
-        ) : undefined
+        <div className="space-y-3">
+          {!themeEstablished ? (
+            <BrandSetupPrompt themeEstablished={themeEstablished} />
+          ) : null}
+          <div className="flex flex-wrap gap-2">
+            <Button type="button" onClick={persist}>
+              {tc("save")}
+            </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              disabled={publishing}
+              onClick={() => void publish()}
+            >
+              {publishing ? t("publishing") : t("publish")}
+            </Button>
+            <Button type="button" variant="outline" onClick={() => void copyLink()}>
+              {copied ? t("linkCopied") : t("copyLink")}
+            </Button>
+          </div>
+          {saveMsg ? (
+            <p className="text-sm text-gray-600" role="status">
+              {saveMsg}
+            </p>
+          ) : null}
+          {publishMsg ? (
+            <p className="text-sm text-gray-600" role="status">
+              {publishMsg}
+            </p>
+          ) : null}
+          <p className="break-all text-xs text-gray-500">
+            {t("shareUrl")}: {shareUrl}
+          </p>
+        </div>
       }
       form={editor}
       preview={preview}

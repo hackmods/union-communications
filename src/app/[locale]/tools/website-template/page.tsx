@@ -42,6 +42,7 @@ import { ImageUpload } from "@/components/tools/ImageUpload";
 import { SegControl } from "@/components/tools/SegControl";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { WebsitePreviewFrame } from "@/components/tools/WebsitePreviewFrame";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { Callout } from "@/components/ui/Callout";
@@ -555,10 +556,9 @@ export default function WebsiteTemplatePage() {
             </p>
           </Callout>
 
-          <div>
-            <p className="mb-2 text-sm font-medium">{t("officers")}</p>
-            <p className="mb-2 text-sm text-gray-600">{t("orgChartHint")}</p>
-            <div className="mb-3 flex flex-wrap gap-2">
+          <ToolFormDetails title={t("sectionOfficers")}>
+            <p className="text-sm text-gray-600">{t("orgChartHint")}</p>
+            <div className="flex flex-wrap gap-2">
               <Button
                 type="button"
                 variant="outline"
@@ -620,79 +620,84 @@ export default function WebsiteTemplatePage() {
                 type="button"
                 variant="outline"
                 size="sm"
-                className="mt-2"
                 onClick={addOfficer}
               >
                 {t("addOfficer")}
               </Button>
             )}
-          </div>
+          </ToolFormDetails>
+
+          <ToolFormDetails title={t("sectionImportExport")}>
+            {importError ? (
+              <p className="text-sm text-red-700" role="alert">
+                {importError}
+              </p>
+            ) : null}
+            {importMessage ? (
+              <p className="text-sm text-opseu-blue" role="status">
+                {importMessage}
+              </p>
+            ) : null}
+            <Callout tone="muted">
+              <p>{t("importHint")}</p>
+            </Callout>
+            <input
+              ref={fileRef}
+              type="file"
+              accept=".json,.zip,application/json,application/zip"
+              className="sr-only"
+              aria-label={t("import")}
+              onChange={handleImport}
+            />
+            <div className="flex flex-wrap gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fileRef.current?.click()}
+                disabled={busy}
+              >
+                {importing ? tc("loading") : t("import")}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleDownloadConfig}
+                disabled={busy}
+              >
+                {exporting ? tc("loading") : t("downloadConfig")}
+              </Button>
+            </div>
+            <Button onClick={handleDownload} disabled={busy}>
+              {exporting ? tc("loading") : t("downloadZip")}
+            </Button>
+          </ToolFormDetails>
+
+          <ToolFormDetails title={t("sectionOtherPlatforms")}>
+            <Callout tone="muted">
+              <p className="font-semibold text-opseu-dark">
+                {t("wordpressHeading")}
+              </p>
+              <p className="mt-1">{t("wordpressUnsupported")}</p>
+              <Button
+                type="button"
+                variant="outline"
+                className="mt-3"
+                onClick={handleWordpressDownload}
+                disabled={busy}
+              >
+                {exporting ? tc("loading") : t("downloadWordpress")}
+              </Button>
+            </Callout>
+            <Callout tone="muted">
+              <p>{t("squarespaceNote")}</p>
+            </Callout>
+          </ToolFormDetails>
 
           {exportError ? (
             <p className="text-sm text-red-700" role="alert">
               {exportError}
             </p>
           ) : null}
-          {importError ? (
-            <p className="text-sm text-red-700" role="alert">
-              {importError}
-            </p>
-          ) : null}
-          {importMessage ? (
-            <p className="text-sm text-opseu-blue" role="status">
-              {importMessage}
-            </p>
-          ) : null}
-          <Callout tone="muted">
-            <p>{t("importHint")}</p>
-          </Callout>
-          <input
-            ref={fileRef}
-            type="file"
-            accept=".json,.zip,application/json,application/zip"
-            className="sr-only"
-            aria-label={t("import")}
-            onChange={handleImport}
-          />
-          <div className="flex flex-wrap gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => fileRef.current?.click()}
-              disabled={busy}
-            >
-              {importing ? tc("loading") : t("import")}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleDownloadConfig}
-              disabled={busy}
-            >
-              {exporting ? tc("loading") : t("downloadConfig")}
-            </Button>
-          </div>
-          <Button onClick={handleDownload} disabled={busy}>
-            {exporting ? tc("loading") : t("downloadZip")}
-          </Button>
-          <Callout tone="muted">
-            <p className="font-semibold text-opseu-dark">
-              {t("wordpressHeading")}
-            </p>
-            <p className="mt-1">{t("wordpressUnsupported")}</p>
-            <Button
-              type="button"
-              variant="outline"
-              className="mt-3"
-              onClick={handleWordpressDownload}
-              disabled={busy}
-            >
-              {exporting ? tc("loading") : t("downloadWordpress")}
-            </Button>
-          </Callout>
-          <Callout tone="muted">
-            <p>{t("squarespaceNote")}</p>
-          </Callout>
         </Card>
       }
       previewActions={

@@ -12,20 +12,14 @@ export type FlyerPresetKey =
   | "meeting"
   | "walkabout";
 
-export interface FlyerPreset {
+/** Layout / typography / QR flags only — copy lives in i18n (`flyerMaker.presets.*`). */
+export interface FlyerPresetDesign {
   id: FlyerPresetKey;
-  /** i18n key under flyerMaker.presets.<id>.label — stored as stable id */
   layout: FlyerLayoutId;
   format: FlyerFormatId;
   fontStack: FlyerFontChoice;
   headlineCase: FlyerHeadlineCase;
   typeScaleOverride: FlyerTypeScaleOverride;
-  message: string;
-  body: string;
-  date: string;
-  time: string;
-  location: string;
-  contact: string;
   showQr: boolean;
 }
 
@@ -36,7 +30,7 @@ export const FLYER_PRESET_ORDER: readonly FlyerPresetKey[] = [
   "walkabout",
 ] as const;
 
-export const FLYER_PRESETS: Record<FlyerPresetKey, FlyerPreset> = {
+export const FLYER_PRESETS: Record<FlyerPresetKey, FlyerPresetDesign> = {
   picket: {
     id: "picket",
     layout: "band",
@@ -44,12 +38,6 @@ export const FLYER_PRESETS: Record<FlyerPresetKey, FlyerPreset> = {
     fontStack: "oswald",
     headlineCase: "uppercase",
     typeScaleOverride: "display",
-    message: "PICKET LINE — ALL MEMBERS WELCOME",
-    body: "Stand with your co-workers. Bring a friend, water, and a sign.",
-    date: "Monday, March 15",
-    time: "7:00 AM – 4:00 PM",
-    location: "Main entrance",
-    contact: "Questions? Ask your steward.",
     showQr: false,
   },
   rally: {
@@ -59,12 +47,6 @@ export const FLYER_PRESETS: Record<FlyerPresetKey, FlyerPreset> = {
     fontStack: "oswald",
     headlineCase: "uppercase",
     typeScaleOverride: "display",
-    message: "RALLY FOR A FAIR CONTRACT",
-    body: "Hear updates from the bargaining team and show management we are united.",
-    date: "Saturday, April 5",
-    time: "12:00 PM",
-    location: "City Hall steps",
-    contact: "Questions? Email your local executive.",
     showQr: true,
   },
   meeting: {
@@ -74,12 +56,6 @@ export const FLYER_PRESETS: Record<FlyerPresetKey, FlyerPreset> = {
     fontStack: "sourceSerif",
     headlineCase: "asTyped",
     typeScaleOverride: "compact",
-    message: "General Membership Meeting",
-    body: "Agenda: bargaining update, steward reports, and member Q&A. All members welcome.",
-    date: "Wednesday, March 20",
-    time: "5:30 PM",
-    location: "Union office",
-    contact: "RSVP appreciated — ask your steward.",
     showQr: true,
   },
   walkabout: {
@@ -89,12 +65,6 @@ export const FLYER_PRESETS: Record<FlyerPresetKey, FlyerPreset> = {
     fontStack: "barlowCondensed",
     headlineCase: "uppercase",
     typeScaleOverride: "dense",
-    message: "UNION WALKABOUT",
-    body: "Meet your stewards on the floor. Bring questions about hours, safety, and rights.",
-    date: "This week",
-    time: "Breaks & lunch",
-    location: "Your department",
-    contact: "Scan for more info",
     showQr: true,
   },
 };

@@ -2435,7 +2435,10 @@
     "importPhotoMissing": "The site file loaded, but the header photo was not in this file. Choose a photo below, or keep the pattern.",
     "orgChartHint": "Names marked in Org Chart fill this list. You can still edit them here before you download the ZIP.",
     "useOrgChart": "Use Org Chart names",
-    "orgChartLink": "Open Org Chart"
+    "orgChartLink": "Open Org Chart",
+    "sectionOfficers": "Executive officers",
+    "sectionImportExport": "Import and download",
+    "sectionOtherPlatforms": "Other website platforms"
   },
   "orgChart": {
     "title": "Org Chart",
@@ -3304,16 +3307,40 @@
     },
     "presets": {
       "picket": {
-        "label": "Picket line"
+        "label": "Picket line",
+        "message": "PICKET LINE — ALL MEMBERS WELCOME",
+        "body": "Stand with your co-workers. Bring a friend, water, and a sign.",
+        "date": "Monday, March 15",
+        "time": "7:00 AM – 4:00 PM",
+        "location": "Main entrance",
+        "contact": "Questions? Ask your steward."
       },
       "rally": {
-        "label": "Rally"
+        "label": "Rally",
+        "message": "RALLY FOR A FAIR CONTRACT",
+        "body": "Hear updates from the bargaining team and show management we are united.",
+        "date": "Saturday, April 5",
+        "time": "12:00 PM",
+        "location": "City Hall steps",
+        "contact": "Questions? Email your local executive."
       },
       "meeting": {
-        "label": "Membership meeting"
+        "label": "Membership meeting",
+        "message": "General Membership Meeting",
+        "body": "Agenda: bargaining update, steward reports, and member Q&A. All members welcome.",
+        "date": "Wednesday, March 20",
+        "time": "5:30 PM",
+        "location": "Union office",
+        "contact": "RSVP appreciated — ask your steward."
       },
       "walkabout": {
-        "label": "Walkabout handbill"
+        "label": "Walkabout handbill",
+        "message": "UNION WALKABOUT",
+        "body": "Meet your stewards on the floor. Bring questions about hours, safety, and rights.",
+        "date": "This week",
+        "time": "Breaks & lunch",
+        "location": "Your department",
+        "contact": "Scan for more info"
       }
     },
     "inviteEmail": {

@@ -2435,7 +2435,10 @@
     "importPhotoMissing": "Le fichier du site s’est chargé, mais la photo d’en-tête n’était pas dans ce fichier. Choisissez une photo ci-dessous, ou gardez le motif.",
     "orgChartHint": "Les noms cochés dans l’Organigramme remplissent cette liste. Vous pouvez encore les modifier ici avant de télécharger le ZIP.",
     "useOrgChart": "Utiliser les noms de l’Organigramme",
-    "orgChartLink": "Ouvrir l’Organigramme"
+    "orgChartLink": "Ouvrir l’Organigramme",
+    "sectionOfficers": "Dirigeants exécutifs",
+    "sectionImportExport": "Importer et télécharger",
+    "sectionOtherPlatforms": "Autres plateformes Web"
   },
   "orgChart": {
     "title": "Organigramme",
@@ -3254,16 +3257,40 @@
     },
     "presets": {
       "picket": {
-        "label": "Ligne de piquetage"
+        "label": "Ligne de piquetage",
+        "message": "LIGNE DE PIQUETAGE — TOUS LES MEMBRES SONT LES BIENVENUS",
+        "body": "Tenez bon avec vos collègues. Amenez un ami, de l'eau et une affiche.",
+        "date": "Lundi 15 mars",
+        "time": "7 h – 16 h",
+        "location": "Entrée principale",
+        "contact": "Des questions ? Demandez à votre délégué·e."
       },
       "rally": {
-        "label": "Rassemblement"
+        "label": "Rassemblement",
+        "message": "RASSEMBLEMENT POUR UNE CONVENTION ÉQUITABLE",
+        "body": "Entendez l'équipe de négociation et montrez à la direction que nous sommes unis.",
+        "date": "Samedi 5 avril",
+        "time": "12 h",
+        "location": "Escaliers de l'hôtel de ville",
+        "contact": "Des questions ? Écrivez au comité exécutif de votre section."
       },
       "meeting": {
-        "label": "Assemblée des membres"
+        "label": "Assemblée des membres",
+        "message": "Assemblée générale des membres",
+        "body": "Ordre du jour : mise à jour de négociation, rapports des délégués et période de questions. Tous les membres sont les bienvenus.",
+        "date": "Mercredi 20 mars",
+        "time": "17 h 30",
+        "location": "Bureau syndical",
+        "contact": "RSVP apprécié — demandez à votre délégué·e."
       },
       "walkabout": {
-        "label": "Tract de tournée"
+        "label": "Tract de tournée",
+        "message": "TOURNÉE SYNDICALE",
+        "body": "Rencontrez vos délégués sur le plancher. Posez vos questions sur les heures, la sécurité et vos droits.",
+        "date": "Cette semaine",
+        "time": "Pauses et dîner",
+        "location": "Votre département",
+        "contact": "Scannez pour en savoir plus"
       }
     },
     "inviteEmail": {

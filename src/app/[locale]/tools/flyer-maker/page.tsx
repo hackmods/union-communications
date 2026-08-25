@@ -115,6 +115,20 @@ function FlyerMakerPageContent() {
     contact: tf("defaults.contact"),
   });
 
+  const flyerPresetCopy = (
+    key: FlyerPresetKey,
+  ): Pick<
+    FlyerState,
+    "message" | "body" | "date" | "time" | "location" | "contact"
+  > => ({
+    message: tf(`presets.${key}.message`),
+    body: tf(`presets.${key}.body`),
+    date: tf(`presets.${key}.date`),
+    time: tf(`presets.${key}.time`),
+    location: tf(`presets.${key}.location`),
+    contact: tf(`presets.${key}.contact`),
+  });
+
   const buildInitial = (
     colours: ReturnType<typeof coloursFromBrandKit>,
   ): FlyerState => ({
@@ -210,25 +224,14 @@ function FlyerMakerPageContent() {
         : null;
     if (fromDeep) {
       reset({
-        ...initial,
-        message: fromDeep.message,
-        body: fromDeep.body,
-        date: fromDeep.date,
-        time: fromDeep.time,
-        location: fromDeep.location,
-        contact: fromDeep.contact,
+        ...buildInitial(colours),
+        ...flyerPresetCopy(fromDeep.id),
         layout: fromDeep.layout,
         format: fromDeep.format,
         fontStack: fromDeep.fontStack,
         headlineCase: fromDeep.headlineCase,
         typeScaleOverride: fromDeep.typeScaleOverride,
         showQr: fromDeep.showQr,
-        photoUrl: flyerLayoutSupportsPhoto(fromDeep.layout)
-          ? initial.photoUrl
-          : undefined,
-        primaryColor: colours.primary,
-        accentColor: colours.accent,
-        secondaryColor: colours.secondary,
       });
       return;
     }
@@ -242,12 +245,7 @@ function FlyerMakerPageContent() {
     const colours = coloursFromBrandKit(brandKit);
     setState({
       ...state,
-      message: preset.message,
-      body: preset.body,
-      date: preset.date,
-      time: preset.time,
-      location: preset.location,
-      contact: preset.contact,
+      ...flyerPresetCopy(key),
       layout: preset.layout,
       format: preset.format,
       fontStack: preset.fontStack,

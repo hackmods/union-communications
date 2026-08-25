@@ -173,7 +173,7 @@ Priority: **P0** ship in Wave 1 shell/preview · **P1** next polish · **P2** ch
 
 ## Wave 1 implementation scope (this train)
 
-Implement ranks **1–7** only:
+**Shipped 2026-08-25** (`bf2358e`) — ranks **1–7**:
 
 1. Alt Text — `whenToUse` + `ToolRelatedFooter`
 2. Website Template — `BrandSetupPrompt` in toolbar
@@ -181,11 +181,22 @@ Implement ranks **1–7** only:
 4. Flyer — i18n defaults, preview max-width, event-details section label
 5. Document Generator — `whenToUse` line
 
-**Out of scope for Wave 1:** preset i18n refactor, Pulse Publish toolbar move, Website form collapses, catalog composition, channel features.
+## Wave 2 (P1 shell/preview) — shipped 2026-08-25
+
+Ranks **8–11** from the recommendations table:
+
+| Rank | ID | Shipped |
+|------|-----|---------|
+| 8 | P1-PULSE-PUB | Publish / Save / Copy + share URL moved to `toolbar` |
+| 9 | P1-WEB-FORM | Officers, import/export, and platform notes collapsed via `ToolFormDetails` |
+| 10 | P1-WEB-PREV | iframe preview capped `max-h-[70vh]` |
+| 11 | P1-FLYER-PRESET-I18N | Flyer preset copy moved to `flyerMaker.presets.*` i18n; design-only `FLYER_PRESETS` |
+
+**Still deferred:** P2 catalog composition, P2 doc-gen TEL, P3 channel features.
 
 ---
 
-## Verification
+## Verification (Wave 1 + 2)
 
 ```bash
 npm run lint

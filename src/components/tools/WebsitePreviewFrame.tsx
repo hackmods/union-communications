@@ -44,7 +44,7 @@ export function WebsitePreviewFrame({
       ref={ref}
       title={title}
       className={cn(
-        "h-[600px] w-full rounded-lg border border-gray-200 bg-white shadow-lg",
+        "h-[min(600px,70vh)] w-full rounded-lg border border-gray-200 bg-white shadow-lg",
         className,
       )}
       sandbox="allow-scripts allow-same-origin"
