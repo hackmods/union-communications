@@ -6,9 +6,9 @@ echo "[entrypoint] starting union-communications"
 echo "[entrypoint] PORT=${PORT:-3000} HOSTNAME=${HOSTNAME:-0.0.0.0} NODE_ENV=${NODE_ENV:-unknown} BUILD_COMMIT_SHA=${BUILD_COMMIT_SHA:-unknown}"
 # #region agent log
 if [ -d /app/db-migrate/node_modules/drizzle-kit ]; then
-  echo "[build-debug session=3d0783 hypothesis=D] db-migrate ready: drizzle-kit present"
+  echo "[build-debug session=3d0783 hypothesis=E] db-migrate ready: drizzle-kit present"
 else
-  echo "[build-debug session=3d0783 hypothesis=D] db-migrate MISSING drizzle-kit" >&2
+  echo "[build-debug session=3d0783 hypothesis=E] db-migrate MISSING drizzle-kit" >&2
 fi
 # #endregion
 

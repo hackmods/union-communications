@@ -50,22 +50,22 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY docker/entrypoint.sh /entrypoint.sh
-# Migrate artifacts from build context (no cross-stage node_modules COPY — avoids
-# BuildKit "unknown parent image ID" export failures on small CapRover hosts).
-COPY package.json ./db-migrate/package.json
+# Minimal manifest — full package.json lists drizzle-kit under devDependencies and
+# pulls the entire Next.js tree when copied here.
+COPY docker/migrate-package.json ./db-migrate/package.json
 COPY drizzle.migrate.config.ts ./db-migrate/drizzle.migrate.config.ts
 COPY src/lib/db/migrations ./db-migrate/src/lib/db/migrations
 COPY scripts/sync-app-role-password.mjs ./scripts/sync-app-role-password.mjs
 
 USER root
 # #region agent log
-RUN echo "[build-debug session=3d0783 hypothesis=D] runner disk before migrate npm:" && df -h /
+RUN echo "[build-debug session=3d0783 hypothesis=E] runner disk before migrate npm:" && df -h /
 # #endregion
 RUN cd /app/db-migrate \
-  && npm install drizzle-kit@0.31.10 drizzle-orm@0.45.2 postgres@3.4.9 --omit=dev --no-save \
+  && npm install --omit=dev \
   && npm cache clean --force
 # #region agent log
-RUN echo "[build-debug session=3d0783 hypothesis=D] migrate deps installed:" && du -sh /app/db-migrate/node_modules && ls /app/db-migrate/node_modules/drizzle-kit/bin.cjs
+RUN echo "[build-debug session=3d0783 hypothesis=E] migrate deps installed:" && du -sh /app/db-migrate/node_modules && ls /app/db-migrate/node_modules/drizzle-kit/bin.cjs
 # #endregion
 RUN chown -R nextjs:nodejs /app/db-migrate \
   && chmod +x /entrypoint.sh
