@@ -1,5 +1,12 @@
 # Progress Log
 
+## Brand Assets PWA downloads (2026-08-24)
+
+- [x] Brand Assets logo downloads use `downloadHrefAsFile` (fetch + `saveBlob`) instead of `<a download>` navigation that ejects installed / home-screen apps
+- [x] `saveBlob` skips iOS `window.open` blob tab when `display-mode: standalone` / `navigator.standalone`
+- [x] What's new: `assets-pwa-download`
+- Verify: `npm run test:unit -- src/lib/export/save-blob.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Live compliance hardening runbook (2026-08-24)
 
 - [x] [`docs/guides/COMPLIANCE_HARDENING_LIVE.md`](guides/COMPLIANCE_HARDENING_LIVE.md) — phased CapRover Postgres flip + MFA + demo-off checklist for unionops.org

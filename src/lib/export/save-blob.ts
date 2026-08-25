@@ -36,6 +36,21 @@ export function isIosWebKit(): boolean {
   return navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
 }
 
+/**
+ * Home-screen / installed app shell. Opening a new tab from here ejects into
+ * the system browser and strand the volunteer outside the shortcut.
+ */
+export function isStandaloneDisplay(): boolean {
+  if (typeof window === "undefined") return false;
+  const nav = window.navigator as Navigator & { standalone?: boolean };
+  if (nav.standalone === true) return true;
+  try {
+    return window.matchMedia("(display-mode: standalone)").matches;
+  } catch {
+    return false;
+  }
+}
+
 function isMobileShareTarget(): boolean {
   if (typeof navigator === "undefined") return false;
   return isIosWebKit() || /Android/i.test(navigator.userAgent);
@@ -85,7 +100,9 @@ function openBlobInline(blob: Blob): boolean {
 
 /**
  * Save or hand off a client-generated file.
- * Mobile: native share sheet (Save to Photos / Files). iOS fallback: inline blob tab for images/PDF.
+ * Mobile: native share sheet (Save to Photos / Files).
+ * iOS Safari (not installed): inline blob tab for images/PDF.
+ * Installed / standalone: never `window.open` — that breaks the home-screen app.
  * Desktop: `file-saver` download.
  */
 export async function saveBlob(blob: Blob, filename: string): Promise<void> {
@@ -94,7 +111,7 @@ export async function saveBlob(blob: Blob, filename: string): Promise<void> {
   const shareResult = await tryWebShare(typed, filename);
   if (shareResult === "shared" || shareResult === "cancelled") return;
 
-  if (isIosWebKit()) {
+  if (isIosWebKit() && !isStandaloneDisplay()) {
     const mime = typed.type;
     if (mime.startsWith("image/") || mime === "application/pdf") {
       if (openBlobInline(typed)) return;
@@ -103,4 +120,17 @@ export async function saveBlob(blob: Blob, filename: string): Promise<void> {
 
   const { saveAs } = await import("file-saver");
   saveAs(typed, filename);
+}
+
+/** Fetch a same-origin path, remote URL, or `data:` URI and hand it to {@link saveBlob}. */
+export async function downloadHrefAsFile(
+  href: string,
+  filename: string,
+): Promise<void> {
+  const res = await fetch(href);
+  if (!res.ok) {
+    throw new Error(`download failed: ${res.status}`);
+  }
+  const blob = await res.blob();
+  await saveBlob(blob, filename);
 }

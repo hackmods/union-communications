@@ -26,6 +26,7 @@ import { isReferenceAssetPackVisible } from "@/lib/constants/comms-sources";
 import { isUnionOpsLogoSrc } from "@/lib/constants/unionPresets";
 import { copyToClipboard, cn } from "@/lib/utils";
 import { INK_BLACK, pickContrastingInk } from "@/lib/utils/ink";
+import { downloadHrefAsFile } from "@/lib/export/save-blob";
 import { useBrandStore } from "@/store/brand-store";
 import type { BrandKit } from "@/types/entities";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
@@ -190,22 +191,50 @@ function LogoDownloadCard({
   href,
   downloadName,
   label,
+  downloadingLabel,
+  failedLabel,
 }: {
   children: ReactNode;
   href: string;
   downloadName?: string;
   label: string;
+  downloadingLabel: string;
+  failedLabel: string;
 }) {
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(false);
+
+  async function handleDownload() {
+    setBusy(true);
+    setError(false);
+    try {
+      await downloadHrefAsFile(
+        href,
+        downloadName ?? href.split("/").pop() ?? "logo.png",
+      );
+    } catch {
+      setError(true);
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <div className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-white px-4 py-4">
       <div className="flex min-h-20 items-center justify-center">{children}</div>
-      <a
-        href={href}
-        download={downloadName}
-        className="text-sm font-medium text-opseu-blue underline"
+      <button
+        type="button"
+        onClick={() => void handleDownload()}
+        disabled={busy}
+        className="text-left text-sm font-medium text-opseu-blue underline disabled:opacity-60"
       >
-        {label}
-      </a>
+        {busy ? downloadingLabel : label}
+      </button>
+      {error ? (
+        <p className="text-sm text-red-700" role="alert">
+          {failedLabel}
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -220,6 +249,8 @@ function LookPackDownloads({
   hint,
   downloadSvg,
   downloadPng,
+  downloadingLabel,
+  failedLabel,
   variantLabel,
 }: {
   pack: IdentityPack;
@@ -227,6 +258,8 @@ function LookPackDownloads({
   hint: string;
   downloadSvg: string;
   downloadPng: string;
+  downloadingLabel: string;
+  failedLabel: string;
   variantLabel: (key: string) => string;
 }) {
   return (
@@ -243,6 +276,8 @@ function LookPackDownloads({
               href={variant.src}
               downloadName={variant.downloadName}
               label={`${isSvg ? downloadSvg : downloadPng} — ${variantLabel(variant.labelKey)}`}
+              downloadingLabel={downloadingLabel}
+              failedLabel={failedLabel}
             >
               <span
                 className="flex min-h-24 w-full items-center justify-center rounded-md px-2 py-2"
@@ -274,6 +309,8 @@ export function AssetPackPanel() {
   const tPack = useTranslations("brandKit.identityPack");
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
+  const [kitBusy, setKitBusy] = useState(false);
+  const [kitError, setKitError] = useState(false);
   const showReferencePack = isReferenceAssetPackVisible(
     hydrated ? brandKit.unionPresetId : undefined,
   );
@@ -355,15 +392,40 @@ export function AssetPackPanel() {
                 <BrandLogo size="lg" alt={t("logoAlt")} />
               </div>
               {kitDownload ? (
-                <a
-                  href={kitDownload.href}
-                  download={kitDownload.downloadName}
-                  className="text-sm font-medium text-opseu-blue underline"
-                >
-                  {kitDownload.href.toLowerCase().endsWith(".svg")
-                    ? t("downloadSvg")
-                    : t("downloadPng")}
-                </a>
+                <>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      void (async () => {
+                        setKitBusy(true);
+                        setKitError(false);
+                        try {
+                          await downloadHrefAsFile(
+                            kitDownload.href,
+                            kitDownload.downloadName ?? "brand-logo.png",
+                          );
+                        } catch {
+                          setKitError(true);
+                        } finally {
+                          setKitBusy(false);
+                        }
+                      })();
+                    }}
+                    disabled={kitBusy}
+                    className="text-left text-sm font-medium text-opseu-blue underline disabled:opacity-60"
+                  >
+                    {kitBusy
+                      ? t("downloading")
+                      : kitDownload.href.toLowerCase().endsWith(".svg")
+                        ? t("downloadSvg")
+                        : t("downloadPng")}
+                  </button>
+                  {kitError ? (
+                    <p className="text-sm text-red-700" role="alert">
+                      {t("downloadFailed")}
+                    </p>
+                  ) : null}
+                </>
               ) : (
                 <p className="text-sm text-gray-600">
                   {t("downloadUnavailable")}{" "}
@@ -405,6 +467,8 @@ export function AssetPackPanel() {
           hint={t("lookPackHint")}
           downloadSvg={t("downloadSvg")}
           downloadPng={t("downloadPng")}
+          downloadingLabel={t("downloading")}
+          failedLabel={t("downloadFailed")}
           variantLabel={(key) =>
             t(`variantLabels.${key}` as "variantLabels.color")
           }
@@ -432,6 +496,8 @@ export function AssetPackPanel() {
                   href="/assets/caat-opseu/logo-primary.png"
                   downloadName="logo-primary.png"
                   label={t("downloadPng")}
+                  downloadingLabel={t("downloading")}
+                  failedLabel={t("downloadFailed")}
                 >
                   <Image
                     src="/assets/caat-opseu/logo-primary.png"
@@ -445,6 +511,8 @@ export function AssetPackPanel() {
                   href="/assets/caat-opseu/logo-mark.png"
                   downloadName="logo-mark.png"
                   label={t("downloadMark")}
+                  downloadingLabel={t("downloading")}
+                  failedLabel={t("downloadFailed")}
                 >
                   <Image
                     src="/assets/caat-opseu/logo-mark.png"

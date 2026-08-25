@@ -4677,6 +4677,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "assets-pwa-download": {
+        "title": "Actifs de marque restent dans l’appli installée",
+        "body": "Télécharger un logo depuis Actifs de marque n’ouvre plus un nouvel onglet qui vous sort du raccourci d’écran d’accueil. Sur le téléphone, vous obtenez la feuille de partage ; sur ordinateur, le fichier s’enregistre comme avant."
+      },
       "labour-guides-rewrite": {
         "title": "Guides de pratique réécrits pour délégués et comms",
         "body": "Le Plan directeur, les guides syndicaux, la grève et le consentement photo proposent maintenant des scénarios concrets — quatre canaux, une semaine type, filtres de décision et liens vers les outils sur le plancher."
@@ -6688,6 +6692,8 @@
     "copyHex": "Copier",
     "copied": "Copié",
     "downloadUnavailable": "Téléchargement indisponible pour le moment. Réessayez plus tard.",
+    "downloading": "Préparation du téléchargement…",
+    "downloadFailed": "Impossible de télécharger ce fichier. Vérifiez votre connexion et réessayez — ou ouvrez Actifs de marque dans le navigateur si l’appli installée bloque l’enregistrement.",
     "downloadSvg": "Télécharger SVG",
     "lookPackTitle": "Fichiers {name}",
     "lookPackHint": "Variantes de couleur et de fond pour babillards, réseaux sociaux et campagnes. Choisissez le traitement qui convient à votre fond — les futures trousses d'événements apparaîtront ici de la même façon.",

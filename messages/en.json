@@ -3114,6 +3114,8 @@
     "copyHex": "Copy",
     "copied": "Copied",
     "downloadUnavailable": "Download unavailable right now. Try again later.",
+    "downloading": "Preparing download…",
+    "downloadFailed": "Could not download that file. Check your connection and try again — or open Brand Assets in your browser if the installed app blocks the save.",
     "downloadSvg": "Download SVG",
     "lookPackTitle": "{name} files",
     "lookPackHint": "Colour and plate variants for boards, social, and campaigns. Pick the treatment that matches your background — future event packs will appear here the same way.",
@@ -4725,6 +4727,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "assets-pwa-download": {
+        "title": "Brand Assets stay in the installed app",
+        "body": "Downloading a logo from Brand Assets no longer opens a new tab that kicks you out of the home-screen shortcut. On the phone you get the share sheet; on desktop the file still saves as before."
+      },
       "labour-guides-rewrite": {
         "title": "Steward and comms playbooks rewritten",
         "body": "The Blueprint, labour guides, Strike, and Photo Consent now walk real scenarios — four channels, a sample comms week, decision gates, and tool links you can use on the floor."

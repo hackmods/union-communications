@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "assets-pwa-download",
+    date: "2026-08-24",
+    kind: "improved",
+    href: "/assets",
+  },
+  {
     id: "labour-guides-rewrite",
     date: "2026-08-24",
     kind: "guide",
