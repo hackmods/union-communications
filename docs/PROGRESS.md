@@ -1,5 +1,13 @@
 # Progress Log
 
+## CapRover BuildKit / slim db-migrate (2026-08-25)
+
+- [x] Root cause: CapRover `unknown parent image ID` on `COPY --from=migrate … node_modules` (large cross-stage export on small hosts)
+- [x] `docker/migrate-package.json` + runner-stage `npm install` (~59MB); no cross-stage migrate `node_modules` COPY
+- [x] CI `docker-image` job publishes GHCR independently of E2E; prefer image pull over git rebuild
+- [x] Session knowledge + [`.cursor/rules/caprover-docker.mdc`](../.cursor/rules/caprover-docker.mdc)
+- Verify: `https://unionops.org/api/health` → commit `f3f04c6…`; `bash scripts/docker-migrate-smoke.sh`
+
 ## Brand Assets PWA downloads (2026-08-24)
 
 - [x] Brand Assets logo downloads use `downloadHrefAsFile` (fetch + `saveBlob`) instead of `<a download>` navigation that ejects installed / home-screen apps
@@ -21,14 +29,15 @@
 - [x] Operator guide [`HOSTED_SECURITY.md`](guides/HOSTED_SECURITY.md); public `/security` EN/FR; footer + sitemap
 - Verify: `npm run test:unit -- src/lib/portal/portal-idor.test.ts src/lib/auth/api-route-auth.test.ts`
 
-## Production migrate in Docker image (2026-08-24)
+## Production migrate in Docker image (2026-08-24; slimmed 2026-08-25)
 
-- [x] `docker/Dockerfile` migrate stage — ship SQL journal + `drizzle-kit` in `/app/db-migrate/`
+- [x] Ship SQL journal + `drizzle-kit` in `/app/db-migrate/` (entrypoint auto-migrate)
 - [x] `drizzle.migrate.config.ts` — migrate-only config (no schema TS in runner)
 - [x] `docker/entrypoint.sh` — explicit drizzle-kit path, fail-fast migrate, `sync-app-role-password.mjs`
-- [x] `scripts/docker-migrate-smoke.sh` + CI step — prove entrypoint applies migrations
+- [x] `scripts/docker-migrate-smoke.sh` + CI — prove entrypoint applies migrations
 - [x] `scripts/caprover-bootstrap-seed.sh` — one-shot seed on CapRover network
 - [x] `docker/.env.production.example` + [`docs/guides/CAPROVER_POSTGRES.md`](guides/CAPROVER_POSTGRES.md)
+- [x] **2026-08-25:** drop separate migrate stage / cross-stage `node_modules` COPY; use [`docker/migrate-package.json`](../docker/migrate-package.json) in runner (BuildKit export fix)
 
 ## Hub copy sequel (2026-08-24) — COPY-003
 

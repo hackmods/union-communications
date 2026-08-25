@@ -59,7 +59,7 @@ Do **not** expose Postgres to the public internet.
 | Setting | Value |
 |---------|-------|
 | **Container HTTP Port** | `3000` (not 80 — wrong port causes NGINX 502) |
-| **Deploy method** | Git push / webhook, or pull `ghcr.io/hackmods/union-communications:main` |
+| **Deploy method** | **Prefer** pull `ghcr.io/hackmods/union-communications:main` (avoids BuildKit `unknown parent` on small hosts). Git push / webhook rebuilds on-droplet — see [session-knowledge-2026-08-25-caprover-buildkit.md](../audit/session-knowledge-2026-08-25-caprover-buildkit.md). |
 
 Paste-ready env template: [`docker/.env.production.example`](../../docker/.env.production.example).
 

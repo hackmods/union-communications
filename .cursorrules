@@ -49,6 +49,7 @@ This file is a flat, tool-agnostic mirror of the most load-bearing rules already
 - Never use `dangerouslySetInnerHTML`.
 - No analytics, cookies, or third-party tracking scripts (ADR-006) — this includes new dependencies that phone home by default.
 - **Public SEO:** [`.cursor/rules/seo.mdc`](.cursor/rules/seo.mdc) — `AUTH_URL` = browser-facing HTTPS host (never CapRover FQDN); sitemap/canonicals via `buildPageMetadata` + `PUBLIC_PATHS`; keep `alternateLinks: false`; long-cache only static `/assets/*` trees.
+- **CapRover / Docker migrate:** slim `/app/db-migrate` via `docker/migrate-package.json` only — no cross-stage `node_modules` COPY (BuildKit `unknown parent image ID`). Prefer GHCR pull deploy. Rule: [`.cursor/rules/caprover-docker.mdc`](.cursor/rules/caprover-docker.mdc); lessons: [`docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md`](docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md).
 
 ## Verifying files before citing or acting on them
 

@@ -67,6 +67,8 @@ This repo includes [`captain-definition`](../../captain-definition) pointing at 
 
 **Durable Postgres on CapRover:** step-by-step walkthrough in [`CAPROVER_POSTGRES.md`](CAPROVER_POSTGRES.md) (two-app setup, env template, bootstrap seed, verify). Paste-ready env: [`docker/.env.production.example`](../../docker/.env.production.example).
 
+**Prefer GHCR image pull** on small droplets (`ghcr.io/hackmods/union-communications:main`) over CapRover git rebuilds — large `COPY --from` / `node_modules` layers can fail with BuildKit `unknown parent image ID`. Lessons: [`session-knowledge-2026-08-25-caprover-buildkit.md`](../audit/session-knowledge-2026-08-25-caprover-buildkit.md), [`.cursor/rules/caprover-docker.mdc`](../../.cursor/rules/caprover-docker.mdc). CI publishes images in the `docker-image` job (independent of E2E). Optional secrets: `CAPROVER_SERVER`, `CAPROVER_PASSWORD`, `CAPROVER_APP`.
+
 1. Create an app; set **Container HTTP Port** to **3000** (not 80). A wrong port yields CapRover NGINX 502 even when logs say Ready.
 2. App Configs (minimum):
 

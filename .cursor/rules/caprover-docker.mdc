@@ -1,0 +1,31 @@
+---
+description: CapRover + production Docker image — migrate slim install, BuildKit traps, GHCR pull deploy
+globs: docker/**,captain-definition,.github/workflows/ci.yml,docs/guides/CAPROVER*.md,docs/guides/DEPLOY.md,scripts/docker-migrate-smoke.sh,scripts/caprover-*.sh
+alwaysApply: false
+---
+
+# CapRover / production Docker
+
+Full narrative: [`docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md`](../../docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md). Ops walkthrough: [`docs/guides/CAPROVER_POSTGRES.md`](../../docs/guides/CAPROVER_POSTGRES.md).
+
+## Migrate artifacts in the image
+
+- Ship migrations under `/app/db-migrate/` for [`docker/entrypoint.sh`](../../docker/entrypoint.sh).
+- Use [`docker/migrate-package.json`](../../docker/migrate-package.json) (**only** `drizzle-kit`, `drizzle-orm`, `postgres`). Never copy root `package.json` into `db-migrate` — `drizzle-kit` is a root `devDependency` and disappears under `--omit=dev`, while the rest of the prod tree balloons (~628MB).
+- Install with `npm install --omit=dev` **in the runner stage**. Do **not** `COPY --from=… node_modules` for migrate (BuildKit `unknown parent image ID` on small CapRover hosts).
+
+## CapRover deploy preference
+
+1. **Preferred:** pull `ghcr.io/hackmods/union-communications:main` (Method 3 / CLI). CI job `docker-image` publishes independently of E2E.
+2. **Git webhook** rebuilds on the droplet — fine when disk/cache healthy; fails with `failed to set parent … unknown parent image ID` under pressure.
+3. Optional secrets for image deploy: `CAPROVER_SERVER`, `CAPROVER_PASSWORD`, `CAPROVER_APP`. Webhook-only is a fallback.
+
+## Host hygiene
+
+- `df -h` / `docker builder prune -af` when export fails mid-COPY.
+- No cron `docker system prune` during builds (deletes intermediate layers).
+
+## Verify
+
+- Live: `GET /api/health` → `.commit` matches expected SHA.
+- CI: `scripts/docker-migrate-smoke.sh` — assert migrate finished; `__drizzle_migrations` by **table name** (not `public` schema only).
