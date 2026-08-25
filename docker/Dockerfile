@@ -13,10 +13,26 @@ RUN npm ci
 FROM base AS migrate
 ENV NPM_CONFIG_UPDATE_NOTIFIER=false
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev && npm install drizzle-kit@0.31.10 --no-save
+# Only migrate/sync deps — full `npm ci --omit=dev` pulls the entire Next.js tree
+# (~hundreds of MB) and triggers BuildKit "unknown parent image ID" export failures
+# on small CapRover hosts when COPY --from=migrate node_modules runs.
+RUN npm install drizzle-kit@0.31.10 drizzle-orm@0.45.2 postgres@3.4.9 --omit=dev --no-save \
+  && npm cache clean --force
 COPY drizzle.migrate.config.ts ./
 COPY src/lib/db/migrations ./src/lib/db/migrations
 COPY scripts/sync-app-role-password.mjs ./scripts/sync-app-role-password.mjs
+# #region agent log
+RUN echo "[build-debug session=3d0783 hypothesis=A,B] migrate disk:" && df -h / && du -sh /app/node_modules
+# #endregion
+RUN mkdir -p /bundle/db-migrate/src/lib/db /bundle/scripts \
+  && cp package.json drizzle.migrate.config.ts /bundle/db-migrate/ \
+  && cp -r node_modules /bundle/db-migrate/ \
+  && cp -r src/lib/db/migrations /bundle/db-migrate/src/lib/db/ \
+  && cp scripts/sync-app-role-password.mjs /bundle/scripts/ \
+  && tar -cf /migrate-bundle.tar -C /bundle .
+# #region agent log
+RUN echo "[build-debug session=3d0783 hypothesis=B] migrate bundle:" && ls -lh /migrate-bundle.tar
+# #endregion
 
 # ---- builder: compile the Next.js standalone output ----
 FROM base AS builder
@@ -60,15 +76,17 @@ RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=migrate --chown=nextjs:nodejs /app/package.json ./db-migrate/package.json
-COPY --from=migrate --chown=nextjs:nodejs /app/node_modules ./db-migrate/node_modules
-COPY --from=migrate --chown=nextjs:nodejs /app/drizzle.migrate.config.ts ./db-migrate/drizzle.migrate.config.ts
-COPY --from=migrate --chown=nextjs:nodejs /app/src/lib/db/migrations ./db-migrate/src/lib/db/migrations
-COPY --from=migrate --chown=nextjs:nodejs /app/scripts/sync-app-role-password.mjs ./scripts/sync-app-role-password.mjs
+COPY --link --from=migrate /migrate-bundle.tar /tmp/migrate-bundle.tar
 COPY docker/entrypoint.sh /entrypoint.sh
 
 USER root
-RUN chmod +x /entrypoint.sh
+# #region agent log
+RUN echo "[build-debug session=3d0783 hypothesis=A,C] runner disk before extract:" && df -h /
+# #endregion
+RUN tar -xf /tmp/migrate-bundle.tar -C /app \
+  && rm /tmp/migrate-bundle.tar \
+  && chown -R nextjs:nodejs /app/db-migrate \
+  && chmod +x /entrypoint.sh
 
 USER nextjs
 EXPOSE 3000
