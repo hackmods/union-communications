@@ -89,17 +89,18 @@ Update when a surface ships.
 | resizer | done |
 | website-template | done |
 | board-banner | done |
-| alt-text | done (PageShell exception; purposeHint + RelatedTools 2026-08-25) |
-| document-generator | done (layout exception; success Callout + RelatedTools 2026-08) |
-| pulse-poll | done (RelatedTools + exportSuccess; Hub publish remains advanced) |
+| alt-text | done (PageShell; purposeHint + RelatedTools W1; ToolFormDetails + Graphic link W3) |
+| document-generator | done (PageShell; whenToUse + header BrandSetup + form collapses W3) |
+| pulse-poll | done (RelatedTools + exportSuccess; Hub publish in toolbar) |
 | share-kit | **folded 2026-08-18** — redirect to Graphic Maker; do not rebuild |
 
-Workshop polish (2026-08): remaining canvas tools wire `exportSuccess`, `ToolRelatedFooter`, and `purposeHint` where listed in `comms-public-ux.mdc`; quiet demo tools show `BrandSetupPrompt` when Brand Kit is empty. Captions page links Graphic Maker. Re-touch register rows only when four-width check fails again.
+Workshop polish (2026-08): canvas tools wire `exportSuccess`, `ToolRelatedFooter`, and `purposeHint`; PageShell exceptions (alt-text, document-generator) match shell checklist without fake Edit/Preview. Re-touch register rows when four-width check fails.
 
 ### Public secondary
 
 | Surface | Status |
 |---------|--------|
+| tools catalog (`/tools`) | done (Start here sidebar @ lg+ — Wave 3) |
 | home hub path cards | done |
 | guide (blueprint) | done |
 | guide/social-media-plan | reference |

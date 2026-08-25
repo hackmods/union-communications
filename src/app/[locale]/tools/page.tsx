@@ -9,6 +9,11 @@ import {
   visibleToolGroups,
 } from "@/components/layout/nav/nav-config";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
+import {
+  FIRST_WEEK_STEP_KEYS,
+  FIRST_WEEK_STEP_LINKS,
+  type FirstWeekStepKey,
+} from "@/lib/comms/first-week-roadmap";
 
 export async function generateMetadata({
   params,
@@ -27,6 +32,7 @@ export default async function ToolsIndexPage({
   setRequestLocale(locale);
   const t = await getTranslations("toolsIndex");
   const nav = await getTranslations("nav");
+  const plan = await getTranslations("socialMediaPlan");
   const session = await auth();
   const groups = visibleToolGroups({
     officerHubPublic: isOfficerHubPublic(),
@@ -55,37 +61,90 @@ export default async function ToolsIndexPage({
         </p>
       </header>
 
-      <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 xl:gap-10">
-        {groups.map((group) => (
-          <section
-            key={group.labelKey}
-            aria-labelledby={`tools-${group.labelKey}`}
-          >
-            <h2
-              id={`tools-${group.labelKey}`}
-              className="text-sm font-semibold uppercase tracking-wide text-gray-500"
+      <div className="mt-8 lg:mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(16rem,20rem)] lg:items-start lg:gap-10 xl:gap-12">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 xl:gap-10">
+          {groups.map((group) => (
+            <section
+              key={group.labelKey}
+              aria-labelledby={`tools-${group.labelKey}`}
             >
-              {nav(group.labelKey)}
-            </h2>
-            <ul className="mt-3 space-y-3">
-              {group.links.map(({ href, key }) => (
-                <li key={href}>
+              <h2
+                id={`tools-${group.labelKey}`}
+                className="text-sm font-semibold uppercase tracking-wide text-gray-500"
+              >
+                {nav(group.labelKey)}
+              </h2>
+              <ul className="mt-3 space-y-3">
+                {group.links.map(({ href, key }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      className="group block rounded-lg border border-transparent px-1 py-1 transition-colors hover:border-opseu-blue/15 hover:bg-opseu-blue/5"
+                    >
+                      <span className="inline-flex min-h-11 items-center font-medium text-opseu-blue underline-offset-2 group-hover:underline">
+                        {nav(key)}
+                      </span>
+                      <span className="mt-0.5 block text-sm text-gray-600">
+                        {t(`blurbs.${key}`)}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+
+        <aside
+          className="mt-10 rounded-xl border border-opseu-blue/15 bg-gradient-to-b from-opseu-blue/[0.06] to-white p-5 lg:mt-0 lg:sticky lg:top-4"
+          aria-labelledby="tools-start-here"
+        >
+          <h2
+            id="tools-start-here"
+            className="text-sm font-semibold uppercase tracking-wide text-gray-500"
+          >
+            {t("startHereTitle")}
+          </h2>
+          <p className="mt-2 text-sm leading-snug text-gray-700">
+            {t("startHereIntro")}
+          </p>
+          <ol className="mt-4 space-y-2">
+            {FIRST_WEEK_STEP_KEYS.map((key: FirstWeekStepKey, index) => {
+              const links = FIRST_WEEK_STEP_LINKS[key];
+              return (
+                <li key={key}>
                   <Link
-                    href={href}
-                    className="group block rounded-lg border border-transparent px-1 py-1 transition-colors hover:border-opseu-blue/15 hover:bg-opseu-blue/5"
+                    href={links.primary}
+                    className="group flex min-h-11 items-start gap-3 rounded-lg border border-transparent px-1 py-1 transition-colors hover:border-opseu-blue/20 hover:bg-white/80"
                   >
-                    <span className="inline-flex min-h-11 items-center font-medium text-opseu-blue underline-offset-2 group-hover:underline">
-                      {nav(key)}
+                    <span
+                      className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-opseu-blue/10 text-xs font-bold text-opseu-blue"
+                      aria-hidden
+                    >
+                      {index + 1}
                     </span>
-                    <span className="mt-0.5 block text-sm text-gray-600">
-                      {t(`blurbs.${key}`)}
+                    <span>
+                      <span className="block font-medium text-opseu-blue underline-offset-2 group-hover:underline">
+                        {plan(`steps.${key}.navLabel`)}
+                      </span>
+                      <span className="mt-0.5 block text-xs text-gray-600">
+                        {plan(`steps.${key}.title`)}
+                      </span>
                     </span>
                   </Link>
                 </li>
-              ))}
-            </ul>
-          </section>
-        ))}
+              );
+            })}
+          </ol>
+          <p className="mt-4 border-t border-opseu-blue/10 pt-4">
+            <Link
+              href="/guide/social-media-plan"
+              className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline-offset-2 hover:underline"
+            >
+              {t("startHereRoadmap")} →
+            </Link>
+          </p>
+        </aside>
       </div>
 
       {channelGuides ? (

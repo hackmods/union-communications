@@ -49,13 +49,15 @@ Shell (TEL contract — tool-editor-ux.mdc)
 | 14 | `quote-card` | social | TEL | ✅ |
 | 15 | `meeting-background` | social | TEL | ✅ |
 | 16 | `website-template` | social/web | TEL | ⚠️ no BrandSetup in toolbar; long form |
-| 17 | `alt-text` | social | PageShell exception | ❌ no purposeHint / related footer |
+| 17 | `alt-text` | social | PageShell exception | ✅ purposeHint + related (Wave 1); densified ref column (Wave 3) |
 
 Share Kit (`/tools/share-kit`) **excluded** — folded into Graphic Maker 2026-08-18.
 
+**As-built note (2026-08-25):** Wave 1–3 closed shell gaps on flagged tools. Matrix below is **historical pre-ship** snapshot; see Wave 1–3 sections for current state.
+
 ---
 
-## Shell checklist matrix (TEL contract)
+## Shell checklist matrix (historical pre-Wave 1 snapshot)
 
 Legend: ✅ present · ⚠️ partial · ❌ missing · — intentional skip · n/a non-canvas
 
@@ -63,7 +65,7 @@ Legend: ✅ present · ⚠️ partial · ❌ missing · — intentional skip · 
 |------|-----|-------------|-------------------|----------------|---------------|-------------------|
 | logo-builder | ✅ | ✅ | — | ✅ | ✅ | ✅ |
 | resizer | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| document-generator | n/a | ❌ | in form | n/a | ✅ | ✅ |
+| document-generator | n/a | ❌→✅ W1 | in form→header W3 | n/a | ✅ | ✅ |
 | board-banner | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | board-notice | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | solidarity-poster | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -76,10 +78,19 @@ Legend: ✅ present · ⚠️ partial · ❌ missing · — intentional skip · 
 | graphic-maker | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | quote-card | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | meeting-background | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| website-template | ✅ | ✅* | ❌ | ✅ | ✅ | ✅ |
-| alt-text | n/a | ❌ | n/a | n/a | n/a | ❌ |
+| website-template | ✅ | ✅* | ❌→✅ W1 | ✅ | ✅ | ✅ |
+| alt-text | n/a | ❌→✅ W1 | n/a | n/a | n/a | ❌→✅ W1 |
 
 \*Website hides `purposeHint` in workshop demo mode only (matches Graphic Maker pattern).
+
+### As-built shell status (post Wave 3)
+
+| Tool | Notes |
+|------|-------|
+| All 15 TEL canvas tools | Shell checklist complete |
+| `document-generator` | PageShell; `whenToUse`, header `BrandSetupPrompt`, `ToolFormDetails` IA, related footer |
+| `alt-text` | PageShell; `whenToUse`, Graphic Maker link, collapsed reference column, related footer |
+| `/tools` catalog | P2 Start here sidebar @ lg+; channel guides footer unchanged |
 
 ---
 
@@ -192,11 +203,21 @@ Ranks **8–11** from the recommendations table:
 | 10 | P1-WEB-PREV | iframe preview capped `max-h-[70vh]` |
 | 11 | P1-FLYER-PRESET-I18N | Flyer preset copy moved to `flyerMaker.presets.*` i18n; design-only `FLYER_PRESETS` |
 
-**Still deferred:** P2 catalog composition, P2 doc-gen TEL, P3 channel features.
+**Still deferred:** P2 doc-gen TEL migration, P3 channel features.
+
+## Wave 3 (P2 catalog + layout exceptions) — shipped 2026-08-25
+
+| Rank | ID | Shipped |
+|------|-----|---------|
+| 12 | P2-CATALOG | `/tools` Start here sidebar @ lg+ (`FIRST_WEEK_STEP_LINKS`) |
+| — | P2-DOCGEN-IA | Header BrandSetup; `ToolFormDetails` on fields + structure |
+| — | P2-ALT | Graphic Maker link; reference column collapses |
+
+Session doc: [`session-knowledge-2026-08-25-public-tools-parity.md`](session-knowledge-2026-08-25-public-tools-parity.md)
 
 ---
 
-## Verification (Wave 1 + 2)
+## Verification (Wave 1 + 2 + 3)
 
 ```bash
 npm run lint

@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { copyToClipboard } from "@/lib/utils";
-import { Card, CardTitle } from "@/components/ui/Card";
+import { Card } from "@/components/ui/Card";
 import { Textarea } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import {
   GRAPHIC_STARTER_IDS,
   PLATFORM_ALT_LIMITS,
@@ -19,6 +20,7 @@ import {
 } from "@/lib/alt-text/draft";
 import { PageShell } from "@/components/layout/PageShell";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 
 const CHECKLIST_IDS = [
   "visual",
@@ -77,165 +79,174 @@ export default function AltTextPage() {
 
   return (
     <PageShell className="py-6 md:py-8 lg:py-10">
-      <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
-        {t("title")}
-      </h1>
-      <p className="mt-1 max-w-prose text-gray-600">{t("subtitle")}</p>
-      <p className="mt-2 max-w-2xl text-sm text-gray-500">{t("whenToUse")}</p>
+      <header className="max-w-2xl">
+        <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
+          {t("title")}
+        </h1>
+        <p className="mt-1 max-w-prose text-gray-600">{t("subtitle")}</p>
+        <p className="mt-2 max-w-2xl text-sm text-gray-500">{t("whenToUse")}</p>
+        <p className="mt-3">
+          <Link
+            href="/tools/graphic-maker"
+            className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline underline-offset-2"
+          >
+            {t("graphicMakerLink")} →
+          </Link>
+        </p>
+      </header>
 
-      <div className="mt-6 grid items-start gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] xl:gap-6">
-      <Card density="compact" className="space-y-3">
-        <div>
-          <p className="mb-1.5 text-sm font-medium text-gray-700">
-            {t("starterLabel")}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {GRAPHIC_STARTER_IDS.map((id) => (
-              <Button
-                key={id}
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => applyStarter(id)}
-              >
-                {t(`starters.${id}.label`)}
-              </Button>
-            ))}
-          </div>
-        </div>
-
-        <Textarea
-          label={t("altLabel")}
-          value={altText}
-          onChange={(e) => setAltText(e.target.value)}
-          rows={4}
-          placeholder={t("altPlaceholder")}
-          aria-describedby="alt-char-count alt-feedback"
-        />
-
-        <div className="flex flex-wrap items-center gap-3">
-          <label className="flex items-center gap-2 text-sm text-gray-700">
-            <span className="font-medium">{t("platformLabel")}</span>
-            <select
-              className="min-h-11 rounded-lg border border-gray-300 px-2 py-1.5 text-base focus:border-opseu-blue focus:ring-2 focus:ring-opseu-blue/20"
-              value={platform}
-              onChange={(e) => setPlatform(e.target.value as PlatformId)}
-            >
-              {PLATFORM_IDS.map((id) => (
-                <option key={id} value={id}>
-                  {t(`platforms.${id}`)} ({PLATFORM_ALT_LIMITS[id]})
-                </option>
+      <div className="mt-6 grid items-start gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-6">
+        <Card density="compact" className="space-y-3">
+          <div>
+            <p className="mb-1.5 text-sm font-medium text-gray-700">
+              {t("starterLabel")}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {GRAPHIC_STARTER_IDS.map((id) => (
+                <Button
+                  key={id}
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => applyStarter(id)}
+                >
+                  {t(`starters.${id}.label`)}
+                </Button>
               ))}
-            </select>
-          </label>
-          <p
-            id="alt-char-count"
-            className={`text-sm ${overLimit ? "font-semibold text-red-700" : "text-gray-600"}`}
-          >
-            {t("charCount", { count: charCount, limit })}
-          </p>
+            </div>
+          </div>
+
+          <Textarea
+            label={t("altLabel")}
+            value={altText}
+            onChange={(e) => setAltText(e.target.value)}
+            rows={4}
+            placeholder={t("altPlaceholder")}
+            aria-describedby="alt-char-count alt-feedback"
+          />
+
+          <div className="flex flex-wrap items-center gap-3">
+            <label className="flex min-h-11 items-center gap-2 text-sm text-gray-700">
+              <span className="font-medium">{t("platformLabel")}</span>
+              <select
+                className="min-h-11 rounded-lg border border-gray-300 px-2 py-1.5 text-base focus:border-opseu-blue focus:ring-2 focus:ring-opseu-blue/20"
+                value={platform}
+                onChange={(e) => setPlatform(e.target.value as PlatformId)}
+              >
+                {PLATFORM_IDS.map((id) => (
+                  <option key={id} value={id}>
+                    {t(`platforms.${id}`)} ({PLATFORM_ALT_LIMITS[id]})
+                  </option>
+                ))}
+              </select>
+            </label>
+            <p
+              id="alt-char-count"
+              className={`text-sm ${overLimit ? "font-semibold text-red-700" : "text-gray-600"}`}
+            >
+              {t("charCount", { count: charCount, limit })}
+            </p>
+          </div>
+
+          {analysis.issues.length > 0 && (
+            <ul
+              id="alt-feedback"
+              className="list-disc space-y-1 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-950"
+              aria-live="polite"
+            >
+              {analysis.issues.map((issue: AltTextIssueId) => (
+                <li key={issue}>{t(`issues.${issue}`)}</li>
+              ))}
+            </ul>
+          )}
+          {analysis.ok && altText.trim() && (
+            <p
+              id="alt-feedback"
+              className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-900"
+              aria-live="polite"
+            >
+              {t("draftLooksGood")}
+            </p>
+          )}
+
+          <Textarea
+            label={t("captionLabel")}
+            value={caption}
+            onChange={(e) => setCaption(e.target.value)}
+            rows={2}
+            placeholder={t("captionPlaceholder")}
+          />
+          <p className="text-xs text-gray-500">{t("captionHint")}</p>
+
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              onClick={() => handleCopy("alt")}
+              disabled={!altText.trim() || overLimit}
+            >
+              {copied === "alt" ? tc("copied") : t("copyAlt")}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handleCopy("both")}
+              disabled={!altText.trim()}
+            >
+              {copied === "both" ? tc("copied") : t("copyBoth")}
+            </Button>
+          </div>
+          {copyError ? (
+            <p className="text-sm text-red-700" role="alert">
+              {copyError}
+            </p>
+          ) : null}
+        </Card>
+
+        <div className="space-y-3">
+          <ToolFormDetails title={t("howTitle")} defaultOpen>
+            <ol className="list-decimal space-y-1.5 pl-5 text-sm text-gray-700">
+              <li>{t("how.step1")}</li>
+              <li>{t("how.step2")}</li>
+              <li>{t("how.step3")}</li>
+              <li>{t("how.step4")}</li>
+            </ol>
+          </ToolFormDetails>
+
+          <ToolFormDetails title={t("checklistTitle")}>
+            <ul className="space-y-2">
+              {CHECKLIST_IDS.map((id) => (
+                <li key={id}>
+                  <label className="flex cursor-pointer items-start gap-2 py-0.5 text-sm leading-snug text-gray-700">
+                    <input
+                      type="checkbox"
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-opseu-blue"
+                      checked={checked[id]}
+                      onChange={() => toggleCheck(id)}
+                    />
+                    <span>{t(`checklist.${id}`)}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </ToolFormDetails>
+
+          <ToolFormDetails title={t("examplesTitle")}>
+            <div>
+              <p className="text-sm font-medium text-red-800">
+                {t("examples.badLabel")}
+              </p>
+              <p className="mt-0.5 text-sm text-gray-700">{t("examples.bad")}</p>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-green-800">
+                {t("examples.goodLabel")}
+              </p>
+              <p className="mt-0.5 text-sm text-gray-700">
+                {t("examples.good")}
+              </p>
+            </div>
+          </ToolFormDetails>
         </div>
-
-        {analysis.issues.length > 0 && (
-          <ul
-            id="alt-feedback"
-            className="list-disc space-y-1 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-950"
-            aria-live="polite"
-          >
-            {analysis.issues.map((issue: AltTextIssueId) => (
-              <li key={issue}>{t(`issues.${issue}`)}</li>
-            ))}
-          </ul>
-        )}
-        {analysis.ok && altText.trim() && (
-          <p
-            id="alt-feedback"
-            className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-900"
-            aria-live="polite"
-          >
-            {t("draftLooksGood")}
-          </p>
-        )}
-
-        <Textarea
-          label={t("captionLabel")}
-          value={caption}
-          onChange={(e) => setCaption(e.target.value)}
-          rows={2}
-          placeholder={t("captionPlaceholder")}
-        />
-        <p className="text-xs text-gray-500">{t("captionHint")}</p>
-
-        <div className="flex flex-wrap gap-2">
-          <Button
-            type="button"
-            onClick={() => handleCopy("alt")}
-            disabled={!altText.trim() || overLimit}
-          >
-            {copied === "alt" ? tc("copied") : t("copyAlt")}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => handleCopy("both")}
-            disabled={!altText.trim()}
-          >
-            {copied === "both" ? tc("copied") : t("copyBoth")}
-          </Button>
-        </div>
-        {copyError ? (
-          <p className="text-sm text-red-700" role="alert">
-            {copyError}
-          </p>
-        ) : null}
-      </Card>
-
-      <div className="space-y-4">
-      <Card density="compact">
-        <CardTitle className="text-base">{t("howTitle")}</CardTitle>
-        <ol className="mt-2 list-decimal space-y-1.5 pl-5 text-sm text-gray-700">
-          <li>{t("how.step1")}</li>
-          <li>{t("how.step2")}</li>
-          <li>{t("how.step3")}</li>
-          <li>{t("how.step4")}</li>
-        </ol>
-      </Card>
-
-      <Card density="compact">
-        <CardTitle className="text-base">{t("checklistTitle")}</CardTitle>
-        <ul className="mt-2 space-y-2">
-          {CHECKLIST_IDS.map((id) => (
-            <li key={id}>
-              <label className="flex cursor-pointer items-start gap-2 py-0.5 text-sm leading-snug text-gray-700">
-                <input
-                  type="checkbox"
-                  className="mt-0.5 h-4 w-4 shrink-0 accent-opseu-blue"
-                  checked={checked[id]}
-                  onChange={() => toggleCheck(id)}
-                />
-                <span>{t(`checklist.${id}`)}</span>
-              </label>
-            </li>
-          ))}
-        </ul>
-      </Card>
-
-      <Card density="compact" className="space-y-3">
-        <CardTitle className="text-base">{t("examplesTitle")}</CardTitle>
-        <div>
-          <p className="text-sm font-medium text-red-800">
-            {t("examples.badLabel")}
-          </p>
-          <p className="mt-0.5 text-sm text-gray-700">{t("examples.bad")}</p>
-        </div>
-        <div>
-          <p className="text-sm font-medium text-green-800">
-            {t("examples.goodLabel")}
-          </p>
-          <p className="mt-0.5 text-sm text-gray-700">{t("examples.good")}</p>
-        </div>
-      </Card>
-      </div>
       </div>
 
       <ToolRelatedFooter toolSlug="alt-text" className="mt-8" />

@@ -441,6 +441,14 @@ function DocumentGeneratorPageContent() {
         </h1>
         <p className="mt-1 text-gray-600">{t("subtitle")}</p>
         <p className="mt-2 max-w-2xl text-sm text-gray-500">{t("whenToUse")}</p>
+        {!themeEstablished ? (
+          <div className="mt-4">
+            <BrandSetupPrompt
+              themeEstablished={themeEstablished}
+              prompt={t("setupBrandPrompt")}
+            />
+          </div>
+        ) : null}
       </div>
 
       <div
@@ -495,10 +503,7 @@ function DocumentGeneratorPageContent() {
             </Select>
           </div>
 
-          <section className="space-y-3 border-t border-gray-200 pt-5">
-            <p className="text-sm font-semibold text-opseu-dark">
-              {t("fieldsHeading")}
-            </p>
+          <ToolFormDetails title={t("fieldsHeading")} defaultOpen>
             {preset.fields.map((field) =>
               field.multiline ? (
                 <Textarea
@@ -517,7 +522,7 @@ function DocumentGeneratorPageContent() {
                 />
               ),
             )}
-          </section>
+          </ToolFormDetails>
 
           <ToolFormDetails title={t("sectionBranding")}>
             <Checkbox
@@ -527,12 +532,6 @@ function DocumentGeneratorPageContent() {
                 setState({ ...state, includeLogo: e.target.checked })
               }
             />
-            {!themeEstablished ? (
-              <BrandSetupPrompt
-                themeEstablished={themeEstablished}
-                prompt={t("setupBrandPrompt")}
-              />
-            ) : null}
           </ToolFormDetails>
 
           <ToolFormDetails title={t("outputs")}>
@@ -658,11 +657,13 @@ function DocumentGeneratorPageContent() {
             includePptx={state.includePptx && preset.outputs.pptx}
             tokens={canvasTokens}
           />
-          <ul className="list-disc space-y-1 pl-5 text-xs text-gray-500">
-            {preset.structureKeys.map((key) => (
-              <li key={key}>{t(key)}</li>
-            ))}
-          </ul>
+          <ToolFormDetails title={t("sectionStructure")}>
+            <ul className="list-disc space-y-1 pl-5 text-xs text-gray-600">
+              {preset.structureKeys.map((key) => (
+                <li key={key}>{t(key)}</li>
+              ))}
+            </ul>
+          </ToolFormDetails>
         </div>
       </div>
 
