@@ -50,7 +50,10 @@ import {
   walletMetaFontSizePx,
   walletTitleFontSizePx,
 } from "@/lib/utils/canvas-tokens";
-import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
+import {
+  canvasSurfaceStyle,
+  softGradientFillStyle,
+} from "@/lib/utils/canvas-surface";
 import {
   CanvasGrainOverlay,
   CanvasQrPlate,
@@ -214,7 +217,7 @@ function ActionCardPageContent() {
     if (state.bgMode === "gradient") {
       return {
         ...box,
-        backgroundImage: `linear-gradient(160deg, ${state.primaryColor} 0%, ${state.secondaryColor} 100%)`,
+        ...softGradientFillStyle(state.primaryColor, state.secondaryColor),
         color: ink,
       };
     }

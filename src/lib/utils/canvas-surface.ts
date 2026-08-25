@@ -158,6 +158,18 @@ export function duotoneOverlayStyles(
   };
 }
 
+/** Explicit soft gradient for wallet cards (QR / Action) — same end-stop as `soft-gradient` surface. */
+export function softGradientFillStyle(
+  primary: string,
+  secondary: string,
+): CSSProperties {
+  const end = softGradientEndColor(primary, secondary);
+  return {
+    backgroundColor: primary,
+    backgroundImage: `linear-gradient(160deg, ${primary} 0%, ${end} 100%)`,
+  };
+}
+
 /** Soft fill variant when soft-gradient is wanted but secondary equals primary. */
 export function softGradientOrFlat(
   primary: string,

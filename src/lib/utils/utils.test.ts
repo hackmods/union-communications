@@ -24,6 +24,7 @@ import {
   brandFieldEndColor,
   brandFieldFillStyle,
   softGradientEndColor,
+  softGradientFillStyle,
 } from "@/lib/utils/canvas-surface";
 import { validateImageFile } from "@/lib/utils/validation";
 import { formatFilename, slugify, resolveLocalNumber } from "@/lib/utils";
@@ -85,6 +86,15 @@ describe("ink utilities", () => {
     // Paper secondary deepens the plate — white ink stays crisp, not washed
     expect(pickContrastingInk(end)).toBe(INK_WHITE);
     expect(pickFieldInk(["#EA5A4F", end])).toBe(INK_WHITE);
+  });
+
+  it("wallet soft-gradient fill uses smart end stop, not raw secondary", () => {
+    const fill = softGradientFillStyle("#EA5A4F", "#FFFFFF");
+    expect(fill.backgroundColor).toBe("#EA5A4F");
+    expect(String(fill.backgroundImage)).not.toContain("#FFFFFF");
+    expect(String(fill.backgroundImage)).toContain(
+      softGradientEndColor("#EA5A4F", "#FFFFFF"),
+    );
   });
 
   it("leaves CAAT-S gold→coral ends chromatic (scrim layouts own bottom ink)", () => {
