@@ -135,7 +135,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/steward-101": {
       title: "Steward 101: Your Role and Rights",
       description:
-        "The three hats every steward wears, the right to union representation in discipline meetings, and the duty of fair representation. Not legal advice.",
+        "Orientation for new stewards: what the role is, the three hats, representation in discipline meetings, DFR basics, and a worked example. Not legal advice.",
     },
     "/guide/grievance-process": {
       title: "The Steward's Guide to Grievances",
@@ -287,7 +287,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/steward-101": {
       title: "Délégué 101 : votre rôle et vos droits",
       description:
-        "Les trois chapeaux du délégué, le droit à la représentation syndicale en entrevue disciplinaire et le devoir de représentation équitable. Pas un avis juridique.",
+        "Orientation pour nouveaux délégués : rôle, trois chapeaux, représentation disciplinaire, bases de la DRE et exemple commenté. Pas un avis juridique.",
     },
     "/guide/grievance-process": {
       title: "Le guide du délégué sur les griefs",

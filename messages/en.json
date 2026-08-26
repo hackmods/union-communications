@@ -44,7 +44,15 @@
     "resources": "Comms Resources",
     "photoConsent": "Photo Consent",
     "membershipSignupGuide": "Membership signup",
+    "steward101Guide": "Steward 101",
+    "workplaceMappingGuide": "Workplace mapping",
+    "grievanceProcessGuide": "Grievance process",
+    "dfrGuide": "Duty of Fair Representation",
+    "rightToRefuseGuide": "Right to refuse (Ontario)",
+    "seniorityGuide": "Seniority & bumping",
+    "jointCommitteeGuide": "Joint committee",
     "learnGroupGuides": "Start here",
+    "learnGroupStewardPlaybooks": "Steward playbooks",
     "learnGroupChannels": "By channel",
     "learnGroupLibraries": "Libraries",
     "learnGroupAbout": "About",
@@ -2581,7 +2589,7 @@
     },
     "labourPath": {
       "title": "Labour rights playbooks",
-      "intro": "Steward-facing Ontario playbooks — not legal advice. Same depth as a training handout: gate, steps, worked example, and sources. Not in the main Guides menu yet; bookmark this section or find them on The Blueprint.",
+      "intro": "Steward-facing Ontario playbooks — not legal advice. Same depth as a training handout: gate, steps, worked example, and sources. Start with Steward 101 in the Guides menu under Steward playbooks, or follow the ordered list below while you wait for local or national steward school.",
       "links": {
         "steward101": "Steward 101: Your Role and Rights",
         "grievance": "The Steward's Guide to Grievances",
@@ -4024,10 +4032,11 @@
   },
   "steward101Guide": {
     "title": "Steward 101: Your Role and Rights",
-    "subtitle": "The three hats, representation rights, and the duty of fair representation",
+    "subtitle": "Orientation for new stewards — role, three hats, representation, and fair representation",
     "backToGuide": "Back to The Blueprint",
     "tocLabel": "On this page",
-    "intro": "Being elected as a steward is the most important job in the labour movement. You are the first line of defense against management and the face of the union on the shop floor. To be effective, you need to understand the three \"hats\" you wear, and the legal obligations of your role.",
+    "tipLabel": "Takeaway",
+    "intro": "Being elected as a steward is the most important job in the labour movement. You are the first line of defense against management and the face of the union on the shop floor. National steward school may be months away — this playbook gets you oriented on the floor now.",
     "disclaimer": {
       "title": "Not legal advice",
       "body": "This page orients new stewards. It does not replace your Collective Agreement, local bylaws, or training from your servicing representative."
@@ -4036,7 +4045,60 @@
       "grievance": "The Steward's Guide to Grievances",
       "dfr": "Duty of Fair Representation playbook",
       "workplaceMapping": "Workplace mapping & organic leaders",
-      "rightToRefuse": "Right to refuse unsafe work"
+      "rightToRefuse": "Right to refuse unsafe work",
+      "membership": "Membership signup playbook"
+    },
+    "whatIsSteward": {
+      "navLabel": "What is a steward?",
+      "title": "What is a steward?",
+      "intro": "A steward is an elected union representative on the shop floor — not management, not HR, and not a lawyer.",
+      "items": {
+        "elected": {
+          "label": "Elected by members",
+          "content": "Stewards are chosen by the bargaining unit they represent. Your authority comes from the members and your CA — not from the employer."
+        },
+        "daily": {
+          "label": "Daily face of the union",
+          "content": "Members come to you first with problems, questions, and fear. You listen, investigate, and connect them to the local executive when the file outgrows one person."
+        },
+        "notManagement": {
+          "label": "Not management's partner",
+          "content": "You can be professional without being management's messenger. Your job is to enforce the contract and build member power — not to smooth over violations."
+        },
+        "withExecutive": {
+          "label": "Works with the executive",
+          "content": "Strategy and major decisions sit with the Local Executive and servicing rep. You carry that strategy to the floor and bring member reality back up."
+        }
+      }
+    },
+    "unionBasics": {
+      "title": "Union in 60 seconds",
+      "body": "Your <strong>bargaining unit</strong> is the group of workers covered by one Collective Agreement (CA). The union negotiates that CA with the employer and represents members when the employer breaks it. Solidarity — members acting together — is what gives a grievance teeth.",
+      "membershipLink": "Why signed-up members matter"
+    },
+    "first48Hours": {
+      "navLabel": "First 48 hours",
+      "title": "Your first 48 hours",
+      "intro": "You do not need permission to start doing the job well. Run this checklist in your first two days on the role.",
+      "items": {
+        "introduce": {
+          "label": "Introduce yourself",
+          "content": "Tell your coworkers you are the steward, how to reach you, and that conversations are confidential unless they ask you to share."
+        },
+        "backup": {
+          "label": "Get a backup",
+          "content": "Exchange numbers with the chief steward or another steward. Coverage matters when you are on leave or in a meeting yourself."
+        },
+        "caArticles": {
+          "label": "Read key CA articles",
+          "content": "Find discipline, grievance procedure, steward rights, and overtime or scheduling — whatever drives complaints in your workplace."
+        },
+        "notes": {
+          "label": "Start a notes habit",
+          "content": "Date, names, facts, and CA articles. Write what happened — not what you think it means. You will need this if the file grows."
+        }
+      },
+      "tip": "If you only do one thing: put your name and contact on the union board so members know who to call."
     },
     "threeHats": {
       "navLabel": "Three hats",
@@ -4045,25 +4107,81 @@
       "items": {
         "enforcer": {
           "label": "The Enforcer",
-          "content": "Management will break the contract if they think they can get away with it. Your job is to know the Collective Bargaining Agreement (CBA) better than management, investigate issues (using the 6 W's), and file grievances when the contract is violated."
+          "summary": "Management will break the contract if they think they can get away with it. Your job is to know the CA better than management and act when it is violated.",
+          "bullets": {
+            "knowCa": "Know the articles that govern discipline, scheduling, leave, and pay in your unit.",
+            "investigate": "Investigate with the 6 W's before you promise a grievance — see the grievance playbook.",
+            "file": "File when the facts and the contract support it — not to vent frustration."
+          }
         },
         "communicator": {
           "label": "The Communicator",
-          "content": "You are the bridge. You communicate the Local Executive's strategy to the members, and you communicate the members' anger, fears, and ideas back up to the Executive."
+          "summary": "You are the bridge between the Local Executive and the members.",
+          "bullets": {
+            "down": "Carry executive decisions and bargaining updates to the floor in plain language.",
+            "up": "Bring member anger, fears, and ideas back to the executive without filtering them out.",
+            "accurate": "Do not invent outcomes. Say what you know, what you are checking, and when you will report back."
+          }
         },
         "organizer": {
           "label": "The Organizer",
-          "content": "A grievance on paper is weak without power behind it. Your job is to build solidarity. You map your workplace, identify organic leaders, and mobilize your coworkers to take collective action."
+          "summary": "A grievance on paper is weak without power behind it. Your job is to build solidarity.",
+          "bullets": {
+            "map": "Map who works where and who listens to whom — see the workplace mapping playbook.",
+            "leaders": "Identify organic leaders coworkers already trust.",
+            "action": "Mobilize coworkers for petitions, turnout, and collective pressure when the file needs it."
+          }
         }
       }
+    },
+    "whichHat": {
+      "navLabel": "Which hat when",
+      "title": "Which hat when?",
+      "intro": "Not every problem is a grievance. Pick the right mode before you act.",
+      "items": {
+        "desk": {
+          "label": "Desk complaint or question",
+          "content": "Start as Communicator — listen, clarify facts, check the CA. Enforcer only if the contract is clearly violated."
+        },
+        "discipline": {
+          "label": "Discipline or investigatory meeting",
+          "content": "Enforcer + Communicator. Request representation, caucus with the member, advise — do not let management rush a confession."
+        },
+        "mobilize": {
+          "label": "Group issue or employer stonewalling",
+          "content": "Organizer hat. Map who is affected, find leaders, and bring numbers to the executive before you file alone."
+        }
+      },
+      "warningTitle": "Defaulting to \"file a grievance\"",
+      "warning": "Filing without investigation or member support burns credibility with both management and members. Investigate first — then decide with the executive if the file has merit."
     },
     "representation": {
       "navLabel": "Representation",
       "title": "The Right to Representation",
       "intro": "Under almost all collective agreements, workers have the right to union representation during any meeting that could lead to discipline.",
-      "items": {
-        "request": "If management calls a member into an office and begins asking investigative questions, instruct the member to say: <em>\"If this discussion could in any way lead to my being disciplined or terminated, I respectfully request that my union steward be present.\"</em>",
-        "role": "As a steward, you are not just a witness in these meetings. You have the right to speak, ask for clarification, and advise the member. You operate on equal footing with management in these meetings."
+      "trigger": {
+        "title": "When to invoke it",
+        "body": "If management calls a member into an office and begins asking investigative questions about conduct, performance, or an incident, treat it as a discipline-risk meeting — even if they call it \"just a chat.\""
+      },
+      "script": {
+        "title": "What the member says",
+        "body": "Instruct the member to say: <em>\"If this discussion could in any way lead to my being disciplined or terminated, I respectfully request that my union steward be present.\"</em>"
+      },
+      "before": {
+        "label": "Before the meeting",
+        "content": "Meet the member privately. Get their timeline of facts, names, and what they think management wants. Remind them they can pause and ask to caucus with you at any time."
+      },
+      "during": {
+        "label": "During the meeting",
+        "content": "You are not a silent witness. Ask clarifying questions, object to vague accusations, and request breaks to advise the member. Do not answer for them."
+      },
+      "after": {
+        "label": "After the meeting",
+        "content": "Debrief immediately. Write notes while memory is fresh. Decide with the member whether to grieve, and loop in the chief steward if discipline is issued."
+      },
+      "denied": {
+        "title": "If management delays or denies your presence",
+        "body": "Document the date, time, and who refused. The member should repeat the request and not answer substantive questions alone. Escalate to your chief steward the same day — continuing without representation may still be a CA violation."
       }
     },
     "dfr": {
@@ -4073,7 +4191,53 @@
       "items": {
         "meaning": "<strong>What this means:</strong> You cannot refuse to file a grievance or represent a member simply because you personally dislike them, or because they voted against the union.",
         "investigate": "You must thoroughly investigate every complaint objectively. If a grievance lacks merit and the union decides not to proceed, that decision must be based on the facts and the contract, not personal bias."
-      }
+      },
+      "linkIntro": "For intake clocks, investigation steps, and decline letters, open the full DFR playbook."
+    },
+    "scenario": {
+      "navLabel": "Worked example",
+      "title": "Worked example: discipline meeting",
+      "intro": "A member texts: \"HR called me in tomorrow about the email I sent.\" Walk it in order.",
+      "phases": {
+        "text": {
+          "label": "Tonight",
+          "content": "Reply: do not discuss the email with management until you meet. Send the member script. Confirm meeting time and location."
+        },
+        "prep": {
+          "label": "Before the meeting",
+          "content": "Private prep: what happened, who saw it, what policy or CA article applies. Agree the member will ask for a break if unsure before answering."
+        },
+        "meeting": {
+          "label": "In the room",
+          "content": "Management states the allegation. You ask what policy was violated and request specifics. Caucus if they push for an on-the-spot written statement."
+        },
+        "after": {
+          "label": "Same day",
+          "content": "Debrief notes to chief steward. If a warning is issued, start the 6 W's and check grievance clocks in the CA."
+        }
+      },
+      "tip": "Your job in the room is to protect the member's rights — not to win the argument on the spot."
+    },
+    "escalate": {
+      "navLabel": "When to escalate",
+      "title": "When to escalate",
+      "intro": "You are not alone on hard files. Loop in the next level early when any of these apply.",
+      "items": {
+        "chief": {
+          "label": "Chief steward",
+          "content": "Discipline issued, representation denied, or a file that crosses departments or shifts you do not cover."
+        },
+        "president": {
+          "label": "Local president",
+          "content": "Employer refuses to meet, policy change affecting the whole unit, or media/legal exposure."
+        },
+        "rep": {
+          "label": "Servicing representative",
+          "content": "Arbitration decision, complex legal question, or a DFR-sensitive decline. Bring dated notes, CA citations, and what the member was told."
+        }
+      },
+      "warningTitle": "Escalate with a package",
+      "warning": "Do not drop a messy file on the executive with \"what do I do?\" Bring facts, dates, witnesses, CA articles, and what you already tried."
     },
     "goldenRule": {
       "title": "The Golden Rule of Stewarding",
@@ -4081,7 +4245,7 @@
     },
     "next": {
       "title": "Go deeper",
-      "body": "When you are ready to investigate a file or walk a grievance step by step, open the playbooks below."
+      "body": "Work through these playbooks in order while you wait for local or national steward training."
     }
   },
   "grievanceGuide": {

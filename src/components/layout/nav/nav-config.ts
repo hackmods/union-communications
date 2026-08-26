@@ -11,6 +11,13 @@ export type NavLinkKey =
   | "websiteGuide"
   | "emailBroadcastGuide"
   | "shortFormGuide"
+  | "steward101Guide"
+  | "workplaceMappingGuide"
+  | "grievanceProcessGuide"
+  | "dfrGuide"
+  | "rightToRefuseGuide"
+  | "seniorityGuide"
+  | "jointCommitteeGuide"
   | "socialExamples"
   | "captions"
   | "assets"
@@ -37,6 +44,7 @@ export type NavLinkKey =
 
 export type NavGroupLabelKey =
   | "learnGroupGuides"
+  | "learnGroupStewardPlaybooks"
   | "learnGroupChannels"
   | "learnGroupLibraries"
   | "learnGroupAbout"
@@ -70,6 +78,19 @@ export const learnGroups: readonly NavGroup[] = [
     ],
   },
   {
+    labelKey: "learnGroupStewardPlaybooks",
+    links: [
+      { href: "/guide/steward-101", key: "steward101Guide" },
+      { href: "/guide/workplace-mapping", key: "workplaceMappingGuide" },
+      { href: "/guide/grievance-process", key: "grievanceProcessGuide" },
+      { href: "/guide/dfr", key: "dfrGuide" },
+      { href: "/guide/membership-signup", key: "membershipSignupGuide" },
+      { href: "/guide/right-to-refuse", key: "rightToRefuseGuide" },
+      { href: "/guide/seniority-bumping", key: "seniorityGuide" },
+      { href: "/guide/joint-committee", key: "jointCommitteeGuide" },
+    ],
+  },
+  {
     labelKey: "learnGroupChannels",
     links: [
       { href: "/guide/print", key: "printGuide" },
@@ -77,7 +98,6 @@ export const learnGroups: readonly NavGroup[] = [
       { href: "/guide/website", key: "websiteGuide" },
       { href: "/guide/email-broadcast", key: "emailBroadcastGuide" },
       { href: "/guide/short-form", key: "shortFormGuide" },
-      { href: "/guide/membership-signup", key: "membershipSignupGuide" },
     ],
   },
   {

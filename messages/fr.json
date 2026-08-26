@@ -44,7 +44,15 @@
     "resources": "Ressources de communication",
     "photoConsent": "Consentement photo",
     "membershipSignupGuide": "Adhésion",
+    "steward101Guide": "Délégué 101",
+    "workplaceMappingGuide": "Cartographie du lieu de travail",
+    "grievanceProcessGuide": "Processus de grief",
+    "dfrGuide": "Devoir de représentation équitable",
+    "rightToRefuseGuide": "Droit de refuser (Ontario)",
+    "seniorityGuide": "Ancienneté et bumping",
+    "jointCommitteeGuide": "Comité conjoint",
     "learnGroupGuides": "Pour commencer",
+    "learnGroupStewardPlaybooks": "Guides pratiques pour délégués",
     "learnGroupChannels": "Par canal",
     "learnGroupLibraries": "Bibliothèques",
     "learnGroupAbout": "À propos",
@@ -2581,7 +2589,7 @@
     },
     "labourPath": {
       "title": "Guides des droits du travail",
-      "intro": "Guides pratiques pour délégués en Ontario — pas un avis juridique. Même profondeur qu'une fiche de formation : seuil, étapes, exemple commenté et sources. Pas encore dans le menu Guides principal ; mettez cette section en favori ou retrouvez-les dans le Plan directeur.",
+      "intro": "Guides pratiques pour délégués en Ontario — pas un avis juridique. Même profondeur qu'une fiche de formation : seuil, étapes, exemple commenté et sources. Commencez par Délégué 101 dans le menu Guides, section Guides pratiques pour délégués, ou suivez la liste ordonnée ci-dessous pendant que vous attendez la formation locale ou nationale.",
       "links": {
         "steward101": "Délégué 101 : votre rôle et vos droits",
         "grievance": "Le guide du délégué sur les griefs",
@@ -3974,10 +3982,11 @@
   },
   "steward101Guide": {
     "title": "Délégué 101 : votre rôle et vos droits",
-    "subtitle": "Les trois chapeaux, le droit à la représentation et le devoir de représentation équitable",
+    "subtitle": "Orientation pour nouveaux délégués — rôle, trois chapeaux, représentation et représentation équitable",
     "backToGuide": "Retour au Plan directeur",
     "tocLabel": "Sur cette page",
-    "intro": "Être élu délégué est le rôle le plus important du mouvement syndical. Vous êtes la première ligne de défense face à la direction et le visage du syndicat sur le plancher de l'usine. Pour être efficace, vous devez comprendre les trois « chapeaux » que vous portez et les obligations juridiques de votre rôle.",
+    "tipLabel": "À retenir",
+    "intro": "Être élu délégué est le rôle le plus important du mouvement syndical. Vous êtes la première ligne de défense face à la direction et le visage du syndicat sur le plancher. L'école avancée nationale peut être à des mois — ce guide pratique vous oriente sur le plancher dès maintenant.",
     "disclaimer": {
       "title": "Pas un avis juridique",
       "body": "Cette page oriente les nouveaux délégués. Elle ne remplace pas votre convention collective, vos règlements locaux ni la formation de votre représentant de service."
@@ -3986,7 +3995,60 @@
       "grievance": "Le guide du délégué sur les griefs",
       "dfr": "Devoir de représentation équitable — guide pratique",
       "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
-      "rightToRefuse": "Droit de refuser un travail dangereux"
+      "rightToRefuse": "Droit de refuser un travail dangereux",
+      "membership": "Guide pratique d'adhésion"
+    },
+    "whatIsSteward": {
+      "navLabel": "Qu'est-ce qu'un délégué?",
+      "title": "Qu'est-ce qu'un délégué?",
+      "intro": "Un délégué est un représentant syndical élu sur le plancher — pas la direction, pas les RH et pas un avocat.",
+      "items": {
+        "elected": {
+          "label": "Élu par les membres",
+          "content": "Les délégués sont choisis par l'unité de négociation qu'ils représentent. Votre autorité vient des membres et de votre CC — pas de l'employeur."
+        },
+        "daily": {
+          "label": "Visage quotidien du syndicat",
+          "content": "Les membres viennent d'abord à vous avec leurs problèmes, questions et craintes. Vous écoutez, enquêtez et les orientez vers l'exécutif local quand le dossier dépasse une personne."
+        },
+        "notManagement": {
+          "label": "Pas le partenaire de la direction",
+          "content": "Vous pouvez être professionnel sans être le messager de la direction. Votre travail est de faire respecter la convention et de bâtir le pouvoir des membres — pas de lisser les violations."
+        },
+        "withExecutive": {
+          "label": "Travaille avec l'exécutif",
+          "content": "La stratégie et les grandes décisions relèvent de l'exécutif local et du représentant de service. Vous portez cette stratégie au plancher et remontez la réalité des membres."
+        }
+      }
+    },
+    "unionBasics": {
+      "title": "Le syndicat en 60 secondes",
+      "body": "Votre <strong>unité de négociation</strong> est le groupe de travailleurs couvert par une convention collective (CC). Le syndicat négocie cette CC avec l'employeur et représente les membres quand l'employeur la brise. La solidarité — les membres qui agissent ensemble — donne du poids à un grief.",
+      "membershipLink": "Pourquoi les membres signés comptent"
+    },
+    "first48Hours": {
+      "navLabel": "Premières 48 heures",
+      "title": "Vos premières 48 heures",
+      "intro": "Vous n'avez pas besoin de permission pour bien commencer. Faites cette liste dans vos deux premiers jours au rôle.",
+      "items": {
+        "introduce": {
+          "label": "Présentez-vous",
+          "content": "Dites à vos collègues que vous êtes délégué, comment vous joindre et que les conversations sont confidentielles sauf s'ils vous demandent de partager."
+        },
+        "backup": {
+          "label": "Trouvez un remplaçant",
+          "content": "Échangez vos numéros avec le délégué principal ou un autre délégué. La relève compte quand vous êtes en congé ou en réunion."
+        },
+        "caArticles": {
+          "label": "Lisez les articles clés de la CC",
+          "content": "Repérez discipline, procédure de grief, droits du délégué et heures supplémentaires ou horaires — ce qui génère des plaintes chez vous."
+        },
+        "notes": {
+          "label": "Commencez à noter",
+          "content": "Date, noms, faits et articles de la CC. Écrivez ce qui s'est passé — pas ce que vous pensez que ça signifie. Vous en aurez besoin si le dossier grossit."
+        }
+      },
+      "tip": "Si vous ne faites qu'une chose : mettez votre nom et vos coordonnées sur le tableau syndical pour que les membres sachent qui appeler."
     },
     "threeHats": {
       "navLabel": "Trois chapeaux",
@@ -3995,25 +4057,81 @@
       "items": {
         "enforcer": {
           "label": "Le garant du contrat",
-          "content": "La direction enfreindra la convention si elle pense pouvoir s'en tirer. Votre travail est de connaître la convention collective (CC) mieux que la direction, d'enquêter sur les problèmes (avec les 6 W) et de déposer des griefs lorsque la convention est violée."
+          "summary": "La direction enfreindra la convention si elle pense pouvoir s'en tirer. Votre travail est de connaître la CC mieux que la direction et d'agir quand elle est violée.",
+          "bullets": {
+            "knowCa": "Connaissez les articles qui régissent discipline, horaires, congés et salaire dans votre unité.",
+            "investigate": "Enquêtez avec les 6 W avant de promettre un grief — voir le guide sur les griefs.",
+            "file": "Déposez quand les faits et la convention le soutiennent — pas pour évacuer une frustration."
+          }
         },
         "communicator": {
           "label": "Le communicateur",
-          "content": "Vous êtes le pont. Vous transmettez la stratégie de l'exécutif local aux membres, et vous remontez la colère, les craintes et les idées des membres à l'exécutif."
+          "summary": "Vous êtes le pont entre l'exécutif local et les membres.",
+          "bullets": {
+            "down": "Portez les décisions de l'exécutif et les nouvelles de négociation au plancher en langage clair.",
+            "up": "Remontez la colère, les craintes et les idées des membres à l'exécutif sans les filtrer.",
+            "accurate": "N'inventez pas de résultats. Dites ce que vous savez, ce que vous vérifiez et quand vous reviendrez."
+          }
         },
         "organizer": {
           "label": "L'organisateur",
-          "content": "Un grief sur papier est faible sans pouvoir derrière. Votre travail est de bâtir la solidarité. Vous cartographiez votre milieu de travail, repérez les leaders naturels et mobilisez vos collègues pour une action collective."
+          "summary": "Un grief sur papier est faible sans pouvoir derrière. Votre travail est de bâtir la solidarité.",
+          "bullets": {
+            "map": "Cartographiez qui travaille où et qui écoute qui — voir le guide de cartographie.",
+            "leaders": "Repérez les leaders naturels en qui les collègues ont déjà confiance.",
+            "action": "Mobilisez les collègues pour pétitions, présence et pression collective quand le dossier l'exige."
+          }
         }
       }
+    },
+    "whichHat": {
+      "navLabel": "Quel chapeau quand",
+      "title": "Quel chapeau quand?",
+      "intro": "Tout problème n'est pas un grief. Choisissez le bon mode avant d'agir.",
+      "items": {
+        "desk": {
+          "label": "Plainte ou question au comptoir",
+          "content": "Commencez comme communicateur — écoutez, clarifiez les faits, vérifiez la CC. Garant du contrat seulement si la convention est clairement violée."
+        },
+        "discipline": {
+          "label": "Réunion disciplinaire ou d'enquête",
+          "content": "Garant du contrat + communicateur. Demandez la représentation, tenez un caucus avec le membre, conseillez — ne laissez pas la direction précipiter un aveu."
+        },
+        "mobilize": {
+          "label": "Problème de groupe ou blocage de l'employeur",
+          "content": "Chapeau organisateur. Cartographiez qui est touché, trouvez des leaders et apportez des nombres à l'exécutif avant de déposer seul."
+        }
+      },
+      "warningTitle": "Réflexe « déposer un grief »",
+      "warning": "Déposer sans enquête ni soutien des membres brûle votre crédibilité auprès de la direction et des membres. Enquêtez d'abord — puis décidez avec l'exécutif si le dossier a mérite."
     },
     "representation": {
       "navLabel": "Représentation",
       "title": "Le droit à la représentation",
       "intro": "Presque toutes les conventions collectives donnent aux travailleurs le droit à une représentation syndicale lors de toute rencontre pouvant mener à une mesure disciplinaire.",
-      "items": {
-        "request": "Si la direction convoque un membre au bureau et commence à poser des questions d'enquête, demandez-lui de dire : <em>« Si cette discussion peut de quelque façon mener à une mesure disciplinaire ou à mon congédiement, je demande respectueusement la présence de mon délégué syndical. »</em>",
-        "role": "En tant que délégué, vous n'êtes pas seulement témoin dans ces rencontres. Vous avez le droit de parler, de demander des clarifications et de conseiller le membre. Vous êtes sur un pied d'égalité avec la direction dans ces rencontres."
+      "trigger": {
+        "title": "Quand l'invoquer",
+        "body": "Si la direction convoque un membre au bureau et pose des questions d'enquête sur une conduite, une performance ou un incident, traitez-le comme une rencontre à risque disciplinaire — même s'ils appellent ça « juste une discussion »."
+      },
+      "script": {
+        "title": "Ce que dit le membre",
+        "body": "Demandez au membre de dire : <em>« Si cette discussion peut de quelque façon mener à une mesure disciplinaire ou à mon congédiement, je demande respectueusement la présence de mon délégué syndical. »</em>"
+      },
+      "before": {
+        "label": "Avant la rencontre",
+        "content": "Rencontrez le membre en privé. Obtenez sa chronologie des faits, les noms et ce qu'il pense que la direction veut. Rappelez-lui qu'il peut faire une pause et demander un caucus avec vous à tout moment."
+      },
+      "during": {
+        "label": "Pendant la rencontre",
+        "content": "Vous n'êtes pas un témoin silencieux. Posez des questions de clarification, contestez les accusations vagues et demandez des pauses pour conseiller le membre. Ne répondez pas à sa place."
+      },
+      "after": {
+        "label": "Après la rencontre",
+        "content": "Faites un débriefing immédiat. Rédigez des notes tant que c'est frais. Décidez avec le membre s'il faut grieve, et informez le délégué principal si une mesure disciplinaire est émise."
+      },
+      "denied": {
+        "title": "Si la direction retarde ou refuse votre présence",
+        "body": "Consignez la date, l'heure et qui a refusé. Le membre doit répéter la demande et ne pas répondre seul aux questions de fond. Escaladez vers votre délégué principal le jour même — continuer sans représentation peut quand même violer la CC."
       }
     },
     "dfr": {
@@ -4023,7 +4141,53 @@
       "items": {
         "meaning": "<strong>Ce que cela signifie :</strong> Vous ne pouvez pas refuser de déposer un grief ou de représenter un membre simplement parce que vous ne l'aimez pas personnellement, ou parce qu'il a voté contre le syndicat.",
         "investigate": "Vous devez enquêter minutieusement et objectivement sur chaque plainte. Si un grief manque de fondement et que le syndicat décide de ne pas aller de l'avant, cette décision doit reposer sur les faits et la convention, et non sur un préjugé personnel."
-      }
+      },
+      "linkIntro": "Pour les délais d'accueil, les étapes d'enquête et les lettres de refus, ouvrez le guide complet sur la DRE."
+    },
+    "scenario": {
+      "navLabel": "Exemple commenté",
+      "title": "Exemple commenté : rencontre disciplinaire",
+      "intro": "Un membre écrit : « RH m'a convoqué demain pour le courriel que j'ai envoyé. » Suivez l'ordre.",
+      "phases": {
+        "text": {
+          "label": "Ce soir",
+          "content": "Répondez : ne discutez pas du courriel avec la direction avant votre rencontre. Envoyez le script au membre. Confirmez l'heure et le lieu."
+        },
+        "prep": {
+          "label": "Avant la rencontre",
+          "content": "Préparation privée : ce qui s'est passé, qui l'a vu, quelle politique ou article de la CC s'applique. Convenez que le membre demandera une pause s'il hésite avant de répondre."
+        },
+        "meeting": {
+          "label": "Dans la salle",
+          "content": "La direction énonce l'allégation. Vous demandez quelle politique a été violée et des précisions. Caucus si on pousse pour une déclaration écrite sur-le-champ."
+        },
+        "after": {
+          "label": "Le jour même",
+          "content": "Notes de débriefing au délégué principal. Si un avertissement est émis, commencez les 6 W et vérifiez les délais de grief dans la CC."
+        }
+      },
+      "tip": "Votre rôle dans la salle est de protéger les droits du membre — pas de gagner le débat sur-le-champ."
+    },
+    "escalate": {
+      "navLabel": "Quand escalader",
+      "title": "Quand escalader",
+      "intro": "Vous n'êtes pas seul sur les dossiers difficiles. Informez le niveau suivant tôt si l'un de ces cas s'applique.",
+      "items": {
+        "chief": {
+          "label": "Délégué principal",
+          "content": "Mesure disciplinaire émise, représentation refusée, ou dossier qui traverse des départements ou des quarts que vous ne couvrez pas."
+        },
+        "president": {
+          "label": "Président de la section",
+          "content": "L'employeur refuse de rencontrer, changement de politique touchant toute l'unité, ou exposition médiatique ou juridique."
+        },
+        "rep": {
+          "label": "Représentant de service",
+          "content": "Décision d'arbitrage, question juridique complexe ou refus sensible au regard de la DRE. Apportez notes datées, citations de la CC et ce qu'on a dit au membre."
+        }
+      },
+      "warningTitle": "Escaladez avec un dossier",
+      "warning": "Ne déposez pas un dossier brouillon à l'exécutif avec « que faire? ». Apportez faits, dates, témoins, articles de la CC et ce que vous avez déjà tenté."
     },
     "goldenRule": {
       "title": "La règle d'or du délégué",
@@ -4031,7 +4195,7 @@
     },
     "next": {
       "title": "Aller plus loin",
-      "body": "Quand vous êtes prêt à enquêter sur un dossier ou à suivre un grief étape par étape, ouvrez les guides pratiques ci-dessous."
+      "body": "Parcourez ces guides pratiques dans l'ordre pendant que vous attendez la formation locale ou nationale de délégué."
     }
   },
   "grievanceGuide": {

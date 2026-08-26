@@ -360,6 +360,11 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "ontario-ccba",
     "ontario-lra-s74",
   ],
+  steward101: [
+    "opseu-collective-agreements",
+    "ontario-lra-s74",
+    "olrb-dfr-meaning",
+  ],
   seniority: ["opseu-collective-agreements", "ontario-ccba"],
   jointCommittee: [
     "opseu-collective-agreements",

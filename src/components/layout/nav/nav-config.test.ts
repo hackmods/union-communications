@@ -56,20 +56,32 @@ describe("path helpers", () => {
     ]);
   });
 
-  it("puts Membership signup under By channel and Photo Consent under Libraries", () => {
+  it("puts Membership signup under Steward playbooks, not By channel", () => {
+    const steward = learnGroups.find(
+      (g) => g.labelKey === "learnGroupStewardPlaybooks",
+    );
     const channels = learnGroups.find(
       (g) => g.labelKey === "learnGroupChannels",
     );
     const libraries = learnGroups.find(
       (g) => g.labelKey === "learnGroupLibraries",
     );
+    expect(steward?.links.map((l) => l.href)).toEqual([
+      "/guide/steward-101",
+      "/guide/workplace-mapping",
+      "/guide/grievance-process",
+      "/guide/dfr",
+      "/guide/membership-signup",
+      "/guide/right-to-refuse",
+      "/guide/seniority-bumping",
+      "/guide/joint-committee",
+    ]);
     expect(channels?.links.map((l) => l.href)).toEqual([
       "/guide/print",
       "/guide/union-boards",
       "/guide/website",
       "/guide/email-broadcast",
       "/guide/short-form",
-      "/guide/membership-signup",
     ]);
     expect(libraries?.links.map((l) => l.href)).toEqual([
       "/examples",
