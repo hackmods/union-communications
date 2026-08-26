@@ -1791,6 +1791,12 @@
     "time": "Time",
     "location": "Location",
     "contact": "Contact line",
+    "layout": "Layout",
+    "layouts": {
+      "stack": "Stack — logo, headline, details",
+      "band": "Colour band — headline in a band",
+      "split": "Split — details in a colour block"
+    },
     "format": "Print size",
     "formatLetter": "Letter (8.5×11)",
     "formatTabloid": "Tabloid (11×17)",
@@ -1943,7 +1949,7 @@
   "documentGenerator": {
     "title": "Document & Slide Generator",
     "subtitle": "Build branded documents with a live preview. Download Word — plus Excel or PowerPoint when the example includes them.",
-    "whenToUse": "Use for branded Word packs, seniority worksheets, invite emails, and slide decks — when you need editable office files, not a PNG.",
+    "whenToUse": "Use for branded Word packs, seniority and grievance worksheets, invite emails, and slide decks — when you need editable office files, not a PNG.",
     "examples": "Examples",
     "settings": "Edit & download",
     "designPreset": "Example",
@@ -1978,6 +1984,7 @@
       "eventEmail": "Copy-only RSVP invite email (on site / remote)",
       "eventPptx": "3 PowerPoint slides",
       "seniorityWorksheetXlsx": "Seniority worksheet (Excel)",
+      "grievanceIntakeXlsx": "Grievance intake worksheet (Excel)",
       "lecDirectoryDocx": "Word LEC directory with Brand Kit colours and blank Position | Name | Location rows",
       "lecDirectoryXlsx": "Excel LEC directory with the same blank rows"
     },
@@ -1996,6 +2003,14 @@
         "Eligible?",
         "Notes / CA article"
       ]
+    },
+    "grievanceIntakeSheet": {
+      "sheetName": "Intake",
+      "title": "Grievance intake (6 W's)",
+      "local": "Local",
+      "itemCol": "Item",
+      "notesCol": "Notes",
+      "disclaimer": "Aid only. Not legal advice. Confirm clocks and step names in your Collective Agreement. Do not store this file on an employer computer."
     },
     "inviteEmail": {
       "title": "RSVP invite email",
@@ -2028,6 +2043,10 @@
         "title": "Seniority worksheet",
         "blurb": "Seniority worksheet for bumping files. Not a calculator."
       },
+      "grievanceIntake": {
+        "title": "Grievance intake",
+        "blurb": "Printable 6 W's sheet for opening a file. Not a grievance form and not legal advice."
+      },
       "lecDirectory": {
         "title": "LEC directory",
         "blurb": "Blank officer table with your local colours and logo — fill names in Word after elections. Does not pull Org Chart or Hub data."
@@ -2056,6 +2075,16 @@
       "chair": "Chair / facilitator",
       "caseId": "Hub bumping case ID",
       "committeeNotes": "Committee notes",
+      "incidentDate": "Incident date",
+      "caArticle": "CA article",
+      "who": "Who",
+      "what": "What",
+      "where": "Where",
+      "when": "When",
+      "why": "Why",
+      "want": "Want / remedy",
+      "witnesses": "Witnesses",
+      "clockNotes": "Clock notes",
       "termYears": "Term years",
       "officeEmail": "Office email",
       "officePhone": "Office phone",
@@ -2601,7 +2630,7 @@
       },
       "blurb": {
         "steward101": "The three hats, representation rights, and the duty of fair representation — start here.",
-        "grievance": "The 6 W's, informal discussion, written filing, and arbitration — clocks from your CA.",
+        "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet. Confirm steps in your agreement.",
         "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
         "seniority": "Two cascade examples and a printable seniority worksheet.",
         "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
@@ -4245,87 +4274,214 @@
     },
     "next": {
       "title": "Go deeper",
-      "body": "Work through these playbooks in order while you wait for local or national steward training."
+      "body": "When you are ready to open a file, use the grievance playbook and the 6 W's worksheet. Duty of fair representation is the legal-duty playbook. Map the workplace when the issue is bigger than one person."
     }
   },
   "grievanceGuide": {
     "title": "The Steward's Guide to Grievances",
-    "subtitle": "Investigate, document, and enforce the contract — from the 6 W's to arbitration",
+    "subtitle": "How to open and walk a file — 6 W's, clocks, and your CA's steps",
     "backToGuide": "Back to The Blueprint",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
-    "intro": "A grievance is a formal complaint that the employer has violated the Collective Agreement (CA), past practice, or labour law. As a steward, your job is to investigate, document, and enforce the contract.",
+    "intro": "A grievance is a formal complaint that the employer violated the Collective Agreement, past practice, or labour law. This playbook is how to open and walk a file: pick the right forum, log facts, count clocks, and hand off a clean record. Your CA names the steps. Duty of fair representation is the other playbook.",
     "disclaimer": {
       "title": "Not legal advice",
-      "body": "This page helps stewards run a fair process. It does not replace your Collective Agreement or your servicing representative."
+      "body": "UnionOps is a tool, not counsel. This playbook helps stewards run a fair file. It does not replace your Collective Agreement, local bylaws, or your servicing representative. Confirm every clock and step name in the agreement you actually work under."
     },
     "related": {
+      "steward101": "Steward 101: Your Role and Rights",
       "dfr": "Duty of Fair Representation",
       "seniority": "Seniority & bumping playbook",
-      "rightToRefuse": "Right to refuse unsafe work"
+      "rightToRefuse": "Right to refuse unsafe work",
+      "jointCommittee": "Joint committee playbook"
+    },
+    "gate": {
+      "navLabel": "Right forum",
+      "title": "Is this a grievance?",
+      "intro": "Not every workplace problem is a grievance. Pick the forum before you start a clock you cannot stop.",
+      "seeAlsoLabel": "Related playbooks",
+      "items": {
+        "informal": {
+          "label": "Stay informal",
+          "content": "A one-off mix-up, a question about how a rule works, or something the supervisor can fix today. Log the conversation. Do not file to vent."
+        },
+        "grievance": {
+          "label": "Grievance",
+          "content": "A named CA article, past practice, or labour law looks broken, a member is harmed, and you can name a remedy. Open a file."
+        },
+        "refusal": {
+          "label": "Right to refuse",
+          "content": "Imminent danger or a health and safety refusal is an OHSA process, not a grievance form. Use the right-to-refuse playbook, then file a grievance only if the CA or the refusal outcome requires it."
+        },
+        "bump": {
+          "label": "Seniority or bumping",
+          "content": "Displacement, recall, or a bump claim. Use the seniority playbook and the committee worksheet. A grievance may follow if the employer skipped the CA process."
+        },
+        "joint": {
+          "label": "Joint table",
+          "content": "A campus-wide practice that belongs at a union-management committee, not a single-member grievance. Use the joint-committee playbook."
+        }
+      }
     },
     "investigation": {
-      "navLabel": "The 6 W's",
-      "title": "Phase 1: The Investigation (The 6 W's)",
-      "intro": "Before filing anything, you must document the facts. Use Officer Hub grievance tracking to log the file so coverage stewards can pick it up.",
-      "tip": "Write facts, not conclusions. Name the article, the date, and the remedy before you draft the form.",
+      "navLabel": "6 W's",
+      "title": "The 6 W's that teach",
+      "intro": "Write facts another steward can pick up on Monday. Print the intake worksheet and keep it on your device — not on an employer computer.",
+      "worksheetCta": "Print the 6 W's intake sheet",
+      "tip": "Facts first. Name the article, the date, and the remedy before you draft the form.",
+      "leaveOutTitle": "What to leave out",
+      "leaveOut": "Do not write legal conclusions (“this is constructive dismissal”). Keep medical detail out of a grievance file unless the CA and the member require it. Do not promise a win in notes the employer might see.",
       "items": {
         "who": {
           "label": "Who",
-          "content": "Who is involved? The grievor, witnesses, and management."
+          "content": "Good notes name roles and shifts: the member (a pseudonym is enough), the supervisor who acted, witnesses who saw it. Leave out character judgments and unrelated complaints about the same people."
         },
         "what": {
           "label": "What",
-          "content": "What exactly happened? Stick to observable facts, not what you think it means."
+          "content": "Good notes are observable: what was said, written, or done, in order. Leave out what you think it really means and what should happen next — that belongs in Want."
         },
         "where": {
           "label": "Where",
-          "content": "Where did the incident take place?"
+          "content": "Good notes pin the place: department, room, remote or on site, which campus. Leave out a tour of every other location where similar things always happen."
         },
         "when": {
           "label": "When",
-          "content": "Date and time of the incident. Your timeline to file starts here."
+          "content": "Good notes give date and time of the incident and when the member told you. The filing clock usually starts here. Leave out a vague “last week” if you can still pin the day."
         },
         "why": {
           "label": "Why",
-          "content": "Why is this a violation? Cite the specific article in your Collective Agreement."
+          "content": "Good notes cite the CA article, past practice, or statute you believe was broken — quote the clause, do not paraphrase from memory. Leave out a general “this is unfair” with no article."
         },
         "want": {
           "label": "Want",
-          "content": "What is the specific remedy to fix the issue? Examples: full back pay, or removal of discipline from the file."
+          "content": "Good notes name a specific remedy: full back pay, the warning pulled from the file, the overtime paid. Leave out “make them sorry” or “we will win at arbitration.”"
+        }
+      }
+    },
+    "clocks": {
+      "navLabel": "Clocks",
+      "title": "How to count clocks",
+      "intro": "Your CA invents the clocks. Officer Hub tracks them. A missed deadline can kill the file even when the facts are strong.",
+      "warningTitle": "Missing a deadline can void the file",
+      "warning": "Always confirm exact clocks in your Collective Agreement. Calendar days and working days are not the same. An extension that is not in writing is not an extension.",
+      "items": {
+        "trigger": {
+          "label": "Find the trigger",
+          "content": "Most clocks start when the member knew or ought to have known, or when the employer acted. Write that date on the worksheet the same day you hear the story."
+        },
+        "count": {
+          "label": "Calendar vs working days",
+          "content": "Read the article. Some CAs count working days and skip weekends and holidays; others count calendar days. Do not assume “10 days” means two weeks on the wall calendar."
+        },
+        "extension": {
+          "label": "Extend in writing",
+          "content": "If you need more time, get the employer's written agreement before the clock expires. A hallway “sure, take another week” is not a record."
+        },
+        "late": {
+          "label": "What a missed deadline does",
+          "content": "Many CAs treat a late filing as abandoned. Flag the risk the same day. Do not wait until after vacation to discover the clock ran out."
         }
       }
     },
     "steps": {
-      "navLabel": "Grievance steps",
-      "title": "Phase 2: The Grievance Steps",
-      "intro": "Most agreements move from an informal discussion, to a signed written grievance, to mediation or arbitration if the employer denies the file. Names and step counts differ — read yours.",
-      "warningTitle": "Missing a deadline can void the file",
-      "warning": "Always check your Collective Agreement for exact timelines. Missing a deadline can automatically void a grievance.",
-      "informal": {
-        "title": "Step 1: The Informal Discussion",
-        "body": "Most contracts require you and the member to discuss the issue <strong>informally</strong> with the <strong>direct supervisor</strong> first. If the supervisor denies the request or fails to respond within the timeframe, proceed to <strong>Step 2</strong>."
+      "navLabel": "CA steps",
+      "title": "Your CA names the steps",
+      "intro": "Informal discussion, a written grievance, and a referral to mediation or arbitration are jobs, not a universal three-step map. Read the article. Copy the names your CA uses onto the file.",
+      "exampleTitle": "Example only — not your default",
+      "example": "One Ontario college Support Staff agreement uses four named steps: Step 1, Step 2, Step 3, then Arbitration. Full-time response windows are often 5, 10, and 15 working days; part-time windows are often 7, 14, and 21. Your CA may use different names, different counts, and a different order.",
+      "jobs": {
+        "informal": {
+          "title": "Informal discussion",
+          "body": "Many CAs require you and the member to raise the issue with the <strong>immediate supervisor</strong> first. Log the date, who was in the room, and the answer. If the supervisor refuses or the clock runs, move to the written step your CA names."
+        },
+        "written": {
+          "title": "Written grievance",
+          "body": "You file a <strong>signed written grievance</strong> that states the facts, the article, and the remedy. A meeting follows with the employer representatives your CA names — often HR or a manager above the supervisor."
+        },
+        "referral": {
+          "title": "Referral",
+          "body": "If the employer denies the file, your <strong>local executive</strong> and <strong>servicing representative</strong> decide whether to refer it to mediation or binding arbitration. That decision is not automatic. Duty of fair representation governs how you decline."
+        }
+      }
+    },
+    "meeting": {
+      "navLabel": "The meeting",
+      "title": "The grievance meeting",
+      "intro": "You are not a silent witness. You are the union in the room.",
+      "warningTitle": "You are on equal footing",
+      "warning": "Do not let management intimidate the member. When you act as steward, you sit as an equal across the table — not as a guest in their office.",
+      "items": {
+        "speak": {
+          "label": "Speak for the file",
+          "content": "Ask what policy or article they rely on. Request specifics. Caucus with the member before anyone signs a statement."
+        },
+        "notes": {
+          "label": "Take your own notes",
+          "content": "Write who said what. Do not rely on the employer's minutes as the only record."
+        },
+        "member": {
+          "label": "Protect the member",
+          "content": "Stop a rush to confess. Ask for a break. The goal is an accurate record, not a fast meeting."
+        }
+      }
+    },
+    "workedFile": {
+      "navLabel": "Worked file",
+      "title": "Worked file: one discipline week",
+      "intro": "A member texts Friday night: a written warning landed after a meeting you did not attend. Walk the file in order.",
+      "items": {
+        "d0": {
+          "label": "Friday night — intake",
+          "content": "Reply: send the warning and any emails. Do not discuss the file with the supervisor over the weekend. Put the incident date on the worksheet."
+        },
+        "d1": {
+          "label": "Monday — 6 W's",
+          "content": "Interview the member. Cite the discipline article. Name witnesses. Write the remedy: warning removed from the file. Check whether an informal step is still required or already spent."
+        },
+        "d3": {
+          "label": "Wednesday — informal or written",
+          "content": "If the CA still requires an informal raise, do it and log the answer. If the supervisor already issued the warning in writing, file the written grievance on the CA clock."
+        },
+        "d7": {
+          "label": "The following week — denial",
+          "content": "Employer denies. Calendar the next step. Brief the chief steward. If officers later decline to refer, that letter belongs in the DFR playbook — not a hallway no."
+        }
       },
-      "written": {
-        "title": "Step 2: Formal Written Grievance",
-        "body": "You will file a <strong>signed, written grievance</strong> outlining the violation and the remedy sought. A formal meeting is held with HR or management.",
-        "warningTitle": "You are on equal footing",
-        "warning": "Do not let management intimidate the member during this meeting. You are on equal footing with management when acting as a steward."
-      },
-      "arbitration": {
-        "title": "Step 3: Arbitration",
-        "body": "If HR denies the grievance, your <strong>Local Executive</strong> and <strong>National Staff Representative</strong> will decide whether to refer the case to <strong>mediation</strong> or <strong>binding arbitration</strong>."
+      "tip": "Copy the spacing: intake the day you hear it, 6 W's before you file, written step on the clock, then a recorded next decision."
+    },
+    "failureModes": {
+      "navLabel": "Failure modes",
+      "title": "What kills a file",
+      "intro": "Most losses are process, not weak facts. DFR keeps how to decline in writing. This list is how files die before that decision.",
+      "items": {
+        "missedClock": {
+          "label": "Missed clock",
+          "content": "The article expired while the worksheet sat in a bag. Fix: write the trigger date the same day; put the due date on a calendar the steward on coverage can see."
+        },
+        "noArticle": {
+          "label": "No CA article",
+          "content": "The form says “unfair” and names no clause. Fix: quote the article or past practice before you file."
+        },
+        "mixedForum": {
+          "label": "Mixed forums",
+          "content": "A health and safety refusal, a bump, and a discipline grievance in one letter. Fix: pick the forum; file the others on their own clocks."
+        },
+        "hallwayPromise": {
+          "label": "Hallway promise",
+          "content": "“We will get this thrown out.” Then the file is denied. Fix: promise process and timelines, not outcomes."
+        },
+        "emptyFile": {
+          "label": "Empty file on vacation",
+          "content": "You leave Friday with notes in your head. Coverage cannot find the clock. Fix: the worksheet and Officer Hub are the shared record."
+        }
       }
     },
     "hub": {
-      "title": "Track the file in Officer Hub",
-      "body": "Officer Hub grievance tools log the 6 W's, steps, and due dates so coverage stewards see the same clocks you do. They support the file — they do not replace your Collective Agreement or your servicing rep.",
+      "title": "Hand the file to Officer Hub",
+      "body": "The worksheet is your on-device record — no login. Officer Hub is the shared clock: steps, due dates, and notes a coverage steward can see. It tracks the CA; it does not invent it.",
       "cta": "Open grievances in Officer Hub"
     },
-    "legal": {
-      "title": "Legal disclaimer",
-      "body": "UnionOps is a tool, not legal counsel. This guide is for educational purposes. Always refer to your specific Collective Agreement for exact timelines, and consult your Local President, Chief Steward, or National Staff Representative for official grievance handling."
-    }
+    "sourcesNote": "The Collective Agreement finder, the Colleges Collective Bargaining Act, and the Labour Relations Act show where procedure and the duty live. Duty of fair representation is the other playbook."
   },
   "workplaceMappingGuide": {
     "title": "Workplace Mapping & Finding Organic Leaders",
@@ -5180,13 +5336,17 @@
         "title": "Workplace mapping and organic leaders",
         "body": "Chart every coworker by department and shift, mark organic leaders, and score union support from 1 to 5. Download a spreadsheet template and keep it on a personal device."
       },
+      "board-notice-layouts": {
+        "title": "Board Notice Maker — logo and layouts",
+        "body": "Pick stack, band, or split layouts and your local logo shows on every workplace notice export."
+      },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",
         "body": "A foundational floor guide to the three hats, representation rights in discipline meetings, and the duty of fair representation."
       },
       "grievance-process-guide": {
         "title": "The Steward's Guide to Grievances",
-        "body": "A floor playbook for logging the 6 W's and walking a grievance from informal discussion to written filing and arbitration. Confirm clocks in your Collective Agreement."
+        "body": "A floor playbook for choosing the right forum, logging the 6 W's, counting CA clocks, and printing an intake sheet. Confirm clocks in your Collective Agreement."
       },
       "assets-pwa-download": {
         "title": "Brand Assets stay in the installed app",

@@ -127,7 +127,7 @@ Use this table when auditing “parity gaps.” **Same shell chrome ≠ same des
 | **Flyer in-tool stacks** | `flyer-fonts.ts` on capture-root `fontFamily` only | Flyer Maker only: `impact` / `condensed` / `clean` / `slab` / `serif` + local `headlineCase` + `typeScaleOverride` |
 | **Hardcoded UI type** | Tailwind on chrome / form labels | Never on export capture |
 
-**Why Flyer alone has a font picker:** physical Print handouts need outdoor readability (Impact/condensed) without bundling webfonts. Social/board/wallet tools stay Brand Kit–driven so one style package restyles the whole toolkit. Expanding stacks to other print tools (e.g. board-notice, solidarity print) needs an **explicit product ask** — not shell-parity work.
+**Why Flyer alone has a font picker:** physical Print handouts need outdoor readability (Impact/condensed) without bundling webfonts. Social/board/wallet tools stay Brand Kit–driven so one style package restyles the whole toolkit. Flyer-style font stacks on other print tools remain optional — Board Notice shipped logo + layout pickers (stack / band / split) in 2026-08-26 without a separate font control.
 
 **Not a gap:** Quote Card / Graphic Maker lacking a font family control. They amplify Brand Kit `typeScale` / alignment / density.
 
@@ -142,7 +142,7 @@ Same English words (`stack`, `split`, `banner`) are **coincidental labels**, not
 | **Quote Card** | `stripe` · `centered` · `mark` | Per-tool IDs; default stripe. Not Flyer `band`. |
 | **Solidarity Poster** | `stack` · `split` · `banner` | Print + digital formats; QR optional |
 | **Board Banner** | `slantCallout` · `centeredLockup` · `minimalStripe` (+ trim kit pieces) | Banner vs trim mode |
-| **Board Notice** | **no layout picker** — letter / tabloid format only | Intentional single workplace notice composition |
+| **Board Notice** | `stack` · `band` · `split` | Logo via `CanvasBrandHeader`; paper = letter / tabloid |
 | **Meeting Background** | Bold: `corner` · `lower-third` · `side-panel` · `bands`; Minimal: `masthead` · `footer` · `rails` · `upper-stack` | Face-safe; design set gates which IDs appear |
 | **QR / Action Card** | size + bg mode / preset (`link` vs `reference` on QR) — not a flyer-style layout enum | Wallet pack |
 | **QR Board** | grid of QR cells; format letter/tabloid | Multi-QR board, not a single lockup layout |
@@ -160,7 +160,7 @@ Three different “placement” questions; agents often conflate them.
 | Slot / pattern | Convention | Examples |
 |----------------|------------|----------|
 | `toolbar` | BrandSetup (+ presets when present) — **one** `toolbar=` | Flyer presets+BrandSetup; pulse-poll / board-banner BrandSetup moved here |
-| Form body | Content + design SegControls | Layout / font / paper on Flyer; layout on Graphic / Meeting / Solidarity |
+| Form body | Content + design SegControls | Layout / font / paper on Flyer; layout on Graphic / Meeting / Solidarity / Board Notice |
 | `footer` | InviteEmailPanel + `ToolRelatedFooter` | Graphic notice, board-notice, Flyer (after unified pass) |
 | `previewActions` | Export buttons | Prefer `ToolExportActions` |
 | `purposeHint` | One-line channel purpose | Required shell checklist |
@@ -228,7 +228,7 @@ Manual: `/en/tools/flyer-maker` (preset → paper size → PDF); `/en/tools/shar
 - FR caption body packs (content project)
 - Provenance / watermark on anonymous canvas exports (strategic)
 - Calendar RSVP → flyer QR deep embed
-- Expanding Flyer-style typography pickers to other print tools (explicit product ask)
+- Expanding Flyer-style typography pickers to solidarity-poster or other print tools (optional; font control stays Flyer-only for now)
 - Unrelated local dirty: `e2e/helpers/axe.ts` (do not assume it belongs in Comms commits)
 
 ### Phase 9 lessons (export)

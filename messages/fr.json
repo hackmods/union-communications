@@ -1791,6 +1791,12 @@
     "time": "Heure",
     "location": "Lieu",
     "contact": "Ligne de contact",
+    "layout": "Mise en page",
+    "layouts": {
+      "stack": "Empilé — logo, titre, détails",
+      "band": "Bandeau — titre dans une bande",
+      "split": "Scindé — détails dans un bloc de couleur"
+    },
     "format": "Format d'impression",
     "formatLetter": "Lettre (8,5×11)",
     "formatTabloid": "Tabloïde (11×17)",
@@ -1943,7 +1949,7 @@
   "documentGenerator": {
     "title": "Générateur de documents et diapositives",
     "subtitle": "Créez des documents à votre marque avec aperçu en direct. Téléchargez Word — plus Excel ou PowerPoint quand l’exemple les inclut.",
-    "whenToUse": "Utilisez-le pour des packs Word à votre marque, des feuilles d’ancienneté, des courriels d’invitation et des diapositives — quand vous avez besoin de fichiers modifiables, pas d’un PNG.",
+    "whenToUse": "Utilisez-le pour des packs Word à votre marque, des feuilles d'ancienneté et de griefs, des courriels d'invitation et des diapositives — quand vous avez besoin de fichiers modifiables, pas d'un PNG.",
     "examples": "Exemples",
     "settings": "Modifier et télécharger",
     "designPreset": "Exemple",
@@ -1978,6 +1984,7 @@
       "eventEmail": "Courriel d'invitation RSVP (copie seulement)",
       "eventPptx": "3 diapositives PowerPoint",
       "seniorityWorksheetXlsx": "Feuille d'ancienneté / bumping imprimable — lignes vides + colonne Admissible O/N/?",
+      "grievanceIntakeXlsx": "Feuille d'accueil de grief (Excel)",
       "lecDirectoryDocx": "Répertoire CLE Word avec les couleurs de la Trousse de marque et des lignes vides Poste | Nom | Lieu",
       "lecDirectoryXlsx": "Répertoire CLE Excel avec les mêmes lignes vides"
     },
@@ -1996,6 +2003,14 @@
         "Admissible?",
         "Notes / article CC"
       ]
+    },
+    "grievanceIntakeSheet": {
+      "sheetName": "Accueil",
+      "title": "Accueil de grief (6 W)",
+      "local": "Section locale",
+      "itemCol": "Élément",
+      "notesCol": "Notes",
+      "disclaimer": "Aide seulement. Pas un avis juridique. Confirmez les délais et les noms d'étapes dans votre convention collective. Ne stockez pas ce fichier sur un ordinateur de l'employeur."
     },
     "inviteEmail": {
       "title": "Courriel d'invitation RSVP",
@@ -2028,6 +2043,10 @@
         "title": "Feuille d'ancienneté",
         "blurb": "Feuille d’ancienneté pour les dossiers de déplacement. Pas une calculatrice."
       },
+      "grievanceIntake": {
+        "title": "Accueil de grief",
+        "blurb": "Feuille imprimable des 6 W pour ouvrir un dossier. Pas un formulaire de grief et pas un avis juridique."
+      },
       "lecDirectory": {
         "title": "Répertoire du CLE",
         "blurb": "Tableau d'officiers vide avec les couleurs et le logo de votre section — remplissez les noms dans Word après les élections. Ne tire pas les données de l'organigramme ni du Hub."
@@ -2056,6 +2075,16 @@
       "chair": "Président / animateur",
       "caseId": "ID du dossier de bumping (Hub)",
       "committeeNotes": "Notes du comité",
+      "incidentDate": "Date de l'incident",
+      "caArticle": "Article de convention",
+      "who": "Qui",
+      "what": "Quoi",
+      "where": "Où",
+      "when": "Quand",
+      "why": "Pourquoi",
+      "want": "Remède",
+      "witnesses": "Témoins",
+      "clockNotes": "Notes de délai",
       "termYears": "Années du mandat",
       "officeEmail": "Courriel du bureau",
       "officePhone": "Téléphone du bureau",
@@ -2601,7 +2630,7 @@
       },
       "blurb": {
         "steward101": "Les trois chapeaux, le droit à la représentation et le devoir de représentation équitable — commencez ici.",
-        "grievance": "Les 6 W, discussion informelle, dépôt écrit et arbitrage — délais selon votre convention.",
+        "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable. Confirmez les étapes dans votre convention.",
         "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
         "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
@@ -4195,87 +4224,214 @@
     },
     "next": {
       "title": "Aller plus loin",
-      "body": "Parcourez ces guides pratiques dans l'ordre pendant que vous attendez la formation locale ou nationale de délégué."
+      "body": "Quand vous êtes prêt à ouvrir un dossier, utilisez le guide des griefs et la feuille d'accueil des 6 W. Le devoir de représentation équitable est le guide du devoir légal. Cartographiez le lieu de travail quand le problème dépasse une personne."
     }
   },
   "grievanceGuide": {
     "title": "Le guide du délégué sur les griefs",
-    "subtitle": "Enquêter, documenter et faire respecter la convention — des 6 W jusqu'à l'arbitrage",
+    "subtitle": "Ouvrir et mener un dossier — les 6 W, les délais et les étapes de votre convention",
     "backToGuide": "Retour au Plan directeur",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
-    "intro": "Un grief est une plainte officielle selon laquelle l'employeur a violé la convention collective, une pratique établie ou le droit du travail. Comme délégué, votre travail est d'enquêter, de documenter et de faire respecter la convention.",
+    "intro": "Un grief est une plainte officielle selon laquelle l'employeur a violé la convention collective, une pratique établie ou le droit du travail. Ce guide explique comment ouvrir et mener un dossier : choisir le bon forum, consigner les faits, compter les délais et transmettre un dossier propre. Votre convention nomme les étapes. Le devoir de représentation équitable est l'autre guide pratique.",
     "disclaimer": {
       "title": "Pas un avis juridique",
-      "body": "Cette page aide les délégués à mener un processus équitable. Elle ne remplace pas votre convention collective ni votre représentant de service."
+      "body": "UnionOps est un outil, pas un conseiller. Ce guide aide les délégués à mener un dossier équitable. Il ne remplace pas votre convention collective, vos règlements locaux ni votre représentant de service. Confirmez chaque délai et chaque nom d'étape dans la convention que vous appliquez vraiment."
     },
     "related": {
+      "steward101": "Délégué 101 : votre rôle et vos droits",
       "dfr": "Devoir de représentation équitable",
       "seniority": "Guide d'ancienneté et de bumping",
-      "rightToRefuse": "Droit de refuser un travail dangereux"
+      "rightToRefuse": "Droit de refuser un travail dangereux",
+      "jointCommittee": "Guide des comités conjoints"
+    },
+    "gate": {
+      "navLabel": "Bon forum",
+      "title": "Est-ce un grief?",
+      "intro": "Tout problème au travail n'est pas un grief. Choisissez le forum avant de lancer un délai que vous ne pourrez plus arrêter.",
+      "seeAlsoLabel": "Guides liés",
+      "items": {
+        "informal": {
+          "label": "Rester informel",
+          "content": "Un quiproquo ponctuel, une question sur une règle, ou quelque chose que le superviseur peut régler aujourd'hui. Consignez la conversation. Ne déposez pas pour vous défouler."
+        },
+        "grievance": {
+          "label": "Grief",
+          "content": "Un article nommé de la convention, une pratique établie ou une loi du travail semble violé, un membre est lésé, et vous pouvez nommer un remède. Ouvrez un dossier."
+        },
+        "refusal": {
+          "label": "Droit de refuser",
+          "content": "Un danger imminent ou un refus pour santé et sécurité est un processus de la LSST, pas un formulaire de grief. Utilisez le guide du droit de refuser, puis déposez un grief seulement si la convention ou l'issue du refus l'exige."
+        },
+        "bump": {
+          "label": "Ancienneté ou bumping",
+          "content": "Un déplacement, un rappel ou une réclamation de bumping. Utilisez le guide d'ancienneté et la feuille du comité. Un grief peut suivre si l'employeur a sauté le processus de la convention."
+        },
+        "joint": {
+          "label": "Table conjointe",
+          "content": "Une pratique à l'échelle du campus qui appartient à un comité syndical-patronal, pas à un grief d'un seul membre. Utilisez le guide des comités conjoints."
+        }
+      }
     },
     "investigation": {
       "navLabel": "Les 6 W",
-      "title": "Phase 1 : L'enquête (les 6 W)",
-      "intro": "Avant de déposer quoi que ce soit, vous devez consigner les faits. Utilisez le suivi des griefs du Hub des dirigeants pour consigner le dossier, afin qu'un délégué de relève puisse le reprendre.",
-      "tip": "Écrivez des faits, pas des conclusions. Nommez l'article, la date et le remède avant de rédiger le formulaire.",
+      "title": "Les 6 W qui enseignent",
+      "intro": "Écrivez des faits qu'un autre délégué pourra reprendre lundi. Imprimez la feuille d'accueil et gardez-la sur votre appareil, pas sur un ordinateur de l'employeur.",
+      "worksheetCta": "Imprimer la feuille d'accueil des 6 W",
+      "tip": "Les faits d'abord. Nommez l'article, la date et le remède avant de rédiger le formulaire.",
+      "leaveOutTitle": "Ce qu'il faut omettre",
+      "leaveOut": "N'écrivez pas de conclusions juridiques (« c'est un congédiement déguisé »). Gardez les détails médicaux hors du dossier de grief, sauf si la convention et le membre l'exigent. Ne promettez pas une victoire dans des notes que l'employeur pourrait voir.",
       "items": {
         "who": {
           "label": "Qui",
-          "content": "Qui est en cause? Le plaignant, les témoins et la direction."
+          "content": "De bonnes notes nomment les rôles et les quarts : le membre (un pseudonyme suffit), le superviseur qui a agi, les témoins qui ont vu. Omettez les jugements de caractère et les plaintes sans lien sur les mêmes personnes."
         },
         "what": {
           "label": "Quoi",
-          "content": "Que s'est-il passé exactement? Tenez-vous aux faits observables, pas à ce que vous croyez que cela signifie."
+          "content": "De bonnes notes sont observables : ce qui a été dit, écrit ou fait, dans l'ordre. Omettez ce que vous croyez que cela signifie vraiment et ce qui devrait suivre : cela appartient au remède."
         },
         "where": {
           "label": "Où",
-          "content": "Où l'incident a-t-il eu lieu?"
+          "content": "De bonnes notes situent le lieu : service, salle, à distance ou sur place, quel campus. Omettez la tournée de tous les autres endroits où « ça arrive toujours »."
         },
         "when": {
           "label": "Quand",
-          "content": "Date et heure de l'incident. Votre délai pour déposer commence ici."
+          "content": "De bonnes notes donnent la date et l'heure de l'incident et le moment où le membre vous l'a dit. Le délai de dépôt commence généralement ici. Omettez un vague « la semaine dernière » si vous pouvez encore dater le jour."
         },
         "why": {
           "label": "Pourquoi",
-          "content": "Pourquoi est-ce une violation? Citez l'article précis de votre convention collective."
+          "content": "De bonnes notes citent l'article de la convention, la pratique établie ou la loi que vous croyez violée : citez la clause, ne paraphrasez pas de mémoire. Omettez un « c'est injuste » sans article."
         },
         "want": {
           "label": "Remède",
-          "content": "Quel remède précis corrige le problème? P. ex. le plein salaire rétroactif, ou le retrait de la mesure disciplinaire du dossier."
+          "content": "De bonnes notes nomment un remède précis : le plein salaire rétroactif, l'avertissement retiré du dossier, les heures supplémentaires payées. Omettez « qu'ils s'excusent » ou « nous gagnerons en arbitrage »."
+        }
+      }
+    },
+    "clocks": {
+      "navLabel": "Délais",
+      "title": "Comment compter les délais",
+      "intro": "Votre convention invente les délais. Le Hub des dirigeants les suit. Un délai manqué peut tuer le dossier même si les faits sont solides.",
+      "warningTitle": "Manquer un délai peut annuler le dossier",
+      "warning": "Confirmez toujours les délais exacts dans votre convention collective. Les jours civils et les jours ouvrables ne sont pas les mêmes. Une prolongation qui n'est pas par écrit n'est pas une prolongation.",
+      "items": {
+        "trigger": {
+          "label": "Trouver le déclencheur",
+          "content": "La plupart des délais commencent quand le membre savait ou aurait dû savoir, ou quand l'employeur a agi. Inscrivez cette date sur la feuille le jour même où vous entendez l'histoire."
+        },
+        "count": {
+          "label": "Jours civils ou ouvrables",
+          "content": "Lisez l'article. Certaines conventions comptent les jours ouvrables et sautent les fins de semaine et les jours fériés ; d'autres comptent les jours civils. Ne supposez pas que « 10 jours » veulent dire deux semaines au calendrier mural."
+        },
+        "extension": {
+          "label": "Prolonger par écrit",
+          "content": "S'il vous faut plus de temps, obtenez l'accord écrit de l'employeur avant l'échéance. Un « bien sûr, prenez une autre semaine » dans le corridor n'est pas un dossier."
+        },
+        "late": {
+          "label": "Ce qu'un délai manqué fait",
+          "content": "Plusieurs conventions traitent un dépôt tardif comme un abandon. Signalez le risque le jour même. N'attendez pas après les vacances pour découvrir que le délai est écoulé."
         }
       }
     },
     "steps": {
-      "navLabel": "Étapes du grief",
-      "title": "Phase 2 : Les étapes du grief",
-      "intro": "La plupart des conventions passent d'une discussion informelle à un grief écrit signé, puis à la médiation ou à l'arbitrage si l'employeur rejette le dossier. Les noms et le nombre d'étapes varient — lisez la vôtre.",
-      "warningTitle": "Manquer un délai peut annuler le dossier",
-      "warning": "Vérifiez toujours les délais exacts dans votre convention collective. Manquer une échéance peut annuler automatiquement un grief.",
-      "informal": {
-        "title": "Étape 1 : La discussion informelle",
-        "body": "La plupart des conventions exigent que vous et le membre discutiez d'abord de la question de façon <strong>informelle</strong> avec le <strong>superviseur immédiat</strong>. Si le superviseur refuse la demande ou ne répond pas dans le délai, passez à l'<strong>étape 2</strong>."
+      "navLabel": "Étapes de la convention",
+      "title": "Votre convention nomme les étapes",
+      "intro": "La discussion informelle, le grief écrit et le renvoi en médiation ou en arbitrage sont des tâches, pas une carte universelle en trois étapes. Lisez l'article. Copiez sur le dossier les noms que votre convention utilise.",
+      "exampleTitle": "Exemple seulement — pas votre défaut",
+      "example": "Une convention du personnel de soutien d'un collège de l'Ontario utilise quatre étapes nommées : étape 1, étape 2, étape 3, puis arbitrage. Les délais de réponse à temps plein sont souvent de 5, 10 et 15 jours ouvrables ; à temps partiel, souvent 7, 14 et 21. La vôtre peut avoir d'autres noms, d'autres comptes et un autre ordre.",
+      "jobs": {
+        "informal": {
+          "title": "Discussion informelle",
+          "body": "Plusieurs conventions exigent que vous et le membre souleviez d'abord la question auprès du <strong>superviseur immédiat</strong>. Consignez la date, qui était dans la pièce et la réponse. Si le superviseur refuse ou si le délai expire, passez à l'étape écrite que votre convention nomme."
+        },
+        "written": {
+          "title": "Grief écrit",
+          "body": "Vous déposez un <strong>grief écrit et signé</strong> qui énonce les faits, l'article et le remède. Une rencontre suit avec les représentants de l'employeur que votre convention nomme, souvent les RH ou un gestionnaire au-dessus du superviseur."
+        },
+        "referral": {
+          "title": "Renvoi",
+          "body": "Si l'employeur rejette le dossier, votre <strong>exécutif local</strong> et votre <strong>représentant de service</strong> décident s'il faut le renvoyer en médiation ou en arbitrage exécutoire. Cette décision n'est pas automatique. Le devoir de représentation équitable encadre un refus."
+        }
+      }
+    },
+    "meeting": {
+      "navLabel": "La rencontre",
+      "title": "La rencontre de grief",
+      "intro": "Vous n'êtes pas un témoin silencieux. Vous êtes le syndicat dans la pièce.",
+      "warningTitle": "Vous êtes sur un pied d'égalité",
+      "warning": "Ne laissez pas la direction intimider le membre. Quand vous agissez comme délégué, vous êtes un égal à la table, pas un invité dans leur bureau.",
+      "items": {
+        "speak": {
+          "label": "Parler pour le dossier",
+          "content": "Demandez sur quelle politique ou quel article ils s'appuient. Exigez des précisions. Tenez un caucus avec le membre avant que quiconque signe une déclaration."
+        },
+        "notes": {
+          "label": "Prenez vos propres notes",
+          "content": "Écrivez qui a dit quoi. Ne vous fiez pas aux procès-verbaux de l'employeur comme seul dossier."
+        },
+        "member": {
+          "label": "Protéger le membre",
+          "content": "Arrêtez une ruée vers les aveux. Demandez une pause. Le but est un dossier exact, pas une rencontre rapide."
+        }
+      }
+    },
+    "workedFile": {
+      "navLabel": "Dossier commenté",
+      "title": "Dossier commenté : une semaine de discipline",
+      "intro": "Un membre écrit vendredi soir : un avertissement écrit est tombé après une rencontre à laquelle vous n'étiez pas. Menez le dossier dans l'ordre.",
+      "items": {
+        "d0": {
+          "label": "Vendredi soir : accueil",
+          "content": "Répondez : envoyez l'avertissement et les courriels. Ne discutez pas du dossier avec le superviseur pendant la fin de semaine. Inscrivez la date de l'incident sur la feuille."
+        },
+        "d1": {
+          "label": "Lundi : les 6 W",
+          "content": "Interviewez le membre. Citez l'article sur la discipline. Nommez les témoins. Écrivez le remède : avertissement retiré du dossier. Vérifiez si une étape informelle est encore exigée ou déjà faite."
+        },
+        "d3": {
+          "label": "Mercredi : informel ou écrit",
+          "content": "Si la convention exige encore une discussion informelle, faites-la et consignez la réponse. Si le superviseur a déjà donné l'avertissement par écrit, déposez le grief écrit selon le délai de la convention."
+        },
+        "d7": {
+          "label": "La semaine suivante : rejet",
+          "content": "L'employeur rejette. Calendrier de la prochaine étape. Briefez le délégué en chef. Si les dirigeants refusent plus tard le renvoi, cette lettre appartient au guide DRE, pas à un non dans le corridor."
+        }
       },
-      "written": {
-        "title": "Étape 2 : Grief écrit officiel",
-        "body": "Vous déposerez un <strong>grief écrit et signé</strong> qui décrit la violation et le remède demandé. Une rencontre officielle a lieu avec les RH ou la direction.",
-        "warningTitle": "Vous êtes sur un pied d'égalité",
-        "warning": "Ne laissez pas la direction intimider le membre pendant cette rencontre. Vous êtes sur un pied d'égalité avec la direction lorsque vous agissez comme délégué."
-      },
-      "arbitration": {
-        "title": "Étape 3 : Arbitrage",
-        "body": "Si les RH rejettent le grief, votre <strong>exécutif local</strong> et le <strong>représentant de service national</strong> décideront s'il faut renvoyer le dossier en <strong>médiation</strong> ou en <strong>arbitrage exécutoire</strong>."
+      "tip": "Reproduisez l'espacement : accueil le jour où vous l'apprenez, 6 W avant de déposer, étape écrite selon le délai, puis une décision suivante consignée."
+    },
+    "failureModes": {
+      "navLabel": "Échecs courants",
+      "title": "Ce qui tue un dossier",
+      "intro": "La plupart des pertes sont des échecs de processus, pas des faits faibles. Le guide DRE garde comment refuser par écrit. Cette liste est la façon dont les dossiers meurent avant cette décision.",
+      "items": {
+        "missedClock": {
+          "label": "Délai manqué",
+          "content": "L'article a expiré pendant que la feuille restait dans un sac. Correctif : inscrivez la date déclencheur le jour même ; mettez l'échéance sur un calendrier que le délégué de relève peut voir."
+        },
+        "noArticle": {
+          "label": "Aucun article de convention",
+          "content": "Le formulaire dit « injuste » et ne nomme aucune clause. Correctif : citez l'article ou la pratique établie avant de déposer."
+        },
+        "mixedForum": {
+          "label": "Forums mélangés",
+          "content": "Un refus pour santé et sécurité, un bumping et un grief disciplinaire dans une seule lettre. Correctif : choisissez le forum ; déposez les autres selon leurs propres délais."
+        },
+        "hallwayPromise": {
+          "label": "Promesse dans le corridor",
+          "content": "« On va faire casser ça. » Puis le dossier est rejeté. Correctif : promettez le processus et les échéances, pas les résultats."
+        },
+        "emptyFile": {
+          "label": "Dossier vide en vacances",
+          "content": "Vous partez vendredi avec les notes dans la tête. La relève ne trouve pas le délai. Correctif : la feuille et le Hub des dirigeants sont le dossier partagé."
+        }
       }
     },
     "hub": {
-      "title": "Suivre le dossier dans le Hub des dirigeants",
-      "body": "Les outils de griefs du Hub des dirigeants consignent les 6 W, les étapes et les échéances pour que les délégués de relève voient les mêmes horloges que vous. Ils soutiennent le dossier — ils ne remplacent pas votre convention collective ni votre représentant de service.",
+      "title": "Passer le dossier au Hub des dirigeants",
+      "body": "La feuille est votre dossier sur l'appareil, sans connexion. Le Hub des dirigeants est l'horloge partagée : étapes, échéances et notes qu'un délégué de relève peut voir. Il suit la convention ; il ne l'invente pas.",
       "cta": "Ouvrir les griefs dans le Hub des dirigeants"
     },
-    "legal": {
-      "title": "Avis juridique",
-      "body": "UnionOps est un outil, pas un conseiller juridique. Ce guide sert à l'éducation. Reportez-vous toujours à votre convention collective pour les délais exacts, et consultez votre président de section, délégué en chef ou représentant de service national pour le traitement officiel des griefs."
-    }
+    "sourcesNote": "Le répertoire des conventions collectives, la Loi de 2008 sur la négociation collective dans les collèges et la Loi sur les relations de travail indiquent où vivent la procédure et le devoir. Le devoir de représentation équitable est l'autre guide pratique."
   },
   "workplaceMappingGuide": {
     "title": "Cartographie du lieu de travail et leaders organiques",
@@ -5130,13 +5286,17 @@
         "title": "Cartographie du lieu de travail et leaders organiques",
         "body": "Recensez chaque collègue par service et quart, marquez les leaders organiques et cotez l'appui syndical de 1 à 5. Téléchargez un modèle de tableur et gardez-le sur un appareil personnel."
       },
+      "board-notice-layouts": {
+        "title": "Avis pour tableau — logo et mises en page",
+        "body": "Choisissez empilé, bandeau ou scindé : le logo de votre section apparaît sur chaque export d'avis pour le tableau."
+      },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",
         "body": "Un guide de base sur le plancher : les trois chapeaux, le droit à la représentation en entrevue disciplinaire et le devoir de représentation équitable."
       },
       "grievance-process-guide": {
         "title": "Le guide du délégué sur les griefs",
-        "body": "Un guide de terrain pour consigner les 6 W et mener un grief de la discussion informelle au dépôt écrit et à l'arbitrage. Vérifiez les délais dans votre convention collective."
+        "body": "Un guide de terrain pour choisir le bon forum, consigner les 6 W, compter les délais de la convention et imprimer une feuille d'accueil. Confirmez les délais dans votre convention collective."
       },
       "assets-pwa-download": {
         "title": "Actifs de marque restent dans l’appli installée",

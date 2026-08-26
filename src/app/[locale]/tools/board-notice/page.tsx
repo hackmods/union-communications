@@ -19,18 +19,16 @@ import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { SegControl } from "@/components/tools/SegControl";
-import { cn } from "@/lib/utils";
-import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
-import { meetsWcagAA } from "@/lib/utils/contrast";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
-import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
-import {
-  CanvasGrainOverlay,
-  CanvasTypeBlock,
-} from "@/components/tools/canvas";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { fieldsFromBoardNotice } from "@/lib/comms/event-email-from-notice";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
+import { BoardNoticeLayoutCanvas } from "@/components/tools/board-notice-layouts";
+import {
+  BOARD_NOTICE_LAYOUT_ORDER,
+  DEFAULT_BOARD_NOTICE_LAYOUT,
+  type BoardNoticeLayoutId,
+} from "@/lib/comms/board-notice-layouts";
 
 type NoticeType = "meeting" | "bargaining" | "event" | "general";
 type PageFormat = "letter" | "tabloid";
@@ -44,14 +42,25 @@ interface BoardNoticeState {
   location: string;
   contact: string;
   quorumNeeded: string;
+  layout: BoardNoticeLayoutId;
 }
 
 const FORMAT_DIMENSIONS: Record<
   PageFormat,
-  { aspect: string; widthInches: number; heightInches: number }
+  { aspect: string; aspectRatio: string; widthInches: number; heightInches: number }
 > = {
-  letter: { aspect: "aspect-[8.5/11]", widthInches: 8.5, heightInches: 11 },
-  tabloid: { aspect: "aspect-[11/17]", widthInches: 11, heightInches: 17 },
+  letter: {
+    aspect: "aspect-[8.5/11]",
+    aspectRatio: "8.5 / 11",
+    widthInches: 8.5,
+    heightInches: 11,
+  },
+  tabloid: {
+    aspect: "aspect-[11/17]",
+    aspectRatio: "11 / 17",
+    widthInches: 11,
+    heightInches: 17,
+  },
 };
 
 export default function BoardNoticePage() {
@@ -73,6 +82,7 @@ export default function BoardNoticePage() {
     location: "Union office, Room S206",
     contact: "Questions? Email your steward or local executive.",
     quorumNeeded: "",
+    layout: DEFAULT_BOARD_NOTICE_LAYOUT,
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -81,14 +91,7 @@ export default function BoardNoticePage() {
     useExportHandler();
 
   const dims = FORMAT_DIMENSIONS[format];
-  const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)} - ${brandKit.local.subText}`;
-  const canvasInk = pickContrastingInk(brandKit.primaryColor);
   const tokens = resolveCanvasTokens(brandKit);
-  const surfaceStyle = canvasSurfaceStyle(tokens, {
-    primary: brandKit.primaryColor,
-    secondary: brandKit.secondaryColor,
-    accent: brandKit.accentColor,
-  });
   const showInviteEmail =
     state.noticeType === "meeting" || state.noticeType === "event";
   const inviteFields = fieldsFromBoardNotice({
@@ -101,14 +104,6 @@ export default function BoardNoticePage() {
       ? { quorumNeeded: state.quorumNeeded }
       : {}),
   });
-
-  const leadColor = meetsWcagAA(
-    brandKit.secondaryColor,
-    brandKit.primaryColor,
-    true,
-  )
-    ? brandKit.secondaryColor
-    : canvasInk;
 
   const handleExportPng = async () => {
     if (!canvasRef.current) return;
@@ -141,10 +136,12 @@ export default function BoardNoticePage() {
         title={t("title")}
         description={t("subtitle")}
         purposeHint={t("whenToUse")}
-        toolbar={!themeEstablished ? (
-        <BrandSetupPrompt themeEstablished={themeEstablished} />
-      ) : undefined}
-      exportError={exportError}
+        toolbar={
+          !themeEstablished ? (
+            <BrandSetupPrompt themeEstablished={themeEstablished} />
+          ) : undefined
+        }
+        exportError={exportError}
         exportSuccess={exportSuccess}
         previewAccessibleName={t("previewAccessibleName")}
         form={
@@ -219,6 +216,15 @@ export default function BoardNoticePage() {
 
             <ToolFormDetails title={tc("sectionOptions")}>
               <SegControl
+                label={t("layout")}
+                value={state.layout}
+                options={BOARD_NOTICE_LAYOUT_ORDER.map((id) => ({
+                  value: id,
+                  label: t(`layouts.${id}`),
+                }))}
+                onChange={(layout) => setState({ ...state, layout })}
+              />
+              <SegControl
                 label={t("format")}
                 value={format}
                 options={[
@@ -252,84 +258,38 @@ export default function BoardNoticePage() {
         }
         preview={
           <div className="shadow-lg">
-            <div
-              ref={canvasRef}
-                  data-export-root=""
-              className={cn(
-                "relative flex w-full flex-col justify-between",
-                dims.aspect,
-              )}
-              style={{
-                ...surfaceStyle,
-                color: canvasInk,
-                padding: tokens.paddingPx,
-                gap: tokens.gapPx,
-                fontFamily: tokens.bodyFontFamily,
+            <BoardNoticeLayoutCanvas
+              canvasRef={canvasRef}
+              layout={state.layout}
+              tokens={tokens}
+              colours={{
+                primary: brandKit.primaryColor,
+                secondary: brandKit.secondaryColor,
+                accent: brandKit.accentColor,
               }}
-            >
-              <CanvasGrainOverlay opacity={tokens.grainOpacity} />
-              <div className="relative z-[2]">
-                <p
-                  className="font-bold uppercase tracking-widest"
-                  style={{
-                    color: leadColor,
-                    fontSize: tokens.subtitleFontSizePx,
-                    fontFamily: tokens.bodyFontFamily,
-                  }}
-                >
-                  {localLabel}
-                </p>
-                <p
-                  className="mt-2 uppercase"
-                  style={{
-                    color: mutedInkOnBackground(brandKit.primaryColor, 0.8),
-                    fontSize: Math.max(
-                      10,
-                      Math.round(tokens.subtitleFontSizePx * 0.85),
-                    ),
-                    fontFamily: tokens.bodyFontFamily,
-                  }}
-                >
-                  {t(`types.${state.noticeType}`)}
-                </p>
-              </div>
-              <CanvasTypeBlock
-                tokens={tokens}
-                title={state.headline}
-                subtitle={state.body}
-                ink={canvasInk}
-              />
-              <div
-                className="relative z-[2]"
-                style={{
-                  color: canvasInk,
-                  fontSize: tokens.subtitleFontSizePx + 6,
-                  lineHeight: 1.4,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: tokens.gapPx,
-                }}
-              >
-                <p>
-                  <strong>{t("date")}:</strong> {state.date}
-                </p>
-                <p>
-                  <strong>{t("time")}:</strong> {state.time}
-                </p>
-                <p>
-                  <strong>{t("location")}:</strong> {state.location}
-                </p>
-                <p
-                  style={{
-                    marginTop: tokens.gapPx,
-                    fontSize: tokens.subtitleFontSizePx,
-                    color: mutedInkOnBackground(brandKit.primaryColor, 0.9),
-                  }}
-                >
-                  {state.contact}
-                </p>
-              </div>
-            </div>
+              copy={{
+                headline: state.headline,
+                body: state.body,
+                date: state.date,
+                time: state.time,
+                location: state.location,
+                contact: state.contact,
+                noticeTypeLabel: t(`types.${state.noticeType}`),
+                dateLabel: t("date"),
+                timeLabel: t("time"),
+                locationLabel: t("location"),
+                ...(state.noticeType === "meeting"
+                  ? {
+                      quorumNeeded: state.quorumNeeded,
+                      quorumLabel: t("quorumNeeded"),
+                    }
+                  : {}),
+              }}
+              localNumber={brandKit.local.localNumber}
+              subText={brandKit.local.subText}
+              aspectClass={dims.aspect}
+              aspectRatio={dims.aspectRatio}
+            />
           </div>
         }
         footer={

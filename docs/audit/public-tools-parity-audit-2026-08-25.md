@@ -178,7 +178,7 @@ Priority: **P0** ship in Wave 1 shell/preview · **P1** next polish · **P2** ch
 | 12 | P2-CATALOG | /tools index | Marketing | Secondary band at lg+ (guide deep-links or tool stats) | L | Catalog “space” polish |
 | 13 | P2-DOCGEN-TEL | document-generator | Shell | Consider TEL with live doc thumbnail preview (large lift) | L | Only if product asks |
 | 14 | P3-PULSE-CHOICES | pulse-poll | Channel | Optional single-choice options per question (API supports) | L | Feature, not shell |
-| 15 | P3-FLYER-FONTS-OTHER | other print | Channel | Flyer-style font picker on solidarity/board-notice | L | Explicit product ask only |
+| 15 | P3-FLYER-FONTS-OTHER | other print | Channel | Flyer-style font picker on solidarity-poster | L | Optional; Flyer-only font control remains the default |
 
 ---
 
