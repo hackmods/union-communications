@@ -176,6 +176,12 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     await expect(page.locator("#meeting-preset")).toHaveValue(
       LAYOUT_CLASS_MEETING,
     );
+    // Design/Layout SegControls live in ToolFormDetails (collapsed by default).
+    const layoutDetails = page
+      .locator("details")
+      .filter({ hasText: /Layout and design/i });
+    await expect(layoutDetails).toHaveCount(1);
+    await layoutDetails.locator("summary").click();
     await expect(
       page.getByRole("radiogroup", { name: /^Design$/i }).getByRole("radio", {
         name: /^Bold$/i,
