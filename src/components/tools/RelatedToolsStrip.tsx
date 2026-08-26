@@ -117,6 +117,7 @@ export const RELATED_BY_TOOL: Record<
     { href: "/tools/graphic-maker", navKey: "graphicMaker" },
   ],
   "document-generator": [
+    { href: "/guide/grievance-process", navKey: "grievanceProcessGuide" },
     { href: "/tools/org-chart", navKey: "orgChart" },
     { href: "/brand-kit", navKey: "brandKit" },
     { href: "/tools/board-notice", navKey: "boardNotice" },
