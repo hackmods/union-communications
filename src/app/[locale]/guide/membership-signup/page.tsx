@@ -51,6 +51,7 @@ export default async function MembershipSignupGuidePage({
   const t = await getTranslations("membershipSignupGuide");
   const nav = await getTranslations("nav");
   const ts = await getTranslations("sources");
+  const labour = await getTranslations("guide");
 
   return (
     <GuideLayout
@@ -70,6 +71,10 @@ export default async function MembershipSignupGuidePage({
         { href: "/guide/print", label: nav("printGuide") },
         { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
         { href: "/guide/union-boards", label: nav("unionBoardsGuide") },
+        {
+          href: "/guide/workplace-mapping",
+          label: labour("labourGuides.workplaceMapping"),
+        },
       ]}
       footer={
         <SourcesBlock

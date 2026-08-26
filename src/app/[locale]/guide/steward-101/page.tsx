@@ -49,6 +49,7 @@ export default async function Steward101GuidePage({
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/grievance-process", label: t("related.grievance") },
         { href: "/guide/dfr", label: t("related.dfr") },
+        { href: "/guide/workplace-mapping", label: t("related.workplaceMapping") },
         { href: "/guide/right-to-refuse", label: t("related.rightToRefuse") },
       ]}
     >

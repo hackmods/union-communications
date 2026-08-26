@@ -373,6 +373,7 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "ontario-required-posters",
   ],
   membershipSignup: ["ofl", "nupge", "clc", "opseu-member-portal", "opseu-forms"],
+  workplaceMapping: ["ofl", "nupge", "clc"],
   assets: ["opseu-branding"],
   websiteTemplate: ["local243-website", "github-pages", "opseu-branding"],
   boardNotice: ["opseu-branding"],

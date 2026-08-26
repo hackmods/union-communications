@@ -36,6 +36,7 @@ const labourPathLinks = [
   { href: "/guide/seniority-bumping", key: "seniority" as const },
   { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },
   { href: "/guide/joint-committee", key: "jointCommittee" as const },
+  { href: "/guide/workplace-mapping", key: "workplaceMapping" as const },
 ];
 
 const exploreLinks = [

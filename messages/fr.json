@@ -420,7 +420,8 @@
       "dfr": "Devoir de représentation équitable — guide pratique",
       "seniority": "Guide d'ancienneté et de bumping",
       "rightToRefuse": "Droit de refuser un travail dangereux — LSST Ont. art. 43",
-      "jointCommittee": "Guide des comités conjoints"
+      "jointCommittee": "Guide des comités conjoints",
+      "workplaceMapping": "Cartographie du lieu de travail et leaders organiques"
     },
     "startHere": {
       "navLabel": "Commencer ici",
@@ -630,7 +631,8 @@
       "dfr": "Devoir de représentation équitable",
       "seniority": "Ancienneté et bumping",
       "rightToRefuse": "Droit de refuser (Ontario)",
-      "jointCommittee": "Guide des comités conjoints"
+      "jointCommittee": "Guide des comités conjoints",
+      "workplaceMapping": "Cartographie du lieu de travail"
     }
   },
   "unionBoardsGuide": {
@@ -2586,7 +2588,8 @@
         "dfr": "Devoir de représentation équitable",
         "seniority": "Ancienneté et bumping",
         "rightToRefuse": "Droit de refuser (Ontario)",
-        "jointCommittee": "Guide des comités conjoints"
+        "jointCommittee": "Guide des comités conjoints",
+        "workplaceMapping": "Cartographie du lieu de travail et leaders organiques"
       },
       "blurb": {
         "steward101": "Les trois chapeaux, le droit à la représentation et le devoir de représentation équitable — commencez ici.",
@@ -2594,7 +2597,8 @@
         "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
         "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
-        "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés."
+        "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
+        "workplaceMapping": "Recensez chaque collègue, repérez les leaders organiques et cotez l'appui syndical de 1 à 5. Gardez le fichier hors des systèmes de l'employeur."
       }
     },
     "checklist": {
@@ -3981,6 +3985,7 @@
     "related": {
       "grievance": "Le guide du délégué sur les griefs",
       "dfr": "Devoir de représentation équitable — guide pratique",
+      "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
       "rightToRefuse": "Droit de refuser un travail dangereux"
     },
     "threeHats": {
@@ -4106,6 +4111,80 @@
     "legal": {
       "title": "Avis juridique",
       "body": "UnionOps est un outil, pas un conseiller juridique. Ce guide sert à l'éducation. Reportez-vous toujours à votre convention collective pour les délais exacts, et consultez votre président de section, délégué en chef ou représentant de service national pour le traitement officiel des griefs."
+    }
+  },
+  "workplaceMappingGuide": {
+    "title": "Cartographie du lieu de travail et leaders organiques",
+    "subtitle": "Recenser qui travaille où, qui écoute qui, et où investir le temps d'organisation",
+    "intro": "La cartographie du lieu de travail, souvent appelée cartographie murale, sert à comprendre la vraie structure de pouvoir. Il ne s'agit pas seulement de savoir qui travaille où. Il s'agit de savoir qui écoute qui.",
+    "backToGuide": "Retour au Plan directeur",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "sensitive": {
+      "title": "Ce sont des données sensibles",
+      "body": "Parce que la cartographie suit le sentiment des membres, <strong>ce sont des données sensibles</strong>. Ne les stockez pas sur les réseaux de l'employeur. Téléchargez le modèle ci-dessous et gardez-le de façon sécurisée sur votre appareil personnel."
+    },
+    "downloadCta": "Télécharger le modèle de cartographie (CSV)",
+    "downloadHint": "S'ouvre dans Excel ou un autre tableur, sur votre propre appareil.",
+    "related": {
+      "steward101": "Délégué 101 : votre rôle et vos droits",
+      "membership": "Guide pratique d'adhésion",
+      "boards": "Guide des tableaux syndicaux",
+      "grievance": "Le guide du délégué sur les griefs"
+    },
+    "physical": {
+      "navLabel": "Carte physique",
+      "title": "Étape 1 : La carte physique",
+      "intro": "Commencez par lister chaque travailleuse et chaque travailleur de votre unité. Regroupez-les selon :",
+      "items": {
+        "department": "Service ou unité",
+        "shift": "Quart de travail (jour, nuit, fins de semaine)",
+        "location": "Lieu physique (quel étage, quel bâtiment)",
+        "breaks": "Horaires de pause (qui dîne ensemble)"
+      },
+      "blindSpot": "Si vous ignorez qui travaille dans un service, vous avez trouvé un angle mort dans votre arbre de communication."
+    },
+    "social": {
+      "navLabel": "Leaders organiques",
+      "title": "Étape 2 : La carte sociale et les leaders organiques",
+      "intro": "La direction a un organigramme officiel. Le syndicat a besoin d'une carte sociale. Vous cherchez les <strong>leaders organiques</strong> : les personnes vers qui les autres se tournent naturellement pour un conseil, des ragots ou de l'aide.",
+      "items": {
+        "policy": "Quand une nouvelle politique est annoncée, autour de quel bureau tout le monde se rassemble-t-il pour se plaindre ?",
+        "gifts": "Qui organise les cadeaux de retraite ou les cartes d'anniversaire ?",
+        "newHires": "Vers qui les nouvelles embauches se tournent-elles quand elles ne comprennent pas comment faire le travail ?"
+      },
+      "goal": "Votre objectif est de recruter ces leaders organiques. Gagner un leader organique, c'est gagner les cinq à dix personnes qui l'écoutent."
+    },
+    "scale": {
+      "navLabel": "Échelle de 1 à 5",
+      "title": "Étape 3 : L'échelle d'évaluation de 1 à 5",
+      "intro": "Une fois la carte faite, évaluez honnêtement où se situe chaque personne. Utilisez cette échelle d'organisation courante :",
+      "items": {
+        "one": {
+          "label": "1 : L'organisatrice ou l'organisateur.",
+          "content": "Fait du bénévolat, vient aux réunions et amène d'autres personnes."
+        },
+        "two": {
+          "label": "2 : La personne alliée.",
+          "content": "Vote oui, porte le macaron et appuie le syndicat, mais n'organisera pas activement."
+        },
+        "three": {
+          "label": "3 : Indécise ou neutre.",
+          "content": "Connaît peu le syndicat, a peur de la direction, ou s'en fiche. C'est là que vous passez le plus de temps d'organisation."
+        },
+        "four": {
+          "label": "4 : Anti-syndicat.",
+          "content": "S'oppose publiquement au syndicat et défend la direction. Ne perdez pas de temps à argumenter avec les 4."
+        },
+        "five": {
+          "label": "5 : Inconnue.",
+          "content": "Vous ignorez où elle se situe. Votre but immédiat est une conversation individuelle pour transformer ce 5 en 1, 2, 3 ou 4."
+        }
+      }
+    },
+    "privacy": {
+      "title": "Avertissement de confidentialité",
+      "body": "Ne construisez jamais votre carte sur un ordinateur de travail, un compte Office 365 fourni par l'employeur, ou un compte Google Drive de l'employeur. Gardez vos fichiers de cartographie sur votre appareil personnel, en local, pour protéger vos membres."
     }
   },
   "seniorityGuide": {
@@ -4883,6 +4962,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "workplace-mapping-guide": {
+        "title": "Cartographie du lieu de travail et leaders organiques",
+        "body": "Recensez chaque collègue par service et quart, marquez les leaders organiques et cotez l'appui syndical de 1 à 5. Téléchargez un modèle de tableur et gardez-le sur un appareil personnel."
+      },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",
         "body": "Un guide de base sur le plancher : les trois chapeaux, le droit à la représentation en entrevue disciplinaire et le devoir de représentation équitable."

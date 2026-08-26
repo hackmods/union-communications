@@ -185,6 +185,10 @@ test.describe("Public secondary pages smoke @smoke", () => {
       path: "/en/guide/grievance-process/",
       heading: "The Steward's Guide to Grievances",
     },
+    {
+      path: "/en/guide/workplace-mapping/",
+      heading: "Workplace Mapping & Finding Organic Leaders",
+    },
     { path: "/en/tools/", heading: "Tools" },
     { path: "/en/examples/", heading: "Social Examples" },
     { path: "/en/captions/", heading: "Caption & Hashtag Library" },

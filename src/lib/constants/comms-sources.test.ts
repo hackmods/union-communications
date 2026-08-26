@@ -178,6 +178,14 @@ describe("comms-sources", () => {
     ]);
   });
 
+  it("maps workplace mapping guide to federation sources", () => {
+    expect(getSourcesForPage("workplaceMapping").map((s) => s.id)).toEqual([
+      "ofl",
+      "nupge",
+      "clc",
+    ]);
+  });
+
   it("maps grievance process guide to CA finder and labour statutes", () => {
     expect(getSourcesForPage("grievanceProcess").map((s) => s.id)).toEqual([
       "opseu-collective-agreements",

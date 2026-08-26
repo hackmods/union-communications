@@ -43,6 +43,7 @@ export const PUBLIC_PATHS = [
   "/guide/seniority-bumping",
   "/guide/right-to-refuse",
   "/guide/joint-committee",
+  "/guide/workplace-mapping",
   ...TOOL_SLUGS.filter((slug) => !NON_PUBLIC_TOOL_SLUGS.has(slug)).map(
     (slug) => `/tools/${slug}`,
   ),

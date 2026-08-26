@@ -420,7 +420,8 @@
       "dfr": "Duty of Fair Representation playbook",
       "seniority": "Seniority & bumping playbook",
       "rightToRefuse": "Right to refuse unsafe work — Ontario OHSA s.43",
-      "jointCommittee": "Joint committee playbook"
+      "jointCommittee": "Joint committee playbook",
+      "workplaceMapping": "Workplace mapping & organic leaders"
     },
     "startHere": {
       "navLabel": "Start here",
@@ -630,7 +631,8 @@
       "dfr": "Duty of Fair Representation",
       "seniority": "Seniority & bumping",
       "rightToRefuse": "Right to refuse (Ontario)",
-      "jointCommittee": "Joint committee playbook"
+      "jointCommittee": "Joint committee playbook",
+      "workplaceMapping": "Workplace mapping"
     }
   },
   "unionBoardsGuide": {
@@ -2586,7 +2588,8 @@
         "dfr": "Duty of Fair Representation",
         "seniority": "Seniority & bumping",
         "rightToRefuse": "Right to refuse (Ontario)",
-        "jointCommittee": "Joint committee playbook"
+        "jointCommittee": "Joint committee playbook",
+        "workplaceMapping": "Workplace mapping & organic leaders"
       },
       "blurb": {
         "steward101": "The three hats, representation rights, and the duty of fair representation — start here.",
@@ -2594,7 +2597,8 @@
         "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
         "seniority": "Two cascade examples and a printable seniority worksheet.",
         "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
-        "jointCommittee": "Campus → caucus → table → member note after signed minutes."
+        "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
+        "workplaceMapping": "Chart every coworker, find organic leaders, and score union support 1 to 5. Keep the file off employer systems."
       }
     },
     "checklist": {
@@ -4031,6 +4035,7 @@
     "related": {
       "grievance": "The Steward's Guide to Grievances",
       "dfr": "Duty of Fair Representation playbook",
+      "workplaceMapping": "Workplace mapping & organic leaders",
       "rightToRefuse": "Right to refuse unsafe work"
     },
     "threeHats": {
@@ -4156,6 +4161,80 @@
     "legal": {
       "title": "Legal disclaimer",
       "body": "UnionOps is a tool, not legal counsel. This guide is for educational purposes. Always refer to your specific Collective Agreement for exact timelines, and consult your Local President, Chief Steward, or National Staff Representative for official grievance handling."
+    }
+  },
+  "workplaceMappingGuide": {
+    "title": "Workplace Mapping & Finding Organic Leaders",
+    "subtitle": "Chart who works where, who listens to whom, and where to spend organizing time",
+    "intro": "Workplace mapping, often called wall charting, is how you understand the real power structure of your workplace. It is not only who works where. It is who listens to whom.",
+    "backToGuide": "Back to The Blueprint",
+    "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
+    "sensitive": {
+      "title": "This is sensitive data",
+      "body": "Because mapping tracks member sentiment, <strong>this is sensitive data</strong>. Do not store this on employer networks. Download the template below and keep it securely on your personal device."
+    },
+    "downloadCta": "Download the Workplace Map Template (CSV)",
+    "downloadHint": "Opens in Excel or another spreadsheet app on your own device.",
+    "related": {
+      "steward101": "Steward 101: Your Role and Rights",
+      "membership": "Membership signup playbook",
+      "boards": "Union Boards Guide",
+      "grievance": "The Steward's Guide to Grievances"
+    },
+    "physical": {
+      "navLabel": "Physical map",
+      "title": "Step 1: The physical map",
+      "intro": "Start by listing every worker in your unit. Group them by:",
+      "items": {
+        "department": "Department or unit",
+        "shift": "Shift (days, nights, weekends)",
+        "location": "Physical location (which floor, which building)",
+        "breaks": "Break schedules (who eats lunch together)"
+      },
+      "blindSpot": "If you do not know who is in a department, you have found a blind spot in your communication tree."
+    },
+    "social": {
+      "navLabel": "Organic leaders",
+      "title": "Step 2: The social map and organic leaders",
+      "intro": "Management has an official organizational chart. The union needs a social map. You are looking for <strong>organic leaders</strong>: the people others naturally turn to for advice, gossip, or help.",
+      "items": {
+        "policy": "If a new policy is announced, whose desk does everyone gather around to complain?",
+        "gifts": "Who organizes the retirement gifts or birthday cards?",
+        "newHires": "Who do the new hires go to when they do not understand how to do their job?"
+      },
+      "goal": "Your goal is to recruit these organic leaders. If you win over one organic leader, you win over the five to ten people who listen to them."
+    },
+    "scale": {
+      "navLabel": "1-to-5 scale",
+      "title": "Step 3: The 1-to-5 assessment scale",
+      "intro": "Once you have your map, honestly assess where every worker stands. Use this standard organizing scale:",
+      "items": {
+        "one": {
+          "label": "1: The organizer.",
+          "content": "Actively volunteers, comes to meetings, and brings others along."
+        },
+        "two": {
+          "label": "2: The supporter.",
+          "content": "Votes yes, wears the button, and supports the union, but will not actively lead or organize."
+        },
+        "three": {
+          "label": "3: Undecided or neutral.",
+          "content": "Does not know much about the union, is scared of management, or does not care. This is where you spend most of your organizing time."
+        },
+        "four": {
+          "label": "4: Anti-union.",
+          "content": "Vocally opposes the union and defends management. Do not waste time arguing with 4s."
+        },
+        "five": {
+          "label": "5: Unknown.",
+          "content": "You do not know where they stand. Your immediate goal is a 1-on-1 conversation to turn this 5 into a 1, 2, 3, or 4."
+        }
+      }
+    },
+    "privacy": {
+      "title": "Privacy warning",
+      "body": "Never build your map on a work computer, employer-provided Office 365, or an employer Google Drive account. Keep mapping files on your local, personal device to protect your members."
     }
   },
   "seniorityGuide": {
@@ -4933,6 +5012,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "workplace-mapping-guide": {
+        "title": "Workplace mapping and organic leaders",
+        "body": "Chart every coworker by department and shift, mark organic leaders, and score union support from 1 to 5. Download a spreadsheet template and keep it on a personal device."
+      },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",
         "body": "A foundational floor guide to the three hats, representation rights in discipline meetings, and the duty of fair representation."
