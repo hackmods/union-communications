@@ -4699,7 +4699,7 @@
     "tipLabel": "À retenir",
     "sensitive": {
       "title": "Ce sont des données sensibles",
-      "body": "Parce que la cartographie suit le sentiment des membres, <strong>ce sont des données sensibles</strong>. Ne les stockez pas sur les réseaux de l'employeur. Téléchargez le modèle ci-dessous et gardez-le de façon sécurisée sur votre appareil personnel."
+      "body": "Parce que la cartographie suit le sentiment des membres, <strong>ce sont des données sensibles</strong>. Ne les stockez pas sur les réseaux de l'employeur, et n'affichez pas de noms cotés sur un tableau public. Téléchargez le modèle et gardez le fichier sur un appareil personnel."
     },
     "downloadCta": "Télécharger le modèle de cartographie (CSV)",
     "downloadHint": "S'ouvre dans Excel ou un autre tableur, sur votre propre appareil.",
@@ -4707,12 +4707,53 @@
       "steward101": "Délégué 101 : votre rôle et vos droits",
       "membership": "Guide pratique d'adhésion",
       "boards": "Guide des tableaux syndicaux",
-      "grievance": "Le guide du délégué sur les griefs"
+      "grievance": "Le guide du délégué sur les griefs",
+      "dfr": "Devoir de représentation équitable",
+      "orgChart": "Organigramme"
+    },
+    "gate": {
+      "navLabel": "Quand et qui",
+      "title": "Quand cartographier, et qui détient le dossier",
+      "intro": "Une carte sert à densifier l'organisation : une campagne d'adhésion, une ronde de négociation, ou un service qui n'entend jamais le syndicat. Elle ne remplace pas un dossier d'accueil.",
+      "items": {
+        "when": {
+          "label": "Quand cartographier",
+          "content": "Construisez-la avant de demander aux gens de signer ou de voter. Ne dressez pas une carte complète si vous n'avez besoin que de notes pour un membre ; utilisez plutôt Délégué 101."
+        },
+        "who": {
+          "label": "Qui la détient",
+          "content": "Deux ou trois délégués de confiance gardent le dossier. Pas un courriel de groupe, pas un lecteur partagé de l'employeur, et pas le nuage public de la section locale."
+        },
+        "never": {
+          "label": "Où elle ne vit jamais",
+          "content": "N'épinglez jamais une carte cotée sur un tableau syndical public, ne la stockez jamais sur le nuage de l'employeur, et ne photographiez jamais le tableau mural."
+        }
+      },
+      "warningTitle": "Une cote n'est pas une liste de cibles",
+      "warning": "Le devoir de représentation équitable s'applique encore. Une cote 4 a droit à la même représentation qu'une cote 1. La cartographie dit où investir le temps d'organisation. Elle ne décide pas qui vous représentez."
     },
     "physical": {
       "navLabel": "Carte physique",
       "title": "Étape 1 : La carte physique",
       "intro": "Commencez par lister chaque travailleuse et chaque travailleur de votre unité. Regroupez-les selon :",
+      "diagramLabel": "Exemple de tableau mural : Services aux étudiants, bibliothèque et accueil, répartis entre jour, nuit et fins de semaine",
+      "diagram": {
+        "days": {
+          "title": "Jour",
+          "a": "Services aux étudiants",
+          "b": "Bibliothèque"
+        },
+        "nights": {
+          "title": "Nuit",
+          "a": "Services aux étudiants",
+          "b": "Accueil"
+        },
+        "weekends": {
+          "title": "Fins de semaine",
+          "a": "Bibliothèque",
+          "b": "Cafétéria"
+        }
+      },
       "items": {
         "department": "Service ou unité",
         "shift": "Quart de travail (jour, nuit, fins de semaine)",
@@ -4725,6 +4766,15 @@
       "navLabel": "Leaders organiques",
       "title": "Étape 2 : La carte sociale et les leaders organiques",
       "intro": "La direction a un organigramme officiel. Le syndicat a besoin d'une carte sociale. Vous cherchez les <strong>leaders organiques</strong> : les personnes vers qui les autres se tournent naturellement pour un conseil, des ragots ou de l'aide.",
+      "diagramLabel": "Groupe social autour de Priya, une leader organique, avec un angle mort de quart de nuit en dessous",
+      "diagram": {
+        "leader": "Priya N.",
+        "alex": "Alex T.",
+        "sam": "Sam K.",
+        "casey": "Casey L.",
+        "jordan": "Jordan M.",
+        "blindSpot": "Quart de nuit : aucun délégué encore"
+      },
       "items": {
         "policy": "Quand une nouvelle politique est annoncée, autour de quel bureau tout le monde se rassemble-t-il pour se plaindre ?",
         "gifts": "Qui organise les cadeaux de retraite ou les cartes d'anniversaire ?",
@@ -4736,6 +4786,14 @@
       "navLabel": "Échelle de 1 à 5",
       "title": "Étape 3 : L'échelle d'évaluation de 1 à 5",
       "intro": "Une fois la carte faite, évaluez honnêtement où se situe chaque personne. Utilisez cette échelle d'organisation courante :",
+      "diagramLabel": "Échelle d'appui syndical, de 1 organisateur jusqu'à 5 inconnu",
+      "diagram": {
+        "one": "Organisateur",
+        "two": "Alliée",
+        "three": "Neutre",
+        "four": "Anti-syndicat",
+        "five": "Inconnu"
+      },
       "items": {
         "one": {
           "label": "1 : L'organisatrice ou l'organisateur.",
@@ -4757,6 +4815,169 @@
           "label": "5 : Inconnue.",
           "content": "Vous ignorez où elle se situe. Votre but immédiat est une conversation individuelle pour transformer ce 5 en 1, 2, 3 ou 4."
         }
+      },
+      "spendTitle": "Où investir le temps",
+      "spend": "Investissez le temps d'organisation auprès des 3 et des 5 que vous n'avez pas encore rencontrés. Recrutez les 1 et les 2 qui sont déjà des leaders organiques. N'argumentez pas avec les 4."
+    },
+    "conversations": {
+      "navLabel": "Conversations individuelles",
+      "title": "Conversations individuelles",
+      "intro": "Un 5 reste un 5 jusqu'à ce que quelqu'un lui parle. Gardez la conversation courte, écoutez d'abord, et mettez la carte à jour le jour même.",
+      "items": {
+        "listen": {
+          "label": "Écouter",
+          "content": "Demandez ce qui se passe dans leur secteur. Ne présentez pas le syndicat avant d'avoir entendu le dossier qui les préoccupe déjà."
+        },
+        "connect": {
+          "label": "Relier",
+          "content": "Nommez ce dossier, puis comment le syndicat agit déjà : une clause, un grief, ou une réunion à laquelle elles ou ils peuvent se joindre."
+        },
+        "ask": {
+          "label": "Demander",
+          "content": "Si la personne est prête, demandez-lui d'adhérer ou d'amener une collègue à la prochaine conversation. Une demande, puis on s'arrête."
+        },
+        "log": {
+          "label": "Noter",
+          "content": "Mettez la cote à jour le jour même. Un 5 à qui vous avez parlé n'est plus un 5."
+        }
+      },
+      "tip": "Amenez un 1 ou un 2 quand vous parlez à un 3. Les leaders organiques ouvrent des portes qu'un macaron de délégué n'ouvre pas."
+    },
+    "worked": {
+      "navLabel": "Exemple travaillé",
+      "title": "Exemple travaillé : Services aux étudiants, quart de jour",
+      "intro": "Quart de jour fictif aux Services aux étudiants. Les noms et les cotes servent à enseigner seulement — ce n'est pas un vrai lieu de travail.",
+      "phases": {
+        "list": {
+          "label": "Semaine 0, lister tout le monde",
+          "content": "Inscrivez chaque nom pour le jour et la nuit. Vous connaissez déjà le groupe de jour ; les nuits sont encore vides."
+        },
+        "leader": {
+          "label": "Trouver la leader organique",
+          "content": "Les collègues se rassemblent au bureau de Priya après les courriels de politique. Marquez-la comme leader organique et cote 2."
+        },
+        "ones": {
+          "label": "Faire les conversations individuelles",
+          "content": "Écoutez Sam au sujet des cotisations. Demandez à Alex, qui n'a jamais été approché. Ne débattez pas avec Riley à la cafétéria."
+        },
+        "nights": {
+          "label": "Nommer l'angle mort",
+          "content": "Les nuits n'ont toujours pas de délégué assigné. Quinn est la leader organique du quart de nuit ; Morgan est encore un 5."
+        }
+      },
+      "table": {
+        "caption": "Exemple pédagogique : noms fictifs, pas un vrai lieu de travail. Téléchargez les mêmes rangées en tableur dans la section des fichiers.",
+        "headers": {
+          "name": "Nom",
+          "shift": "Quart",
+          "leader": "Leader organique ?",
+          "score": "Cote",
+          "notes": "Notes"
+        },
+        "rows": {
+          "priya": {
+            "name": "Priya N.",
+            "shift": "Jour",
+            "leader": "Oui",
+            "score": "2",
+            "notes": "Les collègues se rassemblent à son bureau après les courriels de politique"
+          },
+          "jordan": {
+            "name": "Jordan M.",
+            "shift": "Jour",
+            "leader": "Non",
+            "score": "1",
+            "notes": "Fait du bénévolat et amène le groupe de Priya"
+          },
+          "sam": {
+            "name": "Sam K.",
+            "shift": "Jour",
+            "leader": "Non",
+            "score": "3",
+            "notes": "Hésite sur les cotisations ; écouter d'abord"
+          },
+          "casey": {
+            "name": "Casey L.",
+            "shift": "Jour",
+            "leader": "Non",
+            "score": "3",
+            "notes": "Nouvelle embauche ; a demandé à Priya comment faire le travail"
+          },
+          "riley": {
+            "name": "Riley P.",
+            "shift": "Jour",
+            "leader": "Non",
+            "score": "4",
+            "notes": "Défend la direction ; ne pas débattre"
+          },
+          "alex": {
+            "name": "Alex T.",
+            "shift": "Jour",
+            "leader": "Non",
+            "score": "5",
+            "notes": "Pas encore de conversation individuelle"
+          },
+          "morgan": {
+            "name": "Morgan D.",
+            "shift": "Nuit",
+            "leader": "Non",
+            "score": "5",
+            "notes": "Angle mort : aucun délégué la nuit"
+          },
+          "quinn": {
+            "name": "Quinn H.",
+            "shift": "Nuit",
+            "leader": "Oui",
+            "score": "2",
+            "notes": "Cartes et cadeaux du quart de nuit"
+          }
+        }
+      },
+      "tip": "Jordan (un 1) devrait faire la prochaine conversation individuelle avec Sam. Priya (une 2) est déjà la personne en qui Casey a confiance."
+    },
+    "keep": {
+      "navLabel": "Garder la carte",
+      "title": "Garder la carte vivante — et privée",
+      "intro": "Une carte vieille de six mois est une rumeur. Mettez-la à jour après les conversations individuelles, et gardez papier et fichiers hors de portée des membres et des gestionnaires qui pourraient les consulter.",
+      "items": {
+        "update": {
+          "label": "Mettre à jour le jour même",
+          "content": "Après chaque conversation individuelle, changez la cote ce jour-là. Les cartes périmées mentent."
+        },
+        "paper": {
+          "label": "Le papier reste sous clé",
+          "content": "Un tableau mural papier appartient à une salle privée verrouillée, pas au liège que les membres croisent."
+        },
+        "photo": {
+          "label": "Ne jamais photographier",
+          "content": "Une photo de téléphone est une fuite en attente d'être transférée. Recopiez les noms à la main si vous devez déplacer le tableau."
+        },
+        "review": {
+          "label": "Revoir avant une campagne",
+          "content": "Regardez à nouveau avant une campagne d'adhésion ou un vote. Les angles morts — nuits, fins de semaine, sites satellites — sont le prochain travail d'organisation."
+        }
+      }
+    },
+    "reference": {
+      "navLabel": "Fichiers et outils",
+      "title": "Fichiers et outils connexes",
+      "intro": "Utilisez la feuille vide pour votre lieu de travail. Utilisez la feuille exemple pour voir une rangée remplie. L'organigramme imprime qui contacter ; ce n'est pas un endroit pour les cotes.",
+      "blank": {
+        "title": "Carte de lieu de travail vide",
+        "body": "Tableur vide avec les huit colonnes. Remplissez-le sur un appareil personnel, jamais sur le nuage de l'employeur."
+      },
+      "example": {
+        "title": "Exemple Services aux étudiants",
+        "body": "Les rangées fictives du tableau ci-dessus, avec les mêmes en-têtes de colonnes que le fichier vide. Réécrivez chaque nom pour votre propre lieu de travail.",
+        "cta": "Télécharger l'exemple de carte (CSV)"
+      },
+      "orgChart": {
+        "title": "L'organigramme n'est pas cette carte",
+        "body": "L'organigramme imprime dirigeantes, dirigeants et délégués pour un tableau public. Les cotes de cartographie restent hors de ce liège. Servez-vous de l'organigramme pour les noms et les rôles ; gardez ce tableur sur un appareil personnel."
+      },
+      "membership": {
+        "title": "Quand un 5 devient un 2",
+        "body": "Suivez le guide pratique d'adhésion : carte, témoin, et suivi du délégué. Ne rangez pas les cartes signées dans le même fichier que les cotes."
       }
     },
     "privacy": {
@@ -5541,7 +5762,7 @@
     "items": {
       "workplace-mapping-guide": {
         "title": "Cartographie du lieu de travail et leaders organiques",
-        "body": "Recensez chaque collègue par service et quart, marquez les leaders organiques et cotez l'appui syndical de 1 à 5. Téléchargez un modèle de tableur et gardez-le sur un appareil personnel."
+        "body": "Recensez chaque collègue par service et quart, trouvez les leaders organiques et cotez l'appui de 1 à 5. Servez-vous de l'exemple de tableau mural, des conversations individuelles, et d'un tableur sur un appareil personnel."
       },
       "board-notice-layouts": {
         "title": "Avis pour tableau — logo et mises en page",

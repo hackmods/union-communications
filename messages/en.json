@@ -4750,7 +4750,7 @@
     "tipLabel": "Takeaway",
     "sensitive": {
       "title": "This is sensitive data",
-      "body": "Because mapping tracks member sentiment, <strong>this is sensitive data</strong>. Do not store this on employer networks. Download the template below and keep it securely on your personal device."
+      "body": "Because mapping tracks member sentiment, <strong>this is sensitive data</strong>. Do not store it on employer networks, and do not pin scored names on a public board. Download the template and keep the file on a personal device."
     },
     "downloadCta": "Download the Workplace Map Template (CSV)",
     "downloadHint": "Opens in Excel or another spreadsheet app on your own device.",
@@ -4758,12 +4758,53 @@
       "steward101": "Steward 101: Your Role and Rights",
       "membership": "Membership signup playbook",
       "boards": "Union Boards Guide",
-      "grievance": "The Steward's Guide to Grievances"
+      "grievance": "The Steward's Guide to Grievances",
+      "dfr": "Duty of Fair Representation",
+      "orgChart": "Org Chart"
+    },
+    "gate": {
+      "navLabel": "When and who",
+      "title": "When to map, and who holds the file",
+      "intro": "A map is for organizing density — a membership drive, a contract campaign, or a department that never hears from the union. It is not a substitute for one intake file.",
+      "items": {
+        "when": {
+          "label": "When to map",
+          "content": "Build it before you ask people to sign or vote. Skip a full map if you only need notes for one member; use Steward 101 instead."
+        },
+        "who": {
+          "label": "Who holds it",
+          "content": "Two or three trusted stewards keep the file. Not a group email, not a shared employer drive, and not the local's public cloud account."
+        },
+        "never": {
+          "label": "Where it never lives",
+          "content": "Never pin a scored map on a public union board, never store it on employer cloud, and never photograph the wall chart."
+        }
+      },
+      "warningTitle": "A score is not a hit list",
+      "warning": "Duty of Fair Representation still applies. A 4 gets the same representation as a 1. Mapping tells you where to spend organizing time. It does not decide who you represent."
     },
     "physical": {
       "navLabel": "Physical map",
       "title": "Step 1: The physical map",
       "intro": "Start by listing every worker in your unit. Group them by:",
+      "diagramLabel": "Sample wall chart grouping Student Services, the library, and the front desk across days, nights, and weekends",
+      "diagram": {
+        "days": {
+          "title": "Days",
+          "a": "Student Services",
+          "b": "Library"
+        },
+        "nights": {
+          "title": "Nights",
+          "a": "Student Services",
+          "b": "Front desk"
+        },
+        "weekends": {
+          "title": "Weekends",
+          "a": "Library",
+          "b": "Cafeteria"
+        }
+      },
       "items": {
         "department": "Department or unit",
         "shift": "Shift (days, nights, weekends)",
@@ -4776,6 +4817,15 @@
       "navLabel": "Organic leaders",
       "title": "Step 2: The social map and organic leaders",
       "intro": "Management has an official organizational chart. The union needs a social map. You are looking for <strong>organic leaders</strong>: the people others naturally turn to for advice, gossip, or help.",
+      "diagramLabel": "Social cluster around Priya, an organic leader, with a night-shift blind spot below",
+      "diagram": {
+        "leader": "Priya N.",
+        "alex": "Alex T.",
+        "sam": "Sam K.",
+        "casey": "Casey L.",
+        "jordan": "Jordan M.",
+        "blindSpot": "Nights — no steward yet"
+      },
       "items": {
         "policy": "If a new policy is announced, whose desk does everyone gather around to complain?",
         "gifts": "Who organizes the retirement gifts or birthday cards?",
@@ -4787,6 +4837,14 @@
       "navLabel": "1-to-5 scale",
       "title": "Step 3: The 1-to-5 assessment scale",
       "intro": "Once you have your map, honestly assess where every worker stands. Use this standard organizing scale:",
+      "diagramLabel": "Union support scale from 1 organizer through 5 unknown",
+      "diagram": {
+        "one": "Organizer",
+        "two": "Supporter",
+        "three": "Neutral",
+        "four": "Anti-union",
+        "five": "Unknown"
+      },
       "items": {
         "one": {
           "label": "1: The organizer.",
@@ -4808,6 +4866,169 @@
           "label": "5: Unknown.",
           "content": "You do not know where they stand. Your immediate goal is a 1-on-1 conversation to turn this 5 into a 1, 2, 3, or 4."
         }
+      },
+      "spendTitle": "Where to spend time",
+      "spend": "Spend organizing time on 3s and on 5s you have not met. Recruit 1s and 2s who are already organic leaders. Do not argue with 4s."
+    },
+    "conversations": {
+      "navLabel": "1-on-1s",
+      "title": "1-on-1 conversations",
+      "intro": "A 5 stays a 5 until someone talks with them. Keep the conversation short, listen first, and update the map the same day.",
+      "items": {
+        "listen": {
+          "label": "Listen",
+          "content": "Ask what is going on in their area. Do not pitch the union before you have heard the issue they already care about."
+        },
+        "connect": {
+          "label": "Connect",
+          "content": "Name that issue, then how the union already acts on it — a clause, a grievance, or a meeting they can join."
+        },
+        "ask": {
+          "label": "Ask",
+          "content": "If they are ready, ask them to join or to bring one coworker to the next conversation. One ask, then stop."
+        },
+        "log": {
+          "label": "Log it",
+          "content": "Update the score the same day. A 5 you talked to is no longer a 5."
+        }
+      },
+      "tip": "Take a 1 or a 2 with you when you talk to a 3. Organic leaders open doors that a steward badge does not."
+    },
+    "worked": {
+      "navLabel": "Worked example",
+      "title": "Worked example: Student Services days",
+      "intro": "Fictional Student Services day shift. Names and scores are teaching only — not a real workplace.",
+      "phases": {
+        "list": {
+          "label": "Week 0, list everyone",
+          "content": "Write every name on days and nights. You already know the day-shift cluster; nights are still blank."
+        },
+        "leader": {
+          "label": "Find the organic leader",
+          "content": "Coworkers gather at Priya's desk after policy emails. Mark her as an organic leader and a 2."
+        },
+        "ones": {
+          "label": "Run the 1-on-1s",
+          "content": "Listen to Sam about dues. Ask Alex, who has never been asked. Do not debate Riley in the lunchroom."
+        },
+        "nights": {
+          "label": "Name the blind spot",
+          "content": "Nights still have no assigned steward. Quinn is the night-shift organic leader; Morgan is still a 5."
+        }
+      },
+      "table": {
+        "caption": "Teaching example — fictional names, not a real workplace. Download the same rows as a spreadsheet in the files section.",
+        "headers": {
+          "name": "Name",
+          "shift": "Shift",
+          "leader": "Organic leader?",
+          "score": "Score",
+          "notes": "Notes"
+        },
+        "rows": {
+          "priya": {
+            "name": "Priya N.",
+            "shift": "Days",
+            "leader": "Y",
+            "score": "2",
+            "notes": "Coworkers gather at her desk after policy emails"
+          },
+          "jordan": {
+            "name": "Jordan M.",
+            "shift": "Days",
+            "leader": "N",
+            "score": "1",
+            "notes": "Volunteers and brings Priya's cluster"
+          },
+          "sam": {
+            "name": "Sam K.",
+            "shift": "Days",
+            "leader": "N",
+            "score": "3",
+            "notes": "Unsure about dues; listen first"
+          },
+          "casey": {
+            "name": "Casey L.",
+            "shift": "Days",
+            "leader": "N",
+            "score": "3",
+            "notes": "New hire; asked Priya how to do the job"
+          },
+          "riley": {
+            "name": "Riley P.",
+            "shift": "Days",
+            "leader": "N",
+            "score": "4",
+            "notes": "Defends management; do not debate"
+          },
+          "alex": {
+            "name": "Alex T.",
+            "shift": "Days",
+            "leader": "N",
+            "score": "5",
+            "notes": "No 1-on-1 yet"
+          },
+          "morgan": {
+            "name": "Morgan D.",
+            "shift": "Nights",
+            "leader": "N",
+            "score": "5",
+            "notes": "Blind spot — no steward on nights"
+          },
+          "quinn": {
+            "name": "Quinn H.",
+            "shift": "Nights",
+            "leader": "Y",
+            "score": "2",
+            "notes": "Night-shift cards and gifts"
+          }
+        }
+      },
+      "tip": "Jordan (a 1) should take the next 1-on-1 with Sam. Priya (a 2) is the person Casey already trusts."
+    },
+    "keep": {
+      "navLabel": "Keep the map",
+      "title": "Keep the map alive — and private",
+      "intro": "A map that is six months old is a rumour. Update it after 1-on-1s, and keep paper and files where members and managers cannot browse them.",
+      "items": {
+        "update": {
+          "label": "Update the same day",
+          "content": "After every 1-on-1, change the score that day. Stale maps lie."
+        },
+        "paper": {
+          "label": "Paper stays locked",
+          "content": "A paper wall chart belongs in a locked private room, not on the cork members walk past."
+        },
+        "photo": {
+          "label": "Never photograph it",
+          "content": "A phone photo is a leak waiting to be forwarded. Copy names by hand if you must move the chart."
+        },
+        "review": {
+          "label": "Revisit before a drive",
+          "content": "Look again before a membership drive or a vote. Blind spots — nights, weekends, satellite sites — are the next organizing work."
+        }
+      }
+    },
+    "reference": {
+      "navLabel": "Files and tools",
+      "title": "Files and related tools",
+      "intro": "Use the blank sheet for your workplace. Use the sample sheet to see a filled row. Org Chart prints who to contact; it is not a place for scores.",
+      "blank": {
+        "title": "Blank workplace map",
+        "body": "Empty spreadsheet with the eight columns. Fill it on a personal device, never on employer cloud."
+      },
+      "example": {
+        "title": "Sample Student Services chart",
+        "body": "The fictional rows from the table above, with the same column headers as the blank file. Rewrite every name for your own workplace.",
+        "cta": "Download the sample chart (CSV)"
+      },
+      "orgChart": {
+        "title": "Org Chart is not this map",
+        "body": "Org Chart prints officers and stewards for a public board. Mapping scores stay off that cork. Use Org Chart for names and roles; keep this spreadsheet on a personal device."
+      },
+      "membership": {
+        "title": "When a 5 becomes a 2",
+        "body": "Walk the membership signup playbook — card, witness, and steward follow-up. Do not store signed cards in the same file as scores."
       }
     },
     "privacy": {
@@ -5592,7 +5813,7 @@
     "items": {
       "workplace-mapping-guide": {
         "title": "Workplace mapping and organic leaders",
-        "body": "Chart every coworker by department and shift, mark organic leaders, and score union support from 1 to 5. Download a spreadsheet template and keep it on a personal device."
+        "body": "Chart every coworker by department and shift, find organic leaders, and score support from 1 to 5. Use the sample wall chart, 1-on-1s, and a spreadsheet on a personal device."
       },
       "board-notice-layouts": {
         "title": "Board Notice Maker — logo and layouts",

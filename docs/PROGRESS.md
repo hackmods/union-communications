@@ -12,9 +12,10 @@
 ## Workplace mapping guide (2026-08-26)
 
 - [x] Public `/guide/workplace-mapping` — physical map, organic leaders, 1-to-5 support scale, privacy callouts, downloadable CSV template
+- [x] Definitive-guide QOL: when/who gate, DFR not-a-hit-list warning, shift / social / scale diagrams, 1-on-1s, fictional Student Services table + example CSV, keep-the-map, Org Chart vs scores
 - [x] Linked from The Blueprint labour strip + related paths, Comms Resources labour playbooks, Steward 101 and membership signup related links
-- [x] Sitemap, EN/FR SEO, federation sources, What's new `workplace-mapping-guide`
-- Verify: `npm run test:unit -- src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/app/sitemap.test.ts src/lib/templates/workplace-map-template.test.ts`
+- [x] Sitemap, EN/FR SEO, federation sources, What's new `workplace-mapping-guide` (same-day body update)
+- Verify: `npm run lint`; `npm run test:unit -- src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/templates/workplace-map-template.test.ts`
 
 ## Steward's Guide to Grievances (2026-08-26)
 
