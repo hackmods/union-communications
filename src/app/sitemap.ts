@@ -38,6 +38,7 @@ export const PUBLIC_PATHS = [
   "/guide/crisis",
   "/guide/membership-signup",
   "/guide/dfr",
+  "/guide/grievance-process",
   "/guide/seniority-bumping",
   "/guide/right-to-refuse",
   "/guide/joint-committee",

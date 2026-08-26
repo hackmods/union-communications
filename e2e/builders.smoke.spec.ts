@@ -181,6 +181,10 @@ test.describe("Public secondary pages smoke @smoke", () => {
       path: "/en/guide/joint-committee/",
       heading: "Joint committee playbook",
     },
+    {
+      path: "/en/guide/grievance-process/",
+      heading: "The Steward's Guide to Grievances",
+    },
     { path: "/en/tools/", heading: "Tools" },
     { path: "/en/examples/", heading: "Social Examples" },
     { path: "/en/captions/", heading: "Caption & Hashtag Library" },

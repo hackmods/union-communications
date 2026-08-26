@@ -2,6 +2,8 @@
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
 
+**Grievance process guide (2026-08-26):** Public `/guide/grievance-process` — steward 6 W's + usual steps. Not legal advice. Officer Hub `/app/grievances` is the tracker (there is no separate “Case Tracker” product). Discoverability is Blueprint labour strip + Resources labour playbooks, not the main Guides menu.
+
 **Joint committees / EERC fit-gap (2026-08-23):** [`session-knowledge-2026-08-23-eerc-committees.md`](session-knowledge-2026-08-23-eerc-committees.md) — PT/FT EERC is a provincial joint union–employer body. Hub `/app/committees` is a local internal roster. Do not add an OPSEU-named module or host official joint minutes. Public guide: `/guide/joint-committee`. Portal invited Circles may omit `localId` (`scope: "union"`). Public Comms (letterhead, flyers, email-broadcast) and local UCC remain the other usable pieces.
 
 **Org Chart (2026-08-20):** [`session-knowledge-2026-08-20-org-chart.md`](session-knowledge-2026-08-20-org-chart.md) — `/tools/org-chart` is a public on-device officers/stewards poster + JSON/CSV. It hydrates Website Template. Do not pull Hub `/app/officers` or call it a member list. Lives under Union boards, not a fifth Tools column.

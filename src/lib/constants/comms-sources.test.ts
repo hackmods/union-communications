@@ -178,6 +178,14 @@ describe("comms-sources", () => {
     ]);
   });
 
+  it("maps grievance process guide to CA finder and labour statutes", () => {
+    expect(getSourcesForPage("grievanceProcess").map((s) => s.id)).toEqual([
+      "opseu-collective-agreements",
+      "ontario-ccba",
+      "ontario-lra-s74",
+    ]);
+  });
+
   it("maps photo consent guide to privacy sources, not WCAG", () => {
     expect(getSourcesForPage("photoConsent").map((s) => s.id)).toEqual([
       "ipc-video-surveillance",

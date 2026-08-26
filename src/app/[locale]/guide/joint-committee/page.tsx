@@ -64,6 +64,7 @@ export default async function JointCommitteeGuidePage({
       intro={t("intro")}
       relatedLinks={[
         { href: "/guide", label: t("backToGuide") },
+        { href: "/guide/grievance-process", label: t("related.grievance") },
         { href: "/guide/dfr", label: guide("labourGuides.dfr") },
         { href: "/guide/email-broadcast", label: t("related.email") },
       ]}

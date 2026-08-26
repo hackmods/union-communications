@@ -57,6 +57,7 @@ export const PUBLIC_NS = [
   "crisisGuide",
   "membershipSignupGuide",
   "dfrGuide",
+  "grievanceGuide",
   "seniorityGuide",
   "jointCommitteeGuide",
   "rightToRefuseGuide",

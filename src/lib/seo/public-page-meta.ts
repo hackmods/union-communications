@@ -132,6 +132,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "What the duty of fair representation asks of stewards and local officers in practice, where complaints usually start, and how to keep a clean record.",
     },
+    "/guide/grievance-process": {
+      title: "The Steward's Guide to Grievances",
+      description:
+        "How to log the 6 W's and walk a grievance from informal talk to written filing and arbitration. Confirm CA clocks. Not legal advice.",
+    },
     "/guide/seniority-bumping": {
       title: "Seniority & bumping playbook",
       description:
@@ -268,6 +273,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Devoir de représentation équitable",
       description:
         "Ce que le devoir de représentation équitable exige en pratique des délégués et dirigeants locaux, d'où viennent les plaintes et comment garder un dossier propre.",
+    },
+    "/guide/grievance-process": {
+      title: "Le guide du délégué sur les griefs",
+      description:
+        "Comment consigner les 6 W et mener un grief de la discussion informelle au dépôt écrit et à l'arbitrage. Vérifiez les délais. Pas un avis juridique.",
     },
     "/guide/seniority-bumping": {
       title: "Guide d'ancienneté et de bumping",

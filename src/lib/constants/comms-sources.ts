@@ -355,6 +355,11 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "olrb-dfr-applications",
     "clc-s37",
   ],
+  grievanceProcess: [
+    "opseu-collective-agreements",
+    "ontario-ccba",
+    "ontario-lra-s74",
+  ],
   seniority: ["opseu-collective-agreements", "ontario-ccba"],
   jointCommittee: [
     "opseu-collective-agreements",

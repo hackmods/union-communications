@@ -62,6 +62,7 @@ export default async function SeniorityBumpingGuidePage({
       intro={t("intro")}
       relatedLinks={[
         { href: "/guide", label: t("backToGuide") },
+        { href: "/guide/grievance-process", label: t("related.grievance") },
         { href: "/guide/dfr", label: t("related.dfr") },
         { href: "/guide/right-to-refuse", label: t("related.rightToRefuse") },
       ]}

@@ -30,6 +30,7 @@ const commsPathLinks = [
 ];
 
 const labourPathLinks = [
+  { href: "/guide/grievance-process", key: "grievance" as const },
   { href: "/guide/dfr", key: "dfr" as const },
   { href: "/guide/seniority-bumping", key: "seniority" as const },
   { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },

@@ -415,6 +415,7 @@
       "plan": "Get started — Brand Kit first, then the First week roadmap",
       "resources": "Comms Resources — orientation, practice, sources",
       "crisis": "Strike Guide — high-stakes bargaining and strike communications",
+      "grievance": "The Steward's Guide to Grievances",
       "dfr": "Duty of Fair Representation playbook",
       "seniority": "Seniority & bumping playbook",
       "rightToRefuse": "Right to refuse unsafe work — Ontario OHSA s.43",
@@ -623,6 +624,7 @@
     },
     "labourGuides": {
       "title": "Labour rights guides",
+      "grievance": "Grievance process",
       "dfr": "Duty of Fair Representation",
       "seniority": "Seniority & bumping",
       "rightToRefuse": "Right to refuse (Ontario)",
@@ -2577,12 +2579,14 @@
       "title": "Labour rights playbooks",
       "intro": "Steward-facing Ontario playbooks — not legal advice. Same depth as a training handout: gate, steps, worked example, and sources. Not in the main Guides menu yet; bookmark this section or find them on The Blueprint.",
       "links": {
+        "grievance": "The Steward's Guide to Grievances",
         "dfr": "Duty of Fair Representation",
         "seniority": "Seniority & bumping",
         "rightToRefuse": "Right to refuse (Ontario)",
         "jointCommittee": "Joint committee playbook"
       },
       "blurb": {
+        "grievance": "The 6 W's, informal discussion, written filing, and arbitration — clocks from your CA.",
         "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
         "seniority": "Two cascade examples and a printable seniority worksheet.",
         "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
@@ -3762,6 +3766,7 @@
       "body": "This page helps stewards run a fair process. It does not coach members to file against the union. Confirm procedure with your local officers and counsel."
     },
     "related": {
+      "grievance": "The Steward's Guide to Grievances",
       "seniority": "Seniority & bumping playbook",
       "rightToRefuse": "Right to refuse unsafe work",
       "jointCommittee": "Joint committee playbook"
@@ -4009,6 +4014,85 @@
       "cta": "Open grievances in Officer Hub"
     }
   },
+  "grievanceGuide": {
+    "title": "The Steward's Guide to Grievances",
+    "subtitle": "Investigate, document, and enforce the contract — from the 6 W's to arbitration",
+    "backToGuide": "Back to The Blueprint",
+    "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
+    "intro": "A grievance is a formal complaint that the employer has violated the Collective Agreement (CA), past practice, or labour law. As a steward, your job is to investigate, document, and enforce the contract.",
+    "disclaimer": {
+      "title": "Not legal advice",
+      "body": "This page helps stewards run a fair process. It does not replace your Collective Agreement or your servicing representative."
+    },
+    "related": {
+      "dfr": "Duty of Fair Representation",
+      "seniority": "Seniority & bumping playbook",
+      "rightToRefuse": "Right to refuse unsafe work"
+    },
+    "investigation": {
+      "navLabel": "The 6 W's",
+      "title": "Phase 1: The Investigation (The 6 W's)",
+      "intro": "Before filing anything, you must document the facts. Use Officer Hub grievance tracking to log the file so coverage stewards can pick it up.",
+      "tip": "Write facts, not conclusions. Name the article, the date, and the remedy before you draft the form.",
+      "items": {
+        "who": {
+          "label": "Who",
+          "content": "Who is involved? The grievor, witnesses, and management."
+        },
+        "what": {
+          "label": "What",
+          "content": "What exactly happened? Stick to observable facts, not what you think it means."
+        },
+        "where": {
+          "label": "Where",
+          "content": "Where did the incident take place?"
+        },
+        "when": {
+          "label": "When",
+          "content": "Date and time of the incident. Your timeline to file starts here."
+        },
+        "why": {
+          "label": "Why",
+          "content": "Why is this a violation? Cite the specific article in your Collective Agreement."
+        },
+        "want": {
+          "label": "Want",
+          "content": "What is the specific remedy to fix the issue? Examples: full back pay, or removal of discipline from the file."
+        }
+      }
+    },
+    "steps": {
+      "navLabel": "Grievance steps",
+      "title": "Phase 2: The Grievance Steps",
+      "intro": "Most agreements move from an informal discussion, to a signed written grievance, to mediation or arbitration if the employer denies the file. Names and step counts differ — read yours.",
+      "warningTitle": "Missing a deadline can void the file",
+      "warning": "Always check your Collective Agreement for exact timelines. Missing a deadline can automatically void a grievance.",
+      "informal": {
+        "title": "Step 1: The Informal Discussion",
+        "body": "Most contracts require you and the member to discuss the issue <strong>informally</strong> with the <strong>direct supervisor</strong> first. If the supervisor denies the request or fails to respond within the timeframe, proceed to <strong>Step 2</strong>."
+      },
+      "written": {
+        "title": "Step 2: Formal Written Grievance",
+        "body": "You will file a <strong>signed, written grievance</strong> outlining the violation and the remedy sought. A formal meeting is held with HR or management.",
+        "warningTitle": "You are on equal footing",
+        "warning": "Do not let management intimidate the member during this meeting. You are on equal footing with management when acting as a steward."
+      },
+      "arbitration": {
+        "title": "Step 3: Arbitration",
+        "body": "If HR denies the grievance, your <strong>Local Executive</strong> and <strong>National Staff Representative</strong> will decide whether to refer the case to <strong>mediation</strong> or <strong>binding arbitration</strong>."
+      }
+    },
+    "hub": {
+      "title": "Track the file in Officer Hub",
+      "body": "Officer Hub grievance tools log the 6 W's, steps, and due dates so coverage stewards see the same clocks you do. They support the file — they do not replace your Collective Agreement or your servicing rep.",
+      "cta": "Open grievances in Officer Hub"
+    },
+    "legal": {
+      "title": "Legal disclaimer",
+      "body": "UnionOps is a tool, not legal counsel. This guide is for educational purposes. Always refer to your specific Collective Agreement for exact timelines, and consult your Local President, Chief Steward, or National Staff Representative for official grievance handling."
+    }
+  },
   "seniorityGuide": {
     "title": "Seniority & bumping playbook",
     "subtitle": "Seniority worksheets for bumping files. Aid only.",
@@ -4021,6 +4105,7 @@
       "body": "Not a calculator and not legal advice. Confirm dates and rights against the CA and local practice."
     },
     "related": {
+      "grievance": "The Steward's Guide to Grievances",
       "dfr": "Duty of Fair Representation",
       "rightToRefuse": "Right to refuse unsafe work"
     },
@@ -4225,6 +4310,7 @@
       "body": "Management usually records joint minutes. Both parties post the signed copy. UnionOps helps with union caucus prep and member explainers — not minute-taking, not employer login, and not a substitute for your servicing rep."
     },
     "related": {
+      "grievance": "The Steward's Guide to Grievances",
       "email": "Email & outreach",
       "letterhead": "Document & Slide Generator",
       "flyer": "Flyer Maker"
@@ -4492,6 +4578,7 @@
       "body": "Procedure overview only. Confirm with JHSC practice, local officers, and current OHSA text."
     },
     "related": {
+      "grievance": "The Steward's Guide to Grievances",
       "dfr": "Duty of Fair Representation",
       "seniority": "Seniority & bumping playbook",
       "jointCommittee": "Joint committee playbook"
@@ -4781,6 +4868,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "grievance-process-guide": {
+        "title": "The Steward's Guide to Grievances",
+        "body": "A floor playbook for logging the 6 W's and walking a grievance from informal discussion to written filing and arbitration. Confirm clocks in your Collective Agreement."
+      },
       "assets-pwa-download": {
         "title": "Brand Assets stay in the installed app",
         "body": "Downloading a logo from Brand Assets no longer opens a new tab that kicks you out of the home-screen shortcut. On the phone you get the share sheet; on desktop the file still saves as before."

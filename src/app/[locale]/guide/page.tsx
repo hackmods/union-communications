@@ -39,6 +39,7 @@ const pathLinks = [
   { href: "/guide/social-media-plan", key: "plan" as const },
   { href: "/guide/resources", key: "resources" as const },
   { href: "/guide/crisis", key: "crisis" as const },
+  { href: "/guide/grievance-process", key: "grievance" as const },
   { href: "/guide/dfr", key: "dfr" as const },
   { href: "/guide/seniority-bumping", key: "seniority" as const },
   { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },
@@ -241,6 +242,10 @@ export default async function GuidePage({
           >
             {(
               [
+                {
+                  href: "/guide/grievance-process",
+                  key: "grievance" as const,
+                },
                 { href: "/guide/dfr", key: "dfr" as const },
                 { href: "/guide/seniority-bumping", key: "seniority" as const },
                 {

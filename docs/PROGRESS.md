@@ -1,5 +1,12 @@
 # Progress Log
 
+## Steward's Guide to Grievances (2026-08-26)
+
+- [x] Public `/guide/grievance-process` — 6 W's intake, informal / written / arbitration steps, deadline and equal-footing callouts, Officer Hub CTA
+- [x] Linked from The Blueprint labour strip + related paths, Comms Resources labour playbooks, DFR / seniority / right-to-refuse / joint-committee related links
+- [x] Sitemap, EN/FR SEO, sources (CA finder + CCBA + LRA), What's new `grievance-process-guide`
+- Verify: `npm run test:unit -- src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/app/sitemap.test.ts src/lib/constants/comms-sources.test.ts`
+
 ## CapRover BuildKit / slim db-migrate (2026-08-25)
 
 - [x] Root cause: CapRover `unknown parent image ID` on `COPY --from=migrate … node_modules` (large cross-stage export on small hosts)

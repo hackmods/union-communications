@@ -415,6 +415,7 @@
       "plan": "Commencer — Trousse de marque d'abord, puis la feuille de route Première semaine",
       "resources": "Ressources de communication — orientation, pratique, sources",
       "crisis": "Guide de grève — communications de négociation et de grève à enjeux élevés",
+      "grievance": "Le guide du délégué sur les griefs",
       "dfr": "Devoir de représentation équitable — guide pratique",
       "seniority": "Guide d'ancienneté et de bumping",
       "rightToRefuse": "Droit de refuser un travail dangereux — LSST Ont. art. 43",
@@ -623,6 +624,7 @@
     },
     "labourGuides": {
       "title": "Guides de droits au travail",
+      "grievance": "Processus de grief",
       "dfr": "Devoir de représentation équitable",
       "seniority": "Ancienneté et bumping",
       "rightToRefuse": "Droit de refuser (Ontario)",
@@ -2577,12 +2579,14 @@
       "title": "Guides des droits du travail",
       "intro": "Guides pratiques pour délégués en Ontario — pas un avis juridique. Même profondeur qu'une fiche de formation : seuil, étapes, exemple commenté et sources. Pas encore dans le menu Guides principal ; mettez cette section en favori ou retrouvez-les dans le Plan directeur.",
       "links": {
+        "grievance": "Le guide du délégué sur les griefs",
         "dfr": "Devoir de représentation équitable",
         "seniority": "Ancienneté et bumping",
         "rightToRefuse": "Droit de refuser (Ontario)",
         "jointCommittee": "Guide des comités conjoints"
       },
       "blurb": {
+        "grievance": "Les 6 W, discussion informelle, dépôt écrit et arbitrage — délais selon votre convention.",
         "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
         "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
@@ -3712,6 +3716,7 @@
       "body": "Cette page aide les délégués à mener un processus équitable. Elle n’incite pas les membres à déposer une plainte contre le syndicat. Confirmez la procédure avec vos dirigeants locaux et vos conseillers."
     },
     "related": {
+      "grievance": "Le guide du délégué sur les griefs",
       "seniority": "Guide d’ancienneté et de bumping",
       "rightToRefuse": "Droit de refuser un travail dangereux",
       "jointCommittee": "Guide des comités conjoints"
@@ -3959,6 +3964,85 @@
       "cta": "Ouvrir les griefs dans le Hub des dirigeants"
     }
   },
+  "grievanceGuide": {
+    "title": "Le guide du délégué sur les griefs",
+    "subtitle": "Enquêter, documenter et faire respecter la convention — des 6 W jusqu'à l'arbitrage",
+    "backToGuide": "Retour au Plan directeur",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "intro": "Un grief est une plainte officielle selon laquelle l'employeur a violé la convention collective, une pratique établie ou le droit du travail. Comme délégué, votre travail est d'enquêter, de documenter et de faire respecter la convention.",
+    "disclaimer": {
+      "title": "Pas un avis juridique",
+      "body": "Cette page aide les délégués à mener un processus équitable. Elle ne remplace pas votre convention collective ni votre représentant de service."
+    },
+    "related": {
+      "dfr": "Devoir de représentation équitable",
+      "seniority": "Guide d'ancienneté et de bumping",
+      "rightToRefuse": "Droit de refuser un travail dangereux"
+    },
+    "investigation": {
+      "navLabel": "Les 6 W",
+      "title": "Phase 1 : L'enquête (les 6 W)",
+      "intro": "Avant de déposer quoi que ce soit, vous devez consigner les faits. Utilisez le suivi des griefs du Hub des dirigeants pour consigner le dossier, afin qu'un délégué de relève puisse le reprendre.",
+      "tip": "Écrivez des faits, pas des conclusions. Nommez l'article, la date et le remède avant de rédiger le formulaire.",
+      "items": {
+        "who": {
+          "label": "Qui",
+          "content": "Qui est en cause? Le plaignant, les témoins et la direction."
+        },
+        "what": {
+          "label": "Quoi",
+          "content": "Que s'est-il passé exactement? Tenez-vous aux faits observables, pas à ce que vous croyez que cela signifie."
+        },
+        "where": {
+          "label": "Où",
+          "content": "Où l'incident a-t-il eu lieu?"
+        },
+        "when": {
+          "label": "Quand",
+          "content": "Date et heure de l'incident. Votre délai pour déposer commence ici."
+        },
+        "why": {
+          "label": "Pourquoi",
+          "content": "Pourquoi est-ce une violation? Citez l'article précis de votre convention collective."
+        },
+        "want": {
+          "label": "Remède",
+          "content": "Quel remède précis corrige le problème? P. ex. le plein salaire rétroactif, ou le retrait de la mesure disciplinaire du dossier."
+        }
+      }
+    },
+    "steps": {
+      "navLabel": "Étapes du grief",
+      "title": "Phase 2 : Les étapes du grief",
+      "intro": "La plupart des conventions passent d'une discussion informelle à un grief écrit signé, puis à la médiation ou à l'arbitrage si l'employeur rejette le dossier. Les noms et le nombre d'étapes varient — lisez la vôtre.",
+      "warningTitle": "Manquer un délai peut annuler le dossier",
+      "warning": "Vérifiez toujours les délais exacts dans votre convention collective. Manquer une échéance peut annuler automatiquement un grief.",
+      "informal": {
+        "title": "Étape 1 : La discussion informelle",
+        "body": "La plupart des conventions exigent que vous et le membre discutiez d'abord de la question de façon <strong>informelle</strong> avec le <strong>superviseur immédiat</strong>. Si le superviseur refuse la demande ou ne répond pas dans le délai, passez à l'<strong>étape 2</strong>."
+      },
+      "written": {
+        "title": "Étape 2 : Grief écrit officiel",
+        "body": "Vous déposerez un <strong>grief écrit et signé</strong> qui décrit la violation et le remède demandé. Une rencontre officielle a lieu avec les RH ou la direction.",
+        "warningTitle": "Vous êtes sur un pied d'égalité",
+        "warning": "Ne laissez pas la direction intimider le membre pendant cette rencontre. Vous êtes sur un pied d'égalité avec la direction lorsque vous agissez comme délégué."
+      },
+      "arbitration": {
+        "title": "Étape 3 : Arbitrage",
+        "body": "Si les RH rejettent le grief, votre <strong>exécutif local</strong> et le <strong>représentant de service national</strong> décideront s'il faut renvoyer le dossier en <strong>médiation</strong> ou en <strong>arbitrage exécutoire</strong>."
+      }
+    },
+    "hub": {
+      "title": "Suivre le dossier dans le Hub des dirigeants",
+      "body": "Les outils de griefs du Hub des dirigeants consignent les 6 W, les étapes et les échéances pour que les délégués de relève voient les mêmes horloges que vous. Ils soutiennent le dossier — ils ne remplacent pas votre convention collective ni votre représentant de service.",
+      "cta": "Ouvrir les griefs dans le Hub des dirigeants"
+    },
+    "legal": {
+      "title": "Avis juridique",
+      "body": "UnionOps est un outil, pas un conseiller juridique. Ce guide sert à l'éducation. Reportez-vous toujours à votre convention collective pour les délais exacts, et consultez votre président de section, délégué en chef ou représentant de service national pour le traitement officiel des griefs."
+    }
+  },
   "seniorityGuide": {
     "title": "Guide d'ancienneté et de bumping",
     "subtitle": "Feuilles d'ancienneté pour les dossiers de déplacement. Aide seulement.",
@@ -3971,6 +4055,7 @@
       "body": "Pas une calculatrice et pas un avis juridique. Confirmez dates et droits contre la convention et la pratique locale."
     },
     "related": {
+      "grievance": "Le guide du délégué sur les griefs",
       "dfr": "Devoir de représentation équitable",
       "rightToRefuse": "Droit de refuser un travail dangereux"
     },
@@ -4175,6 +4260,7 @@
       "body": "La direction consigne d'habitude les procès-verbaux conjoints. Les deux parties affichent la copie signée. UnionOps aide la préparation du caucus syndical et les notes explicatives aux membres — pas la rédaction des procès-verbaux, pas la connexion employeur, et pas un substitut à votre représentant de service."
     },
     "related": {
+      "grievance": "Le guide du délégué sur les griefs",
       "email": "Courriel et rayonnement",
       "letterhead": "Générateur de documents et de diapositives",
       "flyer": "Créateur de tracts"
@@ -4442,6 +4528,7 @@
       "body": "Aperçu de procédure seulement. Confirmez avec la pratique CSS, les dirigeants locaux et le texte actuel de la LSST."
     },
     "related": {
+      "grievance": "Le guide du délégué sur les griefs",
       "dfr": "Devoir de représentation équitable",
       "seniority": "Guide d'ancienneté et de bumping",
       "jointCommittee": "Guide des comités conjoints"
@@ -4731,6 +4818,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "grievance-process-guide": {
+        "title": "Le guide du délégué sur les griefs",
+        "body": "Un guide de terrain pour consigner les 6 W et mener un grief de la discussion informelle au dépôt écrit et à l'arbitrage. Vérifiez les délais dans votre convention collective."
+      },
       "assets-pwa-download": {
         "title": "Actifs de marque restent dans l’appli installée",
         "body": "Télécharger un logo depuis Actifs de marque n’ouvre plus un nouvel onglet qui vous sort du raccourci d’écran d’accueil. Sur le téléphone, vous obtenez la feuille de partage ; sur ordinateur, le fichier s’enregistre comme avant."

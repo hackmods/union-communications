@@ -72,6 +72,7 @@ export default async function DfrGuidePage({
       intro={t("intro")}
       relatedLinks={[
         { href: "/guide", label: t("backToGuide") },
+        { href: "/guide/grievance-process", label: t("related.grievance") },
         { href: "/guide/seniority-bumping", label: t("related.seniority") },
         { href: "/guide/right-to-refuse", label: t("related.rightToRefuse") },
         { href: "/guide/joint-committee", label: t("related.jointCommittee") },
