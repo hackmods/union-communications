@@ -119,8 +119,13 @@
     "loading": "Loading…",
     "close": "Close",
     "sectionOptions": "Options",
+    "sectionLayout": "Layout and size",
     "sectionColours": "Colours",
     "sectionAdvanced": "Advanced",
+    "logoMode": "Logo",
+    "logoNone": "None",
+    "logoLockup": "Lockup",
+    "logoMark": "Mark",
     "downloadSuccess": "Downloaded!",
     "downloadSuccessDetail": "Your file is ready. Check your downloads folder.",
     "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
@@ -4321,12 +4326,41 @@
           "label": "Joint table",
           "content": "A campus-wide practice that belongs at a union-management committee, not a single-member grievance. Use the joint-committee playbook."
         }
+      },
+      "flowTitle": "Forum picker (quick reference)",
+      "flowCaption": "Walk these questions in order before you start a clock.",
+      "flowItems": {
+        "start": {
+          "label": "Member brings a problem",
+          "content": "Listen first. Do not promise an outcome."
+        },
+        "safety": {
+          "label": "Imminent danger or OHSA refusal?",
+          "content": "Stop. Use the right-to-refuse playbook. File a grievance only if the CA or the refusal outcome requires it."
+        },
+        "bump": {
+          "label": "Displacement, recall, or bumping?",
+          "content": "Use the seniority playbook and worksheet. A grievance may follow if the employer skipped the CA process."
+        },
+        "system": {
+          "label": "Campus-wide practice, not one member?",
+          "content": "Use the joint-committee playbook. Do not bury a system issue in a single-member file."
+        },
+        "informal": {
+          "label": "Can the supervisor fix it today?",
+          "content": "Log the conversation. Stay informal. Do not file to vent."
+        },
+        "file": {
+          "label": "CA article broken, harm, and a named remedy?",
+          "content": "Open a file. Print the 6 W's worksheet and count the clock."
+        }
       }
     },
     "investigation": {
       "navLabel": "6 W's",
       "title": "The 6 W's that teach",
       "intro": "Write facts another steward can pick up on Monday. Print the intake worksheet and keep it on your device — not on an employer computer.",
+      "worksheetJump": "Jump to the printable intake sheet",
       "worksheetCta": "Print the 6 W's intake sheet",
       "tip": "Facts first. Name the article, the date, and the remedy before you draft the form.",
       "leaveOutTitle": "What to leave out",
@@ -4389,6 +4423,31 @@
       "intro": "Informal discussion, a written grievance, and a referral to mediation or arbitration are jobs, not a universal three-step map. Read the article. Copy the names your CA uses onto the file.",
       "exampleTitle": "Example only — not your default",
       "example": "One Ontario college Support Staff agreement uses four named steps: Step 1, Step 2, Step 3, then Arbitration. Full-time response windows are often 5, 10, and 15 working days; part-time windows are often 7, 14, and 21. Your CA may use different names, different counts, and a different order.",
+      "exampleTable": {
+        "caption": "Example employer response windows only — Ontario college Support Staff pattern. Confirm every clock in your Collective Agreement.",
+        "headers": {
+          "step": "Named step",
+          "ft": "FT response (working days)",
+          "pt": "PT response (working days)"
+        },
+        "rows": {
+          "step1": {
+            "step": "Step 1",
+            "ft": "5",
+            "pt": "7"
+          },
+          "step2": {
+            "step": "Step 2",
+            "ft": "10",
+            "pt": "14"
+          },
+          "step3": {
+            "step": "Step 3",
+            "ft": "15",
+            "pt": "21"
+          }
+        }
+      },
       "jobs": {
         "informal": {
           "title": "Informal discussion",
@@ -4473,6 +4532,112 @@
         "emptyFile": {
           "label": "Empty file on vacation",
           "content": "You leave Friday with notes in your head. Coverage cannot find the clock. Fix: the worksheet and Officer Hub are the shared record."
+        }
+      }
+    },
+    "memberTalk": {
+      "navLabel": "Member talk",
+      "title": "What to tell the member",
+      "intro": "Good intake conversation prevents hallway promises and DFR complaints later. Plain language, realistic timelines, and a written next step.",
+      "items": {
+        "promise": {
+          "label": "Do not promise a win",
+          "content": "Say: “I will investigate, log the facts, and the executive decides whether to file.” Not: “This is a slam dunk” or “They always lose these.”"
+        },
+        "status": {
+          "label": "Name the next update",
+          "content": "If you promise news by Wednesday, send it — even if the answer is “still waiting on documents.” Silence reads as abandonment."
+        },
+        "meeting": {
+          "label": "Prep them for the meeting",
+          "content": "Explain who will be in the room, that you may caucus, and that they should not rush to sign employer notes. The goal is an accurate record."
+        },
+        "denial": {
+          "label": "If officers later decline to refer",
+          "content": "Point to the written explanation and the DFR playbook. Do not debate outcomes in a group chat. A hallway no is not a record."
+        }
+      }
+    },
+    "checklist": {
+      "navLabel": "Open-file checklist",
+      "title": "Before you file — quick checklist",
+      "intro": "Run this list on paper or in Officer Hub before the written step leaves your hands.",
+      "items": {
+        "forum": {
+          "label": "Right forum",
+          "content": "Not a refusal, bump, or joint-table issue dressed up as a grievance."
+        },
+        "trigger": {
+          "label": "Trigger date written",
+          "content": "Incident date and the date the member told you — same day you hear the story."
+        },
+        "article": {
+          "label": "CA article quoted",
+          "content": "Clause number or past-practice reference — not “unfair treatment.”"
+        },
+        "remedy": {
+          "label": "Remedy named",
+          "content": "Specific ask: back pay, warning removed, schedule restored."
+        },
+        "worksheet": {
+          "label": "6 W's complete",
+          "content": "Who, what, where, when, why, want — facts a coverage steward can read cold."
+        },
+        "calendar": {
+          "label": "Clock on a calendar",
+          "content": "Due date visible to coverage — not only in your head."
+        },
+        "coverage": {
+          "label": "Coverage knows",
+          "content": "Officer Hub or a shared folder: next step, due date, and your contact."
+        },
+        "memberUpdate": {
+          "label": "Member knows the plan",
+          "content": "They know the next meeting or update date and what you need from them."
+        }
+      }
+    },
+    "worksheet": {
+      "navLabel": "Worksheet",
+      "title": "6 W's intake sheet (print or export)",
+      "intro": "Use this on your own device during the first interview. Export a blank branded Excel sheet or fill fields in Document Generator before you print.",
+      "items": {
+        "columns": {
+          "label": "Fields",
+          "content": "Incident date · CA article · Who · What · Where · When · Why · Want · Witnesses · Clock notes"
+        },
+        "witness": {
+          "label": "Witnesses and documents",
+          "content": "List names and what they saw. Attach emails, warnings, or schedules the member can share — not employer systems you cannot access."
+        },
+        "footer": {
+          "label": "Footer",
+          "content": "Steward name, intake date, and Officer Hub case ID once the file is open."
+        }
+      },
+      "exportCta": "Open the intake worksheet",
+      "exportHint": "Opens Document Generator with a blank grievance intake grid ready to export on your device."
+    },
+    "tools": {
+      "navLabel": "Tools",
+      "title": "Printables and next guides",
+      "intro": "Keep reference material on your device. Confirm clocks in your Collective Agreement — the sources footer lists the finder.",
+      "items": {
+        "worksheet": {
+          "label": "6 W's intake sheet",
+          "content": "Blank Excel export for the first interview — same fields as this playbook."
+        },
+        "dfr": {
+          "label": "Duty of fair representation",
+          "content": "When officers decline to file or refer — written reasons, review paths, and member conversations."
+        },
+        "hub": {
+          "label": "Officer Hub grievances",
+          "content": "Shared clocks and steps once the local uses hosted Hub — not required for the worksheet."
+        },
+        "ca": {
+          "label": "Collective Agreement finder",
+          "content": "Named steps, response windows, and discipline language live in the agreement you actually work under."
         }
       }
     },
@@ -5338,7 +5503,7 @@
       },
       "board-notice-layouts": {
         "title": "Board Notice Maker — logo and layouts",
-        "body": "Pick stack, band, or split layouts and your local logo shows on every workplace notice export."
+        "body": "Pick stack, band, or split layouts, choose none/lockup/mark logo, and export workplace notices that match your Brand Kit."
       },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",
@@ -5346,7 +5511,7 @@
       },
       "grievance-process-guide": {
         "title": "The Steward's Guide to Grievances",
-        "body": "A floor playbook for choosing the right forum, logging the 6 W's, counting CA clocks, and printing an intake sheet. Confirm clocks in your Collective Agreement."
+        "body": "A floor playbook with a forum picker, 6 W's intake sheet, example step table, open-file checklist, and member-talk tips. Confirm clocks in your Collective Agreement."
       },
       "assets-pwa-download": {
         "title": "Brand Assets stay in the installed app",

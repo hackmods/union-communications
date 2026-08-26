@@ -45,6 +45,7 @@ import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
+import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
 import { SegControl } from "@/components/tools/SegControl";
 import { pickContrastingInk } from "@/lib/utils/ink";
@@ -64,6 +65,7 @@ interface QuoteState {
 }
 
 function QuoteCardPageContent() {
+  const tc = useTranslations("common");
   const tq = useTranslations("quoteCard");
   const td = useTranslations("workshopDemo");
   const te = useTranslations("examples");
@@ -235,6 +237,25 @@ function QuoteCardPageContent() {
       form={
         <Card density="compact" className="space-y-5">
           <section className="space-y-3">
+          <Textarea
+            label={tq("quote")}
+            value={state.quote}
+            onChange={(e) => setState({ ...state, quote: e.target.value })}
+            rows={4}
+          />
+          <Input
+            label={tq("author")}
+            value={state.author}
+            onChange={(e) => setState({ ...state, author: e.target.value })}
+          />
+          <Input
+            label={tq("role")}
+            value={state.role}
+            onChange={(e) => setState({ ...state, role: e.target.value })}
+          />
+          </section>
+
+          <ToolFormDetails title={tc("sectionLayout")}>
           <SegControl
             label={tq("layout")}
             value={state.layout}
@@ -253,23 +274,7 @@ function QuoteCardPageContent() {
             }))}
             onChange={(aspect) => setState({ ...state, aspect })}
           />
-          <Textarea
-            label={tq("quote")}
-            value={state.quote}
-            onChange={(e) => setState({ ...state, quote: e.target.value })}
-            rows={4}
-          />
-          <Input
-            label={tq("author")}
-            value={state.author}
-            onChange={(e) => setState({ ...state, author: e.target.value })}
-          />
-          <Input
-            label={tq("role")}
-            value={state.role}
-            onChange={(e) => setState({ ...state, role: e.target.value })}
-          />
-          </section>
+          </ToolFormDetails>
           <ToolColourSection
             primaryColor={state.primaryColor}
             secondaryColor={state.secondaryColor}

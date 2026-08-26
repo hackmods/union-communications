@@ -406,7 +406,9 @@ function ActionCardPageContent() {
             value={state.cta}
             onChange={(e) => setState({ ...state, cta: e.target.value })}
           />
+          </section>
 
+          <ToolFormDetails title={tc("sectionLayout")}>
           <SegControl
             label={t("bgMode")}
             value={state.bgMode}
@@ -429,7 +431,7 @@ function ActionCardPageContent() {
             />
             <p className="text-sm leading-snug text-gray-600">{t("sizeTip")}</p>
           </div>
-          </section>
+          </ToolFormDetails>
 
           <ToolFormDetails title={tc("sectionOptions")}>
             <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">

@@ -350,32 +350,6 @@ function GraphicMakerPageContent() {
         form={
           <Card density="compact" className="space-y-5">
             <section className="space-y-3">
-            <SegControl
-              label={tg("layout")}
-              value={state.layout}
-              options={GRAPHIC_LAYOUT_ORDER.map((id) => ({
-                value: id,
-                label: tg(`layouts.${id}`),
-              }))}
-              onChange={(id) =>
-                setState({
-                  ...state,
-                  layout: id,
-                  aspect: coerceAspectForGraphicLayout(id, state.aspect),
-                })
-              }
-            />
-
-            <SegControl
-              label={tg("aspect")}
-              value={state.aspect}
-              options={EXAMPLE_ASPECTS.map((aspect) => ({
-                value: aspect,
-                label: tg(`aspects.${aspect}`),
-              }))}
-              onChange={(aspect) => setState({ ...state, aspect })}
-            />
-
             <Input
               label={tg("headline")}
               value={state.headline}
@@ -440,6 +414,34 @@ function GraphicMakerPageContent() {
               </>
             ) : null}
             </section>
+
+            <ToolFormDetails title={t("sectionLayout")}>
+            <SegControl
+              label={tg("layout")}
+              value={state.layout}
+              options={GRAPHIC_LAYOUT_ORDER.map((id) => ({
+                value: id,
+                label: tg(`layouts.${id}`),
+              }))}
+              onChange={(id) =>
+                setState({
+                  ...state,
+                  layout: id,
+                  aspect: coerceAspectForGraphicLayout(id, state.aspect),
+                })
+              }
+            />
+
+            <SegControl
+              label={tg("aspect")}
+              value={state.aspect}
+              options={EXAMPLE_ASPECTS.map((aspect) => ({
+                value: aspect,
+                label: tg(`aspects.${aspect}`),
+              }))}
+              onChange={(aspect) => setState({ ...state, aspect })}
+            />
+            </ToolFormDetails>
 
             <ToolFormDetails title={t("sectionColours")}>
               <BrandSwatchPicker

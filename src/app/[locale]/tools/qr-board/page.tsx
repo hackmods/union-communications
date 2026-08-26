@@ -280,21 +280,6 @@ export default function QrBoardPage() {
                 setState({ ...state, posterSubtitle: e.target.value })
               }
             />
-
-            <div className="space-y-2">
-              <SegControl
-                label={t("format")}
-                value={state.formatId}
-                options={QR_BOARD_FORMAT_ORDER.map((id) => ({
-                  value: id,
-                  label: t(QR_BOARD_FORMATS[id].labelKey),
-                }))}
-                onChange={(formatId) => setState({ ...state, formatId })}
-              />
-              <p className="text-sm leading-snug text-gray-600">
-                {t("formatTip")}
-              </p>
-            </div>
           </section>
 
           <section className="space-y-3 border-t border-gray-200 pt-5">
@@ -359,6 +344,23 @@ export default function QrBoardPage() {
               />
             ))}
           </section>
+
+          <ToolFormDetails title={tc("sectionLayout")}>
+            <div className="space-y-2">
+              <SegControl
+                label={t("format")}
+                value={state.formatId}
+                options={QR_BOARD_FORMAT_ORDER.map((id) => ({
+                  value: id,
+                  label: t(QR_BOARD_FORMATS[id].labelKey),
+                }))}
+                onChange={(formatId) => setState({ ...state, formatId })}
+              />
+              <p className="text-sm leading-snug text-gray-600">
+                {t("formatTip")}
+              </p>
+            </div>
+          </ToolFormDetails>
 
           <ToolFormDetails title={t("sectionOptions")}>
             <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">

@@ -68,6 +68,7 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
+import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
 
 interface BoardBannerState {
   mode: BoardBannerMode;
@@ -587,19 +588,8 @@ export default function BoardBannerPage() {
                 />
                 {t("showLocal")}
               </label>
-              <SegControl
-                label={t("logoMode")}
+              <LogoModeSegControl
                 value={state.logoMode}
-                options={(
-                  [
-                    ["none", "logoNone"],
-                    ["lockup", "logoLockup"],
-                    ["mark", "logoMark"],
-                  ] as const
-                ).map(([value, key]) => ({
-                  value,
-                  label: t(key),
-                }))}
                 onChange={(logoMode) => setState({ ...state, logoMode })}
               />
               <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">

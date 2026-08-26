@@ -353,35 +353,6 @@ function FlyerMakerPageContent() {
         }
         form={
           <Card density="compact" className="space-y-5">
-            <section className="space-y-3">
-              <SegControl
-                label={tf("layout")}
-                value={state.layout}
-                options={FLYER_LAYOUT_ORDER.map((id) => ({
-                  value: id,
-                  label: tf(`layouts.${id}`),
-                }))}
-                onChange={(id) =>
-                  setState({
-                    ...state,
-                    layout: id,
-                    photoUrl: flyerLayoutSupportsPhoto(id)
-                      ? state.photoUrl
-                      : undefined,
-                  })
-                }
-              />
-              <SegControl
-                label={tf("format")}
-                value={state.format}
-                options={FLYER_FORMAT_ORDER.map((id) => ({
-                  value: id,
-                  label: tf(`formats.${id}`),
-                }))}
-                onChange={(id) => setState({ ...state, format: id })}
-              />
-            </section>
-
             <ToolFormDetails title={tf("sectionEventDetails")} defaultOpen>
               <Textarea
                 label={tf("message")}
@@ -420,6 +391,35 @@ function FlyerMakerPageContent() {
                 onChange={(e) =>
                   setState({ ...state, contact: e.target.value })
                 }
+              />
+            </ToolFormDetails>
+
+            <ToolFormDetails title={t("sectionLayout")}>
+              <SegControl
+                label={tf("layout")}
+                value={state.layout}
+                options={FLYER_LAYOUT_ORDER.map((id) => ({
+                  value: id,
+                  label: tf(`layouts.${id}`),
+                }))}
+                onChange={(id) =>
+                  setState({
+                    ...state,
+                    layout: id,
+                    photoUrl: flyerLayoutSupportsPhoto(id)
+                      ? state.photoUrl
+                      : undefined,
+                  })
+                }
+              />
+              <SegControl
+                label={tf("format")}
+                value={state.format}
+                options={FLYER_FORMAT_ORDER.map((id) => ({
+                  value: id,
+                  label: tf(`formats.${id}`),
+                }))}
+                onChange={(id) => setState({ ...state, format: id })}
               />
             </ToolFormDetails>
 

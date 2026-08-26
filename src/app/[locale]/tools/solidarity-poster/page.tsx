@@ -484,49 +484,6 @@ export default function SolidarityPosterPage() {
             onChange={(e) => setState({ ...state, closer: e.target.value })}
           />
 
-          <div>
-            <label htmlFor="poster-layout" className="mb-1 block text-sm font-medium">
-              {t("layout")}
-            </label>
-            <select
-              id="poster-layout"
-              value={state.layout}
-              onChange={(e) =>
-                setState({ ...state, layout: e.target.value as PosterLayout })
-              }
-              className="min-h-11 w-full rounded-md border border-gray-300 px-3 py-2"
-            >
-              {(["stack", "split", "banner"] as const).map((layout) => (
-                <option key={layout} value={layout}>
-                  {t(`layouts.${layout}`)}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <SegControl
-            label={t("outputMedium")}
-            value={medium}
-            options={(["print", "digital"] as const).map((m) => ({
-              value: m,
-              label: t(m === "print" ? "mediumPrint" : "mediumDigital"),
-            }))}
-            onChange={selectMedium}
-          />
-
-          <SegControl
-            label={t("outputSize")}
-            value={formatId}
-            options={mediumFormats.map((f) => ({
-              value: f.id,
-              label: t(f.labelKey),
-            }))}
-            onChange={selectFormat}
-          />
-          {medium === "digital" ? (
-            <p className="text-xs text-gray-500">{t("digitalHint")}</p>
-          ) : null}
-
           <Input
             label={t("supportUrl")}
             value={state.supportUrl}
@@ -567,6 +524,43 @@ export default function SolidarityPosterPage() {
               </select>
             </div>
           ) : null}
+
+          <ToolFormDetails title={tc("sectionLayout")}>
+            <SegControl
+              label={t("layout")}
+              value={state.layout}
+              options={(["stack", "split", "banner"] as const).map((layout) => ({
+                value: layout,
+                label: t(`layouts.${layout}`),
+              }))}
+              onChange={(layout) =>
+                setState({ ...state, layout: layout as PosterLayout })
+              }
+            />
+
+            <SegControl
+              label={t("outputMedium")}
+              value={medium}
+              options={(["print", "digital"] as const).map((m) => ({
+                value: m,
+                label: t(m === "print" ? "mediumPrint" : "mediumDigital"),
+              }))}
+              onChange={selectMedium}
+            />
+
+            <SegControl
+              label={t("outputSize")}
+              value={formatId}
+              options={mediumFormats.map((f) => ({
+                value: f.id,
+                label: t(f.labelKey),
+              }))}
+              onChange={selectFormat}
+            />
+            {medium === "digital" ? (
+              <p className="text-xs text-gray-500">{t("digitalHint")}</p>
+            ) : null}
+          </ToolFormDetails>
 
           <ToolFormDetails title={tc("sectionOptions")}>
             <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">

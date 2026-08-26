@@ -416,7 +416,9 @@ function QrCardPageContent() {
             value={state.tagline}
             onChange={(e) => setState({ ...state, tagline: e.target.value })}
           />
+          </section>
 
+          <ToolFormDetails title={tc("sectionLayout")}>
           <SegControl
             label={t("bgMode")}
             value={state.bgMode}
@@ -441,7 +443,7 @@ function QrCardPageContent() {
               {isSquare ? t("squareSizeTip") : t("sizeTip")}
             </p>
           </div>
-          </section>
+          </ToolFormDetails>
 
           <ToolFormDetails title={tc("sectionOptions")}>
             <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">

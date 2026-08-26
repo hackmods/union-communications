@@ -119,8 +119,13 @@
     "loading": "Chargement…",
     "close": "Fermer",
     "sectionOptions": "Options",
+    "sectionLayout": "Mise en page et format",
     "sectionColours": "Couleurs",
     "sectionAdvanced": "Avancé",
+    "logoMode": "Logo",
+    "logoNone": "Aucun",
+    "logoLockup": "Signature",
+    "logoMark": "Symbole",
     "downloadSuccess": "Téléchargé!",
     "downloadSuccessDetail": "Votre fichier est prêt. Consultez votre dossier de téléchargements.",
     "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
@@ -4271,12 +4276,41 @@
           "label": "Table conjointe",
           "content": "Une pratique à l'échelle du campus qui appartient à un comité syndical-patronal, pas à un grief d'un seul membre. Utilisez le guide des comités conjoints."
         }
+      },
+      "flowTitle": "Choix du forum (référence rapide)",
+      "flowCaption": "Posez ces questions dans l'ordre avant de lancer un délai.",
+      "flowItems": {
+        "start": {
+          "label": "Un membre apporte un problème",
+          "content": "Écoutez d'abord. Ne promettez pas de résultat."
+        },
+        "safety": {
+          "label": "Danger imminent ou refus LSST?",
+          "content": "Arrêtez. Utilisez le guide du droit de refuser. Déposez un grief seulement si la convention ou l'issue du refus l'exige."
+        },
+        "bump": {
+          "label": "Déplacement, rappel ou bumping?",
+          "content": "Utilisez le guide d'ancienneté et la feuille. Un grief peut suivre si l'employeur a sauté le processus de la convention."
+        },
+        "system": {
+          "label": "Pratique à l'échelle du campus, pas un seul membre?",
+          "content": "Utilisez le guide des comités conjoints. N'enfouissez pas un enjeu systémique dans un dossier individuel."
+        },
+        "informal": {
+          "label": "Le superviseur peut-il régler aujourd'hui?",
+          "content": "Consignez la conversation. Restez informel. Ne déposez pas pour vous défouler."
+        },
+        "file": {
+          "label": "Article violé, préjudice et remède nommé?",
+          "content": "Ouvrez un dossier. Imprimez la feuille des 6 W et comptez le délai."
+        }
       }
     },
     "investigation": {
       "navLabel": "Les 6 W",
       "title": "Les 6 W qui enseignent",
       "intro": "Écrivez des faits qu'un autre délégué pourra reprendre lundi. Imprimez la feuille d'accueil et gardez-la sur votre appareil, pas sur un ordinateur de l'employeur.",
+      "worksheetJump": "Aller à la feuille d'accueil imprimable",
       "worksheetCta": "Imprimer la feuille d'accueil des 6 W",
       "tip": "Les faits d'abord. Nommez l'article, la date et le remède avant de rédiger le formulaire.",
       "leaveOutTitle": "Ce qu'il faut omettre",
@@ -4339,6 +4373,31 @@
       "intro": "La discussion informelle, le grief écrit et le renvoi en médiation ou en arbitrage sont des tâches, pas une carte universelle en trois étapes. Lisez l'article. Copiez sur le dossier les noms que votre convention utilise.",
       "exampleTitle": "Exemple seulement — ce n'est pas votre convention",
       "example": "Une convention du personnel de soutien d'un collège de l'Ontario utilise quatre étapes nommées : étape 1, étape 2, étape 3, puis arbitrage. Les délais de réponse à temps plein sont souvent de 5, 10 et 15 jours ouvrables ; à temps partiel, souvent 7, 14 et 21. La vôtre peut avoir d'autres noms, d'autres comptes et un autre ordre.",
+      "exampleTable": {
+        "caption": "Exemple de délais de réponse de l'employeur seulement — modèle du personnel de soutien des collèges ontariens. Confirmez chaque délai dans votre convention collective.",
+        "headers": {
+          "step": "Étape nommée",
+          "ft": "Réponse TP (jours ouvrables)",
+          "pt": "Réponse TP partiel (jours ouvrables)"
+        },
+        "rows": {
+          "step1": {
+            "step": "Étape 1",
+            "ft": "5",
+            "pt": "7"
+          },
+          "step2": {
+            "step": "Étape 2",
+            "ft": "10",
+            "pt": "14"
+          },
+          "step3": {
+            "step": "Étape 3",
+            "ft": "15",
+            "pt": "21"
+          }
+        }
+      },
       "jobs": {
         "informal": {
           "title": "Discussion informelle",
@@ -4423,6 +4482,112 @@
         "emptyFile": {
           "label": "Dossier vide en vacances",
           "content": "Vous partez vendredi avec les notes dans la tête. La relève ne trouve pas le délai. Correctif : la feuille et le Hub des dirigeants sont le dossier partagé."
+        }
+      }
+    },
+    "memberTalk": {
+      "navLabel": "Parler au membre",
+      "title": "Quoi dire au membre",
+      "intro": "Une bonne conversation d'accueil évite les promesses dans le corridor et les plaintes DRE plus tard. Langage clair, échéances réalistes et prochaine étape par écrit.",
+      "items": {
+        "promise": {
+          "label": "Ne promettez pas une victoire",
+          "content": "Dites : « J'enquêterai, consignerai les faits, et l'exécutif décidera s'il faut déposer. » Pas : « C'est gagné d'avance » ou « Ils perdent toujours ces dossiers. »"
+        },
+        "status": {
+          "label": "Nommez la prochaine mise à jour",
+          "content": "Si vous promettez des nouvelles pour mercredi, envoyez-les — même si la réponse est « on attend encore les documents ». Le silence ressemble à un abandon."
+        },
+        "meeting": {
+          "label": "Préparez la rencontre",
+          "content": "Expliquez qui sera dans la salle, que vous pourrez vous concerter, et qu'il ne faut pas signer les notes de l'employeur à la hâte. Le but est un dossier exact."
+        },
+        "denial": {
+          "label": "Si les dirigeants refusent plus tard le renvoi",
+          "content": "Pointez vers l'explication écrite et le guide DRE. Ne débattez pas des résultats dans un fil de groupe. Un non dans le corridor n'est pas un dossier."
+        }
+      }
+    },
+    "checklist": {
+      "navLabel": "Liste de contrôle",
+      "title": "Avant de déposer — liste rapide",
+      "intro": "Parcourez cette liste sur papier ou dans le Hub des dirigeants avant que l'étape écrite quitte vos mains.",
+      "items": {
+        "forum": {
+          "label": "Bon forum",
+          "content": "Pas un refus, un bumping ou un enjeu de table conjointe déguisé en grief."
+        },
+        "trigger": {
+          "label": "Date déclencheur inscrite",
+          "content": "Date de l'incident et date où le membre vous l'a dit — le jour même où vous entendez l'histoire."
+        },
+        "article": {
+          "label": "Article de convention cité",
+          "content": "Numéro de clause ou référence à une pratique établie — pas « traitement injuste »."
+        },
+        "remedy": {
+          "label": "Remède nommé",
+          "content": "Demande précise : salaire rétroactif, avertissement retiré, horaire rétabli."
+        },
+        "worksheet": {
+          "label": "6 W complètes",
+          "content": "Qui, quoi, où, quand, pourquoi, remède — des faits qu'un délégué de relève peut lire à froid."
+        },
+        "calendar": {
+          "label": "Délai au calendrier",
+          "content": "Échéance visible pour la relève — pas seulement dans votre tête."
+        },
+        "coverage": {
+          "label": "La relève sait",
+          "content": "Hub des dirigeants ou dossier partagé : prochaine étape, échéance et votre contact."
+        },
+        "memberUpdate": {
+          "label": "Le membre connaît le plan",
+          "content": "Il connaît la prochaine rencontre ou la date de mise à jour et ce que vous attendez de lui."
+        }
+      }
+    },
+    "worksheet": {
+      "navLabel": "Feuille",
+      "title": "Feuille d'accueil des 6 W (imprimer ou exporter)",
+      "intro": "Utilisez-la sur votre propre appareil lors de la première entrevue. Exportez une feuille Excel vierge avec votre image de marque ou remplissez les champs dans le générateur de documents avant d'imprimer.",
+      "items": {
+        "columns": {
+          "label": "Champs",
+          "content": "Date de l'incident · Article de convention · Qui · Quoi · Où · Quand · Pourquoi · Remède · Témoins · Notes sur les délais"
+        },
+        "witness": {
+          "label": "Témoins et documents",
+          "content": "Listez les noms et ce qu'ils ont vu. Joignez les courriels, avertissements ou horaires que le membre peut partager — pas les systèmes de l'employeur auxquels vous n'avez pas accès."
+        },
+        "footer": {
+          "label": "Pied de page",
+          "content": "Nom du délégué, date d'accueil et numéro de dossier Hub des dirigeants une fois le dossier ouvert."
+        }
+      },
+      "exportCta": "Ouvrir la feuille d'accueil",
+      "exportHint": "Ouvre le générateur de documents avec une grille d'accueil de grief vierge prête à exporter sur votre appareil."
+    },
+    "tools": {
+      "navLabel": "Outils",
+      "title": "Imprimables et guides suivants",
+      "intro": "Gardez le matériel de référence sur votre appareil. Confirmez les délais dans votre convention collective — le pied de page Sources répertorie le répertoire.",
+      "items": {
+        "worksheet": {
+          "label": "Feuille d'accueil des 6 W",
+          "content": "Export Excel vierge pour la première entrevue — mêmes champs que ce guide."
+        },
+        "dfr": {
+          "label": "Devoir de représentation équitable",
+          "content": "Quand les dirigeants refusent de déposer ou de renvoyer — motifs écrits, voies de recours et conversations avec le membre."
+        },
+        "hub": {
+          "label": "Griefs dans le Hub des dirigeants",
+          "content": "Délais et étapes partagés lorsque le local utilise le Hub hébergé — la feuille ne l'exige pas."
+        },
+        "ca": {
+          "label": "Répertoire des conventions collectives",
+          "content": "Les étapes nommées, les délais de réponse et le langage disciplinaire vivent dans la convention que vous appliquez vraiment."
         }
       }
     },
@@ -5288,7 +5453,7 @@
       },
       "board-notice-layouts": {
         "title": "Avis pour tableau — logo et mises en page",
-        "body": "Choisissez empilé, bandeau ou scindé : le logo de votre section apparaît sur chaque export d'avis pour le tableau."
+        "body": "Choisissez empilé, bandeau ou scindé, réglez le logo (aucun, signature ou symbole) et exportez des avis aux couleurs de votre Trousse de marque."
       },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",
@@ -5296,7 +5461,7 @@
       },
       "grievance-process-guide": {
         "title": "Le guide du délégué sur les griefs",
-        "body": "Un guide de terrain pour choisir le bon forum, consigner les 6 W, compter les délais de la convention et imprimer une feuille d'accueil. Confirmez les délais dans votre convention collective."
+        "body": "Un guide de terrain avec choix de forum, feuille d'accueil des 6 W, tableau d'étapes exemple, liste de contrôle avant dépôt et conseils pour parler au membre. Confirmez les délais dans votre convention collective."
       },
       "assets-pwa-download": {
         "title": "Actifs de marque restent dans l’appli installée",

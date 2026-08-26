@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
+import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { useUndoRedo } from "@/hooks/use-undo-redo";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { exportNodeAsPng } from "@/lib/export/image-export";
@@ -23,7 +24,9 @@ import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { fieldsFromBoardNotice } from "@/lib/comms/event-email-from-notice";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
+import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
 import { BoardNoticeLayoutCanvas } from "@/components/tools/board-notice-layouts";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import {
   BOARD_NOTICE_LAYOUT_ORDER,
   DEFAULT_BOARD_NOTICE_LAYOUT,
@@ -43,6 +46,7 @@ interface BoardNoticeState {
   contact: string;
   quorumNeeded: string;
   layout: BoardNoticeLayoutId;
+  logoMode: BoardLogoMode;
 }
 
 const FORMAT_DIMENSIONS: Record<
@@ -69,6 +73,7 @@ export default function BoardNoticePage() {
   const ts = useTranslations("sources");
   const brandKit = useBrandStore((s) => s.brandKit);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
+  const hydrated = useBrandStore((s) => s.hydrated);
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [format, setFormat] = useState<PageFormat>("letter");
@@ -83,12 +88,20 @@ export default function BoardNoticePage() {
     contact: "Questions? Email your steward or local executive.",
     quorumNeeded: "",
     layout: DEFAULT_BOARD_NOTICE_LAYOUT,
+    logoMode: "none",
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
     useUndoRedo<BoardNoticeState>(initial);
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
+
+  useOneShotBrandSeed(hydrated, () => {
+    reset({
+      ...initial,
+      logoMode: themeEstablished ? "lockup" : "none",
+    });
+  });
 
   const dims = FORMAT_DIMENSIONS[format];
   const tokens = resolveCanvasTokens(brandKit);
@@ -145,7 +158,7 @@ export default function BoardNoticePage() {
         exportSuccess={exportSuccess}
         previewAccessibleName={t("previewAccessibleName")}
         form={
-          <Card density="compact" className="space-y-3">
+          <Card density="compact" className="space-y-5">
             <div>
               <label
                 htmlFor="notice-type"
@@ -214,7 +227,7 @@ export default function BoardNoticePage() {
               />
             ) : null}
 
-            <ToolFormDetails title={tc("sectionOptions")}>
+            <ToolFormDetails title={tc("sectionLayout")}>
               <SegControl
                 label={t("layout")}
                 value={state.layout}
@@ -233,6 +246,10 @@ export default function BoardNoticePage() {
                 ]}
                 onChange={setFormat}
               />
+              <LogoModeSegControl
+                value={state.logoMode}
+                onChange={(logoMode) => setState({ ...state, logoMode })}
+              />
             </ToolFormDetails>
 
             <UndoRedoBar
@@ -240,7 +257,12 @@ export default function BoardNoticePage() {
               canRedo={canRedo}
               onUndo={undo}
               onRedo={redo}
-              onReset={() => reset(initial)}
+              onReset={() =>
+                reset({
+                  ...initial,
+                  logoMode: themeEstablished ? "lockup" : "none",
+                })
+              }
             />
             <ToolExportActions
               exporting={exporting}
@@ -289,6 +311,7 @@ export default function BoardNoticePage() {
               subText={brandKit.local.subText}
               aspectClass={dims.aspect}
               aspectRatio={dims.aspectRatio}
+              logoMode={state.logoMode}
             />
           </div>
         }

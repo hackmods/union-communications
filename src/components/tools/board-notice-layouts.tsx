@@ -7,6 +7,7 @@ import {
   CanvasTypeBlock,
 } from "@/components/tools/canvas";
 import type { BoardNoticeLayoutId } from "@/lib/comms/board-notice-layouts";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import { pickContrastingInk, mutedInkOnBackground } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
@@ -44,6 +45,7 @@ export interface BoardNoticeLayoutCanvasProps {
   aspectClass: string;
   /** Inline aspect-ratio for capture-safe export (e.g. `"8.5 / 11"`). */
   aspectRatio: string;
+  logoMode?: BoardLogoMode;
   className?: string;
   style?: CSSProperties;
   canvasRef?: Ref<HTMLDivElement>;
@@ -170,6 +172,7 @@ export function BoardNoticeLayoutCanvas({
   subText,
   aspectClass,
   aspectRatio,
+  logoMode = "lockup",
   className,
   style,
   canvasRef,
@@ -244,6 +247,7 @@ export function BoardNoticeLayoutCanvas({
             localNumber={localNumber}
             subText={subText}
             fontFamily={tokens.bodyFontFamily}
+            logoMode={logoMode}
             badge={headerBadge(copy, colours.secondary, tokens)}
           />
           <CanvasTypeBlock
@@ -319,6 +323,7 @@ export function BoardNoticeLayoutCanvas({
             localNumber={localNumber}
             subText={subText}
             fontFamily={tokens.bodyFontFamily}
+            logoMode={logoMode}
             badge={headerBadge(copy, colours.primary, tokens)}
           />
           <CanvasTypeBlock
@@ -371,6 +376,7 @@ export function BoardNoticeLayoutCanvas({
         localNumber={localNumber}
         subText={subText}
         fontFamily={tokens.bodyFontFamily}
+        logoMode={logoMode}
         badge={headerBadge(copy, colours.primary, tokens)}
       />
       <CanvasTypeBlock

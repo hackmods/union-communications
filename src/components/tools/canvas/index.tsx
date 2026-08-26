@@ -18,6 +18,7 @@ import {
   CANVAS_PLACEHOLDER_BG,
   CANVAS_PLACEHOLDER_INK,
 } from "@/lib/constants/brand";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveLocalNumber } from "@/lib/utils";
 import { cn } from "@/lib/utils";
@@ -91,6 +92,7 @@ export function CanvasBrandHeader({
   subText,
   badge,
   logoSize = "md",
+  logoMode = "lockup",
   className,
   fontFamily,
 }: {
@@ -99,6 +101,8 @@ export function CanvasBrandHeader({
   subText?: string;
   badge?: ReactNode;
   logoSize?: "sm" | "md" | "lg";
+  /** When `none`, local label + badge still render without the logo mark. */
+  logoMode?: BoardLogoMode;
   className?: string;
   /** Brand Kit body / meta face */
   fontFamily?: string;
@@ -107,14 +111,19 @@ export function CanvasBrandHeader({
   const label = subText
     ? `Local ${resolveLocalNumber(localNumber)} - ${subText}`
     : `Local ${resolveLocalNumber(localNumber)}`;
+  const showLogo = logoMode !== "none";
+  const logoVariant = logoMode === "mark" ? "mark" : "lockup";
 
   return (
     <div className={cn("relative z-[2]", className)}>
-      <BrandLogo
-        size={logoSize}
-        backgroundColor={backgroundColor}
-        className="mb-3"
-      />
+      {showLogo ? (
+        <BrandLogo
+          size={logoSize}
+          backgroundColor={backgroundColor}
+          variantOverride={logoVariant}
+          className="mb-3"
+        />
+      ) : null}
       {badge}
       <p
         className="font-bold uppercase tracking-widest"
