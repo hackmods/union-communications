@@ -1,7 +1,7 @@
 /** FUTURE-006 — local-first pulse poll draft + publish to collection API. */
 
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
-import { normalizeLogoMode } from "@/lib/comms/canvas-logo-mode";
+import { defaultShowLocalNumber, normalizeLogoMode } from "@/lib/comms/canvas-logo-mode";
 
 export const PULSE_POLL_STORAGE_KEY = "unionops-pulse-poll-draft";
 
@@ -18,6 +18,7 @@ export interface PulsePollDraft {
   questions: PulsePollQuestion[];
   slug: string;
   logoMode: BoardLogoMode;
+  showLocalNumber: boolean;
   /** @deprecated migrated to logoMode on load */
   includeBranding?: boolean;
   primaryColor: string;
@@ -33,6 +34,7 @@ export function createEmptyPulsePollDraft(
     questions: [{ id: `q-${Date.now()}`, text: "" }],
     slug: "member-pulse",
     logoMode: "none",
+    showLocalNumber: defaultShowLocalNumber(),
     primaryColor: colors.primaryColor,
     secondaryColor: colors.secondaryColor,
   };
@@ -48,6 +50,7 @@ export function loadPulsePollDraft(): PulsePollDraft | null {
     return {
       ...parsed,
       logoMode: normalizeLogoMode(parsed, false),
+      showLocalNumber: parsed.showLocalNumber ?? defaultShowLocalNumber(),
     };
   } catch {
     return null;

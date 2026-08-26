@@ -126,6 +126,7 @@
     "logoNone": "None",
     "logoLockup": "Lockup",
     "logoMark": "Mark",
+    "showLocalNumber": "Show local number",
     "downloadSuccess": "Downloaded!",
     "downloadSuccessDetail": "Your file is ready. Check your downloads folder.",
     "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
@@ -5598,8 +5599,8 @@
         "body": "Pick stack, band, or split layouts, choose none/lockup/mark logo, and export workplace notices that match your Brand Kit."
       },
       "canvas-logo-mode": {
-        "title": "Logo control on posters and wallet tools",
-        "body": "Solidarity posters, QR boards, QR cards, meeting backgrounds, and Pulse Poll now use the same none/lockup/mark logo picker as Board Notice."
+        "title": "Logo control on canvas tools",
+        "body": "Every canvas tool now shares none/lockup/mark logo plus a Show local number toggle — turn the label off for mark-only visuals."
       },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",

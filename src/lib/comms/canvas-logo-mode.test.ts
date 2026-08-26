@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   defaultLogoMode,
+  defaultShowLocalNumber,
   logoModeFromLegacyBranding,
   normalizeLogoMode,
   resolveLogoVariant,
@@ -11,6 +12,7 @@ describe("canvas-logo-mode", () => {
   it("defaults lockup when brand is established", () => {
     expect(defaultLogoMode(true)).toBe("lockup");
     expect(defaultLogoMode(false)).toBe("none");
+    expect(defaultShowLocalNumber()).toBe(true);
   });
 
   it("maps legacy includeBranding", () => {

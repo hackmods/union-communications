@@ -41,6 +41,9 @@ import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
+import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import { defaultLogoMode, defaultShowLocalNumber } from "@/lib/comms/canvas-logo-mode";
 import { PageShell } from "@/components/layout/PageShell";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { pickContrastingInk } from "@/lib/utils/ink";
@@ -71,6 +74,8 @@ interface GraphicState {
   primaryColor: string;
   accentColor: string;
   secondaryColor: string;
+  logoMode: BoardLogoMode;
+  showLocalNumber: boolean;
 }
 
 function GraphicMakerPageContent() {
@@ -107,6 +112,8 @@ function GraphicMakerPageContent() {
     primaryColor: brandKit.primaryColor,
     accentColor: brandKit.accentColor,
     secondaryColor: brandKit.secondaryColor,
+    logoMode: "none",
+    showLocalNumber: defaultShowLocalNumber(),
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -193,6 +200,8 @@ function GraphicMakerPageContent() {
       reset({
         ...initial,
         ...colours,
+        logoMode: defaultLogoMode(themeEstablished),
+        showLocalNumber: defaultShowLocalNumber(),
         layout,
         aspect: aspectFromQuery(
           searchParams,
@@ -214,6 +223,8 @@ function GraphicMakerPageContent() {
     reset({
       ...initial,
       ...colours,
+      logoMode: defaultLogoMode(themeEstablished),
+      showLocalNumber: defaultShowLocalNumber(),
       aspect: aspectFromQuery(searchParams, initial.aspect),
     });
   });
@@ -439,8 +450,16 @@ function GraphicMakerPageContent() {
                 value: aspect,
                 label: tg(`aspects.${aspect}`),
               }))}
-              onChange={(aspect) => setState({ ...state, aspect })}
-            />
+            onChange={(aspect) => setState({ ...state, aspect })}
+          />
+          <CanvasBrandingControls
+            logoMode={state.logoMode}
+            onLogoModeChange={(logoMode) => setState({ ...state, logoMode })}
+            showLocalNumber={state.showLocalNumber}
+            onShowLocalNumberChange={(showLocalNumber) =>
+              setState({ ...state, showLocalNumber })
+            }
+          />
             </ToolFormDetails>
 
             <ToolFormDetails title={t("sectionColours")}>
@@ -523,6 +542,8 @@ function GraphicMakerPageContent() {
                 photoScale={state.photoScale}
                 size={canvasSize}
                 tokens={resolveCanvasTokens(brandKit)}
+                logoMode={state.logoMode}
+                showLocalNumber={state.showLocalNumber}
               />
             </div>
           </div>

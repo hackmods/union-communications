@@ -68,7 +68,7 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
-import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
+import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 
 interface BoardBannerState {
   mode: BoardBannerMode;
@@ -577,20 +577,13 @@ export default function BoardBannerPage() {
               <p className="text-sm leading-snug text-gray-600">
                 {t("ornamentsHint")}
               </p>
-              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-                <input
-                  type="checkbox"
-                  checked={state.showLocal}
-                  onChange={(e) =>
-                    setState({ ...state, showLocal: e.target.checked })
-                  }
-                  className="size-4"
-                />
-                {t("showLocal")}
-              </label>
-              <LogoModeSegControl
-                value={state.logoMode}
-                onChange={(logoMode) => setState({ ...state, logoMode })}
+              <CanvasBrandingControls
+                logoMode={state.logoMode}
+                onLogoModeChange={(logoMode) => setState({ ...state, logoMode })}
+                showLocalNumber={state.showLocal}
+                onShowLocalNumberChange={(showLocal) =>
+                  setState({ ...state, showLocal })
+                }
               />
               <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
                 <input

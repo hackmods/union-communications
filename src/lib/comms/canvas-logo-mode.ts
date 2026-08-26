@@ -6,6 +6,10 @@ export function defaultLogoMode(themeEstablished: boolean): BoardLogoMode {
   return themeEstablished ? "lockup" : "none";
 }
 
+export function defaultShowLocalNumber(): boolean {
+  return true;
+}
+
 export function showCanvasLogo(logoMode: BoardLogoMode): boolean {
   return logoMode !== "none";
 }

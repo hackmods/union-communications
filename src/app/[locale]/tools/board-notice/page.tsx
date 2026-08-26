@@ -24,9 +24,10 @@ import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { fieldsFromBoardNotice } from "@/lib/comms/event-email-from-notice";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
-import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
+import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { BoardNoticeLayoutCanvas } from "@/components/tools/board-notice-layouts";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import { defaultLogoMode, defaultShowLocalNumber } from "@/lib/comms/canvas-logo-mode";
 import {
   BOARD_NOTICE_LAYOUT_ORDER,
   DEFAULT_BOARD_NOTICE_LAYOUT,
@@ -47,6 +48,7 @@ interface BoardNoticeState {
   quorumNeeded: string;
   layout: BoardNoticeLayoutId;
   logoMode: BoardLogoMode;
+  showLocalNumber: boolean;
 }
 
 const FORMAT_DIMENSIONS: Record<
@@ -89,6 +91,7 @@ export default function BoardNoticePage() {
     quorumNeeded: "",
     layout: DEFAULT_BOARD_NOTICE_LAYOUT,
     logoMode: "none",
+    showLocalNumber: defaultShowLocalNumber(),
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -99,7 +102,8 @@ export default function BoardNoticePage() {
   useOneShotBrandSeed(hydrated, () => {
     reset({
       ...initial,
-      logoMode: themeEstablished ? "lockup" : "none",
+      logoMode: defaultLogoMode(themeEstablished),
+      showLocalNumber: defaultShowLocalNumber(),
     });
   });
 
@@ -246,9 +250,13 @@ export default function BoardNoticePage() {
                 ]}
                 onChange={setFormat}
               />
-              <LogoModeSegControl
-                value={state.logoMode}
-                onChange={(logoMode) => setState({ ...state, logoMode })}
+              <CanvasBrandingControls
+                logoMode={state.logoMode}
+                onLogoModeChange={(logoMode) => setState({ ...state, logoMode })}
+                showLocalNumber={state.showLocalNumber}
+                onShowLocalNumberChange={(showLocalNumber) =>
+                  setState({ ...state, showLocalNumber })
+                }
               />
             </ToolFormDetails>
 
@@ -261,6 +269,7 @@ export default function BoardNoticePage() {
                 reset({
                   ...initial,
                   logoMode: themeEstablished ? "lockup" : "none",
+                  showLocalNumber: defaultShowLocalNumber(),
                 })
               }
             />
@@ -312,6 +321,7 @@ export default function BoardNoticePage() {
               aspectClass={dims.aspect}
               aspectRatio={dims.aspectRatio}
               logoMode={state.logoMode}
+              showLocalLabel={state.showLocalNumber}
             />
           </div>
         }

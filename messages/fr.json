@@ -126,6 +126,7 @@
     "logoNone": "Aucun",
     "logoLockup": "Signature",
     "logoMark": "Symbole",
+    "showLocalNumber": "Afficher le numéro de section",
     "downloadSuccess": "Téléchargé!",
     "downloadSuccessDetail": "Votre fichier est prêt. Consultez votre dossier de téléchargements.",
     "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
@@ -5547,8 +5548,8 @@
         "body": "Choisissez empilé, bandeau ou scindé, réglez le logo (aucun, signature ou symbole) et exportez des avis aux couleurs de votre Trousse de marque."
       },
       "canvas-logo-mode": {
-        "title": "Contrôle du logo sur affiches et cartes",
-        "body": "Affiches de solidarité, tableaux QR, cartes QR, arrière-plans de réunion et Sondage éclair partagent le même sélecteur aucun/signature/symbole que l'Avis pour tableau."
+        "title": "Contrôle du logo sur les outils visuels",
+        "body": "Tous les outils visuels partagent le logo aucun/signature/symbole et une case Afficher le numéro de section — décochez-la pour un visuel symbole seulement."
       },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",

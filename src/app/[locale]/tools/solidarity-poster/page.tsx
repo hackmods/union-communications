@@ -46,10 +46,11 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
-import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
+import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import {
   defaultLogoMode,
+  defaultShowLocalNumber,
   resolveLogoVariant,
   showCanvasLogo,
 } from "@/lib/comms/canvas-logo-mode";
@@ -85,6 +86,7 @@ interface PosterState {
   showCta: boolean;
   showQr: boolean;
   logoMode: BoardLogoMode;
+  showLocalNumber: boolean;
   edgeClearance: boolean;
   primaryColor: string;
   secondaryColor: string;
@@ -205,6 +207,7 @@ export default function SolidarityPosterPage() {
     showCta: true,
     showQr: true,
     logoMode: "none",
+    showLocalNumber: defaultShowLocalNumber(),
     edgeClearance: false,
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
@@ -235,6 +238,7 @@ export default function SolidarityPosterPage() {
       showCta: true,
       showQr: true,
       logoMode: defaultLogoMode(themeEstablished),
+      showLocalNumber: defaultShowLocalNumber(),
       edgeClearance: defaultEdgeClearanceForMedium("print"),
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
@@ -306,7 +310,8 @@ export default function SolidarityPosterPage() {
   } as const;
   const displayUrl = state.supportUrl.trim() || SITE_URL;
   const showLocalInFooter =
-    showCanvasLogo(state.logoMode) || state.layout === "split";
+    state.showLocalNumber &&
+    (showCanvasLogo(state.logoMode) || state.layout === "split");
   const showFooter =
     state.showCta || state.showQr || showLocalInFooter;
   const canvasInk = pickContrastingInk(state.primaryColor);
@@ -568,9 +573,13 @@ export default function SolidarityPosterPage() {
             {medium === "digital" ? (
               <p className="text-xs text-gray-500">{t("digitalHint")}</p>
             ) : null}
-            <LogoModeSegControl
-              value={state.logoMode}
-              onChange={(logoMode) => setState({ ...state, logoMode })}
+            <CanvasBrandingControls
+              logoMode={state.logoMode}
+              onLogoModeChange={(logoMode) => setState({ ...state, logoMode })}
+              showLocalNumber={state.showLocalNumber}
+              onShowLocalNumberChange={(showLocalNumber) =>
+                setState({ ...state, showLocalNumber })
+              }
             />
           </ToolFormDetails>
 
@@ -635,6 +644,7 @@ export default function SolidarityPosterPage() {
                 secondaryColor: brandKit.secondaryColor,
                 accentColor: brandKit.accentColor,
                 logoMode: defaultLogoMode(themeEstablished),
+                showLocalNumber: defaultShowLocalNumber(),
                 edgeClearance: defaultEdgeClearanceForMedium(medium),
                 supportUrl:
                   state.supportUrl ||
@@ -761,7 +771,7 @@ export default function SolidarityPosterPage() {
                   >
                     {state.closer}
                   </p>
-                  {showLogo && !isLandscape ? (
+                  {showLogo && state.showLocalNumber && !isLandscape ? (
                     <p
                       className="mt-2 text-sm font-semibold md:mt-3"
                       style={{ color: mutedInk90 }}
@@ -884,7 +894,7 @@ export default function SolidarityPosterPage() {
                   >
                     {state.closer}
                   </p>
-                  {showLogo && !isLandscape ? (
+                  {showLogo && state.showLocalNumber && !isLandscape ? (
                     <p
                       className="mt-2 text-sm font-semibold"
                       style={{ color: mutedInk90 }}

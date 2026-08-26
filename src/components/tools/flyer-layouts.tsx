@@ -9,6 +9,7 @@ import {
   CanvasTypeBlock,
 } from "@/components/tools/canvas";
 import type { FlyerLayoutId } from "@/lib/comms/flyer-layouts";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
@@ -52,6 +53,8 @@ export interface FlyerLayoutCanvasProps {
   style?: CSSProperties;
   /** Forwarded to the capture root (canvasRef target). */
   canvasRef?: Ref<HTMLDivElement>;
+  logoMode?: BoardLogoMode;
+  showLocalLabel?: boolean;
 }
 
 function accentRuleColor(
@@ -157,6 +160,8 @@ export function FlyerLayoutCanvas({
   className,
   style,
   canvasRef,
+  logoMode = "lockup",
+  showLocalLabel = true,
 }: FlyerLayoutCanvasProps) {
   const ink = pickContrastingInk(colours.primary);
   const surfaceStyle = canvasSurfaceStyle(tokens, {
@@ -230,6 +235,8 @@ export function FlyerLayoutCanvas({
             localNumber={localNumber}
             subText={subText}
             fontFamily={tokens.bodyFontFamily}
+            logoMode={logoMode}
+            showLocalLabel={showLocalLabel}
           />
           <CanvasTypeBlock
             tokens={{
@@ -317,6 +324,8 @@ export function FlyerLayoutCanvas({
             localNumber={localNumber}
             subText={subText}
             fontFamily={tokens.bodyFontFamily}
+            logoMode={logoMode}
+            showLocalLabel={showLocalLabel}
           />
           <CanvasTypeBlock
             tokens={tokens}
@@ -364,6 +373,8 @@ export function FlyerLayoutCanvas({
             localNumber={localNumber}
             subText={subText}
             fontFamily={tokens.bodyFontFamily}
+            logoMode={logoMode}
+            showLocalLabel={showLocalLabel}
           />
           <CanvasTypeBlock
             tokens={tokens}
@@ -433,6 +444,8 @@ export function FlyerLayoutCanvas({
         localNumber={localNumber}
         subText={subText}
         fontFamily={tokens.bodyFontFamily}
+        logoMode={logoMode}
+        showLocalLabel={showLocalLabel}
       />
       <CanvasTypeBlock
         tokens={tokens}

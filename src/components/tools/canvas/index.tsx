@@ -93,6 +93,7 @@ export function CanvasBrandHeader({
   badge,
   logoSize = "md",
   logoMode = "lockup",
+  showLocalLabel = true,
   className,
   fontFamily,
 }: {
@@ -101,8 +102,9 @@ export function CanvasBrandHeader({
   subText?: string;
   badge?: ReactNode;
   logoSize?: "sm" | "md" | "lg";
-  /** When `none`, local label + badge still render without the logo mark. */
+  /** When `none`, badge + optional local label still render without the logo mark. */
   logoMode?: BoardLogoMode;
+  showLocalLabel?: boolean;
   className?: string;
   /** Brand Kit body / meta face */
   fontFamily?: string;
@@ -114,6 +116,8 @@ export function CanvasBrandHeader({
   const showLogo = logoMode !== "none";
   const logoVariant = logoMode === "mark" ? "mark" : "lockup";
 
+  if (!showLogo && !showLocalLabel && !badge) return null;
+
   return (
     <div className={cn("relative z-[2]", className)}>
       {showLogo ? (
@@ -121,23 +125,25 @@ export function CanvasBrandHeader({
           size={logoSize}
           backgroundColor={backgroundColor}
           variantOverride={logoVariant}
-          className="mb-3"
+          className={showLocalLabel || badge ? "mb-3" : undefined}
         />
       ) : null}
       {badge}
-      <p
-        className="font-bold uppercase tracking-widest"
-        style={{
-          color: ink,
-          // Inline size — Tailwind text-* can resolve via oklch vars in some builds
-          fontSize: "0.875rem",
-          lineHeight: 1.25,
-          margin: 0,
-          fontFamily,
-        }}
-      >
-        {label}
-      </p>
+      {showLocalLabel ? (
+        <p
+          className="font-bold uppercase tracking-widest"
+          style={{
+            color: ink,
+            // Inline size — Tailwind text-* can resolve via oklch vars in some builds
+            fontSize: "0.875rem",
+            lineHeight: 1.25,
+            margin: 0,
+            fontFamily,
+          }}
+        >
+          {label}
+        </p>
+      ) : null}
     </div>
   );
 }

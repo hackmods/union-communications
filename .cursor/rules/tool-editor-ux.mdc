@@ -68,7 +68,7 @@ Before marking a canvas tool done, confirm:
 4. `BrandSetupPrompt` merged into **`toolbar`** (never a second `toolbar=` / not buried only in the form body)
 5. `ToolRelatedFooter` / `RELATED_BY_TOOL` entry
 6. Colours collapsed via `ToolColourSection` or `ToolFormDetails` when the tool has colour overrides
-7. **Form IA order:** content fields first → `ToolFormDetails` **`sectionLayout`** (layout, format/size, logo mode) → `sectionOptions` toggles → `sectionColours` → typography/QR/photo advanced blocks → undo/export
+7. **Form IA order:** content fields first → `ToolFormDetails` **`sectionLayout`** (layout, format/size, logo mode + show local number) → `sectionOptions` toggles → `sectionColours` → typography/QR/photo advanced blocks → undo/export
 
 ## Migration status register
 

@@ -1,7 +1,12 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import type { ComponentProps, CSSProperties } from "react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import {
+  resolveLogoVariant,
+  showCanvasLogo,
+} from "@/lib/comms/canvas-logo-mode";
 import {
   CanvasDuotonePhoto,
   CanvasGrainOverlay,
@@ -114,6 +119,8 @@ export interface GraphicLayoutCanvasProps {
   style?: CSSProperties;
   /** Brand Kit canvas tokens — omit for legacy look via caller */
   tokens?: CanvasTokens;
+  logoMode?: BoardLogoMode;
+  showLocalNumber?: boolean;
 }
 
 /**
@@ -165,12 +172,15 @@ function LocalFooter({
   subText,
   size,
   color,
+  show = true,
 }: {
   localNumber: string;
   subText: string;
   size: "preview" | "export";
   color: string;
+  show?: boolean;
 }) {
+  if (!show) return null;
   return (
     <p
       className={cn(
@@ -223,6 +233,16 @@ function PhotoLayer({
   );
 }
 
+function LayoutBrandLogo({
+  logoMode = "lockup",
+  ...props
+}: ComponentProps<typeof BrandLogo> & { logoMode?: BoardLogoMode }) {
+  if (!showCanvasLogo(logoMode)) return null;
+  return (
+    <BrandLogo {...props} variantOverride={resolveLogoVariant(logoMode)} />
+  );
+}
+
 export function GraphicLayoutCanvas({
   layout,
   aspect,
@@ -236,6 +256,8 @@ export function GraphicLayoutCanvas({
   className,
   style,
   tokens,
+  logoMode = "lockup",
+  showLocalNumber = true,
 }: GraphicLayoutCanvasProps) {
   const { primary, accent, secondary } = colors;
   const surface = tokens
@@ -267,6 +289,8 @@ export function GraphicLayoutCanvas({
           photoDuotone={photoDuotone}
           highlightOpacity={tokens?.duotoneHighlightOpacity}
           tokens={tokens}
+          logoMode={logoMode}
+          showLocalNumber={showLocalNumber}
         />
       )}
       {layout === "quote" && (
@@ -280,6 +304,8 @@ export function GraphicLayoutCanvas({
           size={size}
           aspect={aspect}
           tokens={tokens}
+          logoMode={logoMode}
+          showLocalNumber={showLocalNumber}
         />
       )}
       {layout === "results" && (
@@ -291,6 +317,8 @@ export function GraphicLayoutCanvas({
           subText={subText}
           size={size}
           tokens={tokens}
+          logoMode={logoMode}
+          showLocalNumber={showLocalNumber}
         />
       )}
       {layout === "notice" && (
@@ -303,6 +331,8 @@ export function GraphicLayoutCanvas({
           subText={subText}
           size={size}
           tokens={tokens}
+          logoMode={logoMode}
+          showLocalNumber={showLocalNumber}
         />
       )}
       {(layout === "solidarity" || layout === "thanks") && (
@@ -320,6 +350,8 @@ export function GraphicLayoutCanvas({
           photoDuotone={photoDuotone}
           highlightOpacity={tokens?.duotoneHighlightOpacity}
           tokens={tokens}
+          logoMode={logoMode}
+          showLocalNumber={showLocalNumber}
         />
       )}
     </div>
@@ -338,6 +370,8 @@ function SolidarityLayout({
   photoDuotone,
   highlightOpacity,
   tokens,
+  logoMode = "lockup",
+  showLocalNumber = true,
 }: {
   primary: string;
   accent: string;
@@ -352,6 +386,8 @@ function SolidarityLayout({
   photoDuotone?: boolean;
   highlightOpacity?: number;
   tokens?: CanvasTokens;
+  logoMode?: BoardLogoMode;
+  showLocalNumber?: boolean;
 }) {
   const exportMode = size === "export";
   // Bottom copy always sits on the dark lift scrim (with or without a photo).
@@ -380,7 +416,8 @@ function SolidarityLayout({
           textAlign: chrome.textAlign,
         }}
       >
-        <BrandLogo
+        <LayoutBrandLogo
+          logoMode={logoMode}
           size={exportMode ? "md" : "sm"}
           backgroundColor={footerBg}
           className="mb-2"
@@ -430,6 +467,7 @@ function SolidarityLayout({
           subText={subText}
           size={size}
           color={ink.a70}
+          show={showLocalNumber}
         />
       </div>
     </>
@@ -448,6 +486,8 @@ function SpotlightLayout({
   photoDuotone,
   highlightOpacity,
   tokens,
+  logoMode = "lockup",
+  showLocalNumber = true,
 }: {
   primary: string;
   accent: string;
@@ -461,6 +501,8 @@ function SpotlightLayout({
   photoDuotone?: boolean;
   highlightOpacity?: number;
   tokens?: CanvasTokens;
+  logoMode?: BoardLogoMode;
+  showLocalNumber?: boolean;
 }) {
   const initials = copy.initials ?? "M";
   const exportMode = size === "export";
@@ -506,7 +548,8 @@ function SpotlightLayout({
           textAlign: chrome.textAlign,
         }}
       >
-        <BrandLogo
+        <LayoutBrandLogo
+          logoMode={logoMode}
           size={exportMode ? "md" : "sm"}
           backgroundColor={footerBg}
           className="mb-2"
@@ -543,6 +586,7 @@ function SpotlightLayout({
           subText={subText}
           size={size}
           color={ink.a70}
+          show={showLocalNumber}
         />
       </div>
     </>
@@ -558,6 +602,8 @@ function NoticeLayout({
   subText,
   size,
   tokens,
+  logoMode = "lockup",
+  showLocalNumber = true,
 }: {
   primary: string;
   accent: string;
@@ -567,6 +613,8 @@ function NoticeLayout({
   subText: string;
   size: "preview" | "export";
   tokens?: CanvasTokens;
+  logoMode?: BoardLogoMode;
+  showLocalNumber?: boolean;
 }) {
   const exportMode = size === "export";
   const fieldEnd = softGradientEndColor(primary, secondary);
@@ -614,7 +662,11 @@ function NoticeLayout({
           className="flex items-start gap-2"
           style={{ justifyContent: brandJustify }}
         >
-          <BrandLogo size={exportMode ? "md" : "sm"} backgroundColor={primary} />
+          <LayoutBrandLogo
+            logoMode={logoMode}
+            size={exportMode ? "md" : "sm"}
+            backgroundColor={primary}
+          />
           <span
             className={cn(
               "rounded font-bold uppercase tracking-wide",
@@ -666,6 +718,7 @@ function NoticeLayout({
             subText={subText}
             size={size}
             color={ink.a70}
+            show={showLocalNumber}
           />
         </div>
         <div
@@ -695,6 +748,8 @@ export function QuoteLayout({
   aspect = "square",
   layout = "stripe",
   tokens,
+  logoMode = "lockup",
+  showLocalNumber = true,
 }: {
   primary: string;
   accent: string;
@@ -709,6 +764,8 @@ export function QuoteLayout({
   aspect?: ExampleAspect;
   layout?: QuoteLayoutId;
   tokens?: CanvasTokens;
+  logoMode?: BoardLogoMode;
+  showLocalNumber?: boolean;
 }) {
   const exportMode = size === "export";
   const landscape = aspect === "landscape";
@@ -865,12 +922,17 @@ export function QuoteLayout({
           </p>
         ) : null}
         <div className={exportMode ? (landscape ? "mt-4" : "mt-6") : "mt-4"}>
-          <BrandLogo size={exportMode ? "md" : "sm"} backgroundColor={primary} />
+          <LayoutBrandLogo
+            logoMode={logoMode}
+            size={exportMode ? "md" : "sm"}
+            backgroundColor={primary}
+          />
           <LocalFooter
             localNumber={localNumber}
             subText={subText}
             size={size}
             color={quoteInk.a90}
+            show={showLocalNumber}
           />
         </div>
       </div>
@@ -885,6 +947,8 @@ function ResultsLayout({
   subText,
   size,
   tokens,
+  logoMode = "lockup",
+  showLocalNumber = true,
 }: {
   primary: string;
   accent: string;
@@ -893,6 +957,8 @@ function ResultsLayout({
   subText: string;
   size: "preview" | "export";
   tokens?: CanvasTokens;
+  logoMode?: BoardLogoMode;
+  showLocalNumber?: boolean;
 }) {
   const exportMode = size === "export";
   const fieldEnd = brandFieldEndColor(primary, 0.22);
@@ -914,7 +980,8 @@ function ResultsLayout({
           padding: chrome.pad,
         }}
       >
-        <BrandLogo
+        <LayoutBrandLogo
+          logoMode={logoMode}
           size={exportMode ? "md" : "sm"}
           backgroundColor={primary}
           className={exportMode ? "mb-4" : "mb-3"}
@@ -972,6 +1039,7 @@ function ResultsLayout({
           subText={subText}
           size={size}
           color={ink.a70}
+          show={showLocalNumber}
         />
       </div>
     </>

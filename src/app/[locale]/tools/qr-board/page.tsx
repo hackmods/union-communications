@@ -38,10 +38,10 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
-import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
+import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { QrBoardCanvas } from "@/components/tools/qr-board/QrBoardCanvas";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
-import { defaultLogoMode } from "@/lib/comms/canvas-logo-mode";
+import { defaultLogoMode, defaultShowLocalNumber } from "@/lib/comms/canvas-logo-mode";
 import { QrBoardSlotEditor } from "@/components/tools/qr-board/QrBoardSlotEditor";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 
@@ -53,6 +53,7 @@ interface QrBoardState {
   slots: QrBoardSlotDraft[];
   showUrl: boolean;
   logoMode: BoardLogoMode;
+  showLocalNumber: boolean;
   primaryColor: string;
   secondaryColor: string;
 }
@@ -93,6 +94,7 @@ export default function QrBoardPage() {
     ],
     showUrl: true,
     logoMode: "none",
+    showLocalNumber: defaultShowLocalNumber(),
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
   };
@@ -136,6 +138,7 @@ export default function QrBoardPage() {
       ),
       showUrl: true,
       logoMode: defaultLogoMode(themeEstablished),
+      showLocalNumber: defaultShowLocalNumber(),
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
     });
@@ -363,9 +366,13 @@ export default function QrBoardPage() {
                 {t("formatTip")}
               </p>
             </div>
-            <LogoModeSegControl
-              value={state.logoMode}
-              onChange={(logoMode) => setState({ ...state, logoMode })}
+            <CanvasBrandingControls
+              logoMode={state.logoMode}
+              onLogoModeChange={(logoMode) => setState({ ...state, logoMode })}
+              showLocalNumber={state.showLocalNumber}
+              onShowLocalNumberChange={(showLocalNumber) =>
+                setState({ ...state, showLocalNumber })
+              }
             />
           </ToolFormDetails>
 
@@ -414,6 +421,7 @@ export default function QrBoardPage() {
                   ),
                   showUrl: true,
                   logoMode: defaultLogoMode(themeEstablished),
+                  showLocalNumber: defaultShowLocalNumber(),
                   primaryColor: brandKit.primaryColor,
                   secondaryColor: brandKit.secondaryColor,
                 });
@@ -471,6 +479,7 @@ export default function QrBoardPage() {
                 slots={canvasSlots}
                 showUrl={state.showUrl}
                 logoMode={state.logoMode}
+                showLocalNumber={state.showLocalNumber}
                 primaryColor={state.primaryColor}
                 secondaryColor={state.secondaryColor}
                 localLabel={localLabel}

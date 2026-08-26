@@ -46,6 +46,7 @@ export interface BoardNoticeLayoutCanvasProps {
   /** Inline aspect-ratio for capture-safe export (e.g. `"8.5 / 11"`). */
   aspectRatio: string;
   logoMode?: BoardLogoMode;
+  showLocalLabel?: boolean;
   className?: string;
   style?: CSSProperties;
   canvasRef?: Ref<HTMLDivElement>;
@@ -173,6 +174,7 @@ export function BoardNoticeLayoutCanvas({
   aspectClass,
   aspectRatio,
   logoMode = "lockup",
+  showLocalLabel = true,
   className,
   style,
   canvasRef,
@@ -248,6 +250,7 @@ export function BoardNoticeLayoutCanvas({
             subText={subText}
             fontFamily={tokens.bodyFontFamily}
             logoMode={logoMode}
+            showLocalLabel={showLocalLabel}
             badge={headerBadge(copy, colours.secondary, tokens)}
           />
           <CanvasTypeBlock
@@ -324,6 +327,7 @@ export function BoardNoticeLayoutCanvas({
             subText={subText}
             fontFamily={tokens.bodyFontFamily}
             logoMode={logoMode}
+            showLocalLabel={showLocalLabel}
             badge={headerBadge(copy, colours.primary, tokens)}
           />
           <CanvasTypeBlock
@@ -377,6 +381,7 @@ export function BoardNoticeLayoutCanvas({
         subText={subText}
         fontFamily={tokens.bodyFontFamily}
         logoMode={logoMode}
+        showLocalLabel={showLocalLabel}
         badge={headerBadge(copy, colours.primary, tokens)}
       />
       <CanvasTypeBlock

@@ -48,6 +48,9 @@ import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
 import { SegControl } from "@/components/tools/SegControl";
+import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import { defaultLogoMode, defaultShowLocalNumber } from "@/lib/comms/canvas-logo-mode";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
@@ -62,6 +65,8 @@ interface QuoteState {
   secondaryColor: string;
   accentColor: string;
   textColor: string;
+  logoMode: BoardLogoMode;
+  showLocalNumber: boolean;
 }
 
 function QuoteCardPageContent() {
@@ -88,6 +93,8 @@ function QuoteCardPageContent() {
     secondaryColor: brandKit.secondaryColor,
     accentColor: brandKit.accentColor,
     textColor: pickContrastingInk(brandKit.primaryColor),
+    logoMode: "none",
+    showLocalNumber: defaultShowLocalNumber(),
   };
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
@@ -164,6 +171,8 @@ function QuoteCardPageContent() {
     reset({
       ...initial,
       ...colours,
+      logoMode: defaultLogoMode(themeEstablished),
+      showLocalNumber: defaultShowLocalNumber(),
       layout: quoteLayoutFromQuery(searchParams, initial.layout),
       aspect: aspectFromQuery(searchParams, initial.aspect),
     });
@@ -274,6 +283,14 @@ function QuoteCardPageContent() {
             }))}
             onChange={(aspect) => setState({ ...state, aspect })}
           />
+          <CanvasBrandingControls
+            logoMode={state.logoMode}
+            onLogoModeChange={(logoMode) => setState({ ...state, logoMode })}
+            showLocalNumber={state.showLocalNumber}
+            onShowLocalNumberChange={(showLocalNumber) =>
+              setState({ ...state, showLocalNumber })
+            }
+          />
           </ToolFormDetails>
           <ToolColourSection
             primaryColor={state.primaryColor}
@@ -362,6 +379,8 @@ function QuoteCardPageContent() {
               aspect={state.aspect}
               layout={state.layout}
               tokens={tokens}
+              logoMode={state.logoMode}
+              showLocalNumber={state.showLocalNumber}
             />
           </div>
         </div>

@@ -61,7 +61,10 @@ import { BrandSetupPrompt } from "@/components/tools/BrandSetupPrompt";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
+import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { FlyerLayoutCanvas } from "@/components/tools/flyer-layouts";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import { defaultLogoMode, defaultShowLocalNumber } from "@/lib/comms/canvas-logo-mode";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { ConsentModal } from "@/components/tools/ConsentModal";
@@ -85,6 +88,8 @@ interface FlyerState {
   primaryColor: string;
   accentColor: string;
   secondaryColor: string;
+  logoMode: BoardLogoMode;
+  showLocalNumber: boolean;
 }
 
 function FlyerMakerPageContent() {
@@ -144,6 +149,8 @@ function FlyerMakerPageContent() {
     primaryColor: colours.primary,
     accentColor: colours.accent,
     secondaryColor: colours.secondary,
+    logoMode: "none",
+    showLocalNumber: defaultShowLocalNumber(),
   });
 
   const initial = buildInitial(brandColors);
@@ -237,6 +244,8 @@ function FlyerMakerPageContent() {
     }
     reset({
       ...buildInitial(colours),
+      logoMode: defaultLogoMode(themeEstablished),
+      showLocalNumber: defaultShowLocalNumber(),
     });
   });
 
@@ -420,6 +429,14 @@ function FlyerMakerPageContent() {
                   label: tf(`formats.${id}`),
                 }))}
                 onChange={(id) => setState({ ...state, format: id })}
+              />
+              <CanvasBrandingControls
+                logoMode={state.logoMode}
+                onLogoModeChange={(logoMode) => setState({ ...state, logoMode })}
+                showLocalNumber={state.showLocalNumber}
+                onShowLocalNumberChange={(showLocalNumber) =>
+                  setState({ ...state, showLocalNumber })
+                }
               />
             </ToolFormDetails>
 
@@ -619,6 +636,8 @@ function FlyerMakerPageContent() {
               photoScale={state.photoScale}
               showQr={state.showQr}
               qrSrc={qrSrc}
+              logoMode={state.logoMode}
+              showLocalLabel={state.showLocalNumber}
             />
           </div>
         }

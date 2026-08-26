@@ -43,6 +43,7 @@ export interface QrBoardCanvasProps {
   slots: QrBoardCanvasSlot[];
   showUrl: boolean;
   logoMode: BoardLogoMode;
+  showLocalNumber: boolean;
   primaryColor: string;
   secondaryColor: string;
   localLabel: string;
@@ -58,6 +59,7 @@ export function QrBoardCanvas({
   slots,
   showUrl,
   logoMode,
+  showLocalNumber,
   primaryColor,
   secondaryColor,
   localLabel,
@@ -183,7 +185,7 @@ export function QrBoardCanvas({
                 {posterSubtitle}
               </p>
             ) : null}
-            {showLogo ? (
+            {showLogo && showLocalNumber ? (
               <p
                 data-board-footer=""
                 className="truncate"

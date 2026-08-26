@@ -43,10 +43,11 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
-import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
+import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import {
   defaultLogoMode,
+  defaultShowLocalNumber,
   resolveLogoVariant,
   showCanvasLogo,
 } from "@/lib/comms/canvas-logo-mode";
@@ -82,6 +83,7 @@ interface QrCardState {
   sizeId: QrCardSizeId;
   showUrl: boolean;
   logoMode: BoardLogoMode;
+  showLocalNumber: boolean;
   primaryColor: string;
   secondaryColor: string;
 }
@@ -127,6 +129,7 @@ function QrCardPageContent() {
     sizeId: DEFAULT_QR_CARD_SIZE,
     showUrl: false,
     logoMode: "none",
+    showLocalNumber: defaultShowLocalNumber(),
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
   };
@@ -175,6 +178,7 @@ function QrCardPageContent() {
       sizeId: DEFAULT_QR_CARD_SIZE,
       showUrl: false,
       logoMode: defaultLogoMode(themeEstablished),
+      showLocalNumber: defaultShowLocalNumber(),
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
     });
@@ -453,9 +457,13 @@ function QrCardPageContent() {
               {isSquare ? t("squareSizeTip") : t("sizeTip")}
             </p>
           </div>
-            <LogoModeSegControl
-              value={state.logoMode}
-              onChange={(logoMode) => setState({ ...state, logoMode })}
+            <CanvasBrandingControls
+              logoMode={state.logoMode}
+              onLogoModeChange={(logoMode) => setState({ ...state, logoMode })}
+              showLocalNumber={state.showLocalNumber}
+              onShowLocalNumberChange={(showLocalNumber) =>
+                setState({ ...state, showLocalNumber })
+              }
             />
           </ToolFormDetails>
 
@@ -494,6 +502,7 @@ function QrCardPageContent() {
                 description: t(`presets.${first.descriptionKey}`),
                 tagline: t(`presets.${first.taglineKey}`),
                 logoMode: defaultLogoMode(themeEstablished),
+                showLocalNumber: defaultShowLocalNumber(),
                 primaryColor: brandKit.primaryColor,
                 secondaryColor: brandKit.secondaryColor,
               });
@@ -584,7 +593,7 @@ function QrCardPageContent() {
                             variantOverride={logoVariant}
                             backgroundColor={state.primaryColor}
                           />
-                          {useHeaderBranding ? (
+                          {useHeaderBranding && state.showLocalNumber ? (
                             <p
                               className="truncate font-semibold leading-tight"
                               style={{
@@ -713,7 +722,9 @@ function QrCardPageContent() {
                       ) : null}
                     </div>
 
-                    {showCanvasLogo(state.logoMode) && !useHeaderBranding ? (
+                    {showCanvasLogo(state.logoMode) &&
+                    state.showLocalNumber &&
+                    !useHeaderBranding ? (
                       <p
                         className="shrink-0 truncate font-semibold leading-tight"
                         style={{

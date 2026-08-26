@@ -19,9 +19,10 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
-import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
+import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import {
   defaultLogoMode,
+  defaultShowLocalNumber,
   resolveLogoVariant,
   showCanvasLogo,
 } from "@/lib/comms/canvas-logo-mode";
@@ -95,6 +96,7 @@ export default function PulsePollPage() {
           secondaryColor: brandKit.secondaryColor,
         }),
         logoMode: defaultLogoMode(themeEstablished),
+        showLocalNumber: defaultShowLocalNumber(),
         title: t("demoTitle"),
         intro: t("demoIntro"),
         questions: [
@@ -311,9 +313,13 @@ export default function PulsePollPage() {
       <p className="text-sm leading-snug text-gray-600">{t("shareSlugHint")}</p>
 
       <ToolFormDetails title={tc("sectionLayout")}>
-        <LogoModeSegControl
-          value={state.logoMode}
-          onChange={(logoMode) => setState({ ...state, logoMode })}
+        <CanvasBrandingControls
+          logoMode={state.logoMode}
+          onLogoModeChange={(logoMode) => setState({ ...state, logoMode })}
+          showLocalNumber={state.showLocalNumber}
+          onShowLocalNumberChange={(showLocalNumber) =>
+            setState({ ...state, showLocalNumber })
+          }
         />
       </ToolFormDetails>
 
@@ -340,6 +346,7 @@ export default function PulsePollPage() {
               secondaryColor: brandKit.secondaryColor,
             }),
             logoMode: defaultLogoMode(themeEstablished),
+            showLocalNumber: defaultShowLocalNumber(),
             title: t("demoTitle"),
             intro: t("demoIntro"),
             questions: [
@@ -368,12 +375,14 @@ export default function PulsePollPage() {
               className="h-10 w-auto"
               variantOverride={resolveLogoVariant(state.logoMode)}
             />
-            <span
-              className="font-semibold"
-              style={{ fontSize: bodyFontPx, fontFamily: tokens.bodyFontFamily }}
-            >
-              Local {resolveLocalNumber(brandKit.local.localNumber)}
-            </span>
+            {state.showLocalNumber ? (
+              <span
+                className="font-semibold"
+                style={{ fontSize: bodyFontPx, fontFamily: tokens.bodyFontFamily }}
+              >
+                Local {resolveLocalNumber(brandKit.local.localNumber)}
+              </span>
+            ) : null}
           </div>
         )}
         <h2
