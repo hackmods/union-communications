@@ -323,8 +323,8 @@ export default async function Steward101GuidePage({
         >
           {(
             [
-              { href: "/guide/workplace-mapping", label: t("related.workplaceMapping") },
               { href: "/guide/grievance-process", label: t("related.grievance") },
+              { href: "/guide/workplace-mapping", label: t("related.workplaceMapping") },
               { href: "/guide/dfr", label: t("related.dfr") },
               { href: "/guide/membership-signup", label: t("related.membership") },
             ] as const

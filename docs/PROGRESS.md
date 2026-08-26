@@ -1,5 +1,13 @@
 # Progress Log
 
+## Grievance playbook + intake worksheet (2026-08-26)
+
+- [x] Public `/guide/grievance-process` rewritten as a how-to-run-a-file playbook: forum gate, teaching 6 W's, clocks, CA-named jobs (not a universal 3-step map), meeting, worked file, failure modes, single disclaimer
+- [x] Document Generator preset `grievance-intake` (Excel 6 W's worksheet, empty defaults) with CTA from the investigation section
+- [x] Steward 101 go-deeper points here first; What's new `grievance-process-guide` updated in place; sources stay CA finder + CCBA + LRA, DFR as sibling
+- [x] Hub 6 W's on New Grievance named as next module only (`docs/modules/GRIEVANCE.md`) — not built this pass
+- Verify: `npm run lint`; `npm run test:unit -- src/lib/constants/office-templates.test.ts src/lib/export/office-export.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/updates.test.ts`
+
 ## Workplace mapping guide (2026-08-26)
 
 - [x] Public `/guide/workplace-mapping` — physical map, organic leaders, 1-to-5 support scale, privacy callouts, downloadable CSV template

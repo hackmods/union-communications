@@ -73,3 +73,17 @@ See `docs/PROGRESS.md` Phase 4.
 - Full audit log on view/edit
 - Pseudonym option for member identity
 - 7-year retention default post-resolution
+
+## Public playbook (2026-08-26)
+
+`/guide/grievance-process` teaches how to open and walk a file (forum gate, 6 W's, clocks, CA-named jobs). The printable 6 W's sheet is Document Generator preset `grievance-intake` (on-device Excel). Do not render live tenant `grievanceConfig` on the public guide.
+
+## Next (not this pass): Hub 6 W's intake
+
+Officer Hub create/early detail is still pseudonym / category / `filedAt` ([`NewGrievanceForm.tsx`](../../src/components/grievance/NewGrievanceForm.tsx)). The growth slice that matches Vision (“grievance tracking: dates, notes, deadlines”) without turning UnionOps into a lawyer:
+
+- Add structured 6 W's (and remedy) on create / early detail + adapter types; keep notes immutable for later commentary.
+- Surface CA steps from `resolveGrievanceConfig` (already true on the file) so the Hub never hardcodes pamphlet labels.
+- Optional: “open from worksheet” is a steward paste, not a file parser.
+- Still no auto-decision, no auto-send email, no legal advice.
+- What's new for that slice: `audience: "hub"` until the Hub is advertised.

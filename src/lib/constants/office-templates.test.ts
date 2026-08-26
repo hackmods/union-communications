@@ -8,13 +8,14 @@ import {
 import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 
 describe("office-templates", () => {
-  it("ships six high-quality presets including seniority worksheet", () => {
+  it("ships seven high-quality presets including seniority and grievance intake", () => {
     expect(OFFICE_PRESETS.map((p) => p.id)).toEqual([
       "simple-letter",
       "letterhead",
       "quick-event",
       "welcome-letter",
       "seniority-worksheet",
+      "grievance-intake",
       "lec-directory",
     ]);
   });
@@ -80,5 +81,43 @@ describe("office-templates", () => {
     expect(sheet.fields.some((f) => f.key === "sessionDate")).toBe(true);
     expect(sheet.fields.some((f) => f.key === "caseId")).toBe(true);
     expect(sheet.fields.some((f) => f.key === "chair")).toBe(true);
+  });
+
+  it("grievance intake is Excel-only with empty 6 W's fields", () => {
+    const sheet = getPreset("grievance-intake");
+    expect(sheet.outputs).toEqual({
+      docx: false,
+      xlsx: true,
+      pptx: false,
+      ics: false,
+    });
+    const fields = defaultFieldsForPreset(sheet);
+    expect(fields.who).toBe("");
+    expect(fields.want).toBe("");
+    expect(fields.witnesses).toBe("");
+    expect(Object.values(fields).every((v) => v === "")).toBe(true);
+  });
+
+  it("every preset i18n key exists in English catalog", async () => {
+    const en = (await import("../../../messages/en.json")).default
+      .documentGenerator as Record<string, unknown>;
+    function lookup(path: string): unknown {
+      return path.split(".").reduce<unknown>((acc, part) => {
+        if (!acc || typeof acc !== "object") return undefined;
+        return (acc as Record<string, unknown>)[part];
+      }, en);
+    }
+    for (const preset of OFFICE_PRESETS) {
+      expect(lookup(preset.titleKey), preset.titleKey).toEqual(expect.any(String));
+      expect(lookup(preset.blurbKey), preset.blurbKey).toEqual(expect.any(String));
+      for (const field of preset.fields) {
+        expect(lookup(field.labelKey), `${preset.id}:${field.labelKey}`).toEqual(
+          expect.any(String),
+        );
+      }
+      for (const key of preset.structureKeys) {
+        expect(lookup(key), `${preset.id}:${key}`).toEqual(expect.any(String));
+      }
+    }
   });
 });

@@ -79,6 +79,82 @@ export function OfficePresetMock({
   const type = tokens ? officeMockTypography(tokens) : FALLBACK_TYPE;
   const bodyPadPx = officeMockPaddingPx(tokens);
 
+  if (presetId === "grievance-intake") {
+    const wRows = [
+      ["Who", fields.who],
+      ["What", fields.what],
+      ["Where", fields.where],
+      ["When", fields.when],
+      ["Why", fields.why],
+      ["Want", fields.want],
+    ] as const;
+    return (
+      <div className={cn("space-y-3", className)}>
+        <div
+          className="overflow-hidden rounded-lg border border-gray-200 shadow-sm"
+          style={{ backgroundColor: "#fff" }}
+        >
+          <div
+            className="flex items-center gap-3 px-4 py-3"
+            style={{ backgroundColor: palette.primary, color: ink }}
+          >
+            {logoSrc ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={logoSrc}
+                alt=""
+                className="h-8 w-auto max-w-[96px] object-contain"
+              />
+            ) : null}
+            <span
+              className="font-semibold"
+              style={{ fontSize: type.headerTitlePx }}
+            >
+              {localLabel}
+            </span>
+          </div>
+          <div className="space-y-2" style={{ padding: bodyPadPx }}>
+            <p
+              className="font-bold"
+              style={{ color: palette.secondary, fontSize: type.docTitlePx }}
+            >
+              Grievance intake
+            </p>
+            <p className="text-gray-600" style={{ fontSize: type.labelPx }}>
+              {[fields.incidentDate, fields.caArticle]
+                .filter(Boolean)
+                .join(" · ") || "Date · CA article"}
+            </p>
+            <div className="overflow-x-auto">
+              <table
+                className="w-full border-collapse text-gray-700"
+                style={{ fontSize: Math.max(9, type.labelPx - 2) }}
+              >
+                <tbody>
+                  {wRows.map(([label, value]) => (
+                    <tr key={label}>
+                      <th className="w-16 border border-gray-200 bg-gray-50 px-1 py-1 text-left font-semibold">
+                        {label}
+                      </th>
+                      <td className="h-6 border border-gray-100 px-1">
+                        {value}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <FormatChips
+          includeDocx={includeDocx}
+          includeXlsx={includeXlsx}
+          includePptx={includePptx}
+        />
+      </div>
+    );
+  }
+
   if (presetId === "seniority-worksheet") {
     const columns = [
       "Member",
@@ -396,7 +472,8 @@ export function OfficeExampleTile({
               <div className="h-1 w-1/3 rounded-sm bg-gray-300" />
               <div className="h-1 w-1/2 rounded-sm bg-gray-200" />
             </div>
-          ) : presetId === "seniority-worksheet" ? (
+          ) : presetId === "seniority-worksheet" ||
+            presetId === "grievance-intake" ? (
             <div className="space-y-1">
               <div className="grid grid-cols-4 gap-0.5">
                 {Array.from({ length: 8 }).map((_, i) => (

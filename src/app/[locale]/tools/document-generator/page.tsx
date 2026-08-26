@@ -22,7 +22,10 @@ import {
   type OfficePresetId,
 } from "@/lib/constants/office-templates";
 import { resolvePresetDestination } from "@/lib/utils/local-links";
-import type { SeniorityWorksheetLabels } from "@/lib/export/office-export";
+import type {
+  GrievanceIntakeLabels,
+  SeniorityWorksheetLabels,
+} from "@/lib/export/office-export";
 import { renderEventIcsBlob } from "@/lib/calendar/event-ics";
 import { downloadBlob } from "@/lib/export/image-export";
 import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
@@ -49,12 +52,8 @@ const OfficeExampleTile = dynamic(
   { ssr: false },
 );
 
-const OFFICE_PRESET_IDS = new Set<string>(
-  OFFICE_PRESETS.map((p) => p.id),
-);
-
 function isOfficePresetId(value: string): value is OfficePresetId {
-  return OFFICE_PRESET_IDS.has(value);
+  return OFFICE_PRESETS.some((p) => p.id === value);
 }
 
 export interface GeneratorState {
@@ -181,6 +180,29 @@ function DocumentGeneratorPageContent() {
     };
   }
 
+  function grievanceIntakeLabels(): GrievanceIntakeLabels {
+    return {
+      sheetName: t("grievanceIntakeSheet.sheetName"),
+      title: t("grievanceIntakeSheet.title"),
+      local: t("grievanceIntakeSheet.local"),
+      incidentDate: t("fields.incidentDate"),
+      caArticle: t("fields.caArticle"),
+      itemCol: t("grievanceIntakeSheet.itemCol"),
+      notesCol: t("grievanceIntakeSheet.notesCol"),
+      witnesses: t("fields.witnesses"),
+      clockNotes: t("fields.clockNotes"),
+      disclaimer: t("grievanceIntakeSheet.disclaimer"),
+      rows: {
+        who: t("fields.who"),
+        what: t("fields.what"),
+        where: t("fields.where"),
+        when: t("fields.when"),
+        why: t("fields.why"),
+        want: t("fields.want"),
+      },
+    };
+  }
+
   function applyPreset(id: OfficePresetId) {
     const next = getPreset(id);
     const nextFields = defaultFieldsForPreset(next);
@@ -208,8 +230,8 @@ function DocumentGeneratorPageContent() {
     if (deepLinkApplied.current) return;
     const raw = searchParams.get("preset");
     if (!raw || !isOfficePresetId(raw)) return;
-    deepLinkApplied.current = true;
     applyPreset(raw);
+    deepLinkApplied.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot deep link
   }, [searchParams]);
 
@@ -289,6 +311,21 @@ function DocumentGeneratorPageContent() {
       });
       return;
     }
+    if (state.presetId === "grievance-intake") {
+      void run(async () => {
+        const { exportGrievanceIntakeXlsx } = await import(
+          "@/lib/export/office-export"
+        );
+        await exportGrievanceIntakeXlsx({
+          palette,
+          localNumber: local,
+          fields,
+          labels: grievanceIntakeLabels(),
+          filename,
+        });
+      });
+      return;
+    }
     if (state.presetId === "lec-directory") {
       void run(async () => {
         const { exportLecDirectoryXlsx } = await import(
@@ -353,6 +390,7 @@ function DocumentGeneratorPageContent() {
         renderEventRsvpXlsx,
         renderPptx,
         renderSeniorityWorksheetXlsx,
+        renderGrievanceIntakeXlsx,
         renderLecDirectoryXlsx,
       } = await import("@/lib/export/office-export");
 
@@ -391,6 +429,13 @@ function DocumentGeneratorPageContent() {
                   fields,
                   labels: seniorityLabels(),
                 })
+              : state.presetId === "grievance-intake"
+                ? renderGrievanceIntakeXlsx({
+                    palette,
+                    localNumber: local,
+                    fields,
+                    labels: grievanceIntakeLabels(),
+                  })
               : state.presetId === "lec-directory"
                 ? renderLecDirectoryXlsx({
                     palette,
@@ -548,7 +593,8 @@ function DocumentGeneratorPageContent() {
               {preset.outputs.xlsx ? (
                 <Checkbox
                   label={
-                    state.presetId === "seniority-worksheet"
+                    state.presetId === "seniority-worksheet" ||
+                    state.presetId === "grievance-intake"
                       ? t("outputXlsxWorksheet")
                       : t("outputXlsx")
                   }

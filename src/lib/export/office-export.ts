@@ -93,6 +93,8 @@ export async function renderDocxFromPreset(
       return buildLecDirectoryDocx(input);
     case "seniority-worksheet":
       throw new Error("Seniority worksheet exports Excel only");
+    case "grievance-intake":
+      throw new Error("Grievance intake worksheet exports Excel only");
   }
 }
 
@@ -437,6 +439,145 @@ export async function exportSeniorityWorksheetXlsx(
 ): Promise<void> {
   const { filename, ...rest } = opts;
   await downloadBlob(await renderSeniorityWorksheetXlsx(rest), filename);
+}
+
+/** Localized labels for the printable grievance 6 W's intake sheet. */
+export type GrievanceIntakeLabels = {
+  sheetName: string;
+  title: string;
+  local: string;
+  incidentDate: string;
+  caArticle: string;
+  itemCol: string;
+  notesCol: string;
+  witnesses: string;
+  clockNotes: string;
+  disclaimer: string;
+  rows: {
+    who: string;
+    what: string;
+    where: string;
+    when: string;
+    why: string;
+    want: string;
+  };
+};
+
+const INTAKE_W_KEYS = [
+  "who",
+  "what",
+  "where",
+  "when",
+  "why",
+  "want",
+] as const;
+
+/**
+ * Blank 6 W's intake worksheet. Stewards fill cells by hand or in Excel.
+ * Default/example cells stay empty — never seed member names.
+ */
+export async function renderGrievanceIntakeXlsx(opts: {
+  palette: BrandPalette;
+  localNumber: string;
+  fields: Record<string, string>;
+  labels: GrievanceIntakeLabels;
+}): Promise<Blob> {
+  const excelMod = await import("exceljs");
+  const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
+  const workbook = new ExcelNS.Workbook();
+  const ws = workbook.addWorksheet(opts.labels.sheetName.slice(0, 31) || "Intake");
+  const fill = opts.palette.primary.replace(/^#/, "").toUpperCase();
+
+  ws.getCell("A1").value = opts.labels.title;
+  ws.getCell("A1").font = { bold: true, size: 14, color: { argb: "FFFFFFFF" } };
+  ws.getCell("A1").fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: `FF${fill}` },
+  };
+  ws.mergeCells("A1:B1");
+
+  ws.getCell("A2").value = opts.labels.local;
+  ws.getCell("B2").value = opts.localNumber;
+  ws.getCell("A3").value = opts.labels.incidentDate;
+  ws.getCell("B3").value = opts.fields.incidentDate ?? "";
+  ws.getCell("A4").value = opts.labels.caArticle;
+  ws.getCell("B4").value = opts.fields.caArticle ?? "";
+
+  for (let r = 2; r <= 4; r++) {
+    ws.getCell(`A${r}`).font = { bold: true, color: { argb: "FFFFFFFF" } };
+    ws.getCell(`A${r}`).fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: `FF${fill}` },
+    };
+  }
+
+  ws.getCell("A5").value = opts.labels.disclaimer;
+  ws.getCell("A5").font = { italic: true, color: { argb: "FF4B5563" }, size: 9 };
+  ws.mergeCells("A5:B5");
+  ws.getRow(5).height = 28;
+
+  ws.getCell("A6").value = opts.labels.itemCol;
+  ws.getCell("B6").value = opts.labels.notesCol;
+  for (const col of ["A", "B"] as const) {
+    ws.getCell(`${col}6`).font = { bold: true };
+    ws.getCell(`${col}6`).fill = {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "FFE8EEF4" },
+    };
+  }
+
+  INTAKE_W_KEYS.forEach((key, i) => {
+    const row = 7 + i;
+    ws.getCell(`A${row}`).value = opts.labels.rows[key];
+    ws.getCell(`A${row}`).font = { bold: true };
+    ws.getCell(`B${row}`).value = opts.fields[key] ?? "";
+    ws.getCell(`B${row}`).alignment = { wrapText: true, vertical: "top" };
+    ws.getRow(row).height = 36;
+  });
+
+  ws.getCell("A13").value = opts.labels.witnesses;
+  ws.getCell("A13").font = { bold: true, color: { argb: "FFFFFFFF" } };
+  ws.getCell("A13").fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: `FF${fill}` },
+  };
+  ws.getCell("B13").value = opts.fields.witnesses ?? "";
+  ws.getCell("B13").alignment = { wrapText: true, vertical: "top" };
+  ws.getRow(13).height = 36;
+
+  ws.getCell("A14").value = opts.labels.clockNotes;
+  ws.getCell("A14").font = { bold: true, color: { argb: "FFFFFFFF" } };
+  ws.getCell("A14").fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: `FF${fill}` },
+  };
+  ws.getCell("B14").value = opts.fields.clockNotes ?? "";
+  ws.getCell("B14").alignment = { wrapText: true, vertical: "top" };
+  ws.getRow(14).height = 36;
+
+  ws.getColumn(1).width = 22;
+  ws.getColumn(2).width = 72;
+
+  const out = await workbook.xlsx.writeBuffer();
+  return new Blob([new Uint8Array(out)], { type: XLSX_MIME });
+}
+
+export async function exportGrievanceIntakeXlsx(
+  opts: {
+    palette: BrandPalette;
+    localNumber: string;
+    fields: Record<string, string>;
+    labels: GrievanceIntakeLabels;
+    filename: string;
+  },
+): Promise<void> {
+  const { filename, ...rest } = opts;
+  await downloadBlob(await renderGrievanceIntakeXlsx(rest), filename);
 }
 
 

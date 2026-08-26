@@ -1,5 +1,5 @@
 /**
- * Document & Slide Generator — three high-quality presets; Brand Kit only.
+ * Document & Slide Generator — branded office presets; Brand Kit only.
  */
 
 import type { BrandKit } from "@/types/entities";
@@ -10,6 +10,7 @@ export type OfficePresetId =
   | "quick-event"
   | "welcome-letter"
   | "seniority-worksheet"
+  | "grievance-intake"
   | "lec-directory";
 
 export type FieldDef = {
@@ -249,6 +250,72 @@ export const OFFICE_PRESETS: OfficePreset[] = [
       {
         key: "committeeNotes",
         labelKey: "fields.committeeNotes",
+        multiline: true,
+        defaultValue: "",
+      },
+    ],
+  },
+  {
+    id: "grievance-intake",
+    titleKey: "presets.grievanceIntake.title",
+    blurbKey: "presets.grievanceIntake.blurb",
+    fileStem: "grievance-intake",
+    outputs: { docx: false, xlsx: true, pptx: false, ics: false },
+    structureKeys: ["structure.grievanceIntakeXlsx"],
+    fields: [
+      {
+        key: "incidentDate",
+        labelKey: "fields.incidentDate",
+        defaultValue: "",
+      },
+      {
+        key: "caArticle",
+        labelKey: "fields.caArticle",
+        defaultValue: "",
+      },
+      {
+        key: "who",
+        labelKey: "fields.who",
+        multiline: true,
+        defaultValue: "",
+      },
+      {
+        key: "what",
+        labelKey: "fields.what",
+        multiline: true,
+        defaultValue: "",
+      },
+      {
+        key: "where",
+        labelKey: "fields.where",
+        defaultValue: "",
+      },
+      {
+        key: "when",
+        labelKey: "fields.when",
+        defaultValue: "",
+      },
+      {
+        key: "why",
+        labelKey: "fields.why",
+        multiline: true,
+        defaultValue: "",
+      },
+      {
+        key: "want",
+        labelKey: "fields.want",
+        multiline: true,
+        defaultValue: "",
+      },
+      {
+        key: "witnesses",
+        labelKey: "fields.witnesses",
+        multiline: true,
+        defaultValue: "",
+      },
+      {
+        key: "clockNotes",
+        labelKey: "fields.clockNotes",
         multiline: true,
         defaultValue: "",
       },

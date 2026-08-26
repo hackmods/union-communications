@@ -140,7 +140,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/grievance-process": {
       title: "The Steward's Guide to Grievances",
       description:
-        "How to log the 6 W's and walk a grievance from informal talk to written filing and arbitration. Confirm CA clocks. Not legal advice.",
+        "Pick the right forum, log the 6 W's, count CA clocks, and print an intake sheet. Confirm your agreement. Not legal advice.",
     },
     "/guide/seniority-bumping": {
       title: "Seniority & bumping playbook",
@@ -292,7 +292,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/grievance-process": {
       title: "Le guide du délégué sur les griefs",
       description:
-        "Comment consigner les 6 W et mener un grief de la discussion informelle au dépôt écrit et à l'arbitrage. Vérifiez les délais. Pas un avis juridique.",
+        "Choisissez le bon forum, consignez les 6 W, comptez les délais et imprimez une feuille d'accueil. Confirmez votre convention. Pas un avis juridique.",
     },
     "/guide/seniority-bumping": {
       title: "Guide d'ancienneté et de bumping",

@@ -17,6 +17,7 @@ import {
   renderDocxFromPreset,
   renderEventRsvpXlsx,
   renderSeniorityWorksheetXlsx,
+  renderGrievanceIntakeXlsx,
   renderPptx,
 } from "./office-export";
 import { transparentPngBytes } from "./brand-logo-bytes";
@@ -192,6 +193,56 @@ describe("office-export", () => {
       expect(ws!.getCell("B2").value).toBe("110");
       expect(ws!.getCell("A8").value).toBe("Member ref");
       expect(ws!.getCell("F8").value).toBe("Eligible?");
+    },
+    20_000,
+  );
+
+  it(
+    "renderGrievanceIntakeXlsx builds branded blank 6 W's sheet",
+    async () => {
+      const blob = await renderGrievanceIntakeXlsx({
+        palette: { primary: "#003366", secondary: "#001a33", accent: "#c45c26" },
+        localNumber: "110",
+        fields: {
+          incidentDate: "2026-08-26",
+          caArticle: "Art. 7",
+          who: "",
+          what: "",
+        },
+        labels: {
+          sheetName: "Intake",
+          title: "Grievance intake (6 W's)",
+          local: "Local",
+          incidentDate: "Incident date",
+          caArticle: "CA article",
+          itemCol: "Item",
+          notesCol: "Notes",
+          witnesses: "Witnesses",
+          clockNotes: "Clock notes",
+          disclaimer: "Aid only",
+          rows: {
+            who: "Who",
+            what: "What",
+            where: "Where",
+            when: "When",
+            why: "Why",
+            want: "Want",
+          },
+        },
+      });
+      expect(blob.size).toBeGreaterThan(1000);
+
+      const excelMod = await import("exceljs");
+      const ExcelNS = (excelMod.default ?? excelMod) as typeof import("exceljs");
+      const wb = new ExcelNS.Workbook();
+      await wb.xlsx.load(await blob.arrayBuffer());
+      const ws = wb.getWorksheet("Intake");
+      expect(ws).toBeTruthy();
+      expect(ws!.getCell("A1").value).toBe("Grievance intake (6 W's)");
+      expect(ws!.getCell("B2").value).toBe("110");
+      expect(ws!.getCell("B3").value).toBe("2026-08-26");
+      expect(ws!.getCell("A7").value).toBe("Who");
+      expect(ws!.getCell("B7").value).toBe("");
     },
     20_000,
   );
