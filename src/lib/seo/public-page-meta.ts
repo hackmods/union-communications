@@ -132,6 +132,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "What the duty of fair representation asks of stewards and local officers in practice, where complaints usually start, and how to keep a clean record.",
     },
+    "/guide/steward-101": {
+      title: "Steward 101: Your Role and Rights",
+      description:
+        "The three hats every steward wears, the right to union representation in discipline meetings, and the duty of fair representation. Not legal advice.",
+    },
     "/guide/grievance-process": {
       title: "The Steward's Guide to Grievances",
       description:
@@ -273,6 +278,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Devoir de représentation équitable",
       description:
         "Ce que le devoir de représentation équitable exige en pratique des délégués et dirigeants locaux, d'où viennent les plaintes et comment garder un dossier propre.",
+    },
+    "/guide/steward-101": {
+      title: "Délégué 101 : votre rôle et vos droits",
+      description:
+        "Les trois chapeaux du délégué, le droit à la représentation syndicale en entrevue disciplinaire et le devoir de représentation équitable. Pas un avis juridique.",
     },
     "/guide/grievance-process": {
       title: "Le guide du délégué sur les griefs",

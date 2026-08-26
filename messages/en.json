@@ -415,6 +415,7 @@
       "plan": "Get started — Brand Kit first, then the First week roadmap",
       "resources": "Comms Resources — orientation, practice, sources",
       "crisis": "Strike Guide — high-stakes bargaining and strike communications",
+      "steward101": "Steward 101: Your Role and Rights",
       "grievance": "The Steward's Guide to Grievances",
       "dfr": "Duty of Fair Representation playbook",
       "seniority": "Seniority & bumping playbook",
@@ -624,6 +625,7 @@
     },
     "labourGuides": {
       "title": "Labour rights guides",
+      "steward101": "Steward 101",
       "grievance": "Grievance process",
       "dfr": "Duty of Fair Representation",
       "seniority": "Seniority & bumping",
@@ -2579,6 +2581,7 @@
       "title": "Labour rights playbooks",
       "intro": "Steward-facing Ontario playbooks — not legal advice. Same depth as a training handout: gate, steps, worked example, and sources. Not in the main Guides menu yet; bookmark this section or find them on The Blueprint.",
       "links": {
+        "steward101": "Steward 101: Your Role and Rights",
         "grievance": "The Steward's Guide to Grievances",
         "dfr": "Duty of Fair Representation",
         "seniority": "Seniority & bumping",
@@ -2586,6 +2589,7 @@
         "jointCommittee": "Joint committee playbook"
       },
       "blurb": {
+        "steward101": "The three hats, representation rights, and the duty of fair representation — start here.",
         "grievance": "The 6 W's, informal discussion, written filing, and arbitration — clocks from your CA.",
         "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
         "seniority": "Two cascade examples and a printable seniority worksheet.",
@@ -4014,6 +4018,67 @@
       "cta": "Open grievances in Officer Hub"
     }
   },
+  "steward101Guide": {
+    "title": "Steward 101: Your Role and Rights",
+    "subtitle": "The three hats, representation rights, and the duty of fair representation",
+    "backToGuide": "Back to The Blueprint",
+    "tocLabel": "On this page",
+    "intro": "Being elected as a steward is the most important job in the labour movement. You are the first line of defense against management and the face of the union on the shop floor. To be effective, you need to understand the three \"hats\" you wear, and the legal obligations of your role.",
+    "disclaimer": {
+      "title": "Not legal advice",
+      "body": "This page orients new stewards. It does not replace your Collective Agreement, local bylaws, or training from your servicing representative."
+    },
+    "related": {
+      "grievance": "The Steward's Guide to Grievances",
+      "dfr": "Duty of Fair Representation playbook",
+      "rightToRefuse": "Right to refuse unsafe work"
+    },
+    "threeHats": {
+      "navLabel": "Three hats",
+      "title": "The Three Hats of a Steward",
+      "intro": "Effective stewards switch between three roles. Know which hat you are wearing before you act.",
+      "items": {
+        "enforcer": {
+          "label": "The Enforcer",
+          "content": "Management will break the contract if they think they can get away with it. Your job is to know the Collective Bargaining Agreement (CBA) better than management, investigate issues (using the 6 W's), and file grievances when the contract is violated."
+        },
+        "communicator": {
+          "label": "The Communicator",
+          "content": "You are the bridge. You communicate the Local Executive's strategy to the members, and you communicate the members' anger, fears, and ideas back up to the Executive."
+        },
+        "organizer": {
+          "label": "The Organizer",
+          "content": "A grievance on paper is weak without power behind it. Your job is to build solidarity. You map your workplace, identify organic leaders, and mobilize your coworkers to take collective action."
+        }
+      }
+    },
+    "representation": {
+      "navLabel": "Representation",
+      "title": "The Right to Representation",
+      "intro": "Under almost all collective agreements, workers have the right to union representation during any meeting that could lead to discipline.",
+      "items": {
+        "request": "If management calls a member into an office and begins asking investigative questions, instruct the member to say: <em>\"If this discussion could in any way lead to my being disciplined or terminated, I respectfully request that my union steward be present.\"</em>",
+        "role": "As a steward, you are not just a witness in these meetings. You have the right to speak, ask for clarification, and advise the member. You operate on equal footing with management in these meetings."
+      }
+    },
+    "dfr": {
+      "navLabel": "Fair representation",
+      "title": "The Duty of Fair Representation (DFR)",
+      "intro": "This is a critical legal obligation. Labour law requires unions to represent all members of the bargaining unit fairly, in good faith, and without discrimination or arbitrary decisions.",
+      "items": {
+        "meaning": "<strong>What this means:</strong> You cannot refuse to file a grievance or represent a member simply because you personally dislike them, or because they voted against the union.",
+        "investigate": "You must thoroughly investigate every complaint objectively. If a grievance lacks merit and the union decides not to proceed, that decision must be based on the facts and the contract, not personal bias."
+      }
+    },
+    "goldenRule": {
+      "title": "The Golden Rule of Stewarding",
+      "body": "Never promise a member you will \"win\" their case. You do not make the final decision — an arbitrator or management does. Promise only that you will fight for them and represent them to the absolute best of your ability."
+    },
+    "next": {
+      "title": "Go deeper",
+      "body": "When you are ready to investigate a file or walk a grievance step by step, open the playbooks below."
+    }
+  },
   "grievanceGuide": {
     "title": "The Steward's Guide to Grievances",
     "subtitle": "Investigate, document, and enforce the contract — from the 6 W's to arbitration",
@@ -4868,6 +4933,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "steward-101-guide": {
+        "title": "Steward 101: Your Role and Rights",
+        "body": "A foundational floor guide to the three hats, representation rights in discipline meetings, and the duty of fair representation."
+      },
       "grievance-process-guide": {
         "title": "The Steward's Guide to Grievances",
         "body": "A floor playbook for logging the 6 W's and walking a grievance from informal discussion to written filing and arbitration. Confirm clocks in your Collective Agreement."

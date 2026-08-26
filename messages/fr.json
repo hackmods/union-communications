@@ -415,6 +415,7 @@
       "plan": "Commencer — Trousse de marque d'abord, puis la feuille de route Première semaine",
       "resources": "Ressources de communication — orientation, pratique, sources",
       "crisis": "Guide de grève — communications de négociation et de grève à enjeux élevés",
+      "steward101": "Délégué 101 : votre rôle et vos droits",
       "grievance": "Le guide du délégué sur les griefs",
       "dfr": "Devoir de représentation équitable — guide pratique",
       "seniority": "Guide d'ancienneté et de bumping",
@@ -624,6 +625,7 @@
     },
     "labourGuides": {
       "title": "Guides de droits au travail",
+      "steward101": "Délégué 101",
       "grievance": "Processus de grief",
       "dfr": "Devoir de représentation équitable",
       "seniority": "Ancienneté et bumping",
@@ -2579,6 +2581,7 @@
       "title": "Guides des droits du travail",
       "intro": "Guides pratiques pour délégués en Ontario — pas un avis juridique. Même profondeur qu'une fiche de formation : seuil, étapes, exemple commenté et sources. Pas encore dans le menu Guides principal ; mettez cette section en favori ou retrouvez-les dans le Plan directeur.",
       "links": {
+        "steward101": "Délégué 101 : votre rôle et vos droits",
         "grievance": "Le guide du délégué sur les griefs",
         "dfr": "Devoir de représentation équitable",
         "seniority": "Ancienneté et bumping",
@@ -2586,6 +2589,7 @@
         "jointCommittee": "Guide des comités conjoints"
       },
       "blurb": {
+        "steward101": "Les trois chapeaux, le droit à la représentation et le devoir de représentation équitable — commencez ici.",
         "grievance": "Les 6 W, discussion informelle, dépôt écrit et arbitrage — délais selon votre convention.",
         "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
@@ -3964,6 +3968,67 @@
       "cta": "Ouvrir les griefs dans le Hub des dirigeants"
     }
   },
+  "steward101Guide": {
+    "title": "Délégué 101 : votre rôle et vos droits",
+    "subtitle": "Les trois chapeaux, le droit à la représentation et le devoir de représentation équitable",
+    "backToGuide": "Retour au Plan directeur",
+    "tocLabel": "Sur cette page",
+    "intro": "Être élu délégué est le rôle le plus important du mouvement syndical. Vous êtes la première ligne de défense face à la direction et le visage du syndicat sur le plancher de l'usine. Pour être efficace, vous devez comprendre les trois « chapeaux » que vous portez et les obligations juridiques de votre rôle.",
+    "disclaimer": {
+      "title": "Pas un avis juridique",
+      "body": "Cette page oriente les nouveaux délégués. Elle ne remplace pas votre convention collective, vos règlements locaux ni la formation de votre représentant de service."
+    },
+    "related": {
+      "grievance": "Le guide du délégué sur les griefs",
+      "dfr": "Devoir de représentation équitable — guide pratique",
+      "rightToRefuse": "Droit de refuser un travail dangereux"
+    },
+    "threeHats": {
+      "navLabel": "Trois chapeaux",
+      "title": "Les trois chapeaux du délégué",
+      "intro": "Les délégués efficaces passent d'un rôle à l'autre. Sachez quel chapeau vous portez avant d'agir.",
+      "items": {
+        "enforcer": {
+          "label": "Le garant du contrat",
+          "content": "La direction enfreindra la convention si elle pense pouvoir s'en tirer. Votre travail est de connaître la convention collective (CC) mieux que la direction, d'enquêter sur les problèmes (avec les 6 W) et de déposer des griefs lorsque la convention est violée."
+        },
+        "communicator": {
+          "label": "Le communicateur",
+          "content": "Vous êtes le pont. Vous transmettez la stratégie de l'exécutif local aux membres, et vous remontez la colère, les craintes et les idées des membres à l'exécutif."
+        },
+        "organizer": {
+          "label": "L'organisateur",
+          "content": "Un grief sur papier est faible sans pouvoir derrière. Votre travail est de bâtir la solidarité. Vous cartographiez votre milieu de travail, repérez les leaders naturels et mobilisez vos collègues pour une action collective."
+        }
+      }
+    },
+    "representation": {
+      "navLabel": "Représentation",
+      "title": "Le droit à la représentation",
+      "intro": "Presque toutes les conventions collectives donnent aux travailleurs le droit à une représentation syndicale lors de toute rencontre pouvant mener à une mesure disciplinaire.",
+      "items": {
+        "request": "Si la direction convoque un membre au bureau et commence à poser des questions d'enquête, demandez-lui de dire : <em>« Si cette discussion peut de quelque façon mener à une mesure disciplinaire ou à mon congédiement, je demande respectueusement la présence de mon délégué syndical. »</em>",
+        "role": "En tant que délégué, vous n'êtes pas seulement témoin dans ces rencontres. Vous avez le droit de parler, de demander des clarifications et de conseiller le membre. Vous êtes sur un pied d'égalité avec la direction dans ces rencontres."
+      }
+    },
+    "dfr": {
+      "navLabel": "Représentation équitable",
+      "title": "Le devoir de représentation équitable (DRE)",
+      "intro": "Il s'agit d'une obligation juridique essentielle. Le droit du travail exige que le syndicat représente tous les membres de l'unité de négociation équitablement, de bonne foi et sans discrimination ni décisions arbitraires.",
+      "items": {
+        "meaning": "<strong>Ce que cela signifie :</strong> Vous ne pouvez pas refuser de déposer un grief ou de représenter un membre simplement parce que vous ne l'aimez pas personnellement, ou parce qu'il a voté contre le syndicat.",
+        "investigate": "Vous devez enquêter minutieusement et objectivement sur chaque plainte. Si un grief manque de fondement et que le syndicat décide de ne pas aller de l'avant, cette décision doit reposer sur les faits et la convention, et non sur un préjugé personnel."
+      }
+    },
+    "goldenRule": {
+      "title": "La règle d'or du délégué",
+      "body": "Ne promettez jamais à un membre que vous « gagnerez » son dossier. Ce n'est pas vous qui prenez la décision finale — c'est un arbitre ou la direction. Promettez seulement que vous vous battrez pour lui ou elle et que vous le ou la représenterez du mieux possible."
+    },
+    "next": {
+      "title": "Aller plus loin",
+      "body": "Quand vous êtes prêt à enquêter sur un dossier ou à suivre un grief étape par étape, ouvrez les guides pratiques ci-dessous."
+    }
+  },
   "grievanceGuide": {
     "title": "Le guide du délégué sur les griefs",
     "subtitle": "Enquêter, documenter et faire respecter la convention — des 6 W jusqu'à l'arbitrage",
@@ -4818,6 +4883,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "steward-101-guide": {
+        "title": "Délégué 101 : votre rôle et vos droits",
+        "body": "Un guide de base sur le plancher : les trois chapeaux, le droit à la représentation en entrevue disciplinaire et le devoir de représentation équitable."
+      },
       "grievance-process-guide": {
         "title": "Le guide du délégué sur les griefs",
         "body": "Un guide de terrain pour consigner les 6 W et mener un grief de la discussion informelle au dépôt écrit et à l'arbitrage. Vérifiez les délais dans votre convention collective."
