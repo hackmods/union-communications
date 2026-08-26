@@ -46,6 +46,13 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
+import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import {
+  defaultLogoMode,
+  resolveLogoVariant,
+  showCanvasLogo,
+} from "@/lib/comms/canvas-logo-mode";
 import { inkWithAlpha, mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import {
@@ -77,7 +84,7 @@ interface PosterState {
   supportUrl: string;
   showCta: boolean;
   showQr: boolean;
-  includeBranding: boolean;
+  logoMode: BoardLogoMode;
   edgeClearance: boolean;
   primaryColor: string;
   secondaryColor: string;
@@ -197,7 +204,7 @@ export default function SolidarityPosterPage() {
     supportUrl: "",
     showCta: true,
     showQr: true,
-    includeBranding: false,
+    logoMode: "none",
     edgeClearance: false,
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
@@ -227,7 +234,7 @@ export default function SolidarityPosterPage() {
       supportUrl: resolveLocalWebsiteUrl(brandKit, origin) || SITE_URL,
       showCta: true,
       showQr: true,
-      includeBranding: themeEstablished,
+      logoMode: defaultLogoMode(themeEstablished),
       edgeClearance: defaultEdgeClearanceForMedium("print"),
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
@@ -257,9 +264,10 @@ export default function SolidarityPosterPage() {
   const localLabel = brandKit.local.subText
     ? `Local ${localNum} - ${brandKit.local.subText}`
     : `Local ${localNum}`;
-  const showLockup =
-    state.includeBranding &&
+  const showLogo =
+    showCanvasLogo(state.logoMode) &&
     (state.layout === "stack" || state.layout === "banner");
+  const logoVariant = resolveLogoVariant(state.logoMode);
   const lines = headlineLines(state.headline);
   const chrome = layoutChrome(format);
   const isLandscape = chrome.isLandscape;
@@ -298,7 +306,7 @@ export default function SolidarityPosterPage() {
   } as const;
   const displayUrl = state.supportUrl.trim() || SITE_URL;
   const showLocalInFooter =
-    state.includeBranding || state.layout === "split";
+    showCanvasLogo(state.logoMode) || state.layout === "split";
   const showFooter =
     state.showCta || state.showQr || showLocalInFooter;
   const canvasInk = pickContrastingInk(state.primaryColor);
@@ -560,6 +568,10 @@ export default function SolidarityPosterPage() {
             {medium === "digital" ? (
               <p className="text-xs text-gray-500">{t("digitalHint")}</p>
             ) : null}
+            <LogoModeSegControl
+              value={state.logoMode}
+              onChange={(logoMode) => setState({ ...state, logoMode })}
+            />
           </ToolFormDetails>
 
           <ToolFormDetails title={tc("sectionOptions")}>
@@ -581,18 +593,6 @@ export default function SolidarityPosterPage() {
                 className="size-4"
               />
               {t("showQr")}
-            </label>
-
-            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-              <input
-                type="checkbox"
-                checked={state.includeBranding}
-                onChange={(e) =>
-                  setState({ ...state, includeBranding: e.target.checked })
-                }
-                className="size-4"
-              />
-              {t("includeBranding")}
             </label>
 
             <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
@@ -634,7 +634,7 @@ export default function SolidarityPosterPage() {
                 primaryColor: brandKit.primaryColor,
                 secondaryColor: brandKit.secondaryColor,
                 accentColor: brandKit.accentColor,
-                includeBranding: themeEstablished,
+                logoMode: defaultLogoMode(themeEstablished),
                 edgeClearance: defaultEdgeClearanceForMedium(medium),
                 supportUrl:
                   state.supportUrl ||
@@ -727,9 +727,10 @@ export default function SolidarityPosterPage() {
                   >
                     {state.leadIn}
                   </p>
-                  {showLockup ? (
+                  {showLogo ? (
                     <BrandLogo
                       size={isLandscape ? "sm" : "md"}
+                      variantOverride={logoVariant}
                       backgroundColor={state.primaryColor}
                       className="shrink-0"
                     />
@@ -760,7 +761,7 @@ export default function SolidarityPosterPage() {
                   >
                     {state.closer}
                   </p>
-                  {showLockup && !isLandscape ? (
+                  {showLogo && !isLandscape ? (
                     <p
                       className="mt-2 text-sm font-semibold md:mt-3"
                       style={{ color: mutedInk90 }}
@@ -845,8 +846,12 @@ export default function SolidarityPosterPage() {
                     padding: `${bannerBarPadY}px ${bannerBodyPadPx}px`,
                   }}
                 >
-                  {showLockup ? (
-                    <BrandLogo size="sm" backgroundColor={bannerBarBg} />
+                  {showLogo ? (
+                    <BrandLogo
+                      size="sm"
+                      variantOverride={logoVariant}
+                      backgroundColor={bannerBarBg}
+                    />
                   ) : (
                     <span />
                   )}
@@ -879,7 +884,7 @@ export default function SolidarityPosterPage() {
                   >
                     {state.closer}
                   </p>
-                  {showLockup && !isLandscape ? (
+                  {showLogo && !isLandscape ? (
                     <p
                       className="mt-2 text-sm font-semibold"
                       style={{ color: mutedInk90 }}

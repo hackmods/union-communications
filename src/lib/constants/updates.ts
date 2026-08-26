@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "canvas-logo-mode",
+    date: "2026-08-26",
+    kind: "improved",
+    href: "/tools/solidarity-poster",
+  },
+  {
     id: "board-notice-layouts",
     date: "2026-08-26",
     kind: "improved",

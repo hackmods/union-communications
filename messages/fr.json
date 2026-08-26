@@ -5546,6 +5546,10 @@
         "title": "Avis pour tableau — logo et mises en page",
         "body": "Choisissez empilé, bandeau ou scindé, réglez le logo (aucun, signature ou symbole) et exportez des avis aux couleurs de votre Trousse de marque."
       },
+      "canvas-logo-mode": {
+        "title": "Contrôle du logo sur affiches et cartes",
+        "body": "Affiches de solidarité, tableaux QR, cartes QR, arrière-plans de réunion et Sondage éclair partagent le même sélecteur aucun/signature/symbole que l'Avis pour tableau."
+      },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",
         "body": "Un guide de base sur le plancher : les trois chapeaux, le droit à la représentation en entrevue disciplinaire et le devoir de représentation équitable."

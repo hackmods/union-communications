@@ -5597,6 +5597,10 @@
         "title": "Board Notice Maker — logo and layouts",
         "body": "Pick stack, band, or split layouts, choose none/lockup/mark logo, and export workplace notices that match your Brand Kit."
       },
+      "canvas-logo-mode": {
+        "title": "Logo control on posters and wallet tools",
+        "body": "Solidarity posters, QR boards, QR cards, meeting backgrounds, and Pulse Poll now use the same none/lockup/mark logo picker as Board Notice."
+      },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",
         "body": "A foundational floor guide to the three hats, representation rights in discipline meetings, and the duty of fair representation."

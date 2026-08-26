@@ -58,6 +58,13 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
+import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import {
+  defaultLogoMode,
+  resolveLogoVariant,
+  showCanvasLogo,
+} from "@/lib/comms/canvas-logo-mode";
 
 interface BackgroundState {
   presetId: string;
@@ -68,7 +75,7 @@ interface BackgroundState {
   showLeadIn: boolean;
   showHeadline: boolean;
   showCloser: boolean;
-  includeBranding: boolean;
+  logoMode: BoardLogoMode;
   edgeClearance: boolean;
   primaryColor: string;
   secondaryColor: string;
@@ -231,7 +238,7 @@ export default function MeetingBackgroundPage() {
     showLeadIn: true,
     showHeadline: true,
     showCloser: true,
-    includeBranding: false,
+    logoMode: "none",
     edgeClearance: false,
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
@@ -269,7 +276,7 @@ export default function MeetingBackgroundPage() {
       headline: fromDeep.headline,
       closer: fromDeep.closer,
       layout: fromDeep.layout,
-      includeBranding: themeEstablished,
+      logoMode: defaultLogoMode(themeEstablished),
       edgeClearance: false,
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
@@ -305,7 +312,8 @@ export default function MeetingBackgroundPage() {
   const showHead = state.showHeadline && lines.length > 0;
   const showClose = state.showCloser && Boolean(state.closer.trim());
   const showCopy = showLead || showHead || showClose;
-  const showBrand = state.includeBranding;
+  const showLogo = showCanvasLogo(state.logoMode);
+  const logoVariant = resolveLogoVariant(state.logoMode);
   const clearanceInsets = insetsForProfile(
     profileForMeetingOrientation(orientation),
     state.edgeClearance,
@@ -455,9 +463,14 @@ export default function MeetingBackgroundPage() {
   };
 
   const brandLockup = (bg: string, ink: string, size: "sm" | "md" = "sm") =>
-    showBrand ? (
+    showLogo ? (
       <div className="flex shrink-0 items-center gap-2">
-        <BrandLogo size={size} backgroundColor={bg} className="shrink-0" />
+        <BrandLogo
+          size={size}
+          backgroundColor={bg}
+          variantOverride={logoVariant}
+          className="shrink-0"
+        />
         <p
           className="text-[9px] font-medium tracking-wide md:text-[10px]"
           style={{ color: ink }}
@@ -494,8 +507,8 @@ export default function MeetingBackgroundPage() {
         style={{ ...fieldFill, padding: fieldPadPx }}
       >
         <div className="flex shrink-0 items-start justify-between gap-3">
-          {showBrand ? brandLockup(primary, mutedPrimary, "md") : <span />}
-          {!showBrand && showLead ? leadLine(secondaryOnPrimary, "right") : null}
+          {showLogo ? brandLockup(primary, mutedPrimary, "md") : <span />}
+          {!showLogo && showLead ? leadLine(secondaryOnPrimary, "right") : null}
         </div>
         <div className="flex min-h-0 flex-1" />
         <div
@@ -505,8 +518,8 @@ export default function MeetingBackgroundPage() {
             typeAlign === "center" && "mx-auto text-center",
           )}
         >
-          {showBrand && showLead ? leadLine(secondaryOnPrimary, "right") : null}
-          <div className={cn(showLead && showBrand && "mt-1.5")}>
+          {showLogo && showLead ? leadLine(secondaryOnPrimary, "right") : null}
+          <div className={cn(showLead && showLogo && "mt-1.5")}>
             {stackedHeadline(canvasInk, "corner", "right")}
           </div>
           {showClose ? (
@@ -517,7 +530,7 @@ export default function MeetingBackgroundPage() {
     );
   } else if (state.layout === "lower-third") {
     // Full primary; thick accent bar with type — bar height collapses when copy/brand off
-    const barHasContent = showCopy || showBrand;
+    const barHasContent = showCopy || showLogo;
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full flex-col"
@@ -527,7 +540,7 @@ export default function MeetingBackgroundPage() {
           className="flex min-h-0 flex-1 items-start justify-end"
           style={{ padding: fieldPadPx }}
         >
-          {!barHasContent && showBrand
+          {!barHasContent && showLogo
             ? brandLockup(primary, mutedPrimary, "md")
             : null}
         </div>
@@ -555,7 +568,7 @@ export default function MeetingBackgroundPage() {
     );
   } else if (state.layout === "side-panel") {
     // Split energy: secondary edge strip + open primary face zone
-    const panelHasContent = showCopy || showBrand;
+    const panelHasContent = showCopy || showLogo;
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full"
@@ -578,9 +591,13 @@ export default function MeetingBackgroundPage() {
                 <div className="mt-3">{closerLine(mutedSecondary)}</div>
               ) : null}
             </div>
-            {showBrand ? (
+            {showLogo ? (
               <div className="mt-4 min-w-0 max-w-full overflow-hidden">
-                <BrandLogo size="sm" backgroundColor={secondary} />
+                <BrandLogo
+                  size="sm"
+                  backgroundColor={secondary}
+                  variantOverride={logoVariant}
+                />
                 <p
                   className="mt-1.5 font-medium leading-tight md:text-[10px]"
                   style={{
@@ -603,7 +620,7 @@ export default function MeetingBackgroundPage() {
           className="flex min-h-0 flex-1 flex-col justify-between"
           style={{ padding: fieldPadPx }}
         >
-          {!panelHasContent && showBrand
+          {!panelHasContent && showLogo
             ? brandLockup(primary, mutedPrimary, "md")
             : null}
         </div>
@@ -611,8 +628,8 @@ export default function MeetingBackgroundPage() {
     );
   } else if (state.layout === "bands") {
     // bands — top accent + bottom secondary strips; centre stays clear
-    const showTop = showLead || (showBrand && !showHead && !showClose);
-    const showBottom = showHead || showClose || showBrand;
+    const showTop = showLead || (showLogo && !showHead && !showClose);
+    const showBottom = showHead || showClose || showLogo;
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full flex-col"
@@ -666,7 +683,7 @@ export default function MeetingBackgroundPage() {
       </div>
     );
   } else if (state.layout === "masthead") {
-    const bandHasContent = showCopy || showBrand;
+    const bandHasContent = showCopy || showLogo;
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full flex-col"
@@ -698,7 +715,7 @@ export default function MeetingBackgroundPage() {
       </div>
     );
   } else if (state.layout === "footer") {
-    const bandHasContent = showCopy || showBrand;
+    const bandHasContent = showCopy || showLogo;
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full flex-col"
@@ -759,7 +776,7 @@ export default function MeetingBackgroundPage() {
               </>
             ) : null}
           </div>
-          {showBrand ? (
+          {showLogo ? (
             <div className="flex justify-center">
               {brandLockup(primary, mutedPrimary, "sm")}
             </div>
@@ -775,7 +792,7 @@ export default function MeetingBackgroundPage() {
     );
   } else {
     // upper-stack — readable type in upper ~28%; open field below
-    const stackHasContent = showCopy || showBrand;
+    const stackHasContent = showCopy || showLogo;
     canvasBody = (
       <div
         className="relative box-border flex h-full w-full flex-col"
@@ -798,7 +815,7 @@ export default function MeetingBackgroundPage() {
                 <div className="mt-1.5">{closerLine(mutedPrimary)}</div>
               ) : null}
             </div>
-            {showBrand ? (
+            {showLogo ? (
               <div className="mt-3">{brandLockup(primary, mutedPrimary, "sm")}</div>
             ) : null}
           </div>
@@ -921,6 +938,10 @@ export default function MeetingBackgroundPage() {
               }))}
               onChange={(layout) => setState({ ...state, layout })}
             />
+            <LogoModeSegControl
+              value={state.logoMode}
+              onChange={(logoMode) => setState({ ...state, logoMode })}
+            />
           </ToolFormDetails>
 
           <ToolFormDetails title={t("toggles")}>
@@ -961,17 +982,6 @@ export default function MeetingBackgroundPage() {
                   className="size-4"
                 />
                 {t("showCloser")}
-              </label>
-              <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-                <input
-                  type="checkbox"
-                  checked={state.includeBranding}
-                  onChange={(e) =>
-                    setState({ ...state, includeBranding: e.target.checked })
-                  }
-                  className="size-4"
-                />
-                {t("includeBranding")}
               </label>
               <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
                 <input
@@ -1029,7 +1039,7 @@ export default function MeetingBackgroundPage() {
                 lastLandscapeDesign.current = "bold";
                 reset({
                   ...initial,
-                  includeBranding: themeEstablished,
+                  logoMode: defaultLogoMode(themeEstablished),
                   primaryColor: brandKit.primaryColor,
                   secondaryColor: brandKit.secondaryColor,
                   accentColor: brandKit.accentColor,

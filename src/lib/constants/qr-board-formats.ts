@@ -1,3 +1,6 @@
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import { showCanvasLogo } from "@/lib/comms/canvas-logo-mode";
+
 export type QrBoardFormatId = "letter" | "tabloid";
 
 export type QrBoardFormatLabelKey = "formatLetter" | "formatTabloid";
@@ -114,7 +117,7 @@ export function qrBoardChrome(opts: {
   format: QrBoardFormat;
   slotCount: number;
   showUrl: boolean;
-  includeBranding: boolean;
+  logoMode: BoardLogoMode;
   typeScale?: number;
 }): QrBoardChrome {
   const density = qrBoardDensity(opts.slotCount);
@@ -122,6 +125,7 @@ export function qrBoardChrome(opts: {
   const rows = qrBoardGridRows(opts.slotCount);
   const isTabloid = opts.format.id === "tabloid";
   const scale = Math.min(1, opts.typeScale ?? 1);
+  const showLogo = showCanvasLogo(opts.logoMode);
 
   const titleFontPx = Math.round(
     (isTabloid
@@ -165,14 +169,14 @@ export function qrBoardChrome(opts: {
   const urlMaxLines: 1 | 2 = density === "compact" ? 1 : 2;
   const urlMaxChars = density === "compact" ? 28 : density === "regular" ? 40 : 56;
 
-  const logoBand = opts.includeBranding ? (isTabloid ? 36 : 30) : 0;
-  const localBand = opts.includeBranding ? localFontPx + 4 : 0;
+  const logoBand = showLogo ? (isTabloid ? 36 : 30) : 0;
+  const localBand = showLogo ? localFontPx + 4 : 0;
   const headerBudgetPx =
     logoBand +
     titleFontPx +
     subtitleFontPx +
     localBand +
-    (opts.includeBranding ? 10 : 6);
+    (showLogo ? 10 : 6);
 
   const titleBandPx = cellTitleFontPx + cellGapPx;
   const urlBandPx = opts.showUrl
@@ -209,7 +213,9 @@ export function qrBoardChrome(opts: {
     cellTitleFontPx,
     urlFontPx,
     localFontPx,
-    useMarkLogo: density !== "roomy",
+    useMarkLogo:
+      opts.logoMode === "mark" ||
+      (opts.logoMode === "lockup" && density !== "roomy"),
     headerBudgetPx,
     titleBandPx,
     urlBandPx,
@@ -226,7 +232,7 @@ export function qrBoardPlatePx(opts: {
   format: QrBoardFormat;
   slotCount: number;
   showUrl: boolean;
-  includeBranding: boolean;
+  logoMode: BoardLogoMode;
   paddingPx?: number;
   typeScale?: number;
 }): number {
@@ -234,7 +240,7 @@ export function qrBoardPlatePx(opts: {
     format: opts.format,
     slotCount: opts.slotCount,
     showUrl: opts.showUrl,
-    includeBranding: opts.includeBranding,
+    logoMode: opts.logoMode,
     typeScale: opts.typeScale,
   }).platePx;
 }

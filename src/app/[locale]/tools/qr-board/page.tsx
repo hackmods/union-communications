@@ -38,7 +38,10 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
+import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
 import { QrBoardCanvas } from "@/components/tools/qr-board/QrBoardCanvas";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import { defaultLogoMode } from "@/lib/comms/canvas-logo-mode";
 import { QrBoardSlotEditor } from "@/components/tools/qr-board/QrBoardSlotEditor";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 
@@ -49,7 +52,7 @@ interface QrBoardState {
   formatId: QrBoardFormatId;
   slots: QrBoardSlotDraft[];
   showUrl: boolean;
-  includeBranding: boolean;
+  logoMode: BoardLogoMode;
   primaryColor: string;
   secondaryColor: string;
 }
@@ -89,7 +92,7 @@ export default function QrBoardPage() {
       { id: "slot-b", title: "", destination: "" },
     ],
     showUrl: true,
-    includeBranding: false,
+    logoMode: "none",
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
   };
@@ -132,7 +135,7 @@ export default function QrBoardPage() {
         t(`slotTitles.${key}`),
       ),
       showUrl: true,
-      includeBranding: themeEstablished,
+      logoMode: defaultLogoMode(themeEstablished),
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
     });
@@ -360,6 +363,10 @@ export default function QrBoardPage() {
                 {t("formatTip")}
               </p>
             </div>
+            <LogoModeSegControl
+              value={state.logoMode}
+              onChange={(logoMode) => setState({ ...state, logoMode })}
+            />
           </ToolFormDetails>
 
           <ToolFormDetails title={t("sectionOptions")}>
@@ -373,17 +380,6 @@ export default function QrBoardPage() {
                 className="size-4"
               />
               {t("showUrl")}
-            </label>
-            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-              <input
-                type="checkbox"
-                checked={state.includeBranding}
-                onChange={(e) =>
-                  setState({ ...state, includeBranding: e.target.checked })
-                }
-                className="size-4"
-              />
-              {t("includeBranding")}
             </label>
           </ToolFormDetails>
 
@@ -417,7 +413,7 @@ export default function QrBoardPage() {
                     t(`slotTitles.${key}`),
                   ),
                   showUrl: true,
-                  includeBranding: themeEstablished,
+                  logoMode: defaultLogoMode(themeEstablished),
                   primaryColor: brandKit.primaryColor,
                   secondaryColor: brandKit.secondaryColor,
                 });
@@ -474,7 +470,7 @@ export default function QrBoardPage() {
                 posterSubtitle={state.posterSubtitle}
                 slots={canvasSlots}
                 showUrl={state.showUrl}
-                includeBranding={state.includeBranding}
+                logoMode={state.logoMode}
                 primaryColor={state.primaryColor}
                 secondaryColor={state.secondaryColor}
                 localLabel={localLabel}

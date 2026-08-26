@@ -2,6 +2,11 @@
 
 import { type CSSProperties, type Ref } from "react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import {
+  resolveLogoVariant,
+  showCanvasLogo,
+} from "@/lib/comms/canvas-logo-mode";
 import { FitWidthFrame } from "@/components/tools/FitWidthFrame";
 import {
   QR_BOARD_FORMATS,
@@ -37,7 +42,7 @@ export interface QrBoardCanvasProps {
   posterSubtitle: string;
   slots: QrBoardCanvasSlot[];
   showUrl: boolean;
-  includeBranding: boolean;
+  logoMode: BoardLogoMode;
   primaryColor: string;
   secondaryColor: string;
   localLabel: string;
@@ -52,7 +57,7 @@ export function QrBoardCanvas({
   posterSubtitle,
   slots,
   showUrl,
-  includeBranding,
+  logoMode,
   primaryColor,
   secondaryColor,
   localLabel,
@@ -68,11 +73,12 @@ export function QrBoardCanvas({
   const muted = mutedInkOnBackground(primaryColor, 0.85);
   const stripColor = canvasAccentStripColor(primaryColor, secondaryColor);
   const grainOpacity = tokens?.grainOpacity ?? 0;
+  const showLogo = showCanvasLogo(logoMode);
   const chrome = qrBoardChrome({
     format,
     slotCount: slots.length,
     showUrl,
-    includeBranding,
+    logoMode,
     typeScale: tokens ? typeScaleFactor(tokens) : 1,
   });
   const headerAlign = tokens
@@ -131,11 +137,13 @@ export function QrBoardCanvas({
               textAlign: headerTextAlign,
             }}
           >
-            {includeBranding ? (
+            {showLogo ? (
               <div style={{ marginBottom: 2 }}>
                 <BrandLogo
                   size="sm"
-                  variantOverride={chrome.useMarkLogo ? "mark" : undefined}
+                  variantOverride={resolveLogoVariant(logoMode, {
+                    preferMark: chrome.useMarkLogo,
+                  })}
                   backgroundColor={primaryColor}
                 />
               </div>
@@ -175,7 +183,7 @@ export function QrBoardCanvas({
                 {posterSubtitle}
               </p>
             ) : null}
-            {includeBranding ? (
+            {showLogo ? (
               <p
                 data-board-footer=""
                 className="truncate"

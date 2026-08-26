@@ -53,19 +53,19 @@ describe("qr-board-formats", () => {
       format: letter,
       slotCount: 2,
       showUrl: true,
-      includeBranding: true,
+      logoMode: "lockup" as const,
     });
     const four = qrBoardPlatePx({
       format: letter,
       slotCount: 4,
       showUrl: true,
-      includeBranding: true,
+      logoMode: "lockup" as const,
     });
     const six = qrBoardPlatePx({
       format: letter,
       slotCount: 6,
       showUrl: true,
-      includeBranding: true,
+      logoMode: "lockup" as const,
     });
     expect(two).toBeGreaterThanOrEqual(80);
     expect(four).toBeGreaterThanOrEqual(80);
@@ -79,13 +79,13 @@ describe("qr-board-formats", () => {
       format: QR_BOARD_FORMATS.letter,
       slotCount: 2,
       showUrl: true,
-      includeBranding: true,
+      logoMode: "lockup" as const,
     });
     const four = qrBoardChrome({
       format: QR_BOARD_FORMATS.letter,
       slotCount: 4,
       showUrl: true,
-      includeBranding: true,
+      logoMode: "lockup" as const,
     });
     expect(two.centerGridVertically).toBe(true);
     expect(four.centerGridVertically).toBe(false);
@@ -96,13 +96,13 @@ describe("qr-board-formats", () => {
       format: QR_BOARD_FORMATS.letter,
       slotCount: 4,
       showUrl: true,
-      includeBranding: true,
+      logoMode: "lockup" as const,
     });
     const noBrand = qrBoardChrome({
       format: QR_BOARD_FORMATS.letter,
       slotCount: 4,
       showUrl: true,
-      includeBranding: false,
+      logoMode: "none" as const,
     });
     expect(withBrand.useMarkLogo).toBe(true);
     expect(withBrand.headerBudgetPx).toBeLessThan(100);

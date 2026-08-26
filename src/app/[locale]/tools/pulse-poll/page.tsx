@@ -19,6 +19,12 @@ import { UndoRedoBar } from "@/components/tools/UndoRedoBar";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
+import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
+import {
+  defaultLogoMode,
+  resolveLogoVariant,
+  showCanvasLogo,
+} from "@/lib/comms/canvas-logo-mode";
 import { ToolColourSection } from "@/components/tools/ToolColourSection";
 import { ToolExportActions } from "@/components/tools/ToolExportActions";
 import { Callout } from "@/components/ui/Callout";
@@ -78,7 +84,7 @@ export default function PulsePollPage() {
     if (saved) {
       reset({
         ...saved,
-        includeBranding: themeEstablished ? saved.includeBranding : false,
+        logoMode: themeEstablished ? saved.logoMode : "none",
         primaryColor: saved.primaryColor || brandKit.primaryColor,
         secondaryColor: saved.secondaryColor || brandKit.secondaryColor,
       });
@@ -88,7 +94,7 @@ export default function PulsePollPage() {
           primaryColor: brandKit.primaryColor,
           secondaryColor: brandKit.secondaryColor,
         }),
-        includeBranding: themeEstablished,
+        logoMode: defaultLogoMode(themeEstablished),
         title: t("demoTitle"),
         intro: t("demoIntro"),
         questions: [
@@ -304,18 +310,11 @@ export default function PulsePollPage() {
       />
       <p className="text-sm leading-snug text-gray-600">{t("shareSlugHint")}</p>
 
-      <ToolFormDetails title={tc("sectionOptions")}>
-        <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-          <input
-            type="checkbox"
-            checked={state.includeBranding}
-            onChange={(e) =>
-              setState({ ...state, includeBranding: e.target.checked })
-            }
-            className="size-4"
-          />
-          {t("includeBranding")}
-        </label>
+      <ToolFormDetails title={tc("sectionLayout")}>
+        <LogoModeSegControl
+          value={state.logoMode}
+          onChange={(logoMode) => setState({ ...state, logoMode })}
+        />
       </ToolFormDetails>
 
       <ToolColourSection
@@ -340,7 +339,7 @@ export default function PulsePollPage() {
               primaryColor: brandKit.primaryColor,
               secondaryColor: brandKit.secondaryColor,
             }),
-            includeBranding: themeEstablished,
+            logoMode: defaultLogoMode(themeEstablished),
             title: t("demoTitle"),
             intro: t("demoIntro"),
             questions: [
@@ -363,9 +362,12 @@ export default function PulsePollPage() {
         style={previewStyle}
       >
         <CanvasGrainOverlay opacity={tokens.grainOpacity} />
-        {state.includeBranding && themeEstablished && (
+        {showCanvasLogo(state.logoMode) && themeEstablished && (
           <div className="relative z-[2] flex items-center gap-2">
-            <BrandLogo className="h-10 w-auto" />
+            <BrandLogo
+              className="h-10 w-auto"
+              variantOverride={resolveLogoVariant(state.logoMode)}
+            />
             <span
               className="font-semibold"
               style={{ fontSize: bodyFontPx, fontFamily: tokens.bodyFontFamily }}

@@ -39,6 +39,13 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
+import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import {
+  defaultLogoMode,
+  resolveLogoVariant,
+  showCanvasLogo,
+} from "@/lib/comms/canvas-logo-mode";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import {
   flexAlignFromBias,
@@ -71,7 +78,7 @@ interface ActionCardState {
   bgMode: QrCardBgMode;
   sizeId: QrCardSizeId;
   showUrl: boolean;
-  includeBranding: boolean;
+  logoMode: BoardLogoMode;
   primaryColor: string;
   secondaryColor: string;
 }
@@ -118,7 +125,7 @@ function ActionCardPageContent() {
     bgMode: first.bgMode,
     sizeId: DEFAULT_QR_CARD_SIZE,
     showUrl: false,
-    includeBranding: false,
+    logoMode: "none",
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
   };
@@ -146,7 +153,7 @@ function ActionCardPageContent() {
       bgMode: fromDeep.bgMode,
       sizeId: DEFAULT_QR_CARD_SIZE,
       showUrl: false,
-      includeBranding: themeEstablished,
+      logoMode: defaultLogoMode(themeEstablished),
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
     });
@@ -241,12 +248,15 @@ function ActionCardPageContent() {
       ? state.secondaryColor
       : canvasInk;
   const isCompact = state.sizeId === "square4" || state.sizeId === "quarter";
-  const useMarkLogo =
+  const autoMarkLogo =
     state.sizeId === "square4" ||
     state.sizeId === "square5" ||
     state.sizeId === "quarter";
+  const logoVariant = resolveLogoVariant(state.logoMode, {
+    preferMark: autoMarkLogo,
+  });
   const compactLocalLabel =
-    state.includeBranding &&
+    showCanvasLogo(state.logoMode) &&
     state.showUrl &&
     (state.sizeId === "letter" || state.sizeId === "half");
 
@@ -431,6 +441,10 @@ function ActionCardPageContent() {
             />
             <p className="text-sm leading-snug text-gray-600">{t("sizeTip")}</p>
           </div>
+            <LogoModeSegControl
+              value={state.logoMode}
+              onChange={(logoMode) => setState({ ...state, logoMode })}
+            />
           </ToolFormDetails>
 
           <ToolFormDetails title={tc("sectionOptions")}>
@@ -442,18 +456,6 @@ function ActionCardPageContent() {
                 className="size-4"
               />
               {t("showUrl")}
-            </label>
-
-            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-              <input
-                type="checkbox"
-                checked={state.includeBranding}
-                onChange={(e) =>
-                  setState({ ...state, includeBranding: e.target.checked })
-                }
-                className="size-4"
-              />
-              {t("includeBranding")}
             </label>
           </ToolFormDetails>
 
@@ -477,7 +479,7 @@ function ActionCardPageContent() {
                 ask: t(`presets.${first.askKey}`),
                 deadline: t(`presets.${first.deadlineKey}`),
                 cta: t(`presets.${first.ctaKey}`),
-                includeBranding: themeEstablished,
+                logoMode: defaultLogoMode(themeEstablished),
                 primaryColor: brandKit.primaryColor,
                 secondaryColor: brandKit.secondaryColor,
               });
@@ -547,14 +549,14 @@ function ActionCardPageContent() {
                     }}
                   >
                     <div className="w-full min-w-0 shrink-0">
-                      {state.includeBranding ? (
+                      {showCanvasLogo(state.logoMode) ? (
                         <div
                           className="mb-2 flex"
                           style={{ justifyContent: brandJustify }}
                         >
                           <BrandLogo
                             size="sm"
-                            variantOverride={useMarkLogo ? "mark" : undefined}
+                            variantOverride={logoVariant}
                             backgroundColor={state.primaryColor}
                           />
                         </div>
@@ -638,7 +640,7 @@ function ActionCardPageContent() {
                       ) : null}
                     </div>
 
-                    {state.includeBranding ? (
+                    {showCanvasLogo(state.logoMode) ? (
                       <p
                         className="shrink-0 truncate font-semibold leading-tight"
                         style={{

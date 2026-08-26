@@ -43,6 +43,13 @@ import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
+import { LogoModeSegControl } from "@/components/tools/LogoModeSegControl";
+import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import {
+  defaultLogoMode,
+  resolveLogoVariant,
+  showCanvasLogo,
+} from "@/lib/comms/canvas-logo-mode";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import {
@@ -74,7 +81,7 @@ interface QrCardState {
   bgMode: QrCardBgMode;
   sizeId: QrCardSizeId;
   showUrl: boolean;
-  includeBranding: boolean;
+  logoMode: BoardLogoMode;
   primaryColor: string;
   secondaryColor: string;
 }
@@ -119,7 +126,7 @@ function QrCardPageContent() {
     bgMode: first.bgMode,
     sizeId: DEFAULT_QR_CARD_SIZE,
     showUrl: false,
-    includeBranding: false,
+    logoMode: "none",
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,
   };
@@ -167,7 +174,7 @@ function QrCardPageContent() {
       bgMode: fromDeep.bgMode,
       sizeId: DEFAULT_QR_CARD_SIZE,
       showUrl: false,
-      includeBranding: themeEstablished,
+      logoMode: defaultLogoMode(themeEstablished),
       primaryColor: brandKit.primaryColor,
       secondaryColor: brandKit.secondaryColor,
     });
@@ -326,10 +333,13 @@ function QrCardPageContent() {
       : tokens.alignmentBias === "asymmetric"
         ? "flex-end"
         : "flex-start";
-  const useHeaderBranding = state.includeBranding && isSquare;
-  const useMarkLogo = isCompact;
+  const useHeaderBranding = showCanvasLogo(state.logoMode) && isSquare;
+  const autoMarkLogo = isCompact;
+  const logoVariant = resolveLogoVariant(state.logoMode, {
+    preferMark: autoMarkLogo,
+  });
   const compactLocalLabel =
-    state.includeBranding &&
+    showCanvasLogo(state.logoMode) &&
     state.showUrl &&
     (state.sizeId === "letter" || state.sizeId === "half");
   const localLabelFontPx = compactLocalLabel
@@ -443,6 +453,10 @@ function QrCardPageContent() {
               {isSquare ? t("squareSizeTip") : t("sizeTip")}
             </p>
           </div>
+            <LogoModeSegControl
+              value={state.logoMode}
+              onChange={(logoMode) => setState({ ...state, logoMode })}
+            />
           </ToolFormDetails>
 
           <ToolFormDetails title={tc("sectionOptions")}>
@@ -454,18 +468,6 @@ function QrCardPageContent() {
                 className="size-4"
               />
               {t("showUrl")}
-            </label>
-
-            <label className="flex min-h-11 items-center gap-2.5 text-sm text-opseu-dark">
-              <input
-                type="checkbox"
-                checked={state.includeBranding}
-                onChange={(e) =>
-                  setState({ ...state, includeBranding: e.target.checked })
-                }
-                className="size-4"
-              />
-              {t("includeBranding")}
             </label>
           </ToolFormDetails>
 
@@ -491,7 +493,7 @@ function QrCardPageContent() {
                 title: t(`presets.${first.titleKey}`),
                 description: t(`presets.${first.descriptionKey}`),
                 tagline: t(`presets.${first.taglineKey}`),
-                includeBranding: themeEstablished,
+                logoMode: defaultLogoMode(themeEstablished),
                 primaryColor: brandKit.primaryColor,
                 secondaryColor: brandKit.secondaryColor,
               });
@@ -572,14 +574,14 @@ function QrCardPageContent() {
                           : "shrink-0",
                       )}
                     >
-                      {state.includeBranding ? (
+                      {showCanvasLogo(state.logoMode) ? (
                         <div
                           className={cn("flex flex-col", isSquare ? "mb-1 gap-0.5" : "mb-2")}
                           style={{ alignItems: flexAlign, justifyContent: brandJustify }}
                         >
                           <BrandLogo
                             size="sm"
-                            variantOverride={useMarkLogo ? "mark" : undefined}
+                            variantOverride={logoVariant}
                             backgroundColor={state.primaryColor}
                           />
                           {useHeaderBranding ? (
@@ -711,7 +713,7 @@ function QrCardPageContent() {
                       ) : null}
                     </div>
 
-                    {state.includeBranding && !useHeaderBranding ? (
+                    {showCanvasLogo(state.logoMode) && !useHeaderBranding ? (
                       <p
                         className="shrink-0 truncate font-semibold leading-tight"
                         style={{
