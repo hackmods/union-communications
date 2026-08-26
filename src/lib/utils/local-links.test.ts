@@ -218,6 +218,12 @@ describe("listSavedLinks / resolve helpers", () => {
     ).toMatch(/\/en\/guide\/right-to-refuse$/);
   });
 
+  it("resolves steward representation to Steward 101 guide path", () => {
+    expect(
+      resolvePresetDestination("stewardRepresentation", kit, "https://hub"),
+    ).toMatch(/\/en\/guide\/steward-101$/);
+  });
+
   it("resolves membership presets from typed membershipUrls", () => {
     const withMembership = normalizeBrandKit({
       ...kit,

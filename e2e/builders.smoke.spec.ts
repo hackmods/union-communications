@@ -189,6 +189,10 @@ test.describe("Public secondary pages smoke @smoke", () => {
       path: "/en/guide/workplace-mapping/",
       heading: "Workplace Mapping & Finding Organic Leaders",
     },
+    {
+      path: "/en/guide/steward-101/",
+      heading: "Steward 101: Your Role and Rights",
+    },
     { path: "/en/tools/", heading: "Tools" },
     { path: "/en/examples/", heading: "Social Examples" },
     { path: "/en/captions/", heading: "Caption & Hashtag Library" },

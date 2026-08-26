@@ -645,6 +645,7 @@
       "seniority": "Seniority & bumping",
       "rightToRefuse": "Right to refuse (Ontario)",
       "jointCommittee": "Joint committee playbook",
+      "workplaceMapping": "Workplace mapping",
       "workplaceMapping": "Workplace mapping"
     }
   },
@@ -2244,6 +2245,9 @@
       "rightToRefuseTitle": "Right to refuse",
       "rightToRefuseDesc": "OHSA s.43 right-to-refuse pocket card. Not legal advice. Steps: report hazard, refuse unsafe work, stay available, contact JHSC/supervisor, document, escalate if unresolved.",
       "rightToRefuseTagline": "Scan the full guide →",
+      "stewardRepresentationTitle": "Request your steward",
+      "stewardRepresentationDesc": "Member script for discipline-risk meetings. Say: If this could lead to discipline, I request my union steward. Scan for the full Steward 101 guide. Not legal advice.",
+      "stewardRepresentationTagline": "Scan Steward 101 →",
       "followUsTitle": "Stay connected",
       "followUsDesc": "Updates, meetings, and solidarity - follow your local online.",
       "followUsTagline": "Scan to follow us",
@@ -2634,7 +2638,7 @@
         "workplaceMapping": "Workplace mapping & organic leaders"
       },
       "blurb": {
-        "steward101": "The three hats, representation rights, and the duty of fair representation — start here.",
+        "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example — start here.",
         "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet. Confirm steps in your agreement.",
         "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
         "seniority": "Two cascade examples and a printable seniority worksheet.",
@@ -4082,6 +4086,26 @@
       "rightToRefuse": "Right to refuse unsafe work",
       "membership": "Membership signup playbook"
     },
+    "trainingPath": {
+      "title": "Steward training path",
+      "intro": "Work through these playbooks in order while you wait for local or national steward school.",
+      "steps": [
+        "Steward 101",
+        "Workplace mapping",
+        "Grievance process",
+        "Duty of Fair Representation",
+        "Topic playbooks"
+      ]
+    },
+    "diagrams": {
+      "whichHatStart": "Member brings an issue",
+      "whichHatDesk": "Desk question → Communicator",
+      "whichHatDiscipline": "Discipline meeting → Enforcer",
+      "whichHatMobilize": "Group issue → Organizer",
+      "repBefore": "Before",
+      "repDuring": "During",
+      "repAfter": "After"
+    },
     "whatIsSteward": {
       "navLabel": "What is a steward?",
       "title": "What is a steward?",
@@ -4273,13 +4297,81 @@
       "warningTitle": "Escalate with a package",
       "warning": "Do not drop a messy file on the executive with \"what do I do?\" Bring facts, dates, witnesses, CA articles, and what you already tried."
     },
+    "stewardChecklist": {
+      "navLabel": "Pocket checklist",
+      "title": "Steward pocket checklist",
+      "intro": "Print this list or save it on your phone. Run it on every new file.",
+      "items": {
+        "introduce": {
+          "label": "Member knows how to reach you",
+          "content": "Your name and contact are on the union board and in the break room."
+        },
+        "listen": {
+          "label": "Listen before you promise",
+          "content": "Get facts first. Do not say \"we will win\" or \"we will file\" until you investigate."
+        },
+        "script": {
+          "label": "Discipline-risk meeting",
+          "content": "Member knows the representation script before they walk into the room."
+        },
+        "notes": {
+          "label": "Notes same day",
+          "content": "Date, names, CA articles, and what was said — while memory is fresh."
+        },
+        "escalate": {
+          "label": "Loop in chief steward",
+          "content": "Discipline issued, representation denied, or a file outside your coverage."
+        },
+        "dfr": {
+          "label": "Every member, every file",
+          "content": "Investigate objectively. Personal dislike is never a reason to refuse representation."
+        }
+      }
+    },
+    "referenceMaterials": {
+      "navLabel": "Print & tools",
+      "title": "Print and reference materials",
+      "intro": "Carry these on the floor — pocket cards, intake sheets, and board pieces members can find without asking.",
+      "pocketCard": {
+        "title": "Representation pocket card",
+        "body": "Wallet-size card with the member script and a QR link back to this guide. Export from QR Link Cards.",
+        "cta": "Open QR Link Cards"
+      },
+      "intakeSheet": {
+        "title": "Steward intake sheet (CSV)",
+        "body": "Log the 6 W's on your personal device — not employer email. One row per file.",
+        "cta": "Download intake CSV",
+        "hint": "Opens in Excel or another spreadsheet app on your own device."
+      },
+      "grievanceWorksheet": {
+        "title": "6 W's worksheet (XLSX)",
+        "body": "Branded spreadsheet from Document Generator when a file is ready for formal intake.",
+        "cta": "Open grievance intake worksheet"
+      },
+      "board": {
+        "title": "Steward list on the board",
+        "body": "Print an Org Chart or Board Notice so members know who to call before a crisis.",
+        "orgChart": "Org Chart",
+        "boardNotice": "Board Notice Maker"
+      },
+      "followUp": {
+        "title": "Member follow-up letter",
+        "body": "After a meeting, send a short written recap of what you discussed and the next step.",
+        "cta": "Open simple letter template"
+      }
+    },
+    "hub": {
+      "title": "Track files in Officer Hub",
+      "body": "When your local uses Officer Hub, grievance tools log steps, due dates, and handoffs so coverage stewards see the same clocks you do.",
+      "cta": "Open grievances in Officer Hub"
+    },
     "goldenRule": {
       "title": "The Golden Rule of Stewarding",
       "body": "Never promise a member you will \"win\" their case. You do not make the final decision — an arbitrator or management does. Promise only that you will fight for them and represent them to the absolute best of your ability."
     },
     "next": {
       "title": "Go deeper",
-      "body": "When you are ready to open a file, use the grievance playbook and the 6 W's worksheet. Duty of fair representation is the legal-duty playbook. Map the workplace when the issue is bigger than one person."
+      "body": "Work through these playbooks in order while you wait for local or national steward training."
     }
   },
   "grievanceGuide": {

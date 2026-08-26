@@ -4,6 +4,7 @@ export type QrCardPresetId =
   | "ohsa"
   | "healthSafety"
   | "rightToRefuse"
+  | "stewardRepresentation"
   | "followUs"
   | "localWebsite"
   | "joinUnion"
@@ -92,6 +93,15 @@ export const QR_CARD_PRESETS: readonly QrCardPreset[] = [
     titleKey: "rightToRefuseTitle",
     descriptionKey: "rightToRefuseDesc",
     taglineKey: "rightToRefuseTagline",
+    bgMode: "accentBar",
+    layoutMode: "reference",
+  },
+  {
+    id: "stewardRepresentation",
+    defaultUrl: "",
+    titleKey: "stewardRepresentationTitle",
+    descriptionKey: "stewardRepresentationDesc",
+    taglineKey: "stewardRepresentationTagline",
     bgMode: "accentBar",
     layoutMode: "reference",
   },

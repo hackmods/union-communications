@@ -82,6 +82,7 @@ describe("qr-card-presets", () => {
   it("resolves presets by id", () => {
     expect(getQrCardPreset("esa")?.defaultUrl).toContain("ontario.ca");
     expect(getQrCardPreset("rightToRefuse")?.layoutMode).toBe("reference");
+    expect(getQrCardPreset("stewardRepresentation")?.layoutMode).toBe("reference");
     expect(getQrCardPreset("missing")).toBeUndefined();
   });
 });

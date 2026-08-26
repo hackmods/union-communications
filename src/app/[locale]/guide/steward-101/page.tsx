@@ -4,7 +4,14 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import {
+  RepresentationStepsDiagram,
+  ThreeHatsDiagram,
+  TrainingPathDiagram,
+  WhichHatFlowDiagram,
+} from "@/components/comms/StewardGuideDiagrams";
 import { Callout } from "@/components/ui/Callout";
+import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 
 export async function generateMetadata({
@@ -15,6 +22,9 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/guide/steward-101", params);
 }
 
+const INTAKE_TEMPLATE_HREF = "/templates/unionops-steward-intake.csv";
+const INTAKE_TEMPLATE_DOWNLOAD = "unionops-steward-intake.csv";
+
 const TOC = [
   ["whatIsSteward", "whatIsSteward"],
   ["first48Hours", "first48Hours"],
@@ -24,6 +34,8 @@ const TOC = [
   ["dfr", "dfr"],
   ["scenario", "scenario"],
   ["escalate", "escalate"],
+  ["stewardChecklist", "stewardChecklist"],
+  ["referenceMaterials", "referenceMaterials"],
 ] as const;
 
 const whatIsStewardKeys = ["elected", "daily", "notManagement", "withExecutive"] as const;
@@ -42,6 +54,14 @@ const representationStepKeys = ["before", "during", "after"] as const;
 const dfrKeys = ["meaning", "investigate"] as const;
 const scenarioKeys = ["text", "prep", "meeting", "after"] as const;
 const escalateKeys = ["chief", "president", "rep"] as const;
+const stewardChecklistKeys = [
+  "introduce",
+  "listen",
+  "script",
+  "notes",
+  "escalate",
+  "dfr",
+] as const;
 
 const richMarks = {
   strong: (chunks: ReactNode) => (
@@ -59,6 +79,8 @@ export default async function Steward101GuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("steward101Guide");
   const ts = await getTranslations("sources");
+
+  const trainingSteps = t.raw("trainingPath.steps") as string[];
 
   return (
     <GuideLayout
@@ -86,6 +108,19 @@ export default async function Steward101GuidePage({
           {t("disclaimer.body")}
         </p>
       </Callout>
+
+      <section className="mb-8 max-w-3xl">
+        <h2 className="text-lg font-bold text-opseu-dark">
+          {t("trainingPath.title")}
+        </h2>
+        <p className="mt-2 leading-relaxed text-gray-700">
+          {t("trainingPath.intro")}
+        </p>
+        <TrainingPathDiagram
+          steps={trainingSteps}
+          className="mt-4"
+        />
+      </section>
 
       <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
         {TOC.map(([id, key]) => (
@@ -152,7 +187,15 @@ export default async function Steward101GuidePage({
         title={t("threeHats.title")}
         intro={t("threeHats.intro")}
       >
-        <ol className="mt-4 list-decimal space-y-6 pl-5 text-gray-700">
+        <ThreeHatsDiagram
+          labels={{
+            enforcer: t("threeHats.items.enforcer.label"),
+            communicator: t("threeHats.items.communicator.label"),
+            organizer: t("threeHats.items.organizer.label"),
+          }}
+          className="mt-5 max-w-2xl"
+        />
+        <ol className="mt-6 list-decimal space-y-6 pl-5 text-gray-700">
           {hatKeys.map((key) => (
             <li key={key} className="max-w-prose leading-relaxed">
               <span className="font-semibold text-opseu-dark">
@@ -192,7 +235,16 @@ export default async function Steward101GuidePage({
         title={t("whichHat.title")}
         intro={t("whichHat.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <WhichHatFlowDiagram
+          labels={{
+            start: t("diagrams.whichHatStart"),
+            desk: t("diagrams.whichHatDesk"),
+            discipline: t("diagrams.whichHatDiscipline"),
+            mobilize: t("diagrams.whichHatMobilize"),
+          }}
+          className="mt-5"
+        />
+        <ul className="mt-5 list-disc space-y-3 pl-5 text-gray-700">
           {whichHatKeys.map((key) => (
             <TipItem
               key={key}
@@ -230,6 +282,14 @@ export default async function Steward101GuidePage({
             </p>
           </Callout>
         </div>
+        <RepresentationStepsDiagram
+          labels={{
+            before: t("diagrams.repBefore"),
+            during: t("diagrams.repDuring"),
+            after: t("diagrams.repAfter"),
+          }}
+          className="mt-5 max-w-2xl"
+        />
         <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
           {representationStepKeys.map((key) => (
             <TipItem
@@ -314,7 +374,102 @@ export default async function Steward101GuidePage({
         </Callout>
       </GuideSection>
 
+      <GuideSection
+        id="stewardChecklist"
+        title={t("stewardChecklist.title")}
+        intro={t("stewardChecklist.intro")}
+      >
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {stewardChecklistKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`stewardChecklist.items.${key}.label`)}
+              content={t(`stewardChecklist.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+      </GuideSection>
+
+      <GuideSection
+        id="referenceMaterials"
+        title={t("referenceMaterials.title")}
+        intro={t("referenceMaterials.intro")}
+      >
+        <div className="mt-5 space-y-6">
+          <ReferenceBlock title={t("referenceMaterials.pocketCard.title")}>
+            <p>{t("referenceMaterials.pocketCard.body")}</p>
+            <Link href="/tools/qr-card?preset=stewardRepresentation" className="mt-3 inline-block">
+              <Button>{t("referenceMaterials.pocketCard.cta")}</Button>
+            </Link>
+          </ReferenceBlock>
+
+          <ReferenceBlock title={t("referenceMaterials.intakeSheet.title")}>
+            <p>{t("referenceMaterials.intakeSheet.body")}</p>
+            <a
+              href={INTAKE_TEMPLATE_HREF}
+              download={INTAKE_TEMPLATE_DOWNLOAD}
+              className="mt-3 inline-block"
+            >
+              <Button variant="outline">{t("referenceMaterials.intakeSheet.cta")}</Button>
+            </a>
+            <p className="mt-2 text-sm text-gray-600">
+              {t("referenceMaterials.intakeSheet.hint")}
+            </p>
+          </ReferenceBlock>
+
+          <ReferenceBlock title={t("referenceMaterials.grievanceWorksheet.title")}>
+            <p>{t("referenceMaterials.grievanceWorksheet.body")}</p>
+            <Link href="/tools/document-generator?preset=grievance-intake" className="mt-3 inline-block">
+              <Button variant="outline">
+                {t("referenceMaterials.grievanceWorksheet.cta")}
+              </Button>
+            </Link>
+          </ReferenceBlock>
+
+          <ReferenceBlock title={t("referenceMaterials.board.title")}>
+            <p>{t("referenceMaterials.board.body")}</p>
+            <nav
+              className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1"
+              aria-label={t("referenceMaterials.board.title")}
+            >
+              <Link
+                href="/tools/org-chart"
+                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+              >
+                {t("referenceMaterials.board.orgChart")}
+              </Link>
+              <span className="text-gray-300" aria-hidden="true">
+                ·
+              </span>
+              <Link
+                href="/tools/board-notice"
+                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+              >
+                {t("referenceMaterials.board.boardNotice")}
+              </Link>
+            </nav>
+          </ReferenceBlock>
+
+          <ReferenceBlock title={t("referenceMaterials.followUp.title")}>
+            <p>{t("referenceMaterials.followUp.body")}</p>
+            <Link href="/tools/document-generator?preset=simple-letter" className="mt-3 inline-block">
+              <Button variant="outline">{t("referenceMaterials.followUp.cta")}</Button>
+            </Link>
+          </ReferenceBlock>
+        </div>
+      </GuideSection>
+
       <Callout tone="muted" className="mt-10">
+        <p className="font-semibold text-opseu-dark">{t("hub.title")}</p>
+        <p className="mt-2 leading-relaxed text-gray-700">{t("hub.body")}</p>
+        <div className="button-row mt-4">
+          <Link href="/app/grievances">
+            <Button>{t("hub.cta")}</Button>
+          </Link>
+        </div>
+      </Callout>
+
+      <Callout tone="muted" className="mt-8">
         <p className="font-semibold text-opseu-dark">{t("next.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("next.body")}</p>
         <nav
@@ -323,8 +478,8 @@ export default async function Steward101GuidePage({
         >
           {(
             [
-              { href: "/guide/grievance-process", label: t("related.grievance") },
               { href: "/guide/workplace-mapping", label: t("related.workplaceMapping") },
+              { href: "/guide/grievance-process", label: t("related.grievance") },
               { href: "/guide/dfr", label: t("related.dfr") },
               { href: "/guide/membership-signup", label: t("related.membership") },
             ] as const
@@ -369,6 +524,21 @@ function GuideSection({
       <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
       {children}
     </section>
+  );
+}
+
+function ReferenceBlock({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="max-w-prose rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+      <h3 className="font-semibold text-opseu-dark">{title}</h3>
+      <div className="mt-2 text-gray-700">{children}</div>
+    </div>
   );
 }
 

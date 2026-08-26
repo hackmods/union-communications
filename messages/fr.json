@@ -2244,6 +2244,9 @@
       "rightToRefuseTitle": "Droit de refuser",
       "rightToRefuseDesc": "Carte de poche LSST art. 43 (refus). Pas un avis juridique. Étapes : signaler le danger, refuser le travail dangereux, rester disponible, joindre CSS/superviseur, documenter, escalader si non résolu.",
       "rightToRefuseTagline": "Scannez le guide complet →",
+      "stewardRepresentationTitle": "Demandez votre délégué",
+      "stewardRepresentationDesc": "Script pour les rencontres à risque disciplinaire. Dites : si cela peut mener à une mesure disciplinaire, je demande mon délégué syndical. Scannez pour le guide Délégué 101. Pas un avis juridique.",
+      "stewardRepresentationTagline": "Scannez Délégué 101 →",
       "followUsTitle": "Restez branchés",
       "followUsDesc": "Mises à jour, réunions et solidarité - suivez votre section en ligne.",
       "followUsTagline": "Scannez pour nous suivre",
@@ -2634,7 +2637,7 @@
         "workplaceMapping": "Cartographie du lieu de travail et leaders organiques"
       },
       "blurb": {
-        "steward101": "Les trois chapeaux, le droit à la représentation et le devoir de représentation équitable — commencez ici.",
+        "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté — commencez ici.",
         "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable. Confirmez les étapes dans votre convention.",
         "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
@@ -4032,6 +4035,26 @@
       "rightToRefuse": "Droit de refuser un travail dangereux",
       "membership": "Guide pratique d'adhésion"
     },
+    "trainingPath": {
+      "title": "Parcours de formation du délégué",
+      "intro": "Parcourez ces guides pratiques dans l'ordre pendant que vous attendez la formation locale ou nationale.",
+      "steps": [
+        "Délégué 101",
+        "Cartographie du lieu de travail",
+        "Processus de grief",
+        "Devoir de représentation équitable",
+        "Guides thématiques"
+      ]
+    },
+    "diagrams": {
+      "whichHatStart": "Un membre apporte un problème",
+      "whichHatDesk": "Question au comptoir → Communicateur",
+      "whichHatDiscipline": "Rencontre disciplinaire → Garant du contrat",
+      "whichHatMobilize": "Problème de groupe → Organisateur",
+      "repBefore": "Avant",
+      "repDuring": "Pendant",
+      "repAfter": "Après"
+    },
     "whatIsSteward": {
       "navLabel": "Qu'est-ce qu'un délégué?",
       "title": "Qu'est-ce qu'un délégué?",
@@ -4223,13 +4246,81 @@
       "warningTitle": "Escaladez avec un dossier",
       "warning": "Ne déposez pas un dossier brouillon à l'exécutif avec « que faire? ». Apportez faits, dates, témoins, articles de la CC et ce que vous avez déjà tenté."
     },
+    "stewardChecklist": {
+      "navLabel": "Liste de poche",
+      "title": "Liste de poche du délégué",
+      "intro": "Imprimez cette liste ou gardez-la sur votre téléphone. Suivez-la pour chaque nouveau dossier.",
+      "items": {
+        "introduce": {
+          "label": "Le membre sait comment vous joindre",
+          "content": "Votre nom et vos coordonnées sont sur le tableau syndical et dans la salle de pause."
+        },
+        "listen": {
+          "label": "Écoutez avant de promettre",
+          "content": "Obtenez les faits d'abord. Ne dites pas « on va gagner » ou « on va déposer » avant d'enquêter."
+        },
+        "script": {
+          "label": "Rencontre à risque disciplinaire",
+          "content": "Le membre connaît le script de représentation avant d'entrer dans la salle."
+        },
+        "notes": {
+          "label": "Notes le jour même",
+          "content": "Date, noms, articles de la CC et propos tenus — tant que c'est frais."
+        },
+        "escalate": {
+          "label": "Informez le délégué principal",
+          "content": "Mesure disciplinaire, représentation refusée, ou dossier hors de votre couverture."
+        },
+        "dfr": {
+          "label": "Chaque membre, chaque dossier",
+          "content": "Enquêtez objectivement. Une aversion personnelle n'est jamais une raison de refuser la représentation."
+        }
+      }
+    },
+    "referenceMaterials": {
+      "navLabel": "Imprimés et outils",
+      "title": "Matériel imprimé et de référence",
+      "intro": "Gardez ceci sur le plancher — cartes de poche, feuilles d'accueil et affichages que les membres trouvent sans demander.",
+      "pocketCard": {
+        "title": "Carte de poche — représentation",
+        "body": "Carte format portefeuille avec le script du membre et un lien QR vers ce guide. Exportez depuis Cartes lien QR.",
+        "cta": "Ouvrir Cartes lien QR"
+      },
+      "intakeSheet": {
+        "title": "Feuille d'accueil du délégué (CSV)",
+        "body": "Consignez les 6 W sur votre appareil personnel — pas le courriel de l'employeur. Une ligne par dossier.",
+        "cta": "Télécharger le CSV d'accueil",
+        "hint": "S'ouvre dans Excel ou une autre feuille de calcul sur votre appareil."
+      },
+      "grievanceWorksheet": {
+        "title": "Feuille des 6 W (XLSX)",
+        "body": "Feuille de calcul à votre marque depuis le Générateur de documents quand un dossier est prêt pour l'accueil officiel.",
+        "cta": "Ouvrir la feuille d'accueil de grief"
+      },
+      "board": {
+        "title": "Liste des délégués au tableau",
+        "body": "Imprimez un Organigramme ou un Avis pour tableau pour que les membres sachent qui appeler avant une crise.",
+        "orgChart": "Organigramme",
+        "boardNotice": "Créateur d'avis pour tableau"
+      },
+      "followUp": {
+        "title": "Lettre de suivi au membre",
+        "body": "Après une rencontre, envoyez un bref récapitulatif écrit de ce qui a été discuté et de la prochaine étape.",
+        "cta": "Ouvrir le modèle de lettre simple"
+      }
+    },
+    "hub": {
+      "title": "Suivre les dossiers dans le Hub des dirigeants",
+      "body": "Quand votre section utilise le Hub des dirigeants, les outils de griefs consignent les étapes, les échéances et les transferts pour que les délégués de relève voient les mêmes horloges que vous.",
+      "cta": "Ouvrir les griefs dans le Hub des dirigeants"
+    },
     "goldenRule": {
       "title": "La règle d'or du délégué",
       "body": "Ne promettez jamais à un membre que vous « gagnerez » son dossier. Ce n'est pas vous qui prenez la décision finale — c'est un arbitre ou la direction. Promettez seulement que vous vous battrez pour lui ou elle et que vous le ou la représenterez du mieux possible."
     },
     "next": {
       "title": "Aller plus loin",
-      "body": "Quand vous êtes prêt à ouvrir un dossier, utilisez le guide des griefs et la feuille d'accueil des 6 W. Le devoir de représentation équitable est le guide du devoir légal. Cartographiez le lieu de travail quand le problème dépasse une personne."
+      "body": "Parcourez ces guides pratiques dans l'ordre pendant que vous attendez la formation locale ou nationale de délégué."
     }
   },
   "grievanceGuide": {

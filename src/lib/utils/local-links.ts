@@ -378,6 +378,13 @@ export function resolvePresetDestination(
           : undefined;
       return `${originFallback}/${locale ?? "en"}/guide/right-to-refuse`;
     }
+    case "stewardRepresentation": {
+      const locale =
+        typeof window !== "undefined"
+          ? window.location.pathname.match(/^\/(en|fr)(?:\/|$)/)?.[1]
+          : undefined;
+      return `${originFallback}/${locale ?? "en"}/guide/steward-101`;
+    }
     case "joinUnion":
     case "membership-primary":
       return resolveMembershipUrl(kit) || softFallback;
