@@ -405,6 +405,39 @@ export function lockupOnPlateFor(
   return pack.logos.lockupOnDark;
 }
 
+/**
+ * Pick the plate lockup that matches a canvas fill hex — not only the active
+ * campaign plate. Multi-colour lockups vanish when gold/coral ink sits on a
+ * matching band (Meeting Background bands, side panels, etc.).
+ */
+export function lockupForCanvasBackground(
+  pack: IdentityPack | undefined,
+  backgroundColor: string | undefined,
+): string | undefined {
+  const bg = backgroundColor?.trim().toUpperCase();
+  if (!bg || !pack) return undefined;
+
+  if (packOffersCampaignPlates(pack)) {
+    for (const plate of pack.plates) {
+      if (
+        plate.lockupOnPlate &&
+        plate.colors.primaryColor.trim().toUpperCase() === bg
+      ) {
+        return plate.lockupOnPlate;
+      }
+    }
+  }
+
+  if (
+    pack.logos.lockupOnDark &&
+    pack.colors.primaryColor.trim().toUpperCase() === bg
+  ) {
+    return pack.logos.lockupOnDark;
+  }
+
+  return undefined;
+}
+
 export function applyIdentityPack(
   pack: IdentityPack,
   plate?: CampaignPlate,

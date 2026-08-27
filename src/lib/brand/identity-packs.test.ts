@@ -17,6 +17,7 @@ import {
   identityPackGalleryTiles,
   identityPackSectorGaps,
   identityPacksFor,
+  lockupForCanvasBackground,
   normalizeCampaignPlate,
   resolveCampaignPlateForKit,
   resolveIdentityPackForKit,
@@ -168,6 +169,17 @@ describe("identity-packs", () => {
     };
     const logos = resolveOfficialLogos(kit);
     expect(logos?.lockup.srcOnDark).toContain("on-gold");
+  });
+
+  it("picks plate lockups from canvas fill hex, not only the active campaign", () => {
+    const pack = getIdentityPack(OPSEU_CAAT_S_PACK_ID)!;
+    expect(lockupForCanvasBackground(pack, CAAT_S_COLORS.primaryColor)).toContain(
+      "knockout",
+    );
+    expect(
+      lockupForCanvasBackground(pack, CAAT_S_GOLD_COLORS.primaryColor),
+    ).toContain("on-gold");
+    expect(lockupForCanvasBackground(pack, "#FFFFFF")).toBeUndefined();
   });
 
   it("detects colour drift from the active pack", () => {

@@ -6628,6 +6628,10 @@
       "guides-tools-menu-ia": {
         "title": "Menus Guides et Outils plus clairs",
         "body": "Les Guides mènent maintenant par Pour commencer, Travail des délégués, Par canal, et Bibliothèques et à propos — ouvrez Guides pratiques pour délégués pour chaque guide de plancher. Les Outils gardent cinq groupes de tâches, dont Préparation des délégués."
+      },
+      "logo-on-brand-fills": {
+        "title": "Les logos restent lisibles sur les fonds aux couleurs de la marque",
+        "body": "Les arrière-plans de réunion et les autres outils visuels choisissent maintenant la signature de plaque correspondante (ou une encre unie) quand votre logo est sur un fond corail, or ou autre couleur de la Trousse de marque — pour que la moitié de la marque ne disparaisse plus dans la même couleur."
       }
     }
   },

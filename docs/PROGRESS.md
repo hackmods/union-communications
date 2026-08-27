@@ -1,5 +1,13 @@
 # Progress Log
 
+## Logo visibility on brand fills (2026-08-27)
+
+- [x] Root cause: multi-colour lockups (CAAT-S coral+gold) used the colour asset on non-primary bands; gold glyphs vanished on gold fills
+- [x] Long-term fix (not CSS outline): `lockupForCanvasBackground` picks plate lockup by canvas hex; monochrome `logoRasterFilter` when brand colours clash without a plate asset
+- [x] Shared path: `resolveBrandLogoPresentation` → all `BrandLogo` canvas tools (Meeting Background bands/side-panel/etc.)
+- [x] Tests + What's new `logo-on-brand-fills`; rules: `meeting-backgrounds.mdc`, `comms-module.mdc`
+- Verify: `npm run test:unit -- src/lib/brand/resolve-logo-presentation.test.ts src/lib/brand/identity-packs.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Guides & Tools menu IA (2026-08-27)
 
 - [x] Guides mega-menu hub-first: Start here / Steward work / By channel / Libraries & about — topic playbooks stay on `/guide/steward-playbooks`

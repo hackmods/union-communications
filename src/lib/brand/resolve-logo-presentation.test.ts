@@ -65,4 +65,39 @@ describe("resolveBrandLogoPresentation", () => {
     expect(src).toContain("on-gold");
     expect(cssFilter).toBeUndefined();
   });
+
+  it("uses the gold-plate lockup on a gold secondary band while coral campaign is active", () => {
+    const kit: BrandKit = {
+      ...DEFAULT_BRAND_KIT,
+      unionPresetId: "opseu",
+      identityPackId: "opseu-caat-s",
+      campaignPlate: "coral",
+      useOfficialLogo: true,
+      officialLogoVariant: "lockup",
+      primaryColor: "#EA5A4F",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#FFB837",
+    };
+    // Meeting Background bands: logo sits on secondary/accent gold, not coral primary.
+    const { src, cssFilter } = resolveBrandLogoPresentation(kit, "#FFB837");
+    expect(src).toContain("on-gold");
+    expect(cssFilter).toBeUndefined();
+  });
+
+  it("keeps the coral knockout on coral fills when gold campaign is active", () => {
+    const kit: BrandKit = {
+      ...DEFAULT_BRAND_KIT,
+      unionPresetId: "opseu",
+      identityPackId: "opseu-caat-s",
+      campaignPlate: "gold",
+      useOfficialLogo: true,
+      officialLogoVariant: "lockup",
+      primaryColor: "#FFB837",
+      secondaryColor: "#FFFFFF",
+      accentColor: "#EA5A4F",
+    };
+    const { src, cssFilter } = resolveBrandLogoPresentation(kit, "#EA5A4F");
+    expect(src).toContain("knockout");
+    expect(cssFilter).toBeUndefined();
+  });
 });

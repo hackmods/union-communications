@@ -6678,6 +6678,10 @@
       "guides-tools-menu-ia": {
         "title": "Clearer Guides and Tools menus",
         "body": "Guides now lead with Start here, Steward work, By channel, and Libraries & about — open Steward playbooks for every floor guide. Tools keep five job groups, including Steward prep."
+      },
+      "logo-on-brand-fills": {
+        "title": "Logos stay readable on brand-coloured backgrounds",
+        "body": "Meeting backgrounds and other canvas tools now pick the matching plate lockup (or a solid ink) when your logo sits on coral, gold, or other Brand Kit fills — so half the mark no longer disappears into the same colour."
       }
     }
   },

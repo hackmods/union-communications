@@ -6,6 +6,8 @@ import {
 } from "@/lib/constants/brand";
 import {
   coerceOfficialVariantForPack,
+  lockupForCanvasBackground,
+  resolveIdentityPackForKit,
   resolveOfficialLogos,
 } from "@/lib/brand/identity-packs";
 import {
@@ -13,6 +15,7 @@ import {
   UNIONOPS_LOGOS,
 } from "@/lib/constants/unionPresets";
 import {
+  coloursClash,
   isLightInk,
   logoRasterFilter,
   pickContrastingInk,
@@ -31,6 +34,16 @@ function resolveInk(backgroundColor?: string): InkTone | null {
     : null;
 }
 
+/** True when any kit brand colour would disappear into the canvas fill. */
+function brandColoursClashWithBackground(
+  kit: Pick<BrandKit, "primaryColor" | "secondaryColor" | "accentColor">,
+  backgroundColor: string,
+): boolean {
+  const bg = backgroundColor.trim();
+  const colours = [kit.primaryColor, kit.secondaryColor, kit.accentColor];
+  return colours.some((c) => Boolean(c?.trim()) && coloursClash(c.trim(), bg));
+}
+
 function resolveOfficialPresentation(
   kit: BrandKit,
   variant: OfficialLogoVariant,
@@ -40,22 +53,41 @@ function resolveOfficialPresentation(
   const logos = resolveOfficialLogos(kit);
   const effective = coerceOfficialVariantForPack(logos, variant);
   const filter = ink ? logoRasterFilter(ink) : undefined;
+  const bg = backgroundColor?.trim();
 
   if (effective === "lockup") {
     const lockup = logos?.lockup ?? {
       src: OFFICIAL_LOGOS.lockup.src,
       srcOnDark: undefined as string | undefined,
     };
-    if (lockup.srcOnDark && backgroundColor?.trim()) {
-      const bg = backgroundColor.trim().toUpperCase();
+
+    // Prefer the plate asset whose primary matches this canvas fill (coral
+    // knockout on coral, on-gold on gold) — even when that plate is not the
+    // active Brand Kit campaign. Avoids half-invisible multi-colour lockups.
+    const pack = resolveIdentityPackForKit(kit);
+    const plateLockup = lockupForCanvasBackground(pack, bg);
+    if (plateLockup) {
+      return { src: plateLockup };
+    }
+
+    if (lockup.srcOnDark && bg) {
       const primary = kit.primaryColor.trim().toUpperCase();
       // Knockout on dark plates, and on the kit primary plate even when ink is
       // dark (CAAT-S coral uses white/gold lockup on coral fills).
       const useReverse =
-        (ink !== null && isLightInk(ink)) || bg === primary;
+        (ink !== null && isLightInk(ink)) || bg.toUpperCase() === primary;
       if (useReverse) return { src: lockup.srcOnDark };
     }
     if (ink && isLightInk(ink)) {
+      return { src: lockup.src, cssFilter: filter };
+    }
+    // Dark ink + brand colours that clash with the fill → monochrome so
+    // gold/coral glyphs cannot vanish into secondary/accent bands.
+    if (
+      ink &&
+      bg &&
+      brandColoursClashWithBackground(kit, bg)
+    ) {
       return { src: lockup.src, cssFilter: filter };
     }
     return { src: lockup.src };
