@@ -53,6 +53,7 @@ describe("path helpers", () => {
       "/guide/social-media-plan",
       "/guide/resources",
       "/guide/workshop",
+      "/guide/bargaining",
       "/guide/crisis",
     ]);
   });
@@ -154,6 +155,7 @@ describe("toolGroups", () => {
       "/tools/pre-disciplinary-log",
       "/tools/complaint-vs-grievance",
       "/tools/bylaw-builder",
+      "/tools/proposal-tracker",
     ]);
   });
 });

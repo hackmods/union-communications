@@ -53,6 +53,7 @@
     "rightToRefuseGuide": "Right to refuse (Ontario)",
     "seniorityGuide": "Seniority & bumping",
     "jointCommitteeGuide": "Joint committee",
+    "bargainingGuide": "Bargaining lifecycle",
     "learnGroupGuides": "Start here",
     "learnGroupStewardPlaybooks": "Steward playbooks",
     "learnGroupChannels": "By channel",
@@ -85,7 +86,8 @@
     "complaintVsGrievance": "Complaint vs grievance",
     "toolsGroupStewardPrep": "Steward prep",
     "bylawsGuide": "Local bylaws",
-    "bylawBuilder": "Bylaw Builder"
+    "bylawBuilder": "Bylaw Builder",
+    "proposalTracker": "Proposal Tracker"
   },
   "common": {
     "download": "Download",
@@ -650,6 +652,11 @@
       "email": "Email & outreach",
       "shortForm": "Short-form video",
       "membershipSignup": "Membership signup"
+    },
+    "bargainingGuides": {
+      "title": "Bargaining & Strikes",
+      "bargaining": "Bargaining lifecycle",
+      "crisis": "Strike & crisis comms"
     },
     "labourGuides": {
       "title": "Labour rights guides",
@@ -3054,6 +3061,7 @@
         "seniority": "Seniority & bumping",
         "rightToRefuse": "Right to refuse (Ontario)",
         "jointCommittee": "Joint committee playbook",
+        "bargaining": "Bargaining lifecycle",
         "workplaceMapping": "Workplace mapping & organic leaders",
         "bylaws": "Local Bylaws: The Rules of Your Local"
       },
@@ -3066,6 +3074,7 @@
         "seniority": "Two cascade examples and a printable seniority worksheet.",
         "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
         "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
+        "bargaining": "From member survey and demand setting through No Board and ratification — for Local Bargaining Committees.",
         "workplaceMapping": "Chart every coworker, find organic leaders, and score union support 1 to 5. Keep the file off employer systems.",
         "bylaws": "Executive structure, quorum, signing authority, elections, and how to amend bylaws with notice and a GMM vote."
       }
@@ -4569,6 +4578,7 @@
       "rightToRefuse": "Right to refuse (Ontario)",
       "seniority": "Seniority & bumping",
       "jointCommittee": "Joint committee playbook",
+      "bargaining": "The Bargaining Lifecycle: From Survey to Signing",
       "bylaws": "Local Bylaws: The Rules of Your Local"
     },
     "blurbs": {
@@ -4581,11 +4591,12 @@
       "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
       "seniority": "Two cascade examples and a printable seniority worksheet.",
       "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
+      "bargaining": "Survey to signing for Local Bargaining Committees — table updates, strike votes, and ratification.",
       "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval."
     },
     "workspaces": {
       "title": "Practice workspaces",
-      "body": "Three on-device worksheets mirror Officer Learning modules 1–3 — score eligibility, log discipline meetings, and draft RTW scripts before you walk into HR.",
+      "body": "On-device worksheets for stewards and bargaining committees — score eligibility, log discipline meetings, draft RTW scripts, build bylaws, and track proposals before you walk into HR or the table.",
       "hubCta": "Open all workspaces (Officer Hub)",
       "diagnosticTitle": "Complaint vs grievance diagnostic",
       "diagnosticBlurb": "Five-point filter, 6 W's, FAR sheet, and alternate pathways when the score is zero.",
@@ -4594,7 +4605,9 @@
       "rtwTitle": "Return-to-work & accommodation",
       "rtwBlurb": "Meiorin reference, functional limits, and HR email scripts — no diagnosis on the form.",
       "bylawsTitle": "Bylaw Builder",
-      "bylawsBlurb": "Draft a standard local bylaws template from your executive, quorum, and fiscal-year choices — copy or download as text."
+      "bylawsBlurb": "Draft a standard local bylaws template from your executive, quorum, and fiscal-year choices — copy or download as text.",
+      "proposalTitle": "Proposal Tracker",
+      "proposalBlurb": "Track articles, union proposals, and employer counters on this device. Export CSV for a USB backup after each session."
     }
   },
   "steward101Guide": {
@@ -6652,6 +6665,14 @@
       "local-bylaws-builder": {
         "title": "Bylaw Builder — presets, drafts, and exports",
         "body": "Fill sample local sizes, save a draft on this device, then copy, print, or export Markdown, PDF, or text for Word."
+      },
+      "bargaining-lifecycle-guide": {
+        "title": "The Bargaining Lifecycle: From Survey to Signing",
+        "body": "A Canada/Ontario path for Local Bargaining Committees — demand setting, the table, strike votes, No Board, and ratification."
+      },
+      "proposal-tracker": {
+        "title": "Proposal Tracker — keep strategy on your device",
+        "body": "Track articles, union proposals, and employer counters in a spreadsheet on this browser. Export CSV to a USB drive after each session."
       }
     }
   },
@@ -8586,7 +8607,8 @@
       "rtwAccommodation": "Functional limits, accommodation measures, and HR scripts on your device.",
       "preDisciplinaryLog": "Procedural rights, mitigators, and representation talking points.",
       "complaintVsGrievance": "Five eligibility points, then a grievance draft or alternate route.",
-      "bylawBuilder": "Draft a standard local bylaws template from quorum and executive fields."
+      "bylawBuilder": "Draft a standard local bylaws template from quorum and executive fields.",
+      "proposalTracker": "Track bargaining proposals and counters on this device, then export CSV for backup."
     }
   },
   "portal": {
@@ -9715,6 +9737,134 @@
       "committees": "Article 11: Committees. The LEC may establish standing and special committees. Committee terms of reference shall not conflict with these bylaws or the National or Provincial constitution.",
       "amendments": "Article 12: Amendments. These bylaws may be amended only after {amendmentNotice}, a vote at a quorate General Membership Meeting, and a two-thirds (2/3) majority of members present. Where required by the National or Provincial constitution, amended bylaws take effect only after national or provincial approval.",
       "conflict": "Article 13: Conflict with the Constitution. If any provision of these bylaws conflicts with the National or Provincial constitution, the constitution prevails. These bylaws shall be read to give effect to the constitution wherever possible."
+    }
+  },
+  "bargainingGuide": {
+    "title": "The Bargaining Lifecycle: From Survey to Signing",
+    "subtitle": "How Local Bargaining Committees manage membership from demand setting through ratification",
+    "intro": "Negotiating a Collective Bargaining Agreement (CBA) is the most important thing your local will do. Even if your National or Provincial union sends a Staff Representative to lead the negotiations, the Local Bargaining Committee must manage the membership. Here is the standard lifecycle of contract negotiations in Canada/Ontario.",
+    "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
+    "tocLabel": "On this page",
+    "disclaimer": {
+      "title": "Not legal advice",
+      "body": "Timelines such as notice to bargain and No Board countdown vary by statute and sector. Confirm every deadline with your Staff Representative and your own collective agreement."
+    },
+    "prep": {
+      "navLabel": "Phase 1 · Preparation",
+      "title": "Phase 1: Preparation & The Demand Setting",
+      "intro": "Months before the contract expires, the committee listens to members and opens negotiations formally.",
+      "items": {
+        "survey": {
+          "label": "The Member Survey",
+          "content": "Months before the contract expires, you must survey your members. What are their priorities? (Wages, sick days, scheduling, safety?)"
+        },
+        "demand": {
+          "label": "Demand Setting",
+          "content": "The committee reviews the surveys and drafts the initial proposals to present to the employer."
+        },
+        "notice": {
+          "label": "Notice to Bargain",
+          "content": "A formal legal letter sent to the employer (usually 90 days before expiration) officially opening negotiations."
+        }
+      }
+    },
+    "table": {
+      "navLabel": "Phase 2 · The Table",
+      "title": "Phase 2: The Table",
+      "intro": "Both sides meet, exchange proposals, and keep members engaged without breaking table discipline.",
+      "items": {
+        "exchange": {
+          "label": "Exchanging Proposals",
+          "content": "Both sides meet and exchange their lists of demands."
+        },
+        "blackout": {
+          "label": "The Blackout",
+          "content": "Usually, what happens at the table stays at the table until a tentative agreement is reached. However, the committee must still send out Bargaining Updates to keep the membership mobilized and engaged."
+        },
+        "tracking": {
+          "label": "Tracking",
+          "content": "You must meticulously track every proposal, counter-proposal, and sign-off. Use the UnionOps Proposal Tracker so your strategy stays off the employer's servers."
+        }
+      },
+      "trackerTitle": "Keep strategy on your device",
+      "trackerBody": "The Proposal Tracker saves every row in this browser only. Export to CSV when you need a USB backup after a session.",
+      "trackerCta": "Open Proposal Tracker"
+    },
+    "dispute": {
+      "navLabel": "Phase 3 · Dispute",
+      "title": "Phase 3: Dispute Resolution & The Strike Vote",
+      "intro": "If negotiations stall, the legal clock starts.",
+      "items": {
+        "conciliation": {
+          "label": "Conciliation",
+          "content": "A government-appointed neutral third party tries to help both sides reach an agreement."
+        },
+        "strikeVote": {
+          "label": "The Strike Vote",
+          "content": "To give the bargaining team leverage, the local holds a vote asking members to authorize a strike if a fair deal isn't reached. A strong Yes vote often forces the employer to concede."
+        },
+        "noBoard": {
+          "label": "The \"No Board\" Report (Ontario)",
+          "content": "If conciliation fails, a No Board report is issued. This starts a countdown (typically 17 days in Ontario) before a legal strike or lockout can occur."
+        }
+      },
+      "warningTitle": "Ontario countdown",
+      "warning": "Confirm the exact No Board timeline for your sector with your Staff Representative. Do not rely on this page alone for strike legality.",
+      "crisisCta": "Strike & crisis comms guide"
+    },
+    "ratify": {
+      "navLabel": "Phase 4 · Ratification",
+      "title": "Phase 4: Ratification and Signing",
+      "intro": "A deal only becomes the new agreement when members vote and both parties sign.",
+      "items": {
+        "ta": {
+          "label": "Tentative Agreement (TA)",
+          "content": "The bargaining team reaches a deal with the employer."
+        },
+        "ratification": {
+          "label": "Ratification Vote",
+          "content": "The TA is brought back to the general membership. They vote by secret ballot to accept (ratify) or reject the deal."
+        },
+        "signing": {
+          "label": "Signing",
+          "content": "Once ratified, the new Collective Agreement is officially signed by both parties and printed."
+        }
+      }
+    }
+  },
+  "proposalTracker": {
+    "title": "Proposal Tracker",
+    "subtitle": "Track articles, union proposals, and employer counters for your bargaining committee",
+    "whenToUse": "Use this at the table and in caucus to log every proposal and counter without putting strategy on employer servers.",
+    "guideLink": "Read the Bargaining Lifecycle guide",
+    "trust": {
+      "title": "Bargaining strategy is confidential",
+      "body": "This tracker saves everything directly to your device. No data is sent to the cloud. Export to CSV to back up your notes."
+    },
+    "saveFailed": "Could not save on this device. Export to CSV now so you do not lose rows, then free browser storage and try again.",
+    "addProposal": "Add Proposal",
+    "exportCsv": "Export to CSV",
+    "clearDraft": "Clear draft",
+    "removeRow": "Remove",
+    "columns": {
+      "article": "Article / Section #",
+      "currentLanguage": "Current Language",
+      "unionProposal": "Union Proposal",
+      "employerCounter": "Employer Counter",
+      "status": "Status",
+      "notes": "Notes / Rationale",
+      "actions": "Row actions"
+    },
+    "placeholders": {
+      "article": "e.g. Article 12.01"
+    },
+    "status": {
+      "open": "Open",
+      "tentativelyAgreed": "Tentatively Agreed",
+      "unionWithdrew": "Union Withdrew",
+      "employerWithdrew": "Employer Withdrew",
+      "impasse": "Impasse"
     }
   }
 }

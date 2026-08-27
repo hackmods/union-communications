@@ -150,5 +150,13 @@ export const RELATED_BY_TOOL: Record<
     { href: "/tools/org-chart", navKey: "orgChart" },
     { href: "/tools/document-generator", navKey: "documentGenerator" },
     { href: "/guide/officer-learning", navKey: "officerLearningGuide" },
+    { href: "/tools/proposal-tracker", navKey: "proposalTracker" },
+  ],
+  "proposal-tracker": [
+    { href: "/guide/bargaining", navKey: "bargainingGuide" },
+    { href: "/tools/bylaw-builder", navKey: "bylawBuilder" },
+    { href: "/tools/document-generator", navKey: "documentGenerator" },
+    { href: "/guide/crisis", navKey: "strikeGuide" },
+    { href: "/guide/email-broadcast", navKey: "emailBroadcastGuide" },
   ],
 };

@@ -108,6 +108,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       description:
         "Fill in your local name, quorum, and executive structure to draft a standard local bylaws template. Copy or download as text — private and on your device.",
     },
+    "proposal-tracker": {
+      title: "Bargaining Proposal Tracker",
+      description:
+        "Track articles, union proposals, employer counters, and status on your device. Export CSV for USB backup — nothing goes to the cloud.",
+    },
   },
   fr: {
     "flyer-maker": {
@@ -214,6 +219,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       title: "Créateur de règlements locaux gratuit",
       description:
         "Indiquez le nom, le quorum et l'exécutif pour rédiger un modèle de règlements locaux. Copiez ou téléchargez le texte — privé, sur votre appareil.",
+    },
+    "proposal-tracker": {
+      title: "Suivi des propositions de négociation",
+      description:
+        "Suivez articles, propositions syndicales et contre-propositions sur votre appareil. Exportez en CSV pour clé USB — rien n'est envoyé au nuage.",
     },
   },
 };

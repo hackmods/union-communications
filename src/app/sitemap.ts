@@ -44,6 +44,7 @@ export const PUBLIC_PATHS = [
   "/guide/seniority-bumping",
   "/guide/right-to-refuse",
   "/guide/joint-committee",
+  "/guide/bargaining",
   "/guide/workplace-mapping",
   "/guide/bylaws",
   "/guide/officer-learning",

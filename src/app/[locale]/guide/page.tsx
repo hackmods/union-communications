@@ -203,6 +203,37 @@ export default async function GuidePage({
 
       <div className="mt-10 grid gap-4 lg:grid-cols-2">
         <Callout tone="muted">
+          <p className="font-semibold text-opseu-dark">
+            {t("bargainingGuides.title")}
+          </p>
+          <nav
+            className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
+            aria-label={t("bargainingGuides.title")}
+          >
+            {(
+              [
+                { href: "/guide/bargaining", key: "bargaining" as const },
+                { href: "/guide/crisis", key: "crisis" as const },
+              ] as const
+            ).map((link, i) => (
+              <span key={link.href} className="inline-flex items-baseline gap-x-3">
+                {i > 0 && (
+                  <span className="text-gray-300" aria-hidden="true">
+                    ·
+                  </span>
+                )}
+                <Link
+                  href={link.href}
+                  className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+                >
+                  {t(`bargainingGuides.${link.key}`)}
+                </Link>
+              </span>
+            ))}
+          </nav>
+        </Callout>
+
+        <Callout tone="muted">
           <p className="font-semibold text-opseu-dark">{t("channelGuides.title")}</p>
           <nav
             className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
@@ -238,7 +269,7 @@ export default async function GuidePage({
           </nav>
         </Callout>
 
-        <Callout tone="muted">
+        <Callout tone="muted" className="lg:col-span-2">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <p className="font-semibold text-opseu-dark">{t("labourGuides.title")}</p>
             <Link

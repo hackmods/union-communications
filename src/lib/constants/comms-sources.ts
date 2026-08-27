@@ -470,6 +470,13 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "cec-pteerc-minutes",
     "cec-fteerc-minutes",
   ],
+  bargaining: [
+    "ofl",
+    "nupge",
+    "clc",
+    "ontario-ccba",
+    "ontario-lra-s74",
+  ],
   rightToRefuse: [
     "ontario-ohsa",
     "ontario-ohsa-refusal-guide",

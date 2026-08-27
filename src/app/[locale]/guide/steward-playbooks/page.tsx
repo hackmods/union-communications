@@ -44,6 +44,11 @@ const workspaceLinks = [
     titleKey: "bylawsTitle" as const,
     blurbKey: "bylawsBlurb" as const,
   },
+  {
+    href: "/tools/proposal-tracker",
+    titleKey: "proposalTitle" as const,
+    blurbKey: "proposalBlurb" as const,
+  },
 ] as const;
 
 const playbookLinks = [
@@ -56,6 +61,7 @@ const playbookLinks = [
   { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },
   { href: "/guide/seniority-bumping", key: "seniority" as const },
   { href: "/guide/joint-committee", key: "jointCommittee" as const },
+  { href: "/guide/bargaining", key: "bargaining" as const },
   { href: "/guide/bylaws", key: "bylaws" as const },
 ] as const;
 

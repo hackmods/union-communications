@@ -20,6 +20,7 @@ export type NavLinkKey =
   | "rightToRefuseGuide"
   | "seniorityGuide"
   | "jointCommitteeGuide"
+  | "bargainingGuide"
   | "bylawsGuide"
   | "socialExamples"
   | "captions"
@@ -47,7 +48,8 @@ export type NavLinkKey =
   | "rtwAccommodation"
   | "preDisciplinaryLog"
   | "complaintVsGrievance"
-  | "bylawBuilder";
+  | "bylawBuilder"
+  | "proposalTracker";
 
 export type NavGroupLabelKey =
   | "learnGroupGuides"
@@ -83,6 +85,7 @@ export const learnGroups: readonly NavGroup[] = [
       { href: "/guide/social-media-plan", key: "firstWeek" },
       { href: "/guide/resources", key: "resources" },
       { href: "/guide/workshop", key: "workshopGuide" },
+      { href: "/guide/bargaining", key: "bargainingGuide" },
       { href: "/guide/crisis", key: "strikeGuide" },
     ],
   },
@@ -184,6 +187,7 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/pre-disciplinary-log", key: "preDisciplinaryLog" },
       { href: "/tools/complaint-vs-grievance", key: "complaintVsGrievance" },
       { href: "/tools/bylaw-builder", key: "bylawBuilder" },
+      { href: "/tools/proposal-tracker", key: "proposalTracker" },
     ],
   },
 ] as const;

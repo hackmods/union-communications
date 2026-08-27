@@ -162,6 +162,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Walk a campus issue to the provincial table, keep caucus notes private, then explain signed minutes to members with flyers and email.",
     },
+    "/guide/bargaining": {
+      title: "The Bargaining Lifecycle: From Survey to Signing",
+      description:
+        "Canada/Ontario lifecycle for local bargaining committees — demand setting, the table, strike votes, No Board, and ratification.",
+    },
     "/guide/workplace-mapping": {
       title: "Workplace Mapping & Finding Organic Leaders",
       description:
@@ -358,6 +363,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Guide des comités conjoints",
       description:
         "Passez d'un dossier de campus à la table provinciale, gardez le caucus privé, puis expliquez les procès-verbaux signés aux membres par tracts et courriel.",
+    },
+    "/guide/bargaining": {
+      title: "Le cycle de négociation : du sondage à la signature",
+      description:
+        "Cycle Canada/Ontario pour les comités locaux — demandes, table, votes de grève, rapport « no board » et ratification.",
     },
     "/guide/workplace-mapping": {
       title: "Cartographie du lieu de travail et leaders organiques",

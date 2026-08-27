@@ -53,6 +53,7 @@
     "rightToRefuseGuide": "Droit de refuser (Ontario)",
     "seniorityGuide": "Ancienneté et bumping",
     "jointCommitteeGuide": "Comité conjoint",
+    "bargainingGuide": "Cycle de négociation",
     "learnGroupGuides": "Pour commencer",
     "learnGroupStewardPlaybooks": "Guides pratiques pour délégués",
     "learnGroupChannels": "Par canal",
@@ -85,7 +86,8 @@
     "complaintVsGrievance": "Plainte ou grief",
     "toolsGroupStewardPrep": "Préparation des délégués",
     "bylawsGuide": "Règlements locaux",
-    "bylawBuilder": "Créateur de règlements"
+    "bylawBuilder": "Créateur de règlements",
+    "proposalTracker": "Suivi des propositions"
   },
   "common": {
     "download": "Télécharger",
@@ -650,6 +652,11 @@
       "email": "Courriel et diffusion",
       "shortForm": "Vidéo courte",
       "membershipSignup": "Adhésion"
+    },
+    "bargainingGuides": {
+      "title": "Négociation et grèves",
+      "bargaining": "Cycle de négociation",
+      "crisis": "Comms de grève et de crise"
     },
     "labourGuides": {
       "title": "Guides de droits au travail",
@@ -3054,6 +3061,7 @@
         "seniority": "Ancienneté et bumping",
         "rightToRefuse": "Droit de refuser (Ontario)",
         "jointCommittee": "Guide des comités conjoints",
+        "bargaining": "Cycle de négociation",
         "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
         "bylaws": "Règlements locaux : les règles de votre section"
       },
@@ -3066,6 +3074,7 @@
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
         "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
         "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
+        "bargaining": "Du sondage des membres et de l'établissement des demandes jusqu'au rapport « no board » et à la ratification — pour les comités de négociation locaux.",
         "workplaceMapping": "Recensez chaque collègue, repérez les leaders organiques et cotez l'appui syndical de 1 à 5. Gardez le fichier hors des systèmes de l'employeur.",
         "bylaws": "Structure de l'exécutif, quorum, autorités de signature, élections, et comment modifier les règlements avec préavis et vote en assemblée."
       }
@@ -4519,6 +4528,7 @@
       "rightToRefuse": "Droit de refuser (Ontario)",
       "seniority": "Ancienneté et bumping",
       "jointCommittee": "Guide des comités conjoints",
+      "bargaining": "Le cycle de négociation : du sondage à la signature",
       "bylaws": "Règlements locaux : les règles de votre section"
     },
     "blurbs": {
@@ -4531,11 +4541,12 @@
       "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
       "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
       "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
+      "bargaining": "Du sondage à la signature pour les comités de négociation locaux — mises à jour de table, votes de grève et ratification.",
       "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis, quorum et approbation nationale."
     },
     "workspaces": {
       "title": "Espaces de pratique",
-      "body": "Trois feuilles de travail sur l'appareil reprennent les modules 1 à 3 — admissibilité, rencontre disciplinaire et scripts RAT avant la rencontre avec les RH.",
+      "body": "Feuilles de travail sur l'appareil pour délégués et comités de négociation — admissibilité, discipline, scripts RAT, règlements et suivi des propositions avant la rencontre avec les RH ou la table.",
       "hubCta": "Ouvrir tous les espaces (Hub des dirigeants)",
       "diagnosticTitle": "Diagnostic plainte ou grief",
       "diagnosticBlurb": "Filtre en cinq points, 6 W, feuille FAR et parcours alternatifs quand le score est zéro.",
@@ -4544,7 +4555,9 @@
       "rtwTitle": "Retour au travail et adaptation",
       "rtwBlurb": "Référence Meiorin, limites fonctionnelles et scripts RH — pas de diagnostic sur le formulaire.",
       "bylawsTitle": "Créateur de règlements",
-      "bylawsBlurb": "Rédigez un modèle de règlements locaux à partir de l'exécutif, du quorum et de l'exercice — copiez ou téléchargez le texte."
+      "bylawsBlurb": "Rédigez un modèle de règlements locaux à partir de l'exécutif, du quorum et de l'exercice — copiez ou téléchargez le texte.",
+      "proposalTitle": "Suivi des propositions",
+      "proposalBlurb": "Suivez les articles, propositions syndicales et contre-propositions patronales sur cet appareil. Exportez en CSV pour une clé USB après chaque séance."
     }
   },
   "steward101Guide": {
@@ -6602,6 +6615,14 @@
       "local-bylaws-builder": {
         "title": "Créateur de règlements — préréglages, brouillons et exports",
         "body": "Remplissez un modèle selon la taille de la section, enregistrez le brouillon sur cet appareil, puis copiez, imprimez ou exportez en Markdown, PDF ou texte pour Word."
+      },
+      "bargaining-lifecycle-guide": {
+        "title": "Le cycle de négociation : du sondage à la signature",
+        "body": "Un parcours Canada/Ontario pour les comités de négociation locaux — établissement des demandes, table, votes de grève, rapport « no board » et ratification."
+      },
+      "proposal-tracker": {
+        "title": "Suivi des propositions — gardez la stratégie sur votre appareil",
+        "body": "Suivez les articles, propositions syndicales et contre-propositions dans un tableau sur ce navigateur. Exportez en CSV vers une clé USB après chaque séance."
       }
     }
   },
@@ -8586,7 +8607,8 @@
       "rtwAccommodation": "Limites fonctionnelles, mesures d'adaptation et scripts RH, sur votre appareil.",
       "preDisciplinaryLog": "Droits procéduraux, facteurs atténuants et points de représentation.",
       "complaintVsGrievance": "Cinq points d'admissibilité, puis brouillon de grief ou autre voie.",
-      "bylawBuilder": "Rédigez un modèle de règlements locaux à partir du quorum et de la structure de l'exécutif."
+      "bylawBuilder": "Rédigez un modèle de règlements locaux à partir du quorum et de la structure de l'exécutif.",
+      "proposalTracker": "Suivez les propositions et contre-propositions sur cet appareil, puis exportez en CSV pour sauvegarde."
     }
   },
   "portal": {
@@ -9715,6 +9737,134 @@
       "committees": "Article 11 : Comités. Le CEL peut créer des comités permanents et spéciaux. Les mandats des comités ne doivent pas entrer en conflit avec les présents règlements ni avec la constitution nationale ou provinciale.",
       "amendments": "Article 12 : Modifications. Les présents règlements ne peuvent être modifiés qu'après {amendmentNotice}, un vote à une assemblée générale des membres avec quorum, et une majorité des deux tiers (2/3) des membres présents. Lorsque la constitution nationale ou provinciale l'exige, les règlements modifiés n'entrent en vigueur qu'après approbation nationale ou provinciale.",
       "conflict": "Article 13 : Conflit avec la constitution. Si une disposition des présents règlements entre en conflit avec la constitution nationale ou provinciale, la constitution prévaut. Les présents règlements doivent être interprétés de manière à donner effet à la constitution dans la mesure du possible."
+    }
+  },
+  "bargainingGuide": {
+    "title": "Le cycle de négociation : du sondage à la signature",
+    "subtitle": "Comment les comités de négociation locaux gèrent les membres, de l'établissement des demandes à la ratification",
+    "intro": "Négocier une convention collective est la chose la plus importante que fera votre section. Même si votre syndicat national ou provincial envoie un représentant du personnel pour mener les négociations, le comité de négociation local doit gérer les membres. Voici le cycle habituel des négociations contractuelles au Canada et en Ontario.",
+    "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
+    "tocLabel": "Sur cette page",
+    "disclaimer": {
+      "title": "Pas un avis juridique",
+      "body": "Les délais comme l'avis de négocier et le compte à rebours « no board » varient selon la loi et le secteur. Confirmez chaque échéance avec votre représentant du personnel et votre propre convention collective."
+    },
+    "prep": {
+      "navLabel": "Phase 1 · Préparation",
+      "title": "Phase 1 : Préparation et établissement des demandes",
+      "intro": "Des mois avant l'expiration de la convention, le comité écoute les membres et ouvre formellement les négociations.",
+      "items": {
+        "survey": {
+          "label": "Le sondage des membres",
+          "content": "Des mois avant l'expiration de la convention, vous devez sonder vos membres. Quelles sont leurs priorités? (Salaires, congés de maladie, horaires, sécurité?)"
+        },
+        "demand": {
+          "label": "Établissement des demandes",
+          "content": "Le comité examine les sondages et rédige les propositions initiales à présenter à l'employeur."
+        },
+        "notice": {
+          "label": "Avis de négocier",
+          "content": "Une lettre juridique formelle envoyée à l'employeur (habituellement 90 jours avant l'expiration) ouvre officiellement les négociations."
+        }
+      }
+    },
+    "table": {
+      "navLabel": "Phase 2 · La table",
+      "title": "Phase 2 : La table",
+      "intro": "Les deux parties se rencontrent, échangent des propositions et maintiennent l'engagement des membres sans briser la discipline de table.",
+      "items": {
+        "exchange": {
+          "label": "Échange des propositions",
+          "content": "Les deux parties se rencontrent et échangent leurs listes de demandes."
+        },
+        "blackout": {
+          "label": "Le black-out",
+          "content": "Habituellement, ce qui se passe à la table reste à la table jusqu'à une entente de principe. Le comité doit toutefois envoyer des mises à jour de négociation pour garder les membres mobilisés et engagés."
+        },
+        "tracking": {
+          "label": "Suivi",
+          "content": "Vous devez suivre méticuleusement chaque proposition, contre-proposition et accord. Utilisez le Suivi des propositions UnionOps pour garder votre stratégie hors des serveurs de l'employeur."
+        }
+      },
+      "trackerTitle": "Gardez la stratégie sur votre appareil",
+      "trackerBody": "Le Suivi des propositions enregistre chaque ligne dans ce navigateur seulement. Exportez en CSV quand vous avez besoin d'une sauvegarde USB après une séance.",
+      "trackerCta": "Ouvrir le Suivi des propositions"
+    },
+    "dispute": {
+      "navLabel": "Phase 3 · Différend",
+      "title": "Phase 3 : Règlement des différends et vote de grève",
+      "intro": "Si les négociations stagnent, l'horloge juridique démarre.",
+      "items": {
+        "conciliation": {
+          "label": "Conciliation",
+          "content": "Un tiers neutre nommé par le gouvernement tente d'aider les deux parties à conclure une entente."
+        },
+        "strikeVote": {
+          "label": "Le vote de grève",
+          "content": "Pour donner du levier à l'équipe de négociation, la section tient un vote demandant aux membres d'autoriser une grève si une entente juste n'est pas atteinte. Un fort vote Oui force souvent l'employeur à céder."
+        },
+        "noBoard": {
+          "label": "Le rapport « no board » (Ontario)",
+          "content": "Si la conciliation échoue, un rapport « no board » est émis. Cela démarre un compte à rebours (habituellement 17 jours en Ontario) avant qu'une grève ou un lock-out légal puisse avoir lieu."
+        }
+      },
+      "warningTitle": "Compte à rebours en Ontario",
+      "warning": "Confirmez le délai exact du rapport « no board » pour votre secteur avec votre représentant du personnel. Ne vous fiez pas à cette page seule pour la légalité d'une grève.",
+      "crisisCta": "Guide de communication — grève et crise"
+    },
+    "ratify": {
+      "navLabel": "Phase 4 · Ratification",
+      "title": "Phase 4 : Ratification et signature",
+      "intro": "Une entente ne devient la nouvelle convention que lorsque les membres votent et que les deux parties signent.",
+      "items": {
+        "ta": {
+          "label": "Entente de principe (EP)",
+          "content": "L'équipe de négociation conclut une entente avec l'employeur."
+        },
+        "ratification": {
+          "label": "Vote de ratification",
+          "content": "L'entente de principe est ramenée à l'ensemble des membres. Ils votent au scrutin secret pour accepter (ratifier) ou rejeter l'entente."
+        },
+        "signing": {
+          "label": "Signature",
+          "content": "Une fois ratifiée, la nouvelle convention collective est officiellement signée par les deux parties et imprimée."
+        }
+      }
+    }
+  },
+  "proposalTracker": {
+    "title": "Suivi des propositions",
+    "subtitle": "Suivez les articles, propositions syndicales et contre-propositions patronales pour votre comité de négociation",
+    "whenToUse": "Utilisez cet outil à la table et en caucus pour consigner chaque proposition et contre-proposition sans mettre la stratégie sur les serveurs de l'employeur.",
+    "guideLink": "Lire le guide du cycle de négociation",
+    "trust": {
+      "title": "La stratégie de négociation est confidentielle",
+      "body": "Ce suivi enregistre tout directement sur votre appareil. Aucune donnée n'est envoyée dans le nuage. Exportez en CSV pour sauvegarder vos notes."
+    },
+    "saveFailed": "Impossible d'enregistrer sur cet appareil. Exportez en CSV maintenant pour ne pas perdre de lignes, puis libérez de l'espace de navigateur et réessayez.",
+    "addProposal": "Ajouter une proposition",
+    "exportCsv": "Exporter en CSV",
+    "clearDraft": "Effacer le brouillon",
+    "removeRow": "Retirer",
+    "columns": {
+      "article": "Article / section n°",
+      "currentLanguage": "Libellé actuel",
+      "unionProposal": "Proposition syndicale",
+      "employerCounter": "Contre-proposition patronale",
+      "status": "Statut",
+      "notes": "Notes / justification",
+      "actions": "Actions de ligne"
+    },
+    "placeholders": {
+      "article": "p. ex. Article 12.01"
+    },
+    "status": {
+      "open": "Ouvert",
+      "tentativelyAgreed": "Entente de principe",
+      "unionWithdrew": "Retrait syndical",
+      "employerWithdrew": "Retrait patronal",
+      "impasse": "Impasse"
     }
   }
 }

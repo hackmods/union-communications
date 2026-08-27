@@ -17,7 +17,7 @@ test.describe("Steward meeting guides @smoke", () => {
       })
       .getByRole("radio", { name: "Yes" })
       .click();
-    await expect(page.getByText(/Grievance viability index/i)).toBeVisible();
+    await expect(page.getByText(/Grievance viability index/i).first()).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
 
@@ -36,6 +36,22 @@ test.describe("Steward meeting guides @smoke", () => {
       page.getByRole("heading", { name: /Return-to-work & accommodation/i }),
     ).toBeVisible();
     await expect(page.getByText(/Primacy of human rights/i)).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
+
+  test("proposal tracker loads with trust banner and add row", async ({
+    page,
+  }) => {
+    await page.goto("/en/tools/proposal-tracker/");
+    await expect(
+      page.getByRole("heading", { name: /Proposal Tracker/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/Bargaining strategy is confidential/i),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: /Add Proposal/i }),
+    ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
 

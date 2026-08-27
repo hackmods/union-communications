@@ -1,5 +1,11 @@
 # Progress Log
 
+## Bargaining lifecycle guide + Proposal Tracker (2026-08-27)
+
+- [x] Public `/guide/bargaining` — survey → table → dispute/strike vote → ratification; Blueprint "Bargaining & Strikes" strip; Resources / Steward playbooks / nav
+- [x] Local-first `/tools/proposal-tracker` — spreadsheet rows, status dropdown, CSV export, on-device draft via `saveJsonDraft`
+- [x] What's new notes + SEO/sitemap registration
+
 ## Local bylaws guide + Bylaw Builder QOL (2026-08-27)
 
 - [x] `/guide/bylaws` raised to playbook depth: constitution gate, expanded must-haves, amendment CTAs, worked GMM timeline, checklist, peer examples (CUPE / Unifor / OPSEU / SEFPO), failure modes, tools section
