@@ -707,15 +707,19 @@
     },
     "viewer": {
       "back": "Tableau de bord",
+      "playbooksNav": "Hub des guides pratiques",
       "jumpToQuiz": "Aller au quiz",
       "toc": "Sur cette page",
       "print": "Imprimer le module",
       "quizPreviewTitle": "Autoévaluation à la fin",
-      "quizPreviewBody": "Ce module comprend un quiz après la lecture. Utilisez Aller au quiz ci-dessus quand vous êtes prêt — un score parfait marque le module comme complété."
+      "quizPreviewBody": "Ce module comprend un quiz après la lecture. Utilisez Aller au quiz ci-dessus quand vous êtes prêt — un score parfait marque le module comme complété.",
+      "relatedLabel": "Aussi dans cette boîte à outils"
     },
     "path": {
-      "label": "Parcours de formation"
+      "label": "Parcours de formation",
+      "stepAria": "Module {number} : {title}"
     },
+    "relatedNavLabel": "Parcours connexes",
     "callouts": {
       "note": "💡 Note",
       "warning": "⚠️ Avertissement",
@@ -6628,6 +6632,10 @@
       "guides-tools-menu-ia": {
         "title": "Menus Guides et Outils plus clairs",
         "body": "Les Guides mènent maintenant par Pour commencer, Travail des délégués, Par canal, et Bibliothèques et à propos — ouvrez Guides pratiques pour délégués pour chaque guide de plancher. Les Outils gardent cinq groupes de tâches, dont Préparation des délégués."
+      },
+      "guide-pdf-branding": {
+        "title": "Fiches de poche et imprimés de formation avec la marque UnionOps",
+        "body": "Les fiches de Formation des dirigeants, les listes de règlements, les certificats et les PDF d'espace délégué portent maintenant la marque UnionOps — plus un simple dump Helvetica."
       },
       "logo-on-brand-fills": {
         "title": "Les logos restent lisibles sur les fonds aux couleurs de la marque",

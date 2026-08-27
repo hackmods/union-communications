@@ -1,9 +1,13 @@
 /**
  * Pocket reference PDFs for Officer Learning floor use.
- * Dynamic-imports jsPDF inside each export (TOOL-004).
+ * Chrome via text-pdf-layout (UnionOps mark + education footer).
  */
 
-import { saveBlob } from "@/lib/export/save-blob";
+import {
+  EDUCATION_FOOTER,
+  writeBrandedChecklistPdf,
+  type GuidePdfLocale,
+} from "@/lib/export/text-pdf-layout";
 
 function slugPart(value: string): string {
   return value
@@ -13,66 +17,7 @@ function slugPart(value: string): string {
     .slice(0, 40);
 }
 
-async function writeSimplePdf(opts: {
-  title: string;
-  subtitle?: string;
-  sections: { heading: string; lines: string[] }[];
-  filename: string;
-  footer: string;
-}): Promise<void> {
-  const { jsPDF } = await import("jspdf");
-  const pdf = new jsPDF({ unit: "pt", format: "letter" });
-  const margin = 48;
-  const pageWidth = pdf.internal.pageSize.getWidth();
-  const pageHeight = pdf.internal.pageSize.getHeight();
-  const maxWidth = pageWidth - margin * 2;
-  let y = margin;
-
-  const ensureSpace = (needed: number) => {
-    if (y + needed > pageHeight - margin) {
-      pdf.addPage();
-      y = margin;
-    }
-  };
-
-  const write = (text: string, size: number, bold = false) => {
-    pdf.setFont("helvetica", bold ? "bold" : "normal");
-    pdf.setFontSize(size);
-    const lines = pdf.splitTextToSize(text, maxWidth) as string[];
-    for (const line of lines) {
-      ensureSpace(size + 5);
-      pdf.text(line, margin, y);
-      y += size + 5;
-    }
-  };
-
-  write(opts.title, 16, true);
-  y += 4;
-  if (opts.subtitle) {
-    write(opts.subtitle, 10);
-    y += 8;
-  }
-
-  for (const section of opts.sections) {
-    y += 6;
-    write(section.heading, 12, true);
-    y += 2;
-    for (const line of section.lines) {
-      write(`☐  ${line}`, 10);
-    }
-  }
-
-  y += 16;
-  write(opts.footer, 8);
-  await saveBlob(pdf.output("blob"), opts.filename);
-}
-
-const EDUCATION_FOOTER = {
-  en: "UnionOps Officer Learning — education only. Confirm every step against your collective agreement. Not legal advice.",
-  fr: "UnionOps Formation des dirigeants — formation seulement. Vérifiez chaque étape avec votre convention collective. Pas un avis juridique.",
-} as const;
-
-export type ReferencePdfLocale = keyof typeof EDUCATION_FOOTER;
+export type ReferencePdfLocale = GuidePdfLocale;
 
 type ModulePdfContext = {
   moduleTitle: string;
@@ -148,7 +93,7 @@ export async function downloadFarSheetPdf(opts: ModulePdfContext): Promise<void>
           ],
         };
 
-  await writeSimplePdf({
+  await writeBrandedChecklistPdf({
     title: copy.title,
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
     sections: copy.sections,
@@ -225,7 +170,7 @@ export async function downloadDisciplineRightsPdf(opts: ModulePdfContext): Promi
           ],
         };
 
-  await writeSimplePdf({
+  await writeBrandedChecklistPdf({
     title: copy.title,
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
     sections: copy.sections,
@@ -298,7 +243,7 @@ export async function downloadMeiorinSheetPdf(opts: ModulePdfContext): Promise<v
           ],
         };
 
-  await writeSimplePdf({
+  await writeBrandedChecklistPdf({
     title: copy.title,
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
     sections: copy.sections,
@@ -309,7 +254,7 @@ export async function downloadMeiorinSheetPdf(opts: ModulePdfContext): Promise<v
 
 /** Quorum + motion template (module 4). */
 export async function downloadQuorumMotionPdf(opts: ModulePdfContext): Promise<void> {
-  await writeSimplePdf({
+  await writeBrandedChecklistPdf({
     title: "Meeting quorum & motion template",
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
     sections: [
@@ -342,7 +287,7 @@ export async function downloadQuorumMotionPdf(opts: ModulePdfContext): Promise<v
 
 /** Financial controls audit trail (module 5). */
 export async function downloadAuditControlsPdf(opts: ModulePdfContext): Promise<void> {
-  await writeSimplePdf({
+  await writeBrandedChecklistPdf({
     title: "Financial controls — receipt to audit trail",
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
     sections: [
@@ -370,7 +315,7 @@ export async function downloadAuditControlsPdf(opts: ModulePdfContext): Promise<
 
 /** Equity clause negotiation worksheet (module 6). */
 export async function downloadEquityClausePdf(opts: ModulePdfContext): Promise<void> {
-  await writeSimplePdf({
+  await writeBrandedChecklistPdf({
     title: "Equity clause — barrier to accountability",
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
     sections: [
@@ -477,7 +422,7 @@ export async function downloadBylawsAdoptionChecklistPdf(opts: {
 }): Promise<void> {
   const locale = opts.locale ?? "en";
   const copy = BYLAWS_ADOPTION_COPY[locale];
-  await writeSimplePdf({
+  await writeBrandedChecklistPdf({
     title: copy.title,
     subtitle: opts.localLabel,
     sections: [...copy.sections],
@@ -493,7 +438,7 @@ export async function downloadFloorChecklistPdf(opts: {
   items: string[];
   localLabel: string;
 }): Promise<void> {
-  await writeSimplePdf({
+  await writeBrandedChecklistPdf({
     title: `Floor checklist — Module ${opts.moduleNumber}`,
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
     sections: [

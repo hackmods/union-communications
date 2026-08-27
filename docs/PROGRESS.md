@@ -31,6 +31,14 @@
 - [x] `PUBLIC_NS` + copy-guard fixes for bargaining / officer-learning; thin H1 smoke for bylaws + bargaining
 - Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts`; smoke `e2e/officer-learning.smoke.spec.ts`
 
+## Labour guides next pass (2026-08-27)
+
+- [x] Officer Learning: GuideLayout-style related/Sources placement on dark shell; unique path vs card link names; sticky vs related playbooks labels; drop duplicate playbooks chips from module related resources
+- [x] Remaining public guide `Link>Button` → `guideCtaClasses` (+ Sm/Ghost variants)
+- [x] Thin H1 + axe for `/guide/dfr`; builders H1 matrix includes dfr + steward-playbooks; officer-learning smoke without `.first()` papering
+- [x] Session knowledge: `docs/audit/session-knowledge-2026-08-27-labour-guides-chrome.md`
+- Verify: `npm run test:unit -- src/lib/officer-learning/related-resources.test.ts src/lib/comms/public-copy-style.test.ts`; smoke `e2e/officer-learning.smoke.spec.ts`
+
 ## Bargaining lifecycle gold polish (2026-08-27)
 
 - [x] Failure modes, strike-vote/ratification mechanics, national TA clearance, CCBA dispute callout, deeper related links

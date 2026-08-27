@@ -707,15 +707,19 @@
     },
     "viewer": {
       "back": "Dashboard",
+      "playbooksNav": "Playbooks hub",
       "jumpToQuiz": "Jump to Quiz",
       "toc": "On this page",
       "print": "Print module",
       "quizPreviewTitle": "Self-test at the end",
-      "quizPreviewBody": "This module includes a quiz after the reading. Use Jump to Quiz above when you are ready — a perfect score marks it complete."
+      "quizPreviewBody": "This module includes a quiz after the reading. Use Jump to Quiz above when you are ready — a perfect score marks it complete.",
+      "relatedLabel": "Also in this toolkit"
     },
     "path": {
-      "label": "Learning path"
+      "label": "Learning path",
+      "stepAria": "Module {number}: {title}"
     },
+    "relatedNavLabel": "Related paths",
     "callouts": {
       "note": "💡 Note",
       "warning": "⚠️ Warning",
@@ -6678,6 +6682,10 @@
       "guides-tools-menu-ia": {
         "title": "Clearer Guides and Tools menus",
         "body": "Guides now lead with Start here, Steward work, By channel, and Libraries & about — open Steward playbooks for every floor guide. Tools keep five job groups, including Steward prep."
+      },
+      "guide-pdf-branding": {
+        "title": "Branded pocket sheets and learning printouts",
+        "body": "Officer Learning sheets, bylaws checklists, certificates, and steward workspace PDFs now carry the UnionOps mark so floor printouts look like yours — not a blank Helvetica dump."
       },
       "logo-on-brand-fills": {
         "title": "Logos stay readable on brand-coloured backgrounds",

@@ -1,0 +1,32 @@
+---
+description: Guide/training text PDF branding, inventory, and regression tests
+globs: src/lib/officer-learning/**/*.ts,src/lib/steward-guides/**/*.ts,src/lib/export/text-pdf-layout.ts,src/components/officer-learning/**/*.tsx,src/components/comms/BylawsReferenceSheetButton.tsx,src/components/tools/steward-guides/**/*.tsx,e2e/guide-pdf*.ts
+alwaysApply: false
+---
+
+# Guide / training text PDFs
+
+Companion inventory + quality bar: [`docs/audit/guide-pdf-quality-2026-08.md`](../../docs/audit/guide-pdf-quality-2026-08.md).
+
+## Hard rules
+
+1. **Shared chrome only** — pocket sheets, floor checklists, bylaws sheets, steward workspace PDFs, and certificates draw through [`text-pdf-layout.ts`](../../src/lib/export/text-pdf-layout.ts) (or certificate helpers that reuse the same mark loader). Do not reintroduce a private Helvetica-only `writeSimplePdf`.
+2. **Platform awareness** — header embeds UnionOps mark PNG (`UNIONOPS_LOGOS.markInterlock`). Keep the education footer wordmark (“UnionOps … education only”). Do not rely on centered Helvetica `UNIONOPS` as the only brand signal.
+3. **Local vs platform** — header = UnionOps platform mark. Subtitle/local line = Brand Kit local number. Certificates may add optional Brand Kit (local) logo as secondary — never replace the platform mark with a local logo alone.
+4. **Dynamic-import jsPDF** inside the export path (`TOOL-004`). Wrap UI triggers in `useExportHandler` + user-visible error.
+5. **EN + FR** education footers and localized sheet copy stay in sync on claim (see `i18n-public-copy.mdc`).
+6. **Do not rebrand** static Ontario ministry PDFs under `public/assets/ontario-board-posters/`.
+7. **Canvas Comms PDFs** stay on `pdf-export.ts` + Phase 9 fidelity — do not route them through text-PDF layout.
+
+## Tests
+
+- Unit: layout helpers + certificate dual-logo placement (`text-pdf-layout.test.ts`, `certificate.test.ts`).
+- Smoke: `e2e/guide-pdf.export.smoke.spec.ts` — real download, size floor, pdf.js text (title + footer), embedded mark image.
+- Text PDFs are **not** canvas `compareRasters` targets.
+
+## When adding a new guide handout PDF
+
+1. Add export to the inventory table in the audit doc.
+2. Use `writeBrandedChecklistPdf` / shared notes writer — no one-off jsPDF letter loops.
+3. Extend unit content contracts and at least one smoke download path if the CTA is new on a guide page.
+4. Steward-visible capability → What's new note (`whats-new.mdc`).

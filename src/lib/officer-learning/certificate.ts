@@ -1,6 +1,13 @@
 import { resolveLocalNumber } from "@/lib/utils/local";
 import { saveBlob } from "@/lib/export/save-blob";
 import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import {
+  GUIDE_PDF_PALETTE,
+  certificateBrandLogoPlacement,
+  certificatePlatformMarkPlacement,
+  logoDataUrlFromBytes,
+  resolveUnionOpsMarkBytes,
+} from "@/lib/export/text-pdf-layout";
 
 export type CertificateKind = "module" | "path";
 
@@ -13,7 +20,7 @@ export type CertificateInput = {
   moduleNumber?: number;
   localNumber?: string | null;
   completedAt?: Date;
-  /** Optional Brand Kit logo (PNG bytes). Falls back to wordmark-only. */
+  /** Optional Brand Kit logo (PNG bytes). Secondary to UnionOps platform mark. */
   logo?: BrandLogoBytes | null;
 };
 
@@ -25,16 +32,7 @@ function slugPart(value: string): string {
     .slice(0, 40);
 }
 
-function logoDataUrl(logo: BrandLogoBytes): string {
-  if (logo.src.startsWith("data:")) return logo.src;
-  let binary = "";
-  for (let i = 0; i < logo.bytes.length; i++) {
-    binary += String.fromCharCode(logo.bytes[i]!);
-  }
-  return `data:image/png;base64,${btoa(binary)}`;
-}
-
-/** Pure layout helpers — unit-tested without jsPDF. */
+/** @deprecated Prefer certificateBrandLogoPlacement — kept for existing tests. */
 export function certificateLogoPlacement(logo: BrandLogoBytes | null | undefined): {
   draw: boolean;
   x: number;
@@ -42,25 +40,13 @@ export function certificateLogoPlacement(logo: BrandLogoBytes | null | undefined
   widthIn: number;
   heightIn: number;
 } | null {
-  if (!logo?.bytes?.length) return null;
-  const maxW = 1.35;
-  const maxH = 0.55;
-  const aspect =
-    logo.widthPx > 0 && logo.heightPx > 0
-      ? logo.widthPx / logo.heightPx
-      : 2.4;
-  let widthIn = maxW;
-  let heightIn = widthIn / aspect;
-  if (heightIn > maxH) {
-    heightIn = maxH;
-    widthIn = heightIn * aspect;
-  }
-  return { draw: true, x: 0.65, y: 0.65, widthIn, heightIn };
+  return certificateBrandLogoPlacement(logo, { withPlatformMark: false });
 }
 
 /**
- * Client-side landscape certificate PDF (Phase A).
+ * Client-side landscape certificate PDF.
  * Dynamic-imports jsPDF — no server round-trip.
+ * Header: UnionOps platform mark (awareness) + optional Brand Kit logo.
  */
 export async function downloadOfficerLearningCertificate(
   input: CertificateInput,
@@ -69,6 +55,7 @@ export async function downloadOfficerLearningCertificate(
   const completedAt = input.completedAt ?? new Date();
   const local = resolveLocalNumber(input.localNumber);
   const name = input.recipientName.trim() || "Union steward";
+  const { navy, teal, amber } = GUIDE_PDF_PALETTE;
 
   const pdf = new jsPDF({
     orientation: "landscape",
@@ -79,42 +66,66 @@ export async function downloadOfficerLearningCertificate(
   const w = 11;
   const h = 8.5;
 
-  pdf.setFillColor(11, 19, 43);
+  pdf.setFillColor(navy.r, navy.g, navy.b);
   pdf.rect(0, 0, w, h, "F");
 
-  pdf.setDrawColor(20, 184, 166);
+  pdf.setDrawColor(teal.r, teal.g, teal.b);
   pdf.setLineWidth(0.04);
   pdf.rect(0.35, 0.35, w - 0.7, h - 0.7, "S");
 
-  pdf.setDrawColor(245, 158, 11);
+  pdf.setDrawColor(amber.r, amber.g, amber.b);
   pdf.setLineWidth(0.015);
   pdf.rect(0.5, 0.5, w - 1, h - 1, "S");
 
-  const placement = certificateLogoPlacement(input.logo);
-  if (placement && input.logo) {
+  const platformMark = await resolveUnionOpsMarkBytes();
+  const platformPlacement = certificatePlatformMarkPlacement(platformMark);
+  if (platformPlacement && platformMark) {
     try {
       pdf.addImage(
-        logoDataUrl(input.logo),
+        logoDataUrlFromBytes(platformMark),
         "PNG",
-        placement.x,
-        placement.y,
-        placement.widthIn,
-        placement.heightIn,
+        platformPlacement.x,
+        platformPlacement.y,
+        platformPlacement.widthIn,
+        platformPlacement.heightIn,
       );
     } catch {
-      // Brand logo optional — continue with wordmark-only.
+      // Platform mark optional — continue with text fallback below.
     }
   }
 
-  pdf.setTextColor(245, 158, 11);
-  pdf.setFont("helvetica", "bold");
-  pdf.setFontSize(14);
-  pdf.text("UNIONOPS", w / 2, 1.35, { align: "center" });
+  const brandPlacement = certificateBrandLogoPlacement(input.logo, {
+    withPlatformMark: Boolean(platformPlacement),
+  });
+  if (brandPlacement && input.logo) {
+    try {
+      pdf.addImage(
+        logoDataUrlFromBytes(input.logo),
+        "PNG",
+        brandPlacement.x,
+        brandPlacement.y,
+        brandPlacement.widthIn,
+        brandPlacement.heightIn,
+      );
+    } catch {
+      // Brand logo optional.
+    }
+  }
+
+  // Wordmark fallback when platform mark did not draw
+  if (!platformPlacement) {
+    pdf.setTextColor(amber.r, amber.g, amber.b);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(14);
+    pdf.text("UNIONOPS", w / 2, 1.35, { align: "center" });
+  }
 
   pdf.setTextColor(255, 255, 255);
   pdf.setFontSize(11);
   pdf.setFont("helvetica", "normal");
-  pdf.text("OFFICER LEARNING CENTER", w / 2, 1.7, { align: "center" });
+  pdf.text("OFFICER LEARNING CENTER", w / 2, platformPlacement ? 1.55 : 1.7, {
+    align: "center",
+  });
 
   pdf.setFontSize(12);
   pdf.setTextColor(148, 163, 184);
@@ -137,7 +148,7 @@ export async function downloadOfficerLearningCertificate(
     { align: "center" },
   );
 
-  pdf.setTextColor(20, 184, 166);
+  pdf.setTextColor(teal.r, teal.g, teal.b);
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(18);
   const title =

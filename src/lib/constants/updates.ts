@@ -30,6 +30,12 @@ export const UPDATES: readonly UpdateEntry[] = [
     href: "/tools/meeting-background",
   },
   {
+    id: "guide-pdf-branding",
+    date: "2026-08-27",
+    kind: "improved",
+    href: "/guide/officer-learning",
+  },
+  {
     id: "guides-tools-menu-ia",
     date: "2026-08-27",
     kind: "improved",
