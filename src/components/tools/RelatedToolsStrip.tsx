@@ -144,4 +144,10 @@ export const RELATED_BY_TOOL: Record<
     { href: "/guide/steward-101", navKey: "steward101Guide" },
     { href: "/tools/document-generator", navKey: "documentGenerator" },
   ],
+  "bylaw-builder": [
+    { href: "/guide/bylaws", navKey: "bylawsGuide" },
+    { href: "/tools/org-chart", navKey: "orgChart" },
+    { href: "/tools/document-generator", navKey: "documentGenerator" },
+    { href: "/guide/officer-learning", navKey: "officerLearningGuide" },
+  ],
 };

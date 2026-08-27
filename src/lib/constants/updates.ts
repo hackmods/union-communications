@@ -24,6 +24,18 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "local-bylaws-builder",
+    date: "2026-08-27",
+    kind: "added",
+    href: "/tools/bylaw-builder",
+  },
+  {
+    id: "local-bylaws-guide",
+    date: "2026-08-27",
+    kind: "guide",
+    href: "/guide/bylaws",
+  },
+  {
     id: "steward-101-modules",
     date: "2026-08-27",
     kind: "improved",

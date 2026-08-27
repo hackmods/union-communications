@@ -47,6 +47,7 @@ const pathLinks = [
   { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },
   { href: "/guide/joint-committee", key: "jointCommittee" as const },
   { href: "/guide/workplace-mapping", key: "workplaceMapping" as const },
+  { href: "/guide/bylaws", key: "bylaws" as const },
 ];
 
 export default async function GuidePage({
@@ -276,6 +277,7 @@ export default async function GuidePage({
                   href: "/guide/workplace-mapping",
                   key: "workplaceMapping" as const,
                 },
+                { href: "/guide/bylaws", key: "bylaws" as const },
               ] as const
             ).map((link, i) => (
               <span key={link.href} className="inline-flex items-baseline gap-x-3">

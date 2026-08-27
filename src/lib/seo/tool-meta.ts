@@ -103,6 +103,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       description:
         "Score five eligibility points and draft a grievance intake or an alternate workplace route. Free and on your device.",
     },
+    "bylaw-builder": {
+      title: "Free Local Bylaw Builder",
+      description:
+        "Fill in your local name, quorum, and executive structure to draft a standard local bylaws template. Copy or download as text — private and on your device.",
+    },
   },
   fr: {
     "flyer-maker": {
@@ -204,6 +209,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       title: "Diagnostic plainte ou grief",
       description:
         "Évaluez cinq points d'admissibilité et rédigez une prise en charge de grief ou une autre voie. Gratuit et sur votre appareil.",
+    },
+    "bylaw-builder": {
+      title: "Créateur de règlements locaux gratuit",
+      description:
+        "Indiquez le nom, le quorum et l'exécutif pour rédiger un modèle de règlements locaux. Copiez ou téléchargez le texte — privé, sur votre appareil.",
     },
   },
 };

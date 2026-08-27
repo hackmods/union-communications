@@ -453,6 +453,14 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
   ],
   membershipSignup: ["ofl", "nupge", "clc", "opseu-member-portal", "opseu-forms"],
   workplaceMapping: ["ofl", "nupge", "clc"],
+  bylaws: [
+    "cupe-steward-handbook",
+    "clc-education-catalogue",
+    "ofl",
+    "nupge",
+    "clc",
+    "opseu-forms",
+  ],
   officerLearning: [
     "clc-education-catalogue",
     "cupe-steward-handbook",

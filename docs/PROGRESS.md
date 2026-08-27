@@ -1,5 +1,12 @@
 # Progress Log
 
+## Local bylaws guide + Bylaw Builder (2026-08-27)
+
+- [x] Public `/guide/bylaws` — what must be in local bylaws, amendment steps, Bylaw Builder CTA; Blueprint / Resources / Steward playbooks / nav registration
+- [x] Public `/tools/bylaw-builder` — local-first form + live template preview, copy + `.TXT` download, steward-prep catalog
+- [x] Sources, SEO, sitemap, What's new (`local-bylaws-guide`, `local-bylaws-builder`), Officer Learning governance cross-links
+- Verify: `npm run lint`; `npm run test:unit -- src/lib/bylaws/build-template.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/app/sitemap.test.ts src/lib/constants/comms-sources.test.ts`
+
 ## Grievance playbook + intake worksheet (2026-08-26)
 
 - [x] Public `/guide/grievance-process` rewritten as a how-to-run-a-file playbook: forum gate, teaching 6 W's, clocks, CA-named jobs (not a universal 3-step map), meeting, worked file, failure modes, single disclaimer

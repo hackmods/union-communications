@@ -45,6 +45,7 @@ export const PUBLIC_PATHS = [
   "/guide/right-to-refuse",
   "/guide/joint-committee",
   "/guide/workplace-mapping",
+  "/guide/bylaws",
   "/guide/officer-learning",
   "/guide/officer-learning/contract-enforcement",
   "/guide/officer-learning/progressive-discipline",

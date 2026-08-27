@@ -83,7 +83,9 @@
     "rtwAccommodation": "Retour au travail et adaptation",
     "preDisciplinaryLog": "Journal prédisciplinaire",
     "complaintVsGrievance": "Plainte ou grief",
-    "toolsGroupStewardPrep": "Préparation des délégués"
+    "toolsGroupStewardPrep": "Préparation des délégués",
+    "bylawsGuide": "Règlements locaux",
+    "bylawBuilder": "Créateur de règlements"
   },
   "common": {
     "download": "Télécharger",
@@ -445,7 +447,8 @@
       "seniority": "Guide d'ancienneté et de bumping",
       "rightToRefuse": "Droit de refuser un travail dangereux — LSST Ont. art. 43",
       "jointCommittee": "Guide des comités conjoints",
-      "workplaceMapping": "Cartographie du lieu de travail et leaders organiques"
+      "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
+      "bylaws": "Règlements locaux : les règles de votre section"
     },
     "startHere": {
       "navLabel": "Commencer ici",
@@ -658,7 +661,8 @@
       "seniority": "Ancienneté et bumping",
       "rightToRefuse": "Droit de refuser (Ontario)",
       "jointCommittee": "Guide des comités conjoints",
-      "workplaceMapping": "Cartographie du lieu de travail"
+      "workplaceMapping": "Cartographie du lieu de travail",
+      "bylaws": "Règlements locaux"
     }
   },
   "officerLearning": {
@@ -739,7 +743,9 @@
         "crisis": "Comms de grève et de crise",
         "stewardPlaybooks": "Tous les guides pratiques pour délégués",
         "unionBoards": "Guide des tableaux syndicaux",
-        "solidarityPoster": "Affiches de solidarité"
+        "solidarityPoster": "Affiches de solidarité",
+        "bylaws": "Guide des règlements locaux",
+        "bylawBuilder": "Créateur de règlements"
       }
     },
     "reference": {
@@ -3048,7 +3054,8 @@
         "seniority": "Ancienneté et bumping",
         "rightToRefuse": "Droit de refuser (Ontario)",
         "jointCommittee": "Guide des comités conjoints",
-        "workplaceMapping": "Cartographie du lieu de travail et leaders organiques"
+        "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
+        "bylaws": "Règlements locaux : les règles de votre section"
       },
       "blurb": {
         "stewardPlaybooks": "Commencez ici : Délégué 101, modules du Centre de formation des dirigeants avec autoévaluations, et tous les guides sur une page.",
@@ -3059,7 +3066,8 @@
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
         "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
         "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
-        "workplaceMapping": "Recensez chaque collègue, repérez les leaders organiques et cotez l'appui syndical de 1 à 5. Gardez le fichier hors des systèmes de l'employeur."
+        "workplaceMapping": "Recensez chaque collègue, repérez les leaders organiques et cotez l'appui syndical de 1 à 5. Gardez le fichier hors des systèmes de l'employeur.",
+        "bylaws": "Structure de l'exécutif, quorum, autorités de signature, élections, et comment modifier les règlements avec préavis et vote en assemblée."
       }
     },
     "checklist": {
@@ -4510,7 +4518,8 @@
       "membershipSignup": "Guide d'adhésion",
       "rightToRefuse": "Droit de refuser (Ontario)",
       "seniority": "Ancienneté et bumping",
-      "jointCommittee": "Guide des comités conjoints"
+      "jointCommittee": "Guide des comités conjoints",
+      "bylaws": "Règlements locaux : les règles de votre section"
     },
     "blurbs": {
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
@@ -4521,7 +4530,8 @@
       "membershipSignup": "Recrutez et orientez les nouveaux membres avec un parcours d'adhésion reproductible.",
       "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
       "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
-      "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés."
+      "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
+      "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis, quorum et approbation nationale."
     },
     "workspaces": {
       "title": "Espaces de pratique",
@@ -4532,7 +4542,9 @@
       "disciplineTitle": "Journal de rencontre prédisciplinaire",
       "disciplineBlurb": "Liste des droits, points atténuants et scripts de règlement précoce.",
       "rtwTitle": "Retour au travail et adaptation",
-      "rtwBlurb": "Référence Meiorin, limites fonctionnelles et scripts RH — pas de diagnostic sur le formulaire."
+      "rtwBlurb": "Référence Meiorin, limites fonctionnelles et scripts RH — pas de diagnostic sur le formulaire.",
+      "bylawsTitle": "Créateur de règlements",
+      "bylawsBlurb": "Rédigez un modèle de règlements locaux à partir de l'exécutif, du quorum et de l'exercice — copiez ou téléchargez le texte."
     }
   },
   "steward101Guide": {
@@ -6582,6 +6594,14 @@
       "steward-meeting-guides": {
         "title": "Guides de rencontre pour délégués",
         "body": "Trois espaces sur l'appareil — diagramme du filtre en cinq points, visuels Meiorin et durcissement, PDF de poche dans chaque outil, et liens de pratique depuis le hub des guides du délégué."
+      },
+      "local-bylaws-guide": {
+        "title": "Règlements locaux : les règles de votre section",
+        "body": "Un guide de terrain sur ce qui doit figurer dans les règlements locaux — exécutif, quorum, signatures et élections — et comment les modifier avec préavis et vote en assemblée."
+      },
+      "local-bylaws-builder": {
+        "title": "Créateur de règlements",
+        "body": "Indiquez le nom de votre section, le quorum et la structure de l'exécutif pour rédiger un modèle de règlements, puis copiez ou téléchargez le texte pour Word."
       }
     }
   },
@@ -8565,7 +8585,8 @@
       "pulsePoll": "Sondages courts avec carte QR imprimable.",
       "rtwAccommodation": "Limites fonctionnelles, mesures d'adaptation et scripts RH, sur votre appareil.",
       "preDisciplinaryLog": "Droits procéduraux, facteurs atténuants et points de représentation.",
-      "complaintVsGrievance": "Cinq points d'admissibilité, puis brouillon de grief ou autre voie."
+      "complaintVsGrievance": "Cinq points d'admissibilité, puis brouillon de grief ou autre voie.",
+      "bylawBuilder": "Rédigez un modèle de règlements locaux à partir du quorum et de la structure de l'exécutif."
     }
   },
   "portal": {
@@ -9370,6 +9391,127 @@
       "far": "Télécharger la fiche FAR de poche",
       "discipline": "Télécharger la fiche discipline de poche",
       "meiorin": "Télécharger la fiche Meiorin de poche"
+    }
+  },
+  "bylawsGuide": {
+    "title": "Règlements locaux : les règles de votre section",
+    "subtitle": "Comment votre section fonctionne au quotidien sous la constitution nationale",
+    "intro": "Les règlements locaux sont essentiellement la constitution de votre section. Pendant que votre syndicat national ou provincial (comme OPSEU / SEFPO, le SCFP ou Unifor) a une constitution principale qui gouverne tout le monde, vos règlements locaux dictent le fonctionnement quotidien de votre maison.",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
+    "disclaimer": {
+      "title": "Pas un avis juridique",
+      "body": "Ce guide explique les pratiques courantes des règlements locaux. Confirmez chaque délai de préavis, seuil de vote et étape d'approbation dans votre propre constitution nationale ou provinciale avant de modifier ou d'adopter des règlements."
+    },
+    "related": {
+      "officerLearning": "Centre de formation des dirigeants",
+      "governance": "Module sur la gouvernance démocratique"
+    },
+    "mustHave": {
+      "navLabel": "Contenu obligatoire",
+      "title": "Que doivent contenir vos règlements ?",
+      "intro": "Des règlements solides évitent la confusion en cas de différend. Ils doivent définir clairement :",
+      "items": {
+        "executive": {
+          "label": "La structure de l'exécutif",
+          "content": "Qui compose le comité exécutif local (CEL) ? (p. ex. président, vice-président, secrétaire, trésorier, chef délégué)."
+        },
+        "quorum": {
+          "label": "Le quorum",
+          "content": "Combien de membres doivent être présents à une assemblée générale des membres (AGM) pour adopter une motion contraignante ou dépenser de l'argent ? (Habituellement un nombre précis ou un pourcentage des membres)."
+        },
+        "signing": {
+          "label": "Les autorités de signature",
+          "content": "Quels dirigeants ont le pouvoir de signer les chèques syndicaux ? (Exigez toujours au moins deux signatures)."
+        },
+        "elections": {
+          "label": "Les élections",
+          "content": "Comment et quand les dirigeants et les délégués sont-ils élus ?"
+        }
+      },
+      "tip": "Si un différend survient et que les règlements sont muets, la salle invente une règle sous pression — écrivez les réponses pendant que le calme règne."
+    },
+    "amend": {
+      "navLabel": "Comment modifier",
+      "title": "Comment modifier les règlements",
+      "intro": "Vous ne pouvez pas simplement changer les règles à huis clos. Modifier les règlements exige généralement :",
+      "items": {
+        "notice": {
+          "label": "Le préavis",
+          "content": "Vous devez donner un préavis aux membres (habituellement 15 à 30 jours) qu'une modification des règlements sera mise aux voix."
+        },
+        "gmm": {
+          "label": "L'AGM",
+          "content": "Le vote doit avoir lieu à une assemblée générale des membres avec quorum."
+        },
+        "threshold": {
+          "label": "Le seuil",
+          "content": "L'adoption d'une modification exige habituellement une majorité des deux tiers (2/3) des membres présents, et non une simple majorité de 50 %+1."
+        },
+        "approval": {
+          "label": "L'approbation",
+          "content": "Dans des syndicats comme OPSEU / SEFPO, les règlements modifiés doivent être envoyés au bureau du président national pour approbation finale avant d'entrer en vigueur."
+        }
+      },
+      "warningTitle": "Pas de réécriture à huis clos",
+      "warning": "Un vote du CEL seul ne modifie pas les règlements. Les membres ont besoin d'un préavis, d'une AGM avec quorum et — lorsque votre constitution l'exige — d'une approbation nationale avant que le nouveau texte soit en vigueur."
+    },
+    "builder": {
+      "navLabel": "Créateur de règlements",
+      "title": "Commencez avec un modèle",
+      "intro": "Ne partez pas de zéro. Utilisez notre Créateur de règlements pour générer un modèle standard que vous pourrez finaliser dans Microsoft Word."
+    }
+  },
+  "bylawBuilder": {
+    "title": "Créateur de règlements",
+    "subtitle": "Rédigez un modèle de règlements locaux à partir de la structure de votre section",
+    "whenToUse": "Utilisez cet outil lorsque vous rédigez ou mettez à jour les règlements locaux et avez besoin d'un modèle de base avant une révision juridique ou nationale.",
+    "guideLink": "Lire le guide des règlements locaux",
+    "privacyNote": "Tout reste sur cet appareil. Rien n'est envoyé à un serveur.",
+    "copy": "Copier dans le presse-papiers",
+    "downloadTxt": "Télécharger en .TXT",
+    "disclaimer": "Note : ceci génère un modèle de base standard. Vérifiez toujours la constitution de votre syndicat national ou provincial pour vous assurer que vos règlements locaux n'entrent pas en conflit avec les règles nationales.",
+    "preview": {
+      "title": "Brouillon des règlements en direct"
+    },
+    "fields": {
+      "localName": "Nom et numéro de la section locale",
+      "vicePresidents": "Nombre de vice-présidents",
+      "stewards": "Nombre de délégués (ou structure)",
+      "gmmQuorum": "Quorum de l'AGM",
+      "lecQuorum": "Quorum du CEL",
+      "fiscalYearEnd": "Date de fin d'exercice"
+    },
+    "fieldPlaceholders": {
+      "localName": "p. ex. OPSEU / SEFPO Local 123",
+      "vicePresidents": "p. ex. 1 ou 2",
+      "stewards": "p. ex. Un par service",
+      "gmmQuorum": "p. ex. 15 membres",
+      "lecQuorum": "p. ex. 50 % de l'exécutif",
+      "fiscalYearEnd": "p. ex. 31 décembre"
+    },
+    "placeholders": {
+      "localName": "[Nom et numéro de la section locale]",
+      "vicePresidents": "[Nombre]",
+      "stewards": "[Structure des délégués]",
+      "gmmQuorum": "[Quorum de l'AGM]",
+      "lecQuorum": "[Quorum du CEL]",
+      "fiscalYearEnd": "[Date de fin d'exercice]"
+    },
+    "articles": {
+      "name": "Article 1 : Nom. Cette organisation est connue sous le nom de {localName}.",
+      "purpose": "Article 2 : Objet. L'objet de {localName} est de protéger et de faire progresser les intérêts de ses membres, d'appliquer la convention collective et de promouvoir la solidarité conformément à la constitution nationale ou provinciale.",
+      "membership": "Article 3 : Adhésion. L'adhésion est ouverte aux travailleurs couverts par les certificats de négociation de la section qui sont membres en règle du syndicat national ou provincial. Les droits et obligations des membres suivent la constitution nationale ou provinciale et les présents règlements.",
+      "executive": "Article 4 : Exécutif. Le comité exécutif local (CEL) se compose du président, de {vicePresidents} vice-président(s), du secrétaire, du trésorier et du chef délégué. Le CEL administre la section entre les assemblées générales des membres.",
+      "stewards": "Article 5 : Délégués. Les délégués sont organisés comme suit : {stewards}. Les délégués représentent les membres sur le lieu de travail et rendent compte au chef délégué et au CEL.",
+      "quorum": "Article 6 : Quorum. Le quorum d'une assemblée générale des membres (AGM) est de {gmmQuorum}. Le quorum d'une réunion du CEL est de {lecQuorum}. Aucune motion contraignante ni dépense ne peut être adoptée sans quorum.",
+      "meetings": "Article 7 : Réunions. La section tient des assemblées générales des membres selon les exigences de la constitution nationale ou provinciale et des présents règlements. Des réunions spéciales peuvent être convoquées par le président ou par pétition des membres, conformément à la constitution. L'exercice se termine le {fiscalYearEnd}.",
+      "elections": "Article 8 : Élections. Les dirigeants et les délégués sont élus conformément à la constitution nationale ou provinciale et aux présents règlements. Les mises en candidature, le préavis et les procédures de scrutin sont publiés aux membres avant chaque élection.",
+      "finances": "Article 9 : Finances. Tous les chèques et paiements électroniques de la section exigent au moins deux dirigeants signataires autorisés du CEL. Le trésorier présente des rapports financiers aux membres. L'exercice se termine le {fiscalYearEnd}.",
+      "amendments": "Article 10 : Modifications. Les présents règlements ne peuvent être modifiés qu'après un préavis aux membres (habituellement 15 à 30 jours), un vote à une assemblée générale des membres avec quorum, et une majorité des deux tiers (2/3) des membres présents. Lorsque la constitution nationale ou provinciale l'exige, les règlements modifiés n'entrent en vigueur qu'après approbation nationale ou provinciale.",
+      "conflict": "Article 11 : Conflit avec la constitution. Si une disposition des présents règlements entre en conflit avec la constitution nationale ou provinciale, la constitution prévaut. Les présents règlements doivent être interprétés de manière à donner effet à la constitution dans la mesure du possible."
     }
   }
 }

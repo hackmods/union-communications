@@ -83,7 +83,9 @@
     "rtwAccommodation": "RTW & accommodation",
     "preDisciplinaryLog": "Pre-disciplinary log",
     "complaintVsGrievance": "Complaint vs grievance",
-    "toolsGroupStewardPrep": "Steward prep"
+    "toolsGroupStewardPrep": "Steward prep",
+    "bylawsGuide": "Local bylaws",
+    "bylawBuilder": "Bylaw Builder"
   },
   "common": {
     "download": "Download",
@@ -445,7 +447,8 @@
       "seniority": "Seniority & bumping playbook",
       "rightToRefuse": "Right to refuse unsafe work — Ontario OHSA s.43",
       "jointCommittee": "Joint committee playbook",
-      "workplaceMapping": "Workplace mapping & organic leaders"
+      "workplaceMapping": "Workplace mapping & organic leaders",
+      "bylaws": "Local Bylaws: The Rules of Your Local"
     },
     "startHere": {
       "navLabel": "Start here",
@@ -658,7 +661,8 @@
       "seniority": "Seniority & bumping",
       "rightToRefuse": "Right to refuse (Ontario)",
       "jointCommittee": "Joint committee playbook",
-      "workplaceMapping": "Workplace mapping"
+      "workplaceMapping": "Workplace mapping",
+      "bylaws": "Local bylaws"
     }
   },
   "officerLearning": {
@@ -739,7 +743,9 @@
         "crisis": "Strike & crisis comms",
         "stewardPlaybooks": "All steward playbooks",
         "unionBoards": "Union boards guide",
-        "solidarityPoster": "Solidarity posters"
+        "solidarityPoster": "Solidarity posters",
+        "bylaws": "Local bylaws guide",
+        "bylawBuilder": "Bylaw Builder"
       }
     },
     "reference": {
@@ -3048,7 +3054,8 @@
         "seniority": "Seniority & bumping",
         "rightToRefuse": "Right to refuse (Ontario)",
         "jointCommittee": "Joint committee playbook",
-        "workplaceMapping": "Workplace mapping & organic leaders"
+        "workplaceMapping": "Workplace mapping & organic leaders",
+        "bylaws": "Local Bylaws: The Rules of Your Local"
       },
       "blurb": {
         "stewardPlaybooks": "Start here: Steward 101, Officer Learning modules with self-tests, and every floor playbook in one list.",
@@ -3059,7 +3066,8 @@
         "seniority": "Two cascade examples and a printable seniority worksheet.",
         "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
         "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
-        "workplaceMapping": "Chart every coworker, find organic leaders, and score union support 1 to 5. Keep the file off employer systems."
+        "workplaceMapping": "Chart every coworker, find organic leaders, and score union support 1 to 5. Keep the file off employer systems.",
+        "bylaws": "Executive structure, quorum, signing authority, elections, and how to amend bylaws with notice and a GMM vote."
       }
     },
     "checklist": {
@@ -4560,7 +4568,8 @@
       "membershipSignup": "Membership signup playbook",
       "rightToRefuse": "Right to refuse (Ontario)",
       "seniority": "Seniority & bumping",
-      "jointCommittee": "Joint committee playbook"
+      "jointCommittee": "Joint committee playbook",
+      "bylaws": "Local Bylaws: The Rules of Your Local"
     },
     "blurbs": {
       "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
@@ -4571,7 +4580,8 @@
       "membershipSignup": "Recruit and orient new members with a repeatable signup path.",
       "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
       "seniority": "Two cascade examples and a printable seniority worksheet.",
-      "jointCommittee": "Campus → caucus → table → member note after signed minutes."
+      "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
+      "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval."
     },
     "workspaces": {
       "title": "Practice workspaces",
@@ -4582,7 +4592,9 @@
       "disciplineTitle": "Pre-disciplinary meeting log",
       "disciplineBlurb": "Rights checklist, mitigator talking points, and early-resolution scripts.",
       "rtwTitle": "Return-to-work & accommodation",
-      "rtwBlurb": "Meiorin reference, functional limits, and HR email scripts — no diagnosis on the form."
+      "rtwBlurb": "Meiorin reference, functional limits, and HR email scripts — no diagnosis on the form.",
+      "bylawsTitle": "Bylaw Builder",
+      "bylawsBlurb": "Draft a standard local bylaws template from your executive, quorum, and fiscal-year choices — copy or download as text."
     }
   },
   "steward101Guide": {
@@ -6632,6 +6644,14 @@
       "steward-meeting-guides": {
         "title": "Steward meeting guides",
         "body": "Three on-device workspaces — five-point filter diagram, Meiorin and work-hardening visuals, pocket PDFs in each tool, and practice links from the steward playbooks hub."
+      },
+      "local-bylaws-guide": {
+        "title": "Local Bylaws: The Rules of Your Local",
+        "body": "A floor guide to what must be in local bylaws — executive, quorum, signing authority, and elections — and how to amend them with notice and a GMM vote."
+      },
+      "local-bylaws-builder": {
+        "title": "Bylaw Builder",
+        "body": "Fill in your local name, quorum, and executive structure to draft a standard bylaws template, then copy or download the text for Word."
       }
     }
   },
@@ -8565,7 +8585,8 @@
       "pulsePoll": "Short pulse polls with a printable QR card.",
       "rtwAccommodation": "Functional limits, accommodation measures, and HR scripts on your device.",
       "preDisciplinaryLog": "Procedural rights, mitigators, and representation talking points.",
-      "complaintVsGrievance": "Five eligibility points, then a grievance draft or alternate route."
+      "complaintVsGrievance": "Five eligibility points, then a grievance draft or alternate route.",
+      "bylawBuilder": "Draft a standard local bylaws template from quorum and executive fields."
     }
   },
   "portal": {
@@ -9370,6 +9391,127 @@
       "far": "Download FAR pocket sheet",
       "discipline": "Download discipline pocket sheet",
       "meiorin": "Download Meiorin pocket sheet"
+    }
+  },
+  "bylawsGuide": {
+    "title": "Local Bylaws: The Rules of Your Local",
+    "subtitle": "How your local chapter runs day to day under the national constitution",
+    "intro": "Your Local Bylaws are essentially the constitution of your specific chapter. While your National or Provincial union (like OPSEU / SEFPO, CUPE, or Unifor) has a main constitution that governs everyone, your Local Bylaws dictate how your specific house is run on a day-to-day basis.",
+    "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
+    "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
+    "disclaimer": {
+      "title": "Not legal advice",
+      "body": "This guide explains common local-bylaw practice. Confirm every notice period, voting threshold, and approval step against your own National or Provincial constitution before you amend or adopt bylaws."
+    },
+    "related": {
+      "officerLearning": "Officer Learning Center",
+      "governance": "Democratic governance module"
+    },
+    "mustHave": {
+      "navLabel": "What must be in bylaws",
+      "title": "What Must Be in Your Bylaws?",
+      "intro": "A strong set of bylaws removes confusion during disputes. They must clearly define:",
+      "items": {
+        "executive": {
+          "label": "The Executive Structure",
+          "content": "Who makes up the Local Executive Committee (LEC)? (e.g., President, Vice-President, Secretary, Treasurer, Chief Steward)."
+        },
+        "quorum": {
+          "label": "Quorum",
+          "content": "How many members must be present at a General Membership Meeting (GMM) to pass a binding motion or spend money? (Usually set as a specific number or a percentage of the membership)."
+        },
+        "signing": {
+          "label": "Signing Authorities",
+          "content": "Which officers have the authority to sign union cheques? (Always require at least two signatures)."
+        },
+        "elections": {
+          "label": "Elections",
+          "content": "How and when are officers and stewards elected?"
+        }
+      },
+      "tip": "If a dispute arrives and the bylaws are silent, the room invents a rule under pressure — write the answers down while things are calm."
+    },
+    "amend": {
+      "navLabel": "How to amend",
+      "title": "How to Amend Bylaws",
+      "intro": "You cannot just change the rules behind closed doors. Amending bylaws typically requires:",
+      "items": {
+        "notice": {
+          "label": "Notice",
+          "content": "You must provide advance notice to the membership (usually 15 to 30 days) that a bylaw amendment will be voted on."
+        },
+        "gmm": {
+          "label": "The GMM",
+          "content": "The vote must take place at a General Membership Meeting with quorum."
+        },
+        "threshold": {
+          "label": "The Threshold",
+          "content": "Passing an amendment usually requires a two-thirds (2/3) majority vote of the members present, not just a simple 50%+1."
+        },
+        "approval": {
+          "label": "Approval",
+          "content": "In unions like OPSEU / SEFPO, the amended bylaws must be sent to the National President's office for final approval before they take effect."
+        }
+      },
+      "warningTitle": "No closed-door rewrites",
+      "warning": "An LEC vote alone does not amend bylaws. Members need notice, a quorate GMM, and — where your constitution requires it — national approval before the new text is live."
+    },
+    "builder": {
+      "navLabel": "Bylaw Builder",
+      "title": "Start with a template",
+      "intro": "Don't start from scratch. Use our Bylaw Builder Tool to generate a standard template you can finish in Microsoft Word."
+    }
+  },
+  "bylawBuilder": {
+    "title": "Bylaw Builder",
+    "subtitle": "Draft a standard local bylaws template from your local's structure",
+    "whenToUse": "Use this when you are writing or updating local bylaws and need a baseline template before legal or national review.",
+    "guideLink": "Read the Local Bylaws guide",
+    "privacyNote": "Everything stays on this device. Nothing is sent to a server.",
+    "copy": "Copy to clipboard",
+    "downloadTxt": "Download as .TXT",
+    "disclaimer": "Note: This generates a standard baseline template. Always review your National/Provincial Union Constitution to ensure your local bylaws do not conflict with national rules.",
+    "preview": {
+      "title": "Live bylaws draft"
+    },
+    "fields": {
+      "localName": "Local union name & number",
+      "vicePresidents": "Number of Vice-Presidents",
+      "stewards": "Number of stewards (or structure)",
+      "gmmQuorum": "GMM quorum",
+      "lecQuorum": "LEC quorum",
+      "fiscalYearEnd": "Fiscal year end date"
+    },
+    "fieldPlaceholders": {
+      "localName": "e.g. OPSEU / SEFPO Local 123",
+      "vicePresidents": "e.g. 1 or 2",
+      "stewards": "e.g. One per department",
+      "gmmQuorum": "e.g. 15 members",
+      "lecQuorum": "e.g. 50% of the executive",
+      "fiscalYearEnd": "e.g. December 31"
+    },
+    "placeholders": {
+      "localName": "[Local Union Name & Number]",
+      "vicePresidents": "[Number]",
+      "stewards": "[Steward structure]",
+      "gmmQuorum": "[GMM Quorum Number]",
+      "lecQuorum": "[LEC Quorum Number]",
+      "fiscalYearEnd": "[Fiscal Year End Date]"
+    },
+    "articles": {
+      "name": "Article 1: Name. This organization shall be known as {localName}.",
+      "purpose": "Article 2: Purpose. The purpose of {localName} is to protect and advance the interests of its members, enforce the collective agreement, and promote solidarity in accordance with the National or Provincial constitution.",
+      "membership": "Article 3: Membership. Membership shall be open to workers covered by the Local's bargaining certificates who are members in good standing of the National or Provincial union. Rights and obligations of membership follow the National or Provincial constitution and these bylaws.",
+      "executive": "Article 4: Executive. The Local Executive Committee (LEC) shall consist of the President, {vicePresidents} Vice-President(s), Secretary, Treasurer, and the Chief Steward. The LEC administers the Local between General Membership Meetings.",
+      "stewards": "Article 5: Stewards. Stewards shall be organized as follows: {stewards}. Stewards represent members in the workplace and report to the Chief Steward and the LEC.",
+      "quorum": "Article 6: Quorum. Quorum for a General Membership Meeting (GMM) shall be {gmmQuorum}. Quorum for an LEC meeting shall be {lecQuorum}. No binding motion or expenditure may pass without quorum.",
+      "meetings": "Article 7: Meetings. The Local shall hold General Membership Meetings as required by the National or Provincial constitution and these bylaws. Special meetings may be called by the President or by petition of members as set out in the constitution. The fiscal year ends on {fiscalYearEnd}.",
+      "elections": "Article 8: Elections. Officers and stewards shall be elected in accordance with the National or Provincial constitution and these bylaws. Nominations, notice, and ballot procedures shall be published to the membership before each election.",
+      "finances": "Article 9: Finances. All cheques and electronic payments of the Local shall require at least two authorized signing officers from the LEC. The Treasurer shall present financial reports to the membership. The fiscal year ends on {fiscalYearEnd}.",
+      "amendments": "Article 10: Amendments. These bylaws may be amended only after advance notice to the membership (usually 15 to 30 days), a vote at a quorate General Membership Meeting, and a two-thirds (2/3) majority of members present. Where required by the National or Provincial constitution, amended bylaws take effect only after national or provincial approval.",
+      "conflict": "Article 11: Conflict with the Constitution. If any provision of these bylaws conflicts with the National or Provincial constitution, the constitution prevails. These bylaws shall be read to give effect to the constitution wherever possible."
     }
   }
 }

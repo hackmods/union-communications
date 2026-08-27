@@ -39,6 +39,11 @@ const workspaceLinks = [
     titleKey: "rtwTitle" as const,
     blurbKey: "rtwBlurb" as const,
   },
+  {
+    href: "/tools/bylaw-builder",
+    titleKey: "bylawsTitle" as const,
+    blurbKey: "bylawsBlurb" as const,
+  },
 ] as const;
 
 const playbookLinks = [
@@ -51,6 +56,7 @@ const playbookLinks = [
   { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },
   { href: "/guide/seniority-bumping", key: "seniority" as const },
   { href: "/guide/joint-committee", key: "jointCommittee" as const },
+  { href: "/guide/bylaws", key: "bylaws" as const },
 ] as const;
 
 export default async function StewardPlaybooksPage({

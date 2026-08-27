@@ -167,6 +167,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Chart coworkers by department and shift, find organic leaders, and score support 1 to 5. Keep the map on a personal device, never on employer systems.",
     },
+    "/guide/bylaws": {
+      title: "Local Bylaws: The Rules of Your Local",
+      description:
+        "What must be in local bylaws — executive, quorum, signing authority, elections — and how to amend them with notice, a GMM vote, and national approval.",
+    },
     "/guide/officer-learning": {
       title: "Officer Learning Center",
       description:
@@ -358,6 +363,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Cartographie du lieu de travail et leaders organiques",
       description:
         "Recensez les collègues par service et quart, trouvez les leaders organiques et cotez l'appui de 1 à 5. Gardez-la sur votre appareil, jamais chez l'employeur.",
+    },
+    "/guide/bylaws": {
+      title: "Règlements locaux : les règles de votre section",
+      description:
+        "Ce qui doit figurer dans les règlements locaux — exécutif, quorum, signatures, élections — et comment les modifier avec préavis et vote en assemblée.",
     },
     "/guide/officer-learning": {
       title: "Centre de formation des dirigeants",

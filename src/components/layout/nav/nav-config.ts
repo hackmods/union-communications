@@ -20,6 +20,7 @@ export type NavLinkKey =
   | "rightToRefuseGuide"
   | "seniorityGuide"
   | "jointCommitteeGuide"
+  | "bylawsGuide"
   | "socialExamples"
   | "captions"
   | "assets"
@@ -45,7 +46,8 @@ export type NavLinkKey =
   | "altText"
   | "rtwAccommodation"
   | "preDisciplinaryLog"
-  | "complaintVsGrievance";
+  | "complaintVsGrievance"
+  | "bylawBuilder";
 
 export type NavGroupLabelKey =
   | "learnGroupGuides"
@@ -96,6 +98,7 @@ export const learnGroups: readonly NavGroup[] = [
       { href: "/guide/right-to-refuse", key: "rightToRefuseGuide" },
       { href: "/guide/seniority-bumping", key: "seniorityGuide" },
       { href: "/guide/joint-committee", key: "jointCommitteeGuide" },
+      { href: "/guide/bylaws", key: "bylawsGuide" },
     ],
   },
   {
@@ -180,6 +183,7 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/rtw-accommodation", key: "rtwAccommodation" },
       { href: "/tools/pre-disciplinary-log", key: "preDisciplinaryLog" },
       { href: "/tools/complaint-vs-grievance", key: "complaintVsGrievance" },
+      { href: "/tools/bylaw-builder", key: "bylawBuilder" },
     ],
   },
 ] as const;

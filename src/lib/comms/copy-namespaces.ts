@@ -66,6 +66,8 @@ export const PUBLIC_NS = [
   "seniorityGuide",
   "jointCommitteeGuide",
   "rightToRefuseGuide",
+  "bylawsGuide",
+  "bylawBuilder",
   "pollPublic",
   "pollPlaceholder",
   // Token pages members reach without signing in.
