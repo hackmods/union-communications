@@ -74,11 +74,11 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
   "opseu-forms": {
     id: "opseu-forms",
     category: "union",
-    label: "OPSEU / SEFPO forms and documents",
+    label: "OPSEU / SEFPO forms, constitution, and member tools",
     url: "https://opseu.org/opseu-members-tools-and-resources/",
-    note: "Members tools hub lists current forms. Deep Forms and Documents pages move when the national site reorganizes.",
+    note: "Members tools hub lists current forms, constitution PDFs, and local submission paths. Deep Forms and Documents pages move when the national site reorganizes — confirm constitution downloads in a browser.",
     unionIds: OPSEU_SCOPE,
-    lastVerified: "2026-08-23",
+    lastVerified: "2026-08-27",
   },
   "opseu-eerc-minutes": {
     id: "opseu-eerc-minutes",
@@ -341,6 +341,30 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     note: "Foundational OHRC workplace guide. Supplement with newer OHRC disability and ableism policies for current practice.",
     lastVerified: "2026-08-26",
   },
+  "cupe-bylaws-guide": {
+    id: "cupe-bylaws-guide",
+    category: "union",
+    label: "CUPE — A Guide to Preparing Local Union Bylaws",
+    url: "https://cupe.ca/sites/cupe/files/2013_guide_for_preparing_local_union_bylaws.pdf",
+    note: "Public CUPE bylaws drafting guide with required provisions, options, and Appendix B alignment. Strong comparative model for any local — still confirm against your own national constitution.",
+    lastVerified: "2026-08-27",
+  },
+  "cupe-constitution": {
+    id: "cupe-constitution",
+    category: "union",
+    label: "CUPE National Constitution (2025)",
+    url: "https://cupe.ca/sites/default/files/constitution_national_2025_en_web_version.pdf",
+    note: "Article 12.3 and Appendix B govern CUPE local bylaws. Additional bylaws need National President approval in writing before they take effect. Useful comparative reading for any local.",
+    lastVerified: "2026-08-27",
+  },
+  "unifor-constitution": {
+    id: "unifor-constitution",
+    category: "union",
+    label: "Unifor Constitution (amended 2025)",
+    url: "https://www.unifor.org/sites/default/files/documents/Unifor%20Constitution%20-%20Amended%202025%20%2020251117.pdf",
+    note: "Article 15 covers Local Unions. National Executive Board reviews and may withhold approval of local by-laws that conflict with the constitution. Useful comparative reading for any local.",
+    lastVerified: "2026-08-27",
+  },
 };
 
 /** Which sources to cite on each guide or tool page. */
@@ -454,11 +478,16 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
   membershipSignup: ["ofl", "nupge", "clc", "opseu-member-portal", "opseu-forms"],
   workplaceMapping: ["ofl", "nupge", "clc"],
   bylaws: [
-    "cupe-steward-handbook",
+    "cupe-bylaws-guide",
+    "cupe-constitution",
+    "unifor-constitution",
+    "opseu-forms",
     "clc-education-catalogue",
-    "ofl",
-    "nupge",
-    "clc",
+  ],
+  bylawBuilder: [
+    "cupe-bylaws-guide",
+    "cupe-constitution",
+    "unifor-constitution",
     "opseu-forms",
   ],
   officerLearning: [

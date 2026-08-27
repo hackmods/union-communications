@@ -146,6 +146,7 @@ export const RELATED_BY_TOOL: Record<
   ],
   "bylaw-builder": [
     { href: "/guide/bylaws", navKey: "bylawsGuide" },
+    { href: "/tools/board-notice", navKey: "boardNotice" },
     { href: "/tools/org-chart", navKey: "orgChart" },
     { href: "/tools/document-generator", navKey: "documentGenerator" },
     { href: "/guide/officer-learning", navKey: "officerLearningGuide" },

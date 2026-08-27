@@ -1,5 +1,12 @@
 # Progress Log
 
+## Local bylaws guide + Bylaw Builder QOL (2026-08-27)
+
+- [x] `/guide/bylaws` raised to playbook depth: constitution gate, expanded must-haves, amendment CTAs, worked GMM timeline, checklist, peer examples (CUPE / Unifor / OPSEU / SEFPO), failure modes, tools section
+- [x] On-topic sources: `cupe-bylaws-guide`, `cupe-constitution`, `unifor-constitution`, `opseu-constitution` wired to guide + builder
+- [x] Bylaw Builder: sample size presets, draft persistence, signing/trustees/meetings/elections/notice fields, 13-article template, Markdown/PDF/print/TXT/copy exports, Sources footer
+- Verify: `npm run lint`; `npm run test:unit -- src/lib/bylaws/build-template.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts src/lib/constants/comms-sources.test.ts`
+
 ## Local bylaws guide + Bylaw Builder (2026-08-27)
 
 - [x] Public `/guide/bylaws` — what must be in local bylaws, amendment steps, Bylaw Builder CTA; Blueprint / Resources / Steward playbooks / nav registration

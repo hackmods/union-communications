@@ -6647,11 +6647,11 @@
       },
       "local-bylaws-guide": {
         "title": "Local Bylaws: The Rules of Your Local",
-        "body": "A floor guide to what must be in local bylaws — executive, quorum, signing authority, and elections — and how to amend them with notice and a GMM vote."
+        "body": "A full floor playbook for constitution vs bylaws, amendment steps, a worked GMM timeline, checklist, and peer examples from CUPE, Unifor, and OPSEU / SEFPO."
       },
       "local-bylaws-builder": {
-        "title": "Bylaw Builder",
-        "body": "Fill in your local name, quorum, and executive structure to draft a standard bylaws template, then copy or download the text for Word."
+        "title": "Bylaw Builder — presets, drafts, and exports",
+        "body": "Fill sample local sizes, save a draft on this device, then copy, print, or export Markdown, PDF, or text for Word."
       }
     }
   },
@@ -9409,10 +9409,35 @@
       "officerLearning": "Officer Learning Center",
       "governance": "Democratic governance module"
     },
+    "gate": {
+      "navLabel": "Constitution vs bylaws",
+      "title": "Pick the right document",
+      "intro": "Before you rewrite anything, name which rulebook you are changing. Mixing them up is how locals pass \"bylaws\" that never take effect.",
+      "items": {
+        "constitution": {
+          "label": "National / Provincial constitution",
+          "content": "The supreme rulebook for every local. Local bylaws cannot conflict with it. Amendment routes live at convention, not at your GMM alone."
+        },
+        "bylaws": {
+          "label": "Local bylaws",
+          "content": "How this local elects officers, sets quorum, spends money, and runs meetings. Usually need membership notice, a 2/3 GMM vote, and national approval."
+        },
+        "policy": {
+          "label": "LEC policy or standing order",
+          "content": "Day-to-day operating rules the executive can change more easily. Do not use policy to replace election rules, quorum, or cheque signing."
+        },
+        "ca": {
+          "label": "Collective agreement",
+          "content": "The contract with the employer. Grievance clocks and representation rights live here — not in bylaws. See the grievance playbook for those fights."
+        }
+      },
+      "warningTitle": "Policy is not a bylaw",
+      "warning": "If the text changes how officers are elected, how money is spent, or how amendments pass, it belongs in bylaws — with notice and membership vote — not in an LEC email."
+    },
     "mustHave": {
       "navLabel": "What must be in bylaws",
       "title": "What Must Be in Your Bylaws?",
-      "intro": "A strong set of bylaws removes confusion during disputes. They must clearly define:",
+      "intro": "A strong set of bylaws removes confusion during disputes. Peer guides (especially CUPE's bylaws guide) and most national constitutions expect clear answers on:",
       "items": {
         "executive": {
           "label": "The Executive Structure",
@@ -9420,15 +9445,27 @@
         },
         "quorum": {
           "label": "Quorum",
-          "content": "How many members must be present at a General Membership Meeting (GMM) to pass a binding motion or spend money? (Usually set as a specific number or a percentage of the membership)."
+          "content": "How many members must be present at a General Membership Meeting (GMM) to pass a binding motion or spend money? (Usually a fixed number or a percentage of membership)."
         },
         "signing": {
           "label": "Signing Authorities",
-          "content": "Which officers have the authority to sign union cheques? (Always require at least two signatures)."
+          "content": "Which officers may sign union cheques or authorize electronic payments? Always require at least two signatures."
         },
         "elections": {
           "label": "Elections",
-          "content": "How and when are officers and stewards elected?"
+          "content": "How and when are officers and stewards elected? Term length, nominations, ballots, and vacancy rules belong in writing."
+        },
+        "meetings": {
+          "label": "Meetings",
+          "content": "How often GMMs happen, who may call special meetings, and how members get the agenda and minutes."
+        },
+        "finances": {
+          "label": "Finances and trustees",
+          "content": "Fiscal year end, financial reports to members, and who audits or reviews the books (often elected trustees)."
+        },
+        "amendments": {
+          "label": "Amendment clause",
+          "content": "Notice period, GMM vote threshold (usually 2/3), and any national approval step before changes take effect."
         }
       },
       "tip": "If a dispute arrives and the bylaws are silent, the room invents a rule under pressure — write the answers down while things are calm."
@@ -9452,16 +9489,151 @@
         },
         "approval": {
           "label": "Approval",
-          "content": "In unions like OPSEU / SEFPO, the amended bylaws must be sent to the National President's office for final approval before they take effect."
+          "content": "In unions like OPSEU / SEFPO, CUPE, and Unifor, amended bylaws usually need national or provincial officer approval before they take effect."
         }
       },
       "warningTitle": "No closed-door rewrites",
-      "warning": "An LEC vote alone does not amend bylaws. Members need notice, a quorate GMM, and — where your constitution requires it — national approval before the new text is live."
+      "warning": "An LEC vote alone does not amend bylaws. Members need notice, a quorate GMM, and — where your constitution requires it — national approval before the new text is live.",
+      "boardNoticeCta": "Post GMM notice",
+      "emailCta": "Draft member email"
     },
-    "builder": {
-      "navLabel": "Bylaw Builder",
-      "title": "Start with a template",
-      "intro": "Don't start from scratch. Use our Bylaw Builder Tool to generate a standard template you can finish in Microsoft Word."
+    "scenario": {
+      "navLabel": "Worked amendment",
+      "title": "Worked example: raising GMM quorum",
+      "intro": "Fictional Local 243 wants to raise GMM quorum from 15 members to 25. Walk the file like an officer, not like a hallway chat.",
+      "phases": {
+        "d0": {
+          "label": "Day 0 — Read the constitution",
+          "content": "President and Secretary pull the national constitution article on local bylaws and the current Local 243 amendment clause (notice days + 2/3)."
+        },
+        "d1": {
+          "label": "Day 1 — Draft the change",
+          "content": "They open Bylaw Builder, load the campus sample, and rewrite only the quorum sentence. They keep a redline of old vs new text for the notice package."
+        },
+        "d2": {
+          "label": "Day 2 — Book the GMM",
+          "content": "They set a GMM date at least 30 days out, post a Board Notice, and send an email with the exact proposed wording."
+        },
+        "d3": {
+          "label": "Day 15 — Answer questions",
+          "content": "At the LEC meeting they record questions from members. They do not \"fix\" the posted wording without a fresh notice clock."
+        },
+        "d4": {
+          "label": "Day 30 — Quorate GMM vote",
+          "content": "Secretary counts members present against the current quorum rule. The motion needs two-thirds of those present. Minutes capture the count and the result."
+        },
+        "d5": {
+          "label": "Day 31 — Submit for approval",
+          "content": "They send the amended bylaws package to the national or provincial office using the path their union requires (often through the members tools hub or national president's office)."
+        },
+        "d6": {
+          "label": "After approval — Publish",
+          "content": "Only after written approval do they update the local website, board binder, and member PDF. Until then, the old quorum still governs."
+        }
+      },
+      "tip": "Treat \"passed at the GMM\" and \"in force\" as two different dates whenever national approval is required."
+    },
+    "checklist": {
+      "navLabel": "Adoption checklist",
+      "title": "Adoption and amendment checklist",
+      "intro": "Print this sheet before you call a bylaw GMM. Tick only what you can prove with a document.",
+      "caption": "Local bylaws checklist",
+      "items": {
+        "readConstitution": "Read the national/provincial constitution article on local bylaws and keep a copy with the package.",
+        "comparePeers": "Skim a peer guide (CUPE bylaws guide or your own national model) for missing articles.",
+        "draftText": "Draft clean article text in Bylaw Builder or Word — one change list members can read aloud.",
+        "postNotice": "Post and send the required advance notice with the exact wording and GMM date.",
+        "quorumMath": "Write down current GMM quorum and how you will count members present on the night.",
+        "gmmVote": "Hold the vote at a quorate GMM and record the 2/3 result in signed minutes.",
+        "submitNational": "Submit the package for national/provincial approval when your constitution requires it.",
+        "publishMembers": "Publish the approved text to members and retire the old PDF from boards and the website."
+      }
+    },
+    "examples": {
+      "navLabel": "Peer examples",
+      "title": "What other unions publish",
+      "intro": "You do not need to invent structure from scratch. Open the Sources list at the bottom for live PDFs, then use these notes as a map.",
+      "items": {
+        "cupe": {
+          "label": "CUPE",
+          "content": "A Guide to Preparing Local Union Bylaws walks required provisions and options. The National Constitution Article 12.3 and Appendix B say additional bylaws need National President approval in writing before they take effect."
+        },
+        "unifor": {
+          "label": "Unifor",
+          "content": "The Unifor Constitution (Article 15) governs Local Unions. The National Executive Board reviews local by-laws and may withhold approval when they conflict with the constitution or equity principles."
+        },
+        "opseu": {
+          "label": "OPSEU / SEFPO",
+          "content": "Locals follow the OPSEU / SEFPO constitution and send amended local bylaws through the national office path listed on the Members tools hub. Confirm the current PDF there — deep links move when the national site reorganizes."
+        },
+        "shared": {
+          "label": "Shared pattern",
+          "content": "Across these unions: membership notice, a quorate meeting vote (often 2/3), two signing officers, and national review before the new text is live."
+        }
+      },
+      "tip": "Borrow structure from peer guides. Never paste another local's officer names, dues rates, or unit lists into your draft."
+    },
+    "failureModes": {
+      "navLabel": "Failure modes",
+      "title": "Common ways bylaw work fails",
+      "intro": "Name the failure mode early so the LEC does not \"fix it in the hallway\" after the vote.",
+      "items": {
+        "lecOnly": {
+          "label": "LEC-only rewrite",
+          "content": "Executive votes to change quorum or elections without membership notice. Members can challenge the result; national may refuse approval."
+        },
+        "policyAsBylaw": {
+          "label": "Policy dressed as bylaws",
+          "content": "Spending and election rules live only in an LEC policy binder. When conflict comes, nobody can prove the democratic path."
+        },
+        "noNotice": {
+          "label": "Moved goalposts after notice",
+          "content": "Wording on the floor differs from the posted notice. Restart the notice clock or vote only on the posted text."
+        },
+        "conflict": {
+          "label": "Conflicts with the constitution",
+          "content": "Local text undercuts national election, dues, or equity rules. Constitution wins — rewrite before you waste a GMM."
+        },
+        "noApproval": {
+          "label": "Treating GMM passage as final",
+          "content": "Local posts \"new bylaws\" the next morning without the required national letter. Old bylaws still govern until approval lands."
+        }
+      }
+    },
+    "tools": {
+      "navLabel": "Tools",
+      "title": "Tools that support the file",
+      "intro": "Don't start from scratch. Draft the baseline, then use boards and email so members actually see the notice.",
+      "items": {
+        "builder": {
+          "label": "Bylaw Builder",
+          "content": "Generate a standard template from quorum, executive, signing, and amendment fields. Export text, Markdown, or PDF for Word."
+        },
+        "boardNotice": {
+          "label": "Board Notice Maker",
+          "content": "Print the GMM date, time, and \"bylaw amendment on the agenda\" line for cork boards."
+        },
+        "orgChart": {
+          "label": "Org Chart",
+          "content": "Keep the officer roster that bylaws describe aligned with the names members see on the board and website."
+        },
+        "email": {
+          "label": "Email & outreach guide",
+          "content": "Copy-only member notice patterns — no marketing lists — for the advance amendment email."
+        },
+        "letterhead": {
+          "label": "Document Generator",
+          "content": "Letterhead for the national submission cover letter once the GMM minutes are signed."
+        }
+      }
+    },
+    "example": {
+      "title": "One-sentence story",
+      "body": "Local 243 posted 30 days' notice, passed a 2/3 quorum change at a counted GMM, waited for national approval, then replaced the board binder PDF — same week they updated Org Chart titles so the new Vice-President seats matched the bylaws."
+    },
+    "sourcesNote": {
+      "title": "Open the sources before you draft",
+      "body": "The Sources block below links the CUPE bylaws guide, CUPE and Unifor constitutions, and the OPSEU / SEFPO tools hub. Read your own constitution first; use peer PDFs to spot missing articles, not to copy another local wholesale."
     }
   },
   "bylawBuilder": {
@@ -9469,12 +9641,26 @@
     "subtitle": "Draft a standard local bylaws template from your local's structure",
     "whenToUse": "Use this when you are writing or updating local bylaws and need a baseline template before legal or national review.",
     "guideLink": "Read the Local Bylaws guide",
-    "privacyNote": "Everything stays on this device. Nothing is sent to a server.",
+    "governanceLink": "Democratic governance module",
+    "privacyNote": "Drafts save on this device only. Nothing is sent to a server.",
+    "saveFailed": "Could not save the draft on this device. Copy or download now so you do not lose the text, then free browser storage and try again.",
     "copy": "Copy to clipboard",
     "downloadTxt": "Download as .TXT",
-    "disclaimer": "Note: This generates a standard baseline template. Always review your National/Provincial Union Constitution to ensure your local bylaws do not conflict with national rules.",
+    "exportMarkdown": "Download Markdown",
+    "exportPdf": "Download PDF",
+    "print": "Print draft",
+    "clearDraft": "Clear draft",
+    "formDisclaimer": "Baseline template only — not legal advice. Compare every article to your National or Provincial constitution before a GMM vote.",
+    "disclaimer": "Note: This generates a standard baseline template. Always review your National/Provincial Union Constitution to ensure your local bylaws do not conflict with national rules. Open the Sources below for CUPE, Unifor, and OPSEU / SEFPO references.",
     "preview": {
       "title": "Live bylaws draft"
+    },
+    "presets": {
+      "label": "Sample local sizes",
+      "hint": "Loads demo values you can edit. Not a real local — replace the name before you export.",
+      "small": "Small local",
+      "campus": "Campus local",
+      "large": "Large local"
     },
     "fields": {
       "localName": "Local union name & number",
@@ -9482,6 +9668,11 @@
       "stewards": "Number of stewards (or structure)",
       "gmmQuorum": "GMM quorum",
       "lecQuorum": "LEC quorum",
+      "signingOfficers": "Signing officers (at least two)",
+      "trustees": "Trustees / auditors",
+      "meetingFrequency": "GMM meeting frequency",
+      "electionTerm": "Officer election term",
+      "amendmentNotice": "Amendment notice period",
       "fiscalYearEnd": "Fiscal year end date"
     },
     "fieldPlaceholders": {
@@ -9490,6 +9681,11 @@
       "stewards": "e.g. One per department",
       "gmmQuorum": "e.g. 15 members",
       "lecQuorum": "e.g. 50% of the executive",
+      "signingOfficers": "e.g. Any two of President, Treasurer, Vice-President",
+      "trustees": "e.g. Three elected trustees",
+      "meetingFrequency": "e.g. At least four GMMs per year",
+      "electionTerm": "e.g. Two years",
+      "amendmentNotice": "e.g. 30 days written notice",
       "fiscalYearEnd": "e.g. December 31"
     },
     "placeholders": {
@@ -9498,6 +9694,11 @@
       "stewards": "[Steward structure]",
       "gmmQuorum": "[GMM Quorum Number]",
       "lecQuorum": "[LEC Quorum Number]",
+      "signingOfficers": "[Signing officers]",
+      "trustees": "[Trustees]",
+      "meetingFrequency": "[Meeting frequency]",
+      "electionTerm": "[Election term]",
+      "amendmentNotice": "[Amendment notice]",
       "fiscalYearEnd": "[Fiscal Year End Date]"
     },
     "articles": {
@@ -9507,11 +9708,13 @@
       "executive": "Article 4: Executive. The Local Executive Committee (LEC) shall consist of the President, {vicePresidents} Vice-President(s), Secretary, Treasurer, and the Chief Steward. The LEC administers the Local between General Membership Meetings.",
       "stewards": "Article 5: Stewards. Stewards shall be organized as follows: {stewards}. Stewards represent members in the workplace and report to the Chief Steward and the LEC.",
       "quorum": "Article 6: Quorum. Quorum for a General Membership Meeting (GMM) shall be {gmmQuorum}. Quorum for an LEC meeting shall be {lecQuorum}. No binding motion or expenditure may pass without quorum.",
-      "meetings": "Article 7: Meetings. The Local shall hold General Membership Meetings as required by the National or Provincial constitution and these bylaws. Special meetings may be called by the President or by petition of members as set out in the constitution. The fiscal year ends on {fiscalYearEnd}.",
-      "elections": "Article 8: Elections. Officers and stewards shall be elected in accordance with the National or Provincial constitution and these bylaws. Nominations, notice, and ballot procedures shall be published to the membership before each election.",
-      "finances": "Article 9: Finances. All cheques and electronic payments of the Local shall require at least two authorized signing officers from the LEC. The Treasurer shall present financial reports to the membership. The fiscal year ends on {fiscalYearEnd}.",
-      "amendments": "Article 10: Amendments. These bylaws may be amended only after advance notice to the membership (usually 15 to 30 days), a vote at a quorate General Membership Meeting, and a two-thirds (2/3) majority of members present. Where required by the National or Provincial constitution, amended bylaws take effect only after national or provincial approval.",
-      "conflict": "Article 11: Conflict with the Constitution. If any provision of these bylaws conflicts with the National or Provincial constitution, the constitution prevails. These bylaws shall be read to give effect to the constitution wherever possible."
+      "meetings": "Article 7: Meetings. The Local shall hold General Membership Meetings as follows: {meetingFrequency}. Special meetings may be called by the President or by petition of members as set out in the National or Provincial constitution and these bylaws.",
+      "elections": "Article 8: Elections. Officers and stewards shall be elected for terms of {electionTerm}, in accordance with the National or Provincial constitution and these bylaws. Nominations, notice, and ballot procedures shall be published to the membership before each election.",
+      "finances": "Article 9: Finances. All cheques and electronic payments of the Local shall require signatures or authorizations from {signingOfficers}. The Treasurer shall present financial reports to the membership. The fiscal year ends on {fiscalYearEnd}.",
+      "trustees": "Article 10: Trustees. The Local shall have {trustees}. Trustees shall review the books and report to the membership as required by the National or Provincial constitution and these bylaws.",
+      "committees": "Article 11: Committees. The LEC may establish standing and special committees. Committee terms of reference shall not conflict with these bylaws or the National or Provincial constitution.",
+      "amendments": "Article 12: Amendments. These bylaws may be amended only after {amendmentNotice}, a vote at a quorate General Membership Meeting, and a two-thirds (2/3) majority of members present. Where required by the National or Provincial constitution, amended bylaws take effect only after national or provincial approval.",
+      "conflict": "Article 13: Conflict with the Constitution. If any provision of these bylaws conflicts with the National or Provincial constitution, the constitution prevails. These bylaws shall be read to give effect to the constitution wherever possible."
     }
   }
 }

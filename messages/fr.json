@@ -6597,11 +6597,11 @@
       },
       "local-bylaws-guide": {
         "title": "Règlements locaux : les règles de votre section",
-        "body": "Un guide de terrain sur ce qui doit figurer dans les règlements locaux — exécutif, quorum, signatures et élections — et comment les modifier avec préavis et vote en assemblée."
+        "body": "Un guide complet : constitution contre règlements, étapes de modification, chronologie d'assemblée, liste de contrôle et exemples du SCFP, d'Unifor et d'OPSEU / SEFPO."
       },
       "local-bylaws-builder": {
-        "title": "Créateur de règlements",
-        "body": "Indiquez le nom de votre section, le quorum et la structure de l'exécutif pour rédiger un modèle de règlements, puis copiez ou téléchargez le texte pour Word."
+        "title": "Créateur de règlements — préréglages, brouillons et exports",
+        "body": "Remplissez un modèle selon la taille de la section, enregistrez le brouillon sur cet appareil, puis copiez, imprimez ou exportez en Markdown, PDF ou texte pour Word."
       }
     }
   },
@@ -9409,10 +9409,35 @@
       "officerLearning": "Centre de formation des dirigeants",
       "governance": "Module sur la gouvernance démocratique"
     },
+    "gate": {
+      "navLabel": "Constitution contre règlements",
+      "title": "Choisissez le bon document",
+      "intro": "Avant de réécrire quoi que ce soit, nommez le règlement que vous changez. Les confondre, c'est faire adopter des « règlements » qui n'entrent jamais en vigueur.",
+      "items": {
+        "constitution": {
+          "label": "Constitution nationale ou provinciale",
+          "content": "Le règlement suprême pour chaque section. Les règlements locaux ne peuvent pas y contredire. Les voies de modification passent par le congrès, pas seulement par votre AGM."
+        },
+        "bylaws": {
+          "label": "Règlements locaux",
+          "content": "Comment cette section élit les dirigeants, fixe le quorum, dépense l'argent et tient les réunions. Habituellement : préavis aux membres, vote des 2/3 en AGM, et approbation nationale."
+        },
+        "policy": {
+          "label": "Politique du CEL ou règle permanente",
+          "content": "Règles de fonctionnement quotidien que l'exécutif peut changer plus facilement. N'utilisez pas une politique pour remplacer les élections, le quorum ou les signatures de chèques."
+        },
+        "ca": {
+          "label": "Convention collective",
+          "content": "Le contrat avec l'employeur. Les délais de grief et les droits de représentation sont ici — pas dans les règlements. Voir le guide des griefs pour ces dossiers."
+        }
+      },
+      "warningTitle": "Une politique n'est pas un règlement",
+      "warning": "Si le texte change comment les dirigeants sont élus, comment l'argent est dépensé ou comment les modifications passent, il appartient aux règlements — avec préavis et vote des membres — pas dans un courriel du CEL."
+    },
     "mustHave": {
       "navLabel": "Contenu obligatoire",
       "title": "Que doivent contenir vos règlements ?",
-      "intro": "Des règlements solides évitent la confusion en cas de différend. Ils doivent définir clairement :",
+      "intro": "Des règlements solides évitent la confusion en cas de différend. Les guides pairs (surtout le guide des règlements du SCFP) et la plupart des constitutions nationales exigent des réponses claires sur :",
       "items": {
         "executive": {
           "label": "La structure de l'exécutif",
@@ -9420,15 +9445,27 @@
         },
         "quorum": {
           "label": "Le quorum",
-          "content": "Combien de membres doivent être présents à une assemblée générale des membres (AGM) pour adopter une motion contraignante ou dépenser de l'argent ? (Habituellement un nombre précis ou un pourcentage des membres)."
+          "content": "Combien de membres doivent être présents à une assemblée générale des membres (AGM) pour adopter une motion contraignante ou dépenser de l'argent ? (Habituellement un nombre fixe ou un pourcentage des membres)."
         },
         "signing": {
           "label": "Les autorités de signature",
-          "content": "Quels dirigeants ont le pouvoir de signer les chèques syndicaux ? (Exigez toujours au moins deux signatures)."
+          "content": "Quels dirigeants peuvent signer les chèques syndicaux ou autoriser les paiements électroniques ? Exigez toujours au moins deux signatures."
         },
         "elections": {
           "label": "Les élections",
-          "content": "Comment et quand les dirigeants et les délégués sont-ils élus ?"
+          "content": "Comment et quand les dirigeants et les délégués sont-ils élus ? La durée du mandat, les mises en candidature, le scrutin et les postes vacants doivent être écrits."
+        },
+        "meetings": {
+          "label": "Les réunions",
+          "content": "À quelle fréquence ont lieu les AGM, qui peut convoquer une réunion spéciale, et comment les membres reçoivent l'ordre du jour et les procès-verbaux."
+        },
+        "finances": {
+          "label": "Finances et fiduciaires",
+          "content": "Fin d'exercice, rapports financiers aux membres, et qui vérifie les livres (souvent des fiduciaires élus)."
+        },
+        "amendments": {
+          "label": "Clause de modification",
+          "content": "Délai de préavis, seuil de vote en AGM (souvent 2/3), et toute étape d'approbation nationale avant l'entrée en vigueur."
         }
       },
       "tip": "Si un différend survient et que les règlements sont muets, la salle invente une règle sous pression — écrivez les réponses pendant que le calme règne."
@@ -9452,16 +9489,151 @@
         },
         "approval": {
           "label": "L'approbation",
-          "content": "Dans des syndicats comme OPSEU / SEFPO, les règlements modifiés doivent être envoyés au bureau du président national pour approbation finale avant d'entrer en vigueur."
+          "content": "Dans des syndicats comme OPSEU / SEFPO, le SCFP et Unifor, les règlements modifiés exigent habituellement l'approbation d'un dirigeant national ou provincial avant d'entrer en vigueur."
         }
       },
       "warningTitle": "Pas de réécriture à huis clos",
-      "warning": "Un vote du CEL seul ne modifie pas les règlements. Les membres ont besoin d'un préavis, d'une AGM avec quorum et — lorsque votre constitution l'exige — d'une approbation nationale avant que le nouveau texte soit en vigueur."
+      "warning": "Un vote du CEL seul ne modifie pas les règlements. Les membres ont besoin d'un préavis, d'une AGM avec quorum et — lorsque votre constitution l'exige — d'une approbation nationale avant que le nouveau texte soit en vigueur.",
+      "boardNoticeCta": "Afficher l'avis d'AGM",
+      "emailCta": "Rédiger le courriel aux membres"
     },
-    "builder": {
-      "navLabel": "Créateur de règlements",
-      "title": "Commencez avec un modèle",
-      "intro": "Ne partez pas de zéro. Utilisez notre Créateur de règlements pour générer un modèle standard que vous pourrez finaliser dans Microsoft Word."
+    "scenario": {
+      "navLabel": "Exemple concret",
+      "title": "Exemple : hausser le quorum de l'AGM",
+      "intro": "La section fictive 243 veut hausser le quorum de l'AGM de 15 à 25 membres. Traitez le dossier comme un dirigeant, pas comme une discussion de corridor.",
+      "phases": {
+        "d0": {
+          "label": "Jour 0 — Lire la constitution",
+          "content": "Le président et le secrétaire tirent l'article de la constitution nationale sur les règlements locaux et la clause de modification actuelle de la section 243 (délai de préavis + 2/3)."
+        },
+        "d1": {
+          "label": "Jour 1 — Rédiger le changement",
+          "content": "Ils ouvrent le Créateur de règlements, chargent l'exemple campus, et ne réécrivent que la phrase sur le quorum. Ils gardent un texte comparatif ancien/nouveau pour le dossier de préavis."
+        },
+        "d2": {
+          "label": "Jour 2 — Convocation de l'AGM",
+          "content": "Ils fixent une date d'AGM au moins 30 jours plus loin, affichent un avis de tableau, et envoient un courriel avec le libellé exact proposé."
+        },
+        "d3": {
+          "label": "Jour 15 — Répondre aux questions",
+          "content": "À la réunion du CEL, ils consignent les questions des membres. Ils ne « corrigent » pas le libellé affiché sans recommencer le délai de préavis."
+        },
+        "d4": {
+          "label": "Jour 30 — Vote en AGM avec quorum",
+          "content": "Le secrétaire compte les membres présents selon la règle de quorum actuelle. La motion exige les deux tiers des présents. Le procès-verbal consigne le décompte et le résultat."
+        },
+        "d5": {
+          "label": "Jour 31 — Soumettre pour approbation",
+          "content": "Ils envoient le dossier des règlements modifiés au bureau national ou provincial selon la voie exigée par leur syndicat (souvent via le carrefour des outils membres ou le bureau du président national)."
+        },
+        "d6": {
+          "label": "Après approbation — Publier",
+          "content": "Seulement après une approbation écrite mettent-ils à jour le site local, le classeur du tableau et le PDF aux membres. Jusque-là, l'ancien quorum s'applique encore."
+        }
+      },
+      "tip": "Traitez « adopté en AGM » et « en vigueur » comme deux dates différentes lorsque l'approbation nationale est exigée."
+    },
+    "checklist": {
+      "navLabel": "Liste de contrôle",
+      "title": "Liste de contrôle d'adoption et de modification",
+      "intro": "Imprimez cette feuille avant de convoquer une AGM sur les règlements. Cochez seulement ce que vous pouvez prouver par un document.",
+      "caption": "Liste de contrôle des règlements locaux",
+      "items": {
+        "readConstitution": "Lire l'article de la constitution nationale ou provinciale sur les règlements locaux et joindre une copie au dossier.",
+        "comparePeers": "Parcourir un guide pair (guide des règlements du SCFP ou votre modèle national) pour repérer les articles manquants.",
+        "draftText": "Rédiger un texte d'articles clair dans le Créateur de règlements ou Word — une liste de changements que les membres peuvent lire à voix haute.",
+        "postNotice": "Afficher et envoyer le préavis requis avec le libellé exact et la date de l'AGM.",
+        "quorumMath": "Noter le quorum actuel de l'AGM et comment vous compterez les membres présents le soir même.",
+        "gmmVote": "Tenir le vote à une AGM avec quorum et consigner le résultat des 2/3 dans un procès-verbal signé.",
+        "submitNational": "Soumettre le dossier pour approbation nationale ou provinciale lorsque votre constitution l'exige.",
+        "publishMembers": "Publier le texte approuvé aux membres et retirer l'ancien PDF des tableaux et du site."
+      }
+    },
+    "examples": {
+      "navLabel": "Exemples pairs",
+      "title": "Ce que publient d'autres syndicats",
+      "intro": "Vous n'avez pas besoin d'inventer la structure. Ouvrez la liste Sources en bas pour les PDF en ligne, puis utilisez ces notes comme carte.",
+      "items": {
+        "cupe": {
+          "label": "SCFP",
+          "content": "Le Guide pour préparer les règlements d'une section locale présente les dispositions obligatoires et les options. L'article 12.3 et l'annexe B de la constitution nationale indiquent que les règlements additionnels exigent l'approbation écrite du président national avant d'entrer en vigueur."
+        },
+        "unifor": {
+          "label": "Unifor",
+          "content": "La constitution d'Unifor (article 15) régit les sections locales. Le conseil exécutif national examine les règlements locaux et peut refuser l'approbation s'ils entrent en conflit avec la constitution ou les principes d'équité."
+        },
+        "opseu": {
+          "label": "OPSEU / SEFPO",
+          "content": "Les sections suivent la constitution d'OPSEU / SEFPO et envoient les règlements locaux modifiés selon la voie du bureau national indiquée dans le carrefour des outils membres. Confirmez le PDF actuel là — les liens profonds bougent quand le site national se réorganise."
+        },
+        "shared": {
+          "label": "Modèle commun",
+          "content": "D'un syndicat à l'autre : préavis aux membres, vote en réunion avec quorum (souvent 2/3), deux signataires, et examen national avant que le nouveau texte soit en vigueur."
+        }
+      },
+      "tip": "Empruntez la structure aux guides pairs. Ne collez jamais les noms de dirigeants, les cotisations ou les listes d'unités d'une autre section dans votre brouillon."
+    },
+    "failureModes": {
+      "navLabel": "Échecs fréquents",
+      "title": "Façons courantes d'échouer le travail sur les règlements",
+      "intro": "Nommez le mode d'échec tôt pour que le CEL ne « corrige pas dans le corridor » après le vote.",
+      "items": {
+        "lecOnly": {
+          "label": "Réécriture par le CEL seul",
+          "content": "L'exécutif vote pour changer le quorum ou les élections sans préavis aux membres. Les membres peuvent contester le résultat ; le national peut refuser l'approbation."
+        },
+        "policyAsBylaw": {
+          "label": "Politique déguisée en règlements",
+          "content": "Les règles de dépenses et d'élections ne vivent que dans un classeur de politiques du CEL. Quand le conflit arrive, personne ne peut prouver le chemin démocratique."
+        },
+        "noNotice": {
+          "label": "Changement de libellé après le préavis",
+          "content": "Le texte au plancher diffère du préavis affiché. Recommencez le délai de préavis ou votez seulement sur le texte affiché."
+        },
+        "conflict": {
+          "label": "Conflit avec la constitution",
+          "content": "Le texte local contredit les règles nationales d'élection, de cotisations ou d'équité. La constitution l'emporte — réécrivez avant de gaspiller une AGM."
+        },
+        "noApproval": {
+          "label": "Traiter le vote d'AGM comme final",
+          "content": "La section affiche de « nouveaux règlements » le lendemain sans la lettre nationale requise. Les anciens règlements s'appliquent jusqu'à l'approbation."
+        }
+      }
+    },
+    "tools": {
+      "navLabel": "Outils",
+      "title": "Outils qui soutiennent le dossier",
+      "intro": "Ne partez pas de zéro. Rédigez la base, puis utilisez les tableaux et le courriel pour que les membres voient vraiment le préavis.",
+      "items": {
+        "builder": {
+          "label": "Créateur de règlements",
+          "content": "Générez un modèle standard à partir du quorum, de l'exécutif, des signatures et des champs de modification. Exportez texte, Markdown ou PDF pour Word."
+        },
+        "boardNotice": {
+          "label": "Avis pour tableau syndical",
+          "content": "Imprimez la date, l'heure et la ligne « modification des règlements à l'ordre du jour » pour les tableaux de liège."
+        },
+        "orgChart": {
+          "label": "Organigramme",
+          "content": "Gardez la liste des dirigeants décrite dans les règlements alignée avec les noms que les membres voient au tableau et sur le site."
+        },
+        "email": {
+          "label": "Guide courriel et diffusion",
+          "content": "Modèles de préavis aux membres — sans listes marketing — pour le courriel de modification anticipé."
+        },
+        "letterhead": {
+          "label": "Générateur de documents",
+          "content": "Papier à en-tête pour la lettre d'accompagnement nationale une fois le procès-verbal d'AGM signé."
+        }
+      }
+    },
+    "example": {
+      "title": "Histoire en une phrase",
+      "body": "La section 243 a affiché 30 jours de préavis, adopté un changement de quorum aux 2/3 lors d'une AGM comptée, attendu l'approbation nationale, puis remplacé le PDF du classeur — la même semaine, elle a mis à jour les titres de l'organigramme pour que les nouveaux postes de vice-président correspondent aux règlements."
+    },
+    "sourcesNote": {
+      "title": "Ouvrez les sources avant de rédiger",
+      "body": "Le bloc Sources ci-dessous lie le guide des règlements du SCFP, les constitutions du SCFP et d'Unifor, et le carrefour d'outils d'OPSEU / SEFPO. Lisez d'abord votre propre constitution ; utilisez les PDF pairs pour repérer les articles manquants, pas pour copier une autre section en entier."
     }
   },
   "bylawBuilder": {
@@ -9469,12 +9641,26 @@
     "subtitle": "Rédigez un modèle de règlements locaux à partir de la structure de votre section",
     "whenToUse": "Utilisez cet outil lorsque vous rédigez ou mettez à jour les règlements locaux et avez besoin d'un modèle de base avant une révision juridique ou nationale.",
     "guideLink": "Lire le guide des règlements locaux",
-    "privacyNote": "Tout reste sur cet appareil. Rien n'est envoyé à un serveur.",
+    "governanceLink": "Module sur la gouvernance démocratique",
+    "privacyNote": "Les brouillons s'enregistrent sur cet appareil seulement. Rien n'est envoyé à un serveur.",
+    "saveFailed": "Impossible d'enregistrer le brouillon sur cet appareil. Copiez ou téléchargez maintenant pour ne pas perdre le texte, puis libérez de l'espace du navigateur et réessayez.",
     "copy": "Copier dans le presse-papiers",
     "downloadTxt": "Télécharger en .TXT",
-    "disclaimer": "Note : ceci génère un modèle de base standard. Vérifiez toujours la constitution de votre syndicat national ou provincial pour vous assurer que vos règlements locaux n'entrent pas en conflit avec les règles nationales.",
+    "exportMarkdown": "Télécharger Markdown",
+    "exportPdf": "Télécharger PDF",
+    "print": "Imprimer le brouillon",
+    "clearDraft": "Effacer le brouillon",
+    "formDisclaimer": "Modèle de base seulement — pas un avis juridique. Comparez chaque article à votre constitution nationale ou provinciale avant un vote en AGM.",
+    "disclaimer": "Note : ceci génère un modèle de base standard. Vérifiez toujours la constitution de votre syndicat national ou provincial pour vous assurer que vos règlements locaux n'entrent pas en conflit avec les règles nationales. Ouvrez les Sources ci-dessous pour les références du SCFP, d'Unifor et d'OPSEU / SEFPO.",
     "preview": {
       "title": "Brouillon des règlements en direct"
+    },
+    "presets": {
+      "label": "Tailles de section types",
+      "hint": "Charge des valeurs de démonstration que vous pouvez modifier. Ce n'est pas une vraie section — remplacez le nom avant d'exporter.",
+      "small": "Petite section",
+      "campus": "Section de campus",
+      "large": "Grande section"
     },
     "fields": {
       "localName": "Nom et numéro de la section locale",
@@ -9482,6 +9668,11 @@
       "stewards": "Nombre de délégués (ou structure)",
       "gmmQuorum": "Quorum de l'AGM",
       "lecQuorum": "Quorum du CEL",
+      "signingOfficers": "Dirigeants signataires (au moins deux)",
+      "trustees": "Fiduciaires / vérificateurs",
+      "meetingFrequency": "Fréquence des AGM",
+      "electionTerm": "Durée du mandat des dirigeants",
+      "amendmentNotice": "Délai de préavis pour modification",
       "fiscalYearEnd": "Date de fin d'exercice"
     },
     "fieldPlaceholders": {
@@ -9490,6 +9681,11 @@
       "stewards": "p. ex. Un par service",
       "gmmQuorum": "p. ex. 15 membres",
       "lecQuorum": "p. ex. 50 % de l'exécutif",
+      "signingOfficers": "p. ex. Deux parmi le président, le trésorier et le vice-président",
+      "trustees": "p. ex. Trois fiduciaires élus",
+      "meetingFrequency": "p. ex. Au moins quatre AGM par année",
+      "electionTerm": "p. ex. Deux ans",
+      "amendmentNotice": "p. ex. 30 jours de préavis écrit",
       "fiscalYearEnd": "p. ex. 31 décembre"
     },
     "placeholders": {
@@ -9498,6 +9694,11 @@
       "stewards": "[Structure des délégués]",
       "gmmQuorum": "[Quorum de l'AGM]",
       "lecQuorum": "[Quorum du CEL]",
+      "signingOfficers": "[Dirigeants signataires]",
+      "trustees": "[Fiduciaires]",
+      "meetingFrequency": "[Fréquence des réunions]",
+      "electionTerm": "[Durée du mandat]",
+      "amendmentNotice": "[Préavis de modification]",
       "fiscalYearEnd": "[Date de fin d'exercice]"
     },
     "articles": {
@@ -9507,11 +9708,13 @@
       "executive": "Article 4 : Exécutif. Le comité exécutif local (CEL) se compose du président, de {vicePresidents} vice-président(s), du secrétaire, du trésorier et du chef délégué. Le CEL administre la section entre les assemblées générales des membres.",
       "stewards": "Article 5 : Délégués. Les délégués sont organisés comme suit : {stewards}. Les délégués représentent les membres sur le lieu de travail et rendent compte au chef délégué et au CEL.",
       "quorum": "Article 6 : Quorum. Le quorum d'une assemblée générale des membres (AGM) est de {gmmQuorum}. Le quorum d'une réunion du CEL est de {lecQuorum}. Aucune motion contraignante ni dépense ne peut être adoptée sans quorum.",
-      "meetings": "Article 7 : Réunions. La section tient des assemblées générales des membres selon les exigences de la constitution nationale ou provinciale et des présents règlements. Des réunions spéciales peuvent être convoquées par le président ou par pétition des membres, conformément à la constitution. L'exercice se termine le {fiscalYearEnd}.",
-      "elections": "Article 8 : Élections. Les dirigeants et les délégués sont élus conformément à la constitution nationale ou provinciale et aux présents règlements. Les mises en candidature, le préavis et les procédures de scrutin sont publiés aux membres avant chaque élection.",
-      "finances": "Article 9 : Finances. Tous les chèques et paiements électroniques de la section exigent au moins deux dirigeants signataires autorisés du CEL. Le trésorier présente des rapports financiers aux membres. L'exercice se termine le {fiscalYearEnd}.",
-      "amendments": "Article 10 : Modifications. Les présents règlements ne peuvent être modifiés qu'après un préavis aux membres (habituellement 15 à 30 jours), un vote à une assemblée générale des membres avec quorum, et une majorité des deux tiers (2/3) des membres présents. Lorsque la constitution nationale ou provinciale l'exige, les règlements modifiés n'entrent en vigueur qu'après approbation nationale ou provinciale.",
-      "conflict": "Article 11 : Conflit avec la constitution. Si une disposition des présents règlements entre en conflit avec la constitution nationale ou provinciale, la constitution prévaut. Les présents règlements doivent être interprétés de manière à donner effet à la constitution dans la mesure du possible."
+      "meetings": "Article 7 : Réunions. La section tient des assemblées générales des membres comme suit : {meetingFrequency}. Des réunions spéciales peuvent être convoquées par le président ou par pétition des membres, conformément à la constitution nationale ou provinciale et aux présents règlements.",
+      "elections": "Article 8 : Élections. Les dirigeants et les délégués sont élus pour des mandats de {electionTerm}, conformément à la constitution nationale ou provinciale et aux présents règlements. Les mises en candidature, le préavis et les procédures de scrutin sont publiés aux membres avant chaque élection.",
+      "finances": "Article 9 : Finances. Tous les chèques et paiements électroniques de la section exigent les signatures ou autorisations de {signingOfficers}. Le trésorier présente des rapports financiers aux membres. L'exercice se termine le {fiscalYearEnd}.",
+      "trustees": "Article 10 : Fiduciaires. La section a {trustees}. Les fiduciaires examinent les livres et font rapport aux membres selon la constitution nationale ou provinciale et les présents règlements.",
+      "committees": "Article 11 : Comités. Le CEL peut créer des comités permanents et spéciaux. Les mandats des comités ne doivent pas entrer en conflit avec les présents règlements ni avec la constitution nationale ou provinciale.",
+      "amendments": "Article 12 : Modifications. Les présents règlements ne peuvent être modifiés qu'après {amendmentNotice}, un vote à une assemblée générale des membres avec quorum, et une majorité des deux tiers (2/3) des membres présents. Lorsque la constitution nationale ou provinciale l'exige, les règlements modifiés n'entrent en vigueur qu'après approbation nationale ou provinciale.",
+      "conflict": "Article 13 : Conflit avec la constitution. Si une disposition des présents règlements entre en conflit avec la constitution nationale ou provinciale, la constitution prévaut. Les présents règlements doivent être interprétés de manière à donner effet à la constitution dans la mesure du possible."
     }
   }
 }
