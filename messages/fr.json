@@ -11,6 +11,7 @@
     "learn": "Guides",
     "guides": "Guides",
     "guide": "Le Plan directeur",
+    "stewardPlaybooksHub": "Guides pratiques pour délégués",
     "strikeGuide": "Guide de grève",
     "examples": "Exemples sociaux",
     "captions": "Légendes",
@@ -646,6 +647,7 @@
     },
     "labourGuides": {
       "title": "Guides de droits au travail",
+      "seeAll": "Tous les guides pratiques pour délégués",
       "steward101": "Délégué 101",
       "officerLearning": "Centre de formation des dirigeants",
       "grievance": "Processus de grief",
@@ -666,6 +668,11 @@
     "readingTime": "Lecture {minutes} min",
     "backToGuide": "Retour au Plan directeur",
     "progressSummary": "{completed} module(s) sur {total} complété(s)",
+    "quizHint": {
+      "title": "Les autoévaluations marquent votre progression",
+      "body": "Chaque module se termine par un quiz. Lisez la leçon, puis utilisez Aller au quiz ou faites défiler jusqu'à Autoévaluation. Un score parfait marque le module comme complété sur cet appareil."
+    },
+    "moduleQuizBadge": "Autoévaluation",
     "progress": {
       "notStarted": "Non commencé",
       "inProgress": "En cours",
@@ -681,7 +688,9 @@
       "back": "Tableau de bord",
       "jumpToQuiz": "Aller au quiz",
       "toc": "Sur cette page",
-      "print": "Imprimer le module"
+      "print": "Imprimer le module",
+      "quizPreviewTitle": "Autoévaluation à la fin",
+      "quizPreviewBody": "Ce module comprend un quiz après la lecture. Utilisez Aller au quiz ci-dessus quand vous êtes prêt — un score parfait marque le module comme complété."
     },
     "path": {
       "label": "Parcours de formation"
@@ -4239,6 +4248,48 @@
       "title": "Suivre les dossiers dans le Hub des dirigeants",
       "body": "Les outils de griefs du Hub des dirigeants consignent les étapes, les échéances et les transferts pour que les délégués de relève voient les mêmes horloges que vous. Ils soutiennent un processus équitable — ils ne remplacent pas le jugement juridique ni votre représentant de service.",
       "cta": "Ouvrir les griefs dans le Hub des dirigeants"
+    }
+  },
+  "stewardPlaybooksHub": {
+    "title": "Guides pratiques pour délégués",
+    "subtitle": "Formation sur le terrain pour délégués et dirigeants locaux — commencez ici en attendant l'école nationale",
+    "intro": "Guides pratiques et modules autonomes pour l'Ontario. Pas un avis juridique — confirmez chaque délai et recours dans votre convention collective.",
+    "trainingPath": {
+      "title": "Parcours recommandé",
+      "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour six modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
+      "steward101Cta": "Commencer Délégué 101",
+      "officerLearningCta": "Centre de formation des dirigeants"
+    },
+    "quizCallout": {
+      "title": "Où se trouvent les autoévaluations",
+      "body": "Les modules du Centre de formation des dirigeants incluent un quiz au bas de chaque leçon. Utilisez Aller au quiz dans l'en-tête du module, ou faites défiler jusqu'à Autoévaluation après la lecture. Un score parfait marque le module comme complété sur cet appareil."
+    },
+    "quizBadge": "Comprend une autoévaluation",
+    "playbooks": {
+      "title": "Tous les guides pratiques",
+      "intro": "Même profondeur qu'une fiche de formation : seuil, étapes, exemple commenté et sources."
+    },
+    "links": {
+      "steward101": "Délégué 101 : votre rôle et vos droits",
+      "officerLearning": "Centre de formation des dirigeants",
+      "grievance": "Le guide du délégué sur les griefs",
+      "dfr": "Devoir de représentation équitable",
+      "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
+      "membershipSignup": "Guide d'adhésion",
+      "rightToRefuse": "Droit de refuser (Ontario)",
+      "seniority": "Ancienneté et bumping",
+      "jointCommittee": "Guide des comités conjoints"
+    },
+    "blurbs": {
+      "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
+      "officerLearning": "Six modules avec scénarios, listes de contrôle sur le terrain, fiches imprimables et un quiz par module.",
+      "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable.",
+      "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
+      "workplaceMapping": "Recensez les collègues, repérez les leaders organiques et cotez l'appui syndical de 1 à 5.",
+      "membershipSignup": "Recrutez et orientez les nouveaux membres avec un parcours d'adhésion reproductible.",
+      "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
+      "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
+      "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés."
     }
   },
   "steward101Guide": {

@@ -56,6 +56,10 @@ export function OfficerLearningDashboard({ modules }: Props) {
           <p className="mt-4 text-sm text-teal-200/90">
             {t("progressSummary", { completed: completedCount, total: modules.length })}
           </p>
+          <div className="mt-4 rounded-xl border border-teal-400/30 bg-teal-500/10 px-4 py-3">
+            <p className="font-semibold text-teal-100">{t("quizHint.title")}</p>
+            <p className="mt-1 text-sm leading-relaxed text-teal-50/90">{t("quizHint.body")}</p>
+          </div>
           <p className="mt-3 text-sm text-amber-100/90">{t("disclaimer")}</p>
         </header>
 
@@ -150,6 +154,8 @@ export function OfficerLearningDashboard({ modules }: Props) {
                   </p>
                   <p className="text-xs font-medium uppercase tracking-wide text-amber-300/90">
                     {t("readingTime", { minutes: module.readingMinutes })}
+                    {" · "}
+                    {t("moduleQuizBadge")}
                   </p>
                 </div>
               </Link>

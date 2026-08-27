@@ -238,7 +238,15 @@ export default async function GuidePage({
         </Callout>
 
         <Callout tone="muted">
-          <p className="font-semibold text-opseu-dark">{t("labourGuides.title")}</p>
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <p className="font-semibold text-opseu-dark">{t("labourGuides.title")}</p>
+            <Link
+              href="/guide/steward-playbooks"
+              className="text-sm font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+            >
+              {t("labourGuides.seeAll")} →
+            </Link>
+          </div>
           <nav
             className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
             aria-label={t("labourGuides.title")}

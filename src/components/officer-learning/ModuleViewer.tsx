@@ -203,6 +203,11 @@ export function ModuleViewer({
             </div>
           </div>
 
+          <div className="rounded-xl border border-teal-400/30 bg-teal-500/10 px-4 py-3 text-sm text-teal-50">
+            <p className="font-semibold text-teal-100">{t("viewer.quizPreviewTitle")}</p>
+            <p className="mt-1 leading-relaxed text-teal-50/90">{t("viewer.quizPreviewBody")}</p>
+          </div>
+
           <ModuleTeachingDiagram slug={meta.slug} />
 
           <ModuleContentRenderer sections={module.sections} moduleId={meta.id} />

@@ -11,6 +11,7 @@
     "learn": "Guides",
     "guides": "Guides",
     "guide": "The Blueprint",
+    "stewardPlaybooksHub": "Steward playbooks",
     "strikeGuide": "Strike Guide",
     "examples": "Social Examples",
     "captions": "Captions",
@@ -646,6 +647,7 @@
     },
     "labourGuides": {
       "title": "Labour rights guides",
+      "seeAll": "All steward playbooks",
       "steward101": "Steward 101",
       "officerLearning": "Officer Learning Center",
       "grievance": "Grievance process",
@@ -666,6 +668,11 @@
     "readingTime": "{minutes} min read",
     "backToGuide": "Back to The Blueprint",
     "progressSummary": "{completed} of {total} modules completed",
+    "quizHint": {
+      "title": "Self-tests mark your progress",
+      "body": "Each module ends with a quiz. Read the lesson, then use Jump to Quiz or scroll to Self-test. A perfect score marks the module complete on this device."
+    },
+    "moduleQuizBadge": "Self-test quiz",
     "progress": {
       "notStarted": "Not started",
       "inProgress": "In progress",
@@ -681,7 +688,9 @@
       "back": "Dashboard",
       "jumpToQuiz": "Jump to Quiz",
       "toc": "On this page",
-      "print": "Print module"
+      "print": "Print module",
+      "quizPreviewTitle": "Self-test at the end",
+      "quizPreviewBody": "This module includes a quiz after the reading. Use Jump to Quiz above when you are ready — a perfect score marks it complete."
     },
     "path": {
       "label": "Learning path"
@@ -4289,6 +4298,48 @@
       "title": "Track files in Officer Hub",
       "body": "Officer Hub grievance tools log steps, due dates, and handoffs so coverage stewards see the same clocks you do. They support a fair process — they do not replace legal judgment or your servicing rep.",
       "cta": "Open grievances in Officer Hub"
+    }
+  },
+  "stewardPlaybooksHub": {
+    "title": "Steward playbooks",
+    "subtitle": "Floor training for stewards and local officers — start here before national school",
+    "intro": "Ontario-focused playbooks and self-paced modules. Not legal advice — confirm every deadline and remedy against your own collective agreement.",
+    "trainingPath": {
+      "title": "Recommended training path",
+      "body": "Start with Steward 101 for role basics, then Officer Learning Center for six modules with self-tests. Open the other playbooks when a live file needs them.",
+      "steward101Cta": "Start Steward 101",
+      "officerLearningCta": "Officer Learning Center"
+    },
+    "quizCallout": {
+      "title": "Where the self-tests live",
+      "body": "Officer Learning modules include a quiz at the bottom of each lesson. Use Jump to Quiz in the module header, or scroll to Self-test after reading. A perfect score marks the module complete on this device."
+    },
+    "quizBadge": "Includes self-test quiz",
+    "playbooks": {
+      "title": "All steward playbooks",
+      "intro": "Same depth as a training handout: gate, steps, worked example, and sources."
+    },
+    "links": {
+      "steward101": "Steward 101: Your Role and Rights",
+      "officerLearning": "Officer Learning Center",
+      "grievance": "The Steward's Guide to Grievances",
+      "dfr": "Duty of Fair Representation",
+      "workplaceMapping": "Workplace mapping & organic leaders",
+      "membershipSignup": "Membership signup playbook",
+      "rightToRefuse": "Right to refuse (Ontario)",
+      "seniority": "Seniority & bumping",
+      "jointCommittee": "Joint committee playbook"
+    },
+    "blurbs": {
+      "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
+      "officerLearning": "Six modules with scenarios, floor checklists, printable sheets, and a quiz per module.",
+      "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet.",
+      "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
+      "workplaceMapping": "Chart coworkers, find organic leaders, and score union support 1 to 5.",
+      "membershipSignup": "Recruit and orient new members with a repeatable signup path.",
+      "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
+      "seniority": "Two cascade examples and a printable seniority worksheet.",
+      "jointCommittee": "Campus → caucus → table → member note after signed minutes."
     }
   },
   "steward101Guide": {

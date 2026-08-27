@@ -137,6 +137,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Orientation for new stewards: what the role is, the three hats, representation in discipline meetings, DFR basics, and a worked example. Not legal advice.",
     },
+    "/guide/steward-playbooks": {
+      title: "Steward playbooks",
+      description:
+        "Start here for steward and officer training: Steward 101, Officer Learning modules with self-tests, grievance process, DFR, and more floor playbooks.",
+    },
     "/guide/grievance-process": {
       title: "The Steward's Guide to Grievances",
       description:
@@ -323,6 +328,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Délégué 101 : votre rôle et vos droits",
       description:
         "Orientation pour nouveaux délégués : rôle, trois chapeaux, représentation disciplinaire, bases de la DRE et exemple commenté. Pas un avis juridique.",
+    },
+    "/guide/steward-playbooks": {
+      title: "Guides pratiques pour délégués",
+      description:
+        "Commencez ici : Délégué 101, modules du Centre de formation des dirigeants avec autoévaluations, processus de grief, DRE et autres guides sur le terrain.",
     },
     "/guide/grievance-process": {
       title: "Le guide du délégué sur les griefs",

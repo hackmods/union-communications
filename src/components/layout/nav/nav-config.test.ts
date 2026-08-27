@@ -49,6 +49,7 @@ describe("path helpers", () => {
     const guides = learnGroups.find((g) => g.labelKey === "learnGroupGuides");
     expect(guides?.links.map((l) => l.href)).toEqual([
       "/guide",
+      "/guide/steward-playbooks",
       "/guide/social-media-plan",
       "/guide/resources",
       "/guide/workshop",
