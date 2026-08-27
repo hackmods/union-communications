@@ -235,9 +235,10 @@ function BlockRenderer({
 type Props = {
   sections: ModuleSection[];
   moduleId: string;
+  moduleSlug: string;
 };
 
-export function ModuleContentRenderer({ sections, moduleId }: Props) {
+export function ModuleContentRenderer({ sections, moduleId, moduleSlug }: Props) {
   return (
     <div className="space-y-10">
       {sections.map((section) =>
@@ -246,6 +247,7 @@ export function ModuleContentRenderer({ sections, moduleId }: Props) {
             key={section.id}
             section={section}
             moduleId={moduleId}
+            moduleSlug={moduleSlug}
             renderBlock={({ block, checklistKey }) => (
               <BlockRenderer block={block} checklistKey={checklistKey} />
             )}

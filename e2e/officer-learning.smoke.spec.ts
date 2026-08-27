@@ -38,6 +38,8 @@ test.describe("Officer Learning @smoke", () => {
       page.getByRole("link", { name: /Jump to Quiz/i }),
     ).toBeVisible();
     await expect(page.getByText("Worked scenario")).toBeVisible();
+    await expect(page.getByText("Worked file timeline")).toBeVisible();
+    await expect(page.getByText("D0")).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
 

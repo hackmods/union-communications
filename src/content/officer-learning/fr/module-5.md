@@ -202,3 +202,23 @@ Un membre demande pourquoi la section locale ne peut pas donner 500 $ de cotisat
 
 **Correct Answer: A**
 *Explanation* : Les fonds locaux doivent faire avancer des fins syndicales. Les dons politiques personnels ou à des candidats sortent des dépenses approuvées, peu importe le montant ou l'alignement.
+
+### Question 5
+Le président pré-signe trois chèques vides « pour les urgences » avant des vacances de deux semaines. Le trésorier est indisponible. Meilleure réponse ?
+*   A) Accepter — les urgences exigent de la flexibilité.
+*   B) Refuser. Aucun chèque vierge, jamais. Planifier les paiements au retour ou utiliser deux signataires autorisés selon les règlements.
+*   C) Permettre un chèque vierge plafonné à 500 $.
+*   D) Laisser le vice-président signer seul parce qu'il agit comme président.
+
+**Correct Answer: B**
+*Explanation* : Les chèques vierges détruisent le double contrôle. L'urgence ne l'emporte jamais sur les reçus détaillés et deux signatures autorisées — reportez ou utilisez des signataires alternatifs selon les règlements.
+
+### Question 6
+Les fiduciaires trouvent un reçu de repas de 400 $ avec de l'alcool parmi les aliments, payé à partir de la ligne budget formation. Action correcte ?
+*   A) Ignorer — sous 500 $ est négligeable.
+*   B) Signaler dans la constatation d'audit : l'alcool n'est pas une dépense syndicale légitime de formation ; recommander le remboursement par l'exécutif et un rappel de politique à l'assemblée.
+*   C) Reclasser en « divers » et passer à autre chose.
+*   D) Demander au président d'approuver verbalement après coup.
+
+**Correct Answer: B**
+*Explanation* : Les fiduciaires rapportent les faits et recommandent des motions correctives — l'alcool sur une ligne formation est une violation de politique. Les reçus détaillés existent précisément pour repérer les erreurs de catégorie et d'objet.

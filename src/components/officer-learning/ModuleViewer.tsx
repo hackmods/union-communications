@@ -216,7 +216,11 @@ export function ModuleViewer({
 
           <ModuleTeachingDiagram slug={meta.slug} />
 
-          <ModuleContentRenderer sections={module.sections} moduleId={meta.id} />
+          <ModuleContentRenderer
+            sections={module.sections}
+            moduleId={meta.id}
+            moduleSlug={meta.slug}
+          />
 
           <ModuleRelatedResources
             slug={meta.slug}

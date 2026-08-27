@@ -204,3 +204,23 @@ An employer says accommodation is impossible because seniority rules in the coll
 
 **Correct Answer: B**
 *Explanation*: Conflict with collective agreement language does not constitute undue hardship. The employer must explore accommodations — sometimes via variance, modified duties, or bargaining-unit-preserving adjustments — before claiming impossibility.
+
+### Question 5
+HR insists the member provide a surgeon's letter naming the diagnosis before approving a sit-stand desk. The member has already supplied functional limits from their treating provider. What should the steward do?
+*   A) Tell the member to provide the surgeon's letter to speed things up.
+*   B) Refuse diagnosis disclosure, restate functional limits only, and cite human rights privacy limits on employer medical inquiries.
+*   C) Withdraw the accommodation request until the member agrees to full file disclosure.
+*   D) Accept that employers always need diagnosis for ergonomic equipment.
+
+**Correct Answer: B**
+*Explanation*: Employers are entitled to functional abilities information, not raw diagnosis or surgical detail for a desk accommodation. Stewards gate medical privacy and keep the dialogue on restrictions and solutions.
+
+### Question 6
+Three weeks pass after the accommodation request. The employer says they are "still reviewing" but offers no counter-proposal. Best next step?
+*   A) Wait indefinitely — accommodation has no timeline.
+*   B) Document each delay date, send a written follow-up proposing phased RTW or equipment, and prepare a grievance while dialogue continues.
+*   C) Tell the member to stop working until the desk arrives.
+*   D) Drop the request because silence means denial is final.
+
+**Correct Answer: B**
+*Explanation*: Undue delay can be as harmful as undue denial. Log timelines, keep proposing solutions, and prepare formal escalation — accommodation dialogue and grievance prep can run in parallel.

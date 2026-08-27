@@ -188,3 +188,23 @@ Un secrétaire veut consigner que « le membre X s'est opposé avec colère à l
 
 **Correct Answer: B**
 *Explanation* : La norme d'écriture sobre consigne les décisions et actions, pas le débat émotionnel ni les attaques personnelles. Le libellé de la motion, le résultat et les tâches assignées constituent le dossier juridique.
+
+### Question 5
+Lors d'une élection présidentielle contestée, le président veut annoncer « Le candidat A gagne avec 45 % — le plus de votes ». Que doit-il se passer ?
+*   A) Déclarer A élu parce que 45 % est la plus grande part.
+*   B) Éliminer le candidat le plus bas et tenir un second tour jusqu'à ce qu'une personne atteigne plus de 50 % des bulletins valides.
+*   C) Partager la présidence entre A et B.
+*   D) Accepter un tirage au sort entre les deux premiers.
+
+**Correct Answer: B**
+*Explanation* : Les élections syndicales exigent une majorité claire, pas une pluralité. Lorsqu'aucun candidat n'atteint 50 % + 1, éliminez le plus bas et recomptez jusqu'à un gagnant majoritaire.
+
+### Question 6
+Avant le dépouillement, un membre exige de compter seul sans scrutateurs nommés. Meilleure pratique ?
+*   A) Permettre à tout membre de compter seul pour la transparence.
+*   B) Nommer des scrutateurs des deux côtés avant de sceller, mélanger et compter — puis consigner le résultat dans des procès-verbaux sobres.
+*   C) Sauter les scrutateurs si la course est sans opposition.
+*   D) Laisser le président compter dans son bureau et annoncer le résultat plus tard.
+
+**Correct Answer: B**
+*Explanation* : Les dépouillements contestés exigent des observateurs neutres nommés avant l'ouverture du scrutin. Les scrutateurs protègent les deux côtés des contestations et font partie de la liste de contrôle électorale standard.

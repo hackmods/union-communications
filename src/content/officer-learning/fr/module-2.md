@@ -193,3 +193,23 @@ Un membre de longue date avec un dossier propre reçoit une suspension de cinq j
 
 **Correct Answer: B**
 *Explanation* : Les facteurs atténuants incluent un dossier propre, l'ancienneté et l'application incohérente. La proportionnalité conteste une suspension de cinq jours comme excessive pour un premier incident, surtout lorsque le pair n'a fait l'objet d'aucune sanction.
+
+### Question 5
+Avant une rencontre disciplinaire, les RH envoient au membre : « Apportez toutes les notes que vous avez sur l'incident. » Le membre demande s'il doit préparer une déclaration écrite. Que conseillez-vous ?
+*   A) Rédiger des excuses détaillées admettant la faute pour montrer la coopération aux RH.
+*   B) Assister avec le délégué, prendre des notes, exiger la divulgation complète des preuves de l'employeur d'abord, et éviter les aveux écrits jusqu'à avoir examiné la preuve et l'atténuation.
+*   C) Refuser d'assister jusqu'à ce que les RH annulent la rencontre.
+*   D) Envoyer la déclaration écrite directement au superviseur sans le délégué.
+
+**Correct Answer: B**
+*Explanation* : Les membres ne doivent pas remettre aux employeurs des aveux non revus. Les délégués assurent la divulgation, contrôlent le récit avec des faits vérifiés, et préservent l'atténuation — la coopération ne signifie pas l'auto-incrimination avant la preuve.
+
+### Question 6
+Un employeur passe directement à une suspension de trois jours pour un premier problème d'assiduité. Aucun avertissement verbal ou écrit antérieur n'apparaît au dossier. Quel est l'argument procédural le plus fort ?
+*   A) Les problèmes d'assiduité ne peuvent jamais faire l'objet d'une discipline.
+*   B) L'employeur n'a pas suivi la discipline progressive — sauter des paliers sans justification affaiblit la cause juste et appuie la réduction ou le retrait de la sanction.
+*   C) Seul le président peut discuter de l'assiduité.
+*   D) Le membre doit accepter la suspension et porter grief plus tard sans mentionner l'échelle.
+
+**Correct Answer: B**
+*Explanation* : La discipline progressive exige des étapes proportionnées. Passer à une suspension lors d'un premier incident sans étapes antérieures documentées est une défense centrale — exigez la preuve de chaque palier de l'échelle.

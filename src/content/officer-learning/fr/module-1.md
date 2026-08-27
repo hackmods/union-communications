@@ -196,3 +196,23 @@ Un membre vous demande d'enquêter sur un problème d'horaire mais insiste pour 
 
 **Correct Answer: B**
 *Explanation* : L'enquête exige des faits objectifs. Vous devez équilibrer les préoccupations du membre avec le besoin d'un dossier défendable, documenter les limites de façon transparente, et éviter de déposer des griefs fondés uniquement sur des ouï-dire ou de mener des enquêtes secrètes qui brisent la confiance et l'équité procédurale.
+
+### Question 5
+La convention collective exige un grief écrit dans les dix jours ouvrables suivant la prise de connaissance de la violation par le membre. Maria apprend qu'elle a été passée samedi, mais attend le vendredi suivant pour vous appeler par embarras. Aujourd'hui, c'est lundi de la deuxième semaine. Quelle est la priorité du délégué ?
+*   A) Refuser le dossier parce que le membre a attendu trop longtemps sans excuse valable.
+*   B) Calculer la date de prise de connaissance à partir de samedi, confirmer si le délai de dix jours court encore, et déposer immédiatement si la fenêtre est ouverte — documenter le retard de Maria dans les notes.
+*   C) Antidater le formulaire de grief au samedi sans en informer le membre.
+*   D) Attendre deux témoins supplémentaires avant de compter le délai.
+
+**Correct Answer: B**
+*Explanation* : Les délais de dépôt commencent habituellement à la prise de connaissance, pas à l'incident lui-même. Les délégués doivent calculer les échéances le jour même, déposer dans la fenêtre lorsque possible, et documenter honnêtement le retard du membre — l'embarras n'est pas de la malveillance, mais les délais manqués sont fatals.
+
+### Question 6
+Un membre insiste : « Tout le monde sait que le superviseur favorise — déposez. » Vous avez les relevés de temps de Maria et un collègue prêt à confirmer l'ordre de la liste. Est-ce suffisant pour ouvrir un dossier ?
+*   A) Non — il faut des déclarations signées de chaque employé du quart.
+*   B) Oui — un article de convention, une preuve d'application incohérente et un témoin corroborateur plus des documents peuvent appuyer un grief une fois les 6 W et la FAR complétés.
+*   C) Oui — la rumeur seule suffit si le membre est crédible.
+*   D) Non — attendre que trois membres joignent un seul grief.
+
+**Correct Answer: B**
+*Explanation* : Les ouï-dire seuls échouent, mais un patron documenté avec dossiers et au moins un témoin volontaire bat « tout le monde sait ». Complétez le cadre d'enquête avant de déposer ; n'attendez pas l'unanimité parfaite.

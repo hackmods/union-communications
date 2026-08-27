@@ -198,3 +198,23 @@ A member asks you to investigate a scheduling issue but insists you not speak to
 
 **Correct Answer: B**
 *Explanation*: Investigation requires objective facts. You must balance member concerns with the need for a defensible file, document limitations transparently, and avoid filing hearsay-only grievances or conducting covert investigations that breach trust and procedural fairness.
+
+### Question 5
+The collective agreement requires a written grievance within ten working days of the member becoming aware of the violation. Maria learned she was skipped on Saturday but waits until the following Friday to call you because she was embarrassed. Today is Monday of week two. What is the steward's priority?
+*   A) Decline the file because the member waited too long without a good excuse.
+*   B) Calculate the awareness date from Saturday, confirm whether the ten-day clock still runs, and file immediately if inside the window — document Maria's delay in the notes.
+*   C) Backdate the grievance form to Saturday without telling the member.
+*   D) Wait for two more witnesses before counting the clock.
+
+**Correct Answer: B**
+*Explanation*: Filing clocks usually start from awareness, not the underlying incident. Stewards must calculate deadlines the same day, file inside the window when possible, and document member delay honestly — embarrassment is not malice, but missed clocks are fatal.
+
+### Question 6
+A member insists, "Everyone knows the supervisor plays favourites — just file." You have Maria's time records and one coworker willing to confirm the list order. Is that enough to open a file?
+*   A) No — you need signed statements from every employee on the shift.
+*   B) Yes — contract article, inconsistent application evidence, and one corroborating witness plus documents can support a grievance once the 6 W's and FAR are complete.
+*   C) Yes — rumour alone is enough if the member is credible.
+*   D) No — wait until three members join one grievance.
+
+**Correct Answer: B**
+*Explanation*: Hearsay alone fails, but a documented pattern with records and at least one willing witness beats "everyone knows." Complete the investigation frame before filing; do not wait for perfect unanimity.

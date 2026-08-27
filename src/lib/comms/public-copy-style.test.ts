@@ -273,6 +273,49 @@ describe("French locale quality", () => {
     expect(tight, report(tight)).toEqual([]);
   });
 
+  it("steward prep tool diagram captions use French typography", () => {
+    const frRoot = fr as Record<string, Record<string, unknown>>;
+    const captionPaths: string[] = [];
+    const walk = (obj: Record<string, unknown>, prefix: string[]) => {
+      for (const [key, value] of Object.entries(obj)) {
+        const path = [...prefix, key];
+        if (typeof value === "string" && (key.endsWith("Caption") || key === "filterCaption")) {
+          captionPaths.push(path.join("."));
+        } else if (value && typeof value === "object" && !Array.isArray(value)) {
+          walk(value as Record<string, unknown>, path);
+        }
+      }
+    };
+    for (const ns of [
+      "complaintVsGrievance",
+      "preDisciplinaryLog",
+      "rtwAccommodation",
+    ] as const) {
+      walk(frRoot[ns] ?? {}, [ns]);
+    }
+    const rights = frRoot.preDisciplinaryLog?.rights as Record<string, string> | undefined;
+    if (rights) {
+      for (const key of Object.keys(rights)) {
+        captionPaths.push(`preDisciplinaryLog.rights.${key}`);
+      }
+    }
+
+    const tight = captionPaths.flatMap((path) => {
+      const parts = path.split(".");
+      let value: unknown = fr;
+      for (const part of parts) {
+        value = (value as Record<string, unknown>)?.[part];
+      }
+      if (typeof value !== "string") return [];
+      if (/\S;(?= )/.test(value)) return [[path, value] as const];
+      if (/(?:^|[^\s\d:])(?<!mailto|https|http|ftp):(?= )/.test(value)) {
+        return [[path, value] as const];
+      }
+      return [];
+    });
+    expect(tight, report(tight)).toEqual([]);
+  });
+
   it("translates every substantial English string", () => {
     const enByPath = new Map(EN_LEAVES);
     const untranslated = FR_LEAVES.filter(([path, value]) => {

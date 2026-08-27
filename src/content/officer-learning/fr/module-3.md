@@ -202,3 +202,23 @@ Un employeur dit que l'accommodement est impossible parce que les règles d'anci
 
 **Correct Answer: B**
 *Explanation* : Le conflit avec le libellé de la convention collective ne constitue pas une contrainte excessive. L'employeur doit explorer des accommodements — parfois via une dérogation, des tâches modifiées ou des ajustements préservant l'unité de négociation — avant de revendiquer l'impossibilité.
+
+### Question 5
+Les RH insistent pour que le membre fournisse une lettre du chirurgien nommant le diagnostic avant d'approuver un bureau assis-debout. Le membre a déjà fourni des limites fonctionnelles de son professionnel traitant. Que doit faire le délégué ?
+*   A) Dire au membre de fournir la lettre du chirurgien pour accélérer.
+*   B) Refuser la divulgation du diagnostic, réitérer les limites fonctionnelles seulement, et citer les limites du CODE sur les demandes médicales de l'employeur.
+*   C) Retirer la demande d'accommodement jusqu'à ce que le membre accepte la divulgation complète du dossier.
+*   D) Accepter que les employeurs ont toujours besoin du diagnostic pour l'équipement ergonomique.
+
+**Correct Answer: B**
+*Explanation* : Les employeurs ont droit aux renseignements sur les capacités fonctionnelles, pas au diagnostic brut ou au détail chirurgical pour un bureau. Les délégués protègent la confidentialité médicale et orientent le dialogue vers les restrictions et les solutions.
+
+### Question 6
+Trois semaines passent après la demande d'accommodement. L'employeur dit qu'il « examine encore » mais n'offre aucune contre-proposition. Meilleure prochaine étape ?
+*   A) Attendre indéfiniment — l'accommodement n'a pas d'échéance.
+*   B) Documenter chaque date de retard, envoyer un suivi écrit proposant un RTW échelonné ou de l'équipement, et préparer un grief pendant que le dialogue continue.
+*   C) Dire au membre d'arrêter de travailler jusqu'à l'arrivée du bureau.
+*   D) Abandonner la demande parce que le silence signifie un refus final.
+
+**Correct Answer: B**
+*Explanation* : Un retard excessif peut être aussi préjudiciable qu'un refus excessif. Consignez les échéances, continuez à proposer des solutions, et préparez l'escalade formelle — dialogue d'accommodement et préparation du grief peuvent avancer en parallèle.

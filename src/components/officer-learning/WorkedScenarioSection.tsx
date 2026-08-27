@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import type { ContentBlock, ModuleSection } from "@/lib/officer-learning/types";
 import clsx from "clsx";
+import { ModuleWorkedTimeline } from "./ModuleWorkedTimeline";
 
 type BlockRendererProps = {
   block: ContentBlock;
@@ -14,6 +15,7 @@ type BlockRendererProps = {
 type Props = {
   section: ModuleSection;
   moduleId: string;
+  moduleSlug: string;
   renderBlock: (props: BlockRendererProps) => ReactNode;
 };
 
@@ -28,7 +30,12 @@ function scenarioParagraphClass(text: string): string | undefined {
 }
 
 /** Distinct visual frame for module worked scenarios (Apply / Don't apply). */
-export function WorkedScenarioSection({ section, moduleId, renderBlock }: Props) {
+export function WorkedScenarioSection({
+  section,
+  moduleId,
+  moduleSlug,
+  renderBlock,
+}: Props) {
   const t = useTranslations("officerLearning.workedScenario");
 
   return (
@@ -40,6 +47,9 @@ export function WorkedScenarioSection({ section, moduleId, renderBlock }: Props)
         {t("label")}
       </p>
       <h2 className="mt-2 text-2xl font-bold text-white md:text-3xl">{section.title}</h2>
+
+      <ModuleWorkedTimeline slug={moduleSlug} className="mt-5" />
+
       <div className="mt-5 space-y-4">
         {section.blocks.map((block, index) => {
           const boxClass =

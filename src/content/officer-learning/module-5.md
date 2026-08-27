@@ -202,3 +202,23 @@ A member asks why the local cannot donate $500 from dues to a politician's campa
 
 **Correct Answer: A**
 *Explanation*: Local funds must advance trade union purposes. Personal or candidate political donations fall outside approved expenditures regardless of amount or alignment.
+
+### Question 5
+The President pre-signs three blank cheques "for emergencies" before a two-week vacation. The Treasurer is unavailable. Best response?
+*   A) Accept — emergencies require flexibility.
+*   B) Refuse. No blank cheques, ever. Schedule payments after return or use dual authorized signers per bylaws.
+*   C) Allow one blank cheque capped at $500.
+*   D) Let the Vice-President sign alone because they are acting president.
+
+**Correct Answer: B**
+*Explanation*: Blank cheques destroy dual-control. Urgency never overrides itemized receipts and two authorized signatures — reschedule or use alternate signers per bylaws.
+
+### Question 6
+Trustees find a $400 meal receipt with alcohol listed among food items, paid from the education budget line. Correct action?
+*   A) Ignore — under $500 is immaterial.
+*   B) Report in the audit finding: alcohol is not a legitimate trade union education expense; recommend executive repayment and policy reminder to membership.
+*   C) Reclassify as "miscellaneous" and move on.
+*   D) Ask the President to approve verbally after the fact.
+
+**Correct Answer: B**
+*Explanation*: Trustees report facts and recommend corrective motions — alcohol on an education line is a policy breach. Itemized receipts exist precisely to catch category and purpose errors.

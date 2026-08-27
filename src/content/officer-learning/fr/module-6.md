@@ -209,3 +209,23 @@ Un membre veut une RAD avec un Aîné plutôt qu'une rencontre de grief formelle
 
 **Correct Answer: B**
 *Explanation* : La RAD volontaire complète, sans remplacer, les processus formels. Les membres peuvent essayer des voies restauratives tout en préservant le droit de revenir à la procédure de grief.
+
+### Question 5
+Les données du sondage montrent que les membres racialisés à temps partiel ne peuvent pas assister aux réunions suburbaines à 18 h. L'exécutif dit que la participation prouve que « ces membres s'en fichent ». Meilleure réponse du délégué ?
+*   A) Accepter la faible participation comme apathie et ne viser que les membres engagés.
+*   B) Nommer la barrière systémique, proposer des heures/lieux accessibles ou des options hybrides, et lier les correctifs de participation aux propositions du sondage de négociation.
+*   C) Imposer la fumée à chaque réunion pour augmenter la participation.
+*   D) Retirer les membres à temps partiel de la liste pour améliorer le calcul du quorum.
+
+**Correct Answer: B**
+*Explanation* : La structure façonne la participation. Les délégués relient l'analyse des barrières à des correctifs locaux concrets et à des forfaits de négociation — le cadrage apathique masque l'exclusion.
+
+### Question 6
+Des microagressions répétées d'un superviseur sont actives pendant que l'équipe de négociation poursuit une nouvelle clause d'équité pour le prochain contrat. Que doit-il se passer maintenant ?
+*   A) Attendre la ratification de la nouvelle clause — pas encore de grief.
+*   B) Déposer sur la conduite hostile en cours en utilisant la politique existante et les voies des droits de la personne, tout en négociant le langage d'application pour le prochain tour.
+*   C) Abandonner le grief si le membre accepte la RAD.
+*   D) Échanger le grief contre un préambule seulement.
+
+**Correct Answer: B**
+*Explanation* : Le préjudice actif fait l'objet d'un grief maintenant. La négociation construit l'application systémique pour plus tard — les deux voies se complètent ; ne laissez pas les membres sans protection pendant la négociation du langage.

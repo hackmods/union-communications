@@ -825,6 +825,158 @@
       "powerAccount": "Joint timeline / remedy",
       "powerCaption": "Equity language without a mechanism stays symbolic — attach deadlines and joint review."
     },
+    "timelines": {
+      "contract-enforcement": {
+        "title": "Worked file timeline",
+        "aria": "Day-by-day contract enforcement file from intake to next step",
+        "caption": "Copy the spacing: filter and records before you file, Step 1 on the clock, then a recorded employer answer.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — member intake",
+            "summary": "Hear the OT skip story. Request time records. Do not promise a win."
+          },
+          "d1": {
+            "label": "Day 1 — contract pull",
+            "summary": "Read Article 12.04. Run the 5-point filter. Identify payroll custodian."
+          },
+          "d2": {
+            "label": "Day 2 — 6 W's + FAR",
+            "summary": "Interview Maria. Name witnesses. Draft specific WANT: pay plus seniority order."
+          },
+          "d3": {
+            "label": "Day 3 — Step 1 or file",
+            "summary": "Raise informally if required. File written grievance on the CA clock."
+          },
+          "d7": {
+            "label": "Day 7 — denial logged",
+            "summary": "Employer denies. Calendar next step. Brief chief steward."
+          }
+        }
+      },
+      "progressive-discipline": {
+        "title": "Worked file timeline",
+        "aria": "Discipline file from letter intake through grievance",
+        "caption": "Classify the document before the member signs anything. Mitigation and ladder proof before you concede a rung.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — letter received",
+            "summary": "Obtain full letter. Flag threat language. Advise member not to sign admissions."
+          },
+          "d1": {
+            "label": "Day 1 — classify + demand",
+            "summary": "Treat as formal discipline. Demand withdrawal of dismissal threat or file."
+          },
+          "d2": {
+            "label": "Day 2 — ladder + mitigation",
+            "summary": "Map prior steps. Gather clean record, training offer, inconsistency proof."
+          },
+          "d3": {
+            "label": "Day 3 — meeting",
+            "summary": "Insist on disclosure. No member speculation. Offer coaching-only resolution."
+          },
+          "d7": {
+            "label": "Day 7 — grievance filed",
+            "summary": "Letter stays on file. Written grievance cites proportionality and ladder skip."
+          }
+        }
+      },
+      "human-rights-accommodation": {
+        "title": "Worked file timeline",
+        "aria": "Accommodation file from request through RTW design or grievance prep",
+        "caption": "Functional limits only. Log employer silence. Dialogue and grievance prep can run in parallel.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — request logged",
+            "summary": "Receive accommodation ask. Block diagnosis fishing. Confirm protected ground."
+          },
+          "d1": {
+            "label": "Day 1 — Meiorin + hardship",
+            "summary": "Walk three steps. Demand cost quote and funding search for desk refusal."
+          },
+          "d3": {
+            "label": "Day 3 — employer response",
+            "summary": "Counter with phased RTW and in-unit task bundling. Name OHRC if morale cited."
+          },
+          "d5": {
+            "label": "Day 5 — RTW grid",
+            "summary": "Propose work-hardening hours tied to functional limits. Set 30-day joint review."
+          },
+          "d7": {
+            "label": "Day 7 — stall documented",
+            "summary": "Three weeks without counter-proposal. Prepare grievance while dialogue continues."
+          }
+        }
+      },
+      "democratic-governance": {
+        "title": "Worked file timeline",
+        "aria": "GMM quorum loss from opening headcount through void vote",
+        "caption": "Secretary announces every quorum change. Spending motions die with lost quorum.",
+        "phases": {
+          "d0": {
+            "label": "Opening — quorum met",
+            "summary": "18 present; quorum 15. Sign-in sheet locked. Chair opens agenda."
+          },
+          "d1": {
+            "label": "Mid-meeting — recount",
+            "summary": "Four leave for bus. Secretary counts 14 — announce lost quorum."
+          },
+          "d2": {
+            "label": "Same night — void vote",
+            "summary": "Charity motion fails for lack of quorum. Discussion may continue; vote cannot."
+          },
+          "d3": {
+            "label": "Next step — reschedule",
+            "summary": "Minutes record time and count. Reschedule vote or mail ballot per bylaws."
+          }
+        }
+      },
+      "financial-health": {
+        "title": "Worked file timeline",
+        "aria": "Reimbursement control from total-only slip through dual signature",
+        "caption": "Itemized receipt and two signers beat urgency every time.",
+        "phases": {
+          "d0": {
+            "label": "Day 0 — slip submitted",
+            "summary": "President submits $150 total-only credit card slip for executive lunch."
+          },
+          "d1": {
+            "label": "Day 1 — refuse sign",
+            "summary": "Treasurer holds cheque. Demand itemized receipt and trade-union purpose."
+          },
+          "d3": {
+            "label": "Day 3 — voucher complete",
+            "summary": "Itemized food receipt attached. Two authorized signers review and sign."
+          },
+          "d7": {
+            "label": "Day 7 — variance note",
+            "summary": "Trustee flags pattern in next variance report if executive meals repeat."
+          }
+        }
+      },
+      "building-collective-power": {
+        "title": "Worked file timeline",
+        "aria": "Organizing file from barrier mapping through grievance and bargaining package",
+        "caption": "Grieve active harm now. Bargain systemic fixes for the next round.",
+        "phases": {
+          "d0": {
+            "label": "Week 0 — barrier named",
+            "summary": "Suburban hall excludes part-time racialized members. Start survey."
+          },
+          "d1": {
+            "label": "Week 1 — survey live",
+            "summary": "Voluntary demographics plus barrier themes. Propose hybrid meeting pilot."
+          },
+          "d3": {
+            "label": "Week 3 — active harm",
+            "summary": "Microaggression pattern reported. File harassment grievance; keep survey running."
+          },
+          "d7": {
+            "label": "Week 7 — package draft",
+            "summary": "Convert survey top barrier into clause + accountability mechanism for bargaining."
+          }
+        }
+      }
+    },
     "quiz": {
       "label": "Self-test",
       "title": "Module quiz",
@@ -6264,8 +6416,8 @@
         "body": "One front door for Steward 101, Officer Learning self-tests, and every floor playbook — with a linked training path diagram."
       },
       "officer-learning-pocket-pdfs": {
-        "title": "Officer Learning — scenarios and pocket sheets",
-        "body": "Each module now has a worked scenario with Apply/Don't apply frames, printable take-to-meeting sheets, and matching links from DFR, mapping, committee, and other floor playbooks."
+        "title": "Officer Learning — scenarios, timelines, and pocket sheets",
+        "body": "Each module now has six quiz questions, a D0–D7 worked-file timeline, Apply/Don't apply scenario frames, printable take-to-meeting sheets, and links from matching floor playbooks."
       },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",

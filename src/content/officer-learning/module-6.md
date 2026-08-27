@@ -209,3 +209,23 @@ A member wants ADR with an Elder instead of a formal grievance meeting with mana
 
 **Correct Answer: B**
 *Explanation*: Voluntary ADR supplements, not supplants, formal processes. Members may try restorative paths while preserving the right to return to the grievance procedure.
+
+### Question 5
+Survey data shows part-time racialized members cannot attend 6 p.m. suburban meetings. The executive says turnout proves "those members don't care." Best steward response?
+*   A) Accept low turnout as apathy and focus on engaged members only.
+*   B) Name the systemic barrier, propose accessible times/locations or hybrid options, and tie turnout fixes to bargaining survey proposals.
+*   C) Force smudge at every meeting to increase attendance.
+*   D) Remove part-time members from the membership list to improve quorum math.
+
+**Correct Answer: B**
+*Explanation*: Structure shapes turnout. Stewards connect barrier analysis to concrete local fixes and bargaining packages — apathy framing hides exclusion.
+
+### Question 6
+A supervisor's repeated microaggressions are active while the bargaining team pursues a new equity clause for next contract. What should happen now?
+*   A) Wait until the new clause is ratified — no grievance yet.
+*   B) File on the live hostile conduct using existing policy and human rights routes while bargaining enforcement language for the next round.
+*   C) Drop the grievance if the member agrees to ADR.
+*   D) Trade the grievance for preamble language only.
+
+**Correct Answer: B**
+*Explanation*: Active harm gets grieved now. Bargaining builds systemic enforcement for later — the two tracks complement each other; do not leave members unprotected while language is negotiated.

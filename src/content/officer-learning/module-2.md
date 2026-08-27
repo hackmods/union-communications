@@ -195,3 +195,23 @@ A long-service member with a clean record receives a five-day suspension for a s
 
 **Correct Answer: B**
 *Explanation*: Mitigating factors include clean record, seniority, and inconsistent enforcement. Proportionality challenges a five-day suspension as excessive for a first incident, especially when the peer faced no penalty.
+
+### Question 5
+Before a disciplinary meeting, HR emails the member: "Bring any notes you have about the incident." The member asks whether to prepare a written statement. What do you advise?
+*   A) Write a detailed apology admitting fault so HR sees cooperation.
+*   B) Attend with the steward, take notes, ask for full disclosure of employer evidence first, and avoid written admissions until you have reviewed proof and mitigation.
+*   C) Refuse to attend until HR drops the meeting.
+*   D) Send the written statement directly to the supervisor without the steward.
+
+**Correct Answer: B**
+*Explanation*: Members should not hand employers unreviewed admissions. Stewards ensure disclosure, control the narrative with verified facts, and preserve mitigation — cooperation does not mean self-incrimination before proof.
+
+### Question 6
+An employer skips straight to a three-day suspension for a first-time attendance issue. No prior verbal or written warnings appear in the file. What is the strongest procedural argument?
+*   A) Attendance issues can never be disciplined.
+*   B) The employer failed to follow progressive discipline — skipping rungs without justification weakens just-cause and supports penalty reduction or withdrawal.
+*   C) Only the president can discuss attendance.
+*   D) The member must accept the suspension and grieve later without mentioning the ladder.
+
+**Correct Answer: B**
+*Explanation*: Progressive discipline requires proportionate steps. Jumping to suspension on a first incident without documented prior steps is a core defense — demand proof of each rung on the ladder.

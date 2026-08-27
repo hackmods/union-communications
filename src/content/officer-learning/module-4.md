@@ -188,3 +188,23 @@ A Secretary wants to record that "Member X angrily opposed the motion and accuse
 
 **Correct Answer: B**
 *Explanation*: The dull writing standard records decisions and actions, not emotional debate or personal attacks. The motion wording, outcome, and assigned tasks are the legal record.
+
+### Question 5
+During a contested presidential election, the chair wants to announce "Candidate A wins with 45% — most votes." What must happen?
+*   A) Declare A elected because 45% is the highest share.
+*   B) Eliminate the lowest candidate and hold a runoff until someone reaches more than 50% of valid ballots.
+*   C) Split the presidency between A and B.
+*   D) Accept a coin toss between the top two.
+
+**Correct Answer: B**
+*Explanation*: Union elections require a clear majority, not a plurality. When no candidate clears 50%+1, eliminate the lowest and reballot until a majority winner emerges.
+
+### Question 6
+Before counting ballots, a member demands to watch the count alone without scrutineers appointed. Best practice?
+*   A) Allow any member to count alone for transparency.
+*   B) Appoint scrutineers from both sides before sealing, shuffling, and counting — then record the result in dull minutes.
+*   C) Skip scrutineers if the race is uncontested.
+*   D) Let the chair count in their office and announce the result later.
+
+**Correct Answer: B**
+*Explanation*: Contested counts need neutral observers appointed before the ballot opens. Scrutineers protect both sides from challenge and belong in the standard election checklist.

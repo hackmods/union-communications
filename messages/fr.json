@@ -825,6 +825,158 @@
       "powerAccount": "Échéancier / redressement conjoint",
       "powerCaption": "Un langage d'équité sans mécanisme reste symbolique — attachez des échéances et une revue conjointe."
     },
+    "timelines": {
+      "contract-enforcement": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier d'application de la convention, de l'accueil à la prochaine étape",
+        "caption": "Respectez l'espacement : filtre et dossiers avant de déposer, étape 1 dans le délai, puis réponse patronale consignée.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — accueil du membre",
+            "summary": "Écoutez le récit d'heures supplémentaires manquées. Demandez les relevés de temps. Ne promettez pas de victoire."
+          },
+          "d1": {
+            "label": "Jour 1 — lecture de la CC",
+            "summary": "Lisez l'article 12.04. Passez le filtre en cinq points. Identifiez le responsable de la paie."
+          },
+          "d2": {
+            "label": "Jour 2 — 6 W + FAR",
+            "summary": "Entrevue avec Maria. Nommez les témoins. Rédigez un WANT précis : paie plus ordre d'ancienneté."
+          },
+          "d3": {
+            "label": "Jour 3 — étape 1 ou dépôt",
+            "summary": "Soulevez informellement si requis. Déposez le grief écrit dans le délai de la CC."
+          },
+          "d7": {
+            "label": "Jour 7 — refus consigné",
+            "summary": "L'employeur refuse. Inscrivez la prochaine étape au calendrier. Informez le délégué en chef."
+          }
+        }
+      },
+      "progressive-discipline": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier disciplinaire de la lettre au grief",
+        "caption": "Classifiez le document avant toute signature du membre. Atténuation et preuve de l'échelle avant de concéder un palier.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — lettre reçue",
+            "summary": "Obtenez la lettre complète. Repérez le langage de menace. Conseillez de ne pas signer d'aveux."
+          },
+          "d1": {
+            "label": "Jour 1 — classification + demande",
+            "summary": "Traitez comme discipline formelle. Exigez le retrait de la menace de congédiement ou déposez."
+          },
+          "d2": {
+            "label": "Jour 2 — échelle + atténuation",
+            "summary": "Cartographiez les étapes antérieures. Rassemblez dossier vierge, offre de formation, preuve d'inconstance."
+          },
+          "d3": {
+            "label": "Jour 3 — rencontre",
+            "summary": "Insistez sur la divulgation. Pas de spéculation du membre. Proposez une résolution en coaching seulement."
+          },
+          "d7": {
+            "label": "Jour 7 — grief déposé",
+            "summary": "La lettre reste au dossier. Grief écrit invoquant proportionnalité et palier sauté."
+          }
+        }
+      },
+      "human-rights-accommodation": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier d'accommodement de la demande au RTW ou au grief",
+        "caption": "Limites fonctionnelles seulement. Consignez le silence de l'employeur. Dialogue et grief peuvent avancer en parallèle.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — demande consignée",
+            "summary": "Recevez la demande d'accommodement. Bloquez la pêche au diagnostic. Confirmez le motif protégé."
+          },
+          "d1": {
+            "label": "Jour 1 — Meiorin + contrainte",
+            "summary": "Parcourez les trois étapes. Exigez soumission de coûts et recherche de financement pour le bureau refusé."
+          },
+          "d3": {
+            "label": "Jour 3 — réponse employeur",
+            "summary": "Contre-proposez RTW échelonné et regroupement de tâches dans l'unité. Citez le CODE si le moral est invoqué."
+          },
+          "d5": {
+            "label": "Jour 5 — grille RTW",
+            "summary": "Proposez heures de durcissement liées aux limites fonctionnelles. Fixez une revue conjointe de 30 jours."
+          },
+          "d7": {
+            "label": "Jour 7 — impasse consignée",
+            "summary": "Trois semaines sans contre-proposition. Préparez le grief pendant que le dialogue continue."
+          }
+        }
+      },
+      "democratic-governance": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Perte de quorum en AGA du décompte d'ouverture au vote annulé",
+        "caption": "Le secrétaire annonce chaque changement de quorum. Les motions de dépenses meurent avec la perte de quorum.",
+        "phases": {
+          "d0": {
+            "label": "Ouverture — quorum atteint",
+            "summary": "18 présents ; quorum 15. Feuille de présence verrouillée. Le président ouvre l'ordre du jour."
+          },
+          "d1": {
+            "label": "Mi-rencontre — recomptage",
+            "summary": "Quatre partent pour l'autobus. Le secrétaire compte 14 — annonce la perte de quorum."
+          },
+          "d2": {
+            "label": "Même soir — vote annulé",
+            "summary": "La motion de charité échoue faute de quorum. Discussion possible ; vote impossible."
+          },
+          "d3": {
+            "label": "Prochaine étape — report",
+            "summary": "Procès-verbal consigne l'heure et le décompte. Reportez le vote ou bulletin postal selon les règlements."
+          }
+        }
+      },
+      "financial-health": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Contrôle du remboursement du reçu total seulement à double signature",
+        "caption": "Reçu détaillé et deux signataires battent l'urgence à chaque fois.",
+        "phases": {
+          "d0": {
+            "label": "Jour 0 — reçu soumis",
+            "summary": "Le président soumet un reçu de carte de crédit de 150 $ sans détail pour un dîner exécutif."
+          },
+          "d1": {
+            "label": "Jour 1 — refus de signer",
+            "summary": "Le trésorier retient le chèque. Exige reçu détaillé et objet syndical légitime."
+          },
+          "d3": {
+            "label": "Jour 3 — bon complété",
+            "summary": "Reçu détaillé de nourriture joint. Deux signataires autorisés révisent et signent."
+          },
+          "d7": {
+            "label": "Jour 7 — note d'écart",
+            "summary": "Le vérificateur signale la tendance dans le prochain rapport d'écart si les repas exécutifs se répètent."
+          }
+        }
+      },
+      "building-collective-power": {
+        "title": "Chronologie du dossier travaillé",
+        "aria": "Dossier d'organisation de la barrière au forfait de négociation",
+        "caption": "Grief pour le préjudice actif. Négociez les correctifs systémiques au prochain tour.",
+        "phases": {
+          "d0": {
+            "label": "Semaine 0 — barrière nommée",
+            "summary": "Salle suburbaine exclut les membres racialisés à temps partiel. Lancez le sondage."
+          },
+          "d1": {
+            "label": "Semaine 1 — sondage actif",
+            "summary": "Données démographiques volontaires plus thèmes de barrières. Proposez une réunion hybride pilote."
+          },
+          "d3": {
+            "label": "Semaine 3 — préjudice actif",
+            "summary": "Patron de microagressions signalé. Déposez grief de harcèlement ; poursuivez le sondage."
+          },
+          "d7": {
+            "label": "Semaine 7 — ébauche de forfait",
+            "summary": "Convertissez la barrière principale du sondage en clause plus mécanisme de responsabilité."
+          }
+        }
+      }
+    },
     "quiz": {
       "label": "Autoévaluation",
       "title": "Quiz du module",
@@ -6214,8 +6366,8 @@
         "body": "Une porte d'entrée unique pour Délégué 101, les autoévaluations du Centre de formation des dirigeants et tous les guides — avec un parcours lié."
       },
       "officer-learning-pocket-pdfs": {
-        "title": "Formation des dirigeants — scénarios et fiches",
-        "body": "Chaque module propose un scénario travaillé avec cadres « Appliquer » / « Ne pas appliquer », des fiches imprimables pour la rencontre, et des liens depuis le DRE, la cartographie, les comités conjoints et les autres guides pratiques."
+        "title": "Formation des dirigeants — scénarios, chronologies et fiches",
+        "body": "Chaque module comprend six questions d'autoévaluation, une chronologie de dossier travaillé (J0–J7), des cadres « Appliquer » / « Ne pas appliquer », des fiches imprimables pour la rencontre, et des liens depuis les guides pratiques correspondants."
       },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",
