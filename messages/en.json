@@ -4606,6 +4606,44 @@
       "stewardPlaybooks": "All steward playbooks",
       "membership": "Membership signup playbook"
     },
+    "modules": {
+      "navLabel": "Training modules",
+      "timeBudget": {
+        "title": "Short on time?",
+        "body": "Module 1 (~8 min) gets you oriented on the floor. The full playbook takes about 35 minutes — one module per coffee break is enough."
+      },
+      "orient": {
+        "number": "1",
+        "title": "Start here",
+        "time": "~8 min",
+        "intro": "Who stewards are, what the union does, and your first 48 hours in the role.",
+        "summary": "Role basics and first-week checklist"
+      },
+      "hats": {
+        "number": "2",
+        "title": "Three hats",
+        "time": "~10 min",
+        "intro": "Enforcer, Communicator, Organizer — and a quick map for which hat to wear.",
+        "summary": "Three roles and when to switch"
+      },
+      "protect": {
+        "number": "3",
+        "title": "In the room",
+        "time": "~10 min",
+        "intro": "Representation rights, escalation ladders, and an optional worked discipline walk-through.",
+        "summary": "Meetings, scripts, and when to loop in"
+      },
+      "equip": {
+        "number": "4",
+        "title": "Fair & equipped",
+        "time": "~8 min",
+        "intro": "Fair representation duty, a pocket checklist, printables, and where to go next.",
+        "summary": "DFR, checklist, and floor toolkit"
+      },
+      "moreReferenceTitle": "More printables and steward tools",
+      "moreReferenceSummary": "Board pieces, meeting guides, and follow-up letters — open when you are setting up the union corner.",
+      "trainingPathTitle": "Full steward training path"
+    },
     "trainingPath": {
       "title": "Steward training path",
       "intro": "Work through these playbooks in order while you wait for local or national steward school.",
@@ -6418,6 +6456,10 @@
       "officer-learning-pocket-pdfs": {
         "title": "Officer Learning — scenarios, timelines, and pocket sheets",
         "body": "Each module now has six quiz questions, a D0–D7 worked-file timeline, Apply/Don't apply scenario frames, printable take-to-meeting sheets, and links from matching floor playbooks."
+      },
+      "steward-101-modules": {
+        "title": "Steward 101 — four training modules",
+        "body": "The playbook is now split into four bite-sized modules with time estimates, jump links, and collapsible walk-throughs so you can work one coffee break at a time."
       },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",

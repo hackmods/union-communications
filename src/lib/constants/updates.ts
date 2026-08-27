@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "steward-101-modules",
+    date: "2026-08-27",
+    kind: "improved",
+    href: "/guide/steward-101",
+  },
+  {
     id: "steward-playbooks-hub",
     date: "2026-08-26",
     kind: "guide",

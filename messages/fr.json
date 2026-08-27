@@ -4556,6 +4556,44 @@
       "stewardPlaybooks": "Tous les guides pratiques pour délégués",
       "membership": "Guide pratique d'adhésion"
     },
+    "modules": {
+      "navLabel": "Modules de formation",
+      "timeBudget": {
+        "title": "Peu de temps?",
+        "body": "Le module 1 (~8 min) vous oriente sur le plancher. Le guide complet prend environ 35 minutes — un module par pause-café suffit."
+      },
+      "orient": {
+        "number": "1",
+        "title": "Commencer ici",
+        "time": "~8 min",
+        "intro": "Qui sont les délégués, ce que fait le syndicat et vos premières 48 heures au rôle.",
+        "summary": "Bases du rôle et liste de la première semaine"
+      },
+      "hats": {
+        "number": "2",
+        "title": "Trois chapeaux",
+        "time": "~10 min",
+        "intro": "Garant du contrat, Communicateur, Organisateur — et une carte rapide pour choisir le bon chapeau.",
+        "summary": "Trois rôles et quand changer"
+      },
+      "protect": {
+        "number": "3",
+        "title": "Dans la salle",
+        "time": "~10 min",
+        "intro": "Droits de représentation, échelons d'escalade et exemple guidé optionnel d'une rencontre disciplinaire.",
+        "summary": "Rencontres, scripts et quand remonter"
+      },
+      "equip": {
+        "number": "4",
+        "title": "Équitable et équipé",
+        "time": "~8 min",
+        "intro": "Devoir de représentation équitable, liste de poche, documents imprimables et prochaines étapes.",
+        "summary": "DRÉ, liste et trousse du plancher"
+      },
+      "moreReferenceTitle": "Autres documents et outils pour délégués",
+      "moreReferenceSummary": "Affichage, guides de rencontre et lettres de suivi — ouvrez quand vous aménagez le coin syndical.",
+      "trainingPathTitle": "Parcours complet de formation"
+    },
     "trainingPath": {
       "title": "Parcours de formation du délégué",
       "intro": "Parcourez ces guides pratiques dans l'ordre pendant que vous attendez la formation locale ou nationale.",
@@ -6368,6 +6406,10 @@
       "officer-learning-pocket-pdfs": {
         "title": "Formation des dirigeants — scénarios, chronologies et fiches",
         "body": "Chaque module comprend six questions d'autoévaluation, une chronologie de dossier travaillé (J0–J7), des cadres « Appliquer » / « Ne pas appliquer », des fiches imprimables pour la rencontre, et des liens depuis les guides pratiques correspondants."
+      },
+      "steward-101-modules": {
+        "title": "Délégué 101 — quatre modules de formation",
+        "body": "Le guide pratique est maintenant divisé en quatre modules avec durées estimées, liens rapides et exemples repliables — un par pause-café."
       },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",
