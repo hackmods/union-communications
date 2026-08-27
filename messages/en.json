@@ -45,6 +45,7 @@
     "photoConsent": "Photo Consent",
     "membershipSignupGuide": "Membership signup",
     "steward101Guide": "Steward 101",
+    "officerLearningGuide": "Officer Learning Center",
     "workplaceMappingGuide": "Workplace mapping",
     "grievanceProcessGuide": "Grievance process",
     "dfrGuide": "Duty of Fair Representation",
@@ -2850,6 +2851,7 @@
       "intro": "Steward-facing Ontario playbooks — not legal advice. Same depth as a training handout: gate, steps, worked example, and sources. Start with Steward 101 in the Guides menu under Steward playbooks, or follow the ordered list below while you wait for local or national steward school.",
       "links": {
         "steward101": "Steward 101: Your Role and Rights",
+        "officerLearning": "Officer Learning Center",
         "grievance": "The Steward's Guide to Grievances",
         "dfr": "Duty of Fair Representation",
         "seniority": "Seniority & bumping",
@@ -2859,6 +2861,7 @@
       },
       "blurb": {
         "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example — start here.",
+        "officerLearning": "Six self-paced modules with quizzes, floor checklists, and printable take-to-meeting sheets — progress saves on this device.",
         "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet. Confirm steps in your agreement.",
         "dfr": "LRA s.74, OLRB bulletins, and a worked intake file for stewards.",
         "seniority": "Two cascade examples and a printable seniority worksheet.",

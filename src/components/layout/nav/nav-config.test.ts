@@ -68,6 +68,7 @@ describe("path helpers", () => {
     );
     expect(steward?.links.map((l) => l.href)).toEqual([
       "/guide/steward-101",
+      "/guide/officer-learning",
       "/guide/workplace-mapping",
       "/guide/grievance-process",
       "/guide/dfr",

@@ -45,6 +45,7 @@
     "photoConsent": "Consentement photo",
     "membershipSignupGuide": "Adhésion",
     "steward101Guide": "Délégué 101",
+    "officerLearningGuide": "Centre de formation des dirigeants",
     "workplaceMappingGuide": "Cartographie du lieu de travail",
     "grievanceProcessGuide": "Processus de grief",
     "dfrGuide": "Devoir de représentation équitable",
@@ -2850,6 +2851,7 @@
       "intro": "Guides pratiques pour délégués en Ontario — pas un avis juridique. Même profondeur qu'une fiche de formation : seuil, étapes, exemple commenté et sources. Commencez par Délégué 101 dans le menu Guides, section Guides pratiques pour délégués, ou suivez la liste ordonnée ci-dessous pendant que vous attendez la formation locale ou nationale.",
       "links": {
         "steward101": "Délégué 101 : votre rôle et vos droits",
+        "officerLearning": "Centre de formation des dirigeants",
         "grievance": "Le guide du délégué sur les griefs",
         "dfr": "Devoir de représentation équitable",
         "seniority": "Ancienneté et bumping",
@@ -2859,6 +2861,7 @@
       },
       "blurb": {
         "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté — commencez ici.",
+        "officerLearning": "Six modules autonomes avec quiz, listes de contrôle sur le terrain et fiches imprimables — la progression reste sur cet appareil.",
         "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable. Confirmez les étapes dans votre convention.",
         "dfr": "LRT art. 74, bulletins de la CRO et dossier d'accueil commenté pour les délégués.",
         "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
