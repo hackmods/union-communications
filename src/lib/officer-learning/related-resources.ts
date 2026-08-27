@@ -51,6 +51,8 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
   ],
   "building-collective-power": [
     { href: "/guide/workplace-mapping", labelKey: "workplaceMapping", kind: "guide" },
+    { href: "/guide/bargaining", labelKey: "bargaining", kind: "guide" },
+    { href: "/tools/proposal-tracker", labelKey: "proposalTracker", kind: "tool" },
     { href: "/guide/steward-playbooks", labelKey: "stewardPlaybooks", kind: "guide" },
     { href: "/guide/membership-signup", labelKey: "membershipSignup", kind: "guide" },
     { href: "/guide/crisis", labelKey: "crisis", kind: "guide" },

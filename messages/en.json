@@ -752,7 +752,9 @@
         "unionBoards": "Union boards guide",
         "solidarityPoster": "Solidarity posters",
         "bylaws": "Local bylaws guide",
-        "bylawBuilder": "Bylaw Builder"
+        "bylawBuilder": "Bylaw Builder",
+        "bargaining": "Bargaining lifecycle",
+        "proposalTracker": "Proposal Tracker"
       }
     },
     "reference": {
@@ -1367,7 +1369,7 @@
         },
         "bargaining": {
           "label": "Bargaining updates",
-          "content": "Use email for the update members must be able to find later. Use social for a photo from the table or the picket."
+          "content": "Use email for the update members must be able to find later. Use social for a photo from the table or the picket. Walk the full survey-to-signing path in the Bargaining Lifecycle guide."
         }
       },
       "tip": "A social post can carry a photo from the meeting. Email carries the minutes, the vote link, and the time. Do both, and keep the facts the same."
@@ -4520,7 +4522,7 @@
       "title": "Recommended training path",
       "body": "Start with Steward 101 for role basics, then Officer Learning Center for six modules with self-tests. Open the other playbooks when a live file needs them.",
       "steward101Cta": "Start Steward 101",
-      "officerLearningCta": "Officer Learning Center"
+      "officerLearningCta": "Open Officer Learning modules"
     },
     "tocLabel": "On this page",
     "sections": {
@@ -4591,7 +4593,7 @@
       "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
       "seniority": "Two cascade examples and a printable seniority worksheet.",
       "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
-      "bargaining": "Survey to signing for Local Bargaining Committees — table updates, strike votes, and ratification.",
+      "bargaining": "Survey to signing for Local Bargaining Committees — table updates, strike votes, ratification, checklists, and the on-device Proposal Tracker.",
       "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval."
     },
     "workspaces": {
@@ -6668,7 +6670,7 @@
       },
       "bargaining-lifecycle-guide": {
         "title": "The Bargaining Lifecycle: From Survey to Signing",
-        "body": "A Canada/Ontario path for Local Bargaining Committees — demand setting, the table, strike votes, No Board, and ratification."
+        "body": "A full Local Bargaining Committee playbook — LRA vs college sector, blackout vs updates, No Board countdown, checklists, worked timeline, and the on-device Proposal Tracker."
       },
       "proposal-tracker": {
         "title": "Proposal Tracker — keep strategy on your device",
@@ -9842,93 +9844,319 @@
   "bargainingGuide": {
     "title": "The Bargaining Lifecycle: From Survey to Signing",
     "subtitle": "How Local Bargaining Committees manage membership from demand setting through ratification",
-    "intro": "Negotiating a Collective Bargaining Agreement (CBA) is the most important thing your local will do. Even if your National or Provincial union sends a Staff Representative to lead the negotiations, the Local Bargaining Committee must manage the membership. Here is the standard lifecycle of contract negotiations in Canada/Ontario.",
+    "intro": "Negotiating a Collective Bargaining Agreement (CBA) is the most important thing your local will do. Even if your National or Provincial union sends a Staff Representative to lead the negotiations, the Local Bargaining Committee must manage the membership. Here is the standard lifecycle of contract negotiations in Canada/Ontario — plus the comms, tracking, and mandate work that keep members with you.",
     "backToGuide": "Back to The Blueprint",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
     "disclaimer": {
       "title": "Not legal advice",
-      "body": "Timelines such as notice to bargain and No Board countdown vary by statute and sector. Confirm every deadline with your Staff Representative and your own collective agreement."
+      "body": "Timelines such as notice to bargain, strike votes, and No Board countdown vary by statute and sector (Labour Relations Act vs Colleges Collective Bargaining Act, and peers). Confirm every deadline, quorum, and ballot rule with your Staff Representative and your own collective agreement before you act."
+    },
+    "diagram": {
+      "prep": "Prep & demands",
+      "table": "The table",
+      "dispute": "Dispute & strike vote",
+      "ratify": "Ratify & sign",
+      "caption": "Four phases every Local Bargaining Committee walks — survey to signing."
+    },
+    "gate": {
+      "navLabel": "Who this is for",
+      "title": "Start here: committee, statute, and the Staff Rep",
+      "intro": "Before you draft a survey, know who owns the table, which Act applies, and who signs the legal letters.",
+      "items": {
+        "sector": {
+          "label": "Confirm the statute",
+          "content": "Most Ontario private and broader-public units bargain under the Labour Relations Act. Ontario college support and faculty units often use the Colleges Collective Bargaining Act. The No Board countdown and strike rules are not identical — check which Act covers your certificate."
+        },
+        "committee": {
+          "label": "Name the Local Bargaining Committee",
+          "content": "The committee manages membership: surveys, updates, strike votes, and ratification logistics. The Staff Representative may lead at the table; the local still owns the mandate."
+        },
+        "rep": {
+          "label": "Partner with the Staff Representative",
+          "content": "Notice to bargain, conciliation applications, and legal timelines usually run through your servicing rep. Do not invent deadlines from this page alone."
+        },
+        "ca": {
+          "label": "Read your current CA",
+          "content": "Expiry date, renewal language, and any early-notice clauses live in your agreement. Pull the signed PDF before you calendar the survey."
+        }
+      },
+      "sectorCaption": "Sector fork — confirm with your Staff Representative before you promise members a timeline.",
+      "sectorHeaders": {
+        "question": "Question",
+        "lra": "Typical LRA path",
+        "ccba": "College CCBA path"
+      },
+      "sectorRows": {
+        "lra": {
+          "question": "Who leads the legal clock?",
+          "lra": "Ministry of Labour conciliation and no-board under the LRA.",
+          "ccba": "College-sector rules under the CCBA — confirm with your national/provincial college team."
+        },
+        "ccba": {
+          "question": "What members hear",
+          "lra": "Local updates plus Staff Rep guidance; strike legality still needs the statutory countdown.",
+          "ccba": "Same membership job for the local — survey, updates, mandate — with college-sector timelines."
+        }
+      },
+      "warningTitle": "Do not skip the rep",
+      "warning": "If your local posts a strike date or No Board day without confirming the statute and the mailed notice, you can put members in an illegal position. Call the Staff Representative first."
     },
     "prep": {
       "navLabel": "Phase 1 · Preparation",
-      "title": "Phase 1: Preparation & The Demand Setting",
+      "title": "Phase 1: Preparation & demand setting",
       "intro": "Months before the contract expires, the committee listens to members and opens negotiations formally.",
       "items": {
         "survey": {
-          "label": "The Member Survey",
-          "content": "Months before the contract expires, you must survey your members. What are their priorities? (Wages, sick days, scheduling, safety?)"
+          "label": "The member survey",
+          "content": "Months before expiry, survey members on priorities — wages, sick days, scheduling, safety, workload. Pair the survey with workplace mapping so quiet departments are not invisible."
         },
         "demand": {
-          "label": "Demand Setting",
-          "content": "The committee reviews the surveys and drafts the initial proposals to present to the employer."
+          "label": "Demand setting",
+          "content": "The committee reviews survey results and drafts the initial proposals the union will table. Rank must-haves vs stretch items before you meet the employer."
         },
         "notice": {
-          "label": "Notice to Bargain",
-          "content": "A formal legal letter sent to the employer (usually 90 days before expiration) officially opening negotiations."
+          "label": "Notice to bargain",
+          "content": "A formal legal letter to the employer (often about 90 days before expiry under many Ontario paths) officially opens negotiations. Route it through your Staff Representative."
         }
-      }
+      },
+      "tip": "A strong survey without a membership list is noise. Clean the roster and sign up missing members before you ask for a mandate."
     },
     "table": {
-      "navLabel": "Phase 2 · The Table",
-      "title": "Phase 2: The Table",
+      "navLabel": "Phase 2 · The table",
+      "title": "Phase 2: The table",
       "intro": "Both sides meet, exchange proposals, and keep members engaged without breaking table discipline.",
       "items": {
         "exchange": {
-          "label": "Exchanging Proposals",
-          "content": "Both sides meet and exchange their lists of demands."
+          "label": "Exchanging proposals",
+          "content": "Both sides meet and exchange their lists of demands. Log every article the day it moves — not the week after."
         },
         "blackout": {
-          "label": "The Blackout",
-          "content": "Usually, what happens at the table stays at the table until a tentative agreement is reached. However, the committee must still send out Bargaining Updates to keep the membership mobilized and engaged."
+          "label": "Table discipline (the blackout)",
+          "content": "Usually, detailed table talk stays in caucus until a tentative agreement. That does not mean silence: members still need regular Bargaining Updates that stay factual and on-message."
         },
         "tracking": {
           "label": "Tracking",
-          "content": "You must meticulously track every proposal, counter-proposal, and sign-off. Use the UnionOps Proposal Tracker so your strategy stays off the employer's servers."
+          "content": "Track every proposal, counter, and sign-off. Keep strategy off employer servers — use the on-device Proposal Tracker and export CSV to a USB drive after each session."
         }
       },
-      "trackerTitle": "Keep strategy on your device",
-      "trackerBody": "The Proposal Tracker saves every row in this browser only. Export to CSV when you need a USB backup after a session.",
-      "trackerCta": "Open Proposal Tracker"
+      "tip": "If the employer leaks a half-story, answer with one shared fact sheet — not a chat thread of competing rumours."
+    },
+    "comms": {
+      "navLabel": "Member updates",
+      "title": "Blackout vs Bargaining Updates",
+      "intro": "Table secrecy and membership mobilization are different jobs. The committee must do both.",
+      "items": {
+        "cadence": {
+          "label": "Set a cadence",
+          "content": "Pick a weekly or biweekly update rhythm before the first table day. Members should know when the next note lands even if there is \"nothing new\" at the table."
+        },
+        "channels": {
+          "label": "Split the channels",
+          "content": "Email carries the durable record members can find later. Social and boards carry a short hook or photo. Keep the facts identical across channels."
+        },
+        "facts": {
+          "label": "Facts only",
+          "content": "Say what phase you are in, what members should do next, and what is still confidential. Do not invent employer positions you cannot confirm."
+        },
+        "crisis": {
+          "label": "Escalate when stakes rise",
+          "content": "Strike votes, No Board, and picket logistics live in the Strike & Crisis Comms Guide — use that playbook for high-stakes messaging."
+        }
+      },
+      "tip": "One message, many channels. If the email and the board notice disagree, members will trust neither.",
+      "crisisCta": "Open strike & crisis bargaining rules"
+    },
+    "tracker": {
+      "navLabel": "Proposal Tracker",
+      "title": "How to run the Proposal Tracker",
+      "intro": "Treat the tracker like the committee's private spreadsheet — on a personal device, never on employer Wi-Fi folders.",
+      "items": {
+        "article": {
+          "label": "Article / section",
+          "content": "Use the CA number members recognize (for example Article 12.01). One row per live issue."
+        },
+        "status": {
+          "label": "Status discipline",
+          "content": "Move rows to Tentatively Agreed, Withdrew, or Impasse only when the caucus agrees. Do not mark TA on a handshake you have not logged."
+        },
+        "device": {
+          "label": "Device rule",
+          "content": "Save on the committee laptop or a steward's personal phone. Do not leave open tabs on employer workstations."
+        },
+        "csv": {
+          "label": "Export every session",
+          "content": "Export CSV to a labelled USB stick before you pack up. If the browser clears storage, the USB is the backup."
+        }
+      },
+      "calloutTitle": "Bargaining strategy is confidential",
+      "calloutBody": "The tracker saves on this device only. Nothing is sent to the cloud. Export CSV to back up notes after each bargaining day.",
+      "cta": "Open Proposal Tracker"
     },
     "dispute": {
       "navLabel": "Phase 3 · Dispute",
-      "title": "Phase 3: Dispute Resolution & The Strike Vote",
-      "intro": "If negotiations stall, the legal clock starts.",
+      "title": "Phase 3: Dispute resolution & the strike vote",
+      "intro": "If negotiations stall, the legal clock starts. Membership work intensifies — this is not the time to go quiet.",
+      "diagram": {
+        "conciliation": "Conciliation",
+        "noBoard": "No Board notice",
+        "countdown": "Countdown (often 17 days)",
+        "legal": "Lawful strike / lockout window",
+        "caption": "Typical Ontario LRA path — confirm the mailed notice date and sector rules with your Staff Representative."
+      },
       "items": {
         "conciliation": {
           "label": "Conciliation",
-          "content": "A government-appointed neutral third party tries to help both sides reach an agreement."
+          "content": "A government-appointed neutral tries to help both sides reach an agreement. Either party can request it; it is usually required before a lawful work stoppage path opens."
         },
         "strikeVote": {
-          "label": "The Strike Vote",
-          "content": "To give the bargaining team leverage, the local holds a vote asking members to authorize a strike if a fair deal isn't reached. A strong Yes vote often forces the employer to concede."
+          "label": "The strike vote",
+          "content": "The local asks members to authorize a strike if a fair deal is not reached. A strong Yes often moves the employer — run the vote cleanly and publish the result once certified."
         },
         "noBoard": {
-          "label": "The \"No Board\" Report (Ontario)",
-          "content": "If conciliation fails, a No Board report is issued. This starts a countdown (typically 17 days in Ontario) before a legal strike or lockout can occur."
+          "label": "The \"No Board\" report (Ontario)",
+          "content": "If conciliation fails, a No Board notice is typically issued. Under many LRA paths that starts a countdown (often to the 17th day after release) before a legal strike or lockout. Confirm the exact day with your Staff Representative."
         }
       },
-      "warningTitle": "Ontario countdown",
-      "warning": "Confirm the exact No Board timeline for your sector with your Staff Representative. Do not rely on this page alone for strike legality.",
+      "warningTitle": "Ontario countdown is statute-specific",
+      "warning": "Do not announce a strike start date from this page. Use the mailed No Board date, your Act, and your Staff Representative. Wrong dates put members at legal risk.",
       "crisisCta": "Strike & crisis comms guide"
     },
     "ratify": {
       "navLabel": "Phase 4 · Ratification",
-      "title": "Phase 4: Ratification and Signing",
+      "title": "Phase 4: Ratification and signing",
       "intro": "A deal only becomes the new agreement when members vote and both parties sign.",
       "items": {
         "ta": {
           "label": "Tentative Agreement (TA)",
-          "content": "The bargaining team reaches a deal with the employer."
+          "content": "The bargaining team reaches a deal with the employer. Publish a clear highlights package before the ratification meeting — not only a verbal summary."
         },
         "ratification": {
-          "label": "Ratification Vote",
-          "content": "The TA is brought back to the general membership. They vote by secret ballot to accept (ratify) or reject the deal."
+          "label": "Ratification vote",
+          "content": "The TA goes to the general membership for a secret ballot to accept or reject. Confirm who is eligible to vote under your bylaws and constitution."
         },
         "signing": {
           "label": "Signing",
-          "content": "Once ratified, the new Collective Agreement is officially signed by both parties and printed."
+          "content": "Once ratified, both parties sign the new Collective Agreement and arrange printing or digital distribution for stewards and members."
+        }
+      },
+      "tip": "Put the vote link, meeting time, and eligibility in the first line of the email. Members should not hunt for the mandate."
+    },
+    "checklist": {
+      "navLabel": "Committee checklist",
+      "title": "Bargaining committee checklist",
+      "intro": "Tick these as you move through the cycle. Print or keep them beside the tracker.",
+      "items": {
+        "survey": {
+          "label": "Member survey live",
+          "content": "Priorities collected with enough response from every department and shift."
+        },
+        "notice": {
+          "label": "Notice to bargain sent",
+          "content": "Legal letter dated and confirmed with the Staff Representative."
+        },
+        "tracker": {
+          "label": "Tracker opened",
+          "content": "Every live article has a row; status rules agreed in caucus."
+        },
+        "updates": {
+          "label": "Update cadence set",
+          "content": "Members know when the next Bargaining Update lands."
+        },
+        "vote": {
+          "label": "Strike vote plan",
+          "content": "Date, eligibility, ballot method, and scrutineers locked before you need leverage."
+        },
+        "noboard": {
+          "label": "No Board day confirmed",
+          "content": "Mailed notice date and countdown verified with the Staff Representative — not guessed."
+        },
+        "ratify": {
+          "label": "Ratification logistics",
+          "content": "Highlights package, meeting room or online ballot, and eligibility list ready."
+        },
+        "export": {
+          "label": "CSV backup after each session",
+          "content": "USB labelled with the date; one copy with the chief negotiator."
+        }
+      }
+    },
+    "fullScenario": {
+      "navLabel": "Worked timeline",
+      "title": "Worked example: campus support unit, one year out",
+      "intro": "A composite Local Bargaining Committee path. Dates are illustrative — replace them with your Act and Staff Rep calendar.",
+      "phases": {
+        "t90": {
+          "label": "T-90 days",
+          "content": "Survey closes; demand package ranked; notice to bargain drafted with the Staff Representative."
+        },
+        "table": {
+          "label": "Table months",
+          "content": "Weekly caucus; Proposal Tracker updated same day; biweekly email update to members with no table secrets."
+        },
+        "vote": {
+          "label": "Strike vote week",
+          "content": "Clean Yes mandate; employer returns to wage package; tracker marks three articles Tentatively Agreed."
+        },
+        "noboard": {
+          "label": "No Board issued",
+          "content": "Committee confirms day 0 from the mailed notice; crisis comms lead takes the daily message; USB backups every night."
+        },
+        "ratify": {
+          "label": "Ratification Saturday",
+          "content": "Highlights PDF emailed Thursday; secret ballot Saturday; signing Monday; stewards get printed CAs within two weeks."
+        }
+      },
+      "tip": "If your unit is college-sector under the CCBA, keep the same membership jobs — only the legal clock changes."
+    },
+    "notThis": {
+      "navLabel": "Boundaries",
+      "title": "What this guide is not",
+      "intro": "Keep jobs separate so members get the right playbook.",
+      "items": {
+        "crisis": {
+          "label": "Not the Strike & Crisis Comms Guide",
+          "content": "Use the Strike Guide for picket messaging, media lines, and high-stakes cadence once a work stoppage is near."
+        },
+        "grievance": {
+          "label": "Not the grievance process",
+          "content": "Individual contract enforcement stays on the grievance playbook. Bargaining changes the CA for everyone."
+        },
+        "joint": {
+          "label": "Not joint committee recommendations",
+          "content": "Joint union-employer tables recommend; they do not bargain the CA. See the joint committee playbook for that lane."
+        },
+        "wildcat": {
+          "label": "Not a green light for wildcats",
+          "content": "Unauthorized stoppages put members and the local at risk. Stay inside the statutory path your Staff Representative confirms."
+        }
+      }
+    },
+    "tools": {
+      "navLabel": "Tools",
+      "title": "Tools for the bargaining cycle",
+      "intro": "Open these on personal devices. Keep strategy and member lists off employer systems.",
+      "items": {
+        "tracker": {
+          "label": "Proposal Tracker",
+          "content": "Spreadsheet of articles, counters, and status with CSV export."
+        },
+        "email": {
+          "label": "Email & outreach guide",
+          "content": "Durable Bargaining Updates and ratification vote emails."
+        },
+        "graphic": {
+          "label": "Graphic Maker",
+          "content": "Short social hooks that match the email facts — try the bargaining update preset."
+        },
+        "flyer": {
+          "label": "Flyer Maker",
+          "content": "Strike vote and ratification meeting posters for boards and entrances."
+        },
+        "mapping": {
+          "label": "Workplace mapping",
+          "content": "Find quiet departments before the survey so the mandate is real."
         }
       }
     }

@@ -752,7 +752,9 @@
         "unionBoards": "Guide des tableaux syndicaux",
         "solidarityPoster": "Affiches de solidarité",
         "bylaws": "Guide des règlements locaux",
-        "bylawBuilder": "Créateur de règlements"
+        "bylawBuilder": "Créateur de règlements",
+        "bargaining": "Cycle de négociation",
+        "proposalTracker": "Suivi des propositions"
       }
     },
     "reference": {
@@ -1367,7 +1369,7 @@
         },
         "bargaining": {
           "label": "Mises à jour de négociation",
-          "content": "Utilisez le courriel pour la mise à jour que les membres devront retrouver plus tard. Utilisez les réseaux pour une photo de la table ou du piquet."
+          "content": "Utilisez le courriel pour la mise à jour que les membres devront retrouver plus tard. Utilisez les réseaux pour une photo de la table ou du piquet. Suivez le parcours complet du sondage à la signature dans le guide du cycle de négociation."
         }
       },
       "tip": "Une publication sociale peut porter une photo de la réunion. Le courriel porte le procès-verbal, le lien de vote et l'heure. Faites les deux, et gardez les mêmes faits."
@@ -4470,7 +4472,7 @@
       "title": "Parcours recommandé",
       "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour six modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
       "steward101Cta": "Commencer Délégué 101",
-      "officerLearningCta": "Centre de formation des dirigeants"
+      "officerLearningCta": "Ouvrir les modules de formation des dirigeants"
     },
     "tocLabel": "Sur cette page",
     "sections": {
@@ -4541,7 +4543,7 @@
       "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
       "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
       "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
-      "bargaining": "Du sondage à la signature pour les comités de négociation locaux — mises à jour de table, votes de grève et ratification.",
+      "bargaining": "Du sondage à la signature pour les comités de négociation locaux — mises à jour de table, votes de grève, ratification, listes et Suivi des propositions sur appareil.",
       "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis, quorum et approbation nationale."
     },
     "workspaces": {
@@ -6618,7 +6620,7 @@
       },
       "bargaining-lifecycle-guide": {
         "title": "Le cycle de négociation : du sondage à la signature",
-        "body": "Un parcours Canada/Ontario pour les comités de négociation locaux — établissement des demandes, table, votes de grève, rapport « no board » et ratification."
+        "body": "Un guide complet pour les comités de négociation locaux — LRT contre collèges, black-out et mises à jour, compte à rebours « no board », listes, chronologie commentée et Suivi des propositions sur appareil."
       },
       "proposal-tracker": {
         "title": "Suivi des propositions — gardez la stratégie sur votre appareil",
@@ -9842,13 +9844,64 @@
   "bargainingGuide": {
     "title": "Le cycle de négociation : du sondage à la signature",
     "subtitle": "Comment les comités de négociation locaux gèrent les membres, de l'établissement des demandes à la ratification",
-    "intro": "Négocier une convention collective est la chose la plus importante que fera votre section. Même si votre syndicat national ou provincial envoie un représentant du personnel pour mener les négociations, le comité de négociation local doit gérer les membres. Voici le cycle habituel des négociations contractuelles au Canada et en Ontario.",
+    "intro": "Négocier une convention collective (CC) est la chose la plus importante que fera votre section. Même si votre syndicat national ou provincial envoie un représentant du personnel pour mener les négociations, le comité de négociation local doit gérer les membres. Voici le cycle habituel des négociations contractuelles au Canada et en Ontario — plus les communications, le suivi et le travail de mandat qui gardent les membres avec vous.",
     "backToGuide": "Retour au Plan directeur",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
     "disclaimer": {
       "title": "Pas un avis juridique",
-      "body": "Les délais comme l'avis de négocier et le compte à rebours « no board » varient selon la loi et le secteur. Confirmez chaque échéance avec votre représentant du personnel et votre propre convention collective."
+      "body": "Les délais comme l'avis de négocier, les votes de grève et le compte à rebours « no board » varient selon la loi et le secteur (Loi sur les relations de travail vs Loi sur la négociation collective dans les collèges, et leurs pairs). Confirmez chaque échéance, quorum et règle de scrutin avec votre représentant du personnel et votre propre convention collective avant d'agir."
+    },
+    "diagram": {
+      "prep": "Préparation et demandes",
+      "table": "La table",
+      "dispute": "Différend et vote de grève",
+      "ratify": "Ratifier et signer",
+      "caption": "Quatre phases que tout comité de négociation local parcourt — du sondage à la signature."
+    },
+    "gate": {
+      "navLabel": "À qui s'adresse ce guide",
+      "title": "Commencez ici : comité, loi et représentant du personnel",
+      "intro": "Avant de rédiger un sondage, sachez qui possède la table, quelle loi s'applique et qui signe les lettres juridiques.",
+      "items": {
+        "sector": {
+          "label": "Confirmez la loi applicable",
+          "content": "La plupart des unités privées et du secteur parapublic en Ontario négocient sous la Loi sur les relations de travail (LRA). Les unités de soutien et du corps professoral des collèges de l'Ontario utilisent souvent la Loi sur la négociation collective dans les collèges (CCBA). Le compte à rebours « no board » et les règles de grève ne sont pas identiques — vérifiez quelle loi couvre votre certificat."
+        },
+        "committee": {
+          "label": "Nommez le comité de négociation local",
+          "content": "Le comité gère les membres : sondages, mises à jour, votes de grève et logistique de ratification. Le représentant du personnel peut mener à la table; la section garde le mandat."
+        },
+        "rep": {
+          "label": "Travaillez avec le représentant du personnel",
+          "content": "L'avis de négocier, les demandes de conciliation et les délais juridiques passent habituellement par votre représentant de service. N'inventez pas d'échéances à partir de cette page seule."
+        },
+        "ca": {
+          "label": "Lisez votre convention actuelle",
+          "content": "La date d'expiration, le libellé de renouvellement et toute clause d'avis anticipé se trouvent dans votre convention. Sortez le PDF signé avant de calendrier le sondage."
+        }
+      },
+      "sectorCaption": "Bifurcation sectorielle — confirmez avec votre représentant du personnel avant de promettre un échéancier aux membres.",
+      "sectorHeaders": {
+        "question": "Question",
+        "lra": "Parcours LRA typique",
+        "ccba": "Parcours collégial CCBA"
+      },
+      "sectorRows": {
+        "lra": {
+          "question": "Qui mène l'horloge juridique?",
+          "lra": "Conciliation du ministère du Travail et « no board » sous la LRA.",
+          "ccba": "Règles du secteur collégial sous la CCBA — confirmez avec votre équipe collégiale nationale ou provinciale."
+        },
+        "ccba": {
+          "question": "Ce que les membres entendent",
+          "lra": "Mises à jour locales plus conseils du représentant du personnel; la légalité d'une grève exige encore le compte à rebours prévu par la loi.",
+          "ccba": "Même travail auprès des membres pour la section — sondage, mises à jour, mandat — avec les échéanciers du secteur collégial."
+        }
+      },
+      "warningTitle": "Ne contournez pas le représentant",
+      "warning": "Si votre section publie une date de grève ou un jour « no board » sans confirmer la loi et l'avis posté, vous pouvez placer les membres dans une position illégale. Appelez d'abord le représentant du personnel."
     },
     "prep": {
       "navLabel": "Phase 1 · Préparation",
@@ -9857,17 +9910,18 @@
       "items": {
         "survey": {
           "label": "Le sondage des membres",
-          "content": "Des mois avant l'expiration de la convention, vous devez sonder vos membres. Quelles sont leurs priorités? (Salaires, congés de maladie, horaires, sécurité?)"
+          "content": "Des mois avant l'expiration, sondez les membres sur leurs priorités — salaires, congés de maladie, horaires, sécurité, charge de travail. Couplez le sondage à la cartographie du lieu de travail pour que les départements discrets ne restent pas invisibles."
         },
         "demand": {
           "label": "Établissement des demandes",
-          "content": "Le comité examine les sondages et rédige les propositions initiales à présenter à l'employeur."
+          "content": "Le comité examine les résultats du sondage et rédige les propositions initiales que le syndicat déposera. Classez les incontournables et les objectifs ambitieux avant de rencontrer l'employeur."
         },
         "notice": {
           "label": "Avis de négocier",
-          "content": "Une lettre juridique formelle envoyée à l'employeur (habituellement 90 jours avant l'expiration) ouvre officiellement les négociations."
+          "content": "Une lettre juridique formelle à l'employeur (souvent environ 90 jours avant l'expiration selon plusieurs parcours ontariens) ouvre officiellement les négociations. Faites-la passer par votre représentant du personnel."
         }
-      }
+      },
+      "tip": "Un sondage solide sans liste de membres est du bruit. Nettoyez l'effectif et inscrivez les membres manquants avant de demander un mandat."
     },
     "table": {
       "navLabel": "Phase 2 · La table",
@@ -9876,41 +9930,97 @@
       "items": {
         "exchange": {
           "label": "Échange des propositions",
-          "content": "Les deux parties se rencontrent et échangent leurs listes de demandes."
+          "content": "Les deux parties se rencontrent et échangent leurs listes de demandes. Consignez chaque article le jour où il bouge — pas la semaine suivante."
         },
         "blackout": {
-          "label": "Le black-out",
-          "content": "Habituellement, ce qui se passe à la table reste à la table jusqu'à une entente de principe. Le comité doit toutefois envoyer des mises à jour de négociation pour garder les membres mobilisés et engagés."
+          "label": "Discipline de table (le black-out)",
+          "content": "Habituellement, le détail des discussions à la table reste en caucus jusqu'à une entente de principe. Cela ne veut pas dire le silence : les membres ont quand même besoin de mises à jour de négociation régulières, factuelles et alignées sur le message."
         },
         "tracking": {
           "label": "Suivi",
-          "content": "Vous devez suivre méticuleusement chaque proposition, contre-proposition et accord. Utilisez le Suivi des propositions UnionOps pour garder votre stratégie hors des serveurs de l'employeur."
+          "content": "Suivez chaque proposition, contre-proposition et accord. Gardez la stratégie hors des serveurs de l'employeur — utilisez le Suivi des propositions sur l'appareil et exportez en CSV sur une clé USB après chaque séance."
         }
       },
-      "trackerTitle": "Gardez la stratégie sur votre appareil",
-      "trackerBody": "Le Suivi des propositions enregistre chaque ligne dans ce navigateur seulement. Exportez en CSV quand vous avez besoin d'une sauvegarde USB après une séance.",
-      "trackerCta": "Ouvrir le Suivi des propositions"
+      "tip": "Si l'employeur fait fuiter une demi-histoire, répondez avec une seule fiche de faits partagée — pas un fil de clavardage de rumeurs concurrentes."
+    },
+    "comms": {
+      "navLabel": "Mises à jour aux membres",
+      "title": "Black-out vs mises à jour de négociation",
+      "intro": "Le secret de table et la mobilisation des membres sont deux jobs différents. Le comité doit faire les deux.",
+      "items": {
+        "cadence": {
+          "label": "Fixez un rythme",
+          "content": "Choisissez un rythme de mise à jour hebdomadaire ou aux deux semaines avant le premier jour à la table. Les membres doivent savoir quand arrivera la prochaine note même s'il n'y a « rien de nouveau » à la table."
+        },
+        "channels": {
+          "label": "Séparez les canaux",
+          "content": "Le courriel porte le dossier durable que les membres peuvent retrouver plus tard. Les réseaux et les babillards portent un accroche courte ou une photo. Gardez les faits identiques d'un canal à l'autre."
+        },
+        "facts": {
+          "label": "Les faits seulement",
+          "content": "Dites dans quelle phase vous êtes, ce que les membres doivent faire ensuite, et ce qui reste confidentiel. N'inventez pas de positions patronales que vous ne pouvez pas confirmer."
+        },
+        "crisis": {
+          "label": "Montez d'un cran quand les enjeux montent",
+          "content": "Les votes de grève, le « no board » et la logistique de piquetage se trouvent dans le Guide de communication — grève et crise. Utilisez ce guide pour les messages à fort enjeu."
+        }
+      },
+      "tip": "Un message, plusieurs canaux. Si le courriel et l'avis au babillard se contredisent, les membres ne croiront ni l'un ni l'autre.",
+      "crisisCta": "Ouvrir les règles de négociation — grève et crise"
+    },
+    "tracker": {
+      "navLabel": "Suivi des propositions",
+      "title": "Comment utiliser le Suivi des propositions",
+      "intro": "Traitez le suivi comme le tableur privé du comité — sur un appareil personnel, jamais dans les dossiers Wi-Fi de l'employeur.",
+      "items": {
+        "article": {
+          "label": "Article / section",
+          "content": "Utilisez le numéro de convention que les membres reconnaissent (p. ex. Article 12.01). Une ligne par enjeu vivant."
+        },
+        "status": {
+          "label": "Discipline des statuts",
+          "content": "Passez les lignes à Entente de principe, Retrait ou Impasse seulement quand le caucus est d'accord. Ne marquez pas une EP sur une poignée de main que vous n'avez pas consignée."
+        },
+        "device": {
+          "label": "Règle de l'appareil",
+          "content": "Enregistrez sur l'ordinateur portable du comité ou le téléphone personnel d'un délégué. Ne laissez pas d'onglets ouverts sur les postes de travail de l'employeur."
+        },
+        "csv": {
+          "label": "Exportez après chaque séance",
+          "content": "Exportez en CSV sur une clé USB étiquetée avant de ranger. Si le navigateur efface le stockage, la clé USB est la sauvegarde."
+        }
+      },
+      "calloutTitle": "La stratégie de négociation est confidentielle",
+      "calloutBody": "Le suivi enregistre sur cet appareil seulement. Rien n'est envoyé dans le nuage. Exportez en CSV pour sauvegarder les notes après chaque journée de négociation.",
+      "cta": "Ouvrir le Suivi des propositions"
     },
     "dispute": {
       "navLabel": "Phase 3 · Différend",
       "title": "Phase 3 : Règlement des différends et vote de grève",
-      "intro": "Si les négociations stagnent, l'horloge juridique démarre.",
+      "intro": "Si les négociations stagnent, l'horloge juridique démarre. Le travail auprès des membres s'intensifie — ce n'est pas le moment de se taire.",
+      "diagram": {
+        "conciliation": "Conciliation",
+        "noBoard": "Avis « no board »",
+        "countdown": "Compte à rebours (souvent 17 jours)",
+        "legal": "Fenêtre de grève / lock-out légal",
+        "caption": "Parcours LRA typique en Ontario — confirmez la date de l'avis posté et les règles sectorielles avec votre représentant du personnel."
+      },
       "items": {
         "conciliation": {
           "label": "Conciliation",
-          "content": "Un tiers neutre nommé par le gouvernement tente d'aider les deux parties à conclure une entente."
+          "content": "Un tiers neutre nommé par le gouvernement tente d'aider les deux parties à conclure une entente. L'une ou l'autre partie peut la demander; elle est habituellement exigée avant qu'une voie de cessation de travail légale s'ouvre."
         },
         "strikeVote": {
           "label": "Le vote de grève",
-          "content": "Pour donner du levier à l'équipe de négociation, la section tient un vote demandant aux membres d'autoriser une grève si une entente juste n'est pas atteinte. Un fort vote Oui force souvent l'employeur à céder."
+          "content": "La section demande aux membres d'autoriser une grève si une entente juste n'est pas atteinte. Un fort Oui fait souvent bouger l'employeur — tenez le vote proprement et publiez le résultat une fois certifié."
         },
         "noBoard": {
           "label": "Le rapport « no board » (Ontario)",
-          "content": "Si la conciliation échoue, un rapport « no board » est émis. Cela démarre un compte à rebours (habituellement 17 jours en Ontario) avant qu'une grève ou un lock-out légal puisse avoir lieu."
+          "content": "Si la conciliation échoue, un avis « no board » est typiquement émis. Sous plusieurs parcours LRA, cela démarre un compte à rebours (souvent jusqu'au 17e jour après la publication) avant une grève ou un lock-out légal. Confirmez le jour exact avec votre représentant du personnel."
         }
       },
-      "warningTitle": "Compte à rebours en Ontario",
-      "warning": "Confirmez le délai exact du rapport « no board » pour votre secteur avec votre représentant du personnel. Ne vous fiez pas à cette page seule pour la légalité d'une grève.",
+      "warningTitle": "Le compte à rebours ontarien dépend de la loi",
+      "warning": "N'annoncez pas une date de début de grève à partir de cette page. Utilisez la date de l'avis « no board » posté, votre loi et votre représentant du personnel. De mauvaises dates exposent les membres à un risque juridique.",
       "crisisCta": "Guide de communication — grève et crise"
     },
     "ratify": {
@@ -9920,15 +10030,133 @@
       "items": {
         "ta": {
           "label": "Entente de principe (EP)",
-          "content": "L'équipe de négociation conclut une entente avec l'employeur."
+          "content": "L'équipe de négociation conclut une entente avec l'employeur. Publiez une trousse de points saillants claire avant la réunion de ratification — pas seulement un résumé oral."
         },
         "ratification": {
           "label": "Vote de ratification",
-          "content": "L'entente de principe est ramenée à l'ensemble des membres. Ils votent au scrutin secret pour accepter (ratifier) ou rejeter l'entente."
+          "content": "L'entente de principe va à l'ensemble des membres pour un scrutin secret d'acceptation ou de rejet. Confirmez qui est admissible au vote selon vos règlements et votre constitution."
         },
         "signing": {
           "label": "Signature",
-          "content": "Une fois ratifiée, la nouvelle convention collective est officiellement signée par les deux parties et imprimée."
+          "content": "Une fois ratifiée, les deux parties signent la nouvelle convention collective et organisent l'impression ou la distribution numérique pour les délégués et les membres."
+        }
+      },
+      "tip": "Mettez le lien de vote, l'heure de la réunion et l'admissibilité dans la première ligne du courriel. Les membres ne devraient pas chercher le mandat."
+    },
+    "checklist": {
+      "navLabel": "Liste du comité",
+      "title": "Liste de contrôle du comité de négociation",
+      "intro": "Cochez ces points en avançant dans le cycle. Imprimez-les ou gardez-les à côté du suivi.",
+      "items": {
+        "survey": {
+          "label": "Sondage des membres en cours",
+          "content": "Priorités recueillies avec assez de réponses de chaque département et quart."
+        },
+        "notice": {
+          "label": "Avis de négocier envoyé",
+          "content": "Lettre juridique datée et confirmée avec le représentant du personnel."
+        },
+        "tracker": {
+          "label": "Suivi ouvert",
+          "content": "Chaque article vivant a une ligne; règles de statut convenues en caucus."
+        },
+        "updates": {
+          "label": "Rythme de mises à jour fixé",
+          "content": "Les membres savent quand arrivera la prochaine mise à jour de négociation."
+        },
+        "vote": {
+          "label": "Plan de vote de grève",
+          "content": "Date, admissibilité, mode de scrutin et scrutateurs verrouillés avant d'avoir besoin d'un mandat fort."
+        },
+        "noboard": {
+          "label": "Jour « no board » confirmé",
+          "content": "Date de l'avis posté et compte à rebours vérifiés avec le représentant du personnel — pas devinés."
+        },
+        "ratify": {
+          "label": "Logistique de ratification",
+          "content": "Trousse de points saillants, salle ou scrutin en ligne, et liste d'admissibilité prêts."
+        },
+        "export": {
+          "label": "Sauvegarde CSV après chaque séance",
+          "content": "Clé USB étiquetée avec la date; une copie avec le négociateur en chef."
+        }
+      }
+    },
+    "fullScenario": {
+      "navLabel": "Échéancier type",
+      "title": "Exemple concret : unité de soutien campus, un an à l'avance",
+      "intro": "Parcours composite d'un comité de négociation local. Les dates sont illustratives — remplacez-les par votre loi et le calendrier du représentant du personnel.",
+      "phases": {
+        "t90": {
+          "label": "J-90",
+          "content": "Le sondage se ferme; le paquet de demandes est classé; l'avis de négocier est rédigé avec le représentant du personnel."
+        },
+        "table": {
+          "label": "Mois à la table",
+          "content": "Caucus hebdomadaire; Suivi des propositions mis à jour le jour même; courriel aux deux semaines aux membres sans secrets de table."
+        },
+        "vote": {
+          "label": "Semaine du vote de grève",
+          "content": "Mandat Oui propre; l'employeur revient sur le paquet salarial; le suivi marque trois articles en entente de principe."
+        },
+        "noboard": {
+          "label": "« No board » émis",
+          "content": "Le comité confirme le jour 0 à partir de l'avis posté; le responsable des communications de crise prend le message quotidien; sauvegardes USB chaque soir."
+        },
+        "ratify": {
+          "label": "Samedi de ratification",
+          "content": "PDF des points saillants envoyé le jeudi; scrutin secret le samedi; signature le lundi; les délégués reçoivent les CC imprimées dans les deux semaines."
+        }
+      },
+      "tip": "Si votre unité est du secteur collégial sous la CCBA, gardez les mêmes jobs auprès des membres — seule l'horloge juridique change."
+    },
+    "notThis": {
+      "navLabel": "Limites",
+      "title": "Ce que ce guide n'est pas",
+      "intro": "Gardez les jobs séparés pour que les membres reçoivent le bon guide.",
+      "items": {
+        "crisis": {
+          "label": "Pas le Guide de communication — grève et crise",
+          "content": "Utilisez le Guide de grève pour les messages de piquetage, les lignes médias et le rythme à fort enjeu quand une cessation de travail approche."
+        },
+        "grievance": {
+          "label": "Pas le processus de grief",
+          "content": "L'application individuelle de la convention reste dans le guide des griefs. La négociation change la convention pour tout le monde."
+        },
+        "joint": {
+          "label": "Pas les recommandations de comité mixte",
+          "content": "Les tables mixtes syndicat-employeur recommandent; elles ne négocient pas la convention. Voir le guide des comités mixtes pour cette voie."
+        },
+        "wildcat": {
+          "label": "Pas un feu vert pour les grèves sauvages",
+          "content": "Les cessations non autorisées mettent les membres et la section à risque. Restez dans le parcours prévu par la loi que confirme votre représentant du personnel."
+        }
+      }
+    },
+    "tools": {
+      "navLabel": "Outils",
+      "title": "Outils pour le cycle de négociation",
+      "intro": "Ouvrez-les sur des appareils personnels. Gardez la stratégie et les listes de membres hors des systèmes de l'employeur.",
+      "items": {
+        "tracker": {
+          "label": "Suivi des propositions",
+          "content": "Tableur des articles, contre-propositions et statuts avec export CSV."
+        },
+        "email": {
+          "label": "Guide courriel et mobilisation",
+          "content": "Mises à jour de négociation durables et courriels de vote de ratification."
+        },
+        "graphic": {
+          "label": "Créateur graphique",
+          "content": "Accroches sociales courtes alignées sur les faits du courriel — essayez le préréglage mise à jour de négociation."
+        },
+        "flyer": {
+          "label": "Créateur de tracts",
+          "content": "Affiches de vote de grève et de réunion de ratification pour babillards et entrées."
+        },
+        "mapping": {
+          "label": "Cartographie du lieu de travail",
+          "content": "Trouvez les départements discrets avant le sondage pour que le mandat soit réel."
         }
       }
     }

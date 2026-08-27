@@ -229,6 +229,14 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     note: "Governs Ontario college-sector bargaining. DFR for CAAT support staff is in this Act, not the LRA.",
     lastVerified: "2026-08-24",
   },
+  "ontario-collective-bargaining": {
+    id: "ontario-collective-bargaining",
+    category: "union",
+    label: "Ontario.ca — Collective bargaining (conciliation & no-board)",
+    url: "https://www.ontario.ca/page/collective-bargaining",
+    note: "Official Ontario guide to notice, conciliation, no-board notices, and the countdown before a lawful strike or lockout under the LRA. Confirm sector rules with your Staff Representative.",
+    lastVerified: "2026-08-27",
+  },
   "olrb-dfr-meaning": {
     id: "olrb-dfr-meaning",
     category: "union",
@@ -471,11 +479,13 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "cec-fteerc-minutes",
   ],
   bargaining: [
-    "ofl",
-    "nupge",
-    "clc",
-    "ontario-ccba",
+    "ontario-collective-bargaining",
     "ontario-lra-s74",
+    "ontario-ccba",
+    "clc-education-catalogue",
+    "opseu-collective-agreements",
+    "ofl",
+    "clc",
   ],
   rightToRefuse: [
     "ontario-ohsa",

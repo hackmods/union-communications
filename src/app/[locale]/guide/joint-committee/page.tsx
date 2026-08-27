@@ -69,6 +69,7 @@ export default async function JointCommitteeGuidePage({
         { href: "/guide/officer-learning", label: t("related.officerLearning") },
         { href: "/guide/grievance-process", label: t("related.grievance") },
         { href: "/guide/dfr", label: guide("labourGuides.dfr") },
+        { href: "/guide/bargaining", label: nav("bargainingGuide") },
         { href: "/guide/email-broadcast", label: t("related.email") },
       ]}
       footer={

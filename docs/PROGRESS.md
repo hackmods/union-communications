@@ -1,5 +1,10 @@
 # Progress Log
 
+## Bargaining lifecycle guide depth (2026-08-27)
+
+- [x] Definitive playbook pass: LRA/CCBA gate, lifecycle + No Board diagrams, blackout vs updates, tracker how-to, checklist, worked timeline, tools, Ontario.ca sources
+- [x] Cross-links from crisis, joint committee, Officer Learning module 6
+
 ## Bargaining lifecycle guide + Proposal Tracker (2026-08-27)
 
 - [x] Public `/guide/bargaining` — survey → table → dispute/strike vote → ratification; Blueprint "Bargaining & Strikes" strip; Resources / Steward playbooks / nav

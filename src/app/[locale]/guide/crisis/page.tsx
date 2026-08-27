@@ -97,6 +97,7 @@ export default async function CrisisPage({
       intro={t("intro")}
       relatedLinks={[
         { href: "/guide", label: t("backToGuide") },
+        { href: "/guide/bargaining", label: nav("bargainingGuide") },
         { href: "/guide/photo-consent", label: nav("photoConsent") },
         { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
       ]}
@@ -165,6 +166,11 @@ export default async function CrisisPage({
         intro={t("bargaining.intro")}
       >
         <ItemList section="bargaining" keys={bargainingKeys} t={t} />
+        <div className="button-row mt-5 max-w-lg">
+          <Link href="/guide/bargaining">
+            <Button variant="outline">{nav("bargainingGuide")}</Button>
+          </Link>
+        </div>
       </GuideSection>
 
       <GuideSection id="layoffs" title={t("layoffs.title")} intro={t("layoffs.intro")}>
