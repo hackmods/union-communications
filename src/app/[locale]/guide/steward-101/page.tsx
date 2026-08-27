@@ -4,6 +4,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideBrandExportNudge } from "@/components/comms/GuideBrandExportNudge";
 import { GuideExpandSection } from "@/components/comms/GuideExpandSection";
 import {
   GuideSubsection,
@@ -16,6 +17,7 @@ import {
   WhichHatFlowDiagram,
 } from "@/components/comms/StewardGuideDiagrams";
 import { Steward101ModuleNav } from "@/components/comms/Steward101ModuleNav";
+import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
@@ -38,6 +40,19 @@ const PHASE_IDS = {
   protect: "phase-protect",
   equip: "phase-equip",
 } as const;
+
+const TOC = [
+  ["whatIsSteward", "whatIsSteward"],
+  ["first48Hours", "first48Hours"],
+  ["threeHats", "threeHats"],
+  ["whichHat", "whichHat"],
+  ["representation", "representation"],
+  ["scenario", "scenario"],
+  ["escalate", "escalate"],
+  ["dfr", "dfr"],
+  ["stewardChecklist", "stewardChecklist"],
+  ["tools", "tools"],
+] as const;
 
 const whatIsStewardKeys = ["elected", "daily", "notManagement", "withExecutive"] as const;
 const first48HoursKeys = ["introduce", "backup", "caArticles", "notes"] as const;
@@ -63,6 +78,12 @@ const stewardChecklistKeys = [
   "escalate",
   "dfr",
 ] as const;
+
+const linkButtonClass =
+  "inline-flex w-full items-center justify-center rounded-lg bg-opseu-blue px-4 py-2 text-base font-semibold text-white transition-colors hover:bg-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40";
+
+const linkButtonOutlineClass =
+  "inline-flex w-full items-center justify-center rounded-lg border-2 border-opseu-blue px-4 py-2 text-base font-semibold text-opseu-blue transition-colors hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40";
 
 const richMarks = {
   strong: (chunks: ReactNode) => (
@@ -98,14 +119,26 @@ export default async function Steward101GuidePage({
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/officer-learning", label: t("related.officerLearning") },
-        { href: "/guide/workplace-mapping", label: t("related.workplaceMapping") },
         { href: "/guide/grievance-process", label: t("related.grievance") },
         { href: "/guide/dfr", label: t("related.dfr") },
-        { href: "/guide/right-to-refuse", label: t("related.rightToRefuse") },
+        { href: "/brand-kit", label: t("related.brandKit") },
+        {
+          href: "/tools/qr-card?preset=stewardRepresentation",
+          label: t("related.pocketCard"),
+        },
+        {
+          href: "/tools/complaint-vs-grievance",
+          label: t("related.diagnostic"),
+        },
+        {
+          href: "/tools/pre-disciplinary-log",
+          label: t("related.discipline"),
+        },
       ]}
       footer={
         <SourcesBlock
@@ -122,12 +155,26 @@ export default async function Steward101GuidePage({
         </p>
       </Callout>
 
+      <OfficerLearningModuleCallout slug="contract-enforcement" moduleNumber={1} />
+
       <Steward101ModuleNav
         ariaLabel={t("modules.navLabel")}
         timeBudgetTitle={t("modules.timeBudget.title")}
         timeBudgetBody={t("modules.timeBudget.body")}
         modules={moduleNavItems}
       />
+
+      <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
+        {TOC.map(([id, key]) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
+          >
+            {t(`${key}.navLabel`)}
+          </a>
+        ))}
+      </nav>
 
       <GuideTrainingPhase
         id={PHASE_IDS.orient}
@@ -423,107 +470,6 @@ export default async function Steward101GuidePage({
           </ul>
         </GuideSubsection>
 
-        <GuideSubsection
-          id="referenceMaterials"
-          title={t("referenceMaterials.title")}
-          intro={t("referenceMaterials.intro")}
-        >
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            <ReferenceBlock title={t("referenceMaterials.pocketCard.title")}>
-              <p>{t("referenceMaterials.pocketCard.body")}</p>
-              <Link href="/tools/qr-card?preset=stewardRepresentation" className="mt-3 inline-block">
-                <Button>{t("referenceMaterials.pocketCard.cta")}</Button>
-              </Link>
-            </ReferenceBlock>
-
-            <ReferenceBlock title={t("referenceMaterials.intakeSheet.title")}>
-              <p>{t("referenceMaterials.intakeSheet.body")}</p>
-              <a
-                href={INTAKE_TEMPLATE_HREF}
-                download={INTAKE_TEMPLATE_DOWNLOAD}
-                className="mt-3 inline-block"
-              >
-                <Button variant="outline">{t("referenceMaterials.intakeSheet.cta")}</Button>
-              </a>
-              <p className="mt-2 text-sm text-gray-600">
-                {t("referenceMaterials.intakeSheet.hint")}
-              </p>
-            </ReferenceBlock>
-
-            <ReferenceBlock title={t("referenceMaterials.grievanceWorksheet.title")}>
-              <p>{t("referenceMaterials.grievanceWorksheet.body")}</p>
-              <Link href="/tools/document-generator?preset=grievance-intake" className="mt-3 inline-block">
-                <Button variant="outline">
-                  {t("referenceMaterials.grievanceWorksheet.cta")}
-                </Button>
-              </Link>
-            </ReferenceBlock>
-          </div>
-
-          <GuideExpandSection
-            title={t("modules.moreReferenceTitle")}
-            summary={t("modules.moreReferenceSummary")}
-            className="mt-5"
-          >
-            <div className="grid gap-4 md:grid-cols-2">
-              <ReferenceBlock title={t("referenceMaterials.stewardGuides.title")}>
-                <p>{t("referenceMaterials.stewardGuides.body")}</p>
-                <nav
-                  className="mt-3 flex flex-col gap-2"
-                  aria-label={t("referenceMaterials.stewardGuides.title")}
-                >
-                  <Link
-                    href="/tools/complaint-vs-grievance"
-                    className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-                  >
-                    {t("referenceMaterials.stewardGuides.diagnostic")}
-                  </Link>
-                  <Link
-                    href="/tools/pre-disciplinary-log"
-                    className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-                  >
-                    {t("referenceMaterials.stewardGuides.discipline")}
-                  </Link>
-                  <Link
-                    href="/tools/rtw-accommodation"
-                    className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-                  >
-                    {t("referenceMaterials.stewardGuides.rtw")}
-                  </Link>
-                </nav>
-              </ReferenceBlock>
-
-              <ReferenceBlock title={t("referenceMaterials.board.title")}>
-                <p>{t("referenceMaterials.board.body")}</p>
-                <nav
-                  className="mt-3 flex flex-col gap-2"
-                  aria-label={t("referenceMaterials.board.title")}
-                >
-                  <Link
-                    href="/tools/org-chart"
-                    className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-                  >
-                    {t("referenceMaterials.board.orgChart")}
-                  </Link>
-                  <Link
-                    href="/tools/board-notice"
-                    className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-                  >
-                    {t("referenceMaterials.board.boardNotice")}
-                  </Link>
-                </nav>
-              </ReferenceBlock>
-
-              <ReferenceBlock title={t("referenceMaterials.followUp.title")}>
-                <p>{t("referenceMaterials.followUp.body")}</p>
-                <Link href="/tools/document-generator?preset=simple-letter" className="mt-3 inline-block">
-                  <Button variant="outline">{t("referenceMaterials.followUp.cta")}</Button>
-                </Link>
-              </ReferenceBlock>
-            </div>
-          </GuideExpandSection>
-        </GuideSubsection>
-
         <GuideExpandSection title={t("modules.trainingPathTitle")} className="max-w-3xl">
           <p className="max-w-prose leading-relaxed text-gray-700">
             {t("trainingPath.intro")}
@@ -531,6 +477,116 @@ export default async function Steward101GuidePage({
           <TrainingPathDiagram steps={trainingSteps} className="mt-4" />
         </GuideExpandSection>
       </GuideTrainingPhase>
+
+      <section
+        id="tools"
+        className="mt-12 scroll-mt-28 rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-opseu-blue/[0.03] p-5 shadow-sm md:p-8"
+      >
+        <h2 className="text-xl font-bold text-opseu-dark md:text-2xl">
+          {t("tools.title")}
+        </h2>
+        <p className="mt-3 max-w-prose leading-relaxed text-gray-700">
+          {t("tools.intro")}
+        </p>
+
+        <GuideBrandExportNudge className="mt-5" />
+
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <ReferenceBlock title={t("referenceMaterials.pocketCard.title")}>
+            <p>{t("referenceMaterials.pocketCard.body")}</p>
+            <Link
+              href="/tools/qr-card?preset=stewardRepresentation"
+              className="mt-3 inline-block w-full"
+            >
+              <span className={linkButtonClass}>{t("referenceMaterials.pocketCard.cta")}</span>
+            </Link>
+          </ReferenceBlock>
+
+          <ReferenceBlock title={t("referenceMaterials.intakeSheet.title")}>
+            <p>{t("referenceMaterials.intakeSheet.body")}</p>
+            <a
+              href={INTAKE_TEMPLATE_HREF}
+              download={INTAKE_TEMPLATE_DOWNLOAD}
+              className="mt-3 inline-block w-full"
+            >
+              <span className={linkButtonOutlineClass}>
+                {t("referenceMaterials.intakeSheet.cta")}
+              </span>
+            </a>
+            <p className="mt-2 text-sm text-gray-600">
+              {t("referenceMaterials.intakeSheet.hint")}
+            </p>
+          </ReferenceBlock>
+
+          <ReferenceBlock title={t("referenceMaterials.grievanceWorksheet.title")}>
+            <p>{t("referenceMaterials.grievanceWorksheet.body")}</p>
+            <Link
+              href="/tools/document-generator?preset=grievance-intake"
+              className="mt-3 inline-block w-full"
+            >
+              <span className={linkButtonOutlineClass}>
+                {t("referenceMaterials.grievanceWorksheet.cta")}
+              </span>
+            </Link>
+          </ReferenceBlock>
+        </div>
+
+        <p className="mt-4 text-sm text-gray-700">{t("tools.exportHint")}</p>
+
+        <div className="button-row mt-5 max-w-2xl">
+          <Link href="/tools/complaint-vs-grievance" className={linkButtonOutlineClass}>
+            {t("referenceMaterials.stewardGuides.diagnostic")}
+          </Link>
+          <Link href="/tools/pre-disciplinary-log" className={linkButtonOutlineClass}>
+            {t("referenceMaterials.stewardGuides.discipline")}
+          </Link>
+          <Link href="/tools/rtw-accommodation" className={linkButtonOutlineClass}>
+            {t("referenceMaterials.stewardGuides.rtw")}
+          </Link>
+          <Link href="/app/grievances" className={linkButtonOutlineClass}>
+            {t("hub.cta")}
+          </Link>
+        </div>
+
+        <GuideExpandSection
+          title={t("modules.moreReferenceTitle")}
+          summary={t("modules.moreReferenceSummary")}
+          className="mt-6"
+        >
+          <div className="grid gap-4 md:grid-cols-2">
+            <ReferenceBlock title={t("referenceMaterials.board.title")}>
+              <p>{t("referenceMaterials.board.body")}</p>
+              <nav
+                className="mt-3 flex flex-col gap-2"
+                aria-label={t("referenceMaterials.board.title")}
+              >
+                <Link
+                  href="/tools/org-chart"
+                  className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+                >
+                  {t("referenceMaterials.board.orgChart")}
+                </Link>
+                <Link
+                  href="/tools/board-notice"
+                  className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+                >
+                  {t("referenceMaterials.board.boardNotice")}
+                </Link>
+              </nav>
+            </ReferenceBlock>
+
+            <ReferenceBlock title={t("referenceMaterials.followUp.title")}>
+              <p>{t("referenceMaterials.followUp.body")}</p>
+              <Link
+                href="/tools/document-generator?preset=simple-letter"
+                className="mt-3 inline-block"
+              >
+                <Button variant="outline">{t("referenceMaterials.followUp.cta")}</Button>
+              </Link>
+            </ReferenceBlock>
+          </div>
+        </GuideExpandSection>
+      </section>
 
       <Callout tone="muted" className="mt-10">
         <p className="font-semibold text-opseu-dark">{t("hub.title")}</p>
@@ -586,7 +642,7 @@ function ReferenceBlock({
 }) {
   return (
     <div className="h-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-      <h4 className="font-semibold text-opseu-dark">{title}</h4>
+      <h3 className="font-semibold text-opseu-dark">{title}</h3>
       <div className="mt-2 text-gray-700">{children}</div>
     </div>
   );

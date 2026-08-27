@@ -4597,6 +4597,7 @@
       "title": "Not legal advice",
       "body": "This page orients new stewards. It does not replace your Collective Agreement, local bylaws, or training from your servicing representative."
     },
+    "relatedLabel": "Related guides and tools",
     "related": {
       "grievance": "The Steward's Guide to Grievances",
       "dfr": "Duty of Fair Representation playbook",
@@ -4604,7 +4605,26 @@
       "rightToRefuse": "Right to refuse unsafe work",
       "officerLearning": "Officer Learning Center",
       "stewardPlaybooks": "All steward playbooks",
-      "membership": "Membership signup playbook"
+      "membership": "Membership signup playbook",
+      "brandKit": "Brand Kit",
+      "pocketCard": "Representation pocket card",
+      "diagnostic": "Complaint vs grievance",
+      "discipline": "Pre-disciplinary log"
+    },
+    "brandExport": {
+      "setupPrompt": "Set up Brand Kit so pocket cards and worksheets show your local number and logo.",
+      "setupLink": "Open Brand Kit",
+      "readyTitle": "Exports use your Brand Kit",
+      "readyBody": "Pocket cards and worksheets will show {localLabel}. Edit Brand Kit anytime.",
+      "localLabel": "Local {number}",
+      "localLabelWithSub": "Local {number} — {subText}",
+      "editLink": "Edit Brand Kit"
+    },
+    "tools": {
+      "navLabel": "Floor toolkit",
+      "title": "Take it to the floor",
+      "intro": "Print a pocket card, log intake on your own device, and open the meeting guides you will use this week. Exports pull your local number and logo from Brand Kit — not from this page.",
+      "exportHint": "Opens the matching tool with a steward preset. Export PNG, PDF, or spreadsheet on your device."
     },
     "modules": {
       "navLabel": "Training modules",
@@ -4637,11 +4657,11 @@
         "number": "4",
         "title": "Fair & equipped",
         "time": "~8 min",
-        "intro": "Fair representation duty, a pocket checklist, printables, and where to go next.",
-        "summary": "DFR, checklist, and floor toolkit"
+        "intro": "Fair representation duty, a pocket checklist, and where to go next — printables sit in the floor toolkit below.",
+        "summary": "DFR, checklist, and next steps"
       },
-      "moreReferenceTitle": "More printables and steward tools",
-      "moreReferenceSummary": "Board pieces, meeting guides, and follow-up letters — open when you are setting up the union corner.",
+      "moreReferenceTitle": "More board pieces and follow-ups",
+      "moreReferenceSummary": "Org Chart, Board Notice, meeting guides, and follow-up letters — open when you are setting up the union corner.",
       "trainingPathTitle": "Full steward training path"
     },
     "trainingPath": {
@@ -6458,8 +6478,8 @@
         "body": "Each module now has six quiz questions, a D0–D7 worked-file timeline, Apply/Don't apply scenario frames, printable take-to-meeting sheets, and links from matching floor playbooks."
       },
       "steward-101-modules": {
-        "title": "Steward 101 — four training modules",
-        "body": "The playbook is now split into four bite-sized modules with time estimates, jump links, and collapsible walk-throughs so you can work one coffee break at a time."
+        "title": "Steward 101 — modules, toolkit, and Brand Kit exports",
+        "body": "Four time-boxed modules, a floor toolkit with pocket-card and intake exports, and a Brand Kit nudge so printables show your local number."
       },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",

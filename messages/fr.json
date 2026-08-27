@@ -4547,6 +4547,7 @@
       "title": "Pas un avis juridique",
       "body": "Cette page oriente les nouveaux délégués. Elle ne remplace pas votre convention collective, vos règlements locaux ni la formation de votre représentant de service."
     },
+    "relatedLabel": "Guides et outils connexes",
     "related": {
       "grievance": "Le guide du délégué sur les griefs",
       "dfr": "Devoir de représentation équitable — guide pratique",
@@ -4554,7 +4555,26 @@
       "rightToRefuse": "Droit de refuser un travail dangereux",
       "officerLearning": "Centre de formation des dirigeants",
       "stewardPlaybooks": "Tous les guides pratiques pour délégués",
-      "membership": "Guide pratique d'adhésion"
+      "membership": "Guide pratique d'adhésion",
+      "brandKit": "Trousse de marque",
+      "pocketCard": "Carte de poche — représentation",
+      "diagnostic": "Plainte ou grief",
+      "discipline": "Journal prédisciplinaire"
+    },
+    "brandExport": {
+      "setupPrompt": "Configurez la Trousse de marque pour que les cartes de poche et les feuilles de travail affichent le numéro et le logo de votre section locale.",
+      "setupLink": "Ouvrir la Trousse de marque",
+      "readyTitle": "Les exports utilisent votre Trousse de marque",
+      "readyBody": "Les cartes de poche et les feuilles de travail afficheront {localLabel}. Modifiez la Trousse de marque en tout temps.",
+      "localLabel": "Section {number}",
+      "localLabelWithSub": "Section {number} — {subText}",
+      "editLink": "Modifier la Trousse de marque"
+    },
+    "tools": {
+      "navLabel": "Trousse du plancher",
+      "title": "À emporter sur le plancher",
+      "intro": "Imprimez une carte de poche, consignez l'accueil sur votre appareil et ouvrez les guides de rencontre que vous utiliserez cette semaine. Les exports tirent le numéro et le logo de votre section locale de la Trousse de marque — pas de cette page.",
+      "exportHint": "Ouvre l'outil correspondant avec un préréglage pour délégués. Exportez PNG, PDF ou tableur sur votre appareil."
     },
     "modules": {
       "navLabel": "Modules de formation",
@@ -4587,11 +4607,11 @@
         "number": "4",
         "title": "Équitable et équipé",
         "time": "~8 min",
-        "intro": "Devoir de représentation équitable, liste de poche, documents imprimables et prochaines étapes.",
-        "summary": "DRÉ, liste et trousse du plancher"
+        "intro": "Devoir de représentation équitable, liste de poche et prochaines étapes — les documents imprimables sont dans la trousse du plancher ci-dessous.",
+        "summary": "DRÉ, liste et prochaines étapes"
       },
-      "moreReferenceTitle": "Autres documents et outils pour délégués",
-      "moreReferenceSummary": "Affichage, guides de rencontre et lettres de suivi — ouvrez quand vous aménagez le coin syndical.",
+      "moreReferenceTitle": "Autres affichages et suivis",
+      "moreReferenceSummary": "Organigramme, avis de babillard, guides de rencontre et lettres de suivi — ouvrez quand vous aménagez le coin syndical.",
       "trainingPathTitle": "Parcours complet de formation"
     },
     "trainingPath": {
@@ -6408,8 +6428,8 @@
         "body": "Chaque module comprend six questions d'autoévaluation, une chronologie de dossier travaillé (J0–J7), des cadres « Appliquer » / « Ne pas appliquer », des fiches imprimables pour la rencontre, et des liens depuis les guides pratiques correspondants."
       },
       "steward-101-modules": {
-        "title": "Délégué 101 — quatre modules de formation",
-        "body": "Le guide pratique est maintenant divisé en quatre modules avec durées estimées, liens rapides et exemples repliables — un par pause-café."
+        "title": "Délégué 101 — modules, trousse et exports de marque",
+        "body": "Quatre modules chronométrés, une trousse du plancher avec carte de poche et feuilles d'accueil, et un rappel Trousse de marque pour que les imprimés portent le numéro de votre section locale."
       },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",
