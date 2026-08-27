@@ -711,6 +711,51 @@
         "title": "Bâtir le pouvoir collectif",
         "summary": "Auditer les barrières systémiques, négocier des clauses axées sur l'équité et concevoir des voies de règlement des différends restauratrices."
       }
+    },
+    "certificate": {
+      "title": "Télécharger votre certificat",
+      "hint": "Le PDF reste sur cet appareil. Indiquez le nom à imprimer — le numéro de section de la Trousse de marque est utilisé s'il est défini.",
+      "nameLabel": "Nom sur le certificat",
+      "namePlaceholder": "Votre nom",
+      "defaultName": "Délégué syndical",
+      "download": "Télécharger le certificat PDF",
+      "downloading": "Préparation du PDF…",
+      "success": "Certificat téléchargé.",
+      "error": "Impossible de créer le PDF. Réessayez, ou vérifiez que les téléchargements sont autorisés dans ce navigateur.",
+      "pathTitle": "Parcours complet de formation des dirigeants (six modules)"
+    },
+    "hubSync": {
+      "signedOutTitle": "Optionnel : synchroniser avec le Hub",
+      "signedOutBody": "Connectez-vous pour enregistrer la progression sur votre compte Hub et, si vous le souhaitez, partager les réussites avec votre section.",
+      "signIn": "Se connecter au Hub des dirigeants",
+      "title": "Sync Hub et partage local",
+      "body": "Phases B/C : conservez la progression sur votre compte, et ne la partagez avec la section que si vous et la section y consentez.",
+      "displayName": "Nom affiché à votre section",
+      "syncLabel": "Synchroniser la progression avec mon compte Hub",
+      "syncHint": "Envoie les quiz réussis de ce navigateur vers votre compte connecté.",
+      "shareLabel": "Partager mes réussites avec ma section",
+      "shareHint": "Visible seulement si un président ou un membre de l'exécutif active le rapport local. Vous pouvez désactiver ceci en tout temps.",
+      "save": "Enregistrer les préférences Hub",
+      "saving": "Enregistrement…",
+      "saved": "Enregistré dans le Hub des dirigeants.",
+      "error": "Impossible d'enregistrer. Vérifiez que vous êtes encore connecté, puis réessayez."
+    },
+    "hubBoardLink": "Rapport de formation local (Hub des dirigeants)",
+    "hubBoard": {
+      "title": "Formation des dirigeants — rapport local",
+      "intro": "Voyez qui a choisi de partager les modules réussis avec cette section. Le rapport est désactivé jusqu'à ce que vous l'activiez.",
+      "settingsTitle": "Rapport local",
+      "settingsBody": "Une fois activé, seuls les membres qui ont synchronisé le Hub et choisi « partager avec ma section » apparaissent ci-dessous.",
+      "reportingLabel": "Activer le rapport de réussite pour cette section",
+      "reportingHint": "Présidents et exécutif seulement. Les membres doivent aussi consentir individuellement.",
+      "reportTitle": "Réussites partagées",
+      "reportDisabled": "Activez le rapport ci-dessus pour charger les dossiers partagés.",
+      "reportEmpty": "Aucun membre n'a encore partagé de réussites.",
+      "completedCount": "{completed} module(s) sur {total} réussi(s)",
+      "forbiddenTitle": "Le rapport de formation exige un rôle de dirigeant",
+      "forbiddenBody": "Les présidents et l'exécutif local peuvent activer le rapport. Vous pouvez toujours suivre les cours publics et synchroniser votre propre progression.",
+      "openPublic": "Ouvrir le Centre de formation public",
+      "error": "Impossible de charger ou d'enregistrer les réglages. Réessayez."
     }
   },
   "unionBoardsGuide": {
@@ -5837,8 +5882,8 @@
         "body": "Tous les outils visuels partagent le logo aucun/signature/symbole et une case Afficher le numéro de section — décochez-la pour un visuel symbole seulement."
       },
       "officer-learning-center": {
-        "title": "Centre de formation des dirigeants — formation multi-syndicale élargie",
-        "body": "Six modules approfondis avec scénarios, exercices et quiz — citant le CTC, la SCFP, Unifor et la CODP. La progression reste sur votre appareil."
+        "title": "Formation des dirigeants — certificats et sync Hub",
+        "body": "Téléchargez un PDF après un module réussi, synchronisez la progression au Hub si vous êtes connecté, et ne partagez avec la section que si les deux parties y consentent."
       },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",

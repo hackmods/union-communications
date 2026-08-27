@@ -5,10 +5,13 @@ import { useTranslations } from "next-intl";
 import type { QuizQuestion } from "@/lib/officer-learning/types";
 import { markQuizPassed } from "@/lib/officer-learning/progress";
 import { Link } from "@/i18n/navigation";
+import { CertificateDownload } from "./CertificateDownload";
 import clsx from "clsx";
 
 type Props = {
   moduleId: string;
+  moduleNumber: number;
+  moduleTitle: string;
   questions: QuizQuestion[];
   nextModuleSlug: string | null;
   onCompleted?: () => void;
@@ -16,7 +19,14 @@ type Props = {
 
 type AnswerState = Record<string, string>;
 
-export function ModuleQuiz({ moduleId, questions, nextModuleSlug, onCompleted }: Props) {
+export function ModuleQuiz({
+  moduleId,
+  moduleNumber,
+  moduleTitle,
+  questions,
+  nextModuleSlug,
+  onCompleted,
+}: Props) {
   const t = useTranslations("officerLearning");
   const [answers, setAnswers] = useState<AnswerState>({});
   const [submitted, setSubmitted] = useState(false);
@@ -142,6 +152,11 @@ export function ModuleQuiz({ moduleId, questions, nextModuleSlug, onCompleted }:
           <p className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 font-semibold text-emerald-100">
             {t("quiz.passed")}
           </p>
+          <CertificateDownload
+            kind="module"
+            achievementTitle={moduleTitle}
+            moduleNumber={moduleNumber}
+          />
           {nextModuleSlug ? (
             <Link
               href={`/guide/officer-learning/${nextModuleSlug}`}

@@ -11,6 +11,8 @@ import {
   resetAllProgress,
   statusLabelKey,
 } from "@/lib/officer-learning/progress";
+import { CertificateDownload } from "./CertificateDownload";
+import { LearningHubSyncPanel } from "./LearningHubSyncPanel";
 import clsx from "clsx";
 
 type Props = {
@@ -51,21 +53,33 @@ export function OfficerLearningDashboard({ modules }: Props) {
           </p>
         </header>
 
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
-          <p className="text-sm text-slate-300">{t("settings.hint")}</p>
-          <button
-            type="button"
-            onClick={handleReset}
-            className={clsx(
-              "rounded-lg px-4 py-2 text-sm font-semibold transition",
-              confirmReset
-                ? "bg-red-500 text-white hover:bg-red-400"
-                : "border border-white/15 bg-transparent text-slate-200 hover:border-amber-400/40",
-            )}
-          >
-            {confirmReset ? t("settings.confirmReset") : t("settings.reset")}
-          </button>
+        <div className="mb-8 grid gap-4 lg:grid-cols-2">
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
+            <p className="text-sm text-slate-300">{t("settings.hint")}</p>
+            <button
+              type="button"
+              onClick={handleReset}
+              className={clsx(
+                "rounded-lg px-4 py-2 text-sm font-semibold transition",
+                confirmReset
+                  ? "bg-red-500 text-white hover:bg-red-400"
+                  : "border border-white/15 bg-transparent text-slate-200 hover:border-amber-400/40",
+              )}
+            >
+              {confirmReset ? t("settings.confirmReset") : t("settings.reset")}
+            </button>
+          </div>
+          <LearningHubSyncPanel />
         </div>
+
+        {completedCount === modules.length && modules.length > 0 && (
+          <div className="mb-8">
+            <CertificateDownload
+              kind="path"
+              achievementTitle={t("certificate.pathTitle")}
+            />
+          </div>
+        )}
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {modules.map((module) => {
@@ -125,9 +139,15 @@ export function OfficerLearningDashboard({ modules }: Props) {
           })}
         </div>
 
-        <p className="mt-10 text-sm text-slate-400">
-          <Link href="/guide" className="font-medium text-teal-300 underline underline-offset-2">
+        <p className="mt-10 space-y-2 text-sm text-slate-400">
+          <Link href="/guide" className="block font-medium text-teal-300 underline underline-offset-2">
             ← {t("backToGuide")}
+          </Link>
+          <Link
+            href="/app/officer-learning"
+            className="block font-medium text-amber-300/90 underline underline-offset-2"
+          >
+            {t("hubBoardLink")} →
           </Link>
         </p>
       </div>

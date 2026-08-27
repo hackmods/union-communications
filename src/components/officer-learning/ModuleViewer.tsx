@@ -179,6 +179,8 @@ export function ModuleViewer({
 
           <ModuleQuiz
             moduleId={meta.id}
+            moduleNumber={meta.number}
+            moduleTitle={t(`modules.${meta.slug}.title`)}
             questions={module.quiz}
             nextModuleSlug={nextModuleSlug}
             onCompleted={() => setProgress(getModuleProgress(meta.id))}

@@ -711,6 +711,51 @@
         "title": "Building Collective Power",
         "summary": "Audit systemic barriers, negotiate equity-focused contract language, and design restorative dispute paths."
       }
+    },
+    "certificate": {
+      "title": "Download your certificate",
+      "hint": "PDF stays on this device. Add the name you want printed — Brand Kit local number is used when set.",
+      "nameLabel": "Name on certificate",
+      "namePlaceholder": "Your name",
+      "defaultName": "Union steward",
+      "download": "Download PDF certificate",
+      "downloading": "Preparing PDF…",
+      "success": "Certificate downloaded.",
+      "error": "Could not create the PDF. Try again, or check that downloads are allowed in this browser.",
+      "pathTitle": "Full Officer Learning path (all six modules)"
+    },
+    "hubSync": {
+      "signedOutTitle": "Optional: sync to Officer Hub",
+      "signedOutBody": "Sign in to save progress on your Hub account and, if you choose, share completions with your local.",
+      "signIn": "Sign in to Officer Hub",
+      "title": "Hub sync & local sharing",
+      "body": "Phase B/C: keep progress on your account, and only share with the local when both you and the local opt in.",
+      "displayName": "Name shown to your local",
+      "syncLabel": "Sync progress to my Officer Hub account",
+      "syncHint": "Uploads quiz completions from this browser to your signed-in account.",
+      "shareLabel": "Share my completions with my local",
+      "shareHint": "Visible only if a president or executive enables local reporting. You can turn this off anytime.",
+      "save": "Save Hub preferences",
+      "saving": "Saving…",
+      "saved": "Saved to Officer Hub.",
+      "error": "Could not save. Check you are still signed in, then try again."
+    },
+    "hubBoardLink": "Local education report (Officer Hub)",
+    "hubBoard": {
+      "title": "Officer Learning — local report",
+      "intro": "See who opted to share module completions with this local. Reporting is off until you enable it.",
+      "settingsTitle": "Local reporting",
+      "settingsBody": "When enabled, only members who synced Hub progress and chose “share with my local” appear below.",
+      "reportingLabel": "Enable completion reporting for this local",
+      "reportingHint": "Presidents and executives only. Members must still consent individually.",
+      "reportTitle": "Shared completions",
+      "reportDisabled": "Turn on reporting above to load shared records.",
+      "reportEmpty": "No members have shared completions yet.",
+      "completedCount": "{completed} of {total} modules passed",
+      "forbiddenTitle": "Education report needs an officer role",
+      "forbiddenBody": "Presidents and local executives can enable reporting. You can still take the public courses and sync your own progress.",
+      "openPublic": "Open public Learning Center",
+      "error": "Could not load or save settings. Try again."
     }
   },
   "unionBoardsGuide": {
@@ -5887,8 +5932,8 @@
         "body": "Every canvas tool now shares none/lockup/mark logo plus a Show local number toggle — turn the label off for mark-only visuals."
       },
       "officer-learning-center": {
-        "title": "Officer Learning Center — fuller multi-union training",
-        "body": "Six expanded steward modules with scenarios, drills, and quizzes — citing CLC, CUPE, Unifor, and OHRC education. Progress stays on your device."
+        "title": "Officer Learning — certificates and Hub sync",
+        "body": "Download a PDF when you pass a module, sync progress to Officer Hub if signed in, and share completions with your local only when both sides opt in."
       },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",
