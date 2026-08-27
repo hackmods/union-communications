@@ -77,6 +77,7 @@ describe("path helpers", () => {
       "/guide/right-to-refuse",
       "/guide/seniority-bumping",
       "/guide/joint-committee",
+      "/guide/bylaws",
     ]);
     expect(channels?.links.map((l) => l.href)).toEqual([
       "/guide/print",
@@ -152,6 +153,7 @@ describe("toolGroups", () => {
       "/tools/rtw-accommodation",
       "/tools/pre-disciplinary-log",
       "/tools/complaint-vs-grievance",
+      "/tools/bylaw-builder",
     ]);
   });
 });
