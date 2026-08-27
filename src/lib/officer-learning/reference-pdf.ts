@@ -403,6 +403,89 @@ export async function downloadEquityClausePdf(opts: ModulePdfContext): Promise<v
   });
 }
 
+const BYLAWS_ADOPTION_COPY = {
+  en: {
+    title: "Local bylaws — adoption & amendment checklist",
+    sections: [
+      {
+        heading: "Before notice",
+        lines: [
+          "Read the national/provincial constitution article on local bylaws",
+          "Compare peer guides (CUPE bylaws guide or your national model) for missing articles",
+          "Draft clean article text members can read aloud",
+          "Confirm notice days and 2/3 threshold in the current amendment clause",
+        ],
+      },
+      {
+        heading: "Notice and GMM",
+        lines: [
+          "Post and email the exact wording with the GMM date",
+          "Write down current GMM quorum and how you will count members present",
+          "Hold the vote at a quorate GMM",
+          "Record the 2/3 result in signed minutes",
+        ],
+      },
+      {
+        heading: "After the vote",
+        lines: [
+          "Submit the package for national/provincial approval when required",
+          "Wait for written approval before treating the text as in force",
+          "Publish the approved PDF to boards, website, and members",
+          "Update Org Chart / LEC directory if officer seats changed",
+        ],
+      },
+    ],
+  },
+  fr: {
+    title: "Règlements locaux — liste d'adoption et de modification",
+    sections: [
+      {
+        heading: "Avant le préavis",
+        lines: [
+          "Lire l'article de la constitution nationale ou provinciale sur les règlements locaux",
+          "Comparer les guides pairs (guide des règlements du SCFP ou votre modèle national) pour les articles manquants",
+          "Rédiger un texte d'articles clair que les membres peuvent lire à voix haute",
+          "Confirmer le délai de préavis et le seuil des 2/3 dans la clause de modification actuelle",
+        ],
+      },
+      {
+        heading: "Préavis et AGM",
+        lines: [
+          "Afficher et envoyer le libellé exact avec la date de l'AGM",
+          "Noter le quorum actuel de l'AGM et comment compter les membres présents",
+          "Tenir le vote à une AGM avec quorum",
+          "Consigner le résultat des 2/3 dans un procès-verbal signé",
+        ],
+      },
+      {
+        heading: "Après le vote",
+        lines: [
+          "Soumettre le dossier pour approbation nationale ou provinciale lorsque c'est exigé",
+          "Attendre l'approbation écrite avant de traiter le texte comme en vigueur",
+          "Publier le PDF approuvé aux tableaux, au site et aux membres",
+          "Mettre à jour l'organigramme / l'annuaire du CEL si les postes ont changé",
+        ],
+      },
+    ],
+  },
+} as const;
+
+/** Printable adoption checklist for the public Local Bylaws guide. */
+export async function downloadBylawsAdoptionChecklistPdf(opts: {
+  localLabel: string;
+  locale?: ReferencePdfLocale;
+}): Promise<void> {
+  const locale = opts.locale ?? "en";
+  const copy = BYLAWS_ADOPTION_COPY[locale];
+  await writeSimplePdf({
+    title: copy.title,
+    subtitle: opts.localLabel,
+    sections: [...copy.sections],
+    filename: `unionops-bylaws-adoption-checklist-${locale}.pdf`,
+    footer: EDUCATION_FOOTER[locale],
+  });
+}
+
 /** Printable floor checklist from parsed module items. */
 export async function downloadFloorChecklistPdf(opts: {
   moduleTitle: string;

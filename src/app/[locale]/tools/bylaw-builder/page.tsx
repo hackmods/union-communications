@@ -1,14 +1,17 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
+import { BylawsReferenceSheetButton } from "@/components/comms/BylawsReferenceSheetButton";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { PageShell } from "@/components/layout/PageShell";
 import { StewardGuideExportBar } from "@/components/tools/steward-guides/StewardGuideExportBar";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
@@ -43,12 +46,39 @@ function downloadText(filename: string, text: string) {
   URL.revokeObjectURL(url);
 }
 
+function isBylawPresetId(value: string | null): value is BylawPresetId {
+  return (
+    value !== null && (BYLAW_PRESET_IDS as readonly string[]).includes(value)
+  );
+}
+
 export default function BylawBuilderPage() {
+  return (
+    <Suspense fallback={<BylawBuilderSuspenseFallback />}>
+      <BylawBuilderPageContent />
+    </Suspense>
+  );
+}
+
+function BylawBuilderSuspenseFallback() {
+  const t = useTranslations("common");
+  return (
+    <PageShell className="py-6 md:py-8 lg:py-10">
+      <p className="text-gray-600" aria-busy="true">
+        {t("loading")}
+      </p>
+    </PageShell>
+  );
+}
+
+function BylawBuilderPageContent() {
   const t = useTranslations("bylawBuilder");
   const tc = useTranslations("common");
   const ts = useTranslations("sources");
+  const searchParams = useSearchParams();
   const [copied, setCopied] = useState(false);
-  const { draft, setDraft, clear, saveFailed } = useStewardGuideDraft({
+  const appliedPreset = useRef(false);
+  const { draft, setDraft, clear, saveFailed, hydrated } = useStewardGuideDraft({
     load: loadBylawDraft,
     save: saveBylawDraft,
     createEmpty: createEmptyBylawForm,
@@ -56,6 +86,14 @@ export default function BylawBuilderPage() {
   });
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
+
+  useEffect(() => {
+    if (!hydrated || appliedPreset.current) return;
+    const preset = searchParams.get("preset");
+    if (!isBylawPresetId(preset)) return;
+    appliedPreset.current = true;
+    setDraft({ ...BYLAW_PRESETS[preset] });
+  }, [hydrated, searchParams, setDraft]);
 
   const labels = useMemo(
     () => ({
@@ -243,6 +281,14 @@ export default function BylawBuilderPage() {
         onChange={(e) => updateField("fiscalYearEnd", e.target.value)}
         placeholder={t("fieldPlaceholders.fiscalYearEnd")}
       />
+
+      <Callout tone="muted">
+        <p className="text-sm font-semibold text-opseu-dark">
+          {t("checklistPrompt.title")}
+        </p>
+        <p className="mt-1 text-sm text-gray-700">{t("checklistPrompt.body")}</p>
+        <BylawsReferenceSheetButton kind="adoption" className="mt-3" />
+      </Callout>
 
       {saveFailed ? (
         <Callout tone="warning">

@@ -6,6 +6,14 @@
 - [x] Local-first `/tools/proposal-tracker` — spreadsheet rows, status dropdown, CSV export, on-device draft via `saveJsonDraft`
 - [x] What's new notes + SEO/sitemap registration
 
+## Local bylaws definitive guide (2026-08-27)
+
+- [x] Diagrams: document hierarchy, amendment flow, quorum tiers (public light-theme)
+- [x] Worked GMM scenario table (When / Action / Artifact) + campus Builder deep-link
+- [x] Reference grid: adoption checklist PDF, quorum & motion PDF, Builder, Module 4
+- [x] Rich checklist rows; Builder `?preset=` hydrate + adoption checklist prompt
+- Verify: `npm run test:unit -- src/lib/bylaws/build-template.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts src/lib/constants/comms-sources.test.ts`
+
 ## Local bylaws guide + Bylaw Builder QOL (2026-08-27)
 
 - [x] `/guide/bylaws` raised to playbook depth: constitution gate, expanded must-haves, amendment CTAs, worked GMM timeline, checklist, peer examples (CUPE / Unifor / OPSEU / SEFPO), failure modes, tools section

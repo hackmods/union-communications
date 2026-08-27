@@ -405,3 +405,290 @@ export function ProgressiveDisciplineLadderDiagram({
     </ol>
   );
 }
+
+interface DocumentHierarchyDiagramProps {
+  labels: {
+    constitution: string;
+    bylaws: string;
+    policy: string;
+    ca: string;
+  };
+  caption?: string;
+  className?: string;
+}
+
+/** Stack: national constitution governs local bylaws; policy and CA are siblings below. */
+export function DocumentHierarchyDiagram({
+  labels,
+  caption,
+  className,
+}: DocumentHierarchyDiagramProps) {
+  const layers = [
+    {
+      key: "constitution",
+      label: labels.constitution,
+      className: "border-opseu-dark bg-opseu-dark text-white",
+    },
+    {
+      key: "bylaws",
+      label: labels.bylaws,
+      className: "border-opseu-blue bg-opseu-blue/10 text-opseu-dark",
+    },
+    {
+      key: "policy",
+      label: labels.policy,
+      className: "border-amber-400 bg-amber-50 text-amber-950",
+    },
+    {
+      key: "ca",
+      label: labels.ca,
+      className: "border-emerald-500 bg-emerald-50 text-emerald-950",
+    },
+  ] as const;
+
+  return (
+    <figure className={cn("max-w-lg space-y-2", className)}>
+      <div
+        className="space-y-2"
+        role="img"
+        aria-label={`${labels.constitution}; ${labels.bylaws}; ${labels.policy}; ${labels.ca}`}
+      >
+        {layers.map((layer, index) => (
+          <div key={layer.key}>
+            <div
+              className={cn(
+                "rounded-lg border-2 px-3 py-3 text-center text-sm font-semibold",
+                layer.className,
+              )}
+            >
+              {layer.label}
+            </div>
+            {index < layers.length - 1 ? (
+              <div
+                className="mx-auto my-1 h-3 w-px bg-gray-300"
+                aria-hidden="true"
+              />
+            ) : null}
+          </div>
+        ))}
+      </div>
+      {caption ? (
+        <figcaption className="text-xs text-gray-600">{caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+}
+
+interface AmendmentFlowDiagramProps {
+  labels: {
+    notice: string;
+    gmm: string;
+    approval: string;
+    publish: string;
+  };
+  caption?: string;
+  className?: string;
+}
+
+/** Notice → quorate GMM → national approval → publish to members. */
+export function AmendmentFlowDiagram({
+  labels,
+  caption,
+  className,
+}: AmendmentFlowDiagramProps) {
+  const steps = [
+    labels.notice,
+    labels.gmm,
+    labels.approval,
+    labels.publish,
+  ] as const;
+
+  return (
+    <figure className={cn("space-y-2", className)}>
+      <ol
+        className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-2"
+        aria-label={steps.join("; ")}
+      >
+        {steps.map((label, index) => (
+          <li key={label} className="flex flex-1 items-center gap-2">
+            <div className="flex-1 rounded-lg border-2 border-opseu-blue/40 bg-opseu-blue/5 px-3 py-3 text-center text-xs font-semibold leading-snug text-opseu-dark sm:text-sm">
+              <span className="mb-1 block text-[0.65rem] uppercase tracking-wide opacity-70">
+                {index + 1}
+              </span>
+              {label}
+            </div>
+            {index < steps.length - 1 ? (
+              <span
+                className="hidden shrink-0 text-lg text-gray-400 sm:inline"
+                aria-hidden="true"
+              >
+                →
+              </span>
+            ) : null}
+          </li>
+        ))}
+      </ol>
+      {caption ? (
+        <figcaption className="text-xs text-gray-600">{caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+}
+
+interface QuorumTiersDiagramProps {
+  tiers: readonly [
+    { label: string; body: string },
+    { label: string; body: string },
+    { label: string; body: string },
+  ];
+  caption?: string;
+  className?: string;
+}
+
+/** Public light-theme port of Officer Learning module 4 quorum scales. */
+export function QuorumTiersDiagram({
+  tiers,
+  caption,
+  className,
+}: QuorumTiersDiagramProps) {
+  return (
+    <figure className={cn("space-y-2", className)}>
+      <div
+        className="grid gap-2 sm:grid-cols-3"
+        role="img"
+        aria-label={tiers.map((t) => `${t.label}: ${t.body}`).join("; ")}
+      >
+        {tiers.map((tier) => (
+          <div
+            key={tier.label}
+            className="rounded-lg border-2 border-teal-500/40 bg-teal-50 px-3 py-3 text-center"
+          >
+            <p className="text-xs font-bold uppercase tracking-wide text-teal-800">
+              {tier.label}
+            </p>
+            <p className="mt-2 text-sm font-semibold leading-snug text-teal-950">
+              {tier.body}
+            </p>
+          </div>
+        ))}
+      </div>
+      {caption ? (
+        <figcaption className="text-xs text-gray-600">{caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+}
+
+interface BargainingLifecycleDiagramProps {
+  labels: {
+    prep: string;
+    table: string;
+    dispute: string;
+    ratify: string;
+  };
+  caption?: string;
+  className?: string;
+}
+
+/** Prep → Table → Dispute → Ratification for Local Bargaining Committees. */
+export function BargainingLifecycleDiagram({
+  labels,
+  caption,
+  className,
+}: BargainingLifecycleDiagramProps) {
+  const steps = [
+    labels.prep,
+    labels.table,
+    labels.dispute,
+    labels.ratify,
+  ] as const;
+
+  return (
+    <figure className={cn("space-y-2", className)}>
+      <ol
+        className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-2"
+        aria-label={steps.join("; ")}
+      >
+        {steps.map((label, index) => (
+          <li key={label} className="flex flex-1 items-center gap-2">
+            <div className="flex-1 rounded-lg border-2 border-opseu-blue/40 bg-opseu-blue/5 px-3 py-3 text-center text-xs font-semibold leading-snug text-opseu-dark sm:text-sm">
+              <span className="mb-1 block text-[0.65rem] uppercase tracking-wide opacity-70">
+                {index + 1}
+              </span>
+              {label}
+            </div>
+            {index < steps.length - 1 ? (
+              <span
+                className="hidden shrink-0 text-lg text-gray-400 sm:inline"
+                aria-hidden="true"
+              >
+                →
+              </span>
+            ) : null}
+          </li>
+        ))}
+      </ol>
+      {caption ? (
+        <figcaption className="text-xs text-gray-600">{caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+}
+
+interface NoBoardCountdownDiagramProps {
+  labels: {
+    conciliation: string;
+    noBoard: string;
+    countdown: string;
+    legal: string;
+  };
+  caption?: string;
+  className?: string;
+}
+
+/** Conciliation → No Board → countdown → lawful strike/lockout window. */
+export function NoBoardCountdownDiagram({
+  labels,
+  caption,
+  className,
+}: NoBoardCountdownDiagramProps) {
+  const steps = [
+    { label: labels.conciliation, tone: "sky" as const },
+    { label: labels.noBoard, tone: "amber" as const },
+    { label: labels.countdown, tone: "amber" as const },
+    { label: labels.legal, tone: "rose" as const },
+  ];
+
+  const toneClass = {
+    sky: "border-sky-400/50 bg-sky-50 text-sky-950",
+    amber: "border-amber-400/50 bg-amber-50 text-amber-950",
+    rose: "border-rose-400/50 bg-rose-50 text-rose-950",
+  } as const;
+
+  return (
+    <figure className={cn("space-y-2", className)}>
+      <ol
+        className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4"
+        aria-label={steps.map((s) => s.label).join("; ")}
+      >
+        {steps.map((step, index) => (
+          <li
+            key={step.label}
+            className={cn(
+              "rounded-lg border-2 px-3 py-3 text-center text-xs font-semibold leading-snug sm:text-sm",
+              toneClass[step.tone],
+            )}
+          >
+            <span className="mb-1 block text-[0.65rem] uppercase tracking-wide opacity-70">
+              {index + 1}
+            </span>
+            {step.label}
+          </li>
+        ))}
+      </ol>
+      {caption ? (
+        <figcaption className="text-xs text-gray-600">{caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+}

@@ -6609,8 +6609,8 @@
         "body": "Trois espaces sur l'appareil — diagramme du filtre en cinq points, visuels Meiorin et durcissement, PDF de poche dans chaque outil, et liens de pratique depuis le hub des guides du délégué."
       },
       "local-bylaws-guide": {
-        "title": "Règlements locaux : les règles de votre section",
-        "body": "Un guide complet : constitution contre règlements, étapes de modification, chronologie d'assemblée, liste de contrôle et exemples du SCFP, d'Unifor et d'OPSEU / SEFPO."
+        "title": "Règlements locaux — guide de terrain définitif",
+        "body": "Diagrammes de hiérarchie des documents, flux de modification et paliers de quorum ; tableau d'AGM commenté ; PDF d'adoption et de quorum ; sources constitutionnelles pairs."
       },
       "local-bylaws-builder": {
         "title": "Créateur de règlements — préréglages, brouillons et exports",
@@ -9490,7 +9490,8 @@
           "content": "Délai de préavis, seuil de vote en AGM (souvent 2/3), et toute étape d'approbation nationale avant l'entrée en vigueur."
         }
       },
-      "tip": "Si un différend survient et que les règlements sont muets, la salle invente une règle sous pression — écrivez les réponses pendant que le calme règne."
+      "tip": "Si un différend survient et que les règlements sont muets, la salle invente une règle sous pression — écrivez les réponses pendant que le calme règne.",
+      "electionsDeepen": "Pour les étapes du scrutin secret et les règles de perte de quorum, ouvrez le"
     },
     "amend": {
       "navLabel": "Comment modifier",
@@ -9517,7 +9518,8 @@
       "warningTitle": "Pas de réécriture à huis clos",
       "warning": "Un vote du CEL seul ne modifie pas les règlements. Les membres ont besoin d'un préavis, d'une AGM avec quorum et — lorsque votre constitution l'exige — d'une approbation nationale avant que le nouveau texte soit en vigueur.",
       "boardNoticeCta": "Afficher l'avis d'AGM",
-      "emailCta": "Rédiger le courriel aux membres"
+      "emailCta": "Rédiger le courriel aux membres",
+      "eventCta": "Trousse d'invitation d'AGM"
     },
     "scenario": {
       "navLabel": "Exemple concret",
@@ -9526,34 +9528,48 @@
       "phases": {
         "d0": {
           "label": "Jour 0 — Lire la constitution",
-          "content": "Le président et le secrétaire tirent l'article de la constitution nationale sur les règlements locaux et la clause de modification actuelle de la section 243 (délai de préavis + 2/3)."
+          "content": "Le président et le secrétaire tirent l'article de la constitution nationale sur les règlements locaux et la clause de modification actuelle de la section 243 (délai de préavis + 2/3).",
+          "artifact": "PDF de la constitution + classeur des règlements actuels"
         },
         "d1": {
           "label": "Jour 1 — Rédiger le changement",
-          "content": "Ils ouvrent le Créateur de règlements, chargent l'exemple campus, et ne réécrivent que la phrase sur le quorum. Ils gardent un texte comparatif ancien/nouveau pour le dossier de préavis."
+          "content": "Ils ouvrent le Créateur de règlements, chargent l'exemple campus, et ne réécrivent que la phrase sur le quorum. Ils gardent un texte comparatif ancien/nouveau pour le dossier de préavis.",
+          "artifact": "Comparaison Créateur de règlements (ancien vs nouveau quorum)"
         },
         "d2": {
           "label": "Jour 2 — Convocation de l'AGM",
-          "content": "Ils fixent une date d'AGM au moins 30 jours plus loin, affichent un avis de tableau, et envoient un courriel avec le libellé exact proposé."
+          "content": "Ils fixent une date d'AGM au moins 30 jours plus loin, affichent un avis de tableau, et envoient un courriel avec le libellé exact proposé.",
+          "artifact": "Avis de tableau + courriel aux membres avec le libellé exact"
         },
         "d3": {
           "label": "Jour 15 — Répondre aux questions",
-          "content": "À la réunion du CEL, ils consignent les questions des membres. Ils ne « corrigent » pas le libellé affiché sans recommencer le délai de préavis."
+          "content": "À la réunion du CEL, ils consignent les questions des membres. Ils ne « corrigent » pas le libellé affiché sans recommencer le délai de préavis.",
+          "artifact": "Procès-verbal du CEL avec les questions des membres"
         },
         "d4": {
           "label": "Jour 30 — Vote en AGM avec quorum",
-          "content": "Le secrétaire compte les membres présents selon la règle de quorum actuelle. La motion exige les deux tiers des présents. Le procès-verbal consigne le décompte et le résultat."
+          "content": "Le secrétaire compte les membres présents selon la règle de quorum actuelle. La motion exige les deux tiers des présents. Le procès-verbal consigne le décompte et le résultat.",
+          "artifact": "Procès-verbal d'AGM signé avec décompte et résultat des 2/3"
         },
         "d5": {
           "label": "Jour 31 — Soumettre pour approbation",
-          "content": "Ils envoient le dossier des règlements modifiés au bureau national ou provincial selon la voie exigée par leur syndicat (souvent via le carrefour des outils membres ou le bureau du président national)."
+          "content": "Ils envoient le dossier des règlements modifiés au bureau national ou provincial selon la voie exigée par leur syndicat (souvent via le carrefour des outils membres ou le bureau du président national).",
+          "artifact": "Dossier de soumission nationale / lettre d'accompagnement"
         },
         "d6": {
           "label": "Après approbation — Publier",
-          "content": "Seulement après une approbation écrite mettent-ils à jour le site local, le classeur du tableau et le PDF aux membres. Jusque-là, l'ancien quorum s'applique encore."
+          "content": "Seulement après une approbation écrite mettent-ils à jour le site local, le classeur du tableau et le PDF aux membres. Jusque-là, l'ancien quorum s'applique encore.",
+          "artifact": "PDF membre approuvé + organigramme à jour"
         }
       },
-      "tip": "Traitez « adopté en AGM » et « en vigueur » comme deux dates différentes lorsque l'approbation nationale est exigée."
+      "tip": "Traitez « adopté en AGM » et « en vigueur » comme deux dates différentes lorsque l'approbation nationale est exigée.",
+      "tableCaption": "Section fictive 243 — hausser le quorum de l'AGM de 15 à 25",
+      "headers": {
+        "day": "Quand",
+        "action": "Ce que font les dirigeants",
+        "artifact": "Preuve à conserver"
+      },
+      "builderCta": "Ouvrir l'exemple campus dans le Créateur de règlements"
     },
     "checklist": {
       "navLabel": "Liste de contrôle",
@@ -9561,14 +9577,38 @@
       "intro": "Imprimez cette feuille avant de convoquer une AGM sur les règlements. Cochez seulement ce que vous pouvez prouver par un document.",
       "caption": "Liste de contrôle des règlements locaux",
       "items": {
-        "readConstitution": "Lire l'article de la constitution nationale ou provinciale sur les règlements locaux et joindre une copie au dossier.",
-        "comparePeers": "Parcourir un guide pair (guide des règlements du SCFP ou votre modèle national) pour repérer les articles manquants.",
-        "draftText": "Rédiger un texte d'articles clair dans le Créateur de règlements ou Word — une liste de changements que les membres peuvent lire à voix haute.",
-        "postNotice": "Afficher et envoyer le préavis requis avec le libellé exact et la date de l'AGM.",
-        "quorumMath": "Noter le quorum actuel de l'AGM et comment vous compterez les membres présents le soir même.",
-        "gmmVote": "Tenir le vote à une AGM avec quorum et consigner le résultat des 2/3 dans un procès-verbal signé.",
-        "submitNational": "Soumettre le dossier pour approbation nationale ou provinciale lorsque votre constitution l'exige.",
-        "publishMembers": "Publier le texte approuvé aux membres et retirer l'ancien PDF des tableaux et du site."
+        "readConstitution": {
+          "label": "Lire la constitution",
+          "content": "Lire l'article de la constitution nationale ou provinciale sur les règlements locaux et joindre une copie au dossier."
+        },
+        "comparePeers": {
+          "label": "Comparer les guides pairs",
+          "content": "Parcourir un guide pair (guide des règlements du SCFP ou votre modèle national) pour repérer les articles manquants."
+        },
+        "draftText": {
+          "label": "Rédiger un texte clair",
+          "content": "Rédiger un texte d'articles clair dans le Créateur de règlements ou Word — une liste de changements que les membres peuvent lire à voix haute."
+        },
+        "postNotice": {
+          "label": "Afficher le préavis",
+          "content": "Afficher et envoyer le préavis requis avec le libellé exact et la date de l'AGM."
+        },
+        "quorumMath": {
+          "label": "Noter le calcul du quorum",
+          "content": "Noter le quorum actuel de l'AGM et comment vous compterez les membres présents le soir même."
+        },
+        "gmmVote": {
+          "label": "Tenir le vote en AGM",
+          "content": "Tenir le vote à une AGM avec quorum et consigner le résultat des 2/3 dans un procès-verbal signé."
+        },
+        "submitNational": {
+          "label": "Soumettre pour approbation",
+          "content": "Soumettre le dossier pour approbation nationale ou provinciale lorsque votre constitution l'exige."
+        },
+        "publishMembers": {
+          "label": "Publier aux membres",
+          "content": "Publier le texte approuvé aux membres et retirer l'ancien PDF des tableaux et du site."
+        }
       }
     },
     "examples": {
@@ -9656,6 +9696,62 @@
     "sourcesNote": {
       "title": "Ouvrez les sources avant de rédiger",
       "body": "Le bloc Sources ci-dessous lie le guide des règlements du SCFP, les constitutions du SCFP et d'Unifor, et le carrefour d'outils d'OPSEU / SEFPO. Lisez d'abord votre propre constitution ; utilisez les PDF pairs pour repérer les articles manquants, pas pour copier une autre section en entier."
+    },
+    "diagrams": {
+      "hierarchy": {
+        "constitution": "Constitution nationale ou provinciale",
+        "bylaws": "Règlements locaux",
+        "policy": "Politique du CEL / règles permanentes",
+        "ca": "Convention collective (contrat employeur)",
+        "caption": "La constitution l'emporte en cas de conflit. Les règlements exigent la démocratie des membres. La politique est le quotidien. La convention est un autre combat."
+      },
+      "amendment": {
+        "notice": "Préavis",
+        "gmm": "AGM avec quorum + 2/3",
+        "approval": "Approbation nationale",
+        "publish": "Publier aux membres",
+        "caption": "Adopté en AGM n'est pas la même chose qu'en vigueur lorsque l'approbation nationale est exigée."
+      },
+      "quorum": {
+        "title": "Le quorum s'adapte à l'effectif",
+        "intro": "Écrivez un nombre ou un pourcentage que votre section peut réellement atteindre. La perte de quorum en cours de réunion arrête les votes contraignants.",
+        "tier1Label": "Petite",
+        "tier1": "Souvent un plancher fixe (p. ex. 15) ou 50 % + 1 des membres en règle",
+        "tier2Label": "Moyenne",
+        "tier2": "Un % des membres inscrits dans les règlements, ou le moindre d'un plancher et d'un %",
+        "tier3Label": "Grande",
+        "tier3": "Plancher fixe ou % — confirmez vos propres règlements et votre constitution",
+        "caption": "Paliers types pour la discussion — votre constitution et vos règlements fixent le vrai chiffre."
+      }
+    },
+    "reference": {
+      "navLabel": "Documents de référence",
+      "intro": "Imprimez les fiches de poche avant une AGM sur les règlements, puis ouvrez le Créateur de règlements ou la Formation des dirigeants pour approfondir."
+    },
+    "referenceMaterials": {
+      "downloading": "Préparation du PDF…",
+      "exportError": "Échec de l'export PDF — réessayez, ou copiez la liste de contrôle à la main.",
+      "adoption": {
+        "title": "Liste d'adoption et de modification",
+        "body": "PDF d'une page : avant le préavis, soirée d'AGM, et après l'approbation nationale.",
+        "cta": "Télécharger la liste d'adoption (PDF)"
+      },
+      "quorum": {
+        "title": "Modèle quorum et motion",
+        "body": "Fiche pour la soirée : confirmer le quorum et consigner une motion axée sur la décision.",
+        "cta": "Télécharger le modèle quorum et motion (PDF)",
+        "moduleTitle": "Gouvernance démocratique"
+      },
+      "builder": {
+        "title": "Créateur de règlements (exemple campus)",
+        "body": "Chargez un brouillon de taille campus, modifiez les articles, puis exportez texte, Markdown ou PDF pour Word.",
+        "cta": "Ouvrir l'exemple campus"
+      },
+      "governance": {
+        "title": "Formation des dirigeants — Module 4",
+        "body": "Paliers de quorum, élections à scrutin secret, procès-verbaux sobres, et un scénario de motion de charité avec autoévaluation.",
+        "cta": "Ouvrir la gouvernance démocratique"
+      }
     }
   },
   "bylawBuilder": {
@@ -9737,6 +9833,10 @@
       "committees": "Article 11 : Comités. Le CEL peut créer des comités permanents et spéciaux. Les mandats des comités ne doivent pas entrer en conflit avec les présents règlements ni avec la constitution nationale ou provinciale.",
       "amendments": "Article 12 : Modifications. Les présents règlements ne peuvent être modifiés qu'après {amendmentNotice}, un vote à une assemblée générale des membres avec quorum, et une majorité des deux tiers (2/3) des membres présents. Lorsque la constitution nationale ou provinciale l'exige, les règlements modifiés n'entrent en vigueur qu'après approbation nationale ou provinciale.",
       "conflict": "Article 13 : Conflit avec la constitution. Si une disposition des présents règlements entre en conflit avec la constitution nationale ou provinciale, la constitution prévaut. Les présents règlements doivent être interprétés de manière à donner effet à la constitution dans la mesure du possible."
+    },
+    "checklistPrompt": {
+      "title": "Avant de convoquer l'AGM",
+      "body": "Téléchargez la liste d'adoption pour garder le préavis, le calcul du quorum et l'approbation nationale sur une page."
     }
   },
   "bargainingGuide": {

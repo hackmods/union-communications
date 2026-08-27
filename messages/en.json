@@ -6659,8 +6659,8 @@
         "body": "Three on-device workspaces — five-point filter diagram, Meiorin and work-hardening visuals, pocket PDFs in each tool, and practice links from the steward playbooks hub."
       },
       "local-bylaws-guide": {
-        "title": "Local Bylaws: The Rules of Your Local",
-        "body": "A full floor playbook for constitution vs bylaws, amendment steps, a worked GMM timeline, checklist, and peer examples from CUPE, Unifor, and OPSEU / SEFPO."
+        "title": "Local Bylaws — definitive floor guide",
+        "body": "Diagrams for document hierarchy, amendment flow, and quorum tiers; a worked GMM table; printable adoption and quorum PDFs; and peer constitution sources."
       },
       "local-bylaws-builder": {
         "title": "Bylaw Builder — presets, drafts, and exports",
@@ -9490,7 +9490,8 @@
           "content": "Notice period, GMM vote threshold (usually 2/3), and any national approval step before changes take effect."
         }
       },
-      "tip": "If a dispute arrives and the bylaws are silent, the room invents a rule under pressure — write the answers down while things are calm."
+      "tip": "If a dispute arrives and the bylaws are silent, the room invents a rule under pressure — write the answers down while things are calm.",
+      "electionsDeepen": "For secret-ballot steps and lost-quorum rules, open the"
     },
     "amend": {
       "navLabel": "How to amend",
@@ -9517,7 +9518,8 @@
       "warningTitle": "No closed-door rewrites",
       "warning": "An LEC vote alone does not amend bylaws. Members need notice, a quorate GMM, and — where your constitution requires it — national approval before the new text is live.",
       "boardNoticeCta": "Post GMM notice",
-      "emailCta": "Draft member email"
+      "emailCta": "Draft member email",
+      "eventCta": "GMM invite pack"
     },
     "scenario": {
       "navLabel": "Worked amendment",
@@ -9526,34 +9528,48 @@
       "phases": {
         "d0": {
           "label": "Day 0 — Read the constitution",
-          "content": "President and Secretary pull the national constitution article on local bylaws and the current Local 243 amendment clause (notice days + 2/3)."
+          "content": "President and Secretary pull the national constitution article on local bylaws and the current Local 243 amendment clause (notice days + 2/3).",
+          "artifact": "Constitution PDF + current bylaws binder"
         },
         "d1": {
           "label": "Day 1 — Draft the change",
-          "content": "They open Bylaw Builder, load the campus sample, and rewrite only the quorum sentence. They keep a redline of old vs new text for the notice package."
+          "content": "They open Bylaw Builder, load the campus sample, and rewrite only the quorum sentence. They keep a redline of old vs new text for the notice package.",
+          "artifact": "Bylaw Builder redline (old vs new quorum)"
         },
         "d2": {
           "label": "Day 2 — Book the GMM",
-          "content": "They set a GMM date at least 30 days out, post a Board Notice, and send an email with the exact proposed wording."
+          "content": "They set a GMM date at least 30 days out, post a Board Notice, and send an email with the exact proposed wording.",
+          "artifact": "Board Notice + member email with exact wording"
         },
         "d3": {
           "label": "Day 15 — Answer questions",
-          "content": "At the LEC meeting they record questions from members. They do not \"fix\" the posted wording without a fresh notice clock."
+          "content": "At the LEC meeting they record questions from members. They do not \"fix\" the posted wording without a fresh notice clock.",
+          "artifact": "LEC minutes with member questions"
         },
         "d4": {
           "label": "Day 30 — Quorate GMM vote",
-          "content": "Secretary counts members present against the current quorum rule. The motion needs two-thirds of those present. Minutes capture the count and the result."
+          "content": "Secretary counts members present against the current quorum rule. The motion needs two-thirds of those present. Minutes capture the count and the result.",
+          "artifact": "Signed GMM minutes with count and 2/3 result"
         },
         "d5": {
           "label": "Day 31 — Submit for approval",
-          "content": "They send the amended bylaws package to the national or provincial office using the path their union requires (often through the members tools hub or national president's office)."
+          "content": "They send the amended bylaws package to the national or provincial office using the path their union requires (often through the members tools hub or national president's office).",
+          "artifact": "National submission package / cover letter"
         },
         "d6": {
           "label": "After approval — Publish",
-          "content": "Only after written approval do they update the local website, board binder, and member PDF. Until then, the old quorum still governs."
+          "content": "Only after written approval do they update the local website, board binder, and member PDF. Until then, the old quorum still governs.",
+          "artifact": "Approved member PDF + updated Org Chart"
         }
       },
-      "tip": "Treat \"passed at the GMM\" and \"in force\" as two different dates whenever national approval is required."
+      "tip": "Treat \"passed at the GMM\" and \"in force\" as two different dates whenever national approval is required.",
+      "tableCaption": "Fictional Local 243 — raising GMM quorum from 15 to 25",
+      "headers": {
+        "day": "When",
+        "action": "What officers do",
+        "artifact": "Proof to keep"
+      },
+      "builderCta": "Open campus sample in Bylaw Builder"
     },
     "checklist": {
       "navLabel": "Adoption checklist",
@@ -9561,14 +9577,38 @@
       "intro": "Print this sheet before you call a bylaw GMM. Tick only what you can prove with a document.",
       "caption": "Local bylaws checklist",
       "items": {
-        "readConstitution": "Read the national/provincial constitution article on local bylaws and keep a copy with the package.",
-        "comparePeers": "Skim a peer guide (CUPE bylaws guide or your own national model) for missing articles.",
-        "draftText": "Draft clean article text in Bylaw Builder or Word — one change list members can read aloud.",
-        "postNotice": "Post and send the required advance notice with the exact wording and GMM date.",
-        "quorumMath": "Write down current GMM quorum and how you will count members present on the night.",
-        "gmmVote": "Hold the vote at a quorate GMM and record the 2/3 result in signed minutes.",
-        "submitNational": "Submit the package for national/provincial approval when your constitution requires it.",
-        "publishMembers": "Publish the approved text to members and retire the old PDF from boards and the website."
+        "readConstitution": {
+          "label": "Read the constitution",
+          "content": "Read the national/provincial constitution article on local bylaws and keep a copy with the package."
+        },
+        "comparePeers": {
+          "label": "Compare peer guides",
+          "content": "Skim a peer guide (CUPE bylaws guide or your own national model) for missing articles."
+        },
+        "draftText": {
+          "label": "Draft clean text",
+          "content": "Draft clean article text in Bylaw Builder or Word — one change list members can read aloud."
+        },
+        "postNotice": {
+          "label": "Post notice",
+          "content": "Post and send the required advance notice with the exact wording and GMM date."
+        },
+        "quorumMath": {
+          "label": "Write quorum math",
+          "content": "Write down current GMM quorum and how you will count members present on the night."
+        },
+        "gmmVote": {
+          "label": "Hold the GMM vote",
+          "content": "Hold the vote at a quorate GMM and record the 2/3 result in signed minutes."
+        },
+        "submitNational": {
+          "label": "Submit for approval",
+          "content": "Submit the package for national/provincial approval when your constitution requires it."
+        },
+        "publishMembers": {
+          "label": "Publish to members",
+          "content": "Publish the approved text to members and retire the old PDF from boards and the website."
+        }
       }
     },
     "examples": {
@@ -9656,6 +9696,62 @@
     "sourcesNote": {
       "title": "Open the sources before you draft",
       "body": "The Sources block below links the CUPE bylaws guide, CUPE and Unifor constitutions, and the OPSEU / SEFPO tools hub. Read your own constitution first; use peer PDFs to spot missing articles, not to copy another local wholesale."
+    },
+    "diagrams": {
+      "hierarchy": {
+        "constitution": "National / Provincial constitution",
+        "bylaws": "Local bylaws",
+        "policy": "LEC policy / standing orders",
+        "ca": "Collective agreement (employer contract)",
+        "caption": "Constitution wins conflicts. Bylaws need membership democracy. Policy is day-to-day. The CA is a different fight."
+      },
+      "amendment": {
+        "notice": "Advance notice",
+        "gmm": "Quorate GMM + 2/3",
+        "approval": "National approval",
+        "publish": "Publish to members",
+        "caption": "Passed at the GMM is not the same as in force when national approval is required."
+      },
+      "quorum": {
+        "title": "Quorum scales with membership",
+        "intro": "Write a number or percentage your local can actually meet. Lost quorum mid-meeting stops binding votes.",
+        "tier1Label": "Small",
+        "tier1": "Often a fixed floor (e.g. 15) or 50% + 1 of members in good standing",
+        "tier2Label": "Mid-size",
+        "tier2": "A bylaw % of registered membership, or the lesser of a floor and a %",
+        "tier3Label": "Large",
+        "tier3": "Fixed floor or % — confirm your own bylaws and constitution",
+        "caption": "Sample tiers for discussion — your constitution and bylaws control the real number."
+      }
+    },
+    "reference": {
+      "navLabel": "Reference materials",
+      "intro": "Print the pocket sheets before a bylaw GMM, then open Bylaw Builder or Officer Learning for the deep dive."
+    },
+    "referenceMaterials": {
+      "downloading": "Preparing PDF…",
+      "exportError": "PDF export failed — try again, or copy the on-page checklist by hand.",
+      "adoption": {
+        "title": "Adoption & amendment checklist",
+        "body": "One-page PDF: before notice, GMM night, and after national approval.",
+        "cta": "Download adoption checklist PDF"
+      },
+      "quorum": {
+        "title": "Quorum & motion template",
+        "body": "Meeting-night sheet to confirm quorum and capture a decision-focused motion.",
+        "cta": "Download quorum & motion PDF",
+        "moduleTitle": "Democratic governance"
+      },
+      "builder": {
+        "title": "Bylaw Builder (campus sample)",
+        "body": "Load a campus-sized draft, edit the articles, then export text, Markdown, or PDF for Word.",
+        "cta": "Open campus sample"
+      },
+      "governance": {
+        "title": "Officer Learning — Module 4",
+        "body": "Quorum tiers, secret-ballot elections, dull minutes, and a worked charity-motion scenario with a self-test.",
+        "cta": "Open democratic governance"
+      }
     }
   },
   "bylawBuilder": {
@@ -9737,6 +9833,10 @@
       "committees": "Article 11: Committees. The LEC may establish standing and special committees. Committee terms of reference shall not conflict with these bylaws or the National or Provincial constitution.",
       "amendments": "Article 12: Amendments. These bylaws may be amended only after {amendmentNotice}, a vote at a quorate General Membership Meeting, and a two-thirds (2/3) majority of members present. Where required by the National or Provincial constitution, amended bylaws take effect only after national or provincial approval.",
       "conflict": "Article 13: Conflict with the Constitution. If any provision of these bylaws conflicts with the National or Provincial constitution, the constitution prevails. These bylaws shall be read to give effect to the constitution wherever possible."
+    },
+    "checklistPrompt": {
+      "title": "Before you call the GMM",
+      "body": "Download the adoption checklist so notice, quorum math, and national approval stay on one page."
     }
   },
   "bargainingGuide": {
