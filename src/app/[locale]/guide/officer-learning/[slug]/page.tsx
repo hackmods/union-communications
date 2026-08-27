@@ -5,8 +5,8 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import {
   getModuleBySlug,
   getNextModuleSlug,
-  loadParsedModule,
 } from "@/lib/officer-learning/modules";
+import { loadParsedModule } from "@/lib/officer-learning/load-module";
 import { ModuleViewer } from "@/components/officer-learning/ModuleViewer";
 
 const SOURCES_PAGE_BY_SLUG: Record<string, string> = {

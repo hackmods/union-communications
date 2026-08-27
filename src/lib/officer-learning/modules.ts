@@ -1,8 +1,6 @@
-import fs from "node:fs";
-import path from "node:path";
-import type { ModuleMeta, ParsedModule } from "./types";
-import { estimateReadingMinutes, parseOfficerLearningModule } from "./parse-module";
+import type { ModuleMeta } from "./types";
 
+/** Client-safe module catalog (no Node fs). Load markdown via `load-module.ts` on the server. */
 export const OFFICER_LEARNING_MODULES: ModuleMeta[] = [
   {
     id: "module-1",
@@ -48,32 +46,12 @@ export const OFFICER_LEARNING_MODULES: ModuleMeta[] = [
   },
 ];
 
-const CONTENT_DIR = path.join(process.cwd(), "src/content/officer-learning");
-
 export function getModuleBySlug(slug: string): ModuleMeta | undefined {
   return OFFICER_LEARNING_MODULES.find((m) => m.slug === slug);
 }
 
 export function getModuleById(id: string): ModuleMeta | undefined {
   return OFFICER_LEARNING_MODULES.find((m) => m.id === id);
-}
-
-function moduleMarkdownPath(id: string, locale?: string): string {
-  if (locale === "fr") {
-    return path.join(CONTENT_DIR, "fr", `${id}.md`);
-  }
-  return path.join(CONTENT_DIR, `${id}.md`);
-}
-
-export function loadParsedModule(id: string, locale?: string): ParsedModule {
-  const filePath = moduleMarkdownPath(id, locale);
-  const markdown = fs.readFileSync(filePath, "utf-8");
-  const parsed = parseOfficerLearningModule(id, markdown);
-  const meta = getModuleById(id);
-  if (meta) {
-    meta.readingMinutes = estimateReadingMinutes(parsed);
-  }
-  return parsed;
 }
 
 export function getNextModuleSlug(currentSlug: string): string | null {
