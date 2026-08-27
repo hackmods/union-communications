@@ -35,6 +35,9 @@ export const PUBLIC_NS = [
   "websiteTemplate",
   "logoBuilder",
   "brandKit",
+  "rtwAccommodation",
+  "preDisciplinaryLog",
+  "complaintVsGrievance",
   // Brand Kit editors on the public /brand-kit page (not Hub-only).
   "localLinks",
   "membershipUrls",
@@ -96,6 +99,7 @@ export const HUB_NS = [
   "committees",
   "elections",
   "informalLog",
+  "stewardGuidesHub",
   "minutes",
   "discussions",
   "hubSocial",

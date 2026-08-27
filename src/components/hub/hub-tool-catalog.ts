@@ -28,6 +28,7 @@ import { HUB_TOOL_GROUPS, type HubToolLink } from "./hub-nav-model";
 export type HubToolLabelKey =
   | "calendarLink"
   | "overdueLink"
+  | "stewardGuidesLink"
   | "snippetsLink"
   | "marketplaceLink"
   | "documentsLink"
@@ -52,6 +53,7 @@ export type HubToolLabelKey =
 export type HubToolBlurbKey =
   | "calendar"
   | "overdue"
+  | "stewardGuides"
   | "snippets"
   | "marketplace"
   | "documents"
@@ -112,6 +114,12 @@ export const HUB_TOOL_CATALOG: readonly HubToolDef[] = [
     href: "/app/overdue",
     labelKey: "overdueLink",
     blurbKey: "overdue",
+    visible: (a) => a.grievance,
+  },
+  {
+    href: "/app/steward-guides",
+    labelKey: "stewardGuidesLink",
+    blurbKey: "stewardGuides",
     visible: (a) => a.grievance,
   },
   {

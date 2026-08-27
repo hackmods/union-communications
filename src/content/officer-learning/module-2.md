@@ -116,6 +116,8 @@ An employer cannot discipline an employee for off-duty conduct unless they can p
 
 Practice: Role-play a disciplinary meeting. Manager presents a one-day suspension for lateness (three incidents in two months). Steward must ask for proof of each date, prior warnings given, and whether other late workers were disciplined. Steward closes by offering mitigation (medical appointment documentation, transit delays) and requesting reduction to a written warning. Timebox: 12 minutes. Debrief whether anyone accidentally admitted facts the employer had not proven.
 
+Practice in the tool: open Tools → Steward prep → Pre-disciplinary log (/tools/pre-disciplinary-log) and complete the rights checklist for the same scenario.
+
 ---
 
 ## Floor checklist

@@ -126,4 +126,19 @@ export const RELATED_BY_TOOL: Record<
     { href: "/tools/graphic-maker", navKey: "graphicMaker" },
     { href: "/guide/photo-consent", navKey: "photoConsent" },
   ],
+  "rtw-accommodation": [
+    { href: "/tools/complaint-vs-grievance", navKey: "complaintVsGrievance" },
+    { href: "/tools/pre-disciplinary-log", navKey: "preDisciplinaryLog" },
+    { href: "/guide/steward-101", navKey: "steward101Guide" },
+  ],
+  "pre-disciplinary-log": [
+    { href: "/tools/complaint-vs-grievance", navKey: "complaintVsGrievance" },
+    { href: "/tools/rtw-accommodation", navKey: "rtwAccommodation" },
+    { href: "/guide/grievance-process", navKey: "grievanceProcessGuide" },
+  ],
+  "complaint-vs-grievance": [
+    { href: "/guide/grievance-process", navKey: "grievanceProcessGuide" },
+    { href: "/guide/dfr", navKey: "dfrGuide" },
+    { href: "/tools/document-generator", navKey: "documentGenerator" },
+  ],
 };

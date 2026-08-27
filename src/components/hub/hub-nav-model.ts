@@ -22,6 +22,7 @@ export const HUB_TOOL_GROUPS: readonly HubToolGroupDef[] = [
     hrefs: [
       "/app/calendar",
       "/app/overdue",
+      "/app/steward-guides",
       "/app/snippets",
       "/app/marketplace",
       "/app/documents",

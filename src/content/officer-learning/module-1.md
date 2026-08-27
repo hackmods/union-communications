@@ -120,6 +120,8 @@ In labor law, when an elected or appointed steward acts in their official union 
 
 Practice: Pair up. One person plays a rushed steward; the other plays a member who says only "They always screw me on OT — I want to grieve." The steward has seven minutes to ask 6 W's questions and complete a one-page FAR outline. Switch roles with a different scenario (missed break, denied vacation day). Debrief: Did anyone file before confirming a contract clause? Did the WANT stay specific?
 
+Practice in the tool: open Tools → Steward prep → Complaint vs grievance (/tools/complaint-vs-grievance) and score the same scenario before you draft the FAR.
+
 ---
 
 ## Floor checklist

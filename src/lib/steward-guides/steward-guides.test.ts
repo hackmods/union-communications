@@ -1,0 +1,207 @@
+import { describe, expect, it } from "vitest";
+import {
+  buildRtwScripts,
+  createEmptyRtwDraft,
+  isRtwIntakeDraft,
+  rtwDraftToMarkdown,
+} from "@/lib/steward-guides/rtw";
+import {
+  buildPreDisciplinaryScripts,
+  createEmptyPreDisciplinaryDraft,
+  isCriminalAllegation,
+  suggestLetterOfCounsel,
+} from "@/lib/steward-guides/pre-disciplinary";
+import {
+  createEmptyComplaintDraft,
+  grievanceViabilityIndex,
+  unlocksGrievanceForm,
+  complaintDraftToMarkdown,
+} from "@/lib/steward-guides/complaint-diagnostic";
+
+const rtwLabels = {
+  dear: "Dear",
+  basedOn: "Based on",
+  propose: "We propose",
+  preserve:
+    "We ask that accommodations preserve pre-injury wage rate and bargaining-unit standing.",
+  closing: "In solidarity,",
+  verbalLead: "Talking points:",
+  memberFallback: "the member",
+  hrFallback: "HR",
+  measuresHeading: "Proposed measures",
+  measureLabels: {
+    modifiedHours: "Modified hours",
+    lightDuties: "Light duties",
+    ergonomicEquipment: "Ergonomic equipment",
+    taskBundling: "Task bundling",
+    alternativeLocation: "Alternative location",
+  },
+  customMeasureLabel: "Other",
+  groundLabels: {
+    creed: "Creed",
+    disability: "Disability",
+    familyStatus: "Family status",
+    sex: "Sex",
+    genderIdentity: "Gender identity",
+    race: "Race",
+    age: "Age",
+    other: "Other",
+  },
+  groundLead: "This is an active accommodation request under prohibited grounds",
+};
+
+describe("rtw intake", () => {
+  it("validates empty draft shape", () => {
+    expect(isRtwIntakeDraft(createEmptyRtwDraft())).toBe(true);
+    expect(isRtwIntakeDraft({})).toBe(false);
+  });
+
+  it("builds an HR email with member and measures", () => {
+    const draft = createEmptyRtwDraft();
+    draft.memberName = "Alex";
+    draft.hrContact = "Jordan";
+    draft.functionalLimitations = "no lifting over 10 lb";
+    draft.gradualHours = "15 hours/week for 4 weeks";
+    draft.measures = ["taskBundling", "modifiedHours"];
+    const { email } = buildRtwScripts(draft, rtwLabels);
+    expect(email).toContain("Dear Jordan");
+    expect(email).toContain("Alex");
+    expect(email).toContain("Task bundling");
+    expect(rtwDraftToMarkdown(draft, {
+      title: "RTW",
+      modeRtw: "RTW",
+      modeAccommodation: "Accommodation",
+      fields: {
+        mode: "Mode",
+        memberName: "Member",
+        classification: "Class",
+        meetingDate: "Date",
+        hrContact: "HR",
+        returnDate: "Return",
+        gradualHours: "Hours",
+        wsibLtdStatus: "Status",
+        medicalRestrictions: "Restrictions",
+        prohibitedGround: "Ground",
+        requestedModifications: "Mods",
+        functionalLimitations: "Limits",
+        measures: "Measures",
+        emailScript: "Email",
+        verbalScript: "Verbal",
+      },
+      measureLabels: rtwLabels.measureLabels,
+      groundLabels: rtwLabels.groundLabels,
+      scripts: rtwLabels,
+    })).toContain("# RTW");
+  });
+});
+
+describe("pre-disciplinary", () => {
+  it("flags criminal allegation types", () => {
+    expect(isCriminalAllegation("theft")).toBe(true);
+    expect(isCriminalAllegation("fraud")).toBe(true);
+    expect(isCriminalAllegation("criminal")).toBe(true);
+    expect(isCriminalAllegation("attendance")).toBe(false);
+  });
+
+  it("suggests letter of counsel for minor + mitigators", () => {
+    const draft = createEmptyPreDisciplinaryDraft();
+    draft.allegationType = "attendance";
+    draft.mitigators = ["cleanPastRecord", "lengthOfService"];
+    draft.rights = {
+      advanceNotice: "yes",
+      representation: "yes",
+      disclosure: "yes",
+    };
+    expect(suggestLetterOfCounsel(draft)).toBe(true);
+    const scripts = buildPreDisciplinaryScripts(draft, {
+      counselProposal: "COACH",
+      representationPoints: "REP",
+      checklistGapsLead: "Gaps:",
+      rightsLabels: {
+        advanceNotice: "Notice",
+        representation: "Rep",
+        disclosure: "Disclosure",
+      },
+      mitigatorLabels: {
+        lengthOfService: "Service",
+        cleanPastRecord: "Clean",
+        provocation: "Provocation",
+        personalMedicalDistress: "Distress",
+        sincereRemorse: "Remorse",
+      },
+      allegationTypeLabels: {
+        attendance: "Attendance",
+        insubordination: "Insubordination",
+        performance: "Performance",
+        harassment: "Harassment",
+        theft: "Theft",
+        fraud: "Fraud",
+        criminal: "Criminal",
+        other: "Other",
+      },
+      none: "None",
+    });
+    expect(scripts.primary).toBe("COACH");
+  });
+
+  it("does not suggest counsel for theft", () => {
+    const draft = createEmptyPreDisciplinaryDraft();
+    draft.allegationType = "theft";
+    draft.mitigators = ["sincereRemorse"];
+    expect(suggestLetterOfCounsel(draft)).toBe(false);
+  });
+});
+
+describe("complaint diagnostic", () => {
+  it("scores viability and unlocks grievance form", () => {
+    const draft = createEmptyComplaintDraft();
+    expect(grievanceViabilityIndex(draft)).toBe(0);
+    expect(unlocksGrievanceForm(0)).toBe(false);
+    draft.answers.caViolation = "yes";
+    draft.answers.pastPractice = "yes";
+    expect(grievanceViabilityIndex(draft)).toBe(2);
+    expect(unlocksGrievanceForm(2)).toBe(true);
+  });
+
+  it("exports markdown for alternate path at score 0", () => {
+    const draft = createEmptyComplaintDraft();
+    draft.alternateRoutes = ["lmc"];
+    const md = complaintDraftToMarkdown(draft, {
+      title: "Diagnostic",
+      scripts: {
+        pointLabels: {
+          caViolation: "CA",
+          misinterpretation: "Misread",
+          statutory: "Law",
+          pastPractice: "Practice",
+          memberRights: "Rights",
+        },
+        routeLabels: {
+          lmc: "LMC",
+          jhsc: "JHSC",
+          informalSupervisor: "Supervisor",
+          mobilization: "Mobilize",
+        },
+        routeDrafts: {
+          lmc: "Refer to LMC",
+          jhsc: "Refer to JHSC",
+          informalSupervisor: "Talk to supervisor",
+          mobilization: "Survey members",
+        },
+        grievanceDraftHeading: "Draft",
+        who: "Who",
+        what: "What",
+        when: "When",
+        where: "Where",
+        why: "Why",
+        want: "Want",
+        article: "Article",
+        indexLabel: "Index",
+        grievancePath: "Grievance path",
+        alternatePath: "Alternate path",
+      },
+    });
+    expect(md).toContain("Alternate path");
+    expect(md).toContain("Refer to LMC");
+  });
+});

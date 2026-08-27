@@ -176,6 +176,14 @@ export function InformalLogBoard() {
         <div>
           <h1 className="text-3xl font-bold text-opseu-dark">{t("title")}</h1>
           <p className="mt-1 text-gray-600">{t("subtitle")}</p>
+          <p className="mt-2 text-sm text-gray-600">
+            <Link
+              href="/app/steward-guides"
+              className="font-semibold text-opseu-blue underline underline-offset-2"
+            >
+              {t("stewardGuidesLink")}
+            </Link>
+          </p>
         </div>
         <div className="flex flex-wrap gap-2">
           {canWrite && (

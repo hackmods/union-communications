@@ -88,6 +88,21 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       description:
         "Make branded Word, Excel, and PowerPoint files for your local. Presets, colour themes, and ZIP download on your device.",
     },
+    "rtw-accommodation": {
+      title: "Return-to-Work & Accommodation Intake",
+      description:
+        "Capture functional limits and draft HR talking points for RTW or accommodation meetings. Notes stay on your device.",
+    },
+    "pre-disciplinary-log": {
+      title: "Pre-Disciplinary Meeting Log",
+      description:
+        "Check notice, representation, and disclosure before a discipline meeting, then export your notes. Private and on-device.",
+    },
+    "complaint-vs-grievance": {
+      title: "Complaint vs Grievance Diagnostic",
+      description:
+        "Score five eligibility points and draft a grievance intake or an alternate workplace route. Free and on your device.",
+    },
   },
   fr: {
     "flyer-maker": {
@@ -174,6 +189,21 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       title: "Générateur de documents et diapositives gratuit",
       description:
         "Créez des fichiers Word, Excel et PowerPoint à l'image de votre section. Préréglages, thèmes et téléchargement ZIP, sur votre appareil.",
+    },
+    "rtw-accommodation": {
+      title: "Prise en charge du retour au travail et de l'adaptation",
+      description:
+        "Notez les limites fonctionnelles et rédigez des points de discussion RH pour le retour au travail ou l'adaptation. Les notes restent sur votre appareil.",
+    },
+    "pre-disciplinary-log": {
+      title: "Journal de rencontre prédisciplinaire",
+      description:
+        "Vérifiez le préavis, la représentation et la divulgation avant une rencontre disciplinaire, puis exportez vos notes. Privé et sur l'appareil.",
+    },
+    "complaint-vs-grievance": {
+      title: "Diagnostic plainte ou grief",
+      description:
+        "Évaluez cinq points d'admissibilité et rédigez une prise en charge de grief ou une autre voie. Gratuit et sur votre appareil.",
     },
   },
 };

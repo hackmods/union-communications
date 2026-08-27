@@ -102,12 +102,13 @@ describe("path helpers", () => {
 });
 
 describe("toolGroups", () => {
-  it("keeps four job-based tool groups", () => {
+  it("keeps five job-based tool groups", () => {
     expect(toolGroups.map((g) => g.labelKey)).toEqual([
       "toolsGroupBrand",
       "toolsGroupBoards",
       "toolsGroupPrint",
       "toolsGroupSocialWeb",
+      "toolsGroupStewardPrep",
     ]);
     expect(
       toolGroups.find((g) => g.labelKey === "toolsGroupBoards")?.links.map(
@@ -140,6 +141,15 @@ describe("toolGroups", () => {
       "/tools/meeting-background",
       "/tools/website-template",
       "/tools/alt-text",
+    ]);
+    expect(
+      toolGroups
+        .find((g) => g.labelKey === "toolsGroupStewardPrep")
+        ?.links.map((l) => l.href),
+    ).toEqual([
+      "/tools/rtw-accommodation",
+      "/tools/pre-disciplinary-log",
+      "/tools/complaint-vs-grievance",
     ]);
   });
 });

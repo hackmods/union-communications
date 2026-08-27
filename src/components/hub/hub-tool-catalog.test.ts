@@ -55,6 +55,7 @@ describe("resolveHubToolAccess", () => {
     );
     const hrefs = listVisibleHubTools(access).map((item) => item.href);
     expect(hrefs).toContain("/app/overdue");
+    expect(hrefs).toContain("/app/steward-guides");
     expect(hrefs).toContain("/app/snippets");
     expect(hrefs).not.toContain("/app/officer-learning");
     expect(hrefs).not.toContain("/app/handoff");

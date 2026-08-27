@@ -40,7 +40,10 @@ export type NavLinkKey =
   | "quoteCard"
   | "meetingBackground"
   | "websiteTemplate"
-  | "altText";
+  | "altText"
+  | "rtwAccommodation"
+  | "preDisciplinaryLog"
+  | "complaintVsGrievance";
 
 export type NavGroupLabelKey =
   | "learnGroupGuides"
@@ -51,7 +54,8 @@ export type NavGroupLabelKey =
   | "toolsGroupBrand"
   | "toolsGroupBoards"
   | "toolsGroupPrint"
-  | "toolsGroupSocialWeb";
+  | "toolsGroupSocialWeb"
+  | "toolsGroupStewardPrep";
 
 export type NavLink = {
   href: string;
@@ -164,6 +168,14 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/meeting-background", key: "meetingBackground" },
       { href: "/tools/website-template", key: "websiteTemplate" },
       { href: "/tools/alt-text", key: "altText" },
+    ],
+  },
+  {
+    labelKey: "toolsGroupStewardPrep",
+    links: [
+      { href: "/tools/rtw-accommodation", key: "rtwAccommodation" },
+      { href: "/tools/pre-disciplinary-log", key: "preDisciplinaryLog" },
+      { href: "/tools/complaint-vs-grievance", key: "complaintVsGrievance" },
     ],
   },
 ] as const;
