@@ -30,7 +30,7 @@ Portrait forces Minimal. Switching back to Landscape restores the last Bold/Mini
   - Portrait: HD 1080×1920, UHD 2160×3840
 - Preview matches export aspect; flat shadow outside `canvasRef`
 - **Export-safe colours**: inside `canvasRef` use inline hex/`rgba` only — no Tailwind colour utilities
-- **Auto ink**: `pickContrastingInk` on each panel; pass `backgroundColor` to `BrandLogo` (plate-aware — gold/coral bands pick the matching plate lockup so multi-colour logos do not vanish; see `resolveBrandLogoPresentation`)
+- **Auto ink**: `pickContrastingInk` on each panel; pass `backgroundColor` to `BrandLogo` (identity plate assets when the fill matches a Look plate; otherwise a paper safe plate for custom uploads so multi-colour marks stay readable — see `resolveBrandLogoPresentation`)
 - No QR / CTA by default
 - No face silhouette / camera oval overlay in preview
 - Headlines never break mid-word (`white-space: nowrap`); `FitStackedHeadline` shrinks rem until each line fits the container

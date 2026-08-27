@@ -6631,7 +6631,7 @@
       },
       "logo-on-brand-fills": {
         "title": "Les logos restent lisibles sur les fonds aux couleurs de la marque",
-        "body": "Les arrière-plans de réunion et les autres outils visuels choisissent maintenant la signature de plaque correspondante (ou une encre unie) quand votre logo est sur un fond corail, or ou autre couleur de la Trousse de marque — pour que la moitié de la marque ne disparaisse plus dans la même couleur."
+        "body": "Les arrière-plans de réunion et les autres outils visuels gardent votre marque lisible sur les fonds corail, or ou autres couleurs de la Trousse de marque — les Looks officiels utilisent la signature de plaque correspondante ; votre logo téléversé repose sur une carte blanche pour que chaque couleur reste visible."
       }
     }
   },

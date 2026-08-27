@@ -6681,7 +6681,7 @@
       },
       "logo-on-brand-fills": {
         "title": "Logos stay readable on brand-coloured backgrounds",
-        "body": "Meeting backgrounds and other canvas tools now pick the matching plate lockup (or a solid ink) when your logo sits on coral, gold, or other Brand Kit fills — so half the mark no longer disappears into the same colour."
+        "body": "Meeting backgrounds and other canvas tools keep your mark readable on coral, gold, or other Brand Kit fills — official Looks use the matching plate lockup; your uploaded logo sits on a white card so every colour stays visible."
       }
     }
   },

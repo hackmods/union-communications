@@ -3,10 +3,19 @@
 ## Logo visibility on brand fills (2026-08-27)
 
 - [x] Root cause: multi-colour lockups (CAAT-S coral+gold) used the colour asset on non-primary bands; gold glyphs vanished on gold fills
-- [x] Long-term fix (not CSS outline): `lockupForCanvasBackground` picks plate lockup by canvas hex; monochrome `logoRasterFilter` when brand colours clash without a plate asset
-- [x] Shared path: `resolveBrandLogoPresentation` → all `BrandLogo` canvas tools (Meeting Background bands/side-panel/etc.)
+- [x] Durable fix (not CSS outline): identity `lockupForCanvasBackground` by canvas hex; **custom uploads** get a paper safe plate (QR-style) preserving full colour; Office `brand-logo-bytes` composites the plate
+- [x] Shared path: `resolveBrandLogoPresentation` → `BrandLogo` + export embeds
 - [x] Tests + What's new `logo-on-brand-fills`; rules: `meeting-backgrounds.mdc`, `comms-module.mdc`
-- Verify: `npm run test:unit -- src/lib/brand/resolve-logo-presentation.test.ts src/lib/brand/identity-packs.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+- Verify: `npm run test:unit -- src/lib/brand/resolve-logo-presentation.test.ts src/lib/brand/identity-packs.test.ts src/lib/export/brand-logo-bytes.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
+## Guide / training PDF branding (2026-08-27)
+
+- [x] Inventory + quality bar: `docs/audit/guide-pdf-quality-2026-08.md`
+- [x] Agent rule: `.cursor/rules/guide-pdfs.mdc`
+- [x] Shared chrome: `src/lib/export/text-pdf-layout.ts` (UnionOps interlock mark + education footer)
+- [x] Wired `reference-pdf.ts`, `certificate.ts`, `steward-guides/export.ts`
+- [x] Unit + `e2e/guide-pdf.export.smoke.spec.ts`; What's new `guide-pdf-branding`
+- Verify: `npm run test:unit -- src/lib/export/text-pdf-layout.test.ts src/lib/officer-learning/certificate.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`; smoke `e2e/guide-pdf.export.smoke.spec.ts`
 
 ## Guides & Tools menu IA (2026-08-27)
 

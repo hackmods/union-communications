@@ -1,5 +1,8 @@
 import type { BrandKit } from "@/types/entities";
-import { resolveBrandLogoPresentation } from "@/lib/brand/resolve-logo-presentation";
+import {
+  resolveBrandLogoPresentation,
+  type LogoSafePlate,
+} from "@/lib/brand/resolve-logo-presentation";
 
 export type BrandLogoBytes = {
   bytes: Uint8Array;
@@ -51,6 +54,11 @@ async function fetchBytes(url: string): Promise<Uint8Array | null> {
   }
 }
 
+export type RasterizeLogoOpts = {
+  cssFilter?: string;
+  plate?: LogoSafePlate;
+};
+
 /**
  * Rasterize any image src to PNG via canvas (required for Word/PPT embeds).
  * Returns null when Image/canvas is unavailable or load times out.
@@ -59,11 +67,17 @@ export async function rasterizeSrcToPng(
   src: string,
   maxWidth = 240,
   maxHeight = 96,
-  cssFilter?: string,
+  cssFilterOrOpts?: string | RasterizeLogoOpts,
 ): Promise<{ bytes: Uint8Array; widthPx: number; heightPx: number } | null> {
   if (typeof Image === "undefined" || typeof document === "undefined") {
     return null;
   }
+  const opts: RasterizeLogoOpts =
+    typeof cssFilterOrOpts === "string"
+      ? { cssFilter: cssFilterOrOpts }
+      : (cssFilterOrOpts ?? {});
+  const { cssFilter, plate } = opts;
+
   return new Promise((resolve) => {
     const img = new Image();
     let settled = false;
@@ -78,19 +92,24 @@ export async function rasterizeSrcToPng(
     img.crossOrigin = "anonymous";
     img.onload = () => {
       clearTimeout(timer);
+      const pad = plate ? Math.max(0, plate.paddingPx) : 0;
+      const innerMaxW = Math.max(1, maxWidth - pad * 2);
+      const innerMaxH = Math.max(1, maxHeight - pad * 2);
       const ratio = Math.min(
-        maxWidth / (img.naturalWidth || maxWidth),
-        maxHeight / (img.naturalHeight || maxHeight),
+        innerMaxW / (img.naturalWidth || innerMaxW),
+        innerMaxH / (img.naturalHeight || innerMaxH),
         1,
       );
-      const widthPx = Math.max(
+      const drawW = Math.max(
         1,
-        Math.round((img.naturalWidth || maxWidth) * ratio),
+        Math.round((img.naturalWidth || innerMaxW) * ratio),
       );
-      const heightPx = Math.max(
+      const drawH = Math.max(
         1,
-        Math.round((img.naturalHeight || maxHeight) * ratio),
+        Math.round((img.naturalHeight || innerMaxH) * ratio),
       );
+      const widthPx = drawW + pad * 2;
+      const heightPx = drawH + pad * 2;
       const canvas = document.createElement("canvas");
       canvas.width = widthPx;
       canvas.height = heightPx;
@@ -99,8 +118,12 @@ export async function rasterizeSrcToPng(
         finish(null);
         return;
       }
+      if (plate) {
+        ctx.fillStyle = plate.backgroundColor;
+        ctx.fillRect(0, 0, widthPx, heightPx);
+      }
       if (cssFilter) ctx.filter = cssFilter;
-      ctx.drawImage(img, 0, 0, widthPx, heightPx);
+      ctx.drawImage(img, pad, pad, drawW, drawH);
       ctx.filter = "none";
       canvas.toBlob(
         async (blob) => {
@@ -138,7 +161,7 @@ export function resolveBrandLogoSrc(
 
 export type ResolveBrandLogoBytesOpts = {
   includeLogo?: boolean;
-  /** Header / slide fill — drives white mark or inverted lockup for Office embeds. */
+  /** Header / slide fill — drives white mark, plate, or inverted lockup for Office embeds. */
   backgroundColor?: string;
 };
 
@@ -152,15 +175,15 @@ export async function resolveBrandLogoBytes(
 ): Promise<BrandLogoBytes | null> {
   if (opts?.includeLogo === false) return null;
 
-  const { src, cssFilter } = resolveBrandLogoPresentation(
+  const { src, cssFilter, plate } = resolveBrandLogoPresentation(
     brandKit,
     opts?.backgroundColor,
   );
   if (!src) return null;
 
-  // Filtered logos must rasterize — raw blue lockup on a blue header is unreadable.
-  if (cssFilter) {
-    const raster = await rasterizeSrcToPng(src, 240, 96, cssFilter);
+  // Filtered or plated logos must rasterize so Office headers match canvas.
+  if (cssFilter || plate) {
+    const raster = await rasterizeSrcToPng(src, 240, 96, { cssFilter, plate });
     if (!raster) return null;
     return {
       bytes: raster.bytes,

@@ -3,7 +3,10 @@
 import { useBrandStore } from "@/store/brand-store";
 import { BRAND_COLORS, isOfficialLogoVariant } from "@/lib/constants/brand";
 import { isUnionOpsLogoSrc } from "@/lib/constants/unionPresets";
-import { resolveBrandLogoPresentation } from "@/lib/brand/resolve-logo-presentation";
+import {
+  resolveBrandLogoPresentation,
+  type LogoSafePlate,
+} from "@/lib/brand/resolve-logo-presentation";
 import { SafeLogoImage } from "@/components/brand/SafeLogoImage";
 import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import {
@@ -12,6 +15,9 @@ import {
   pickContrastingInk,
   type InkTone,
 } from "@/lib/utils/ink";
+import { cn } from "@/lib/utils";
+import type { BrandKit } from "@/types/entities";
+import type { CSSProperties } from "react";
 
 interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
@@ -42,8 +48,6 @@ function resolveInk(
   if (onDark) return INK_WHITE;
   return null;
 }
-
-import type { BrandKit } from "@/types/entities";
 
 type LogoDimensions =
   | (typeof lockupSize)[keyof typeof lockupSize]
@@ -79,6 +83,54 @@ function logoDims(
   return variant === "lockup" ? lockupSize[size] : markSize[size];
 }
 
+function LogoWithOptionalPlate({
+  src,
+  width,
+  height,
+  alt,
+  className,
+  onDark,
+  style,
+  plate,
+}: {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  className?: string;
+  onDark?: boolean;
+  style?: CSSProperties;
+  plate?: LogoSafePlate;
+}) {
+  const image = (
+    <SafeLogoImage
+      key={src}
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      className={plate ? undefined : className}
+      onDark={onDark}
+      style={style}
+    />
+  );
+
+  if (!plate) return image;
+
+  return (
+    <div
+      className={cn("inline-flex shrink-0 items-center justify-center", className)}
+      style={{
+        backgroundColor: plate.backgroundColor,
+        padding: plate.paddingPx,
+        borderRadius: plate.radiusPx,
+      }}
+    >
+      {image}
+    </div>
+  );
+}
+
 export function BrandLogo({
   size = "sm",
   className,
@@ -112,7 +164,7 @@ export function BrandLogo({
   // Official Look / pack logos win over a leftover UnionOps customLogoDataUrl
   // (DEFAULT_BRAND_KIT mark used to resurrect after localStorage round-trips).
   if (brandKit.useOfficialLogo) {
-    const { src, cssFilter } = resolveBrandLogoPresentation(
+    const { src, cssFilter, plate } = resolveBrandLogoPresentation(
       brandKit,
       backgroundColor,
       variantOverride,
@@ -120,8 +172,7 @@ export function BrandLogo({
     const officialDims = logoDims(brandKit, size, variantOverride);
 
     return (
-      <SafeLogoImage
-        key={src}
+      <LogoWithOptionalPlate
         src={src}
         alt={alt}
         width={officialDims.width}
@@ -129,6 +180,7 @@ export function BrandLogo({
         className={className}
         onDark={ink ? isLightInk(ink) : onDark}
         style={cssFilter ? { filter: cssFilter } : undefined}
+        plate={plate}
       />
     );
   }
@@ -139,7 +191,7 @@ export function BrandLogo({
   }
 
   if (customSrc) {
-    const { src, cssFilter } = resolveBrandLogoPresentation(
+    const { src, cssFilter, plate } = resolveBrandLogoPresentation(
       brandKit,
       backgroundColor,
       variantOverride,
@@ -147,8 +199,7 @@ export function BrandLogo({
     const officialDims = logoDims(brandKit, size, variantOverride);
 
     return (
-      <SafeLogoImage
-        key={src}
+      <LogoWithOptionalPlate
         src={src}
         alt={alt}
         width={officialDims.width}
@@ -156,6 +207,7 @@ export function BrandLogo({
         className={className}
         onDark={ink ? isLightInk(ink) : onDark}
         style={cssFilter ? { filter: cssFilter } : undefined}
+        plate={plate}
       />
     );
   }

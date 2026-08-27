@@ -100,4 +100,23 @@ describe("resolveBrandLogoPresentation", () => {
     expect(src).toContain("knockout");
     expect(cssFilter).toBeUndefined();
   });
+
+  it("puts a paper plate behind custom uploads on brand fills (keeps full colour)", () => {
+    const kit: BrandKit = {
+      ...DEFAULT_BRAND_KIT,
+      useOfficialLogo: false,
+      customLogoDataUrl: "data:image/png;base64,customlogo",
+      primaryColor: "#EA5A4F",
+      secondaryColor: "#FFB837",
+      accentColor: "#EA5A4F",
+    };
+    const onGold = resolveBrandLogoPresentation(kit, "#FFB837");
+    expect(onGold.src).toBe("data:image/png;base64,customlogo");
+    expect(onGold.cssFilter).toBeUndefined();
+    expect(onGold.plate?.backgroundColor).toBe("#FFFFFF");
+
+    const onPaper = resolveBrandLogoPresentation(kit, "#FFFFFF");
+    expect(onPaper.plate).toBeUndefined();
+    expect(onPaper.cssFilter).toBeUndefined();
+  });
 });

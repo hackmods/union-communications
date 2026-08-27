@@ -16,22 +16,49 @@ import {
 } from "@/lib/constants/unionPresets";
 import {
   coloursClash,
+  INK_WHITE,
   isLightInk,
   logoRasterFilter,
   pickContrastingInk,
   type InkTone,
 } from "@/lib/utils/ink";
+import { contrastRatio } from "@/lib/utils/contrast";
+
+/** Paper plate behind full-colour logos on brand fills (upload-safe). */
+export type LogoSafePlate = {
+  backgroundColor: string;
+  paddingPx: number;
+  radiusPx: number;
+};
 
 export type BrandLogoPresentation = {
   src: string;
   /** CSS filter for preview or canvas rasterize (Office / export embeds). */
   cssFilter?: string;
+  /**
+   * Contrasting back plate so full-colour uploads (and pack lockups without a
+   * reverse asset) stay readable on brand fills without destroying colours.
+   */
+  plate?: LogoSafePlate;
+};
+
+/** Shared chrome — same idea as QR white-card plates; export-safe solid fill. */
+export const LOGO_SAFE_PLATE: LogoSafePlate = {
+  backgroundColor: INK_WHITE,
+  paddingPx: 6,
+  radiusPx: 4,
 };
 
 function resolveInk(backgroundColor?: string): InkTone | null {
   return backgroundColor?.trim()
     ? pickContrastingInk(backgroundColor.trim())
     : null;
+}
+
+/** True when the canvas is already paper-like — a white plate would be noise. */
+export function canvasIsNearPaper(backgroundColor: string): boolean {
+  const ratio = contrastRatio(backgroundColor.trim(), INK_WHITE);
+  return ratio !== null && ratio < 1.2;
 }
 
 /** True when any kit brand colour would disappear into the canvas fill. */
@@ -42,6 +69,11 @@ function brandColoursClashWithBackground(
   const bg = backgroundColor.trim();
   const colours = [kit.primaryColor, kit.secondaryColor, kit.accentColor];
   return colours.some((c) => Boolean(c?.trim()) && coloursClash(c.trim(), bg));
+}
+
+function safePlateForCanvas(backgroundColor: string): LogoSafePlate | undefined {
+  if (canvasIsNearPaper(backgroundColor)) return undefined;
+  return LOGO_SAFE_PLATE;
 }
 
 function resolveOfficialPresentation(
@@ -81,13 +113,11 @@ function resolveOfficialPresentation(
     if (ink && isLightInk(ink)) {
       return { src: lockup.src, cssFilter: filter };
     }
-    // Dark ink + brand colours that clash with the fill → monochrome so
-    // gold/coral glyphs cannot vanish into secondary/accent bands.
-    if (
-      ink &&
-      bg &&
-      brandColoursClashWithBackground(kit, bg)
-    ) {
+    // No reverse asset + brand colours clash with the fill → paper plate so
+    // multi-colour lockups stay intact (same path uploads use).
+    if (ink && bg && brandColoursClashWithBackground(kit, bg)) {
+      const plate = safePlateForCanvas(bg);
+      if (plate) return { src: lockup.src, plate };
       return { src: lockup.src, cssFilter: filter };
     }
     return { src: lockup.src };
@@ -120,8 +150,11 @@ function resolveOfficialPresentation(
 }
 
 /**
- * Pick logo asset + optional CSS filter for a background fill.
+ * Pick logo asset + optional CSS filter / safe plate for a background fill.
  * Mirrors canvas `BrandLogo` — use for Office headers on brand primary fields.
+ *
+ * Durable policy for unknown uploads: paper plate + full colour (not outline,
+ * not forced monochrome). Identity packs still prefer designed reverse assets.
  */
 export function resolveBrandLogoPresentation(
   brandKit: BrandKit,
@@ -145,16 +178,28 @@ export function resolveBrandLogoPresentation(
 
   const customSrc = brandKit.customLogoDataUrl?.trim();
   if (customSrc && !isUnionOpsLogoSrc(customSrc)) {
+    const bg = backgroundColor?.trim();
     const looksLikeWhiteMark =
       customSrc.includes("logo-mark-white") ||
       customSrc.includes("mark-on-dark") ||
       customSrc.includes("on-dark") ||
       customSrc.includes("lockup-reverse");
-    const filter =
-      ink !== null && !(ink && isLightInk(ink) && looksLikeWhiteMark)
-        ? logoRasterFilter(ink)
-        : undefined;
-    return { src: customSrc, cssFilter: filter };
+
+    // White / reverse assets: keep tint path (plate would hide light ink).
+    if (looksLikeWhiteMark) {
+      const filter =
+        ink !== null && !(ink && isLightInk(ink) && looksLikeWhiteMark)
+          ? logoRasterFilter(ink)
+          : undefined;
+      return { src: customSrc, cssFilter: filter };
+    }
+
+    // Any other upload on a brand fill: paper plate, preserve full colour.
+    if (bg && ink) {
+      const plate = safePlateForCanvas(bg);
+      if (plate) return { src: customSrc, plate };
+    }
+    return { src: customSrc };
   }
 
   return { src: UNIONOPS_LOGOS.markInterlock };
