@@ -13,6 +13,8 @@ import {
 import { ModuleContentRenderer } from "./ModuleContentRenderer";
 import { ModuleQuiz } from "./ModuleQuiz";
 import { ModuleToc } from "./ModuleToc";
+import { ModuleTeachingDiagram } from "./ModuleTeachingDiagram";
+import { ModuleRelatedResources } from "./ModuleRelatedResources";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 
 type Props = {
@@ -91,9 +93,11 @@ export function ModuleViewer({
     [progress.quizPassed, progress.scrollDepth, scrollProgress],
   );
 
+  const moduleTitle = t(`modules.${meta.slug}.title`);
+
   return (
     <div className="min-h-screen bg-[#0B132B] text-white">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B132B]/95 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B132B]/95 backdrop-blur print:hidden">
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
           <Link
             href="/guide/officer-learning"
@@ -105,9 +109,7 @@ export function ModuleViewer({
             <p className="truncate text-sm text-amber-300">
               {t("moduleLabel", { number: meta.number })}
             </p>
-            <p className="truncate font-semibold text-white">
-              {t(`modules.${meta.slug}.title`)}
-            </p>
+            <p className="truncate font-semibold text-white">{moduleTitle}</p>
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-teal-400 to-amber-400 transition-all duration-300"
@@ -115,16 +117,23 @@ export function ModuleViewer({
               />
             </div>
           </div>
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="hidden shrink-0 rounded-lg border border-white/15 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-teal-400/40 md:inline-flex"
+          >
+            {t("viewer.print")}
+          </button>
           <a
             href="#module-quiz"
-            className="hidden shrink-0 rounded-lg bg-teal-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-teal-400 sm:inline-flex"
+            className="inline-flex shrink-0 rounded-lg bg-teal-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-teal-400"
           >
             {t("viewer.jumpToQuiz")}
           </a>
         </div>
       </header>
 
-      <div className="border-b border-white/10 bg-[#0B132B] px-4 py-2 lg:hidden sm:px-6">
+      <div className="border-b border-white/10 bg-[#0B132B] px-4 py-2 lg:hidden sm:px-6 print:hidden">
         <details className="rounded-xl border border-white/10 bg-slate-900/60 open:pb-2">
           <summary className="cursor-pointer list-none px-3 py-2 text-sm font-semibold text-teal-200 marker:content-none [&::-webkit-details-marker]:hidden">
             {t("viewer.toc")}
@@ -140,7 +149,7 @@ export function ModuleViewer({
       </div>
 
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:px-8">
-        <aside className="hidden lg:block">
+        <aside className="hidden lg:block print:hidden">
           <div className="sticky top-28 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-teal-300">
               {t("viewer.toc")}
@@ -154,11 +163,15 @@ export function ModuleViewer({
         </aside>
 
         <article ref={articleRef} className="min-w-0 space-y-8">
+          <div className="rounded-xl border border-amber-400/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-50">
+            {t("disclaimer")}
+          </div>
+
           <div className="overflow-hidden rounded-2xl border border-white/10">
-            <div className="relative aspect-[21/9] w-full">
+            <div className="relative aspect-[21/9] w-full print:hidden">
               <Image
                 src={meta.coverSrc}
-                alt={t(`modules.${meta.slug}.title`)}
+                alt={moduleTitle}
                 fill
                 className="object-cover"
                 priority
@@ -170,10 +183,10 @@ export function ModuleViewer({
               <p className="text-sm font-semibold uppercase tracking-[0.25em] text-amber-400">
                 {t("moduleLabel", { number: meta.number })}
               </p>
-              <h1 className="text-3xl font-bold md:text-4xl">
-                {t(`modules.${meta.slug}.title`)}
-              </h1>
-              <p className="text-sm text-teal-200">{t("readingTime", { minutes: meta.readingMinutes })}</p>
+              <h1 className="text-3xl font-bold md:text-4xl">{moduleTitle}</h1>
+              <p className="text-sm text-teal-200">
+                {t("readingTime", { minutes: meta.readingMinutes })}
+              </p>
               <p className="max-w-3xl leading-relaxed text-slate-200">{module.purpose}</p>
               {module.objectives.length > 0 && (
                 <ul className="grid gap-2 md:grid-cols-1">
@@ -190,18 +203,27 @@ export function ModuleViewer({
             </div>
           </div>
 
-          <ModuleContentRenderer sections={module.sections} />
+          <ModuleTeachingDiagram slug={meta.slug} />
+
+          <ModuleContentRenderer sections={module.sections} moduleId={meta.id} />
+
+          <ModuleRelatedResources
+            slug={meta.slug}
+            module={module}
+            moduleNumber={meta.number}
+            moduleTitle={moduleTitle}
+          />
 
           <ModuleQuiz
             moduleId={meta.id}
             moduleNumber={meta.number}
-            moduleTitle={t(`modules.${meta.slug}.title`)}
+            moduleTitle={moduleTitle}
             questions={module.quiz}
             nextModuleSlug={nextModuleSlug}
             onCompleted={() => setProgress(getModuleProgress(meta.id))}
           />
 
-          <div className="rounded-2xl bg-white p-6 text-slate-900 shadow-lg md:p-8">
+          <div className="rounded-2xl bg-white p-6 text-slate-900 shadow-lg md:p-8 print:break-before-page">
             <p className="mb-4 text-sm text-gray-600">{sourcesIntro}</p>
             <SourcesBlock pageId={sourcesPageId} title={sourcesTitle} />
           </div>

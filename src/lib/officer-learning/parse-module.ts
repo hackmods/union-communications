@@ -47,35 +47,52 @@ function parseTableBlock(lines: string[]): ContentBlock | null {
 
 function detectCallout(text: string): ContentBlock | null {
   const trimmed = text.trim();
-  if (/^💡|^Note:/i.test(trimmed)) {
+  if (/^💡|^Note\s*:/i.test(trimmed)) {
     return {
       type: "callout",
       variant: "note",
-      text: parseInline(trimmed.replace(/^(💡\s*|Note:\s*)/i, "")),
+      text: parseInline(trimmed.replace(/^(💡\s*|Note\s*:\s*)/i, "")),
     };
   }
-  if (/^⚠️|^Warning:/i.test(trimmed)) {
+  if (/^⚠️|^(Warning|Avertissement)\s*:/i.test(trimmed)) {
     return {
       type: "callout",
       variant: "warning",
-      text: parseInline(trimmed.replace(/^(⚠️\s*|Warning:\s*)/i, "")),
+      text: parseInline(
+        trimmed.replace(/^(⚠️\s*|(Warning|Avertissement)\s*:\s*)/i, ""),
+      ),
     };
   }
-  if (/^📝|^Practice:/i.test(trimmed)) {
+  if (/^📝|^(Practice|Exercice)\s*:/i.test(trimmed)) {
     return {
       type: "callout",
       variant: "practice",
-      text: parseInline(trimmed.replace(/^(📝\s*|Practice:\s*)/i, "")),
+      text: parseInline(
+        trimmed.replace(/^(📝\s*|(Practice|Exercice)\s*:\s*)/i, ""),
+      ),
     };
   }
-  if (/^🪞|^Reflection:/i.test(trimmed)) {
+  if (/^🪞|^(Reflection|Réflexion)\s*:/i.test(trimmed)) {
     return {
       type: "callout",
       variant: "reflection",
-      text: parseInline(trimmed.replace(/^(🪞\s*|Reflection:\s*)/i, "")),
+      text: parseInline(
+        trimmed.replace(/^(🪞\s*|(Reflection|Réflexion)\s*:\s*)/i, ""),
+      ),
     };
   }
   return null;
+}
+
+function isChecklistLine(line: string): boolean {
+  return /^\s*-\s+\[[ xX]\]\s+/.test(line);
+}
+
+function parseChecklistBlock(lines: string[]): ContentBlock {
+  const items = lines.map((line) =>
+    parseInline(line.replace(/^\s*-\s+\[[ xX]\]\s+/, "")),
+  );
+  return { type: "checklist", items };
 }
 
 function parseBlocks(rawLines: string[]): ContentBlock[] {
@@ -113,6 +130,16 @@ function parseBlocks(rawLines: string[]): ContentBlock[] {
       continue;
     }
 
+    if (isChecklistLine(line)) {
+      const checklistLines: string[] = [];
+      while (i < rawLines.length && isChecklistLine(rawLines[i])) {
+        checklistLines.push(rawLines[i]);
+        i += 1;
+      }
+      blocks.push(parseChecklistBlock(checklistLines));
+      continue;
+    }
+
     if (/^\*\s+/.test(line) || /^\d+\.\s+/.test(line)) {
       const ordered = /^\d+\.\s+/.test(line);
       const listLines: string[] = [];
@@ -135,6 +162,7 @@ function parseBlocks(rawLines: string[]): ContentBlock[] {
       !rawLines[i].startsWith("#") &&
       !rawLines[i].startsWith("```") &&
       !rawLines[i].includes("|") &&
+      !isChecklistLine(rawLines[i]) &&
       !/^\*\s+/.test(rawLines[i]) &&
       !/^\d+\.\s+/.test(rawLines[i])
     ) {

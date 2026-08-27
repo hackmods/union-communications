@@ -13,6 +13,7 @@ import {
 } from "@/lib/officer-learning/progress";
 import { CertificateDownload } from "./CertificateDownload";
 import { LearningHubSyncPanel } from "./LearningHubSyncPanel";
+import { LearningPathDiagram } from "./LearningPathDiagram";
 import clsx from "clsx";
 
 type Props = {
@@ -55,7 +56,20 @@ export function OfficerLearningDashboard({ modules }: Props) {
           <p className="mt-4 text-sm text-teal-200/90">
             {t("progressSummary", { completed: completedCount, total: modules.length })}
           </p>
+          <p className="mt-3 text-sm text-amber-100/90">{t("disclaimer")}</p>
         </header>
+
+        <LearningPathDiagram
+          className="mb-8"
+          label={t("path.label")}
+          steps={modules.map((module) => ({
+            id: module.id,
+            number: module.number,
+            title: t(`modules.${module.slug}.title`),
+            href: `/guide/officer-learning/${module.slug}`,
+            status: progress[module.id]?.status ?? "not_started",
+          }))}
+        />
 
         <div className="mb-8 grid gap-4 lg:grid-cols-2">
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/5 p-4">

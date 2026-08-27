@@ -74,4 +74,19 @@ describe("parseOfficerLearningModule", () => {
       expect(fr.quiz.length).toBe(en.quiz.length);
     }
   });
+
+  it("parses floor checklist task items as checklist blocks", () => {
+    const markdown = fs.readFileSync(
+      path.join(process.cwd(), "src/content/officer-learning", "module-1.md"),
+      "utf-8",
+    );
+    const parsed = parseOfficerLearningModule("module-1", markdown);
+    const checklist = parsed.sections
+      .flatMap((s) => s.blocks)
+      .find((b) => b.type === "checklist");
+    expect(checklist?.type).toBe("checklist");
+    if (checklist?.type === "checklist") {
+      expect(checklist.items.length).toBeGreaterThanOrEqual(6);
+    }
+  });
 });
