@@ -38,6 +38,7 @@ export const PUBLIC_NS = [
   "rtwAccommodation",
   "preDisciplinaryLog",
   "complaintVsGrievance",
+  "stewardGuidesShared",
   // Brand Kit editors on the public /brand-kit page (not Hub-only).
   "localLinks",
   "membershipUrls",

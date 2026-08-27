@@ -23,6 +23,7 @@ import {
   RtwWorkHardeningDiagram,
 } from "@/components/comms/StewardGuideDiagrams";
 import { StewardPocketSheetButton } from "@/components/tools/steward-guides/StewardPocketSheetButton";
+import { useExportHandler } from "@/hooks/use-export-handler";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
 import {
   ACCOMMODATION_MEASURES,
