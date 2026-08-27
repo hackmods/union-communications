@@ -49,6 +49,7 @@ import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import {
+  INITIAL_LOGO_MODE,
   defaultLogoMode,
   defaultShowLocalNumber,
   resolveLogoVariant,
@@ -206,7 +207,7 @@ export default function SolidarityPosterPage() {
     supportUrl: "",
     showCta: true,
     showQr: true,
-    logoMode: "none",
+    logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
     edgeClearance: false,
     primaryColor: brandKit.primaryColor,

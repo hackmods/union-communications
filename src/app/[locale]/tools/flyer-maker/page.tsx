@@ -64,7 +64,11 @@ import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { FlyerLayoutCanvas } from "@/components/tools/flyer-layouts";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
-import { defaultLogoMode, defaultShowLocalNumber } from "@/lib/comms/canvas-logo-mode";
+import {
+  INITIAL_LOGO_MODE,
+  defaultLogoMode,
+  defaultShowLocalNumber,
+} from "@/lib/comms/canvas-logo-mode";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { ImageUpload } from "@/components/tools/ImageUpload";
 import { ConsentModal } from "@/components/tools/ConsentModal";
@@ -149,7 +153,7 @@ function FlyerMakerPageContent() {
     primaryColor: colours.primary,
     accentColor: colours.accent,
     secondaryColor: colours.secondary,
-    logoMode: "none",
+    logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
   });
 
@@ -239,6 +243,8 @@ function FlyerMakerPageContent() {
         headlineCase: fromDeep.headlineCase,
         typeScaleOverride: fromDeep.typeScaleOverride,
         showQr: fromDeep.showQr,
+        logoMode: defaultLogoMode(themeEstablished),
+        showLocalNumber: defaultShowLocalNumber(),
       });
       return;
     }

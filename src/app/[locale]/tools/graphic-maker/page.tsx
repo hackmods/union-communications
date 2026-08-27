@@ -43,7 +43,11 @@ import { ToolFormDetails } from "@/components/tools/ToolFormDetails";
 import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
-import { defaultLogoMode, defaultShowLocalNumber } from "@/lib/comms/canvas-logo-mode";
+import {
+  INITIAL_LOGO_MODE,
+  defaultLogoMode,
+  defaultShowLocalNumber,
+} from "@/lib/comms/canvas-logo-mode";
 import { PageShell } from "@/components/layout/PageShell";
 import { InviteEmailPanel } from "@/components/tools/InviteEmailPanel";
 import { pickContrastingInk } from "@/lib/utils/ink";
@@ -112,7 +116,7 @@ function GraphicMakerPageContent() {
     primaryColor: brandKit.primaryColor,
     accentColor: brandKit.accentColor,
     secondaryColor: brandKit.secondaryColor,
-    logoMode: "none",
+    logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
   };
 

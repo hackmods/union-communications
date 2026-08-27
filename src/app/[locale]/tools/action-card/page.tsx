@@ -42,6 +42,7 @@ import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import {
+  INITIAL_LOGO_MODE,
   defaultLogoMode,
   defaultShowLocalNumber,
   resolveLogoVariant,
@@ -127,7 +128,7 @@ function ActionCardPageContent() {
     bgMode: first.bgMode,
     sizeId: DEFAULT_QR_CARD_SIZE,
     showUrl: false,
-    logoMode: "none",
+    logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,

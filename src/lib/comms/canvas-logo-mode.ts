@@ -6,6 +6,13 @@ export function defaultLogoMode(themeEstablished: boolean): BoardLogoMode {
   return themeEstablished ? "lockup" : "none";
 }
 
+/**
+ * Pre-hydrate default matches legacy `includeBranding: true` so established
+ * Brand Kits never flash an empty canvas before the one-shot seed runs.
+ * After hydrate, seed with {@link defaultLogoMode}(themeEstablished).
+ */
+export const INITIAL_LOGO_MODE: BoardLogoMode = "lockup";
+
 export function defaultShowLocalNumber(): boolean {
   return true;
 }

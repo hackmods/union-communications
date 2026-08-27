@@ -25,11 +25,8 @@ import {
   pickFieldInk,
 } from "@/lib/utils/ink";
 import type { QuoteLayoutId } from "@/lib/comms/quote-layouts";
+import { graphicLayoutChrome } from "@/lib/comms/graphic-layout-chrome";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
-import {
-  flexAlignFromBias,
-  textAlignFromBias,
-} from "@/lib/utils/canvas-tokens";
 import {
   brandFieldBottomLiftStyle,
   brandFieldEndColor,
@@ -37,48 +34,6 @@ import {
   canvasSurfaceStyle,
   softGradientEndColor,
 } from "@/lib/utils/canvas-surface";
-
-/** Shared pad / type metrics for Graphic Maker layouts (preview vs export). */
-function layoutChrome(
-  tokens: CanvasTokens | undefined,
-  exportMode: boolean,
-): {
-  pad: number;
-  titlePx?: number;
-  bodyPx?: number;
-  metaPx?: number;
-  textAlign?: "left" | "center" | "right";
-  alignItems?: "flex-start" | "center";
-  titleWeight?: number;
-  titleTracking?: string;
-  titleTransform?: "none" | "uppercase";
-  headlineFontFamily?: string;
-  bodyFontFamily?: string;
-  bodyFontWeight?: number;
-  bodyLineHeight?: number;
-} {
-  const pad = tokens
-    ? tokens.paddingPx * (exportMode ? 1 : 0.55)
-    : exportMode
-      ? 32
-      : 16;
-  if (!tokens) return { pad };
-  return {
-    pad,
-    titlePx: Math.round(tokens.titleFontSizePx * (exportMode ? 1.05 : 0.72)),
-    bodyPx: Math.round(tokens.subtitleFontSizePx * (exportMode ? 1.25 : 1)),
-    metaPx: Math.max(11, Math.round(tokens.subtitleFontSizePx * 0.85)),
-    textAlign: textAlignFromBias(tokens.alignmentBias),
-    alignItems: flexAlignFromBias(tokens.alignmentBias),
-    titleWeight: tokens.titleFontWeight,
-    titleTracking: tokens.titleLetterSpacing,
-    titleTransform: tokens.titleTextTransform,
-    headlineFontFamily: tokens.headlineFontFamily,
-    bodyFontFamily: tokens.bodyFontFamily,
-    bodyFontWeight: tokens.bodyFontWeight,
-    bodyLineHeight: tokens.bodyLineHeight,
-  };
-}
 
 export type GraphicLayoutId = Exclude<ExampleLayout, "quote">;
 
@@ -393,7 +348,7 @@ function SolidarityLayout({
   // Bottom copy always sits on the dark lift scrim (with or without a photo).
   const footerBg = BOTTOM_SCRIM_INK_BG;
   const ink = inkPalette(footerBg);
-  const chrome = layoutChrome(tokens, exportMode);
+  const chrome = graphicLayoutChrome(tokens, exportMode);
   return (
     <>
       <div className="absolute inset-0" style={brandFieldFillStyle(primary)} />
@@ -509,7 +464,7 @@ function SpotlightLayout({
   const footerBg = BOTTOM_SCRIM_INK_BG;
   const ink = inkPalette(footerBg);
   const badgeInk = pickContrastingInk(accent);
-  const chrome = layoutChrome(tokens, exportMode);
+  const chrome = graphicLayoutChrome(tokens, exportMode);
   return (
     <>
       <div className="absolute inset-0" style={brandFieldFillStyle(primary)} />
@@ -630,7 +585,7 @@ function NoticeLayout({
         accent,
       })
     : { backgroundColor: primary };
-  const chrome = layoutChrome(tokens, exportMode);
+  const chrome = graphicLayoutChrome(tokens, exportMode);
   const brandJustify =
     tokens?.alignmentBias === "center"
       ? "center"
@@ -785,7 +740,7 @@ export function QuoteLayout({
         accent,
       })
     : { backgroundColor: primary };
-  const chrome = layoutChrome(tokens, exportMode);
+  const chrome = graphicLayoutChrome(tokens, exportMode);
   const padScale = landscape
     ? exportMode
       ? 0.9
@@ -963,7 +918,7 @@ function ResultsLayout({
   const exportMode = size === "export";
   const fieldEnd = brandFieldEndColor(primary, 0.22);
   const ink = inkPalette(primary, [primary, fieldEnd]);
-  const chrome = layoutChrome(tokens, exportMode);
+  const chrome = graphicLayoutChrome(tokens, exportMode);
   const alignItems = chrome.alignItems ?? "center";
   const textAlign = chrome.textAlign ?? "center";
   return (

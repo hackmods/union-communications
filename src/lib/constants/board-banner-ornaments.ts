@@ -11,7 +11,7 @@ export interface BoardOrnaments {
 
 export const DEFAULT_ORNAMENTS: BoardOrnaments = {
   showLocal: true,
-  logoMode: "none",
+  logoMode: "lockup",
   showByline: false,
   byline: "",
 };

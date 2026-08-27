@@ -1,7 +1,11 @@
 /** FUTURE-006 — local-first pulse poll draft + publish to collection API. */
 
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
-import { defaultShowLocalNumber, normalizeLogoMode } from "@/lib/comms/canvas-logo-mode";
+import {
+  INITIAL_LOGO_MODE,
+  defaultShowLocalNumber,
+  normalizeLogoMode,
+} from "@/lib/comms/canvas-logo-mode";
 
 export const PULSE_POLL_STORAGE_KEY = "unionops-pulse-poll-draft";
 
@@ -33,7 +37,7 @@ export function createEmptyPulsePollDraft(
     intro: "",
     questions: [{ id: `q-${Date.now()}`, text: "" }],
     slug: "member-pulse",
-    logoMode: "none",
+    logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
     primaryColor: colors.primaryColor,
     secondaryColor: colors.secondaryColor,

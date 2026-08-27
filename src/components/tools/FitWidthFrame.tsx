@@ -25,7 +25,8 @@ export function FitWidthFrame({
     if (!el) return;
     const update = () => {
       const w = el.clientWidth;
-      setScale(w > 0 ? Math.min(1, w / designWidth) : 1);
+      const next = w > 0 ? Math.min(1, w / designWidth) : 1;
+      setScale(next);
     };
     const ro = new ResizeObserver(update);
     ro.observe(el);

@@ -50,7 +50,11 @@ import { ToolExportActions } from "@/components/tools/ToolExportActions";
 import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
-import { defaultLogoMode, defaultShowLocalNumber } from "@/lib/comms/canvas-logo-mode";
+import {
+  INITIAL_LOGO_MODE,
+  defaultLogoMode,
+  defaultShowLocalNumber,
+} from "@/lib/comms/canvas-logo-mode";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
@@ -93,7 +97,7 @@ function QuoteCardPageContent() {
     secondaryColor: brandKit.secondaryColor,
     accentColor: brandKit.accentColor,
     textColor: pickContrastingInk(brandKit.primaryColor),
-    logoMode: "none",
+    logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
   };
 

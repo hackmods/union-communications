@@ -41,7 +41,11 @@ import { SegControl } from "@/components/tools/SegControl";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { QrBoardCanvas } from "@/components/tools/qr-board/QrBoardCanvas";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
-import { defaultLogoMode, defaultShowLocalNumber } from "@/lib/comms/canvas-logo-mode";
+import {
+  INITIAL_LOGO_MODE,
+  defaultLogoMode,
+  defaultShowLocalNumber,
+} from "@/lib/comms/canvas-logo-mode";
 import { QrBoardSlotEditor } from "@/components/tools/qr-board/QrBoardSlotEditor";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 
@@ -93,7 +97,7 @@ export default function QrBoardPage() {
       { id: "slot-b", title: "", destination: "" },
     ],
     showUrl: true,
-    logoMode: "none",
+    logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
     primaryColor: brandKit.primaryColor,
     secondaryColor: brandKit.secondaryColor,

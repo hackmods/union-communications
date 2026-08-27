@@ -27,7 +27,11 @@ import { ToolExportActions } from "@/components/tools/ToolExportActions";
 import { CanvasBrandingControls } from "@/components/tools/CanvasBrandingControls";
 import { BoardNoticeLayoutCanvas } from "@/components/tools/board-notice-layouts";
 import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
-import { defaultLogoMode, defaultShowLocalNumber } from "@/lib/comms/canvas-logo-mode";
+import {
+  INITIAL_LOGO_MODE,
+  defaultLogoMode,
+  defaultShowLocalNumber,
+} from "@/lib/comms/canvas-logo-mode";
 import {
   BOARD_NOTICE_LAYOUT_ORDER,
   DEFAULT_BOARD_NOTICE_LAYOUT,
@@ -90,7 +94,7 @@ export default function BoardNoticePage() {
     contact: "Questions? Email your steward or local executive.",
     quorumNeeded: "",
     layout: DEFAULT_BOARD_NOTICE_LAYOUT,
-    logoMode: "none",
+    logoMode: INITIAL_LOGO_MODE,
     showLocalNumber: defaultShowLocalNumber(),
   };
 

@@ -235,7 +235,7 @@ export function resolveCanvasTokens(brandKit: BrandKit): CanvasTokens {
   const headlineFontId = prefs.headlineFontId as CanvasFontId;
   const bodyFontId = prefs.bodyFontId as CanvasFontId;
 
-  return {
+  const resolved: CanvasTokens = {
     ...prefs,
     headlineFontId,
     bodyFontId,
@@ -253,6 +253,7 @@ export function resolveCanvasTokens(brandKit: BrandKit): CanvasTokens {
     grainOpacity: prefs.surface === "grain" ? 0.22 : 0,
     duotoneHighlightOpacity: 0.7,
   };
+  return resolved;
 }
 
 /** Apply a style package; keeps any explicit overrides the caller still wants. */

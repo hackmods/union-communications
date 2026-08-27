@@ -55,6 +55,7 @@ import {
   type TrimPieceId,
 } from "@/lib/constants/board-banner-layouts";
 import { type BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
+import { INITIAL_LOGO_MODE } from "@/lib/comms/canvas-logo-mode";
 import { BoardBannerCanvas } from "@/components/tools/board-banner/BoardBannerCanvas";
 import { BoardTrimCanvas } from "@/components/tools/board-banner/BoardTrimCanvas";
 import { BoardBannerSheet } from "@/components/tools/board-banner/BoardBannerSheet";
@@ -141,7 +142,7 @@ export default function BoardBannerPage() {
     cornerPosition: DEFAULT_CORNER_POSITION,
     callout: "Did you know?",
     showLocal: true,
-    logoMode: "none",
+    logoMode: INITIAL_LOGO_MODE,
     showByline: false,
     byline: "",
     stripHeightId: DEFAULT_STRIP_HEIGHT,

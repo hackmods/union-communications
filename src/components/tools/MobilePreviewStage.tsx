@@ -62,10 +62,14 @@ export function MobilePreviewStage({
           mode === "mini"
             ? MINI_VIEWPORT_PX
             : Math.round(window.innerHeight * FULL_MAX_HEIGHT_VH);
-        setNaturalHeight(height);
-        setScale(
-          computePreviewScale(width, height, frame.clientWidth, maxHeight),
+        const nextScale = computePreviewScale(
+          width,
+          height,
+          frame.clientWidth,
+          maxHeight,
         );
+        setNaturalHeight(height);
+        setScale(nextScale);
       });
     };
 
