@@ -59,7 +59,7 @@ Generate EN (+ FR where localized) samples and check against the bar before merg
 - Rebranding Ontario ministry PDFs
 - Changing canvas Comms PDF pipeline or Phase 9 thresholds
 - Server-side PDF generation
-- Embedding Brand Kit OFL typefaces into text PDFs (Helvetica + mark PNG)
+- Embedding Brand Kit OFL typefaces into text PDFs (Helvetica + mark PNG) — **future project;** see [`future-pdf-and-docx-engines-2026-08.md`](future-pdf-and-docx-engines-2026-08.md) (text PDF engine + Word/doc engine expansion)
 
 ## Verify
 

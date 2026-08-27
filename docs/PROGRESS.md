@@ -1,5 +1,10 @@
 # Progress Log
 
+## Future goal note — PDF + Word engines (2026-08-27)
+
+- [x] Parked review: Brand Kit typefaces stay out of text PDFs (Helvetica + mark PNG); full checklist for a text-PDF engine + Word/doc expansion in `docs/audit/future-pdf-and-docx-engines-2026-08.md`
+- [x] Cross-links from `guide-pdf-quality-2026-08.md`, `guide-pdfs.mdc`, `plan-2026-08-15-parked-followups.md`
+
 ## Logo visibility on brand fills (2026-08-27)
 
 - [x] Root cause: multi-colour lockups (CAAT-S coral+gold) used the colour asset on non-primary bands; gold glyphs vanished on gold fills
