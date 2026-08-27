@@ -8,14 +8,15 @@ import {
   upsertOfficerLearningUser,
 } from "./hub-store";
 import { canManageOfficerLearningReport } from "./access";
+import { officerLearningDbBackend } from "@/lib/db/backend";
 
 describe("officer learning hub store", () => {
   beforeEach(() => {
     resetOfficerLearningHubStoreForTests();
   });
 
-  it("hides shared rows until local reporting is enabled", () => {
-    upsertOfficerLearningUser({
+  it("hides shared rows until local reporting is enabled", async () => {
+    await upsertOfficerLearningUser({
       userId: "u1",
       unionId: "union-a",
       localId: "local-1",
@@ -31,9 +32,9 @@ describe("officer learning hub store", () => {
       },
     });
 
-    expect(listSharedCompletionsForLocal("union-a", "local-1")).toEqual([]);
+    expect(await listSharedCompletionsForLocal("union-a", "local-1")).toEqual([]);
 
-    saveOfficerLearningLocalSettings({
+    await saveOfficerLearningLocalSettings({
       unionId: "union-a",
       localId: "local-1",
       reportingEnabled: true,
@@ -41,14 +42,14 @@ describe("officer learning hub store", () => {
       updatedAt: new Date().toISOString(),
     });
 
-    const rows = listSharedCompletionsForLocal("union-a", "local-1");
+    const rows = await listSharedCompletionsForLocal("union-a", "local-1");
     expect(rows).toHaveLength(1);
     expect(rows[0].displayName).toBe("Alex Steward");
     expect(rows[0].modules["module-1"]?.quizPassed).toBe(true);
   });
 
-  it("requires hub sync before local share is meaningful", () => {
-    upsertOfficerLearningUser({
+  it("requires hub sync before local share is meaningful", async () => {
+    await upsertOfficerLearningUser({
       userId: "u2",
       unionId: "union-a",
       localId: "local-1",
@@ -57,21 +58,21 @@ describe("officer learning hub store", () => {
       shareWithLocal: true,
       modules: {},
     });
-    saveOfficerLearningLocalSettings({
+    await saveOfficerLearningLocalSettings({
       unionId: "union-a",
       localId: "local-1",
       reportingEnabled: true,
       updatedById: "pres-1",
       updatedAt: new Date().toISOString(),
     });
-    expect(listSharedCompletionsForLocal("union-a", "local-1")).toEqual([]);
+    expect(await listSharedCompletionsForLocal("union-a", "local-1")).toEqual([]);
   });
 
-  it("defaults local reporting to off", () => {
-    expect(getOfficerLearningLocalSettings("union-a", "local-1").reportingEnabled).toBe(
-      false,
-    );
-    expect(getOfficerLearningUser("union-a", "missing")).toBeNull();
+  it("defaults local reporting to off", async () => {
+    expect(
+      (await getOfficerLearningLocalSettings("union-a", "local-1")).reportingEnabled,
+    ).toBe(false);
+    expect(await getOfficerLearningUser("union-a", "missing")).toBeNull();
   });
 });
 
@@ -80,5 +81,23 @@ describe("officer learning access", () => {
     expect(canManageOfficerLearningReport(["local_president"])).toBe(true);
     expect(canManageOfficerLearningReport(["local_exec"])).toBe(true);
     expect(canManageOfficerLearningReport(["local_steward"])).toBe(false);
+  });
+});
+
+describe("officer learning backend flag", () => {
+  it("defaults to memory without DATABASE_URL", () => {
+    expect(officerLearningDbBackend({})).toBe("memory");
+    expect(
+      officerLearningDbBackend({ OFFICER_LEARNING_DB_BACKEND: "postgres" }),
+    ).toBe("memory");
+  });
+
+  it("resolves postgres when DATABASE_URL is set", () => {
+    expect(
+      officerLearningDbBackend({
+        DATABASE_URL: "postgres://localhost/unionops",
+        OFFICER_LEARNING_DB_BACKEND: "postgres",
+      }),
+    ).toBe("postgres");
   });
 });

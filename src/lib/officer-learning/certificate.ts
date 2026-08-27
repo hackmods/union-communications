@@ -1,5 +1,6 @@
 import { resolveLocalNumber } from "@/lib/utils/local";
 import { saveBlob } from "@/lib/export/save-blob";
+import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 
 export type CertificateKind = "module" | "path";
 
@@ -12,6 +13,8 @@ export type CertificateInput = {
   moduleNumber?: number;
   localNumber?: string | null;
   completedAt?: Date;
+  /** Optional Brand Kit logo (PNG bytes). Falls back to wordmark-only. */
+  logo?: BrandLogoBytes | null;
 };
 
 function slugPart(value: string): string {
@@ -20,6 +23,39 @@ function slugPart(value: string): string {
     .replace(/[^\w\s-]/g, "")
     .replace(/\s+/g, "-")
     .slice(0, 40);
+}
+
+function logoDataUrl(logo: BrandLogoBytes): string {
+  if (logo.src.startsWith("data:")) return logo.src;
+  let binary = "";
+  for (let i = 0; i < logo.bytes.length; i++) {
+    binary += String.fromCharCode(logo.bytes[i]!);
+  }
+  return `data:image/png;base64,${btoa(binary)}`;
+}
+
+/** Pure layout helpers — unit-tested without jsPDF. */
+export function certificateLogoPlacement(logo: BrandLogoBytes | null | undefined): {
+  draw: boolean;
+  x: number;
+  y: number;
+  widthIn: number;
+  heightIn: number;
+} | null {
+  if (!logo?.bytes?.length) return null;
+  const maxW = 1.35;
+  const maxH = 0.55;
+  const aspect =
+    logo.widthPx > 0 && logo.heightPx > 0
+      ? logo.widthPx / logo.heightPx
+      : 2.4;
+  let widthIn = maxW;
+  let heightIn = widthIn / aspect;
+  if (heightIn > maxH) {
+    heightIn = maxH;
+    widthIn = heightIn * aspect;
+  }
+  return { draw: true, x: 0.65, y: 0.65, widthIn, heightIn };
 }
 
 /**
@@ -53,6 +89,22 @@ export async function downloadOfficerLearningCertificate(
   pdf.setDrawColor(245, 158, 11);
   pdf.setLineWidth(0.015);
   pdf.rect(0.5, 0.5, w - 1, h - 1, "S");
+
+  const placement = certificateLogoPlacement(input.logo);
+  if (placement && input.logo) {
+    try {
+      pdf.addImage(
+        logoDataUrl(input.logo),
+        "PNG",
+        placement.x,
+        placement.y,
+        placement.widthIn,
+        placement.heightIn,
+      );
+    } catch {
+      // Brand logo optional — continue with wordmark-only.
+    }
+  }
 
   pdf.setTextColor(245, 158, 11);
   pdf.setFont("helvetica", "bold");

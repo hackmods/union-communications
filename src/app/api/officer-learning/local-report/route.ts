@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import type { UserRole } from "@/types/tenant";
 import { canManageOfficerLearningReport } from "@/lib/officer-learning/access";
-import {
-  getOfficerLearningLocalSettings,
-  listSharedCompletionsForLocal,
-} from "@/lib/officer-learning/hub-store";
+import { officerLearningStore } from "@/lib/officer-learning/store";
 
 export async function GET() {
   const session = await auth();
@@ -17,11 +14,11 @@ export async function GET() {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const settings = getOfficerLearningLocalSettings(
+  const settings = await officerLearningStore.getLocalSettings(
     session.user.unionId,
     session.user.localId,
   );
-  const rows = listSharedCompletionsForLocal(
+  const rows = await officerLearningStore.listSharedCompletions(
     session.user.unionId,
     session.user.localId,
   );

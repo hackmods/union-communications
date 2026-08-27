@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { QuizQuestion } from "@/lib/officer-learning/types";
 import { markQuizPassed } from "@/lib/officer-learning/progress";
+import { resetQuizState } from "@/lib/officer-learning/quiz-state";
+import { maybePushHubProgressAfterPass } from "@/lib/officer-learning/hub-sync-client";
 import { Link } from "@/i18n/navigation";
 import { CertificateDownload } from "./CertificateDownload";
 import clsx from "clsx";
@@ -49,7 +51,14 @@ export function ModuleQuiz({
       markQuizPassed(moduleId);
       setCelebrate(true);
       onCompleted?.();
+      void maybePushHubProgressAfterPass();
     }
+  };
+
+  const handleTryAgain = () => {
+    const next = resetQuizState();
+    setAnswers(next.answers);
+    setSubmitted(next.submitted);
   };
 
   return (
@@ -174,9 +183,18 @@ export function ModuleQuiz({
           )}
         </div>
       ) : (
-        <p className="mt-8 rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-amber-100">
-          {t("quiz.retry")}
-        </p>
+        <div className="mt-8 space-y-4">
+          <p className="rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-amber-100">
+            {t("quiz.retry")}
+          </p>
+          <button
+            type="button"
+            onClick={handleTryAgain}
+            className="inline-flex items-center justify-center rounded-xl border border-amber-400/40 bg-transparent px-6 py-3 font-semibold text-amber-100 transition hover:bg-amber-500/15"
+          >
+            {t("quiz.tryAgain")}
+          </button>
+        </div>
       )}
     </section>
   );

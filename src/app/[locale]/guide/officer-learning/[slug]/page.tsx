@@ -44,7 +44,7 @@ export default async function OfficerLearningModulePage({
   const meta = getModuleBySlug(slug);
   if (!meta) notFound();
 
-  const parsed = loadParsedModule(meta.id);
+  const parsed = loadParsedModule(meta.id, locale);
   const nextModuleSlug = getNextModuleSlug(slug);
   const ts = await getTranslations("sources");
   const t = await getTranslations("officerLearning");

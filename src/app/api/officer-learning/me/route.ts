@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { officerLearningMePutSchema } from "@/lib/validation/officer-learning";
-import {
-  getOfficerLearningUser,
-  upsertOfficerLearningUser,
-} from "@/lib/officer-learning/hub-store";
+import { officerLearningStore } from "@/lib/officer-learning/store";
 
 export async function GET() {
   const session = await auth();
@@ -13,7 +10,10 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const record = getOfficerLearningUser(session.user.unionId, session.user.id);
+  const record = await officerLearningStore.getUser(
+    session.user.unionId,
+    session.user.id,
+  );
   return NextResponse.json({
     record:
       record ??
@@ -51,7 +51,7 @@ export async function PUT(request: Request) {
     );
   }
 
-  const record = upsertOfficerLearningUser({
+  const record = await officerLearningStore.upsertUser({
     userId: session.user.id,
     unionId: session.user.unionId,
     localId: session.user.localId,

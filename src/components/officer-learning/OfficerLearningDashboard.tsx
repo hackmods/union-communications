@@ -29,6 +29,10 @@ export function OfficerLearningDashboard({ modules }: Props) {
     [modules, progress],
   );
 
+  const handleProgressHydrated = (next: ReturnType<typeof getAllProgress>) => {
+    setProgress(next);
+  };
+
   const handleReset = () => {
     if (!confirmReset) {
       setConfirmReset(true);
@@ -69,7 +73,7 @@ export function OfficerLearningDashboard({ modules }: Props) {
               {confirmReset ? t("settings.confirmReset") : t("settings.reset")}
             </button>
           </div>
-          <LearningHubSyncPanel />
+          <LearningHubSyncPanel onProgressHydrated={handleProgressHydrated} />
         </div>
 
         {completedCount === modules.length && modules.length > 0 && (

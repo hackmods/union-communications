@@ -94,6 +94,11 @@ export function resetAllProgress(): void {
   }
 }
 
+/** Replace the entire progress map (used when merging Hub → device). */
+export function replaceAllProgress(store: LearningProgressStore): boolean {
+  return writeStore(store);
+}
+
 export function statusLabelKey(status: ModuleStatus): string {
   switch (status) {
     case "completed":

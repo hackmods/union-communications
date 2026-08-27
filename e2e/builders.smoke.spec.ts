@@ -193,6 +193,14 @@ test.describe("Public secondary pages smoke @smoke", () => {
       path: "/en/guide/steward-101/",
       heading: "Steward 101: Your Role and Rights",
     },
+    {
+      path: "/en/guide/officer-learning/",
+      heading: "Officer Learning Center",
+    },
+    {
+      path: "/en/guide/officer-learning/contract-enforcement/",
+      heading: "Contract Enforcement",
+    },
     { path: "/en/tools/", heading: "Tools" },
     { path: "/en/examples/", heading: "Social Examples" },
     { path: "/en/captions/", heading: "Caption & Hashtag Library" },

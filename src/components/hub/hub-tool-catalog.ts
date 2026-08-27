@@ -20,6 +20,7 @@ import {
   canManageInvites,
   canManageTenantOnboarding,
 } from "@/lib/tenant/access";
+import { canManageOfficerLearningReport } from "@/lib/officer-learning/access";
 import { canAccessTravelModule } from "@/lib/travel/access";
 import type { HubModule, UserRole } from "@/types/tenant";
 import { HUB_TOOL_GROUPS, type HubToolLink } from "./hub-nav-model";
@@ -44,6 +45,7 @@ export type HubToolLabelKey =
   | "invitesLink"
   | "tenantOnboardingLink"
   | "reportsLink"
+  | "officerLearningLink"
   | "auditLink"
   | "siteFeedbackInboxLink";
 
@@ -67,6 +69,7 @@ export type HubToolBlurbKey =
   | "invites"
   | "onboarding"
   | "reports"
+  | "officerLearning"
   | "audit"
   | "feedback";
 
@@ -86,6 +89,7 @@ export type HubToolAccess = {
   invites: boolean;
   tenantOnboarding: boolean;
   reports: boolean;
+  officerLearning: boolean;
   audit: boolean;
   siteFeedbackInbox: boolean;
 };
@@ -171,6 +175,12 @@ export const HUB_TOOL_CATALOG: readonly HubToolDef[] = [
     visible: (a) => a.polls,
   },
   {
+    href: "/app/officer-learning",
+    labelKey: "officerLearningLink",
+    blurbKey: "officerLearning",
+    visible: (a) => a.officerLearning,
+  },
+  {
     href: "/app/ledger",
     labelKey: "ledgerLink",
     blurbKey: "ledger",
@@ -252,6 +262,7 @@ export function resolveHubToolAccess(
     invites: canManageInvites(roles),
     tenantOnboarding: canManageTenantOnboarding(roles),
     reports: isElevatedGrievanceRole(roles),
+    officerLearning: canManageOfficerLearningReport(roles),
     audit:
       canCrossLocalGrievance(roles) ||
       roles.includes("local_president") ||

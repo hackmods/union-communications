@@ -218,6 +218,13 @@
       "when": 1784885000000,
       "tag": "0033_platform_feedback",
       "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1784886000000,
+      "tag": "0034_officer_learning",
+      "breakpoints": true
     }
   ]
 }

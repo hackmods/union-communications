@@ -18,6 +18,7 @@ import {
   meetingsDbBackend,
   meetingsRsvpDbBackend,
   minutesDbBackend,
+  officerLearningDbBackend,
   officersDbBackend,
   pollsDbBackend,
   readEffectiveBackendFlags,
@@ -47,6 +48,7 @@ describe("db backend flags", () => {
     expect(meetingsRsvpDbBackend({})).toBe("memory");
     expect(checkinsDbBackend({})).toBe("memory");
     expect(feedbackDbBackend({})).toBe("memory");
+    expect(officerLearningDbBackend({})).toBe("memory");
     expect(isMemoryCaseDataActive({})).toBe(true);
   });
 
@@ -439,6 +441,6 @@ describe("db backend flags", () => {
     });
     expect(flags.GRIEVANCE_DB_BACKEND).toBe("postgres");
     expect(flags.AUTH_USERS_BACKEND).toBe("postgres");
-    expect(DB_BACKEND_ENV_KEYS).toHaveLength(21);
+    expect(DB_BACKEND_ENV_KEYS).toHaveLength(22);
   });
 });

@@ -58,8 +58,15 @@ export function getModuleById(id: string): ModuleMeta | undefined {
   return OFFICER_LEARNING_MODULES.find((m) => m.id === id);
 }
 
-export function loadParsedModule(id: string): ParsedModule {
-  const filePath = path.join(CONTENT_DIR, `${id}.md`);
+function moduleMarkdownPath(id: string, locale?: string): string {
+  if (locale === "fr") {
+    return path.join(CONTENT_DIR, "fr", `${id}.md`);
+  }
+  return path.join(CONTENT_DIR, `${id}.md`);
+}
+
+export function loadParsedModule(id: string, locale?: string): ParsedModule {
+  const filePath = moduleMarkdownPath(id, locale);
   const markdown = fs.readFileSync(filePath, "utf-8");
   const parsed = parseOfficerLearningModule(id, markdown);
   const meta = getModuleById(id);

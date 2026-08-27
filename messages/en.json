@@ -77,7 +77,11 @@
     "mainNav": "Site navigation",
     "footerNav": "Footer",
     "language": "Language",
-    "workshopGuide": "Workshop outline"
+    "workshopGuide": "Workshop outline",
+    "rtwAccommodation": "RTW & accommodation",
+    "preDisciplinaryLog": "Pre-disciplinary log",
+    "complaintVsGrievance": "Complaint vs grievance",
+    "toolsGroupStewardPrep": "Steward prep"
   },
   "common": {
     "download": "Download",
@@ -682,7 +686,8 @@
       "submit": "Submit answers",
       "score": "Score: {score}/{total}",
       "passed": "Perfect score — module complete. Solidarity.",
-      "retry": "Review the explanations above, then adjust your answers and submit again.",
+      "retry": "Review the explanations above, then try again with a fresh set of answers.",
+      "tryAgain": "Try again",
       "nextModule": "Next module",
       "backToDashboard": "Back to dashboard"
     },
@@ -714,7 +719,7 @@
     },
     "certificate": {
       "title": "Download your certificate",
-      "hint": "PDF stays on this device. Add the name you want printed — Brand Kit local number is used when set.",
+      "hint": "PDF stays on this device. Your Brand Kit logo appears when set. Add the name you want printed — Brand Kit local number is used when set.",
       "nameLabel": "Name on certificate",
       "namePlaceholder": "Your name",
       "defaultName": "Union steward",
@@ -5932,8 +5937,8 @@
         "body": "Every canvas tool now shares none/lockup/mark logo plus a Show local number toggle — turn the label off for mark-only visuals."
       },
       "officer-learning-center": {
-        "title": "Officer Learning — certificates and Hub sync",
-        "body": "Download a PDF when you pass a module, sync progress to Officer Hub if signed in, and share completions with your local only when both sides opt in."
+        "title": "Officer Learning — launch-ready courses",
+        "body": "Six bilingual modules with certificates, quiz retry, Hub sync that merges both ways, and a local report presidents can open from Officer tools."
       },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",
@@ -6082,6 +6087,10 @@
       "org-chart-directory": {
         "title": "Org Chart list layouts + blank LEC Word sheet",
         "body": "Print a poster, a Position | Name list, or a list with campus codes. Need a blank branded Word table? Document Generator has an LEC directory template that does not pull your on-device names."
+      },
+      "steward-meeting-guides": {
+        "title": "Steward meeting guides",
+        "body": "Three on-device workspaces for return-to-work and accommodation, pre-disciplinary meetings, and complaint-vs-grievance triage — with Markdown or PDF export."
       }
     }
   },
@@ -6222,6 +6231,7 @@
     "travelLink": "Travel & expenses",
     "expensesLink": "Union business expenses",
     "pollsLink": "Pulse polls",
+    "officerLearningLink": "Officer Learning report",
     "meetingsLink": "Meeting schedule",
     "officersLink": "Officer roster",
     "committeesLink": "Committees",
@@ -6398,6 +6408,7 @@
       "elections": "Run nominations, ballots, and results.",
       "meetings": "Publish the membership-meeting schedule and track RSVPs.",
       "polls": "Ask a short Pulse Poll and print a QR card for the board.",
+      "officerLearning": "See who shared Officer Learning completions with this local.",
       "ledger": "Record money in and out of the discretionary fund.",
       "travel": "Approve travel for union business.",
       "expenses": "Submit and review union-business expense claims.",
@@ -6406,7 +6417,8 @@
       "onboarding": "Set up your local, open Hall, and invite your people.",
       "reports": "Counts for membership updates — no member names.",
       "audit": "See who changed what, and when.",
-      "feedback": "Website notes from visitors and signed-in users."
+      "feedback": "Website notes from visitors and signed-in users.",
+      "stewardGuides": "Worksheets for return-to-work, pre-disciplinary meetings, and complaint-vs-grievance triage — notes stay on this device."
     },
     "modules": {
       "comms": "Comms toolbox",
@@ -6427,7 +6439,8 @@
       "checkinsDesc": "Recurring questions for local officers (Basecamp-style)",
       "portal": "Local Portal",
       "portalDesc": "Circles for members, stewards, and committees"
-    }
+    },
+    "stewardGuidesLink": "Steward meeting guides"
   },
   "tenantOnboarding": {
     "title": "Union setup",
@@ -7081,7 +7094,8 @@
     "converting": "Converting…",
     "viewGrievance": "Open grievance",
     "delete": "Delete",
-    "readOnlyBanner": "Steward mobile read-only mode is on — you can view the log but not add or convert entries."
+    "readOnlyBanner": "Steward mobile read-only mode is on — you can view the log but not add or convert entries.",
+    "stewardGuidesLink": "Open steward meeting guides (on-device notes)"
   },
   "minutes": {
     "title": "Meeting minutes",
@@ -8007,7 +8021,10 @@
       "meetingBackground": "Zoom and Teams backgrounds in your local's colours.",
       "websiteTemplate": "Simple local site ZIP for GitHub Pages.",
       "altText": "Draft accessible alt text without uploading images.",
-      "pulsePoll": "Short pulse polls with a printable QR card."
+      "pulsePoll": "Short pulse polls with a printable QR card.",
+      "rtwAccommodation": "Functional limits, accommodation measures, and HR scripts on your device.",
+      "preDisciplinaryLog": "Procedural rights, mitigators, and representation talking points.",
+      "complaintVsGrievance": "Five eligibility points, then a grievance draft or alternate route."
     }
   },
   "portal": {
@@ -8450,5 +8467,243 @@
     "privacyTitle": "Privacy",
     "privacyBody": "Data collection and controller duties are covered on the",
     "privacyLink": "Privacy page"
+  },
+  "rtwAccommodation": {
+    "title": "Return-to-work & accommodation intake",
+    "subtitle": "Capture functional limits and proposed measures before you meet HR — notes stay on this device.",
+    "whenToUse": "Use before an RTW meeting or when a member asks for an active accommodation. Keep diagnosis off this form.",
+    "privacy": {
+      "title": "Medical privacy rule",
+      "body": "The employer has no right to demand a diagnosis, symptoms, or treatment plan. They are only entitled to functional limitations and restrictions. Keep diagnosis details off this form."
+    },
+    "mode": {
+      "rtw": "Return-to-work from absence",
+      "accommodation": "Active accommodation request"
+    },
+    "fields": {
+      "mode": "What kind of request is this?",
+      "memberName": "Member name",
+      "classification": "Classification / job",
+      "meetingDate": "Date of meeting",
+      "hrContact": "HR contact name",
+      "returnDate": "Return date",
+      "gradualHours": "Gradual hours schedule",
+      "wsibLtdStatus": "WSIB / LTD status",
+      "medicalRestrictions": "Functional restrictions (no diagnosis)",
+      "prohibitedGround": "Prohibited ground",
+      "requestedModifications": "Requested modifications",
+      "functionalLimitations": "Prescribed functional limitations",
+      "functionalLimitationsHint": "What can or cannot the member safely do?",
+      "measures": "Proposed accommodation measures"
+    },
+    "grounds": {
+      "placeholder": "Select a ground",
+      "creed": "Creed",
+      "disability": "Disability",
+      "familyStatus": "Family status",
+      "sex": "Sex",
+      "genderIdentity": "Gender identity / expression",
+      "race": "Race / colour / ancestry",
+      "age": "Age",
+      "other": "Other / multiple grounds"
+    },
+    "measures": {
+      "modifiedHours": "Modified hours",
+      "lightDuties": "Light duties",
+      "ergonomicEquipment": "Ergonomic equipment",
+      "taskBundling": "Task bundling",
+      "alternativeLocation": "Alternative location",
+      "other": "Other measure"
+    },
+    "scripts": {
+      "dear": "Dear",
+      "basedOn": "Based on",
+      "propose": "We propose",
+      "preserve": "We ask that any temporary measures preserve the member's pre-injury wage rate and bargaining-unit standing.",
+      "closing": "In solidarity,",
+      "verbalLead": "Verbal talking points for the meeting:",
+      "memberFallback": "the member",
+      "hrFallback": "HR",
+      "measuresHeading": "Proposed measures",
+      "groundLead": "This is an active accommodation request under human-rights prohibited grounds"
+    },
+    "preview": {
+      "title": "HR scripts & early resolution",
+      "hint": "Scripts update as you fill the form. They are talking points — not legal advice.",
+      "email": "Email draft",
+      "verbal": "Verbal script"
+    },
+    "export": {
+      "markdown": "Export Markdown",
+      "pdf": "Export PDF",
+      "clear": "Clear draft"
+    }
+  },
+  "preDisciplinaryLog": {
+    "title": "Pre-disciplinary meeting log",
+    "subtitle": "Check procedural rights, log allegations and mitigators, and prepare early-resolution talking points — on this device only.",
+    "whenToUse": "Use when management calls a meeting that may lead to discipline. Confirm notice, representation, and disclosure before the interview deepens.",
+    "confidentiality": {
+      "title": "Strict confidentiality",
+      "body": "Member narrative notes are for representation only. Do not share them with management or paste them into employer systems."
+    },
+    "escalation": {
+      "title": "Critical escalation",
+      "body": "This involves potential criminal liability. Instruct the member to remain silent, stop the interview immediately, and contact regional union staff or legal counsel."
+    },
+    "fields": {
+      "memberName": "Member name",
+      "meetingDate": "Meeting date",
+      "allegationType": "Allegation type",
+      "rights": "Procedural rights checklist",
+      "rightsHint": "Mark each item before you rely on the suggestion panel.",
+      "allegations": "Allegations faced",
+      "memberNarrative": "Member narrative & explanations",
+      "mitigators": "Mitigating factors"
+    },
+    "triState": {
+      "yes": "Yes",
+      "no": "No",
+      "unset": "Not yet"
+    },
+    "rights": {
+      "advanceNotice": "Advance notice: Did the employer give reasonable advance notice of the meeting's disciplinary focus?",
+      "representation": "Representation: Was the member clearly informed of their right to have a steward present?",
+      "disclosure": "Disclosure: Has HR disclosed the physical, witness, or video evidence they rely on?"
+    },
+    "allegationTypes": {
+      "placeholder": "Select allegation type",
+      "attendance": "Attendance",
+      "insubordination": "Insubordination",
+      "performance": "Performance",
+      "harassment": "Harassment / misconduct",
+      "theft": "Theft",
+      "fraud": "Fraud",
+      "criminal": "Other criminal allegations",
+      "other": "Other / minor"
+    },
+    "mitigators": {
+      "lengthOfService": "Length of service",
+      "cleanPastRecord": "Clean past record",
+      "provocation": "Provocation",
+      "personalMedicalDistress": "Personal / medical distress",
+      "sincereRemorse": "Sincere remorse"
+    },
+    "scripts": {
+      "counselProposal": "We suggest management issue a non-disciplinary coaching Letter of Counsel instead of formal progressive discipline, preserving cooperative labour relations while the concerns are corrected.",
+      "representationPoints": "Confirm procedural rights on the record, take careful notes, and do not let the member speculate. Ask for full disclosure before answering allegations. Reserve the right to respond in writing after review.",
+      "checklistGapsLead": "Checklist gaps still open:",
+      "none": "None — rights checklist is complete."
+    },
+    "preview": {
+      "title": "Representation & early resolution",
+      "hint": "Suggestions update from allegation type, rights, and mitigators. Not legal advice.",
+      "suggestion": "Suggested approach",
+      "gaps": "Rights checklist status"
+    },
+    "export": {
+      "markdown": "Export Markdown",
+      "pdf": "Export PDF",
+      "clear": "Clear draft"
+    }
+  },
+  "complaintVsGrievance": {
+    "title": "Complaint vs grievance diagnostic",
+    "subtitle": "Score five eligibility points, then draft either a grievance intake or an alternate workplace route — notes stay on this device.",
+    "whenToUse": "Use when a member brings a complaint and you need to test whether it is grievance-ready or better handled another way.",
+    "score": {
+      "label": "Grievance viability index",
+      "grievancePath": "At least one eligibility point is met. Complete the 6 W's and use the draft on the right.",
+      "alternatePath": "No eligibility points yet. Choose an alternate workplace action route below."
+    },
+    "points": {
+      "heading": "Five-point eligibility",
+      "caViolation": {
+        "label": "1. Collective agreement violation",
+        "hint": "Does the issue violate a specific clause in the current contract?"
+      },
+      "misinterpretation": {
+        "label": "2. Employer misinterpretation",
+        "hint": "Is this an unreasonable or incorrect reading of the contract by a supervisor?"
+      },
+      "statutory": {
+        "label": "3. Statutory law violation",
+        "hint": "Does this violate an employment standard, health and safety law, or human rights code?"
+      },
+      "pastPractice": {
+        "label": "4. Past practice",
+        "hint": "Is this a break from a repeated, consistent, mutually accepted workplace practice?"
+      },
+      "memberRights": {
+        "label": "5. Member rights violation",
+        "hint": "Does this violate basic worker dignity, union rights, or human rights?"
+      }
+    },
+    "fields": {
+      "articleSection": "Article / section number",
+      "articleSectionHint": "e.g. Article 12.03"
+    },
+    "triState": {
+      "yes": "Yes",
+      "no": "No",
+      "unset": "Not sure"
+    },
+    "sixWs": {
+      "heading": "6 W's intake",
+      "who": "Who",
+      "what": "What",
+      "when": "When",
+      "where": "Where",
+      "why": "Why",
+      "want": "Want / remedy"
+    },
+    "routes": {
+      "heading": "Alternate workplace action routes",
+      "hint": "Select routes to generate proposal drafts on the right.",
+      "lmc": {
+        "label": "Refer to Labour-Management Committee (LMC)",
+        "hint": "For systemic issues that need joint discussion.",
+        "draft": "Proposal: Refer this matter to the next Labour-Management Committee for joint review of the workplace practice, with a written follow-up timeline."
+      },
+      "jhsc": {
+        "label": "Refer to Joint Health and Safety Committee (JHSC)",
+        "hint": "When hazards or inspections are involved.",
+        "draft": "Proposal: Ask the Joint Health and Safety Committee to inspect / review this concern and report findings to both parties."
+      },
+      "informalSupervisor": {
+        "label": "Direct informal discussion with supervisor",
+        "hint": "When a calm clarifying conversation may resolve it.",
+        "draft": "Talking points: State the concern factually, ask how the supervisor reads the practice, propose a corrective step, and confirm the follow-up date in writing."
+      },
+      "mobilization": {
+        "label": "Workplace mobilization / survey",
+        "hint": "When the issue affects many members and needs collective input.",
+        "draft": "Collective action plan: Map who is affected, draft a short member survey, set a steward huddle date, and decide whether the issue returns as a group complaint or grievance."
+      }
+    },
+    "preview": {
+      "title": "Draft & next steps",
+      "hint": "The panel switches between grievance draft and alternate-route scripts based on your score.",
+      "grievanceDraft": "Grievance draft",
+      "pickRoutes": "Select one or more alternate routes to see proposal drafts here."
+    },
+    "export": {
+      "markdown": "Export Markdown",
+      "pdf": "Export PDF",
+      "clear": "Clear draft"
+    }
+  },
+  "stewardGuidesHub": {
+    "title": "Steward meeting guides",
+    "subtitle": "Interactive worksheets to resolve issues informally before they become grievances.",
+    "privacyNote": "These workspaces save notes only on this device. Nothing is uploaded to the Officer Hub or shared with the employer.",
+    "openTool": "Open workspace",
+    "rtwTitle": "Return-to-work & accommodation",
+    "rtwBlurb": "Fork RTW vs accommodation, capture functional limits, and draft HR scripts.",
+    "disciplineTitle": "Pre-disciplinary meeting log",
+    "disciplineBlurb": "Check notice, representation, and disclosure — with escalation alerts for criminal allegations.",
+    "diagnosticTitle": "Complaint vs grievance",
+    "diagnosticBlurb": "Score five eligibility points, then draft a grievance or an alternate route.",
+    "informalLogLink": "Also see Informal Log for shared early complaint records"
   }
 }

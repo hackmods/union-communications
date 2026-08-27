@@ -124,6 +124,21 @@ export function ModuleViewer({
         </div>
       </header>
 
+      <div className="border-b border-white/10 bg-[#0B132B] px-4 py-2 lg:hidden sm:px-6">
+        <details className="rounded-xl border border-white/10 bg-slate-900/60 open:pb-2">
+          <summary className="cursor-pointer list-none px-3 py-2 text-sm font-semibold text-teal-200 marker:content-none [&::-webkit-details-marker]:hidden">
+            {t("viewer.toc")}
+          </summary>
+          <div className="max-h-64 overflow-y-auto px-1 pb-2">
+            <ModuleToc
+              sections={module.sections}
+              quizLabel={t("quiz.title")}
+              activeId={activeSection}
+            />
+          </div>
+        </details>
+      </div>
+
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:px-8">
         <aside className="hidden lg:block">
           <div className="sticky top-28 rounded-2xl border border-white/10 bg-slate-900/60 p-4">

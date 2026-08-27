@@ -77,7 +77,11 @@
     "mainNav": "Navigation du site",
     "footerNav": "Pied de page",
     "language": "Langue",
-    "workshopGuide": "Plan d'atelier"
+    "workshopGuide": "Plan d'atelier",
+    "rtwAccommodation": "Retour au travail et adaptation",
+    "preDisciplinaryLog": "Journal prédisciplinaire",
+    "complaintVsGrievance": "Plainte ou grief",
+    "toolsGroupStewardPrep": "Préparation des délégués"
   },
   "common": {
     "download": "Télécharger",
@@ -682,7 +686,8 @@
       "submit": "Soumettre les réponses",
       "score": "Résultat : {score}/{total}",
       "passed": "Score parfait — module complété. Solidarité.",
-      "retry": "Relisez les explications ci-dessus, corrigez vos réponses et soumettez de nouveau.",
+      "retry": "Relisez les explications ci-dessus, puis réessayez avec de nouvelles réponses.",
+      "tryAgain": "Réessayer",
       "nextModule": "Module suivant",
       "backToDashboard": "Retour au tableau de bord"
     },
@@ -714,7 +719,7 @@
     },
     "certificate": {
       "title": "Télécharger votre certificat",
-      "hint": "Le PDF reste sur cet appareil. Indiquez le nom à imprimer — le numéro de section de la Trousse de marque est utilisé s'il est défini.",
+      "hint": "Le PDF reste sur cet appareil. Le logo de votre Trousse de marque apparaît s'il est défini. Indiquez le nom à imprimer — le numéro de section de la Trousse de marque est utilisé s'il est défini.",
       "nameLabel": "Nom sur le certificat",
       "namePlaceholder": "Votre nom",
       "defaultName": "Délégué syndical",
@@ -5882,8 +5887,8 @@
         "body": "Tous les outils visuels partagent le logo aucun/signature/symbole et une case Afficher le numéro de section — décochez-la pour un visuel symbole seulement."
       },
       "officer-learning-center": {
-        "title": "Formation des dirigeants — certificats et sync Hub",
-        "body": "Téléchargez un PDF après un module réussi, synchronisez la progression au Hub si vous êtes connecté, et ne partagez avec la section que si les deux parties y consentent."
+        "title": "Formation des dirigeants — cours prêts au lancement",
+        "body": "Six modules bilingues avec certificats, nouvelle tentative au quiz, sync Hub dans les deux sens, et un rapport local que les présidents ouvrent depuis les outils Officier."
       },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",
@@ -6032,6 +6037,10 @@
       "org-chart-directory": {
         "title": "Organigramme en liste + feuille CLE Word vide",
         "body": "Imprimez une affiche, une liste Poste | Nom, ou une liste avec codes de campus. Besoin d’un tableau Word de marque vide? Le générateur de documents offre un modèle de répertoire du CLE qui ne récupère pas vos noms sur l’appareil."
+      },
+      "steward-meeting-guides": {
+        "title": "Guides de rencontre pour délégués",
+        "body": "Trois espaces de travail sur l'appareil pour le retour au travail et l'adaptation, les rencontres prédisciplinaires, et le diagnostic plainte ou grief — avec export Markdown ou PDF."
       }
     }
   },
@@ -6172,6 +6181,7 @@
     "travelLink": "Déplacements et dépenses",
     "expensesLink": "Dépenses d’affaires syndicales",
     "pollsLink": "Sondages éclair",
+    "officerLearningLink": "Rapport de formation des dirigeants",
     "meetingsLink": "Horaire des assemblées",
     "officersLink": "Liste des dirigeants",
     "committeesLink": "Comités",
@@ -6348,6 +6358,7 @@
       "elections": "Gérer les mises en candidature, les scrutins et les résultats.",
       "meetings": "Publier l’horaire des assemblées générales et suivre les confirmations de présence.",
       "polls": "Poser un court sondage Pulse et imprimer une carte QR pour le tableau.",
+      "officerLearning": "Voir qui a partagé les modules de formation réussis avec cette section.",
       "ledger": "Inscrire les entrées et sorties du fonds discrétionnaire.",
       "travel": "Autoriser les déplacements pour les affaires syndicales.",
       "expenses": "Soumettre et examiner les demandes de dépenses d’affaires syndicales.",
@@ -6356,7 +6367,8 @@
       "onboarding": "Configurer votre section, ouvrir la Salle et inviter vos gens.",
       "reports": "Des totaux pour les mises à jour aux membres — sans noms.",
       "audit": "Voir qui a modifié quoi, et quand.",
-      "feedback": "Notes sur le site provenant des visiteurs et des personnes connectées."
+      "feedback": "Notes sur le site provenant des visiteurs et des personnes connectées.",
+      "stewardGuides": "Feuilles de travail pour le retour au travail, les rencontres prédisciplinaires et le diagnostic plainte ou grief — notes sur cet appareil."
     },
     "modules": {
       "comms": "Boîte à outils comms",
@@ -6377,7 +6389,8 @@
       "checkinsDesc": "Questions récurrentes pour les dirigeants locaux (style Basecamp)",
       "portal": "Portail local",
       "portalDesc": "Cercles pour les membres, délégués et comités"
-    }
+    },
+    "stewardGuidesLink": "Guides de rencontre"
   },
   "tenantOnboarding": {
     "title": "Configuration du syndicat",
@@ -7031,7 +7044,8 @@
     "converting": "Conversion…",
     "viewGrievance": "Ouvrir le grief",
     "delete": "Supprimer",
-    "readOnlyBanner": "Le mode lecture seule mobile du délégué est activé — vous pouvez consulter le journal mais pas ajouter ni convertir d’entrées."
+    "readOnlyBanner": "Le mode lecture seule mobile du délégué est activé — vous pouvez consulter le journal mais pas ajouter ni convertir d’entrées.",
+    "stewardGuidesLink": "Ouvrir les guides de rencontre pour délégués (notes sur cet appareil)"
   },
   "minutes": {
     "title": "Procès-verbaux",
@@ -8007,7 +8021,10 @@
       "meetingBackground": "Fonds Zoom et Teams aux couleurs de votre section.",
       "websiteTemplate": "ZIP de site local simple pour GitHub Pages.",
       "altText": "Rédigez du texte alternatif sans envoyer d'images.",
-      "pulsePoll": "Sondages courts avec carte QR imprimable."
+      "pulsePoll": "Sondages courts avec carte QR imprimable.",
+      "rtwAccommodation": "Limites fonctionnelles, mesures d'adaptation et scripts RH, sur votre appareil.",
+      "preDisciplinaryLog": "Droits procéduraux, facteurs atténuants et points de représentation.",
+      "complaintVsGrievance": "Cinq points d'admissibilité, puis brouillon de grief ou autre voie."
     }
   },
   "portal": {
@@ -8450,5 +8467,243 @@
     "privacyTitle": "Confidentialité",
     "privacyBody": "La collecte de données et les responsabilités du responsable sont décrites sur la",
     "privacyLink": "page Confidentialité"
+  },
+  "rtwAccommodation": {
+    "title": "Prise en charge du retour au travail et des mesures d'adaptation",
+    "subtitle": "Notez les limites fonctionnelles et les mesures proposées avant la rencontre avec les RH — les notes restent sur cet appareil.",
+    "whenToUse": "À utiliser avant une rencontre de retour au travail ou quand un membre demande une mesure d'adaptation. Ne notez pas de diagnostic ici.",
+    "privacy": {
+      "title": "Règle de confidentialité médicale",
+      "body": "L'employeur n'a pas le droit d'exiger un diagnostic, des symptômes ou un plan de traitement. Il a seulement droit aux limites et restrictions fonctionnelles. Gardez les détails de diagnostic hors de ce formulaire."
+    },
+    "mode": {
+      "rtw": "Retour au travail après une absence",
+      "accommodation": "Demande d'adaptation active"
+    },
+    "fields": {
+      "mode": "De quel type de demande s'agit-il?",
+      "memberName": "Nom du membre",
+      "classification": "Classification / poste",
+      "meetingDate": "Date de la rencontre",
+      "hrContact": "Nom du contact RH",
+      "returnDate": "Date de retour",
+      "gradualHours": "Horaire d'heures progressives",
+      "wsibLtdStatus": "Statut CSAAT / invalidité de longue durée",
+      "medicalRestrictions": "Restrictions fonctionnelles (sans diagnostic)",
+      "prohibitedGround": "Motif illicite",
+      "requestedModifications": "Modifications demandées",
+      "functionalLimitations": "Limites fonctionnelles prescrites",
+      "functionalLimitationsHint": "Que peut ou ne peut pas faire le membre en toute sécurité?",
+      "measures": "Mesures d'adaptation proposées"
+    },
+    "grounds": {
+      "placeholder": "Choisir un motif",
+      "creed": "Croyance",
+      "disability": "Handicap",
+      "familyStatus": "État familial",
+      "sex": "Sexe",
+      "genderIdentity": "Identité / expression de genre",
+      "race": "Race / couleur / ascendance",
+      "age": "Âge",
+      "other": "Autre / motifs multiples"
+    },
+    "measures": {
+      "modifiedHours": "Heures modifiées",
+      "lightDuties": "Tâches allégées",
+      "ergonomicEquipment": "Équipement ergonomique",
+      "taskBundling": "Regroupement de tâches",
+      "alternativeLocation": "Lieu de travail alternatif",
+      "other": "Autre mesure"
+    },
+    "scripts": {
+      "dear": "Bonjour",
+      "basedOn": "Compte tenu de",
+      "propose": "Nous proposons",
+      "preserve": "Nous demandons que toute mesure temporaire préserve le taux de salaire d'avant la blessure et le statut dans l'unité de négociation du membre.",
+      "closing": "En solidarité,",
+      "verbalLead": "Points de discussion pour la rencontre:",
+      "memberFallback": "le membre",
+      "hrFallback": "les RH",
+      "measuresHeading": "Mesures proposées",
+      "groundLead": "Il s'agit d'une demande d'adaptation active fondée sur des motifs illicites en matière de droits de la personne"
+    },
+    "preview": {
+      "title": "Scripts RH et règlement précoce",
+      "hint": "Les scripts se mettent à jour avec le formulaire. Ce sont des points de discussion — pas un avis juridique.",
+      "email": "Brouillon de courriel",
+      "verbal": "Script verbal"
+    },
+    "export": {
+      "markdown": "Exporter en Markdown",
+      "pdf": "Exporter en PDF",
+      "clear": "Effacer le brouillon"
+    }
+  },
+  "preDisciplinaryLog": {
+    "title": "Journal de rencontre prédisciplinaire",
+    "subtitle": "Vérifiez les droits procéduraux, notez les allégations et les facteurs atténuants, et préparez des points de règlement précoce — sur cet appareil seulement.",
+    "whenToUse": "À utiliser quand la direction convoque une rencontre qui peut mener à une mesure disciplinaire. Confirmez l'avis, la représentation et la divulgation avant d'approfondir.",
+    "confidentiality": {
+      "title": "Confidentialité stricte",
+      "body": "Les notes du récit du membre servent uniquement à la représentation. Ne les partagez pas avec la direction et ne les collez pas dans les systèmes de l'employeur."
+    },
+    "escalation": {
+      "title": "Escalade critique",
+      "body": "Cela touche une responsabilité pénale possible. Demandez au membre de garder le silence, arrêtez immédiatement l'entrevue et contactez le personnel syndical régional ou un conseiller juridique."
+    },
+    "fields": {
+      "memberName": "Nom du membre",
+      "meetingDate": "Date de la rencontre",
+      "allegationType": "Type d'allégation",
+      "rights": "Liste de contrôle des droits procéduraux",
+      "rightsHint": "Cochez chaque élément avant de vous fier au panneau de suggestions.",
+      "allegations": "Allégations formulées",
+      "memberNarrative": "Récit et explications du membre",
+      "mitigators": "Facteurs atténuants"
+    },
+    "triState": {
+      "yes": "Oui",
+      "no": "Non",
+      "unset": "Pas encore"
+    },
+    "rights": {
+      "advanceNotice": "Préavi\\u00a0: L'employeur a-t-il donné un préavis raisonnable du caractère disciplinaire de la rencontre?",
+      "representation": "Représentatio\\u00a0: A-t-on clairement informé le membre de son droit d'avoir un délégué présent?",
+      "disclosure": "Divulgatio\\u00a0: Les RH ont-elles divulgué les preuves matérielles, témoignages ou vidéos sur lesquelles elles s'appuient?"
+    },
+    "allegationTypes": {
+      "placeholder": "Choisir le type d'allégation",
+      "attendance": "Assiduité",
+      "insubordination": "Insubordination",
+      "performance": "Rendement",
+      "harassment": "Harcèlement / inconduite",
+      "theft": "Vol",
+      "fraud": "Fraude",
+      "criminal": "Autres allégations criminelles",
+      "other": "Autre / mineur"
+    },
+    "mitigators": {
+      "lengthOfService": "Ancienneté",
+      "cleanPastRecord": "Dossier disciplinaire vierge",
+      "provocation": "Provocation",
+      "personalMedicalDistress": "Détresse personnelle / médicale",
+      "sincereRemorse": "Remords sincères"
+    },
+    "scripts": {
+      "counselProposal": "Nous suggérons que la direction remette une lettre de conseil non disciplinaire plutôt qu'une mesure progressive formelle, afin de préserver des relations de travail coopératives pendant que les préoccupations sont corrigées.",
+      "representationPoints": "Confirmez les droits procéduraux au dossier, prenez des notes soignées et n'invitez pas le membre à spéculer. Demandez la pleine divulgation avant de répondre aux allégations. Réservez le droit de répondre par écrit après examen.",
+      "checklistGapsLead": "Éléments encore ouverts sur la liste:",
+      "none": "Aucun — la liste des droits est complète."
+    },
+    "preview": {
+      "title": "Représentation et règlement précoce",
+      "hint": "Les suggestions évoluent selon le type d'allégation, les droits et les facteurs atténuants. Pas un avis juridique.",
+      "suggestion": "Approche suggérée",
+      "gaps": "État de la liste des droits"
+    },
+    "export": {
+      "markdown": "Exporter en Markdown",
+      "pdf": "Exporter en PDF",
+      "clear": "Effacer le brouillon"
+    }
+  },
+  "complaintVsGrievance": {
+    "title": "Diagnostic plainte ou grief",
+    "subtitle": "Évaluez cinq points d'admissibilité, puis rédigez une prise en charge de grief ou une autre voie en milieu de travail — les notes restent sur cet appareil.",
+    "whenToUse": "À utiliser quand un membre apporte une plainte et que vous devez vérifier si elle est prête pour un grief ou mieux traitée autrement.",
+    "score": {
+      "label": "Indice de viabilité du grief",
+      "grievancePath": "Au moins un point d'admissibilité est rempli. Complétez les 6 W et utilisez le brouillon à droite.",
+      "alternatePath": "Aucun point d'admissibilité pour l'instant. Choisissez une autre voie d'action ci-dessous."
+    },
+    "points": {
+      "heading": "Admissibilité en cinq points",
+      "caViolation": {
+        "label": "1. Violation de la convention collective",
+        "hint": "La situation viole-t-elle une clause précise de la convention actuelle?"
+      },
+      "misinterpretation": {
+        "label": "2. Mauvaise interprétation de l'employeur",
+        "hint": "S'agit-il d'une lecture déraisonnable ou incorrecte de la convention par un superviseur?"
+      },
+      "statutory": {
+        "label": "3. Violation d'une loi",
+        "hint": "Cela viole-t-il une norme d'emploi, une loi sur la santé et la sécurité ou un code des droits de la personne?"
+      },
+      "pastPractice": {
+        "label": "4. Pratique passée",
+        "hint": "S'agit-il d'un écart par rapport à une pratique répétée, constante et mutuellement acceptée?"
+      },
+      "memberRights": {
+        "label": "5. Violation des droits du membre",
+        "hint": "Cela viole-t-il la dignité de base du travailleur, les droits syndicaux ou les droits de la personne?"
+      }
+    },
+    "fields": {
+      "articleSection": "Numéro d'article / de section",
+      "articleSectionHint": "p. ex. Article 12.03"
+    },
+    "triState": {
+      "yes": "Oui",
+      "no": "Non",
+      "unset": "Incertain"
+    },
+    "sixWs": {
+      "heading": "Prise en charge des 6 W",
+      "who": "Qui",
+      "what": "Quoi",
+      "when": "Quand",
+      "where": "Où",
+      "why": "Pourquoi",
+      "want": "Demande / réparation"
+    },
+    "routes": {
+      "heading": "Autres voies d'action en milieu de travail",
+      "hint": "Sélectionnez des voies pour générer des brouillons de proposition à droite.",
+      "lmc": {
+        "label": "Renvoyer au comité patronal-syndical",
+        "hint": "Pour les enjeux systémiques qui demandent une discussion conjointe.",
+        "draft": "Propositio\\u00a0: Renvoyer cette question au prochain comité patronal-syndical pour un examen conjoint de la pratique, avec un suivi écrit daté."
+      },
+      "jhsc": {
+        "label": "Renvoyer au comité mixte de santé et de sécurité",
+        "hint": "Quand des dangers ou des inspections sont en cause.",
+        "draft": "Propositio\\u00a0: Demander au comité mixte de santé et de sécurité d'inspecter / examiner cette préoccupation et de rendre compte aux deux parties."
+      },
+      "informalSupervisor": {
+        "label": "Discussion informelle directe avec le superviseur",
+        "hint": "Quand une conversation claire peut régler la question.",
+        "draft": "Points de discussio\\u00a0: Énoncez le fait objectivement, demandez comment le superviseur lit la pratique, proposez une correction et confirmez la date de suivi par écrit."
+      },
+      "mobilization": {
+        "label": "Mobilisation / sondage en milieu de travail",
+        "hint": "Quand plusieurs membres sont touchés et qu'il faut un apport collectif.",
+        "draft": "Plan d'action collectiv\\u00a0: Cartographiez qui est touché, rédigez un court sondage aux membres, fixez une rencontre de délégués et décidez si la question revient en plainte de groupe ou en grief."
+      }
+    },
+    "preview": {
+      "title": "Brouillon et prochaines étapes",
+      "hint": "Le panneau passe du brouillon de grief aux scripts d'autres voies selon votre score.",
+      "grievanceDraft": "Brouillon de grief",
+      "pickRoutes": "Sélectionnez une ou plusieurs autres voies pour voir les brouillons ici."
+    },
+    "export": {
+      "markdown": "Exporter en Markdown",
+      "pdf": "Exporter en PDF",
+      "clear": "Effacer le brouillon"
+    }
+  },
+  "stewardGuidesHub": {
+    "title": "Guides de rencontre pour délégués",
+    "subtitle": "Feuilles de travail interactives pour régler les enjeux de façon informelle avant qu'ils ne deviennent des griefs.",
+    "privacyNote": "Ces espaces enregistrent les notes seulement sur cet appareil. Rien n'est téléversé vers le Hub des dirigeants ni partagé avec l'employeur.",
+    "openTool": "Ouvrir l'espace de travail",
+    "rtwTitle": "Retour au travail et mesures d'adaptation",
+    "rtwBlurb": "Choisissez retour au travail ou adaptation, notez les limites fonctionnelles et rédigez des scripts RH.",
+    "disciplineTitle": "Journal de rencontre prédisciplinaire",
+    "disciplineBlurb": "Vérifiez le préavis, la représentation et la divulgation — avec alerte en cas d'allégations criminelles.",
+    "diagnosticTitle": "Plainte ou grief",
+    "diagnosticBlurb": "Évaluez cinq points d'admissibilité, puis rédigez un grief ou une autre voie.",
+    "informalLogLink": "Voir aussi le Journal informel pour les dossiers partagés de plaintes précoces"
   }
 }

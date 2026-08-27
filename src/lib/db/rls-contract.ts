@@ -95,6 +95,16 @@ export const RLS_TENANT_POLICIES: readonly RlsPolicyContract[] = [
     migration: "0025_checkins.sql",
   },
   {
+    table: "officer_learning_users",
+    policy: "officer_learning_users_tenant_isolation",
+    migration: "0034_officer_learning.sql",
+  },
+  {
+    table: "officer_learning_local_settings",
+    policy: "officer_learning_local_settings_tenant_isolation",
+    migration: "0034_officer_learning.sql",
+  },
+  {
     table: "tasks",
     policy: "tasks_tenant_isolation",
     migration: "0009_tasks.sql",

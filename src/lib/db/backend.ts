@@ -28,6 +28,7 @@ export const DB_BACKEND_ENV_KEYS = [
   "CHECKINS_DB_BACKEND",
   "AUTH_USERS_BACKEND",
   "FEEDBACK_DB_BACKEND",
+  "OFFICER_LEARNING_DB_BACKEND",
 ] as const;
 
 export type DbBackendEnvKey = (typeof DB_BACKEND_ENV_KEYS)[number];
@@ -189,6 +190,13 @@ export function feedbackDbBackend(
   return resolveBackend("FEEDBACK_DB_BACKEND", env);
 }
 
+/** Officer Learning Hub sync + local report. Default memory for demos. */
+export function officerLearningDbBackend(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
+): DbBackend {
+  return resolveBackend("OFFICER_LEARNING_DB_BACKEND", env);
+}
+
 /** Durable Hub users + password-reset tokens (SEC-007). */
 export function authUsersDbBackend(
   env: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
@@ -222,6 +230,7 @@ export function readEffectiveBackendFlags(
     CHECKINS_DB_BACKEND: checkinsDbBackend(env),
     AUTH_USERS_BACKEND: authUsersDbBackend(env),
     FEEDBACK_DB_BACKEND: feedbackDbBackend(env),
+    OFFICER_LEARNING_DB_BACKEND: officerLearningDbBackend(env),
   };
 }
 

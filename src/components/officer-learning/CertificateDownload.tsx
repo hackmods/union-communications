@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { downloadOfficerLearningCertificate } from "@/lib/officer-learning/certificate";
+import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import clsx from "clsx";
 
@@ -23,18 +24,24 @@ export function CertificateDownload({
   className,
 }: Props) {
   const t = useTranslations("officerLearning.certificate");
-  const localNumber = useBrandStore((s) => s.brandKit.local.localNumber);
+  const brandKit = useBrandStore((s) => s.brandKit);
+  const localNumber = brandKit.local.localNumber;
   const [name, setName] = useState(defaultName);
   const { exporting, exportError, exportSuccess, runExport } = useExportHandler();
 
   const handleDownload = () => {
     void runExport(async () => {
+      const logo = await resolveBrandLogoBytes(brandKit, {
+        includeLogo: true,
+        backgroundColor: "#0B132B",
+      });
       await downloadOfficerLearningCertificate({
         kind,
         recipientName: name.trim() || t("defaultName"),
         achievementTitle,
         moduleNumber,
         localNumber,
+        logo,
       });
     });
   };

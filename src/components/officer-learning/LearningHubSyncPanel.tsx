@@ -5,16 +5,17 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { getAllProgress } from "@/lib/officer-learning/progress";
+import {
+  hydrateProgressFromHub,
+  pushHubProgress,
+} from "@/lib/officer-learning/hub-sync-client";
 import clsx from "clsx";
 
-type MeRecord = {
-  displayName: string;
-  hubSyncEnabled: boolean;
-  shareWithLocal: boolean;
-  modules: ReturnType<typeof getAllProgress>;
+type Props = {
+  onProgressHydrated?: (progress: ReturnType<typeof getAllProgress>) => void;
 };
 
-export function LearningHubSyncPanel() {
+export function LearningHubSyncPanel({ onProgressHydrated }: Props) {
   const t = useTranslations("officerLearning.hubSync");
   const { data: session, status } = useSession();
   const [displayName, setDisplayName] = useState("");
@@ -27,24 +28,26 @@ export function LearningHubSyncPanel() {
   useEffect(() => {
     if (status !== "authenticated" || !session?.user) return;
     let cancelled = false;
-    void (async () => {
-      try {
-        const res = await fetch("/api/officer-learning/me");
-        if (!res.ok) return;
-        const data = (await res.json()) as { record: MeRecord };
+    const timer = window.setTimeout(() => {
+      void (async () => {
+        const { progress, record } = await hydrateProgressFromHub();
         if (cancelled) return;
-        setDisplayName(data.record.displayName || session.user?.name || "");
-        setHubSyncEnabled(Boolean(data.record.hubSyncEnabled));
-        setShareWithLocal(Boolean(data.record.shareWithLocal));
+        onProgressHydrated?.(progress);
+        if (record) {
+          setDisplayName(record.displayName || session.user?.name || "");
+          setHubSyncEnabled(Boolean(record.hubSyncEnabled));
+          setShareWithLocal(Boolean(record.shareWithLocal));
+        } else {
+          setDisplayName(session.user?.name || "");
+        }
         setLoaded(true);
-      } catch {
-        if (!cancelled) setLoaded(true);
-      }
-    })();
+      })();
+    }, 0);
     return () => {
       cancelled = true;
+      window.clearTimeout(timer);
     };
-  }, [session, status]);
+  }, [session, status, onProgressHydrated]);
 
   if (status === "loading") return null;
 
@@ -66,24 +69,14 @@ export function LearningHubSyncPanel() {
   const handleSave = async () => {
     setSaving(true);
     setMessage("idle");
-    try {
-      const res = await fetch("/api/officer-learning/me", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          displayName: displayName.trim() || session.user?.name || "Steward",
-          hubSyncEnabled,
-          shareWithLocal: hubSyncEnabled ? shareWithLocal : false,
-          modules: getAllProgress(),
-        }),
-      });
-      if (!res.ok) throw new Error("save failed");
-      setMessage("saved");
-    } catch {
-      setMessage("error");
-    } finally {
-      setSaving(false);
-    }
+    const ok = await pushHubProgress({
+      displayName: displayName.trim() || session.user?.name || "Steward",
+      hubSyncEnabled,
+      shareWithLocal: hubSyncEnabled ? shareWithLocal : false,
+      modules: getAllProgress(),
+    });
+    setMessage(ok ? "saved" : "error");
+    setSaving(false);
   };
 
   return (

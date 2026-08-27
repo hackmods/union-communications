@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { OFFICER_LEARNING_MODULES } from "@/lib/officer-learning/modules";
-import type { LocalReportRow, OfficerLearningLocalSettings } from "@/lib/officer-learning/hub-store";
+import type { LocalReportRow, OfficerLearningLocalSettings } from "@/lib/officer-learning/types-hub";
 import clsx from "clsx";
 
 export function OfficerLearningHubBoard() {

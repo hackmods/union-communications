@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import type { UserRole } from "@/types/tenant";
 import { canManageOfficerLearningReport } from "@/lib/officer-learning/access";
-import {
-  getOfficerLearningLocalSettings,
-  saveOfficerLearningLocalSettings,
-} from "@/lib/officer-learning/hub-store";
+import { officerLearningStore } from "@/lib/officer-learning/store";
 import { parseJsonBody } from "@/lib/validation/parse";
 import { officerLearningLocalSettingsPutSchema } from "@/lib/validation/officer-learning";
 
@@ -19,7 +16,7 @@ export async function GET() {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const settings = getOfficerLearningLocalSettings(
+  const settings = await officerLearningStore.getLocalSettings(
     session.user.unionId,
     session.user.localId,
   );
@@ -51,7 +48,7 @@ export async function PUT(request: Request) {
     );
   }
 
-  const settings = saveOfficerLearningLocalSettings({
+  const settings = await officerLearningStore.saveLocalSettings({
     unionId: session.user.unionId,
     localId: session.user.localId,
     reportingEnabled: parsed.data.reportingEnabled,

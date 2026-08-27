@@ -150,8 +150,25 @@ function parseBlocks(rawLines: string[]): ContentBlock[] {
   return blocks;
 }
 
+function isQuizHeading(line: string): boolean {
+  const t = line.trim();
+  return t === "## Self-Test Quiz" || t === "## Quiz d'autoévaluation";
+}
+
+function isPurposeHeading(line: string): boolean {
+  const t = line.trim();
+  return t === "## Overarching Purpose" || t === "## Objectif général";
+}
+
+function isObjectivesHeading(line: string): boolean {
+  const t = line.trim();
+  return (
+    t === "## Core Learning Objectives" || t === "## Objectifs d'apprentissage"
+  );
+}
+
 function parseQuiz(lines: string[]): QuizQuestion[] {
-  const quizStart = lines.findIndex((l) => l.trim() === "## Self-Test Quiz");
+  const quizStart = lines.findIndex((l) => isQuizHeading(l));
   if (quizStart === -1) return [];
 
   const quizLines = lines.slice(quizStart + 1);
@@ -194,8 +211,10 @@ function parseQuiz(lines: string[]): QuizQuestion[] {
       continue;
     }
 
-    if (trimmed.startsWith("*Explanation*:") || trimmed.startsWith("*Explanation*")) {
-      current.explanation = parseInline(trimmed.replace(/^\*Explanation\*:\s*/, ""));
+    if (trimmed.startsWith("*Explanation*") || trimmed.startsWith("*Explication*")) {
+      current.explanation = parseInline(
+        trimmed.replace(/^\*(Explanation|Explication)\*\s*:\s*/i, ""),
+      );
       continue;
     }
 
@@ -212,7 +231,7 @@ function parseQuiz(lines: string[]): QuizQuestion[] {
 }
 
 function parseSections(lines: string[]): ModuleSection[] {
-  const contentEnd = lines.findIndex((l) => l.trim() === "## Self-Test Quiz");
+  const contentEnd = lines.findIndex((l) => isQuizHeading(l));
   const bodyLines = contentEnd === -1 ? lines : lines.slice(0, contentEnd);
   const sections: ModuleSection[] = [];
   let currentSection: ModuleSection | null = null;
@@ -234,8 +253,8 @@ function parseSections(lines: string[]): ModuleSection[] {
   for (const line of bodyLines) {
     if (
       line.startsWith("## ") &&
-      !line.includes("Overarching Purpose") &&
-      !line.includes("Core Learning Objectives")
+      !isPurposeHeading(line) &&
+      !isObjectivesHeading(line)
     ) {
       flushBuffer();
       const title = line.replace(/^##\s+/, "").trim();
@@ -265,8 +284,8 @@ function parseSections(lines: string[]): ModuleSection[] {
     if (
       line.startsWith("# ") ||
       line.trim() === "---" ||
-      line.startsWith("## Overarching Purpose") ||
-      line.startsWith("## Core Learning Objectives")
+      isPurposeHeading(line) ||
+      isObjectivesHeading(line)
     ) {
       continue;
     }
@@ -291,12 +310,12 @@ export function parseOfficerLearningModule(
 
   const titleLine = lines.find((l) => l.startsWith("# "));
   const titleRaw = titleLine?.replace(/^#\s+/, "").trim() ?? id;
-  const numberMatch = titleRaw.match(/^Module\s+(\d+):\s*(.+)$/i);
+  const numberMatch = titleRaw.match(/^Module\s+(\d+)\s*:\s*(.+)$/i);
   const number = numberMatch ? Number(numberMatch[1]) : 0;
   const title = numberMatch ? numberMatch[2].trim() : titleRaw;
 
-  const purposeIdx = lines.findIndex((l) => l.trim() === "## Overarching Purpose");
-  const objectivesIdx = lines.findIndex((l) => l.trim() === "## Core Learning Objectives");
+  const purposeIdx = lines.findIndex((l) => isPurposeHeading(l));
+  const objectivesIdx = lines.findIndex((l) => isObjectivesHeading(l));
   let purpose = "";
   const objectives: string[] = [];
 
@@ -312,7 +331,7 @@ export function parseOfficerLearningModule(
   if (objectivesIdx !== -1) {
     for (let i = objectivesIdx + 1; i < lines.length; i += 1) {
       if (lines[i].startsWith("##")) break;
-      const match = lines[i].match(/^\*\s+\*\*(.+?)\*\*:\s*(.+)$/);
+      const match = lines[i].match(/^\*\s+\*\*(.+?)\*\*\s*:\s*(.+)$/);
       if (match) {
         objectives.push(`${match[1]}: ${match[2]}`);
       }
