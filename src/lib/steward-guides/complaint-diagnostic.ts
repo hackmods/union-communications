@@ -214,6 +214,17 @@ export function buildAlternateRouteDrafts(
   }));
 }
 
+/** All four alternate pathways — used when viability score is 0. */
+export function buildAllAlternateRouteDrafts(
+  labels: ComplaintScriptLabels,
+): { id: AlternateRouteId; label: string; draft: string }[] {
+  return ALTERNATE_ROUTES.map((id) => ({
+    id,
+    label: labels.routeLabels[id],
+    draft: labels.routeDrafts[id],
+  }));
+}
+
 export function complaintDraftToMarkdown(
   draft: ComplaintDiagnosticDraft,
   labels: {
@@ -246,7 +257,11 @@ export function complaintDraftToMarkdown(
     );
   } else {
     lines.push(labels.scripts.alternatePath, "");
-    for (const route of buildAlternateRouteDrafts(draft, labels.scripts)) {
+    const routes =
+      draft.alternateRoutes.length > 0
+        ? buildAlternateRouteDrafts(draft, labels.scripts)
+        : buildAllAlternateRouteDrafts(labels.scripts);
+    for (const route of routes) {
       lines.push(`### ${route.label}`, "", route.draft, "");
     }
   }

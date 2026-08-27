@@ -244,6 +244,9 @@
     "pathOfficerTitleComingSoon": "Officer workflows on the way",
     "pathOfficerDescComingSoon": "Grievance tracking, college bumping, overdue boards, and handoffs are in progress. Comms tools are ready today.",
     "pathOfficerCtaComingSoon": "Officer Hub: coming soon",
+    "pathStewardTitle": "Steward training on the floor",
+    "pathStewardDesc": "Steward 101, six Officer Learning modules with self-tests, and printable pocket sheets — all on your device.",
+    "pathStewardCta": "Open steward playbooks",
     "channelsTitle": "The Toolbox",
     "channelsIntro": "These tools work together so the local’s message stays consistent from the board to the web.",
     "brandRailDesc": "Colours, logo, and key links for every graphic. Browse the reference asset pack when you need starter files.",
@@ -667,6 +670,7 @@
     "moduleLabel": "Module {number}",
     "readingTime": "{minutes} min read",
     "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
     "progressSummary": "{completed} of {total} modules completed",
     "quizHint": {
       "title": "Self-tests mark your progress",
@@ -725,7 +729,10 @@
         "blueprint": "The Blueprint",
         "workplaceMapping": "Workplace mapping",
         "membershipSignup": "Membership signup playbook",
-        "crisis": "Strike & crisis comms"
+        "crisis": "Strike & crisis comms",
+        "stewardPlaybooks": "All steward playbooks",
+        "unionBoards": "Union boards guide",
+        "solidarityPoster": "Solidarity posters"
       }
     },
     "reference": {
@@ -733,6 +740,21 @@
       "farTitle": "FAR sheet (blank)",
       "farBody": "One-page Facts / Argument / Resolution form for Step 1 meetings.",
       "farCta": "Download FAR PDF",
+      "disciplineTitle": "Discipline rights sheet",
+      "disciplineBody": "Notice, representation, ladder rungs, and just-cause probes for the meeting.",
+      "disciplineCta": "Download discipline PDF",
+      "meiorinTitle": "Meiorin BFOR worksheet",
+      "meiorinBody": "Three-step test plus undue hardship limits — take it to accommodation meetings.",
+      "meiorinCta": "Download Meiorin PDF",
+      "quorumTitle": "Quorum & motion template",
+      "quorumBody": "Check quorum tiers and capture a decision-focused motion on one page.",
+      "quorumCta": "Download meeting PDF",
+      "auditTitle": "Financial controls trail",
+      "auditBody": "Receipt → two signatures → trustee audit sample — pocket voucher checklist.",
+      "auditCta": "Download audit PDF",
+      "equityTitle": "Equity clause worksheet",
+      "equityBody": "Barrier → proposed language → joint accountability deadline.",
+      "equityCta": "Download equity PDF",
       "checklistTitle": "Floor checklist PDF",
       "checklistBody": "Printable tick list from this module — keep it with your notebook.",
       "checklistCta": "Download checklist PDF",
@@ -2859,6 +2881,7 @@
       "title": "Labour rights playbooks",
       "intro": "Steward-facing Ontario playbooks — not legal advice. Same depth as a training handout: gate, steps, worked example, and sources. Start with Steward 101 in the Guides menu under Steward playbooks, or follow the ordered list below while you wait for local or national steward school.",
       "links": {
+        "stewardPlaybooks": "Steward playbooks — training path hub",
         "steward101": "Steward 101: Your Role and Rights",
         "officerLearning": "Officer Learning Center",
         "grievance": "The Steward's Guide to Grievances",
@@ -2869,6 +2892,7 @@
         "workplaceMapping": "Workplace mapping & organic leaders"
       },
       "blurb": {
+        "stewardPlaybooks": "Start here: Steward 101, Officer Learning modules with self-tests, and every floor playbook in one list.",
         "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example — start here.",
         "officerLearning": "Six self-paced modules with quizzes, floor checklists, and printable take-to-meeting sheets — progress saves on this device.",
         "grievance": "Forum gate, 6 W's notes, CA clocks, and a printable intake sheet. Confirm steps in your agreement.",
@@ -4304,12 +4328,26 @@
     "title": "Steward playbooks",
     "subtitle": "Floor training for stewards and local officers — start here before national school",
     "intro": "Ontario-focused playbooks and self-paced modules. Not legal advice — confirm every deadline and remedy against your own collective agreement.",
+    "backToGuide": "Back to The Blueprint",
     "trainingPath": {
       "title": "Recommended training path",
       "body": "Start with Steward 101 for role basics, then Officer Learning Center for six modules with self-tests. Open the other playbooks when a live file needs them.",
       "steward101Cta": "Start Steward 101",
       "officerLearningCta": "Officer Learning Center"
     },
+    "tocLabel": "On this page",
+    "sections": {
+      "trainingPath": "Training path",
+      "quiz": "Self-tests",
+      "playbooks": "All playbooks"
+    },
+    "pathSteps": [
+      { "label": "Steward 101", "href": "/guide/steward-101" },
+      { "label": "Officer Learning Center", "href": "/guide/officer-learning" },
+      { "label": "Grievance process", "href": "/guide/grievance-process" },
+      { "label": "Duty of Fair Representation", "href": "/guide/dfr" },
+      { "label": "Topic playbooks", "href": "#playbooks" }
+    ],
     "quizCallout": {
       "title": "Where the self-tests live",
       "body": "Officer Learning modules include a quiz at the bottom of each lesson. Use Jump to Quiz in the module header, or scroll to Self-test after reading. A perfect score marks the module complete on this device."
@@ -4346,6 +4384,7 @@
     "title": "Steward 101: Your Role and Rights",
     "subtitle": "Orientation for new stewards — role, three hats, representation, and fair representation",
     "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
     "intro": "Being elected as a steward is the most important job in the labour movement. You are the first line of defense against management and the face of the union on the shop floor. National steward school may be months away — this playbook gets you oriented on the floor now.",
@@ -4358,17 +4397,20 @@
       "dfr": "Duty of Fair Representation playbook",
       "workplaceMapping": "Workplace mapping & organic leaders",
       "rightToRefuse": "Right to refuse unsafe work",
+      "officerLearning": "Officer Learning Center",
+      "stewardPlaybooks": "All steward playbooks",
       "membership": "Membership signup playbook"
     },
     "trainingPath": {
       "title": "Steward training path",
       "intro": "Work through these playbooks in order while you wait for local or national steward school.",
       "steps": [
-        "Steward 101",
-        "Workplace mapping",
-        "Grievance process",
-        "Duty of Fair Representation",
-        "Topic playbooks"
+        { "label": "Steward 101", "href": "/guide/steward-101" },
+        { "label": "Officer Learning Center", "href": "/guide/officer-learning" },
+        { "label": "Workplace mapping", "href": "/guide/workplace-mapping" },
+        { "label": "Grievance process", "href": "/guide/grievance-process" },
+        { "label": "Duty of Fair Representation", "href": "/guide/dfr" },
+        { "label": "All steward playbooks", "href": "/guide/steward-playbooks" }
       ]
     },
     "diagrams": {
@@ -4668,6 +4710,8 @@
     },
     "related": {
       "steward101": "Steward 101: Your Role and Rights",
+      "officerLearning": "Officer Learning Center",
+      "stewardPlaybooks": "All steward playbooks",
       "dfr": "Duty of Fair Representation",
       "seniority": "Seniority & bumping playbook",
       "rightToRefuse": "Right to refuse unsafe work",
@@ -6114,6 +6158,14 @@
       "officer-learning-center": {
         "title": "Officer Learning — definitive floor path",
         "body": "Six bilingual modules with a live learning path, teaching diagrams, tickable floor checklists, printable FAR sheets, and links into steward tools and peer guides."
+      },
+      "steward-playbooks-hub": {
+        "title": "Steward playbooks hub",
+        "body": "One front door for Steward 101, Officer Learning self-tests, and every floor playbook — with a linked training path diagram."
+      },
+      "officer-learning-pocket-pdfs": {
+        "title": "Officer Learning pocket PDFs",
+        "body": "Each module now includes a take-to-meeting sheet — discipline rights, Meiorin worksheet, quorum template, audit trail, and more."
       },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",
@@ -8647,6 +8699,33 @@
     "title": "Return-to-work & accommodation intake",
     "subtitle": "Capture functional limits and proposed measures before you meet HR — notes stay on this device.",
     "whenToUse": "Use before an RTW meeting or when a member asks for an active accommodation. Keep diagnosis off this form.",
+    "moduleLink": "Officer Learning module: human rights & accommodation",
+    "legal": {
+      "primacyTitle": "Primacy of human rights",
+      "primacyBody": "Human rights legislation has quasi-constitutional status. It supersedes collective agreements and employer policies when they conflict. If a contract clause blocks a required accommodation, that clause cannot stand against the Code.",
+      "meiorinOpen": "Open Meiorin BFOR test",
+      "meiorinTitle": "The 3-step Meiorin test (BFOR)",
+      "meiorinClose": "Close",
+      "meiorinStep1Title": "1. Rational connection",
+      "meiorinStep1Body": "Was the standard adopted for a purpose rationally connected to performing the job?",
+      "meiorinStep2Title": "2. Good faith",
+      "meiorinStep2Body": "Was it adopted in an honest, good-faith belief that it was necessary to achieve that work-related purpose?",
+      "meiorinStep3Title": "3. Reasonable necessity",
+      "meiorinStep3Body": "Is the standard reasonably necessary? The employer must show it is impossible to accommodate the individual without imposing undue hardship.",
+      "undueHardshipTitle": "Undue hardship — what counts",
+      "undueHardshipBody": "Only three factors may support an undue-hardship claim:",
+      "undueHardshipCost": "Quantifiable cost so substantial it threatens the nature or viability of the operation",
+      "undueHardshipFunding": "Outside sources of funding — have grants, insurance, or other programs been explored first?",
+      "undueHardshipSafety": "Health and safety — objective, evidence-based risk that cannot be mitigated",
+      "undueHardshipNotTitle": "What does not count",
+      "undueHardshipNotBody": "Co-worker morale, customer preference, and conflict with the collective agreement are not undue hardship."
+    },
+    "suggestions": {
+      "heading": "Early-resolution suggestions",
+      "workHardening": "Propose a gradual work-hardening schedule: Week 1–2 at 15 hrs, Week 3–4 at 22.5 hrs, Week 5–6 at 30 hrs, then full hours — tied to functional abilities, not diagnosis.",
+      "taskBundling": "Propose task bundling within the current classification so pre-injury wages and bargaining-unit standing stay protected, instead of reclassification into a lower-paid non-unit role.",
+      "jointReview": "Propose a 30-day joint review clause so temporary measures can be tested and adjusted without locking in permanent change or filing a formal grievance yet."
+    },
     "privacy": {
       "title": "Medical privacy rule",
       "body": "The employer has no right to demand a diagnosis, symptoms, or treatment plan. They are only entitled to functional limitations and restrictions. Keep diagnosis details off this form."
@@ -8726,7 +8805,18 @@
     },
     "escalation": {
       "title": "Critical escalation",
-      "body": "This involves potential criminal liability. Instruct the member to remain silent, stop the interview immediately, and contact regional union staff or legal counsel."
+      "body": "Potential criminal or civil liability detected. Instruct the member to remain silent. Stop the meeting immediately. Do not sign or submit any employer statements. Contact the regional union representative and legal counsel immediately."
+    },
+    "proceduralAudit": {
+      "title": "Procedural defect to log",
+      "body": "Advance notice of the meeting's disciplinary focus or clear advice of the right to representation was marked No. Log this as an immediate procedural violation for a potential grievance — do not treat the interview as clean."
+    },
+    "mitigatorTalkingPoints": {
+      "lengthOfService": "An exemplary long-service record must reduce the severity of the penalty.",
+      "cleanPastRecord": "A single incident should not destroy a clean disciplinary history.",
+      "provocation": "Active provocation or toxic workplace dynamics must be factored in as a shared responsibility.",
+      "personalMedicalDistress": "Documented medical or personal crises should divert the issue toward supportive counseling rather than punishment.",
+      "sincereRemorse": "Sincere remorse and a concrete corrective plan support a lesser penalty or non-disciplinary coaching."
     },
     "fields": {
       "memberName": "Member name",
@@ -8769,7 +8859,8 @@
       "sincereRemorse": "Sincere remorse"
     },
     "scripts": {
-      "counselProposal": "We suggest management issue a non-disciplinary coaching Letter of Counsel instead of formal progressive discipline, preserving cooperative labour relations while the concerns are corrected.",
+      "counselProposal": "We ask HR to issue a non-disciplinary Letter of Counsel (coaching letter) instead of formal progressive discipline, keeping the member's permanent record clean while the concerns are corrected.",
+      "obeyNowGrieveLaterProposal": "On insubordination: the workplace rule is generally obey now, grieve later — unless a genuine health and safety risk or personal emergency made immediate compliance unreasonable. We propose acknowledging the order, documenting the safety or emergency concern, exchanging a mutual apology where appropriate, and resetting expectations without jumping the progressive ladder.",
       "representationPoints": "Confirm procedural rights on the record, take careful notes, and do not let the member speculate. Ask for full disclosure before answering allegations. Reserve the right to respond in writing after review.",
       "checklistGapsLead": "Checklist gaps still open:",
       "none": "None — rights checklist is complete."
@@ -8801,28 +8892,35 @@
     "title": "Complaint vs grievance diagnostic",
     "subtitle": "Score five eligibility points, then draft either a grievance intake or an alternate workplace route — notes stay on this device.",
     "whenToUse": "Use when a member brings a complaint and you need to test whether it is grievance-ready or better handled another way.",
+    "moduleLink": "Officer Learning module: contract enforcement",
     "score": {
       "label": "Grievance viability index",
       "grievancePath": "At least one eligibility point is met. Complete the 6 W's and use the draft on the right.",
-      "alternatePath": "No eligibility points yet. Choose an alternate workplace action route below."
+      "alternatePath": "No eligibility points → use the Alternative Resolution Action Plan below. All four pathway drafts are ready in the preview."
+    },
+    "actionPlan": {
+      "title": "Alternative Resolution Action Plan",
+      "body": "Score is 0 — this is not grievance-ready yet. Work the four pathways below; export includes all four drafts unless you narrow which routes you are pursuing.",
+      "routesHint": "Optional: mark routes you are actively pursuing for your notes. Preview and export still include all four at score 0.",
+      "previewHeading": "Pathway drafts (A–D)"
     },
     "points": {
       "heading": "Five-point eligibility",
       "caViolation": {
         "label": "1. Collective agreement violation",
-        "hint": "Does the issue violate a specific clause in the current contract?"
+        "hint": "Does this violate a specific article or section? If yes, enter the article number below."
       },
       "misinterpretation": {
         "label": "2. Employer misinterpretation",
-        "hint": "Is this an unreasonable or incorrect reading of the contract by a supervisor?"
+        "hint": "Is management interpreting a clause in a way that differs from established understanding?"
       },
       "statutory": {
         "label": "3. Statutory law violation",
-        "hint": "Does this violate an employment standard, health and safety law, or human rights code?"
+        "hint": "Does this violate Human Rights, Employment Standards, or Occupational Health and Safety acts?"
       },
       "pastPractice": {
         "label": "4. Past practice",
-        "hint": "Is this a break from a repeated, consistent, mutually accepted workplace practice?"
+        "hint": "Is this a violation of a repeated, consistent, and mutually accepted past practice?"
       },
       "memberRights": {
         "label": "5. Member rights violation",
@@ -8851,24 +8949,24 @@
       "heading": "Alternate workplace action routes",
       "hint": "Select routes to generate proposal drafts on the right.",
       "lmc": {
-        "label": "Refer to Labour-Management Committee (LMC)",
-        "hint": "For systemic issues that need joint discussion.",
-        "draft": "Proposal: Refer this matter to the next Labour-Management Committee for joint review of the workplace practice, with a written follow-up timeline."
+        "label": "Pathway A — Labour-Management Committee (LMC)",
+        "hint": "Letter-style referral for systemic issues that need joint discussion.",
+        "draft": "Letter to the Local President: Please place this systemic workplace concern on the next Labour-Management Committee agenda for joint review, with a written follow-up timeline to the parties. Attach a one-page summary of the practice, who is affected, and the outcome sought."
       },
       "jhsc": {
-        "label": "Refer to Joint Health and Safety Committee (JHSC)",
-        "hint": "When hazards or inspections are involved.",
-        "draft": "Proposal: Ask the Joint Health and Safety Committee to inspect / review this concern and report findings to both parties."
+        "label": "Pathway B — Joint Health and Safety (JHSC)",
+        "hint": "Referral to the local safety rep for joint inspection.",
+        "draft": "Referral to the local health and safety representative / JHSC: Please schedule a joint inspection or review of this concern, document findings for both parties, and recommend corrective measures with target dates."
       },
       "informalSupervisor": {
-        "label": "Direct informal discussion with supervisor",
-        "hint": "When a calm clarifying conversation may resolve it.",
-        "draft": "Talking points: State the concern factually, ask how the supervisor reads the practice, propose a corrective step, and confirm the follow-up date in writing."
+        "label": "Pathway C — Informal supervisor discussion",
+        "hint": "Steward talking points for a 1:1 before escalation.",
+        "draft": "Steward talking points for a 1:1 with the supervisor: (1) State the concern factually without blame. (2) Ask how they read the practice or rule. (3) Propose one corrective step the member can live with. (4) Confirm the follow-up date in writing. (5) Log the conversation for the file."
       },
       "mobilization": {
-        "label": "Workplace mobilization / survey",
-        "hint": "When the issue affects many members and needs collective input.",
-        "draft": "Collective action plan: Map who is affected, draft a short member survey, set a steward huddle date, and decide whether the issue returns as a group complaint or grievance."
+        "label": "Pathway D — Workplace mobilization / survey",
+        "hint": "Survey or collective-action campaign when many members are affected.",
+        "draft": "Mobilization draft: Map who is affected; draft a short anonymous member survey; set a steward huddle date; decide whether the issue returns as a group complaint, LMC item, or grievance once patterns are clear. Keep messaging factual and solidarity-focused."
       },
       "informalLogCta": "Log the conversation in Informal Log (Officer Hub)"
     },
@@ -8918,7 +9016,11 @@
     "utilitiesHeading": "Related tools",
     "readModule1": "Module 1: contract enforcement",
     "readModule2": "Module 2: progressive discipline",
-    "readModule3": "Module 3: human rights and accommodation",
+    "readOfficerLearningCenter": "Officer Learning Center (all modules)",
+    "readModule4": "Module 4: democratic governance",
+    "readModule5": "Module 5: financial health",
+    "readModule6": "Module 6: building collective power",
+    "utilStewardPlaybooks": "Steward playbooks hub",
     "utilDocGen": "Document Generator (grievance intake)",
     "utilSnippets": "CA snippets",
     "utilGrievanceGuide": "Grievance process guide"

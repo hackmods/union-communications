@@ -21,6 +21,7 @@ import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
 import {
   ALTERNATE_ROUTES,
   DIAGNOSTIC_POINTS,
+  buildAllAlternateRouteDrafts,
   buildAlternateRouteDrafts,
   buildFarDraftText,
   buildGrievanceDraftText,
@@ -92,8 +93,11 @@ export default function ComplaintVsGrievancePage() {
     [draft, scriptLabels],
   );
   const routeDrafts = useMemo(
-    () => buildAlternateRouteDrafts(draft, scriptLabels),
-    [draft, scriptLabels],
+    () =>
+      showGrievance
+        ? buildAlternateRouteDrafts(draft, scriptLabels)
+        : buildAllAlternateRouteDrafts(scriptLabels),
+    [draft, scriptLabels, showGrievance],
   );
 
   const setAnswer = (id: DiagnosticPointId, value: YesNoUnset) => {
@@ -169,6 +173,15 @@ export default function ComplaintVsGrievancePage() {
           {t("saveFailed")}
         </Callout>
       ) : null}
+
+      <Callout tone="muted">
+        <Link
+          href="/guide/officer-learning/contract-enforcement"
+          className="font-semibold text-opseu-blue underline underline-offset-2"
+        >
+          {t("moduleLink")}
+        </Link>
+      </Callout>
 
       <div className="space-y-3">
         <Callout tone={showGrievance ? "success" : "warning"}>
@@ -331,32 +344,40 @@ export default function ComplaintVsGrievancePage() {
           </fieldset>
         </>
       ) : (
-        <fieldset className="space-y-2">
-          <legend className="text-sm font-medium text-gray-700">
-            {t("routes.heading")}
-          </legend>
-          <p className="text-xs text-gray-500">{t("routes.hint")}</p>
-          {ALTERNATE_ROUTES.map((id) => (
-            <ChecklistToggle
-              key={id}
-              id={`route-${id}`}
-              label={t(`routes.${id}.label`)}
-              description={t(`routes.${id}.hint`)}
-              checked={draft.alternateRoutes.includes(id)}
-              onChange={(on) => toggleRoute(id, on)}
-            />
-          ))}
-          {draft.alternateRoutes.includes("informalSupervisor") ? (
-            <Callout tone="brand">
-              <Link
-                href="/app/informal-log"
-                className="font-semibold text-opseu-blue underline underline-offset-2"
-              >
-                {t("routes.informalLogCta")}
-              </Link>
-            </Callout>
-          ) : null}
-        </fieldset>
+        <div className="space-y-3 rounded-lg border border-amber-200 bg-amber-50/60 p-4">
+          <div>
+            <p className="text-sm font-semibold text-amber-950">
+              {t("actionPlan.title")}
+            </p>
+            <p className="mt-1 text-sm text-amber-900">{t("actionPlan.body")}</p>
+          </div>
+          <fieldset className="space-y-2">
+            <legend className="text-sm font-medium text-gray-700">
+              {t("routes.heading")}
+            </legend>
+            <p className="text-xs text-gray-600">{t("actionPlan.routesHint")}</p>
+            {ALTERNATE_ROUTES.map((id) => (
+              <ChecklistToggle
+                key={id}
+                id={`route-${id}`}
+                label={t(`routes.${id}.label`)}
+                description={t(`routes.${id}.hint`)}
+                checked={draft.alternateRoutes.includes(id)}
+                onChange={(on) => toggleRoute(id, on)}
+              />
+            ))}
+            {draft.alternateRoutes.includes("informalSupervisor") ? (
+              <Callout tone="brand">
+                <Link
+                  href="/app/informal-log"
+                  className="font-semibold text-opseu-blue underline underline-offset-2"
+                >
+                  {t("routes.informalLogCta")}
+                </Link>
+              </Callout>
+            ) : null}
+          </fieldset>
+        </div>
       )}
     </Card>
   );
@@ -373,16 +394,19 @@ export default function ComplaintVsGrievancePage() {
           />
           <ScriptBlock label={t("preview.farDraft")} text={farText} />
         </>
-      ) : routeDrafts.length > 0 ? (
-        routeDrafts.map((route) => (
-          <ScriptBlock
-            key={route.id}
-            label={route.label}
-            text={route.draft}
-          />
-        ))
       ) : (
-        <Callout tone="muted">{t("preview.pickRoutes")}</Callout>
+        <>
+          <p className="text-sm font-semibold text-gray-900">
+            {t("actionPlan.previewHeading")}
+          </p>
+          {routeDrafts.map((route) => (
+            <ScriptBlock
+              key={route.id}
+              label={route.label}
+              text={route.draft}
+            />
+          ))}
+        </>
       )}
     </SuggestionPanel>
   );

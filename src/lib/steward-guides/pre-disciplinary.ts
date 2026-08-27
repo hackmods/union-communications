@@ -141,9 +141,41 @@ export function incompleteRights(draft: PreDisciplinaryDraft): RightsCheckId[] {
   return RIGHTS_CHECKS.filter((id) => draft.rights[id] !== "yes");
 }
 
+/** Advance notice or representation marked no — log as a procedural defect. */
+export function hasProceduralDefect(draft: PreDisciplinaryDraft): boolean {
+  return (
+    draft.rights.advanceNotice === "no" ||
+    draft.rights.representation === "no"
+  );
+}
+
+const CRIMINAL_KEYWORD_PATTERN =
+  /\b(theft|steal|stole|stolen|fraud|embezzl|police|criminal|charged|arrest|crown|prosecutor|vol|fraude|police|criminel|accus|arrêté|arrestation)\b/i;
+
+/** Scan free-text allegations / narrative for criminal-liability cues (EN/FR). */
+export function detectCriminalKeywords(...texts: string[]): boolean {
+  return texts.some((text) => CRIMINAL_KEYWORD_PATTERN.test(text));
+}
+
+export function shouldEscalateCriminal(draft: PreDisciplinaryDraft): boolean {
+  return (
+    isCriminalAllegation(draft.allegationType) ||
+    detectCriminalKeywords(draft.allegations, draft.memberNarrative)
+  );
+}
+
+/** Insubordination path when not in criminal-escalation mode. */
+export function suggestObeyNowGrieveLater(
+  draft: PreDisciplinaryDraft,
+): boolean {
+  if (shouldEscalateCriminal(draft)) return false;
+  return draft.allegationType === "insubordination";
+}
+
 /** Minor path: not criminal, at least one mitigator, and rights mostly met. */
 export function suggestLetterOfCounsel(draft: PreDisciplinaryDraft): boolean {
-  if (isCriminalAllegation(draft.allegationType)) return false;
+  if (shouldEscalateCriminal(draft)) return false;
+  if (suggestObeyNowGrieveLater(draft)) return false;
   if (draft.mitigators.length === 0) return false;
   const minorTypes: AllegationTypeId[] = [
     "attendance",
@@ -161,6 +193,7 @@ export function suggestLetterOfCounsel(draft: PreDisciplinaryDraft): boolean {
 
 export type PreDisciplinaryScriptLabels = {
   counselProposal: string;
+  obeyNowGrieveLaterProposal: string;
   representationPoints: string;
   checklistGapsLead: string;
   rightsLabels: Record<RightsCheckId, string>;
@@ -178,17 +211,33 @@ export function buildPreDisciplinaryScripts(
     gaps.length === 0
       ? labels.none
       : gaps.map((id) => labels.rightsLabels[id]).join("; ");
+  const gapsLine = `${labels.checklistGapsLead} ${gapText}`;
+
+  // Criminal escalation is handled in the UI banner; keep representation text.
+  if (shouldEscalateCriminal(draft)) {
+    return {
+      primary: labels.representationPoints,
+      gaps: gapsLine,
+    };
+  }
+
+  if (suggestObeyNowGrieveLater(draft)) {
+    return {
+      primary: labels.obeyNowGrieveLaterProposal,
+      gaps: gapsLine,
+    };
+  }
 
   if (suggestLetterOfCounsel(draft)) {
     return {
       primary: labels.counselProposal,
-      gaps: `${labels.checklistGapsLead} ${gapText}`,
+      gaps: gapsLine,
     };
   }
 
   return {
     primary: labels.representationPoints,
-    gaps: `${labels.checklistGapsLead} ${gapText}`,
+    gaps: gapsLine,
   };
 }
 

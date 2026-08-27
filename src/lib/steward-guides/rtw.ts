@@ -140,6 +140,99 @@ function measureList(
   return parts.join("; ");
 }
 
+/** Default gradual work-hardening grid for active WSIB / LTD returns. */
+export const GRADUAL_WORK_HARDENING_SCHEDULE =
+  "Week 1–2: 15 hrs; Week 3–4: 22.5 hrs; Week 5–6: 30 hrs; then full hours";
+
+const ACTIVE_WSIB_LTD_CUES =
+  /\b(wsib|wsb|ltd|std|active|claim|claimant|benefits?|short[\s-]?term|long[\s-]?term|disability|return[\s-]?to[\s-]?work|rtw)\b/i;
+
+/** True when WSIB/LTD status looks active (not empty / not clearly closed). */
+export function hasActiveWsibLtd(draft: RtwIntakeDraft): boolean {
+  const status = draft.wsibLtdStatus.trim();
+  if (!status) return false;
+  if (/^(n\/?a|none|no|closed|inactive|denied|0)$/i.test(status)) return false;
+  return ACTIVE_WSIB_LTD_CUES.test(status) || status.length >= 2;
+}
+
+/** True when functional or medical restriction text is present. */
+export function hasPhysicalLimits(draft: RtwIntakeDraft): boolean {
+  return Boolean(
+    draft.functionalLimitations.trim() || draft.medicalRestrictions.trim(),
+  );
+}
+
+/** True when the steward has started any meaningful intake field. */
+export function hasRtwIntakeStarted(draft: RtwIntakeDraft): boolean {
+  return Boolean(
+    draft.memberName.trim() ||
+      draft.classification.trim() ||
+      draft.meetingDate.trim() ||
+      draft.hrContact.trim() ||
+      draft.returnDate.trim() ||
+      draft.gradualHours.trim() ||
+      draft.wsibLtdStatus.trim() ||
+      draft.medicalRestrictions.trim() ||
+      draft.prohibitedGround ||
+      draft.requestedModifications.trim() ||
+      draft.functionalLimitations.trim() ||
+      draft.measures.length > 0 ||
+      draft.customMeasure.trim(),
+  );
+}
+
+export type RtwSuggestionLabels = {
+  workHardening: string;
+  taskBundling: string;
+  jointReview: string;
+};
+
+export type RtwEarlyResolutionSuggestion = {
+  id: "workHardening" | "taskBundling" | "jointReview";
+  text: string;
+};
+
+/**
+ * Conditional early-resolution talking points for HR meetings.
+ * Schedule / bundling only fire on their triggers; joint review once intake started.
+ */
+export function buildRtwEarlyResolutionSuggestions(
+  draft: RtwIntakeDraft,
+  labels: RtwSuggestionLabels,
+): RtwEarlyResolutionSuggestion[] {
+  const out: RtwEarlyResolutionSuggestion[] = [];
+  if (hasActiveWsibLtd(draft)) {
+    out.push({ id: "workHardening", text: labels.workHardening });
+  }
+  if (hasPhysicalLimits(draft)) {
+    out.push({ id: "taskBundling", text: labels.taskBundling });
+  }
+  if (hasRtwIntakeStarted(draft)) {
+    out.push({ id: "jointReview", text: labels.jointReview });
+  }
+  return out;
+}
+
+/** Prefill gradual hours only when empty and WSIB/LTD is active. */
+export function maybePrefillGradualHours(
+  draft: RtwIntakeDraft,
+): RtwIntakeDraft {
+  if (!hasActiveWsibLtd(draft) || draft.gradualHours.trim()) return draft;
+  return { ...draft, gradualHours: GRADUAL_WORK_HARDENING_SCHEDULE };
+}
+
+/**
+ * Add task bundling when physical limits are noted and no measures chosen yet.
+ * Does not overwrite an existing measure selection.
+ */
+export function maybeSuggestTaskBundlingMeasure(
+  draft: RtwIntakeDraft,
+): RtwIntakeDraft {
+  if (!hasPhysicalLimits(draft)) return draft;
+  if (draft.measures.length > 0) return draft;
+  return { ...draft, measures: ["taskBundling"] };
+}
+
 /** Build an HR email / verbal script from the current draft. */
 export function buildRtwScripts(
   draft: RtwIntakeDraft,
@@ -190,6 +283,8 @@ export function rtwDraftToMarkdown(
     measureLabels: Record<AccommodationMeasureId, string>;
     groundLabels: Record<ProhibitedGroundId, string>;
     scripts: RtwScriptLabels;
+    earlyResolutionHeading?: string;
+    suggestionLabels?: RtwSuggestionLabels;
   },
 ): string {
   const { email, verbal } = buildRtwScripts(draft, labels.scripts);
@@ -244,6 +339,20 @@ export function rtwDraftToMarkdown(
     verbal,
     "",
   );
+
+  if (labels.suggestionLabels && labels.earlyResolutionHeading) {
+    const suggestions = buildRtwEarlyResolutionSuggestions(
+      draft,
+      labels.suggestionLabels,
+    );
+    if (suggestions.length > 0) {
+      lines.push(`## ${labels.earlyResolutionHeading}`, "");
+      for (const s of suggestions) {
+        lines.push(`- ${s.text}`);
+      }
+      lines.push("");
+    }
+  }
 
   return lines.join("\n");
 }

@@ -27,10 +27,11 @@ import {
   createEmptyPreDisciplinaryDraft,
   exportWorkspaceMarkdown,
   exportWorkspacePdf,
-  isCriminalAllegation,
+  hasProceduralDefect,
   loadPreDisciplinaryDraft,
   preDisciplinaryDraftToMarkdown,
   savePreDisciplinaryDraft,
+  shouldEscalateCriminal,
   type AllegationTypeId,
   type MitigatingFactorId,
   type RightsCheckId,
@@ -49,11 +50,13 @@ export default function PreDisciplinaryLogPage() {
     useExportHandler();
   const printRef = useRef<HTMLDivElement>(null);
 
-  const criminal = isCriminalAllegation(draft.allegationType);
+  const criminal = shouldEscalateCriminal(draft);
+  const proceduralDefect = hasProceduralDefect(draft);
 
   const scriptLabels = useMemo(
     () => ({
       counselProposal: t("scripts.counselProposal"),
+      obeyNowGrieveLaterProposal: t("scripts.obeyNowGrieveLaterProposal"),
       representationPoints: t("scripts.representationPoints"),
       checklistGapsLead: t("scripts.checklistGapsLead"),
       none: t("scripts.none"),
@@ -161,6 +164,13 @@ export default function PreDisciplinaryLogPage() {
         <Callout tone="danger" role="alert" className="sticky top-2 z-10">
           <p className="font-semibold">{t("escalation.title")}</p>
           <p className="mt-1">{t("escalation.body")}</p>
+        </Callout>
+      ) : null}
+
+      {proceduralDefect ? (
+        <Callout tone="warning" role="status">
+          <p className="font-semibold">{t("proceduralAudit.title")}</p>
+          <p className="mt-1">{t("proceduralAudit.body")}</p>
         </Callout>
       ) : null}
 
@@ -296,6 +306,7 @@ export default function PreDisciplinaryLogPage() {
             key={id}
             id={`mitigator-${id}`}
             label={t(`mitigators.${id}`)}
+            description={t(`mitigatorTalkingPoints.${id}`)}
             checked={draft.mitigators.includes(id)}
             onChange={(on) => toggleMitigator(id, on)}
           />

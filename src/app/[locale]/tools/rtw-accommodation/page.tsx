@@ -1,12 +1,14 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { SegControl } from "@/components/tools/SegControl";
+import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Card } from "@/components/ui/Card";
+import { Dialog } from "@/components/ui/Dialog";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { ChecklistToggle } from "@/components/tools/steward-guides/ChecklistToggle";
@@ -20,12 +22,15 @@ import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
 import {
   ACCOMMODATION_MEASURES,
   PROHIBITED_GROUNDS,
+  buildRtwEarlyResolutionSuggestions,
   buildRtwScripts,
   clearRtwDraft,
   createEmptyRtwDraft,
   exportWorkspaceMarkdown,
   exportWorkspacePdf,
   loadRtwDraft,
+  maybePrefillGradualHours,
+  maybeSuggestTaskBundlingMeasure,
   rtwDraftToMarkdown,
   saveRtwDraft,
   type AccommodationMeasureId,
@@ -43,6 +48,29 @@ export default function RtwAccommodationPage() {
   });
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
+  const [meiorinOpen, setMeiorinOpen] = useState(false);
+  const primacyId = useId();
+
+  useEffect(() => {
+    setDraft((prev) => {
+      const next = maybeSuggestTaskBundlingMeasure(
+        maybePrefillGradualHours(prev),
+      );
+      if (
+        next.gradualHours === prev.gradualHours &&
+        next.measures.length === prev.measures.length &&
+        next.measures.every((id, i) => id === prev.measures[i])
+      ) {
+        return prev;
+      }
+      return next;
+    });
+  }, [
+    draft.wsibLtdStatus,
+    draft.functionalLimitations,
+    draft.medicalRestrictions,
+    setDraft,
+  ]);
 
   const scriptLabels = useMemo(
     () => ({
@@ -70,6 +98,20 @@ export default function RtwAccommodationPage() {
   const scripts = useMemo(
     () => buildRtwScripts(draft, scriptLabels),
     [draft, scriptLabels],
+  );
+
+  const suggestionLabels = useMemo(
+    () => ({
+      workHardening: t("suggestions.workHardening"),
+      taskBundling: t("suggestions.taskBundling"),
+      jointReview: t("suggestions.jointReview"),
+    }),
+    [t],
+  );
+
+  const earlySuggestions = useMemo(
+    () => buildRtwEarlyResolutionSuggestions(draft, suggestionLabels),
+    [draft, suggestionLabels],
   );
 
   const toggleMeasure = (id: AccommodationMeasureId, on: boolean) => {
@@ -106,6 +148,8 @@ export default function RtwAccommodationPage() {
       measureLabels: scriptLabels.measureLabels,
       groundLabels: scriptLabels.groundLabels,
       scripts: scriptLabels,
+      earlyResolutionHeading: t("suggestions.heading"),
+      suggestionLabels,
     });
 
   const form = (
@@ -115,6 +159,50 @@ export default function RtwAccommodationPage() {
           {t("saveFailed")}
         </Callout>
       ) : null}
+
+      <Callout tone="brand" role="note" aria-describedby={primacyId}>
+        <p className="font-semibold text-opseu-dark">{t("legal.primacyTitle")}</p>
+        <p id={primacyId} className="mt-1">
+          {t("legal.primacyBody")}
+        </p>
+        <p className="mt-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="min-h-11"
+            onClick={() => setMeiorinOpen(true)}
+          >
+            {t("legal.meiorinOpen")}
+          </Button>
+        </p>
+      </Callout>
+
+      <Callout tone="muted" role="note">
+        <p className="font-semibold text-gray-900">
+          {t("legal.undueHardshipTitle")}
+        </p>
+        <p className="mt-1">{t("legal.undueHardshipBody")}</p>
+        <ul className="mt-2 list-inside list-disc space-y-1">
+          <li>{t("legal.undueHardshipCost")}</li>
+          <li>{t("legal.undueHardshipFunding")}</li>
+          <li>{t("legal.undueHardshipSafety")}</li>
+        </ul>
+        <p className="mt-2 font-medium text-gray-900">
+          {t("legal.undueHardshipNotTitle")}
+        </p>
+        <p className="mt-1">{t("legal.undueHardshipNotBody")}</p>
+      </Callout>
+
+      <Callout tone="muted" role="note">
+        <Link
+          href="/guide/officer-learning/human-rights-accommodation"
+          className="font-semibold text-opseu-blue underline underline-offset-2"
+        >
+          {t("moduleLink")}
+        </Link>
+      </Callout>
+
       <Callout tone="warning" role="note">
         <p className="font-semibold text-amber-950">{t("privacy.title")}</p>
         <p className="mt-1">{t("privacy.body")}</p>
@@ -270,12 +358,25 @@ export default function RtwAccommodationPage() {
   const preview = (
     <SuggestionPanel title={t("preview.title")}>
       <p className="text-gray-600">{t("preview.hint")}</p>
+      {earlySuggestions.length > 0 ? (
+        <div className="space-y-2 rounded-lg border border-opseu-blue/20 bg-opseu-blue/5 p-3">
+          <p className="text-sm font-semibold text-opseu-dark">
+            {t("suggestions.heading")}
+          </p>
+          <ul className="list-inside list-disc space-y-2 text-sm text-gray-800">
+            {earlySuggestions.map((s) => (
+              <li key={s.id}>{s.text}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
       <ScriptBlock label={t("preview.email")} text={scripts.email} />
       <ScriptBlock label={t("preview.verbal")} text={scripts.verbal} />
     </SuggestionPanel>
   );
 
   return (
+    <>
     <ToolEditorLayout
       title={t("title")}
       description={t("subtitle")}
@@ -344,5 +445,31 @@ export default function RtwAccommodationPage() {
       exportSuccess={exportSuccess}
       footer={<ToolRelatedFooter toolSlug="rtw-accommodation" />}
     />
+    <Dialog
+      open={meiorinOpen}
+      onClose={() => setMeiorinOpen(false)}
+      title={t("legal.meiorinTitle")}
+      closeLabel={t("legal.meiorinClose")}
+      className="max-w-lg"
+    >
+      <ol className="list-decimal space-y-3 pl-5 text-sm leading-relaxed">
+        <li>
+          <span className="font-semibold">{t("legal.meiorinStep1Title")}</span>
+          {" — "}
+          {t("legal.meiorinStep1Body")}
+        </li>
+        <li>
+          <span className="font-semibold">{t("legal.meiorinStep2Title")}</span>
+          {" — "}
+          {t("legal.meiorinStep2Body")}
+        </li>
+        <li>
+          <span className="font-semibold">{t("legal.meiorinStep3Title")}</span>
+          {" — "}
+          {t("legal.meiorinStep3Body")}
+        </li>
+      </ol>
+    </Dialog>
+    </>
   );
 }

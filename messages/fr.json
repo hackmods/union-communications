@@ -244,6 +244,9 @@
     "pathOfficerTitleComingSoon": "Flux de travail dirigeants à venir",
     "pathOfficerDescComingSoon": "Le suivi des griefs, le bumpage collégial, les tableaux de retards et les passations sont en cours. Les outils de communication sont prêts dès maintenant.",
     "pathOfficerCtaComingSoon": "Hub des dirigeants : bientôt",
+    "pathStewardTitle": "Formation des délégués sur le plancher",
+    "pathStewardDesc": "Délégué 101, six modules du Centre de formation des dirigeants avec autoévaluations et fiches de poche imprimables — le tout sur votre appareil.",
+    "pathStewardCta": "Ouvrir les guides pratiques",
     "channelsTitle": "La boîte à outils",
     "channelsIntro": "Ces outils fonctionnent ensemble pour que le message de la section reste cohérent, du tableau au Web.",
     "brandRailDesc": "Couleurs, logo et liens clés pour chaque graphique. Consultez le pack d'actifs de référence pour des fichiers de départ.",
@@ -667,6 +670,7 @@
     "moduleLabel": "Module {number}",
     "readingTime": "Lecture {minutes} min",
     "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "progressSummary": "{completed} module(s) sur {total} complété(s)",
     "quizHint": {
       "title": "Les autoévaluations marquent votre progression",
@@ -725,7 +729,10 @@
         "blueprint": "Le Plan directeur",
         "workplaceMapping": "Cartographie du lieu de travail",
         "membershipSignup": "Guide d'adhésion",
-        "crisis": "Comms de grève et de crise"
+        "crisis": "Comms de grève et de crise",
+        "stewardPlaybooks": "Tous les guides pratiques pour délégués",
+        "unionBoards": "Guide des tableaux syndicaux",
+        "solidarityPoster": "Affiches de solidarité"
       }
     },
     "reference": {
@@ -733,6 +740,21 @@
       "farTitle": "Fiche FAR (vierge)",
       "farBody": "Formulaire d'une page Faits / Argument / Résolution pour les rencontres à l'étape 1.",
       "farCta": "Télécharger la fiche FAR (PDF)",
+      "disciplineTitle": "Fiche droits en discipline",
+      "disciplineBody": "Avis, représentation, échelons et tests de cause juste pour la rencontre.",
+      "disciplineCta": "Télécharger la fiche discipline (PDF)",
+      "meiorinTitle": "Fiche de travail Meiorin",
+      "meiorinBody": "Test en trois étapes et limites de la contrainte excessive — pour les rencontres d'accommodement.",
+      "meiorinCta": "Télécharger la fiche Meiorin (PDF)",
+      "quorumTitle": "Modèle quorum et motion",
+      "quorumBody": "Vérifiez les paliers de quorum et consignez une motion axée sur la décision.",
+      "quorumCta": "Télécharger la fiche rencontre (PDF)",
+      "auditTitle": "Piste de contrôles financiers",
+      "auditBody": "Reçu → double signature → échantillon d'audit des fiduciaires.",
+      "auditCta": "Télécharger la fiche audit (PDF)",
+      "equityTitle": "Fiche clause d'équité",
+      "equityBody": "Obstacle → langage proposé → échéance de reddition de comptes conjointe.",
+      "equityCta": "Télécharger la fiche équité (PDF)",
       "checklistTitle": "Liste de contrôle PDF",
       "checklistBody": "Liste imprimable de ce module — gardez-la avec votre carnet.",
       "checklistCta": "Télécharger la liste (PDF)",
@@ -2859,6 +2881,7 @@
       "title": "Guides des droits du travail",
       "intro": "Guides pratiques pour délégués en Ontario — pas un avis juridique. Même profondeur qu'une fiche de formation : seuil, étapes, exemple commenté et sources. Commencez par Délégué 101 dans le menu Guides, section Guides pratiques pour délégués, ou suivez la liste ordonnée ci-dessous pendant que vous attendez la formation locale ou nationale.",
       "links": {
+        "stewardPlaybooks": "Guides pratiques pour délégués — parcours de formation",
         "steward101": "Délégué 101 : votre rôle et vos droits",
         "officerLearning": "Centre de formation des dirigeants",
         "grievance": "Le guide du délégué sur les griefs",
@@ -2869,6 +2892,7 @@
         "workplaceMapping": "Cartographie du lieu de travail et leaders organiques"
       },
       "blurb": {
+        "stewardPlaybooks": "Commencez ici : Délégué 101, modules du Centre de formation des dirigeants avec autoévaluations, et tous les guides sur une page.",
         "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté — commencez ici.",
         "officerLearning": "Six modules autonomes avec quiz, listes de contrôle sur le terrain et fiches imprimables — la progression reste sur cet appareil.",
         "grievance": "Bon forum, notes des 6 W, délais de la convention et feuille d'accueil imprimable. Confirmez les étapes dans votre convention.",
@@ -4254,12 +4278,41 @@
     "title": "Guides pratiques pour délégués",
     "subtitle": "Formation sur le terrain pour délégués et dirigeants locaux — commencez ici en attendant l'école nationale",
     "intro": "Guides pratiques et modules autonomes pour l'Ontario. Pas un avis juridique — confirmez chaque délai et recours dans votre convention collective.",
+    "backToGuide": "Retour au Plan directeur",
     "trainingPath": {
       "title": "Parcours recommandé",
       "body": "Commencez par Délégué 101 pour les bases du rôle, puis le Centre de formation des dirigeants pour six modules avec autoévaluations. Ouvrez les autres guides quand un dossier réel le demande.",
       "steward101Cta": "Commencer Délégué 101",
       "officerLearningCta": "Centre de formation des dirigeants"
     },
+    "tocLabel": "Sur cette page",
+    "sections": {
+      "trainingPath": "Parcours de formation",
+      "quiz": "Autoévaluations",
+      "playbooks": "Tous les guides"
+    },
+    "pathSteps": [
+      {
+        "label": "Délégué 101",
+        "href": "/guide/steward-101"
+      },
+      {
+        "label": "Centre de formation des dirigeants",
+        "href": "/guide/officer-learning"
+      },
+      {
+        "label": "Processus de grief",
+        "href": "/guide/grievance-process"
+      },
+      {
+        "label": "Devoir de représentation équitable",
+        "href": "/guide/dfr"
+      },
+      {
+        "label": "Guides thématiques",
+        "href": "#playbooks"
+      }
+    ],
     "quizCallout": {
       "title": "Où se trouvent les autoévaluations",
       "body": "Les modules du Centre de formation des dirigeants incluent un quiz au bas de chaque leçon. Utilisez Aller au quiz dans l'en-tête du module, ou faites défiler jusqu'à Autoévaluation après la lecture. Un score parfait marque le module comme complété sur cet appareil."
@@ -4296,6 +4349,7 @@
     "title": "Délégué 101 : votre rôle et vos droits",
     "subtitle": "Orientation pour nouveaux délégués — rôle, trois chapeaux, représentation et représentation équitable",
     "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
     "intro": "Être élu délégué est le rôle le plus important du mouvement syndical. Vous êtes la première ligne de défense face à la direction et le visage du syndicat sur le plancher. L'école avancée nationale peut être à des mois — ce guide pratique vous oriente sur le plancher dès maintenant.",
@@ -4308,17 +4362,38 @@
       "dfr": "Devoir de représentation équitable — guide pratique",
       "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
       "rightToRefuse": "Droit de refuser un travail dangereux",
+      "officerLearning": "Centre de formation des dirigeants",
+      "stewardPlaybooks": "Tous les guides pratiques pour délégués",
       "membership": "Guide pratique d'adhésion"
     },
     "trainingPath": {
       "title": "Parcours de formation du délégué",
       "intro": "Parcourez ces guides pratiques dans l'ordre pendant que vous attendez la formation locale ou nationale.",
       "steps": [
-        "Délégué 101",
-        "Cartographie du lieu de travail",
-        "Processus de grief",
-        "Devoir de représentation équitable",
-        "Guides thématiques"
+        {
+          "label": "Délégué 101",
+          "href": "/guide/steward-101"
+        },
+        {
+          "label": "Centre de formation des dirigeants",
+          "href": "/guide/officer-learning"
+        },
+        {
+          "label": "Cartographie du lieu de travail",
+          "href": "/guide/workplace-mapping"
+        },
+        {
+          "label": "Processus de grief",
+          "href": "/guide/grievance-process"
+        },
+        {
+          "label": "Devoir de représentation équitable",
+          "href": "/guide/dfr"
+        },
+        {
+          "label": "Tous les guides pratiques",
+          "href": "/guide/steward-playbooks"
+        }
       ]
     },
     "diagrams": {
@@ -4618,6 +4693,8 @@
     },
     "related": {
       "steward101": "Délégué 101 : votre rôle et vos droits",
+      "officerLearning": "Centre de formation des dirigeants",
+      "stewardPlaybooks": "Tous les guides pratiques pour délégués",
       "dfr": "Devoir de représentation équitable",
       "seniority": "Guide d'ancienneté et de bumping",
       "rightToRefuse": "Droit de refuser un travail dangereux",
@@ -6064,6 +6141,14 @@
       "officer-learning-center": {
         "title": "Formation des dirigeants — parcours de plancher définitif",
         "body": "Six modules bilingues avec parcours en direct, diagrammes d'enseignement, listes de contrôle cochables, fiches FAR imprimables et liens vers les outils pour délégués et les guides connexes."
+      },
+      "steward-playbooks-hub": {
+        "title": "Guides pratiques pour délégués",
+        "body": "Une porte d'entrée unique pour Délégué 101, les autoévaluations du Centre de formation des dirigeants et tous les guides — avec un parcours lié."
+      },
+      "officer-learning-pocket-pdfs": {
+        "title": "Fiches de poche Formation des dirigeants",
+        "body": "Chaque module inclut une fiche pour la rencontre — droits en discipline, fiche Meiorin, modèle de quorum, piste d'audit et plus."
       },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",
@@ -8647,6 +8732,7 @@
     "title": "Prise en charge du retour au travail et des mesures d'adaptation",
     "subtitle": "Notez les limites fonctionnelles et les mesures proposées avant la rencontre avec les RH — les notes restent sur cet appareil.",
     "whenToUse": "À utiliser avant une rencontre de retour au travail ou quand un membre demande une mesure d'adaptation. Ne notez pas de diagnostic ici.",
+    "moduleLink": "Module Formation des dirigeants : droits de la personne et adaptation",
     "privacy": {
       "title": "Règle de confidentialité médicale",
       "body": "L'employeur n'a pas le droit d'exiger un diagnostic, des symptômes ou un plan de traitement. Il a seulement droit aux limites et restrictions fonctionnelles. Gardez les détails de diagnostic hors de ce formulaire."
@@ -8714,7 +8800,33 @@
       "clear": "Effacer le brouillon",
       "printChecklist": "Imprimer la liste"
     },
-    "saveFailed": "Les notes n'ont peut-être pas été enregistrées sur ce navigateur. Exportez un PDF avant de quitter."
+    "saveFailed": "Les notes n'ont peut-être pas été enregistrées sur ce navigateur. Exportez un PDF avant de quitter.",
+    "legal": {
+      "primacyTitle": "Primauté des droits de la personne",
+      "primacyBody": "La législation sur les droits de la personne a un statut quasi constitutionnel. Elle prime sur les conventions collectives et les politiques de l'employeur en cas de conflit. Si une clause de convention bloque une adaptation requise, cette clause ne peut pas tenir face au Code.",
+      "meiorinOpen": "Ouvrir le test Meiorin (exigence professionnelle justifiée)",
+      "meiorinTitle": "Le test Meiorin en 3 étapes (exigence professionnelle justifiée)",
+      "meiorinClose": "Fermer",
+      "meiorinStep1Title": "1. Lien rationnel",
+      "meiorinStep1Body": "La norme a-t-elle été adoptée pour un objectif rationnellement lié à l'exécution du poste?",
+      "meiorinStep2Title": "2. Bonne foi",
+      "meiorinStep2Body": "A-t-elle été adoptée dans la croyance honnête et de bonne foi qu'elle était nécessaire pour atteindre cet objectif lié au travail?",
+      "meiorinStep3Title": "3. Nécessité raisonnable",
+      "meiorinStep3Body": "La norme est-elle raisonnablement nécessaire? L'employeur doit démontrer qu'il est impossible d'accommoder la personne sans imposer une contrainte excessive.",
+      "undueHardshipTitle": "Contrainte excessive — ce qui compte",
+      "undueHardshipBody": "Seuls trois facteurs peuvent appuyer une allégation de contrainte excessive :",
+      "undueHardshipCost": "Coût quantifiable si important qu'il menace la nature ou la viabilité de l'entreprise",
+      "undueHardshipFunding": "Sources de financement externes — a-t-on d'abord exploré subventions, assurances ou autres programmes?",
+      "undueHardshipSafety": "Santé et sécurité — risque objectif, fondé sur des preuves, qui ne peut être atténué",
+      "undueHardshipNotTitle": "Ce qui ne compte pas",
+      "undueHardshipNotBody": "Le moral des collègues, la préférence de la clientèle et le conflit avec la convention collective ne constituent pas une contrainte excessive."
+    },
+    "suggestions": {
+      "heading": "Suggestions de règlement précoce",
+      "workHardening": "Proposez un horaire progressif de durcissement au travail : semaines 1–2 à 15 h, semaines 3–4 à 22,5 h, semaines 5–6 à 30 h, puis heures complètes — lié aux capacités fonctionnelles, pas au diagnostic.",
+      "taskBundling": "Proposez un regroupement de tâches dans la classification actuelle pour protéger le salaire d'avant la blessure et le statut dans l'unité de négociation, plutôt qu'une reclassification vers un poste moins payé hors unité.",
+      "jointReview": "Proposez une clause de révision conjointe de 30 jours pour tester et ajuster les mesures temporaires sans figer un changement permanent ni déposer encore un grief formel."
+    }
   },
   "preDisciplinaryLog": {
     "title": "Journal de rencontre prédisciplinaire",
@@ -8726,7 +8838,7 @@
     },
     "escalation": {
       "title": "Escalade critique",
-      "body": "Cela touche une responsabilité pénale possible. Demandez au membre de garder le silence, arrêtez immédiatement l'entrevue et contactez le personnel syndical régional ou un conseiller juridique."
+      "body": "Responsabilité pénale ou civile possible détectée. Demandez au membre de garder le silence. Arrêtez immédiatement la rencontre. Ne signez et ne soumettez aucune déclaration de l'employeur. Contactez immédiatement le représentant syndical régional et un conseiller juridique."
     },
     "fields": {
       "memberName": "Nom du membre",
@@ -8746,9 +8858,9 @@
       "unset": "Pas encore"
     },
     "rights": {
-      "advanceNotice": "Préavi\\u00a0: L'employeur a-t-il donné un préavis raisonnable du caractère disciplinaire de la rencontre?",
-      "representation": "Représentatio\\u00a0: A-t-on clairement informé le membre de son droit d'avoir un délégué présent?",
-      "disclosure": "Divulgatio\\u00a0: Les RH ont-elles divulgué les preuves matérielles, témoignages ou vidéos sur lesquelles elles s'appuient?"
+      "advanceNotice": "Préavis : L'employeur a-t-il donné un préavis raisonnable du caractère disciplinaire de la rencontre?",
+      "representation": "Représentation : A-t-on clairement informé le membre de son droit d'avoir un délégué présent?",
+      "disclosure": "Divulgation : Les RH ont-elles divulgué les preuves matérielles, témoignages ou vidéos sur lesquelles elles s'appuient?"
     },
     "allegationTypes": {
       "placeholder": "Choisir le type d'allégation",
@@ -8769,10 +8881,11 @@
       "sincereRemorse": "Remords sincères"
     },
     "scripts": {
-      "counselProposal": "Nous suggérons que la direction remette une lettre de conseil non disciplinaire plutôt qu'une mesure progressive formelle, afin de préserver des relations de travail coopératives pendant que les préoccupations sont corrigées.",
+      "counselProposal": "Nous demandons aux RH de remettre une lettre de conseil non disciplinaire (lettre de coaching) plutôt qu'une mesure progressive formelle, afin de garder le dossier permanent du membre propre pendant que les préoccupations sont corrigées.",
       "representationPoints": "Confirmez les droits procéduraux au dossier, prenez des notes soignées et n'invitez pas le membre à spéculer. Demandez la pleine divulgation avant de répondre aux allégations. Réservez le droit de répondre par écrit après examen.",
       "checklistGapsLead": "Éléments encore ouverts sur la liste:",
-      "none": "Aucun — la liste des droits est complète."
+      "none": "Aucun — la liste des droits est complète.",
+      "obeyNowGrieveLaterProposal": "Sur l'insubordination : la règle générale est obéir maintenant, grever plus tard — sauf si un risque réel pour la santé et la sécurité ou une urgence personnelle rendait l'obéissance immédiate déraisonnable. Nous proposons de reconnaître l'ordre, de documenter la préoccupation de sécurité ou d'urgence, d'échanger des excuses mutuelles le cas échéant, et de réinitialiser les attentes sans sauter l'échelle progressive."
     },
     "preview": {
       "title": "Représentation et règlement précoce",
@@ -8795,34 +8908,46 @@
       "suspension": "Suspension",
       "termination": "Congédiement",
       "moduleLink": "Module Formation des dirigeants : discipline progressive"
+    },
+    "proceduralAudit": {
+      "title": "Défaut procédural à consigner",
+      "body": "Le préavis du caractère disciplinaire de la rencontre ou l'avis clair du droit à la représentation a été marqué Non. Consignez cela comme une violation procédurale immédiate pour un grief éventuel — ne traitez pas l'entrevue comme propre."
+    },
+    "mitigatorTalkingPoints": {
+      "lengthOfService": "Un excellent dossier de longue ancienneté doit réduire la sévérité de la sanction.",
+      "cleanPastRecord": "Un seul incident ne doit pas détruire un dossier disciplinaire vierge.",
+      "provocation": "Une provocation active ou une dynamique toxique doit être prise en compte comme une responsabilité partagée.",
+      "personalMedicalDistress": "Des crises médicales ou personnelles documentées doivent orienter vers un soutien et du counseling plutôt que vers la punition.",
+      "sincereRemorse": "Des remords sincères et un plan correctif concret appuient une sanction moindre ou un coaching non disciplinaire."
     }
   },
   "complaintVsGrievance": {
     "title": "Diagnostic plainte ou grief",
     "subtitle": "Évaluez cinq points d'admissibilité, puis rédigez une prise en charge de grief ou une autre voie en milieu de travail — les notes restent sur cet appareil.",
     "whenToUse": "À utiliser quand un membre apporte une plainte et que vous devez vérifier si elle est prête pour un grief ou mieux traitée autrement.",
+    "moduleLink": "Module Formation des dirigeants : application de la convention",
     "score": {
       "label": "Indice de viabilité du grief",
       "grievancePath": "Au moins un point d'admissibilité est rempli. Complétez les 6 W et utilisez le brouillon à droite.",
-      "alternatePath": "Aucun point d'admissibilité pour l'instant. Choisissez une autre voie d'action ci-dessous."
+      "alternatePath": "Aucun point d'admissibilité → utilisez le plan d'action de règlement alternatif ci-dessous. Les quatre brouillons de parcours sont prêts dans l'aperçu."
     },
     "points": {
       "heading": "Admissibilité en cinq points",
       "caViolation": {
         "label": "1. Violation de la convention collective",
-        "hint": "La situation viole-t-elle une clause précise de la convention actuelle?"
+        "hint": "Cela viole-t-il un article ou une section précise? Si oui, inscrivez le numéro d'article ci-dessous."
       },
       "misinterpretation": {
         "label": "2. Mauvaise interprétation de l'employeur",
-        "hint": "S'agit-il d'une lecture déraisonnable ou incorrecte de la convention par un superviseur?"
+        "hint": "La direction interprète-t-elle une clause d'une façon qui diffère de la compréhension établie?"
       },
       "statutory": {
         "label": "3. Violation d'une loi",
-        "hint": "Cela viole-t-il une norme d'emploi, une loi sur la santé et la sécurité ou un code des droits de la personne?"
+        "hint": "Cela viole-t-il les droits de la personne, les normes d'emploi ou les lois sur la santé et la sécurité au travail?"
       },
       "pastPractice": {
         "label": "4. Pratique passée",
-        "hint": "S'agit-il d'un écart par rapport à une pratique répétée, constante et mutuellement acceptée?"
+        "hint": "S'agit-il d'une violation d'une pratique passée répétée, constante et mutuellement acceptée?"
       },
       "memberRights": {
         "label": "5. Violation des droits du membre",
@@ -8851,24 +8976,24 @@
       "heading": "Autres voies d'action en milieu de travail",
       "hint": "Sélectionnez des voies pour générer des brouillons de proposition à droite.",
       "lmc": {
-        "label": "Renvoyer au comité patronal-syndical",
-        "hint": "Pour les enjeux systémiques qui demandent une discussion conjointe.",
-        "draft": "Propositio\\u00a0: Renvoyer cette question au prochain comité patronal-syndical pour un examen conjoint de la pratique, avec un suivi écrit daté."
+        "label": "Parcours A — Comité patronal-syndical",
+        "hint": "Lettre de renvoi pour les enjeux systémiques qui demandent une discussion conjointe.",
+        "draft": "Lettre à la présidence locale : Veuillez placer cette préoccupation systémique à l'ordre du jour du prochain comité patronal-syndical pour un examen conjoint, avec un suivi écrit daté aux parties. Joignez un résumé d'une page de la pratique, des personnes touchées et du résultat recherché."
       },
       "jhsc": {
-        "label": "Renvoyer au comité mixte de santé et de sécurité",
-        "hint": "Quand des dangers ou des inspections sont en cause.",
-        "draft": "Propositio\\u00a0: Demander au comité mixte de santé et de sécurité d'inspecter / examiner cette préoccupation et de rendre compte aux deux parties."
+        "label": "Parcours B — Santé et sécurité conjointes",
+        "hint": "Renvoi au représentant local en santé et sécurité pour une inspection conjointe.",
+        "draft": "Renvoi au représentant local en santé et sécurité / CMSS : Veuillez planifier une inspection ou un examen conjoint de cette préoccupation, documenter les constats pour les deux parties et recommander des mesures correctives avec des dates cibles."
       },
       "informalSupervisor": {
-        "label": "Discussion informelle directe avec le superviseur",
-        "hint": "Quand une conversation claire peut régler la question.",
-        "draft": "Points de discussio\\u00a0: Énoncez le fait objectivement, demandez comment le superviseur lit la pratique, proposez une correction et confirmez la date de suivi par écrit."
+        "label": "Parcours C — Discussion informelle avec le superviseur",
+        "hint": "Points de discussion du délégué pour un entretien 1:1 avant escalade.",
+        "draft": "Points de discussion du délégué pour un entretien 1:1 avec le superviseur : (1) Énoncez le fait objectivement, sans blâme. (2) Demandez comment il ou elle lit la pratique ou la règle. (3) Proposez une correction acceptable pour le membre. (4) Confirmez la date de suivi par écrit. (5) Consignez la conversation au dossier."
       },
       "mobilization": {
-        "label": "Mobilisation / sondage en milieu de travail",
-        "hint": "Quand plusieurs membres sont touchés et qu'il faut un apport collectif.",
-        "draft": "Plan d'action collectiv\\u00a0: Cartographiez qui est touché, rédigez un court sondage aux membres, fixez une rencontre de délégués et décidez si la question revient en plainte de groupe ou en grief."
+        "label": "Parcours D — Mobilisation / sondage en milieu de travail",
+        "hint": "Sondage ou campagne d'action collective quand plusieurs membres sont touchés.",
+        "draft": "Brouillon de mobilisation : Cartographiez qui est touché ; rédigez un court sondage anonyme aux membres ; fixez une rencontre de délégués ; décidez si la question revient en plainte de groupe, en point de comité ou en grief une fois les tendances claires. Gardez le message factuel et solidaire."
       },
       "informalLogCta": "Consignez la discussion dans le Journal informel (Hub des dirigeants)"
     },
@@ -8899,6 +9024,12 @@
       "grievanceGuide": "Guide du processus de grief",
       "snippets": "Extraits de convention (Hub)",
       "caFinder": "Trouver votre convention collective"
+    },
+    "actionPlan": {
+      "title": "Plan d'action de règlement alternatif",
+      "body": "Le score est 0 — ce n'est pas encore prêt pour un grief. Travaillez les quatre parcours ci-dessous ; l'export inclut les quatre brouillons, sauf si vous restreignez les voies que vous poursuivez.",
+      "routesHint": "Facultatif : marquez les voies que vous poursuivez activement pour vos notes. L'aperçu et l'export incluent encore les quatre à score 0.",
+      "previewHeading": "Brouillons des parcours (A–D)"
     }
   },
   "stewardGuidesHub": {
@@ -8916,6 +9047,11 @@
     "workspacesHeading": "Espaces de travail",
     "readFirstHeading": "Lire d'abord",
     "utilitiesHeading": "Outils connexes",
+    "readOfficerLearningCenter": "Centre de formation des dirigeants (tous les modules)",
+    "readModule4": "Module 4 : gouvernance démocratique",
+    "readModule5": "Module 5 : santé financière",
+    "readModule6": "Module 6 : pouvoir collectif",
+    "utilStewardPlaybooks": "Guides pratiques pour délégués",
     "readModule1": "Module 1 : application de la convention",
     "readModule2": "Module 2 : discipline progressive",
     "readModule3": "Module 3 : droits de la personne et adaptation",
