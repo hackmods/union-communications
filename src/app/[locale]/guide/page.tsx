@@ -40,6 +40,7 @@ const pathLinks = [
   { href: "/guide/resources", key: "resources" as const },
   { href: "/guide/crisis", key: "crisis" as const },
   { href: "/guide/steward-101", key: "steward101" as const },
+  { href: "/guide/officer-learning", key: "officerLearning" as const },
   { href: "/guide/grievance-process", key: "grievance" as const },
   { href: "/guide/dfr", key: "dfr" as const },
   { href: "/guide/seniority-bumping", key: "seniority" as const },
@@ -245,6 +246,10 @@ export default async function GuidePage({
             {(
               [
                 { href: "/guide/steward-101", key: "steward101" as const },
+                {
+                  href: "/guide/officer-learning",
+                  key: "officerLearning" as const,
+                },
                 {
                   href: "/guide/grievance-process",
                   key: "grievance" as const,

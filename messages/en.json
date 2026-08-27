@@ -430,6 +430,7 @@
       "resources": "Comms Resources — orientation, practice, sources",
       "crisis": "Strike Guide — high-stakes bargaining and strike communications",
       "steward101": "Steward 101: Your Role and Rights",
+      "officerLearning": "Officer Learning Center",
       "grievance": "The Steward's Guide to Grievances",
       "dfr": "Duty of Fair Representation playbook",
       "seniority": "Seniority & bumping playbook",
@@ -641,13 +642,74 @@
     "labourGuides": {
       "title": "Labour rights guides",
       "steward101": "Steward 101",
+      "officerLearning": "Officer Learning Center",
       "grievance": "Grievance process",
       "dfr": "Duty of Fair Representation",
       "seniority": "Seniority & bumping",
       "rightToRefuse": "Right to refuse (Ontario)",
       "jointCommittee": "Joint committee playbook",
-      "workplaceMapping": "Workplace mapping",
       "workplaceMapping": "Workplace mapping"
+    }
+  },
+  "officerLearning": {
+    "eyebrow": "Officer training",
+    "title": "Officer Learning Center",
+    "intro": "Six self-paced modules for stewards and local officers — contract enforcement, discipline, human rights, governance, finances, and collective power. Progress saves on this device only.",
+    "moduleLabel": "Module {number}",
+    "readingTime": "{minutes} min read",
+    "backToGuide": "Back to The Blueprint",
+    "progressSummary": "{completed} of {total} modules completed",
+    "progress": {
+      "notStarted": "Not started",
+      "inProgress": "In progress",
+      "completed": "Completed",
+      "completedPercent": "Completed 100%"
+    },
+    "settings": {
+      "hint": "Progress is stored in this browser only — no account required.",
+      "reset": "Reset progress",
+      "confirmReset": "Confirm reset"
+    },
+    "viewer": {
+      "back": "Dashboard",
+      "jumpToQuiz": "Jump to Quiz",
+      "toc": "On this page"
+    },
+    "quiz": {
+      "label": "Self-test",
+      "title": "Module quiz",
+      "submit": "Submit answers",
+      "score": "Score: {score}/{total}",
+      "passed": "Perfect score — module complete. Solidarity.",
+      "retry": "Review the explanations above, then adjust your answers and submit again.",
+      "nextModule": "Next module",
+      "backToDashboard": "Back to dashboard"
+    },
+    "modules": {
+      "contract-enforcement": {
+        "title": "Contract Enforcement",
+        "summary": "Distinguish grievances from complaints, investigate with the 6 W's, and prepare FAR sheets with representative immunity in mind."
+      },
+      "progressive-discipline": {
+        "title": "Progressive Discipline",
+        "summary": "Defend members facing discipline, apply just-cause standards, and navigate off-duty conduct and obey-now-grieve-later exceptions."
+      },
+      "human-rights-accommodation": {
+        "title": "Human Rights & Accommodation",
+        "summary": "Apply the Meiorin test, challenge undue hardship claims, and protect medical privacy in return-to-work planning."
+      },
+      "democratic-governance": {
+        "title": "Democratic Governance",
+        "summary": "Run quorum-aware meetings, write decision-focused minutes, and execute multi-round secret ballot elections."
+      },
+      "financial-health": {
+        "title": "Financial Health & Audits",
+        "summary": "Maintain double-signature controls, program-prioritized budgets, and trustee-led six-month audits."
+      },
+      "building-collective-power": {
+        "title": "Building Collective Power",
+        "summary": "Audit systemic barriers, negotiate equity-focused contract language, and design restorative dispute paths."
+      }
     }
   },
   "unionBoardsGuide": {
@@ -5822,6 +5884,10 @@
       "canvas-logo-mode": {
         "title": "Logo control on canvas tools",
         "body": "Every canvas tool now shares none/lockup/mark logo plus a Show local number toggle — turn the label off for mark-only visuals."
+      },
+      "officer-learning-center": {
+        "title": "Officer Learning Center — six training modules",
+        "body": "Self-paced modules on contract enforcement, discipline, human rights, governance, finances, and collective power — with quizzes and progress saved on your device."
       },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",

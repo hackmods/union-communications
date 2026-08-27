@@ -44,6 +44,13 @@ export const PUBLIC_PATHS = [
   "/guide/right-to-refuse",
   "/guide/joint-committee",
   "/guide/workplace-mapping",
+  "/guide/officer-learning",
+  "/guide/officer-learning/contract-enforcement",
+  "/guide/officer-learning/progressive-discipline",
+  "/guide/officer-learning/human-rights-accommodation",
+  "/guide/officer-learning/democratic-governance",
+  "/guide/officer-learning/financial-health",
+  "/guide/officer-learning/building-collective-power",
   ...TOOL_SLUGS.filter((slug) => !NON_PUBLIC_TOOL_SLUGS.has(slug)).map(
     (slug) => `/tools/${slug}`,
   ),

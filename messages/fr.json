@@ -430,6 +430,7 @@
       "resources": "Ressources de communication — orientation, pratique, sources",
       "crisis": "Guide de grève — communications de négociation et de grève à enjeux élevés",
       "steward101": "Délégué 101 : votre rôle et vos droits",
+      "officerLearning": "Centre de formation des dirigeants",
       "grievance": "Le guide du délégué sur les griefs",
       "dfr": "Devoir de représentation équitable — guide pratique",
       "seniority": "Guide d'ancienneté et de bumping",
@@ -641,12 +642,74 @@
     "labourGuides": {
       "title": "Guides de droits au travail",
       "steward101": "Délégué 101",
+      "officerLearning": "Centre de formation des dirigeants",
       "grievance": "Processus de grief",
       "dfr": "Devoir de représentation équitable",
       "seniority": "Ancienneté et bumping",
       "rightToRefuse": "Droit de refuser (Ontario)",
       "jointCommittee": "Guide des comités conjoints",
       "workplaceMapping": "Cartographie du lieu de travail"
+    }
+  },
+  "officerLearning": {
+    "eyebrow": "Formation des dirigeants",
+    "title": "Centre de formation des dirigeants",
+    "intro": "Six modules autogérés pour délégués et dirigeants locaux — application de la convention, discipline, droits de la personne, gouvernance, finances et pouvoir collectif. La progression est enregistrée sur cet appareil seulement.",
+    "moduleLabel": "Module {number}",
+    "readingTime": "Lecture {minutes} min",
+    "backToGuide": "Retour au Plan directeur",
+    "progressSummary": "{completed} module(s) sur {total} complété(s)",
+    "progress": {
+      "notStarted": "Non commencé",
+      "inProgress": "En cours",
+      "completed": "Complété",
+      "completedPercent": "Complété 100 %"
+    },
+    "settings": {
+      "hint": "La progression est stockée dans ce navigateur seulement — aucun compte requis.",
+      "reset": "Réinitialiser la progression",
+      "confirmReset": "Confirmer la réinitialisation"
+    },
+    "viewer": {
+      "back": "Tableau de bord",
+      "jumpToQuiz": "Aller au quiz",
+      "toc": "Sur cette page"
+    },
+    "quiz": {
+      "label": "Autoévaluation",
+      "title": "Quiz du module",
+      "submit": "Soumettre les réponses",
+      "score": "Résultat : {score}/{total}",
+      "passed": "Score parfait — module complété. Solidarité.",
+      "retry": "Relisez les explications ci-dessus, corrigez vos réponses et soumettez de nouveau.",
+      "nextModule": "Module suivant",
+      "backToDashboard": "Retour au tableau de bord"
+    },
+    "modules": {
+      "contract-enforcement": {
+        "title": "Application de la convention",
+        "summary": "Distinguer grief et plainte, enquêter avec les 6 W et préparer une fiche FAR en tenant compte de l'immunité du représentant."
+      },
+      "progressive-discipline": {
+        "title": "Discipline progressive",
+        "summary": "Défendre les membres visés par la discipline, appliquer la cause juste et naviguer la conduite hors service et les exceptions à obéir-maintenant-grief-après."
+      },
+      "human-rights-accommodation": {
+        "title": "Droits de la personne et accommodation",
+        "summary": "Appliquer le test Meiorin, contester la contrainte excessive et protéger la confidentialité médicale dans les plans de retour au travail."
+      },
+      "democratic-governance": {
+        "title": "Gouvernance démocratique",
+        "summary": "Tenir des réunions avec quorum, rédiger des procès-verbaux axés sur les décisions et mener des élections au scrutin secret en plusieurs tours."
+      },
+      "financial-health": {
+        "title": "Santé financière et vérifications",
+        "summary": "Maintenir la double signature, des budgets priorisés par programme et des vérifications semestrielles par les fiduciaires."
+      },
+      "building-collective-power": {
+        "title": "Bâtir le pouvoir collectif",
+        "summary": "Auditer les barrières systémiques, négocier des clauses axées sur l'équité et concevoir des voies de règlement des différends restauratrices."
+      }
     }
   },
   "unionBoardsGuide": {
@@ -5771,6 +5834,10 @@
       "canvas-logo-mode": {
         "title": "Contrôle du logo sur les outils visuels",
         "body": "Tous les outils visuels partagent le logo aucun/signature/symbole et une case Afficher le numéro de section — décochez-la pour un visuel symbole seulement."
+      },
+      "officer-learning-center": {
+        "title": "Centre de formation des dirigeants — six modules",
+        "body": "Modules autogérés sur l'application de la convention, la discipline, les droits de la personne, la gouvernance, les finances et le pouvoir collectif — avec quiz et progression sur votre appareil."
       },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",

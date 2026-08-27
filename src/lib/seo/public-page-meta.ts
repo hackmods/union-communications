@@ -162,6 +162,41 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Chart coworkers by department and shift, find organic leaders, and score support 1 to 5. Keep the map on a personal device, never on employer systems.",
     },
+    "/guide/officer-learning": {
+      title: "Officer Learning Center",
+      description:
+        "Six self-paced training modules for stewards and local officers — grievances, discipline, human rights, governance, finances, and collective power.",
+    },
+    "/guide/officer-learning/contract-enforcement": {
+      title: "Module 1: Contract Enforcement",
+      description:
+        "Complaint vs grievance, the 5-point filter, 6 W's investigation, FAR sheets, and union representative immunity. Self-test quiz included.",
+    },
+    "/guide/officer-learning/progressive-discipline": {
+      title: "Module 2: Progressive Discipline",
+      description:
+        "Just cause, mitigating factors, obey-now-grieve-later, and off-duty nexus tests for stewards defending members. Self-test quiz included.",
+    },
+    "/guide/officer-learning/human-rights-accommodation": {
+      title: "Module 3: Human Rights & Accommodation",
+      description:
+        "Meiorin test, undue hardship, medical privacy, and return-to-work planning for stewards and local leaders. Self-test quiz included.",
+    },
+    "/guide/officer-learning/democratic-governance": {
+      title: "Module 4: Democratic Governance",
+      description:
+        "Quorum math, decision-focused minutes, and multi-round secret ballot elections for local secretaries and officers. Self-test quiz included.",
+    },
+    "/guide/officer-learning/financial-health": {
+      title: "Module 5: Financial Health & Audits",
+      description:
+        "Double-signature controls, program budgets, and trustee-led six-month audits for treasurers and local officers. Self-test quiz included.",
+    },
+    "/guide/officer-learning/building-collective-power": {
+      title: "Module 6: Building Collective Power",
+      description:
+        "Systemic barriers, equity-focused bargaining, anti-racism contract language, and restorative dispute paths. Self-test quiz included.",
+    },
   },
   fr: {
     "/privacy": {
@@ -313,6 +348,41 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Cartographie du lieu de travail et leaders organiques",
       description:
         "Recensez les collègues par service et quart, trouvez les leaders organiques et cotez l'appui de 1 à 5. Gardez-la sur votre appareil, jamais chez l'employeur.",
+    },
+    "/guide/officer-learning": {
+      title: "Centre de formation des dirigeants",
+      description:
+        "Six modules autogérés pour délégués et dirigeants locaux — griefs, discipline, droits de la personne, gouvernance, finances et pouvoir collectif.",
+    },
+    "/guide/officer-learning/contract-enforcement": {
+      title: "Module 1 : Application de la convention",
+      description:
+        "Plainte vs grief, filtre en 5 points, enquête 6 W, fiches FAR et immunité du représentant syndical. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/progressive-discipline": {
+      title: "Module 2 : Discipline progressive",
+      description:
+        "Cause juste, facteurs atténuants, obéir-maintenant-grief-après et test de lien pour la conduite hors service. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/human-rights-accommodation": {
+      title: "Module 3 : Droits de la personne et accommodation",
+      description:
+        "Test Meiorin, contrainte excessive, confidentialité médicale et retour au travail pour délégués et dirigeants. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/democratic-governance": {
+      title: "Module 4 : Gouvernance démocratique",
+      description:
+        "Calcul du quorum, procès-verbaux axés sur les décisions et élections au scrutin secret en plusieurs tours. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/financial-health": {
+      title: "Module 5 : Santé financière et vérifications",
+      description:
+        "Double signature, budgets par programme et vérifications semestrielles par les fiduciaires. Quiz d'autoévaluation inclus.",
+    },
+    "/guide/officer-learning/building-collective-power": {
+      title: "Module 6 : Bâtir le pouvoir collectif",
+      description:
+        "Barrières systémiques, négociation axée sur l'équité, clauses antiracistes et voies de règlement restauratrices. Quiz d'autoévaluation inclus.",
     },
   },
 };
