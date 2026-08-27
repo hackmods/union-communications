@@ -429,6 +429,16 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "ontario-lra-s74",
     "olrb-dfr-meaning",
   ],
+  stewardPlaybooksHub: [
+    "clc-education-catalogue",
+    "cupe-steward-handbook",
+    "unifor-grievance-handling",
+    "ohrc-human-rights-at-work",
+    "ontario-lra-s74",
+    "olrb-dfr-meaning",
+    "ofl",
+    "clc",
+  ],
   seniority: ["opseu-collective-agreements", "ontario-ccba"],
   jointCommittee: [
     "opseu-collective-agreements",

@@ -18,6 +18,17 @@ test.describe("Officer Learning @smoke", () => {
     await expectNoSeriousA11yViolations(page);
   });
 
+  test("steward playbooks hub is axe-clean with training path", async ({ page }) => {
+    await page.goto("/en/guide/steward-playbooks/");
+    await expect(
+      page.getByRole("heading", { name: "Steward playbooks" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Officer Learning Center/i }),
+    ).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
+
   test("module page has sticky jump to quiz and axe-clean", async ({ page }) => {
     await page.goto("/en/guide/officer-learning/contract-enforcement/");
     await expect(

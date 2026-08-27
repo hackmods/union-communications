@@ -1,3 +1,4 @@
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 const HAT_STYLES = {
@@ -169,8 +170,23 @@ export function RepresentationStepsDiagram({
   );
 }
 
+export type TrainingPathStep =
+  | string
+  | {
+      label: string;
+      href?: string;
+    };
+
+function stepLabel(step: TrainingPathStep): string {
+  return typeof step === "string" ? step : step.label;
+}
+
+function stepHref(step: TrainingPathStep): string | undefined {
+  return typeof step === "string" ? undefined : step.href;
+}
+
 interface TrainingPathDiagramProps {
-  steps: readonly string[];
+  steps: readonly TrainingPathStep[];
   className?: string;
 }
 
@@ -181,26 +197,42 @@ export function TrainingPathDiagram({
 }: TrainingPathDiagramProps) {
   return (
     <ol
-      className={cn(
-        "flex flex-wrap gap-2",
-        className,
-      )}
-      aria-label={steps.join(", ")}
+      className={cn("flex flex-wrap gap-2", className)}
+      aria-label={steps.map(stepLabel).join(", ")}
     >
-      {steps.map((label, index) => (
-        <li
-          key={label}
-          className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark"
-        >
-          <span
-            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-opseu-blue text-xs font-bold text-white"
-            aria-hidden="true"
+      {steps.map((step, index) => {
+        const label = stepLabel(step);
+        const href = stepHref(step);
+        const pill = (
+          <>
+            <span
+              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-opseu-blue text-xs font-bold text-white"
+              aria-hidden="true"
+            >
+              {index + 1}
+            </span>
+            {label}
+          </>
+        );
+
+        return (
+          <li
+            key={`${label}-${index}`}
+            className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark"
           >
-            {index + 1}
-          </span>
-          {label}
-        </li>
-      ))}
+            {href ? (
+              <Link
+                href={href}
+                className="inline-flex items-center gap-2 underline-offset-2 hover:text-opseu-blue hover:underline"
+              >
+                {pill}
+              </Link>
+            ) : (
+              pill
+            )}
+          </li>
+        );
+      })}
     </ol>
   );
 }

@@ -80,7 +80,9 @@ export default async function Steward101GuidePage({
   const t = await getTranslations("steward101Guide");
   const ts = await getTranslations("sources");
 
-  const trainingSteps = t.raw("trainingPath.steps") as string[];
+  const trainingSteps = t.raw("trainingPath.steps") as Parameters<
+    typeof TrainingPathDiagram
+  >[0]["steps"];
 
   return (
     <GuideLayout
@@ -88,7 +90,9 @@ export default async function Steward101GuidePage({
       subtitle={t("subtitle")}
       intro={t("intro")}
       relatedLinks={[
+        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
+        { href: "/guide/officer-learning", label: t("related.officerLearning") },
         { href: "/guide/workplace-mapping", label: t("related.workplaceMapping") },
         { href: "/guide/grievance-process", label: t("related.grievance") },
         { href: "/guide/dfr", label: t("related.dfr") },

@@ -15,8 +15,17 @@ export type RelatedResourceLink = {
   kind: "guide" | "tool" | "pocket";
 };
 
+export type ReferenceSheetId =
+  | "far-sheet"
+  | "floor-checklist"
+  | "discipline-rights"
+  | "meiorin-sheet"
+  | "quorum-motion"
+  | "audit-controls"
+  | "equity-clause";
+
 export type ModuleReferenceSheet = {
-  id: "far-sheet" | "floor-checklist";
+  id: ReferenceSheetId;
   /** i18n key under officerLearning.reference */
   titleKey: string;
   bodyKey: string;

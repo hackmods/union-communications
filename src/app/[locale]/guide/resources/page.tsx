@@ -30,6 +30,7 @@ const commsPathLinks = [
 ];
 
 const labourPathLinks = [
+  { href: "/guide/steward-playbooks", key: "stewardPlaybooks" as const },
   { href: "/guide/steward-101", key: "steward101" as const },
   { href: "/guide/officer-learning", key: "officerLearning" as const },
   { href: "/guide/grievance-process", key: "grievance" as const },

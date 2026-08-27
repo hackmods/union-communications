@@ -25,6 +25,10 @@ const TOOLS = [
 
 const READ_FIRST = [
   {
+    href: "/guide/officer-learning",
+    titleKey: "readOfficerLearningCenter" as const,
+  },
+  {
     href: "/guide/officer-learning/contract-enforcement",
     titleKey: "readModule1" as const,
   },
@@ -36,9 +40,25 @@ const READ_FIRST = [
     href: "/guide/officer-learning/human-rights-accommodation",
     titleKey: "readModule3" as const,
   },
+  {
+    href: "/guide/officer-learning/democratic-governance",
+    titleKey: "readModule4" as const,
+  },
+  {
+    href: "/guide/officer-learning/financial-health",
+    titleKey: "readModule5" as const,
+  },
+  {
+    href: "/guide/officer-learning/building-collective-power",
+    titleKey: "readModule6" as const,
+  },
 ] as const;
 
 const UTILITIES = [
+  {
+    href: "/guide/steward-playbooks",
+    titleKey: "utilStewardPlaybooks" as const,
+  },
   {
     href: "/tools/document-generator",
     titleKey: "utilDocGen" as const,
@@ -99,7 +119,7 @@ export function StewardGuidesHubBoard() {
       <h2 className="mt-10 text-sm font-semibold uppercase tracking-wide text-gray-500">
         {t("readFirstHeading")}
       </h2>
-      <ul className="mt-3 grid gap-2 sm:grid-cols-3">
+      <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {READ_FIRST.map((item) => (
           <li key={item.href}>
             <Link

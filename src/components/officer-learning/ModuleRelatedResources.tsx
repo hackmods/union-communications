@@ -9,10 +9,16 @@ import {
   getReferenceSheets,
   getRelatedResources,
 } from "@/lib/officer-learning/related-resources";
+import type { ReferenceSheetId } from "@/lib/officer-learning/types";
 import {
   collectChecklistItems,
+  downloadAuditControlsPdf,
+  downloadDisciplineRightsPdf,
+  downloadEquityClausePdf,
   downloadFarSheetPdf,
   downloadFloorChecklistPdf,
+  downloadMeiorinSheetPdf,
+  downloadQuorumMotionPdf,
 } from "@/lib/officer-learning/reference-pdf";
 import type { ParsedModule } from "@/lib/officer-learning/types";
 import clsx from "clsx";
@@ -43,18 +49,37 @@ export function ModuleRelatedResources({
 
   const checklistItems = collectChecklistItems(module.sections);
 
-  const handleSheet = (id: "far-sheet" | "floor-checklist") => {
+  const handleSheet = (id: ReferenceSheetId) => {
     void runExport(async () => {
-      if (id === "far-sheet") {
-        await downloadFarSheetPdf({ moduleTitle, localLabel });
-        return;
+      const ctx = { moduleTitle, localLabel };
+      switch (id) {
+        case "far-sheet":
+          await downloadFarSheetPdf(ctx);
+          return;
+        case "discipline-rights":
+          await downloadDisciplineRightsPdf(ctx);
+          return;
+        case "meiorin-sheet":
+          await downloadMeiorinSheetPdf(ctx);
+          return;
+        case "quorum-motion":
+          await downloadQuorumMotionPdf(ctx);
+          return;
+        case "audit-controls":
+          await downloadAuditControlsPdf(ctx);
+          return;
+        case "equity-clause":
+          await downloadEquityClausePdf(ctx);
+          return;
+        case "floor-checklist":
+          await downloadFloorChecklistPdf({
+            moduleTitle,
+            moduleNumber,
+            items: checklistItems,
+            localLabel,
+          });
+          return;
       }
-      await downloadFloorChecklistPdf({
-        moduleTitle,
-        moduleNumber,
-        items: checklistItems,
-        localLabel,
-      });
     });
   };
 

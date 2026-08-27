@@ -67,11 +67,16 @@ async function writeSimplePdf(opts: {
   await saveBlob(pdf.output("blob"), opts.filename);
 }
 
-/** Blank FAR sheet for Step 1 meetings (module 1 pocket card). */
-export async function downloadFarSheetPdf(opts: {
+const EDUCATION_FOOTER =
+  "UnionOps Officer Learning — education only. Confirm every step against your collective agreement. Not legal advice.";
+
+type ModulePdfContext = {
   moduleTitle: string;
   localLabel: string;
-}): Promise<void> {
+};
+
+/** Blank FAR sheet for Step 1 meetings (module 1 pocket card). */
+export async function downloadFarSheetPdf(opts: ModulePdfContext): Promise<void> {
   await writeSimplePdf({
     title: "FAR sheet — Facts / Argument / Resolution",
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
@@ -102,8 +107,173 @@ export async function downloadFarSheetPdf(opts: {
       },
     ],
     filename: `unionops-far-sheet-${slugPart(opts.moduleTitle)}.pdf`,
-    footer:
-      "UnionOps Officer Learning — education only. Confirm every step against your collective agreement. Not legal advice.",
+    footer: EDUCATION_FOOTER,
+  });
+}
+
+/** Discipline meeting rights sheet (module 2). */
+export async function downloadDisciplineRightsPdf(opts: ModulePdfContext): Promise<void> {
+  await writeSimplePdf({
+    title: "Discipline meeting — steward pocket sheet",
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: [
+      {
+        heading: "Before the meeting",
+        lines: [
+          "Reasonable notice of disciplinary focus given?",
+          "Member knows representation rights?",
+          "Full disclosure requested before answers?",
+          "Prior rungs on ladder documented?",
+        ],
+      },
+      {
+        heading: "Just cause probes",
+        lines: [
+          "Foreseeable rule communicated?",
+          "Investigation before penalty?",
+          "Penalty fits offence and record?",
+          "Mitigating factors on the record?",
+        ],
+      },
+      {
+        heading: "On the record",
+        lines: [
+          "Notes taken; member not speculating",
+          "Obey-now-grieve-later issue flagged if relevant",
+          "Letter of counsel proposed if appropriate",
+        ],
+      },
+    ],
+    filename: `unionops-discipline-rights-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER,
+  });
+}
+
+/** Meiorin BFOR test worksheet (module 3). */
+export async function downloadMeiorinSheetPdf(opts: ModulePdfContext): Promise<void> {
+  await writeSimplePdf({
+    title: "Meiorin BFOR test — accommodation worksheet",
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: [
+      {
+        heading: "Meiorin three-step test",
+        lines: [
+          "1. Rational connection to performing the job?",
+          "2. Adopted in honest good faith?",
+          "3. Impossible to accommodate without undue hardship?",
+        ],
+      },
+      {
+        heading: "Undue hardship — employer must prove",
+        lines: ["Cost (with evidence)", "Outside funding explored", "Health and safety risk documented"],
+      },
+      {
+        heading: "Not undue hardship (push back)",
+        lines: [
+          "Co-worker morale or preference",
+          "Customer preference",
+          "Collective agreement conflict alone",
+        ],
+      },
+    ],
+    filename: `unionops-meiorin-sheet-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER,
+  });
+}
+
+/** Quorum + motion template (module 4). */
+export async function downloadQuorumMotionPdf(opts: ModulePdfContext): Promise<void> {
+  await writeSimplePdf({
+    title: "Meeting quorum & motion template",
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: [
+      {
+        heading: "Quorum check",
+        lines: [
+          "Regular meeting quorum met?",
+          "Special meeting notice + quorum met?",
+          "Electronic participation counted per bylaws?",
+        ],
+      },
+      {
+        heading: "Motion on the floor",
+        lines: [
+          "Moved by:",
+          "Seconded by:",
+          "Wording (decision-focused, not debate):",
+          "Vote result (for / against / abstain):",
+        ],
+      },
+      {
+        heading: "After the vote",
+        lines: ["Action owner assigned", "Deadline attached", "Minutes draft within 48 hours"],
+      },
+    ],
+    filename: `unionops-quorum-motion-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER,
+  });
+}
+
+/** Financial controls audit trail (module 5). */
+export async function downloadAuditControlsPdf(opts: ModulePdfContext): Promise<void> {
+  await writeSimplePdf({
+    title: "Financial controls — receipt to audit trail",
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: [
+      {
+        heading: "Every disbursement",
+        lines: [
+          "Original receipt attached",
+          "Two authorized signatures before release",
+          "Cheque / EFT matches approved amount",
+        ],
+      },
+      {
+        heading: "Trustee six-month audit",
+        lines: [
+          "Sample vouchers traced to bank statement",
+          "Outstanding cheques reconciled",
+          "Member report scheduled",
+        ],
+      },
+    ],
+    filename: `unionops-audit-controls-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER,
+  });
+}
+
+/** Equity clause negotiation worksheet (module 6). */
+export async function downloadEquityClausePdf(opts: ModulePdfContext): Promise<void> {
+  await writeSimplePdf({
+    title: "Equity clause — barrier to accountability",
+    subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
+    sections: [
+      {
+        heading: "Name the barrier",
+        lines: [
+          "Who is excluded or under-protected?",
+          "Pattern across shifts / classifications?",
+          "Evidence documented (not anecdote only)?",
+        ],
+      },
+      {
+        heading: "Propose contract language",
+        lines: [
+          "Specific clause or LOU draft:",
+          "Joint review / reporting deadline:",
+          "Remedy if employer misses deadline:",
+        ],
+      },
+      {
+        heading: "Member follow-up",
+        lines: [
+          "Plain-language summary for the floor",
+          "Restorative path before formal grievance if safe",
+        ],
+      },
+    ],
+    filename: `unionops-equity-clause-${slugPart(opts.moduleTitle)}.pdf`,
+    footer: EDUCATION_FOOTER,
   });
 }
 
@@ -124,8 +294,7 @@ export async function downloadFloorChecklistPdf(opts: {
       },
     ],
     filename: `unionops-module-${opts.moduleNumber}-checklist-${slugPart(opts.moduleTitle)}.pdf`,
-    footer:
-      "UnionOps Officer Learning — education only. Confirm every step against your collective agreement. Not legal advice.",
+    footer: EDUCATION_FOOTER,
   });
 }
 

@@ -164,6 +164,12 @@ export function OfficerLearningDashboard({ modules }: Props) {
         </div>
 
         <p className="mt-10 space-y-2 text-sm text-slate-400">
+          <Link
+            href="/guide/steward-playbooks"
+            className="block font-medium text-amber-300/90 underline underline-offset-2"
+          >
+            ← {t("backToPlaybooks")}
+          </Link>
           <Link href="/guide" className="block font-medium text-teal-300 underline underline-offset-2">
             ← {t("backToGuide")}
           </Link>

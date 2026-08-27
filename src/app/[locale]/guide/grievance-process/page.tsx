@@ -107,8 +107,10 @@ export default async function GrievanceProcessGuidePage({
       subtitle={t("subtitle")}
       intro={t("intro")}
       relatedLinks={[
+        { href: "/guide/steward-playbooks", label: t("related.stewardPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/steward-101", label: t("related.steward101") },
+        { href: "/guide/officer-learning", label: t("related.officerLearning") },
         { href: "/guide/dfr", label: t("related.dfr") },
         { href: "/guide/seniority-bumping", label: t("related.seniority") },
         { href: "/guide/right-to-refuse", label: t("related.rightToRefuse") },

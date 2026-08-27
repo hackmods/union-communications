@@ -188,7 +188,8 @@ export function HomeContent() {
         </section>
 
         {hubPublic ? (
-          <section className="home-enter home-enter-delay-2 mb-12 grid gap-4 md:grid-cols-2">
+          <section className="home-enter home-enter-delay-2 mb-12 space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
             <Callout
               tone="brand"
               data-testid="home-path-comms"
@@ -227,9 +228,32 @@ export function HomeContent() {
                 </Link>
               </div>
             </Callout>
+            </div>
+            <Callout tone="plain" className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="text-lg font-bold text-opseu-dark">{t("pathStewardTitle")}</h2>
+                <p className="mt-2 text-sm text-gray-600">{t("pathStewardDesc")}</p>
+              </div>
+              <Link href="/guide/steward-playbooks">
+                <Button size="md" variant="outline" className="min-h-11">
+                  {t("pathStewardCta")}
+                </Button>
+              </Link>
+            </Callout>
           </section>
         ) : (
-          <section className="home-enter home-enter-delay-2 mb-12">
+          <section className="home-enter home-enter-delay-2 mb-12 space-y-4">
+            <Callout tone="plain" className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="text-lg font-bold text-opseu-dark">{t("pathStewardTitle")}</h2>
+                <p className="mt-2 text-sm text-gray-600">{t("pathStewardDesc")}</p>
+              </div>
+              <Link href="/guide/steward-playbooks">
+                <Button size="md" variant="outline" className="min-h-11">
+                  {t("pathStewardCta")}
+                </Button>
+              </Link>
+            </Callout>
             <Callout
               tone="muted"
               className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"

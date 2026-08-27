@@ -5,6 +5,7 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
   "contract-enforcement": [
     { href: "/tools/complaint-vs-grievance", labelKey: "complaintVsGrievance", kind: "tool" },
     { href: "/guide/steward-101", labelKey: "steward101", kind: "guide" },
+    { href: "/guide/steward-playbooks", labelKey: "stewardPlaybooks", kind: "guide" },
     { href: "/guide/grievance-process", labelKey: "grievanceProcess", kind: "guide" },
     {
       href: "/tools/qr-card?preset=stewardRepresentation",
@@ -40,12 +41,14 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
   ],
   "financial-health": [
     { href: "/tools/document-generator", labelKey: "documentGenerator", kind: "tool" },
-    { href: "/guide", labelKey: "blueprint", kind: "guide" },
+    { href: "/guide/union-boards", labelKey: "unionBoards", kind: "guide" },
+    { href: "/guide/steward-playbooks", labelKey: "stewardPlaybooks", kind: "guide" },
   ],
   "building-collective-power": [
     { href: "/guide/workplace-mapping", labelKey: "workplaceMapping", kind: "guide" },
     { href: "/guide/membership-signup", labelKey: "membershipSignup", kind: "guide" },
     { href: "/guide/crisis", labelKey: "crisis", kind: "guide" },
+    { href: "/tools/solidarity-poster", labelKey: "solidarityPoster", kind: "tool" },
   ],
 };
 
@@ -66,6 +69,12 @@ export const MODULE_REFERENCE_SHEETS: Record<string, ModuleReferenceSheet[]> = {
   ],
   "progressive-discipline": [
     {
+      id: "discipline-rights",
+      titleKey: "disciplineTitle",
+      bodyKey: "disciplineBody",
+      ctaKey: "disciplineCta",
+    },
+    {
       id: "floor-checklist",
       titleKey: "checklistTitle",
       bodyKey: "checklistBody",
@@ -73,6 +82,12 @@ export const MODULE_REFERENCE_SHEETS: Record<string, ModuleReferenceSheet[]> = {
     },
   ],
   "human-rights-accommodation": [
+    {
+      id: "meiorin-sheet",
+      titleKey: "meiorinTitle",
+      bodyKey: "meiorinBody",
+      ctaKey: "meiorinCta",
+    },
     {
       id: "floor-checklist",
       titleKey: "checklistTitle",
@@ -82,6 +97,12 @@ export const MODULE_REFERENCE_SHEETS: Record<string, ModuleReferenceSheet[]> = {
   ],
   "democratic-governance": [
     {
+      id: "quorum-motion",
+      titleKey: "quorumTitle",
+      bodyKey: "quorumBody",
+      ctaKey: "quorumCta",
+    },
+    {
       id: "floor-checklist",
       titleKey: "checklistTitle",
       bodyKey: "checklistBody",
@@ -90,6 +111,12 @@ export const MODULE_REFERENCE_SHEETS: Record<string, ModuleReferenceSheet[]> = {
   ],
   "financial-health": [
     {
+      id: "audit-controls",
+      titleKey: "auditTitle",
+      bodyKey: "auditBody",
+      ctaKey: "auditCta",
+    },
+    {
       id: "floor-checklist",
       titleKey: "checklistTitle",
       bodyKey: "checklistBody",
@@ -97,6 +124,12 @@ export const MODULE_REFERENCE_SHEETS: Record<string, ModuleReferenceSheet[]> = {
     },
   ],
   "building-collective-power": [
+    {
+      id: "equity-clause",
+      titleKey: "equityTitle",
+      bodyKey: "equityBody",
+      ctaKey: "equityCta",
+    },
     {
       id: "floor-checklist",
       titleKey: "checklistTitle",

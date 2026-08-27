@@ -100,6 +100,12 @@ export function ModuleViewer({
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B132B]/95 backdrop-blur print:hidden">
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
           <Link
+            href="/guide/steward-playbooks"
+            className="shrink-0 rounded-lg border border-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-amber-400/40 hover:text-white"
+          >
+            {t("backToPlaybooks")}
+          </Link>
+          <Link
             href="/guide/officer-learning"
             className="shrink-0 rounded-lg border border-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-teal-400/40 hover:text-white"
           >

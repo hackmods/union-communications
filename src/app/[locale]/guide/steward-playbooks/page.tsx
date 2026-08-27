@@ -3,6 +3,8 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { TrainingPathDiagram } from "@/components/comms/StewardGuideDiagrams";
+import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
 
@@ -13,6 +15,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   return buildPublicPageMetadata("/guide/steward-playbooks", params);
 }
+
+const TOC = [
+  ["trainingPath", "trainingPath"],
+  ["quiz", "quiz"],
+  ["playbooks", "playbooks"],
+] as const;
 
 const playbookLinks = [
   { href: "/guide/steward-101", key: "steward101" as const },
@@ -34,30 +42,68 @@ export default async function StewardPlaybooksPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("stewardPlaybooksHub");
+  const ts = await getTranslations("sources");
+  const pathSteps = t.raw("pathSteps") as Parameters<typeof TrainingPathDiagram>[0]["steps"];
 
   return (
-    <GuideLayout title={t("title")} subtitle={t("subtitle")} intro={t("intro")}>
-      <Callout className="mb-8 max-w-3xl">
-        <p className="font-semibold text-opseu-dark">{t("trainingPath.title")}</p>
-        <p className="mt-2 leading-relaxed text-gray-700">{t("trainingPath.body")}</p>
-        <div className="button-row mt-4">
-          <Link href="/guide/steward-101">
-            <Button size="sm">{t("trainingPath.steward101Cta")}</Button>
-          </Link>
-          <Link href="/guide/officer-learning">
-            <Button size="sm" variant="outline">
-              {t("trainingPath.officerLearningCta")}
-            </Button>
-          </Link>
-        </div>
-      </Callout>
+    <GuideLayout
+      title={t("title")}
+      subtitle={t("subtitle")}
+      intro={t("intro")}
+      relatedLinks={[
+        { href: "/guide", label: t("backToGuide") },
+        { href: "/guide/officer-learning", label: t("links.officerLearning") },
+        { href: "/guide/steward-101", label: t("links.steward101") },
+      ]}
+      footer={
+        <SourcesBlock
+          pageId="stewardPlaybooksHub"
+          title={ts("title")}
+          intro={ts("intro")}
+        />
+      }
+    >
+      <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
+        {TOC.map(([id, key]) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
+          >
+            {t(`sections.${key}`)}
+          </a>
+        ))}
+      </nav>
 
-      <Callout tone="muted" className="mb-8 max-w-3xl">
-        <p className="font-semibold text-opseu-dark">{t("quizCallout.title")}</p>
-        <p className="mt-2 leading-relaxed text-gray-700">{t("quizCallout.body")}</p>
-      </Callout>
+      <section id="trainingPath" className="scroll-mt-28">
+        <Callout className="mb-8 max-w-3xl">
+          <p className="font-semibold text-opseu-dark">{t("trainingPath.title")}</p>
+          <p className="mt-2 leading-relaxed text-gray-700">{t("trainingPath.body")}</p>
+          <TrainingPathDiagram steps={pathSteps} className="mt-4" />
+          <div className="button-row mt-4">
+            <Link href="/guide/steward-101">
+              <Button size="sm">{t("trainingPath.steward101Cta")}</Button>
+            </Link>
+            <Link href="/guide/officer-learning">
+              <Button size="sm" variant="outline">
+                {t("trainingPath.officerLearningCta")}
+              </Button>
+            </Link>
+          </div>
+        </Callout>
+      </section>
 
-      <section className="border-l-2 border-opseu-blue/30 pl-5">
+      <section id="quiz" className="scroll-mt-28">
+        <Callout tone="muted" className="mb-8 max-w-3xl">
+          <p className="font-semibold text-opseu-dark">{t("quizCallout.title")}</p>
+          <p className="mt-2 leading-relaxed text-gray-700">{t("quizCallout.body")}</p>
+        </Callout>
+      </section>
+
+      <section
+        id="playbooks"
+        className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"
+      >
         <h2 className="text-xl font-bold text-opseu-dark">{t("playbooks.title")}</h2>
         <p className="mt-2 max-w-prose text-gray-700">{t("playbooks.intro")}</p>
         <ul className="mt-4 space-y-4">
