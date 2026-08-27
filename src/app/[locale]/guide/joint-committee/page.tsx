@@ -4,7 +4,10 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
-import { Button } from "@/components/ui/Button";
+import {
+  guideCtaClass,
+  guideCtaOutlineClass,
+} from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 
@@ -171,8 +174,11 @@ export default async function JointCommitteeGuidePage({
           <p className="mt-1">{t("caucus.tip")}</p>
         </Callout>
         <div className="button-row mt-5 max-w-lg">
-          <Link href="/tools/document-generator?preset=letterhead">
-            <Button>{t("related.letterhead")}</Button>
+          <Link
+            href="/tools/document-generator?preset=letterhead"
+            className={guideCtaClass}
+          >
+            {t("related.letterhead")}
           </Link>
         </div>
       </GuideSection>
@@ -218,14 +224,17 @@ export default async function JointCommitteeGuidePage({
           <p className="mt-1">{t("afterMinutes.tip")}</p>
         </Callout>
         <div className="button-row mt-5 max-w-2xl">
-          <Link href="/tools/document-generator?preset=letterhead">
-            <Button variant="outline">{t("afterMinutes.letterCta")}</Button>
+          <Link
+            href="/tools/document-generator?preset=letterhead"
+            className={guideCtaOutlineClass}
+          >
+            {t("afterMinutes.letterCta")}
           </Link>
-          <Link href="/guide/email-broadcast">
-            <Button variant="outline">{t("afterMinutes.emailCta")}</Button>
+          <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
+            {t("afterMinutes.emailCta")}
           </Link>
-          <Link href="/tools/flyer-maker">
-            <Button variant="outline">{t("afterMinutes.flyerCta")}</Button>
+          <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+            {t("afterMinutes.flyerCta")}
           </Link>
         </div>
       </GuideSection>
@@ -300,14 +309,17 @@ export default async function JointCommitteeGuidePage({
           ))}
         </ul>
         <div className="button-row mt-5 max-w-2xl">
-          <Link href="/tools/document-generator?preset=letterhead">
-            <Button variant="outline">{nav("documentGenerator")}</Button>
+          <Link
+            href="/tools/document-generator?preset=letterhead"
+            className={guideCtaOutlineClass}
+          >
+            {nav("documentGenerator")}
           </Link>
-          <Link href="/tools/flyer-maker">
-            <Button variant="outline">{nav("flyerMaker")}</Button>
+          <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+            {nav("flyerMaker")}
           </Link>
-          <Link href="/guide/email-broadcast">
-            <Button variant="outline">{nav("emailBroadcastGuide")}</Button>
+          <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
+            {nav("emailBroadcastGuide")}
           </Link>
         </div>
       </section>

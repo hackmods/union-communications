@@ -3,10 +3,13 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import {
+  guideCtaClass,
+  guideCtaOutlineClass,
+} from "@/components/comms/guideCtaClasses";
 import {
   BareMinimumBoardDiagram,
   LayoutReferenceDiagram,
@@ -296,26 +299,26 @@ export default async function UnionBoardsGuidePage({
       </section>
 
       <div className="button-row mt-8">
-        <Link href="/tools/board-banner">
-          <Button>{nav("boardBanner")}</Button>
+        <Link href="/tools/board-banner" className={guideCtaClass}>
+          {nav("boardBanner")}
         </Link>
-        <Link href="/tools/board-notice">
-          <Button variant="outline">{t("toolCta")}</Button>
+        <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+          {t("toolCta")}
         </Link>
-        <Link href="/tools/solidarity-poster">
-          <Button variant="outline">{nav("solidarityPoster")}</Button>
+        <Link href="/tools/solidarity-poster" className={guideCtaOutlineClass}>
+          {nav("solidarityPoster")}
         </Link>
-        <Link href="/tools/org-chart">
-          <Button variant="outline">{nav("orgChart")}</Button>
+        <Link href="/tools/org-chart" className={guideCtaOutlineClass}>
+          {nav("orgChart")}
         </Link>
-        <Link href="/tools/qr-card">
-          <Button variant="outline">{nav("qrCard")}</Button>
+        <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
+          {nav("qrCard")}
         </Link>
-        <Link href="/tools/qr-board">
-          <Button variant="outline">{nav("qrBoard")}</Button>
+        <Link href="/tools/qr-board" className={guideCtaOutlineClass}>
+          {nav("qrBoard")}
         </Link>
-        <Link href="/guide/membership-signup">
-          <Button variant="outline">{nav("membershipSignupGuide")}</Button>
+        <Link href="/guide/membership-signup" className={guideCtaOutlineClass}>
+          {nav("membershipSignupGuide")}
         </Link>
       </div>
     </GuideLayout>

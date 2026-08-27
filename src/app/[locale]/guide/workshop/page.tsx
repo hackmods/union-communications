@@ -6,7 +6,11 @@ import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
-import { Button } from "@/components/ui/Button";
+import {
+  guideCtaClassSm,
+  guideCtaGhostClassSm,
+  guideCtaOutlineClassSm,
+} from "@/components/comms/guideCtaClasses";
 import { cn } from "@/lib/utils";
 
 export async function generateMetadata({
@@ -198,18 +202,14 @@ export default async function WorkshopGuidePage({
       </section>
 
       <div className="button-row mt-10 max-w-xl">
-        <Link href="/guide/resources">
-          <Button size="sm">{t("resourcesCta")}</Button>
+        <Link href="/guide/resources" className={guideCtaClassSm}>
+          {t("resourcesCta")}
         </Link>
-        <Link href="/guide/social-media-plan">
-          <Button variant="outline" size="sm">
-            {t("roadmapCta")}
-          </Button>
+        <Link href="/guide/social-media-plan" className={guideCtaOutlineClassSm}>
+          {t("roadmapCta")}
         </Link>
-        <Link href="/tools">
-          <Button variant="ghost" size="sm">
-            {t("toolsCta")}
-          </Button>
+        <Link href="/tools" className={guideCtaGhostClassSm}>
+          {t("toolsCta")}
         </Link>
       </div>
     </GuideLayout>

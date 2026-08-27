@@ -8,6 +8,8 @@ type PathStep = {
   id: string;
   number: number;
   title: string;
+  /** Unique accessible name — must differ from dashboard card link labels. */
+  ariaLabel: string;
   href: string;
   status: ModuleStatus;
 };
@@ -42,6 +44,7 @@ export function LearningPathDiagram({ steps, label, className }: Props) {
           <li key={step.id} className="flex min-w-0 flex-1 items-stretch gap-2">
             <Link
               href={step.href}
+              aria-label={step.ariaLabel}
               className={cn(
                 "flex min-w-0 flex-1 items-center gap-3 rounded-xl border px-3 py-3 transition",
                 "border-white/10 bg-slate-950/40 hover:border-teal-400/40 hover:bg-slate-900/80",
@@ -59,7 +62,7 @@ export function LearningPathDiagram({ steps, label, className }: Props) {
                 {step.status === "completed" ? "✓" : step.number}
               </span>
               <span className="min-w-0">
-                <span className="block truncate text-sm font-semibold text-white">
+                <span className="block truncate text-sm font-semibold text-white" aria-hidden="true">
                   {step.title}
                 </span>
               </span>

@@ -3,10 +3,13 @@ import type { ReactNode } from "react";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import {
+  guideCtaClass,
+  guideCtaOutlineClass,
+} from "@/components/comms/guideCtaClasses";
 import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
 import { cn } from "@/lib/utils";
 
@@ -96,8 +99,8 @@ export default async function WebsiteGuidePage({
           />
         </div>
         <div className="button-row mt-5 max-w-lg">
-          <Link href="/tools/website-template">
-            <Button>{t("glance.templateCta")}</Button>
+          <Link href="/tools/website-template" className={guideCtaClass}>
+            {t("glance.templateCta")}
           </Link>
         </div>
       </section>
@@ -258,8 +261,8 @@ export default async function WebsiteGuidePage({
             {t("build.done")}
           </Callout>
           <div className="button-row mt-6 max-w-lg">
-            <Link href="/tools/website-template">
-              <Button>{t("build.cta")}</Button>
+            <Link href="/tools/website-template" className={guideCtaClass}>
+              {t("build.cta")}
             </Link>
           </div>
         </section>
@@ -473,14 +476,14 @@ export default async function WebsiteGuidePage({
       </section>
 
       <div className="button-row mt-10 max-w-2xl">
-        <Link href="/brand-kit">
-          <Button variant="outline">{nav("brandKit")}</Button>
+        <Link href="/brand-kit" className={guideCtaOutlineClass}>
+          {nav("brandKit")}
         </Link>
-        <Link href="/tools/qr-card">
-          <Button variant="outline">{nav("qrCard")}</Button>
+        <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
+          {nav("qrCard")}
         </Link>
-        <Link href="/guide/social-media-plan">
-          <Button variant="outline">{nav("firstWeek")}</Button>
+        <Link href="/guide/social-media-plan" className={guideCtaOutlineClass}>
+          {nav("firstWeek")}
         </Link>
       </div>
     </GuideLayout>

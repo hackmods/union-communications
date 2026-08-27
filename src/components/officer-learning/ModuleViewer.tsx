@@ -103,7 +103,7 @@ export function ModuleViewer({
             href="/guide/steward-playbooks"
             className="shrink-0 rounded-lg border border-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-amber-400/40 hover:text-white"
           >
-            {t("backToPlaybooks")}
+            {t("viewer.playbooksNav")}
           </Link>
           <Link
             href="/guide/officer-learning"
@@ -172,6 +172,32 @@ export function ModuleViewer({
           <div className="rounded-xl border border-amber-400/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-50">
             {t("disclaimer")}
           </div>
+
+          {/* Compact related strip (GuideLayout placement) — sticky chrome keeps short nav labels. */}
+          <nav className="text-sm" aria-label={t("viewer.relatedLabel")}>
+            <p className="font-semibold text-teal-200/90">{t("viewer.relatedLabel")}</p>
+            <ul className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <li>
+                <Link
+                  href="/guide/steward-playbooks"
+                  className="font-medium text-amber-300/90 underline underline-offset-2 hover:text-amber-200"
+                >
+                  {t("backToPlaybooks")}
+                </Link>
+              </li>
+              <li className="inline-flex items-baseline gap-x-3">
+                <span className="text-slate-600" aria-hidden="true">
+                  ·
+                </span>
+                <Link
+                  href="/guide"
+                  className="font-medium text-teal-300 underline underline-offset-2 hover:text-teal-200"
+                >
+                  {t("backToGuide")}
+                </Link>
+              </li>
+            </ul>
+          </nav>
 
           <div className="overflow-hidden rounded-2xl border border-white/10">
             <div className="relative aspect-[21/9] w-full print:hidden">

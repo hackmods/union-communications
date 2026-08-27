@@ -4,7 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
-import { Button } from "@/components/ui/Button";
+import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
 
 export async function generateMetadata({
@@ -167,8 +167,8 @@ export default async function CrisisPage({
       >
         <ItemList section="bargaining" keys={bargainingKeys} t={t} />
         <div className="button-row mt-5 max-w-lg">
-          <Link href="/guide/bargaining">
-            <Button variant="outline">{nav("bargainingGuide")}</Button>
+          <Link href="/guide/bargaining" className={guideCtaOutlineClass}>
+            {nav("bargainingGuide")}
           </Link>
         </div>
       </GuideSection>
@@ -249,17 +249,17 @@ export default async function CrisisPage({
           ))}
         </ul>
         <div className="button-row mt-5 max-w-2xl">
-          <Link href="/brand-kit">
-            <Button variant="outline">{nav("brandKit")}</Button>
+          <Link href="/brand-kit" className={guideCtaOutlineClass}>
+            {nav("brandKit")}
           </Link>
-          <Link href="/tools/board-notice">
-            <Button variant="outline">{nav("boardNotice")}</Button>
+          <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+            {nav("boardNotice")}
           </Link>
-          <Link href="/tools/flyer-maker">
-            <Button variant="outline">{nav("flyerMaker")}</Button>
+          <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+            {nav("flyerMaker")}
           </Link>
-          <Link href="/tools/graphic-maker">
-            <Button variant="outline">{nav("graphicMaker")}</Button>
+          <Link href="/tools/graphic-maker" className={guideCtaOutlineClass}>
+            {nav("graphicMaker")}
           </Link>
         </div>
       </section>

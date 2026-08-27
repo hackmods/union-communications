@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import {
+  guideCtaClass,
+  guideCtaOutlineClass,
+} from "@/components/comms/guideCtaClasses";
 
 export async function generateMetadata({
   params,
@@ -127,11 +130,11 @@ export default async function PrintGuidePage({
           <p className="mt-1">{t("flyers.tip")}</p>
         </Callout>
         <div className="button-row mt-5 max-w-lg">
-          <Link href="/tools/flyer-maker">
-            <Button>{nav("flyerMaker")}</Button>
+          <Link href="/tools/flyer-maker" className={guideCtaClass}>
+            {nav("flyerMaker")}
           </Link>
-          <Link href="/tools/qr-card">
-            <Button variant="outline">{nav("qrCard")}</Button>
+          <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
+            {nav("qrCard")}
           </Link>
         </div>
       </section>
@@ -164,11 +167,11 @@ export default async function PrintGuidePage({
           <p className="mt-1">{t("boards.warning")}</p>
         </Callout>
         <div className="button-row mt-5 max-w-lg">
-          <Link href="/tools/board-notice">
-            <Button>{nav("boardNotice")}</Button>
+          <Link href="/tools/board-notice" className={guideCtaClass}>
+            {nav("boardNotice")}
           </Link>
-          <Link href="/guide/union-boards">
-            <Button variant="outline">{nav("unionBoardsGuide")}</Button>
+          <Link href="/guide/union-boards" className={guideCtaOutlineClass}>
+            {nav("unionBoardsGuide")}
           </Link>
         </div>
       </section>
@@ -229,14 +232,14 @@ export default async function PrintGuidePage({
       </section>
 
       <div className="button-row mt-10 max-w-2xl">
-        <Link href="/tools/flyer-maker">
-          <Button variant="outline">{nav("flyerMaker")}</Button>
+        <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+          {nav("flyerMaker")}
         </Link>
-        <Link href="/tools/board-notice">
-          <Button variant="outline">{nav("boardNotice")}</Button>
+        <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+          {nav("boardNotice")}
         </Link>
-        <Link href="/tools/qr-card">
-          <Button variant="outline">{nav("qrCard")}</Button>
+        <Link href="/tools/qr-card" className={guideCtaOutlineClass}>
+          {nav("qrCard")}
         </Link>
       </div>
     </GuideLayout>

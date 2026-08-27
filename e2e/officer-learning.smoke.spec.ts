@@ -13,9 +13,10 @@ test.describe("Officer Learning @smoke", () => {
       page.getByRole("heading", { name: "Officer Learning Center" }),
     ).toBeVisible();
     await expect(
-      page
-        .getByRole("link", { name: "Contract Enforcement", exact: true })
-        .first(),
+      page.getByRole("link", { name: "Contract Enforcement", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Module 1: Contract Enforcement", exact: true }),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
@@ -29,6 +30,16 @@ test.describe("Officer Learning @smoke", () => {
       page
         .locator("#trainingPath")
         .getByRole("link", { name: "Officer Learning Center", exact: true }),
+    ).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
+
+  test("DFR playbook has H1 and is axe-clean", async ({ page }) => {
+    await page.goto("/en/guide/dfr/");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(page.getByText("Officer Learning module")).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Contract Enforcement/i }),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
@@ -49,14 +60,6 @@ test.describe("Officer Learning @smoke", () => {
     ).toBeVisible();
     await expect(page.getByText("D0")).toBeVisible();
     await expectNoSeriousA11yViolations(page);
-  });
-
-  test("DFR playbook links to Officer Learning module", async ({ page }) => {
-    await page.goto("/en/guide/dfr/");
-    await expect(page.getByText("Officer Learning module")).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: /Contract Enforcement/i }).first(),
-    ).toBeVisible();
   });
 
   test("failed quiz Try again re-enables inputs", async ({ page }) => {

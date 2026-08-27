@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/Button";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { GuideRelatedLinkList } from "@/components/comms/GuideRelatedLinkList";
+import { guideCtaClassSm } from "@/components/comms/guideCtaClasses";
 import { Callout } from "@/components/ui/Callout";
 import { ResourcesSourcesList } from "@/components/comms/ResourcesSourcesList";
 
@@ -77,8 +77,8 @@ export default async function ResourcesPage({
             <li key={item}>{item}</li>
           ))}
         </ul>
-        <Link href="/brand-kit" className="mt-4 inline-block">
-          <Button size="sm">{t("purpose.cta")}</Button>
+        <Link href="/brand-kit" className={`mt-4 ${guideCtaClassSm}`}>
+          {t("purpose.cta")}
         </Link>
       </Callout>
 

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/Button";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 import { Callout } from "@/components/ui/Callout";
 
 export async function generateMetadata({
@@ -111,11 +111,11 @@ export default async function GuidePage({
           <p className="mt-1">{t("startHere.tip")}</p>
         </Callout>
         <div className="button-row mt-5 max-w-lg">
-          <Link href="/brand-kit">
-            <Button variant="outline">{nav("brandKit")}</Button>
+          <Link href="/brand-kit" className={guideCtaOutlineClass}>
+            {nav("brandKit")}
           </Link>
-          <Link href="/guide/social-media-plan">
-            <Button variant="outline">{nav("socialMediaPlan")}</Button>
+          <Link href="/guide/social-media-plan" className={guideCtaOutlineClass}>
+            {nav("socialMediaPlan")}
           </Link>
         </div>
       </GuideSection>
@@ -173,8 +173,8 @@ export default async function GuidePage({
       >
         <ItemList section="accessibility" keys={a11yKeys} t={t} />
         <div className="button-row mt-5 max-w-lg">
-          <Link href="/tools/alt-text">
-            <Button variant="outline">{nav("altText")}</Button>
+          <Link href="/tools/alt-text" className={guideCtaOutlineClass}>
+            {nav("altText")}
           </Link>
         </div>
       </GuideSection>

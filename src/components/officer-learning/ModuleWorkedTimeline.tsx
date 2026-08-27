@@ -32,9 +32,9 @@ export function ModuleWorkedTimeline({ slug, className }: Props) {
         className,
       )}
     >
-      <figcaption className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
+      <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
         {t("title")}
-      </figcaption>
+      </h3>
       <ol
         className="flex flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-2"
         aria-label={t("aria")}

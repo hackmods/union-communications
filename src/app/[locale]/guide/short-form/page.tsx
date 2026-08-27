@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 import { SHORT_FORM_EDITORS } from "@/lib/constants/short-form-editors";
 
 export async function generateMetadata({
@@ -250,17 +250,20 @@ export default async function ShortFormGuidePage({
       </section>
 
       <div className="button-row mt-8 max-w-lg">
-        <Link href="/tools/graphic-maker?aspect=portrait">
-          <Button variant="outline">{nav("graphicMaker")}</Button>
+        <Link
+          href="/tools/graphic-maker?aspect=portrait"
+          className={guideCtaOutlineClass}
+        >
+          {nav("graphicMaker")}
         </Link>
-        <Link href="/tools/resizer">
-          <Button variant="outline">{nav("resizer")}</Button>
+        <Link href="/tools/resizer" className={guideCtaOutlineClass}>
+          {nav("resizer")}
         </Link>
-        <Link href="/captions">
-          <Button variant="outline">{nav("captions")}</Button>
+        <Link href="/captions" className={guideCtaOutlineClass}>
+          {nav("captions")}
         </Link>
-        <Link href="/guide/photo-consent">
-          <Button variant="outline">{nav("photoConsent")}</Button>
+        <Link href="/guide/photo-consent" className={guideCtaOutlineClass}>
+          {nav("photoConsent")}
         </Link>
       </div>
     </GuideLayout>

@@ -4,7 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
-import { Button } from "@/components/ui/Button";
+import { guideCtaClass } from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 
@@ -226,8 +226,11 @@ export default async function SeniorityBumpingGuidePage({
           ))}
         </ul>
         <div className="button-row mt-5 max-w-lg">
-          <Link href="/tools/document-generator?preset=seniority-worksheet">
-            <Button>{t("worksheet.exportCta")}</Button>
+          <Link
+            href="/tools/document-generator?preset=seniority-worksheet"
+            className={guideCtaClass}
+          >
+            {t("worksheet.exportCta")}
           </Link>
         </div>
         <p className="mt-3 text-sm text-gray-700">{t("worksheet.exportHint")}</p>

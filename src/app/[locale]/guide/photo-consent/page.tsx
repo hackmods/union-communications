@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/Button";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import {
+  guideCtaClass,
+  guideCtaOutlineClass,
+} from "@/components/comms/guideCtaClasses";
 import { Callout } from "@/components/ui/Callout";
 
 export async function generateMetadata({
@@ -233,17 +236,17 @@ export default async function PhotoConsentGuidePage({
           ))}
         </ul>
         <div className="button-row mt-5 max-w-2xl">
-          <Link href="/tools/graphic-maker">
-            <Button>{nav("graphicMaker")}</Button>
+          <Link href="/tools/graphic-maker" className={guideCtaClass}>
+            {nav("graphicMaker")}
           </Link>
-          <Link href="/guide/short-form">
-            <Button variant="outline">{nav("shortFormGuide")}</Button>
+          <Link href="/guide/short-form" className={guideCtaOutlineClass}>
+            {nav("shortFormGuide")}
           </Link>
-          <Link href="/privacy">
-            <Button variant="outline">{nav("privacy")}</Button>
+          <Link href="/privacy" className={guideCtaOutlineClass}>
+            {nav("privacy")}
           </Link>
-          <Link href="/guide/resources">
-            <Button variant="outline">{nav("resources")}</Button>
+          <Link href="/guide/resources" className={guideCtaOutlineClass}>
+            {nav("resources")}
           </Link>
         </div>
       </section>

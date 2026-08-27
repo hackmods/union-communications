@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/Button";
 import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 
 export async function generateMetadata({
   params,
@@ -217,14 +217,14 @@ export default async function EmailBroadcastGuidePage({
       </section>
 
       <div className="button-row mt-10 max-w-2xl">
-        <Link href="/tools/document-generator">
-          <Button variant="outline">{nav("documentGenerator")}</Button>
+        <Link href="/tools/document-generator" className={guideCtaOutlineClass}>
+          {nav("documentGenerator")}
         </Link>
-        <Link href="/tools/board-notice">
-          <Button variant="outline">{nav("boardNotice")}</Button>
+        <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+          {nav("boardNotice")}
         </Link>
-        <Link href="/tools/flyer-maker">
-          <Button variant="outline">{nav("flyerMaker")}</Button>
+        <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
+          {nav("flyerMaker")}
         </Link>
       </div>
     </GuideLayout>

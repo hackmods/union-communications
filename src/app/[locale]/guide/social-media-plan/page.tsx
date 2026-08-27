@@ -7,8 +7,12 @@ import { GuideLayout } from "@/components/comms/GuideLayout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { WorkshopDemoJoinLink } from "@/components/comms/WorkshopDemoJoinLink";
+import {
+  guideCtaClassSm,
+  guideCtaGhostClassSm,
+  guideCtaOutlineClassSm,
+} from "@/components/comms/guideCtaClasses";
 import { isWorkshopDemoJoinHref } from "@/lib/comms/workshop-demo-session";
-import { Button } from "@/components/ui/Button";
 import {
   FIRST_WEEK_STEP_KEYS,
   FIRST_WEEK_STEP_LINKS,
@@ -18,17 +22,25 @@ function RoadmapStepLink({
   href,
   children,
   join = false,
+  className,
 }: {
   href: string;
   children: ReactNode;
   join?: boolean;
+  className?: string;
 }) {
   if (join || isWorkshopDemoJoinHref(href)) {
     return (
-      <WorkshopDemoJoinLink href={href}>{children}</WorkshopDemoJoinLink>
+      <WorkshopDemoJoinLink href={href} className={className}>
+        {children}
+      </WorkshopDemoJoinLink>
     );
   }
-  return <Link href={href}>{children}</Link>;
+  return (
+    <Link href={href} className={className}>
+      {children}
+    </Link>
+  );
 }
 
 export async function generateMetadata({
@@ -125,19 +137,26 @@ export default async function SocialMediaPlanPage({
               ))}
             </ul>
             <div className="button-row mt-4 max-w-lg">
-              <RoadmapStepLink href={FIRST_WEEK_STEP_LINKS[key].primary} join>
-                <Button size="sm">{t(`steps.${key}.cta`)}</Button>
+              <RoadmapStepLink
+                href={FIRST_WEEK_STEP_LINKS[key].primary}
+                join
+                className={guideCtaClassSm}
+              >
+                {t(`steps.${key}.cta`)}
               </RoadmapStepLink>
-              <RoadmapStepLink href={FIRST_WEEK_STEP_LINKS[key].secondary}>
-                <Button variant="outline" size="sm">
-                  {t(`steps.${key}.secondaryCta`)}
-                </Button>
+              <RoadmapStepLink
+                href={FIRST_WEEK_STEP_LINKS[key].secondary}
+                className={guideCtaOutlineClassSm}
+              >
+                {t(`steps.${key}.secondaryCta`)}
               </RoadmapStepLink>
               {FIRST_WEEK_STEP_LINKS[key].tertiary?.map((link) => (
-                <RoadmapStepLink key={link.href} href={link.href}>
-                  <Button variant="ghost" size="sm">
-                    {t(`steps.${key}.${link.labelKey}`)}
-                  </Button>
+                <RoadmapStepLink
+                  key={link.href}
+                  href={link.href}
+                  className={guideCtaGhostClassSm}
+                >
+                  {t(`steps.${key}.${link.labelKey}`)}
                 </RoadmapStepLink>
               ))}
             </div>

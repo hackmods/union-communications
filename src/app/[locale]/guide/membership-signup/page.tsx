@@ -5,7 +5,10 @@ import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { Callout } from "@/components/ui/Callout";
-import { Button } from "@/components/ui/Button";
+import {
+  guideCtaClass,
+  guideCtaOutlineClass,
+} from "@/components/comms/guideCtaClasses";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 
 export async function generateMetadata({
@@ -276,8 +279,8 @@ export default async function MembershipSignupGuidePage({
               </p>
               {key === "brandKit" ? (
                 <div className="mt-4">
-                  <Link href="/brand-kit">
-                    <Button>{t("materials.steps.brandKit.cta")}</Button>
+                  <Link href="/brand-kit" className={guideCtaClass}>
+                    {t("materials.steps.brandKit.cta")}
                   </Link>
                 </div>
               ) : null}
@@ -286,29 +289,33 @@ export default async function MembershipSignupGuidePage({
                   className="mt-4 flex flex-wrap gap-3"
                   aria-label={t("materials.steps.printMaterials.title")}
                 >
-                  <Link href="/tools/qr-board?preset=membershipFtPt">
-                    <Button variant="outline">
-                      {t("materials.steps.printMaterials.qrBoard")}
-                    </Button>
+                  <Link
+                    href="/tools/qr-board?preset=membershipFtPt"
+                    className={guideCtaOutlineClass}
+                  >
+                    {t("materials.steps.printMaterials.qrBoard")}
                   </Link>
-                  <Link href="/tools/qr-card?preset=joinUnion">
-                    <Button variant="outline">
-                      {t("materials.steps.printMaterials.qrCard")}
-                    </Button>
+                  <Link
+                    href="/tools/qr-card?preset=joinUnion"
+                    className={guideCtaOutlineClass}
+                  >
+                    {t("materials.steps.printMaterials.qrCard")}
                   </Link>
-                  <Link href="/tools/solidarity-poster">
-                    <Button variant="outline">
-                      {t("materials.steps.printMaterials.poster")}
-                    </Button>
+                  <Link
+                    href="/tools/solidarity-poster"
+                    className={guideCtaOutlineClass}
+                  >
+                    {t("materials.steps.printMaterials.poster")}
                   </Link>
                 </nav>
               ) : null}
               {key === "welcome" ? (
                 <div className="mt-4">
-                  <Link href="/tools/document-generator?preset=welcome-letter">
-                    <Button variant="outline">
-                      {t("materials.steps.welcome.cta")}
-                    </Button>
+                  <Link
+                    href="/tools/document-generator?preset=welcome-letter"
+                    className={guideCtaOutlineClass}
+                  >
+                    {t("materials.steps.welcome.cta")}
                   </Link>
                 </div>
               ) : null}
@@ -341,11 +348,14 @@ export default async function MembershipSignupGuidePage({
           ))}
         </ul>
         <div className="mt-5 flex flex-wrap gap-3">
-          <Link href="/tools/document-generator?preset=welcome-letter">
-            <Button variant="outline">{t("materials.steps.welcome.cta")}</Button>
+          <Link
+            href="/tools/document-generator?preset=welcome-letter"
+            className={guideCtaOutlineClass}
+          >
+            {t("materials.steps.welcome.cta")}
           </Link>
-          <Link href="/guide/email-broadcast">
-            <Button variant="outline">{nav("emailBroadcastGuide")}</Button>
+          <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
+            {nav("emailBroadcastGuide")}
           </Link>
         </div>
       </section>
@@ -374,17 +384,26 @@ export default async function MembershipSignupGuidePage({
       </section>
 
       <div className="button-row mt-10 max-w-2xl">
-        <Link href="/brand-kit">
-          <Button>{nav("brandKit")}</Button>
+        <Link href="/brand-kit" className={guideCtaClass}>
+          {nav("brandKit")}
         </Link>
-        <Link href="/tools/qr-board?preset=membershipFtPt">
-          <Button variant="outline">{nav("qrBoard")}</Button>
+        <Link
+          href="/tools/qr-board?preset=membershipFtPt"
+          className={guideCtaOutlineClass}
+        >
+          {nav("qrBoard")}
         </Link>
-        <Link href="/tools/qr-card?preset=joinUnion">
-          <Button variant="outline">{nav("qrCard")}</Button>
+        <Link
+          href="/tools/qr-card?preset=joinUnion"
+          className={guideCtaOutlineClass}
+        >
+          {nav("qrCard")}
         </Link>
-        <Link href="/tools/document-generator?preset=welcome-letter">
-          <Button variant="outline">{nav("documentGenerator")}</Button>
+        <Link
+          href="/tools/document-generator?preset=welcome-letter"
+          className={guideCtaOutlineClass}
+        >
+          {nav("documentGenerator")}
         </Link>
       </div>
     </GuideLayout>
