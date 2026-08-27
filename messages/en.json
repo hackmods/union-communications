@@ -1043,7 +1043,7 @@
     },
     "hubSync": {
       "signedOutTitle": "Optional: sync to Officer Hub",
-      "signedOutBody": "Sign in to save progress on your Hub account and, if you choose, share completions with your local.",
+      "signedOutBody": "Sign in to save progress on your Officer Hub account and, if you choose, share completions with your local.",
       "signIn": "Sign in to Officer Hub",
       "title": "Hub sync & local sharing",
       "body": "Phase B/C: keep progress on your account, and only share with the local when both you and the local opt in.",
@@ -6670,7 +6670,7 @@
       },
       "bargaining-lifecycle-guide": {
         "title": "The Bargaining Lifecycle: From Survey to Signing",
-        "body": "A full Local Bargaining Committee playbook — LRA vs college sector, blackout vs updates, No Board countdown, checklists, worked timeline, and the on-device Proposal Tracker."
+        "body": "A full Local Bargaining Committee playbook — LRA vs college sector, blackout vs updates, No Board countdown, strike-vote and ratification mechanics, failure modes, and the on-device Proposal Tracker."
       },
       "proposal-tracker": {
         "title": "Proposal Tracker — keep strategy on your device",
@@ -9895,9 +9895,9 @@
           "ccba": "College-sector rules under the CCBA — confirm with your national/provincial college team."
         },
         "ccba": {
-          "question": "What members hear",
-          "lra": "Local updates plus Staff Rep guidance; strike legality still needs the statutory countdown.",
-          "ccba": "Same membership job for the local — survey, updates, mandate — with college-sector timelines."
+          "question": "What changes for the local?",
+          "lra": "Local still owns survey, updates, strike vote logistics, and tracker — plus Staff Rep guidance on the countdown.",
+          "ccba": "Same membership jobs. Dispute timelines and central tables may differ — ask the college bargaining team before you print dates."
         }
       },
       "warningTitle": "Do not skip the rep",
@@ -10012,16 +10012,22 @@
         },
         "strikeVote": {
           "label": "The strike vote",
-          "content": "The local asks members to authorize a strike if a fair deal is not reached. A strong Yes often moves the employer — run the vote cleanly and publish the result once certified."
+          "content": "The local asks members to authorize a strike if a fair deal is not reached. A strong Yes often moves the employer. Plan turnout early — a weak mandate is harder to recover from than a delayed vote."
         },
         "noBoard": {
           "label": "The \"No Board\" report (Ontario)",
           "content": "If conciliation fails, a No Board notice is typically issued. Under many LRA paths that starts a countdown (often to the 17th day after release) before a legal strike or lockout. Confirm the exact day with your Staff Representative."
+        },
+        "voteMechanics": {
+          "label": "Strike vote mechanics",
+          "content": "Confirm eligibility (usually members in good standing in the bargaining unit), notice period, secret ballot, scrutineers, and the majority threshold in your bylaws and Act before you call the vote. Publish the certified result once the count is finished."
         }
       },
       "warningTitle": "Ontario countdown is statute-specific",
       "warning": "Do not announce a strike start date from this page. Use the mailed No Board date, your Act, and your Staff Representative. Wrong dates put members at legal risk.",
-      "crisisCta": "Strike & crisis comms guide"
+      "crisisCta": "Strike & crisis comms guide",
+      "ccbaTitle": "College units (CCBA)",
+      "ccbaBody": "If your certificate sits under the Colleges Collective Bargaining Act, do not assume the LRA No Board diagram applies day-for-day. Ask your national or provincial college bargaining team for the sector clock, then keep the same local jobs: survey, updates, strike vote logistics, and tracker discipline."
     },
     "ratify": {
       "navLabel": "Phase 4 · Ratification",
@@ -10032,16 +10038,30 @@
           "label": "Tentative Agreement (TA)",
           "content": "The bargaining team reaches a deal with the employer. Publish a clear highlights package before the ratification meeting — not only a verbal summary."
         },
+        "national": {
+          "label": "National or provincial sign-off",
+          "content": "Some constitutions require Staff Rep or executive approval of a TA before it goes to members. Confirm that step before you book the ratification room."
+        },
+        "eligibility": {
+          "label": "Eligibility and notice",
+          "content": "Confirm who may vote under your bylaws and constitution, how much notice members get, and whether the ballot is in-person, hybrid, or mail. Put those rules in the first email."
+        },
         "ratification": {
           "label": "Ratification vote",
-          "content": "The TA goes to the general membership for a secret ballot to accept or reject. Confirm who is eligible to vote under your bylaws and constitution."
+          "content": "Members vote by secret ballot to accept or reject the TA. Confirm the majority threshold (simple majority vs two-thirds) before you print ballots."
+        },
+        "reject": {
+          "label": "If members reject the TA",
+          "content": "A No vote returns the team to the table or to the statutory path still open. Do not invent a new deal in the hallway — caucus with the Staff Representative and update members with the next step."
         },
         "signing": {
           "label": "Signing",
           "content": "Once ratified, both parties sign the new Collective Agreement and arrange printing or digital distribution for stewards and members."
         }
       },
-      "tip": "Put the vote link, meeting time, and eligibility in the first line of the email. Members should not hunt for the mandate."
+      "tip": "Put the vote link, meeting time, eligibility, and majority rule in the first line of the email. Members should not hunt for the mandate.",
+      "rejectTitle": "Rejected TA is not failure — it is a mandate",
+      "rejectBody": "Members can say No. Your job is a clean process, a clear next step, and no rumours about who \"lost.\" Keep the tracker current and the update cadence alive."
     },
     "checklist": {
       "navLabel": "Committee checklist",
@@ -10066,7 +10086,7 @@
         },
         "vote": {
           "label": "Strike vote plan",
-          "content": "Date, eligibility, ballot method, and scrutineers locked before you need leverage."
+          "content": "Date, eligibility, notice, ballot method, majority threshold, and scrutineers locked before you need leverage."
         },
         "noboard": {
           "label": "No Board day confirmed",
@@ -10074,11 +10094,15 @@
         },
         "ratify": {
           "label": "Ratification logistics",
-          "content": "Highlights package, meeting room or online ballot, and eligibility list ready."
+          "content": "Highlights package, eligibility list, majority rule on the ballot notice, meeting room or online ballot ready."
         },
         "export": {
           "label": "CSV backup after each session",
           "content": "USB labelled with the date; one copy with the chief negotiator."
+        },
+        "national": {
+          "label": "National / provincial TA clearance",
+          "content": "If your constitution requires it, get the Staff Rep or executive letter before the member ballot."
         }
       }
     },
@@ -10105,7 +10129,7 @@
         },
         "ratify": {
           "label": "Ratification Saturday",
-          "content": "Highlights PDF emailed Thursday; secret ballot Saturday; signing Monday; stewards get printed CAs within two weeks."
+          "content": "National clearance confirmed Tuesday; highlights PDF emailed Thursday; secret ballot Saturday; signing Monday; stewards get printed CAs within two weeks."
         }
       },
       "tip": "If your unit is college-sector under the CCBA, keep the same membership jobs — only the legal clock changes."
@@ -10159,6 +10183,34 @@
           "content": "Find quiet departments before the survey so the mandate is real."
         }
       }
+    },
+    "failureModes": {
+      "navLabel": "Failure modes",
+      "title": "What breaks a bargaining mandate",
+      "intro": "Name the failure mode early so the committee does not \"fix it at the mic\" after a weak vote.",
+      "items": {
+        "turnout": {
+          "label": "Weak strike-vote turnout",
+          "content": "A thin Yes looks soft to the employer. Fix: map departments before the vote, assign stewards to shifts, and give clear notice with the ballot method."
+        },
+        "leak": {
+          "label": "Table talk leaked as rumour",
+          "content": "Half-quotes from caucus hit Facebook before the Bargaining Update. Fix: one fact sheet, one messenger, same words on email and boards."
+        },
+        "noHighlights": {
+          "label": "Ratifying without a highlights package",
+          "content": "Members vote on a verbal summary and feel lied to later. Fix: plain-language highlights with money, language, and what stayed status quo — emailed before the meeting."
+        },
+        "rejected": {
+          "label": "No plan for a rejected TA",
+          "content": "The room says No and officers freeze. Fix: agree in caucus beforehand what happens next (return to table, extend countdown, new update cadence) with the Staff Representative."
+        },
+        "wrongDate": {
+          "label": "Wrong strike or No Board date",
+          "content": "A flyer prints a date guessed from this guide. Fix: only publish dates confirmed from the mailed notice and your Staff Representative."
+        }
+      },
+      "tip": "Most bargaining disasters are process and trust — not the wage number alone."
     }
   },
   "proposalTracker": {

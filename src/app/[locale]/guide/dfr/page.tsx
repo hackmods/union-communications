@@ -4,9 +4,9 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
-import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
+import { guideCtaClass } from "@/components/comms/guideCtaClasses";
 
 export async function generateMetadata({
   params,
@@ -289,8 +289,8 @@ export default async function DfrGuidePage({
         <p className="font-semibold text-opseu-dark">{t("hub.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("hub.body")}</p>
         <div className="button-row mt-4">
-          <Link href="/app/grievances">
-            <Button>{t("hub.cta")}</Button>
+          <Link href="/app/grievances" className={guideCtaClass}>
+            {t("hub.cta")}
           </Link>
         </div>
       </Callout>

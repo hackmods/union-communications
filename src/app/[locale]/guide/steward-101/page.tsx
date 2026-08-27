@@ -19,8 +19,12 @@ import {
 import { Steward101ModuleNav } from "@/components/comms/Steward101ModuleNav";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { Callout } from "@/components/ui/Callout";
-import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
+import {
+  guideCtaClassBlock,
+  guideCtaOutlineClass,
+  guideCtaOutlineClassBlock,
+} from "@/components/comms/guideCtaClasses";
 
 export async function generateMetadata({
   params,
@@ -78,12 +82,6 @@ const stewardChecklistKeys = [
   "escalate",
   "dfr",
 ] as const;
-
-const linkButtonClass =
-  "inline-flex w-full items-center justify-center rounded-lg bg-opseu-blue px-4 py-2 text-base font-semibold text-white transition-colors hover:bg-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40";
-
-const linkButtonOutlineClass =
-  "inline-flex w-full items-center justify-center rounded-lg border-2 border-opseu-blue px-4 py-2 text-base font-semibold text-opseu-blue transition-colors hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40";
 
 const richMarks = {
   strong: (chunks: ReactNode) => (
@@ -496,9 +494,9 @@ export default async function Steward101GuidePage({
             <p>{t("referenceMaterials.pocketCard.body")}</p>
             <Link
               href="/tools/qr-card?preset=stewardRepresentation"
-              className="mt-3 inline-block w-full"
+              className={`mt-3 inline-block w-full ${guideCtaClassBlock}`}
             >
-              <span className={linkButtonClass}>{t("referenceMaterials.pocketCard.cta")}</span>
+              {t("referenceMaterials.pocketCard.cta")}
             </Link>
           </ReferenceBlock>
 
@@ -507,11 +505,9 @@ export default async function Steward101GuidePage({
             <a
               href={INTAKE_TEMPLATE_HREF}
               download={INTAKE_TEMPLATE_DOWNLOAD}
-              className="mt-3 inline-block w-full"
+              className={`mt-3 inline-block w-full ${guideCtaOutlineClassBlock}`}
             >
-              <span className={linkButtonOutlineClass}>
-                {t("referenceMaterials.intakeSheet.cta")}
-              </span>
+              {t("referenceMaterials.intakeSheet.cta")}
             </a>
             <p className="mt-2 text-sm text-gray-600">
               {t("referenceMaterials.intakeSheet.hint")}
@@ -522,11 +518,9 @@ export default async function Steward101GuidePage({
             <p>{t("referenceMaterials.grievanceWorksheet.body")}</p>
             <Link
               href="/tools/document-generator?preset=grievance-intake"
-              className="mt-3 inline-block w-full"
+              className={`mt-3 inline-block w-full ${guideCtaOutlineClassBlock}`}
             >
-              <span className={linkButtonOutlineClass}>
-                {t("referenceMaterials.grievanceWorksheet.cta")}
-              </span>
+              {t("referenceMaterials.grievanceWorksheet.cta")}
             </Link>
           </ReferenceBlock>
         </div>
@@ -534,19 +528,22 @@ export default async function Steward101GuidePage({
         <p className="mt-4 text-sm text-gray-700">{t("tools.exportHint")}</p>
 
         <div className="button-row mt-5 max-w-2xl">
-          <Link href="/tools/complaint-vs-grievance" className={linkButtonOutlineClass}>
-            {t("referenceMaterials.stewardGuides.diagnostic")}
-          </Link>
-          <Link href="/tools/pre-disciplinary-log" className={linkButtonOutlineClass}>
-            {t("referenceMaterials.stewardGuides.discipline")}
-          </Link>
-          <Link href="/tools/rtw-accommodation" className={linkButtonOutlineClass}>
-            {t("referenceMaterials.stewardGuides.rtw")}
-          </Link>
-          <Link href="/app/grievances" className={linkButtonOutlineClass}>
-            {t("hub.cta")}
-          </Link>
-        </div>
+          <Link
+              href="/tools/complaint-vs-grievance"
+              className={guideCtaOutlineClass}
+            >
+              {t("referenceMaterials.stewardGuides.diagnostic")}
+            </Link>
+            <Link href="/tools/pre-disciplinary-log" className={guideCtaOutlineClass}>
+              {t("referenceMaterials.stewardGuides.discipline")}
+            </Link>
+            <Link href="/tools/rtw-accommodation" className={guideCtaOutlineClass}>
+              {t("referenceMaterials.stewardGuides.rtw")}
+            </Link>
+            <Link href="/app/grievances" className={guideCtaOutlineClass}>
+              {t("hub.cta")}
+            </Link>
+          </div>
 
         <GuideExpandSection
           title={t("modules.moreReferenceTitle")}
@@ -579,9 +576,9 @@ export default async function Steward101GuidePage({
               <p>{t("referenceMaterials.followUp.body")}</p>
               <Link
                 href="/tools/document-generator?preset=simple-letter"
-                className="mt-3 inline-block"
+                className={`mt-3 inline-block ${guideCtaOutlineClass}`}
               >
-                <Button variant="outline">{t("referenceMaterials.followUp.cta")}</Button>
+                {t("referenceMaterials.followUp.cta")}
               </Link>
             </ReferenceBlock>
           </div>
@@ -591,11 +588,6 @@ export default async function Steward101GuidePage({
       <Callout tone="muted" className="mt-10">
         <p className="font-semibold text-opseu-dark">{t("hub.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("hub.body")}</p>
-        <div className="button-row mt-4">
-          <Link href="/app/grievances">
-            <Button>{t("hub.cta")}</Button>
-          </Link>
-        </div>
       </Callout>
 
       <Callout tone="muted" className="mt-8">

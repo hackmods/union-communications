@@ -1006,7 +1006,7 @@
     "modules": {
       "contract-enforcement": {
         "title": "Application de la convention",
-        "summary": "Distinguer grief et plainte, enquêter avec les 6 W et préparer une fiche FAR en tenant compte de l'immunité du représentant."
+        "summary": "Distinguer grief et plainte, enquêter avec les 6 W et préparer une fiche FAR en respectant l'immunité du représentant."
       },
       "progressive-discipline": {
         "title": "Discipline progressive",
@@ -1043,7 +1043,7 @@
     },
     "hubSync": {
       "signedOutTitle": "Optionnel : synchroniser avec le Hub",
-      "signedOutBody": "Connectez-vous pour enregistrer la progression sur votre compte Hub et, si vous le souhaitez, partager les réussites avec votre section.",
+      "signedOutBody": "Connectez-vous pour enregistrer la progression sur votre compte Officer Hub et, si vous le souhaitez, partager les réussites avec votre section.",
       "signIn": "Se connecter au Hub des dirigeants",
       "title": "Sync Hub et partage local",
       "body": "Phases B/C : conservez la progression sur votre compte, et ne la partagez avec la section que si vous et la section y consentez.",
@@ -6620,7 +6620,7 @@
       },
       "bargaining-lifecycle-guide": {
         "title": "Le cycle de négociation : du sondage à la signature",
-        "body": "Un guide complet pour les comités de négociation locaux — LRT contre collèges, black-out et mises à jour, compte à rebours « no board », listes, chronologie commentée et Suivi des propositions sur appareil."
+        "body": "Un guide complet pour les comités de négociation locaux — LRT contre collèges, black-out et mises à jour, compte à rebours « no board », mécanique du vote de grève et de la ratification, modes d'échec et Suivi des propositions sur appareil."
       },
       "proposal-tracker": {
         "title": "Suivi des propositions — gardez la stratégie sur votre appareil",
@@ -9895,9 +9895,9 @@
           "ccba": "Règles du secteur collégial sous la CCBA — confirmez avec votre équipe collégiale nationale ou provinciale."
         },
         "ccba": {
-          "question": "Ce que les membres entendent",
-          "lra": "Mises à jour locales plus conseils du représentant du personnel; la légalité d'une grève exige encore le compte à rebours prévu par la loi.",
-          "ccba": "Même travail auprès des membres pour la section — sondage, mises à jour, mandat — avec les échéanciers du secteur collégial."
+          "question": "Qu'est-ce qui change pour la section?",
+          "lra": "La section conserve le sondage, les mises à jour, la logistique du vote de grève et le suivi — plus les conseils du représentant sur le compte à rebours.",
+          "ccba": "Mêmes jobs auprès des membres. Les délais de différend et les tables centrales peuvent différer — demandez à l'équipe collégiale avant d'imprimer des dates."
         }
       },
       "warningTitle": "Ne contournez pas le représentant",
@@ -10012,16 +10012,22 @@
         },
         "strikeVote": {
           "label": "Le vote de grève",
-          "content": "La section demande aux membres d'autoriser une grève si une entente juste n'est pas atteinte. Un fort Oui fait souvent bouger l'employeur — tenez le vote proprement et publiez le résultat une fois certifié."
+          "content": "La section demande aux membres d'autoriser une grève si une entente juste n'est pas atteinte. Un fort Oui fait souvent bouger l'employeur. Planifiez la participation tôt — un mandat faible est plus dur à rattraper qu'un vote retardé."
         },
         "noBoard": {
           "label": "Le rapport « no board » (Ontario)",
           "content": "Si la conciliation échoue, un avis « no board » est typiquement émis. Sous plusieurs parcours LRA, cela démarre un compte à rebours (souvent jusqu'au 17e jour après la publication) avant une grève ou un lock-out légal. Confirmez le jour exact avec votre représentant du personnel."
+        },
+        "voteMechanics": {
+          "label": "Mécanique du vote de grève",
+          "content": "Confirmez l'admissibilité (habituellement les membres en règle de l'unité de négociation), le préavis, le scrutin secret, les scrutateurs et le seuil de majorité dans vos règlements et votre loi avant d'appeler le vote. Publiez le résultat certifié une fois le décompte terminé."
         }
       },
       "warningTitle": "Le compte à rebours ontarien dépend de la loi",
       "warning": "N'annoncez pas une date de début de grève à partir de cette page. Utilisez la date de l'avis « no board » posté, votre loi et votre représentant du personnel. De mauvaises dates exposent les membres à un risque juridique.",
-      "crisisCta": "Guide de communication — grève et crise"
+      "crisisCta": "Guide de communication — grève et crise",
+      "ccbaTitle": "Unités collégiales (LNCC)",
+      "ccbaBody": "Si votre certificat relève de la Loi de 2008 sur la négociation collective dans les collèges, ne supposez pas que le diagramme « no board » de la LRT s'applique jour pour jour. Demandez l'horloge sectorielle à votre équipe collégiale nationale ou provinciale, puis gardez les mêmes jobs locaux : sondage, mises à jour, logistique du vote de grève et discipline du suivi."
     },
     "ratify": {
       "navLabel": "Phase 4 · Ratification",
@@ -10032,16 +10038,30 @@
           "label": "Entente de principe (EP)",
           "content": "L'équipe de négociation conclut une entente avec l'employeur. Publiez une trousse de points saillants claire avant la réunion de ratification — pas seulement un résumé oral."
         },
+        "national": {
+          "label": "Approbation nationale ou provinciale",
+          "content": "Certaines constitutions exigent l'approbation du représentant du personnel ou de l'exécutif avant que l'EP aille aux membres. Confirmez cette étape avant de réserver la salle de ratification."
+        },
+        "eligibility": {
+          "label": "Admissibilité et préavis",
+          "content": "Confirmez qui peut voter selon vos règlements et votre constitution, quel préavis les membres reçoivent, et si le scrutin est en personne, hybride ou par la poste. Mettez ces règles dans le premier courriel."
+        },
         "ratification": {
           "label": "Vote de ratification",
-          "content": "L'entente de principe va à l'ensemble des membres pour un scrutin secret d'acceptation ou de rejet. Confirmez qui est admissible au vote selon vos règlements et votre constitution."
+          "content": "Les membres votent au scrutin secret pour accepter ou rejeter l'EP. Confirmez le seuil de majorité (simple majorité ou deux tiers) avant d'imprimer les bulletins."
+        },
+        "reject": {
+          "label": "Si les membres rejettent l'EP",
+          "content": "Un vote Non renvoie l'équipe à la table ou sur la voie prévue par la loi qui reste ouverte. N'inventez pas une nouvelle entente dans le corridor — caucus avec le représentant du personnel et informez les membres de la prochaine étape."
         },
         "signing": {
           "label": "Signature",
           "content": "Une fois ratifiée, les deux parties signent la nouvelle convention collective et organisent l'impression ou la distribution numérique pour les délégués et les membres."
         }
       },
-      "tip": "Mettez le lien de vote, l'heure de la réunion et l'admissibilité dans la première ligne du courriel. Les membres ne devraient pas chercher le mandat."
+      "tip": "Mettez le lien de vote, l'heure de l'assemblée, l'admissibilité et la règle de majorité dans la première ligne du courriel. Les membres ne doivent pas chercher le mandat.",
+      "rejectTitle": "Une EP rejetée n'est pas un échec — c'est un mandat",
+      "rejectBody": "Les membres peuvent dire Non. Votre job est un processus propre, une prochaine étape claire, et aucune rumeur sur qui « a perdu ». Gardez le suivi à jour et le rythme de mise à jour vivant."
     },
     "checklist": {
       "navLabel": "Liste du comité",
@@ -10066,7 +10086,7 @@
         },
         "vote": {
           "label": "Plan de vote de grève",
-          "content": "Date, admissibilité, mode de scrutin et scrutateurs verrouillés avant d'avoir besoin d'un mandat fort."
+          "content": "Date, admissibilité, préavis, mode de scrutin, seuil de majorité et scrutateurs verrouillés avant d'avoir besoin de levier."
         },
         "noboard": {
           "label": "Jour « no board » confirmé",
@@ -10074,11 +10094,15 @@
         },
         "ratify": {
           "label": "Logistique de ratification",
-          "content": "Trousse de points saillants, salle ou scrutin en ligne, et liste d'admissibilité prêts."
+          "content": "Document des points saillants, liste d'admissibilité, règle de majorité sur l'avis de scrutin, salle ou scrutin en ligne prêts."
         },
         "export": {
           "label": "Sauvegarde CSV après chaque séance",
           "content": "Clé USB étiquetée avec la date; une copie avec le négociateur en chef."
+        },
+        "national": {
+          "label": "Autorisation nationale / provinciale de l'EP",
+          "content": "Si votre constitution l'exige, obtenez la lettre du représentant ou de l'exécutif avant le scrutin des membres."
         }
       }
     },
@@ -10105,7 +10129,7 @@
         },
         "ratify": {
           "label": "Samedi de ratification",
-          "content": "PDF des points saillants envoyé le jeudi; scrutin secret le samedi; signature le lundi; les délégués reçoivent les CC imprimées dans les deux semaines."
+          "content": "Autorisation nationale confirmée mardi ; PDF des points saillants envoyé jeudi ; scrutin secret samedi ; signature lundi ; les délégués reçoivent les conventions imprimées en deux semaines."
         }
       },
       "tip": "Si votre unité est du secteur collégial sous la CCBA, gardez les mêmes jobs auprès des membres — seule l'horloge juridique change."
@@ -10159,6 +10183,34 @@
           "content": "Trouvez les départements discrets avant le sondage pour que le mandat soit réel."
         }
       }
+    },
+    "failureModes": {
+      "navLabel": "Modes d'échec",
+      "title": "Ce qui brise un mandat de négociation",
+      "intro": "Nommez le mode d'échec tôt pour que le comité ne « le corrige pas au micro » après un vote faible.",
+      "items": {
+        "turnout": {
+          "label": "Faible participation au vote de grève",
+          "content": "Un Oui mince paraît mou à l'employeur. Correctif : cartographiez les services avant le vote, assignez des délégués aux quarts, et donnez un préavis clair avec le mode de scrutin."
+        },
+        "leak": {
+          "label": "Propos de table fuités en rumeur",
+          "content": "Des demi-citations du caucus arrivent sur Facebook avant la mise à jour. Correctif : une fiche de faits, un messager, les mêmes mots en courriel et sur les tableaux."
+        },
+        "noHighlights": {
+          "label": "Ratifier sans document des points saillants",
+          "content": "Les membres votent sur un résumé verbal et se sentent trompés plus tard. Correctif : points saillants en langage clair — argent, libellé, et ce qui reste inchangé — envoyés avant l'assemblée."
+        },
+        "rejected": {
+          "label": "Aucun plan si l'EP est rejetée",
+          "content": "La salle dit Non et les dirigeants figent. Correctif : convenez en caucus à l'avance de la suite (retour à la table, prolongation du compte à rebours, nouveau rythme de mise à jour) avec le représentant du personnel."
+        },
+        "wrongDate": {
+          "label": "Mauvaise date de grève ou de « no board »",
+          "content": "Un tract imprime une date devinée à partir de ce guide. Correctif : ne publiez que des dates confirmées à partir de l'avis posté et de votre représentant du personnel."
+        }
+      },
+      "tip": "La plupart des désastres de négociation sont du processus et de la confiance — pas seulement le chiffre salarial."
     }
   },
   "proposalTracker": {

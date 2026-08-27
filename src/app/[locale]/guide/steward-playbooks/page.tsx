@@ -4,9 +4,12 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { TrainingPathDiagram } from "@/components/comms/StewardGuideDiagrams";
+import {
+  guideCtaClass,
+  guideCtaOutlineClass,
+} from "@/components/comms/guideCtaClasses";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { Callout } from "@/components/ui/Callout";
-import { Button } from "@/components/ui/Button";
 
 export async function generateMetadata({
   params,
@@ -112,13 +115,11 @@ export default async function StewardPlaybooksPage({
           <p className="mt-2 leading-relaxed text-gray-700">{t("trainingPath.body")}</p>
           <TrainingPathDiagram steps={pathSteps} className="mt-4" />
           <div className="button-row mt-4">
-            <Link href="/guide/steward-101">
-              <Button size="sm">{t("trainingPath.steward101Cta")}</Button>
+            <Link href="/guide/steward-101" className={guideCtaClass}>
+              {t("trainingPath.steward101Cta")}
             </Link>
-            <Link href="/guide/officer-learning">
-              <Button size="sm" variant="outline">
-                {t("trainingPath.officerLearningCta")}
-              </Button>
+            <Link href="/guide/officer-learning" className={guideCtaOutlineClass}>
+              {t("trainingPath.officerLearningCta")}
             </Link>
           </div>
         </Callout>
@@ -145,10 +146,8 @@ export default async function StewardPlaybooksPage({
             ))}
           </ul>
           <div className="button-row mt-4">
-            <Link href="/app/steward-guides">
-              <Button size="sm" variant="outline">
-                {t("workspaces.hubCta")}
-              </Button>
+            <Link href="/app/steward-guides" className={guideCtaOutlineClass}>
+              {t("workspaces.hubCta")}
             </Link>
           </div>
         </Callout>

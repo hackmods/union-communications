@@ -1,5 +1,16 @@
 # Progress Log
 
+## Labour guide chrome + CI smoke (2026-08-27)
+
+- [x] Steward playbooks: unique Officer Learning CTA label; shared `guideCtaClasses` (no `Link>Button`)
+- [x] Bargaining / bylaws / steward-101 / DFR: CTA de-dupe + shared chrome; bylaws relatedLinks capped; redundant sourcesNote removed
+- [x] `PUBLIC_NS` + copy-guard fixes for bargaining / officer-learning; thin H1 smoke for bylaws + bargaining
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/seo/public-page-meta.test.ts`; smoke `e2e/officer-learning.smoke.spec.ts`
+
+## Bargaining lifecycle gold polish (2026-08-27)
+
+- [x] Failure modes, strike-vote/ratification mechanics, national TA clearance, CCBA dispute callout, deeper related links
+
 ## Bargaining lifecycle guide depth (2026-08-27)
 
 - [x] Definitive playbook pass: LRA/CCBA gate, lifecycle + No Board diagrams, blackout vs updates, tracker how-to, checklist, worked timeline, tools, Ontario.ca sources

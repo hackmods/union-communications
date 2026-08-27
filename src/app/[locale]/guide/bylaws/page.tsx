@@ -9,8 +9,13 @@ import {
   QuorumTiersDiagram,
 } from "@/components/comms/StewardGuideDiagrams";
 import { BylawsReferenceSheetButton } from "@/components/comms/BylawsReferenceSheetButton";
+import {
+  guideCtaClass,
+  guideCtaClassBlock,
+  guideCtaOutlineClass,
+  guideCtaOutlineClassBlock,
+} from "@/components/comms/guideCtaClasses";
 import { Callout } from "@/components/ui/Callout";
-import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 
@@ -66,11 +71,6 @@ const failureKeys = [
 ] as const;
 const toolKeys = ["builder", "boardNotice", "orgChart", "email", "letterhead"] as const;
 
-const linkButtonClass =
-  "inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-opseu-blue px-4 py-2 text-center text-sm font-semibold text-white hover:bg-opseu-dark";
-const linkButtonOutlineClass =
-  "inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-semibold text-opseu-dark hover:border-opseu-blue/40 hover:bg-opseu-blue/5";
-
 export default async function BylawsGuidePage({
   params,
 }: {
@@ -90,16 +90,9 @@ export default async function BylawsGuidePage({
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
-        { href: "/guide/officer-learning", label: t("related.officerLearning") },
-        {
-          href: "/guide/officer-learning/democratic-governance",
-          label: t("related.governance"),
-        },
         { href: "/tools/bylaw-builder", label: nav("bylawBuilder") },
         { href: "/tools/org-chart", label: nav("orgChart") },
-        { href: "/tools/board-notice", label: nav("boardNotice") },
-        { href: "/guide/union-boards", label: nav("unionBoardsGuide") },
-        { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
+        { href: "/guide/officer-learning", label: t("related.officerLearning") },
       ]}
       footer={
         <SourcesBlock
@@ -242,14 +235,17 @@ export default async function BylawsGuidePage({
           <p className="mt-1">{t("amend.warning")}</p>
         </Callout>
         <div className="button-row mt-5 max-w-2xl">
-          <Link href="/tools/board-notice">
-            <Button variant="outline">{t("amend.boardNoticeCta")}</Button>
+          <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+            {t("amend.boardNoticeCta")}
           </Link>
-          <Link href="/guide/email-broadcast">
-            <Button variant="outline">{t("amend.emailCta")}</Button>
+          <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
+            {t("amend.emailCta")}
           </Link>
-          <Link href="/tools/document-generator?preset=quick-event">
-            <Button variant="outline">{t("amend.eventCta")}</Button>
+          <Link
+            href="/tools/document-generator?preset=quick-event"
+            className={guideCtaOutlineClass}
+          >
+            {t("amend.eventCta")}
           </Link>
         </div>
       </GuideSection>
@@ -278,8 +274,8 @@ export default async function BylawsGuidePage({
           <p className="mt-1">{t("scenario.tip")}</p>
         </Callout>
         <div className="button-row mt-5 max-w-lg">
-          <Link href="/tools/bylaw-builder?preset=campus">
-            <Button>{t("scenario.builderCta")}</Button>
+          <Link href="/tools/bylaw-builder?preset=campus" className={guideCtaClass}>
+            {t("scenario.builderCta")}
           </Link>
         </div>
       </GuideSection>
@@ -360,22 +356,18 @@ export default async function BylawsGuidePage({
             <p>{t("referenceMaterials.builder.body")}</p>
             <Link
               href="/tools/bylaw-builder?preset=campus"
-              className="mt-3 inline-block w-full"
+              className={`mt-3 inline-block w-full ${guideCtaClassBlock}`}
             >
-              <span className={linkButtonClass}>
-                {t("referenceMaterials.builder.cta")}
-              </span>
+              {t("referenceMaterials.builder.cta")}
             </Link>
           </ReferenceBlock>
           <ReferenceBlock title={t("referenceMaterials.governance.title")}>
             <p>{t("referenceMaterials.governance.body")}</p>
             <Link
               href="/guide/officer-learning/democratic-governance"
-              className="mt-3 inline-block w-full"
+              className={`mt-3 inline-block w-full ${guideCtaOutlineClassBlock}`}
             >
-              <span className={linkButtonOutlineClass}>
-                {t("referenceMaterials.governance.cta")}
-              </span>
+              {t("referenceMaterials.governance.cta")}
             </Link>
           </ReferenceBlock>
         </div>
@@ -401,17 +393,20 @@ export default async function BylawsGuidePage({
           ))}
         </ul>
         <div className="button-row mt-5 max-w-2xl">
-          <Link href="/tools/bylaw-builder?preset=campus">
-            <Button>{nav("bylawBuilder")}</Button>
+          <Link href="/tools/bylaw-builder?preset=campus" className={guideCtaClass}>
+            {nav("bylawBuilder")}
           </Link>
-          <Link href="/tools/board-notice">
-            <Button variant="outline">{nav("boardNotice")}</Button>
+          <Link href="/tools/board-notice" className={guideCtaOutlineClass}>
+            {nav("boardNotice")}
           </Link>
-          <Link href="/tools/org-chart">
-            <Button variant="outline">{nav("orgChart")}</Button>
+          <Link href="/tools/org-chart" className={guideCtaOutlineClass}>
+            {nav("orgChart")}
           </Link>
-          <Link href="/tools/document-generator?preset=letterhead">
-            <Button variant="outline">{nav("documentGenerator")}</Button>
+          <Link
+            href="/tools/document-generator?preset=letterhead"
+            className={guideCtaOutlineClass}
+          >
+            {nav("documentGenerator")}
           </Link>
         </div>
       </section>
@@ -419,13 +414,6 @@ export default async function BylawsGuidePage({
       <Callout tone="muted" className="mt-10">
         <p className="font-semibold text-opseu-dark">{t("example.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("example.body")}</p>
-      </Callout>
-
-      <Callout className="mt-8">
-        <p className="font-semibold text-opseu-dark">{t("sourcesNote.title")}</p>
-        <p className="mt-2 leading-relaxed text-gray-700">
-          {t("sourcesNote.body")}
-        </p>
       </Callout>
     </GuideLayout>
   );

@@ -67,7 +67,12 @@ export const PUBLIC_NS = [
   "jointCommitteeGuide",
   "rightToRefuseGuide",
   "bylawsGuide",
+  "bargainingGuide",
+  "steward101Guide",
+  "stewardPlaybooksHub",
+  "officerLearning",
   "bylawBuilder",
+  "proposalTracker",
   "pollPublic",
   "pollPlaceholder",
   // Token pages members reach without signing in.

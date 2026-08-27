@@ -201,6 +201,14 @@ test.describe("Public secondary pages smoke @smoke", () => {
       path: "/en/guide/officer-learning/contract-enforcement/",
       heading: "Contract Enforcement",
     },
+    {
+      path: "/en/guide/bylaws/",
+      heading: "Local Bylaws: The Rules of Your Local",
+    },
+    {
+      path: "/en/guide/bargaining/",
+      heading: "The Bargaining Lifecycle: From Survey to Signing",
+    },
     { path: "/en/tools/", heading: "Tools" },
     { path: "/en/examples/", heading: "Social Examples" },
     { path: "/en/captions/", heading: "Caption & Hashtag Library" },

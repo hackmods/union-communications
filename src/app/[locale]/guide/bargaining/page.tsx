@@ -34,6 +34,7 @@ const TOC = [
   ["ratify", "ratify"],
   ["checklist", "checklist"],
   ["fullScenario", "fullScenario"],
+  ["failureModes", "failureModes"],
   ["notThis", "notThis"],
   ["tools", "tools"],
 ] as const;
@@ -43,8 +44,20 @@ const prepKeys = ["survey", "demand", "notice"] as const;
 const tableKeys = ["exchange", "blackout", "tracking"] as const;
 const commsKeys = ["cadence", "channels", "facts", "crisis"] as const;
 const trackerKeys = ["article", "status", "device", "csv"] as const;
-const disputeKeys = ["conciliation", "strikeVote", "noBoard"] as const;
-const ratifyKeys = ["ta", "ratification", "signing"] as const;
+const disputeKeys = [
+  "conciliation",
+  "strikeVote",
+  "voteMechanics",
+  "noBoard",
+] as const;
+const ratifyKeys = [
+  "ta",
+  "national",
+  "eligibility",
+  "ratification",
+  "reject",
+  "signing",
+] as const;
 const checklistKeys = [
   "survey",
   "notice",
@@ -52,10 +65,18 @@ const checklistKeys = [
   "updates",
   "vote",
   "noboard",
+  "national",
   "ratify",
   "export",
 ] as const;
 const scenarioKeys = ["t90", "table", "vote", "noboard", "ratify"] as const;
+const failureKeys = [
+  "turnout",
+  "leak",
+  "noHighlights",
+  "rejected",
+  "wrongDate",
+] as const;
 const notThisKeys = ["crisis", "grievance", "joint", "wildcat"] as const;
 const toolKeys = ["tracker", "email", "graphic", "flyer", "mapping"] as const;
 const sectorKeys = ["lra", "ccba"] as const;
@@ -80,8 +101,13 @@ export default async function BargainingGuidePage({
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/crisis", label: nav("strikeGuide") },
-        { href: "/tools/proposal-tracker", label: nav("proposalTracker") },
+        { href: "/guide/grievance-process", label: nav("grievanceProcessGuide") },
+        { href: "/guide/joint-committee", label: nav("jointCommitteeGuide") },
+        { href: "/guide/email-broadcast", label: nav("emailBroadcastGuide") },
+        { href: "/guide/workplace-mapping", label: nav("workplaceMappingGuide") },
+        { href: "/guide/membership-signup", label: nav("membershipSignupGuide") },
         { href: "/guide/officer-learning", label: nav("officerLearningGuide") },
+        { href: "/tools/proposal-tracker", label: nav("proposalTracker") },
       ]}
       footer={
         <SourcesBlock
@@ -263,6 +289,12 @@ export default async function BargainingGuidePage({
           }}
           caption={t("dispute.diagram.caption")}
         />
+        <Callout tone="muted" className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">
+            {t("dispute.ccbaTitle")}
+          </p>
+          <p className="mt-1">{t("dispute.ccbaBody")}</p>
+        </Callout>
         <ul className="mt-6 list-disc space-y-3 pl-5 text-gray-700">
           {disputeKeys.map((key) => (
             <TipItem
@@ -303,6 +335,12 @@ export default async function BargainingGuidePage({
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("ratify.tip")}</p>
         </Callout>
+        <Callout tone="warning" className="mt-5 max-w-prose">
+          <p className="font-semibold text-amber-950">
+            {t("ratify.rejectTitle")}
+          </p>
+          <p className="mt-1">{t("ratify.rejectBody")}</p>
+        </Callout>
       </GuideSection>
 
       <GuideSection
@@ -342,6 +380,26 @@ export default async function BargainingGuidePage({
       </GuideSection>
 
       <GuideSection
+        id="failureModes"
+        title={t("failureModes.title")}
+        intro={t("failureModes.intro")}
+      >
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {failureKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`failureModes.items.${key}.label`)}
+              content={t(`failureModes.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("failureModes.tip")}</p>
+        </Callout>
+      </GuideSection>
+
+      <GuideSection
         id="notThis"
         title={t("notThis.title")}
         intro={t("notThis.intro")}
@@ -355,6 +413,17 @@ export default async function BargainingGuidePage({
             />
           ))}
         </ul>
+        <div className="button-row mt-5 max-w-2xl">
+          <Link href="/guide/grievance-process" className={guideCtaOutlineClass}>
+            {nav("grievanceProcessGuide")}
+          </Link>
+          <Link href="/guide/joint-committee" className={guideCtaOutlineClass}>
+            {nav("jointCommitteeGuide")}
+          </Link>
+          <Link href="/guide/crisis" className={guideCtaOutlineClass}>
+            {nav("strikeGuide")}
+          </Link>
+        </div>
       </GuideSection>
 
       <section
@@ -377,6 +446,12 @@ export default async function BargainingGuidePage({
           ))}
         </ul>
         <div className="button-row mt-5 max-w-2xl">
+          <Link href="/tools/proposal-tracker" className={guideCtaOutlineClass}>
+            {nav("proposalTracker")}
+          </Link>
+          <Link href="/guide/email-broadcast" className={guideCtaOutlineClass}>
+            {nav("emailBroadcastGuide")}
+          </Link>
           <Link href="/tools/flyer-maker" className={guideCtaOutlineClass}>
             {nav("flyerMaker")}
           </Link>

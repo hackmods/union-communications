@@ -44,7 +44,9 @@ test.describe("Officer Learning @smoke", () => {
     await expect(
       page.getByRole("heading", { name: "Worked scenario", exact: true }),
     ).toBeVisible();
-    await expect(page.getByText("Worked file timeline")).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Worked file timeline", exact: true }),
+    ).toBeVisible();
     await expect(page.getByText("D0")).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
