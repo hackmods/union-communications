@@ -69,6 +69,32 @@ export async function openOptionsSection(page: Page): Promise<void> {
   }
 }
 
+/** Layout / print-size SegControls live in collapsed ToolFormDetails by default. */
+export async function openLayoutSection(page: Page): Promise<void> {
+  const details = page
+    .locator("details")
+    .filter({ hasText: /Layout and (size|design)/i });
+  if ((await details.count()) === 0) return;
+  const first = details.first();
+  const isOpen = await first.evaluate(
+    (el) => (el as HTMLDetailsElement).open,
+  );
+  if (!isOpen) {
+    await first.locator("summary").click();
+  }
+}
+
+export async function selectPrintSize(
+  page: Page,
+  name: RegExp | string,
+): Promise<void> {
+  await openLayoutSection(page);
+  await page
+    .getByRole("radiogroup", { name: /^Print size$/i })
+    .getByRole("radio", { name })
+    .click();
+}
+
 export async function enableShowUrl(page: Page, label: RegExp): Promise<void> {
   await openOptionsSection(page);
   const checkbox = page.getByRole("checkbox", { name: label });

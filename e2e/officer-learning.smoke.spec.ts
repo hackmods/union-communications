@@ -13,7 +13,9 @@ test.describe("Officer Learning @smoke", () => {
       page.getByRole("heading", { name: "Officer Learning Center" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Contract Enforcement/i }),
+      page
+        .getByRole("link", { name: "Contract Enforcement", exact: true })
+        .first(),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
@@ -21,7 +23,7 @@ test.describe("Officer Learning @smoke", () => {
   test("steward playbooks hub is axe-clean with training path", async ({ page }) => {
     await page.goto("/en/guide/steward-playbooks/");
     await expect(
-      page.getByRole("heading", { name: "Steward playbooks" }),
+      page.getByRole("heading", { name: "Steward playbooks", exact: true }),
     ).toBeVisible();
     await expect(
       page.getByRole("link", { name: /Officer Learning Center/i }),
@@ -37,7 +39,9 @@ test.describe("Officer Learning @smoke", () => {
     await expect(
       page.getByRole("link", { name: /Jump to Quiz/i }),
     ).toBeVisible();
-    await expect(page.getByText("Worked scenario")).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Worked scenario", exact: true }),
+    ).toBeVisible();
     await expect(page.getByText("Worked file timeline")).toBeVisible();
     await expect(page.getByText("D0")).toBeVisible();
     await expectNoSeriousA11yViolations(page);
@@ -47,7 +51,9 @@ test.describe("Officer Learning @smoke", () => {
     await page.goto("/en/guide/dfr/");
     await expect(page.getByText("Officer Learning module")).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Contract Enforcement/i }),
+      page
+        .getByRole("link", { name: "Contract Enforcement", exact: true })
+        .first(),
     ).toBeVisible();
   });
 

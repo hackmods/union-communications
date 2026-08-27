@@ -15,8 +15,15 @@ const DESKTOP_VIEWPORTS = [
 
 async function selectOpseuCaatSLook(page: Page) {
   // Brand Kit labels the control "Union preset"; onboarding uses "Union".
-  await page.getByLabel(/^Union preset$|^Union$/).selectOption("opseu");
-  await expect(page.getByLabel("OPSEU / SEFPO sector")).toBeVisible();
+  const unionSelect = page.getByLabel(/^Union preset$|^Union$/);
+  await expect(unionSelect).toBeVisible();
+  // Preset changes queue until the brand store hydrates from localStorage.
+  await expect(async () => {
+    if ((await unionSelect.inputValue()) !== "opseu") {
+      await unionSelect.selectOption("opseu");
+    }
+    await expect(page.getByLabel("OPSEU / SEFPO sector")).toBeVisible();
+  }).toPass({ timeout: 15_000 });
   await page.getByLabel("OPSEU / SEFPO sector").selectOption("caat-support");
   const gallery = page.getByTestId("identity-pack-gallery");
   await expect(gallery).toBeVisible();
@@ -116,8 +123,12 @@ test.describe("Brand Kit membership audience @smoke", () => {
     await expect(
       page.getByRole("heading", { name: /Brand Kit|Trousse/i }),
     ).toBeVisible();
-    await page.getByLabel(/^Union preset$|^Union$/).selectOption("opseu");
-    await expect(page.getByLabel("OPSEU / SEFPO sector")).toBeVisible();
+    await expect(async () => {
+      if ((await page.getByLabel(/^Union preset$|^Union$/).inputValue()) !== "opseu") {
+        await page.getByLabel(/^Union preset$|^Union$/).selectOption("opseu");
+      }
+      await expect(page.getByLabel("OPSEU / SEFPO sector")).toBeVisible();
+    }).toPass({ timeout: 15_000 });
 
     await page.getByLabel("OPSEU / SEFPO sector").selectOption("ops");
     await expect(

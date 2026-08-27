@@ -10,6 +10,7 @@ import {
   measurePreviewFit,
   measureUrlLayout,
   openPreviewTab,
+  selectPrintSize,
   waitForQrPreview,
 } from "./helpers/canvas-layout";
 
@@ -50,7 +51,7 @@ test.describe("QR share URL captions @smoke", () => {
     const quarterBox = await root.boundingBox();
     expect(quarterBox?.width).toBeTruthy();
 
-    await page.getByRole("radio", { name: /Letter \(8\.5/i }).click();
+    await selectPrintSize(page, /Letter \(8\.5/i);
     await expect(
       page.getByText(/Preview at Letter/i),
     ).toBeVisible({ timeout: 10_000 });
@@ -87,7 +88,7 @@ test.describe("QR share URL captions @smoke", () => {
     });
     expectUrlLayout(await measureUrlLayout(page), { label: "reference-quarter" });
 
-    await page.getByRole("radio", { name: /Letter \(8\.5/i }).click();
+    await selectPrintSize(page, /Letter \(8\.5/i);
     await expect(
       page.getByText(/Preview at Letter/i),
     ).toBeVisible({ timeout: 10_000 });
@@ -110,7 +111,7 @@ test.describe("QR share URL captions @smoke", () => {
     ).toBeVisible();
     await expect(page.locator("#qr-preset")).toHaveValue("joinPartTime");
 
-    await page.getByRole("radio", { name: /Square 5×5/i }).click();
+    await selectPrintSize(page, /Square 5×5/i);
     await expect(page.getByText(/Preview at Square 5×5/i)).toBeVisible({
       timeout: 10_000,
     });
@@ -135,7 +136,7 @@ test.describe("QR share URL captions @smoke", () => {
       page.getByRole("heading", { name: "QR Link Card Maker" }),
     ).toBeVisible();
     await enableShowUrl(page, /Show URL under tagline/i);
-    await page.getByRole("radio", { name: /Letter \(8\.5/i }).click();
+    await selectPrintSize(page, /Letter \(8\.5/i);
     await openPreviewTab(page);
     const root = await waitForQrPreview(page);
     const fit = page.locator("[data-fit-width]");
@@ -231,7 +232,7 @@ test.describe("QR share URL captions @smoke", () => {
       page.getByRole("heading", { name: "QR Board Poster Maker" }),
     ).toBeVisible();
     await enableShowUrl(page, /Show URL under each QR/i);
-    await page.getByRole("radio", { name: /Tabloid \(11/i }).click();
+    await selectPrintSize(page, /Tabloid \(11/i);
     await waitForQrPreview(page);
     expectPlateGeometry(await measurePlateFill(page), {
       label: "tabloid",
@@ -267,7 +268,7 @@ test.describe("QR share URL captions @smoke", () => {
     });
     expectPreviewFitsColumn(await measurePreviewFit(page), "action-quarter");
 
-    await page.getByRole("radio", { name: /Letter \(8\.5/i }).click();
+    await selectPrintSize(page, /Letter \(8\.5/i);
     await expect(
       page.getByText(/Preview at Letter/i),
     ).toBeVisible({ timeout: 10_000 });

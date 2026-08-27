@@ -12,8 +12,10 @@ test.describe("Steward meeting guides @smoke", () => {
       page.getByRole("heading", { name: /Complaint vs grievance diagnostic/i }),
     ).toBeVisible();
     await page
-      .getByRole("radio", { name: /1\. Collective agreement violation/i })
-      .first()
+      .getByRole("radiogroup", {
+        name: /1\. Collective agreement violation/i,
+      })
+      .getByRole("radio", { name: "Yes" })
       .click();
     await expect(page.getByText(/Grievance viability index/i)).toBeVisible();
     await expectNoSeriousA11yViolations(page);
@@ -40,7 +42,7 @@ test.describe("Steward meeting guides @smoke", () => {
   test("steward playbooks hub lists practice workspaces", async ({ page }) => {
     await page.goto("/en/guide/steward-playbooks/#workspaces");
     await expect(
-      page.getByRole("heading", { name: /Steward playbooks/i }),
+      page.getByRole("heading", { name: "Steward playbooks", exact: true }),
     ).toBeVisible();
     await expect(
       page.getByRole("link", { name: /Complaint vs grievance/i }),

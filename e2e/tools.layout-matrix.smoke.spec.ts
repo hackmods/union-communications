@@ -17,6 +17,7 @@ import {
   measurePlateFill,
   measurePreviewFit,
   measureUrlLayout,
+  openLayoutSection,
   openPreviewTab,
   waitForExportRoot,
   waitForQrPreview,
@@ -44,6 +45,7 @@ async function expectLayoutRadio(
   page: import("@playwright/test").Page,
   name: RegExp,
 ): Promise<void> {
+  await openLayoutSection(page);
   await expect(
     page.getByRole("radiogroup", { name: /^Layout$/i }).getByRole("radio", {
       name,
@@ -120,6 +122,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     await expect(
       page.getByRole("heading", { name: "Graphic Maker" }),
     ).toBeVisible();
+    await openLayoutSection(page);
     await expect(
       page.getByRole("radiogroup", { name: /^Format$/i }).getByRole("radio", {
         name: /Portrait \(Reels\)/i,
@@ -155,6 +158,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
     await expect(page.locator("#slogan-preset")).toHaveValue(
       "solidarity-forever",
     );
+    await openLayoutSection(page);
     await page.getByRole("radio", { name: /^Digital$/i }).click();
     await page.getByRole("radio", { name: /Desktop 16:9/i }).click();
     await waitForQrPreview(page);
