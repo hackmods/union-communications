@@ -74,6 +74,7 @@ const toolKeys = [
   "worksheet",
   "diagnostic",
   "discipline",
+  "rtw",
   "dfr",
   "hub",
   "ca",
@@ -434,6 +435,18 @@ export default async function GrievanceProcessGuidePage({
             className={linkButtonOutlineClass}
           >
             {t("tools.items.diagnostic.label")}
+          </Link>
+          <Link
+            href="/tools/pre-disciplinary-log"
+            className={linkButtonOutlineClass}
+          >
+            {t("tools.items.discipline.label")}
+          </Link>
+          <Link
+            href="/tools/rtw-accommodation"
+            className={linkButtonOutlineClass}
+          >
+            {t("tools.items.rtw.label")}
           </Link>
           <Link
             href="/tools/document-generator?preset=grievance-intake"

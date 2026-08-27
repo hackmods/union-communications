@@ -18,7 +18,11 @@ import {
   ScriptBlock,
   SuggestionPanel,
 } from "@/components/tools/steward-guides/SuggestionPanel";
-import { useExportHandler } from "@/hooks/use-export-handler";
+import {
+  MeiorinStepsDiagram,
+  RtwWorkHardeningDiagram,
+} from "@/components/comms/StewardGuideDiagrams";
+import { StewardPocketSheetButton } from "@/components/tools/steward-guides/StewardPocketSheetButton";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
 import {
   ACCOMMODATION_MEASURES,
@@ -124,6 +128,27 @@ export default function RtwAccommodationPage() {
     }));
   };
 
+  const meiorinSteps = useMemo(
+    () =>
+      [
+        t("legal.meiorinStep1Title"),
+        t("legal.meiorinStep2Title"),
+        t("legal.meiorinStep3Title"),
+      ] as [string, string, string],
+    [t],
+  );
+
+  const workHardeningPhases = useMemo(
+    () =>
+      [
+        { label: t("diagrams.phase1Label"), hours: t("diagrams.phase1Hours") },
+        { label: t("diagrams.phase2Label"), hours: t("diagrams.phase2Hours") },
+        { label: t("diagrams.phase3Label"), hours: t("diagrams.phase3Hours") },
+        { label: t("diagrams.phase4Label"), hours: t("diagrams.phase4Hours") },
+      ] as const,
+    [t],
+  );
+
   const buildMarkdown = () =>
     rtwDraftToMarkdown(draft, {
       title: t("title"),
@@ -152,6 +177,43 @@ export default function RtwAccommodationPage() {
       earlyResolutionHeading: t("suggestions.heading"),
       suggestionLabels,
     });
+
+  const exportBar = (
+    <div className="flex flex-wrap items-end gap-3">
+      <StewardGuideExportBar
+        exporting={exporting}
+        labels={{
+          exportMarkdown: t("export.markdown"),
+          exportPdf: t("export.pdf"),
+          clearDraft: t("export.clear"),
+          printChecklist: t("export.printChecklist"),
+        }}
+        onExportMarkdown={() => {
+          void runExport(async () => {
+            await exportWorkspaceMarkdown(
+              buildMarkdown(),
+              "rtw-accommodation-notes.md",
+            );
+          });
+        }}
+        onExportPdf={() => {
+          void runExport(async () => {
+            await exportWorkspacePdf(
+              t("title"),
+              buildMarkdown(),
+              "rtw-accommodation-notes.pdf",
+            );
+          });
+        }}
+        onPrintChecklist={() => window.print()}
+        onClear={clear}
+      />
+      <StewardPocketSheetButton
+        kind="meiorin"
+        moduleTitle={t("pocketSheetModuleTitle")}
+      />
+    </div>
+  );
 
   const form = (
     <Card density="compact" className="space-y-4">
@@ -194,6 +256,23 @@ export default function RtwAccommodationPage() {
         </p>
         <p className="mt-1">{t("legal.undueHardshipNotBody")}</p>
       </Callout>
+
+      <div className="space-y-3 rounded-lg border border-gray-200 border-l-2 border-l-teal-500/40 p-3">
+        <p className="text-sm font-medium text-gray-900">
+          {t("diagrams.meiorinTitle")}
+        </p>
+        <MeiorinStepsDiagram
+          steps={meiorinSteps}
+          caption={t("diagrams.meiorinCaption")}
+        />
+        <p className="text-sm font-medium text-gray-900">
+          {t("diagrams.workHardeningTitle")}
+        </p>
+        <RtwWorkHardeningDiagram
+          phases={workHardeningPhases}
+          caption={t("diagrams.workHardeningCaption")}
+        />
+      </div>
 
       <Callout tone="muted" role="note">
         <Link
@@ -379,69 +458,16 @@ export default function RtwAccommodationPage() {
   return (
     <>
     <ToolEditorLayout
+      className="steward-guide-print"
       title={t("title")}
       description={t("subtitle")}
       purposeHint={t("whenToUse")}
       previewAccessibleName={t("preview.title")}
       miniPreview={false}
-      toolbar={
-        <StewardGuideExportBar
-          exporting={exporting}
-          labels={{
-            exportMarkdown: t("export.markdown"),
-            exportPdf: t("export.pdf"),
-            clearDraft: t("export.clear"),
-          }}
-          onExportMarkdown={() => {
-            void runExport(async () => {
-              await exportWorkspaceMarkdown(
-                buildMarkdown(),
-                "rtw-accommodation-notes.md",
-              );
-            });
-          }}
-          onExportPdf={() => {
-            void runExport(async () => {
-              await exportWorkspacePdf(
-                t("title"),
-                buildMarkdown(),
-                "rtw-accommodation-notes.pdf",
-              );
-            });
-          }}
-          onClear={clear}
-        />
-      }
+      toolbar={exportBar}
       form={form}
       preview={preview}
-      previewActions={
-        <StewardGuideExportBar
-          exporting={exporting}
-          labels={{
-            exportMarkdown: t("export.markdown"),
-            exportPdf: t("export.pdf"),
-            clearDraft: t("export.clear"),
-          }}
-          onExportMarkdown={() => {
-            void runExport(async () => {
-              await exportWorkspaceMarkdown(
-                buildMarkdown(),
-                "rtw-accommodation-notes.md",
-              );
-            });
-          }}
-          onExportPdf={() => {
-            void runExport(async () => {
-              await exportWorkspacePdf(
-                t("title"),
-                buildMarkdown(),
-                "rtw-accommodation-notes.pdf",
-              );
-            });
-          }}
-          onClear={clear}
-        />
-      }
+      previewActions={exportBar}
       exportError={exportError}
       exportSuccess={exportSuccess}
       footer={<ToolRelatedFooter toolSlug="rtw-accommodation" />}

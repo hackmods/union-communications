@@ -15,6 +15,8 @@ import {
   SuggestionPanel,
 } from "@/components/tools/steward-guides/SuggestionPanel";
 import { ViabilityScorecard } from "@/components/tools/steward-guides/ViabilityScorecard";
+import { FivePointFilterDiagram } from "@/components/comms/StewardGuideDiagrams";
+import { StewardPocketSheetButton } from "@/components/tools/steward-guides/StewardPocketSheetButton";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
 import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
@@ -127,35 +129,45 @@ export default function ComplaintVsGrievancePage() {
   };
 
   const exportBar = (
-    <StewardGuideExportBar
-      exporting={exporting}
-      labels={{
-        exportMarkdown: t("export.markdown"),
-        exportPdf: t("export.pdf"),
-        clearDraft: t("export.clear"),
-        printChecklist: t("export.printChecklist"),
-      }}
-      onExportMarkdown={() => {
-        void runExport(async () => {
-          await exportWorkspaceMarkdown(
-            buildMarkdown(),
-            "complaint-vs-grievance.md",
-          );
-        });
-      }}
-      onExportPdf={() => {
-        void runExport(async () => {
-          await exportWorkspacePdf(
-            t("title"),
-            buildMarkdown(),
-            "complaint-vs-grievance.pdf",
-          );
-        });
-      }}
-      onPrintChecklist={printChecklist}
-      onClear={clear}
-    />
+    <div className="flex flex-wrap items-end gap-3">
+      <StewardGuideExportBar
+        exporting={exporting}
+        labels={{
+          exportMarkdown: t("export.markdown"),
+          exportPdf: t("export.pdf"),
+          clearDraft: t("export.clear"),
+          printChecklist: t("export.printChecklist"),
+        }}
+        onExportMarkdown={() => {
+          void runExport(async () => {
+            await exportWorkspaceMarkdown(
+              buildMarkdown(),
+              "complaint-vs-grievance.md",
+            );
+          });
+        }}
+        onExportPdf={() => {
+          void runExport(async () => {
+            await exportWorkspacePdf(
+              t("title"),
+              buildMarkdown(),
+              "complaint-vs-grievance.pdf",
+            );
+          });
+        }}
+        onPrintChecklist={printChecklist}
+        onClear={clear}
+      />
+      <StewardPocketSheetButton
+        kind="far"
+        moduleTitle={t("pocketSheetModuleTitle")}
+      />
+    </div>
   );
+
+  const filterLabels = DIAGNOSTIC_POINTS.map((id) =>
+    t(`points.${id}.label`),
+  ) as [string, string, string, string, string];
 
   const scorecard = (
     <ViabilityScorecard
@@ -184,6 +196,16 @@ export default function ComplaintVsGrievancePage() {
       </Callout>
 
       <div className="space-y-3">
+        <div className="rounded-lg border border-gray-200 border-l-2 border-l-opseu-blue/30 p-3">
+          <p className="text-sm font-medium text-gray-900">
+            {t("diagrams.filterTitle")}
+          </p>
+          <FivePointFilterDiagram
+            labels={filterLabels}
+            caption={t("diagrams.filterCaption")}
+            className="mt-2"
+          />
+        </div>
         <Callout tone={showGrievance ? "success" : "warning"}>
           <p className="font-semibold">
             {showGrievance ? t("score.grievancePath") : t("score.alternatePath")}
@@ -413,6 +435,7 @@ export default function ComplaintVsGrievancePage() {
 
   return (
     <ToolEditorLayout
+      className="steward-guide-print"
       title={t("title")}
       description={t("subtitle")}
       purposeHint={t("whenToUse")}

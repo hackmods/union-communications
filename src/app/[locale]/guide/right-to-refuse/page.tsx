@@ -72,7 +72,9 @@ export default async function RightToRefuseGuidePage({
       subtitle={t("subtitle")}
       intro={t("intro")}
       relatedLinks={[
+        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
+        { href: "/guide/officer-learning", label: t("related.officerLearning") },
         { href: "/guide/grievance-process", label: t("related.grievance") },
         { href: "/guide/dfr", label: t("related.dfr") },
         { href: "/guide/joint-committee", label: t("related.jointCommittee") },

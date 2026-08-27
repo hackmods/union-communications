@@ -6,6 +6,7 @@ import { GuideLayout } from "@/components/comms/GuideLayout";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
+import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 
 export async function generateMetadata({
   params,
@@ -71,7 +72,9 @@ export default async function DfrGuidePage({
       subtitle={t("subtitle")}
       intro={t("intro")}
       relatedLinks={[
+        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
+        { href: "/guide/officer-learning", label: t("related.officerLearning") },
         { href: "/guide/grievance-process", label: t("related.grievance") },
         { href: "/guide/seniority-bumping", label: t("related.seniority") },
         { href: "/guide/right-to-refuse", label: t("related.rightToRefuse") },
@@ -87,6 +90,8 @@ export default async function DfrGuidePage({
           {t("disclaimer.body")}
         </p>
       </Callout>
+
+      <OfficerLearningModuleCallout slug="contract-enforcement" moduleNumber={1} />
 
       <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
         {TOC.map(([id, key]) => (

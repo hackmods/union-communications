@@ -37,7 +37,16 @@ test.describe("Officer Learning @smoke", () => {
     await expect(
       page.getByRole("link", { name: /Jump to Quiz/i }),
     ).toBeVisible();
+    await expect(page.getByText("Worked scenario")).toBeVisible();
     await expectNoSeriousA11yViolations(page);
+  });
+
+  test("DFR playbook links to Officer Learning module", async ({ page }) => {
+    await page.goto("/en/guide/dfr/");
+    await expect(page.getByText("Officer Learning module")).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Contract Enforcement/i }),
+    ).toBeVisible();
   });
 
   test("failed quiz Try again re-enables inputs", async ({ page }) => {

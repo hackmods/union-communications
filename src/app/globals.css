@@ -187,3 +187,15 @@ html[data-reduced-motion] *::after {
 .button-row > button {
   width: 100%;
 }
+
+@media print {
+  .steward-guide-print [role="tablist"],
+  .steward-guide-print footer,
+  .steward-guide-print nav[aria-label] {
+    display: none !important;
+  }
+
+  .steward-guide-print [data-tool-preview-panel] {
+    display: none !important;
+  }
+}

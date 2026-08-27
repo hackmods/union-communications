@@ -195,6 +195,7 @@ export function ToolEditorLayout({
           id={previewPanelId}
           role="tabpanel"
           aria-labelledby={previewTabId}
+          data-tool-preview-panel=""
           className={cn(
             "order-1 lg:order-2",
             "block",

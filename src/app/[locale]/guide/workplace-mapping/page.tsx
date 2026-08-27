@@ -11,6 +11,7 @@ import {
 } from "@/components/comms/WorkplaceMappingDiagrams";
 import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
+import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 
 export async function generateMetadata({
   params,
@@ -83,7 +84,9 @@ export default async function WorkplaceMappingGuidePage({
       subtitle={t("subtitle")}
       intro={t("intro")}
       relatedLinks={[
+        { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
+        { href: "/guide/officer-learning", label: t("related.officerLearning") },
         { href: "/guide/steward-101", label: t("related.steward101") },
         { href: "/guide/membership-signup", label: t("related.membership") },
         { href: "/guide/dfr", label: t("related.dfr") },
@@ -102,6 +105,8 @@ export default async function WorkplaceMappingGuidePage({
         <p className="font-semibold text-amber-950">{t("sensitive.title")}</p>
         <p className="mt-2 leading-relaxed">{t.rich("sensitive.body", richMarks)}</p>
       </Callout>
+
+      <OfficerLearningModuleCallout slug="building-collective-power" moduleNumber={6} />
 
       <div className="mb-8">
         <a href={TEMPLATE_HREF} download={TEMPLATE_DOWNLOAD} className={primaryDownloadClass}>

@@ -18,8 +18,27 @@ export async function generateMetadata({
 
 const TOC = [
   ["trainingPath", "trainingPath"],
+  ["workspaces", "workspaces"],
   ["quiz", "quiz"],
   ["playbooks", "playbooks"],
+] as const;
+
+const workspaceLinks = [
+  {
+    href: "/tools/complaint-vs-grievance",
+    titleKey: "diagnosticTitle" as const,
+    blurbKey: "diagnosticBlurb" as const,
+  },
+  {
+    href: "/tools/pre-disciplinary-log",
+    titleKey: "disciplineTitle" as const,
+    blurbKey: "disciplineBlurb" as const,
+  },
+  {
+    href: "/tools/rtw-accommodation",
+    titleKey: "rtwTitle" as const,
+    blurbKey: "rtwBlurb" as const,
+  },
 ] as const;
 
 const playbookLinks = [
@@ -87,6 +106,36 @@ export default async function StewardPlaybooksPage({
             <Link href="/guide/officer-learning">
               <Button size="sm" variant="outline">
                 {t("trainingPath.officerLearningCta")}
+              </Button>
+            </Link>
+          </div>
+        </Callout>
+      </section>
+
+      <section id="workspaces" className="scroll-mt-28">
+        <Callout tone="muted" className="mb-8 max-w-3xl">
+          <p className="font-semibold text-opseu-dark">{t("workspaces.title")}</p>
+          <p className="mt-2 leading-relaxed text-gray-700">{t("workspaces.body")}</p>
+          <ul className="mt-4 space-y-3">
+            {workspaceLinks.map(({ href, titleKey, blurbKey }) => (
+              <li
+                key={href}
+                className="rounded-lg border border-gray-200 border-l-2 border-l-opseu-blue/40 bg-white p-4"
+              >
+                <Link
+                  href={href}
+                  className="font-semibold text-opseu-blue underline underline-offset-2"
+                >
+                  {t(`workspaces.${titleKey}`)}
+                </Link>
+                <p className="mt-1 text-sm text-gray-600">{t(`workspaces.${blurbKey}`)}</p>
+              </li>
+            ))}
+          </ul>
+          <div className="button-row mt-4">
+            <Link href="/app/steward-guides">
+              <Button size="sm" variant="outline">
+                {t("workspaces.hubCta")}
               </Button>
             </Link>
           </div>

@@ -6,6 +6,7 @@ import { GuideLayout } from "@/components/comms/GuideLayout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { Callout } from "@/components/ui/Callout";
 import { Button } from "@/components/ui/Button";
+import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 
 export async function generateMetadata({
   params,
@@ -60,6 +61,8 @@ export default async function MembershipSignupGuidePage({
       intro={t("intro")}
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
+        { href: "/guide/steward-playbooks", label: t("related.stewardPlaybooks") },
+        { href: "/guide/officer-learning", label: t("related.officerLearning") },
         { href: "/brand-kit", label: nav("brandKit") },
         { href: "/tools/qr-board", label: nav("qrBoard") },
         { href: "/tools/qr-card", label: nav("qrCard") },
@@ -84,6 +87,8 @@ export default async function MembershipSignupGuidePage({
         />
       }
     >
+      <OfficerLearningModuleCallout slug="building-collective-power" moduleNumber={6} />
+
       <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
         {TOC.map(([id, key]) => (
           <a

@@ -137,6 +137,8 @@ export const RELATED_BY_TOOL: Record<
     { href: "/guide/grievance-process", navKey: "grievanceProcessGuide" },
   ],
   "complaint-vs-grievance": [
+    { href: "/tools/pre-disciplinary-log", navKey: "preDisciplinaryLog" },
+    { href: "/tools/rtw-accommodation", navKey: "rtwAccommodation" },
     { href: "/guide/grievance-process", navKey: "grievanceProcessGuide" },
     { href: "/guide/dfr", navKey: "dfrGuide" },
     { href: "/guide/steward-101", navKey: "steward101Guide" },

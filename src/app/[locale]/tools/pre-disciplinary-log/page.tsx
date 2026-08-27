@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { ProgressiveDisciplineLadderDiagram } from "@/components/comms/StewardGuideDiagrams";
+import { StewardPocketSheetButton } from "@/components/tools/steward-guides/StewardPocketSheetButton";
 import { Callout } from "@/components/ui/Callout";
 import { Card } from "@/components/ui/Card";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -122,34 +123,40 @@ export default function PreDisciplinaryLogPage() {
     });
 
   const exportBar = (
-    <StewardGuideExportBar
-      exporting={exporting}
-      labels={{
-        exportMarkdown: t("export.markdown"),
-        exportPdf: t("export.pdf"),
-        clearDraft: t("export.clear"),
-        printChecklist: t("export.printChecklist"),
-      }}
-      onExportMarkdown={() => {
-        void runExport(async () => {
-          await exportWorkspaceMarkdown(
-            buildMarkdown(),
-            "pre-disciplinary-log.md",
-          );
-        });
-      }}
-      onExportPdf={() => {
-        void runExport(async () => {
-          await exportWorkspacePdf(
-            t("title"),
-            buildMarkdown(),
-            "pre-disciplinary-log.pdf",
-          );
-        });
-      }}
-      onPrintChecklist={() => window.print()}
-      onClear={clear}
-    />
+    <div className="flex flex-wrap items-end gap-3">
+      <StewardGuideExportBar
+        exporting={exporting}
+        labels={{
+          exportMarkdown: t("export.markdown"),
+          exportPdf: t("export.pdf"),
+          clearDraft: t("export.clear"),
+          printChecklist: t("export.printChecklist"),
+        }}
+        onExportMarkdown={() => {
+          void runExport(async () => {
+            await exportWorkspaceMarkdown(
+              buildMarkdown(),
+              "pre-disciplinary-log.md",
+            );
+          });
+        }}
+        onExportPdf={() => {
+          void runExport(async () => {
+            await exportWorkspacePdf(
+              t("title"),
+              buildMarkdown(),
+              "pre-disciplinary-log.pdf",
+            );
+          });
+        }}
+        onPrintChecklist={() => window.print()}
+        onClear={clear}
+      />
+      <StewardPocketSheetButton
+        kind="discipline"
+        moduleTitle={t("pocketSheetModuleTitle")}
+      />
+    </div>
   );
 
   const form = (
@@ -325,6 +332,7 @@ export default function PreDisciplinaryLogPage() {
 
   return (
     <ToolEditorLayout
+      className="steward-guide-print"
       title={t("title")}
       description={t("subtitle")}
       purposeHint={t("whenToUse")}

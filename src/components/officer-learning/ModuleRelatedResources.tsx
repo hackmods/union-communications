@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -39,11 +39,13 @@ export function ModuleRelatedResources({
   className,
 }: Props) {
   const t = useTranslations("officerLearning");
+  const locale = useLocale();
   const localNumber = useBrandStore((s) => s.brandKit.local.localNumber);
   const localLabel = `Local ${resolveLocalNumber(localNumber)}`;
   const links = getRelatedResources(slug);
   const sheets = getReferenceSheets(slug);
   const { exporting, exportError, exportSuccess, runExport } = useExportHandler();
+  const pdfLocale = locale === "fr" ? ("fr" as const) : ("en" as const);
 
   if (links.length === 0 && sheets.length === 0) return null;
 
@@ -51,7 +53,7 @@ export function ModuleRelatedResources({
 
   const handleSheet = (id: ReferenceSheetId) => {
     void runExport(async () => {
-      const ctx = { moduleTitle, localLabel };
+      const ctx = { moduleTitle, localLabel, locale: pdfLocale };
       switch (id) {
         case "far-sheet":
           await downloadFarSheetPdf(ctx);

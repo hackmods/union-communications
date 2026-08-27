@@ -20,6 +20,7 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
   ],
   "progressive-discipline": [
     { href: "/tools/pre-disciplinary-log", labelKey: "preDisciplinaryLog", kind: "tool" },
+    { href: "/guide/steward-playbooks", labelKey: "stewardPlaybooks", kind: "guide" },
     { href: "/guide/steward-101", labelKey: "steward101", kind: "guide" },
     { href: "/guide/grievance-process", labelKey: "grievanceProcess", kind: "guide" },
     {
@@ -30,11 +31,13 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
   ],
   "human-rights-accommodation": [
     { href: "/tools/rtw-accommodation", labelKey: "rtwAccommodation", kind: "tool" },
+    { href: "/guide/steward-playbooks", labelKey: "stewardPlaybooks", kind: "guide" },
     { href: "/guide/steward-101", labelKey: "steward101", kind: "guide" },
     { href: "/guide/photo-consent", labelKey: "photoConsent", kind: "guide" },
   ],
   "democratic-governance": [
     { href: "/guide/joint-committee", labelKey: "jointCommittee", kind: "guide" },
+    { href: "/guide/steward-playbooks", labelKey: "stewardPlaybooks", kind: "guide" },
     { href: "/tools/org-chart", labelKey: "orgChart", kind: "tool" },
     { href: "/tools/board-notice", labelKey: "boardNotice", kind: "tool" },
     { href: "/tools/document-generator", labelKey: "documentGenerator", kind: "tool" },
@@ -46,6 +49,7 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
   ],
   "building-collective-power": [
     { href: "/guide/workplace-mapping", labelKey: "workplaceMapping", kind: "guide" },
+    { href: "/guide/steward-playbooks", labelKey: "stewardPlaybooks", kind: "guide" },
     { href: "/guide/membership-signup", labelKey: "membershipSignup", kind: "guide" },
     { href: "/guide/crisis", labelKey: "crisis", kind: "guide" },
     { href: "/tools/solidarity-poster", labelKey: "solidarityPoster", kind: "tool" },

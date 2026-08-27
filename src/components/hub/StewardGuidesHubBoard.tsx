@@ -10,16 +10,22 @@ const TOOLS = [
     href: "/tools/rtw-accommodation",
     titleKey: "rtwTitle" as const,
     blurbKey: "rtwBlurb" as const,
+    moduleHref: "/guide/officer-learning/human-rights-accommodation",
+    moduleKey: "readModule3" as const,
   },
   {
     href: "/tools/pre-disciplinary-log",
     titleKey: "disciplineTitle" as const,
     blurbKey: "disciplineBlurb" as const,
+    moduleHref: "/guide/officer-learning/progressive-discipline",
+    moduleKey: "readModule2" as const,
   },
   {
     href: "/tools/complaint-vs-grievance",
     titleKey: "diagnosticTitle" as const,
     blurbKey: "diagnosticBlurb" as const,
+    moduleHref: "/guide/officer-learning/contract-enforcement",
+    moduleKey: "readModule1" as const,
   },
 ] as const;
 
@@ -105,6 +111,15 @@ export function StewardGuidesHubBoard() {
             >
               <CardTitle className="text-base">{t(tool.titleKey)}</CardTitle>
               <p className="mt-1 text-sm text-gray-600">{t(tool.blurbKey)}</p>
+              <p className="mt-2 text-xs text-gray-500">
+                {t("moduleHint")}{" "}
+                <Link
+                  href={tool.moduleHref}
+                  className="font-semibold text-opseu-blue underline underline-offset-2"
+                >
+                  {t(tool.moduleKey)}
+                </Link>
+              </p>
               <Link
                 href={tool.href}
                 className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline underline-offset-2"

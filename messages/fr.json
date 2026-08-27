@@ -677,6 +677,13 @@
       "body": "Chaque module se termine par un quiz. Lisez la leçon, puis utilisez Aller au quiz ou faites défiler jusqu'à Autoévaluation. Un score parfait marque le module comme complété sur cet appareil."
     },
     "moduleQuizBadge": "Autoévaluation",
+    "deepen": {
+      "title": "Module du Centre de formation",
+      "body": "Le module {number} approfondit ce guide avec des scénarios, une autoévaluation, des listes de contrôle sur le terrain et des fiches imprimables à emporter en réunion."
+    },
+    "workedScenario": {
+      "label": "Scénario travaillé"
+    },
     "progress": {
       "notStarted": "Non commencé",
       "inProgress": "En cours",
@@ -3031,6 +3038,13 @@
     "title": "Guide pratique d'adhésion",
     "subtitle": "Renforcer la densité par des conversations, des dossiers sécurisés et du matériel à scanner",
     "intro": "Être couvert par une convention n'est pas la même chose qu'être membre signé. Ce guide accompagne les délégués de la première conversation jusqu'à l'accueil et la conservation sécurisée des dossiers.",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
+    "related": {
+      "stewardPlaybooks": "Tous les guides pratiques pour délégués",
+      "officerLearning": "Centre de formation des dirigeants",
+      "steward101": "Délégué 101 : votre rôle et vos droits",
+      "workplaceMapping": "Cartographie du lieu de travail et leaders organiques"
+    },
     "relatedLabel": "Outils et guides connexes",
     "tocLabel": "Sur cette page",
     "why": {
@@ -4018,6 +4032,7 @@
     "title": "Guide du devoir de représentation équitable",
     "subtitle": "Du premier appel du membre au dossier défendable — lois, délais et mises à jour en langage clair",
     "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
     "intro": "Le devoir de représentation équitable (DRE) est l’obligation légale du syndicat de traiter la représentation de chaque membre sans arbitraire, discrimination ni mauvaise foi. La plupart des plaintes devant une commission naissent de délais manqués et du silence, pas de la malveillance. Ce guide accompagne les délégués de l’accueil à l’enquête, aux échéances et aux conversations avec les membres, selon le régime ontarien du secteur privé (LRT), collégial (LNCC) ou fédéral (CTC). Orientation seulement — pas un avis juridique.",
@@ -4026,6 +4041,9 @@
       "body": "Cette page aide les délégués à mener un processus équitable. Elle n’incite pas les membres à déposer une plainte contre le syndicat. Confirmez la procédure avec vos dirigeants locaux et vos conseillers."
     },
     "related": {
+      "steward101": "Délégué 101 : votre rôle et vos droits",
+      "officerLearning": "Centre de formation des dirigeants",
+      "stewardPlaybooks": "Tous les guides pratiques pour délégués",
       "grievance": "Le guide du délégué sur les griefs",
       "seniority": "Guide d’ancienneté et de bumping",
       "rightToRefuse": "Droit de refuser un travail dangereux",
@@ -4289,24 +4307,33 @@
     "sections": {
       "trainingPath": "Parcours de formation",
       "quiz": "Autoévaluations",
-      "playbooks": "Tous les guides"
+      "playbooks": "Tous les guides",
+      "workspaces": "Espaces de pratique"
     },
     "pathSteps": [
       {
-        "label": "Délégué 101",
+        "label": "Steward 101",
         "href": "/guide/steward-101"
       },
       {
-        "label": "Centre de formation des dirigeants",
+        "label": "Centre Formation des dirigeants",
         "href": "/guide/officer-learning"
+      },
+      {
+        "label": "Diagnostic plainte ou grief",
+        "href": "/tools/complaint-vs-grievance"
+      },
+      {
+        "label": "Journal prédisciplinaire",
+        "href": "/tools/pre-disciplinary-log"
+      },
+      {
+        "label": "Retour au travail et adaptation",
+        "href": "/tools/rtw-accommodation"
       },
       {
         "label": "Processus de grief",
         "href": "/guide/grievance-process"
-      },
-      {
-        "label": "Devoir de représentation équitable",
-        "href": "/guide/dfr"
       },
       {
         "label": "Guides thématiques",
@@ -4343,6 +4370,17 @@
       "rightToRefuse": "LSST art. 43, étapes 1 et 2 avec le guide Partie V du ministère.",
       "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
       "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés."
+    },
+    "workspaces": {
+      "title": "Espaces de pratique",
+      "body": "Trois feuilles de travail sur l'appareil reprennent les modules 1 à 3 — admissibilité, rencontre disciplinaire et scripts RAT avant la rencontre avec les RH.",
+      "hubCta": "Ouvrir tous les espaces (Hub des dirigeants)",
+      "diagnosticTitle": "Diagnostic plainte ou grief",
+      "diagnosticBlurb": "Filtre en cinq points, 6 W, feuille FAR et parcours alternatifs quand le score est zéro.",
+      "disciplineTitle": "Journal de rencontre prédisciplinaire",
+      "disciplineBlurb": "Liste des droits, points atténuants et scripts de règlement précoce.",
+      "rtwTitle": "Retour au travail et adaptation",
+      "rtwBlurb": "Référence Meiorin, limites fonctionnelles et scripts RH — pas de diagnostic sur le formulaire."
     }
   },
   "steward101Guide": {
@@ -4377,6 +4415,18 @@
         {
           "label": "Centre de formation des dirigeants",
           "href": "/guide/officer-learning"
+        },
+        {
+          "label": "Diagnostic plainte ou grief",
+          "href": "/tools/complaint-vs-grievance"
+        },
+        {
+          "label": "Journal prédisciplinaire",
+          "href": "/tools/pre-disciplinary-log"
+        },
+        {
+          "label": "Retour au travail et adaptation",
+          "href": "/tools/rtw-accommodation"
         },
         {
           "label": "Cartographie du lieu de travail",
@@ -5046,6 +5096,10 @@
         "discipline": {
           "label": "Journal de rencontre prédisciplinaire",
           "content": "Vérifiez le préavis, la représentation et la divulgation avant l'entrevue."
+        },
+        "rtw": {
+          "label": "Retour au travail et adaptation",
+          "content": "Primauté des droits de la personne, test Meiorin et prise en charge des limites fonctionnelles avant les rencontres RH."
         }
       }
     },
@@ -5061,6 +5115,7 @@
     "subtitle": "Recenser qui travaille où, qui écoute qui, et où investir le temps d'organisation",
     "intro": "La cartographie du lieu de travail, souvent appelée cartographie murale, sert à comprendre la vraie structure de pouvoir. Il ne s'agit pas seulement de savoir qui travaille où. Il s'agit de savoir qui écoute qui.",
     "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
     "sensitive": {
@@ -5071,6 +5126,8 @@
     "downloadHint": "S'ouvre dans Excel ou un autre tableur, sur votre propre appareil.",
     "related": {
       "steward101": "Délégué 101 : votre rôle et vos droits",
+      "officerLearning": "Centre de formation des dirigeants",
+      "stewardPlaybooks": "Tous les guides pratiques pour délégués",
       "membership": "Guide pratique d'adhésion",
       "boards": "Guide des tableaux syndicaux",
       "grievance": "Le guide du délégué sur les griefs",
@@ -5355,6 +5412,7 @@
     "title": "Guide d'ancienneté et de bumping",
     "subtitle": "Feuilles d'ancienneté pour les dossiers de déplacement. Aide seulement.",
     "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
     "intro": "Les dossiers de déplacement reposent sur les dates d'ancienneté, les limites de classification et les règles d'affichage — pas sur l'énergie du débat. Ce guide accompagne les délégués pour comparer deux membres, cartographier des cascades à un ou deux maillons et animer une réunion de comité avec la feuille de travail. Vérifiez chaque règle dans votre convention collective.",
@@ -5363,6 +5421,9 @@
       "body": "Pas une calculatrice et pas un avis juridique. Confirmez dates et droits contre la convention et la pratique locale."
     },
     "related": {
+      "steward101": "Délégué 101 : votre rôle et vos droits",
+      "officerLearning": "Centre de formation des dirigeants",
+      "stewardPlaybooks": "Tous les guides pratiques pour délégués",
       "grievance": "Le guide du délégué sur les griefs",
       "dfr": "Devoir de représentation équitable",
       "rightToRefuse": "Droit de refuser un travail dangereux"
@@ -5560,6 +5621,7 @@
     "title": "Guide pratique des comités conjoints",
     "subtitle": "D'un dossier de campus à une recommandation provinciale — et une note aux membres qu'ils peuvent vraiment utiliser",
     "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
     "intro": "Les comités paritaires syndicat-employeur recommandent ; ils ne négocient pas et n'entendent pas de griefs en direct. Ce guide s'adresse aux bénévoles du côté syndical qui doivent faire remonter un dossier systémique du campus à une table provinciale, garder la stratégie de caucus privée, et expliquer les procès-verbaux signés aux membres sans réhéberger le dossier officiel.",
@@ -5568,6 +5630,8 @@
       "body": "La direction consigne d'habitude les procès-verbaux conjoints. Les deux parties affichent la copie signée. UnionOps aide la préparation du caucus syndical et les notes explicatives aux membres — pas la rédaction des procès-verbaux, pas la connexion employeur, et pas un substitut à votre représentant de service."
     },
     "related": {
+      "stewardPlaybooks": "Tous les guides pratiques pour délégués",
+      "officerLearning": "Centre de formation des dirigeants",
       "grievance": "Le guide du délégué sur les griefs",
       "email": "Courriel et rayonnement",
       "letterhead": "Générateur de documents et de diapositives",
@@ -5828,6 +5892,7 @@
     "title": "Droit de refuser un travail dangereux",
     "subtitle": "Étapes de refus selon la LSST art. 43, pour délégués et CSS. Pas un avis juridique.",
     "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
     "intro": "La LSST art. 43 de l'Ontario donne aux travailleurs une procédure structurée de refus — signalement, enquête de l'employeur, puis inspecteur du ministère si le danger persiste. Ce guide s'adresse aux délégués et aux membres travailleurs du CSS qui doivent appuyer un membre sans confondre grief, travail du CSS sur les dangers et la procédure de refus en cours. Confirmez avec la législation à jour et le guide Partie V du ministère dans les sources ci-dessous.",
@@ -5836,6 +5901,8 @@
       "body": "Aperçu de procédure seulement. Confirmez avec la pratique CSS, les dirigeants locaux et le texte actuel de la LSST."
     },
     "related": {
+      "stewardPlaybooks": "Tous les guides pratiques pour délégués",
+      "officerLearning": "Centre de formation des dirigeants",
       "grievance": "Le guide du délégué sur les griefs",
       "dfr": "Devoir de représentation équitable",
       "seniority": "Guide d'ancienneté et de bumping",
@@ -6147,8 +6214,8 @@
         "body": "Une porte d'entrée unique pour Délégué 101, les autoévaluations du Centre de formation des dirigeants et tous les guides — avec un parcours lié."
       },
       "officer-learning-pocket-pdfs": {
-        "title": "Fiches de poche Formation des dirigeants",
-        "body": "Chaque module inclut une fiche pour la rencontre — droits en discipline, fiche Meiorin, modèle de quorum, piste d'audit et plus."
+        "title": "Formation des dirigeants — scénarios et fiches",
+        "body": "Chaque module propose un scénario travaillé avec cadres « Appliquer » / « Ne pas appliquer », des fiches imprimables pour la rencontre, et des liens depuis le DRE, la cartographie, les comités conjoints et les autres guides pratiques."
       },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",
@@ -6300,7 +6367,7 @@
       },
       "steward-meeting-guides": {
         "title": "Guides de rencontre pour délégués",
-        "body": "Trois espaces de travail sur l'appareil — avec scorecard, feuille FAR, échelle de discipline, copie des scripts et export Markdown ou PDF."
+        "body": "Trois espaces sur l'appareil — diagramme du filtre en cinq points, visuels Meiorin et durcissement, PDF de poche dans chaque outil, et liens de pratique depuis le hub des guides du délégué."
       }
     }
   },
@@ -8826,6 +8893,21 @@
       "workHardening": "Proposez un horaire progressif de durcissement au travail : semaines 1–2 à 15 h, semaines 3–4 à 22,5 h, semaines 5–6 à 30 h, puis heures complètes — lié aux capacités fonctionnelles, pas au diagnostic.",
       "taskBundling": "Proposez un regroupement de tâches dans la classification actuelle pour protéger le salaire d'avant la blessure et le statut dans l'unité de négociation, plutôt qu'une reclassification vers un poste moins payé hors unité.",
       "jointReview": "Proposez une clause de révision conjointe de 30 jours pour tester et ajuster les mesures temporaires sans figer un changement permanent ni déposer encore un grief formel."
+    },
+    "pocketSheetModuleTitle": "Droits de la personne et adaptation",
+    "diagrams": {
+      "meiorinTitle": "Test Meiorin en trois étapes (référence rapide)",
+      "meiorinCaption": "L'employeur doit franchir chaque étape — ouvrez la boîte de dialogue pour le texte complet.",
+      "workHardeningTitle": "Grille progressive de durcissement au travail",
+      "workHardeningCaption": "À proposer quand la CSAAT/ILD est active ; ajuster aux capacités fonctionnelles.",
+      "phase1Label": "Semaines 1–2",
+      "phase1Hours": "15 h",
+      "phase2Label": "Semaines 3–4",
+      "phase2Hours": "22,5 h",
+      "phase3Label": "Semaines 5–6",
+      "phase3Hours": "30 h",
+      "phase4Label": "Ensuite",
+      "phase4Hours": "Heures complètes"
     }
   },
   "preDisciplinaryLog": {
@@ -8919,7 +9001,8 @@
       "provocation": "Une provocation active ou une dynamique toxique doit être prise en compte comme une responsabilité partagée.",
       "personalMedicalDistress": "Des crises médicales ou personnelles documentées doivent orienter vers un soutien et du counseling plutôt que vers la punition.",
       "sincereRemorse": "Des remords sincères et un plan correctif concret appuient une sanction moindre ou un coaching non disciplinaire."
-    }
+    },
+    "pocketSheetModuleTitle": "Discipline progressive"
   },
   "complaintVsGrievance": {
     "title": "Diagnostic plainte ou grief",
@@ -9030,6 +9113,11 @@
       "body": "Le score est 0 — ce n'est pas encore prêt pour un grief. Travaillez les quatre parcours ci-dessous ; l'export inclut les quatre brouillons, sauf si vous restreignez les voies que vous poursuivez.",
       "routesHint": "Facultatif : marquez les voies que vous poursuivez activement pour vos notes. L'aperçu et l'export incluent encore les quatre à score 0.",
       "previewHeading": "Brouillons des parcours (A–D)"
+    },
+    "pocketSheetModuleTitle": "Application de la convention",
+    "diagrams": {
+      "filterTitle": "Filtre d'admissibilité en cinq points",
+      "filterCaption": "Un oui débloque la prise en charge de grief ; score zéro → plan d'action alternatif."
     }
   },
   "stewardGuidesHub": {
@@ -9057,6 +9145,17 @@
     "readModule3": "Module 3 : droits de la personne et adaptation",
     "utilDocGen": "Générateur de documents (prise en charge de grief)",
     "utilSnippets": "Extraits de convention",
-    "utilGrievanceGuide": "Guide du processus de grief"
+    "utilGrievanceGuide": "Guide du processus de grief",
+    "moduleHint": "À lire avec",
+    "workspacesIntro": "Les espaces de pratique enregistrent les notes sur cet appareil seulement."
+  },
+  "stewardGuidesShared": {
+    "pocketSheetDownloading": "Préparation du PDF…",
+    "pocketSheetError": "L'export PDF a échoué — réessayez ou exportez vos notes en PDF.",
+    "pocketSheet": {
+      "far": "Télécharger la fiche FAR de poche",
+      "discipline": "Télécharger la fiche discipline de poche",
+      "meiorin": "Télécharger la fiche Meiorin de poche"
+    }
   }
 }

@@ -242,6 +242,126 @@ interface ProgressiveDisciplineLadderDiagramProps {
   className?: string;
 }
 
+interface FivePointFilterDiagramProps {
+  labels: readonly [string, string, string, string, string];
+  caption?: string;
+  className?: string;
+}
+
+/** Five-point grievance viability filter (matches Officer Learning module 1). */
+export function FivePointFilterDiagram({
+  labels,
+  caption,
+  className,
+}: FivePointFilterDiagramProps) {
+  return (
+    <figure className={cn("space-y-2", className)}>
+      <div
+        className="grid gap-2 sm:grid-cols-5"
+        role="img"
+        aria-label={labels.join("; ")}
+      >
+        {labels.map((label, index) => (
+          <div
+            key={label}
+            className="rounded-lg border-2 border-opseu-blue/30 bg-opseu-blue/5 px-2 py-3 text-center text-xs font-semibold leading-snug text-opseu-dark sm:text-sm"
+          >
+            <span className="mb-1 block text-[0.65rem] uppercase tracking-wide opacity-70">
+              {index + 1}
+            </span>
+            {label}
+          </div>
+        ))}
+      </div>
+      {caption ? (
+        <figcaption className="text-xs text-gray-600">{caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+}
+
+interface MeiorinStepsDiagramProps {
+  steps: readonly [string, string, string];
+  caption?: string;
+  className?: string;
+}
+
+/** Inline Meiorin BFOR three-step test for accommodation meetings. */
+export function MeiorinStepsDiagram({
+  steps,
+  caption,
+  className,
+}: MeiorinStepsDiagramProps) {
+  return (
+    <figure className={cn("space-y-2", className)}>
+      <ol
+        className="grid gap-2 sm:grid-cols-3"
+        aria-label={steps.join("; ")}
+      >
+        {steps.map((label, index) => (
+          <li
+            key={label}
+            className="rounded-lg border-2 border-teal-500/40 bg-teal-50 px-3 py-3 text-center text-xs font-semibold leading-snug text-teal-950 sm:text-sm"
+          >
+            <span className="mb-1 block text-[0.65rem] uppercase tracking-wide opacity-80">
+              {index + 1}
+            </span>
+            {label}
+          </li>
+        ))}
+      </ol>
+      {caption ? (
+        <figcaption className="text-xs text-gray-600">{caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+}
+
+export type WorkHardeningPhase = {
+  label: string;
+  hours: string;
+};
+
+interface RtwWorkHardeningDiagramProps {
+  phases: readonly WorkHardeningPhase[];
+  caption?: string;
+  className?: string;
+}
+
+/** Gradual return schedule grid (15 → 22.5 → 30 → full hours). */
+export function RtwWorkHardeningDiagram({
+  phases,
+  caption,
+  className,
+}: RtwWorkHardeningDiagramProps) {
+  return (
+    <figure className={cn("space-y-2", className)}>
+      <ol
+        className="grid gap-2 sm:grid-cols-4"
+        aria-label={phases.map((p) => `${p.label}: ${p.hours}`).join("; ")}
+      >
+        {phases.map((phase, index) => (
+          <li
+            key={phase.label}
+            className="rounded-lg border-2 border-emerald-500/40 bg-emerald-50 px-2 py-3 text-center"
+          >
+            <p className="text-[0.65rem] font-bold uppercase tracking-wide text-emerald-900/80">
+              {phase.label}
+            </p>
+            <p className="mt-1 text-sm font-semibold text-emerald-950">
+              {phase.hours}
+            </p>
+            <span className="sr-only">Phase {index + 1}</span>
+          </li>
+        ))}
+      </ol>
+      {caption ? (
+        <figcaption className="text-xs text-gray-600">{caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+}
+
 /** Progressive discipline ladder: coaching → termination (Hub pastel tokens). */
 export function ProgressiveDisciplineLadderDiagram({
   steps,

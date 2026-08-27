@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { ContentBlock, ModuleSection } from "@/lib/officer-learning/types";
 import clsx from "clsx";
+import { WorkedScenarioSection } from "./WorkedScenarioSection";
 
 function renderInline(text: string): ReactNode[] {
   const parts: ReactNode[] = [];
@@ -239,38 +240,49 @@ type Props = {
 export function ModuleContentRenderer({ sections, moduleId }: Props) {
   return (
     <div className="space-y-10">
-      {sections.map((section) => (
-        <section key={section.id} id={section.id} className="scroll-mt-32 space-y-4">
-          <h2 className="text-2xl font-bold text-white md:text-3xl">{section.title}</h2>
-          <div className="space-y-4">
-            {section.blocks.map((block, index) => (
-              <BlockRenderer
-                key={`${section.id}-block-${index}`}
-                block={block}
-                checklistKey={`ol-check:${moduleId}:${section.id}:${index}`}
-              />
-            ))}
-          </div>
-          {section.subsections?.map((subsection) => (
-            <div
-              key={subsection.id}
-              id={subsection.id}
-              className="scroll-mt-32 space-y-3 pt-2"
-            >
-              <h3 className="text-xl font-semibold text-teal-200">{subsection.title}</h3>
-              <div className="space-y-4">
-                {subsection.blocks.map((block, index) => (
-                  <BlockRenderer
-                    key={`${subsection.id}-block-${index}`}
-                    block={block}
-                    checklistKey={`ol-check:${moduleId}:${subsection.id}:${index}`}
-                  />
-                ))}
-              </div>
+      {sections.map((section) =>
+        section.id === "worked-scenario" ? (
+          <WorkedScenarioSection
+            key={section.id}
+            section={section}
+            moduleId={moduleId}
+            renderBlock={({ block, checklistKey }) => (
+              <BlockRenderer block={block} checklistKey={checklistKey} />
+            )}
+          />
+        ) : (
+          <section key={section.id} id={section.id} className="scroll-mt-32 space-y-4">
+            <h2 className="text-2xl font-bold text-white md:text-3xl">{section.title}</h2>
+            <div className="space-y-4">
+              {section.blocks.map((block, index) => (
+                <BlockRenderer
+                  key={`${section.id}-block-${index}`}
+                  block={block}
+                  checklistKey={`ol-check:${moduleId}:${section.id}:${index}`}
+                />
+              ))}
             </div>
-          ))}
-        </section>
-      ))}
+            {section.subsections?.map((subsection) => (
+              <div
+                key={subsection.id}
+                id={subsection.id}
+                className="scroll-mt-32 space-y-3 pt-2"
+              >
+                <h3 className="text-xl font-semibold text-teal-200">{subsection.title}</h3>
+                <div className="space-y-4">
+                  {subsection.blocks.map((block, index) => (
+                    <BlockRenderer
+                      key={`${subsection.id}-block-${index}`}
+                      block={block}
+                      checklistKey={`ol-check:${moduleId}:${subsection.id}:${index}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </section>
+        ),
+      )}
     </div>
   );
 }

@@ -67,117 +67,243 @@ async function writeSimplePdf(opts: {
   await saveBlob(pdf.output("blob"), opts.filename);
 }
 
-const EDUCATION_FOOTER =
-  "UnionOps Officer Learning — education only. Confirm every step against your collective agreement. Not legal advice.";
+const EDUCATION_FOOTER = {
+  en: "UnionOps Officer Learning — education only. Confirm every step against your collective agreement. Not legal advice.",
+  fr: "UnionOps Formation des dirigeants — formation seulement. Vérifiez chaque étape avec votre convention collective. Pas un avis juridique.",
+} as const;
+
+export type ReferencePdfLocale = keyof typeof EDUCATION_FOOTER;
 
 type ModulePdfContext = {
   moduleTitle: string;
   localLabel: string;
+  locale?: ReferencePdfLocale;
 };
+
+function resolveLocale(locale?: ReferencePdfLocale): ReferencePdfLocale {
+  return locale ?? "en";
+}
 
 /** Blank FAR sheet for Step 1 meetings (module 1 pocket card). */
 export async function downloadFarSheetPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Feuille FAR — Faits / Argument / Résolution",
+          sections: [
+            {
+              heading: "Faits (quoi s'est passé — dates, personnes, documents)",
+              lines: [
+                "Qui / quand / où (joindre notes) :",
+                "Article ou pratique invoqué :",
+                "Emplacement des preuves (courriel, horaire, témoins) :",
+              ],
+            },
+            {
+              heading: "Argument (pourquoi l'employeur a violé une norme contraignante)",
+              lines: [
+                "Résultat du filtre en 5 points (plainte ou grief) :",
+                "Norme contraignante violée :",
+                "Défense anticipée de l'employeur :",
+              ],
+            },
+            {
+              heading: "Résolution (demande précise et exécutoire)",
+              lines: [
+                "Réparation intégrale demandée :",
+                "Échéance / étape demandée :",
+                "Membre contacté; notes sécurisées :",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "FAR sheet — Facts / Argument / Resolution",
+          sections: [
+            {
+              heading: "Facts (what happened — dates, people, documents)",
+              lines: [
+                "Who / when / where (attach notes):",
+                "Contract article or practice cited:",
+                "Evidence locations (email, time clock, witnesses):",
+              ],
+            },
+            {
+              heading: "Argument (why the employer breached a binding standard)",
+              lines: [
+                "5-point filter result (complaint vs grievance):",
+                "Binding standard violated:",
+                "Employer defence anticipated:",
+              ],
+            },
+            {
+              heading: "Resolution (specific, enforceable WANT)",
+              lines: [
+                "Make-whole remedy requested:",
+                "Deadline / step requested:",
+                "Member contacted; notes secured:",
+              ],
+            },
+          ],
+        };
+
   await writeSimplePdf({
-    title: "FAR sheet — Facts / Argument / Resolution",
+    title: copy.title,
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
-    sections: [
-      {
-        heading: "Facts (what happened — dates, people, documents)",
-        lines: [
-          "Who / when / where (attach notes):",
-          "Contract article or practice cited:",
-          "Evidence locations (email, time clock, witnesses):",
-        ],
-      },
-      {
-        heading: "Argument (why the employer breached a binding standard)",
-        lines: [
-          "5-point filter result (complaint vs grievance):",
-          "Binding standard violated:",
-          "Employer defence anticipated:",
-        ],
-      },
-      {
-        heading: "Resolution (specific, enforceable WANT)",
-        lines: [
-          "Make-whole remedy requested:",
-          "Deadline / step requested:",
-          "Member contacted; notes secured:",
-        ],
-      },
-    ],
+    sections: copy.sections,
     filename: `unionops-far-sheet-${slugPart(opts.moduleTitle)}.pdf`,
-    footer: EDUCATION_FOOTER,
+    footer: EDUCATION_FOOTER[locale],
   });
 }
 
 /** Discipline meeting rights sheet (module 2). */
 export async function downloadDisciplineRightsPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Rencontre disciplinaire — fiche de poche du délégué",
+          sections: [
+            {
+              heading: "Avant la rencontre",
+              lines: [
+                "Préavis raisonnable du caractère disciplinaire donné?",
+                "Le membre connaît ses droits à la représentation?",
+                "Divulgation complète demandée avant les réponses?",
+                "Étapes antérieures de l'échelle documentées?",
+              ],
+            },
+            {
+              heading: "Probes de cause juste",
+              lines: [
+                "Règle prévisible communiquée?",
+                "Enquête avant la sanction?",
+                "Sanction proportionnée à l'infraction et au dossier?",
+                "Facteurs atténuants au dossier?",
+              ],
+            },
+            {
+              heading: "Au dossier",
+              lines: [
+                "Notes prises; le membre ne spécule pas",
+                "Question obéir-maintenant-grever-plus-tard signalée si pertinent",
+                "Lettre de conseil proposée si approprié",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Discipline meeting — steward pocket sheet",
+          sections: [
+            {
+              heading: "Before the meeting",
+              lines: [
+                "Reasonable notice of disciplinary focus given?",
+                "Member knows representation rights?",
+                "Full disclosure requested before answers?",
+                "Prior rungs on ladder documented?",
+              ],
+            },
+            {
+              heading: "Just cause probes",
+              lines: [
+                "Foreseeable rule communicated?",
+                "Investigation before penalty?",
+                "Penalty fits offence and record?",
+                "Mitigating factors on the record?",
+              ],
+            },
+            {
+              heading: "On the record",
+              lines: [
+                "Notes taken; member not speculating",
+                "Obey-now-grieve-later issue flagged if relevant",
+                "Letter of counsel proposed if appropriate",
+              ],
+            },
+          ],
+        };
+
   await writeSimplePdf({
-    title: "Discipline meeting — steward pocket sheet",
+    title: copy.title,
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
-    sections: [
-      {
-        heading: "Before the meeting",
-        lines: [
-          "Reasonable notice of disciplinary focus given?",
-          "Member knows representation rights?",
-          "Full disclosure requested before answers?",
-          "Prior rungs on ladder documented?",
-        ],
-      },
-      {
-        heading: "Just cause probes",
-        lines: [
-          "Foreseeable rule communicated?",
-          "Investigation before penalty?",
-          "Penalty fits offence and record?",
-          "Mitigating factors on the record?",
-        ],
-      },
-      {
-        heading: "On the record",
-        lines: [
-          "Notes taken; member not speculating",
-          "Obey-now-grieve-later issue flagged if relevant",
-          "Letter of counsel proposed if appropriate",
-        ],
-      },
-    ],
+    sections: copy.sections,
     filename: `unionops-discipline-rights-${slugPart(opts.moduleTitle)}.pdf`,
-    footer: EDUCATION_FOOTER,
+    footer: EDUCATION_FOOTER[locale],
   });
 }
 
 /** Meiorin BFOR test worksheet (module 3). */
 export async function downloadMeiorinSheetPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Test Meiorin (EPJ) — fiche d'adaptation",
+          sections: [
+            {
+              heading: "Test Meiorin en trois étapes",
+              lines: [
+                "1. Lien rationnel avec l'exécution du poste?",
+                "2. Adopté de bonne foi?",
+                "3. Impossible d'accommoder sans contrainte excessive?",
+              ],
+            },
+            {
+              heading: "Contrainte excessive — l'employeur doit prouver",
+              lines: [
+                "Coût (avec preuve)",
+                "Financement externe exploré",
+                "Risque pour la santé et la sécurité documenté",
+              ],
+            },
+            {
+              heading: "Pas une contrainte excessive (contester)",
+              lines: [
+                "Moral des collègues ou préférence",
+                "Préférence de la clientèle",
+                "Conflit avec la convention seulement",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Meiorin BFOR test — accommodation worksheet",
+          sections: [
+            {
+              heading: "Meiorin three-step test",
+              lines: [
+                "1. Rational connection to performing the job?",
+                "2. Adopted in honest good faith?",
+                "3. Impossible to accommodate without undue hardship?",
+              ],
+            },
+            {
+              heading: "Undue hardship — employer must prove",
+              lines: [
+                "Cost (with evidence)",
+                "Outside funding explored",
+                "Health and safety risk documented",
+              ],
+            },
+            {
+              heading: "Not undue hardship (push back)",
+              lines: [
+                "Co-worker morale or preference",
+                "Customer preference",
+                "Collective agreement conflict alone",
+              ],
+            },
+          ],
+        };
+
   await writeSimplePdf({
-    title: "Meiorin BFOR test — accommodation worksheet",
+    title: copy.title,
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
-    sections: [
-      {
-        heading: "Meiorin three-step test",
-        lines: [
-          "1. Rational connection to performing the job?",
-          "2. Adopted in honest good faith?",
-          "3. Impossible to accommodate without undue hardship?",
-        ],
-      },
-      {
-        heading: "Undue hardship — employer must prove",
-        lines: ["Cost (with evidence)", "Outside funding explored", "Health and safety risk documented"],
-      },
-      {
-        heading: "Not undue hardship (push back)",
-        lines: [
-          "Co-worker morale or preference",
-          "Customer preference",
-          "Collective agreement conflict alone",
-        ],
-      },
-    ],
+    sections: copy.sections,
     filename: `unionops-meiorin-sheet-${slugPart(opts.moduleTitle)}.pdf`,
-    footer: EDUCATION_FOOTER,
+    footer: EDUCATION_FOOTER[locale],
   });
 }
 
@@ -210,7 +336,7 @@ export async function downloadQuorumMotionPdf(opts: ModulePdfContext): Promise<v
       },
     ],
     filename: `unionops-quorum-motion-${slugPart(opts.moduleTitle)}.pdf`,
-    footer: EDUCATION_FOOTER,
+    footer: EDUCATION_FOOTER.en,
   });
 }
 
@@ -238,7 +364,7 @@ export async function downloadAuditControlsPdf(opts: ModulePdfContext): Promise<
       },
     ],
     filename: `unionops-audit-controls-${slugPart(opts.moduleTitle)}.pdf`,
-    footer: EDUCATION_FOOTER,
+    footer: EDUCATION_FOOTER.en,
   });
 }
 
@@ -273,7 +399,7 @@ export async function downloadEquityClausePdf(opts: ModulePdfContext): Promise<v
       },
     ],
     filename: `unionops-equity-clause-${slugPart(opts.moduleTitle)}.pdf`,
-    footer: EDUCATION_FOOTER,
+    footer: EDUCATION_FOOTER.en,
   });
 }
 
@@ -294,7 +420,7 @@ export async function downloadFloorChecklistPdf(opts: {
       },
     ],
     filename: `unionops-module-${opts.moduleNumber}-checklist-${slugPart(opts.moduleTitle)}.pdf`,
-    footer: EDUCATION_FOOTER,
+    footer: EDUCATION_FOOTER.en,
   });
 }
 

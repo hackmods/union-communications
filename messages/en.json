@@ -677,6 +677,13 @@
       "body": "Each module ends with a quiz. Read the lesson, then use Jump to Quiz or scroll to Self-test. A perfect score marks the module complete on this device."
     },
     "moduleQuizBadge": "Self-test quiz",
+    "deepen": {
+      "title": "Officer Learning module",
+      "body": "Module {number} expands this playbook with scenarios, a self-test, floor checklists, and printable take-to-meeting sheets."
+    },
+    "workedScenario": {
+      "label": "Worked scenario"
+    },
     "progress": {
       "notStarted": "Not started",
       "inProgress": "In progress",
@@ -3031,6 +3038,13 @@
     "title": "Membership signup playbook",
     "subtitle": "Build density with real conversations, safe records, and scan-to-sign materials",
     "intro": "Coverage under a CA is not the same as a signed member. This playbook walks stewards from the first conversation through safe record-keeping and welcome materials.",
+    "backToPlaybooks": "All steward playbooks",
+    "related": {
+      "stewardPlaybooks": "All steward playbooks",
+      "officerLearning": "Officer Learning Center",
+      "steward101": "Steward 101: Your Role and Rights",
+      "workplaceMapping": "Workplace mapping & organic leaders"
+    },
     "relatedLabel": "Tools & related guides",
     "tocLabel": "On this page",
     "why": {
@@ -4068,6 +4082,7 @@
     "title": "Duty of Fair Representation playbook",
     "subtitle": "From first member call to a defensible file — statutes, clocks, and plain-language member updates",
     "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
     "intro": "Duty of fair representation (DFR) is the union’s legal duty to handle each member’s representation without arbitrariness, discrimination, or bad faith. Most board complaints grow from missed clocks and silence, not malice. This playbook walks stewards through intake, investigation, deadlines, and member conversations across Ontario private sector (LRA), college (CCBA), and federal (CLC) regimes. Orientation only — not legal advice.",
@@ -4076,6 +4091,9 @@
       "body": "This page helps stewards run a fair process. It does not coach members to file against the union. Confirm procedure with your local officers and counsel."
     },
     "related": {
+      "steward101": "Steward 101: Your Role and Rights",
+      "officerLearning": "Officer Learning Center",
+      "stewardPlaybooks": "All steward playbooks",
       "grievance": "The Steward's Guide to Grievances",
       "seniority": "Seniority & bumping playbook",
       "rightToRefuse": "Right to refuse unsafe work",
@@ -4339,14 +4357,38 @@
     "sections": {
       "trainingPath": "Training path",
       "quiz": "Self-tests",
-      "playbooks": "All playbooks"
+      "playbooks": "All playbooks",
+      "workspaces": "Practice workspaces"
     },
     "pathSteps": [
-      { "label": "Steward 101", "href": "/guide/steward-101" },
-      { "label": "Officer Learning Center", "href": "/guide/officer-learning" },
-      { "label": "Grievance process", "href": "/guide/grievance-process" },
-      { "label": "Duty of Fair Representation", "href": "/guide/dfr" },
-      { "label": "Topic playbooks", "href": "#playbooks" }
+      {
+        "label": "Steward 101",
+        "href": "/guide/steward-101"
+      },
+      {
+        "label": "Officer Learning Center",
+        "href": "/guide/officer-learning"
+      },
+      {
+        "label": "Complaint diagnostic",
+        "href": "/tools/complaint-vs-grievance"
+      },
+      {
+        "label": "Pre-disciplinary log",
+        "href": "/tools/pre-disciplinary-log"
+      },
+      {
+        "label": "RTW & accommodation",
+        "href": "/tools/rtw-accommodation"
+      },
+      {
+        "label": "Grievance process",
+        "href": "/guide/grievance-process"
+      },
+      {
+        "label": "Topic playbooks",
+        "href": "#playbooks"
+      }
     ],
     "quizCallout": {
       "title": "Where the self-tests live",
@@ -4378,6 +4420,17 @@
       "rightToRefuse": "OHSA s.43 stage 1 and 2 with ministry Part V guide.",
       "seniority": "Two cascade examples and a printable seniority worksheet.",
       "jointCommittee": "Campus → caucus → table → member note after signed minutes."
+    },
+    "workspaces": {
+      "title": "Practice workspaces",
+      "body": "Three on-device worksheets mirror Officer Learning modules 1–3 — score eligibility, log discipline meetings, and draft RTW scripts before you walk into HR.",
+      "hubCta": "Open all workspaces (Officer Hub)",
+      "diagnosticTitle": "Complaint vs grievance diagnostic",
+      "diagnosticBlurb": "Five-point filter, 6 W's, FAR sheet, and alternate pathways when the score is zero.",
+      "disciplineTitle": "Pre-disciplinary meeting log",
+      "disciplineBlurb": "Rights checklist, mitigator talking points, and early-resolution scripts.",
+      "rtwTitle": "Return-to-work & accommodation",
+      "rtwBlurb": "Meiorin reference, functional limits, and HR email scripts — no diagnosis on the form."
     }
   },
   "steward101Guide": {
@@ -4405,12 +4458,42 @@
       "title": "Steward training path",
       "intro": "Work through these playbooks in order while you wait for local or national steward school.",
       "steps": [
-        { "label": "Steward 101", "href": "/guide/steward-101" },
-        { "label": "Officer Learning Center", "href": "/guide/officer-learning" },
-        { "label": "Workplace mapping", "href": "/guide/workplace-mapping" },
-        { "label": "Grievance process", "href": "/guide/grievance-process" },
-        { "label": "Duty of Fair Representation", "href": "/guide/dfr" },
-        { "label": "All steward playbooks", "href": "/guide/steward-playbooks" }
+        {
+          "label": "Steward 101",
+          "href": "/guide/steward-101"
+        },
+        {
+          "label": "Officer Learning Center",
+          "href": "/guide/officer-learning"
+        },
+        {
+          "label": "Complaint diagnostic",
+          "href": "/tools/complaint-vs-grievance"
+        },
+        {
+          "label": "Pre-disciplinary log",
+          "href": "/tools/pre-disciplinary-log"
+        },
+        {
+          "label": "RTW & accommodation",
+          "href": "/tools/rtw-accommodation"
+        },
+        {
+          "label": "Workplace mapping",
+          "href": "/guide/workplace-mapping"
+        },
+        {
+          "label": "Grievance process",
+          "href": "/guide/grievance-process"
+        },
+        {
+          "label": "Duty of Fair Representation",
+          "href": "/guide/dfr"
+        },
+        {
+          "label": "All steward playbooks",
+          "href": "/guide/steward-playbooks"
+        }
       ]
     },
     "diagrams": {
@@ -5063,6 +5146,10 @@
         "discipline": {
           "label": "Pre-disciplinary meeting log",
           "content": "Check notice, representation, and disclosure before the interview deepens."
+        },
+        "rtw": {
+          "label": "Return-to-work & accommodation",
+          "content": "Human-rights primacy, Meiorin test, and functional-limits intake before HR meetings."
         }
       }
     },
@@ -5078,6 +5165,7 @@
     "subtitle": "Chart who works where, who listens to whom, and where to spend organizing time",
     "intro": "Workplace mapping, often called wall charting, is how you understand the real power structure of your workplace. It is not only who works where. It is who listens to whom.",
     "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
     "sensitive": {
@@ -5088,6 +5176,8 @@
     "downloadHint": "Opens in Excel or another spreadsheet app on your own device.",
     "related": {
       "steward101": "Steward 101: Your Role and Rights",
+      "officerLearning": "Officer Learning Center",
+      "stewardPlaybooks": "All steward playbooks",
       "membership": "Membership signup playbook",
       "boards": "Union Boards Guide",
       "grievance": "The Steward's Guide to Grievances",
@@ -5372,6 +5462,7 @@
     "title": "Seniority & bumping playbook",
     "subtitle": "Seniority worksheets for bumping files. Aid only.",
     "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
     "intro": "Bumping files turn on seniority dates, classification boundaries, and posting rules — not debate energy. This playbook walks stewards through comparing two members, mapping one- and two-step cascades, and running a committee meeting with the worksheet. Verify every rule against your CA.",
@@ -5380,6 +5471,9 @@
       "body": "Not a calculator and not legal advice. Confirm dates and rights against the CA and local practice."
     },
     "related": {
+      "steward101": "Steward 101: Your Role and Rights",
+      "officerLearning": "Officer Learning Center",
+      "stewardPlaybooks": "All steward playbooks",
       "grievance": "The Steward's Guide to Grievances",
       "dfr": "Duty of Fair Representation",
       "rightToRefuse": "Right to refuse unsafe work"
@@ -5577,6 +5671,7 @@
     "title": "Joint committee playbook",
     "subtitle": "From a campus issue to a provincial table recommendation — and a member note members can actually use",
     "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
     "intro": "Joint labour-management committees recommend; they do not bargain and they do not hear live grievances. This playbook is for union-side volunteers who need to move a system-wide issue from campus to a provincial table, keep caucus strategy private, and explain signed minutes to members without re-hosting the official record.",
@@ -5585,6 +5680,8 @@
       "body": "Management usually records joint minutes. Both parties post the signed copy. UnionOps helps with union caucus prep and member explainers — not minute-taking, not employer login, and not a substitute for your servicing rep."
     },
     "related": {
+      "stewardPlaybooks": "All steward playbooks",
+      "officerLearning": "Officer Learning Center",
       "grievance": "The Steward's Guide to Grievances",
       "email": "Email & outreach",
       "letterhead": "Document & Slide Generator",
@@ -5845,6 +5942,7 @@
     "title": "Right to refuse unsafe work",
     "subtitle": "OHSA s.43 refusal steps for stewards and JHSC members. Not legal advice.",
     "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
     "intro": "Ontario OHSA s.43 gives workers a structured refusal path — report, employer investigation, then ministry inspector if the danger persists. This playbook is for stewards and JHSC worker members who need to support a member without mixing up grievance, JHSC hazard work, and the live refusal procedure. Confirm against current legislation and the ministry Part V guide in the sources below.",
@@ -5853,6 +5951,8 @@
       "body": "Procedure overview only. Confirm with JHSC practice, local officers, and current OHSA text."
     },
     "related": {
+      "stewardPlaybooks": "All steward playbooks",
+      "officerLearning": "Officer Learning Center",
       "grievance": "The Steward's Guide to Grievances",
       "dfr": "Duty of Fair Representation",
       "seniority": "Seniority & bumping playbook",
@@ -6164,8 +6264,8 @@
         "body": "One front door for Steward 101, Officer Learning self-tests, and every floor playbook — with a linked training path diagram."
       },
       "officer-learning-pocket-pdfs": {
-        "title": "Officer Learning pocket PDFs",
-        "body": "Each module now includes a take-to-meeting sheet — discipline rights, Meiorin worksheet, quorum template, audit trail, and more."
+        "title": "Officer Learning — scenarios and pocket sheets",
+        "body": "Each module now has a worked scenario with Apply/Don't apply frames, printable take-to-meeting sheets, and matching links from DFR, mapping, committee, and other floor playbooks."
       },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",
@@ -6317,7 +6417,7 @@
       },
       "steward-meeting-guides": {
         "title": "Steward meeting guides",
-        "body": "Three on-device workspaces — now with a viability scorecard, FAR sheet, discipline ladder, copyable scripts, and Markdown or PDF export."
+        "body": "Three on-device workspaces — five-point filter diagram, Meiorin and work-hardening visuals, pocket PDFs in each tool, and practice links from the steward playbooks hub."
       }
     }
   },
@@ -8793,7 +8893,22 @@
       "clear": "Clear draft",
       "printChecklist": "Print checklist"
     },
-    "saveFailed": "Notes may not have saved on this browser. Export a PDF before you leave."
+    "saveFailed": "Notes may not have saved on this browser. Export a PDF before you leave.",
+    "pocketSheetModuleTitle": "Human Rights & Accommodation",
+    "diagrams": {
+      "meiorinTitle": "Meiorin three-step test (quick reference)",
+      "meiorinCaption": "Employer must clear every step — open the dialog for full wording.",
+      "workHardeningTitle": "Gradual work-hardening grid",
+      "workHardeningCaption": "Propose when WSIB/LTD is active; adjust to functional abilities.",
+      "phase1Label": "Weeks 1–2",
+      "phase1Hours": "15 hrs",
+      "phase2Label": "Weeks 3–4",
+      "phase2Hours": "22.5 hrs",
+      "phase3Label": "Weeks 5–6",
+      "phase3Hours": "30 hrs",
+      "phase4Label": "Then",
+      "phase4Hours": "Full hours"
+    }
   },
   "preDisciplinaryLog": {
     "title": "Pre-disciplinary meeting log",
@@ -8886,7 +9001,8 @@
       "suspension": "Suspension",
       "termination": "Termination",
       "moduleLink": "Officer Learning module: progressive discipline"
-    }
+    },
+    "pocketSheetModuleTitle": "Progressive Discipline"
   },
   "complaintVsGrievance": {
     "title": "Complaint vs grievance diagnostic",
@@ -8997,6 +9113,11 @@
       "grievanceGuide": "Grievance process guide",
       "snippets": "CA snippets (Hub)",
       "caFinder": "Find your collective agreement"
+    },
+    "pocketSheetModuleTitle": "Contract Enforcement",
+    "diagrams": {
+      "filterTitle": "Five-point eligibility filter",
+      "filterCaption": "Score yes on any point to unlock grievance intake; zero points → alternate action plan."
     }
   },
   "stewardGuidesHub": {
@@ -9023,6 +9144,18 @@
     "utilStewardPlaybooks": "Steward playbooks hub",
     "utilDocGen": "Document Generator (grievance intake)",
     "utilSnippets": "CA snippets",
-    "utilGrievanceGuide": "Grievance process guide"
+    "utilGrievanceGuide": "Grievance process guide",
+    "readModule3": "Module 3: human rights & accommodation",
+    "moduleHint": "Pair with",
+    "workspacesIntro": "Practice workspaces save notes on this device only."
+  },
+  "stewardGuidesShared": {
+    "pocketSheetDownloading": "Preparing PDF…",
+    "pocketSheetError": "PDF export failed — try again or use Export PDF on your notes.",
+    "pocketSheet": {
+      "far": "Download FAR pocket sheet",
+      "discipline": "Download discipline pocket sheet",
+      "meiorin": "Download Meiorin pocket sheet"
+    }
   }
 }
