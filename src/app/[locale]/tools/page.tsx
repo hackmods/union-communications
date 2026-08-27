@@ -62,7 +62,7 @@ export default async function ToolsIndexPage({
       </header>
 
       <div className="mt-8 lg:mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(16rem,20rem)] lg:items-start lg:gap-10 xl:gap-12">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 xl:gap-10">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:gap-8">
           {groups.map((group) => (
             <section
               key={group.labelKey}

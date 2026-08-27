@@ -55,10 +55,9 @@
     "jointCommitteeGuide": "Comité conjoint",
     "bargainingGuide": "Cycle de négociation",
     "learnGroupGuides": "Pour commencer",
-    "learnGroupStewardPlaybooks": "Guides pratiques pour délégués",
+    "learnGroupStewardWork": "Travail des délégués",
     "learnGroupChannels": "Par canal",
-    "learnGroupLibraries": "Bibliothèques",
-    "learnGroupAbout": "À propos",
+    "learnGroupLibraries": "Bibliothèques et à propos",
     "install": "Installer comme appli",
     "toolsGroupBrand": "Marque",
     "toolsGroupBoards": "Tableaux syndicaux",
@@ -6625,6 +6624,10 @@
       "proposal-tracker": {
         "title": "Suivi des propositions — gardez la stratégie sur votre appareil",
         "body": "Suivez les articles, propositions syndicales et contre-propositions dans un tableau sur ce navigateur. Exportez en CSV vers une clé USB après chaque séance."
+      },
+      "guides-tools-menu-ia": {
+        "title": "Menus Guides et Outils plus clairs",
+        "body": "Les Guides mènent maintenant par Pour commencer, Travail des délégués, Par canal, et Bibliothèques et à propos — ouvrez Guides pratiques pour délégués pour chaque guide de plancher. Les Outils gardent cinq groupes de tâches, dont Préparation des délégués."
       }
     }
   },

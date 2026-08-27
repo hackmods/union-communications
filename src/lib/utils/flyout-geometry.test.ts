@@ -61,15 +61,15 @@ function place(
 }
 
 describe("preferredToolsMegaMenuWidth", () => {
-  it("keeps lg/xl panels 2-col compact, 4-col only at 2xl", () => {
+  it("steps 2-col → 3-col → 5-col for five tool job groups", () => {
     expect(preferredToolsMegaMenuWidth(1024)).toBe(28 * 16);
     expect(preferredToolsMegaMenuWidth(1279)).toBe(28 * 16);
-    expect(preferredToolsMegaMenuWidth(1280)).toBe(36 * 16);
-    expect(preferredToolsMegaMenuWidth(1535)).toBe(36 * 16);
-    expect(preferredToolsMegaMenuWidth(1536)).toBe(52 * 16);
+    expect(preferredToolsMegaMenuWidth(1280)).toBe(44 * 16);
+    expect(preferredToolsMegaMenuWidth(1535)).toBe(44 * 16);
+    expect(preferredToolsMegaMenuWidth(1536)).toBe(64 * 16);
     expect(navMegaMenuColumnCount(1024)).toBe(2);
-    expect(navMegaMenuColumnCount(1440)).toBe(2);
-    expect(navMegaMenuColumnCount(1536)).toBe(4);
+    expect(navMegaMenuColumnCount(1440)).toBe(3);
+    expect(navMegaMenuColumnCount(1536)).toBe(5);
   });
 
   it("never prefers a width wider than a medium desktop minus gutters", () => {
@@ -136,7 +136,7 @@ describe("clampFlyoutToViewport", () => {
     const vw = 1920;
     const trigger = typicalToolsTrigger(vw);
     const box = place(vw, trigger);
-    expect(box.width).toBe(52 * 16);
+    expect(box.width).toBe(64 * 16);
     expect(box.left).toBe(trigger.right - box.width);
   });
 
@@ -203,10 +203,12 @@ describe("Nav mega-menu source stays clamped", () => {
     expect(GUIDES_MENU_WIDTH_PX).toBe(NAV_MEGA_MENU.fallbackWidthPx);
   });
 
-  it("uses 2 columns until 2xl (not xl:grid-cols-4)", () => {
+  it("uses 2 → 3 → 5 columns (not a hard-coded 4-col mega)", () => {
     const tokens = NAV_MEGA_MENU_GRID_CLASS.split(/\s+/);
     expect(tokens).toContain("grid-cols-2");
-    expect(tokens).toContain("2xl:grid-cols-4");
+    expect(tokens).toContain("xl:grid-cols-3");
+    expect(tokens).toContain("2xl:grid-cols-5");
     expect(tokens).not.toContain("xl:grid-cols-4");
+    expect(tokens).not.toContain("2xl:grid-cols-4");
   });
 });

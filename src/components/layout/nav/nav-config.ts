@@ -53,10 +53,9 @@ export type NavLinkKey =
 
 export type NavGroupLabelKey =
   | "learnGroupGuides"
-  | "learnGroupStewardPlaybooks"
+  | "learnGroupStewardWork"
   | "learnGroupChannels"
   | "learnGroupLibraries"
-  | "learnGroupAbout"
   | "toolsGroupBrand"
   | "toolsGroupBoards"
   | "toolsGroupPrint"
@@ -76,32 +75,28 @@ export type NavGroup = {
 /** Top-level label key for the Guides disclosure (was Learn). */
 export const guidesMenuLabelKey = "guides" as const;
 
+/**
+ * Guides ▾ mega-menu — hub-first. Topic playbooks (grievance, DFR, bylaws, …)
+ * live on `/guide/steward-playbooks` + Resources, not as mega-menu columns.
+ */
 export const learnGroups: readonly NavGroup[] = [
   {
     labelKey: "learnGroupGuides",
     links: [
       { href: "/guide", key: "guide" },
-      { href: "/guide/steward-playbooks", key: "stewardPlaybooksHub" },
       { href: "/guide/social-media-plan", key: "firstWeek" },
       { href: "/guide/resources", key: "resources" },
       { href: "/guide/workshop", key: "workshopGuide" },
-      { href: "/guide/bargaining", key: "bargainingGuide" },
-      { href: "/guide/crisis", key: "strikeGuide" },
     ],
   },
   {
-    labelKey: "learnGroupStewardPlaybooks",
+    labelKey: "learnGroupStewardWork",
     links: [
+      { href: "/guide/steward-playbooks", key: "stewardPlaybooksHub" },
       { href: "/guide/steward-101", key: "steward101Guide" },
       { href: "/guide/officer-learning", key: "officerLearningGuide" },
-      { href: "/guide/workplace-mapping", key: "workplaceMappingGuide" },
-      { href: "/guide/grievance-process", key: "grievanceProcessGuide" },
-      { href: "/guide/dfr", key: "dfrGuide" },
-      { href: "/guide/membership-signup", key: "membershipSignupGuide" },
-      { href: "/guide/right-to-refuse", key: "rightToRefuseGuide" },
-      { href: "/guide/seniority-bumping", key: "seniorityGuide" },
-      { href: "/guide/joint-committee", key: "jointCommitteeGuide" },
-      { href: "/guide/bylaws", key: "bylawsGuide" },
+      { href: "/guide/bargaining", key: "bargainingGuide" },
+      { href: "/guide/crisis", key: "strikeGuide" },
     ],
   },
   {
@@ -120,11 +115,6 @@ export const learnGroups: readonly NavGroup[] = [
       { href: "/examples", key: "socialExamples" },
       { href: "/captions", key: "captions" },
       { href: "/guide/photo-consent", key: "photoConsent" },
-    ],
-  },
-  {
-    labelKey: "learnGroupAbout",
-    links: [
       { href: "/assets", key: "assets" },
       { href: "/updates", key: "whatsNew" },
       { href: "/manifesto", key: "manifesto" },

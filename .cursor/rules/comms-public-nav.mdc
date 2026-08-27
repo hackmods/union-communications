@@ -14,25 +14,26 @@ Brand Kit is the Comms home base (colours, logo, local number, links). First wee
 
 ## Header Guides menu (keep this shape)
 
-Four groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups` (trigger label **Guides**):
+Four groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups` (trigger label **Guides**). **Hub-first:** topic labour playbooks (grievance, DFR, bylaws, membership, workplace mapping, RTR, seniority, joint committee) are **not** mega-menu links — they live on `/guide/steward-playbooks` (+ Resources / Blueprint strips).
 
-1. **Start here** — The Blueprint (`/guide`), First week (`/guide/social-media-plan`), Comms Resources (`/guide/resources`), Workshop outline (`/guide/workshop`), Strike Guide (`/guide/crisis`)
-2. **By channel** — Print Guide (`/guide/print`), Union Boards Guide, Website Guide, Email & outreach (`/guide/email-broadcast`), Short-form video (`/guide/short-form`), Membership signup (`/guide/membership-signup`)
-3. **Libraries** — Social Examples, Captions, Photo Consent (`/guide/photo-consent`)
-4. **About** — Brand Assets (`/assets`), What's new (`/updates`), Built in solidarity (`/manifesto`), Install as an app (`/install`)
+1. **Start here** — The Blueprint (`/guide`), First week (`/guide/social-media-plan`), Comms Resources (`/guide/resources`), Workshop outline (`/guide/workshop`)
+2. **Steward work** — Steward playbooks hub (`/guide/steward-playbooks`), Steward 101, Officer Learning Center, Bargaining lifecycle, Strike Guide
+3. **By channel** — Print Guide, Union Boards Guide, Website Guide, Email & outreach, Short-form video
+4. **Libraries & about** — Social Examples, Captions, Photo Consent, Brand Assets, What's new, Built in solidarity, Install as an app
 
-Do not re-flatten channel guides into a long top-level link bar. Do not invent marketing routes (`/about`, `/pricing`, `/blog`) unless product expands.
+Do not re-flatten channel guides into a long top-level link bar. Do not invent marketing routes (`/about`, `/pricing`, `/blog`) unless product expands. Do not dump every new topic playbook into the mega-menu — add it to the Steward playbooks hub instead.
 
 ## Header Tools menu (keep this shape)
 
-Four groups in `nav-config.ts` `toolGroups` (mega-menu columns). Group by **job** (what the steward is making), not by First week channel. Lesson: [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../../docs/audit/session-knowledge-2026-08-18-tools-catalog-ia.md). Visual 4-col only at `2xl`; lg/xl stay 2-col and the panel is viewport-clamped (`flyout-geometry.ts`) so it cannot run off medium desktops.
+Five groups in `nav-config.ts` `toolGroups` (mega-menu columns). Group by **job** (what the steward is making), not by First week channel. Lesson: [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../../docs/audit/session-knowledge-2026-08-18-tools-catalog-ia.md) (four Comms jobs + Steward prep). Visual grid: 2-col → `xl` 3-col → `2xl` 5-col; panel is viewport-clamped (`flyout-geometry.ts`).
 
 1. **Brand** — Logo Builder, Resizer, Document & Slide Generator
 2. **Union boards** — Board Banner & Trim, Board Notice Maker, Solidarity Posters, QR Board Posters, Org Chart
 3. **Print & cards** — Flyer Maker, QR Link Cards, Action Cards, Pulse Poll (Hub-signed-in only)
 4. **Social & web** — Graphic Maker, Quote Card, Meeting Backgrounds, Website Template, Alt-Text Assistant
+5. **Steward prep** — RTW & accommodation, Pre-disciplinary log, Complaint vs grievance, Bylaw Builder, Proposal Tracker
 
-Footer row in the mega-menu: **All tools** → `/tools` index. Do not re-flatten Tools into a single ungrouped list. Keep one **Tools ▾** trigger — do not add extra top-level tool links.
+Footer row in the mega-menu: **All tools** → `/tools` index. Do not re-flatten Tools into a single ungrouped list. Keep one **Tools ▾** trigger — do not add extra top-level tool links. Prefer extending an existing job group over inventing a sixth mega-menu column.
 
 ## Footer
 
@@ -40,7 +41,7 @@ Include Tools (`/tools`), Print Guide, **Email & outreach**, Blueprint / Example
 
 ## Brand Assets
 
-`/assets` lives under Guides → About and in the footer. Brand Kit may still link Brand Assets on-page.
+`/assets` lives under Guides → Libraries & about and in the footer. Brand Kit may still link Brand Assets on-page.
 
 ## Auth chrome (session-aware)
 

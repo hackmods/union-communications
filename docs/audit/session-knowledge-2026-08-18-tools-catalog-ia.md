@@ -89,6 +89,14 @@ Any regroup touches **all** of:
 
 ---
 
+## Update 2026-08-27 — Steward prep + flyout columns
+
+A fifth job group **Steward prep** (RTW, pre-disciplinary log, complaint vs grievance, Bylaw Builder, Proposal Tracker) shipped after this lesson. Prefer extending that group over inventing a sixth mega-menu column.
+
+Mega-menu grid is now **2 → xl 3 → 2xl 5** (`NAV_MEGA_MENU` / `NAV_MEGA_MENU_GRID_CLASS`), not `2xl:grid-cols-4`. Guides ▾ is hub-first (topic playbooks on `/guide/steward-playbooks`); see [`.cursor/rules/comms-public-nav.mdc`](../../.cursor/rules/comms-public-nav.mdc).
+
+---
+
 ## Same day: Share Kit folded (2026-08-18)
 
 Share Kit v0 was a workshop orchestrator (preset picker + links to Graphic Maker / Captions / Resizer). Graphic Maker already has the same four `TOOL_PRESETS` buttons and related-tool links. The catalog item was removed; `/:locale/tools/share-kit/` permanently redirects to Graphic Maker (`?preset=` preserved). Do not rebuild a third social canvas.

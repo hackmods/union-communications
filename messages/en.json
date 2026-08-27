@@ -55,10 +55,9 @@
     "jointCommitteeGuide": "Joint committee",
     "bargainingGuide": "Bargaining lifecycle",
     "learnGroupGuides": "Start here",
-    "learnGroupStewardPlaybooks": "Steward playbooks",
+    "learnGroupStewardWork": "Steward work",
     "learnGroupChannels": "By channel",
-    "learnGroupLibraries": "Libraries",
-    "learnGroupAbout": "About",
+    "learnGroupLibraries": "Libraries & about",
     "install": "Install as an app",
     "toolsGroupBrand": "Brand",
     "toolsGroupBoards": "Union boards",
@@ -6675,6 +6674,10 @@
       "proposal-tracker": {
         "title": "Proposal Tracker — keep strategy on your device",
         "body": "Track articles, union proposals, and employer counters in a spreadsheet on this browser. Export CSV to a USB drive after each session."
+      },
+      "guides-tools-menu-ia": {
+        "title": "Clearer Guides and Tools menus",
+        "body": "Guides now lead with Start here, Steward work, By channel, and Libraries & about — open Steward playbooks for every floor guide. Tools keep five job groups, including Steward prep."
       }
     }
   },

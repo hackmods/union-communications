@@ -1,5 +1,12 @@
 # Progress Log
 
+## Guides & Tools menu IA (2026-08-27)
+
+- [x] Guides mega-menu hub-first: Start here / Steward work / By channel / Libraries & about — topic playbooks stay on `/guide/steward-playbooks`
+- [x] Tools keep five job groups; mega-menu + `/tools` grid 2 → 3 → 5 columns (`flyout-geometry`)
+- [x] Synced `comms-public-nav.mdc` + `COMMS.md`; What's new `guides-tools-menu-ia`
+- Verify: `npm run test:unit -- src/components/layout/nav/nav-config.test.ts src/lib/utils/flyout-geometry.test.ts src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts`
+
 ## Labour guide chrome + CI smoke (2026-08-27)
 
 - [x] Steward playbooks: unique Officer Learning CTA label; shared `guideCtaClasses` (no `Link>Button`)

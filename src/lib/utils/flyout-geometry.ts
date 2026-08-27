@@ -23,12 +23,14 @@ export type FlyoutBox = {
 export type MegaMenuWidthStep = {
   minViewport: number;
   widthPx: number;
-  columns: 2 | 4;
+  columns: 2 | 3 | 5;
 };
 
 /**
  * Preferred Guides / Tools mega-menu size by Tailwind breakpoint.
- * 4 visual columns only at 2xl — lg/xl stay 2-col so the panel fits laptops.
+ * Tools has five job groups; Guides has four hub-first columns. Use the same
+ * stepped grid (2 → 3 → 5) so Steward prep is not an orphan wrap at 2xl.
+ * lg stays 2-col so the panel fits laptops.
  */
 export const NAV_MEGA_MENU = {
   gutterPx: 16,
@@ -36,8 +38,8 @@ export const NAV_MEGA_MENU = {
   maxHeightPx: 40 * 16,
   maxHeightVh: 0.8,
   widthSteps: [
-    { minViewport: 1536, widthPx: 52 * 16, columns: 4 },
-    { minViewport: 1280, widthPx: 36 * 16, columns: 2 },
+    { minViewport: 1536, widthPx: 64 * 16, columns: 5 },
+    { minViewport: 1280, widthPx: 44 * 16, columns: 3 },
     { minViewport: 1024, widthPx: 28 * 16, columns: 2 },
   ] as const satisfies readonly MegaMenuWidthStep[],
   fallbackWidthPx: 20 * 16,
@@ -49,7 +51,7 @@ export const TOOLS_MEGA_MENU = NAV_MEGA_MENU;
 
 /** Inner mega-menu grid — keep in sync with `navMegaMenuColumnCount`. */
 export const NAV_MEGA_MENU_GRID_CLASS =
-  "grid grid-cols-2 gap-x-4 gap-y-5 p-4 2xl:grid-cols-4";
+  "grid grid-cols-2 gap-x-4 gap-y-5 p-4 xl:grid-cols-3 2xl:grid-cols-5";
 
 /** @deprecated Prefer NAV_MEGA_MENU_GRID_CLASS. */
 export const TOOLS_MEGA_MENU_GRID_CLASS = NAV_MEGA_MENU_GRID_CLASS;
@@ -82,7 +84,7 @@ export function preferredNavMegaMenuWidth(viewportWidth: number): number {
   return NAV_MEGA_MENU.fallbackWidthPx;
 }
 
-export function navMegaMenuColumnCount(viewportWidth: number): 2 | 4 {
+export function navMegaMenuColumnCount(viewportWidth: number): 2 | 3 | 5 {
   for (const step of NAV_MEGA_MENU.widthSteps) {
     if (viewportWidth >= step.minViewport) return step.columns;
   }
@@ -90,7 +92,7 @@ export function navMegaMenuColumnCount(viewportWidth: number): 2 | 4 {
 }
 
 /** @deprecated Prefer navMegaMenuColumnCount. */
-export function toolsMegaMenuColumnCount(viewportWidth: number): 2 | 4 {
+export function toolsMegaMenuColumnCount(viewportWidth: number): 2 | 3 | 5 {
   return navMegaMenuColumnCount(viewportWidth);
 }
 

@@ -39,46 +39,36 @@ describe("path helpers", () => {
     expect(isLearnPath("/manifesto")).toBe(true);
     expect(isLearnPath("/updates")).toBe(true);
     expect(isLearnPath("/install")).toBe(true);
+    expect(isLearnPath("/guide/grievance-process")).toBe(true);
     expect(isLearnPath("/tools/logo-builder")).toBe(false);
     expect(isToolsPath("/tools")).toBe(true);
     expect(isToolsPath("/tools/flyer-maker")).toBe(true);
     expect(isToolsPath("/guide")).toBe(false);
   });
 
-  it("orders Start here as Blueprint, First week, then Comms Resources", () => {
+  it("orders Start here as Blueprint, First week, Resources, Workshop", () => {
     const guides = learnGroups.find((g) => g.labelKey === "learnGroupGuides");
     expect(guides?.links.map((l) => l.href)).toEqual([
       "/guide",
-      "/guide/steward-playbooks",
       "/guide/social-media-plan",
       "/guide/resources",
       "/guide/workshop",
-      "/guide/bargaining",
-      "/guide/crisis",
     ]);
   });
 
-  it("puts Membership signup under Steward playbooks, not By channel", () => {
+  it("keeps Steward work as hub-first entry points only", () => {
     const steward = learnGroups.find(
-      (g) => g.labelKey === "learnGroupStewardPlaybooks",
+      (g) => g.labelKey === "learnGroupStewardWork",
     );
     const channels = learnGroups.find(
       (g) => g.labelKey === "learnGroupChannels",
     );
-    const libraries = learnGroups.find(
-      (g) => g.labelKey === "learnGroupLibraries",
-    );
     expect(steward?.links.map((l) => l.href)).toEqual([
+      "/guide/steward-playbooks",
       "/guide/steward-101",
       "/guide/officer-learning",
-      "/guide/workplace-mapping",
-      "/guide/grievance-process",
-      "/guide/dfr",
-      "/guide/membership-signup",
-      "/guide/right-to-refuse",
-      "/guide/seniority-bumping",
-      "/guide/joint-committee",
-      "/guide/bylaws",
+      "/guide/bargaining",
+      "/guide/crisis",
     ]);
     expect(channels?.links.map((l) => l.href)).toEqual([
       "/guide/print",
@@ -87,16 +77,30 @@ describe("path helpers", () => {
       "/guide/email-broadcast",
       "/guide/short-form",
     ]);
+    // Topic playbooks stay on the hub — not mega-menu destinations.
+    const allGuideHrefs = learnGroups.flatMap((g) =>
+      g.links.map((l) => l.href),
+    );
+    expect(allGuideHrefs).not.toContain("/guide/grievance-process");
+    expect(allGuideHrefs).not.toContain("/guide/dfr");
+    expect(allGuideHrefs).not.toContain("/guide/bylaws");
+    expect(allGuideHrefs).not.toContain("/guide/membership-signup");
+  });
+
+  it("merges Libraries and About into one group", () => {
+    expect(learnGroups.map((g) => g.labelKey)).toEqual([
+      "learnGroupGuides",
+      "learnGroupStewardWork",
+      "learnGroupChannels",
+      "learnGroupLibraries",
+    ]);
+    const libraries = learnGroups.find(
+      (g) => g.labelKey === "learnGroupLibraries",
+    );
     expect(libraries?.links.map((l) => l.href)).toEqual([
       "/examples",
       "/captions",
       "/guide/photo-consent",
-    ]);
-  });
-
-  it("includes About group with assets updates manifesto install", () => {
-    const about = learnGroups.find((g) => g.labelKey === "learnGroupAbout");
-    expect(about?.links.map((l) => l.href)).toEqual([
       "/assets",
       "/updates",
       "/manifesto",

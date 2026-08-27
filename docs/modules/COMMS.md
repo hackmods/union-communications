@@ -11,14 +11,14 @@ Top bar is slim and dual-audience oriented:
 | Item | Route / contents |
 |------|------------------|
 | **Get started** | `/onboarding` when Brand Kit is not established; `/guide/social-media-plan` (First week) when it is — Brand Kit stays a separate link |
-| **Guides ▾** | **Start here:** Blueprint, First week, Comms Resources, Workshop outline, Strike Guide · **By channel:** Print, Union Boards, Website, **Email & outreach**, **Short-form video**, Membership signup · **Libraries:** Social Examples, Captions, Photo Consent · **About:** Brand Assets, **What's new**, Built in solidarity, Install as an app |
+| **Guides ▾** | **Start here:** Blueprint, First week, Comms Resources, Workshop · **Steward work:** Steward playbooks hub, Steward 101, Officer Learning, Bargaining lifecycle, Strike Guide · **By channel:** Print, Union Boards, Website, Email & outreach, Short-form video · **Libraries & about:** Social Examples, Captions, Photo Consent, Brand Assets, What's new, Built in solidarity, Install. Topic labour playbooks (grievance, DFR, bylaws, …) live on `/guide/steward-playbooks`, not in the mega-menu |
 | **Brand Kit** | `/brand-kit` (on-page link to `/assets` Brand Assets) |
-| **Tools ▾** | Mega-menu columns grouped by **job** — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, **Org Chart** · **Print & cards:** Flyer, QR Cards, Action Cards, Pulse Poll (signed-in) · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · footer **All tools** → `/tools`. Do not 1:1-map these columns to First week channels; see [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../audit/session-knowledge-2026-08-18-tools-catalog-ia.md) |
+| **Tools ▾** | Mega-menu columns grouped by **job** — **Brand:** Logo, Resizer, Documents · **Union boards:** Banner, Notice, Solidarity, QR Board, Org Chart · **Print & cards:** Flyer, QR Cards, Action Cards, Pulse Poll (signed-in) · **Social & web:** Graphic Maker, Quote Card, Meeting Backgrounds, Website, Alt-text · **Steward prep:** RTW, Pre-disciplinary log, Complaint vs grievance, Bylaw Builder, Proposal Tracker · footer **All tools** → `/tools`. Do not 1:1-map these columns to First week channels; see [`session-knowledge-2026-08-18-tools-catalog-ia.md`](../audit/session-knowledge-2026-08-18-tools-catalog-ia.md) |
 | **Officer Hub** | `/app` (auth) — filled primary CTA |
 
 Footer includes Blueprint, Tools, Print Guide, **Email & outreach**, Social Examples, Captions, Comms Resources, Brand Assets, **What's new**, Built in solidarity, Install, Privacy, Accessibility, Support.
 
-Social Examples and Captions are **not** top-level nav items. They remain under Guides, the home Social channel, footer links, and First week socials step. Channel guides (print / boards / website) live under Guides → By channel so the four-channel model is discoverable without flattening Guides into a long link bar. Tools ▾ columns are **jobs** (brand / boards / print & cards / social & web), not a second copy of those channels.
+Social Examples and Captions are **not** top-level nav items. They remain under Guides → Libraries & about, the home Social channel, footer links, and First week socials step. Channel guides (print / boards / website) live under Guides → By channel so the four-channel model is discoverable without flattening Guides into a long link bar. Tools ▾ columns are **jobs** (brand / boards / print & cards / social & web / steward prep), not a second copy of those channels.
 
 Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview` board-notice product truth), Brand Kit primary CTA + “What’s next” roadmap secondary, dual-path cards when Officer Hub is public (Comms path uses `pathCommsCta` — `COPY-001` closed), Brand Kit link row, and a four-column toolbox (boards → print → social → website). Composition rules: [`.cursor/rules/public-marketing-ux.mdc`](../../.cursor/rules/public-marketing-ux.mdc). First week (`/guide/social-media-plan`) is the channel roadmap **after** Brand Kit. Optional fifth-channel email guide at `/guide/email-broadcast`. Operators verify deploys with `GET /api/health` (`npm run health:check`). Deferred content ideas: [`COMMS_BACKLOG.md`](COMMS_BACKLOG.md). Agent nav conventions: `.cursor/rules/comms-public-nav.mdc`.
 
@@ -42,7 +42,7 @@ Home landing (`HomeContent`): two-zone hero at `lg+` (message + `HomeHeroPreview
 | `/[locale]/guide/short-form` | Short-form video practice — filming, phone editors, pointing Reels/Shorts at a campaign ask; stills from Graphic Maker Portrait / Resizer Story |
 | `/[locale]/updates` | What's new — dated, filterable notes of new tools, guides, and improvements (not an engineering changelog) |
 | `/[locale]/manifesto` | Built in solidarity — Comms stay free; hosted Officer Hub / Local Portal has a hosting cost; self-host stays an option |
-| `/[locale]/install` | PWA / desktop install guide — Guides → About + footer |
+| `/[locale]/install` | PWA / desktop install guide — Guides → Libraries & about + footer |
 | `/[locale]/examples` | Social examples gallery — brand-aware mockups, why-it-works notes, handoff to Graphic Maker / Captions / Quote Card / Flyer |
 | `/[locale]/captions` | Caption & hashtag library |
 | `/[locale]/assets` | Union asset pack (CAAT OPSEU reference) |

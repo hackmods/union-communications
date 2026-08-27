@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "guides-tools-menu-ia",
+    date: "2026-08-27",
+    kind: "improved",
+    href: "/guide/steward-playbooks",
+  },
+  {
     id: "proposal-tracker",
     date: "2026-08-27",
     kind: "added",
