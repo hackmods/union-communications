@@ -41,6 +41,12 @@ const QUOTE_LAYOUT_RADIO: Record<string, RegExp> = {
   mark: /^Large mark$/i,
 };
 
+const SOLIDARITY_LAYOUT_RADIO: Record<string, RegExp> = {
+  stack: /^Stack/i,
+  split: /^Split/i,
+  banner: /^Banner/i,
+};
+
 async function expectLayoutRadio(
   page: import("@playwright/test").Page,
   name: RegExp,
@@ -145,7 +151,7 @@ test.describe("Canvas layout-class matrix @smoke", () => {
         page.getByRole("heading", { name: "Solidarity Poster Maker" }),
       ).toBeVisible();
       await expect(page.locator("#slogan-preset")).toHaveValue(row.id);
-      await expect(page.locator("#poster-layout")).toHaveValue(row.layout);
+      await expectLayoutRadio(page, SOLIDARITY_LAYOUT_RADIO[row.layout]);
       await waitForQrPreview(page);
       expectPlateGeometry(await measurePlateFill(page), {
         label: row.id,
