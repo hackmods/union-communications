@@ -9871,7 +9871,7 @@
         },
         "committee": {
           "label": "Nommez le comité de négociation local",
-          "content": "Le comité gère les membres : sondages, mises à jour, votes de grève et logistique de ratification. Le représentant du personnel peut mener à la table; la section garde le mandat."
+          "content": "Le comité gère les membres : sondages, mises à jour, votes de grève et logistique de ratification. Le représentant du personnel peut mener à la table ; la section garde le mandat."
         },
         "rep": {
           "label": "Travaillez avec le représentant du personnel",
@@ -10008,7 +10008,7 @@
       "items": {
         "conciliation": {
           "label": "Conciliation",
-          "content": "Un tiers neutre nommé par le gouvernement tente d'aider les deux parties à conclure une entente. L'une ou l'autre partie peut la demander; elle est habituellement exigée avant qu'une voie de cessation de travail légale s'ouvre."
+          "content": "Un tiers neutre nommé par le gouvernement tente d'aider les deux parties à conclure une entente. L'une ou l'autre partie peut la demander ; elle est habituellement exigée avant qu'une voie de cessation de travail légale s'ouvre."
         },
         "strikeVote": {
           "label": "Le vote de grève",
@@ -10078,7 +10078,7 @@
         },
         "tracker": {
           "label": "Suivi ouvert",
-          "content": "Chaque article vivant a une ligne; règles de statut convenues en caucus."
+          "content": "Chaque article vivant a une ligne ; règles de statut convenues en caucus."
         },
         "updates": {
           "label": "Rythme de mises à jour fixé",
@@ -10086,7 +10086,7 @@
         },
         "vote": {
           "label": "Plan de vote de grève",
-          "content": "Date, admissibilité, préavis, mode de scrutin, seuil de majorité et scrutateurs verrouillés avant d'avoir besoin de levier."
+          "content": "Date, admissibilité, préavis, mode de scrutin, seuil de majorité et scrutateurs verrouillés avant d'avoir besoin de pouvoir de négociation."
         },
         "noboard": {
           "label": "Jour « no board » confirmé",
@@ -10098,7 +10098,7 @@
         },
         "export": {
           "label": "Sauvegarde CSV après chaque séance",
-          "content": "Clé USB étiquetée avec la date; une copie avec le négociateur en chef."
+          "content": "Clé USB étiquetée avec la date ; une copie avec le négociateur en chef."
         },
         "national": {
           "label": "Autorisation nationale / provinciale de l'EP",
@@ -10113,19 +10113,19 @@
       "phases": {
         "t90": {
           "label": "J-90",
-          "content": "Le sondage se ferme; le paquet de demandes est classé; l'avis de négocier est rédigé avec le représentant du personnel."
+          "content": "Le sondage se ferme ; le paquet de demandes est classé ; l'avis de négocier est rédigé avec le représentant du personnel."
         },
         "table": {
           "label": "Mois à la table",
-          "content": "Caucus hebdomadaire; Suivi des propositions mis à jour le jour même; courriel aux deux semaines aux membres sans secrets de table."
+          "content": "Caucus hebdomadaire ; Suivi des propositions mis à jour le jour même ; courriel aux deux semaines aux membres sans secrets de table."
         },
         "vote": {
           "label": "Semaine du vote de grève",
-          "content": "Mandat Oui propre; l'employeur revient sur le paquet salarial; le suivi marque trois articles en entente de principe."
+          "content": "Mandat Oui propre ; l'employeur revient sur le paquet salarial ; le suivi marque trois articles en entente de principe."
         },
         "noboard": {
           "label": "« No board » émis",
-          "content": "Le comité confirme le jour 0 à partir de l'avis posté; le responsable des communications de crise prend le message quotidien; sauvegardes USB chaque soir."
+          "content": "Le comité confirme le jour 0 à partir de l'avis posté ; le responsable des communications de crise prend le message quotidien ; sauvegardes USB chaque soir."
         },
         "ratify": {
           "label": "Samedi de ratification",
@@ -10149,7 +10149,7 @@
         },
         "joint": {
           "label": "Pas les recommandations de comité mixte",
-          "content": "Les tables mixtes syndicat-employeur recommandent; elles ne négocient pas la convention. Voir le guide des comités mixtes pour cette voie."
+          "content": "Les tables mixtes syndicat-employeur recommandent ; elles ne négocient pas la convention. Voir le guide des comités mixtes pour cette voie."
         },
         "wildcat": {
           "label": "Pas un feu vert pour les grèves sauvages",
