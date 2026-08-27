@@ -426,6 +426,33 @@ export default async function Steward101GuidePage({
             </Link>
           </ReferenceBlock>
 
+          <ReferenceBlock title={t("referenceMaterials.stewardGuides.title")}>
+            <p>{t("referenceMaterials.stewardGuides.body")}</p>
+            <nav
+              className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-3"
+              aria-label={t("referenceMaterials.stewardGuides.title")}
+            >
+              <Link
+                href="/tools/complaint-vs-grievance"
+                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+              >
+                {t("referenceMaterials.stewardGuides.diagnostic")}
+              </Link>
+              <Link
+                href="/tools/pre-disciplinary-log"
+                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+              >
+                {t("referenceMaterials.stewardGuides.discipline")}
+              </Link>
+              <Link
+                href="/tools/rtw-accommodation"
+                className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+              >
+                {t("referenceMaterials.stewardGuides.rtw")}
+              </Link>
+            </nav>
+          </ReferenceBlock>
+
           <ReferenceBlock title={t("referenceMaterials.board.title")}>
             <p>{t("referenceMaterials.board.body")}</p>
             <nav

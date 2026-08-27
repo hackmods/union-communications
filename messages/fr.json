@@ -659,6 +659,7 @@
     "eyebrow": "Formation des dirigeants",
     "title": "Centre de formation des dirigeants",
     "intro": "Six modules autogérés pour délégués et dirigeants locaux — application de la convention, discipline, droits de la personne, gouvernance, finances et pouvoir collectif. La progression est enregistrée sur cet appareil seulement.",
+    "disclaimer": "Formation pour le plancher — pas un avis juridique. Confirmez chaque délai, redressement et procédure dans votre convention collective et votre loi applicables.",
     "sourcesIntro": "Lectures complémentaires provenant de fédérations syndicales canadiennes, de manuels multi-syndicaux pour délégués et de guides publics sur les droits de la personne — sans privilégier une seule centrale. Confirmez chaque règle dans votre convention et votre loi applicables.",
     "moduleLabel": "Module {number}",
     "readingTime": "Lecture {minutes} min",
@@ -678,7 +679,112 @@
     "viewer": {
       "back": "Tableau de bord",
       "jumpToQuiz": "Aller au quiz",
-      "toc": "Sur cette page"
+      "toc": "Sur cette page",
+      "print": "Imprimer le module"
+    },
+    "path": {
+      "label": "Parcours de formation"
+    },
+    "callouts": {
+      "note": "💡 Note",
+      "warning": "⚠️ Avertissement",
+      "practice": "📝 Exercice",
+      "reflection": "🪞 Réflexion"
+    },
+    "checklist": {
+      "title": "Liste de contrôle du plancher",
+      "progress": "{done} sur {total} coché(s)",
+      "hint": "Les coches restent sur cet appareil pour un vrai dossier."
+    },
+    "related": {
+      "title": "Guides et outils liés",
+      "intro": "Mettez ce module en pratique avec les outils UnionOps et les guides de plancher connexes.",
+      "links": {
+        "complaintVsGrievance": "Diagnostic plainte ou grief",
+        "steward101": "Délégué 101",
+        "grievanceProcess": "Guide des griefs",
+        "stewardPocketCard": "Carte de poche — représentation",
+        "grievanceIntake": "Feuille d'accueil de grief",
+        "preDisciplinaryLog": "Journal de rencontre prédisciplinaire",
+        "rtwAccommodation": "Espace retour au travail / accommodement",
+        "photoConsent": "Guide de consentement photo",
+        "jointCommittee": "Guide des comités conjoints",
+        "orgChart": "Organigramme",
+        "boardNotice": "Avis pour tableau",
+        "documentGenerator": "Générateur de documents",
+        "blueprint": "Le Plan directeur",
+        "workplaceMapping": "Cartographie du lieu de travail",
+        "membershipSignup": "Guide d'adhésion",
+        "crisis": "Comms de grève et de crise"
+      }
+    },
+    "reference": {
+      "title": "Feuilles pour la rencontre",
+      "farTitle": "Fiche FAR (vierge)",
+      "farBody": "Formulaire d'une page Faits / Argument / Résolution pour les rencontres à l'étape 1.",
+      "farCta": "Télécharger la fiche FAR (PDF)",
+      "checklistTitle": "Liste de contrôle PDF",
+      "checklistBody": "Liste imprimable de ce module — gardez-la avec votre carnet.",
+      "checklistCta": "Télécharger la liste (PDF)",
+      "downloading": "Préparation du PDF…",
+      "success": "PDF téléchargé.",
+      "error": "Impossible de créer le PDF. Réessayez, ou vérifiez que les téléchargements sont autorisés."
+    },
+    "diagrams": {
+      "filterTitle": "Filtre de grief en 5 points",
+      "filterAria": "Cinq vérifications diagnostiques avant d'ouvrir un grief",
+      "filter1": "Convention ?",
+      "filter2": "Loi ?",
+      "filter3": "Pratique passée ?",
+      "filter4": "Politique juste ?",
+      "filter5": "Droits des travailleurs ?",
+      "filterCaption": "Si aucun ne s'applique, soutenez le membre sans déposer un grief faible.",
+      "sixWTitle": "Cadre d'enquête des 6 W",
+      "sixWAria": "Qui, quoi, quand, où, pourquoi et comment",
+      "sixW": {
+        "who": "Qui",
+        "what": "Quoi",
+        "when": "Quand",
+        "where": "Où",
+        "why": "Pourquoi / combien",
+        "how": "Comment (règle / pratique)"
+      },
+      "ladderTitle": "Échelle de discipline progressive",
+      "ladderAria": "De l'avertissement verbal au congédiement",
+      "ladder": {
+        "verbal": "Verbal (documenté)",
+        "written": "Écrit",
+        "suspension": "Suspension",
+        "discharge": "Congédiement"
+      },
+      "ladderCaption": "L'employeur qui saute des échelons le fait à ses risques — exigez la preuve des étapes antérieures.",
+      "meiorinTitle": "Test Meiorin en trois étapes",
+      "meiorinAria": "Trois étapes Meiorin pour les normes de travail",
+      "meiorin1": "Lien rationnel avec l'emploi",
+      "meiorin2": "Adoptée de bonne foi",
+      "meiorin3": "Raisonnablement nécessaire (contrainte excessive)",
+      "meiorinCaption": "L'employeur doit franchir chaque étape — le moral et la préférence de la clientèle ne sont pas une contrainte excessive.",
+      "quorumTitle": "Le quorum suit l'effectif",
+      "quorumAria": "Trois paliers de quorum selon la taille de la section",
+      "quorumTier1Label": "Petite",
+      "quorumTier1": "Souvent 50 % + 1 des membres en règle",
+      "quorumTier2Label": "Moyenne",
+      "quorumTier2": "% des membres inscrits selon les règlements",
+      "quorumTier3Label": "Grande",
+      "quorumTier3": "Plancher fixe ou % — confirmez vos règlements",
+      "quorumCaption": "Un quorum perdu en cours de rencontre arrête les votes contraignants — le secrétaire l'annonce.",
+      "controlsTitle": "Chaîne de contrôle financier",
+      "controlsAria": "Reçu, double signature, audit des fiduciaires",
+      "controlsReceipt": "Reçu détaillé + bon",
+      "controlsTwoSign": "Deux signatures autorisées",
+      "controlsAudit": "Audit d'échantillon des fiduciaires",
+      "controlsCaption": "Pas de chèque en blanc. Pas d'auto-signature de remboursement. Jamais.",
+      "powerTitle": "Obstacle → clause → responsabilité",
+      "powerAria": "De l'obstacle systémique au langage de convention applicable",
+      "powerBarrier": "Nommer le schéma",
+      "powerClause": "Proposer le langage",
+      "powerAccount": "Échéancier / redressement conjoint",
+      "powerCaption": "Un langage d'équité sans mécanisme reste symbolique — attachez des échéances et une revue conjointe."
     },
     "quiz": {
       "label": "Autoévaluation",
@@ -4422,6 +4528,13 @@
         "title": "Lettre de suivi au membre",
         "body": "Après une rencontre, envoyez un bref récapitulatif écrit de ce qui a été discuté et de la prochaine étape.",
         "cta": "Ouvrir le modèle de lettre simple"
+      },
+      "stewardGuides": {
+        "title": "Guides de rencontre pour délégués",
+        "body": "Espaces de travail sur l'appareil pour le diagnostic plainte ou grief, les rencontres prédisciplinaires, et le retour au travail.",
+        "diagnostic": "Plainte ou grief",
+        "discipline": "Journal prédisciplinaire",
+        "rtw": "Retour au travail et adaptation"
       }
     },
     "hub": {
@@ -4794,6 +4907,14 @@
         "ca": {
           "label": "Répertoire des conventions collectives",
           "content": "Les étapes nommées, les délais de réponse et le langage disciplinaire vivent dans la convention que vous appliquez vraiment."
+        },
+        "diagnostic": {
+          "label": "Diagnostic plainte ou grief",
+          "content": "Scorez cinq points d'admissibilité, puis rédigez les 6 W et le FAR sur votre appareil."
+        },
+        "discipline": {
+          "label": "Journal de rencontre prédisciplinaire",
+          "content": "Vérifiez le préavis, la représentation et la divulgation avant l'entrevue."
         }
       }
     },
@@ -5887,8 +6008,8 @@
         "body": "Tous les outils visuels partagent le logo aucun/signature/symbole et une case Afficher le numéro de section — décochez-la pour un visuel symbole seulement."
       },
       "officer-learning-center": {
-        "title": "Formation des dirigeants — cours prêts au lancement",
-        "body": "Six modules bilingues avec certificats, nouvelle tentative au quiz, sync Hub dans les deux sens, et un rapport local que les présidents ouvrent depuis les outils Officier."
+        "title": "Formation des dirigeants — parcours de plancher définitif",
+        "body": "Six modules bilingues avec parcours en direct, diagrammes d'enseignement, listes de contrôle cochables, fiches FAR imprimables et liens vers les outils pour délégués et les guides connexes."
       },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",
@@ -6040,7 +6161,7 @@
       },
       "steward-meeting-guides": {
         "title": "Guides de rencontre pour délégués",
-        "body": "Trois espaces de travail sur l'appareil pour le retour au travail et l'adaptation, les rencontres prédisciplinaires, et le diagnostic plainte ou grief — avec export Markdown ou PDF."
+        "body": "Trois espaces de travail sur l'appareil — avec scorecard, feuille FAR, échelle de discipline, copie des scripts et export Markdown ou PDF."
       }
     }
   },
@@ -7017,7 +7138,7 @@
     "newEntry": "Nouvelle entrée",
     "cancel": "Annuler",
     "save": "Enregistrer",
-    "empty": "Aucune discussion informelle consignée pour cette section. Ajoutez une note après un échange avec un membre.",
+    "empty": "Aucune discussion informelle consignée pour cette section. Ajoutez une note après un échange avec un membre — ou scorez d'abord le diagnostic plainte ou grief.",
     "filterLabel": "Filtres du journal",
     "filter": {
       "all": "Toutes",
@@ -8536,8 +8657,10 @@
     "export": {
       "markdown": "Exporter en Markdown",
       "pdf": "Exporter en PDF",
-      "clear": "Effacer le brouillon"
-    }
+      "clear": "Effacer le brouillon",
+      "printChecklist": "Imprimer la liste"
+    },
+    "saveFailed": "Les notes n'ont peut-être pas été enregistrées sur ce navigateur. Exportez un PDF avant de quitter."
   },
   "preDisciplinaryLog": {
     "title": "Journal de rencontre prédisciplinaire",
@@ -8559,7 +8682,9 @@
       "rightsHint": "Cochez chaque élément avant de vous fier au panneau de suggestions.",
       "allegations": "Allégations formulées",
       "memberNarrative": "Récit et explications du membre",
-      "mitigators": "Facteurs atténuants"
+      "mitigators": "Facteurs atténuants",
+      "priorSteps": "Étapes progressives antérieures",
+      "priorStepsHint": "Dates et type (ex. avertissement écrit du 12 mars 2025)"
     },
     "triState": {
       "yes": "Oui",
@@ -8604,7 +8729,18 @@
     "export": {
       "markdown": "Exporter en Markdown",
       "pdf": "Exporter en PDF",
-      "clear": "Effacer le brouillon"
+      "clear": "Effacer le brouillon",
+      "printChecklist": "Imprimer la liste"
+    },
+    "saveFailed": "Les notes n'ont peut-être pas été enregistrées sur ce navigateur. Exportez un PDF avant de quitter.",
+    "ladder": {
+      "title": "Échelle de discipline progressive",
+      "hint": "Cartographiez les étapes déjà au dossier avant de négocier la prochaine.",
+      "coaching": "Conseil / coaching",
+      "written": "Avertissement écrit",
+      "suspension": "Suspension",
+      "termination": "Congédiement",
+      "moduleLink": "Module Formation des dirigeants : discipline progressive"
     }
   },
   "complaintVsGrievance": {
@@ -8679,18 +8815,36 @@
         "label": "Mobilisation / sondage en milieu de travail",
         "hint": "Quand plusieurs membres sont touchés et qu'il faut un apport collectif.",
         "draft": "Plan d'action collectiv\\u00a0: Cartographiez qui est touché, rédigez un court sondage aux membres, fixez une rencontre de délégués et décidez si la question revient en plainte de groupe ou en grief."
-      }
+      },
+      "informalLogCta": "Consignez la discussion dans le Journal informel (Hub des dirigeants)"
     },
     "preview": {
       "title": "Brouillon et prochaines étapes",
       "hint": "Le panneau passe du brouillon de grief aux scripts d'autres voies selon votre score.",
       "grievanceDraft": "Brouillon de grief",
-      "pickRoutes": "Sélectionnez une ou plusieurs autres voies pour voir les brouillons ici."
+      "pickRoutes": "Sélectionnez une ou plusieurs autres voies ci-dessous pour voir les brouillons ici.",
+      "farDraft": "Brouillon FAR"
     },
     "export": {
       "markdown": "Exporter en Markdown",
       "pdf": "Exporter en PDF",
-      "clear": "Effacer le brouillon"
+      "clear": "Effacer le brouillon",
+      "printChecklist": "Imprimer la liste"
+    },
+    "saveFailed": "Les notes n'ont peut-être pas été enregistrées sur ce navigateur. Exportez un PDF avant de quitter.",
+    "far": {
+      "heading": "Feuille FAR (faits, argument, résolution)",
+      "hint": "Complétez les 6 W, puis rédigez le FAR avant la rencontre à l'étape 1.",
+      "facts": "Faits",
+      "argument": "Argument",
+      "resolution": "Résolution / réparation"
+    },
+    "caGuidance": {
+      "title": "Trouver la clause",
+      "body": "Citez l'article exact de votre convention. Ne vous fiez pas au résumé du membre.",
+      "grievanceGuide": "Guide du processus de grief",
+      "snippets": "Extraits de convention (Hub)",
+      "caFinder": "Trouver votre convention collective"
     }
   },
   "stewardGuidesHub": {
@@ -8704,6 +8858,15 @@
     "disciplineBlurb": "Vérifiez le préavis, la représentation et la divulgation — avec alerte en cas d'allégations criminelles.",
     "diagnosticTitle": "Plainte ou grief",
     "diagnosticBlurb": "Évaluez cinq points d'admissibilité, puis rédigez un grief ou une autre voie.",
-    "informalLogLink": "Voir aussi le Journal informel pour les dossiers partagés de plaintes précoces"
+    "informalLogLink": "Voir aussi le Journal informel pour les dossiers partagés de plaintes précoces",
+    "workspacesHeading": "Espaces de travail",
+    "readFirstHeading": "Lire d'abord",
+    "utilitiesHeading": "Outils connexes",
+    "readModule1": "Module 1 : application de la convention",
+    "readModule2": "Module 2 : discipline progressive",
+    "readModule3": "Module 3 : droits de la personne et adaptation",
+    "utilDocGen": "Générateur de documents (prise en charge de grief)",
+    "utilSnippets": "Extraits de convention",
+    "utilGrievanceGuide": "Guide du processus de grief"
   }
 }

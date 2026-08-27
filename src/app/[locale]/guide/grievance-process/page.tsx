@@ -70,7 +70,14 @@ const checklistKeys = [
   "memberUpdate",
 ] as const;
 const worksheetKeys = ["columns", "witness", "footer"] as const;
-const toolKeys = ["worksheet", "dfr", "hub", "ca"] as const;
+const toolKeys = [
+  "worksheet",
+  "diagnostic",
+  "discipline",
+  "dfr",
+  "hub",
+  "ca",
+] as const;
 
 const linkButtonClass =
   "inline-flex w-full items-center justify-center rounded-lg bg-opseu-blue px-4 py-2 text-base font-semibold text-white transition-colors hover:bg-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40";
@@ -420,6 +427,12 @@ export default async function GrievanceProcessGuidePage({
           ))}
         </ul>
         <div className="button-row mt-5 max-w-2xl">
+          <Link
+            href="/tools/complaint-vs-grievance"
+            className={linkButtonOutlineClass}
+          >
+            {t("tools.items.diagnostic.label")}
+          </Link>
           <Link
             href="/tools/document-generator?preset=grievance-intake"
             className={linkButtonOutlineClass}

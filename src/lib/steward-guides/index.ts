@@ -48,6 +48,7 @@ export {
   COMPLAINT_DIAGNOSTIC_STORAGE_KEY,
   DIAGNOSTIC_POINTS,
   buildAlternateRouteDrafts,
+  buildFarDraftText,
   buildGrievanceDraftText,
   clearComplaintDraft,
   complaintDraftToMarkdown,

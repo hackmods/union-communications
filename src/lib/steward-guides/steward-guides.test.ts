@@ -16,6 +16,7 @@ import {
   grievanceViabilityIndex,
   unlocksGrievanceForm,
   complaintDraftToMarkdown,
+  buildFarDraftText,
 } from "@/lib/steward-guides/complaint-diagnostic";
 
 const rtwLabels = {
@@ -189,12 +190,16 @@ describe("complaint diagnostic", () => {
           mobilization: "Survey members",
         },
         grievanceDraftHeading: "Draft",
+        farDraftHeading: "FAR",
         who: "Who",
         what: "What",
         when: "When",
         where: "Where",
         why: "Why",
         want: "Want",
+        facts: "Facts",
+        argument: "Argument",
+        resolution: "Resolution",
         article: "Article",
         indexLabel: "Index",
         grievancePath: "Grievance path",
@@ -203,5 +208,51 @@ describe("complaint diagnostic", () => {
     });
     expect(md).toContain("Alternate path");
     expect(md).toContain("Refer to LMC");
+  });
+
+  it("includes FAR when grievance path unlocks", () => {
+    const draft = createEmptyComplaintDraft();
+    draft.answers.caViolation = "yes";
+    draft.facts = "OT denied twice";
+    draft.argument = "Article 12.03";
+    draft.resolution = "Pay OT";
+    const text = buildFarDraftText(draft, {
+      pointLabels: {
+        caViolation: "CA",
+        misinterpretation: "Misread",
+        statutory: "Law",
+        pastPractice: "Practice",
+        memberRights: "Rights",
+      },
+      routeLabels: {
+        lmc: "LMC",
+        jhsc: "JHSC",
+        informalSupervisor: "Supervisor",
+        mobilization: "Mobilize",
+      },
+      routeDrafts: {
+        lmc: "LMC",
+        jhsc: "JHSC",
+        informalSupervisor: "Sup",
+        mobilization: "Mob",
+      },
+      grievanceDraftHeading: "Draft",
+      farDraftHeading: "FAR",
+      who: "Who",
+      what: "What",
+      when: "When",
+      where: "Where",
+      why: "Why",
+      want: "Want",
+      facts: "Facts",
+      argument: "Argument",
+      resolution: "Resolution",
+      article: "Article",
+      indexLabel: "Index",
+      grievancePath: "G",
+      alternatePath: "A",
+    });
+    expect(text).toContain("OT denied twice");
+    expect(text).toContain("FAR");
   });
 });

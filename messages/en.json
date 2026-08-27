@@ -659,6 +659,7 @@
     "eyebrow": "Officer training",
     "title": "Officer Learning Center",
     "intro": "Six self-paced modules for stewards and local officers — contract enforcement, discipline, human rights, governance, finances, and collective power. Progress saves on this device only.",
+    "disclaimer": "Education for the floor — not legal advice. Confirm every deadline, remedy, and procedure against your own collective agreement and statute.",
     "sourcesIntro": "Further reading from Canadian labour federations, multi-union steward handbooks, and public human rights guidance — not tied to one national. Confirm every rule against your own collective agreement and statute.",
     "moduleLabel": "Module {number}",
     "readingTime": "{minutes} min read",
@@ -678,7 +679,112 @@
     "viewer": {
       "back": "Dashboard",
       "jumpToQuiz": "Jump to Quiz",
-      "toc": "On this page"
+      "toc": "On this page",
+      "print": "Print module"
+    },
+    "path": {
+      "label": "Learning path"
+    },
+    "callouts": {
+      "note": "💡 Note",
+      "warning": "⚠️ Warning",
+      "practice": "📝 Practice",
+      "reflection": "🪞 Reflection"
+    },
+    "checklist": {
+      "title": "Floor checklist",
+      "progress": "{done} of {total} checked",
+      "hint": "Checks stay on this device so you can tick items during a real file."
+    },
+    "related": {
+      "title": "Related guides and tools",
+      "intro": "Practice what this module teaches with live UnionOps tools and peer floor guides.",
+      "links": {
+        "complaintVsGrievance": "Complaint vs grievance diagnostic",
+        "steward101": "Steward 101",
+        "grievanceProcess": "Grievance process guide",
+        "stewardPocketCard": "Representation pocket card",
+        "grievanceIntake": "Grievance intake worksheet",
+        "preDisciplinaryLog": "Pre-disciplinary meeting log",
+        "rtwAccommodation": "Return-to-work / accommodation workspace",
+        "photoConsent": "Photo consent guide",
+        "jointCommittee": "Joint committee playbook",
+        "orgChart": "Org Chart Maker",
+        "boardNotice": "Board Notice Maker",
+        "documentGenerator": "Document Generator",
+        "blueprint": "The Blueprint",
+        "workplaceMapping": "Workplace mapping",
+        "membershipSignup": "Membership signup playbook",
+        "crisis": "Strike & crisis comms"
+      }
+    },
+    "reference": {
+      "title": "Take-to-meeting sheets",
+      "farTitle": "FAR sheet (blank)",
+      "farBody": "One-page Facts / Argument / Resolution form for Step 1 meetings.",
+      "farCta": "Download FAR PDF",
+      "checklistTitle": "Floor checklist PDF",
+      "checklistBody": "Printable tick list from this module — keep it with your notebook.",
+      "checklistCta": "Download checklist PDF",
+      "downloading": "Preparing PDF…",
+      "success": "PDF downloaded.",
+      "error": "Could not create the PDF. Try again, or check that downloads are allowed."
+    },
+    "diagrams": {
+      "filterTitle": "5-point grievance filter",
+      "filterAria": "Five diagnostic checks before opening a grievance",
+      "filter1": "Contract?",
+      "filter2": "Law?",
+      "filter3": "Past practice?",
+      "filter4": "Fair policy?",
+      "filter5": "Worker rights?",
+      "filterCaption": "If none apply, support the member without filing a weak grievance.",
+      "sixWTitle": "6 W investigation frame",
+      "sixWAria": "Who, what, when, where, why, and how",
+      "sixW": {
+        "who": "Who",
+        "what": "What",
+        "when": "When",
+        "where": "Where",
+        "why": "Why / how much",
+        "how": "How (rule / practice)"
+      },
+      "ladderTitle": "Progressive discipline ladder",
+      "ladderAria": "Verbal warning through discharge",
+      "ladder": {
+        "verbal": "Verbal (documented)",
+        "written": "Written",
+        "suspension": "Suspension",
+        "discharge": "Discharge"
+      },
+      "ladderCaption": "Employer skips rungs at its own risk — demand proof of prior steps.",
+      "meiorinTitle": "Meiorin three-step test",
+      "meiorinAria": "Three Meiorin steps for workplace standards",
+      "meiorin1": "Rational connection to the job",
+      "meiorin2": "Adopted in good faith",
+      "meiorin3": "Reasonably necessary (undue hardship)",
+      "meiorinCaption": "Employer must clear every step — morale and customer preference are not undue hardship.",
+      "quorumTitle": "Quorum scales with membership",
+      "quorumAria": "Three quorum tiers by local size",
+      "quorumTier1Label": "Small",
+      "quorumTier1": "Often 50% + 1 of members in good standing",
+      "quorumTier2Label": "Mid-size",
+      "quorumTier2": "Bylaw % of registered membership",
+      "quorumTier3Label": "Large",
+      "quorumTier3": "Fixed floor or % — confirm your bylaws",
+      "quorumCaption": "Lost quorum mid-meeting stops binding votes — the secretary announces the drop.",
+      "controlsTitle": "Financial control chain",
+      "controlsAria": "Receipt, dual signature, trustee audit",
+      "controlsReceipt": "Itemized receipt + voucher",
+      "controlsTwoSign": "Two authorized signatures",
+      "controlsAudit": "Trustee sample audit",
+      "controlsCaption": "No blank cheques. No self-signing reimbursements. Ever.",
+      "powerTitle": "Barrier → clause → accountability",
+      "powerAria": "From systemic barrier to enforceable contract language",
+      "powerBarrier": "Name the pattern",
+      "powerClause": "Propose language",
+      "powerAccount": "Joint timeline / remedy",
+      "powerCaption": "Equity language without a mechanism stays symbolic — attach deadlines and joint review."
     },
     "quiz": {
       "label": "Self-test",
@@ -4472,6 +4578,13 @@
         "title": "Member follow-up letter",
         "body": "After a meeting, send a short written recap of what you discussed and the next step.",
         "cta": "Open simple letter template"
+      },
+      "stewardGuides": {
+        "title": "Steward meeting guides",
+        "body": "On-device workspaces for complaint vs grievance triage, pre-disciplinary meetings, and return-to-work intake.",
+        "diagnostic": "Complaint vs grievance",
+        "discipline": "Pre-disciplinary log",
+        "rtw": "RTW and accommodation"
       }
     },
     "hub": {
@@ -4844,6 +4957,14 @@
         "ca": {
           "label": "Collective Agreement finder",
           "content": "Named steps, response windows, and discipline language live in the agreement you actually work under."
+        },
+        "diagnostic": {
+          "label": "Complaint vs grievance diagnostic",
+          "content": "Score five eligibility points, then draft the 6 W's and FAR on your device."
+        },
+        "discipline": {
+          "label": "Pre-disciplinary meeting log",
+          "content": "Check notice, representation, and disclosure before the interview deepens."
         }
       }
     },
@@ -5937,8 +6058,8 @@
         "body": "Every canvas tool now shares none/lockup/mark logo plus a Show local number toggle — turn the label off for mark-only visuals."
       },
       "officer-learning-center": {
-        "title": "Officer Learning — launch-ready courses",
-        "body": "Six bilingual modules with certificates, quiz retry, Hub sync that merges both ways, and a local report presidents can open from Officer tools."
+        "title": "Officer Learning — definitive floor path",
+        "body": "Six bilingual modules with a live learning path, teaching diagrams, tickable floor checklists, printable FAR sheets, and links into steward tools and peer guides."
       },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",
@@ -6090,7 +6211,7 @@
       },
       "steward-meeting-guides": {
         "title": "Steward meeting guides",
-        "body": "Three on-device workspaces for return-to-work and accommodation, pre-disciplinary meetings, and complaint-vs-grievance triage — with Markdown or PDF export."
+        "body": "Three on-device workspaces — now with a viability scorecard, FAR sheet, discipline ladder, copyable scripts, and Markdown or PDF export."
       }
     }
   },
@@ -7067,7 +7188,7 @@
     "newEntry": "New log entry",
     "cancel": "Cancel",
     "save": "Save entry",
-    "empty": "No informal discussions logged for this local yet. Add a note when you speak with a member.",
+    "empty": "No informal discussions logged for this local yet. Add a note when you speak with a member — or score the issue in Complaint vs grievance first.",
     "filterLabel": "Informal log filters",
     "filter": {
       "all": "All",
@@ -8536,8 +8657,10 @@
     "export": {
       "markdown": "Export Markdown",
       "pdf": "Export PDF",
-      "clear": "Clear draft"
-    }
+      "clear": "Clear draft",
+      "printChecklist": "Print checklist"
+    },
+    "saveFailed": "Notes may not have saved on this browser. Export a PDF before you leave."
   },
   "preDisciplinaryLog": {
     "title": "Pre-disciplinary meeting log",
@@ -8559,7 +8682,9 @@
       "rightsHint": "Mark each item before you rely on the suggestion panel.",
       "allegations": "Allegations faced",
       "memberNarrative": "Member narrative & explanations",
-      "mitigators": "Mitigating factors"
+      "mitigators": "Mitigating factors",
+      "priorSteps": "Prior progressive steps",
+      "priorStepsHint": "Dates and type (e.g. written warning 12 Mar 2025)"
     },
     "triState": {
       "yes": "Yes",
@@ -8604,7 +8729,18 @@
     "export": {
       "markdown": "Export Markdown",
       "pdf": "Export PDF",
-      "clear": "Clear draft"
+      "clear": "Clear draft",
+      "printChecklist": "Print checklist"
+    },
+    "saveFailed": "Notes may not have saved on this browser. Export a PDF before you leave.",
+    "ladder": {
+      "title": "Progressive discipline ladder",
+      "hint": "Map steps already on file before you negotiate the next one.",
+      "coaching": "Letter of counsel / coaching",
+      "written": "Written warning",
+      "suspension": "Suspension",
+      "termination": "Termination",
+      "moduleLink": "Officer Learning module: progressive discipline"
     }
   },
   "complaintVsGrievance": {
@@ -8679,18 +8815,36 @@
         "label": "Workplace mobilization / survey",
         "hint": "When the issue affects many members and needs collective input.",
         "draft": "Collective action plan: Map who is affected, draft a short member survey, set a steward huddle date, and decide whether the issue returns as a group complaint or grievance."
-      }
+      },
+      "informalLogCta": "Log the conversation in Informal Log (Officer Hub)"
     },
     "preview": {
       "title": "Draft & next steps",
       "hint": "The panel switches between grievance draft and alternate-route scripts based on your score.",
       "grievanceDraft": "Grievance draft",
-      "pickRoutes": "Select one or more alternate routes to see proposal drafts here."
+      "pickRoutes": "Select one or more alternate routes below to see proposal drafts here.",
+      "farDraft": "FAR draft"
     },
     "export": {
       "markdown": "Export Markdown",
       "pdf": "Export PDF",
-      "clear": "Clear draft"
+      "clear": "Clear draft",
+      "printChecklist": "Print checklist"
+    },
+    "saveFailed": "Notes may not have saved on this browser. Export a PDF before you leave.",
+    "far": {
+      "heading": "FAR sheet (Facts, Argument, Resolution)",
+      "hint": "Finish the 6 W's, then draft the FAR before your Step 1 meeting.",
+      "facts": "Facts",
+      "argument": "Argument",
+      "resolution": "Resolution / remedy"
+    },
+    "caGuidance": {
+      "title": "Find the clause",
+      "body": "Quote the exact article from your agreement. Do not rely on the member summary alone.",
+      "grievanceGuide": "Grievance process guide",
+      "snippets": "CA snippets (Hub)",
+      "caFinder": "Find your collective agreement"
     }
   },
   "stewardGuidesHub": {
@@ -8704,6 +8858,15 @@
     "disciplineBlurb": "Check notice, representation, and disclosure — with escalation alerts for criminal allegations.",
     "diagnosticTitle": "Complaint vs grievance",
     "diagnosticBlurb": "Score five eligibility points, then draft a grievance or an alternate route.",
-    "informalLogLink": "Also see Informal Log for shared early complaint records"
+    "informalLogLink": "Also see Informal Log for shared early complaint records",
+    "workspacesHeading": "Workspaces",
+    "readFirstHeading": "Read first",
+    "utilitiesHeading": "Related tools",
+    "readModule1": "Module 1: contract enforcement",
+    "readModule2": "Module 2: progressive discipline",
+    "readModule3": "Module 3: human rights and accommodation",
+    "utilDocGen": "Document Generator (grievance intake)",
+    "utilSnippets": "CA snippets",
+    "utilGrievanceGuide": "Grievance process guide"
   }
 }

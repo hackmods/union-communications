@@ -23,6 +23,40 @@ const TOOLS = [
   },
 ] as const;
 
+const READ_FIRST = [
+  {
+    href: "/guide/officer-learning/contract-enforcement",
+    titleKey: "readModule1" as const,
+  },
+  {
+    href: "/guide/officer-learning/progressive-discipline",
+    titleKey: "readModule2" as const,
+  },
+  {
+    href: "/guide/officer-learning/human-rights-accommodation",
+    titleKey: "readModule3" as const,
+  },
+] as const;
+
+const UTILITIES = [
+  {
+    href: "/tools/document-generator",
+    titleKey: "utilDocGen" as const,
+  },
+  {
+    href: "/app/snippets",
+    titleKey: "utilSnippets" as const,
+  },
+  {
+    href: "/guide/grievance-process",
+    titleKey: "utilGrievanceGuide" as const,
+  },
+  {
+    href: "/app/informal-log",
+    titleKey: "informalLogLink" as const,
+  },
+] as const;
+
 export function StewardGuidesHubBoard() {
   const t = useTranslations("stewardGuidesHub");
 
@@ -39,10 +73,16 @@ export function StewardGuidesHubBoard() {
         {t("privacyNote")}
       </Callout>
 
-      <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <h2 className="mt-8 text-sm font-semibold uppercase tracking-wide text-gray-500">
+        {t("workspacesHeading")}
+      </h2>
+      <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {TOOLS.map((tool) => (
           <li key={tool.href}>
-            <Card density="compact" className="h-full">
+            <Card
+              density="compact"
+              className="h-full border-l-2 border-l-opseu-blue/40"
+            >
               <CardTitle className="text-base">{t(tool.titleKey)}</CardTitle>
               <p className="mt-1 text-sm text-gray-600">{t(tool.blurbKey)}</p>
               <Link
@@ -56,14 +96,37 @@ export function StewardGuidesHubBoard() {
         ))}
       </ul>
 
-      <p className="mt-6 text-sm text-gray-600">
-        <Link
-          href="/app/informal-log"
-          className="font-semibold text-opseu-blue underline underline-offset-2"
-        >
-          {t("informalLogLink")}
-        </Link>
-      </p>
+      <h2 className="mt-10 text-sm font-semibold uppercase tracking-wide text-gray-500">
+        {t("readFirstHeading")}
+      </h2>
+      <ul className="mt-3 grid gap-2 sm:grid-cols-3">
+        {READ_FIRST.map((item) => (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline underline-offset-2"
+            >
+              {t(item.titleKey)}
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      <h2 className="mt-10 text-sm font-semibold uppercase tracking-wide text-gray-500">
+        {t("utilitiesHeading")}
+      </h2>
+      <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+        {UTILITIES.map((item) => (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              className="inline-flex min-h-11 items-center text-sm font-semibold text-opseu-blue underline underline-offset-2"
+            >
+              {t(item.titleKey)}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

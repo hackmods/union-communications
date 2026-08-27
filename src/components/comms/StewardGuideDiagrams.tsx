@@ -204,3 +204,52 @@ export function TrainingPathDiagram({
     </ol>
   );
 }
+
+interface ProgressiveDisciplineLadderDiagramProps {
+  steps: readonly string[];
+  className?: string;
+}
+
+/** Progressive discipline ladder: coaching → termination (Hub pastel tokens). */
+export function ProgressiveDisciplineLadderDiagram({
+  steps,
+  className,
+}: ProgressiveDisciplineLadderDiagramProps) {
+  const tones = [
+    "border-sky-400 bg-sky-50 text-sky-950",
+    "border-amber-400 bg-amber-50 text-amber-950",
+    "border-orange-400 bg-orange-50 text-orange-950",
+    "border-red-400 bg-red-50 text-red-950",
+  ];
+
+  return (
+    <ol
+      className={cn("flex flex-col gap-2 sm:flex-row sm:items-stretch", className)}
+      aria-label={steps.join("; ")}
+    >
+      {steps.map((label, index) => (
+        <li key={label} className="flex flex-1 items-center gap-2">
+          <div
+            className={cn(
+              "flex-1 rounded-lg border-2 px-3 py-3 text-center text-xs font-semibold leading-snug sm:text-sm",
+              tones[Math.min(index, tones.length - 1)],
+            )}
+          >
+            <span className="mb-1 block text-[0.65rem] uppercase tracking-wide opacity-80">
+              {index + 1}
+            </span>
+            {label}
+          </div>
+          {index < steps.length - 1 ? (
+            <span
+              className="hidden shrink-0 text-lg text-gray-400 sm:inline"
+              aria-hidden="true"
+            >
+              →
+            </span>
+          ) : null}
+        </li>
+      ))}
+    </ol>
+  );
+}

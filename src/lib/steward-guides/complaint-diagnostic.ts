@@ -37,6 +37,10 @@ export type ComplaintDiagnosticDraft = {
   where: string;
   why: string;
   want: string;
+  /** FAR sheet — Facts / Argument / Resolution (optional on older drafts). */
+  facts: string;
+  argument: string;
+  resolution: string;
   alternateRoutes: AlternateRouteId[];
 };
 
@@ -56,6 +60,9 @@ export function createEmptyComplaintDraft(): ComplaintDiagnosticDraft {
     where: "",
     why: "",
     want: "",
+    facts: "",
+    argument: "",
+    resolution: "",
     alternateRoutes: [],
   };
 }
@@ -90,6 +97,12 @@ export function isComplaintDiagnosticDraft(
   ) {
     return false;
   }
+  // FAR fields are optional on older drafts.
+  if (d.facts !== undefined && typeof d.facts !== "string") return false;
+  if (d.argument !== undefined && typeof d.argument !== "string") return false;
+  if (d.resolution !== undefined && typeof d.resolution !== "string") {
+    return false;
+  }
   const answers = d.answers as Record<string, unknown>;
   for (const id of DIAGNOSTIC_POINTS) {
     if (!isYesNoUnset(answers[id])) return false;
@@ -98,10 +111,18 @@ export function isComplaintDiagnosticDraft(
 }
 
 export function loadComplaintDraft(): ComplaintDiagnosticDraft | null {
-  return loadJsonDraft(
+  const raw = loadJsonDraft(
     COMPLAINT_DIAGNOSTIC_STORAGE_KEY,
     isComplaintDiagnosticDraft,
   );
+  if (!raw) return null;
+  return {
+    ...createEmptyComplaintDraft(),
+    ...raw,
+    facts: raw.facts ?? "",
+    argument: raw.argument ?? "",
+    resolution: raw.resolution ?? "",
+  };
 }
 
 export function saveComplaintDraft(draft: ComplaintDiagnosticDraft): boolean {
@@ -128,12 +149,16 @@ export type ComplaintScriptLabels = {
   routeLabels: Record<AlternateRouteId, string>;
   routeDrafts: Record<AlternateRouteId, string>;
   grievanceDraftHeading: string;
+  farDraftHeading: string;
   who: string;
   what: string;
   when: string;
   where: string;
   why: string;
   want: string;
+  facts: string;
+  argument: string;
+  resolution: string;
   article: string;
   indexLabel: string;
   grievancePath: string;
@@ -163,6 +188,19 @@ export function buildGrievanceDraftText(
   ]
     .filter(Boolean)
     .join("\n");
+}
+
+export function buildFarDraftText(
+  draft: ComplaintDiagnosticDraft,
+  labels: ComplaintScriptLabels,
+): string {
+  return [
+    labels.farDraftHeading,
+    "",
+    `${labels.facts}: ${draft.facts.trim() || "—"}`,
+    `${labels.argument}: ${draft.argument.trim() || "—"}`,
+    `${labels.resolution}: ${draft.resolution.trim() || "—"}`,
+  ].join("\n");
 }
 
 export function buildAlternateRouteDrafts(
@@ -202,6 +240,8 @@ export function complaintDraftToMarkdown(
       labels.scripts.grievancePath,
       "",
       buildGrievanceDraftText(draft, labels.scripts),
+      "",
+      buildFarDraftText(draft, labels.scripts),
       "",
     );
   } else {

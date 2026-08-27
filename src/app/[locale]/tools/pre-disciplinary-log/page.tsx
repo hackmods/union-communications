@@ -1,9 +1,11 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
+import { ProgressiveDisciplineLadderDiagram } from "@/components/comms/StewardGuideDiagrams";
 import { Callout } from "@/components/ui/Callout";
 import { Card } from "@/components/ui/Card";
 import { Input, Textarea } from "@/components/ui/Input";
@@ -37,13 +39,15 @@ import {
 
 export default function PreDisciplinaryLogPage() {
   const t = useTranslations("preDisciplinaryLog");
-  const { draft, setDraft, clear } = useStewardGuideDraft({
+  const { draft, setDraft, clear, saveFailed } = useStewardGuideDraft({
     load: loadPreDisciplinaryDraft,
     save: savePreDisciplinaryDraft,
     createEmpty: createEmptyPreDisciplinaryDraft,
+    clearStorage: clearPreDisciplinaryDraft,
   });
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
+  const printRef = useRef<HTMLDivElement>(null);
 
   const criminal = isCriminalAllegation(draft.allegationType);
 
@@ -71,6 +75,16 @@ export default function PreDisciplinaryLogPage() {
     [draft, scriptLabels],
   );
 
+  const ladderSteps = useMemo(
+    () => [
+      t("ladder.coaching"),
+      t("ladder.written"),
+      t("ladder.suspension"),
+      t("ladder.termination"),
+    ],
+    [t],
+  );
+
   const setRight = (id: RightsCheckId, value: TriState) => {
     setDraft((prev) => ({
       ...prev,
@@ -94,6 +108,7 @@ export default function PreDisciplinaryLogPage() {
         memberName: t("fields.memberName"),
         meetingDate: t("fields.meetingDate"),
         allegationType: t("fields.allegationType"),
+        priorSteps: t("fields.priorSteps"),
         rights: t("fields.rights"),
         allegations: t("fields.allegations"),
         memberNarrative: t("fields.memberNarrative"),
@@ -110,6 +125,7 @@ export default function PreDisciplinaryLogPage() {
         exportMarkdown: t("export.markdown"),
         exportPdf: t("export.pdf"),
         clearDraft: t("export.clear"),
+        printChecklist: t("export.printChecklist"),
       }}
       onExportMarkdown={() => {
         void runExport(async () => {
@@ -128,15 +144,19 @@ export default function PreDisciplinaryLogPage() {
           );
         });
       }}
-      onClear={() => {
-        clearPreDisciplinaryDraft();
-        clear();
-      }}
+      onPrintChecklist={() => window.print()}
+      onClear={clear}
     />
   );
 
   const form = (
     <Card density="compact" className="space-y-4">
+      {saveFailed ? (
+        <Callout tone="warning" role="status">
+          {t("saveFailed")}
+        </Callout>
+      ) : null}
+
       {criminal ? (
         <Callout tone="danger" role="alert" className="sticky top-2 z-10">
           <p className="font-semibold">{t("escalation.title")}</p>
@@ -148,6 +168,20 @@ export default function PreDisciplinaryLogPage() {
         <p className="font-medium text-gray-900">{t("confidentiality.title")}</p>
         <p className="mt-1">{t("confidentiality.body")}</p>
       </Callout>
+
+      <div className="space-y-2 rounded-lg border border-gray-200 border-l-2 border-l-opseu-blue/30 p-3">
+        <p className="text-sm font-medium text-gray-900">{t("ladder.title")}</p>
+        <p className="text-xs text-gray-600">{t("ladder.hint")}</p>
+        <ProgressiveDisciplineLadderDiagram steps={ladderSteps} />
+        <p className="text-sm">
+          <Link
+            href="/guide/officer-learning/progressive-discipline"
+            className="font-semibold text-opseu-blue underline underline-offset-2"
+          >
+            {t("ladder.moduleLink")}
+          </Link>
+        </p>
+      </div>
 
       <Input
         label={t("fields.memberName")}
@@ -182,42 +216,59 @@ export default function PreDisciplinaryLogPage() {
         ))}
       </Select>
 
-      <fieldset className="space-y-3">
-        <legend className="text-sm font-medium text-gray-700">
-          {t("fields.rights")}
-        </legend>
-        <p className="text-xs text-gray-500">{t("fields.rightsHint")}</p>
-        {RIGHTS_CHECKS.map((id) => (
-          <div key={id} className="space-y-1.5 rounded-lg border border-gray-200 p-3">
-            <p className="text-sm font-medium text-gray-900">{t(`rights.${id}`)}</p>
+      <Textarea
+        label={t("fields.priorSteps")}
+        rows={2}
+        value={draft.priorSteps}
+        onChange={(e) =>
+          setDraft((prev) => ({ ...prev, priorSteps: e.target.value }))
+        }
+        placeholder={t("fields.priorStepsHint")}
+      />
+
+      <div ref={printRef} className="space-y-3">
+        <fieldset className="space-y-3">
+          <legend className="text-sm font-medium text-gray-700">
+            {t("fields.rights")}
+          </legend>
+          <p className="text-xs text-gray-500">{t("fields.rightsHint")}</p>
+          {RIGHTS_CHECKS.map((id) => (
             <div
-              role="radiogroup"
-              aria-label={t(`rights.${id}`)}
-              className="flex flex-wrap gap-2"
+              key={id}
+              className="space-y-1.5 rounded-lg border border-gray-200 p-3"
             >
-              {(["yes", "no", "unset"] as const).map((value) => {
-                const selected = draft.rights[id] === value;
-                return (
-                  <button
-                    key={value}
-                    type="button"
-                    role="radio"
-                    aria-checked={selected}
-                    onClick={() => setRight(id, value)}
-                    className={`min-h-11 rounded-lg border px-3 text-sm font-medium focus-visible:ring-2 focus-visible:ring-opseu-blue/40 ${
-                      selected
-                        ? "border-opseu-blue bg-opseu-blue/10 text-opseu-dark"
-                        : "border-gray-200 bg-white text-gray-700"
-                    }`}
-                  >
-                    {t(`triState.${value}`)}
-                  </button>
-                );
-              })}
+              <p className="text-sm font-medium text-gray-900">
+                {t(`rights.${id}`)}
+              </p>
+              <div
+                role="radiogroup"
+                aria-label={t(`rights.${id}`)}
+                className="flex flex-wrap gap-2"
+              >
+                {(["yes", "no", "unset"] as const).map((value) => {
+                  const selected = draft.rights[id] === value;
+                  return (
+                    <button
+                      key={value}
+                      type="button"
+                      role="radio"
+                      aria-checked={selected}
+                      onClick={() => setRight(id, value)}
+                      className={`min-h-11 rounded-lg border px-3 text-sm font-medium focus-visible:ring-2 focus-visible:ring-opseu-blue/40 ${
+                        selected
+                          ? "border-opseu-blue bg-opseu-blue/10 text-opseu-dark"
+                          : "border-gray-200 bg-white text-gray-700"
+                      }`}
+                    >
+                      {t(`triState.${value}`)}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
-      </fieldset>
+          ))}
+        </fieldset>
+      </div>
 
       <Textarea
         label={t("fields.allegations")}

@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
 import { Callout } from "@/components/ui/Callout";
@@ -13,12 +14,15 @@ import {
   ScriptBlock,
   SuggestionPanel,
 } from "@/components/tools/steward-guides/SuggestionPanel";
+import { ViabilityScorecard } from "@/components/tools/steward-guides/ViabilityScorecard";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
+import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
 import {
   ALTERNATE_ROUTES,
   DIAGNOSTIC_POINTS,
   buildAlternateRouteDrafts,
+  buildFarDraftText,
   buildGrievanceDraftText,
   clearComplaintDraft,
   complaintDraftToMarkdown,
@@ -36,16 +40,18 @@ import {
 
 export default function ComplaintVsGrievancePage() {
   const t = useTranslations("complaintVsGrievance");
-  const { draft, setDraft, clear } = useStewardGuideDraft({
+  const { draft, setDraft, clear, saveFailed } = useStewardGuideDraft({
     load: loadComplaintDraft,
     save: saveComplaintDraft,
     createEmpty: createEmptyComplaintDraft,
+    clearStorage: clearComplaintDraft,
   });
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
 
   const score = grievanceViabilityIndex(draft);
   const showGrievance = unlocksGrievanceForm(score);
+  const caSource = COMMS_SOURCES["opseu-collective-agreements"];
 
   const scriptLabels = useMemo(
     () => ({
@@ -59,12 +65,16 @@ export default function ComplaintVsGrievancePage() {
         ALTERNATE_ROUTES.map((id) => [id, t(`routes.${id}.draft`)]),
       ) as Record<AlternateRouteId, string>,
       grievanceDraftHeading: t("preview.grievanceDraft"),
+      farDraftHeading: t("preview.farDraft"),
       who: t("sixWs.who"),
       what: t("sixWs.what"),
       when: t("sixWs.when"),
       where: t("sixWs.where"),
       why: t("sixWs.why"),
       want: t("sixWs.want"),
+      facts: t("far.facts"),
+      argument: t("far.argument"),
+      resolution: t("far.resolution"),
       article: t("fields.articleSection"),
       indexLabel: t("score.label"),
       grievancePath: t("score.grievancePath"),
@@ -75,6 +85,10 @@ export default function ComplaintVsGrievancePage() {
 
   const grievanceText = useMemo(
     () => buildGrievanceDraftText(draft, scriptLabels),
+    [draft, scriptLabels],
+  );
+  const farText = useMemo(
+    () => buildFarDraftText(draft, scriptLabels),
     [draft, scriptLabels],
   );
   const routeDrafts = useMemo(
@@ -104,6 +118,10 @@ export default function ComplaintVsGrievancePage() {
       scripts: scriptLabels,
     });
 
+  const printChecklist = () => {
+    window.print();
+  };
+
   const exportBar = (
     <StewardGuideExportBar
       exporting={exporting}
@@ -111,6 +129,7 @@ export default function ComplaintVsGrievancePage() {
         exportMarkdown: t("export.markdown"),
         exportPdf: t("export.pdf"),
         clearDraft: t("export.clear"),
+        printChecklist: t("export.printChecklist"),
       }}
       onExportMarkdown={() => {
         void runExport(async () => {
@@ -129,23 +148,36 @@ export default function ComplaintVsGrievancePage() {
           );
         });
       }}
-      onClear={() => {
-        clearComplaintDraft();
-        clear();
-      }}
+      onPrintChecklist={printChecklist}
+      onClear={clear}
+    />
+  );
+
+  const scorecard = (
+    <ViabilityScorecard
+      answers={draft.answers}
+      labels={scriptLabels.pointLabels}
+      scoreLabel={t("score.label")}
+      score={score}
     />
   );
 
   const form = (
     <Card density="compact" className="space-y-4">
-      <Callout tone={showGrievance ? "success" : "warning"}>
-        <p className="font-semibold">
-          {t("score.label")}: {score} / 5
-        </p>
-        <p className="mt-1">
-          {showGrievance ? t("score.grievancePath") : t("score.alternatePath")}
-        </p>
-      </Callout>
+      {saveFailed ? (
+        <Callout tone="warning" role="status">
+          {t("saveFailed")}
+        </Callout>
+      ) : null}
+
+      <div className="space-y-3">
+        <Callout tone={showGrievance ? "success" : "warning"}>
+          <p className="font-semibold">
+            {showGrievance ? t("score.grievancePath") : t("score.alternatePath")}
+          </p>
+        </Callout>
+        {scorecard}
+      </div>
 
       <fieldset className="space-y-3">
         <legend className="text-sm font-medium text-gray-700">
@@ -154,7 +186,7 @@ export default function ComplaintVsGrievancePage() {
         {DIAGNOSTIC_POINTS.map((id) => (
           <div
             key={id}
-            className="space-y-2 rounded-lg border border-gray-200 p-3"
+            className="space-y-2 rounded-lg border border-gray-200 border-l-2 border-l-opseu-blue/30 p-3"
           >
             <p className="text-sm font-medium text-gray-900">
               {t(`points.${id}.label`)}
@@ -186,48 +218,118 @@ export default function ComplaintVsGrievancePage() {
               })}
             </div>
             {id === "caViolation" && draft.answers.caViolation === "yes" ? (
-              <Input
-                label={t("fields.articleSection")}
-                value={draft.articleSection}
-                onChange={(e) =>
-                  setDraft((prev) => ({
-                    ...prev,
-                    articleSection: e.target.value,
-                  }))
-                }
-                placeholder={t("fields.articleSectionHint")}
-              />
+              <div className="space-y-2">
+                <Input
+                  label={t("fields.articleSection")}
+                  value={draft.articleSection}
+                  onChange={(e) =>
+                    setDraft((prev) => ({
+                      ...prev,
+                      articleSection: e.target.value,
+                    }))
+                  }
+                  placeholder={t("fields.articleSectionHint")}
+                />
+                <Callout tone="muted">
+                  <p className="font-medium text-gray-900">
+                    {t("caGuidance.title")}
+                  </p>
+                  <p className="mt-1">{t("caGuidance.body")}</p>
+                  <ul className="mt-2 list-inside list-disc space-y-1 text-sm">
+                    <li>
+                      <Link
+                        href="/guide/grievance-process"
+                        className="font-semibold text-opseu-blue underline underline-offset-2"
+                      >
+                        {t("caGuidance.grievanceGuide")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/app/snippets"
+                        className="font-semibold text-opseu-blue underline underline-offset-2"
+                      >
+                        {t("caGuidance.snippets")}
+                      </Link>
+                    </li>
+                    {caSource ? (
+                      <li>
+                        <a
+                          href={caSource.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-semibold text-opseu-blue underline underline-offset-2"
+                        >
+                          {t("caGuidance.caFinder")}
+                        </a>
+                      </li>
+                    ) : null}
+                  </ul>
+                </Callout>
+              </div>
             ) : null}
           </div>
         ))}
       </fieldset>
 
       {showGrievance ? (
-        <fieldset className="space-y-3">
-          <legend className="text-sm font-medium text-gray-700">
-            {t("sixWs.heading")}
-          </legend>
-          {(
-            [
-              ["who", "who"],
-              ["what", "what"],
-              ["when", "when"],
-              ["where", "where"],
-              ["why", "why"],
-              ["want", "want"],
-            ] as const
-          ).map(([key, field]) => (
+        <>
+          <fieldset className="space-y-3">
+            <legend className="text-sm font-medium text-gray-700">
+              {t("sixWs.heading")}
+            </legend>
+            {(
+              [
+                ["who", "who"],
+                ["what", "what"],
+                ["when", "when"],
+                ["where", "where"],
+                ["why", "why"],
+                ["want", "want"],
+              ] as const
+            ).map(([key, field]) => (
+              <Textarea
+                key={key}
+                label={t(`sixWs.${key}`)}
+                rows={2}
+                value={draft[field]}
+                onChange={(e) =>
+                  setDraft((prev) => ({ ...prev, [field]: e.target.value }))
+                }
+              />
+            ))}
+          </fieldset>
+          <fieldset className="space-y-3">
+            <legend className="text-sm font-medium text-gray-700">
+              {t("far.heading")}
+            </legend>
+            <p className="text-xs text-gray-500">{t("far.hint")}</p>
             <Textarea
-              key={key}
-              label={t(`sixWs.${key}`)}
-              rows={2}
-              value={draft[field]}
+              label={t("far.facts")}
+              rows={3}
+              value={draft.facts}
               onChange={(e) =>
-                setDraft((prev) => ({ ...prev, [field]: e.target.value }))
+                setDraft((prev) => ({ ...prev, facts: e.target.value }))
               }
             />
-          ))}
-        </fieldset>
+            <Textarea
+              label={t("far.argument")}
+              rows={3}
+              value={draft.argument}
+              onChange={(e) =>
+                setDraft((prev) => ({ ...prev, argument: e.target.value }))
+              }
+            />
+            <Textarea
+              label={t("far.resolution")}
+              rows={3}
+              value={draft.resolution}
+              onChange={(e) =>
+                setDraft((prev) => ({ ...prev, resolution: e.target.value }))
+              }
+            />
+          </fieldset>
+        </>
       ) : (
         <fieldset className="space-y-2">
           <legend className="text-sm font-medium text-gray-700">
@@ -244,6 +346,16 @@ export default function ComplaintVsGrievancePage() {
               onChange={(on) => toggleRoute(id, on)}
             />
           ))}
+          {draft.alternateRoutes.includes("informalSupervisor") ? (
+            <Callout tone="brand">
+              <Link
+                href="/app/informal-log"
+                className="font-semibold text-opseu-blue underline underline-offset-2"
+              >
+                {t("routes.informalLogCta")}
+              </Link>
+            </Callout>
+          ) : null}
         </fieldset>
       )}
     </Card>
@@ -252,11 +364,15 @@ export default function ComplaintVsGrievancePage() {
   const preview = (
     <SuggestionPanel title={t("preview.title")}>
       <p className="text-gray-600">{t("preview.hint")}</p>
+      {scorecard}
       {showGrievance ? (
-        <ScriptBlock
-          label={t("preview.grievanceDraft")}
-          text={grievanceText}
-        />
+        <>
+          <ScriptBlock
+            label={t("preview.grievanceDraft")}
+            text={grievanceText}
+          />
+          <ScriptBlock label={t("preview.farDraft")} text={farText} />
+        </>
       ) : routeDrafts.length > 0 ? (
         routeDrafts.map((route) => (
           <ScriptBlock
@@ -266,7 +382,7 @@ export default function ComplaintVsGrievancePage() {
           />
         ))
       ) : (
-        <p className="text-gray-600">{t("preview.pickRoutes")}</p>
+        <Callout tone="muted">{t("preview.pickRoutes")}</Callout>
       )}
     </SuggestionPanel>
   );

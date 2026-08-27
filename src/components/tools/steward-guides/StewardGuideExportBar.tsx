@@ -6,11 +6,13 @@ type StewardGuideExportBarProps = {
   onExportMarkdown: () => void;
   onExportPdf: () => void;
   onClear: () => void;
+  onPrintChecklist?: () => void;
   exporting?: boolean;
   labels: {
     exportMarkdown: string;
     exportPdf: string;
     clearDraft: string;
+    printChecklist?: string;
   };
 };
 
@@ -18,11 +20,12 @@ export function StewardGuideExportBar({
   onExportMarkdown,
   onExportPdf,
   onClear,
+  onPrintChecklist,
   exporting,
   labels,
 }: StewardGuideExportBarProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 print:hidden">
       <Button
         type="button"
         onClick={onExportMarkdown}
@@ -40,6 +43,17 @@ export function StewardGuideExportBar({
       >
         {labels.exportPdf}
       </Button>
+      {onPrintChecklist && labels.printChecklist ? (
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onPrintChecklist}
+          disabled={exporting}
+          className="min-h-11"
+        >
+          {labels.printChecklist}
+        </Button>
+      ) : null}
       <Button
         type="button"
         variant="ghost"

@@ -139,6 +139,7 @@ export const RELATED_BY_TOOL: Record<
   "complaint-vs-grievance": [
     { href: "/guide/grievance-process", navKey: "grievanceProcessGuide" },
     { href: "/guide/dfr", navKey: "dfrGuide" },
+    { href: "/guide/steward-101", navKey: "steward101Guide" },
     { href: "/tools/document-generator", navKey: "documentGenerator" },
   ],
 };

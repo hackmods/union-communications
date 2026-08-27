@@ -51,6 +51,8 @@ export type PreDisciplinaryDraft = {
   allegationType: AllegationTypeId | "";
   allegations: string;
   memberNarrative: string;
+  /** Prior progressive steps already on file (dates / labels). */
+  priorSteps: string;
   rights: Record<RightsCheckId, TriState>;
   mitigators: MitigatingFactorId[];
 };
@@ -62,6 +64,7 @@ export function createEmptyPreDisciplinaryDraft(): PreDisciplinaryDraft {
     allegationType: "",
     allegations: "",
     memberNarrative: "",
+    priorSteps: "",
     rights: {
       advanceNotice: "unset",
       representation: "unset",
@@ -97,6 +100,9 @@ export function isPreDisciplinaryDraft(v: unknown): v is PreDisciplinaryDraft {
   ) {
     return false;
   }
+  if (d.priorSteps !== undefined && typeof d.priorSteps !== "string") {
+    return false;
+  }
   const rights = d.rights as Record<string, unknown>;
   for (const id of RIGHTS_CHECKS) {
     if (!isTriState(rights[id])) return false;
@@ -105,7 +111,13 @@ export function isPreDisciplinaryDraft(v: unknown): v is PreDisciplinaryDraft {
 }
 
 export function loadPreDisciplinaryDraft(): PreDisciplinaryDraft | null {
-  return loadJsonDraft(PRE_DISCIPLINARY_STORAGE_KEY, isPreDisciplinaryDraft);
+  const raw = loadJsonDraft(PRE_DISCIPLINARY_STORAGE_KEY, isPreDisciplinaryDraft);
+  if (!raw) return null;
+  return {
+    ...createEmptyPreDisciplinaryDraft(),
+    ...raw,
+    priorSteps: raw.priorSteps ?? "",
+  };
 }
 
 export function savePreDisciplinaryDraft(draft: PreDisciplinaryDraft): boolean {
@@ -213,6 +225,7 @@ export function preDisciplinaryDraftToMarkdown(
     `**${labels.fields.memberName}:** ${draft.memberName || "—"}`,
     `**${labels.fields.meetingDate}:** ${draft.meetingDate || "—"}`,
     `**${labels.fields.allegationType}:** ${typeLabel}`,
+    `**${labels.fields.priorSteps}:** ${draft.priorSteps || "—"}`,
     "",
     `## ${labels.fields.rights}`,
     ...rightsLines,

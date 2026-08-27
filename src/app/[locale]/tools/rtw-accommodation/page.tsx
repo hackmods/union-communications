@@ -35,10 +35,11 @@ import {
 
 export default function RtwAccommodationPage() {
   const t = useTranslations("rtwAccommodation");
-  const { draft, setDraft, clear } = useStewardGuideDraft({
+  const { draft, setDraft, clear, saveFailed } = useStewardGuideDraft({
     load: loadRtwDraft,
     save: saveRtwDraft,
     createEmpty: createEmptyRtwDraft,
+    clearStorage: clearRtwDraft,
   });
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
@@ -109,6 +110,11 @@ export default function RtwAccommodationPage() {
 
   const form = (
     <Card density="compact" className="space-y-4">
+      {saveFailed ? (
+        <Callout tone="warning" role="status">
+          {t("saveFailed")}
+        </Callout>
+      ) : null}
       <Callout tone="warning" role="note">
         <p className="font-semibold text-amber-950">{t("privacy.title")}</p>
         <p className="mt-1">{t("privacy.body")}</p>
@@ -301,10 +307,7 @@ export default function RtwAccommodationPage() {
               );
             });
           }}
-          onClear={() => {
-            clearRtwDraft();
-            clear();
-          }}
+          onClear={clear}
         />
       }
       form={form}
@@ -334,10 +337,7 @@ export default function RtwAccommodationPage() {
               );
             });
           }}
-          onClear={() => {
-            clearRtwDraft();
-            clear();
-          }}
+          onClear={clear}
         />
       }
       exportError={exportError}
