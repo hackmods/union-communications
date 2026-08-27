@@ -655,6 +655,7 @@
     "eyebrow": "Formation des dirigeants",
     "title": "Centre de formation des dirigeants",
     "intro": "Six modules autogérés pour délégués et dirigeants locaux — application de la convention, discipline, droits de la personne, gouvernance, finances et pouvoir collectif. La progression est enregistrée sur cet appareil seulement.",
+    "sourcesIntro": "Lectures complémentaires provenant de fédérations syndicales canadiennes, de manuels multi-syndicaux pour délégués et de guides publics sur les droits de la personne — sans privilégier une seule centrale. Confirmez chaque règle dans votre convention et votre loi applicables.",
     "moduleLabel": "Module {number}",
     "readingTime": "Lecture {minutes} min",
     "backToGuide": "Retour au Plan directeur",
@@ -5836,8 +5837,8 @@
         "body": "Tous les outils visuels partagent le logo aucun/signature/symbole et une case Afficher le numéro de section — décochez-la pour un visuel symbole seulement."
       },
       "officer-learning-center": {
-        "title": "Centre de formation des dirigeants — six modules",
-        "body": "Modules autogérés sur l'application de la convention, la discipline, les droits de la personne, la gouvernance, les finances et le pouvoir collectif — avec quiz et progression sur votre appareil."
+        "title": "Centre de formation des dirigeants — formation multi-syndicale élargie",
+        "body": "Six modules approfondis avec scénarios, exercices et quiz — citant le CTC, la SCFP, Unifor et la CODP. La progression reste sur votre appareil."
       },
       "steward-101-guide": {
         "title": "Délégué 101 : votre rôle et vos droits",

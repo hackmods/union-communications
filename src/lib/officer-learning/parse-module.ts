@@ -47,11 +47,33 @@ function parseTableBlock(lines: string[]): ContentBlock | null {
 
 function detectCallout(text: string): ContentBlock | null {
   const trimmed = text.trim();
-  if (/^💡/.test(trimmed)) {
-    return { type: "callout", variant: "note", text: parseInline(trimmed.replace(/^💡\s*/, "")) };
+  if (/^💡|^Note:/i.test(trimmed)) {
+    return {
+      type: "callout",
+      variant: "note",
+      text: parseInline(trimmed.replace(/^(💡\s*|Note:\s*)/i, "")),
+    };
   }
-  if (/^⚠️/.test(trimmed)) {
-    return { type: "callout", variant: "warning", text: parseInline(trimmed.replace(/^⚠️\s*/, "")) };
+  if (/^⚠️|^Warning:/i.test(trimmed)) {
+    return {
+      type: "callout",
+      variant: "warning",
+      text: parseInline(trimmed.replace(/^(⚠️\s*|Warning:\s*)/i, "")),
+    };
+  }
+  if (/^📝|^Practice:/i.test(trimmed)) {
+    return {
+      type: "callout",
+      variant: "practice",
+      text: parseInline(trimmed.replace(/^(📝\s*|Practice:\s*)/i, "")),
+    };
+  }
+  if (/^🪞|^Reflection:/i.test(trimmed)) {
+    return {
+      type: "callout",
+      variant: "reflection",
+      text: parseInline(trimmed.replace(/^(🪞\s*|Reflection:\s*)/i, "")),
+    };
   }
   return null;
 }
@@ -210,19 +232,21 @@ function parseSections(lines: string[]): ModuleSection[] {
   };
 
   for (const line of bodyLines) {
-    if (line.startsWith("## ") && !line.includes("Overarching Purpose") && !line.includes("Core Learning Objectives")) {
+    if (
+      line.startsWith("## ") &&
+      !line.includes("Overarching Purpose") &&
+      !line.includes("Core Learning Objectives")
+    ) {
       flushBuffer();
       const title = line.replace(/^##\s+/, "").trim();
-      if (/^\d+\./.test(title)) {
-        currentSection = {
-          id: slugify(title),
-          title,
-          blocks: [],
-          subsections: [],
-        };
-        currentSubsection = null;
-        sections.push(currentSection);
-      }
+      currentSection = {
+        id: slugify(title),
+        title,
+        blocks: [],
+        subsections: [],
+      };
+      currentSubsection = null;
+      sections.push(currentSection);
       continue;
     }
 

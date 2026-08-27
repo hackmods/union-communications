@@ -94,21 +94,30 @@ function BlockRenderer({ block }: { block: ContentBlock }) {
           <code>{block.text}</code>
         </pre>
       );
-    case "callout":
+    case "callout": {
+      const styles =
+        block.variant === "warning"
+          ? "rounded-xl border border-amber-400/30 bg-amber-500/10 p-4 text-amber-50"
+          : block.variant === "practice"
+            ? "rounded-xl border border-sky-400/30 bg-sky-500/10 p-4 text-sky-50"
+            : block.variant === "reflection"
+              ? "rounded-xl border border-violet-400/30 bg-violet-500/10 p-4 text-violet-50"
+              : "rounded-xl border border-teal-400/30 bg-teal-500/10 p-4 text-teal-50";
+      const label =
+        block.variant === "warning"
+          ? "⚠️ Warning"
+          : block.variant === "practice"
+            ? "📝 Practice"
+            : block.variant === "reflection"
+              ? "🪞 Reflection"
+              : "💡 Note";
       return (
-        <div
-          className={
-            block.variant === "warning"
-              ? "rounded-xl border border-amber-400/30 bg-amber-500/10 p-4 text-amber-50"
-              : "rounded-xl border border-teal-400/30 bg-teal-500/10 p-4 text-teal-50"
-          }
-        >
-          <p className="font-semibold">
-            {block.variant === "warning" ? "⚠️ Warning" : "💡 Note"}
-          </p>
+        <div className={styles}>
+          <p className="font-semibold">{label}</p>
           <p className="mt-2 leading-relaxed">{renderInline(block.text)}</p>
         </div>
       );
+    }
     default:
       return null;
   }

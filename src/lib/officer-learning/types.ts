@@ -5,7 +5,7 @@ export type ContentBlock =
   | { type: "list"; ordered: boolean; items: string[] }
   | { type: "table"; headers: string[]; rows: string[][] }
   | { type: "code"; text: string }
-  | { type: "callout"; variant: "note" | "warning"; text: string };
+  | { type: "callout"; variant: "note" | "warning" | "practice" | "reflection"; text: string };
 
 export type ModuleSection = {
   id: string;

@@ -165,7 +165,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/officer-learning": {
       title: "Officer Learning Center",
       description:
-        "Six self-paced training modules for stewards and local officers — grievances, discipline, human rights, governance, finances, and collective power.",
+        "Six expanded steward modules with scenarios, drills, and quizzes. Draws on CLC, CUPE, Unifor, and OHRC education — progress stays on your device.",
     },
     "/guide/officer-learning/contract-enforcement": {
       title: "Module 1: Contract Enforcement",
@@ -352,7 +352,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/officer-learning": {
       title: "Centre de formation des dirigeants",
       description:
-        "Six modules autogérés pour délégués et dirigeants locaux — griefs, discipline, droits de la personne, gouvernance, finances et pouvoir collectif.",
+        "Six modules approfondis avec scénarios, exercices et quiz. S'appuie sur la formation du CTC, de la SCFP, d'Unifor et de la CODP — progression sur votre appareil.",
     },
     "/guide/officer-learning/contract-enforcement": {
       title: "Module 1 : Application de la convention",

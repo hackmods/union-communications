@@ -13,14 +13,25 @@ import {
 import { ModuleContentRenderer } from "./ModuleContentRenderer";
 import { ModuleQuiz } from "./ModuleQuiz";
 import { ModuleToc } from "./ModuleToc";
+import { SourcesBlock } from "@/components/comms/SourcesBlock";
 
 type Props = {
   meta: ModuleMeta;
   module: ParsedModule;
   nextModuleSlug: string | null;
+  sourcesPageId: string;
+  sourcesTitle: string;
+  sourcesIntro: string;
 };
 
-export function ModuleViewer({ meta, module, nextModuleSlug }: Props) {
+export function ModuleViewer({
+  meta,
+  module,
+  nextModuleSlug,
+  sourcesPageId,
+  sourcesTitle,
+  sourcesIntro,
+}: Props) {
   const t = useTranslations("officerLearning");
   const articleRef = useRef<HTMLElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -172,6 +183,11 @@ export function ModuleViewer({ meta, module, nextModuleSlug }: Props) {
             nextModuleSlug={nextModuleSlug}
             onCompleted={() => setProgress(getModuleProgress(meta.id))}
           />
+
+          <div className="rounded-2xl bg-white p-6 text-slate-900 shadow-lg md:p-8">
+            <p className="mb-4 text-sm text-gray-600">{sourcesIntro}</p>
+            <SourcesBlock pageId={sourcesPageId} title={sourcesTitle} />
+          </div>
         </article>
       </div>
     </div>

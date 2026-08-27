@@ -655,6 +655,7 @@
     "eyebrow": "Officer training",
     "title": "Officer Learning Center",
     "intro": "Six self-paced modules for stewards and local officers — contract enforcement, discipline, human rights, governance, finances, and collective power. Progress saves on this device only.",
+    "sourcesIntro": "Further reading from Canadian labour federations, multi-union steward handbooks, and public human rights guidance — not tied to one national. Confirm every rule against your own collective agreement and statute.",
     "moduleLabel": "Module {number}",
     "readingTime": "{minutes} min read",
     "backToGuide": "Back to The Blueprint",
@@ -5886,8 +5887,8 @@
         "body": "Every canvas tool now shares none/lockup/mark logo plus a Show local number toggle — turn the label off for mark-only visuals."
       },
       "officer-learning-center": {
-        "title": "Officer Learning Center — six training modules",
-        "body": "Self-paced modules on contract enforcement, discipline, human rights, governance, finances, and collective power — with quizzes and progress saved on your device."
+        "title": "Officer Learning Center — fuller multi-union training",
+        "body": "Six expanded steward modules with scenarios, drills, and quizzes — citing CLC, CUPE, Unifor, and OHRC education. Progress stays on your device."
       },
       "steward-101-guide": {
         "title": "Steward 101: Your Role and Rights",

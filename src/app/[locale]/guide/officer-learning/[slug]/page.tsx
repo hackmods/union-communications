@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import {
   getModuleBySlug,
@@ -9,15 +9,17 @@ import {
 } from "@/lib/officer-learning/modules";
 import { ModuleViewer } from "@/components/officer-learning/ModuleViewer";
 
+const SOURCES_PAGE_BY_SLUG: Record<string, string> = {
+  "contract-enforcement": "officerLearningContract",
+  "progressive-discipline": "officerLearningDiscipline",
+  "human-rights-accommodation": "officerLearningHumanRights",
+  "democratic-governance": "officerLearningGovernance",
+  "financial-health": "officerLearningFinancial",
+  "building-collective-power": "officerLearningCollectivePower",
+};
+
 export async function generateStaticParams() {
-  return [
-    { slug: "contract-enforcement" },
-    { slug: "progressive-discipline" },
-    { slug: "human-rights-accommodation" },
-    { slug: "democratic-governance" },
-    { slug: "financial-health" },
-    { slug: "building-collective-power" },
-  ];
+  return Object.keys(SOURCES_PAGE_BY_SLUG).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -44,6 +46,18 @@ export default async function OfficerLearningModulePage({
 
   const parsed = loadParsedModule(meta.id);
   const nextModuleSlug = getNextModuleSlug(slug);
+  const ts = await getTranslations("sources");
+  const t = await getTranslations("officerLearning");
+  const sourcesPageId = SOURCES_PAGE_BY_SLUG[slug] ?? "officerLearning";
 
-  return <ModuleViewer meta={meta} module={parsed} nextModuleSlug={nextModuleSlug} />;
+  return (
+    <ModuleViewer
+      meta={meta}
+      module={parsed}
+      nextModuleSlug={nextModuleSlug}
+      sourcesPageId={sourcesPageId}
+      sourcesTitle={ts("title")}
+      sourcesIntro={t("sourcesIntro")}
+    />
+  );
 }

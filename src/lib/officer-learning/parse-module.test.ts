@@ -16,8 +16,8 @@ describe("parseOfficerLearningModule", () => {
       expect(parsed.title.length).toBeGreaterThan(0);
       expect(parsed.purpose.length).toBeGreaterThan(0);
       expect(parsed.objectives.length).toBeGreaterThanOrEqual(3);
-      expect(parsed.sections.length).toBeGreaterThanOrEqual(3);
-      expect(parsed.quiz).toHaveLength(3);
+      expect(parsed.sections.length).toBeGreaterThanOrEqual(8);
+      expect(parsed.quiz.length).toBeGreaterThanOrEqual(3);
       for (const question of parsed.quiz) {
         expect(question.options.length).toBeGreaterThanOrEqual(4);
         expect(question.correctOptionId).toMatch(/^[A-D]$/);
