@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { Callout } from "@/components/ui/Callout";
@@ -55,6 +56,7 @@ export default async function MembershipSignupGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("membershipSignupGuide");
   const nav = await getTranslations("nav");
+  const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
   const labour = await getTranslations("guide");
 
@@ -68,6 +70,28 @@ export default async function MembershipSignupGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            {
+              href: "/tools/qr-board?preset=membershipFtPt",
+              label: nav("qrBoard"),
+            },
+            {
+              href: "/tools/qr-card?preset=joinUnion",
+              label: nav("qrCard"),
+              variant: "outline",
+            },
+            {
+              href: "/tools/document-generator?preset=welcome-letter",
+              label: nav("documentGenerator"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("related.stewardPlaybooks") },

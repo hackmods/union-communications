@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 
@@ -46,6 +47,7 @@ export default async function EmailBroadcastGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("emailBroadcastGuide");
   const nav = await getTranslations("nav");
+  const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
   const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
@@ -58,6 +60,25 @@ export default async function EmailBroadcastGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            { href: "/tools/document-generator", label: nav("documentGenerator") },
+            {
+              href: "/tools/board-notice",
+              label: nav("boardNotice"),
+              variant: "outline",
+            },
+            {
+              href: "/tools/flyer-maker",
+              label: nav("flyerMaker"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/print", label: nav("printGuide") },

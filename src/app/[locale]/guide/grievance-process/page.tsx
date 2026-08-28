@@ -4,6 +4,12 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
+import {
+  guideCtaClass,
+  guideCtaClassBlock,
+  guideCtaOutlineClassBlock,
+} from "@/components/comms/guideCtaClasses";
 import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -80,12 +86,6 @@ const toolKeys = [
   "ca",
 ] as const;
 
-const linkButtonClass =
-  "inline-flex w-full items-center justify-center rounded-lg bg-opseu-blue px-4 py-2 text-base font-semibold text-white transition-colors hover:bg-opseu-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40";
-
-const linkButtonOutlineClass =
-  "inline-flex w-full items-center justify-center rounded-lg border-2 border-opseu-blue px-4 py-2 text-base font-semibold text-opseu-blue transition-colors hover:bg-opseu-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-opseu-blue/40";
-
 const richMarks = {
   strong: (chunks: ReactNode) => (
     <strong className="font-semibold text-opseu-dark">{chunks}</strong>
@@ -100,6 +100,7 @@ export default async function GrievanceProcessGuidePage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("grievanceGuide");
+  const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
   const tocItems = TOC.map(([id, key]) => ({
@@ -115,6 +116,28 @@ export default async function GrievanceProcessGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            {
+              href: "/tools/document-generator?preset=grievance-intake",
+              label: t("worksheet.exportCta"),
+            },
+            {
+              href: "/tools/complaint-vs-grievance",
+              label: t("tools.items.diagnostic.label"),
+              variant: "outline",
+            },
+            {
+              href: "/tools/pre-disciplinary-log",
+              label: t("tools.items.discipline.label"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("related.stewardPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
@@ -398,7 +421,7 @@ export default async function GrievanceProcessGuidePage({
         <div className="button-row mt-5 max-w-lg">
           <Link
             href="/tools/document-generator?preset=grievance-intake"
-            className={linkButtonClass}
+            className={guideCtaClassBlock}
           >
             {t("worksheet.exportCta")}
           </Link>
@@ -428,32 +451,32 @@ export default async function GrievanceProcessGuidePage({
         <div className="button-row mt-5 max-w-2xl">
           <Link
             href="/tools/complaint-vs-grievance"
-            className={linkButtonOutlineClass}
+            className={guideCtaOutlineClassBlock}
           >
             {t("tools.items.diagnostic.label")}
           </Link>
           <Link
             href="/tools/pre-disciplinary-log"
-            className={linkButtonOutlineClass}
+            className={guideCtaOutlineClassBlock}
           >
             {t("tools.items.discipline.label")}
           </Link>
           <Link
             href="/tools/rtw-accommodation"
-            className={linkButtonOutlineClass}
+            className={guideCtaOutlineClassBlock}
           >
             {t("tools.items.rtw.label")}
           </Link>
           <Link
             href="/tools/document-generator?preset=grievance-intake"
-            className={linkButtonOutlineClass}
+            className={guideCtaOutlineClassBlock}
           >
             {t("worksheet.exportCta")}
           </Link>
-          <Link href="/guide/dfr" className={linkButtonOutlineClass}>
+          <Link href="/guide/dfr" className={guideCtaOutlineClassBlock}>
             {t("related.dfr")}
           </Link>
-          <Link href="/app/grievances" className={linkButtonOutlineClass}>
+          <Link href="/app/grievances" className={guideCtaOutlineClassBlock}>
             {t("hub.cta")}
           </Link>
         </div>
@@ -463,7 +486,7 @@ export default async function GrievanceProcessGuidePage({
         <p className="font-semibold text-opseu-dark">{t("hub.title")}</p>
         <p className="mt-2 leading-relaxed text-gray-700">{t("hub.body")}</p>
         <div className="button-row mt-4">
-          <Link href="/app/grievances" className={linkButtonClass}>
+          <Link href="/app/grievances" className={guideCtaClass}>
             {t("hub.cta")}
           </Link>
         </div>

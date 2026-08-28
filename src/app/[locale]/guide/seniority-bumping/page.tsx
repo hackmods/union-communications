@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { Callout } from "@/components/ui/Callout";
 import { guideCtaClass } from "@/components/comms/guideCtaClasses";
@@ -55,6 +56,7 @@ export default async function SeniorityBumpingGuidePage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("seniorityGuide");
+  const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
   const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
@@ -67,6 +69,18 @@ export default async function SeniorityBumpingGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            {
+              href: "/tools/document-generator?preset=seniority-worksheet",
+              label: t("worksheet.exportCta"),
+            },
+          ]}
+        />
+      }
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },

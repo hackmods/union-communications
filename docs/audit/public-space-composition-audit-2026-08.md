@@ -166,7 +166,7 @@ From [`.cursor/rules/responsive-layouts.mdc`](../../.cursor/rules/responsive-lay
 | UI-015 | A4 | Resources hub grids — **closed 2026-08-27** |
 | UI-017 | B2 | Tool shell regression sweep — **closed 2026-08-27** (parity holds) |
 | UI-019 | C1 | Examples/assets/captions composition — **closed 2026-08-27** |
-| UI-020 | C2 | Focus pages verify — **closed 2026-08-27** |
+| UI-018 | B3 | Guide tool aside rail — **closed 2026-08-27** |
 | UI-010 | 3 | Hub + Portal mobile matrix |
 | UI-011 | 4 | OL `GuideToc` convergence |
 | COPY-006 | 5 | Demand-driven guide copy |

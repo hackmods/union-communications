@@ -140,6 +140,15 @@ function CaptionsPageContent() {
                 <Button variant="outline">{nav("shortFormGuide")}</Button>
               </Link>
             </div>
+            <p className="mt-4 text-sm text-gray-600">
+              {tc("examplesPrompt")}{" "}
+              <Link
+                href="/examples"
+                className="font-medium text-opseu-blue underline underline-offset-2 hover:underline"
+              >
+                {tc("examplesLink")}
+              </Link>
+            </p>
           </>
         )}
       </div>

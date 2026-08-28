@@ -141,6 +141,10 @@
     "setupBrandPrompt": "Ajoutez les couleurs et le logo de votre section dans la Trousse de marque pour harmoniser cet outil.",
     "setupBrandLink": "Ouvrir la Trousse de marque"
   },
+  "guideCommon": {
+    "asideTitle": "Ouvrir un outil",
+    "asideIntro": "Les exportations restent sur votre appareil. Configurez d'abord la Trousse de marque pour que couleurs et logo correspondent à votre section."
+  },
   "routeUi": {
     "errorTitle": "Besoin d’un délégué",
     "errorBody": "Quelque chose a cassé de notre côté, pas du vôtre. Réessayez, ou revenez à une page que vous connaissez.",
@@ -1236,7 +1240,7 @@
   "printGuide": {
     "title": "Guide des communications imprimées",
     "subtitle": "Pourquoi l’imprimé compte encore, comment concevoir des tracts efficaces, et comment imprimer avec un petit budget.",
-    "intro": "Le papier rejoint encore les membres qui ne voient jamais une publication. Servez-vous de cette page pour décider quand imprimer, comment concevoir pour le plancher, et comment étirer un petit budget.",
+    "intro": "Le papier rejoint encore les membres qui ne voient jamais une publication. Servez-vous de cette page pour décider quand imprimer, comment concevoir pour le plancher, et comment étirer un petit budget. Commencez par un tract de rassemblement, puis affichez le même titre au tableau.",
     "relatedLabel": "Voir aussi",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -1360,7 +1364,7 @@
   "emailBroadcastGuide": {
     "title": "Guide courriel et diffusion",
     "subtitle": "Rédigez ici l'avis officiel de réunion ou de vote, puis envoyez-le depuis votre boîte.",
-    "intro": "Le courriel est le dossier officiel : date, heure, lieu et lien de vote. Les publications sociales servent à la vitesse et aux photos ; cette page explique comment rédiger un courriel que les membres liront vraiment.",
+    "intro": "Le courriel est le dossier officiel : date, heure, lieu et lien de vote. Les publications sociales servent à la vitesse et aux photos ; cette page explique comment rédiger un courriel que les membres liront vraiment. Utilisez toujours le Cci pour les listes de membres — ne mettez jamais les adresses dans le champ À.",
     "relatedLabel": "Voir aussi",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
@@ -2065,11 +2069,13 @@
   },
   "examples": {
     "title": "Exemples sociaux",
-    "subtitle": "Parcourez des modèles de publications locales, comprenez pourquoi ils fonctionnent, puis créez les vôtres avec les outils.",
+    "subtitle": "Parcourez des modèles de publications locales, comprenez pourquoi ils fonctionnent, puis recréez-les dans le Créateur de graphiques ou le Créateur de tracts. Appariez avec la bibliothèque de légendes pour le texte.",
     "filterLabel": "Filtrer par catégorie",
     "whyHeading": "Pourquoi ça fonctionne",
     "planPrompt": "Besoin de la liste complète de publication?",
     "planLink": "Ouvrir la feuille de route Première semaine",
+    "captionsPrompt": "Besoin d'une légende assortie?",
+    "captionsLink": "Ouvrir la bibliothèque de légendes",
     "categories": {
       "all": "Tous",
       "strike": "Action de grève",
@@ -6447,6 +6453,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "guide-tool-aside": {
+        "title": "Guides — raccourcis outils sur ordinateur",
+        "body": "Les guides de terrain affichent maintenant Ouvrir un outil dans la barre latérale sur grand écran — accédez aux feuilles, cartes QR et tracts sans défiler jusqu'en bas."
+      },
       "guide-playbook-layout": {
         "title": "Tutoriels syndicaux — plus faciles à lire sur ordinateur",
         "body": "Les tutoriels syndicaux affichent maintenant une table des matières latérale sur grand écran pour sauter d'une section à l'autre. Sur téléphone, la mise en page reste la même."
@@ -8543,7 +8553,7 @@
   },
   "assets": {
     "title": "Actifs de marque",
-    "description": "Trousses de référence et fichiers de départ pour les ateliers. Téléversez votre logo dans la Trousse de marque pour la production.",
+    "description": "Plaques de couleurs, variantes de logo et fichiers de départ pour les ateliers. Téléversez votre logo dans la Trousse de marque avant d'exporter depuis les outils.",
     "loading": "Chargement de votre marque…",
     "yourColours": "Vos couleurs",
     "yourLogo": "Votre logo",
@@ -8626,7 +8636,7 @@
   },
   "toolsIndex": {
     "title": "Outils",
-    "subtitle": "Trousse de marque d’abord, puis outils pour tableaux, impression, social et site.",
+    "subtitle": "Trousse de marque d'abord, puis outils pour tableaux, impression, social et site. Chaque exportation reste sur votre appareil avec les couleurs de votre section.",
     "channelGuidesTitle": "Guides par canal",
     "channelGuidesIntro": "Guides par canal pour aller plus loin.",
     "hint": "Définissez d'abord les couleurs et le logo dans",
@@ -8855,9 +8865,11 @@
   },
   "captions": {
     "title": "Bibliothèque de légendes et de mot-clics",
-    "subtitle": "Copiez une publication prête, ajoutez le numéro de section et les dates, puis collez sous votre téléchargement du Créateur de graphiques.",
+    "subtitle": "Copiez une publication prête, ajoutez le numéro de section et les dates, puis collez sous votre téléchargement du Créateur de graphiques. Consultez les Exemples sociaux pour des modèles complets.",
     "graphicMakerCta": "Ouvrir le Créateur de graphiques",
     "graphicMakerHint": "Après avoir copié une légende, téléchargez un graphique assorti.",
+    "examplesPrompt": "Vous voulez un modèle de publication complet?",
+    "examplesLink": "Parcourir les Exemples sociaux",
     "templates": {
       "welcome": {
         "category": "Général",

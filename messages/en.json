@@ -141,6 +141,10 @@
     "setupBrandPrompt": "Add your local colours and logo in Brand Kit so this tool matches your local.",
     "setupBrandLink": "Open Brand Kit"
   },
+  "guideCommon": {
+    "asideTitle": "Open a tool",
+    "asideIntro": "Exports stay on your device. Set Brand Kit first so colours and logo match your local."
+  },
   "routeUi": {
     "errorTitle": "Needs a steward",
     "errorBody": "Something broke on our side, not yours. Try again, or head back to a page you know.",
@@ -1236,7 +1240,7 @@
   "printGuide": {
     "title": "Print Communications Guide",
     "subtitle": "Why print still matters, how to design flyers that work, and how to print on a local budget.",
-    "intro": "Paper still reaches members who never see a post. Use this page to decide when to print, how to design for the shop floor, and how to stretch a small budget.",
+    "intro": "Paper still reaches members who never see a post. Use this page to decide when to print, how to design for the shop floor, and how to stretch a small budget. Start with one rally flyer, then post the same headline on the board.",
     "relatedLabel": "Also see",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -1360,7 +1364,7 @@
   "emailBroadcastGuide": {
     "title": "Email & Member Outreach Guide",
     "subtitle": "Write the official meeting or vote note here, then send it from your inbox.",
-    "intro": "Email is the official record: date, time, place, and the vote link. Social posts are for speed and photos; this page is how you write mail members will actually read.",
+    "intro": "Email is the official record: date, time, place, and the vote link. Social posts are for speed and photos; this page is how you write mail members will actually read. Always use BCC for member lists — never paste addresses in the To field.",
     "relatedLabel": "Also see",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
@@ -2065,11 +2069,13 @@
   },
   "examples": {
     "title": "Social Examples",
-    "subtitle": "Browse strong local post patterns, see why they work, then make your own with the tools.",
+    "subtitle": "Browse real local post patterns, see why they work, then rebuild them in Graphic Maker or Flyer Maker. Pair with the Caption library when you need matching text.",
     "filterLabel": "Filter by category",
     "whyHeading": "Why it works",
     "planPrompt": "Need the full posting checklist?",
     "planLink": "Open the First week roadmap",
+    "captionsPrompt": "Need matching caption text?",
+    "captionsLink": "Open the Caption library",
     "categories": {
       "all": "All",
       "strike": "Strike action",
@@ -3641,7 +3647,7 @@
   },
   "assets": {
     "title": "Brand Assets",
-    "description": "Reference brand packs and starter files for workshops. Upload your own logo in Brand Kit for production use.",
+    "description": "Reference colour plates, logo variants, and workshop starter files. Upload your own logo in Brand Kit before you export from the tools.",
     "loading": "Loading your brand…",
     "yourColours": "Your colours",
     "yourLogo": "Your logo",
@@ -6497,6 +6503,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "guide-tool-aside": {
+        "title": "Guides — tool shortcuts on desktop",
+        "body": "Playbook guides now show Open a tool in the sidebar on wider screens — jump straight to worksheets, QR cards, and flyers without scrolling to the bottom."
+      },
       "guide-playbook-layout": {
         "title": "Steward playbooks — easier to read on desktop",
         "body": "Labour playbooks now use a sidebar table of contents on wider screens so you can jump sections without losing your place. Phone layout stays the same."
@@ -8626,7 +8636,7 @@
   },
   "toolsIndex": {
     "title": "Tools",
-    "subtitle": "Brand Kit first, then boards, print, social, and website tools.",
+    "subtitle": "Brand Kit first, then boards, print, social, and website tools. Each export stays on your device with your local colours.",
     "channelGuidesTitle": "Channel guides",
     "channelGuidesIntro": "Guides by channel when you need more depth.",
     "hint": "Set colours and logo first in",
@@ -8855,9 +8865,11 @@
   },
   "captions": {
     "title": "Caption & Hashtag Library",
-    "subtitle": "Copy a ready post, swap in your local number and dates, then paste under your Graphic Maker download.",
+    "subtitle": "Copy a ready post, swap in your local number and dates, then paste under your Graphic Maker download. See Social Examples for full post patterns.",
     "graphicMakerCta": "Open Graphic Maker",
     "graphicMakerHint": "After you copy a caption, download a matching post graphic.",
+    "examplesPrompt": "Want a full post pattern to match?",
+    "examplesLink": "Browse Social Examples",
     "templates": {
       "welcome": {
         "category": "General",

@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
   guideCtaClass,
@@ -54,6 +55,7 @@ export default async function UnionBoardsGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("unionBoardsGuide");
   const nav = await getTranslations("nav");
+  const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
   const zoneLabels = {
@@ -81,6 +83,20 @@ export default async function UnionBoardsGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            { href: "/tools/board-notice", label: t("toolCta") },
+            {
+              href: "/tools/board-banner",
+              label: nav("boardBanner"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       footer={
         <SourcesBlock pageId="unionBoards" title={ts("title")} intro={ts("intro")} />
       }

@@ -6,6 +6,7 @@ import { Callout } from "@/components/ui/Callout";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 import { SHORT_FORM_EDITORS } from "@/lib/constants/short-form-editors";
@@ -52,6 +53,7 @@ export default async function ShortFormGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("shortFormGuide");
   const nav = await getTranslations("nav");
+  const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
   const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
@@ -64,6 +66,20 @@ export default async function ShortFormGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            {
+              href: "/tools/graphic-maker?aspect=portrait",
+              label: nav("graphicMaker"),
+            },
+            { href: "/captions", label: nav("captions"), variant: "outline" },
+            { href: "/examples", label: nav("socialExamples"), variant: "outline" },
+          ]}
+        />
+      }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/photo-consent", label: nav("photoConsent") },

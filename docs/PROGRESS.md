@@ -1,5 +1,13 @@
 # Progress Log
 
+## Public polish — tool asides, copy, cross-links (2026-08-27)
+
+- [x] **UI-018:** `GuideToolAside` on eight playbook guides; `guideCommon` EN/FR
+- [x] Copy polish: examples, assets, captions, tools index, print + email intros (COPY-006 partial)
+- [x] Grievance guide → shared `guideCtaClasses`; examples ↔ captions cross-links
+- [x] What's new `guide-tool-aside`
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts`
+
 ## UX uplift Phases A–C — guides, tools catalog, public pages (2026-08-27)
 
 - [x] **UI-012–015:** Remaining guides on playbook/hub presets — labour playbooks, gold facilitators, channel guides, resources hub grids, `/guide` index sidebar TOC, union-boards

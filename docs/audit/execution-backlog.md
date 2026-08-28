@@ -432,6 +432,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 **Category:** UI/Media
 **Status:** Closed — Focus-tier pages verified (manifesto, support, install, feedback, onboarding).
 
+### [UI-018] ✅ CLOSED (2026-08-27)
+**Category:** UI/Media
+**Status:** Closed — `GuideToolAside` on eight playbook guides (grievance, seniority, right-to-refuse, print, union-boards, membership-signup, short-form, email-broadcast); shared `guideCommon` aside copy EN/FR.
+
 ### [UI-010] ✅ CLOSED (2026-08-27)
 **Category:** UI/Media
 **Severity/Priority:** Medium
@@ -448,10 +452,10 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 
 ## COPY (`COPY-`)
 
-### [COPY-006] Open (P3 — demand-driven)
+### [COPY-006] Open (P3 — demand-driven, partial 2026-08-27)
 **Category:** Copy
 **Severity/Priority:** Low
-**Status:** Open — Guide copy depth for channel-tier print/email only when stewards request via feedback/workshops. P0–P3 rewrite queue closed 2026-08-24; do not bulk-reopen.
+**Status:** Partial — print + email intros deepened (worked example + BCC reminder); full channel-tier playbook depth still demand-driven via feedback/workshops.
 **Affected Architecture/Files:** `messages/en.json`, `messages/fr.json`, `docs/audit/guides-qol-2026-08.md`
 
 ---

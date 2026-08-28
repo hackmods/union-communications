@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
   guideCtaClass,
@@ -42,6 +43,7 @@ export default async function PrintGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("printGuide");
   const nav = await getTranslations("nav");
+  const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
   const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
@@ -54,6 +56,25 @@ export default async function PrintGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            { href: "/tools/flyer-maker", label: nav("flyerMaker") },
+            {
+              href: "/tools/board-notice",
+              label: nav("boardNotice"),
+              variant: "outline",
+            },
+            {
+              href: "/tools/solidarity-poster",
+              label: nav("solidarityPoster"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },

@@ -122,6 +122,15 @@ export default function ExamplesPage() {
               {t("planLink")}
             </Link>
           </p>
+          <p className="mt-3 max-w-prose text-sm text-gray-600">
+            {t("captionsPrompt")}{" "}
+            <Link
+              href="/captions"
+              className="font-medium text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+            >
+              {t("captionsLink")}
+            </Link>
+          </p>
         </div>
 
         <aside className="hidden lg:block print:hidden">

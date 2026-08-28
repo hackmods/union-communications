@@ -65,7 +65,7 @@ Pulse Poll PNG/PDF fidelity remains skipped when Officer Hub is not public (anon
 |------------|-----|-----|------|------|-------|
 | `/guide` index | ✅ | ✅ | ✅ | ✅ | `wide` hub — unchanged |
 | Playbook (8 routes) | ✅ | ✅ | ✅ | ✅ | TOC rail + mobile `<details>` |
-| Gold / channel guides | ✅ | ✅ | ⚠️ | ⚠️ | `readWide` frame; TOC opt-in later |
+| Gold / channel guides | ✅ | ✅ | ✅ | ✅ | Playbook layout + TOC (2026-08-27) |
 | Officer Learning | ✅ | ✅ | ✅ | ✅ | Dark shell + ModuleViewer grid |
 
 See [`public-space-composition-audit-2026-08.md`](public-space-composition-audit-2026-08.md) for Hub/Portal matrix.
