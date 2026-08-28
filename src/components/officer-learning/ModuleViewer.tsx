@@ -19,6 +19,7 @@ import { ModuleTeachingDiagram } from "./ModuleTeachingDiagram";
 import { ModuleRelatedResources } from "./ModuleRelatedResources";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { olTheme } from "@/lib/officer-learning/theme";
+import { scrollQuizIntoView } from "@/lib/officer-learning/quiz-scroll";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -116,6 +117,11 @@ export function ModuleViewer({
 
   const moduleTitle = t(`modules.${meta.slug}.title`);
 
+  const handleJumpToQuiz = useCallback(() => {
+    scrollQuizIntoView(document.getElementById("module-quiz"));
+    history.replaceState(null, "", "#module-quiz");
+  }, []);
+
   return (
     <div className={olTheme.shell}>
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B132B]/95 backdrop-blur print:hidden">
@@ -151,12 +157,13 @@ export function ModuleViewer({
           >
             {t("viewer.print")}
           </button>
-          <a
-            href="#module-quiz"
+          <button
+            type="button"
+            onClick={handleJumpToQuiz}
             className="inline-flex shrink-0 rounded-lg bg-opseu-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-opseu-dark"
           >
             {t("viewer.jumpToQuiz")}
-          </a>
+          </button>
         </div>
       </header>
 

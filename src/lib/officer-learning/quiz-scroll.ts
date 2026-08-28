@@ -7,3 +7,13 @@ export function scrollQuizIntoView(element: HTMLElement | null): void {
     block: "start",
   });
 }
+
+/** Move keyboard focus to the first quiz option without scrolling again. */
+export function focusQuizStart(container: HTMLElement | null): void {
+  if (!container || typeof window === "undefined") return;
+  requestAnimationFrame(() => {
+    container.querySelector<HTMLInputElement>('input[type="radio"]')?.focus({
+      preventScroll: true,
+    });
+  });
+}

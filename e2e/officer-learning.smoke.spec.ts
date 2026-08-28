@@ -50,7 +50,7 @@ test.describe("Officer Learning @smoke", () => {
       page.getByRole("heading", { name: "Contract Enforcement" }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Jump to Quiz/i }),
+      page.getByRole("button", { name: /Jump to Quiz/i }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { name: "Worked scenario", exact: true }),
@@ -64,7 +64,7 @@ test.describe("Officer Learning @smoke", () => {
 
   test("failed quiz Try again re-enables inputs", async ({ page }) => {
     await page.goto("/en/guide/officer-learning/contract-enforcement/");
-    await page.getByRole("link", { name: /Jump to Quiz/i }).click();
+    await page.getByRole("button", { name: /Jump to Quiz/i }).click();
 
     const quiz = page.locator("#module-quiz");
     await expect(quiz).toBeVisible();
@@ -82,6 +82,7 @@ test.describe("Officer Learning @smoke", () => {
     });
 
     await quiz.getByRole("button", { name: /Try again/i }).click();
+    await expect(quiz.getByText(/Answers cleared/i)).toBeVisible();
     await expect(quiz.getByRole("radio").first()).toBeEnabled();
   });
 

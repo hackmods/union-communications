@@ -33,6 +33,6 @@ export function ModuleToc({
   ];
 
   return (
-    <GuideToc items={items} activeId={activeId} variant="dark" />
+    <GuideToc items={items} activeId={activeId} variant="dark" smoothScroll />
   );
 }

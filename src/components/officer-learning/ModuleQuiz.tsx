@@ -1,11 +1,11 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { QuizQuestion } from "@/lib/officer-learning/types";
 import { markQuizPassed } from "@/lib/officer-learning/progress";
 import { resetQuizState } from "@/lib/officer-learning/quiz-state";
-import { scrollQuizIntoView } from "@/lib/officer-learning/quiz-scroll";
+import { scrollQuizIntoView, focusQuizStart } from "@/lib/officer-learning/quiz-scroll";
 import { maybePushHubProgressAfterPass } from "@/lib/officer-learning/hub-sync-client";
 import { olTheme } from "@/lib/officer-learning/theme";
 import { Link } from "@/i18n/navigation";
@@ -42,6 +42,7 @@ export function ModuleQuiz({
   const [celebrate, setCelebrate] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [retestHint, setRetestHint] = useState(false);
+  const hadPassedRef = useRef(quizPassed);
 
   const showResults = submitted || isExiting;
   const inputsLocked = showResults && !isExiting;
@@ -55,6 +56,33 @@ export function ModuleQuiz({
   }, [answers, questions, submitted]);
 
   const passed = submitted && score === questions.length;
+  const answeredCount = Object.keys(answers).length;
+  const allAnswered = answeredCount === questions.length;
+
+  useEffect(() => {
+    if (quizPassed) {
+      hadPassedRef.current = true;
+      return;
+    }
+    if (!hadPassedRef.current) return;
+    hadPassedRef.current = false;
+    setAnswers({});
+    setSubmitted(false);
+    setCelebrate(false);
+    setIsExiting(false);
+    setRetestHint(false);
+  }, [quizPassed]);
+
+  const finishRetest = () => {
+    const next = resetQuizState();
+    setAnswers(next.answers);
+    setSubmitted(next.submitted);
+    setCelebrate(false);
+    setIsExiting(false);
+    setRetestHint(true);
+    scrollQuizIntoView(sectionRef.current);
+    focusQuizStart(sectionRef.current);
+  };
 
   const handleSubmit = () => {
     if (Object.keys(answers).length < questions.length) return;
@@ -71,15 +99,13 @@ export function ModuleQuiz({
   const handleRetest = () => {
     if (isExiting) return;
     setIsExiting(true);
-    window.setTimeout(() => {
-      const next = resetQuizState();
-      setAnswers(next.answers);
-      setSubmitted(next.submitted);
-      setCelebrate(false);
-      setIsExiting(false);
-      setRetestHint(true);
-      scrollQuizIntoView(sectionRef.current);
-    }, RESET_FADE_MS);
+    window.setTimeout(finishRetest, RESET_FADE_MS);
+  };
+
+  const handleStartPractice = () => {
+    setRetestHint(false);
+    scrollQuizIntoView(sectionRef.current);
+    focusQuizStart(sectionRef.current);
   };
 
   return (
@@ -122,6 +148,9 @@ export function ModuleQuiz({
             achievementTitle={moduleTitle}
             moduleNumber={moduleNumber}
           />
+          <button type="button" onClick={handleStartPractice} className={olTheme.btnOutline}>
+            {t("quiz.practiceAgain")}
+          </button>
         </div>
       )}
 
@@ -217,14 +246,24 @@ export function ModuleQuiz({
         )}
       >
         {!submitted ? (
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={Object.keys(answers).length < questions.length || isExiting}
-            className={olTheme.btnPrimary}
-          >
-            {t("quiz.submit")}
-          </button>
+          <div className="space-y-2">
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={!allAnswered || isExiting}
+              className={olTheme.btnPrimary}
+            >
+              {t("quiz.submit")}
+            </button>
+            {!allAnswered && (
+              <p className="text-sm text-slate-400" aria-live="polite">
+                {t("quiz.answerProgress", {
+                  answered: answeredCount,
+                  total: questions.length,
+                })}
+              </p>
+            )}
+          </div>
         ) : passed ? (
           <div className="space-y-4">
             <p className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 font-semibold text-emerald-100">

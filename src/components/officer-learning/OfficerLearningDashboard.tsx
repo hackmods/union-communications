@@ -10,6 +10,8 @@ import {
   markModuleOpened,
   resetAllProgress,
   statusLabelKey,
+  OFFICER_LEARNING_PROGRESS_EVENT,
+  OFFICER_LEARNING_PROGRESS_KEY,
 } from "@/lib/officer-learning/progress";
 import { CertificateDownload } from "./CertificateDownload";
 import { LearningHubSyncPanel } from "./LearningHubSyncPanel";
@@ -57,6 +59,23 @@ export function OfficerLearningDashboard({ modules }: Props) {
     const timer = window.setTimeout(() => setConfirmReset(false), 5000);
     return () => window.clearTimeout(timer);
   }, [confirmReset]);
+
+  useEffect(() => {
+    const refresh = () => setProgress(getAllProgress());
+
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === OFFICER_LEARNING_PROGRESS_KEY || event.key === null) {
+        refresh();
+      }
+    };
+
+    window.addEventListener("storage", onStorage);
+    window.addEventListener(OFFICER_LEARNING_PROGRESS_EVENT, refresh);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener(OFFICER_LEARNING_PROGRESS_EVENT, refresh);
+    };
+  }, []);
 
   return (
     <div className={olTheme.shell}>
