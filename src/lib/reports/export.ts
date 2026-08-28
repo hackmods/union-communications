@@ -4,6 +4,7 @@
  */
 
 import { downloadBlob } from "@/lib/export/image-export";
+import { writeBrandedNotesPdf } from "@/lib/export/text-pdf-layout";
 import type { ReportsSummary } from "@/lib/reports/aggregate";
 
 const XLSX_MIME =
@@ -103,60 +104,47 @@ export async function exportReportsXlsx(
   await downloadBlob(await renderReportsXlsx(summary), filename);
 }
 
+function reportsSummaryToBody(summary: ReportsSummary): string {
+  const lines: string[] = [
+    `Period: ${summary.from} → ${summary.to}`,
+    "",
+    "Grievances",
+    `Total filed in range: ${summary.grievances.total}`,
+  ];
+  for (const row of summary.grievances.byStatus) {
+    lines.push(`  Status ${row.key}: ${row.count}`);
+  }
+  for (const row of summary.grievances.byStep) {
+    lines.push(`  Step ${row.key}: ${row.count}`);
+  }
+  for (const row of summary.grievances.byCategory) {
+    lines.push(`  Category ${row.key}: ${row.count}`);
+  }
+  lines.push("");
+  lines.push("Bumping cases");
+  lines.push(`Total opened in range: ${summary.bumping.total}`);
+  for (const row of summary.bumping.byStatus) {
+    lines.push(`  Status ${row.key}: ${row.count}`);
+  }
+  lines.push("");
+  lines.push("Union-business hours");
+  lines.push(`Total hours: ${summary.time.totalHours}`);
+  lines.push(`Entries: ${summary.time.entryCount}`);
+  for (const row of summary.time.byCategory) {
+    lines.push(`  ${row.key}: ${row.hours} h`);
+  }
+  return lines.join("\n");
+}
+
 /** Simple text PDF handout for membership meetings. */
 export async function exportReportsPdf(
   summary: ReportsSummary,
   filename = "unionops-report.pdf",
   title = "Officer Hub report",
 ): Promise<void> {
-  const { jsPDF } = await import("jspdf");
-  const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "letter" });
-  const margin = 48;
-  let y = margin;
-  const line = (text: string, opts?: { bold?: boolean; size?: number }) => {
-    pdf.setFont("helvetica", opts?.bold ? "bold" : "normal");
-    pdf.setFontSize(opts?.size ?? 11);
-    const lines = pdf.splitTextToSize(text, 612 - margin * 2) as string[];
-    for (const l of lines) {
-      if (y > 720) {
-        pdf.addPage();
-        y = margin;
-      }
-      pdf.text(l, margin, y);
-      y += (opts?.size ?? 11) + 4;
-    }
-  };
-
-  line(title, { bold: true, size: 16 });
-  line(`Period: ${summary.from} → ${summary.to}`, { size: 10 });
-  y += 8;
-
-  line("Grievances", { bold: true, size: 13 });
-  line(`Total filed in range: ${summary.grievances.total}`);
-  for (const row of summary.grievances.byStatus) {
-    line(`  Status ${row.key}: ${row.count}`);
-  }
-  for (const row of summary.grievances.byStep) {
-    line(`  Step ${row.key}: ${row.count}`);
-  }
-  for (const row of summary.grievances.byCategory) {
-    line(`  Category ${row.key}: ${row.count}`);
-  }
-  y += 6;
-
-  line("Bumping cases", { bold: true, size: 13 });
-  line(`Total opened in range: ${summary.bumping.total}`);
-  for (const row of summary.bumping.byStatus) {
-    line(`  Status ${row.key}: ${row.count}`);
-  }
-  y += 6;
-
-  line("Union-business hours", { bold: true, size: 13 });
-  line(`Total hours: ${summary.time.totalHours}`);
-  line(`Entries: ${summary.time.entryCount}`);
-  for (const row of summary.time.byCategory) {
-    line(`  ${row.key}: ${row.hours} h`);
-  }
-
-  await downloadBlob(pdf.output("blob"), filename);
+  await writeBrandedNotesPdf({
+    title,
+    body: reportsSummaryToBody(summary),
+    filename,
+  });
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
@@ -19,7 +19,9 @@ import { FivePointFilterDiagram } from "@/components/comms/StewardGuideDiagrams"
 import { StewardPocketSheetButton } from "@/components/tools/steward-guides/StewardPocketSheetButton";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
+import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 import { COMMS_SOURCES } from "@/lib/constants/comms-sources";
+import { useBrandStore } from "@/store/brand-store";
 import {
   ALTERNATE_ROUTES,
   DIAGNOSTIC_POINTS,
@@ -43,6 +45,8 @@ import {
 
 export default function ComplaintVsGrievancePage() {
   const t = useTranslations("complaintVsGrievance");
+  const locale = useLocale();
+  const brandKit = useBrandStore((s) => s.brandKit);
   const { draft, setDraft, clear, saveFailed } = useStewardGuideDraft({
     load: loadComplaintDraft,
     save: saveComplaintDraft,
@@ -152,6 +156,10 @@ export default function ComplaintVsGrievancePage() {
               t("title"),
               buildMarkdown(),
               "complaint-vs-grievance.pdf",
+              {
+                locale: locale === "fr" ? "fr" : "en",
+                brand: guidePdfBrandFromKit(brandKit),
+              },
             );
           });
         }}

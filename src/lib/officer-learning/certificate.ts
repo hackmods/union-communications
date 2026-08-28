@@ -6,7 +6,10 @@ import {
   certificateBrandLogoPlacement,
   certificatePlatformMarkPlacement,
   logoDataUrlFromBytes,
+  registerGuidePdfFonts,
   resolveUnionOpsMarkBytes,
+  type GuidePdfBrand,
+  type GuidePdfLocale,
 } from "@/lib/export/text-pdf-layout";
 
 export type CertificateKind = "module" | "path";
@@ -22,7 +25,34 @@ export type CertificateInput = {
   completedAt?: Date;
   /** Optional Brand Kit logo (PNG bytes). Secondary to UnionOps platform mark. */
   logo?: BrandLogoBytes | null;
+  locale?: GuidePdfLocale;
+  brand?: GuidePdfBrand;
 };
+
+const CERTIFICATE_COPY = {
+  en: {
+    learningCenter: "OFFICER LEARNING CENTER",
+    certifies: "This certifies that",
+    completedPath: "has completed the full Officer Learning path",
+    completedModule: "has completed and passed",
+    modulePrefix: (n: number, title: string) => `Module ${n}: ${title}`,
+    local: (n: string) => `Local ${n}`,
+    defaultName: "Union steward",
+    disclaimer:
+      "Self-paced education on this device. Confirm practice against your collective agreement. Not a licence or legal credential.",
+  },
+  fr: {
+    learningCenter: "CENTRE DE FORMATION DES DIRIGEANTS",
+    certifies: "Ceci certifie que",
+    completedPath: "a terminé le parcours complet de formation des dirigeants",
+    completedModule: "a terminé et réussi",
+    modulePrefix: (n: number, title: string) => `Module ${n} : ${title}`,
+    local: (n: string) => `Local ${n}`,
+    defaultName: "Délégué syndical",
+    disclaimer:
+      "Formation à votre rythme sur cet appareil. Vérifiez la pratique avec votre convention collective. Pas un permis ni un titre juridique.",
+  },
+} as const;
 
 function slugPart(value: string): string {
   return value
@@ -54,7 +84,9 @@ export async function downloadOfficerLearningCertificate(
   const { jsPDF } = await import("jspdf");
   const completedAt = input.completedAt ?? new Date();
   const local = resolveLocalNumber(input.localNumber);
-  const name = input.recipientName.trim() || "Union steward";
+  const locale = input.locale ?? "en";
+  const copy = CERTIFICATE_COPY[locale];
+  const name = input.recipientName.trim() || copy.defaultName;
   const { navy, teal, amber } = GUIDE_PDF_PALETTE;
 
   const pdf = new jsPDF({
@@ -62,6 +94,11 @@ export async function downloadOfficerLearningCertificate(
     unit: "in",
     format: "letter",
   });
+
+  const faces = await registerGuidePdfFonts(
+    pdf as unknown as Parameters<typeof registerGuidePdfFonts>[0],
+    input.brand,
+  );
 
   const w = 11;
   const h = 8.5;
@@ -112,57 +149,62 @@ export async function downloadOfficerLearningCertificate(
     }
   }
 
+  const setFace = (bold: boolean) => {
+    const face = bold ? faces.headline : faces.body;
+    const style =
+      face === "helvetica" ? (bold ? "bold" : "normal") : bold ? "bold" : "normal";
+    pdf.setFont(face, style);
+  };
+
   // Wordmark fallback when platform mark did not draw
   if (!platformPlacement) {
     pdf.setTextColor(amber.r, amber.g, amber.b);
-    pdf.setFont("helvetica", "bold");
+    setFace(true);
     pdf.setFontSize(14);
     pdf.text("UNIONOPS", w / 2, 1.35, { align: "center" });
   }
 
   pdf.setTextColor(255, 255, 255);
   pdf.setFontSize(11);
-  pdf.setFont("helvetica", "normal");
-  pdf.text("OFFICER LEARNING CENTER", w / 2, platformPlacement ? 1.55 : 1.7, {
+  setFace(false);
+  pdf.text(copy.learningCenter, w / 2, platformPlacement ? 1.55 : 1.7, {
     align: "center",
   });
 
   pdf.setFontSize(12);
   pdf.setTextColor(148, 163, 184);
-  pdf.text("This certifies that", w / 2, 2.55, { align: "center" });
+  pdf.text(copy.certifies, w / 2, 2.55, { align: "center" });
 
   pdf.setTextColor(255, 255, 255);
-  pdf.setFont("helvetica", "bold");
+  setFace(true);
   pdf.setFontSize(28);
   pdf.text(name, w / 2, 3.25, { align: "center" });
 
-  pdf.setFont("helvetica", "normal");
+  setFace(false);
   pdf.setFontSize(12);
   pdf.setTextColor(148, 163, 184);
   pdf.text(
-    input.kind === "path"
-      ? "has completed the full Officer Learning path"
-      : "has completed and passed",
+    input.kind === "path" ? copy.completedPath : copy.completedModule,
     w / 2,
     3.85,
     { align: "center" },
   );
 
   pdf.setTextColor(teal.r, teal.g, teal.b);
-  pdf.setFont("helvetica", "bold");
+  setFace(true);
   pdf.setFontSize(18);
   const title =
     input.kind === "module" && input.moduleNumber
-      ? `Module ${input.moduleNumber}: ${input.achievementTitle}`
+      ? copy.modulePrefix(input.moduleNumber, input.achievementTitle)
       : input.achievementTitle;
   pdf.text(title, w / 2, 4.5, { align: "center", maxWidth: 9 });
 
   pdf.setTextColor(203, 213, 225);
-  pdf.setFont("helvetica", "normal");
+  setFace(false);
   pdf.setFontSize(11);
-  pdf.text(`Local ${local}`, w / 2, 5.35, { align: "center" });
+  pdf.text(copy.local(local), w / 2, 5.35, { align: "center" });
   pdf.text(
-    completedAt.toLocaleDateString(undefined, {
+    completedAt.toLocaleDateString(locale === "fr" ? "fr-CA" : "en-CA", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -174,12 +216,10 @@ export async function downloadOfficerLearningCertificate(
 
   pdf.setFontSize(8);
   pdf.setTextColor(100, 116, 139);
-  pdf.text(
-    "Self-paced education on this device. Confirm practice against your collective agreement. Not a licence or legal credential.",
-    w / 2,
-    7.55,
-    { align: "center", maxWidth: 9 },
-  );
+  pdf.text(copy.disclaimer, w / 2, 7.55, {
+    align: "center",
+    maxWidth: 9,
+  });
 
   const blob = pdf.output("blob");
   const filename =

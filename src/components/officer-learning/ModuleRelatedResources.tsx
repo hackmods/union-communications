@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useBrandStore } from "@/store/brand-store";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 import { resolveLocalNumber } from "@/lib/utils";
 import {
   getReferenceSheets,
@@ -40,8 +41,8 @@ export function ModuleRelatedResources({
 }: Props) {
   const t = useTranslations("officerLearning");
   const locale = useLocale();
-  const localNumber = useBrandStore((s) => s.brandKit.local.localNumber);
-  const localLabel = `Local ${resolveLocalNumber(localNumber)}`;
+  const brandKit = useBrandStore((s) => s.brandKit);
+  const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)}`;
   const links = getRelatedResources(slug);
   const sheets = getReferenceSheets(slug);
   const { exporting, exportError, exportSuccess, runExport } = useExportHandler();
@@ -53,7 +54,12 @@ export function ModuleRelatedResources({
 
   const handleSheet = (id: ReferenceSheetId) => {
     void runExport(async () => {
-      const ctx = { moduleTitle, localLabel, locale: pdfLocale };
+      const ctx = {
+        moduleTitle,
+        localLabel,
+        locale: pdfLocale,
+        brand: guidePdfBrandFromKit(brandKit),
+      };
       switch (id) {
         case "far-sheet":
           await downloadFarSheetPdf(ctx);
@@ -79,6 +85,8 @@ export function ModuleRelatedResources({
             moduleNumber,
             items: checklistItems,
             localLabel,
+            locale: pdfLocale,
+            brand: guidePdfBrandFromKit(brandKit),
           });
           return;
       }

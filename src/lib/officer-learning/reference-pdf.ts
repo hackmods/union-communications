@@ -6,6 +6,7 @@
 import {
   EDUCATION_FOOTER,
   writeBrandedChecklistPdf,
+  type GuidePdfBrand,
   type GuidePdfLocale,
 } from "@/lib/export/text-pdf-layout";
 
@@ -23,6 +24,7 @@ type ModulePdfContext = {
   moduleTitle: string;
   localLabel: string;
   locale?: ReferencePdfLocale;
+  brand?: GuidePdfBrand;
 };
 
 function resolveLocale(locale?: ReferencePdfLocale): ReferencePdfLocale {
@@ -99,6 +101,7 @@ export async function downloadFarSheetPdf(opts: ModulePdfContext): Promise<void>
     sections: copy.sections,
     filename: `unionops-far-sheet-${slugPart(opts.moduleTitle)}.pdf`,
     footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
   });
 }
 
@@ -176,6 +179,7 @@ export async function downloadDisciplineRightsPdf(opts: ModulePdfContext): Promi
     sections: copy.sections,
     filename: `unionops-discipline-rights-${slugPart(opts.moduleTitle)}.pdf`,
     footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
   });
 }
 
@@ -249,102 +253,213 @@ export async function downloadMeiorinSheetPdf(opts: ModulePdfContext): Promise<v
     sections: copy.sections,
     filename: `unionops-meiorin-sheet-${slugPart(opts.moduleTitle)}.pdf`,
     footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
   });
 }
 
 /** Quorum + motion template (module 4). */
 export async function downloadQuorumMotionPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Quorum de réunion et modèle de motion",
+          sections: [
+            {
+              heading: "Vérification du quorum",
+              lines: [
+                "Quorum de réunion ordinaire atteint?",
+                "Préavis de réunion spéciale + quorum atteints?",
+                "Participation électronique comptée selon les règlements?",
+              ],
+            },
+            {
+              heading: "Motion en séance",
+              lines: [
+                "Proposée par :",
+                "Appuyée par :",
+                "Libellé (axé sur la décision, pas le débat) :",
+                "Résultat du vote (pour / contre / abstention) :",
+              ],
+            },
+            {
+              heading: "Après le vote",
+              lines: [
+                "Responsable de l'action assigné",
+                "Échéance jointe",
+                "Projet de procès-verbal dans les 48 heures",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Meeting quorum & motion template",
+          sections: [
+            {
+              heading: "Quorum check",
+              lines: [
+                "Regular meeting quorum met?",
+                "Special meeting notice + quorum met?",
+                "Electronic participation counted per bylaws?",
+              ],
+            },
+            {
+              heading: "Motion on the floor",
+              lines: [
+                "Moved by:",
+                "Seconded by:",
+                "Wording (decision-focused, not debate):",
+                "Vote result (for / against / abstain):",
+              ],
+            },
+            {
+              heading: "After the vote",
+              lines: [
+                "Action owner assigned",
+                "Deadline attached",
+                "Minutes draft within 48 hours",
+              ],
+            },
+          ],
+        };
+
   await writeBrandedChecklistPdf({
-    title: "Meeting quorum & motion template",
+    title: copy.title,
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
-    sections: [
-      {
-        heading: "Quorum check",
-        lines: [
-          "Regular meeting quorum met?",
-          "Special meeting notice + quorum met?",
-          "Electronic participation counted per bylaws?",
-        ],
-      },
-      {
-        heading: "Motion on the floor",
-        lines: [
-          "Moved by:",
-          "Seconded by:",
-          "Wording (decision-focused, not debate):",
-          "Vote result (for / against / abstain):",
-        ],
-      },
-      {
-        heading: "After the vote",
-        lines: ["Action owner assigned", "Deadline attached", "Minutes draft within 48 hours"],
-      },
-    ],
+    sections: copy.sections,
     filename: `unionops-quorum-motion-${slugPart(opts.moduleTitle)}.pdf`,
-    footer: EDUCATION_FOOTER.en,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
   });
 }
 
 /** Financial controls audit trail (module 5). */
 export async function downloadAuditControlsPdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Contrôles financiers — du reçu à la piste d'audit",
+          sections: [
+            {
+              heading: "Chaque décaissement",
+              lines: [
+                "Reçu original joint",
+                "Deux signatures autorisées avant le décaissement",
+                "Chèque / TEF correspond au montant approuvé",
+              ],
+            },
+            {
+              heading: "Audit semestriel des fiduciaires",
+              lines: [
+                "Échantillon de pièces retracé au relevé bancaire",
+                "Chèques en circulation rapprochés",
+                "Rapport aux membres planifié",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Financial controls — receipt to audit trail",
+          sections: [
+            {
+              heading: "Every disbursement",
+              lines: [
+                "Original receipt attached",
+                "Two authorized signatures before release",
+                "Cheque / EFT matches approved amount",
+              ],
+            },
+            {
+              heading: "Trustee six-month audit",
+              lines: [
+                "Sample vouchers traced to bank statement",
+                "Outstanding cheques reconciled",
+                "Member report scheduled",
+              ],
+            },
+          ],
+        };
+
   await writeBrandedChecklistPdf({
-    title: "Financial controls — receipt to audit trail",
+    title: copy.title,
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
-    sections: [
-      {
-        heading: "Every disbursement",
-        lines: [
-          "Original receipt attached",
-          "Two authorized signatures before release",
-          "Cheque / EFT matches approved amount",
-        ],
-      },
-      {
-        heading: "Trustee six-month audit",
-        lines: [
-          "Sample vouchers traced to bank statement",
-          "Outstanding cheques reconciled",
-          "Member report scheduled",
-        ],
-      },
-    ],
+    sections: copy.sections,
     filename: `unionops-audit-controls-${slugPart(opts.moduleTitle)}.pdf`,
-    footer: EDUCATION_FOOTER.en,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
   });
 }
 
 /** Equity clause negotiation worksheet (module 6). */
 export async function downloadEquityClausePdf(opts: ModulePdfContext): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: "Clause d'équité — de l'obstacle à la reddition de comptes",
+          sections: [
+            {
+              heading: "Nommer l'obstacle",
+              lines: [
+                "Qui est exclu ou sous-protégé?",
+                "Schéma selon les quarts / classifications?",
+                "Preuves documentées (pas seulement des anecdotes)?",
+              ],
+            },
+            {
+              heading: "Proposer un libellé contractuel",
+              lines: [
+                "Clause précise ou projet de lettre d'entente :",
+                "Révision conjointe / échéance de rapport :",
+                "Réparation si l'employeur manque l'échéance :",
+              ],
+            },
+            {
+              heading: "Suivi auprès des membres",
+              lines: [
+                "Résumé en langage clair pour l'assemblée",
+                "Voie réparatrice avant grief formel si c'est sûr",
+              ],
+            },
+          ],
+        }
+      : {
+          title: "Equity clause — barrier to accountability",
+          sections: [
+            {
+              heading: "Name the barrier",
+              lines: [
+                "Who is excluded or under-protected?",
+                "Pattern across shifts / classifications?",
+                "Evidence documented (not anecdote only)?",
+              ],
+            },
+            {
+              heading: "Propose contract language",
+              lines: [
+                "Specific clause or LOU draft:",
+                "Joint review / reporting deadline:",
+                "Remedy if employer misses deadline:",
+              ],
+            },
+            {
+              heading: "Member follow-up",
+              lines: [
+                "Plain-language summary for the floor",
+                "Restorative path before formal grievance if safe",
+              ],
+            },
+          ],
+        };
+
   await writeBrandedChecklistPdf({
-    title: "Equity clause — barrier to accountability",
+    title: copy.title,
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
-    sections: [
-      {
-        heading: "Name the barrier",
-        lines: [
-          "Who is excluded or under-protected?",
-          "Pattern across shifts / classifications?",
-          "Evidence documented (not anecdote only)?",
-        ],
-      },
-      {
-        heading: "Propose contract language",
-        lines: [
-          "Specific clause or LOU draft:",
-          "Joint review / reporting deadline:",
-          "Remedy if employer misses deadline:",
-        ],
-      },
-      {
-        heading: "Member follow-up",
-        lines: [
-          "Plain-language summary for the floor",
-          "Restorative path before formal grievance if safe",
-        ],
-      },
-    ],
+    sections: copy.sections,
     filename: `unionops-equity-clause-${slugPart(opts.moduleTitle)}.pdf`,
-    footer: EDUCATION_FOOTER.en,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
   });
 }
 
@@ -419,15 +534,20 @@ const BYLAWS_ADOPTION_COPY = {
 export async function downloadBylawsAdoptionChecklistPdf(opts: {
   localLabel: string;
   locale?: ReferencePdfLocale;
+  brand?: GuidePdfBrand;
 }): Promise<void> {
-  const locale = opts.locale ?? "en";
+  const locale = resolveLocale(opts.locale);
   const copy = BYLAWS_ADOPTION_COPY[locale];
   await writeBrandedChecklistPdf({
     title: copy.title,
     subtitle: opts.localLabel,
-    sections: [...copy.sections],
+    sections: copy.sections.map((section) => ({
+      heading: section.heading,
+      lines: [...section.lines],
+    })),
     filename: `unionops-bylaws-adoption-checklist-${locale}.pdf`,
     footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
   });
 }
 
@@ -437,18 +557,35 @@ export async function downloadFloorChecklistPdf(opts: {
   moduleNumber: number;
   items: string[];
   localLabel: string;
+  locale?: ReferencePdfLocale;
+  brand?: GuidePdfBrand;
 }): Promise<void> {
+  const locale = resolveLocale(opts.locale);
+  const copy =
+    locale === "fr"
+      ? {
+          title: `Liste de vérification — Module ${opts.moduleNumber}`,
+          heading: "Avant de quitter l'assemblée",
+          empty: "(Aucun élément de liste trouvé)",
+        }
+      : {
+          title: `Floor checklist — Module ${opts.moduleNumber}`,
+          heading: "Before you leave the floor",
+          empty: "(No checklist items found)",
+        };
+
   await writeBrandedChecklistPdf({
-    title: `Floor checklist — Module ${opts.moduleNumber}`,
+    title: copy.title,
     subtitle: `${opts.moduleTitle} · ${opts.localLabel}`,
     sections: [
       {
-        heading: "Before you leave the floor",
-        lines: opts.items.length > 0 ? opts.items : ["(No checklist items found)"],
+        heading: copy.heading,
+        lines: opts.items.length > 0 ? opts.items : [copy.empty],
       },
     ],
     filename: `unionops-module-${opts.moduleNumber}-checklist-${slugPart(opts.moduleTitle)}.pdf`,
-    footer: EDUCATION_FOOTER.en,
+    footer: EDUCATION_FOOTER[locale],
+    brand: opts.brand,
   });
 }
 

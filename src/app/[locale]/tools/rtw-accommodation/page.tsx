@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
@@ -25,6 +25,8 @@ import {
 import { StewardPocketSheetButton } from "@/components/tools/steward-guides/StewardPocketSheetButton";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
+import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
+import { useBrandStore } from "@/store/brand-store";
 import {
   ACCOMMODATION_MEASURES,
   PROHIBITED_GROUNDS,
@@ -46,6 +48,8 @@ import {
 
 export default function RtwAccommodationPage() {
   const t = useTranslations("rtwAccommodation");
+  const locale = useLocale();
+  const brandKit = useBrandStore((s) => s.brandKit);
   const { draft, setDraft, clear, saveFailed } = useStewardGuideDraft({
     load: loadRtwDraft,
     save: saveRtwDraft,
@@ -203,6 +207,10 @@ export default function RtwAccommodationPage() {
               t("title"),
               buildMarkdown(),
               "rtw-accommodation-notes.pdf",
+              {
+                locale: locale === "fr" ? "fr" : "en",
+                brand: guidePdfBrandFromKit(brandKit),
+              },
             );
           });
         }}

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
@@ -15,7 +15,9 @@ import { PageShell } from "@/components/layout/PageShell";
 import { StewardGuideExportBar } from "@/components/tools/steward-guides/StewardGuideExportBar";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
+import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 import { copyToClipboard } from "@/lib/utils";
+import { useBrandStore } from "@/store/brand-store";
 import {
   BYLAW_PRESET_IDS,
   BYLAW_PRESETS,
@@ -75,6 +77,8 @@ function BylawBuilderPageContent() {
   const t = useTranslations("bylawBuilder");
   const tc = useTranslations("common");
   const ts = useTranslations("sources");
+  const locale = useLocale();
+  const brandKit = useBrandStore((s) => s.brandKit);
   const searchParams = useSearchParams();
   const [copied, setCopied] = useState(false);
   const appliedPreset = useRef(false);
@@ -171,7 +175,10 @@ function BylawBuilderPageContent() {
       }
       onExportPdf={() =>
         void runExport(() =>
-          exportWorkspacePdf(t("title"), previewText, `${basename}.pdf`),
+          exportWorkspacePdf(t("title"), previewText, `${basename}.pdf`, {
+            locale: locale === "fr" ? "fr" : "en",
+            brand: guidePdfBrandFromKit(brandKit),
+          }),
         )
       }
       onPrintChecklist={() => window.print()}

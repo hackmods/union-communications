@@ -7,6 +7,8 @@ import { downloadBlob } from "@/lib/export/image-export";
 import {
   STEWARD_WORKSPACE_FOOTER,
   writeBrandedNotesPdf,
+  type GuidePdfBrand,
+  type GuidePdfLocale,
 } from "@/lib/export/text-pdf-layout";
 
 export async function exportWorkspaceMarkdown(
@@ -25,11 +27,14 @@ export async function exportWorkspacePdf(
   title: string,
   body: string,
   filename: string,
+  opts?: { locale?: GuidePdfLocale; brand?: GuidePdfBrand },
 ): Promise<void> {
+  const locale = opts?.locale ?? "en";
   await writeBrandedNotesPdf({
     title,
     body,
     filename,
-    footer: STEWARD_WORKSPACE_FOOTER.en,
+    footer: STEWARD_WORKSPACE_FOOTER[locale],
+    brand: opts?.brand,
   });
 }

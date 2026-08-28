@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useBrandStore } from "@/store/brand-store";
 import { downloadOfficerLearningCertificate } from "@/lib/officer-learning/certificate";
 import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import clsx from "clsx";
 
@@ -24,6 +25,7 @@ export function CertificateDownload({
   className,
 }: Props) {
   const t = useTranslations("officerLearning.certificate");
+  const locale = useLocale();
   const brandKit = useBrandStore((s) => s.brandKit);
   const localNumber = brandKit.local.localNumber;
   const [name, setName] = useState(defaultName);
@@ -42,6 +44,8 @@ export function CertificateDownload({
         moduleNumber,
         localNumber,
         logo,
+        locale: locale === "fr" ? "fr" : "en",
+        brand: guidePdfBrandFromKit(brandKit),
       });
     });
   };

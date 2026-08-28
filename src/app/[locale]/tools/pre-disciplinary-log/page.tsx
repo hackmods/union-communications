@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ToolEditorLayout } from "@/components/tools/ToolEditorLayout";
 import { ToolRelatedFooter } from "@/components/tools/ToolRelatedFooter";
@@ -19,6 +19,8 @@ import {
 } from "@/components/tools/steward-guides/SuggestionPanel";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import { useStewardGuideDraft } from "@/hooks/use-steward-guide-draft";
+import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
+import { useBrandStore } from "@/store/brand-store";
 import {
   ALLEGATION_TYPES,
   MITIGATING_FACTORS,
@@ -41,6 +43,8 @@ import {
 
 export default function PreDisciplinaryLogPage() {
   const t = useTranslations("preDisciplinaryLog");
+  const locale = useLocale();
+  const brandKit = useBrandStore((s) => s.brandKit);
   const { draft, setDraft, clear, saveFailed } = useStewardGuideDraft({
     load: loadPreDisciplinaryDraft,
     save: savePreDisciplinaryDraft,
@@ -146,6 +150,10 @@ export default function PreDisciplinaryLogPage() {
               t("title"),
               buildMarkdown(),
               "pre-disciplinary-log.pdf",
+              {
+                locale: locale === "fr" ? "fr" : "en",
+                brand: guidePdfBrandFromKit(brandKit),
+              },
             );
           });
         }}

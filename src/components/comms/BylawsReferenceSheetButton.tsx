@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { useExportHandler } from "@/hooks/use-export-handler";
+import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 import {
   downloadBylawsAdoptionChecklistPdf,
   downloadQuorumMotionPdf,
@@ -21,17 +22,19 @@ type Props = {
 export function BylawsReferenceSheetButton({ kind, className }: Props) {
   const t = useTranslations("bylawsGuide.referenceMaterials");
   const locale = useLocale();
-  const localNumber = useBrandStore((s) => s.brandKit.local.localNumber);
+  const brandKit = useBrandStore((s) => s.brandKit);
   const { exporting, exportError, runExport } = useExportHandler();
 
   const handleDownload = () => {
     void runExport(async () => {
-      const localLabel = `Local ${resolveLocalNumber(localNumber)}`;
+      const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)}`;
       const loc = locale === "fr" ? ("fr" as const) : ("en" as const);
+      const brand = guidePdfBrandFromKit(brandKit);
       if (kind === "adoption") {
         await downloadBylawsAdoptionChecklistPdf({
           localLabel,
           locale: loc,
+          brand,
         });
         return;
       }
@@ -39,6 +42,7 @@ export function BylawsReferenceSheetButton({ kind, className }: Props) {
         moduleTitle: t("quorum.moduleTitle"),
         localLabel,
         locale: loc,
+        brand,
       });
     });
   };
