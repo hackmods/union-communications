@@ -118,6 +118,11 @@ describe("writeBrandedChecklistPdf", () => {
       filename: "unionops-far-sheet-test.pdf",
       footer: EDUCATION_FOOTER.en,
       platformMark: mark,
+      brand: {
+        headlineFontId: "montserrat",
+        bodyFontId: "sourceSans",
+        primaryColor: "#C2410C",
+      },
     });
 
     expect(saveBlob).toHaveBeenCalledOnce();

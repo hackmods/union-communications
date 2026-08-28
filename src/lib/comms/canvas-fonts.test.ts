@@ -102,4 +102,25 @@ describe("canvas-fonts", () => {
       canvasBodySizeFactor("sourceSans"),
     );
   });
+
+  it("loads TTF binaries for PDF embed and skips system faces", async () => {
+    const { loadCanvasFontBinary, canvasFontRelativePath, canvasPdfFontWeights } =
+      await import("./canvas-fonts");
+    expect(canvasFontRelativePath("systemSans", 400, "ttf")).toBeNull();
+    expect(await loadCanvasFontBinary("systemSans", 400, "ttf")).toBeNull();
+
+    const montserratPath = canvasFontRelativePath("montserrat", 700, "ttf");
+    expect(montserratPath).toBe("montserrat/latin-700-normal.ttf");
+    const montserrat = await loadCanvasFontBinary("montserrat", 700, "ttf");
+    expect(montserrat).not.toBeNull();
+    expect(montserrat!.byteLength).toBeGreaterThan(1000);
+    // TrueType scaler type 0x00010000
+    expect(montserrat![0]).toBe(0x00);
+    expect(montserrat![1]).toBe(0x01);
+
+    const sourceSans = await loadCanvasFontBinary("sourceSans", 400, "ttf");
+    expect(sourceSans!.byteLength).toBeGreaterThan(1000);
+    expect(canvasPdfFontWeights("sourceSans").body).toBe(400);
+    expect(canvasPdfFontWeights("montserrat").headline).toBe(700);
+  });
 });

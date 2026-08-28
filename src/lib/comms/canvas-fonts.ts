@@ -312,6 +312,52 @@ export async function loadCanvasFontBytes(
   return new Uint8Array(await res.arrayBuffer());
 }
 
+export type CanvasFontBinaryFormat = "woff2" | "ttf";
+
+/**
+ * Relative path under `public/fonts/` for a catalog face + weight.
+ * System faces have no files — returns null.
+ */
+export function canvasFontRelativePath(
+  id: CanvasFontId,
+  weight: number,
+  format: CanvasFontBinaryFormat = "woff2",
+): string | null {
+  if (CANVAS_FONT_META[id].isSystem) return null;
+  const dir = FONT_PUBLIC_DIR[id as Exclude<CanvasFontId, "systemSans" | "systemSerif">];
+  return `${dir}/latin-${weight}-normal.${format}`;
+}
+
+/**
+ * Load OFL bytes for PDF (ttf) or Website ZIP (woff2).
+ * System faces return null (callers fall back to Helvetica / Arial).
+ */
+export async function loadCanvasFontBinary(
+  id: CanvasFontId,
+  weight: number,
+  format: CanvasFontBinaryFormat = "woff2",
+): Promise<Uint8Array | null> {
+  const relativePath = canvasFontRelativePath(id, weight, format);
+  if (!relativePath) return null;
+  return loadCanvasFontBytes(relativePath);
+}
+
+/** Preferred weights for text-PDF embed (headline bold + body reading). */
+export function canvasPdfFontWeights(id: CanvasFontId): {
+  headline: number;
+  body: number;
+} {
+  if (CANVAS_FONT_META[id].isSystem) {
+    return { headline: 700, body: 400 };
+  }
+  const key = id as Exclude<CanvasFontId, "systemSans" | "systemSerif">;
+  const headline = ZIP_WEIGHTS[key].headline[0] ?? 700;
+  const body = ZIP_WEIGHTS[key].body.includes(400)
+    ? 400
+    : (ZIP_WEIGHTS[key].body[0] ?? canvasBodyFontWeight(id));
+  return { headline, body };
+}
+
 /**
  * Resolve Flyer capture-root family: inherit Brand Kit headline, else catalog id.
  */

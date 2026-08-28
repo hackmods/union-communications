@@ -3,9 +3,20 @@
 Parked after guide/training PDF branding ([`guide-pdf-quality-2026-08.md`](guide-pdf-quality-2026-08.md)).  
 Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-knowledge-2026-08-15-canvas-fonts.md), [`plan-2026-08-15-parked-followups.md`](plan-2026-08-15-parked-followups.md) (OOXML binary font embed still a non-goal until this project opens).
 
+## Status (engines sequence 2026-08-27)
+
+| Slice | Status |
+|-------|--------|
+| Labour guides chrome (2026-08-27) | **Shipped** (`07969f1`) — not part of this engine work; Guides-nav / print-depth remain deferred |
+| Font TTF pipeline | In progress (this sequence) |
+| Project A — text PDF Brand Kit faces + FR parity | In progress (this sequence) |
+| Manual EN/FR print review | In progress (this sequence) |
+| Project B1 — Hub minutes/ballot Brand Kit DOCX | In progress (this sequence) |
+| B2 presets / B3 OOXML binary embed | Still deferred |
+
 ## Review — Brand Kit typefaces in text PDFs
 
-**Decision today (keep):** Guide and Officer Learning **text** PDFs stay **Helvetica + UnionOps mark PNG** (optional Brand Kit logo on certificates only). Do **not** treat this as unfinished polish on the 2026-08 branding pass.
+**Prior decision (pre-engine sequence):** Guide and Officer Learning **text** PDFs used **Helvetica + UnionOps mark PNG**. That Helvetica-only rule is **lifted by Project A** in this sequence once the TTF pipeline lands.
 
 | Path | Fonts today | Why |
 |------|-------------|-----|

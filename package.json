@@ -40,7 +40,8 @@
     "db:rls-smoke": "tsx scripts/rls-smoke.ts",
     "db:durability-smoke": "tsx scripts/durability-smoke.ts",
     "ops:verify-durable": "node scripts/verify-durable-local.mjs",
-    "copy:readability": "tsx scripts/copy-readability.ts"
+    "copy:readability": "tsx scripts/copy-readability.ts",
+    "fonts:sync-ttf": "node scripts/sync-canvas-font-ttf.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1094.0",
@@ -92,6 +93,7 @@
     "tailwindcss": "^4",
     "tsx": "^4.23.1",
     "typescript": "^5",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "wawoff2": "^2.0.1"
   }
 }
