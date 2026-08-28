@@ -26,8 +26,8 @@ describe("canvas-fonts", () => {
     expect(DEFAULT_FLYER_FONT).toBe("inherit");
   });
 
-  it("exposes curated catalog of eight faces", () => {
-    expect(CANVAS_FONT_ORDER).toHaveLength(8);
+  it("exposes curated catalog of nine faces", () => {
+    expect(CANVAS_FONT_ORDER).toHaveLength(9);
     for (const id of CANVAS_FONT_ORDER) {
       expect(isCanvasFontId(id)).toBe(true);
       expect(canvasFontFamily(id).length).toBeGreaterThan(0);
@@ -36,6 +36,7 @@ describe("canvas-fonts", () => {
 
   it("webfont families use CSS variables; system faces use stacks", () => {
     expect(canvasFontFamily("montserrat")).toContain("var(--font-montserrat)");
+    expect(canvasFontFamily("lato")).toContain("var(--font-lato)");
     expect(canvasFontFamily("systemSans")).toContain("system-ui");
     expect(canvasFontFamily("systemSerif")).toContain("Georgia");
   });

@@ -50,6 +50,25 @@ export const fontSourceSans = localFont({
   preload: true,
 });
 
+/** Unifor official typeface (OFL) — Latin 400/700 subset. */
+export const fontLato = localFont({
+  src: [
+    {
+      path: "../../public/fonts/lato/latin-400-normal.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/lato/latin-700-normal.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-lato",
+  display: "swap",
+  preload: false,
+});
+
 export const fontBarlowCondensed = localFont({
   src: [
     {
@@ -136,6 +155,7 @@ export const fontRobotoSlab = localFont({
 export const canvasFontVariablesClassName = [
   fontMontserrat.variable,
   fontSourceSans.variable,
+  fontLato.variable,
   fontBarlowCondensed.variable,
   fontOswald.variable,
   fontSourceSerif.variable,

@@ -18,7 +18,7 @@ export const AUDITED_PRESET_COLORS: Record<
   opseu: { primary: "#003DA5", secondary: "#FFFFFF", accent: "#002868" },
   cupe: { primary: "#AF0061", secondary: "#FFFFFF" },
   unifor: { primary: "#C31A1A", secondary: "#FFFFFF", accent: "#005EB8" },
-  usw: { primary: "#002A5C", secondary: "#FFC03F" },
+  usw: { primary: "#002C65", secondary: "#FFC03F" },
   ona: { primary: "#003865", secondary: "#FFD100" },
   psac: { primary: "#C0311A", secondary: "#FFFFFF" },
   other: { primary: "#C2410C", secondary: "#FFFFFF", accent: "#9A3412" },
@@ -44,13 +44,14 @@ describe("union preset brand audit", () => {
   });
 
   it("seeds canvas fonts for CUPE, Unifor, USW, and PSAC presets", () => {
-    for (const id of ["cupe", "unifor", "usw", "psac"] as const) {
+    for (const id of ["cupe", "usw", "psac"] as const) {
       const fields = brandFieldsFromUnionPreset(getUnionPreset(id)!);
       expect(fields.canvas?.headlineFontId).toBeTruthy();
       expect(fields.canvas?.bodyFontId).toBe("sourceSans");
     }
     const unifor = brandFieldsFromUnionPreset(getUnionPreset("unifor")!);
-    expect(unifor.canvas?.headlineFontId).toBe("sourceSans");
+    expect(unifor.canvas?.headlineFontId).toBe("lato");
+    expect(unifor.canvas?.bodyFontId).toBe("lato");
   });
 
   it("ships presetSlogans i18n for every union preset id", () => {
