@@ -4,6 +4,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { GuideBrandExportNudge } from "@/components/comms/GuideBrandExportNudge";
 import { GuideExpandSection } from "@/components/comms/GuideExpandSection";
 import {
@@ -98,6 +99,8 @@ export default async function Steward101GuidePage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("steward101Guide");
+  const tg = await getTranslations("guideCommon");
+  const nav = await getTranslations("nav");
   const ts = await getTranslations("sources");
 
   const trainingSteps = t.raw("trainingPath.steps") as Parameters<
@@ -125,6 +128,28 @@ export default async function Steward101GuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            {
+              href: "/tools/qr-card?preset=stewardRepresentation",
+              label: t("related.pocketCard"),
+            },
+            {
+              href: "/tools/document-generator?preset=grievance-intake",
+              label: nav("documentGenerator"),
+              variant: "outline",
+            },
+            {
+              href: "/tools/complaint-vs-grievance",
+              label: t("related.diagnostic"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },

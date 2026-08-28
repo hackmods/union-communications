@@ -4,6 +4,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
@@ -68,6 +69,8 @@ export default async function SocialMediaPlanPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("socialMediaPlan");
+  const tg = await getTranslations("guideCommon");
+  const nav = await getTranslations("nav");
   const ts = await getTranslations("sources");
 
   const tocItems = guideTocItems(TOC, (key) => t(`steps.${key}.navLabel`));
@@ -80,6 +83,25 @@ export default async function SocialMediaPlanPage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("stepsNavLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            { href: "/brand-kit", label: nav("brandKit") },
+            {
+              href: FIRST_WEEK_STEP_LINKS.boards.primary,
+              label: t("steps.boards.navLabel"),
+              variant: "outline",
+            },
+            {
+              href: FIRST_WEEK_STEP_LINKS.socials.primary,
+              label: t("steps.socials.navLabel"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide", label: t("pathLinks.blueprintShort") },

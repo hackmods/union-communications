@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
   guideCtaClass,
@@ -62,6 +63,7 @@ export default async function WebsiteGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("websiteGuide");
   const nav = await getTranslations("nav");
+  const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
   const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
@@ -74,6 +76,25 @@ export default async function WebsiteGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            { href: "/tools/website-template", label: t("related.template") },
+            {
+              href: "/tools/qr-card",
+              label: t("related.qr"),
+              variant: "outline",
+            },
+            {
+              href: "/tools/org-chart",
+              label: t("related.orgChart"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/tools/website-template", label: t("related.template") },

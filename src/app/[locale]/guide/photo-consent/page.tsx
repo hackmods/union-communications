@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
   guideCtaClass,
@@ -61,6 +62,7 @@ export default async function PhotoConsentGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("photoConsentGuide");
   const nav = await getTranslations("nav");
+  const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
   const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
@@ -73,6 +75,20 @@ export default async function PhotoConsentGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            { href: "/tools/graphic-maker", label: nav("graphicMaker") },
+            {
+              href: "/guide/short-form",
+              label: nav("shortFormGuide"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       relatedLinks={[
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/short-form", label: nav("shortFormGuide") },

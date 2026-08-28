@@ -1,5 +1,13 @@
 # Progress Log
 
+## Public page QOL pass — full PUBLIC_PATHS review (2026-08-27)
+
+- [x] **UI-018 extended:** `GuideToolAside` on remaining playbook guides (steward-101, bylaws, bargaining, website, crisis, joint-committee, photo-consent, workplace-mapping, dfr, social-media-plan, workshop, steward-playbooks)
+- [x] Onboarding EN/FR `subtitle` on focus page
+- [x] Audit [`public-page-qol-pass-2026-08-27.md`](audit/public-page-qol-pass-2026-08-27.md)
+- [x] `guideCommon` in copy guard namespaces
+- Verify: `npm run lint` + copy/update/guide-toc unit tests
+
 ## Public polish — tool asides, copy, cross-links (2026-08-27)
 
 - [x] **UI-018:** `GuideToolAside` on eight playbook guides; `guideCommon` EN/FR

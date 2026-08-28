@@ -83,6 +83,7 @@ export default function OnboardingPage() {
       <h1 className="text-2xl font-bold text-opseu-dark md:text-3xl">
         {t("title")}
       </h1>
+      <p className="mt-2 max-w-prose text-gray-700">{t("subtitle")}</p>
 
       <div className="mt-4 flex gap-2" aria-label="Progress">
         {[1, 2, 3].map((s) => (

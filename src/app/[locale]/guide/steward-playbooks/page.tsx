@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { TrainingPathDiagram } from "@/components/comms/StewardGuideDiagrams";
 import {
   guideCtaClass,
@@ -76,6 +77,7 @@ export default async function StewardPlaybooksPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("stewardPlaybooksHub");
+  const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
   const pathSteps = t.raw("pathSteps") as Parameters<typeof TrainingPathDiagram>[0]["steps"];
 
@@ -92,6 +94,23 @@ export default async function StewardPlaybooksPage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            {
+              href: "/tools/complaint-vs-grievance",
+              label: t("workspaces.diagnosticTitle"),
+            },
+            {
+              href: "/guide/steward-101",
+              label: t("trainingPath.steward101Cta"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       relatedLinks={[
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/officer-learning", label: t("links.officerLearning") },

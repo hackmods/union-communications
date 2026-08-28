@@ -434,7 +434,7 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 
 ### [UI-018] ✅ CLOSED (2026-08-27)
 **Category:** UI/Media
-**Status:** Closed — `GuideToolAside` on eight playbook guides (grievance, seniority, right-to-refuse, print, union-boards, membership-signup, short-form, email-broadcast); shared `guideCommon` aside copy EN/FR.
+**Status:** Closed — `GuideToolAside` on all playbook-tier guides + steward-playbooks hub (grievance through workshop batch + dfr, social-media-plan); shared `guideCommon` aside copy EN/FR. Audit: [`public-page-qol-pass-2026-08-27.md`](public-page-qol-pass-2026-08-27.md).
 
 ### [UI-010] ✅ CLOSED (2026-08-27)
 **Category:** UI/Media

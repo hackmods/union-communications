@@ -3179,6 +3179,7 @@
   },
   "onboarding": {
     "title": "Set up your local brand",
+    "subtitle": "Three quick steps: local details, colours, and logo. Then every Comms tool exports with your local on it.",
     "step1": "Local details",
     "step2": "Colours",
     "step3": "Choose your logo",

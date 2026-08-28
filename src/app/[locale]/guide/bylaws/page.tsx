@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import {
   AmendmentFlowDiagram,
   DocumentHierarchyDiagram,
@@ -80,6 +81,7 @@ export default async function BylawsGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("bylawsGuide");
   const nav = await getTranslations("nav");
+  const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
   const tocItems = TOC.map(([id, key]) => ({
@@ -95,6 +97,28 @@ export default async function BylawsGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            {
+              href: "/tools/bylaw-builder?preset=campus",
+              label: nav("bylawBuilder"),
+            },
+            {
+              href: "/tools/board-notice",
+              label: nav("boardNotice"),
+              variant: "outline",
+            },
+            {
+              href: "/tools/org-chart",
+              label: nav("orgChart"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },

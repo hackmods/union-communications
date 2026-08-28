@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import {
   BargainingLifecycleDiagram,
   NoBoardCountdownDiagram,
@@ -90,6 +91,7 @@ export default async function BargainingGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations("bargainingGuide");
   const nav = await getTranslations("nav");
+  const tg = await getTranslations("guideCommon");
   const ts = await getTranslations("sources");
 
   const tocItems = TOC.map(([id, key]) => ({
@@ -105,6 +107,25 @@ export default async function BargainingGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("tocLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            { href: "/tools/proposal-tracker", label: nav("proposalTracker") },
+            {
+              href: "/tools/graphic-maker?preset=bargainingUpdate",
+              label: nav("graphicMaker"),
+              variant: "outline",
+            },
+            {
+              href: "/tools/flyer-maker",
+              label: nav("flyerMaker"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },

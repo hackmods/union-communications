@@ -4,6 +4,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { GuideToolAside } from "@/components/comms/GuideToolAside";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
@@ -47,6 +48,8 @@ export default async function WorkshopGuidePage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("workshopGuide");
+  const tg = await getTranslations("guideCommon");
+  const nav = await getTranslations("nav");
   const ts = await getTranslations("sources");
 
   const tocItems = guideTocItems(OUTLINE_TOC, (key) =>
@@ -61,6 +64,25 @@ export default async function WorkshopGuidePage({
       preset="playbook"
       toc={tocItems}
       tocLabel={t("outlineNavLabel")}
+      aside={
+        <GuideToolAside
+          title={tg("asideTitle")}
+          intro={tg("asideIntro")}
+          links={[
+            { href: "/brand-kit", label: nav("brandKit") },
+            {
+              href: "/tools/logo-builder",
+              label: nav("logoBuilder"),
+              variant: "outline",
+            },
+            {
+              href: "/guide/social-media-plan",
+              label: nav("socialMediaPlan"),
+              variant: "outline",
+            },
+          ]}
+        />
+      }
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/resources", label: t("resourcesCta") },

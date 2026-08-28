@@ -79,6 +79,7 @@ export const PUBLIC_NS = [
   "rsvpPublic",
   "meetingPublic",
   "common",
+  "guideCommon",
   "routeUi",
   "footer",
   "relatedTools",
