@@ -3866,6 +3866,7 @@
       "inherit": "Brand Kit",
       "montserrat": "Montserrat",
       "sourceSans": "Source Sans",
+      "lato": "Lato",
       "barlowCondensed": "Barlow Condensed",
       "oswald": "Oswald",
       "sourceSerif": "Source Serif",
@@ -6488,6 +6489,7 @@
       }
     },
     "boards": {
+      "navLabel": "Union boards",
       "title": "Union boards and pocket cards",
       "body": "Keep JHSC contacts and a short hazard / refusal strip on the board. Link QR posters to official e-Laws OHSA text, not outdated photocopies.",
       "exportCta": "Make a pocket card",

@@ -3816,6 +3816,7 @@
       "inherit": "Brand Kit",
       "montserrat": "Montserrat",
       "sourceSans": "Source Sans",
+      "lato": "Lato",
       "barlowCondensed": "Barlow Condensed",
       "oswald": "Oswald",
       "sourceSerif": "Source Serif",
@@ -6438,6 +6439,7 @@
       }
     },
     "boards": {
+      "navLabel": "Tableaux syndicaux",
       "title": "Tableaux syndicaux et cartes de poche",
       "body": "Gardez les contacts CSS et une courte bande danger / refus sur le tableau. Liez les QR au texte officiel e-Laws de la LSST, pas à d'anciennes photocopies.",
       "exportCta": "Créer une carte de poche",

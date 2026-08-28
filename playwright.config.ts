@@ -49,6 +49,8 @@ export default defineConfig({
               process.env.AUTH_SECRET ?? "ci-build-secret-not-for-production",
             AUTH_ALLOW_DEMO_USERS: process.env.AUTH_ALLOW_DEMO_USERS ?? "true",
             NEXT_PUBLIC_DEMO_SITE: process.env.NEXT_PUBLIC_DEMO_SITE ?? "true",
+            NEXT_PUBLIC_OFFICER_HUB_PUBLIC:
+              process.env.NEXT_PUBLIC_OFFICER_HUB_PUBLIC ?? "true",
           },
         },
       }),

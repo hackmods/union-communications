@@ -4,6 +4,7 @@
 
 - [x] `builders.smoke` H1 matrix: running-meetings, seniority-bumping, right-to-refuse
 - [x] `current-ground-truth.md` + `roadmap-next.mdc` — running meetings, OL nav, guide registry
+- [x] Smoke fixes: `flyerMaker.fonts.lato` EN/FR; `rightToRefuseGuide.boards.navLabel`; pulse-poll gate test; Playwright `NEXT_PUBLIC_OFFICER_HUB_PUBLIC` default; steward-tools duplicate-link locators
 
 ## Running meetings & Rules of Order — gold-standard pass (2026-08-28)
 

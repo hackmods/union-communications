@@ -91,7 +91,9 @@ test.describe("Steward meeting guides @smoke", () => {
       page.getByRole("heading", { name: /Which motion comes first\?/i }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Rules of Order Cheat Sheet/i }),
+      page
+        .locator("#tool")
+        .getByRole("link", { name: /Rules of Order Cheat Sheet/i }),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
@@ -102,7 +104,9 @@ test.describe("Steward meeting guides @smoke", () => {
       page.getByRole("heading", { name: "Steward playbooks", exact: true }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Complaint vs grievance/i }),
+      page
+        .locator("#workspaces")
+        .getByRole("link", { name: /Complaint vs grievance/i }),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
