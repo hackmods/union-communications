@@ -29,4 +29,10 @@ describe("officer learning related resources", () => {
       "floor-checklist",
     ]);
   });
+
+  it("maps democratic governance to running meetings and rules of order", () => {
+    const hrefs = getRelatedResources("democratic-governance").map((r) => r.href);
+    expect(hrefs).toContain("/guide/running-meetings");
+    expect(hrefs).toContain("/tools/rules-of-order");
+  });
 });
