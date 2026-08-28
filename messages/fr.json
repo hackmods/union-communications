@@ -89,7 +89,9 @@
     "toolsGroupStewardWorksheets": "Fiches des délégués",
     "bylawsGuide": "Règlements locaux",
     "bylawBuilder": "Créateur de règlements",
-    "proposalTracker": "Suivi des propositions"
+    "proposalTracker": "Suivi des propositions",
+    "rulesOfOrder": "Aide-mémoire de procédure",
+    "runningMeetingsGuide": "Tenir une assemblée"
   },
   "common": {
     "download": "Télécharger",
@@ -456,7 +458,8 @@
       "rightToRefuse": "Droit de refuser un travail dangereux — LSST Ont. art. 43",
       "jointCommittee": "Guide des comités conjoints",
       "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
-      "bylaws": "Règlements locaux : les règles de votre section"
+      "bylaws": "Règlements locaux : les règles de votre section",
+      "runningMeetings": "Tenir une assemblée et règles de procédure"
     },
     "startHere": {
       "navLabel": "Commencer ici",
@@ -675,7 +678,8 @@
       "rightToRefuse": "Droit de refuser (Ontario)",
       "jointCommittee": "Guide des comités conjoints",
       "workplaceMapping": "Cartographie du lieu de travail",
-      "bylaws": "Règlements locaux"
+      "bylaws": "Règlements locaux",
+      "runningMeetings": "Assemblées et règles de procédure"
     }
   },
   "officerLearning": {
@@ -3091,7 +3095,8 @@
         "jointCommittee": "Guide des comités conjoints",
         "bargaining": "Cycle de négociation",
         "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
-        "bylaws": "Règlements locaux : les règles de votre section"
+        "bylaws": "Règlements locaux : les règles de votre section",
+        "runningMeetings": "Tenir une assemblée et règles de procédure"
       },
       "blurb": {
         "stewardPlaybooks": "Commencez ici : Délégué 101, modules du Centre de formation des dirigeants avec autoévaluations, et tous les guides sur une page.",
@@ -3104,7 +3109,8 @@
         "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
         "bargaining": "Du sondage des membres et de l'établissement des demandes jusqu'au rapport « no board » et à la ratification — pour les comités de négociation locaux.",
         "workplaceMapping": "Recensez chaque collègue, repérez les leaders organiques et cotez l'appui syndical de 1 à 5. Gardez le fichier hors des systèmes de l'employeur.",
-        "bylaws": "Structure de l'exécutif, quorum, autorités de signature, élections, et comment modifier les règlements avec préavis et vote en assemblée."
+        "bylaws": "Structure de l'exécutif, quorum, autorités de signature, élections, et comment modifier les règlements avec préavis et vote en assemblée.",
+        "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et ouvrez l'aide-mémoire pendant le débat."
       }
     },
     "checklist": {
@@ -4558,7 +4564,8 @@
       "seniority": "Ancienneté et bumping",
       "jointCommittee": "Guide des comités conjoints",
       "bargaining": "Le cycle de négociation : du sondage à la signature",
-      "bylaws": "Règlements locaux : les règles de votre section"
+      "bylaws": "Règlements locaux : les règles de votre section",
+      "runningMeetings": "Tenir une assemblée et règles de procédure"
     },
     "blurbs": {
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
@@ -4571,7 +4578,8 @@
       "seniority": "Deux exemples de cascade et une feuille d'ancienneté imprimable.",
       "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
       "bargaining": "Du sondage à la signature pour les comités de négociation locaux — mises à jour de table, votes de grève, ratification, listes et Suivi des propositions sur appareil.",
-      "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis, quorum et approbation nationale."
+      "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis, quorum et approbation nationale.",
+      "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire pour une motion ou un rappel au règlement."
     },
     "workspaces": {
       "title": "Espaces de pratique",
@@ -6457,6 +6465,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "running-meetings-guide": {
+        "title": "Assemblées et règles de procédure",
+        "body": "Nouveau guide pour les présidents et délégués — adaptez la formalité à la salle, suivez un ordre du jour type et ouvrez l'aide-mémoire de procédure sur votre téléphone quand le débat commence."
+      },
       "guide-tool-aside": {
         "title": "Guides — raccourcis outils sur ordinateur",
         "body": "Les guides de terrain affichent maintenant Ouvrir un outil dans la barre latérale sur grand écran — accédez aux feuilles, cartes QR et tracts sans défiler jusqu'en bas."
@@ -8681,7 +8693,8 @@
       "preDisciplinaryLog": "Droits procéduraux, facteurs atténuants et points de représentation.",
       "complaintVsGrievance": "Cinq points d'admissibilité, puis brouillon de grief ou autre voie.",
       "bylawBuilder": "Rédigez un modèle de règlements locaux à partir du quorum et de la structure de l'exécutif.",
-      "proposalTracker": "Suivez les propositions et contre-propositions sur cet appareil, puis exportez en CSV pour sauvegarde."
+      "proposalTracker": "Suivez les propositions et contre-propositions sur cet appareil, puis exportez en CSV pour sauvegarde.",
+      "rulesOfOrder": "Choisissez une action parlementaire et lisez exactement quoi dire — sur votre téléphone pendant l'assemblée."
     }
   },
   "portal": {
@@ -9488,6 +9501,108 @@
       "far": "Télécharger la fiche FAR de poche",
       "discipline": "Télécharger la fiche discipline de poche",
       "meiorin": "Télécharger la fiche Meiorin de poche"
+    }
+  },
+  "runningMeetingsGuide": {
+    "title": "Tenir une assemblée et règles de procédure",
+    "subtitle": "Procédure parlementaire pour les assemblées syndicales — adaptée à la salle, pas à une convention nationale",
+    "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "intro": "Une assemblée syndicale sans structure devient vite un chahut. Pour que chacun ait sa chance de parole et que les décisions avancent, le mouvement syndical utilise la procédure parlementaire — le plus souvent les règles de procédure de Robert.",
+    "disclaimer": {
+      "title": "Pas un avis juridique. Confirmez les règles de votre section.",
+      "body": "Beaucoup de sections adoptent les règles de Robert par renvoi dans leurs règlements; d'autres utilisent un règlement intérieur simplifié. Lisez vos règlements et toute règle de la constitution nationale avant de présider une assemblée générale des membres."
+    },
+    "related": {
+      "officerLearning": "Centre de formation des dirigeants"
+    },
+    "formality": {
+      "navLabel": "Niveau de formalité",
+      "title": "Le niveau de formalité",
+      "intro": "Vous n'avez pas à tenir chaque assemblée comme une convention nationale. Adaptez la formalité à la taille de la salle :",
+      "items": {
+        "executive": {
+          "label": "Réunion de l'exécutif (5 à 10 personnes)",
+          "content": "Très informelle. Le président peut présenter des motions, les personnes peuvent parler plusieurs fois, et les décisions se prennent souvent par consensus (« Est-ce que tout le monde est d'accord? »)."
+        },
+        "gmm": {
+          "label": "Assemblée générale des membres (AGM) (20 à 100 personnes)",
+          "content": "Formelle. Les membres lèvent la main, attendent d'être reconnus par le président, et les motions doivent être présentées et appuyées formellement. Le président reste neutre et ne participe pas au débat."
+        },
+        "convention": {
+          "label": "Convention (500 personnes et plus)",
+          "content": "Extrêmement formelle. Les micros sont strictement limités dans le temps, les rappels au règlement sont serrés, et le règlement est suivi à la lettre."
+        }
+      }
+    },
+    "chair": {
+      "navLabel": "Rôle du président",
+      "title": "Le rôle du président",
+      "intro": "Le président (souvent le président de la section) est l'arbitre, pas un joueur.",
+      "items": {
+        "referee": {
+          "label": "Maintenir l'ordre",
+          "content": "Le rôle du président est de maintenir l'ordre, gérer la liste des orateurs et veiller au respect des règles."
+        },
+        "neutral": {
+          "label": "Rester neutre",
+          "content": "Le président ne participe pas au débat sur les motions qu'il ou elle préside."
+        },
+        "stepDown": {
+          "label": "Céder la présidence pour débattre",
+          "content": "Si le président veut débattre avec passion d'une motion, il ou elle doit quitter le fauteuil et laisser le vice-président diriger l'assemblée jusqu'au vote."
+        }
+      },
+      "tip": "En cas de doute, reconnaissez le membre qui s'est levé en premier — puis imposez un seul orateur à la fois."
+    },
+    "agenda": {
+      "navLabel": "Ordre du jour type",
+      "title": "L'ordre du jour type (ordre des travaux)",
+      "intro": "La plupart des assemblées locales suivent ce déroulement :",
+      "items": {
+        "callToOrder": "Ouverture de l'assemblée et lecture de la déclaration de respect et de solidarité",
+        "adoptAgenda": "Adoption de l'ordre du jour",
+        "minutes": "Adoption du procès-verbal de la dernière assemblée",
+        "treasurer": "Rapport financier du trésorier ou de la trésorière",
+        "reports": "Rapports de l'exécutif et des délégués",
+        "unfinished": "Affaires inachevées",
+        "newBusiness": "Nouvelles affaires (où les nouvelles motions sont débattues)",
+        "adjournment": "Levée de l'assemblée"
+      }
+    },
+    "motion": {
+      "navLabel": "Vie d'une motion",
+      "title": "La vie d'une motion",
+      "intro": "Une motion est une proposition pour que la section agisse. Elle suit ce chemin :",
+      "steps": {
+        "move": {
+          "label": "Présenter",
+          "content": "« Je propose que nous donnions 500 $ à la banque alimentaire. »"
+        },
+        "second": {
+          "label": "Appuyer",
+          "content": "« J'appuie la motion. » (Sans appui, la motion meurt immédiatement.)"
+        },
+        "debate": {
+          "label": "Débat",
+          "content": "Le président demande s'il y a débat. Le proposant parle en premier."
+        },
+        "vote": {
+          "label": "Vote",
+          "content": "Le président met la question aux voix. « Tous ceux qui sont pour? Tous ceux qui sont contre? »"
+        },
+        "result": {
+          "label": "Résultat",
+          "content": "Le président déclare la motion adoptée ou rejetée."
+        }
+      }
+    },
+    "tool": {
+      "navLabel": "Aide-mémoire",
+      "title": "Aide-mémoire de procédure",
+      "intro": "Utilisez notre aide-mémoire de procédure pendant les assemblées pour savoir exactement quoi dire quand vous devez présenter une motion, amender, clore le débat ou faire un rappel au règlement."
     }
   },
   "bylawsGuide": {
@@ -10318,6 +10433,82 @@
       "unionWithdrew": "Retrait syndical",
       "employerWithdrew": "Retrait patronal",
       "impasse": "Impasse"
+    }
+  },
+  "rulesOfOrder": {
+    "title": "Aide-mémoire de procédure parlementaire",
+    "subtitle": "Quoi dire quand vous présentez une motion, amender ou faites un rappel pendant une assemblée syndicale",
+    "whenToUse": "Ouvrez ceci sur votre téléphone pendant une assemblée générale des membres quand vous avez besoin de la formulation exacte pour une action parlementaire.",
+    "guideLink": "Lire le guide Tenir une assemblée",
+    "pickerHeading": "Que voulez-vous faire?",
+    "pickerIntro": "Appuyez sur une action ci-dessous. Chaque fiche indique quoi dire et si vous pouvez interrompre, avez besoin d'un appui ou d'un vote.",
+    "searchPlaceholder": "Rechercher une action…",
+    "searchLabel": "Rechercher une action parlementaire",
+    "noResults": "Aucune action ne correspond. Essayez « motion », « règlement » ou « question ».",
+    "categories": {
+      "motions": {
+        "label": "Motions"
+      },
+      "points": {
+        "label": "Rappels"
+      }
+    },
+    "fields": {
+      "whatToSay": "Quoi dire",
+      "canInterrupt": "Pouvez-vous interrompre?",
+      "needsSeconder": "Appui requis?",
+      "isDebatable": "Est-ce débattable?",
+      "voteRequired": "Vote requis"
+    },
+    "actions": {
+      "mainMotion": {
+        "label": "Présenter une motion principale",
+        "whatToSay": "« Je propose de [décrire l'action]… »",
+        "canInterrupt": "Non",
+        "needsSeconder": "Oui",
+        "isDebatable": "Oui",
+        "voteRequired": "Majorité"
+      },
+      "amendMotion": {
+        "label": "Modifier une motion au débat",
+        "whatToSay": "« Je propose d'amender la motion en [ajoutant/supprimant des mots]… »",
+        "canInterrupt": "Non",
+        "needsSeconder": "Oui",
+        "isDebatable": "Oui",
+        "voteRequired": "Majorité"
+      },
+      "callQuestion": {
+        "label": "Forcer le vote et arrêter le débat (clore le débat)",
+        "whatToSay": "« Je propose de clore le débat. » OU « Je demande la clôture du débat. »",
+        "canInterrupt": "Non",
+        "needsSeconder": "Oui",
+        "isDebatable": "Non (vote immédiat)",
+        "voteRequired": "Majorité des deux tiers"
+      },
+      "pointOfPrivilege": {
+        "label": "Se plaindre du bruit, de la température ou d'une distraction",
+        "whatToSay": "« Rappel au privilège! »",
+        "canInterrupt": "Oui",
+        "needsSeconder": "Non",
+        "isDebatable": "Non",
+        "voteRequired": "Tranché par le président"
+      },
+      "pointOfOrder": {
+        "label": "Signaler que les règles ne sont pas respectées",
+        "whatToSay": "« Rappel au règlement! »",
+        "canInterrupt": "Oui",
+        "needsSeconder": "Non",
+        "isDebatable": "Non",
+        "voteRequired": "Tranché par le président"
+      },
+      "pointOfInformation": {
+        "label": "Poser une question sur les faits du débat",
+        "whatToSay": "« Demande de renseignement! »",
+        "canInterrupt": "Oui (seulement pour une clarification urgente)",
+        "needsSeconder": "Non",
+        "isDebatable": "Non",
+        "voteRequired": "Aucun (le président répond)"
+      }
     }
   }
 }

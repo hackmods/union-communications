@@ -159,4 +159,11 @@ export const RELATED_BY_TOOL: Record<
     { href: "/guide/crisis", navKey: "strikeGuide" },
     { href: "/guide/email-broadcast", navKey: "emailBroadcastGuide" },
   ],
+  "rules-of-order": [
+    { href: "/guide/running-meetings", navKey: "runningMeetingsGuide" },
+    { href: "/guide/bylaws", navKey: "bylawsGuide" },
+    { href: "/guide/officer-learning", navKey: "officerLearningGuide" },
+    { href: "/tools/board-notice", navKey: "boardNotice" },
+    { href: "/tools/bylaw-builder", navKey: "bylawBuilder" },
+  ],
 };

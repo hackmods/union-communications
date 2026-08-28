@@ -67,6 +67,7 @@ const playbookLinks = [
   { href: "/guide/joint-committee", key: "jointCommittee" as const },
   { href: "/guide/bargaining", key: "bargaining" as const },
   { href: "/guide/bylaws", key: "bylaws" as const },
+  { href: "/guide/running-meetings", key: "runningMeetings" as const },
 ] as const;
 
 export default async function StewardPlaybooksPage({

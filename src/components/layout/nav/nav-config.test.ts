@@ -167,6 +167,7 @@ describe("toolGroups", () => {
       "/tools/complaint-vs-grievance",
       "/tools/bylaw-builder",
       "/tools/proposal-tracker",
+      "/tools/rules-of-order",
     ]);
   });
 });

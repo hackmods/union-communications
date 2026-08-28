@@ -22,6 +22,7 @@ export type NavLinkKey =
   | "jointCommitteeGuide"
   | "bargainingGuide"
   | "bylawsGuide"
+  | "runningMeetingsGuide"
   | "socialExamples"
   | "captions"
   | "assets"
@@ -49,7 +50,8 @@ export type NavLinkKey =
   | "preDisciplinaryLog"
   | "complaintVsGrievance"
   | "bylawBuilder"
-  | "proposalTracker";
+  | "proposalTracker"
+  | "rulesOfOrder";
 
 export type NavGroupLabelKey =
   | "learnGroupGuides"
@@ -185,6 +187,7 @@ export const toolGroups: readonly NavGroup[] = [
       { href: "/tools/complaint-vs-grievance", key: "complaintVsGrievance" },
       { href: "/tools/bylaw-builder", key: "bylawBuilder" },
       { href: "/tools/proposal-tracker", key: "proposalTracker" },
+      { href: "/tools/rules-of-order", key: "rulesOfOrder" },
     ],
   },
 ] as const;

@@ -47,6 +47,7 @@ export const PUBLIC_PATHS = [
   "/guide/bargaining",
   "/guide/workplace-mapping",
   "/guide/bylaws",
+  "/guide/running-meetings",
   "/guide/officer-learning",
   "/guide/officer-learning/contract-enforcement",
   "/guide/officer-learning/progressive-discipline",

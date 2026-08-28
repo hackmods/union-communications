@@ -113,6 +113,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       description:
         "Track articles, union proposals, employer counters, and status on your device. Export CSV for USB backup — nothing goes to the cloud.",
     },
+    "rules-of-order": {
+      title: "Rules of Order Cheat Sheet",
+      description:
+        "Tap the parliamentary action you need — main motion, amendment, call the question, or point of order — and read exactly what to say on your phone.",
+    },
   },
   fr: {
     "flyer-maker": {
@@ -224,6 +229,11 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
       title: "Suivi des propositions de négociation",
       description:
         "Suivez articles, propositions syndicales et contre-propositions sur votre appareil. Exportez en CSV pour clé USB — rien n'est envoyé au nuage.",
+    },
+    "rules-of-order": {
+      title: "Aide-mémoire de procédure parlementaire",
+      description:
+        "Choisissez l'action parlementaire — motion principale, amendement, clôture du débat ou rappel au règlement — et lisez exactement quoi dire sur votre téléphone.",
     },
   },
 };

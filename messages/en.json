@@ -89,7 +89,9 @@
     "toolsGroupStewardWorksheets": "Steward worksheets",
     "bylawsGuide": "Local bylaws",
     "bylawBuilder": "Bylaw Builder",
-    "proposalTracker": "Proposal Tracker"
+    "proposalTracker": "Proposal Tracker",
+    "rulesOfOrder": "Rules of Order Cheat Sheet",
+    "runningMeetingsGuide": "Running meetings"
   },
   "common": {
     "download": "Download",
@@ -456,7 +458,8 @@
       "rightToRefuse": "Right to refuse unsafe work — Ontario OHSA s.43",
       "jointCommittee": "Joint committee playbook",
       "workplaceMapping": "Workplace mapping & organic leaders",
-      "bylaws": "Local Bylaws: The Rules of Your Local"
+      "bylaws": "Local Bylaws: The Rules of Your Local",
+      "runningMeetings": "Running a Meeting & Robert's Rules"
     },
     "startHere": {
       "navLabel": "Start here",
@@ -675,7 +678,8 @@
       "rightToRefuse": "Right to refuse (Ontario)",
       "jointCommittee": "Joint committee playbook",
       "workplaceMapping": "Workplace mapping",
-      "bylaws": "Local bylaws"
+      "bylaws": "Local bylaws",
+      "runningMeetings": "Running meetings & Robert's Rules"
     }
   },
   "officerLearning": {
@@ -3091,7 +3095,8 @@
         "jointCommittee": "Joint committee playbook",
         "bargaining": "Bargaining lifecycle",
         "workplaceMapping": "Workplace mapping & organic leaders",
-        "bylaws": "Local Bylaws: The Rules of Your Local"
+        "bylaws": "Local Bylaws: The Rules of Your Local",
+        "runningMeetings": "Running a Meeting & Robert's Rules"
       },
       "blurb": {
         "stewardPlaybooks": "Start here: Steward 101, Officer Learning modules with self-tests, and every floor playbook in one list.",
@@ -3104,7 +3109,8 @@
         "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
         "bargaining": "From member survey and demand setting through No Board and ratification — for Local Bargaining Committees.",
         "workplaceMapping": "Chart every coworker, find organic leaders, and score union support 1 to 5. Keep the file off employer systems.",
-        "bylaws": "Executive structure, quorum, signing authority, elections, and how to amend bylaws with notice and a GMM vote."
+        "bylaws": "Executive structure, quorum, signing authority, elections, and how to amend bylaws with notice and a GMM vote.",
+        "runningMeetings": "Scale formality to the room, run a standard agenda, and use the cheat sheet during live debate."
       }
     },
     "checklist": {
@@ -4608,7 +4614,8 @@
       "seniority": "Seniority & bumping",
       "jointCommittee": "Joint committee playbook",
       "bargaining": "The Bargaining Lifecycle: From Survey to Signing",
-      "bylaws": "Local Bylaws: The Rules of Your Local"
+      "bylaws": "Local Bylaws: The Rules of Your Local",
+      "runningMeetings": "Running a Meeting & Robert's Rules"
     },
     "blurbs": {
       "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
@@ -4621,7 +4628,8 @@
       "seniority": "Two cascade examples and a printable seniority worksheet.",
       "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
       "bargaining": "Survey to signing for Local Bargaining Committees — table updates, strike votes, ratification, checklists, and the on-device Proposal Tracker.",
-      "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval."
+      "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval.",
+      "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say when you move or raise a point."
     },
     "workspaces": {
       "title": "Practice workspaces",
@@ -6507,6 +6515,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "running-meetings-guide": {
+        "title": "Running meetings & Robert's Rules",
+        "body": "New guide for chairs and stewards — scale formality to the room, follow a standard local agenda, and open the Rules of Order cheat sheet on your phone when debate starts."
+      },
       "guide-tool-aside": {
         "title": "Guides — tool shortcuts on desktop",
         "body": "Playbook guides now show Open a tool in the sidebar on wider screens — jump straight to worksheets, QR cards, and flyers without scrolling to the bottom."
@@ -8681,7 +8693,8 @@
       "preDisciplinaryLog": "Procedural rights, mitigators, and representation talking points.",
       "complaintVsGrievance": "Five eligibility points, then a grievance draft or alternate route.",
       "bylawBuilder": "Draft a standard local bylaws template from quorum and executive fields.",
-      "proposalTracker": "Track bargaining proposals and counters on this device, then export CSV for backup."
+      "proposalTracker": "Track bargaining proposals and counters on this device, then export CSV for backup.",
+      "rulesOfOrder": "Tap a parliamentary action and read exactly what to say — on your phone during the meeting."
     }
   },
   "portal": {
@@ -9488,6 +9501,108 @@
       "far": "Download FAR pocket sheet",
       "discipline": "Download discipline pocket sheet",
       "meiorin": "Download Meiorin pocket sheet"
+    }
+  },
+  "runningMeetingsGuide": {
+    "title": "Running a Meeting & Robert's Rules",
+    "subtitle": "Parliamentary procedure for union meetings — scaled to the room, not a national convention",
+    "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
+    "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
+    "intro": "A union meeting without structure is just a shouting match. To ensure everyone gets a fair say and business actually gets done, the labour movement uses Parliamentary Procedure — most commonly Robert's Rules of Order.",
+    "disclaimer": {
+      "title": "Not legal advice. Confirm your local rules.",
+      "body": "Many locals adopt Robert's Rules by reference in their bylaws; some use a simplified standing order. Read your bylaws and any national constitution rules before you chair a general membership meeting."
+    },
+    "related": {
+      "officerLearning": "Officer Learning Center"
+    },
+    "formality": {
+      "navLabel": "Level of formality",
+      "title": "The level of formality",
+      "intro": "You do not need to run every meeting like a National Convention. Scale your formality to the size of the room:",
+      "items": {
+        "executive": {
+          "label": "The Executive Meeting (5–10 people)",
+          "content": "Highly informal. The Chair can make motions, people can speak multiple times, and decisions are often made by consensus (\"Are we all good with this?\")."
+        },
+        "gmm": {
+          "label": "The General Membership Meeting (GMM) (20–100 people)",
+          "content": "Formal. Members must raise hands, wait to be recognized by the Chair, and motions must be formally moved and seconded. The Chair remains neutral and does not debate."
+        },
+        "convention": {
+          "label": "The Convention (500+ people)",
+          "content": "Extremely formal. Microphones are strictly timed, points of order are tightly regulated, and the rulebook is followed to the letter."
+        }
+      }
+    },
+    "chair": {
+      "navLabel": "Role of the Chair",
+      "title": "The role of the Chair",
+      "intro": "The Chair (usually the Local President) is the referee, not a player.",
+      "items": {
+        "referee": {
+          "label": "Keep order",
+          "content": "The Chair's job is to keep order, manage the speakers list, and ensure the rules are followed."
+        },
+        "neutral": {
+          "label": "Stay neutral",
+          "content": "The Chair does not debate on motions they are presiding over."
+        },
+        "stepDown": {
+          "label": "Step down to debate",
+          "content": "If the Chair wants to passionately debate a motion, they must step down from the chair and let the Vice-President run the meeting until the vote is over."
+        }
+      },
+      "tip": "When in doubt, recognize the member who rose first — then enforce one speaker at a time."
+    },
+    "agenda": {
+      "navLabel": "Standard agenda",
+      "title": "The standard agenda (order of business)",
+      "intro": "Most local meetings follow this flow:",
+      "items": {
+        "callToOrder": "Call to Order & Reading of the Statement of Respect/Solidarity",
+        "adoptAgenda": "Adoption of the Agenda",
+        "minutes": "Adoption of the Previous Meeting's Minutes",
+        "treasurer": "Treasurer's Financial Report",
+        "reports": "Executive / Steward Reports",
+        "unfinished": "Unfinished Business",
+        "newBusiness": "New Business (where new motions are debated)",
+        "adjournment": "Adjournment"
+      }
+    },
+    "motion": {
+      "navLabel": "Life of a motion",
+      "title": "The life of a motion",
+      "intro": "A motion is a proposal for the local to take action. It follows this path:",
+      "steps": {
+        "move": {
+          "label": "Move",
+          "content": "\"I move that we donate $500 to the food bank.\""
+        },
+        "second": {
+          "label": "Second",
+          "content": "\"I second the motion.\" (If there is no seconder, the motion dies instantly.)"
+        },
+        "debate": {
+          "label": "Debate",
+          "content": "The Chair asks for debate. The mover gets to speak first."
+        },
+        "vote": {
+          "label": "Vote",
+          "content": "The Chair calls the question. \"All in favor? All opposed?\""
+        },
+        "result": {
+          "label": "Result",
+          "content": "The Chair declares the motion passed or defeated."
+        }
+      }
+    },
+    "tool": {
+      "navLabel": "Cheat sheet tool",
+      "title": "Rules of Order cheat sheet",
+      "intro": "Use our Rules of Order Cheat Sheet tool during meetings to know exactly what to say when you need to move, amend, call the question, or raise a point of order."
     }
   },
   "bylawsGuide": {
@@ -10318,6 +10433,82 @@
       "unionWithdrew": "Union Withdrew",
       "employerWithdrew": "Employer Withdrew",
       "impasse": "Impasse"
+    }
+  },
+  "rulesOfOrder": {
+    "title": "Rules of Order Cheat Sheet",
+    "subtitle": "What to say when you move, amend, or raise a point during a union meeting",
+    "whenToUse": "Open this on your phone during a general membership meeting when you need the exact wording for a parliamentary action.",
+    "guideLink": "Read the Running a Meeting guide",
+    "pickerHeading": "What do you want to do?",
+    "pickerIntro": "Tap an action below. Each card shows what to say and whether you can interrupt, need a seconder, or need a vote.",
+    "searchPlaceholder": "Search actions…",
+    "searchLabel": "Search parliamentary actions",
+    "noResults": "No actions match that search. Try \"motion\", \"order\", or \"question\".",
+    "categories": {
+      "motions": {
+        "label": "Motions"
+      },
+      "points": {
+        "label": "Points"
+      }
+    },
+    "fields": {
+      "whatToSay": "What to say",
+      "canInterrupt": "Can you interrupt?",
+      "needsSeconder": "Needs a seconder?",
+      "isDebatable": "Is it debatable?",
+      "voteRequired": "Vote required"
+    },
+    "actions": {
+      "mainMotion": {
+        "label": "Introduce a main motion",
+        "whatToSay": "\"I move to [state action]…\"",
+        "canInterrupt": "No",
+        "needsSeconder": "Yes",
+        "isDebatable": "Yes",
+        "voteRequired": "Majority"
+      },
+      "amendMotion": {
+        "label": "Change or edit a motion on the floor",
+        "whatToSay": "\"I move to amend the motion by [adding/striking words]…\"",
+        "canInterrupt": "No",
+        "needsSeconder": "Yes",
+        "isDebatable": "Yes",
+        "voteRequired": "Majority"
+      },
+      "callQuestion": {
+        "label": "Force a vote and stop the talking (call the question)",
+        "whatToSay": "\"I move to the previous question.\" OR \"I call the question.\"",
+        "canInterrupt": "No",
+        "needsSeconder": "Yes",
+        "isDebatable": "No (vote on it immediately)",
+        "voteRequired": "Two-thirds majority"
+      },
+      "pointOfPrivilege": {
+        "label": "Complain about noise, temperature, or a distraction",
+        "whatToSay": "\"Point of privilege!\"",
+        "canInterrupt": "Yes",
+        "needsSeconder": "No",
+        "isDebatable": "No",
+        "voteRequired": "Handled by Chair"
+      },
+      "pointOfOrder": {
+        "label": "Point out that the rules are being broken",
+        "whatToSay": "\"Point of order!\"",
+        "canInterrupt": "Yes",
+        "needsSeconder": "No",
+        "isDebatable": "No",
+        "voteRequired": "Ruled on by the Chair"
+      },
+      "pointOfInformation": {
+        "label": "Ask a question about the facts of the debate",
+        "whatToSay": "\"Point of information!\"",
+        "canInterrupt": "Yes (but only for urgent clarification)",
+        "needsSeconder": "No",
+        "isDebatable": "No",
+        "voteRequired": "None (Chair answers)"
+      }
     }
   }
 }

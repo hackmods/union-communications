@@ -501,6 +501,12 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "opseu-forms",
     "clc-education-catalogue",
   ],
+  runningMeetings: [
+    "cupe-steward-handbook",
+    "clc-education-catalogue",
+    "ofl",
+    "clc",
+  ],
   bylawBuilder: [
     "cupe-bylaws-guide",
     "cupe-constitution",

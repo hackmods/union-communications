@@ -177,6 +177,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "What must be in local bylaws — executive, quorum, signing authority, elections — and how to amend them with notice, a GMM vote, and national approval.",
     },
+    "/guide/running-meetings": {
+      title: "Running a Meeting & Robert's Rules",
+      description:
+        "Scale parliamentary formality to the room, run a standard local agenda, and know what to say when you move, second, or raise a point of order.",
+    },
     "/guide/officer-learning": {
       title: "Officer Learning Center",
       description:
@@ -378,6 +383,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Règlements locaux : les règles de votre section",
       description:
         "Ce qui doit figurer dans les règlements locaux — exécutif, quorum, signatures, élections — et comment les modifier avec préavis et vote en assemblée.",
+    },
+    "/guide/running-meetings": {
+      title: "Tenir une assemblée et règles de procédure",
+      description:
+        "Adaptez la formalité parlementaire à la salle, suivez un ordre du jour local type et sachez quoi dire pour une motion, un appui ou un rappel au règlement.",
     },
     "/guide/officer-learning": {
       title: "Centre de formation des dirigeants",

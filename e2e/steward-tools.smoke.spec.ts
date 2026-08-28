@@ -55,6 +55,36 @@ test.describe("Steward meeting guides @smoke", () => {
     await expectNoSeriousA11yViolations(page);
   });
 
+  test("rules of order cheat sheet loads and shows motion card", async ({
+    page,
+  }) => {
+    await page.goto("/en/tools/rules-of-order/");
+    await expect(
+      page.getByRole("heading", { name: /Rules of Order Cheat Sheet/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /What do you want to do\?/i }),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: /Point out that the rules are being broken/i })
+      .click();
+    await expect(page.getByText(/Point of order!/i)).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
+
+  test("running meetings guide loads from blueprint", async ({ page }) => {
+    await page.goto("/en/guide/running-meetings/");
+    await expect(
+      page.getByRole("heading", {
+        name: /Running a Meeting & Robert's Rules/i,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Rules of Order Cheat Sheet/i }),
+    ).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
+
   test("steward playbooks hub lists practice workspaces", async ({ page }) => {
     await page.goto("/en/guide/steward-playbooks/#workspaces");
     await expect(
