@@ -86,7 +86,7 @@ export default async function ResourcesPage({
       <section className="border-l-2 border-opseu-blue/30 pl-5">
         <h2 className="text-xl font-bold text-opseu-dark">{t("path.title")}</h2>
         <p className="mt-2 text-gray-700">{t("path.intro")}</p>
-        <ul className="mt-4 space-y-3">
+        <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:gap-5">
           {commsPathLinks.map(({ href, key }) => (
             <li key={href}>
               <Link
@@ -108,7 +108,7 @@ export default async function ResourcesPage({
           {t("labourPath.title")}
         </h2>
         <p className="mt-2 text-gray-700">{t("labourPath.intro")}</p>
-        <ul className="mt-4 space-y-3">
+        <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:gap-5">
           {labourPathLinks.map(({ href, key }) => (
             <li key={href}>
               <Link

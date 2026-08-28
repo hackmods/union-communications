@@ -1,5 +1,14 @@
 # Progress Log
 
+## UX uplift Phases A–C — guides, tools catalog, public pages (2026-08-27)
+
+- [x] **UI-012–015:** Remaining guides on playbook/hub presets — labour playbooks, gold facilitators, channel guides, resources hub grids, `/guide` index sidebar TOC, union-boards
+- [x] **UI-009:** `/tools` on `ComposedPageLayout`; mobile Start-here `<details>`; xl+ labour playbook strip
+- [x] **UI-017:** Tool shell regression sweep — parity holds
+- [x] **UI-019–020:** Examples filter rail @ lg+; assets/captions wide composition; focus pages verified
+- [x] Audit + execution-backlog UI-009, UI-012–015, UI-017, UI-019–020 closed
+- Verify: `npm run test:unit -- src/lib/comms/guide-toc-items.test.ts src/lib/constants/page-composition.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## UX uplift — flexible guide layout + space audit (2026-08-27)
 
 - [x] **UI-007:** Master audit [`public-space-composition-audit-2026-08.md`](audit/public-space-composition-audit-2026-08.md) + four-width matrix guides/hub/portal sections

@@ -45,7 +45,7 @@ Do **not** default all guides to `readWide` — only playbooks with TOC. Mobile 
 | 1 | UI-008 | Guide chapters | Single `read` column (~768px) on desktop — stretched mobile shell | shell | M | **🔧 P1 fixed** |
 | 2 | UI-010 | Hub `/app/**` | discussions, tasks, checkins, documents, marketplace, snippets, hybrid, meetings, committees, overdue — no `@mobile` overflow matrix | composition | M | P1 |
 | 3 | UI-010 | Portal `/portal/**` | Functional smoke only; no `@mobile` overflow at 375 | composition | S | P2 |
-| 4 | UI-009 | `/tools` catalog | Start-here sidebar shipped Wave 3; optional secondary visual band (labour strip / tool preview) at 1280+ | marketing | L | P2 |
+| 4 | UI-009 | `/tools` catalog | Labour playbook strip + ComposedPageLayout + mobile Start-here collapse | marketing | L | **🔧 P2 closed** |
 | 5 | UI-011 | Officer Learning | Dark shell stays; shared `GuideToc` primitive converged | shell | S | **🔧 P2 partial** |
 | 6 | COPY-006 | print, email-broadcast | Channel-tier by design — deepen on steward demand only | copy | M | P3 |
 
@@ -68,13 +68,29 @@ Do **not** default all guides to `readWide` — only playbooks with TOC. Mobile 
 
 | Route | 375 | 768 | 1280 | 1536 | Notes |
 |-------|-----|-----|------|------|-------|
-| `/guide` index | ✅ | ✅ | ✅ | ✅ | `wide` + path grid |
-| Playbook tier (8) | ✅ | ✅ | **🔧** | **🔧** | `readWide` + TOC rail (Phase 1) |
-| Gold / channel (12) | ✅ | ✅ | ⚠️ | ⚠️ | Benefit from readWide default; TOC opt-in later |
+| `/guide` index | ✅ | ✅ | ✅ | ✅ | `wide` + sidebar TOC + path grid |
+| Playbook tier (all TOC guides) | ✅ | ✅ | **🔧** | **🔧** | `readWide` + TOC rail (Phases A1–A3) |
+| Gold / channel (12) | ✅ | ✅ | **🔧** | **🔧** | Playbook layout + TOC (Phase A2–A3) |
+| `/guide/resources` | ✅ | ✅ | ✅ | ✅ | `hub` + two-column path grids |
 | `/guide/officer-learning` | ✅ | ✅ | ✅ | ✅ | Dark `max-w-7xl` exception |
 | OL module viewer | ✅ | ✅ | ✅ | ✅ | Sidebar grid reference |
 
-**Playbook tier (Phase 1 rollout):** workplace-mapping, dfr, bargaining, bylaws, steward-101, grievance-process, joint-committee, steward-playbooks.
+**Playbook tier (Phases A1–A3):** all labour, gold, and channel guides with section TOCs.
+
+---
+
+## Marketing utilities (Phase C)
+
+| Route | 375 | 768 | 1280 | 1536 | Notes |
+|-------|-----|-----|------|------|-------|
+| `/examples` | ✅ | ✅ | **🔧** | **🔧** | Filter rail @ lg+; masonry fills wide |
+| `/assets` | ✅ | ✅ | ✅ | ✅ | Wide hub + AssetPackPanel grid |
+| `/captions` | ✅ | ✅ | ✅ | ✅ | Wide composed header + card grid |
+| `/manifesto` | ✅ | ✅ | ✅ | ✅ | `focus` tier intentional |
+| `/support` | ✅ | ✅ | ✅ | ✅ | `focus` form stack |
+| `/install` | ✅ | ✅ | ✅ | ✅ | `focus` PWA steps |
+| `/feedback` | ✅ | ✅ | ✅ | ✅ | `focus` form |
+| `/onboarding` | ✅ | ✅ | ✅ | ✅ | `focus` wizard cards |
 
 ---
 
@@ -85,8 +101,10 @@ See [`comms-four-width-qa-matrix-2026-08-25.md`](comms-four-width-qa-matrix-2026
 | Finding | Status |
 |---------|--------|
 | P2-CATALOG Start-here sidebar @ lg+ | ✅ Shipped 2026-08-25 |
-| 375 long scroll before tool links | ⚠️ Acceptable v1 |
-| Secondary visual band @ 1280+ | P2 — UI-009 |
+| ComposedPageLayout refactor | ✅ Shipped 2026-08-27 (Phase B1) |
+| Mobile Start-here `<details>` collapse | ✅ Shipped 2026-08-27 |
+| Secondary visual band @ 1280+ | ✅ Labour playbook strip (Phase B1) |
+| 375 long scroll before tool links | ⚠️ Mitigated via collapsible Start-here |
 
 ---
 
@@ -141,7 +159,14 @@ From [`.cursor/rules/responsive-layouts.mdc`](../../.cursor/rules/responsive-lay
 |--------|-------|--------|
 | UI-007 | 0 | This audit doc |
 | UI-008 | 1 | Guide layout v2 |
-| UI-009 | 2 | Catalog secondary band (optional) |
+| UI-009 | 2 | Catalog ComposedPageLayout + labour strip — **closed 2026-08-27** |
+| UI-012 | A1 | Remaining labour playbooks — **closed 2026-08-27** |
+| UI-013 | A2 | Gold facilitator guides — **closed 2026-08-27** |
+| UI-014 | A3 | Channel guides layout — **closed 2026-08-27** |
+| UI-015 | A4 | Resources hub grids — **closed 2026-08-27** |
+| UI-017 | B2 | Tool shell regression sweep — **closed 2026-08-27** (parity holds) |
+| UI-019 | C1 | Examples/assets/captions composition — **closed 2026-08-27** |
+| UI-020 | C2 | Focus pages verify — **closed 2026-08-27** |
 | UI-010 | 3 | Hub + Portal mobile matrix |
 | UI-011 | 4 | OL `GuideToc` convergence |
 | COPY-006 | 5 | Demand-driven guide copy |

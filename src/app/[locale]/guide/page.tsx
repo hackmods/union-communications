@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 import { Callout } from "@/components/ui/Callout";
 
@@ -62,9 +63,15 @@ export default async function GuidePage({
   const crisis = await getTranslations("crisisGuide");
   const ts = await getTranslations("sources");
 
+  const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
+
   return (
     <GuideLayout
       preset="hub"
+      composition="sidebar-left"
+      size="wide"
+      toc={tocItems}
+      tocLabel={t("tocLabel")}
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
@@ -87,18 +94,6 @@ export default async function GuidePage({
           {nav("strikeGuide")} →
         </Link>
       </Callout>
-
-      <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
-        {TOC.map(([id, key]) => (
-          <a
-            key={id}
-            href={`#${id}`}
-            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
-          >
-            {t(`${key}.navLabel`)}
-          </a>
-        ))}
-      </nav>
 
       <GuideSection
         id="startHere"

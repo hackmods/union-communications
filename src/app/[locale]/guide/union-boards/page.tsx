@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
   guideCtaClass,
   guideCtaOutlineClass,
@@ -36,6 +37,14 @@ const printItemKeys = [
   "events",
 ] as const;
 
+const TOC = [
+  ["bare-minimum-heading", "bareMinimum"],
+  ["what-to-print-heading", "whatToPrint"],
+  ["materials-heading", "materials"],
+  ["layouts-heading", "layouts"],
+  ["practice-heading", "practice"],
+] as const;
+
 export default async function UnionBoardsGuidePage({
   params,
 }: {
@@ -63,10 +72,15 @@ export default async function UnionBoardsGuidePage({
   const templates = materialsByKind("localTemplate");
   const photos = materialsByKind("examplePhoto");
 
+  const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
+
   return (
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
+      preset="playbook"
+      toc={tocItems}
+      tocLabel={t("tocLabel")}
       footer={
         <SourcesBlock pageId="unionBoards" title={ts("title")} intro={ts("intro")} />
       }

@@ -1084,6 +1084,7 @@
   "unionBoardsGuide": {
     "title": "Union Boards Guide",
     "subtitle": "Reach members who are not on social. Start with a bare-minimum layout, then add notices and posters.",
+    "tocLabel": "On this page",
     "zones": {
       "header": "Local header",
       "socials": "Socials / QR",
@@ -1093,6 +1094,7 @@
       "filler": "Solidarity / filler"
     },
     "bareMinimum": {
+      "navLabel": "Bare-minimum board",
       "title": "Bare-minimum board",
       "intro": "Every board should answer: How do I find you online? Who do I call for health and safety? Who is on the LEC? What is happening next?",
       "tip": "Print always-on pieces once on sturdy stock. Refresh only the rotating zone. Fill empty space with solidarity posters so the board never looks abandoned.",
@@ -1120,6 +1122,7 @@
       }
     },
     "whatToPrint": {
+      "navLabel": "What to print",
       "title": "What to print",
       "intro": "Think in layers: permanent identity, standing resources, and a rotating slot.",
       "always": {
@@ -1140,6 +1143,7 @@
       }
     },
     "layouts": {
+      "navLabel": "Reference layouts",
       "title": "Reference layouts from real locals",
       "intro": "Patterns from boards locals actually run. Pick one shape and stick to it so members learn where to look.",
       "photosHeading": "Real boards (photo references)",
@@ -1162,6 +1166,7 @@
       "stewardDeskBest": "Best for: steward office or union room boards"
     },
     "materials": {
+      "navLabel": "Posters and templates",
       "title": "Feed the board - posters and templates",
       "intro": "Start with official Ontario posters and a short contact list, then layer local notices and solidarity posters.",
       "ministryHeading": "Official Ontario posters and statutes",
@@ -1205,6 +1210,9 @@
       }
     },
     "practiceTitle": "Board practice",
+    "practice": {
+      "navLabel": "Board practice"
+    },
     "sections": {
       "where": {
         "title": "Where to post",
@@ -8625,6 +8633,8 @@
     "startHereTitle": "Start here",
     "startHereIntro": "Follow the first-week channel order after Brand Kit, or open the full roadmap.",
     "startHereRoadmap": "Open First week roadmap",
+    "labourPlaybooksTitle": "Floor playbooks",
+    "labourPlaybooksIntro": "When a member asks for help on the floor, start with these guides.",
     "blurbs": {
       "logoBuilder": "Build a circular, square, or rectangle local logo plate.",
       "resizer": "Crop logos and images to Facebook, Instagram, and YouTube sizes.",

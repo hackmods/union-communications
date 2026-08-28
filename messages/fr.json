@@ -1084,6 +1084,7 @@
   "unionBoardsGuide": {
     "title": "Guide des tableaux syndicaux",
     "subtitle": "Joignez les membres hors réseaux. Commencez par une mise en page minimale, puis ajoutez les avis et les affiches.",
+    "tocLabel": "Sur cette page",
     "zones": {
       "header": "En-tête local",
       "socials": "Réseaux / QR",
@@ -1093,6 +1094,7 @@
       "filler": "Solidarité / remplissage"
     },
     "bareMinimum": {
+      "navLabel": "Tableau minimal",
       "title": "Tableau minimal",
       "intro": "Chaque tableau doit répondre : Comment vous trouver en ligne? Qui appeler pour la santé-sécurité? Qui siège au CÉL? Que se passe-t-il ensuite?",
       "tip": "Imprimez une seule fois les éléments permanents sur du carton solide. Ne rafraîchissez que la zone tournante. Remplissez les espaces vides avec des affiches de solidarité pour que le tableau n'ait jamais l'air abandonné.",
@@ -1120,6 +1122,7 @@
       }
     },
     "whatToPrint": {
+      "navLabel": "Quoi imprimer",
       "title": "Quoi imprimer",
       "intro": "Pensez en couches : identité permanente, ressources stables, et une case rotative.",
       "always": {
@@ -1140,6 +1143,7 @@
       }
     },
     "layouts": {
+      "navLabel": "Mises en page de référence",
       "title": "Mises en page de référence (vraies sections)",
       "intro": "Schémas tirés de tableaux réels. Choisissez une forme et tenez-vous-y pour que les membres sachent où regarder.",
       "photosHeading": "Vrais tableaux (références photo)",
@@ -1162,6 +1166,7 @@
       "stewardDeskBest": "Idéal pour : bureau des délégués ou local syndical"
     },
     "materials": {
+      "navLabel": "Affiches et modèles",
       "title": "Alimenter le tableau - affiches et modèles",
       "intro": "Commencez par les affiches officielles de l’Ontario et une courte liste de contacts, puis ajoutez avis locaux et affiches de solidarité.",
       "ministryHeading": "Affiches et lois officielles de l'Ontario",
@@ -1205,6 +1210,9 @@
       }
     },
     "practiceTitle": "Bonnes pratiques",
+    "practice": {
+      "navLabel": "Bonnes pratiques"
+    },
     "sections": {
       "where": {
         "title": "Où afficher",
@@ -8625,6 +8633,8 @@
     "startHereTitle": "Par où commencer",
     "startHereIntro": "Suivez l'ordre des canaux de la première semaine après la Trousse de marque, ou ouvrez la feuille de route complète.",
     "startHereRoadmap": "Ouvrir la feuille de route Première semaine",
+    "labourPlaybooksTitle": "Guides de terrain",
+    "labourPlaybooksIntro": "Quand un membre demande de l'aide sur le plancher, commencez par ces guides.",
     "blurbs": {
       "logoBuilder": "Créez une plaque logo circulaire, carrée ou rectangulaire.",
       "resizer": "Recadrez logos et images aux formats Facebook, Instagram et YouTube.",

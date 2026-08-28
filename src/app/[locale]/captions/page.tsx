@@ -11,6 +11,7 @@ import { copyToClipboard, cn } from "@/lib/utils";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { PageShell } from "@/components/layout/PageShell";
+import { ComposedPageLayout } from "@/components/layout/ComposedPageLayout";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
@@ -57,14 +58,16 @@ function CaptionsPageContent() {
   }, [targetId]);
 
   return (
-    <PageShell className="py-8 md:py-12">
+    <ComposedPageLayout composition="hub" size="wide" className="py-8 md:py-12">
       {inDemo ? (
         <WorkshopDemoPath variant="trail" className="mb-4" />
       ) : null}
-      <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
-        {tc("title")}
-      </h1>
-      <p className="mt-2 max-w-prose text-gray-600">{tc("subtitle")}</p>
+      <header className="max-w-3xl lg:max-w-none">
+        <h1 className="text-2xl font-bold tracking-tight text-opseu-dark md:text-3xl">
+          {tc("title")}
+        </h1>
+        <p className="mt-2 max-w-prose text-gray-600 lg:max-w-3xl">{tc("subtitle")}</p>
+      </header>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {CAPTION_TEMPLATES.map((template) => {
@@ -140,7 +143,7 @@ function CaptionsPageContent() {
           </>
         )}
       </div>
-    </PageShell>
+    </ComposedPageLayout>
   );
 }
 

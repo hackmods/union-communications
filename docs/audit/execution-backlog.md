@@ -398,11 +398,39 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 **Problem/Gap Statement:** Guide chapters used `read` (~768px) with no desktop counterweight — stretched mobile shell on wide viewports.
 **Affected Architecture/Files:** `src/lib/constants/page-shell.ts`, `src/lib/constants/page-composition.ts`, `src/components/layout/ComposedPageLayout.tsx`, `src/components/comms/GuideLayout.tsx`, `src/components/comms/GuideToc.tsx`, playbook `/guide/**` pages, `.cursor/rules/responsive-layouts.mdc`
 
-### [UI-009] Open (P2)
+### [UI-009] ✅ CLOSED (2026-08-27)
 **Category:** UI/Media
 **Severity/Priority:** Low
-**Status:** Open — `/tools` catalog optional secondary visual band @ 1280+ (Start-here sidebar shipped Wave 3; marketing composition polish only).
-**Affected Architecture/Files:** `src/app/[locale]/tools/page.tsx`
+**Status:** Closed — `/tools` catalog on `ComposedPageLayout`; mobile Start-here `<details>`; xl+ labour playbook strip.
+**Affected Architecture/Files:** `src/app/[locale]/tools/page.tsx`, `messages/en.json`, `messages/fr.json`
+
+### [UI-012] ✅ CLOSED (2026-08-27)
+**Category:** UI/Media
+**Status:** Closed — Labour playbooks (seniority-bumping, right-to-refuse, crisis, photo-consent) on `preset="playbook"` + TOC.
+
+### [UI-013] ✅ CLOSED (2026-08-27)
+**Category:** UI/Media
+**Status:** Closed — Gold guides (social-media-plan, workshop, union-boards, website, short-form, membership-signup) on playbook layout.
+
+### [UI-014] ✅ CLOSED (2026-08-27)
+**Category:** UI/Media
+**Status:** Closed — Channel guides print + email-broadcast on playbook layout (layout only).
+
+### [UI-015] ✅ CLOSED (2026-08-27)
+**Category:** UI/Media
+**Status:** Closed — Resources hub two-column grids; `/guide` index sidebar TOC.
+
+### [UI-017] ✅ CLOSED (2026-08-27)
+**Category:** UI/Media
+**Status:** Closed — Tool shell regression sweep; parity holds on 17 routes.
+
+### [UI-019] ✅ CLOSED (2026-08-27)
+**Category:** UI/Media
+**Status:** Closed — Examples/assets/captions wide composition.
+
+### [UI-020] ✅ CLOSED (2026-08-27)
+**Category:** UI/Media
+**Status:** Closed — Focus-tier pages verified (manifesto, support, install, feedback, onboarding).
 
 ### [UI-010] ✅ CLOSED (2026-08-27)
 **Category:** UI/Media
