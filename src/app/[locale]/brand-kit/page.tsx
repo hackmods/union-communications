@@ -38,6 +38,7 @@ import { UnionOpsMark } from "@/components/brand/UnionOpsMark";
 import { resolveLocalNumber } from "@/lib/utils";
 import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import { PageShell } from "@/components/layout/PageShell";
+import { PresetSloganPicker } from "@/components/brand/PresetSloganPicker";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { useWorkshopDemoSession } from "@/hooks/use-workshop-demo-session";
 
@@ -270,44 +271,14 @@ export default function BrandKitPage() {
               </div>
               <div className="space-y-2">
                 <p className="text-xs text-gray-500">{t("unionPreset.logoNote")}</p>
-                <div>
-                  <p className="text-sm font-medium text-gray-700">
-                    {t("unionPreset.slogans")}
-                  </p>
-                  <ul className="mt-1 space-y-1">
-                    {(
-                      (() => {
-                        const id = selectedPreset.id;
-                        try {
-                          const raw = t.raw(`presetSlogans.${id}.items`);
-                          if (Array.isArray(raw) && raw.length > 0) {
-                            return raw as string[];
-                          }
-                        } catch {
-                          /* preset has no i18n slogan list */
-                        }
-                        return selectedPreset.defaultSlogans;
-                      })()
-                    ).map((slogan) => (
-                      <li key={slogan}>
-                        <button
-                          type="button"
-                          className="text-left text-sm text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
-                          onClick={() =>
-                            setBrandKit({
-                              local: { ...brandKit.local, subText: slogan },
-                            })
-                          }
-                        >
-                          {slogan}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="mt-1 text-xs text-gray-500">
-                    {t("unionPreset.sloganApplyHint")}
-                  </p>
-                </div>
+                <PresetSloganPicker
+                  presetId={selectedPreset.id}
+                  onApply={(slogan) =>
+                    setBrandKit({
+                      local: { ...brandKit.local, subText: slogan },
+                    })
+                  }
+                />
               </div>
             </div>
           ) : null}

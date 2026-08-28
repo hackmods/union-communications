@@ -91,7 +91,7 @@ describe("normalizeBrandKit", () => {
       version: "1.1",
       unionPresetId: "cupe",
       local: { id: "x", localNumber: "3902", subText: "Support" },
-      primaryColor: "#E5007D",
+      primaryColor: "#AF0061",
       secondaryColor: "#FFFFFF",
       accentColor: "#B80063",
       useOfficialLogo: false,

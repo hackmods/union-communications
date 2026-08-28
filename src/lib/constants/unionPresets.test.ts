@@ -129,13 +129,13 @@ describe("unionPresets", () => {
 
   it("applies published preset colours and taglines", () => {
     expect(getUnionPreset("cupe")).toMatchObject({
-      primaryColor: "#E5007D",
+      primaryColor: "#AF0061",
       secondaryColor: "#FFFFFF",
       defaultSlogans: ["On the front line."],
     });
     expect(getUnionPreset("usw")).toMatchObject({
       primaryColor: "#002A5C",
-      secondaryColor: "#FFC72C",
+      secondaryColor: "#FFC03F",
       defaultSlogans: ["Unity and Strength for Workers."],
     });
     expect(getUnionPreset("ona")).toMatchObject({
@@ -144,7 +144,7 @@ describe("unionPresets", () => {
       defaultSlogans: ["Stand up, speak out.", "Value Nurses. Value Nursing."],
     });
     expect(getUnionPreset("psac")).toMatchObject({
-      primaryColor: "#E31837",
+      primaryColor: "#C0311A",
       secondaryColor: "#FFFFFF",
       defaultSlogans: ["Here for Canada."],
     });

@@ -238,7 +238,7 @@ describe("alignOpseuMembershipPrimary", () => {
       version: "2.0",
       unionPresetId: "cupe",
       local: { id: "x", localNumber: "1", subText: "" },
-      primaryColor: "#E5007D",
+      primaryColor: "#AF0061",
       secondaryColor: "#FFFFFF",
       accentColor: "#000000",
       useOfficialLogo: false,

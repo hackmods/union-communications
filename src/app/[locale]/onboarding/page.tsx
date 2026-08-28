@@ -26,6 +26,7 @@ import {
   UNIONOPS_LOGOS,
   type UnionBranding,
 } from "@/lib/constants/unionPresets";
+import { PresetSloganPicker } from "@/components/brand/PresetSloganPicker";
 import { PageShell } from "@/components/layout/PageShell";
 
 export default function OnboardingPage() {
@@ -125,16 +126,28 @@ export default function OnboardingPage() {
                 <CollectionProfilesEditor compact />
               </div>
             ) : (
-              <Input
-                label={t("subText")}
-                placeholder={t("subTextPlaceholder")}
-                value={brandKit.local.subText}
-                onChange={(e) =>
-                  setBrandKit({
-                    local: { ...brandKit.local, subText: e.target.value },
-                  })
-                }
-              />
+              <div className="space-y-3">
+                {brandKit.unionPresetId ? (
+                  <PresetSloganPicker
+                    presetId={brandKit.unionPresetId}
+                    onApply={(slogan) =>
+                      setBrandKit({
+                        local: { ...brandKit.local, subText: slogan },
+                      })
+                    }
+                  />
+                ) : null}
+                <Input
+                  label={t("subText")}
+                  placeholder={t("subTextPlaceholder")}
+                  value={brandKit.local.subText}
+                  onChange={(e) =>
+                    setBrandKit({
+                      local: { ...brandKit.local, subText: e.target.value },
+                    })
+                  }
+                />
+              </div>
             )}
             <LocalLinksEditor
               compact

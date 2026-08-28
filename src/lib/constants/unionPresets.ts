@@ -163,7 +163,7 @@ export const UNION_PRESETS: UnionBranding[] = [
   {
     id: "cupe",
     name: "CUPE",
-    primaryColor: "#E5007D",
+    primaryColor: "#AF0061",
     secondaryColor: "#FFFFFF",
     defaultSlogans: ["On the front line."],
     canvasFontDefaults: { headline: "montserrat", body: "sourceSans" },
@@ -176,13 +176,13 @@ export const UNION_PRESETS: UnionBranding[] = [
     secondaryColor: "#FFFFFF",
     accentColor: "#005EB8",
     defaultSlogans: ["A union for everyone."],
-    canvasFontDefaults: { headline: "montserrat", body: "sourceSans" },
+    canvasFontDefaults: { headline: "sourceSans", body: "sourceSans" },
   },
   {
     id: "usw",
     name: "USW",
     primaryColor: "#002A5C",
-    secondaryColor: "#FFC72C",
+    secondaryColor: "#FFC03F",
     defaultSlogans: ["Unity and Strength for Workers."],
     canvasFontDefaults: { headline: "oswald", body: "sourceSans" },
   },
@@ -196,9 +196,10 @@ export const UNION_PRESETS: UnionBranding[] = [
   {
     id: "psac",
     name: "PSAC",
-    primaryColor: "#E31837",
+    primaryColor: "#C0311A",
     secondaryColor: "#FFFFFF",
     defaultSlogans: ["Here for Canada."],
+    canvasFontDefaults: { headline: "montserrat", body: "sourceSans" },
   },
   {
     id: "other",
@@ -213,6 +214,15 @@ export const UNION_PRESETS: UnionBranding[] = [
 
 export function getUnionPreset(id: string): UnionBranding | undefined {
   return UNION_PRESETS.find((p) => p.id === id);
+}
+
+/** Locale-aware slogan picker list — falls back to `defaultSlogans` on the preset. */
+export function presetSloganCandidates(
+  preset: UnionBranding,
+  localizedItems?: string[],
+): string[] {
+  if (localizedItems?.length) return localizedItems;
+  return preset.defaultSlogans;
 }
 
 /** Darken a hex colour for accent use on light backgrounds. */
