@@ -95,6 +95,7 @@ Every authenticated row includes:
 | `status` | Always `"ok"` when the app is serving |
 | `version` | `package.json` version |
 | `commit` | `BUILD_COMMIT_SHA` env (Docker build arg) or `"unknown"` |
+| `builtAt` | UTC timestamp from `/app/.build-time` (Docker runner stage) or `BUILD_TIME` env or `"unknown"` |
 | `backends` | Map of `*_DB_BACKEND` flags (`memory` default) |
 | `emailEnabled` | `EMAIL_ENABLED=true` |
 | `cronConfigured` | `CRON_SECRET` is set (does not expose the secret) |

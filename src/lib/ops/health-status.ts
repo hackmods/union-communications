@@ -14,6 +14,8 @@ export type HealthStatus = {
   status: "ok";
   version: string;
   commit: string;
+  /** ISO-8601 UTC image build time (Docker runner stage) or "unknown". */
+  builtAt: string;
   backends: Record<string, DbBackend>;
   postgresConfigured: boolean;
   memoryCaseDataActive: boolean;
@@ -25,6 +27,7 @@ export type HealthStatus = {
 };
 
 let cachedVersion: string | undefined;
+let cachedBuiltAt: string | undefined;
 
 /** Read app version from package.json once per process (non-secret). */
 export function readAppVersion(): string {
@@ -39,11 +42,29 @@ export function readAppVersion(): string {
   return cachedVersion;
 }
 
+/** Read image build timestamp written at Docker build time (non-secret). */
+export function readBuildTime(): string {
+  const fromEnv = process.env.BUILD_TIME?.trim();
+  if (fromEnv) {
+    cachedBuiltAt = fromEnv;
+    return cachedBuiltAt;
+  }
+  if (cachedBuiltAt) return cachedBuiltAt;
+  try {
+    cachedBuiltAt =
+      readFileSync(join(process.cwd(), ".build-time"), "utf8").trim() || "unknown";
+  } catch {
+    cachedBuiltAt = "unknown";
+  }
+  return cachedBuiltAt;
+}
+
 export function buildHealthStatus(): HealthStatus {
   return {
     status: "ok",
     version: readAppVersion(),
     commit: process.env.BUILD_COMMIT_SHA?.trim() || "unknown",
+    builtAt: readBuildTime(),
     backends: readEffectiveBackendFlags(),
     postgresConfigured: isPostgresConfigured(),
     memoryCaseDataActive: isMemoryCaseDataActive(),

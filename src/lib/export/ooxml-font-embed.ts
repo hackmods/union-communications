@@ -277,7 +277,7 @@ async function embedOoxmlFonts(
     kind === "docx"
       ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       : "application/vnd.openxmlformats-officedocument.presentationml.presentation";
-  return new Blob([out], { type: mime });
+  return new Blob([Buffer.from(out)], { type: mime });
 }
 
 export async function embedDocxBrandFonts(

@@ -27,5 +27,6 @@ Full narrative: [`docs/audit/session-knowledge-2026-08-25-caprover-buildkit.md`]
 
 ## Verify
 
-- Live: `GET /api/health` → `.commit` matches expected SHA.
+- Live: `GET /api/health` → `.commit` matches expected SHA and `.builtAt` is a recent UTC timestamp.
+- Public: `/build` (footer **Site build**) shows the same version, commit, and build time after deploy.
 - CI: `scripts/docker-migrate-smoke.sh` — assert migrate finished; `__drizzle_migrations` by **table name** (not `public` schema only).

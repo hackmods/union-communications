@@ -57,6 +57,10 @@ COPY drizzle.migrate.config.ts ./db-migrate/drizzle.migrate.config.ts
 COPY src/lib/db/migrations ./db-migrate/src/lib/db/migrations
 COPY scripts/sync-app-role-password.mjs ./scripts/sync-app-role-password.mjs
 
+# UTC timestamp stamped at image build — read by /api/health and /build.
+RUN date -u +%Y-%m-%dT%H:%M:%SZ > /app/.build-time \
+  && chown nextjs:nodejs /app/.build-time
+
 USER root
 RUN cd /app/db-migrate \
   && npm install --omit=dev \

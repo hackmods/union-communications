@@ -49,7 +49,13 @@ export type GuidePdfBrand = {
   bodyFontId?: CanvasFontId;
 };
 
-export function guidePdfBrandFromKit(kit: BrandKit): GuidePdfBrand {
+/** Brand fonts resolved from a kit — always has canvas font ids. */
+export type GuidePdfBrandResolved = GuidePdfBrand & {
+  headlineFontId: CanvasFontId;
+  bodyFontId: CanvasFontId;
+};
+
+export function guidePdfBrandFromKit(kit: BrandKit): GuidePdfBrandResolved {
   const headline =
     migrateCanvasFontId(kit.canvas?.headlineFontId) ?? DEFAULT_HEADLINE_FONT;
   const body =
