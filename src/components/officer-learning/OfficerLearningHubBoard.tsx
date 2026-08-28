@@ -62,7 +62,7 @@ export function OfficerLearningHubBoard() {
 
   if (forbidden) {
     return (
-      <div className="rounded-xl border border-amber-200 bg-amber-50 p-6 text-amber-950">
+      <div className="rounded-xl border border-orange-200 bg-orange-50 p-6 text-opseu-dark">
         <p className="font-semibold">{t("forbiddenTitle")}</p>
         <p className="mt-2 text-sm">{t("forbiddenBody")}</p>
         <Link href="/guide/officer-learning" className="mt-4 inline-block font-medium underline">

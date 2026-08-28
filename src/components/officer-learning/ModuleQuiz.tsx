@@ -7,6 +7,7 @@ import { markQuizPassed } from "@/lib/officer-learning/progress";
 import { resetQuizState } from "@/lib/officer-learning/quiz-state";
 import { scrollQuizIntoView } from "@/lib/officer-learning/quiz-scroll";
 import { maybePushHubProgressAfterPass } from "@/lib/officer-learning/hub-sync-client";
+import { olTheme } from "@/lib/officer-learning/theme";
 import { Link } from "@/i18n/navigation";
 import { CertificateDownload } from "./CertificateDownload";
 import clsx from "clsx";
@@ -86,7 +87,7 @@ export function ModuleQuiz({
       ref={sectionRef}
       id="module-quiz"
       className={clsx(
-        "scroll-mt-32 rounded-2xl border border-teal-500/25 bg-slate-900/70 p-6 shadow-xl transition-[transform,box-shadow] duration-300 md:p-8",
+        olTheme.panelQuiz,
         celebrate && !isExiting && "scale-[1.01] ring-2 ring-emerald-400/40",
       )}
     >
@@ -97,9 +98,7 @@ export function ModuleQuiz({
 
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-400">
-            {t("quiz.label")}
-          </p>
+          <p className={olTheme.eyebrow}>{t("quiz.label")}</p>
           <h2 className="mt-1 text-2xl font-bold text-white md:text-3xl">{t("quiz.title")}</h2>
         </div>
         <div
@@ -127,9 +126,7 @@ export function ModuleQuiz({
       )}
 
       {retestHint && !submitted && (
-        <p className="mb-6 rounded-lg border border-teal-400/25 bg-teal-500/10 px-4 py-3 text-sm text-teal-50">
-          {t("quiz.retestReady")}
-        </p>
+        <p className={olTheme.hintPanel}>{t("quiz.retestReady")}</p>
       )}
 
       <div
@@ -162,10 +159,8 @@ export function ModuleQuiz({
                       key={option.id}
                       className={clsx(
                         "flex cursor-pointer items-start gap-3 rounded-xl border px-4 py-3 transition-colors",
-                        !inputsLocked && chosen && "border-teal-400 bg-teal-500/15",
-                        !inputsLocked &&
-                          !chosen &&
-                          "border-white/10 bg-white/5 hover:border-teal-400/40",
+                        !inputsLocked && chosen && olTheme.optionSelected,
+                        !inputsLocked && !chosen && olTheme.optionHover,
                         showCorrect && "border-emerald-400 bg-emerald-500/15",
                         showWrong && "border-red-400 bg-red-500/15",
                         inputsLocked && !showCorrect && !showWrong && "opacity-70",
@@ -180,10 +175,10 @@ export function ModuleQuiz({
                         onChange={() =>
                           setAnswers((prev) => ({ ...prev, [question.id]: option.id }))
                         }
-                        className="mt-1 h-4 w-4 accent-teal-400"
+                        className={clsx("mt-1 h-4 w-4", olTheme.inputAccent)}
                       />
                       <span className="text-slate-100">
-                        <span className="mr-2 font-semibold text-amber-300">{option.id})</span>
+                        <span className={olTheme.optionLabel}>{option.id})</span>
                         {option.label.replace(/<\/?[^>]+(>|$)/g, "")}
                       </span>
                     </label>
@@ -226,7 +221,7 @@ export function ModuleQuiz({
             type="button"
             onClick={handleSubmit}
             disabled={Object.keys(answers).length < questions.length || isExiting}
-            className="inline-flex items-center justify-center rounded-xl bg-teal-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-teal-400 disabled:cursor-not-allowed disabled:opacity-50"
+            className={olTheme.btnPrimary}
           >
             {t("quiz.submit")}
           </button>
@@ -247,22 +242,19 @@ export function ModuleQuiz({
                 type="button"
                 onClick={handleRetest}
                 disabled={isExiting}
-                className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-transparent px-6 py-3 font-semibold text-slate-100 transition hover:border-teal-400/40 hover:bg-white/5"
+                className={olTheme.btnOutline}
               >
                 {t("quiz.practiceAgain")}
               </button>
               {nextModuleSlug ? (
                 <Link
                   href={`/guide/officer-learning/${nextModuleSlug}`}
-                  className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-amber-400"
+                  className={olTheme.btnPrimary}
                 >
                   {t("quiz.nextModule")} →
                 </Link>
               ) : (
-                <Link
-                  href="/guide/officer-learning"
-                  className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-amber-400"
-                >
+                <Link href="/guide/officer-learning" className={olTheme.btnPrimary}>
                   {t("quiz.backToDashboard")} →
                 </Link>
               )}
@@ -270,14 +262,12 @@ export function ModuleQuiz({
           </div>
         ) : (
           <div className="space-y-4">
-            <p className="rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-amber-100">
-              {t("quiz.retry")}
-            </p>
+            <p className={olTheme.retryPanel}>{t("quiz.retry")}</p>
             <button
               type="button"
               onClick={handleRetest}
               disabled={isExiting}
-              className="inline-flex items-center justify-center rounded-xl border border-amber-400/40 bg-transparent px-6 py-3 font-semibold text-amber-100 transition hover:bg-amber-500/15 disabled:opacity-50"
+              className={olTheme.btnOutlineRetry}
             >
               {t("quiz.tryAgain")}
             </button>

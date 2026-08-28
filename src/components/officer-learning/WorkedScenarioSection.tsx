@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import type { ContentBlock, ModuleSection } from "@/lib/officer-learning/types";
+import { olTheme } from "@/lib/officer-learning/theme";
 import clsx from "clsx";
 import { ModuleWorkedTimeline } from "./ModuleWorkedTimeline";
 
@@ -24,7 +25,7 @@ function scenarioParagraphClass(text: string): string | undefined {
     return "rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-emerald-50";
   }
   if (text.startsWith("**Don't apply:**") || text.startsWith("**Do not apply:**")) {
-    return "rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-amber-50";
+    return olTheme.dontApplyBox;
   }
   return undefined;
 }
@@ -39,13 +40,8 @@ export function WorkedScenarioSection({
   const t = useTranslations("officerLearning.workedScenario");
 
   return (
-    <section
-      id={section.id}
-      className="scroll-mt-32 overflow-hidden rounded-2xl border-2 border-amber-400/35 bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/40 p-6 shadow-lg md:p-8"
-    >
-      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-400">
-        {t("label")}
-      </p>
+    <section id={section.id} className={olTheme.scenarioShell}>
+      <p className={olTheme.eyebrow}>{t("label")}</p>
       <h2 className="mt-2 text-2xl font-bold text-white md:text-3xl">{section.title}</h2>
 
       <ModuleWorkedTimeline slug={moduleSlug} className="mt-5" />
@@ -56,10 +52,7 @@ export function WorkedScenarioSection({
             block.type === "paragraph" ? scenarioParagraphClass(block.text) : undefined;
 
           return (
-            <div
-              key={`${section.id}-block-${index}`}
-              className={clsx(boxClass)}
-            >
+            <div key={`${section.id}-block-${index}`} className={clsx(boxClass)}>
               {renderBlock({
                 block,
                 checklistKey: `ol-check:${moduleId}:${section.id}:${index}`,
@@ -75,7 +68,7 @@ export function WorkedScenarioSection({
           id={subsection.id}
           className="scroll-mt-32 mt-6 space-y-3 border-t border-white/10 pt-6"
         >
-          <h3 className="text-xl font-semibold text-teal-200">{subsection.title}</h3>
+          <h3 className={olTheme.subsectionTitle}>{subsection.title}</h3>
           <div className="space-y-4">
             {subsection.blocks.map((block, index) => (
               <div key={`${subsection.id}-block-${index}`}>

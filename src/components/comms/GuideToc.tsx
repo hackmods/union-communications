@@ -38,7 +38,7 @@ export function GuideToc({
             item.level === 3 && "pl-5",
             activeId === item.id
               ? dark
-                ? "bg-teal-500/20 font-semibold text-teal-100"
+                ? "bg-orange-500/20 font-semibold text-orange-100"
                 : "bg-opseu-blue/10 font-semibold text-opseu-dark"
               : dark
                 ? "text-slate-300 hover:bg-white/5 hover:text-white"

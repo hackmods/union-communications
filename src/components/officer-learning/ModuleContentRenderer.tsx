@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { ContentBlock, ModuleSection } from "@/lib/officer-learning/types";
+import { olTheme } from "@/lib/officer-learning/theme";
 import clsx from "clsx";
 import { WorkedScenarioSection } from "./WorkedScenarioSection";
 
@@ -37,7 +38,7 @@ function renderInline(text: string): ReactNode[] {
         <Link
           key={`link-${key++}`}
           href={token}
-          className="font-medium text-teal-300 underline underline-offset-2 hover:text-teal-200"
+          className={olTheme.link}
         >
           {token}
         </Link>,
@@ -91,10 +92,10 @@ function ChecklistBlock({
   const done = items.filter((_, i) => checked[i]).length;
 
   return (
-    <div className="rounded-xl border border-teal-400/25 bg-teal-500/5 p-4">
+    <div className={olTheme.checklistPanel}>
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-        <p className="text-sm font-semibold text-teal-100">{t("title")}</p>
-        <p className="text-xs text-teal-200/80">
+        <p className={olTheme.checklistTitle}>{t("title")}</p>
+        <p className={olTheme.checklistProgress}>
           {t("progress", { done, total: items.length })}
         </p>
       </div>
@@ -108,15 +109,13 @@ function ChecklistBlock({
                 htmlFor={id}
                 className={clsx(
                   "flex min-h-11 cursor-pointer items-start gap-3 rounded-lg border px-3 py-2.5 text-sm transition",
-                  isOn
-                    ? "border-teal-400/40 bg-teal-500/15"
-                    : "border-white/10 bg-white/5 hover:border-teal-400/30",
+                  isOn ? olTheme.checklistItemOn : olTheme.checklistItemOff,
                 )}
               >
                 <input
                   id={id}
                   type="checkbox"
-                  className="mt-1 h-4 w-4 shrink-0 accent-teal-400"
+                  className={clsx("mt-1 h-4 w-4 shrink-0", olTheme.inputAccent)}
                   checked={isOn}
                   onChange={(e) =>
                     persist({ ...checked, [index]: e.target.checked })
@@ -177,9 +176,9 @@ function BlockRenderer({
       return <ChecklistBlock items={block.items} storageKey={checklistKey} />;
     case "table":
       return (
-        <div className="overflow-x-auto rounded-xl border border-teal-500/20">
+        <div className={olTheme.tableWrap}>
           <table className="min-w-full text-left text-sm">
-            <thead className="bg-teal-500/10 text-teal-100">
+            <thead className={olTheme.tableHead}>
               <tr>
                 {block.headers.map((header, index) => (
                   <th key={`${header}-${index}`} className="px-4 py-3 font-semibold">
@@ -207,19 +206,19 @@ function BlockRenderer({
       );
     case "code":
       return (
-        <pre className="overflow-x-auto rounded-xl border border-amber-400/20 bg-slate-950/70 p-4 font-mono text-sm text-amber-100">
+        <pre className={olTheme.codeBlock}>
           <code>{block.text}</code>
         </pre>
       );
     case "callout": {
       const styles =
         block.variant === "warning"
-          ? "rounded-xl border border-amber-400/30 bg-amber-500/10 p-4 text-amber-50"
+          ? olTheme.calloutWarning
           : block.variant === "practice"
-            ? "rounded-xl border border-sky-400/30 bg-sky-500/10 p-4 text-sky-50"
+            ? olTheme.calloutPractice
             : block.variant === "reflection"
-              ? "rounded-xl border border-violet-400/30 bg-violet-500/10 p-4 text-violet-50"
-              : "rounded-xl border border-teal-400/30 bg-teal-500/10 p-4 text-teal-50";
+              ? olTheme.calloutReflection
+              : olTheme.calloutDefault;
       return (
         <div className={styles}>
           <p className="font-semibold">{t(block.variant)}</p>
@@ -270,7 +269,7 @@ export function ModuleContentRenderer({ sections, moduleId, moduleSlug }: Props)
                 id={subsection.id}
                 className="scroll-mt-32 space-y-3 pt-2"
               >
-                <h3 className="text-xl font-semibold text-teal-200">{subsection.title}</h3>
+                <h3 className={olTheme.subsectionTitle}>{subsection.title}</h3>
                 <div className="space-y-4">
                   {subsection.blocks.map((block, index) => (
                     <BlockRenderer

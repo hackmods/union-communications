@@ -22,8 +22,13 @@ import { hexToRgb } from "@/lib/utils/contrast";
 
 export const GUIDE_PDF_PALETTE = {
   navy: { r: 11, g: 19, b: 43 },
-  teal: { r: 20, g: 184, b: 166 },
-  amber: { r: 245, g: 158, b: 11 },
+  /** Platform brand orange — OL certificates + default guide PDF accent */
+  brand: { r: 194, g: 65, b: 12 },
+  brandLight: { r: 251, g: 146, b: 60 },
+  /** @deprecated alias — use brand */
+  teal: { r: 194, g: 65, b: 12 },
+  /** @deprecated alias — use brandLight */
+  amber: { r: 251, g: 146, b: 60 },
   ink: { r: 15, g: 23, b: 42 },
   muted: { r: 71, g: 85, b: 105 },
 } as const;
@@ -72,7 +77,7 @@ export function resolveGuidePdfAccent(brand?: GuidePdfBrand | null): PdfRgb {
     const rgb = hexToRgb(brand.primaryColor);
     if (rgb) return rgb;
   }
-  return GUIDE_PDF_PALETTE.teal;
+  return GUIDE_PDF_PALETTE.brand;
 }
 
 export type PdfImageBytes = {

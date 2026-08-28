@@ -1,5 +1,11 @@
 # Progress Log
 
+## Officer Learning olTheme sweep — quiz, content, PDF (2026-08-28)
+
+- [x] Extended `olTheme` tokens; migrated ModuleQuiz, ModuleContentRenderer, checklists, diagrams, timelines, worked scenarios, sync panel, certificates
+- [x] GuideToc dark variant → platform orange; certificate PDF palette → brand orange
+- Verify: `npm run lint` + OL/smoke as needed
+
 ## Officer Learning chrome + nav IA refresh (2026-08-27)
 
 - [x] **OL theme:** `olTheme` tokens — navy focus shell kept; amber/teal replaced with platform orange

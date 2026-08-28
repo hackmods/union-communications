@@ -6,6 +6,7 @@ import { useBrandStore } from "@/store/brand-store";
 import { downloadOfficerLearningCertificate } from "@/lib/officer-learning/certificate";
 import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
 import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
+import { olTheme } from "@/lib/officer-learning/theme";
 import { useExportHandler } from "@/hooks/use-export-handler";
 import clsx from "clsx";
 
@@ -51,15 +52,10 @@ export function CertificateDownload({
   };
 
   return (
-    <div
-      className={clsx(
-        "space-y-3 rounded-xl border border-amber-400/25 bg-amber-500/10 p-4",
-        className,
-      )}
-    >
-      <p className="font-semibold text-amber-100">{t("title")}</p>
-      <p className="text-sm text-amber-50/90">{t("hint")}</p>
-      <label className="block text-sm text-amber-50/80">
+    <div className={clsx(olTheme.certificatePanel, className)}>
+      <p className={olTheme.certificateTitle}>{t("title")}</p>
+      <p className={olTheme.certificateHint}>{t("hint")}</p>
+      <label className={olTheme.certificateLabel}>
         {t("nameLabel")}
         <input
           type="text"
@@ -74,7 +70,7 @@ export function CertificateDownload({
         type="button"
         onClick={handleDownload}
         disabled={exporting}
-        className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-amber-400 disabled:opacity-60"
+        className={olTheme.btnPrimarySm}
       >
         {exporting ? t("downloading") : t("download")}
       </button>

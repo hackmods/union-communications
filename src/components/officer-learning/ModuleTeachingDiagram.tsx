@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import { olTheme } from "@/lib/officer-learning/theme";
 
 type Props = {
   slug: string;
@@ -18,13 +19,8 @@ function DiagramShell({
   className?: string;
 }) {
   return (
-    <figure
-      className={cn(
-        "overflow-hidden rounded-2xl border border-teal-400/25 bg-slate-950/50 p-4 sm:p-5",
-        className,
-      )}
-    >
-      <figcaption className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-teal-300">
+    <figure className={cn(olTheme.diagramShell, className)}>
+      <figcaption className={cn("mb-4 text-sm font-semibold uppercase tracking-[0.18em]", olTheme.sectionLabel)}>
         {title}
       </figcaption>
       {children}
@@ -35,10 +31,7 @@ function DiagramShell({
 function StepPill({ label, index }: { label: string; index: number }) {
   return (
     <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-3">
-      <span
-        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-slate-950"
-        aria-hidden="true"
-      >
+      <span className={olTheme.stepBadge} aria-hidden="true">
         {index}
       </span>
       <span className="text-sm font-medium leading-snug text-slate-100">{label}</span>
@@ -92,7 +85,7 @@ export function ModuleTeachingDiagram({ slug, className }: Props) {
         >
           {rungs.map((rung, index) => (
             <li key={rung} className="flex flex-1 items-center gap-2">
-              <div className="flex-1 rounded-xl border border-amber-400/30 bg-amber-500/10 px-3 py-3 text-center text-sm font-semibold text-amber-50">
+              <div className={olTheme.ladderRung}>
                 {t(`ladder.${rung}`)}
               </div>
               {index < rungs.length - 1 ? (
@@ -132,7 +125,7 @@ export function ModuleTeachingDiagram({ slug, className }: Props) {
               key={n}
               className="rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-center"
             >
-              <p className="text-xs font-semibold uppercase tracking-wide text-teal-300">
+              <p className={cn("text-xs font-semibold uppercase tracking-wide", olTheme.sectionLabel)}>
                 {t(`quorumTier${n}Label`)}
               </p>
               <p className="mt-2 text-sm font-semibold text-white">

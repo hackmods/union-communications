@@ -87,7 +87,7 @@ export async function downloadOfficerLearningCertificate(
   const locale = input.locale ?? "en";
   const copy = CERTIFICATE_COPY[locale];
   const name = input.recipientName.trim() || copy.defaultName;
-  const { navy, teal, amber } = GUIDE_PDF_PALETTE;
+  const { navy, brand, brandLight } = GUIDE_PDF_PALETTE;
 
   const pdf = new jsPDF({
     orientation: "landscape",
@@ -106,11 +106,11 @@ export async function downloadOfficerLearningCertificate(
   pdf.setFillColor(navy.r, navy.g, navy.b);
   pdf.rect(0, 0, w, h, "F");
 
-  pdf.setDrawColor(teal.r, teal.g, teal.b);
+  pdf.setDrawColor(brand.r, brand.g, brand.b);
   pdf.setLineWidth(0.04);
   pdf.rect(0.35, 0.35, w - 0.7, h - 0.7, "S");
 
-  pdf.setDrawColor(amber.r, amber.g, amber.b);
+  pdf.setDrawColor(brandLight.r, brandLight.g, brandLight.b);
   pdf.setLineWidth(0.015);
   pdf.rect(0.5, 0.5, w - 1, h - 1, "S");
 
@@ -158,7 +158,7 @@ export async function downloadOfficerLearningCertificate(
 
   // Wordmark fallback when platform mark did not draw
   if (!platformPlacement) {
-    pdf.setTextColor(amber.r, amber.g, amber.b);
+    pdf.setTextColor(brandLight.r, brandLight.g, brandLight.b);
     setFace(true);
     pdf.setFontSize(14);
     pdf.text("UNIONOPS", w / 2, 1.35, { align: "center" });
@@ -190,7 +190,7 @@ export async function downloadOfficerLearningCertificate(
     { align: "center" },
   );
 
-  pdf.setTextColor(teal.r, teal.g, teal.b);
+  pdf.setTextColor(brand.r, brand.g, brand.b);
   setFace(true);
   pdf.setFontSize(18);
   const title =

@@ -9,6 +9,7 @@ import {
   hydrateProgressFromHub,
   pushHubProgress,
 } from "@/lib/officer-learning/hub-sync-client";
+import { olTheme } from "@/lib/officer-learning/theme";
 import clsx from "clsx";
 
 type Props = {
@@ -53,13 +54,10 @@ export function LearningHubSyncPanel({ onProgressHydrated }: Props) {
 
   if (status !== "authenticated") {
     return (
-      <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-slate-300">
+      <div className={clsx(olTheme.surface, "p-4 text-sm text-slate-300")}>
         <p className="font-semibold text-white">{t("signedOutTitle")}</p>
         <p className="mt-2">{t("signedOutBody")}</p>
-        <Link
-          href="/app/login"
-          className="mt-3 inline-block font-medium text-teal-300 underline underline-offset-2"
-        >
+        <Link href="/app/login" className={clsx("mt-3 inline-block", olTheme.link)}>
           {t("signIn")} →
         </Link>
       </div>
@@ -80,15 +78,15 @@ export function LearningHubSyncPanel({ onProgressHydrated }: Props) {
   };
 
   return (
-    <div className="space-y-4 rounded-xl border border-teal-500/25 bg-teal-500/10 p-4">
+    <div className={olTheme.syncPanel}>
       <div>
-        <p className="font-semibold text-teal-50">{t("title")}</p>
-        <p className="mt-1 text-sm text-teal-100/90">{t("body")}</p>
+        <p className={olTheme.syncTitle}>{t("title")}</p>
+        <p className={olTheme.syncBody}>{t("body")}</p>
       </div>
 
       {loaded && (
         <>
-          <label className="block text-sm text-teal-50/90">
+          <label className={clsx("block", olTheme.syncLabel)}>
             {t("displayName")}
             <input
               type="text"
@@ -98,7 +96,7 @@ export function LearningHubSyncPanel({ onProgressHydrated }: Props) {
             />
           </label>
 
-          <label className="flex items-start gap-3 text-sm text-teal-50">
+          <label className={clsx("flex items-start gap-3", olTheme.syncLabel)}>
             <input
               type="checkbox"
               checked={hubSyncEnabled}
@@ -106,17 +104,18 @@ export function LearningHubSyncPanel({ onProgressHydrated }: Props) {
                 setHubSyncEnabled(e.target.checked);
                 if (!e.target.checked) setShareWithLocal(false);
               }}
-              className="mt-1 accent-teal-400"
+              className={clsx("mt-1", olTheme.inputAccent)}
             />
             <span>
               <span className="font-semibold">{t("syncLabel")}</span>
-              <span className="mt-1 block text-teal-100/80">{t("syncHint")}</span>
+              <span className={olTheme.syncHint}>{t("syncHint")}</span>
             </span>
           </label>
 
           <label
             className={clsx(
-              "flex items-start gap-3 text-sm text-teal-50",
+              "flex items-start gap-3",
+              olTheme.syncLabel,
               !hubSyncEnabled && "opacity-50",
             )}
           >
@@ -125,11 +124,11 @@ export function LearningHubSyncPanel({ onProgressHydrated }: Props) {
               checked={shareWithLocal}
               disabled={!hubSyncEnabled}
               onChange={(e) => setShareWithLocal(e.target.checked)}
-              className="mt-1 accent-teal-400"
+              className={clsx("mt-1", olTheme.inputAccent)}
             />
             <span>
               <span className="font-semibold">{t("shareLabel")}</span>
-              <span className="mt-1 block text-teal-100/80">{t("shareHint")}</span>
+              <span className={olTheme.syncHint}>{t("shareHint")}</span>
             </span>
           </label>
 
@@ -137,7 +136,7 @@ export function LearningHubSyncPanel({ onProgressHydrated }: Props) {
             type="button"
             onClick={() => void handleSave()}
             disabled={saving}
-            className="rounded-xl bg-teal-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-teal-400 disabled:opacity-60"
+            className={olTheme.btnPrimarySm}
           >
             {saving ? t("saving") : t("save")}
           </button>

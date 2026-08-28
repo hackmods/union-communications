@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { olTheme } from "@/lib/officer-learning/theme";
 import clsx from "clsx";
 
 /** Day-phase keys per module — grievance-process worked-file spacing (D0–D7). */
@@ -26,15 +27,8 @@ export function ModuleWorkedTimeline({ slug, className }: Props) {
   if (!phases?.length) return null;
 
   return (
-    <figure
-      className={clsx(
-        "mb-6 overflow-hidden rounded-xl border border-amber-400/25 bg-slate-950/60 p-4 md:p-5",
-        className,
-      )}
-    >
-      <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-amber-300">
-        {t("title")}
-      </h3>
+    <figure className={clsx(olTheme.timelineShell, className)}>
+      <h3 className={clsx("mb-4", olTheme.sectionLabel)}>{t("title")}</h3>
       <ol
         className="flex flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-2"
         aria-label={t("aria")}
@@ -42,9 +36,7 @@ export function ModuleWorkedTimeline({ slug, className }: Props) {
         {phases.map((key, index) => (
           <li key={key} className="flex min-w-0 flex-1 items-stretch gap-2 sm:flex-col">
             <div className="flex min-w-0 flex-1 flex-col rounded-xl border border-white/10 bg-white/5 px-3 py-3">
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-amber-400">
-                {key.toUpperCase()}
-              </span>
+              <span className={olTheme.phaseLabel}>{key.toUpperCase()}</span>
               <p className="mt-1 text-sm font-semibold leading-snug text-white">
                 {t(`phases.${key}.label`)}
               </p>
@@ -53,10 +45,7 @@ export function ModuleWorkedTimeline({ slug, className }: Props) {
               </p>
             </div>
             {index < phases.length - 1 ? (
-              <span
-                className="hidden shrink-0 self-center text-lg text-amber-400/70 sm:inline"
-                aria-hidden="true"
-              >
+              <span className={olTheme.phaseArrow} aria-hidden="true">
                 →
               </span>
             ) : null}
