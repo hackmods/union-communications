@@ -1,5 +1,10 @@
 # Progress Log
 
+## Post-ship QOL — smoke matrix + agent ground truth (2026-08-28)
+
+- [x] `builders.smoke` H1 matrix: running-meetings, seniority-bumping, right-to-refuse
+- [x] `current-ground-truth.md` + `roadmap-next.mdc` — running meetings, OL nav, guide registry
+
 ## Running meetings & Rules of Order — gold-standard pass (2026-08-28)
 
 - [x] **Guide depth:** `/guide/running-meetings` — quorum + `QuorumTiersDiagram`, motion precedence + `MotionPrecedenceDiagram`, debate, voting, failures, worked GMM scenario, pocket PDF CTA

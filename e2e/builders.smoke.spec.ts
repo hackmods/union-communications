@@ -206,12 +206,24 @@ test.describe("Public secondary pages smoke @smoke", () => {
       heading: "Local Bylaws: The Rules of Your Local",
     },
     {
+      path: "/en/guide/running-meetings/",
+      heading: /Running a Meeting.*Robert/i,
+    },
+    {
       path: "/en/guide/bargaining/",
       heading: "The Bargaining Lifecycle: From Survey to Signing",
     },
     {
       path: "/en/guide/dfr/",
       heading: /Duty of Fair Representation/i,
+    },
+    {
+      path: "/en/guide/seniority-bumping/",
+      heading: "Seniority & bumping playbook",
+    },
+    {
+      path: "/en/guide/right-to-refuse/",
+      heading: "Right to refuse unsafe work",
     },
     {
       path: "/en/guide/steward-playbooks/",

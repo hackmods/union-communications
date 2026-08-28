@@ -1,6 +1,10 @@
-# Current ground truth (agents) — as of 2026-08-09
+# Current ground truth (agents) — as of 2026-08-28
 
 **Purpose:** Replace stale claims in the 2026-07-22 audit snapshot (`active-context.md`, older roadmap-next bullets). Prefer this file + `docs/PROGRESS.md` + module specs when sequencing work.
+
+**Running meetings / Rules of Order (2026-08-28):** [`session-knowledge-2026-08-28-running-meetings-rules-of-order.md`](session-knowledge-2026-08-28-running-meetings-rules-of-order.md) — public `/guide/running-meetings` (quorum, precedence, debate, voting, worked GMM) + `/tools/rules-of-order` (14 actions, copy phrase). Not Hub `/app/meetings` (calendar/RSVP). Pocket PDF via OL module 4 helper. Discoverability: `guide-registry.ts` labour group + steward playbooks.
+
+**Officer Learning chrome + Guides nav (2026-08-28):** [`session-knowledge-2026-08-28-officer-learning-nav-guides.md`](session-knowledge-2026-08-28-officer-learning-nav-guides.md) — navy OL shell kept; amber/teal → platform orange (`olTheme`); Guides ▾ five groups; `guide-registry.ts` single discoverability source.
 
 **Grievance process guide (2026-08-26):** Public `/guide/grievance-process` is a how-to-run-a-file playbook (forum gate, teaching 6 W's, CA clocks, CA-named steps as jobs, worked file, failure modes) plus Document Generator `grievance-intake` worksheet. Not legal advice. Officer Hub `/app/grievances` is the tracker (there is no separate “Case Tracker” product). Discoverability is Blueprint labour strip + Resources labour playbooks, not the main Guides menu. **Next (not this pass):** structured 6 W's on Hub New Grievance — see [`docs/modules/GRIEVANCE.md`](../modules/GRIEVANCE.md).
 
@@ -47,6 +51,8 @@
 | Brand Kit union presets (CUPE/Unifor/…) | Shipped — **Comms only** | Not Officer Hub tenant signup. Hub stays invite-only. `create_union` / `create_local` persist to Postgres when `DATABASE_URL` is set; overlay is the memory fallback. See session-knowledge president soft launch |
 | Whole-platform “free forever” | **Rejected 2026-08-19** | Comms stay free; hosted Officer Hub / Local Portal may recover hosting costs. `/manifesto` + ADR-019 |
 | OPSEU EERC Hub module | **Not a gap to build** | Provincial joint committee. Use Comms + local UCC; see [`session-knowledge-2026-08-23-eerc-committees.md`](session-knowledge-2026-08-23-eerc-committees.md). Do not host official minutes or name a core module EERC. |
+| Running meetings playbook + cheat sheet | Shipped 2026-08-28 | `/guide/running-meetings` + `/tools/rules-of-order`; Robert's reference only — confirm local bylaws |
+| Guide discoverability registry | Shipped 2026-08-28 | `src/lib/comms/guide-registry.ts` — do not duplicate path arrays on Blueprint/Resources/playbooks |
 
 ## Three email/reminder surfaces (do not conflate)
 
