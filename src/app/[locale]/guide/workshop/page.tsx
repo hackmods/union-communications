@@ -4,6 +4,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import {
@@ -23,6 +24,13 @@ export async function generateMetadata({
 
 const PREREQ_KEYS = ["device", "logo", "colours", "number", "prompt"] as const;
 const OUTLINE_KEYS = ["strategy", "identity", "inspiration", "media", "close"] as const;
+const OUTLINE_TOC = [
+  ["outline-strategy", "strategy"],
+  ["outline-identity", "identity"],
+  ["outline-inspiration", "inspiration"],
+  ["outline-media", "media"],
+  ["outline-close", "close"],
+] as const;
 const WRAP_KEYS = ["bookmark", "logo", "post", "website", "checklist"] as const;
 
 const richMarks = {
@@ -41,11 +49,18 @@ export default async function WorkshopGuidePage({
   const t = await getTranslations("workshopGuide");
   const ts = await getTranslations("sources");
 
+  const tocItems = guideTocItems(OUTLINE_TOC, (key) =>
+    t(`outlineItems.${key}.navLabel`),
+  );
+
   return (
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      preset="playbook"
+      toc={tocItems}
+      tocLabel={t("outlineNavLabel")}
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/resources", label: t("resourcesCta") },
@@ -118,23 +133,6 @@ export default async function WorkshopGuidePage({
         <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
           {t.rich("outlineIntro", richMarks)}
         </p>
-        <nav
-          className="mt-5 flex flex-wrap gap-2"
-          aria-label={t("outlineNavLabel")}
-        >
-          {OUTLINE_KEYS.map((key) => (
-            <a
-              key={key}
-              href={`#outline-${key}`}
-              className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
-            >
-              <span className="font-bold tabular-nums text-opseu-blue">
-                {t(`outlineItems.${key}.time`)}
-              </span>
-              {t(`outlineItems.${key}.navLabel`)}
-            </a>
-          ))}
-        </nav>
         <ol className="mt-8 space-y-8">
           {OUTLINE_KEYS.map((key, index) => (
             <li

@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { Callout } from "@/components/ui/Callout";
 import {
@@ -57,11 +58,16 @@ export default async function MembershipSignupGuidePage({
   const ts = await getTranslations("sources");
   const labour = await getTranslations("guide");
 
+  const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
+
   return (
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      preset="playbook"
+      toc={tocItems}
+      tocLabel={t("tocLabel")}
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("related.stewardPlaybooks") },
@@ -91,18 +97,6 @@ export default async function MembershipSignupGuidePage({
       }
     >
       <OfficerLearningModuleCallout slug="building-collective-power" moduleNumber={6} />
-
-      <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
-        {TOC.map(([id, key]) => (
-          <a
-            key={id}
-            href={`#${id}`}
-            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
-          >
-            {t(`${key}.navLabel`)}
-          </a>
-        ))}
-      </nav>
 
       <section
         id="why"

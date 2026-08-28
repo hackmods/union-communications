@@ -3,6 +3,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { Callout } from "@/components/ui/Callout";
 import { guideCtaClass } from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
@@ -66,11 +67,16 @@ export default async function RightToRefuseGuidePage({
   const t = await getTranslations("rightToRefuseGuide");
   const ts = await getTranslations("sources");
 
+  const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
+
   return (
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      preset="playbook"
+      toc={tocItems}
+      tocLabel={t("tocLabel")}
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
@@ -94,18 +100,6 @@ export default async function RightToRefuseGuidePage({
           {t("disclaimer.body")}
         </p>
       </Callout>
-
-      <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
-        {TOC.map(([id, key]) => (
-          <a
-            key={id}
-            href={`#${id}`}
-            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
-          >
-            {t(`${key}.navLabel`)}
-          </a>
-        ))}
-      </nav>
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
         <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">

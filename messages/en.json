@@ -1792,6 +1792,7 @@
     "title": "Local Website Guide",
     "subtitle": "Write a simple local site, download a ZIP, then put it online. A volunteer can do the tech steps.",
     "intro": "Boards and socials move messages. A website holds who you are, who to email, and how to find you. Start with Part 1. Stop when the ZIP is on your computer.",
+    "tocLabel": "On this page",
     "relatedLabel": "Also see",
     "related": {
       "template": "Website Template",

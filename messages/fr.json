@@ -1792,6 +1792,7 @@
     "title": "Guide du site Web local",
     "subtitle": "Rédigez un site local simple, téléchargez un ZIP, puis mettez-le en ligne. Un volontaire peut faire les étapes techniques.",
     "intro": "Les tableaux et les réseaux font circuler les messages. Un site garde qui vous êtes, à qui écrire et comment vous trouver. Commencez par la partie 1. Arrêtez-vous quand le ZIP est sur votre ordinateur.",
+    "tocLabel": "Sur cette page",
     "relatedLabel": "Voir aussi",
     "related": {
       "template": "Modèle de site Web",

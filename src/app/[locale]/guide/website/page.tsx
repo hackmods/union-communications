@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
   guideCtaClass,
   guideCtaOutlineClass,
@@ -32,6 +33,16 @@ const maintainKeys = ["who", "when", "how", "archive"] as const;
 const pairKeys = ["boards", "qr", "social", "brand"] as const;
 const termKeys = ["repository", "commit", "deploy"] as const;
 
+const TOC = [
+  ["why", "why"],
+  ["bare-minimum", "bareMinimum"],
+  ["before", "before"],
+  ["build", "build"],
+  ["deploy", "deploy"],
+  ["domain", "domain"],
+  ["maintain", "maintain"],
+] as const;
+
 const includeTone: Record<(typeof includeKeys)[number], string> = {
   always: "border-green-200 bg-green-50",
   whenActive: "border-opseu-blue/20 bg-opseu-blue/5",
@@ -53,11 +64,16 @@ export default async function WebsiteGuidePage({
   const nav = await getTranslations("nav");
   const ts = await getTranslations("sources");
 
+  const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
+
   return (
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      preset="playbook"
+      toc={tocItems}
+      tocLabel={t("tocLabel")}
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/tools/website-template", label: t("related.template") },
@@ -112,22 +128,6 @@ export default async function WebsiteGuidePage({
         intro={t("part1.intro")}
         className="mt-12"
       >
-        <nav
-          className="mt-5 flex flex-wrap gap-2"
-          aria-label={t("part1.tocLabel")}
-        >
-          {(
-            [
-              ["why", "why"],
-              ["bare-minimum", "bareMinimum"],
-              ["before", "before"],
-              ["build", "build"],
-            ] as const
-          ).map(([id, key]) => (
-            <PartNavChip key={id} href={`#${id}`} label={t(`${key}.navLabel`)} />
-          ))}
-        </nav>
-
         <section
           id="why"
           className="mt-10 scroll-mt-28"
@@ -287,21 +287,6 @@ export default async function WebsiteGuidePage({
           <p className="font-semibold text-opseu-dark">{t("squarespace.title")}</p>
           <p className="mt-1">{t("squarespace.body")}</p>
         </Callout>
-
-        <nav
-          className="mt-5 flex flex-wrap gap-2"
-          aria-label={t("part2.tocLabel")}
-        >
-          {(
-            [
-              ["deploy", "deploy"],
-              ["domain", "domain"],
-              ["maintain", "maintain"],
-            ] as const
-          ).map(([id, key]) => (
-            <PartNavChip key={id} href={`#${id}`} label={t(`${key}.navLabel`)} />
-          ))}
-        </nav>
 
         <section
           className="mt-8 rounded-xl border border-gray-200 bg-white px-4 py-4 sm:px-5"
@@ -553,17 +538,6 @@ function PartFrame({
       <p className="mt-2 max-w-prose leading-relaxed text-gray-700">{intro}</p>
       {children}
     </section>
-  );
-}
-
-function PartNavChip({ href, label }: { href: string; label: string }) {
-  return (
-    <a
-      href={href}
-      className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
-    >
-      {label}
-    </a>
   );
 }
 

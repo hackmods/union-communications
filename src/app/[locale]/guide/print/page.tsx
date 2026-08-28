@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { Callout } from "@/components/ui/Callout";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import {
   guideCtaClass,
   guideCtaOutlineClass,
@@ -43,11 +44,16 @@ export default async function PrintGuidePage({
   const nav = await getTranslations("nav");
   const ts = await getTranslations("sources");
 
+  const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
+
   return (
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      preset="playbook"
+      toc={tocItems}
+      tocLabel={t("tocLabel")}
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/social-media-plan", label: nav("socialMediaPlan") },
@@ -58,21 +64,6 @@ export default async function PrintGuidePage({
         <SourcesBlock pageId="print" title={ts("title")} intro={ts("intro")} />
       }
     >
-      <nav
-        className="mb-8 flex flex-wrap gap-2"
-        aria-label={t("tocLabel")}
-      >
-        {TOC.map(([id, key]) => (
-          <a
-            key={id}
-            href={`#${id}`}
-            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
-          >
-            {t(`${key}.navLabel`)}
-          </a>
-        ))}
-      </nav>
-
       <section
         id="when"
         className="scroll-mt-28 border-l-2 border-opseu-blue/30 pl-5"

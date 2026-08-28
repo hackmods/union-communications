@@ -4,6 +4,7 @@ import { buildPublicPageMetadata } from "@/lib/seo/public-page-meta";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { GuideLayout } from "@/components/comms/GuideLayout";
+import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { WorkshopDemoPath } from "@/components/comms/WorkshopDemoPath";
 import { WorkshopDemoJoinLink } from "@/components/comms/WorkshopDemoJoinLink";
@@ -51,6 +52,14 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/guide/social-media-plan", params);
 }
 
+const TOC = [
+  ["step-logo", "logo"],
+  ["step-boards", "boards"],
+  ["step-print", "print"],
+  ["step-socials", "socials"],
+  ["step-website", "website"],
+] as const;
+
 export default async function SocialMediaPlanPage({
   params,
 }: {
@@ -61,11 +70,16 @@ export default async function SocialMediaPlanPage({
   const t = await getTranslations("socialMediaPlan");
   const ts = await getTranslations("sources");
 
+  const tocItems = guideTocItems(TOC, (key) => t(`steps.${key}.navLabel`));
+
   return (
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      preset="playbook"
+      toc={tocItems}
+      tocLabel={t("stepsNavLabel")}
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide", label: t("pathLinks.blueprintShort") },
@@ -83,27 +97,6 @@ export default async function SocialMediaPlanPage({
         className="mb-8 rounded-xl border border-gray-200 bg-white p-4 sm:p-5"
         showRoadmapLink={false}
       />
-
-      <nav
-        className="mb-8 flex flex-wrap gap-2"
-        aria-label={t("stepsNavLabel")}
-      >
-        {FIRST_WEEK_STEP_KEYS.map((key, index) => (
-          <a
-            key={key}
-            href={`#step-${key}`}
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
-          >
-            <span
-              className="flex h-6 w-6 items-center justify-center rounded-md bg-opseu-blue text-xs font-bold text-white"
-              aria-hidden="true"
-            >
-              {index + 1}
-            </span>
-            {t(`steps.${key}.navLabel`)}
-          </a>
-        ))}
-      </nav>
 
       <ol className="space-y-8">
         {FIRST_WEEK_STEP_KEYS.map((key, index) => (

@@ -68,6 +68,7 @@ export default async function ResourcesPage({
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      preset="hub"
     >
       <Callout className="mb-8">
         <p className="font-semibold text-opseu-dark">{t("purpose.title")}</p>
