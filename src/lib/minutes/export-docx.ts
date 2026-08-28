@@ -3,54 +3,171 @@
  * Dynamic-imports `docx` so the hub bundle stays light until export runs.
  */
 
+import {
+  canvasFontOfficeName,
+  DEFAULT_BODY_FONT,
+  DEFAULT_HEADLINE_FONT,
+} from "@/lib/comms/canvas-fonts";
+import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import { logoDisplaySizePx } from "@/lib/export/brand-logo-bytes";
 import type { MeetingMinutes } from "@/types/minutes";
 
-function meetingTypeLabel(type: MeetingMinutes["meetingType"]): string {
-  switch (type) {
-    case "exec":
-      return "Executive Board";
-    case "general":
-      return "General Membership";
-    case "committee":
-      return "Committee";
-    default:
-      return type;
-  }
+export type MinutesDocxStyle = {
+  headlineFont?: string;
+  bodyFont?: string;
+  primaryColor?: string;
+  logo?: BrandLogoBytes | null;
+  locale?: "en" | "fr";
+};
+
+type MinutesLocale = "en" | "fr";
+
+const LABELS = {
+  en: {
+    meetingMinutes: "Meeting Minutes",
+    meetingType: {
+      exec: "Executive Board",
+      general: "General Membership",
+      committee: "Committee",
+    },
+    status: "Status",
+    approved: "approved",
+    attendees: "Attendees",
+    noAttendees: "(none recorded)",
+    motions: "Motions",
+    noMotions: "No motions recorded.",
+    motion: "Motion",
+    movedBy: "Moved by",
+    secondedBy: "seconded by",
+    voteFor: "for",
+    voteAgainst: "against",
+    voteAbstain: "abstain",
+    votePrefix: "Vote —",
+    result: "Result",
+    resultValue: {
+      carried: "carried",
+      defeated: "defeated",
+      tabled: "tabled",
+    },
+    notes: "Notes",
+    noNotes: "(no notes)",
+    recordedBy: "Recorded by",
+  },
+  fr: {
+    meetingMinutes: "Procès-verbal",
+    meetingType: {
+      exec: "Bureau exécutif",
+      general: "Assemblée générale",
+      committee: "Comité",
+    },
+    status: "Statut",
+    approved: "approuvé",
+    attendees: "Participants",
+    noAttendees: "(aucun inscrit)",
+    motions: "Motions",
+    noMotions: "Aucune motion consignée.",
+    motion: "Motion",
+    movedBy: "Proposée par",
+    secondedBy: "appuyée par",
+    voteFor: "pour",
+    voteAgainst: "contre",
+    voteAbstain: "abstention",
+    votePrefix: "Vote —",
+    result: "Résultat",
+    resultValue: {
+      carried: "adoptée",
+      defeated: "rejetée",
+      tabled: "mise en suspens",
+    },
+    notes: "Notes",
+    noNotes: "(aucune note)",
+    recordedBy: "Consigné par",
+  },
+} as const;
+
+function hexNoHash(hex: string): string {
+  return hex.replace(/^#/, "").toUpperCase();
 }
 
-function formatDate(iso: string): string {
+function resolveLocale(locale?: MinutesLocale): MinutesLocale {
+  return locale === "fr" ? "fr" : "en";
+}
+
+function formatDate(iso: string, locale: MinutesLocale): string {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-CA", {
+  return d.toLocaleDateString(locale === "fr" ? "fr-CA" : "en-CA", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 }
 
+function headlineFace(style?: MinutesDocxStyle): string {
+  return style?.headlineFont ?? canvasFontOfficeName(DEFAULT_HEADLINE_FONT);
+}
+
+function bodyFace(style?: MinutesDocxStyle): string {
+  return style?.bodyFont ?? canvasFontOfficeName(DEFAULT_BODY_FONT);
+}
+
 export async function buildMinutesDocxBlob(
   minutes: MeetingMinutes,
   localLabel: string,
+  style?: MinutesDocxStyle,
 ): Promise<Blob> {
   const {
     AlignmentType,
     Document,
     HeadingLevel,
+    ImageRun,
     Packer,
     Paragraph,
     TextRun,
   } = await import("docx");
 
-  const children: InstanceType<typeof Paragraph>[] = [
+  const locale = resolveLocale(style?.locale);
+  const labels = LABELS[locale];
+  const hFont = headlineFace(style);
+  const bFont = bodyFace(style);
+  const headingColor = style?.primaryColor
+    ? hexNoHash(style.primaryColor)
+    : undefined;
+
+  const children: InstanceType<typeof Paragraph>[] = [];
+
+  if (style?.logo) {
+    const [logoW, logoH] = logoDisplaySizePx(style.logo, 140, 56);
+    children.push(
+      new Paragraph({
+        spacing: { after: 120 },
+        children: [
+          new ImageRun({
+            type: "png",
+            data: style.logo.bytes,
+            transformation: { width: logoW, height: logoH },
+            altText: {
+              title: "Logo",
+              description: "Local brand logo",
+              name: "logo",
+            },
+          }),
+        ],
+      }),
+    );
+  }
+
+  children.push(
     new Paragraph({
       heading: HeadingLevel.HEADING_1,
       spacing: { after: 120 },
       children: [
         new TextRun({
-          text: `${localLabel} — Meeting Minutes`,
+          text: `${localLabel} — ${labels.meetingMinutes}`,
           bold: true,
-          font: "Calibri",
+          font: hFont,
           size: 32,
+          ...(headingColor ? { color: headingColor } : {}),
         }),
       ],
     }),
@@ -58,8 +175,8 @@ export async function buildMinutesDocxBlob(
       spacing: { after: 80 },
       children: [
         new TextRun({
-          text: `${meetingTypeLabel(minutes.meetingType)} · ${formatDate(minutes.meetingDate)}`,
-          font: "Calibri",
+          text: `${labels.meetingType[minutes.meetingType]} · ${formatDate(minutes.meetingDate, locale)}`,
+          font: bFont,
           size: 22,
         }),
       ],
@@ -68,9 +185,9 @@ export async function buildMinutesDocxBlob(
       spacing: { after: 200 },
       children: [
         new TextRun({
-          text: `Status: ${minutes.status}${minutes.approvedAt ? ` (approved ${formatDate(minutes.approvedAt)})` : ""}`,
+          text: `${labels.status}: ${minutes.status}${minutes.approvedAt ? ` (${labels.approved} ${formatDate(minutes.approvedAt, locale)})` : ""}`,
           italics: true,
-          font: "Calibri",
+          font: bFont,
           size: 20,
           color: "555555",
         }),
@@ -81,9 +198,9 @@ export async function buildMinutesDocxBlob(
       spacing: { before: 200, after: 80 },
       children: [
         new TextRun({
-          text: "Attendees",
+          text: labels.attendees,
           bold: true,
-          font: "Calibri",
+          font: hFont,
           size: 26,
         }),
       ],
@@ -95,8 +212,8 @@ export async function buildMinutesDocxBlob(
           text:
             minutes.attendees.length > 0
               ? minutes.attendees.join(", ")
-              : "(none recorded)",
-          font: "Calibri",
+              : labels.noAttendees,
+          font: bFont,
           size: 22,
         }),
       ],
@@ -106,14 +223,14 @@ export async function buildMinutesDocxBlob(
       spacing: { before: 200, after: 80 },
       children: [
         new TextRun({
-          text: "Motions",
+          text: labels.motions,
           bold: true,
-          font: "Calibri",
+          font: hFont,
           size: 26,
         }),
       ],
     }),
-  ];
+  );
 
   if (minutes.motions.length === 0) {
     children.push(
@@ -121,9 +238,9 @@ export async function buildMinutesDocxBlob(
         spacing: { after: 200 },
         children: [
           new TextRun({
-            text: "No motions recorded.",
+            text: labels.noMotions,
             italics: true,
-            font: "Calibri",
+            font: bFont,
             size: 22,
           }),
         ],
@@ -136,9 +253,9 @@ export async function buildMinutesDocxBlob(
           spacing: { before: 120, after: 40 },
           children: [
             new TextRun({
-              text: `Motion ${index + 1}: ${motion.text}`,
+              text: `${labels.motion} ${index + 1}: ${motion.text}`,
               bold: true,
-              font: "Calibri",
+              font: bFont,
               size: 22,
             }),
           ],
@@ -147,8 +264,8 @@ export async function buildMinutesDocxBlob(
           spacing: { after: 40 },
           children: [
             new TextRun({
-              text: `Moved by ${motion.movedBy}; seconded by ${motion.secondedBy}.`,
-              font: "Calibri",
+              text: `${labels.movedBy} ${motion.movedBy}; ${labels.secondedBy} ${motion.secondedBy}.`,
+              font: bFont,
               size: 20,
             }),
           ],
@@ -157,8 +274,8 @@ export async function buildMinutesDocxBlob(
           spacing: { after: 120 },
           children: [
             new TextRun({
-              text: `Vote — for ${motion.vote.for}, against ${motion.vote.against}, abstain ${motion.vote.abstain}. Result: ${motion.result}.`,
-              font: "Calibri",
+              text: `${labels.votePrefix} ${labels.voteFor} ${motion.vote.for}, ${labels.voteAgainst} ${motion.vote.against}, ${labels.voteAbstain} ${motion.vote.abstain}. ${labels.result}: ${labels.resultValue[motion.result]}.`,
+              font: bFont,
               size: 20,
             }),
           ],
@@ -173,9 +290,9 @@ export async function buildMinutesDocxBlob(
       spacing: { before: 200, after: 80 },
       children: [
         new TextRun({
-          text: "Notes",
+          text: labels.notes,
           bold: true,
-          font: "Calibri",
+          font: hFont,
           size: 26,
         }),
       ],
@@ -189,9 +306,9 @@ export async function buildMinutesDocxBlob(
         spacing: { after: 200 },
         children: [
           new TextRun({
-            text: "(no notes)",
+            text: labels.noNotes,
             italics: true,
-            font: "Calibri",
+            font: bFont,
             size: 22,
           }),
         ],
@@ -206,7 +323,7 @@ export async function buildMinutesDocxBlob(
           children: [
             new TextRun({
               text: line,
-              font: "Calibri",
+              font: bFont,
               size: 22,
             }),
           ],
@@ -220,9 +337,9 @@ export async function buildMinutesDocxBlob(
       spacing: { before: 400 },
       children: [
         new TextRun({
-          text: `Recorded by ${minutes.recordedByName}`,
+          text: `${labels.recordedBy} ${minutes.recordedByName}`,
           color: "666666",
-          font: "Calibri",
+          font: bFont,
           size: 18,
         }),
       ],

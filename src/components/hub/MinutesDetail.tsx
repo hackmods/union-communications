@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { Card, CardTitle } from "@/components/ui/Card";
@@ -14,16 +14,22 @@ import {
   canDeleteMinutes,
   canWriteMinutes,
 } from "@/lib/minutes/access";
+import { canvasFontOfficeName } from "@/lib/comms/canvas-fonts";
+import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 import {
   buildMinutesDocxBlob,
   minutesExportFilename,
 } from "@/lib/minutes/export-docx";
+import { useBrandStore } from "@/store/brand-store";
 import { resolveLocalNumber } from "@/lib/utils/local";
 import type { MeetingMinutes } from "@/types/minutes";
 import type { UserRole } from "@/types/tenant";
 
 export function MinutesDetail({ minutesId }: { minutesId: string }) {
   const t = useTranslations("minutes");
+  const locale = useLocale();
+  const brandKit = useBrandStore((s) => s.brandKit);
   const { data: session } = useSession();
   const router = useRouter();
   const { readOnly } = useStewardReadOnly();
@@ -111,8 +117,19 @@ export function MinutesDetail({ minutesId }: { minutesId: string }) {
     setBusy(true);
     setError(null);
     try {
-      const localLabel = `Local ${resolveLocalNumber()}`;
-      const blob = await buildMinutesDocxBlob(entry, localLabel);
+      const brand = guidePdfBrandFromKit(brandKit);
+      const logo = await resolveBrandLogoBytes(brandKit, {
+        includeLogo: true,
+        backgroundColor: brandKit.primaryColor,
+      });
+      const localLabel = `Local ${resolveLocalNumber(brandKit.local.localNumber)}`;
+      const blob = await buildMinutesDocxBlob(entry, localLabel, {
+        headlineFont: canvasFontOfficeName(brand.headlineFontId),
+        bodyFont: canvasFontOfficeName(brand.bodyFontId),
+        primaryColor: brandKit.primaryColor,
+        logo,
+        locale: locale === "fr" ? "fr" : "en",
+      });
       const { saveAs } = await import("file-saver");
       saveAs(blob, minutesExportFilename(entry));
       setMessage(t("exported"));

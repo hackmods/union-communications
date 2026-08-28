@@ -4,8 +4,12 @@ import {
   assertElectionView,
   requireElectionsSession,
 } from "@/lib/auth/elections-session";
+import { canvasFontOfficeName } from "@/lib/comms/canvas-fonts";
+import { DEFAULT_BRAND_KIT } from "@/lib/constants/brand";
 import { buildElectionBallotDocxBlob } from "@/lib/elections/export-ballot";
 import { electionsStore } from "@/lib/elections/store";
+import { resolveBrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import { guidePdfBrandFromKit } from "@/lib/export/text-pdf-layout";
 import { resolveLocalNumber } from "@/lib/utils/local";
 
 type RouteContext = { params: Promise<{ id: string }> };
@@ -30,8 +34,19 @@ export async function GET(_request: Request, context: RouteContext) {
   }
 
   const localLabel = `Local ${resolveLocalNumber()}`;
+  const brand = guidePdfBrandFromKit(DEFAULT_BRAND_KIT);
+  const logo = await resolveBrandLogoBytes(DEFAULT_BRAND_KIT, {
+    includeLogo: true,
+    backgroundColor: DEFAULT_BRAND_KIT.primaryColor,
+  });
   try {
-    const blob = await buildElectionBallotDocxBlob(cycle, localLabel);
+    const blob = await buildElectionBallotDocxBlob(cycle, localLabel, {
+      headlineFont: canvasFontOfficeName(brand.headlineFontId),
+      bodyFont: canvasFontOfficeName(brand.bodyFontId),
+      primaryColor: DEFAULT_BRAND_KIT.primaryColor,
+      logo,
+      locale: "en",
+    });
     const buffer = Buffer.from(await blob.arrayBuffer());
     const safeTitle = cycle.title.replace(/[^\w\-]+/g, "_").slice(0, 60);
 

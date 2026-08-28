@@ -3,30 +3,94 @@
  * Dynamic-imports `docx` — not a live online secret ballot.
  */
 
+import {
+  canvasFontOfficeName,
+  DEFAULT_BODY_FONT,
+  DEFAULT_HEADLINE_FONT,
+} from "@/lib/comms/canvas-fonts";
+import type { BrandLogoBytes } from "@/lib/export/brand-logo-bytes";
+import { logoDisplaySizePx } from "@/lib/export/brand-logo-bytes";
 import type { ElectionCycle } from "@/types/elections";
 
-function formatDate(iso: string): string {
+export type BallotDocxStyle = {
+  headlineFont?: string;
+  bodyFont?: string;
+  primaryColor?: string;
+  logo?: BrandLogoBytes | null;
+  locale?: "en" | "fr";
+};
+
+type BallotLocale = "en" | "fr";
+
+const LABELS = {
+  en: {
+    ballot: "Ballot",
+    printed: "Printed",
+    offlineNotice:
+      "Paper / offline ballot only — not an online vote",
+    instructions:
+      "Mark one candidate per position. Return this paper ballot to the elections committee.",
+    noNominees: "(No accepted nominations for this position)",
+  },
+  fr: {
+    ballot: "Bulletin de vote",
+    printed: "Imprimé le",
+    offlineNotice:
+      "Bulletin papier / hors ligne seulement — ce n'est pas un vote en ligne",
+    instructions:
+      "Cochez un candidat par poste. Remettez ce bulletin papier au comité électoral.",
+    noNominees: "(Aucune candidature acceptée pour ce poste)",
+  },
+} as const;
+
+function hexNoHash(hex: string): string {
+  return hex.replace(/^#/, "").toUpperCase();
+}
+
+function resolveLocale(locale?: BallotLocale): BallotLocale {
+  return locale === "fr" ? "fr" : "en";
+}
+
+function formatDate(iso: string, locale: BallotLocale): string {
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-CA", {
+  return d.toLocaleDateString(locale === "fr" ? "fr-CA" : "en-CA", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 }
 
+function headlineFace(style?: BallotDocxStyle): string {
+  return style?.headlineFont ?? canvasFontOfficeName(DEFAULT_HEADLINE_FONT);
+}
+
+function bodyFace(style?: BallotDocxStyle): string {
+  return style?.bodyFont ?? canvasFontOfficeName(DEFAULT_BODY_FONT);
+}
+
 export async function buildElectionBallotDocxBlob(
   cycle: ElectionCycle,
   localLabel: string,
+  style?: BallotDocxStyle,
 ): Promise<Blob> {
   const {
     AlignmentType,
     Document,
     HeadingLevel,
+    ImageRun,
     Packer,
     Paragraph,
     TextRun,
   } = await import("docx");
+
+  const locale = resolveLocale(style?.locale);
+  const labels = LABELS[locale];
+  const hFont = headlineFace(style);
+  const bFont = bodyFace(style);
+  const headingColor = style?.primaryColor
+    ? hexNoHash(style.primaryColor)
+    : undefined;
 
   const accepted = cycle.nominations.filter((n) => n.status === "accepted");
   const byPosition = new Map<string, typeof accepted>();
@@ -39,17 +103,42 @@ export async function buildElectionBallotDocxBlob(
     byPosition.set(nom.position, list);
   }
 
-  const children: InstanceType<typeof Paragraph>[] = [
+  const children: InstanceType<typeof Paragraph>[] = [];
+
+  if (style?.logo) {
+    const [logoW, logoH] = logoDisplaySizePx(style.logo, 140, 56);
+    children.push(
+      new Paragraph({
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 120 },
+        children: [
+          new ImageRun({
+            type: "png",
+            data: style.logo.bytes,
+            transformation: { width: logoW, height: logoH },
+            altText: {
+              title: "Logo",
+              description: "Local brand logo",
+              name: "logo",
+            },
+          }),
+        ],
+      }),
+    );
+  }
+
+  children.push(
     new Paragraph({
       heading: HeadingLevel.HEADING_1,
       alignment: AlignmentType.CENTER,
       spacing: { after: 120 },
       children: [
         new TextRun({
-          text: `${localLabel} — Ballot`,
+          text: `${localLabel} — ${labels.ballot}`,
           bold: true,
-          font: "Calibri",
+          font: hFont,
           size: 32,
+          ...(headingColor ? { color: headingColor } : {}),
         }),
       ],
     }),
@@ -59,7 +148,7 @@ export async function buildElectionBallotDocxBlob(
       children: [
         new TextRun({
           text: cycle.title,
-          font: "Calibri",
+          font: bFont,
           size: 24,
         }),
       ],
@@ -69,9 +158,9 @@ export async function buildElectionBallotDocxBlob(
       spacing: { after: 200 },
       children: [
         new TextRun({
-          text: `Printed ${formatDate(new Date().toISOString())} · Paper / offline ballot only — not an online vote`,
+          text: `${labels.printed} ${formatDate(new Date().toISOString(), locale)} · ${labels.offlineNotice}`,
           italics: true,
-          font: "Calibri",
+          font: bFont,
           size: 18,
           color: "555555",
         }),
@@ -81,13 +170,13 @@ export async function buildElectionBallotDocxBlob(
       spacing: { after: 200 },
       children: [
         new TextRun({
-          text: "Mark one candidate per position. Return this paper ballot to the elections committee.",
-          font: "Calibri",
+          text: labels.instructions,
+          font: bFont,
           size: 20,
         }),
       ],
     }),
-  ];
+  );
 
   for (const position of cycle.positions) {
     children.push(
@@ -98,7 +187,7 @@ export async function buildElectionBallotDocxBlob(
           new TextRun({
             text: position,
             bold: true,
-            font: "Calibri",
+            font: hFont,
             size: 26,
           }),
         ],
@@ -111,9 +200,9 @@ export async function buildElectionBallotDocxBlob(
           spacing: { after: 80 },
           children: [
             new TextRun({
-              text: "(No accepted nominations for this position)",
+              text: labels.noNominees,
               italics: true,
-              font: "Calibri",
+              font: bFont,
               size: 20,
               color: "666666",
             }),
@@ -129,7 +218,7 @@ export async function buildElectionBallotDocxBlob(
           children: [
             new TextRun({
               text: `☐  ${nom.nomineeName}`,
-              font: "Calibri",
+              font: bFont,
               size: 22,
             }),
           ],

@@ -11,7 +11,7 @@ Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-know
 | Font TTF pipeline | In progress (this sequence) |
 | Project A — text PDF Brand Kit faces + FR parity | In progress (this sequence) |
 | Manual EN/FR print review | In progress (this sequence) |
-| Project B1 — Hub minutes/ballot Brand Kit DOCX | In progress (this sequence) |
+| Project B1 — Hub minutes/ballot Brand Kit DOCX | **Shipped** (this sequence) |
 | B2 presets / B3 OOXML binary embed | Still deferred |
 
 ## Review — Brand Kit typefaces in text PDFs
@@ -76,15 +76,15 @@ Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-know
 | Font **names** from Brand Kit catalog | Shipped (`canvasFontOfficeName`) |
 | OFL **binary** embed in OOXML | Parked ([`plan-2026-08-15-parked-followups.md`](plan-2026-08-15-parked-followups.md)) |
 | Website ZIP woff2 embed | Shipped (pattern to reuse for NOTICE + bytes) |
-| Hub minutes / election ballot DOCX | Calibri only — not on Brand Kit builders |
+| Hub minutes / election ballot DOCX | Brand Kit fonts + palette + logo (`minutes/export-docx.ts`, `elections/export-ballot.ts`) |
 | Presets | Letters, welcome, letterhead, quick-event, lec-directory (placeholders); grievance/seniority **XLSX only** |
 
 ### Build checklist
 
 **B1 — Brand Kit parity (no binary fonts yet)**
 
-- [ ] Minutes DOCX ([`minutes/export-docx.ts`](../../src/lib/minutes/export-docx.ts)) and election ballot ([`elections/export-ballot.ts`](../../src/lib/elections/export-ballot.ts)) use shared builders + palette + logo
-- [ ] Clarify legacy docxtemplater / `public/templates/office/` path vs `docx` builders (retire or keep as samples only)
+- [x] Minutes DOCX ([`minutes/export-docx.ts`](../../src/lib/minutes/export-docx.ts)) and election ballot ([`elections/export-ballot.ts`](../../src/lib/elections/export-ballot.ts)) use Brand Kit fonts + palette + logo (font names only — no OOXML binary embed)
+- [x] Legacy docxtemplater / `public/templates/office/` path unchanged — samples and tests only; Hub exports use `docx` builders above
 - [ ] XLSX header fonts optionally map `canvasFontOfficeName` (lower priority)
 - [ ] Surface logo-resolve failures when `includeLogo` is on (Document Generator already partial)
 

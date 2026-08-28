@@ -1,5 +1,13 @@
 # Progress Log
 
+## Hub DOCX Brand Kit parity — Project B1 (2026-08-27)
+
+- [x] Minutes + election ballot DOCX: Brand Kit headline/body font names, primary colour on title, optional PNG logo, EN/FR fixed labels
+- [x] Wired `MinutesDetail` (client Brand Kit) and ballot API route (server `DEFAULT_BRAND_KIT`)
+- [x] Unit tests: `export-docx.test.ts`, `export-ballot.test.ts`; What's new `hub-docx-brand-kit` (hub audience)
+- [x] Engines doc: B1 checklist marked done; legacy docxtemplater remains samples/tests
+- Verify: `npm run test:unit -- src/lib/minutes/export-docx.test.ts src/lib/elections/export-ballot.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Future goal note — PDF + Word engines (2026-08-27)
 
 - [x] Parked review: Brand Kit typefaces stay out of text PDFs (Helvetica + mark PNG); full checklist for a text-PDF engine + Word/doc expansion in `docs/audit/future-pdf-and-docx-engines-2026-08.md`

@@ -24,6 +24,19 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "hub-docx-brand-kit",
+    date: "2026-08-27",
+    kind: "improved",
+    audience: "hub",
+    href: "/app/minutes",
+  },
+  {
+    id: "guide-pdf-brand-fonts",
+    date: "2026-08-27",
+    kind: "improved",
+    href: "/guide/officer-learning",
+  },
+  {
     id: "logo-on-brand-fills",
     date: "2026-08-27",
     kind: "improved",

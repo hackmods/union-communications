@@ -6687,6 +6687,14 @@
         "title": "Branded pocket sheets and learning printouts",
         "body": "Officer Learning sheets, bylaws checklists, certificates, and steward workspace PDFs now carry the UnionOps mark so floor printouts look like yours — not a blank Helvetica dump."
       },
+      "hub-docx-brand-kit": {
+        "title": "Minutes and ballot exports use Brand Kit",
+        "body": "Meeting minutes and election ballot Word exports now pick up your Brand Kit typefaces, primary colour, and logo when you download from the Officer Hub."
+      },
+      "guide-pdf-brand-fonts": {
+        "title": "Pocket sheets use your Brand Kit typefaces",
+        "body": "Officer Learning and bylaws PDFs now pull headline and body fonts from Brand Kit, follow English or French from the site language, and keep the UnionOps mark on every page."
+      },
       "logo-on-brand-fills": {
         "title": "Logos stay readable on brand-coloured backgrounds",
         "body": "Meeting backgrounds and other canvas tools keep your mark readable on coral, gold, or other Brand Kit fills — official Looks use the matching plate lockup; your uploaded logo sits on a white card so every colour stays visible."
