@@ -57,6 +57,42 @@ Pulse Poll PNG/PDF fidelity remains skipped when Officer Hub is not public (anon
 
 ---
 
+## Guides (`/guide/**`) — added 2026-08-27
+
+**Layout:** `GuideLayout` default `readWide` (`max-w-7xl`) + sticky TOC sidebar @ lg+ for playbook tier. Prose stays `max-w-prose` inside article.
+
+| Route tier | 375 | 768 | 1280 | 1536 | Notes |
+|------------|-----|-----|------|------|-------|
+| `/guide` index | ✅ | ✅ | ✅ | ✅ | `wide` hub — unchanged |
+| Playbook (8 routes) | ✅ | ✅ | ✅ | ✅ | TOC rail + mobile `<details>` |
+| Gold / channel guides | ✅ | ✅ | ⚠️ | ⚠️ | `readWide` frame; TOC opt-in later |
+| Officer Learning | ✅ | ✅ | ✅ | ✅ | Dark shell + ModuleViewer grid |
+
+See [`public-space-composition-audit-2026-08.md`](public-space-composition-audit-2026-08.md) for Hub/Portal matrix.
+
+---
+
+## Hub mobile (`/app/**`) — added 2026-08-27
+
+Covered in [`e2e/hub.mobile.spec.ts`](../../e2e/hub.mobile.spec.ts): grievances, bumping, time, audit, handoff, officers, minutes.
+
+| Module | @mobile overflow | Status |
+|--------|------------------|--------|
+| grievances / bumping / time | ✅ | UI-002 |
+| audit / handoff / officers / minutes | ✅ | UI-006 |
+| discussions / tasks / checkins / documents / marketplace / snippets / hybrid / meetings / committees / overdue | ⚠️ | UI-010 — tests added 2026-08-27 |
+
+---
+
+## Portal mobile — added 2026-08-27
+
+| Route | @mobile overflow | Status |
+|-------|------------------|--------|
+| Together | ✅ | [`e2e/portal.mobile.spec.ts`](../../e2e/portal.mobile.spec.ts) |
+| Hall / Bulletin | ✅ | Same spec |
+
+---
+
 ## Launch checklist (manual)
 
 1. Browser-resize spot-check any **⚠️** row above at real widths.
@@ -69,5 +105,6 @@ Pulse Poll PNG/PDF fidelity remains skipped when Officer Hub is not public (anon
 ## Related
 
 - [`public-tools-parity-audit-2026-08-25.md`](public-tools-parity-audit-2026-08-25.md)
+- [`public-space-composition-audit-2026-08.md`](public-space-composition-audit-2026-08.md)
 - [`session-knowledge-2026-08-25-public-tools-parity.md`](session-knowledge-2026-08-25-public-tools-parity.md)
 - [`session-knowledge-2026-08-25-comms-relaunch-hardening.md`](session-knowledge-2026-08-25-comms-relaunch-hardening.md)

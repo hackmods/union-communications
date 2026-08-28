@@ -64,7 +64,7 @@ export default async function GuidePage({
 
   return (
     <GuideLayout
-      size="wide"
+      preset="hub"
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}

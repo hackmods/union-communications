@@ -112,11 +112,19 @@ export default async function Steward101GuidePage({
     summary: t(`modules.${key}.summary`),
   }));
 
+  const tocItems = TOC.map(([id, key]) => ({
+    id,
+    label: t(`${key}.navLabel`),
+  }));
+
   return (
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      preset="playbook"
+      toc={tocItems}
+      tocLabel={t("tocLabel")}
       relatedLabel={t("relatedLabel")}
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
@@ -161,18 +169,6 @@ export default async function Steward101GuidePage({
         timeBudgetBody={t("modules.timeBudget.body")}
         modules={moduleNavItems}
       />
-
-      <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
-        {TOC.map(([id, key]) => (
-          <a
-            key={id}
-            href={`#${id}`}
-            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
-          >
-            {t(`${key}.navLabel`)}
-          </a>
-        ))}
-      </nav>
 
       <GuideTrainingPhase
         id={PHASE_IDS.orient}

@@ -1,5 +1,14 @@
 # Progress Log
 
+## UX uplift — flexible guide layout + space audit (2026-08-27)
+
+- [x] **UI-007:** Master audit [`public-space-composition-audit-2026-08.md`](audit/public-space-composition-audit-2026-08.md) + four-width matrix guides/hub/portal sections
+- [x] **UI-008:** `readWide` shell, `page-composition.ts`, `ComposedPageLayout`, `GuideLayout` presets (`narrow` | `playbook` | `hub`); playbook tier TOC @ lg+; default `narrow` for channel/legal
+- [x] **UI-010:** Hub `@mobile` overflow extended; `e2e/portal.mobile.spec.ts`
+- [x] **UI-011:** `ModuleToc` → shared `GuideToc` (dark variant)
+- [x] What's new `guide-playbook-layout`; execution-backlog UI-007–011 + COPY-006
+- Verify: `npm run test:unit -- src/lib/constants/page-composition.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Office DOCX B2 + B3 — worksheet Word + OOXML font embed (2026-08-27)
 
 - [x] **B3:** `ooxml-font-embed.ts` — obfuscated TTF parts in DOCX/PPTX + OFL `NOTICE.txt`; wired through `renderDocxFromPreset` / `renderPptx`; `collectOfficeEmbedTtfFiles` in `canvas-fonts.ts`

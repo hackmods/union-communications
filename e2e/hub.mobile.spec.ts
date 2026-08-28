@@ -142,4 +142,67 @@ test.describe("Hub dashboards mobile @smoke @mobile", () => {
     await expect(page).toHaveURL(/\/en\/app\/calendar\/?/);
     await expect(page.getByTestId("hub-nav-drawer")).toHaveCount(0);
   });
+
+  const overflowPages: { path: string; heading: RegExp; label: string }[] = [
+    {
+      label: "discussions",
+      path: "/en/app/discussions",
+      heading: /Discussions/i,
+    },
+    {
+      label: "tasks",
+      path: "/en/app/tasks",
+      heading: /Task board|Tableau des tâches/i,
+    },
+    {
+      label: "checkins",
+      path: "/en/app/checkins",
+      heading: /Check-ins|Points de suivi/i,
+    },
+    {
+      label: "documents",
+      path: "/en/app/documents",
+      heading: /Local documents|Documents locaux/i,
+    },
+    {
+      label: "marketplace",
+      path: "/en/app/marketplace",
+      heading: /Union template marketplace|Marché de modèles syndicaux/i,
+    },
+    {
+      label: "snippets",
+      path: "/en/app/snippets",
+      heading: /CA clause snippets|Extraits de clauses CA/i,
+    },
+    {
+      label: "hybrid",
+      path: "/en/app/hybrid",
+      heading: /Hybrid data mode|Mode de donn/i,
+    },
+    {
+      label: "meetings",
+      path: "/en/app/meetings",
+      heading: /Meeting schedule|Horaire des assembl/i,
+    },
+    {
+      label: "committees",
+      path: "/en/app/committees",
+      heading: /Committees|Comit/i,
+    },
+    {
+      label: "overdue",
+      path: "/en/app/overdue",
+      heading: /Overdue dashboard|Tableau des retards/i,
+    },
+  ];
+
+  for (const { path, heading, label } of overflowPages) {
+    test(`${label} has no horizontal overflow`, async ({ page }) => {
+      await page.goto(path);
+      await expect(
+        page.getByRole("heading", { level: 1, name: heading }),
+      ).toBeVisible({ timeout: 20_000 });
+      await assertNoHorizontalOverflow(page);
+    });
+  }
 });

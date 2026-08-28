@@ -17,8 +17,10 @@ export const PAGE_SHELL = {
   chrome: "mx-auto max-w-[100rem] px-4 sm:px-6 xl:px-8",
   /** Home, examples, multi-panel tools / workspaces — default wide content */
   wide: "mx-auto max-w-[90rem] px-4 sm:px-6 xl:px-8",
-  /** Guides, privacy, long-form reading */
+  /** Guides, privacy, long-form reading (narrow pamphlet / legal) */
   read: "mx-auto max-w-3xl px-4 sm:px-6",
+  /** Guide chapters with lg+ TOC sidebar — wide frame, constrained prose inside */
+  readWide: "mx-auto max-w-7xl px-4 sm:px-6 lg:px-8",
   /** Manifesto, public auth-adjacent forms, focused single-column */
   focus: "mx-auto max-w-2xl px-4 sm:px-6",
   /** Hub forms inside `wide` layout — no extra horizontal padding */

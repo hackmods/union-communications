@@ -6438,6 +6438,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "guide-playbook-layout": {
+        "title": "Tutoriels syndicaux — plus faciles à lire sur ordinateur",
+        "body": "Les tutoriels syndicaux affichent maintenant une table des matières latérale sur grand écran pour sauter d'une section à l'autre. Sur téléphone, la mise en page reste la même."
+      },
       "workplace-mapping-guide": {
         "title": "Cartographie du lieu de travail et leaders organiques",
         "body": "Recensez chaque collègue par service et quart, trouvez les leaders organiques et cotez l'appui de 1 à 5. Servez-vous de l'exemple de tableau mural, des conversations individuelles, et d'un tableur sur un appareil personnel."

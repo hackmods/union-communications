@@ -1,6 +1,6 @@
 ---
 description: Thoughtful responsive layouts — shell alignment + per-breakpoint composition
-globs: src/app/**/*.tsx,src/components/**/*.tsx,src/app/globals.css,src/lib/constants/page-shell.ts,src/components/comms/GuideLayout.tsx
+globs: src/app/**/*.tsx,src/components/**/*.tsx,src/app/globals.css,src/lib/constants/page-shell.ts,src/lib/constants/page-composition.ts,src/components/comms/GuideLayout.tsx,src/components/layout/ComposedPageLayout.tsx
 alwaysApply: false
 ---
 
@@ -23,7 +23,8 @@ Use [`PageShell`](src/components/layout/PageShell.tsx) / [`PAGE_SHELL`](src/lib/
 |------|--------|-----|
 | `chrome` | `max-w-[100rem]` (~1600px) | Header, footer, hub nav/banner only |
 | `wide` | `max-w-[90rem]` (~1440px) | Home, examples, multi-panel tools/workspaces, guide indexes (default) |
-| `read` | `max-w-3xl` | Guide chapters, privacy, long-form → prefer [`GuideLayout`](src/components/comms/GuideLayout.tsx) |
+| `read` | `max-w-3xl` | Narrow pamphlet / legal / channel guides → `GuideLayout preset="narrow"` |
+| `readWide` | `max-w-7xl` | Playbook chapters with lg+ TOC rail — `GuideLayout preset="playbook"` |
 | `focus` | `max-w-2xl` | Manifesto, public forms — **not** multi-panel workspaces |
 | `nestedFocus` | `max-w-2xl` (no extra px) | Hub forms already inside `/app` `wide` (forgot/reset/invite) |
 | `nestedAuth` | `max-w-md` (no extra px) | Hub login / MFA |
@@ -31,10 +32,26 @@ Use [`PageShell`](src/components/layout/PageShell.tsx) / [`PAGE_SHELL`](src/lib/
 
 Chrome and wide use `px-4 sm:px-6 xl:px-8`. Nested Hub tiers omit horizontal padding so they do not double-pad inside `PAGE_SHELL.wide`. After picking a shell, compose with grids/columns at `lg`/`xl`/`2xl` — do not leave a sparse single column on a 90rem shell (Brand Kit is the reference **workspace** pattern; Home marketing follows [`public-marketing-ux.mdc`](public-marketing-ux.mdc)).
 
+## Composition patterns (shell ≠ layout)
+
+Shell width and **composition** are separate. Use [`page-composition.ts`](src/lib/constants/page-composition.ts) presets — do not force one pattern on all guides or tools.
+
+| Pattern | Primitive | Typical use |
+|---------|-----------|-------------|
+| `narrow` | [`GuideLayout`](src/components/comms/GuideLayout.tsx) `preset="narrow"` | Channel guides, privacy, legal |
+| `sidebar-left` | `GuideLayout preset="playbook"` or [`ComposedPageLayout`](src/components/layout/ComposedPageLayout.tsx) | Playbook TOC rail; `/tools` start-here (custom page) |
+| `hub` | `GuideLayout preset="hub"` | `/guide` index, resources hub |
+| `workspace` | [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) | Canvas tools — **not** GuideLayout |
+| `sidebar-right` | `ComposedPageLayout composition="sidebar-right"` | Escape hatch (help rail, notes) |
+
+**Guides:** default `preset="narrow"`. Playbooks opt into `preset="playbook"` + `toc`. **Tools:** catalog composes its own wide page; editors use ToolEditorLayout. **Officer Learning:** dark shell exception; shares [`GuideToc`](src/components/comms/GuideToc.tsx) via `ModuleToc`.
+
+Mobile TOC/details placement stays **in-page** (after header) — area-specific order varies; desktop rail is lg+ only via `ComposedPageLayout`.
+
 ## Reference compositions
 
 - **Home** — see [`public-marketing-ux.mdc`](public-marketing-ux.mdc). Short form: at `lg+`, two-zone hero inside `wide` (message + secondary visual earning ≥~40% of content width); body keeps trust `Callout`, Brand Kit link row, denser channel lists. Full-bleed gradient alone is atmosphere, not a secondary zone. Docs saying “landing shipped” do **not** freeze a layout that fails the empty-half / unfinished-mock test.
-- **Guides** — `GuideLayout`: related links as a compact nav row (never a fat empty tinted card); steps/sections with left accent or markers; optional horizontal step progress (see social-media-plan). Guide **index** (`/guide`) uses `GuideLayout size="wide"` with a path grid + two-column chapters
+- **Guides** — `GuideLayout`: `preset="narrow"` | `playbook` | `hub`; related links as compact row on narrow presets; playbook lg+ TOC sidebar. Guide **index** uses `preset="hub"`.
 - **Tools** — canvas tools use [`ToolEditorLayout`](src/components/tools/ToolEditorLayout.tsx) — see [`tool-editor-ux.mdc`](tool-editor-ux.mdc) for editor chrome + face uplift
 - **Brand Kit / workspaces** — `PageShell` **wide** with paired panels at `lg+`; utility actions near the heading
 - **Hub auth** — `nestedAuth` / `nestedFocus` inside app layout — never a second `focus` shell with its own `px-*`

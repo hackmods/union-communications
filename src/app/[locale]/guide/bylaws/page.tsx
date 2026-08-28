@@ -82,11 +82,19 @@ export default async function BylawsGuidePage({
   const nav = await getTranslations("nav");
   const ts = await getTranslations("sources");
 
+  const tocItems = TOC.map(([id, key]) => ({
+    id,
+    label: t(`${key}.navLabel`),
+  }));
+
   return (
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      preset="playbook"
+      toc={tocItems}
+      tocLabel={t("tocLabel")}
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
@@ -113,18 +121,6 @@ export default async function BylawsGuidePage({
         slug="democratic-governance"
         moduleNumber={4}
       />
-
-      <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
-        {TOC.map(([id, key]) => (
-          <a
-            key={id}
-            href={`#${id}`}
-            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
-          >
-            {t(`${key}.navLabel`)}
-          </a>
-        ))}
-      </nav>
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
         <DocumentHierarchyDiagram

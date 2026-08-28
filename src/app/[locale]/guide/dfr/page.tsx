@@ -66,11 +66,19 @@ export default async function DfrGuidePage({
   const t = await getTranslations("dfrGuide");
   const ts = await getTranslations("sources");
 
+  const tocItems = TOC.map(([id, key]) => ({
+    id,
+    label: t(`${key}.navLabel`),
+  }));
+
   return (
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      preset="playbook"
+      toc={tocItems}
+      tocLabel={t("tocLabel")}
       relatedLinks={[
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
@@ -92,18 +100,6 @@ export default async function DfrGuidePage({
       </Callout>
 
       <OfficerLearningModuleCallout slug="contract-enforcement" moduleNumber={1} />
-
-      <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
-        {TOC.map(([id, key]) => (
-          <a
-            key={id}
-            href={`#${id}`}
-            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
-          >
-            {t(`${key}.navLabel`)}
-          </a>
-        ))}
-      </nav>
 
       <GuideSection id="gate" title={t("gate.title")} intro={t("gate.intro")}>
         <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">

@@ -6488,6 +6488,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "guide-playbook-layout": {
+        "title": "Steward playbooks — easier to read on desktop",
+        "body": "Labour playbooks now use a sidebar table of contents on wider screens so you can jump sections without losing your place. Phone layout stays the same."
+      },
       "workplace-mapping-guide": {
         "title": "Workplace mapping and organic leaders",
         "body": "Chart every coworker by department and shift, find organic leaders, and score support from 1 to 5. Use the sample wall chart, 1-on-1s, and a spreadsheet on a personal device."

@@ -79,11 +79,19 @@ export default async function StewardPlaybooksPage({
   const ts = await getTranslations("sources");
   const pathSteps = t.raw("pathSteps") as Parameters<typeof TrainingPathDiagram>[0]["steps"];
 
+  const tocItems = TOC.map(([id, key]) => ({
+    id,
+    label: t(`sections.${key}`),
+  }));
+
   return (
     <GuideLayout
       title={t("title")}
       subtitle={t("subtitle")}
       intro={t("intro")}
+      preset="playbook"
+      toc={tocItems}
+      tocLabel={t("tocLabel")}
       relatedLinks={[
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/officer-learning", label: t("links.officerLearning") },
@@ -97,18 +105,6 @@ export default async function StewardPlaybooksPage({
         />
       }
     >
-      <nav className="mb-8 flex flex-wrap gap-2" aria-label={t("tocLabel")}>
-        {TOC.map(([id, key]) => (
-          <a
-            key={id}
-            href={`#${id}`}
-            className="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-opseu-dark transition-colors hover:border-opseu-blue/40 hover:bg-opseu-blue/5"
-          >
-            {t(`sections.${key}`)}
-          </a>
-        ))}
-      </nav>
-
       <section id="trainingPath" className="scroll-mt-28">
         <Callout className="mb-8 max-w-3xl">
           <p className="font-semibold text-opseu-dark">{t("trainingPath.title")}</p>

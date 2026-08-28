@@ -384,6 +384,48 @@ Generated 2026-07-22 from a four-domain codebase audit (see `executive-summary.m
 5. Extend `e2e/hub.mobile.spec.ts` with `@mobile` no-overflow (+ optional axe) for `/app/audit`, `/app/handoff`, and at least two org routes (e.g. `/app/officers`, `/app/minutes`).
 6. Update `docs/PROGRESS.md`; mark this ticket Closed with commit SHA (do not delete). No union-name hardcoding; both EN/FR if any new copy is required (prefer reuse existing keys).
 
+### [UI-007] ✅ CLOSED (2026-08-27)
+**Category:** UI/Media
+**Severity/Priority:** Medium
+**Status:** Closed — Master public space & composition audit + unified four-width matrix extension ([`public-space-composition-audit-2026-08.md`](public-space-composition-audit-2026-08.md), [`comms-four-width-qa-matrix-2026-08-25.md`](comms-four-width-qa-matrix-2026-08-25.md) guides/hub/portal sections).
+**Problem/Gap Statement:** Partial audits (tools matrix, COPY-001 Home, guides content QOL) with no single ranked backlog tying public Comms, Hub/Portal, and training chrome together before platform growth.
+**Affected Architecture/Files:** `docs/audit/public-space-composition-audit-2026-08.md`, `docs/audit/comms-four-width-qa-matrix-2026-08-25.md`
+
+### [UI-008] ✅ CLOSED (2026-08-27)
+**Category:** UI/Media
+**Severity/Priority:** High
+**Status:** Closed — Flexible guide layout: `readWide` shell, `ComposedPageLayout`, `GuideLayout` presets (`narrow` | `playbook` | `hub`); playbook tier TOC sidebar @ lg+; default remains `narrow` for channel/legal guides.
+**Problem/Gap Statement:** Guide chapters used `read` (~768px) with no desktop counterweight — stretched mobile shell on wide viewports.
+**Affected Architecture/Files:** `src/lib/constants/page-shell.ts`, `src/lib/constants/page-composition.ts`, `src/components/layout/ComposedPageLayout.tsx`, `src/components/comms/GuideLayout.tsx`, `src/components/comms/GuideToc.tsx`, playbook `/guide/**` pages, `.cursor/rules/responsive-layouts.mdc`
+
+### [UI-009] Open (P2)
+**Category:** UI/Media
+**Severity/Priority:** Low
+**Status:** Open — `/tools` catalog optional secondary visual band @ 1280+ (Start-here sidebar shipped Wave 3; marketing composition polish only).
+**Affected Architecture/Files:** `src/app/[locale]/tools/page.tsx`
+
+### [UI-010] ✅ CLOSED (2026-08-27)
+**Category:** UI/Media
+**Severity/Priority:** Medium
+**Status:** Closed — Extended `e2e/hub.mobile.spec.ts` overflow matrix (discussions, tasks, checkins, documents, marketplace, snippets, hybrid, meetings, committees, overdue); added `e2e/portal.mobile.spec.ts` (Together, Hall, Bulletin).
+**Problem/Gap Statement:** Hub mobile coverage stopped at UI-006 modules; Portal had smoke but no `@mobile` overflow matrix.
+
+### [UI-011] ✅ CLOSED (2026-08-27)
+**Category:** UI/Media
+**Severity/Priority:** Low
+**Status:** Closed — Officer Learning `ModuleToc` delegates to shared `GuideToc` (`variant="dark"`); dark classroom shell unchanged.
+**Affected Architecture/Files:** `src/components/officer-learning/ModuleToc.tsx`, `src/components/comms/GuideToc.tsx`
+
+---
+
+## COPY (`COPY-`)
+
+### [COPY-006] Open (P3 — demand-driven)
+**Category:** Copy
+**Severity/Priority:** Low
+**Status:** Open — Guide copy depth for channel-tier print/email only when stewards request via feedback/workshops. P0–P3 rewrite queue closed 2026-08-24; do not bulk-reopen.
+**Affected Architecture/Files:** `messages/en.json`, `messages/fr.json`, `docs/audit/guides-qol-2026-08.md`
+
 ---
 
 ## COMMS TOOLS (`TOOL-`)
