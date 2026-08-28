@@ -108,6 +108,77 @@ describe("office-export", () => {
     expect(blob.size).toBeGreaterThan(8000);
   });
 
+  it("renderDocxFromPreset seniority-worksheet succeeds", async () => {
+    const blob = await renderDocxFromPreset({
+      presetId: "seniority-worksheet",
+      palette: {
+        primary: "#003366",
+        secondary: "#001a33",
+        accent: "#c45c26",
+      },
+      localLabel: "Local 110",
+      localNumber: "110",
+      fields: {
+        sessionDate: "2026-07-26",
+        chair: "Alex",
+        caseId: "bump-1",
+        committeeNotes: "Aid only",
+      },
+      seniorityLabels: {
+        sheetName: "Seniority",
+        title: "Seniority & bumping worksheet",
+        local: "Local",
+        sessionDate: "Session date",
+        chair: "Chair",
+        caseId: "Case ID",
+        notes: "Notes",
+        disclaimer: "Aid only",
+        columns: ["Member ref", "Eligible?"],
+        footerDecision: "Decision summary",
+      },
+    });
+    expect(blob.size).toBeGreaterThan(8000);
+  });
+
+  it("renderDocxFromPreset grievance-intake succeeds", async () => {
+    const blob = await renderDocxFromPreset({
+      presetId: "grievance-intake",
+      palette: {
+        primary: "#003366",
+        secondary: "#001a33",
+        accent: "#c45c26",
+      },
+      localLabel: "Local 110",
+      localNumber: "110",
+      fields: {
+        incidentDate: "2026-08-26",
+        caArticle: "Art. 7",
+        who: "",
+      },
+      grievanceLabels: {
+        sheetName: "Intake",
+        title: "Grievance intake (6 W's)",
+        local: "Local",
+        incidentDate: "Incident date",
+        caArticle: "CA article",
+        itemCol: "Item",
+        notesCol: "Notes",
+        witnesses: "Witnesses",
+        clockNotes: "Clock notes",
+        disclaimer: "Aid only",
+        rows: {
+          who: "Who",
+          what: "What",
+          where: "Where",
+          when: "When",
+          why: "Why",
+          want: "Want",
+        },
+      },
+    });
+    expect(blob.size).toBeGreaterThan(8000);
+  });
+
   it(
     "renderEventRsvpXlsx builds a Brand Kit workbook with response columns",
     async () => {

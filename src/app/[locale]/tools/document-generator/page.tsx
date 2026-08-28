@@ -162,7 +162,26 @@ function DocumentGeneratorPageContent() {
     return {
       headlineFont: officeHeadlineFont,
       bodyFont: officeBodyFont,
+      headlineFontId: canvasTokens.headlineFontId,
+      bodyFontId: canvasTokens.bodyFontId,
     };
+  }
+
+  function worksheetDocxExtras() {
+    const local = resolveLocalNumber(localNumber);
+    if (state.presetId === "seniority-worksheet") {
+      return {
+        localNumber: local,
+        seniorityLabels: seniorityLabels(),
+      };
+    }
+    if (state.presetId === "grievance-intake") {
+      return {
+        localNumber: local,
+        grievanceLabels: grievanceIntakeLabels(),
+      };
+    }
+    return {};
   }
 
   function seniorityLabels(): SeniorityWorksheetLabels {
@@ -287,6 +306,7 @@ function DocumentGeneratorPageContent() {
         fields,
         logo,
         ...officeFontOpts(),
+        ...worksheetDocxExtras(),
         filename: formatFilename(preset.fileStem, localNumber, "docx"),
       });
     });
@@ -414,6 +434,7 @@ function DocumentGeneratorPageContent() {
             fields,
             logo,
             ...officeFontOpts(),
+            ...worksheetDocxExtras(),
           }),
         });
       }

@@ -33,9 +33,9 @@ export type DocxBuildInput = {
   localLabel: string;
   fields: Record<string, string>;
   logo?: BrandLogoBytes | null;
-  /** Office face name for titles (Brand Kit headline). Not embedded in the file. */
+  /** Office face name for titles (Brand Kit headline). Binary TTF embed applied post-build. */
   headlineFont?: string;
-  /** Office face name for body copy (Brand Kit body). Not embedded in the file. */
+  /** Office face name for body copy (Brand Kit body). Binary TTF embed applied post-build. */
   bodyFont?: string;
 };
 
@@ -755,6 +755,373 @@ export async function buildEventNoticeDocx(
         }),
       ],
     }),
+  ];
+
+  return Packer.toBlob(baseDocument(opts, children));
+}
+
+const SENIORITY_DOCX_ROW_COUNT = 12;
+
+function worksheetCell(
+  text: string,
+  opts: {
+    bold?: boolean;
+    fill?: string;
+    ink?: string;
+    font: string;
+    width: number;
+  },
+): TableCell {
+  return new TableCell({
+    width: { size: opts.width, type: WidthType.DXA },
+    shading: opts.fill
+      ? { type: ShadingType.CLEAR, fill: opts.fill }
+      : undefined,
+    borders: {
+      top: { style: BorderStyle.SINGLE, size: 4, color: "CCCCCC" },
+      bottom: { style: BorderStyle.SINGLE, size: 4, color: "CCCCCC" },
+      left: { style: BorderStyle.SINGLE, size: 4, color: "CCCCCC" },
+      right: { style: BorderStyle.SINGLE, size: 4, color: "CCCCCC" },
+    },
+    children: [
+      new Paragraph({
+        spacing: { before: 40, after: 40 },
+        children: [
+          new TextRun({
+            text: text || " ",
+            bold: opts.bold,
+            color: opts.ink,
+            font: opts.font,
+            size: opts.bold ? 16 : 18,
+          }),
+        ],
+      }),
+    ],
+  });
+}
+
+export type SeniorityWorksheetDocxInput = DocxBuildInput & {
+  localNumber: string;
+  labels: {
+    title: string;
+    local: string;
+    sessionDate: string;
+    chair: string;
+    caseId: string;
+    notes: string;
+    disclaimer: string;
+    columns: readonly string[];
+    footerDecision: string;
+  };
+};
+
+/** Branded seniority / bumping worksheet (Word table — aid only, not a calculator). */
+export async function buildSeniorityWorksheetDocx(
+  opts: SeniorityWorksheetDocxInput,
+): Promise<Blob> {
+  const primary = hexNoHash(opts.palette.primary);
+  const ink = hexNoHash(pickContrastingInk(opts.palette.primary));
+  const hFont = headlineFace(opts);
+  const bFont = bodyFace(opts);
+  const colCount = opts.labels.columns.length;
+  const colW = Math.floor(9360 / colCount);
+
+  const metaRows: (Paragraph | Table)[] = [
+    new Paragraph({
+      spacing: { after: 120 },
+      children: [
+        new TextRun({
+          text: opts.labels.title,
+          bold: true,
+          font: hFont,
+          size: 32,
+          color: hexNoHash(opts.palette.secondary),
+        }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 60 },
+      children: [
+        new TextRun({
+          text: `${opts.labels.local}: ${opts.localNumber}`,
+          font: bFont,
+          size: 20,
+        }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 40 },
+      children: [
+        new TextRun({
+          text: `${opts.labels.sessionDate}: ${opts.fields.sessionDate ?? ""}`,
+          font: bFont,
+          size: 20,
+        }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 40 },
+      children: [
+        new TextRun({
+          text: `${opts.labels.chair}: ${opts.fields.chair ?? ""}`,
+          font: bFont,
+          size: 20,
+        }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 40 },
+      children: [
+        new TextRun({
+          text: `${opts.labels.caseId}: ${opts.fields.caseId ?? ""}`,
+          font: bFont,
+          size: 20,
+        }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 40 },
+      children: [
+        new TextRun({
+          text: `${opts.labels.notes}: ${opts.fields.committeeNotes ?? ""}`,
+          font: bFont,
+          size: 20,
+        }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 160 },
+      children: [
+        new TextRun({
+          text: opts.labels.disclaimer,
+          italics: true,
+          color: "666666",
+          font: bFont,
+          size: 16,
+        }),
+      ],
+    }),
+  ];
+
+  const headerRow = new TableRow({
+    children: opts.labels.columns.map((label) =>
+      worksheetCell(label, {
+        bold: true,
+        fill: primary,
+        ink,
+        font: hFont,
+        width: colW,
+      }),
+    ),
+  });
+
+  const blankRows = Array.from({ length: SENIORITY_DOCX_ROW_COUNT }, () =>
+    new TableRow({
+      children: opts.labels.columns.map(() =>
+        worksheetCell("", { font: bFont, width: colW }),
+      ),
+    }),
+  );
+
+  const grid = new Table({
+    width: { size: 9360, type: WidthType.DXA },
+    rows: [headerRow, ...blankRows],
+  });
+
+  const children: (Paragraph | Table)[] = [
+    ...metaRows,
+    grid,
+    new Paragraph({
+      spacing: { before: 240, after: 80 },
+      children: [
+        new TextRun({
+          text: opts.labels.footerDecision,
+          bold: true,
+          font: bFont,
+          size: 20,
+        }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 200 },
+      border: {
+        bottom: {
+          style: BorderStyle.SINGLE,
+          size: 6,
+          color: "CCCCCC",
+          space: 1,
+        },
+      },
+      children: [],
+    }),
+  ];
+
+  return Packer.toBlob(baseDocument(opts, children));
+}
+
+const INTAKE_W_KEYS = [
+  "who",
+  "what",
+  "where",
+  "when",
+  "why",
+  "want",
+] as const;
+
+export type GrievanceIntakeDocxInput = DocxBuildInput & {
+  localNumber: string;
+  labels: {
+    title: string;
+    local: string;
+    incidentDate: string;
+    caArticle: string;
+    itemCol: string;
+    notesCol: string;
+    witnesses: string;
+    clockNotes: string;
+    disclaimer: string;
+    rows: Record<(typeof INTAKE_W_KEYS)[number], string>;
+  };
+};
+
+/** Branded 6 W's grievance intake worksheet (Word table). */
+export async function buildGrievanceIntakeDocx(
+  opts: GrievanceIntakeDocxInput,
+): Promise<Blob> {
+  const primary = hexNoHash(opts.palette.primary);
+  const ink = hexNoHash(pickContrastingInk(opts.palette.primary));
+  const hFont = headlineFace(opts);
+  const bFont = bodyFace(opts);
+  const colW = [2200, 7160] as const;
+
+  const headerRow = new TableRow({
+    children: [
+      worksheetCell(opts.labels.itemCol, {
+        bold: true,
+        fill: "E8EEF4",
+        font: hFont,
+        width: colW[0],
+      }),
+      worksheetCell(opts.labels.notesCol, {
+        bold: true,
+        fill: "E8EEF4",
+        font: hFont,
+        width: colW[1],
+      }),
+    ],
+  });
+
+  const wRows = INTAKE_W_KEYS.map(
+    (key) =>
+      new TableRow({
+        children: [
+          worksheetCell(opts.labels.rows[key], {
+            bold: true,
+            font: bFont,
+            width: colW[0],
+          }),
+          worksheetCell(opts.fields[key] ?? "", {
+            font: bFont,
+            width: colW[1],
+          }),
+        ],
+      }),
+  );
+
+  const extraRows = [
+    new TableRow({
+      children: [
+        worksheetCell(opts.labels.witnesses, {
+          bold: true,
+          fill: primary,
+          ink,
+          font: bFont,
+          width: colW[0],
+        }),
+        worksheetCell(opts.fields.witnesses ?? "", {
+          font: bFont,
+          width: colW[1],
+        }),
+      ],
+    }),
+    new TableRow({
+      children: [
+        worksheetCell(opts.labels.clockNotes, {
+          bold: true,
+          fill: primary,
+          ink,
+          font: bFont,
+          width: colW[0],
+        }),
+        worksheetCell(opts.fields.clockNotes ?? "", {
+          font: bFont,
+          width: colW[1],
+        }),
+      ],
+    }),
+  ];
+
+  const table = new Table({
+    width: { size: 9360, type: WidthType.DXA },
+    rows: [headerRow, ...wRows, ...extraRows],
+  });
+
+  const children: (Paragraph | Table)[] = [
+    new Paragraph({
+      spacing: { after: 120 },
+      children: [
+        new TextRun({
+          text: opts.labels.title,
+          bold: true,
+          font: hFont,
+          size: 32,
+          color: hexNoHash(opts.palette.secondary),
+        }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 60 },
+      children: [
+        new TextRun({
+          text: `${opts.labels.local}: ${opts.localNumber}`,
+          font: bFont,
+          size: 20,
+        }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 40 },
+      children: [
+        new TextRun({
+          text: `${opts.labels.incidentDate}: ${opts.fields.incidentDate ?? ""}`,
+          font: bFont,
+          size: 20,
+        }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 40 },
+      children: [
+        new TextRun({
+          text: `${opts.labels.caArticle}: ${opts.fields.caArticle ?? ""}`,
+          font: bFont,
+          size: 20,
+        }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 160 },
+      children: [
+        new TextRun({
+          text: opts.labels.disclaimer,
+          italics: true,
+          color: "666666",
+          font: bFont,
+          size: 16,
+        }),
+      ],
+    }),
+    table,
   ];
 
   return Packer.toBlob(baseDocument(opts, children));

@@ -1,5 +1,13 @@
 # Progress Log
 
+## Office DOCX B2 + B3 — worksheet Word + OOXML font embed (2026-08-27)
+
+- [x] **B3:** `ooxml-font-embed.ts` — obfuscated TTF parts in DOCX/PPTX + OFL `NOTICE.txt`; wired through `renderDocxFromPreset` / `renderPptx`; `collectOfficeEmbedTtfFiles` in `canvas-fonts.ts`
+- [x] **B2:** Word presets for `seniority-worksheet` and `grievance-intake` (`buildSeniorityWorksheetDocx`, `buildGrievanceIntakeDocx`); Document Generator UI + EN/FR structure keys
+- [x] Unit tests: `ooxml-font-embed.test.ts`, extended `office-export.test.ts`; What's new `office-worksheet-docx`
+- [x] Future engines doc + parked followups updated (B2/B3 shipped; OOXML embed lifted from non-goals)
+- Verify: `npm run test:unit -- src/lib/export/ooxml-font-embed.test.ts src/lib/export/office-export.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`
+
 ## Hub DOCX Brand Kit parity — Project B1 (2026-08-27)
 
 - [x] Minutes + election ballot DOCX: Brand Kit headline/body font names, primary colour on title, optional PNG logo, EN/FR fixed labels

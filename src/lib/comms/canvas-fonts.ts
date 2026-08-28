@@ -197,6 +197,13 @@ export type CanvasFontZipFile = {
   weight: number;
 };
 
+export type OfficeEmbedTtfFile = {
+  fontId: Exclude<CanvasFontId, "systemSans" | "systemSerif">;
+  relativePath: string;
+  family: string;
+  weight: number;
+};
+
 /**
  * CSS `font-family` stack using the real face name (Website ZIP / preview).
  * App canvases keep using `canvasFontFamily` (CSS variables).
@@ -213,8 +220,8 @@ export function canvasFontCssFamily(id: CanvasFontId): string {
 }
 
 /**
- * Office `font` / `fontFace` string. Name-only — files are not embedded in DOCX/PPTX.
- * System residual maps to widely installed Arial / Georgia.
+ * Office `font` / `fontFace` string. DOCX/PPTX also binary-embed OFL TTF via `ooxml-font-embed.ts`.
+ * System residual maps to widely installed Arial / Georgia (no embed).
  */
 export function canvasFontOfficeName(id: CanvasFontId): string {
   if (id === "systemSans") return "Arial";
@@ -237,6 +244,36 @@ function zipFilesForRole(
       weight,
     };
   });
+}
+
+/** Short OFL notice for OOXML font folders (DOCX/PPTX binary embed). */
+export const OFFICE_FONT_NOTICE = `Canvas brand fonts (SIL Open Font License 1.1).
+Bundled Latin subset TTF files for offline Word/PowerPoint fidelity.
+See https://scripts.sil.org/OFL — do not sell the fonts alone.
+`;
+
+/** Deduped TTF subset for Office OOXML embed (headline + body weights). */
+export function collectOfficeEmbedTtfFiles(
+  headlineId: CanvasFontId,
+  bodyId: CanvasFontId,
+): OfficeEmbedTtfFile[] {
+  const byPath = new Map<string, OfficeEmbedTtfFile>();
+  const addRole = (id: CanvasFontId, role: "headline" | "body") => {
+    if (CANVAS_FONT_META[id].isSystem) return;
+    const fontId = id as Exclude<CanvasFontId, "systemSans" | "systemSerif">;
+    for (const f of zipFilesForRole(fontId, role)) {
+      const relativePath = f.relativePath.replace(/\.woff2$/, ".ttf");
+      byPath.set(relativePath, {
+        fontId,
+        relativePath,
+        family: f.family,
+        weight: f.weight,
+      });
+    }
+  };
+  addRole(headlineId, "headline");
+  addRole(bodyId, "body");
+  return [...byPath.values()];
 }
 
 /** Deduped woff2 subset for Website ZIP given Brand Kit headline + body ids. */

@@ -2418,7 +2418,9 @@
       "eventIcs": "Calendar invite (.ics) from Calendar start/end",
       "eventEmail": "Copy-only RSVP invite email (on site / remote)",
       "eventPptx": "3 PowerPoint slides",
+      "seniorityWorksheetDocx": "Seniority worksheet (Word)",
       "seniorityWorksheetXlsx": "Seniority worksheet (Excel)",
+      "grievanceIntakeDocx": "Grievance intake worksheet (Word)",
       "grievanceIntakeXlsx": "Grievance intake worksheet (Excel)",
       "lecDirectoryDocx": "Word LEC directory with Brand Kit colours and blank Position | Name | Location rows",
       "lecDirectoryXlsx": "Excel LEC directory with the same blank rows"
@@ -6686,6 +6688,10 @@
       "guide-pdf-branding": {
         "title": "Branded pocket sheets and learning printouts",
         "body": "Officer Learning sheets, bylaws checklists, certificates, and steward workspace PDFs now carry the UnionOps mark so floor printouts look like yours — not a blank Helvetica dump."
+      },
+      "office-worksheet-docx": {
+        "title": "Word worksheets for seniority and grievance intake",
+        "body": "Document Generator now exports seniority bumping and 6 W's intake sheets as branded Word files—with your Brand Kit fonts bundled so they open correctly offline."
       },
       "hub-docx-brand-kit": {
         "title": "Minutes and ballot exports use Brand Kit",

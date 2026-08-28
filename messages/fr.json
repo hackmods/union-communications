@@ -2418,7 +2418,9 @@
       "eventIcs": "Invitation calendrier (.ics) à partir du début/fin",
       "eventEmail": "Courriel d'invitation RSVP (copie seulement)",
       "eventPptx": "3 diapositives PowerPoint",
+      "seniorityWorksheetDocx": "Feuille d'ancienneté / bumping (Word)",
       "seniorityWorksheetXlsx": "Feuille d'ancienneté / bumping imprimable — lignes vides + colonne Admissible O/N/?",
+      "grievanceIntakeDocx": "Feuille d'accueil de grief (Word)",
       "grievanceIntakeXlsx": "Feuille d'accueil de grief (Excel)",
       "lecDirectoryDocx": "Répertoire CLE Word avec les couleurs de la Trousse de marque et des lignes vides Poste | Nom | Lieu",
       "lecDirectoryXlsx": "Répertoire CLE Excel avec les mêmes lignes vides"
@@ -6636,6 +6638,10 @@
       "guide-pdf-branding": {
         "title": "Fiches de poche et imprimés de formation avec la marque UnionOps",
         "body": "Les fiches de Formation des dirigeants, les listes de règlements, les certificats et les PDF d'espace délégué portent maintenant la marque UnionOps — plus un simple dump Helvetica."
+      },
+      "office-worksheet-docx": {
+        "title": "Feuilles Word pour l'ancienneté et l'accueil de grief",
+        "body": "Le Générateur de documents exporte maintenant les feuilles d'ancienneté/bumping et d'accueil (6 W) en Word avec marque — vos polices de la Trousse de marque sont incluses pour une lecture hors ligne."
       },
       "hub-docx-brand-kit": {
         "title": "Les exports de procès-verbaux et bulletins reprennent la Trousse de marque",

@@ -229,8 +229,11 @@ export const OFFICE_PRESETS: OfficePreset[] = [
     titleKey: "presets.seniorityWorksheet.title",
     blurbKey: "presets.seniorityWorksheet.blurb",
     fileStem: "seniority-worksheet",
-    outputs: { docx: false, xlsx: true, pptx: false, ics: false },
-    structureKeys: ["structure.seniorityWorksheetXlsx"],
+    outputs: { docx: true, xlsx: true, pptx: false, ics: false },
+    structureKeys: [
+      "structure.seniorityWorksheetDocx",
+      "structure.seniorityWorksheetXlsx",
+    ],
     fields: [
       {
         key: "sessionDate",
@@ -260,8 +263,11 @@ export const OFFICE_PRESETS: OfficePreset[] = [
     titleKey: "presets.grievanceIntake.title",
     blurbKey: "presets.grievanceIntake.blurb",
     fileStem: "grievance-intake",
-    outputs: { docx: false, xlsx: true, pptx: false, ics: false },
-    structureKeys: ["structure.grievanceIntakeXlsx"],
+    outputs: { docx: true, xlsx: true, pptx: false, ics: false },
+    structureKeys: [
+      "structure.grievanceIntakeDocx",
+      "structure.grievanceIntakeXlsx",
+    ],
     fields: [
       {
         key: "incidentDate",

@@ -8,11 +8,12 @@ Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-know
 | Slice | Status |
 |-------|--------|
 | Labour guides chrome (2026-08-27) | **Shipped** (`07969f1`) — not part of this engine work; Guides-nav / print-depth remain deferred |
-| Font TTF pipeline | In progress (this sequence) |
-| Project A — text PDF Brand Kit faces + FR parity | In progress (this sequence) |
-| Manual EN/FR print review | In progress (this sequence) |
-| Project B1 — Hub minutes/ballot Brand Kit DOCX | **Shipped** (this sequence) |
-| B2 presets / B3 OOXML binary embed | Still deferred |
+| Font TTF pipeline | **Shipped** (engines sequence 2026-08-27) |
+| Project A — text PDF Brand Kit faces + FR parity | **Shipped** (engines sequence 2026-08-27) |
+| Manual EN/FR print review | **Shipped** (engines sequence 2026-08-27) |
+| Project B1 — Hub minutes/ballot Brand Kit DOCX | **Shipped** (2026-08-27) |
+| B2 presets (seniority/grievance DOCX) | **Shipped** (2026-08-27) |
+| B3 OOXML binary font embed (DOCX/PPTX) | **Shipped** (2026-08-27) |
 
 ## Review — Brand Kit typefaces in text PDFs
 
@@ -74,10 +75,10 @@ Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-know
 |------------|--------|
 | DOCX/PPTX colours + PNG logo | Shipped ([`office-export.ts`](../../src/lib/export/office-export.ts), [`office-docx-builders.ts`](../../src/lib/export/office-docx-builders.ts)) |
 | Font **names** from Brand Kit catalog | Shipped (`canvasFontOfficeName`) |
-| OFL **binary** embed in OOXML | Parked ([`plan-2026-08-15-parked-followups.md`](plan-2026-08-15-parked-followups.md)) |
+| OFL **binary** embed in OOXML | **Shipped** (`ooxml-font-embed.ts`, 2026-08-27) |
 | Website ZIP woff2 embed | Shipped (pattern to reuse for NOTICE + bytes) |
 | Hub minutes / election ballot DOCX | Brand Kit fonts + palette + logo (`minutes/export-docx.ts`, `elections/export-ballot.ts`) |
-| Presets | Letters, welcome, letterhead, quick-event, lec-directory (placeholders); grievance/seniority **XLSX only** |
+| Presets | Letters, welcome, letterhead, quick-event, lec-directory (placeholders); grievance/seniority **Word + Excel** |
 
 ### Build checklist
 
@@ -90,16 +91,16 @@ Related: ADR-014 / [`session-knowledge-2026-08-15-canvas-fonts.md`](session-know
 
 **B2 — Preset / coverage growth (as product asks)**
 
-- [ ] DOCX variants for grievance intake / seniority worksheet if stewards need Word, not only Excel
+- [x] DOCX variants for grievance intake / seniority worksheet if stewards need Word, not only Excel
 - [ ] LEC directory filled from Org Chart roster (explicitly dropped once — reopen only with product ticket; see [`session-knowledge-2026-08-23-org-chart-qol.md`](session-knowledge-2026-08-23-org-chart-qol.md))
 - [ ] Additional letter/event templates only when a guide or Hub flow needs them
 
 **B3 — OOXML binary font embed (stretch)**
 
-- [ ] Same TTF/OTF decision as Project A
-- [ ] Package faces into DOCX/PPTX with OFL `NOTICE` (mirror Website ZIP)
-- [ ] Unit/smoke asserts font files present in the ZIP/OOXML, not only face name strings
-- [ ] Lift “OOXML binary font embed” from parked non-goals when this tranche starts
+- [x] Same TTF/OTF decision as Project A
+- [x] Package faces into DOCX/PPTX with OFL `NOTICE` (mirror Website ZIP)
+- [x] Unit/smoke asserts font files present in the ZIP/OOXML, not only face name strings
+- [x] Lift “OOXML binary font embed” from parked non-goals when this tranche starts
 
 ### Shared with Project A
 

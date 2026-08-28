@@ -15,7 +15,7 @@ Sequenced from [session-knowledge-2026-08-15-canvas-fonts.md](session-knowledge-
 ## Explicit non-goals (honoured)
 
 - Public Pulse Poll authoring
-- OOXML binary font embed — expanded future track: [`future-pdf-and-docx-engines-2026-08.md`](future-pdf-and-docx-engines-2026-08.md) (text PDF engine + Word/doc engine); do not start until that project opens
+- OOXML binary font embed — **shipped 2026-08-27** ([`ooxml-font-embed.ts`](../../src/lib/export/ooxml-font-embed.ts)); see [`future-pdf-and-docx-engines-2026-08.md`](future-pdf-and-docx-engines-2026-08.md)
 - Production Postgres flip / `HEALTH_REQUIRE_DURABLE` on live hosts
 - Growing the eight-face catalog
 - Per-union caption packs (still future; COPY-004 is generic FR only)

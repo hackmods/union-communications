@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "office-worksheet-docx",
+    date: "2026-08-27",
+    kind: "added",
+    href: "/tools/document-generator",
+  },
+  {
     id: "hub-docx-brand-kit",
     date: "2026-08-27",
     kind: "improved",

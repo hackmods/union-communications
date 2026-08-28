@@ -14,6 +14,7 @@ import {
   canvasFontOfficeName,
   DEFAULT_BODY_FONT,
   DEFAULT_HEADLINE_FONT,
+  type CanvasFontId,
 } from "@/lib/comms/canvas-fonts";
 import { pickContrastingInk } from "@/lib/utils/ink";
 
@@ -55,10 +56,24 @@ export type DocxPresetOpts = {
   localLabel: string;
   fields: Record<string, string>;
   logo?: BrandLogoBytes | null;
-  /** Office face names from Brand Kit (name-only; not embedded). */
+  /** Office face names from Brand Kit. */
   headlineFont?: string;
   bodyFont?: string;
+  headlineFontId?: CanvasFontId;
+  bodyFontId?: CanvasFontId;
+  localNumber?: string;
+  seniorityLabels?: SeniorityWorksheetLabels;
+  grievanceLabels?: GrievanceIntakeLabels;
 };
+
+async function finalizeDocxBlob(
+  blob: Blob,
+  headlineFontId: CanvasFontId,
+  bodyFontId: CanvasFontId,
+): Promise<Blob> {
+  const { embedDocxBrandFonts } = await import("@/lib/export/ooxml-font-embed");
+  return embedDocxBrandFonts(blob, headlineFontId, bodyFontId);
+}
 
 /** Build a pristine Word file for a shipped preset (Brand Kit driven). */
 export async function renderDocxFromPreset(
@@ -67,11 +82,15 @@ export async function renderDocxFromPreset(
   // Dynamic so `docx` stays out of tool-route bundles until Word export runs.
   const {
     buildEventNoticeDocx,
+    buildGrievanceIntakeDocx,
     buildLetterheadDocx,
     buildLecDirectoryDocx,
+    buildSeniorityWorksheetDocx,
     buildSimpleLetterDocx,
     buildWelcomeLetterDocx,
   } = await import("@/lib/export/office-docx-builders");
+  const headlineFontId = opts.headlineFontId ?? DEFAULT_HEADLINE_FONT;
+  const bodyFontId = opts.bodyFontId ?? DEFAULT_BODY_FONT;
   const input = {
     palette: opts.palette,
     localLabel: opts.localLabel,
@@ -80,22 +99,45 @@ export async function renderDocxFromPreset(
     headlineFont: opts.headlineFont,
     bodyFont: opts.bodyFont,
   };
+  let blob: Blob;
   switch (opts.presetId) {
     case "simple-letter":
-      return buildSimpleLetterDocx(input);
+      blob = await buildSimpleLetterDocx(input);
+      break;
     case "welcome-letter":
-      return buildWelcomeLetterDocx(input);
+      blob = await buildWelcomeLetterDocx(input);
+      break;
     case "letterhead":
-      return buildLetterheadDocx(input);
+      blob = await buildLetterheadDocx(input);
+      break;
     case "quick-event":
-      return buildEventNoticeDocx(input);
+      blob = await buildEventNoticeDocx(input);
+      break;
     case "lec-directory":
-      return buildLecDirectoryDocx(input);
+      blob = await buildLecDirectoryDocx(input);
+      break;
     case "seniority-worksheet":
-      throw new Error("Seniority worksheet exports Excel only");
+      if (!opts.seniorityLabels || !opts.localNumber) {
+        throw new Error("Seniority worksheet DOCX requires labels and local number");
+      }
+      blob = await buildSeniorityWorksheetDocx({
+        ...input,
+        localNumber: opts.localNumber,
+        labels: opts.seniorityLabels,
+      });
+      break;
     case "grievance-intake":
-      throw new Error("Grievance intake worksheet exports Excel only");
+      if (!opts.grievanceLabels || !opts.localNumber) {
+        throw new Error("Grievance intake DOCX requires labels and local number");
+      }
+      blob = await buildGrievanceIntakeDocx({
+        ...input,
+        localNumber: opts.localNumber,
+        labels: opts.grievanceLabels,
+      });
+      break;
   }
+  return finalizeDocxBlob(blob, headlineFontId, bodyFontId);
 }
 
 export async function exportDocxFromPreset(
@@ -717,9 +759,11 @@ export type PptxDemoOpts = {
   palette: BrandPalette;
   fields: Record<string, string>;
   logo?: BrandLogoBytes | null;
-  /** Office face names from Brand Kit (name-only; not embedded). */
+  /** Office face names from Brand Kit. */
   headlineFont?: string;
   bodyFont?: string;
+  headlineFontId?: CanvasFontId;
+  bodyFontId?: CanvasFontId;
 };
 
 function stripHash(hex: string): string {
@@ -1022,10 +1066,18 @@ export async function renderPptx(opts: PptxDemoOpts): Promise<Blob> {
   }
 
   const out = await pptx.write({ outputType: "blob" });
+  let blob: Blob;
   if (out instanceof Blob) {
-    return out.type ? out : new Blob([out], { type: PPTX_MIME });
+    blob = out.type ? out : new Blob([out], { type: PPTX_MIME });
+  } else {
+    blob = new Blob([out as BlobPart], { type: PPTX_MIME });
   }
-  return new Blob([out as BlobPart], { type: PPTX_MIME });
+  const { embedPptxBrandFonts } = await import("@/lib/export/ooxml-font-embed");
+  return embedPptxBrandFonts(
+    blob,
+    opts.headlineFontId ?? DEFAULT_HEADLINE_FONT,
+    opts.bodyFontId ?? DEFAULT_BODY_FONT,
+  );
 }
 
 export async function exportPptx(
