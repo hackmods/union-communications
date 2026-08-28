@@ -17,7 +17,7 @@ Companion inventory + quality bar: [`docs/audit/guide-pdf-quality-2026-08.md`](.
 5. **EN + FR** education footers and localized sheet copy stay in sync on claim (see `i18n-public-copy.mdc`).
 6. **Do not rebrand** static Ontario ministry PDFs under `public/assets/ontario-board-posters/`.
 7. **Canvas Comms PDFs** stay on `pdf-export.ts` + Phase 9 fidelity — do not route them through text-PDF layout.
-8. **Helvetica + mark PNG for now** — do not embed Brand Kit OFL into text PDFs without opening the future engine project: [`docs/audit/future-pdf-and-docx-engines-2026-08.md`](../../docs/audit/future-pdf-and-docx-engines-2026-08.md).
+8. **Brand Kit faces when provided** — register OFL TTFs via `registerGuidePdfFonts`; system faces stay Helvetica. Locale follows UI `en` | `fr`. OOXML binary embed remains deferred (B3).
 
 ## Tests
 

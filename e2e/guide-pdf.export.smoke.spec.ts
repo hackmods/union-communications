@@ -99,4 +99,33 @@ test.describe("Guide text PDF export smoke @smoke", () => {
       footerNeedle: /UnionOps Officer Learning/i,
     });
   });
+
+  test("FR FAR sheet uses French education footer", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    const outDir = path.join("test-results", "guide-pdf-smoke");
+    fs.mkdirSync(outDir, { recursive: true });
+
+    await page.goto("/fr/guide/officer-learning/contract-enforcement/", {
+      waitUntil: "domcontentloaded",
+    });
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible({
+      timeout: 60_000,
+    });
+
+    const farCta = page.getByRole("button", {
+      name: "Télécharger la fiche FAR (PDF)",
+    });
+    await farCta.scrollIntoViewIfNeeded();
+    const downloadPromise = page.waitForEvent("download");
+    await farCta.click();
+    const download = await downloadPromise;
+    const filePath = path.join(outDir, `fr-${download.suggestedFilename()}`);
+    await download.saveAs(filePath);
+    await assertTextPdfWithMark({
+      filePath,
+      minBytes: 3_000,
+      titleNeedle: /FAR|Faits/i,
+      footerNeedle: /UnionOps Formation des dirigeants/i,
+    });
+  });
 });

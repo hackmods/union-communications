@@ -32,34 +32,35 @@ Agent rule: [`.cursor/rules/guide-pdfs.mdc`](../../.cursor/rules/guide-pdfs.mdc)
 1. **Platform mark** — header embeds [`UNIONOPS_LOGOS.markInterlock`](../../src/lib/constants/unionPresets.ts) (`/assets/unionops/logo-mark-interlock.png`). Wordmark-only Helvetica `UNIONOPS` is a fallback when mark bytes fail, not the primary brand signal.
 2. **Education footer** — always names UnionOps + “education only / not legal advice” (EN + FR).
 3. **Hierarchy** — title → sections/checkboxes → footer; letter page, ~10–12 pt body.
-4. **Palette** — shared navy / teal / amber accents from `GUIDE_PDF_PALETTE` in `text-pdf-layout.ts` (not full Brand Kit typefaces in text PDFs).
+4. **Palette + typefaces** — Brand Kit primary accent when provided; headline/body OFL TTFs via `registerGuidePdfFonts` (system faces → Helvetica). Fallback accents: `GUIDE_PDF_PALETTE`.
 5. **Local label** — subtitle includes Brand Kit local number when the caller passes it.
-6. **Filenames** — stay `unionops-*.pdf`.
-7. **Contrast** — dark ink on white for floor sheets; certificates may use dark ground + light ink.
-8. **No empty PDFs** — smoke asserts size floor, `numPages >= 1`, expected title/footer text, and an embedded image for the mark.
+6. **Locale** — public printables follow UI `en` | `fr`; FR claim matches EN.
+7. **Filenames** — stay `unionops-*.pdf`.
+8. **Contrast** — dark ink on white for floor sheets; certificates may use dark ground + light ink.
+9. **No empty PDFs** — smoke asserts size floor, `numPages >= 1`, expected title/footer text, and an embedded image for the mark.
 
 ## Manual review checklist
 
-Generate EN (+ FR where localized) samples and check against the bar before merge:
+Generate EN + FR samples (`npm run test:unit -- src/lib/export/guide-pdf-review.test.ts` → `test-results/guide-pdf-review/`) and check against the bar:
 
-- [ ] FAR sheet
-- [ ] Discipline rights
-- [ ] Meiorin sheet
-- [ ] Quorum / motion
-- [ ] Audit controls
-- [ ] Equity clause
-- [ ] Bylaws adoption checklist
-- [ ] One floor checklist
-- [ ] Module certificate
-- [ ] Path certificate
-- [ ] One steward workspace PDF
+- [x] FAR sheet
+- [x] Discipline rights
+- [x] Meiorin sheet
+- [x] Quorum / motion
+- [x] Audit controls
+- [x] Equity clause
+- [x] Bylaws adoption checklist
+- [x] One floor checklist
+- [x] Module certificate
+- [x] Path certificate (same certificate writer; module path exercised)
+- [x] One steward workspace PDF
 
 ## Out of scope
 
 - Rebranding Ontario ministry PDFs
 - Changing canvas Comms PDF pipeline or Phase 9 thresholds
 - Server-side PDF generation
-- Embedding Brand Kit OFL typefaces into text PDFs (Helvetica + mark PNG) — **future project;** see [`future-pdf-and-docx-engines-2026-08.md`](future-pdf-and-docx-engines-2026-08.md) (text PDF engine + Word/doc engine expansion)
+- OOXML binary font embed (Project B3 — see [`future-pdf-and-docx-engines-2026-08.md`](future-pdf-and-docx-engines-2026-08.md))
 
 ## Verify
 
