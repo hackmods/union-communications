@@ -692,3 +692,53 @@ export function NoBoardCountdownDiagram({
     </figure>
   );
 }
+
+interface MotionPrecedenceStep {
+  label: string;
+  body: string;
+}
+
+interface MotionPrecedenceDiagramProps {
+  steps: readonly MotionPrecedenceStep[];
+  caption?: string;
+  className?: string;
+}
+
+/** Subsidiary motions in typical Robert's Rules precedence (top = decided first). */
+export function MotionPrecedenceDiagram({
+  steps,
+  caption,
+  className,
+}: MotionPrecedenceDiagramProps) {
+  return (
+    <figure className={cn("space-y-2", className)}>
+      <ol
+        className="space-y-2"
+        aria-label={steps.map((s) => `${s.label}: ${s.body}`).join("; ")}
+      >
+        {steps.map((step, index) => (
+          <li
+            key={step.label}
+            className="flex gap-3 rounded-lg border border-opseu-blue/20 bg-opseu-blue/5 px-3 py-3"
+          >
+            <span
+              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-opseu-blue text-xs font-bold text-white"
+              aria-hidden="true"
+            >
+              {index + 1}
+            </span>
+            <div className="min-w-0">
+              <p className="font-semibold text-opseu-dark">{step.label}</p>
+              <p className="mt-0.5 text-sm leading-relaxed text-gray-700">
+                {step.body}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      {caption ? (
+        <figcaption className="text-xs text-gray-600">{caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+}

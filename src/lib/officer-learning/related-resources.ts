@@ -33,6 +33,8 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
     { href: "/guide/photo-consent", labelKey: "photoConsent", kind: "guide" },
   ],
   "democratic-governance": [
+    { href: "/guide/running-meetings", labelKey: "runningMeetings", kind: "guide" },
+    { href: "/tools/rules-of-order", labelKey: "rulesOfOrder", kind: "tool" },
     { href: "/guide/bylaws", labelKey: "bylaws", kind: "guide" },
     { href: "/tools/bylaw-builder", labelKey: "bylawBuilder", kind: "tool" },
     { href: "/guide/joint-committee", labelKey: "jointCommittee", kind: "guide" },

@@ -70,6 +70,8 @@ export const PUBLIC_NS = [
   "bargainingGuide",
   "steward101Guide",
   "stewardPlaybooksHub",
+  "runningMeetingsGuide",
+  "rulesOfOrder",
   "officerLearning",
   "bylawBuilder",
   "proposalTracker",

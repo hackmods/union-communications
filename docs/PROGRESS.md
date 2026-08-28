@@ -1,5 +1,16 @@
 # Progress Log
 
+## Running meetings & Rules of Order — gold-standard pass (2026-08-28)
+
+- [x] **Guide depth:** `/guide/running-meetings` — quorum + `QuorumTiersDiagram`, motion precedence + `MotionPrecedenceDiagram`, debate, voting, failures, worked GMM scenario, pocket PDF CTA
+- [x] **Cheat sheet:** `/tools/rules-of-order` — 14 actions (motions/points/meeting), filter chips, search, sticky card, copy phrase, chair notes + hints
+- [x] **Cross-links:** OL module 4 related resources, steward playbooks workspace, [`session-knowledge-2026-08-28-running-meetings-rules-of-order.md`](audit/session-knowledge-2026-08-28-running-meetings-rules-of-order.md)
+- Verify: `npm run test:unit -- src/lib/rules-of-order/actions.test.ts src/lib/comms/public-copy-style.test.ts`
+
+- [x] **Guide registry:** `guide-registry.ts` — single discoverability source for Blueprint, Resources, steward-playbooks; coverage test vs `PUBLIC_PATHS`
+- [x] Session knowledge: [`session-knowledge-2026-08-28-officer-learning-nav-guides.md`](audit/session-knowledge-2026-08-28-officer-learning-nav-guides.md)
+- Verify: `npm run test:unit -- src/lib/comms/guide-registry.test.ts`
+
 ## Officer Learning olTheme sweep — quiz, content, PDF (2026-08-28)
 
 - [x] Extended `olTheme` tokens; migrated ModuleQuiz, ModuleContentRenderer, checklists, diagrams, timelines, worked scenarios, sync panel, certificates

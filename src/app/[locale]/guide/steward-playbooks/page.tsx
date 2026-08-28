@@ -54,6 +54,11 @@ const workspaceLinks = [
     titleKey: "proposalTitle" as const,
     blurbKey: "proposalBlurb" as const,
   },
+  {
+    href: "/tools/rules-of-order",
+    titleKey: "rulesTitle" as const,
+    blurbKey: "rulesBlurb" as const,
+  },
 ] as const;
 
 const playbookLinks = GUIDE_STEWARD_PLAYBOOK_LINKS;

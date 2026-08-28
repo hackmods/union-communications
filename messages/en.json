@@ -6551,8 +6551,8 @@
         "body": "Union presets now use verified starter colours (including Unifor red and blue), tap-to-apply slogan suggestions in English and French, and closer canvas typefaces for CUPE, Unifor, and USW."
       },
       "running-meetings-guide": {
-        "title": "Running meetings & Robert's Rules",
-        "body": "New guide for chairs and stewards — scale formality to the room, follow a standard local agenda, and open the Rules of Order cheat sheet on your phone when debate starts."
+        "title": "Running meetings — full guide + cheat sheet",
+        "body": "The Running a Meeting guide now covers quorum, motion precedence, debate, voting, and a worked GMM example. The Rules of Order cheat sheet adds fourteen actions with chair notes and a copy button for the floor."
       },
       "guide-tool-aside": {
         "title": "Guides — tool shortcuts on desktop",
@@ -9588,9 +9588,34 @@
         "stepDown": {
           "label": "Step down to debate",
           "content": "If the Chair wants to passionately debate a motion, they must step down from the chair and let the Vice-President run the meeting until the vote is over."
+        },
+        "recognize": {
+          "label": "Recognize speakers",
+          "content": "Call on members in the order they rose. State the motion clearly before debate begins: \"It is moved and seconded that…\""
         }
       },
       "tip": "When in doubt, recognize the member who rose first — then enforce one speaker at a time."
+    },
+    "quorum": {
+      "navLabel": "Quorum",
+      "title": "Quorum before you vote",
+      "intro": "No binding vote happens without quorum. Your local bylaws define the number — confirm it before you gavel in.",
+      "items": {
+        "check": {
+          "label": "Open with a count",
+          "content": "The Secretary or Chair records members present. For a GMM, compare the head count to the quorum threshold in your bylaws."
+        },
+        "lost": {
+          "label": "Lost quorum mid-meeting",
+          "content": "If members leave and you drop below quorum, announce it and stop binding votes. You may still hear reports or set a date to reconvene."
+        },
+        "special": {
+          "label": "Special meetings",
+          "content": "Bylaw amendments and officer removals often need higher notice and quorum. Read the exact article before you post the notice."
+        }
+      },
+      "warningTitle": "Quorum is not optional",
+      "warning": "A motion passed without quorum can be challenged later — even if everyone in the room agreed."
     },
     "agenda": {
       "navLabel": "Standard agenda",
@@ -9634,10 +9659,176 @@
         }
       }
     },
+    "precedence": {
+      "navLabel": "Motion precedence",
+      "title": "Which motion comes first?",
+      "intro": "When several motions are on the floor, Robert's Rules ranks subsidiary motions. The Chair must handle the highest-ranking pending motion before returning to debate on the main motion.",
+      "steps": {
+        "adjourn": {
+          "label": "Adjourn",
+          "body": "End the meeting now (if no higher motion is pending)."
+        },
+        "recess": {
+          "label": "Recess",
+          "body": "Short break — members stay in the room or return at a set time."
+        },
+        "question": {
+          "label": "Previous question (call the question)",
+          "body": "Stop debate and vote immediately — needs two-thirds."
+        },
+        "table": {
+          "label": "Table / postpone",
+          "body": "Park the main motion until a later meeting."
+        },
+        "limit": {
+          "label": "Limit or extend debate",
+          "body": "Cap speakers or extend time — specify minutes in the motion."
+        },
+        "refer": {
+          "label": "Refer to committee",
+          "body": "Send the main motion to a committee with instructions and a report-back date."
+        },
+        "amend": {
+          "label": "Amend",
+          "body": "Change wording on the main motion before the final vote."
+        },
+        "main": {
+          "label": "Main motion",
+          "body": "The underlying proposal — debated and voted on last."
+        }
+      },
+      "caption": "Top of the list is decided first. Use the cheat sheet tool for exact wording on each action.",
+      "tip": "When someone yells \"point of order,\" stop and rule before you take the next subsidiary motion."
+    },
+    "debate": {
+      "navLabel": "Debate rules",
+      "title": "Fair debate on the floor",
+      "intro": "Debate keeps the room focused on the motion — not personalities.",
+      "items": {
+        "recognize": {
+          "label": "One speaker at a time",
+          "content": "Members speak only when recognized by the Chair. Side conversations are out of order."
+        },
+        "mover": {
+          "label": "Mover speaks first",
+          "content": "The member who moved gets the first speech in debate. The seconder does not have to speak."
+        },
+        "alternate": {
+          "label": "Alternate sides",
+          "content": "Good Chairs alternate for/against when possible so debate stays balanced."
+        },
+        "time": {
+          "label": "Time limits",
+          "content": "Many locals limit speeches to two or three minutes at GMM. The Chair can entertain a motion to limit debate."
+        },
+        "decorum": {
+          "label": "Stay on the motion",
+          "content": "Debate must address the motion on the floor — not unrelated grievances or personal attacks."
+        }
+      }
+    },
+    "voting": {
+      "navLabel": "Voting",
+      "title": "How votes are taken",
+      "intro": "The Chair states the question, then members vote. Record the result in the minutes.",
+      "items": {
+        "voice": {
+          "label": "Voice vote",
+          "content": "\"All in favor? All opposed?\" Fast and common for routine items."
+        },
+        "hands": {
+          "label": "Show of hands",
+          "content": "Use when the voice vote is unclear or when your bylaws require it."
+        },
+        "ballot": {
+          "label": "Ballot vote",
+          "content": "Secret ballot for elections and sensitive decisions — follow your bylaws."
+        },
+        "majority": {
+          "label": "Majority",
+          "content": "Most main motions pass with a majority of votes cast (more than half)."
+        },
+        "twoThirds": {
+          "label": "Two-thirds",
+          "content": "Required for previous question, bylaw amendments, and other high-stakes actions — confirm your threshold."
+        }
+      }
+    },
+    "failures": {
+      "navLabel": "Common mistakes",
+      "title": "When meetings go off the rails",
+      "intro": "These failures show up in every local eventually. Name them early and correct course.",
+      "items": {
+        "noSecond": {
+          "label": "No seconder",
+          "content": "Without a second, the motion dies. The Chair should say so clearly and move on."
+        },
+        "chairDebates": {
+          "label": "Chair debates",
+          "content": "If the President argues from the chair, any member can raise a point of order."
+        },
+        "lostQuorum": {
+          "label": "Lost quorum",
+          "content": "Stop binding votes. Announce the shortfall and adjourn or continue with non-binding discussion only."
+        },
+        "wrongOrder": {
+          "label": "Wrong precedence",
+          "content": "If someone moves to amend while a motion to table is pending, rule on the table motion first."
+        },
+        "friendly": {
+          "label": "\"Friendly amendment\" myth",
+          "content": "There is no friendly amendment without the floor's consent. An amendment still needs a motion, second, and vote."
+        }
+      }
+    },
+    "scenario": {
+      "navLabel": "Worked GMM example",
+      "title": "Worked example: food bank donation",
+      "intro": "A member wants the local to donate $500 to the food bank at a general membership meeting. Here is how a well-run floor handles it:",
+      "phases": {
+        "s1": {
+          "label": "New business",
+          "content": "Chair recognizes Member A under New Business."
+        },
+        "s2": {
+          "label": "Main motion",
+          "content": "Member A: \"I move that Local ___ donate $500 to the campus food bank this month.\" Member B seconds."
+        },
+        "s3": {
+          "label": "Debate opens",
+          "content": "Chair: \"It is moved and seconded that… Is there debate?\" Member A speaks in favor; Member C speaks against."
+        },
+        "s4": {
+          "label": "Amendment",
+          "content": "Member D: \"I move to amend by striking '$500' and inserting '$300'.\" Debate returns to the amendment first."
+        },
+        "s5": {
+          "label": "Vote on amendment",
+          "content": "Amendment passes. The main motion is now $300 — debate can continue on the revised wording."
+        },
+        "s6": {
+          "label": "Final vote",
+          "content": "Chair: \"All in favor of the motion as amended? All opposed?\" Motion passes; Secretary records the decision and follow-up task for the Treasurer."
+        }
+      },
+      "tip": "Open the Rules of Order cheat sheet on your phone when amendments and points of order start stacking up."
+    },
     "tool": {
-      "navLabel": "Cheat sheet tool",
-      "title": "Rules of Order cheat sheet",
-      "intro": "Use our Rules of Order Cheat Sheet tool during meetings to know exactly what to say when you need to move, amend, call the question, or raise a point of order."
+      "navLabel": "Toolkit",
+      "title": "Mini cheat sheet + full toolkit",
+      "intro": "Use these together: the guide for training, the cheat sheet live on the floor, and the pocket PDF when you are chairing without Wi‑Fi.",
+      "items": {
+        "cheatSheet": "Rules of Order cheat sheet — fourteen actions with copy-paste wording and chair notes",
+        "pocketPdf": "Quorum & motion template PDF — blank motion lines and quorum checklist from Officer Learning module 4",
+        "notice": "Board Notice Maker — post the GMM date, time, and location on the shop floor"
+      }
+    },
+    "referenceMaterials": {
+      "downloading": "Preparing PDF…",
+      "quorum": {
+        "cta": "Download quorum & motion PDF",
+        "moduleTitle": "Democratic governance"
+      }
     }
   },
   "bylawsGuide": {
@@ -10476,73 +10667,172 @@
     "whenToUse": "Open this on your phone during a general membership meeting when you need the exact wording for a parliamentary action.",
     "guideLink": "Read the Running a Meeting guide",
     "pickerHeading": "What do you want to do?",
-    "pickerIntro": "Tap an action below. Each card shows what to say and whether you can interrupt, need a seconder, or need a vote.",
+    "pickerIntro": "Tap an action below. Each card shows what to say, when to use it, and what the Chair does next.",
     "searchPlaceholder": "Search actions…",
     "searchLabel": "Search parliamentary actions",
-    "noResults": "No actions match that search. Try \"motion\", \"order\", or \"question\".",
+    "filterLabel": "Filter by category",
+    "filterAll": "All",
+    "noResults": "No actions match that search. Try \"motion\", \"order\", or \"adjourn\".",
+    "copyPhrase": "Copy phrase",
+    "copied": "Copied",
+    "miniMode": {
+      "title": "Mini mode on the floor",
+      "body": "Search or filter, tap an action, then copy the phrase. Chair notes stay on the card so you know what happens next."
+    },
     "categories": {
-      "motions": {
-        "label": "Motions"
-      },
-      "points": {
-        "label": "Points"
-      }
+      "motions": { "label": "Motions" },
+      "points": { "label": "Points" },
+      "meeting": { "label": "Meeting" }
     },
     "fields": {
       "whatToSay": "What to say",
+      "hint": "When to use it",
       "canInterrupt": "Can you interrupt?",
       "needsSeconder": "Needs a seconder?",
       "isDebatable": "Is it debatable?",
-      "voteRequired": "Vote required"
+      "voteRequired": "Vote required",
+      "chairNote": "Chair's next step"
     },
     "actions": {
       "mainMotion": {
         "label": "Introduce a main motion",
-        "whatToSay": "\"I move to [state action]…\"",
+        "whatToSay": "\"I move that we [state action]…\"",
+        "hint": "Use when you want the local to take a new action — donation, endorsement, policy, or expenditure.",
         "canInterrupt": "No",
         "needsSeconder": "Yes",
         "isDebatable": "Yes",
-        "voteRequired": "Majority"
+        "voteRequired": "Majority",
+        "chairNote": "Restate the motion, open debate, recognize the mover first."
       },
       "amendMotion": {
         "label": "Change or edit a motion on the floor",
         "whatToSay": "\"I move to amend the motion by [adding/striking words]…\"",
+        "hint": "Use to fix wording before the final vote — not to replace the whole idea.",
         "canInterrupt": "No",
         "needsSeconder": "Yes",
         "isDebatable": "Yes",
-        "voteRequired": "Majority"
+        "voteRequired": "Majority",
+        "chairNote": "Vote on the amendment before returning to the main motion as amended."
       },
       "callQuestion": {
-        "label": "Force a vote and stop the talking (call the question)",
-        "whatToSay": "\"I move to the previous question.\" OR \"I call the question.\"",
+        "label": "Force a vote and stop debate (call the question)",
+        "whatToSay": "\"I move the previous question.\" OR \"I call the question.\"",
+        "hint": "Use when debate has run its course and the room is ready to vote.",
         "canInterrupt": "No",
         "needsSeconder": "Yes",
-        "isDebatable": "No (vote on it immediately)",
-        "voteRequired": "Two-thirds majority"
+        "isDebatable": "No (vote immediately)",
+        "voteRequired": "Two-thirds majority",
+        "chairNote": "If adopted, vote on the pending motion without further debate."
+      },
+      "tableMotion": {
+        "label": "Table or postpone the motion",
+        "whatToSay": "\"I move to table the motion.\" OR \"I move to postpone this matter to the next meeting.\"",
+        "hint": "Use when the local needs more information or time before deciding.",
+        "canInterrupt": "No",
+        "needsSeconder": "Yes",
+        "isDebatable": "Yes (on the motion to table)",
+        "voteRequired": "Majority",
+        "chairNote": "If adopted, the main motion is set aside until the local brings it back."
+      },
+      "referCommittee": {
+        "label": "Send the motion to a committee",
+        "whatToSay": "\"I move to refer the motion to [committee] with instructions to report back by [date].\"",
+        "hint": "Use for complex items that need research before a final vote.",
+        "canInterrupt": "No",
+        "needsSeconder": "Yes",
+        "isDebatable": "Yes",
+        "voteRequired": "Majority",
+        "chairNote": "Specify committee and deadline in the motion before taking debate."
+      },
+      "limitDebate": {
+        "label": "Limit or extend debate time",
+        "whatToSay": "\"I move to limit debate to [number] minutes per speaker.\"",
+        "hint": "Use when speeches are repeating or the meeting is running long.",
+        "canInterrupt": "No",
+        "needsSeconder": "Yes",
+        "isDebatable": "Yes",
+        "voteRequired": "Two-thirds majority",
+        "chairNote": "State the time limit clearly; enforce it evenly."
+      },
+      "divideQuestion": {
+        "label": "Vote on parts separately",
+        "whatToSay": "\"I move to divide the question.\"",
+        "hint": "Use when a motion has independent parts — e.g., two separate donations in one motion.",
+        "canInterrupt": "No",
+        "needsSeconder": "Yes",
+        "isDebatable": "Yes",
+        "voteRequired": "Majority",
+        "chairNote": "If adopted, vote on each part in order."
+      },
+      "reconsider": {
+        "label": "Reconsider a vote",
+        "whatToSay": "\"I move to reconsider the vote on [motion].\"",
+        "hint": "Use on the same day or next meeting per your rules — usually by a member on the winning side.",
+        "canInterrupt": "No",
+        "needsSeconder": "Yes",
+        "isDebatable": "Yes (on whether to reconsider)",
+        "voteRequired": "Majority",
+        "chairNote": "Confirm timing rules in your bylaws before reopening debate."
+      },
+      "withdrawMotion": {
+        "label": "Withdraw your motion",
+        "whatToSay": "\"I withdraw the motion.\"",
+        "hint": "Only the mover can ask to withdraw — the Chair asks if any member objects.",
+        "canInterrupt": "No",
+        "needsSeconder": "No",
+        "isDebatable": "No",
+        "voteRequired": "None (Chair asks for objection)",
+        "chairNote": "If no objection, the motion is withdrawn. If any member objects, the motion stays on the floor."
       },
       "pointOfPrivilege": {
         "label": "Complain about noise, temperature, or a distraction",
         "whatToSay": "\"Point of privilege!\"",
+        "hint": "Use for comfort, safety, or ability to hear — not to argue the motion.",
         "canInterrupt": "Yes",
         "needsSeconder": "No",
         "isDebatable": "No",
-        "voteRequired": "Handled by Chair"
+        "voteRequired": "Handled by Chair",
+        "chairNote": "Rule immediately — fix the distraction or deny if not a true privilege."
       },
       "pointOfOrder": {
         "label": "Point out that the rules are being broken",
         "whatToSay": "\"Point of order!\"",
+        "hint": "Use when procedure is wrong — wrong precedence, Chair debating, or lost quorum.",
         "canInterrupt": "Yes",
         "needsSeconder": "No",
         "isDebatable": "No",
-        "voteRequired": "Ruled on by the Chair"
+        "voteRequired": "Ruled on by the Chair",
+        "chairNote": "State your ruling. A member may appeal the Chair's ruling to the assembly."
       },
       "pointOfInformation": {
         "label": "Ask a question about the facts of the debate",
         "whatToSay": "\"Point of information!\"",
-        "canInterrupt": "Yes (but only for urgent clarification)",
+        "hint": "Use only for urgent factual clarification — not speeches disguised as questions.",
+        "canInterrupt": "Yes (urgent clarification only)",
         "needsSeconder": "No",
         "isDebatable": "No",
-        "voteRequired": "None (Chair answers)"
+        "voteRequired": "None (Chair answers)",
+        "chairNote": "Answer briefly or direct the question to the right officer."
+      },
+      "adjourn": {
+        "label": "End the meeting",
+        "whatToSay": "\"I move to adjourn.\"",
+        "hint": "Use to close the meeting after business is done or when quorum is lost.",
+        "canInterrupt": "No",
+        "needsSeconder": "Yes",
+        "isDebatable": "No",
+        "voteRequired": "Majority",
+        "chairNote": "If adopted, declare the meeting adjourned and note the time."
+      },
+      "recess": {
+        "label": "Take a short break",
+        "whatToSay": "\"I move that we take a recess until [time].\"",
+        "hint": "Use for a bathroom or caucus break without ending the meeting.",
+        "canInterrupt": "No",
+        "needsSeconder": "Yes",
+        "isDebatable": "No",
+        "voteRequired": "Majority",
+        "chairNote": "State the return time; reconvene with \"The meeting will come to order.\""
       }
     }
   }

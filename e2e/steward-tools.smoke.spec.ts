@@ -65,6 +65,9 @@ test.describe("Steward meeting guides @smoke", () => {
     await expect(
       page.getByRole("heading", { name: /What do you want to do\?/i }),
     ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: /Copy phrase/i }),
+    ).toBeVisible();
     await page
       .getByRole("button", { name: /Point out that the rules are being broken/i })
       .click();
@@ -72,12 +75,20 @@ test.describe("Steward meeting guides @smoke", () => {
     await expectNoSeriousA11yViolations(page);
   });
 
-  test("running meetings guide loads from blueprint", async ({ page }) => {
+  test("running meetings guide loads full playbook sections", async ({
+    page,
+  }) => {
     await page.goto("/en/guide/running-meetings/");
     await expect(
       page.getByRole("heading", {
         name: /Running a Meeting & Robert's Rules/i,
       }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Quorum before you vote/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Which motion comes first\?/i }),
     ).toBeVisible();
     await expect(
       page.getByRole("link", { name: /Rules of Order Cheat Sheet/i }),

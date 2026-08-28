@@ -116,7 +116,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "rules-of-order": {
       title: "Rules of Order Cheat Sheet",
       description:
-        "Tap the parliamentary action you need — main motion, amendment, call the question, or point of order — and read exactly what to say on your phone.",
+        "Fourteen parliamentary actions with exact wording, chair notes, and copy — mini mode on your phone or full reference during a GMM.",
     },
   },
   fr: {
@@ -233,7 +233,7 @@ export const TOOL_SEO: Record<"en" | "fr", Record<string, ToolSeoEntry>> = {
     "rules-of-order": {
       title: "Aide-mémoire de procédure parlementaire",
       description:
-        "Choisissez l'action parlementaire — motion principale, amendement, clôture du débat ou rappel au règlement — et lisez exactement quoi dire sur votre téléphone.",
+        "Quatorze actions parlementaires avec formulation exacte, notes pour le président et copie — mode mini sur téléphone ou référence complète en AGM.",
     },
   },
 };

@@ -768,7 +768,9 @@
         "bylaws": "Guide des règlements locaux",
         "bylawBuilder": "Créateur de règlements",
         "bargaining": "Cycle de négociation",
-        "proposalTracker": "Suivi des propositions"
+        "proposalTracker": "Suivi des propositions",
+        "runningMeetings": "Guide Tenir une assemblée",
+        "rulesOfOrder": "Aide-mémoire de procédure"
       }
     },
     "reference": {
@@ -4621,7 +4623,9 @@
       "bylawsTitle": "Créateur de règlements",
       "bylawsBlurb": "Rédigez un modèle de règlements locaux à partir de l'exécutif, du quorum et de l'exercice — copiez ou téléchargez le texte.",
       "proposalTitle": "Suivi des propositions",
-      "proposalBlurb": "Suivez les articles, propositions syndicales et contre-propositions patronales sur cet appareil. Exportez en CSV pour une clé USB après chaque séance."
+      "proposalBlurb": "Suivez les articles, propositions syndicales et contre-propositions patronales sur cet appareil. Exportez en CSV pour une clé USB après chaque séance.",
+      "rulesTitle": "Aide-mémoire de procédure",
+      "rulesBlurb": "Quatorze actions parlementaires avec formulation exacte, notes pour le président et bouton copier — conçu pour le téléphone en salle."
     }
   },
   "steward101Guide": {
@@ -6497,8 +6501,8 @@
         "body": "Les préréglages syndicaux utilisent maintenant des couleurs de départ vérifiées (dont le rouge et le bleu Unifor), des slogans suggérés à toucher pour les appliquer en anglais et en français, et des polices plus proches pour le SCFP, Unifor et les Métallos."
       },
       "running-meetings-guide": {
-        "title": "Assemblées et règles de procédure",
-        "body": "Nouveau guide pour les présidents et délégués — adaptez la formalité à la salle, suivez un ordre du jour type et ouvrez l'aide-mémoire de procédure sur votre téléphone quand le débat commence."
+        "title": "Tenir une assemblée — guide complet et aide-mémoire",
+        "body": "Le guide Tenir une assemblée couvre maintenant le quorum, la priorité des motions, le débat, le vote et un exemple d'AGM commenté. L'aide-mémoire de procédure ajoute quatorze actions avec notes pour le président et un bouton copier pour le plancher."
       },
       "guide-tool-aside": {
         "title": "Guides — raccourcis outils sur ordinateur",
@@ -9544,7 +9548,7 @@
     "intro": "Une assemblée syndicale sans structure devient vite un chahut. Pour que chacun ait sa chance de parole et que les décisions avancent, le mouvement syndical utilise la procédure parlementaire — le plus souvent les règles de procédure de Robert.",
     "disclaimer": {
       "title": "Pas un avis juridique. Confirmez les règles de votre section.",
-      "body": "Beaucoup de sections adoptent les règles de Robert par renvoi dans leurs règlements; d'autres utilisent un règlement intérieur simplifié. Lisez vos règlements et toute règle de la constitution nationale avant de présider une assemblée générale des membres."
+      "body": "Beaucoup de sections adoptent les règles de Robert par renvoi dans leurs règlements ; d'autres utilisent un règlement intérieur simplifié. Lisez vos règlements et toute règle de la constitution nationale avant de présider une assemblée générale des membres."
     },
     "related": {
       "officerLearning": "Centre de formation des dirigeants"
@@ -9584,9 +9588,34 @@
         "stepDown": {
           "label": "Céder la présidence pour débattre",
           "content": "Si le président veut débattre avec passion d'une motion, il ou elle doit quitter le fauteuil et laisser le vice-président diriger l'assemblée jusqu'au vote."
+        },
+        "recognize": {
+          "label": "Reconnaître les orateurs",
+          "content": "Reconnaissez les membres dans l'ordre où ils se sont levés. Énoncez clairement la motion avant d'ouvrir le débat : « Il est proposé et appuyé que… »"
         }
       },
       "tip": "En cas de doute, reconnaissez le membre qui s'est levé en premier — puis imposez un seul orateur à la fois."
+    },
+    "quorum": {
+      "navLabel": "Quorum",
+      "title": "Le quorum avant de voter",
+      "intro": "Aucun vote contraignant sans quorum. Vos règlements locaux fixent le nombre — confirmez-le avant d'ouvrir l'assemblée.",
+      "items": {
+        "check": {
+          "label": "Ouvrir avec un décompte",
+          "content": "Le secrétaire ou le président consigne les membres présents. Pour une AGM, comparez le décompte au seuil de quorum dans vos règlements."
+        },
+        "lost": {
+          "label": "Quorum perdu en cours d'assemblée",
+          "content": "Si des membres partent et que vous tombez sous le quorum, annoncez-le et arrêtez les votes contraignants. Vous pouvez encore entendre des rapports ou fixer une date de reprise."
+        },
+        "special": {
+          "label": "Réunions spéciales",
+          "content": "Les modifications de règlements et les destitutions d'officiers exigent souvent plus de préavis et un quorum plus élevé. Lisez l'article exact avant d'afficher l'avis."
+        }
+      },
+      "warningTitle": "Le quorum n'est pas optionnel",
+      "warning": "Une motion adoptée sans quorum peut être contestée plus tard — même si tout le monde dans la salle était d'accord."
     },
     "agenda": {
       "navLabel": "Ordre du jour type",
@@ -9630,10 +9659,176 @@
         }
       }
     },
+    "precedence": {
+      "navLabel": "Priorité des motions",
+      "title": "Quelle motion passe en premier?",
+      "intro": "Quand plusieurs motions sont au débat, les règles de Robert classent les motions subsidiaires. Le président doit traiter la motion en suspens la plus prioritaire avant de revenir au débat sur la motion principale.",
+      "steps": {
+        "adjourn": {
+          "label": "Levée de l'assemblée",
+          "body": "Terminer l'assemblée maintenant (si aucune motion de rang supérieur n'est en suspens)."
+        },
+        "recess": {
+          "label": "Suspension",
+          "body": "Courte pause — les membres restent dans la salle ou reviennent à une heure fixée."
+        },
+        "question": {
+          "label": "Clôture du débat (mettre aux voix)",
+          "body": "Arrêter le débat et voter immédiatement — exige les deux tiers."
+        },
+        "table": {
+          "label": "Reporter / ajourner",
+          "body": "Mettre la motion principale de côté jusqu'à une assemblée ultérieure."
+        },
+        "limit": {
+          "label": "Limiter ou prolonger le débat",
+          "body": "Plafonner les orateurs ou prolonger le temps — précisez les minutes dans la motion."
+        },
+        "refer": {
+          "label": "Renvoyer à un comité",
+          "body": "Envoyer la motion principale à un comité avec mandat et date de rapport."
+        },
+        "amend": {
+          "label": "Amender",
+          "body": "Modifier le libellé de la motion principale avant le vote final."
+        },
+        "main": {
+          "label": "Motion principale",
+          "body": "La proposition de fond — débattue et votée en dernier."
+        }
+      },
+      "caption": "Le haut de la liste est traité en premier. Utilisez l'aide-mémoire pour la formulation exacte de chaque action.",
+      "tip": "Quand quelqu'un crie « rappel au règlement », arrêtez-vous et tranchez avant de prendre la prochaine motion subsidiaire."
+    },
+    "debate": {
+      "navLabel": "Règles de débat",
+      "title": "Un débat équitable au plancher",
+      "intro": "Le débat garde la salle concentrée sur la motion — pas sur les personnalités.",
+      "items": {
+        "recognize": {
+          "label": "Un seul orateur à la fois",
+          "content": "Les membres ne parlent que lorsqu'ils sont reconnus par le président. Les conversations parallèles sont hors règlement."
+        },
+        "mover": {
+          "label": "Le proposant parle en premier",
+          "content": "Le membre qui a présenté la motion obtient le premier discours au débat. L'appui n'a pas à parler."
+        },
+        "alternate": {
+          "label": "Alterner les camps",
+          "content": "Les bons présidents alternent pour et contre lorsque possible pour que le débat reste équilibré."
+        },
+        "time": {
+          "label": "Limites de temps",
+          "content": "Beaucoup de sections limitent les discours à deux ou trois minutes en AGM. Le président peut accepter une motion pour limiter le débat."
+        },
+        "decorum": {
+          "label": "Rester sur la motion",
+          "content": "Le débat doit porter sur la motion au débat — pas sur des griefs sans lien ou des attaques personnelles."
+        }
+      }
+    },
+    "voting": {
+      "navLabel": "Vote",
+      "title": "Comment les votes sont pris",
+      "intro": "Le président énonce la question, puis les membres votent. Consignez le résultat au procès-verbal.",
+      "items": {
+        "voice": {
+          "label": "Vote à voix",
+          "content": "« Tous ceux qui sont pour? Tous ceux qui sont contre? » Rapide et courant pour les points de routine."
+        },
+        "hands": {
+          "label": "Levé de main",
+          "content": "Utilisez-le quand le vote à voix est ambigu ou quand vos règlements l'exigent."
+        },
+        "ballot": {
+          "label": "Vote au scrutin",
+          "content": "Scrutin secret pour les élections et les décisions sensibles — suivez vos règlements."
+        },
+        "majority": {
+          "label": "Majorité",
+          "content": "La plupart des motions principales passent avec une majorité des votes exprimés (plus de la moitié)."
+        },
+        "twoThirds": {
+          "label": "Deux tiers",
+          "content": "Requis pour la clôture du débat, les modifications aux règlements et d'autres actions importantes — confirmez votre seuil."
+        }
+      }
+    },
+    "failures": {
+      "navLabel": "Erreurs courantes",
+      "title": "Quand l'assemblée dérape",
+      "intro": "Ces dérapages apparaissent tôt ou tard dans chaque section. Nommez-les tôt et corrigez la trajectoire.",
+      "items": {
+        "noSecond": {
+          "label": "Pas d'appui",
+          "content": "Sans appui, la motion meurt. Le président doit le dire clairement et passer à la suite."
+        },
+        "chairDebates": {
+          "label": "Le président débat",
+          "content": "Si le président argumente depuis le fauteuil, tout membre peut faire un rappel au règlement."
+        },
+        "lostQuorum": {
+          "label": "Quorum perdu",
+          "content": "Arrêtez les votes contraignants. Annoncez le manque et levez l'assemblée ou continuez avec discussion non contraignante seulement."
+        },
+        "wrongOrder": {
+          "label": "Mauvaise priorité",
+          "content": "Si quelqu'un propose d'amender pendant qu'une motion de report est en suspens, tranchez d'abord sur la motion de report."
+        },
+        "friendly": {
+          "label": "Mythe de « l'amendement amical »",
+          "content": "Il n'y a pas d'amendement amical sans le consentement de l'assemblée. Un amendement exige quand même une motion, un appui et un vote."
+        }
+      }
+    },
+    "scenario": {
+      "navLabel": "Exemple d'AGM commenté",
+      "title": "Exemple commenté : don à la banque alimentaire",
+      "intro": "Un membre veut que la section donne 500 $ à la banque alimentaire lors d'une assemblée générale des membres. Voici comment un plancher bien dirigé le traite :",
+      "phases": {
+        "s1": {
+          "label": "Nouvelles affaires",
+          "content": "Le président reconnaît le membre A sous Nouvelles affaires."
+        },
+        "s2": {
+          "label": "Motion principale",
+          "content": "Membre A : « Je propose que la section ___ donne 500 $ à la banque alimentaire du campus ce mois-ci. » Le membre B appuie."
+        },
+        "s3": {
+          "label": "Ouverture du débat",
+          "content": "Président : « Il est proposé et appuyé que… Y a-t-il débat? » Le membre A parle pour ; le membre C parle contre."
+        },
+        "s4": {
+          "label": "Amendement",
+          "content": "Membre D : « Je propose d'amender en remplaçant « 500 $ » par « 300 $ ». » Le débat revient d'abord sur l'amendement."
+        },
+        "s5": {
+          "label": "Vote sur l'amendement",
+          "content": "L'amendement est adopté. La motion principale est maintenant de 300 $ — le débat peut continuer sur le libellé révisé."
+        },
+        "s6": {
+          "label": "Vote final",
+          "content": "Président : « Tous ceux qui sont pour la motion amendée? Tous ceux qui sont contre? » Motion adoptée ; le secrétaire consigne la décision et la tâche de suivi pour le trésorier."
+        }
+      },
+      "tip": "Ouvrez l'aide-mémoire de procédure sur votre téléphone quand les amendements et les rappels au règlement s'accumulent."
+    },
     "tool": {
-      "navLabel": "Aide-mémoire",
-      "title": "Aide-mémoire de procédure",
-      "intro": "Utilisez notre aide-mémoire de procédure pendant les assemblées pour savoir exactement quoi dire quand vous devez présenter une motion, amender, clore le débat ou faire un rappel au règlement."
+      "navLabel": "Trousse",
+      "title": "Mini aide-mémoire et trousse complète",
+      "intro": "Utilisez-les ensemble : le guide pour la formation, l'aide-mémoire en direct au plancher, et le PDF de poche quand vous présidez sans Wi‑Fi.",
+      "items": {
+        "cheatSheet": "Aide-mémoire de procédure — quatorze actions avec formulation à copier et notes pour le président",
+        "pocketPdf": "PDF quorum et modèle de motion — lignes de motion vierges et liste de contrôle du quorum du module 4 du Centre de formation",
+        "notice": "Créateur d'avis pour tableau — affichez la date, l'heure et le lieu de l'AGM sur le plancher"
+      }
+    },
+    "referenceMaterials": {
+      "downloading": "Préparation du PDF…",
+      "quorum": {
+        "cta": "Télécharger le PDF quorum et motion",
+        "moduleTitle": "Gouvernance démocratique"
+      }
     }
   },
   "bylawsGuide": {
@@ -10467,78 +10662,177 @@
     }
   },
   "rulesOfOrder": {
-    "title": "Aide-mémoire de procédure parlementaire",
+    "title": "Aide-mémoire de procédure",
     "subtitle": "Quoi dire quand vous présentez une motion, amender ou faites un rappel pendant une assemblée syndicale",
     "whenToUse": "Ouvrez ceci sur votre téléphone pendant une assemblée générale des membres quand vous avez besoin de la formulation exacte pour une action parlementaire.",
     "guideLink": "Lire le guide Tenir une assemblée",
     "pickerHeading": "Que voulez-vous faire?",
-    "pickerIntro": "Appuyez sur une action ci-dessous. Chaque fiche indique quoi dire et si vous pouvez interrompre, avez besoin d'un appui ou d'un vote.",
+    "pickerIntro": "Appuyez sur une action ci-dessous. Chaque fiche indique quoi dire, quand l'utiliser et la prochaine étape pour le président.",
     "searchPlaceholder": "Rechercher une action…",
     "searchLabel": "Rechercher une action parlementaire",
-    "noResults": "Aucune action ne correspond. Essayez « motion », « règlement » ou « question ».",
+    "filterLabel": "Filtrer par catégorie",
+    "filterAll": "Toutes",
+    "noResults": "Aucune action ne correspond. Essayez « motion », « règlement » ou « ajournement ».",
+    "copyPhrase": "Copier la phrase",
+    "copied": "Copié",
+    "miniMode": {
+      "title": "Mode mini au plancher",
+      "body": "Recherchez ou filtrez, appuyez sur une action, puis copiez la phrase. Les notes pour le président restent sur la fiche pour savoir ce qui suit."
+    },
     "categories": {
-      "motions": {
-        "label": "Motions"
-      },
-      "points": {
-        "label": "Rappels"
-      }
+      "motions": { "label": "Motions" },
+      "points": { "label": "Rappels" },
+      "meeting": { "label": "Assemblée" }
     },
     "fields": {
       "whatToSay": "Quoi dire",
+      "hint": "Quand l'utiliser",
       "canInterrupt": "Pouvez-vous interrompre?",
       "needsSeconder": "Appui requis?",
       "isDebatable": "Est-ce débattable?",
-      "voteRequired": "Vote requis"
+      "voteRequired": "Vote requis",
+      "chairNote": "Prochaine étape du président"
     },
     "actions": {
       "mainMotion": {
         "label": "Présenter une motion principale",
-        "whatToSay": "« Je propose de [décrire l'action]… »",
+        "whatToSay": "« Je propose que nous [décrire l'action]… »",
+        "hint": "Utilisez quand vous voulez que la section prenne une nouvelle mesure — don, appui, politique ou dépense.",
         "canInterrupt": "Non",
         "needsSeconder": "Oui",
         "isDebatable": "Oui",
-        "voteRequired": "Majorité"
+        "voteRequired": "Majorité",
+        "chairNote": "Reformulez la motion, ouvrez le débat, reconnaissez d'abord le proposant."
       },
       "amendMotion": {
         "label": "Modifier une motion au débat",
         "whatToSay": "« Je propose d'amender la motion en [ajoutant/supprimant des mots]… »",
+        "hint": "Utilisez pour corriger le libellé avant le vote final — pas pour remplacer toute l'idée.",
         "canInterrupt": "Non",
         "needsSeconder": "Oui",
         "isDebatable": "Oui",
-        "voteRequired": "Majorité"
+        "voteRequired": "Majorité",
+        "chairNote": "Votez sur l'amendement avant de revenir à la motion principale amendée."
       },
       "callQuestion": {
         "label": "Forcer le vote et arrêter le débat (clore le débat)",
         "whatToSay": "« Je propose de clore le débat. » OU « Je demande la clôture du débat. »",
+        "hint": "Utilisez quand le débat a fait le tour et que la salle est prête à voter.",
         "canInterrupt": "Non",
         "needsSeconder": "Oui",
         "isDebatable": "Non (vote immédiat)",
-        "voteRequired": "Majorité des deux tiers"
+        "voteRequired": "Majorité des deux tiers",
+        "chairNote": "Si adoptée, votez sur la motion en suspens sans débat supplémentaire."
+      },
+      "tableMotion": {
+        "label": "Reporter ou ajourner la motion",
+        "whatToSay": "« Je propose de reporter la motion. » OU « Je propose de reporter cette affaire à la prochaine assemblée. »",
+        "hint": "Utilisez quand la section a besoin de plus d'information ou de temps avant de décider.",
+        "canInterrupt": "Non",
+        "needsSeconder": "Oui",
+        "isDebatable": "Oui (sur la motion de report)",
+        "voteRequired": "Majorité",
+        "chairNote": "Si adoptée, la motion principale est mise de côté jusqu'à ce que la section la ramène."
+      },
+      "referCommittee": {
+        "label": "Renvoyer la motion à un comité",
+        "whatToSay": "« Je propose de renvoyer la motion au [comité] avec mandat de rapporter d'ici le [date]. »",
+        "hint": "Utilisez pour les dossiers complexes qui exigent des recherches avant un vote final.",
+        "canInterrupt": "Non",
+        "needsSeconder": "Oui",
+        "isDebatable": "Oui",
+        "voteRequired": "Majorité",
+        "chairNote": "Précisez le comité et l'échéance dans la motion avant d'ouvrir le débat."
+      },
+      "limitDebate": {
+        "label": "Limiter ou prolonger le temps de débat",
+        "whatToSay": "« Je propose de limiter le débat à [nombre] minutes par orateur. »",
+        "hint": "Utilisez quand les discours se répètent ou que l'assemblée s'éternise.",
+        "canInterrupt": "Non",
+        "needsSeconder": "Oui",
+        "isDebatable": "Oui",
+        "voteRequired": "Majorité des deux tiers",
+        "chairNote": "Énoncez clairement la limite de temps ; appliquez-la équitablement."
+      },
+      "divideQuestion": {
+        "label": "Voter séparément sur les parties",
+        "whatToSay": "« Je propose de diviser la question. »",
+        "hint": "Utilisez quand une motion comporte des parties indépendantes — p. ex. deux dons distincts dans une seule motion.",
+        "canInterrupt": "Non",
+        "needsSeconder": "Oui",
+        "isDebatable": "Oui",
+        "voteRequired": "Majorité",
+        "chairNote": "Si adoptée, votez sur chaque partie dans l'ordre."
+      },
+      "reconsider": {
+        "label": "Reconsidérer un vote",
+        "whatToSay": "« Je propose de reconsidérer le vote sur [motion]. »",
+        "hint": "Utilisez le même jour ou à la prochaine assemblée selon vos règles — habituellement par un membre du camp gagnant.",
+        "canInterrupt": "Non",
+        "needsSeconder": "Oui",
+        "isDebatable": "Oui (sur la question de reconsidération)",
+        "voteRequired": "Majorité",
+        "chairNote": "Confirmez les règles de délai dans vos règlements avant de rouvrir le débat."
+      },
+      "withdrawMotion": {
+        "label": "Retirer votre motion",
+        "whatToSay": "« Je retire la motion. »",
+        "hint": "Seul le proposant peut demander le retrait — le président demande si un membre s'y oppose.",
+        "canInterrupt": "Non",
+        "needsSeconder": "Non",
+        "isDebatable": "Non",
+        "voteRequired": "Aucun (le président demande s'il y a opposition)",
+        "chairNote": "Sans opposition, la motion est retirée. Si un membre s'oppose, la motion reste au débat."
       },
       "pointOfPrivilege": {
         "label": "Se plaindre du bruit, de la température ou d'une distraction",
         "whatToSay": "« Rappel au privilège! »",
+        "hint": "Utilisez pour le confort, la sécurité ou la capacité d'entendre — pas pour argumenter sur la motion.",
         "canInterrupt": "Oui",
         "needsSeconder": "Non",
         "isDebatable": "Non",
-        "voteRequired": "Tranché par le président"
+        "voteRequired": "Tranché par le président",
+        "chairNote": "Tranchez immédiatement — corrigez la distraction ou refusez si ce n'est pas un vrai privilège."
       },
       "pointOfOrder": {
         "label": "Signaler que les règles ne sont pas respectées",
         "whatToSay": "« Rappel au règlement! »",
+        "hint": "Utilisez quand la procédure est incorrecte — mauvaise priorité, président qui débat, ou quorum perdu.",
         "canInterrupt": "Oui",
         "needsSeconder": "Non",
         "isDebatable": "Non",
-        "voteRequired": "Tranché par le président"
+        "voteRequired": "Tranché par le président",
+        "chairNote": "Énoncez votre décision. Un membre peut en appeler de la décision du président à l'assemblée."
       },
       "pointOfInformation": {
         "label": "Poser une question sur les faits du débat",
         "whatToSay": "« Demande de renseignement! »",
-        "canInterrupt": "Oui (seulement pour une clarification urgente)",
+        "hint": "Utilisez seulement pour une clarification factuelle urgente — pas des discours déguisés en questions.",
+        "canInterrupt": "Oui (clarification urgente seulement)",
         "needsSeconder": "Non",
         "isDebatable": "Non",
-        "voteRequired": "Aucun (le président répond)"
+        "voteRequired": "Aucun (le président répond)",
+        "chairNote": "Répondez brièvement ou orientez la question vers le bon dirigeant."
+      },
+      "adjourn": {
+        "label": "Lever l'assemblée",
+        "whatToSay": "« Je propose de lever l'assemblée. »",
+        "hint": "Utilisez pour clore l'assemblée une fois les affaires terminées ou quand le quorum est perdu.",
+        "canInterrupt": "Non",
+        "needsSeconder": "Oui",
+        "isDebatable": "Non",
+        "voteRequired": "Majorité",
+        "chairNote": "Si adoptée, déclarez l'assemblée levée et notez l'heure."
+      },
+      "recess": {
+        "label": "Prendre une courte pause",
+        "whatToSay": "« Je propose que nous suspendions l'assemblée jusqu'à [heure]. »",
+        "hint": "Utilisez pour une pause toilettes ou un caucus sans terminer l'assemblée.",
+        "canInterrupt": "Non",
+        "needsSeconder": "Oui",
+        "isDebatable": "Non",
+        "voteRequired": "Majorité",
+        "chairNote": "Énoncez l'heure de reprise ; reconvenez avec « L'assemblée est ouverte. »"
       }
     }
   }

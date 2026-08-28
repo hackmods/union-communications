@@ -32,7 +32,7 @@ export const UPDATES: readonly UpdateEntry[] = [
   {
     id: "running-meetings-guide",
     date: "2026-08-28",
-    kind: "guide",
+    kind: "improved",
     href: "/guide/running-meetings",
   },
   {
