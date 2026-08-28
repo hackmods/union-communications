@@ -171,9 +171,31 @@ export function LearnMenuContent({
 }) {
   const t = useTranslations("nav");
   const allActive = pathname === "/guide";
+  const olActive = linkActive(pathname, "/guide/officer-learning");
 
   return (
     <div className="w-full min-w-0">
+      <div className="border-b border-gray-100 px-4 pb-3 pt-4">
+        <Link
+          href="/guide/officer-learning"
+          role="menuitem"
+          tabIndex={-1}
+          aria-current={olActive ? "page" : undefined}
+          onClick={() => {
+            window.setTimeout(onNavigate, 0);
+          }}
+          className={cn(
+            "block rounded-xl bg-[#0B132B] px-4 py-3 outline-none transition-colors duration-150",
+            "hover:bg-[#121d3d] focus-visible:ring-2 focus-visible:ring-opseu-blue/40",
+            olActive && "ring-2 ring-opseu-blue/50",
+          )}
+        >
+          <p className="text-sm font-semibold text-white">{t("officerLearningGuide")}</p>
+          <p className="mt-1 text-xs leading-snug text-slate-300">
+            {t("officerLearningFeatured")}
+          </p>
+        </Link>
+      </div>
       <MenuLinkGroups
         groups={learnGroups}
         pathname={pathname}

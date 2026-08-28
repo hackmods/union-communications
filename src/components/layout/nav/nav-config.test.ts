@@ -56,17 +56,27 @@ describe("path helpers", () => {
     ]);
   });
 
-  it("keeps Steward work as hub-first entry points only", () => {
+  it("keeps five hub-first guide groups with steward training after channels", () => {
+    expect(learnGroups.map((g) => g.labelKey)).toEqual([
+      "learnGroupGuides",
+      "learnGroupChannels",
+      "learnGroupStewardTraining",
+      "learnGroupLibraries",
+      "learnGroupAbout",
+    ]);
+  });
+
+  it("leads steward training with Officer Learning", () => {
     const steward = learnGroups.find(
-      (g) => g.labelKey === "learnGroupStewardWork",
+      (g) => g.labelKey === "learnGroupStewardTraining",
     );
     const channels = learnGroups.find(
       (g) => g.labelKey === "learnGroupChannels",
     );
     expect(steward?.links.map((l) => l.href)).toEqual([
+      "/guide/officer-learning",
       "/guide/steward-playbooks",
       "/guide/steward-101",
-      "/guide/officer-learning",
       "/guide/bargaining",
       "/guide/crisis",
     ]);
@@ -87,21 +97,18 @@ describe("path helpers", () => {
     expect(allGuideHrefs).not.toContain("/guide/membership-signup");
   });
 
-  it("merges Libraries and About into one group", () => {
-    expect(learnGroups.map((g) => g.labelKey)).toEqual([
-      "learnGroupGuides",
-      "learnGroupStewardWork",
-      "learnGroupChannels",
-      "learnGroupLibraries",
-    ]);
+  it("splits libraries from about", () => {
     const libraries = learnGroups.find(
       (g) => g.labelKey === "learnGroupLibraries",
     );
+    const about = learnGroups.find((g) => g.labelKey === "learnGroupAbout");
     expect(libraries?.links.map((l) => l.href)).toEqual([
       "/examples",
       "/captions",
       "/guide/photo-consent",
       "/assets",
+    ]);
+    expect(about?.links.map((l) => l.href)).toEqual([
       "/updates",
       "/manifesto",
       "/install",
@@ -116,7 +123,7 @@ describe("toolGroups", () => {
       "toolsGroupBoards",
       "toolsGroupPrint",
       "toolsGroupSocialWeb",
-      "toolsGroupStewardPrep",
+      "toolsGroupStewardWorksheets",
     ]);
     expect(
       toolGroups.find((g) => g.labelKey === "toolsGroupBoards")?.links.map(
@@ -152,7 +159,7 @@ describe("toolGroups", () => {
     ]);
     expect(
       toolGroups
-        .find((g) => g.labelKey === "toolsGroupStewardPrep")
+        .find((g) => g.labelKey === "toolsGroupStewardWorksheets")
         ?.links.map((l) => l.href),
     ).toEqual([
       "/tools/rtw-accommodation",

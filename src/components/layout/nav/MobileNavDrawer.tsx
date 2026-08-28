@@ -193,6 +193,22 @@ export function MobileNavDrawer({
             active={learnActive}
             onToggle={() => toggleAccordion("learn")}
           >
+            <Link
+              href="/guide/officer-learning"
+              onClick={onCloseAfterNav}
+              aria-current={
+                linkActive(pathname, "/guide/officer-learning") ? "page" : undefined
+              }
+              className={cn(
+                "mb-3 block rounded-xl bg-[#0B132B] px-3 py-3",
+                drawerLinkClass(linkActive(pathname, "/guide/officer-learning")),
+              )}
+            >
+              <p className="text-sm font-semibold text-white">{t("officerLearningGuide")}</p>
+              <p className="mt-1 text-xs leading-snug text-slate-300">
+                {t("officerLearningFeatured")}
+              </p>
+            </Link>
             {learnGroups.map((group) => (
               <MobileGroup
                 key={group.labelKey}

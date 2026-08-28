@@ -18,6 +18,8 @@ import { ModuleToc } from "./ModuleToc";
 import { ModuleTeachingDiagram } from "./ModuleTeachingDiagram";
 import { ModuleRelatedResources } from "./ModuleRelatedResources";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
+import { olTheme } from "@/lib/officer-learning/theme";
+import { cn } from "@/lib/utils";
 
 type Props = {
   meta: ModuleMeta;
@@ -115,29 +117,29 @@ export function ModuleViewer({
   const moduleTitle = t(`modules.${meta.slug}.title`);
 
   return (
-    <div className="min-h-screen bg-[#0B132B] text-white">
+    <div className={olTheme.shell}>
       <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B132B]/95 backdrop-blur print:hidden">
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
           <Link
             href="/guide/steward-playbooks"
-            className="shrink-0 rounded-lg border border-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-amber-400/40 hover:text-white"
+            className="shrink-0 rounded-lg border border-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-orange-400/40 hover:text-white"
           >
             {t("viewer.playbooksNav")}
           </Link>
           <Link
             href="/guide/officer-learning"
-            className="shrink-0 rounded-lg border border-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-teal-400/40 hover:text-white"
+            className="shrink-0 rounded-lg border border-white/10 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-orange-400/40 hover:text-white"
           >
             ← {t("viewer.back")}
           </Link>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm text-amber-300">
+            <p className="truncate text-sm text-orange-300/90">
               {t("moduleLabel", { number: meta.number })}
             </p>
             <p className="truncate font-semibold text-white">{moduleTitle}</p>
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-teal-400 to-amber-400 transition-all duration-300"
+                className={cn("h-full rounded-full transition-all duration-300", olTheme.progressBar)}
                 style={{ width: `${Math.round(displayProgress)}%` }}
               />
             </div>
@@ -145,13 +147,13 @@ export function ModuleViewer({
           <button
             type="button"
             onClick={() => window.print()}
-            className="hidden shrink-0 rounded-lg border border-white/15 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-teal-400/40 md:inline-flex"
+            className="hidden shrink-0 rounded-lg border border-white/15 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-orange-400/40 md:inline-flex"
           >
             {t("viewer.print")}
           </button>
           <a
             href="#module-quiz"
-            className="inline-flex shrink-0 rounded-lg bg-teal-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-teal-400"
+            className="inline-flex shrink-0 rounded-lg bg-opseu-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-opseu-dark"
           >
             {t("viewer.jumpToQuiz")}
           </a>
@@ -160,7 +162,7 @@ export function ModuleViewer({
 
       <div className="border-b border-white/10 bg-[#0B132B] px-4 py-2 lg:hidden sm:px-6 print:hidden">
         <details className="rounded-xl border border-white/10 bg-slate-900/60 open:pb-2">
-          <summary className="cursor-pointer list-none px-3 py-2 text-sm font-semibold text-teal-200 marker:content-none [&::-webkit-details-marker]:hidden">
+          <summary className={cn("cursor-pointer list-none px-3 py-2 text-sm font-semibold marker:content-none [&::-webkit-details-marker]:hidden", olTheme.linkPlain)}>
             {t("viewer.toc")}
           </summary>
           <div className="max-h-64 overflow-y-auto px-1 pb-2">
@@ -176,7 +178,7 @@ export function ModuleViewer({
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:px-8">
         <aside className="hidden lg:block print:hidden">
           <div className="sticky top-28 rounded-2xl border border-white/10 bg-slate-900/60 p-4">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-teal-300">
+            <p className={cn("mb-3", olTheme.sectionLabel)}>
               {t("viewer.toc")}
             </p>
             <ModuleToc
@@ -188,19 +190,16 @@ export function ModuleViewer({
         </aside>
 
         <article ref={articleRef} className="min-w-0 space-y-8">
-          <div className="rounded-xl border border-amber-400/25 bg-amber-500/10 px-4 py-3 text-sm text-amber-50">
+          <div className={cn(olTheme.callout, "text-sm")}>
             {t("disclaimer")}
           </div>
 
           {/* Compact related strip (GuideLayout placement) — sticky chrome keeps short nav labels. */}
           <nav className="text-sm" aria-label={t("viewer.relatedLabel")}>
-            <p className="font-semibold text-teal-200/90">{t("viewer.relatedLabel")}</p>
+            <p className={cn("font-semibold", olTheme.bodySmall)}>{t("viewer.relatedLabel")}</p>
             <ul className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <li>
-                <Link
-                  href="/guide/steward-playbooks"
-                  className="font-medium text-amber-300/90 underline underline-offset-2 hover:text-amber-200"
-                >
+                <Link href="/guide/steward-playbooks" className={olTheme.link}>
                   {t("backToPlaybooks")}
                 </Link>
               </li>
@@ -208,10 +207,7 @@ export function ModuleViewer({
                 <span className="text-slate-600" aria-hidden="true">
                   ·
                 </span>
-                <Link
-                  href="/guide"
-                  className="font-medium text-teal-300 underline underline-offset-2 hover:text-teal-200"
-                >
+                <Link href="/guide" className={olTheme.link}>
                   {t("backToGuide")}
                 </Link>
               </li>
@@ -231,11 +227,11 @@ export function ModuleViewer({
               <div className="absolute inset-0 bg-gradient-to-t from-[#0B132B] via-[#0B132B]/20 to-transparent" />
             </div>
             <div className="space-y-4 p-6 md:p-8">
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-amber-400">
+              <p className={olTheme.eyebrow}>
                 {t("moduleLabel", { number: meta.number })}
               </p>
               <h1 className="text-3xl font-bold md:text-4xl">{moduleTitle}</h1>
-              <p className="text-sm text-teal-200">
+              <p className={olTheme.bodySmall}>
                 {t("readingTime", { minutes: meta.readingMinutes })}
               </p>
               <p className="max-w-3xl leading-relaxed text-slate-200">{module.purpose}</p>
@@ -254,9 +250,9 @@ export function ModuleViewer({
             </div>
           </div>
 
-          <div className="rounded-xl border border-teal-400/30 bg-teal-500/10 px-4 py-3 text-sm text-teal-50">
-            <p className="font-semibold text-teal-100">{t("viewer.quizPreviewTitle")}</p>
-            <p className="mt-1 leading-relaxed text-teal-50/90">{t("viewer.quizPreviewBody")}</p>
+          <div className={olTheme.callout}>
+            <p className={olTheme.calloutTitle}>{t("viewer.quizPreviewTitle")}</p>
+            <p className={olTheme.calloutBody}>{t("viewer.quizPreviewBody")}</p>
           </div>
 
           <ModuleTeachingDiagram slug={meta.slug} />

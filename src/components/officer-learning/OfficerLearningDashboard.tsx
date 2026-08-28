@@ -14,7 +14,9 @@ import {
 import { CertificateDownload } from "./CertificateDownload";
 import { LearningHubSyncPanel } from "./LearningHubSyncPanel";
 import { LearningPathDiagram } from "./LearningPathDiagram";
+import { olTheme } from "@/lib/officer-learning/theme";
 import clsx from "clsx";
+import { cn } from "@/lib/utils";
 
 type Props = {
   modules: ModuleMeta[];
@@ -57,27 +59,25 @@ export function OfficerLearningDashboard({ modules }: Props) {
   }, [confirmReset]);
 
   return (
-    <div className="min-h-screen bg-[#0B132B] text-white">
+    <div className={olTheme.shell}>
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <header className="mb-6 max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-amber-400">
-            {t("eyebrow")}
-          </p>
+          <p className={olTheme.eyebrow}>{t("eyebrow")}</p>
           <h1 className="mt-3 text-4xl font-bold tracking-tight md:text-5xl">{t("title")}</h1>
-          <p className="mt-4 text-lg leading-relaxed text-slate-300">{t("intro")}</p>
-          <p className="mt-4 text-sm text-teal-200/90">
+          <p className={cn("mt-4 text-lg leading-relaxed", olTheme.bodyMuted)}>{t("intro")}</p>
+          <p className={cn("mt-4", olTheme.progressSummary)}>
             {t("progressSummary", { completed: completedCount, total: modules.length })}
           </p>
-          <div className="mt-4 rounded-xl border border-teal-400/30 bg-teal-500/10 px-4 py-3">
-            <p className="font-semibold text-teal-100">{t("quizHint.title")}</p>
-            <p className="mt-1 text-sm leading-relaxed text-teal-50/90">{t("quizHint.body")}</p>
+          <div className={cn("mt-4", olTheme.callout)}>
+            <p className={olTheme.calloutTitle}>{t("quizHint.title")}</p>
+            <p className={olTheme.calloutBody}>{t("quizHint.body")}</p>
           </div>
-          <p className="mt-3 text-sm text-amber-100/90">{t("disclaimer")}</p>
+          <p className={cn("mt-3", olTheme.disclaimer)}>{t("disclaimer")}</p>
         </header>
 
         {/* GuideLayout-style related strip — dark tokens kept (accepted exception). */}
         <nav className="mb-10 text-sm" aria-label={t("relatedNavLabel")}>
-          <p className="font-semibold text-amber-200/90">{t("relatedNavLabel")}</p>
+          <p className={cn("font-semibold", olTheme.bodySmall)}>{t("relatedNavLabel")}</p>
           <ul className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
             {RELATED_LINKS.map((link, i) => (
               <li key={link.href} className="inline-flex items-baseline gap-x-3">
@@ -86,10 +86,7 @@ export function OfficerLearningDashboard({ modules }: Props) {
                     ·
                   </span>
                 )}
-                <Link
-                  href={link.href}
-                  className="font-medium text-teal-300 underline underline-offset-2 hover:text-amber-200"
-                >
+                <Link href={link.href} className={olTheme.link}>
                   {t(link.key)}
                 </Link>
               </li>
@@ -123,7 +120,7 @@ export function OfficerLearningDashboard({ modules }: Props) {
                 "rounded-lg px-4 py-2 text-sm font-semibold transition",
                 confirmReset
                   ? "bg-red-500 text-white hover:bg-red-400"
-                  : "border border-white/15 bg-transparent text-slate-200 hover:border-amber-400/40",
+                  : "border border-white/15 bg-transparent text-slate-200 hover:border-orange-400/40",
               )}
             >
               {confirmReset ? t("settings.confirmReset") : t("settings.reset")}
@@ -153,7 +150,7 @@ export function OfficerLearningDashboard({ modules }: Props) {
                 key={module.id}
                 href={`/guide/officer-learning/${module.slug}`}
                 aria-labelledby={titleId}
-                className="group overflow-hidden rounded-2xl border border-white/10 bg-slate-900/50 shadow-lg transition hover:-translate-y-1 hover:border-teal-400/40 hover:shadow-teal-500/10"
+                className="group overflow-hidden rounded-2xl border border-white/10 bg-slate-900/50 shadow-lg transition hover:-translate-y-1 hover:border-orange-400/30 hover:shadow-orange-500/5"
                 onClick={() => {
                   markModuleOpened(module.id);
                 }}
@@ -167,7 +164,7 @@ export function OfficerLearningDashboard({ modules }: Props) {
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0B132B] via-transparent to-transparent" />
-                  <span className="absolute left-4 top-4 rounded-full bg-amber-500/90 px-3 py-1 text-xs font-bold uppercase tracking-wider text-slate-950">
+                  <span className="absolute left-4 top-4 rounded-full bg-opseu-blue px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
                     {t("moduleLabel", { number: module.number })}
                   </span>
                 </div>
@@ -175,7 +172,7 @@ export function OfficerLearningDashboard({ modules }: Props) {
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <h2
                       id={titleId}
-                      className="text-xl font-bold text-white group-hover:text-teal-100"
+                      className="text-xl font-bold text-white group-hover:text-orange-100"
                     >
                       {t(`modules.${module.slug}.title`)}
                     </h2>
@@ -183,7 +180,7 @@ export function OfficerLearningDashboard({ modules }: Props) {
                       className={clsx(
                         "rounded-full px-3 py-1 text-xs font-semibold",
                         status === "completed" && "bg-emerald-500/20 text-emerald-200",
-                        status === "in_progress" && "bg-teal-500/20 text-teal-100",
+                        status === "in_progress" && "bg-orange-500/20 text-orange-100",
                         status === "not_started" && "bg-white/10 text-slate-300",
                       )}
                       aria-hidden="true"
@@ -197,7 +194,7 @@ export function OfficerLearningDashboard({ modules }: Props) {
                     {t(summaryKey)}
                   </p>
                   <p
-                    className="text-xs font-medium uppercase tracking-wide text-amber-300/90"
+                    className="text-xs font-medium uppercase tracking-wide text-slate-400"
                     aria-hidden="true"
                   >
                     {t("readingTime", { minutes: module.readingMinutes })}

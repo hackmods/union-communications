@@ -19,7 +19,7 @@ Do **not** redo the earlier 2026-08-27 pass (shared `guideCtaClasses` on bargain
 
 | Exception | Why it stays |
 |---|---|
-| **Dark training shell** (`#0B132B`, amber/teal accents) | Intentional “classroom” UI; full GuideLayout light chrome would erase product identity |
+| **Dark training shell** (`#0B132B`, platform orange accents via `olTheme`) | Intentional “focus mode” for self-paced modules — **not** a user-toggle theme; public stewards use OL without Hub login |
 | **Sticky module chrome** (progress bar, Jump to Quiz, print) | Training UX; not part of public GuideLayout |
 | **SourcesBlock in a white inset card** on dark pages | Readable bibliography without forcing the whole page light |
 | **ModuleRelatedResources mid-article** (after content, before quiz) | Practice tools belong next to the lesson; GuideLayout related strip is navigation-only |

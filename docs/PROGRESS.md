@@ -1,5 +1,12 @@
 # Progress Log
 
+## Officer Learning chrome + nav IA refresh (2026-08-27)
+
+- [x] **OL theme:** `olTheme` tokens — navy focus shell kept; amber/teal replaced with platform orange
+- [x] **Nav:** Guides → five groups (channels before steward training); OL featured card + first in Steward training; Tools **Steward worksheets** rename
+- [x] Mobile drawer OL featured card; `comms-public-nav.mdc` + `COMMS.md` updated
+- Verify: `npm run test:unit -- src/components/layout/nav/nav-config.test.ts`
+
 ## Public page QOL pass — full PUBLIC_PATHS review (2026-08-27)
 
 - [x] **UI-018 extended:** `GuideToolAside` on remaining playbook guides (steward-101, bylaws, bargaining, website, crisis, joint-committee, photo-consent, workplace-mapping, dfr, social-media-plan, workshop, steward-playbooks)

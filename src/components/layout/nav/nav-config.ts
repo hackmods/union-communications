@@ -53,14 +53,15 @@ export type NavLinkKey =
 
 export type NavGroupLabelKey =
   | "learnGroupGuides"
-  | "learnGroupStewardWork"
+  | "learnGroupStewardTraining"
   | "learnGroupChannels"
   | "learnGroupLibraries"
+  | "learnGroupAbout"
   | "toolsGroupBrand"
   | "toolsGroupBoards"
   | "toolsGroupPrint"
   | "toolsGroupSocialWeb"
-  | "toolsGroupStewardPrep";
+  | "toolsGroupStewardWorksheets";
 
 export type NavLink = {
   href: string;
@@ -76,8 +77,9 @@ export type NavGroup = {
 export const guidesMenuLabelKey = "guides" as const;
 
 /**
- * Guides ▾ mega-menu — hub-first. Topic playbooks (grievance, DFR, bylaws, …)
- * live on `/guide/steward-playbooks` + Resources, not as mega-menu columns.
+ * Guides ▾ mega-menu — hub-first. Comms onboarding and channels first;
+ * steward training second lane; reference libraries and about last.
+ * Topic playbooks (grievance, DFR, bylaws, …) live on `/guide/steward-playbooks`.
  */
 export const learnGroups: readonly NavGroup[] = [
   {
@@ -87,16 +89,6 @@ export const learnGroups: readonly NavGroup[] = [
       { href: "/guide/social-media-plan", key: "firstWeek" },
       { href: "/guide/resources", key: "resources" },
       { href: "/guide/workshop", key: "workshopGuide" },
-    ],
-  },
-  {
-    labelKey: "learnGroupStewardWork",
-    links: [
-      { href: "/guide/steward-playbooks", key: "stewardPlaybooksHub" },
-      { href: "/guide/steward-101", key: "steward101Guide" },
-      { href: "/guide/officer-learning", key: "officerLearningGuide" },
-      { href: "/guide/bargaining", key: "bargainingGuide" },
-      { href: "/guide/crisis", key: "strikeGuide" },
     ],
   },
   {
@@ -110,12 +102,27 @@ export const learnGroups: readonly NavGroup[] = [
     ],
   },
   {
+    labelKey: "learnGroupStewardTraining",
+    links: [
+      { href: "/guide/officer-learning", key: "officerLearningGuide" },
+      { href: "/guide/steward-playbooks", key: "stewardPlaybooksHub" },
+      { href: "/guide/steward-101", key: "steward101Guide" },
+      { href: "/guide/bargaining", key: "bargainingGuide" },
+      { href: "/guide/crisis", key: "strikeGuide" },
+    ],
+  },
+  {
     labelKey: "learnGroupLibraries",
     links: [
       { href: "/examples", key: "socialExamples" },
       { href: "/captions", key: "captions" },
       { href: "/guide/photo-consent", key: "photoConsent" },
       { href: "/assets", key: "assets" },
+    ],
+  },
+  {
+    labelKey: "learnGroupAbout",
+    links: [
       { href: "/updates", key: "whatsNew" },
       { href: "/manifesto", key: "manifesto" },
       { href: "/install", key: "install" },
@@ -171,7 +178,7 @@ export const toolGroups: readonly NavGroup[] = [
     ],
   },
   {
-    labelKey: "toolsGroupStewardPrep",
+    labelKey: "toolsGroupStewardWorksheets",
     links: [
       { href: "/tools/rtw-accommodation", key: "rtwAccommodation" },
       { href: "/tools/pre-disciplinary-log", key: "preDisciplinaryLog" },

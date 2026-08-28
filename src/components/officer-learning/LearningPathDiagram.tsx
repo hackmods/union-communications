@@ -2,6 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { olTheme } from "@/lib/officer-learning/theme";
 import type { ModuleStatus } from "@/lib/officer-learning/types";
 
 type PathStep = {
@@ -21,9 +22,9 @@ type Props = {
 };
 
 const STATUS_RING: Record<ModuleStatus, string> = {
-  completed: "border-emerald-400 bg-emerald-500 text-slate-950",
-  in_progress: "border-teal-300 bg-teal-500/90 text-slate-950",
-  not_started: "border-white/30 bg-slate-900 text-slate-200",
+  completed: olTheme.statusCompleted,
+  in_progress: olTheme.statusInProgress,
+  not_started: olTheme.statusNotStarted,
 };
 
 /** Six-module learning path with live progress on the dashboard. */
@@ -36,9 +37,7 @@ export function LearningPathDiagram({ steps, label, className }: Props) {
         className,
       )}
     >
-      <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-teal-300">
-        {label}
-      </p>
+      <p className={cn("mb-4", olTheme.sectionLabel)}>{label}</p>
       <ol className="flex flex-col gap-3 lg:flex-row lg:flex-wrap lg:items-stretch lg:gap-2">
         {steps.map((step, index) => (
           <li key={step.id} className="flex min-w-0 flex-1 items-stretch gap-2">
@@ -47,9 +46,9 @@ export function LearningPathDiagram({ steps, label, className }: Props) {
               aria-label={step.ariaLabel}
               className={cn(
                 "flex min-w-0 flex-1 items-center gap-3 rounded-xl border px-3 py-3 transition",
-                "border-white/10 bg-slate-950/40 hover:border-teal-400/40 hover:bg-slate-900/80",
+                olTheme.surfaceHover,
                 step.status === "completed" && "border-emerald-400/30",
-                step.status === "in_progress" && "border-teal-400/40",
+                step.status === "in_progress" && "border-orange-400/40",
               )}
             >
               <span

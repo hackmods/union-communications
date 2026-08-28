@@ -118,7 +118,7 @@ Practice: Run two eight-minute rounds. **Round 1 — privacy gate:** Manager ask
 
 **Round 2 — RTW design:** Same member returns with restrictions: no lifting over 10 lbs, four-hour days for two weeks. Employer proposes reassignment to a lower-paid casual pool outside the bargaining unit. Steward drafts a counter-proposal using task bundling within the unit and a gradual work-hardening grid (Week 1–2: 15 hrs; Week 3–4: 22.5 hrs; Week 5–6: 30 hrs; then full hours) plus a 30-day joint review. Debrief: Did anyone accept diagnosis disclosure? Did the counter preserve wage rate and unit standing?
 
-Practice in the tool: open Tools → Steward prep → RTW & accommodation (/tools/rtw-accommodation) and draft the functional limits and HR script without naming a diagnosis.
+Practice in the tool: open Tools → Steward worksheets → RTW & accommodation (/tools/rtw-accommodation) and draft the functional limits and HR script without naming a diagnosis.
 
 🪞 Reflection: After the drill, list three questions you will ask at every future accommodation meeting before you leave the room.
 
