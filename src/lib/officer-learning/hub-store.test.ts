@@ -7,7 +7,10 @@ import {
   saveOfficerLearningLocalSettings,
   upsertOfficerLearningUser,
 } from "./hub-store";
-import { canManageOfficerLearningReport } from "./access";
+import {
+  canManageOfficerLearningReport,
+  canSyncOfficerLearning,
+} from "./access";
 import { officerLearningDbBackend } from "@/lib/db/backend";
 
 describe("officer learning hub store", () => {
@@ -74,13 +77,46 @@ describe("officer learning hub store", () => {
     ).toBe(false);
     expect(await getOfficerLearningUser("union-a", "missing")).toBeNull();
   });
+
+  it("never lists completions from another union, even with a matching localId", async () => {
+    await saveOfficerLearningLocalSettings({
+      unionId: "union-a",
+      localId: "local-1",
+      reportingEnabled: true,
+      updatedById: "pres-1",
+      updatedAt: new Date().toISOString(),
+    });
+    await upsertOfficerLearningUser({
+      userId: "u-b",
+      unionId: "union-b",
+      localId: "local-1",
+      displayName: "Other union",
+      hubSyncEnabled: true,
+      shareWithLocal: true,
+      modules: {
+        "module-1": { status: "completed", scrollDepth: 100, quizPassed: true },
+      },
+    });
+
+    expect(await listSharedCompletionsForLocal("union-a", "local-1")).toEqual(
+      [],
+    );
+  });
 });
 
 describe("officer learning access", () => {
   it("allows presidents and execs to manage reports", () => {
     expect(canManageOfficerLearningReport(["local_president"])).toBe(true);
     expect(canManageOfficerLearningReport(["local_exec"])).toBe(true);
+    expect(canManageOfficerLearningReport(["union_admin"])).toBe(true);
     expect(canManageOfficerLearningReport(["local_steward"])).toBe(false);
+    expect(canManageOfficerLearningReport([])).toBe(false);
+  });
+
+  it("lets any signed-in role sync personal progress", () => {
+    expect(canSyncOfficerLearning(["local_steward"])).toBe(true);
+    expect(canSyncOfficerLearning(["local_member"])).toBe(true);
+    expect(canSyncOfficerLearning([])).toBe(false);
   });
 });
 
