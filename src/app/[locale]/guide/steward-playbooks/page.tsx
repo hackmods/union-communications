@@ -11,6 +11,7 @@ import {
 } from "@/components/comms/guideCtaClasses";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { Callout } from "@/components/ui/Callout";
+import { GUIDE_STEWARD_PLAYBOOK_LINKS } from "@/lib/comms/guide-registry";
 
 export async function generateMetadata({
   params,
@@ -55,20 +56,7 @@ const workspaceLinks = [
   },
 ] as const;
 
-const playbookLinks = [
-  { href: "/guide/steward-101", key: "steward101" as const },
-  { href: "/guide/officer-learning", key: "officerLearning" as const, featured: true },
-  { href: "/guide/grievance-process", key: "grievance" as const },
-  { href: "/guide/dfr", key: "dfr" as const },
-  { href: "/guide/workplace-mapping", key: "workplaceMapping" as const },
-  { href: "/guide/membership-signup", key: "membershipSignup" as const },
-  { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },
-  { href: "/guide/seniority-bumping", key: "seniority" as const },
-  { href: "/guide/joint-committee", key: "jointCommittee" as const },
-  { href: "/guide/bargaining", key: "bargaining" as const },
-  { href: "/guide/bylaws", key: "bylaws" as const },
-  { href: "/guide/running-meetings", key: "runningMeetings" as const },
-] as const;
+const playbookLinks = GUIDE_STEWARD_PLAYBOOK_LINKS;
 
 export default async function StewardPlaybooksPage({
   params,
@@ -188,7 +176,7 @@ export default async function StewardPlaybooksPage({
               key={href}
               className={
                 "featured" in rest && rest.featured
-                  ? "rounded-xl border border-teal-200 bg-teal-50/60 p-4"
+                  ? "rounded-xl border border-orange-200 bg-orange-50/60 p-4"
                   : undefined
               }
             >
@@ -196,7 +184,7 @@ export default async function StewardPlaybooksPage({
                 {t(`links.${key}`)}
               </Link>
               {"featured" in rest && rest.featured ? (
-                <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-teal-800">
+                <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-opseu-dark">
                   {t("quizBadge")}
                 </p>
               ) : null}

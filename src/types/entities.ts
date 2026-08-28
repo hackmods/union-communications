@@ -88,7 +88,7 @@ export interface BrandKit {
   unionName?: string;
   divisionName?: string;
   local: Local;
-  /** Saved collection identities — OPSEU CAAT Support defaults to FT/PT; others start with one Local */
+  /** Saved collection identities — one Local until a union preset loads starters */
   profiles?: BrandKitProfile[];
   activeProfileId?: string;
   primaryColor: string;

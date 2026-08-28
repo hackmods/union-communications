@@ -3443,7 +3443,7 @@
     "profileStarterNote": "Collections de départ selon votre préréglage syndical. Retirez celles que vous n’utilisez pas et renommez la collection active pour qu’elle corresponde à votre milieu.",
     "profileOtherHint": "Renommez cette collection pour qu’elle corresponde à votre milieu de travail ou à votre unité de négociation.",
     "profilePresetHint": {
-      "opseu-caat-support": "Les membres du soutien collégial à temps plein et à temps partiel partagent la même section. Gardez cette collection, et renommez Autre si vous parlez pour un autre milieu.",
+      "opseu-caat-support": "Les membres du soutien collégial à temps plein et à temps partiel partagent la même section locale et une seule identité de communication. Choisissez le lien d’adhésion FT ou TP ci-dessous — renommez Autre si vous parlez pour un autre milieu.",
       "opseu-caat-academic": "Les sections de personnel enseignant séparent souvent temps plein et charge partielle. Renommez les collections selon votre collège.",
       "opseu-universities": "Les sections universitaires séparent souvent le soutien pédagogique et les services au campus. Gardez seulement les groupes que vous représentez.",
       "opseu-boards-of-education": "Le secteur 3 couvre les conseils scolaires et les institutions culturelles. Gardez les collections qui correspondent à votre milieu.",
@@ -3610,8 +3610,35 @@
       "label": "Préréglage syndical",
       "placeholder": "Choisir un syndicat…",
       "slogans": "Slogans suggérés",
+      "sloganApplyHint": "Touchez un slogan pour l’utiliser comme sous-texte sur vos graphiques.",
       "logoNote": "Le symbole UnionOps est utilisé par défaut jusqu’à ce que vous joigniez un mot-symbole local.",
       "collectionsNote": "Ce préréglage inclut un sélecteur de secteur et des collections de départ que vous pouvez renommer ou retirer dans Paramètres actuels ci-dessous."
+    },
+    "presetSlogans": {
+      "opseu": {
+        "items": [
+          "Éduquer. Défendre. Organiser.",
+          "Parce que les services publics comptent."
+        ]
+      },
+      "cupe": {
+        "items": ["Au cœur de l'action.", "En première ligne."]
+      },
+      "unifor": {
+        "items": ["Un syndicat pour tout le monde."]
+      },
+      "usw": {
+        "items": ["Unité et force pour les travailleurs et travailleuses."]
+      },
+      "ona": {
+        "items": ["Levez-vous, parlez.", "Valoriser les infirmières. Valoriser les soins infirmiers."]
+      },
+      "psac": {
+        "items": ["Ici pour le Canada."]
+      },
+      "other": {
+        "items": ["Solidarité."]
+      }
     },
     "colors": {
       "primary": "Couleur de marque principale",
@@ -6465,6 +6492,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "brand-preset-audit": {
+        "title": "Trousse de marque — couleurs et slogans par syndicat",
+        "body": "Les préréglages syndicaux utilisent maintenant des couleurs de départ vérifiées (dont le rouge et le bleu Unifor), des slogans suggérés à toucher pour les appliquer en anglais et en français, et des polices plus proches pour le SCFP, Unifor et les Métallos."
+      },
       "running-meetings-guide": {
         "title": "Assemblées et règles de procédure",
         "body": "Nouveau guide pour les présidents et délégués — adaptez la formalité à la salle, suivez un ordre du jour type et ouvrez l'aide-mémoire de procédure sur votre téléphone quand le débat commence."

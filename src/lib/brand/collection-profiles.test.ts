@@ -33,6 +33,23 @@ describe("collectionProfilesForPreset", () => {
     });
   });
 
+  it("gives Other preset a single generic Local profile", () => {
+    const { profiles, activeProfileId } = collectionProfilesForPreset(
+      "other",
+      "243",
+      "Solidarity.",
+    );
+    expect(activeProfileId).toBe(GENERIC_COLLECTION_PROFILE_ID);
+    expect(profiles).toHaveLength(1);
+    expect(profiles[0]?.label).toBe("Local");
+  });
+
+  it("fresh DEFAULT_BRAND_KIT starts with one generic Local profile", () => {
+    expect(DEFAULT_BRAND_KIT.profiles).toHaveLength(1);
+    expect(DEFAULT_BRAND_KIT.profiles?.[0]?.id).toBe(GENERIC_COLLECTION_PROFILE_ID);
+    expect(DEFAULT_BRAND_KIT.activeProfileId).toBe(GENERIC_COLLECTION_PROFILE_ID);
+  });
+
   it("gives CUPE a FT / PT / all-employee starter list plus Other", () => {
     const { profiles, activeProfileId } = collectionProfilesForPreset(
       "cupe",

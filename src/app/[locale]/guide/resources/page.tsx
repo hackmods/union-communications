@@ -7,6 +7,10 @@ import { GuideRelatedLinkList } from "@/components/comms/GuideRelatedLinkList";
 import { guideCtaClassSm } from "@/components/comms/guideCtaClasses";
 import { Callout } from "@/components/ui/Callout";
 import { ResourcesSourcesList } from "@/components/comms/ResourcesSourcesList";
+import {
+  GUIDE_RESOURCES_COMMS_LINKS,
+  GUIDE_RESOURCES_LABOUR_LINKS,
+} from "@/lib/comms/guide-registry";
 
 export async function generateMetadata({
   params,
@@ -16,32 +20,8 @@ export async function generateMetadata({
   return buildPublicPageMetadata("/guide/resources", params);
 }
 
-const commsPathLinks = [
-  { href: "/guide", key: "blueprint" as const },
-  { href: "/guide/social-media-plan", key: "plan" as const },
-  { href: "/guide/workshop", key: "workshop" as const },
-  { href: "/guide/union-boards", key: "boards" as const },
-  { href: "/guide/print", key: "print" as const },
-  { href: "/guide/website", key: "website" as const },
-  { href: "/guide/email-broadcast", key: "email" as const },
-  { href: "/guide/short-form", key: "shortForm" as const },
-  { href: "/guide/crisis", key: "crisis" as const },
-  { href: "/guide/photo-consent", key: "photoConsent" as const },
-];
-
-const labourPathLinks = [
-  { href: "/guide/steward-playbooks", key: "stewardPlaybooks" as const },
-  { href: "/guide/steward-101", key: "steward101" as const },
-  { href: "/guide/officer-learning", key: "officerLearning" as const },
-  { href: "/guide/grievance-process", key: "grievance" as const },
-  { href: "/guide/dfr", key: "dfr" as const },
-  { href: "/guide/seniority-bumping", key: "seniority" as const },
-  { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },
-  { href: "/guide/joint-committee", key: "jointCommittee" as const },
-  { href: "/guide/bargaining", key: "bargaining" as const },
-  { href: "/guide/workplace-mapping", key: "workplaceMapping" as const },
-  { href: "/guide/bylaws", key: "bylaws" as const },
-];
+const commsPathLinks = GUIDE_RESOURCES_COMMS_LINKS;
+const labourPathLinks = GUIDE_RESOURCES_LABOUR_LINKS;
 
 const exploreLinks = [
   { href: "/guide/social-media-plan", key: "cta" as const },

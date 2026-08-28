@@ -98,7 +98,8 @@ describe("unionPresets", () => {
     const fields = brandFieldsFromUnionPreset(getUnionPreset("unifor")!);
     expect(fields.useOfficialLogo).toBe(false);
     expect(fields.customLogoDataUrl).toBe(UNIONOPS_LOGOS.mark);
-    expect(fields.primaryColor).toBe("#ED1B2F");
+    expect(fields.primaryColor).toBe("#C31A1A");
+    expect(fields.accentColor).toBe("#005EB8");
     expect(fields.secondaryColor).toBe("#FFFFFF");
     expect(fields.unionPresetId).toBe("unifor");
     expect(fields.membershipUrls).toEqual([]);
@@ -140,16 +141,19 @@ describe("unionPresets", () => {
     expect(getUnionPreset("ona")).toMatchObject({
       primaryColor: "#003865",
       secondaryColor: "#FFD100",
-      defaultSlogans: ["Stand up, speak out."],
+      defaultSlogans: ["Stand up, speak out.", "Value Nurses. Value Nursing."],
     });
     expect(getUnionPreset("psac")).toMatchObject({
       primaryColor: "#E31837",
       secondaryColor: "#FFFFFF",
       defaultSlogans: ["Here for Canada."],
     });
-    expect(getUnionPreset("opseu")?.defaultSlogans).toEqual([
+    expect(getUnionPreset("opseu")?.defaultSlogans[0]).toBe(
       "Educate. Advocate. Organize.",
-    ]);
+    );
+    expect(getUnionPreset("opseu")?.defaultSlogans).toContain(
+      "Because Public Services Matter.",
+    );
     expect(getUnionPreset("other")).toMatchObject({
       name: "Other",
       primaryColor: "#C2410C",

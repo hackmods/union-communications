@@ -768,7 +768,9 @@
         "bylaws": "Local bylaws guide",
         "bylawBuilder": "Bylaw Builder",
         "bargaining": "Bargaining lifecycle",
-        "proposalTracker": "Proposal Tracker"
+        "proposalTracker": "Proposal Tracker",
+        "runningMeetings": "Running meetings guide",
+        "rulesOfOrder": "Rules of Order cheat sheet"
       }
     },
     "reference": {
@@ -3443,7 +3445,7 @@
     "profileStarterNote": "Starter collections from your union preset. Remove any you do not use and rename the active one to match your workplace.",
     "profileOtherHint": "Rename this collection to match your workplace or bargaining unit.",
     "profilePresetHint": {
-      "opseu-caat-support": "Full-time and part-time College Support members share the same local. Keep this collection, and rename Other if you speak for another workplace.",
+      "opseu-caat-support": "Full-time and part-time College Support members share the same local and one comms identity. Pick the matching membership link below for FT or PT join forms — rename Other if you speak for another workplace.",
       "opseu-caat-academic": "College faculty locals often split full-time and partial-load. Rename collections to match your college.",
       "opseu-universities": "University locals often split academic support and campus services. Keep only the groups you represent.",
       "opseu-boards-of-education": "Sector 3 covers school boards and cultural institutions. Keep the collections that match your workplace.",
@@ -3610,8 +3612,35 @@
       "label": "Union preset",
       "placeholder": "Choose a union…",
       "slogans": "Suggested slogans",
+      "sloganApplyHint": "Tap a slogan to use it as sub-text on your graphics.",
       "logoNote": "UnionOps mark is the default until you attach a local wordmark.",
       "collectionsNote": "This preset includes a sector picker and starter collections you can rename or trim in Current settings below."
+    },
+    "presetSlogans": {
+      "opseu": {
+        "items": [
+          "Educate. Advocate. Organize.",
+          "Because Public Services Matter."
+        ]
+      },
+      "cupe": {
+        "items": ["On the front line.", "Au cœur de l'action."]
+      },
+      "unifor": {
+        "items": ["A union for everyone."]
+      },
+      "usw": {
+        "items": ["Unity and Strength for Workers."]
+      },
+      "ona": {
+        "items": ["Stand up, speak out.", "Value Nurses. Value Nursing."]
+      },
+      "psac": {
+        "items": ["Here for Canada."]
+      },
+      "other": {
+        "items": ["Solidarity."]
+      }
     },
     "colors": {
       "primary": "Primary brand colour",
@@ -4644,7 +4673,9 @@
       "bylawsTitle": "Bylaw Builder",
       "bylawsBlurb": "Draft a standard local bylaws template from your executive, quorum, and fiscal-year choices — copy or download as text.",
       "proposalTitle": "Proposal Tracker",
-      "proposalBlurb": "Track articles, union proposals, and employer counters on this device. Export CSV for a USB backup after each session."
+      "proposalBlurb": "Track articles, union proposals, and employer counters on this device. Export CSV for a USB backup after each session.",
+      "rulesTitle": "Rules of Order cheat sheet",
+      "rulesBlurb": "Fourteen parliamentary actions with exact wording, chair notes, and a copy button — built for phones in the meeting room."
     }
   },
   "steward101Guide": {
@@ -6515,6 +6546,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "brand-preset-audit": {
+        "title": "Brand Kit — union preset colours and slogans",
+        "body": "Union presets now use verified starter colours (including Unifor red and blue), tap-to-apply slogan suggestions in English and French, and closer canvas typefaces for CUPE, Unifor, and USW."
+      },
       "running-meetings-guide": {
         "title": "Running meetings & Robert's Rules",
         "body": "New guide for chairs and stewards — scale formality to the room, follow a standard local agenda, and open the Rules of Order cheat sheet on your phone when debate starts."

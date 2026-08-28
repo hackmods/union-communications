@@ -5,6 +5,7 @@
  * Missing / empty logo packs fall back to UnionOps platform marks.
  */
 
+import type { CanvasFontId } from "@/lib/comms/canvas-fonts";
 import { collectionPatchForPreset } from "@/lib/brand/collection-profiles";
 import {
   applyIdentityPack,
@@ -33,6 +34,11 @@ export interface UnionLogoPack {
   officialLogoVariant?: "lockup" | "mark";
 }
 
+export type UnionCanvasFontDefaults = {
+  headline: CanvasFontId;
+  body: CanvasFontId;
+};
+
 export interface UnionBranding {
   id: string;
   name: string;
@@ -42,7 +48,10 @@ export interface UnionBranding {
   accentColor?: string;
   /** Header mark text; defaults to first 4 characters of name */
   logoText?: string;
+  /** First entry applies as sub-text on preset apply; rest are picker suggestions (EN). */
   defaultSlogans: string[];
+  /** Optional canvas typeface defaults — nearest OFL catalog match to official brand. */
+  canvasFontDefaults?: UnionCanvasFontDefaults;
   /** Optional; omitted or empty → UnionOps platform logos */
   logos?: UnionLogoPack;
 }
@@ -139,7 +148,10 @@ export const UNION_PRESETS: UnionBranding[] = [
     primaryColor: "#003DA5",
     secondaryColor: "#FFFFFF",
     accentColor: "#002868",
-    defaultSlogans: ["Educate. Advocate. Organize."],
+    defaultSlogans: [
+      "Educate. Advocate. Organize.",
+      "Because Public Services Matter.",
+    ],
     logos: {
       useOfficialPack: true,
       officialLogoVariant: "mark",
@@ -154,14 +166,17 @@ export const UNION_PRESETS: UnionBranding[] = [
     primaryColor: "#E5007D",
     secondaryColor: "#FFFFFF",
     defaultSlogans: ["On the front line."],
+    canvasFontDefaults: { headline: "montserrat", body: "sourceSans" },
     // No attached logos yet — Brand Kit shows UnionOps mark + upload only
   },
   {
     id: "unifor",
     name: "Unifor",
-    primaryColor: "#ED1B2F",
+    primaryColor: "#C31A1A",
     secondaryColor: "#FFFFFF",
+    accentColor: "#005EB8",
     defaultSlogans: ["A union for everyone."],
+    canvasFontDefaults: { headline: "montserrat", body: "sourceSans" },
   },
   {
     id: "usw",
@@ -169,13 +184,14 @@ export const UNION_PRESETS: UnionBranding[] = [
     primaryColor: "#002A5C",
     secondaryColor: "#FFC72C",
     defaultSlogans: ["Unity and Strength for Workers."],
+    canvasFontDefaults: { headline: "oswald", body: "sourceSans" },
   },
   {
     id: "ona",
     name: "ONA",
     primaryColor: "#003865",
     secondaryColor: "#FFD100",
-    defaultSlogans: ["Stand up, speak out."],
+    defaultSlogans: ["Stand up, speak out.", "Value Nurses. Value Nursing."],
   },
   {
     id: "psac",
@@ -222,8 +238,21 @@ export function colorsFromUnionPreset(preset: UnionBranding): {
   };
 }
 
+function canvasPatchFromPreset(
+  preset: UnionBranding,
+): Pick<BrandKitPatch, "canvas"> | Record<string, never> {
+  const fonts = preset.canvasFontDefaults;
+  if (!fonts) return {};
+  return {
+    canvas: {
+      headlineFontId: fonts.headline,
+      bodyFontId: fonts.body,
+    },
+  };
+}
+
 /** Brand Kit colour + logo + collection + sub-text fields when applying a union preset.
- * OPSEU uses the official pack (mark by default) and CAAT Support FT/PT collections;
+ * OPSEU uses the official pack (mark by default) and College Support collection;
  * others default to the UnionOps mark and a single Local collection.
  * Always sets `membershipUrls` (OPSEU sector starters, or the matching tenant
  * seed / `[]`) so switching presets cannot leave another union's join forms behind.
@@ -243,6 +272,7 @@ export function brandFieldsFromUnionPreset(
   );
   const membershipUrls =
     collections.membershipUrls ?? getSeedMembershipUrlsForPreset(preset.id);
+  const canvasPatch = canvasPatchFromPreset(preset);
 
   if (logos.useOfficialPack) {
     const packId = defaultIdentityPackId(preset.id);
@@ -261,6 +291,7 @@ export function brandFieldsFromUnionPreset(
       unionPresetId: preset.id,
       ...collections,
       membershipUrls,
+      ...canvasPatch,
     };
   }
 
@@ -274,5 +305,6 @@ export function brandFieldsFromUnionPreset(
     unionPresetId: preset.id,
     ...collections,
     membershipUrls,
+    ...canvasPatch,
   };
 }

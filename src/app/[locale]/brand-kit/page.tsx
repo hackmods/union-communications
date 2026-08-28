@@ -274,11 +274,39 @@ export default function BrandKitPage() {
                   <p className="text-sm font-medium text-gray-700">
                     {t("unionPreset.slogans")}
                   </p>
-                  <ul className="mt-1 list-inside list-disc text-sm text-gray-600">
-                    {selectedPreset.defaultSlogans.map((slogan) => (
-                      <li key={slogan}>{slogan}</li>
+                  <ul className="mt-1 space-y-1">
+                    {(
+                      (() => {
+                        const id = selectedPreset.id;
+                        try {
+                          const raw = t.raw(`presetSlogans.${id}.items`);
+                          if (Array.isArray(raw) && raw.length > 0) {
+                            return raw as string[];
+                          }
+                        } catch {
+                          /* preset has no i18n slogan list */
+                        }
+                        return selectedPreset.defaultSlogans;
+                      })()
+                    ).map((slogan) => (
+                      <li key={slogan}>
+                        <button
+                          type="button"
+                          className="text-left text-sm text-opseu-blue underline underline-offset-2 hover:text-opseu-dark"
+                          onClick={() =>
+                            setBrandKit({
+                              local: { ...brandKit.local, subText: slogan },
+                            })
+                          }
+                        >
+                          {slogan}
+                        </button>
+                      </li>
                     ))}
                   </ul>
+                  <p className="mt-1 text-xs text-gray-500">
+                    {t("unionPreset.sloganApplyHint")}
+                  </p>
                 </div>
               </div>
             </div>

@@ -5,6 +5,11 @@ import { Link } from "@/i18n/navigation";
 import { SourcesBlock } from "@/components/comms/SourcesBlock";
 import { GuideLayout } from "@/components/comms/GuideLayout";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
+import {
+  GUIDE_BLUEPRINT_PATH_LINKS,
+  GUIDE_REGISTRY,
+  GUIDE_STEWARD_PLAYBOOKS_HUB,
+} from "@/lib/comms/guide-registry";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 import { Callout } from "@/components/ui/Callout";
 
@@ -36,21 +41,7 @@ const trollKeys = ["spam", "management", "pin", "never"] as const;
 const a11yKeys = ["alt", "contrast", "captions", "mobile"] as const;
 const weekKeys = ["mon", "wed", "thu", "fri"] as const;
 
-const pathLinks = [
-  { href: "/guide/social-media-plan", key: "plan" as const },
-  { href: "/guide/resources", key: "resources" as const },
-  { href: "/guide/crisis", key: "crisis" as const },
-  { href: "/guide/steward-101", key: "steward101" as const },
-  { href: "/guide/officer-learning", key: "officerLearning" as const },
-  { href: "/guide/grievance-process", key: "grievance" as const },
-  { href: "/guide/dfr", key: "dfr" as const },
-  { href: "/guide/seniority-bumping", key: "seniority" as const },
-  { href: "/guide/right-to-refuse", key: "rightToRefuse" as const },
-  { href: "/guide/joint-committee", key: "jointCommittee" as const },
-  { href: "/guide/workplace-mapping", key: "workplaceMapping" as const },
-  { href: "/guide/bylaws", key: "bylaws" as const },
-  { href: "/guide/running-meetings", key: "runningMeetings" as const },
-];
+const pathLinks = GUIDE_BLUEPRINT_PATH_LINKS;
 
 export default async function GuidePage({
   params,
@@ -206,12 +197,7 @@ export default async function GuidePage({
             className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
             aria-label={t("bargainingGuides.title")}
           >
-            {(
-              [
-                { href: "/guide/bargaining", key: "bargaining" as const },
-                { href: "/guide/crisis", key: "crisis" as const },
-              ] as const
-            ).map((link, i) => (
+            {GUIDE_REGISTRY.bargaining.map((link, i) => (
               <span key={link.href} className="inline-flex items-baseline gap-x-3">
                 {i > 0 && (
                   <span className="text-gray-300" aria-hidden="true">
@@ -235,19 +221,7 @@ export default async function GuidePage({
             className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
             aria-label={t("channelGuides.title")}
           >
-            {(
-              [
-                { href: "/guide/union-boards", key: "unionBoards" as const },
-                { href: "/guide/print", key: "print" as const },
-                { href: "/guide/website", key: "website" as const },
-                { href: "/guide/email-broadcast", key: "email" as const },
-                { href: "/guide/short-form", key: "shortForm" as const },
-                {
-                  href: "/guide/membership-signup",
-                  key: "membershipSignup" as const,
-                },
-              ] as const
-            ).map((link, i) => (
+            {GUIDE_REGISTRY.channels.map((link, i) => (
               <span key={link.href} className="inline-flex items-baseline gap-x-3">
                 {i > 0 && (
                   <span className="text-gray-300" aria-hidden="true">
@@ -279,38 +253,9 @@ export default async function GuidePage({
             className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1"
             aria-label={t("labourGuides.title")}
           >
-            {(
-              [
-                { href: "/guide/steward-101", key: "steward101" as const },
-                {
-                  href: "/guide/officer-learning",
-                  key: "officerLearning" as const,
-                },
-                {
-                  href: "/guide/grievance-process",
-                  key: "grievance" as const,
-                },
-                { href: "/guide/dfr", key: "dfr" as const },
-                { href: "/guide/seniority-bumping", key: "seniority" as const },
-                {
-                  href: "/guide/right-to-refuse",
-                  key: "rightToRefuse" as const,
-                },
-                {
-                  href: "/guide/joint-committee",
-                  key: "jointCommittee" as const,
-                },
-                {
-                  href: "/guide/workplace-mapping",
-                  key: "workplaceMapping" as const,
-                },
-                { href: "/guide/bylaws", key: "bylaws" as const },
-                {
-                  href: "/guide/running-meetings",
-                  key: "runningMeetings" as const,
-                },
-              ] as const
-            ).map((link, i) => (
+            {GUIDE_REGISTRY.labour
+              .filter((link) => link.href !== GUIDE_STEWARD_PLAYBOOKS_HUB)
+              .map((link, i) => (
               <span key={link.href} className="inline-flex items-baseline gap-x-3">
                 {i > 0 && (
                   <span className="text-gray-300" aria-hidden="true">
