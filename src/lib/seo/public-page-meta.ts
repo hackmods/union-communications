@@ -180,7 +180,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/running-meetings": {
       title: "Running a Meeting & Robert's Rules",
       description:
-        "Scale parliamentary formality to the room, run a standard local agenda, and know what to say when you move, second, or raise a point of order.",
+        "Quorum, motion precedence, debate, and voting for local chairs — plus a fourteen-action Rules of Order cheat sheet for the floor.",
     },
     "/guide/officer-learning": {
       title: "Officer Learning Center",
@@ -387,7 +387,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/running-meetings": {
       title: "Tenir une assemblée et règles de procédure",
       description:
-        "Adaptez la formalité parlementaire à la salle, suivez un ordre du jour local type et sachez quoi dire pour une motion, un appui ou un rappel au règlement.",
+        "Quorum, priorité des motions, débat et vote pour les présidents locaux — plus un aide-mémoire de quatorze actions pour le plancher.",
     },
     "/guide/officer-learning": {
       title: "Centre de formation des dirigeants",

@@ -1019,6 +1019,7 @@
       "practiceAgain": "S'entraîner à nouveau",
       "alreadyPassed": "Vous avez déjà réussi cette autoévaluation. Votre réussite est enregistrée — réentraînez-vous quand vous voulez.",
       "retestReady": "Réponses effacées. Prenez le temps de lire chaque question.",
+      "answerProgress": "{answered} sur {total} répondues",
       "nextModule": "Module suivant",
       "backToDashboard": "Retour au tableau de bord"
     },
@@ -3627,7 +3628,7 @@
         "items": ["Au cœur de l'action.", "En première ligne."]
       },
       "unifor": {
-        "items": ["Un syndicat pour tout le monde."]
+        "items": ["Un syndicat pour tous.", "A union for everyone."]
       },
       "usw": {
         "items": ["Unité et force pour les travailleurs et travailleuses."]
@@ -3636,7 +3637,7 @@
         "items": ["Levez-vous, parlez.", "Valoriser les infirmières. Valoriser les soins infirmiers."]
       },
       "psac": {
-        "items": ["Ici pour le Canada."]
+        "items": ["Là pour le Canada.", "Here for Canada."]
       },
       "other": {
         "items": ["Solidarité."]
@@ -4567,6 +4568,14 @@
       {
         "label": "Processus de grief",
         "href": "/guide/grievance-process"
+      },
+      {
+        "label": "Tenir une assemblée",
+        "href": "/guide/running-meetings"
+      },
+      {
+        "label": "Aide-mémoire de procédure",
+        "href": "/tools/rules-of-order"
       },
       {
         "label": "Guides thématiques",
@@ -6498,7 +6507,7 @@
     "items": {
       "brand-preset-audit": {
         "title": "Trousse de marque — couleurs et slogans par syndicat",
-        "body": "Les préréglages syndicaux utilisent maintenant des couleurs de départ vérifiées (dont le rouge et le bleu Unifor), des slogans suggérés à toucher pour les appliquer en anglais et en français, et des polices plus proches pour le SCFP, Unifor et les Métallos."
+        "body": "Les préréglages syndicaux utilisent maintenant des couleurs de départ vérifiées (rose du SCFP tiré du site national, rouge Pantone 1805 de l’AFPC, or PMS 122U des Métallos, rouge et bleu Unifor), des slogans suggérés à toucher en anglais et en français, et des polices plus proches lorsque vous choisissez un préréglage."
       },
       "running-meetings-guide": {
         "title": "Tenir une assemblée — guide complet et aide-mémoire",
@@ -8729,7 +8738,7 @@
       "complaintVsGrievance": "Cinq points d'admissibilité, puis brouillon de grief ou autre voie.",
       "bylawBuilder": "Rédigez un modèle de règlements locaux à partir du quorum et de la structure de l'exécutif.",
       "proposalTracker": "Suivez les propositions et contre-propositions sur cet appareil, puis exportez en CSV pour sauvegarde.",
-      "rulesOfOrder": "Choisissez une action parlementaire et lisez exactement quoi dire — sur votre téléphone pendant l'assemblée."
+      "rulesOfOrder": "Quatorze actions parlementaires avec formulation exacte, notes pour le président et copie — conçu pour le téléphone en salle."
     }
   },
   "portal": {
@@ -10090,6 +10099,10 @@
         "boardNotice": {
           "label": "Avis pour tableau syndical",
           "content": "Imprimez la date, l'heure et la ligne « modification des règlements à l'ordre du jour » pour les tableaux de liège."
+        },
+        "runningMeetings": {
+          "label": "Guide Tenir une assemblée",
+          "content": "Présidez une AGM avec quorum selon les règles de Robert — priorité des motions, débat et aide-mémoire de procédure sur votre téléphone."
         },
         "orgChart": {
           "label": "Organigramme",

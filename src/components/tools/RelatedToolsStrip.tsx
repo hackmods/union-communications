@@ -56,6 +56,7 @@ export const RELATED_BY_TOOL: Record<
     { href: "/guide/print", navKey: "printGuide" },
   ],
   "board-notice": [
+    { href: "/guide/running-meetings", navKey: "runningMeetingsGuide" },
     { href: "/tools/flyer-maker", navKey: "flyerMaker" },
     { href: "/tools/qr-card", navKey: "qrCard" },
     { href: "/guide/union-boards", navKey: "unionBoardsGuide" },
@@ -146,6 +147,8 @@ export const RELATED_BY_TOOL: Record<
   ],
   "bylaw-builder": [
     { href: "/guide/bylaws", navKey: "bylawsGuide" },
+    { href: "/guide/running-meetings", navKey: "runningMeetingsGuide" },
+    { href: "/tools/rules-of-order", navKey: "rulesOfOrder" },
     { href: "/tools/board-notice", navKey: "boardNotice" },
     { href: "/tools/org-chart", navKey: "orgChart" },
     { href: "/tools/document-generator", navKey: "documentGenerator" },

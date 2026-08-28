@@ -70,7 +70,14 @@ const failureKeys = [
   "conflict",
   "noApproval",
 ] as const;
-const toolKeys = ["builder", "boardNotice", "orgChart", "email", "letterhead"] as const;
+const toolKeys = [
+  "builder",
+  "boardNotice",
+  "runningMeetings",
+  "orgChart",
+  "email",
+  "letterhead",
+] as const;
 
 export default async function BylawsGuidePage({
   params,
@@ -116,6 +123,11 @@ export default async function BylawsGuidePage({
               label: nav("orgChart"),
               variant: "outline",
             },
+            {
+              href: "/guide/running-meetings",
+              label: nav("runningMeetingsGuide"),
+              variant: "outline",
+            },
           ]}
         />
       }
@@ -124,6 +136,7 @@ export default async function BylawsGuidePage({
         { href: "/guide", label: t("backToGuide") },
         { href: "/tools/bylaw-builder", label: nav("bylawBuilder") },
         { href: "/tools/org-chart", label: nav("orgChart") },
+        { href: "/guide/running-meetings", label: nav("runningMeetingsGuide") },
         { href: "/guide/officer-learning", label: t("related.officerLearning") },
       ]}
       footer={

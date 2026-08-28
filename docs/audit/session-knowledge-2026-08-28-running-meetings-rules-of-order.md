@@ -35,6 +35,7 @@ Public **gold-standard** parliamentary procedure module — not Hub `/app/meetin
 - Confirm local bylaws / standing orders before citing thresholds — guide disclaimer is mandatory.
 - Do not hardcode OPSEU meeting rules; Robert's Rules is reference procedure only.
 - When adding actions, update `RULES_OF_ORDER_ACTION_IDS`, categories, EN+FR `rulesOfOrder.actions`, and `actions.test.ts`.
+- Cross-links: bylaws guide + board-notice + bylaw-builder → running-meetings / rules-of-order; steward playbooks `pathSteps` includes both.
 
 ## Related
 

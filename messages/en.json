@@ -1019,6 +1019,7 @@
       "practiceAgain": "Practice again",
       "alreadyPassed": "You already passed this self-test. Your completion is saved — practice again anytime.",
       "retestReady": "Answers cleared. Take your time with each question.",
+      "answerProgress": "{answered} of {total} answered",
       "nextModule": "Next module",
       "backToDashboard": "Back to dashboard"
     },
@@ -3627,7 +3628,7 @@
         "items": ["On the front line.", "Au cœur de l'action."]
       },
       "unifor": {
-        "items": ["A union for everyone."]
+        "items": ["A union for everyone.", "Un syndicat pour tous."]
       },
       "usw": {
         "items": ["Unity and Strength for Workers."]
@@ -3636,7 +3637,7 @@
         "items": ["Stand up, speak out.", "Value Nurses. Value Nursing."]
       },
       "psac": {
-        "items": ["Here for Canada."]
+        "items": ["Here for Canada.", "Là pour le Canada."]
       },
       "other": {
         "items": ["Solidarity."]
@@ -4617,6 +4618,14 @@
       {
         "label": "Grievance process",
         "href": "/guide/grievance-process"
+      },
+      {
+        "label": "Running meetings",
+        "href": "/guide/running-meetings"
+      },
+      {
+        "label": "Rules of Order cheat sheet",
+        "href": "/tools/rules-of-order"
       },
       {
         "label": "Topic playbooks",
@@ -6548,7 +6557,7 @@
     "items": {
       "brand-preset-audit": {
         "title": "Brand Kit — union preset colours and slogans",
-        "body": "Union presets now use verified starter colours (including Unifor red and blue), tap-to-apply slogan suggestions in English and French, and closer canvas typefaces for CUPE, Unifor, and USW."
+        "body": "Union presets now use verified starter colours (CUPE pink from national site assets, PSAC Pantone 1805 red, USW PMS 122U gold, Unifor red and blue), tap-to-apply slogan suggestions in English and French, and closer canvas typefaces when you pick a preset."
       },
       "running-meetings-guide": {
         "title": "Running meetings — full guide + cheat sheet",
@@ -8729,7 +8738,7 @@
       "complaintVsGrievance": "Five eligibility points, then a grievance draft or alternate route.",
       "bylawBuilder": "Draft a standard local bylaws template from quorum and executive fields.",
       "proposalTracker": "Track bargaining proposals and counters on this device, then export CSV for backup.",
-      "rulesOfOrder": "Tap a parliamentary action and read exactly what to say — on your phone during the meeting."
+      "rulesOfOrder": "Fourteen parliamentary actions with exact wording, chair notes, and copy — built for phones in the meeting room."
     }
   },
   "portal": {
@@ -10090,6 +10099,10 @@
         "boardNotice": {
           "label": "Board Notice Maker",
           "content": "Print the GMM date, time, and \"bylaw amendment on the agenda\" line for cork boards."
+        },
+        "runningMeetings": {
+          "label": "Running meetings guide",
+          "content": "Chair a quorate GMM with Robert's Rules — precedence, debate, and the Rules of Order cheat sheet on your phone."
         },
         "orgChart": {
           "label": "Org Chart",
