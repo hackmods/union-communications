@@ -1,14 +1,17 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { QuizQuestion } from "@/lib/officer-learning/types";
 import { markQuizPassed } from "@/lib/officer-learning/progress";
 import { resetQuizState } from "@/lib/officer-learning/quiz-state";
+import { scrollQuizIntoView } from "@/lib/officer-learning/quiz-scroll";
 import { maybePushHubProgressAfterPass } from "@/lib/officer-learning/hub-sync-client";
 import { Link } from "@/i18n/navigation";
 import { CertificateDownload } from "./CertificateDownload";
 import clsx from "clsx";
+
+const RESET_FADE_MS = 220;
 
 type Props = {
   moduleId: string;
@@ -16,6 +19,7 @@ type Props = {
   moduleTitle: string;
   questions: QuizQuestion[];
   nextModuleSlug: string | null;
+  quizPassed?: boolean;
   onCompleted?: () => void;
 };
 
@@ -27,12 +31,19 @@ export function ModuleQuiz({
   moduleTitle,
   questions,
   nextModuleSlug,
+  quizPassed = false,
   onCompleted,
 }: Props) {
   const t = useTranslations("officerLearning");
+  const sectionRef = useRef<HTMLElement>(null);
   const [answers, setAnswers] = useState<AnswerState>({});
   const [submitted, setSubmitted] = useState(false);
   const [celebrate, setCelebrate] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
+  const [retestHint, setRetestHint] = useState(false);
+
+  const showResults = submitted || isExiting;
+  const inputsLocked = showResults && !isExiting;
 
   const score = useMemo(() => {
     if (!submitted) return 0;
@@ -47,6 +58,7 @@ export function ModuleQuiz({
   const handleSubmit = () => {
     if (Object.keys(answers).length < questions.length) return;
     setSubmitted(true);
+    setRetestHint(false);
     if (questions.every((q) => answers[q.id] === q.correctOptionId)) {
       markQuizPassed(moduleId);
       setCelebrate(true);
@@ -55,20 +67,34 @@ export function ModuleQuiz({
     }
   };
 
-  const handleTryAgain = () => {
-    const next = resetQuizState();
-    setAnswers(next.answers);
-    setSubmitted(next.submitted);
+  const handleRetest = () => {
+    if (isExiting) return;
+    setIsExiting(true);
+    window.setTimeout(() => {
+      const next = resetQuizState();
+      setAnswers(next.answers);
+      setSubmitted(next.submitted);
+      setCelebrate(false);
+      setIsExiting(false);
+      setRetestHint(true);
+      scrollQuizIntoView(sectionRef.current);
+    }, RESET_FADE_MS);
   };
 
   return (
     <section
+      ref={sectionRef}
       id="module-quiz"
       className={clsx(
-        "scroll-mt-32 rounded-2xl border border-teal-500/25 bg-slate-900/70 p-6 shadow-xl transition-transform md:p-8",
-        celebrate && "scale-[1.01] ring-2 ring-emerald-400/40",
+        "scroll-mt-32 rounded-2xl border border-teal-500/25 bg-slate-900/70 p-6 shadow-xl transition-[transform,box-shadow] duration-300 md:p-8",
+        celebrate && !isExiting && "scale-[1.01] ring-2 ring-emerald-400/40",
       )}
     >
+      <div aria-live="polite" className="sr-only">
+        {retestHint && t("quiz.retestReady")}
+        {submitted && !isExiting && (passed ? t("quiz.passed") : t("quiz.retry"))}
+      </div>
+
       <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-400">
@@ -76,18 +102,47 @@ export function ModuleQuiz({
           </p>
           <h2 className="mt-1 text-2xl font-bold text-white md:text-3xl">{t("quiz.title")}</h2>
         </div>
-        {submitted && (
+        <div
+          className={clsx(
+            "min-h-8 transition-opacity duration-200",
+            showResults && !isExiting ? "opacity-100" : "pointer-events-none opacity-0",
+          )}
+          aria-hidden={!showResults || isExiting}
+        >
           <p className="rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-white">
             {t("quiz.score", { score, total: questions.length })}
           </p>
-        )}
+        </div>
       </div>
 
-      <div className="space-y-8">
+      {quizPassed && !submitted && !isExiting && (
+        <div className="mb-6 space-y-3 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3">
+          <p className="font-semibold text-emerald-100">{t("quiz.alreadyPassed")}</p>
+          <CertificateDownload
+            kind="module"
+            achievementTitle={moduleTitle}
+            moduleNumber={moduleNumber}
+          />
+        </div>
+      )}
+
+      {retestHint && !submitted && (
+        <p className="mb-6 rounded-lg border border-teal-400/25 bg-teal-500/10 px-4 py-3 text-sm text-teal-50">
+          {t("quiz.retestReady")}
+        </p>
+      )}
+
+      <div
+        className={clsx(
+          "space-y-8 transition-opacity duration-200",
+          isExiting && "opacity-40",
+        )}
+      >
         {questions.map((question, index) => {
           const selected = answers[question.id];
-          const isCorrect = submitted && selected === question.correctOptionId;
-          const isIncorrect = submitted && selected && selected !== question.correctOptionId;
+          const isCorrect = showResults && selected === question.correctOptionId;
+          const isIncorrect =
+            showResults && selected && selected !== question.correctOptionId;
 
           return (
             <fieldset key={question.id} className="space-y-3">
@@ -97,19 +152,23 @@ export function ModuleQuiz({
               <div className="space-y-2">
                 {question.options.map((option) => {
                   const chosen = selected === option.id;
-                  const showCorrect = submitted && option.id === question.correctOptionId;
-                  const showWrong = submitted && chosen && option.id !== question.correctOptionId;
+                  const showCorrect =
+                    showResults && option.id === question.correctOptionId;
+                  const showWrong =
+                    showResults && chosen && option.id !== question.correctOptionId;
 
                   return (
                     <label
                       key={option.id}
                       className={clsx(
                         "flex cursor-pointer items-start gap-3 rounded-xl border px-4 py-3 transition-colors",
-                        !submitted && chosen && "border-teal-400 bg-teal-500/15",
-                        !submitted && !chosen && "border-white/10 bg-white/5 hover:border-teal-400/40",
+                        !inputsLocked && chosen && "border-teal-400 bg-teal-500/15",
+                        !inputsLocked &&
+                          !chosen &&
+                          "border-white/10 bg-white/5 hover:border-teal-400/40",
                         showCorrect && "border-emerald-400 bg-emerald-500/15",
                         showWrong && "border-red-400 bg-red-500/15",
-                        submitted && !showCorrect && !showWrong && "opacity-70",
+                        inputsLocked && !showCorrect && !showWrong && "opacity-70",
                       )}
                     >
                       <input
@@ -117,7 +176,7 @@ export function ModuleQuiz({
                         name={question.id}
                         value={option.id}
                         checked={chosen}
-                        disabled={submitted}
+                        disabled={inputsLocked}
                         onChange={() =>
                           setAnswers((prev) => ({ ...prev, [question.id]: option.id }))
                         }
@@ -131,71 +190,100 @@ export function ModuleQuiz({
                   );
                 })}
               </div>
-              {submitted && (
-                <p
-                  className={clsx(
-                    "rounded-lg px-4 py-3 text-sm leading-relaxed",
-                    isCorrect && "bg-emerald-500/10 text-emerald-100",
-                    isIncorrect && "bg-red-500/10 text-red-100",
-                  )}
-                >
-                  {question.explanation.replace(/<\/?[^>]+(>|$)/g, "")}
-                </p>
-              )}
+              <div
+                className={clsx(
+                  "grid transition-[grid-template-rows,opacity] duration-200 ease-out",
+                  showResults && !isExiting
+                    ? "grid-rows-[1fr] opacity-100"
+                    : "grid-rows-[0fr] opacity-0",
+                )}
+              >
+                <div className="overflow-hidden">
+                  <p
+                    className={clsx(
+                      "rounded-lg px-4 py-3 text-sm leading-relaxed",
+                      isCorrect && "bg-emerald-500/10 text-emerald-100",
+                      isIncorrect && "bg-red-500/10 text-red-100",
+                    )}
+                  >
+                    {question.explanation.replace(/<\/?[^>]+(>|$)/g, "")}
+                  </p>
+                </div>
+              </div>
             </fieldset>
           );
         })}
       </div>
 
-      {!submitted ? (
-        <button
-          type="button"
-          onClick={handleSubmit}
-          disabled={Object.keys(answers).length < questions.length}
-          className="mt-8 inline-flex items-center justify-center rounded-xl bg-teal-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-teal-400 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          {t("quiz.submit")}
-        </button>
-      ) : passed ? (
-        <div className="mt-8 space-y-4">
-          <p className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 font-semibold text-emerald-100">
-            {t("quiz.passed")}
-          </p>
-          <CertificateDownload
-            kind="module"
-            achievementTitle={moduleTitle}
-            moduleNumber={moduleNumber}
-          />
-          {nextModuleSlug ? (
-            <Link
-              href={`/guide/officer-learning/${nextModuleSlug}`}
-              className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-amber-400"
-            >
-              {t("quiz.nextModule")} →
-            </Link>
-          ) : (
-            <Link
-              href="/guide/officer-learning"
-              className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-amber-400"
-            >
-              {t("quiz.backToDashboard")} →
-            </Link>
-          )}
-        </div>
-      ) : (
-        <div className="mt-8 space-y-4">
-          <p className="rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-amber-100">
-            {t("quiz.retry")}
-          </p>
+      <div
+        className={clsx(
+          "mt-8 transition-opacity duration-200",
+          isExiting && "pointer-events-none opacity-0",
+        )}
+      >
+        {!submitted ? (
           <button
             type="button"
-            onClick={handleTryAgain}
-            className="inline-flex items-center justify-center rounded-xl border border-amber-400/40 bg-transparent px-6 py-3 font-semibold text-amber-100 transition hover:bg-amber-500/15"
+            onClick={handleSubmit}
+            disabled={Object.keys(answers).length < questions.length || isExiting}
+            className="inline-flex items-center justify-center rounded-xl bg-teal-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-teal-400 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {t("quiz.tryAgain")}
+            {t("quiz.submit")}
           </button>
-        </div>
-      )}
+        ) : passed ? (
+          <div className="space-y-4">
+            <p className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 font-semibold text-emerald-100">
+              {t("quiz.passed")}
+            </p>
+            {!quizPassed && (
+              <CertificateDownload
+                kind="module"
+                achievementTitle={moduleTitle}
+                moduleNumber={moduleNumber}
+              />
+            )}
+            <div className="flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={handleRetest}
+                disabled={isExiting}
+                className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-transparent px-6 py-3 font-semibold text-slate-100 transition hover:border-teal-400/40 hover:bg-white/5"
+              >
+                {t("quiz.practiceAgain")}
+              </button>
+              {nextModuleSlug ? (
+                <Link
+                  href={`/guide/officer-learning/${nextModuleSlug}`}
+                  className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-amber-400"
+                >
+                  {t("quiz.nextModule")} →
+                </Link>
+              ) : (
+                <Link
+                  href="/guide/officer-learning"
+                  className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-amber-400"
+                >
+                  {t("quiz.backToDashboard")} →
+                </Link>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <p className="rounded-xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-amber-100">
+              {t("quiz.retry")}
+            </p>
+            <button
+              type="button"
+              onClick={handleRetest}
+              disabled={isExiting}
+              className="inline-flex items-center justify-center rounded-xl border border-amber-400/40 bg-transparent px-6 py-3 font-semibold text-amber-100 transition hover:bg-amber-500/15 disabled:opacity-50"
+            >
+              {t("quiz.tryAgain")}
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 }

@@ -9,6 +9,8 @@ import {
   getModuleProgress,
   markModuleOpened,
   updateScrollDepth,
+  OFFICER_LEARNING_PROGRESS_EVENT,
+  OFFICER_LEARNING_PROGRESS_KEY,
 } from "@/lib/officer-learning/progress";
 import { ModuleContentRenderer } from "./ModuleContentRenderer";
 import { ModuleQuiz } from "./ModuleQuiz";
@@ -60,6 +62,23 @@ export function ModuleViewer({
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
+
+  useEffect(() => {
+    const refreshProgress = () => setProgress(getModuleProgress(meta.id));
+
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === OFFICER_LEARNING_PROGRESS_KEY || event.key === null) {
+        refreshProgress();
+      }
+    };
+
+    window.addEventListener("storage", onStorage);
+    window.addEventListener(OFFICER_LEARNING_PROGRESS_EVENT, refreshProgress);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener(OFFICER_LEARNING_PROGRESS_EVENT, refreshProgress);
+    };
+  }, [meta.id]);
 
   useEffect(() => {
     const headings = module.sections.flatMap((section) => [
@@ -261,6 +280,7 @@ export function ModuleViewer({
             moduleTitle={moduleTitle}
             questions={module.quiz}
             nextModuleSlug={nextModuleSlug}
+            quizPassed={progress.quizPassed}
             onCompleted={() => setProgress(getModuleProgress(meta.id))}
           />
 

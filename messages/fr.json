@@ -1003,6 +1003,9 @@
       "passed": "Score parfait — module complété. Solidarité.",
       "retry": "Relisez les explications ci-dessus, puis réessayez avec de nouvelles réponses.",
       "tryAgain": "Réessayer",
+      "practiceAgain": "S'entraîner à nouveau",
+      "alreadyPassed": "Vous avez déjà réussi cette autoévaluation. Votre réussite est enregistrée — réentraînez-vous quand vous voulez.",
+      "retestReady": "Réponses effacées. Prenez le temps de lire chaque question.",
       "nextModule": "Module suivant",
       "backToDashboard": "Retour au tableau de bord"
     },

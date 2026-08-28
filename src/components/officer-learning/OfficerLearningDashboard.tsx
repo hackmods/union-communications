@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -49,6 +49,12 @@ export function OfficerLearningDashboard({ modules }: Props) {
     setProgress({});
     setConfirmReset(false);
   };
+
+  useEffect(() => {
+    if (!confirmReset) return;
+    const timer = window.setTimeout(() => setConfirmReset(false), 5000);
+    return () => window.clearTimeout(timer);
+  }, [confirmReset]);
 
   return (
     <div className="min-h-screen bg-[#0B132B] text-white">

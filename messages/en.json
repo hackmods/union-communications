@@ -1003,6 +1003,9 @@
       "passed": "Perfect score — module complete. Solidarity.",
       "retry": "Review the explanations above, then try again with a fresh set of answers.",
       "tryAgain": "Try again",
+      "practiceAgain": "Practice again",
+      "alreadyPassed": "You already passed this self-test. Your completion is saved — practice again anytime.",
+      "retestReady": "Answers cleared. Take your time with each question.",
       "nextModule": "Next module",
       "backToDashboard": "Back to dashboard"
     },

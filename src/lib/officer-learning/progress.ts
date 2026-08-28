@@ -2,6 +2,13 @@ import type { LearningProgressStore, ModuleProgress, ModuleStatus } from "./type
 
 export const OFFICER_LEARNING_PROGRESS_KEY = "unionops-officer-learning-progress";
 
+export const OFFICER_LEARNING_PROGRESS_EVENT = "unionops-officer-learning-progress-changed";
+
+function notifyProgressChanged(): void {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent(OFFICER_LEARNING_PROGRESS_EVENT));
+}
+
 const DEFAULT_PROGRESS: ModuleProgress = {
   status: "not_started",
   scrollDepth: 0,
@@ -82,6 +89,7 @@ export function markQuizPassed(moduleId: string): ModuleProgress {
   };
   store[moduleId] = next;
   writeStore(store);
+  notifyProgressChanged();
   return next;
 }
 
@@ -89,6 +97,7 @@ export function resetAllProgress(): void {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.removeItem(OFFICER_LEARNING_PROGRESS_KEY);
+    notifyProgressChanged();
   } catch {
     /* quota / private mode */
   }
@@ -96,7 +105,9 @@ export function resetAllProgress(): void {
 
 /** Replace the entire progress map (used when merging Hub → device). */
 export function replaceAllProgress(store: LearningProgressStore): boolean {
-  return writeStore(store);
+  const ok = writeStore(store);
+  if (ok) notifyProgressChanged();
+  return ok;
 }
 
 export function statusLabelKey(status: ModuleStatus): string {
