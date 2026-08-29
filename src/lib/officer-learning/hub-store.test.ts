@@ -102,6 +102,31 @@ describe("officer learning hub store", () => {
       [],
     );
   });
+
+  it("never lists completions from another local in the same union", async () => {
+    await saveOfficerLearningLocalSettings({
+      unionId: "union-a",
+      localId: "local-1",
+      reportingEnabled: true,
+      updatedById: "pres-1",
+      updatedAt: new Date().toISOString(),
+    });
+    await upsertOfficerLearningUser({
+      userId: "u-other-local",
+      unionId: "union-a",
+      localId: "local-2",
+      displayName: "Other local",
+      hubSyncEnabled: true,
+      shareWithLocal: true,
+      modules: {
+        "module-1": { status: "completed", scrollDepth: 100, quizPassed: true },
+      },
+    });
+
+    expect(await listSharedCompletionsForLocal("union-a", "local-1")).toEqual(
+      [],
+    );
+  });
 });
 
 describe("officer learning access", () => {
