@@ -1,15 +1,18 @@
 import { describe, it, expect } from "vitest";
 import {
   COMMS_SOURCES,
+  commsSourceUrl,
   getOpseuWebsiteFooterSources,
   getSourcesForPage,
   getSourcesByCategory,
   getWebsiteRightsPartnersFederationSources,
+  getWebsiteRightsPartnersOntarioSources,
   isReferenceAssetPackVisible,
   OPSEU_WEBSITE_FOOTER_SOURCE_IDS,
   PAGE_SOURCE_IDS,
   sourceMatchesUnion,
   WEBSITE_RIGHTS_PARTNERS_FEDERATION_SOURCE_IDS,
+  WEBSITE_RIGHTS_PARTNERS_ONTARIO_SOURCE_IDS,
 } from "@/lib/constants/comms-sources";
 
 describe("comms-sources", () => {
@@ -220,5 +223,40 @@ describe("comms-sources", () => {
       expect(source.unionIds).toBeUndefined();
       expect(source.url).toMatch(/^https:\/\//);
     }
+  });
+
+  it("resolves Rights & Partners Ontario links from the registry", () => {
+    const ontario = getWebsiteRightsPartnersOntarioSources();
+    expect(ontario).toHaveLength(WEBSITE_RIGHTS_PARTNERS_ONTARIO_SOURCE_IDS.length);
+    expect(ontario.map((s) => s.id)).toEqual([
+      ...WEBSITE_RIGHTS_PARTNERS_ONTARIO_SOURCE_IDS,
+    ]);
+    for (const source of ontario) {
+      expect(source.url).toMatch(/^https:\/\//);
+    }
+  });
+
+  it("resolves commsSourceUrl for board and QR presets", () => {
+    expect(commsSourceUrl("ontario-ohsa-guide")).toBe(
+      COMMS_SOURCES["ontario-ohsa-guide"].url,
+    );
+    expect(commsSourceUrl("ontario-esa-poster")).toMatch(/mandatory-information/);
+  });
+
+  it("maps union boards guide to Ontario rights and federation sources", () => {
+    expect(getSourcesForPage("unionBoards").map((s) => s.id)).toEqual([
+      "opseu-collective-agreements",
+      "opseu-branding",
+      "ontario-required-posters",
+      "ontario-esa-poster",
+      "ontario-esa-guide",
+      "ontario-ohsa",
+      "ontario-ohsa-guide",
+      "ontario-lra-s74",
+      "ohrc-code-rights",
+      "ofl",
+      "nupge",
+      "clc",
+    ]);
   });
 });

@@ -47,6 +47,11 @@ export const STEWARD_WORKSPACE_FOOTER = {
   fr: "UnionOps espace délégué — notes et formation sur cet appareil. Vérifiez la pratique avec votre convention collective. Pas un avis juridique.",
 } as const;
 
+export const COMMS_GUIDE_FOOTER = {
+  en: "UnionOps Comms — shop-floor reference. Confirm posters and links against current ministry pages. Not legal advice.",
+  fr: "UnionOps Communications — référence sur le plancher. Vérifiez affiches et liens sur les pages ministérielles à jour. Pas un avis juridique.",
+} as const;
+
 /** Optional Brand Kit styling for text PDFs. */
 export type GuidePdfBrand = {
   primaryColor?: string;

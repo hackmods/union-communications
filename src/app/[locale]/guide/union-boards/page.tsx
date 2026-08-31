@@ -20,6 +20,8 @@ import { BOARD_LAYOUT_REFERENCES } from "@/lib/constants/board-layouts";
 import {
   materialsByKind,
 } from "@/lib/constants/board-materials";
+import { BoardReferenceSheetButton } from "@/components/comms/BoardReferenceSheetButton";
+import { SpreadsheetXlsxButton } from "@/components/comms/SpreadsheetXlsxButton";
 
 export async function generateMetadata({
   params,
@@ -223,13 +225,29 @@ export default async function UnionBoardsGuidePage({
               <p className="mt-1 text-sm text-gray-700">
                 {t(`materials.items.${item.descriptionKey}`)}
               </p>
-              <a
-                href={item.href}
-                className="mt-2 inline-block text-sm font-medium text-opseu-blue underline"
-                download
-              >
-                {t("materials.downloadTemplate")}
-              </a>
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-sm">
+                {item.pdfReference ? (
+                  <BoardReferenceSheetButton kind={item.pdfReference} />
+                ) : item.href ? (
+                  <>
+                    <a
+                      href={item.href}
+                      className="font-medium text-opseu-blue underline"
+                      download
+                    >
+                      {t("materials.downloadTemplate")}
+                    </a>
+                    {item.offerXlsx ? (
+                      <SpreadsheetXlsxButton
+                        csvHref={item.href}
+                        downloadBasename={
+                          item.href.split("/").pop() ?? "sample.csv"
+                        }
+                      />
+                    ) : null}
+                  </>
+                ) : null}
+              </div>
             </li>
           ))}
         </ul>

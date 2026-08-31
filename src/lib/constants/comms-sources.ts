@@ -213,6 +213,46 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     url: "https://www.ontario.ca/laws/statute/90o01",
     note: "Live OHSA statute - prefer QR to e-Laws over outdated paper copies on union boards.",
   },
+  "ontario-ohsa-guide": {
+    id: "ontario-ohsa-guide",
+    category: "union",
+    label: "Guide to the Occupational Health and Safety Act",
+    url: "https://www.ontario.ca/document/guide-occupational-health-and-safety-act",
+    note: "Plain-language worker rights: know, participate, and refuse unsafe work.",
+    lastVerified: "2026-08-31",
+  },
+  "ontario-esa-guide": {
+    id: "ontario-esa-guide",
+    category: "union",
+    label: "Your guide to the Employment Standards Act",
+    url: "https://www.ontario.ca/document/your-guide-employment-standards-act-0",
+    note: "Full ESA guide for vacation, leaves, hours, and termination — distinct from the mandatory poster page.",
+    lastVerified: "2026-08-31",
+  },
+  "ohrc-code-rights": {
+    id: "ohrc-code-rights",
+    category: "union",
+    label: "Ontario Human Rights Code — rights and responsibilities",
+    url: "https://www.ohrc.on.ca/en/human-rights-code",
+    note: "OHRC plain-language overview for union board QR sheets and member rights zones.",
+    lastVerified: "2026-08-31",
+  },
+  "ontario-ohrc-statute": {
+    id: "ontario-ohrc-statute",
+    category: "union",
+    label: "Ontario Human Rights Code (e-Laws)",
+    url: "https://www.ontario.ca/laws/statute/90h19",
+    note: "Live statute text for website footers and rights references.",
+    lastVerified: "2026-08-31",
+  },
+  "wsib-ontario": {
+    id: "wsib-ontario",
+    category: "union",
+    label: "WSIB — Workplace Safety and Insurance Board (Ontario)",
+    url: "https://www.wsib.ca/en",
+    note: "Injury reporting and workers compensation hub — pair with Form 82 on union boards.",
+    lastVerified: "2026-08-31",
+  },
   "ontario-lra-s74": {
     id: "ontario-lra-s74",
     category: "union",
@@ -397,7 +437,11 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "opseu-branding",
     "ontario-required-posters",
     "ontario-esa-poster",
+    "ontario-esa-guide",
     "ontario-ohsa",
+    "ontario-ohsa-guide",
+    "ontario-lra-s74",
+    "ohrc-code-rights",
     "ofl",
     "nupge",
     "clc",
@@ -595,6 +639,14 @@ export const WEBSITE_RIGHTS_PARTNERS_FEDERATION_SOURCE_IDS = [
   "clc",
 ] as const;
 
+/** Ontario rights statutes and guides in the website ZIP “Rights & Partners” column. */
+export const WEBSITE_RIGHTS_PARTNERS_ONTARIO_SOURCE_IDS = [
+  "ontario-esa-guide",
+  "ontario-ohrc-statute",
+  "ontario-ohsa",
+  "wsib-ontario",
+] as const;
+
 /**
  * Whether a registry row applies to the current Brand Kit union preset.
  * - No `unionIds` → universal.
@@ -637,6 +689,21 @@ export function getWebsiteRightsPartnersFederationSources(): CommsSource[] {
   return WEBSITE_RIGHTS_PARTNERS_FEDERATION_SOURCE_IDS.map(
     (id) => COMMS_SOURCES[id],
   ).filter(Boolean);
+}
+
+export function getWebsiteRightsPartnersOntarioSources(): CommsSource[] {
+  return WEBSITE_RIGHTS_PARTNERS_ONTARIO_SOURCE_IDS.map(
+    (id) => COMMS_SOURCES[id],
+  ).filter(Boolean);
+}
+
+/** Registry URL for presets and board materials — fails fast in dev if id is missing. */
+export function commsSourceUrl(id: string): string {
+  const source = COMMS_SOURCES[id];
+  if (!source) {
+    throw new Error(`Unknown comms source id: ${id}`);
+  }
+  return source.url;
 }
 
 export function getSourcesForPage(

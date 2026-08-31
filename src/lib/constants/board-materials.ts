@@ -4,11 +4,15 @@
  * No real member names or college-specific identifiers.
  */
 
+import { commsSourceUrl } from "@/lib/constants/comms-sources";
+
 export type BoardMaterialKind =
   | "ministryPoster"
   | "ministryLink"
   | "localTemplate"
   | "examplePhoto";
+
+export type BoardPdfReferenceId = "board-checklist" | "ohsa-qr-tip";
 
 export interface BoardMaterial {
   id: string;
@@ -16,8 +20,12 @@ export interface BoardMaterial {
   /** i18n key under unionBoardsGuide.materials.items.* */
   titleKey: string;
   descriptionKey: string;
-  /** Public path or absolute URL */
-  href: string;
+  /** Public path or absolute URL (posters, spreadsheets, photos). */
+  href?: string;
+  /** Branded PDF download for local templates (Union Boards guide). */
+  pdfReference?: BoardPdfReferenceId;
+  /** When true, offer Excel download alongside CSV href. */
+  offerXlsx?: boolean;
   /** Optional official source page (ministry) */
   officialUrl?: string;
   /** Suggested bare-minimum zone */
@@ -31,7 +39,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     titleKey: "esaPoster",
     descriptionKey: "esaPosterDesc",
     href: "/assets/ontario-board-posters/esa-employment-standards-poster.pdf",
-    officialUrl: "https://www.ontario.ca/document/your-guide-employment-standards-act-0/mandatory-information-employees",
+    officialUrl: commsSourceUrl("ontario-esa-poster"),
     zone: "healthSafety",
   },
   {
@@ -40,7 +48,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     titleKey: "esaPosterAlt",
     descriptionKey: "esaPosterAltDesc",
     href: "/assets/ontario-board-posters/esa-poster-mltsd-2020.pdf",
-    officialUrl: "https://www.ontario.ca/page/posters-required-workplace",
+    officialUrl: commsSourceUrl("ontario-required-posters"),
     zone: "healthSafety",
   },
   {
@@ -49,7 +57,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     titleKey: "form82",
     descriptionKey: "form82Desc",
     href: "/assets/ontario-board-posters/wsib-in-case-of-injury-form82.pdf",
-    officialUrl: "https://www.ontario.ca/page/posters-required-workplace",
+    officialUrl: commsSourceUrl("ontario-required-posters"),
     zone: "healthSafety",
   },
   {
@@ -57,8 +65,8 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     kind: "ministryLink",
     titleKey: "ohsa",
     descriptionKey: "ohsaDesc",
-    href: "https://www.ontario.ca/laws/statute/90o01",
-    officialUrl: "https://www.ontario.ca/document/guide-occupational-health-and-safety-act",
+    href: commsSourceUrl("ontario-ohsa"),
+    officialUrl: commsSourceUrl("ontario-ohsa-guide"),
     zone: "healthSafety",
   },
   {
@@ -66,7 +74,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     kind: "ministryLink",
     titleKey: "ohsaGuide",
     descriptionKey: "ohsaGuideDesc",
-    href: "https://www.ontario.ca/document/guide-occupational-health-and-safety-act",
+    href: commsSourceUrl("ontario-ohsa-guide"),
     zone: "healthSafety",
   },
   {
@@ -74,7 +82,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     kind: "ministryLink",
     titleKey: "requiredPostersHub",
     descriptionKey: "requiredPostersHubDesc",
-    href: "https://www.ontario.ca/page/posters-required-workplace",
+    href: commsSourceUrl("ontario-required-posters"),
     zone: "healthSafety",
   },
   {
@@ -82,7 +90,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     kind: "localTemplate",
     titleKey: "boardChecklist",
     descriptionKey: "boardChecklistDesc",
-    href: "/demo/union-boards/board-print-checklist.md",
+    pdfReference: "board-checklist",
     zone: "header",
   },
   {
@@ -91,6 +99,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     titleKey: "boardTracker",
     descriptionKey: "boardTrackerDesc",
     href: "/demo/union-boards/board-tracker-sample.csv",
+    offerXlsx: true,
     zone: "lec",
   },
   {
@@ -99,6 +108,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     titleKey: "jhscSample",
     descriptionKey: "jhscSampleDesc",
     href: "/demo/union-boards/jhsc-member-list-sample.csv",
+    offerXlsx: true,
     zone: "healthSafety",
   },
   {
@@ -106,7 +116,7 @@ export const BOARD_MATERIALS: readonly BoardMaterial[] = [
     kind: "localTemplate",
     titleKey: "ohsaQrTip",
     descriptionKey: "ohsaQrTipDesc",
-    href: "/demo/union-boards/ohsa-qr-access-tip.md",
+    pdfReference: "ohsa-qr-tip",
     zone: "healthSafety",
   },
   {

@@ -1,5 +1,5 @@
 import type { WebsiteNavLink, WebsiteTemplateData } from "@/types/website-template";
-import { getOpseuWebsiteFooterSources, getWebsiteRightsPartnersFederationSources } from "@/lib/constants/comms-sources";
+import { getOpseuWebsiteFooterSources, getWebsiteRightsPartnersFederationSources, getWebsiteRightsPartnersOntarioSources } from "@/lib/constants/comms-sources";
 import {
   isWebsiteHttpUrl,
   toWebsiteNavLinks,
@@ -131,6 +131,12 @@ ${membershipItems}
         `          <li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)}</a></li>`,
     )
     .join("\n");
+  const ontarioFooterLinks = getWebsiteRightsPartnersOntarioSources()
+    .map(
+      (source) =>
+        `          <li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)}</a></li>`,
+    )
+    .join("\n");
   const opseuResourcesHtml = data.includeOpseuResources
     ? `      <div class="footer-col">
         <h3>Union Resources</h3>
@@ -222,10 +228,7 @@ ${customLinkItems}
 ${membershipColumn}${opseuResourcesHtml}      <div class="footer-col">
         <h3>Rights &amp; Partners</h3>
         <ul>
-          <li><a href="https://www.ontario.ca/document/your-guide-employment-standards-act-0" target="_blank" rel="noopener noreferrer">Employment Standards Act Guide</a></li>
-          <li><a href="https://www.ontario.ca/laws/statute/90h19" target="_blank" rel="noopener noreferrer">Ontario Human Rights Code</a></li>
-          <li><a href="https://www.ontario.ca/laws/statute/90o01" target="_blank" rel="noopener noreferrer">Occupational Health &amp; Safety</a></li>
-          <li><a href="https://www.wsib.ca/en" target="_blank" rel="noopener noreferrer">WSIB - Ontario</a></li>
+${ontarioFooterLinks}
 ${federationFooterLinks}
         </ul>
       </div>

@@ -1193,6 +1193,9 @@
       "openLink": "Ouvrir la page officielle",
       "officialSource": "Source ministérielle",
       "downloadTemplate": "Télécharger l'exemple",
+      "downloadXlsx": "Télécharger Excel",
+      "downloadingXlsx": "Préparation d'Excel…",
+      "spreadsheetExportError": "Échec de l'export Excel — téléchargez plutôt l'exemple CSV.",
       "items": {
         "esaPoster": "Affiche Normes d'emploi en Ontario",
         "esaPosterDesc": "Aperçu des droits selon la LNE - heures, congés, vacances, cessation. Excellent défaut pour la zone santé-sécurité / droits.",
@@ -1223,6 +1226,16 @@
         "denseBoardPhoto": "Tableau dense de campagne",
         "denseBoardPhotoDesc": "Grandes affiches de campagne avec feuille QR et cartes de contact - utile quand il faut du remplissage solidarité autour des zones permanentes.",
         "denseBoardPhotoAlt": "Photo d'un tableau d'affichage syndical densément garni d'affiches de campagne, codes QR et cartes de contact"
+      }
+    },
+    "referenceMaterials": {
+      "downloading": "Préparation du PDF…",
+      "exportError": "Échec de l'export PDF — réessayez ou utilisez la liste à l'écran.",
+      "board-checklist": {
+        "cta": "Télécharger la liste d'impression (PDF)"
+      },
+      "ohsa-qr-tip": {
+        "cta": "Télécharger la fiche QR LSST (PDF)"
       }
     },
     "practiceTitle": "Bonnes pratiques",
@@ -6510,6 +6523,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "union-boards-pdf-templates": {
+        "title": "Guide tableaux syndicaux — listes PDF et exemples Excel",
+        "body": "Téléchargez une liste d'impression et une fiche QR LSST en PDF avec votre marque, et ouvrez les suivis CSV en Excel si vous préférez les feuilles de calcul."
+      },
       "website-hero-mesh": {
         "title": "Arrière-plans d’accueil du modèle de site remis au goût du jour",
         "body": "La trame est maintenant le motif d’accueil par défaut. Arc et Éclat remplacent les anciens préréglages Bandes et Horizon par des formes plus douces derrière le nom et le logo de votre local."

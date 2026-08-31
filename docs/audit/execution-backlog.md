@@ -615,6 +615,21 @@ Added 2026-07-30 after steward reports that national-union bibliography links (s
 - `/assets` hides OPSEU downloads when preset is non-`opseu`.  
 - Knowledge doc records trademark stance (not legal advice).
 
+### [LINK-003] ✅ CLOSED (2026-08-31)
+**Category:** Comms / Union Boards reference materials  
+**Severity/Priority:** Low-Medium (steward-facing `.md` templates and hardcoded Ontario URLs outside registry)  
+**Status:** Closed — board materials deduped to `COMMS_SOURCES`; website ZIP Ontario footer wired; branded PDF + optional XLSX on `/guide/union-boards`; QR card/board presets use `commsSourceUrl()`.  
+**Affected Architecture/Files:**  
+- `src/lib/constants/comms-sources.ts`, `board-materials.ts`  
+- `src/lib/comms/board-reference-pdf.ts`, `csv-to-xlsx.ts`  
+- `src/lib/templates/website/generate-website-zip.ts`  
+- `src/lib/constants/qr-card-presets.ts`, `qr-board-presets.ts`  
+- `src/app/[locale]/guide/union-boards/page.tsx`  
+**Acceptance Criteria:**  
+- No raw `.md` board templates in `public/demo/union-boards/` for checklist/OHSA tip.  
+- Ontario ministry links on board guide and website ZIP resolve through registry helpers.  
+- Unit + guide PDF smoke cover board checklist export.
+
 ---
 
 ## PUBLIC COPY & i18n (`COPY-`)

@@ -98,6 +98,30 @@ test.describe("Guide text PDF export smoke @smoke", () => {
       titleNeedle: /Local bylaws/i,
       footerNeedle: /UnionOps Officer Learning/i,
     });
+
+    await page.goto("/en/guide/union-boards/", { waitUntil: "domcontentloaded" });
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible({
+      timeout: 60_000,
+    });
+
+    const boardChecklistCta = page.getByRole("button", {
+      name: "Download print checklist PDF",
+    });
+    await boardChecklistCta.scrollIntoViewIfNeeded();
+    const boardDownloadPromise = page.waitForEvent("download");
+    await boardChecklistCta.click();
+    const boardDownload = await boardDownloadPromise;
+    expect(boardDownload.suggestedFilename()).toMatch(
+      /unionops-board-print-checklist.*\.pdf$/i,
+    );
+    const boardPath = path.join(outDir, boardDownload.suggestedFilename());
+    await boardDownload.saveAs(boardPath);
+    await assertTextPdfWithMark({
+      filePath: boardPath,
+      minBytes: 3_000,
+      titleNeedle: /Union board print checklist/i,
+      footerNeedle: /UnionOps Comms/i,
+    });
   });
 
   test("FR FAR sheet uses French education footer", async ({ page }) => {

@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "union-boards-pdf-templates",
+    date: "2026-08-31",
+    kind: "improved",
+    href: "/guide/union-boards",
+  },
+  {
     id: "bylaw-builder-committee",
     date: "2026-08-31",
     kind: "improved",
