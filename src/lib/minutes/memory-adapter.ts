@@ -6,31 +6,36 @@ import type {
   UpdateMeetingMinutesInput,
 } from "@/types/minutes";
 
-const minutes: MeetingMinutes[] = [
-  {
-    id: "minutes-001",
-    unionId: "union-opseu",
-    localId: "local-243",
-    meetingDate: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-    meetingType: "exec",
-    attendees: ["President", "Vice-President", "Chief Steward", "Treasurer"],
-    motions: [
-      {
-        text: "That the Local endorse the solidarity raffle for Local 110.",
-        movedBy: "Vice-President",
-        secondedBy: "Chief Steward",
-        vote: { for: 4, against: 0, abstain: 0 },
-        result: "carried",
-      },
-    ],
-    notes: "Treasurer reported bank balance. Next membership meeting set for September.",
-    recordedById: "user-president-243",
-    recordedByName: "Local 243 President",
-    status: "draft",
-    createdAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toISOString(),
-    updatedAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-];
+function seedMinutes(): MeetingMinutes[] {
+  return [
+    {
+      id: "minutes-001",
+      unionId: "union-opseu",
+      localId: "local-243",
+      meetingDate: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
+      meetingType: "exec",
+      attendees: ["President", "Vice-President", "Chief Steward", "Treasurer"],
+      motions: [
+        {
+          text: "That the Local endorse the solidarity raffle for Local 110.",
+          movedBy: "Vice-President",
+          secondedBy: "Chief Steward",
+          vote: { for: 4, against: 0, abstain: 0 },
+          result: "carried",
+        },
+      ],
+      notes:
+        "Treasurer reported bank balance. Next membership meeting set for September.",
+      recordedById: "user-president-243",
+      recordedByName: "Local 243 President",
+      status: "draft",
+      createdAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toISOString(),
+      updatedAt: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+  ];
+}
+
+const minutes: MeetingMinutes[] = seedMinutes();
 
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -146,3 +151,8 @@ export class MemoryMinutesAdapter implements MinutesAdapter {
 }
 
 export const memoryMinutesStore: MinutesAdapter = new MemoryMinutesAdapter();
+
+/** @internal test helper — restores demo seed so mutating tests stay isolated. */
+export function resetMinutesMemoryForTests(): void {
+  minutes.splice(0, minutes.length, ...seedMinutes());
+}
