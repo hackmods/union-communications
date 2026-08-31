@@ -31,6 +31,7 @@ import {
   exportPixelRatio,
   formatsForMedium,
   isLandscapeFormat,
+  solidarityPosterPreviewHeightPx,
   supportsPdf,
   type OutputMedium,
   type PosterFormatId,
@@ -60,6 +61,7 @@ import { meetsWcagAA } from "@/lib/utils/contrast";
 import {
   contentPaddingPx,
   flexAlignFromBias,
+  printPageScaledTokens,
   resolveCanvasTokens,
   textAlignFromBias,
   typeScaleFactor,
@@ -276,7 +278,27 @@ export default function SolidarityPosterPage() {
   const lines = headlineLines(state.headline);
   const chrome = layoutChrome(format);
   const isLandscape = chrome.isLandscape;
-  const tokens = resolveCanvasTokens(brandKit);
+  const baseTokens = resolveCanvasTokens(brandKit);
+  const printReferenceWidth =
+    SOLIDARITY_POSTER_FORMATS.letter.previewWidthPx ?? 306;
+  const isPrintCanvas =
+    format.medium === "print" && typeof format.previewWidthPx === "number";
+  const designWidthPx = isPrintCanvas ? format.previewWidthPx! : undefined;
+  const designHeightPx =
+    isPrintCanvas &&
+    designWidthPx &&
+    format.widthInches &&
+    format.heightInches
+      ? solidarityPosterPreviewHeightPx({
+          previewWidthPx: designWidthPx,
+          widthInches: format.widthInches,
+          heightInches: format.heightInches,
+        })
+      : undefined;
+  const tokens =
+    isPrintCanvas && designWidthPx
+      ? printPageScaledTokens(baseTokens, designWidthPx, printReferenceWidth)
+      : baseTokens;
   const surfaceStyle = canvasSurfaceStyle(tokens, {
     primary: state.primaryColor,
     secondary: state.secondaryColor,
@@ -703,17 +725,26 @@ export default function SolidarityPosterPage() {
         <div className="relative shadow-lg">
           <div
             ref={canvasRef}
-                  data-export-root=""
+            data-export-root=""
             className={cn(
-              "relative flex w-full flex-col overflow-hidden",
-              format.aspect,
+              "relative flex flex-col overflow-hidden",
+              isPrintCanvas ? "shrink-0" : "w-full",
+              !isPrintCanvas && format.aspect,
             )}
             style={{
               ...surfaceStyle,
+              ...(isPrintCanvas && designWidthPx && designHeightPx
+                ? {
+                    width: designWidthPx,
+                    height: designHeightPx,
+                    maxWidth: "100%",
+                    flexShrink: 0,
+                  }
+                : undefined),
               color: canvasInk,
               fontFamily: tokens.bodyFontFamily,
             }}
-            >
+          >
             <CanvasGrainOverlay opacity={tokens.grainOpacity} />
             <CanvasEdgeClearanceFrame
               insets={clearanceInsets}

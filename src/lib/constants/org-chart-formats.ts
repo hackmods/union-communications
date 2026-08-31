@@ -1,3 +1,10 @@
+import {
+  printPageExportPixelRatio,
+  printPagePreviewHeightPx,
+  printPagePreviewWidthPx,
+  type PrintPagePreviewSpec,
+} from "@/lib/comms/print-page-formats";
+
 export type OrgChartFormatId =
   | "letter"
   | "letter-landscape"
@@ -22,12 +29,10 @@ export type OrgChartLayoutLabelKey =
   | "layoutList"
   | "layoutListLocation";
 
-export interface OrgChartFormat {
+export interface OrgChartFormat extends PrintPagePreviewSpec {
   id: OrgChartFormatId;
   aspect: string;
   labelKey: OrgChartFormatLabelKey;
-  widthInches: number;
-  heightInches: number;
   filenameStem: string;
 }
 
@@ -76,6 +81,7 @@ export const ORG_CHART_FORMATS: Record<OrgChartFormatId, OrgChartFormat> = {
     labelKey: "formatLetter",
     widthInches: 8.5,
     heightInches: 11,
+    previewWidthPx: printPagePreviewWidthPx(8.5),
     filenameStem: "org-chart-letter",
   },
   "letter-landscape": {
@@ -84,6 +90,7 @@ export const ORG_CHART_FORMATS: Record<OrgChartFormatId, OrgChartFormat> = {
     labelKey: "formatLetterLandscape",
     widthInches: 11,
     heightInches: 8.5,
+    previewWidthPx: printPagePreviewWidthPx(11),
     filenameStem: "org-chart-letter-landscape",
   },
   tabloid: {
@@ -92,6 +99,7 @@ export const ORG_CHART_FORMATS: Record<OrgChartFormatId, OrgChartFormat> = {
     labelKey: "formatTabloid",
     widthInches: 11,
     heightInches: 17,
+    previewWidthPx: printPagePreviewWidthPx(11),
     filenameStem: "org-chart-tabloid",
   },
   "tabloid-landscape": {
@@ -100,6 +108,7 @@ export const ORG_CHART_FORMATS: Record<OrgChartFormatId, OrgChartFormat> = {
     labelKey: "formatTabloidLandscape",
     widthInches: 17,
     heightInches: 11,
+    previewWidthPx: printPagePreviewWidthPx(17),
     filenameStem: "org-chart-tabloid-landscape",
   },
 };
@@ -107,3 +116,7 @@ export const ORG_CHART_FORMATS: Record<OrgChartFormatId, OrgChartFormat> = {
 export function isPortraitOrgChartFormat(id: OrgChartFormatId): boolean {
   return id === "letter" || id === "tabloid";
 }
+
+export const orgChartPreviewHeightPx = printPagePreviewHeightPx;
+
+export const orgChartExportPixelRatio = printPageExportPixelRatio;
