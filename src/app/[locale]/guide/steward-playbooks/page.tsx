@@ -181,7 +181,7 @@ export default async function StewardPlaybooksPage({
               key={href}
               className={
                 "featured" in rest && rest.featured
-                  ? "rounded-xl border border-orange-200 bg-orange-50/60 p-4"
+                  ? "rounded-xl border border-opseu-blue/25 bg-opseu-blue/[0.06] p-4"
                   : undefined
               }
             >
@@ -189,7 +189,7 @@ export default async function StewardPlaybooksPage({
                 {t(`links.${key}`)}
               </Link>
               {"featured" in rest && rest.featured ? (
-                <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-opseu-dark">
+                <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-opseu-blue">
                   {t("quizBadge")}
                 </p>
               ) : null}

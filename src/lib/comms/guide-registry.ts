@@ -57,17 +57,17 @@ export const GUIDE_REGISTRY: Record<GuideGroupId, readonly GuideRegistryEntry[]>
     ],
     labour: [
       {
-        href: GUIDE_STEWARD_PLAYBOOKS_HUB,
-        key: "stewardPlaybooks",
-        tier: "playbook",
-      },
-      { href: "/guide/steward-101", key: "steward101", tier: "playbook" },
-      {
         href: "/guide/officer-learning",
         key: "officerLearning",
         tier: "gold",
         featured: true,
       },
+      {
+        href: GUIDE_STEWARD_PLAYBOOKS_HUB,
+        key: "stewardPlaybooks",
+        tier: "playbook",
+      },
+      { href: "/guide/steward-101", key: "steward101", tier: "playbook" },
       { href: "/guide/grievance-process", key: "grievance", tier: "playbook" },
       { href: "/guide/dfr", key: "dfr", tier: "playbook" },
       { href: "/guide/seniority-bumping", key: "seniority", tier: "playbook" },
@@ -146,9 +146,9 @@ export const GUIDE_RESOURCES_LABOUR_LINKS: readonly {
   href: string;
   key: string;
 }[] = [
+  { href: "/guide/officer-learning", key: "officerLearning" },
   { href: GUIDE_STEWARD_PLAYBOOKS_HUB, key: "stewardPlaybooks" },
   { href: "/guide/steward-101", key: "steward101" },
-  { href: "/guide/officer-learning", key: "officerLearning" },
   { href: "/guide/grievance-process", key: "grievance" },
   { href: "/guide/dfr", key: "dfr" },
   { href: "/guide/seniority-bumping", key: "seniority" },
@@ -165,13 +165,13 @@ export const GUIDE_RESOURCES_LABOUR_LINKS: readonly {
  * (membership primary group is `channels`; bargaining is `bargaining`).
  */
 export const GUIDE_STEWARD_PLAYBOOK_LINKS: readonly GuideRegistryEntry[] = [
-  { href: "/guide/steward-101", key: "steward101", tier: "playbook" },
   {
     href: "/guide/officer-learning",
     key: "officerLearning",
     tier: "gold",
     featured: true,
   },
+  { href: "/guide/steward-101", key: "steward101", tier: "playbook" },
   { href: "/guide/grievance-process", key: "grievance", tier: "playbook" },
   { href: "/guide/dfr", key: "dfr", tier: "playbook" },
   {

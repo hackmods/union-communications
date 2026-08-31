@@ -145,6 +145,17 @@ test.describe("Smoke tests @smoke", () => {
     ).toBeVisible();
   });
 
+  test("footer includes steward playbooks and officer learning", async ({ page }) => {
+    await page.goto("/en/");
+    const footer = page.getByLabel(/Footer|Pied de page/i);
+    await expect(
+      footer.getByRole("link", { name: "Steward playbooks" }),
+    ).toBeVisible();
+    await expect(
+      footer.getByRole("link", { name: "Officer Learning" }),
+    ).toBeVisible();
+  });
+
   test("website guide lists email outreach in related links", async ({
     page,
   }) => {

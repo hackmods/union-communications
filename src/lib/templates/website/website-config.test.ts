@@ -111,7 +111,9 @@ describe("parseWebsiteConfigJson", () => {
 
   it("migrates legacy hero art ids on import", () => {
     const payload = serializeWebsiteConfig(sample);
-    const raw = JSON.parse(JSON.stringify(payload)) as typeof payload;
+    const raw = JSON.parse(JSON.stringify(payload)) as {
+      data: { heroArtId?: string };
+    };
     raw.data.heroArtId = "bands";
     expect(parseWebsiteConfigJson(JSON.stringify(raw)).data.heroArtId).toBe(
       "arc",
