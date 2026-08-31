@@ -16,7 +16,7 @@ describe("action-card-presets", () => {
   });
 
   it("resolves presets by id", () => {
-    expect(getActionCardPreset("signPetition")?.bgMode).toBe("accentBar");
+    expect(getActionCardPreset("signPetition")?.bgMode).toBe("plain");
     expect(getActionCardPreset("missing")).toBeUndefined();
   });
 });
