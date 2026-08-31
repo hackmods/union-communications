@@ -14,12 +14,14 @@ UnionOps presets are **workshop starters**, not trademarked national assets. Val
 | **OPSEU / SEFPO** | `#003DA5` | `#FFFFFF` | `#002868` | Pantone 285 (OPSEU graphics pack); reference tenant seed |
 | **CUPE** | `#AF0061` | `#FFFFFF` | derived | `cupe.ca` / `scfp.ca` Drupal theme logo SVG (`themes/custom/cupe/logo.svg`) |
 | **Unifor** | `#C31A1A` | `#FFFFFF` | `#005EB8` | [Identity Guidelines PDF (2023)](https://www.unifor.org/sites/default/files/documents/20230330-Identity-Guidelines.pdf) |
-| **USW** | `#002A5C` | `#FFC03F` | derived | [USW Style Guide](https://assets.usw.org/resources/Styleguide_logos_vendors/usw-styleguidev2.pdf) — PMS 294U navy (hex approx.) + PMS 122U gold (`#FFC03F` approx.) |
+| **USW** | `#002C65` | `#FFC03F` | derived | PMS 294U navy (approx.; matches [usw.ca](https://usw.ca) theme `#002C65`) + PMS 122U gold (`#FFC03F` approx.) |
 | **ONA** | `#003865` | `#FFD100` | derived | Pre-2023 palette retained; 2023+ ONA brand is intentionally handmade/flexible per [Frontlines rebrand](https://ona.org/wp-content/uploads/2024/10/ona_frontlines_winter2023-2024.pdf) |
 | **PSAC** | `#C0311A` | `#FFFFFF` | derived | [PSAC Brand Guidelines (2024)](https://psacunion.ca/sites/psac/files/2024-09-13_psac-afpc_brandguidelines_national_en.pdf) — Pantone 1805 |
 | **Other** | `#C2410C` | `#FFFFFF` | `#9A3412` | UnionOps platform orange (not union-affiliated) |
 
-**Changed 2026-08-28 (pass 2):** CUPE `#E5007D` → `#AF0061`; PSAC `#E31837` → `#C0311A`; USW gold `#FFC72C` → `#FFC03F` (PMS 122U approx.).
+**Changed 2026-08-28 (pass 2):** CUPE `#E5007D` → `#AF0061`; PSAC `#E31837` → `#C0311A`; USW gold `#FFC72C` → `#FFC03F`; USW navy `#002A5C` → `#002C65` (usw.ca theme).
+
+**Changed 2026-08-28 (pass 3):** Unifor preset applies **Lato** (OFL catalog id `lato`) — official typeface per Unifor identity guidelines.
 
 ---
 
@@ -46,7 +48,7 @@ Applied via `canvasFontDefaults` on preset apply.
 | Preset | Headline | Body | Official typeface | Catalog match |
 |---|---|---|---|---|
 | CUPE | Montserrat | Source Sans 3 | Avenir (locals) | Montserrat |
-| Unifor | Source Sans 3 | Source Sans 3 | Lato | Source Sans 3 |
+| Unifor | Lato | Lato | Lato | Lato (official) |
 | USW | Oswald | Source Sans 3 | Futura T (logo) | Oswald |
 | PSAC | Montserrat | Source Sans 3 | Avenir / Montserrat | Montserrat |
 | OPSEU / ONA / Other | — | — | — | platform defaults |

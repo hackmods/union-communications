@@ -7,6 +7,7 @@
 export type CanvasFontId =
   | "montserrat"
   | "sourceSans"
+  | "lato"
   | "barlowCondensed"
   | "oswald"
   | "sourceSerif"
@@ -20,6 +21,7 @@ export type FlyerFontChoice = "inherit" | CanvasFontId;
 export const CANVAS_FONT_ORDER: readonly CanvasFontId[] = [
   "montserrat",
   "sourceSans",
+  "lato",
   "barlowCondensed",
   "oswald",
   "sourceSerif",
@@ -31,6 +33,7 @@ export const CANVAS_FONT_ORDER: readonly CanvasFontId[] = [
 /** Reading faces for body copy — condensed/display webfonts ship no regular weight. */
 export const CANVAS_BODY_FONT_ORDER: readonly CanvasFontId[] = [
   "sourceSans",
+  "lato",
   "sourceSerif",
   "robotoSlab",
   "systemSans",
@@ -48,6 +51,7 @@ const WEBFONT_FAMILY: Record<
 > = {
   montserrat: "var(--font-montserrat), sans-serif",
   sourceSans: "var(--font-source-sans), sans-serif",
+  lato: "var(--font-lato), sans-serif",
   barlowCondensed: "var(--font-barlow-condensed), sans-serif",
   oswald: "var(--font-oswald), sans-serif",
   sourceSerif: "var(--font-source-serif), serif",
@@ -66,6 +70,7 @@ export const CANVAS_FONT_META: Record<
 > = {
   montserrat: { isSystem: false, role: "display" },
   sourceSans: { isSystem: false, role: "body" },
+  lato: { isSystem: false, role: "body" },
   barlowCondensed: { isSystem: false, role: "condensed" },
   oswald: { isSystem: false, role: "display" },
   sourceSerif: { isSystem: false, role: "serif" },
@@ -113,6 +118,7 @@ export function isCanvasFontId(value: unknown): value is CanvasFontId {
   return (
     value === "montserrat" ||
     value === "sourceSans" ||
+    value === "lato" ||
     value === "barlowCondensed" ||
     value === "oswald" ||
     value === "sourceSerif" ||
@@ -157,6 +163,7 @@ const CSS_FAMILY_NAME: Record<
 > = {
   montserrat: "Montserrat",
   sourceSans: "Source Sans 3",
+  lato: "Lato",
   barlowCondensed: "Barlow Condensed",
   oswald: "Oswald",
   sourceSerif: "Source Serif 4",
@@ -169,6 +176,7 @@ const FONT_PUBLIC_DIR: Record<
 > = {
   montserrat: "montserrat",
   sourceSans: "source-sans-3",
+  lato: "lato",
   barlowCondensed: "barlow-condensed",
   oswald: "oswald",
   sourceSerif: "source-serif-4",
@@ -182,6 +190,7 @@ const ZIP_WEIGHTS: Record<
 > = {
   montserrat: { headline: [700, 800], body: [700] },
   sourceSans: { headline: [700], body: [400, 600, 700] },
+  lato: { headline: [700], body: [400, 700] },
   barlowCondensed: { headline: [700, 800], body: [600, 700] },
   oswald: { headline: [600, 700], body: [600, 700] },
   sourceSerif: { headline: [700], body: [400, 600, 700] },

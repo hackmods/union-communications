@@ -250,7 +250,7 @@ describe("generateWordpressThemeZip", () => {
     const zip = await loadThemeZip(
       {
         ...sampleData,
-        heroArtId: "bands",
+        heroArtId: "arc",
         canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
       },
       null,

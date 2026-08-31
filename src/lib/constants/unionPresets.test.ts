@@ -134,7 +134,7 @@ describe("unionPresets", () => {
       defaultSlogans: ["On the front line."],
     });
     expect(getUnionPreset("usw")).toMatchObject({
-      primaryColor: "#002A5C",
+      primaryColor: "#002C65",
       secondaryColor: "#FFC03F",
       defaultSlogans: ["Unity and Strength for Workers."],
     });

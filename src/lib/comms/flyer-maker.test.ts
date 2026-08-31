@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import en from "../../../messages/en.json";
+import fr from "../../../messages/fr.json";
 import {
   DEFAULT_FLYER_FORMAT,
   FLYER_FORMAT_ORDER,
@@ -59,6 +61,14 @@ describe("flyer-fonts", () => {
     expect(migrateFlyerFontChoice("impact")).toBe("oswald");
     expect(isFlyerFontStackId(DEFAULT_FLYER_FONT)).toBe(true);
     expect(isFlyerFontStackId("comic")).toBe(false);
+  });
+
+  it("has EN and FR labels for every picker face", () => {
+    for (const id of FLYER_FONT_ORDER) {
+      if (id === "inherit") continue;
+      expect(en.flyerMaker.fonts).toHaveProperty(id);
+      expect(fr.flyerMaker.fonts).toHaveProperty(id);
+    }
   });
 });
 

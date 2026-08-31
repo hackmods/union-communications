@@ -17,8 +17,10 @@ import { isBrandThemeEstablished } from "@/lib/utils/brand-theme";
 import {
   getStartedHref as resolveGetStartedHref,
   isLearnPath,
+  isOfficerLearningPath,
   isToolsPath,
   linkActive,
+  OFFICER_LEARNING_HREF,
 } from "./nav/nav-config";
 import { NavDropdown } from "./nav/NavDropdown";
 import { LearnMenuContent, ToolsMegaMenuContent } from "./nav/MenuContents";
@@ -51,6 +53,7 @@ export function Header() {
   );
   const startedHref = resolveGetStartedHref(themeEstablished);
   const learnActive = isLearnPath(pathname);
+  const officerLearningActive = isOfficerLearningPath(pathname);
   const toolsActive = isToolsPath(pathname);
 
   useLayoutEffect(() => {
@@ -156,6 +159,14 @@ export function Header() {
           </NavDropdown>
 
           <Link
+            href={OFFICER_LEARNING_HREF}
+            aria-current={officerLearningActive ? "page" : undefined}
+            className={navLinkClass(officerLearningActive)}
+          >
+            {t("officerLearningTopNav")}
+          </Link>
+
+          <Link
             href="/brand-kit"
             aria-current={
               linkActive(pathname, "/brand-kit") ? "page" : undefined
@@ -215,6 +226,7 @@ export function Header() {
           pathname={pathname}
           getStartedHref={startedHref}
           learnActive={learnActive}
+          officerLearningActive={isOfficerLearningPath(pathname)}
           toolsActive={toolsActive}
           onClose={closeDrawer}
           onCloseAfterNav={closeDrawerAfterNav}

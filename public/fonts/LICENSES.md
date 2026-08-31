@@ -8,6 +8,7 @@ No remote font CDN at runtime. All faces below are licensed under the
 |--------|--------|-------|
 | Montserrat | Julieta Ulanovsky et al. | `montserrat/*.woff2`, `*.ttf` |
 | Source Sans 3 | Adobe (Paul D. Hunt) | `source-sans-3/*.woff2`, `*.ttf` |
+| Lato | Łukasz Dziedzic | `lato/*.woff2`, `*.ttf` |
 | Barlow Condensed | Jeremy Tribby | `barlow-condensed/*.woff2`, `*.ttf` |
 | Oswald | Vernon Adams et al. | `oswald/*.woff2`, `*.ttf` |
 | Source Serif 4 | Adobe (Frank Grießhammer) | `source-serif-4/*.woff2`, `*.ttf` |

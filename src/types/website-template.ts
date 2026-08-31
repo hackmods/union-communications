@@ -36,7 +36,7 @@ export interface WebsiteTemplateData {
   /** OPSEU.org footer links — only when Brand Kit design theme is OPSEU. */
   includeOpseuResources: boolean;
   /**
-   * Bundled hero pattern (`bands` / `mesh` / `horizon`) or `none`.
+   * Bundled hero pattern (`arc` / `mesh` / `bloom`) or `none`.
    * Omitted in tests = colour-only. A photo upload wins over the pattern.
    */
   heroArtId?: string;

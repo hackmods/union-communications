@@ -14,6 +14,7 @@ import {
 import { buildPreviewHtml } from "@/lib/templates/website/generate-website-zip";
 import {
   DEFAULT_WEBSITE_HERO_ART_ID,
+  coerceWebsiteHeroArtId,
   isWebsiteHeroArtId,
   websiteHeroDataUrlToBytes,
   websiteHeroUploadFileName,
@@ -347,11 +348,7 @@ export default function WebsiteTemplatePage() {
     setFacebookDraft(data.facebookUrl);
     setOfficeAddress(data.officeAddress);
     setOfficers(data.officers);
-    setHeroArtId(
-      data.heroArtId && isWebsiteHeroArtId(data.heroArtId)
-        ? data.heroArtId
-        : "none",
-    );
+    setHeroArtId(coerceWebsiteHeroArtId(data.heroArtId) ?? "none");
     setImportedLogo(imported.logo ?? null);
     if (imported.heroImage) {
       setImportedHero(imported.heroImage);
@@ -450,9 +447,9 @@ export default function WebsiteTemplatePage() {
               }}
               options={[
                 { value: "none", label: t("heroArtNone") },
-                { value: "bands", label: t("heroArtBands") },
                 { value: "mesh", label: t("heroArtMesh") },
-                { value: "horizon", label: t("heroArtHorizon") },
+                { value: "arc", label: t("heroArtArc") },
+                { value: "bloom", label: t("heroArtBloom") },
               ]}
             />
             <p className="text-xs text-gray-500">{t("heroArtHint")}</p>

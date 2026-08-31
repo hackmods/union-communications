@@ -234,11 +234,18 @@ export function HomeContent() {
                 <h2 className="text-lg font-bold text-opseu-dark">{t("pathStewardTitle")}</h2>
                 <p className="mt-2 text-sm text-gray-600">{t("pathStewardDesc")}</p>
               </div>
-              <Link href="/guide/steward-playbooks">
-                <Button size="md" variant="outline" className="min-h-11">
-                  {t("pathStewardCta")}
-                </Button>
-              </Link>
+              <div className="flex flex-col gap-2 sm:shrink-0 sm:flex-row">
+                <Link href="/guide/steward-playbooks">
+                  <Button size="md" variant="outline" className="min-h-11 w-full sm:w-auto">
+                    {t("pathStewardCta")}
+                  </Button>
+                </Link>
+                <Link href="/guide/officer-learning">
+                  <Button size="md" variant="outline" className="min-h-11 w-full sm:w-auto">
+                    {t("pathStewardOfficerLearningCta")}
+                  </Button>
+                </Link>
+              </div>
             </Callout>
           </section>
         ) : (
@@ -248,11 +255,18 @@ export function HomeContent() {
                 <h2 className="text-lg font-bold text-opseu-dark">{t("pathStewardTitle")}</h2>
                 <p className="mt-2 text-sm text-gray-600">{t("pathStewardDesc")}</p>
               </div>
-              <Link href="/guide/steward-playbooks">
-                <Button size="md" variant="outline" className="min-h-11">
-                  {t("pathStewardCta")}
-                </Button>
-              </Link>
+              <div className="flex flex-col gap-2 sm:shrink-0 sm:flex-row">
+                <Link href="/guide/steward-playbooks">
+                  <Button size="md" variant="outline" className="min-h-11 w-full sm:w-auto">
+                    {t("pathStewardCta")}
+                  </Button>
+                </Link>
+                <Link href="/guide/officer-learning">
+                  <Button size="md" variant="outline" className="min-h-11 w-full sm:w-auto">
+                    {t("pathStewardOfficerLearningCta")}
+                  </Button>
+                </Link>
+              </div>
             </Callout>
             <Callout
               tone="muted"

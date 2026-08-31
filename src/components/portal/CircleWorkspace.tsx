@@ -542,6 +542,22 @@ export function CircleWorkspace({
       {activeTab === "bulletin" && (
         <div className="space-y-4">
           {canWrite ? (
+            <Callout tone="muted" className="max-w-2xl">
+              <p className="font-semibold text-opseu-dark">
+                {t("bylawCommitteeTitle")}
+              </p>
+              <p className="mt-1 text-sm text-gray-700">
+                {t("bylawCommitteeBody")}
+              </p>
+              <Link
+                href="/tools/bylaw-builder?mode=committee"
+                className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-blue underline underline-offset-2"
+              >
+                {t("bylawCommitteeCta")}
+              </Link>
+            </Callout>
+          ) : null}
+          {canWrite ? (
             <form
               className="space-y-2"
               aria-label={t("writeBulletin")}

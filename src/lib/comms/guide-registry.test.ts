@@ -6,6 +6,7 @@ import {
   GUIDE_RESOURCES_COMMS_LINKS,
   GUIDE_RESOURCES_LABOUR_LINKS,
   GUIDE_STEWARD_PLAYBOOKS_HUB,
+  GUIDE_STEWARD_PLAYBOOK_LINKS,
   allRegisteredGuidePaths,
   guidePathsMissingFromRegistry,
   primaryGuideGroupForPath,
@@ -52,6 +53,16 @@ describe("guide-registry", () => {
         (row) => row.href === GUIDE_STEWARD_PLAYBOOKS_HUB,
       ),
     ).toBe(true);
+  });
+
+  it("leads labour discoverability with Officer Learning", () => {
+    expect(GUIDE_REGISTRY.labour[0]?.href).toBe("/guide/officer-learning");
+    expect(GUIDE_RESOURCES_LABOUR_LINKS[0]?.href).toBe(
+      "/guide/officer-learning",
+    );
+    expect(GUIDE_STEWARD_PLAYBOOK_LINKS[0]?.href).toBe(
+      "/guide/officer-learning",
+    );
   });
 
   it("keeps crisis on Resources comms path and bargaining group", () => {

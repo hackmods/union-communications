@@ -17,6 +17,7 @@ import {
   ORG_CHART_FORMAT_ORDER,
   ORG_CHART_FORMATS,
   ORG_CHART_LAYOUT_ORDER,
+  orgChartExportPixelRatio,
   orgChartLayoutShowsLocation,
   type OrgChartFormatId,
   type OrgChartLayoutId,
@@ -216,6 +217,7 @@ export default function OrgChartPage() {
 
   const localNumber = resolveLocalNumber(brandKit.local.localNumber);
   const format = ORG_CHART_FORMATS[formatId];
+  const exportPixelRatio = orgChartExportPixelRatio(format);
   const people = roster.people;
 
   const updatePerson = (
@@ -291,7 +293,7 @@ export default function OrgChartPage() {
       await exportNodeAsPng(
         canvasRef.current!,
         formatFilename(format.filenameStem, brandKit.local.localNumber, "png"),
-        { pixelRatio: 2, backgroundColor: brandKit.primaryColor },
+        { pixelRatio: exportPixelRatio, backgroundColor: brandKit.primaryColor },
       );
     });
   };
@@ -304,7 +306,7 @@ export default function OrgChartPage() {
         formatFilename(format.filenameStem, brandKit.local.localNumber, "pdf"),
         format.widthInches,
         format.heightInches,
-        2,
+        exportPixelRatio,
         brandKit.primaryColor,
       );
     });

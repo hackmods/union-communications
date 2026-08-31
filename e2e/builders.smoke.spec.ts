@@ -134,15 +134,20 @@ test.describe("Home hero & builders smoke @smoke", () => {
     });
   }
 
-  test("pulse poll authoring redirects anonymous visitors to login", async ({
+  test("pulse poll authoring is gated for anonymous visitors", async ({
     page,
   }) => {
     await page.goto("/en/tools/pulse-poll/");
-    // CI sets NEXT_PUBLIC_OFFICER_HUB_PUBLIC=true → login gate (soft-launch uses 404).
-    await expect(page).toHaveURL(/\/en\/app\/login/);
-    await expect(
-      page.getByRole("heading", { name: /Officer login|Connexion/i }),
-    ).toBeVisible();
+    // Hub public (CI default) → login redirect. Soft launch → Local 404.
+    const loginHeading = page.getByRole("heading", {
+      name: /Officer login|Connexion/i,
+    });
+    const local404Heading = page.getByRole("heading", {
+      name: /Local 404|404 local/i,
+    });
+    await expect(loginHeading.or(local404Heading)).toBeVisible({
+      timeout: 15_000,
+    });
   });
 
   test("French graphic maker has no serious or critical a11y violations", async ({
@@ -324,6 +329,23 @@ test.describe("Mobile tool chrome @smoke @mobile", () => {
   }) => {
     await page.goto("/en/");
     await expect(page.getByTestId("home-hero-brand")).toBeVisible();
+    await assertNoHorizontalOverflow(page);
+  });
+
+  test("bylaw builder committee mode and OPSEU preset load", async ({
+    page,
+  }) => {
+    await page.goto("/en/tools/bylaw-builder/?mode=committee&preset=opseuCaat");
+    await expect(
+      page.getByRole("heading", { name: "Bylaw Builder" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("radio", { name: "Committee draft" }),
+    ).toHaveAttribute("aria-checked", "true");
+    await expect(
+      page.getByRole("radio", { name: "OPSEU / SEFPO" }),
+    ).toBeVisible();
+    await expect(page.getByLabel("Article 1 — Name")).toBeVisible();
     await assertNoHorizontalOverflow(page);
   });
 

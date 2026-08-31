@@ -105,4 +105,21 @@ describe("brand store hydrate vs early canvas patch", () => {
       "barlowCondensed",
     );
   });
+
+  it("persists logo patches immediately without waiting for debounce", async () => {
+    const { useBrandStore } = await import("@/store/brand-store");
+    await useBrandStore.getState().hydrate();
+    saveBrandKit.mockClear();
+
+    useBrandStore.getState().setBrandKit({
+      useOfficialLogo: true,
+      officialLogoVariant: "lockup",
+      customLogoDataUrl: undefined,
+    });
+
+    expect(saveBrandKit).toHaveBeenCalledTimes(1);
+    expect(saveBrandKit.mock.calls[0][0].useOfficialLogo).toBe(true);
+    await vi.advanceTimersByTimeAsync(400);
+    expect(saveBrandKit).toHaveBeenCalledTimes(1);
+  });
 });

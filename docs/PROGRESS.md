@@ -1,9 +1,20 @@
 # Progress Log
 
+## Bylaw Builder QOL + committee draft (2026-08-31)
+
+- [x] **Committee draft mode:** per-article editing, committee notes, OPSEU / SEFPO article set, redline summary when pasting current bylaws
+- [x] **Presets:** `opseuCaat` college sample (Local 243 patterns); Brand Kit local number in preset apply
+- [x] **Guide:** OPSEU / SEFPO college patterns section, committee workspace, scenario + CTAs (`?preset=opseuCaat`, `?mode=committee`)
+- [x] **Portal:** Circle bulletin callout linking writable users to committee builder
+- [x] **Sources:** `opseu-forms` hub note expanded for constitution + bylaws checks
+- [x] **What's new:** `/updates` bylaw-builder-committee note
+- Verify: `npm run test:unit -- src/lib/bylaws/ src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts`
+
 ## Post-ship QOL — smoke matrix + agent ground truth (2026-08-28)
 
 - [x] `builders.smoke` H1 matrix: running-meetings, seniority-bumping, right-to-refuse
 - [x] `current-ground-truth.md` + `roadmap-next.mdc` — running meetings, OL nav, guide registry
+- [x] Smoke fixes: `flyerMaker.fonts.lato` EN/FR; `rightToRefuseGuide.boards.navLabel`; pulse-poll gate test; Playwright `NEXT_PUBLIC_OFFICER_HUB_PUBLIC` default; steward-tools duplicate-link locators
 
 ## Running meetings & Rules of Order — gold-standard pass (2026-08-28)
 

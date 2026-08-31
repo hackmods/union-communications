@@ -213,13 +213,13 @@ describe("generate-website-zip", () => {
   });
 
   it("bundles a catalog pattern as assets/hero.svg", async () => {
-    const html = buildWebsiteHtml({ ...sampleData, heroArtId: "bands" });
+    const html = buildWebsiteHtml({ ...sampleData, heroArtId: "arc" });
     expect(html).toContain('class="hero-section has-art has-pattern-art"');
     expect(html).toContain('class="hero-art hero-art--pattern"');
     expect(html).toContain('src="./assets/hero.svg"');
     expect(html).toContain('alt=""');
-    const preview = buildPreviewHtml({ ...sampleData, heroArtId: "horizon" });
-    expect(preview).toContain('src="/assets/website-heroes/horizon.svg"');
+    const preview = buildPreviewHtml({ ...sampleData, heroArtId: "bloom" });
+    expect(preview).toContain('src="/assets/website-heroes/bloom.svg"');
     expect(preview).not.toContain('src="./assets/hero.svg"');
     const blob = await generateWebsiteZip({
       ...sampleData,
@@ -239,7 +239,7 @@ describe("generate-website-zip", () => {
     const bytes = new Uint8Array([0xff, 0xd8, 0xff, 0xd9]);
     const html = buildWebsiteHtml({
       ...sampleData,
-      heroArtId: "bands",
+      heroArtId: "arc",
       heroImagePreviewSrc: "data:image/jpeg;base64,abc",
       heroImageFileName: "hero.jpg",
       heroImageAlt: 'Rally <photo>',
@@ -251,7 +251,7 @@ describe("generate-website-zip", () => {
     const blob = await generateWebsiteZip(
       {
         ...sampleData,
-        heroArtId: "bands",
+        heroArtId: "arc",
         canvas: { headlineFontId: "systemSans", bodyFontId: "systemSans" },
       },
       null,
