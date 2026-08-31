@@ -332,6 +332,23 @@ test.describe("Mobile tool chrome @smoke @mobile", () => {
     await assertNoHorizontalOverflow(page);
   });
 
+  test("bylaw builder committee mode and OPSEU preset load", async ({
+    page,
+  }) => {
+    await page.goto("/en/tools/bylaw-builder/?mode=committee&preset=opseuCaat");
+    await expect(
+      page.getByRole("heading", { name: "Bylaw Builder" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("radio", { name: "Committee draft" }),
+    ).toHaveAttribute("aria-checked", "true");
+    await expect(
+      page.getByRole("radio", { name: "OPSEU / SEFPO" }),
+    ).toBeVisible();
+    await expect(page.getByLabel("Article 1 — Name")).toBeVisible();
+    await assertNoHorizontalOverflow(page);
+  });
+
   test("mobile nav drawer opens and navigates", async ({ page }) => {
     await page.goto("/en/");
     await page.getByTestId("mobile-nav-toggle").click();

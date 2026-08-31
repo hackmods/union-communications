@@ -6564,6 +6564,10 @@
         "title": "Website Template hero backgrounds refreshed",
         "body": "Mesh is now the default hero pattern. Arc and Bloom replace the old band and horizon presets with softer shapes that sit better behind your local name and logo."
       },
+      "bylaw-builder-committee": {
+        "title": "Bylaw Builder — committee draft and OPSEU / SEFPO patterns",
+        "body": "Draft bylaws article by article with committee notes, paste current text for a redline summary, and load OPSEU / SEFPO college defaults from the Local Bylaws guide."
+      },
       "brand-preset-audit": {
         "title": "Brand Kit — union preset colours and slogans",
         "body": "Union presets now use verified starter colours (CUPE pink from national site assets, PSAC Pantone 1805 red, USW PMS 122U gold, Unifor red and blue), tap-to-apply slogan suggestions in English and French, and closer canvas typefaces when you pick a preset."
@@ -8777,6 +8781,9 @@
     "emptyBulletin": "No recent Bulletin posts. Open a Circle to write one.",
     "emptyCircleBulletin": "No Bulletin posts in this Circle yet. Write one above if you can post.",
     "writeBulletin": "Write a Bulletin post",
+    "bylawCommitteeTitle": "Bylaws committee?",
+    "bylawCommitteeBody": "Open Bylaw Builder in Committee draft mode to edit articles together, then post the export link or PDF here for LEC review.",
+    "bylawCommitteeCta": "Open Committee draft",
     "createError": "Could not create that Circle. Check the name and try again.",
     "frontsSettings": "Live dates",
     "frontsSettingsHint": "Set when this Circle is holding the line.",
@@ -9967,8 +9974,8 @@
         },
         "d1": {
           "label": "Day 1 — Draft the change",
-          "content": "They open Bylaw Builder, load the campus sample, and rewrite only the quorum sentence. They keep a redline of old vs new text for the notice package.",
-          "artifact": "Bylaw Builder redline (old vs new quorum)"
+          "content": "They open Bylaw Builder in Committee draft mode, load the OPSEU / SEFPO college sample, paste the current bylaws for a redline summary, and rewrite only the quorum article. Notes stay on-device for the working group.",
+          "artifact": "Bylaw Builder committee draft + redline summary"
         },
         "d2": {
           "label": "Day 2 — Book the GMM",
@@ -10003,7 +10010,62 @@
         "action": "What officers do",
         "artifact": "Proof to keep"
       },
-      "builderCta": "Open campus sample in Bylaw Builder"
+      "builderCta": "Open OPSEU / SEFPO college sample in Bylaw Builder",
+      "committeeCta": "Open Committee draft mode"
+    },
+    "opseuPatterns": {
+      "navLabel": "OPSEU / SEFPO college patterns",
+      "title": "What college-support locals often write",
+      "intro": "These patterns mirror the OPSEU / SEFPO college sample in Bylaw Builder (Local 243 workshop defaults). Your constitution still wins — confirm every threshold and approval path against the current OPSEU / SEFPO Constitution PDF.",
+      "items": {
+        "quorum": {
+          "label": "GMM quorum",
+          "content": "25 members in good standing or 10% of the membership, whichever is less — common when the membership list swings between campuses."
+        },
+        "notice": {
+          "label": "Amendment notice",
+          "content": "21 days written notice posted on union boards and emailed where members have consented — shorter than many CUPE locals but still constitution-safe."
+        },
+        "executive": {
+          "label": "Executive shape",
+          "content": "President, two Vice-Presidents, Secretary-Treasurer, Chief Steward, and stewards elected per campus unit — matches multi-site college support staff."
+        },
+        "approval": {
+          "label": "National approval",
+          "content": "Amended local bylaws do not take effect until the OPSEU / SEFPO National President (or designate) approves in writing, as required by the Constitution."
+        },
+        "fiscal": {
+          "label": "Fiscal year",
+          "content": "March 31 year-end aligns with academic calendars — adjust if your local uses a different reporting cycle."
+        }
+      },
+      "tip": "Borrow structure, not another local's officer names, dues rates, or unit lists.",
+      "builderCta": "Load OPSEU / SEFPO college preset"
+    },
+    "committee": {
+      "navLabel": "Committee workspace",
+      "title": "Draft as a bylaws committee",
+      "intro": "Bylaw Builder now includes a Committee draft workspace: edit each article, keep private section notes for the working group, and export one text package for the LEC and GMM. Drafts stay on this device unless you choose to share exports.",
+      "steps": {
+        "circle": {
+          "label": "Meet in Local Portal",
+          "content": "Use a Circle bulletin to post meeting times, attach the current PDF, and link officers to the same builder URL."
+        },
+        "draft": {
+          "label": "Edit article by article",
+          "content": "Switch to Committee draft mode, load the OPSEU / SEFPO article set when your local is OPSEU / SEFPO, and rewrite only the articles on the agenda."
+        },
+        "compare": {
+          "label": "Paste current bylaws",
+          "content": "Paste approved text into the redline field to see which articles change before you post notice."
+        },
+        "export": {
+          "label": "Export for LEC / GMM",
+          "content": "Download Markdown or PDF for Word cleanup, then walk the adoption checklist before the vote."
+        }
+      },
+      "portalCta": "Open Local Portal",
+      "builderCta": "Open Committee draft mode"
     },
     "checklist": {
       "navLabel": "Adoption checklist",
@@ -10021,7 +10083,7 @@
         },
         "draftText": {
           "label": "Draft clean text",
-          "content": "Draft clean article text in Bylaw Builder or Word — one change list members can read aloud."
+          "content": "Draft clean article text in Bylaw Builder Committee mode or Word — one change list members can read aloud."
         },
         "postNotice": {
           "label": "Post notice",
@@ -10103,7 +10165,7 @@
       "items": {
         "builder": {
           "label": "Bylaw Builder",
-          "content": "Generate a standard template from quorum, executive, signing, and amendment fields. Export text, Markdown, or PDF for Word."
+          "content": "Quick template or Committee draft mode with OPSEU / SEFPO article wording, per-article edits, committee notes, and a redline summary when you paste current bylaws."
         },
         "boardNotice": {
           "label": "Board Notice Maker",
@@ -10213,11 +10275,55 @@
     },
     "presets": {
       "label": "Sample local sizes",
-      "hint": "Loads demo values you can edit. Not a real local — replace the name before you export.",
-      "small": "Small local",
-      "campus": "Campus local",
+      "hint": "Loads demo values you can edit. The OPSEU / SEFPO college preset uses Local 243 patterns — replace the name before you export.",
+      "small": "Small OPSEU / SEFPO local",
+      "campus": "OPSEU / SEFPO college",
+      "opseuCaat": "OPSEU / SEFPO college",
       "large": "Large local"
     },
+    "modes": {
+      "label": "Workspace",
+      "template": "Quick template",
+      "committee": "Committee draft"
+    },
+    "articleSet": {
+      "label": "Article wording",
+      "standard": "Generic national",
+      "opseu": "OPSEU / SEFPO"
+    },
+    "articleLabels": {
+      "name": "Article 1 — Name",
+      "purpose": "Article 2 — Purpose",
+      "membership": "Article 3 — Membership",
+      "executive": "Article 4 — Executive",
+      "stewards": "Article 5 — Stewards",
+      "quorum": "Article 6 — Quorum",
+      "meetings": "Article 7 — Meetings",
+      "elections": "Article 8 — Elections",
+      "finances": "Article 9 — Finances",
+      "trustees": "Article 10 — Trustees",
+      "committees": "Article 11 — Committees",
+      "amendments": "Article 12 — Amendments",
+      "conflict": "Article 13 — Constitution"
+    },
+    "committee": {
+      "intro": "Committee draft mode lets your bylaws working group edit each article, keep private notes per section, and export one package for the LEC and GMM. Notes stay on this device and are not included in exports.",
+      "noteLabel": "Committee note (not exported)",
+      "notePlaceholder": "e.g. Confirm with national constitution before GMM"
+    },
+    "compare": {
+      "existingLabel": "Current bylaws (paste for redline summary)",
+      "existingPlaceholder": "Paste your current approved bylaws text to see which articles change in this draft.",
+      "summaryTitle": "{count, plural, =0 {No article-level changes detected} one {# article changed} other {# articles changed}}",
+      "more": "Open the preview to read the full draft — only the first changes are listed here.",
+      "status": {
+        "added": "Added",
+        "removed": "Removed",
+        "changed": "Changed",
+        "unchanged": "Unchanged"
+      }
+    },
+    "portalLink": "Local Portal (committee circles)",
     "fields": {
       "localName": "Local union name & number",
       "vicePresidents": "Number of Vice-Presidents",
@@ -10271,6 +10377,21 @@
       "committees": "Article 11: Committees. The LEC may establish standing and special committees. Committee terms of reference shall not conflict with these bylaws or the National or Provincial constitution.",
       "amendments": "Article 12: Amendments. These bylaws may be amended only after {amendmentNotice}, a vote at a quorate General Membership Meeting, and a two-thirds (2/3) majority of members present. Where required by the National or Provincial constitution, amended bylaws take effect only after national or provincial approval.",
       "conflict": "Article 13: Conflict with the Constitution. If any provision of these bylaws conflicts with the National or Provincial constitution, the constitution prevails. These bylaws shall be read to give effect to the constitution wherever possible."
+    },
+    "opseuArticles": {
+      "name": "Article 1: Name. This organization shall be known as {localName}, a local union of the Ontario Public Service Employees Union / Syndicat des employés de la fonction publique de l'Ontario (OPSEU / SEFPO).",
+      "purpose": "Article 2: Purpose. The purpose of {localName} is to organize and represent its members, enforce collective agreements, promote solidarity, and advance the objects of OPSEU / SEFPO in accordance with the OPSEU / SEFPO Constitution.",
+      "membership": "Article 3: Membership. Membership shall be open to workers within the Local's bargaining unit(s) who are members in good standing of OPSEU / SEFPO. Rights and obligations of membership follow the OPSEU / SEFPO Constitution and these bylaws.",
+      "executive": "Article 4: Executive. The Local Executive Committee (LEC) shall consist of the President, {vicePresidents} Vice-President(s), Secretary-Treasurer, Recording Secretary where elected, and the Chief Steward. The LEC administers the Local between General Membership Meetings.",
+      "stewards": "Article 5: Stewards. Stewards shall be organized as follows: {stewards}. Stewards represent members in the workplace, receive training as provided by the Local, and report to the Chief Steward and the LEC.",
+      "quorum": "Article 6: Quorum. Quorum for a General Membership Meeting (GMM) shall be {gmmQuorum}. Quorum for an LEC meeting shall be {lecQuorum}. No binding motion, expenditure, or bylaw amendment may pass without quorum.",
+      "meetings": "Article 7: Meetings. The Local shall hold General Membership Meetings as follows: {meetingFrequency}. Special meetings may be called by the President, by the LEC, or by member petition as set out in the OPSEU / SEFPO Constitution and these bylaws.",
+      "elections": "Article 8: Elections. Officers and stewards shall be elected for terms of {electionTerm}, by secret ballot where required by the OPSEU / SEFPO Constitution or these bylaws. Nominations, notice, and ballot procedures shall be published to the membership before each election.",
+      "finances": "Article 9: Finances. All cheques and electronic payments of the Local shall require signatures or authorizations from {signingOfficers}. The Treasurer shall present financial reports to the membership. The fiscal year ends on {fiscalYearEnd}.",
+      "trustees": "Article 10: Trustees. The Local shall have {trustees}. Trustees shall review the books and report to the membership as required by the OPSEU / SEFPO Constitution and these bylaws.",
+      "committees": "Article 11: Committees. The LEC may establish standing and special committees, including bargaining, mobilization, and joint health and safety committees. Committee terms of reference shall not conflict with these bylaws or the OPSEU / SEFPO Constitution.",
+      "amendments": "Article 12: Amendments. These bylaws may be amended only after {amendmentNotice}, a vote at a quorate General Membership Meeting by two-thirds (2/3) of members present and voting, and written approval of the OPSEU / SEFPO National President (or designate) as required by the OPSEU / SEFPO Constitution before the amended text takes effect.",
+      "conflict": "Article 13: Conflict with the OPSEU / SEFPO Constitution. If any provision of these bylaws conflicts with the OPSEU / SEFPO Constitution, the Constitution prevails. These bylaws shall be read to give effect to the Constitution wherever possible."
     },
     "checklistPrompt": {
       "title": "Before you call the GMM",
