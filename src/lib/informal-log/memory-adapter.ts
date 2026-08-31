@@ -6,52 +6,56 @@ import type {
   UpdateInformalLogInput,
 } from "@/types/informal-log";
 
-const entries: InformalLogEntry[] = [
-  {
-    id: "ilog-001",
-    unionId: "union-opseu",
-    localId: "local-243",
-    bargainingUnitId: "bu-243-ft",
-    memberPseudonym: "Member A",
-    topic: "Scheduling / overtime assignment",
-    channel: "in_person",
-    summary:
-      "Discussed with supervisor whether OT was offered by seniority. Supervisor said they would check and follow up next week.",
-    occurredAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-    loggedById: "user-steward-243",
-    loggedByName: "Local 243 Steward",
-    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: "ilog-002",
-    unionId: "union-opseu",
-    localId: "local-243",
-    memberPseudonym: "Member D",
-    topic: "Workplace accommodation follow-up",
-    channel: "email",
-    summary:
-      "Member emailed about delayed response on accommodation request. Steward confirmed receipt with HR and asked for timeline.",
-    occurredAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    loggedById: "user-steward-243",
-    loggedByName: "Local 243 Steward",
-    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: "ilog-003",
-    unionId: "union-opseu",
-    localId: "local-243",
-    bargainingUnitId: "bu-243-pt",
-    memberPseudonym: "Member B",
-    topic: "Additional hours / call-in list",
-    channel: "phone",
-    summary:
-      "Member asked why they were skipped for Saturday coverage. Supervisor used the full-time overtime list instead of the part-time additional-hours list.",
-    occurredAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
-    loggedById: "user-steward-243-pt",
-    loggedByName: "Local 243 Steward (PT)",
-    createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-];
+function seedEntries(): InformalLogEntry[] {
+  return [
+    {
+      id: "ilog-001",
+      unionId: "union-opseu",
+      localId: "local-243",
+      bargainingUnitId: "bu-243-ft",
+      memberPseudonym: "Member A",
+      topic: "Scheduling / overtime assignment",
+      channel: "in_person",
+      summary:
+        "Discussed with supervisor whether OT was offered by seniority. Supervisor said they would check and follow up next week.",
+      occurredAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+      loggedById: "user-steward-243",
+      loggedByName: "Local 243 Steward",
+      createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: "ilog-002",
+      unionId: "union-opseu",
+      localId: "local-243",
+      memberPseudonym: "Member D",
+      topic: "Workplace accommodation follow-up",
+      channel: "email",
+      summary:
+        "Member emailed about delayed response on accommodation request. Steward confirmed receipt with HR and asked for timeline.",
+      occurredAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+      loggedById: "user-steward-243",
+      loggedByName: "Local 243 Steward",
+      createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: "ilog-003",
+      unionId: "union-opseu",
+      localId: "local-243",
+      bargainingUnitId: "bu-243-pt",
+      memberPseudonym: "Member B",
+      topic: "Additional hours / call-in list",
+      channel: "phone",
+      summary:
+        "Member asked why they were skipped for Saturday coverage. Supervisor used the full-time overtime list instead of the part-time additional-hours list.",
+      occurredAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+      loggedById: "user-steward-243-pt",
+      loggedByName: "Local 243 Steward (PT)",
+      createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+  ];
+}
+
+const entries: InformalLogEntry[] = seedEntries();
 
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -151,3 +155,8 @@ export class MemoryInformalLogAdapter implements InformalLogAdapter {
 
 export const memoryInformalLogStore: InformalLogAdapter =
   new MemoryInformalLogAdapter();
+
+/** @internal test helper — restores demo seed so mutating tests stay isolated. */
+export function resetInformalLogMemoryForTests(): void {
+  entries.splice(0, entries.length, ...seedEntries());
+}
