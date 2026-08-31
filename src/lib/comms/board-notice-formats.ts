@@ -1,16 +1,20 @@
+import {
+  PRINT_PAGE_PX_PER_INCH,
+  printPageExportPixelRatio,
+  printPagePreviewHeightPx,
+  printPagePreviewWidthPx,
+  type PrintPagePreviewSpec,
+} from "@/lib/comms/print-page-formats";
+
 export type BoardNoticeFormatId = "letter" | "tabloid";
 
-export interface BoardNoticeFormatSpec {
+export interface BoardNoticeFormatSpec extends PrintPagePreviewSpec {
   id: BoardNoticeFormatId;
   aspect: string;
-  widthInches: number;
-  heightInches: number;
-  /** Fixed CSS design width — preview scales down via MobilePreviewStage. */
-  previewWidthPx: number;
 }
 
-/** ~36 px/in keeps letter previews readable in the form column without overflow. */
-export const BOARD_NOTICE_PX_PER_INCH = 36;
+/** @deprecated Prefer PRINT_PAGE_PX_PER_INCH */
+export const BOARD_NOTICE_PX_PER_INCH = PRINT_PAGE_PX_PER_INCH;
 
 export const BOARD_NOTICE_FORMATS: Record<
   BoardNoticeFormatId,
@@ -21,29 +25,17 @@ export const BOARD_NOTICE_FORMATS: Record<
     aspect: "aspect-[8.5/11]",
     widthInches: 8.5,
     heightInches: 11,
-    previewWidthPx: Math.round(8.5 * BOARD_NOTICE_PX_PER_INCH),
+    previewWidthPx: printPagePreviewWidthPx(8.5),
   },
   tabloid: {
     id: "tabloid",
     aspect: "aspect-[11/17]",
     widthInches: 11,
     heightInches: 17,
-    previewWidthPx: Math.round(11 * BOARD_NOTICE_PX_PER_INCH),
+    previewWidthPx: printPagePreviewWidthPx(11),
   },
 };
 
-export function boardNoticePreviewHeightPx(
-  format: Pick<BoardNoticeFormatSpec, "previewWidthPx" | "widthInches" | "heightInches">,
-): number {
-  return Math.round(
-    format.previewWidthPx * (format.heightInches / format.widthInches),
-  );
-}
+export const boardNoticePreviewHeightPx = printPagePreviewHeightPx;
 
-/** Target ~300dpi letter width for PNG/PDF export from the fixed design canvas. */
-export function boardNoticeExportPixelRatio(
-  format: Pick<BoardNoticeFormatSpec, "previewWidthPx" | "widthInches">,
-  targetWidthPx = 2550,
-): number {
-  return Math.max(2, Math.min(4, targetWidthPx / format.previewWidthPx));
-}
+export const boardNoticeExportPixelRatio = printPageExportPixelRatio;

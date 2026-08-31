@@ -308,8 +308,8 @@ export function typeScaleFactor(tokens: CanvasTokens): number {
   return 1;
 }
 
-/** Scale Brand Kit canvas tokens to a fixed board-notice design width. */
-export function boardNoticeScaledTokens(
+/** Scale Brand Kit canvas tokens to a fixed print-page design width. */
+export function printPageScaledTokens(
   tokens: CanvasTokens,
   designWidthPx: number,
   referenceWidthPx: number,
@@ -330,6 +330,9 @@ export function boardNoticeScaledTokens(
     subtitleFontSizePx: Math.max(11, Math.round(tokens.subtitleFontSizePx * ratio)),
   };
 }
+
+/** @deprecated Prefer printPageScaledTokens */
+export const boardNoticeScaledTokens = printPageScaledTokens;
 
 /** Content inset from Brand Kit density / padding tokens. */
 export function contentPaddingPx(

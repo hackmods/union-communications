@@ -20,6 +20,8 @@ import {
   DEFAULT_FLYER_FORMAT,
   FLYER_FORMAT_ORDER,
   FLYER_FORMATS,
+  flyerExportPixelRatio,
+  flyerPreviewHeightPx,
   type FlyerFormatId,
 } from "@/lib/comms/flyer-formats";
 import {
@@ -176,6 +178,10 @@ function FlyerMakerPageContent() {
     ),
   };
   const format = FLYER_FORMATS[state.format];
+  const designWidth = format.previewWidthPx;
+  const designHeight = flyerPreviewHeightPx(format);
+  const referenceWidth = FLYER_FORMATS.letter.previewWidthPx;
+  const exportPixelRatio = flyerExportPixelRatio(format);
   const showPhoto = flyerLayoutSupportsPhoto(state.layout);
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
@@ -295,7 +301,7 @@ function FlyerMakerPageContent() {
       await exportNodeAsPng(
         canvasRef.current!,
         formatFilename("flyer", brandKit.local.localNumber, "png"),
-        { pixelRatio: 2, backgroundColor: state.primaryColor },
+        { pixelRatio: exportPixelRatio, backgroundColor: state.primaryColor },
       );
     });
   };
@@ -308,7 +314,7 @@ function FlyerMakerPageContent() {
         formatFilename("flyer", brandKit.local.localNumber, "pdf"),
         format.widthInches,
         format.heightInches,
-        2,
+        exportPixelRatio,
         state.primaryColor,
       );
     });
@@ -612,7 +618,7 @@ function FlyerMakerPageContent() {
         }
         preview={
           /* Shadow stays outside canvasRef — box-shadow oklch from Tailwind breaks PNG capture */
-          <div className="mx-auto w-full max-w-md shadow-lg lg:max-w-lg">
+          <div className="mx-auto w-full max-w-full shadow-lg">
             <FlyerLayoutCanvas
               canvasRef={canvasRef}
               layout={state.layout}
@@ -635,7 +641,9 @@ function FlyerMakerPageContent() {
               }}
               localNumber={brandKit.local.localNumber}
               subText={brandKit.local.subText}
-              fontFamily={tokens.bodyFontFamily}
+              designWidthPx={designWidth}
+              designHeightPx={designHeight}
+              referenceWidthPx={referenceWidth}
               aspectClass={format.aspectClass}
               aspectRatio={format.aspectRatio}
               photoUrl={showPhoto ? state.photoUrl : undefined}

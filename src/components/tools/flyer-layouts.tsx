@@ -13,6 +13,7 @@ import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import { pickContrastingInk } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
+import { printPageScaledTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { cn } from "@/lib/utils";
 
@@ -41,7 +42,12 @@ export interface FlyerLayoutCanvasProps {
   copy: FlyerLayoutCopy;
   localNumber: string;
   subText: string;
-  fontFamily: string;
+  /** Fixed design width in CSS px (preview scales via MobilePreviewStage). */
+  designWidthPx: number;
+  /** Fixed design height in CSS px — must match format aspect. */
+  designHeightPx: number;
+  /** Reference width for typography scaling (letter preview width). */
+  referenceWidthPx: number;
   aspectClass: string;
   /** Inline aspect-ratio for capture-safe clones (e.g. `"8.5 / 11"`). */
   aspectRatio: string;
@@ -150,7 +156,9 @@ export function FlyerLayoutCanvas({
   copy,
   localNumber,
   subText,
-  fontFamily,
+  designWidthPx,
+  designHeightPx,
+  referenceWidthPx,
   aspectClass,
   aspectRatio,
   photoUrl,
@@ -163,8 +171,13 @@ export function FlyerLayoutCanvas({
   logoMode = "lockup",
   showLocalLabel = true,
 }: FlyerLayoutCanvasProps) {
+  const scaledTokens = printPageScaledTokens(
+    tokens,
+    designWidthPx,
+    referenceWidthPx,
+  );
   const ink = pickContrastingInk(colours.primary);
-  const surfaceStyle = canvasSurfaceStyle(tokens, {
+  const surfaceStyle = canvasSurfaceStyle(scaledTokens, {
     primary: colours.primary,
     secondary: colours.secondary,
     accent: colours.accent,
@@ -174,21 +187,28 @@ export function FlyerLayoutCanvas({
     colours.accent,
     colours.secondary,
   );
-  const metaSize = tokens.subtitleFontSizePx + 4;
+  const metaSize = scaledTokens.subtitleFontSizePx + 4;
   const qrVisible = Boolean(showQr && qrSrc);
+
+  const canvasBoxStyle: CSSProperties = {
+    width: designWidthPx,
+    height: designHeightPx,
+    maxWidth: "100%",
+    flexShrink: 0,
+  };
 
   const rootStyle: CSSProperties = {
     ...surfaceStyle,
+    ...canvasBoxStyle,
     color: ink,
-    fontFamily,
+    fontFamily: scaledTokens.bodyFontFamily,
     aspectRatio,
     display: "flex",
     flexDirection: "column",
-    width: "100%",
     overflow: "hidden",
     boxSizing: "border-box",
-    padding: tokens.paddingPx,
-    gap: tokens.gapPx,
+    padding: scaledTokens.paddingPx,
+    gap: scaledTokens.gapPx,
     ...style,
   };
 
@@ -201,46 +221,45 @@ export function FlyerLayoutCanvas({
         ref={canvasRef}
         data-export-root=""
         className={cn(
-          "relative flex w-full flex-col overflow-hidden",
+          "relative flex shrink-0 flex-col overflow-hidden",
           aspectClass,
           className,
         )}
         style={{
+          ...canvasBoxStyle,
           backgroundColor: panelBg,
           color: panelInk,
-          fontFamily,
+          fontFamily: scaledTokens.bodyFontFamily,
           aspectRatio,
           display: "flex",
           flexDirection: "column",
-          width: "100%",
           overflow: "hidden",
           boxSizing: "border-box",
           ...style,
         }}
       >
-        <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+        <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />
         <div
-          className="relative z-[2] flex flex-col"
+          className="relative z-[2] flex shrink-0 flex-col"
           style={{
             backgroundColor: colours.secondary,
             color: bandInk,
-            fontFamily,
-            padding: tokens.paddingPx,
-            gap: tokens.gapPx,
-            flex: "0 0 auto",
+            fontFamily: scaledTokens.bodyFontFamily,
+            padding: scaledTokens.paddingPx,
+            gap: scaledTokens.gapPx,
           }}
         >
           <CanvasBrandHeader
             backgroundColor={colours.secondary}
             localNumber={localNumber}
             subText={subText}
-            fontFamily={tokens.bodyFontFamily}
+            fontFamily={scaledTokens.bodyFontFamily}
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
           />
           <CanvasTypeBlock
             tokens={{
-              ...tokens,
+              ...scaledTokens,
               alignmentBias: "center",
             }}
             title={copy.message}
@@ -255,8 +274,8 @@ export function FlyerLayoutCanvas({
         <div
           className="relative z-[2] flex min-h-0 flex-1 flex-col justify-between"
           style={{
-            padding: tokens.paddingPx,
-            gap: tokens.gapPx,
+            padding: scaledTokens.paddingPx,
+            gap: scaledTokens.gapPx,
             backgroundColor: panelBg,
             color: panelInk,
           }}
@@ -265,11 +284,11 @@ export function FlyerLayoutCanvas({
             copy={copy}
             ink={panelInk}
             fontSize={metaSize}
-            gap={tokens.gapPx}
+            gap={scaledTokens.gapPx}
           />
           {qrVisible && qrSrc ? (
             <QrFooter
-              tokens={tokens}
+              tokens={scaledTokens}
               qrSrc={qrSrc}
               accentColor={colours.accent}
             />
@@ -285,13 +304,13 @@ export function FlyerLayoutCanvas({
         ref={canvasRef}
         data-export-root=""
         className={cn(
-          "relative flex w-full flex-col overflow-hidden",
+          "relative flex shrink-0 flex-col overflow-hidden",
           aspectClass,
           className,
         )}
         style={rootStyle}
       >
-        <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+        <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />
         <div
           className="relative z-[1] w-full shrink-0 overflow-hidden"
           style={{ flex: "0 0 38%", minHeight: 80 }}
@@ -301,7 +320,7 @@ export function FlyerLayoutCanvas({
               photoUrl={photoUrl}
               shadowColor={colours.primary}
               highlightColor={colours.accent}
-              highlightOpacity={tokens.duotoneHighlightOpacity}
+              highlightOpacity={scaledTokens.duotoneHighlightOpacity}
               photoScale={photoScale}
             />
           ) : (
@@ -317,18 +336,18 @@ export function FlyerLayoutCanvas({
         </div>
         <div
           className="relative z-[2] flex min-h-0 flex-1 flex-col justify-between"
-          style={{ gap: tokens.gapPx }}
+          style={{ gap: scaledTokens.gapPx }}
         >
           <CanvasBrandHeader
             backgroundColor={colours.primary}
             localNumber={localNumber}
             subText={subText}
-            fontFamily={tokens.bodyFontFamily}
+            fontFamily={scaledTokens.bodyFontFamily}
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
           />
           <CanvasTypeBlock
-            tokens={tokens}
+            tokens={scaledTokens}
             title={copy.message}
             ink={ink}
             accentColor={accent}
@@ -337,11 +356,11 @@ export function FlyerLayoutCanvas({
             copy={copy}
             ink={ink}
             fontSize={metaSize}
-            gap={tokens.gapPx}
+            gap={scaledTokens.gapPx}
           />
           {qrVisible && qrSrc ? (
             <QrFooter
-              tokens={tokens}
+              tokens={scaledTokens}
               qrSrc={qrSrc}
               accentColor={colours.accent}
             />
@@ -357,27 +376,27 @@ export function FlyerLayoutCanvas({
         ref={canvasRef}
         data-export-root=""
         className={cn(
-          "relative flex w-full flex-col overflow-hidden",
+          "relative flex shrink-0 flex-col overflow-hidden",
           aspectClass,
           className,
         )}
         style={rootStyle}
       >
-        <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+        <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />
         <div
           className="relative z-[2] flex min-h-0 flex-[1.2] flex-col"
-          style={{ gap: tokens.gapPx }}
+          style={{ gap: scaledTokens.gapPx }}
         >
           <CanvasBrandHeader
             backgroundColor={colours.primary}
             localNumber={localNumber}
             subText={subText}
-            fontFamily={tokens.bodyFontFamily}
+            fontFamily={scaledTokens.bodyFontFamily}
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
           />
           <CanvasTypeBlock
-            tokens={tokens}
+            tokens={scaledTokens}
             title={copy.message}
             ink={ink}
             accentColor={accent}
@@ -385,7 +404,7 @@ export function FlyerLayoutCanvas({
         </div>
         <div
           className="relative z-[2] flex min-h-0 flex-1 flex-col justify-end"
-          style={{ gap: tokens.gapPx }}
+          style={{ gap: scaledTokens.gapPx }}
         >
           {photoUrl ? (
             <div
@@ -396,25 +415,25 @@ export function FlyerLayoutCanvas({
                 photoUrl={photoUrl}
                 shadowColor={colours.primary}
                 highlightColor={colours.accent}
-                highlightOpacity={tokens.duotoneHighlightOpacity}
+                highlightOpacity={scaledTokens.duotoneHighlightOpacity}
                 photoScale={photoScale}
               />
             </div>
           ) : null}
           <div
             className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
-            style={{ gap: tokens.gapPx }}
+            style={{ gap: scaledTokens.gapPx }}
           >
             <MetaBlock
               copy={copy}
               ink={ink}
               fontSize={metaSize}
-              gap={Math.max(6, tokens.gapPx - 4)}
+              gap={Math.max(6, scaledTokens.gapPx - 4)}
               className="min-w-0 flex-1"
             />
             {qrVisible && qrSrc ? (
               <QrFooter
-                tokens={tokens}
+                tokens={scaledTokens}
                 qrSrc={qrSrc}
                 accentColor={colours.accent}
                 widthPercent={100}
@@ -432,40 +451,40 @@ export function FlyerLayoutCanvas({
       ref={canvasRef}
         data-export-root=""
       className={cn(
-        "relative flex w-full flex-col justify-between overflow-hidden",
+        "relative flex shrink-0 flex-col justify-between overflow-hidden",
         aspectClass,
         className,
       )}
       style={rootStyle}
     >
-      <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+      <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />
       <CanvasBrandHeader
         backgroundColor={colours.primary}
         localNumber={localNumber}
         subText={subText}
-        fontFamily={tokens.bodyFontFamily}
+        fontFamily={scaledTokens.bodyFontFamily}
         logoMode={logoMode}
         showLocalLabel={showLocalLabel}
       />
       <CanvasTypeBlock
-        tokens={tokens}
+        tokens={scaledTokens}
         title={copy.message}
         ink={ink}
         accentColor={accent}
       />
       <div
         className="relative z-[2] flex flex-col"
-        style={{ gap: tokens.gapPx }}
+        style={{ gap: scaledTokens.gapPx }}
       >
         <MetaBlock
           copy={copy}
           ink={ink}
           fontSize={metaSize}
-          gap={tokens.gapPx}
+          gap={scaledTokens.gapPx}
         />
         {qrVisible && qrSrc ? (
           <QrFooter
-            tokens={tokens}
+            tokens={scaledTokens}
             qrSrc={qrSrc}
             accentColor={colours.accent}
           />
