@@ -299,7 +299,7 @@ describe("informal log API routes", () => {
         },
         {
           unionId: tenant.union.id,
-          localId: tenant.locals[0]!.id,
+          localId: tenant.locals![0]!.id,
           loggedById: "user-steward-888",
           loggedByName: "Steward 888",
         },
@@ -309,7 +309,7 @@ describe("informal log API routes", () => {
         session({
           id: "user-steward-888",
           unionId: tenant.union.id,
-          localId: tenant.locals[0]!.id,
+          localId: tenant.locals![0]!.id,
         }),
       );
       const res = await convertLog(listRequest(), params(entry.id));
