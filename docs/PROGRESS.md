@@ -3,7 +3,7 @@
 ## Union Boards reference materials — registry + PDF/XLSX (2026-08-31)
 
 - [x] **Registry:** Ontario rights sources (`ontario-ohsa-guide`, `ontario-esa-guide`, `ohrc-code-rights`, `ontario-ohrc-statute`, `wsib-ontario`); website ZIP Rights & Partners footer via `getWebsiteRightsPartnersOntarioSources()`; board materials + QR presets use `commsSourceUrl()`
-- [x] **Guide exports:** branded PDF checklists (`board-reference-pdf.ts`) replace raw `.md` demos; optional CSV→XLSX for board tracker and JHSC samples
+- [x] **Guide exports:** branded PDF checklists (`board-reference-pdf.ts`) replace raw `.md` demos; CSV→XLSX on Union Boards, Steward 101 intake, and Workplace Mapping templates
 - [x] **Steward worksheets:** PDF export is now the primary button in workspace export bars
 - [x] **What's new:** `/updates` union-boards-pdf-templates note
 - Verify: `npm run test:unit -- src/lib/constants/comms-sources.test.ts src/lib/constants/board-materials.test.ts src/lib/comms/board-reference-pdf.test.ts src/lib/comms/csv-to-xlsx.test.ts src/lib/templates/website/generate-website-zip.test.ts src/lib/constants/updates.test.ts src/lib/comms/public-copy-style.test.ts`

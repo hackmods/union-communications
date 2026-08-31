@@ -102,6 +102,8 @@
     "downloadZip": "Download ZIP",
     "downloadDocx": "Download Word",
     "downloadXlsx": "Download Excel",
+    "downloadingXlsx": "Preparing Excel…",
+    "spreadsheetExportError": "Excel export failed — download the CSV instead.",
     "downloadPptx": "Download PowerPoint",
     "copy": "Copy",
     "copied": "Copied!",
@@ -1193,9 +1195,6 @@
       "openLink": "Open official page",
       "officialSource": "Ministry source",
       "downloadTemplate": "Download sample",
-      "downloadXlsx": "Download Excel",
-      "downloadingXlsx": "Preparing Excel…",
-      "spreadsheetExportError": "Excel export failed — download the CSV sample instead.",
       "items": {
         "esaPoster": "Employment Standards in Ontario poster",
         "esaPosterDesc": "ESA rights overview - hours, leaves, vacation, termination. Strong default for the health & safety / rights zone.",
@@ -6574,8 +6573,8 @@
     "feedbackLink": "Send site feedback",
     "items": {
       "union-boards-pdf-templates": {
-        "title": "Union Boards guide — PDF checklists and Excel samples",
-        "body": "Download a branded print checklist and OHSA QR tip as PDFs, and open CSV board trackers as Excel when you prefer spreadsheets."
+        "title": "Guide spreadsheets — open CSV templates as Excel",
+        "body": "Union Boards, Steward 101, and Workplace Mapping now offer Download Excel beside every CSV template — board trackers, intake sheets, and workplace maps."
       },
       "website-hero-mesh": {
         "title": "Website Template hero backgrounds refreshed",
