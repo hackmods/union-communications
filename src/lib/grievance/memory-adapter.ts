@@ -549,5 +549,40 @@ export class MemoryGrievanceAdapter implements GrievanceAdapter {
 export const memoryGrievanceStore: GrievanceAdapter =
   new MemoryGrievanceAdapter();
 
+const grievanceMemorySeed = {
+  grievances: structuredClone(grievances),
+  events: structuredClone(events),
+  notes: structuredClone(notes),
+  communications: structuredClone(communications),
+  meetings: structuredClone(meetings),
+  outcomes: structuredClone(outcomes),
+};
+
+/** @internal test helper — restores demo seed so mutating tests stay isolated. */
+export function resetGrievanceMemoryForTests(): void {
+  grievances.splice(
+    0,
+    grievances.length,
+    ...structuredClone(grievanceMemorySeed.grievances),
+  );
+  events.splice(0, events.length, ...structuredClone(grievanceMemorySeed.events));
+  notes.splice(0, notes.length, ...structuredClone(grievanceMemorySeed.notes));
+  communications.splice(
+    0,
+    communications.length,
+    ...structuredClone(grievanceMemorySeed.communications),
+  );
+  meetings.splice(
+    0,
+    meetings.length,
+    ...structuredClone(grievanceMemorySeed.meetings),
+  );
+  outcomes.splice(
+    0,
+    outcomes.length,
+    ...structuredClone(grievanceMemorySeed.outcomes),
+  );
+}
+
 /** @deprecated Prefer `@/lib/grievance/store` — kept for test seed access. */
 export const grievanceStore = memoryGrievanceStore;
