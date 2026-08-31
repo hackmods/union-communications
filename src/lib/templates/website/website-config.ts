@@ -2,7 +2,7 @@ import { z } from "zod";
 import { isCanvasFontId } from "@/lib/comms/canvas-fonts";
 import { isWebsiteHttpUrl, toWebsiteNavLinks } from "@/lib/templates/website/brand-kit-fields";
 import {
-  isWebsiteHeroArtId,
+  coerceWebsiteHeroArtId,
   type WebsiteHeroArtId,
 } from "@/lib/templates/website/hero-art";
 import type {
@@ -275,9 +275,7 @@ function toImportedAsset(
 function normalizeParsedData(
   raw: z.infer<typeof configDataSchema>,
 ): WebsiteConfigData {
-  const heroArtId = isWebsiteHeroArtId(raw.heroArtId)
-    ? raw.heroArtId
-    : undefined;
+  const heroArtId = coerceWebsiteHeroArtId(raw.heroArtId);
   const canvas = sanitizeCanvas(raw.canvas);
   const data: WebsiteConfigData = {
     localNumber: trim(raw.localNumber),
@@ -339,9 +337,7 @@ export function serializeWebsiteConfig(
   data: WebsiteTemplateData,
   exportedAt: string = new Date().toISOString(),
 ): WebsiteConfigEnvelope {
-  const heroArtId = isWebsiteHeroArtId(data.heroArtId)
-    ? data.heroArtId
-    : undefined;
+  const heroArtId = coerceWebsiteHeroArtId(data.heroArtId);
   const canvas = sanitizeCanvas(data.canvas);
   const payload: WebsiteConfigData = {
     localNumber: trim(data.localNumber),

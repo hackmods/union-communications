@@ -2937,9 +2937,9 @@
     "heroArt": "Arrière-plan d’accueil",
     "heroArtHint": "Commencez par un motif discret. Remplacez le fichier dans le site téléchargé plus tard, ou ajoutez votre propre photo ci-dessous.",
     "heroArtNone": "Couleur seulement",
-    "heroArtBands": "Bandes",
+    "heroArtArc": "Arc",
     "heroArtMesh": "Trame",
-    "heroArtHorizon": "Horizon",
+    "heroArtBloom": "Éclat",
     "heroArtUpload": "Votre propre photo (facultatif)",
     "heroArtUploadHint": "Une photo large en paysage convient le mieux. Passez cette étape si vous utilisez un motif.",
     "photoConsentLink": "Guide de consentement photo",
@@ -6508,6 +6508,10 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "website-hero-mesh": {
+        "title": "Arrière-plans d’accueil du modèle de site remis au goût du jour",
+        "body": "La trame est maintenant le motif d’accueil par défaut. Arc et Éclat remplacent les anciens préréglages Bandes et Horizon par des formes plus douces derrière le nom et le logo de votre local."
+      },
       "brand-preset-audit": {
         "title": "Trousse de marque — couleurs et slogans par syndicat",
         "body": "Les préréglages syndicaux utilisent maintenant des couleurs de départ vérifiées (rose du SCFP tiré du site national, rouge Pantone 1805 de l’AFPC, or PMS 122U des Métallos, rouge et bleu Unifor), des slogans suggérés à toucher en anglais et en français, et des polices plus proches lorsque vous choisissez un préréglage."

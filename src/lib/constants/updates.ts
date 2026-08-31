@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "website-hero-mesh",
+    date: "2026-08-31",
+    kind: "improved",
+    href: "/tools/website-template",
+  },
+  {
     id: "brand-preset-audit",
     date: "2026-08-28",
     kind: "improved",
