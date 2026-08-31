@@ -9,15 +9,17 @@ type Props = {
   csvHref: string;
   downloadBasename: string;
   className?: string;
+  buttonClassName?: string;
 };
 
-/** Converts a public CSV sample to Excel for stewards who prefer .xlsx. */
+/** Converts a public CSV template to Excel for stewards who prefer .xlsx. */
 export function SpreadsheetXlsxButton({
   csvHref,
   downloadBasename,
   className,
+  buttonClassName,
 }: Props) {
-  const t = useTranslations("unionBoardsGuide.materials");
+  const t = useTranslations("common");
   const { exporting, exportError, runExport } = useExportHandler();
 
   const handleDownload = () => {
@@ -32,7 +34,7 @@ export function SpreadsheetXlsxButton({
         type="button"
         variant="outline"
         size="sm"
-        className="min-h-11"
+        className={buttonClassName ?? "min-h-11"}
         disabled={exporting}
         onClick={handleDownload}
       >

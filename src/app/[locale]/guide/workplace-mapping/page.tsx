@@ -13,6 +13,7 @@ import {
 import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
+import { SpreadsheetXlsxButton } from "@/components/comms/SpreadsheetXlsxButton";
 
 export async function generateMetadata({
   params,
@@ -134,9 +135,16 @@ export default async function WorkplaceMappingGuidePage({
       <OfficerLearningModuleCallout slug="building-collective-power" moduleNumber={6} />
 
       <div className="mb-8">
-        <a href={TEMPLATE_HREF} download={TEMPLATE_DOWNLOAD} className={primaryDownloadClass}>
-          {t("downloadCta")}
-        </a>
+        <div className="flex flex-wrap items-center gap-3">
+          <a href={TEMPLATE_HREF} download={TEMPLATE_DOWNLOAD} className={primaryDownloadClass}>
+            {t("downloadCta")}
+          </a>
+          <SpreadsheetXlsxButton
+            csvHref={TEMPLATE_HREF}
+            downloadBasename={TEMPLATE_DOWNLOAD}
+            buttonClassName="min-h-[3.25rem] px-6 text-base font-semibold"
+          />
+        </div>
         <p className="mt-2 max-w-prose text-sm text-gray-600">{t("downloadHint")}</p>
       </div>
 
@@ -336,24 +344,36 @@ export default async function WorkplaceMappingGuidePage({
         <div className="mt-5 space-y-6">
           <ReferenceBlock title={t("reference.blank.title")}>
             <p>{t("reference.blank.body")}</p>
-            <a
-              href={TEMPLATE_HREF}
-              download={TEMPLATE_DOWNLOAD}
-              className={`mt-3 ${outlineDownloadClass}`}
-            >
-              {t("downloadCta")}
-            </a>
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <a
+                href={TEMPLATE_HREF}
+                download={TEMPLATE_DOWNLOAD}
+                className={outlineDownloadClass}
+              >
+                {t("downloadCta")}
+              </a>
+              <SpreadsheetXlsxButton
+                csvHref={TEMPLATE_HREF}
+                downloadBasename={TEMPLATE_DOWNLOAD}
+              />
+            </div>
             <p className="mt-2 text-sm text-gray-600">{t("downloadHint")}</p>
           </ReferenceBlock>
           <ReferenceBlock title={t("reference.example.title")}>
             <p>{t("reference.example.body")}</p>
-            <a
-              href={EXAMPLE_HREF}
-              download={EXAMPLE_DOWNLOAD}
-              className={`mt-3 ${outlineDownloadClass}`}
-            >
-              {t("reference.example.cta")}
-            </a>
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <a
+                href={EXAMPLE_HREF}
+                download={EXAMPLE_DOWNLOAD}
+                className={outlineDownloadClass}
+              >
+                {t("reference.example.cta")}
+              </a>
+              <SpreadsheetXlsxButton
+                csvHref={EXAMPLE_HREF}
+                downloadBasename={EXAMPLE_DOWNLOAD}
+              />
+            </div>
           </ReferenceBlock>
           <ReferenceBlock title={t("reference.orgChart.title")}>
             <p>{t("reference.orgChart.body")}</p>

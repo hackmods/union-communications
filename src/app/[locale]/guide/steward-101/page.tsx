@@ -26,6 +26,7 @@ import {
   guideCtaOutlineClass,
   guideCtaOutlineClassBlock,
 } from "@/components/comms/guideCtaClasses";
+import { SpreadsheetXlsxButton } from "@/components/comms/SpreadsheetXlsxButton";
 
 export async function generateMetadata({
   params,
@@ -523,13 +524,21 @@ export default async function Steward101GuidePage({
 
           <ReferenceBlock title={t("referenceMaterials.intakeSheet.title")}>
             <p>{t("referenceMaterials.intakeSheet.body")}</p>
-            <a
-              href={INTAKE_TEMPLATE_HREF}
-              download={INTAKE_TEMPLATE_DOWNLOAD}
-              className={`mt-3 inline-block w-full ${guideCtaOutlineClassBlock}`}
-            >
-              {t("referenceMaterials.intakeSheet.cta")}
-            </a>
+            <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+              <a
+                href={INTAKE_TEMPLATE_HREF}
+                download={INTAKE_TEMPLATE_DOWNLOAD}
+                className={`inline-block w-full sm:flex-1 ${guideCtaOutlineClassBlock}`}
+              >
+                {t("referenceMaterials.intakeSheet.cta")}
+              </a>
+              <SpreadsheetXlsxButton
+                csvHref={INTAKE_TEMPLATE_HREF}
+                downloadBasename={INTAKE_TEMPLATE_DOWNLOAD}
+                className="w-full sm:flex-1"
+                buttonClassName="min-h-11 w-full"
+              />
+            </div>
             <p className="mt-2 text-sm text-gray-600">
               {t("referenceMaterials.intakeSheet.hint")}
             </p>

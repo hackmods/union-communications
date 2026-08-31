@@ -102,6 +102,8 @@
     "downloadZip": "Télécharger ZIP",
     "downloadDocx": "Télécharger Word",
     "downloadXlsx": "Télécharger Excel",
+    "downloadingXlsx": "Préparation d'Excel…",
+    "spreadsheetExportError": "Échec de l'export Excel — téléchargez plutôt le CSV.",
     "downloadPptx": "Télécharger PowerPoint",
     "copy": "Copier",
     "copied": "Copié!",
@@ -1193,9 +1195,6 @@
       "openLink": "Ouvrir la page officielle",
       "officialSource": "Source ministérielle",
       "downloadTemplate": "Télécharger l'exemple",
-      "downloadXlsx": "Télécharger Excel",
-      "downloadingXlsx": "Préparation d'Excel…",
-      "spreadsheetExportError": "Échec de l'export Excel — téléchargez plutôt l'exemple CSV.",
       "items": {
         "esaPoster": "Affiche Normes d'emploi en Ontario",
         "esaPosterDesc": "Aperçu des droits selon la LNE - heures, congés, vacances, cessation. Excellent défaut pour la zone santé-sécurité / droits.",
@@ -6524,8 +6523,8 @@
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
       "union-boards-pdf-templates": {
-        "title": "Guide tableaux syndicaux — listes PDF et exemples Excel",
-        "body": "Téléchargez une liste d'impression et une fiche QR LSST en PDF avec votre marque, et ouvrez les suivis CSV en Excel si vous préférez les feuilles de calcul."
+        "title": "Feuilles de calcul — ouvrir les modèles CSV dans Excel",
+        "body": "Les guides Tableaux syndicaux, Délégué 101 et Cartographie du milieu de travail offrent maintenant Télécharger Excel à côté de chaque modèle CSV — suivis de tableaux, feuilles d'accueil et cartes du milieu."
       },
       "website-hero-mesh": {
         "title": "Arrière-plans d’accueil du modèle de site remis au goût du jour",
