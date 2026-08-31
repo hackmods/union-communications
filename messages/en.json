@@ -2427,6 +2427,8 @@
     "title": "Document & Slide Generator",
     "subtitle": "Build branded documents with a live preview. Download Word — plus Excel or PowerPoint when the example includes them.",
     "whenToUse": "Use for branded Word packs, seniority and grievance worksheets, invite emails, and slide decks — when you need editable office files, not a PNG.",
+    "loadErrorBody": "The worksheet preview did not load — often after an app update or offline reload. Refresh once to pull the latest files, then try again.",
+    "refreshPage": "Refresh page",
     "examples": "Examples",
     "settings": "Edit & download",
     "designPreset": "Example",
