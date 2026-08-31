@@ -1,7 +1,7 @@
 import type { WebsiteTemplateData } from "@/types/website-template";
 
 /** Decorative pattern ids (plus colour-only). Upload, if present, wins. */
-export const WEBSITE_HERO_ART_IDS = ["none", "bands", "mesh", "horizon"] as const;
+export const WEBSITE_HERO_ART_IDS = ["none", "arc", "mesh", "bloom"] as const;
 
 export type WebsiteHeroArtId = (typeof WEBSITE_HERO_ART_IDS)[number];
 
@@ -18,14 +18,20 @@ export type WebsiteHeroArtSample = {
   publicPath: string;
 };
 
-export const DEFAULT_WEBSITE_HERO_ART_ID: WebsiteHeroSampleId = "bands";
+export const DEFAULT_WEBSITE_HERO_ART_ID: WebsiteHeroSampleId = "mesh";
+
+/** Legacy ids from retired presets — map on import so saved sites keep working. */
+const LEGACY_HERO_ART_IDS: Record<string, WebsiteHeroArtId> = {
+  bands: "arc",
+  horizon: "bloom",
+};
 
 export const WEBSITE_HERO_ART_SAMPLES: readonly WebsiteHeroArtSample[] = [
   {
-    id: "bands",
-    fileName: "bands.svg",
+    id: "arc",
+    fileName: "arc.svg",
     zipFileName: "hero.svg",
-    publicPath: "/assets/website-heroes/bands.svg",
+    publicPath: "/assets/website-heroes/arc.svg",
   },
   {
     id: "mesh",
@@ -34,10 +40,10 @@ export const WEBSITE_HERO_ART_SAMPLES: readonly WebsiteHeroArtSample[] = [
     publicPath: "/assets/website-heroes/mesh.svg",
   },
   {
-    id: "horizon",
-    fileName: "horizon.svg",
+    id: "bloom",
+    fileName: "bloom.svg",
     zipFileName: "hero.svg",
-    publicPath: "/assets/website-heroes/horizon.svg",
+    publicPath: "/assets/website-heroes/bloom.svg",
   },
 ];
 
@@ -45,6 +51,15 @@ const SAMPLE_BY_ID: Record<WebsiteHeroSampleId, WebsiteHeroArtSample> =
   Object.fromEntries(
     WEBSITE_HERO_ART_SAMPLES.map((sample) => [sample.id, sample]),
   ) as Record<WebsiteHeroSampleId, WebsiteHeroArtSample>;
+
+export function coerceWebsiteHeroArtId(
+  value: unknown,
+): WebsiteHeroArtId | undefined {
+  if (typeof value !== "string") return undefined;
+  if (isWebsiteHeroArtId(value)) return value;
+  const migrated = LEGACY_HERO_ART_IDS[value];
+  return migrated && isWebsiteHeroArtId(migrated) ? migrated : undefined;
+}
 
 export function isWebsiteHeroArtId(value: unknown): value is WebsiteHeroArtId {
   return (
@@ -116,7 +131,7 @@ export function resolveWebsiteHeroArt(
     };
   }
 
-  const id = data.heroArtId;
+  const id = coerceWebsiteHeroArtId(data.heroArtId);
   if (!isWebsiteHeroSampleId(id)) return null;
   const sample = SAMPLE_BY_ID[id];
   return {

@@ -2937,9 +2937,9 @@
     "heroArt": "Hero background",
     "heroArtHint": "Start with a subtle pattern. Replace the file in the downloaded site later, or add your own photo below.",
     "heroArtNone": "Colour only",
-    "heroArtBands": "Bands",
+    "heroArtArc": "Arc",
     "heroArtMesh": "Mesh",
-    "heroArtHorizon": "Horizon",
+    "heroArtBloom": "Bloom",
     "heroArtUpload": "Your own photo (optional)",
     "heroArtUploadHint": "A wide landscape photo works best. Skip this if you are using a pattern.",
     "photoConsentLink": "Photo consent guide",
@@ -6558,6 +6558,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "website-hero-mesh": {
+        "title": "Website Template hero backgrounds refreshed",
+        "body": "Mesh is now the default hero pattern. Arc and Bloom replace the old band and horizon presets with softer shapes that sit better behind your local name and logo."
+      },
       "brand-preset-audit": {
         "title": "Brand Kit — union preset colours and slogans",
         "body": "Union presets now use verified starter colours (CUPE pink from national site assets, PSAC Pantone 1805 red, USW PMS 122U gold, Unifor red and blue), tap-to-apply slogan suggestions in English and French, and closer canvas typefaces when you pick a preset."
