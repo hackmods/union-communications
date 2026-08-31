@@ -137,7 +137,7 @@ describe("hybrid slice API", () => {
         json: async () => {
           throw new SyntaxError("Unexpected token");
         },
-      } as Request);
+      } as unknown as Request);
       expect(badJson.status).toBe(400);
 
       const invalid = await importSlice(jsonRequest({ slice: { version: "nope" } }));
