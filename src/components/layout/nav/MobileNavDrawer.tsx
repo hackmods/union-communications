@@ -15,6 +15,7 @@ import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import {
   learnGroups,
   linkActive,
+  OFFICER_LEARNING_HREF,
   visibleToolGroups,
   type NavGroup,
   type NavLinkKey,
@@ -27,6 +28,7 @@ type MobileNavDrawerProps = {
   pathname: string;
   getStartedHref: string;
   learnActive: boolean;
+  officerLearningActive: boolean;
   toolsActive: boolean;
   onClose: () => void;
   onCloseAfterNav: () => void;
@@ -39,6 +41,7 @@ export function MobileNavDrawer({
   pathname,
   getStartedHref: startedHref,
   learnActive,
+  officerLearningActive,
   toolsActive,
   onClose,
   onCloseAfterNav,
@@ -193,22 +196,6 @@ export function MobileNavDrawer({
             active={learnActive}
             onToggle={() => toggleAccordion("learn")}
           >
-            <Link
-              href="/guide/officer-learning"
-              onClick={onCloseAfterNav}
-              aria-current={
-                linkActive(pathname, "/guide/officer-learning") ? "page" : undefined
-              }
-              className={cn(
-                "mb-3 block rounded-xl bg-[#0B132B] px-3 py-3",
-                drawerLinkClass(linkActive(pathname, "/guide/officer-learning")),
-              )}
-            >
-              <p className="text-sm font-semibold text-white">{t("officerLearningGuide")}</p>
-              <p className="mt-1 text-xs leading-snug text-slate-300">
-                {t("officerLearningFeatured")}
-              </p>
-            </Link>
             {learnGroups.map((group) => (
               <MobileGroup
                 key={group.labelKey}
@@ -221,6 +208,18 @@ export function MobileNavDrawer({
               />
             ))}
           </AccordionSection>
+
+          <Link
+            href={OFFICER_LEARNING_HREF}
+            onClick={onCloseAfterNav}
+            aria-current={officerLearningActive ? "page" : undefined}
+            className={cn(
+              "mt-2",
+              drawerLinkClass(officerLearningActive),
+            )}
+          >
+            {t("officerLearningTopNav")}
+          </Link>
 
           <Link
             href="/brand-kit"
