@@ -28,6 +28,14 @@ describe("rules-of-order actions", () => {
     }
   });
 
+  it("maps points and meeting actions to their categories", () => {
+    expect(getCategoryForAction("mainMotion")).toBe("motions");
+    expect(getCategoryForAction("pointOfOrder")).toBe("points");
+    expect(getCategoryForAction("pointOfPrivilege")).toBe("points");
+    expect(getCategoryForAction("adjourn")).toBe("meeting");
+    expect(getCategoryForAction("recess")).toBe("meeting");
+  });
+
   it("has matching EN/FR i18n for every action and detail field", () => {
     const enActions = en.rulesOfOrder.actions as Record<
       string,

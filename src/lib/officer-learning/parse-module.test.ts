@@ -75,6 +75,47 @@ describe("parseOfficerLearningModule", () => {
     }
   });
 
+  it("classifies French callout prefixes and quiz explanations", () => {
+    const markdown = `# Module 4: Gouvernance
+
+## Objectif général
+Équiper le président.
+
+## Objectifs d'apprentissage
+*   **Know**: One
+*   **Feel**: Two
+*   **Be Able To**: Three
+
+## Section One
+Avertissement: rester calme.
+
+Exercice: essayer ceci.
+
+Réflexion: y penser.
+
+## Quiz d'autoévaluation
+### Question 1
+Quelle est la première étape?
+*   A) Écouter
+*   B) Parler
+*   C) Voter
+*   D) Ajourner
+**Correct Answer: A**
+*Explication*: commencer par écouter.
+`;
+    const parsed = parseOfficerLearningModule("module-4", markdown);
+    const callouts = parsed.sections
+      .flatMap((s) => s.blocks)
+      .filter((b) => b.type === "callout");
+    expect(callouts.map((b) => (b.type === "callout" ? b.variant : null))).toEqual(
+      ["warning", "practice", "reflection"],
+    );
+    expect(callouts[0]?.type === "callout" && callouts[0].text).toBe(
+      "rester calme.",
+    );
+    expect(parsed.quiz[0]?.explanation).toContain("commencer par écouter");
+  });
+
   it("parses floor checklist task items as checklist blocks", () => {
     const markdown = fs.readFileSync(
       path.join(process.cwd(), "src/content/officer-learning", "module-1.md"),
