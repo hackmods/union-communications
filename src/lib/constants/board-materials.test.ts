@@ -9,8 +9,9 @@ describe("board-materials", () => {
     const posters = materialsByKind("ministryPoster");
     expect(posters.length).toBeGreaterThanOrEqual(2);
     for (const p of posters) {
-      expect(p.href).toMatch(/\.pdf$/);
-      expect(p.href.startsWith("/assets/ontario-board-posters/")).toBe(true);
+      expect(p.href).toBeDefined();
+      expect(p.href!).toMatch(/\.pdf$/);
+      expect(p.href!.startsWith("/assets/ontario-board-posters/")).toBe(true);
     }
   });
 
@@ -53,7 +54,7 @@ describe("board-materials", () => {
   it("includes an example dense-board photo", () => {
     const photos = materialsByKind("examplePhoto");
     expect(photos.length).toBeGreaterThanOrEqual(3);
-    expect(photos.some((p) => p.href.includes("board-l33"))).toBe(true);
-    expect(photos.some((p) => p.href.includes("board-w010"))).toBe(true);
+    expect(photos.some((p) => p.href?.includes("board-l33"))).toBe(true);
+    expect(photos.some((p) => p.href?.includes("board-w010"))).toBe(true);
   });
 });
