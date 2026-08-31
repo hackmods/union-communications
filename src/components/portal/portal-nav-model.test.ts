@@ -53,6 +53,9 @@ describe("circleIdFromPath", () => {
     expect(circleIdFromPath("/portal/circles/circle-hall-243/extra")).toBe(
       "circle-hall-243",
     );
+    expect(circleIdFromPath("/portal/circles/circle-lec-243/bylaws")).toBe(
+      "circle-lec-243",
+    );
     expect(circleIdFromPath("/portal")).toBeNull();
     expect(circleIdFromPath("/portal/dispatch")).toBeNull();
   });

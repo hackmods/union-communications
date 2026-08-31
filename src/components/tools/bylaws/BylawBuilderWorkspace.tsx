@@ -35,10 +35,8 @@ import {
   type BylawPresetId,
 } from "@/lib/bylaws/build-template";
 import {
-  clearBylawDraft,
+  createBylawDraftStorage,
   createEmptyBylawDraft,
-  loadBylawDraft,
-  saveBylawDraft,
 } from "@/lib/bylaws/draft";
 import { applyBylawPreset } from "@/lib/bylaws/presets";
 import {
@@ -60,7 +58,15 @@ function downloadText(filename: string, text: string) {
   URL.revokeObjectURL(url);
 }
 
-export function BylawBuilderWorkspace() {
+export function BylawBuilderWorkspace({
+  portalContext,
+}: {
+  portalContext?: {
+    circleId: string;
+    circleName: string;
+    readOnly?: boolean;
+  };
+} = {}) {
   const t = useTranslations("bylawBuilder");
   const tc = useTranslations("common");
   const ts = useTranslations("sources");
@@ -69,11 +75,18 @@ export function BylawBuilderWorkspace() {
   const searchParams = useSearchParams();
   const [copied, setCopied] = useState(false);
   const appliedQuery = useRef(false);
+  const draftStorage = useMemo(
+    () =>
+      portalContext
+        ? createBylawDraftStorage(portalContext.circleId)
+        : createBylawDraftStorage(),
+    [portalContext],
+  );
   const { draft, setDraft, clear, saveFailed, hydrated } = useStewardGuideDraft({
-    load: loadBylawDraft,
-    save: saveBylawDraft,
+    load: draftStorage.load,
+    save: draftStorage.save,
     createEmpty: createEmptyBylawDraft,
-    clearStorage: clearBylawDraft,
+    clearStorage: draftStorage.clear,
   });
   const { exportError, exportSuccess, exporting, runExport } =
     useExportHandler();
@@ -87,7 +100,7 @@ export function BylawBuilderWorkspace() {
 
     setDraft((prev) => {
       let next: BylawDraft = { ...prev };
-      if (mode === "committee") {
+      if (portalContext || mode === "committee") {
         next = { ...next, mode: "committee" };
       }
       if (preset) {
@@ -99,9 +112,15 @@ export function BylawBuilderWorkspace() {
           committeeNotes: {},
         };
       }
+      if (portalContext && !preset) {
+        next = {
+          ...next,
+          articleSet: "opseu",
+        };
+      }
       return next;
     });
-  }, [brandKit, hydrated, searchParams, setDraft]);
+  }, [brandKit, hydrated, portalContext, searchParams, setDraft]);
 
   const labels = useMemo(
     () => ({
@@ -160,6 +179,42 @@ export function BylawBuilderWorkspace() {
     [draft.existingBylaws, previewText],
   );
   const redlineChanges = changedBylawRedlineCount(redlineRows);
+  const readOnly = portalContext?.readOnly === true;
+
+  const compareRedlineBlock = (
+    <>
+      <Textarea
+        label={t("compare.existingLabel")}
+        value={draft.existingBylaws}
+        onChange={(e) =>
+          setDraft((prev) => ({ ...prev, existingBylaws: e.target.value }))
+        }
+        placeholder={t("compare.existingPlaceholder")}
+        rows={6}
+        disabled={readOnly}
+      />
+      {draft.existingBylaws.trim() ? (
+        <Callout tone={redlineChanges > 0 ? "warning" : "muted"}>
+          <p className="text-sm font-semibold text-opseu-dark">
+            {t("compare.summaryTitle", { count: redlineChanges })}
+          </p>
+          <ul className="mt-2 space-y-1 text-sm text-gray-700">
+            {redlineRows
+              .filter((row) => row.status !== "unchanged")
+              .slice(0, 6)
+              .map((row) => (
+                <li key={row.key}>
+                  {t(`compare.status.${row.status}`)} — {row.title}
+                </li>
+              ))}
+          </ul>
+          {redlineChanges > 6 ? (
+            <p className="mt-2 text-xs text-gray-500">{t("compare.more")}</p>
+          ) : null}
+        </Callout>
+      ) : null}
+    </>
+  );
 
   const updateField = <K extends keyof BylawFormValues>(
     key: K,
@@ -242,8 +297,8 @@ export function BylawBuilderWorkspace() {
       value={draft.mode}
       onChange={setMode}
       options={[
-        { value: "template", label: t("modes.template") },
-        { value: "committee", label: t("modes.committee") },
+        { value: "template", label: t("modes.template"), disabled: readOnly },
+        { value: "committee", label: t("modes.committee"), disabled: readOnly },
       ]}
     />
   );
@@ -261,6 +316,7 @@ export function BylawBuilderWorkspace() {
             variant="outline"
             size="sm"
             onClick={() => applyPreset(id)}
+            disabled={readOnly}
           >
             {t(`presets.${id}`)}
           </Button>
@@ -276,8 +332,12 @@ export function BylawBuilderWorkspace() {
       value={draft.articleSet}
       onChange={(articleSet) => setDraft((prev) => ({ ...prev, articleSet }))}
       options={[
-        { value: "standard", label: t("articleSet.standard") },
-        { value: "opseu", label: t("articleSet.opseu") },
+        {
+          value: "standard",
+          label: t("articleSet.standard"),
+          disabled: readOnly,
+        },
+        { value: "opseu", label: t("articleSet.opseu"), disabled: readOnly },
       ]}
     />
   );
@@ -290,6 +350,7 @@ export function BylawBuilderWorkspace() {
         onChange={(e) => updateField("localName", e.target.value)}
         placeholder={t("fieldPlaceholders.localName")}
         autoComplete="organization"
+        disabled={readOnly}
       />
       <Input
         label={t("fields.vicePresidents")}
@@ -297,60 +358,70 @@ export function BylawBuilderWorkspace() {
         onChange={(e) => updateField("vicePresidents", e.target.value)}
         placeholder={t("fieldPlaceholders.vicePresidents")}
         inputMode="numeric"
+        disabled={readOnly}
       />
       <Input
         label={t("fields.stewards")}
         value={draft.stewards}
         onChange={(e) => updateField("stewards", e.target.value)}
         placeholder={t("fieldPlaceholders.stewards")}
+        disabled={readOnly}
       />
       <Input
         label={t("fields.gmmQuorum")}
         value={draft.gmmQuorum}
         onChange={(e) => updateField("gmmQuorum", e.target.value)}
         placeholder={t("fieldPlaceholders.gmmQuorum")}
+        disabled={readOnly}
       />
       <Input
         label={t("fields.lecQuorum")}
         value={draft.lecQuorum}
         onChange={(e) => updateField("lecQuorum", e.target.value)}
         placeholder={t("fieldPlaceholders.lecQuorum")}
+        disabled={readOnly}
       />
       <Input
         label={t("fields.signingOfficers")}
         value={draft.signingOfficers}
         onChange={(e) => updateField("signingOfficers", e.target.value)}
         placeholder={t("fieldPlaceholders.signingOfficers")}
+        disabled={readOnly}
       />
       <Input
         label={t("fields.trustees")}
         value={draft.trustees}
         onChange={(e) => updateField("trustees", e.target.value)}
         placeholder={t("fieldPlaceholders.trustees")}
+        disabled={readOnly}
       />
       <Input
         label={t("fields.meetingFrequency")}
         value={draft.meetingFrequency}
         onChange={(e) => updateField("meetingFrequency", e.target.value)}
         placeholder={t("fieldPlaceholders.meetingFrequency")}
+        disabled={readOnly}
       />
       <Input
         label={t("fields.electionTerm")}
         value={draft.electionTerm}
         onChange={(e) => updateField("electionTerm", e.target.value)}
         placeholder={t("fieldPlaceholders.electionTerm")}
+        disabled={readOnly}
       />
       <Input
         label={t("fields.amendmentNotice")}
         value={draft.amendmentNotice}
         onChange={(e) => updateField("amendmentNotice", e.target.value)}
         placeholder={t("fieldPlaceholders.amendmentNotice")}
+        disabled={readOnly}
       />
       <Input
         label={t("fields.fiscalYearEnd")}
         value={draft.fiscalYearEnd}
         onChange={(e) => updateField("fiscalYearEnd", e.target.value)}
         placeholder={t("fieldPlaceholders.fiscalYearEnd")}
+        disabled={readOnly}
       />
     </>
   );
@@ -366,6 +437,7 @@ export function BylawBuilderWorkspace() {
       {presetButtons}
       {articleSetControl}
       {scalarFields}
+      {compareRedlineBlock}
       <div className="space-y-4 border-t border-gray-100 pt-4">
         {BYLAW_ARTICLE_KEYS.map((key) => (
           <div key={key} className="space-y-2">
@@ -374,6 +446,7 @@ export function BylawBuilderWorkspace() {
               value={draft.articleOverrides[key] ?? articleMap[key]}
               onChange={(e) => updateArticleOverride(key, e.target.value)}
               rows={4}
+              disabled={readOnly}
             />
             <Textarea
               label={t("committee.noteLabel")}
@@ -381,6 +454,7 @@ export function BylawBuilderWorkspace() {
               onChange={(e) => updateCommitteeNote(key, e.target.value)}
               placeholder={t("committee.notePlaceholder")}
               rows={2}
+              disabled={readOnly}
             />
           </div>
         ))}
@@ -399,35 +473,7 @@ export function BylawBuilderWorkspace() {
       {presetButtons}
       {articleSetControl}
       {scalarFields}
-      <Textarea
-        label={t("compare.existingLabel")}
-        value={draft.existingBylaws}
-        onChange={(e) =>
-          setDraft((prev) => ({ ...prev, existingBylaws: e.target.value }))
-        }
-        placeholder={t("compare.existingPlaceholder")}
-        rows={6}
-      />
-      {draft.existingBylaws.trim() ? (
-        <Callout tone={redlineChanges > 0 ? "warning" : "muted"}>
-          <p className="text-sm font-semibold text-opseu-dark">
-            {t("compare.summaryTitle", { count: redlineChanges })}
-          </p>
-          <ul className="mt-2 space-y-1 text-sm text-gray-700">
-            {redlineRows
-              .filter((row) => row.status !== "unchanged")
-              .slice(0, 6)
-              .map((row) => (
-                <li key={row.key}>
-                  {t(`compare.status.${row.status}`)} — {row.title}
-                </li>
-              ))}
-          </ul>
-          {redlineChanges > 6 ? (
-            <p className="mt-2 text-xs text-gray-500">{t("compare.more")}</p>
-          ) : null}
-        </Callout>
-      ) : null}
+      {compareRedlineBlock}
       <Callout tone="muted">
         <p className="text-sm font-semibold text-opseu-dark">
           {t("checklistPrompt.title")}
@@ -474,6 +520,15 @@ export function BylawBuilderWorkspace() {
       miniPreview={false}
       toolbar={
         <div className="space-y-3">
+          {portalContext ? (
+            <Callout tone="muted">
+              <p className="text-sm leading-relaxed text-gray-700">
+                {t("portalWorkspaceIntro", {
+                  circleName: portalContext.circleName,
+                })}
+              </p>
+            </Callout>
+          ) : null}
           <p className="text-sm text-gray-600">
             <Link
               href="/guide/bylaws"
@@ -488,13 +543,17 @@ export function BylawBuilderWorkspace() {
             >
               {t("governanceLink")}
             </Link>
-            {" · "}
-            <Link
-              href="/portal"
-              className="font-semibold text-opseu-blue underline underline-offset-2"
-            >
-              {t("portalLink")}
-            </Link>
+            {portalContext ? null : (
+              <>
+                {" · "}
+                <Link
+                  href="/portal"
+                  className="font-semibold text-opseu-blue underline underline-offset-2"
+                >
+                  {t("portalLink")}
+                </Link>
+              </>
+            )}
           </p>
           {exportBar}
         </div>

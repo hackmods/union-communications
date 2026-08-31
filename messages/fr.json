@@ -8782,8 +8782,13 @@
     "emptyCircleBulletin": "Aucun babillard dans ce Cercle pour l’instant. Écrivez-en un ci-dessus si vous pouvez publier.",
     "writeBulletin": "Rédiger un babillard",
     "bylawCommitteeTitle": "Comité de règlements?",
-    "bylawCommitteeBody": "Ouvrez le Créateur de règlements en mode brouillon de comité pour modifier les articles ensemble, puis affichez le lien ou le PDF exporté ici pour la révision du CEL.",
-    "bylawCommitteeCta": "Ouvrir le brouillon de comité",
+    "bylawCommitteeBody": "Ouvrez l'espace de règlements du Cercle pour modifier les articles ensemble, puis affichez le lien ou le PDF exporté sur le babillard pour la révision du CEL.",
+    "bylawCommitteeCta": "Ouvrir l'espace de règlements",
+    "bylawsPageTitle": "Brouillon de comité de règlements",
+    "bylawsPageIntro": "Rédigez article par article avec des notes de comité et un résumé comparatif. Les exportations restent sur cet appareil jusqu'à ce que vous les partagiez sur le babillard.",
+    "bylawsBackToCircle": "Retour à {circleName}",
+    "bylawsReadOnlyTitle": "Lecture seule dans ce Cercle",
+    "bylawsReadOnlyBody": "Vous pouvez lire les babillards ici, mais seuls les membres et les administrateurs peuvent modifier un brouillon de règlements. Demandez à un administrateur du Cercle de mettre à jour votre rôle si vous faites partie du groupe de travail.",
     "createError": "Impossible de créer ce Cercle. Vérifiez le nom, puis réessayez.",
     "frontsSettings": "Dates actives",
     "frontsSettingsHint": "Indiquez la période où ce Cercle tient la ligne.",
@@ -10243,9 +10248,9 @@
         "moduleTitle": "Gouvernance démocratique"
       },
       "builder": {
-        "title": "Créateur de règlements (exemple campus)",
-        "body": "Chargez un brouillon de taille campus, modifiez les articles, puis exportez texte, Markdown ou PDF pour Word.",
-        "cta": "Ouvrir l'exemple campus"
+        "title": "Créateur de règlements (exemple collégial)",
+        "body": "Chargez le brouillon collégial OPSEU / SEFPO, modifiez les articles en mode comité, puis exportez texte, Markdown ou PDF pour Word.",
+        "cta": "Ouvrir l'exemple collégial"
       },
       "governance": {
         "title": "Formation des dirigeants — Module 4",
@@ -10324,6 +10329,7 @@
       }
     },
     "portalLink": "Portail local (cercles de comité)",
+    "portalWorkspaceIntro": "Brouillon pour {circleName}. Affichez votre export PDF ou Markdown sur le babillard du Cercle lorsque le groupe de travail est prêt pour la révision du CEL.",
     "fields": {
       "localName": "Nom et numéro de la section locale",
       "vicePresidents": "Nombre de vice-présidents",

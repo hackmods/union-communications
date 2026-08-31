@@ -8782,8 +8782,13 @@
     "emptyCircleBulletin": "No Bulletin posts in this Circle yet. Write one above if you can post.",
     "writeBulletin": "Write a Bulletin post",
     "bylawCommitteeTitle": "Bylaws committee?",
-    "bylawCommitteeBody": "Open Bylaw Builder in Committee draft mode to edit articles together, then post the export link or PDF here for LEC review.",
-    "bylawCommitteeCta": "Open Committee draft",
+    "bylawCommitteeBody": "Open the Circle bylaws workspace to edit articles together, then post the export link or PDF on Bulletin for LEC review.",
+    "bylawCommitteeCta": "Open bylaws workspace",
+    "bylawsPageTitle": "Bylaws committee draft",
+    "bylawsPageIntro": "Draft article by article with committee notes and a redline summary. Exports stay on this device until you share them on Bulletin.",
+    "bylawsBackToCircle": "Back to {circleName}",
+    "bylawsReadOnlyTitle": "View-only in this Circle",
+    "bylawsReadOnlyBody": "You can read Bulletin posts here, but only members and admins can edit a bylaws draft. Ask a Circle admin to upgrade your role if you are on the working group.",
     "createError": "Could not create that Circle. Check the name and try again.",
     "frontsSettings": "Live dates",
     "frontsSettingsHint": "Set when this Circle is holding the line.",
@@ -10243,9 +10248,9 @@
         "moduleTitle": "Democratic governance"
       },
       "builder": {
-        "title": "Bylaw Builder (campus sample)",
-        "body": "Load a campus-sized draft, edit the articles, then export text, Markdown, or PDF for Word.",
-        "cta": "Open campus sample"
+        "title": "Bylaw Builder (college sample)",
+        "body": "Load the OPSEU / SEFPO college draft, edit articles in committee mode, then export text, Markdown, or PDF for Word.",
+        "cta": "Open college sample"
       },
       "governance": {
         "title": "Officer Learning — Module 4",
@@ -10324,6 +10329,7 @@
       }
     },
     "portalLink": "Local Portal (committee circles)",
+    "portalWorkspaceIntro": "Draft for {circleName}. Post your PDF or Markdown export on the Circle Bulletin when the working group is ready for LEC review.",
     "fields": {
       "localName": "Local union name & number",
       "vicePresidents": "Number of Vice-Presidents",

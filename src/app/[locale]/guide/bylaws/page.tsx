@@ -124,6 +124,11 @@ export default async function BylawsGuidePage({
               label: nav("bylawBuilder"),
             },
             {
+              href: "/tools/bylaw-builder?mode=committee&preset=opseuCaat",
+              label: t("committee.builderCta"),
+              variant: "outline",
+            },
+            {
               href: "/tools/board-notice",
               label: nav("boardNotice"),
               variant: "outline",
@@ -464,7 +469,7 @@ export default async function BylawsGuidePage({
           <ReferenceBlock title={t("referenceMaterials.builder.title")}>
             <p>{t("referenceMaterials.builder.body")}</p>
             <Link
-              href="/tools/bylaw-builder?preset=campus"
+              href="/tools/bylaw-builder?preset=opseuCaat"
               className={`mt-3 inline-block w-full ${guideCtaClassBlock}`}
             >
               {t("referenceMaterials.builder.cta")}
@@ -502,7 +507,7 @@ export default async function BylawsGuidePage({
           ))}
         </ul>
         <div className="button-row mt-5 max-w-2xl">
-          <Link href="/tools/bylaw-builder?preset=campus" className={guideCtaClass}>
+          <Link href="/tools/bylaw-builder?preset=opseuCaat" className={guideCtaClass}>
             {nav("bylawBuilder")}
           </Link>
           <Link href="/tools/board-notice" className={guideCtaOutlineClass}>

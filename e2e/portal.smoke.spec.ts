@@ -284,6 +284,21 @@ test.describe("Local Portal smoke @smoke", () => {
     ).toBeVisible();
   });
 
+  test("steward opens Circle bylaws workspace", async ({ page }) => {
+    await loginAsSteward(page);
+    await page.goto("/en/portal/circles/circle-lec-243/bylaws");
+    await expect(
+      page.getByRole("heading", { name: "Bylaws committee draft" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Back to Local 243 LEC" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("radio", { name: "Committee draft" }),
+    ).toHaveAttribute("aria-checked", "true");
+    await expect(page.getByLabel("Article 1 — Name")).toBeVisible();
+  });
+
   test("deep-link opens Actions tab from Together query", async ({ page }) => {
     await loginAsMember(page);
     await page.goto("/en/portal/circles/circle-hall-243?tab=actions");

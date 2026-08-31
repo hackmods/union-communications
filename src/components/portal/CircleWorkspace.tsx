@@ -550,7 +550,7 @@ export function CircleWorkspace({
                 {t("bylawCommitteeBody")}
               </p>
               <Link
-                href="/tools/bylaw-builder?mode=committee"
+                href={`/portal/circles/${circleId}/bylaws`}
                 className="mt-3 inline-flex min-h-11 items-center font-semibold text-opseu-blue underline underline-offset-2"
               >
                 {t("bylawCommitteeCta")}
