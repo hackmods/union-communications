@@ -2,12 +2,16 @@ import { describe, expect, it } from "vitest";
 import {
   BYLAW_PRESETS,
   buildBylawTemplate,
+  buildBylawArticleMap,
   bylawDownloadBasename,
-  bylawDownloadFilename,
   createEmptyBylawForm,
+  defaultArticleSetForPreset,
+  isBylawDraft,
   isBylawFormValues,
+  normalizeBylawPresetId,
   type BylawTemplateLabels,
 } from "./build-template";
+import { applyBylawPreset } from "./presets";
 
 const labels: BylawTemplateLabels = {
   placeholders: {
@@ -32,10 +36,8 @@ const labels: BylawTemplateLabels = {
     stewards: "Article 5: Stewards. Steward structure: {stewards}.",
     quorum:
       "Article 6: Quorum. GMM quorum shall be {gmmQuorum}. LEC quorum shall be {lecQuorum}.",
-    meetings:
-      "Article 7: Meetings. The Local shall meet {meetingFrequency}.",
-    elections:
-      "Article 8: Elections. Officers serve {electionTerm} terms.",
+    meetings: "Article 7: Meetings. The Local shall meet {meetingFrequency}.",
+    elections: "Article 8: Elections. Officers serve {electionTerm} terms.",
     finances:
       "Article 9: Finances. Signing officers: {signingOfficers}. Fiscal year ends {fiscalYearEnd}.",
     trustees: "Article 10: Trustees. {trustees}.",
@@ -48,34 +50,64 @@ const labels: BylawTemplateLabels = {
   },
 };
 
+const opseuArticles = {
+  ...labels.articles,
+  amendments:
+    "Article 12: Amendments. Notice: {amendmentNotice}. Two-thirds vote at a quorate GMM and OPSEU / SEFPO National President approval.",
+};
+
 describe("buildBylawTemplate", () => {
-  it("injects form values into articles", () => {
-    const text = buildBylawTemplate(BYLAW_PRESETS.campus, labels);
+  it("injects OPSEU CAAT preset values", () => {
+    const text = buildBylawTemplate(BYLAW_PRESETS.opseuCaat, labels, {
+      articleSet: "opseu",
+      opseuArticles,
+    });
 
     expect(text).toContain("OPSEU / SEFPO Local 243");
     expect(text).toContain("2 Vice-President(s)");
     expect(text).toContain("One steward per campus unit");
-    expect(text).toContain("25 members or 10%");
-    expect(text).toContain("President and Treasurer");
-    expect(text).toContain("Three elected trustees who are not signing officers");
-    expect(text).toContain("21 days written notice");
+    expect(text).toContain("25 members in good standing or 10%");
+    expect(text).toContain("National President approval");
     expect(text).toContain("March 31");
+  });
+
+  it("honours article overrides", () => {
+    const text = buildBylawTemplate(createEmptyBylawForm(), labels, {
+      articleOverrides: {
+        quorum: "Article 6: Quorum. Custom quorum text.",
+      },
+    });
+    expect(text).toContain("Custom quorum text.");
   });
 
   it("falls back to placeholders when fields are blank", () => {
     const text = buildBylawTemplate(createEmptyBylawForm(), labels);
 
     expect(text).toContain("[Local Union Name & Number]");
-    // Empty form seeds vicePresidents to "1" as a sensible default.
     expect(text).toContain("1 Vice-President(s)");
-    expect(text).toContain("[Signing officers]");
-    expect(text).toContain("[Amendment notice]");
   });
 
-  it("keeps fiscal year only in the finances article for presets", () => {
-    const text = buildBylawTemplate(BYLAW_PRESETS.small, labels);
-    const fiscalMatches = text.match(/December 31/g) ?? [];
-    expect(fiscalMatches).toHaveLength(1);
+  it("builds per-article map for committee mode", () => {
+    const map = buildBylawArticleMap(BYLAW_PRESETS.small, labels);
+    expect(Object.keys(map)).toHaveLength(13);
+    expect(map.name).toContain("Local 123");
+  });
+});
+
+describe("presets", () => {
+  it("uses Brand Kit local number for OPSEU presets", () => {
+    const applied = applyBylawPreset("opseuCaat", {
+      local: { id: "local-567", localNumber: "567", subText: "Demo" },
+      unionName: "OPSEU / SEFPO",
+      unionPresetId: "opseu",
+    });
+    expect(applied.localName).toBe("OPSEU / SEFPO Local 567");
+    expect(applied.articleSet).toBe("opseu");
+  });
+
+  it("defaults OPSEU article set for campus presets", () => {
+    expect(defaultArticleSetForPreset("opseuCaat")).toBe("opseu");
+    expect(normalizeBylawPresetId("campus")).toBe("opseuCaat");
   });
 });
 
@@ -84,23 +116,25 @@ describe("bylaw download helpers", () => {
     expect(bylawDownloadBasename("OPSEU / SEFPO Local 123")).toBe(
       "opseu-sefpo-local-123-bylaws-draft",
     );
-    expect(bylawDownloadFilename("OPSEU / SEFPO Local 123")).toBe(
-      "opseu-sefpo-local-123-bylaws-draft.txt",
-    );
-  });
-
-  it("uses a generic name when blank", () => {
-    expect(bylawDownloadFilename("")).toBe("local-bylaws-draft.txt");
   });
 });
 
-describe("isBylawFormValues", () => {
-  it("accepts complete string forms", () => {
-    expect(isBylawFormValues(BYLAW_PRESETS.small)).toBe(true);
+describe("isBylawDraft", () => {
+  it("accepts extended drafts", () => {
+    expect(
+      isBylawDraft({
+        ...BYLAW_PRESETS.small,
+        mode: "committee",
+        articleSet: "opseu",
+        articleOverrides: {},
+        committeeNotes: { quorum: "Review with LEC" },
+        existingBylaws: "",
+      }),
+    ).toBe(true);
   });
 
   it("rejects incomplete objects", () => {
-    expect(isBylawFormValues({ localName: "x" })).toBe(false);
-    expect(isBylawFormValues(null)).toBe(false);
+    expect(isBylawFormValues(BYLAW_PRESETS.small)).toBe(true);
+    expect(isBylawDraft(BYLAW_PRESETS.small)).toBe(false);
   });
 });

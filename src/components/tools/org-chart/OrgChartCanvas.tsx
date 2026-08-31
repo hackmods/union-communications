@@ -7,6 +7,7 @@ import {
   ORG_CHART_FORMATS,
   isOrgChartListLayout,
   isPortraitOrgChartFormat,
+  orgChartPreviewHeightPx,
   orgChartLayoutShowsLocation,
   type OrgChartFormatId,
   type OrgChartLayoutId,
@@ -17,7 +18,7 @@ import {
   rosterHasNamedPeople,
   type OrgChartBand,
 } from "@/lib/org-chart/layout";
-import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
+import { printPageScaledTokens, resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { mutedInkOnBackground, pickContrastingInk } from "@/lib/utils/ink";
 import { cn } from "@/lib/utils";
@@ -67,15 +68,18 @@ function cardStyle(
   plate: string,
   ink: string,
   compact: boolean,
+  typeRatio: number,
 ): CSSProperties {
+  const padY = compact ? 6 : 10;
+  const padX = compact ? 8 : 12;
   return {
     backgroundColor: plate,
     color: ink,
     borderRadius: 8,
-    padding: compact ? "6px 8px" : "10px 12px",
+    padding: `${Math.round(padY * typeRatio)}px ${Math.round(padX * typeRatio)}px`,
     textAlign: "center",
-    minWidth: compact ? 88 : 112,
-    maxWidth: compact ? 140 : 180,
+    minWidth: Math.round((compact ? 88 : 112) * typeRatio),
+    maxWidth: Math.round((compact ? 140 : 180) * typeRatio),
     boxSizing: "border-box",
   };
 }
@@ -97,8 +101,20 @@ export function OrgChartCanvas({
   stewardsPositionLabel,
 }: OrgChartCanvasProps) {
   const format = ORG_CHART_FORMATS[formatId];
+  const referenceWidthPx = ORG_CHART_FORMATS.letter.previewWidthPx;
+  const designWidthPx = format.previewWidthPx;
+  const designHeightPx = orgChartPreviewHeightPx(format);
   const tokens = resolveCanvasTokens(brandKit);
-  const surfaceStyle = canvasSurfaceStyle(tokens, {
+  const scaledTokens = printPageScaledTokens(
+    tokens,
+    designWidthPx,
+    referenceWidthPx,
+  );
+  const typeRatio = Math.min(
+    1.12,
+    Math.max(0.62, designWidthPx / referenceWidthPx),
+  );
+  const surfaceStyle = canvasSurfaceStyle(scaledTokens, {
     primary: brandKit.primaryColor,
     secondary: brandKit.secondaryColor,
     accent: brandKit.accentColor,
@@ -128,41 +144,53 @@ export function OrgChartCanvas({
     ? [positionColumnLabel, nameColumnLabel, locationColumnLabel]
     : [positionColumnLabel, nameColumnLabel];
 
+  const listBodyFontPx = Math.max(9, Math.round((compact ? 11 : 13) * typeRatio));
+  const listHeadFontPx = Math.max(8, Math.round((compact ? 10 : 11) * typeRatio));
+  const cellPad = compact
+    ? `${Math.round(4 * typeRatio)}px ${Math.round(6 * typeRatio)}px`
+    : `${Math.round(6 * typeRatio)}px ${Math.round(8 * typeRatio)}px`;
+
   return (
     <div className="shadow-lg">
       <div
         ref={canvasRef}
         data-export-root=""
-        className={cn("relative flex w-full flex-col", format.aspect)}
+        className={cn("relative flex shrink-0 flex-col", format.aspect)}
         style={{
           ...surfaceStyle,
+          width: designWidthPx,
+          height: designHeightPx,
+          maxWidth: "100%",
+          flexShrink: 0,
           color: ink,
-          padding: tokens.paddingPx,
-          gap: Math.max(8, Math.round(tokens.gapPx * 0.75)),
-          fontFamily: tokens.bodyFontFamily,
+          padding: scaledTokens.paddingPx,
+          gap: Math.max(8, Math.round(scaledTokens.gapPx * 0.75)),
+          fontFamily: scaledTokens.bodyFontFamily,
+          overflow: "hidden",
+          boxSizing: "border-box",
         }}
       >
-        <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+        <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />
         <CanvasBrandHeader
           backgroundColor={brandKit.primaryColor}
           localNumber={brandKit.local.localNumber}
           subText={brandKit.local.subText}
           logoSize="sm"
-          fontFamily={tokens.bodyFontFamily}
+          fontFamily={scaledTokens.bodyFontFamily}
         />
         <h2
-          className="relative z-[2]"
+          className="relative z-[2] shrink-0"
           style={{
             color: ink,
             fontSize: compact
-              ? Math.round(tokens.titleFontSizePx * 0.7)
-              : tokens.titleFontSizePx,
-            fontWeight: tokens.titleFontWeight,
-            letterSpacing: tokens.titleLetterSpacing,
-            textTransform: tokens.titleTextTransform,
+              ? Math.round(scaledTokens.titleFontSizePx * 0.7)
+              : scaledTokens.titleFontSizePx,
+            fontWeight: scaledTokens.titleFontWeight,
+            letterSpacing: scaledTokens.titleLetterSpacing,
+            textTransform: scaledTokens.titleTextTransform,
             lineHeight: 1.15,
             margin: 0,
-            fontFamily: tokens.headlineFontFamily,
+            fontFamily: scaledTokens.headlineFontFamily,
           }}
         >
           {title}
@@ -173,8 +201,8 @@ export function OrgChartCanvas({
             style={{
               color: muted,
               fontSize: Math.max(
-                11,
-                Math.round(tokens.subtitleFontSizePx * 0.9),
+                10,
+                Math.round(scaledTokens.subtitleFontSizePx * 0.9),
               ),
               margin: 0,
             }}
@@ -190,7 +218,7 @@ export function OrgChartCanvas({
             <p
               style={{
                 color: muted,
-                fontSize: tokens.subtitleFontSizePx,
+                fontSize: scaledTokens.subtitleFontSizePx,
                 margin: 0,
               }}
             >
@@ -201,8 +229,9 @@ export function OrgChartCanvas({
               style={{
                 width: "100%",
                 borderCollapse: "collapse",
-                fontSize: compact ? 11 : 13,
+                fontSize: listBodyFontPx,
                 color: ink,
+                tableLayout: "fixed",
               }}
             >
               <thead>
@@ -212,10 +241,10 @@ export function OrgChartCanvas({
                       key={label}
                       style={{
                         textAlign: "left",
-                        padding: compact ? "4px 6px" : "6px 8px",
+                        padding: cellPad,
                         borderBottom: `2px solid ${brandKit.secondaryColor}`,
-                        fontFamily: tokens.headlineFontFamily,
-                        fontSize: compact ? 10 : 11,
+                        fontFamily: scaledTokens.headlineFontFamily,
+                        fontSize: listHeadFontPx,
                         letterSpacing: "0.06em",
                         textTransform: "uppercase",
                         color: muted,
@@ -231,19 +260,23 @@ export function OrgChartCanvas({
                   <tr key={row.personId}>
                     <td
                       style={{
-                        padding: compact ? "4px 6px" : "6px 8px",
+                        padding: cellPad,
                         borderBottom: `1px solid ${muted}`,
                         fontWeight: 600,
                         width: showLocation ? "34%" : "42%",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
                       }}
                     >
                       {row.position}
                     </td>
                     <td
                       style={{
-                        padding: compact ? "4px 6px" : "6px 8px",
+                        padding: cellPad,
                         borderBottom: `1px solid ${muted}`,
                         width: showLocation ? "40%" : "58%",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
                       }}
                     >
                       {row.name}
@@ -251,12 +284,14 @@ export function OrgChartCanvas({
                     {showLocation ? (
                       <td
                         style={{
-                          padding: compact ? "4px 6px" : "6px 8px",
+                          padding: cellPad,
                           borderBottom: `1px solid ${muted}`,
                           width: "26%",
                           opacity: 0.9,
                           fontVariantNumeric: "tabular-nums",
                           letterSpacing: "0.04em",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
                         }}
                       >
                         {row.location}
@@ -284,8 +319,8 @@ export function OrgChartCanvas({
                       style={{
                         color: muted,
                         fontSize: Math.max(
-                          10,
-                          Math.round(tokens.subtitleFontSizePx * 0.85),
+                          9,
+                          Math.round(scaledTokens.subtitleFontSizePx * 0.85),
                         ),
                         fontWeight: 700,
                         letterSpacing: "0.08em",
@@ -301,7 +336,7 @@ export function OrgChartCanvas({
                       display: "flex",
                       flexWrap: "wrap",
                       justifyContent: lead ? "center" : "flex-start",
-                      gap: compact ? 6 : 8,
+                      gap: Math.round((compact ? 6 : 8) * typeRatio),
                     }}
                   >
                     {band.people.map((person) => (
@@ -311,15 +346,18 @@ export function OrgChartCanvas({
                           brandKit.secondaryColor,
                           plateInk,
                           compact && !lead,
+                          typeRatio,
                         )}
                       >
                         <p
                           style={{
                             margin: 0,
                             fontWeight: 700,
-                            fontSize: lead ? 16 : compact ? 11 : 13,
+                            fontSize: Math.round(
+                              (lead ? 16 : compact ? 11 : 13) * typeRatio,
+                            ),
                             lineHeight: 1.2,
-                            fontFamily: tokens.headlineFontFamily,
+                            fontFamily: scaledTokens.headlineFontFamily,
                           }}
                         >
                           {person.name.trim() || person.role.trim()}
@@ -328,7 +366,9 @@ export function OrgChartCanvas({
                           <p
                             style={{
                               margin: "2px 0 0",
-                              fontSize: lead ? 12 : compact ? 9 : 11,
+                              fontSize: Math.round(
+                                (lead ? 12 : compact ? 9 : 11) * typeRatio,
+                              ),
                               lineHeight: 1.2,
                               opacity: 0.9,
                             }}
@@ -340,7 +380,7 @@ export function OrgChartCanvas({
                           <p
                             style={{
                               margin: "2px 0 0",
-                              fontSize: compact ? 8 : 10,
+                              fontSize: Math.round((compact ? 8 : 10) * typeRatio),
                               opacity: 0.75,
                             }}
                           >

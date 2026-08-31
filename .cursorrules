@@ -62,3 +62,4 @@ This file is a flat, tool-agnostic mirror of the most load-bearing rules already
 - Update `docs/PROGRESS.md` at milestone end; keep `docs/audit/execution-backlog.md` tickets in sync (mark closed, don't delete) as they're resolved.
 - Steward-facing product changes also get a What's new note on `/updates` in the same change — [`.cursor/rules/whats-new.mdc`](.cursor/rules/whats-new.mdc).
 - Commit with conventional-commit messages focused on *why*; never amend pushed commits; never force-push `main`; never commit secrets.
+- **PRs:** open ready for review (not draft); **merge when CI is green** unless the user asked to hold; close superseded duplicates with a pointer to the replacement PR.

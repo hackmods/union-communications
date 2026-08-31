@@ -47,6 +47,7 @@
     "membershipSignupGuide": "Adhésion",
     "steward101Guide": "Délégué 101",
     "officerLearningGuide": "Centre de formation des dirigeants",
+    "officerLearningTopNav": "Formation des dirigeants",
     "officerLearningFeatured": "Six modules autogérés avec listes de contrôle et quiz.",
     "workplaceMappingGuide": "Cartographie du lieu de travail",
     "grievanceProcessGuide": "Processus de grief",
@@ -259,6 +260,7 @@
     "pathStewardTitle": "Formation des délégués sur le plancher",
     "pathStewardDesc": "Délégué 101, six modules du Centre de formation des dirigeants avec autoévaluations et fiches de poche imprimables — le tout sur votre appareil.",
     "pathStewardCta": "Ouvrir les guides pratiques",
+    "pathStewardOfficerLearningCta": "Ouvrir la formation des dirigeants",
     "channelsTitle": "La boîte à outils",
     "channelsIntro": "Ces outils fonctionnent ensemble pour que le message de la section reste cohérent, du tableau au Web.",
     "brandRailDesc": "Couleurs, logo et liens clés pour chaque graphique. Consultez le pack d'actifs de référence pour des fichiers de départ.",
@@ -2937,9 +2939,9 @@
     "heroArt": "Arrière-plan d’accueil",
     "heroArtHint": "Commencez par un motif discret. Remplacez le fichier dans le site téléchargé plus tard, ou ajoutez votre propre photo ci-dessous.",
     "heroArtNone": "Couleur seulement",
-    "heroArtBands": "Bandes",
+    "heroArtArc": "Arc",
     "heroArtMesh": "Trame",
-    "heroArtHorizon": "Horizon",
+    "heroArtBloom": "Éclat",
     "heroArtUpload": "Votre propre photo (facultatif)",
     "heroArtUploadHint": "Une photo large en paysage convient le mieux. Passez cette étape si vous utilisez un motif.",
     "photoConsentLink": "Guide de consentement photo",
@@ -6508,6 +6510,14 @@
     "feedbackLead": "Vous utilisez quelque chose qui manque ici, ou vous voulez demander un outil?",
     "feedbackLink": "Envoyer un commentaire sur le site",
     "items": {
+      "website-hero-mesh": {
+        "title": "Arrière-plans d’accueil du modèle de site remis au goût du jour",
+        "body": "La trame est maintenant le motif d’accueil par défaut. Arc et Éclat remplacent les anciens préréglages Bandes et Horizon par des formes plus douces derrière le nom et le logo de votre local."
+      },
+      "bylaw-builder-committee": {
+        "title": "Créateur de règlements — brouillon de comité et modèles OPSEU / SEFPO",
+        "body": "Rédigez les règlements article par article avec des notes de comité, collez le texte actuel pour un résumé comparatif, et chargez les valeurs collégiales OPSEU / SEFPO depuis le guide des règlements locaux."
+      },
       "brand-preset-audit": {
         "title": "Trousse de marque — couleurs et slogans par syndicat",
         "body": "Les préréglages syndicaux utilisent maintenant des couleurs de départ vérifiées (rose du SCFP tiré du site national, rouge Pantone 1805 de l’AFPC, or PMS 122U des Métallos, rouge et bleu Unifor), des slogans suggérés à toucher en anglais et en français, et des polices plus proches lorsque vous choisissez un préréglage."
@@ -8771,6 +8781,9 @@
     "emptyBulletin": "Aucun babillard récent. Ouvrez un Cercle pour en écrire un.",
     "emptyCircleBulletin": "Aucun babillard dans ce Cercle pour l’instant. Écrivez-en un ci-dessus si vous pouvez publier.",
     "writeBulletin": "Rédiger un babillard",
+    "bylawCommitteeTitle": "Comité de règlements?",
+    "bylawCommitteeBody": "Ouvrez le Créateur de règlements en mode brouillon de comité pour modifier les articles ensemble, puis affichez le lien ou le PDF exporté ici pour la révision du CEL.",
+    "bylawCommitteeCta": "Ouvrir le brouillon de comité",
     "createError": "Impossible de créer ce Cercle. Vérifiez le nom, puis réessayez.",
     "frontsSettings": "Dates actives",
     "frontsSettingsHint": "Indiquez la période où ce Cercle tient la ligne.",
@@ -9961,8 +9974,8 @@
         },
         "d1": {
           "label": "Jour 1 — Rédiger le changement",
-          "content": "Ils ouvrent le Créateur de règlements, chargent l'exemple campus, et ne réécrivent que la phrase sur le quorum. Ils gardent un texte comparatif ancien/nouveau pour le dossier de préavis.",
-          "artifact": "Comparaison Créateur de règlements (ancien vs nouveau quorum)"
+          "content": "Ils ouvrent le Créateur de règlements en mode brouillon de comité, chargent l'exemple collégial OPSEU / SEFPO, collent les règlements actuels pour un résumé comparatif, et ne réécrivent que l'article sur le quorum. Les notes restent sur l'appareil pour le groupe de travail.",
+          "artifact": "Brouillon de comité + résumé comparatif"
         },
         "d2": {
           "label": "Jour 2 — Convocation de l'AGM",
@@ -9997,7 +10010,62 @@
         "action": "Ce que font les dirigeants",
         "artifact": "Preuve à conserver"
       },
-      "builderCta": "Ouvrir l'exemple campus dans le Créateur de règlements"
+      "builderCta": "Ouvrir l'exemple collégial OPSEU / SEFPO dans le Créateur de règlements",
+      "committeeCta": "Ouvrir le mode brouillon de comité"
+    },
+    "opseuPatterns": {
+      "navLabel": "Modèles collégiaux OPSEU / SEFPO",
+      "title": "Ce que les sections de soutien collégial écrivent souvent",
+      "intro": "Ces modèles reprennent l'exemple collégial OPSEU / SEFPO du Créateur de règlements (valeurs de démonstration de la section 243). Votre constitution prévaut toujours — confirmez chaque seuil et voie d'approbation avec le PDF actuel de la Constitution d'OPSEU / SEFPO.",
+      "items": {
+        "quorum": {
+          "label": "Quorum de l'AGM",
+          "content": "25 membres en règle ou 10 % de l'adhésion, selon le moindre — courant lorsque la liste varie d'un campus à l'autre."
+        },
+        "notice": {
+          "label": "Préavis de modification",
+          "content": "21 jours de préavis écrit affichés sur les tableaux syndicaux et envoyés par courriel lorsque les membres ont consenti — plus court que chez plusieurs sections du SCFP, mais conforme à la constitution."
+        },
+        "executive": {
+          "label": "Forme de l'exécutif",
+          "content": "Président, deux vice-présidents, secrétaire-trésorier, chef délégué et délégués élus par unité de campus — adapté au personnel de soutien sur plusieurs sites."
+        },
+        "approval": {
+          "label": "Approbation nationale",
+          "content": "Les règlements locaux modifiés n'entrent en vigueur qu'après l'approbation écrite du président national d'OPSEU / SEFPO (ou d'une personne désignée), comme l'exige la Constitution."
+        },
+        "fiscal": {
+          "label": "Exercice financier",
+          "content": "Un exercice se terminant le 31 mars correspond aux calendriers scolaires — ajustez si votre section utilise un autre cycle."
+        }
+      },
+      "tip": "Empruntez la structure, pas les noms de dirigeants, les cotisations ou les listes d'unités d'une autre section.",
+      "builderCta": "Charger le profil collégial OPSEU / SEFPO"
+    },
+    "committee": {
+      "navLabel": "Espace de comité",
+      "title": "Rédiger comme un comité de règlements",
+      "intro": "Le Créateur de règlements comprend maintenant un espace brouillon de comité : modifiez chaque article, gardez des notes de section privées pour le groupe de travail, et exportez un seul dossier texte pour le CEL et l'AGM. Les brouillons restent sur cet appareil jusqu'à ce que vous partagiez les exportations.",
+      "steps": {
+        "circle": {
+          "label": "Se réunir dans le Portail local",
+          "content": "Utilisez le bulletin d'un cercle pour afficher les heures de réunion, joindre le PDF actuel et lier les dirigeants au même outil."
+        },
+        "draft": {
+          "label": "Modifier article par article",
+          "content": "Passez au mode brouillon de comité, chargez le jeu d'articles OPSEU / SEFPO lorsque votre section est OPSEU / SEFPO, et ne réécrivez que les articles à l'ordre du jour."
+        },
+        "compare": {
+          "label": "Coller les règlements actuels",
+          "content": "Collez le texte approuvé dans le champ comparatif pour voir quels articles changent avant d'afficher le préavis."
+        },
+        "export": {
+          "label": "Exporter pour le CEL / l'AGM",
+          "content": "Téléchargez Markdown ou PDF pour une reprise dans Word, puis suivez la liste d'adoption avant le vote."
+        }
+      },
+      "portalCta": "Ouvrir le Portail local",
+      "builderCta": "Ouvrir le mode brouillon de comité"
     },
     "checklist": {
       "navLabel": "Liste de contrôle",
@@ -10015,7 +10083,7 @@
         },
         "draftText": {
           "label": "Rédiger un texte clair",
-          "content": "Rédiger un texte d'articles clair dans le Créateur de règlements ou Word — une liste de changements que les membres peuvent lire à voix haute."
+          "content": "Rédiger un texte d'articles clair dans le mode comité du Créateur de règlements ou Word — une liste de changements que les membres peuvent lire à voix haute."
         },
         "postNotice": {
           "label": "Afficher le préavis",
@@ -10097,7 +10165,7 @@
       "items": {
         "builder": {
           "label": "Créateur de règlements",
-          "content": "Générez un modèle standard à partir du quorum, de l'exécutif, des signatures et des champs de modification. Exportez texte, Markdown ou PDF pour Word."
+          "content": "Modèle rapide ou mode brouillon de comité avec libellé OPSEU / SEFPO, modifications par article, notes de comité et résumé comparatif lorsque vous collez les règlements actuels."
         },
         "boardNotice": {
           "label": "Avis pour tableau syndical",
@@ -10207,11 +10275,55 @@
     },
     "presets": {
       "label": "Tailles de section types",
-      "hint": "Charge des valeurs de démonstration que vous pouvez modifier. Ce n'est pas une vraie section — remplacez le nom avant d'exporter.",
-      "small": "Petite section",
-      "campus": "Section de campus",
+      "hint": "Charge des valeurs de démonstration que vous pouvez modifier. Le profil collégial OPSEU / SEFPO reprend la section 243 — remplacez le nom avant d'exporter.",
+      "small": "Petite section OPSEU / SEFPO",
+      "campus": "Collège OPSEU / SEFPO",
+      "opseuCaat": "Collège OPSEU / SEFPO",
       "large": "Grande section"
     },
+    "modes": {
+      "label": "Espace de travail",
+      "template": "Modèle rapide",
+      "committee": "Brouillon de comité"
+    },
+    "articleSet": {
+      "label": "Libellé des articles",
+      "standard": "National générique",
+      "opseu": "OPSEU / SEFPO"
+    },
+    "articleLabels": {
+      "name": "Article 1 — Nom",
+      "purpose": "Article 2 — Objet",
+      "membership": "Article 3 — Adhésion",
+      "executive": "Article 4 — Exécutif",
+      "stewards": "Article 5 — Délégués",
+      "quorum": "Article 6 — Quorum",
+      "meetings": "Article 7 — Réunions",
+      "elections": "Article 8 — Élections",
+      "finances": "Article 9 — Finances",
+      "trustees": "Article 10 — Fiduciaires",
+      "committees": "Article 11 — Comités",
+      "amendments": "Article 12 — Modifications",
+      "conflict": "Article 13 — Constitution"
+    },
+    "committee": {
+      "intro": "Le mode brouillon de comité permet au groupe de travail de modifier chaque article, de garder des notes privées par section et d'exporter un seul dossier pour le CEL et l'AGM. Les notes restent sur cet appareil et ne sont pas incluses dans les exportations.",
+      "noteLabel": "Note de comité (non exportée)",
+      "notePlaceholder": "p. ex. Confirmer avec la constitution nationale avant l'AGM"
+    },
+    "compare": {
+      "existingLabel": "Règlements actuels (coller pour un résumé comparatif)",
+      "existingPlaceholder": "Collez le texte approuvé actuel pour voir quels articles changent dans ce brouillon.",
+      "summaryTitle": "{count, plural, =0 {Aucun changement d'article détecté} one {# article modifié} other {# articles modifiés}}",
+      "more": "Ouvrez l'aperçu pour lire le brouillon complet — seuls les premiers changements sont listés ici.",
+      "status": {
+        "added": "Ajouté",
+        "removed": "Retiré",
+        "changed": "Modifié",
+        "unchanged": "Inchangé"
+      }
+    },
+    "portalLink": "Portail local (cercles de comité)",
     "fields": {
       "localName": "Nom et numéro de la section locale",
       "vicePresidents": "Nombre de vice-présidents",
@@ -10265,6 +10377,21 @@
       "committees": "Article 11 : Comités. Le CEL peut créer des comités permanents et spéciaux. Les mandats des comités ne doivent pas entrer en conflit avec les présents règlements ni avec la constitution nationale ou provinciale.",
       "amendments": "Article 12 : Modifications. Les présents règlements ne peuvent être modifiés qu'après {amendmentNotice}, un vote à une assemblée générale des membres avec quorum, et une majorité des deux tiers (2/3) des membres présents. Lorsque la constitution nationale ou provinciale l'exige, les règlements modifiés n'entrent en vigueur qu'après approbation nationale ou provinciale.",
       "conflict": "Article 13 : Conflit avec la constitution. Si une disposition des présents règlements entre en conflit avec la constitution nationale ou provinciale, la constitution prévaut. Les présents règlements doivent être interprétés de manière à donner effet à la constitution dans la mesure du possible."
+    },
+    "opseuArticles": {
+      "name": "Article 1 : Nom. Cette organisation est connue sous le nom de {localName}, section locale du Syndicat des employés de la fonction publique de l'Ontario / Ontario Public Service Employees Union (OPSEU / SEFPO).",
+      "purpose": "Article 2 : Objet. L'objet de {localName} est d'organiser et de représenter ses membres, d'appliquer les conventions collectives, de promouvoir la solidarité et de faire progresser les objectifs d'OPSEU / SEFPO conformément à la Constitution d'OPSEU / SEFPO.",
+      "membership": "Article 3 : Adhésion. L'adhésion est ouverte aux travailleurs visés par la ou les unités de négociation de la section qui sont membres en règle d'OPSEU / SEFPO. Les droits et obligations des membres suivent la Constitution d'OPSEU / SEFPO et les présents règlements.",
+      "executive": "Article 4 : Exécutif. Le comité exécutif local (CEL) se compose du président, de {vicePresidents} vice-président(s), du secrétaire-trésorier, du secrétaire de séance lorsqu'il est élu, et du chef délégué. Le CEL administre la section entre les assemblées générales des membres.",
+      "stewards": "Article 5 : Délégués. Les délégués sont organisés comme suit : {stewards}. Les délégués représentent les membres sur le lieu de travail, reçoivent la formation prévue par la section et rendent compte au chef délégué et au CEL.",
+      "quorum": "Article 6 : Quorum. Le quorum d'une assemblée générale des membres (AGM) est de {gmmQuorum}. Le quorum d'une réunion du CEL est de {lecQuorum}. Aucune motion contraignante, dépense ou modification de règlements ne peut être adoptée sans quorum.",
+      "meetings": "Article 7 : Réunions. La section tient des assemblées générales des membres comme suit : {meetingFrequency}. Des réunions spéciales peuvent être convoquées par le président, par le CEL ou par pétition des membres, conformément à la Constitution d'OPSEU / SEFPO et aux présents règlements.",
+      "elections": "Article 8 : Élections. Les dirigeants et les délégués sont élus pour des mandats de {electionTerm}, au scrutin secret lorsque la Constitution d'OPSEU / SEFPO ou les présents règlements l'exigent. Les mises en candidature, le préavis et les procédures de scrutin sont publiés aux membres avant chaque élection.",
+      "finances": "Article 9 : Finances. Tous les chèques et paiements électroniques de la section exigent les signatures ou autorisations de {signingOfficers}. Le trésorier présente des rapports financiers aux membres. L'exercice se termine le {fiscalYearEnd}.",
+      "trustees": "Article 10 : Fiduciaires. La section a {trustees}. Les fiduciaires examinent les livres et font rapport aux membres selon la Constitution d'OPSEU / SEFPO et les présents règlements.",
+      "committees": "Article 11 : Comités. Le CEL peut créer des comités permanents et spéciaux, y compris des comités de négociation, de mobilisation et conjoints de santé et sécurité. Les mandats des comités ne doivent pas entrer en conflit avec les présents règlements ni avec la Constitution d'OPSEU / SEFPO.",
+      "amendments": "Article 12 : Modifications. Les présents règlements ne peuvent être modifiés qu'après {amendmentNotice}, un vote à une assemblée générale des membres avec quorum par une majorité des deux tiers (2/3) des membres présents et votants, et l'approbation écrite du président national d'OPSEU / SEFPO (ou d'une personne désignée) lorsque la Constitution d'OPSEU / SEFPO l'exige, avant que le texte modifié n'entre en vigueur.",
+      "conflict": "Article 13 : Conflit avec la Constitution d'OPSEU / SEFPO. Si une disposition des présents règlements entre en conflit avec la Constitution d'OPSEU / SEFPO, la Constitution prévaut. Les présents règlements doivent être interprétés de manière à donner effet à la Constitution dans la mesure du possible."
     },
     "checklistPrompt": {
       "title": "Avant de convoquer l'AGM",

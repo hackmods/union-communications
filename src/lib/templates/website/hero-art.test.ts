@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   DEFAULT_WEBSITE_HERO_ART_ID,
+  coerceWebsiteHeroArtId,
   isWebsiteHeroArtId,
   isWebsiteHeroSampleId,
   resolveWebsiteHeroArt,
@@ -9,23 +10,34 @@ import {
 
 describe("website hero art catalog", () => {
   it("treats unknown and omitted ids as colour-only", () => {
-    expect(isWebsiteHeroArtId("bands")).toBe(true);
+    expect(isWebsiteHeroArtId("arc")).toBe(true);
     expect(isWebsiteHeroArtId("none")).toBe(true);
-    expect(isWebsiteHeroArtId("niagara")).toBe(false);
+    expect(isWebsiteHeroArtId("bands")).toBe(false);
     expect(isWebsiteHeroSampleId("none")).toBe(false);
     expect(resolveWebsiteHeroArt({})).toBeNull();
     expect(resolveWebsiteHeroArt({ heroArtId: "none" })).toBeNull();
     expect(resolveWebsiteHeroArt({ heroArtId: "not-a-pattern" })).toBeNull();
   });
 
-  it("defaults the tool to the bands pattern and maps ZIP + preview paths", () => {
-    expect(DEFAULT_WEBSITE_HERO_ART_ID).toBe("bands");
-    const art = resolveWebsiteHeroArt({ heroArtId: "bands" });
+  it("defaults the tool to the mesh pattern and maps ZIP + preview paths", () => {
+    expect(DEFAULT_WEBSITE_HERO_ART_ID).toBe("mesh");
+    const art = resolveWebsiteHeroArt({ heroArtId: "mesh" });
     expect(art?.kind).toBe("pattern");
     expect(art?.zipFileName).toBe("hero.svg");
     expect(art?.zipSrc).toBe("./assets/hero.svg");
-    expect(art?.previewSrc).toBe("/assets/website-heroes/bands.svg");
+    expect(art?.previewSrc).toBe("/assets/website-heroes/mesh.svg");
     expect(art?.alt).toBe("");
+  });
+
+  it("maps legacy bands and horizon ids to arc and bloom", () => {
+    expect(coerceWebsiteHeroArtId("bands")).toBe("arc");
+    expect(coerceWebsiteHeroArtId("horizon")).toBe("bloom");
+    expect(resolveWebsiteHeroArt({ heroArtId: "bands" })?.catalogId).toBe(
+      "arc",
+    );
+    expect(resolveWebsiteHeroArt({ heroArtId: "horizon" })?.previewSrc).toBe(
+      "/assets/website-heroes/bloom.svg",
+    );
   });
 
   it("lets an uploaded photo win over a catalog pattern", () => {

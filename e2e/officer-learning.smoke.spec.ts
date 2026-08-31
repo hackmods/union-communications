@@ -21,6 +21,39 @@ test.describe("Officer Learning @smoke", () => {
     await expectNoSeriousA11yViolations(page);
   });
 
+  test("officer learning is top-level nav, not inside Guides flyout", async ({
+    page,
+  }) => {
+    await page.goto("/en/");
+    const main = page.getByRole("navigation", {
+      name: /Site navigation|Navigation du site|Main|Navigation principale/i,
+    });
+    await expect(
+      main.getByRole("link", { name: "Officer Learning" }),
+    ).toBeVisible();
+    await main.getByRole("button", { name: /Guides/ }).click();
+    await expect(
+      main.getByRole("menuitem", { name: "Officer Learning Center" }),
+    ).toHaveCount(0);
+    await expect(
+      main.getByRole("menuitem", {
+        name: /Six self-paced modules with floor checklists/i,
+      }),
+    ).toHaveCount(0);
+  });
+
+  test("officer learning top nav is active on module routes", async ({
+    page,
+  }) => {
+    await page.goto("/en/guide/officer-learning/contract-enforcement/");
+    const main = page.getByRole("navigation", {
+      name: /Site navigation|Navigation du site|Main|Navigation principale/i,
+    });
+    await expect(
+      main.getByRole("link", { name: "Officer Learning" }),
+    ).toHaveAttribute("aria-current", "page");
+  });
+
   test("steward playbooks hub is axe-clean with training path", async ({ page }) => {
     await page.goto("/en/guide/steward-playbooks/");
     await expect(
@@ -82,7 +115,9 @@ test.describe("Officer Learning @smoke", () => {
     });
 
     await quiz.getByRole("button", { name: /Try again/i }).click();
-    await expect(quiz.getByText(/Answers cleared/i)).toBeVisible();
+    await expect(
+      quiz.getByRole("paragraph").filter({ hasText: /Answers cleared/i }),
+    ).toBeVisible();
     await expect(quiz.getByRole("radio").first()).toBeEnabled();
   });
 

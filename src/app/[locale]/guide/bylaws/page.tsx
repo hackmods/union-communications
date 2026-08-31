@@ -33,6 +33,8 @@ const TOC = [
   ["mustHave", "mustHave"],
   ["amend", "amend"],
   ["scenario", "scenario"],
+  ["opseuPatterns", "opseuPatterns"],
+  ["committee", "committee"],
   ["checklist", "checklist"],
   ["examples", "examples"],
   ["failureModes", "failureModes"],
@@ -52,6 +54,14 @@ const mustHaveKeys = [
 ] as const;
 const amendKeys = ["notice", "gmm", "threshold", "approval"] as const;
 const scenarioKeys = ["d0", "d1", "d2", "d3", "d4", "d5", "d6"] as const;
+const opseuPatternKeys = [
+  "quorum",
+  "notice",
+  "executive",
+  "approval",
+  "fiscal",
+] as const;
+const committeeStepKeys = ["circle", "draft", "compare", "export"] as const;
 const checklistKeys = [
   "readConstitution",
   "comparePeers",
@@ -110,7 +120,7 @@ export default async function BylawsGuidePage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/bylaw-builder?preset=campus",
+              href: "/tools/bylaw-builder?preset=opseuCaat",
               label: nav("bylawBuilder"),
             },
             {
@@ -307,8 +317,74 @@ export default async function BylawsGuidePage({
           <p className="mt-1">{t("scenario.tip")}</p>
         </Callout>
         <div className="button-row mt-5 max-w-lg">
-          <Link href="/tools/bylaw-builder?preset=campus" className={guideCtaClass}>
+          <Link
+            href="/tools/bylaw-builder?preset=opseuCaat"
+            className={guideCtaClass}
+          >
             {t("scenario.builderCta")}
+          </Link>
+          <Link
+            href="/tools/bylaw-builder?mode=committee&preset=opseuCaat"
+            className={guideCtaOutlineClass}
+          >
+            {t("scenario.committeeCta")}
+          </Link>
+        </div>
+      </GuideSection>
+
+      <GuideSection
+        id="opseuPatterns"
+        title={t("opseuPatterns.title")}
+        intro={t("opseuPatterns.intro")}
+      >
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {opseuPatternKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`opseuPatterns.items.${key}.label`)}
+              content={t(`opseuPatterns.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("opseuPatterns.tip")}</p>
+        </Callout>
+        <div className="button-row mt-5 max-w-lg">
+          <Link
+            href="/tools/bylaw-builder?preset=opseuCaat"
+            className={guideCtaOutlineClass}
+          >
+            {t("opseuPatterns.builderCta")}
+          </Link>
+        </div>
+      </GuideSection>
+
+      <GuideSection
+        id="committee"
+        title={t("committee.title")}
+        intro={t("committee.intro")}
+      >
+        <ol className="mt-4 list-decimal space-y-4 pl-5 text-gray-700">
+          {committeeStepKeys.map((key) => (
+            <li key={key} className="max-w-prose leading-relaxed">
+              <span className="font-semibold text-opseu-dark">
+                {t(`committee.steps.${key}.label`)}
+              </span>
+              {" — "}
+              {t(`committee.steps.${key}.content`)}
+            </li>
+          ))}
+        </ol>
+        <div className="button-row mt-5 max-w-lg">
+          <Link href="/portal" className={guideCtaOutlineClass}>
+            {t("committee.portalCta")}
+          </Link>
+          <Link
+            href="/tools/bylaw-builder?mode=committee"
+            className={guideCtaClass}
+          >
+            {t("committee.builderCta")}
           </Link>
         </div>
       </GuideSection>
