@@ -14,11 +14,11 @@ Brand Kit is the Comms home base (colours, logo, local number, links). First wee
 
 ## Header Guides menu (keep this shape)
 
-Four groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups` (trigger label **Guides**). **Hub-first:** topic labour playbooks (grievance, DFR, bylaws, membership, workplace mapping, RTR, seniority, joint committee) are **not** mega-menu links — they live on `/guide/steward-playbooks` (+ Resources / Blueprint strips). A **featured Officer Learning** card sits above the grid; five columns at 2xl.
+Four groups in [`nav-config.ts`](src/components/layout/nav/nav-config.ts) `learnGroups` (trigger label **Guides**). **Hub-first:** topic labour playbooks (grievance, DFR, bylaws, membership, workplace mapping, RTR, seniority, joint committee) are **not** mega-menu links — they live on `/guide/steward-playbooks` (+ Resources / Blueprint strips). **Officer Learning Center** is a **top-level header link** (between Guides and Brand Kit) — not a dark featured card inside Guides ▾. Five columns at 2xl.
 
 1. **Start here** — The Blueprint (`/guide`), First week (`/guide/social-media-plan`), Comms Resources (`/guide/resources`), Workshop outline (`/guide/workshop`)
 2. **By channel** — Print Guide, Union Boards Guide, Website Guide, Email & outreach, Short-form video
-3. **Steward training** — Officer Learning Center (first), Steward playbooks hub, Steward 101, Bargaining lifecycle, Strike Guide
+3. **Steward training** — Steward playbooks hub, Steward 101, Bargaining lifecycle, Strike Guide
 4. **Libraries** — Social Examples, Captions, Photo Consent, Brand Assets
 5. **About** — What's new, Built in solidarity, Install as an app
 
@@ -38,7 +38,7 @@ Footer row in the mega-menu: **All tools** → `/tools` index. Do not re-flatten
 
 ## Footer
 
-Include Tools (`/tools`), Print Guide, **Email & outreach**, Blueprint / Examples / Captions / Resources, **Brand Assets**, **What's new**, **Built in solidarity**, **Install as an app**, Privacy, Accessibility, Support.
+Include Tools (`/tools`), Print Guide, **Email & outreach**, Blueprint / Examples / Captions / Resources, **Steward playbooks** (`/guide/steward-playbooks`), **Officer Learning** (`/guide/officer-learning`), **Brand Assets**, **What's new**, **Built in solidarity**, **Install as an app**, Privacy, Accessibility, Support.
 
 ## Brand Assets
 
