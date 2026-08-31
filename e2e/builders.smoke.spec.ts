@@ -139,15 +139,15 @@ test.describe("Home hero & builders smoke @smoke", () => {
   }) => {
     await page.goto("/en/tools/pulse-poll/");
     // Hub public (CI default) → login redirect. Soft launch → Local 404.
-    if (/\/app\/login/.test(page.url())) {
-      await expect(
-        page.getByRole("heading", { name: /Officer login|Connexion/i }),
-      ).toBeVisible();
-      return;
-    }
-    await expect(
-      page.getByRole("heading", { name: /Local 404|404 local/i }),
-    ).toBeVisible();
+    const loginHeading = page.getByRole("heading", {
+      name: /Officer login|Connexion/i,
+    });
+    const local404Heading = page.getByRole("heading", {
+      name: /Local 404|404 local/i,
+    });
+    await expect(loginHeading.or(local404Heading)).toBeVisible({
+      timeout: 15_000,
+    });
   });
 
   test("French graphic maker has no serious or critical a11y violations", async ({

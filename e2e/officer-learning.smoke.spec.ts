@@ -82,7 +82,9 @@ test.describe("Officer Learning @smoke", () => {
     });
 
     await quiz.getByRole("button", { name: /Try again/i }).click();
-    await expect(quiz.getByText(/Answers cleared/i)).toBeVisible();
+    await expect(
+      quiz.getByRole("paragraph").filter({ hasText: /Answers cleared/i }),
+    ).toBeVisible();
     await expect(quiz.getByRole("radio").first()).toBeEnabled();
   });
 
