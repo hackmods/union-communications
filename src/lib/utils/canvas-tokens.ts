@@ -308,6 +308,32 @@ export function typeScaleFactor(tokens: CanvasTokens): number {
   return 1;
 }
 
+/** Scale Brand Kit canvas tokens to a fixed print-page design width. */
+export function printPageScaledTokens(
+  tokens: CanvasTokens,
+  designWidthPx: number,
+  referenceWidthPx: number,
+): CanvasTokens {
+  const ratio = Math.min(
+    1.12,
+    Math.max(0.62, designWidthPx / referenceWidthPx),
+  );
+  const display = typeScaleFactor(tokens);
+  return {
+    ...tokens,
+    paddingPx: Math.max(16, Math.round(tokens.paddingPx * ratio)),
+    gapPx: Math.max(8, Math.round(tokens.gapPx * ratio)),
+    titleFontSizePx: Math.max(
+      18,
+      Math.round(tokens.titleFontSizePx * display * ratio),
+    ),
+    subtitleFontSizePx: Math.max(11, Math.round(tokens.subtitleFontSizePx * ratio)),
+  };
+}
+
+/** @deprecated Prefer printPageScaledTokens */
+export const boardNoticeScaledTokens = printPageScaledTokens;
+
 /** Content inset from Brand Kit density / padding tokens. */
 export function contentPaddingPx(
   tokens: CanvasTokens,

@@ -27,15 +27,42 @@ interface BrandState {
 
 let persistenceUnsub: (() => void) | null = null;
 let saveBrandKitTimer: ReturnType<typeof setTimeout> | null = null;
+/** Latest kit waiting for debounced persist — flushed on pagehide. */
+let pendingSaveKit: BrandKit | null = null;
 /** Patches made before hydrate — applied onto the loaded kit, never onto defaults. */
 let pendingPatch: BrandKitPatch | null = null;
 
-function scheduleSaveBrandKit(kit: BrandKit) {
-  if (saveBrandKitTimer) clearTimeout(saveBrandKitTimer);
-  saveBrandKitTimer = setTimeout(() => {
+const LOGO_PATCH_KEYS = [
+  "useOfficialLogo",
+  "customLogoDataUrl",
+  "officialLogoVariant",
+  "identityPackId",
+] as const satisfies readonly (keyof BrandKitPatch)[];
+
+function patchTouchesLogo(partial: BrandKitPatch): boolean {
+  return LOGO_PATCH_KEYS.some((key) => key in partial);
+}
+
+function flushPendingBrandKitSave() {
+  if (saveBrandKitTimer) {
+    clearTimeout(saveBrandKitTimer);
     saveBrandKitTimer = null;
+  }
+  const kit = pendingSaveKit;
+  pendingSaveKit = null;
+  if (kit) {
     void dataAdapter.saveBrandKit(kit);
-  }, 400);
+  }
+}
+
+function scheduleSaveBrandKit(kit: BrandKit, immediate = false) {
+  pendingSaveKit = kit;
+  if (saveBrandKitTimer) clearTimeout(saveBrandKitTimer);
+  if (immediate) {
+    flushPendingBrandKitSave();
+    return;
+  }
+  saveBrandKitTimer = setTimeout(flushPendingBrandKitSave, 400);
 }
 
 function clearSaveTimer() {
@@ -43,6 +70,11 @@ function clearSaveTimer() {
     clearTimeout(saveBrandKitTimer);
     saveBrandKitTimer = null;
   }
+  pendingSaveKit = null;
+}
+
+if (typeof window !== "undefined") {
+  window.addEventListener("pagehide", flushPendingBrandKitSave);
 }
 
 function applyBrandKitPatch(current: BrandKit, partial: BrandKitPatch): BrandKit {
@@ -120,7 +152,7 @@ export const useBrandStore = create<BrandState>()((set, get) => ({
     }
     const updated = applyBrandKitPatch(get().brandKit, partial);
     set({ brandKit: updated });
-    scheduleSaveBrandKit(updated);
+    scheduleSaveBrandKit(updated, patchTouchesLogo(partial));
   },
 
   resetBrandKit: () => {

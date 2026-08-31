@@ -16,21 +16,23 @@ interface SafeLogoImageProps {
   style?: CSSProperties;
 }
 
-/**
- * Renders a logo and falls back to UnionOps if the src is empty or fails to load.
- * Uses <img> for all public/asset paths so a missing file never crashes Next/Image.
- */
-export function SafeLogoImage({
-  src,
+function SafeLogoImageInner({
+  requested,
+  fallback,
   width,
   height,
   className,
-  onDark = false,
-  alt = "",
+  alt,
   style,
-}: SafeLogoImageProps) {
-  const fallback = unionOpsLogoSrc(onDark);
-  const requested = src.trim() || fallback;
+}: {
+  requested: string;
+  fallback: string;
+  width: number;
+  height: number;
+  className?: string;
+  alt?: string;
+  style?: CSSProperties;
+}) {
   const [failedFor, setFailedFor] = useState<string | null>(null);
   const current = failedFor === requested ? fallback : requested;
   const isUnionOps =
@@ -55,6 +57,36 @@ export function SafeLogoImage({
         }
       }}
       data-fallback={isUnionOps ? "unionops" : undefined}
+    />
+  );
+}
+
+/**
+ * Renders a logo and falls back to UnionOps if the src is empty or fails to load.
+ * Uses <img> for all public/asset paths so a missing file never crashes Next/Image.
+ */
+export function SafeLogoImage({
+  src,
+  width,
+  height,
+  className,
+  onDark = false,
+  alt = "",
+  style,
+}: SafeLogoImageProps) {
+  const fallback = unionOpsLogoSrc(onDark);
+  const requested = src.trim() || fallback;
+
+  return (
+    <SafeLogoImageInner
+      key={requested}
+      requested={requested}
+      fallback={fallback}
+      width={width}
+      height={height}
+      className={className}
+      alt={alt}
+      style={style}
     />
   );
 }

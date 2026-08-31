@@ -31,7 +31,7 @@ export const ACTION_CARD_PRESETS: readonly ActionCardPreset[] = [
     askKey: "signPetitionAsk",
     deadlineKey: "signPetitionDeadline",
     ctaKey: "signPetitionCta",
-    bgMode: "accentBar",
+    bgMode: "plain",
   },
   {
     id: "supportCampaign",

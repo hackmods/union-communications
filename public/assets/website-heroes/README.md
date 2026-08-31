@@ -6,9 +6,11 @@ generic greyscale patterns so Brand Kit colours can tint them. They are
 
 | File | Catalog id | Look |
 |------|------------|------|
-| `bands.svg` | `bands` | Horizontal solidarity stripes |
-| `mesh.svg` | `mesh` | Crossed lattice |
-| `horizon.svg` | `horizon` | Abstract hills and sky |
+| `mesh.svg` | `mesh` | Crossed lattice (default) |
+| `arc.svg` | `arc` | Soft corner glow and bottom curve |
+| `bloom.svg` | `bloom` | Overlapping soft circles |
+
+Legacy ids `bands` and `horizon` import as `arc` and `bloom`.
 
 To swap in a still later, keep the same filename (or update `fileName` /
 `publicPath` in `src/lib/templates/website/hero-art.ts`). The exported ZIP

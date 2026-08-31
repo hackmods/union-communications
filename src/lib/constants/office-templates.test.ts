@@ -70,10 +70,10 @@ describe("office-templates", () => {
     expect(sheet.fields.every((f) => f.key !== "memberName")).toBe(true);
   });
 
-  it("seniority worksheet is Excel-only with session footer fields", () => {
+  it("seniority worksheet ships Word and Excel with session footer fields", () => {
     const sheet = getPreset("seniority-worksheet");
     expect(sheet.outputs).toEqual({
-      docx: false,
+      docx: true,
       xlsx: true,
       pptx: false,
       ics: false,
@@ -83,10 +83,10 @@ describe("office-templates", () => {
     expect(sheet.fields.some((f) => f.key === "chair")).toBe(true);
   });
 
-  it("grievance intake is Excel-only with empty 6 W's fields", () => {
+  it("grievance intake ships Word and Excel with empty 6 W's fields", () => {
     const sheet = getPreset("grievance-intake");
     expect(sheet.outputs).toEqual({
-      docx: false,
+      docx: true,
       xlsx: true,
       pptx: false,
       ics: false,

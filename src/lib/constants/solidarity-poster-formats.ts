@@ -1,3 +1,9 @@
+import {
+  printPageExportPixelRatio,
+  printPagePreviewHeightPx,
+  printPagePreviewWidthPx,
+} from "@/lib/comms/print-page-formats";
+
 export type OutputMedium = "print" | "digital";
 
 export type PosterFormatId =
@@ -23,6 +29,8 @@ export interface SolidarityPosterFormat {
   /** Print page size (inches). Absent for digital wallpapers. */
   widthInches?: number;
   heightInches?: number;
+  /** Fixed CSS design width for print previews (MobilePreviewStage scales down). */
+  previewWidthPx?: number;
   /**
    * Target capture width in CSS pixels. When set, export scales so
    * `offsetWidth * pixelRatio ≈ exportWidthPx` (wallpaper sharpness).
@@ -47,6 +55,7 @@ export const SOLIDARITY_POSTER_FORMATS: Record<
     labelKey: "formatLetter",
     widthInches: 8.5,
     heightInches: 11,
+    previewWidthPx: printPagePreviewWidthPx(8.5),
     filenameStem: "solidarity-poster-letter",
   },
   tabloid: {
@@ -56,6 +65,7 @@ export const SOLIDARITY_POSTER_FORMATS: Record<
     labelKey: "formatTabloid",
     widthInches: 11,
     heightInches: 17,
+    previewWidthPx: printPagePreviewWidthPx(11),
     filenameStem: "solidarity-poster-tabloid",
   },
   /** Desktop / monitor wallpaper */
@@ -131,8 +141,16 @@ export function exportPixelRatio(
   node: HTMLElement | null,
   format: SolidarityPosterFormat,
 ): number {
+  if (format.previewWidthPx) {
+    return printPageExportPixelRatio({
+      previewWidthPx: format.previewWidthPx,
+      widthInches: format.widthInches ?? 8.5,
+    });
+  }
   const target = format.exportWidthPx;
   const width = node?.offsetWidth ?? 0;
   if (target && width > 0) return target / width;
   return 2;
 }
+
+export const solidarityPosterPreviewHeightPx = printPagePreviewHeightPx;
