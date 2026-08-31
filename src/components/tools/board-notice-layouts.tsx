@@ -11,6 +11,7 @@ import type { BoardLogoMode } from "@/lib/constants/board-banner-ornaments";
 import { pickContrastingInk, mutedInkOnBackground } from "@/lib/utils/ink";
 import { meetsWcagAA } from "@/lib/utils/contrast";
 import type { CanvasTokens } from "@/lib/utils/canvas-tokens";
+import { boardNoticeScaledTokens } from "@/lib/utils/canvas-tokens";
 import { canvasSurfaceStyle } from "@/lib/utils/canvas-surface";
 import { cn } from "@/lib/utils";
 
@@ -42,6 +43,12 @@ export interface BoardNoticeLayoutCanvasProps {
   copy: BoardNoticeLayoutCopy;
   localNumber: string;
   subText: string;
+  /** Fixed design width in CSS px (preview scales via MobilePreviewStage). */
+  designWidthPx: number;
+  /** Fixed design height in CSS px — must match letter/tabloid aspect. */
+  designHeightPx: number;
+  /** Reference width for typography scaling (letter preview width). */
+  referenceWidthPx: number;
   aspectClass: string;
   /** Inline aspect-ratio for capture-safe export (e.g. `"8.5 / 11"`). */
   aspectRatio: string;
@@ -107,13 +114,14 @@ function MetaBlock({
 
   return (
     <div
-      className={cn("relative z-[2] flex flex-col", className)}
+      className={cn("relative z-[2] flex w-full flex-col", className)}
       style={{
         color: ink,
         fontSize,
         lineHeight: 1.4,
         gap,
         fontFamily,
+        width: "100%",
       }}
     >
       {rows.map((row) => (
@@ -171,6 +179,9 @@ export function BoardNoticeLayoutCanvas({
   copy,
   localNumber,
   subText,
+  designWidthPx,
+  designHeightPx,
+  referenceWidthPx,
   aspectClass,
   aspectRatio,
   logoMode = "lockup",
@@ -179,8 +190,13 @@ export function BoardNoticeLayoutCanvas({
   style,
   canvasRef,
 }: BoardNoticeLayoutCanvasProps) {
+  const scaledTokens = boardNoticeScaledTokens(
+    tokens,
+    designWidthPx,
+    referenceWidthPx,
+  );
   const ink = pickContrastingInk(colours.primary);
-  const surfaceStyle = canvasSurfaceStyle(tokens, {
+  const surfaceStyle = canvasSurfaceStyle(scaledTokens, {
     primary: colours.primary,
     secondary: colours.secondary,
     accent: colours.accent,
@@ -190,20 +206,27 @@ export function BoardNoticeLayoutCanvas({
     colours.accent,
     colours.secondary,
   );
-  const metaSize = tokens.subtitleFontSizePx + 6;
+  const metaSize = scaledTokens.subtitleFontSizePx + 6;
+
+  const canvasBoxStyle: CSSProperties = {
+    width: designWidthPx,
+    height: designHeightPx,
+    maxWidth: "100%",
+    flexShrink: 0,
+  };
 
   const rootStyle: CSSProperties = {
     ...surfaceStyle,
+    ...canvasBoxStyle,
     color: ink,
     aspectRatio,
     display: "flex",
     flexDirection: "column",
-    width: "100%",
     overflow: "hidden",
     boxSizing: "border-box",
-    padding: tokens.paddingPx,
-    gap: tokens.gapPx,
-    fontFamily: tokens.bodyFontFamily,
+    padding: scaledTokens.paddingPx,
+    gap: scaledTokens.gapPx,
+    fontFamily: scaledTokens.bodyFontFamily,
     ...style,
   };
 
@@ -216,7 +239,7 @@ export function BoardNoticeLayoutCanvas({
         ref={canvasRef}
         data-export-root=""
         className={cn(
-          "relative flex w-full flex-col overflow-hidden",
+          "relative flex flex-col overflow-hidden",
           aspectClass,
           className,
         )}
@@ -226,21 +249,21 @@ export function BoardNoticeLayoutCanvas({
           aspectRatio,
           display: "flex",
           flexDirection: "column",
-          width: "100%",
           overflow: "hidden",
           boxSizing: "border-box",
-          fontFamily: tokens.bodyFontFamily,
+          fontFamily: scaledTokens.bodyFontFamily,
+          ...canvasBoxStyle,
           ...style,
         }}
       >
-        <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+        <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />
         <div
           className="relative z-[2] flex flex-col"
           style={{
             backgroundColor: colours.secondary,
             color: bandInk,
-            padding: tokens.paddingPx,
-            gap: tokens.gapPx,
+            padding: scaledTokens.paddingPx,
+            gap: scaledTokens.gapPx,
             flex: "0 0 auto",
           }}
         >
@@ -248,14 +271,14 @@ export function BoardNoticeLayoutCanvas({
             backgroundColor={colours.secondary}
             localNumber={localNumber}
             subText={subText}
-            fontFamily={tokens.bodyFontFamily}
+            fontFamily={scaledTokens.bodyFontFamily}
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
-            badge={headerBadge(copy, colours.secondary, tokens)}
+            badge={headerBadge(copy, colours.secondary, scaledTokens)}
           />
           <CanvasTypeBlock
             tokens={{
-              ...tokens,
+              ...scaledTokens,
               alignmentBias: "center",
             }}
             title={copy.headline}
@@ -270,22 +293,23 @@ export function BoardNoticeLayoutCanvas({
         <div
           className="relative z-[2] flex min-h-0 flex-1 flex-col justify-between"
           style={{
-            padding: tokens.paddingPx,
-            gap: tokens.gapPx,
+            padding: scaledTokens.paddingPx,
+            gap: scaledTokens.gapPx,
             backgroundColor: panelBg,
             color: panelInk,
           }}
         >
           {copy.body.trim() ? (
             <p
+              className="min-h-0 shrink"
               style={{
                 color: panelInk,
-                fontSize: tokens.subtitleFontSizePx,
-                fontWeight: tokens.bodyFontWeight,
-                lineHeight: tokens.bodyLineHeight,
+                fontSize: scaledTokens.subtitleFontSizePx,
+                fontWeight: scaledTokens.bodyFontWeight,
+                lineHeight: scaledTokens.bodyLineHeight,
                 margin: 0,
                 opacity: 0.9,
-                fontFamily: tokens.bodyFontFamily,
+                fontFamily: scaledTokens.bodyFontFamily,
               }}
             >
               {copy.body}
@@ -295,9 +319,9 @@ export function BoardNoticeLayoutCanvas({
             copy={copy}
             ink={panelInk}
             fontSize={metaSize}
-            gap={tokens.gapPx}
+            gap={scaledTokens.gapPx}
             backgroundColor={panelBg}
-            fontFamily={tokens.bodyFontFamily}
+            fontFamily={scaledTokens.bodyFontFamily}
           />
         </div>
       </div>
@@ -310,28 +334,28 @@ export function BoardNoticeLayoutCanvas({
         ref={canvasRef}
         data-export-root=""
         className={cn(
-          "relative flex w-full flex-col overflow-hidden",
+          "relative flex flex-col overflow-hidden",
           aspectClass,
           className,
         )}
         style={rootStyle}
       >
-        <CanvasGrainOverlay opacity={tokens.grainOpacity} />
+        <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />
         <div
           className="relative z-[2] flex min-h-0 flex-[1.2] flex-col"
-          style={{ gap: tokens.gapPx }}
+          style={{ gap: scaledTokens.gapPx }}
         >
           <CanvasBrandHeader
             backgroundColor={colours.primary}
             localNumber={localNumber}
             subText={subText}
-            fontFamily={tokens.bodyFontFamily}
+            fontFamily={scaledTokens.bodyFontFamily}
             logoMode={logoMode}
             showLocalLabel={showLocalLabel}
-            badge={headerBadge(copy, colours.primary, tokens)}
+            badge={headerBadge(copy, colours.primary, scaledTokens)}
           />
           <CanvasTypeBlock
-            tokens={tokens}
+            tokens={scaledTokens}
             title={copy.headline}
             subtitle={copy.body}
             ink={ink}
@@ -341,21 +365,21 @@ export function BoardNoticeLayoutCanvas({
         <div
           className="relative z-[2] flex min-h-0 flex-1 flex-col justify-end"
           style={{
-            gap: tokens.gapPx,
+            gap: scaledTokens.gapPx,
             backgroundColor: colours.secondary,
             color: pickContrastingInk(colours.secondary),
-            marginInline: -tokens.paddingPx,
-            marginBottom: -tokens.paddingPx,
-            padding: tokens.paddingPx,
+            marginInline: -scaledTokens.paddingPx,
+            marginBottom: -scaledTokens.paddingPx,
+            padding: scaledTokens.paddingPx,
           }}
         >
           <MetaBlock
             copy={copy}
             ink={pickContrastingInk(colours.secondary)}
             fontSize={metaSize}
-            gap={Math.max(6, tokens.gapPx - 4)}
+            gap={Math.max(6, scaledTokens.gapPx - 4)}
             backgroundColor={colours.secondary}
-            fontFamily={tokens.bodyFontFamily}
+            fontFamily={scaledTokens.bodyFontFamily}
           />
         </div>
       </div>
@@ -368,36 +392,41 @@ export function BoardNoticeLayoutCanvas({
       ref={canvasRef}
       data-export-root=""
       className={cn(
-        "relative flex w-full flex-col justify-between overflow-hidden",
+        "relative flex flex-col justify-between overflow-hidden",
         aspectClass,
         className,
       )}
       style={rootStyle}
     >
-      <CanvasGrainOverlay opacity={tokens.grainOpacity} />
-      <CanvasBrandHeader
-        backgroundColor={colours.primary}
-        localNumber={localNumber}
-        subText={subText}
-        fontFamily={tokens.bodyFontFamily}
-        logoMode={logoMode}
-        showLocalLabel={showLocalLabel}
-        badge={headerBadge(copy, colours.primary, tokens)}
-      />
-      <CanvasTypeBlock
-        tokens={tokens}
-        title={copy.headline}
-        subtitle={copy.body}
-        ink={ink}
-        accentColor={accent}
-      />
+      <CanvasGrainOverlay opacity={scaledTokens.grainOpacity} />
+      <div className="relative z-[2] shrink-0">
+        <CanvasBrandHeader
+          backgroundColor={colours.primary}
+          localNumber={localNumber}
+          subText={subText}
+          fontFamily={scaledTokens.bodyFontFamily}
+          logoMode={logoMode}
+          showLocalLabel={showLocalLabel}
+          badge={headerBadge(copy, colours.primary, scaledTokens)}
+        />
+      </div>
+      <div className="relative z-[2] min-h-0 flex-1">
+        <CanvasTypeBlock
+          tokens={scaledTokens}
+          title={copy.headline}
+          subtitle={copy.body}
+          ink={ink}
+          accentColor={accent}
+        />
+      </div>
       <MetaBlock
         copy={copy}
         ink={ink}
         fontSize={metaSize}
-        gap={tokens.gapPx}
+        gap={scaledTokens.gapPx}
         backgroundColor={colours.primary}
-        fontFamily={tokens.bodyFontFamily}
+        fontFamily={scaledTokens.bodyFontFamily}
+        className="relative z-[2] shrink-0"
       />
     </div>
   );

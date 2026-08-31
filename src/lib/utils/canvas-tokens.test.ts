@@ -9,6 +9,7 @@ import {
   normalizeBrandKitCanvas,
   officeMockTypography,
   resolveCanvasTokens,
+  boardNoticeScaledTokens,
   typeScaleFactor,
   walletBodyFontSizePx,
   walletContentGapPx,
@@ -392,6 +393,12 @@ describe("officeMockPaddingPx", () => {
     );
     expect(roomy).toBeGreaterThan(tight);
     expect(officeMockPaddingPx(undefined)).toBe(16);
+  });
+  it("boardNoticeScaledTokens shrinks display type for narrow design widths", () => {
+    const base = resolveCanvasTokens(normalizeBrandKit(DEFAULT_BRAND_KIT));
+    const scaled = boardNoticeScaledTokens(base, 306, 306);
+    expect(scaled.titleFontSizePx).toBeLessThanOrEqual(base.titleFontSizePx * 1.12);
+    expect(scaled.paddingPx).toBeGreaterThanOrEqual(16);
   });
 });
 
