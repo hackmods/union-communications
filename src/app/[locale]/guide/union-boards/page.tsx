@@ -20,6 +20,8 @@ import { BOARD_LAYOUT_REFERENCES } from "@/lib/constants/board-layouts";
 import {
   materialsByKind,
 } from "@/lib/constants/board-materials";
+import { BoardReferenceSheetButton } from "@/components/comms/BoardReferenceSheetButton";
+import { SpreadsheetXlsxButton } from "@/components/comms/SpreadsheetXlsxButton";
 
 export async function generateMetadata({
   params,
@@ -167,7 +169,10 @@ export default async function UnionBoardsGuidePage({
         </h3>
         <p className="mt-1 text-sm text-gray-600">{t("materials.ministryNote")}</p>
         <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-          {ministry.map((item) => (
+          {ministry.map((item) => {
+            const href = item.href;
+            if (!href) return null;
+            return (
             <li
               key={item.id}
               className="rounded-lg border border-gray-200 bg-white px-4 py-3"
@@ -180,11 +185,11 @@ export default async function UnionBoardsGuidePage({
               </p>
               <div className="mt-2 flex flex-wrap gap-3 text-sm">
                 <a
-                  href={item.href}
+                  href={href}
                   className="font-medium text-opseu-blue underline"
-                  {...(item.href.startsWith("http")
+                  {...(href.startsWith("http")
                     ? { target: "_blank", rel: "noopener noreferrer" }
-                    : item.href.endsWith(".pdf")
+                    : href.endsWith(".pdf")
                       ? { download: true }
                       : {})}
                 >
@@ -204,7 +209,8 @@ export default async function UnionBoardsGuidePage({
                 ) : null}
               </div>
             </li>
-          ))}
+            );
+          })}
         </ul>
 
         <h3 className="mt-8 text-lg font-bold text-opseu-dark">
@@ -223,13 +229,29 @@ export default async function UnionBoardsGuidePage({
               <p className="mt-1 text-sm text-gray-700">
                 {t(`materials.items.${item.descriptionKey}`)}
               </p>
-              <a
-                href={item.href}
-                className="mt-2 inline-block text-sm font-medium text-opseu-blue underline"
-                download
-              >
-                {t("materials.downloadTemplate")}
-              </a>
+              <div className="mt-2 flex flex-wrap items-center gap-3 text-sm">
+                {item.pdfReference ? (
+                  <BoardReferenceSheetButton kind={item.pdfReference} />
+                ) : item.href ? (
+                  <>
+                    <a
+                      href={item.href}
+                      className="font-medium text-opseu-blue underline"
+                      download
+                    >
+                      {t("materials.downloadTemplate")}
+                    </a>
+                    {item.offerXlsx ? (
+                      <SpreadsheetXlsxButton
+                        csvHref={item.href}
+                        downloadBasename={
+                          item.href.split("/").pop() ?? "sample.csv"
+                        }
+                      />
+                    ) : null}
+                  </>
+                ) : null}
+              </div>
             </li>
           ))}
         </ul>
@@ -249,13 +271,16 @@ export default async function UnionBoardsGuidePage({
         <p className="mt-1 text-sm text-gray-600">{t("layouts.photosIntro")}</p>
 
         <div className="mt-4 space-y-6">
-          {photos.map((photo, index) => (
+          {photos.map((photo, index) => {
+            const src = photo.href;
+            if (!src) return null;
+            return (
             <figure
               key={photo.id}
               className="overflow-hidden rounded-lg border border-gray-200"
             >
               <Image
-                src={photo.href}
+                src={src}
                 alt={t(`materials.items.${photo.titleKey}Alt`)}
                 width={1200}
                 height={900}
@@ -272,7 +297,8 @@ export default async function UnionBoardsGuidePage({
                 </p>
               </figcaption>
             </figure>
-          ))}
+            );
+          })}
         </div>
 
         <h3 className="mt-10 text-lg font-bold text-opseu-dark">

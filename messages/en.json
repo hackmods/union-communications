@@ -1193,6 +1193,9 @@
       "openLink": "Open official page",
       "officialSource": "Ministry source",
       "downloadTemplate": "Download sample",
+      "downloadXlsx": "Download Excel",
+      "downloadingXlsx": "Preparing Excel…",
+      "spreadsheetExportError": "Excel export failed — download the CSV sample instead.",
       "items": {
         "esaPoster": "Employment Standards in Ontario poster",
         "esaPosterDesc": "ESA rights overview - hours, leaves, vacation, termination. Strong default for the health & safety / rights zone.",
@@ -1223,6 +1226,16 @@
         "denseBoardPhoto": "Campaign-dense board",
         "denseBoardPhotoDesc": "High-energy campaign anchors with QR resource sheet and contact cards - use when you need solidarity filler around the standing zones.",
         "denseBoardPhotoAlt": "Photograph of a densely posted union bulletin board with campaign posters, QR codes, and contact cards"
+      }
+    },
+    "referenceMaterials": {
+      "downloading": "Preparing PDF…",
+      "exportError": "PDF export failed — try again, or use the on-page checklist.",
+      "board-checklist": {
+        "cta": "Download print checklist PDF"
+      },
+      "ohsa-qr-tip": {
+        "cta": "Download OHSA QR tip PDF"
       }
     },
     "practiceTitle": "Board practice",
@@ -6560,6 +6573,10 @@
     "feedbackLead": "Using something that is missing here, or want to ask for a tool?",
     "feedbackLink": "Send site feedback",
     "items": {
+      "union-boards-pdf-templates": {
+        "title": "Union Boards guide — PDF checklists and Excel samples",
+        "body": "Download a branded print checklist and OHSA QR tip as PDFs, and open CSV board trackers as Excel when you prefer spreadsheets."
+      },
       "website-hero-mesh": {
         "title": "Website Template hero backgrounds refreshed",
         "body": "Mesh is now the default hero pattern. Arc and Bloom replace the old band and horizon presets with softer shapes that sit better behind your local name and logo."

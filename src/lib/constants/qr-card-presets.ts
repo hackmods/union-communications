@@ -1,3 +1,5 @@
+import { commsSourceUrl } from "@/lib/constants/comms-sources";
+
 export type QrCardPresetId =
   | "getSupport"
   | "esa"
@@ -63,8 +65,7 @@ export const QR_CARD_PRESETS: readonly QrCardPreset[] = [
   },
   {
     id: "esa",
-    defaultUrl:
-      "https://www.ontario.ca/document/your-guide-employment-standards-act-0/mandatory-information-employees",
+    defaultUrl: commsSourceUrl("ontario-esa-poster"),
     titleKey: "esaTitle",
     descriptionKey: "esaDesc",
     taglineKey: "esaTagline",
@@ -72,8 +73,7 @@ export const QR_CARD_PRESETS: readonly QrCardPreset[] = [
   },
   {
     id: "ohsa",
-    defaultUrl:
-      "https://www.ontario.ca/document/guide-occupational-health-and-safety-act",
+    defaultUrl: commsSourceUrl("ontario-ohsa-guide"),
     titleKey: "ohsaTitle",
     descriptionKey: "ohsaDesc",
     taglineKey: "ohsaTagline",

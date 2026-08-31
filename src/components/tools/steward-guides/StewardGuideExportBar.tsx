@@ -28,20 +28,20 @@ export function StewardGuideExportBar({
     <div className="flex flex-wrap gap-2 print:hidden">
       <Button
         type="button"
-        onClick={onExportMarkdown}
-        disabled={exporting}
-        className="min-h-11"
-      >
-        {labels.exportMarkdown}
-      </Button>
-      <Button
-        type="button"
-        variant="secondary"
         onClick={onExportPdf}
         disabled={exporting}
         className="min-h-11"
       >
         {labels.exportPdf}
+      </Button>
+      <Button
+        type="button"
+        variant="secondary"
+        onClick={onExportMarkdown}
+        disabled={exporting}
+        className="min-h-11"
+      >
+        {labels.exportMarkdown}
       </Button>
       {onPrintChecklist && labels.printChecklist ? (
         <Button

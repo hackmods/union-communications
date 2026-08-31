@@ -5,7 +5,7 @@ import {
   buildPreviewHtml,
   generateWebsiteZip,
 } from "@/lib/templates/website/generate-website-zip";
-import { getOpseuWebsiteFooterSources, getWebsiteRightsPartnersFederationSources } from "@/lib/constants/comms-sources";
+import { getOpseuWebsiteFooterSources, getWebsiteRightsPartnersFederationSources, getWebsiteRightsPartnersOntarioSources } from "@/lib/constants/comms-sources";
 import type { WebsiteTemplateData } from "@/types/website-template";
 
 const sampleData: WebsiteTemplateData = {
@@ -38,7 +38,10 @@ describe("generate-website-zip", () => {
     expect(html).toContain("Jane Doe");
     expect(html).toContain("mailto:local243@example.com");
     expect(html).toContain("Rights &amp; Partners");
-    expect(html).toContain("Ontario Human Rights Code");
+    for (const source of getWebsiteRightsPartnersOntarioSources()) {
+      expect(html).toContain(`href="${source.url}"`);
+      expect(html).toContain(source.label);
+    }
     expect(html).toContain("Union Resources");
     for (const source of getOpseuWebsiteFooterSources()) {
       expect(html).toContain(`href="${source.url}"`);

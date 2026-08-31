@@ -1,4 +1,5 @@
 import type { BrandKit } from "@/types/entities";
+import { commsSourceUrl } from "@/lib/constants/comms-sources";
 import { resolvePresetDestination } from "@/lib/utils/local-links";
 
 export type QrBoardPresetId =
@@ -9,11 +10,6 @@ export type QrBoardPresetId =
 
 export const QR_BOARD_MIN_SLOTS = 2;
 export const QR_BOARD_MAX_SLOTS = 8;
-
-const ESA_GUIDE_URL =
-  "https://www.ontario.ca/document/your-guide-employment-standards-act-0/mandatory-information-employees";
-const OHSA_GUIDE_URL =
-  "https://www.ontario.ca/document/guide-occupational-health-and-safety-act";
 
 /** Slot template: destination from qr-card preset id or a fixed URL. */
 export interface QrBoardSlotTemplate {
@@ -85,12 +81,12 @@ export const QR_BOARD_PRESETS: readonly QrBoardPreset[] = [
       {
         titleKey: "esa",
         resolveId: "esa",
-        fixedUrl: ESA_GUIDE_URL,
+        fixedUrl: commsSourceUrl("ontario-esa-poster"),
       },
       {
         titleKey: "ohsa",
         resolveId: "ohsa",
-        fixedUrl: OHSA_GUIDE_URL,
+        fixedUrl: commsSourceUrl("ontario-ohsa-guide"),
       },
     ],
   },
