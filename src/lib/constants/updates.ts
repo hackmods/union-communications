@@ -24,6 +24,12 @@ export type UpdateEntry = {
 
 export const UPDATES: readonly UpdateEntry[] = [
   {
+    id: "bylaw-builder-committee",
+    date: "2026-08-31",
+    kind: "improved",
+    href: "/tools/bylaw-builder",
+  },
+  {
     id: "website-hero-mesh",
     date: "2026-08-31",
     kind: "improved",

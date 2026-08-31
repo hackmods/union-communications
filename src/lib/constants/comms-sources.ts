@@ -80,6 +80,15 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     unionIds: OPSEU_SCOPE,
     lastVerified: "2026-08-27",
   },
+  "opseu-constitution": {
+    id: "opseu-constitution",
+    category: "union",
+    label: "OPSEU / SEFPO Constitution",
+    url: "https://opseu.org/opseu-members-tools-and-resources/",
+    note: "The current OPSEU / SEFPO Constitution PDF is published on the Members tools hub. Download it there and confirm local bylaws and amendments against the articles governing locals before a GMM vote.",
+    unionIds: OPSEU_SCOPE,
+    lastVerified: "2026-08-31",
+  },
   "opseu-eerc-minutes": {
     id: "opseu-eerc-minutes",
     category: "union",
@@ -498,6 +507,7 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "cupe-bylaws-guide",
     "cupe-constitution",
     "unifor-constitution",
+    "opseu-constitution",
     "opseu-forms",
     "clc-education-catalogue",
   ],
@@ -511,6 +521,7 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "cupe-bylaws-guide",
     "cupe-constitution",
     "unifor-constitution",
+    "opseu-constitution",
     "opseu-forms",
   ],
   officerLearning: [
