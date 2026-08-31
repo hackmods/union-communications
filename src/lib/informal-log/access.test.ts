@@ -28,6 +28,7 @@ describe("informal log access", () => {
     expect(canAccessInformalLogModule(["local_president"])).toBe(true);
     expect(canCreateInformalLog(["local_steward"])).toBe(true);
     expect(canAccessInformalLogModule(["local_member"])).toBe(false);
+    expect(canAccessInformalLogModule(["stability_member"])).toBe(false);
     expect(canAccessInformalLogModule([])).toBe(false);
   });
 

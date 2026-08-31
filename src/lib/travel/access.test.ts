@@ -1,15 +1,17 @@
 import { describe, expect, it } from "vitest";
 import {
   canAccessTravelModule,
+  canEditDraftClaim,
   canEditDraftTravelAuth,
   canElevateTravel,
+  canViewTravelAuth,
 } from "./access";
 import {
   estimatedTotal,
   reconcileDifference,
   sumLineItems,
 } from "./reconcile";
-import type { TravelAuthorization } from "@/types/travel";
+import type { ExpenseClaim, TravelAuthorization } from "@/types/travel";
 
 const baseAuth: TravelAuthorization = {
   id: "ta-1",
@@ -59,6 +61,50 @@ describe("travel access", () => {
         { ...baseAuth, status: "approved" },
         "user-steward",
         ["local_steward"],
+      ),
+    ).toBe(false);
+  });
+
+  it("never lets a viewer read another union's authorization", () => {
+    expect(
+      canViewTravelAuth(baseAuth, "u1", "l1", "user-steward", ["local_steward"]),
+    ).toBe(true);
+    expect(
+      canViewTravelAuth(baseAuth, "other", "l1", "user-steward", [
+        "platform_admin",
+      ]),
+    ).toBe(false);
+  });
+
+  it("lets the claimant edit a draft claim but not a reconciled one", () => {
+    const claim: ExpenseClaim = {
+      id: "exp-1",
+      travelAuthorizationId: "ta-1",
+      unionId: "u1",
+      localId: "l1",
+      claimantId: "user-steward",
+      status: "draft",
+      lineItems: [],
+      advanceAmount: 0,
+      createdAt: "2026-01-01T00:00:00.000Z",
+      updatedAt: "2026-01-01T00:00:00.000Z",
+    };
+    expect(canEditDraftClaim(claim, "user-steward", ["local_steward"])).toBe(
+      true,
+    );
+    expect(canEditDraftClaim(claim, "other", ["local_steward"])).toBe(false);
+    expect(
+      canEditDraftClaim(
+        { ...claim, status: "reconciled" },
+        "user-steward",
+        ["local_steward"],
+      ),
+    ).toBe(false);
+    expect(
+      canEditDraftClaim(
+        { ...claim, status: "reconciled" },
+        "other",
+        ["local_president"],
       ),
     ).toBe(false);
   });
