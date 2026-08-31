@@ -6,7 +6,7 @@
 - [x] **Presets:** `opseuCaat` college sample (Local 243 patterns); Brand Kit local number in preset apply
 - [x] **Guide:** OPSEU / SEFPO college patterns section, committee workspace, scenario + CTAs (`?preset=opseuCaat`, `?mode=committee`)
 - [x] **Portal:** Circle bulletin callout linking writable users to committee builder
-- [x] **Sources:** `opseu-constitution` in comms-sources registry
+- [x] **Sources:** `opseu-forms` hub note expanded for constitution + bylaws checks
 - [x] **What's new:** `/updates` bylaw-builder-committee note
 - Verify: `npm run test:unit -- src/lib/bylaws/ src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts`
 
