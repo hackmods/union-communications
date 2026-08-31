@@ -2,9 +2,11 @@ import { describe, expect, it } from "vitest";
 import {
   getStartedHref,
   isLearnPath,
+  isOfficerLearningPath,
   isToolsPath,
   linkActive,
   learnGroups,
+  OFFICER_LEARNING_HREF,
   PULSE_POLL_HREF,
   toolGroups,
   visibleToolGroups,
@@ -40,6 +42,14 @@ describe("path helpers", () => {
     expect(isLearnPath("/updates")).toBe(true);
     expect(isLearnPath("/install")).toBe(true);
     expect(isLearnPath("/guide/grievance-process")).toBe(true);
+    expect(isLearnPath(OFFICER_LEARNING_HREF)).toBe(false);
+    expect(isLearnPath("/guide/officer-learning/contract-enforcement")).toBe(
+      false,
+    );
+    expect(isOfficerLearningPath(OFFICER_LEARNING_HREF)).toBe(true);
+    expect(
+      isOfficerLearningPath("/guide/officer-learning/contract-enforcement"),
+    ).toBe(true);
     expect(isLearnPath("/tools/logo-builder")).toBe(false);
     expect(isToolsPath("/tools")).toBe(true);
     expect(isToolsPath("/tools/flyer-maker")).toBe(true);
@@ -66,7 +76,7 @@ describe("path helpers", () => {
     ]);
   });
 
-  it("leads steward training with Officer Learning", () => {
+  it("leads steward training with playbooks hub after Officer Learning moved top-level", () => {
     const steward = learnGroups.find(
       (g) => g.labelKey === "learnGroupStewardTraining",
     );
@@ -74,7 +84,6 @@ describe("path helpers", () => {
       (g) => g.labelKey === "learnGroupChannels",
     );
     expect(steward?.links.map((l) => l.href)).toEqual([
-      "/guide/officer-learning",
       "/guide/steward-playbooks",
       "/guide/steward-101",
       "/guide/bargaining",

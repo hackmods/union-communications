@@ -33,13 +33,18 @@ import {
   defaultShowLocalNumber,
 } from "@/lib/comms/canvas-logo-mode";
 import {
+  BOARD_NOTICE_FORMATS,
+  boardNoticeExportPixelRatio,
+  boardNoticePreviewHeightPx,
+  type BoardNoticeFormatId,
+} from "@/lib/comms/board-notice-formats";
+import {
   BOARD_NOTICE_LAYOUT_ORDER,
   DEFAULT_BOARD_NOTICE_LAYOUT,
   type BoardNoticeLayoutId,
 } from "@/lib/comms/board-notice-layouts";
 
 type NoticeType = "meeting" | "bargaining" | "event" | "general";
-type PageFormat = "letter" | "tabloid";
 
 interface BoardNoticeState {
   noticeType: NoticeType;
@@ -55,24 +60,6 @@ interface BoardNoticeState {
   showLocalNumber: boolean;
 }
 
-const FORMAT_DIMENSIONS: Record<
-  PageFormat,
-  { aspect: string; aspectRatio: string; widthInches: number; heightInches: number }
-> = {
-  letter: {
-    aspect: "aspect-[8.5/11]",
-    aspectRatio: "8.5 / 11",
-    widthInches: 8.5,
-    heightInches: 11,
-  },
-  tabloid: {
-    aspect: "aspect-[11/17]",
-    aspectRatio: "11 / 17",
-    widthInches: 11,
-    heightInches: 17,
-  },
-};
-
 export default function BoardNoticePage() {
   const t = useTranslations("boardNotice");
   const tc = useTranslations("common");
@@ -82,7 +69,7 @@ export default function BoardNoticePage() {
   const hydrated = useBrandStore((s) => s.hydrated);
   const themeEstablished = isBrandThemeEstablished(brandKit, onboardingComplete);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const [format, setFormat] = useState<PageFormat>("letter");
+  const [format, setFormat] = useState<BoardNoticeFormatId>("letter");
 
   const initial: BoardNoticeState = {
     noticeType: "meeting",
@@ -111,7 +98,11 @@ export default function BoardNoticePage() {
     });
   });
 
-  const dims = FORMAT_DIMENSIONS[format];
+  const formatSpec = BOARD_NOTICE_FORMATS[format];
+  const designWidth = formatSpec.previewWidthPx;
+  const designHeight = boardNoticePreviewHeightPx(formatSpec);
+  const referenceWidth = BOARD_NOTICE_FORMATS.letter.previewWidthPx;
+  const exportPixelRatio = boardNoticeExportPixelRatio(formatSpec);
   const tokens = resolveCanvasTokens(brandKit);
   const showInviteEmail =
     state.noticeType === "meeting" || state.noticeType === "event";
@@ -132,7 +123,7 @@ export default function BoardNoticePage() {
       await exportNodeAsPng(
         canvasRef.current!,
         formatFilename(`board-notice-${format}`, brandKit.local.localNumber, "png"),
-        { pixelRatio: 2, backgroundColor: brandKit.primaryColor },
+        { pixelRatio: exportPixelRatio, backgroundColor: brandKit.primaryColor },
       );
     });
   };
@@ -143,9 +134,9 @@ export default function BoardNoticePage() {
       await nodeToPdf(
         canvasRef.current!,
         formatFilename(`board-notice-${format}`, brandKit.local.localNumber, "pdf"),
-        dims.widthInches,
-        dims.heightInches,
-        2,
+        formatSpec.widthInches,
+        formatSpec.heightInches,
+        exportPixelRatio,
         brandKit.primaryColor,
       );
     });
@@ -292,7 +283,7 @@ export default function BoardNoticePage() {
           />
         }
         preview={
-          <div className="shadow-lg">
+          <div className="mx-auto w-full max-w-full">
             <BoardNoticeLayoutCanvas
               canvasRef={canvasRef}
               layout={state.layout}
@@ -322,8 +313,11 @@ export default function BoardNoticePage() {
               }}
               localNumber={brandKit.local.localNumber}
               subText={brandKit.local.subText}
-              aspectClass={dims.aspect}
-              aspectRatio={dims.aspectRatio}
+              designWidthPx={designWidth}
+              designHeightPx={designHeight}
+              referenceWidthPx={referenceWidth}
+              aspectClass={formatSpec.aspect}
+              aspectRatio={`${formatSpec.widthInches} / ${formatSpec.heightInches}`}
               logoMode={state.logoMode}
               showLocalLabel={state.showLocalNumber}
             />

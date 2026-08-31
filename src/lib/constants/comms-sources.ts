@@ -76,9 +76,9 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     category: "union",
     label: "OPSEU / SEFPO forms, constitution, and member tools",
     url: "https://opseu.org/opseu-members-tools-and-resources/",
-    note: "Members tools hub lists current forms, constitution PDFs, and local submission paths. Deep Forms and Documents pages move when the national site reorganizes — confirm constitution downloads in a browser.",
+    note: "Members tools hub lists current forms, constitution PDFs, and local submission paths. Download the Constitution PDF there and confirm local bylaws and amendments against the articles governing locals before a GMM vote. Deep Forms and Documents pages move when the national site reorganizes — confirm downloads in a browser.",
     unionIds: OPSEU_SCOPE,
-    lastVerified: "2026-08-27",
+    lastVerified: "2026-08-31",
   },
   "opseu-eerc-minutes": {
     id: "opseu-eerc-minutes",

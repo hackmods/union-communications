@@ -1,6 +1,8 @@
 "use client";
 
+import { useMemo } from "react";
 import { useBrandStore } from "@/store/brand-store";
+import { readBrandKitLogoSnapshot } from "@/lib/brand/read-logo-snapshot";
 import { BRAND_COLORS, isOfficialLogoVariant } from "@/lib/constants/brand";
 import { isUnionOpsLogoSrc } from "@/lib/constants/unionPresets";
 import {
@@ -141,14 +143,24 @@ export function BrandLogo({
 }: BrandLogoProps) {
   const hydrated = useBrandStore((s) => s.hydrated);
   const brandKit = useBrandStore((s) => s.brandKit);
-  const primaryColor = brandKit.primaryColor || BRAND_COLORS.primary;
-  const secondaryColor = brandKit.secondaryColor || BRAND_COLORS.secondary;
+  const logoSnapshot = useMemo(
+    () => (hydrated ? null : readBrandKitLogoSnapshot()),
+    [hydrated],
+  );
+  const effectiveKit = hydrated
+    ? brandKit
+    : logoSnapshot
+      ? { ...brandKit, ...logoSnapshot }
+      : brandKit;
+  const chromeReady = hydrated || logoSnapshot !== null;
+  const primaryColor = effectiveKit.primaryColor || BRAND_COLORS.primary;
+  const secondaryColor = effectiveKit.secondaryColor || BRAND_COLORS.secondary;
   const ink = resolveInk(backgroundColor, onDark);
 
   const platformMark = (
     <UnionOpsMark
-      primaryColor={hydrated ? primaryColor : "var(--opseu-blue)"}
-      secondaryColor={hydrated ? secondaryColor : "var(--brand-secondary)"}
+      primaryColor={chromeReady ? primaryColor : "var(--opseu-blue)"}
+      secondaryColor={chromeReady ? secondaryColor : "var(--brand-secondary)"}
       size={size}
       className={className}
       ink={ink ?? undefined}
@@ -157,19 +169,19 @@ export function BrandLogo({
     />
   );
 
-  if (!hydrated) {
+  if (!chromeReady) {
     return platformMark;
   }
 
   // Official Look / pack logos win over a leftover UnionOps customLogoDataUrl
   // (DEFAULT_BRAND_KIT mark used to resurrect after localStorage round-trips).
-  if (brandKit.useOfficialLogo) {
+  if (effectiveKit.useOfficialLogo) {
     const { src, cssFilter, plate } = resolveBrandLogoPresentation(
-      brandKit,
+      effectiveKit,
       backgroundColor,
       variantOverride,
     );
-    const officialDims = logoDims(brandKit, size, variantOverride);
+    const officialDims = logoDims(effectiveKit, size, variantOverride);
 
     return (
       <LogoWithOptionalPlate
@@ -185,18 +197,18 @@ export function BrandLogo({
     );
   }
 
-  const customSrc = brandKit.customLogoDataUrl?.trim();
+  const customSrc = effectiveKit.customLogoDataUrl?.trim();
   if (customSrc && isUnionOpsLogoSrc(customSrc)) {
     return platformMark;
   }
 
   if (customSrc) {
     const { src, cssFilter, plate } = resolveBrandLogoPresentation(
-      brandKit,
+      effectiveKit,
       backgroundColor,
       variantOverride,
     );
-    const officialDims = logoDims(brandKit, size, variantOverride);
+    const officialDims = logoDims(effectiveKit, size, variantOverride);
 
     return (
       <LogoWithOptionalPlate

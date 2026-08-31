@@ -35,7 +35,7 @@ const sample: WebsiteTemplateData = {
   logoPreviewSrc: "data:image/png;base64,aaa",
   logoAlt: "Local 243",
   includeOpseuResources: false,
-  heroArtId: "bands",
+  heroArtId: "arc",
   heroImageFileName: "hero.jpg",
   heroImagePreviewSrc: "data:image/jpeg;base64,abc",
   heroImageAlt: "Rally photo",
@@ -53,7 +53,7 @@ describe("serializeWebsiteConfig", () => {
     expect(parsed.version).toBe(1);
     expect(parsed.data.unionName).toBe("Local 243");
     expect(parsed.data.officers).toEqual(sample.officers);
-    expect(parsed.data.heroArtId).toBe("bands");
+    expect(parsed.data.heroArtId).toBe("arc");
     expect(parsed.data.heroImageFileName).toBe("hero.jpg");
     expect(parsed.data.canvas?.headlineFontId).toBe("oswald");
     expect(parsed.data.customLinks).toEqual([
@@ -107,6 +107,21 @@ describe("parseWebsiteConfigJson", () => {
     expect(parsed.data.customLinks).toEqual([
       { label: "Ok", url: "https://example.com/ok" },
     ]);
+  });
+
+  it("migrates legacy hero art ids on import", () => {
+    const payload = serializeWebsiteConfig(sample);
+    const raw = JSON.parse(JSON.stringify(payload)) as {
+      data: { heroArtId?: string };
+    };
+    raw.data.heroArtId = "bands";
+    expect(parseWebsiteConfigJson(JSON.stringify(raw)).data.heroArtId).toBe(
+      "arc",
+    );
+    raw.data.heroArtId = "horizon";
+    expect(parseWebsiteConfigJson(JSON.stringify(raw)).data.heroArtId).toBe(
+      "bloom",
+    );
   });
 });
 

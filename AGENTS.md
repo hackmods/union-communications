@@ -52,6 +52,13 @@ Public brand: **UnionOps** ([unionops.org](https://unionops.org)). Slogan: **Sol
 - Update `docs/PROGRESS.md` at milestone end; conventional commits
 - Steward-facing product changes also get a What's new note on `/updates` in the same change — [`.cursor/rules/whats-new.mdc`](.cursor/rules/whats-new.mdc)
 
+## Git / pull requests (agents)
+
+- Open PRs **ready for review** (`draft: false`) — not draft by default.
+- When CI is green on `main`, **merge the PR** unless the user explicitly asked to hold it open.
+- Close superseded or duplicate PRs (same change landed elsewhere, or a later PR subsumes an earlier one) with a short comment pointing at the replacement.
+- Never force-push `main`; never amend pushed commits.
+
 ## Do Not
 
 - Add analytics or third-party tracking

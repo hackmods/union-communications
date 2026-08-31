@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { isOfficerHubPublic } from "@/lib/features/officer-hub-public";
 import { PAGE_SHELL } from "@/lib/constants/page-shell";
+import { OFFICER_LEARNING_HREF } from "@/components/layout/nav/nav-config";
 import { cn } from "@/lib/utils";
 
 const footerLinkClass =
@@ -51,6 +52,12 @@ export function Footer() {
           </Link>
           <Link href="/guide/resources" className={footerLinkClass}>
             {nav("resources")}
+          </Link>
+          <Link href="/guide/steward-playbooks" className={footerLinkClass}>
+            {nav("stewardPlaybooksHub")}
+          </Link>
+          <Link href={OFFICER_LEARNING_HREF} className={footerLinkClass}>
+            {nav("officerLearningTopNav")}
           </Link>
           <Link href="/assets" className={footerLinkClass}>
             {nav("assets")}

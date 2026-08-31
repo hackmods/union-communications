@@ -75,6 +75,9 @@ export type NavGroup = {
   links: readonly NavLink[];
 };
 
+/** Officer Learning — top-level header link; not nested under Guides ▾. */
+export const OFFICER_LEARNING_HREF = "/guide/officer-learning" as const;
+
 /** Top-level label key for the Guides disclosure (was Learn). */
 export const guidesMenuLabelKey = "guides" as const;
 
@@ -106,7 +109,6 @@ export const learnGroups: readonly NavGroup[] = [
   {
     labelKey: "learnGroupStewardTraining",
     links: [
-      { href: "/guide/officer-learning", key: "officerLearningGuide" },
       { href: "/guide/steward-playbooks", key: "stewardPlaybooksHub" },
       { href: "/guide/steward-101", key: "steward101Guide" },
       { href: "/guide/bargaining", key: "bargainingGuide" },
@@ -230,7 +232,15 @@ export function getStartedHref(themeEstablished: boolean): string {
   return themeEstablished ? "/guide/social-media-plan" : "/onboarding";
 }
 
+export function isOfficerLearningPath(pathname: string): boolean {
+  return (
+    pathname === OFFICER_LEARNING_HREF ||
+    pathname.startsWith(`${OFFICER_LEARNING_HREF}/`)
+  );
+}
+
 export function isLearnPath(pathname: string): boolean {
+  if (isOfficerLearningPath(pathname)) return false;
   return learnHrefs.has(pathname) || pathname.startsWith("/guide/");
 }
 
