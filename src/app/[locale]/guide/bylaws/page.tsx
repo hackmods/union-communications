@@ -18,6 +18,7 @@ import {
 } from "@/components/comms/guideCtaClasses";
 import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
+import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 
 export async function generateMetadata({
@@ -285,7 +286,7 @@ export default async function BylawsGuidePage({
             {t("amend.emailCta")}
           </Link>
           <Link
-            href="/tools/document-generator?preset=quick-event"
+            href={documentGeneratorPresetHref("quick-event")}
             className={guideCtaOutlineClass}
           >
             {t("amend.eventCta")}
@@ -512,7 +513,7 @@ export default async function BylawsGuidePage({
             {nav("orgChart")}
           </Link>
           <Link
-            href="/tools/document-generator?preset=letterhead"
+            href={documentGeneratorPresetHref("letterhead")}
             className={guideCtaOutlineClass}
           >
             {nav("documentGenerator")}

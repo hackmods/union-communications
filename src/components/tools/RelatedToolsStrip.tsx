@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 
 export type RelatedToolLink = {
   href: string;
@@ -94,7 +95,7 @@ export const RELATED_BY_TOOL: Record<
     { href: "/tools/solidarity-poster", navKey: "solidarityPoster" },
   ],
   "org-chart": [
-    { href: "/tools/document-generator?preset=lec-directory", navKey: "documentGenerator" },
+    { href: documentGeneratorPresetHref("lec-directory"), navKey: "documentGenerator" },
     { href: "/tools/website-template", navKey: "websiteTemplate" },
     { href: "/tools/board-notice", navKey: "boardNotice" },
     { href: "/guide/union-boards", navKey: "unionBoardsGuide" },

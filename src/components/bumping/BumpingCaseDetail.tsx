@@ -12,6 +12,7 @@ import {
   diffLines,
   positionToCompareText,
 } from "@/lib/bumping/diff";
+import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 import {
   buildBumpingExportBundle,
   bundleToPdfLines,
@@ -280,7 +281,7 @@ export function BumpingCaseDetail({
               {t("seniorityGuideLink")}
             </Link>
             <Link
-              href="/tools/document-generator?preset=seniority-worksheet"
+              href={documentGeneratorPresetHref("seniority-worksheet")}
               className="text-opseu-blue underline"
             >
               {t("worksheetExportLink")}

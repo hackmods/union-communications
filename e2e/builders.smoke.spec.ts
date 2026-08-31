@@ -111,6 +111,26 @@ test.describe("Home hero & builders smoke @smoke", () => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
+  test("document generator opens grievance-intake preset from steward-101 link", async ({
+    page,
+  }) => {
+    await page.goto("/en/guide/steward-101/", { waitUntil: "domcontentloaded" });
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible({
+      timeout: 60_000,
+    });
+    await page
+      .getByRole("link", { name: "Open grievance intake worksheet" })
+      .click();
+    await expect(page).toHaveURL(
+      /\/en\/tools\/document-generator\/\?preset=grievance-intake/,
+    );
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(page.getByText("Needs a steward")).toHaveCount(0);
+    await expect(
+      page.getByRole("button", { name: "Grievance intake", pressed: true }),
+    ).toBeVisible();
+  });
+
   test("document generator renders", async ({ page }) => {
     await page.goto("/en/tools/document-generator/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

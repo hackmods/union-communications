@@ -11,6 +11,7 @@ import {
 } from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
+import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 
 export async function generateMetadata({
   params,
@@ -82,7 +83,7 @@ export default async function JointCommitteeGuidePage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/document-generator?preset=letterhead",
+              href: documentGeneratorPresetHref("letterhead"),
               label: nav("documentGenerator"),
             },
             {
@@ -190,7 +191,7 @@ export default async function JointCommitteeGuidePage({
         </Callout>
         <div className="button-row mt-5 max-w-lg">
           <Link
-            href="/tools/document-generator?preset=letterhead"
+            href={documentGeneratorPresetHref("letterhead")}
             className={guideCtaClass}
           >
             {t("related.letterhead")}
@@ -240,7 +241,7 @@ export default async function JointCommitteeGuidePage({
         </Callout>
         <div className="button-row mt-5 max-w-2xl">
           <Link
-            href="/tools/document-generator?preset=letterhead"
+            href={documentGeneratorPresetHref("letterhead")}
             className={guideCtaOutlineClass}
           >
             {t("afterMinutes.letterCta")}
@@ -325,7 +326,7 @@ export default async function JointCommitteeGuidePage({
         </ul>
         <div className="button-row mt-5 max-w-2xl">
           <Link
-            href="/tools/document-generator?preset=letterhead"
+            href={documentGeneratorPresetHref("letterhead")}
             className={guideCtaOutlineClass}
           >
             {nav("documentGenerator")}

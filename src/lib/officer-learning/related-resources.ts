@@ -1,4 +1,5 @@
 import type { ModuleReferenceSheet, RelatedResourceLink } from "./types";
+import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 
 /** Peer guides + steward prep tools for each Officer Learning module. */
 export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
@@ -12,7 +13,7 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
       kind: "pocket",
     },
     {
-      href: "/tools/document-generator?preset=grievance-intake",
+      href: documentGeneratorPresetHref("grievance-intake"),
       labelKey: "grievanceIntake",
       kind: "tool",
     },
