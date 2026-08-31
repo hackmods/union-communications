@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { PageShell } from "@/components/layout/PageShell";
@@ -39,21 +39,21 @@ import { useExportHandler } from "@/hooks/use-export-handler";
 import { useOneShotBrandSeed } from "@/hooks/use-one-shot-brand-seed";
 import { resolveCanvasTokens } from "@/lib/utils/canvas-tokens";
 import { canvasFontOfficeName } from "@/lib/comms/canvas-fonts";
-import dynamic from "next/dynamic";
-
-const OfficePresetMock = dynamic(
-  () =>
-    import("@/components/tools/OfficePresetMock").then((m) => m.OfficePresetMock),
-  { ssr: false },
-);
-const OfficeExampleTile = dynamic(
-  () =>
-    import("@/components/tools/OfficePresetMock").then((m) => m.OfficeExampleTile),
-  { ssr: false },
-);
+import {
+  OfficeExampleTile,
+  OfficePresetMock,
+} from "@/components/tools/OfficePresetMock";
 
 function isOfficePresetId(value: string): value is OfficePresetId {
   return OFFICE_PRESETS.some((p) => p.id === value);
+}
+
+function presetFromSearchParams(
+  searchParams: ReturnType<typeof useSearchParams>,
+): OfficePresetId {
+  const raw = searchParams.get("preset");
+  if (raw && isOfficePresetId(raw)) return raw;
+  return "simple-letter";
 }
 
 export interface GeneratorState {
@@ -105,6 +105,9 @@ function DocumentGeneratorPageContent() {
   const t = useTranslations("documentGenerator");
   const tc = useTranslations("common");
   const searchParams = useSearchParams();
+  const [initialPreset] = useState<OfficePresetId>(() =>
+    presetFromSearchParams(searchParams),
+  );
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);
   const onboardingComplete = useBrandStore((s) => s.onboardingComplete);
@@ -112,10 +115,9 @@ function DocumentGeneratorPageContent() {
     brandKit,
     onboardingComplete,
   );
-  const deepLinkApplied = useRef(false);
 
   const { state, setState, undo, redo, canUndo, canRedo, reset } =
-    useUndoRedo<GeneratorState>(initialState());
+    useUndoRedo<GeneratorState>(initialState(initialPreset));
   const { exportError: error, exportSuccess: success, exporting: busy, runExport } = useExportHandler();
   const [logoPreviewSrc, setLogoPreviewSrc] = useState<string | null>(null);
   useOneShotBrandSeed(hydrated, () => {
@@ -234,25 +236,16 @@ function DocumentGeneratorPageContent() {
         resolvePresetDestination("membership-primary", brandKit, origin) ||
         nextFields.membershipUrl;
     }
-    setState({
-      ...state,
+    setState((prev) => ({
+      ...prev,
       presetId: id,
       includeDocx: next.outputs.docx,
       includeXlsx: next.outputs.xlsx,
       includePptx: next.outputs.pptx,
       includeIcs: Boolean(next.outputs.ics),
       fields: nextFields,
-    });
+    }));
   }
-
-  useEffect(() => {
-    if (deepLinkApplied.current) return;
-    const raw = searchParams.get("preset");
-    if (!raw || !isOfficePresetId(raw)) return;
-    applyPreset(raw);
-    deepLinkApplied.current = true;
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot deep link
-  }, [searchParams]);
 
   function setField(key: string, value: string) {
     setState({

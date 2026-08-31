@@ -2427,6 +2427,8 @@
     "title": "Générateur de documents et diapositives",
     "subtitle": "Créez des documents à votre marque avec aperçu en direct. Téléchargez Word — plus Excel ou PowerPoint quand l’exemple les inclut.",
     "whenToUse": "Utilisez-le pour des packs Word à votre marque, des feuilles d'ancienneté et de griefs, des courriels d'invitation et des diapositives — quand vous avez besoin de fichiers modifiables, pas d'un PNG.",
+    "loadErrorBody": "L'aperçu de la feuille n'a pas chargé — souvent après une mise à jour de l'appli ou un rechargement hors ligne. Actualisez une fois pour obtenir les derniers fichiers, puis réessayez.",
+    "refreshPage": "Actualiser la page",
     "examples": "Exemples",
     "settings": "Modifier et télécharger",
     "designPreset": "Exemple",
