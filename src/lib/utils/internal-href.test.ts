@@ -6,6 +6,9 @@ describe("withTrailingSlash", () => {
     expect(withTrailingSlash("/tools/qr-card?preset=joinUnion")).toBe(
       "/tools/qr-card/?preset=joinUnion",
     );
+    expect(withTrailingSlash("/tools/document-generator?preset=grievance-intake")).toBe(
+      "/tools/document-generator/?preset=grievance-intake",
+    );
   });
 
   it("leaves paths that already end with a slash", () => {

@@ -13,6 +13,7 @@ import {
 import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 
 export async function generateMetadata({
   params,
@@ -122,7 +123,7 @@ export default async function GrievanceProcessGuidePage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/document-generator?preset=grievance-intake",
+              href: documentGeneratorPresetHref("grievance-intake"),
               label: t("worksheet.exportCta"),
             },
             {
@@ -420,7 +421,7 @@ export default async function GrievanceProcessGuidePage({
         </ul>
         <div className="button-row mt-5 max-w-lg">
           <Link
-            href="/tools/document-generator?preset=grievance-intake"
+            href={documentGeneratorPresetHref("grievance-intake")}
             className={guideCtaClassBlock}
           >
             {t("worksheet.exportCta")}
@@ -468,7 +469,7 @@ export default async function GrievanceProcessGuidePage({
             {t("tools.items.rtw.label")}
           </Link>
           <Link
-            href="/tools/document-generator?preset=grievance-intake"
+            href={documentGeneratorPresetHref("grievance-intake")}
             className={guideCtaOutlineClassBlock}
           >
             {t("worksheet.exportCta")}

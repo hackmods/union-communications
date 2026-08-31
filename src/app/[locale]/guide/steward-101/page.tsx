@@ -27,6 +27,7 @@ import {
   guideCtaOutlineClassBlock,
 } from "@/components/comms/guideCtaClasses";
 import { SpreadsheetXlsxButton } from "@/components/comms/SpreadsheetXlsxButton";
+import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 
 export async function generateMetadata({
   params,
@@ -139,7 +140,7 @@ export default async function Steward101GuidePage({
               label: t("related.pocketCard"),
             },
             {
-              href: "/tools/document-generator?preset=grievance-intake",
+              href: documentGeneratorPresetHref("grievance-intake"),
               label: nav("documentGenerator"),
               variant: "outline",
             },
@@ -547,7 +548,7 @@ export default async function Steward101GuidePage({
           <ReferenceBlock title={t("referenceMaterials.grievanceWorksheet.title")}>
             <p>{t("referenceMaterials.grievanceWorksheet.body")}</p>
             <Link
-              href="/tools/document-generator?preset=grievance-intake"
+              href={documentGeneratorPresetHref("grievance-intake")}
               className={`mt-3 inline-block w-full ${guideCtaOutlineClassBlock}`}
             >
               {t("referenceMaterials.grievanceWorksheet.cta")}
@@ -605,7 +606,7 @@ export default async function Steward101GuidePage({
             <ReferenceBlock title={t("referenceMaterials.followUp.title")}>
               <p>{t("referenceMaterials.followUp.body")}</p>
               <Link
-                href="/tools/document-generator?preset=simple-letter"
+                href={documentGeneratorPresetHref("simple-letter")}
                 className={`mt-3 inline-block ${guideCtaOutlineClass}`}
               >
                 {t("referenceMaterials.followUp.cta")}

@@ -12,6 +12,7 @@ import {
   guideCtaOutlineClass,
 } from "@/components/comms/guideCtaClasses";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
+import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 
 export async function generateMetadata({
   params,
@@ -85,7 +86,7 @@ export default async function MembershipSignupGuidePage({
               variant: "outline",
             },
             {
-              href: "/tools/document-generator?preset=welcome-letter",
+              href: documentGeneratorPresetHref("welcome-letter"),
               label: nav("documentGenerator"),
               variant: "outline",
             },
@@ -330,7 +331,7 @@ export default async function MembershipSignupGuidePage({
               {key === "welcome" ? (
                 <div className="mt-4">
                   <Link
-                    href="/tools/document-generator?preset=welcome-letter"
+                    href={documentGeneratorPresetHref("welcome-letter")}
                     className={guideCtaOutlineClass}
                   >
                     {t("materials.steps.welcome.cta")}
@@ -367,7 +368,7 @@ export default async function MembershipSignupGuidePage({
         </ul>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link
-            href="/tools/document-generator?preset=welcome-letter"
+            href={documentGeneratorPresetHref("welcome-letter")}
             className={guideCtaOutlineClass}
           >
             {t("materials.steps.welcome.cta")}
@@ -418,7 +419,7 @@ export default async function MembershipSignupGuidePage({
           {nav("qrCard")}
         </Link>
         <Link
-          href="/tools/document-generator?preset=welcome-letter"
+          href={documentGeneratorPresetHref("welcome-letter")}
           className={guideCtaOutlineClass}
         >
           {nav("documentGenerator")}

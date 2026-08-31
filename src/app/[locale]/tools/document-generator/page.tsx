@@ -43,18 +43,7 @@ import {
   OfficeExampleTile,
   OfficePresetMock,
 } from "@/components/tools/OfficePresetMock";
-
-function isOfficePresetId(value: string): value is OfficePresetId {
-  return OFFICE_PRESETS.some((p) => p.id === value);
-}
-
-function presetFromSearchParams(
-  searchParams: ReturnType<typeof useSearchParams>,
-): OfficePresetId {
-  const raw = searchParams.get("preset");
-  if (raw && isOfficePresetId(raw)) return raw;
-  return "simple-letter";
-}
+import { resolveOfficePresetFromQuery } from "@/lib/constants/document-generator-links";
 
 export interface GeneratorState {
   presetId: OfficePresetId;
@@ -106,7 +95,7 @@ function DocumentGeneratorPageContent() {
   const tc = useTranslations("common");
   const searchParams = useSearchParams();
   const [initialPreset] = useState<OfficePresetId>(() =>
-    presetFromSearchParams(searchParams),
+    resolveOfficePresetFromQuery(searchParams.get("preset")),
   );
   const brandKit = useBrandStore((s) => s.brandKit);
   const hydrated = useBrandStore((s) => s.hydrated);

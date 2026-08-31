@@ -1,5 +1,12 @@
 # Progress Log
 
+## Document Generator links + deeplink hardening (2026-08-31)
+
+- [x] **Deeplink fix (#42):** static-import preview; initialize `?preset=` on first render; tool-scoped error panel with refresh guidance
+- [x] **Link cleanup:** `documentGeneratorPresetHref()` + `resolveOfficePresetFromQuery()` — trailing-slash-safe CTAs across steward/grievance guides and Officer Learning related resources
+- [x] **Smoke:** steward-101 → grievance intake worksheet navigation guarded in `builders.smoke`
+- Verify: `npm run test:unit -- src/lib/constants/document-generator-links.test.ts` + `npm run test:smoke` (document generator deeplink case)
+
 ## Union Boards reference materials — registry + PDF/XLSX (2026-08-31)
 
 - [x] **Registry:** Ontario rights sources (`ontario-ohsa-guide`, `ontario-esa-guide`, `ohrc-code-rights`, `ontario-ohrc-statute`, `wsib-ontario`); website ZIP Rights & Partners footer via `getWebsiteRightsPartnersOntarioSources()`; board materials + QR presets use `commsSourceUrl()`

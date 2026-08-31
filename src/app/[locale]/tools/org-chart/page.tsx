@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 import { useBrandStore } from "@/store/brand-store";
 import { usePublicRosterStore } from "@/store/public-roster-store";
 import { useExportHandler } from "@/hooks/use-export-handler";
@@ -418,7 +419,7 @@ export default function OrgChartPage() {
             <p className="mt-2">{t("docGenHint")}</p>
             <p className="mt-1">
               <Link
-                href="/tools/document-generator?preset=lec-directory"
+                href={documentGeneratorPresetHref("lec-directory")}
                 className="font-semibold text-opseu-blue underline underline-offset-2"
               >
                 {t("docGenLink")}

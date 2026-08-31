@@ -8,6 +8,7 @@ import { Callout } from "@/components/ui/Callout";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
 import { guideCtaClass } from "@/components/comms/guideCtaClasses";
+import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 
 export async function generateMetadata({
   params,
@@ -89,7 +90,7 @@ export default async function DfrGuidePage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/document-generator?preset=grievance-intake",
+              href: documentGeneratorPresetHref("grievance-intake"),
               label: tgriev("worksheet.exportCta"),
             },
             {

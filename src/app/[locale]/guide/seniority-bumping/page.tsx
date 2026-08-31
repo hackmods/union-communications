@@ -9,6 +9,7 @@ import { Callout } from "@/components/ui/Callout";
 import { guideCtaClass } from "@/components/comms/guideCtaClasses";
 import { Link } from "@/i18n/navigation";
 import { OfficerLearningModuleCallout } from "@/components/officer-learning/OfficerLearningModuleCallout";
+import { documentGeneratorPresetHref } from "@/lib/constants/document-generator-links";
 
 export async function generateMetadata({
   params,
@@ -75,7 +76,7 @@ export default async function SeniorityBumpingGuidePage({
           intro={tg("asideIntro")}
           links={[
             {
-              href: "/tools/document-generator?preset=seniority-worksheet",
+              href: documentGeneratorPresetHref("seniority-worksheet"),
               label: t("worksheet.exportCta"),
             },
           ]}
@@ -235,7 +236,7 @@ export default async function SeniorityBumpingGuidePage({
         </ul>
         <div className="button-row mt-5 max-w-lg">
           <Link
-            href="/tools/document-generator?preset=seniority-worksheet"
+            href={documentGeneratorPresetHref("seniority-worksheet")}
             className={guideCtaClass}
           >
             {t("worksheet.exportCta")}
