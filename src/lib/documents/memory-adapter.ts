@@ -133,3 +133,13 @@ export class MemoryDocumentAdapter implements DocumentAdapter {
 }
 
 export const memoryDocumentStore = new MemoryDocumentAdapter();
+
+/** @internal test helper */
+export function resetDocumentsMemoryForTests(): void {
+  store.splice(0, store.length);
+}
+
+/** @internal test helper — insert a vault row without scanning or writing bytes. */
+export function insertDocumentForTests(document: DocumentRecord): void {
+  store.push(document);
+}

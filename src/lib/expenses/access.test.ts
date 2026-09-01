@@ -3,6 +3,7 @@ import {
   canAccessExpensesModule,
   canEditDraftExpense,
   canElevateExpenses,
+  canViewExpenseSubmission,
 } from "./access";
 import { sumLineItems } from "./totals";
 import type { ExpenseSubmission } from "@/types/expenses";
@@ -55,6 +56,39 @@ describe("expenses access", () => {
       canEditDraftExpense(
         { ...baseSubmission, status: "submitted" },
         "user-steward",
+        ["local_steward"],
+      ),
+    ).toBe(false);
+  });
+
+  it("never lets anyone view another union, including platform_admin", () => {
+    expect(
+      canViewExpenseSubmission(
+        { ...baseSubmission, unionId: "union-other" },
+        "u1",
+        "l1",
+        "user-steward",
+        ["platform_admin"],
+      ),
+    ).toBe(false);
+  });
+
+  it("pins a same-local steward to their local and blocks another local", () => {
+    expect(
+      canViewExpenseSubmission(
+        baseSubmission,
+        "u1",
+        "l1",
+        "other-steward",
+        ["local_steward"],
+      ),
+    ).toBe(true);
+    expect(
+      canViewExpenseSubmission(
+        baseSubmission,
+        "u1",
+        "local-other",
+        "other-steward",
         ["local_steward"],
       ),
     ).toBe(false);

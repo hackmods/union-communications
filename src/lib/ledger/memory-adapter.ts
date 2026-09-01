@@ -6,52 +6,56 @@ import type {
   UpdateLedgerEntryInput,
 } from "@/types/ledger";
 
-const entries: LedgerEntry[] = [
-  {
-    id: "led-001",
-    unionId: "union-opseu",
-    localId: "local-243",
-    date: "2026-01-15",
-    description: "Opening transfer from prior year social fund",
-    amount: 500,
-    type: "income",
-    category: "transfer",
-    recordedById: "user-president-243",
-  },
-  {
-    id: "led-002",
-    unionId: "union-opseu",
-    localId: "local-243",
-    date: "2026-03-10",
-    description: "Membership raffle proceeds",
-    amount: 175.5,
-    type: "income",
-    category: "fundraising",
-    recordedById: "user-president-243",
-  },
-  {
-    id: "led-003",
-    unionId: "union-opseu",
-    localId: "local-243",
-    date: "2026-04-02",
-    description: "Catering for solidarity lunch",
-    amount: 120,
-    type: "expense",
-    category: "social",
-    recordedById: "user-president-243",
-  },
-  {
-    id: "led-004",
-    unionId: "union-opseu",
-    localId: "local-243",
-    date: "2026-06-18",
-    description: "Convention delegate per diem (advance)",
-    amount: 200,
-    type: "expense",
-    category: "travel",
-    recordedById: "user-president-243",
-  },
-];
+function seedEntries(): LedgerEntry[] {
+  return [
+    {
+      id: "led-001",
+      unionId: "union-opseu",
+      localId: "local-243",
+      date: "2026-01-15",
+      description: "Opening transfer from prior year social fund",
+      amount: 500,
+      type: "income",
+      category: "transfer",
+      recordedById: "user-president-243",
+    },
+    {
+      id: "led-002",
+      unionId: "union-opseu",
+      localId: "local-243",
+      date: "2026-03-10",
+      description: "Membership raffle proceeds",
+      amount: 175.5,
+      type: "income",
+      category: "fundraising",
+      recordedById: "user-president-243",
+    },
+    {
+      id: "led-003",
+      unionId: "union-opseu",
+      localId: "local-243",
+      date: "2026-04-02",
+      description: "Catering for solidarity lunch",
+      amount: 120,
+      type: "expense",
+      category: "social",
+      recordedById: "user-president-243",
+    },
+    {
+      id: "led-004",
+      unionId: "union-opseu",
+      localId: "local-243",
+      date: "2026-06-18",
+      description: "Convention delegate per diem (advance)",
+      amount: 200,
+      type: "expense",
+      category: "travel",
+      recordedById: "user-president-243",
+    },
+  ];
+}
+
+const entries: LedgerEntry[] = seedEntries();
 
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -139,3 +143,8 @@ export class MemoryLedgerAdapter implements LedgerAdapter {
 }
 
 export const memoryLedgerStore: LedgerAdapter = new MemoryLedgerAdapter();
+
+/** @internal test helper — restores demo seed so mutating tests stay isolated. */
+export function resetLedgerMemoryForTests(): void {
+  entries.splice(0, entries.length, ...seedEntries());
+}
