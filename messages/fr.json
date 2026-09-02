@@ -92,7 +92,8 @@
     "bylawBuilder": "Créateur de règlements",
     "proposalTracker": "Suivi des propositions",
     "rulesOfOrder": "Aide-mémoire de procédure",
-    "runningMeetingsGuide": "Tenir une assemblée"
+    "runningMeetingsGuide": "Tenir une assemblée",
+    "landAcknowledgementGuide": "Reconnaissance territoriale"
   },
   "common": {
     "download": "Télécharger",
@@ -463,7 +464,8 @@
       "jointCommittee": "Guide des comités conjoints",
       "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
       "bylaws": "Règlements locaux : les règles de votre section",
-      "runningMeetings": "Tenir une assemblée et règles de procédure"
+      "runningMeetings": "Tenir une assemblée et règles de procédure",
+      "landAcknowledgement": "Guide de reconnaissance territoriale"
     },
     "startHere": {
       "navLabel": "Commencer ici",
@@ -683,7 +685,8 @@
       "jointCommittee": "Guide des comités conjoints",
       "workplaceMapping": "Cartographie du lieu de travail",
       "bylaws": "Règlements locaux",
-      "runningMeetings": "Assemblées et règles de procédure"
+      "runningMeetings": "Assemblées et règles de procédure",
+      "landAcknowledgement": "Guide de reconnaissance territoriale"
     }
   },
   "officerLearning": {
@@ -3115,7 +3118,8 @@
         "bargaining": "Cycle de négociation",
         "workplaceMapping": "Cartographie du lieu de travail et leaders organiques",
         "bylaws": "Règlements locaux : les règles de votre section",
-        "runningMeetings": "Tenir une assemblée et règles de procédure"
+        "runningMeetings": "Tenir une assemblée et règles de procédure",
+        "landAcknowledgement": "Guide de reconnaissance territoriale"
       },
       "blurb": {
         "stewardPlaybooks": "Commencez ici : Délégué 101, modules du Centre de formation des dirigeants avec autoévaluations, et tous les guides sur une page.",
@@ -3129,7 +3133,8 @@
         "bargaining": "Du sondage des membres et de l'établissement des demandes jusqu'au rapport « no board » et à la ratification — pour les comités de négociation locaux.",
         "workplaceMapping": "Recensez chaque collègue, repérez les leaders organiques et cotez l'appui syndical de 1 à 5. Gardez le fichier hors des systèmes de l'employeur.",
         "bylaws": "Structure de l'exécutif, quorum, autorités de signature, élections, et comment modifier les règlements avec préavis et vote en assemblée.",
-        "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et ouvrez l'aide-mémoire pendant le débat."
+        "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et ouvrez l'aide-mémoire pendant le débat.",
+        "landAcknowledgement": "Identifiez le territoire traditionnel où vous êtes, réfléchissez avec intention et liez les mots à une action continue — pas à un texte copié-collé."
       }
     },
     "checklist": {
@@ -4621,7 +4626,8 @@
       "jointCommittee": "Guide des comités conjoints",
       "bargaining": "Le cycle de négociation : du sondage à la signature",
       "bylaws": "Règlements locaux : les règles de votre section",
-      "runningMeetings": "Tenir une assemblée et règles de procédure"
+      "runningMeetings": "Tenir une assemblée et règles de procédure",
+      "landAcknowledgement": "Guide de reconnaissance territoriale"
     },
     "blurbs": {
       "steward101": "Orientation, trois chapeaux, script de représentation, bases de la DRE et exemple disciplinaire commenté.",
@@ -4635,7 +4641,8 @@
       "jointCommittee": "Campus → caucus → table → note aux membres après procès-verbaux signés.",
       "bargaining": "Du sondage à la signature pour les comités de négociation locaux — mises à jour de table, votes de grève, ratification, listes et Suivi des propositions sur appareil.",
       "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis, quorum et approbation nationale.",
-      "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire pour une motion ou un rappel au règlement."
+      "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire pour une motion ou un rappel au règlement.",
+      "landAcknowledgement": "Comprenez pourquoi la reconnaissance compte, renseignez-vous sur les territoires traditionnels et engagez-vous au-delà d'une déclaration unique."
     },
     "workspaces": {
       "title": "Espaces de pratique",
@@ -6543,6 +6550,10 @@
       "running-meetings-guide": {
         "title": "Tenir une assemblée — guide complet et aide-mémoire",
         "body": "Le guide Tenir une assemblée couvre maintenant le quorum, la priorité des motions, le débat, le vote et un exemple d'AGM commenté. L'aide-mémoire de procédure ajoute quatorze actions avec notes pour le président et un bouton copier pour le plancher."
+      },
+      "land-acknowledgement-guide": {
+        "title": "Guide de reconnaissance territoriale",
+        "body": "Comprenez pourquoi la reconnaissance compte, renseignez-vous sur le territoire traditionnel où vous êtes et liez les mots à l'action — avec des liens vers Native-Land.ca, Whose Land, le CNVR et Relations Couronne-Autochtones. Sans générateur de texte."
       },
       "guide-tool-aside": {
         "title": "Guides — raccourcis outils sur ordinateur",
@@ -9872,6 +9883,160 @@
         "cta": "Télécharger le PDF quorum et motion",
         "moduleTitle": "Gouvernance démocratique"
       }
+    }
+  },
+  "landAcknowledgementGuide": {
+    "title": "Guide de reconnaissance territoriale",
+    "subtitle": "Reconnaître avec respect les terres, les traités et la présence autochtone continue — sans générateur de texte",
+    "backToGuide": "Retour au Plan directeur",
+    "backToPlaybooks": "Tous les guides pratiques pour délégués",
+    "tocLabel": "Sur cette page",
+    "tipLabel": "À retenir",
+    "intro": "La reconnaissance territoriale est une façon de rappeler que chaque rassemblement au Canada a lieu sur des terres où des peuples autochtones ont une longue histoire. Bien faite, elle dépasse la formule d'ouverture et ouvre sur un apprentissage honnête, la conscience des traités et une réconciliation active. Ce guide vous aide à préparer vos propres mots — il ne génère pas de texte à votre place.",
+    "disclaimer": {
+      "title": "Éducation, pas raccourci",
+      "body": "UnionOps ne fournit pas de texte de reconnaissance à remplir. Lisez les sources citées en bas de page, apprenez auprès des nations autochtones et des gardiens du savoir de votre région, et rédigez des mots que vous pouvez assumer."
+    },
+    "why": {
+      "navLabel": "Pourquoi c'est important",
+      "title": "Pourquoi la reconnaissance territoriale compte",
+      "intro": "Une reconnaissance territoriale est un moment de respect — pas une case à cocher. Elle nomme le territoire traditionnel où vous vous trouvez et rappelle à l'assemblée que les peuples autochtones sont toujours là.",
+      "items": {
+        "presence": {
+          "label": "Présence historique et continue",
+          "content": "Les nations autochtones ont gouverné, protégé et habité ces terres depuis des temps immémoriaux. La colonisation a brisé cette continuité, mais les communautés, les langues et les gouvernances autochtones persistent aujourd'hui."
+        },
+        "treaties": {
+          "label": "Traités et ententes",
+          "content": "De nombreuses régions du Canada sont couvertes par des traités — des ententes mutuelles qui fixent des responsabilités partagées. Une reconnaissance peut ouvrir la porte à comprendre ce que ces ententes signifient là où vous vivez et travaillez."
+        },
+        "reconciliation": {
+          "label": "La réconciliation comme pratique",
+          "content": "Les appels à l'action de la Commission de vérité et réconciliation demandent à chaque institution de faire mieux. Les mots en ouverture de réunion ne comptent que s'ils se relient à la façon dont votre section agit ensuite."
+        },
+        "beyondToken": {
+          "label": "Au-delà du symbolisme",
+          "content": "Répéter un paragraphe trouvé en ligne, sans le comprendre, peut sembler creux aux auditeurs autochtones. La réflexion personnelle et une recherche exacte sont le minimum respectueux."
+        }
+      },
+      "tip": "Si vous ne le diriez pas à un aîné ou à un gardien du savoir de votre communauté, ne le dites pas à une assemblée."
+    },
+    "principles": {
+      "navLabel": "Principes de base",
+      "title": "Principes de base",
+      "intro": "Trois engagements orientent une reconnaissance significative :",
+      "items": {
+        "reflection": {
+          "label": "Réflexion personnelle et intention",
+          "content": "Demandez-vous pourquoi vous parlez, ce que vous avez appris et ce que vous êtes prêt à faire différemment. Un langage générique sans sens personnel sonne comme une performance."
+        },
+        "territory": {
+          "label": "Apprendre sur quel territoire traditionnel vous êtes",
+          "content": "Renseignez-vous sur les nations, les traités et les langues liés au lieu où votre section se réunit, travaille et organise. Les cartes et les pages gouvernementales sont un point de départ — confirmez les détails auprès de sources autochtones."
+        },
+        "action": {
+          "label": "S'engager concrètement en parallèle",
+          "content": "Liez les mots à des gestes concrets : soutenir des campagnes menées par des Autochtones, embaucher des éducatrices et éducateurs autochtones, donner à des organisations autochtones ou modifier les politiques locales. Une reconnaissance sans suite est un geste vide."
+        }
+      }
+    },
+    "learn": {
+      "navLabel": "Se renseigner sur le territoire",
+      "title": "Apprendre sur quel territoire vous êtes",
+      "intro": "Commencez par des outils éducatifs fiables, puis approfondissez auprès des nations elles-mêmes.",
+      "items": {
+        "research": {
+          "label": "Utiliser des outils de recherche validés",
+          "content": "Les cartes interactives et les ressources sur les traités aident à identifier nations et ententes. Traitez-les comme des introductions, pas comme autorité finale."
+        },
+        "elders": {
+          "label": "Écouter les voix autochtones",
+          "content": "Cherchez les enseignements d'éducatrices et éducateurs, d'autrices et auteurs autochtones — surtout ceux du territoire que vous reconnaissez. Ne demandez pas aux membres autochtones de jouer la gratitude sur demande."
+        },
+        "accuracy": {
+          "label": "Vérifier noms et orthographes",
+          "content": "Les noms de nations, de langues et de traités ont des formes correctes. Copier des erreurs de diapositives obsolètes manque de respect envers les personnes que vous voulez honorer."
+        },
+        "context": {
+          "label": "Connaître l'histoire locale",
+          "content": "Les pensionnats, la spoliation des terres et les luttes de droits en cours donnent le contexte de toute reconnaissance. Le Centre national pour la vérité et la réconciliation est un point de départ pour cet apprentissage."
+        }
+      },
+      "resourcesTitle": "Ressources éducatives officielles",
+      "resourcesIntro": "Les sources en bas de page renvoient à Native-Land.ca, Whose Land, le Centre national pour la vérité et la réconciliation et Relations Couronne-Autochtones et Affaires du Nord Canada. Lisez-les avant de rédiger vos propres mots."
+    },
+    "action": {
+      "navLabel": "Action en parallèle des mots",
+      "title": "S'engager concrètement",
+      "intro": "Une reconnaissance doit orienter ce que votre section fera ensuite — pas remplacer ce travail.",
+      "items": {
+        "support": {
+          "label": "Soutenir les créatrices, créateurs et organisations autochtones",
+          "content": "Financez des initiatives menées par des Autochtones, achetez auprès d'entreprises autochtones le cas échéant et amplifiez les campagnes des nations autochtones — sans parler à leur place."
+        },
+        "learn": {
+          "label": "Continuer d'apprendre",
+          "content": "Traitez la réconciliation comme une éducation continue pour les dirigeants et les membres, pas comme un atelier unique. Intégrez l'histoire autochtone et la littératie sur les traités à la formation des délégués et à la culture des réunions."
+        },
+        "relationships": {
+          "label": "Bâtir des relations avec soin",
+          "content": "Si votre section collabore avec des communautés autochtones, faites-le avec humilité, consentement et engagement à long terme — pas seulement quand une photo s'impose."
+        },
+        "accountability": {
+          "label": "Rendre votre section responsable",
+          "content": "Notez ce que vous avez promis après une reconnaissance et revenez-y. Les membres doivent voir des progrès, pas la même phrase année après année sans changement."
+        }
+      },
+      "tip": "Écrivez une action concrète que votre section prendra dans les six prochains mois — et désignez une personne responsable."
+    },
+    "nextSteps": {
+      "navLabel": "Prochaines étapes",
+      "title": "Appel à l'action",
+      "intro": "Lire cette page est un début. Une reconnaissance significative se vit en communauté, dans la durée.",
+      "items": {
+        "read": {
+          "label": "Lire les sources citées",
+          "content": "Consultez Native-Land.ca ou Whose Land pour votre lieu, puis lisez le matériel du CNVR et du gouvernement sur les traités pour le contexte élargi."
+        },
+        "reflect": {
+          "label": "Réfléchir avant de parler",
+          "content": "Notez pourquoi la reconnaissance compte pour vous et ce que votre section a fait — ou omis de faire — pour la justice autochtone."
+        },
+        "followUp": {
+          "label": "Faire un suivi avec votre exécutif",
+          "content": "Proposez une séance d'apprentissage, une pratique de reconnaissance en ouverture de réunion et un plan d'action écrit — pas seulement une nouvelle phrase d'ouverture."
+        },
+        "community": {
+          "label": "Être présent en communauté",
+          "content": "Participez à des événements menés par des Autochtones, soutenez les campagnes de retour des terres et de droits lorsque vos membres sont d'accord, et écoutez plus que vous ne parlez."
+        }
+      },
+      "resourcesCta": "Parcourir les ressources Comms"
+    },
+    "notThis": {
+      "navLabel": "Ce que ce n'est pas",
+      "title": "Ce que ce guide n'est pas",
+      "intro": "UnionOps ne propose volontairement pas de texte de reconnaissance automatisé. Une pratique respectueuse ne se réduit pas à un menu déroulant.",
+      "items": {
+        "generator": {
+          "label": "Pas un générateur",
+          "content": "Il n'y a pas de champs à remplir, de sélecteur de territoire ni de bouton copier ici. Ces outils encouragent des scripts copiés puis oubliés."
+        },
+        "script": {
+          "label": "Pas un texte à réciter sans réfléchir",
+          "content": "Même une déclaration bien documentée échoue si la personne qui parle ne comprend pas chaque phrase. Écrivez avec votre voix après avoir fait la lecture."
+        },
+        "once": {
+          "label": "Pas un événement unique",
+          "content": "Reconnaître le territoire une seule fois par année n'est pas la réconciliation. Intégrez l'apprentissage et l'action continus au fonctionnement de votre section."
+        },
+        "substitute": {
+          "label": "Pas un substitut au leadership autochtone",
+          "content": "Les syndicats non autochtones doivent suivre l'orientation des dirigeants autochtones sur quand et comment reconnaître un territoire — et céder la priorité aux voix autochtones sur leurs propres enjeux."
+        }
+      },
+      "warningTitle": "Le symbolisme nuit à la confiance",
+      "warning": "Si votre section répète le même paragraphe pendant des années sans agir pour la justice autochtone, les membres et les partenaires communautaires le remarqueront. Mieux vaut dire moins et faire plus."
     }
   },
   "bylawsGuide": {

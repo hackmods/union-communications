@@ -53,6 +53,9 @@ export function Footer() {
           <Link href="/guide/resources" className={footerLinkClass}>
             {nav("resources")}
           </Link>
+          <Link href="/guide/land-acknowledgement" className={footerLinkClass}>
+            {nav("landAcknowledgementGuide")}
+          </Link>
           <Link href="/guide/steward-playbooks" className={footerLinkClass}>
             {nav("stewardPlaybooksHub")}
           </Link>
