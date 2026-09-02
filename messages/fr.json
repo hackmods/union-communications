@@ -6570,7 +6570,7 @@
       },
       "land-acknowledgement-guide": {
         "title": "Guide de reconnaissance territoriale",
-        "body": "Le guide inclut maintenant un exemple commenté de la région du Niagara — territoire, action et engagement traité — pour montrer à quoi ressemble une formulation locale réfléchie, sans générateur copier-coller."
+        "body": "Guide restructuré avec atelier à quatre personnes, feuille PDF téléchargeable, diagramme de déroulement et exemple commenté du Niagara — toujours sans générateur copier-coller."
       },
       "guide-tool-aside": {
         "title": "Guides — raccourcis outils sur ordinateur",
@@ -9905,394 +9905,365 @@
   },
   "landAcknowledgementGuide": {
     "title": "Guide de reconnaissance territoriale",
-    "subtitle": "Comment les syndicats canadiens reconnaissent les terres autochtones — et comment votre section peut le faire avec sens, sans texte copié-collé",
+    "subtitle": "Rechercher, rédiger et ouvrir les réunions syndicales avec sens — pas un texte copié-collé",
     "backToGuide": "Retour au Plan directeur",
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
-    "intro": "La reconnaissance territoriale rappelle que chaque réunion, atelier ou rassemblement syndical au Canada a lieu sur des terres où des peuples autochtones ont une longue histoire. Les grands syndicats — dont OPSEU / SEFPO, la Fédération des travailleurs et travailleuses de l'Ontario, le SCFP et le BCGEU — associent l'ouverture à l'Énoncé de respect, à une recherche territoriale précise et à une réconciliation continue. Ce guide explique cette pratique et vous aide à préparer vos propres mots. Il ne génère pas de texte à votre place.",
-    "disclaimer": {
-      "title": "Éducation, pas raccourci",
-      "body": "UnionOps ne fournit pas de texte de reconnaissance à remplir. Les syndicats nationaux publient des cadres et des exemples par site — lisez ces sources, apprenez auprès des nations autochtones et des gardiens du savoir de votre région, et rédigez des mots que vous pouvez assumer."
-    },
-    "why": {
-      "navLabel": "Pourquoi c'est important",
-      "title": "Pourquoi la reconnaissance territoriale compte",
-      "intro": "Une reconnaissance territoriale est un moment de respect — pas une case à cocher. Elle nomme le territoire traditionnel où vous vous trouvez et rappelle à l'assemblée que les peuples autochtones sont toujours là.",
+    "intro": "La reconnaissance territoriale rappelle que les réunions syndicales ont lieu sur des terres au long passé autochtone. Ce guide accompagne votre section de la recherche à une première ébauche — sources fédérales, atelier à quatre personnes et exemple commenté. UnionOps ne génère pas de texte pour vous.",
+    "groundRules": {
+      "navLabel": "Règles de base",
+      "title": "Règles de base",
+      "intro": "Lisez ceci une fois avant de rédiger. Les syndicats nationaux publient des cadres ; votre travail est de vous renseigner, réfléchir et écrire des mots que vous pouvez expliquer.",
       "items": {
+        "noGenerator": {
+          "label": "Pas d'outil à cases ici",
+          "content": "Les sélecteurs de territoire et boutons copier encouragent le copier-coller sans réflexion. Utilisez Native-Land.ca, Whose Land et le PDF de votre fédération, puis écrivez avec vos propres mots."
+        },
+        "noScript": {
+          "label": "Pas un texte à réciter sans comprendre",
+          "content": "Même le cadre publié par OPSEU / SEFPO échoue si la personne qui lit ne comprend pas chaque phrase. Le sens prime sur la mémorisation."
+        },
+        "deferLeadership": {
+          "label": "Suivre le leadership autochtone",
+          "content": "Contactez le Cercle autochtone ou le Conseil autochtone national de votre syndicat avant de supposer ce que votre section doit dire ou faire."
+        },
+        "wholeLocal": {
+          "label": "Responsabilité de toute la section",
+          "content": "Ne demandez pas au seul délégué autochtone de rédiger la reconnaissance de tout le monde ou d'éduquer la salle sur demande. Ce travail incombe à tout l'exécutif — surtout les dirigeants non autochtones."
+        }
+      }
+    },
+    "whyPrinciples": {
+      "navLabel": "Pourquoi et principes",
+      "title": "Pourquoi c'est important et ce qui guide une bonne pratique",
+      "intro": "La reconnaissance nomme le territoire où vous êtes et lie les mots à une responsabilité continue — pas une case avant le lunch.",
+      "whyHeading": "Pourquoi les syndicats le font",
+      "why": {
         "presence": {
-          "label": "Présence historique et continue",
-          "content": "Les nations autochtones ont gouverné, protégé et habité ces terres depuis des temps immémoriaux. La colonisation a brisé cette continuité, mais les communautés, les langues et les gouvernances autochtones persistent aujourd'hui."
+          "label": "Présence historique et actuelle",
+          "content": "Les nations autochtones gouvernent et prennent soin de ces terres depuis des temps immémoriaux. Les communautés, langues et gouvernances persistent aujourd'hui."
         },
         "treaties": {
           "label": "Traités et ententes",
-          "content": "L'Ontario seul est couvert par des dizaines de traités et d'achats de terres par la Couronne entre 1781 et 1930. D'autres provinces ont leurs propres histoires traitées. Une reconnaissance ouvre la porte à comprendre ce que ces ententes signifient là où vous vivez et travaillez."
+          "content": "L'Ontario seule compte des dizaines de traités et achats de la Couronne. La reconnaissance ouvre la porte à apprendre ce que ces ententes signifient là où vous vous réunissez."
         },
         "reconciliation": {
-          "label": "La réconciliation comme pratique",
-          "content": "Après le rapport de la Commission de vérité et réconciliation, de nombreuses institutions coloniales — y compris les syndicats — ont commencé leurs réunions par une reconnaissance territoriale. Les mots ne comptent que s'ils se relient à la façon dont votre section agit ensuite."
-        },
-        "beyondToken": {
-          "label": "Au-delà du symbolisme",
-          "content": "Le guide des animateurs OPSEU / SEFPO avertit que reconnaître une injustice sans engagement réel à réparer ressemble à des excuses vides que les peuples autochtones ont trop souvent entendues. La réflexion personnelle et une recherche exacte sont le minimum respectueux."
+          "label": "Réconciliation comme pratique",
+          "content": "Après le rapport de la Commission de vérité et réconciliation, plusieurs syndicats ouvrent leurs réunions ainsi. Les mots comptent seulement s'ils se lient à la façon dont votre section agit ensuite."
         },
         "labour": {
-          "label": "Le rôle de la maison du travail",
-          "content": "Les syndicats bénéficient de structures coloniales tandis que les travailleurs autochtones subissent une discrimination continue en embauche, en santé et dans les services publics. Reconnaître un territoire est un pas vers la réparation — avec la négociation, la solidarité et l'organisation menée par des Autochtones."
+          "label": "Rôle de la maison syndicale",
+          "content": "Les syndicats bénéficient de structures coloniales tandis que les travailleurs autochtones subissent une discrimination continue. Reconnaître le territoire est un pas vers la réparation — avec la négociation et l'organisation dirigée par des Autochtones."
         }
       },
-      "tip": "Si vous ne le diriez pas à un aîné ou à un gardien du savoir de votre communauté, ne le dites pas à une assemblée."
-    },
-    "principles": {
-      "navLabel": "Principes de base",
-      "title": "Principes de base",
-      "intro": "Quatre engagements orientent une reconnaissance significative :",
-      "items": {
+      "principlesHeading": "Quatre engagements",
+      "principles": {
         "reflection": {
-          "label": "Réflexion personnelle et intention",
-          "content": "Demandez-vous pourquoi vous parlez, ce que vous avez appris et ce que vous êtes prêt à faire différemment. Un langage générique sans sens personnel sonne comme une performance."
+          "label": "Réfléchir avec intention",
+          "content": "Demandez-vous pourquoi vous parlez et ce que vous ferez différemment. Un langage générique sans sens personnel sonne comme du spectacle."
         },
         "territory": {
-          "label": "Apprendre sur quel territoire traditionnel vous êtes",
-          "content": "Renseignez-vous sur les nations, les traités et les langues liés au lieu où votre section se réunit, travaille et organise. Les cartes et les guides fédéraux sont un point de départ — confirmez les détails auprès de sources autochtones."
+          "label": "Apprendre sur quel territoire vous êtes",
+          "content": "Renseignez-vous sur les nations, traités et langues du lieu où votre section se réunit. Cartes et guides fédéraux sont des points de départ — confirmez auprès de sources autochtones."
         },
         "action": {
-          "label": "S'engager concrètement en parallèle",
-          "content": "Liez les mots à des gestes concrets : soutenir des campagnes menées par des Autochtones, négocier du langage de réconciliation, donner à des organisations autochtones ou modifier les politiques locales. Une reconnaissance sans suite est un geste vide."
+          "label": "Lier les mots à l'action",
+          "content": "Soutenez des campagnes dirigées par des Autochtones, négociez du langage de réconciliation ou changez une politique locale. Sans suite, c'est un geste vide."
         },
         "relationship": {
-          "label": "Bâtir des relations, pas seulement des phrases",
-          "content": "La FTO encourage les affiliés à joindre les Premières Nations, les Métis et les Inuits locaux et les centres d'amitié — demandez ce dont ils ont besoin plutôt que de supposer. La reconnaissance est le début de cette relation."
-        }
-      }
-    },
-    "whenWhere": {
-      "navLabel": "Quand et où",
-      "title": "Quand et où les syndicats reconnaissent le territoire",
-      "intro": "La pratique varie selon le syndicat, mais plusieurs tendances se dégagent dans le mouvement ouvrier canadien :",
-      "items": {
-        "meetings": {
-          "label": "Réunions locales et exécutives",
-          "content": "Les délégués du BCGEU ont demandé à chaque section et composante d'ouvrir les réunions formelles par une reconnaissance territoriale. De nombreuses sections OPSEU / SEFPO en lisent une au début des assemblées générales et des réunions exécutives."
-        },
-        "events": {
-          "label": "Congrès, formations et rassemblements",
-          "content": "Les événements syndicaux nationaux et provinciaux reconnaissent généralement le territoire à la séance plénière d'ouverture. Les guides d'événements OPSEU / SEFPO l'exigent au début de toute activité officielle, avec l'Énoncé de respect."
-        },
-        "comms": {
-          "label": "Bulletins, sites Web et publications",
-          "content": "Certaines sections ajoutent une brève reconnaissance aux documents imprimés ou aux pages d'événement. Restez exact par rapport au lieu physique de l'activité — pas l'emplacement des serveurs Web."
-        },
-        "virtual": {
-          "label": "Réunions en ligne et hybrides",
-          "content": "Les réunions virtuelles méritent aussi une reconnaissance. OPSEU / SEFPO et d'autres syndicats utilisent une formulation en ligne distincte qui reconnaît que les participantes et participants peuvent être sur différents territoires tout en nommant la terre d'accueil de l'animatrice ou de l'animateur."
-        },
-        "everyone": {
-          "label": "Même sans membres autochtones",
-          "content": "Les guides de réconciliation du SCFP recommandent d'avancer même quand aucun membre ne s'est identifié comme autochtone. Bâtir des relations avec les travailleurs et les communautés autochtones renforce tout le syndicat."
-        }
-      }
-    },
-    "unionPractice": {
-      "navLabel": "Pratique syndicale",
-      "title": "Comment les grands syndicats abordent la reconnaissance",
-      "intro": "Chaque corps national ou provincial publie ses propres directives. Utilisez les documents de votre fédération comme base — puis personnalisez pour votre campus, hôpital ou lieu de travail.",
-      "items": {
-        "opseu": {
-          "label": "OPSEU / SEFPO",
-          "content": "Les guides officiels pour animateurs exigent une reconnaissance territoriale et un Énoncé de respect au début de toute activité OPSEU / SEFPO. La reconnaissance est le premier point à l'ordre du jour — avant l'Énoncé de respect et avant Ô Canada. Les animateurs utilisent un cadre national plus des lignes territoriales par région ontarienne (London, Ottawa, siège social de Toronto, Sudbury, Thunder Bay, etc.). Si votre ville n'y figure pas, consultez le guide ontarien de la FTO ou Native-Land.ca. Une lecture bilingue en anglais et en français est recommandée. Le Cercle autochtone dirige le travail de réconciliation — communiquez avec lui par l'entremise de l'Unité équité avant de supposer ce que votre section devrait dire."
-        },
-        "ofl": {
-          "label": "Fédération des travailleurs et travailleuses de l'Ontario (FTO)",
-          "content": "Le PDF Reconnaissances des territoires traditionnels en Ontario de la FTO fournit un cadre type et des lignes par ville, revus par le Cercle autochtone de la FTO. Il insiste que la reconnaissance n'est qu'un début : lire le rapport de la CVR, joindre les centres d'amitié, négocier l'équité en emploi et parrainer la défense autochtone. Les syndicats affiliés — y compris les sections OPSEU / SEFPO — s'en servent pour le langage propre à l'Ontario."
-        },
-        "cupe": {
-          "label": "SCFP",
-          "content": "Marcher le talk explique que les reconnaissances ouvrent la plupart des réunions du SCFP et peuvent inclure l'histoire, les effets coloniaux continus et les noms traditionnels exacts des nations. Les sections peuvent inviter un aîné ou un chef du territoire — avec les protocoles de la nation — ou demander conseil au Conseil autochtone national du SCFP. Le guide distinct de négociation Vérité et réconciliation propose du langage conventionnel sur les reconnaissances, la souveraineté autochtone, la non-discrimination, les congés et l'inclusion d'aînés aux réunions de grief."
-        },
-        "bcgeu": {
-          "label": "BCGEU",
-          "content": "Après une résolution du congrès constitutionnel de 2017, le BCGEU a publié un guide sur la reconnaissance, les protocoles et la terminologie des Premières Nations : déclarations territoriales, reconnaissances à plusieurs niveaux (territoire d'abord, puis luttes pour la justice), invitations d'aînés et terminologie. Les sections hors C.-B. peuvent s'en inspirer pour la structure et le respect."
-        },
-        "others": {
-          "label": "Autres syndicats et fédérations",
-          "content": "Unifor, l'AFPC, les Métallos et les fédérations provinciales intègrent de plus en plus la reconnaissance territoriale et la réconciliation aux congrès et à la formation. Consultez la page équité ou droits de la personne de votre syndicat national, son conseil autochtone ou les documents de l'école des délégués — et le catalogue de formation du Congrès du travail du Canada."
+          "label": "Bâtir des relations",
+          "content": "Joignez les centres d'amitié et bureaux de bande — demandez ce dont ils ont besoin. La reconnaissance est le début de cette relation."
         }
       },
-      "tip": "Le texte national est un cadre de départ. OPSEU / SEFPO demande explicitement aux animateurs de l'adapter avec un message sincère et exact pour le site — pas de lire les diapositives mot pour mot."
+      "tip": "Si vous ne le diriez pas à une Aînée ou un détenteur de savoir dans votre communauté, ne le dites pas à une salle."
     },
-    "agenda": {
-      "navLabel": "Ordre du jour",
-      "title": "Où placer la reconnaissance à l'ordre du jour",
-      "intro": "L'ordre envoie un signal de priorité. Plusieurs syndicats ontariens traitent la reconnaissance comme la première affaire de la réunion :",
-      "items": {
-        "order": {
-          "label": "Premier point",
-          "content": "Les guides d'événements OPSEU / SEFPO placent la reconnaissance territoriale en premier — avant l'Énoncé de respect, avant l'hymne national et avant toute autre affaire. Traitez-la comme cérémonie d'ouverture, pas comme une note avant le lunch."
+    "writeTogether": {
+      "navLabel": "Rédiger ensemble",
+      "title": "Rédiger ensemble — atelier à quatre personnes",
+      "intro": "Plusieurs sections rédigent leur première reconnaissance en mini-session exécutive d'une heure. Répartissez quatre rôles, suivez le déroulement ci-dessous et imprimez la feuille de travail.",
+      "flowHeading": "Le déroulement (~60 min)",
+      "flow": {
+        "assign": {
+          "title": "Étape 1 · Rôles",
+          "subtitle": "Quatre rôles · ~5 min"
         },
-        "respect": {
-          "label": "Associer à l'Énoncé de respect",
-          "content": "OPSEU / SEFPO lit l'Énoncé de respect juste après la reconnaissance. Il engage la salle contre le harcèlement et pour l'inclusion de tous les membres, y compris les peuples des Premières Nations, Métis et Inuits. Les coordonnateurs d'événement doivent inscrire au moins deux personnes-ressources qualifiées, dont une femme."
-        },
-        "bilingual": {
-          "label": "Anglais et français",
-          "content": "OPSEU / SEFPO recommande de lire la reconnaissance dans les deux langues officielles lorsque l'audience inclut des membres francophones — surtout aux événements provinciaux ou nationaux."
-        },
-        "plenary": {
-          "label": "Ateliers après la plénière",
-          "content": "Si la reconnaissance et l'Énoncé de respect ont été lus à la plénière d'ouverture, les animateurs d'atelier doivent rappeler que l'engagement de respect vaut pour tout l'événement."
-        },
-        "facilitator": {
-          "label": "Président ou personne désignée",
-          "content": "Le président de séance, l'animateur ou un membre qui a fait la recherche prononce habituellement la reconnaissance. Faites tourner qui parle pour que ce ne soit pas toujours le même dirigeant qui récite de mémoire."
-        }
-      },
-      "warningTitle": "Pas une case à cocher",
-      "warning": "Les notes pour animateurs OPSEU / SEFPO mettent en garde contre une reconnaissance bâclée. Pause. Assumez vos mots. Reliez-les à ce que la réunion va décider."
-    },
-    "formats": {
-      "navLabel": "En personne et en ligne",
-      "title": "Formats en personne, en ligne et hybrides",
-      "intro": "Le territoire que vous nommez dépend de l'endroit où les personnes sont physiquement — ou d'où chaque participante et participant travaille et vit.",
-      "items": {
-        "inPerson": {
-          "label": "Réunions en personne",
-          "content": "Nommez les nations et traités précis de la salle où vous êtes. Les guides FTO et OPSEU / SEFPO incluent des lignes comme le territoire traditionnel des Anishinaabeg et Haudenosaunee visé par les traités du Haut-Canada — seulement si cela correspond à votre lieu."
-        },
-        "online": {
-          "label": "Réunions en ligne",
-          "content": "OPSEU / SEFPO fournit une orientation distincte en ligne : reconnaître que les participantes et participants viennent de nombreuses terres, nommer l'importance du territoire d'accueil de chacun et inviter à la réflexion sur la réconciliation. Certaines sections reconnaissent tous les peuples autochtones de l'Île de la Tortue quand la salle est entièrement virtuelle."
-        },
-        "hybrid": {
-          "label": "Événements hybrides",
-          "content": "Reconnaissez d'abord le lieu physique de l'hôte, puis que les participantes et participants à distance peuvent être sur d'autres territoires. N'imitez pas un seul lieu quand ce n'est pas le cas."
-        },
-        "personalize": {
-          "label": "Adapter, ne pas photocopier",
-          "content": "Tous les grands guides syndicaux disent la même chose : utilisez le cadre fédéral comme base, puis ajoutez les noms exacts de nations et de traités et une phrase personnelle sincère sur pourquoi la reconnaissance compte pour votre section."
-        }
-      }
-    },
-    "learn": {
-      "navLabel": "Se renseigner sur le territoire",
-      "title": "Apprendre sur quel territoire vous êtes",
-      "intro": "Commencez par des outils fiables et les guides fédéraux, puis approfondissez auprès des nations elles-mêmes.",
-      "items": {
         "research": {
-          "label": "Utiliser des outils de recherche validés",
-          "content": "Native-Land.ca, Whose Land, le PDF ontarien de la FTO et les pages traitées de Relations Couronne-Autochtones aident à identifier nations et ententes. Traitez-les comme des introductions, pas comme autorité finale."
+          "title": "Étape 2 · Recherche",
+          "subtitle": "Cartes + PDF fédéral · ~20 min"
         },
-        "elders": {
-          "label": "Écouter les voix autochtones",
-          "content": "Cherchez les enseignements d'éducatrices et éducateurs, d'autrices et auteurs autochtones — surtout ceux du territoire que vous reconnaissez. Ne demandez pas aux membres autochtones de jouer la gratitude sur demande."
+        "draft": {
+          "title": "Étape 3 · Rédaction",
+          "subtitle": "Réflexion + formulation · ~25 min"
+        },
+        "review": {
+          "title": "Étape 4 · Révision",
+          "subtitle": "Liste + responsable · ~10 min"
+        }
+      },
+      "rolesHeading": "Quatre rôles",
+      "roles": {
+        "research": {
+          "label": "Responsable recherche",
+          "task": "Native-Land.ca, Whose Land, PDF territorial FTO ou syndicat national — apporte noms de nations et traités."
+        },
+        "history": {
+          "label": "Responsable histoire",
+          "task": "Contexte local, orthographes, thèmes du CNVR et questions pour centres d'amitié ou bureaux de bande."
+        },
+        "draft": {
+          "label": "Responsable rédaction",
+          "task": "Combine la recherche en mots que le groupe peut assumer — pas copiés d'une autre ville."
+        },
+        "action": {
+          "label": "Responsable action",
+          "task": "Une suite concrète pour l'exécutif, une date de revue et qui lit à la prochaine réunion."
+        }
+      },
+      "worksheetHint": "Téléchargez le PDF — rôles, notes de recherche, espace de rédaction et liste de révision. Formation seulement ; pas un texte à coller tel quel."
+    },
+    "worksheet": {
+      "cta": "Télécharger l'atelier (PDF)",
+      "downloading": "Préparation du PDF…"
+    },
+    "prepareWords": {
+      "navLabel": "Préparer vos mots",
+      "title": "Préparer vos mots",
+      "intro": "Renseignez-vous avant de rédiger. Parcourez la terminologie, puis l'exemple commenté pour voir comment territoire, action et engagement traité s'assemblent.",
+      "researchHeading": "Rechercher le territoire",
+      "research": {
+        "research": {
+          "label": "Commencer par des outils validés",
+          "content": "Native-Land.ca, Whose Land, le PDF ontarien de la FTO et les pages traités de Relations Couronne-Autochtones. Introductions seulement — pas autorité finale."
         },
         "accuracy": {
           "label": "Vérifier noms et orthographes",
-          "content": "Les noms de nations (Haudenosaunee, Anishinaabeg, Mississaugas of the Credit, Atikameksheng Anishnaabeg), de langues et de traités ont des formes correctes. Copier des erreurs de diapositives obsolètes manque de respect."
+          "content": "Noms de nations, langues et traités ont des formes correctes. Copier des erreurs manque de respect."
         },
         "context": {
           "label": "Connaître l'histoire locale",
-          "content": "Les pensionnats, la spoliation des terres, l'exploitation minière sans consentement, les femmes et filles autochtones disparues ou assassinées et les avis d'ébullition d'eau donnent le contexte de toute reconnaissance. Le CNVR est un point de départ."
+          "content": "Pensionnats, spoliation des terres et femmes et filles autochtones disparues ou assassinées donnent le contexte. Le CNVR est un point de départ."
         },
         "friendship": {
           "label": "Centres d'amitié et bureaux de bande",
-          "content": "La FTO recommande de joindre les centres d'amitié autochtones locaux et les bureaux de bande ou conseils tribaux. Ils peuvent confirmer les noms de territoire et suggérer des partenariats — demandez ce dont ils ont besoin."
+          "content": "Ils peuvent confirmer les noms de territoire et suggérer des partenariats — demandez ce dont ils ont besoin."
         }
       },
-      "resourcesTitle": "Ressources éducatives officielles",
-      "resourcesIntro": "Les sources en bas de page incluent cartes territoriales, le CNVR, les hubs traités du gouvernement et les guides fédéraux (FTO, OPSEU / SEFPO, SCFP, BCGEU). Lisez-les avant de rédiger vos propres mots."
-    },
-    "workedExample": {
-      "navLabel": "Exemple commenté",
-      "title": "Exemple commenté : ce qu'une reconnaissance locale peut inclure",
-      "intro": "À titre d'illustration seulement — région du Niagara, Ontario. Formulation d'une section de personnel de collège (avril 2026), annotée pour montrer le rôle de chaque partie. Ne la copiez pas pour Thunder Bay, Vancouver ou tout autre territoire. Renseignez-vous avec Native-Land.ca, Whose Land et le guide de votre fédération, puis écrivez avec vos propres mots.",
-      "badge": "Exemple seulement — pas un texte à copier",
-      "blocks": {
+      "termsHeading": "Termes à connaître",
+      "terms": {
+        "nations": {
+          "label": "Haudenosaunee et Anishinaabeg",
+          "content": "Haudenosaunee désigne la confédération des Six Nations. Anishinaabeg couvre Ojibwés, Odawas, Algonquins, Potawatomis, Mississaugas et nations apparentées."
+        },
+        "treaties": {
+          "label": "Noms de traités",
+          "content": "Traités du Haut-Canada, Robinson-Huron, traité 3, traité 9 et tract Haldimand figurent dans les listes fédérales. Nommez le traité de votre lieu de réunion."
+        },
+        "turtleIsland": {
+          "label": "Île-Tortue",
+          "content": "Nom utilisé par plusieurs peuples autochtones pour l'Amérique du Nord. Les réunions virtuelles peuvent reconnaître des territoires différents."
+        },
+        "dish": {
+          "label": "Plat avec une cuillère",
+          "content": "Alliance entre Haudenosaunee et nations alliées ojibwées pour partager et protéger le territoire. Seulement si historiquement exact pour votre site."
+        },
+        "capitalize": {
+          "label": "Majuscules aux noms de nations",
+          "content": "Les guides SCFP, BCGEU et OPSEU / SEFPO insistent sur les majuscules pour Premières Nations, Métis et Inuit."
+        }
+      },
+      "exampleHeading": "Exemple commenté (région du Niagara)",
+      "exampleIntro": "À titre d'illustration — formulation d'une section de personnel de collège (avril 2026). Ne pas copier pour d'autres territoires.",
+      "exampleBadge": "Exemple seulement — pas un texte à copier",
+      "exampleBlocks": {
         "territory": {
           "label": "Territoire et traités",
           "text": "J'aimerais reconnaître que nous sommes réunis sur le territoire traditionnel des peuples haudenosaunee et anichinabés — un territoire régi par le wampum du Plat avec une cuillère et le traité fondateur de Niagara de 1764.",
-          "annotation": "Nomme les nations et ententes précises du lieu de la réunion. Une formule générique « terres autochtones » évite les traités que vos membres pourraient apprendre."
+          "annotation": "Nomme des nations et ententes précises — pas une formule générique « terres autochtones »."
         },
         "action": {
           "label": "Lieu de rencontre et prochaine étape",
           "text": "Nous reconnaissons que cette partie de l'Île-Tortue est un lieu de rencontre depuis des millénaires. Comme engagement envers la décolonisation, j'invite chacune et chacun à visiter le Landscape of Nations à Queenston Heights ou le First Nations Peace Monument à Thorold.",
-          "annotation": "Lie les mots à une action après la réunion — monuments locaux, centres d'amitié ou activités dirigées par des Autochtones — au lieu de s'arrêter à une seule phrase."
+          "annotation": "Lie les mots à une action après la réunion — monuments locaux ou activités dirigées par des Autochtones."
         },
         "covenant": {
           "label": "Alliance, histoire et engagement",
           "text": "Ces lieux commémoratifs honorent le passé et rappellent que l'existence de cette région s'est construite grâce à l'alliance et au sacrifice de dirigeants autochtones comme Tecumseh et des guerriers des Six Nations et des Sept Nations du Canada. En reconnaissant cette histoire, nous nous engageons à avancer dans l'esprit de la Chaîne de l'Alliance — paix, amitié et responsabilité partagée pour le territoire que nous partageons.",
-          "annotation": "Relie la réunion présente aux relations traitées et à la responsabilité continue. Le BCGEU parle de reconnaissance « à niveaux » — territoire d'abord, puis justice et histoire — pas une case à cocher."
+          "annotation": "Relie la réunion aux relations traitées. Le BCGEU parle de reconnaissance « à niveaux » — territoire d'abord, puis justice et histoire."
+        }
+      }
+    },
+    "atMeeting": {
+      "navLabel": "À la réunion",
+      "title": "À la réunion",
+      "intro": "Quand, où et dans quel ordre — pratiques d'OPSEU / SEFPO, de la FTO, du SCFP et d'autres fédérations.",
+      "whenHeading": "Quand et où",
+      "when": {
+        "meetings": {
+          "label": "Assemblées locales et exécutif",
+          "content": "Plusieurs sections lisent une reconnaissance au début des assemblées générales et des réunions d'exécutif."
+        },
+        "events": {
+          "label": "Congrès et formations",
+          "content": "Les événements provinciaux et nationaux reconnaissent le territoire à la plénière d'ouverture — souvent avec une déclaration de respect."
+        },
+        "virtual": {
+          "label": "En ligne et hybride",
+          "content": "Nommez d'abord le territoire hôte, puis les participants à distance. OPSEU / SEFPO publie une formulation distincte en ligne."
+        },
+        "comms": {
+          "label": "Imprimé et numérique",
+          "content": "Certaines sections ajoutent une brève reconnaissance aux pages d'événement — exacte pour le lieu physique de l'activité."
         }
       },
-      "warningTitle": "La recherche prime sur le recyclage",
-      "warning": "Même un texte local réfléchi échoue s'il est lu tel quel sur le mauvais territoire ou sans suite concrète. Partez du cadre fédéral, confirmez auprès de sources autochtones et planifiez une action que l'exécutif peut suivre.",
-      "tip": "Comparez cette structure au PDF territorial ontarien de la FTO et au guide d'événement de votre syndicat national — puis rédigez quelque chose d'exact pour votre site que vous pouvez expliquer sans notes."
-    },
-    "terminology": {
-      "navLabel": "Termes à connaître",
-      "title": "Terminologie et dénomination",
-      "intro": "Un langage exact et respectueux compte. Ces termes reviennent souvent dans les guides ontariens :",
-      "items": {
-        "nations": {
-          "label": "Haudenosaunee et Anishinaabeg",
-          "content": "Haudenosaunee désigne la confédération des Six Nations (Mohawk, Oneida, Onondaga, Cayuga, Seneca, Tuscarora). Anishinaabeg couvre Ojibway, Odawa, Algonquin, Potawatomi, Mississaugas et nations apparentées. Utilisez la nation précise quand vous la connaissez."
+      "orderHeading": "Ordre à l'ordre du jour",
+      "order": {
+        "order": {
+          "label": "Premier point",
+          "content": "OPSEU / SEFPO place la reconnaissance territoriale avant la déclaration de respect, l'hymne national et tout autre point."
         },
-        "treaties": {
-          "label": "Noms de traités",
-          "content": "Traités du Haut-Canada, Robinson-Huron, Robinson-Supérieur, Traité no 3, Traité no 9, Traité no 20 et territoire Haldimand apparaissent dans les listes fédérales. Nommez le traité qui couvre réellement votre lieu de réunion."
+        "respect": {
+          "label": "Déclaration de respect",
+          "content": "Lue immédiatement après la reconnaissance. Les coordonnateurs doivent lister au moins deux personnes-ressources qualifiées, dont une femme."
         },
-        "turtleIsland": {
-          "label": "Île de la Tortue",
-          "content": "Nom utilisé par de nombreux peuples autochtones pour l'Amérique du Nord. Les reconnaissances en ligne OPSEU / SEFPO mentionnent les peuples autochtones de toute l'Île de la Tortue quand les participantes et participants se joignent virtuellement."
+        "bilingual": {
+          "label": "Anglais et français",
+          "content": "Lire dans les deux langues officielles quand des membres francophones sont présents — surtout aux événements provinciaux."
         },
-        "dish": {
-          "label": "Bol à une seule cuillère",
-          "content": "Toronto et environs mentionnent souvent cette entente entre la Confédération Haudenosaunee et la Confédération des Ojibwés et nations alliées — partager, travailler et protéger la terre ensemble. Utilisez seulement quand c'est historiquement exact pour votre site."
+        "facilitator": {
+          "label": "Qui parle",
+          "content": "Le président ou une personne qui a fait la recherche lit habituellement. Alternez pour que ce ne soit pas toujours le même dirigeant."
+        }
+      },
+      "formatHeading": "En personne, en ligne, hybride",
+      "formats": {
+        "inPerson": {
+          "label": "En personne",
+          "content": "Nommez nations et traités de la salle — seulement si cela correspond à votre lieu."
         },
-        "capitalize": {
-          "label": "Majuscules aux noms de nations",
-          "content": "Les guides SCFP, BCGEU et OPSEU / SEFPO insistent sur les majuscules pour les noms des Premières Nations, Métis et Inuits — comme pour la France ou l'Ontario."
+        "online": {
+          "label": "En ligne",
+          "content": "Reconnaissez que les participantes et participants joignent depuis plusieurs territoires ; invitez à réfléchir au territoire de chacun."
+        },
+        "hybrid": {
+          "label": "Hybride",
+          "content": "Reconnaissez le lieu physique d'abord, puis les territoires à distance. Ne prétendez pas que tout le monde est au même endroit."
         }
       }
     },
-    "elders": {
-      "navLabel": "Aînés et cérémonies",
-      "title": "Aînés, chefs et cérémonies d'ouverture",
-      "intro": "Certains congrès syndicaux invitent un aîné ou un gardien du savoir pour une prière, une smudge ou un accueil. C'est différent d'une reconnaissance lue par un membre — et cela comporte des protocoles distincts.",
+    "unionPractice": {
+      "navLabel": "Guides fédéraux",
+      "title": "Comment les grandes centrales s'y prennent",
+      "intro": "Utilisez les documents de votre fédération comme plancher — puis personnalisez pour votre campus, hôpital ou plancher.",
       "items": {
+        "opseu": {
+          "label": "OPSEU / SEFPO",
+          "content": "Les guides d'animation exigent reconnaissance et déclaration de respect à chaque activité. Cadre national plus lignes ontariennes ; le Cercle autochtone mène le travail de réconciliation via l'Unité équité."
+        },
+        "ofl": {
+          "label": "FTO",
+          "content": "PDF Reconnaissances territoriales en Ontario — cadre type et lignes par ville revus par le Cercle autochtone de la FTO, plus lignes directrices pour les Aînés."
+        },
+        "cupe": {
+          "label": "SCFP",
+          "content": "Marcher la parole pour les sections ; Guide de négociation Vérité et réconciliation pour langage contractuel sur souveraineté, congés et inclusion d'Aînés."
+        },
+        "bcgeu": {
+          "label": "BCGEU",
+          "content": "Guide Reconnaissance, protocole et terminologie — reconnaissances à niveaux et protocoles pour Aînés. Lecture comparative utile hors C.-B."
+        },
+        "others": {
+          "label": "Autres fédérations",
+          "content": "Unifor, PSAC, Métallos et fédérations provinciales intègrent de plus en plus la reconnaissance aux congrès. Consultez la page équité nationale et le catalogue formation du CTC."
+        }
+      }
+    },
+    "goFurther": {
+      "navLabel": "Aller plus loin",
+      "title": "Aller plus loin",
+      "intro": "Approfondissement optionnel — Aînés et cérémonies, action continue et langage de négociation.",
+      "eldersHeading": "Aînés et cérémonies",
+      "elders": {
         "when": {
-          "label": "Quand inviter un aîné",
-          "content": "Les guides SCFP et FTO décrivent l'ouverture par un aîné lors de grands événements, quand c'est approprié. Ce n'est pas requis pour chaque réunion locale — une reconnaissance réfléchie par un membre peut suffire. Adaptez la formalité à l'événement."
+          "label": "Quand inviter une Aînée",
+          "content": "Les grands congrès peuvent inviter une Aînée pour une cérémonie d'ouverture. Une reconnaissance réfléchie par un membre peut suffire pour une réunion locale courante."
         },
         "invite": {
-          "label": "Comment formuler l'invitation",
-          "content": "Communiquez d'abord avec le Cercle autochtone de votre syndicat ou la représentante régionale en droits de la personne. Les lignes directrices FTO sur les aînés couvrent l'invitation, l'orthographe des noms, la formule d'adresse et le tabac ou cadeau — les protocoles varient selon la nation."
+          "label": "Comment inviter",
+          "content": "Contactez d'abord le Cercle autochtone de votre syndicat. Les lignes directrices FTO couvrent invitation, cadeaux et honoraires — protocoles variables selon la nation."
         },
         "protocol": {
-          "label": "Suivre le protocole de la nation",
-          "content": "Certaines nations accueillent la participation d'aînés à des événements coloniaux ; d'autres voient les invitations non sollicitées comme une imposition. Ne supposez jamais. Demandez à l'aîné ou à votre contact du conseil autochtone ce qui convient."
-        },
-        "honorarium": {
-          "label": "Honoraires et cadeaux",
-          "content": "Les lignes directrices FTO recommandent d'offrir tabac ou cadeau lors de la demande, plus un honoraire et un cadeau pratique ensuite. Ayez le paiement prêt à l'événement — ne l'envoyez pas des semaines plus tard."
+          "label": "Protocole propre à la nation",
+          "content": "Ne supposez jamais. Demandez à l'Aînée ou au contact du conseil autochtone ce qui convient."
         },
         "notDefault": {
-          "label": "Ne pas déléguer aux membres autochtones",
-          "content": "OPSEU / SEFPO et le SCFP mettent en garde contre l'idée qu'un membre autochtone écrira ou prononcera la reconnaissance pour tous. Ce travail ne doit pas retomber sur les rares Autochtones présents sauf s'ils choisissent de mener."
+          "label": "Ne pas défaut aux membres autochtones",
+          "content": "OPSEU / SEFPO et le SCFP mettent en garde contre l'idée qu'un membre autochtone rédigera ou lira la reconnaissance par défaut."
         }
-      }
-    },
-    "action": {
-      "navLabel": "Action en parallèle des mots",
-      "title": "S'engager concrètement",
-      "intro": "Une reconnaissance doit orienter ce que votre section fera ensuite — pas remplacer ce travail.",
-      "items": {
+      },
+      "actionHeading": "Action avec les mots",
+      "action": {
         "support": {
-          "label": "Soutenir les créatrices, créateurs et organisations autochtones",
-          "content": "Financez des initiatives menées par des Autochtones, achetez auprès d'entreprises autochtones le cas échéant et amplifiez les campagnes des nations autochtones — sans parler à leur place."
+          "label": "Soutenir le travail dirigé par des Autochtones",
+          "content": "Financez des initiatives dirigées par des Autochtones et amplifiez leurs campagnes — ne parlez pas à leur place."
         },
         "learn": {
           "label": "Continuer d'apprendre",
-          "content": "Traitez la réconciliation comme une éducation continue pour les dirigeants et les membres, pas comme un atelier unique. Intégrez l'histoire autochtone et la littératie sur les traités à la formation des délégués et à la culture des réunions."
-        },
-        "relationships": {
-          "label": "Bâtir des relations avec soin",
-          "content": "Si votre section collabore avec des communautés autochtones, faites-le avec humilité, consentement et engagement à long terme — pas seulement quand une photo s'impose."
+          "content": "Intégrez la littératie traitée à la formation des délégués — pas un atelier unique."
         },
         "accountability": {
-          "label": "Rendre votre section responsable",
-          "content": "Notez ce que vous avez promis après une reconnaissance et revenez-y. Les membres doivent voir des progrès, pas la même phrase année après année sans changement."
+          "label": "Responsabiliser la section",
+          "content": "Notez ce que vous avez promis et revenez-y. Les membres doivent voir des progrès, pas la même phrase sans changement."
         },
         "trc": {
-          "label": "Répondre aux appels à l'action de la CVR",
-          "content": "Lisez les 94 appels à l'action de la Commission de vérité et réconciliation et identifiez ceux que votre section, l'employeur ou le gouvernement provincial peut faire avancer — du financement de l'éducation à la justice pour les femmes et filles autochtones disparues ou assassinées."
+          "label": "94 appels à l'action du CNVR",
+          "content": "Identifiez lesquels votre section, employeur ou gouvernement peut faire avancer."
         }
       },
-      "tip": "Écrivez une action concrète que votre section prendra dans les six prochains mois — et désignez une personne responsable."
-    },
-    "bargaining": {
-      "navLabel": "À la table de négociation",
-      "title": "Reconnaissance territoriale et réconciliation dans la convention collective",
-      "intro": "L'ouverture des réunions n'est qu'une facette. Le guide de négociation Vérité et réconciliation du SCFP montre comment intégrer la réconciliation au contrat :",
-      "items": {
+      "bargainingHeading": "À la table de négociation",
+      "bargainingIntro": "Le guide SCFP Vérité et réconciliation montre que les sections intègrent aussi la réconciliation aux conventions collectives :",
+      "bargaining": {
         "language": {
-          "label": "Clauses de reconnaissance et de souveraineté",
-          "content": "Des exemples reconnaissent la souveraineté autochtone et appuient les reconnaissances en milieu de travail le cas échéant — confirmez avec votre comité de négociation et votre syndicat national avant de proposer."
+          "label": "Clauses de souveraineté et reconnaissance",
+          "content": "Langage type reconnaissant la souveraineté autochtone — confirmez avec votre comité et syndicat national."
         },
         "leave": {
-          "label": "Congé pour la Journée de la vérité et réconciliation",
-          "content": "Des sections du SCFP ont négocié le 30 septembre comme jour férié payé ou journée d'éducation. Même sans statut légal, votre comité peut proposer un congé payé pour commémoration et apprentissage."
+          "label": "Congé Journée Vérité et réconciliation",
+          "content": "Des sections ont négocié le 30 septembre comme congé payé ou journée d'apprentissage."
         },
         "workforce": {
-          "label": "Effectif représentatif et non-discrimination",
-          "content": "Négociez embauche ciblée, formation en cours d'emploi et protection contre la discrimination pour les travailleurs autochtones — la réconciliation inclut l'équité concrète au travail."
+          "label": "Équité en milieu de travail",
+          "content": "Embauche ciblée, formation et protection contre la discrimination pour les travailleurs autochtones."
         },
         "elders": {
-          "label": "Inclusion d'aînés aux réunions de grief",
-          "content": "Certaines conventions du SCFP prévoient des aînés aux réunions de grief ou de retour au travail quand c'est culturellement approprié. Cela exige l'accord de l'employeur et le protocole de la nation."
-        },
-        "allLocals": {
-          "label": "Toute section peut commencer",
-          "content": "Le SCFP recommande la négociation de réconciliation même sans membre autochtone identifié. OPSEU / SEFPO et d'autres syndicats traitent cela comme responsabilité collective, pas enjeu de niche."
+          "label": "Aînés aux rencontres de grief",
+          "content": "Certaines conventions incluent des Aînés lorsque culturellement approprié — entente employeur et protocole requis."
         }
       }
     },
     "nextSteps": {
       "navLabel": "Prochaines étapes",
-      "title": "Appel à l'action",
-      "intro": "Lire cette page est un début. Une reconnaissance significative se vit en communauté, dans la durée.",
+      "title": "Prochaines étapes",
+      "intro": "Commencez par le guide fédéral, tenez l'atelier à quatre personnes et planifiez une revue exécutive.",
       "items": {
         "read": {
-          "label": "Lire le guide de votre fédération",
-          "content": "Commencez par les documents d'événement ou de réconciliation de votre syndicat national, le PDF territorial ontarien de la FTO si vous êtes en Ontario, et Native-Land.ca ou Whose Land pour votre site précis."
+          "label": "Lire le guide fédéral",
+          "content": "PDF ontarien FTO si vous êtes en Ontario, plus Native-Land.ca ou Whose Land pour votre site."
         },
         "reflect": {
-          "label": "Réfléchir avant de parler",
-          "content": "Notez pourquoi la reconnaissance compte pour vous et ce que votre section a fait — ou omis de faire — pour la justice autochtone."
+          "label": "Tenir l'atelier de rédaction",
+          "content": "Téléchargez la feuille, répartissez quatre rôles et rédigez ensemble — puis vérifiez l'exactitude avant la prochaine réunion."
         },
         "followUp": {
-          "label": "Faire un suivi avec votre exécutif",
-          "content": "Proposez une pratique d'ouverture permanente pour les réunions, un plan d'action écrit et une date de bilan — pas seulement une nouvelle phrase à l'ordre du jour."
-        },
-        "community": {
-          "label": "Être présent en communauté",
-          "content": "Participez à des événements menés par des Autochtones, soutenez les campagnes de retour des terres et de droits lorsque vos membres sont d'accord, et écoutez plus que vous ne parlez."
+          "label": "Suivi avec l'exécutif",
+          "content": "Proposez une pratique d'ouverture, une action concrète et une date de revue."
         },
         "national": {
-          "label": "Joindre le leadership autochtone de votre syndicat",
-          "content": "Le Cercle autochtone OPSEU / SEFPO, le Conseil autochtone national du SCFP et les organes parallèles d'autres syndicats peuvent guider reconnaissances, protocoles d'aînés et priorités de réconciliation — suivez leur direction."
+          "label": "Contacter le leadership autochtone",
+          "content": "Cercle autochtone OPSEU / SEFPO, Conseil autochtone national SCFP ou équivalent dans votre syndicat."
         }
       },
       "resourcesCta": "Parcourir les ressources Comms"
-    },
-    "notThis": {
-      "navLabel": "Ce que ce n'est pas",
-      "title": "Ce que ce guide n'est pas",
-      "intro": "UnionOps ne propose volontairement pas de texte automatisé. Une pratique respectueuse ne se réduit pas à un menu déroulant — et les syndicats nationaux disent la même chose de leurs propres cadres.",
-      "items": {
-        "generator": {
-          "label": "Pas un générateur",
-          "content": "Il n'y a pas de champs à remplir, de sélecteur de territoire ni de bouton copier ici. Ces outils encouragent des scripts copiés puis oubliés."
-        },
-        "script": {
-          "label": "Pas un texte à réciter sans réfléchir",
-          "content": "Même le cadre publié par OPSEU / SEFPO échoue si la personne qui parle ne comprend pas chaque phrase. Écrivez avec votre voix après avoir fait la lecture."
-        },
-        "once": {
-          "label": "Pas un événement unique",
-          "content": "Reconnaître le territoire une seule fois par année n'est pas la réconciliation. Intégrez l'apprentissage et l'action continus au fonctionnement de votre section."
-        },
-        "substitute": {
-          "label": "Pas un substitut au leadership autochtone",
-          "content": "Les syndicats non autochtones doivent suivre l'orientation des dirigeants autochtones sur quand et comment reconnaître un territoire — et céder la priorité aux voix autochtones sur leurs propres enjeux."
-        },
-        "burden": {
-          "label": "Pas le travail non rémunéré des membres autochtones",
-          "content": "Ne demandez pas au seul délégué autochtone d'écrire la reconnaissance de tous ou d'éduquer la salle sur demande. Ce travail incombe à toute la section — surtout aux dirigeants coloniaux."
-        }
-      },
-      "warningTitle": "Le symbolisme nuit à la confiance",
-      "warning": "Si votre section répète le même paragraphe pendant des années sans agir pour la justice autochtone, les membres et les partenaires communautaires le remarqueront. Mieux vaut dire moins et faire plus."
     }
   },
   "bylawsGuide": {

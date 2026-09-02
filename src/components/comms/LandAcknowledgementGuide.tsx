@@ -5,38 +5,39 @@ import { Callout } from "@/components/ui/Callout";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { Link } from "@/i18n/navigation";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
+import {
+  LandAcknowledgementRolesDiagram,
+  LandAcknowledgementWritingFlowDiagram,
+} from "@/components/comms/LandAcknowledgementWritingFlowDiagram";
+import { LandAcknowledgementWorksheetButton } from "@/components/comms/LandAcknowledgementWorksheetButton";
 
 const TOC = [
-  ["why", "why"],
-  ["principles", "principles"],
-  ["whenWhere", "whenWhere"],
+  ["groundRules", "groundRules"],
+  ["whyPrinciples", "whyPrinciples"],
+  ["writeTogether", "writeTogether"],
+  ["prepareWords", "prepareWords"],
+  ["atMeeting", "atMeeting"],
   ["unionPractice", "unionPractice"],
-  ["agenda", "agenda"],
-  ["formats", "formats"],
-  ["learn", "learn"],
-  ["workedExample", "workedExample"],
-  ["terminology", "terminology"],
-  ["elders", "elders"],
-  ["action", "action"],
-  ["bargaining", "bargaining"],
+  ["goFurther", "goFurther"],
   ["nextSteps", "nextSteps"],
-  ["notThis", "notThis"],
 ] as const;
 
-const whyKeys = ["presence", "treaties", "reconciliation", "beyondToken", "labour"] as const;
+const groundRuleKeys = ["noGenerator", "noScript", "deferLeadership", "wholeLocal"] as const;
+const whyKeys = ["presence", "treaties", "reconciliation", "labour"] as const;
 const principleKeys = ["reflection", "territory", "action", "relationship"] as const;
-const whenWhereKeys = ["meetings", "events", "comms", "virtual", "everyone"] as const;
-const unionKeys = ["opseu", "ofl", "cupe", "bcgeu", "others"] as const;
-const agendaKeys = ["order", "respect", "bilingual", "plenary", "facilitator"] as const;
-const formatKeys = ["inPerson", "online", "hybrid", "personalize"] as const;
-const learnKeys = ["research", "elders", "accuracy", "context", "friendship"] as const;
-const workedExampleKeys = ["territory", "action", "covenant"] as const;
+const roleKeys = ["research", "history", "draft", "action"] as const;
+const flowStepKeys = ["assign", "research", "draft", "review"] as const;
+const researchKeys = ["research", "accuracy", "context", "friendship"] as const;
 const termKeys = ["nations", "treaties", "turtleIsland", "dish", "capitalize"] as const;
-const elderKeys = ["when", "invite", "protocol", "honorarium", "notDefault"] as const;
-const actionKeys = ["support", "learn", "relationships", "accountability", "trc"] as const;
-const bargainingKeys = ["language", "leave", "workforce", "elders", "allLocals"] as const;
-const nextStepKeys = ["read", "reflect", "followUp", "community", "national"] as const;
-const notThisKeys = ["generator", "script", "once", "substitute", "burden"] as const;
+const workedExampleKeys = ["territory", "action", "covenant"] as const;
+const whenKeys = ["meetings", "events", "virtual", "comms"] as const;
+const orderKeys = ["order", "respect", "bilingual", "facilitator"] as const;
+const formatKeys = ["inPerson", "online", "hybrid"] as const;
+const unionKeys = ["opseu", "ofl", "cupe", "bcgeu", "others"] as const;
+const elderKeys = ["when", "invite", "protocol", "notDefault"] as const;
+const actionKeys = ["support", "learn", "accountability", "trc"] as const;
+const bargainingKeys = ["language", "leave", "workforce", "elders"] as const;
+const nextStepKeys = ["read", "reflect", "followUp", "national"] as const;
 
 export async function LandAcknowledgementGuide() {
   const t = await getTranslations("landAcknowledgementGuide");
@@ -44,6 +45,16 @@ export async function LandAcknowledgementGuide() {
   const ts = await getTranslations("sources");
 
   const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
+
+  const flowSteps = flowStepKeys.map((key) => ({
+    title: t(`writeTogether.flow.${key}.title`),
+    subtitle: t(`writeTogether.flow.${key}.subtitle`),
+  }));
+
+  const roles = roleKeys.map((key) => ({
+    label: t(`writeTogether.roles.${key}.label`),
+    task: t(`writeTogether.roles.${key}.task`),
+  }));
 
   return (
     <GuideLayout
@@ -68,59 +79,165 @@ export async function LandAcknowledgementGuide() {
         />
       }
     >
-      <Callout className="mb-8">
-        <p className="font-semibold text-opseu-dark">{t("disclaimer.title")}</p>
-        <p className="mt-2 leading-relaxed text-gray-700">
-          {t("disclaimer.body")}
-        </p>
-      </Callout>
-
-      <GuideSection id="why" title={t("why.title")} intro={t("why.intro")}>
+      <GuideSection
+        id="groundRules"
+        title={t("groundRules.title")}
+        intro={t("groundRules.intro")}
+      >
         <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {groundRuleKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`groundRules.items.${key}.label`)}
+              content={t(`groundRules.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+      </GuideSection>
+
+      <GuideSection
+        id="whyPrinciples"
+        title={t("whyPrinciples.title")}
+        intro={t("whyPrinciples.intro")}
+      >
+        <SubHeading>{t("whyPrinciples.whyHeading")}</SubHeading>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
           {whyKeys.map((key) => (
             <TipItem
               key={key}
-              label={t(`why.items.${key}.label`)}
-              content={t(`why.items.${key}.content`)}
+              label={t(`whyPrinciples.why.${key}.label`)}
+              content={t(`whyPrinciples.why.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <SubHeading className="mt-8">{t("whyPrinciples.principlesHeading")}</SubHeading>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+          {principleKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`whyPrinciples.principles.${key}.label`)}
+              content={t(`whyPrinciples.principles.${key}.content`)}
             />
           ))}
         </ul>
         <Callout className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
-          <p className="mt-1">{t("why.tip")}</p>
+          <p className="mt-1">{t("whyPrinciples.tip")}</p>
         </Callout>
       </GuideSection>
 
       <GuideSection
-        id="principles"
-        title={t("principles.title")}
-        intro={t("principles.intro")}
+        id="writeTogether"
+        title={t("writeTogether.title")}
+        intro={t("writeTogether.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
-          {principleKeys.map((key) => (
-            <TipItem
-              key={key}
-              label={t(`principles.items.${key}.label`)}
-              content={t(`principles.items.${key}.content`)}
-            />
-          ))}
-        </ul>
+        <SubHeading>{t("writeTogether.flowHeading")}</SubHeading>
+        <LandAcknowledgementWritingFlowDiagram
+          steps={flowSteps}
+          className="mt-4"
+        />
+        <SubHeading className="mt-8">{t("writeTogether.rolesHeading")}</SubHeading>
+        <LandAcknowledgementRolesDiagram roles={roles} className="mt-4" />
+        <div className="mt-6 max-w-prose">
+          <LandAcknowledgementWorksheetButton />
+          <p className="mt-2 text-sm leading-relaxed text-gray-600">
+            {t("writeTogether.worksheetHint")}
+          </p>
+        </div>
       </GuideSection>
 
       <GuideSection
-        id="whenWhere"
-        title={t("whenWhere.title")}
-        intro={t("whenWhere.intro")}
+        id="prepareWords"
+        title={t("prepareWords.title")}
+        intro={t("prepareWords.intro")}
       >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
-          {whenWhereKeys.map((key) => (
+        <SubHeading>{t("prepareWords.researchHeading")}</SubHeading>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+          {researchKeys.map((key) => (
             <TipItem
               key={key}
-              label={t(`whenWhere.items.${key}.label`)}
-              content={t(`whenWhere.items.${key}.content`)}
+              label={t(`prepareWords.research.${key}.label`)}
+              content={t(`prepareWords.research.${key}.content`)}
             />
           ))}
         </ul>
+
+        <SubHeading className="mt-8">{t("prepareWords.termsHeading")}</SubHeading>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+          {termKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`prepareWords.terms.${key}.label`)}
+              content={t(`prepareWords.terms.${key}.content`)}
+            />
+          ))}
+        </ul>
+
+        <SubHeading className="mt-8">{t("prepareWords.exampleHeading")}</SubHeading>
+        <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
+          {t("prepareWords.exampleIntro")}
+        </p>
+        <Callout tone="warning" className="mt-4 max-w-prose">
+          <p className="font-semibold text-amber-950">{t("prepareWords.exampleBadge")}</p>
+        </Callout>
+        <div className="mt-6 space-y-8">
+          {workedExampleKeys.map((key) => (
+            <figure key={key} className="max-w-prose">
+              <blockquote className="border-l-4 border-opseu-blue/35 pl-4 leading-relaxed text-gray-800">
+                {t(`prepareWords.exampleBlocks.${key}.text`)}
+              </blockquote>
+              <figcaption className="mt-3 leading-relaxed text-gray-700">
+                <span className="font-semibold text-opseu-dark">
+                  {t(`prepareWords.exampleBlocks.${key}.label`)}
+                </span>
+                {" — "}
+                {t(`prepareWords.exampleBlocks.${key}.annotation`)}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </GuideSection>
+
+      <GuideSection
+        id="atMeeting"
+        title={t("atMeeting.title")}
+        intro={t("atMeeting.intro")}
+      >
+        <SubHeading>{t("atMeeting.whenHeading")}</SubHeading>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+          {whenKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`atMeeting.when.${key}.label`)}
+              content={t(`atMeeting.when.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <SubHeading className="mt-8">{t("atMeeting.orderHeading")}</SubHeading>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+          {orderKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`atMeeting.order.${key}.label`)}
+              content={t(`atMeeting.order.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <SubHeading className="mt-8">{t("atMeeting.formatHeading")}</SubHeading>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+          {formatKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`atMeeting.formats.${key}.label`)}
+              content={t(`atMeeting.formats.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <div className="button-row mt-5 max-w-lg">
+          <Link href="/guide/running-meetings" className={guideCtaOutlineClass}>
+            {nav("runningMeetingsGuide")}
+          </Link>
+        </div>
       </GuideSection>
 
       <GuideSection
@@ -139,151 +256,43 @@ export async function LandAcknowledgementGuide() {
             </li>
           ))}
         </ul>
-        <Callout tone="muted" className="mt-5 max-w-prose">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
-          <p className="mt-1">{t("unionPractice.tip")}</p>
-        </Callout>
-      </GuideSection>
-
-      <GuideSection id="agenda" title={t("agenda.title")} intro={t("agenda.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
-          {agendaKeys.map((key) => (
-            <TipItem
-              key={key}
-              label={t(`agenda.items.${key}.label`)}
-              content={t(`agenda.items.${key}.content`)}
-            />
-          ))}
-        </ul>
-        <Callout tone="warning" className="mt-5 max-w-prose">
-          <p className="font-semibold text-amber-950">{t("agenda.warningTitle")}</p>
-          <p className="mt-1">{t("agenda.warning")}</p>
-        </Callout>
-      </GuideSection>
-
-      <GuideSection id="formats" title={t("formats.title")} intro={t("formats.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
-          {formatKeys.map((key) => (
-            <TipItem
-              key={key}
-              label={t(`formats.items.${key}.label`)}
-              content={t(`formats.items.${key}.content`)}
-            />
-          ))}
-        </ul>
-      </GuideSection>
-
-      <GuideSection id="learn" title={t("learn.title")} intro={t("learn.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
-          {learnKeys.map((key) => (
-            <TipItem
-              key={key}
-              label={t(`learn.items.${key}.label`)}
-              content={t(`learn.items.${key}.content`)}
-            />
-          ))}
-        </ul>
-        <Callout tone="muted" className="mt-5 max-w-prose">
-          <p className="font-semibold text-opseu-dark">{t("learn.resourcesTitle")}</p>
-          <p className="mt-1">{t("learn.resourcesIntro")}</p>
-        </Callout>
       </GuideSection>
 
       <GuideSection
-        id="workedExample"
-        title={t("workedExample.title")}
-        intro={t("workedExample.intro")}
+        id="goFurther"
+        title={t("goFurther.title")}
+        intro={t("goFurther.intro")}
       >
-        <Callout tone="warning" className="mt-4 max-w-prose">
-          <p className="font-semibold text-amber-950">{t("workedExample.badge")}</p>
-        </Callout>
-        <div className="mt-6 space-y-8">
-          {workedExampleKeys.map((key) => (
-            <figure key={key} className="max-w-prose">
-              <blockquote className="border-l-4 border-opseu-blue/35 pl-4 text-gray-800 leading-relaxed">
-                {t(`workedExample.blocks.${key}.text`)}
-              </blockquote>
-              <figcaption className="mt-3 text-gray-700 leading-relaxed">
-                <span className="font-semibold text-opseu-dark">
-                  {t(`workedExample.blocks.${key}.label`)}
-                </span>
-                {" — "}
-                {t(`workedExample.blocks.${key}.annotation`)}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-        <Callout tone="warning" className="mt-6 max-w-prose">
-          <p className="font-semibold text-amber-950">
-            {t("workedExample.warningTitle")}
-          </p>
-          <p className="mt-1">{t("workedExample.warning")}</p>
-        </Callout>
-        <Callout tone="muted" className="mt-5 max-w-prose">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
-          <p className="mt-1">{t("workedExample.tip")}</p>
-        </Callout>
-      </GuideSection>
-
-      <GuideSection
-        id="terminology"
-        title={t("terminology.title")}
-        intro={t("terminology.intro")}
-      >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
-          {termKeys.map((key) => (
-            <TipItem
-              key={key}
-              label={t(`terminology.items.${key}.label`)}
-              content={t(`terminology.items.${key}.content`)}
-            />
-          ))}
-        </ul>
-      </GuideSection>
-
-      <GuideSection id="elders" title={t("elders.title")} intro={t("elders.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <SubHeading>{t("goFurther.eldersHeading")}</SubHeading>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
           {elderKeys.map((key) => (
             <TipItem
               key={key}
-              label={t(`elders.items.${key}.label`)}
-              content={t(`elders.items.${key}.content`)}
+              label={t(`goFurther.elders.${key}.label`)}
+              content={t(`goFurther.elders.${key}.content`)}
             />
           ))}
         </ul>
-      </GuideSection>
-
-      <GuideSection
-        id="action"
-        title={t("action.title")}
-        intro={t("action.intro")}
-      >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <SubHeading className="mt-8">{t("goFurther.actionHeading")}</SubHeading>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
           {actionKeys.map((key) => (
             <TipItem
               key={key}
-              label={t(`action.items.${key}.label`)}
-              content={t(`action.items.${key}.content`)}
+              label={t(`goFurther.action.${key}.label`)}
+              content={t(`goFurther.action.${key}.content`)}
             />
           ))}
         </ul>
-        <Callout className="mt-5 max-w-prose">
-          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
-          <p className="mt-1">{t("action.tip")}</p>
-        </Callout>
-      </GuideSection>
-
-      <GuideSection
-        id="bargaining"
-        title={t("bargaining.title")}
-        intro={t("bargaining.intro")}
-      >
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+        <SubHeading className="mt-8">{t("goFurther.bargainingHeading")}</SubHeading>
+        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
+          {t("goFurther.bargainingIntro")}
+        </p>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
           {bargainingKeys.map((key) => (
             <TipItem
               key={key}
-              label={t(`bargaining.items.${key}.label`)}
-              content={t(`bargaining.items.${key}.content`)}
+              label={t(`goFurther.bargaining.${key}.label`)}
+              content={t(`goFurther.bargaining.${key}.content`)}
             />
           ))}
         </ul>
@@ -314,26 +323,8 @@ export async function LandAcknowledgementGuide() {
           <Link href="/guide/resources" className={guideCtaOutlineClass}>
             {t("nextSteps.resourcesCta")}
           </Link>
-          <Link href="/guide/running-meetings" className={guideCtaOutlineClass}>
-            {nav("runningMeetingsGuide")}
-          </Link>
+          <LandAcknowledgementWorksheetButton />
         </div>
-      </GuideSection>
-
-      <GuideSection id="notThis" title={t("notThis.title")} intro={t("notThis.intro")}>
-        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
-          {notThisKeys.map((key) => (
-            <TipItem
-              key={key}
-              label={t(`notThis.items.${key}.label`)}
-              content={t(`notThis.items.${key}.content`)}
-            />
-          ))}
-        </ul>
-        <Callout tone="warning" className="mt-5 max-w-prose">
-          <p className="font-semibold text-amber-950">{t("notThis.warningTitle")}</p>
-          <p className="mt-1">{t("notThis.warning")}</p>
-        </Callout>
       </GuideSection>
     </GuideLayout>
   );
@@ -359,6 +350,22 @@ function GuideSection({
       <p className="mt-3 max-w-prose leading-relaxed text-gray-700">{intro}</p>
       {children}
     </section>
+  );
+}
+
+function SubHeading({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <h3
+      className={`text-base font-bold text-opseu-dark md:text-lg ${className ?? ""}`}
+    >
+      {children}
+    </h3>
   );
 }
 
