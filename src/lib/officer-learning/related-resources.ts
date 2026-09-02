@@ -35,6 +35,11 @@ export const MODULE_RELATED_RESOURCES: Record<string, RelatedResourceLink[]> = {
   ],
   "democratic-governance": [
     { href: "/guide/running-meetings", labelKey: "runningMeetings", kind: "guide" },
+    {
+      href: "/guide/land-acknowledgement",
+      labelKey: "landAcknowledgement",
+      kind: "guide",
+    },
     { href: "/tools/rules-of-order", labelKey: "rulesOfOrder", kind: "tool" },
     { href: "/guide/bylaws", labelKey: "bylaws", kind: "guide" },
     { href: "/tools/bylaw-builder", labelKey: "bylawBuilder", kind: "tool" },

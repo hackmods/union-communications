@@ -1,5 +1,13 @@
 # Progress Log
 
+## Land Acknowledgement Guide — cross-links + smoke (2026-09-02)
+
+- [x] **Guide:** `/guide/land-acknowledgement` — educational playbook (no generator); OPSEU / SEFPO, OFL, CUPE, BCGEU federation practice; federation sources in `comms-sources.ts`
+- [x] **Cross-links:** running-meetings agenda callout + related link; Officer Learning democratic-governance module; land ack ↔ running meetings reciprocity
+- [x] **Discoverability:** guide registry (labour, steward playbooks, Resources), footer, sitemap, SEO EN/FR, What's new
+- [x] **Smoke:** `steward-tools.smoke` + `builders.smoke` H1 matrix for land acknowledgement route
+- Verify: `npm run test:unit -- src/lib/comms/guide-registry.test.ts src/lib/officer-learning/related-resources.test.ts src/lib/comms/public-copy-style.test.ts src/lib/constants/comms-sources.test.ts src/lib/constants/updates.test.ts src/lib/seo/public-page-meta.test.ts`
+
 ## Document Generator links + deeplink hardening (2026-08-31)
 
 - [x] **Deeplink fix (#42):** static-import preview; initialize `?preset=` on first render; tool-scoped error panel with refresh guidance

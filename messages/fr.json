@@ -777,6 +777,7 @@
         "bargaining": "Cycle de négociation",
         "proposalTracker": "Suivi des propositions",
         "runningMeetings": "Guide Tenir une assemblée",
+        "landAcknowledgement": "Guide de reconnaissance territoriale",
         "rulesOfOrder": "Aide-mémoire de procédure"
       }
     },
@@ -9692,7 +9693,8 @@
       "title": "L'ordre du jour type (ordre des travaux)",
       "intro": "La plupart des assemblées locales suivent ce déroulement :",
       "items": {
-        "callToOrder": "Ouverture de l'assemblée et lecture de la déclaration de respect et de solidarité",
+        "callToOrder": "Reconnaissance territoriale (si votre fédération ou section l'exige), puis ouverture de l'assemblée et lecture de la déclaration de respect et de solidarité",
+        "landAckNote": "Plusieurs syndicats ontariens — dont OPSEU / SEFPO — ouvrent par une reconnaissance territoriale avant la déclaration de respect et tout autre point. Identifiez le territoire où vous êtes ; le guide ci-dessous explique les pratiques fédérales sans proposer de texte copié-collé.",
         "adoptAgenda": "Adoption de l'ordre du jour",
         "minutes": "Adoption du procès-verbal de la dernière assemblée",
         "treasurer": "Rapport financier du trésorier ou de la trésorière",

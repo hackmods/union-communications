@@ -777,6 +777,7 @@
         "bargaining": "Bargaining lifecycle",
         "proposalTracker": "Proposal Tracker",
         "runningMeetings": "Running meetings guide",
+        "landAcknowledgement": "Land Acknowledgement Guide",
         "rulesOfOrder": "Rules of Order cheat sheet"
       }
     },
@@ -9676,7 +9677,8 @@
       "title": "The standard agenda (order of business)",
       "intro": "Most local meetings follow this flow:",
       "items": {
-        "callToOrder": "Call to Order & Reading of the Statement of Respect/Solidarity",
+        "callToOrder": "Land acknowledgement (when your federation or local requires it), then Call to Order & Reading of the Statement of Respect/Solidarity",
+        "landAckNote": "Many Ontario unions — including OPSEU / SEFPO — open with a land acknowledgement before the Statement of Respect and all other business. Research whose territory you are on; the guide below explains federation practice without offering a copy-paste script.",
         "adoptAgenda": "Adoption of the Agenda",
         "minutes": "Adoption of the Previous Meeting's Minutes",
         "treasurer": "Treasurer's Financial Report",
