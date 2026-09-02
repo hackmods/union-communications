@@ -9,18 +9,32 @@ import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
 const TOC = [
   ["why", "why"],
   ["principles", "principles"],
+  ["whenWhere", "whenWhere"],
+  ["unionPractice", "unionPractice"],
+  ["agenda", "agenda"],
+  ["formats", "formats"],
   ["learn", "learn"],
+  ["terminology", "terminology"],
+  ["elders", "elders"],
   ["action", "action"],
+  ["bargaining", "bargaining"],
   ["nextSteps", "nextSteps"],
   ["notThis", "notThis"],
 ] as const;
 
-const whyKeys = ["presence", "treaties", "reconciliation", "beyondToken"] as const;
-const principleKeys = ["reflection", "territory", "action"] as const;
-const learnKeys = ["research", "elders", "accuracy", "context"] as const;
-const actionKeys = ["support", "learn", "relationships", "accountability"] as const;
-const nextStepKeys = ["read", "reflect", "followUp", "community"] as const;
-const notThisKeys = ["generator", "script", "once", "substitute"] as const;
+const whyKeys = ["presence", "treaties", "reconciliation", "beyondToken", "labour"] as const;
+const principleKeys = ["reflection", "territory", "action", "relationship"] as const;
+const whenWhereKeys = ["meetings", "events", "comms", "virtual", "everyone"] as const;
+const unionKeys = ["opseu", "ofl", "cupe", "bcgeu", "others"] as const;
+const agendaKeys = ["order", "respect", "bilingual", "plenary", "facilitator"] as const;
+const formatKeys = ["inPerson", "online", "hybrid", "personalize"] as const;
+const learnKeys = ["research", "elders", "accuracy", "context", "friendship"] as const;
+const termKeys = ["nations", "treaties", "turtleIsland", "dish", "capitalize"] as const;
+const elderKeys = ["when", "invite", "protocol", "honorarium", "notDefault"] as const;
+const actionKeys = ["support", "learn", "relationships", "accountability", "trc"] as const;
+const bargainingKeys = ["language", "leave", "workforce", "elders", "allLocals"] as const;
+const nextStepKeys = ["read", "reflect", "followUp", "community", "national"] as const;
+const notThisKeys = ["generator", "script", "once", "substitute", "burden"] as const;
 
 export async function LandAcknowledgementGuide() {
   const t = await getTranslations("landAcknowledgementGuide");
@@ -41,6 +55,7 @@ export async function LandAcknowledgementGuide() {
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/running-meetings", label: nav("runningMeetingsGuide") },
+        { href: "/guide/bargaining", label: nav("bargainingGuide") },
         { href: "/guide/resources", label: nav("resources") },
       ]}
       footer={
@@ -90,6 +105,72 @@ export async function LandAcknowledgementGuide() {
         </ul>
       </GuideSection>
 
+      <GuideSection
+        id="whenWhere"
+        title={t("whenWhere.title")}
+        intro={t("whenWhere.intro")}
+      >
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {whenWhereKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`whenWhere.items.${key}.label`)}
+              content={t(`whenWhere.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+      </GuideSection>
+
+      <GuideSection
+        id="unionPractice"
+        title={t("unionPractice.title")}
+        intro={t("unionPractice.intro")}
+      >
+        <ul className="mt-4 list-disc space-y-4 pl-5 text-gray-700">
+          {unionKeys.map((key) => (
+            <li key={key} className="max-w-prose leading-relaxed">
+              <span className="font-semibold text-opseu-dark">
+                {t(`unionPractice.items.${key}.label`)}
+              </span>
+              {" — "}
+              {t(`unionPractice.items.${key}.content`)}
+            </li>
+          ))}
+        </ul>
+        <Callout tone="muted" className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("unionPractice.tip")}</p>
+        </Callout>
+      </GuideSection>
+
+      <GuideSection id="agenda" title={t("agenda.title")} intro={t("agenda.intro")}>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {agendaKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`agenda.items.${key}.label`)}
+              content={t(`agenda.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <Callout tone="warning" className="mt-5 max-w-prose">
+          <p className="font-semibold text-amber-950">{t("agenda.warningTitle")}</p>
+          <p className="mt-1">{t("agenda.warning")}</p>
+        </Callout>
+      </GuideSection>
+
+      <GuideSection id="formats" title={t("formats.title")} intro={t("formats.intro")}>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {formatKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`formats.items.${key}.label`)}
+              content={t(`formats.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+      </GuideSection>
+
       <GuideSection id="learn" title={t("learn.title")} intro={t("learn.intro")}>
         <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
           {learnKeys.map((key) => (
@@ -104,6 +185,34 @@ export async function LandAcknowledgementGuide() {
           <p className="font-semibold text-opseu-dark">{t("learn.resourcesTitle")}</p>
           <p className="mt-1">{t("learn.resourcesIntro")}</p>
         </Callout>
+      </GuideSection>
+
+      <GuideSection
+        id="terminology"
+        title={t("terminology.title")}
+        intro={t("terminology.intro")}
+      >
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {termKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`terminology.items.${key}.label`)}
+              content={t(`terminology.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+      </GuideSection>
+
+      <GuideSection id="elders" title={t("elders.title")} intro={t("elders.intro")}>
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {elderKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`elders.items.${key}.label`)}
+              content={t(`elders.items.${key}.content`)}
+            />
+          ))}
+        </ul>
       </GuideSection>
 
       <GuideSection
@@ -124,6 +233,27 @@ export async function LandAcknowledgementGuide() {
           <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
           <p className="mt-1">{t("action.tip")}</p>
         </Callout>
+      </GuideSection>
+
+      <GuideSection
+        id="bargaining"
+        title={t("bargaining.title")}
+        intro={t("bargaining.intro")}
+      >
+        <ul className="mt-4 list-disc space-y-3 pl-5 text-gray-700">
+          {bargainingKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`bargaining.items.${key}.label`)}
+              content={t(`bargaining.items.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <div className="button-row mt-5 max-w-lg">
+          <Link href="/guide/bargaining" className={guideCtaOutlineClass}>
+            {nav("bargainingGuide")}
+          </Link>
+        </div>
       </GuideSection>
 
       <GuideSection

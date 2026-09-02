@@ -185,7 +185,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/land-acknowledgement": {
       title: "Land Acknowledgement Guide",
       description:
-        "Learn why acknowledgements matter, research whose traditional territory you are on, and pair words with action — not a script generator.",
+        "How OPSEU / SEFPO, OFL, CUPE, and other unions acknowledge Indigenous lands — principles, meeting order, Elder protocols, and action, not a script generator.",
     },
     "/guide/officer-learning": {
       title: "Officer Learning Center",
@@ -397,7 +397,7 @@ export const PUBLIC_PAGE_SEO: Record<
     "/guide/land-acknowledgement": {
       title: "Guide de reconnaissance territoriale",
       description:
-        "Pourquoi la reconnaissance compte, renseignez-vous sur le territoire où vous vivez ou travaillez, et liez les mots à l'action — sans générateur.",
+        "Comment OPSEU / SEFPO, la FTO, le SCFP et d'autres syndicats reconnaissent les terres autochtones — principes, ordre du jour, aînés et action, sans générateur.",
     },
     "/guide/officer-learning": {
       title: "Centre de formation des dirigeants",
