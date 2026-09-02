@@ -12,7 +12,7 @@ type Props = {
   className?: string;
 };
 
-/** Printable four-person land acknowledgement writing walkthrough. */
+/** Printable land acknowledgement writing worksheet (solo or workshop). */
 export function LandAcknowledgementWorksheetButton({ className }: Props) {
   const t = useTranslations("landAcknowledgementGuide.worksheet");
   const locale = useLocale();

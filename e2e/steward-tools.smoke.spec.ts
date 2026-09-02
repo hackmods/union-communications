@@ -111,7 +111,7 @@ test.describe("Steward meeting guides @smoke", () => {
       page.getByRole("heading", { name: /Land Acknowledgement Guide/i }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: /Writing together/i }),
+      page.getByRole("heading", { name: /How to write your acknowledgement/i }),
     ).toBeVisible();
     await expect(
       page.getByRole("heading", { name: /Prepare your words/i }),
@@ -121,8 +121,8 @@ test.describe("Steward meeting guides @smoke", () => {
     ).toBeVisible();
     await expect(
       page
-        .locator("#writeTogether")
-        .getByRole("button", { name: /Download writing walkthrough/i }),
+        .locator("#howToWrite")
+        .getByRole("button", { name: /Download writing worksheet/i }),
     ).toBeVisible();
     await expect(
       page.locator("#atMeeting").getByRole("link", { name: /Running meetings/i }),

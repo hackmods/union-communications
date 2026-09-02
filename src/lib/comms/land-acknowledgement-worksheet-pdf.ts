@@ -7,28 +7,20 @@ import {
 
 const WORKSHEET_COPY = {
   en: {
-    title: "Land acknowledgement writing walkthrough",
-    subtitle: "Four-person worksheet — research, draft, and commit",
+    title: "Land acknowledgement writing worksheet",
+    subtitle: "Solo draft or group workshop — research, write, commit",
     sections: [
       {
-        heading: "Before you meet",
+        heading: "Before you start",
         lines: [
+          "Path: □ On my own  □ Group workshop",
           "Local / committee: ________________________________",
-          "Date: ______________  Facilitator: __________________",
+          "Date: ______________  Facilitator (if workshop): ______",
           "Meeting territory (city/campus): ____________________",
         ],
       },
       {
-        heading: "Step 1 — Assign roles (~5 min)",
-        lines: [
-          "Research lead (Native-Land.ca, Whose Land, federation PDF): ________",
-          "History lead (treaties, local context, spellings): __________________",
-          "Draft lead (combines wording in the room's voice): _________________",
-          "Action lead (follow-up owner + executive date): ___________________",
-        ],
-      },
-      {
-        heading: "Step 2 — Research together (~20 min)",
+        heading: "Step 1 — Research (~20 min solo · ~25 min workshop)",
         lines: [
           "Nations for where we meet: ______________________________________",
           "Treaties / agreements: __________________________________________",
@@ -37,19 +29,25 @@ const WORKSHEET_COPY = {
         ],
       },
       {
-        heading: "Step 3 — Reflect and draft (~25 min)",
+        heading: "Step 2 — Reflect (~10 min solo · opening block in workshop)",
         lines: [
-          "Each person — why acknowledgement matters to you (one sentence):",
+          "Why acknowledgement matters to me / our local (one sentence):",
           "________________________________________________________________",
           "________________________________________________________________",
-          "Combined draft (territory → history or action → commitment):",
+        ],
+      },
+      {
+        heading: "Step 3 — Draft (~15 min solo · ~25 min in pairs at workshop)",
+        lines: [
+          "Draft (territory → history or action → commitment):",
+          "________________________________________________________________",
           "________________________________________________________________",
           "________________________________________________________________",
           "________________________________________________________________",
         ],
       },
       {
-        heading: "Step 4 — Review and commit (~10 min)",
+        heading: "Step 4 — Review and commit (~10 min solo · ~20 min workshop close)",
         lines: [
           "□ Accurate for this territory (not copied from another city)",
           "□ Speaker can explain every phrase without notes",
@@ -68,28 +66,20 @@ const WORKSHEET_COPY = {
     ],
   },
   fr: {
-    title: "Atelier de rédaction — reconnaissance territoriale",
-    subtitle: "Feuille pour quatre personnes — recherche, rédaction, engagement",
+    title: "Feuille de rédaction — reconnaissance territoriale",
+    subtitle: "Seul·e ou atelier de groupe — recherche, rédaction, engagement",
     sections: [
       {
-        heading: "Avant la rencontre",
+        heading: "Avant de commencer",
         lines: [
+          "Voie : □ Seul·e  □ Atelier de groupe",
           "Section / comité : ______________________________________________",
-          "Date : ______________  Facilitateur·rice : ______________________",
+          "Date : ______________  Facilitateur·rice (si atelier) : ________",
           "Territoire de la réunion (ville/campus) : _________________________",
         ],
       },
       {
-        heading: "Étape 1 — Répartir les rôles (~5 min)",
-        lines: [
-          "Recherche (Native-Land.ca, Whose Land, PDF fédéral) : _____________",
-          "Histoire (traités, contexte local, orthographes) : ________________",
-          "Rédaction (combine les mots dans la voix du groupe) : _____________",
-          "Action (responsable du suivi + date exécutif) : _________________",
-        ],
-      },
-      {
-        heading: "Étape 2 — Rechercher ensemble (~20 min)",
+        heading: "Étape 1 — Recherche (~20 min seul·e · ~25 min en atelier)",
         lines: [
           "Nations où nous nous réunissons : _______________________________",
           "Traités / ententes : ____________________________________________",
@@ -98,19 +88,25 @@ const WORKSHEET_COPY = {
         ],
       },
       {
-        heading: "Étape 3 — Réfléchir et rédiger (~25 min)",
+        heading: "Étape 2 — Réflexion (~10 min seul·e · ouverture en atelier)",
         lines: [
-          "Chaque personne — pourquoi la reconnaissance compte (une phrase) :",
+          "Pourquoi la reconnaissance compte pour moi / notre section (une phrase) :",
           "________________________________________________________________",
           "________________________________________________________________",
-          "Ébauche combinée (territoire → histoire ou action → engagement) :",
+        ],
+      },
+      {
+        heading: "Étape 3 — Rédaction (~15 min seul·e · ~25 min en duo à l'atelier)",
+        lines: [
+          "Ébauche (territoire → histoire ou action → engagement) :",
+          "________________________________________________________________",
           "________________________________________________________________",
           "________________________________________________________________",
           "________________________________________________________________",
         ],
       },
       {
-        heading: "Étape 4 — Réviser et s'engager (~10 min)",
+        heading: "Étape 4 — Réviser et s'engager (~10 min seul·e · ~20 min clôture)",
         lines: [
           "□ Exact pour ce territoire (pas copié d'une autre ville)",
           "□ La personne qui lit peut expliquer chaque phrase sans notes",
@@ -147,8 +143,8 @@ export async function downloadLandAcknowledgementWorksheetPdf(opts: {
     })),
     filename:
       locale === "fr"
-        ? "unionops-reconnaissance-territoriale-atelier.pdf"
-        : "unionops-land-acknowledgement-writing-walkthrough.pdf",
+        ? "unionops-reconnaissance-territoriale-feuille.pdf"
+        : "unionops-land-acknowledgement-worksheet.pdf",
     footer: COMMS_GUIDE_FOOTER[locale],
     brand: opts.brand,
   });

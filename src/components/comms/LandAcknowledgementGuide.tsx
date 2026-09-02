@@ -5,16 +5,13 @@ import { Callout } from "@/components/ui/Callout";
 import { guideTocItems } from "@/lib/comms/guide-toc-items";
 import { Link } from "@/i18n/navigation";
 import { guideCtaOutlineClass } from "@/components/comms/guideCtaClasses";
-import {
-  LandAcknowledgementRolesDiagram,
-  LandAcknowledgementWritingFlowDiagram,
-} from "@/components/comms/LandAcknowledgementWritingFlowDiagram";
+import { LandAcknowledgementWritingFlowDiagram } from "@/components/comms/LandAcknowledgementWritingFlowDiagram";
 import { LandAcknowledgementWorksheetButton } from "@/components/comms/LandAcknowledgementWorksheetButton";
 
 const TOC = [
   ["groundRules", "groundRules"],
   ["whyPrinciples", "whyPrinciples"],
-  ["writeTogether", "writeTogether"],
+  ["howToWrite", "howToWrite"],
   ["prepareWords", "prepareWords"],
   ["atMeeting", "atMeeting"],
   ["unionPractice", "unionPractice"],
@@ -25,8 +22,9 @@ const TOC = [
 const groundRuleKeys = ["noGenerator", "noScript", "deferLeadership", "wholeLocal"] as const;
 const whyKeys = ["presence", "treaties", "reconciliation", "labour"] as const;
 const principleKeys = ["reflection", "territory", "action", "relationship"] as const;
-const roleKeys = ["research", "history", "draft", "action"] as const;
-const flowStepKeys = ["assign", "research", "draft", "review"] as const;
+const soloFlowStepKeys = ["research", "reflect", "draft", "review"] as const;
+const workshopPrepKeys = ["who", "materials", "room", "followUp"] as const;
+const workshopAgendaKeys = ["open", "research", "draft", "close"] as const;
 const researchKeys = ["research", "accuracy", "context", "friendship"] as const;
 const termKeys = ["nations", "treaties", "turtleIsland", "dish", "capitalize"] as const;
 const workedExampleKeys = ["territory", "action", "covenant"] as const;
@@ -46,14 +44,9 @@ export async function LandAcknowledgementGuide() {
 
   const tocItems = guideTocItems(TOC, (key) => t(`${key}.navLabel`));
 
-  const flowSteps = flowStepKeys.map((key) => ({
-    title: t(`writeTogether.flow.${key}.title`),
-    subtitle: t(`writeTogether.flow.${key}.subtitle`),
-  }));
-
-  const roles = roleKeys.map((key) => ({
-    label: t(`writeTogether.roles.${key}.label`),
-    task: t(`writeTogether.roles.${key}.task`),
+  const soloFlowSteps = soloFlowStepKeys.map((key) => ({
+    title: t(`howToWrite.soloFlow.${key}.title`),
+    subtitle: t(`howToWrite.soloFlow.${key}.subtitle`),
   }));
 
   return (
@@ -127,21 +120,54 @@ export async function LandAcknowledgementGuide() {
       </GuideSection>
 
       <GuideSection
-        id="writeTogether"
-        title={t("writeTogether.title")}
-        intro={t("writeTogether.intro")}
+        id="howToWrite"
+        title={t("howToWrite.title")}
+        intro={t("howToWrite.intro")}
       >
-        <SubHeading>{t("writeTogether.flowHeading")}</SubHeading>
+        <SubHeading>{t("howToWrite.soloHeading")}</SubHeading>
+        <p className="mt-2 max-w-prose text-sm leading-relaxed text-gray-600">
+          {t("howToWrite.soloIntro")}
+        </p>
         <LandAcknowledgementWritingFlowDiagram
-          steps={flowSteps}
+          steps={soloFlowSteps}
           className="mt-4"
         />
-        <SubHeading className="mt-8">{t("writeTogether.rolesHeading")}</SubHeading>
-        <LandAcknowledgementRolesDiagram roles={roles} className="mt-4" />
+
+        <SubHeading className="mt-8">{t("howToWrite.workshopHeading")}</SubHeading>
+        <p className="mt-2 max-w-prose leading-relaxed text-gray-700">
+          {t("howToWrite.workshopIntro")}
+        </p>
+        <SubHeading className="mt-6">{t("howToWrite.workshopPrepHeading")}</SubHeading>
+        <ul className="mt-3 list-disc space-y-3 pl-5 text-gray-700">
+          {workshopPrepKeys.map((key) => (
+            <TipItem
+              key={key}
+              label={t(`howToWrite.workshopPrep.${key}.label`)}
+              content={t(`howToWrite.workshopPrep.${key}.content`)}
+            />
+          ))}
+        </ul>
+        <SubHeading className="mt-6">{t("howToWrite.workshopAgendaHeading")}</SubHeading>
+        <ol className="mt-3 list-decimal space-y-4 pl-5 text-gray-700">
+          {workshopAgendaKeys.map((key) => (
+            <li key={key} className="max-w-prose leading-relaxed">
+              <span className="font-semibold text-opseu-dark">
+                {t(`howToWrite.workshopAgenda.${key}.label`)}
+              </span>
+              {" — "}
+              {t(`howToWrite.workshopAgenda.${key}.content`)}
+            </li>
+          ))}
+        </ol>
+        <Callout className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("howToWrite.workshopTip")}</p>
+        </Callout>
+
         <div className="mt-6 max-w-prose">
           <LandAcknowledgementWorksheetButton />
           <p className="mt-2 text-sm leading-relaxed text-gray-600">
-            {t("writeTogether.worksheetHint")}
+            {t("howToWrite.worksheetHint")}
           </p>
         </div>
       </GuideSection>
