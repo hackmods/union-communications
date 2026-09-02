@@ -1,5 +1,12 @@
 # Progress Log
 
+## Land Acknowledgement — refactor + 4-person worksheet (2026-09-02)
+
+- [x] **Guide IA:** 14 sections → 8 (ground rules, why/principles, writing together, prepare, at meeting, federations, go further, next steps)
+- [x] **Visual:** flow diagram + role cards + branded PDF worksheet (`land-acknowledgement-worksheet-pdf.ts`)
+- [x] **Deduped:** tokenism, OPSEU order, research tools, action/next-steps overlap
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/comms/land-acknowledgement-worksheet-pdf.test.ts` + land acknowledgement smoke
+
 ## Land Acknowledgement — annotated worked example (2026-09-02)
 
 - [x] **Guide:** `/guide/land-acknowledgement` — Niagara-region teaching example with three annotated blocks (territory, action, covenant); no copy button

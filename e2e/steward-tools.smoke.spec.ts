@@ -111,22 +111,21 @@ test.describe("Steward meeting guides @smoke", () => {
       page.getByRole("heading", { name: /Land Acknowledgement Guide/i }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: /Why land acknowledgements matter/i }),
+      page.getByRole("heading", { name: /Writing together/i }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", {
-        name: /How major unions approach land acknowledgement/i,
-      }),
+      page.getByRole("heading", { name: /Prepare your words/i }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", {
-        name: /Worked example: what a local acknowledgement can include/i,
-      }),
+      page.getByRole("heading", { name: /How major unions approach it/i }),
     ).toBeVisible();
     await expect(
       page
-        .locator("#nextSteps")
-        .getByRole("link", { name: /Running meetings/i }),
+        .locator("#writeTogether")
+        .getByRole("button", { name: /Download writing walkthrough/i }),
+    ).toBeVisible();
+    await expect(
+      page.locator("#atMeeting").getByRole("link", { name: /Running meetings/i }),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
