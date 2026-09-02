@@ -171,3 +171,8 @@ export class MemoryExpenseAdapter implements ExpenseAdapter {
 }
 
 export const memoryExpenseStore = new MemoryExpenseAdapter();
+
+/** @internal test helper — expenses start empty; wipe mutating test rows. */
+export function resetExpenseMemoryForTests(): void {
+  submissions.splice(0, submissions.length);
+}

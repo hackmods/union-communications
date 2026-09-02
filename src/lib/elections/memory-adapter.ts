@@ -14,36 +14,40 @@ import type { OfficerRosterEntry } from "@/types/officer-roster";
 
 const now = () => new Date().toISOString();
 
-const cycles: ElectionCycle[] = [
-  {
-    id: "elec-001",
-    unionId: "union-opseu",
-    localId: "local-243",
-    title: "2026 Executive election",
-    positions: ["President", "Vice-President", "Secretary"],
-    status: "open",
-    nominations: [
-      {
-        id: "nom-001",
-        position: "President",
-        nomineeName: "Alex Rivera",
-        status: "accepted",
-        nominator: "Jordan Chen",
-      },
-      {
-        id: "nom-002",
-        position: "Vice-President",
-        nomineeName: "Sam Okonkwo",
-        status: "pending",
-        nominator: "Alex Rivera",
-      },
-    ],
-    tallies: [],
-    termStart: "2026-09-01",
-    createdAt: "2026-06-01T12:00:00.000Z",
-    updatedAt: "2026-06-15T12:00:00.000Z",
-  },
-];
+function seedCycles(): ElectionCycle[] {
+  return [
+    {
+      id: "elec-001",
+      unionId: "union-opseu",
+      localId: "local-243",
+      title: "2026 Executive election",
+      positions: ["President", "Vice-President", "Secretary"],
+      status: "open",
+      nominations: [
+        {
+          id: "nom-001",
+          position: "President",
+          nomineeName: "Alex Rivera",
+          status: "accepted",
+          nominator: "Jordan Chen",
+        },
+        {
+          id: "nom-002",
+          position: "Vice-President",
+          nomineeName: "Sam Okonkwo",
+          status: "pending",
+          nominator: "Alex Rivera",
+        },
+      ],
+      tallies: [],
+      termStart: "2026-09-01",
+      createdAt: "2026-06-01T12:00:00.000Z",
+      updatedAt: "2026-06-15T12:00:00.000Z",
+    },
+  ];
+}
+
+const cycles: ElectionCycle[] = seedCycles();
 
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -258,3 +262,8 @@ export class MemoryElectionsAdapter implements ElectionsAdapter {
 
 export const memoryElectionsStore: ElectionsAdapter =
   new MemoryElectionsAdapter();
+
+/** @internal test helper — restores demo seed so mutating tests stay isolated. */
+export function resetElectionsMemoryForTests(): void {
+  cycles.splice(0, cycles.length, ...seedCycles());
+}

@@ -8,47 +8,51 @@ import type {
 
 const now = () => new Date().toISOString();
 
-const entries: OfficerRosterEntry[] = [
-  {
-    id: "off-001",
-    unionId: "union-opseu",
-    localId: "local-243",
-    name: "Alex Rivera",
-    role: "President",
-    termStart: "2024-07-01",
-    termEnd: "2026-08-31",
-    email: "president.243@unionops.test",
-    committees: ["Executive"],
-    createdAt: "2024-07-01T12:00:00.000Z",
-    updatedAt: "2024-07-01T12:00:00.000Z",
-  },
-  {
-    id: "off-002",
-    unionId: "union-opseu",
-    localId: "local-243",
-    name: "Jordan Chen",
-    role: "Vice-President",
-    termStart: "2024-07-01",
-    termEnd: "2027-06-30",
-    email: "vp.243@unionops.test",
-    committees: ["Executive", "Health & Safety"],
-    createdAt: "2024-07-01T12:00:00.000Z",
-    updatedAt: "2024-07-01T12:00:00.000Z",
-  },
-  {
-    id: "off-003",
-    unionId: "union-opseu",
-    localId: "local-243",
-    name: "Riley Santos",
-    role: "Steward (Part-time Support)",
-    termStart: "2025-01-15",
-    termEnd: "2027-01-14",
-    email: "steward-pt.243@unionops.test",
-    committees: ["Grievance"],
-    createdAt: "2025-01-15T12:00:00.000Z",
-    updatedAt: "2025-01-15T12:00:00.000Z",
-  },
-];
+function seedEntries(): OfficerRosterEntry[] {
+  return [
+    {
+      id: "off-001",
+      unionId: "union-opseu",
+      localId: "local-243",
+      name: "Alex Rivera",
+      role: "President",
+      termStart: "2024-07-01",
+      termEnd: "2026-08-31",
+      email: "president.243@unionops.test",
+      committees: ["Executive"],
+      createdAt: "2024-07-01T12:00:00.000Z",
+      updatedAt: "2024-07-01T12:00:00.000Z",
+    },
+    {
+      id: "off-002",
+      unionId: "union-opseu",
+      localId: "local-243",
+      name: "Jordan Chen",
+      role: "Vice-President",
+      termStart: "2024-07-01",
+      termEnd: "2027-06-30",
+      email: "vp.243@unionops.test",
+      committees: ["Executive", "Health & Safety"],
+      createdAt: "2024-07-01T12:00:00.000Z",
+      updatedAt: "2024-07-01T12:00:00.000Z",
+    },
+    {
+      id: "off-003",
+      unionId: "union-opseu",
+      localId: "local-243",
+      name: "Riley Santos",
+      role: "Steward (Part-time Support)",
+      termStart: "2025-01-15",
+      termEnd: "2027-01-14",
+      email: "steward-pt.243@unionops.test",
+      committees: ["Grievance"],
+      createdAt: "2025-01-15T12:00:00.000Z",
+      updatedAt: "2025-01-15T12:00:00.000Z",
+    },
+  ];
+}
+
+const entries: OfficerRosterEntry[] = seedEntries();
 
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -147,3 +151,8 @@ export class MemoryOfficerRosterAdapter implements OfficerRosterAdapter {
 
 export const memoryOfficerRosterStore: OfficerRosterAdapter =
   new MemoryOfficerRosterAdapter();
+
+/** @internal test helper — restores demo seed so mutating tests stay isolated. */
+export function resetOfficerRosterMemoryForTests(): void {
+  entries.splice(0, entries.length, ...seedEntries());
+}
