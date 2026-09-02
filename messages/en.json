@@ -6604,7 +6604,7 @@
       },
       "land-acknowledgement-guide": {
         "title": "Land Acknowledgement Guide",
-        "body": "Learn why acknowledgements matter, research whose traditional territory you are on, and pair words with action — with links to Native-Land.ca, Whose Land, NCTR, and Crown–Indigenous Relations. No script generator."
+        "body": "The guide now includes an annotated Niagara-region worked example — territory, action, and treaty commitment — so you can see what thoughtful local wording looks like without a copy-paste generator."
       },
       "guide-tool-aside": {
         "title": "Guides — tool shortcuts on desktop",
@@ -10085,6 +10085,32 @@
       },
       "resourcesTitle": "Official educational resources",
       "resourcesIntro": "The sources at the bottom of this page include territory maps, the NCTR, government treaty hubs, and union federation guides (OFL, OPSEU / SEFPO, CUPE, BCGEU). Read them before you draft your own words."
+    },
+    "workedExample": {
+      "navLabel": "Worked example",
+      "title": "Worked example: what a local acknowledgement can include",
+      "intro": "Illustrative only — Niagara region, Ontario. This is one college-support local's wording (April 2026), annotated so you can see what each part does. Do not copy it for Thunder Bay, Vancouver, or any other territory. Research your site with Native-Land.ca, Whose Land, and your federation's guide, then write in your own voice.",
+      "badge": "Example only — not a script to copy",
+      "blocks": {
+        "territory": {
+          "label": "Territory and treaties",
+          "text": "I would like to acknowledge that we are gathered on the traditional territory of the Haudenosaunee and Anishinaabe peoples—land governed by the Dish with One Spoon Wampum and the foundational 1764 Treaty of Niagara.",
+          "annotation": "Names the specific nations and agreements for where the room sits. Generic \"Indigenous land\" lines skip the treaties your members could actually learn."
+        },
+        "action": {
+          "label": "Meeting place and next step",
+          "text": "We recognize that this part of Turtle Island has been a meeting place for thousands of years. As a commitment to decolonization, I invite everyone to visit the Landscape of Nations at Queenston Heights or the First Nations Peace Monument in Thorold.",
+          "annotation": "Pairs words with something members can do after the meeting — local monuments, Friendship Centres, or Indigenous-led events — instead of stopping at a single sentence."
+        },
+        "covenant": {
+          "label": "Alliance, history, and commitment",
+          "text": "These landmarks do more than honor the past; they serve as a physical reminder that the existence of this region was secured through the alliance and sacrifice of Indigenous leaders like Tecumseh and the warriors of the Six Nations and the Seven Nations of Canada. By acknowledging this history, we commit to moving forward in the spirit of the Covenant Chain—one of peace, friendship, and shared responsibility for the land we all call home.",
+          "annotation": "Connects the present gathering to treaty relationships and ongoing responsibility. BCGEU calls this a tiered acknowledgement — territory first, then justice and history — not a checkbox."
+        }
+      },
+      "warningTitle": "Research beats recycling",
+      "warning": "Even thoughtful local text fails if you read it unchanged in the wrong territory or never follow through. Start from your federation framework, confirm accuracy with Indigenous sources, and plan action your executive can track.",
+      "tip": "Compare this structure to the OFL Ontario territory PDF and your national union event guide — then draft something site-accurate you can explain without notes."
     },
     "terminology": {
       "navLabel": "Terms to know",

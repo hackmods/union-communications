@@ -119,6 +119,11 @@ test.describe("Steward meeting guides @smoke", () => {
       }),
     ).toBeVisible();
     await expect(
+      page.getByRole("heading", {
+        name: /Worked example: what a local acknowledgement can include/i,
+      }),
+    ).toBeVisible();
+    await expect(
       page
         .locator("#nextSteps")
         .getByRole("link", { name: /Running meetings/i }),

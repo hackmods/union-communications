@@ -6570,7 +6570,7 @@
       },
       "land-acknowledgement-guide": {
         "title": "Guide de reconnaissance territoriale",
-        "body": "Comprenez pourquoi la reconnaissance compte, renseignez-vous sur le territoire traditionnel où vous êtes et liez les mots à l'action — avec des liens vers Native-Land.ca, Whose Land, le CNVR et Relations Couronne-Autochtones. Sans générateur de texte."
+        "body": "Le guide inclut maintenant un exemple commenté de la région du Niagara — territoire, action et engagement traité — pour montrer à quoi ressemble une formulation locale réfléchie, sans générateur copier-coller."
       },
       "guide-tool-aside": {
         "title": "Guides — raccourcis outils sur ordinateur",
@@ -10101,6 +10101,32 @@
       },
       "resourcesTitle": "Ressources éducatives officielles",
       "resourcesIntro": "Les sources en bas de page incluent cartes territoriales, le CNVR, les hubs traités du gouvernement et les guides fédéraux (FTO, OPSEU / SEFPO, SCFP, BCGEU). Lisez-les avant de rédiger vos propres mots."
+    },
+    "workedExample": {
+      "navLabel": "Exemple commenté",
+      "title": "Exemple commenté : ce qu'une reconnaissance locale peut inclure",
+      "intro": "À titre d'illustration seulement — région du Niagara, Ontario. Formulation d'une section de personnel de collège (avril 2026), annotée pour montrer le rôle de chaque partie. Ne la copiez pas pour Thunder Bay, Vancouver ou tout autre territoire. Renseignez-vous avec Native-Land.ca, Whose Land et le guide de votre fédération, puis écrivez avec vos propres mots.",
+      "badge": "Exemple seulement — pas un texte à copier",
+      "blocks": {
+        "territory": {
+          "label": "Territoire et traités",
+          "text": "J'aimerais reconnaître que nous sommes réunis sur le territoire traditionnel des peuples haudenosaunee et anichinabés — un territoire régi par le wampum du Plat avec une cuillère et le traité fondateur de Niagara de 1764.",
+          "annotation": "Nomme les nations et ententes précises du lieu de la réunion. Une formule générique « terres autochtones » évite les traités que vos membres pourraient apprendre."
+        },
+        "action": {
+          "label": "Lieu de rencontre et prochaine étape",
+          "text": "Nous reconnaissons que cette partie de l'Île-Tortue est un lieu de rencontre depuis des millénaires. Comme engagement envers la décolonisation, j'invite chacune et chacun à visiter le Landscape of Nations à Queenston Heights ou le First Nations Peace Monument à Thorold.",
+          "annotation": "Lie les mots à une action après la réunion — monuments locaux, centres d'amitié ou activités dirigées par des Autochtones — au lieu de s'arrêter à une seule phrase."
+        },
+        "covenant": {
+          "label": "Alliance, histoire et engagement",
+          "text": "Ces lieux commémoratifs honorent le passé et rappellent que l'existence de cette région s'est construite grâce à l'alliance et au sacrifice de dirigeants autochtones comme Tecumseh et des guerriers des Six Nations et des Sept Nations du Canada. En reconnaissant cette histoire, nous nous engageons à avancer dans l'esprit de la Chaîne de l'Alliance — paix, amitié et responsabilité partagée pour le territoire que nous partageons.",
+          "annotation": "Relie la réunion présente aux relations traitées et à la responsabilité continue. Le BCGEU parle de reconnaissance « à niveaux » — territoire d'abord, puis justice et histoire — pas une case à cocher."
+        }
+      },
+      "warningTitle": "La recherche prime sur le recyclage",
+      "warning": "Même un texte local réfléchi échoue s'il est lu tel quel sur le mauvais territoire ou sans suite concrète. Partez du cadre fédéral, confirmez auprès de sources autochtones et planifiez une action que l'exécutif peut suivre.",
+      "tip": "Comparez cette structure au PDF territorial ontarien de la FTO et au guide d'événement de votre syndicat national — puis rédigez quelque chose d'exact pour votre site que vous pouvez expliquer sans notes."
     },
     "terminology": {
       "navLabel": "Termes à connaître",

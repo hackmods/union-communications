@@ -14,6 +14,7 @@ const TOC = [
   ["agenda", "agenda"],
   ["formats", "formats"],
   ["learn", "learn"],
+  ["workedExample", "workedExample"],
   ["terminology", "terminology"],
   ["elders", "elders"],
   ["action", "action"],
@@ -29,6 +30,7 @@ const unionKeys = ["opseu", "ofl", "cupe", "bcgeu", "others"] as const;
 const agendaKeys = ["order", "respect", "bilingual", "plenary", "facilitator"] as const;
 const formatKeys = ["inPerson", "online", "hybrid", "personalize"] as const;
 const learnKeys = ["research", "elders", "accuracy", "context", "friendship"] as const;
+const workedExampleKeys = ["territory", "action", "covenant"] as const;
 const termKeys = ["nations", "treaties", "turtleIsland", "dish", "capitalize"] as const;
 const elderKeys = ["when", "invite", "protocol", "honorarium", "notDefault"] as const;
 const actionKeys = ["support", "learn", "relationships", "accountability", "trc"] as const;
@@ -184,6 +186,42 @@ export async function LandAcknowledgementGuide() {
         <Callout tone="muted" className="mt-5 max-w-prose">
           <p className="font-semibold text-opseu-dark">{t("learn.resourcesTitle")}</p>
           <p className="mt-1">{t("learn.resourcesIntro")}</p>
+        </Callout>
+      </GuideSection>
+
+      <GuideSection
+        id="workedExample"
+        title={t("workedExample.title")}
+        intro={t("workedExample.intro")}
+      >
+        <Callout tone="warning" className="mt-4 max-w-prose">
+          <p className="font-semibold text-amber-950">{t("workedExample.badge")}</p>
+        </Callout>
+        <div className="mt-6 space-y-8">
+          {workedExampleKeys.map((key) => (
+            <figure key={key} className="max-w-prose">
+              <blockquote className="border-l-4 border-opseu-blue/35 pl-4 text-gray-800 leading-relaxed">
+                {t(`workedExample.blocks.${key}.text`)}
+              </blockquote>
+              <figcaption className="mt-3 text-gray-700 leading-relaxed">
+                <span className="font-semibold text-opseu-dark">
+                  {t(`workedExample.blocks.${key}.label`)}
+                </span>
+                {" — "}
+                {t(`workedExample.blocks.${key}.annotation`)}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <Callout tone="warning" className="mt-6 max-w-prose">
+          <p className="font-semibold text-amber-950">
+            {t("workedExample.warningTitle")}
+          </p>
+          <p className="mt-1">{t("workedExample.warning")}</p>
+        </Callout>
+        <Callout tone="muted" className="mt-5 max-w-prose">
+          <p className="font-semibold text-opseu-dark">{t("tipLabel")}</p>
+          <p className="mt-1">{t("workedExample.tip")}</p>
         </Callout>
       </GuideSection>
 
