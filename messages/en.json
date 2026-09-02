@@ -6620,7 +6620,7 @@
       },
       "land-acknowledgement-guide": {
         "title": "Land Acknowledgement Guide",
-        "body": "Refactored guide with a four-person writing walkthrough, downloadable PDF worksheet, flow diagram, and annotated Niagara example — still no copy-paste generator."
+        "body": "Refactored guide with solo and workshop writing paths, downloadable PDF worksheet, flow diagram, and annotated Niagara example — still no copy-paste generator."
       },
       "guide-tool-aside": {
         "title": "Guides — tool shortcuts on desktop",
@@ -9910,7 +9910,7 @@
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
-    "intro": "Land acknowledgements recognize that union meetings take place on lands with long Indigenous histories. This guide walks your local from research to a first draft — with federation sources, a four-person writing walkthrough, and an annotated example. UnionOps does not generate text for you.",
+    "intro": "Land acknowledgements recognize that union meetings take place on lands with long Indigenous histories. This guide walks your local from research to a first draft — with federation sources, solo and workshop paths, and an annotated example. UnionOps does not generate text for you.",
     "groundRules": {
       "navLabel": "Ground rules",
       "title": "Ground rules",
@@ -9978,52 +9978,75 @@
       },
       "tip": "If you would not say it to an Elder or knowledge keeper in your community, do not say it to a room."
     },
-    "writeTogether": {
-      "navLabel": "Writing together",
-      "title": "Writing together — four-person walkthrough",
-      "intro": "Many locals draft their first acknowledgement in a one-hour executive mini-session. Assign four roles, follow the flow below, and print the worksheet for note-taking.",
-      "flowHeading": "The flow (~60 minutes)",
-      "flow": {
-        "assign": {
-          "title": "Step 1 · Assign",
-          "subtitle": "Name four roles · ~5 min"
-        },
+    "howToWrite": {
+      "navLabel": "How to write",
+      "title": "How to write your acknowledgement",
+      "intro": "Most locals start one of two ways: one officer researches and drafts alone, then brings it to executive — or the education committee runs a short workshop. Both paths use the same research → reflect → draft → review rhythm.",
+      "soloHeading": "On your own (~45 minutes)",
+      "soloIntro": "Block an hour with Native-Land.ca or your federation PDF open. You are writing for your local, not performing for a room yet — focus on accuracy and words you can explain.",
+      "soloFlow": {
         "research": {
-          "title": "Step 2 · Research",
-          "subtitle": "Maps + federation PDF · ~20 min"
+          "title": "Step 1 · Research",
+          "subtitle": "Maps + federation guide · ~20 min"
+        },
+        "reflect": {
+          "title": "Step 2 · Reflect",
+          "subtitle": "Why this matters to you · ~10 min"
         },
         "draft": {
           "title": "Step 3 · Draft",
-          "subtitle": "Reflect + combine wording · ~25 min"
+          "subtitle": "Territory + action in your words · ~15 min"
         },
         "review": {
           "title": "Step 4 · Review",
-          "subtitle": "Checklist + action owner · ~10 min"
+          "subtitle": "Checklist before you share · ~10 min"
         }
       },
-      "rolesHeading": "Four roles",
-      "roles": {
-        "research": {
-          "label": "Research lead",
-          "task": "Native-Land.ca, Whose Land, OFL or national union territory PDF — bring nation and treaty names to the table."
+      "workshopHeading": "Run a workshop (~60–90 minutes)",
+      "workshopIntro": "Use this when your executive or education committee wants to draft together. Aim for a working session, not a lecture — people leave with a draft and a review date, not homework they never finish.",
+      "workshopPrepHeading": "Before the room",
+      "workshopPrep": {
+        "who": {
+          "label": "Who to invite",
+          "content": "Executive, education committee, stewards who open meetings — the whole local owns this, not one Indigenous member asked to educate everyone."
         },
-        "history": {
-          "label": "History lead",
-          "task": "Local context, spellings, TRC themes, and questions for Friendship Centres or band offices."
+        "materials": {
+          "label": "What to bring",
+          "content": "Printed territory maps, your federation PDF, one worksheet per person, and a way to project Native-Land.ca or Whose Land."
+        },
+        "room": {
+          "label": "How to set up the room",
+          "content": "Tables or a circle, low pressure. Pairs or small groups draft; no one has to read aloud unless they choose to."
+        },
+        "followUp": {
+          "label": "Close with a date",
+          "content": "Book executive adoption, name who reads at the next meeting, and one concrete follow-up action before people leave."
+        }
+      },
+      "workshopAgendaHeading": "Suggested agenda",
+      "workshopAgenda": {
+        "open": {
+          "label": "Opening (~10 min)",
+          "content": "Ground rules from this guide — no copy-paste scripts, defer to Indigenous leadership, words need action. One round: why does this matter to our local?"
+        },
+        "research": {
+          "label": "Research together (~25 min)",
+          "content": "Project a map; note nations, treaties, and spellings on the board. Compare your federation guide. List questions for Friendship Centres or band offices."
         },
         "draft": {
-          "label": "Draft lead",
-          "task": "Combines the group's research into wording the room can stand behind — not copied from another city."
+          "label": "Draft in pairs (~25 min)",
+          "content": "Each pair writes a short draft using the worksheet. Territory first, then one local action or historical thread — not copied from another city."
         },
-        "action": {
-          "label": "Action lead",
-          "task": "One concrete follow-up for the executive, a review date, and who reads the acknowledgement at the next meeting."
+        "close": {
+          "label": "Review and commit (~20 min)",
+          "content": "Optional read-backs, run the review checklist, pick one combined draft or two to merge later, assign executive review and first reader."
         }
       },
-      "worksheetHint": "Download the PDF — role blanks, research notes, draft space, and a review checklist. Education only; not a script to paste unchanged."
+      "workshopTip": "If the room is large, split into pairs for drafting — you do not need a fixed head count. If someone is unsure, pause and suggest consulting your union's Indigenous Circle before finalizing.",
+      "worksheetHint": "Download the PDF for solo note-taking or as a workshop handout — research blanks, draft space, and a review checklist. Education only; not a script to paste unchanged."
     },
     "worksheet": {
-      "cta": "Download writing walkthrough (PDF)",
+      "cta": "Download writing worksheet (PDF)",
       "downloading": "Preparing PDF…"
     },
     "prepareWords": {
@@ -10244,15 +10267,15 @@
     "nextSteps": {
       "navLabel": "Next steps",
       "title": "Next steps",
-      "intro": "Start with your federation guide, run the four-person walkthrough, and schedule an executive review.",
+      "intro": "Start with your federation guide, draft solo or run a workshop, and schedule an executive review.",
       "items": {
         "read": {
           "label": "Read your federation guide",
           "content": "OFL Ontario PDF if you are in Ontario, plus Native-Land.ca or Whose Land for your site."
         },
         "reflect": {
-          "label": "Run the writing walkthrough",
-          "content": "Download the worksheet, assign four roles, and draft together — then check accuracy before the next meeting."
+          "label": "Write or workshop a draft",
+          "content": "Use the solo flow or workshop agenda above — download the worksheet if it helps — then check accuracy before the next meeting."
         },
         "followUp": {
           "label": "Follow up with your executive",

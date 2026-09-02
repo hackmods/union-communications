@@ -1,9 +1,16 @@
 # Progress Log
 
-## Land Acknowledgement — refactor + 4-person worksheet (2026-09-02)
+## Land Acknowledgement — solo + workshop paths (2026-09-02)
 
-- [x] **Guide IA:** 14 sections → 8 (ground rules, why/principles, writing together, prepare, at meeting, federations, go further, next steps)
-- [x] **Visual:** flow diagram + role cards + branded PDF worksheet (`land-acknowledgement-worksheet-pdf.ts`)
+- [x] **How to write:** replaced four-person framing with solo flow (~45 min) + facilitator workshop agenda (~60–90 min) on same page
+- [x] **Worksheet PDF:** dual-path handout (solo or group); no fixed head count
+- [x] **Removed:** four role cards — pairs/small groups in workshop instead
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/comms/land-acknowledgement-worksheet-pdf.test.ts` + land acknowledgement smoke
+
+## Land Acknowledgement — refactor + worksheet (2026-09-02)
+
+- [x] **Guide IA:** 14 sections → 8 (ground rules, why/principles, how to write, prepare, at meeting, federations, go further, next steps)
+- [x] **Visual:** solo flow diagram + branded PDF worksheet (`land-acknowledgement-worksheet-pdf.ts`)
 - [x] **Deduped:** tokenism, OPSEU order, research tools, action/next-steps overlap
 - Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/comms/land-acknowledgement-worksheet-pdf.test.ts` + land acknowledgement smoke
 

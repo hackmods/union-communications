@@ -6570,7 +6570,7 @@
       },
       "land-acknowledgement-guide": {
         "title": "Guide de reconnaissance territoriale",
-        "body": "Guide restructuré avec atelier à quatre personnes, feuille PDF téléchargeable, diagramme de déroulement et exemple commenté du Niagara — toujours sans générateur copier-coller."
+        "body": "Guide restructuré avec voies solo et atelier, feuille PDF téléchargeable, diagramme de déroulement et exemple commenté du Niagara — toujours sans générateur copier-coller."
       },
       "guide-tool-aside": {
         "title": "Guides — raccourcis outils sur ordinateur",
@@ -9910,7 +9910,7 @@
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
-    "intro": "La reconnaissance territoriale rappelle que les réunions syndicales ont lieu sur des terres au long passé autochtone. Ce guide accompagne votre section de la recherche à une première ébauche — sources fédérales, atelier à quatre personnes et exemple commenté. UnionOps ne génère pas de texte pour vous.",
+    "intro": "La reconnaissance territoriale rappelle que les réunions syndicales ont lieu sur des terres au long passé autochtone. Ce guide accompagne votre section de la recherche à une première ébauche — sources fédérales, voies solo et atelier, et exemple commenté. UnionOps ne génère pas de texte pour vous.",
     "groundRules": {
       "navLabel": "Règles de base",
       "title": "Règles de base",
@@ -9978,52 +9978,75 @@
       },
       "tip": "Si vous ne le diriez pas à une Aînée ou un détenteur de savoir dans votre communauté, ne le dites pas à une salle."
     },
-    "writeTogether": {
-      "navLabel": "Rédiger ensemble",
-      "title": "Rédiger ensemble — atelier à quatre personnes",
-      "intro": "Plusieurs sections rédigent leur première reconnaissance en mini-session exécutive d'une heure. Répartissez quatre rôles, suivez le déroulement ci-dessous et imprimez la feuille de travail.",
-      "flowHeading": "Le déroulement (~60 min)",
-      "flow": {
-        "assign": {
-          "title": "Étape 1 · Rôles",
-          "subtitle": "Quatre rôles · ~5 min"
-        },
+    "howToWrite": {
+      "navLabel": "Comment rédiger",
+      "title": "Comment rédiger votre reconnaissance",
+      "intro": "La plupart des sections commencent de deux façons : un·e responsable recherche et rédige seul·e, puis présente à l'exécutif — ou le comité éducation tient un court atelier. Les deux voies suivent le même rythme : recherche → réflexion → rédaction → révision.",
+      "soloHeading": "Seul·e (~45 minutes)",
+      "soloIntro": "Bloquez une heure avec Native-Land.ca ou le PDF fédéral ouvert. Vous rédigez pour votre section, pas encore pour la scène — privilégiez l'exactitude et des mots que vous pouvez expliquer.",
+      "soloFlow": {
         "research": {
-          "title": "Étape 2 · Recherche",
-          "subtitle": "Cartes + PDF fédéral · ~20 min"
+          "title": "Étape 1 · Recherche",
+          "subtitle": "Cartes + guide fédéral · ~20 min"
+        },
+        "reflect": {
+          "title": "Étape 2 · Réflexion",
+          "subtitle": "Pourquoi cela compte pour vous · ~10 min"
         },
         "draft": {
           "title": "Étape 3 · Rédaction",
-          "subtitle": "Réflexion + formulation · ~25 min"
+          "subtitle": "Territoire + action dans vos mots · ~15 min"
         },
         "review": {
           "title": "Étape 4 · Révision",
-          "subtitle": "Liste + responsable · ~10 min"
+          "subtitle": "Liste avant de partager · ~10 min"
         }
       },
-      "rolesHeading": "Quatre rôles",
-      "roles": {
-        "research": {
-          "label": "Responsable recherche",
-          "task": "Native-Land.ca, Whose Land, PDF territorial FTO ou syndicat national — apporte noms de nations et traités."
+      "workshopHeading": "Tenir un atelier (~60–90 minutes)",
+      "workshopIntro": "Utilisez ceci quand l'exécutif ou le comité éducation veut rédiger ensemble. Visez une séance de travail, pas un cours magistral — les gens repartent avec une ébauche et une date de revue.",
+      "workshopPrepHeading": "Avant la rencontre",
+      "workshopPrep": {
+        "who": {
+          "label": "Qui inviter",
+          "content": "Exécutif, comité éducation, délégué·es qui ouvrent les réunions — toute la section en est responsable, pas un·e seul·e membre autochtone invité·e à éduquer tout le monde."
         },
-        "history": {
-          "label": "Responsable histoire",
-          "task": "Contexte local, orthographes, thèmes du CNVR et questions pour centres d'amitié ou bureaux de bande."
+        "materials": {
+          "label": "Quoi apporter",
+          "content": "Cartes territoriales imprimées, PDF fédéral, une feuille par personne et un moyen de projeter Native-Land.ca ou Whose Land."
+        },
+        "room": {
+          "label": "Disposition de la salle",
+          "content": "Tables ou cercle, sans pression. Les duos ou petits groupes rédigent ; personne n'a à lire à voix haute s'il·elle ne le choisit pas."
+        },
+        "followUp": {
+          "label": "Clore avec une date",
+          "content": "Fixez l'adoption exécutive, nommez qui lit à la prochaine réunion et une action concrète de suivi avant que les gens partent."
+        }
+      },
+      "workshopAgendaHeading": "Ordre du jour suggéré",
+      "workshopAgenda": {
+        "open": {
+          "label": "Ouverture (~10 min)",
+          "content": "Règles de base de ce guide — pas de texte copier-coller, suivre le leadership autochtone, les mots exigent une action. Un tour : pourquoi cela compte pour notre section?"
+        },
+        "research": {
+          "label": "Recherche ensemble (~25 min)",
+          "content": "Projeter une carte ; noter nations, traités et orthographes au tableau. Comparer le guide fédéral. Lister les questions pour centres d'amitié ou bureaux de bande."
         },
         "draft": {
-          "label": "Responsable rédaction",
-          "task": "Combine la recherche en mots que le groupe peut assumer — pas copiés d'une autre ville."
+          "label": "Rédaction en duo (~25 min)",
+          "content": "Chaque duo rédige une courte ébauche avec la feuille. Territoire d'abord, puis une action locale ou fil historique — pas copié d'une autre ville."
         },
-        "action": {
-          "label": "Responsable action",
-          "task": "Une suite concrète pour l'exécutif, une date de revue et qui lit à la prochaine réunion."
+        "close": {
+          "label": "Révision et engagement (~20 min)",
+          "content": "Lectures optionnelles, liste de révision, choisir une ébauche combinée ou deux à fusionner, assigner la revue exécutive et la première lectrice ou le premier lecteur."
         }
       },
-      "worksheetHint": "Téléchargez le PDF — rôles, notes de recherche, espace de rédaction et liste de révision. Formation seulement ; pas un texte à coller tel quel."
+      "workshopTip": "Si la salle est grande, formez des duos pour la rédaction — pas de nombre fixe de participants. Si quelqu'un hésite, proposez de consulter le cercle autochtone du syndicat avant de finaliser.",
+      "worksheetHint": "Téléchargez le PDF pour prendre des notes seul·e ou comme feuille d'atelier — espaces recherche, rédaction et liste de révision. Formation seulement ; pas un texte à coller tel quel."
     },
     "worksheet": {
-      "cta": "Télécharger l'atelier (PDF)",
+      "cta": "Télécharger la feuille (PDF)",
       "downloading": "Préparation du PDF…"
     },
     "prepareWords": {
@@ -10244,15 +10267,15 @@
     "nextSteps": {
       "navLabel": "Prochaines étapes",
       "title": "Prochaines étapes",
-      "intro": "Commencez par le guide fédéral, tenez l'atelier à quatre personnes et planifiez une revue exécutive.",
+      "intro": "Commencez par le guide fédéral, rédigez seul·e ou tenez un atelier, et planifiez une revue exécutive.",
       "items": {
         "read": {
           "label": "Lire le guide fédéral",
           "content": "PDF ontarien FTO si vous êtes en Ontario, plus Native-Land.ca ou Whose Land pour votre site."
         },
         "reflect": {
-          "label": "Tenir l'atelier de rédaction",
-          "content": "Téléchargez la feuille, répartissez quatre rôles et rédigez ensemble — puis vérifiez l'exactitude avant la prochaine réunion."
+          "label": "Rédiger ou tenir un atelier",
+          "content": "Suivez la voie solo ou l'ordre du jour d'atelier ci-dessus — téléchargez la feuille si utile — puis vérifiez l'exactitude avant la prochaine réunion."
         },
         "followUp": {
           "label": "Suivi avec l'exécutif",

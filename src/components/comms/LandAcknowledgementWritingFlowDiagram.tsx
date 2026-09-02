@@ -8,7 +8,7 @@ export interface LandAcknowledgementWritingFlowDiagramProps {
   className?: string;
 }
 
-/** Four-step group walkthrough: assign → research → draft → review. */
+/** Solo writing flow: research → reflect → draft → review. */
 export function LandAcknowledgementWritingFlowDiagram({
   steps,
   className,
@@ -44,40 +44,6 @@ export function LandAcknowledgementWritingFlowDiagram({
           </li>
         ))}
       </ol>
-    </div>
-  );
-}
-
-export interface LandAcknowledgementRolesDiagramProps {
-  roles: readonly {
-    label: string;
-    task: string;
-  }[];
-  className?: string;
-}
-
-/** Four role cards for a writing circle. */
-export function LandAcknowledgementRolesDiagram({
-  roles,
-  className,
-}: LandAcknowledgementRolesDiagramProps) {
-  const ariaLabel = roles.map((r) => `${r.label}: ${r.task}`).join("; ");
-
-  return (
-    <div
-      className={cn("grid gap-2 sm:grid-cols-2", className)}
-      role="img"
-      aria-label={ariaLabel}
-    >
-      {roles.map((role) => (
-        <div
-          key={role.label}
-          className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-3"
-        >
-          <p className="text-sm font-bold text-opseu-dark">{role.label}</p>
-          <p className="mt-1 text-sm leading-relaxed text-gray-700">{role.task}</p>
-        </div>
-      ))}
     </div>
   );
 }
