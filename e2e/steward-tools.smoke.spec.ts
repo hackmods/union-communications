@@ -96,7 +96,9 @@ test.describe("Steward meeting guides @smoke", () => {
         .getByRole("link", { name: /Rules of Order Cheat Sheet/i }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Land acknowledgement/i }),
+      page
+        .locator("#agenda")
+        .getByRole("link", { name: /Land acknowledgement/i }),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
@@ -117,7 +119,9 @@ test.describe("Steward meeting guides @smoke", () => {
       }),
     ).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Running meetings/i }),
+      page
+        .locator("#nextSteps")
+        .getByRole("link", { name: /Running meetings/i }),
     ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
