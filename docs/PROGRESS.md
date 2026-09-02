@@ -1,5 +1,11 @@
 # Progress Log
 
+## Land Acknowledgement — discoverability pass (2026-09-02)
+
+- [x] **SEO + catalog blurbs:** solo path, workshop, PDF worksheet in meta descriptions and steward playbook listings (EN/FR)
+- [x] **PDF smoke:** land acknowledgement worksheet in `guide-pdf.export.smoke.spec.ts`
+- Verify: `npm run test:unit -- src/lib/seo/public-page-meta.test.ts src/lib/comms/public-copy-style.test.ts` + guide PDF smoke
+
 ## Land Acknowledgement — solo + workshop paths (2026-09-02)
 
 - [x] **How to write:** replaced four-person framing with solo flow (~45 min) + facilitator workshop agenda (~60–90 min) on same page

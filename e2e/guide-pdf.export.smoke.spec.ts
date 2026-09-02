@@ -122,6 +122,32 @@ test.describe("Guide text PDF export smoke @smoke", () => {
       titleNeedle: /Union board print checklist/i,
       footerNeedle: /UnionOps Comms/i,
     });
+
+    await page.goto("/en/guide/land-acknowledgement/", {
+      waitUntil: "domcontentloaded",
+    });
+    await expect(
+      page.getByRole("heading", { name: /Land Acknowledgement Guide/i }),
+    ).toBeVisible({ timeout: 60_000 });
+
+    const landAckCta = page
+      .locator("#howToWrite")
+      .getByRole("button", { name: /Download writing worksheet/i });
+    await landAckCta.scrollIntoViewIfNeeded();
+    const landAckDownloadPromise = page.waitForEvent("download");
+    await landAckCta.click();
+    const landAckDownload = await landAckDownloadPromise;
+    expect(landAckDownload.suggestedFilename()).toMatch(
+      /unionops-land-acknowledgement-worksheet.*\.pdf$/i,
+    );
+    const landAckPath = path.join(outDir, landAckDownload.suggestedFilename());
+    await landAckDownload.saveAs(landAckPath);
+    await assertTextPdfWithMark({
+      filePath: landAckPath,
+      minBytes: 3_000,
+      titleNeedle: /Land acknowledgement writing worksheet/i,
+      footerNeedle: /UnionOps Comms/i,
+    });
   });
 
   test("FR FAR sheet uses French education footer", async ({ page }) => {
