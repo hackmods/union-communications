@@ -8,28 +8,32 @@ import type {
 
 const now = () => new Date().toISOString();
 
-const committees: Committee[] = [
-  {
-    id: "com-001",
-    unionId: "union-opseu",
-    localId: "local-243",
-    name: "Health & Safety",
-    description: "Workplace health and safety representatives.",
-    memberOfficerIds: ["off-002"],
-    createdAt: "2025-01-15T12:00:00.000Z",
-    updatedAt: "2025-01-15T12:00:00.000Z",
-  },
-  {
-    id: "com-002",
-    unionId: "union-opseu",
-    localId: "local-243",
-    name: "Social",
-    description: "Member events and solidarity fundraising.",
-    memberOfficerIds: ["off-001"],
-    createdAt: "2025-02-01T12:00:00.000Z",
-    updatedAt: "2025-02-01T12:00:00.000Z",
-  },
-];
+function seedCommittees(): Committee[] {
+  return [
+    {
+      id: "com-001",
+      unionId: "union-opseu",
+      localId: "local-243",
+      name: "Health & Safety",
+      description: "Workplace health and safety representatives.",
+      memberOfficerIds: ["off-002"],
+      createdAt: "2025-01-15T12:00:00.000Z",
+      updatedAt: "2025-01-15T12:00:00.000Z",
+    },
+    {
+      id: "com-002",
+      unionId: "union-opseu",
+      localId: "local-243",
+      name: "Social",
+      description: "Member events and solidarity fundraising.",
+      memberOfficerIds: ["off-001"],
+      createdAt: "2025-02-01T12:00:00.000Z",
+      updatedAt: "2025-02-01T12:00:00.000Z",
+    },
+  ];
+}
+
+const committees: Committee[] = seedCommittees();
 
 function id(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -103,3 +107,8 @@ export class MemoryCommitteesAdapter implements CommitteesAdapter {
 
 export const memoryCommitteesStore: CommitteesAdapter =
   new MemoryCommitteesAdapter();
+
+/** @internal test helper — restores demo seed so mutating tests stay isolated. */
+export function resetCommitteesMemoryForTests(): void {
+  committees.splice(0, committees.length, ...seedCommittees());
+}
