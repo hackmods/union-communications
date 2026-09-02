@@ -235,6 +235,10 @@ test.describe("Public secondary pages smoke @smoke", () => {
       heading: /Running a Meeting.*Robert/i,
     },
     {
+      path: "/en/guide/land-acknowledgement/",
+      heading: /Land Acknowledgement Guide/i,
+    },
+    {
       path: "/en/guide/bargaining/",
       heading: "The Bargaining Lifecycle: From Survey to Signing",
     },

@@ -777,6 +777,7 @@
         "bargaining": "Bargaining lifecycle",
         "proposalTracker": "Proposal Tracker",
         "runningMeetings": "Running meetings guide",
+        "landAcknowledgement": "Land Acknowledgement Guide",
         "rulesOfOrder": "Rules of Order cheat sheet"
       }
     },
@@ -3134,7 +3135,7 @@
         "workplaceMapping": "Chart every coworker, find organic leaders, and score union support 1 to 5. Keep the file off employer systems.",
         "bylaws": "Executive structure, quorum, signing authority, elections, and how to amend bylaws with notice and a GMM vote.",
         "runningMeetings": "Scale formality to the room, run a standard agenda, and use the cheat sheet during live debate.",
-        "landAcknowledgement": "Research whose territory you are on, reflect with intention, and pair words with ongoing action — not a copy-paste script."
+        "landAcknowledgement": "Research whose territory you are on, reflect with intention, and pair words with ongoing action — OPSEU / SEFPO, OFL, and CUPE federation guides linked below."
       }
     },
     "checklist": {
@@ -4692,7 +4693,7 @@
       "bargaining": "Survey to signing for Local Bargaining Committees — table updates, strike votes, ratification, checklists, and the on-device Proposal Tracker.",
       "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval.",
       "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say when you move or raise a point.",
-      "landAcknowledgement": "Learn why acknowledgements matter, research traditional territories, and commit to action beyond a one-time statement."
+      "landAcknowledgement": "Learn why acknowledgements matter, how OPSEU / SEFPO and peer unions open meetings, and how to pair words with ongoing action — not a copy-paste script."
     },
     "workspaces": {
       "title": "Practice workspaces",
@@ -9676,7 +9677,8 @@
       "title": "The standard agenda (order of business)",
       "intro": "Most local meetings follow this flow:",
       "items": {
-        "callToOrder": "Call to Order & Reading of the Statement of Respect/Solidarity",
+        "callToOrder": "Land acknowledgement (when your federation or local requires it), then Call to Order & Reading of the Statement of Respect/Solidarity",
+        "landAckNote": "Many Ontario unions — including OPSEU / SEFPO — open with a land acknowledgement before the Statement of Respect and all other business. Research whose territory you are on; the guide below explains federation practice without offering a copy-paste script.",
         "adoptAgenda": "Adoption of the Agenda",
         "minutes": "Adoption of the Previous Meeting's Minutes",
         "treasurer": "Treasurer's Financial Report",
@@ -9887,15 +9889,15 @@
   },
   "landAcknowledgementGuide": {
     "title": "Land Acknowledgement Guide",
-    "subtitle": "Meaningful recognition of Indigenous lands, treaties, and ongoing presence — not a script generator",
+    "subtitle": "How Canadian unions acknowledge Indigenous lands — and how your local can do it with meaning, not a copy-paste script",
     "backToGuide": "Back to The Blueprint",
     "backToPlaybooks": "All steward playbooks",
     "tocLabel": "On this page",
     "tipLabel": "Takeaway",
-    "intro": "Land acknowledgements are one way to recognize that every gathering in Canada takes place on lands with long Indigenous histories. Done well, they move beyond a rote opening line and toward honest learning, treaty awareness, and active reconciliation. This guide helps you prepare your own words — it does not generate text for you.",
+    "intro": "Land acknowledgements recognize that every union meeting, workshop, and rally in Canada takes place on lands with long Indigenous histories. Major unions — including OPSEU / SEFPO, the Ontario Federation of Labour, CUPE, and BCGEU — pair opening acknowledgements with anti-racism statements, site-specific territory research, and ongoing reconciliation work. This guide explains that practice and helps you prepare your own words. It does not generate text for you.",
     "disclaimer": {
       "title": "Education, not a shortcut",
-      "body": "UnionOps does not provide fill-in-the-blank acknowledgement text. Read the sources cited at the bottom, learn from Indigenous nations and knowledge keepers in your area, and write words you can stand behind."
+      "body": "UnionOps does not provide fill-in-the-blank acknowledgement text. National unions publish frameworks and site-specific examples — read those sources, learn from Indigenous nations and knowledge keepers in your area, and write words you can stand behind."
     },
     "why": {
       "navLabel": "Why it matters",
@@ -9908,15 +9910,19 @@
         },
         "treaties": {
           "label": "Treaties and agreements",
-          "content": "Many parts of Canada are covered by treaties — mutual agreements that set out shared responsibilities. An acknowledgement can open the door to learning what those agreements mean where you live and work."
+          "content": "Ontario alone is covered by dozens of treaties and Crown purchases between 1781 and 1930. Many other provinces have their own treaty histories. An acknowledgement opens the door to learning what those agreements mean where you live and work."
         },
         "reconciliation": {
           "label": "Reconciliation as practice",
-          "content": "The Truth and Reconciliation Commission's calls to action ask every institution to do better. Words at the start of a meeting matter only when they connect to how your local shows up afterward."
+          "content": "After the Truth and Reconciliation Commission report, many settler institutions — including unions — began opening meetings with land acknowledgements. Words matter only when they connect to how your local shows up afterward."
         },
         "beyondToken": {
           "label": "Moving beyond tokenism",
-          "content": "Repeating a paragraph you found online, without understanding it, can feel hollow to Indigenous listeners. Personal reflection and accurate research are the minimum respectful starting point."
+          "content": "OPSEU / SEFPO facilitator guidance warns that acknowledging injustice without a real commitment to repair sounds like an empty apology Indigenous people have heard too often. Personal reflection and accurate research are the minimum respectful starting point."
+        },
+        "labour": {
+          "label": "The house of labour's role",
+          "content": "Unions benefit from colonial structures while Indigenous workers face ongoing discrimination in hiring, health care, and public services. Acknowledging territory is one step toward repairing that relationship — alongside bargaining, solidarity, and Indigenous-led organizing."
         }
       },
       "tip": "If you would not say it to an Elder or knowledge keeper in your community, do not say it to a room."
@@ -9924,7 +9930,7 @@
     "principles": {
       "navLabel": "Core principles",
       "title": "Core principles",
-      "intro": "Three commitments shape a meaningful acknowledgement:",
+      "intro": "Four commitments shape a meaningful acknowledgement:",
       "items": {
         "reflection": {
           "label": "Personal reflection and intentionality",
@@ -9932,22 +9938,133 @@
         },
         "territory": {
           "label": "Learn whose traditional territory you are on",
-          "content": "Research the nations, treaties, and languages connected to the place where your local meets, works, and organizes. Maps and government pages are starting points — confirm details with Indigenous sources."
+          "content": "Research the nations, treaties, and languages connected to the place where your local meets, works, and organizes. Maps and federation guides are starting points — confirm details with Indigenous sources."
         },
         "action": {
           "label": "Commit to action alongside the statement",
-          "content": "Pair words with concrete steps: supporting Indigenous-led campaigns, hiring Indigenous educators, donating to Indigenous organizations, or changing local policy. An acknowledgement without follow-through is an empty gesture."
+          "content": "Pair words with concrete steps: supporting Indigenous-led campaigns, bargaining reconciliation language, donating to Indigenous organizations, or changing local policy. An acknowledgement without follow-through is an empty gesture."
+        },
+        "relationship": {
+          "label": "Build relationships, not just sentences",
+          "content": "The OFL encourages affiliates to reach out to local First Nations, Métis, and Inuit communities and Friendship Centres — ask what they need rather than assuming. Acknowledgement is the beginning of that relationship."
+        }
+      }
+    },
+    "whenWhere": {
+      "navLabel": "When and where",
+      "title": "When and where unions acknowledge land",
+      "intro": "Practice varies by union, but several patterns appear across the Canadian labour movement:",
+      "items": {
+        "meetings": {
+          "label": "Local and executive meetings",
+          "content": "BCGEU convention delegates asked every local and component to open formal meetings with a territory acknowledgement. Many OPSEU / SEFPO locals read one at the start of general membership and executive meetings."
+        },
+        "events": {
+          "label": "Conventions, trainings, and rallies",
+          "content": "National and provincial union events typically acknowledge territory at the opening plenary. OPSEU / SEFPO event guides require it at the start of all official functions, alongside the Statement of Respect."
+        },
+        "comms": {
+          "label": "Newsletters, websites, and social posts",
+          "content": "Some locals add a brief acknowledgement to printed materials or event pages. Keep it accurate to where the event physically takes place — not where your web host's servers sit."
+        },
+        "virtual": {
+          "label": "Online and hybrid gatherings",
+          "content": "Virtual meetings still warrant acknowledgement. OPSEU / SEFPO and other unions use a distinct online wording that recognizes participants may be on different territories while still naming the steward's home land."
+        },
+        "everyone": {
+          "label": "Even without Indigenous members",
+          "content": "CUPE's reconciliation guides recommend locals move forward even when no member has self-identified as Indigenous. Building relationships with Indigenous workers and communities strengthens the whole union."
+        }
+      }
+    },
+    "unionPractice": {
+      "navLabel": "How unions do it",
+      "title": "How major unions approach land acknowledgement",
+      "intro": "Each national or provincial body publishes its own guidance. Use your federation's materials as the floor — then personalize for your campus, hospital, or shop floor.",
+      "items": {
+        "opseu": {
+          "label": "OPSEU / SEFPO",
+          "content": "Official event facilitator guides require a land acknowledgement and Statement of Respect at the start of every OPSEU / SEFPO function. The acknowledgement goes first on the agenda — before the Statement of Respect and before O Canada. Facilitators use a national framework plus site-specific territory lines for Ontario regions (London, Ottawa, Toronto Head Office, Sudbury, Thunder Bay, and others). If your city is not listed, research using the OFL Ontario guide or Native-Land.ca. Bilingual reading in English and French is recommended. The Indigenous Circle leads the union's reconciliation work — contact them through the Equity Unit before assuming what your local should say."
+        },
+        "ofl": {
+          "label": "Ontario Federation of Labour (OFL)",
+          "content": "The OFL Traditional Territory Acknowledgements in Ontario PDF provides a sample framework and city-by-city territory lines reviewed by the OFL Aboriginal Circle. It stresses that acknowledgement is only the beginning: read the TRC report, outreach to Friendship Centres, bargain employment equity, and sponsor Indigenous advocacy. Affiliated unions — including OPSEU / SEFPO locals — use this when they need Ontario site-specific language."
+        },
+        "cupe": {
+          "label": "CUPE",
+          "content": "Walking the Talk explains that land acknowledgements open most CUPE meetings and can include history, ongoing colonial harm, and proper traditional nation names. Locals may invite an Elder or Chief from the territory — with nation-specific protocols — or ask the CUPE National Indigenous Council for guidance. The separate Truth and Reconciliation Bargaining Guide includes sample contract language on acknowledgements, Indigenous sovereignty, non-discrimination, leave, and Elder inclusion at grievance meetings."
+        },
+        "bcgeu": {
+          "label": "BCGEU",
+          "content": "After a 2017 constitutional convention resolution, BCGEU published a First Nations Acknowledgement, Protocol and Terminology guide covering territory statements, tiered acknowledgements (territory first, then ongoing struggles for justice), Elder invitations, and terminology. Locals outside BC can use it as comparative reading for structure and respect."
+        },
+        "others": {
+          "label": "Other unions and federations",
+          "content": "Unifor, PSAC, USW, and provincial federations across Canada have increasingly integrated territorial acknowledgement and reconciliation into conventions and education. Check your national union's equity or human-rights page, Indigenous council, or steward school materials — and the Canadian Labour Congress education catalogue for cross-union resources."
+        }
+      },
+      "tip": "National union text is a starting framework. OPSEU / SEFPO explicitly asks facilitators to adapt it with a heartfelt, site-accurate message — not read slides unchanged."
+    },
+    "agenda": {
+      "navLabel": "Meeting order",
+      "title": "Where it goes on the agenda",
+      "intro": "Order signals priority. Several Ontario unions treat acknowledgement as the first business of the gathering:",
+      "items": {
+        "order": {
+          "label": "First item",
+          "content": "OPSEU / SEFPO event guides place land acknowledgement first — before the Statement of Respect, before national anthem, and before any other business. Treat it as opening ceremony, not an afterthought before lunch."
+        },
+        "respect": {
+          "label": "Pair with Statement of Respect",
+          "content": "OPSEU / SEFPO reads the Statement of Respect immediately after the acknowledgement. It commits the room to anti-harassment and inclusion for all members, including First Nations, Métis, and Inuit peoples. Event coordinators must list at least two qualified contacts for concerns, including one woman."
+        },
+        "bilingual": {
+          "label": "English and French",
+          "content": "OPSEU / SEFPO recommends reading the acknowledgement in both official languages when your audience includes Francophone members — especially at provincial or national events."
+        },
+        "plenary": {
+          "label": "Breakouts after plenary",
+          "content": "If acknowledgement and Statement of Respect were read at opening plenary, facilitators should remind workshop groups the respect commitment remains in effect for the whole event."
+        },
+        "facilitator": {
+          "label": "Chair or designated speaker",
+          "content": "The meeting chair, event facilitator, or a member who has done the research usually delivers the acknowledgement. Rotate who speaks so it is not always the same officer reading from memory."
+        }
+      },
+      "warningTitle": "Not a checkbox",
+      "warning": "OPSEU / SEFPO facilitator notes warn against treating acknowledgement as a to-do item to rush through. Pause. Mean it. Connect it to what the meeting will decide."
+    },
+    "formats": {
+      "navLabel": "In person and online",
+      "title": "In-person, online, and hybrid formats",
+      "intro": "The territory you name depends on where people are physically gathered — or where each participant works and lives.",
+      "items": {
+        "inPerson": {
+          "label": "In-person meetings",
+          "content": "Name the specific nations and treaties for the room you are in. OFL and OPSEU / SEFPO guides include lines such as traditional territory of the Anishinaabeg and Haudenosaunee covered by the Upper Canada Treaties — but only when that matches your location."
+        },
+        "online": {
+          "label": "Online meetings",
+          "content": "OPSEU / SEFPO provides separate online guidance: acknowledge that participants join from many lands, name the importance of each person's home territory, and invite reflection on reconciliation. Some locals acknowledge all Indigenous peoples across Turtle Island when the room is fully virtual."
+        },
+        "hybrid": {
+          "label": "Hybrid events",
+          "content": "Acknowledge the physical host location first, then recognize that remote participants may be on other territories. Avoid pretending everyone is in one place when they are not."
+        },
+        "personalize": {
+          "label": "Adapt, do not photocopy",
+          "content": "Every major union guide says the same thing: use the federation framework as a basis, then add accurate site-specific nation and treaty names and a sincere personal sentence about why acknowledgement matters to your local."
         }
       }
     },
     "learn": {
       "navLabel": "Research the land",
       "title": "Learning whose land you are on",
-      "intro": "Start with reliable educational tools, then go deeper with the nations themselves.",
+      "intro": "Start with reliable tools and federation guides, then go deeper with the nations themselves.",
       "items": {
         "research": {
           "label": "Use vetted research tools",
-          "content": "Interactive maps and treaty resources help you identify nations and agreements. Treat them as introductions, not final authority."
+          "content": "Native-Land.ca, Whose Land, the OFL Ontario PDF, and Crown–Indigenous Relations treaty pages help identify nations and agreements. Treat them as introductions, not final authority."
         },
         "elders": {
           "label": "Listen to Indigenous voices",
@@ -9955,15 +10072,73 @@
         },
         "accuracy": {
           "label": "Check names and spellings",
-          "content": "Nation names, language names, and treaty titles have correct forms. Copy errors from outdated slides disrespect the people you mean to honour."
+          "content": "Nation names (Haudenosaunee, Anishinaabeg, Mississaugas of the Credit, Atikameksheng Anishnaabeg), language names, and treaty titles have correct forms. Copy errors from outdated slides disrespect the people you mean to honour."
         },
         "context": {
           "label": "Learn local history",
-          "content": "Residential schools, land dispossession, and ongoing rights struggles shape the context for every acknowledgement. The National Centre for Truth and Reconciliation is one place to begin that learning."
+          "content": "Residential schools, land dispossession, mining without consent, missing and murdered Indigenous women and girls, and boil-water advisories shape the context for every acknowledgement. The National Centre for Truth and Reconciliation is one place to begin."
+        },
+        "friendship": {
+          "label": "Friendship Centres and band offices",
+          "content": "The OFL recommends outreach to local Native Friendship Centres and First Nations band or tribal council offices. They can confirm territory names and suggest appropriate community partnerships — ask what they need."
         }
       },
       "resourcesTitle": "Official educational resources",
-      "resourcesIntro": "The sources listed at the bottom of this page link to Native-Land.ca, Whose Land, the National Centre for Truth and Reconciliation, and Crown–Indigenous Relations Canada. Read them before you draft your own words."
+      "resourcesIntro": "The sources at the bottom of this page include territory maps, the NCTR, government treaty hubs, and union federation guides (OFL, OPSEU / SEFPO, CUPE, BCGEU). Read them before you draft your own words."
+    },
+    "terminology": {
+      "navLabel": "Terms to know",
+      "title": "Terminology and naming",
+      "intro": "Accurate, respectful language matters. These terms appear often in Ontario union acknowledgement guides:",
+      "items": {
+        "nations": {
+          "label": "Haudenosaunee and Anishinaabeg",
+          "content": "Haudenosaunee refers to the Six Nations confederacy (Mohawk, Oneida, Onondaga, Cayuga, Seneca, Tuscarora). Anishinaabeg covers Ojibway, Odawa, Algonquin, Potawatomi, Mississaugas, and related nations. Use the specific nation when you know it."
+        },
+        "treaties": {
+          "label": "Treaty names",
+          "content": "Upper Canada Treaties, Robinson-Huron, Robinson-Superior, Treaty 3, Treaty 9, Treaty 20, and Haldimand Tract appear in federation site lists. Name the treaty that actually covers your meeting location."
+        },
+        "turtleIsland": {
+          "label": "Turtle Island",
+          "content": "A name used by many Indigenous peoples for North America. OPSEU / SEFPO online acknowledgements reference Indigenous people from across Turtle Island when participants join virtually."
+        },
+        "dish": {
+          "label": "Dish With One Spoon",
+          "content": "Toronto and surrounding areas often reference this covenant between the Haudenosaunee Confederacy and the Confederacy of the Ojibwe and Allied Nations — an agreement to share, work, and protect the land together. Use only when historically accurate for your site."
+        },
+        "capitalize": {
+          "label": "Capitalize nation names",
+          "content": "CUPE, BCGEU, and OPSEU / SEFPO guides all stress capitalizing First Nations, Métis, and Inuit names as a sign of respect — the same way you would capitalize France or Ontario."
+        }
+      }
+    },
+    "elders": {
+      "navLabel": "Elders and ceremonies",
+      "title": "Elders, Chiefs, and opening ceremonies",
+      "intro": "Some union conventions invite an Elder or knowledge keeper to open with a prayer, smudge, or welcome. That is different from a member reading a written acknowledgement — and carries distinct protocols.",
+      "items": {
+        "when": {
+          "label": "When to invite an Elder",
+          "content": "CUPE and OFL guides describe Elders opening conferences with ceremony when appropriate. This is not required for every local meeting — a thoughtful member acknowledgement may suffice. Match the formality to the event."
+        },
+        "invite": {
+          "label": "How to extend an invitation",
+          "content": "Contact your union's Indigenous Circle or regional human-rights staff first. The OFL Elder guidelines cover invitation, spelling of names, how to address the Elder, and whether tobacco or a gift is appropriate — protocols differ by nation."
+        },
+        "protocol": {
+          "label": "Follow nation-specific protocol",
+          "content": "Some nations welcome Elder participation at settler events; others see unsolicited invitations as an imposition. Never assume. Ask the Elder or your Indigenous council contact what is appropriate."
+        },
+        "honorarium": {
+          "label": "Honoraria and gifts",
+          "content": "OFL guidelines recommend offering tobacco or a gift when requesting help, plus a monetary honorarium and practical gift afterward. Have payment ready at the event — do not mail it weeks later as an afterthought."
+        },
+        "notDefault": {
+          "label": "Do not default to Indigenous members",
+          "content": "OPSEU / SEFPO and CUPE both caution against assuming an Indigenous member will write or perform the acknowledgement. Reconciliation labour should not fall on the few Indigenous people in the room unless they choose to lead."
+        }
+      }
     },
     "action": {
       "navLabel": "Action alongside words",
@@ -9985,9 +10160,40 @@
         "accountability": {
           "label": "Hold your local accountable",
           "content": "Record what you promised after an acknowledgement and revisit it. Members should see progress, not the same sentence year after year with no change."
+        },
+        "trc": {
+          "label": "Answer the TRC calls to action",
+          "content": "Read the Truth and Reconciliation Commission's 94 calls to action and identify which ones your local, employer, or provincial government can advance — from education funding to justice for missing and murdered Indigenous women and girls."
         }
       },
       "tip": "Write one concrete action your local will take in the next six months — and assign an owner."
+    },
+    "bargaining": {
+      "navLabel": "At the bargaining table",
+      "title": "Land acknowledgement and reconciliation in collective agreements",
+      "intro": "Meeting openings are one surface. CUPE's Truth and Reconciliation Bargaining Guide shows locals also embed reconciliation in contract language:",
+      "items": {
+        "language": {
+          "label": "Acknowledgement and sovereignty clauses",
+          "content": "Sample language recognizes Indigenous sovereignty and supports workplace land acknowledgements where appropriate — confirm with your bargaining committee and national union before proposing."
+        },
+        "leave": {
+          "label": "Truth and Reconciliation Day leave",
+          "content": "CUPE locals have bargained September 30 as a paid holiday or day of education. Even where it is not statutory, your committee can propose paid leave for commemoration and learning."
+        },
+        "workforce": {
+          "label": "Representative workforce and anti-discrimination",
+          "content": "Bargain targeted hiring, in-service training, and non-discrimination protections for Indigenous workers — reconciliation includes material workplace equity."
+        },
+        "elders": {
+          "label": "Elder inclusion at grievance meetings",
+          "content": "Some CUPE agreements include Elders at grievance or return-to-work meetings where culturally appropriate. This requires employer agreement and nation-specific protocol."
+        },
+        "allLocals": {
+          "label": "Every local can start",
+          "content": "CUPE recommends reconciliation bargaining even when no member has self-identified as Indigenous. OPSEU / SEFPO and other unions similarly treat this as collective responsibility, not a niche issue."
+        }
+      }
     },
     "nextSteps": {
       "navLabel": "Next steps",
@@ -9995,8 +10201,8 @@
       "intro": "Reading this page is a start. Meaningful acknowledgement work happens in community, over time.",
       "items": {
         "read": {
-          "label": "Read the cited sources",
-          "content": "Work through Native-Land.ca or Whose Land for your location, then read NCTR and government treaty material for broader context."
+          "label": "Read your federation's guide",
+          "content": "Start with your national union's event or reconciliation materials, the OFL Ontario territory PDF if you are in Ontario, and Native-Land.ca or Whose Land for your specific site."
         },
         "reflect": {
           "label": "Reflect before you speak",
@@ -10004,11 +10210,15 @@
         },
         "followUp": {
           "label": "Follow up with your executive",
-          "content": "Propose a learning session, a standing acknowledgement practice for meetings, and a written plan for action — not just a new opening sentence."
+          "content": "Propose a standing opening practice for meetings, a written plan for action, and a review date — not just a new sentence on the agenda."
         },
         "community": {
           "label": "Show up in community",
           "content": "Attend Indigenous-led events, support land-back and rights campaigns where your members agree, and listen more than you speak."
+        },
+        "national": {
+          "label": "Contact your union's Indigenous leadership",
+          "content": "OPSEU / SEFPO's Indigenous Circle, CUPE's National Indigenous Council, and parallel bodies in other unions can guide acknowledgements, Elder protocols, and reconciliation priorities — defer to their leadership."
         }
       },
       "resourcesCta": "Browse Comms Resources"
@@ -10016,7 +10226,7 @@
     "notThis": {
       "navLabel": "What this is not",
       "title": "What this guide is not",
-      "intro": "UnionOps deliberately does not offer automated acknowledgement text. Respectful practice cannot be reduced to a dropdown.",
+      "intro": "UnionOps deliberately does not offer automated acknowledgement text. Respectful practice cannot be reduced to a dropdown — and national unions say the same about their own frameworks.",
       "items": {
         "generator": {
           "label": "Not a generator",
@@ -10024,7 +10234,7 @@
         },
         "script": {
           "label": "Not a script to recite blindly",
-          "content": "Even a well-researched statement fails if the speaker does not understand every phrase. Write in your own voice after you have done the reading."
+          "content": "Even OPSEU / SEFPO's published framework fails if the speaker does not understand every phrase. Write in your own voice after you have done the reading."
         },
         "once": {
           "label": "Not a one-time event",
@@ -10033,6 +10243,10 @@
         "substitute": {
           "label": "Not a substitute for Indigenous leadership",
           "content": "Non-Indigenous unions should follow Indigenous-led guidance on when and how to acknowledge territory — and defer to Indigenous voices on their own priorities."
+        },
+        "burden": {
+          "label": "Not Indigenous members' unpaid labour",
+          "content": "Do not ask the only Indigenous steward to write everyone's acknowledgement or educate the room on demand. That work belongs to the whole local — especially settler officers."
         }
       },
       "warningTitle": "Tokenism harms trust",

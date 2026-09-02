@@ -30,9 +30,10 @@ describe("officer learning related resources", () => {
     ]);
   });
 
-  it("maps democratic governance to running meetings and rules of order", () => {
+  it("maps democratic governance to running meetings, land acknowledgement, and rules of order", () => {
     const hrefs = getRelatedResources("democratic-governance").map((r) => r.href);
     expect(hrefs).toContain("/guide/running-meetings");
+    expect(hrefs).toContain("/guide/land-acknowledgement");
     expect(hrefs).toContain("/tools/rules-of-order");
   });
 });

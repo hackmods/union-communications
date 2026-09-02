@@ -126,6 +126,7 @@ export default async function RunningMeetingsGuidePage({
         { href: "/guide/steward-playbooks", label: t("backToPlaybooks") },
         { href: "/guide", label: t("backToGuide") },
         { href: "/guide/officer-learning", label: t("related.officerLearning") },
+        { href: "/guide/land-acknowledgement", label: nav("landAcknowledgementGuide") },
         { href: "/guide/bylaws", label: nav("bylawsGuide") },
         { href: "/guide/bargaining", label: nav("bargainingGuide") },
       ]}
@@ -228,6 +229,14 @@ export default async function RunningMeetingsGuidePage({
             </li>
           ))}
         </ol>
+        <Callout className="mt-5 max-w-prose">
+          <p className="leading-relaxed text-gray-700">{t("agenda.landAckNote")}</p>
+          <p className="mt-3">
+            <Link href="/guide/land-acknowledgement" className={guideCtaOutlineClass}>
+              {nav("landAcknowledgementGuide")}
+            </Link>
+          </p>
+        </Callout>
       </GuideSection>
 
       <GuideSection

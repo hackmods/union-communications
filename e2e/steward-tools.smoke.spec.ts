@@ -95,6 +95,34 @@ test.describe("Steward meeting guides @smoke", () => {
         .locator("#tool")
         .getByRole("link", { name: /Rules of Order Cheat Sheet/i }),
     ).toBeVisible();
+    await expect(
+      page
+        .locator("#agenda")
+        .getByRole("link", { name: /Land acknowledgement/i }),
+    ).toBeVisible();
+    await expectNoSeriousA11yViolations(page);
+  });
+
+  test("land acknowledgement guide loads playbook sections", async ({
+    page,
+  }) => {
+    await page.goto("/en/guide/land-acknowledgement/");
+    await expect(
+      page.getByRole("heading", { name: /Land Acknowledgement Guide/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /Why land acknowledgements matter/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: /How major unions approach land acknowledgement/i,
+      }),
+    ).toBeVisible();
+    await expect(
+      page
+        .locator("#nextSteps")
+        .getByRole("link", { name: /Running meetings/i }),
+    ).toBeVisible();
     await expectNoSeriousA11yViolations(page);
   });
 
