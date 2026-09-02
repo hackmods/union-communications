@@ -1,5 +1,11 @@
 # Progress Log
 
+## Land Acknowledgement — annotated worked example (2026-09-02)
+
+- [x] **Guide:** `/guide/land-acknowledgement` — Niagara-region teaching example with three annotated blocks (territory, action, covenant); no copy button
+- [x] **What's new:** updated land-acknowledgement-guide note
+- Verify: `npm run test:unit -- src/lib/comms/public-copy-style.test.ts src/lib/constants/updates.test.ts` + land acknowledgement smoke case
+
 ## Land Acknowledgement Guide — cross-links + smoke (2026-09-02)
 
 - [x] **Guide:** `/guide/land-acknowledgement` — educational playbook (no generator); OPSEU / SEFPO, OFL, CUPE, BCGEU federation practice; federation sources in `comms-sources.ts`
