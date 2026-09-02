@@ -23,6 +23,7 @@ export type NavLinkKey =
   | "bargainingGuide"
   | "bylawsGuide"
   | "runningMeetingsGuide"
+  | "landAcknowledgementGuide"
   | "socialExamples"
   | "captions"
   | "assets"

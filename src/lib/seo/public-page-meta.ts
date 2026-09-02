@@ -182,6 +182,11 @@ export const PUBLIC_PAGE_SEO: Record<
       description:
         "Quorum, motion precedence, debate, and voting for local chairs — plus a fourteen-action Rules of Order cheat sheet for the floor.",
     },
+    "/guide/land-acknowledgement": {
+      title: "Land Acknowledgement Guide",
+      description:
+        "Learn why acknowledgements matter, research whose traditional territory you are on, and pair words with action — not a script generator.",
+    },
     "/guide/officer-learning": {
       title: "Officer Learning Center",
       description:
@@ -388,6 +393,11 @@ export const PUBLIC_PAGE_SEO: Record<
       title: "Tenir une assemblée et règles de procédure",
       description:
         "Quorum, priorité des motions, débat et vote pour les présidents locaux — plus un aide-mémoire de quatorze actions pour le plancher.",
+    },
+    "/guide/land-acknowledgement": {
+      title: "Guide de reconnaissance territoriale",
+      description:
+        "Pourquoi la reconnaissance compte, renseignez-vous sur le territoire où vous vivez ou travaillez, et liez les mots à l'action — sans générateur.",
     },
     "/guide/officer-learning": {
       title: "Centre de formation des dirigeants",

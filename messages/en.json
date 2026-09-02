@@ -92,7 +92,8 @@
     "bylawBuilder": "Bylaw Builder",
     "proposalTracker": "Proposal Tracker",
     "rulesOfOrder": "Rules of Order Cheat Sheet",
-    "runningMeetingsGuide": "Running meetings"
+    "runningMeetingsGuide": "Running meetings",
+    "landAcknowledgementGuide": "Land acknowledgement"
   },
   "common": {
     "download": "Download",
@@ -463,7 +464,8 @@
       "jointCommittee": "Joint committee playbook",
       "workplaceMapping": "Workplace mapping & organic leaders",
       "bylaws": "Local Bylaws: The Rules of Your Local",
-      "runningMeetings": "Running a Meeting & Robert's Rules"
+      "runningMeetings": "Running a Meeting & Robert's Rules",
+      "landAcknowledgement": "Land Acknowledgement Guide"
     },
     "startHere": {
       "navLabel": "Start here",
@@ -683,7 +685,8 @@
       "jointCommittee": "Joint committee playbook",
       "workplaceMapping": "Workplace mapping",
       "bylaws": "Local bylaws",
-      "runningMeetings": "Running meetings & Robert's Rules"
+      "runningMeetings": "Running meetings & Robert's Rules",
+      "landAcknowledgement": "Land Acknowledgement Guide"
     }
   },
   "officerLearning": {
@@ -3115,7 +3118,8 @@
         "bargaining": "Bargaining lifecycle",
         "workplaceMapping": "Workplace mapping & organic leaders",
         "bylaws": "Local Bylaws: The Rules of Your Local",
-        "runningMeetings": "Running a Meeting & Robert's Rules"
+        "runningMeetings": "Running a Meeting & Robert's Rules",
+        "landAcknowledgement": "Land Acknowledgement Guide"
       },
       "blurb": {
         "stewardPlaybooks": "Start here: Steward 101, Officer Learning modules with self-tests, and every floor playbook in one list.",
@@ -3129,7 +3133,8 @@
         "bargaining": "From member survey and demand setting through No Board and ratification — for Local Bargaining Committees.",
         "workplaceMapping": "Chart every coworker, find organic leaders, and score union support 1 to 5. Keep the file off employer systems.",
         "bylaws": "Executive structure, quorum, signing authority, elections, and how to amend bylaws with notice and a GMM vote.",
-        "runningMeetings": "Scale formality to the room, run a standard agenda, and use the cheat sheet during live debate."
+        "runningMeetings": "Scale formality to the room, run a standard agenda, and use the cheat sheet during live debate.",
+        "landAcknowledgement": "Research whose territory you are on, reflect with intention, and pair words with ongoing action — not a copy-paste script."
       }
     },
     "checklist": {
@@ -4671,7 +4676,8 @@
       "jointCommittee": "Joint committee playbook",
       "bargaining": "The Bargaining Lifecycle: From Survey to Signing",
       "bylaws": "Local Bylaws: The Rules of Your Local",
-      "runningMeetings": "Running a Meeting & Robert's Rules"
+      "runningMeetings": "Running a Meeting & Robert's Rules",
+      "landAcknowledgement": "Land Acknowledgement Guide"
     },
     "blurbs": {
       "steward101": "Orientation, three hats, representation script, DFR basics, and a worked discipline example.",
@@ -4685,7 +4691,8 @@
       "jointCommittee": "Campus → caucus → table → member note after signed minutes.",
       "bargaining": "Survey to signing for Local Bargaining Committees — table updates, strike votes, ratification, checklists, and the on-device Proposal Tracker.",
       "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval.",
-      "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say when you move or raise a point."
+      "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say when you move or raise a point.",
+      "landAcknowledgement": "Learn why acknowledgements matter, research traditional territories, and commit to action beyond a one-time statement."
     },
     "workspaces": {
       "title": "Practice workspaces",
@@ -6593,6 +6600,10 @@
       "running-meetings-guide": {
         "title": "Running meetings — full guide + cheat sheet",
         "body": "The Running a Meeting guide now covers quorum, motion precedence, debate, voting, and a worked GMM example. The Rules of Order cheat sheet adds fourteen actions with chair notes and a copy button for the floor."
+      },
+      "land-acknowledgement-guide": {
+        "title": "Land Acknowledgement Guide",
+        "body": "Learn why acknowledgements matter, research whose traditional territory you are on, and pair words with action — with links to Native-Land.ca, Whose Land, NCTR, and Crown–Indigenous Relations. No script generator."
       },
       "guide-tool-aside": {
         "title": "Guides — tool shortcuts on desktop",
@@ -9872,6 +9883,160 @@
         "cta": "Download quorum & motion PDF",
         "moduleTitle": "Democratic governance"
       }
+    }
+  },
+  "landAcknowledgementGuide": {
+    "title": "Land Acknowledgement Guide",
+    "subtitle": "Meaningful recognition of Indigenous lands, treaties, and ongoing presence — not a script generator",
+    "backToGuide": "Back to The Blueprint",
+    "backToPlaybooks": "All steward playbooks",
+    "tocLabel": "On this page",
+    "tipLabel": "Takeaway",
+    "intro": "Land acknowledgements are one way to recognize that every gathering in Canada takes place on lands with long Indigenous histories. Done well, they move beyond a rote opening line and toward honest learning, treaty awareness, and active reconciliation. This guide helps you prepare your own words — it does not generate text for you.",
+    "disclaimer": {
+      "title": "Education, not a shortcut",
+      "body": "UnionOps does not provide fill-in-the-blank acknowledgement text. Read the sources cited at the bottom, learn from Indigenous nations and knowledge keepers in your area, and write words you can stand behind."
+    },
+    "why": {
+      "navLabel": "Why it matters",
+      "title": "Why land acknowledgements matter",
+      "intro": "A land acknowledgement is a moment of respect — not a checkbox. It names whose traditional territory you are on and reminds the room that Indigenous peoples are still here.",
+      "items": {
+        "presence": {
+          "label": "Historical and ongoing presence",
+          "content": "Indigenous nations have governed, cared for, and lived on these lands since time immemorial. Colonization disrupted that continuity, but Indigenous communities, languages, and governance persist today."
+        },
+        "treaties": {
+          "label": "Treaties and agreements",
+          "content": "Many parts of Canada are covered by treaties — mutual agreements that set out shared responsibilities. An acknowledgement can open the door to learning what those agreements mean where you live and work."
+        },
+        "reconciliation": {
+          "label": "Reconciliation as practice",
+          "content": "The Truth and Reconciliation Commission's calls to action ask every institution to do better. Words at the start of a meeting matter only when they connect to how your local shows up afterward."
+        },
+        "beyondToken": {
+          "label": "Moving beyond tokenism",
+          "content": "Repeating a paragraph you found online, without understanding it, can feel hollow to Indigenous listeners. Personal reflection and accurate research are the minimum respectful starting point."
+        }
+      },
+      "tip": "If you would not say it to an Elder or knowledge keeper in your community, do not say it to a room."
+    },
+    "principles": {
+      "navLabel": "Core principles",
+      "title": "Core principles",
+      "intro": "Three commitments shape a meaningful acknowledgement:",
+      "items": {
+        "reflection": {
+          "label": "Personal reflection and intentionality",
+          "content": "Ask why you are speaking, what you have learned, and what you are willing to do differently because of that learning. Generic language without personal meaning reads as performance."
+        },
+        "territory": {
+          "label": "Learn whose traditional territory you are on",
+          "content": "Research the nations, treaties, and languages connected to the place where your local meets, works, and organizes. Maps and government pages are starting points — confirm details with Indigenous sources."
+        },
+        "action": {
+          "label": "Commit to action alongside the statement",
+          "content": "Pair words with concrete steps: supporting Indigenous-led campaigns, hiring Indigenous educators, donating to Indigenous organizations, or changing local policy. An acknowledgement without follow-through is an empty gesture."
+        }
+      }
+    },
+    "learn": {
+      "navLabel": "Research the land",
+      "title": "Learning whose land you are on",
+      "intro": "Start with reliable educational tools, then go deeper with the nations themselves.",
+      "items": {
+        "research": {
+          "label": "Use vetted research tools",
+          "content": "Interactive maps and treaty resources help you identify nations and agreements. Treat them as introductions, not final authority."
+        },
+        "elders": {
+          "label": "Listen to Indigenous voices",
+          "content": "Seek teachings from Indigenous educators, authors, and community leaders — especially those from the territory you are acknowledging. Do not ask Indigenous members to perform gratitude on demand."
+        },
+        "accuracy": {
+          "label": "Check names and spellings",
+          "content": "Nation names, language names, and treaty titles have correct forms. Copy errors from outdated slides disrespect the people you mean to honour."
+        },
+        "context": {
+          "label": "Learn local history",
+          "content": "Residential schools, land dispossession, and ongoing rights struggles shape the context for every acknowledgement. The National Centre for Truth and Reconciliation is one place to begin that learning."
+        }
+      },
+      "resourcesTitle": "Official educational resources",
+      "resourcesIntro": "The sources listed at the bottom of this page link to Native-Land.ca, Whose Land, the National Centre for Truth and Reconciliation, and Crown–Indigenous Relations Canada. Read them before you draft your own words."
+    },
+    "action": {
+      "navLabel": "Action alongside words",
+      "title": "Committing to action",
+      "intro": "An acknowledgement should point toward what your local does next — not replace that work.",
+      "items": {
+        "support": {
+          "label": "Support Indigenous creators and organizations",
+          "content": "Fund Indigenous-led initiatives, buy from Indigenous businesses where appropriate, and amplify campaigns led by Indigenous nations — do not speak over them."
+        },
+        "learn": {
+          "label": "Keep learning",
+          "content": "Treat reconciliation as ongoing education for officers and members, not a one-time workshop. Build Indigenous history and treaty literacy into steward training and meeting culture."
+        },
+        "relationships": {
+          "label": "Build relationships with care",
+          "content": "If your local partners with Indigenous communities, do so with humility, consent, and long-term commitment — not only when a photo opportunity appears."
+        },
+        "accountability": {
+          "label": "Hold your local accountable",
+          "content": "Record what you promised after an acknowledgement and revisit it. Members should see progress, not the same sentence year after year with no change."
+        }
+      },
+      "tip": "Write one concrete action your local will take in the next six months — and assign an owner."
+    },
+    "nextSteps": {
+      "navLabel": "Next steps",
+      "title": "Call to action",
+      "intro": "Reading this page is a start. Meaningful acknowledgement work happens in community, over time.",
+      "items": {
+        "read": {
+          "label": "Read the cited sources",
+          "content": "Work through Native-Land.ca or Whose Land for your location, then read NCTR and government treaty material for broader context."
+        },
+        "reflect": {
+          "label": "Reflect before you speak",
+          "content": "Journal about why acknowledgement matters to you and what your local has done — or failed to do — for Indigenous justice."
+        },
+        "followUp": {
+          "label": "Follow up with your executive",
+          "content": "Propose a learning session, a standing acknowledgement practice for meetings, and a written plan for action — not just a new opening sentence."
+        },
+        "community": {
+          "label": "Show up in community",
+          "content": "Attend Indigenous-led events, support land-back and rights campaigns where your members agree, and listen more than you speak."
+        }
+      },
+      "resourcesCta": "Browse Comms Resources"
+    },
+    "notThis": {
+      "navLabel": "What this is not",
+      "title": "What this guide is not",
+      "intro": "UnionOps deliberately does not offer automated acknowledgement text. Respectful practice cannot be reduced to a dropdown.",
+      "items": {
+        "generator": {
+          "label": "Not a generator",
+          "content": "There are no fill-in fields, territory pickers, or copy buttons here. Those tools encourage paste-and-forget scripts."
+        },
+        "script": {
+          "label": "Not a script to recite blindly",
+          "content": "Even a well-researched statement fails if the speaker does not understand every phrase. Write in your own voice after you have done the reading."
+        },
+        "once": {
+          "label": "Not a one-time event",
+          "content": "Acknowledging the land at a single annual meeting is not reconciliation. Build ongoing learning and action into how your local operates."
+        },
+        "substitute": {
+          "label": "Not a substitute for Indigenous leadership",
+          "content": "Non-Indigenous unions should follow Indigenous-led guidance on when and how to acknowledge territory — and defer to Indigenous voices on their own priorities."
+        }
+      },
+      "warningTitle": "Tokenism harms trust",
+      "warning": "If your local reads the same paragraph for years while taking no action on Indigenous justice, members and community partners will notice. Better to say less and do more."
     }
   },
   "bylawsGuide": {

@@ -413,6 +413,38 @@ export const COMMS_SOURCES: Record<string, CommsSource> = {
     note: "Article 15 covers Local Unions. National Executive Board reviews and may withhold approval of local by-laws that conflict with the constitution. Useful comparative reading for any local.",
     lastVerified: "2026-08-27",
   },
+  "native-land": {
+    id: "native-land",
+    category: "platform",
+    label: "Native-Land.ca",
+    url: "https://native-land.ca/",
+    note: "Interactive map to research traditional territories, languages, and treaties. A starting point — confirm details with Indigenous nations and local knowledge keepers.",
+    lastVerified: "2026-09-02",
+  },
+  "whose-land": {
+    id: "whose-land",
+    category: "platform",
+    label: "Whose Land",
+    url: "https://www.whose.land/",
+    note: "Educational tool for understanding Indigenous lands, treaties, and communities. Pair with direct learning from the nations whose territory you occupy.",
+    lastVerified: "2026-09-02",
+  },
+  "nctr": {
+    id: "nctr",
+    category: "platform",
+    label: "National Centre for Truth and Reconciliation",
+    url: "https://nctr.ca/",
+    note: "Archives, education, and context on residential schools, treaties, and ongoing reconciliation in Canada.",
+    lastVerified: "2026-09-02",
+  },
+  "rcaanc-cirnac": {
+    id: "rcaanc-cirnac",
+    category: "platform",
+    label: "Crown–Indigenous Relations and Northern Affairs Canada",
+    url: "https://www.rcaanc-cirnac.gc.ca/",
+    note: "Official Government of Canada hub for Indigenous relations, treaty information, and territorial context. Confirm local details with Indigenous nations directly.",
+    lastVerified: "2026-09-02",
+  },
 };
 
 /** Which sources to cite on each guide or tool page. */
@@ -550,6 +582,12 @@ export const PAGE_SOURCE_IDS: Record<string, string[]> = {
     "clc-education-catalogue",
     "ofl",
     "clc",
+  ],
+  landAcknowledgement: [
+    "native-land",
+    "whose-land",
+    "nctr",
+    "rcaanc-cirnac",
   ],
   bylawBuilder: [
     "cupe-bylaws-guide",

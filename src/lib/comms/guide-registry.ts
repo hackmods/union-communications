@@ -92,6 +92,11 @@ export const GUIDE_REGISTRY: Record<GuideGroupId, readonly GuideRegistryEntry[]>
         key: "runningMeetings",
         tier: "playbook",
       },
+      {
+        href: "/guide/land-acknowledgement",
+        key: "landAcknowledgement",
+        tier: "playbook",
+      },
     ],
   };
 
@@ -120,6 +125,11 @@ export const GUIDE_BLUEPRINT_PATH_LINKS: readonly GuideRegistryEntry[] = [
   {
     href: "/guide/running-meetings",
     key: "runningMeetings",
+    tier: "playbook",
+  },
+  {
+    href: "/guide/land-acknowledgement",
+    key: "landAcknowledgement",
     tier: "playbook",
   },
 ];
@@ -158,6 +168,7 @@ export const GUIDE_RESOURCES_LABOUR_LINKS: readonly {
   { href: "/guide/workplace-mapping", key: "workplaceMapping" },
   { href: "/guide/bylaws", key: "bylaws" },
   { href: "/guide/running-meetings", key: "runningMeetings" },
+  { href: "/guide/land-acknowledgement", key: "landAcknowledgement" },
 ];
 
 /**
@@ -196,6 +207,11 @@ export const GUIDE_STEWARD_PLAYBOOK_LINKS: readonly GuideRegistryEntry[] = [
   {
     href: "/guide/running-meetings",
     key: "runningMeetings",
+    tier: "playbook",
+  },
+  {
+    href: "/guide/land-acknowledgement",
+    key: "landAcknowledgement",
     tier: "playbook",
   },
 ];

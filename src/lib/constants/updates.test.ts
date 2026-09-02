@@ -42,7 +42,7 @@ describe("updates catalog", () => {
 
   it("groups consecutive entries by year-month", () => {
     const groups = groupUpdatesByMonth(UPDATES);
-    expect(groups[0]?.month).toBe("2026-08");
+    expect(groups[0]?.month).toBe("2026-09");
     expect(groups.some((g) => g.month === "2026-07")).toBe(true);
     expect(groups.flatMap((g) => g.entries)).toHaveLength(UPDATES.length);
     expect(monthKey("2026-08-18")).toBe("2026-08");
