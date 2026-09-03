@@ -3135,7 +3135,7 @@
         "workplaceMapping": "Recensez chaque collègue, repérez les leaders organiques et cotez l'appui syndical de 1 à 5. Gardez le fichier hors des systèmes de l'employeur.",
         "bylaws": "Structure de l'exécutif, quorum, autorités de signature, élections, et comment modifier les règlements avec préavis et vote en assemblée.",
         "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et ouvrez l'aide-mémoire pendant le débat.",
-        "landAcknowledgement": "Voie solo ou atelier avec animateur·rice, feuille PDF imprimable, sources fédérales et exemple commenté — vos propres mots, pas un texte copié."
+        "landAcknowledgement": "Voie solo ou atelier avec animateur·rice, feuille PDF lignée d'une page, sources fédérales et exemple commenté — vos propres mots, pas un texte copié."
       }
     },
     "checklist": {
@@ -4659,7 +4659,7 @@
       "bargaining": "Du sondage à la signature pour les comités de négociation locaux — mises à jour de table, votes de grève, ratification, listes et Suivi des propositions sur appareil.",
       "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis, quorum et approbation nationale.",
       "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire pour une motion ou un rappel au règlement.",
-      "landAcknowledgement": "Rédigez seul·e ou animez un atelier avec la feuille PDF — recherche, réflexion et mots liés à l'action. Guides fédéraux en bas de page ; sans générateur copier-coller."
+      "landAcknowledgement": "Rédigez seul·e ou animez un atelier avec la feuille PDF lignée d'une page — recherche, réflexion et mots liés à l'action. Guides fédéraux en bas de page ; sans générateur copier-coller."
     },
     "workspaces": {
       "title": "Espaces de pratique",
@@ -6570,7 +6570,7 @@
       },
       "land-acknowledgement-guide": {
         "title": "Guide de reconnaissance territoriale",
-        "body": "Feuille PDF de reconnaissance territoriale — marges réduites, lignes à main levée et plus d'espace de rédaction sur une page."
+        "body": "Guide de reconnaissance territoriale — feuille PDF lignée d'une page à marges réduites pour notes à la main, plus voies solo et atelier dans le guide."
       },
       "guide-tool-aside": {
         "title": "Guides — raccourcis outils sur ordinateur",
@@ -9983,7 +9983,7 @@
       "title": "Comment rédiger votre reconnaissance",
       "intro": "La plupart des sections commencent de deux façons : un·e responsable recherche et rédige seul·e, puis présente à l'exécutif — ou le comité éducation tient un court atelier. Les deux voies suivent le même rythme : recherche → réflexion → rédaction → révision.",
       "soloHeading": "Seul·e (~45 minutes)",
-      "soloIntro": "Bloquez une heure avec Native-Land.ca ou le PDF fédéral ouvert. Vous rédigez pour votre section, pas encore pour la scène — privilégiez l'exactitude et des mots que vous pouvez expliquer.",
+      "soloIntro": "Bloquez une heure avec Native-Land.ca ou le PDF fédéral ouvert. Imprimez la feuille d'une page ci-dessous — les lignes sont prévues pour la prise de notes à la main. Vous rédigez pour votre section, pas encore pour la scène — privilégiez l'exactitude et des mots que vous pouvez expliquer.",
       "soloFlow": {
         "research": {
           "title": "Étape 1 · Recherche",
@@ -10012,7 +10012,7 @@
         },
         "materials": {
           "label": "Quoi apporter",
-          "content": "Cartes territoriales imprimées, PDF fédéral, une feuille par personne et un moyen de projeter Native-Land.ca ou Whose Land."
+          "content": "Cartes territoriales imprimées, PDF fédéral, une feuille par personne (bloc de rédaction ligné sur une page) et un moyen de projeter Native-Land.ca ou Whose Land."
         },
         "room": {
           "label": "Disposition de la salle",
@@ -10035,7 +10035,7 @@
         },
         "draft": {
           "label": "Rédaction en duo (~25 min)",
-          "content": "Chaque duo rédige une courte ébauche avec la feuille. Territoire d'abord, puis une action locale ou fil historique — pas copié d'une autre ville."
+          "content": "Chaque duo rédige une courte ébauche sur les lignes de la feuille. Territoire d'abord, puis une action locale ou fil historique — pas copié d'une autre ville."
         },
         "close": {
           "label": "Révision et engagement (~20 min)",
@@ -10043,7 +10043,22 @@
         }
       },
       "workshopTip": "Si la salle est grande, formez des duos pour la rédaction — pas de nombre fixe de participants. Si quelqu'un hésite, proposez de consulter le cercle autochtone du syndicat avant de finaliser.",
-      "worksheetHint": "Téléchargez le PDF pour prendre des notes seul·e ou comme feuille d'atelier — espaces recherche, rédaction et liste de révision. Formation seulement ; pas un texte à coller tel quel."
+      "worksheetHeading": "Feuille imprimable (une page)",
+      "worksheetFeatures": {
+        "print": {
+          "label": "Imprimer ou PDF",
+          "content": "Une page format lettre à marges réduites — de la place pour écrire à la main, pas de bordures perdues."
+        },
+        "ruled": {
+          "label": "Lignes à main levée",
+          "content": "Champs étiquetés pour la recherche et bloc réflexion/rédaction ligné pour la prise de notes."
+        },
+        "checklist": {
+          "label": "Liste de révision",
+          "content": "Quatre vérifications plus qui lit à la prochaine réunion et une date de revue exécutive."
+        }
+      },
+      "worksheetHint": "Formation seulement — pas un texte à coller tel quel. Confirmez noms de nations et orthographes auprès de sources autochtones et du guide de votre fédération."
     },
     "worksheet": {
       "cta": "Télécharger la feuille (PDF)",

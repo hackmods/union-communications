@@ -25,6 +25,7 @@ const principleKeys = ["reflection", "territory", "action", "relationship"] as c
 const soloFlowStepKeys = ["research", "reflect", "draft", "review"] as const;
 const workshopPrepKeys = ["who", "materials", "room", "followUp"] as const;
 const workshopAgendaKeys = ["open", "research", "draft", "close"] as const;
+const worksheetFeatureKeys = ["print", "ruled", "checklist"] as const;
 const researchKeys = ["research", "accuracy", "context", "friendship"] as const;
 const termKeys = ["nations", "treaties", "turtleIsland", "dish", "capitalize"] as const;
 const workedExampleKeys = ["territory", "action", "covenant"] as const;
@@ -164,8 +165,20 @@ export async function LandAcknowledgementGuide() {
           <p className="mt-1">{t("howToWrite.workshopTip")}</p>
         </Callout>
 
-        <div className="mt-6 max-w-prose">
-          <LandAcknowledgementWorksheetButton />
+        <div className="mt-8 max-w-prose">
+          <SubHeading>{t("howToWrite.worksheetHeading")}</SubHeading>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-gray-700">
+            {worksheetFeatureKeys.map((key) => (
+              <li key={key}>
+                <span className="font-semibold text-opseu-dark">
+                  {t(`howToWrite.worksheetFeatures.${key}.label`)}
+                </span>
+                {" — "}
+                {t(`howToWrite.worksheetFeatures.${key}.content`)}
+              </li>
+            ))}
+          </ul>
+          <LandAcknowledgementWorksheetButton className="mt-4" />
           <p className="mt-2 text-sm leading-relaxed text-gray-600">
             {t("howToWrite.worksheetHint")}
           </p>

@@ -3,7 +3,7 @@
 ## Land Acknowledgement — worksheet PDF layout QOL (2026-09-03)
 
 - [x] **`writeBrandedWorksheetPdf`:** 32pt margins, compact header, field labels + ruled note rows (no checkbox prefix on blanks)
-- [x] **Land ack handout:** 7 draft lines + reminder as footer note; single-page letter fit asserted in unit tests
+- [x] **Guide copy:** worksheet heading, ruled-row features, solo/workshop hints aligned with compact PDF
 - Verify: `npm run test:unit -- src/lib/export/text-pdf-layout.test.ts src/lib/comms/land-acknowledgement-worksheet-pdf.test.ts` + guide PDF smoke
 
 ## Land Acknowledgement — discoverability pass (2026-09-02)

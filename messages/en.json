@@ -3135,7 +3135,7 @@
         "workplaceMapping": "Chart every coworker, find organic leaders, and score union support 1 to 5. Keep the file off employer systems.",
         "bylaws": "Executive structure, quorum, signing authority, elections, and how to amend bylaws with notice and a GMM vote.",
         "runningMeetings": "Scale formality to the room, run a standard agenda, and use the cheat sheet during live debate.",
-        "landAcknowledgement": "Solo path or facilitator workshop, printable PDF worksheet, federation sources, and annotated example — write your own words, not a script."
+        "landAcknowledgement": "Solo path or facilitator workshop, one-page ruled PDF worksheet, federation sources, and annotated example — write your own words, not a script."
       }
     },
     "checklist": {
@@ -4709,7 +4709,7 @@
       "bargaining": "Survey to signing for Local Bargaining Committees — table updates, strike votes, ratification, checklists, and the on-device Proposal Tracker.",
       "bylaws": "What must be in local bylaws and how to amend them with notice, quorum, and national approval.",
       "runningMeetings": "Scale formality to the room, run a standard agenda, and know what to say when you move or raise a point.",
-      "landAcknowledgement": "Draft alone or lead a workshop with the PDF worksheet — research, reflect, and pair words with action. Federation guides linked; no copy-paste generator."
+      "landAcknowledgement": "Draft alone or lead a workshop with the one-page ruled PDF — research, reflect, and pair words with action. Federation guides linked; no copy-paste generator."
     },
     "workspaces": {
       "title": "Practice workspaces",
@@ -6620,7 +6620,7 @@
       },
       "land-acknowledgement-guide": {
         "title": "Land Acknowledgement Guide",
-        "body": "Land acknowledgement writing worksheet PDF — tighter margins, ruled lines for handwriting, and more draft space on one page."
+        "body": "Land acknowledgement guide — one-page ruled PDF worksheet with tighter margins for pen notes, plus solo and workshop paths on the guide."
       },
       "guide-tool-aside": {
         "title": "Guides — tool shortcuts on desktop",
@@ -9983,7 +9983,7 @@
       "title": "How to write your acknowledgement",
       "intro": "Most locals start one of two ways: one officer researches and drafts alone, then brings it to executive — or the education committee runs a short workshop. Both paths use the same research → reflect → draft → review rhythm.",
       "soloHeading": "On your own (~45 minutes)",
-      "soloIntro": "Block an hour with Native-Land.ca or your federation PDF open. You are writing for your local, not performing for a room yet — focus on accuracy and words you can explain.",
+      "soloIntro": "Block an hour with Native-Land.ca or your federation PDF open. Print the one-page worksheet below — ruled rows are sized for pen notes. You are writing for your local, not performing for a room yet — focus on accuracy and words you can explain.",
       "soloFlow": {
         "research": {
           "title": "Step 1 · Research",
@@ -10012,7 +10012,7 @@
         },
         "materials": {
           "label": "What to bring",
-          "content": "Printed territory maps, your federation PDF, one worksheet per person, and a way to project Native-Land.ca or Whose Land."
+          "content": "Printed territory maps, your federation PDF, one worksheet per person (ruled draft block on a single page), and a way to project Native-Land.ca or Whose Land."
         },
         "room": {
           "label": "How to set up the room",
@@ -10035,7 +10035,7 @@
         },
         "draft": {
           "label": "Draft in pairs (~25 min)",
-          "content": "Each pair writes a short draft using the worksheet. Territory first, then one local action or historical thread — not copied from another city."
+          "content": "Each pair writes a short draft on the worksheet ruled lines. Territory first, then one local action or historical thread — not copied from another city."
         },
         "close": {
           "label": "Review and commit (~20 min)",
@@ -10043,7 +10043,22 @@
         }
       },
       "workshopTip": "If the room is large, split into pairs for drafting — you do not need a fixed head count. If someone is unsure, pause and suggest consulting your union's Indigenous Circle before finalizing.",
-      "worksheetHint": "Download the PDF for solo note-taking or as a workshop handout — research blanks, draft space, and a review checklist. Education only; not a script to paste unchanged."
+      "worksheetHeading": "Printable worksheet (one page)",
+      "worksheetFeatures": {
+        "print": {
+          "label": "Print or PDF",
+          "content": "One letter-size page with tighter margins — room for handwriting, not wasted border space."
+        },
+        "ruled": {
+          "label": "Ruled rows",
+          "content": "Labelled fields for research and a ruled reflect/draft block sized for pen notes."
+        },
+        "checklist": {
+          "label": "Review checklist",
+          "content": "Four checks plus who reads at the next meeting and an executive review date."
+        }
+      },
+      "worksheetHint": "Education only — not a script to paste unchanged. Confirm territory names and spellings with Indigenous sources and your federation guide."
     },
     "worksheet": {
       "cta": "Download writing worksheet (PDF)",
