@@ -25,7 +25,25 @@ Agent rule: [`.cursor/rules/guide-pdfs.mdc`](../../.cursor/rules/guide-pdfs.mdc)
 | financial-health | `audit-controls`, `floor-checklist` |
 | building-collective-power | `equity-clause`, `floor-checklist` |
 | `/guide/bylaws` | adoption checklist, quorum/motion |
-| `/guide/land-acknowledgement` | writing worksheet (`writeBrandedWorksheetPdf` — compact margins, ruled rows) |
+| `/guide/land-acknowledgement` | writing worksheet (`writeBrandedWorksheetPdf` — 18pt margins, field pairs, fill draft, pinned closing checklist) |
+
+### Worksheet engine (`writeBrandedWorksheetPdf`)
+
+Use for **pen-and-paper floor handouts** where stewards write in ruled space (not checkbox-only checklists).
+
+| Primitive | Purpose |
+|-----------|---------|
+| `field` / `fieldInline` | Label + ruled underline, full width |
+| `fieldPair` | Two half-width fields on one row |
+| `ruled` + `count` | Fixed note rows |
+| `ruled` + `fill: true` | Draft block expands to consume space above closing/footer bands |
+| `check` / `checkPair` | Review checklist items |
+| `closingSections` | Sign-off block pinned above tips/footer (keeps fill math honest) |
+| `tips` + `reminder` | Short floor copy above education footer |
+
+Layout: compact header mark → flowing `sections` → measured `closingSections` → footer band drawn upward from page bottom. Default margin **18pt** (`WORKSHEET_MARGIN_DEFAULT`).
+
+Reference implementation: [`land-acknowledgement-worksheet-pdf.ts`](../../src/lib/comms/land-acknowledgement-worksheet-pdf.ts).
 | Certificates | module + path via `downloadOfficerLearningCertificate` |
 
 ## Quality bar
