@@ -22,16 +22,25 @@ export const GUIDE_PDF_MARGIN_DEFAULT = 48;
 /** Gap between closing block and footer band (pt). */
 export const WORKSHEET_CLOSING_GAP = 2;
 /** Gap between flowing body and footer when footer attaches after content (pt). */
-export const WORKSHEET_FLOW_FOOTER_GAP = 12;
+export const WORKSHEET_FLOW_FOOTER_GAP = 18;
+/** Gap between logo bottom and title baseline on worksheets (pt). */
+export const WORKSHEET_MARK_TITLE_GAP = 12;
+/** Space between worksheet sections (pt). */
+export const WORKSHEET_SECTION_GAP = 5;
+/** Column gutter for fieldPair / checkPair (pt). */
+export const WORKSHEET_PAIR_COL_GAP = 16;
+/** Min space between body end and footer band in flow mode (pt). */
+export const WORKSHEET_PRE_FOOTER_GAP = 10;
 
-/** Letter page height (pt) — used by budget API without a live jsPDF instance. */
+/** Compact worksheet header rhythm (pt). */
+export const WORKSHEET_HEADER_TITLE_SIZE = 12;
+export const WORKSHEET_HEADER_RULE_GAP_AFTER_TITLE = 6;
+export const WORKSHEET_HEADER_RULE_GAP_AFTER_RULE = 12;
+export const WORKSHEET_HEADER_BODY_GAP = 6;
+
+/** Letter page size (pt) — budget API without a live jsPDF instance. */
 export const LETTER_PAGE_HEIGHT_PT = 792;
 export const LETTER_PAGE_WIDTH_PT = 612;
-
-/** Compact worksheet header after mark (pt). */
-export const WORKSHEET_HEADER_TITLE_SIZE = 12;
-export const WORKSHEET_HEADER_RULE_GAP = 10;
-export const WORKSHEET_HEADER_POST_RULE_GAP = 2;
 
 /** Standard checklist / notes header sizes (pt). */
 export const CHECKLIST_HEADER_TITLE_SIZE = 16;

@@ -7,7 +7,7 @@ import {
 } from "@/lib/export/text-pdf-layout";
 
 /** Fixed ruled rows for the Step 3 draft block (pen-and-paper paragraph space). */
-export const LAND_ACK_DRAFT_ROWS = 8;
+export const LAND_ACK_DRAFT_ROWS = 7;
 export const LAND_ACK_REFLECT_ROWS = 2;
 
 const WORKSHEET_COPY = {
@@ -68,7 +68,7 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "One honest sentence — why acknowledgement matters to me / our local:",
           },
-          { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: 16 },
+          { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: 14 },
         ],
       },
       {
@@ -78,7 +78,7 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "Territory → history thread or local action → follow-up. Draft in your own words:",
           },
-          { kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: 16 },
+          { kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: 14 },
         ],
       },
       {
@@ -160,7 +160,7 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "Une phrase honnête — pourquoi la reconnaissance compte pour moi / notre section :",
           },
-          { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: 16 },
+          { kind: "ruled", count: LAND_ACK_REFLECT_ROWS, rowHeight: 14 },
         ],
       },
       {
@@ -170,7 +170,7 @@ const WORKSHEET_COPY = {
             kind: "text",
             text: "Territoire → fil historique ou action locale → suivi. Ébauche dans vos propres mots :",
           },
-          { kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: 16 },
+          { kind: "ruled", count: LAND_ACK_DRAFT_ROWS, rowHeight: 14 },
         ],
       },
       {

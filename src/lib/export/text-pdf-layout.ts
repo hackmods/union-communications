@@ -27,6 +27,7 @@ import {
   GUIDE_PDF_PALETTE,
   HEADLINE_FACE,
   WORKSHEET_MARGIN_DEFAULT,
+  WORKSHEET_MARK_TITLE_GAP,
   type PdfRgb,
 } from "@/lib/export/pdf-layout/constants";
 import { renderGuideHeader, setPdfFont } from "@/lib/export/pdf-layout/guide-header";
@@ -449,7 +450,7 @@ export async function writeBrandedWorksheetPdf(
         placement.widthPt,
         placement.heightPt,
       );
-      markStartY = placement.y + placement.heightPt + 5;
+      markStartY = placement.y + placement.heightPt + WORKSHEET_MARK_TITLE_GAP;
     } catch {
       markStartY = 24;
     }

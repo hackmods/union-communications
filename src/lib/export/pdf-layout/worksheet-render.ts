@@ -1,5 +1,22 @@
-import { GUIDE_PDF_PALETTE, WORKSHEET_CLOSING_GAP, WORKSHEET_FLOW_FOOTER_GAP, WORKSHEET_RULE_ROW_DEFAULT } from "./constants";
+import {
+  GUIDE_PDF_PALETTE,
+  WORKSHEET_CLOSING_GAP,
+  WORKSHEET_FLOW_FOOTER_GAP,
+  WORKSHEET_HEADER_BODY_GAP,
+  WORKSHEET_HEADER_RULE_GAP_AFTER_RULE,
+  WORKSHEET_HEADER_RULE_GAP_AFTER_TITLE,
+  WORKSHEET_HEADER_TITLE_SIZE,
+  WORKSHEET_PAIR_COL_GAP,
+  WORKSHEET_PRE_FOOTER_GAP,
+  WORKSHEET_RULE_ROW_DEFAULT,
+  WORKSHEET_SECTION_GAP,
+} from "./constants";
 import { renderGuideHeader, setPdfFont } from "./guide-header";
+import {
+  drawCheckPairRow,
+  drawFieldPairRow,
+  drawLabeledFieldBlock,
+} from "./worksheet-fields";
 import {
   createPdfFooterMeasurer,
   measureFooterBandWithMeasurer,
@@ -29,24 +46,10 @@ export type RenderWorksheetContext = {
   measurer: FooterBandMeasurer;
 };
 
-function drawFieldRule(pdf: JsPdfLike, x1: number, ruleY: number, x2: number): void {
+function drawRuledRow(pdf: JsPdfLike, x1: number, y: number, x2: number): void {
   pdf.setDrawColor(190, 198, 210);
   pdf.setLineWidth(0.55);
-  pdf.line(x1, ruleY, x2, ruleY);
-}
-
-function drawInlineField(
-  ctx: PdfFontContext,
-  label: string,
-  x: number,
-  maxX: number,
-  fieldY: number,
-): void {
-  const { pdf } = ctx;
-  setPdfFont(ctx, 8.5, false, GUIDE_PDF_PALETTE.ink);
-  pdf.text(label, x, fieldY);
-  const labelEnd = x + Math.min(pdf.getTextWidth(label) + 4, (maxX - x) * 0.42);
-  drawFieldRule(pdf, labelEnd, fieldY + 1.5, maxX);
+  pdf.line(x1, y, x2, y);
 }
 
 export function renderWorksheetLine(
@@ -95,16 +98,26 @@ export function renderWorksheetLine(
       break;
     case "field":
     case "fieldInline": {
-      drawInlineField(fontCtx, line.label, margin + colOffset, margin + colOffset + colWidth, y);
-      flow.y = y + 10;
+      flow.y = drawLabeledFieldBlock(
+        fontCtx,
+        line.label,
+        margin + colOffset,
+        colWidth,
+        y,
+      );
       break;
     }
     case "fieldPair": {
-      const gap = 14;
-      const colW = (rctx.contentWidth - gap) / 2;
-      drawInlineField(fontCtx, line.left.label, margin, margin + colW, y);
-      drawInlineField(fontCtx, line.right.label, margin + colW + gap, contentRight, y);
-      flow.y = y + 10;
+      flow.y = drawFieldPairRow(
+        fontCtx,
+        line.left.label,
+        line.right.label,
+        margin,
+        rctx.contentWidth,
+        contentRight,
+        y,
+        WORKSHEET_PAIR_COL_GAP,
+      );
       break;
     }
     case "ruled": {
@@ -117,9 +130,9 @@ export function renderWorksheetLine(
       }
       for (let i = 0; i < count; i++) {
         if (y + rowHeight > maxY) break;
-        y += rowHeight - 5;
-        drawFieldRule(pdf, margin + colOffset, y, margin + colOffset + colWidth);
-        y += 5;
+        y += rowHeight - 2;
+        drawRuledRow(pdf, margin + colOffset, y, margin + colOffset + colWidth);
+        y += 2;
       }
       flow.y = y;
       break;
@@ -128,19 +141,15 @@ export function renderWorksheetLine(
       writeWrapped(`☐  ${line.text}`, 8, false, ink, 1);
       break;
     case "checkPair": {
-      const gap = 12;
-      const colW = (rctx.contentWidth - gap) / 2;
-      setPdfFont(fontCtx, 8, false, ink);
-      const leftLines = pdf.splitTextToSize(`☐  ${line.left}`, colW);
-      const rightLines = pdf.splitTextToSize(`☐  ${line.right}`, colW);
-      const rows = Math.max(leftLines.length, rightLines.length);
-      for (let i = 0; i < rows; i++) {
-        if (y + 9 > maxY) break;
-        if (leftLines[i]) pdf.text(leftLines[i]!, margin, y);
-        if (rightLines[i]) pdf.text(rightLines[i]!, margin + colW + gap, y);
-        y += 9;
-      }
-      flow.y = y;
+      flow.y = drawCheckPairRow(
+        fontCtx,
+        line.left,
+        line.right,
+        margin,
+        rctx.contentWidth,
+        y,
+        WORKSHEET_PAIR_COL_GAP,
+      );
       break;
     }
     case "table": {
@@ -156,7 +165,7 @@ export function renderWorksheetLine(
       for (let r = 0; r < line.rows; r++) {
         if (y + rowHeight > maxY) break;
         for (let c = 0; c < colCount; c++) {
-          drawFieldRule(
+          drawRuledRow(
             pdf,
             margin + colOffset + c * colW,
             y + rowHeight - 4,
@@ -201,7 +210,7 @@ export function renderWorksheetSections(
     if (section.pageBreak === "avoid" && rctx.allowMultiPage) {
       flow.ensureSpace(40, "avoid");
     }
-    flow.advance(2);
+    flow.advance(WORKSHEET_SECTION_GAP);
     setPdfFont(fontCtx, 9.5, true, navy);
     const headingLines = rctx.pdf.splitTextToSize(section.heading, contentWidth);
     for (const ln of headingLines) {
@@ -307,10 +316,12 @@ export function renderWorksheetDocument(opts: WriteWorksheetBodyOpts): number {
     title: opts.title,
     subtitle: opts.subtitle,
     instructions: opts.instructions,
-    titleSize: 12,
+    titleSize: WORKSHEET_HEADER_TITLE_SIZE,
+    ruleGapAfterTitle: WORKSHEET_HEADER_RULE_GAP_AFTER_TITLE,
+    ruleGapAfterRule: WORKSHEET_HEADER_RULE_GAP_AFTER_RULE,
     startY: opts.markStartY,
   });
-  y += WORKSHEET_FLOW_FOOTER_GAP - 10;
+  y += WORKSHEET_HEADER_BODY_GAP;
 
   const flow = new PdfVerticalFlow({
     pdf,
@@ -339,7 +350,7 @@ export function renderWorksheetDocument(opts: WriteWorksheetBodyOpts): number {
     margin,
     footerBandHeight,
     bodyEndY: flow.y,
-    flowGap: WORKSHEET_FLOW_FOOTER_GAP,
+    flowGap: Math.max(WORKSHEET_FLOW_FOOTER_GAP, WORKSHEET_PRE_FOOTER_GAP),
   });
 
   renderGuideFooterBand({
