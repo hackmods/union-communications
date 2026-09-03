@@ -37,10 +37,10 @@ Set explicitly via `layoutMode` on `writeBrandedWorksheetPdf`, or omit to infer 
 
 | Kind | Use |
 |------|-----|
-| `field` / `fieldPair` | Wrapped label + rule; `layout: "stack"` for full-width pairs |
-| `ruled` + `count` | Fixed note rows |
+| `field` / `fieldPair` | Wrapped label + rule; side-by-side `row` by default, `layout: "stack"` optional |
+| `ruled` + `count` | Fixed note rows with leading/trailing padding |
 | `ruled` + `fill` + `maxRows` | Expanding draft (once per sheet) |
-| `check` / `checkPair` | Wrapped checklist; auto-stack when labels wrap or `layout: "stack"` |
+| `check` / `checkPair` | Wrapped checklist columns; `WORKSHEET_FIELD_BLOCK_LEADING` + rule trailing |
 | `table` | Header row + ruled body rows |
 | `columnLayout` | 2–3 side-by-side columns |
 | `pageBreak` | Multi-page (`allowMultiPage: true`) |
@@ -107,6 +107,20 @@ Platform mark placement and title start Y are centralized in `guide-mark.ts` via
 Do not hardcode `+ 5` or `+ 14` in writers — use the engine helper.
 
 Field/checkbox columns use `worksheet-fields.ts` for both **render** and **budget measure** so long labels wrap instead of clipping at column edges.
+
+## Spatial contracts (engine invariants)
+
+These guard against the recurring layout failures (tight text under rules, empty right column):
+
+| Invariant | Constant / helper | Enforced by |
+|-----------|-------------------|-------------|
+| Label below rule has breathable gap | `WORKSHEET_MIN_LABEL_GAP` (= rule trailing + block leading) | Render + measure share `WORKSHEET_FIELD_*` constants |
+| Row-mode pairs use both columns | `worksheetPairColumnBounds()` | `expectPairUsesRowColumns()` in golden contract tests |
+| Stack only when explicit | `resolvePairLayout()` defaults to `"row"` | `validateWorksheetLayout()` warns on unnecessary `layout: "stack"` |
+
+**Do not** auto-stack pairs when labels wrap — `wrapPdfTextLines()` handles column bleed. Use `layout: "stack"` only when a full-width stack is intentional (e.g. extremely long single-column copy).
+
+Spatial helpers live in `worksheet-pdf-test-helpers.ts`: `expectPairUsesRowColumns`, `expectMinFieldBlockGap`, `expectMinVerticalGap`.
 
 ## Footer band contract (worksheets with tips)
 

@@ -9,6 +9,9 @@ import {
   WORKSHEET_MARGIN_DEFAULT,
   WORKSHEET_MARK_TITLE_GAP,
   WORKSHEET_PAIR_COL_GAP,
+  WORKSHEET_LINE_AFTER_TEXT_GAP,
+  WORKSHEET_RULED_BLOCK_LEADING,
+  WORKSHEET_RULED_BLOCK_TRAILING,
   WORKSHEET_RULE_ROW_DEFAULT,
   WORKSHEET_SECTION_GAP,
 } from "./constants";
@@ -25,13 +28,13 @@ export type TextMeasurer = {
   wrappedLineCount: (text: string, size: number, maxW: number) => number;
 };
 
-/** Static text measurer for budget API (approximates jsPDF splitTextToSize at ~10 chars/pt). */
+/** Static text measurer for budget API (approximates jsPDF splitTextToSize at ~5 chars/pt). */
 export function createStaticTextMeasurer(contentWidth: number): TextMeasurer {
-  const avgCharsPerLine = Math.max(24, Math.floor(contentWidth / 6));
   return {
     wrappedLineCount(text: string, size: number, maxW: number) {
       void size;
-      void maxW;
+      const effectiveW = maxW > 0 ? maxW : contentWidth;
+      const avgCharsPerLine = Math.max(16, Math.floor(effectiveW / 5));
       const len = text.length;
       return Math.max(1, Math.ceil(len / avgCharsPerLine));
     },
@@ -55,7 +58,10 @@ export function measureWorksheetLine(
 ): number {
   switch (line.kind) {
     case "text":
-      return measureWrappedHeight(measurer, line.text, 8.5, 1, contentWidth);
+      return (
+        measureWrappedHeight(measurer, line.text, 8.5, 1, contentWidth) +
+        WORKSHEET_LINE_AFTER_TEXT_GAP
+      );
     case "field":
     case "fieldInline":
       return measureLabeledFieldBlockHeight(measurer, line.label, contentWidth);
@@ -71,7 +77,11 @@ export function measureWorksheetLine(
     case "ruled": {
       const rowHeight = line.rowHeight ?? WORKSHEET_RULE_ROW_DEFAULT;
       const count = line.fill ? line.minRows ?? 6 : line.count ?? 0;
-      return count * rowHeight;
+      return (
+        WORKSHEET_RULED_BLOCK_LEADING +
+        count * rowHeight +
+        WORKSHEET_RULED_BLOCK_TRAILING
+      );
     }
     case "check":
       return measureWrappedHeight(measurer, `☐  ${line.text}`, 8, 1, contentWidth);

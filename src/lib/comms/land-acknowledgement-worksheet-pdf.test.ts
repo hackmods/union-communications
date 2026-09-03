@@ -4,6 +4,8 @@ import { transparentPngBytes } from "@/lib/export/brand-logo-bytes";
 import {
   countWorksheetStrokeOps,
   expectHeadingOrder,
+  expectMinFieldBlockGap,
+  expectPairUsesRowColumns,
   findTextY,
   parseWorksheetPdfBlob,
 } from "@/lib/export/worksheet-pdf-test-helpers";
@@ -347,22 +349,27 @@ describe("land-acknowledgement-worksheet-pdf", () => {
     expect(budget.fitsOnePage).toBe(true);
   });
 
-  it("renders Step 4 review pairs stacked full-width without column overlap", async () => {
+  it("renders Step 4 review pairs in two columns using the full page width", async () => {
     const { parsed } = await exportWorksheet({
       localLabel: "Local 243",
       locale: "en",
     });
 
-    const speakerItems = parsed.items.filter((item) => item.str.includes("Speaker can explain"));
-    const accurateItems = parsed.items.filter((item) =>
-      item.str.includes("Accurate for this territory"),
+    expectPairUsesRowColumns(
+      parsed,
+      "Accurate for this territory",
+      "Speaker can explain",
     );
-    expect(speakerItems.length).toBeGreaterThan(0);
-    expect(accurateItems.length).toBeGreaterThan(0);
-    for (const item of [...speakerItems, ...accurateItems]) {
-      expect(item.x).toBeLessThan(100);
-    }
     expect(parsed.joined).toMatch(/without notes/i);
+  });
+
+  it("keeps breathable gap between field rules and the next label", async () => {
+    const { parsed } = await exportWorksheet({
+      localLabel: "Local 243",
+      locale: "en",
+    });
+
+    expectMinFieldBlockGap(parsed, "Nations for where we meet", "Treaties / agreements");
   });
 
   it("includes comms education footer copy for each locale", async () => {

@@ -53,7 +53,6 @@ const WORKSHEET_COPY = {
           { kind: "field", label: "Nations for where we meet" },
           {
             kind: "fieldPair",
-            layout: "stack",
             left: { label: "Treaties / agreements" },
             right: { label: "Federation guide (OFL / national / CUPE / other)" },
           },
@@ -88,19 +87,16 @@ const WORKSHEET_COPY = {
         lines: [
           {
             kind: "checkPair",
-            layout: "stack",
             left: "Accurate for this territory (not another city)",
             right: "Speaker can explain every phrase without notes",
           },
           {
             kind: "checkPair",
-            layout: "stack",
             left: "Pairs words with one concrete local action",
             right: "Indigenous Circle / equity contact consulted if unsure",
           },
           {
             kind: "fieldPair",
-            layout: "stack",
             left: { label: "Who reads it at the next meeting?" },
             right: { label: "Executive review date" },
           },
@@ -183,19 +179,16 @@ const WORKSHEET_COPY = {
         lines: [
           {
             kind: "checkPair",
-            layout: "stack",
             left: "Exact pour ce territoire (pas une autre ville)",
             right: "La personne qui lit peut expliquer chaque phrase sans notes",
           },
           {
             kind: "checkPair",
-            layout: "stack",
             left: "Les mots sont liés à une action locale concrète",
             right: "Cercle autochtone / contact équité consulté si incertain",
           },
           {
             kind: "fieldPair",
-            layout: "stack",
             left: { label: "Qui lit à la prochaine réunion?" },
             right: { label: "Date de revue exécutif" },
           },
