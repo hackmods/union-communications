@@ -15,6 +15,11 @@ import {
 import type { GuideFooterBandContent } from "./types";
 import type { WorksheetLayoutMode } from "./types";
 import type { WorksheetLine, WorksheetSection } from "./worksheet-types";
+import {
+  measureCheckPairRowHeight,
+  measureFieldPairRowHeight,
+  measureLabeledFieldBlockHeight,
+} from "./worksheet-fields";
 
 export type TextMeasurer = {
   wrappedLineCount: (text: string, size: number, maxW: number) => number;
@@ -53,15 +58,15 @@ export function measureWorksheetLine(
       return measureWrappedHeight(measurer, line.text, 8.5, 1, contentWidth);
     case "field":
     case "fieldInline":
-      return measureWrappedHeight(measurer, line.label, 8.5, 1, contentWidth) + 6;
-    case "fieldPair": {
-      const colW = (contentWidth - WORKSHEET_PAIR_COL_GAP) / 2;
-      const leftH =
-        measureWrappedHeight(measurer, line.left.label, 8.5, 1, colW) + 6;
-      const rightH =
-        measureWrappedHeight(measurer, line.right.label, 8.5, 1, colW) + 6;
-      return Math.max(leftH, rightH);
-    }
+      return measureLabeledFieldBlockHeight(measurer, line.label, contentWidth);
+    case "fieldPair":
+      return measureFieldPairRowHeight(
+        measurer,
+        line.left.label,
+        line.right.label,
+        contentWidth,
+        WORKSHEET_PAIR_COL_GAP,
+      );
     case "ruled": {
       const rowHeight = line.rowHeight ?? WORKSHEET_RULE_ROW_DEFAULT;
       const count = line.fill ? line.minRows ?? 6 : line.count ?? 0;
@@ -69,12 +74,14 @@ export function measureWorksheetLine(
     }
     case "check":
       return measureWrappedHeight(measurer, `☐  ${line.text}`, 8, 1, contentWidth);
-    case "checkPair": {
-      const half = (contentWidth - WORKSHEET_PAIR_COL_GAP) / 2;
-      const leftH = measureWrappedHeight(measurer, `☐  ${line.left}`, 8, 1, half);
-      const rightH = measureWrappedHeight(measurer, `☐  ${line.right}`, 8, 1, half);
-      return Math.max(leftH, rightH) + 2;
-    }
+    case "checkPair":
+      return measureCheckPairRowHeight(
+        measurer,
+        line.left,
+        line.right,
+        contentWidth,
+        WORKSHEET_PAIR_COL_GAP,
+      );
     case "table": {
       const rowHeight = line.rowHeight ?? 14;
       return rowHeight * (1 + line.rows);

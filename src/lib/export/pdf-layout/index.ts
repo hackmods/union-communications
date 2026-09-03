@@ -1,4 +1,6 @@
 export * from "./constants";
+export * from "./guide-mark";
+export * from "./worksheet-fields";
 export * from "./types";
 export * from "./worksheet-types";
 export * from "./worksheet-validate";

@@ -1,11 +1,81 @@
+import {
+  WORKSHEET_CHECK_FONT_SIZE,
+  WORKSHEET_CHECK_ROW_HEIGHT,
+  WORKSHEET_CHECK_ROW_TRAILING,
+  WORKSHEET_FIELD_FONT_SIZE,
+  WORKSHEET_FIELD_LINE_GAP,
+  WORKSHEET_FIELD_RULE_OFFSET,
+  WORKSHEET_FIELD_RULE_TRAILING,
+  WORKSHEET_PAIR_COL_GAP,
+} from "./constants";
 import { GUIDE_PDF_PALETTE } from "./constants";
 import type { PdfFontContext } from "./types";
 import type { JsPdfLike } from "./types";
 import { setPdfFont } from "./guide-header";
 
-const FIELD_FONT_SIZE = 8.5;
-const FIELD_LINE_GAP = 1;
-const RULE_OFFSET = 2;
+export {
+  WORKSHEET_CHECK_FONT_SIZE,
+  WORKSHEET_CHECK_ROW_HEIGHT,
+  WORKSHEET_CHECK_ROW_TRAILING,
+  WORKSHEET_FIELD_FONT_SIZE,
+  WORKSHEET_FIELD_LINE_GAP,
+  WORKSHEET_FIELD_RULE_OFFSET,
+  WORKSHEET_FIELD_RULE_TRAILING,
+};
+
+export type FieldTextMeasurer = {
+  wrappedLineCount: (text: string, size: number, maxW: number) => number;
+};
+
+function fieldBlockTrailing(): number {
+  return WORKSHEET_FIELD_RULE_OFFSET + WORKSHEET_FIELD_RULE_TRAILING;
+}
+
+/** Budget height for a wrapped field label + rule — must match drawLabeledFieldBlock. */
+export function measureLabeledFieldBlockHeight(
+  measurer: FieldTextMeasurer,
+  label: string,
+  maxWidth: number,
+): number {
+  const lines = measurer.wrappedLineCount(label, WORKSHEET_FIELD_FONT_SIZE, maxWidth);
+  const textHeight = lines * (WORKSHEET_FIELD_FONT_SIZE + WORKSHEET_FIELD_LINE_GAP);
+  return textHeight + fieldBlockTrailing();
+}
+
+export function measureFieldPairRowHeight(
+  measurer: FieldTextMeasurer,
+  leftLabel: string,
+  rightLabel: string,
+  contentWidth: number,
+  gap = WORKSHEET_PAIR_COL_GAP,
+): number {
+  const colW = pairColumnWidth(contentWidth, gap);
+  const leftH = measureLabeledFieldBlockHeight(measurer, leftLabel, colW);
+  const rightH = measureLabeledFieldBlockHeight(measurer, rightLabel, colW);
+  return Math.max(leftH, rightH);
+}
+
+export function measureCheckPairRowHeight(
+  measurer: FieldTextMeasurer,
+  left: string,
+  right: string,
+  contentWidth: number,
+  gap = WORKSHEET_PAIR_COL_GAP,
+): number {
+  const colW = pairColumnWidth(contentWidth, gap);
+  const leftLines = measurer.wrappedLineCount(
+    `☐  ${left}`,
+    WORKSHEET_CHECK_FONT_SIZE,
+    colW,
+  );
+  const rightLines = measurer.wrappedLineCount(
+    `☐  ${right}`,
+    WORKSHEET_CHECK_FONT_SIZE,
+    colW,
+  );
+  const rows = Math.max(leftLines, rightLines);
+  return rows * WORKSHEET_CHECK_ROW_HEIGHT + WORKSHEET_CHECK_ROW_TRAILING;
+}
 
 function drawFieldRule(pdf: JsPdfLike, x1: number, ruleY: number, x2: number): void {
   pdf.setDrawColor(190, 198, 210);
@@ -22,16 +92,16 @@ export function drawLabeledFieldBlock(
   startY: number,
 ): number {
   const { pdf } = ctx;
-  setPdfFont(ctx, FIELD_FONT_SIZE, false, GUIDE_PDF_PALETTE.ink);
+  setPdfFont(ctx, WORKSHEET_FIELD_FONT_SIZE, false, GUIDE_PDF_PALETTE.ink);
   const lines = pdf.splitTextToSize(label, maxWidth);
   let y = startY;
   for (const line of lines) {
     pdf.text(line, x, y);
-    y += FIELD_FONT_SIZE + FIELD_LINE_GAP;
+    y += WORKSHEET_FIELD_FONT_SIZE + WORKSHEET_FIELD_LINE_GAP;
   }
-  const ruleY = y + RULE_OFFSET;
+  const ruleY = y + WORKSHEET_FIELD_RULE_OFFSET;
   drawFieldRule(pdf, x, ruleY, x + maxWidth);
-  return ruleY + 4;
+  return ruleY + WORKSHEET_FIELD_RULE_TRAILING;
 }
 
 export function pairColumnWidth(contentWidth: number, gap: number): number {
@@ -67,7 +137,7 @@ export function drawCheckPairRow(
 ): number {
   const { pdf } = ctx;
   const colW = pairColumnWidth(contentWidth, gap);
-  setPdfFont(ctx, 8, false, GUIDE_PDF_PALETTE.ink);
+  setPdfFont(ctx, WORKSHEET_CHECK_FONT_SIZE, false, GUIDE_PDF_PALETTE.ink);
   const leftLines = pdf.splitTextToSize(`☐  ${left}`, colW);
   const rightLines = pdf.splitTextToSize(`☐  ${right}`, colW);
   const rows = Math.max(leftLines.length, rightLines.length);
@@ -75,7 +145,7 @@ export function drawCheckPairRow(
   for (let i = 0; i < rows; i++) {
     if (leftLines[i]) pdf.text(leftLines[i]!, margin, y);
     if (rightLines[i]) pdf.text(rightLines[i]!, margin + colW + gap, y);
-    y += 9;
+    y += WORKSHEET_CHECK_ROW_HEIGHT;
   }
-  return y + 2;
+  return y + WORKSHEET_CHECK_ROW_TRAILING;
 }

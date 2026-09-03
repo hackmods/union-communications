@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
-  drawCheckPairRow,
   drawFieldPairRow,
   drawLabeledFieldBlock,
+  measureCheckPairRowHeight,
+  measureFieldPairRowHeight,
+  measureLabeledFieldBlockHeight,
   pairColumnWidth,
 } from "./worksheet-fields";
+import { createStaticTextMeasurer } from "./worksheet-measure";
 import type { JsPdfLike, PdfFontContext } from "./types";
 
 function mockPdf(labelWidths: Record<string, number> = {}) {
@@ -66,16 +69,25 @@ describe("worksheet-fields", () => {
     expect(endY).toBeGreaterThan(130);
   });
 
-  it("drawCheckPairRow wraps both checkbox columns", () => {
-    const left = "Accurate for this territory (not another city)";
-    const right = "Speaker can explain every phrase without notes";
-    const { ctx, ops } = mockPdf();
-    drawCheckPairRow(ctx, left, right, 18, 576, 200, 16);
-    const textOps = ops.filter((op) => op.type === "text");
-    expect(textOps.length).toBeGreaterThan(2);
-    const leftCol = textOps.filter((op) => op.args[1] === 18);
-    const rightCol = textOps.filter((op) => op.args[1] === 18 + pairColumnWidth(576, 16) + 16);
-    expect(leftCol.length).toBeGreaterThan(0);
-    expect(rightCol.length).toBeGreaterThan(0);
+  it("measure helpers match render block trailing height", () => {
+    const measurer = createStaticTextMeasurer(576);
+    const label = "Federation guide (OFL / national / CUPE / other)";
+    const colW = pairColumnWidth(576, 16);
+    const measured = measureLabeledFieldBlockHeight(measurer, label, colW);
+    expect(measured).toBeGreaterThan(12);
+    const pairH = measureFieldPairRowHeight(
+      measurer,
+      "Who reads it at the next meeting?",
+      label,
+      576,
+    );
+    expect(pairH).toBeGreaterThanOrEqual(measured);
+    const checkH = measureCheckPairRowHeight(
+      measurer,
+      "Accurate for this territory",
+      "Speaker can explain every phrase without notes",
+      576,
+    );
+    expect(checkH).toBeGreaterThanOrEqual(9);
   });
 });

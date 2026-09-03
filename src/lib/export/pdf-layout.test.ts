@@ -13,11 +13,15 @@ import {
   validateWorksheetLayout,
   wsLine,
   PDF_ENGINE_STRAGGLERS,
+  resolveHeaderStartYAfterMark,
+  WORKSHEET_MARK_TITLE_GAP,
+  CHECKLIST_MARK_TITLE_GAP,
 } from "@/lib/export/pdf-layout";
 import { transparentPngBytes } from "@/lib/export/brand-logo-bytes";
 import {
   expectBlockOrder,
   expectFooterBandOrder,
+  expectMinVerticalGap,
   findTextY,
   parseWorksheetPdfBlob,
 } from "@/lib/export/worksheet-pdf-test-helpers";
@@ -114,6 +118,56 @@ describe("pdf-layout engine", () => {
       .build();
     expect(built.title).toBe("Test sheet");
     expect(built.sections[0]?.lines[0]?.kind).toBe("ruled");
+  });
+
+  it("uses canonical mark-to-title gaps per profile", () => {
+    const placement = { y: 24, heightPt: 26, draw: true, x: 18, widthPt: 52 };
+    expect(resolveHeaderStartYAfterMark(placement, "worksheet", 18)).toBe(
+      24 + 26 + WORKSHEET_MARK_TITLE_GAP,
+    );
+    expect(resolveHeaderStartYAfterMark(placement, "checklist", 48)).toBe(
+      24 + 26 + CHECKLIST_MARK_TITLE_GAP,
+    );
+  });
+
+  it("wraps long fieldPair and checkPair labels on any worksheet template", async () => {
+    vi.mocked(saveBlob).mockClear();
+    await writeBrandedWorksheetPdf({
+      platformMark: mark,
+      title: "Engine field wrap contract",
+      subtitle: "Local 243",
+      layoutMode: "flow",
+      sections: [
+        {
+          heading: "Review and commit",
+          lines: [
+            wsLine.fieldPair(
+              "Who reads it at the next meeting?",
+              "Federation guide (OFL / national / CUPE / other)",
+            ),
+            wsLine.checkPair(
+              "Accurate for this territory (not another city)",
+              "Speaker can explain every phrase without notes",
+            ),
+            wsLine.checkPair(
+              "Pairs words with one concrete local action",
+              "Indigenous Circle / equity contact consulted if unsure",
+            ),
+          ],
+        },
+      ],
+      tips: { heading: "Floor tips", lines: ["Territory first."] },
+      reminder: "Education only.",
+      filename: "unionops-field-wrap-contract.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+    });
+
+    const parsed = await parseWorksheetPdfBlob(vi.mocked(saveBlob).mock.calls.at(-1)![0]);
+    expect(parsed.joined).toMatch(/CUPE \/ other/i);
+    expect(parsed.joined).toMatch(/without notes/i);
+    expect(parsed.joined).toMatch(/consulted if unsure/i);
+    expectMinVerticalGap(parsed, "Engine field wrap", "Local 243", 10);
+    expectMinVerticalGap(parsed, "Review and commit", "Floor tips", 24);
   });
 });
 

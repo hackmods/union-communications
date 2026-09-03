@@ -25,6 +25,8 @@ export const WORKSHEET_CLOSING_GAP = 2;
 export const WORKSHEET_FLOW_FOOTER_GAP = 18;
 /** Gap between logo bottom and title baseline on worksheets (pt). */
 export const WORKSHEET_MARK_TITLE_GAP = 12;
+/** Gap between logo bottom and title baseline on checklist/notes (pt). */
+export const CHECKLIST_MARK_TITLE_GAP = 14;
 /** Space between worksheet sections (pt). */
 export const WORKSHEET_SECTION_GAP = 5;
 /** Column gutter for fieldPair / checkPair (pt). */
@@ -38,13 +40,24 @@ export const WORKSHEET_HEADER_RULE_GAP_AFTER_TITLE = 6;
 export const WORKSHEET_HEADER_RULE_GAP_AFTER_RULE = 12;
 export const WORKSHEET_HEADER_BODY_GAP = 6;
 
+/** Checklist / notes header rhythm (pt) — larger title, tighter rule placement. */
+export const CHECKLIST_HEADER_TITLE_SIZE = 16;
+export const CHECKLIST_HEADER_RULE_GAP = 16;
+export const CHECKLIST_HEADER_RULE_GAP_AFTER_TITLE = 0;
+export const CHECKLIST_HEADER_RULE_GAP_AFTER_RULE = CHECKLIST_HEADER_RULE_GAP - 4;
+
+/** Worksheet field / checkbox typography (pt) — shared by render + budget measure. */
+export const WORKSHEET_FIELD_FONT_SIZE = 8.5;
+export const WORKSHEET_FIELD_LINE_GAP = 1;
+export const WORKSHEET_FIELD_RULE_OFFSET = 2;
+export const WORKSHEET_FIELD_RULE_TRAILING = 4;
+export const WORKSHEET_CHECK_FONT_SIZE = 8;
+export const WORKSHEET_CHECK_ROW_HEIGHT = 9;
+export const WORKSHEET_CHECK_ROW_TRAILING = 2;
+
 /** Letter page size (pt) — budget API without a live jsPDF instance. */
 export const LETTER_PAGE_HEIGHT_PT = 792;
 export const LETTER_PAGE_WIDTH_PT = 612;
-
-/** Standard checklist / notes header sizes (pt). */
-export const CHECKLIST_HEADER_TITLE_SIZE = 16;
-export const CHECKLIST_HEADER_RULE_GAP = 16;
 
 export const HEADLINE_FACE = "UnionOpsHeadline";
 export const BODY_FACE = "UnionOpsBody";

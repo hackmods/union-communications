@@ -3,15 +3,12 @@ import {
   WORKSHEET_CLOSING_GAP,
   WORKSHEET_FLOW_FOOTER_GAP,
   WORKSHEET_HEADER_BODY_GAP,
-  WORKSHEET_HEADER_RULE_GAP_AFTER_RULE,
-  WORKSHEET_HEADER_RULE_GAP_AFTER_TITLE,
-  WORKSHEET_HEADER_TITLE_SIZE,
   WORKSHEET_PAIR_COL_GAP,
   WORKSHEET_PRE_FOOTER_GAP,
   WORKSHEET_RULE_ROW_DEFAULT,
   WORKSHEET_SECTION_GAP,
 } from "./constants";
-import { renderGuideHeader, setPdfFont } from "./guide-header";
+import { renderGuideHeader, setPdfFont, WORKSHEET_GUIDE_HEADER } from "./guide-header";
 import {
   drawCheckPairRow,
   drawFieldPairRow,
@@ -316,9 +313,7 @@ export function renderWorksheetDocument(opts: WriteWorksheetBodyOpts): number {
     title: opts.title,
     subtitle: opts.subtitle,
     instructions: opts.instructions,
-    titleSize: WORKSHEET_HEADER_TITLE_SIZE,
-    ruleGapAfterTitle: WORKSHEET_HEADER_RULE_GAP_AFTER_TITLE,
-    ruleGapAfterRule: WORKSHEET_HEADER_RULE_GAP_AFTER_RULE,
+    ...WORKSHEET_GUIDE_HEADER,
     startY: opts.markStartY,
   });
   y += WORKSHEET_HEADER_BODY_GAP;
