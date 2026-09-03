@@ -96,6 +96,57 @@ export function expectHeadingOrder(
   }
 }
 
+/** Assert block snippets appear top-to-bottom in reading order. */
+export function expectBlockOrder(
+  parsed: ParsedWorksheetPdf,
+  snippets: string[],
+): void {
+  expectHeadingOrder(parsed, snippets);
+}
+
+/** Footer band: tips heading → bullets → reminder → disclaimer. */
+export function expectFooterBandOrder(
+  parsed: ParsedWorksheetPdf,
+  opts: {
+    tipsHeading: string;
+    firstBullet: string;
+    reminder: string;
+    disclaimer: string;
+  },
+): void {
+  const tipsY = findTextY(parsed, opts.tipsHeading);
+  const bulletY = findTextY(parsed, opts.firstBullet);
+  const reminderY = findTextY(parsed, opts.reminder);
+  const footerY = findTextY(parsed, opts.disclaimer);
+  if (tipsY === undefined || bulletY === undefined || reminderY === undefined || footerY === undefined) {
+    throw new Error("Missing footer band snippet for order check");
+  }
+  if (tipsY <= bulletY || bulletY <= reminderY || reminderY <= footerY) {
+    throw new Error(
+      `Footer band out of order: tips=${tipsY} bullet=${bulletY} reminder=${reminderY} footer=${footerY}`,
+    );
+  }
+}
+
+/** Minimum vertical gap between two snippets (pdf.js Y difference). */
+export function expectMinVerticalGap(
+  parsed: ParsedWorksheetPdf,
+  upperSnippet: string,
+  lowerSnippet: string,
+  minGap: number,
+): void {
+  const upperY = findTextY(parsed, upperSnippet);
+  const lowerY = findTextY(parsed, lowerSnippet);
+  if (upperY === undefined || lowerY === undefined) {
+    throw new Error(`Missing snippet for gap check: ${upperSnippet} / ${lowerSnippet}`);
+  }
+  if (upperY - lowerY < minGap) {
+    throw new Error(
+      `Gap too small between "${upperSnippet}" and "${lowerSnippet}": ${upperY - lowerY} < ${minGap}`,
+    );
+  }
+}
+
 /** True when pdf.js operator list includes an embedded image (platform mark). */
 export async function pdfHasEmbeddedMark(
   page: ParsedWorksheetPdf["page"],

@@ -1,0 +1,42 @@
+export * from "./constants";
+export * from "./types";
+export * from "./worksheet-types";
+export * from "./worksheet-validate";
+export * from "./worksheet-measure";
+export * from "./worksheet-budget";
+export * from "./guide-header";
+export * from "./guide-footer-band";
+export * from "./vertical-flow";
+export * from "./worksheet-render";
+export * from "./worksheet-builder";
+
+export { GUIDE_PDF_PALETTE as PDF_LAYOUT_PALETTE } from "./constants";
+
+/** jsPDF inventory — stragglers not yet on shared chrome. */
+export const PDF_ENGINE_STRAGGLERS = [
+  {
+    path: "src/lib/travel/export.ts",
+    fn: "buildTravelExportPdf",
+    note: "Private jsPDF loop — Hub travel package; candidate for writeBrandedNotesPdf",
+  },
+  {
+    path: "src/lib/time/export-rollup.ts",
+    fn: "exportTimeRollupPdf",
+    note: "Private jsPDF — workforce rollup tables; candidate for table primitive + shared footer",
+  },
+  {
+    path: "src/lib/expenses/export.ts",
+    fn: "buildExpensePdf",
+    note: "Private jsPDF — expense claims",
+  },
+  {
+    path: "src/lib/export/pdf-export.ts",
+    fn: "exportFlyerPdf / nodeToPdf",
+    note: "Canvas raster path — intentional; not text-PDF engine",
+  },
+  {
+    path: "src/lib/officer-learning/certificate.ts",
+    fn: "downloadOfficerLearningCertificate",
+    note: "Landscape certificate — shares mark/fonts; separate layout by design",
+  },
+] as const;

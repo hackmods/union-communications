@@ -1,5 +1,11 @@
 # Progress Log
 
+## PDF layout engine phases 0–6 (2026-09-03)
+
+- [x] **`src/lib/export/pdf-layout/`:** extracted header/footer bands, layout modes (`flow` | `pinnedFooter` | `pinnedClosing`), `layoutWorksheet()` budget API, `buildWorksheet()` DSL, `table` / `columnLayout` / `pageBreak` primitives, golden spatial tests, `npm run pdf:preview`
+- [x] **Checklist + notes headers** aligned to title → rule → subtitle contract
+- Verify: `npm run test:unit -- src/lib/export/pdf-layout.test.ts` + `npm run pdf:preview -- land-acknowledgement en`
+
 ## Land Acknowledgement — worksheet PDF layout QOL (2026-09-03)
 
 - [x] **`writeBrandedWorksheetPdf` engine:** capped fill + `closingSections`, flow-footer for short sheets, `guide-pdf-contract.test.ts` cross-family regression
