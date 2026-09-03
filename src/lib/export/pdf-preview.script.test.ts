@@ -13,6 +13,8 @@ import {
   layoutWorksheet,
 } from "@/lib/export/text-pdf-layout";
 import { downloadFarSheetPdf } from "@/lib/officer-learning/reference-pdf";
+import { downloadBoardReferencePdf } from "@/lib/comms/board-reference-pdf";
+import { exportWorkspacePdf } from "@/lib/steward-guides/export";
 
 const outDir = join(process.cwd(), "test-results", "pdf-preview");
 const template = process.env.PDF_PREVIEW_TEMPLATE ?? "land-acknowledgement";
@@ -70,6 +72,29 @@ describe("pdf preview script", () => {
       mkdirSync(outDir, { recursive: true });
       writeFileSync(join(outDir, "unionops-travel-preview.pdf"), Buffer.from(await blob.arrayBuffer()));
       console.log(`Wrote ${join(outDir, "unionops-travel-preview.pdf")}`);
+      return;
+    }
+
+    if (template === "board-checklist") {
+      await downloadBoardReferencePdf({
+        kind: "board-checklist",
+        localLabel: locale === "fr" ? "Section 243" : "Local 243",
+        locale,
+        brand: guidePdfBrandFromKit(DEFAULT_BRAND_KIT),
+      });
+      return;
+    }
+
+    if (template === "steward-workspace") {
+      await exportWorkspacePdf(
+        "Complaint vs grievance diagnostic",
+        "## Notes\n\nMember story here.",
+        "unionops-complaint-vs-grievance-preview.pdf",
+        {
+          locale,
+          brand: guidePdfBrandFromKit(DEFAULT_BRAND_KIT),
+        },
+      );
     }
   });
 });

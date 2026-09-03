@@ -6866,7 +6866,56 @@
     "version": "Version",
     "commit": "Commit",
     "builtAt": "Built (UTC)",
+    "reviewLink": "Content review map — grouped links to every public page, tool, guide, and PDF surface",
     "apiHint": "Operators can also read JSON at /api/health (fields version, commit, builtAt)."
+  },
+  "buildReview": {
+    "metaTitle": "Content review map",
+    "metaDescription": "Operator-only grouped links to verify UnionOps pages, tools, guides, PDF exports, Hub, and Portal surfaces after a deploy.",
+    "title": "Content review map",
+    "description": "Jump to every indexed route in one place — grouped for post-deploy verification. Not linked from main navigation.",
+    "operatorNote": "Operator use only. This page is not indexed. PDF exports open on their parent page — use the download button there.",
+    "backToBuild": "← Site build",
+    "tocLabel": "Sections",
+    "requiresAuth": "Requires sign-in — links may redirect to login.",
+    "sections": {
+      "siteShell": "Site shell",
+      "tools": "Comms tools",
+      "guides": "Guides & playbooks",
+      "officerLearning": "Officer Learning modules",
+      "libraries": "Libraries & assets",
+      "pdfExports": "PDF export surfaces",
+      "hub": "Officer Hub",
+      "portal": "Local Portal"
+    },
+    "hints": {
+      "tools": "Verify: npm run test:smoke — canvas exports in e2e/tools.export.smoke",
+      "guides": "Verify: npm run test:smoke — guide-pdf.export.smoke for text PDFs",
+      "pdfText": "Verify: npm run pdf:preview -- land-acknowledgement en",
+      "hub": "Verify: npm run test:smoke — hub login flow",
+      "portal": "Verify: sign in via Hub, then open Local Portal from the module switcher"
+    },
+    "tags": {
+      "pdf": "text PDF",
+      "canvas": "canvas PDF",
+      "hub": "hub",
+      "portal": "portal"
+    },
+    "links": {
+      "olContractEnforcement": "Contract Enforcement module",
+      "olProgressiveDiscipline": "Progressive Discipline module",
+      "olHumanRights": "Human Rights & Accommodation module",
+      "olDemocraticGovernance": "Democratic Governance module",
+      "olFinancialHealth": "Financial Health module",
+      "olCollectivePower": "Building Collective Power module",
+      "portalHome": "Portal home",
+      "portalFronts": "Fronts",
+      "portalDispatch": "Dispatch",
+      "portalSidebars": "Sidebars",
+      "portalFeedback": "Send feedback",
+      "hubDashboard": "Hub dashboard",
+      "hubLogin": "Hub login"
+    }
   },
   "accessibility": {
     "title": "Accessibility Statement",

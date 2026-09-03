@@ -170,6 +170,8 @@ Install browsers once: `npx playwright install chromium`. Demo login on the sand
 
 **Health check:** `GET /api/health` returns `{ status, version, commit, backends, postgresConfigured, memoryCaseDataActive, postgresFlipComplete, emailEnabled, cronConfigured, mfaEnabled }`. Preflight: `npm run health:check` (optional `HEALTH_URL`; `HEALTH_REQUIRE_DURABLE=true` after Postgres flip; used by `test:smoke:sandbox`).
 
+**Content review map:** After deploy, open `/{locale}/build/` (footer: Site build) → Content review map for grouped links to verify pages, tools, guides, and PDF export surfaces. Not indexed.
+
 ## Project docs
 
 - Vision: [`docs/VISION.md`](../VISION.md)
