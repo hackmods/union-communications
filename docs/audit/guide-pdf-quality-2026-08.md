@@ -25,6 +25,7 @@ Agent rule: [`.cursor/rules/guide-pdfs.mdc`](../../.cursor/rules/guide-pdfs.mdc)
 | financial-health | `audit-controls`, `floor-checklist` |
 | building-collective-power | `equity-clause`, `floor-checklist` |
 | `/guide/bylaws` | adoption checklist, quorum/motion |
+| `/guide/land-acknowledgement` | writing worksheet (`writeBrandedWorksheetPdf` — compact margins, ruled rows) |
 | Certificates | module + path via `downloadOfficerLearningCertificate` |
 
 ## Quality bar

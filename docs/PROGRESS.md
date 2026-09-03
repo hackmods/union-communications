@@ -1,5 +1,11 @@
 # Progress Log
 
+## Land Acknowledgement — worksheet PDF layout QOL (2026-09-03)
+
+- [x] **`writeBrandedWorksheetPdf`:** 32pt margins, compact header, field labels + ruled note rows (no checkbox prefix on blanks)
+- [x] **Gold handout copy:** floor-handout title, step intros, floor tips on PDF; guide playbook for using the sheet
+- Verify: `npm run test:unit -- src/lib/export/text-pdf-layout.test.ts src/lib/comms/land-acknowledgement-worksheet-pdf.test.ts` + guide PDF smoke
+
 ## Land Acknowledgement — discoverability pass (2026-09-02)
 
 - [x] **SEO + catalog blurbs:** solo path, workshop, PDF worksheet in meta descriptions and steward playbook listings (EN/FR)

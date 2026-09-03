@@ -3135,7 +3135,7 @@
         "workplaceMapping": "Recensez chaque collègue, repérez les leaders organiques et cotez l'appui syndical de 1 à 5. Gardez le fichier hors des systèmes de l'employeur.",
         "bylaws": "Structure de l'exécutif, quorum, autorités de signature, élections, et comment modifier les règlements avec préavis et vote en assemblée.",
         "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et ouvrez l'aide-mémoire pendant le débat.",
-        "landAcknowledgement": "Voie solo ou atelier avec animateur·rice, feuille PDF imprimable, sources fédérales et exemple commenté — vos propres mots, pas un texte copié."
+        "landAcknowledgement": "Voie solo ou atelier avec animateur·rice, feuille PDF lignée d'une page, sources fédérales et exemple commenté — vos propres mots, pas un texte copié."
       }
     },
     "checklist": {
@@ -4659,7 +4659,7 @@
       "bargaining": "Du sondage à la signature pour les comités de négociation locaux — mises à jour de table, votes de grève, ratification, listes et Suivi des propositions sur appareil.",
       "bylaws": "Ce qui doit figurer dans les règlements locaux et comment les modifier avec préavis, quorum et approbation nationale.",
       "runningMeetings": "Adaptez la formalité à la salle, suivez un ordre du jour type et sachez quoi dire pour une motion ou un rappel au règlement.",
-      "landAcknowledgement": "Rédigez seul·e ou animez un atelier avec la feuille PDF — recherche, réflexion et mots liés à l'action. Guides fédéraux en bas de page ; sans générateur copier-coller."
+      "landAcknowledgement": "Rédigez seul·e ou animez un atelier avec la feuille PDF lignée d'une page — recherche, réflexion et mots liés à l'action. Guides fédéraux en bas de page ; sans générateur copier-coller."
     },
     "workspaces": {
       "title": "Espaces de pratique",
@@ -6570,7 +6570,7 @@
       },
       "land-acknowledgement-guide": {
         "title": "Guide de reconnaissance territoriale",
-        "body": "Guide restructuré avec voies solo et atelier, feuille PDF téléchargeable, diagramme de déroulement et exemple commenté du Niagara — toujours sans générateur copier-coller."
+        "body": "Guide de reconnaissance territoriale — feuille de terrain PDF avec invites d'étapes, bloc ligné, conseils sur le plancher et mise en page stylo sur une page."
       },
       "guide-tool-aside": {
         "title": "Guides — raccourcis outils sur ordinateur",
@@ -9910,7 +9910,7 @@
     "backToPlaybooks": "Tous les guides pratiques pour délégués",
     "tocLabel": "Sur cette page",
     "tipLabel": "À retenir",
-    "intro": "La reconnaissance territoriale rappelle que les réunions syndicales ont lieu sur des terres au long passé autochtone. Ce guide accompagne votre section de la recherche à une première ébauche — sources fédérales, voies solo et atelier, et exemple commenté. UnionOps ne génère pas de texte pour vous.",
+    "intro": "La reconnaissance territoriale rappelle que les réunions syndicales ont lieu sur des terres au long passé autochtone. Ce guide accompagne votre section de la recherche à une première ébauche — feuille de terrain d'une page, sources fédérales, voies solo et atelier, et exemple commenté. UnionOps ne génère pas de texte pour vous.",
     "groundRules": {
       "navLabel": "Règles de base",
       "title": "Règles de base",
@@ -9983,7 +9983,7 @@
       "title": "Comment rédiger votre reconnaissance",
       "intro": "La plupart des sections commencent de deux façons : un·e responsable recherche et rédige seul·e, puis présente à l'exécutif — ou le comité éducation tient un court atelier. Les deux voies suivent le même rythme : recherche → réflexion → rédaction → révision.",
       "soloHeading": "Seul·e (~45 minutes)",
-      "soloIntro": "Bloquez une heure avec Native-Land.ca ou le PDF fédéral ouvert. Vous rédigez pour votre section, pas encore pour la scène — privilégiez l'exactitude et des mots que vous pouvez expliquer.",
+      "soloIntro": "Bloquez une heure avec Native-Land.ca ou le PDF fédéral ouvert. Imprimez la feuille d'une page ci-dessous — les lignes sont prévues pour la prise de notes à la main. Vous rédigez pour votre section, pas encore pour la scène — privilégiez l'exactitude et des mots que vous pouvez expliquer.",
       "soloFlow": {
         "research": {
           "title": "Étape 1 · Recherche",
@@ -10012,7 +10012,7 @@
         },
         "materials": {
           "label": "Quoi apporter",
-          "content": "Cartes territoriales imprimées, PDF fédéral, une feuille par personne et un moyen de projeter Native-Land.ca ou Whose Land."
+          "content": "Cartes territoriales imprimées, PDF fédéral, une feuille par personne (bloc de rédaction ligné sur une page) et un moyen de projeter Native-Land.ca ou Whose Land."
         },
         "room": {
           "label": "Disposition de la salle",
@@ -10035,7 +10035,7 @@
         },
         "draft": {
           "label": "Rédaction en duo (~25 min)",
-          "content": "Chaque duo rédige une courte ébauche avec la feuille. Territoire d'abord, puis une action locale ou fil historique — pas copié d'une autre ville."
+          "content": "Chaque duo rédige une courte ébauche sur les lignes de la feuille. Territoire d'abord, puis une action locale ou fil historique — pas copié d'une autre ville."
         },
         "close": {
           "label": "Révision et engagement (~20 min)",
@@ -10043,10 +10043,35 @@
         }
       },
       "workshopTip": "Si la salle est grande, formez des duos pour la rédaction — pas de nombre fixe de participants. Si quelqu'un hésite, proposez de consulter le cercle autochtone du syndicat avant de finaliser.",
-      "worksheetHint": "Téléchargez le PDF pour prendre des notes seul·e ou comme feuille d'atelier — espaces recherche, rédaction et liste de révision. Formation seulement ; pas un texte à coller tel quel."
+      "worksheetHeading": "Feuille de terrain (une page)",
+      "worksheetIntro": "Même profondeur qu'une fiche de poche pour délégué·es : étapes, bloc de rédaction ligné et liste de révision — imprimez pour l'exécutif ou un atelier.",
+      "worksheetFeatures": {
+        "print": {
+          "label": "Imprimer ou PDF",
+          "content": "Format lettre à marges serrées — lignes pour la main, pas de bordures perdues."
+        },
+        "ruled": {
+          "label": "Bloc de rédaction ligné",
+          "content": "Champs de recherche étiquetés plus lignes de réflexion et rédaction pour la prise de notes à la main."
+        },
+        "checklist": {
+          "label": "Porte de révision",
+          "content": "Quatre vérifications, conseils sur le PDF, et cases pour qui lit plus date de revue exécutive."
+        }
+      },
+      "worksheetStepsHeading": "Comment utiliser la feuille",
+      "worksheetSteps": {
+        "print": "Téléchargez et imprimez une copie par personne — ou ouvrez sur tablette avec stylet.",
+        "research": "Complétez l'étape 1 avant de rédiger. Cartes et PDF fédéraux introduisent le territoire ; confirmez les orthographes auprès de sources autochtones.",
+        "reflect": "Écrivez une phrase honnête à l'étape 2 — pourquoi cela compte pour votre section, pas un langage générique.",
+        "draft": "Utilisez les lignes à l'étape 3 : territoire, puis fil historique ou action locale, puis engagement.",
+        "review": "Cochez l'étape 4 et fixez la revue exécutive avant toute lecture à voix haute en réunion."
+      },
+      "worksheetGoldTip": "Traitez la feuille comme une fiche FAR — annotez-la à la main à l'exécutif, archivez l'ébauche avec le procès-verbal, et revisitez si le lieu de réunion change.",
+      "worksheetHint": "Le PDF reprend les invites d'étapes et conseils de terrain de ce guide. Formation seulement — pas un texte à coller tel quel."
     },
     "worksheet": {
-      "cta": "Télécharger la feuille (PDF)",
+      "cta": "Télécharger la feuille de terrain (PDF)",
       "downloading": "Préparation du PDF…"
     },
     "prepareWords": {
@@ -10275,7 +10300,7 @@
         },
         "reflect": {
           "label": "Rédiger ou tenir un atelier",
-          "content": "Suivez la voie solo ou l'ordre du jour d'atelier ci-dessus — téléchargez la feuille si utile — puis vérifiez l'exactitude avant la prochaine réunion."
+          "content": "Suivez les étapes de la feuille PDF — voie solo ou ordre du jour d'atelier ci-dessus — puis vérifiez l'exactitude avant la prochaine réunion."
         },
         "followUp": {
           "label": "Suivi avec l'exécutif",
