@@ -728,7 +728,7 @@ export async function writeBrandedWorksheetPdf(opts: {
   renderSections(opts.sections, contentBottom);
 
   if (opts.closingSections?.length) {
-    y = pageHeight - margin - footerBandHeight - closingHeight + 4;
+    y = pageHeight - margin - footerBandHeight - closingHeight + 2;
     renderSections(opts.closingSections, pageHeight - margin - footerBandHeight);
   }
 
