@@ -143,6 +143,19 @@ export function guidePdfMarkPlacementPt(
   };
 }
 
+/** Compact header mark for fill-in worksheets (tighter margins). */
+export function guidePdfWorksheetMarkPlacementPt(
+  logo: PdfImageBytes | BrandLogoBytes | null | undefined,
+  margin: number,
+): { draw: boolean; x: number; y: number; widthPt: number; heightPt: number } | null {
+  return guidePdfMarkPlacementPt(logo, {
+    maxW: 52,
+    maxH: 26,
+    x: margin,
+    y: 24,
+  });
+}
+
 export function certificatePlatformMarkPlacement(
   logo: PdfImageBytes | BrandLogoBytes | null | undefined,
 ): { draw: boolean; x: number; y: number; widthIn: number; heightIn: number } | null {
@@ -400,6 +413,165 @@ export async function writeBrandedChecklistPdf(opts: {
   y += 16;
   ensureSpace(24);
   write(opts.footer, 8, false, muted);
+  await saveBlob(pdf.output("blob"), opts.filename);
+}
+
+/** Fill-in worksheet line — ruled rows, fields, checks, or plain prompts. */
+export type WorksheetLine =
+  | { kind: "text"; text: string }
+  | { kind: "field"; label: string }
+  | { kind: "ruled"; count: number; rowHeight?: number }
+  | { kind: "check"; text: string };
+
+export type WorksheetSection = {
+  heading: string;
+  lines: WorksheetLine[];
+};
+
+const WORKSHEET_MARGIN_DEFAULT = 28;
+const WORKSHEET_RULE_ROW_DEFAULT = 20;
+
+export async function writeBrandedWorksheetPdf(opts: {
+  title: string;
+  subtitle?: string;
+  sections: WorksheetSection[];
+  /** Short reminder printed above the footer — saves a section heading. */
+  reminder?: string;
+  filename: string;
+  footer: string;
+  platformMark?: PdfImageBytes | null;
+  brand?: GuidePdfBrand | null;
+  margin?: number;
+}): Promise<void> {
+  const pdf = await createLetterPdf();
+  const faces = await registerGuidePdfFonts(pdf, opts.brand);
+  const margin = opts.margin ?? WORKSHEET_MARGIN_DEFAULT;
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+  const contentRight = pageWidth - margin;
+  const contentWidth = contentRight - margin;
+  const { ink, muted, navy } = GUIDE_PDF_PALETTE;
+  const accent = resolveGuidePdfAccent(opts.brand);
+  const footerReserve = 22;
+
+  const mark =
+    opts.platformMark === undefined
+      ? await resolveUnionOpsMarkBytes()
+      : opts.platformMark;
+  const placement = guidePdfWorksheetMarkPlacementPt(mark, margin);
+
+  let y = margin;
+  if (placement && mark) {
+    try {
+      pdf.addImage(
+        logoDataUrlFromBytes(mark),
+        "PNG",
+        placement.x,
+        placement.y,
+        placement.widthPt,
+        placement.heightPt,
+      );
+      y = placement.y + placement.heightPt + 8;
+    } catch {
+      y = 28;
+    }
+  }
+
+  drawAccentRule(pdf, y, margin, pageWidth, accent);
+  y += 10;
+
+  const ensureSpace = (needed: number) => {
+    if (y + needed > pageHeight - margin - footerReserve) {
+      pdf.addPage();
+      y = margin;
+    }
+  };
+
+  const setBodyFont = (size: number, bold: boolean, color: PdfRgb) => {
+    const face = bold ? faces.headline : faces.body;
+    const style =
+      face === "helvetica" ? (bold ? "bold" : "normal") : bold ? "bold" : "normal";
+    pdf.setFont(face, style);
+    pdf.setFontSize(size);
+    pdf.setTextColor(color.r, color.g, color.b);
+  };
+
+  const writeWrapped = (
+    text: string,
+    size: number,
+    bold: boolean,
+    color: PdfRgb,
+    lineGap = 3,
+  ) => {
+    setBodyFont(size, bold, color);
+    const lines = pdf.splitTextToSize(text, contentWidth);
+    for (const line of lines) {
+      ensureSpace(size + lineGap);
+      pdf.text(line, margin, y);
+      y += size + lineGap;
+    }
+  };
+
+  const drawRule = (ruleY: number) => {
+    pdf.setDrawColor(190, 198, 210);
+    pdf.setLineWidth(0.6);
+    pdf.line(margin, ruleY, contentRight, ruleY);
+  };
+
+  writeWrapped(opts.title, 14, true, navy, 2);
+  y += 2;
+  if (opts.subtitle) {
+    writeWrapped(opts.subtitle, 9, false, muted, 2);
+    y += 4;
+  }
+
+  for (const section of opts.sections) {
+    y += 4;
+    writeWrapped(section.heading, 10, true, navy, 2);
+    y += 1;
+
+    for (const line of section.lines) {
+      switch (line.kind) {
+        case "text": {
+          writeWrapped(line.text, 9, false, ink, 2);
+          break;
+        }
+        case "field": {
+          ensureSpace(18);
+          setBodyFont(9, false, ink);
+          pdf.text(line.label, margin, y);
+          y += 10;
+          drawRule(y);
+          y += 8;
+          break;
+        }
+        case "ruled": {
+          const rowHeight = line.rowHeight ?? WORKSHEET_RULE_ROW_DEFAULT;
+          for (let i = 0; i < line.count; i++) {
+            ensureSpace(rowHeight);
+            y += rowHeight - 6;
+            drawRule(y);
+            y += 6;
+          }
+          y += 1;
+          break;
+        }
+        case "check": {
+          writeWrapped(`☐  ${line.text}`, 9, false, ink, 2);
+          break;
+        }
+      }
+    }
+  }
+
+  if (opts.reminder) {
+    y += 6;
+    writeWrapped(opts.reminder, 8.5, false, muted, 2);
+  }
+
+  y += 8;
+  ensureSpace(16);
+  writeWrapped(opts.footer, 7.5, false, muted, 2);
   await saveBlob(pdf.output("blob"), opts.filename);
 }
 

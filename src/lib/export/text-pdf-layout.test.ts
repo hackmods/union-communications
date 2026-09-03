@@ -3,6 +3,7 @@ import { transparentPngBytes } from "@/lib/export/brand-logo-bytes";
 import {
   EDUCATION_FOOTER,
   STEWARD_WORKSPACE_FOOTER,
+  COMMS_GUIDE_FOOTER,
   certificateBrandLogoPlacement,
   certificatePlatformMarkPlacement,
   guidePdfMarkPlacementPt,
@@ -151,6 +152,57 @@ describe("writeBrandedChecklistPdf", () => {
       return /paintImage/i.test(name);
     });
     expect(paintImage).toBe(true);
+  });
+});
+
+describe("writeBrandedWorksheetPdf", () => {
+  it("emits a compact worksheet with ruled rows and field labels", async () => {
+    const { writeBrandedWorksheetPdf } = await import("./text-pdf-layout");
+    vi.mocked(saveBlob).mockClear();
+
+    const bytes = transparentPngBytes();
+    const mark = {
+      bytes,
+      widthPx: 192,
+      heightPx: 96,
+      src: `data:image/png;base64,${Buffer.from(bytes).toString("base64")}`,
+    };
+
+    await writeBrandedWorksheetPdf({
+      title: "Land acknowledgement writing worksheet",
+      subtitle: "Solo draft · Local 243",
+      sections: [
+        {
+          heading: "Draft",
+          lines: [
+            { kind: "text", text: "Territory and action:" },
+            { kind: "ruled", count: 2 },
+            { kind: "field", label: "Executive review date" },
+            { kind: "check", text: "Speaker can explain every phrase" },
+          ],
+        },
+      ],
+      reminder: "Education only — not a script to paste.",
+      filename: "unionops-land-acknowledgement-worksheet-test.pdf",
+      footer: COMMS_GUIDE_FOOTER.en,
+      platformMark: mark,
+      margin: 32,
+    });
+
+    expect(saveBlob).toHaveBeenCalledOnce();
+    const [blob] = vi.mocked(saveBlob).mock.calls[0]!;
+    const data = new Uint8Array(await blob.arrayBuffer());
+    const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+    const doc = await pdfjs.getDocument({ data }).promise;
+    expect(doc.numPages).toBe(1);
+    const page = await doc.getPage(1);
+    const text = await page.getTextContent();
+    const joined = text.items
+      .map((item) => ("str" in item ? item.str : ""))
+      .join(" ");
+    expect(joined).toMatch(/Land acknowledgement writing worksheet/i);
+    expect(joined).toMatch(/Executive review date/i);
+    expect(joined).toMatch(/UnionOps Comms/i);
   });
 });
 
